@@ -5,6 +5,8 @@ parameters:
     reportUnmatchedIgnoredErrors: false
     symfony:
         container_xml_path: %rootDir%/../../../var/cache/dev/KernelDevDebugContainer.xml
+    bootstrapFiles:
+        - %currentWorkingDirectory%/phpstan-stubs/stubs.php
     ignoreErrors:
         - '#Unsafe usage of new static\(\)\.#'
     excludePaths:
