@@ -90,8 +90,32 @@ jobs:
       - name: Run phpstan (level 2)
         run: php -d memory_limit=1G vendor/bin/phpstan analyse src/Akeneo/Pim --level 2
 
-      - name: Run phpunit (Category suite)
-        run: php -d memory_limit=1G vendor/bin/phpunit -c . --testsuite Category --cache-result-file=var/tmp/phpunit.cache
+      - name: Lint container
+        run: php bin/console lint:container
 
-      - name: Run phpunit (Migration suite)
-        run: php -d memory_limit=1G vendor/bin/phpunit -c . --testsuite PIM_Migration_Test --cache-result-file=var/tmp/phpunit-migration.cache
+      - name: CS fixer (dry-run)
+        run: php vendor/bin/php-cs-fixer fix --diff --dry-run --config=.php_cs.php
+
+      - name: Run phpunit suites
+        run: |
+          for suite in \
+            Category \
+            PIM_Migration_Test \
+            PIM_Integration_Test \
+            Akeneo_Connectivity_Connection_Integration \
+            Akeneo_FileStorage_Integration \
+            Akeneo_Measurement_Integration \
+            Akeneo_Measurement_Acceptance \
+            Akeneo_Measurement_EndToEnd \
+            Akeneo_Connectivity_Connection_EndToEnd \
+            Akeneo_Communication_Channel_Integration \
+            Data_Quality_Insights \
+            Batch_Queue_Acceptance \
+            End_to_End \
+            Enrichment_Product \
+            Identifier_Generator_PhpUnit \
+            OroSecurityBundle
+          do
+            echo "Running phpunit suite: $suite"
+            php -d memory_limit=1G vendor/bin/phpunit -c . --testsuite "$suite" --cache-result-file=var/tmp/phpunit-$suite.cache || exit 1
+          done
