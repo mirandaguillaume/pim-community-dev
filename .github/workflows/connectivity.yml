@@ -41,6 +41,11 @@ jobs:
           sudo chown -R 1000:1000 $HOME/.cache/yarn $HOME/.cache/Cypress
           sudo chmod -R a+rwX $HOME/.cache/yarn $HOME/.cache/Cypress
 
+      - name: Align container user with runner
+        run: |
+          echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
+          echo "NODE_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
+
       - name: Cache composer
         uses: actions/cache@v3
         with:
@@ -129,6 +134,11 @@ jobs:
           tar xzf front-libs.tar.gz
           sudo chown -R $(id -u):$(id -g) "$PWD"
 
+      - name: Align container user with runner
+        run: |
+          echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
+          echo "NODE_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
+
       - name: Front lint/unit/build
         run: |
           make javascript-dev-strict
@@ -151,6 +161,11 @@ jobs:
         run: |
           tar xzf vendor.tar.gz
           sudo chown -R $(id -u):$(id -g) "$PWD"
+
+      - name: Align container user with runner
+        run: |
+          echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
+          echo "NODE_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
 
       - name: Load PHP image
         run: docker load -i php-pim-image.tar
@@ -193,6 +208,11 @@ jobs:
         run: |
           tar xzf vendor.tar.gz
           sudo chown -R $(id -u):$(id -g) "$PWD"
+
+      - name: Align container user with runner
+        run: |
+          echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
+          echo "NODE_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
 
       - name: Load PHP image
         run: docker load -i php-pim-image.tar
