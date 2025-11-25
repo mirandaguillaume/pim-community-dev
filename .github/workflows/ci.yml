@@ -49,8 +49,8 @@ jobs:
       - name: Prepare host folders and permissions
         run: |
           mkdir -p $HOME/.composer $HOME/.cache/yarn $HOME/.cache/Cypress
-          sudo chown -R 1000:1000 $HOME/.composer $HOME/.cache/yarn $HOME/.cache/Cypress
-          sudo chown -R 1000:1000 "$PWD"
+          sudo chown -R $(id -u):$(id -g) $HOME/.composer $HOME/.cache/yarn $HOME/.cache/Cypress
+          sudo chown -R $(id -u):$(id -g) "$PWD"
 
       - name: Cache composer
         uses: actions/cache@v3
@@ -138,7 +138,7 @@ jobs:
           tar xzf vendor.tar.gz
           tar xzf node_modules.tar.gz
           tar xzf front-libs.tar.gz
-          sudo chown -R 1000:1000 "$PWD"
+          sudo chown -R $(id -u):$(id -g) "$PWD"
 
       - name: Front typecheck/lint/unit
         run: |
@@ -160,7 +160,7 @@ jobs:
       - name: Restore workspace
         run: |
           tar xzf vendor.tar.gz
-          sudo chown -R 1000:1000 "$PWD"
+          sudo chown -R $(id -u):$(id -g) "$PWD"
 
       - name: Load PHP image
         run: docker load -i php-pim-image.tar
@@ -197,7 +197,7 @@ jobs:
       - name: Restore workspace
         run: |
           tar xzf vendor.tar.gz
-          sudo chown -R 1000:1000 "$PWD"
+          sudo chown -R $(id -u):$(id -g) "$PWD"
 
       - name: Load PHP image
         run: docker load -i php-pim-image.tar
@@ -238,7 +238,7 @@ jobs:
       - name: Restore workspace
         run: |
           tar xzf vendor.tar.gz
-          sudo chown -R 1000:1000 "$PWD"
+          sudo chown -R $(id -u):$(id -g) "$PWD"
 
       - name: Load PHP image
         run: docker load -i php-pim-image.tar
@@ -296,7 +296,7 @@ jobs:
       - name: Restore workspace
         run: |
           tar xzf vendor.tar.gz
-          sudo chown -R 1000:1000 "$PWD"
+          sudo chown -R $(id -u):$(id -g) "$PWD"
 
       - name: Load PHP image
         run: docker load -i php-pim-image.tar
@@ -337,7 +337,7 @@ jobs:
           tar xzf vendor.tar.gz
           tar xzf node_modules.tar.gz
           tar xzf front-libs.tar.gz
-          sudo chown -R 1000:1000 "$PWD"
+          sudo chown -R $(id -u):$(id -g) "$PWD"
 
       - name: Load PHP image
         run: docker load -i php-pim-image.tar
@@ -381,7 +381,7 @@ jobs:
       - name: Restore workspace
         run: |
           tar xzf vendor.tar.gz
-          sudo chown -R 1000:1000 "$PWD"
+          sudo chown -R $(id -u):$(id -g) "$PWD"
 
       - name: Load PHP image
         run: docker load -i php-pim-image.tar
@@ -398,7 +398,7 @@ jobs:
             cd vendor/akeneo/pim-community-dev
             git checkout -- .
           fi
-          sudo chown -R 1000:1000 "$PWD"
+          sudo chown -R $(id -u):$(id -g) "$PWD"
 
       - name: Run structure detection
         env:
