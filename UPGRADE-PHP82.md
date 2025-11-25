@@ -5,3 +5,4 @@
 - [ ] Run `composer why-not php 8.2` to identify dependency blockers; upgrade or patch as needed.
 - [ ] Audit dynamic properties (8.2 deprecation): add typed properties or `#[AllowDynamicProperties]` only when necessary.
 - [ ] Run validation on PHP 8.2: `make pim-test`, `vendor/bin/phpspec run`, `make phpstan`, and `bin/console pim:installer:check-requirements`.
+- [x] Run `composer audit` and bump vulnerable deps (e.g. `aws/aws-sdk-php>=3.288.1`, `dompdf/dompdf>=2.0.4`).
