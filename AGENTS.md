@@ -38,6 +38,7 @@
 - When executing tasks through the assistant, prefer the dedicated MCP tools (Git, Composer, Context7 docs, Chrome DevTools, etc.) before falling back to raw shell commands.
 - Maintain upgrade trackers (e.g., `UPGRADE-PHP82.md`) by updating them whenever new steps are discovered or completed.
 - Create and push incremental commits at each significant step of work to keep progress traceable.
+- Keep this `AGENTS.md` file in sync: whenever new process steps or expectations emerge during the work, add them here immediately.
 
 ## Security & Configuration Tips
 - Secrets live outside the repo; use environment overrides (`.env.local`, Docker env vars).
