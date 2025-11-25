@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   php:
-    image: 'akeneo/pim-php-dev:8.1'
+    image: '${PIM_PHP_IMAGE:-akeneo/pim-php-dev:8.1}'
     environment:
       APP_ENV: '${APP_ENV:-prod}'
       COMPOSER_HOME: '/var/www/.composer'
@@ -23,7 +23,7 @@ services:
       - 'pim'
 
   httpd:
-    image: 'akeneo/pim-php-dev:8.1'
+    image: '${PIM_PHP_IMAGE:-akeneo/pim-php-dev:8.1}'
     environment:
       APP_ENV: '${APP_ENV:-prod}'
       BEHAT_TMPDIR: '/srv/pim/var/cache/tmp'
@@ -44,7 +44,7 @@ services:
       - 'pim'
 
   node:
-    image: 'akeneo/node:18'
+    image: '${PIM_NODE_IMAGE:-akeneo/node:18}'
     environment:
       YARN_CACHE_FOLDER: '/home/node/.yarn'
       CYPRESS_CACHE_FOLDER: '/home/node/.cypress'

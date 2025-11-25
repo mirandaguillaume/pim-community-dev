@@ -12,6 +12,7 @@ concurrency:
 env:
   CACHE_VERSION: v1
   PUBLISH_IMAGE: ${{ vars.PUBLISH_IMAGE || 'false' }}
+  PIM_PHP_IMAGE: pim-php-dev:8.1
 
 jobs:
   build:
@@ -21,10 +22,10 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build PHP image
-        run: docker build -t akeneo/pim-php-dev:8.1 .
+        run: docker build -t ${{ env.PIM_PHP_IMAGE }} .
 
       - name: Save PHP image
-        run: docker save akeneo/pim-php-dev:8.1 -o php-pim-image.tar
+        run: docker save ${{ env.PIM_PHP_IMAGE }} -o php-pim-image.tar
 
       - name: Upload image artifact
         uses: actions/upload-artifact@v4
@@ -45,5 +46,5 @@ jobs:
         if: env.PUBLISH_IMAGE == 'true'
         run: |
           tag=ghcr.io/${{ github.repository }}/pim-php-dev:nightly
-          docker tag akeneo/pim-php-dev:8.1 "$tag"
+          docker tag ${{ env.PIM_PHP_IMAGE }} "$tag"
           docker push "$tag"

@@ -16,6 +16,8 @@ env:
   COMPOSER_CACHE_DIR: ~/.composer
   YARN_CACHE_FOLDER: ~/.cache/yarn
   DOCKER_BUILDKIT: 1
+  PIM_PHP_IMAGE: pim-php-dev:8.1
+  PIM_NODE_IMAGE: pim-node:18
 
 jobs:
   changes:
@@ -81,16 +83,16 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          tags: akeneo/pim-php-dev:8.1
+          tags: ${{ env.PIM_PHP_IMAGE }}
           load: true
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache,mode=max
 
       - name: Save PHP image
-        run: docker save akeneo/pim-php-dev:8.1 -o php-pim-image.tar
+        run: docker save ${{ env.PIM_PHP_IMAGE }} -o php-pim-image.tar
 
-      - name: Ensure Node image
-        run: docker pull akeneo/node:18 || docker build -f docker/Dockerfile_node -t akeneo/node:18 docker
+      - name: Build Node image
+        run: docker build -f docker/Dockerfile_node -t ${{ env.PIM_NODE_IMAGE }} docker
 
       - name: Install dependencies
         run: make dependencies
