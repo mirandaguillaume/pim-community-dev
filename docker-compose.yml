@@ -1,5 +1,3 @@
-version: '3.7'
-
 services:
   php:
     image: '${PIM_PHP_IMAGE:-akeneo/pim-php-dev:8.1}'
@@ -17,7 +15,7 @@ services:
       - '${HOST_COMPOSER_HOME:-~/.composer}:/var/www/.composer'
     working_dir: '/srv/pim'
     command: 'php'
-    user: 'www-data'
+    user: '${PIM_DOCKER_USER:-www-data}'
     init: true
     networks:
       - 'pim'

@@ -49,8 +49,12 @@ jobs:
       - name: Prepare host folders and permissions
         run: |
           mkdir -p $HOME/.composer $HOME/.cache/yarn $HOME/.cache/Cypress
-          sudo chown -R $(id -u):$(id -g) $HOME/.composer $HOME/.cache/yarn $HOME/.cache/Cypress
-          sudo chown -R $(id -u):$(id -g) "$PWD"
+          sudo chown -R $(id -u):$(id -g) $HOME/.composer "$PWD"
+          sudo chown -R 1000:1000 $HOME/.cache/yarn $HOME/.cache/Cypress
+          sudo chmod -R a+rwX $HOME/.cache/yarn $HOME/.cache/Cypress
+
+      - name: Align container user with runner
+        run: echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
 
       - name: Cache composer
         uses: actions/cache@v3
@@ -140,6 +144,9 @@ jobs:
           tar xzf front-libs.tar.gz
           sudo chown -R $(id -u):$(id -g) "$PWD"
 
+      - name: Align container user with runner
+        run: echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
+
       - name: Front typecheck/lint/unit
         run: |
           make javascript-dev-strict
@@ -161,6 +168,9 @@ jobs:
         run: |
           tar xzf vendor.tar.gz
           sudo chown -R $(id -u):$(id -g) "$PWD"
+
+      - name: Align container user with runner
+        run: echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
 
       - name: Load PHP image
         run: docker load -i php-pim-image.tar
@@ -198,6 +208,9 @@ jobs:
         run: |
           tar xzf vendor.tar.gz
           sudo chown -R $(id -u):$(id -g) "$PWD"
+
+      - name: Align container user with runner
+        run: echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
 
       - name: Load PHP image
         run: docker load -i php-pim-image.tar
@@ -239,6 +252,9 @@ jobs:
         run: |
           tar xzf vendor.tar.gz
           sudo chown -R $(id -u):$(id -g) "$PWD"
+
+      - name: Align container user with runner
+        run: echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
 
       - name: Load PHP image
         run: docker load -i php-pim-image.tar
@@ -298,6 +314,9 @@ jobs:
           tar xzf vendor.tar.gz
           sudo chown -R $(id -u):$(id -g) "$PWD"
 
+      - name: Align container user with runner
+        run: echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
+
       - name: Load PHP image
         run: docker load -i php-pim-image.tar
 
@@ -338,6 +357,9 @@ jobs:
           tar xzf node_modules.tar.gz
           tar xzf front-libs.tar.gz
           sudo chown -R $(id -u):$(id -g) "$PWD"
+
+      - name: Align container user with runner
+        run: echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
 
       - name: Load PHP image
         run: docker load -i php-pim-image.tar
@@ -382,6 +404,9 @@ jobs:
         run: |
           tar xzf vendor.tar.gz
           sudo chown -R $(id -u):$(id -g) "$PWD"
+
+      - name: Align container user with runner
+        run: echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
 
       - name: Load PHP image
         run: docker load -i php-pim-image.tar

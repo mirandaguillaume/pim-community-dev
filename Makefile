@@ -1,8 +1,9 @@
 DOCKER_COMPOSE ?= $(shell command -v docker-compose >/dev/null 2>&1 && echo docker-compose || echo docker compose)
+PIM_DOCKER_USER ?= www-data
 NODE_RUN ?= $(DOCKER_COMPOSE) run -u node --rm -e YARN_REGISTRY -e PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 -e PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome node
 YARN_RUN ?= $(NODE_RUN) yarn
-PHP_RUN ?= $(DOCKER_COMPOSE) run --rm php php
-PHP_EXEC ?= $(DOCKER_COMPOSE) exec -u www-data httpd php
+PHP_RUN ?= $(DOCKER_COMPOSE) run --rm -u $(PIM_DOCKER_USER) php php
+PHP_EXEC ?= $(DOCKER_COMPOSE) exec -u $(PIM_DOCKER_USER) httpd php
 
 .DEFAULT_GOAL := help
 

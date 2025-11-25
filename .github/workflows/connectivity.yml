@@ -37,8 +37,9 @@ jobs:
       - name: Prepare host folders and permissions
         run: |
           mkdir -p $HOME/.composer $HOME/.cache/yarn $HOME/.cache/Cypress
-          sudo chown -R $(id -u):$(id -g) $HOME/.composer $HOME/.cache/yarn $HOME/.cache/Cypress
-          sudo chown -R $(id -u):$(id -g) "$PWD"
+          sudo chown -R $(id -u):$(id -g) $HOME/.composer "$PWD"
+          sudo chown -R 1000:1000 $HOME/.cache/yarn $HOME/.cache/Cypress
+          sudo chmod -R a+rwX $HOME/.cache/yarn $HOME/.cache/Cypress
 
       - name: Cache composer
         uses: actions/cache@v3
