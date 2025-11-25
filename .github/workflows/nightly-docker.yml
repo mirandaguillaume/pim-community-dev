@@ -1,0 +1,49 @@
+name: Nightly Docker
+
+on:
+  schedule:
+    - cron: "0 1 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: nightly-docker-${{ github.workflow }}
+  cancel-in-progress: false
+
+env:
+  CACHE_VERSION: v1
+  PUBLISH_IMAGE: ${{ vars.PUBLISH_IMAGE || 'false' }}
+
+jobs:
+  build:
+    name: Build PHP image
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build PHP image
+        run: docker build -t akeneo/pim-php-dev:8.1 .
+
+      - name: Save PHP image
+        run: docker save akeneo/pim-php-dev:8.1 -o php-pim-image.tar
+
+      - name: Upload image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nightly-php-image
+          retention-days: 7
+          path: php-pim-image.tar
+
+      - name: Log in to GHCR
+        if: env.PUBLISH_IMAGE == 'true'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push image to GHCR
+        if: env.PUBLISH_IMAGE == 'true'
+        run: |
+          tag=ghcr.io/${{ github.repository }}/pim-php-dev:nightly
+          docker tag akeneo/pim-php-dev:8.1 "$tag"
+          docker push "$tag"

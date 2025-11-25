@@ -1,0 +1,228 @@
+name: Connectivity CI
+
+on:
+  pull_request:
+    branches:
+      - "CXP-*"
+      - "OCT-*"
+      - "cxp-*"
+      - "oct-*"
+  workflow_dispatch:
+
+concurrency:
+  group: connectivity-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CACHE_VERSION: v1
+  COMPOSER_CACHE_DIR: ~/.composer
+  YARN_CACHE_FOLDER: ~/.cache/yarn
+  DOCKER_BUILDKIT: 1
+
+jobs:
+  build:
+    name: Build base image and deps
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compute docker cache key
+        id: docker-cache
+        run: |
+          sum=$(find Dockerfile docker -type f -print0 | sort -z | xargs -0 sha1sum | sha1sum | cut -d' ' -f1)
+          echo "key=php-image-${{ env.CACHE_VERSION }}-${sum}" >> "$GITHUB_OUTPUT"
+
+      - name: Prepare host folders and permissions
+        run: |
+          mkdir -p $HOME/.composer $HOME/.cache/yarn $HOME/.cache/Cypress
+          sudo chown -R 1000:1000 $HOME/.composer $HOME/.cache/yarn $HOME/.cache/Cypress
+          sudo chown -R 1000:1000 "$PWD"
+
+      - name: Cache composer
+        uses: actions/cache@v3
+        with:
+          path: ~/.composer
+          key: composer-${{ runner.os }}-${{ env.CACHE_VERSION }}-${{ hashFiles('composer.lock') }}
+          restore-keys: |
+            composer-${{ runner.os }}-${{ env.CACHE_VERSION }}-
+
+      - name: Cache yarn
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/yarn
+          key: yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ steps.docker-cache.outputs.key }}
+          restore-keys: |
+            php-image-${{ env.CACHE_VERSION }}-
+
+      - name: Build PHP image (cached)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          tags: akeneo/pim-php-dev:8.1
+          load: true
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache,mode=max
+
+      - name: Save PHP image
+        run: docker save akeneo/pim-php-dev:8.1 -o php-pim-image.tar
+
+      - name: Ensure Node image
+        run: docker pull akeneo/node:18 || docker build -f docker/Dockerfile_node -t akeneo/node:18 docker
+
+      - name: Install dependencies
+        run: make dependencies
+
+      - name: Build assets
+        run: |
+          make assets
+          make css
+          make front-packages
+          make javascript-dev
+
+      - name: Pack artifacts
+        run: |
+          sudo chown -R $USER:$USER vendor node_modules front-packages php-pim-image.tar
+          tar czf vendor.tar.gz vendor
+          tar czf node_modules.tar.gz node_modules
+          tar czf front-libs.tar.gz front-packages/akeneo-design-system/lib front-packages/shared/lib
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: connectivity-build
+          retention-days: 5
+          path: |
+            php-pim-image.tar
+            vendor.tar.gz
+            node_modules.tar.gz
+            front-libs.tar.gz
+
+  front:
+    name: Front lint/unit/build
+    runs-on: ubuntu-22.04
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: connectivity-build
+
+      - name: Restore workspace
+        run: |
+          tar xzf vendor.tar.gz
+          tar xzf node_modules.tar.gz
+          tar xzf front-libs.tar.gz
+          sudo chown -R 1000:1000 "$PWD"
+
+      - name: Front lint/unit/build
+        run: |
+          make javascript-dev-strict
+          PIM_CONTEXT=test make lint-front
+          PIM_CONTEXT=test make unit-front
+          make javascript-dev
+
+  back-unit:
+    name: Back unit/integration/e2e
+    runs-on: ubuntu-22.04
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: connectivity-build
+
+      - name: Restore workspace
+        run: |
+          tar xzf vendor.tar.gz
+          sudo chown -R 1000:1000 "$PWD"
+
+      - name: Load PHP image
+        run: docker load -i php-pim-image.tar
+
+      - name: Start containers
+        run: |
+          APP_ENV=test C='httpd mysql elasticsearch object-storage pubsub-emulator gcs-emulator' make up
+          docker/wait_docker_up.sh
+
+      - name: Install database
+        run: APP_ENV=test make database
+
+      - name: Run back tests (unit/integration/e2e)
+        run: |
+          PIM_CONTEXT=test make unit-back
+          PIM_CONTEXT=test make pim-integration-back
+          PIM_CONTEXT=test make end-to-end-back
+
+      - name: Upload back artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: connectivity-back-artifacts
+          path: |
+            var/tests
+            var/logs
+
+  back-behat:
+    name: Back Behat
+    runs-on: ubuntu-22.04
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: connectivity-build
+
+      - name: Restore workspace
+        run: |
+          tar xzf vendor.tar.gz
+          sudo chown -R 1000:1000 "$PWD"
+
+      - name: Load PHP image
+        run: docker load -i php-pim-image.tar
+
+      - name: Start containers
+        run: |
+          APP_ENV=behat C='httpd mysql elasticsearch object-storage selenium pubsub-emulator' make up
+          docker/wait_docker_up.sh
+
+      - name: Install database
+        run: APP_ENV=behat make database
+
+      - name: Run Behat
+        run: PIM_CONTEXT=test make end-to-end-legacy
+
+      - name: Upload Behat artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: connectivity-behat-artifacts
+          path: |
+            var/tests
+            var/logs
+            var/tests/screenshots
+
+  summary:
+    name: Summary
+    runs-on: ubuntu-22.04
+    needs:
+      - front
+      - back-unit
+      - back-behat
+    if: always()
+    steps:
+      - name: Final status
+        run: echo "Connectivity workflow finished."

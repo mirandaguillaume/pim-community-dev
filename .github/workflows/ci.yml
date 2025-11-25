@@ -1,0 +1,430 @@
+name: CI
+
+on:
+  pull_request:
+    branches: ["**"]
+  push:
+    branches: ["master"]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CACHE_VERSION: v1
+  COMPOSER_CACHE_DIR: ~/.composer
+  YARN_CACHE_FOLDER: ~/.cache/yarn
+  DOCKER_BUILDKIT: 1
+
+jobs:
+  changes:
+    name: Detect changes
+    runs-on: ubuntu-22.04
+    outputs:
+      run_database_tests: ${{ steps.paths.outputs.upgrades }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: paths
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            upgrades:
+              - 'upgrades/**'
+
+  build:
+    name: Build base image and deps
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compute docker cache key
+        id: docker-cache
+        run: |
+          sum=$(find Dockerfile docker -type f -print0 | sort -z | xargs -0 sha1sum | sha1sum | cut -d' ' -f1)
+          echo "key=php-image-${{ env.CACHE_VERSION }}-${sum}" >> "$GITHUB_OUTPUT"
+
+      - name: Prepare host folders and permissions
+        run: |
+          mkdir -p $HOME/.composer $HOME/.cache/yarn $HOME/.cache/Cypress
+          sudo chown -R 1000:1000 $HOME/.composer $HOME/.cache/yarn $HOME/.cache/Cypress
+          sudo chown -R 1000:1000 "$PWD"
+
+      - name: Cache composer
+        uses: actions/cache@v3
+        with:
+          path: ~/.composer
+          key: composer-${{ runner.os }}-${{ env.CACHE_VERSION }}-${{ hashFiles('composer.lock') }}
+          restore-keys: |
+            composer-${{ runner.os }}-${{ env.CACHE_VERSION }}-
+
+      - name: Cache yarn
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/yarn
+          key: yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ steps.docker-cache.outputs.key }}
+          restore-keys: |
+            php-image-${{ env.CACHE_VERSION }}-
+
+      - name: Build PHP image (cached)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          tags: akeneo/pim-php-dev:8.1
+          load: true
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache,mode=max
+
+      - name: Save PHP image
+        run: docker save akeneo/pim-php-dev:8.1 -o php-pim-image.tar
+
+      - name: Ensure Node image
+        run: docker pull akeneo/node:18 || docker build -f docker/Dockerfile_node -t akeneo/node:18 docker
+
+      - name: Install dependencies
+        run: make dependencies
+
+      - name: Build assets
+        run: |
+          make assets
+          make css
+          make front-packages
+          make javascript-dev
+
+      - name: Pack artifacts
+        run: |
+          sudo chown -R $USER:$USER vendor node_modules front-packages php-pim-image.tar
+          tar czf vendor.tar.gz vendor
+          tar czf node_modules.tar.gz node_modules
+          tar czf front-libs.tar.gz front-packages/akeneo-design-system/lib front-packages/shared/lib
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          retention-days: 5
+          path: |
+            php-pim-image.tar
+            vendor.tar.gz
+            node_modules.tar.gz
+            front-libs.tar.gz
+
+  front-static:
+    name: Front static checks
+    runs-on: ubuntu-22.04
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+
+      - name: Restore workspace
+        run: |
+          tar xzf vendor.tar.gz
+          tar xzf node_modules.tar.gz
+          tar xzf front-libs.tar.gz
+          sudo chown -R 1000:1000 "$PWD"
+
+      - name: Front typecheck/lint/unit
+        run: |
+          make javascript-dev-strict
+          PIM_CONTEXT=test make lint-front
+          PIM_CONTEXT=test make unit-front
+
+  back-static:
+    name: Back static & acceptance
+    runs-on: ubuntu-22.04
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+
+      - name: Restore workspace
+        run: |
+          tar xzf vendor.tar.gz
+          sudo chown -R 1000:1000 "$PWD"
+
+      - name: Load PHP image
+        run: docker load -i php-pim-image.tar
+
+      - name: Static and acceptance tests
+        run: |
+          PIM_CONTEXT=test make static-back
+          PIM_CONTEXT=test make deprecation-back
+          PIM_CONTEXT=test make lint-back
+          PIM_CONTEXT=test make coupling-back
+          PIM_CONTEXT=test make unit-back
+          PIM_CONTEXT=test make acceptance-back
+
+      - name: Upload back artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: back-static-artifacts
+          path: |
+            var/tests
+            var/logs
+
+  phpunit:
+    name: PHPUnit
+    runs-on: ubuntu-22.04
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+
+      - name: Restore workspace
+        run: |
+          tar xzf vendor.tar.gz
+          sudo chown -R 1000:1000 "$PWD"
+
+      - name: Load PHP image
+        run: docker load -i php-pim-image.tar
+
+      - name: Start containers
+        run: |
+          APP_ENV=test C='httpd mysql elasticsearch object-storage pubsub-emulator gcs-emulator' make up
+          docker/wait_docker_up.sh
+
+      - name: Install database
+        run: APP_ENV=test make database
+
+      - name: Run PHPUnit suites
+        run: |
+          PIM_CONTEXT=test make pim-integration-back
+          PIM_CONTEXT=test make end-to-end-back
+
+      - name: Upload phpunit artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phpunit-artifacts
+          path: |
+            var/tests/phpunit
+            var/logs
+
+  behat-legacy:
+    name: Behat legacy
+    runs-on: ubuntu-22.04
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+
+      - name: Restore workspace
+        run: |
+          tar xzf vendor.tar.gz
+          sudo chown -R 1000:1000 "$PWD"
+
+      - name: Load PHP image
+        run: docker load -i php-pim-image.tar
+
+      - name: Select suite
+        id: suite
+        run: |
+          branch="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
+          testsuite=$(echo "$branch" | sed -e 's/^.*-\([^-]*\)$/\1/g')
+          if ! [[ "$testsuite" =~ ^(weasel|chipmunk|raccoon)$ ]]; then
+            testsuite=all
+          fi
+          echo "suite=$testsuite" >> "$GITHUB_OUTPUT"
+
+      - name: Start containers
+        run: |
+          APP_ENV=behat C='httpd mysql elasticsearch object-storage selenium pubsub-emulator' make up
+          docker/wait_docker_up.sh
+
+      - name: Install database
+        run: APP_ENV=behat make database
+
+      - name: Run Behat legacy
+        run: PIM_CONTEXT=test make end-to-end-legacy SUITE=${{ steps.suite.outputs.suite }}
+
+      - name: Prepare Behat reports
+        if: always()
+        run: |
+          set -e
+          cd var/tests/behat
+          sudo chmod -R 777 .
+          for subdir in */*; do mv "${subdir}" "${subdir/\//_}"; done
+
+      - name: Upload Behat artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: behat-artifacts
+          path: |
+            var/tests/behat
+            var/tests/screenshots
+            var/logs
+
+  data-migrations:
+    name: Data migrations
+    runs-on: ubuntu-22.04
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+
+      - name: Restore workspace
+        run: |
+          tar xzf vendor.tar.gz
+          sudo chown -R 1000:1000 "$PWD"
+
+      - name: Load PHP image
+        run: docker load -i php-pim-image.tar
+
+      - name: Start containers
+        run: |
+          APP_ENV=test C='httpd mysql elasticsearch object-storage pubsub-emulator' make up
+          docker/wait_docker_up.sh
+
+      - name: Install database
+        run: APP_ENV=test make database
+
+      - name: Run migration tests
+        run: PIM_CONTEXT=test make migration-back
+
+      - name: Upload migration artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: migration-artifacts
+          path: |
+            var/tests/phpunit
+            var/logs
+
+  cypress:
+    name: Cypress E2E
+    runs-on: ubuntu-22.04
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+
+      - name: Restore workspace
+        run: |
+          tar xzf vendor.tar.gz
+          tar xzf node_modules.tar.gz
+          tar xzf front-libs.tar.gz
+          sudo chown -R 1000:1000 "$PWD"
+
+      - name: Load PHP image
+        run: docker load -i php-pim-image.tar
+
+      - name: Start containers
+        run: |
+          APP_ENV=prod C='httpd mysql elasticsearch object-storage pubsub-emulator' make up
+          docker/wait_docker_up.sh
+
+      - name: Install database (prod fixtures)
+        run: APP_ENV=prod O="--catalog src/Akeneo/Platform/Installer/back/src/Infrastructure/Symfony/Resources/fixtures/icecat_demo_dev" make database
+
+      - name: Run Cypress
+        env:
+          CYPRESS_defaultCommandTimeout: 10000
+          CYPRESS_requestTimeout: 15000
+          CYPRESS_responseTimeout: 50000
+        run: make end-to-end-front
+
+      - name: Upload Cypress artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-artifacts
+          path: |
+            cypress/screenshots
+            cypress/videos
+
+  database-structure:
+    name: Database structure
+    runs-on: ubuntu-22.04
+    needs: [changes, build]
+    if: needs.changes.outputs.run_database_tests == 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+
+      - name: Restore workspace
+        run: |
+          tar xzf vendor.tar.gz
+          sudo chown -R 1000:1000 "$PWD"
+
+      - name: Load PHP image
+        run: docker load -i php-pim-image.tar
+
+      - name: Start containers
+        run: |
+          APP_ENV=test C='mysql elasticsearch object-storage pubsub-emulator' make up
+          docker/wait_docker_up.sh
+
+      - name: Restore permissions
+        run: |
+          git checkout -- .
+          if [ -d vendor/akeneo/pim-community-dev ]; then
+            cd vendor/akeneo/pim-community-dev
+            git checkout -- .
+          fi
+          sudo chown -R 1000:1000 "$PWD"
+
+      - name: Run structure detection
+        env:
+          CIRCLE_BRANCH: ${{ github.ref_name }}
+        run: vendor/akeneo/pim-community-dev/.circleci/detect_structure_changes.sh $CIRCLE_BRANCH
+
+      - name: Upload structure artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: structure-artifacts
+          path: |
+            var/tests
+            var/logs
+
+  summary:
+    name: Summary
+    runs-on: ubuntu-22.04
+    needs:
+      - front-static
+      - back-static
+      - phpunit
+      - behat-legacy
+      - data-migrations
+      - cypress
+      - database-structure
+    if: always()
+    steps:
+      - name: Final status
+        run: |
+          echo "CI workflow finished."
