@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Kernel;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 // Ensure test env/debug for phpunit
@@ -12,7 +11,7 @@ $_SERVER['APP_DEBUG'] = $_ENV['APP_DEBUG'] = $_SERVER['APP_DEBUG'] ?? $_ENV['APP
 require \dirname(__DIR__) . '/config/bootstrap.php';
 
 // Bootstrap a kernel to preload a security token for integration tests needing it
-$kernel = new Kernel($_ENV['APP_ENV'], (bool) $_ENV['APP_DEBUG']);
+$kernel = new \Kernel($_ENV['APP_ENV'], (bool) $_ENV['APP_DEBUG']);
 $kernel->boot();
 $container = $kernel->getContainer();
 
