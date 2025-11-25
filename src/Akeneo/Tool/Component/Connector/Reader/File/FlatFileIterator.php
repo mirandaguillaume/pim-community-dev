@@ -179,6 +179,9 @@ class FlatFileIterator implements FileIteratorInterface
         $path = $this->fileInfo->getPath();
         $filename = $this->fileInfo->getBasename('.' . $this->fileInfo->getExtension());
         $targetDir = sprintf('%s/%s', $path, $filename);
+        if (!is_dir($targetDir) && !@mkdir($targetDir, 0777, true) && !is_dir($targetDir)) {
+            throw new \RuntimeException(sprintf('Cannot create target directory "%s" for archive extraction.', $targetDir));
+        }
         if (!$archive->extractTo($targetDir)) {
             throw new \RuntimeException('Error occurred while extracting the zip archive.');
         }

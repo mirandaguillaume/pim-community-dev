@@ -151,10 +151,10 @@ class Attribute implements ArrayConverterInterface
             return null;
         }
 
-        $datetime = \DateTime::createFromFormat('Y-m-d', $date);
-        $errors = \DateTime::getLastErrors();
+        $datetime = \DateTime::createFromFormat('Y-m-d', $date, new \DateTimeZone('Europe/Paris'));
+        $errors = \DateTime::getLastErrors() ?: ['warning_count' => 0, 'error_count' => 0];
 
-        if (0 === $errors['warning_count'] && 0 === $errors['error_count']) {
+        if (false !== $errors && 0 === $errors['warning_count'] && 0 === $errors['error_count']) {
             $datetime->setTime(0, 0, 0);
 
             return $datetime->format('c');
