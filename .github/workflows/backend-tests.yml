@@ -54,7 +54,6 @@ jobs:
           MINIO_ACCESS_KEY: AKENEO_OBJECT_STORAGE_ACCESS_KEY
           MINIO_SECRET_KEY: AKENEO_OBJECT_STORAGE_SECRET_KEY
         ports: ['9000:9000', '9091:9091']
-        command: server --console-address :9091 /data
         options: --health-cmd="curl -f http://localhost:9000/minio/health/ready || exit 1" --health-interval=15s --health-timeout=5s --health-retries=5
 
     steps:
@@ -160,7 +159,6 @@ jobs:
           MINIO_ACCESS_KEY: AKENEO_OBJECT_STORAGE_ACCESS_KEY
           MINIO_SECRET_KEY: AKENEO_OBJECT_STORAGE_SECRET_KEY
         ports: ['9000:9000', '9091:9091']
-        command: server --console-address :9091 /data
         options: --health-cmd="curl -f http://localhost:9000/minio/health/ready || exit 1" --health-interval=15s --health-timeout=5s --health-retries=5
 
     steps:
