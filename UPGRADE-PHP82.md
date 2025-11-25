@@ -6,6 +6,7 @@
 - [ ] Audit dynamic properties (8.2 deprecation): add typed properties or `#[AllowDynamicProperties]` only when necessary.
 - [ ] Run validation on PHP 8.2: `make pim-test`, `vendor/bin/phpspec run`, `make phpstan`, and `bin/console pim:installer:check-requirements`.
   - [x] `bin/console pim:installer:check-requirements` via `docker compose run --rm php ...` (OK on PHP 8.2.29; minor ICU data warning; initial cache/logs perms fixed; DB service required).
+  - [x] Test cache warmup & DB init on PHP 8.2 (manual `docker compose run`): cache warmed for `APP_ENV=test`; DB drop/create + `pim:installer:db` (ES cluster warning to revisit).
   - [ ] `make pim-test`
   - [ ] `vendor/bin/phpspec run`
   - [ ] `make phpstan`
