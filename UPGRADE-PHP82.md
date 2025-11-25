@@ -8,7 +8,7 @@
   - [x] `bin/console pim:installer:check-requirements` via `docker compose run --rm php ...` (OK on PHP 8.2.29; minor ICU data warning; initial cache/logs perms fixed; DB service required).
   - [x] Test cache warmup & DB init on PHP 8.2 (manual `docker compose run`): cache warmed for `APP_ENV=test`; DB drop/create + `pim:installer:db` (ES cluster warning to revisit).
   - [ ] `make pim-test`
-  - [ ] `vendor/bin/phpspec run`
-  - [ ] `make phpstan`
+  - [ ] `vendor/bin/phpspec run` (full run blocked by missing suite path `src/Akeneo/Pim/Enrichment/Category/back/Test/Acceptance`; targeted suites run with 0 specs executed)
+  - [ ] `make phpstan` → `docker compose run --rm php php -d memory_limit=1G vendor/bin/phpstan analyse src/Akeneo/Pim --level 2` fails with 12 errors (unknown class `Akeneo\Pim\Permission\...GetGrantedCategoryCodes`; missing TailoredImport test base class `Akeneo\Platform\TailoredImport\Test\Integration\ControllerIntegrationTestCase` and related properties).
 - [x] Run `composer audit` and bump vulnerable deps (e.g. `aws/aws-sdk-php>=3.288.1`, `dompdf/dompdf>=2.0.4`).
 - [x] Build Docker PHP 8.2 image locally (`akeneo/pim-php-dev:8.2`).
