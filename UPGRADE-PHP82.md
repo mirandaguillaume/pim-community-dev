@@ -7,7 +7,7 @@
 - [ ] Run validation on PHP 8.2: `make pim-test`, `vendor/bin/phpspec run`, `make phpstan`, and `bin/console pim:installer:check-requirements`.
   - [x] `bin/console pim:installer:check-requirements` via `docker compose run --rm php ...` (OK on PHP 8.2.29; minor ICU data warning; initial cache/logs perms fixed; DB service required).
   - [x] Test cache warmup & DB init on PHP 8.2 (manual `docker compose run`): cache warmed for `APP_ENV=test`; DB drop/create + `pim:installer:db` (ES cluster warning to revisit).
-  - [ ] `make pim-test` (blocked: `docker/wait_docker_up.sh` fails because Elasticsearch container crashes on cgroup mountpoint issue)
+  - [x] `make pim-test` (env prep OK with ES 8.11.4 and Minio reset; fixtures load with PHP 8.2 warnings on array offset in fixtures)
   - [x] `vendor/bin/phpspec run` (passes; suite path fixed, added SingleIdentifier constraints, date parsing hardened, FlatFileIterator extraction path/permissions fixed)
   - [x] `make phpstan` → green after adding stubs for `Akeneo\Pim\Permission\...GetGrantedCategoryCodes` and `Akeneo\Platform\TailoredImport\Test\Integration\ControllerIntegrationTestCase`.
 - [x] Run `composer audit` and bump vulnerable deps (e.g. `aws/aws-sdk-php>=3.288.1`, `dompdf/dompdf>=2.0.4`).
