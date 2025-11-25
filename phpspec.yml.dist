@@ -61,10 +61,10 @@ suites:
         spec_prefix: Specification
 
     EnrichmentCategoryAcceptance:
-        namespace: Akeneo\Pim\Enrichment\Category\Test\Acceptance
-        psr4_prefix: Akeneo\Pim\Enrichment\Category\Test\Acceptance
-        src_path: src/Akeneo/Pim/Enrichment/Category/back/Test/Acceptance
-        spec_path: src/Akeneo/Pim/Enrichment/Category/back/Test/Acceptance
+        namespace: Akeneo\Test\Category\Acceptance
+        psr4_prefix: Akeneo\Test\Category\Acceptance
+        src_path: tests/back/Category/Acceptance
+        spec_path: tests/back/Category/Acceptance
         spec_prefix: Specification
 
     Enrichment:
