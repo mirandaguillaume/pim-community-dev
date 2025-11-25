@@ -9,7 +9,7 @@
     processIsolation="false"
     stopOnFailure="false"
     beStrictAboutTestsThatDoNotTestAnything="false"
-    bootstrap="config/bootstrap.php">
+    bootstrap="tests/phpunit_bootstrap.php">
 
     <php>
         <ini name="date.timezone" value="Europe/Paris"/>
