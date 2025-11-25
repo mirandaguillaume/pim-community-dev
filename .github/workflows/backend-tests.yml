@@ -102,23 +102,29 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite:
-          - Category
-          - PIM_Migration_Test
-          - PIM_Integration_Test
-          - Akeneo_Connectivity_Connection_Integration
-          - Akeneo_FileStorage_Integration
-          - Akeneo_Measurement_Integration
-          - Akeneo_Measurement_Acceptance
-          - Akeneo_Measurement_EndToEnd
-          - Akeneo_Connectivity_Connection_EndToEnd
-          - Akeneo_Communication_Channel_Integration
-          - Data_Quality_Insights
-          - Batch_Queue_Acceptance
-          - End_to_End
-          - Enrichment_Product
-          - Identifier_Generator_PhpUnit
-          - OroSecurityBundle
+        include:
+          - suite: Category
+          - suite: PIM_Migration_Test
+          - suite: PIM_Integration_Test
+            paratest: true
+            processes: 4
+          - suite: Akeneo_Connectivity_Connection_Integration
+          - suite: Akeneo_FileStorage_Integration
+          - suite: Akeneo_Measurement_Integration
+          - suite: Akeneo_Measurement_Acceptance
+          - suite: Akeneo_Measurement_EndToEnd
+          - suite: Akeneo_Connectivity_Connection_EndToEnd
+          - suite: Akeneo_Communication_Channel_Integration
+          - suite: Data_Quality_Insights
+            paratest: true
+            processes: 4
+          - suite: Batch_Queue_Acceptance
+          - suite: End_to_End
+            paratest: true
+            processes: 4
+          - suite: Enrichment_Product
+          - suite: Identifier_Generator_PhpUnit
+          - suite: OroSecurityBundle
     env:
       APP_ENV: test
       APP_DEBUG: 1
@@ -187,4 +193,10 @@ jobs:
       - name: Run phpunit suite ${{ matrix.suite }}
         run: |
           mkdir -p var/tmp
-          php -d memory_limit=1G vendor/bin/phpunit -c . --testsuite "${{ matrix.suite }}" --cache-result-file=var/tmp/phpunit-${{ matrix.suite }}.cache
+          PARATEST="${{ matrix.paratest || 'false' }}"
+          PROCS="${{ matrix.processes || 4 }}"
+          if [ "$PARATEST" = "true" ]; then
+            vendor/bin/paratest -c . --testsuite "${{ matrix.suite }}" --runner=WrapperRunner --processes="$PROCS" --passthru-php="-d memory_limit=1G" --cache-result-file=var/tmp/phpunit-${{ matrix.suite }}.cache
+          else
+            php -d memory_limit=1G vendor/bin/phpunit -c . --testsuite "${{ matrix.suite }}" --cache-result-file=var/tmp/phpunit-${{ matrix.suite }}.cache
+          fi

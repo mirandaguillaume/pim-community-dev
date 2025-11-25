@@ -13,3 +13,4 @@
 - [x] Run `composer audit` and bump vulnerable deps (e.g. `aws/aws-sdk-php>=3.288.1`, `dompdf/dompdf>=2.0.4`).
 - [x] Build Docker PHP 8.2 image locally (`akeneo/pim-php-dev:8.2`).
 - [x] Update CI to PHP 8.2 and run backend test matrix (linting, phpstan, phpspec, phpunit suites) in `.github/workflows/backend-tests.yml`.
+- [x] Parallelize CI phpunit runs with a matrix and enable Paratest on the longest suites to shorten runtime.
