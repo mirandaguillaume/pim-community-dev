@@ -47,14 +47,14 @@ class UTCDateTimeType extends DateTimeType
             (self::$utc) ? self::$utc : (self::$utc = new \DateTimeZone('UTC'))
         );
 
-        $serverTimezone = date_default_timezone_get();
-        $val->setTimezone(new \DateTimeZone($serverTimezone));
-
         if (!$val) {
             throw ConversionException::conversionFailed($value, $this->getName());
         }
 
-        $errors = $val->getLastErrors();
+        $serverTimezone = date_default_timezone_get();
+        $val->setTimezone(new \DateTimeZone($serverTimezone));
+
+        $errors = $val->getLastErrors() ?: ['warning_count' => 0, 'error_count' => 0];
 
         // date was parsed to completely not valid value
         if ($errors['warning_count'] > 0 && (int) $val->format('Y') < 0) {
