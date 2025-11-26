@@ -3,7 +3,7 @@
 # Octopus features
 /src/Akeneo/Connectivity @akeneo/squad-octopus
 /components/catalogs @akeneo/squad-octopus
-.circleci/workflows/squads/octopus @akeneo/squad-octopus
+/.github/workflows/connectivity.yml @akeneo/squad-octopus
 
 # Chipmunks
 /src/Akeneo/Pim/Enrichment @akeneo/squad-chipmunks
