@@ -28,6 +28,7 @@ node_modules:
 
 .PHONY: javascript-extensions
 javascript-extensions:
+	$(PHP_RUN) bin/console pim:installer:dump-require-paths
 	$(YARN_RUN) run update-extensions
 
 .PHONY: front-packages
