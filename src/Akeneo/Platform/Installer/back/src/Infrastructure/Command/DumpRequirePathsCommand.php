@@ -49,6 +49,12 @@ class DumpRequirePathsCommand extends Command
         $mainConfigContent = 'module.exports = '.$mainConfigContent;
         $mainConfigContent = str_replace(',', ",\n", $mainConfigContent);
         $mainConfigFilePath = $webRoot.DIRECTORY_SEPARATOR.self::MAIN_CONFIG_FILE_NAME;
+
+        $directory = dirname($mainConfigFilePath);
+        if (!is_dir($directory) && false === @mkdir($directory, 0777, true) && !is_dir($directory)) {
+            throw new \RuntimeException('Unable to create directory '.$directory);
+        }
+
         if (false === file_put_contents($mainConfigFilePath, $mainConfigContent)) {
             throw new \RuntimeException('Unable to write file '.$mainConfigFilePath);
         }
