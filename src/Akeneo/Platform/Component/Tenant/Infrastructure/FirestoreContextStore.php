@@ -15,8 +15,6 @@ namespace Akeneo\Platform\Component\Tenant\Infrastructure;
 
 use Akeneo\Platform\Component\Tenant\Domain\ContextStoreInterface;
 use Akeneo\Platform\Component\Tenant\Domain\Exception\TenantContextNotFoundException;
-use Google\Cloud\Firestore\DocumentSnapshot;
-use Google\Cloud\Firestore\FirestoreClient;
 use Webmozart\Assert\Assert;
 
 /**
@@ -28,8 +26,11 @@ final class FirestoreContextStore implements ContextStoreInterface
 {
     private const MAX_RETRY = 5;
 
+    /**
+     * @param object $firestoreClient Expected to be Google\Cloud\Firestore\FirestoreClient when available.
+     */
     public function __construct(
-        private readonly FirestoreClient $firestoreClient,
+        private readonly object $firestoreClient,
         private readonly string $collection,
     ) {
         Assert::notEmpty($collection, 'The collection name must not be empty');
@@ -55,7 +56,10 @@ final class FirestoreContextStore implements ContextStoreInterface
         return $snapshot->data();
     }
 
-    private function findDocumentSnapshot(string $documentId): DocumentSnapshot
+    /**
+     * @return object DocumentSnapshot-like object
+     */
+    private function findDocumentSnapshot(string $documentId): object
     {
         $docRef = $this->firestoreClient->collection($this->collection)->document($documentId);
 
