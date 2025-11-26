@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Structure\FamilyTemplate\Test\Integration\Infrastructure\Controller;
 
-use Akeneo\Platform\TailoredImport\Test\Integration\ControllerIntegrationTestCase;
+use Akeneo\Platform\Installer\Test\Integration\ControllerIntegrationTestCase;
 use Akeneo\Test\Integration\Configuration;
 use PHPUnit\Framework\Assert;
 use Symfony\Component\HttpFoundation\Response;

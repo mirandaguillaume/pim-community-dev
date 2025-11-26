@@ -12,7 +12,6 @@ use Akeneo\Pim\Enrichment\Component\Product\Query\Filter\Operators;
 use Akeneo\Pim\Enrichment\Component\Product\Query\ProductQueryBuilderOptionsResolverInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Query\Sorter\SorterRegistryInterface;
 use Akeneo\Pim\Enrichment\Product\Domain\PQB\ProductQueryBuilderInterface;
-use Akeneo\Pim\Permission\Bundle\Enrichment\Storage\Sql\Category\GetGrantedCategoryCodes;
 use Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface;
 use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlags;
 use Akeneo\Tool\Component\StorageUtils\Cursor\CursorFactoryInterface;
@@ -29,6 +28,13 @@ use Webmozart\Assert\Assert;
  */
 final class ProductQueryBuilderAdapter extends AbstractEntityWithValuesQueryBuilder implements ProductQueryBuilderInterface
 {
+    /**
+     * Optional permission service (Enterprise feature). Left untyped as the class does not exist in Community.
+     *
+     * @var object|null
+     */
+    private $getGrantedCategoryCodes;
+
     public function __construct(
         AttributeRepositoryInterface $attributeRepository,
         FilterRegistryInterface $filterRegistry,
@@ -36,8 +42,10 @@ final class ProductQueryBuilderAdapter extends AbstractEntityWithValuesQueryBuil
         ProductQueryBuilderOptionsResolverInterface $optionResolver,
         private FeatureFlags $featureFlags,
         private UserRepositoryInterface $userRepository,
-        private ?GetGrantedCategoryCodes $getGrantedCategoryCodes
+        $getGrantedCategoryCodes = null
     ) {
+        $this->getGrantedCategoryCodes = $getGrantedCategoryCodes;
+
         $cursorFactory = new class implements CursorFactoryInterface {
             /**
              * @param mixed $queryBuilder

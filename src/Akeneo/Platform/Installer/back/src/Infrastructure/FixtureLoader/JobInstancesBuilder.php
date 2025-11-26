@@ -12,7 +12,7 @@ use Akeneo\Tool\Component\Connector\Reader\File\Yaml\Reader;
 use Symfony\Component\Config\FileLocator;
 
 /**
- * Read the 'fixture_jobs.yml' to build the job instances that can be used to install the PIM
+ * Read the 'fixture_jobs.yml' to build the job instances that can be used to install the PIM.
  *
  * @author    Nicolas Dupont <nicolas@akeneo.com>
  * @copyright 2016 Akeneo SAS (http://www.akeneo.com)
@@ -20,59 +20,38 @@ use Symfony\Component\Config\FileLocator;
  */
 class JobInstancesBuilder
 {
-    /** @var FileLocator */
-    protected $fileLocator;
-
-    /** @var Reader */
-    protected $yamlReader;
-
-    /** @var ItemProcessorInterface */
-    protected $jobInstanceProcessor;
-
-    /** @var array */
-    protected $jobsFilePaths;
-
     /**
-     * @param FileLocator            $locator
-     * @param Reader                 $reader
-     * @param ItemProcessorInterface $processor
-     * @param array                  $jobsFilePaths
+     * @param string[] $jobsFilePaths
      */
-    public function __construct(
-        FileLocator $locator,
-        Reader $reader,
-        ItemProcessorInterface $processor,
-        array $jobsFilePaths
-    ) {
-        $this->fileLocator = $locator;
-        $this->yamlReader = $reader;
-        $this->jobInstanceProcessor = $processor;
-        $this->jobsFilePaths = $jobsFilePaths;
+    public function __construct(protected FileLocator $fileLocator, protected Reader $yamlReader, protected ItemProcessorInterface $jobInstanceProcessor, protected array $jobsFilePaths)
+    {
     }
 
     /**
-     * Load the fixture jobs in database
+     * Load the fixture jobs in database.
      *
      * @return JobInstance[]
      */
-    public function build()
+    /**
+     * @return JobInstance[]
+     */
+    public function build(): array
     {
         $rawJobs = $this->readOrderedRawJobData();
-        $jobInstances = $this->buildJobInstances($rawJobs);
 
-        return $jobInstances;
+        return $this->buildJobInstances($rawJobs);
     }
 
     /**
-     * @return array
+     * @return array<int, array<string, mixed>>
      */
-    protected function readOrderedRawJobData()
+    protected function readOrderedRawJobData(): array
     {
         $rawJobs = [];
         $fileLocator = $this->getFileLocator();
         foreach ($this->jobsFilePaths as $jobsFilePath) {
             $yamlReader = $this->getYamlReader();
-            $realPath = $fileLocator->locate('@' . $jobsFilePath);
+            $realPath = $fileLocator->locate('@'.$jobsFilePath);
             $jobExecution = new JobExecution();
             $jobParameters = new JobParameters(['storage' => ['type' => LocalStorage::TYPE, 'file_path' => $realPath]]);
             $jobExecution->setJobParameters($jobParameters);
@@ -85,13 +64,7 @@ class JobInstancesBuilder
 
             usort(
                 $rawJobs,
-                function ($item1, $item2) {
-                    if ($item1['order'] === $item2['order']) {
-                        return 0;
-                    }
-
-                    return ($item1['order'] < $item2['order']) ? -1 : 1;
-                }
+                fn ($item1, $item2) => $item1['order'] <=> $item2['order'],
             );
         }
 
@@ -99,11 +72,11 @@ class JobInstancesBuilder
     }
 
     /**
-     * @param array $rawJobs
+     * @param array<int, array<string, mixed>> $rawJobs
      *
      * @return JobInstance[]
      */
-    protected function buildJobInstances(array $rawJobs)
+    protected function buildJobInstances(array $rawJobs): array
     {
         $processor = $this->getJobInstanceProcessor();
         $jobInstances = [];
@@ -116,26 +89,17 @@ class JobInstancesBuilder
         return $jobInstances;
     }
 
-    /**
-     * @return FileLocator
-     */
-    protected function getFileLocator()
+    protected function getFileLocator(): FileLocator
     {
         return $this->fileLocator;
     }
 
-    /**
-     * @return YamlReader
-     */
-    protected function getYamlReader()
+    protected function getYamlReader(): Reader
     {
         return $this->yamlReader;
     }
 
-    /**
-     * @return ItemProcessorInterface
-     */
-    protected function getJobInstanceProcessor()
+    protected function getJobInstanceProcessor(): ItemProcessorInterface
     {
         return $this->jobInstanceProcessor;
     }

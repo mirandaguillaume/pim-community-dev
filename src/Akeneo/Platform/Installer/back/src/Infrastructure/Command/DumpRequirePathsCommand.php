@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Dump a file called require-paths containing a list of required bundle paths
+ * Dump a file called require-paths containing a list of required bundle paths.
  *
  * @author Tamara Robichet <tamara.robichet@akeneo.com>
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
@@ -17,28 +17,22 @@ class DumpRequirePathsCommand extends Command
 {
     protected static $defaultName = 'pim:installer:dump-require-paths';
 
-    const MAIN_CONFIG_FILE_NAME = 'js/require-paths.js';
+    final public const MAIN_CONFIG_FILE_NAME = 'js/require-paths.js';
 
-    /** @var string */
-    private $rootDir;
-
-    /** @var array */
-    private $bundles;
-
+    /**
+     * @param string[] $bundles
+     */
     public function __construct(
-        string $rootDir,
-        array $bundles
+        private readonly string $rootDir,
+        private readonly array $bundles,
     ) {
         parent::__construct();
-
-        $this->rootDir = $rootDir;
-        $this->bundles = $bundles;
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDescription('Dump the paths for all the requirejs.yml files for each bundle');
     }
@@ -49,28 +43,28 @@ class DumpRequirePathsCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('Generating require.js main config');
-        $webRoot = realpath($this->rootDir . '/../public');
+        $webRoot = realpath($this->rootDir.'/../public');
 
         $mainConfigContent = json_encode($this->collectConfigPaths($this->rootDir), JSON_UNESCAPED_SLASHES);
-        $mainConfigContent = 'module.exports = ' . $mainConfigContent;
+        $mainConfigContent = 'module.exports = '.$mainConfigContent;
         $mainConfigContent = str_replace(',', ",\n", $mainConfigContent);
-        $mainConfigFilePath = $webRoot . DIRECTORY_SEPARATOR . self::MAIN_CONFIG_FILE_NAME;
+        $mainConfigFilePath = $webRoot.DIRECTORY_SEPARATOR.self::MAIN_CONFIG_FILE_NAME;
         if (false === file_put_contents($mainConfigFilePath, $mainConfigContent)) {
-            throw new \RuntimeException('Unable to write file ' . $mainConfigFilePath);
+            throw new \RuntimeException('Unable to write file '.$mainConfigFilePath);
         }
 
         return Command::SUCCESS;
     }
 
     /**
-     * Collect an array of requirejs.yml paths for each bundle
-     * @param string $rootDir
-     * @return array
+     * Collect an array of requirejs.yml paths for each bundle.
+     *
+     * @return string[]
      */
-    protected function collectConfigPaths(string $rootDir)
+    protected function collectConfigPaths(string $rootDir): array
     {
-        $paths = array();
-        $rootDir = realpath($rootDir . '/../') . '/';
+        $paths = [];
+        $rootDir = realpath($rootDir.'/../').'/';
 
         foreach ($this->bundles as $bundle) {
             $reflection = new \ReflectionClass($bundle);

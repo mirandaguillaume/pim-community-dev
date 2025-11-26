@@ -7,9 +7,10 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Requirements\Requirement;
 
 /**
- * Check requirements command
+ * Check requirements command.
  *
  * @author    Romain Monceau <romain@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
@@ -27,7 +28,7 @@ class CheckRequirementsCommand extends Command
         $this->renderRequirements(
             $input,
             $output,
-            new Requirements()
+            new Requirements(),
         );
 
         return Command::SUCCESS;
@@ -39,22 +40,23 @@ class CheckRequirementsCommand extends Command
     protected function renderRequirements(
         InputInterface $input,
         OutputInterface $output,
-        Requirements $collection
+        Requirements $collection,
     ): void {
         $this->renderTable($collection->getMandatoryRequirements(), 'Mandatory requirements', $output);
         $this->renderTable($collection->getPhpIniRequirements(), 'PHP requirements', $output);
         $this->renderTable($collection->getPimRequirements(), 'Pim requirements', $output);
         $this->renderTable($collection->getRecommendations(), 'Recommendations', $output);
 
-        if (count($collection->getFailedRequirements())) {
+        if ([] !== $collection->getFailedRequirements()) {
             $this->renderTable($collection->getFailedRequirements(), 'Errors', $output);
 
-            throw new \RuntimeException(
-                'Some system requirements are not fulfilled. Please check output messages and fix them'
-            );
+            throw new \RuntimeException('Some system requirements are not fulfilled. Please check output messages and fix them');
         }
     }
 
+    /**
+     * @param array<int, Requirement> $collection
+     */
     protected function renderTable(array $collection, string $header, OutputInterface $output): void
     {
         $table = new Table($output);
@@ -71,7 +73,7 @@ class CheckRequirementsCommand extends Command
                     [
                         $requirement->isOptional() ? 'WARNING' : 'ERROR',
                         $requirement->getHelpText(),
-                    ]
+                    ],
                 );
             }
         }
