@@ -53,10 +53,10 @@ jobs:
           sudo chown -R 1000:1000 $HOME/.cache/yarn $HOME/.cache/Cypress
           sudo chmod -R a+rwX $HOME/.cache/yarn $HOME/.cache/Cypress
 
-      - name: Align container user with runner
+      - name: Align container user with node image user
         run: |
           echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
-          echo "NODE_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
+          echo "NODE_USER=1000:1000" >> "$GITHUB_ENV"
 
       - name: Cache composer
         uses: actions/cache@v3
@@ -150,10 +150,10 @@ jobs:
           tar xzf front-libs.tar.gz
           sudo chown -R $(id -u):$(id -g) "$PWD"
 
-      - name: Align container user with runner
+      - name: Align container user with node image user
         run: |
           echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
-          echo "NODE_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
+          echo "NODE_USER=1000:1000" >> "$GITHUB_ENV"
 
       - name: Load Node image
         run: docker load -i node-pim-image.tar
@@ -180,10 +180,10 @@ jobs:
           tar xzf vendor.tar.gz
           sudo chown -R $(id -u):$(id -g) "$PWD"
 
-      - name: Align container user with runner
+      - name: Align container user with node image user
         run: |
           echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
-          echo "NODE_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
+          echo "NODE_USER=1000:1000" >> "$GITHUB_ENV"
 
       - name: Load PHP image
         run: docker load -i php-pim-image.tar
@@ -222,10 +222,10 @@ jobs:
           tar xzf vendor.tar.gz
           sudo chown -R $(id -u):$(id -g) "$PWD"
 
-      - name: Align container user with runner
+      - name: Align container user with node image user
         run: |
           echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
-          echo "NODE_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
+          echo "NODE_USER=1000:1000" >> "$GITHUB_ENV"
 
       - name: Load PHP image
         run: docker load -i php-pim-image.tar
@@ -268,10 +268,10 @@ jobs:
           tar xzf vendor.tar.gz
           sudo chown -R $(id -u):$(id -g) "$PWD"
 
-      - name: Align container user with runner
+      - name: Align container user with node image user
         run: |
           echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
-          echo "NODE_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
+          echo "NODE_USER=1000:1000" >> "$GITHUB_ENV"
 
       - name: Load PHP image
         run: docker load -i php-pim-image.tar
@@ -331,10 +331,10 @@ jobs:
           tar xzf vendor.tar.gz
           sudo chown -R $(id -u):$(id -g) "$PWD"
 
-      - name: Align container user with runner
+      - name: Align container user with node image user
         run: |
           echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
-          echo "NODE_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
+          echo "NODE_USER=1000:1000" >> "$GITHUB_ENV"
 
       - name: Load PHP image
         run: docker load -i php-pim-image.tar
@@ -377,10 +377,10 @@ jobs:
           tar xzf front-libs.tar.gz
           sudo chown -R $(id -u):$(id -g) "$PWD"
 
-      - name: Align container user with runner
+      - name: Align container user with node image user
         run: |
           echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
-          echo "NODE_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
+          echo "NODE_USER=1000:1000" >> "$GITHUB_ENV"
 
       - name: Load PHP image
         run: docker load -i php-pim-image.tar
@@ -426,10 +426,10 @@ jobs:
           tar xzf vendor.tar.gz
           sudo chown -R $(id -u):$(id -g) "$PWD"
 
-      - name: Align container user with runner
+      - name: Align container user with node image user
         run: |
           echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
-          echo "NODE_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
+          echo "NODE_USER=1000:1000" >> "$GITHUB_ENV"
 
       - name: Load PHP image
         run: docker load -i php-pim-image.tar
