@@ -100,6 +100,9 @@ jobs:
       - name: Build Node image
         run: docker build -f docker/Dockerfile_node -t ${{ env.PIM_NODE_IMAGE }} docker
 
+      - name: Save Node image
+        run: docker save ${{ env.PIM_NODE_IMAGE }} -o node-pim-image.tar
+
       - name: Install dependencies
         run: make dependencies
 
@@ -112,7 +115,7 @@ jobs:
 
       - name: Pack artifacts
         run: |
-          sudo chown -R $USER:$USER vendor node_modules front-packages php-pim-image.tar
+          sudo chown -R $USER:$USER vendor node_modules front-packages php-pim-image.tar node-pim-image.tar
           tar czf vendor.tar.gz vendor
           tar czf node_modules.tar.gz node_modules
           tar czf front-libs.tar.gz front-packages/akeneo-design-system/lib front-packages/shared/lib
@@ -124,6 +127,7 @@ jobs:
           retention-days: 5
           path: |
             php-pim-image.tar
+            node-pim-image.tar
             vendor.tar.gz
             node_modules.tar.gz
             front-libs.tar.gz
@@ -150,6 +154,9 @@ jobs:
         run: |
           echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
           echo "NODE_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
+
+      - name: Load Node image
+        run: docker load -i node-pim-image.tar
 
       - name: Front typecheck/lint/unit
         run: |
