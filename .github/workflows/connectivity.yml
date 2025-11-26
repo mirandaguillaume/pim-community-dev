@@ -146,6 +146,9 @@ jobs:
       - name: Load Node image
         run: docker load -i node-pim-image.tar
 
+      - name: Load PHP image
+        run: docker load -i php-pim-image.tar
+
       - name: Front lint/unit/build
         run: |
           make javascript-dev-strict
