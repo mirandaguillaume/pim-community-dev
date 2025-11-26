@@ -29,6 +29,7 @@ node_modules:
 .PHONY: javascript-extensions
 javascript-extensions:
 	$(PHP_RUN) bin/console pim:installer:dump-require-paths
+	$(PHP_RUN) bin/console --ansi fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json
 	$(YARN_RUN) run update-extensions
 
 .PHONY: front-packages
