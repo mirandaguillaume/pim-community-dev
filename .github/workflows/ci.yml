@@ -50,13 +50,15 @@ jobs:
         run: |
           mkdir -p $HOME/.composer $HOME/.cache/yarn $HOME/.cache/Cypress
           sudo chown -R $(id -u):$(id -g) $HOME/.composer "$PWD"
-          sudo chown -R 1000:1000 $HOME/.cache/yarn $HOME/.cache/Cypress
+          sudo chown -R $(id -u):$(id -g) $HOME/.cache/yarn $HOME/.cache/Cypress
           sudo chmod -R a+rwX $HOME/.cache/yarn $HOME/.cache/Cypress
 
       - name: Align container user with node image user
         run: |
-          echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
-          echo "NODE_USER=1000:1000" >> "$GITHUB_ENV"
+          uid="$(id -u)"
+          gid="$(id -g)"
+          echo "PIM_DOCKER_USER=${uid}:${gid}" >> "$GITHUB_ENV"
+          echo "NODE_USER=${uid}:${gid}" >> "$GITHUB_ENV"
 
       - name: Cache composer
         uses: actions/cache@v3
@@ -152,8 +154,10 @@ jobs:
 
       - name: Align container user with node image user
         run: |
-          echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
-          echo "NODE_USER=1000:1000" >> "$GITHUB_ENV"
+          uid="$(id -u)"
+          gid="$(id -g)"
+          echo "PIM_DOCKER_USER=${uid}:${gid}" >> "$GITHUB_ENV"
+          echo "NODE_USER=${uid}:${gid}" >> "$GITHUB_ENV"
 
       - name: Load Node image
         run: docker load -i node-pim-image.tar
@@ -182,8 +186,10 @@ jobs:
 
       - name: Align container user with node image user
         run: |
-          echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
-          echo "NODE_USER=1000:1000" >> "$GITHUB_ENV"
+          uid="$(id -u)"
+          gid="$(id -g)"
+          echo "PIM_DOCKER_USER=${uid}:${gid}" >> "$GITHUB_ENV"
+          echo "NODE_USER=${uid}:${gid}" >> "$GITHUB_ENV"
 
       - name: Load PHP image
         run: docker load -i php-pim-image.tar
@@ -224,8 +230,10 @@ jobs:
 
       - name: Align container user with node image user
         run: |
-          echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
-          echo "NODE_USER=1000:1000" >> "$GITHUB_ENV"
+          uid="$(id -u)"
+          gid="$(id -g)"
+          echo "PIM_DOCKER_USER=${uid}:${gid}" >> "$GITHUB_ENV"
+          echo "NODE_USER=${uid}:${gid}" >> "$GITHUB_ENV"
 
       - name: Load PHP image
         run: docker load -i php-pim-image.tar
@@ -270,8 +278,10 @@ jobs:
 
       - name: Align container user with node image user
         run: |
-          echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
-          echo "NODE_USER=1000:1000" >> "$GITHUB_ENV"
+          uid="$(id -u)"
+          gid="$(id -g)"
+          echo "PIM_DOCKER_USER=${uid}:${gid}" >> "$GITHUB_ENV"
+          echo "NODE_USER=${uid}:${gid}" >> "$GITHUB_ENV"
 
       - name: Load PHP image
         run: docker load -i php-pim-image.tar
@@ -333,8 +343,10 @@ jobs:
 
       - name: Align container user with node image user
         run: |
-          echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
-          echo "NODE_USER=1000:1000" >> "$GITHUB_ENV"
+          uid="$(id -u)"
+          gid="$(id -g)"
+          echo "PIM_DOCKER_USER=${uid}:${gid}" >> "$GITHUB_ENV"
+          echo "NODE_USER=${uid}:${gid}" >> "$GITHUB_ENV"
 
       - name: Load PHP image
         run: docker load -i php-pim-image.tar
@@ -379,8 +391,10 @@ jobs:
 
       - name: Align container user with node image user
         run: |
-          echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
-          echo "NODE_USER=1000:1000" >> "$GITHUB_ENV"
+          uid="$(id -u)"
+          gid="$(id -g)"
+          echo "PIM_DOCKER_USER=${uid}:${gid}" >> "$GITHUB_ENV"
+          echo "NODE_USER=${uid}:${gid}" >> "$GITHUB_ENV"
 
       - name: Load PHP image
         run: docker load -i php-pim-image.tar
@@ -428,8 +442,10 @@ jobs:
 
       - name: Align container user with node image user
         run: |
-          echo "PIM_DOCKER_USER=$(id -u):$(id -g)" >> "$GITHUB_ENV"
-          echo "NODE_USER=1000:1000" >> "$GITHUB_ENV"
+          uid="$(id -u)"
+          gid="$(id -g)"
+          echo "PIM_DOCKER_USER=${uid}:${gid}" >> "$GITHUB_ENV"
+          echo "NODE_USER=${uid}:${gid}" >> "$GITHUB_ENV"
 
       - name: Load PHP image
         run: docker load -i php-pim-image.tar
