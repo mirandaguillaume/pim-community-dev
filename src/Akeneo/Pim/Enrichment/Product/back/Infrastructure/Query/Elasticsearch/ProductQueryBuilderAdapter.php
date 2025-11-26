@@ -28,12 +28,8 @@ use Webmozart\Assert\Assert;
  */
 final class ProductQueryBuilderAdapter extends AbstractEntityWithValuesQueryBuilder implements ProductQueryBuilderInterface
 {
-    /**
-     * Optional permission service (Enterprise feature). Left untyped as the class does not exist in Community.
-     *
-     * @var object|null
-     */
-    private $getGrantedCategoryCodes;
+    /** Optional permission service (Enterprise feature). */
+    private ?object $getGrantedCategoryCodes;
 
     public function __construct(
         AttributeRepositoryInterface $attributeRepository,
@@ -42,7 +38,7 @@ final class ProductQueryBuilderAdapter extends AbstractEntityWithValuesQueryBuil
         ProductQueryBuilderOptionsResolverInterface $optionResolver,
         private FeatureFlags $featureFlags,
         private UserRepositoryInterface $userRepository,
-        $getGrantedCategoryCodes = null
+        ?object $getGrantedCategoryCodes = null
     ) {
         $this->getGrantedCategoryCodes = $getGrantedCategoryCodes;
 
