@@ -62,7 +62,7 @@ jobs:
           echo "NODE_USER=${uid}:${gid}" >> "$GITHUB_ENV"
 
       - name: Cache composer
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.composer
           key: composer-${{ runner.os }}-${{ env.CACHE_VERSION }}-${{ hashFiles('composer.lock') }}
@@ -70,7 +70,7 @@ jobs:
             composer-${{ runner.os }}-${{ env.CACHE_VERSION }}-
 
       - name: Cache yarn
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cache/yarn
           key: yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-${{ hashFiles('yarn.lock') }}
@@ -81,7 +81,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Cache Docker layers
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: /tmp/.buildx-cache
           key: ${{ steps.docker-cache.outputs.key }}
@@ -89,7 +89,7 @@ jobs:
             php-image-${{ env.CACHE_VERSION }}-
 
       - name: Build PHP image (cached)
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           tags: ${{ env.PIM_PHP_IMAGE }}
