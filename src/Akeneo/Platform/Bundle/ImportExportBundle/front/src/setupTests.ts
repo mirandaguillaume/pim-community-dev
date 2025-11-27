@@ -2,7 +2,7 @@ import '@testing-library/jest-dom/extend-expect';
 
 beforeEach(() => {
   // Default no-op mock; individual tests can override as needed
-  (global as unknown as {fetch: typeof fetch}).fetch = jest.fn() as unknown as typeof fetch;
+  (globalThis as unknown as {fetch: typeof fetch}).fetch = jest.fn() as unknown as typeof fetch;
 });
 
 export {};
