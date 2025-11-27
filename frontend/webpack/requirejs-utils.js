@@ -6,7 +6,9 @@ const {
     readFileSync,
     writeFileSync,
     readdirSync,
-    statSync
+    statSync,
+    existsSync,
+    mkdirSync
 } = require('fs');
 
 
@@ -70,6 +72,11 @@ const utils = {
      * @return {Object}               An object requirejs containing module config and aliases
      */
     getModulePaths(baseDir, sourceDir) {
+        const bundlesDir = path.join(baseDir, './public/bundles');
+        if (!existsSync(bundlesDir)) {
+            mkdirSync(bundlesDir, { recursive: true });
+        }
+
         const pathSourceFile = require(path.join(baseDir, 'public/js/require-paths.js'));
         const { config, paths } = utils.getRequireConfig(pathSourceFile, baseDir);
         const aliases = Object.assign(getFrontModules(process.cwd(), './public/bundles')(), paths, {
