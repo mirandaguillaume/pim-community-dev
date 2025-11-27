@@ -15,6 +15,7 @@ env:
   CACHE_VERSION: v1
   COMPOSER_CACHE_DIR: ~/.composer
   YARN_CACHE_FOLDER: ~/.cache/yarn
+  YARN_GLOBAL_FOLDER: ~/.cache/yarn/global
   DOCKER_BUILDKIT: 1
   PIM_PHP_IMAGE: pim-php-dev:8.1
   PIM_NODE_IMAGE: pim-node:18
