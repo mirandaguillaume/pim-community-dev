@@ -51,7 +51,7 @@ class DumpRequirePathsCommand extends Command
         $mainConfigFilePath = $webRoot.DIRECTORY_SEPARATOR.self::MAIN_CONFIG_FILE_NAME;
 
         $directory = dirname($mainConfigFilePath);
-        if (!is_dir($directory) && false === @mkdir($directory, 0777, true) && !is_dir($directory)) {
+        if (!is_dir($directory) && !@mkdir($directory, 0777, true) && !is_dir($directory)) {
             throw new \RuntimeException('Unable to create directory '.$directory);
         }
 

@@ -16,6 +16,8 @@ $rules = [
         'Akeneo\Tool',
         'Akeneo\Pim\Structure\Component',
         'Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlags',
+        'Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag',
+        'Psr\Clock\ClockInterface',
         'Oro\Bundle\SecurityBundle\Annotation\AclAncestor',
         'Oro\Bundle\SecurityBundle\SecurityFacade',
         'Oro\Bundle\DataGridBundle\Event\BuildBefore',
@@ -72,6 +74,8 @@ $rules = [
         // TIP-910: PIM/Structure should not be linked to Channel
         'Akeneo\Channel\Infrastructure\Component\Repository\ChannelRepositoryInterface',
         'Akeneo\Channel\Infrastructure\Component\Model\ChannelInterface',
+        'Akeneo\Channel\API\Query\FindLocales',
+        'Akeneo\Channel\API\Query\Locale',
 
         // TIP-908: Entities should not be linked directly to Locale for translation purposes
         // TIP-909: PIM/Structure should not be linked to Locale

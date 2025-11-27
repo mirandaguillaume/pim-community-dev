@@ -1,5 +1,7 @@
 .PHONY: import-export-lint-back
 import-export-lint-back: #Doc: launch PHPStan for ImportExport bounded context
+	APP_ENV=dev $(DOCKER_COMPOSE) run --rm php php bin/console cache:warmup
+	APP_ENV=dev $(DOCKER_COMPOSE) run --rm php sh -lc "php bin/console debug:container --format=xml > var/cache/dev/KernelDevDebugContainer.xml"
 	$(DOCKER_COMPOSE) run --rm php php -d memory_limit=1G vendor/bin/phpstan analyse src/Akeneo/Platform/Bundle/ImportExportBundle --level 5
 	${PHP_RUN} vendor/bin/php-cs-fixer fix --diff --dry-run --config=src/Akeneo/Platform/Bundle/ImportExportBundle/Test/.php_cs.php
 
