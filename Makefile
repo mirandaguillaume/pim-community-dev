@@ -29,6 +29,7 @@ node_modules:
 .PHONY: javascript-extensions
 javascript-extensions:
 	$(PHP_RUN) bin/console pim:installer:assets --symlink --clean
+	$(YARN_RUN) run packages:build
 	$(YARN_RUN) run update-extensions
 
 .PHONY: front-packages
