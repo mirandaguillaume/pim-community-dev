@@ -59,7 +59,7 @@ const mockResponse: (
 
     throw new Error(`Unmocked url "${requestUrl}" [${args?.method || 'GET'}]`);
   });
-  jest.spyOn(global, 'fetch').mockImplementation(fetchImplementation);
+  jest.spyOn(global as unknown as {fetch: typeof fetch}, 'fetch').mockImplementation(fetchImplementation as unknown as GlobalFetch['fetch']);
 
   return () => {
     if (method === 'POST' || method === 'PATCH') {
