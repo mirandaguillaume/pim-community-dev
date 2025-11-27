@@ -18,6 +18,7 @@ $rules = [
     $builder->only(
         [
             'Akeneo\Platform\Installer\Domain',
+            'Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag',
         ],
     )->in('Akeneo\Platform\Installer\Application'),
 
@@ -32,10 +33,17 @@ $rules = [
             'Doctrine\DBAL\Connection',
             'Doctrine\DBAL\Schema\AbstractAsset',
             'Doctrine\DBAL\Types\Types',
+            'Doctrine\DBAL\Exception\TableNotFoundException',
+            'Doctrine\ORM\EntityManagerInterface',
+            'Doctrine\Persistence\ObjectRepository',
             'League\Flysystem\FilesystemOperator',
+            'Psr\Log\LoggerInterface',
             'Symfony\Component',
+            'Symfony\Requirements\Requirement',
+            'Akeneo\Platform\Requirements',
             'Webmozart\Assert\Assert',
             'Oro\Bundle\SecurityBundle\SecurityFacade',
+            'Akeneo\Platform\Bundle\ImportExportBundle\Domain\Model\LocalStorage',
         ],
     )->in('Akeneo\Platform\Installer\Infrastructure'),
 ];
