@@ -63,18 +63,12 @@ jobs:
       - name: Copy docker-compose override
         run: cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
 
-      - name: Build PHP image
-        run: docker build -t akeneo/pim-php-dev:8.1 .
+      - name: Pull PHP image
+        run: |
+          docker pull akeneo/pim-php-dev:8.1 || docker-compose pull php
 
       - name: Install dependencies
         run: make dependencies
-
-      - name: Build frontend assets
-        run: |
-          make assets
-          make css
-          make front-packages
-          make javascript-dev
 
       - name: Save PHP image
         run: docker save -o php-pim-image.tar akeneo/pim-php-dev:8.1
