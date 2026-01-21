@@ -86,7 +86,8 @@ jobs:
           docker pull akeneo/pim-php-dev:8.1 || docker-compose pull php
 
       - name: Install dependencies
-        run: make dependencies
+        run: |
+          make YARN_RUN="docker-compose run -u node --rm -e YARN_REGISTRY -e PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 -e PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome node yarn --no-bin-links" dependencies
 
       - name: Save PHP image
         run: docker save -o php-pim-image.tar akeneo/pim-php-dev:8.1
