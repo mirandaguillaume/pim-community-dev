@@ -4,7 +4,10 @@ set -eo pipefail
 
 TEST_SUITE=$1
 
-TEST_FILES=$(docker-compose run --rm -T php vendor/bin/behat --list-scenarios -p legacy -s $TEST_SUITE | circleci tests split --split-by=timings)
+TEST_FILES=$(docker-compose run --rm -T php vendor/bin/behat --list-scenarios -p legacy -s $TEST_SUITE)
+if command -v circleci >/dev/null 2>&1; then
+    TEST_FILES=$(echo "$TEST_FILES" | circleci tests split --split-by=timings)
+fi
 echo "TEST FILES ON THIS CONTAINER: $TEST_FILES"
 
 fail=0

@@ -10,7 +10,11 @@ CONFIG_DIRECTORY=$1
 FIND_PHPUNIT_SCRIPT=$2
 TEST_SUITES=$3
 
-TEST_FILES=$(docker-compose run --rm -T php php $FIND_PHPUNIT_SCRIPT -c $CONFIG_DIRECTORY --testsuite $TEST_SUITES | circleci tests split --split-by=timings)
+TEST_FILES=$(docker-compose run --rm -T php php $FIND_PHPUNIT_SCRIPT -c $CONFIG_DIRECTORY --testsuite $TEST_SUITES)
+
+if command -v circleci >/dev/null 2>&1; then
+    TEST_FILES=$(echo "$TEST_FILES" | circleci tests split --split-by=timings)
+fi
 
 fail=0
 for TEST_FILE in $TEST_FILES; do

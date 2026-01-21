@@ -161,6 +161,17 @@ jobs:
       - name: Copy docker-compose override
         run: cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
 
+      - name: Download PHP image
+        uses: actions/download-artifact@v4
+        with:
+          name: php-pim-image
+
+      - name: Load PHP image
+        run: docker load -i php-pim-image.tar
+
+      - name: Generate require paths
+        run: docker-compose run --rm php php bin/console pim:installer:dump-require-paths
+
       - name: Front checks
         run: |
           make javascript-dev-strict
