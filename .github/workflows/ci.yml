@@ -25,12 +25,33 @@ jobs:
 
       - name: Ensure docker-compose is available
         run: |
-          if ! command -v docker-compose >/dev/null; then
-            sudo apt-get update
-            sudo apt-get install -y docker-compose-plugin
-            sudo ln -sf /usr/libexec/docker/cli-plugins/docker-compose /usr/local/bin/docker-compose || sudo ln -sf /usr/lib/docker/cli-plugins/docker-compose /usr/local/bin/docker-compose
+          set -euo pipefail
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+            exit 0
           fi
-          docker-compose version
+
+          for path in /usr/libexec/docker/cli-plugins/docker-compose /usr/lib/docker/cli-plugins/docker-compose; do
+            if [ -x "$path" ]; then
+              sudo ln -sf "$path" /usr/local/bin/docker-compose
+              break
+            fi
+          done
+
+          if ! command -v docker-compose >/dev/null && docker compose version >/dev/null 2>&1; then
+            sudo tee /usr/local/bin/docker-compose >/dev/null <<'EOF'
+#!/usr/bin/env bash
+exec docker compose "$@"
+EOF
+            sudo chmod +x /usr/local/bin/docker-compose
+          fi
+
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+          else
+            echo "docker-compose is not available" >&2
+            exit 1
+          fi
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -87,12 +108,33 @@ jobs:
 
       - name: Ensure docker-compose is available
         run: |
-          if ! command -v docker-compose >/dev/null; then
-            sudo apt-get update
-            sudo apt-get install -y docker-compose-plugin
-            sudo ln -sf /usr/libexec/docker/cli-plugins/docker-compose /usr/local/bin/docker-compose || sudo ln -sf /usr/lib/docker/cli-plugins/docker-compose /usr/local/bin/docker-compose
+          set -euo pipefail
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+            exit 0
           fi
-          docker-compose version
+
+          for path in /usr/libexec/docker/cli-plugins/docker-compose /usr/lib/docker/cli-plugins/docker-compose; do
+            if [ -x "$path" ]; then
+              sudo ln -sf "$path" /usr/local/bin/docker-compose
+              break
+            fi
+          done
+
+          if ! command -v docker-compose >/dev/null && docker compose version >/dev/null 2>&1; then
+            sudo tee /usr/local/bin/docker-compose >/dev/null <<'EOF'
+#!/usr/bin/env bash
+exec docker compose "$@"
+EOF
+            sudo chmod +x /usr/local/bin/docker-compose
+          fi
+
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+          else
+            echo "docker-compose is not available" >&2
+            exit 1
+          fi
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -139,12 +181,33 @@ jobs:
 
       - name: Ensure docker-compose is available
         run: |
-          if ! command -v docker-compose >/dev/null; then
-            sudo apt-get update
-            sudo apt-get install -y docker-compose-plugin
-            sudo ln -sf /usr/libexec/docker/cli-plugins/docker-compose /usr/local/bin/docker-compose || sudo ln -sf /usr/lib/docker/cli-plugins/docker-compose /usr/local/bin/docker-compose
+          set -euo pipefail
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+            exit 0
           fi
-          docker-compose version
+
+          for path in /usr/libexec/docker/cli-plugins/docker-compose /usr/lib/docker/cli-plugins/docker-compose; do
+            if [ -x "$path" ]; then
+              sudo ln -sf "$path" /usr/local/bin/docker-compose
+              break
+            fi
+          done
+
+          if ! command -v docker-compose >/dev/null && docker compose version >/dev/null 2>&1; then
+            sudo tee /usr/local/bin/docker-compose >/dev/null <<'EOF'
+#!/usr/bin/env bash
+exec docker compose "$@"
+EOF
+            sudo chmod +x /usr/local/bin/docker-compose
+          fi
+
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+          else
+            echo "docker-compose is not available" >&2
+            exit 1
+          fi
 
       - name: Restore composer dependencies
         uses: actions/cache@v4
@@ -205,12 +268,33 @@ jobs:
 
       - name: Ensure docker-compose is available
         run: |
-          if ! command -v docker-compose >/dev/null; then
-            sudo apt-get update
-            sudo apt-get install -y docker-compose-plugin
-            sudo ln -sf /usr/libexec/docker/cli-plugins/docker-compose /usr/local/bin/docker-compose || sudo ln -sf /usr/lib/docker/cli-plugins/docker-compose /usr/local/bin/docker-compose
+          set -euo pipefail
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+            exit 0
           fi
-          docker-compose version
+
+          for path in /usr/libexec/docker/cli-plugins/docker-compose /usr/lib/docker/cli-plugins/docker-compose; do
+            if [ -x "$path" ]; then
+              sudo ln -sf "$path" /usr/local/bin/docker-compose
+              break
+            fi
+          done
+
+          if ! command -v docker-compose >/dev/null && docker compose version >/dev/null 2>&1; then
+            sudo tee /usr/local/bin/docker-compose >/dev/null <<'EOF'
+#!/usr/bin/env bash
+exec docker compose "$@"
+EOF
+            sudo chmod +x /usr/local/bin/docker-compose
+          fi
+
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+          else
+            echo "docker-compose is not available" >&2
+            exit 1
+          fi
 
       - name: Restore composer dependencies
         uses: actions/cache@v4
@@ -260,12 +344,33 @@ jobs:
 
       - name: Ensure docker-compose is available
         run: |
-          if ! command -v docker-compose >/dev/null; then
-            sudo apt-get update
-            sudo apt-get install -y docker-compose-plugin
-            sudo ln -sf /usr/libexec/docker/cli-plugins/docker-compose /usr/local/bin/docker-compose || sudo ln -sf /usr/lib/docker/cli-plugins/docker-compose /usr/local/bin/docker-compose
+          set -euo pipefail
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+            exit 0
           fi
-          docker-compose version
+
+          for path in /usr/libexec/docker/cli-plugins/docker-compose /usr/lib/docker/cli-plugins/docker-compose; do
+            if [ -x "$path" ]; then
+              sudo ln -sf "$path" /usr/local/bin/docker-compose
+              break
+            fi
+          done
+
+          if ! command -v docker-compose >/dev/null && docker compose version >/dev/null 2>&1; then
+            sudo tee /usr/local/bin/docker-compose >/dev/null <<'EOF'
+#!/usr/bin/env bash
+exec docker compose "$@"
+EOF
+            sudo chmod +x /usr/local/bin/docker-compose
+          fi
+
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+          else
+            echo "docker-compose is not available" >&2
+            exit 1
+          fi
 
       - name: Restore composer dependencies
         uses: actions/cache@v4
@@ -314,12 +419,33 @@ jobs:
 
       - name: Ensure docker-compose is available
         run: |
-          if ! command -v docker-compose >/dev/null; then
-            sudo apt-get update
-            sudo apt-get install -y docker-compose-plugin
-            sudo ln -sf /usr/libexec/docker/cli-plugins/docker-compose /usr/local/bin/docker-compose || sudo ln -sf /usr/lib/docker/cli-plugins/docker-compose /usr/local/bin/docker-compose
+          set -euo pipefail
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+            exit 0
           fi
-          docker-compose version
+
+          for path in /usr/libexec/docker/cli-plugins/docker-compose /usr/lib/docker/cli-plugins/docker-compose; do
+            if [ -x "$path" ]; then
+              sudo ln -sf "$path" /usr/local/bin/docker-compose
+              break
+            fi
+          done
+
+          if ! command -v docker-compose >/dev/null && docker compose version >/dev/null 2>&1; then
+            sudo tee /usr/local/bin/docker-compose >/dev/null <<'EOF'
+#!/usr/bin/env bash
+exec docker compose "$@"
+EOF
+            sudo chmod +x /usr/local/bin/docker-compose
+          fi
+
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+          else
+            echo "docker-compose is not available" >&2
+            exit 1
+          fi
 
       - name: Restore composer dependencies
         uses: actions/cache@v4
@@ -380,12 +506,33 @@ jobs:
 
       - name: Ensure docker-compose is available
         run: |
-          if ! command -v docker-compose >/dev/null; then
-            sudo apt-get update
-            sudo apt-get install -y docker-compose-plugin
-            sudo ln -sf /usr/libexec/docker/cli-plugins/docker-compose /usr/local/bin/docker-compose || sudo ln -sf /usr/lib/docker/cli-plugins/docker-compose /usr/local/bin/docker-compose
+          set -euo pipefail
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+            exit 0
           fi
-          docker-compose version
+
+          for path in /usr/libexec/docker/cli-plugins/docker-compose /usr/lib/docker/cli-plugins/docker-compose; do
+            if [ -x "$path" ]; then
+              sudo ln -sf "$path" /usr/local/bin/docker-compose
+              break
+            fi
+          done
+
+          if ! command -v docker-compose >/dev/null && docker compose version >/dev/null 2>&1; then
+            sudo tee /usr/local/bin/docker-compose >/dev/null <<'EOF'
+#!/usr/bin/env bash
+exec docker compose "$@"
+EOF
+            sudo chmod +x /usr/local/bin/docker-compose
+          fi
+
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+          else
+            echo "docker-compose is not available" >&2
+            exit 1
+          fi
 
       - name: Restore composer dependencies
         uses: actions/cache@v4
