@@ -39,10 +39,7 @@ jobs:
           done
 
           if ! command -v docker-compose >/dev/null && docker compose version >/dev/null 2>&1; then
-            sudo tee /usr/local/bin/docker-compose >/dev/null <<'EOF'
-#!/usr/bin/env bash
-exec docker compose "$@"
-EOF
+            printf '%s\n' '#!/usr/bin/env bash' 'exec docker compose "$@"' | sudo tee /usr/local/bin/docker-compose >/dev/null
             sudo chmod +x /usr/local/bin/docker-compose
           fi
 
@@ -122,10 +119,7 @@ EOF
           done
 
           if ! command -v docker-compose >/dev/null && docker compose version >/dev/null 2>&1; then
-            sudo tee /usr/local/bin/docker-compose >/dev/null <<'EOF'
-#!/usr/bin/env bash
-exec docker compose "$@"
-EOF
+            printf '%s\n' '#!/usr/bin/env bash' 'exec docker compose "$@"' | sudo tee /usr/local/bin/docker-compose >/dev/null
             sudo chmod +x /usr/local/bin/docker-compose
           fi
 
@@ -195,10 +189,7 @@ EOF
           done
 
           if ! command -v docker-compose >/dev/null && docker compose version >/dev/null 2>&1; then
-            sudo tee /usr/local/bin/docker-compose >/dev/null <<'EOF'
-#!/usr/bin/env bash
-exec docker compose "$@"
-EOF
+            printf '%s\n' '#!/usr/bin/env bash' 'exec docker compose "$@"' | sudo tee /usr/local/bin/docker-compose >/dev/null
             sudo chmod +x /usr/local/bin/docker-compose
           fi
 
@@ -282,10 +273,7 @@ EOF
           done
 
           if ! command -v docker-compose >/dev/null && docker compose version >/dev/null 2>&1; then
-            sudo tee /usr/local/bin/docker-compose >/dev/null <<'EOF'
-#!/usr/bin/env bash
-exec docker compose "$@"
-EOF
+            printf '%s\n' '#!/usr/bin/env bash' 'exec docker compose "$@"' | sudo tee /usr/local/bin/docker-compose >/dev/null
             sudo chmod +x /usr/local/bin/docker-compose
           fi
 
@@ -358,10 +346,7 @@ EOF
           done
 
           if ! command -v docker-compose >/dev/null && docker compose version >/dev/null 2>&1; then
-            sudo tee /usr/local/bin/docker-compose >/dev/null <<'EOF'
-#!/usr/bin/env bash
-exec docker compose "$@"
-EOF
+            printf '%s\n' '#!/usr/bin/env bash' 'exec docker compose "$@"' | sudo tee /usr/local/bin/docker-compose >/dev/null
             sudo chmod +x /usr/local/bin/docker-compose
           fi
 
@@ -433,10 +418,7 @@ EOF
           done
 
           if ! command -v docker-compose >/dev/null && docker compose version >/dev/null 2>&1; then
-            sudo tee /usr/local/bin/docker-compose >/dev/null <<'EOF'
-#!/usr/bin/env bash
-exec docker compose "$@"
-EOF
+            printf '%s\n' '#!/usr/bin/env bash' 'exec docker compose "$@"' | sudo tee /usr/local/bin/docker-compose >/dev/null
             sudo chmod +x /usr/local/bin/docker-compose
           fi
 
@@ -520,10 +502,7 @@ EOF
           done
 
           if ! command -v docker-compose >/dev/null && docker compose version >/dev/null 2>&1; then
-            sudo tee /usr/local/bin/docker-compose >/dev/null <<'EOF'
-#!/usr/bin/env bash
-exec docker compose "$@"
-EOF
+            printf '%s\n' '#!/usr/bin/env bash' 'exec docker compose "$@"' | sudo tee /usr/local/bin/docker-compose >/dev/null
             sudo chmod +x /usr/local/bin/docker-compose
           fi
 
