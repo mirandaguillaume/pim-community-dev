@@ -430,7 +430,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2, 3, 4, 5, 6]
+        shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     steps:
       - uses: actions/checkout@v4
 
@@ -492,9 +492,9 @@ jobs:
             TESTSUITE="all"
           fi
           echo "TESTSUITE=${TESTSUITE}" | tee -a "$GITHUB_ENV"
-          echo "TOTAL_SHARDS=6" | tee -a "$GITHUB_ENV"
+          echo "TOTAL_SHARDS=10" | tee -a "$GITHUB_ENV"
 
-      - name: Behat legacy end-to-end (shard ${{ matrix.shard }}/6)
+      - name: Behat legacy end-to-end (shard ${{ matrix.shard }}/10)
         env:
           TESTSUITE: ${{ env.TESTSUITE }}
         run: |
