@@ -76,14 +76,15 @@ jobs:
             front-packages/shared/lib
           key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
 
-      - name: Install JS dependencies
-        run: docker-compose run -u node --rm node yarn install --frozen-lockfile --no-progress
-
       - name: Prepare filesystem permissions
         run: |
           mkdir -p ~/.cache/yarn ~/.cache/Cypress ~/.composer
           sudo chmod -R a+rwX ~/.cache ~/.composer
           sudo chmod -R a+rwX .
+          sudo chmod -R a+rwX node_modules front-packages || true
+
+      - name: Install JS dependencies
+        run: docker-compose run -u node --rm node yarn install --frozen-lockfile --no-progress
 
       - name: Copy docker-compose override
         run: cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
@@ -160,14 +161,15 @@ jobs:
             front-packages/shared/lib
           key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
 
-      - name: Install JS dependencies
-        run: docker-compose run -u node --rm node yarn install --frozen-lockfile --no-progress
-
       - name: Prepare filesystem permissions
         run: |
           mkdir -p ~/.cache/yarn ~/.cache/Cypress ~/.composer
           sudo chmod -R a+rwX ~/.cache ~/.composer
           sudo chmod -R a+rwX .
+          sudo chmod -R a+rwX node_modules front-packages || true
+
+      - name: Install JS dependencies
+        run: docker-compose run -u node --rm node yarn install --frozen-lockfile --no-progress
 
       - name: Copy docker-compose override
         run: cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
