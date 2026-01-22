@@ -19,11 +19,11 @@ use Akeneo\Pim\Enrichment\Product\API\Command\UserIntent\UserIntent;
 use Akeneo\Pim\Enrichment\Product\API\ValueObject\ProductIdentifier;
 use Akeneo\Test\Integration\Configuration;
 use Akeneo\Test\Integration\TestCase;
+use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
 use Doctrine\DBAL\Connection as DbalConnection;
 use Doctrine\DBAL\Types\Types;
 use PHPUnit\Framework\Assert;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
 
 /**
  * @author Pierre Jolly <pierre.jolly@akeneo.com>
