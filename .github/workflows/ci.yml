@@ -427,6 +427,10 @@ jobs:
   behat-legacy:
     runs-on: ubuntu-latest
     needs: prepare
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
     steps:
       - uses: actions/checkout@v4
 
@@ -489,13 +493,14 @@ jobs:
           fi
           echo "TESTSUITE=${TESTSUITE}" | tee -a "$GITHUB_ENV"
 
-      - name: Behat legacy end-to-end
+      - name: Behat legacy end-to-end (shard ${{ matrix.shard }})
         env:
           TESTSUITE: ${{ env.TESTSUITE }}
         run: |
           APP_ENV=behat C='httpd mysql elasticsearch object-storage selenium pubsub-emulator' make up
           docker/wait_docker_up.sh
           APP_ENV=behat make database
+          export BEHAT_SPLIT="${{ matrix.shard }}/4"
           PIM_CONTEXT=test make end-to-end-legacy SUITE=${TESTSUITE}
 
       - name: Upload behat artifacts
