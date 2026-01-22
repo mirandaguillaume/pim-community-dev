@@ -6,7 +6,7 @@ parameters:
         - src
     stubFiles:
         - tests/back/phpstan-stubs/firestore.php
-    autoload_files:
+    scanFiles:
         - tests/back/phpstan-stubs/firestore.php
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:

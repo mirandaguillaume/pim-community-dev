@@ -5,7 +5,7 @@ parameters:
     reportUnmatchedIgnoredErrors: false
     stubFiles:
         - tests/back/phpstan-stubs/firestore.php
-    autoload_files:
+    scanFiles:
         - tests/back/phpstan-stubs/firestore.php
     symfony:
         container_xml_path: %rootDir%/../../../var/cache/dev/KernelDevDebugContainer.xml
