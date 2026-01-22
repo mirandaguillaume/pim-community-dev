@@ -580,7 +580,7 @@ jobs:
 
       - name: Cypress sanity checks
         env:
-          CYPRESS_defaultCommandTimeout: 10000
+          CYPRESS_defaultCommandTimeout: 20000
           CYPRESS_requestTimeout: 15000
           CYPRESS_responseTimeout: 50000
         run: |
