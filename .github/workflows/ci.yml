@@ -181,7 +181,7 @@ jobs:
         run: docker-compose run --rm php php bin/console pim:installer:assets --symlink --clean --env=prod
 
       - name: Sync UI bundle sources to public (webpack entry)
-        run: docker-compose run --rm php sh -c "mkdir -p public/bundles/pimui && cp -a src/Akeneo/Platform/Bundle/UIBundle/Resources/public/. public/bundles/pimui/"
+        run: docker-compose run --rm php sh -c "[ -L public/bundles/pimui ] && exit 0; mkdir -p public/bundles/pimui && cp -a src/Akeneo/Platform/Bundle/UIBundle/Resources/public/. public/bundles/pimui/"
 
       - name: Dump JS routes
         run: docker-compose run --rm php sh -c "php bin/console fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json"
