@@ -12,6 +12,7 @@ use Akeneo\Connectivity\Connection\Domain\ValueObject\HourlyInterval;
 use Akeneo\Connectivity\Connection\Infrastructure\Audit\Persistence\DbalExtractConnectionsProductEventCountQuery;
 use Akeneo\Connectivity\Connection\Tests\CatalogBuilder\ConnectionLoader;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface;
+use Akeneo\Pim\Enrichment\Component\Product\Repository\ProductRepositoryInterface;
 use Akeneo\Pim\Enrichment\Product\API\Command\UpsertProductCommand;
 use Akeneo\Pim\Enrichment\Product\API\Command\UserIntent\SetEnabled;
 use Akeneo\Pim\Enrichment\Product\API\Command\UserIntent\UserIntent;
@@ -21,6 +22,8 @@ use Akeneo\Test\Integration\TestCase;
 use Doctrine\DBAL\Connection as DbalConnection;
 use Doctrine\DBAL\Types\Types;
 use PHPUnit\Framework\Assert;
+use Symfony\Component\Messenger\MessageBusInterface;
+use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
 
 /**
  * @author Pierre Jolly <pierre.jolly@akeneo.com>
@@ -33,6 +36,9 @@ class DbalExtractConnectionsProductEventCountQueryIntegration extends TestCase
     private ?ExtractConnectionsProductEventCountQueryInterface $extractConnectionsProductEventCountQuery;
     private ?DbalConnection $dbalConnection;
     private ?string $productClass;
+    private ?Client $client;
+    private ?MessageBusInterface $productMessageBus;
+    private ?ProductRepositoryInterface $productRepository;
 
     protected function setUp(): void
     {

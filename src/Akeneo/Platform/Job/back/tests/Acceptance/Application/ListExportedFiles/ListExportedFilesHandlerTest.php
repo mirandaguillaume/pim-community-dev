@@ -13,11 +13,21 @@ use Akeneo\Platform\Job\Application\ListExportedFiles\ListExportedFilesHandler;
 use Akeneo\Platform\Job\ServiceApi\JobExecution\ListExportedFiles\ListExportedFilesQuery;
 use Akeneo\Test\Integration\TestCase;
 use Akeneo\Tool\Bundle\BatchBundle\JobExecution\CreateJobExecutionHandlerInterface;
+use Akeneo\Tool\Bundle\BatchBundle\Job\JobInstanceRepository;
+use Akeneo\Tool\Bundle\BatchBundle\Job\JobRepository;
+use Akeneo\Tool\Bundle\BatchBundle\JobExecution\ExecuteJobExecutionHandlerInterface;
 use Ramsey\Uuid\Uuid;
 
 class ListExportedFilesHandlerTest extends TestCase
 {
     const JOB_INSTANCE_CODE = 'csv_product_export';
+
+    private ListExportedFilesHandler $handler;
+    private JobInstanceRepository $jobInstanceRepository;
+    private JobRepository $jobRepository;
+    private CreateJobExecutionHandlerInterface $createJobExecutionHandler;
+    private ExecuteJobExecutionHandlerInterface $executeJobExecutionHandler;
+    private string $adminId;
 
     protected function setUp(): void
     {
