@@ -14,8 +14,8 @@ use Akeneo\Platform\Job\ServiceApi\JobExecution\ListExportedFiles\ListExportedFi
 use Akeneo\Test\Integration\TestCase;
 use Akeneo\Tool\Bundle\BatchBundle\JobExecution\CreateJobExecutionHandlerInterface;
 use Akeneo\Tool\Bundle\BatchBundle\Job\JobInstanceRepository;
-use Akeneo\Tool\Bundle\BatchBundle\Job\JobRepository;
 use Akeneo\Tool\Bundle\BatchBundle\JobExecution\ExecuteJobExecutionHandlerInterface;
+use Akeneo\Tool\Component\Batch\Job\JobRepositoryInterface;
 use Ramsey\Uuid\Uuid;
 
 class ListExportedFilesHandlerTest extends TestCase
@@ -24,7 +24,7 @@ class ListExportedFilesHandlerTest extends TestCase
 
     private ListExportedFilesHandler $handler;
     private JobInstanceRepository $jobInstanceRepository;
-    private JobRepository $jobRepository;
+    private JobRepositoryInterface $jobRepository;
     private CreateJobExecutionHandlerInterface $createJobExecutionHandler;
     private ExecuteJobExecutionHandlerInterface $executeJobExecutionHandler;
     private string $adminId;

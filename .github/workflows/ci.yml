@@ -170,6 +170,9 @@ jobs:
       - name: Load PHP image
         run: docker load -i php-pim-image.tar
 
+      - name: Dump JS routes
+        run: docker-compose run --rm php sh -c "mkdir -p public/js && php bin/console fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json"
+
       - name: Generate require paths
         run: docker-compose run --rm php sh -c "mkdir -p public/js && php bin/console pim:installer:dump-require-paths"
 
