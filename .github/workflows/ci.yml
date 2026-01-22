@@ -76,6 +76,9 @@ jobs:
             front-packages/shared/lib
           key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
 
+      - name: Install JS dependencies
+        run: docker-compose run -u node --rm node yarn install --frozen-lockfile --no-progress
+
       - name: Prepare filesystem permissions
         run: |
           mkdir -p ~/.cache/yarn ~/.cache/Cypress ~/.composer
@@ -156,6 +159,9 @@ jobs:
             front-packages/akeneo-design-system/lib
             front-packages/shared/lib
           key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install JS dependencies
+        run: docker-compose run -u node --rm node yarn install --frozen-lockfile --no-progress
 
       - name: Prepare filesystem permissions
         run: |
