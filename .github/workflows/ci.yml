@@ -84,7 +84,10 @@ jobs:
           sudo chmod -R a+rwX node_modules front-packages || true
 
       - name: Install JS dependencies
-        run: docker-compose run -u node --rm node yarn install --frozen-lockfile --no-progress
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
 
       - name: Copy docker-compose override
         run: cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
@@ -95,7 +98,9 @@ jobs:
 
       - name: Install dependencies
         run: |
-          make YARN_RUN="docker-compose run -u node --rm -e YARN_REGISTRY -e PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 -e PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome node yarn --no-bin-links" dependencies
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          make YARN_RUN="docker-compose run --rm --user ${HOST_UID}:${HOST_GID} -e YARN_REGISTRY -e PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 -e PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome node yarn --no-bin-links" dependencies
 
       - name: Save PHP image
         run: docker save -o php-pim-image.tar akeneo/pim-php-dev:8.1
@@ -169,7 +174,10 @@ jobs:
           sudo chmod -R a+rwX node_modules front-packages || true
 
       - name: Install JS dependencies
-        run: docker-compose run -u node --rm node yarn install --frozen-lockfile --no-progress
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
 
       - name: Copy docker-compose override
         run: cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
