@@ -155,6 +155,21 @@ jobs:
       - name: Copy docker-compose override
         run: cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
 
+      - name: Restore composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-${{ runner.os }}-
+
+      - name: Ensure composer dependencies
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          if [ ! -f vendor/autoload.php ]; then
+            docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" php /usr/local/bin/composer install --no-interaction --prefer-dist --optimize-autoloader
+          fi
+
       - name: Start services
         run: |
           APP_ENV=test C='httpd mysql elasticsearch object-storage pubsub-emulator gcs-emulator' make up
