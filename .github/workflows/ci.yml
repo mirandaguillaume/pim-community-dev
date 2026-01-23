@@ -170,6 +170,11 @@ jobs:
             docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" php /usr/local/bin/composer install --no-interaction --prefer-dist --optimize-autoloader
           fi
 
+      - name: Fix cache/log permissions
+        run: |
+          mkdir -p var/cache/test var/logs
+          sudo chmod -R a+rwX var
+
       - name: Start services
         run: |
           APP_ENV=test C='httpd mysql elasticsearch object-storage pubsub-emulator gcs-emulator' make up
