@@ -73,7 +73,7 @@ final class GetNomenclatureControllerEndToEnd extends ControllerEndToEndTestCase
               "values": {}
             }
             JSON,
-            $response->getContent()
+            $response->getContent(),
         );
     }
 
@@ -91,7 +91,7 @@ final class GetNomenclatureControllerEndToEnd extends ControllerEndToEndTestCase
                 'type' => 'akeneo_reference_entity',
                 'group' => 'other',
                 'reference_data_name' => 'brand',
-            ]
+            ],
         );
 
         $this->createNomenclature('a_reference_entity_attribute', $values);

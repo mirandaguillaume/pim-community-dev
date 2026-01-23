@@ -112,7 +112,17 @@ const utils = {
             return __webpack_require__(paths[moduleName])
         }`;
 
-        writeFileSync(path.join(baseDir, './public/js/module-registry.js'), registry);
+        const target = path.join(baseDir, './public/js/module-registry.js');
+
+        try {
+            writeFileSync(target, registry);
+        } catch (error) {
+            if (error.code === 'EACCES') {
+                console.warn(`Skipping writing ${target} due to insufficient permissions. Using existing file.`);
+            } else {
+                throw error;
+            }
+        }
     }
 };
 
