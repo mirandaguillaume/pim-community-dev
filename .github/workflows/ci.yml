@@ -458,6 +458,7 @@ jobs:
         with:
           name: db-seed
           path: seed
+          merge-multiple: true
 
       - name: Prepare filesystem permissions
         run: |
@@ -621,6 +622,7 @@ jobs:
         with:
           name: db-seed
           path: seed
+          merge-multiple: true
 
       - name: Prepare filesystem permissions
         run: |
@@ -738,6 +740,7 @@ jobs:
         with:
           name: front-build
           path: front-build
+          merge-multiple: true
 
       - name: Restore built assets
         run: |
