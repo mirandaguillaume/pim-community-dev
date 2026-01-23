@@ -50,7 +50,7 @@ final class GetNomenclatureControllerEndToEnd extends ControllerEndToEndTestCase
                 'generate_if_empty' => false,
                 'values' => ['FamilyA1' => 'FA1', 'FamilyA2' => 'FA2'],
             ],
-            \json_decode($response->getContent(), true)
+            \json_decode($response->getContent(), true),
         );
     }
 
@@ -109,7 +109,7 @@ final class GetNomenclatureControllerEndToEnd extends ControllerEndToEndTestCase
                 'generate_if_empty' => false,
                 'values' => $values,
             ],
-            \json_decode($response->getContent(), true)
+            \json_decode($response->getContent(), true),
         );
     }
 
