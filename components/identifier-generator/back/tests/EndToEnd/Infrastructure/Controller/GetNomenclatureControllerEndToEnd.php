@@ -43,12 +43,15 @@ final class GetNomenclatureControllerEndToEnd extends ControllerEndToEndTestCase
         );
         $response = $this->client->getResponse();
         Assert::assertSame(Response::HTTP_OK, $response->getStatusCode());
-        Assert::assertEqualsCanonicalizing([
-            'operator' => '=',
-            'value' => 3,
-            'generate_if_empty' => false,
-            'values' => ['FamilyA1' => 'FA1', 'FamilyA2' => 'FA2'],
-        ], \json_decode($response->getContent(), true));
+        Assert::assertEqualsCanonicalizing(
+            [
+                'operator' => '=',
+                'value' => 3,
+                'generate_if_empty' => false,
+                'values' => ['FamilyA1' => 'FA1', 'FamilyA2' => 'FA2'],
+            ],
+            \json_decode($response->getContent(), true)
+        );
     }
 
     /** @test */
@@ -99,12 +102,15 @@ final class GetNomenclatureControllerEndToEnd extends ControllerEndToEndTestCase
         );
         $response = $this->client->getResponse();
         Assert::assertSame(Response::HTTP_OK, $response->getStatusCode());
-        Assert::assertEqualsCanonicalizing([
-            'operator' => '=',
-            'value' => 3,
-            'generate_if_empty' => false,
-            'values' => $values,
-        ], \json_decode($response->getContent(), true));
+        Assert::assertEqualsCanonicalizing(
+            [
+                'operator' => '=',
+                'value' => 3,
+                'generate_if_empty' => false,
+                'values' => $values,
+            ],
+            \json_decode($response->getContent(), true)
+        );
     }
 
     protected function getConfiguration(): Configuration

@@ -103,6 +103,10 @@ function writeExtensionsJSON(contents) {
         })
     } catch (e) {
         console.log('Error', e)
+        if (e.code === 'EACCES') {
+            console.log(`Skipping writing ${EXTENSIONS_JSON_PATH} due to insufficient permissions. Using existing file.`.yellow)
+            return
+        }
 
         process.exit(1)
     }
