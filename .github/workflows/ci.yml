@@ -185,7 +185,7 @@ jobs:
 
       - name: Dump database
         run: |
-          docker-compose exec -T mysql sh -c "mysqldump -uroot -proot pim" > db-seed.sql
+          docker-compose exec -T mysql sh -c "mysqldump -uroot -proot akeneo_pim_test" > db-seed.sql
 
       - name: Upload DB seed artifact
         uses: actions/upload-artifact@v4
@@ -473,7 +473,7 @@ jobs:
           APP_ENV=test C='httpd mysql elasticsearch object-storage pubsub-emulator gcs-emulator' make up
           docker/wait_docker_up.sh
           docker cp seed/db-seed.sql $(docker-compose ps -q mysql):/tmp/db-seed.sql
-          docker-compose exec -T mysql sh -c "mysql -uroot -proot pim < /tmp/db-seed.sql"
+          docker-compose exec -T mysql sh -c "mysql -uroot -proot akeneo_pim_test < /tmp/db-seed.sql"
           PIM_CONTEXT=test make pim-integration-back
           PIM_CONTEXT=test make end-to-end-back
 
