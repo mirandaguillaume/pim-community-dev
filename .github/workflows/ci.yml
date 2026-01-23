@@ -601,6 +601,20 @@ jobs:
       - name: Copy docker-compose override
         run: cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
 
+      - name: Install JS dependencies
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
+
+      - name: Build front assets for e2e
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          make YARN_RUN="docker-compose run --rm --user ${HOST_UID}:${HOST_GID} -e YARN_REGISTRY -e PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 -e PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome node yarn --no-bin-links" \
+               NODE_RUN="docker-compose run --rm --user ${HOST_UID}:${HOST_GID} -e YARN_REGISTRY -e PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 -e PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome node" \
+               front
+
       - name: Cypress sanity checks
         env:
           CYPRESS_defaultCommandTimeout: 40000
