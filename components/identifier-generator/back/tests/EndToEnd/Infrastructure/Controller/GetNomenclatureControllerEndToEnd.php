@@ -122,11 +122,13 @@ final class GetNomenclatureControllerEndToEnd extends ControllerEndToEndTestCase
 
     protected function getConfiguration(): Configuration
     {
+
         return $this->catalog->useTechnicalCatalog(['identifier_generator']);
     }
 
     private function getUpdateNomenclatureHandler(): UpdateNomenclatureHandler
     {
+
         return $this->get('Akeneo\Pim\Automation\IdentifierGenerator\Application\Update\UpdateNomenclatureHandler');
     }
 
