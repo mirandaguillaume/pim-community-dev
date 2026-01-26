@@ -23,18 +23,12 @@ on:
       - '.github/dependabot.yml'
   workflow_dispatch:
 
-permissions:
-  contents: read
-  packages: write
-
 env:
   CACHE_VERSION: v1
   YARN_REGISTRY: https://registry.yarnpkg.com
   COMPOSER_MEMORY_LIMIT: -1
   DOCKER_BUILDKIT: 1
   YARN_ENABLE_IMMUTABLE_INSTALLS: true
-  PHP_IMAGE: ghcr.io/${{ github.repository_owner }}/pim-php-dev:${{ github.sha }}
-  PHP_IMAGE_CACHE: ghcr.io/${{ github.repository_owner }}/pim-php-dev:buildcache
 
 defaults:
   run:
@@ -150,23 +144,16 @@ jobs:
           fi
           docker-compose version
 
-      - name: Login to GHCR
-        uses: docker/login-action@v3
+      - name: Download PHP image
+        uses: actions/download-artifact@v4
         with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          name: php-pim-image
 
-      - name: Pull PHP image
-        run: docker pull "$PHP_IMAGE"
+      - name: Load PHP image
+        run: docker load -i php-pim-image.tar
 
       - name: Copy docker-compose override
-        run: |
-          cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
-          cat <<'YML' >> docker-compose.override.yml
-  php:
-    image: ${PHP_IMAGE}
-YML
+        run: cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
 
       - name: Restore composer dependencies
         uses: actions/cache@v4
@@ -265,16 +252,6 @@ YML
           key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
           restore-keys: yarn-${{ runner.os }}-
 
-      - name: Login to GHCR
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Pull PHP image
-        run: docker pull "$PHP_IMAGE"
-
       - name: Prepare filesystem permissions
         run: |
           mkdir -p ~/.cache/yarn ~/.cache/Cypress ~/.composer
@@ -289,12 +266,15 @@ YML
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
 
       - name: Copy docker-compose override
-        run: |
-          cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
-          cat <<'YML' >> docker-compose.override.yml
-  php:
-    image: ${PHP_IMAGE}
-YML
+        run: cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
+
+      - name: Download PHP image
+        uses: actions/download-artifact@v4
+        with:
+          name: php-pim-image
+
+      - name: Load PHP image
+        run: docker load -i php-pim-image.tar
 
       - name: Prepare frontend directories
         run: docker-compose run --rm php sh -c "mkdir -p public/js public/bundles"
@@ -386,15 +366,13 @@ YML
           key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
           restore-keys: yarn-${{ runner.os }}-
 
-      - name: Login to GHCR
-        uses: docker/login-action@v3
+      - name: Download PHP image
+        uses: actions/download-artifact@v4
         with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          name: php-pim-image
 
-      - name: Pull PHP image
-        run: docker pull "$PHP_IMAGE"
+      - name: Load PHP image
+        run: docker load -i php-pim-image.tar
 
       - name: Prepare filesystem permissions
         run: |
@@ -403,12 +381,7 @@ YML
           sudo chmod -R a+rwX .
 
       - name: Copy docker-compose override
-        run: |
-          cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
-          cat <<'YML' >> docker-compose.override.yml
-  php:
-    image: ${PHP_IMAGE}
-YML
+        run: cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
 
       - name: Back static, lint, and acceptance
         run: |
@@ -472,15 +445,13 @@ YML
           key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
           restore-keys: composer-${{ runner.os }}-
 
-      - name: Login to GHCR
-        uses: docker/login-action@v3
+      - name: Download PHP image
+        uses: actions/download-artifact@v4
         with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          name: php-pim-image
 
-      - name: Pull PHP image
-        run: docker pull "$PHP_IMAGE"
+      - name: Load PHP image
+        run: docker load -i php-pim-image.tar
 
       - name: Download DB seed
         uses: actions/download-artifact@v4
@@ -496,12 +467,7 @@ YML
           sudo chmod -R a+rwX .
 
       - name: Copy docker-compose override
-        run: |
-          cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
-          cat <<'YML' >> docker-compose.override.yml
-  php:
-    image: ${PHP_IMAGE}
-YML
+        run: cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
 
       - name: PhpUnit integration and end-to-end
         run: |
@@ -564,15 +530,13 @@ YML
           key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
           restore-keys: composer-${{ runner.os }}-
 
-      - name: Login to GHCR
-        uses: docker/login-action@v3
+      - name: Download PHP image
+        uses: actions/download-artifact@v4
         with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          name: php-pim-image
 
-      - name: Pull PHP image
-        run: docker pull "$PHP_IMAGE"
+      - name: Load PHP image
+        run: docker load -i php-pim-image.tar
 
       - name: Prepare filesystem permissions
         run: |
@@ -581,12 +545,7 @@ YML
           sudo chmod -R a+rwX .
 
       - name: Copy docker-compose override
-        run: |
-          cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
-          cat <<'YML' >> docker-compose.override.yml
-  php:
-    image: ${PHP_IMAGE}
-YML
+        run: cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
 
       - name: Data migrations
         run: |
@@ -652,15 +611,13 @@ YML
           key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
           restore-keys: composer-${{ runner.os }}-
 
-      - name: Login to GHCR
-        uses: docker/login-action@v3
+      - name: Download PHP image
+        uses: actions/download-artifact@v4
         with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          name: php-pim-image
 
-      - name: Pull PHP image
-        run: docker pull "$PHP_IMAGE"
+      - name: Load PHP image
+        run: docker load -i php-pim-image.tar
 
       - name: Download DB seed
         uses: actions/download-artifact@v4
@@ -676,12 +633,7 @@ YML
           sudo chmod -R a+rwX .
 
       - name: Copy docker-compose override
-        run: |
-          cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
-          cat <<'YML' >> docker-compose.override.yml
-  php:
-    image: ${PHP_IMAGE}
-YML
+        run: cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
 
       - name: Compute Behat suite
         run: |
@@ -772,15 +724,13 @@ YML
           key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
           restore-keys: yarn-${{ runner.os }}-
 
-      - name: Login to GHCR
-        uses: docker/login-action@v3
+      - name: Download PHP image
+        uses: actions/download-artifact@v4
         with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          name: php-pim-image
 
-      - name: Pull PHP image
-        run: docker pull "$PHP_IMAGE"
+      - name: Load PHP image
+        run: docker load -i php-pim-image.tar
 
       - name: Prepare filesystem permissions
         run: |
@@ -789,12 +739,7 @@ YML
           sudo chmod -R a+rwX .
 
       - name: Copy docker-compose override
-        run: |
-          cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
-          cat <<'YML' >> docker-compose.override.yml
-  php:
-    image: ${PHP_IMAGE}
-YML
+        run: cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
 
       - name: Fix cache/log permissions
         run: |
