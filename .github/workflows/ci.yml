@@ -473,7 +473,8 @@ jobs:
         run: |
           APP_ENV=test C='httpd mysql elasticsearch object-storage pubsub-emulator gcs-emulator' make up
           docker/wait_docker_up.sh
-          docker cp seed/db-seed.sql $(docker-compose ps -q mysql):/tmp/db-seed.sql
+          docker-compose exec -T mysql sh -c "mysql -uroot -proot -e \"CREATE DATABASE IF NOT EXISTS akeneo_pim_test\""
+          docker-compose exec -T mysql sh -c "cat > /tmp/db-seed.sql" < seed/db-seed.sql
           docker-compose exec -T mysql sh -c "mysql -uroot -proot akeneo_pim_test < /tmp/db-seed.sql"
           PIM_CONTEXT=test make pim-integration-back
           PIM_CONTEXT=test make end-to-end-back
@@ -650,6 +651,7 @@ jobs:
           APP_ENV=behat C='httpd mysql elasticsearch object-storage selenium pubsub-emulator' make up
           docker/wait_docker_up.sh
           ls -l seed
+          docker-compose exec -T mysql sh -c "mysql -uroot -proot -e \"CREATE DATABASE IF NOT EXISTS pim\""
           docker-compose exec -T mysql sh -c "cat > /tmp/db-seed.sql" < seed/db-seed.sql
           docker-compose exec -T mysql sh -c "mysql -uroot -proot pim < /tmp/db-seed.sql"
           export BEHAT_SPLIT="${{ matrix.shard }}/${{ env.TOTAL_SHARDS }}"
