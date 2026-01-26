@@ -649,7 +649,8 @@ jobs:
         run: |
           APP_ENV=behat C='httpd mysql elasticsearch object-storage selenium pubsub-emulator' make up
           docker/wait_docker_up.sh
-          docker cp seed/db-seed.sql $(docker-compose ps -q mysql):/tmp/db-seed.sql
+          ls -l seed
+          docker-compose exec -T mysql sh -c "cat > /tmp/db-seed.sql" < seed/db-seed.sql
           docker-compose exec -T mysql sh -c "mysql -uroot -proot pim < /tmp/db-seed.sql"
           export BEHAT_SPLIT="${{ matrix.shard }}/${{ env.TOTAL_SHARDS }}"
           PIM_CONTEXT=test make end-to-end-legacy SUITE=${TESTSUITE}
@@ -745,9 +746,9 @@ jobs:
       - name: Restore built assets
         run: |
           mkdir -p public/dist public/js var/build
-          cp -a front-build/dist/. public/dist/
-          cp -a front-build/js/. public/js/
-          cp -a front-build/module-registry.js var/build/module-registry.js
+          cp -a front-build/public/dist/. public/dist/
+          cp -a front-build/public/js/. public/js/
+          cp -a front-build/var/build/module-registry.js var/build/module-registry.js
 
       - name: Cypress sanity checks
         env:
