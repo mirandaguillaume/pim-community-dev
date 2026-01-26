@@ -32,10 +32,13 @@ final class GetNomenclatureControllerEndToEnd extends ControllerEndToEndTestCase
     public function it_should_get_an_existing_family_nomenclature(): void
     {
         $this->loginAs('Julia');
-        $this->createNomenclature('family', [
-            'familyA1' => 'FA1',
-            'familyA2' => 'FA2',
-        ]);
+        $this->createNomenclature(
+            'family',
+            [
+                'familyA1' => 'FA1',
+                'familyA2' => 'FA2',
+            ],
+        );
 
         $this->callRoute(
             'akeneo_identifier_generator_nomenclature_rest_get',
@@ -95,7 +98,10 @@ final class GetNomenclatureControllerEndToEnd extends ControllerEndToEndTestCase
             ],
         );
 
-        $this->createNomenclature('a_reference_entity_attribute', $values);
+        $this->createNomenclature(
+            'a_reference_entity_attribute',
+            $values,
+        );
         $this->callRoute(
             'akeneo_identifier_generator_nomenclature_rest_get',
             ['HTTP_X-Requested-With' => 'XMLHttpRequest'],
