@@ -476,7 +476,7 @@ jobs:
           docker-compose exec -T mysql sh -c "mysql -uroot -proot -e \"CREATE DATABASE IF NOT EXISTS akeneo_pim_test\""
           docker-compose exec -T mysql sh -c "cat > /tmp/db-seed.sql" < seed/db-seed.sql
           docker-compose exec -T mysql sh -c "mysql -uroot -proot akeneo_pim_test < /tmp/db-seed.sql"
-          docker-compose run --rm php php bin/console akeneo:elasticsearch:create-indexes --env=test
+          docker-compose run --rm php php bin/console akeneo:elasticsearch:reset-indexes --env=test
           PIM_CONTEXT=test make pim-integration-back
           PIM_CONTEXT=test make end-to-end-back
 
@@ -655,7 +655,7 @@ jobs:
           docker-compose exec -T mysql sh -c "mysql -uroot -proot -e \"CREATE DATABASE IF NOT EXISTS pim\""
           docker-compose exec -T mysql sh -c "cat > /tmp/db-seed.sql" < seed/db-seed.sql
           docker-compose exec -T mysql sh -c "mysql -uroot -proot pim < /tmp/db-seed.sql"
-          docker-compose run --rm php php bin/console akeneo:elasticsearch:create-indexes --env=test
+          docker-compose run --rm php php bin/console akeneo:elasticsearch:reset-indexes --env=test
           export BEHAT_SPLIT="${{ matrix.shard }}/${{ env.TOTAL_SHARDS }}"
           PIM_CONTEXT=test make end-to-end-legacy SUITE=${TESTSUITE}
 
