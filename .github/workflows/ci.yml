@@ -654,18 +654,20 @@ jobs:
           docker-compose exec -T mysql sh -c "mysql -uroot -proot -e \"CREATE DATABASE IF NOT EXISTS pim\""
           docker-compose exec -T mysql sh -c "cat > /tmp/db-seed.sql" < seed/db-seed.sql
           docker-compose exec -T mysql sh -c "mysql -uroot -proot pim < /tmp/db-seed.sql"
+          docker-compose exec -T php php bin/console akeneo:elasticsearch:create-indexes --env=test
           export BEHAT_SPLIT="${{ matrix.shard }}/${{ env.TOTAL_SHARDS }}"
           PIM_CONTEXT=test make end-to-end-legacy SUITE=${TESTSUITE}
+
+      - name: Archive behat artifacts
+        if: always()
+        run: tar -czf behat-artifacts.tar.gz var/tests/behat var/tests/screenshots var/logs || true
 
       - name: Upload behat artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: behat-artifacts
-          path: |
-            var/tests/behat
-            var/tests/screenshots
-            var/logs
+          path: behat-artifacts.tar.gz
 
   cypress:
     runs-on: ubuntu-latest
@@ -737,6 +739,11 @@ jobs:
 
       - name: Copy docker-compose override
         run: cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
+
+      - name: Fix cache/log permissions
+        run: |
+          mkdir -p var/cache/prod var/logs
+          sudo chmod -R a+rwX var
 
       - name: Download front build artifact
         uses: actions/download-artifact@v4
