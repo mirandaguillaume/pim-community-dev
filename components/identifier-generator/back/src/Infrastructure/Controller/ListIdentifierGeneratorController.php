@@ -22,8 +22,7 @@ final class ListIdentifierGeneratorController
     public function __construct(
         private readonly GetGeneratorsHandler $getGeneratorsHandler,
         private readonly SecurityFacadeInterface $security,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): Response
     {

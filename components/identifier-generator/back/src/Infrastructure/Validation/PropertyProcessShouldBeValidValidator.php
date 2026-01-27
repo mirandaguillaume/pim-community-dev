@@ -22,8 +22,7 @@ final class PropertyProcessShouldBeValidValidator extends ConstraintValidator
 {
     public function __construct(
         private readonly ValidatorInterface $validator,
-    ) {
-    }
+    ) {}
 
     public function validate($process, Constraint $constraint): void
     {

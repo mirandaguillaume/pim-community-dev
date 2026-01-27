@@ -23,8 +23,7 @@ final class GetIdentifierAttributesController
         private readonly FindFlattenAttributesInterface $findFlattenAttributes,
         private readonly UserContext $userContext,
         private readonly SecurityFacadeInterface $security,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): Response
     {
@@ -43,7 +42,7 @@ final class GetIdentifierAttributesController
             [AttributeTypes::IDENTIFIER]
         );
 
-        $normalizeAttribute = static fn (FlattenAttribute $attribute): array =>[
+        $normalizeAttribute = static fn(FlattenAttribute $attribute): array => [
             'code' => $attribute->getCode(),
             'label' => $attribute->getLabel(),
         ];

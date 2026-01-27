@@ -21,9 +21,7 @@ final class UnableToSetIdentifiersSubscriber implements EventSubscriberInterface
     /** @var UnableToSetIdentifierEvent[] */
     private array $events = [];
 
-    public function __construct(private JobRepositoryInterface $jobRepository)
-    {
-    }
+    public function __construct(private JobRepositoryInterface $jobRepository) {}
 
     public static function getSubscribedEvents(): array
     {
@@ -39,7 +37,7 @@ final class UnableToSetIdentifiersSubscriber implements EventSubscriberInterface
         $warnings = [];
         foreach ($this->events as $event) {
             $exception = $event->getException();
-            $warnings[]= new Warning(
+            $warnings[] = new Warning(
                 $stepExecution,
                 $exception->getMessage(),
                 [],

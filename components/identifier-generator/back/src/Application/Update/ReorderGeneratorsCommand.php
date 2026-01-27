@@ -15,9 +15,7 @@ final class ReorderGeneratorsCommand
     /**
      * @param IdentifierGeneratorCode[] $codes
      */
-    private function __construct(public readonly array $codes)
-    {
-    }
+    private function __construct(public readonly array $codes) {}
 
     /**
      * @param string[] $codes
@@ -25,7 +23,7 @@ final class ReorderGeneratorsCommand
     public static function fromCodes(array $codes): self
     {
         return new self(\array_map(
-            static fn (string $code): IdentifierGeneratorCode => IdentifierGeneratorCode::fromString($code),
+            static fn(string $code): IdentifierGeneratorCode => IdentifierGeneratorCode::fromString($code),
             $codes
         ));
     }

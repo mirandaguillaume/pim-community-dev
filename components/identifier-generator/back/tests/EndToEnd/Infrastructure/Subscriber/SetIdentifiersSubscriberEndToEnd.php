@@ -54,7 +54,7 @@ class SetIdentifiersSubscriberEndToEnd extends EndToEndTestCase
     {
         $this->createSimpleSelectAttributeWithOption('brand', true, true, 'akeneo');
         $this->createSimpleSelectAttributeWithOption('clothing_size', false, false, 'medium');
-        $this->createIdentifierGenerator(structure:[
+        $this->createIdentifierGenerator(structure: [
             [
                 'type' => 'simple_select',
                 'attributeCode' => 'brand',
@@ -109,7 +109,7 @@ class SetIdentifiersSubscriberEndToEnd extends EndToEndTestCase
             'white' => 'whi',
         ]);
 
-        $this->createIdentifierGenerator(structure:[
+        $this->createIdentifierGenerator(structure: [
             [
                 'type' => 'reference_entity',
                 'attributeCode' => 'a_reference_entity_attribute',
@@ -137,7 +137,7 @@ class SetIdentifiersSubscriberEndToEnd extends EndToEndTestCase
 
         Assert::assertSame(
             ['akn-050-my_family', 'akn-051-my_family', 'akn-052-my_family', 'akn-053-my_family', 'akn-054-my_family'],
-            \array_map(fn (ProductInterface $product): ?string => $product->getIdentifier(), $productsFromDatabase)
+            \array_map(fn(ProductInterface $product): ?string => $product->getIdentifier(), $productsFromDatabase)
         );
     }
 

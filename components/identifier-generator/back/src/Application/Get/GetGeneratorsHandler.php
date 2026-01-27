@@ -17,8 +17,7 @@ final class GetGeneratorsHandler
 {
     public function __construct(
         private readonly IdentifierGeneratorRepository $identifierGeneratorRepository,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<NormalizedIdentifierGenerator>
@@ -27,6 +26,6 @@ final class GetGeneratorsHandler
     {
         $identifiersGenerators = $this->identifierGeneratorRepository->getAll();
 
-        return \array_map(fn ($identifierGenerator) => $identifierGenerator->normalize(), $identifiersGenerators);
+        return \array_map(fn($identifierGenerator) => $identifierGenerator->normalize(), $identifiersGenerators);
     }
 }

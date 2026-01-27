@@ -56,7 +56,7 @@ class SqlIdentifierGeneratorRepositoryIntegration extends TestCase
     /** @test */
     public function it_updates_an_identifier_generator(): void
     {
-        $identifierGenerator =$this->getIdentifierGenerator(code: 'identifier_generator0');
+        $identifierGenerator = $this->getIdentifierGenerator(code: 'identifier_generator0');
         $this->identifierGeneratorRepository->save($identifierGenerator);
 
         $this->identifierGeneratorRepository->update(

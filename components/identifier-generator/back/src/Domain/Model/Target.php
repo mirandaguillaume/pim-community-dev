@@ -15,8 +15,7 @@ final class Target
 {
     private function __construct(
         private string $attributeCode,
-    ) {
-    }
+    ) {}
 
     public static function fromString(string $attributeCode): self
     {

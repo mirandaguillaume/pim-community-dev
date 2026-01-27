@@ -29,8 +29,7 @@ final class PropertyProcessApplier
         private readonly SimpleSelectNomenclatureRepository $simpleSelectNomenclatureRepository,
         private readonly GetAttributes $getAttributes,
         private readonly ReferenceEntityNomenclatureRepository $referenceEntityNomenclatureRepository,
-    ) {
-    }
+    ) {}
 
     public function apply(
         Process $process,

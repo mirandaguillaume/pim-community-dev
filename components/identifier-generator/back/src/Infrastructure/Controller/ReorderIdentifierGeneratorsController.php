@@ -23,8 +23,7 @@ final class ReorderIdentifierGeneratorsController
     public function __construct(
         private readonly ReorderGeneratorsHandler $handler,
         private readonly SecurityFacadeInterface $security,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): Response
     {

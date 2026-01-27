@@ -31,8 +31,7 @@ final class StructureContext implements Context
         private readonly FindFamilyCodes $findFamilyCodes,
         private readonly ChannelRepositoryInterface $channelRepository,
         private readonly CategoryRepositoryInterface $categoryRepository,
-    ) {
-    }
+    ) {}
 
     /**
      * @Given /^the '(?P<attributeCode>[^']*)'(?P<localizable> localizable)?(?: and)?(?P<scopable> scopable)? attribute of type '(?P<attributeType>[^']*)'$/

@@ -18,8 +18,7 @@ final class GenerateFamilyHandler implements GeneratePropertyHandlerInterface
 {
     public function __construct(
         private readonly PropertyProcessApplier $processApplier,
-    ) {
-    }
+    ) {}
 
     public function __invoke(
         PropertyInterface $familyProperty,

@@ -22,8 +22,7 @@ class BaseCreateOrUpdateIdentifierGenerator
         protected readonly ViolationsContext $violationsContext,
         protected readonly CreateGeneratorHandler $createGeneratorHandler,
         protected readonly UpdateGeneratorHandler $updateGeneratorHandler,
-    ) {
-    }
+    ) {}
 
     protected function tryToCreateGenerator(
         ?string $code = null,
@@ -75,7 +74,7 @@ class BaseCreateOrUpdateIdentifierGenerator
 
     protected function getValidCondition(string $type, ?string $operator = null): array
     {
-        switch($type) {
+        switch ($type) {
             case 'enabled': return [
                 'type' => 'enabled',
                 'value' => true,

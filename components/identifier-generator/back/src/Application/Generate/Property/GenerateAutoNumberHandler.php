@@ -19,8 +19,7 @@ final class GenerateAutoNumberHandler implements GeneratePropertyHandlerInterfac
 {
     public function __construct(
         private GetNextIdentifierQuery $getNextIdentifierQuery
-    ) {
-    }
+    ) {}
 
     public function __invoke(
         PropertyInterface $autoNumber,

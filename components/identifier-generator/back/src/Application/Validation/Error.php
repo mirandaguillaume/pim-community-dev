@@ -19,8 +19,7 @@ final class Error
         private readonly string $message,
         private readonly array $parameters = [],
         private readonly ?string $path = null
-    ) {
-    }
+    ) {}
 
     public function getMessage(): string
     {

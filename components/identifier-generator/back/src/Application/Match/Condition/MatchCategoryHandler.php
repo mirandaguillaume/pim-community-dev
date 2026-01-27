@@ -19,8 +19,7 @@ final class MatchCategoryHandler implements MatchConditionHandler
 {
     public function __construct(
         private readonly CategoriesHaveAtLeastOneChild $categoriesHaveAtLeastOneChild,
-    ) {
-    }
+    ) {}
 
     public function getConditionClass(): string
     {
