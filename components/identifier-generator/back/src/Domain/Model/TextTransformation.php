@@ -23,8 +23,7 @@ final class TextTransformation
      */
     private function __construct(
         private readonly string $value
-    ) {
-    }
+    ) {}
 
     public static function fromString(string $value): self
     {

@@ -1,6 +1,8 @@
 describe('edit product sanity check', () => {
   it('User can enrich the first product of the products grid', () => {
     cy.login('admin', 'admin');
+    cy.get('.AknDefault-progressContainer', {timeout: 120000}).should('not.exist');
+    cy.get('.hash-loading-mask', {timeout: 120000}).should('not.exist');
     cy.goToProductsGrid();
     cy.selectFirstProductInDatagrid();
     cy.findFirstTextField().clear().type('updated value');

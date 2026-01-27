@@ -14,9 +14,7 @@ use Doctrine\DBAL\Connection;
  */
 final class SqlReorderIdentifierGenerators implements ReorderIdentifierGenerators
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     /**
      * {inheritdoc}
@@ -27,10 +25,10 @@ final class SqlReorderIdentifierGenerators implements ReorderIdentifierGenerator
             'SELECT code FROM pim_catalog_identifier_generator ORDER BY sort_order ASC;'
         )->fetchFirstColumn();
 
-        $newCodes = \array_map(static fn (IdentifierGeneratorCode $code): string => $code->asString(), $codes);
+        $newCodes = \array_map(static fn(IdentifierGeneratorCode $code): string => $code->asString(), $codes);
         $newCodes = \array_filter(
             $newCodes,
-            static fn (string $code): bool => \in_array($code, $formerCodes)
+            static fn(string $code): bool => \in_array($code, $formerCodes)
         );
         $nonMappedCodes = \array_diff($formerCodes, $newCodes);
         $newCodes = \array_values(\array_merge($newCodes, $nonMappedCodes));

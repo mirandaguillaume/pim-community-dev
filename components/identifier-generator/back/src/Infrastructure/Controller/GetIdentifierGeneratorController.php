@@ -23,8 +23,7 @@ final class GetIdentifierGeneratorController
     public function __construct(
         private readonly GetGeneratorHandler $getGeneratorHandler,
         private readonly SecurityFacadeInterface $security,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, string $code): Response
     {

@@ -20,8 +20,7 @@ final class LabelCollection
      */
     public function __construct(
         private readonly array $labels,
-    ) {
-    }
+    ) {}
 
     /**
      * @param array<string, string> $normalizedLabels
@@ -32,7 +31,7 @@ final class LabelCollection
         Assert::allString($normalizedLabels);
         Assert::allStringNotEmpty(\array_keys($normalizedLabels));
 
-        return new self(\array_filter($normalizedLabels, static fn (string $label): bool => '' !== \trim($label)));
+        return new self(\array_filter($normalizedLabels, static fn(string $label): bool => '' !== \trim($label)));
     }
 
     /**

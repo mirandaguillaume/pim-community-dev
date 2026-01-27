@@ -32,8 +32,7 @@ final class MultiSelect implements ConditionInterface
         private readonly ?array $value = null,
         private readonly ?string $scope = null,
         private readonly ?string $locale = null,
-    ) {
-    }
+    ) {}
 
     /**
      * @return 'multi_select'
@@ -96,7 +95,7 @@ final class MultiSelect implements ConditionInterface
             'value' => $this->value,
             'scope' => $this->scope,
             'locale' => $this->locale,
-        ], fn (mixed $var): bool => null !== $var);
+        ], fn(mixed $var): bool => null !== $var);
     }
 
     public function attributeCode(): string

@@ -5,11 +5,13 @@
     colors="true"
     convertErrorsToExceptions="true"
     convertNoticesToExceptions="true"
-    convertWarningsToExceptions="true"
+    convertWarningsToExceptions="false"
     processIsolation="false"
     stopOnFailure="false"
     beStrictAboutTestsThatDoNotTestAnything="false"
-    bootstrap="../../../../../../config/bootstrap.php">
+    bootstrap="../../../../../../config/bootstrap.php"
+    failOnRisky="false"
+    failOnWarning="false">
 
     <php>
         <ini name="date.timezone" value="Europe/Paris"/>

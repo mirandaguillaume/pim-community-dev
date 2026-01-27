@@ -31,8 +31,7 @@ final class UpdateNomenclatureHandler
         private readonly GetNomenclatureHandler $getNomenclatureHandler,
         private readonly GetAttributes $getAttributes,
         private readonly ReferenceEntityNomenclatureRepository $referenceEntityNomenclatureRepository,
-    ) {
-    }
+    ) {}
 
     public function __invoke(UpdateNomenclatureCommand $command): void
     {

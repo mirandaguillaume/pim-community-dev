@@ -21,8 +21,7 @@ final class UpdateNomenclatureCommand implements CommandInterface
         private readonly ?int $value,
         private readonly ?bool $generateIfEmpty,
         private readonly ?array $values = [],
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<string, ?string>

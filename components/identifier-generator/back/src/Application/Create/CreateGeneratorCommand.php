@@ -25,6 +25,5 @@ final class CreateGeneratorCommand implements CommandInterface
         public readonly string $target,
         public readonly ?string $delimiter,
         public readonly string $textTransformation,
-    ) {
-    }
+    ) {}
 }

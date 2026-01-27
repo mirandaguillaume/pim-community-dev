@@ -32,10 +32,14 @@ Cypress.Commands.add('login', (username, password) => {
   cy.get('input[name="_username"]').type(username);
   cy.get('input[name="_password"]').type(password);
   cy.findByRole('button', {name: "Login"}).click();
+
+  // Wait for the SPA loader to disappear before interacting with the app
+  cy.get('.AknDefault-progressContainer', {timeout: 120000}).should('not.exist');
+  cy.get('.hash-loading-mask', {timeout: 120000}).should('not.exist');
 });
 
 Cypress.Commands.add('goToProductsGrid', () => {
-  cy.findByRole('menuitem', {name: 'Activity'}).should('has.class', 'active');
+  cy.findByRole('menuitem', {name: 'Activity'}).should('have.class', 'active');
 
   cy.findByText('Products').click();
 

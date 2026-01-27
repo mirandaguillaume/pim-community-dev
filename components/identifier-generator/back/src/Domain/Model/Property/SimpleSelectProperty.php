@@ -31,8 +31,7 @@ final class SimpleSelectProperty implements PropertyInterface
         private readonly Process $process,
         private readonly ?string $scope = null,
         private readonly ?string $locale = null
-    ) {
-    }
+    ) {}
 
     public static function type(): string
     {

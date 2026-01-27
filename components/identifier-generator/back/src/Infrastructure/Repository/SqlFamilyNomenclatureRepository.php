@@ -18,8 +18,7 @@ class SqlFamilyNomenclatureRepository implements FamilyNomenclatureRepository
 {
     public function __construct(
         private readonly Connection $connection,
-    ) {
-    }
+    ) {}
 
     public function get(): ?NomenclatureDefinition
     {

@@ -22,8 +22,7 @@ final class UpdateFamilyNomenclatureContext implements Context
         private readonly ViolationsContext $violationsContext,
         private readonly FamilyNomenclatureRepository $nomenclatureRepository,
         private readonly UpdateNomenclatureHandler $updateNomenclatureValuesHandler,
-    ) {
-    }
+    ) {}
 
     /**
      * @Given a family nomenclature with the following values

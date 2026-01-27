@@ -18,8 +18,7 @@ final class GenerateReferenceEntityHandler implements GeneratePropertyHandlerInt
 {
     public function __construct(
         private readonly PropertyProcessApplier $propertyProcessApplier
-    ) {
-    }
+    ) {}
 
     public function getPropertyClass(): string
     {

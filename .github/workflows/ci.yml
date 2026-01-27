@@ -1,0 +1,883 @@
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+name: CI
+
+on:
+  pull_request:
+    paths-ignore:
+      - '**/*.md'
+      - 'docs/**'
+      - 'CHANGELOG*'
+      - '.github/ISSUE_TEMPLATE/**'
+      - '.github/dependabot.yml'
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - '**/*.md'
+      - 'docs/**'
+      - 'CHANGELOG*'
+      - '.github/ISSUE_TEMPLATE/**'
+      - '.github/dependabot.yml'
+  workflow_dispatch:
+
+env:
+  CACHE_VERSION: v1
+  YARN_REGISTRY: https://registry.yarnpkg.com
+  COMPOSER_MEMORY_LIMIT: -1
+  DOCKER_BUILDKIT: 1
+  YARN_ENABLE_IMMUTABLE_INSTALLS: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  image:
+    uses: ./.github/workflows/reusable-image.yml
+
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    needs: image
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Ensure docker-compose is available
+        run: |
+          set -euo pipefail
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+            exit 0
+          fi
+
+          for path in /usr/libexec/docker/cli-plugins/docker-compose /usr/lib/docker/cli-plugins/docker-compose; do
+            if [ -x "$path" ]; then
+              sudo ln -sf "$path" /usr/local/bin/docker-compose
+              break
+            fi
+          done
+
+          if ! command -v docker-compose >/dev/null && docker compose version >/dev/null 2>&1; then
+            printf '%s\n' '#!/usr/bin/env bash' 'exec docker compose "$@"' | sudo tee /usr/local/bin/docker-compose >/dev/null
+            sudo chmod +x /usr/local/bin/docker-compose
+          fi
+
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+          else
+            echo "docker-compose is not available" >&2
+            exit 1
+          fi
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: yarn
+          cache-dependency-path: yarn.lock
+
+      - name: Restore composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-${{ runner.os }}-
+
+      - name: Restore front caches
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            front-packages/akeneo-design-system/lib
+            front-packages/shared/lib
+            ~/.cache/Cypress
+          key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: yarn-${{ runner.os }}-
+
+      - name: Prepare filesystem permissions
+        run: |
+          mkdir -p ~/.cache/yarn ~/.cache/Cypress ~/.composer
+          sudo chmod -R a+rwX ~/.cache ~/.composer
+          sudo chmod -R a+rwX .
+          sudo chmod -R a+rwX node_modules front-packages || true
+
+      - name: Install JS dependencies
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
+
+      - name: Copy docker-compose override
+        run: cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
+      - name: Install dependencies
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          make YARN_RUN="docker-compose run --rm --user ${HOST_UID}:${HOST_GID} -e YARN_REGISTRY -e PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 -e PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome node yarn --no-bin-links" dependencies
+
+      - name: Pull shared docker images
+        run: |
+          docker pull mysql:8.0.30
+          docker pull selenium/standalone-chrome-debug:3.141.59
+          docker pull akeneo/node:18
+          docker pull akeneo/pim-php-dev:8.1
+          docker save \
+            mysql:8.0.30 \
+            selenium/standalone-chrome-debug:3.141.59 \
+            akeneo/node:18 \
+            akeneo/pim-php-dev:8.1 \
+            -o base-images.tar
+
+      - name: Upload shared docker images
+        uses: actions/upload-artifact@v4
+        with:
+          name: base-images
+          path: base-images.tar
+
+  db-seed:
+    runs-on: ubuntu-latest
+    needs: [prepare, image]
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Ensure docker-compose is available
+        run: |
+          set -euo pipefail
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+            exit 0
+          fi
+          for path in /usr/libexec/docker/cli-plugins/docker-compose /usr/lib/docker/cli-plugins/docker-compose; do
+            if [ -x "$path" ]; then
+              sudo ln -sf "$path" /usr/local/bin/docker-compose
+              break
+            fi
+          done
+          if ! command -v docker-compose >/dev/null && docker compose version >/dev/null 2>&1; then
+            printf '%s\n' '#!/usr/bin/env bash' 'exec docker compose "$@"' | sudo tee /usr/local/bin/docker-compose >/dev/null
+            sudo chmod +x /usr/local/bin/docker-compose
+          fi
+          docker-compose version
+
+      - name: Download shared docker images
+        uses: actions/download-artifact@v4
+        with:
+          name: base-images
+
+      - name: Load shared docker images
+        run: docker load -i base-images.tar
+
+      - name: Download PHP image
+        uses: actions/download-artifact@v4
+        with:
+          name: php-pim-image
+
+      - name: Load PHP image
+        run: docker load -i php-pim-image.tar
+
+      - name: Copy docker-compose override
+        run: cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
+
+      - name: Restore composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-${{ runner.os }}-
+
+      - name: Ensure composer dependencies
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          if [ ! -f vendor/autoload.php ]; then
+            docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" php /usr/local/bin/composer install --no-interaction --prefer-dist --optimize-autoloader
+          fi
+
+      - name: Fix cache/log permissions
+        run: |
+          mkdir -p var/cache/test var/logs
+          sudo chmod -R a+rwX var
+
+      - name: Start services
+        run: |
+          APP_ENV=test C='httpd mysql elasticsearch object-storage pubsub-emulator gcs-emulator' make up
+          docker/wait_docker_up.sh
+
+      - name: Create database with fixtures
+        run: APP_ENV=test make database
+
+      - name: Dump database
+        run: |
+          docker-compose exec -T mysql sh -c "mysqldump -uroot -proot akeneo_pim_test" > db-seed.sql
+
+      - name: Upload DB seed artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: db-seed
+          path: db-seed.sql
+
+  front:
+    runs-on: ubuntu-latest
+    needs: prepare
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Ensure docker-compose is available
+        run: |
+          set -euo pipefail
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+            exit 0
+          fi
+
+          for path in /usr/libexec/docker/cli-plugins/docker-compose /usr/lib/docker/cli-plugins/docker-compose; do
+            if [ -x "$path" ]; then
+              sudo ln -sf "$path" /usr/local/bin/docker-compose
+              break
+            fi
+          done
+
+          if ! command -v docker-compose >/dev/null && docker compose version >/dev/null 2>&1; then
+            printf '%s\n' '#!/usr/bin/env bash' 'exec docker compose "$@"' | sudo tee /usr/local/bin/docker-compose >/dev/null
+            sudo chmod +x /usr/local/bin/docker-compose
+          fi
+
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+          else
+            echo "docker-compose is not available" >&2
+            exit 1
+          fi
+
+      - name: Download shared docker images
+        uses: actions/download-artifact@v4
+        with:
+          name: base-images
+
+      - name: Load shared docker images
+        run: docker load -i base-images.tar
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: yarn
+          cache-dependency-path: yarn.lock
+
+      - name: Restore composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-${{ runner.os }}-
+
+      - name: Restore front caches
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            front-packages/akeneo-design-system/lib
+            front-packages/shared/lib
+            ~/.cache/Cypress
+          key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: yarn-${{ runner.os }}-
+
+      - name: Prepare filesystem permissions
+        run: |
+          mkdir -p ~/.cache/yarn ~/.cache/Cypress ~/.composer
+          sudo chmod -R a+rwX ~/.cache ~/.composer
+          sudo chmod -R a+rwX .
+          sudo chmod -R a+rwX node_modules front-packages || true
+
+      - name: Install JS dependencies
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
+
+      - name: Copy docker-compose override
+        run: cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
+
+      - name: Download PHP image
+        uses: actions/download-artifact@v4
+        with:
+          name: php-pim-image
+
+      - name: Load PHP image
+        run: docker load -i php-pim-image.tar
+
+      - name: Prepare frontend directories
+        run: docker-compose run --rm php sh -c "mkdir -p public/js public/bundles"
+
+      - name: Install UI assets (symlink bundles)
+        run: docker-compose run --rm php php bin/console pim:installer:assets --symlink --clean --env=prod
+
+      - name: Sync UI bundle sources to public (webpack entry)
+        run: docker-compose run --rm php sh -c "[ -L public/bundles/pimui ] && exit 0; mkdir -p public/bundles/pimui && cp -a src/Akeneo/Platform/Bundle/UIBundle/Resources/public/. public/bundles/pimui/"
+
+      - name: Dump JS routes
+        run: docker-compose run --rm php sh -c "php bin/console fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json"
+
+      - name: Generate require paths
+        run: docker-compose run --rm php sh -c "mkdir -p public/js && php bin/console pim:installer:dump-require-paths"
+
+      - name: Build front packages
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn packages:build
+
+      - name: Front checks
+        run: |
+          make javascript-dev-strict
+          PIM_CONTEXT=test make lint-front
+          PIM_CONTEXT=test make unit-front
+
+      - name: Upload front build artifacts
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: front-build
+          path: |
+            public/dist
+            public/js/fos_js_routes.json
+            public/js/require-paths.js
+            var/build/module-registry.js
+
+  back-static:
+    runs-on: ubuntu-latest
+    needs: prepare
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Ensure docker-compose is available
+        run: |
+          set -euo pipefail
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+            exit 0
+          fi
+
+          for path in /usr/libexec/docker/cli-plugins/docker-compose /usr/lib/docker/cli-plugins/docker-compose; do
+            if [ -x "$path" ]; then
+              sudo ln -sf "$path" /usr/local/bin/docker-compose
+              break
+            fi
+          done
+
+          if ! command -v docker-compose >/dev/null && docker compose version >/dev/null 2>&1; then
+            printf '%s\n' '#!/usr/bin/env bash' 'exec docker compose "$@"' | sudo tee /usr/local/bin/docker-compose >/dev/null
+            sudo chmod +x /usr/local/bin/docker-compose
+          fi
+
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+          else
+            echo "docker-compose is not available" >&2
+            exit 1
+          fi
+
+      - name: Download shared docker images
+        uses: actions/download-artifact@v4
+        with:
+          name: base-images
+
+      - name: Load shared docker images
+        run: docker load -i base-images.tar
+
+      - name: Restore composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-${{ runner.os }}-
+
+      - name: Restore front caches
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            front-packages/akeneo-design-system/lib
+            front-packages/shared/lib
+            ~/.cache/Cypress
+          key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: yarn-${{ runner.os }}-
+
+      - name: Download PHP image
+        uses: actions/download-artifact@v4
+        with:
+          name: php-pim-image
+
+      - name: Load PHP image
+        run: docker load -i php-pim-image.tar
+
+      - name: Prepare filesystem permissions
+        run: |
+          mkdir -p ~/.cache/yarn ~/.cache/Cypress ~/.composer
+          sudo chmod -R a+rwX ~/.cache ~/.composer
+          sudo chmod -R a+rwX .
+
+      - name: Copy docker-compose override
+        run: cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
+
+      - name: Back static, lint, and acceptance
+        run: |
+          PIM_CONTEXT=test make find-legacy-translations
+          PIM_CONTEXT=test make static-back
+          PIM_CONTEXT=test make deprecation-back
+          PIM_CONTEXT=test make lint-back
+          PIM_CONTEXT=test make coupling-back
+          PIM_CONTEXT=test make unit-back
+          PIM_CONTEXT=test make acceptance-back
+
+      - name: Upload back static artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: back-static-artifacts
+          path: |
+            var/tests
+            var/logs
+
+  phpunit:
+    runs-on: ubuntu-latest
+    needs:
+      - prepare
+      - db-seed
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Ensure docker-compose is available
+        run: |
+          set -euo pipefail
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+            exit 0
+          fi
+
+          for path in /usr/libexec/docker/cli-plugins/docker-compose /usr/lib/docker/cli-plugins/docker-compose; do
+            if [ -x "$path" ]; then
+              sudo ln -sf "$path" /usr/local/bin/docker-compose
+              break
+            fi
+          done
+
+          if ! command -v docker-compose >/dev/null && docker compose version >/dev/null 2>&1; then
+            printf '%s\n' '#!/usr/bin/env bash' 'exec docker compose "$@"' | sudo tee /usr/local/bin/docker-compose >/dev/null
+            sudo chmod +x /usr/local/bin/docker-compose
+          fi
+
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+          else
+            echo "docker-compose is not available" >&2
+            exit 1
+          fi
+
+      - name: Download shared docker images
+        uses: actions/download-artifact@v4
+        with:
+          name: base-images
+
+      - name: Load shared docker images
+        run: docker load -i base-images.tar
+
+      - name: Restore composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-${{ runner.os }}-
+
+      - name: Download PHP image
+        uses: actions/download-artifact@v4
+        with:
+          name: php-pim-image
+
+      - name: Load PHP image
+        run: docker load -i php-pim-image.tar
+
+      - name: Download DB seed
+        uses: actions/download-artifact@v4
+        with:
+          name: db-seed
+          path: seed
+          merge-multiple: true
+
+      - name: Prepare filesystem permissions
+        run: |
+          mkdir -p ~/.cache/yarn ~/.cache/Cypress ~/.composer
+          sudo chmod -R a+rwX ~/.cache ~/.composer
+          sudo chmod -R a+rwX .
+
+      - name: Copy docker-compose override
+        run: cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
+
+      - name: PhpUnit integration and end-to-end
+        run: |
+          APP_ENV=test C='httpd mysql elasticsearch object-storage pubsub-emulator gcs-emulator' make up
+          docker/wait_docker_up.sh
+          docker-compose exec -T mysql sh -c "mysql -uroot -proot -e \"CREATE DATABASE IF NOT EXISTS akeneo_pim_test\""
+          docker-compose exec -T mysql sh -c "cat > /tmp/db-seed.sql" < seed/db-seed.sql
+          docker-compose exec -T mysql sh -c "mysql -uroot -proot akeneo_pim_test < /tmp/db-seed.sql"
+          docker-compose run --rm php php bin/console akeneo:elasticsearch:reset-indexes --env=test
+          PIM_CONTEXT=test make pim-integration-back
+          PIM_CONTEXT=test make end-to-end-back
+
+      - name: Upload phpunit artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phpunit-artifacts
+          path: |
+            var/tests/phpunit
+            var/logs
+
+  data-migrations:
+    runs-on: ubuntu-latest
+    needs: prepare
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Ensure docker-compose is available
+        run: |
+          set -euo pipefail
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+            exit 0
+          fi
+
+          for path in /usr/libexec/docker/cli-plugins/docker-compose /usr/lib/docker/cli-plugins/docker-compose; do
+            if [ -x "$path" ]; then
+              sudo ln -sf "$path" /usr/local/bin/docker-compose
+              break
+            fi
+          done
+
+          if ! command -v docker-compose >/dev/null && docker compose version >/dev/null 2>&1; then
+            printf '%s\n' '#!/usr/bin/env bash' 'exec docker compose "$@"' | sudo tee /usr/local/bin/docker-compose >/dev/null
+            sudo chmod +x /usr/local/bin/docker-compose
+          fi
+
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+          else
+            echo "docker-compose is not available" >&2
+            exit 1
+          fi
+
+      - name: Download shared docker images
+        uses: actions/download-artifact@v4
+        with:
+          name: base-images
+
+      - name: Load shared docker images
+        run: docker load -i base-images.tar
+
+      - name: Restore composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-${{ runner.os }}-
+
+      - name: Download PHP image
+        uses: actions/download-artifact@v4
+        with:
+          name: php-pim-image
+
+      - name: Load PHP image
+        run: docker load -i php-pim-image.tar
+
+      - name: Prepare filesystem permissions
+        run: |
+          mkdir -p ~/.cache/yarn ~/.cache/Cypress ~/.composer
+          sudo chmod -R a+rwX ~/.cache ~/.composer
+          sudo chmod -R a+rwX .
+
+      - name: Copy docker-compose override
+        run: cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
+
+      - name: Data migrations
+        run: |
+          APP_ENV=test C='httpd mysql elasticsearch object-storage pubsub-emulator' make up
+          docker/wait_docker_up.sh
+          APP_ENV=test make database
+          PIM_CONTEXT=test make migration-back
+
+      - name: Upload migration artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: migration-artifacts
+          path: |
+            var/tests/phpunit
+            var/logs
+
+  behat-legacy:
+    runs-on: ubuntu-latest
+    needs:
+      - prepare
+      - db-seed
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Ensure docker-compose is available
+        run: |
+          set -euo pipefail
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+            exit 0
+          fi
+
+          for path in /usr/libexec/docker/cli-plugins/docker-compose /usr/lib/docker/cli-plugins/docker-compose; do
+            if [ -x "$path" ]; then
+              sudo ln -sf "$path" /usr/local/bin/docker-compose
+              break
+            fi
+          done
+
+          if ! command -v docker-compose >/dev/null && docker compose version >/dev/null 2>&1; then
+            printf '%s\n' '#!/usr/bin/env bash' 'exec docker compose "$@"' | sudo tee /usr/local/bin/docker-compose >/dev/null
+            sudo chmod +x /usr/local/bin/docker-compose
+          fi
+
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+          else
+            echo "docker-compose is not available" >&2
+            exit 1
+          fi
+
+      - name: Download shared docker images
+        uses: actions/download-artifact@v4
+        with:
+          name: base-images
+
+      - name: Load shared docker images
+        run: docker load -i base-images.tar
+
+      - name: Restore composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-${{ runner.os }}-
+
+      - name: Download PHP image
+        uses: actions/download-artifact@v4
+        with:
+          name: php-pim-image
+
+      - name: Load PHP image
+        run: docker load -i php-pim-image.tar
+
+      - name: Download DB seed
+        uses: actions/download-artifact@v4
+        with:
+          name: db-seed
+          path: seed
+          merge-multiple: true
+
+      - name: Prepare filesystem permissions
+        run: |
+          mkdir -p ~/.cache/yarn ~/.cache/Cypress ~/.composer
+          sudo chmod -R a+rwX ~/.cache ~/.composer
+          sudo chmod -R a+rwX .
+
+      - name: Copy docker-compose override
+        run: cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
+
+      - name: Compute Behat suite
+        run: |
+          BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF##*/}}"
+          TESTSUITE=$(echo "${BRANCH_NAME}" | sed -e 's/^.*-\([^-]*\)$/\1/g')
+          if ! [[ "${TESTSUITE}" =~ ^(weasel|chipmunk|raccoon)$ ]]; then
+            TESTSUITE="all"
+          fi
+          echo "TESTSUITE=${TESTSUITE}" | tee -a "$GITHUB_ENV"
+          echo "TOTAL_SHARDS=10" | tee -a "$GITHUB_ENV"
+
+      - name: Behat legacy end-to-end (shard ${{ matrix.shard }}/10)
+        env:
+          TESTSUITE: ${{ env.TESTSUITE }}
+        run: |
+          DB_NAME=$(grep '^APP_DATABASE_NAME=' .env.behat | cut -d= -f2)
+          DB_NAME=${DB_NAME:-akeneo_pim_test}
+          APP_ENV=behat C='httpd mysql elasticsearch object-storage selenium pubsub-emulator' make up
+          docker/wait_docker_up.sh
+          ls -l seed
+          docker-compose exec -T mysql sh -c "mysql -uroot -proot -e \"CREATE DATABASE IF NOT EXISTS ${DB_NAME}\""
+          docker-compose exec -T mysql sh -c "cat > /tmp/db-seed.sql" < seed/db-seed.sql
+          docker-compose exec -T mysql sh -c "mysql -uroot -proot ${DB_NAME} < /tmp/db-seed.sql"
+          docker-compose exec -T mysql sh -c "mysql -uroot -proot ${DB_NAME} -e \"CREATE TABLE IF NOT EXISTS pim_session (\\\`sess_id\\\` VARBINARY(128) NOT NULL PRIMARY KEY, \\\`sess_data\\\` BLOB NOT NULL, \\\`sess_time\\\` INTEGER UNSIGNED NOT NULL, \\\`sess_lifetime\\\` INTEGER UNSIGNED NOT NULL) COLLATE utf8mb4_bin, ENGINE = InnoDB\""
+          docker-compose exec -T mysql sh -c "mysql -uroot -proot ${DB_NAME} -e \"CREATE TABLE IF NOT EXISTS pim_configuration (\\\`code\\\` VARCHAR(128) NOT NULL PRIMARY KEY, \\\`values\\\` JSON NOT NULL) COLLATE utf8mb4_unicode_ci, ENGINE = InnoDB\""
+          docker-compose exec -T mysql sh -c "mysql -uroot -proot ${DB_NAME} -e \"CREATE TABLE IF NOT EXISTS messenger_messages (\\\`id\\\` bigint(20) NOT NULL AUTO_INCREMENT, \\\`body\\\` longtext COLLATE utf8mb4_unicode_ci NOT NULL, \\\`headers\\\` longtext COLLATE utf8mb4_unicode_ci NOT NULL, \\\`queue_name\\\` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL, \\\`created_at\\\` datetime NOT NULL COMMENT '(DC2Type:datetime)', \\\`available_at\\\` datetime NOT NULL COMMENT '(DC2Type:datetime)', \\\`delivered_at\\\` datetime DEFAULT NULL COMMENT '(DC2Type:datetime)', PRIMARY KEY (\\\`id\\\`), KEY \\\`IDX_75EA56E0FB7336F0\\\` (\\\`queue_name\\\`), KEY \\\`IDX_75EA56E0E3BD61CE\\\` (\\\`available_at\\\`), KEY \\\`IDX_75EA56E016BA31DB\\\` (\\\`delivered_at\\\`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC\""
+          docker-compose exec -T mysql sh -c "mysql -uroot -proot ${DB_NAME} -e \"CREATE TABLE IF NOT EXISTS pim_one_time_task (\\\`code\\\` VARCHAR(100) PRIMARY KEY, \\\`status\\\` VARCHAR(100) NOT NULL, \\\`start_time\\\` DATETIME, \\\`end_time\\\` DATETIME, \\\`values\\\` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci\""
+          docker-compose run --rm php php bin/console akeneo:elasticsearch:reset-indexes --env=test
+          export BEHAT_SPLIT="${{ matrix.shard }}/${{ env.TOTAL_SHARDS }}"
+          PIM_CONTEXT=test make end-to-end-legacy SUITE=${TESTSUITE}
+
+      - name: Archive behat artifacts
+        if: always()
+        run: tar -czf behat-artifacts-${{ matrix.shard }}.tar.gz var/tests/behat var/tests/screenshots var/logs || true
+
+      - name: Upload behat artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: behat-artifacts-${{ matrix.shard }}
+          path: behat-artifacts-${{ matrix.shard }}.tar.gz
+
+  cypress:
+    runs-on: ubuntu-latest
+    needs:
+      - prepare
+      - front
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Ensure docker-compose is available
+        run: |
+          set -euo pipefail
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+            exit 0
+          fi
+
+          for path in /usr/libexec/docker/cli-plugins/docker-compose /usr/lib/docker/cli-plugins/docker-compose; do
+            if [ -x "$path" ]; then
+              sudo ln -sf "$path" /usr/local/bin/docker-compose
+              break
+            fi
+          done
+
+          if ! command -v docker-compose >/dev/null && docker compose version >/dev/null 2>&1; then
+            printf '%s\n' '#!/usr/bin/env bash' 'exec docker compose "$@"' | sudo tee /usr/local/bin/docker-compose >/dev/null
+            sudo chmod +x /usr/local/bin/docker-compose
+          fi
+
+          if command -v docker-compose >/dev/null; then
+            docker-compose version
+          else
+            echo "docker-compose is not available" >&2
+            exit 1
+          fi
+
+      - name: Download shared docker images
+        uses: actions/download-artifact@v4
+        with:
+          name: base-images
+
+      - name: Load shared docker images
+        run: docker load -i base-images.tar
+
+      - name: Restore composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-${{ runner.os }}-
+
+      - name: Restore front caches
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            front-packages/akeneo-design-system/lib
+            front-packages/shared/lib
+            ~/.cache/Cypress
+          key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: yarn-${{ runner.os }}-
+
+      - name: Download PHP image
+        uses: actions/download-artifact@v4
+        with:
+          name: php-pim-image
+
+      - name: Load PHP image
+        run: docker load -i php-pim-image.tar
+
+      - name: Prepare filesystem permissions
+        run: |
+          mkdir -p ~/.cache/yarn ~/.cache/Cypress ~/.composer
+          sudo chmod -R a+rwX ~/.cache ~/.composer
+          sudo chmod -R a+rwX .
+
+      - name: Copy docker-compose override
+        run: cp .circleci/docker-compose.override.yml.dist docker-compose.override.yml
+
+      - name: Fix cache/log permissions
+        run: |
+          mkdir -p var/cache/prod var/logs
+          sudo chmod -R a+rwX var
+
+      - name: Download front build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: front-build
+          path: front-build
+          merge-multiple: true
+
+      - name: Restore built assets
+        run: |
+          mkdir -p public/dist public/js var/build
+          cp -a front-build/public/dist/. public/dist/
+          cp -a front-build/public/js/. public/js/
+          cp -a front-build/var/build/module-registry.js var/build/module-registry.js
+
+      - name: Cypress sanity checks
+        env:
+          CYPRESS_defaultCommandTimeout: 40000
+          CYPRESS_requestTimeout: 15000
+          CYPRESS_responseTimeout: 60000
+          CYPRESS_pageLoadTimeout: 120000
+        run: |
+          DB_NAME=$(grep '^APP_DATABASE_NAME=' .env | cut -d= -f2)
+          DB_NAME=${DB_NAME:-akeneo_pim}
+          APP_ENV=prod C='httpd mysql elasticsearch object-storage pubsub-emulator' make up
+          docker/wait_docker_up.sh
+          APP_ENV=prod O="--catalog src/Akeneo/Platform/Installer/back/src/Infrastructure/Symfony/Resources/fixtures/icecat_demo_dev" make database
+          docker-compose exec -T mysql sh -c "mysql -uroot -proot -e \"CREATE DATABASE IF NOT EXISTS ${DB_NAME}\""
+          docker-compose exec -T mysql sh -c "mysql -uroot -proot ${DB_NAME} -e \"CREATE TABLE IF NOT EXISTS pim_session (\\\`sess_id\\\` VARBINARY(128) NOT NULL PRIMARY KEY, \\\`sess_data\\\` BLOB NOT NULL, \\\`sess_time\\\` INTEGER UNSIGNED NOT NULL, \\\`sess_lifetime\\\` INTEGER UNSIGNED NOT NULL) COLLATE utf8mb4_bin, ENGINE = InnoDB\""
+          docker-compose exec -T mysql sh -c "mysql -uroot -proot ${DB_NAME} -e \"CREATE TABLE IF NOT EXISTS pim_configuration (\\\`code\\\` VARCHAR(128) NOT NULL PRIMARY KEY, \\\`values\\\` JSON NOT NULL) COLLATE utf8mb4_unicode_ci, ENGINE = InnoDB\""
+          docker-compose exec -T mysql sh -c "mysql -uroot -proot ${DB_NAME} -e \"CREATE TABLE IF NOT EXISTS messenger_messages (\\\`id\\\` bigint(20) NOT NULL AUTO_INCREMENT, \\\`body\\\` longtext COLLATE utf8mb4_unicode_ci NOT NULL, \\\`headers\\\` longtext COLLATE utf8mb4_unicode_ci NOT NULL, \\\`queue_name\\\` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL, \\\`created_at\\\` datetime NOT NULL COMMENT '(DC2Type:datetime)', \\\`available_at\\\` datetime NOT NULL COMMENT '(DC2Type:datetime)', \\\`delivered_at\\\` datetime DEFAULT NULL COMMENT '(DC2Type:datetime)', PRIMARY KEY (\\\`id\\\`), KEY \\\`IDX_75EA56E0FB7336F0\\\` (\\\`queue_name\\\`), KEY \\\`IDX_75EA56E0E3BD61CE\\\` (\\\`available_at\\\`), KEY \\\`IDX_75EA56E016BA31DB\\\` (\\\`delivered_at\\\`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC\""
+          docker-compose exec -T mysql sh -c "mysql -uroot -proot ${DB_NAME} -e \"CREATE TABLE IF NOT EXISTS pim_one_time_task (\\\`code\\\` VARCHAR(100) PRIMARY KEY, \\\`status\\\` VARCHAR(100) NOT NULL, \\\`start_time\\\` DATETIME, \\\`end_time\\\` DATETIME, \\\`values\\\` JSON NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci\""
+          make end-to-end-front
+
+      - name: Upload cypress artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-artifacts
+          path: |
+            cypress/screenshots
+            cypress/videos
+
+  ci-success:
+    runs-on: ubuntu-latest
+    needs:
+      - front
+      - back-static
+      - phpunit
+      - data-migrations
+      - behat-legacy
+      - cypress
+    timeout-minutes: 5
+    steps:
+      - run: echo "All CI jobs passed"

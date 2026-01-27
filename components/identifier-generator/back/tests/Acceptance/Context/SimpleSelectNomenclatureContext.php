@@ -26,8 +26,7 @@ final class SimpleSelectNomenclatureContext implements Context
     public function __construct(
         private readonly SimpleSelectNomenclatureRepository $nomenclatureRepository,
         private readonly UpdateNomenclatureHandler $updateNomenclatureValuesHandler,
-    ) {
-    }
+    ) {}
 
     /**
      * @Given a simple select nomenclature for :attributeCode with the following values

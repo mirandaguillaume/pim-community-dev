@@ -27,8 +27,7 @@ final class UpdateIdentifierGeneratorController
         private readonly UpdateGeneratorHandler $updateGeneratorHandler,
         private readonly GetGeneratorHandler $getGeneratorHandler,
         private readonly SecurityFacadeInterface $security,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, string $code): Response
     {

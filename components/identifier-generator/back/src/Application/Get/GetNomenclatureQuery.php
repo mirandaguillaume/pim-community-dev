@@ -10,9 +10,7 @@ namespace Akeneo\Pim\Automation\IdentifierGenerator\Application\Get;
  */
 final class GetNomenclatureQuery
 {
-    public function __construct(private readonly string $propertyCode)
-    {
-    }
+    public function __construct(private readonly string $propertyCode) {}
 
     public function propertyCode(): string
     {

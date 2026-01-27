@@ -22,8 +22,7 @@ final class Family implements ConditionInterface
     private function __construct(
         private readonly string $operator,
         private readonly ?array $value = null,
-    ) {
-    }
+    ) {}
 
     /**
      * @return 'family'

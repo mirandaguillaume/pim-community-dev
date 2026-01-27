@@ -21,8 +21,7 @@ final class GetAttributeOptionsController
     public function __construct(
         private readonly FindAttributeOptions $findAttributeOptions,
         private readonly SecurityFacadeInterface $securityFacade,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, string $attributeCode): Response
     {

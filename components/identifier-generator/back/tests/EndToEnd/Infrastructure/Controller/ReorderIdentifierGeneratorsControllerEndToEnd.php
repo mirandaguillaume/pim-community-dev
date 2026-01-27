@@ -68,7 +68,7 @@ final class ReorderIdentifierGeneratorsControllerEndToEnd extends ControllerEndT
         Assert::assertSame(
             ['third', 'first', 'second'],
             \array_map(
-                static fn (IdentifierGenerator $generator): string => $generator->code()->asString(),
+                static fn(IdentifierGenerator $generator): string => $generator->code()->asString(),
                 $orderedGenerators
             )
         );

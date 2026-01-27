@@ -28,8 +28,7 @@ final class Structure
      */
     private function __construct(
         private array $properties,
-    ) {
-    }
+    ) {}
 
     /**
      * @param PropertyInterface[] $properties
@@ -48,7 +47,7 @@ final class Structure
      */
     public function normalize(): array
     {
-        return \array_map(static fn (PropertyInterface $property) => $property->normalize(), $this->properties);
+        return \array_map(static fn(PropertyInterface $property) => $property->normalize(), $this->properties);
     }
 
     /**

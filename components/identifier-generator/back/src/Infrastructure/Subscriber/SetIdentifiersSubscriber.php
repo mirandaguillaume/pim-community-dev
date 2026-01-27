@@ -53,8 +53,7 @@ final class SetIdentifiersSubscriber implements EventSubscriberInterface
         private readonly MatchIdentifierGeneratorHandler $matchIdentifierGeneratorHandler,
         private readonly LoggerInterface $logger,
         private readonly IdentifiableObjectRepositoryInterface $attributeRepository,
-    ) {
-    }
+    ) {}
 
     public static function getSubscribedEvents(): array
     {
@@ -132,7 +131,7 @@ final class SetIdentifiersSubscriber implements EventSubscriberInterface
                 $newIdentifier,
                 $identifierGenerator->target()->asString(),
                 new ErrorList(\array_map(
-                    fn (ConstraintViolationInterface $violation): Error => new Error(
+                    fn(ConstraintViolationInterface $violation): Error => new Error(
                         (string) $violation->getMessage(),
                         $violation->getParameters(),
                         $violation->getPropertyPath()
@@ -179,7 +178,7 @@ final class SetIdentifiersSubscriber implements EventSubscriberInterface
     ): ConstraintViolationListInterface {
         return new ConstraintViolationList(
             \array_map(
-                fn (ConstraintViolationInterface $constraintViolation) => new ConstraintViolation(
+                fn(ConstraintViolationInterface $constraintViolation) => new ConstraintViolation(
                     $constraintViolation->getMessage(),
                     $constraintViolation->getMessageTemplate(),
                     $constraintViolation->getParameters(),
@@ -200,7 +199,7 @@ final class SetIdentifiersSubscriber implements EventSubscriberInterface
     private function flatValues(ProductInterface $product): array
     {
         return \array_map(
-            static fn (ValueInterface $value) => $value->getData(),
+            static fn(ValueInterface $value) => $value->getData(),
             $product->getValues()->toArray()
         );
     }

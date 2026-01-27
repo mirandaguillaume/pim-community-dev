@@ -55,8 +55,7 @@ final class CreateIdentifierGeneratorContext extends BaseCreateOrUpdateIdentifie
     public function iTryToCreateAnIdentifierGeneratorWithTooManyPropertiesInStructure(int $propertiesCount): void
     {
         $this->tryToCreateGenerator(
-            structure:
-            \array_fill(0, $propertiesCount, ['type' => 'free_text', 'string' => 'abcdef1'])
+            structure: \array_fill(0, $propertiesCount, ['type' => 'free_text', 'string' => 'abcdef1'])
         );
     }
 

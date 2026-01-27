@@ -21,8 +21,7 @@ final class SimpleSelectPropertyShouldBeValidValidator extends ConstraintValidat
 {
     public function __construct(
         private readonly ValidatorInterface $validator,
-    ) {
-    }
+    ) {}
 
     public function validate($property, Constraint $constraint): void
     {

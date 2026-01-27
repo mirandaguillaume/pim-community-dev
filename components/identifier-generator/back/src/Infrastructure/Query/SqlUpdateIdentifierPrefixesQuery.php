@@ -37,7 +37,7 @@ final class SqlUpdateIdentifierPrefixesQuery implements UpdateIdentifierPrefixes
         $onlyProducts = \array_filter(
             $products,
             // TODO TIP-987 Remove this when decoupling PublishedProduct from Enrichment
-            fn (ProductInterface $product): bool => \get_class($product) !==
+            fn(ProductInterface $product): bool => \get_class($product) !==
                 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct'
         );
         if (\count($onlyProducts) > 0) {
@@ -106,7 +106,7 @@ DELETE FROM pim_catalog_identifier_generator_prefixes WHERE product_uuid IN (:pr
 SQL;
 
         $productUuidsAsBytes = \array_map(
-            fn (ProductInterface $product): string => $product->getUuid()->getBytes(),
+            fn(ProductInterface $product): string => $product->getUuid()->getBytes(),
             $products
         );
 
