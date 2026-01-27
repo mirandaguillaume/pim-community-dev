@@ -137,25 +137,6 @@ jobs:
           name: base-images
           path: base-images.tar
 
-      - name: Pull shared docker images
-        run: |
-          docker pull mysql:8.0.30
-          docker pull selenium/standalone-chrome-debug:3.141.59
-          docker pull akeneo/node:18
-          docker pull akeneo/pim-php-dev:8.1
-          docker save \
-            mysql:8.0.30 \
-            selenium/standalone-chrome-debug:3.141.59 \
-            akeneo/node:18 \
-            akeneo/pim-php-dev:8.1 \
-            -o base-images.tar
-
-      - name: Upload shared docker images
-        uses: actions/upload-artifact@v4
-        with:
-          name: base-images
-          path: base-images.tar
-
   db-seed:
     runs-on: ubuntu-latest
     needs: [prepare, image]
