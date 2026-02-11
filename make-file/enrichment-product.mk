@@ -5,7 +5,7 @@ enrichment-product-coupling-back:
 
 .PHONY: enrichment-product-static-back
 enrichment-product-static-back:
-	$(PHP_RUN) vendor/bin/phpstan analyse --configuration src/Akeneo/Pim/Enrichment/Product/back/Test/phpstan.neon
+	$(PHP_RUN) vendor/bin/phpstan analyse --configuration src/Akeneo/Pim/Enrichment/Product/back/Test/phpstan.neon --error-format=github
 
 .PHONY: enrichment-product-unit-back
 enrichment-product-unit-back:
@@ -14,7 +14,7 @@ enrichment-product-unit-back:
 .PHONY: enrichment-product-lint-back
 enrichment-product-lint-back:
 	# Check all directories except Specification
-	${PHP_RUN} vendor/bin/php-cs-fixer fix --diff --dry-run --config=.php_cs.php \
+	${PHP_RUN} vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle --config=.php_cs.php \
 		src/Akeneo/Pim/Enrichment/Product/back/API \
 		src/Akeneo/Pim/Enrichment/Product/back/Application \
 		src/Akeneo/Pim/Enrichment/Product/back/Domain \
@@ -22,7 +22,7 @@ enrichment-product-lint-back:
 		src/Akeneo/Pim/Enrichment/Product/back/Test/Acceptance/Context \
 		src/Akeneo/Pim/Enrichment/Product/back/Test/Acceptance/InMemory \
 		src/Akeneo/Pim/Enrichment/Product/back/Test/Helper \
-		src/Akeneo/Pim/Enrichment/Product/back/Test/Integration
+		src/Akeneo/Pim/Enrichment/Product/back/Test/Integration | { command -v cs2pr >/dev/null && cs2pr || cat; }
 
 .PHONY: enrichment-product-integration-back
 enrichment-product-integration-back:

@@ -1,0 +1,99 @@
+name: 'Setup PIM Job'
+description: 'Common setup for PIM CI jobs: docker-compose, images, caches, permissions'
+
+inputs:
+  php-image:
+    description: 'Whether to pull PHP image from GHCR'
+    required: false
+    default: 'true'
+  composer-cache:
+    description: 'Whether to restore composer cache'
+    required: false
+    default: 'true'
+  yarn-cache:
+    description: 'Whether to restore yarn/node cache'
+    required: false
+    default: 'false'
+  docker-compose-override:
+    description: 'Whether to copy docker-compose override'
+    required: false
+    default: 'true'
+  create-var-dirs:
+    description: 'Whether to create var directories with permissions'
+    required: false
+    default: 'true'
+  github-token:
+    description: 'GitHub token for GHCR authentication'
+    required: true
+  php-version:
+    description: 'PHP version to use'
+    required: false
+    default: '8.1'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup docker-compose
+      uses: ./.github/actions/setup-docker-compose
+
+    - name: Login to GHCR
+      if: inputs.php-image == 'true'
+      shell: bash
+      run: echo "${{ inputs.github-token }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+    - name: Pull PHP image from GHCR
+      if: inputs.php-image == 'true'
+      shell: bash
+      run: |
+        IMAGE="ghcr.io/${{ github.repository }}/php:${{ github.sha }}-${{ inputs.php-version }}"
+        docker pull "$IMAGE"
+        docker tag "$IMAGE" akeneo/pim-php-dev:${{ inputs.php-version }}
+
+    - name: Pull base Docker images
+      shell: bash
+      run: |
+        docker pull mysql:8.0.30 &
+        docker pull selenium/standalone-chrome-debug:3.141.59 &
+        docker pull akeneo/node:18 &
+        wait
+
+    - name: Restore composer dependencies
+      if: inputs.composer-cache == 'true'
+      uses: actions/cache/restore@v4
+      with:
+        path: vendor
+        key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
+        restore-keys: composer-${{ runner.os }}-
+
+    - name: Restore yarn/node cache
+      if: inputs.yarn-cache == 'true'
+      uses: actions/cache/restore@v4
+      with:
+        path: |
+          node_modules
+          front-packages/akeneo-design-system/lib
+          front-packages/shared/lib
+          ~/.cache/Cypress
+        key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+        restore-keys: yarn-${{ runner.os }}-
+
+    - name: Copy docker-compose override
+      if: inputs.docker-compose-override == 'true'
+      shell: bash
+      run: cp .github/scripts/docker-compose.override.yml.dist docker-compose.override.yml
+
+    - name: Prepare filesystem permissions
+      shell: bash
+      run: |
+        mkdir -p ~/.cache/yarn ~/.cache/Cypress ~/.composer
+        sudo chmod -R a+rwX ~/.cache ~/.composer
+        sudo chmod -R a+rwX .
+        sudo chmod -R a+rwX node_modules front-packages 2>/dev/null || true
+
+    - name: Create var directories with permissions
+      if: inputs.create-var-dirs == 'true'
+      shell: bash
+      run: |
+        mkdir -p var/tests/phpspec var/tests/phpunit var/tests/behat var/tests/screenshots \
+                 var/cache/prod var/cache/test var/logs
+        sudo chmod -R a+rwX var

@@ -13,7 +13,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * Assets dump command
+ * Assets dump command.
  *
  * @author    Romain Monceau <romain@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
@@ -23,39 +23,24 @@ class AssetsCommand extends Command
 {
     protected static $defaultName = 'pim:installer:assets';
 
-    /** @var CommandExecutor */
-    protected $commandExecutor;
+    protected CommandExecutor $commandExecutor;
 
-    /** @var Filesystem */
-    private $filesystem;
-
-    /** @var EventDispatcherInterface */
-    private $eventDispatcher;
-
-    /** @var array */
-    private $defaultLocales;
-
-    /** @var string */
-    private $rootDir;
-
+    /**
+     * @param string[] $defaultLocales
+     */
     public function __construct(
-        Filesystem $filesystem,
-        EventDispatcherInterface $eventDispatcher,
-        array $localeCodes,
-        string $rootDir
+        private readonly Filesystem $filesystem,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly array $defaultLocales,
+        private readonly string $rootDir,
     ) {
         parent::__construct();
-
-        $this->filesystem = $filesystem;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->defaultLocales = $localeCodes;
-        $this->rootDir = $rootDir;
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Install assets for Akeneo PIM')
@@ -66,12 +51,12 @@ class AssetsCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function initialize(InputInterface $input, OutputInterface $output)
+    protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         $this->commandExecutor = new CommandExecutor(
             $input,
             $output,
-            $this->getApplication()
+            $this->getApplication(),
         );
     }
 
@@ -84,8 +69,8 @@ class AssetsCommand extends Command
 
         $event = new GenericEvent();
         $event->setArguments([
-            'clean'   => $input->getOption('clean'),
-            'symlink' => $input->getOption('symlink')
+            'clean' => $input->getOption('clean'),
+            'symlink' => $input->getOption('symlink'),
         ]);
 
         $this->eventDispatcher->dispatch($event, InstallerEvents::PRE_ASSETS_DUMP);
@@ -121,10 +106,7 @@ class AssetsCommand extends Command
         return Command::SUCCESS;
     }
 
-    /**
-     * @return string
-     */
-    protected function getWebDir()
+    protected function getWebDir(): string
     {
         return $this->rootDir.'/../public/';
     }
@@ -134,7 +116,7 @@ class AssetsCommand extends Command
      *
      * @param string[] $directories
      */
-    protected function cleanDirectories($directories)
+    protected function cleanDirectories(array $directories): void
     {
         foreach ($directories as $directory) {
             if ($this->filesystem->exists($directory)) {

@@ -1,7 +1,7 @@
 .PHONY: import-export-lint-back
 import-export-lint-back: #Doc: launch PHPStan for ImportExport bounded context
-	$(DOCKER_COMPOSE) run --rm php php -d memory_limit=1G vendor/bin/phpstan analyse src/Akeneo/Platform/Bundle/ImportExportBundle --level 5
-	${PHP_RUN} vendor/bin/php-cs-fixer fix --diff --dry-run --config=src/Akeneo/Platform/Bundle/ImportExportBundle/Test/.php_cs.php
+	$(DOCKER_COMPOSE) run --rm php php -d memory_limit=1G vendor/bin/phpstan analyse src/Akeneo/Platform/Bundle/ImportExportBundle --level 5 --error-format=github
+	${PHP_RUN} vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle --config=src/Akeneo/Platform/Bundle/ImportExportBundle/Test/.php_cs.php | { command -v cs2pr >/dev/null && cs2pr || cat; }
 
 .PHONY: import-export-lint-fix-back
 import-export-lint-fix-back: #Doc: launch PHPStan for ImportExport bounded context
@@ -19,7 +19,7 @@ import-export-unit-back: #Doc: launch PHPSpec for ImportExport bounded context
 .PHONY: import-export-integration-back
 import-export-integration-back: #Doc: launch PHPUnit integration tests for ImportExport bounded context
 ifeq ($(CI),true)
-	.circleci/run_phpunit.sh src/Akeneo/Platform/Bundle/ImportExportBundle/Test .circleci/find_phpunit.php ImportExport_Integration_Test
+	.github/scripts/run_phpunit.sh src/Akeneo/Platform/Bundle/ImportExportBundle/Test .github/scripts/find_phpunit.php ImportExport_Integration_Test
 else
 	APP_ENV=test $(PHP_RUN) vendor/bin/phpunit -c src/Akeneo/Platform/Bundle/ImportExportBundle/Test --testsuite ImportExport_Integration_Test $(O)
 endif

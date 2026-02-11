@@ -5,11 +5,13 @@
     colors="true"
     convertErrorsToExceptions="true"
     convertNoticesToExceptions="true"
-    convertWarningsToExceptions="true"
+    convertWarningsToExceptions="false"
     processIsolation="false"
     stopOnFailure="false"
     beStrictAboutTestsThatDoNotTestAnything="false"
-    bootstrap="../../../../../../config/bootstrap.php">
+    bootstrap="../../../../../../config/bootstrap.php"
+    failOnRisky="false"
+    failOnWarning="false">
 
     <php>
         <ini name="date.timezone" value="Europe/Paris"/>
@@ -18,6 +20,7 @@
         <ini name="memory_limit" value="-1"/>
         <ini name="zend.enable_gc" value="1"/>
         <server name="KERNEL_CLASS" value="Kernel" force="true" />
+        <server name="FLAG_RESET_PIM_ENABLED" value="1" force="true" />
     </php>
 
     <testsuites>

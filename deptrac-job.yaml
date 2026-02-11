@@ -1,0 +1,32 @@
+parameters:
+  paths:
+    - src/Akeneo/Platform/Job
+  exclude_files:
+    - '#^vendor/#'
+    - '#^tests/#'
+
+layers:
+  - name: Shared
+    collectors:
+      - type: directory
+        regex: '^src/Akeneo/(Tool|Platform)/'
+
+  - name: Domain
+    collectors:
+      - type: directory
+        regex: '^src/Akeneo/Platform/Job/Component/'
+
+  - name: Bundle
+    collectors:
+      - type: directory
+        regex: '^src/Akeneo/Platform/Job/Bundle/'
+
+ruleset:
+  Bundle:
+    - Domain
+    - Shared
+  Domain:
+    - Shared
+  Shared: []
+
+skip_violations: []

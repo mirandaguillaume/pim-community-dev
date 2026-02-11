@@ -19,7 +19,7 @@ use Webmozart\Assert\Assert;
 class UserConfigurationResetter implements UserConfigurationResetterInterface
 {
     /**
-     * @param iterable<UserConfigurationResetterInterface> $userConfigurationResetters
+     * @param iterable<mixed> $userConfigurationResetters
      */
     public function __construct(private readonly iterable $userConfigurationResetters)
     {

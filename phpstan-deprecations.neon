@@ -4,6 +4,10 @@ parameters:
     paths:
         - components
         - src
+    stubFiles:
+        - tests/back/phpstan-stubs/firestore.php
+    scanFiles:
+        - tests/back/phpstan-stubs/firestore.php
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
         - '#Unsafe usage of new static\(\)\.#'

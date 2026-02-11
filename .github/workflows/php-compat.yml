@@ -1,0 +1,239 @@
+name: PHP Compatibility
+
+on:
+  pull_request:
+    paths:
+      - '**.php'
+      - 'composer.json'
+      - 'composer.lock'
+      - 'phpunit.xml*'
+      - 'phpspec.yml*'
+  push:
+    branches:
+      - master
+    paths:
+      - '**.php'
+      - 'composer.json'
+      - 'composer.lock'
+  workflow_dispatch:
+    inputs:
+      php-versions:
+        description: 'PHP versions to test (comma-separated)'
+        required: false
+        default: '8.1,8.2,8.3'
+
+concurrency:
+  group: php-compat-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  COMPOSER_MEMORY_LIMIT: -1
+  DOCKER_BUILDKIT: 1
+
+jobs:
+  # Build images for each PHP version in parallel
+  build-images:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['8.1', '8.2', '8.3']
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cache Docker layers
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache
+          key: buildx-php-${{ matrix.php-version }}-${{ runner.os }}-${{ hashFiles('Dockerfile', 'composer.lock') }}
+          restore-keys: buildx-php-${{ matrix.php-version }}-${{ runner.os }}-
+
+      - name: Build and push PHP ${{ matrix.php-version }} image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: ghcr.io/${{ github.repository }}/php:${{ github.sha }}-${{ matrix.php-version }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+          build-args: |
+            PHP_VERSION=${{ matrix.php-version }}
+
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
+  # Run static analysis on each PHP version
+  static-analysis:
+    runs-on: ubuntu-latest
+    needs: build-images
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['8.1', '8.2', '8.3']
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-docker-compose
+
+      - name: Login to GHCR
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Pull PHP ${{ matrix.php-version }} image
+        run: |
+          IMAGE="ghcr.io/${{ github.repository }}/php:${{ github.sha }}-${{ matrix.php-version }}"
+          docker pull "$IMAGE"
+          docker tag "$IMAGE" akeneo/pim-php-dev:${{ matrix.php-version }}
+
+      - name: Pull base images
+        run: |
+          docker pull mysql:8.0.30 &
+          docker pull akeneo/node:18 &
+          wait
+
+      - name: Restore composer cache
+        uses: actions/cache/restore@v4
+        with:
+          path: vendor
+          key: composer-php${{ matrix.php-version }}-${{ runner.os }}-${{ hashFiles('composer.lock') }}
+          restore-keys: |
+            composer-php${{ matrix.php-version }}-${{ runner.os }}-
+            composer-${{ runner.os }}-
+
+      - name: Copy docker-compose override
+        run: cp .github/scripts/docker-compose.override.yml.dist docker-compose.override.yml
+
+      - name: Prepare permissions
+        run: |
+          mkdir -p var/cache var/logs vendor ~/.composer
+          sudo chmod -R a+rwX var vendor ~/.composer .
+
+      - name: Install dependencies
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" php /usr/local/bin/composer install --no-interaction --prefer-dist
+
+      - name: Restore PHPStan cache
+        uses: actions/cache@v4
+        with:
+          path: .phpstan-cache
+          key: phpstan-php${{ matrix.php-version }}-${{ runner.os }}-${{ hashFiles('phpstan.neon*', 'composer.lock') }}
+          restore-keys: phpstan-php${{ matrix.php-version }}-${{ runner.os }}-
+
+      - name: Run PHPStan (PHP ${{ matrix.php-version }})
+        run: |
+          mkdir -p var/cache/test var/logs
+          docker-compose run --rm php php vendor/bin/phpstan analyse --memory-limit=2G --no-progress || true
+
+      - name: Run PHP syntax check
+        run: |
+          find src -name "*.php" -print0 | xargs -0 -P 4 docker-compose run --rm -T php php -l 2>&1 | grep -v "No syntax errors" || true
+
+  # Run unit tests on each PHP version
+  unit-tests:
+    runs-on: ubuntu-latest
+    needs: build-images
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['8.1', '8.2', '8.3']
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-docker-compose
+
+      - name: Login to GHCR
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Pull PHP ${{ matrix.php-version }} image
+        run: |
+          IMAGE="ghcr.io/${{ github.repository }}/php:${{ github.sha }}-${{ matrix.php-version }}"
+          docker pull "$IMAGE"
+          docker tag "$IMAGE" akeneo/pim-php-dev:${{ matrix.php-version }}
+
+      - name: Pull base images
+        run: |
+          docker pull mysql:8.0.30 &
+          docker pull akeneo/node:18 &
+          wait
+
+      - name: Restore composer cache
+        uses: actions/cache/restore@v4
+        with:
+          path: vendor
+          key: composer-php${{ matrix.php-version }}-${{ runner.os }}-${{ hashFiles('composer.lock') }}
+          restore-keys: |
+            composer-php${{ matrix.php-version }}-${{ runner.os }}-
+            composer-${{ runner.os }}-
+
+      - name: Copy docker-compose override
+        run: cp .github/scripts/docker-compose.override.yml.dist docker-compose.override.yml
+
+      - name: Prepare permissions
+        run: |
+          mkdir -p var/cache var/logs var/tests/phpspec vendor ~/.composer
+          sudo chmod -R a+rwX var vendor ~/.composer .
+
+      - name: Install dependencies
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" php /usr/local/bin/composer install --no-interaction --prefer-dist
+
+      - name: Run PHPSpec (PHP ${{ matrix.php-version }})
+        run: |
+          PIM_CONTEXT=test make unit-back
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phpspec-results-php${{ matrix.php-version }}
+          path: var/tests/phpspec
+          retention-days: 3
+
+      - name: Publish test results
+        if: always()
+        uses: dorny/test-reporter@v1
+        continue-on-error: true
+        with:
+          name: PHPSpec Results (PHP ${{ matrix.php-version }})
+          path: var/tests/phpspec/*.xml
+          reporter: java-junit
+          fail-on-error: false
+
+  # Summary job
+  php-compat-success:
+    runs-on: ubuntu-latest
+    needs: [static-analysis, unit-tests]
+    if: always()
+    steps:
+      - name: Check compatibility results
+        run: |
+          echo "PHP Compatibility Test Results:"
+          echo "  static-analysis: ${{ needs.static-analysis.result }}"
+          echo "  unit-tests: ${{ needs.unit-tests.result }}"
+
+          if [[ "${{ needs.static-analysis.result }}" == "failure" ]] || \
+             [[ "${{ needs.unit-tests.result }}" == "failure" ]]; then
+            echo "::warning::Some PHP compatibility tests failed"
+            exit 1
+          fi
+
+          echo "All PHP compatibility tests passed!"

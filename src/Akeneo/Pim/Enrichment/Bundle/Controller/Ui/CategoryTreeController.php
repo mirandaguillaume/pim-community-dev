@@ -6,7 +6,6 @@ use Akeneo\Category\Application\Command\DeleteCategoryCommand\DeleteCategoryComm
 use Akeneo\Category\Domain\Model\Classification\CategoryTree;
 use Akeneo\Category\Domain\Query\GetCategoryInterface;
 use Akeneo\Category\Domain\Query\GetCategoryTreesInterface;
-use Akeneo\Category\Infrastructure\Bus\CommandBus;
 use Akeneo\Category\Infrastructure\Component\CategoryItemsCounterInterface;
 use Akeneo\Category\Infrastructure\Component\Classification\Model\CategoryInterface;
 use Akeneo\Category\Infrastructure\Component\Classification\Repository\CategoryRepositoryInterface;
@@ -25,6 +24,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -56,7 +56,7 @@ class CategoryTreeController extends AbstractController
         private CategoryFormViewNormalizerInterface $categoryFormViewNormalizer,
         private GetCategoryInterface $getCategory,
         private GetCategoryTreesInterface $getCategoryTrees,
-        private CommandBus $commandBus,
+        private MessageBusInterface $commandBus,
         array $rawConfiguration,
     ) {
         $resolver = new OptionsResolver();
