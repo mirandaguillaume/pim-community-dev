@@ -31,6 +31,8 @@ const getFrontModules = (sourceDir, originalDir, bundle) => (dir, modules) => {
     return modules;
 }
 
+const registryPath = baseDir => path.join(baseDir, './var/build/module-registry.js');
+
 const utils = {
     /**
      * Grab the RequireJS.yaml from each bundle required by the application
@@ -72,10 +74,11 @@ const utils = {
     getModulePaths(baseDir, sourceDir) {
         const pathSourceFile = require(path.join(baseDir, 'public/js/require-paths.js'));
         const { config, paths } = utils.getRequireConfig(pathSourceFile, baseDir);
+        const moduleRegistryPath = registryPath(baseDir);
         const aliases = Object.assign(getFrontModules(process.cwd(), './public/bundles')(), paths, {
           'require-polyfill': path.resolve(sourceDir, './frontend/webpack/require-polyfill.js'),
           'require-context': path.resolve(sourceDir, './frontend/webpack/require-context.js'),
-          'module-registry': path.resolve(baseDir, './public/js/module-registry.js'),
+          'module-registry': moduleRegistryPath,
           routes: path.resolve(baseDir, './public/js/fos_js_routes.json'),
           'fos-routing-base': path.resolve(
             baseDir,
@@ -112,7 +115,25 @@ const utils = {
             return __webpack_require__(paths[moduleName])
         }`;
 
-        writeFileSync(path.join(baseDir, './public/js/module-registry.js'), registry);
+        const target = registryPath(baseDir);
+        const targetDir = path.dirname(target);
+
+        try {
+            // ensure directory exists and is writable for non-root users
+            require('fs').mkdirSync(targetDir, {recursive: true});
+        } catch (error) {
+            // mkdir failure shouldn't block build; continue to write attempt which will surface any real issue
+        }
+
+        try {
+            writeFileSync(target, registry);
+        } catch (error) {
+            if (error.code === 'EACCES') {
+                console.warn(`Skipping writing ${target} due to insufficient permissions. Using existing file.`);
+            } else {
+                throw error;
+            }
+        }
     }
 };
 

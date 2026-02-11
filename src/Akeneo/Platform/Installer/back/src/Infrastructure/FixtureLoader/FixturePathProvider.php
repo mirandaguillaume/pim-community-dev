@@ -3,7 +3,7 @@
 namespace Akeneo\Platform\Installer\Infrastructure\FixtureLoader;
 
 /**
- * Provides the path of the data fixtures
+ * Provides the path of the data fixtures.
  *
  * @author    Nicolas Dupont <nicolas@akeneo.com>
  * @copyright 2016 Akeneo SAS (http://www.akeneo.com)
@@ -11,16 +11,15 @@ namespace Akeneo\Platform\Installer\Infrastructure\FixtureLoader;
  */
 class FixturePathProvider
 {
-    /** @var array */
-    protected $bundles;
-
-    public function __construct(array $bundles)
+    /**
+     * @param class-string[] $bundles
+     */
+    public function __construct(protected array $bundles)
     {
-        $this->bundles = $bundles;
     }
 
     /**
-     * Get the path of the data used by the installer
+     * Get the path of the data used by the installer.
      *
      * @return string
      */
@@ -30,12 +29,12 @@ class FixturePathProvider
 
         if (preg_match('/^(?P<bundle>\w+):(?P<directory>\w+)$/', $catalogPath, $matches)) {
             $reflection = new \ReflectionClass($this->bundles[$matches['bundle']]);
-            $installerDataDir = dirname($reflection->getFilename()) . '/Resources/fixtures/' . $matches['directory'];
+            $installerDataDir = dirname($reflection->getFilename()).'/Resources/fixtures/'.$matches['directory'];
         } else {
             $installerDataDir = $catalogPath;
         }
 
-        if (null === $installerDataDir || !is_dir($installerDataDir)) {
+        if (!is_dir($installerDataDir)) {
             throw new \RuntimeException('Installer data directory cannot be found.');
         }
 

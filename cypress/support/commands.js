@@ -32,10 +32,25 @@ Cypress.Commands.add('login', (username, password) => {
   cy.get('input[name="_username"]').type(username);
   cy.get('input[name="_password"]').type(password);
   cy.findByRole('button', {name: "Login"}).click();
+
+  // Wait for redirect away from login page to the SPA
+  cy.url({timeout: 120000}).should('not.include', '/user/login');
+
+  // Wait for the SPA to fully initialize and replace the loading screen
+  cy.get('.AknDefault-progressContainer', {timeout: 120000}).should('not.exist');
+
+  // Wait for the route loading mask overlay to be hidden (the parent div always
+  // exists in index.html.twig — only the child .loading-mask gets shown/hidden)
+  cy.get('.hash-loading-mask', {timeout: 120000}).should(($el) => {
+    const mask = $el.find('.loading-mask');
+    if (mask.length) {
+      expect(mask).not.to.be.visible;
+    }
+  });
 });
 
 Cypress.Commands.add('goToProductsGrid', () => {
-  cy.findByRole('menuitem', {name: 'Activity'}).should('has.class', 'active');
+  cy.findByRole('menuitem', {name: 'Activity'}).should('have.class', 'active');
 
   cy.findByText('Products').click();
 

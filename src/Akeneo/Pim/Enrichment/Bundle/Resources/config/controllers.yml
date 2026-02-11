@@ -367,7 +367,7 @@ services:
             - '@Akeneo\Category\Infrastructure\Symfony\Form\CategoryFormViewNormalizer'
             - '@Akeneo\Category\Domain\Query\GetCategoryInterface'
             - '@Akeneo\Category\Domain\Query\GetCategoryTreesInterface'
-            - '@category.command.message_bus'
+            - '@category.command.bus'
             - { related_entity: product, form_type: 'Akeneo\Category\Infrastructure\Symfony\Form\Type\CategoryType', acl: pim_enrich_product, route: pim_enrich }
         calls:
             - [ setContainer, [ '@service_container' ] ]

@@ -54,7 +54,7 @@
 
 .PHONY: user-management-lint-back
 user-management-lint-back:
-	${PHP_RUN} vendor/bin/php-cs-fixer fix --diff --dry-run --config=src/Akeneo/UserManagement/back/tests/.php_cs.php
+	${PHP_RUN} vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle --config=src/Akeneo/UserManagement/back/tests/.php_cs.php | { command -v cs2pr >/dev/null && cs2pr || cat; }
 
 .PHONY: user-management-lint-fix-back
 user-management-lint-fix-back:

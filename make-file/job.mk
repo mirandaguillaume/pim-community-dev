@@ -1,7 +1,7 @@
 .PHONY: job-lint-back
 job-lint-back: #Doc: launch PHPStan for job bounded context
-	$(PHP_RUN) vendor/bin/phpstan analyse --configuration src/Akeneo/Platform/Job/back/tests/phpstan.neon.dist
-	${PHP_RUN} vendor/bin/php-cs-fixer fix --diff --dry-run --config=src/Akeneo/Platform/Job/back/tests/.php_cs.php
+	$(PHP_RUN) vendor/bin/phpstan analyse --configuration src/Akeneo/Platform/Job/back/tests/phpstan.neon.dist --error-format=github
+	${PHP_RUN} vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle --config=src/Akeneo/Platform/Job/back/tests/.php_cs.php | { command -v cs2pr >/dev/null && cs2pr || cat; }
 	${PHP_RUN} vendor/bin/rector process --dry-run --config src/Akeneo/Platform/Job/back/tests/rector.php
 
 .PHONY: job-lint-fix-back
@@ -21,7 +21,7 @@ job-unit-back: #Doc: launch PHPSpec for job bounded context
 .PHONY: job-integration-back
 job-integration-back: #Doc: launch PHPUnit integration tests for job bounded context
 ifeq ($(CI),true)
-	.circleci/run_phpunit.sh src/Akeneo/Platform/Job/back/tests .circleci/find_phpunit.php Job_Integration_Test
+	.github/scripts/run_phpunit.sh src/Akeneo/Platform/Job/back/tests .github/scripts/find_phpunit.php Job_Integration_Test
 else
 	APP_ENV=test $(PHP_RUN) vendor/bin/phpunit -c src/Akeneo/Platform/Job/back/tests --testsuite Job_Integration_Test $(O)
 endif

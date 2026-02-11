@@ -1,0 +1,40 @@
+name: 'Setup Docker Compose'
+description: 'Ensures docker-compose command is available on the runner'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Ensure docker-compose is available
+      shell: bash
+      run: |
+        set -euo pipefail
+
+        if command -v docker-compose >/dev/null 2>&1; then
+          echo "docker-compose already available"
+          docker-compose version
+          exit 0
+        fi
+
+        # Try to symlink from Docker CLI plugins
+        for path in /usr/libexec/docker/cli-plugins/docker-compose /usr/lib/docker/cli-plugins/docker-compose; do
+          if [ -x "$path" ]; then
+            sudo ln -sf "$path" /usr/local/bin/docker-compose
+            echo "Symlinked docker-compose from $path"
+            break
+          fi
+        done
+
+        # Fallback: create wrapper script for 'docker compose'
+        if ! command -v docker-compose >/dev/null 2>&1 && docker compose version >/dev/null 2>&1; then
+          printf '%s\n' '#!/usr/bin/env bash' 'exec docker compose "$@"' | sudo tee /usr/local/bin/docker-compose >/dev/null
+          sudo chmod +x /usr/local/bin/docker-compose
+          echo "Created docker-compose wrapper script"
+        fi
+
+        # Verify installation
+        if command -v docker-compose >/dev/null 2>&1; then
+          docker-compose version
+        else
+          echo "::error::docker-compose is not available and could not be installed"
+          exit 1
+        fi

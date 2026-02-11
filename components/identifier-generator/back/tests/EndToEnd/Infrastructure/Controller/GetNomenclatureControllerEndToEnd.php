@@ -32,10 +32,13 @@ final class GetNomenclatureControllerEndToEnd extends ControllerEndToEndTestCase
     public function it_should_get_an_existing_family_nomenclature(): void
     {
         $this->loginAs('Julia');
-        $this->createNomenclature('family', [
-            'familyA1' => 'FA1',
-            'familyA2' => 'FA2',
-        ]);
+        $this->createNomenclature(
+            'family',
+            [
+                'familyA1' => 'FA1',
+                'familyA2' => 'FA2',
+            ],
+        );
 
         $this->callRoute(
             'akeneo_identifier_generator_nomenclature_rest_get',
@@ -44,12 +47,15 @@ final class GetNomenclatureControllerEndToEnd extends ControllerEndToEndTestCase
         );
         $response = $this->client->getResponse();
         Assert::assertSame(Response::HTTP_OK, $response->getStatusCode());
-        Assert::assertEqualsCanonicalizing([
-            'operator' => '=',
-            'value'=> 3,
-            'generate_if_empty'=> false,
-            'values'=> ['FamilyA1' => 'FA1', 'FamilyA2' => 'FA2'],
-        ], \json_decode($response->getContent(), true));
+        Assert::assertEqualsCanonicalizing(
+            [
+                'operator' => '=',
+                'value' => 3,
+                'generate_if_empty' => false,
+                'values' => ['FamilyA1' => 'FA1', 'FamilyA2' => 'FA2'],
+            ],
+            \json_decode($response->getContent(), true),
+        );
     }
 
     /** @test */
@@ -63,7 +69,8 @@ final class GetNomenclatureControllerEndToEnd extends ControllerEndToEndTestCase
         );
         $response = $this->client->getResponse();
         Assert::assertSame(Response::HTTP_OK, $response->getStatusCode());
-        Assert::assertJsonStringEqualsJsonString(<<<JSON
+        Assert::assertJsonStringEqualsJsonString(
+            <<<JSON
             {
               "operator": null,
               "value": null,
@@ -71,7 +78,7 @@ final class GetNomenclatureControllerEndToEnd extends ControllerEndToEndTestCase
               "values": {}
             }
             JSON,
-            $response->getContent()
+            $response->getContent(),
         );
     }
 
@@ -89,10 +96,13 @@ final class GetNomenclatureControllerEndToEnd extends ControllerEndToEndTestCase
                 'type' => 'akeneo_reference_entity',
                 'group' => 'other',
                 'reference_data_name' => 'brand',
-            ]
+            ],
         );
 
-        $this->createNomenclature('a_reference_entity_attribute', $values);
+        $this->createNomenclature(
+            'a_reference_entity_attribute',
+            $values,
+        );
         $this->callRoute(
             'akeneo_identifier_generator_nomenclature_rest_get',
             ['HTTP_X-Requested-With' => 'XMLHttpRequest'],
@@ -100,12 +110,15 @@ final class GetNomenclatureControllerEndToEnd extends ControllerEndToEndTestCase
         );
         $response = $this->client->getResponse();
         Assert::assertSame(Response::HTTP_OK, $response->getStatusCode());
-        Assert::assertEqualsCanonicalizing([
-            'operator' => '=',
-            'value'=> 3,
-            'generate_if_empty'=> false,
-            'values'=> $values,
-        ], \json_decode($response->getContent(), true));
+        Assert::assertEqualsCanonicalizing(
+            [
+                'operator' => '=',
+                'value' => 3,
+                'generate_if_empty' => false,
+                'values' => $values,
+            ],
+            \json_decode($response->getContent(), true),
+        );
     }
 
     protected function getConfiguration(): Configuration
