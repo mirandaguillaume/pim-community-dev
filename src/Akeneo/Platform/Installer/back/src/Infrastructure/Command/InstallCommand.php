@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Installer command to add PIM custom rules
+ * Installer command to add PIM custom rules.
  *
  * @author    Nicolas <nicolas@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
@@ -25,7 +25,7 @@ class InstallCommand extends Command
 
     private CommandExecutor $commandExecutor;
 
-    public function __construct(private InstallStatusManager $installStatusManager)
+    public function __construct(private readonly InstallStatusManager $installStatusManager)
     {
         parent::__construct();
     }
@@ -33,7 +33,7 @@ class InstallCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addOption('force', null, InputOption::VALUE_NONE, 'Force installation')
@@ -43,19 +43,19 @@ class InstallCommand extends Command
                 'doNotDropDatabase',
                 null,
                 InputOption::VALUE_NONE,
-                'Try to use an existing database if it already exists. Beware, the database data will still be deleted'
+                'Try to use an existing database if it already exists. Beware, the database data will still be deleted',
             );
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function initialize(InputInterface $input, OutputInterface $output)
+    protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         $this->commandExecutor = new CommandExecutor(
             $input,
             $output,
-            $this->getApplication()
+            $this->getApplication(),
         );
     }
 
@@ -92,10 +92,9 @@ class InstallCommand extends Command
     }
 
     /**
-     * Step where configuration is checked
+     * Step where configuration is checked.
      *
      * @throws \RuntimeException
-     *
      */
     protected function checkStep(): self
     {
@@ -105,7 +104,9 @@ class InstallCommand extends Command
     }
 
     /**
-     * Step where the database is built, the fixtures loaded and some command scripts launched
+     * Step where the database is built, the fixtures loaded and some command scripts launched.
+     *
+     * @param array<string, mixed> $arguments
      */
     protected function databaseStep(array $arguments = []): self
     {
@@ -115,7 +116,7 @@ class InstallCommand extends Command
     }
 
     /**
-     * Load only assets
+     * Load only assets.
      */
     protected function assetsStep(InputInterface $input): self
     {

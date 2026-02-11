@@ -1,8 +1,8 @@
 .PHONY: installer-lint-back
 installer-lint-back: #Doc: launch PHPStan for installer
-	$(PHP_RUN) vendor/bin/phpstan analyse --configuration src/Akeneo/Platform/Installer/back/tests/phpstan.neon
-	${PHP_RUN} vendor/bin/php-cs-fixer fix --diff --dry-run --config=src/Akeneo/Platform/Installer/back/tests/.php_cs.src.php
-	${PHP_RUN} vendor/bin/php-cs-fixer fix --diff --dry-run --config=src/Akeneo/Platform/Installer/back/tests/.php_cs.tests.php
+	$(PHP_RUN) vendor/bin/phpstan analyse --configuration src/Akeneo/Platform/Installer/back/tests/phpstan.neon --error-format=github
+	${PHP_RUN} vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle --config=src/Akeneo/Platform/Installer/back/tests/.php_cs.src.php | { command -v cs2pr >/dev/null && cs2pr || cat; }
+	${PHP_RUN} vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle --config=src/Akeneo/Platform/Installer/back/tests/.php_cs.tests.php | { command -v cs2pr >/dev/null && cs2pr || cat; }
 	${PHP_RUN} vendor/bin/rector process --dry-run --config=src/Akeneo/Platform/Installer/back/tests/rector.php
 
 .PHONY: installer-lint-fix-back
@@ -23,7 +23,7 @@ installer-unit-back: #Doc: launch PHPSpec for installer
 .PHONY: installer-integration-back
 installer-integration-back: #Doc: launch PHPUnit integration tests for installer
 ifeq ($(CI),true)
-	.circleci/run_phpunit.sh src/Akeneo/Platform/Installer/back/tests/phpunit.xml .circleci/find_phpunit.php Installer_Integration_Test
+	.github/scripts/run_phpunit.sh src/Akeneo/Platform/Installer/back/tests/phpunit.xml .github/scripts/find_phpunit.php Installer_Integration_Test
 else
 	APP_ENV=test $(PHP_RUN) vendor/bin/phpunit -c src/Akeneo/Platform/Installer/back/tests/phpunit.xml --testsuite Installer_Integration_Test $(O)
 endif

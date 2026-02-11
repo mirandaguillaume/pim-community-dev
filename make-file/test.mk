@@ -1,9 +1,9 @@
 var/tests/%:
-	$(DOCKER_COMPOSE) run --rm php mkdir -p $@
+	mkdir -p $@
 
 .PHONY: find-legacy-translations
 find-legacy-translations:
-	.circleci/find_legacy_translations.sh
+	.github/scripts/find_legacy_translations.sh
 
 .PHONY: coupling-back
 coupling-back: structure-coupling-back user-management-coupling-back channel-coupling-back enrichment-coupling-back connectivity-connection-coupling-back communication-channel-coupling-back import-export-coupling-back job-coupling-back data-quality-insights-coupling-back enrichment-product-coupling-back migration-coupling-back identifier-generator-coupling-back installer-coupling-back
@@ -30,8 +30,8 @@ check-sf-services:
 lint-back:
 	$(DOCKER_COMPOSE) run --rm php rm -rf var/cache/dev
 	APP_ENV=dev $(DOCKER_COMPOSE) run -e APP_DEBUG=1 --rm php bin/console cache:warmup
-	$(DOCKER_COMPOSE) run --rm php php -d memory_limit=1G vendor/bin/phpstan analyse src/Akeneo/Pim --level 2
-	${PHP_RUN} vendor/bin/php-cs-fixer fix --diff --dry-run --config=.php_cs.php
+	$(DOCKER_COMPOSE) run --rm php php -d memory_limit=1G vendor/bin/phpstan analyse src/Akeneo/Pim --level 2 --error-format=github
+	${PHP_RUN} vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle --config=.php_cs.php | { command -v cs2pr >/dev/null && cs2pr || cat; }
 	$(MAKE) category-lint-back
 	$(MAKE) channel-lint-back
 	$(MAKE) communication-channel-lint-back
@@ -51,12 +51,12 @@ lint-back:
 .PHONY: deprecation-back
 deprecation-back:
 	APP_ENV=dev $(DOCKER_COMPOSE) run -e APP_DEBUG=1 --rm php bin/console cache:warmup
-	${PHP_RUN} -d memory_limit=2G vendor/bin/phpstan analyse -c phpstan-deprecations.neon --level 1
+	${PHP_RUN} -d memory_limit=2G vendor/bin/phpstan analyse -c phpstan-deprecations.neon --level 1 --error-format=github
 	$(DOCKER_COMPOSE) run --rm php rm -rf var/cache/dev
 
 .PHONY: migration-lint-back
 migration-lint-back:
-	$(DOCKER_COMPOSE) run --rm php php vendor/bin/phpstan analyse -c upgrades/phpstan.neon
+	$(DOCKER_COMPOSE) run --rm php php vendor/bin/phpstan analyse -c upgrades/phpstan.neon --error-format=github
 
 .PHONY: lint-front
 lint-front:
@@ -68,7 +68,7 @@ lint-front:
 unit-back: var/tests/phpspec
 ifeq ($(CI),true)
 	$(DOCKER_COMPOSE) run -T --rm php php vendor/bin/phpspec run --format=junit > var/tests/phpspec/specs.xml
-	.circleci/find_non_executed_phpspec.sh
+	.github/scripts/find_non_executed_phpspec.sh
 else
 	${PHP_RUN} vendor/bin/phpspec run
 endif
@@ -101,7 +101,7 @@ integration-front:
 .PHONY: pim-integration-back
 pim-integration-back: var/tests/phpunit connectivity-connection-integration-back communication-channel-integration-back job-integration-back channel-integration-back identifier-generator-phpunit-back installer-integration-back
 ifeq ($(CI),true)
-	.circleci/run_phpunit.sh . .circleci/find_phpunit.php PIM_Integration_Test
+	.github/scripts/run_phpunit.sh . .github/scripts/find_phpunit.php PIM_Integration_Test
 else
 	@echo "Run integration test locally is too long, please use the target defined for your bounded context (ex: bounded-context-integration-back)"
 endif
@@ -110,7 +110,7 @@ endif
 .PHONY: migration-back
 migration-back: var/tests/phpunit
 ifeq ($(CI),true)
-	.circleci/run_phpunit.sh . .circleci/find_phpunit.php PIM_Migration_Test
+	.github/scripts/run_phpunit.sh . .github/scripts/find_phpunit.php PIM_Migration_Test
 else
 	APP_ENV=test $(PHP_RUN) ./vendor/bin/phpunit -c . --testsuite PIM_Migration_Test
 endif
@@ -119,7 +119,7 @@ endif
 .PHONY: end-to-end-back
 end-to-end-back: var/tests/phpunit
 ifeq ($(CI),true)
-	.circleci/run_phpunit.sh . .circleci/find_phpunit.php End_to_End
+	.github/scripts/run_phpunit.sh . .github/scripts/find_phpunit.php End_to_End
 else
 	@echo "Run end to end test locally is too long, please use the target defined for your bounded context (ex: bounded-context-end-to-end-back)"
 endif
@@ -139,8 +139,8 @@ end-to-end-front:
 .PHONY: end-to-end-legacy
 end-to-end-legacy: var/tests/behat
 ifeq ($(CI),true)
-	.circleci/run_behat.sh $(SUITE)
-	.circleci/run_behat.sh critical
+	.github/scripts/run_behat.sh $(SUITE)
+	.github/scripts/run_behat.sh critical
 else
 	${PHP_RUN} vendor/bin/behat -p legacy -s all ${O}
 endif

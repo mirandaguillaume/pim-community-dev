@@ -16,6 +16,7 @@ $rules = [
         'Akeneo\Tool',
         'Akeneo\Pim\Structure\Component',
         'Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlags',
+        'Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag',
         'Oro\Bundle\SecurityBundle\Annotation\AclAncestor',
         'Oro\Bundle\SecurityBundle\SecurityFacade',
         'Oro\Bundle\DataGridBundle\Event\BuildBefore',
@@ -27,7 +28,6 @@ $rules = [
         'Oro\Bundle\PimFilterBundle\Datasource\FilterDatasourceAdapterInterface',
         'Psr\Log\LoggerInterface',
         'Akeneo\Platform\Bundle\FrameworkBundle\Security\SecurityFacadeInterface',
-        'Akeneo\Channel\API',
         'Akeneo\Pim\Automation\DataQualityInsights\PublicApi',
 
         // TIP-906: Functional problem to query products before removing AttributeOption
@@ -37,6 +37,12 @@ $rules = [
         'Akeneo\Pim\Enrichment\Component\Product\Model\EntityWithAssociationsInterface',
 
         'Akeneo\Pim\Enrichment\Component\Product\Query\ProductQueryBuilderInterface',
+        // Clock is injected for event timestamping
+        'Psr\Clock\ClockInterface',
+
+        // Channel API queries are used for conversion-unit checks
+        'Akeneo\Channel\API\Query\Channel',
+        'Akeneo\Channel\API\Query\FindChannels',
 
         // TIP-1024: Drop UserContext
         'Akeneo\UserManagement\Bundle\Context\UserContext',
@@ -77,6 +83,9 @@ $rules = [
         // TIP-909: PIM/Structure should not be linked to Locale
         'Akeneo\Channel\Infrastructure\Component\Repository\LocaleRepositoryInterface',
         'Akeneo\Channel\Infrastructure\Component\Model\LocaleInterface',
+        // Channel API queries used in flat converters
+        'Akeneo\Channel\API\Query\FindLocales',
+        'Akeneo\Channel\API\Query\Locale',
 
         //TIP-906: Functionnal problem -> used to check if we can remove a family / family variant
         'Akeneo\Pim\Enrichment\Component\Product\ProductAndProductModel\Query\CountProductsWithFamilyInterface',
