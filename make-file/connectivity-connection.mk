@@ -66,19 +66,22 @@ ifneq ($(CI),true)
 	$(DOCKER_COMPOSE) run --rm php rm -rf var/cache/dev
 	APP_ENV=dev $(DOCKER_COMPOSE) run -e APP_DEBUG=1 --rm php bin/console cache:warmup
 endif
-	$(PHP_RUN) vendor/bin/php-cs-fixer fix --diff --dry-run --config=src/Akeneo/Connectivity/Connection/back/tests/.php_cs.php
+	$(PHP_RUN) vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle --config=src/Akeneo/Connectivity/Connection/back/tests/.php_cs.php | { command -v cs2pr >/dev/null && cs2pr || cat; }
 	$(PHP_RUN) vendor/bin/phpstan analyse \
 		--level=8 \
 		--configuration src/Akeneo/Connectivity/Connection/back/tests/phpstan.neon \
+		--error-format=github \
 		src/Akeneo/Connectivity/Connection/back/Application \
 		src/Akeneo/Connectivity/Connection/back/Domain
 	$(PHP_RUN) vendor/bin/phpstan analyse \
 		--level=5 \
 		--configuration src/Akeneo/Connectivity/Connection/back/tests/phpstan.neon \
+		--error-format=github \
 		src/Akeneo/Connectivity/Connection/back/Infrastructure
 	$(PHP_RUN) vendor/bin/phpstan analyse \
 		--level=1 \
 		--configuration src/Akeneo/Connectivity/Connection/back/tests/phpstan-deprecations.neon \
+		--error-format=github \
 		src/Akeneo/Connectivity/Connection/back
 	$(PHP_RUN) bin/console lint:container
 
@@ -88,7 +91,7 @@ connectivity-connection-lint-back_fix:
 connectivity-connection-unit-back:
 ifeq ($(CI),true)
 	$(DOCKER_COMPOSE) run -T --rm php php vendor/bin/phpspec run --format=junit > var/tests/phpspec/specs.xml
-	.circleci/find_non_executed_phpspec.sh
+	.github/scripts/find_non_executed_phpspec.sh
 endif
 	$(PHP_RUN) vendor/bin/phpspec run src/Akeneo/Connectivity/Connection/back/tests/Unit/spec/
 	# Scope Mapper unit tests
@@ -102,14 +105,14 @@ connectivity-connection-critical-e2e: var/tests/behat/connectivity/connection
 
 connectivity-connection-integration-back:
 ifeq ($(CI),true)
-	.circleci/run_phpunit.sh . .circleci/find_phpunit.php Akeneo_Connectivity_Connection_Integration
+	.github/scripts/run_phpunit.sh . .github/scripts/find_phpunit.php Akeneo_Connectivity_Connection_Integration
 else
 	APP_ENV=test ${PHP_RUN} vendor/bin/phpunit -c . --testsuite Akeneo_Connectivity_Connection_Integration --log-junit var/tests/phpunit/phpunit_connectivity_integration.xml $(0)
 endif
 
 connectivity-connection-e2e-back:
 ifeq ($(CI),true)
-	.circleci/run_phpunit.sh . .circleci/find_phpunit.php Akeneo_Connectivity_Connection_EndToEnd
+	.github/scripts/run_phpunit.sh . .github/scripts/find_phpunit.php Akeneo_Connectivity_Connection_EndToEnd
 else
 	APP_ENV=test ${PHP_RUN} vendor/bin/phpunit -c . --testsuite Akeneo_Connectivity_Connection_EndToEnd --log-junit var/tests/phpunit/phpunit_connectivity_e2e.xml $(0)
 endif

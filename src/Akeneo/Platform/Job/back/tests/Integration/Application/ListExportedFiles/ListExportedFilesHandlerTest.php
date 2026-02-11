@@ -2,22 +2,32 @@
 
 declare(strict_types=1);
 
-namespace Akeneo\Platform\Job\Test\Acceptance\Application\ListExportedFiles;
+namespace Akeneo\Platform\Job\Test\Integration\Application\ListExportedFiles;
 
 use Akeneo\Pim\Enrichment\Product\API\Command\UpsertProductCommand;
 use Akeneo\Pim\Enrichment\Product\API\Command\UserIntent\SetCategories;
 use Akeneo\Pim\Enrichment\Product\API\Command\UserIntent\SetFileValue;
 use Akeneo\Pim\Enrichment\Product\API\Command\UserIntent\SetImageValue;
 use Akeneo\Pim\Enrichment\Product\API\ValueObject\ProductUuid;
+use Akeneo\Platform\Bundle\ImportExportBundle\Repository\InternalApi\JobInstanceRepository;
 use Akeneo\Platform\Job\Application\ListExportedFiles\ListExportedFilesHandler;
 use Akeneo\Platform\Job\ServiceApi\JobExecution\ListExportedFiles\ListExportedFilesQuery;
 use Akeneo\Test\Integration\TestCase;
 use Akeneo\Tool\Bundle\BatchBundle\JobExecution\CreateJobExecutionHandlerInterface;
+use Akeneo\Tool\Bundle\BatchBundle\JobExecution\ExecuteJobExecutionHandlerInterface;
+use Akeneo\Tool\Component\Batch\Job\JobRepositoryInterface;
 use Ramsey\Uuid\Uuid;
 
 class ListExportedFilesHandlerTest extends TestCase
 {
-    const JOB_INSTANCE_CODE = 'csv_product_export';
+    public const JOB_INSTANCE_CODE = 'csv_product_export';
+
+    private ListExportedFilesHandler $handler;
+    private JobInstanceRepository $jobInstanceRepository;
+    private JobRepositoryInterface $jobRepository;
+    private CreateJobExecutionHandlerInterface $createJobExecutionHandler;
+    private ExecuteJobExecutionHandlerInterface $executeJobExecutionHandler;
+    private int $adminId;
 
     protected function setUp(): void
     {
@@ -26,10 +36,10 @@ class ListExportedFilesHandlerTest extends TestCase
         $this->jobInstanceRepository = $this->get('pim_enrich.repository.job_instance');
         $this->jobRepository = $this->get('akeneo_batch.job_repository');
         $this->createJobExecutionHandler = $this->get(CreateJobExecutionHandlerInterface::class);
-        $this->executeJobExecutionHandler = $this->get('Akeneo\Tool\Bundle\BatchBundle\JobExecution\ExecuteJobExecutionHandlerInterface');
+        $this->executeJobExecutionHandler = $this->get(ExecuteJobExecutionHandlerInterface::class);
 
         $this->get('akeneo_integration_tests.helper.authenticator')->logIn('admin');
-        $this->adminId = $this->getUserId('admin');
+        $this->adminId = (int) $this->getUserId('admin');
 
         $this->createProduct('1111a11a-65b7-418f-b713-ac25b0291131', [
             new SetCategories(['master']),

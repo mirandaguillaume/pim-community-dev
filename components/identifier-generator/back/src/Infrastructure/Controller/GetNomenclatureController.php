@@ -35,7 +35,7 @@ final class GetNomenclatureController
         try {
             $nomenclature = ($this->getNomenclatureHandler)(new GetNomenclatureQuery($propertyCode));
             if ([] === $nomenclature['values']) {
-                $nomenclature['values'] = (object)[];
+                $nomenclature['values'] = (object) [];
             }
 
             return new JsonResponse($nomenclature);

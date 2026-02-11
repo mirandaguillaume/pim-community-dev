@@ -75,7 +75,7 @@ class BaseCreateOrUpdateIdentifierGenerator
 
     protected function getValidCondition(string $type, ?string $operator = null): array
     {
-        switch($type) {
+        switch ($type) {
             case 'enabled': return [
                 'type' => 'enabled',
                 'value' => true,

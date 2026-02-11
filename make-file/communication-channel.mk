@@ -57,8 +57,8 @@ _COMMUNICATION_CHANNEL_YARN_RUN = $(YARN_RUN) run --cwd=src/Akeneo/Platform/Bund
 # Tests Back
 
 communication-channel-lint-back:
-	$(PHP_RUN) vendor/bin/phpstan analyse --level=8 src/Akeneo/Platform/Bundle/CommunicationChannelBundle/back/Application src/Akeneo/Platform/Bundle/CommunicationChannelBundle/back/Domain
-	$(PHP_RUN) vendor/bin/phpstan analyse --level=5 src/Akeneo/Platform/Bundle/CommunicationChannelBundle/back/Infrastructure
+	$(PHP_RUN) vendor/bin/phpstan analyse --level=8 --error-format=github src/Akeneo/Platform/Bundle/CommunicationChannelBundle/back/Application src/Akeneo/Platform/Bundle/CommunicationChannelBundle/back/Domain
+	$(PHP_RUN) vendor/bin/phpstan analyse --level=5 --error-format=github src/Akeneo/Platform/Bundle/CommunicationChannelBundle/back/Infrastructure
 
 communication-channel-coupling-back:
 	$(PHP_RUN) vendor/bin/php-coupling-detector detect --config-file=src/Akeneo/Platform/Bundle/CommunicationChannelBundle/back/tests/.php_cd.php src/Akeneo/Platform/Bundle/CommunicationChannelBundle/back
@@ -69,7 +69,7 @@ communication-channel-unit-back:
 
 communication-channel-integration-back:
 ifeq ($(CI),true)
-	.circleci/run_phpunit.sh . .circleci/find_phpunit.php Akeneo_Communication_Channel_Integration
+	.github/scripts/run_phpunit.sh . .github/scripts/find_phpunit.php Akeneo_Communication_Channel_Integration
 else
 	APP_ENV=test ${PHP_RUN} vendor/bin/phpunit -c . --testsuite Akeneo_Communication_Channel_Integration $(0)
 endif

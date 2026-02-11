@@ -1,7 +1,7 @@
 .PHONY: channel-lint-back
 channel-lint-back: #Doc: launch PHPStan for channel bounded context
-	$(PHP_RUN) vendor/bin/phpstan analyse --configuration src/Akeneo/Channel/back/tests/phpstan.neon.dist
-	${PHP_RUN} vendor/bin/php-cs-fixer fix --diff --dry-run --config=src/Akeneo/Channel/back/tests/.php_cs.php
+	$(PHP_RUN) vendor/bin/phpstan analyse --configuration src/Akeneo/Channel/back/tests/phpstan.neon.dist --error-format=github
+	${PHP_RUN} vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle --config=src/Akeneo/Channel/back/tests/.php_cs.php | { command -v cs2pr >/dev/null && cs2pr || cat; }
 
 .PHONY: channel-lint-fix-back
 channel-lint-fix-back: #Doc: launch PHPStan for channel bounded context

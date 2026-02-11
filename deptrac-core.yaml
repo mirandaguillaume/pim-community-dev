@@ -1,0 +1,32 @@
+parameters:
+  paths:
+    - src/Akeneo
+  exclude_files:
+    - '#^vendor/#'
+    - '#^tests/#'
+
+layers:
+  - name: Shared
+    collectors:
+      - type: directory
+        regex: '^src/Akeneo/(Tool|Platform)/'
+
+  - name: Domain
+    collectors:
+      - type: directory
+        regex: '^src/Akeneo/(Pim|Connectivity|Job|DataQualityInsights|IdentifierGenerator|Channel)/.*/Component/'
+
+  - name: Bundle
+    collectors:
+      - type: directory
+        regex: '^src/Akeneo/(Pim|Connectivity|Job|DataQualityInsights|IdentifierGenerator|Channel)/.*/Bundle/'
+
+ruleset:
+  Bundle:
+    - Domain
+    - Shared
+  Domain:
+    - Shared
+  Shared: []
+
+skip_violations: []

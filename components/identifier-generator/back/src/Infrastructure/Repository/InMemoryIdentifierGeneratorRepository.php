@@ -85,7 +85,7 @@ class InMemoryIdentifierGeneratorRepository implements IdentifierGeneratorReposi
         \usort(
             $generators,
             fn (IdentifierGenerator $generatorA, IdentifierGenerator $generatorB): int =>
-            (int)\array_search($generatorA->code()->asString(), $identifierGeneratorCodes) - (int)\array_search($generatorB->code()->asString(), $identifierGeneratorCodes)
+            (int) \array_search($generatorA->code()->asString(), $identifierGeneratorCodes) - (int) \array_search($generatorB->code()->asString(), $identifierGeneratorCodes)
         );
 
         $this->generators = $generators;

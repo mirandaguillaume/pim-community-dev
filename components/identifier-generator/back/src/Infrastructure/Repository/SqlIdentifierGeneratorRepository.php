@@ -133,7 +133,7 @@ SQL;
             }
 
             return $this->fromDatabaseToModel($result);
-        } catch (DriverException | \InvalidArgumentException) {
+        } catch (DriverException|\InvalidArgumentException) {
             throw new UnableToFetchIdentifierGeneratorException(\sprintf('Cannot fetch the identifier generator "%s"', $identifierGeneratorCode));
         }
     }

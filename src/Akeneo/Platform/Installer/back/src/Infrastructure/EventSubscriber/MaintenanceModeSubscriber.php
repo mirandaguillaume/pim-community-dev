@@ -42,9 +42,14 @@ class MaintenanceModeSubscriber implements EventSubscriberInterface
         ];
     }
 
+    private const EXCLUDED_ROUTES = [
+        'akeneo_installer_maintenance_page',
+        'akeneo_installer_is_maintenance_mode_enabled',
+    ];
+
     public function redirectToMaintenanceLandingPage(RequestEvent $event): void
     {
-        if ('akeneo_installer_maintenance_page' === $event->getRequest()->attributes->get('_route')) {
+        if (\in_array($event->getRequest()->attributes->get('_route'), self::EXCLUDED_ROUTES, true)) {
             return;
         }
 
@@ -59,8 +64,8 @@ class MaintenanceModeSubscriber implements EventSubscriberInterface
             $event->setResponse(
                 new Response(
                     'Undergoing maintenance.',
-                    Response::HTTP_SERVICE_UNAVAILABLE
-                )
+                    Response::HTTP_SERVICE_UNAVAILABLE,
+                ),
             );
 
             return;

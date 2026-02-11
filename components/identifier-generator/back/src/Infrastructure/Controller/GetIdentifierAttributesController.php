@@ -43,7 +43,7 @@ final class GetIdentifierAttributesController
             [AttributeTypes::IDENTIFIER]
         );
 
-        $normalizeAttribute = static fn (FlattenAttribute $attribute): array =>[
+        $normalizeAttribute = static fn (FlattenAttribute $attribute): array => [
             'code' => $attribute->getCode(),
             'label' => $attribute->getLabel(),
         ];

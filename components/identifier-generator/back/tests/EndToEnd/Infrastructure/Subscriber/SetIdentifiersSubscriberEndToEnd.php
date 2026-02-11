@@ -54,7 +54,7 @@ class SetIdentifiersSubscriberEndToEnd extends EndToEndTestCase
     {
         $this->createSimpleSelectAttributeWithOption('brand', true, true, 'akeneo');
         $this->createSimpleSelectAttributeWithOption('clothing_size', false, false, 'medium');
-        $this->createIdentifierGenerator(structure:[
+        $this->createIdentifierGenerator(structure: [
             [
                 'type' => 'simple_select',
                 'attributeCode' => 'brand',
@@ -109,7 +109,7 @@ class SetIdentifiersSubscriberEndToEnd extends EndToEndTestCase
             'white' => 'whi',
         ]);
 
-        $this->createIdentifierGenerator(structure:[
+        $this->createIdentifierGenerator(structure: [
             [
                 'type' => 'reference_entity',
                 'attributeCode' => 'a_reference_entity_attribute',

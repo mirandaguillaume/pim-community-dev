@@ -24,6 +24,10 @@ abstract class MessengerTestCase extends DataQualityInsightsTestCase
     {
         parent::setUp();
 
+        foreach ($this->pubSubQueueStatuses as $pubSubStatus) {
+            $pubSubStatus->createTopicAndSubscription();
+        }
+
         $this->flushQueues();
 
         $this->get('akeneo_integration_tests.helper.authenticator')->logIn('admin');

@@ -1,0 +1,33 @@
+{
+  "mcpServers": {
+    "chrome_devtools": {"command": "npx", "args": ["-y", "chrome-devtools-mcp"]},
+    "composer": {"command": "npx", "args": ["-y", "composer-mcp-server"]},
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"],
+      "env": {"CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"}
+    },
+    "git": {"command": "npx", "args": ["-y", "mcp-git"]},
+    "github": {
+      "command": "docker",
+      "args": ["run", "-i", "--rm", "-e", "GITHUB_PERSONAL_ACCESS_TOKEN", "ghcr.io/github/github-mcp-server", "stdio", "--toolsets", "all"],
+      "env": {"GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PAT_TOKEN}"}
+    },
+    "http": {"command": "uvx", "args": ["mcp-server-fetch"]},
+    "memory": {"command": "npx", "args": ["-y", "@modelcontextprotocol/server-memory"]},
+    "serena": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/oraios/serena",
+        "serena",
+        "start-mcp-server",
+        "--context",
+        "claude-code",
+        "--project-from-cwd"
+      ]
+    },
+    "sequentialthinking": {"command": "npx", "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]},
+    "time": {"command": "uvx", "args": ["mcp-server-time"]}
+  }
+}
