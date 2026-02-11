@@ -28,7 +28,7 @@ inputs:
   php-version:
     description: 'PHP version to use'
     required: false
-    default: '8.1'
+    default: '8.2'
 
 runs:
   using: 'composite'

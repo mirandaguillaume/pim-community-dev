@@ -62,7 +62,7 @@ final class AccessLevel
      */
     public static function getConst($name)
     {
-        return constant('self::' . $name);
+        return (new \ReflectionClassConstant(self::class, $name))->getValue();
     }
 
     /**
