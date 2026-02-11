@@ -1216,7 +1216,7 @@ JSON;
           "a_localizable_image": [{
               "locale": "zh_CN",
               "scope": null,
-              "data": "${akeneoJpgPath}"
+              "data": "{$akeneoJpgPath}"
           }],
           "a_yes_no": [
             {
@@ -1412,11 +1412,11 @@ JSON;
             "a_localizable_scopable_image": [{
                 "locale": "en_US",
                 "scope": "ecommerce",
-                "data": "${files['ziggy_png']}"
+                "data": "{$files['ziggy_png']}"
             }, {
                 "locale": "fr_FR",
                 "scope": "tablet",
-                "data": "${files['akeneo_jpg']}"
+                "data": "{$files['akeneo_jpg']}"
             }],
             "a_localized_and_scopable_text_area": [{
                 "locale": "en_US",
@@ -1573,11 +1573,11 @@ JSON;
             "a_localizable_scopable_image": [{
                 "locale": "en_US",
                 "scope": "ecommerce",
-                "data": "${files['ziggy_png']}"
+                "data": "{$files['ziggy_png']}"
             }, {
                 "locale": "fr_FR",
                 "scope": "tablet",
-                "data": "${files['akeneo_jpg']}"
+                "data": "{$files['akeneo_jpg']}"
             }],
             "a_localized_and_scopable_text_area": [{
                 "locale": "en_US",

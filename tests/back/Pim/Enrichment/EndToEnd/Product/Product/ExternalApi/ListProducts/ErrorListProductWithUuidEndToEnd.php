@@ -239,7 +239,7 @@ class ErrorListProductWithUuidEndToEnd extends AbstractProductTestCase
         $expected = <<<JSON
 {
     "code":422,
-    "message":"${message}",
+    "message":"{$message}",
     "_links":{
         "documentation":{
             "href": "http:\/\/api.akeneo.com\/documentation\/pagination.html#the-search-after-method"
