@@ -93,7 +93,7 @@ class NumberFilter extends OroNumberFilter
     /**
      * {@inheritdoc}
      */
-    public function parseData($data)
+    public function parseData(mixed $data): array|bool
     {
         if (!is_array($data)
             || !array_key_exists('value', $data)

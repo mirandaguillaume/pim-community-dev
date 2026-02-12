@@ -16,9 +16,6 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface;
  */
 class PriceCollectionValue extends AbstractValue implements PriceCollectionValueInterface, \Stringable
 {
-    /** @var PriceCollectionInterface|null */
-    protected $data;
-
     /**
      * {@inheritdoc}
      */

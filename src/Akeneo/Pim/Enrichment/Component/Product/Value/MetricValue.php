@@ -15,9 +15,6 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface;
  */
 class MetricValue extends AbstractValue implements MetricValueInterface, \Stringable
 {
-    /** @var MetricInterface|null */
-    protected $data;
-
     /**
      * {@inheritdoc}
      */

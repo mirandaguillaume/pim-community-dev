@@ -15,12 +15,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ActionExtension extends AbstractExtension
 {
-    final public const METADATA_ACTION_KEY = 'rowActions';
-    final public const METADATA_ACTION_CONFIGURATION_KEY = 'action_configuration';
+    public const METADATA_ACTION_KEY = 'rowActions';
+    public const METADATA_ACTION_CONFIGURATION_KEY = 'action_configuration';
 
-    final public const ACTION_KEY = 'actions';
-    final public const ACTION_CONFIGURATION_KEY = 'action_configuration';
-    final public const ACTION_TYPE_KEY = 'type';
+    public const ACTION_KEY = 'actions';
+    public const ACTION_CONFIGURATION_KEY = 'action_configuration';
+    public const ACTION_TYPE_KEY = 'type';
 
     /** @var ContainerInterface */
     protected $container;

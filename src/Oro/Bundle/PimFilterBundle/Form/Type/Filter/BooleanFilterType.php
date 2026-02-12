@@ -22,7 +22,7 @@ class BooleanFilterType extends AbstractChoiceType
     final public const TYPE_NOT_EMPTY = 3;
 
     /** @staticvar string */
-    final public const NAME = 'pim_type_boolean_filter';
+    public const NAME = 'pim_type_boolean_filter';
 
     /**
      * {@inheritdoc}

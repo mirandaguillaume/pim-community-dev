@@ -14,9 +14,6 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface;
  */
 class ReferenceDataValue extends AbstractValue implements ReferenceDataValueInterface, \Stringable
 {
-    /** @var string */
-    protected $data;
-
     /**
      * {@inheritdoc}
      */

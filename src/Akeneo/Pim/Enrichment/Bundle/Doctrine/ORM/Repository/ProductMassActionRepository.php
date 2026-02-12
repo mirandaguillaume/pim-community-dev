@@ -43,7 +43,7 @@ class ProductMassActionRepository implements ProductMassActionRepositoryInterfac
     /**
      * {@inheritdoc}
      */
-    public function deleteFromIds(array $identifiers): never
+    public function deleteFromIds(array $identifiers)
     {
         throw new \LogicException("Products should not be removed using this method");
     }
