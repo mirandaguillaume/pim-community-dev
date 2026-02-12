@@ -20,7 +20,7 @@ on:
       php-versions:
         description: 'PHP versions to test (comma-separated)'
         required: false
-        default: '8.1,8.2,8.3'
+        default: '8.2'
 
 concurrency:
   group: php-compat-${{ github.ref }}
@@ -38,7 +38,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['8.1', '8.2', '8.3']
+        php-version: ['8.2']
     steps:
       - uses: actions/checkout@v4
 
@@ -86,7 +86,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['8.1', '8.2', '8.3']
+        php-version: ['8.2']
     steps:
       - uses: actions/checkout@v4
 
@@ -156,7 +156,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['8.1', '8.2', '8.3']
+        php-version: ['8.2']
     steps:
       - uses: actions/checkout@v4
 
