@@ -23,6 +23,9 @@ while ! docker-compose exec elasticsearch curl -s -k --fail "http://elasticsearc
     COUNTER=$((${COUNTER} + 1))
     if [ ${COUNTER} -gt ${MAX_COUNTER} ]; then
         echo "We have been waiting for Elasticsearch too long already; failing." >&2
+        echo "--- Elasticsearch container logs ---" >&2
+        docker-compose logs --tail=50 elasticsearch >&2 2>/dev/null || true
+        echo "--- End of Elasticsearch logs ---" >&2
         exit 1
     fi;
     sleep 1
