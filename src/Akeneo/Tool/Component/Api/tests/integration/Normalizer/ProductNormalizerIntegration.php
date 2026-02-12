@@ -385,8 +385,6 @@ class ProductNormalizerIntegration extends TestCase
 
     /**
      * @param string $identifier
-     * @param array  $expected
-     * @param array  $context
      */
     private function assertProduct($identifier, array $expected, array $context)
     {
@@ -409,8 +407,6 @@ class ProductNormalizerIntegration extends TestCase
     }
 
     /**
-     * @param ProductInterface $product
-     * @param array            $context
      *
      * @return array
      */
@@ -424,14 +420,13 @@ class ProductNormalizerIntegration extends TestCase
     /**
      * Replaces media attributes data in the $data array by self::MEDIA_ATTRIBUTE_DATA_COMPARISON.
      *
-     * @param array $data
      *
      * @return array
      */
     private function sanitizeMediaAttributeData(array $data)
     {
         foreach ($data['values'] as $attributeCode => $values) {
-            if (1 === preg_match('/.*(file|image).*/', $attributeCode)) {
+            if (1 === preg_match('/.*(file|image).*/', (string) $attributeCode)) {
                 foreach ($values as $index => $value) {
                     $data['values'][$attributeCode][$index]['data'] = MediaSanitizer::sanitize($value['data']);
                     $download = MediaSanitizer::sanitize($value['_links']['download']['href']);

@@ -12,13 +12,10 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\Type;
 
-final class CleanRemovedAttribute implements ConstraintCollectionProviderInterface
+final readonly class CleanRemovedAttribute implements ConstraintCollectionProviderInterface
 {
-    private array $supportedJobNames;
-
-    public function __construct(array $supportedJobNames)
+    public function __construct(private array $supportedJobNames)
     {
-        $this->supportedJobNames = $supportedJobNames;
     }
 
     /**

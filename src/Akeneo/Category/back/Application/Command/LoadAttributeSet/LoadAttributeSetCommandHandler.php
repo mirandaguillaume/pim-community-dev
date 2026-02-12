@@ -14,13 +14,13 @@ use Akeneo\Category\Domain\ValueObject\Template\TemplateUuid;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class LoadAttributeSetCommandHandler
+final readonly class LoadAttributeSetCommandHandler
 {
     public function __construct(
-        private readonly GetTemplate $getTemplate,
-        private readonly GetAttribute $getAttribute,
-        private readonly AttributeSetFactory $attributeSetFactory,
-        private readonly CategoryTemplateAttributeSaver $categoryTemplateAttributeSaver,
+        private GetTemplate $getTemplate,
+        private GetAttribute $getAttribute,
+        private AttributeSetFactory $attributeSetFactory,
+        private CategoryTemplateAttributeSaver $categoryTemplateAttributeSaver,
     ) {
     }
 

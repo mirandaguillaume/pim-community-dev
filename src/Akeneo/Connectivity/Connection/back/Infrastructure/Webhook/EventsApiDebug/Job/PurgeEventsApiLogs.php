@@ -20,9 +20,9 @@ class PurgeEventsApiLogs implements TaskletInterface
     protected StepExecution $stepExecution;
 
     public function __construct(
-        private LoggerInterface $logger,
-        private PurgeEventsApiSuccessLogsQuery $purgeSuccessLogsQuery,
-        private PurgeEventsApiErrorLogsQuery $purgeErrorLogsQuery
+        private readonly LoggerInterface $logger,
+        private readonly PurgeEventsApiSuccessLogsQuery $purgeSuccessLogsQuery,
+        private readonly PurgeEventsApiErrorLogsQuery $purgeErrorLogsQuery
     ) {
     }
 

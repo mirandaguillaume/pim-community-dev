@@ -18,7 +18,7 @@ use Webmozart\Assert\Assert;
 final class QueryMessageBus implements MessageBusInterface
 {
     /** @var array<string, callable> */
-    private array $handlers;
+    private readonly array $handlers;
 
     /**
      * @param iterable<string, callable> $handlers
@@ -35,13 +35,13 @@ final class QueryMessageBus implements MessageBusInterface
      */
     public function dispatch(object $message, array $stamps = []): Envelope
     {
-        $handler = $this->handlers[get_class($message)] ?? null;
+        $handler = $this->handlers[$message::class] ?? null;
         if (null === $handler) {
-            throw new UnknownQueryException(\sprintf('No configured handler for the "%s" command', get_class($message)));
+            throw new UnknownQueryException(\sprintf('No configured handler for the "%s" command', $message::class));
         }
 
         $result = $handler($message);
-        $stamps[] = new HandledStamp($result, (string) \get_class((object) $handler));
+        $stamps[] = new HandledStamp($result, (string) ((object) $handler)::class);
 
         return Envelope::wrap($message, $stamps);
     }

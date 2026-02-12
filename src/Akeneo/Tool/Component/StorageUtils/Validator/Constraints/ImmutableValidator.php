@@ -25,8 +25,6 @@ class ImmutableValidator extends ConstraintValidator
 
     /**
      * Constructor
-     *
-     * @param EntityManager $em
      */
     public function __construct(EntityManager $em)
     {
@@ -60,13 +58,10 @@ class ImmutableValidator extends ConstraintValidator
     }
 
     /**
-     * @param  PropertyAccessor $accessor
-     * @param  mixed            $originalData
-     * @param  string           $property
      *
      * @return mixed
      */
-    private function getOriginalValue(PropertyAccessor $accessor, $originalData, string $property)
+    private function getOriginalValue(PropertyAccessor $accessor, mixed $originalData, string $property)
     {
         $originalValue = $accessor->getValue($originalData, sprintf('[%s]', $property));
         if (null === $originalValue) {
@@ -77,13 +72,10 @@ class ImmutableValidator extends ConstraintValidator
     }
 
     /**
-     * @param  PropertyAccessor $accessor
-     * @param  mixed            $entity
-     * @param  string           $property
      *
      * @return mixed
      */
-    private function getNewValue(PropertyAccessor $accessor, $entity, string $property)
+    private function getNewValue(PropertyAccessor $accessor, mixed $entity, string $property)
     {
         $newValue = $accessor->getValue($entity, $property);
         if (null === $newValue) {

@@ -14,27 +14,18 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
  */
 class AttributeColumnInfoExtractor
 {
-    const ARRAY_SEPARATOR = ',';
-    const FIELD_SEPARATOR = '-';
-    const UNIT_SEPARATOR = ' ';
-
-    protected IdentifiableObjectRepositoryInterface $attributeRepository;
-    protected IdentifiableObjectRepositoryInterface $channelRepository;
-    protected IdentifiableObjectRepositoryInterface $localeRepository;
-    protected AssociationColumnsResolver $assoColumnResolver;
+    final public const ARRAY_SEPARATOR = ',';
+    final public const FIELD_SEPARATOR = '-';
+    final public const UNIT_SEPARATOR = ' ';
     protected array $fieldNameInfoCache;
     protected array $excludedFieldNames;
 
     public function __construct(
-        IdentifiableObjectRepositoryInterface $attributeRepository,
-        IdentifiableObjectRepositoryInterface $channelRepository,
-        IdentifiableObjectRepositoryInterface $localeRepository,
-        AssociationColumnsResolver $assoColumnResolver
+        protected IdentifiableObjectRepositoryInterface $attributeRepository,
+        protected IdentifiableObjectRepositoryInterface $channelRepository,
+        protected IdentifiableObjectRepositoryInterface $localeRepository,
+        protected AssociationColumnsResolver $assoColumnResolver
     ) {
-        $this->attributeRepository = $attributeRepository;
-        $this->channelRepository   = $channelRepository;
-        $this->localeRepository    = $localeRepository;
-        $this->assoColumnResolver  = $assoColumnResolver;
         $this->fieldNameInfoCache  = [];
         $this->excludedFieldNames  = [];
     }

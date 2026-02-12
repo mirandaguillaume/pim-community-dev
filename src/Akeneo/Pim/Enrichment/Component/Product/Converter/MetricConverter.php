@@ -27,10 +27,6 @@ class MetricConverter
     /** @var IdentifiableObjectRepositoryInterface */
     protected $attributeRepository;
 
-    /**
-     * @param MeasureConverter                 $converter
-     * @param EntityWithValuesBuilderInterface $entityWithValuesBuilder
-     */
     public function __construct(
         MeasureConverter $converter,
         EntityWithValuesBuilderInterface $entityWithValuesBuilder,
@@ -43,9 +39,6 @@ class MetricConverter
 
     /**
      * Convert all the metric values into the channel configured conversion units
-     *
-     * @param EntityWithValuesInterface $entityWithValues
-     * @param ChannelInterface          $channel
      */
     public function convert(EntityWithValuesInterface $entityWithValues, ChannelInterface $channel)
     {

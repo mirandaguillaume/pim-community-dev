@@ -16,15 +16,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class FileInfoType extends AbstractType
 {
-    /** @var string */
-    protected $dataClass;
-
     /**
      * @param string $dataClass
      */
-    public function __construct($dataClass)
+    public function __construct(protected $dataClass)
     {
-        $this->dataClass = $dataClass;
     }
 
     /**

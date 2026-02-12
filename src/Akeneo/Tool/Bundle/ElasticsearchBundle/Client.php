@@ -26,16 +26,8 @@ class Client
 {
     /** Number of split requests when retrying bulk index */
     private const NUMBER_OF_BATCHES_ON_RETRY = 2;
-
-    private ClientBuilder $builder;
-    private Loader $configurationLoader;
-    private array $hosts;
-    private string $indexName;
-    private NativeClient $client;
-    private string $idPrefix;
-    private int $maxChunkSize;
-    private int $maxExpectedIndexationLatencyInMicroseconds;
-    private int $maxNumberOfRetries;
+    private readonly NativeClient $client;
+    private readonly int $maxExpectedIndexationLatencyInMicroseconds;
 
 
     /**
@@ -43,23 +35,16 @@ class Client
      * To learn more, please see {@link https://www.elastic.co/guide/en/elasticsearch/client/php-api/current/_configuration.html}
      */
     public function __construct(
-        ClientBuilder $builder,
-        Loader $configurationLoader,
-        array $hosts,
-        string $indexName,
-        string $idPrefix = '',
-        int $maxChunkSize = 100000000,
+        private readonly ClientBuilder $builder,
+        private readonly Loader $configurationLoader,
+        private readonly array $hosts,
+        private readonly string $indexName,
+        private readonly string $idPrefix = '',
+        private readonly int $maxChunkSize = 100_000_000,
         int $maxExpectedIndexationLatencyInMilliseconds=0,
-        int $maxNumberOfRetries=3
+        private readonly int $maxNumberOfRetries=3
     ) {
-        $this->builder = $builder;
-        $this->configurationLoader = $configurationLoader;
-        $this->hosts = $hosts;
-        $this->indexName = $indexName;
-        $this->idPrefix = $idPrefix;
-        $this->maxChunkSize = $maxChunkSize;
         $this->maxExpectedIndexationLatencyInMicroseconds = $maxExpectedIndexationLatencyInMilliseconds*1000;
-        $this->maxNumberOfRetries = $maxNumberOfRetries;
 
         $builder->setHosts($hosts);
         $this->client = $builder->build();
@@ -67,11 +52,9 @@ class Client
 
     /**
      * @param string       $id
-     * @param array        $body
      * @param Refresh|null $refresh
      *
      * @throws IndexationException
-     *
      * @return array see {@link https://www.elastic.co/guide/en/elasticsearch/client/php-api/current/_quickstart.html#_index_a_document}
      */
     public function index($id, array $body, Refresh $refresh = null)
@@ -101,15 +84,13 @@ class Client
 
     /**
      * @param iterable $documents
-     * @param ?string $keyAsId
      * @param Refresh|null $refresh
      *
      * @throws MissingIdentifierException
      * @throws IndexationException
-     *
      * @return array see {@link https://www.elastic.co/guide/en/elasticsearch/client/php-api/current/_indexing_documents.html#_bulk_indexing}
      */
-    public function bulkIndexes($documents, $keyAsId = null, Refresh $refresh = null)
+    public function bulkIndexes($documents, ?string $keyAsId = null, Refresh $refresh = null)
     {
         $params = [];
         $paramsComputedSize = 0;
@@ -132,7 +113,7 @@ class Client
                 $action['index']['_id'] = $this->idPrefix . $document[$keyAsId];
             }
 
-            $estimatedAddedSize = strlen(json_encode([$action, $document]));
+            $estimatedAddedSize = strlen(json_encode([$action, $document], JSON_THROW_ON_ERROR));
             if ($paramsComputedSize + $estimatedAddedSize >= $this->maxChunkSize) {
                 $mergedResponse = $this->doBulkIndex($params, $mergedResponse);
                 $paramsComputedSize = 0;
@@ -159,7 +140,7 @@ class Client
 
     private function doBulkIndex(array $params, array $mergedResponse): array
     {
-        $length = count($params['body']);
+        $length = is_countable($params['body']) ? count($params['body']) : 0;
         try {
             $mergedResponse = $this->doChunkedBulkIndex($params, $mergedResponse, $length);
         } catch (BadRequest400Exception) {
@@ -216,8 +197,6 @@ class Client
     }
 
     /**
-     * @param array  $body
-     *
      * @return array see {@link https://www.elastic.co/guide/en/elasticsearch/client/php-api/current/_quickstart.html#_search_for_a_document}
      */
     public function search(array $body)
@@ -231,8 +210,6 @@ class Client
     }
 
     /**
-     * @param array  $body
-     *
      * @return array see {@link https://www.elastic.co/guide/en/elasticsearch/reference/current/search-multi-search.html}
      */
     public function msearch(array $body): array
@@ -246,8 +223,6 @@ class Client
     }
 
     /**
-     * @param array $body
-     *
      * @return array see {@link https://www.elastic.co/guide/en/elasticsearch/client/php-api/current/ElasticsearchPHP_Endpoints.html#Elasticsearch_Clientcount_count}
      */
     public function count(array $body): array
@@ -352,8 +327,6 @@ class Client
 
     /**
      * See {@link https://www.elastic.co/guide/en/elasticsearch/client/php-api/current/ElasticsearchPHP_Endpoints.html#Elasticsearch_Namespaces_IndicesNamespaceexists_exists}
-     *
-     * @return bool
      */
     public function hasIndex(): bool
     {
@@ -386,22 +359,17 @@ class Client
     }
 
     /**
-     * @param array $response
-     *
      * @throws IndexationException
      */
     private function throwIndexationExceptionFromResponse(array $response)
     {
         foreach ($response['items'] as $item) {
             if (isset($item['index']['error'])) {
-                throw new IndexationException(json_encode($item['index']['error']));
+                throw new IndexationException(json_encode($item['index']['error'], JSON_THROW_ON_ERROR));
             }
         }
     }
 
-    /**
-     * @return string
-     */
     public function getIndexName(): string
     {
         return $this->indexName;

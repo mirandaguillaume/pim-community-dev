@@ -31,7 +31,7 @@ class ElasticsearchEventsApiDebugRepositoryIntegration extends TestCase
     {
         $this->elasticsearchEventsApiDebugRepository->persist([
             'id' => 'bb1ff8f4-bad8-4c5e-8d42-6116c23a3629',
-            'timestamp' => 631152000,
+            'timestamp' => 631_152_000,
             'level' => 'info',
             'message' => 'An information message.',
             'connection_code' => null,
@@ -45,7 +45,7 @@ class ElasticsearchEventsApiDebugRepositoryIntegration extends TestCase
         ]);
         $this->elasticsearchEventsApiDebugRepository->persist([
             'id' => '02cac8dc-5b75-11ed-9b6a-0242ac120002',
-            'timestamp' => 946684800,
+            'timestamp' => 946_684_800,
             'level' => 'warning',
             'message' => 'A warning message!',
             'connection_code' => 'erp_0000',
@@ -61,7 +61,7 @@ class ElasticsearchEventsApiDebugRepositoryIntegration extends TestCase
         Assert::assertEquals(
             [
                 'id' => 'bb1ff8f4-bad8-4c5e-8d42-6116c23a3629',
-                'timestamp' => 631152000,
+                'timestamp' => 631_152_000,
                 'level' => 'info',
                 'message' => 'An information message.',
                 'connection_code' => null,
@@ -80,7 +80,7 @@ class ElasticsearchEventsApiDebugRepositoryIntegration extends TestCase
         Assert::assertEquals(
             [
                 'id' => '02cac8dc-5b75-11ed-9b6a-0242ac120002',
-                'timestamp' => 946684800,
+                'timestamp' => 946_684_800,
                 'level' => 'warning',
                 'message' => 'A warning message!',
                 'connection_code' => 'erp_0000',

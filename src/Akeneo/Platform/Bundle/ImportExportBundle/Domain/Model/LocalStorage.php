@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Platform\Bundle\ImportExportBundle\Domain\Model;
 
-final class LocalStorage implements StorageInterface
+final readonly class LocalStorage implements StorageInterface
 {
     public const TYPE = 'local';
 

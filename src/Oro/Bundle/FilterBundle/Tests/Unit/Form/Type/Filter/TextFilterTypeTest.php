@@ -9,10 +9,7 @@ use Oro\Bundle\FilterBundle\Tests\Unit\Form\Type\AbstractTypeTestCase;
 
 class TextFilterTypeTest extends AbstractTypeTestCase
 {
-    /**
-     * @var TextFilterType
-     */
-    private $type;
+    private \Oro\Bundle\FilterBundle\Form\Type\Filter\TextFilterType $type;
 
     protected function setUp(): void
     {

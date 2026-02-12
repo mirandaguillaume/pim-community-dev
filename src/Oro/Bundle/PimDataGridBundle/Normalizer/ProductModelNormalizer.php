@@ -27,34 +27,8 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
 {
     use NormalizerAwareTrait;
 
-    /** @var CollectionFilterInterface */
-    private $filter;
-
-    /** @var VariantProductRatioInterface */
-    private $variantProductRatioQuery;
-
-    /** @var ImageAsLabel */
-    private $imageAsLabel;
-
-    /** @var ImageNormalizer */
-    private $imageNormalizer;
-
-    /**
-     * @param CollectionFilterInterface    $filter
-     * @param VariantProductRatioInterface $variantProductRatioQuery
-     * @param ImageAsLabel                 $imageAsLabel
-     * @param ImageNormalizer              $imageNormalizer
-     */
-    public function __construct(
-        CollectionFilterInterface $filter,
-        VariantProductRatioInterface $variantProductRatioQuery,
-        ImageAsLabel $imageAsLabel,
-        ImageNormalizer $imageNormalizer
-    ) {
-        $this->filter                   = $filter;
-        $this->variantProductRatioQuery = $variantProductRatioQuery;
-        $this->imageAsLabel             = $imageAsLabel;
-        $this->imageNormalizer          = $imageNormalizer;
+    public function __construct(private readonly CollectionFilterInterface $filter, private readonly VariantProductRatioInterface $variantProductRatioQuery, private readonly ImageAsLabel $imageAsLabel, private readonly ImageNormalizer $imageNormalizer)
+    {
     }
 
     /**
@@ -107,12 +81,6 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
         return true;
     }
 
-    /**
-     * @param ProductModelInterface $productModel
-     * @param string                $locale
-     *
-     * @return string|null
-     */
     private function getFamilyLabel(ProductModelInterface $productModel, string $locale) : ?string
     {
         $family = $productModel->getFamilyVariant()->getFamily();
@@ -125,12 +93,6 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
         return $this->getLabel($family->getCode(), $translation->getLabel());
     }
 
-    /**
-     * @param string      $familyCode
-     * @param string|null $familyLabel
-     *
-     * @return string
-     */
     private function getLabel(string $familyCode, ?string $familyLabel) : string
     {
         return empty($familyLabel) ? sprintf('[%s]', $familyCode) : $familyLabel;
@@ -138,9 +100,7 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
 
     /**
      * @param ValueInterface $data
-     * @param array          $context
      *
-     * @return array|null
      */
     private function normalizeImage(?ValueInterface $data, array $context = []) : ?array
     {
@@ -150,11 +110,8 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
     /**
      * Normalize the values of the productModel
      *
-     * @param WriteValueCollection $values
      * @param string                   $format
-     * @param array                    $context
      *
-     * @return array
      */
     private function normalizeValues(WriteValueCollection $values, $format, array $context = []) : array
     {
@@ -167,11 +124,6 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
         return $data;
     }
 
-    /**
-     * @param ProductModelInterface $productModel
-     *
-     * @return null|string
-     */
     private function getParentCode(ProductModelInterface $productModel): ?string
     {
         if (null !== $productModel->getParent()) {

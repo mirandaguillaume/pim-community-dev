@@ -26,8 +26,8 @@ class WebhookEventBuilder
      * @param iterable<EventDataBuilderInterface> $eventDataBuilders
      */
     public function __construct(
-        private iterable $eventDataBuilders,
-        private ApiEventBuildErrorLoggerInterface $apiEventBuildErrorLogger
+        private readonly iterable $eventDataBuilders,
+        private readonly ApiEventBuildErrorLoggerInterface $apiEventBuildErrorLogger
     ) {
     }
 

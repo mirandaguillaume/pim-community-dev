@@ -127,11 +127,8 @@ class BooleanFilter extends AbstractAttributeFilter implements AttributeFilterIn
 
     /**
      * Check if the value is valid
-     *
-     * @param AttributeInterface $attribute
-     * @param mixed              $value
      */
-    protected function checkValue(AttributeInterface $attribute, $value)
+    protected function checkValue(AttributeInterface $attribute, mixed $value)
     {
         if (!is_bool($value)) {
             throw InvalidPropertyTypeException::booleanExpected($attribute->getCode(), static::class, $value);

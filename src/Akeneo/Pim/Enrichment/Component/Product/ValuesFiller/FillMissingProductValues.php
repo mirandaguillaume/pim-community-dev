@@ -80,25 +80,14 @@ final class FillMissingProductValues implements FillMissingValuesInterface
         $nullValues = [];
 
         $attributesInFamily = $this->getAttributesInFamilyIndexedByCode($familyCode);
-        $nonPriceAttributes = array_filter($attributesInFamily, function (AttributeInterface $attribute): bool {
-            return AttributeTypes::PRICE_COLLECTION !== $attribute->getType();
-        });
+        $nonPriceAttributes = array_filter($attributesInFamily, fn(AttributeInterface $attribute): bool => AttributeTypes::PRICE_COLLECTION !== $attribute->getType());
 
         foreach ($nonPriceAttributes as $attribute) {
-            switch ($attribute->getType()) {
-                case AttributeTypes::METRIC:
-                    $nullValue = ['unit' => null, 'amount' => null];
-                    break;
-                case AttributeTypes::OPTION_MULTI_SELECT:
-                case AttributeTypes::REFERENCE_DATA_MULTI_SELECT:
-                case AttributeTypes::REFERENCE_ENTITY_COLLECTION:
-                case AttributeTypes::ASSET_COLLECTION:
-                    $nullValue = [];
-                    break;
-                default:
-                    $nullValue = null;
-                    break;
-            }
+            $nullValue = match ($attribute->getType()) {
+                AttributeTypes::METRIC => ['unit' => null, 'amount' => null],
+                AttributeTypes::OPTION_MULTI_SELECT, AttributeTypes::REFERENCE_DATA_MULTI_SELECT, AttributeTypes::REFERENCE_ENTITY_COLLECTION, AttributeTypes::ASSET_COLLECTION => [],
+                default => null,
+            };
 
             if (!$attribute->isScopable() && !$attribute->isLocalizable()) {
                 $nullValues[$attribute->getCode()]['<all_channels>']['<all_locales>'] = $nullValue;
@@ -138,13 +127,9 @@ final class FillMissingProductValues implements FillMissingValuesInterface
      */
     private function createProductValuesInPivotFormat(array $productStandardFormat): array
     {
-        $attributeCodes = array_map(function ($key) {
-            return (string) $key;
-        }, array_keys($productStandardFormat['values']));
+        $attributeCodes = array_map(fn($key) => (string) $key, array_keys($productStandardFormat['values']));
         $attributes = $this->getAttributes->forCodes($attributeCodes);
-        $nonPriceAttributes = array_filter($attributes, function (Attribute $attribute): bool {
-            return AttributeTypes::PRICE_COLLECTION !== $attribute->type();
-        });
+        $nonPriceAttributes = array_filter($attributes, fn(Attribute $attribute): bool => AttributeTypes::PRICE_COLLECTION !== $attribute->type());
 
         $valuesInPivotFormat = [];
         foreach ($productStandardFormat['values'] as $attributeCode => $values) {
@@ -152,8 +137,8 @@ final class FillMissingProductValues implements FillMissingValuesInterface
                 continue;
             }
             foreach ($values as $value) {
-                $channelCode = null === $value['scope'] ? '<all_channels>' : $value['scope'];
-                $localeCode = null === $value['locale'] ? '<all_locales>' : $value['locale'];
+                $channelCode = $value['scope'] ?? '<all_channels>';
+                $localeCode = $value['locale'] ?? '<all_locales>';
                 $valuesInPivotFormat[$attributeCode][$channelCode][$localeCode] = $value['data'];
             }
         }
@@ -194,9 +179,7 @@ final class FillMissingProductValues implements FillMissingValuesInterface
         $nullValues = [];
         $attributesInFamily = $this->getAttributesInFamilyIndexedByCode($familyCode);
 
-        $priceAttributes = array_filter($attributesInFamily, function (AttributeInterface $attribute): bool {
-            return AttributeTypes::PRICE_COLLECTION === $attribute->getType();
-        });
+        $priceAttributes = array_filter($attributesInFamily, fn(AttributeInterface $attribute): bool => AttributeTypes::PRICE_COLLECTION === $attribute->getType());
 
         foreach ($priceAttributes as $attribute) {
             if (!$attribute->isScopable() && !$attribute->isLocalizable()) {
@@ -245,13 +228,9 @@ final class FillMissingProductValues implements FillMissingValuesInterface
      */
     private function createPriceProductValuesInPivotFormat(array $productStandardFormat): array
     {
-        $attributeCodes = array_map(function ($key) {
-            return (string) $key;
-        }, array_keys($productStandardFormat['values']));
+        $attributeCodes = array_map(fn($key) => (string) $key, array_keys($productStandardFormat['values']));
         $attributes = $this->getAttributes->forCodes($attributeCodes);
-        $priceAttributes = array_filter($attributes, function (Attribute $attribute): bool {
-            return AttributeTypes::PRICE_COLLECTION === $attribute->type();
-        });
+        $priceAttributes = array_filter($attributes, fn(Attribute $attribute): bool => AttributeTypes::PRICE_COLLECTION === $attribute->type());
 
         $valuesInPivotFormat = [];
         foreach ($productStandardFormat['values'] as $attributeCode => $values) {
@@ -259,8 +238,8 @@ final class FillMissingProductValues implements FillMissingValuesInterface
                 continue;
             }
             foreach ($values as $value) {
-                $channelCode = null === $value['scope'] ? '<all_channels>' : $value['scope'];
-                $localeCode = null === $value['locale'] ? '<all_locales>' : $value['locale'];
+                $channelCode = $value['scope'] ?? '<all_channels>';
+                $localeCode = $value['locale'] ?? '<all_locales>';
 
                 foreach ($value['data'] as $price) {
                     $valuesInPivotFormat[$attributeCode][$channelCode][$localeCode][$price['currency']] = $price['amount'];
@@ -348,9 +327,7 @@ final class FillMissingProductValues implements FillMissingValuesInterface
     {
         usort(
             $currencies,
-            function (CurrencyInterface $a, CurrencyInterface $b) {
-                return $a->getCode() <=> $b->getCode();
-            }
+            fn(CurrencyInterface $a, CurrencyInterface $b) => $a->getCode() <=> $b->getCode()
         );
 
         return $currencies;

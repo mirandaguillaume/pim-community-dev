@@ -14,47 +14,12 @@ use Akeneo\Tool\Component\Localization\LanguageTranslator;
 
 class AttributeTranslator implements FlatHeaderTranslatorInterface
 {
-    /** @var LabelTranslatorInterface */
-    private $labelTranslator;
+    private ?array $channelTranslationCache = null;
 
-    /** @var AttributeColumnsResolver */
-    private $attributeColumnsResolver;
+    private array $attributeTranslations = [];
 
-    /** @var AttributeColumnInfoExtractor */
-    private $attributeColumnInfoExtractor;
-
-    /** @var GetChannelTranslations */
-    private $getChannelTranslations;
-
-    /** @var LanguageTranslator */
-    private $languageTranslator;
-
-    /** @var CurrencyTranslator */
-    private $currencyTranslator;
-
-    private $channelTranslationCache = null;
-
-    private $attributeTranslations = [];
-
-    /** @var GetAttributeTranslations */
-    private $getAttributeTranslations;
-
-    public function __construct(
-        LabelTranslatorInterface $labelTranslator,
-        AttributeColumnsResolver $attributeColumnsResolver,
-        AttributeColumnInfoExtractor $attributeColumnInfoExtractor,
-        GetChannelTranslations $getChannelTranslations,
-        LanguageTranslator $languageTranslator,
-        CurrencyTranslator $currencyTranslator,
-        GetAttributeTranslations $getAttributeTranslations
-    ) {
-        $this->labelTranslator = $labelTranslator;
-        $this->attributeColumnsResolver = $attributeColumnsResolver;
-        $this->attributeColumnInfoExtractor = $attributeColumnInfoExtractor;
-        $this->getChannelTranslations = $getChannelTranslations;
-        $this->languageTranslator = $languageTranslator;
-        $this->currencyTranslator = $currencyTranslator;
-        $this->getAttributeTranslations = $getAttributeTranslations;
+    public function __construct(private readonly LabelTranslatorInterface $labelTranslator, private readonly AttributeColumnsResolver $attributeColumnsResolver, private readonly AttributeColumnInfoExtractor $attributeColumnInfoExtractor, private readonly GetChannelTranslations $getChannelTranslations, private readonly LanguageTranslator $languageTranslator, private readonly CurrencyTranslator $currencyTranslator, private readonly GetAttributeTranslations $getAttributeTranslations)
+    {
     }
 
     public function supports(string $columnName): bool
@@ -110,7 +75,7 @@ class AttributeTranslator implements FlatHeaderTranslatorInterface
             );
 
             $columnLabelized = sprintf('%s (%s)', $columnLabelized, $currencyLabelized);
-        } elseif ($attribute->getType() === AttributeTypes::METRIC && false !== strpos($columnName, '-unit')) {
+        } elseif ($attribute->getType() === AttributeTypes::METRIC && str_contains($columnName, '-unit')) {
             $metricLabelized = $this->labelTranslator->translate(
                 'pim_common.unit',
                 $locale,

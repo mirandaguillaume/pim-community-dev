@@ -18,10 +18,10 @@ namespace Akeneo\Platform\Bundle\PimVersionBundle\Version;
 final class FlexibilityVersion implements PimVersion
 {
     /** @staticvar string */
-    const VERSION_CODENAME = 'Buckwheat';
+    public const VERSION_CODENAME = 'Buckwheat';
 
     /** @staticvar string */
-    const EDITION_NAME = 'EE';
+    public const EDITION_NAME = 'EE';
 
     /** @staticvar string **/
     private const EDITION_CODE = 'flexibility_instance';

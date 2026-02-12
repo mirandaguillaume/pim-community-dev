@@ -15,9 +15,9 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductModelId;
 class GetProductModelScores
 {
     public function __construct(
-        private GetProductModelScoresQueryInterface $getProductModelScoresQuery,
-        private GetLocalesByChannelQueryInterface   $getLocalesByChannelQuery,
-        private GetScoresByCriteriaStrategy         $getScoresByCriteria,
+        private readonly GetProductModelScoresQueryInterface $getProductModelScoresQuery,
+        private readonly GetLocalesByChannelQueryInterface   $getLocalesByChannelQuery,
+        private readonly GetScoresByCriteriaStrategy         $getScoresByCriteria,
     ) {
     }
 

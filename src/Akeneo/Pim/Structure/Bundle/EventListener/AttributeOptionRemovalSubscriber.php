@@ -25,10 +25,6 @@ class AttributeOptionRemovalSubscriber implements EventSubscriberInterface
     /** @var ProductAndProductModelQueryBuilderFactory */
     protected $pqbFactory;
 
-    /**
-     * @param FamilyVariantsByAttributeAxesInterface    $familyVariantsByAttributeAxes
-     * @param ProductAndProductModelQueryBuilderFactory $pqbFactory
-     */
     public function __construct(
         FamilyVariantsByAttributeAxesInterface $familyVariantsByAttributeAxes,
         ProductAndProductModelQueryBuilderFactory $pqbFactory
@@ -47,9 +43,6 @@ class AttributeOptionRemovalSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param GenericEvent $event
-     */
     public function disallowRemovalIfOptionIsUsedAsAttributeAxes(GenericEvent $event): void
     {
         $attributeOption = $event->getSubject();
@@ -72,12 +65,6 @@ class AttributeOptionRemovalSubscriber implements EventSubscriberInterface
         }
     }
 
-    /**
-     * @param AttributeOptionInterface $attributeOption
-     * @param array $familyVariantsIdentifier
-     *
-     * @return bool
-     */
     protected function thereAreEntitiesCurrentlyUsingThisOptionAsAxes(
         AttributeOptionInterface $attributeOption,
         array $familyVariantsIdentifier

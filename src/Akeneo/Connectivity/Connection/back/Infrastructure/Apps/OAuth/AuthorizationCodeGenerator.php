@@ -22,11 +22,11 @@ class AuthorizationCodeGenerator implements AuthorizationCodeGeneratorInterface
     private const AUTH_CODE_LIFETIME = 30;
 
     public function __construct(
-        private ClientManagerInterface $clientManager,
-        private UserRepositoryInterface $userRepository,
-        private IOAuth2GrantCode $storage,
-        private RandomCodeGeneratorInterface $randomCodeGenerator,
-        private ClockInterface $clock
+        private readonly ClientManagerInterface $clientManager,
+        private readonly UserRepositoryInterface $userRepository,
+        private readonly IOAuth2GrantCode $storage,
+        private readonly RandomCodeGeneratorInterface $randomCodeGenerator,
+        private readonly ClockInterface $clock
     ) {
     }
 

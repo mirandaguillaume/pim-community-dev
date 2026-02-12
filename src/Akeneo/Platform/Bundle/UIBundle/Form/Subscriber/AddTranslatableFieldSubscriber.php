@@ -50,11 +50,6 @@ class AddTranslatableFieldSubscriber implements EventSubscriberInterface
 
     /**
      * Constructor
-     *
-     * @param FormFactoryInterface $formFactory
-     * @param ValidatorInterface   $validator
-     * @param UserContext          $userContext
-     * @param array                $options
      */
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -89,8 +84,6 @@ class AddTranslatableFieldSubscriber implements EventSubscriberInterface
     /**
      * On pre set data event
      * Build the custom form based on the provided locales
-     *
-     * @param FormEvent $event
      */
     public function preSetData(FormEvent $event)
     {
@@ -108,7 +101,7 @@ class AddTranslatableFieldSubscriber implements EventSubscriberInterface
                 $this->formFactory->createNamed(
                     $binded['fieldName'],
                     $this->getOption('widget'),
-                    $content !== null ? $content : '',
+                    $content ?? '',
                     [
                         'label'           => $this->getLocaleLabel($binded['locale']),
                         'required'        => in_array($binded['locale'], $this->getOption('required_locale')),
@@ -122,8 +115,6 @@ class AddTranslatableFieldSubscriber implements EventSubscriberInterface
 
     /**
      * On submit event (validation)
-     *
-     * @param FormEvent $event
      */
     public function submit(FormEvent $event)
     {
@@ -158,8 +149,6 @@ class AddTranslatableFieldSubscriber implements EventSubscriberInterface
 
     /**
      * On post submit event (after validation)
-     *
-     * @param FormEvent $event
      */
     public function postSubmit(FormEvent $event)
     {
@@ -195,7 +184,7 @@ class AddTranslatableFieldSubscriber implements EventSubscriberInterface
         $availableTrans = [];
 
         foreach ($data as $translation) {
-            $availableTrans[strtolower($translation->getLocale())] = $translation;
+            $availableTrans[strtolower((string) $translation->getLocale())] = $translation;
         }
 
         foreach ($this->getFieldNames() as $locale => $fieldName) {

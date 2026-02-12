@@ -14,12 +14,12 @@ use Webmozart\Assert\Assert;
 class EventsApiRequestSucceededEvent
 {
     /** @var EventInterface[] */
-    private array $events;
+    private readonly array $events;
 
     /**
      * @param EventInterface[] $events
      */
-    public function __construct(private string $connectionCode, array $events)
+    public function __construct(private readonly string $connectionCode, array $events)
     {
         Assert::allIsInstanceOf($events, EventInterface::class);
         $this->events = $events;

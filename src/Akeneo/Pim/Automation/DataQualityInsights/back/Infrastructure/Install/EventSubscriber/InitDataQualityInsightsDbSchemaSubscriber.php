@@ -11,11 +11,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class InitDataQualityInsightsDbSchemaSubscriber implements EventSubscriberInterface
 {
-    private Connection $dbalConnection;
-
-    public function __construct(Connection $dbalConnection)
+    public function __construct(private readonly Connection $dbalConnection)
     {
-        $this->dbalConnection = $dbalConnection;
     }
 
     public static function getSubscribedEvents(): array

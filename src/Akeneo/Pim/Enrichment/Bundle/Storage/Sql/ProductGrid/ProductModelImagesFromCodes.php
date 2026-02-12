@@ -28,24 +28,13 @@ use Doctrine\DBAL\Connection;
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ProductModelImagesFromCodes
+final readonly class ProductModelImagesFromCodes
 {
-    /** @var Connection */
-    private $connection;
-
-    /** @var WriteValueCollectionFactory */
-    private $valueCollectionFactory;
-
-    public function __construct(Connection $connection, WriteValueCollectionFactory $valueCollectionFactory)
+    public function __construct(private Connection $connection, private WriteValueCollectionFactory $valueCollectionFactory)
     {
-        $this->connection = $connection;
-        $this->valueCollectionFactory = $valueCollectionFactory;
     }
 
     /**
-     * @param array  $codes
-     * @param string $channelCode
-     * @param string $localeCode
      *
      * @return array product model images index by product model code
      *     [
@@ -87,7 +76,6 @@ final class ProductModelImagesFromCodes
      * @param array $codes
      *
      * @throws \Doctrine\DBAL\DBALException
-     * @return array
      *              [
      *                'image_in_current_or_parent_product_model' => ['product_model_1']
      *                'image_in_sub_product_model' => ['product_model_2']
@@ -187,7 +175,7 @@ SQL;
         $productModelsInfo = [];
 
         foreach ($rows as $row) {
-            $rawValues = json_decode($row['raw_values'], true);
+            $rawValues = json_decode((string) $row['raw_values'], true, 512, JSON_THROW_ON_ERROR);
             $filteredRawValues = array_intersect_key($rawValues, [$row['attribute_code'] => true]);
             $productModels[$row['code']] = $filteredRawValues;
             $productModelsInfo[$row['code']]['is_scopable'] = $row['is_scopable'] ? $channelCode : null;
@@ -221,7 +209,6 @@ SQL;
      * @param string $localeCode
      *
      * @throws \Doctrine\DBAL\DBALException
-     * @return array
      */
     private function getImagesFromSubProductModel(array $codes, string $channelCode, string $localeCode): array
     {
@@ -268,7 +255,7 @@ SQL;
                 continue;
             }
 
-            $rawValues = json_decode($row['raw_values'], true);
+            $rawValues = json_decode((string) $row['raw_values'], true, 512, JSON_THROW_ON_ERROR);
             $filteredRawValues = array_intersect_key($rawValues, [$row['attribute_code'] => true]);
 
             $productModels[$row['code']] = $filteredRawValues;
@@ -303,7 +290,6 @@ SQL;
      * @param string $localeCode
      *
      * @throws \Doctrine\DBAL\DBALException
-     * @return array
      */
     private function getImagesFromVariantProduct(array $codes, string $channelCode, string $localeCode): array
     {
@@ -369,7 +355,7 @@ SQL;
                 continue;
             }
 
-            $imageValues = \json_decode($row['image_values'], true);
+            $imageValues = \json_decode((string) $row['image_values'], true, 512, JSON_THROW_ON_ERROR);
             $productModels[$row['code']] = $imageValues ? [$row['attribute_code'] => $imageValues] : [];
             $productModelsInfo[$row['code']]['is_scopable'] = $row['is_scopable'] ? $channelCode : null;
             $productModelsInfo[$row['code']]['is_localizable'] = $row['is_localizable'] ? $channelCode : null;

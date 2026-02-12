@@ -21,8 +21,8 @@ use Doctrine\DBAL\Types\Types;
 class GetProductModelCriterionEvaluationByProductIdAndCriterionCodeQuery implements GetCriterionEvaluationByProductIdAndCriterionCodeQueryInterface
 {
     public function __construct(
-        private Connection $dbConnection,
-        private hydrateCriterionEvaluationResult $hydrateCriterionEvaluationResult
+        private readonly Connection $dbConnection,
+        private readonly hydrateCriterionEvaluationResult $hydrateCriterionEvaluationResult
     ) {
     }
 

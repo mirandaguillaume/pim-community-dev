@@ -11,11 +11,9 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class OutputFileFetcherSpec extends ObjectBehavior
 {
-    /** @var Filesystem */
-    private $filesystem;
+    private ?\Symfony\Component\Filesystem\Filesystem $filesystem = null;
 
-    /** @var string */
-    private $directory;
+    private ?string $directory = null;
 
     function let()
     {

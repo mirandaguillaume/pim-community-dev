@@ -23,15 +23,15 @@ class EventsApiDebugLogger implements
     EventsApiRequestLoggerInterface,
     ApiEventBuildErrorLoggerInterface
 {
-    private EventNormalizerInterface $defaultEventNormalizer;
+    private readonly EventNormalizerInterface $defaultEventNormalizer;
 
     /**
      * @param iterable<EventNormalizerInterface> $eventNormalizers
      */
     public function __construct(
-        private EventsApiDebugRepositoryInterface $repository,
-        private ClockInterface $clock,
-        private iterable $eventNormalizers
+        private readonly EventsApiDebugRepositoryInterface $repository,
+        private readonly ClockInterface $clock,
+        private readonly iterable $eventNormalizers
     ) {
         $this->defaultEventNormalizer = new EventNormalizer();
     }

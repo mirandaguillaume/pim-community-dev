@@ -26,21 +26,15 @@ class FlatItemBufferFlusher implements StepExecutionAwareInterface
     /** @var ColumnSorterInterface */
     protected $columnSorter;
 
-    /** @var ColumnPresenterInterface */
-    private $columnPresenter;
-
-    public function __construct(ColumnPresenterInterface $columnPresenter, ColumnSorterInterface $columnSorter = null)
+    public function __construct(private readonly ColumnPresenterInterface $columnPresenter, ColumnSorterInterface $columnSorter = null)
     {
         $this->columnSorter = $columnSorter;
-        $this->columnPresenter = $columnPresenter;
     }
 
     /**
      * Flushes the flat item buffer into one or multiple output files.
      * Several output files are created if the buffer contains more items that maximum lines authorized per output file.
      *
-     * @param FlatItemBuffer $buffer
-     * @param array          $writerOptions
      * @param string         $basePathname
      * @param int            $maxLinesPerFile by default -1, which means there is no limit of lines
      *
@@ -73,8 +67,6 @@ class FlatItemBufferFlusher implements StepExecutionAwareInterface
     }
 
     /**
-     * @param FlatItemBuffer $buffer
-     * @param array          $writerOptions
      * @param string         $filePath
      *
      * @return array
@@ -115,8 +107,6 @@ class FlatItemBufferFlusher implements StepExecutionAwareInterface
     }
 
     /**
-     * @param FlatItemBuffer $buffer
-     * @param array          $writerOptions
      * @param int            $maxLinesPerFile
      * @param string         $basePathname
      *
@@ -179,17 +169,12 @@ class FlatItemBufferFlusher implements StepExecutionAwareInterface
         return $writtenFiles;
     }
 
-    /**
-     * @param StepExecution $stepExecution
-     */
     public function setStepExecution(StepExecution $stepExecution)
     {
         $this->stepExecution = $stepExecution;
     }
 
     /**
-     * @param array $headers
-     *
      * @return array
      */
     protected function sortHeaders(array $headers)
@@ -202,9 +187,7 @@ class FlatItemBufferFlusher implements StepExecutionAwareInterface
     }
 
     /**
-     * @param FlatItemBuffer $buffer
      * @param int            $maxLinesPerFile
-     *
      * @return bool
      */
     protected function areSeveralFilesNeeded(FlatItemBuffer $buffer, $maxLinesPerFile)
@@ -219,11 +202,9 @@ class FlatItemBufferFlusher implements StepExecutionAwareInterface
     /**
      * Return the given file path in terms of the current file count if needed
      *
-     * @param FlatItemBuffer $buffer
      * @param int            $linesPerFile
      * @param string         $pathPattern
      * @param int            $currentFileCount
-     *
      * @return string
      */
     protected function resolveFilePath(

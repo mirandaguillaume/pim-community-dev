@@ -10,30 +10,15 @@ use Symfony\Component\Security\Acl\Model\PermissionGrantingStrategyInterface;
 class RootBasedAclWrapper implements AclInterface
 {
     /**
-     * @var Acl
-     */
-    private $acl;
-
-    /**
-     * @var Acl
-     */
-    private $rootAcl;
-
-    /**
      * @var PermissionGrantingStrategyInterface
      */
     private $permissionGrantingStrategy;
 
     /**
      * Constructor
-     *
-     * @param Acl $acl
-     * @param Acl $rootAcl
      */
-    public function __construct(Acl $acl, Acl $rootAcl)
+    public function __construct(private readonly Acl $acl, private readonly Acl $rootAcl)
     {
-        $this->acl = $acl;
-        $this->rootAcl = $rootAcl;
     }
 
     /**
@@ -191,7 +176,7 @@ class RootBasedAclWrapper implements AclInterface
         if ($this->permissionGrantingStrategy === null) {
             // Unfortunately permissionGrantingStrategy property is private, so the only way
             // to get it is to use the reflection
-            $r = new \ReflectionClass(get_class($this->acl));
+            $r = new \ReflectionClass($this->acl::class);
             $p = $r->getProperty('permissionGrantingStrategy');
             $p->setAccessible(true);
             $this->permissionGrantingStrategy = $p->getValue($this->acl);

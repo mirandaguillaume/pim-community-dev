@@ -18,24 +18,19 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class AjaxOptionController
 {
-    protected ManagerRegistry $doctrine;
-    protected ConfigurationRegistryInterface $registry;
-
-    public function __construct(ManagerRegistry $doctrine, ConfigurationRegistryInterface $registry)
+    public function __construct(protected ManagerRegistry $doctrine, protected ConfigurationRegistryInterface $registry)
     {
-        $this->doctrine = $doctrine;
-        $this->registry = $registry;
     }
 
     /**
      * Returns a JSON response containing options
      *
-     * @param Request $request
      *
      * @return JsonResponse
      */
     public function listAction(Request $request)
     {
+        $choices = [];
         $search = $request->get('search');
         $referenceDataName = $request->get('referenceDataName');
         $class = $request->get('class');

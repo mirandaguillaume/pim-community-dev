@@ -12,21 +12,12 @@ namespace Akeneo\Pim\Enrichment\Component\Product\ProductModel\Query;
  */
 class CompleteVariantProducts
 {
-    /** @var array */
-    private $completenesses;
-
-    /**
-     * @param array $completenesses
-     */
-    public function __construct(array $completenesses)
+    public function __construct(private readonly array $completenesses)
     {
-        $this->completenesses = $completenesses;
     }
 
     /**
      * Count the number of complete variant product and the total number of variant product for all channels and locales
-     *
-     * @return array
      */
     public function values(): array
     {
@@ -40,10 +31,7 @@ class CompleteVariantProducts
     /**
      * Count the number of complete variant product and the total number of variant product depending on a channel and a locale
      *
-     * @param string $channel
-     * @param string $locale
      *
-     * @return array
      */
     public function value(string $channel, string $locale): array
     {
@@ -64,8 +52,6 @@ class CompleteVariantProducts
 
     /**
      * Return number of product variant
-     *
-     * @return int
      */
     private function numberOfProducts(): int
     {
@@ -85,8 +71,6 @@ class CompleteVariantProducts
      *          fr_FR => 2
      *      ]
      * ]
-     *
-     * @return array
      */
     private function parsedFlatCompletenesses(): array
     {

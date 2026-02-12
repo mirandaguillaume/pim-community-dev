@@ -18,7 +18,7 @@ class SimpleYamlImport implements DefaultValuesProviderInterface
      * @param array<string> $supportedJobNames
      */
     public function __construct(
-        private array $supportedJobNames,
+        private readonly array $supportedJobNames,
     ) {
     }
 

@@ -17,8 +17,6 @@ interface AssociationRepositoryInterface
     /**
      * Get the list of associations corresponding to the given owner IDs
      *
-     * @param ProductInterface $product
-     * @param array            $ownerIds
      *
      * @return AssociationInterface[]
      */

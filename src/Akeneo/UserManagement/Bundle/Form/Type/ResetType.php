@@ -15,16 +15,10 @@ class ResetType extends AbstractType
     private const PASSWORD_MAXIMUM_LENGTH = 4096;
 
     /**
-     * @var string
-     */
-    protected $class;
-
-    /**
      * @param string $class User entity class
      */
-    public function __construct($class)
+    public function __construct(protected $class)
     {
-        $this->class = $class;
     }
 
     /**

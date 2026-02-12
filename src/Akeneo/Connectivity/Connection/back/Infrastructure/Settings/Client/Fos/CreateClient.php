@@ -17,7 +17,7 @@ use OAuth2\OAuth2;
  */
 class CreateClient implements CreateClientInterface
 {
-    public function __construct(private ClientManagerInterface $clientManager)
+    public function __construct(private readonly ClientManagerInterface $clientManager)
     {
     }
 

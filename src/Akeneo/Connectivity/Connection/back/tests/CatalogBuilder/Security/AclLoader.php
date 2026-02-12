@@ -19,8 +19,8 @@ use Oro\Bundle\SecurityBundle\Model\AclPrivilegeIdentity;
 class AclLoader
 {
     public function __construct(
-        private AclManager $aclManager,
-        private RoleRepository $roleRepository,
+        private readonly AclManager $aclManager,
+        private readonly RoleRepository $roleRepository,
     ) {
     }
 

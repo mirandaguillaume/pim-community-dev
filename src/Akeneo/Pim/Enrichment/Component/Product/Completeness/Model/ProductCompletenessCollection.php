@@ -15,7 +15,7 @@ final class ProductCompletenessCollection implements \IteratorAggregate, \Counta
     /** @var ProductCompleteness[] */
     private array $completenesses = [];
 
-    public function __construct(private UuidInterface $productUuid, array $completenesses)
+    public function __construct(private readonly UuidInterface $productUuid, array $completenesses)
     {
         foreach ($completenesses as $completeness) {
             $this->add($completeness);

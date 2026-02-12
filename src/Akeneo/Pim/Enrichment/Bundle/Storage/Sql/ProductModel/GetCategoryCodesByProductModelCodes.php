@@ -13,14 +13,10 @@ use Doctrine\DBAL\Connection;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GetCategoryCodesByProductModelCodes
+final readonly class GetCategoryCodesByProductModelCodes
 {
-    /** @var Connection */
-    private $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     /**
@@ -28,9 +24,7 @@ final class GetCategoryCodesByProductModelCodes
      */
     public function fromProductModelCodes(array $productModelCodes): array
     {
-        $productModelCodes = (function (string ...$productModelCodes) {
-            return $productModelCodes;
-        })(... $productModelCodes);
+        $productModelCodes = (fn(string ...$productModelCodes) => $productModelCodes)(... $productModelCodes);
 
         $results = [];
 
@@ -64,7 +58,7 @@ SQL;
         )->fetchAllAssociative();
 
         foreach ($queryResults as $queryResult) {
-            $categoryCodes = json_decode($queryResult['category_codes']);
+            $categoryCodes = json_decode((string) $queryResult['category_codes'], null, 512, JSON_THROW_ON_ERROR);
             sort($categoryCodes);
             $results[$queryResult['product_model_code']] = $categoryCodes;
         }

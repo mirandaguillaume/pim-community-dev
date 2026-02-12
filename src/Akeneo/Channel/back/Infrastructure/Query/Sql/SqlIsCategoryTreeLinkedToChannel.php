@@ -13,11 +13,8 @@ use Doctrine\DBAL\Connection;
  */
 final class SqlIsCategoryTreeLinkedToChannel implements IsCategoryTreeLinkedToChannel
 {
-    private Connection $connection;
-
-    public function __construct($connection)
+    public function __construct(private $connection)
     {
-        $this->connection = $connection;
     }
 
     public function byCategoryTreeId(int $categoryTreeId): bool

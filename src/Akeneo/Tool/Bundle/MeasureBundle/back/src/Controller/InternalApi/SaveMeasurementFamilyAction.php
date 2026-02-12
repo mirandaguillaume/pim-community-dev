@@ -23,24 +23,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class SaveMeasurementFamilyAction
 {
-    private ValidatorInterface $validator;
-
-    private NormalizerInterface $violationNormalizer;
-
-    private SaveMeasurementFamilyHandler $saveMeasurementFamilyHandler;
-
-    private SecurityFacade $securityFacade;
-
-    public function __construct(
-        ValidatorInterface $validator,
-        SaveMeasurementFamilyHandler $saveMeasurementFamilyHandler,
-        NormalizerInterface $violationNormalizer,
-        SecurityFacade $securityFacade
-    ) {
-        $this->validator                    = $validator;
-        $this->saveMeasurementFamilyHandler = $saveMeasurementFamilyHandler;
-        $this->violationNormalizer          = $violationNormalizer;
-        $this->securityFacade               = $securityFacade;
+    public function __construct(private readonly ValidatorInterface $validator, private readonly SaveMeasurementFamilyHandler $saveMeasurementFamilyHandler, private readonly NormalizerInterface $violationNormalizer, private readonly SecurityFacade $securityFacade)
+    {
     }
 
     public function __invoke(Request $request): Response
@@ -102,7 +86,7 @@ class SaveMeasurementFamilyAction
 
     private function decodeRequest(Request $request): array
     {
-        $normalizedRequest = json_decode($request->getContent(), true);
+        $normalizedRequest = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         if (null === $normalizedRequest) {
             throw new BadRequestHttpException('Invalid json message received');
@@ -116,7 +100,7 @@ class SaveMeasurementFamilyAction
      */
     private function hasDesynchronizedCode(Request $request): bool
     {
-        $normalizedCommand = json_decode($request->getContent(), true);
+        $normalizedCommand = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         return $normalizedCommand['code'] !== $request->get('measurement_family_code');
     }

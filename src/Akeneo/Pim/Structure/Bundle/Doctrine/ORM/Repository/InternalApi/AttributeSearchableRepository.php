@@ -107,7 +107,6 @@ class AttributeSearchableRepository implements SearchableRepositoryInterface
 
     /**
      * @param string $search
-     * @param array  $options
      *
      * @return \Doctrine\ORM\QueryBuilder
      */

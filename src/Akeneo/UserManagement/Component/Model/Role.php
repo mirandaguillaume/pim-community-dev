@@ -7,18 +7,16 @@ namespace Akeneo\UserManagement\Component\Model;
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Role implements RoleInterface
+class Role implements RoleInterface, \Stringable
 {
-    public const TYPE_DEFAULT = 'default';
+    final public const TYPE_DEFAULT = 'default';
 
     protected ?int $id = null;
-    protected ?string $role = null;
     protected ?string $label = null;
     protected string $type = self::TYPE_DEFAULT;
 
-    public function __construct(?string $role = null)
+    public function __construct(protected ?string $role = null)
     {
-        $this->role = $role;
     }
 
     /**

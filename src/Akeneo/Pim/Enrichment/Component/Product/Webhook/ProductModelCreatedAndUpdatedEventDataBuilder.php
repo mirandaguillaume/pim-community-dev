@@ -22,15 +22,8 @@ use Akeneo\Platform\Component\Webhook\EventDataCollection;
  */
 class ProductModelCreatedAndUpdatedEventDataBuilder implements EventDataBuilderInterface
 {
-    private GetConnectorProductModels $getConnectorProductModelsQuery;
-    private ConnectorProductModelNormalizer $connectorProductModelNormalizer;
-
-    public function __construct(
-        GetConnectorProductModels $getConnectorProductModelsQuery,
-        ConnectorProductModelNormalizer $connectorProductModelNormalizer
-    ) {
-        $this->getConnectorProductModelsQuery = $getConnectorProductModelsQuery;
-        $this->connectorProductModelNormalizer = $connectorProductModelNormalizer;
+    public function __construct(private readonly GetConnectorProductModels $getConnectorProductModelsQuery, private readonly ConnectorProductModelNormalizer $connectorProductModelNormalizer)
+    {
     }
 
     public function supports(BulkEventInterface $event): bool

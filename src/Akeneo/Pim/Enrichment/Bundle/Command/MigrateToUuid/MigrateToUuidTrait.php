@@ -91,8 +91,8 @@ trait MigrateToUuidTrait
 
         foreach ($result as $indexName => $indexColumns) {
             // There is a json_encode(json_decode()) because the format is not the same between PHP and mySQL.
-            $columns = \explode(',', $indexColumns);
-            if (\json_encode($columns) === \json_encode($columnNames)) {
+            $columns = \explode(',', (string) $indexColumns);
+            if (\json_encode($columns, JSON_THROW_ON_ERROR) === \json_encode($columnNames, JSON_THROW_ON_ERROR)) {
                 return $indexName;
             }
         }

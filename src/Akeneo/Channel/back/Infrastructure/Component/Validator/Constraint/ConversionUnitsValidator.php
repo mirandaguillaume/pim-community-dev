@@ -21,10 +21,6 @@ class ConversionUnitsValidator extends ConstraintValidator
     /** @var MeasureManager */
     protected $measureManager;
 
-    /**
-     * @param IdentifiableObjectRepositoryInterface $attributeRepository
-     * @param MeasureManager                        $measureManager
-     */
     public function __construct(
         IdentifiableObjectRepositoryInterface $attributeRepository,
         MeasureManager $measureManager

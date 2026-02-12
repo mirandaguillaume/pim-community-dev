@@ -15,12 +15,12 @@ use Webmozart\Assert\Assert;
  * @phpstan-import-type ProcessNormalized from Process
  * @phpstan-type FamilyPropertyNormalized array{type: 'family', process: ProcessNormalized}
  */
-final class FamilyProperty implements PropertyInterface
+final readonly class FamilyProperty implements PropertyInterface
 {
     public const TYPE = 'family';
 
     private function __construct(
-        private readonly Process $process,
+        private Process $process,
     ) {
     }
 

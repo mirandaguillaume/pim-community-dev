@@ -23,10 +23,6 @@ class ResetUniqueValidationSubscriber
     /** @var UniqueAxesCombinationSet */
     protected $uniqueAxesCombinationSet;
 
-    /**
-     * @param UniqueValuesSet          $uniqueValueSet
-     * @param UniqueAxesCombinationSet $uniqueAxesCombinationSet
-     */
     public function __construct(UniqueValuesSet $uniqueValueSet, UniqueAxesCombinationSet $uniqueAxesCombinationSet)
     {
         $this->uniqueValueSet = $uniqueValueSet;

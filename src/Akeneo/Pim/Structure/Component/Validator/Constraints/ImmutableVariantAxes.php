@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class ImmutableVariantAxes extends Constraint
 {
-    public const IMMUTABLE_VARIANT_AXES = 'pim_catalog.constraint.family_variant_axes_immutable';
+    final public const IMMUTABLE_VARIANT_AXES = 'pim_catalog.constraint.family_variant_axes_immutable';
 
     /** @var string */
     public $propertyPath = 'axes';

@@ -32,7 +32,7 @@ class CurrencyController
     {
         if (!$this->securityFacade->isGranted('pim_enrich_currency_toggle')) {
             throw AccessDeniedException::create(
-                __CLASS__,
+                self::class,
                 __METHOD__,
             );
         }
@@ -42,7 +42,7 @@ class CurrencyController
         try {
             $currency->toggleActivation();
             $this->currencySaver->save($currency);
-        } catch (LinkedChannelException $e) {
+        } catch (LinkedChannelException) {
             return new JsonResponse([
                 'successful' => false,
                 'message' => 'flash.currency.error.linked_to_channel'

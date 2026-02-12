@@ -16,7 +16,7 @@ use Doctrine\DBAL\Driver\Exception;
  */
 class GetEnrichedValuesByTemplateUuidSql implements GetEnrichedValuesByTemplateUuid
 {
-    public function __construct(private Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
     }
 
@@ -69,7 +69,7 @@ class GetEnrichedValuesByTemplateUuidSql implements GetEnrichedValuesByTemplateU
                 $code = $row['code'];
                 $valueCollection = ValueCollection::fromDatabase(
                     json_decode(
-                        $row['value_collection'],
+                        (string) $row['value_collection'],
                         true,
                         512,
                         JSON_THROW_ON_ERROR,

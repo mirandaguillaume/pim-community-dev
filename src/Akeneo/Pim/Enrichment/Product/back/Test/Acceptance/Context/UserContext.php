@@ -25,12 +25,12 @@ final class UserContext implements Context
     private int $userIdSequence = 0;
 
     public function __construct(
-        private InMemoryRoleRepository $roleRepository,
-        private InMemoryGroupRepository $groupRepository,
-        private InMemoryUserRepository $userRepository,
-        private UserFactory $userFactory,
-        private ValidatorInterface $validator,
-        private TokenStorageInterface $tokenStorage
+        private readonly InMemoryRoleRepository $roleRepository,
+        private readonly InMemoryGroupRepository $groupRepository,
+        private readonly InMemoryUserRepository $userRepository,
+        private readonly UserFactory $userFactory,
+        private readonly ValidatorInterface $validator,
+        private readonly TokenStorageInterface $tokenStorage
     ) {
     }
 

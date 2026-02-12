@@ -16,9 +16,6 @@ class AttributeOptionNormalizer implements NormalizerInterface, CacheableSupport
     /** @var NormalizerInterface */
     protected $stdNormalizer;
 
-    /**
-     * @param NormalizerInterface $normalizer
-     */
     public function __construct(NormalizerInterface $normalizer)
     {
         $this->stdNormalizer = $normalizer;

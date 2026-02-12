@@ -12,9 +12,6 @@ class LocaleType extends AbstractType
     /** @var LocaleProviderInterface */
     protected $localeProvider;
 
-    /**
-     * @param LocaleProviderInterface $localeProvider
-     */
     public function __construct(LocaleProviderInterface $localeProvider)
     {
         $this->localeProvider = $localeProvider;

@@ -18,7 +18,7 @@ use Akeneo\UserManagement\Component\Model\UserInterface;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class UpdateUserPermissions implements UpdateUserPermissionsInterface
+final readonly class UpdateUserPermissions implements UpdateUserPermissionsInterface
 {
     public function __construct(
         private UserManager $userManager,

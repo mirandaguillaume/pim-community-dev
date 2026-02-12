@@ -17,15 +17,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class DatagridViewType extends AbstractType
 {
-    /** @var string */
-    protected $dataClass;
-
     /**
      * @param string $dataClass
      */
-    public function __construct($dataClass)
+    public function __construct(protected $dataClass)
     {
-        $this->dataClass = $dataClass;
     }
 
     /**

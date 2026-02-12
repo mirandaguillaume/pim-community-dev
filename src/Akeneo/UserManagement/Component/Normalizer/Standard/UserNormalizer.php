@@ -51,9 +51,7 @@ class UserNormalizer implements NormalizerInterface, CacheableSupportsMethodInte
             'default_category_tree' => $user->getDefaultTree()->getCode(),
             'user_default_locale' => $user->getUiLocale()->getCode(),
             'timezone' => $user->getTimezone(),
-            'groups' => array_filter($user->getGroupNames(), function (string $groupName) {
-                return $groupName !== User::GROUP_DEFAULT;
-            }),
+            'groups' => array_filter($user->getGroupNames(), fn(string $groupName) => $groupName !== User::GROUP_DEFAULT),
             'roles' => $user->getRolesCollection()->map(
                 fn (RoleInterface $role): string => $role->getRole()
             )->getValues(),

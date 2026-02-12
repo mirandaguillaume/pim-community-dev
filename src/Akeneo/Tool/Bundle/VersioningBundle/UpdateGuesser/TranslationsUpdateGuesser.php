@@ -31,8 +31,6 @@ class TranslationsUpdateGuesser implements UpdateGuesserInterface
 
     /**
      * Constructor
-     *
-     * @param array $versionableEntities
      */
     public function __construct(array $versionableEntities)
     {

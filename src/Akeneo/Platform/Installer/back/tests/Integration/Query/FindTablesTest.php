@@ -31,7 +31,7 @@ class FindTablesTest extends TestCase
 
     private function getQuery(): FindTables
     {
-        return $this->get('Akeneo\Platform\Installer\Infrastructure\Query\FindTables');
+        return $this->get(\Akeneo\Platform\Installer\Infrastructure\Query\FindTables::class);
     }
 
     private function assertContainsAtLeast(array $expectedTable, array $actualTable): void

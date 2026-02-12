@@ -123,9 +123,7 @@ class ProductReader implements ItemReaderInterface, InitializableInterface, Step
             $filters = $filters['data'];
         }
 
-        return array_filter($filters, function ($filter) {
-            return count($filter) > 0;
-        });
+        return array_filter($filters, fn($filter) => (is_countable($filter) ? count($filter) : 0) > 0);
     }
 
     /**
@@ -135,9 +133,7 @@ class ProductReader implements ItemReaderInterface, InitializableInterface, Step
     {
         $filters = $this->getConfiguredFilters();
 
-        return array_values(array_filter($filters, function ($filter) use ($fieldName) {
-            return $filter['field'] === $fieldName;
-        }))[0] ?? null;
+        return array_values(array_filter($filters, fn($filter) => $filter['field'] === $fieldName))[0] ?? null;
     }
 
     protected function getProductsCursor(array $filters, ChannelInterface $channel = null): CursorInterface

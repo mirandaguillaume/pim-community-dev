@@ -17,13 +17,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EntityIdentifierType extends AbstractType
 {
-    const NAME = 'pim_enrich_entity_identifier';
+    final public const NAME = 'pim_enrich_entity_identifier';
 
-    protected ManagerRegistry $registry;
-
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(protected ManagerRegistry $registry)
     {
-        $this->registry = $registry;
     }
 
     /**
@@ -40,7 +37,6 @@ class EntityIdentifierType extends AbstractType
     }
 
     /**
-     * @param array $options
      * @return EntitiesToIdsTransformer
      */
     protected function createEntitiesToIdsTransformer(array $options)
@@ -92,7 +88,7 @@ class EntityIdentifierType extends AbstractType
                         throw new FormException(
                             sprintf(
                                 'Option "em" should be a string or entity manager object, %s given',
-                                is_object($em) ? get_class($em) : gettype($em)
+                                get_debug_type($em)
                             )
                         );
                     }
@@ -116,7 +112,7 @@ class EntityIdentifierType extends AbstractType
                     throw new FormException(
                         sprintf(
                             'Option "queryBuilder" should be a callable, %s given',
-                            is_object($queryBuilder) ? get_class($queryBuilder) : gettype($queryBuilder)
+                            get_debug_type($queryBuilder)
                         )
                     );
                 }

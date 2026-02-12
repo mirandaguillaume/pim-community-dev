@@ -107,7 +107,7 @@ class DeleteMeasurementFamilyTest extends AcceptanceTestCase
     {
         try {
             $this->measurementFamilyRepository->getByCode(MeasurementFamilyCode::fromString($measurementFamilyCode));
-        } catch (MeasurementFamilyNotFoundException $e) {
+        } catch (MeasurementFamilyNotFoundException) {
             return;
         }
 
@@ -133,9 +133,6 @@ class DeleteMeasurementFamilyTest extends AcceptanceTestCase
         );
     }
 
-    /**
-     * @param ConstraintViolationListInterface $violations
-     */
     private function assertCannotRemoveTheMeasurementFamily(
         ConstraintViolationListInterface $violations
     ): void {

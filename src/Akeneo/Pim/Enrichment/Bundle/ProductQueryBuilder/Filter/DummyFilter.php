@@ -34,11 +34,6 @@ class DummyFilter implements AttributeFilterInterface, FieldFilterInterface
     /** @var mixed */
     protected $queryBuilder;
 
-    /**
-     * @param array $supportedAttributeTypes
-     * @param array $supportedFields
-     * @param array $supportedOperators
-     */
     public function __construct(array $supportedAttributeTypes, array $supportedFields, array $supportedOperators)
     {
         $this->supportedAttributeTypes = $supportedAttributeTypes;

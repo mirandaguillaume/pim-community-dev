@@ -20,37 +20,28 @@ class JobQueueConsumerConfiguration implements \ArrayAccess
     /**
      * Job code to execute by the consumer.
      * If set, all jobs will NOT be executed but the ones given in the whitelist.
-     *
-     * @var array
      * */
-    private $whitelistedJobInstanceCodes = [];
+    private array $whitelistedJobInstanceCodes = [];
 
     /**
      * Job codes NOT to execute by the consumer.
      * If this is set, all jobs will be executed but the ones given in the blacklist.
      * When both lists are empty, all jobs consumed are executed.
-     *
-     * @var array
      * */
-    private $blacklistedJobInstanceCodes = [];
+    private array $blacklistedJobInstanceCodes = [];
 
     /**
      * Number of seconds to wait between each check when polling jobs queue.
-     *
-     * @var int
      * */
-    private $queueCheckInterval = 5;
+    private int $queueCheckInterval = 5;
 
     /**
      * Number of job iterations before the consumer waits for a job.
      * 0 means the process does wait for a job forever.
-     *
-     * @var int
      * */
-    private $timeToLive = 0;
+    private int $timeToLive = 0;
 
-    /** @var array */
-    private $listSupportedSettings = ["whitelistedJobInstanceCodes", "blacklistedJobInstanceCodes", "queueCheckInterval", "timeToLive"];
+    private array $listSupportedSettings = ["whitelistedJobInstanceCodes", "blacklistedJobInstanceCodes", "queueCheckInterval", "timeToLive"];
 
 
     public function setWhitelistedJobInstanceCodes(array $codes): self
@@ -116,24 +107,19 @@ class JobQueueConsumerConfiguration implements \ArrayAccess
 
     public function offsetGet($offset): array|int
     {
-        switch ($offset) {
-            case "whitelistedJobInstanceCodes":
-                return $this->whitelistedJobInstanceCodes;
-            case "blacklistedJobInstanceCodes":
-                return $this->blacklistedJobInstanceCodes;
-            case "timeToLive":
-                return $this->timeToLive;
-            case "queueCheckInterval":
-                return $this->queueCheckInterval;
-            default:
-                throw new \RuntimeException(
-                    sprintf(
-                        "No such property '%s' in JobQueueConfiguration. Available properties are {%s}.",
-                        $offset,
-                        join(', ', $this->listSupportedSettings)
-                    )
-                );
-        }
+        return match ($offset) {
+            "whitelistedJobInstanceCodes" => $this->whitelistedJobInstanceCodes,
+            "blacklistedJobInstanceCodes" => $this->blacklistedJobInstanceCodes,
+            "timeToLive" => $this->timeToLive,
+            "queueCheckInterval" => $this->queueCheckInterval,
+            default => throw new \RuntimeException(
+                sprintf(
+                    "No such property '%s' in JobQueueConfiguration. Available properties are {%s}.",
+                    $offset,
+                    join(', ', $this->listSupportedSettings)
+                )
+            ),
+        };
     }
 
     public function offsetSet($offset, $value): void

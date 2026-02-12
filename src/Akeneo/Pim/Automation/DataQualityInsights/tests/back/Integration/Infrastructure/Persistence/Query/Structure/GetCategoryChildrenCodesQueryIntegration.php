@@ -16,6 +16,7 @@ final class GetCategoryChildrenCodesQueryIntegration extends TestCase
 {
     public function test_it_returns_the_codes_of_a_category_and_its_children()
     {
+        $expectedCodes = [];
         $expectedCodes[] = $this->createCategory([
             'code' => 'category_A',
             'parent' => 'master',

@@ -19,17 +19,12 @@ use Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface;
  */
 class AddUniqueAttributes
 {
-    /**
-     * @param FamilyVariantInterface $familyVariant
-     */
     public function addToFamilyVariant(FamilyVariantInterface $familyVariant)
     {
         $familyUniqueAttributes = $this->getFamilyUniqueAttributes($familyVariant->getFamily());
 
         $familyVariantAttributeCodes = $familyVariant->getAttributes()->map(
-            function (AttributeInterface $attribute) {
-                return $attribute->getCode();
-            }
+            fn(AttributeInterface $attribute) => $attribute->getCode()
         )->toArray();
 
         $bottomAttributeSet = $familyVariant->getVariantAttributeSet($familyVariant->getNumberOfLevel());
@@ -42,8 +37,6 @@ class AddUniqueAttributes
     }
 
     /**
-     * @param FamilyInterface $family
-     *
      * @return AttributeInterface[]
      */
     private function getFamilyUniqueAttributes(FamilyInterface $family): array

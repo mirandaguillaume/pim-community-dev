@@ -14,7 +14,7 @@ class LogContext
 {
     private array $context = [];
 
-    public function __construct(private MigrateToUuidStep $step)
+    public function __construct(private readonly MigrateToUuidStep $step)
     {
     }
 

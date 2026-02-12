@@ -20,13 +20,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * @copyright 2023 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class RegenerateCustomAppSecretAction
+final readonly class RegenerateCustomAppSecretAction
 {
     public function __construct(
-        private readonly SecurityFacade $security,
-        private readonly GetCustomAppQueryInterface $getCustomAppQuery,
-        private readonly GetCustomAppSecretQueryInterface $getCustomAppSecretQuery,
-        private readonly RegenerateCustomAppSecretHandler $regenerateCustomAppSecretHandler,
+        private SecurityFacade $security,
+        private GetCustomAppQueryInterface $getCustomAppQuery,
+        private GetCustomAppSecretQueryInterface $getCustomAppSecretQuery,
+        private RegenerateCustomAppSecretHandler $regenerateCustomAppSecretHandler,
     ) {
     }
 

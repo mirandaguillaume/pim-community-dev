@@ -12,14 +12,10 @@ use Doctrine\DBAL\Connection;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GetExistingAttributeOptionCodes implements GetExistingAttributeOptionCodesInterface
+final readonly class GetExistingAttributeOptionCodes implements GetExistingAttributeOptionCodesInterface
 {
-    /** @var Connection */
-    private $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function fromOptionCodesByAttributeCode(array $optionCodesIndexedByAttributeCodes): array
@@ -52,7 +48,7 @@ SQL;
         )->fetchAllAssociative();
 
         $results =  array_reduce($rawResults, function (array $results, array  $item): array {
-            $results[$item['attribute_code']] = json_decode($item['option_codes'], true);
+            $results[$item['attribute_code']] = json_decode((string) $item['option_codes'], true, 512, JSON_THROW_ON_ERROR);
 
             return $results;
         }, []);

@@ -33,8 +33,6 @@ class RemoveAttributesFromFamilyVariantsOnFamilyUpdateSubscriber implements Even
 
     /**
      * Removes the removed attributes from family from the family variants belonging to this family.
-     *
-     * @param GenericEvent $event
      */
     public function removeDeletedAttributesFromFamilyVariants(GenericEvent $event): void
     {
@@ -58,16 +56,9 @@ class RemoveAttributesFromFamilyVariantsOnFamilyUpdateSubscriber implements Even
         }
     }
 
-    /**
-     * @param FamilyVariantInterface $familyVariant
-     *
-     * @return array
-     */
     private function getFamilyVariantsAttributeCodes(FamilyVariantInterface $familyVariant): array
     {
-        $getAttributeCodeFunction = function (AttributeInterface $attribute) {
-            return $attribute->getCode();
-        };
+        $getAttributeCodeFunction = fn(AttributeInterface $attribute) => $attribute->getCode();
         $familyVariantAttributesCodes = array_merge(
             $familyVariant->getAttributes()->map($getAttributeCodeFunction)->toArray(),
             $familyVariant->getAxes()->map($getAttributeCodeFunction)->toArray()
@@ -83,8 +74,6 @@ class RemoveAttributesFromFamilyVariantsOnFamilyUpdateSubscriber implements Even
      *
      * @param array $familyAttributeCodes
      * @param array $familyVariantsAttributeCodes
-     *
-     * @return array
      */
     private function getExtraAttributesOfFamilyVariant(
         array $familyAttributeCodes,
@@ -95,9 +84,6 @@ class RemoveAttributesFromFamilyVariantsOnFamilyUpdateSubscriber implements Even
 
     /**
      * Removes the attribute in the given array from the variant attribute set of the given family variant.
-     *
-     * @param FamilyVariantInterface $familyVariant
-     * @param array                  $toRemoveAttributes
      */
     private function removeAttributeFromFamilyVariantsAttributeSet(
         FamilyVariantInterface $familyVariant,

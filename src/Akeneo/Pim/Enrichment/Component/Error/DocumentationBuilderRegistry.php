@@ -12,15 +12,11 @@ use Akeneo\Pim\Enrichment\Component\Error\Documentation\DocumentationCollection;
  */
 class DocumentationBuilderRegistry
 {
-    /** @var DocumentationBuilderInterface[] */
-    private $builders;
-
     /**
-     * @param DocumentationBuilderInterface[] $documentationBuilderList
+     * @param DocumentationBuilderInterface[] $builders
      */
-    public function __construct(iterable $documentationBuilderList)
+    public function __construct(private readonly iterable $builders)
     {
-        $this->builders = $documentationBuilderList;
     }
 
     public function getDocumentation(object $object): ?DocumentationCollection

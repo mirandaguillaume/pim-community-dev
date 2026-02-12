@@ -42,21 +42,21 @@ class CategoryTreeController extends AbstractController
     protected array $rawConfiguration;
 
     public function __construct(
-        private UserContext $userContext,
-        private SaverInterface $categorySaver,
-        private SimpleFactoryInterface $categoryFactory,
-        private CategoryRepositoryInterface $categoryRepository,
-        private SecurityFacade $securityFacade,
-        private NormalizerInterface $normalizer,
-        private ObjectUpdaterInterface $categoryUpdater,
-        private ValidatorInterface $validator,
-        private NormalizerInterface $constraintViolationNormalizer,
-        private CategoryItemsCounterInterface $categoryItemsCounter,
-        private CountTreesChildrenInterface $countTreesChildrenQuery,
-        private CategoryFormViewNormalizerInterface $categoryFormViewNormalizer,
-        private GetCategoryInterface $getCategory,
-        private GetCategoryTreesInterface $getCategoryTrees,
-        private MessageBusInterface $commandBus,
+        private readonly UserContext $userContext,
+        private readonly SaverInterface $categorySaver,
+        private readonly SimpleFactoryInterface $categoryFactory,
+        private readonly CategoryRepositoryInterface $categoryRepository,
+        private readonly SecurityFacade $securityFacade,
+        private readonly NormalizerInterface $normalizer,
+        private readonly ObjectUpdaterInterface $categoryUpdater,
+        private readonly ValidatorInterface $validator,
+        private readonly NormalizerInterface $constraintViolationNormalizer,
+        private readonly CategoryItemsCounterInterface $categoryItemsCounter,
+        private readonly CountTreesChildrenInterface $countTreesChildrenQuery,
+        private readonly CategoryFormViewNormalizerInterface $categoryFormViewNormalizer,
+        private readonly GetCategoryInterface $getCategory,
+        private readonly GetCategoryTreesInterface $getCategoryTrees,
+        private readonly MessageBusInterface $commandBus,
         array $rawConfiguration,
     ) {
         $resolver = new OptionsResolver();
@@ -68,9 +68,7 @@ class CategoryTreeController extends AbstractController
      * List category trees. The select_node_id request parameter
      * allow to send back the tree where the node belongs with a selected  reef attribute
      *
-     * @param Request $request
      *
-     * @return Response
      * @throws AccessDeniedException
      *
      */
@@ -95,17 +93,15 @@ class CategoryTreeController extends AbstractController
             $selectedTreeId = $selectNode->isRoot() ? $selectNode->getId() : $selectNode->getRoot();
         }
 
-        $formatedTrees = array_map(function (CategoryTree $tree) use ($selectedTreeId) {
-            return [
-                'id' => $tree->getId()->getValue(),
-                'code' => (string) $tree->getCode(),
-                'label' => $tree->getLabel($this->userContext->getCurrentLocaleCode()),
-                'templateUuid' => (string) $tree->getCategoryTreeTemplate()?->getTemplateUuid(),
-                'templateLabel' => $tree->getCategoryTreeTemplate()?->getTemplateLabel($this->userContext->getCurrentLocaleCode()),
-                'templateCode' => (string) $tree->getCategoryTreeTemplate()?->getTemplateCode(),
-                'selected' => $tree->getId()?->getValue() === $selectedTreeId ? 'true' : 'false'
-            ];
-        }, $trees);
+        $formatedTrees = array_map(fn(CategoryTree $tree) => [
+            'id' => $tree->getId()->getValue(),
+            'code' => (string) $tree->getCode(),
+            'label' => $tree->getLabel($this->userContext->getCurrentLocaleCode()),
+            'templateUuid' => (string) $tree->getCategoryTreeTemplate()?->getTemplateUuid(),
+            'templateLabel' => $tree->getCategoryTreeTemplate()?->getTemplateLabel($this->userContext->getCurrentLocaleCode()),
+            'templateCode' => (string) $tree->getCategoryTreeTemplate()?->getTemplateCode(),
+            'selected' => $tree->getId()?->getValue() === $selectedTreeId ? 'true' : 'false'
+        ], $trees);
 
         return new JsonResponse($formatedTrees);
     }
@@ -113,7 +109,6 @@ class CategoryTreeController extends AbstractController
     /**
      * Move a node
      *
-     * @param Request $request
      *
      * @return Response
      * @throws AccessDeniedException
@@ -173,7 +168,7 @@ class CategoryTreeController extends AbstractController
 
         try {
             $parent = $this->findCategory($request->get('id'));
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $parent = $this->userContext->getUserProductCategoryTree();
         }
 
@@ -185,7 +180,7 @@ class CategoryTreeController extends AbstractController
             if (!$this->categoryRepository->isAncestor($parent, $selectNode)) {
                 $selectNode = null;
             }
-        } catch (NotFoundHttpException $e) {
+        } catch (NotFoundHttpException) {
             $selectNode = null;
         }
 
@@ -218,7 +213,6 @@ class CategoryTreeController extends AbstractController
     /**
      * Create a tree or category
      *
-     * @param Request $request
      *
      * @return Response
      * @throws AccessDeniedException
@@ -231,7 +225,7 @@ class CategoryTreeController extends AbstractController
         }
 
         $category = $this->categoryFactory->create();
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
         $this->categoryUpdater->update($category, $data);
         $violations = $this->validator->validate($category);
 
@@ -257,7 +251,6 @@ class CategoryTreeController extends AbstractController
     /**
      * Edit tree action
      *
-     * @param Request $request
      * @param int $id
      *
      * @return Response
@@ -386,7 +379,6 @@ class CategoryTreeController extends AbstractController
     /**
      * Gets the options for the form
      *
-     * @param CategoryInterface $category
      *
      * @return array
      */
@@ -395,13 +387,7 @@ class CategoryTreeController extends AbstractController
         return [];
     }
 
-    /**
-     * @param Request $request
-     * @param CategoryInterface|null $selectNode
-     *
-     * @return array|ArrayCollection
-     */
-    protected function getChildrenCategories(Request $request, $selectNode, $parent)
+    protected function getChildrenCategories(Request $request, ?\Akeneo\Category\Infrastructure\Component\Classification\Model\CategoryInterface $selectNode, $parent): array|\Doctrine\Common\Collections\ArrayCollection
     {
         if (null !== $selectNode) {
             $categories = $this->categoryRepository->getChildrenTreeByParentId($parent->getId(), $selectNode->getId());
@@ -432,9 +418,6 @@ class CategoryTreeController extends AbstractController
         return $this->rawConfiguration['route'] . '_' . $name;
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     protected function configure(OptionsResolver $resolver)
     {
         $resolver->setRequired(['related_entity', 'form_type', 'acl', 'route']);

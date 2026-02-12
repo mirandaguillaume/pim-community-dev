@@ -20,8 +20,8 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 class GetJobTypeAction
 {
     public function __construct(
-        private FindJobTypeHandler $findJobTypeHandler,
-        private SecurityFacade $securityFacade,
+        private readonly FindJobTypeHandler $findJobTypeHandler,
+        private readonly SecurityFacade $securityFacade,
     ) {
     }
 

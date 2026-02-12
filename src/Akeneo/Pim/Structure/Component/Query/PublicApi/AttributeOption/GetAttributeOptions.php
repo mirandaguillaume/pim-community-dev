@@ -10,8 +10,6 @@ namespace Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeOption;
 interface GetAttributeOptions
 {
     /**
-     * @param string $attributeCode
-     *
      * @return iterable<AttributeOption>
      */
     public function forAttributeCode(string $attributeCode): iterable;

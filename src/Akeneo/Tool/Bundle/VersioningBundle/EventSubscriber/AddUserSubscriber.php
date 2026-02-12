@@ -23,10 +23,6 @@ class AddUserSubscriber implements EventSubscriberInterface
     /** @var AuthorizationCheckerInterface */
     protected $authorizationChecker;
 
-    /**
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param TokenStorageInterface         $tokenStorage
-     */
     public function __construct(
         AuthorizationCheckerInterface $authorizationChecker,
         TokenStorageInterface $tokenStorage = null
@@ -46,8 +42,6 @@ class AddUserSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param BuildVersionEvent $event
-     *
      * @return BuildVersionEvent
      */
     public function preBuild(BuildVersionEvent $event)

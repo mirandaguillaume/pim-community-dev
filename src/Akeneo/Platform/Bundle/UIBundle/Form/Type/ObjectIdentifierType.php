@@ -71,8 +71,6 @@ class ObjectIdentifierType extends AbstractType
                 'identifier'         => 'id',
             ])
             ->setAllowedValues('multiple', [true, false])
-            ->setAllowedValues('repository', function ($repository) {
-                return $repository instanceof ObjectRepository;
-            });
+            ->setAllowedValues('repository', fn($repository) => $repository instanceof ObjectRepository);
     }
 }

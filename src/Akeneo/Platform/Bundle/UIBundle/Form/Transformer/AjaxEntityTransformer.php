@@ -26,9 +26,6 @@ class AjaxEntityTransformer implements DataTransformerInterface
 
     /**
      * Constructor
-     *
-     * @param AttributeOptionRepository $repository
-     * @param array                     $options
      */
     public function __construct(AttributeOptionRepository $repository, array $options)
     {
@@ -47,7 +44,7 @@ class AjaxEntityTransformer implements DataTransformerInterface
             }
 
             $values = [];
-            foreach (explode(',', $value) as $id) {
+            foreach (explode(',', (string) $value) as $id) {
                 $values[] = $this->repository->getOption($id, $this->options['collection_id']);
             }
 
@@ -77,11 +74,10 @@ class AjaxEntityTransformer implements DataTransformerInterface
     /**
      * returns the labels corresponding to the given value
      *
-     * @param mixed $value
      *
      * @return array
      */
-    public function getOptions($value)
+    public function getOptions(mixed $value)
     {
         if ($this->options['multiple']) {
             $options = [];
@@ -116,11 +112,10 @@ class AjaxEntityTransformer implements DataTransformerInterface
     /**
      * Returns an entity for a value
      *
-     * @param mixed $id
      *
      * @return object
      */
-    protected function getEntity($id)
+    protected function getEntity(mixed $id)
     {
         return $this->repository->getOption($id, $this->options['collection_id'], $this->options);
     }

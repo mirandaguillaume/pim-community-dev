@@ -25,10 +25,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class WebhookReachabilityChecker implements UrlReachabilityCheckerInterface
 {
     /** @var string */
-    public const POST = 'POST';
+    final public const POST = 'POST';
 
     /** @var string */
-    public const CONNECTION_FAILED = 'Failed to connect to server';
+    final public const CONNECTION_FAILED = 'Failed to connect to server';
     private const PROHIBITED_REDIRECTION = 'Server response contains a redirection. This is not allowed.';
 
     public function __construct(

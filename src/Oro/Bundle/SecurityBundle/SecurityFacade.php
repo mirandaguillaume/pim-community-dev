@@ -13,10 +13,10 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 class SecurityFacade implements SecurityFacadeInterface
 {
     public function __construct(
-        private AuthorizationCheckerInterface $authorizationChecker,
+        private readonly AuthorizationCheckerInterface $authorizationChecker,
         protected AclAnnotationProvider $annotationProvider,
         protected ObjectIdentityFactory $objectIdentityFactory,
-        private LoggerInterface $logger
+        private readonly LoggerInterface $logger
     ) {
     }
 

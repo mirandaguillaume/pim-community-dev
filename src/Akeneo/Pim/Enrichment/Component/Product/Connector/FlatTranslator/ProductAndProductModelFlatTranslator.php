@@ -7,28 +7,8 @@ use Akeneo\Pim\Enrichment\Component\Product\Connector\FlatTranslator\PropertyVal
 
 class ProductAndProductModelFlatTranslator implements FlatTranslatorInterface
 {
-    /** @var HeaderRegistry */
-    private $headerRegistry;
-
-    /** @var PropertyValueRegistry */
-    private $propertyValueRegistry;
-
-    /** @var AttributeValuesFlatTranslator */
-    private $attributeValuesFlatTranslator;
-
-    /** @var AssociationTranslator */
-    private $associationTranslator;
-
-    public function __construct(
-        HeaderRegistry $headerRegistry,
-        PropertyValueRegistry $propertyValueRegistry,
-        AttributeValuesFlatTranslator $attributeValuesFlatTranslator,
-        AssociationTranslator $associationTranslator
-    ) {
-        $this->headerRegistry = $headerRegistry;
-        $this->propertyValueRegistry = $propertyValueRegistry;
-        $this->attributeValuesFlatTranslator = $attributeValuesFlatTranslator;
-        $this->associationTranslator = $associationTranslator;
+    public function __construct(private readonly HeaderRegistry $headerRegistry, private readonly PropertyValueRegistry $propertyValueRegistry, private readonly AttributeValuesFlatTranslator $attributeValuesFlatTranslator, private readonly AssociationTranslator $associationTranslator)
+    {
     }
 
     public function translate(array $flatItems, string $locale, string $scope, bool $translateHeaders): array
@@ -116,9 +96,7 @@ class ProductAndProductModelFlatTranslator implements FlatTranslatorInterface
 
     private function areValuesEmpty(array $values): bool
     {
-        return 0 === count(array_filter($values, function ($value) {
-            return '' !== $value;
-        }));
+        return 0 === count(array_filter($values, fn($value) => '' !== $value));
     }
 
     /**
@@ -178,7 +156,7 @@ class ProductAndProductModelFlatTranslator implements FlatTranslatorInterface
      */
     private function groupFlatItemsByColumnName(array $flatItems): array
     {
-        $result = array();
+        $result = [];
         foreach ($flatItems as $flatItemIndex => $flatItem) {
             foreach ($flatItem as $columnName => $value) {
                 $result[$columnName][$flatItemIndex] = $value;

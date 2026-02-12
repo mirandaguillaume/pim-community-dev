@@ -24,9 +24,6 @@ class EntityWithValuesUpdater implements ObjectUpdaterInterface
     /** @var PropertySetterInterface */
     protected $propertySetter;
 
-    /**
-     * @param PropertySetterInterface $propertySetter
-     */
     public function __construct(PropertySetterInterface $propertySetter)
     {
         $this->propertySetter = $propertySetter;
@@ -52,9 +49,6 @@ class EntityWithValuesUpdater implements ObjectUpdaterInterface
 
     /**
      * Update values of an entity with values
-     *
-     * @param EntityWithValuesInterface $entityWithValues
-     * @param array                     $values
      */
     protected function updateEntityWithValues(EntityWithValuesInterface $entityWithValues, array $values)
     {
@@ -69,11 +63,10 @@ class EntityWithValuesUpdater implements ObjectUpdaterInterface
     /**
      * Check the structure of the given entity with values.
      *
-     * @param mixed $entityWithValues
      *
      * @throws InvalidPropertyTypeException
      */
-    protected function checkValuesData($entityWithValues)
+    protected function checkValuesData(mixed $entityWithValues)
     {
         if (!is_array($entityWithValues)) {
             throw InvalidPropertyTypeException::arrayExpected('values', static::class, $entityWithValues);

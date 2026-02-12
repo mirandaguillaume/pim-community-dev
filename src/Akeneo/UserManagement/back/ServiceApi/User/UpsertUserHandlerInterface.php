@@ -11,9 +11,9 @@ namespace Akeneo\UserManagement\ServiceApi\User;
 
 interface UpsertUserHandlerInterface
 {
-    const TYPE_USER = 'user';
-    const TYPE_API = 'api';
-    const TYPE_JOB = 'job';
+    public const TYPE_USER = 'user';
+    public const TYPE_API = 'api';
+    public const TYPE_JOB = 'job';
 
     public function handle(UpsertUserCommand $upsertUserCommand): void;
 }

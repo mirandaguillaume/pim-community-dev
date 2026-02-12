@@ -13,8 +13,8 @@ use Symfony\Component\Validator\Constraint;
  */
 class WhenUsedInAProductAttributeShouldBeAbleToUpdateOnlyLabelsAndSymbolAndAddUnits extends Constraint
 {
-    public const MEASUREMENT_FAMILY_UNIT_REMOVAL_NOT_ALLOWED = 'pim_measurements.validation.measurement_family.measurement_family_units_is_locked_for_updates';
-    public const MEASUREMENT_FAMILY_OPERATION_UPDATE_NOT_ALLOWED = 'pim_measurements.validation.measurement_family.measurement_family_unit_operations_locked_for_updates';
+    final public const MEASUREMENT_FAMILY_UNIT_REMOVAL_NOT_ALLOWED = 'pim_measurements.validation.measurement_family.measurement_family_units_is_locked_for_updates';
+    final public const MEASUREMENT_FAMILY_OPERATION_UPDATE_NOT_ALLOWED = 'pim_measurements.validation.measurement_family.measurement_family_unit_operations_locked_for_updates';
 
     public function getTargets(): string|array
     {

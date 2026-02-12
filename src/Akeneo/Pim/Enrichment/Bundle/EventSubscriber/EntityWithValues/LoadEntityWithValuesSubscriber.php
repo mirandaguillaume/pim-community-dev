@@ -21,14 +21,10 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
  * TODO: cf. http://symfony.com/doc/current/bundles/DoctrineBundle/entity-listeners.html
  * TODO: cf. http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/events.html#entity-listeners
  */
-final class LoadEntityWithValuesSubscriber implements EventSubscriber
+final readonly class LoadEntityWithValuesSubscriber implements EventSubscriber
 {
-    /** @var WriteValueCollectionFactory */
-    private $valueCollectionFactory;
-
-    public function __construct(WriteValueCollectionFactory $valueCollectionFactory)
+    public function __construct(private WriteValueCollectionFactory $valueCollectionFactory)
     {
-        $this->valueCollectionFactory = $valueCollectionFactory;
     }
 
     /**

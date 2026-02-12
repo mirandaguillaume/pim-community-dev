@@ -25,15 +25,15 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class CreateCustomAppAction
+final readonly class CreateCustomAppAction
 {
     public function __construct(
-        private readonly FeatureFlag $marketplaceActivateFeatureFlag,
-        private readonly ValidatorInterface $validator,
-        private readonly TokenStorageInterface $tokenStorage,
-        private readonly CreateCustomAppCommandHandler $createCustomAppCommandHandler,
-        private readonly GetCustomAppSecretQueryInterface $getCustomAppSecretQuery,
-        private readonly SecurityFacade $security,
+        private FeatureFlag $marketplaceActivateFeatureFlag,
+        private ValidatorInterface $validator,
+        private TokenStorageInterface $tokenStorage,
+        private CreateCustomAppCommandHandler $createCustomAppCommandHandler,
+        private GetCustomAppSecretQueryInterface $getCustomAppSecretQuery,
+        private SecurityFacade $security,
     ) {
     }
 

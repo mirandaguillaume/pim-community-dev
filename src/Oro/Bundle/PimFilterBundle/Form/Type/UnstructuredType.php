@@ -27,9 +27,6 @@ class UnstructuredType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'compound' => false,
-            'multiple' => true,
-        ));
+        $resolver->setDefaults(['compound' => false, 'multiple' => true]);
     }
 }

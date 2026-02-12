@@ -42,11 +42,6 @@ class Reader implements FileReaderInterface, TrackableItemReaderInterface, Initi
 
     protected array $state = [];
 
-    /**
-     * @param FileIteratorFactory     $fileIteratorFactory
-     * @param ArrayConverterInterface $converter
-     * @param array                   $options
-     */
     public function __construct(
         FileIteratorFactory $fileIteratorFactory,
         ArrayConverterInterface $converter,
@@ -85,7 +80,7 @@ class Reader implements FileReaderInterface, TrackableItemReaderInterface, Initi
         $headers = $this->fileIterator->getHeaders();
 
         $countHeaders = count($headers);
-        $countData = count($data);
+        $countData = is_countable($data) ? count($data) : 0;
 
         $this->checkColumnNumber($countHeaders, $countData, $data, $this->stepExecution->getJobParameters()->get('storage')['file_path']);
 
@@ -133,9 +128,6 @@ class Reader implements FileReaderInterface, TrackableItemReaderInterface, Initi
     }
 
     /**
-     * @param array                        $item
-     * @param DataArrayConversionException $exception
-     *
      * @throws InvalidItemException
      * @throws InvalidItemFromViolationsException
      */

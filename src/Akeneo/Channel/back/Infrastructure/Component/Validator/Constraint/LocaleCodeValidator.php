@@ -17,13 +17,13 @@ final class LocaleCodeValidator extends ConstraintValidator
             return;
         }
 
-        if (null === $locale->getId() && !preg_match('#^[a-z]{2,}_[a-z0-9_]{2,}$#i', $value)) {
+        if (null === $locale->getId() && !preg_match('#^[a-z]{2,}_[a-z0-9_]{2,}$#i', (string) $value)) {
             $this->context->buildViolation($constraint->message)->addViolation();
 
             return;
         }
 
-        if (! preg_match('#[a-z]{2,3}_[a-z0-9_]{2,}#i', $value)) {
+        if (! preg_match('#[a-z]{2,3}_[a-z0-9_]{2,}#i', (string) $value)) {
             $this->context->buildViolation($constraint->message)->addViolation();
         }
     }

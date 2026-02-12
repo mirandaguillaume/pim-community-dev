@@ -93,6 +93,6 @@ class InGroupSorter extends BaseFieldSorter implements FieldSorterInterface
      */
     public function supportsField($field)
     {
-        return (strpos($field, 'in_group_') !== false);
+        return (str_contains($field, 'in_group_'));
     }
 }

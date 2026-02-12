@@ -13,23 +13,13 @@ use Webmozart\Assert\Assert;
  */
 final class Unit
 {
-    private UnitCode $code;
+    private readonly array $convertFromStandard;
 
-    private LabelCollection $labels;
-
-    private array $convertFromStandard;
-
-    private string $symbol;
-
-    private function __construct(UnitCode $code, LabelCollection $labels, array $convertFromStandard, string $symbol)
+    private function __construct(private readonly UnitCode $code, private readonly LabelCollection $labels, array $convertFromStandard, private readonly string $symbol)
     {
         Assert::allIsInstanceOf($convertFromStandard, Operation::class);
         Assert::notEmpty($convertFromStandard, 'Expected unit to have at least one operation');
-
-        $this->code = $code;
-        $this->labels = $labels;
         $this->convertFromStandard = $convertFromStandard;
-        $this->symbol = $symbol;
     }
 
     public static function create(UnitCode $code, LabelCollection $labels, array $convertFromStandard, string $symbol): self

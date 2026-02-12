@@ -23,9 +23,9 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  *
  * @phpstan-import-type AttributeValueApi from InternalApiToStd
  */
-final class ValueUserIntentFactory implements UserIntentFactory
+final readonly class ValueUserIntentFactory implements UserIntentFactory
 {
-    public function __construct(private readonly GetAttribute $getAttribute)
+    public function __construct(private GetAttribute $getAttribute)
     {
     }
 

@@ -22,10 +22,10 @@ class VersionPurger implements VersionPurgerInterface
     protected array $versionPurgerAdvisors = [];
 
     public function __construct(
-        private SqlDeleteVersionsByIdsQuery $deleteVersionsByIdsQuery,
-        private SqlGetAllResourceNamesQuery $getAllResourceNamesQuery,
-        private SqlGetPurgeableVersionListQuery $getPurgeableVersionListQuery,
-        private LoggerInterface $logger,
+        private readonly SqlDeleteVersionsByIdsQuery $deleteVersionsByIdsQuery,
+        private readonly SqlGetAllResourceNamesQuery $getAllResourceNamesQuery,
+        private readonly SqlGetPurgeableVersionListQuery $getPurgeableVersionListQuery,
+        private readonly LoggerInterface $logger,
     ) {
     }
 
@@ -107,8 +107,6 @@ class VersionPurger implements VersionPurgerInterface
 
     /**
      * Configure an option resolver with default option values
-     *
-     * @param OptionsResolver $optionResolver
      */
     protected function configureOptions(OptionsResolver $optionResolver)
     {
@@ -126,12 +124,10 @@ class VersionPurger implements VersionPurgerInterface
             ->setAllowedTypes('batch_size', 'int')
             ->setAllowedValues('date_operator', ['<', '>']);
 
-        $optionResolver->setNormalizer('limit_date', function (Options $options, $value) {
-            return new \DateTime(
-                sprintf('%d days ago', $options['days_number']),
-                new \DateTimeZone('UTC')
-            );
-        });
+        $optionResolver->setNormalizer('limit_date', fn(Options $options, $value) => new \DateTime(
+            sprintf('%d days ago', $options['days_number']),
+            new \DateTimeZone('UTC')
+        ));
     }
 
     private function getResourceNamesToPurge(array $options): array

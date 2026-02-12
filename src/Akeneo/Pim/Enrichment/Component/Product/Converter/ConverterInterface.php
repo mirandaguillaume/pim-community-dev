@@ -15,7 +15,6 @@ interface ConverterInterface
     /**
      * Convert data
      *
-     * @param array $data
      *
      * @return array
      */

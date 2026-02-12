@@ -11,19 +11,11 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Completeness\Model;
  */
 final class ProductCompleteness
 {
-    /** @var string */
-    private $channelCode;
+    private readonly int $requiredCount;
 
-    /** @var string */
-    private $localeCode;
+    private readonly int $missingCount;
 
-    /** @var int */
-    private $requiredCount;
-
-    /** @var int */
-    private $missingCount;
-
-    public function __construct(string $channelCode, string $localeCode, int $requiredCount, int $missingCount)
+    public function __construct(private readonly string $channelCode, private readonly string $localeCode, int $requiredCount, int $missingCount)
     {
         if ($requiredCount < 0) {
             throw new \InvalidArgumentException('$requiredCount expects a positive integer');
@@ -34,9 +26,6 @@ final class ProductCompleteness
         if ($missingCount > $requiredCount) {
             throw new \InvalidArgumentException('$requiredCount must be greater than or equal to $missingCount');
         }
-
-        $this->channelCode = $channelCode;
-        $this->localeCode = $localeCode;
         $this->requiredCount = $requiredCount;
         $this->missingCount = $missingCount;
     }

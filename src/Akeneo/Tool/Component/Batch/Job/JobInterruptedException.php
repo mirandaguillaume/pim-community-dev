@@ -15,7 +15,7 @@ namespace Akeneo\Tool\Component\Batch\Job;
  */
 class JobInterruptedException extends \Exception
 {
-    private $status;
+    private ?\Akeneo\Tool\Component\Batch\Job\BatchStatus $status = null;
 
     /**
      * Constructor

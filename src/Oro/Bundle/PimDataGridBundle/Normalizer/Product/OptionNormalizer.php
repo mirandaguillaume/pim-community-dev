@@ -40,9 +40,7 @@ class OptionNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
             }
             $translation = $option->getTranslation();
 
-            $label = null !== $translation->getValue() ?
-                $translation->getValue() :
-                sprintf('[%s]', $optionCode);
+            $label = $translation->getValue() ?? sprintf('[%s]', $optionCode);
         }
 
         return [

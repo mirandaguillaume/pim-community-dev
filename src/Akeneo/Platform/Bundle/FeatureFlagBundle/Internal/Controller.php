@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class Controller
 {
-    public function __construct(private FeatureFlags $featureFlags)
+    public function __construct(private readonly FeatureFlags $featureFlags)
     {
     }
 

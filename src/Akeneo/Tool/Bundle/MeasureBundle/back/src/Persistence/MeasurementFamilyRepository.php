@@ -23,17 +23,14 @@ use Doctrine\DBAL\Types\Types;
  */
 class MeasurementFamilyRepository implements MeasurementFamilyRepositoryInterface
 {
-    private Connection $sqlConnection;
-
     /** @var MeasurementFamily[] */
     private array $allMeasurementFamiliesCache = [];
 
     /** @var MeasurementFamily[] */
     private array $measurementFamilyCache = [];
 
-    public function __construct(Connection $sqlConnection)
+    public function __construct(private readonly Connection $sqlConnection)
     {
-        $this->sqlConnection = $sqlConnection;
     }
 
     public function all(): array
@@ -73,9 +70,9 @@ SQL;
             $updateSql,
             [
                 'code' => $normalizedMeasurementFamily['code'],
-                'labels' => json_encode($normalizedMeasurementFamily['labels']),
+                'labels' => json_encode($normalizedMeasurementFamily['labels'], JSON_THROW_ON_ERROR),
                 'standard_unit' => $normalizedMeasurementFamily['standard_unit_code'],
-                'units' => json_encode($normalizedMeasurementFamily['units'])
+                'units' => json_encode($normalizedMeasurementFamily['units'], JSON_THROW_ON_ERROR)
             ]
         );
 
@@ -146,7 +143,7 @@ SQL;
     ): MeasurementFamily {
         $platform = $this->sqlConnection->getDatabasePlatform();
         $code = Type::getType(Types::STRING)->convertToPhpValue($code, $platform);
-        $labels = json_decode($normalizedLabels, true);
+        $labels = json_decode($normalizedLabels, true, 512, JSON_THROW_ON_ERROR);
         $standardUnit = Type::getType(Types::STRING)->convertToPhpValue($standardUnit, $platform);
         //TODO check Type:JSON
         $units = array_map(fn (array $normalizedUnit) => $this->hydrateUnit(
@@ -154,7 +151,7 @@ SQL;
             $normalizedUnit['labels'],
             $normalizedUnit['convert_from_standard'],
             $normalizedUnit['symbol']
-        ), json_decode($normalizedUnits, true));
+        ), json_decode($normalizedUnits, true, 512, JSON_THROW_ON_ERROR));
 
         return MeasurementFamily::create(
             MeasurementFamilyCode::fromString($code),
@@ -186,8 +183,6 @@ SQL;
     }
 
     /**
-     * @return array
-     *
      * @throws DBALException
      */
     private function loadMeasurementFamiliesIndexByCodes(): array

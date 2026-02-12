@@ -8,14 +8,14 @@ namespace Akeneo\Category\Api\Command\UserIntents;
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class SetTextArea implements ValueUserIntent
+final readonly class SetTextArea implements ValueUserIntent
 {
     public function __construct(
-        private readonly string $attributeUuid,
-        private readonly string $attributeCode,
-        private readonly ?string $channelCode,
-        private readonly ?string $localeCode,
-        private readonly ?string $value,
+        private string $attributeUuid,
+        private string $attributeCode,
+        private ?string $channelCode,
+        private ?string $localeCode,
+        private ?string $value,
     ) {
     }
 

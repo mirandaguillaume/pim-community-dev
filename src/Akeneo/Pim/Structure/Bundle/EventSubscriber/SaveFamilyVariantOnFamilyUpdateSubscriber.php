@@ -22,8 +22,8 @@ use Webmozart\Assert\Assert;
 class SaveFamilyVariantOnFamilyUpdateSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private ValidatorInterface $validator,
-        private BulkSaverInterface $bulkFamilyVariantSaver
+        private readonly ValidatorInterface $validator,
+        private readonly BulkSaverInterface $bulkFamilyVariantSaver
     ) {
     }
 
@@ -126,9 +126,7 @@ class SaveFamilyVariantOnFamilyUpdateSubscriber implements EventSubscriberInterf
     /**
      * Formats an error message with all the given ConstraintViolationLists
      *
-     * @param array $allViolations
      *
-     * @return string
      */
     private function getErrorMessage(array $allViolations): string
     {
@@ -145,7 +143,6 @@ class SaveFamilyVariantOnFamilyUpdateSubscriber implements EventSubscriberInterf
 
     /**
      * @param FamilyInterface[] $families
-     * @return array
      */
     private function validateFamilyVariants(array $families): array
     {

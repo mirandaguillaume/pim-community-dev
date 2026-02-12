@@ -21,9 +21,6 @@ class ObjectCodeResolver
     /** @var array */
     protected $fieldMapping = [];
 
-    /**
-     * @param ObjectManager $objectManager
-     */
     public function __construct(ObjectManager $objectManager)
     {
         $this->objectManager = $objectManager;
@@ -33,8 +30,6 @@ class ObjectCodeResolver
      * Get codes for the given ids
      *
      * @param string             $entityName
-     * @param array              $ids
-     * @param AttributeInterface $attribute
      *
      * @throws ObjectNotFoundException
      * @return array

@@ -19,8 +19,8 @@ use Akeneo\Pim\Automation\DataQualityInsights\PublicApi\Model\QualityScoreCollec
 class GetProductModelScoresQuery implements GetProductModelScoresQueryInterface
 {
     public function __construct(
-        private GetProductModelScoresByCodesQuery $getProductModelScoresByCodesQuery,
-        private GetScoresByCriteriaStrategy $getScoresByCriteria,
+        private readonly GetProductModelScoresByCodesQuery $getProductModelScoresByCodesQuery,
+        private readonly GetScoresByCriteriaStrategy $getScoresByCriteria,
     ) {
     }
 

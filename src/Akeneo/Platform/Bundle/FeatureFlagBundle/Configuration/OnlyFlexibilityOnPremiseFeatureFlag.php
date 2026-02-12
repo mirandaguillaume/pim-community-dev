@@ -13,7 +13,7 @@ class OnlyFlexibilityOnPremiseFeatureFlag implements FeatureFlag
     ];
 
     public function __construct(
-        private string $edition
+        private readonly string $edition
     ) {
     }
 

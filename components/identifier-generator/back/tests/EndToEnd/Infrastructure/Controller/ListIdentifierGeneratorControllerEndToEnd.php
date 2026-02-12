@@ -66,7 +66,7 @@ final class ListIdentifierGeneratorControllerEndToEnd extends ControllerEndToEnd
             unset($ig['uuid']);
 
             return $ig;
-        }, \json_decode($response->getContent(), true));
+        }, \json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
 
         Assert::assertEquals([$expectedGenerator], $result);
     }

@@ -48,7 +48,7 @@ class GetAttributeGroups implements GetAttributeGroupsInterface
 
         return array_map(function (array $attributeGroup) use ($dqiFeatureIsEnabled, $dqiAttributeGroupsActivation) {
             $attributeGroup['sort_order'] = (int) $attributeGroup['sort_order'];
-            $attributeGroup['labels'] = null !== $attributeGroup['labels'] ? json_decode($attributeGroup['labels'], true) : [];
+            $attributeGroup['labels'] = null !== $attributeGroup['labels'] ? json_decode((string) $attributeGroup['labels'], true, 512, JSON_THROW_ON_ERROR) : [];
             if ($dqiFeatureIsEnabled) {
                 $attributeGroup['is_dqi_activated'] = $dqiAttributeGroupsActivation->isActivated($attributeGroup['code']);
             }

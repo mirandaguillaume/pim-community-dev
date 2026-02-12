@@ -22,10 +22,6 @@ class FileNormalizer implements NormalizerInterface, CacheableSupportsMethodInte
     /** @var RouterInterface */
     protected $router;
 
-    /**
-     * @param NormalizerInterface $stdNormalizer
-     * @param RouterInterface     $router
-     */
     public function __construct(NormalizerInterface $stdNormalizer, RouterInterface $router)
     {
         $this->stdNormalizer = $stdNormalizer;

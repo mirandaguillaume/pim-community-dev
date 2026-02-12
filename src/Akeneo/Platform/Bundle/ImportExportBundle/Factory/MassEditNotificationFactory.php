@@ -19,17 +19,13 @@ class MassEditNotificationFactory extends AbstractNotificationFactory implements
     /** @var string[] */
     protected $notificationTypes;
 
-    /** @var string */
-    protected $notificationClass;
-
     /**
      * @param string[] $notificationTypes
      * @param string   $notificationClass
      */
-    public function __construct(array $notificationTypes, $notificationClass)
+    public function __construct(array $notificationTypes, protected $notificationClass)
     {
         $this->notificationTypes = $notificationTypes;
-        $this->notificationClass = $notificationClass;
     }
 
     /**

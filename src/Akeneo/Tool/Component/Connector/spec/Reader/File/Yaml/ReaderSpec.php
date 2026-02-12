@@ -22,14 +22,14 @@ class ReaderSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('\Akeneo\Tool\Component\Connector\Reader\File\Yaml\Reader');
+        $this->shouldHaveType('\\' . \Akeneo\Tool\Component\Connector\Reader\File\Yaml\Reader::class);
     }
 
     function it_is_an_item_reader_step_execution_and_uploaded_file_aware()
     {
-        $this->shouldImplement('\Akeneo\Tool\Component\Batch\Item\ItemReaderInterface');
-        $this->shouldImplement('\Akeneo\Tool\Component\Batch\Step\StepExecutionAwareInterface');
-        $this->shouldImplement('\Akeneo\Tool\Component\Batch\Item\TrackableItemReaderInterface');
+        $this->shouldImplement('\\' . \Akeneo\Tool\Component\Batch\Item\ItemReaderInterface::class);
+        $this->shouldImplement('\\' . \Akeneo\Tool\Component\Batch\Step\StepExecutionAwareInterface::class);
+        $this->shouldImplement('\\' . \Akeneo\Tool\Component\Batch\Item\TrackableItemReaderInterface::class);
     }
 
     function it_return_empty_count_on_invalid_file(

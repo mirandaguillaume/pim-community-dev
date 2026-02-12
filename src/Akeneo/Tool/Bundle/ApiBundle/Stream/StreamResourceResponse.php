@@ -33,11 +33,11 @@ final class StreamResourceResponse
     public const CONTENT_TYPE = 'application/vnd.akeneo.collection+json';
 
     public function __construct(
-        private HttpKernelInterface $httpKernel,
-        private UniqueValuesSet $uniqueValuesSet,
-        private array $configuration,
-        private string $controllerName,
-        private string $identifierKey,
+        private readonly HttpKernelInterface $httpKernel,
+        private readonly UniqueValuesSet $uniqueValuesSet,
+        private readonly array $configuration,
+        private readonly string $controllerName,
+        private readonly string $identifierKey,
         private string $uriParamName,
     ) {
     }
@@ -70,14 +70,14 @@ final class StreamResourceResponse
                 try {
                     $this->checkLineLength($line, $resource);
 
-                    $data = json_decode($line, true);
+                    $data = json_decode($line, true, 512, JSON_THROW_ON_ERROR);
                     if (null === $data) {
                         throw new BadRequestHttpException('Invalid json message received');
                     }
                     if (isset($data[$this->identifierKey]) && !is_string($data[$this->identifierKey])) {
                         throw new UnprocessableEntityHttpException(\sprintf('%s must be of type string.', $this->identifierKey));
                     }
-                    if (!isset($data[$this->identifierKey]) || '' === trim($data[$this->identifierKey])) {
+                    if (!isset($data[$this->identifierKey]) || '' === trim((string) $data[$this->identifierKey])) {
                         throw new UnprocessableEntityHttpException(sprintf('%s is missing.', ucfirst($this->identifierKey)));
                     }
 
@@ -95,7 +95,7 @@ final class StreamResourceResponse
                     $subResponse = $this->forward($uriParameters, $line);
 
                     if ('' !== $subResponse->getContent()) {
-                        $subResponse = json_decode($subResponse->getContent(), true);
+                        $subResponse = json_decode($subResponse->getContent(), true, 512, JSON_THROW_ON_ERROR);
                         if (isset($subResponse['code'])) {
                             $response['status_code'] = $subResponse['code'];
                             unset($subResponse['code']);
@@ -240,7 +240,7 @@ final class StreamResourceResponse
      */
     protected function flushOutputBuffer($content, $lineNumber)
     {
-        $jsonContent = 1 === $lineNumber ? json_encode($content) : PHP_EOL . json_encode($content);
+        $jsonContent = 1 === $lineNumber ? json_encode($content, JSON_THROW_ON_ERROR) : PHP_EOL . json_encode($content, JSON_THROW_ON_ERROR);
 
         echo $jsonContent;
         ob_flush();

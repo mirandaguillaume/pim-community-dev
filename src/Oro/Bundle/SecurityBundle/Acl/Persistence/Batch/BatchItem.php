@@ -9,45 +9,25 @@ use Symfony\Component\Security\Acl\Model\SecurityIdentityInterface as SID;
 
 class BatchItem
 {
-    const STATE_NONE = 0;
-    const STATE_CREATE = 1;
-    const STATE_UPDATE = 2;
-    const STATE_DELETE = 3;
-
-    /**
-     * @var OID
-     */
-    private $oid;
-
-    /**
-     * @var ACL
-     */
-    private $acl;
-
-    /**
-     * @var int
-     */
-    private $state;
+    final public const STATE_NONE = 0;
+    final public const STATE_CREATE = 1;
+    final public const STATE_UPDATE = 2;
+    final public const STATE_DELETE = 3;
 
     /**
      * Array of ACEs. This is used only for new ACL (state = CREATE)
      *
      * @var ArrayCollection|Ace[]
      */
-    private $aces = null;
+    private ?\Doctrine\Common\Collections\ArrayCollection $aces = null;
 
     /**
      * Constructor
      *
-     * @param OID $oid
      * @param int $state
-     * @param ACL $acl
      */
-    public function __construct(OID $oid, $state, ACL $acl = null)
+    public function __construct(private readonly OID $oid, private $state, private readonly ACL $acl = null)
     {
-        $this->oid = $oid;
-        $this->state = $state;
-        $this->acl = $acl;
     }
 
     /**
@@ -97,9 +77,7 @@ class BatchItem
      */
     public function getAces()
     {
-        return $this->aces === null
-            ? []
-            : $this->aces;
+        return $this->aces ?? [];
     }
 
     /**
@@ -109,7 +87,6 @@ class BatchItem
      * @param string|null $field The name of a field.
      *                           Set to null for class-based or object-based ACE
      *                           Set to not null class-field-based or object-field-based ACE
-     * @param SID         $sid
      * @param bool        $granting
      * @param int         $mask
      * @param string|null $strategy If null the strategy should not be changed for existing ACE
@@ -118,7 +95,7 @@ class BatchItem
      *                                  ANY strategy is used for $granting = false
      * @param bool $replace If true the mask and strategy of the existing ACE should be replaced with the given ones
      */
-    public function addAce($type, $field, SID $sid, $granting, $mask, $strategy, $replace = false)
+    public function addAce($type, ?string $field, SID $sid, $granting, $mask, ?string $strategy, $replace = false)
     {
         if ($this->aces === null) {
             $this->aces = new ArrayCollection();
@@ -133,12 +110,10 @@ class BatchItem
      * @param string|null $field The name of a field.
      *                           Set to null for class-based or object-based ACE
      *                           Set to not null class-field-based or object-field-based ACE
-     * @param SID       $sid
      * @param bool      $granting
      * @param int       $mask
-     * @param bool|null $strategy
      */
-    public function removeAce($type, $field, SID $sid, $granting, $mask, $strategy)
+    public function removeAce($type, ?string $field, SID $sid, $granting, $mask, ?bool $strategy)
     {
         if ($this->aces !== null) {
             $toRemoveKey = null;
@@ -167,9 +142,8 @@ class BatchItem
      * @param string|null $field The name of a field.
      *                           Set to null for class-based or object-based ACE
      *                           Set to not null class-field-based or object-field-based ACE
-     * @param SID $sid
      */
-    public function removeAces($type, $field, SID $sid)
+    public function removeAces($type, ?string $field, SID $sid)
     {
         if ($this->aces !== null) {
             $toRemoveKeys = [];

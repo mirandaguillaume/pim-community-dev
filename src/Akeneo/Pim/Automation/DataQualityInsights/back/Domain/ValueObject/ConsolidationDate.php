@@ -8,14 +8,10 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ConsolidationDate
+final readonly class ConsolidationDate
 {
-    /** @var \DateTimeImmutable */
-    private $dateTime;
-
-    public function __construct(\DateTimeImmutable $dateTimeImmutable)
+    public function __construct(private \DateTimeImmutable $dateTime)
     {
-        $this->dateTime = $dateTimeImmutable;
     }
 
     public function getDateTime(): \DateTimeImmutable

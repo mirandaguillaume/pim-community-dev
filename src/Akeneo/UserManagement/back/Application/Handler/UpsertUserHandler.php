@@ -23,7 +23,7 @@ use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-final class UpsertUserHandler implements UpsertUserHandlerInterface
+final readonly class UpsertUserHandler implements UpsertUserHandlerInterface
 {
     public function __construct(
         private UserRepositoryInterface $userRepository,

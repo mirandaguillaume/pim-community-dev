@@ -30,40 +30,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class EnsureConsistentAttributeGroupOrderTasklet implements TaskletInterface, TrackableTaskletInterface
 {
-    /** @var StepExecution */
-    private $stepExecution;
+    private ?\Akeneo\Tool\Component\Batch\Model\StepExecution $stepExecution = null;
 
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $attributeGroupRepository;
-
-    /** @var ItemReaderInterface */
-    private $attributeGroupReader;
-
-    /** @var SaverInterface */
-    private $attributeGroupSaver;
-
-    /** @var FindAttributeGroupOrdersEqualOrSuperiorTo */
-    private $findAttributeGroupOrdersEqualOrSuperiorTo;
-
-    /** @var ValidatorInterface */
-    private $validator;
-
-    private JobRepositoryInterface $jobRepository;
-
-    public function __construct(
-        IdentifiableObjectRepositoryInterface $attributeGroupRepository,
-        ItemReaderInterface $attributeGroupReader,
-        SaverInterface $attributeGroupSaver,
-        FindAttributeGroupOrdersEqualOrSuperiorTo $findAttributeGroupOrdersEqualOrSuperiorTo,
-        ValidatorInterface $validator,
-        JobRepositoryInterface $jobRepository
-    ) {
-        $this->attributeGroupRepository = $attributeGroupRepository;
-        $this->attributeGroupReader = $attributeGroupReader;
-        $this->attributeGroupSaver = $attributeGroupSaver;
-        $this->findAttributeGroupOrdersEqualOrSuperiorTo = $findAttributeGroupOrdersEqualOrSuperiorTo;
-        $this->validator = $validator;
-        $this->jobRepository = $jobRepository;
+    public function __construct(private readonly IdentifiableObjectRepositoryInterface $attributeGroupRepository, private readonly ItemReaderInterface $attributeGroupReader, private readonly SaverInterface $attributeGroupSaver, private readonly FindAttributeGroupOrdersEqualOrSuperiorTo $findAttributeGroupOrdersEqualOrSuperiorTo, private readonly ValidatorInterface $validator, private readonly JobRepositoryInterface $jobRepository)
+    {
     }
 
     /**
@@ -94,7 +64,7 @@ class EnsureConsistentAttributeGroupOrderTasklet implements TaskletInterface, Tr
                 if (null === $attributeGroupItem) {
                     break;
                 }
-            } catch (InvalidItemException $e) {
+            } catch (InvalidItemException) {
                 continue;
             }
 

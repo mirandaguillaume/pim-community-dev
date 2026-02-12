@@ -12,17 +12,11 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Grid\ReadModel;
  */
 class AdditionalProperties implements \IteratorAggregate
 {
-    /** @var array */
-    private $properties;
+    private readonly array $properties;
 
-    /**
-     * @param array $properties
-     */
     public function __construct(array $properties = [])
     {
-        $this->properties = (function (AdditionalProperty ...$property) {
-            return $property;
-        })(...$properties);
+        $this->properties = (fn(AdditionalProperty ...$property) => $property)(...$properties);
     }
 
     public function addAdditionalProperty(AdditionalProperty $property): AdditionalProperties

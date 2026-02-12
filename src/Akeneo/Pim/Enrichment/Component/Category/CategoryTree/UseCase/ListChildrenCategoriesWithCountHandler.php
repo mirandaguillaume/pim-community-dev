@@ -16,39 +16,11 @@ use Akeneo\UserManagement\Bundle\Context\UserContext;
  */
 class ListChildrenCategoriesWithCountHandler
 {
-    /** @var CategoryRepositoryInterface */
-    private $categoryRepository;
-
-    /** @var UserContext */
-    private $userContext;
-
-    /** @var ListChildrenCategoriesWithCountIncludingSubCategories */
-    private $listAndCountIncludingSubCategories;
-
-    /** @var ListChildrenCategoriesWithCountNotIncludingSubCategories */
-    private $listAndCountNotIncludingSubCategories;
-
-    /**
-     * @param CategoryRepositoryInterface $categoryRepository
-     * @param UserContext $userContext
-     * @param ListChildrenCategoriesWithCountIncludingSubCategories $listAndCountIncludingSubCategories
-     * @param ListChildrenCategoriesWithCountNotIncludingSubCategories $listAndCountNotIncludingSubCategories
-     */
-    public function __construct(
-        CategoryRepositoryInterface $categoryRepository,
-        UserContext $userContext,
-        ListChildrenCategoriesWithCountIncludingSubCategories $listAndCountIncludingSubCategories,
-        ListChildrenCategoriesWithCountNotIncludingSubCategories $listAndCountNotIncludingSubCategories
-    ) {
-        $this->categoryRepository = $categoryRepository;
-        $this->userContext = $userContext;
-        $this->listAndCountIncludingSubCategories = $listAndCountIncludingSubCategories;
-        $this->listAndCountNotIncludingSubCategories = $listAndCountNotIncludingSubCategories;
+    public function __construct(private readonly CategoryRepositoryInterface $categoryRepository, private readonly UserContext $userContext, private readonly ListChildrenCategoriesWithCountIncludingSubCategories $listAndCountIncludingSubCategories, private readonly ListChildrenCategoriesWithCountNotIncludingSubCategories $listAndCountNotIncludingSubCategories)
+    {
     }
 
     /**
-     * @param ListChildrenCategoriesWithCount $query
-     *
      * @return ChildCategory[]
      */
     public function handle(ListChildrenCategoriesWithCount $query): array

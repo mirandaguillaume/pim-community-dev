@@ -25,9 +25,7 @@ class UpdateIndexMappingIntegration extends TestCase
 
         $client = $clientBuilder->build();
 
-        $aliases = array_map(function (array $index) : string {
-            return $index['alias'];
-        }, $client->cat()->aliases());
+        $aliases = array_map(fn(array $index): string => $index['alias'], $client->cat()->aliases());
 
         /** @var ProductQueryBuilderFactory $pqb */
         $pqb = $this->get('pim_catalog.query.product_query_builder_factory_for_reading_purpose');
@@ -38,9 +36,7 @@ class UpdateIndexMappingIntegration extends TestCase
         $updateIndexMapping = new UpdateIndexMapping();
         $updateIndexMapping->updateIndexMapping($client, $akeneoProductClient->getIndexName(), $akeneoProductClient->getConfigurationLoader());
 
-        $newIndices = array_map(function (array $index) : string {
-            return $index['index'];
-        }, $client->cat()->indices());
+        $newIndices = array_map(fn(array $index): string => $index['index'], $client->cat()->indices());
 
         Assert::assertNotContains($this->getParameter('product_and_product_model_index_name'), $newIndices);
         Assert::assertTrue($client->indices()->existsAlias(['name' => $this->getParameter('product_and_product_model_index_name')]));
@@ -58,9 +54,7 @@ class UpdateIndexMappingIntegration extends TestCase
 
         $client = $clientBuilder->build();
 
-        $aliases = array_map(function (array $index) : string {
-            return $index['alias'];
-        }, $client->cat()->aliases());
+        $aliases = array_map(fn(array $index): string => $index['alias'], $client->cat()->aliases());
 
         /** @var ProductQueryBuilderFactory $pqb */
         $pqb = $this->get('pim_catalog.query.product_query_builder_factory_for_reading_purpose');
@@ -76,12 +70,6 @@ class UpdateIndexMappingIntegration extends TestCase
         $updateIndexMapping->updateIndexMapping($client, $akeneoProductClient->getIndexName(), $akeneoProductClient->getConfigurationLoader());
     }
 
-    /**
-     * @param string $identifier
-     * @param array  $data
-     *
-     * @return ProductInterface
-     */
     protected function createProduct(string $identifier, array $data = []): ProductInterface
     {
         $product = $this->get('pim_catalog.builder.product')->createProduct($identifier);

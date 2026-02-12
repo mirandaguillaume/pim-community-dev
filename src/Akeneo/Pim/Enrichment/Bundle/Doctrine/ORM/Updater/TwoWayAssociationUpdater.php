@@ -14,15 +14,8 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class TwoWayAssociationUpdater implements TwoWayAssociationUpdaterInterface
 {
-    private ManagerRegistry $registry;
-    private MissingAssociationAdder $missingAssociationAdder;
-
-    public function __construct(
-        ManagerRegistry $registry,
-        MissingAssociationAdder $missingAssociationAdder
-    ) {
-        $this->registry = $registry;
-        $this->missingAssociationAdder = $missingAssociationAdder;
+    public function __construct(private readonly ManagerRegistry $registry, private readonly MissingAssociationAdder $missingAssociationAdder)
+    {
     }
 
     /**
@@ -75,7 +68,7 @@ class TwoWayAssociationUpdater implements TwoWayAssociationUpdaterInterface
                     'Inversed associations are only for the classes "%s" and "%s". "%s" given.',
                     ProductInterface::class,
                     ProductModelInterface::class,
-                    get_class($associatedEntity)
+                    $associatedEntity::class
                 )
             );
         }
@@ -99,7 +92,7 @@ class TwoWayAssociationUpdater implements TwoWayAssociationUpdaterInterface
                     'Inversed associations are only for the classes "%s" and "%s". "%s" given.',
                     ProductInterface::class,
                     ProductModelInterface::class,
-                    get_class($owner)
+                    $owner::class
                 )
             );
         }

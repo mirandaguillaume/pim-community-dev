@@ -27,10 +27,6 @@ class PropertyCopier implements PropertyCopierInterface
     /** @var CopierRegistryInterface */
     protected $copierRegistry;
 
-    /**
-     * @param IdentifiableObjectRepositoryInterface $repository
-     * @param CopierRegistryInterface               $copierRegistry
-     */
     public function __construct(
         IdentifiableObjectRepositoryInterface $repository,
         CopierRegistryInterface $copierRegistry
@@ -84,7 +80,7 @@ class PropertyCopier implements PropertyCopierInterface
         } else {
             throw new \RuntimeException(sprintf(
                 "The copier must implements AttributeCopierInterface or FieldCopierInterface, '%s' given",
-                get_class($copier)
+                $copier::class
             ));
         }
 
@@ -93,10 +89,8 @@ class PropertyCopier implements PropertyCopierInterface
 
     /**
      * @param string $code
-     *
-     * @return AttributeInterface|null
      */
-    protected function getAttribute($code)
+    protected function getAttribute($code): ?\Akeneo\Pim\Structure\Component\Model\AttributeInterface
     {
         return $this->attributeRepository->findOneByIdentifier($code);
     }

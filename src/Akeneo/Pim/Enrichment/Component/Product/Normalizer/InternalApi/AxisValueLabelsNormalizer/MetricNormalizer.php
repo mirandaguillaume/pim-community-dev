@@ -17,18 +17,8 @@ use Webmozart\Assert\Assert;
  */
 class MetricNormalizer implements AxisValueLabelsNormalizer
 {
-    private StandardMetricNormalizer $metricNormalizer;
-    private MetricLocalizer $metricLocalizer;
-    private GetUnitTranslations $getUnitTranslations;
-
-    public function __construct(
-        StandardMetricNormalizer $metricNormalizer,
-        MetricLocalizer $metricLocalizer,
-        GetUnitTranslations $getUnitTranslations
-    ) {
-        $this->metricNormalizer = $metricNormalizer;
-        $this->metricLocalizer = $metricLocalizer;
-        $this->getUnitTranslations = $getUnitTranslations;
+    public function __construct(private readonly StandardMetricNormalizer $metricNormalizer, private readonly MetricLocalizer $metricLocalizer, private readonly GetUnitTranslations $getUnitTranslations)
+    {
     }
 
     /**

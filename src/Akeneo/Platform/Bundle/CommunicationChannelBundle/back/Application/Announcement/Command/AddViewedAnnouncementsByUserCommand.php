@@ -9,20 +9,13 @@ namespace Akeneo\Platform\CommunicationChannel\Application\Announcement\Command;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class AddViewedAnnouncementsByUserCommand
+final readonly class AddViewedAnnouncementsByUserCommand
 {
-    /** @var string[] */
-    private array $viewedAnnouncementIds;
-    private int $userId;
-
     /**
      * @param string[] $viewedAnnouncementIds
-     * @param int $userId
      */
-    public function __construct(array $viewedAnnouncementIds, int $userId)
+    public function __construct(private array $viewedAnnouncementIds, private int $userId)
     {
-        $this->viewedAnnouncementIds = $viewedAnnouncementIds;
-        $this->userId = $userId;
     }
 
     /**

@@ -13,12 +13,8 @@ use Akeneo\Pim\Structure\Component\AttributeTypes;
  */
 class NonExistentReferenceDataSimpleSelectValuesFilter implements NonExistentValuesFilter
 {
-    /** @var GetExistingReferenceDataCodes */
-    private $getExistingReferenceDataCodes;
-
-    public function __construct(GetExistingReferenceDataCodes $getExistingReferenceDataCodes)
+    public function __construct(private readonly GetExistingReferenceDataCodes $getExistingReferenceDataCodes)
     {
-        $this->getExistingReferenceDataCodes = $getExistingReferenceDataCodes;
     }
 
     public function filter(OnGoingFilteredRawValues $onGoingFilteredRawValues): OnGoingFilteredRawValues
@@ -40,7 +36,7 @@ class NonExistentReferenceDataSimpleSelectValuesFilter implements NonExistentVal
                 foreach ($productValues['values'] as $channel => $channelValues) {
                     foreach ($channelValues as $locale => $value) {
                         if (!\is_array($value)) {
-                            $simpleSelectValues[$channel][$locale] = $referenceDataCodes[$attributeCode][strtolower($value)] ?? '';
+                            $simpleSelectValues[$channel][$locale] = $referenceDataCodes[$attributeCode][strtolower((string) $value)] ?? '';
                         }
                     }
                 }
@@ -70,7 +66,7 @@ class NonExistentReferenceDataSimpleSelectValuesFilter implements NonExistentVal
                     $values
                 );
                 foreach ($existingCodes as $existingCode) {
-                    $existingReferenceDataCodes[$attributeCode][strtolower($existingCode)] = $existingCode;
+                    $existingReferenceDataCodes[$attributeCode][strtolower((string) $existingCode)] = $existingCode;
                 }
             }
         }

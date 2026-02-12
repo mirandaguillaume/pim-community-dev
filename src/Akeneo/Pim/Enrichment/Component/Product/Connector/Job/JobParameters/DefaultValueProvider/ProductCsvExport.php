@@ -30,12 +30,6 @@ class ProductCsvExport implements DefaultValuesProviderInterface
     /** @var LocaleRepositoryInterface */
     protected $localeRepository;
 
-    /**
-     * @param DefaultValuesProviderInterface $simpleProvider
-     * @param ChannelRepositoryInterface     $channelRepository
-     * @param LocaleRepositoryInterface      $localeRepository
-     * @param array                          $supportedJobNames
-     */
     public function __construct(
         DefaultValuesProviderInterface $simpleProvider,
         ChannelRepositoryInterface $channelRepository,

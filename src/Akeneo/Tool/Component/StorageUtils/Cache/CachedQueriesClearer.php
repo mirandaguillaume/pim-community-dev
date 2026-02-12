@@ -9,7 +9,7 @@ use Webmozart\Assert\Assert;
 final class CachedQueriesClearer implements CachedQueriesClearerInterface
 {
     /** @var CachedQueryInterface[] */
-    private iterable $cachedQueries;
+    private readonly iterable $cachedQueries;
 
     public function __construct(iterable $cachedQueries)
     {

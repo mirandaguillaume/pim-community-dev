@@ -15,9 +15,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class ApiRequestLogSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private Firewall $firewall,
-        private TokenStorageInterface $tokenStorage,
-        private LoggerInterface $logger,
+        private readonly Firewall $firewall,
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly LoggerInterface $logger,
     ) {
     }
 
@@ -46,7 +46,7 @@ class ApiRequestLogSubscriber implements EventSubscriberInterface
                 'path_info' => $this->getCurrentUrl($request),
                 'user' => $this->getCurrentUsername(),
             ]);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
     }
 

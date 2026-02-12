@@ -14,18 +14,15 @@ use Doctrine\DBAL\Connection;
  */
 class CachedGetLocalesByChannelQuery implements GetLocalesByChannelQueryInterface
 {
-    /** * @var Connection */
-    private $db;
+    private ?array $cachedChannelLocaleArray = null;
 
-    /** @var null|array */
-    private $cachedChannelLocaleArray;
+    private ?\Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\ChannelLocaleCollection $cachedChannelLocaleCollection = null;
 
-    /** @var null|ChannelLocaleCollection */
-    private $cachedChannelLocaleCollection;
-
-    public function __construct(Connection $db)
+    public function __construct(
+        /** * @var Connection */
+        private readonly Connection $db
+    )
     {
-        $this->db = $db;
     }
 
     public function getArray(): array

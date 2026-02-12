@@ -53,27 +53,27 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class JobInstanceController
 {
     public function __construct(
-        private IdentifiableObjectRepositoryInterface $repository,
-        private JobRegistry $jobRegistry,
-        private NormalizerInterface $jobInstanceNormalizer,
-        private ObjectUpdaterInterface $updater,
-        private SaverInterface $saver,
-        private RemoverInterface $remover,
-        private ValidatorInterface $validator,
-        private JobParametersValidator $jobParameterValidator,
-        private JobParametersFactory $jobParamsFactory,
-        private JobLauncherInterface $jobLauncher,
-        private TokenStorageInterface $tokenStorage,
-        private RouterInterface $router,
-        private FormProviderInterface $formProvider,
-        private ObjectFilterInterface $objectFilter,
-        private NormalizerInterface $constraintViolationNormalizer,
-        private JobInstanceFactory $jobInstanceFactory,
-        private EventDispatcherInterface $eventDispatcher,
-        private CollectionFilterInterface $inputFilter,
-        private FilesystemOperator $filesystem,
-        private SecurityFacade $securityFacade,
-        private CredentialsEncrypterRegistry $credentialsEncrypterRegistry,
+        private readonly IdentifiableObjectRepositoryInterface $repository,
+        private readonly JobRegistry $jobRegistry,
+        private readonly NormalizerInterface $jobInstanceNormalizer,
+        private readonly ObjectUpdaterInterface $updater,
+        private readonly SaverInterface $saver,
+        private readonly RemoverInterface $remover,
+        private readonly ValidatorInterface $validator,
+        private readonly JobParametersValidator $jobParameterValidator,
+        private readonly JobParametersFactory $jobParamsFactory,
+        private readonly JobLauncherInterface $jobLauncher,
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly RouterInterface $router,
+        private readonly FormProviderInterface $formProvider,
+        private readonly ObjectFilterInterface $objectFilter,
+        private readonly NormalizerInterface $constraintViolationNormalizer,
+        private readonly JobInstanceFactory $jobInstanceFactory,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly CollectionFilterInterface $inputFilter,
+        private readonly FilesystemOperator $filesystem,
+        private readonly SecurityFacade $securityFacade,
+        private readonly CredentialsEncrypterRegistry $credentialsEncrypterRegistry,
     ) {
     }
 
@@ -219,7 +219,7 @@ class JobInstanceController
             throw new AccessDeniedHttpException();
         }
 
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $filteredData = $this->inputFilter->filterCollection(
             $data,
@@ -501,7 +501,7 @@ class JobInstanceController
         $duplicatedJobInstance = $this->jobInstanceFactory->createJobInstance($jobToDuplicate->getType());
         $duplicatedJobInstance->setJobName($jobToDuplicate->getJobName());
 
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $normalizedJobToDuplicate = $this->normalizeJobInstance($jobToDuplicate);
         $normalizedJobToDuplicate['code'] = $data['code'] ?? '';
@@ -538,7 +538,7 @@ class JobInstanceController
             return new RedirectResponse('/');
         }
 
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
         $jobInstance = $this->jobInstanceFactory->createJobInstance($type);
         $this->updater->update($jobInstance, $data);
 

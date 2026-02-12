@@ -18,11 +18,8 @@ use Webmozart\Assert\Assert;
  */
 class TranslatorDecorator implements TranslatorInterface, LocaleAwareInterface, TranslatorBagInterface
 {
-    private TranslatorInterface $symfonyTranslator;
-
-    public function __construct(TranslatorInterface $symfonyTranslator)
+    public function __construct(private readonly TranslatorInterface $symfonyTranslator)
     {
-        $this->symfonyTranslator = $symfonyTranslator;
     }
 
     /**
@@ -43,7 +40,7 @@ class TranslatorDecorator implements TranslatorInterface, LocaleAwareInterface, 
             $parameters['%count%'] = $number;
 
             return $this->symfonyTranslator->trans($id, $parameters, $domain, $locale);
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             return (string) $id . ': ' . (string) $number;
         }
     }

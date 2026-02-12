@@ -7,7 +7,7 @@ use Oro\Bundle\FilterBundle\Form\Type\Filter\BooleanFilterType;
 
 class BooleanFilter extends ChoiceFilter
 {
-    const NULLABLE_KEY = 'nullable';
+    final public const NULLABLE_KEY = 'nullable';
 
     /**
      * {@inheritdoc}
@@ -39,15 +39,10 @@ class BooleanFilter extends ChoiceFilter
             $summaryExpression = $compareExpression;
         }
 
-        switch ($data['value']) {
-            case BooleanFilterType::TYPE_YES:
-                $expression = $summaryExpression;
-                break;
-            case BooleanFilterType::TYPE_NO:
-            default:
-                $expression = $ds->expr()->not($summaryExpression);
-                break;
-        }
+        $expression = match ($data['value']) {
+            BooleanFilterType::TYPE_YES => $summaryExpression,
+            default => $ds->expr()->not($summaryExpression),
+        };
 
         $this->applyFilterToClause($ds, $expression);
 
@@ -56,10 +51,8 @@ class BooleanFilter extends ChoiceFilter
 
     /**
      * @param mixed $data
-     *
-     * @return array|bool
      */
-    public function parseData($data)
+    public function parseData($data): array|bool
     {
         $allowedValues = [BooleanFilterType::TYPE_YES, BooleanFilterType::TYPE_NO];
         if (!is_array($data)

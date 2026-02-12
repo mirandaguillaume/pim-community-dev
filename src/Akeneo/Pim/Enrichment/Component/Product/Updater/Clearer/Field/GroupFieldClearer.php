@@ -34,7 +34,7 @@ final class GroupFieldClearer implements ClearerInterface
     {
         if (!$entity instanceof ProductInterface) {
             throw InvalidObjectException::objectExpected(
-                \is_object($entity) ? \get_class($entity) : \gettype($entity),
+                get_debug_type($entity),
                 ProductInterface::class
             );
         }

@@ -11,9 +11,6 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Model;
  */
 abstract class AbstractValue implements ValueInterface
 {
-    /** @var mixed */
-    protected $data;
-
     /** @var string */
     protected $attributeCode;
 
@@ -26,10 +23,9 @@ abstract class AbstractValue implements ValueInterface
     /**
      * Forbid external access to the default constructor to force usage of named constructors
      */
-    protected function __construct(string $attributeCode, $data, ?string $scopeCode, ?string $localeCode)
+    protected function __construct(string $attributeCode, protected mixed $data, ?string $scopeCode, ?string $localeCode)
     {
         $this->attributeCode = $attributeCode;
-        $this->data = $data;
         $this->scopeCode = $scopeCode;
         $this->localeCode = $localeCode;
     }

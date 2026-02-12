@@ -32,7 +32,7 @@ class DbalPurgerTest extends TestCase
 
     private function getPurger(): DatabasePurgerInterface
     {
-        return $this->get('Akeneo\Platform\Installer\Infrastructure\DatabasePurger\DbalPurger');
+        return $this->get(\Akeneo\Platform\Installer\Infrastructure\DatabasePurger\DbalPurger::class);
     }
 
     private function getAssociationTypeCodes(): array

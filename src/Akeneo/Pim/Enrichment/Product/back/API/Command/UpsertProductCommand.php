@@ -25,7 +25,7 @@ use Webmozart\Assert\Assert;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class UpsertProductCommand
+final readonly class UpsertProductCommand
 {
     /**
      * The product can now be created or updated by :
@@ -36,17 +36,17 @@ final class UpsertProductCommand
      * @param ValueUserIntent[] $valueUserIntents
      */
     private function __construct(
-        private readonly int $userId,
-        private readonly ProductUuid|ProductIdentifier|null $productIdentifierOrUuid,
-        private readonly ?FamilyUserIntent $familyUserIntent = null,
-        private readonly ?CategoryUserIntent $categoryUserIntent = null,
-        private readonly ?ParentUserIntent $parentUserIntent = null,
-        private readonly ?GroupUserIntent $groupUserIntent = null,
-        private readonly ?SetEnabled $enabledUserIntent = null,
-        private readonly ?AssociationUserIntentCollection $associationUserIntents = null,
-        private readonly ?QuantifiedAssociationUserIntentCollection $quantifiedAssociationUserIntents = null,
-        private readonly array $valueUserIntents = [],
-        private readonly bool $dryRun = false,
+        private int $userId,
+        private ProductUuid|ProductIdentifier|null $productIdentifierOrUuid,
+        private ?FamilyUserIntent $familyUserIntent = null,
+        private ?CategoryUserIntent $categoryUserIntent = null,
+        private ?ParentUserIntent $parentUserIntent = null,
+        private ?GroupUserIntent $groupUserIntent = null,
+        private ?SetEnabled $enabledUserIntent = null,
+        private ?AssociationUserIntentCollection $associationUserIntents = null,
+        private ?QuantifiedAssociationUserIntentCollection $quantifiedAssociationUserIntents = null,
+        private array $valueUserIntents = [],
+        private bool $dryRun = false,
     ) {
         /*
          * TODO to remove when false negative will be fixed

@@ -19,8 +19,8 @@ use Akeneo\Pim\Enrichment\Component\Product\Normalizer\Standard\TranslationNorma
 class SqlFindCategoryTrees implements FindCategoryTrees
 {
     public function __construct(
-        private CategoryRepositoryInterface $categoryRepository,
-        private TranslationNormalizer $translationNormalizer
+        private readonly CategoryRepositoryInterface $categoryRepository,
+        private readonly TranslationNormalizer $translationNormalizer
     ) {
     }
 

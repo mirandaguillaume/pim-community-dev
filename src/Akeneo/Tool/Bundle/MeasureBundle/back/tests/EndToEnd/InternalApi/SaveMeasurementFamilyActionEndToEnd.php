@@ -119,7 +119,7 @@ class SaveMeasurementFamilyActionEndToEnd extends WebTestCase
             [
                 'HTTP_X-Requested-With' => 'XMLHttpRequest',
             ],
-            json_encode($normalizedMeasurementFamily)
+            json_encode($normalizedMeasurementFamily, JSON_THROW_ON_ERROR)
         );
 
         return $this->client->getResponse();
@@ -163,7 +163,7 @@ class SaveMeasurementFamilyActionEndToEnd extends WebTestCase
         $measurementFamilyCode = MeasurementFamilyCode::fromString($normalizedMeasurementFamily['code']);
         try {
             $normalizedActual = $this->measurementFamilyRepository->getByCode($measurementFamilyCode)->normalize();
-        } catch (MeasurementFamilyNotFoundException $e) {
+        } catch (MeasurementFamilyNotFoundException) {
             $hasNotBeenCreated = true;
         }
 
@@ -173,7 +173,7 @@ class SaveMeasurementFamilyActionEndToEnd extends WebTestCase
     private function assertMeasurementFamilyCannotBeSavedBecauseLabelWasTooLong(Response $response): void
     {
         $this->assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
-        $responseBody = json_decode($response->getContent(), true);
+        $responseBody = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
         $this->assertEquals('labels[fr_FR]', $responseBody[0]['propertyPath']);
         $this->assertEquals('This value is too long. It should have 100 characters or less.', $responseBody[0]['message']);
     }
@@ -190,7 +190,7 @@ class SaveMeasurementFamilyActionEndToEnd extends WebTestCase
             [
                 'HTTP_X-Requested-With' => 'XMLHttpRequest',
             ],
-            json_encode($requestBody)
+            json_encode($requestBody, JSON_THROW_ON_ERROR)
         );
 
         return $this->client->getResponse();

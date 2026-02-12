@@ -16,23 +16,20 @@ use Symfony\Component\DependencyInjection\Reference;
 class RegisterJobParametersPass implements CompilerPassInterface
 {
     /** @staticvar int The default provider priority */
-    const DEFAULT_PRIORITY = 100;
+    final public const DEFAULT_PRIORITY = 100;
 
     /** @staticvar string The registry id */
-    const REGISTRY_ID = 'akeneo_batch.job.job_parameters.%s_registry';
+    final public const REGISTRY_ID = 'akeneo_batch.job.job_parameters.%s_registry';
 
     /** @staticvar string */
-    const SERVICE_TAG = 'akeneo_batch.job.job_parameters.%s';
-
-    /** @var string */
-    protected $type;
+    final public const SERVICE_TAG = 'akeneo_batch.job.job_parameters.%s';
 
     /**
      * @param $type
+     * @param string $type
      */
-    public function __construct($type)
+    public function __construct(protected $type)
     {
-        $this->type = $type;
     }
 
     /**
@@ -51,7 +48,7 @@ class RegisterJobParametersPass implements CompilerPassInterface
         $serviceTag = sprintf(self::SERVICE_TAG, $this->type);
         foreach ($container->findTaggedServiceIds($serviceTag) as $serviceId => $tags) {
             foreach ($tags as $tag) {
-                $priority = isset($tag['priority']) ? $tag['priority'] : static::DEFAULT_PRIORITY;
+                $priority = $tag['priority'] ?? static::DEFAULT_PRIORITY;
                 if (!isset($providers[$priority])) {
                     $providers[$priority] = [];
                 }

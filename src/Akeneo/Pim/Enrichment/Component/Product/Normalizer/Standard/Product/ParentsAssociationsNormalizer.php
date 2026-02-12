@@ -68,8 +68,6 @@ class ParentsAssociationsNormalizer implements NormalizerInterface, CacheableSup
     }
 
     /**
-     * @param EntityWithFamilyVariantInterface $product
-     *
      * @return AssociationInterface[]
      */
     private function getParentAssociations(EntityWithFamilyVariantInterface $product): array

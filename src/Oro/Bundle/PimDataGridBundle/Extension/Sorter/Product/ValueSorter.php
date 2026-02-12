@@ -18,9 +18,6 @@ class ValueSorter implements SorterInterface
     /** @var AttributeRepositoryInterface */
     protected $attributeRepository;
 
-    /**
-     * @param AttributeRepositoryInterface $attributeRepository
-     */
     public function __construct(AttributeRepositoryInterface $attributeRepository)
     {
         $this->attributeRepository = $attributeRepository;

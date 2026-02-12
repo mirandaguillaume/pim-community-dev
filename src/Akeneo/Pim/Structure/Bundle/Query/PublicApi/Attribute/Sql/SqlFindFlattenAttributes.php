@@ -8,13 +8,10 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\Attribute\FindFlattenAttribut
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Attribute\FlattenAttribute;
 use Doctrine\DBAL\Connection;
 
-final class SqlFindFlattenAttributes implements FindFlattenAttributesInterface
+final readonly class SqlFindFlattenAttributes implements FindFlattenAttributesInterface
 {
-    private Connection $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function execute(

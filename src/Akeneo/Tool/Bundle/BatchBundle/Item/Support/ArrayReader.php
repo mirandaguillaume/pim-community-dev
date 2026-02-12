@@ -17,8 +17,6 @@ class ArrayReader implements ItemReaderInterface
     protected $items;
 
     /**
-     * @param array $items
-     *
      * @return $this
      */
     public function setItems(array $items)
@@ -35,7 +33,7 @@ class ArrayReader implements ItemReaderInterface
     {
         $item = null;
 
-        if ($this->readIndex < count($this->items)) {
+        if ($this->readIndex < (is_countable($this->items) ? count($this->items) : 0)) {
             $item = $this->items[$this->readIndex];
             $this->readIndex++;
         }

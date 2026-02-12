@@ -18,7 +18,7 @@ class SearchJobUser implements SearchJobUserInterface
     private const USER_TYPE = 'user';
 
     public function __construct(
-        private Connection $connection,
+        private readonly Connection $connection,
     ) {
     }
 

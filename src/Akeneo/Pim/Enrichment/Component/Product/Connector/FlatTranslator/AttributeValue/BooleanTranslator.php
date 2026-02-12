@@ -10,12 +10,8 @@ use Akeneo\Tool\Component\Localization\LabelTranslatorInterface;
 
 class BooleanTranslator implements FlatAttributeValueTranslatorInterface
 {
-    /** @var LabelTranslatorInterface */
-    private $labelTranslator;
-
-    public function __construct(LabelTranslatorInterface $labelTranslator)
+    public function __construct(private readonly LabelTranslatorInterface $labelTranslator)
     {
-        $this->labelTranslator = $labelTranslator;
     }
 
     public function supports(string $attributeType, string $columnName): bool

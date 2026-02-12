@@ -13,7 +13,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Write\CriterionEvalua
 final class CriterionEvaluationCollection implements \IteratorAggregate, \Countable
 {
     /** @var CriterionEvaluation[] */
-    private $criteriaEvaluations;
+    private array $criteriaEvaluations;
 
     public function __construct()
     {

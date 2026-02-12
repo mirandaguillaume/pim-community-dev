@@ -17,9 +17,6 @@ use Symfony\Component\Form\FormFactoryInterface;
  */
 class GroupsFilter extends AjaxChoiceFilter
 {
-    /** @var string */
-    protected $groupClass;
-
     /** @var UserContext */
     protected $userContext;
 
@@ -35,12 +32,11 @@ class GroupsFilter extends AjaxChoiceFilter
         FormFactoryInterface $factory,
         ProductFilterUtility $util,
         UserContext $userContext,
-        $groupClass
+        protected $groupClass
     ) {
         parent::__construct($factory, $util);
 
         $this->userContext = $userContext;
-        $this->groupClass = $groupClass;
     }
 
     /**

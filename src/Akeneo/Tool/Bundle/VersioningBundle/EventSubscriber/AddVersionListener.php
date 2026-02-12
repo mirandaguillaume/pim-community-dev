@@ -30,33 +30,10 @@ class AddVersionListener
     /** @var string[] */
     protected $versions = [];
 
-    /** @var VersionManager */
-    private $versionManager;
-
-    /** @var NormalizerInterface */
-    private $versioningNormalizer;
-
-    /** @var UpdateGuesserInterface */
-    private $updateGuesser;
-
-    /** @var VersionContext */
-    private $versionContext;
-
-    public function __construct(
-        VersionManager $versionManager,
-        NormalizerInterface $versioningNormalizer,
-        UpdateGuesserInterface $updateGuesser,
-        VersionContext $versionContext
-    ) {
-        $this->versionManager = $versionManager;
-        $this->versioningNormalizer = $versioningNormalizer;
-        $this->updateGuesser = $updateGuesser;
-        $this->versionContext = $versionContext;
+    public function __construct(private readonly VersionManager $versionManager, private readonly NormalizerInterface $versioningNormalizer, private readonly UpdateGuesserInterface $updateGuesser, private readonly VersionContext $versionContext)
+    {
     }
 
-    /**
-     * @param OnFlushEventArgs $args
-     */
     public function onFlush(OnFlushEventArgs $args)
     {
         $em = $args->getObjectManager();
@@ -83,9 +60,6 @@ class AddVersionListener
         }
     }
 
-    /**
-     * @param PostFlushEventArgs $args
-     */
     public function postFlush(PostFlushEventArgs $args)
     {
         $this->processVersionableEntities();
@@ -192,8 +166,6 @@ class AddVersionListener
 
     /**
      * Compute version change set
-     *
-     * @param Version $version
      */
     protected function computeChangeSet(Version $version)
     {

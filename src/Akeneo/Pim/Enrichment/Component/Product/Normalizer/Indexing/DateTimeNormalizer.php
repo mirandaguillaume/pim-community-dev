@@ -23,9 +23,6 @@ class DateTimeNormalizer implements NormalizerInterface, CacheableSupportsMethod
     /** @var NormalizerInterface */
     protected $standardNormalizer;
 
-    /**
-     * @param NormalizerInterface $normalizer
-     */
     public function __construct(NormalizerInterface $normalizer)
     {
         $this->standardNormalizer = $normalizer;

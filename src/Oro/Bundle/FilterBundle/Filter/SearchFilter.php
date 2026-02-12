@@ -44,18 +44,14 @@ class SearchFilter extends AbstractFilter
     }
 
     /**
-     * @param mixed $data
-     *
      * @return array
      */
-    protected function parseData($data)
+    protected function parseData(mixed $data)
     {
         if (!is_array($data) || !array_key_exists('value', $data) || !$data['value']) {
             return [];
         }
 
-        return array_map(function ($word) {
-            return sprintf('%%%s%%', \addcslashes($word, '_%'));
-        }, preg_split('/\s+/', $words = $data['value']));
+        return array_map(fn($word) => sprintf('%%%s%%', \addcslashes((string) $word, '_%')), preg_split('/\s+/', (string) ($words = $data['value'])));
     }
 }

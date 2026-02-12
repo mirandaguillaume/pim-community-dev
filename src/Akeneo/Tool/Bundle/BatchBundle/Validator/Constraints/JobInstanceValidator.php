@@ -22,8 +22,6 @@ class JobInstanceValidator extends ConstraintValidator
 
     /**
      * Constructor
-     *
-     * @param JobRegistry $jobRegistry
      */
     public function __construct(JobRegistry $jobRegistry)
     {
@@ -38,7 +36,7 @@ class JobInstanceValidator extends ConstraintValidator
         if ($entity instanceof JobInstanceModel) {
             try {
                 $this->jobRegistry->get($entity->getJobName());
-            } catch (UndefinedJobException $e) {
+            } catch (UndefinedJobException) {
                 $this->context
                     ->buildViolation(
                         $constraint->message,

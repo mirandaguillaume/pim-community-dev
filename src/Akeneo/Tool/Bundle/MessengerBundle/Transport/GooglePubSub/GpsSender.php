@@ -17,7 +17,7 @@ use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GpsSender implements SenderInterface
+final readonly class GpsSender implements SenderInterface
 {
     public function __construct(
         private Topic $topic,

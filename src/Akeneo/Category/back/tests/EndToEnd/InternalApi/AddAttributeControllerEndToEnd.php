@@ -90,7 +90,7 @@ class AddAttributeControllerEndToEnd extends ControllerIntegrationTestCase
         $response = $this->client->getResponse();
         $this->assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
 
-        $normalizedErrors = json_decode($response->getContent(), true);
+        $normalizedErrors = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
         $this->assertEquals('code', $normalizedErrors[0]['error']['property']);
         $this->assertEquals('This value should not be blank.', $normalizedErrors[0]['error']['message']);
 
@@ -125,7 +125,7 @@ class AddAttributeControllerEndToEnd extends ControllerIntegrationTestCase
         $response = $this->client->getResponse();
         $this->assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
 
-        $normalizedErrors = json_decode($response->getContent(), true);
+        $normalizedErrors = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
         $this->assertEquals('code', $normalizedErrors[0]['error']['property']);
         $this->assertEquals('This value is too long. It should have 100 characters or less.', $normalizedErrors[0]['error']['message']);
 
@@ -158,7 +158,7 @@ class AddAttributeControllerEndToEnd extends ControllerIntegrationTestCase
         $response = $this->client->getResponse();
         $this->assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
 
-        $normalizedErrors = json_decode($response->getContent(), true);
+        $normalizedErrors = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
         $this->assertEquals('code', $normalizedErrors[0]['error']['property']);
         $this->assertEquals('Attribute code may contain only lowercase letters, numbers and underscores', $normalizedErrors[0]['error']['message']);
 
@@ -211,7 +211,7 @@ class AddAttributeControllerEndToEnd extends ControllerIntegrationTestCase
         $response = $this->client->getResponse();
         $this->assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
 
-        $normalizedErrors = json_decode($response->getContent(), true);
+        $normalizedErrors = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
         $this->assertEquals('code', $normalizedErrors[0]['error']['property']);
         $this->assertEquals('Attribute code same_attribute_code must be unique in the template', $normalizedErrors[0]['error']['message']);
 
@@ -261,7 +261,7 @@ class AddAttributeControllerEndToEnd extends ControllerIntegrationTestCase
         $response = $this->client->getResponse();
         $this->assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
 
-        $normalizedErrors = json_decode($response->getContent(), true);
+        $normalizedErrors = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
         $this->assertEquals('You cannot add more than 50 attributes', $normalizedErrors[0]['error']['message']);
     }
 

@@ -14,8 +14,6 @@ class ParentAssociationsFilter
     /**
      * Filter associations to remove associations existing in parents
      *
-     * @param array $associations
-     * @param array $parentAssociations
      *
      * @return array $associations not existing in the ancestors
      */
@@ -38,10 +36,7 @@ class ParentAssociationsFilter
     /**
      * Filter associations in a given association type
      *
-     * @param array $associationType
-     * @param array $parentAssociationType
      *
-     * @return array
      */
     protected function filterParentAssociationType(array $associationType, array $parentAssociationType): array
     {

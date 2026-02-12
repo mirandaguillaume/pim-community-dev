@@ -18,11 +18,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 final class CheckChannelsOnDeletionSubscriber implements EventSubscriberInterface
 {
-    protected TranslatorInterface $translator;
-
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(protected TranslatorInterface $translator)
     {
-        $this->translator = $translator;
     }
 
     /**
@@ -38,7 +35,6 @@ final class CheckChannelsOnDeletionSubscriber implements EventSubscriberInterfac
     /**
      * Check if channels are linked to this tree
      *
-     * @param GenericEvent $event
      *
      * @throws ConflictHttpException
      */

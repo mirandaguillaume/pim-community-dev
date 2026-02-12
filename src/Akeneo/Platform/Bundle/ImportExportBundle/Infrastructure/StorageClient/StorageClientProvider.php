@@ -14,7 +14,7 @@ use Akeneo\Platform\Bundle\ImportExportBundle\Domain\Model\StorageInterface;
 use Akeneo\Platform\Bundle\ImportExportBundle\Domain\StorageClientInterface;
 use Akeneo\Tool\Component\FileStorage\FilesystemProvider;
 
-final class StorageClientProvider
+final readonly class StorageClientProvider
 {
     private const LOCAL_FILESYSTEM_NAME = 'localFilesystem';
 
@@ -40,7 +40,7 @@ final class StorageClientProvider
             }
         }
 
-        throw new \RuntimeException(sprintf('No storage client found for storage "%s"', get_class($storage)));
+        throw new \RuntimeException(sprintf('No storage client found for storage "%s"', $storage::class));
     }
 
     public function getLocalStorageClient(): StorageClientInterface

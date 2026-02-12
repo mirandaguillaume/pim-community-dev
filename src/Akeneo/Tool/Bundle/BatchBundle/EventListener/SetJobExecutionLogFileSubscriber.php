@@ -21,9 +21,6 @@ class SetJobExecutionLogFileSubscriber implements EventSubscriberInterface
      */
     protected $logger;
 
-    /**
-     * @param BatchLogHandler $logger
-     */
     public function __construct(BatchLogHandler $logger)
     {
         $this->logger = $logger;
@@ -41,8 +38,6 @@ class SetJobExecutionLogFileSubscriber implements EventSubscriberInterface
 
     /**
      * Set the job execution log file
-     *
-     * @param JobExecutionEvent $event
      */
     public function setJobExecutionLogFile(JobExecutionEvent $event)
     {

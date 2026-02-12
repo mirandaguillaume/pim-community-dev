@@ -24,7 +24,7 @@ class HasNewAnnouncementsActionIntegration extends WebTestCase
             'GET',
             '/rest/new_announcements'
         );
-        $content = json_decode($this->client->getResponse()->getContent(), true);
+        $content = json_decode($this->client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         Assert::assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         Assert::assertArrayHasKey('status', $content);

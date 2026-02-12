@@ -22,31 +22,14 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class AddParent
 {
-    /** @var ProductModelRepositoryInterface */
-    private $productModelRepository;
-
-    /** @var EventDispatcherInterface */
-    private $eventDispatcher;
-
-    /**
-     * @param ProductModelRepositoryInterface $productModelRepository
-     * @param EventDispatcherInterface        $eventDispatcher
-     */
-    public function __construct(
-        ProductModelRepositoryInterface $productModelRepository,
-        EventDispatcherInterface $eventDispatcher
-    ) {
-        $this->productModelRepository = $productModelRepository;
-        $this->eventDispatcher = $eventDispatcher;
+    public function __construct(private readonly ProductModelRepositoryInterface $productModelRepository, private readonly EventDispatcherInterface $eventDispatcher)
+    {
     }
 
     /**
      * Add a parent to a product during an import, a mass action or an update from API.
      *
-     * @param ProductInterface $product
-     * @param string           $parentProductModelCode
      *
-     * @return ProductInterface
      */
     public function to(ProductInterface $product, string $parentProductModelCode): ProductInterface
     {
@@ -89,9 +72,7 @@ class AddParent
         }
 
         $filteredValues = $product->getValues()->filter(
-            function (ValueInterface $value) use ($attributeCodes) {
-                return in_array($value->getAttributeCode(), $attributeCodes);
-            }
+            fn(ValueInterface $value) => in_array($value->getAttributeCode(), $attributeCodes)
         );
 
         return $filteredValues;

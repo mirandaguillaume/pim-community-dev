@@ -19,7 +19,7 @@ use Webmozart\Assert\Assert;
 final class GetRequiredAttributesMasksAggregator implements GetRequiredAttributesMasks
 {
     /** @var GetRequiredAttributesMasksForAttributeType[] */
-    private iterable $getAttributeMasksPerAttributeTypes;
+    private readonly iterable $getAttributeMasksPerAttributeTypes;
 
     public function __construct(iterable $getAttributeMasksPerAttributeTypes)
     {

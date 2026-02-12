@@ -13,7 +13,7 @@ interface ExpressionBuilderInterface
      * @param mixed $_ Expressions
      * @return mixed
      */
-    public function andX($_);
+    public function andX(mixed $_);
 
     /**
      * Creates a disjunction of the given boolean expressions.
@@ -21,7 +21,7 @@ interface ExpressionBuilderInterface
      * @param mixed $_ Expressions
      * @return mixed
      */
-    public function orX(...$_);
+    public function orX(mixed ...$_);
 
     /**
      * Creates an comparison expression with the given arguments.
@@ -32,7 +32,7 @@ interface ExpressionBuilderInterface
      * @param bool   $withParam Indicates whether the right expression is a parameter name
      * @return mixed
      */
-    public function comparison($x, $operator, $y, $withParam = false);
+    public function comparison(mixed $x, $operator, mixed $y, $withParam = false);
 
     /**
      * Creates an equality comparison expression with the given arguments.
@@ -42,7 +42,7 @@ interface ExpressionBuilderInterface
      * @param bool  $withParam Indicates whether the right expression is a parameter name
      * @return mixed
      */
-    public function eq($x, $y, $withParam = false);
+    public function eq(mixed $x, mixed $y, $withParam = false);
 
     /**
      * Creates an "!=" comparison expression with the given arguments.
@@ -52,7 +52,7 @@ interface ExpressionBuilderInterface
      * @param bool  $withParam Indicates whether the right expression is a parameter name
      * @return mixed
      */
-    public function neq($x, $y, $withParam = false);
+    public function neq(mixed $x, mixed $y, $withParam = false);
 
     /**
      * Creates an "<" comparison expression with the given arguments.
@@ -62,7 +62,7 @@ interface ExpressionBuilderInterface
      * @param bool  $withParam Indicates whether the right expression is a parameter name
      * @return mixed
      */
-    public function lt($x, $y, $withParam = false);
+    public function lt(mixed $x, mixed $y, $withParam = false);
 
     /**
      * Creates an "<=" comparison expression with the given arguments.
@@ -72,7 +72,7 @@ interface ExpressionBuilderInterface
      * @param bool  $withParam Indicates whether the right expression is a parameter name
      * @return mixed
      */
-    public function lte($x, $y, $withParam = false);
+    public function lte(mixed $x, mixed $y, $withParam = false);
 
     /**
      * Creates an ">" comparison expression with the given arguments.
@@ -82,7 +82,7 @@ interface ExpressionBuilderInterface
      * @param bool  $withParam Indicates whether the right expression is a parameter name
      * @return mixed
      */
-    public function gt($x, $y, $withParam = false);
+    public function gt(mixed $x, mixed $y, $withParam = false);
 
     /**
      * Creates an ">=" comparison expression with the given arguments.
@@ -92,7 +92,7 @@ interface ExpressionBuilderInterface
      * @param bool  $withParam Indicates whether the right expression is a parameter name
      * @return mixed
      */
-    public function gte($x, $y, $withParam = false);
+    public function gte(mixed $x, mixed $y, $withParam = false);
 
     /**
      * Creates a negation expression of the given restriction.
@@ -100,7 +100,7 @@ interface ExpressionBuilderInterface
      * @param mixed $restriction Restriction to be used in NOT() function.
      * @return mixed
      */
-    public function not($restriction);
+    public function not(mixed $restriction);
 
     /**
      * Creates an IN() expression with the given arguments.
@@ -110,7 +110,7 @@ interface ExpressionBuilderInterface
      * @param bool   $withParam Indicates whether the argument to be used in IN() function is a parameter name
      * @return mixed
      */
-    public function in($x, $y, $withParam = false);
+    public function in($x, mixed $y, $withParam = false);
 
     /**
      * Creates a NOT IN() expression with the given arguments.
@@ -120,7 +120,7 @@ interface ExpressionBuilderInterface
      * @param bool   $withParam Indicates whether the argument to be used in NOT IN() function is a parameter name
      * @return mixed
      */
-    public function notIn($x, $y, $withParam = false);
+    public function notIn($x, mixed $y, $withParam = false);
 
     /**
      * Creates an IS NULL expression with the given arguments.
@@ -146,5 +146,5 @@ interface ExpressionBuilderInterface
      * @param bool   $withParam Indicates whether the right expression is a parameter name
      * @return mixed
      */
-    public function like($x, $y, $withParam = false);
+    public function like($x, mixed $y, $withParam = false);
 }

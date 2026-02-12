@@ -39,12 +39,6 @@ class ProductValuesEditDataFilter implements CollectionFilterInterface
     /** @var ChannelInterface[] */
     protected $channels = [];
 
-    /**
-     * @param ObjectFilterInterface        $objectFilter
-     * @param AttributeRepositoryInterface $attributeRepository
-     * @param LocaleRepositoryInterface    $localeRepository
-     * @param ChannelRepositoryInterface   $channelRepository
-     */
     public function __construct(
         ObjectFilterInterface $objectFilter,
         AttributeRepositoryInterface $attributeRepository,
@@ -88,9 +82,6 @@ class ProductValuesEditDataFilter implements CollectionFilterInterface
     /**
      * Generate filtered values for the given attribute
      *
-     * @param AttributeInterface $attribute
-     * @param array                                                    $values
-     * @param array                                                    $options
      *
      * @return array
      */
@@ -110,9 +101,7 @@ class ProductValuesEditDataFilter implements CollectionFilterInterface
     /**
      * Test if a value is accepted or not
      *
-     * @param AttributeInterface $attribute
      * @param array                                                    $value
-     *
      * @return boolean
      */
     protected function acceptValue(AttributeInterface $attribute, $value, array $options = [])

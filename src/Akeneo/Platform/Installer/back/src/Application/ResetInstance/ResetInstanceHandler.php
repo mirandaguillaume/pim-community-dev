@@ -15,7 +15,7 @@ use Akeneo\Platform\Installer\Domain\Service\FilesystemsPurgerInterface;
 use Akeneo\Platform\Installer\Domain\Service\FixtureInstallerInterface;
 use Akeneo\Platform\Installer\Domain\Service\UserConfigurationResetterInterface;
 
-final class ResetInstanceHandler
+final readonly class ResetInstanceHandler
 {
     private const TABLES_TO_KEEP = [
         'acl_classes',
@@ -33,11 +33,11 @@ final class ResetInstanceHandler
     ];
 
     public function __construct(
-        private readonly FindTablesInterface $findTables,
-        private readonly DatabasePurgerInterface $databasePurger,
-        private readonly FixtureInstallerInterface $fixtureInstaller,
-        private readonly UserConfigurationResetterInterface $userConfigurationResetter,
-        private readonly FilesystemsPurgerInterface $filesystemsPurger,
+        private FindTablesInterface $findTables,
+        private DatabasePurgerInterface $databasePurger,
+        private FixtureInstallerInterface $fixtureInstaller,
+        private UserConfigurationResetterInterface $userConfigurationResetter,
+        private FilesystemsPurgerInterface $filesystemsPurger,
     ) {
     }
 

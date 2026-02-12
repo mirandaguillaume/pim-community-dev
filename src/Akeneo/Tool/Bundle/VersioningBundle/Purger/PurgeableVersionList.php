@@ -4,18 +4,13 @@ declare(strict_types=1);
 
 namespace Akeneo\Tool\Bundle\VersioningBundle\Purger;
 
-final class PurgeableVersionList implements \Countable
+final readonly class PurgeableVersionList implements \Countable
 {
-    /** @var int[] */
-    private $versionIds;
-
-    /** @var string */
-    private $resourceName;
-
-    public function __construct(string $resourceName, array $ids)
+    /**
+     * @param int[] $versionIds
+     */
+    public function __construct(private string $resourceName, private array $versionIds)
     {
-        $this->resourceName = $resourceName;
-        $this->versionIds = $ids;
     }
 
     public function getVersionIds(): array

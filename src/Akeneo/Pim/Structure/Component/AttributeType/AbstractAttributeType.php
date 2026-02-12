@@ -15,18 +15,10 @@ use Akeneo\Pim\Structure\Component\AttributeTypes;
 abstract class AbstractAttributeType implements AttributeTypeInterface
 {
     /**
-     * Field backend type, "text" by default, the doctrine mapping field, getter / setter to use for binding
-     *
-     * @var string
-     */
-    protected $backendType = AttributeTypes::BACKEND_TYPE_TEXT;
-
-    /**
      * @param string $backendType the backend type
      */
-    public function __construct($backendType)
+    public function __construct(protected $backendType)
     {
-        $this->backendType = $backendType;
     }
 
     /**

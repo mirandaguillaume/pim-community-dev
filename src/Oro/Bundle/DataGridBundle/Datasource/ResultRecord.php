@@ -6,17 +6,11 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class ResultRecord implements ResultRecordInterface
 {
-    /** @var array */
-    private $valueContainers = [];
+    private array $valueContainers = [];
 
-    /** @var array */
-    private $options = [];
+    private array $options = [];
 
-    /**
-     * @param mixed $data
-     * @param array $options
-     */
-    public function __construct($data, array $options = [])
+    public function __construct(mixed $data, array $options = [])
     {
         if (is_array($data)) {
             $arrayData = [];
@@ -97,10 +91,8 @@ class ResultRecord implements ResultRecordInterface
 
     /**
      * Gets root entity from result record
-     *
-     * @return object|null
      */
-    public function getRootEntity()
+    public function getRootEntity(): ?object
     {
         if (array_key_exists(0, $this->valueContainers) && is_object($this->valueContainers[0])) {
             return $this->valueContainers[0];

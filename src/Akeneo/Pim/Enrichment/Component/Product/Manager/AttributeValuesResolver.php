@@ -87,10 +87,7 @@ class AttributeValuesResolver implements AttributeValuesResolverInterface
     /**
      * Filter expected values based on the locales available for the provided attribute
      *
-     * @param AttributeInterface $attribute
-     * @param array                                                    $values
      *
-     * @return array
      */
     protected function filterExpectedValues(AttributeInterface $attribute, array $values) : array
     {
@@ -109,9 +106,7 @@ class AttributeValuesResolver implements AttributeValuesResolverInterface
     /**
      * Return rows for available locales
      *
-     * @param AttributeInterface $attribute
      *
-     * @return array
      */
     protected function getLocaleRows(AttributeInterface $attribute) : array
     {
@@ -132,9 +127,7 @@ class AttributeValuesResolver implements AttributeValuesResolverInterface
     /**
      * Return rows for available channels
      *
-     * @param AttributeInterface $attribute
      *
-     * @return array
      */
     protected function getScopeRows(AttributeInterface $attribute) : array
     {
@@ -155,9 +148,7 @@ class AttributeValuesResolver implements AttributeValuesResolverInterface
     /**
      * Return rows for available channels and theirs locales
      *
-     * @param AttributeInterface $attribute
      *
-     * @return array
      */
     protected function getScopeToLocaleRows(AttributeInterface $attribute) : array
     {

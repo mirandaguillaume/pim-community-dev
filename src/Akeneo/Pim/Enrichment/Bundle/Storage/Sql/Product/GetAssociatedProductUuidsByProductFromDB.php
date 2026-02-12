@@ -7,7 +7,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\AssociationInterface;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\UuidInterface;
 
-final class GetAssociatedProductUuidsByProductFromDB implements GetAssociatedProductUuidsByProduct
+final readonly class GetAssociatedProductUuidsByProductFromDB implements GetAssociatedProductUuidsByProduct
 {
     public function __construct(private Connection $connection)
     {

@@ -4,15 +4,14 @@ namespace Oro\Bundle\ConfigBundle\Config\Tree;
 
 abstract class AbstractNodeDefinition
 {
-    /** @var string */
-    protected $name;
-
     /** @var array */
     protected $definition;
 
-    public function __construct($name, array $definition)
+    /**
+     * @param string $name
+     */
+    public function __construct(protected $name, array $definition)
     {
-        $this->name = $name;
         $this->definition = $this->prepareDefinition($definition);
     }
 
@@ -54,7 +53,6 @@ abstract class AbstractNodeDefinition
     /**
      * Prepare definition, set default values
      *
-     * @param array $definition
      *
      * @return array
      */

@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Platform\Bundle\ImportExportBundle\Domain\Event;
 
-final class FileCannotBeImported
+final readonly class FileCannotBeImported
 {
     public function __construct(private string $reason)
     {

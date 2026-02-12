@@ -10,7 +10,7 @@ namespace Akeneo\Tool\Bundle\MeasureBundle\Model;
  */
 class LabelCollection
 {
-    private array $translatedLabels;
+    private readonly array $translatedLabels;
 
     private function __construct(array $translatedLabels)
     {

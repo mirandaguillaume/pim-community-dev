@@ -36,36 +36,8 @@ use ZipStream\ZipStream;
  */
 class JobTrackerController
 {
-    protected EventDispatcherInterface $eventDispatcher;
-    protected JobExecutionRepository $jobExecutionRepo;
-    protected StepExecutionArchivist $archivist;
-    protected SecurityFacade $securityFacade;
-    protected array $jobSecurityMapping;
-    private SqlUpdateJobExecutionStatus $updateJobExecutionStatus;
-    private JobRegistry $jobRegistry;
-    private LoggerInterface $logger;
-    private FilesystemReader $archivistFilesystem;
-
-    public function __construct(
-        EventDispatcherInterface $eventDispatcher,
-        JobExecutionRepository $jobExecutionRepo,
-        StepExecutionArchivist $archivist,
-        SecurityFacade $securityFacade,
-        array $jobSecurityMapping,
-        SqlUpdateJobExecutionStatus $updateJobExecutionStatus,
-        JobRegistry $jobRegistry,
-        LoggerInterface $logger,
-        FilesystemReader $archivistFilesystem
-    ) {
-        $this->eventDispatcher = $eventDispatcher;
-        $this->jobExecutionRepo = $jobExecutionRepo;
-        $this->archivist = $archivist;
-        $this->securityFacade = $securityFacade;
-        $this->jobSecurityMapping = $jobSecurityMapping;
-        $this->updateJobExecutionStatus = $updateJobExecutionStatus;
-        $this->jobRegistry = $jobRegistry;
-        $this->logger = $logger;
-        $this->archivistFilesystem = $archivistFilesystem;
+    public function __construct(protected EventDispatcherInterface $eventDispatcher, protected JobExecutionRepository $jobExecutionRepo, protected StepExecutionArchivist $archivist, protected SecurityFacade $securityFacade, protected array $jobSecurityMapping, private readonly SqlUpdateJobExecutionStatus $updateJobExecutionStatus, private readonly JobRegistry $jobRegistry, private readonly LoggerInterface $logger, private readonly FilesystemReader $archivistFilesystem)
+    {
     }
 
     /**
@@ -141,9 +113,8 @@ class JobTrackerController
      * Returns if a user has read permission on an import or export.
      *
      * @param JobExecution $jobExecution
-     * @param mixed        $object
      */
-    protected function isJobGranted($jobExecution, $object = null): bool
+    protected function isJobGranted($jobExecution, mixed $object = null): bool
     {
         $jobExecutionType = $jobExecution->getJobInstance()->getType();
         if (!array_key_exists($jobExecutionType, $this->jobSecurityMapping)) {

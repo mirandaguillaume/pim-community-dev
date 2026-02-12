@@ -28,11 +28,6 @@ class AttributeGroupWriter implements ItemWriterInterface, StepExecutionAwareInt
     /** @var AttributeGroupRepositoryInterface */
     protected $attributeGroupRepository;
 
-    /**
-     * @param BulkSaverInterface                $bulkSaver
-     * @param BulkObjectDetacherInterface       $bulkDetacher
-     * @param AttributeGroupRepositoryInterface $attributeGroupRepository
-     */
     public function __construct(
         BulkSaverInterface $bulkSaver,
         BulkObjectDetacherInterface $bulkDetacher,
@@ -71,9 +66,6 @@ class AttributeGroupWriter implements ItemWriterInterface, StepExecutionAwareInt
         $this->stepExecution = $stepExecution;
     }
 
-    /**
-     * @param array $objects
-     */
     protected function incrementCount(array $objects)
     {
         foreach ($objects as $object) {

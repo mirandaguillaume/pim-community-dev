@@ -35,8 +35,6 @@ class Pager extends AbstractPager implements PagerInterface
     }
 
     /**
-     * @param QueryBuilder $qb
-     *
      * @return $this
      */
     public function setQueryBuilder(QueryBuilder $qb)

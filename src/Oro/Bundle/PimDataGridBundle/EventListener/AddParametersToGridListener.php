@@ -24,38 +24,25 @@ class AddParametersToGridListener
      *
      * @staticvar string
      */
-    const GRID_PARAM_DATA_IN = 'data_in';
-    const GRID_PARAM_DATA_NOT_IN = 'data_not_in';
-
-    /** @var array */
-    protected $paramNames;
+    final public const GRID_PARAM_DATA_IN = 'data_in';
+    final public const GRID_PARAM_DATA_NOT_IN = 'data_not_in';
 
     /** @var RequestParameters */
     protected $requestParams;
-
-    /** @var bool */
-    protected $isEditMode;
-
-    /** @var bool */
-    protected $isQueryParam;
 
     /**
      * @param array             $paramNames    Parameter name that should be binded to query
      * @param RequestParameters $requestParams Request params
      * @param bool              $isEditMode    Whether or not to add data_in, data_not_in params to query
+     * @param bool $isQueryParam
      */
-    public function __construct($paramNames, RequestParameters $requestParams, $isEditMode = false, $isQueryParam = false)
+    public function __construct(protected $paramNames, RequestParameters $requestParams, protected $isEditMode = false, protected $isQueryParam = false)
     {
-        $this->paramNames    = $paramNames;
         $this->requestParams = $requestParams;
-        $this->isEditMode    = $isEditMode;
-        $this->isQueryParam  = $isQueryParam;
     }
 
     /**
      * Bound parameters in query builder
-     *
-     * @param BuildAfter $event
      */
     public function onBuildAfter(BuildAfter $event)
     {
@@ -89,11 +76,9 @@ class AddParametersToGridListener
         if ($this->isEditMode) {
             $params = $this->requestParams->get(RequestParameters::ADDITIONAL_PARAMETERS);
 
-            $queryParameters[self::GRID_PARAM_DATA_IN] = isset($params[self::GRID_PARAM_DATA_IN]) ?
-                     $params[self::GRID_PARAM_DATA_IN] : [0];
+            $queryParameters[self::GRID_PARAM_DATA_IN] = $params[self::GRID_PARAM_DATA_IN] ?? [0];
 
-            $queryParameters[self::GRID_PARAM_DATA_NOT_IN] = isset($params[self::GRID_PARAM_DATA_NOT_IN]) ?
-                     $params[self::GRID_PARAM_DATA_NOT_IN] : [0];
+            $queryParameters[self::GRID_PARAM_DATA_NOT_IN] = $params[self::GRID_PARAM_DATA_NOT_IN] ?? [0];
 
             foreach ($this->paramNames as $paramName) {
                 if (isset($params[$paramName])) {

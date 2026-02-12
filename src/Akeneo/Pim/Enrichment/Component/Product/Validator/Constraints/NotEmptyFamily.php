@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class NotEmptyFamily extends Constraint
 {
-    const NOT_EMPTY_FAMILY = 'd3b19dba-d82a-11eb-b8bc-0242ac130003';
+    final public const NOT_EMPTY_FAMILY = 'd3b19dba-d82a-11eb-b8bc-0242ac130003';
 
     /** @var string */
     public $message = 'The family cannot be "null" because your product with the %sku% identifier is a variant product.';

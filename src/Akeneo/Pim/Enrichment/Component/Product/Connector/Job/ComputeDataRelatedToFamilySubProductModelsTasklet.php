@@ -36,67 +36,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class ComputeDataRelatedToFamilySubProductModelsTasklet implements TaskletInterface, InitializableInterface, TrackableTaskletInterface
 {
-    /** @var StepExecution */
-    private $stepExecution;
+    private ?\Akeneo\Tool\Component\Batch\Model\StepExecution $stepExecution = null;
 
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $familyRepository;
-
-    /** @var ProductQueryBuilderFactoryInterface */
-    private $queryBuilderFactory;
-
-    /** @var ItemReaderInterface */
-    private $familyReader;
-
-    /** @var KeepOnlyValuesForVariation */
-    private $keepOnlyValuesForVariation;
-
-    /** @var ValidatorInterface */
-    private $validator;
-
-    /** @var BulkSaverInterface */
-    private $productModelSaver;
-
-    /** @var EntityManagerClearerInterface */
-    private $cacheClearer;
-
-    /** @var JobRepositoryInterface */
-    private $jobRepository;
-
-    /** @var int */
-    private $batchSize;
-
-    /**
-     * @param IdentifiableObjectRepositoryInterface $familyRepository
-     * @param ProductQueryBuilderFactoryInterface   $queryBuilderFactory
-     * @param ItemReaderInterface                   $familyReader
-     * @param KeepOnlyValuesForVariation            $keepOnlyValuesForVariation
-     * @param ValidatorInterface                    $validator
-     * @param BulkSaverInterface                    $productModelSaver
-     * @param EntityManagerClearerInterface         $cacheClearer
-     * @param JobRepositoryInterface                $jobRepository
-     * @param int                                   $batchSize
-     */
-    public function __construct(
-        IdentifiableObjectRepositoryInterface $familyRepository,
-        ProductQueryBuilderFactoryInterface $queryBuilderFactory,
-        ItemReaderInterface $familyReader,
-        KeepOnlyValuesForVariation $keepOnlyValuesForVariation,
-        ValidatorInterface $validator,
-        BulkSaverInterface $productModelSaver,
-        EntityManagerClearerInterface $cacheClearer,
-        JobRepositoryInterface $jobRepository,
-        int $batchSize
-    ) {
-        $this->familyReader = $familyReader;
-        $this->familyRepository = $familyRepository;
-        $this->queryBuilderFactory = $queryBuilderFactory;
-        $this->keepOnlyValuesForVariation = $keepOnlyValuesForVariation;
-        $this->validator = $validator;
-        $this->productModelSaver = $productModelSaver;
-        $this->cacheClearer = $cacheClearer;
-        $this->jobRepository = $jobRepository;
-        $this->batchSize = $batchSize;
+    public function __construct(private readonly IdentifiableObjectRepositoryInterface $familyRepository, private readonly ProductQueryBuilderFactoryInterface $queryBuilderFactory, private readonly ItemReaderInterface $familyReader, private readonly KeepOnlyValuesForVariation $keepOnlyValuesForVariation, private readonly ValidatorInterface $validator, private readonly BulkSaverInterface $productModelSaver, private readonly EntityManagerClearerInterface $cacheClearer, private readonly JobRepositoryInterface $jobRepository, private readonly int $batchSize)
+    {
     }
 
     /**
@@ -164,11 +107,6 @@ class ComputeDataRelatedToFamilySubProductModelsTasklet implements TaskletInterf
         return $cursor->count();
     }
 
-    /**
-     * @param EntityWithFamilyVariantInterface $entityWithFamilyVariant
-     *
-     * @return bool
-     */
     private function isValid(EntityWithFamilyVariantInterface $entityWithFamilyVariant): bool
     {
         $violations = $this->validator->validate($entityWithFamilyVariant);
@@ -176,9 +114,6 @@ class ComputeDataRelatedToFamilySubProductModelsTasklet implements TaskletInterf
         return $violations->count() === 0;
     }
 
-    /**
-     * @param array $productModels
-     */
     private function saveProductsModel(array $productModels): void
     {
         if (empty($productModels)) {
@@ -201,7 +136,7 @@ class ComputeDataRelatedToFamilySubProductModelsTasklet implements TaskletInterf
                 if (null === $familyItem) {
                     break;
                 }
-            } catch (InvalidItemException $e) {
+            } catch (InvalidItemException) {
                 continue;
             }
 

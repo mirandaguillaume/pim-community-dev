@@ -20,7 +20,6 @@ class NumberPresenter implements PresenterInterface
     protected $attributeTypes;
 
     /**
-     * @param NumberFactory $numberFactory
      * @param string[]      $attributeTypes
      */
     public function __construct(NumberFactory $numberFactory, array $attributeTypes)

@@ -20,7 +20,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Exception as DriverException;
 use Doctrine\DBAL\Exception as DBALException;
 
-final class SqlFindUsers implements FindUsers
+final readonly class SqlFindUsers implements FindUsers
 {
     public function __construct(
         private Connection $connection

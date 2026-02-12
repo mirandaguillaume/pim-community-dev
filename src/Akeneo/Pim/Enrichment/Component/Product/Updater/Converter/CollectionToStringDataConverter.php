@@ -15,7 +15,7 @@ use Webmozart\Assert\Assert;
  */
 final class CollectionToStringDataConverter implements ValueDataConverter
 {
-    private $supportedAttributeTypes = [
+    private array $supportedAttributeTypes = [
         AttributeTypes::OPTION_MULTI_SELECT => [
             AttributeTypes::TEXT => true,
             AttributeTypes::TEXTAREA => true,

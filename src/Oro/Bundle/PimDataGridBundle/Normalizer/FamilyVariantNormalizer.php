@@ -17,22 +17,14 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class FamilyVariantNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    /** @var NormalizerInterface */
-    private $translationNormalizer;
-
-    /**
-     * @param NormalizerInterface $translationNormalizer
-     */
-    public function __construct(
-        NormalizerInterface $translationNormalizer
-    ) {
-        $this->translationNormalizer = $translationNormalizer;
+    public function __construct(private readonly NormalizerInterface $translationNormalizer)
+    {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function normalize($familyVariant, $format = null, array $context = array()): array
+    public function normalize($familyVariant, $format = null, array $context = []): array
     {
         $labels = $this->translationNormalizer->normalize($familyVariant, 'standard', $context);
 
@@ -49,9 +41,7 @@ class FamilyVariantNormalizer implements NormalizerInterface, CacheableSupportsM
         ];
 
         foreach ($familyVariant->getVariantAttributeSets() as $attributeSet) {
-            $axesLabels = array_map(function ($attribute) {
-                return $attribute->getLabel();
-            }, $attributeSet->getAxes()->toArray());
+            $axesLabels = array_map(fn($attribute) => $attribute->getLabel(), $attributeSet->getAxes()->toArray());
 
             $normalizedFamilyVariant['level_' . $attributeSet->getLevel()] = implode(', ', $axesLabels);
         }

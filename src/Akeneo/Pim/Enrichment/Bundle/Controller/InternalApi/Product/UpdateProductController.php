@@ -58,10 +58,10 @@ final class UpdateProductController
         protected ConverterInterface $productValueConverter,
         protected NormalizerInterface $constraintViolationNormalizer,
         protected AttributeFilterInterface $productAttributeFilter,
-        private MessageBusInterface $commandMessageBus,
-        private MessageBusInterface $queryMessageBus,
-        private UnableToSetIdentifiersSubscriberInterface $unableToSetIdentifiersSubscriber,
-        private UnableToSetIdentifierExceptionPresenterInterface $unableToSetIdentifierExceptionPresenter,
+        private readonly MessageBusInterface $commandMessageBus,
+        private readonly MessageBusInterface $queryMessageBus,
+        private readonly UnableToSetIdentifiersSubscriberInterface $unableToSetIdentifiersSubscriber,
+        private readonly UnableToSetIdentifierExceptionPresenterInterface $unableToSetIdentifierExceptionPresenter,
     ) {
     }
 
@@ -72,7 +72,7 @@ final class UpdateProductController
         }
 
         $product = $this->findProductOr404($uuid);
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
         try {
             $data = $this->productEditDataFilter->filterCollection($data, null, ['product' => $product]);
         } catch (ObjectNotFoundException) {
@@ -96,9 +96,7 @@ final class UpdateProductController
             $hasPermissionException = \count(
                 \array_filter(
                     \iterator_to_array($e->violations()),
-                    function (ConstraintViolationInterface $violation): bool {
-                        return \is_int($violation->getCode()) && ViolationCode::containsViolationCode((int)$violation->getCode(), ViolationCode::PERMISSION);
-                    }
+                    fn(ConstraintViolationInterface $violation): bool => \is_int($violation->getCode()) && ViolationCode::containsViolationCode((int)$violation->getCode(), ViolationCode::PERMISSION)
                 )
             ) > 0;
             if ($hasPermissionException) {
@@ -228,8 +226,6 @@ final class UpdateProductController
 
     /**
      * Get the context used for product normalization
-     *
-     * @return array
      */
     private function getNormalizationContext(): array
     {
@@ -246,7 +242,7 @@ final class UpdateProductController
         foreach ($violations as $violation) {
             $propertyPath = $violation->getPropertyPath();
 
-            if (0 === strpos($propertyPath, 'quantifiedAssociations.')) {
+            if (str_starts_with($propertyPath, 'quantifiedAssociations.')) {
                 $normalizedViolations['quantified_associations'][] = $this->normalizer->normalize(
                     $violation,
                     'internal_api',

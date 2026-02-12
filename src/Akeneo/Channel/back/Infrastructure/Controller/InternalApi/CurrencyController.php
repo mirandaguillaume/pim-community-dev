@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class CurrencyController
 {
     public function __construct(
-        private CurrencyRepositoryInterface $currencyRepository,
+        private readonly CurrencyRepositoryInterface $currencyRepository,
     ) {
     }
 

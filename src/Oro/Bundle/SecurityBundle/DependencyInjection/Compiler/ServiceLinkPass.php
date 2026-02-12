@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class ServiceLinkPass implements CompilerPassInterface
 {
-    const TAG_NAME = 'oro_service_link';
+    final public const TAG_NAME = 'oro_service_link';
 
     /**
      * {@inheritdoc}
@@ -31,8 +31,8 @@ class ServiceLinkPass implements CompilerPassInterface
 
             $serviceId = $tag[0]['service'];
             $isOptional = false;
-            if (strpos($serviceId, '?') === 0) {
-                $serviceId = substr($serviceId, 1);
+            if (str_starts_with((string) $serviceId, '?')) {
+                $serviceId = substr((string) $serviceId, 1);
                 $isOptional = true;
             }
 

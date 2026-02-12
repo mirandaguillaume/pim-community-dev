@@ -21,13 +21,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class DeleteCustomAppAction
+final readonly class DeleteCustomAppAction
 {
     public function __construct(
-        private readonly SecurityFacade $security,
-        private readonly DeleteCustomAppHandler $deleteCustomAppHandler,
-        private readonly GetCustomAppQueryInterface $getCustomAppQuery,
-        private readonly DeleteAppHandler $deleteAppHandler,
+        private SecurityFacade $security,
+        private DeleteCustomAppHandler $deleteCustomAppHandler,
+        private GetCustomAppQueryInterface $getCustomAppQuery,
+        private DeleteAppHandler $deleteAppHandler,
     ) {
     }
 

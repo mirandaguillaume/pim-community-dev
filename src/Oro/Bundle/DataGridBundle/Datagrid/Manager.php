@@ -14,23 +14,8 @@ use Oro\Bundle\DataGridBundle\Provider\ConfigurationProviderInterface;
  */
 class Manager implements ManagerInterface
 {
-    /** @var Builder */
-    private $datagridBuilder;
-
-    /** @var ConfigurationProviderInterface */
-    private $configurationProvider;
-
-    /** @var RequestParameters */
-    private $requestParameters;
-
-    public function __construct(
-        Builder $datagridBuilder,
-        ConfigurationProviderInterface $configurationProvider,
-        RequestParameters $requestParameters
-    ) {
-        $this->datagridBuilder= $datagridBuilder;
-        $this->configurationProvider = $configurationProvider;
-        $this->requestParameters = $requestParameters;
+    public function __construct(private readonly Builder $datagridBuilder, private readonly ConfigurationProviderInterface $configurationProvider, private readonly RequestParameters $requestParameters)
+    {
     }
 
     /**

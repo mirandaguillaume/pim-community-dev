@@ -43,8 +43,6 @@ class UploadedImageSubscriber implements EventSubscriber
 
     /**
      * Remove uploaded image if any.
-     *
-     * @param LifecycleEventArgs $args
      */
     public function postRemove(LifecycleEventArgs $args)
     {
@@ -55,8 +53,6 @@ class UploadedImageSubscriber implements EventSubscriber
 
     /**
      * Handle preUpdate.
-     *
-     * @param LifecycleEventArgs $args
      */
     public function preUpdate(LifecycleEventArgs $args)
     {
@@ -70,7 +66,7 @@ class UploadedImageSubscriber implements EventSubscriber
             $em = $args->getObjectManager();
             $uow = $em->getUnitOfWork();
             $uow->recomputeSingleEntityChangeSet(
-                $em->getClassMetadata(get_class($entity)),
+                $em->getClassMetadata($entity::class),
                 $entity
             );
         }
@@ -78,8 +74,6 @@ class UploadedImageSubscriber implements EventSubscriber
 
     /**
      * Handle prePersist.
-     *
-     * @param LifecycleEventArgs $args
      */
     public function prePersist(LifecycleEventArgs $args)
     {
@@ -88,8 +82,6 @@ class UploadedImageSubscriber implements EventSubscriber
 
     /**
      * Handle postPersist.
-     *
-     * @param LifecycleEventArgs $args
      */
     public function postPersist(LifecycleEventArgs $args)
     {
@@ -98,8 +90,6 @@ class UploadedImageSubscriber implements EventSubscriber
 
     /**
      * Handle postUpdate.
-     *
-     * @param LifecycleEventArgs $args
      */
     public function postUpdate(LifecycleEventArgs $args)
     {
@@ -108,8 +98,6 @@ class UploadedImageSubscriber implements EventSubscriber
 
     /**
      * Move uploaded image to upload dir.
-     *
-     * @param LifecycleEventArgs $args
      */
     protected function handleImageUpload(LifecycleEventArgs $args)
     {
@@ -131,15 +119,13 @@ class UploadedImageSubscriber implements EventSubscriber
 
     /**
      * Update uploaded image name.
-     *
-     * @param LifecycleEventArgs $args
      */
     protected function updateImageName(LifecycleEventArgs $args)
     {
         /** @var EntityUploadedImageInterface $entity */
         $entity = $args->getObject();
         if ($this->hasUploadedImage($entity)) {
-            $filename = sha1(uniqid(mt_rand(), true));
+            $filename = sha1(uniqid(random_int(0, mt_getrandmax()), true));
             $entity->setImage($filename . '.' . $entity->getImageFile()->guessExtension());
         }
     }
@@ -147,7 +133,6 @@ class UploadedImageSubscriber implements EventSubscriber
     /**
      * Get upload directory location in FS.
      *
-     * @param  EntityUploadedImageInterface $entity
      * @return string
      */
     protected function getUploadRootDir(EntityUploadedImageInterface $entity)

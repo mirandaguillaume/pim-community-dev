@@ -13,11 +13,11 @@ use Doctrine\DBAL\Connection;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class SqlGetSequencedNextIdentifierQuery implements GetNextIdentifierQuery
+final readonly class SqlGetSequencedNextIdentifierQuery implements GetNextIdentifierQuery
 {
     public function __construct(
-        private readonly GetNextIdentifierQuery $getNextIdentifierQuery,
-        private readonly Connection $connection,
+        private GetNextIdentifierQuery $getNextIdentifierQuery,
+        private Connection $connection,
     ) {
     }
 

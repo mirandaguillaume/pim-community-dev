@@ -15,40 +15,15 @@ class OroTranslationDumpCommand extends Command
 {
     protected static $defaultName = 'oro:translation:dump';
 
-    /** @var Controller */
-    private $controller;
-
-    /** @var Filesystem */
-    private $filesystem;
-
-    /** @var string */
-    private $jsTranslationDomains;
-
-    /** @var string */
-    private $rootDir;
-
-    /** @var string */
-    private $defaultLocale;
-
-    /** @var RouterInterface */
-    private $router;
-
     public function __construct(
-        Controller $controller,
-        Filesystem $filesystem,
-        RouterInterface $router,
-        array $jsTranslationDomains,
-        string $rootDir,
-        string $defaultLocale
+        private readonly Controller $controller,
+        private readonly Filesystem $filesystem,
+        private readonly RouterInterface $router,
+        private readonly array $jsTranslationDomains,
+        private readonly string $rootDir,
+        private readonly string $defaultLocale
     ) {
         parent::__construct();
-
-        $this->controller = $controller;
-        $this->filesystem = $filesystem;
-        $this->router = $router;
-        $this->jsTranslationDomains = $jsTranslationDomains;
-        $this->rootDir = $rootDir;
-        $this->defaultLocale = $defaultLocale;
     }
 
     /**
@@ -78,7 +53,7 @@ class OroTranslationDumpCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $locales = $input->getArgument('locale');
-        $locales = null === $locales ? [$this->defaultLocale] : explode(', ', $locales);
+        $locales = null === $locales ? [$this->defaultLocale] : explode(', ', (string) $locales);
 
         $domains = $this->jsTranslationDomains;
         $targetPattern = realpath($this->rootDir . '/../public')

@@ -18,10 +18,6 @@ class CategoryFieldAdder extends AbstractFieldAdder
     /** @var IdentifiableObjectRepositoryInterface */
     protected $categoryRepository;
 
-    /**
-     * @param IdentifiableObjectRepositoryInterface $categoryRepository
-     * @param array                                 $supportedFields
-     */
     public function __construct(
         IdentifiableObjectRepositoryInterface $categoryRepository,
         array $supportedFields
@@ -65,11 +61,10 @@ class CategoryFieldAdder extends AbstractFieldAdder
      * Check if data are valid
      *
      * @param string $field
-     * @param mixed  $data
      *
      * @throws InvalidPropertyTypeException
      */
-    protected function checkData($field, $data)
+    protected function checkData($field, mixed $data)
     {
         if (!is_array($data)) {
             throw InvalidPropertyTypeException::arrayExpected(

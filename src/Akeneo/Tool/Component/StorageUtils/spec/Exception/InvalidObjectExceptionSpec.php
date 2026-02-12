@@ -18,7 +18,7 @@ class InvalidObjectExceptionSpec extends ObjectBehavior
             0
         );
 
-        $this->shouldBeAnInstanceOf(get_class($exception));
+        $this->shouldBeAnInstanceOf($exception::class);
         $this->getObjectClassName()->shouldReturn($exception->getObjectClassName());
         $this->getExpectedClassName()->shouldReturn($exception->getExpectedClassName());
         $this->getMessage()->shouldReturn($exception->getMessage());

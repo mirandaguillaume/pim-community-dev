@@ -18,7 +18,7 @@ class Product extends AbstractSimpleArrayConverter implements ArrayConverterInte
 {
     public function __construct(
         protected ProductValueConverter $valueConverter,
-        private QualityScoreConverter $qualityScoreConverter
+        private readonly QualityScoreConverter $qualityScoreConverter
     ) {
     }
 
@@ -78,12 +78,10 @@ class Product extends AbstractSimpleArrayConverter implements ArrayConverterInte
     /**
      * Convert flat groups to flat unified groups.
      *
-     * @param mixed $data
-     * @param array $convertedItem
      *
      * @return array
      */
-    protected function convertGroups($data, array $convertedItem)
+    protected function convertGroups(mixed $data, array $convertedItem)
     {
         if (!array_key_exists('groups', $convertedItem)) {
             $convertedItem['groups'] = '';

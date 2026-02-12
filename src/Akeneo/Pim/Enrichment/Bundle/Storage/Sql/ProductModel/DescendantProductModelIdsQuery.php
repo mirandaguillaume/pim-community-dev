@@ -12,13 +12,10 @@ use Doctrine\DBAL\Connection;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class DescendantProductModelIdsQuery implements DescendantProductModelIdsQueryInterface
+final readonly class DescendantProductModelIdsQuery implements DescendantProductModelIdsQueryInterface
 {
-    private $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function fetchFromParentProductModelId(int $parentProductModelId): array
@@ -33,8 +30,6 @@ SQL;
             ['parentId' => $parentProductModelId]
         )->fetchAllAssociative();
 
-        return array_map(function ($rowData) {
-            return (int) $rowData['id'];
-        }, $resultRows);
+        return array_map(fn($rowData) => (int) $rowData['id'], $resultRows);
     }
 }

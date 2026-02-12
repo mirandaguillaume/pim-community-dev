@@ -39,23 +39,9 @@ class SimpleJobLauncher implements JobLauncherInterface
     /** @var EventDispatcherInterface */
     protected $eventDispatcher;
 
-    /** @var string */
-    protected $rootDir;
-
-    /** @var string */
-    protected $environment;
-
-    /** @var string */
-    protected $logDir;
-
     /**
      * Constructor
      *
-     * @param JobRepositoryInterface    $jobRepository
-     * @param JobParametersFactory      $jobParametersFactory
-     * @param JobRegistry               $jobRegistry
-     * @param JobParametersValidator    $jobParametersValidator
-     * @param EventDispatcherInterface  $eventDispatcher
      * @param string                    $rootDir
      * @param string                    $environment
      * @param string                    $logDir
@@ -66,18 +52,15 @@ class SimpleJobLauncher implements JobLauncherInterface
         JobRegistry $jobRegistry,
         JobParametersValidator $jobParametersValidator,
         EventDispatcherInterface $eventDispatcher,
-        $rootDir,
-        $environment,
-        $logDir
+        protected $rootDir,
+        protected $environment,
+        protected $logDir
     ) {
         $this->jobRepository = $jobRepository;
         $this->jobParametersFactory = $jobParametersFactory;
         $this->jobRegistry = $jobRegistry;
         $this->jobParametersValidator = $jobParametersValidator;
         $this->eventDispatcher = $eventDispatcher;
-        $this->rootDir = $rootDir;
-        $this->environment = $environment;
-        $this->logDir = $logDir;
     }
 
     /**
@@ -87,7 +70,7 @@ class SimpleJobLauncher implements JobLauncherInterface
     {
         $emailParameter = '';
         if (isset($configuration['send_email']) && $user && method_exists($user, 'getEmail')) {
-            $emailParameter = sprintf('--email=%s', escapeshellarg($user->getEmail()));
+            $emailParameter = sprintf('--email=%s', escapeshellarg((string) $user->getEmail()));
             unset($configuration['send_email']);
         }
 
@@ -145,7 +128,7 @@ class SimpleJobLauncher implements JobLauncherInterface
                     'Job instance "%s" running the job "%s" with parameters "%s" is invalid because of "%s"',
                     $jobInstance->getCode(),
                     $job->getName(),
-                    json_encode($jobParameters->all()),
+                    json_encode($jobParameters->all(), JSON_THROW_ON_ERROR),
                     $this->getErrorMessages($errors)
                 )
             );
@@ -174,11 +157,6 @@ class SimpleJobLauncher implements JobLauncherInterface
         $this->eventDispatcher->dispatch($event, $eventName);
     }
 
-    /**
-     * @param ConstraintViolationListInterface $errors
-     *
-     * @return string
-     */
     private function getErrorMessages(ConstraintViolationListInterface $errors): string
     {
         $errorsStr = '';

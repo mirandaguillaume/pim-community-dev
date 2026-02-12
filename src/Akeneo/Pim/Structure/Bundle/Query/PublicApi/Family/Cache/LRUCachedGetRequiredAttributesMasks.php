@@ -13,15 +13,10 @@ use Akeneo\Tool\Component\StorageUtils\Cache\LRUCache;
  */
 final class LRUCachedGetRequiredAttributesMasks implements GetRequiredAttributesMasks
 {
-    /** @var GetRequiredAttributesMasks */
-    private $getRequiredAttributesMasks;
+    private \Akeneo\Tool\Component\StorageUtils\Cache\LRUCache $cache;
 
-    /** @var LRUCache */
-    private $cache;
-
-    public function __construct(GetRequiredAttributesMasks $getRequiredAttributesMasks)
+    public function __construct(private readonly GetRequiredAttributesMasks $getRequiredAttributesMasks)
     {
-        $this->getRequiredAttributesMasks = $getRequiredAttributesMasks;
         $this->cache = new LRUCache(500);
     }
 
@@ -39,9 +34,7 @@ final class LRUCachedGetRequiredAttributesMasks implements GetRequiredAttributes
             return [];
         }
 
-        $fetchNonFoundFamilyCodes = function (array $notFoundFamilyCodes): array {
-            return $this->getRequiredAttributesMasks->fromFamilyCodes($notFoundFamilyCodes);
-        };
+        $fetchNonFoundFamilyCodes = fn(array $notFoundFamilyCodes): array => $this->getRequiredAttributesMasks->fromFamilyCodes($notFoundFamilyCodes);
 
         return $this->cache->getForKeys($familyCodes, $fetchNonFoundFamilyCodes);
     }

@@ -21,10 +21,10 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
 class ChainedNonExistentValuesFilter implements ChainedNonExistentValuesFilterInterface
 {
     public function __construct(
-        private iterable $nonExistentValueFilters,
-        private NonExistentChannelLocaleValuesFilter $nonExistentChannelLocaleValuesFilter,
-        private EmptyValuesCleaner $emptyValuesCleaner,
-        private TransformRawValuesCollections $transformRawValuesCollections
+        private readonly iterable $nonExistentValueFilters,
+        private readonly NonExistentChannelLocaleValuesFilter $nonExistentChannelLocaleValuesFilter,
+        private readonly EmptyValuesCleaner $emptyValuesCleaner,
+        private readonly TransformRawValuesCollections $transformRawValuesCollections
     ) {
     }
 
@@ -39,7 +39,7 @@ class ChainedNonExistentValuesFilter implements ChainedNonExistentValuesFilterIn
             function (OnGoingFilteredRawValues $onGoingFilteredRawValues, NonExistentValuesFilter $obsoleteValuesFilter): OnGoingFilteredRawValues {
                 try {
                     return $obsoleteValuesFilter->filter($onGoingFilteredRawValues);
-                } catch (\TypeError | InvalidPropertyTypeException $exception) {
+                } catch (\TypeError | InvalidPropertyTypeException) {
                     return $onGoingFilteredRawValues;
                 }
             },

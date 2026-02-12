@@ -19,11 +19,6 @@ interface GetConnectorProducts
      * Ideally, we should not pass the PQB but a Product Query agnostic of the storage.
      * It would be much easier fake it.
      *
-     * @param ProductQueryBuilderInterface $productQueryBuilder
-     * @param int $userId
-     * @param array|null $attributesToFilterOn
-     * @param string|null $channelToFilterOn
-     * @param array|null $localesToFilterOn
      * @return ConnectorProductList
      */
     public function fromProductQueryBuilder(
@@ -35,9 +30,6 @@ interface GetConnectorProducts
     ): ConnectorProductList;
 
     /**
-     * @param UuidInterface $productUuid
-     * @param int $userId
-     *
      * @return ConnectorProduct
      * @throws ObjectNotFoundException
      */
@@ -45,9 +37,7 @@ interface GetConnectorProducts
 
     /**
      * @param UuidInterface[] $productUuids
-     * @param int $userId
      * @param string[]|null $attributesToFilterOn
-     * @param string|null $channelToFilterOn
      * @param string[]|null $localesToFilterOn
      *
      * @return ConnectorProductList

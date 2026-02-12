@@ -86,7 +86,7 @@ class VersionBuilderIntegration extends TestCase
             ]
         ];
 
-        $givenResourceName = 'Akeneo\Category\Infrastructure\Component\Model\Category';
+        $givenResourceName = \Akeneo\Category\Infrastructure\Component\Model\Category::class;
 
         $versionBuilder->buildVersionWithId(
             resourceId: null,
@@ -146,7 +146,7 @@ class VersionBuilderIntegration extends TestCase
             ]
         ];
 
-        $givenResourceName = 'Akeneo\Category\Infrastructure\Component\Model\Category';
+        $givenResourceName = \Akeneo\Category\Infrastructure\Component\Model\Category::class;
 
         $versionBuilder->buildVersionWithId(
             resourceId: '169',
@@ -223,7 +223,7 @@ class VersionBuilderIntegration extends TestCase
             'view_permission' => 'All',
         ];
 
-        $givenResourceName = 'Akeneo\Category\Infrastructure\Component\Model\Category';
+        $givenResourceName = \Akeneo\Category\Infrastructure\Component\Model\Category::class;
 
         $versionBuilder->buildVersionWithId(
             resourceId: null,

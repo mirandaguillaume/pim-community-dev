@@ -37,8 +37,6 @@ class RoleRepository extends EntityRepository implements RoleRepositoryInterface
 
     /**
      * Create a QB to find all roles but the anonymous one
-     *
-     * @return QueryBuilder
      */
     public function getAllButAnonymousQB(): QueryBuilder
     {
@@ -54,9 +52,7 @@ class RoleRepository extends EntityRepository implements RoleRepositoryInterface
     /**
      * Get user query builder
      *
-     * @param  RoleInterface $role
      *
-     * @return QueryBuilder
      */
     public function getUserQueryBuilder(RoleInterface $role): QueryBuilder
     {

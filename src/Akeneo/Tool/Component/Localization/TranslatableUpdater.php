@@ -15,9 +15,6 @@ class TranslatableUpdater
 {
     /**
      * Update data to translate label
-     *
-     * @param TranslatableInterface $object
-     * @param array                 $data
      */
     public function update(TranslatableInterface $object, array $data)
     {

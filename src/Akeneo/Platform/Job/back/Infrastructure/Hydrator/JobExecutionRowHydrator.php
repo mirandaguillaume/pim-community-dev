@@ -15,7 +15,7 @@ use Akeneo\Platform\Job\Domain\Model\Status;
 class JobExecutionRowHydrator
 {
     public function __construct(
-        private JobExecutionTrackingHydrator $jobExecutionTrackingHydrator,
+        private readonly JobExecutionTrackingHydrator $jobExecutionTrackingHydrator,
     ) {
     }
 
@@ -28,7 +28,7 @@ class JobExecutionRowHydrator
         $tracking = $this->jobExecutionTrackingHydrator->hydrate(
             (int) ($jobExecution['current_step_number'] ?? 0),
             (int) $jobExecution['step_count'],
-            json_decode($jobExecution['steps'], true),
+            json_decode((string) $jobExecution['steps'], true, 512, JSON_THROW_ON_ERROR),
         );
 
         return new JobExecutionRow(

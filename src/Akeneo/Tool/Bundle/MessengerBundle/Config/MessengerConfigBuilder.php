@@ -29,7 +29,7 @@ use Webmozart\Assert\Assert;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class MessengerConfigBuilder
+final readonly class MessengerConfigBuilder
 {
     private const CONFIG_FILEPATH = 'config/messages.yml';
     private const CONFIG_FILEPATH_FOR_ENV = 'config/messages_%s.yml';
@@ -37,7 +37,7 @@ final class MessengerConfigBuilder
 
     private const SERIALIZER = 'akeneo_messenger.envelope.serializer';
 
-    public function __construct(private readonly string $env)
+    public function __construct(private string $env)
     {
     }
 

@@ -13,11 +13,8 @@ use Doctrine\DBAL\Types\Types;
  */
 class PurgeDoctrineQueueQuery
 {
-    private Connection $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function execute(string $tableName, string $queueName, \DateTimeImmutable $olderThan): int

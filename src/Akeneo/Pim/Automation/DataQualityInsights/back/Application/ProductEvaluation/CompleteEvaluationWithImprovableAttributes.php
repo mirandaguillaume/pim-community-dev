@@ -24,9 +24,9 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\CriterionCode;
 class CompleteEvaluationWithImprovableAttributes
 {
     public function __construct(
-        private GetLocalesByChannelQueryInterface $localesByChannelQuery,
-        private CalculateProductCompletenessInterface $calculateRequiredAttributesCompleteness,
-        private CalculateProductCompletenessInterface $calculateNonRequiredAttributesCompleteness
+        private readonly GetLocalesByChannelQueryInterface $localesByChannelQuery,
+        private readonly CalculateProductCompletenessInterface $calculateRequiredAttributesCompleteness,
+        private readonly CalculateProductCompletenessInterface $calculateNonRequiredAttributesCompleteness
     ) {
     }
 

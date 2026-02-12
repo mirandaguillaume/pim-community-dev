@@ -34,10 +34,6 @@ class ContentTypeNegotiatorPass implements CompilerPassInterface
         }
     }
 
-    /**
-     * @param array            $rule
-     * @param ContainerBuilder $container
-     */
     private function addRule(array $rule, ContainerBuilder $container)
     {
         $matcher = $this->createRequestMatcher(
@@ -52,10 +48,8 @@ class ContentTypeNegotiatorPass implements CompilerPassInterface
     }
 
     /**
-     * @param ContainerBuilder $container
      * @param string           $path
      * @param string           $host
-     * @param array            $methods
      *
      * @return Reference
      */

@@ -21,9 +21,6 @@ class CurrencyDisablingSubscriber implements EventSubscriberInterface
     /** @var ChannelRepositoryInterface */
     protected $channelRepository;
 
-    /**
-     * @param ChannelRepositoryInterface $channelRepository
-     */
     public function __construct(ChannelRepositoryInterface $channelRepository)
     {
         $this->channelRepository = $channelRepository;
@@ -40,7 +37,6 @@ class CurrencyDisablingSubscriber implements EventSubscriberInterface
     /**
      * Pre remove
      *
-     * @param GenericEvent $event
      *
      * @throws LinkedChannelException
      */

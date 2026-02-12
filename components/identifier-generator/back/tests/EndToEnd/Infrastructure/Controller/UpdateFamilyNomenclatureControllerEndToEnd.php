@@ -97,6 +97,6 @@ final class UpdateFamilyNomenclatureControllerEndToEnd extends ControllerEndToEn
 
     private function getNomenclatureRepository(): FamilyNomenclatureRepository
     {
-        return $this->get('Akeneo\Pim\Automation\IdentifierGenerator\Domain\Repository\FamilyNomenclatureRepository');
+        return $this->get(\Akeneo\Pim\Automation\IdentifierGenerator\Domain\Repository\FamilyNomenclatureRepository::class);
     }
 }

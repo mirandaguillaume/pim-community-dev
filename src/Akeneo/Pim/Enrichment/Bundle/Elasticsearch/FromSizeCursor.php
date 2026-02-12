@@ -21,7 +21,7 @@ use Akeneo\Tool\Component\StorageUtils\Cursor\CursorInterface;
  */
 class FromSizeCursor extends AbstractCursor implements CursorInterface
 {
-    private int $initialFrom;
+    private readonly int $initialFrom;
     private int $to;
 
     public function __construct(
@@ -29,8 +29,8 @@ class FromSizeCursor extends AbstractCursor implements CursorInterface
         ProductRepositoryInterface $productRepository,
         ProductModelRepositoryInterface $productModelRepository,
         array $esQuery,
-        private int $pageSize,
-        private int $limit,
+        private readonly int $pageSize,
+        private readonly int $limit,
         private int $from = 0
     ) {
         $this->esClient = $esClient;
@@ -47,7 +47,7 @@ class FromSizeCursor extends AbstractCursor implements CursorInterface
     public function next(): void
     {
         if (false === next($this->items)) {
-            $this->from += count($this->items);
+            $this->from += count((array) $this->items);
             $this->items = $this->getNextItems($this->esQuery);
             reset($this->items);
         }

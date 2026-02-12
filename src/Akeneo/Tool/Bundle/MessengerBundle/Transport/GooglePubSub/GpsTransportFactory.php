@@ -13,15 +13,10 @@ use Symfony\Component\Messenger\Transport\TransportInterface;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GpsTransportFactory implements TransportFactoryInterface
+final readonly class GpsTransportFactory implements TransportFactoryInterface
 {
-    private PubSubClientFactory $pubSubClientFactory;
-    private OrderingKeySolver $orderingKeySolver;
-
-    public function __construct(PubSubClientFactory $pubSubClientFactory, OrderingKeySolver $orderingKeySolver)
+    public function __construct(private PubSubClientFactory $pubSubClientFactory, private OrderingKeySolver $orderingKeySolver)
     {
-        $this->pubSubClientFactory = $pubSubClientFactory;
-        $this->orderingKeySolver = $orderingKeySolver;
     }
 
     public function createTransport(string $dsn, array $options, SerializerInterface $serializer): TransportInterface

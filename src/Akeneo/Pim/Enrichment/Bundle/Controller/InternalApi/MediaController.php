@@ -28,20 +28,15 @@ class MediaController
     /** @var PathGeneratorInterface */
     protected $pathGenerator;
 
-    /** @var FileStorer */
-    private $fileStorer;
-
-    public function __construct(ValidatorInterface $validator, PathGeneratorInterface $pathGenerator, FileStorer $fileStorer)
+    public function __construct(ValidatorInterface $validator, PathGeneratorInterface $pathGenerator, private readonly FileStorer $fileStorer)
     {
         $this->validator = $validator;
         $this->pathGenerator = $pathGenerator;
-        $this->fileStorer = $fileStorer;
     }
 
     /**
      * Post a new media and return it's temporary identifier
      *
-     * @param Request $request
      *
      * @return Response
      */

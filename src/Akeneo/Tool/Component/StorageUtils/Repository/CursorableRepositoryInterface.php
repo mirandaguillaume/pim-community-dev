@@ -12,8 +12,6 @@ namespace Akeneo\Tool\Component\StorageUtils\Repository;
 interface CursorableRepositoryInterface
 {
     /**
-     * @param array $identifiers
-     *
      * @return array
      */
     public function getItemsFromIdentifiers(array $identifiers);

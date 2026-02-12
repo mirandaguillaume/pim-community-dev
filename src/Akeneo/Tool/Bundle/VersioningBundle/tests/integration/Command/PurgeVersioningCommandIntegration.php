@@ -269,7 +269,7 @@ class PurgeVersioningCommandIntegration extends TestCase
 
         $arrayInput = array_merge($defaultArrayInput, $arrayInput);
         if (isset($arrayInput['--config'])) {
-            $arrayInput['--config'] = json_encode($arrayInput['--config']);
+            $arrayInput['--config'] = json_encode($arrayInput['--config'], JSON_THROW_ON_ERROR);
         }
 
         $input = new ArrayInput($arrayInput);

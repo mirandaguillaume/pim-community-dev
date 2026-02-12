@@ -15,7 +15,7 @@ use Doctrine\Common\Collections\Collection;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-class ProductModel implements ProductModelInterface
+class ProductModel implements ProductModelInterface, \Stringable
 {
     use EntityWithQuantifiedAssociationTrait;
 
@@ -314,19 +314,13 @@ class ProductModel implements ProductModelInterface
     {
         $formerCategories = $this->getCategories();
         $categoriesToAdd = $categories->filter(
-            function (CategoryInterface $category) use (
-                $formerCategories
-            ) {
-                return !$formerCategories->contains($category);
-            }
+            fn(CategoryInterface $category) => !$formerCategories->contains($category)
         );
         foreach ($categoriesToAdd as $categoryToAdd) {
             $this->addCategory($categoryToAdd);
         }
         $categoriesToRemove = $formerCategories->filter(
-            function (Categoryinterface $category) use ($categories) {
-                return !$categories->contains($category);
-            }
+            fn(Categoryinterface $category) => !$categories->contains($category)
         );
         foreach ($categoriesToRemove as $categoryToRemove) {
             $this->removeCategory($categoryToRemove);
@@ -338,9 +332,7 @@ class ProductModel implements ProductModelInterface
      */
     public function getCategoryCodes(): array
     {
-        $codes = $this->getCategories()->map(function (CategoryInterface $category) {
-            return $category->getCode();
-        })->toArray();
+        $codes = $this->getCategories()->map(fn(CategoryInterface $category) => $category->getCode())->toArray();
 
         sort($codes);
 
@@ -696,7 +688,7 @@ class ProductModel implements ProductModelInterface
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->getLabel();
     }
@@ -900,8 +892,6 @@ class ProductModel implements ProductModelInterface
     }
 
     /**
-     * @param EntityWithFamilyVariantInterface $entity
-     * @param WriteValueCollection  $valueCollection
      *
      * @return WriteValueCollection
      */
@@ -925,9 +915,7 @@ class ProductModel implements ProductModelInterface
     /**
      * Should be handled by an AssociationsCollection->contains()
      *
-     * @param AssociationInterface $needleAssociation
      *
-     * @return AssociationInterface|null
      */
     private function getSimilarAssociation(AssociationInterface $needleAssociation): ?AssociationInterface
     {
@@ -945,8 +933,6 @@ class ProductModel implements ProductModelInterface
     }
 
     /**
-     * @param EntityWithFamilyVariantInterface $entity
-     * @param Collection                       $categoryCollection
      *
      * @return Collection
      */
@@ -972,9 +958,7 @@ class ProductModel implements ProductModelInterface
     /**
      * Does the ancestry of the entity already has the $category?
      *
-     * @param CategoryInterface $category
      *
-     * @return bool
      */
     private function hasAncestryCategory(CategoryInterface $category): bool
     {

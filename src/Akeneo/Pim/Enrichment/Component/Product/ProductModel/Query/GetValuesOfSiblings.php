@@ -17,7 +17,6 @@ interface GetValuesOfSiblings
      * Returns the values of the siblings of an EntityWithFamilyVariantInterface, indexed by identifier,
      * optionally filtered by attribute code
      *
-     * @param EntityWithFamilyVariantInterface $entity
      * @param string[] $attributeCodesToFilter
      * @return WriteValueCollectionFactory[]
      */

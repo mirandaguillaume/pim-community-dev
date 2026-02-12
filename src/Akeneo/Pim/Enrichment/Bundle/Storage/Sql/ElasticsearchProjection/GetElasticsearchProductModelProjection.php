@@ -26,11 +26,11 @@ class GetElasticsearchProductModelProjection implements GetElasticsearchProductM
      * @param GetAdditionalPropertiesForProductModelProjectionInterface[] $additionalDataProviders
      */
     public function __construct(
-        private Connection $connection,
-        private ReadValueCollectionFactory $readValueCollectionFactory,
-        private NormalizerInterface $valueCollectionNormalizer,
-        private LoggerInterface $logger,
-        private iterable $additionalDataProviders = []
+        private readonly Connection $connection,
+        private readonly ReadValueCollectionFactory $readValueCollectionFactory,
+        private readonly NormalizerInterface $valueCollectionNormalizer,
+        private readonly LoggerInterface $logger,
+        private readonly iterable $additionalDataProviders = []
     ) {
     }
 
@@ -183,10 +183,10 @@ SQL;
                 'updated' => $dateTimeImmutableType->convertToPhpValue($row['updated'], $platform),
                 'entity_updated' => $dateTimeImmutableType->convertToPhpValue($row['entity_updated'], $platform),
                 'family_code' => $row['family_code'],
-                'family_labels' => json_decode($row['family_labels'], true),
+                'family_labels' => json_decode((string) $row['family_labels'], true, 512, JSON_THROW_ON_ERROR),
                 'family_variant_code' => $row['family_variant_code'],
-                'category_codes' => json_decode($row['category_codes'], true),
-                'ancestor_category_codes' => json_decode($row['ancestor_category_codes'], true),
+                'category_codes' => json_decode((string) $row['category_codes'], true, 512, JSON_THROW_ON_ERROR),
+                'ancestor_category_codes' => json_decode((string) $row['ancestor_category_codes'], true, 512, JSON_THROW_ON_ERROR),
                 'parent_code' => $row['parent_code'],
                 'values' => $this->valueCollectionNormalizer->normalize($row['values'], ValueCollectionNormalizer::INDEXING_FORMAT_PRODUCT_AND_MODEL_INDEX),
                 'value_collection' => $row['values'],
@@ -277,8 +277,8 @@ SQL;
         );
 
         foreach ($rows as $row) {
-            $familyAttributes = json_decode($row['family_attribute_codes'], true);
-            $familyVariantAttributeCodesPerLevel = json_decode($row['attribute_codes_per_level'], true);
+            $familyAttributes = json_decode((string) $row['family_attribute_codes'], true, 512, JSON_THROW_ON_ERROR);
+            $familyVariantAttributeCodesPerLevel = json_decode((string) $row['attribute_codes_per_level'], true, 512, JSON_THROW_ON_ERROR);
             $variantAttributeCodes = array_merge(...array_values($familyVariantAttributeCodesPerLevel));
             $commonAttributeCodes = array_values(array_diff($familyAttributes, $variantAttributeCodes));
 
@@ -315,7 +315,7 @@ SQL;
     {
         $rowsIndexedByProductModelCode = [];
         foreach ($rows as $row) {
-            $row['raw_values'] = \json_decode($row['raw_values'], true);
+            $row['raw_values'] = \json_decode((string) $row['raw_values'], true, 512, JSON_THROW_ON_ERROR);
             $rowsIndexedByProductModelCode[$row['code']] = $row;
         }
 
@@ -372,7 +372,7 @@ SQL;
 
         foreach ($completenessByProductModelCode as $value) {
             $code = $value['code'];
-            $completeness = \json_decode($value['completeness'], true);
+            $completeness = \json_decode((string) $value['completeness'], true, 512, JSON_THROW_ON_ERROR);
 
             foreach ($completeness as $channelCode => $completenessByLocale) {
                 foreach ($completenessByLocale as $localeCode => $value) {

@@ -18,7 +18,7 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
 class QualityScoreFilter extends AbstractFieldFilter implements FieldFilterInterface
 {
     public function __construct(
-        private GetScoresPropertyStrategy $getScoresProperty
+        private readonly GetScoresPropertyStrategy $getScoresProperty
     ) {
         $this->supportedFields = ['data_quality_insights_score', 'quality_score'];
         $this->supportedOperators = ['IN'];
@@ -50,7 +50,7 @@ class QualityScoreFilter extends AbstractFieldFilter implements FieldFilterInter
                 $rank = is_numeric($value) ? Rank::fromInt(intval($value)) : Rank::fromLetter(strval($value));
                 return $rank->toInt();
             }, $values);
-        } catch (\InvalidArgumentException $exception) {
+        } catch (\InvalidArgumentException) {
             throw InvalidPropertyException::dataExpected($field, sprintf('values among "%s"', implode('", "', Rank::LETTERS_MAPPING)), static::class);
         }
 

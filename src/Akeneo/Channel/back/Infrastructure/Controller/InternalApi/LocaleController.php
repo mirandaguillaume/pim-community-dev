@@ -18,9 +18,9 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class LocaleController
 {
     public function __construct(
-        private LocaleRepositoryInterface $localeRepository,
-        private NormalizerInterface $normalizer,
-        private CollectionFilterInterface $collectionFilter
+        private readonly LocaleRepositoryInterface $localeRepository,
+        private readonly NormalizerInterface $normalizer,
+        private readonly CollectionFilterInterface $collectionFilter
     ) {
     }
 

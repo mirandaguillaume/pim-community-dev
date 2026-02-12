@@ -9,7 +9,7 @@ namespace Akeneo\Connectivity\Connection\Domain\Audit\Model\Read;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class HourlyEventCount
+final readonly class HourlyEventCount
 {
     public function __construct(private \DateTimeImmutable $dateTime, private int $count)
     {

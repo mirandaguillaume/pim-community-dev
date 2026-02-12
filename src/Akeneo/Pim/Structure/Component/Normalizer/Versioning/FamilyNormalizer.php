@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class FamilyNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    const ITEM_SEPARATOR = ',';
+    final public const ITEM_SEPARATOR = ',';
 
     /** @var string[] */
     protected $supportedFormats = ['flat'];
@@ -26,10 +26,6 @@ class FamilyNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
     /** @var NormalizerInterface */
     protected $standardNormalizer;
 
-    /**
-     * @param NormalizerInterface $standardNormalizer
-     * @param NormalizerInterface $translationNormalizer
-     */
     public function __construct(
         NormalizerInterface $standardNormalizer,
         NormalizerInterface $translationNormalizer
@@ -77,7 +73,6 @@ class FamilyNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
     /**
      * Normalizes the attribute requirements into a flat array
      *
-     * @param array $requirements
      *
      * @return array
      */

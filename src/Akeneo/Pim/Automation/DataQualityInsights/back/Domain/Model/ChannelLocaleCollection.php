@@ -15,22 +15,18 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\LocaleCode;
  */
 final class ChannelLocaleCollection implements \Iterator
 {
-    /** @var array */
-    private $channelCodes = [];
+    private array $channelCodes = [];
 
-    /** @var array */
-    private $localeCollections = [];
+    private array $localeCollections = [];
 
     /** @var \Iterator */
-    private $iterator;
+    private readonly \ArrayIterator $iterator;
 
     public function __construct(array $localesByChannel)
     {
         foreach ($localesByChannel as $channel => $locales) {
             $this->channelCodes[$channel] = new ChannelCode($channel);
-            $this->localeCollections[$channel] = new LocaleCollection(array_map(function ($locale) {
-                return new LocaleCode($locale);
-            }, $locales));
+            $this->localeCollections[$channel] = new LocaleCollection(array_map(fn($locale) => new LocaleCode($locale), $locales));
         }
 
         $this->iterator = new \ArrayIterator($this->localeCollections);

@@ -318,7 +318,7 @@ final class GetAvailableConditionsControllerEndToEnd extends ControllerEndToEndT
         );
         $response = $this->client->getResponse();
         Assert::assertSame(Response::HTTP_OK, $response->getStatusCode());
-        Assert::assertSame($expectedResponse, \json_decode($response->getContent(), true));
+        Assert::assertSame($expectedResponse, \json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
     }
 
     private function removeListAttributesPermissions(): void

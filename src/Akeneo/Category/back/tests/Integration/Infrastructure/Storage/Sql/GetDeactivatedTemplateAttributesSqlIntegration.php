@@ -15,7 +15,7 @@ use Akeneo\Category\Domain\ValueObject\Template\TemplateUuid;
  */
 class GetDeactivatedTemplateAttributesSqlIntegration extends CategoryTestCase
 {
-    public const TEMPLATE_UUID = '8a2ee006-0459-42e3-a8fc-07d32b547b95';
+    final public const TEMPLATE_UUID = '8a2ee006-0459-42e3-a8fc-07d32b547b95';
 
     public function testGetAllDeactivatedTemplateAttributes(): void
     {

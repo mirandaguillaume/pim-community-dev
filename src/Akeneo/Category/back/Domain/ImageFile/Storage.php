@@ -10,5 +10,5 @@ namespace Akeneo\Category\Domain\ImageFile;
  */
 class Storage
 {
-    public const CATEGORY_STORAGE_ALIAS = 'categoryStorage';
+    final public const CATEGORY_STORAGE_ALIAS = 'categoryStorage';
 }

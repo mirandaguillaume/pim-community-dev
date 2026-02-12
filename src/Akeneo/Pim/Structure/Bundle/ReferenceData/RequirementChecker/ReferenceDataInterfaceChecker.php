@@ -14,17 +14,16 @@ use Akeneo\Pim\Structure\Component\Model\ReferenceDataConfigurationInterface;
 class ReferenceDataInterfaceChecker implements CheckerInterface
 {
     /** @var string */
-    protected $interface;
-
-    /** @var string */
     protected $model;
 
     /** @var string */
     protected $failure;
 
-    public function __construct($referenceDataInterface)
+    /**
+     * @param string $referenceDataInterface
+     */
+    public function __construct(protected $interface)
     {
-        $this->interface = $referenceDataInterface;
     }
 
     /**

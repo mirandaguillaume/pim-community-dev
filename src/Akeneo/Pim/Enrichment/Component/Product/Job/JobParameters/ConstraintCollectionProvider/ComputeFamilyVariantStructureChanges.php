@@ -17,15 +17,8 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  */
 class ComputeFamilyVariantStructureChanges implements ConstraintCollectionProviderInterface
 {
-    /** @var array */
-    private $supportedJobNames;
-
-    /**
-     * @param array $supportedJobNames
-     */
-    public function __construct(array $supportedJobNames)
+    public function __construct(private readonly array $supportedJobNames)
     {
-        $this->supportedJobNames = $supportedJobNames;
     }
 
     /**

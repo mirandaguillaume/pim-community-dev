@@ -16,7 +16,7 @@ final class NullAclExtension implements AclExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function supports($type, $id)
+    public function supports($type, $id): never
     {
         throw new \LogicException('Not supported by NullAclExtension.');
     }
@@ -24,7 +24,7 @@ final class NullAclExtension implements AclExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function getExtensionKey()
+    public function getExtensionKey(): never
     {
         throw new \LogicException('Not supported by NullAclExtension.');
     }
@@ -32,7 +32,7 @@ final class NullAclExtension implements AclExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function validateMask($mask, $object, $permission = null)
+    public function validateMask($mask, $object, $permission = null): never
     {
         throw new InvalidAclMaskException('Not supported by NullAclExtension.');
     }
@@ -40,7 +40,7 @@ final class NullAclExtension implements AclExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function getObjectIdentity($val)
+    public function getObjectIdentity($val): never
     {
         throw new InvalidDomainObjectException('Not supported by NullAclExtension.');
     }
@@ -48,7 +48,7 @@ final class NullAclExtension implements AclExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function getMaskBuilder($permission)
+    public function getMaskBuilder($permission): never
     {
         throw new \LogicException('Not supported by NullAclExtension.');
     }
@@ -56,7 +56,7 @@ final class NullAclExtension implements AclExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function getAllMaskBuilders()
+    public function getAllMaskBuilders(): never
     {
         throw new \LogicException('Not supported by NullAclExtension.');
     }

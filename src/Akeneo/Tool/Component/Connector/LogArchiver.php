@@ -18,11 +18,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class LogArchiver implements EventSubscriberInterface
 {
-    private FilesystemWriter $filesystem;
-
-    public function __construct(FilesystemWriter $filesystem)
+    public function __construct(private readonly FilesystemWriter $filesystem)
     {
-        $this->filesystem = $filesystem;
     }
 
     public function archive(JobExecutionEvent $event): void

@@ -18,65 +18,27 @@ use Akeneo\Pim\Enrichment\Component\Product\Query\ProductQueryBuilderInterface;
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class FetchProductAndProductModelRowsParameters
+final readonly class FetchProductAndProductModelRowsParameters
 {
-    /** @var ProductQueryBuilderInterface */
-    private $productQueryBuilder;
-
-    /** @var array */
-    private $attributeCodes;
-
-    /** @var string */
-    private $channelCode;
-
-    /** @var string */
-    private $localeCode;
-
-    /**
-     * @param ProductQueryBuilderInterface $productQueryBuilder
-     * @param array                        $attributes
-     * @param string                       $channel
-     * @param string                       $locale
-     */
-    public function __construct(
-        ProductQueryBuilderInterface $productQueryBuilder,
-        array $attributes,
-        string $channel,
-        string $locale
-    ) {
-        $this->productQueryBuilder = $productQueryBuilder;
-        $this->attributeCodes = $attributes;
-        $this->channelCode = $channel;
-        $this->localeCode = $locale;
+    public function __construct(private ProductQueryBuilderInterface $productQueryBuilder, private array $attributeCodes, private string $channelCode, private string $localeCode)
+    {
     }
 
-    /**
-     * @return ProductQueryBuilderInterface
-     */
     public function productQueryBuilder(): ProductQueryBuilderInterface
     {
         return $this->productQueryBuilder;
     }
 
-    /**
-     * @return array
-     */
     public function attributeCodes(): array
     {
         return $this->attributeCodes;
     }
 
-    /**
-     * @return string
-     */
     public function channelCode(): string
     {
         return $this->channelCode;
     }
 
-    /**
-     * @return string
-     */
     public function localeCode(): string
     {
         return $this->localeCode;

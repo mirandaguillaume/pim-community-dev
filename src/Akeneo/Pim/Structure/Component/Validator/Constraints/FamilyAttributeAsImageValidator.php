@@ -59,9 +59,7 @@ class FamilyAttributeAsImageValidator extends ConstraintValidator
             $this->context
                 ->buildViolation(sprintf(
                     $constraint->messageAttributeType,
-                    join(', ', array_map(function ($validAttributeType) {
-                        return sprintf('"%s"', $validAttributeType);
-                    }, $this->validAttributeTypes))
+                    join(', ', array_map(fn($validAttributeType) => sprintf('"%s"', $validAttributeType), $this->validAttributeTypes))
                 ))
                 ->atPath($constraint->propertyPath)
                 ->addViolation();
@@ -75,31 +73,16 @@ class FamilyAttributeAsImageValidator extends ConstraintValidator
         }
     }
 
-    /**
-     * @param FamilyInterface $family
-     *
-     * @return bool
-     */
     protected function doesAttributeAsImageBelongToFamily(FamilyInterface $family): bool
     {
         return in_array($family->getAttributeAsImage()->getCode(), $family->getAttributeCodes());
     }
 
-    /**
-     * @param FamilyInterface $family
-     *
-     * @return bool
-     */
     protected function isAttributeAsImageTypeValid(FamilyInterface $family): bool
     {
         return in_array($family->getAttributeAsImage()->getType(), $this->validAttributeTypes);
     }
 
-    /**
-     * @param FamilyInterface $family
-     *
-     * @return bool
-     */
     protected function isAttributeAsImageGlobal(FamilyInterface $family): bool
     {
         return !$family->getAttributeAsImage()->isScopable() && !$family->getAttributeAsImage()->isLocalizable();

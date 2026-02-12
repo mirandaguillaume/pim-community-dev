@@ -23,5 +23,5 @@ interface PropertyAdderInterface
      *
      * @return PropertyAdderInterface
      */
-    public function addData($object, $property, $data, array $options = []);
+    public function addData($object, $property, mixed $data, array $options = []);
 }

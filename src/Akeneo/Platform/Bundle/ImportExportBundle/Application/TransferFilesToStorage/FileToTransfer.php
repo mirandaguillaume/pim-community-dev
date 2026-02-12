@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Platform\Bundle\ImportExportBundle\Application\TransferFilesToStorage;
 
-final class FileToTransfer
+final readonly class FileToTransfer
 {
     public function __construct(
         private string $fileKey,

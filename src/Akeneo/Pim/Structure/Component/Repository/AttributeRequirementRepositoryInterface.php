@@ -17,7 +17,6 @@ interface AttributeRequirementRepositoryInterface extends ObjectRepository
     /**
      * Returns attributes requirements codes and channel code for the given family
      *
-     * @param FamilyInterface $family
      *
      * @return array
      */

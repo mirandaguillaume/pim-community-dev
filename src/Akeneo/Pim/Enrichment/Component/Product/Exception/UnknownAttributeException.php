@@ -17,8 +17,7 @@ final class UnknownAttributeException extends PropertyException implements
     DomainErrorInterface,
     TemplatedErrorMessageInterface
 {
-    /** @var TemplatedErrorMessage */
-    private $templatedErrorMessage;
+    private readonly \Akeneo\Pim\Enrichment\Component\Error\TemplatedErrorMessage\TemplatedErrorMessage $templatedErrorMessage;
 
     public function __construct(string $attributeCode, \Exception $previous = null)
     {

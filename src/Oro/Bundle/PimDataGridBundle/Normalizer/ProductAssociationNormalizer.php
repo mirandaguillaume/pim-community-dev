@@ -24,15 +24,11 @@ class ProductAssociationNormalizer implements NormalizerInterface, SerializerAwa
     /** @var ImageNormalizer */
     protected $imageNormalizer;
 
-    /** @var GetProductCompletenesses */
-    private $getProductCompletenesses;
-
     public function __construct(
         ImageNormalizer $imageNormalizer,
-        GetProductCompletenesses $getProductCompletenesses
+        private readonly GetProductCompletenesses $getProductCompletenesses
     ) {
         $this->imageNormalizer = $imageNormalizer;
-        $this->getProductCompletenesses = $getProductCompletenesses;
     }
 
     /**
@@ -77,9 +73,7 @@ class ProductAssociationNormalizer implements NormalizerInterface, SerializerAwa
     }
 
     /**
-     * @param ProductInterface $product
      * @param string           $locale
-     *
      * @return string
      */
     protected function getFamilyLabel(ProductInterface $product, $locale)
@@ -97,10 +91,7 @@ class ProductAssociationNormalizer implements NormalizerInterface, SerializerAwa
     /**
      * Get the completenesses of the product
      *
-     * @param ProductInterface $product
-     * @param array            $context
      *
-     * @return int|null
      */
     protected function getCompletenessRatio(ProductInterface $product, array $context): ?int
     {
@@ -114,11 +105,10 @@ class ProductAssociationNormalizer implements NormalizerInterface, SerializerAwa
 
     /**
      * @param string      $code
-     * @param string|null $value
      *
      * @return string
      */
-    protected function getLabel($code, $value = null)
+    protected function getLabel($code, ?string $value = null)
     {
         return '' === $value || null === $value ? sprintf('[%s]', $code) : $value;
     }

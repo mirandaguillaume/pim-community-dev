@@ -19,10 +19,10 @@ class WebMarketplaceApi implements WebMarketplaceApiInterface
     private string $fixturePath;
 
     public function __construct(
-        private ClientInterface $client,
-        private WebMarketplaceAliasesInterface $webMarketplaceAliases,
-        private LoggerInterface $logger,
-        private FeatureFlag $fakeAppsFeatureFlag
+        private readonly ClientInterface $client,
+        private readonly WebMarketplaceAliasesInterface $webMarketplaceAliases,
+        private readonly LoggerInterface $logger,
+        private readonly FeatureFlag $fakeAppsFeatureFlag
     ) {
     }
 

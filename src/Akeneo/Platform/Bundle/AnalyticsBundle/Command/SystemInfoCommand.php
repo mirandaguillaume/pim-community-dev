@@ -21,17 +21,11 @@ class SystemInfoCommand extends Command
 {
     protected static $defaultName = 'pim:system:information';
 
-    private TranslatorInterface $translator;
-    private ChainedDataCollector $chainedDataCollector;
-
     public function __construct(
-        TranslatorInterface $translator,
-        ChainedDataCollector $chainedDataCollector
+        private readonly TranslatorInterface $translator,
+        private readonly ChainedDataCollector $chainedDataCollector
     ) {
         parent::__construct();
-
-        $this->translator = $translator;
-        $this->chainedDataCollector = $chainedDataCollector;
     }
 
     /**

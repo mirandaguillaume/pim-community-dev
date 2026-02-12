@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 class JobUserProvider implements UserProviderInterface
 {
     public function __construct(
-        private UserRepositoryInterface $userRepository,
+        private readonly UserRepositoryInterface $userRepository,
     ) {
     }
 
@@ -65,6 +65,6 @@ class JobUserProvider implements UserProviderInterface
      */
     public function supportsClass($class): bool
     {
-        return is_subclass_of($class, 'Akeneo\UserManagement\Component\Model\UserInterface');
+        return is_subclass_of($class, \Akeneo\UserManagement\Component\Model\UserInterface::class);
     }
 }

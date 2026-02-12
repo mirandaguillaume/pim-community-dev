@@ -36,23 +36,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class DeleteProductsAndProductModelsTasklet implements TaskletInterface, TrackableTaskletInterface
 {
     protected ?StepExecution $stepExecution = null;
-    protected int $batchSize = 100;
 
-    public function __construct(
-        protected ProductQueryBuilderFactoryInterface $pqbFactory,
-        protected BulkRemoverInterface $productRemover,
-        protected RemoveProductModelsHandler $removeProductModelsHandler,
-        protected EntityManagerClearerInterface $cacheClearer,
-        protected ObjectFilterInterface $filter,
-        int $batchSize,
-        private CountProductModelsAndChildrenProductModelsInterface $countProductModelsAndChildrenProductModels,
-        private CountVariantProductsInterface $countVariantProducts,
-        private JobStopper $jobStopper,
-        private JobRepositoryInterface $jobRepository,
-        private ValidatorInterface $validator,
-        private SecurityFacadeInterface $securityFacade,
-    ) {
-        $this->batchSize = $batchSize;
+    public function __construct(protected ProductQueryBuilderFactoryInterface $pqbFactory, protected BulkRemoverInterface $productRemover, protected RemoveProductModelsHandler $removeProductModelsHandler, protected EntityManagerClearerInterface $cacheClearer, protected ObjectFilterInterface $filter, protected int $batchSize, private readonly CountProductModelsAndChildrenProductModelsInterface $countProductModelsAndChildrenProductModels, private readonly CountVariantProductsInterface $countVariantProducts, private readonly JobStopper $jobStopper, private readonly JobRepositoryInterface $jobRepository, private readonly ValidatorInterface $validator, private readonly SecurityFacadeInterface $securityFacade)
+    {
     }
 
     /**
@@ -112,9 +98,6 @@ class DeleteProductsAndProductModelsTasklet implements TaskletInterface, Trackab
         return $productQueryBuilder->execute();
     }
 
-    /**
-     * @return CursorInterface
-     */
     private function findSimpleProductsAndRootProductModels(): CursorInterface
     {
         $filters = $this->stepExecution->getJobParameters()->get('filters');
@@ -126,9 +109,6 @@ class DeleteProductsAndProductModelsTasklet implements TaskletInterface, Trackab
         return $productQueryBuilder->execute();
     }
 
-    /**
-     * @param CursorInterface $products
-     */
     private function delete(CursorInterface $products): void
     {
         $loopCount = 0;
@@ -164,8 +144,6 @@ class DeleteProductsAndProductModelsTasklet implements TaskletInterface, Trackab
 
     /**
      * Deletes given products and product models, clears the cache and increments the summary info.
-     *
-     * @param array $entities
      */
     protected function doDelete(array $entities): void
     {
@@ -212,16 +190,12 @@ class DeleteProductsAndProductModelsTasklet implements TaskletInterface, Trackab
     /**
      * @param ProductInterface[] $products
      * @param ProductModelInterface[] $productModels
-     *
-     * @return int
      */
     private function countProductsToDelete(array $products, array $productModels): int
     {
         return count($products) + $this->countVariantProducts->forProductModelCodes(
             array_map(
-                function (ProductModelInterface $productModel) {
-                    return $productModel->getCode();
-                },
+                fn(ProductModelInterface $productModel) => $productModel->getCode(),
                 $productModels
             )
         );
@@ -229,26 +203,17 @@ class DeleteProductsAndProductModelsTasklet implements TaskletInterface, Trackab
 
     /**
      * @param ProductModelInterface[] $productModels
-     *
-     * @return int
      */
     private function countProductModelsToDelete(array $productModels): int
     {
         return $this->countProductModelsAndChildrenProductModels->forProductModelCodes(
             array_map(
-                function (ProductModelInterface $productModel) {
-                    return $productModel->getCode();
-                },
+                fn(ProductModelInterface $productModel) => $productModel->getCode(),
                 $productModels
             )
         );
     }
 
-    /**
-     * @param int $loopCount
-     *
-     * @return bool
-     */
     private function batchSizeIsReached(int $loopCount): bool
     {
         return 0 === $loopCount % $this->batchSize;
@@ -257,32 +222,26 @@ class DeleteProductsAndProductModelsTasklet implements TaskletInterface, Trackab
     /**
      * Returns only entities that are products in the given array.
      *
-     * @param array $entities
      *
      * @return ProductInterface[]
      */
     private function filterProducts(array $entities): array
     {
         return array_values(
-            array_filter($entities, function ($item) {
-                return $item instanceof ProductInterface;
-            })
+            array_filter($entities, fn($item) => $item instanceof ProductInterface)
         );
     }
 
     /**
      * Returns only entities that are product models in the given array.
      *
-     * @param array $entities
      *
      * @return ProductModelInterface[]
      */
     private function filterProductModels(array $entities): array
     {
         return array_values(
-            array_filter($entities, function ($item) {
-                return $item instanceof ProductModelInterface;
-            })
+            array_filter($entities, fn($item) => $item instanceof ProductModelInterface)
         );
     }
 

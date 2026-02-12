@@ -25,10 +25,6 @@ class GroupTypeNormalizer implements NormalizerInterface, CacheableSupportsMetho
     /** @var StructureVersionProviderInterface */
     protected $structureVersionProvider;
 
-    /**
-     * @param NormalizerInterface               $normalizer
-     * @param StructureVersionProviderInterface $structureVersionProvider
-     */
     public function __construct(
         NormalizerInterface $normalizer,
         StructureVersionProviderInterface $structureVersionProvider

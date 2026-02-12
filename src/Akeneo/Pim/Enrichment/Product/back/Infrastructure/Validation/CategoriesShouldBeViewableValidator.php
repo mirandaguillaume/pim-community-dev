@@ -17,7 +17,7 @@ use Webmozart\Assert\Assert;
  */
 final class CategoriesShouldBeViewableValidator extends ConstraintValidator
 {
-    public function __construct(private GetViewableCategories $getViewableCategories)
+    public function __construct(private readonly GetViewableCategories $getViewableCategories)
     {
     }
 

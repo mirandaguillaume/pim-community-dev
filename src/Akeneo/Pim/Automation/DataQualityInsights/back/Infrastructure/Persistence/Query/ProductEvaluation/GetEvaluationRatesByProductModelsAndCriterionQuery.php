@@ -15,7 +15,7 @@ use Doctrine\DBAL\Connection;
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GetEvaluationRatesByProductModelsAndCriterionQuery implements GetEvaluationRatesByProductsAndCriterionQueryInterface
+final readonly class GetEvaluationRatesByProductModelsAndCriterionQuery implements GetEvaluationRatesByProductsAndCriterionQueryInterface
 {
     public function __construct(
         private Connection                            $dbConnection,
@@ -58,7 +58,7 @@ SQL;
             return [];
         }
 
-        $rates = json_decode($evaluationResult['rates'], true, 512, JSON_THROW_ON_ERROR);
+        $rates = json_decode((string) $evaluationResult['rates'], true, 512, JSON_THROW_ON_ERROR);
         $rates = $this->transformCriterionEvaluationResultIds->transformToCodes($criterionCode, [TransformCriterionEvaluationResultCodes::PROPERTIES_ID['rates'] => $rates]);
 
         return $rates['rates'] ?? [];

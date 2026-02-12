@@ -23,9 +23,6 @@ class GroupReader extends AbstractReader implements
     /** @var GroupRepositoryInterface */
     protected $repository;
 
-    /**
-     * @param GroupRepositoryInterface $repository
-     */
     public function __construct(GroupRepositoryInterface $repository)
     {
         $this->repository = $repository;

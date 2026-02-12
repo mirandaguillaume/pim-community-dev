@@ -27,10 +27,6 @@ class EntityWithValuesBuilder implements EntityWithValuesBuilderInterface
     /** @var GetAttributes */
     protected $getAttributesQuery;
 
-    /**
-     * @param AttributeValuesResolverInterface $valuesResolver
-     * @param ValueFactory $productValueFactory
-     */
     public function __construct(
         AttributeValuesResolverInterface $valuesResolver,
         ValueFactory $productValueFactory,

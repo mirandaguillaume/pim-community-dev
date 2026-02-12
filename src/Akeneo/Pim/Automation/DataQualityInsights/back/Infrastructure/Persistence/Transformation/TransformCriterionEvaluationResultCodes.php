@@ -13,7 +13,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Transfo
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class TransformCriterionEvaluationResultCodes
+final readonly class TransformCriterionEvaluationResultCodes
 {
     public const PROPERTIES_ID = [
         'data' => 1,
@@ -47,19 +47,12 @@ final class TransformCriterionEvaluationResultCodes
         $resultByIds = [];
 
         foreach ($evaluationResult as $propertyCode => $propertyValues) {
-            switch ($propertyCode) {
-                case 'data':
-                    $propertyDataByIds = $this->transformResultDataCodesToIds($propertyValues);
-                    break;
-                case 'rates':
-                    $propertyDataByIds = $this->transformRatesCodesToIds($propertyValues);
-                    break;
-                case 'status':
-                    $propertyDataByIds = $this->transformStatusCodesToIds($propertyValues);
-                    break;
-                default:
-                    throw new CriterionEvaluationResultTransformationFailedException(sprintf('Unknown property code "%s"', $propertyCode));
-            }
+            $propertyDataByIds = match ($propertyCode) {
+                'data' => $this->transformResultDataCodesToIds($propertyValues),
+                'rates' => $this->transformRatesCodesToIds($propertyValues),
+                'status' => $this->transformStatusCodesToIds($propertyValues),
+                default => throw new CriterionEvaluationResultTransformationFailedException(sprintf('Unknown property code "%s"', $propertyCode)),
+            };
 
             $resultByIds[self::PROPERTIES_ID[$propertyCode]] = $propertyDataByIds;
         }
@@ -71,20 +64,11 @@ final class TransformCriterionEvaluationResultCodes
     {
         $resultDataByIds = [];
         foreach ($resultDataByCodes as $dataType => $dataByCodes) {
-            switch ($dataType) {
-                case 'attributes_with_rates':
-                case 'hashed_values':
-                    $resultDataByIds[self::DATA_TYPES_ID[$dataType]] =
-                        $this->transformChannelLocaleDataByAttributesFromCodesToIds($dataByCodes);
-                    break;
-                case 'number_of_improvable_attributes':
-                case 'total_number_of_attributes':
-                    $resultDataByIds[self::DATA_TYPES_ID[$dataType]] =
-                        $this->transformChannelLocaleDataFromCodesToIds($dataByCodes, fn ($number) => $number);
-                    break;
-                default:
-                    throw new CriterionEvaluationResultTransformationFailedException(sprintf('Unknown result data type "%s"', $dataType));
-            }
+            $resultDataByIds[self::DATA_TYPES_ID[$dataType]] = match ($dataType) {
+                'attributes_with_rates', 'hashed_values' => $this->transformChannelLocaleDataByAttributesFromCodesToIds($dataByCodes),
+                'number_of_improvable_attributes', 'total_number_of_attributes' => $this->transformChannelLocaleDataFromCodesToIds($dataByCodes, fn ($number) => $number),
+                default => throw new CriterionEvaluationResultTransformationFailedException(sprintf('Unknown result data type "%s"', $dataType)),
+            };
         }
 
         return $resultDataByIds;

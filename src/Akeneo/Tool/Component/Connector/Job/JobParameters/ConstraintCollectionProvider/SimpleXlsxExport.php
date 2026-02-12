@@ -24,7 +24,7 @@ class SimpleXlsxExport implements ConstraintCollectionProviderInterface
      * @param array<string> $supportedJobNames
      */
     public function __construct(
-        private array $supportedJobNames,
+        private readonly array $supportedJobNames,
     ) {
     }
 

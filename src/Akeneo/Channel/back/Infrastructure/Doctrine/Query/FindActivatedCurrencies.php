@@ -17,11 +17,9 @@ use Doctrine\ORM\EntityManagerInterface;
 class FindActivatedCurrencies implements FindActivatedCurrenciesInterface, CachedQueryInterface
 {
     private array $activatedCurrenciesForChannels = [];
-    private EntityManagerInterface $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
     /**
@@ -71,8 +69,6 @@ class FindActivatedCurrencies implements FindActivatedCurrenciesInterface, Cache
     }
 
     /**
-     * @return array
-     *
      * @throws DBALException
      */
     private function fetchActivatedCurrenciesForAllChannels(): array
@@ -90,7 +86,7 @@ SQL;
         $results = $statement->fetchAllAssociative();
         $currenciesIndexedByChannel = [];
         foreach ($results as $result) {
-            $currenciesIndexedByChannel[$result['channel_code']] = json_decode($result['activated_currencies'], false);
+            $currenciesIndexedByChannel[$result['channel_code']] = json_decode((string) $result['activated_currencies'], false, 512, JSON_THROW_ON_ERROR);
         }
 
         return $currenciesIndexedByChannel;

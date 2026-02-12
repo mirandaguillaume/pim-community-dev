@@ -14,7 +14,7 @@ use Ramsey\Uuid\UuidInterface;
 class GetAncestorProductModelCodes
 {
     public function __construct(
-        private Connection $connection
+        private readonly Connection $connection
     ) {
     }
 

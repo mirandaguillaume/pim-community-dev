@@ -30,8 +30,8 @@ abstract class AbstractProductValueNormalizer implements NormalizerInterface
      */
     public function normalize($productValue, $format = null, array $context = [])
     {
-        $locale = (null === $productValue->getLocaleCode()) ? '<all_locales>' : $productValue->getLocaleCode();
-        $channel = (null === $productValue->getScopeCode()) ? '<all_channels>' : $productValue->getScopeCode();
+        $locale = $productValue->getLocaleCode() ?? '<all_locales>';
+        $channel = $productValue->getScopeCode() ?? '<all_channels>';
 
         $attribute = $this->getAttributes->forCode($productValue->getAttributeCode());
 
@@ -49,7 +49,6 @@ abstract class AbstractProductValueNormalizer implements NormalizerInterface
     /**
      * Normalizes the product value data to the indexing format
      *
-     * @param ValueInterface $value
      *
      * @return mixed
      **/

@@ -9,25 +9,10 @@ use Akeneo\Pim\Enrichment\Component\Product\Query\FindQuantifiedAssociationTypeC
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\UuidInterface;
 
-final class GetProductQuantifiedAssociationsByProductUuids
+final readonly class GetProductQuantifiedAssociationsByProductUuids
 {
-    /** @var Connection */
-    private $connection;
-
-    /** @var GetIdMappingFromProductIdsQuery */
-    private $getIdMappingFromProductIdsQuery;
-
-    /** @var FindQuantifiedAssociationTypeCodesInterface */
-    private $findQuantifiedAssociationTypeCodes;
-
-    public function __construct(
-        Connection $connection,
-        GetIdMappingFromProductIdsQuery $getIdMappingFromProductIdsQuery,
-        FindQuantifiedAssociationTypeCodesInterface $findQuantifiedAssociationTypeCodes
-    ) {
-        $this->connection = $connection;
-        $this->getIdMappingFromProductIdsQuery = $getIdMappingFromProductIdsQuery;
-        $this->findQuantifiedAssociationTypeCodes = $findQuantifiedAssociationTypeCodes;
+    public function __construct(private Connection $connection, private GetIdMappingFromProductIdsQuery $getIdMappingFromProductIdsQuery, private FindQuantifiedAssociationTypeCodesInterface $findQuantifiedAssociationTypeCodes)
+    {
     }
 
     /**
@@ -87,7 +72,7 @@ SQL;
             if (null === $row['all_quantified_associations']) {
                 continue;
             }
-            $allQuantifiedAssociationsWithProductId = json_decode($row['all_quantified_associations'], true);
+            $allQuantifiedAssociationsWithProductId = json_decode((string) $row['all_quantified_associations'], true, 512, JSON_THROW_ON_ERROR);
             $associationWithIdentifiers = $this->associationsWithIdentifiers(
                 $allQuantifiedAssociationsWithProductId,
                 $validQuantifiedAssociationTypeCodes
@@ -131,7 +116,7 @@ SQL;
             foreach ($associationWithIds['products'] as $associationWithProductId) {
                 try {
                     $identifier = $productIdMapping->getIdentifier($associationWithProductId['id']);
-                } catch (\Exception $exception) {
+                } catch (\Exception) {
                     continue;
                 }
                 $uniqueQuantifiedAssociations[$identifier] = [
@@ -151,9 +136,7 @@ SQL;
     private function productIds(array $quantifiedAssociationWithProductId): array
     {
         return array_map(
-            function (array $quantifiedAssociations) {
-                return $quantifiedAssociations['id'];
-            },
+            fn(array $quantifiedAssociations) => $quantifiedAssociations['id'],
             $quantifiedAssociationWithProductId['products'] ?? []
         );
     }

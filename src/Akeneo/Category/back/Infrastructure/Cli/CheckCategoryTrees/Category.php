@@ -6,13 +6,13 @@ use Doctrine\DBAL\Connection;
 
 class Category
 {
-    private int $id;
+    private readonly int $id;
 
-    private ?int $parentId;
+    private readonly ?int $parentId;
 
-    private ?int $rootId;
+    private readonly ?int $rootId;
 
-    private string $code;
+    private readonly string $code;
 
     private int $lft;
 
@@ -133,9 +133,7 @@ class Category
 
         // make sure that children are sorted by the lft property
         // this will make the ordering basis for (lft,rgt) reordering in ::reorder()
-        usort($unlinkedChildren, function (Category $c1, Category $c2) {
-            return $c1->getLeft() - $c2->getLeft();
-        });
+        usort($unlinkedChildren, fn(Category $c1, Category $c2) => $c1->getLeft() - $c2->getLeft());
 
         /** @var Category $child */
         foreach ($unlinkedChildren as $child) {
@@ -198,9 +196,7 @@ class Category
                 $childrenDiffErrors = $this->children[$i]->diff($category->getChildAt($i));
 
                 $childrenDiffErrorsWithContext = array_map(
-                    function ($childDiff) use ($i) {
-                        return "Child at index $i: $childDiff";
-                    },
+                    fn($childDiff) => "Child at index $i: $childDiff",
                     $childrenDiffErrors,
                 );
 

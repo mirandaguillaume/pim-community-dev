@@ -29,11 +29,11 @@ class AttributeRemovalSubscriber implements EventSubscriberInterface
     private bool $terminateEventIsRegistered = false;
 
     public function __construct(
-        private AttributeCodeBlacklister $attributeCodeBlacklister,
-        private JobLauncherInterface $jobLauncher,
-        private IdentifiableObjectRepositoryInterface $jobInstanceRepository,
-        private TokenStorageInterface $tokenStorage,
-        private EventDispatcherInterface $eventDispatcher
+        private readonly AttributeCodeBlacklister $attributeCodeBlacklister,
+        private readonly JobLauncherInterface $jobLauncher,
+        private readonly IdentifiableObjectRepositoryInterface $jobInstanceRepository,
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly EventDispatcherInterface $eventDispatcher
     ) {
     }
 
@@ -85,8 +85,8 @@ class AttributeRemovalSubscriber implements EventSubscriberInterface
     private function registerCleanAttributeJobOnTerminate()
     {
         if (!$this->terminateEventIsRegistered) {
-            $this->eventDispatcher->addListener(KernelEvents::TERMINATE, [$this, 'launchCleanAttributeJob']);
-            $this->eventDispatcher->addListener(ConsoleEvents::TERMINATE, [$this, 'launchCleanAttributeJob']);
+            $this->eventDispatcher->addListener(KernelEvents::TERMINATE, $this->launchCleanAttributeJob(...));
+            $this->eventDispatcher->addListener(ConsoleEvents::TERMINATE, $this->launchCleanAttributeJob(...));
             $this->terminateEventIsRegistered = true;
         }
     }

@@ -108,7 +108,7 @@ class ValueNormalizer implements NormalizerInterface, NormalizerAwareInterface, 
                 sprintf(
                     'Cannot normalize product value "%s" which data is a(n) "%s"',
                     $fieldName,
-                    is_object($data) ? get_class($data) : gettype($data)
+                    get_debug_type($data)
                 )
             );
         }
@@ -132,7 +132,6 @@ class ValueNormalizer implements NormalizerInterface, NormalizerAwareInterface, 
     /**
      * Normalize the field name for values
      *
-     * @param ValueInterface $value
      *
      * @return string
      */
@@ -170,7 +169,6 @@ class ValueNormalizer implements NormalizerInterface, NormalizerAwareInterface, 
     /**
      * Sort the collection of options by their defined sort order in the attribute
      *
-     * @param Collection $optionsCollection
      *
      * @return Collection
      */

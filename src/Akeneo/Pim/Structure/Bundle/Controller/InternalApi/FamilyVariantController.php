@@ -51,23 +51,9 @@ class FamilyVariantController
     /** @var SaverInterface */
     protected $saver;
 
-    /** @var RemoverInterface */
-    private $remover;
-
     /** @var SearchableRepositoryInterface */
     protected $searchableRepository;
 
-    /**
-     * @param FamilyVariantRepositoryInterface $familyVariantRepository
-     * @param NormalizerInterface              $normalizer
-     * @param SimpleFactoryInterface           $familyVariantFactory
-     * @param ObjectUpdaterInterface           $updater
-     * @param ValidatorInterface               $validator
-     * @param NormalizerInterface              $constraintViolationNormalizer
-     * @param SaverInterface                   $saver
-     * @param RemoverInterface                 $remover
-     * @param SearchableRepositoryInterface    $searchableRepository
-     */
     public function __construct(
         FamilyVariantRepositoryInterface $familyVariantRepository,
         NormalizerInterface $normalizer,
@@ -76,7 +62,7 @@ class FamilyVariantController
         ValidatorInterface $validator,
         NormalizerInterface $constraintViolationNormalizer,
         SaverInterface $saver,
-        RemoverInterface $remover,
+        private readonly RemoverInterface $remover,
         SearchableRepositoryInterface $searchableRepository
     ) {
         $this->familyVariantRepository = $familyVariantRepository;
@@ -86,15 +72,9 @@ class FamilyVariantController
         $this->validator = $validator;
         $this->constraintViolationNormalizer = $constraintViolationNormalizer;
         $this->saver = $saver;
-        $this->remover = $remover;
         $this->searchableRepository = $searchableRepository;
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-     */
     public function indexAction(Request $request): JsonResponse
     {
         $options = $request->query->get('options', ['limit' => 20]);
@@ -126,9 +106,7 @@ class FamilyVariantController
     /**
      * Get a single familyVariant variant
      *
-     * @param string $identifier
      *
-     * @return JsonResponse
      */
     public function getAction(string $identifier): JsonResponse
     {
@@ -142,11 +120,6 @@ class FamilyVariantController
         );
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return Response
-     */
     public function createAction(Request $request): Response
     {
         if (!$request->isXmlHttpRequest()) {
@@ -154,17 +127,11 @@ class FamilyVariantController
         }
 
         $familyVariant = $this->familyVariantFactory->create();
-        $content = json_decode($request->getContent(), true);
+        $content = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         return $this->saveFamilyVariant($familyVariant, $content);
     }
 
-    /**
-     * @param Request $request
-     * @param string  $identifier
-     *
-     * @return Response
-     */
     public function putAction(Request $request, string $identifier): Response
     {
         if (!$request->isXmlHttpRequest()) {
@@ -172,14 +139,12 @@ class FamilyVariantController
         }
 
         $familyVariant = $this->getFamilyVariant($identifier);
-        $content = json_decode($request->getContent(), true);
+        $content = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         return $this->saveFamilyVariant($familyVariant, $content);
     }
 
     /**
-     * @param Request $request
-     * @param string  $familyVariantCode
      *
      * @return JsonResponse
      *
@@ -194,7 +159,7 @@ class FamilyVariantController
         $familyVariant = $this->getFamilyVariant($familyVariantCode);
         try {
             $this->remover->remove($familyVariant);
-        } catch (\LogicException $e) {
+        } catch (\LogicException) {
             return new JsonResponse(
                 [
                     'message' => sprintf(
@@ -212,9 +177,7 @@ class FamilyVariantController
     /**
      * Gets familyVariant using its code
      *
-     * @param string $code
      *
-     * @return FamilyVariantInterface
      */
     protected function getFamilyVariant(string $code): FamilyVariantInterface
     {
@@ -232,10 +195,7 @@ class FamilyVariantController
     /**
      * Handle the save action for the family variant entity
      *
-     * @param FamilyVariantInterface $familyVariant
-     * @param array                  $content
      *
-     * @return JsonResponse
      */
     protected function saveFamilyVariant(FamilyVariantInterface $familyVariant, array $content): JsonResponse
     {

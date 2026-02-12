@@ -40,7 +40,6 @@ interface LocaleRepositoryInterface extends IdentifiableObjectRepositoryInterfac
     /**
      * Get the deleted locales of a channel (the channel is updated but not flushed yet).
      *
-     * @param ChannelInterface $channel
      *
      * @return array the list of deleted locales
      */

@@ -24,7 +24,7 @@ class GetConnectionEndToEnd extends WebTestCase
         $this->client->request('GET', '/rest/connections/franklin');
         $result = \json_decode($this->client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
-        $expectedResult = \array_merge($connection->normalize(), ['password' => null]);
+        $expectedResult = [...$connection->normalize(), 'password' => null];
 
         Assert::assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         Assert::assertEquals($expectedResult, $result);

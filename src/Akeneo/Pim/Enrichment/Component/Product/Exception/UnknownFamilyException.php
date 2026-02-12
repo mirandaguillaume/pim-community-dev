@@ -15,8 +15,7 @@ final class UnknownFamilyException extends InvalidPropertyException implements
     DomainErrorInterface,
     TemplatedErrorMessageInterface
 {
-    /** @var TemplatedErrorMessage */
-    private $templatedErrorMessage;
+    private readonly \Akeneo\Pim\Enrichment\Component\Error\TemplatedErrorMessage\TemplatedErrorMessage $templatedErrorMessage;
 
     public function __construct(string $propertyName, string $propertyValue, string $className)
     {

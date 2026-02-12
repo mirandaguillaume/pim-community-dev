@@ -48,10 +48,8 @@ class ChainedStepsExtension implements ExtensionInterface
      */
     public function load(ContainerBuilder $container, array $config)
     {
-        $definition = new Definition(SubStepTester::class, array(
-            new Reference(TesterExtension::STEP_TESTER_ID),
-        ));
-        $definition->addTag(TesterExtension::STEP_TESTER_WRAPPER_TAG, array('priority' => 100));
+        $definition = new Definition(SubStepTester::class, [new Reference(TesterExtension::STEP_TESTER_ID)]);
+        $definition->addTag(TesterExtension::STEP_TESTER_WRAPPER_TAG, ['priority' => 100]);
         $container->setDefinition(TesterExtension::STEP_TESTER_WRAPPER_TAG . '.substep', $definition);
     }
 

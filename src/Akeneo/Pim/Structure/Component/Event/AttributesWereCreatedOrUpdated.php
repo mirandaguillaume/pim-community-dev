@@ -10,12 +10,12 @@ use Webmozart\Assert\Assert;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class AttributesWereCreatedOrUpdated implements \IteratorAggregate
+final readonly class AttributesWereCreatedOrUpdated implements \IteratorAggregate
 {
     /**
      * @param (AttributeWasCreated|AttributeWasUpdated)[] $events
      */
-    public function __construct(public readonly array $events)
+    public function __construct(public array $events)
     {
         Assert::notEmpty($events);
         Assert::allIsInstanceOfAny($events, [AttributeWasCreated::class, AttributeWasUpdated::class]);

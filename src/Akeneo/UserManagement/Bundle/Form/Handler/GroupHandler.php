@@ -26,11 +26,6 @@ class GroupHandler
      */
     protected $manager;
 
-    /**
-     * @param FormInterface $form
-     * @param RequestStack  $requestStack
-     * @param ObjectManager $manager
-     */
     public function __construct(FormInterface $form, RequestStack $requestStack, ObjectManager $manager)
     {
         $this->form = $form;
@@ -41,7 +36,6 @@ class GroupHandler
     /**
      * Process form
      *
-     * @param  GroupInterface $entity
      * @return bool           True on successfull processing, false otherwise
      */
     public function process(GroupInterface $entity)
@@ -66,7 +60,6 @@ class GroupHandler
     /**
      * "Success" form handler
      *
-     * @param GroupInterface                            $entity
      * @param UserInterface[] $appendUsers
      * @param UserInterface[] $removeUsers
      */
@@ -81,7 +74,6 @@ class GroupHandler
     /**
      * Append users to group
      *
-     * @param GroupInterface                            $group
      * @param UserInterface[] $users
      */
     protected function appendUsers(GroupInterface $group, array $users)
@@ -96,7 +88,6 @@ class GroupHandler
     /**
      * Remove users from group
      *
-     * @param GroupInterface                            $group
      * @param UserInterface[] $users
      */
     protected function removeUsers(GroupInterface $group, array $users)
@@ -110,8 +101,6 @@ class GroupHandler
 
     /**
      * Get Request
-     *
-     * @return null|Request
      */
     protected function getRequest(): ?Request
     {

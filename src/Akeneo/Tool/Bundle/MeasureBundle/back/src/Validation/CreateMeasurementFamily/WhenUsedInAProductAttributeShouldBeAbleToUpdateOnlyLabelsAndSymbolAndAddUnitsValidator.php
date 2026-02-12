@@ -23,16 +23,8 @@ use Symfony\Component\Validator\Validation;
  */
 class WhenUsedInAProductAttributeShouldBeAbleToUpdateOnlyLabelsAndSymbolAndAddUnitsValidator extends ConstraintValidator
 {
-    private IsThereAtLeastOneAttributeConfiguredWithMeasurementFamily $isThereAtLeastOneAttributeConfiguredWithMeasurementFamily;
-
-    private MeasurementFamilyRepositoryInterface $measurementFamilyRepository;
-
-    public function __construct(
-        MeasurementFamilyRepositoryInterface $measurementFamilyRepository,
-        IsThereAtLeastOneAttributeConfiguredWithMeasurementFamily $isThereAtLeastOneAttributeConfiguredWithMeasurementFamily
-    ) {
-        $this->isThereAtLeastOneAttributeConfiguredWithMeasurementFamily = $isThereAtLeastOneAttributeConfiguredWithMeasurementFamily;
-        $this->measurementFamilyRepository = $measurementFamilyRepository;
+    public function __construct(private readonly MeasurementFamilyRepositoryInterface $measurementFamilyRepository, private readonly IsThereAtLeastOneAttributeConfiguredWithMeasurementFamily $isThereAtLeastOneAttributeConfiguredWithMeasurementFamily)
+    {
     }
 
     /**
@@ -49,7 +41,7 @@ class WhenUsedInAProductAttributeShouldBeAbleToUpdateOnlyLabelsAndSymbolAndAddUn
 
         try {
             $measurementFamily = $this->measurementFamilyRepository->getByCode(MeasurementFamilyCode::fromString($saveMeasurementFamily->code));
-        } catch (MeasurementFamilyNotFoundException $exception) {
+        } catch (MeasurementFamilyNotFoundException) {
             return;
         }
 
@@ -118,7 +110,7 @@ class WhenUsedInAProductAttributeShouldBeAbleToUpdateOnlyLabelsAndSymbolAndAddUn
         foreach ($saveMeasurementFamily->units as $unit) {
             $unitCode = $unit['code'];
             $serializedOperations = array_map(
-                static fn (array $unit) => json_encode($unit),
+                static fn (array $unit) => json_encode($unit, JSON_THROW_ON_ERROR),
                 $unit['convert_from_standard']
             );
             $operationsPerUnit[$unitCode] = $serializedOperations;
@@ -134,7 +126,7 @@ class WhenUsedInAProductAttributeShouldBeAbleToUpdateOnlyLabelsAndSymbolAndAddUn
         foreach ($normalizedUnits as $unit) {
             $unitCode = $unit['code'];
             $serializedOperations = array_map(
-                static fn (array $unit) => json_encode($unit),
+                static fn (array $unit) => json_encode($unit, JSON_THROW_ON_ERROR),
                 $unit['convert_from_standard']
             );
             $operationsPerUnit[$unitCode] = $serializedOperations;

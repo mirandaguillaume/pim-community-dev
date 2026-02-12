@@ -7,31 +7,6 @@ use Oro\Bundle\SecurityBundle\Acl\Extension\AclClassInfo;
 class EntitySecurityMetadata implements AclClassInfo, \Serializable
 {
     /**
-     * @var string
-     */
-    protected $securityType;
-
-    /**
-     * @var string
-     */
-    protected $className;
-
-    /**
-     * @var string
-     */
-    protected $group;
-
-    /**
-     * @var string
-     */
-    protected $label;
-
-    /**
-     * @var string[]
-     */
-    protected $permissions;
-
-    /**
      * Constructor
      *
      * @param string $securityType
@@ -40,13 +15,8 @@ class EntitySecurityMetadata implements AclClassInfo, \Serializable
      * @param string $label
      * @param string[] $permissions
      */
-    public function __construct($securityType = '', $className = '', $group = '', $label = '', $permissions = [])
+    public function __construct(protected $securityType = '', protected $className = '', protected $group = '', protected $label = '', protected $permissions = [])
     {
-        $this->securityType = $securityType;
-        $this->className = $className;
-        $this->group = $group;
-        $this->label = $label;
-        $this->permissions = $permissions;
     }
 
     /**

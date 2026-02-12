@@ -21,9 +21,6 @@ interface EntityWithFamilyVariantInterface extends EntityWithFamilyInterface
      */
     public function getFamilyVariant(): ?FamilyVariantInterface;
 
-    /**
-     * @param FamilyVariantInterface $familyVariant
-     */
     public function setFamilyVariant(FamilyVariantInterface $familyVariant): void;
 
     /**
@@ -42,9 +39,6 @@ interface EntityWithFamilyVariantInterface extends EntityWithFamilyInterface
      */
     public function getParent(): ?ProductModelInterface;
 
-    /**
-     * @param ProductModelInterface $parent
-     */
     public function setParent(ProductModelInterface $parent = null): void;
 
     /**

@@ -47,7 +47,7 @@ class ExportMassActionSpec extends ObjectBehavior
 
         $this->getOptions()->getName()->shouldReturn('export');
         $this->getOptions()->offsetGet('frontend_type')->shouldReturn('export');
-        $this->getOptions()->offsetGet('context')->shouldReturn(array());
+        $this->getOptions()->offsetGet('context')->shouldReturn([]);
         $this->getOptions()->offsetGet('route')->shouldReturn('pim_datagrid_export_index');
         $this->getOptions()->offsetGet('route_parameters')->shouldReturn($routeParams);
         $this->getOptions()->offsetGet('handler')->shouldReturn('quick_export');

@@ -25,7 +25,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 class ScriptNonceGenerator
 {
-    public function __construct(private RequestStack $request, private readonly string $kernelSecret)
+    public function __construct(private readonly RequestStack $request, private readonly string $kernelSecret)
     {
     }
 

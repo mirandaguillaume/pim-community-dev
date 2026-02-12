@@ -23,7 +23,7 @@ use Webmozart\Assert\Assert;
 final class ProductWasCreatedOrUpdatedSubscriber implements EventSubscriberInterface
 {
     /** @var array<string, bool>  */
-    private $createdProductsByUuid = [];
+    private array $createdProductsByUuid = [];
 
     /**
      * @param int<1, max> $batchSize
@@ -56,7 +56,7 @@ final class ProductWasCreatedOrUpdatedSubscriber implements EventSubscriberInter
 
         if (false === $unitary
             || !$product instanceof ProductInterface
-            || \get_class($product) === 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct'
+            || $product::class === 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct'
             || $this->isProdLegacy()
             || null !== $product->getCreated()
             || !$this->featureFlag->isEnabled()
@@ -74,7 +74,7 @@ final class ProductWasCreatedOrUpdatedSubscriber implements EventSubscriberInter
 
         if (false === $unitary
             || !$product instanceof ProductInterface
-            || \get_class($product) === 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct'
+            || $product::class === 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct'
             || $this->isProdLegacy()
             || !$this->featureFlag->isEnabled()
         ) {
@@ -107,7 +107,7 @@ final class ProductWasCreatedOrUpdatedSubscriber implements EventSubscriberInter
         if (!\is_array($products)
             || [] === $products
             || !\reset($products) instanceof ProductInterface
-            || \get_class(\reset($products)) === 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct'
+            || \reset($products)::class === 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct'
             || $this->isProdLegacy()
             || !$this->featureFlag->isEnabled()
         ) {
@@ -127,7 +127,7 @@ final class ProductWasCreatedOrUpdatedSubscriber implements EventSubscriberInter
         if (!\is_array($products)
             || [] === $products
             || !\reset($products) instanceof ProductInterface
-            || \get_class(\reset($products)) === 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct'
+            || \reset($products)::class === 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct'
             || $this->isProdLegacy()
             || !$this->featureFlag->isEnabled()
         ) {

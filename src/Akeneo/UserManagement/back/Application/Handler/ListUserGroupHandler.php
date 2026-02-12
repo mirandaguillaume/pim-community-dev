@@ -17,7 +17,7 @@ use Akeneo\UserManagement\ServiceApi\UserGroup\UserGroupQuery;
 class ListUserGroupHandler implements ListUserGroupInterface
 {
     public function __construct(
-        private FindUserGroups $findUserGroups,
+        private readonly FindUserGroups $findUserGroups,
     ) {
     }
 

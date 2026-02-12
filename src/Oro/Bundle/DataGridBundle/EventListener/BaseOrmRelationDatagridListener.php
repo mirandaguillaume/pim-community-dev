@@ -19,27 +19,15 @@ class BaseOrmRelationDatagridListener
      * Included/excluded param names
      * populated by oro/datagrid/column-form-listener on frontend
      */
-    const GRID_PARAM_DATA_IN = 'data_in';
-    const GRID_PARAM_DATA_NOT_IN = 'data_not_in';
-
-    /** @var string */
-    protected $paramName;
-
-    /** @var boolean */
-    protected $isEditMode;
-
-    private RequestParameters $requestParams;
+    final public const GRID_PARAM_DATA_IN = 'data_in';
+    final public const GRID_PARAM_DATA_NOT_IN = 'data_not_in';
 
     /**
      * @param string            $paramName  Parameter name that should be taken from request and binded to query
-     * @param RequestParameters $requestParams
      * @param bool              $isEditMode whether or not to add data_in, data_not_in params to query
      */
-    public function __construct($paramName, RequestParameters $requestParams, $isEditMode = true)
+    public function __construct(protected $paramName, private readonly RequestParameters $requestParams, protected $isEditMode = true)
     {
-        $this->paramName = $paramName;
-        $this->requestParams = $requestParams;
-        $this->isEditMode = $isEditMode;
     }
 
     /**
@@ -53,8 +41,6 @@ class BaseOrmRelationDatagridListener
      *       CASE WHEN alias.id IN (:data_in) AND alias.id NOT IN (:data_not_in)
      *       THEN true ELSE false END
      *  END) as relationColumnName
-     *
-     * @param BuildAfter $event
      */
     public function onBuildAfter(BuildAfter $event)
     {

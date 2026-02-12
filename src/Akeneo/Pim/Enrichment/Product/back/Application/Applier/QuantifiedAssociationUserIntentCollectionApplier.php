@@ -28,7 +28,7 @@ use Webmozart\Assert\Assert;
  * @phpstan-type NormalizedProductQuantifiedLink array{uuid: string | null, identifier: string | null, quantity: int}
  * @phpstan-type NormalizedProductModelQuantifiedLink array{identifier: string, quantity: int}
  */
-final class QuantifiedAssociationUserIntentCollectionApplier implements UserIntentApplier
+final readonly class QuantifiedAssociationUserIntentCollectionApplier implements UserIntentApplier
 {
     private const PRODUCTS = 'products';
     private const PRODUCT_MODELS = 'product_models';
@@ -245,7 +245,7 @@ final class QuantifiedAssociationUserIntentCollectionApplier implements UserInte
             'quantity' => $quantifiedEntity->quantity(),
         ], $quantifiedEntities);
 
-        $sortFunction = fn (array $a, array $b): int => \strcmp($a['identifier'], $b['identifier']);
+        $sortFunction = fn (array $a, array $b): int => \strcmp((string) $a['identifier'], (string) $b['identifier']);
         \usort($newAssociations, $sortFunction);
         \usort($formerAssociations, $sortFunction);
         if ($newAssociations === $formerAssociations) {
@@ -289,7 +289,7 @@ final class QuantifiedAssociationUserIntentCollectionApplier implements UserInte
             'quantity' => $quantifiedEntity->quantity(),
         ], $quantifiedEntities);
 
-        $sortFunction = fn (array $a, array $b): int => \strcmp($a['identifier'], $b['identifier']);
+        $sortFunction = fn (array $a, array $b): int => \strcmp((string) $a['identifier'], (string) $b['identifier']);
         \usort($newAssociations, $sortFunction);
         \usort($formerAssociations, $sortFunction);
         if ($newAssociations === $formerAssociations) {
@@ -328,7 +328,7 @@ final class QuantifiedAssociationUserIntentCollectionApplier implements UserInte
             ];
         }
 
-        $sortFunction = fn (array $a, array $b): int => \strcmp($a['uuid'], $b['uuid']);
+        $sortFunction = fn (array $a, array $b): int => \strcmp((string) $a['uuid'], (string) $b['uuid']);
         \usort($newAssociations, $sortFunction);
         \usort($formerAssociations, $sortFunction);
         if ($newAssociations === $formerAssociations) {
@@ -352,7 +352,7 @@ final class QuantifiedAssociationUserIntentCollectionApplier implements UserInte
             static fn (array $association): bool => !\in_array($association['uuid'], $viewableUuids)
         ));
 
-        return \array_values(\array_merge($newAssociations, $nonViewableFormerAssociations));
+        return \array_values([...$newAssociations, ...$nonViewableFormerAssociations]);
     }
 
     /**

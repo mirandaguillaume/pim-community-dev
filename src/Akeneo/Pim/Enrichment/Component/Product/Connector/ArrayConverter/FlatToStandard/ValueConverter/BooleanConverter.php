@@ -18,7 +18,7 @@ class BooleanConverter extends AbstractValueConverter
     public function __construct(
         FieldSplitter $fieldSplitter,
         array $supportedFieldType,
-        private TranslatorInterface $translator
+        private readonly TranslatorInterface $translator
     ) {
         parent::__construct($fieldSplitter);
 

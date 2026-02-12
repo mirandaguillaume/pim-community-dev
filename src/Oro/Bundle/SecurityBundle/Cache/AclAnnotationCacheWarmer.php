@@ -8,18 +8,10 @@ use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 class AclAnnotationCacheWarmer implements CacheWarmerInterface
 {
     /**
-     * @var AclAnnotationProvider
-     */
-    private $provider;
-
-    /**
      * Constructor
-     *
-     * @param AclAnnotationProvider $provider
      */
-    public function __construct(AclAnnotationProvider $provider)
+    public function __construct(private readonly AclAnnotationProvider $provider)
     {
-        $this->provider = $provider;
     }
 
     /**

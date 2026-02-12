@@ -9,13 +9,10 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 
-final class IsAttributeCodeBlacklisted implements IsAttributeCodeBlacklistedInterface
+final readonly class IsAttributeCodeBlacklisted implements IsAttributeCodeBlacklistedInterface
 {
-    private Connection $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function execute(string $attributeCode): bool

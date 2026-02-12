@@ -15,7 +15,7 @@ use Webmozart\Assert\Assert;
  */
 class JobExecutionMessageFactory
 {
-    private string $jobMessageTypeFallback;
+    private readonly string $jobMessageTypeFallback;
 
     /**
      * Map the class of the JobExecutionMessageInterface implementation to the job instance type.
@@ -25,7 +25,7 @@ class JobExecutionMessageFactory
      *      ...
      * ]
      */
-    private array $mappingJobMessageTypes;
+    private readonly array $mappingJobMessageTypes;
 
     public function __construct(
         array $mappingJobMessageTypes,

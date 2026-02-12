@@ -25,17 +25,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class AclRoleType extends AbstractType
 {
-    /**
-     * @var array privilege fields config
-     */
-    private $privilegeConfig;
-
-    /**
-     * @param array $privilegeTypeConfig
-     */
-    public function __construct(array $privilegeTypeConfig)
+    public function __construct(private array $privilegeConfig)
     {
-        $this->privilegeConfig = $privilegeTypeConfig;
     }
 
     /**
@@ -78,7 +69,7 @@ class AclRoleType extends AbstractType
                 $role = $event->getData();
                 if ($role instanceof RoleInterface && null === $role->getRole() && null === $role->getId()) {
                     $roleName = \strtoupper(\trim(\preg_replace('/[^\w\-]/i', '_', $role->getLabel())));
-                    if (strpos($roleName, 'ROLE_') !== 0 && User::ROLE_ANONYMOUS !== $roleName) {
+                    if (!str_starts_with($roleName, 'ROLE_') && User::ROLE_ANONYMOUS !== $roleName) {
                         $roleName = 'ROLE_' . $roleName;
                     }
                     $role->setRole($roleName);

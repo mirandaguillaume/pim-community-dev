@@ -12,7 +12,7 @@ class InvalidItemsCollectorSpec extends ObjectBehavior
 {
     function it_is_an_event_subscriber()
     {
-        $this->shouldHaveType('Symfony\Component\EventDispatcher\EventSubscriberInterface');
+        $this->shouldHaveType(\Symfony\Component\EventDispatcher\EventSubscriberInterface::class);
     }
 
     function it_returns_subscribed_events()

@@ -17,9 +17,9 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class AttributeNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
     public function __construct(
-        private NormalizerInterface $translationNormalizer,
-        private NormalizerInterface $dateTimeNormalizer,
-        private FeatureFlags $featureFlags
+        private readonly NormalizerInterface $translationNormalizer,
+        private readonly NormalizerInterface $dateTimeNormalizer,
+        private readonly FeatureFlags $featureFlags
     ) {
     }
 
@@ -93,7 +93,7 @@ class AttributeNormalizer implements NormalizerInterface, CacheableSupportsMetho
     {
         try {
             return $this->featureFlags->isEnabled('read_only_product_attribute');
-        } catch (\InvalidArgumentException $notAvailableFeatureFlagException) {
+        } catch (\InvalidArgumentException) {
             return false;
         }
     }

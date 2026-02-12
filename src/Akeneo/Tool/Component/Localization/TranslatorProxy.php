@@ -13,11 +13,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class TranslatorProxy
 {
-    protected TranslatorInterface $translator;
-
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(protected TranslatorInterface $translator)
     {
-        $this->translator = $translator;
     }
 
     /**
@@ -25,8 +22,8 @@ class TranslatorProxy
      */
     public function trans($value, array $options = [])
     {
-        $parameters = isset($options['parameters']) ? $options['parameters'] : [];
-        $domain = isset($options['domain']) ? $options['domain'] : null;
+        $parameters = $options['parameters'] ?? [];
+        $domain = $options['domain'] ?? null;
 
         return $this->translator->trans($value, $parameters, $domain);
     }

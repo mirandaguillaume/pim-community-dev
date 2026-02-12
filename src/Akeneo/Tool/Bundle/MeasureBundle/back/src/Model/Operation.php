@@ -17,9 +17,9 @@ final class Operation
     public const STANDARD_VALUE = '1';
     private const SUPPORTED_OPERATORS = [self::STANDARD_OPERATOR, 'div', 'add', 'sub'];
 
-    private string $operator;
+    private readonly string $operator;
 
-    private string $value;
+    private readonly string $value;
 
     private function __construct(string $operator, string $value)
     {

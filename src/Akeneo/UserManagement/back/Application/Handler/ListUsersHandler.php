@@ -19,7 +19,7 @@ use Akeneo\UserManagement\ServiceApi\User\ListUsersHandlerInterface;
 use Akeneo\UserManagement\ServiceApi\User\User as ServiceApiUser;
 use Akeneo\UserManagement\ServiceApi\User\UsersQuery;
 
-final class ListUsersHandler implements ListUsersHandlerInterface
+final readonly class ListUsersHandler implements ListUsersHandlerInterface
 {
     public function __construct(
         private FindUsers $findUsers

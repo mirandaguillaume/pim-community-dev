@@ -16,7 +16,7 @@ use Akeneo\UserManagement\ServiceApi\UserRole\UserRole;
 class ListUserRoleHandler implements ListUserRoleInterface
 {
     public function __construct(
-        private FindAllUserRoles $findAllUserRoles,
+        private readonly FindAllUserRoles $findAllUserRoles,
     ) {
     }
 

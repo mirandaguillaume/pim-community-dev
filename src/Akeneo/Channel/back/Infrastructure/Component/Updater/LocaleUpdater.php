@@ -41,11 +41,9 @@ class LocaleUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param LocaleInterface $locale
      * @param string          $field
-     * @param mixed           $data
      */
-    protected function setData(LocaleInterface $locale, $field, $data)
+    protected function setData(LocaleInterface $locale, $field, mixed $data)
     {
         if ('code' === $field) {
             $locale->setCode($data);

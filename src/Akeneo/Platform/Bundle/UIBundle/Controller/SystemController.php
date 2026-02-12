@@ -11,13 +11,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class SystemController
+final readonly class SystemController
 {
-    private CountSystemEntitiesQueryInterface $countSystemEntitiesQuery;
-
-    public function __construct(CountSystemEntitiesQueryInterface $countSystemEntitiesQuery)
+    public function __construct(private CountSystemEntitiesQueryInterface $countSystemEntitiesQuery)
     {
-        $this->countSystemEntitiesQuery = $countSystemEntitiesQuery;
     }
 
     public function countEntitiesAction(): JsonResponse

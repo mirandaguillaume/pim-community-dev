@@ -22,27 +22,15 @@ use Akeneo\Pim\Enrichment\Component\Product\Repository\VariantProductRepositoryI
  */
 class ImageAsLabel
 {
-    /** @var ProductModelRepositoryInterface */
-    private $productModelRepository;
-
-    /** @var VariantProductRepositoryInterface */
-    private $productRepository;
-
-    public function __construct(
-        ProductModelRepositoryInterface $productModelRepository,
-        VariantProductRepositoryInterface $productRepository
-    ) {
-        $this->productModelRepository = $productModelRepository;
-        $this->productRepository = $productRepository;
+    public function __construct(private readonly ProductModelRepositoryInterface $productModelRepository, private readonly VariantProductRepositoryInterface $productRepository)
+    {
     }
 
     /**
      * Get the closest attribute as image value for the given $productModel. It can be its own value,
      * or the value of one of its parent or children.
      *
-     * @param ProductModelInterface $productModel
      *
-     * @return null|ValueInterface
      */
     public function value(ProductModelInterface $productModel): ?ValueInterface
     {
@@ -75,10 +63,7 @@ class ImageAsLabel
         return $entity->getImage();
     }
 
-    /**
-     * @return ProductModelInterface | ProductInterface | null
-     */
-    private function findFirstCreatedEntityWithFamilyVariantByParent(ProductModelInterface $productModel)
+    private function findFirstCreatedEntityWithFamilyVariantByParent(ProductModelInterface $productModel): \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface|\Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface|null
     {
         $productChild = $this->productRepository->findLastCreatedByParent($productModel);
         if (null !== $productChild) {

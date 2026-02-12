@@ -30,45 +30,10 @@ use Webmozart\Assert\Assert;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class LightEntityWithFamilyVariantNormalizer implements NormalizerInterface
+final readonly class LightEntityWithFamilyVariantNormalizer implements NormalizerInterface
 {
-    /** @var ImageNormalizer */
-    private $imageNormalizer;
-
-    /** @var ImageAsLabel */
-    private $imageAsLabel;
-
-    /** @var EntityWithFamilyVariantAttributesProvider */
-    private $attributesProvider;
-
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $attributeOptionRepository;
-
-    /** @var GetProductCompletenessRatio */
-    private $getCompletenessRatio;
-
-    /** @var VariantProductRatioInterface */
-    private $variantProductRatioQuery;
-
-    /** @var iterable */
-    private $axisLabelsNormalizers;
-
-    public function __construct(
-        ImageNormalizer $imageNormalizer,
-        ImageAsLabel $imageAsLabel,
-        EntityWithFamilyVariantAttributesProvider $attributesProvider,
-        IdentifiableObjectRepositoryInterface $attributeOptionRepository,
-        GetProductCompletenessRatio $getCompletenessRatio,
-        VariantProductRatioInterface $variantProductRatioQuery,
-        iterable $axisLabelsNormalizers
-    ) {
-        $this->imageNormalizer = $imageNormalizer;
-        $this->imageAsLabel = $imageAsLabel;
-        $this->attributesProvider = $attributesProvider;
-        $this->attributeOptionRepository = $attributeOptionRepository;
-        $this->getCompletenessRatio = $getCompletenessRatio;
-        $this->variantProductRatioQuery = $variantProductRatioQuery;
-        $this->axisLabelsNormalizers = $axisLabelsNormalizers;
+    public function __construct(private ImageNormalizer $imageNormalizer, private ImageAsLabel $imageAsLabel, private EntityWithFamilyVariantAttributesProvider $attributesProvider, private IdentifiableObjectRepositoryInterface $attributeOptionRepository, private GetProductCompletenessRatio $getCompletenessRatio, private VariantProductRatioInterface $variantProductRatioQuery, private iterable $axisLabelsNormalizers)
+    {
     }
 
     public function normalize($entity, $format = null, array $context = []): array
@@ -160,8 +125,6 @@ final class LightEntityWithFamilyVariantNormalizer implements NormalizerInterfac
      * It allows to sort on front-end to respect sort orders of attribute options.
      *
      * @param EntityWithFamilyVariantInterface $entity
-     *
-     * @return array
      */
     private function getOrder(EntityWithFamilyVariantInterface $entity): array
     {

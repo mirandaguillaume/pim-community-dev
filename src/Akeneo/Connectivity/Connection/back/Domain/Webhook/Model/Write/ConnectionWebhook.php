@@ -15,10 +15,10 @@ class ConnectionWebhook
     private ?Url $url = null;
 
     public function __construct(
-        private string $code,
-        private bool $enabled,
+        private readonly string $code,
+        private readonly bool $enabled,
         ?string $url = null,
-        private bool $isUsingUuid = false,
+        private readonly bool $isUsingUuid = false,
     ) {
         $this->url = $url ? new Url($url) : null;
     }

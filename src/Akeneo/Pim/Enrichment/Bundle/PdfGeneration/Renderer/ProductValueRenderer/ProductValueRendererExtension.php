@@ -10,18 +10,14 @@ use Twig\TwigFunction;
 
 class ProductValueRendererExtension extends AbstractExtension
 {
-    private ProductValueRendererRegistry $productValueRendererRegistry;
-
-    public function __construct(
-        ProductValueRendererRegistry $productValueRendererRegistry
-    ) {
-        $this->productValueRendererRegistry = $productValueRendererRegistry;
+    public function __construct(private readonly ProductValueRendererRegistry $productValueRendererRegistry)
+    {
     }
 
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('render_attribute_value', [$this, 'renderAttributeValue'], ['needs_environment' => true]),
+            new TwigFunction('render_attribute_value', $this->renderAttributeValue(...), ['needs_environment' => true]),
         ];
     }
 

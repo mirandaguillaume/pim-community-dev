@@ -97,8 +97,6 @@ class UniqueValueValidator extends ConstraintValidator
     }
 
     /**
-     * @param ValueInterface   $value
-     * @param ProductInterface $product
      *
      * @return bool
      */
@@ -110,8 +108,6 @@ class UniqueValueValidator extends ConstraintValidator
     /**
      * Checks if the same exact value has already been processed on a different product instance
      *
-     * @param ValueInterface   $value
-     * @param ProductInterface $product
      *
      * @return bool
      */

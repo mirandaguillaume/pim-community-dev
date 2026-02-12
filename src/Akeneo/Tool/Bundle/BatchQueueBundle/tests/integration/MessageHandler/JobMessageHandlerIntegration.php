@@ -106,7 +106,7 @@ final class JobMessageHandlerIntegration extends TestCase
             $jobParameters,
             ['Default', 'Execution']
         );
-        Assert::assertEquals(0, count($errors), 'JobExecution could not be created due to invalid job parameters.');
+        Assert::assertEquals(0, is_countable($errors) ? count($errors) : 0, 'JobExecution could not be created due to invalid job parameters.');
 
         $jobExecution = $this->get('akeneo_batch.job_repository')->createJobExecution(
             $job,

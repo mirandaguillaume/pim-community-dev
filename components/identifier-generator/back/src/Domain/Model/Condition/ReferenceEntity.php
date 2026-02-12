@@ -19,16 +19,16 @@ use Webmozart\Assert\Assert;
  *   locale?: string,
  * }
  */
-final class ReferenceEntity implements ConditionInterface
+final readonly class ReferenceEntity implements ConditionInterface
 {
     /**
      * @param ReferenceEntityOperator $operator
      */
     private function __construct(
-        private readonly string $operator,
-        private readonly string $attributeCode,
-        private readonly ?string $scope = null,
-        private readonly ?string $locale = null,
+        private string $operator,
+        private string $attributeCode,
+        private ?string $scope = null,
+        private ?string $locale = null,
     ) {
     }
 

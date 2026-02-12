@@ -15,7 +15,7 @@ use Ramsey\Uuid\UuidInterface;
  */
 class GetUuidMappingQuery implements GetUuidMappingQueryInterface
 {
-    public function __construct(private Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
     }
 

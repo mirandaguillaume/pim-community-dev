@@ -17,8 +17,7 @@ use Akeneo\Test\Pim\Automation\DataQualityInsights\Integration\DataQualityInsigh
  */
 final class GetProductModelIdsImpactedByAttributeGroupActivationQueryIntegration extends DataQualityInsightsTestCase
 {
-    /** @var \DateTimeImmutable */
-    private $updatedSince;
+    private \DateTimeImmutable $updatedSince;
 
     protected function setUp(): void
     {
@@ -30,6 +29,7 @@ final class GetProductModelIdsImpactedByAttributeGroupActivationQueryIntegration
 
     public function test_it_retrieves_product_models_impacted_by_attribute_group_activation_updated_since_a_given_date()
     {
+        $expectedProductModelIds = [];
         $this->createAttributeGroupActivation('other', false, $this->updatedSince->modify('-1 day'));
         $this->createAttributeGroupWithAttributes('not_recently_activated', ['name', 'description'], true, $this->updatedSince->modify('-1 second'));
         $this->createAttributeGroupWithAttributes('recently_activated', ['ean'], true, $this->updatedSince->modify('+1 minute'));
@@ -59,6 +59,7 @@ final class GetProductModelIdsImpactedByAttributeGroupActivationQueryIntegration
 
     public function test_it_retrieves_impacted_product_models_for_a_given_attribute_group(): void
     {
+        $expectedProductModelIds = [];
         $this->createAttributeGroupActivation('other', false, $this->updatedSince->modify('-1 day'));
         $this->createAttributeGroupWithAttributes('not_recently_activated', ['name', 'description'], true, $this->updatedSince->modify('-1 second'));
         $this->createAttributeGroupWithAttributes('recently_activated', ['ean'], true, $this->updatedSince->modify('+1 minute'));

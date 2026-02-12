@@ -15,8 +15,8 @@ use Doctrine\DBAL\Connection;
 class IsConnectionsNumberLimitReachedQuery implements IsConnectionsNumberLimitReachedQueryInterface
 {
     public function __construct(
-        private Connection $connection,
-        private GetConnectionsNumberLimit $getConnectionsNumberLimit
+        private readonly Connection $connection,
+        private readonly GetConnectionsNumberLimit $getConnectionsNumberLimit
     ) {
     }
 

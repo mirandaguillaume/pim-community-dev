@@ -8,8 +8,8 @@ use Oro\Bundle\SecurityBundle\Annotation\Loader\AclAnnotationLoaderInterface;
 
 class AclAnnotationProvider
 {
-    const CACHE_NAMESPACE = 'AclAnnotation';
-    const CACHE_KEY = 'data';
+    final public const CACHE_NAMESPACE = 'AclAnnotation';
+    final public const CACHE_KEY = 'data';
 
     /**
      * @var AclAnnotationLoaderInterface[]
@@ -28,8 +28,6 @@ class AclAnnotationProvider
 
     /**
      * Constructor
-     *
-     * @param CacheProvider $cache
      */
     public function __construct(CacheProvider $cache = null)
     {
@@ -41,8 +39,6 @@ class AclAnnotationProvider
 
     /**
      * Add new loader
-     *
-     * @param AclAnnotationLoaderInterface $loader
      */
     public function addLoader(AclAnnotationLoaderInterface $loader)
     {
@@ -55,7 +51,7 @@ class AclAnnotationProvider
      * @param  string             $id
      * @return AclAnnotation|null AclAnnotation object or null if ACL annotation was not found
      */
-    public function findAnnotationById($id)
+    public function findAnnotationById($id): ?AclAnnotation
     {
         $this->ensureAnnotationsLoaded();
 
@@ -66,10 +62,9 @@ class AclAnnotationProvider
      * Gets an annotation bound to the given class/method
      *
      * @param  string             $class
-     * @param  string|null        $method
      * @return AclAnnotation|null AclAnnotation object or null if ACL annotation was not found
      */
-    public function findAnnotation($class, $method = null)
+    public function findAnnotation($class, ?string $method = null): ?AclAnnotation
     {
         $this->ensureAnnotationsLoaded();
 
@@ -80,10 +75,9 @@ class AclAnnotationProvider
      * Determines whether the given class/method has an annotation
      *
      * @param  string      $class
-     * @param  string|null $method
      * @return bool
      */
-    public function hasAnnotation($class, $method = null)
+    public function hasAnnotation($class, ?string $method = null)
     {
         $this->ensureAnnotationsLoaded();
 
@@ -96,7 +90,7 @@ class AclAnnotationProvider
      * @param  string|null     $type The annotation type
      * @return AclAnnotation[]
      */
-    public function getAnnotations($type = null)
+    public function getAnnotations(?string $type = null)
     {
         $this->ensureAnnotationsLoaded();
 
@@ -150,7 +144,6 @@ class AclAnnotationProvider
     }
 
     /**
-     * @param  array                $bundleDirectories
      * @return AclAnnotationStorage
      */
     public function getBundleAnnotations(array $bundleDirectories)

@@ -28,11 +28,6 @@ class ProductModelCategoryController
     /** @var ObjectFilterInterface */
     protected $objectFilter;
 
-    /**
-     * @param ProductModelRepositoryInterface $productModelRepository
-     * @param ItemCategoryRepositoryInterface $productModelCategoryRepository
-     * @param ObjectFilterInterface           $objectFilter
-     */
     public function __construct(
         ProductModelRepositoryInterface $productModelRepository,
         ItemCategoryRepositoryInterface $productModelCategoryRepository,
@@ -49,11 +44,10 @@ class ProductModelCategoryController
      * @param string $id
      *
      * @AclAncestor("pim_enrich_product_model_categories_view")
-     *
-     * @return JsonResponse
      */
     public function listAction($id): JsonResponse
     {
+        $result = [];
         $productModel = $this->findProductModelOr404($id);
         $trees = $this->productModelCategoryRepository->getItemCountByTree($productModel);
 
@@ -69,8 +63,6 @@ class ProductModelCategoryController
      * @param string $id the product id
      *
      * @throws NotFoundHttpException
-     *
-     * @return ProductModelInterface
      */
     protected function findProductModelOr404(string $id): ProductModelInterface
     {
@@ -85,11 +77,6 @@ class ProductModelCategoryController
         return $productModel;
     }
 
-    /**
-     * @param array $trees
-     *
-     * @return array
-     */
     protected function buildTrees(array $trees): array
     {
         $result = [];
@@ -110,11 +97,6 @@ class ProductModelCategoryController
         return $result;
     }
 
-    /**
-     * @param ProductModelInterface $productModel
-     *
-     * @return array
-     */
     protected function buildCategories(ProductModelInterface $productModel): array
     {
         $result = [];

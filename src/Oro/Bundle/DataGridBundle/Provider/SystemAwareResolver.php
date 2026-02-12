@@ -7,12 +7,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class SystemAwareResolver implements ContainerAwareInterface
 {
-    const PARAMETER_REGEX = '#%([\w\._]+)%#';
-    const STATIC_METHOD_REGEX = '#%([\w\._]+)%::([\w\._]+)#';
-    const STATIC_METHOD_CLEAN_REGEX = '#([^\'"%:\s]+)::([\w\._]+)#';
-    const SERVICE_METHOD = '#@([\w\._]+)->([\w\._]+)(\((.*)\))*#';
-    const SERVICE = '#@([\w\._]+)#';
-    const TWIG_TEMPLATE = '#^@.+\.twig$#';
+    final public const PARAMETER_REGEX = '#%([\w\._]+)%#';
+    final public const STATIC_METHOD_REGEX = '#%([\w\._]+)%::([\w\._]+)#';
+    final public const STATIC_METHOD_CLEAN_REGEX = '#([^\'"%:\s]+)::([\w\._]+)#';
+    final public const SERVICE_METHOD = '#@([\w\._]+)->([\w\._]+)(\((.*)\))*#';
+    final public const SERVICE = '#@([\w\._]+)#';
+    final public const TWIG_TEMPLATE = '#^@.+\.twig$#';
 
     /**
      * @var ContainerInterface
@@ -102,7 +102,7 @@ class SystemAwareResolver implements ContainerAwareInterface
                 // no break
             case preg_match(static::STATIC_METHOD_CLEAN_REGEX, $val, $match):
                 // with class real name
-                $class = isset($class) ? $class : $match[1];
+                $class ??= $match[1];
 
                 $method = $match[2];
                 if (is_callable([$class, $method])) {
@@ -111,7 +111,7 @@ class SystemAwareResolver implements ContainerAwareInterface
                 if (defined("$class::$method")) {
                     $_val = constant("$class::$method");
                     if (is_string($_val)) {
-                        $val = str_replace($match[0], $_val, $val);
+                        $val = str_replace($match[0], $_val, (string) $val);
                     } else {
                         $val = $_val;
                     }
@@ -147,7 +147,6 @@ class SystemAwareResolver implements ContainerAwareInterface
 
     /**
      * @param string $expression
-     * @param array  $optionsArguments
      *
      * @return mixed
      */
@@ -163,7 +162,7 @@ class SystemAwareResolver implements ContainerAwareInterface
 
             $newArguments = [];
             foreach ($arguments as $argument) {
-                if (0 === strpos(trim($argument), '@')) {
+                if (str_starts_with(trim($argument), '@')) {
                     $newArguments[] = $this->executeMethod($argument);
                 } else {
                     $newArguments[] = $argument;

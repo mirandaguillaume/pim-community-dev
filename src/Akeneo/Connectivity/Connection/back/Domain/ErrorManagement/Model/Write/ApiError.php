@@ -13,9 +13,9 @@ use Ramsey\Uuid\Uuid;
  */
 abstract class ApiError implements ApiErrorInterface
 {
-    private string $id;
-    private string $content;
-    private \DateTimeImmutable $dateTime;
+    private readonly string $id;
+    private readonly string $content;
+    private readonly \DateTimeImmutable $dateTime;
 
     public function __construct(string $content, \DateTimeImmutable $dateTime = null)
     {

@@ -17,7 +17,7 @@ use Doctrine\DBAL\Types\Types;
 class SqlCategoryTemplateSaver implements CategoryTemplateSaver
 {
     public function __construct(
-        private Connection $connection,
+        private readonly Connection $connection,
     ) {
     }
 

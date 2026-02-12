@@ -21,9 +21,6 @@ class LoadJobParametersListener
     /** @var JobParametersFactory */
     protected $jobParametersFactory;
 
-    /**
-     * @param JobParametersFactory $jobParametersFactory
-     */
     public function __construct(JobParametersFactory $jobParametersFactory)
     {
         $this->jobParametersFactory = $jobParametersFactory;
@@ -31,9 +28,6 @@ class LoadJobParametersListener
 
     /**
      * Load the raw parameters of the job into the value object JobParameters.
-     *
-     * @param JobExecution       $jobExecution
-     * @param LifecycleEventArgs $event
      */
     public function postLoad(JobExecution $jobExecution, LifecycleEventArgs $event): void
     {

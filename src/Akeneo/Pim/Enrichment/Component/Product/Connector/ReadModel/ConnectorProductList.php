@@ -16,7 +16,7 @@ class ConnectorProductList
      * @param int $totalNumberOfProducts total number of products returned by the search without the pagination
      * @param ConnectorProduct[] $connectorProducts paginated list of products for the connectors
      */
-    public function __construct(private int $totalNumberOfProducts, private array $connectorProducts)
+    public function __construct(private readonly int $totalNumberOfProducts, private readonly array $connectorProducts)
     {
         Assert::greaterThanEq($this->totalNumberOfProducts, 0);
         Assert::allIsInstanceOf($connectorProducts, ConnectorProduct::class);

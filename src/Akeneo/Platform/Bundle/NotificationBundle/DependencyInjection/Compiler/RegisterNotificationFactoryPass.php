@@ -15,11 +15,11 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class RegisterNotificationFactoryPass implements CompilerPassInterface
 {
-    const DEFAULT_PRIORITY = 25;
+    final public const DEFAULT_PRIORITY = 25;
 
-    const NOTIFICATION_FACTORY_REGISTRY = 'pim_notification.registry.factory.notification';
+    final public const NOTIFICATION_FACTORY_REGISTRY = 'pim_notification.registry.factory.notification';
 
-    const NOTIFICATION_FACTORY_TAG = 'pim_notification.factory.notification';
+    final public const NOTIFICATION_FACTORY_TAG = 'pim_notification.factory.notification';
 
     /**
      * @param ContainerBuilder $container
@@ -31,8 +31,6 @@ class RegisterNotificationFactoryPass implements CompilerPassInterface
 
     /**
      * Add tagged factory services to the registry
-     *
-     * @param ContainerBuilder $container
      */
     protected function registerFactories(ContainerBuilder $container)
     {
@@ -52,7 +50,6 @@ class RegisterNotificationFactoryPass implements CompilerPassInterface
      * Returns an array of service references for the specified tag name
      *
      * @param string           $tagName
-     * @param ContainerBuilder $container
      *
      * @return Reference[]
      */
@@ -63,7 +60,7 @@ class RegisterNotificationFactoryPass implements CompilerPassInterface
         $sortedServices = [];
         foreach ($services as $serviceId => $tags) {
             foreach ($tags as $tag) {
-                $priority = isset($tag['priority']) ? $tag['priority'] : self::DEFAULT_PRIORITY;
+                $priority = $tag['priority'] ?? self::DEFAULT_PRIORITY;
                 $sortedServices[$priority][] = new Reference($serviceId);
             }
         }

@@ -26,10 +26,6 @@ class Writer implements ItemWriterInterface, StepExecutionAwareInterface
     /** @var BulkObjectDetacherInterface */
     protected $bulkDetacher;
 
-    /**
-     * @param BulkSaverInterface          $bulkSaver
-     * @param BulkObjectDetacherInterface $bulkDetacher
-     */
     public function __construct(
         BulkSaverInterface $bulkSaver,
         BulkObjectDetacherInterface $bulkDetacher
@@ -56,9 +52,6 @@ class Writer implements ItemWriterInterface, StepExecutionAwareInterface
         $this->stepExecution = $stepExecution;
     }
 
-    /**
-     * @param array $objects
-     */
     protected function incrementCount(array $objects)
     {
         foreach ($objects as $object) {

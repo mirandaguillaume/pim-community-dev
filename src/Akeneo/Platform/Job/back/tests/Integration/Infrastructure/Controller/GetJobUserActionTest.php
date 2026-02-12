@@ -31,7 +31,7 @@ class GetJobUserActionTest extends ControllerIntegrationTestCase
 
         $response = $this->client->getResponse();
         Assert::assertSame($response->getStatusCode(), Response::HTTP_OK);
-        Assert::assertEqualsCanonicalizing(json_decode($response->getContent(), true), $expectedJobUsers);
+        Assert::assertEqualsCanonicalizing(json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR), $expectedJobUsers);
     }
 
     public function test_without_permission_it_returns_only_current_user(): void
@@ -45,7 +45,7 @@ class GetJobUserActionTest extends ControllerIntegrationTestCase
 
         $response = $this->client->getResponse();
         Assert::assertSame($response->getStatusCode(), Response::HTTP_OK);
-        Assert::assertEqualsCanonicalizing(json_decode($response->getContent(), true), $expectedJobUsers);
+        Assert::assertEqualsCanonicalizing(json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR), $expectedJobUsers);
     }
 
     public function test_it_returns_a_forbidden_access_when_user_cannot_access_to_users_list(): void

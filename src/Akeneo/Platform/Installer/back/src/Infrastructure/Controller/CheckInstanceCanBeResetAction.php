@@ -13,10 +13,10 @@ use Akeneo\Platform\Job\ServiceApi\JobExecution\FindQueuedAndRunningJobExecution
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-final class CheckInstanceCanBeResetAction
+final readonly class CheckInstanceCanBeResetAction
 {
     public function __construct(
-        private readonly FindQueuedAndRunningJobExecutionInterface $findQueuedAndRunningJobExecution,
+        private FindQueuedAndRunningJobExecutionInterface $findQueuedAndRunningJobExecution,
     ) {
     }
 

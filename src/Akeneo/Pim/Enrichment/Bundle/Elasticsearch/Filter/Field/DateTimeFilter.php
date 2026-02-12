@@ -21,8 +21,8 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
  */
 class DateTimeFilter extends AbstractFieldFilter implements FieldFilterInterface
 {
-    const DATETIME_FORMAT = 'Y-m-d H:i:s';
-    const RELATIVE_DATETIME_FORMAT = '/^(now|[+-][0-9]+\s?(minute|hour|day|week|month|year)s?)$/';
+    final public const DATETIME_FORMAT = 'Y-m-d H:i:s';
+    final public const RELATIVE_DATETIME_FORMAT = '/^(now|[+-][0-9]+\s?(minute|hour|day|week|month|year)s?)$/';
 
     /** @var IdentifiableObjectRepositoryInterface */
     protected $jobInstanceRepository;
@@ -30,12 +30,6 @@ class DateTimeFilter extends AbstractFieldFilter implements FieldFilterInterface
     /** @var JobRepositoryInterface */
     protected $jobRepository;
 
-    /**
-     * @param IdentifiableObjectRepositoryInterface $jobInstanceRepository
-     * @param JobRepositoryInterface $jobRepository
-     * @param array $supportedFields
-     * @param array $supportedOperators
-     */
     public function __construct(
         IdentifiableObjectRepositoryInterface $jobInstanceRepository,
         JobRepositoryInterface $jobRepository,
@@ -197,9 +191,8 @@ class DateTimeFilter extends AbstractFieldFilter implements FieldFilterInterface
     /**
      * @param string $operator
      * @param string $field
-     * @param string|array|\DateTimeInterface $value
      */
-    protected function checkValue($operator, $field, $value)
+    protected function checkValue($operator, $field, string|array|\DateTimeInterface $value)
     {
         switch ($operator) {
             case Operators::EQUALS:
@@ -263,11 +256,10 @@ class DateTimeFilter extends AbstractFieldFilter implements FieldFilterInterface
 
     /**
      * @param string $field
-     * @param string|\DateTime $value
      *
      * @return string
      */
-    protected function getFormattedDate($field, $value)
+    protected function getFormattedDate($field, string|\DateTime $value)
     {
         $dateTime = $value;
         $utcTimeZone = new \DateTimeZone('UTC');
@@ -299,7 +291,7 @@ class DateTimeFilter extends AbstractFieldFilter implements FieldFilterInterface
         if (\is_string($value) && 1 === \preg_match(self::RELATIVE_DATETIME_FORMAT, \trim($value))) {
             try {
                 return new \DateTimeImmutable(\trim($value));
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 return $value;
             }
         }

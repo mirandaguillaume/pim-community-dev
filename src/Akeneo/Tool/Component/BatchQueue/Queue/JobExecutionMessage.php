@@ -19,11 +19,11 @@ abstract class JobExecutionMessage implements JobExecutionMessageInterface
     private ?string $tenantId = null;
 
     private function __construct(
-        private UuidInterface $id,
-        private int $jobExecutionId,
-        private \DateTime $createTime,
-        private ?\DateTime $updatedTime,
-        private array $options
+        private readonly UuidInterface $id,
+        private readonly int $jobExecutionId,
+        private readonly \DateTime $createTime,
+        private readonly ?\DateTime $updatedTime,
+        private readonly array $options
     ) {
     }
 

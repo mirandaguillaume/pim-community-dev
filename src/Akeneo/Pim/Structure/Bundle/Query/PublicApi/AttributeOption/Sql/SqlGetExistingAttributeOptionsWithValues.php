@@ -12,14 +12,10 @@ use Doctrine\DBAL\Connection;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class SqlGetExistingAttributeOptionsWithValues implements GetExistingAttributeOptionsWithValues
+final readonly class SqlGetExistingAttributeOptionsWithValues implements GetExistingAttributeOptionsWithValues
 {
-    /** @var Connection */
-    private $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     /**
@@ -60,7 +56,7 @@ SQL;
 
         $indexedResults = [];
         foreach ($rawResults as $rawResult) {
-            $indexedResults[$rawResult['option_key']] = json_decode($rawResult['labels'], true);
+            $indexedResults[$rawResult['option_key']] = json_decode((string) $rawResult['labels'], true, 512, JSON_THROW_ON_ERROR);
         }
 
         return $indexedResults;

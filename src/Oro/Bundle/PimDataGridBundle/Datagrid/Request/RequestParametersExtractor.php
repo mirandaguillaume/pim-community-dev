@@ -22,10 +22,6 @@ class RequestParametersExtractor implements RequestParametersExtractorInterface
     /** @var RequestStack */
     protected $requestStack;
 
-    /**
-     * @param RequestParameters $requestParams
-     * @param RequestStack $requestStack
-     */
     public function __construct(RequestParameters $requestParams, RequestStack $requestStack)
     {
         $this->requestParams = $requestParams;
@@ -64,9 +60,6 @@ class RequestParametersExtractor implements RequestParametersExtractorInterface
         return $this->getRequest()->get($key, $defaultValue);
     }
 
-    /**
-     * @return null|Request
-     */
     protected function getRequest(): ?Request
     {
         return $this->requestStack->getCurrentRequest();

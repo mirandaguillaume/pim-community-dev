@@ -68,11 +68,11 @@ class ProductController
         protected NormalizerInterface $constraintViolationNormalizer,
         protected ProductBuilderInterface $variantProductBuilder,
         protected AttributeFilterInterface $productAttributeFilter,
-        private Client $productAndProductModelClient,
-        private MessageBusInterface $commandMessageBus,
-        private FindIdentifier $findIdentifier,
-        private UnableToSetIdentifiersSubscriberInterface $unableToSetIdentifiersSubscriber,
-        private UnableToSetIdentifierExceptionPresenterInterface $unableToSetIdentifierExceptionPresenter,
+        private readonly Client $productAndProductModelClient,
+        private readonly MessageBusInterface $commandMessageBus,
+        private readonly FindIdentifier $findIdentifier,
+        private readonly UnableToSetIdentifiersSubscriberInterface $unableToSetIdentifiersSubscriber,
+        private readonly UnableToSetIdentifierExceptionPresenterInterface $unableToSetIdentifierExceptionPresenter,
     ) {
     }
 
@@ -81,7 +81,7 @@ class ProductController
      */
     public function indexAction(Request $request): JsonResponse
     {
-        $productUuids = explode(',', $request->get('uuids'));
+        $productUuids = explode(',', (string) $request->get('uuids'));
 
         $products = $this->productRepository->getItemsFromUuids($productUuids);
 
@@ -112,10 +112,8 @@ class ProductController
     }
 
     /**
-     * @param Request $request
      *
      * @return Response
-     *
      * @AClAncestor("pim_enrich_product_create")
      */
     public function createAction(Request $request)
@@ -124,7 +122,7 @@ class ProductController
             return new RedirectResponse('/');
         }
 
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         if (isset($data['parent'])) {
             $product = $this->variantProductBuilder->createProduct(
@@ -174,11 +172,9 @@ class ProductController
     /**
      * Remove product
      *
-     * @param Request $request
      * @param int     $uuid
      *
      * @AclAncestor("pim_enrich_product_remove")
-     *
      * @return Response
      */
     public function removeAction(Request $request, $uuid)
@@ -198,19 +194,16 @@ class ProductController
     /**
      * Remove an optional attribute from a product
      *
-     * @param Request $request
      * @param string  $uuid
      * @param string  $attributeId
-     * @return JsonResponse|RedirectResponse
      *
      * @AclAncestor("pim_enrich_product_remove_attribute")
      *
-     * @return Response
      * @throws AccessDeniedHttpException If the user does not have right to edit the product
      * @throws BadRequestHttpException   If the attribute is not removable
      * @throws NotFoundHttpException     If product is not found or the user cannot see it
      */
-    public function removeAttributeAction(Request $request, $uuid, $attributeId)
+    public function removeAttributeAction(Request $request, $uuid, $attributeId): \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');
@@ -283,7 +276,6 @@ class ProductController
      *
      * @param string $uuid the product uuid
      *
-     * @return ProductInterface
      * @throws NotFoundHttpException
      */
     protected function findProductOr404(string $uuid): ProductInterface
@@ -357,8 +349,6 @@ class ProductController
 
     /**
      * Get the context used for product normalization
-     *
-     * @return array
      */
     protected function getNormalizationContext(): array
     {
@@ -375,7 +365,7 @@ class ProductController
         foreach ($violations as $violation) {
             $propertyPath = $violation->getPropertyPath();
 
-            if (0 === strpos($propertyPath, 'quantifiedAssociations.')) {
+            if (str_starts_with($propertyPath, 'quantifiedAssociations.')) {
                 $normalizedViolations['quantified_associations'][] = $this->normalizer->normalize(
                     $violation,
                     'internal_api',

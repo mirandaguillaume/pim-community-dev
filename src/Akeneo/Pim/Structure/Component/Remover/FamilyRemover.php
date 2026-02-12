@@ -26,10 +26,10 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 class FamilyRemover implements RemoverInterface
 {
     public function __construct(
-        private ObjectManager $objectManager,
-        private EventDispatcherInterface $eventDispatcher,
-        private CountProductsWithFamilyInterface $counter,
-        private DashboardScoresProjectionRepositoryInterface $dashboardScoresProjectionRepository
+        private readonly ObjectManager $objectManager,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly CountProductsWithFamilyInterface $counter,
+        private readonly DashboardScoresProjectionRepositoryInterface $dashboardScoresProjectionRepository
     ) {
     }
 
@@ -66,11 +66,6 @@ class FamilyRemover implements RemoverInterface
         }
     }
 
-    /**
-     * @param FamilyInterface $family
-     *
-     * @return void
-     */
     private function ensureFamilyHasNoVariants(FamilyInterface $family): void
     {
         if (! $family->getFamilyVariants()->isEmpty()) {
@@ -81,11 +76,6 @@ class FamilyRemover implements RemoverInterface
         }
     }
 
-    /**
-     * @param FamilyInterface $family
-     *
-     * @return void
-     */
     private function ensureFamilyHasNoProducts(FamilyInterface $family): void
     {
         if ($this->counter->count($family) > 0) {

@@ -20,8 +20,8 @@ class CategoryBaseSaver implements CategorySaver
      * @param string[] $supportedUserIntents
      */
     public function __construct(
-        private UpsertCategoryBase $upsertCategoryBase,
-        private array $supportedUserIntents,
+        private readonly UpsertCategoryBase $upsertCategoryBase,
+        private readonly array $supportedUserIntents,
     ) {
     }
 

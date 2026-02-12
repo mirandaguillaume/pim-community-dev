@@ -11,11 +11,11 @@ namespace Akeneo\Pim\Enrichment\Component\Category\CategoryTree\UseCase;
 class ListRootCategoriesWithCount
 {
     public function __construct(
-        private int $categoryIdSelectedAsFilter,
-        private bool $countIncludingSubCategories,
-        private int $userId,
-        private string $translationLocaleCode,
-        private int|null $categoryTreeIdSelectedAsFilter = null,
+        private readonly int $categoryIdSelectedAsFilter,
+        private readonly bool $countIncludingSubCategories,
+        private readonly int $userId,
+        private readonly string $translationLocaleCode,
+        private readonly int|null $categoryTreeIdSelectedAsFilter = null,
     ) {
     }
 
@@ -39,25 +39,16 @@ class ListRootCategoriesWithCount
         return $this->categoryTreeIdSelectedAsFilter;
     }
 
-    /**
-     * @return bool
-     */
     public function countIncludingSubCategories(): bool
     {
         return $this->countIncludingSubCategories;
     }
 
-    /**
-     * @return int
-     */
     public function userId(): int
     {
         return $this->userId;
     }
 
-    /**
-     * @return string
-     */
     public function translationLocaleCode(): string
     {
         return $this->translationLocaleCode;

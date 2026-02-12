@@ -24,9 +24,6 @@ abstract class AbstractAttributeAdder implements AttributeAdderInterface
     /** @var OptionsResolver */
     protected $resolver;
 
-    /**
-     * @param EntityWithValuesBuilderInterface $entityWithValuesBuilder
-     */
     public function __construct(EntityWithValuesBuilderInterface $entityWithValuesBuilder)
     {
         $this->entityWithValuesBuilder = $entityWithValuesBuilder;

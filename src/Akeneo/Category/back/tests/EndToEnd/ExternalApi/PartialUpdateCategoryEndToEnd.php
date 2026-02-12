@@ -47,7 +47,7 @@ JSON;
         $this->assertResponseStatusCodeSame(Response::HTTP_CREATED);
         $this->assertArrayHasKey('location', $response->headers->all());
         $this->assertSame('http://localhost/api/rest/v1/categories/new_category_headers', $response->headers->get('location'));
-        $this->assertSame(null, json_decode($response->getContent(), true));
+        $this->assertSame(null, json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
     }
 
     public function testStandardFormatWhenACategoryIsCreatedButIncompleted(): void
@@ -335,7 +335,7 @@ JSON;
         $client->request('PATCH', 'api/rest/v1/categories/categoryA', [], [], [], $data);
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_BAD_REQUEST);
-        $this->assertSame($expectedContent, json_decode($response->getContent(), true));
+        $this->assertSame($expectedContent, json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
     }
 
     public function testResponseWhenContentIsNotValid(): void
@@ -352,7 +352,7 @@ JSON;
         $client->request('PATCH', 'api/rest/v1/categories/categoryA', [], [], [], $data);
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_BAD_REQUEST);
-        $this->assertSame($expectedContent, json_decode($response->getContent(), true));
+        $this->assertSame($expectedContent, json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
     }
 
     public function testResponseWhenValidationFailed(): void
@@ -381,7 +381,7 @@ JSON;
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $this->assertSame($expectedContent, json_decode($response->getContent(), true));
+        $this->assertSame($expectedContent, json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
     }
 
     public function testResponseWhenAPropertyIsNotExpected(): void
@@ -409,7 +409,7 @@ JSON;
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $this->assertSame($expectedContent, json_decode($response->getContent(), true));
+        $this->assertSame($expectedContent, json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
     }
 
     public function testResponseWhenLabelsIsNull(): void
@@ -437,7 +437,7 @@ JSON;
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $this->assertSame($expectedContent, json_decode($response->getContent(), true));
+        $this->assertSame($expectedContent, json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
     }
 
     public function testResponseWhenACategoryIsCreatedWithInconsistentCodes(): void
@@ -460,7 +460,7 @@ JSON;
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $this->assertSame($expectedContent, json_decode($response->getContent(), true));
+        $this->assertSame($expectedContent, json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
     }
 
     public function testResponseWhenParentIsMovedInChildren(): void
@@ -495,7 +495,7 @@ JSON;
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $this->assertSame($expectedContent, json_decode($response->getContent(), true));
+        $this->assertSame($expectedContent, json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
     }
 
     /**

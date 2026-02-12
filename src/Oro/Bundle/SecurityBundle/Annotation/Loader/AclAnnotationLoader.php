@@ -10,18 +10,8 @@ use Symfony\Component\Finder\Finder;
 
 class AclAnnotationLoader extends AbstractLoader implements AclAnnotationLoaderInterface
 {
-    const ANNOTATION_CLASS = Acl::class;
-    const ANCESTOR_CLASS = AclAncestor::class;
-
-    /**
-     * @var AnnotationReader
-     */
-    private $reader;
-
-    /**
-     * @var string[]
-     */
-    private $subDirs;
+    final public const ANNOTATION_CLASS = Acl::class;
+    final public const ANCESTOR_CLASS = AclAncestor::class;
 
     /**
      * Constructor
@@ -31,17 +21,13 @@ class AclAnnotationLoader extends AbstractLoader implements AclAnnotationLoaderI
      *                          where classes with ACL annotations may be located
      * @param AnnotationReader $reader
      */
-    public function __construct($bundles, array $subDirs, AnnotationReader $reader)
+    public function __construct($bundles, private readonly array $subDirs, private readonly AnnotationReader $reader)
     {
         parent::__construct($bundles);
-        $this->reader = $reader;
-        $this->subDirs = $subDirs;
     }
 
     /**
      * Loads ACL annotations from PHP files
-     *
-     * @param AclAnnotationStorage $storage
      */
     public function load(AclAnnotationStorage $storage)
     {
@@ -101,7 +87,7 @@ class AclAnnotationLoader extends AbstractLoader implements AclAnnotationLoaderI
      * @param  string      $fileName
      * @return null|string the fully qualified class name or null if the class name cannot be extracted
      */
-    protected function getClassName($fileName)
+    protected function getClassName($fileName): ?string
     {
         $src = $this->getFileContent($fileName);
         if (!preg_match('#' . str_replace("\\", "\\\\", self::ANNOTATION_CLASS) . '#', $src)) {
@@ -144,7 +130,6 @@ class AclAnnotationLoader extends AbstractLoader implements AclAnnotationLoaderI
 
     /**
      * @param $filePattern
-     * @param  array $dirs
      * @return array
      */
     private function findFiles($filePattern, array $dirs)

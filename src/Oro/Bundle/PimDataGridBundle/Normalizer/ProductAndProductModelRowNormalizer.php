@@ -27,9 +27,6 @@ class ProductAndProductModelRowNormalizer implements NormalizerInterface, Normal
     /** @var ImageNormalizer */
     protected $imageNormalizer;
 
-    /**
-     * @param ImageNormalizer $imageNormalizer
-     */
     public function __construct(ImageNormalizer $imageNormalizer)
     {
         $this->imageNormalizer = $imageNormalizer;
@@ -40,6 +37,7 @@ class ProductAndProductModelRowNormalizer implements NormalizerInterface, Normal
      */
     public function normalize($row, $format = null, array $context = [])
     {
+        $data = [];
         Assert::isInstanceOf($this->normalizer, NormalizerInterface::class);
         Assert::isInstanceOf($row, Row::class);
         Assert::eq($format, 'datagrid');

@@ -24,16 +24,10 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 class ResetIndexesCommand extends Command
 {
     protected static $defaultName = 'akeneo:elasticsearch:reset-indexes';
-    /**
-     * @var ClientRegistry
-     */
-    private $clientRegistry;
 
-    public function __construct(ClientRegistry $clientRegistry)
+    public function __construct(private readonly ClientRegistry $clientRegistry)
     {
         parent::__construct();
-
-        $this->clientRegistry = $clientRegistry;
     }
 
     /**
@@ -73,12 +67,6 @@ class ResetIndexesCommand extends Command
         return Command::SUCCESS;
     }
 
-    /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
-     * @return bool
-     */
     private function userConfirmation(InputInterface $input, OutputInterface $output): bool
     {
         $esClients = $this->getFilteredEsClients($input);
@@ -121,9 +109,7 @@ class ResetIndexesCommand extends Command
             return $esClients;
         }
 
-        $filteredEsClients = array_filter($esClients, function (Client $client) use ($selectedIndexes) {
-            return in_array($client->getIndexName(), $selectedIndexes);
-        });
+        $filteredEsClients = array_filter($esClients, fn(Client $client) => in_array($client->getIndexName(), $selectedIndexes));
 
         return $filteredEsClients;
     }
@@ -141,10 +127,8 @@ class ResetIndexesCommand extends Command
     /**
      * Checks wether the indexes exists.
      *
-     * @param OutputInterface $output
      * @param Client[]        $esClients
      *
-     * @return bool
      */
     private function areIndexesExisting(OutputInterface $output, array $esClients): bool
     {
@@ -186,9 +170,6 @@ class ResetIndexesCommand extends Command
         }
     }
 
-    /**
-     * @param OutputInterface $output
-     */
     protected function showSuccessMessages(OutputInterface $output): void
     {
         $output->writeln('');

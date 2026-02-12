@@ -20,10 +20,10 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 class InitializeEvaluationOfAProductModelSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private FeatureFlag                     $dataQualityInsightsFeature,
-        private CreateCriteriaEvaluations       $createProductModelCriteriaEvaluations,
-        private LoggerInterface                 $logger,
-        private ProductEntityIdFactoryInterface $idFactory
+        private readonly FeatureFlag                     $dataQualityInsightsFeature,
+        private readonly CreateCriteriaEvaluations       $createProductModelCriteriaEvaluations,
+        private readonly LoggerInterface                 $logger,
+        private readonly ProductEntityIdFactoryInterface $idFactory
     ) {
     }
 

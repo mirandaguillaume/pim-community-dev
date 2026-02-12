@@ -19,7 +19,7 @@ class UnknownPropertyExceptionSpec extends ObjectBehavior
             $previous
         );
 
-        $this->shouldBeAnInstanceOf(get_class($exception));
+        $this->shouldBeAnInstanceOf($exception::class);
         $this->getPropertyName()->shouldReturn('property');
         $this->getMessage()->shouldReturn($exception->getMessage());
         $this->getCode()->shouldReturn($exception->getCode());

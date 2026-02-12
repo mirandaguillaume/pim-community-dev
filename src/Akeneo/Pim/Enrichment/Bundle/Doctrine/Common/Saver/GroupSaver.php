@@ -40,15 +40,7 @@ class GroupSaver implements SaverInterface, BulkSaverInterface
     /** @var BulkObjectDetacherInterface */
     protected $detacher;
 
-    /** @var string */
-    protected $productClassName;
-
     /**
-     * @param ObjectManager                       $objectManager
-     * @param VersionContext                      $versionContext
-     * @param SavingOptionsResolverInterface      $optionsResolver
-     * @param EventDispatcherInterface            $eventDispatcher
-     * @param BulkObjectDetacherInterface         $detacher
      * @param string                              $productClassName
      */
     public function __construct(
@@ -57,14 +49,13 @@ class GroupSaver implements SaverInterface, BulkSaverInterface
         SavingOptionsResolverInterface $optionsResolver,
         EventDispatcherInterface $eventDispatcher,
         BulkObjectDetacherInterface $detacher,
-        $productClassName
+        protected $productClassName
     ) {
         $this->objectManager = $objectManager;
         $this->versionContext = $versionContext;
         $this->optionsResolver = $optionsResolver;
         $this->eventDispatcher = $eventDispatcher;
         $this->detacher = $detacher;
-        $this->productClassName = $productClassName;
     }
 
     /**

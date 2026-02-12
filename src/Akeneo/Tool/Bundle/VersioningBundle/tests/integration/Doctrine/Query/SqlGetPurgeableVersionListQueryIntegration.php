@@ -117,7 +117,7 @@ class SqlGetPurgeableVersionListQueryIntegration extends TestCase
         $loggedAt = clone $limitDate;
         $loggedAt->modify('+1 DAY');
 
-        $this->createVersion(Attribute::class, 12345678, null, $loggedAt);
+        $this->createVersion(Attribute::class, 12_345_678, null, $loggedAt);
     }
 
     private function givenAttributeVersionOlderThan(\DateTime $limitDate): void
@@ -125,7 +125,7 @@ class SqlGetPurgeableVersionListQueryIntegration extends TestCase
         $loggedAt = clone $limitDate;
         $loggedAt->modify('-1 DAY');
 
-        $this->createVersion(Attribute::class, 12345678, null, $loggedAt);
+        $this->createVersion(Attribute::class, 12_345_678, null, $loggedAt);
     }
 
     private function createVersion(string $resourceName, ?int $resourceId, ?UuidInterface $resourceUuid, \DateTime $loggedAt): int

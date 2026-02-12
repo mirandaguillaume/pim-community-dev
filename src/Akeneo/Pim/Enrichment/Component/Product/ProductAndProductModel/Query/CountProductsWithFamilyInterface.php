@@ -14,8 +14,6 @@ use Akeneo\Pim\Structure\Component\Model\FamilyInterface;
 interface CountProductsWithFamilyInterface
 {
     /**
-     * @param FamilyInterface $family
-     *
      * @return int
      */
     public function count(FamilyInterface $family): int;

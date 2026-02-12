@@ -4,18 +4,11 @@ namespace Akeneo\Pim\Enrichment\Bundle\PdfGeneration\Renderer\ProductValueRender
 
 class ProductValueRendererRegistry
 {
-    /** @var ProductValueRenderer[] */
-    private iterable $renderers = [];
-
-    private ProductValueRenderer $defaultRenderer;
-
     /**
      * @param ProductValueRenderer[] $renderers
      */
-    public function __construct(iterable $renderers, ProductValueRenderer $defaultRenderer)
+    public function __construct(private readonly iterable $renderers, private readonly ProductValueRenderer $defaultRenderer)
     {
-        $this->renderers = $renderers;
-        $this->defaultRenderer = $defaultRenderer;
     }
 
     public function getProductValueRenderer($attributeType): ProductValueRenderer

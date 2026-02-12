@@ -48,7 +48,7 @@ final class AttributeOptionValidation implements DocumentationBuilderInterface
             throw new \InvalidArgumentException(sprintf(
                 'Parameter "%s" is missing from "%s" class.',
                 '%attribute_code%',
-                get_class($constraintViolation)
+                $constraintViolation::class
             ));
         }
 

@@ -15,7 +15,6 @@ use Webmozart\Assert\Assert;
 final class FamilyQueryPagination
 {
     /**
-     * @param int|null $page
      * @param int|null $limit number of families per page
      */
     public function __construct(

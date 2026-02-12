@@ -11,13 +11,10 @@ use Doctrine\DBAL\Connection;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GetAllFamiliesLabelByLocaleQuery implements GetAllFamiliesLabelByLocaleQueryInterface
+final readonly class GetAllFamiliesLabelByLocaleQuery implements GetAllFamiliesLabelByLocaleQueryInterface
 {
-    private Connection $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function execute(string $localeCode): array

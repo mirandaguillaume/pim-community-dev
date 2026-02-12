@@ -20,12 +20,11 @@ use Webmozart\Assert\Assert;
  */
 class GetEvaluableAttributesByProductQuery implements GetEvaluableAttributesByProductQueryInterface
 {
-    /** * @var Connection */
-    private $dbConnection;
-
-    public function __construct(Connection $dbConnection)
+    public function __construct(
+        /** * @var Connection */
+        private readonly Connection $dbConnection
+    )
     {
-        $this->dbConnection = $dbConnection;
     }
 
     public function execute(ProductEntityIdInterface $productUuid): array

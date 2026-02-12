@@ -22,9 +22,6 @@ class LocaleNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
     /** @var UserContext */
     protected $userContext;
 
-    /**
-     * @param UserContext $userContext
-     */
     public function __construct(UserContext $userContext)
     {
         $this->userContext = $userContext;

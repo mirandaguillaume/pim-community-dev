@@ -21,7 +21,7 @@ class PurgeAuditErrorCommand extends Command
      */
     protected static $defaultName = 'akeneo:connectivity-audit:purge-error-count';
 
-    public function __construct(private PurgeAuditErrorQuery $purgeAuditErrorsQuery)
+    public function __construct(private readonly PurgeAuditErrorQuery $purgeAuditErrorsQuery)
     {
         parent::__construct();
     }

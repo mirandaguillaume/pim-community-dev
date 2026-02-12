@@ -67,12 +67,11 @@ class ChannelUpdater implements ObjectUpdaterInterface
      * Validate the data type of a field.
      *
      * @param string $field
-     * @param mixed  $data
      *
      * @throws InvalidPropertyTypeException
      * @throws UnknownPropertyException
      */
-    protected function validateDataType($field, $data): void
+    protected function validateDataType($field, mixed $data): void
     {
         if (in_array($field, ['labels', 'locales', 'currencies', 'conversion_units'])) {
             if (!is_array($data)) {
@@ -99,13 +98,11 @@ class ChannelUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param ChannelInterface $channel
      * @param string           $field
-     * @param mixed            $data
      *
      * @throws InvalidPropertyException
      */
-    protected function setData(ChannelInterface $channel, $field, $data): void
+    protected function setData(ChannelInterface $channel, $field, mixed $data): void
     {
         switch ($field) {
             case 'code':
@@ -149,9 +146,7 @@ class ChannelUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param ChannelInterface $channel
      * @param string           $treeCode
-     *
      * @throws InvalidPropertyException
      */
     protected function setCategoryTree(ChannelInterface $channel, $treeCode): void
@@ -170,8 +165,6 @@ class ChannelUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param ChannelInterface $channel
-     * @param array            $currencyCodes
      *
      * @throws InvalidPropertyException
      */
@@ -197,8 +190,6 @@ class ChannelUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param ChannelInterface $channel
-     * @param array            $localeCodes
      *
      * @throws InvalidPropertyException
      */

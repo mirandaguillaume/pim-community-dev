@@ -23,14 +23,14 @@ use Webmozart\Assert\Assert;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class StructureContext implements Context
+final readonly class StructureContext implements Context
 {
     public function __construct(
-        private readonly AttributeRepositoryInterface $attributeRepository,
-        private readonly AttributeOptionRepositoryInterface $attributeOptionRepository,
-        private readonly FindFamilyCodes $findFamilyCodes,
-        private readonly ChannelRepositoryInterface $channelRepository,
-        private readonly CategoryRepositoryInterface $categoryRepository,
+        private AttributeRepositoryInterface $attributeRepository,
+        private AttributeOptionRepositoryInterface $attributeOptionRepository,
+        private FindFamilyCodes $findFamilyCodes,
+        private ChannelRepositoryInterface $channelRepository,
+        private CategoryRepositoryInterface $categoryRepository,
     ) {
     }
 

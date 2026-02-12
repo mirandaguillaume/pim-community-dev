@@ -21,7 +21,7 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  */
 class MetricFilter extends AbstractAttributeFilter implements AttributeFilterInterface
 {
-    const PATH_SUFFIX = 'base_data';
+    final public const PATH_SUFFIX = 'base_data';
 
     /** @var MeasureManager */
     protected $measureManager;
@@ -177,13 +177,11 @@ class MetricFilter extends AbstractAttributeFilter implements AttributeFilterInt
     /**
      * Check if the given value is valid
      *
-     * @param AttributeInterface $attribute
-     * @param mixed              $data
      *
      * @throws InvalidPropertyTypeException
      * @throws InvalidPropertyException
      */
-    protected function checkValue(AttributeInterface $attribute, $data)
+    protected function checkValue(AttributeInterface $attribute, mixed $data)
     {
         if (!is_array($data)) {
             throw InvalidPropertyTypeException::arrayExpected($attribute->getCode(), static::class, $data);
@@ -245,8 +243,6 @@ class MetricFilter extends AbstractAttributeFilter implements AttributeFilterInt
     /**
      * Converts the given value to the base_unit configured in the family.
      *
-     * @param AttributeInterface $attribute
-     * @param array              $data
      *
      * @return float
      */

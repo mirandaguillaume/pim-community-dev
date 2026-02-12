@@ -8,7 +8,7 @@ use PhpSpec\ObjectBehavior;
 
 class BufferFactorySpec extends ObjectBehavior
 {
-    const JSON_BUFFER_CLASS = JSONFileBuffer::class;
+    final public const JSON_BUFFER_CLASS = JSONFileBuffer::class;
 
     function let()
     {

@@ -9,7 +9,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class OptionValueWithLinkedData extends AbstractValue implements OptionValueInterface
+class OptionValueWithLinkedData extends AbstractValue implements OptionValueInterface, \Stringable
 {
     /** @var string Option code */
     protected $data;
@@ -31,9 +31,6 @@ class OptionValueWithLinkedData extends AbstractValue implements OptionValueInte
         $this->linkedData = $linkedData;
     }
 
-    /**
-     * @return array|null
-     */
     public function getLinkedData(): ?array
     {
         return $this->linkedData;

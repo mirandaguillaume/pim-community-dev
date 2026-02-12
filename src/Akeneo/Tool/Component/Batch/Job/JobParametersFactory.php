@@ -17,17 +17,12 @@ class JobParametersFactory
     /** @var DefaultValuesProviderRegistry */
     protected $defaultRegistry;
 
-    /** @var string */
-    protected $jobParametersClass;
-
     /**
-     * @param DefaultValuesProviderRegistry $registry
      * @param string                        $jobParametersClass
      */
-    public function __construct(DefaultValuesProviderRegistry $registry, $jobParametersClass)
+    public function __construct(DefaultValuesProviderRegistry $registry, protected $jobParametersClass)
     {
         $this->defaultRegistry = $registry;
-        $this->jobParametersClass = $jobParametersClass;
     }
 
     /**
@@ -48,8 +43,6 @@ class JobParametersFactory
      * Create a JobParameters from the raw parameters of a job execution.
      *
      * @param JobExecution $jobExecution the job execution to create the job parameters from
-     *
-     * @return JobParameters
      */
     public function createFromRawParameters(JobExecution $jobExecution) : JobParameters
     {

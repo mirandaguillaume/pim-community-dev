@@ -16,39 +16,15 @@ use Doctrine\ORM\QueryBuilder;
  */
 class SearchVersionAfterCursor implements CursorInterface
 {
-    /**
-     * @var QueryBuilder
-     */
-    private $queryBuilder;
-
-    /**
-     * @var EntityManager
-     */
-    private $entityManager;
-
-    /**
-     * @var int
-     */
-    private $pageSize;
-
-    /**
-     * @var \Generator
-     */
-    private $iterator;
+    private ?\Generator $iterator = null;
 
     /**
      * @var int|null
      */
     private $count = null;
 
-    public function __construct(
-        QueryBuilder $queryBuilder,
-        EntityManager $entityManager,
-        int $pageSize
-    ) {
-        $this->queryBuilder = $queryBuilder;
-        $this->entityManager = $entityManager;
-        $this->pageSize = $pageSize;
+    public function __construct(private readonly QueryBuilder $queryBuilder, private readonly EntityManager $entityManager, private readonly int $pageSize)
+    {
     }
 
     /**
@@ -126,7 +102,7 @@ class SearchVersionAfterCursor implements CursorInterface
 
             $rows = $qb->getQuery()->getResult();
 
-            if (count($rows) === 0) {
+            if ((is_countable($rows) ? count($rows) : 0) === 0) {
                 return null;
             }
 

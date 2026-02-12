@@ -33,14 +33,14 @@ use Webmozart\Assert\Assert;
 class ListProductsByUuidController
 {
     public function __construct(
-        private PaginatorInterface $offsetPaginator,
-        private PaginatorInterface $searchAfterPaginator,
-        private ListProductsQueryValidator $listProductsQueryValidator,
-        private array $apiConfiguration,
-        private ListProductsByUuidQueryHandler $listProductsByUuidQueryHandler,
-        private ConnectorProductWithUuidNormalizer $connectorProductWithUuidNormalizer,
-        private TokenStorageInterface $tokenStorage,
-        private SecurityFacade $security
+        private readonly PaginatorInterface $offsetPaginator,
+        private readonly PaginatorInterface $searchAfterPaginator,
+        private readonly ListProductsQueryValidator $listProductsQueryValidator,
+        private readonly array $apiConfiguration,
+        private readonly ListProductsByUuidQueryHandler $listProductsByUuidQueryHandler,
+        private readonly ConnectorProductWithUuidNormalizer $connectorProductWithUuidNormalizer,
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly SecurityFacade $security
     ) {
     }
 
@@ -59,7 +59,7 @@ class ListProductsByUuidController
             $query->localeCodes = explode(',', $request->query->get('locales'));
         }
         if ($request->query->has('search')) {
-            $query->search = json_decode($request->query->get('search'), true);
+            $query->search = json_decode($request->query->get('search'), true, 512, JSON_THROW_ON_ERROR);
             if (!is_array($query->search)) {
                 throw new BadRequestHttpException('Search query parameter should be valid JSON.');
             }
@@ -87,11 +87,11 @@ class ListProductsByUuidController
         } catch (InvalidQueryException $e) {
             throw new UnprocessableEntityHttpException($e->getMessage(), $e);
         } catch (BadRequest400Exception $e) {
-            $message = json_decode($e->getMessage(), true);
+            $message = json_decode($e->getMessage(), true, 512, JSON_THROW_ON_ERROR);
             if (
                 null !== $message && isset($message['error']['root_cause'][0]['type'])
                 && 'illegal_argument_exception' === $message['error']['root_cause'][0]['type']
-                && 0 === strpos($message['error']['root_cause'][0]['reason'], 'Result window is too large, from + size must be less than or equal to:')
+                && str_starts_with((string) $message['error']['root_cause'][0]['reason'], 'Result window is too large, from + size must be less than or equal to:')
             ) {
                 throw new DocumentedHttpException(
                     Documentation::URL_DOCUMENTATION . 'pagination.html#the-search-after-method',
@@ -115,7 +115,7 @@ class ListProductsByUuidController
         ];
 
         if ($query->search !== []) {
-            $queryParameters['search'] = json_encode($query->search);
+            $queryParameters['search'] = json_encode($query->search, JSON_THROW_ON_ERROR);
         }
         if (null !== $query->channelCode) {
             $queryParameters['scope'] = $query->channelCode;

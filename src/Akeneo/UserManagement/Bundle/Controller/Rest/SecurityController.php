@@ -21,10 +21,6 @@ class SecurityController
     /** @var AclAnnotationProvider */
     protected $aclProvider;
 
-    /**
-     * @param SecurityFacade        $securityFacade
-     * @param AclAnnotationProvider $aclProvider
-     */
     public function __construct(SecurityFacade $securityFacade, AclAnnotationProvider $aclProvider)
     {
         $this->securityFacade = $securityFacade;

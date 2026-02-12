@@ -19,7 +19,7 @@ class LRUCacheGetProductUuids implements GetProductUuids, CachedQueryInterface
     private LRUCache $cacheByIdentifiers;
     private LRUCache $cacheByUuids;
 
-    public function __construct(private GetProductUuids $getProductUuids)
+    public function __construct(private readonly GetProductUuids $getProductUuids)
     {
         $this->cacheByIdentifiers = new LRUCache(1000);
         $this->cacheByUuids = new LRUCache(1000);

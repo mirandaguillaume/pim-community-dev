@@ -34,9 +34,6 @@ class ProductAndProductModelDatasource extends Datasource
     /** @var ValidatorInterface */
     protected $validator;
 
-    /** @var Query\FetchProductAndProductModelRows */
-    private $fetchRows;
-
     /**
      * @param ObjectManager                         $om
      * @param ProductQueryBuilderFactoryInterface   $factory
@@ -49,12 +46,11 @@ class ProductAndProductModelDatasource extends Datasource
         ProductQueryBuilderFactoryInterface $factory,
         NormalizerInterface $serializer,
         ValidatorInterface $validator,
-        Query\FetchProductAndProductModelRows $fetchRows
+        private readonly Query\FetchProductAndProductModelRows $fetchRows
     ) {
         $this->om = $om;
         $this->factory = $factory;
         $this->normalizer = $serializer;
-        $this->fetchRows = $fetchRows;
         $this->validator = $validator;
     }
 
@@ -125,6 +121,7 @@ class ProductAndProductModelDatasource extends Datasource
      */
     protected function initializeQueryBuilder($method, array $config = [])
     {
+        $factoryConfig = [];
         $factoryConfig['repository_parameters'] = $config;
         $factoryConfig['repository_method'] = $method;
         $factoryConfig['default_locale'] = $this->getConfiguration('locale_code');

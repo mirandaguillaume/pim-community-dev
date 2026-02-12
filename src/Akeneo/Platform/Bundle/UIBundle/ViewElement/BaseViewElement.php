@@ -13,12 +13,6 @@ use Akeneo\Platform\Bundle\UIBundle\ViewElement\Checker\VisibilityCheckerInterfa
  */
 class BaseViewElement implements ViewElementInterface
 {
-    /** @var string */
-    protected $alias;
-
-    /** @var string */
-    protected $template;
-
     /** @var array */
     protected $parameters = [];
 
@@ -28,12 +22,9 @@ class BaseViewElement implements ViewElementInterface
     /**
      * @param string $alias
      * @param string $template
-     * @param array  $parameters
      */
-    public function __construct($alias, $template, array $parameters = [])
+    public function __construct(protected $alias, protected $template, array $parameters = [])
     {
-        $this->alias = $alias;
-        $this->template = $template;
         $this->parameters = $parameters;
     }
 
@@ -67,7 +58,7 @@ class BaseViewElement implements ViewElementInterface
     public function isVisible(array $context = [])
     {
         foreach ($this->visibilityCheckers as $item) {
-            list($checker, $config) = $item;
+            [$checker, $config] = $item;
             if (false === $checker->isVisible($config, $context)) {
                 return false;
             }

@@ -26,15 +26,8 @@ class ProductModelIndexer implements ProductModelIndexerInterface
     private const PRODUCT_MODEL_IDENTIFIER_PREFIX = 'product_model_';
     private const BATCH_SIZE = 500;
 
-    private Client $productAndProductModelClient;
-    private GetElasticsearchProductModelProjectionInterface $getElasticsearchProductModelProjection;
-
-    public function __construct(
-        Client $productAndProductModelClient,
-        GetElasticsearchProductModelProjectionInterface $getElasticsearchProductModelProjection
-    ) {
-        $this->productAndProductModelClient = $productAndProductModelClient;
-        $this->getElasticsearchProductModelProjection = $getElasticsearchProductModelProjection;
+    public function __construct(private readonly Client $productAndProductModelClient, private readonly GetElasticsearchProductModelProjectionInterface $getElasticsearchProductModelProjection)
+    {
     }
 
     /**
@@ -100,9 +93,7 @@ class ProductModelIndexer implements ProductModelIndexerInterface
         }
 
         $indexIdentifiers = array_map(
-            function ($productModelId) {
-                return self::PRODUCT_MODEL_IDENTIFIER_PREFIX . (string) $productModelId;
-            },
+            fn($productModelId) => self::PRODUCT_MODEL_IDENTIFIER_PREFIX . (string) $productModelId,
             $productModelIds
         );
 

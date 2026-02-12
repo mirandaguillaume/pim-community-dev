@@ -19,8 +19,8 @@ use Doctrine\DBAL\Connection;
 class UpsertCategoryTranslationsSql implements UpsertCategoryTranslations
 {
     public function __construct(
-        private Connection $connection,
-        private GetCategoryInterface $getCategory,
+        private readonly Connection $connection,
+        private readonly GetCategoryInterface $getCategory,
     ) {
     }
 

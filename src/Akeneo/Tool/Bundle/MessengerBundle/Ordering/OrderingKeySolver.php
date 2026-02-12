@@ -13,7 +13,7 @@ use Webmozart\Assert\Assert;
 class OrderingKeySolver
 {
     /** @var OrderingKeyResolverInterface[] */
-    private iterable $resolvers;
+    private readonly iterable $resolvers;
 
     public function __construct(iterable $resolvers)
     {

@@ -18,6 +18,6 @@ class UcfirstProcessor implements ItemProcessorInterface
      */
     public function process($item)
     {
-        return ucfirst($item);
+        return ucfirst((string) $item);
     }
 }

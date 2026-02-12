@@ -23,28 +23,15 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
  */
 class AssociationFieldAdder extends AbstractFieldAdder
 {
-    protected ProductRepositoryInterface $productRepository;
-    protected IdentifiableObjectRepositoryInterface $productModelRepository;
-    protected IdentifiableObjectRepositoryInterface $groupRepository;
-    private MissingAssociationAdder $missingAssociationAdder;
-    private AssociationTypeRepositoryInterface $associationTypeRepository;
-    private TwoWayAssociationUpdaterInterface $twoWayAssociationUpdater;
-
     public function __construct(
-        ProductRepositoryInterface $productRepository,
-        IdentifiableObjectRepositoryInterface $productModelRepository,
-        IdentifiableObjectRepositoryInterface $groupRepository,
-        MissingAssociationAdder $missingAssociationAdder,
-        AssociationTypeRepositoryInterface $associationTypeRepository,
-        TwoWayAssociationUpdaterInterface $twoWayAssociationUpdater,
+        protected ProductRepositoryInterface $productRepository,
+        protected IdentifiableObjectRepositoryInterface $productModelRepository,
+        protected IdentifiableObjectRepositoryInterface $groupRepository,
+        private readonly MissingAssociationAdder $missingAssociationAdder,
+        private readonly AssociationTypeRepositoryInterface $associationTypeRepository,
+        private readonly TwoWayAssociationUpdaterInterface $twoWayAssociationUpdater,
         array $supportedFields
     ) {
-        $this->productRepository = $productRepository;
-        $this->productModelRepository = $productModelRepository;
-        $this->groupRepository = $groupRepository;
-        $this->missingAssociationAdder = $missingAssociationAdder;
-        $this->associationTypeRepository = $associationTypeRepository;
-        $this->twoWayAssociationUpdater = $twoWayAssociationUpdater;
         $this->supportedFields = $supportedFields;
     }
 
@@ -79,12 +66,10 @@ class AssociationFieldAdder extends AbstractFieldAdder
     /**
      * Add products and groups to associations
      *
-     * @param ProductInterface|ProductModelInterface $entity
-     * @param mixed $data
      *
      * @throws InvalidPropertyException
      */
-    protected function addProductsAndGroupsToAssociations($entity, $data): void
+    protected function addProductsAndGroupsToAssociations(\Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface|\Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface $entity, mixed $data): void
     {
         foreach ($data as $typeCode => $items) {
             /** @var AssociationTypeInterface $associationType */
@@ -106,16 +91,13 @@ class AssociationFieldAdder extends AbstractFieldAdder
     }
 
     /**
-     * @param AssociationTypeInterface $associationType
-     * @param array $productsIdentifiers
-     * @param ProductInterface|ProductModelInterface $entity
      *
      * @throws InvalidPropertyException
      */
     protected function addAssociatedProducts(
         AssociationTypeInterface $associationType,
         array $productsIdentifiers,
-        $entity
+        \Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface|\Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface $entity
     ): void {
         foreach ($productsIdentifiers as $productIdentifier) {
             $associatedProduct = $this->productRepository->findOneByIdentifier($productIdentifier);
@@ -141,12 +123,11 @@ class AssociationFieldAdder extends AbstractFieldAdder
 
     /**
      * @param string[] $productsUuids
-     * @param ProductInterface|ProductModelInterface $entity
      */
     protected function addAssociatedProductUuids(
         AssociationTypeInterface $associationType,
         array $productsUuids,
-        $entity
+        \Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface|\Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface $entity
     ): void {
         foreach ($productsUuids as $productUuid) {
             $associatedProduct = $this->productRepository->find($productUuid);
@@ -171,16 +152,13 @@ class AssociationFieldAdder extends AbstractFieldAdder
     }
 
     /**
-     * @param AssociationTypeInterface $associationType
-     * @param array $productModelsIdentifiers
-     * @param ProductInterface|ProductModelInterface $entity
      *
      * @throws InvalidPropertyException
      */
     protected function addAssociatedProductModels(
         AssociationTypeInterface $associationType,
         array $productModelsIdentifiers,
-        $entity
+        \Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface|\Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface $entity
     ): void {
         foreach ($productModelsIdentifiers as $productModelIdentifier) {
             $associatedProductModel = $this->productModelRepository->findOneByIdentifier($productModelIdentifier);
@@ -205,13 +183,10 @@ class AssociationFieldAdder extends AbstractFieldAdder
     }
 
     /**
-     * @param AssociationTypeInterface $associationType
-     * @param array $groupsCodes
-     * @param ProductInterface|ProductModelInterface $entity
      *
      * @throws InvalidPropertyException
      */
-    protected function addAssociatedGroups(AssociationTypeInterface $associationType, array $groupsCodes, $entity): void
+    protected function addAssociatedGroups(AssociationTypeInterface $associationType, array $groupsCodes, \Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface|\Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface $entity): void
     {
         foreach ($groupsCodes as $groupCode) {
             $associatedGroup = $this->groupRepository->findOneByIdentifier($groupCode);

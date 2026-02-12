@@ -16,15 +16,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class AttributeOptionValueType extends AbstractType
 {
-    /** @var string */
-    protected $dataClass;
-
     /**
      * @param string $dataClass
      */
-    public function __construct($dataClass)
+    public function __construct(protected $dataClass)
     {
-        $this->dataClass = $dataClass;
     }
 
     /**
@@ -41,8 +37,6 @@ class AttributeOptionValueType extends AbstractType
 
     /**
      * Add field id to form builder
-     *
-     * @param FormBuilderInterface $builder
      */
     protected function addFieldId(FormBuilderInterface $builder)
     {
@@ -51,8 +45,6 @@ class AttributeOptionValueType extends AbstractType
 
     /**
      * Add field locale to form builder
-     *
-     * @param FormBuilderInterface $builder
      */
     protected function addFieldLocale(FormBuilderInterface $builder)
     {
@@ -61,8 +53,6 @@ class AttributeOptionValueType extends AbstractType
 
     /**
      * Add field value to form builder
-     *
-     * @param FormBuilderInterface $builder
      */
     protected function addFieldValue(FormBuilderInterface $builder)
     {

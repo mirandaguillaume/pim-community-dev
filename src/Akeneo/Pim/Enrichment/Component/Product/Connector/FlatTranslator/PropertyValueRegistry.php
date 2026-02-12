@@ -9,7 +9,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Connector\FlatTranslator\PropertyVal
 class PropertyValueRegistry
 {
     /** @var FlatPropertyValueTranslatorInterface[] */
-    private $translators = [];
+    private array $translators = [];
 
     public function addTranslator(FlatPropertyValueTranslatorInterface $translator): void
     {

@@ -30,11 +30,8 @@ abstract class AbstractSimpleArrayConverter implements ArrayConverterInterface
 
     /**
      * @param string $property
-     * @param mixed  $data
-     * @param array  $convertedItem
-     * @param array  $options
      *
      * @return array the converted item
      */
-    abstract protected function convertProperty($property, $data, array $convertedItem, array $options);
+    abstract protected function convertProperty($property, mixed $data, array $convertedItem, array $options);
 }

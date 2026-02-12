@@ -13,15 +13,15 @@ use Webmozart\Assert\Assert;
  *
  * @phpstan-import-type LocalizedLabels from LabelCollection
  */
-final class UpdateAttributeCommand
+final readonly class UpdateAttributeCommand
 {
     /**
      * @phpstan-param LocalizedLabels $labels
      */
     private function __construct(
-        public readonly string $attributeUuid,
-        public readonly ?bool $isRichTextArea,
-        public readonly ?array $labels,
+        public string $attributeUuid,
+        public ?bool $isRichTextArea,
+        public ?array $labels,
     ) {
         if ($labels !== null) {
             Assert::isMap($labels);

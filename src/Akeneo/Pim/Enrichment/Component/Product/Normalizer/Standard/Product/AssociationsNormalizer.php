@@ -23,7 +23,7 @@ use Webmozart\Assert\Assert;
 class AssociationsNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
     public function __construct(
-        private GetAssociatedProductUuidsByProduct $getAssociatedProductUuidsByProduct
+        private readonly GetAssociatedProductUuidsByProduct $getAssociatedProductUuidsByProduct
     ) {
     }
 
@@ -47,7 +47,7 @@ class AssociationsNormalizer implements NormalizerInterface, CacheableSupportsMe
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof EntityWithAssociationsInterface && 'standard' === $format
-            && get_class($data) !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct';
+            && $data::class !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct';
     }
 
     public function hasCacheableSupportsMethod(): bool
@@ -56,8 +56,6 @@ class AssociationsNormalizer implements NormalizerInterface, CacheableSupportsMe
     }
 
     /**
-     * @param EntityWithFamilyVariantInterface $entityWithFamilyVariant
-     *
      * @return array|EntityWithFamilyVariantInterface[]
      */
     private function getAncestorProducts(EntityWithFamilyVariantInterface $entityWithFamilyVariant): array
@@ -87,19 +85,19 @@ class AssociationsNormalizer implements NormalizerInterface, CacheableSupportsMe
             foreach ($associationAwareEntity->getAssociations() as $association) {
                 $code = $association->getAssociationType()->getCode();
 
-                $data[$code]['groups'] = $data[$code]['groups'] ?? [];
+                $data[$code]['groups'] ??= [];
                 foreach ($association->getGroups() as $group) {
                     $data[$code]['groups'][] = $group->getCode();
                 }
 
                 if ($withUuid) {
-                    $data[$code]['product_uuids'] = $data[$code]['product_uuids'] ?? [];
+                    $data[$code]['product_uuids'] ??= [];
                     if ($associationAwareEntity instanceof ProductModelInterface) {
                         foreach ($association->getProducts() as $product) {
                             $data[$code]['product_uuids'][] = $product->getUuid()->toString();
                         }
                         sort($data[$code]['product_uuids']);
-                    } elseif (\get_class($associationAwareEntity) === 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct') {
+                    } elseif ($associationAwareEntity::class === 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct') {
                         // do nothing, published product associations are computed in their own normalizer
                         // TODO TIP-987 Remove this when decoupling PublishedProduct from Enrichment
                     } elseif ($associationAwareEntity instanceof ProductInterface) {
@@ -108,16 +106,16 @@ class AssociationsNormalizer implements NormalizerInterface, CacheableSupportsMe
                             $association
                         ));
                     } else {
-                        throw new \InvalidArgumentException(\sprintf('No expected class: "%s"', \get_class($associationAwareEntity)));
+                        throw new \InvalidArgumentException(\sprintf('No expected class: "%s"', $associationAwareEntity::class));
                     }
                 } else {
-                    $data[$code]['products'] = $data[$code]['products'] ?? [];
+                    $data[$code]['products'] ??= [];
                     if ($associationAwareEntity instanceof ProductModelInterface) {
                         foreach ($association->getProducts() as $product) {
                             $data[$code]['products'][] = $product->getReference();
                         }
                         sort($data[$code]['products']);
-                    } elseif (\get_class($associationAwareEntity) === 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct') {
+                    } elseif ($associationAwareEntity::class === 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct') {
                         // do nothing, published product associations are computed in their own normalizer
                         // TODO TIP-987 Remove this when decoupling PublishedProduct from Enrichment
                     } elseif ($associationAwareEntity instanceof ProductInterface) {
@@ -126,11 +124,11 @@ class AssociationsNormalizer implements NormalizerInterface, CacheableSupportsMe
                             $association
                         ));
                     } else {
-                        throw new \InvalidArgumentException(\sprintf('No expected class: "%s"', \get_class($associationAwareEntity)));
+                        throw new \InvalidArgumentException(\sprintf('No expected class: "%s"', $associationAwareEntity::class));
                     }
                 }
 
-                $data[$code]['product_models'] = $data[$code]['product_models'] ?? [];
+                $data[$code]['product_models'] ??= [];
                 foreach ($association->getProductModels() as $productModel) {
                     $data[$code]['product_models'][] = $productModel->getCode();
                 }

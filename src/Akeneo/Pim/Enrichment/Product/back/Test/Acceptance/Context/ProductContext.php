@@ -27,11 +27,11 @@ final class ProductContext implements Context
     private array $valueUserIntents = [];
 
     public function __construct(
-        private InMemoryProductRepository $productRepository,
-        private CategoryRepositoryInterface $categoryRepository,
-        private ConstraintViolationsContext $constraintViolationsContext,
-        private ValidatorInterface $validator,
-        private UserRepositoryInterface $userRepository
+        private readonly InMemoryProductRepository $productRepository,
+        private readonly CategoryRepositoryInterface $categoryRepository,
+        private readonly ConstraintViolationsContext $constraintViolationsContext,
+        private readonly ValidatorInterface $validator,
+        private readonly UserRepositoryInterface $userRepository
     ) {
     }
 

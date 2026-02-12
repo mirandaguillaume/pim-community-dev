@@ -11,20 +11,8 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Connector\ArrayConverter\FlatT
  */
 class ConvertedField
 {
-    /** @var string */
-    private $columnName;
-
-    /** @var mixed */
-    private $value;
-
-    /**
-     * @param string $columnName
-     * @param mixed  $value
-     */
-    public function __construct(string $columnName, $value)
+    public function __construct(private string $columnName, private readonly mixed $value)
     {
-        $this->columnName = $columnName;
-        $this->value = $value;
     }
 
     public function appendTo(array $convertedField): array

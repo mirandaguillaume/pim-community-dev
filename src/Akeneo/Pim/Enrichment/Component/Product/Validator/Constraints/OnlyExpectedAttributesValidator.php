@@ -15,15 +15,8 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class OnlyExpectedAttributesValidator extends ConstraintValidator
 {
-    /** @var EntityWithFamilyVariantAttributesProvider */
-    private $attributesProvider;
-
-    /**
-     * @param EntityWithFamilyVariantAttributesProvider $attributesProvider
-     */
-    public function __construct(EntityWithFamilyVariantAttributesProvider $attributesProvider)
+    public function __construct(private readonly EntityWithFamilyVariantAttributesProvider $attributesProvider)
     {
-        $this->attributesProvider = $attributesProvider;
     }
 
     /**
@@ -47,9 +40,7 @@ class OnlyExpectedAttributesValidator extends ConstraintValidator
         $levelAttributes = $this->attributesProvider->getAttributes($entity);
 
         $levelAttributeCodes = array_map(
-            function ($attribute) {
-                return $attribute->getCode();
-            },
+            fn($attribute) => $attribute->getCode(),
             $levelAttributes
         );
 

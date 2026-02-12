@@ -44,53 +44,23 @@ class CleanRemovedAttributesFromProductAndProductModelCommand extends Command
     private const JOB_NAME = 'clean_removed_attribute_job';
     private const JOB_TRACKER_ROUTE = 'akeneo_job_process_tracker_details';
 
-    private EntityManagerClearerInterface $entityManagerClearer;
-    private ProductQueryBuilderFactoryInterface $productQueryBuilderFactory;
-    private string $kernelRootDir;
-    private int $productBatchSize;
-    private EventDispatcherInterface $eventDispatcher;
-    private JobLauncherInterface $jobLauncher;
-    private IdentifiableObjectRepositoryInterface $jobInstanceRepository;
-    private CountProductsWithRemovedAttributeInterface $countProductsWithRemovedAttribute;
-    private CountProductModelsWithRemovedAttributeInterface $countProductModelsWithRemovedAttribute;
-    private CountProductsAndProductModelsWithInheritedRemovedAttributeInterface $countProductsAndProductModelsWithInheritedRemovedAttribute;
-    private RouterInterface $router;
-    private string $pimUrl;
-    private GetAllBlacklistedAttributeCodesInterface $getAllBlacklistedAttributeCodes;
-    private AttributeCodeBlacklister $attributeCodeBlacklister;
-
     public function __construct(
-        EntityManagerClearerInterface $entityManagerClearer,
-        ProductQueryBuilderFactoryInterface $productQueryBuilderFactory,
-        string $kernelRootDir,
-        int $productBatchSize,
-        EventDispatcherInterface $eventDispatcher,
-        JobLauncherInterface $jobLauncher,
-        IdentifiableObjectRepositoryInterface $jobInstanceRepository,
-        CountProductsWithRemovedAttributeInterface $countProductsWithRemovedAttribute,
-        CountProductModelsWithRemovedAttributeInterface $countProductModelsWithRemovedAttribute,
-        CountProductsAndProductModelsWithInheritedRemovedAttributeInterface $countProductsAndProductModelsWithInheritedRemovedAttribute,
-        RouterInterface $router,
-        string $pimUrl,
-        GetAllBlacklistedAttributeCodesInterface $getAllBlacklistedAttributeCodes,
-        AttributeCodeBlacklister $attributeCodeBlacklister
+        private readonly EntityManagerClearerInterface $entityManagerClearer,
+        private readonly ProductQueryBuilderFactoryInterface $productQueryBuilderFactory,
+        private readonly string $kernelRootDir,
+        private readonly int $productBatchSize,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly JobLauncherInterface $jobLauncher,
+        private readonly IdentifiableObjectRepositoryInterface $jobInstanceRepository,
+        private readonly CountProductsWithRemovedAttributeInterface $countProductsWithRemovedAttribute,
+        private readonly CountProductModelsWithRemovedAttributeInterface $countProductModelsWithRemovedAttribute,
+        private readonly CountProductsAndProductModelsWithInheritedRemovedAttributeInterface $countProductsAndProductModelsWithInheritedRemovedAttribute,
+        private readonly RouterInterface $router,
+        private readonly string $pimUrl,
+        private readonly GetAllBlacklistedAttributeCodesInterface $getAllBlacklistedAttributeCodes,
+        private readonly AttributeCodeBlacklister $attributeCodeBlacklister
     ) {
         parent::__construct();
-
-        $this->entityManagerClearer = $entityManagerClearer;
-        $this->productQueryBuilderFactory = $productQueryBuilderFactory;
-        $this->kernelRootDir = $kernelRootDir;
-        $this->productBatchSize = $productBatchSize;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->jobLauncher = $jobLauncher;
-        $this->jobInstanceRepository = $jobInstanceRepository;
-        $this->countProductsWithRemovedAttribute = $countProductsWithRemovedAttribute;
-        $this->countProductModelsWithRemovedAttribute = $countProductModelsWithRemovedAttribute;
-        $this->countProductsAndProductModelsWithInheritedRemovedAttribute = $countProductsAndProductModelsWithInheritedRemovedAttribute;
-        $this->router = $router;
-        $this->pimUrl = $pimUrl;
-        $this->getAllBlacklistedAttributeCodes = $getAllBlacklistedAttributeCodes;
-        $this->attributeCodeBlacklister = $attributeCodeBlacklister;
     }
 
     /**
@@ -261,9 +231,7 @@ class CleanRemovedAttributesFromProductAndProductModelCommand extends Command
                 " - %d product(s)\n" .
                 " Do you want to proceed?",
             implode(
-                array_map(function (string $attributeCode) {
-                    return sprintf(" - %s\n", $attributeCode);
-                }, $attributeCodes)
+                array_map(fn(string $attributeCode) => sprintf(" - %s\n", $attributeCode), $attributeCodes)
             ),
             $countProductModels,
             $countProductVariants,
@@ -313,12 +281,6 @@ class CleanRemovedAttributesFromProductAndProductModelCommand extends Command
         return true;
     }
 
-    /**
-     * @param OutputInterface $output
-     * @param InputInterface $input
-     * @param SymfonyStyle $io
-     *
-     */
     protected function cleanAllProductsAndProductModels(
         OutputInterface $output,
         InputInterface $input,

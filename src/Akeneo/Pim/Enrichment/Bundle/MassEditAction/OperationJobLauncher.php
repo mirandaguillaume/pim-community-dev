@@ -28,11 +28,6 @@ class OperationJobLauncher
     /** @var TokenStorageInterface */
     protected $tokenStorage;
 
-    /**
-     * @param JobLauncherInterface                  $jobLauncher
-     * @param IdentifiableObjectRepositoryInterface $jobInstanceRepo
-     * @param TokenStorageInterface                 $tokenStorage
-     */
     public function __construct(
         JobLauncherInterface $jobLauncher,
         IdentifiableObjectRepositoryInterface $jobInstanceRepo,
@@ -46,7 +41,6 @@ class OperationJobLauncher
     /**
      * Launch the background process for the given $operation
      *
-     * @param BatchableOperationInterface $operation
      *
      * @throws NotFoundResourceException
      */

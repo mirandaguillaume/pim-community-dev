@@ -26,18 +26,18 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-final class UpdateUserCommandHandler
+final readonly class UpdateUserCommandHandler
 {
     public function __construct(
-        private readonly ObjectUpdaterInterface $updater,
-        private readonly ValidatorInterface $validator,
-        private readonly ObjectManager $objectManager,
-        private readonly SaverInterface $saver,
-        private readonly PasswordCheckerInterface $passwordChecker,
-        private readonly EventDispatcherInterface $eventDispatcher,
-        private readonly Session $session,
-        private readonly ObjectRepository $repository,
-        private readonly TokenStorageInterface $tokenStorage,
+        private ObjectUpdaterInterface $updater,
+        private ValidatorInterface $validator,
+        private ObjectManager $objectManager,
+        private SaverInterface $saver,
+        private PasswordCheckerInterface $passwordChecker,
+        private EventDispatcherInterface $eventDispatcher,
+        private Session $session,
+        private ObjectRepository $repository,
+        private TokenStorageInterface $tokenStorage,
     ) {
     }
 

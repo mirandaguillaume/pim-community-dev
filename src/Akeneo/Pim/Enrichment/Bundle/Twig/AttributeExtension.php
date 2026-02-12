@@ -21,7 +21,7 @@ class AttributeExtension extends \Twig\Extension\AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('contains_han_characters', [$this, 'containsHanCharacters']),
+            new TwigFunction('contains_han_characters', $this->containsHanCharacters(...)),
         ];
     }
 

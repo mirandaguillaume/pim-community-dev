@@ -15,15 +15,10 @@ use Akeneo\Tool\Component\StorageUtils\Cache\LRUCache;
  */
 final class LRUCachedGetAttributes implements GetAttributes, CachedQueryInterface
 {
-    /** @var GetAttributes */
-    private $getAttributes;
+    private \Akeneo\Tool\Component\StorageUtils\Cache\LRUCache $cache;
 
-    /** @var LRUCache */
-    private $cache;
-
-    public function __construct(GetAttributes $getAttributes)
+    public function __construct(private readonly GetAttributes $getAttributes)
     {
-        $this->getAttributes = $getAttributes;
         $this->cache = new LRUCache(1000);
     }
 
@@ -36,9 +31,7 @@ final class LRUCachedGetAttributes implements GetAttributes, CachedQueryInterfac
             return [];
         }
 
-        $fetchNonFoundAttributeCodes = function (array $attributesNotFound): array {
-            return $this->getAttributes->forCodes($attributesNotFound);
-        };
+        $fetchNonFoundAttributeCodes = fn(array $attributesNotFound): array => $this->getAttributes->forCodes($attributesNotFound);
 
         return $this->cache->getForKeys($attributeCodes, $fetchNonFoundAttributeCodes);
     }
@@ -50,9 +43,7 @@ final class LRUCachedGetAttributes implements GetAttributes, CachedQueryInterfac
      */
     public function forCode(string $attributeCode): ?Attribute
     {
-        $fetchNonFoundAttributeCodes = function (string $attributeCode): ?Attribute {
-            return $this->getAttributes->forCode($attributeCode);
-        };
+        $fetchNonFoundAttributeCodes = fn(string $attributeCode): ?Attribute => $this->getAttributes->forCode($attributeCode);
 
         return $this->cache->getForKey($attributeCode, $fetchNonFoundAttributeCodes);
     }

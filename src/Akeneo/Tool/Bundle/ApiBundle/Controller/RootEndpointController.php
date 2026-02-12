@@ -16,13 +16,11 @@ use Symfony\Component\Routing\Router;
  */
 class RootEndpointController
 {
-    public function __construct(private Router $router, private FeatureFlags $featureFlags)
+    public function __construct(private readonly Router $router, private readonly FeatureFlags $featureFlags)
     {
     }
 
     /**
-     * @param Request $request
-     *
      * @return JsonResponse
      */
     public function getAction(Request $request)
@@ -38,7 +36,7 @@ class RootEndpointController
         $routes->remove($request->attributes->get('_route'));
 
         foreach ($routes as $key => $route) {
-            if (0 === strpos($route->getPath(), '/api')) {
+            if (str_starts_with($route->getPath(), '/api')) {
                 $feature = $route->getDefault('_feature');
                 if ($feature !== null  && !$this->featureFlags->isEnabled($feature)) {
                     continue;
@@ -49,7 +47,7 @@ class RootEndpointController
                     continue;
                 }
 
-                $type = 0 === strpos($route->getPath(), '/api/oauth') ? 'authentication' : 'routes';
+                $type = str_starts_with($route->getPath(), '/api/oauth') ? 'authentication' : 'routes';
 
                 $apiRoutes[$type][$key] = [
                     'route'   => $route->getPath(),

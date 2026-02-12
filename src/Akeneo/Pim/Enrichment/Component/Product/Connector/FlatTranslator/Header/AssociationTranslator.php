@@ -41,7 +41,7 @@ class AssociationTranslator implements FlatHeaderTranslatorInterface
 
     public function translate(string $columnName, string $locale): string
     {
-        list($associationType, $entityType) = explode('-', $columnName);
+        [$associationType, $entityType] = explode('-', $columnName);
         $entityTypeLabelized = $this->labelTranslator->translate(
             sprintf('pim_common.%s', $entityType),
             $locale,
@@ -70,7 +70,7 @@ class AssociationTranslator implements FlatHeaderTranslatorInterface
         $associationTypeCodes = [];
         foreach ($columnNames as $columnName) {
             if ($this->isAssociationColumn($columnName)) {
-                list($associationType, $entityType) = explode('-', $columnName);
+                [$associationType, $entityType] = explode('-', (string) $columnName);
 
                 $associationTypeCodes[] = $associationType;
             }
@@ -84,7 +84,7 @@ class AssociationTranslator implements FlatHeaderTranslatorInterface
         $quantifiedAssociationTypeCodes = [];
         foreach ($columnNames as $columnName) {
             if ($this->isQuantifiedAssociationIdentifierColumn($columnName)) {
-                list($quantifiedAssociationType, $entityType) = explode('-', $columnName);
+                [$quantifiedAssociationType, $entityType] = explode('-', (string) $columnName);
 
                 $quantifiedAssociationTypeCodes[] = $quantifiedAssociationType;
             }

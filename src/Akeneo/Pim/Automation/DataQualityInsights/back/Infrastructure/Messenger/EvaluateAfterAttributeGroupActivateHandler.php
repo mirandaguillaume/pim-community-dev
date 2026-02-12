@@ -14,13 +14,13 @@ use Symfony\Component\Messenger\MessageBusInterface;
  * @copyright 2023 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class EvaluateAfterAttributeGroupActivateHandler
+final readonly class EvaluateAfterAttributeGroupActivateHandler
 {
     public function __construct(
-        private readonly GetEntityIdsImpactedByAttributeGroupActivationQueryInterface $getProductUuidsImpactedByAttributeGroupActivationQuery,
-        private readonly GetEntityIdsImpactedByAttributeGroupActivationQueryInterface $getProductModelIdsImpactedByAttributeGroupActivationQuery,
-        private readonly MessageBusInterface $messageBus,
-        private readonly int $batchSize = 50
+        private GetEntityIdsImpactedByAttributeGroupActivationQueryInterface $getProductUuidsImpactedByAttributeGroupActivationQuery,
+        private GetEntityIdsImpactedByAttributeGroupActivationQueryInterface $getProductModelIdsImpactedByAttributeGroupActivationQuery,
+        private MessageBusInterface $messageBus,
+        private int $batchSize = 50
     ) {
     }
 

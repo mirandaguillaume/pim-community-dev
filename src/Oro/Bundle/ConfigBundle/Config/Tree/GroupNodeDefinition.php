@@ -4,16 +4,15 @@ namespace Oro\Bundle\ConfigBundle\Config\Tree;
 
 class GroupNodeDefinition extends AbstractNodeDefinition implements \Countable, \IteratorAggregate
 {
-    /** @var array */
-    protected $children = [];
-
     /** @var int */
     protected $level = 0;
 
-    public function __construct($name, $definition = [], $children = [])
+    /**
+     * @param mixed[] $children
+     */
+    public function __construct($name, $definition = [], protected $children = [])
     {
         parent::__construct($name, $definition);
-        $this->children = $children;
     }
 
     /**
@@ -87,9 +86,7 @@ class GroupNodeDefinition extends AbstractNodeDefinition implements \Countable, 
     {
         usort(
             $this->children,
-            function (AbstractNodeDefinition $a, AbstractNodeDefinition $b) {
-                return $a->getPriority() > $b->getPriority() ? -1 : 1;
-            }
+            fn(AbstractNodeDefinition $a, AbstractNodeDefinition $b) => $a->getPriority() > $b->getPriority() ? -1 : 1
         );
     }
 

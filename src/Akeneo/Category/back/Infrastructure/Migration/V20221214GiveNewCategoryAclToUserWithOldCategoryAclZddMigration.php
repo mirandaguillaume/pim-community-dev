@@ -28,11 +28,11 @@ class V20221214GiveNewCategoryAclToUserWithOldCategoryAclZddMigration implements
     private array $grantedPermissions = [];
 
     public function __construct(
-        private AclManager $aclManager,
-        private RoleWithPermissionsRepository $roleWithPermissionsRepository,
-        private RoleWithPermissionsSaver $roleWithPermissionsSaver,
-        private Connection $connection,
-        private LoggerInterface $logger,
+        private readonly AclManager $aclManager,
+        private readonly RoleWithPermissionsRepository $roleWithPermissionsRepository,
+        private readonly RoleWithPermissionsSaver $roleWithPermissionsSaver,
+        private readonly Connection $connection,
+        private readonly LoggerInterface $logger,
     ) {
     }
 

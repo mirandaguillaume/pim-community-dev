@@ -18,15 +18,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class StepExecutionNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    protected TranslatorInterface $translator;
-    protected PresenterInterface $presenter;
-
-    public function __construct(
-        TranslatorInterface $translator,
-        PresenterInterface $presenter
-    ) {
-        $this->translator = $translator;
-        $this->presenter = $presenter;
+    public function __construct(protected TranslatorInterface $translator, protected PresenterInterface $presenter)
+    {
     }
 
     /**
@@ -51,9 +44,7 @@ class StepExecutionNormalizer implements NormalizerInterface, CacheableSupportsM
             'warnings' => $normalizedWarnings,
             'errors' => $stepExecution->getErrors(),
             'failures' => array_map(
-                function ($failure) {
-                    return $this->translator->trans($failure['message'], $failure['messageParameters']);
-                },
+                fn($failure) => $this->translator->trans($failure['message'], $failure['messageParameters']),
                 $stepExecution->getFailureExceptions()
             ),
         ];

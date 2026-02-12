@@ -9,12 +9,8 @@ use Doctrine\DBAL\Connection;
 
 class SqlGetProductModelLabels implements GetProductModelLabelsInterface
 {
-    /** @var Connection */
-    private $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function byCodesAndLocaleAndScope(array $codes, string $locale, string $scope): array
@@ -42,7 +38,7 @@ SQL;
 
         $labels = [];
         foreach ($results as $result) {
-            $values = json_decode($result['raw_values'], true);
+            $values = json_decode((string) $result['raw_values'], true, 512, JSON_THROW_ON_ERROR);
 
             $productModelCode = $result['code'];
             $labelCode = $result['label_code'];

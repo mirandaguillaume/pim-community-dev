@@ -348,12 +348,12 @@ SQL);
 
     private function getUpdateNomenclatureHandler(): UpdateNomenclatureHandler
     {
-        return $this->get('Akeneo\Pim\Automation\IdentifierGenerator\Application\Update\UpdateNomenclatureHandler');
+        return $this->get(\Akeneo\Pim\Automation\IdentifierGenerator\Application\Update\UpdateNomenclatureHandler::class);
     }
 
     private function getCreateGeneratorHandler(): CreateGeneratorHandler
     {
-        return $this->get('Akeneo\Pim\Automation\IdentifierGenerator\Application\Create\CreateGeneratorHandler');
+        return $this->get(\Akeneo\Pim\Automation\IdentifierGenerator\Application\Create\CreateGeneratorHandler::class);
     }
 
     private function getConnection(): Connection

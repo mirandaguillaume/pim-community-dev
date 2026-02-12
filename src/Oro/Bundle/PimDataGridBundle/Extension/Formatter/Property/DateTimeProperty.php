@@ -16,13 +16,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class DateTimeProperty extends FieldProperty
 {
-    protected PresenterInterface $presenter;
-
-    public function __construct(TranslatorInterface $translator, PresenterInterface $presenter)
+    public function __construct(TranslatorInterface $translator, protected PresenterInterface $presenter)
     {
         parent::__construct($translator);
-
-        $this->presenter = $presenter;
     }
 
     /**
@@ -42,7 +38,7 @@ class DateTimeProperty extends FieldProperty
     {
         try {
             $value = $record->getValue($this->getOr(self::DATA_NAME_KEY, $this->get(self::NAME_KEY)));
-        } catch (\LogicException $e) {
+        } catch (\LogicException) {
             // default value
             $value = null;
         }

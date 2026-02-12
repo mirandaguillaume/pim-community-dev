@@ -34,7 +34,7 @@ class FiltersConfigurator implements ConfiguratorInterface
     public function configure(DatagridConfiguration $configuration)
     {
         $attributes = $configuration->offsetGet(self::SOURCE_KEY)[self::USEABLE_ATTRIBUTES_KEY];
-        $attributes = ($attributes === null) ? [] : $attributes;
+        $attributes ??= [];
 
         $displayedFilters = [];
         foreach ($attributes as $attribute) {

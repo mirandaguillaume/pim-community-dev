@@ -14,13 +14,10 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  */
 class KeyIndicatorFilter extends AbstractFieldFilter implements FieldFilterInterface
 {
-    private string $keyIndicatorIdentifier;
-
-    public function __construct(string $filterName, string $keyIndicatorIdentifier)
+    public function __construct(string $filterName, private readonly string $keyIndicatorIdentifier)
     {
         $this->supportedFields = [$filterName];
         $this->supportedOperators = ['='];
-        $this->keyIndicatorIdentifier = $keyIndicatorIdentifier;
     }
 
     /**

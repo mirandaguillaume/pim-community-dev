@@ -19,15 +19,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class CommentBuilder
 {
-    /** @var string */
-    protected $className;
-
     /**
      * @param string $className
      */
-    public function __construct($className)
+    public function __construct(protected $className)
     {
-        $this->className = $className;
     }
 
     /**
@@ -39,8 +35,6 @@ class CommentBuilder
     }
 
     /**
-     * @param CommentSubjectInterface $subject
-     * @param UserInterface           $user
      *
      * @return CommentInterface
      */
@@ -66,8 +60,6 @@ class CommentBuilder
     }
 
     /**
-     * @param UserInterface $user
-     *
      * @return CommentInterface
      */
     public function buildCommentWithoutSubject(UserInterface $user)
@@ -85,8 +77,6 @@ class CommentBuilder
     }
 
     /**
-     * @param CommentInterface $comment
-     * @param UserInterface    $user
      *
      * @return CommentInterface
      */

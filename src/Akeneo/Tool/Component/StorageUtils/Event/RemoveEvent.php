@@ -13,19 +13,14 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class RemoveEvent extends GenericEvent
 {
-    /** @var int */
-    protected $subjectId;
-
     /**
      * @param mixed $subject
      * @param mixed $subjectId
      * @param array $arguments
      */
-    public function __construct($subject, $subjectId, array $arguments = [])
+    public function __construct($subject, protected $subjectId, array $arguments = [])
     {
         parent::__construct($subject, $arguments);
-
-        $this->subjectId = $subjectId;
     }
 
     /**

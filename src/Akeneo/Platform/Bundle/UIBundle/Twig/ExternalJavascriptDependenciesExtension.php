@@ -10,11 +10,8 @@ use Twig\TwigFunction;
 
 final class ExternalJavascriptDependenciesExtension extends AbstractExtension
 {
-    private ExternalJavascriptDependenciesProvider $dependenciesProvider;
-
-    public function __construct(ExternalJavascriptDependenciesProvider $dependenciesProvider)
+    public function __construct(private readonly ExternalJavascriptDependenciesProvider $dependenciesProvider)
     {
-        $this->dependenciesProvider = $dependenciesProvider;
     }
 
     /**
@@ -23,7 +20,7 @@ final class ExternalJavascriptDependenciesExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('external_javascript_dependencies', [$this, 'getExternalJavascriptDependencies'], ['is_safe' => ['html']]),
+            new TwigFunction('external_javascript_dependencies', $this->getExternalJavascriptDependencies(...), ['is_safe' => ['html']]),
         ];
     }
 

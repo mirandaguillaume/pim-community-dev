@@ -56,7 +56,7 @@ final class SqlUpdateIdentifierValuesQuery implements UpdateIdentifierValuesQuer
                     static fn (ValueInterface $value): bool => $value instanceof IdentifierValueInterface
                 )->getValues()
             );
-            $statement->bindValue(++$paramIndex, \json_encode($identifierValues));
+            $statement->bindValue(++$paramIndex, \json_encode($identifierValues, JSON_THROW_ON_ERROR));
         }
 
         $statement->executeStatement();

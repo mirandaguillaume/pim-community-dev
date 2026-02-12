@@ -40,62 +40,25 @@ class ProductModelProcessor extends AbstractProcessor implements ItemProcessorIn
     private const SUB_PRODUCT_MODEL = 'sub_product_model';
     private const ROOT_PRODUCT_MODEL = 'root_product_model';
 
-    /** @var SimpleFactoryInterface */
-    private $productModelFactory;
-
-    /** @var ObjectUpdaterInterface */
-    private $productModelUpdater;
-
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $productModelRepository;
-
-    /** @var ValidatorInterface */
-    private $validator;
-
-    /** @var FilterInterface */
-    private $productModelFilter;
-
-    /** @var ObjectDetacherInterface */
-    private $objectDetacher;
-
-    /** @var AttributeFilterInterface */
-    private $productModelAttributeFilter;
-
-    /** @var string */
-    private $importType;
-
-    /** @var MediaStorer */
-    private $mediaStorer;
-
-    private CleanLineBreaksInTextAttributes $cleanLineBreaksInTextAttributes;
+    private readonly \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface $productModelRepository;
 
     /** @var Warning[] */
     private array $nonBlockingWarnings = [];
 
     public function __construct(
-        SimpleFactoryInterface $productModelFactory,
-        ObjectUpdaterInterface $productModelUpdater,
+        private readonly SimpleFactoryInterface $productModelFactory,
+        private readonly ObjectUpdaterInterface $productModelUpdater,
         IdentifiableObjectRepositoryInterface $productModelRepository,
-        ValidatorInterface $validator,
-        FilterInterface $productModelFilter,
-        ObjectDetacherInterface $objectDetacher,
-        AttributeFilterInterface $productModelAttributeFilter,
-        MediaStorer $mediaStorer,
-        CleanLineBreaksInTextAttributes $cleanLineBreaksInTextAttributes,
-        string $importType
+        private readonly ValidatorInterface $validator,
+        private readonly FilterInterface $productModelFilter,
+        private readonly ObjectDetacherInterface $objectDetacher,
+        private readonly AttributeFilterInterface $productModelAttributeFilter,
+        private readonly MediaStorer $mediaStorer,
+        private readonly CleanLineBreaksInTextAttributes $cleanLineBreaksInTextAttributes,
+        private readonly string $importType
     ) {
         parent::__construct($productModelRepository);
-
-        $this->productModelFactory = $productModelFactory;
-        $this->productModelUpdater = $productModelUpdater;
         $this->productModelRepository = $productModelRepository;
-        $this->validator = $validator;
-        $this->productModelFilter = $productModelFilter;
-        $this->objectDetacher = $objectDetacher;
-        $this->productModelAttributeFilter = $productModelAttributeFilter;
-        $this->importType = $importType;
-        $this->mediaStorer = $mediaStorer;
-        $this->cleanLineBreaksInTextAttributes = $cleanLineBreaksInTextAttributes;
     }
 
     /**
@@ -182,11 +145,6 @@ class ProductModelProcessor extends AbstractProcessor implements ItemProcessorIn
         return $productModel;
     }
 
-    /**
-     * @param string $code
-     *
-     * @return ProductModelInterface
-     */
     private function findOrCreateProductModel(string $code): ProductModelInterface
     {
         $productModel = $this->productModelRepository->findOneByIdentifier($code);
@@ -201,9 +159,7 @@ class ProductModelProcessor extends AbstractProcessor implements ItemProcessorIn
      * Filters item data to remove associations which are imported through a dedicated processor because we need to
      * create any product models before to associate them
      *
-     * @param array $item
      *
-     * @return array
      */
     protected function filterItemData(array $item): array
     {

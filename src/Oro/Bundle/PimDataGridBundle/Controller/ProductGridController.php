@@ -26,60 +26,14 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ProductGridController
 {
-    /** @var ListAttributesUseableInProductGrid */
-    private $listAttributesQuery;
-
-    /** @var ConfiguratorInterface */
-    private $filtersConfigurator;
-
-    /** @var FilterExtension */
-    private $filterExtension;
-
-    /** @var UserContext */
-    private $userContext;
-
-    /** @var DatagridViewManager */
-    private $datagridViewManager;
-
-    /** @var ListProductGridAvailableColumns */
-    private $listAvailableColumnsQuery;
-
-    /** @var ListProductGridAvailableColumnGroups */
-    private $listAvailableColumnGroupsQuery;
-
-    /**
-     * @param ListAttributesUseableInProductGrid   $listAttributesQuery
-     * @param ConfiguratorInterface                $filtersConfigurator
-     * @param FilterExtension                      $filterExtension
-     * @param UserContext                          $userContext
-     * @param DatagridViewManager                  $datagridViewManager
-     * @param ListProductGridAvailableColumns      $listAvailableColumnsQuery
-     * @param ListProductGridAvailableColumnGroups $listAvailableColumnGroupsQuery
-     */
-    public function __construct(
-        ListAttributesUseableInProductGrid $listAttributesQuery,
-        ConfiguratorInterface $filtersConfigurator,
-        FilterExtension $filterExtension,
-        UserContext $userContext,
-        DatagridViewManager $datagridViewManager,
-        ListProductGridAvailableColumns $listAvailableColumnsQuery,
-        ListProductGridAvailableColumnGroups $listAvailableColumnGroupsQuery
-    ) {
-        $this->listAttributesQuery = $listAttributesQuery;
-        $this->filtersConfigurator = $filtersConfigurator;
-        $this->filterExtension = $filterExtension;
-        $this->userContext = $userContext;
-        $this->datagridViewManager = $datagridViewManager;
-        $this->listAvailableColumnsQuery = $listAvailableColumnsQuery;
-        $this->listAvailableColumnGroupsQuery = $listAvailableColumnGroupsQuery;
+    public function __construct(private readonly ListAttributesUseableInProductGrid $listAttributesQuery, private readonly ConfiguratorInterface $filtersConfigurator, private readonly FilterExtension $filterExtension, private readonly UserContext $userContext, private readonly DatagridViewManager $datagridViewManager, private readonly ListProductGridAvailableColumns $listAvailableColumnsQuery, private readonly ListProductGridAvailableColumnGroups $listAvailableColumnGroupsQuery)
+    {
     }
 
     /**
      * Get a paginated list of the attributes usable as filters for the product grid.
      *
-     * @param Request $request
      *
-     * @return JsonResponse
      */
     public function getAttributesFiltersAction(Request $request): JsonResponse
     {
@@ -101,9 +55,7 @@ class ProductGridController
     /**
      * Get the list of the available columns for the product grid.
      *
-     * @param Request $request
      *
-     * @return JsonResponse
      */
     public function getAvailableColumnsAction(Request $request): JsonResponse
     {
@@ -125,9 +77,7 @@ class ProductGridController
     /**
      * Get the list of the groups of available columns for the product grid.
      *
-     * @param Request $request
      *
-     * @return JsonResponse
      */
     public function getAvailableColumnsGroupsAction(Request $request): JsonResponse
     {
@@ -146,9 +96,7 @@ class ProductGridController
     /**
      * Format a list of attributes as filters using the product-grid configuration
      *
-     * @param array $attributes
      *
-     * @return array
      */
     private function formatAttributesAsFilters(array $attributes): array
     {

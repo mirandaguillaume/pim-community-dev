@@ -15,12 +15,8 @@ use Doctrine\DBAL\FetchMode;
  */
 class DbalFindViewedAnnouncementIds implements FindViewedAnnouncementIdsInterface
 {
-    /** @var DbalConnection */
-    private $dbalConnection;
-
-    public function __construct(DbalConnection $dbalConnection)
+    public function __construct(private readonly DbalConnection $dbalConnection)
     {
-        $this->dbalConnection = $dbalConnection;
     }
 
     /**

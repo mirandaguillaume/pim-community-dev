@@ -19,13 +19,12 @@ class UpdateExtension extends AbstractExtension
     /** @var ConfigManager */
     protected $configManager;
 
-    /** @var string */
-    protected $updateServerUrl;
-
-    public function __construct(ConfigManager $configManager, $updateServerUrl)
+    /**
+     * @param string $updateServerUrl
+     */
+    public function __construct(ConfigManager $configManager, protected $updateServerUrl)
     {
         $this->configManager = $configManager;
-        $this->updateServerUrl = $updateServerUrl;
     }
 
     /**
@@ -34,8 +33,8 @@ class UpdateExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('is_last_patch_enabled', [$this, 'isLastPatchEnabled']),
-            new TwigFunction('get_update_server_url', [$this, 'getUpdateServerUrl']),
+            new TwigFunction('is_last_patch_enabled', $this->isLastPatchEnabled(...)),
+            new TwigFunction('get_update_server_url', $this->getUpdateServerUrl(...)),
         ];
     }
 

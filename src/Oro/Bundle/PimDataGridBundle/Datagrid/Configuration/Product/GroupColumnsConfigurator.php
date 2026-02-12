@@ -57,9 +57,6 @@ class GroupColumnsConfigurator extends ColumnsConfigurator
         $this->addColumns();
     }
 
-    /**
-     * @return null|Request
-     */
     protected function getRequest(): ?Request
     {
         return $this->requestStack->getCurrentRequest();

@@ -30,10 +30,8 @@ class MeasureFamilyConverter implements ArrayConverterInterface
     }
 
     /**
-     * @param array $units
      *
      * @return array
-     *
      * @throws \Exception
      */
     protected function convertUnits(array $units)

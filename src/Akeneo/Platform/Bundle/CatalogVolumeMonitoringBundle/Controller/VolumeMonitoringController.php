@@ -17,14 +17,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class VolumeMonitoringController
 {
-    private Normalizer\Volumes $volumesNormalizer;
-
-    private SecurityFacade $securityFacade;
-
-    public function __construct(Normalizer\Volumes $volumesNormalizer, SecurityFacade $securityFacade)
+    public function __construct(private readonly Normalizer\Volumes $volumesNormalizer, private readonly SecurityFacade $securityFacade)
     {
-        $this->volumesNormalizer = $volumesNormalizer;
-        $this->securityFacade = $securityFacade;
     }
 
     public function getVolumesAction(): Response

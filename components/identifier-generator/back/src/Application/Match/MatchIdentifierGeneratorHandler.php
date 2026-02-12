@@ -45,10 +45,10 @@ final class MatchIdentifierGeneratorHandler
 
     private function matchCondition(ConditionInterface $condition, ProductProjection $productProjection): bool
     {
-        if (!isset($this->conditionMatchers[\get_class($condition)])) {
-            throw new \InvalidArgumentException(\sprintf('No matcher found for condition %s', \get_class($condition)));
+        if (!isset($this->conditionMatchers[$condition::class])) {
+            throw new \InvalidArgumentException(\sprintf('No matcher found for condition %s', $condition::class));
         }
 
-        return ($this->conditionMatchers[\get_class($condition)])($condition, $productProjection);
+        return ($this->conditionMatchers[$condition::class])($condition, $productProjection);
     }
 }

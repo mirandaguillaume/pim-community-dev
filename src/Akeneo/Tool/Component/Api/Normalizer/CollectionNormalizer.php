@@ -39,7 +39,7 @@ class CollectionNormalizer implements NormalizerInterface, SerializerAwareInterf
      */
     public function supportsNormalization($data, $format = null): bool
     {
-        return ($data instanceof \Traversable || is_array($data)) && 'external_api' === $format;
+        return (is_iterable($data)) && 'external_api' === $format;
     }
 
     public function hasCacheableSupportsMethod(): bool

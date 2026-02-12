@@ -21,7 +21,7 @@ abstract class EvaluationProvider
         UuidInterface $productUuid = null,
         Write\CriterionEvaluationResult $result = null
     ): Write\CriterionEvaluation {
-        $productUuid = $productUuid ?? Uuid::fromString('df470d52-7723-4890-85a0-e79be625e2ed');
+        $productUuid ??= Uuid::fromString('df470d52-7723-4890-85a0-e79be625e2ed');
         $evaluation = new Write\CriterionEvaluation(
             new CriterionCode($code),
             ProductUuid::fromUuid($productUuid),

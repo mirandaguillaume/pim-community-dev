@@ -35,13 +35,6 @@ class MassEditController
     /** @var ItemsCounter */
     protected $itemsCounter;
 
-    /**
-     * @param MassActionParametersParser $parameterParser
-     * @param GridFilterAdapterInterface $filterAdapter
-     * @param OperationJobLauncher       $operationJobLauncher
-     * @param ConverterInterface         $operationConverter
-     * @param ItemsCounter               $itemsCounter
-     */
     public function __construct(
         MassActionParametersParser $parameterParser,
         GridFilterAdapterInterface $filterAdapter,
@@ -59,7 +52,6 @@ class MassEditController
     /**
      * Get filters from datagrid request
      *
-     * @param Request $request
      *
      * @return JsonResponse
      */
@@ -80,13 +72,12 @@ class MassEditController
     /**
      * Launch mass edit action
      *
-     * @param Request $request
      *
      * @return JsonResponse
      */
     public function launchAction(Request $request)
     {
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $data = $this->operationConverter->convert($data);
         $operation = new MassEditOperation($data['jobInstanceCode'], $data['filters'], $data['actions']);

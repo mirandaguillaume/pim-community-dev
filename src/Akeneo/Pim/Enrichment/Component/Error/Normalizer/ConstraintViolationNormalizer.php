@@ -19,16 +19,11 @@ use Symfony\Component\Validator\ConstraintViolationInterface;
  */
 class ConstraintViolationNormalizer extends ViolationNormalizer
 {
-    /** @var DocumentationBuilderRegistry */
-    private $documentationBuilderRegistry;
-
     public function __construct(
         IdentifiableObjectRepositoryInterface $attributeRepository,
-        DocumentationBuilderRegistry $documentationBuilderRegistry
+        private readonly DocumentationBuilderRegistry $documentationBuilderRegistry
     ) {
         parent::__construct($attributeRepository);
-
-        $this->documentationBuilderRegistry = $documentationBuilderRegistry;
     }
 
     /**

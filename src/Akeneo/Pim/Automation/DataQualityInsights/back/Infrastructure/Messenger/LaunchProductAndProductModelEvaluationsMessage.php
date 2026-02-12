@@ -12,16 +12,16 @@ use Webmozart\Assert\Assert;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class LaunchProductAndProductModelEvaluationsMessage
+final readonly class LaunchProductAndProductModelEvaluationsMessage
 {
     /**
      * @param string[] $criteriaToEvaluate (All criteria will be evaluated if empty)
      */
     public function __construct(
-        public readonly \DateTimeImmutable $datetime,
-        public readonly ProductUuidCollection $productUuids,
-        public readonly ProductModelIdCollection $productModelIds,
-        public readonly array $criteriaToEvaluate
+        public \DateTimeImmutable $datetime,
+        public ProductUuidCollection $productUuids,
+        public ProductModelIdCollection $productModelIds,
+        public array $criteriaToEvaluate
     ) {
         Assert::allString($this->criteriaToEvaluate);
         Assert::false(

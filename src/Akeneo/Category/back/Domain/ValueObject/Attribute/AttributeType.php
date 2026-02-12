@@ -10,14 +10,14 @@ use Webmozart\Assert\Assert;
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-class AttributeType
+class AttributeType implements \Stringable
 {
-    public const TEXT = 'text';
-    public const TEXTAREA = 'textarea';
-    public const RICH_TEXT = 'richtext';
-    public const IMAGE = 'image';
+    final public const TEXT = 'text';
+    final public const TEXTAREA = 'textarea';
+    final public const RICH_TEXT = 'richtext';
+    final public const IMAGE = 'image';
 
-    public const ATTRIBUTE_TYPES = [
+    final public const ATTRIBUTE_TYPES = [
         self::TEXT,
         self::TEXTAREA,
         self::RICH_TEXT,
@@ -29,7 +29,7 @@ class AttributeType
      *
      * @see AttributeType::ATTRIBUTE_TYPES
      */
-    public function __construct(private string $attributeType)
+    public function __construct(private readonly string $attributeType)
     {
         Assert::string($this->attributeType);
         Assert::oneOf($this->attributeType, self::ATTRIBUTE_TYPES);

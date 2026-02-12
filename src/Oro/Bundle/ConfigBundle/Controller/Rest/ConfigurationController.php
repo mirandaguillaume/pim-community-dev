@@ -23,27 +23,20 @@ class ConfigurationController
     /** @var FileLocator */
     protected $fileLocator;
 
-    /** @var string */
-    protected $loadingMessagesFile;
-
     /** @var array */
     protected $options;
 
     /**
-     * @param ConfigManager $configManager
-     * @param FileLocator   $fileLocator
      * @param string        $loadingMessagesFile
-     * @param array         $options
      */
     public function __construct(
         ConfigManager $configManager,
         FileLocator $fileLocator,
-        $loadingMessagesFile,
+        protected $loadingMessagesFile,
         array $options = []
     ) {
         $this->configManager = $configManager;
         $this->fileLocator = $fileLocator;
-        $this->loadingMessagesFile = $loadingMessagesFile;
         $this->options = $options;
     }
 
@@ -84,7 +77,7 @@ class ConfigurationController
      */
     public function postAction(Request $request)
     {
-        $this->configManager->save(json_decode($request->getContent(), true));
+        $this->configManager->save(json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR));
 
         return $this->getAction();
     }

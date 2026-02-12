@@ -12,11 +12,11 @@ namespace Akeneo\Platform\Installer\Application\IsMaintenanceModeEnabled;
 use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag;
 use Akeneo\Platform\Installer\Domain\Query\IsMaintenanceModeEnabledInterface;
 
-final class IsMaintenanceModeEnabledHandler
+final readonly class IsMaintenanceModeEnabledHandler
 {
     public function __construct(
-        private readonly FeatureFlag $pimResetFeatureFlag,
-        private readonly IsMaintenanceModeEnabledInterface $isMaintenanceModeEnabled,
+        private FeatureFlag $pimResetFeatureFlag,
+        private IsMaintenanceModeEnabledInterface $isMaintenanceModeEnabled,
     ) {
     }
 

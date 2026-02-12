@@ -20,8 +20,8 @@ use Webmozart\Assert\Assert;
 class FindProductToImport
 {
     public function __construct(
-        private IdentifiableObjectRepositoryInterface $productRepository,
-        private ProductBuilderInterface $productBuilder
+        private readonly IdentifiableObjectRepositoryInterface $productRepository,
+        private readonly ProductBuilderInterface $productBuilder
     ) {
     }
 

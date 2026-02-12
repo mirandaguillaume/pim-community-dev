@@ -14,9 +14,6 @@ class NumberFactory
     /** @var array */
     protected $numberFormats;
 
-    /**
-     * @param array $numberFormats
-     */
     public function __construct(array $numberFormats)
     {
         $this->numberFormats = $numberFormats;
@@ -25,7 +22,6 @@ class NumberFactory
     /**
      * Creates a number formatter according to options and with predefined formats.
      *
-     * @param array $options
      *
      * @return \NumberFormatter
      */
@@ -45,7 +41,6 @@ class NumberFactory
     /**
      * Resolve the options for the factory instances.
      *
-     * @param array $options
      *
      * @return array
      */

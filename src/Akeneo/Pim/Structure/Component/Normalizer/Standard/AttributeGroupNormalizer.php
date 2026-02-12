@@ -20,10 +20,6 @@ class AttributeGroupNormalizer implements NormalizerInterface, CacheableSupports
     /** @var AttributeRepositoryInterface */
     protected $attributeRepository;
 
-    /**
-     * @param NormalizerInterface          $translationNormalizer
-     * @param AttributeRepositoryInterface $attributeRepository
-     */
     public function __construct(
         NormalizerInterface $translationNormalizer,
         AttributeRepositoryInterface $attributeRepository

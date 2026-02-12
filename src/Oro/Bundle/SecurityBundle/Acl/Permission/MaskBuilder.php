@@ -39,23 +39,23 @@ abstract class MaskBuilder
      * All characters are allowed here, but only a character defined in self::OFF constant
      * is interpreted as bit placeholder.
      */
-    const PATTERN_ALL_OFF = '................................';
+    public const PATTERN_ALL_OFF = '................................';
 
     /**
      * Defines the brief form of a human-readable format of a bitmask
      */
-    const PATTERN_ALL_OFF_BRIEF = '................................';
+    public const PATTERN_ALL_OFF_BRIEF = '................................';
 
     /**
      * A symbol is used in PATTERN_ALL_* constants as a placeholder of a bit
      */
-    const OFF = '.';
+    public const OFF = '.';
 
     /**
      * The default character is used in a human-readable format to show that a bit in the bitmask is set
      * If you want more readable character please define CODE_* constants in your mask builder class.
      */
-    const ON = '*';
+    public const ON = '*';
 
     protected $mask;
 
@@ -161,10 +161,10 @@ abstract class MaskBuilder
         }
 
         $pattern = $brief ? static::PATTERN_ALL_OFF_BRIEF : static::PATTERN_ALL_OFF;
-        $length = strlen(static::PATTERN_ALL_OFF_BRIEF);
+        $length = strlen((string) static::PATTERN_ALL_OFF_BRIEF);
         $bitmask = str_pad(decbin($mask), $length, '0', STR_PAD_LEFT);
 
-        for ($i = $length - 1, $p = strlen($pattern) - 1; $i >= 0; $i--, $p--) {
+        for ($i = $length - 1, $p = strlen((string) $pattern) - 1; $i >= 0; $i--, $p--) {
             // skip non mask chars if any
             while ($p >= 0 && static::OFF !== $pattern[$p]) {
                 $p--;
@@ -185,9 +185,9 @@ abstract class MaskBuilder
      */
     protected static function getCode($mask)
     {
-        $reflection = new \ReflectionClass(get_called_class());
+        $reflection = new \ReflectionClass(static::class);
         foreach ($reflection->getConstants() as $name => $cMask) {
-            if (0 !== strpos($name, 'MASK_')) {
+            if (!str_starts_with($name, 'MASK_')) {
                 continue;
             }
 

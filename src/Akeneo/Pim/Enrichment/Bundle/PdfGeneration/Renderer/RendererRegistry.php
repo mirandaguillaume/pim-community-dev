@@ -27,13 +27,10 @@ class RendererRegistry
     /**
      * Render an item with the right renderer
      *
-     * @param mixed  $object
-     * @param string $format
-     * @param array  $context
      *
      * @throws RendererRequiredException
      */
-    public function render($object, string $format, array $context)
+    public function render(mixed $object, string $format, array $context)
     {
         foreach ($this->renderers as $renderer) {
             if ($renderer->supports($object, $format)) {
@@ -42,7 +39,7 @@ class RendererRegistry
         }
 
         throw new RendererRequiredException(
-            sprintf('At least one renderer should be registered to render the object : %s', get_class($object))
+            sprintf('At least one renderer should be registered to render the object : %s', $object::class)
         );
     }
 }

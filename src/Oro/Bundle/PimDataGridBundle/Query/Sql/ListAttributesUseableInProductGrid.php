@@ -17,15 +17,8 @@ use Oro\Bundle\PimDataGridBundle\Query\ListAttributesUseableInProductGrid as Lis
  */
 class ListAttributesUseableInProductGrid implements ListAttributesUseableInProductGridQuery
 {
-    /** @var Connection */
-    private $connection;
-
-    /**
-     * @param Connection $connection
-     */
-    public function __construct(Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     /**

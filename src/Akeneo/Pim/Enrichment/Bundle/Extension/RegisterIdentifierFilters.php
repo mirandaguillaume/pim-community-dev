@@ -20,14 +20,14 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class RegisterIdentifierFilters
 {
-    public const PRODUCT_DATAGRID_NAME = 'product-grid';
+    final public const PRODUCT_DATAGRID_NAME = 'product-grid';
 
     public function __construct(
-        private GetAttributes $getAttributes,
-        private GetAttributeTranslations $getAttributeTranslations,
-        private UserContext $userContext,
-        private RequestParameters $requestParams,
-        private RequestStack $requestStack,
+        private readonly GetAttributes $getAttributes,
+        private readonly GetAttributeTranslations $getAttributeTranslations,
+        private readonly UserContext $userContext,
+        private readonly RequestParameters $requestParams,
+        private readonly RequestStack $requestStack,
     ) {
     }
 
@@ -65,9 +65,6 @@ class RegisterIdentifierFilters
         ];
     }
 
-    /**
-     * @return string
-     */
     private function getCurrentLocaleCode(): string
     {
         $dataLocale = $this->requestParams->get('dataLocale', null);

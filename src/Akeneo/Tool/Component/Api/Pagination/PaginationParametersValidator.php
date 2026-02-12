@@ -16,9 +16,6 @@ class PaginationParametersValidator implements ParameterValidatorInterface
     /** @var array */
     protected $configuration;
 
-    /**
-     * @param array $configuration
-     */
     public function __construct(array $configuration)
     {
         $this->configuration = $configuration;
@@ -52,8 +49,6 @@ class PaginationParametersValidator implements ParameterValidatorInterface
     }
 
     /**
-     * @param array $parameters
-     *
      * @throws PaginationParametersException
      */
     protected function validatePage(array $parameters)
@@ -70,8 +65,6 @@ class PaginationParametersValidator implements ParameterValidatorInterface
     }
 
     /**
-     * @param array $parameters
-     *
      * @throws PaginationParametersException
      */
     protected function validateLimit(array $parameters)
@@ -93,8 +86,6 @@ class PaginationParametersValidator implements ParameterValidatorInterface
     }
 
     /**
-     * @param array $parameters
-     *
      * @throws PaginationParametersException
      */
     protected function validateWithCount(array $parameters)
@@ -117,11 +108,10 @@ class PaginationParametersValidator implements ParameterValidatorInterface
      * Check that a parameter is an integer.
      * It's more restrictive than is_numeric because it does not accept float values.
      *
-     * @param string|int $parameter
      *
      * @return bool
      */
-    protected function isInteger($parameter)
+    protected function isInteger(string|int $parameter)
     {
         return strval($parameter) === strval(intval($parameter));
     }

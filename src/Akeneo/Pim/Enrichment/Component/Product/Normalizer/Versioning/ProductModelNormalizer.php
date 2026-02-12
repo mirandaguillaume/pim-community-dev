@@ -37,17 +37,14 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
     /** @staticvar string */
     private const ITEM_SEPARATOR = ',';
 
-    private $quantifiedAssociationsNormalizer;
-
-    public function __construct(QuantifiedAssociationsNormalizer $quantifiedAssociationsNormalizer)
+    public function __construct(private readonly QuantifiedAssociationsNormalizer $quantifiedAssociationsNormalizer)
     {
-        $this->quantifiedAssociationsNormalizer = $quantifiedAssociationsNormalizer;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function normalize($object, $format = null, array $context = array()): array
+    public function normalize($object, $format = null, array $context = []): array
     {
         $context = $this->resolveContext($context);
 
@@ -80,9 +77,7 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
     /**
      * Normalizes a product parent.
      *
-     * @param ProductModelInterface $parent
      *
-     * @return string
      */
     private function normalizeParent(ProductModelInterface $parent = null): string
     {
@@ -92,13 +87,9 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
     /**
      * Normalize values
      *
-     * @param ProductModelInterface $productModel
-     * @param string|null      $format
-     * @param array            $context
      *
-     * @return array
      */
-    private function normalizeValues(ProductModelInterface $productModel, $format = null, array $context = []): array
+    private function normalizeValues(ProductModelInterface $productModel, ?string $format = null, array $context = []): array
     {
         $values = $productModel->getValuesForVariation();
 
@@ -115,9 +106,7 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
     /**
      * Merge default format option with context
      *
-     * @param array $context
      *
-     * @return array
      */
     private function resolveContext(array $context): array
     {

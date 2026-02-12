@@ -12,7 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class GroupType implements GroupTypeInterface
+class GroupType implements GroupTypeInterface, \Stringable
 {
     /** @var int */
     protected $id;
@@ -82,7 +82,7 @@ class GroupType implements GroupTypeInterface
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getLabel();
     }
@@ -115,7 +115,7 @@ class GroupType implements GroupTypeInterface
             return null;
         }
         foreach ($this->getTranslations() as $translation) {
-            if (\strtolower($translation->getLocale()) === \strtolower($locale)) {
+            if (\strtolower((string) $translation->getLocale()) === \strtolower($locale)) {
                 return $translation;
             }
         }

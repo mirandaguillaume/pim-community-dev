@@ -11,25 +11,13 @@ namespace Akeneo\Pim\Enrichment\Bundle\MassEditAction\Operation;
  */
 class MassEditOperation implements BatchableOperationInterface
 {
-    /** @var string The background job code to launch */
-    protected $jobInstanceCode;
-
-    /** @var array */
-    protected $filters;
-
-    /** @var array */
-    protected $actions;
-
     /**
      * @param string $jobInstanceCode
      * @param array  $filters
      * @param array  $actions
      */
-    public function __construct($jobInstanceCode, $filters, $actions)
+    public function __construct(protected $jobInstanceCode, protected $filters, protected $actions)
     {
-        $this->jobInstanceCode = $jobInstanceCode;
-        $this->filters         = $filters;
-        $this->actions         = $actions;
     }
 
     /**

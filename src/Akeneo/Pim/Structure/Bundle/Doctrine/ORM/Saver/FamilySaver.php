@@ -26,10 +26,7 @@ class FamilySaver implements SaverInterface, BulkSaverInterface
     /** @var EventDispatcherInterface */
     protected $eventDispatcher;
 
-    /**
-     * @param ObjectManager                  $objectManager
-     *                                                            {@see \Akeneo\Pim\Enrichment\Bundle\EventSubscriber\ComputeCompletenessOnFamilyUpdateSubscriber})
-     * @param EventDispatcherInterface       $eventDispatcher
+    /**                                                           {@see \Akeneo\Pim\Enrichment\Bundle\EventSubscriber\ComputeCompletenessOnFamilyUpdateSubscriber})
      */
     public function __construct(
         ObjectManager $objectManager,

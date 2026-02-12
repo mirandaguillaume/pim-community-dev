@@ -169,7 +169,7 @@ SQL;
             $nbEvaluationsByProduct[$row['product_uuid']] = (int) $row['nb_evaluated_criteria'];
         }
 
-        $nbCriteria = \count($this->get('akeneo.pim.automation.data_quality_insights.product_criteria_by_feature_registry')->getAllCriterionCodes());
+        $nbCriteria = is_countable($this->get('akeneo.pim.automation.data_quality_insights.product_criteria_by_feature_registry')->getAllCriterionCodes()) ? \count($this->get('akeneo.pim.automation.data_quality_insights.product_criteria_by_feature_registry')->getAllCriterionCodes()) : 0;
 
         /** @var ProductUuid $productUuid */
         foreach ($productUuids as $productUuid) {
@@ -198,7 +198,7 @@ SQL;
             $nbEvaluationsByProductModel[$row['product_id']] = (int) $row['nb_evaluated_criteria'];
         }
 
-        $nbCriteria = \count($this->get('akeneo.pim.automation.data_quality_insights.product_criteria_by_feature_registry')->getAllCriterionCodes());
+        $nbCriteria = is_countable($this->get('akeneo.pim.automation.data_quality_insights.product_criteria_by_feature_registry')->getAllCriterionCodes()) ? \count($this->get('akeneo.pim.automation.data_quality_insights.product_criteria_by_feature_registry')->getAllCriterionCodes()) : 0;
 
         /** @var ProductModelId $productUuid */
         foreach ($productModelIds as $productModelId) {

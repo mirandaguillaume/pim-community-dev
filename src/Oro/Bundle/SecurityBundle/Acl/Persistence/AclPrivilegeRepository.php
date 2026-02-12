@@ -26,7 +26,7 @@ use Symfony\Component\Security\Acl\Model\SecurityIdentityInterface as SID;
  */
 class AclPrivilegeRepository implements EventDispatcherAware
 {
-    const ROOT_PRIVILEGE_NAME = '(default)';
+    final public const ROOT_PRIVILEGE_NAME = '(default)';
 
     /**
      * @var AclManager
@@ -37,8 +37,6 @@ class AclPrivilegeRepository implements EventDispatcherAware
 
     /**
      * Constructor
-     *
-     * @param AclManager $manager
      */
     final public function __construct(AclManager $manager)
     {
@@ -57,7 +55,7 @@ class AclPrivilegeRepository implements EventDispatcherAware
      * @param string|string[] $extensionKeyOrKeys The ACL extension key(s)
      * @return string[]
      */
-    public function getPermissionNames($extensionKeyOrKeys)
+    public function getPermissionNames(string|array $extensionKeyOrKeys)
     {
         if (is_string($extensionKeyOrKeys)) {
             return $this->manager->getExtensionSelector()->select($this->manager->getRootOid($extensionKeyOrKeys))
@@ -80,10 +78,9 @@ class AclPrivilegeRepository implements EventDispatcherAware
     /**
      * Gets all privileges associated with the given security identity.
      *
-     * @param SID $sid
      * @return ArrayCollection|AclPrivilege[]
      */
-    public function getPrivileges(SID $sid)
+    public function getPrivileges(SID $sid): \Doctrine\Common\Collections\ArrayCollection|array
     {
         $privileges = new ArrayCollection();
         foreach ($this->manager->getAllExtensions() as $extension) {
@@ -158,13 +155,11 @@ class AclPrivilegeRepository implements EventDispatcherAware
     /**
      * Associates privileges with the given security identity.
      *
-     * @param SID $sid
      * @param ArrayCollection|AclPrivilege[] $privileges
      * @throws \RuntimeException
-     *
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    public function savePrivileges(SID $sid, ArrayCollection $privileges)
+    public function savePrivileges(SID $sid, \Doctrine\Common\Collections\ArrayCollection|array $privileges)
     {
         /**
          * @var $rootKeys
@@ -175,8 +170,8 @@ class AclPrivilegeRepository implements EventDispatcherAware
         // find all root privileges
         foreach ($privileges as $key => $privilege) {
             $identity = $privilege->getIdentity()->getId();
-            if (strpos($identity, ObjectIdentityFactory::ROOT_IDENTITY_TYPE)) {
-                $extensionKey = substr($identity, 0, strpos($identity, ':'));
+            if (strpos((string) $identity, ObjectIdentityFactory::ROOT_IDENTITY_TYPE)) {
+                $extensionKey = substr((string) $identity, 0, strpos((string) $identity, ':'));
                 $rootKeys[$extensionKey] = $key;
             }
         }
@@ -217,7 +212,7 @@ class AclPrivilegeRepository implements EventDispatcherAware
         // set permissions for other objects
         foreach ($privileges as $privilege) {
             $identity = $privilege->getIdentity()->getId();
-            $extensionKey = substr($identity, 0, strpos($identity, ':'));
+            $extensionKey = substr((string) $identity, 0, strpos((string) $identity, ':'));
             /** @var AclExtensionInterface $extension */
             $extension = $context[$extensionKey]['extension'];
             $oid = $extension->getObjectIdentity($identity);
@@ -250,12 +245,9 @@ class AclPrivilegeRepository implements EventDispatcherAware
     /**
      * Prepares the context is used in savePrivileges method
      *
-     * @param array $context
-     * @param array $rootKeys
-     * @param SID $sid
      * @param ArrayCollection|AclPrivilege[] $privileges
      */
-    protected function initSaveContext(array &$context, array $rootKeys, SID $sid, ArrayCollection $privileges)
+    protected function initSaveContext(array &$context, array $rootKeys, SID $sid, \Doctrine\Common\Collections\ArrayCollection|array $privileges)
     {
         foreach ($this->manager->getAllExtensions() as $extension) {
             $extensionKey = $extension->getExtensionKey();
@@ -302,7 +294,6 @@ class AclPrivilegeRepository implements EventDispatcherAware
      * Fills an associative array is used to find correct mask builder by the a permission name
      *
      * @param MaskBuilder[] $maskBuilders [output]
-     * @param AclExtensionInterface $extension
      */
     protected function prepareMaskBuilders(array &$maskBuilders, AclExtensionInterface $extension)
     {
@@ -321,12 +312,9 @@ class AclPrivilegeRepository implements EventDispatcherAware
     /**
      * Makes necessary modifications for existing ACE
      *
-     * @param SID $sid
-     * @param OID $oid
      * @param int $existingMask
      * @param int[] $masks [input/output]
      * @param int[] $rootMasks
-     * @param AclExtensionInterface $extension
      * @return bool|int The mask if it was processed, otherwise, false
      */
     protected function updateExistingPermissions(
@@ -336,7 +324,7 @@ class AclPrivilegeRepository implements EventDispatcherAware
         $masks,
         $rootMasks,
         AclExtensionInterface $extension
-    ) {
+    ): bool|int {
         $mask = $this->findSimilarMask($masks, $existingMask, $extension);
         $rootMask = $this->findSimilarMask($rootMasks, $existingMask, $extension);
         if ($mask === false && $rootMask === false) {
@@ -370,10 +358,9 @@ class AclPrivilegeRepository implements EventDispatcherAware
      *
      * @param int[] $masks
      * @param int $needleMask
-     * @param AclExtensionInterface $extension
      * @return int|bool The found mask, or false if a mask was not found in $masks
      */
-    protected function findSimilarMask(array $masks, $needleMask, AclExtensionInterface $extension)
+    protected function findSimilarMask(array $masks, $needleMask, AclExtensionInterface $extension): int|bool
     {
         foreach ($masks as $mask) {
             if ($extension->getServiceBits($needleMask) === $extension->getServiceBits($mask)) {
@@ -412,7 +399,7 @@ class AclPrivilegeRepository implements EventDispatcherAware
      * @param MaskBuilder[] $maskBuilders
      * @return int[]
      */
-    protected function getPermissionMasks($permissions, AclExtensionInterface $extension, array $maskBuilders)
+    protected function getPermissionMasks(\Doctrine\Common\Collections\ArrayCollection|array $permissions, AclExtensionInterface $extension, array $maskBuilders)
     {
         $masks = [];
 
@@ -441,7 +428,6 @@ class AclPrivilegeRepository implements EventDispatcherAware
     /**
      * Gets ACLs for given object identities
      *
-     * @param SID $sid
      * @param OID[] $oids
      * @return \SplObjectStorage
      */
@@ -460,7 +446,7 @@ class AclPrivilegeRepository implements EventDispatcherAware
      *
      * @param ArrayCollection|AclPrivilege[] $privileges [input/output]
      */
-    protected function sortPrivileges(ArrayCollection &$privileges)
+    protected function sortPrivileges(\Doctrine\Common\Collections\ArrayCollection|array &$privileges)
     {
         /** @var \ArrayIterator $iterator */
         $iterator = $privileges->getIterator();
@@ -490,12 +476,8 @@ class AclPrivilegeRepository implements EventDispatcherAware
 
     /**
      * Gets ACL associated with the given object identity from the collections specified in $acls argument.
-     *
-     * @param \SplObjectStorage $acls
-     * @param OID $oid
-     * @return AclInterface|null
      */
-    protected function findAclByOid(\SplObjectStorage $acls, ObjectIdentity $oid)
+    protected function findAclByOid(\SplObjectStorage $acls, ObjectIdentity $oid): ?\Symfony\Component\Security\Acl\Model\AclInterface
     {
         $result = null;
         foreach ($acls as $aclOid) {
@@ -510,13 +492,6 @@ class AclPrivilegeRepository implements EventDispatcherAware
 
     /**
      * Adds permissions to the given $privilege.
-     *
-     * @param SID $sid
-     * @param AclPrivilege $privilege
-     * @param OID $oid
-     * @param \SplObjectStorage $acls
-     * @param AclExtensionInterface $extension
-     * @param AclInterface $rootAcl
      */
     protected function addPermissions(
         SID $sid,
@@ -543,19 +518,14 @@ class AclPrivilegeRepository implements EventDispatcherAware
      * Adds permissions to the given $privilege based on the given ACL.
      * The $permissions argument is used to filter privileges for the given permissions only.
      *
-     * @param SID $sid
      * @param string|null $field The name of a field.
      *                           Set to null to work with class-based and object-based ACEs
      *                           Set to not null to work with class-field-based and object-field-based ACEs
-     * @param AclPrivilege $privilege
      * @param string[] $permissions
-     * @param AclExtensionInterface $extension
-     * @param AclInterface $rootAcl
-     * @param AclInterface $acl
      */
     protected function addAclPermissions(
         SID $sid,
-        $field,
+        ?string $field,
         AclPrivilege $privilege,
         array $permissions,
         AclExtensionInterface $extension,
@@ -602,15 +572,13 @@ class AclPrivilegeRepository implements EventDispatcherAware
     /**
      * Gets all ACEs associated with given ACL and the given security identity
      *
-     * @param SID $sid
-     * @param AclInterface $acl
      * @param string $type The ACE type. Can be one of AclManager::*_ACE constants
      * @param string|null $field The name of a field.
      *                           Set to null for class-based or object-based ACE
      *                           Set to not null class-field-based or object-field-based ACE
      * @return EntryInterface[]
      */
-    protected function getAces(SID $sid, AclInterface $acl, $type, $field)
+    protected function getAces(SID $sid, AclInterface $acl, $type, ?string $field)
     {
         return array_filter(
             $this->manager->getAceProvider()->getAces($acl, $type, $field),
@@ -626,10 +594,8 @@ class AclPrivilegeRepository implements EventDispatcherAware
      * Adds permissions to the given $privilege based on the given ACEs.
      * The $permissions argument is used to filter privileges for the given permissions only.
      *
-     * @param AclPrivilege $privilege
      * @param string[] $permissions
      * @param EntryInterface[] $aces
-     * @param AclExtensionInterface $extension
      * @param bool $itIsRootAcl
      */
     protected function addAcesPermissions(

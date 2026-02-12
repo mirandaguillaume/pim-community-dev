@@ -18,28 +18,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * Copies attribute data from different attribute types
  */
-final class HeterogeneousAttributeCopier implements AttributeCopierInterface
+final readonly class HeterogeneousAttributeCopier implements AttributeCopierInterface
 {
-    /** @var ValueDataConverterRegistry */
-    private $valueDataConverterRegistry;
-
-    /** @var EntityWithValuesBuilderInterface */
-    private $entityWithValuesBuilder;
-
-    /** @var AttributeValidatorHelper */
-    private $attrValidatorHelper;
-
-    /** @var OptionsResolver */
-    private $resolver;
+    private \Symfony\Component\OptionsResolver\OptionsResolver $resolver;
 
     public function __construct(
-        ValueDataConverterRegistry $valueDataConverterRegistry,
-        EntityWithValuesBuilderInterface $entityWithValuesBuilder,
-        AttributeValidatorHelper $attrValidatorHelper
+        private ValueDataConverterRegistry $valueDataConverterRegistry,
+        private EntityWithValuesBuilderInterface $entityWithValuesBuilder,
+        private AttributeValidatorHelper $attrValidatorHelper
     ) {
-        $this->valueDataConverterRegistry = $valueDataConverterRegistry;
-        $this->entityWithValuesBuilder = $entityWithValuesBuilder;
-        $this->attrValidatorHelper = $attrValidatorHelper;
         $this->resolver = new OptionsResolver();
         $this->configureOptions();
     }
@@ -95,7 +82,7 @@ final class HeterogeneousAttributeCopier implements AttributeCopierInterface
         } catch (\LogicException $e) {
             throw InvalidPropertyException::expectedFromPreviousException(
                 $attribute->getCode(),
-                static::class,
+                self::class,
                 $e
             );
         }

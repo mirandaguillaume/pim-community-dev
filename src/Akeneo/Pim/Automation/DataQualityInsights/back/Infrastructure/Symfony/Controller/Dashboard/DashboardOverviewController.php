@@ -14,13 +14,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final class DashboardOverviewController
+final readonly class DashboardOverviewController
 {
-    private GetDashboardScoresQueryInterface $getDashboardScoresQuery;
-
-    public function __construct(GetDashboardScoresQueryInterface $getDashboardScoresQuery)
+    public function __construct(private GetDashboardScoresQueryInterface $getDashboardScoresQuery)
     {
-        $this->getDashboardScoresQuery = $getDashboardScoresQuery;
     }
 
     public function __invoke(Request $request, string $channel, string $locale, string $timePeriod)

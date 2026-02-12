@@ -16,9 +16,6 @@ interface SelectorInterface
 {
     /**
      * Apply the selector on the datasource
-     *
-     * @param DatasourceInterface   $datasource
-     * @param DatagridConfiguration $configuration
      */
     public function apply(DatasourceInterface $datasource, DatagridConfiguration $configuration);
 }

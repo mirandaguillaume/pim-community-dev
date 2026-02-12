@@ -18,7 +18,7 @@ use FOS\OAuthServerBundle\Util\Random;
  */
 class FosRegenerateClientSecret implements RegenerateClientSecretInterface
 {
-    public function __construct(private ClientManagerInterface $clientManager, private DbalConnection $dbalConnection)
+    public function __construct(private readonly ClientManagerInterface $clientManager, private readonly DbalConnection $dbalConnection)
     {
     }
 

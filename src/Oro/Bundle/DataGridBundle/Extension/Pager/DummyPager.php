@@ -62,11 +62,9 @@ class DummyPager implements PagerInterface
     }
 
     /**
-     * @param mixed $qb
-     *
      * @return DummyPager
      */
-    public function setQueryBuilder($qb)
+    public function setQueryBuilder(mixed $qb)
     {
         return $this;
     }

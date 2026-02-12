@@ -16,7 +16,7 @@ use Symfony\Component\Messenger\Transport\TransportInterface;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GpsTransport implements TransportInterface, SetupableTransportInterface
+final readonly class GpsTransport implements TransportInterface, SetupableTransportInterface
 {
     public function __construct(
         private Client $client,

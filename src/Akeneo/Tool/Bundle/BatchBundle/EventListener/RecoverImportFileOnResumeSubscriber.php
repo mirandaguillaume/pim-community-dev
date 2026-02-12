@@ -16,10 +16,10 @@ use Akeneo\Tool\Component\Connector\Job\JobFileBackuper;
 use Akeneo\Tool\Component\Connector\Job\JobFileLocation;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-final class RecoverImportFileOnResumeSubscriber implements EventSubscriberInterface
+final readonly class RecoverImportFileOnResumeSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly JobFileBackuper $jobFileBackuper,
+        private JobFileBackuper $jobFileBackuper,
     ) {
     }
     public static function getSubscribedEvents(): array
@@ -41,7 +41,7 @@ final class RecoverImportFileOnResumeSubscriber implements EventSubscriberInterf
         $localFilePath = sprintf(
             '%s%s',
             $stepExecution->getJobExecution()->getExecutionContext()->get(JobInterface::WORKING_DIRECTORY_PARAMETER),
-            basename($storage['file_path']),
+            basename((string) $storage['file_path']),
         );
 
         $this->jobFileBackuper->recover($stepExecution->getJobExecution(), $localFilePath);

@@ -78,10 +78,10 @@ final class GenerateIdentifierHandler
         ProductProjection $productProjection,
         string $prefix
     ): string {
-        if (!isset($this->generateProperties[\get_class($property)])) {
-            throw new \InvalidArgumentException(\sprintf('No generator found for property %s', \get_class($property)));
+        if (!isset($this->generateProperties[$property::class])) {
+            throw new \InvalidArgumentException(\sprintf('No generator found for property %s', $property::class));
         }
 
-        return ($this->generateProperties[\get_class($property)])($property, $identifierGenerator, $productProjection, $prefix);
+        return ($this->generateProperties[$property::class])($property, $identifierGenerator, $productProjection, $prefix);
     }
 }

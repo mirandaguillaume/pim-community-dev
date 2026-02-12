@@ -15,12 +15,12 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  * @copyright 2019 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class MetricValueFactory implements ValueFactory
+final readonly class MetricValueFactory implements ValueFactory
 {
     private const AMOUNT_DECIMAL_FORMAT_REGEX = '#^-?\d+(\.\d+)?$#';
 
     public function __construct(
-        private readonly MetricFactory $metricFactory,
+        private MetricFactory $metricFactory,
     ) {
     }
 

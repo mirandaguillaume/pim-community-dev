@@ -14,15 +14,11 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class ResolveDoctrineTargetRepositoryPass implements CompilerPassInterface
 {
-    /** @var string */
-    protected $tag;
-
     /**
      * @param array $tag tag of the repositories
      */
-    public function __construct($tag)
+    public function __construct(protected $tag)
     {
-        $this->tag = $tag;
     }
 
     /**
@@ -35,8 +31,6 @@ class ResolveDoctrineTargetRepositoryPass implements CompilerPassInterface
 
     /**
      * Resolve target repositories
-     *
-     * @param ContainerBuilder $container
      */
     protected function resolveTargetRepositories(ContainerBuilder $container)
     {
@@ -58,7 +52,6 @@ class ResolveDoctrineTargetRepositoryPass implements CompilerPassInterface
      *     'repositoryClass' => 'entityClass'
      * )
      *
-     * @param ContainerBuilder $container
      *
      * @return string[]
      */
@@ -81,9 +74,7 @@ class ResolveDoctrineTargetRepositoryPass implements CompilerPassInterface
     /**
      * Resolve parameter definition
      *
-     * @param ContainerBuilder $container
      * @param string           $parameter
-     *
      * @return string
      */
     protected function resolveParameter(ContainerBuilder $container, $parameter)

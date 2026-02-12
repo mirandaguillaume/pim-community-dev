@@ -19,8 +19,6 @@ use Akeneo\Pim\Enrichment\Component\Product\Grid\ReadModel\Rows;
 interface FetchProductAndProductModelRows
 {
     /**
-     * @param FetchProductAndProductModelRowsParameters $queryParameters
-     *
      * @return Rows
      */
     public function __invoke(FetchProductAndProductModelRowsParameters $queryParameters): Rows;

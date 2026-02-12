@@ -19,7 +19,6 @@ interface AssociationTypeRepositoryInterface extends IdentifiableObjectRepositor
     /**
      * Build all unquantified association type not yet linked to a product
      *
-     * @param EntityWithAssociationsInterface $entity
      *
      * @return AssociationTypeInterface[]
      */

@@ -7,7 +7,7 @@ use Akeneo\Tool\Component\Batch\Model\JobExecution;
 class FakeJobExecution extends JobExecution
 {
     public function __construct(
-        private int $fakeId,
+        private readonly int $fakeId,
     ) {
         parent::__construct();
     }

@@ -16,7 +16,7 @@ use Akeneo\Platform\Bundle\ImportExportBundle\Infrastructure\StorageClient\FileS
 use Akeneo\Platform\Bundle\ImportExportBundle\Infrastructure\StorageClient\StorageClientProviderInterface;
 use League\Flysystem\FilesystemOperator;
 
-final class ManualUploadStorageClientProvider implements StorageClientProviderInterface
+final readonly class ManualUploadStorageClientProvider implements StorageClientProviderInterface
 {
     public function __construct(
         private FilesystemOperator $jobFilesystemOperator,

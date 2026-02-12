@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class ListConnectionsAction
+final readonly class ListConnectionsAction
 {
     public function __construct(
         private FetchConnectionsHandler $fetchConnectionsHandler,
@@ -24,7 +24,7 @@ final class ListConnectionsAction
 
     public function __invoke(Request $request): JsonResponse
     {
-        $query = new FetchConnectionsQuery(\json_decode($request->get('search', "[]"), true, 512, JSON_THROW_ON_ERROR));
+        $query = new FetchConnectionsQuery(\json_decode((string) $request->get('search', "[]"), true, 512, JSON_THROW_ON_ERROR));
 
         $connections = $this->fetchConnectionsHandler->handle($query);
 

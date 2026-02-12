@@ -15,22 +15,13 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\EntityWithAssociationsInterfac
  */
 class AssociationClassResolver
 {
-    /** @var string[] */
-    private $associationClassMap;
-
     /**
      * @param string[] $associationClassMap
      */
-    public function __construct(array $associationClassMap)
+    public function __construct(private readonly array $associationClassMap)
     {
-        $this->associationClassMap = $associationClassMap;
     }
 
-    /**
-     * @param EntityWithAssociationsInterface $entity
-     *
-     * @return string
-     */
     public function resolveAssociationClass(EntityWithAssociationsInterface $entity): string
     {
         foreach ($this->associationClassMap as $className => $associationClassName) {
@@ -39,7 +30,7 @@ class AssociationClassResolver
             }
         }
 
-        $entityClass = get_class($entity);
+        $entityClass = $entity::class;
 
         throw new \InvalidArgumentException(sprintf(
             'Cannot find any association class for entity of type "%s"',

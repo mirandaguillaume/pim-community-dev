@@ -5,25 +5,13 @@ namespace Oro\Bundle\SecurityBundle\Model;
 class AclPrivilegeIdentity
 {
     /**
-     * @var string
-     */
-    private $id;
-
-    /**
-     * @var string
-     */
-    private $name;
-
-    /**
      * Constructor
      *
      * @param string|null $id
      * @param string|null $name
      */
-    public function __construct($id = null, $name = null)
+    public function __construct(private $id = null, private $name = null)
     {
-        $this->id = $id;
-        $this->name = $name;
     }
 
     /**

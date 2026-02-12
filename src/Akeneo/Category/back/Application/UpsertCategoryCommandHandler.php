@@ -62,7 +62,7 @@ class UpsertCategoryCommandHandler
         foreach ($command->userIntents() as $userIntent) {
             $applier = $this->applierRegistry->getApplier($userIntent);
             if (null === $applier) {
-                throw new \InvalidArgumentException(\sprintf('The "%s" intent cannot be handled.', get_class($userIntent)));
+                throw new \InvalidArgumentException(\sprintf('The "%s" intent cannot be handled.', $userIntent::class));
             }
 
             try {

@@ -11,21 +11,16 @@ namespace Akeneo\Pim\Enrichment\Component\Error\Documentation;
  */
 class RouteMessageParameter implements MessageParameterInterface
 {
-    /** @var string */
-    private $title;
-
-    /** @var string */
-    private $route;
+    private readonly string $route;
 
     /** @var array<string, mixed> */
-    private $routeParameters;
+    private readonly array $routeParameters;
 
     /**
      * @param array<string, mixed> $routeParameters
      */
-    public function __construct(string $title, string $route, array $routeParameters = [])
+    public function __construct(private readonly string $title, string $route, array $routeParameters = [])
     {
-        $this->title = $title;
         if (1 !== preg_match('/^[a-z_]+$/', $route)) {
             throw new \InvalidArgumentException(sprintf(
                 'The provided route must be composed by a-z or _ characters only, "%s" given.',

@@ -20,15 +20,10 @@ final class RoleNormalizer implements NormalizerInterface, CacheableSupportsMeth
     private const ACL_EXTENSION_KEY = 'action';
 
     private array $supportedFormats = ['array', 'standard'];
-
-    private AclManager $aclManager;
-    private NormalizerInterface $aclPrivilegeNormalizer;
     private ?array $cacheIndexedAclIds = null;
 
-    public function __construct(AclManager $aclManager, NormalizerInterface $aclPrivilegeNormalizer)
+    public function __construct(private readonly AclManager $aclManager, private readonly NormalizerInterface $aclPrivilegeNormalizer)
     {
-        $this->aclManager = $aclManager;
-        $this->aclPrivilegeNormalizer = $aclPrivilegeNormalizer;
     }
 
     /**
@@ -50,7 +45,7 @@ final class RoleNormalizer implements NormalizerInterface, CacheableSupportsMeth
             }
 
             $aclPermissions = $privilege->getPermissions();
-            if (count($aclPermissions) > 1) {
+            if ((is_countable($aclPermissions) ? count($aclPermissions) : 0) > 1) {
                 continue;
             }
 

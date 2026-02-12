@@ -12,8 +12,6 @@ namespace Akeneo\Tool\Component\Connector\Writer\File;
 interface ColumnSorterInterface
 {
     /**
-     * @param array $columns
-     * @param array $context
      *
      * @return array
      */

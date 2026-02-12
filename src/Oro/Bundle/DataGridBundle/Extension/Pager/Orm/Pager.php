@@ -23,8 +23,6 @@ class Pager extends AbstractPager implements PagerInterface
     }
 
     /**
-     * @param QueryBuilder $qb
-     *
      * @return $this
      */
     public function setQueryBuilder(QueryBuilder $qb)
@@ -111,13 +109,12 @@ class Pager extends AbstractPager implements PagerInterface
      * Returns a parameter.
      *
      * @param string $name
-     * @param mixed  $default
      *
      * @return mixed
      */
-    public function getParameter($name, $default = null)
+    public function getParameter($name, mixed $default = null)
     {
-        return isset($this->parameters[$name]) ? $this->parameters[$name] : $default;
+        return $this->parameters[$name] ?? $default;
     }
 
     /**
@@ -136,9 +133,8 @@ class Pager extends AbstractPager implements PagerInterface
      * Sets a parameter.
      *
      * @param string $name
-     * @param mixed  $value
      */
-    public function setParameter($name, $value)
+    public function setParameter($name, mixed $value)
     {
         $this->parameters[$name] = $value;
     }

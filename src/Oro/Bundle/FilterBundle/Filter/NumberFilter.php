@@ -39,18 +39,13 @@ class NumberFilter extends AbstractFilter
         return true;
     }
 
-    /**
-     * @param mixed $data
-     *
-     * @return array|bool
-     */
-    public function parseData($data)
+    public function parseData(mixed $data): array|bool
     {
         if (!is_array($data) || !array_key_exists('value', $data) || !is_numeric($data['value'])) {
             return false;
         }
 
-        $data['type'] = isset($data['type']) ? $data['type'] : null;
+        $data['type'] ??= null;
 
         return $data;
     }
@@ -72,7 +67,7 @@ class NumberFilter extends AbstractFilter
             NumberFilterType::TYPE_LESS_THAN     => Operators::LOWER_THAN,
         ];
 
-        return isset($operatorTypes[$type]) ? $operatorTypes[$type] : '=';
+        return $operatorTypes[$type] ?? '=';
     }
 
     /**

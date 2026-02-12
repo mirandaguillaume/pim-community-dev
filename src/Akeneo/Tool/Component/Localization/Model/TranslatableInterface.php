@@ -23,7 +23,6 @@ interface TranslatableInterface
     /**
      * Get translation for current locale
      *
-     * @param string|null $locale
      *
      * @return AbstractTranslation
      */
@@ -32,7 +31,6 @@ interface TranslatableInterface
     /**
      * Add translation
      *
-     * @param TranslationInterface $translation
      *
      * @return TranslatableInterface
      */
@@ -41,7 +39,6 @@ interface TranslatableInterface
     /**
      * Remove translation
      *
-     * @param TranslationInterface $translation
      *
      * @return TranslatableInterface
      */

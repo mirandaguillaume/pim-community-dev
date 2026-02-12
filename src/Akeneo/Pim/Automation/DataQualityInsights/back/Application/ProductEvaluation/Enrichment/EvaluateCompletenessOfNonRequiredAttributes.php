@@ -13,7 +13,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\CriterionCode;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class EvaluateCompletenessOfNonRequiredAttributes implements EvaluateCriterionInterface
+final readonly class EvaluateCompletenessOfNonRequiredAttributes implements EvaluateCriterionInterface
 {
     public const CRITERION_CODE = 'completeness_of_non_required_attributes';
 
@@ -21,15 +21,9 @@ final class EvaluateCompletenessOfNonRequiredAttributes implements EvaluateCrite
 
     private CriterionCode $code;
 
-    private CalculateProductCompletenessInterface $completenessCalculator;
-
-    private EvaluateCompleteness $evaluateCompleteness;
-
-    public function __construct(CalculateProductCompletenessInterface $completenessCalculator, EvaluateCompleteness $evaluateCompleteness)
+    public function __construct(private CalculateProductCompletenessInterface $completenessCalculator, private EvaluateCompleteness $evaluateCompleteness)
     {
         $this->code = new CriterionCode(self::CRITERION_CODE);
-        $this->completenessCalculator = $completenessCalculator;
-        $this->evaluateCompleteness = $evaluateCompleteness;
     }
 
     public function evaluate(Write\CriterionEvaluation $criterionEvaluation, ProductValuesCollection $productValues): Write\CriterionEvaluationResult

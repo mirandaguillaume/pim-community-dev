@@ -26,25 +26,19 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class FilterExtension extends AbstractExtension
 {
     /** @staticvar string Query param */
-    const FILTER_ROOT_PARAM = '_filter';
+    final public const FILTER_ROOT_PARAM = '_filter';
 
     /**
      * @var FilterInterface[]
      */
     protected $filters = [];
 
-    protected TranslatorInterface $translator;
-    protected DatasourceAdapterResolverInterface $adapterResolver;
-
     public function __construct(
         RequestParameters $requestParams,
-        TranslatorInterface $translator,
-        DatasourceAdapterResolverInterface $adapterResolver
+        protected TranslatorInterface $translator,
+        protected DatasourceAdapterResolverInterface $adapterResolver
     ) {
         parent::__construct($requestParams);
-
-        $this->translator = $translator;
-        $this->adapterResolver = $adapterResolver;
     }
 
     /**
@@ -86,7 +80,7 @@ class FilterExtension extends AbstractExtension
         $datasourceAdapter = new $adapterClass($datasource);
 
         foreach ($filters as $filter) {
-            $value = isset($values[$filter->getName()]) ? $values[$filter->getName()] : false;
+            $value = $values[$filter->getName()] ?? false;
 
             if ($value !== false) {
                 $form = $filter->getForm();
@@ -114,7 +108,7 @@ class FilterExtension extends AbstractExtension
         $values = $this->getValuesToApply($config);
 
         foreach ($filters as $filter) {
-            $value = isset($values[$filter->getName()]) ? $values[$filter->getName()] : false;
+            $value = $values[$filter->getName()] ?? false;
 
             if (false !== $value) {
                 $form = $filter->getForm();
@@ -145,7 +139,6 @@ class FilterExtension extends AbstractExtension
      * Add filter to array of available filters
      *
      * @param string          $name
-     * @param FilterInterface $filter
      *
      * @return $this
      */
@@ -159,7 +152,6 @@ class FilterExtension extends AbstractExtension
     /**
      * Prepare filters array
      *
-     * @param DatagridConfiguration $config
      *
      * @return FilterInterface[]
      */
@@ -201,10 +193,8 @@ class FilterExtension extends AbstractExtension
      * if this $gridName is not filterable by category, return null.
      *
      * @param string $gridName
-     *
-     * @return array|null
      */
-    protected function getCategoryFilterConfig($gridName)
+    protected function getCategoryFilterConfig($gridName): ?array
     {
         $gridConfigs = [
             'product-grid' => [
@@ -217,13 +207,12 @@ class FilterExtension extends AbstractExtension
             ]
         ];
 
-        return isset($gridConfigs[$gridName]) ? $gridConfigs[$gridName] : null;
+        return $gridConfigs[$gridName] ?? null;
     }
 
     /**
      * Takes param from request and merge with default filters
      *
-     * @param DatagridConfiguration $config
      *
      * @return array
      */
@@ -249,7 +238,6 @@ class FilterExtension extends AbstractExtension
      * Returns prepared filter object
      *
      * @param string $name
-     * @param array  $config
      *
      * @return FilterInterface
      */

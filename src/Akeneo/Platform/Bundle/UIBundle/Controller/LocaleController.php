@@ -21,10 +21,6 @@ class LocaleController
     /** @var NormalizerInterface */
     protected $normalizer;
 
-    /**
-     * @param LocaleProviderInterface $localeProvider
-     * @param NormalizerInterface     $normalizer
-     */
     public function __construct(LocaleProviderInterface $localeProvider, NormalizerInterface $normalizer)
     {
         $this->localeProvider = $localeProvider;

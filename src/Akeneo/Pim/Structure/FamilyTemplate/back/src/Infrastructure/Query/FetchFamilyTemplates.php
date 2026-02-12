@@ -13,7 +13,7 @@ class FetchFamilyTemplates implements FetchFamilyTemplatesInterface
     private const MINIFIED_DIRECTORY = '/dist';
     private const TEMPLATES_DIRECTORY = '/templates/families';
 
-    private Client $client;
+    private readonly Client $client;
 
     public function __construct(
         string $apiUrl,
@@ -34,21 +34,21 @@ class FetchFamilyTemplates implements FetchFamilyTemplatesInterface
     {
         $response = $this->client->request('GET', '/repos/'.$this->githubOrgName.'/'.$this->githubRepoName.'/contents'.self::MINIFIED_DIRECTORY.'/minified.json');
 
-        $content = json_decode($response->getBody()->getContents(), true);
+        $content = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
         if (!isset($content['content'])) {
             return [];
         }
 
-        return json_decode(base64_decode($content['content']), true);
+        return json_decode(base64_decode((string) $content['content']), true, 512, JSON_THROW_ON_ERROR);
     }
 
     public function byName(string $templateName): FamilyTemplate
     {
         $response = $this->client->request('GET', '/repos/'.$this->githubOrgName.'/'.$this->githubRepoName.'/contents'.self::TEMPLATES_DIRECTORY.'/'.$templateName.'.json');
 
-        $responseContent = json_decode($response->getBody()->getContents(), true);
+        $responseContent = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
 
-        $arrayTemplate = json_decode(base64_decode($responseContent['content']), true);
+        $arrayTemplate = json_decode(base64_decode((string) $responseContent['content']), true, 512, JSON_THROW_ON_ERROR);
 
         return $this->buildReadModel($arrayTemplate);
     }

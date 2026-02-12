@@ -23,7 +23,7 @@ use Webmozart\Assert\Assert;
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-abstract class AbstractProduct implements ProductInterface
+abstract class AbstractProduct implements ProductInterface, \Stringable
 {
     use EntityWithQuantifiedAssociationTrait;
 
@@ -402,17 +402,13 @@ abstract class AbstractProduct implements ProductInterface
     {
         $formerCategories = $this->getCategories();
         $categoriesToAdd = $categories->filter(
-            function (CategoryInterface $category) use ($formerCategories) {
-                return !$formerCategories->contains($category);
-            }
+            fn(CategoryInterface $category) => !$formerCategories->contains($category)
         );
         foreach ($categoriesToAdd as $categoryToAdd) {
             $this->addCategory($categoryToAdd);
         }
         $categoriesToRemove = $formerCategories->filter(
-            function (Categoryinterface $category) use ($categories) {
-                return !$categories->contains($category);
-            }
+            fn(Categoryinterface $category) => !$categories->contains($category)
         );
         foreach ($categoriesToRemove as $categoryToRemove) {
             $this->removeCategory($categoryToRemove);
@@ -436,9 +432,7 @@ abstract class AbstractProduct implements ProductInterface
      */
     public function getCategoryCodes()
     {
-        $codes = $this->getCategories()->map(function (CategoryInterface $category): string {
-            return $category->getCode();
-        })->toArray();
+        $codes = $this->getCategories()->map(fn(CategoryInterface $category): string => $category->getCode())->toArray();
         sort($codes);
 
         return $codes;
@@ -449,9 +443,7 @@ abstract class AbstractProduct implements ProductInterface
      */
     public function getGroupCodes()
     {
-        $codes = $this->groups->map(function (GroupInterface $group): string {
-            return $group->getCode();
-        })->toArray();
+        $codes = $this->groups->map(fn(GroupInterface $group): string => $group->getCode())->toArray();
         sort($codes);
 
         return $codes;
@@ -463,15 +455,11 @@ abstract class AbstractProduct implements ProductInterface
     public function setGroups(Collection $groups): void
     {
         $formerGroups = $this->getGroups();
-        $groupsToAdd = $groups->filter(function (GroupInterface $group) use ($formerGroups): bool {
-            return !$formerGroups->contains($group);
-        });
+        $groupsToAdd = $groups->filter(fn(GroupInterface $group): bool => !$formerGroups->contains($group));
         foreach ($groupsToAdd as $groupToAdd) {
             $this->addGroup($groupToAdd);
         }
-        $groupsToRemove = $formerGroups->filter(function (GroupInterface $group) use ($groups): bool {
-            return !$groups->contains($group);
-        });
+        $groupsToRemove = $formerGroups->filter(fn(GroupInterface $group): bool => !$groups->contains($group));
         foreach ($groupsToRemove as $groupToRemove) {
             $this->removeGroup($groupToRemove);
         }
@@ -566,7 +554,7 @@ abstract class AbstractProduct implements ProductInterface
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->getLabel();
     }
@@ -1012,8 +1000,6 @@ abstract class AbstractProduct implements ProductInterface
     }
 
     /**
-     * @param EntityWithFamilyVariantInterface $entity
-     * @param WriteValueCollection         $valueCollection
      *
      * @return WriteValueCollection
      */
@@ -1035,8 +1021,6 @@ abstract class AbstractProduct implements ProductInterface
     }
 
     /**
-     * @param EntityWithFamilyVariantInterface $entity
-     * @param Collection                       $categoryCollection
      *
      * @return Collection
      */
@@ -1062,7 +1046,6 @@ abstract class AbstractProduct implements ProductInterface
     /**
      * Does the ancestry of the entity already has the $category?
      *
-     * @param CategoryInterface $category
      *
      * @return bool
      */

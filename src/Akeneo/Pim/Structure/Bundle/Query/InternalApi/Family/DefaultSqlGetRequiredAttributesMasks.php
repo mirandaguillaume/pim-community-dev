@@ -14,15 +14,10 @@ use Doctrine\DBAL\Connection;
  * @copyright 2021 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class DefaultSqlGetRequiredAttributesMasks implements GetRequiredAttributesMasksForAttributeType
+final readonly class DefaultSqlGetRequiredAttributesMasks implements GetRequiredAttributesMasksForAttributeType
 {
-    private Connection $connection;
-    private array $supportedTypes;
-
-    public function __construct(Connection $connection, array $supportedTypes)
+    public function __construct(private Connection $connection, private array $supportedTypes)
     {
-        $this->connection = $connection;
-        $this->supportedTypes = $supportedTypes;
     }
 
     /**
@@ -92,7 +87,7 @@ SQL;
             $masksPerFamily[$masksPerChannelAndLocale['family_code']][] = new RequiredAttributesMaskForChannelAndLocale(
                 (string) $masksPerChannelAndLocale['channel_code'],
                 (string) $masksPerChannelAndLocale['locale_code'],
-                json_decode($masksPerChannelAndLocale['mask'], true)
+                json_decode((string) $masksPerChannelAndLocale['mask'], true, 512, JSON_THROW_ON_ERROR)
             );
         }
 

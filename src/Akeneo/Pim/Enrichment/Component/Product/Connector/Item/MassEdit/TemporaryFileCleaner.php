@@ -42,10 +42,7 @@ class TemporaryFileCleaner implements StepExecutionAwareInterface
         return $this;
     }
 
-    /**
-     * @return array|null
-     */
-    protected function getConfiguredActions()
+    protected function getConfiguredActions(): ?array
     {
         $jobParameters = $this->stepExecution->getJobParameters();
 

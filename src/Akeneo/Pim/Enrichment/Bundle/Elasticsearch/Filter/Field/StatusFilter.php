@@ -16,10 +16,6 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  */
 class StatusFilter extends AbstractFieldFilter implements FieldFilterInterface
 {
-    /**
-     * @param array $supportedFields
-     * @param array $supportedOperators
-     */
     public function __construct(array $supportedFields = [], array $supportedOperators = [])
     {
         $this->supportedFields = $supportedFields;

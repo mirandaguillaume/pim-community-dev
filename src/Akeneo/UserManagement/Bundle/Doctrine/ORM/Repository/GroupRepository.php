@@ -36,10 +36,8 @@ class GroupRepository extends EntityRepository implements GroupRepositoryInterfa
 
     /**
      * Get the default user group
-     *
-     * @return null|object
      */
-    public function getDefaultUserGroup()
+    public function getDefaultUserGroup(): ?object
     {
         return $this->findOneByIdentifier(User::GROUP_DEFAULT);
     }
@@ -69,7 +67,6 @@ class GroupRepository extends EntityRepository implements GroupRepositoryInterfa
     /**
      * Get user query builder
      *
-     * @param  GroupInterface $group
      *
      * @return QueryBuilder
      */

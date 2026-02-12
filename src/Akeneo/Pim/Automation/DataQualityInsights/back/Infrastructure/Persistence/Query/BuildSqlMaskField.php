@@ -16,7 +16,7 @@ class BuildSqlMaskField
      * @param AttributeCase[] $attributeCases
      */
     public function __construct(
-        private iterable $attributeCases,
+        private readonly iterable $attributeCases,
     ) {
     }
 

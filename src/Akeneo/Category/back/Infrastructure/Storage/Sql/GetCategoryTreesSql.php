@@ -14,7 +14,7 @@ use Doctrine\DBAL\Connection;
  */
 class GetCategoryTreesSql implements GetCategoryTreesInterface
 {
-    public function __construct(private Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
     }
 
@@ -25,6 +25,7 @@ class GetCategoryTreesSql implements GetCategoryTreesInterface
 
     public function byIds(array $categryTreeIds): ?array
     {
+        $condition = [];
         $condition['sqlAnd'] = 'AND category.id IN (:ids)';
         $condition['params'] = ['ids' => $categryTreeIds];
         $condition['types'] = ['ids' => Connection::PARAM_INT_ARRAY];
@@ -87,8 +88,6 @@ class GetCategoryTreesSql implements GetCategoryTreesInterface
             return null;
         }
 
-        return array_map(static function ($result) {
-            return CategoryTree::fromDatabase($result);
-        }, $results);
+        return array_map(static fn($result) => CategoryTree::fromDatabase($result), $results);
     }
 }

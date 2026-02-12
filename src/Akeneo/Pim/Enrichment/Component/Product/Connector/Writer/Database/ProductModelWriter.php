@@ -27,10 +27,6 @@ class ProductModelWriter implements ItemWriterInterface, StepExecutionAwareInter
     /** @var BulkSaverInterface */
     protected $productModelSaver;
 
-    /**
-     * @param VersionManager                $versionManager
-     * @param BulkSaverInterface            $productModelSaver
-     */
     public function __construct(
         VersionManager $versionManager,
         BulkSaverInterface $productModelSaver

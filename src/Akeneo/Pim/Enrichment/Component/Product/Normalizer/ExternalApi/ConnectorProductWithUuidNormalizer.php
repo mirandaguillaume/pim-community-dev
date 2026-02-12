@@ -21,7 +21,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Normalizer\Standard\DateTimeNormaliz
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ConnectorProductWithUuidNormalizer
+final readonly class ConnectorProductWithUuidNormalizer
 {
     public function __construct(
         private ValuesNormalizer $valuesNormalizer,
@@ -118,8 +118,6 @@ final class ConnectorProductWithUuidNormalizer
      *     'groups' => ['group_code_2']
      *   ],
      * ],
-     *
-     * @return array
      */
     private function normalizeAssociations(array $associations): array
     {
@@ -150,8 +148,6 @@ final class ConnectorProductWithUuidNormalizer
      *     'groups' => ['group_code_2']
      *   ],
      * ],
-     *
-     * @return array
      */
     private function normalizeQuantifiedAssociations(array $quantifiedAssociations): array
     {

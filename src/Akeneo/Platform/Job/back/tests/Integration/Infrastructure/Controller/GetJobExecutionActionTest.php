@@ -26,7 +26,7 @@ class GetJobExecutionActionTest extends ControllerIntegrationTestCase
 
         $response = $this->client->getResponse();
         Assert::assertSame(Response::HTTP_OK, $response->getStatusCode());
-        Assert::assertSame(3, json_decode($response->getContent(), true)['matches_count']);
+        Assert::assertSame(3, json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR)['matches_count']);
     }
 
     public function test_without_permission_it_returns_only_jobs_for_current_user(): void
@@ -36,7 +36,7 @@ class GetJobExecutionActionTest extends ControllerIntegrationTestCase
 
         $response = $this->client->getResponse();
         Assert::assertSame(Response::HTTP_OK, $response->getStatusCode());
-        Assert::assertSame(1, json_decode($response->getContent(), true)['matches_count']);
+        Assert::assertSame(1, json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR)['matches_count']);
     }
 
     public function test_it_returns_a_forbidden_access_when_user_cannot_access_to_process_tracker(): void

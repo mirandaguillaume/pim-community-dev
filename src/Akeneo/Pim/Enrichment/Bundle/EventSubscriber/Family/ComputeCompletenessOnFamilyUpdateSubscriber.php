@@ -24,52 +24,18 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  */
 final class ComputeCompletenessOnFamilyUpdateSubscriber implements EventSubscriberInterface
 {
-    /** @var TokenStorageInterface */
-    private $tokenStorage;
+    private bool $areAttributeRequirementsUpdatedForFamilies;
 
-    /** @var JobLauncherInterface */
-    private $jobLauncher;
+    private bool $isAttributeListUpdated;
 
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $jobInstanceRepository;
-
-    /** @var string */
-    private $jobName;
-
-    /** @var AttributeRequirementRepositoryInterface */
-    private $attributeRequirementRepository;
-
-    /** @var FindAttributesForFamily */
-    private $findAttributesForFamily;
-
-    /** @var bool */
-    private $areAttributeRequirementsUpdatedForFamilies;
-
-    /** @var bool */
-    private $isAttributeListUpdated;
-
-    /**
-     * @param TokenStorageInterface                   $tokenStorage
-     * @param JobLauncherInterface                    $jobLauncher
-     * @param IdentifiableObjectRepositoryInterface   $jobInstanceRepository
-     * @param AttributeRequirementRepositoryInterface $attributeRequirementRepository
-     * @param FindAttributesForFamily                 $findAttributesForFamily
-     * @param string                                  $jobName
-     */
     public function __construct(
-        TokenStorageInterface $tokenStorage,
-        JobLauncherInterface $jobLauncher,
-        IdentifiableObjectRepositoryInterface $jobInstanceRepository,
-        AttributeRequirementRepositoryInterface $attributeRequirementRepository,
-        string $jobName,
-        FindAttributesForFamily $findAttributesForFamily
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly JobLauncherInterface $jobLauncher,
+        private readonly IdentifiableObjectRepositoryInterface $jobInstanceRepository,
+        private readonly AttributeRequirementRepositoryInterface $attributeRequirementRepository,
+        private readonly string $jobName,
+        private readonly FindAttributesForFamily $findAttributesForFamily
     ) {
-        $this->tokenStorage = $tokenStorage;
-        $this->jobLauncher = $jobLauncher;
-        $this->jobInstanceRepository = $jobInstanceRepository;
-        $this->attributeRequirementRepository = $attributeRequirementRepository;
-        $this->findAttributesForFamily = $findAttributesForFamily;
-        $this->jobName = $jobName;
         $this->areAttributeRequirementsUpdatedForFamilies = false;
         $this->isAttributeListUpdated = false;
     }
@@ -121,8 +87,6 @@ final class ComputeCompletenessOnFamilyUpdateSubscriber implements EventSubscrib
     }
 
     /**
-     * @param GenericEvent $event
-     *
      * @throws \InvalidArgumentException
      */
     public function computeCompletenessOfProductsFamily(GenericEvent $event): void
@@ -145,11 +109,6 @@ final class ComputeCompletenessOnFamilyUpdateSubscriber implements EventSubscrib
         }
     }
 
-    /**
-     * @param FamilyInterface $family
-     *
-     * @return bool
-     */
     private function areAttributeRequirementsListsUpdated(FamilyInterface $family): bool
     {
         $oldAttributeRequirementsKeys = $this->getOldAttributeRequirementKeys($family);
@@ -166,11 +125,6 @@ final class ComputeCompletenessOnFamilyUpdateSubscriber implements EventSubscrib
         return count($diff) > 0;
     }
 
-    /**
-     * @param FamilyInterface $family
-     *
-     * @return array
-     */
     private function getOldAttributeRequirementKeys(FamilyInterface $family): array
     {
         $oldAttributeRequirementsKeys = [];
@@ -188,18 +142,14 @@ final class ComputeCompletenessOnFamilyUpdateSubscriber implements EventSubscrib
     }
 
     /**
-     * @param FamilyInterface $family
      *
      * @throws \Doctrine\DBAL\DBALException
      *
-     * @return bool
      */
     private function isAttributeListUpdated(FamilyInterface $family): bool
     {
         $oldAttributeList = $this->findAttributesForFamily->execute($family);
-        $newAttributeList = $family->getAttributes()->map(function (AttributeInterface $attribute) {
-            return $attribute->getCode();
-        })->toArray();
+        $newAttributeList = $family->getAttributes()->map(fn(AttributeInterface $attribute) => $attribute->getCode())->toArray();
 
         sort($oldAttributeList);
         sort($newAttributeList);

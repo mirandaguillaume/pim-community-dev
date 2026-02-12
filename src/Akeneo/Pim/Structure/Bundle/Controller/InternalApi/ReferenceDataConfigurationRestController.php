@@ -21,10 +21,6 @@ class ReferenceDataConfigurationRestController
     /** @var NormalizerInterface */
     protected $normalizer;
 
-    /**
-     * @param ConfigurationRegistryInterface $registry
-     * @param NormalizerInterface            $normalizer
-     */
     public function __construct(ConfigurationRegistryInterface $registry, NormalizerInterface $normalizer)
     {
         $this->registry = $registry;

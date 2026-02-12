@@ -11,12 +11,12 @@ class ToolbarExtension extends AbstractExtension
     /**
      * Configuration tree paths
      */
-    const METADATA_KEY = 'options';
+    final public const METADATA_KEY = 'options';
 
-    const OPTIONS_PATH = '[options]';
-    const TOOLBAR_OPTION_PATH = '[options][toolbarOptions]';
-    const PAGER_ITEMS_OPTION_PATH = '[options][toolbarOptions][pageSize][items]';
-    const PAGER_DEFAULT_PER_PAGE_OPTION_PATH = '[options][toolbarOptions][pageSize][default_per_page]';
+    final public const OPTIONS_PATH = '[options]';
+    final public const TOOLBAR_OPTION_PATH = '[options][toolbarOptions]';
+    final public const PAGER_ITEMS_OPTION_PATH = '[options][toolbarOptions][pageSize][items]';
+    final public const PAGER_DEFAULT_PER_PAGE_OPTION_PATH = '[options][toolbarOptions][pageSize][default_per_page]';
 
     /**
      * {@inheritDoc}

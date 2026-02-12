@@ -296,9 +296,7 @@ class V20221214GiveNewCategoryAclToUserWithOldCategoryAclZddMigrationIntegration
     }
 
     /**
-     * @param string $username
      * @param array<string> $groups
-     * @return User
      */
     private function createUser(string $username, array $groups): User
     {

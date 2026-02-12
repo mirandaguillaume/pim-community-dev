@@ -126,12 +126,10 @@ class OptionFilter extends AbstractAttributeFilter implements AttributeFilterInt
     /**
      * Check if values are valid
      *
-     * @param AttributeInterface $attribute
-     * @param mixed              $values
      *
      * @throws ObjectNotFoundException
      */
-    protected function checkValue(AttributeInterface $attribute, $values)
+    protected function checkValue(AttributeInterface $attribute, mixed $values)
     {
         FieldFilterHelper::checkArray($attribute->getCode(), $values, static::class);
 
@@ -141,9 +139,7 @@ class OptionFilter extends AbstractAttributeFilter implements AttributeFilterInt
 
         $attributeOptions = $this->attributeOptionRepository->findCodesByIdentifiers($attribute->getCode(), $values);
         $optionCodes = array_map(
-            function ($attributeOptions) {
-                return $attributeOptions['code'];
-            },
+            fn($attributeOptions) => $attributeOptions['code'],
             $attributeOptions
         );
 

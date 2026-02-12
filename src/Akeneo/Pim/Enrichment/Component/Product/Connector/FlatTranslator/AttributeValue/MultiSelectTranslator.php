@@ -16,11 +16,8 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeOption\GetExistingAt
 
 class MultiSelectTranslator implements FlatAttributeValueTranslatorInterface
 {
-    private GetExistingAttributeOptionsWithValues $getExistingAttributeOptionsWithValues;
-
-    public function __construct(GetExistingAttributeOptionsWithValues $getExistingAttributeOptionsWithValues)
+    public function __construct(private readonly GetExistingAttributeOptionsWithValues $getExistingAttributeOptionsWithValues)
     {
-        $this->getExistingAttributeOptionsWithValues = $getExistingAttributeOptionsWithValues;
     }
 
     public function supports(string $attributeType, string $columnName): bool
@@ -44,7 +41,7 @@ class MultiSelectTranslator implements FlatAttributeValueTranslatorInterface
                 continue;
             }
 
-            $optionCodes = explode(',', $value);
+            $optionCodes = explode(',', (string) $value);
             $labelizedOptions = array_map(
                 function ($optionCode) use ($attributeCode, $locale, $attributeOptionTranslations) {
                     $optionKey = self::generateOptionKey($attributeCode, $optionCode);
@@ -67,13 +64,13 @@ class MultiSelectTranslator implements FlatAttributeValueTranslatorInterface
             if (null === $value || '' === $value) {
                 continue;
             }
-            $optionCodes = explode(',', $value);
+            $optionCodes = explode(',', (string) $value);
             $currentOptionKeys = array_map(
                 static fn ($optionCode) => self::generateOptionKey($attributeCode, $optionCode),
                 $optionCodes
             );
 
-            $optionKeys = array_merge($optionKeys, $currentOptionKeys);
+            $optionKeys = [...$optionKeys, ...$currentOptionKeys];
         }
 
         return $optionKeys;

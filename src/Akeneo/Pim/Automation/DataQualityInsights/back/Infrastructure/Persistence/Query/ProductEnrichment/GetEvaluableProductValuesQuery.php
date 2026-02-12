@@ -22,23 +22,8 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductUuid;
  */
 class GetEvaluableProductValuesQuery implements GetEvaluableProductValuesQueryInterface
 {
-    /** @var GetProductRawValuesQueryInterface */
-    private $getProductRawValuesQuery;
-
-    /** @var GetEvaluableAttributesByProductQueryInterface */
-    private $getEvaluableAttributesByProductQuery;
-
-    /** @var GetLocalesByChannelQueryInterface */
-    private $localesByChannelQuery;
-
-    public function __construct(
-        GetProductRawValuesQueryInterface $getProductRawValuesQuery,
-        GetEvaluableAttributesByProductQueryInterface $getEvaluableAttributesByProductQuery,
-        GetLocalesByChannelQueryInterface $localesByChannelQuery
-    ) {
-        $this->getProductRawValuesQuery = $getProductRawValuesQuery;
-        $this->getEvaluableAttributesByProductQuery = $getEvaluableAttributesByProductQuery;
-        $this->localesByChannelQuery = $localesByChannelQuery;
+    public function __construct(private readonly GetProductRawValuesQueryInterface $getProductRawValuesQuery, private readonly GetEvaluableAttributesByProductQueryInterface $getEvaluableAttributesByProductQuery, private readonly GetLocalesByChannelQueryInterface $localesByChannelQuery)
+    {
     }
 
     public function byProductId(ProductEntityIdInterface $productId): ProductValuesCollection

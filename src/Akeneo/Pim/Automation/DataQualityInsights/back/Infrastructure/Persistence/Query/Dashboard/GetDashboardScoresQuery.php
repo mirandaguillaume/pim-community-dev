@@ -15,13 +15,10 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\TimePeriod;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Result;
 
-final class GetDashboardScoresQuery implements GetDashboardScoresQueryInterface
+final readonly class GetDashboardScoresQuery implements GetDashboardScoresQueryInterface
 {
-    private Connection $db;
-
-    public function __construct(Connection $db)
+    public function __construct(private Connection $db)
     {
-        $this->db = $db;
     }
 
     public function byCatalog(ChannelCode $channel, LocaleCode $locale, TimePeriod $timePeriod): ?Read\DashboardRates
@@ -78,6 +75,6 @@ SQL;
             return null;
         }
 
-        return new Read\DashboardRates(json_decode($result, true), $channel, $locale, $timePeriod);
+        return new Read\DashboardRates(json_decode((string) $result, true, 512, JSON_THROW_ON_ERROR), $channel, $locale, $timePeriod);
     }
 }

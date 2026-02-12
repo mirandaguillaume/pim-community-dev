@@ -35,25 +35,19 @@ namespace Akeneo\Pim\Enrichment\Bundle\Elasticsearch;
  */
 class SearchQueryBuilder
 {
-    /** @var array */
-    private $mustNotClauses = [];
+    private array $mustNotClauses = [];
 
-    /** @var array */
-    private $filterClauses = [];
+    private array $filterClauses = [];
 
-    /** @var array */
-    private $shouldClauses = [];
+    private array $shouldClauses = [];
 
-    /** @var array */
-    private $sortClauses = [];
+    private array $sortClauses = [];
 
-    /** @var array */
-    private $aggsClauses = [];
+    private array $aggsClauses = [];
 
     /**
      * Adds a must_not clause to the query
      *
-     * @param array $clause
      *
      * @return SearchQueryBuilder
      */
@@ -67,7 +61,6 @@ class SearchQueryBuilder
     /**
      * Adds a filter clause to the query
      *
-     * @param array $clause
      *
      * @return SearchQueryBuilder
      */
@@ -128,7 +121,6 @@ class SearchQueryBuilder
     /**
      * Adds a sort clause to the query
      *
-     * @param array $sort
      *
      * @return $this
      */
@@ -154,9 +146,7 @@ class SearchQueryBuilder
     /**
      * Returns an Elastic search Query
      *
-     * @param array $source
      *
-     * @return array
      */
     public function getQuery(array $source = []): array
     {

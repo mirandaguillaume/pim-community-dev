@@ -18,10 +18,10 @@ use Psr\Log\LoggerInterface;
 class VolumeAggregation
 {
     public function __construct(
-        private AggregatedVolumeRepositoryInterface $aggregatedVolumeRepository,
-        private iterable $countQueries,
-        private iterable $averageMaxQueries,
-        private LoggerInterface $logger,
+        private readonly AggregatedVolumeRepositoryInterface $aggregatedVolumeRepository,
+        private readonly iterable $countQueries,
+        private readonly iterable $averageMaxQueries,
+        private readonly LoggerInterface $logger,
     ) {
     }
 

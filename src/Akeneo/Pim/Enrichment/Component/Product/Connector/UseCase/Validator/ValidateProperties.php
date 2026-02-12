@@ -17,7 +17,7 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
  */
 final class ValidateProperties
 {
-    private static $productFields = [
+    private static array $productFields = [
         'uuid',
         'family',
         'categories',
@@ -31,13 +31,8 @@ final class ValidateProperties
         'quality_score',
     ];
 
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $attributeRepository;
-
-    public function __construct(
-        IdentifiableObjectRepositoryInterface $attributeRepository
-    ) {
-        $this->attributeRepository = $attributeRepository;
+    public function __construct(private readonly IdentifiableObjectRepositoryInterface $attributeRepository)
+    {
     }
 
     /**

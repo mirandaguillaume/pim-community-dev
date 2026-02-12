@@ -7,7 +7,7 @@ use Symfony\Bundle\SecurityBundle\Security\FirewallMap;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Http\FirewallMapInterface;
 
-final class Firewall
+final readonly class Firewall
 {
     private const API_FIREWALL = 'api';
 

@@ -35,7 +35,7 @@ class EventNormalizer implements NormalizerInterface, DenormalizerInterface
         }
 
         return [
-            'type' => \get_class($object),
+            'type' => $object::class,
             'name' => $object->getName(),
             'author' => $object->getAuthor()->name(),
             'author_type' => $object->getAuthor()->type(),

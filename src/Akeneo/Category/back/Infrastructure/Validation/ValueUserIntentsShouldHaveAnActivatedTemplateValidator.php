@@ -46,9 +46,7 @@ final class ValueUserIntentsShouldHaveAnActivatedTemplateValidator extends Const
     private function validateAttributesLinkedToActivatedTemplate(array $valueUserIntents, Constraint $constraint): void
     {
         /** @var ValueUserIntent[] $valueUserIntents */
-        $valueUserIntents = array_values(array_filter($valueUserIntents, function ($userIntent) {
-            return is_subclass_of($userIntent, ValueUserIntent::class);
-        }));
+        $valueUserIntents = array_values(array_filter($valueUserIntents, fn($userIntent) => is_subclass_of($userIntent, ValueUserIntent::class)));
 
         if (empty($valueUserIntents)) {
             return;

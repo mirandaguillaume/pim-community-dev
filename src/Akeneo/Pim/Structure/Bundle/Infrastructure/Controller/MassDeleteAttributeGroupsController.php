@@ -19,13 +19,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-final class MassDeleteAttributeGroupsController
+final readonly class MassDeleteAttributeGroupsController
 {
     public function __construct(
-        private readonly TokenStorageInterface $tokenStorage,
-        private readonly JobLauncherInterface $jobLauncher,
-        private readonly IdentifiableObjectRepositoryInterface $jobInstanceRepository,
-        private readonly SecurityFacadeInterface $securityFacade,
+        private TokenStorageInterface $tokenStorage,
+        private JobLauncherInterface $jobLauncher,
+        private IdentifiableObjectRepositoryInterface $jobInstanceRepository,
+        private SecurityFacadeInterface $securityFacade,
     ) {
     }
 

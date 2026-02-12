@@ -20,9 +20,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class UpdateConnectionHandler
 {
     public function __construct(
-        private ValidatorInterface $validator,
-        private ConnectionRepositoryInterface $repository,
-        private UpdateUserPermissionsInterface $updateUserPermissions
+        private readonly ValidatorInterface $validator,
+        private readonly ConnectionRepositoryInterface $repository,
+        private readonly UpdateUserPermissionsInterface $updateUserPermissions
     ) {
     }
 

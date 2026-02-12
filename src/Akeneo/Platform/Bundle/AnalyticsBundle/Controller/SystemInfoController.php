@@ -18,13 +18,8 @@ use Twig\Environment;
  */
 class SystemInfoController
 {
-    private Environment $templating;
-    private ChainedDataCollector $dataCollector;
-
-    public function __construct(Environment $templating, ChainedDataCollector $dataCollector)
+    public function __construct(private readonly Environment $templating, private readonly ChainedDataCollector $dataCollector)
     {
-        $this->templating = $templating;
-        $this->dataCollector = $dataCollector;
     }
 
     /**

@@ -8,9 +8,9 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class KeyIndicatorCode
+final class KeyIndicatorCode implements \Stringable
 {
-    private string $code;
+    private readonly string $code;
 
     public function __construct(string $code)
     {
@@ -21,7 +21,7 @@ final class KeyIndicatorCode
         $this->code = $code;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->code;
     }

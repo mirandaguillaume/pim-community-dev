@@ -12,7 +12,6 @@ interface GetViewableProductModels
 {
     /**
      * @param array<string> $productModelCodes
-     * @param int $userId
      * @return array<string>
      */
     public function fromProductModelCodes(array $productModelCodes, int $userId): array;

@@ -14,7 +14,7 @@ use Ramsey\Uuid\Uuid;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class SqlSaveCompletenesses implements SaveProductCompletenesses
+final readonly class SqlSaveCompletenesses implements SaveProductCompletenesses
 {
     public function __construct(
         private Connection $connection,
@@ -56,7 +56,7 @@ final class SqlSaveCompletenesses implements SaveProductCompletenesses
                 ];
             }
             $statement->bindValue(++$placeholderIndex, $uuid, Types::BINARY);
-            $statement->bindValue(++$placeholderIndex, \json_encode($completenessValues));
+            $statement->bindValue(++$placeholderIndex, \json_encode($completenessValues, JSON_THROW_ON_ERROR));
         }
 
         $statement->executeStatement();

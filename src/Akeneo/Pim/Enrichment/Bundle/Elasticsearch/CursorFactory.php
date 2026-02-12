@@ -17,8 +17,8 @@ class CursorFactory implements CursorFactoryInterface
 {
     public function __construct(
         protected Client $searchEngine,
-        private ProductRepositoryInterface $productRepository,
-        private ProductModelRepositoryInterface $productModelRepository,
+        private readonly ProductRepositoryInterface $productRepository,
+        private readonly ProductModelRepositoryInterface $productModelRepository,
         protected int $pageSize
     ) {
     }

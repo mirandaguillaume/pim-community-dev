@@ -11,7 +11,7 @@ namespace Akeneo\Connectivity\Connection\Application\Settings\Query;
 final class FetchConnectionsQuery
 {
     /** @var array<string, mixed> */
-    private array $types;
+    private readonly array $types;
 
     /**
      * @param array<string, mixed> $search

@@ -19,7 +19,6 @@ class EntityWithFamilyVariantAttributesProvider
     /**
      * This method returns all attributes for the given $entityWithFamilyVariant, including axes.
      *
-     * @param EntityWithFamilyVariantInterface $entityWithFamilyVariant
      *
      * @return AttributeInterface[]
      */
@@ -47,8 +46,6 @@ class EntityWithFamilyVariantAttributesProvider
     }
 
     /**
-     * @param EntityWithFamilyVariantInterface $entityWithFamilyVariant
-     *
      * @return AttributeInterface[]
      */
     public function getAxes(EntityWithFamilyVariantInterface $entityWithFamilyVariant): array

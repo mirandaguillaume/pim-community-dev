@@ -31,18 +31,14 @@ class AssociatedProductDatasource extends ProductDatasource
     /** @var string */
     protected $sortOrder;
 
-    /** @var NormalizerInterface */
-    private $internalApiNormalizer;
-
     public function __construct(
         ObjectManager $om,
         ProductQueryBuilderFactoryInterface $factory,
         NormalizerInterface $serializer,
         FilterEntityWithValuesSubscriber $filterEntityWithValuesSubscriber,
-        NormalizerInterface $internalApiNormalizer
+        private readonly NormalizerInterface $internalApiNormalizer
     ) {
         parent::__construct($om, $factory, $serializer, $filterEntityWithValuesSubscriber);
-        $this->internalApiNormalizer = $internalApiNormalizer;
     }
 
     /**
@@ -155,13 +151,7 @@ class AssociatedProductDatasource extends ProductDatasource
         return $this->internalApiNormalizer->normalize($product, 'internal_api', $context);
     }
 
-    /**
-     * @param EntityWithFamilyVariantInterface $product
-     * @param mixed                            $associationTypeId
-     *
-     * @return AssociationInterface|null
-     */
-    protected function getParentAssociation(EntityWithFamilyVariantInterface $product, $associationTypeId): ?AssociationInterface
+    protected function getParentAssociation(EntityWithFamilyVariantInterface $product, mixed $associationTypeId): ?AssociationInterface
     {
         $parent = $product->getParent();
 
@@ -179,8 +169,6 @@ class AssociatedProductDatasource extends ProductDatasource
     }
 
     /**
-     * @param AssociationInterface $association
-     *
      * @return string[]
      */
     protected function getAssociatedProductIds(AssociationInterface $association): array
@@ -194,8 +182,6 @@ class AssociatedProductDatasource extends ProductDatasource
     }
 
     /**
-     * @param AssociationInterface $association
-     *
      * @return string[]
      */
     protected function getAssociatedProductModelIds(AssociationInterface $association): array
@@ -209,12 +195,10 @@ class AssociatedProductDatasource extends ProductDatasource
     }
 
     /**
-     * @param array  $associatedProductsIds
      * @param int    $limit
      * @param int    $from
      * @param string $locale
      * @param string $scope
-     *
      * @return CursorInterface
      */
     protected function getAssociatedProducts(
@@ -233,12 +217,10 @@ class AssociatedProductDatasource extends ProductDatasource
     }
 
     /**
-     * @param array  $associatedProductModelsIds
      * @param int    $limit
      * @param int    $from
      * @param string $locale
      * @param string $scope
-     *
      * @return CursorInterface
      */
     protected function getAssociatedProductModels(
@@ -257,11 +239,9 @@ class AssociatedProductDatasource extends ProductDatasource
     }
 
     /**
-     * @param CursorInterface $products
      * @param array           $idsFromInheritance
      * @param string          $locale
      * @param string          $scope
-     *
      * @return array
      */
     protected function normalizeProductsAndProductModels(
@@ -326,6 +306,7 @@ class AssociatedProductDatasource extends ProductDatasource
      */
     protected function createQueryBuilder($limit, $from, $locale, $scope)
     {
+        $factoryConfig = [];
         if (null === $repositoryParameters = $this->getConfiguration('repository_parameters', false)) {
             $repositoryParameters = [];
         }
@@ -347,13 +328,7 @@ class AssociatedProductDatasource extends ProductDatasource
         return $pqb;
     }
 
-    /**
-     * @param ProductInterface           $sourceProduct
-     * @param mixed                      $associationTypeId
-     *
-     * @return null|AssociationInterface
-     */
-    private function getAssociation(ProductInterface $sourceProduct, $associationTypeId): ?AssociationInterface
+    private function getAssociation(ProductInterface $sourceProduct, mixed $associationTypeId): ?AssociationInterface
     {
         foreach ($sourceProduct->getAllAssociations() as $association) {
             if ($association->getAssociationType()->getId() === (int)$associationTypeId) {

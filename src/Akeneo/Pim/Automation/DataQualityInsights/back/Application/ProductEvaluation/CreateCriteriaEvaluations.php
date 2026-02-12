@@ -17,8 +17,8 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityId
 class CreateCriteriaEvaluations
 {
     public function __construct(
-        private CriteriaByFeatureRegistry $criteriaRegistry,
-        private CriterionEvaluationRepositoryInterface $criterionEvaluationRepository
+        private readonly CriteriaByFeatureRegistry $criteriaRegistry,
+        private readonly CriterionEvaluationRepositoryInterface $criterionEvaluationRepository
     ) {
     }
 
@@ -29,7 +29,6 @@ class CreateCriteriaEvaluations
 
     /**
      * @param CriterionCode[] $criterionCodes
-     * @param ProductEntityIdCollection $productIdCollection
      */
     public function create(array $criterionCodes, ProductEntityIdCollection $productIdCollection): void
     {

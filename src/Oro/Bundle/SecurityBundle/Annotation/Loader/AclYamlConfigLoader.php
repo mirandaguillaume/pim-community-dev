@@ -10,8 +10,6 @@ class AclYamlConfigLoader extends AbstractLoader implements AclAnnotationLoaderI
 {
     /**
      * Loads ACL annotations from YAML config files
-     *
-     * @param AclAnnotationStorage $storage
      */
     public function load(AclAnnotationStorage $storage)
     {
@@ -26,8 +24,8 @@ class AclYamlConfigLoader extends AbstractLoader implements AclAnnotationLoaderI
                         foreach ($data['bindings'] as $binding) {
                             $storage->addBinding(
                                 $id,
-                                isset($binding['class']) ? $binding['class'] : null,
-                                isset($binding['method']) ? $binding['method'] : null
+                                $binding['class'] ?? null,
+                                $binding['method'] ?? null
                             );
                         }
                     }

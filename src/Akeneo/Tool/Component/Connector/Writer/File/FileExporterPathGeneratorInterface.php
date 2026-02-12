@@ -13,9 +13,8 @@ interface FileExporterPathGeneratorInterface
 {
     /**
      * @param mixed $object  The object from which the file should be retrieved
-     * @param array $options
      *
      * @return string the export path of the file
      */
-    public function generate($object, array $options = []);
+    public function generate(mixed $object, array $options = []);
 }

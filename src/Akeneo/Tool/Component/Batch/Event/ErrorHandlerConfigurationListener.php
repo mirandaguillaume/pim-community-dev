@@ -13,13 +13,8 @@ use Symfony\Component\Console\Event\ConsoleCommandEvent;
  */
 class ErrorHandlerConfigurationListener
 {
-    private Logger $logger;
-    private string $environment;
-
-    public function __construct(Logger $logger, string $environment)
+    public function __construct(private readonly Logger $logger, private readonly string $environment)
     {
-        $this->logger = $logger;
-        $this->environment = $environment;
     }
 
     public function onConsoleCommand(ConsoleCommandEvent $consoleCommandEvent)

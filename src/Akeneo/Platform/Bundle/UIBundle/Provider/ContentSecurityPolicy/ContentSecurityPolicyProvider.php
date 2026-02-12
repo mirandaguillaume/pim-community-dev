@@ -6,16 +6,13 @@ namespace Akeneo\Platform\Bundle\UIBundle\Provider\ContentSecurityPolicy;
 
 use Akeneo\Platform\Bundle\UIBundle\Provider\ContentSecurityPolicy\ContentSecurityPolicyProviderInterface;
 
-final class ContentSecurityPolicyProvider
+final readonly class ContentSecurityPolicyProvider
 {
     /**
-     * @var ContentSecurityPolicyProviderInterface[]
+     * @param \Akeneo\Platform\Bundle\UIBundle\Provider\ContentSecurityPolicy\ContentSecurityPolicyProviderInterface[] $contentSecurityPolicyProviders
      */
-    private iterable $contentSecurityPolicyProviders;
-
-    public function __construct(iterable $contentSecurityPolicyProviders)
+    public function __construct(private iterable $contentSecurityPolicyProviders)
     {
-        $this->contentSecurityPolicyProviders = $contentSecurityPolicyProviders;
     }
 
     public function getPolicy(): string

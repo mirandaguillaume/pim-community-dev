@@ -16,20 +16,8 @@ use Oro\Bundle\PimDataGridBundle\Query\ListProductGridAvailableColumnGroups as L
  */
 class ListProductGridAvailableColumnGroups implements ListProductGridAvailableColumnGroupsQuery
 {
-    /** @var Connection */
-    private $connection;
-
-    /** @var ConfigurationProviderInterface */
-    private $configurationProvider;
-
-    /**
-     * @param Connection                     $connection
-     * @param ConfigurationProviderInterface $configurationProvider
-     */
-    public function __construct(Connection $connection, ConfigurationProviderInterface $configurationProvider)
+    public function __construct(private readonly Connection $connection, private readonly ConfigurationProviderInterface $configurationProvider)
     {
-        $this->connection = $connection;
-        $this->configurationProvider = $configurationProvider;
     }
 
     /**

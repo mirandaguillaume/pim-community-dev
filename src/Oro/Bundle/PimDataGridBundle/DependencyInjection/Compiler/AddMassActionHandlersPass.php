@@ -16,10 +16,10 @@ use Symfony\Component\DependencyInjection\Reference;
 class AddMassActionHandlersPass implements CompilerPassInterface
 {
     /** @staticvar string */
-    const HANDLER_REGISTRY_SERVICE = 'pim_datagrid.extension.mass_action.handler.registry';
+    final public const HANDLER_REGISTRY_SERVICE = 'pim_datagrid.extension.mass_action.handler.registry';
 
     /** @staticvar string */
-    const HANDLER_EXTENSION_TAG = 'pim_datagrid.extension.mass_action.handler';
+    final public const HANDLER_EXTENSION_TAG = 'pim_datagrid.extension.mass_action.handler';
 
     /**
      * {@inheritdoc}
@@ -30,7 +30,7 @@ class AddMassActionHandlersPass implements CompilerPassInterface
         $taggedServices = $container->findTaggedServiceIds(self::HANDLER_EXTENSION_TAG);
 
         foreach ($taggedServices as $serviceId => $tags) {
-            $alias = (isset($tags[0]['alias'])) ? $tags[0]['alias'] : $serviceId;
+            $alias = $tags[0]['alias'] ?? $serviceId;
 
             $handlerRegistry->addMethodCall('addHandler', [$alias, new Reference($serviceId)]);
         }

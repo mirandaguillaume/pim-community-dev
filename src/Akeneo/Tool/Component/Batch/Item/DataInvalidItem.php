@@ -12,15 +12,8 @@ namespace Akeneo\Tool\Component\Batch\Item;
  */
 class DataInvalidItem implements InvalidItemInterface
 {
-    /** @var mixed */
-    protected $invalidData;
-
-    /**
-     * @param mixed $invalidData
-     */
-    public function __construct($invalidData)
+    public function __construct(protected mixed $invalidData)
     {
-        $this->invalidData = $invalidData;
     }
 
     /**

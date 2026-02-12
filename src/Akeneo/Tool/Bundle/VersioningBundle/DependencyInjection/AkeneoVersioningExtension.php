@@ -45,9 +45,6 @@ class AkeneoVersioningExtension extends Extension
 
     /**
      * Load serializer related configuration
-     *
-     * @param array            $configs
-     * @param ContainerBuilder $container
      */
     protected function loadSerializerConfig(array $configs, ContainerBuilder $container)
     {

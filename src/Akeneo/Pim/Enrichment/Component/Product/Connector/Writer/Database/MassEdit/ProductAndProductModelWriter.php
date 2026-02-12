@@ -33,11 +33,6 @@ class ProductAndProductModelWriter implements ItemWriterInterface, StepExecution
     /** @var BulkSaverInterface */
     protected $productModelSaver;
 
-    /**
-     * @param VersionManager $versionManager
-     * @param BulkSaverInterface $productSaver
-     * @param BulkSaverInterface $productModelSaver
-     */
     public function __construct(
         VersionManager $versionManager,
         BulkSaverInterface $productSaver,
@@ -53,12 +48,8 @@ class ProductAndProductModelWriter implements ItemWriterInterface, StepExecution
      */
     public function write(array $items)
     {
-        $products = array_filter($items, function ($item) {
-            return $item instanceof ProductInterface;
-        });
-        $productModels = array_filter($items, function ($item) {
-            return $item instanceof ProductModelInterface;
-        });
+        $products = array_filter($items, fn($item) => $item instanceof ProductInterface);
+        $productModels = array_filter($items, fn($item) => $item instanceof ProductModelInterface);
 
         array_walk($items, function ($item) {
             $this->incrementCount($item);
@@ -86,9 +77,6 @@ class ProductAndProductModelWriter implements ItemWriterInterface, StepExecution
         $this->versionManager->setRealTimeVersioning($realTimeVersioning);
     }
 
-    /**
-     * @param EntityWithFamilyInterface $entity
-     */
     protected function incrementCount(EntityWithFamilyInterface $entity)
     {
         if (!$entity->isNew()) {

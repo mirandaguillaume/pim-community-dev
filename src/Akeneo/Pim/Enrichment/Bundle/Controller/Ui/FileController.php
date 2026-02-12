@@ -28,8 +28,8 @@ use Symfony\Component\Mime\MimeTypes;
  */
 class FileController
 {
-    const DEFAULT_IMAGE_KEY = '__default_image__';
-    const SVG_MIME_TYPES = ['image/svg', 'image/svg+xml'];
+    final public const DEFAULT_IMAGE_KEY = '__default_image__';
+    final public const SVG_MIME_TYPES = ['image/svg', 'image/svg+xml'];
 
     public function __construct(
         protected ImagineController $imagineController,
@@ -89,13 +89,11 @@ class FileController
      * the request that ask the generated media could be on another frontend. This action is a "last chance" to get the
      * media generated in cache and delivered.
      *
-     * @param Request $request
      * @param string  $path
      * @param string  $filter
      *
      * @throws \RuntimeException
      * @throws BadRequestHttpException
-     *
      * @return RedirectResponse
      */
     public function cacheAction(Request $request, $path, $filter)

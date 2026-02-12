@@ -25,7 +25,6 @@ class UnitOfWorkAndRepositoriesClearer implements EntityManagerClearerInterface
     protected $entityManager;
 
     /**
-     * @param EntityManagerInterface            $entityManager
      * @param CachedObjectRepositoryInterface[] $cachedRepositoriesToClear
      */
     public function __construct(EntityManagerInterface $entityManager, array $cachedRepositoriesToClear)

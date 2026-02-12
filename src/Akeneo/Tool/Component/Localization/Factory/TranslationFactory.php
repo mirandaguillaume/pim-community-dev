@@ -21,20 +21,6 @@ class TranslationFactory
     protected $translationClass;
 
     /**
-     * The entity class
-     *
-     * @var string
-     */
-    protected $entityClass;
-
-    /**
-     * The field type
-     *
-     * @var string
-     */
-    protected $field;
-
-    /**
      * Constructor
      *
      * @param string $translationClass
@@ -43,7 +29,7 @@ class TranslationFactory
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct($translationClass, $entityClass, $field)
+    public function __construct($translationClass, protected $entityClass, protected $field)
     {
         $refl = new \ReflectionClass($translationClass);
         if (!$refl->isSubClassOf(AbstractTranslation::class)) {
@@ -57,8 +43,6 @@ class TranslationFactory
         }
 
         $this->translationClass = $translationClass;
-        $this->entityClass = $entityClass;
-        $this->field = $field;
     }
 
     /**

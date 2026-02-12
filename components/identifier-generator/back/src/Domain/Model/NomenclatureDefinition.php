@@ -10,16 +10,16 @@ namespace Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model;
  *
  * @phpstan-type NormalizedNomenclatureDefinition array{operator: string, value: int, generate_if_empty: bool}
  */
-final class NomenclatureDefinition
+final readonly class NomenclatureDefinition
 {
     /**
      * @param array<string, ?string>|null $values
      */
     public function __construct(
-        private readonly ?string $operator = null,
-        private readonly ?int $value = null,
-        private readonly ?bool $generateIfEmpty = null,
-        private readonly ?array $values = [],
+        private ?string $operator = null,
+        private ?int $value = null,
+        private ?bool $generateIfEmpty = null,
+        private ?array $values = [],
     ) {
     }
 

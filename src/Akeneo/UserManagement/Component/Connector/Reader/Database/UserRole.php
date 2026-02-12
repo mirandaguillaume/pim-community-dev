@@ -15,11 +15,8 @@ use Doctrine\Persistence\ObjectRepository;
  */
 class UserRole extends AbstractReader
 {
-    private ObjectRepository $userRoleRepository;
-
-    public function __construct(ObjectRepository $userRoleRepository)
+    public function __construct(private readonly ObjectRepository $userRoleRepository)
     {
-        $this->userRoleRepository = $userRoleRepository;
     }
 
     protected function getResults(): \ArrayIterator

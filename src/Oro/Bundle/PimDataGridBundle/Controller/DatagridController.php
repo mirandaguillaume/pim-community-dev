@@ -15,11 +15,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class DatagridController
 {
-    protected MetadataParser $metadata;
-
-    public function __construct(MetadataParser $metadata)
+    public function __construct(protected MetadataParser $metadata)
     {
-        $this->metadata = $metadata;
     }
 
     /**

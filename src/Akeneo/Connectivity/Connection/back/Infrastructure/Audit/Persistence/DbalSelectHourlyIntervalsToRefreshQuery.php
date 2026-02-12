@@ -18,7 +18,7 @@ use Doctrine\DBAL\FetchMode;
  */
 class DbalSelectHourlyIntervalsToRefreshQuery
 {
-    public function __construct(private Connection $dbalConnection)
+    public function __construct(private readonly Connection $dbalConnection)
     {
     }
 

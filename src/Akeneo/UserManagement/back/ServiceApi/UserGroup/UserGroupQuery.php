@@ -5,9 +5,9 @@ namespace Akeneo\UserManagement\ServiceApi\UserGroup;
 class UserGroupQuery
 {
     public function __construct(
-        private ?string $searchName = null,
-        private ?int $searchAfterId = null,
-        private ?int $limit = null,
+        private readonly ?string $searchName = null,
+        private readonly ?int $searchAfterId = null,
+        private readonly ?int $limit = null,
     ) {
     }
 

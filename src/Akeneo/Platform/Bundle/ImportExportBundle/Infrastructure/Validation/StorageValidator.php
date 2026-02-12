@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class StorageValidator extends ConstraintValidator
 {
-    private array $storageConstraints;
+    private readonly array $storageConstraints;
 
     public function __construct(iterable $storageConstraints)
     {

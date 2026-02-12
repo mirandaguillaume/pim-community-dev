@@ -17,15 +17,8 @@ class CountCategories implements CountQuery
 {
     private const VOLUME_NAME = 'count_categories';
 
-    /** @var Connection */
-    private $connection;
-
-    /**
-     * @param Connection $connection
-     */
-    public function __construct(Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     /**

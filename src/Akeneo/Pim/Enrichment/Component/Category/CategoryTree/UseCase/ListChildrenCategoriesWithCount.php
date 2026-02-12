@@ -10,40 +10,8 @@ namespace Akeneo\Pim\Enrichment\Component\Category\CategoryTree\UseCase;
  */
 class ListChildrenCategoriesWithCount
 {
-    /** @var int */
-    private $categoryIdToExpand;
-
-    /** @var int */
-    private $categoryIdSelectedAsFilter;
-
-    /** @var bool */
-    private $countIncludingSubCategories;
-
-    /** @var int */
-    private $userId;
-
-    /** @var string */
-    private $translationLocaleCode;
-
-    /**
-     * @param int    $categoryIdToExpand
-     * @param int    $categoryIdSelectedAsFilter
-     * @param bool   $countByIncludingSubCategories
-     * @param int    $userId
-     * @param string $translationLocaleCode
-     */
-    public function __construct(
-        int $categoryIdToExpand,
-        int $categoryIdSelectedAsFilter,
-        bool $countByIncludingSubCategories,
-        int $userId,
-        string $translationLocaleCode
-    ) {
-        $this->categoryIdToExpand = $categoryIdToExpand;
-        $this->categoryIdSelectedAsFilter = $categoryIdSelectedAsFilter;
-        $this->countIncludingSubCategories = $countByIncludingSubCategories;
-        $this->userId = $userId;
-        $this->translationLocaleCode = $translationLocaleCode;
+    public function __construct(private readonly int $categoryIdToExpand, private readonly int $categoryIdSelectedAsFilter, private readonly bool $countIncludingSubCategories, private readonly int $userId, private readonly string $translationLocaleCode)
+    {
     }
 
     /**
@@ -51,8 +19,6 @@ class ListChildrenCategoriesWithCount
      *
      * Do note that the user can expand a category without selecting it as a filter.
      * Therefore, the category to expand can be different from the selected category.
-     *
-     * @return int
      */
     public function childrenCategoryIdToExpand(): int
     {
@@ -71,33 +37,22 @@ class ListChildrenCategoriesWithCount
      *
      * So, we have to return all the children recursively until this selected category.
      * A better solution is to not reload entirely the tree on the front-end part and keep a state of it.
-     *
-     * @return int
      */
     public function categoryIdSelectedAsFilter(): int
     {
         return $this->categoryIdSelectedAsFilter;
     }
 
-    /**
-     * @return bool
-     */
     public function countIncludingSubCategories(): bool
     {
         return $this->countIncludingSubCategories;
     }
 
-    /**
-     * @return int
-     */
     public function userId(): int
     {
         return $this->userId;
     }
 
-    /**
-     * @return string
-     */
     public function translationLocaleCode(): string
     {
         return $this->translationLocaleCode;

@@ -15,11 +15,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class TableCreator implements EventSubscriberInterface
 {
-    protected ManagerRegistry $doctrine;
-
-    public function __construct(ManagerRegistry $doctrine)
+    public function __construct(protected ManagerRegistry $doctrine)
     {
-        $this->doctrine = $doctrine;
     }
 
     /**

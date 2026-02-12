@@ -16,7 +16,6 @@ interface ProductIndexerInterface
 {
     /**
      * @param UuidInterface[] $productUuids
-     * @param array $options
      *
      * @throws ObjectNotFoundException if one of the identifier is unknown
      */

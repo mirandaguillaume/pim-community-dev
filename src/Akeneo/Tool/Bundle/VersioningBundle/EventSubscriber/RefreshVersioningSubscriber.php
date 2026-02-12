@@ -18,8 +18,8 @@ class RefreshVersioningSubscriber implements EventSubscriberInterface
     private const JOB_CODE = 'versioning_refresh';
 
     public function __construct(
-        private ExecuteJobExecutionHandlerInterface $jobExecutionRunner,
-        private CreateJobExecutionHandlerInterface $jobExecutionFactory,
+        private readonly ExecuteJobExecutionHandlerInterface $jobExecutionRunner,
+        private readonly CreateJobExecutionHandlerInterface $jobExecutionFactory,
     ) {
     }
 

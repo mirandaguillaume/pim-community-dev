@@ -29,9 +29,7 @@ class Configuration implements ConfigurationInterface
                     ->isRequired()->requiresAtLeastOneElement()
                     ->beforeNormalization()
                         ->ifString()
-                        ->then(function ($value) {
-                            return [$value];
-                        })
+                        ->then(fn($value) => [$value])
                     ->end()
                     ->info('Inline hosts of the Elasticsearch nodes. See https://www.elastic.co/guide/en/elasticsearch/client/php-api/current/_configuration.html#_inline_host_configuration. If you have a single host, you can use a string here. Otherwise, use an array.')
                 ->end()

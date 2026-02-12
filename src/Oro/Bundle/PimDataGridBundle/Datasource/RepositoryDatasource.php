@@ -15,7 +15,7 @@ use Oro\Bundle\PimDataGridBundle\Doctrine\ORM\Repository\MassActionRepositoryInt
  */
 class RepositoryDatasource implements DatasourceInterface, ParameterizableInterface
 {
-    const DEFAULT_QUERY_PARAMS_KEY = 'default_query_params';
+    public const DEFAULT_QUERY_PARAMS_KEY = 'default_query_params';
 
     /** @var DatagridRepositoryInterface */
     protected $repository;
@@ -101,7 +101,7 @@ class RepositoryDatasource implements DatasourceInterface, ParameterizableInterf
     /**
      * {@inheritdoc}
      */
-    public function getMassActionRepository()
+    public function getMassActionRepository(): never
     {
         throw new \LogicException("No need to implement this method, design flaw in interface!");
     }
@@ -109,7 +109,7 @@ class RepositoryDatasource implements DatasourceInterface, ParameterizableInterf
     /**
      * {@inheritdoc}
      */
-    public function setMassActionRepository(MassActionRepositoryInterface $massActionRepository)
+    public function setMassActionRepository(MassActionRepositoryInterface $massActionRepository): never
     {
         throw new \LogicException("No need to implement this method, design flaw in interface!");
     }
@@ -117,7 +117,7 @@ class RepositoryDatasource implements DatasourceInterface, ParameterizableInterf
     /**
      * {@inheritdoc}
      */
-    public function setHydrator(HydratorInterface $hydrator)
+    public function setHydrator(HydratorInterface $hydrator): never
     {
         throw new \LogicException("No need to implement this method, design flaw in interface!");
     }

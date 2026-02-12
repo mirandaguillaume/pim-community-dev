@@ -9,12 +9,8 @@ use Akeneo\Pim\Enrichment\Component\Product\Query\GetProductModelLabelsInterface
 
 class ParentTranslator implements FlatPropertyValueTranslatorInterface
 {
-    /** @var GetProductModelLabelsInterface */
-    private $getProductModelLabels;
-
-    public function __construct(GetProductModelLabelsInterface $getProductModelLabels)
+    public function __construct(private readonly GetProductModelLabelsInterface $getProductModelLabels)
     {
-        $this->getProductModelLabels = $getProductModelLabels;
     }
 
     public function supports(string $columnName): bool

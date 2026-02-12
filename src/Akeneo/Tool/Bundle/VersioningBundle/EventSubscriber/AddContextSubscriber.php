@@ -24,8 +24,6 @@ class AddContextSubscriber implements EventSubscriberInterface
 
     /**
      * Constructor
-     *
-     * @param VersionContext $versionContext
      */
     public function __construct(VersionContext $versionContext)
     {
@@ -44,8 +42,6 @@ class AddContextSubscriber implements EventSubscriberInterface
 
     /**
      * Add context in version manager
-     *
-     * @param JobExecutionEvent $event
      */
     public function addContext(JobExecutionEvent $event)
     {

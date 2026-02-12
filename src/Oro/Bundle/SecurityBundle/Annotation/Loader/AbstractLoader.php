@@ -23,9 +23,6 @@ abstract class AbstractLoader
         }
     }
 
-    /**
-     * @param array $bundleDirectories
-     */
     public function setBundleDirectories(array $bundleDirectories)
     {
         $this->bundleDirectories = $bundleDirectories;

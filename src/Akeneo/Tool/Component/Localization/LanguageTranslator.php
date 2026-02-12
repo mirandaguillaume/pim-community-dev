@@ -19,13 +19,13 @@ class LanguageTranslator implements LanguageTranslatorInterface
                 $language,
                 $displayLocale
             );
-        } catch (MissingResourceException $e) {
+        } catch (MissingResourceException) {
             return $fallback;
         }
 
         try {
             $country = Countries::getName($country, $displayLocale);
-        } catch (MissingResourceException $e) {
+        } catch (MissingResourceException) {
             return $fallback;
         }
 

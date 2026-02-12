@@ -29,9 +29,9 @@ class PurgeConnectionErrorsCommand extends Command
     protected static $defaultDescription = 'Purge connection errors over 100 and older than a week';
 
     public function __construct(
-        private SelectAllAuditableConnectionCodeQuery $selectAllAuditableConnectionCodes,
-        private PurgeConnectionErrorsQuery $purgeErrors,
-        private LoggerInterface $logger,
+        private readonly SelectAllAuditableConnectionCodeQuery $selectAllAuditableConnectionCodes,
+        private readonly PurgeConnectionErrorsQuery $purgeErrors,
+        private readonly LoggerInterface $logger,
     ) {
         parent::__construct();
     }

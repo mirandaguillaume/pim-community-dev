@@ -15,8 +15,7 @@ use Doctrine\DBAL\Types\DateTimeType;
  */
 class UTCDateTimeType extends DateTimeType
 {
-    /** @var null|\DateTimeZone */
-    private static $utc = null;
+    private static ?\DateTimeZone $utc = null;
 
     /**
      * {@inheritdoc}
@@ -27,7 +26,7 @@ class UTCDateTimeType extends DateTimeType
             return null;
         }
 
-        $value->setTimeZone((self::$utc) ? self::$utc : (self::$utc = new \DateTimeZone('UTC')));
+        $value->setTimeZone(self::$utc ?: (self::$utc = new \DateTimeZone('UTC')));
 
         return parent::convertToDatabaseValue($value, $platform);
     }
@@ -44,7 +43,7 @@ class UTCDateTimeType extends DateTimeType
         $val = \DateTime::createFromFormat(
             $platform->getDateTimeFormatString(),
             $value,
-            (self::$utc) ? self::$utc : (self::$utc = new \DateTimeZone('UTC'))
+            self::$utc ?: (self::$utc = new \DateTimeZone('UTC'))
         );
 
         $serverTimezone = date_default_timezone_get();

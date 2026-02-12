@@ -23,10 +23,6 @@ class VersionBuilder
     /** @var VersionFactory */
     protected $versionFactory;
 
-    /**
-     * @param NormalizerInterface $normalizer
-     * @param VersionFactory      $versionFactory
-     */
     public function __construct(NormalizerInterface $normalizer, VersionFactory $versionFactory)
     {
         $this->normalizer = $normalizer;
@@ -39,11 +35,10 @@ class VersionBuilder
      * @param object       $versionable
      * @param string       $author
      * @param Version|null $previousVersion
-     * @param string|null  $context
      *
      * @return Version
      */
-    public function buildVersion($versionable, $author, Version $previousVersion = null, $context = null)
+    public function buildVersion($versionable, $author, Version $previousVersion = null, ?string $context = null)
     {
         $resourceName = ClassUtils::getClass($versionable);
         $resourceId = method_exists($versionable, 'getUuid') ? null : $versionable->getId();
@@ -70,12 +65,10 @@ class VersionBuilder
      *
      * @param object      $versionable
      * @param string      $author
-     * @param array       $changeset
-     * @param string|null $context
      *
      * @return Version
      */
-    public function createPendingVersion($versionable, $author, array $changeset, $context = null)
+    public function createPendingVersion($versionable, $author, array $changeset, ?string $context = null)
     {
         $resourceId = method_exists($versionable, 'getUuid') ? null : $versionable->getId();
         $resourceUuid = method_exists($versionable, 'getUuid') ? $versionable->getUuid() : null;
@@ -94,9 +87,7 @@ class VersionBuilder
     /**
      * Build a pending version
      *
-     * @param Version      $pending
      * @param Version|null $previousVersion
-     *
      * @return Version
      */
     public function buildPendingVersion(Version $pending, Version $previousVersion = null)
@@ -118,8 +109,6 @@ class VersionBuilder
     /**
      * Build the changeset
      *
-     * @param array $oldSnapshot
-     * @param array $newSnapshot
      *
      * @return array
      */
@@ -131,36 +120,28 @@ class VersionBuilder
     /**
      * Merge the old and new snapshots
      *
-     * @param array $oldSnapshot
-     * @param array $newSnapshot
      *
      * @return array
      */
     protected function mergeSnapshots(array $oldSnapshot, array $newSnapshot)
     {
         $localNewSnapshot = array_map(
-            function ($newItem) {
-                return ['new' => $newItem];
-            },
+            fn($newItem) => ['new' => $newItem],
             $newSnapshot
         );
 
         $localOldSnapshot = array_map(
-            function ($oldItem) {
-                return ['old' => $oldItem];
-            },
+            fn($oldItem) => ['old' => $oldItem],
             $oldSnapshot
         );
 
         $mergedSnapshot = array_replace_recursive($localNewSnapshot, $localOldSnapshot);
 
         return array_map(
-            function ($mergedItem) {
-                return [
-                    'old' => array_key_exists('old', $mergedItem) ? $mergedItem['old'] : '',
-                    'new' => array_key_exists('new', $mergedItem) ? $mergedItem['new'] : ''
-                ];
-            },
+            fn($mergedItem) => [
+                'old' => array_key_exists('old', $mergedItem) ? $mergedItem['old'] : '',
+                'new' => array_key_exists('new', $mergedItem) ? $mergedItem['new'] : ''
+            ],
             $mergedSnapshot
         );
     }
@@ -168,7 +149,6 @@ class VersionBuilder
     /**
      * Filter changeset to remove values that are the same
      *
-     * @param array $changeset
      *
      * @return array
      */
@@ -176,9 +156,7 @@ class VersionBuilder
     {
         return array_filter(
             $changeset,
-            function ($item) {
-                return $this->hasValueChanged($item['old'], $item['new']);
-            }
+            fn($item) => $this->hasValueChanged($item['old'], $item['new'])
         );
     }
 

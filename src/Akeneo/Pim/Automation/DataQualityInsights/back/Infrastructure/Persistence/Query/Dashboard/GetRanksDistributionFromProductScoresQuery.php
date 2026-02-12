@@ -15,7 +15,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
 use Webmozart\Assert\Assert;
 
-final class GetRanksDistributionFromProductScoresQuery implements GetRanksDistributionFromProductScoresQueryInterface
+final readonly class GetRanksDistributionFromProductScoresQuery implements GetRanksDistributionFromProductScoresQueryInterface
 {
     public function __construct(
         private Client                                 $elasticsearchClient,
@@ -178,7 +178,7 @@ final class GetRanksDistributionFromProductScoresQuery implements GetRanksDistri
 
         $ranks = [];
         foreach ($elasticsearchResult["aggregations"] as $channelLocaleKey => $aggregationPerRank) {
-            [$channelCode, $localeCode] = explode('.', $channelLocaleKey);
+            [$channelCode, $localeCode] = explode('.', (string) $channelLocaleKey);
 
             Assert::keyExists($aggregationPerRank, 'buckets');
             foreach ($aggregationPerRank['buckets'] as ['key' => $rank, 'doc_count' => $numberOfProducts]) {

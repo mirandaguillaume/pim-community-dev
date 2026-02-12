@@ -16,15 +16,10 @@ use Akeneo\Tool\Component\StorageUtils\Cache\LRUCache;
  */
 class LRUCachedGetExistingAttributeOptions implements GetExistingAttributeOptionCodes
 {
-    /** @var GetExistingAttributeOptionCodes */
-    private $getExistingOptionCodes;
+    private readonly \Akeneo\Tool\Component\StorageUtils\Cache\LRUCache $cache;
 
-    /** @var LRUCache */
-    private $cache;
-
-    public function __construct(GetExistingAttributeOptionCodes $getExistingOptionCodes)
+    public function __construct(private readonly GetExistingAttributeOptionCodes $getExistingOptionCodes)
     {
-        $this->getExistingOptionCodes = $getExistingOptionCodes;
         $this->cache = new LRUCache(10000);
     }
 
@@ -88,8 +83,8 @@ class LRUCachedGetExistingAttributeOptions implements GetExistingAttributeOption
     {
         $optionsIndexedByAttributeCode = [];
         foreach ($cacheKeys as $cacheKey) {
-            $attributeCode = \strstr($cacheKey, '.', true);
-            $optionCode = \substr(\strstr($cacheKey, '.', false), 1);
+            $attributeCode = \strstr((string) $cacheKey, '.', true);
+            $optionCode = \substr(\strstr((string) $cacheKey, '.', false), 1);
             $optionsIndexedByAttributeCode[$attributeCode][] = $optionCode;
         }
 
@@ -124,7 +119,7 @@ class LRUCachedGetExistingAttributeOptions implements GetExistingAttributeOption
     {
         $results = [];
         foreach ($normalizedResults as $normalizedResult) {
-            [$attributeCode, $optionCode] = explode('.', $normalizedResult);
+            [$attributeCode, $optionCode] = explode('.', (string) $normalizedResult);
             $results[$attributeCode][] = $optionCode;
         }
 

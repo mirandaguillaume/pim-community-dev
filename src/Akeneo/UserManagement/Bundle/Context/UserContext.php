@@ -26,10 +26,10 @@ use Symfony\Component\Security\Http\FirewallMapInterface;
 class UserContext
 {
     /** @staticvar string */
-    const REQUEST_LOCALE_PARAM = 'dataLocale';
+    final public const REQUEST_LOCALE_PARAM = 'dataLocale';
 
     /** @staticvar string */
-    const USER_PRODUCT_CATEGORY_TYPE = 'product';
+    final public const USER_PRODUCT_CATEGORY_TYPE = 'product';
 
     /** @var TokenStorageInterface */
     protected $tokenStorage;
@@ -52,17 +52,7 @@ class UserContext
     /** @var LocaleInterface */
     protected $currentLocale;
 
-    /** @var string */
-    protected $defaultLocale;
-
-    protected FirewallMapInterface $firewall;
-
     /**
-     * @param TokenStorageInterface       $tokenStorage
-     * @param LocaleRepositoryInterface   $localeRepository
-     * @param ChannelRepositoryInterface  $channelRepository
-     * @param CategoryRepositoryInterface $categoryRepository
-     * @param RequestStack                $requestStack
      * @param string                      $defaultLocale
      */
     public function __construct(
@@ -71,16 +61,14 @@ class UserContext
         ChannelRepositoryInterface $channelRepository,
         CategoryRepositoryInterface $categoryRepository,
         RequestStack $requestStack,
-        $defaultLocale,
-        FirewallMapInterface $firewall
+        protected $defaultLocale,
+        protected FirewallMapInterface $firewall
     ) {
         $this->tokenStorage = $tokenStorage;
         $this->localeRepository = $localeRepository;
         $this->channelRepository = $channelRepository;
         $this->categoryRepository= $categoryRepository;
         $this->requestStack = $requestStack;
-        $this->defaultLocale = $defaultLocale;
-        $this->firewall = $firewall;
     }
 
     /**
@@ -88,8 +76,6 @@ class UserContext
      * or the first activated locale
      *
      * @throws \LogicException When there are no activated locales
-     *
-     * @return LocaleInterface
      */
     public function getCurrentLocale(): LocaleInterface
     {
@@ -153,8 +139,6 @@ class UserContext
 
     /**
      * Returns the current locale code
-     *
-     * @return string
      */
     public function getCurrentLocaleCode(): string
     {
@@ -177,23 +161,17 @@ class UserContext
 
     /**
      * Returns the codes of active locales
-     *
-     * @return array
      */
     public function getUserLocaleCodes(): array
     {
         return array_map(
-            function ($locale) {
-                return $locale->getCode();
-            },
+            fn($locale) => $locale->getCode(),
             $this->getUserLocales()
         );
     }
 
     /**
      * Get user channel
-     *
-     * @return ChannelInterface
      */
     public function getUserChannel(): ChannelInterface
     {
@@ -208,8 +186,6 @@ class UserContext
 
     /**
      * Get user channel code
-     *
-     * @return string
      */
     public function getUserChannelCode(): string
     {
@@ -242,8 +218,6 @@ class UserContext
      * For the given $relatedEntity of category asked, return the default user category.
      *
      * @param string $relatedEntity
-     *
-     * @return CategoryInterface|null
      */
     public function getUserCategoryTree($relatedEntity): ?CategoryInterface
     {
@@ -256,8 +230,6 @@ class UserContext
 
     /**
      * Get user product category tree
-     *
-     * @return CategoryInterface
      */
     public function getUserProductCategoryTree(): CategoryInterface
     {
@@ -270,8 +242,6 @@ class UserContext
      * Return the current user's timezone.
      *
      * @throws \RuntimeException
-     *
-     * @return string
      */
     public function getUserTimezone(): string
     {
@@ -285,10 +255,8 @@ class UserContext
 
     /**
      * Returns the UI user locale
-     *
-     * @return LocaleInterface|null
      */
-    public function getUiLocale()
+    public function getUiLocale(): ?\Akeneo\Channel\Infrastructure\Component\Model\LocaleInterface
     {
         return $this->getUserOption('uiLocale');
     }
@@ -309,10 +277,8 @@ class UserContext
 
     /**
      * Get authenticated user
-     *
-     * @return UserInterface|null
      */
-    public function getUser()
+    public function getUser(): ?\Akeneo\UserManagement\Component\Model\UserInterface
     {
         if (null === $token = $this->tokenStorage->getToken()) {
             return null;
@@ -353,10 +319,8 @@ class UserContext
 
     /**
      * Returns the request locale
-     *
-     * @return LocaleInterface|null
      */
-    protected function getRequestLocale()
+    protected function getRequestLocale(): ?\Akeneo\Channel\Infrastructure\Component\Model\LocaleInterface
     {
         $request = $this->getCurrentRequest();
         if (null !== $request) {
@@ -374,10 +338,8 @@ class UserContext
 
     /**
      * Returns the user session locale
-     *
-     * @return LocaleInterface|null
      */
-    protected function getSessionLocale()
+    protected function getSessionLocale(): ?\Akeneo\Channel\Infrastructure\Component\Model\LocaleInterface
     {
         $request = $this->getCurrentRequest();
         if ($this->hasActiveSession($request)) {
@@ -395,10 +357,8 @@ class UserContext
 
     /**
      * Returns the catalog user locale
-     *
-     * @return LocaleInterface|null
      */
-    protected function getUserLocale()
+    protected function getUserLocale(): ?\Akeneo\Channel\Infrastructure\Component\Model\LocaleInterface
     {
         $locale = $this->getUserOption('catalogLocale');
 
@@ -407,10 +367,8 @@ class UserContext
 
     /**
      * Returns the default application locale
-     *
-     * @return LocaleInterface|null
      */
-    protected function getDefaultLocale()
+    protected function getDefaultLocale(): ?\Akeneo\Channel\Infrastructure\Component\Model\LocaleInterface
     {
         return $this->localeRepository->findOneByIdentifier($this->defaultLocale);
     }
@@ -418,7 +376,6 @@ class UserContext
     /**
      * Checks if a locale is activated
      *
-     * @param LocaleInterface $locale
      *
      * @return bool
      */
@@ -469,10 +426,8 @@ class UserContext
 
     /**
      * Get current request
-     *
-     * @return Request|null
      */
-    protected function getCurrentRequest()
+    protected function getCurrentRequest(): ?\Symfony\Component\HttpFoundation\Request
     {
         return $this->requestStack->getCurrentRequest();
     }

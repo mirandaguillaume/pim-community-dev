@@ -13,19 +13,19 @@ class RenderLayoutExtension extends AbstractExtension
     /**
      * Extension name
      */
-    const NAME = 'oro_filter_render_layout';
+    final public const NAME = 'oro_filter_render_layout';
 
     /**
      * JS block suffix
      */
-    const SUFFIX = '_js';
+    final public const SUFFIX = '_js';
 
     public function getFunctions(): array
     {
         return [
             new TwigFunction(
                 'oro_filter_render_filter_javascript',
-                [$this, 'renderFilterJavascript'],
+                $this->renderFilterJavascript(...),
                 $this->defaultFunctionOptions
             ),
         ];
@@ -66,7 +66,7 @@ class RenderLayoutExtension extends AbstractExtension
         return [
             new TwigFilter(
                 'oro_filter_choices',
-                [$this, 'getChoices']
+                $this->getChoices(...)
             )
         ];
     }

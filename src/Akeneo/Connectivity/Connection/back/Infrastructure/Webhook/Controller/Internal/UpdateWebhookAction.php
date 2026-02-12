@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
-final class UpdateWebhookAction
+final readonly class UpdateWebhookAction
 {
     public function __construct(
         private UpdateWebhookHandler $updateConnectionWebhookHandler,

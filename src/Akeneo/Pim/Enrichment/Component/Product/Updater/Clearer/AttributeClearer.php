@@ -15,14 +15,10 @@ use Webmozart\Assert\Assert;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class AttributeClearer implements ClearerInterface
+final readonly class AttributeClearer implements ClearerInterface
 {
-    /** @var GetAttributes */
-    private $getAttributes;
-
-    public function __construct(GetAttributes $getAttributes)
+    public function __construct(private GetAttributes $getAttributes)
     {
-        $this->getAttributes = $getAttributes;
     }
 
     /**

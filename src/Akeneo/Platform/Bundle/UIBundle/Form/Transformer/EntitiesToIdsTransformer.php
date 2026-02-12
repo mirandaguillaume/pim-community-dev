@@ -58,7 +58,6 @@ class EntitiesToIdsTransformer extends EntityToIdTransformer
     /**
      * Load entities by array of ids
      *
-     * @param array $ids
      * @throws UnexpectedTypeException if query builder callback returns invalid type
      * @return array
      */
@@ -69,7 +68,7 @@ class EntitiesToIdsTransformer extends EntityToIdTransformer
             /** @var $qb QueryBuilder */
             $qb = call_user_func($this->queryBuilderCallback, $repository, $ids);
             if (!$qb instanceof QueryBuilder) {
-                throw new UnexpectedTypeException($qb, 'Doctrine\ORM\QueryBuilder');
+                throw new UnexpectedTypeException($qb, \Doctrine\ORM\QueryBuilder::class);
             }
         } else {
             $qb = $repository->createQueryBuilder('e');

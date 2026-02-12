@@ -17,14 +17,10 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class ValueCollectionNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    public const INDEXING_FORMAT_PRODUCT_AND_MODEL_INDEX = 'indexing_product_and_product_model';
+    final public const INDEXING_FORMAT_PRODUCT_AND_MODEL_INDEX = 'indexing_product_and_product_model';
 
-    /** @var NormalizerInterface */
-    private $normalizer;
-
-    public function __construct(NormalizerInterface $normalizer)
+    public function __construct(private readonly NormalizerInterface $normalizer)
     {
-        $this->normalizer = $normalizer;
     }
 
     /**

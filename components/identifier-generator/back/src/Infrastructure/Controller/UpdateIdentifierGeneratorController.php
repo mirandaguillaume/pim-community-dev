@@ -21,12 +21,12 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class UpdateIdentifierGeneratorController
+final readonly class UpdateIdentifierGeneratorController
 {
     public function __construct(
-        private readonly UpdateGeneratorHandler $updateGeneratorHandler,
-        private readonly GetGeneratorHandler $getGeneratorHandler,
-        private readonly SecurityFacadeInterface $security,
+        private UpdateGeneratorHandler $updateGeneratorHandler,
+        private GetGeneratorHandler $getGeneratorHandler,
+        private SecurityFacadeInterface $security,
     ) {
     }
 
@@ -74,7 +74,7 @@ final class UpdateIdentifierGeneratorController
      */
     private function getContent(Request $request): array
     {
-        $data = \json_decode($request->getContent(), true);
+        $data = \json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
         if (!\is_array($data)) {
             throw new BadRequestHttpException('Invalid json message received');
         }

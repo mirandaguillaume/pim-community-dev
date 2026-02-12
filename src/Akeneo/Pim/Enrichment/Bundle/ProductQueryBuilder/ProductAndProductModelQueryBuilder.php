@@ -23,18 +23,8 @@ use Akeneo\Pim\Enrichment\Component\Product\Query\ProductQueryBuilderInterface;
  */
 class ProductAndProductModelQueryBuilder implements ProductQueryBuilderInterface
 {
-    /** @var ProductQueryBuilderInterface */
-    private $pqb;
-
-    /** @var ProductAndProductModelSearchAggregator */
-    private $searchAggregator;
-
-    public function __construct(
-        ProductQueryBuilderInterface $pqb,
-        ProductAndProductModelSearchAggregator $searchAggregator
-    ) {
-        $this->pqb = $pqb;
-        $this->searchAggregator = $searchAggregator;
+    public function __construct(private readonly ProductQueryBuilderInterface $pqb, private readonly ProductAndProductModelSearchAggregator $searchAggregator)
+    {
     }
 
     /**
@@ -101,8 +91,6 @@ class ProductAndProductModelQueryBuilder implements ProductQueryBuilderInterface
 
     /**
      * Should we only filter on lower level products
-     *
-     * @return bool
      */
     private function shouldFilterOnlyOnProducts(): bool
     {
@@ -114,8 +102,6 @@ class ProductAndProductModelQueryBuilder implements ProductQueryBuilderInterface
     /**
      * If there no "particular" filter, that means we want to look for documents that do not have any parent.
      * This happens for instance with the default grid view.
-     *
-     * @return bool
      */
     private function shouldSearchDocumentsWithoutParent(): bool
     {
@@ -151,18 +137,13 @@ class ProductAndProductModelQueryBuilder implements ProductQueryBuilderInterface
     /**
      * Checks whether the raw filters contain a filter on a particular field.
      *
-     * @param string $filterProperty
-     * @param string $value
      *
-     * @return bool
      */
     private function hasRawFilter(string $filterProperty, string $value): bool
     {
         return !empty(array_filter(
             $this->getRawFilters(),
-            function ($filter) use ($filterProperty, $value) {
-                return $value === $filter[$filterProperty];
-            }
+            fn($filter) => $value === $filter[$filterProperty]
         ));
     }
 
@@ -175,11 +156,9 @@ class ProductAndProductModelQueryBuilder implements ProductQueryBuilderInterface
     {
         $hasFilter = !empty(array_filter(
             $this->getRawFilters(),
-            function (array $filter) {
-                return 'field' === $filter['type'] &&
-                    'categories' === $filter['field'] &&
-                    (Operators::IN_LIST === $filter['operator'] || Operators::IN_CHILDREN_LIST === $filter['operator']);
-            }
+            fn(array $filter) => 'field' === $filter['type'] &&
+                'categories' === $filter['field'] &&
+                (Operators::IN_LIST === $filter['operator'] || Operators::IN_CHILDREN_LIST === $filter['operator'])
         ));
 
         return $hasFilter;

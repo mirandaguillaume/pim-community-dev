@@ -17,7 +17,6 @@ interface AscendantCategoriesInterface
     /**
      * Returns the ids of categories of all ascendant
      *
-     * @param EntityWithFamilyVariantInterface $entity
      *
      * @return integer[]
      */

@@ -15,16 +15,11 @@ use League\Flysystem\StorageAttributes;
  */
 final class DeleteOrphanJobExecutionDirectories
 {
-    private FilesystemOperator $archivistFilesystem;
-    private Connection $connection;
-
     /** @var array<int, bool> */
     private array $jobExecutionIds = [];
 
-    public function __construct(FilesystemOperator $archivistFilesystem, Connection $connection)
+    public function __construct(private readonly FilesystemOperator $archivistFilesystem, private readonly Connection $connection)
     {
-        $this->archivistFilesystem = $archivistFilesystem;
-        $this->connection = $connection;
     }
 
     public function execute(): void

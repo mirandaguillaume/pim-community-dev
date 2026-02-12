@@ -20,9 +20,9 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  */
 class DateFilter extends AbstractAttributeFilter implements AttributeFilterInterface
 {
-    const DATETIME_FORMAT = 'Y-m-d';
-    const HUMAN_DATETIME_FORMAT = "yyyy-mm-dd";
-    const RELATIVE_DATE_FORMAT = '/^(now|[+-][0-9]+\s?(day|week|month|year)s?)$/';
+    final public const DATETIME_FORMAT = 'Y-m-d';
+    final public const HUMAN_DATETIME_FORMAT = "yyyy-mm-dd";
+    final public const RELATIVE_DATE_FORMAT = '/^(now|[+-][0-9]+\s?(day|week|month|year)s?)$/';
 
     public function __construct(
         ElasticsearchFilterValidator $filterValidator,
@@ -187,9 +187,8 @@ class DateFilter extends AbstractAttributeFilter implements AttributeFilterInter
     /**
      * @param string $operator
      * @param string $field
-     * @param string|array|\DateTimeInterface $value
      */
-    protected function checkValue($operator, $field, $value)
+    protected function checkValue($operator, $field, string|array|\DateTimeInterface $value)
     {
         switch ($operator) {
             case Operators::EQUALS:
@@ -241,11 +240,10 @@ class DateFilter extends AbstractAttributeFilter implements AttributeFilterInter
 
     /**
      * @param string $field
-     * @param string|\DateTimeInterface $value
      *
      * @return string
      */
-    protected function getFormattedDate($field, $value)
+    protected function getFormattedDate($field, string|\DateTimeInterface $value)
     {
         $dateTime = $value;
 

@@ -17,7 +17,7 @@ final class InMemoryIsLocaleEditable implements IsLocaleEditable
     /** @var array<string, string[]> */
     private array $editableLocalesPerUserGroupName = [];
 
-    public function __construct(private UserRepositoryInterface $userRepository)
+    public function __construct(private readonly UserRepositoryInterface $userRepository)
     {
     }
 

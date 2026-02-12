@@ -12,20 +12,8 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Grid\ReadModel;
  */
 class AdditionalProperty
 {
-    /** @var string */
-    private $name;
-
-    /** @var mixed */
-    private $value;
-
-    /**
-     * @param string $name
-     * @param mixed $value
-     */
-    public function __construct(string $name, $value)
+    public function __construct(private readonly string $name, private readonly mixed $value)
     {
-        $this->name = $name;
-        $this->value = $value;
     }
 
     public function name(): string

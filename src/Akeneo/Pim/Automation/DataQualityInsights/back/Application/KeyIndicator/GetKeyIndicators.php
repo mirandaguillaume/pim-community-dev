@@ -20,11 +20,11 @@ use Webmozart\Assert\Assert;
 final class GetKeyIndicators implements GetKeyIndicatorsInterface
 {
     /** @var KeyIndicatorCode[] */
-    private array $keyIndicatorCodes;
+    private readonly array $keyIndicatorCodes;
 
     public function __construct(
-        private GetProductKeyIndicatorsQueryInterface $getProductKeyIndicatorsQuery,
-        private GetProductKeyIndicatorsQueryInterface $getProductModelKeyIndicatorsQuery,
+        private readonly GetProductKeyIndicatorsQueryInterface $getProductKeyIndicatorsQuery,
+        private readonly GetProductKeyIndicatorsQueryInterface $getProductModelKeyIndicatorsQuery,
         ProductKeyIndicatorsByFeatureRegistry $productKeyIndicatorsRegistry
     ) {
         $this->keyIndicatorCodes = $productKeyIndicatorsRegistry->getCodes();

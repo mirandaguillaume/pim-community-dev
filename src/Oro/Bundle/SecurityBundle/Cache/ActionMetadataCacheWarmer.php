@@ -8,18 +8,10 @@ use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 class ActionMetadataCacheWarmer implements CacheWarmerInterface
 {
     /**
-     * @var ActionMetadataProvider
-     */
-    private $provider;
-
-    /**
      * Constructor
-     *
-     * @param ActionMetadataProvider $provider
      */
-    public function __construct(ActionMetadataProvider $provider)
+    public function __construct(private readonly ActionMetadataProvider $provider)
     {
-        $this->provider = $provider;
     }
 
     /**

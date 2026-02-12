@@ -16,9 +16,9 @@ use Akeneo\Platform\Bundle\PimVersionBundle\Version\PimVersion;
 class VersionProvider implements VersionProviderInterface
 {
     public function __construct(
-        private iterable $versions,
-        private string $editionCode,
-        private string $projectDir
+        private readonly iterable $versions,
+        private readonly string $editionCode,
+        private readonly string $projectDir
     ) {
     }
 

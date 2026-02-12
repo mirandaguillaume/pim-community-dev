@@ -14,7 +14,7 @@ class CsvEncoderSpec extends ObjectBehavior
 
     function it_is_a_encoder()
     {
-        $this->shouldImplement('Symfony\Component\Serializer\Encoder\EncoderInterface');
+        $this->shouldImplement(\Symfony\Component\Serializer\Encoder\EncoderInterface::class);
     }
 
     function it_is_csv_encoder()

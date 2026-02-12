@@ -17,19 +17,14 @@ class InvalidAttributeValueTypeException extends InvalidPropertyTypeException im
     DomainErrorInterface,
     TemplatedErrorMessageInterface
 {
-    /** @var TemplatedErrorMessage */
-    private $templatedErrorMessage;
-
     public function __construct(
         string $attributeCode,
         $attributeValue,
         string $className,
-        TemplatedErrorMessage $templatedErrorMessage,
+        private readonly TemplatedErrorMessage $templatedErrorMessage,
         int $code = 0,
         \Exception $previous = null
     ) {
-        $this->templatedErrorMessage = $templatedErrorMessage;
-
         parent::__construct(
             $attributeCode,
             $attributeValue,

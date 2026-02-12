@@ -10,26 +10,10 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\DashboardProjec
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\DashboardProjectionType;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\TimePeriod;
 
-final class DashboardRatesProjection
+final readonly class DashboardRatesProjection
 {
-    private DashboardProjectionType $type;
-
-    private DashboardProjectionCode $code;
-
-    private ConsolidationDate $consolidationDate;
-
-    private RanksDistributionCollection $ranksDistributionCollection;
-
-    public function __construct(
-        DashboardProjectionType $type,
-        DashboardProjectionCode $code,
-        ConsolidationDate $consolidationDate,
-        RanksDistributionCollection $ranksDistributionCollection
-    ) {
-        $this->type = $type;
-        $this->code = $code;
-        $this->consolidationDate = $consolidationDate;
-        $this->ranksDistributionCollection = $ranksDistributionCollection;
+    public function __construct(private DashboardProjectionType $type, private DashboardProjectionCode $code, private ConsolidationDate $consolidationDate, private RanksDistributionCollection $ranksDistributionCollection)
+    {
     }
 
     public function getType(): DashboardProjectionType
@@ -49,6 +33,7 @@ final class DashboardRatesProjection
 
     public function getRanksDistributionsPerTimePeriod(): array
     {
+        $rates = [];
         $day = $this->consolidationDate->format();
         $ranksDistribution = $this->ranksDistributionCollection->toArray();
 

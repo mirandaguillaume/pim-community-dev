@@ -26,9 +26,6 @@ class MassActionController
 
     /**
      * Constructor
-     *
-     * @param MassActionDispatcher       $massActionDispatcher
-     * @param MassActionParametersParser $parameterParser
      */
     public function __construct(
         MassActionDispatcher $massActionDispatcher,

@@ -143,8 +143,6 @@ class CleanCategoryTemplateAttributeAndEnrichedValuesCommandHandlerIntegration e
             ],
         )->fetchAllAssociative();
 
-        return AttributeCollection::fromArray(array_map(static function ($results) {
-            return Attribute::fromDatabase($results);
-        }, $results));
+        return AttributeCollection::fromArray(array_map(static fn($results) => Attribute::fromDatabase($results), $results));
     }
 }

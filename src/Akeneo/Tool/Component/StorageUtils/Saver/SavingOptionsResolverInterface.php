@@ -14,7 +14,6 @@ interface SavingOptionsResolverInterface
     /**
      * Resolve options for a single save
      *
-     * @param array $options
      *
      * @return array
      */
@@ -23,7 +22,6 @@ interface SavingOptionsResolverInterface
     /**
      * Resolve options for a bulk save
      *
-     * @param array $options
      *
      * @return array
      */

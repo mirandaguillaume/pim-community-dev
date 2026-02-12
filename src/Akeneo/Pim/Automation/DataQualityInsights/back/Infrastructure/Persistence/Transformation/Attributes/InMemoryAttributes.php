@@ -8,17 +8,15 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\T
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class InMemoryAttributes implements AttributesInterface
+final readonly class InMemoryAttributes implements AttributesInterface
 {
-    private array $attributesIdsByCodes;
     private array $attributesCodesByIds;
 
     /**
      * @param array<string, int> $attributesIdsByCodes
      */
-    public function __construct(array $attributesIdsByCodes)
+    public function __construct(private array $attributesIdsByCodes)
     {
-        $this->attributesIdsByCodes = $attributesIdsByCodes;
         $this->attributesCodesByIds = array_flip($attributesIdsByCodes);
     }
 

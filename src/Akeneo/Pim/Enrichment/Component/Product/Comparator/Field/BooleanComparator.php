@@ -16,9 +16,6 @@ class BooleanComparator implements ComparatorInterface
     /** @var array */
     protected $columns;
 
-    /**
-     * @param array $columns
-     */
     public function __construct(array $columns)
     {
         $this->columns = $columns;

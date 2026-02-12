@@ -25,9 +25,6 @@ class UserApiProvider implements UserProviderInterface
     /** @var UserRepositoryInterface */
     protected $userRepository;
 
-    /**
-     * @param UserRepositoryInterface $userRepository
-     */
     public function __construct(UserRepositoryInterface $userRepository)
     {
         $this->userRepository = $userRepository;
@@ -81,6 +78,6 @@ class UserApiProvider implements UserProviderInterface
      */
     public function supportsClass($class): bool
     {
-        return is_subclass_of($class, 'Akeneo\UserManagement\Component\Model\UserInterface');
+        return is_subclass_of($class, \Akeneo\UserManagement\Component\Model\UserInterface::class);
     }
 }

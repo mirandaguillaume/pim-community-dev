@@ -30,8 +30,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class CategoryController
 {
-    protected SecurityFacade $securityFacade;
-
     /** @var ApiResourceRepositoryInterface */
     protected $repository;
 
@@ -54,7 +52,7 @@ class CategoryController
     protected $partialUpdateStreamResource;
 
     public function __construct(
-        SecurityFacade $securityFacade,
+        protected SecurityFacade $securityFacade,
         ApiResourceRepositoryInterface $repository,
         SimpleFactoryInterface $factory,
         ObjectUpdaterInterface $updater,
@@ -70,7 +68,6 @@ class CategoryController
         $this->saver = $saver;
         $this->router = $router;
         $this->partialUpdateStreamResource = $partialUpdateStreamResource;
-        $this->securityFacade = $securityFacade;
     }
 
     /**
@@ -158,7 +155,7 @@ class CategoryController
      */
     protected function getDecodedContent($content)
     {
-        $decodedContent = json_decode($content, true);
+        $decodedContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
 
         if (null === $decodedContent) {
             throw new BadRequestHttpException('Invalid json message received');

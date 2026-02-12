@@ -16,9 +16,6 @@ class ChannelNormalizer implements NormalizerInterface, CacheableSupportsMethodI
     /** @var NormalizerInterface */
     protected $translationNormalizer;
 
-    /**
-     * @param NormalizerInterface $translationNormalizer
-     */
     public function __construct(NormalizerInterface $translationNormalizer)
     {
         $this->translationNormalizer = $translationNormalizer;
@@ -55,7 +52,6 @@ class ChannelNormalizer implements NormalizerInterface, CacheableSupportsMethodI
     /**
      * Returns an array containing the currency values
      *
-     * @param ChannelInterface $channel
      *
      * @return array
      */

@@ -27,14 +27,13 @@ class CommentType extends AbstractType
     /** @var TranslatorInterface  */
     protected $translator;
 
-    /** @var string */
-    protected $dataClass;
-
-    public function __construct(CommentRepositoryInterface $repository, TranslatorInterface $translator, $dataClass)
+    /**
+     * @param string $dataClass
+     */
+    public function __construct(CommentRepositoryInterface $repository, TranslatorInterface $translator, protected $dataClass)
     {
         $this->repository = $repository;
         $this->translator = $translator;
-        $this->dataClass = $dataClass;
     }
 
     /**

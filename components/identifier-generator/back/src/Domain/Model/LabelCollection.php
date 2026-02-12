@@ -13,13 +13,13 @@ use Webmozart\Assert\Assert;
  *
  * @phpstan-type LabelsNormalized array<string, string>
  */
-final class LabelCollection
+final readonly class LabelCollection
 {
     /**
      * @param array<string, string> $labels
      */
     public function __construct(
-        private readonly array $labels,
+        private array $labels,
     ) {
     }
 

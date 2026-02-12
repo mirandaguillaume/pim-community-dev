@@ -14,12 +14,11 @@ use Doctrine\DBAL\Connection;
  */
 final class SqlGetChannelCodeWithLocaleCodes implements GetChannelCodeWithLocaleCodesInterface
 {
-    /** @var Connection */
-    private $connection;
-
-    public function __construct($connection)
+    /**
+     * @param Connection $connection
+     */
+    public function __construct(private $connection)
     {
-        $this->connection = $connection;
     }
 
     public function findAll(): array
@@ -34,12 +33,12 @@ SQL;
 
         $results = $this->connection->executeQuery($sql)->fetchAllAssociative();
 
-        return array_map([$this, 'hydrateLocaleCodes'], $results);
+        return array_map($this->hydrateLocaleCodes(...), $results);
     }
 
     private function hydrateLocaleCodes(array $row): array
     {
-        $row['localeCodes'] = array_filter(\json_decode($row['localeCodes'], true));
+        $row['localeCodes'] = array_filter(\json_decode((string) $row['localeCodes'], true, 512, JSON_THROW_ON_ERROR));
 
         return $row;
     }

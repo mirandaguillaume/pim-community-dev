@@ -15,15 +15,11 @@ use Symfony\Component\Form\FormFactoryInterface;
  */
 class KeyIndicatorFilter extends ChoiceFilter
 {
-    private string $filterName;
-
-    public function __construct(FormFactoryInterface $factory, FilterUtility $util, string $filterName)
+    public function __construct(FormFactoryInterface $factory, FilterUtility $util, private readonly string $filterName)
     {
         $this->formFactory = $factory;
         $this->util = $util;
         parent::__construct($factory, $util);
-
-        $this->filterName = $filterName;
     }
 
     /**

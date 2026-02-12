@@ -16,13 +16,8 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class QuantifiedAssociationsNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    /** @var QuantifiedAssociationsMerger */
-    private $quantifiedAssociationsMerger;
-
-    public function __construct(
-        QuantifiedAssociationsMerger $quantifiedAssociationMerger
-    ) {
-        $this->quantifiedAssociationsMerger = $quantifiedAssociationMerger;
+    public function __construct(private readonly QuantifiedAssociationsMerger $quantifiedAssociationsMerger)
+    {
     }
 
     /**
@@ -80,9 +75,6 @@ class QuantifiedAssociationsNormalizer implements NormalizerInterface, Cacheable
      * This function returns an array with the ancestors in the following order:
      * [product_model, product_variant_level_1, product_variant_level_2]
      * It will only returns the parents, not the current entity.
-     *
-     * @param EntityWithFamilyVariantInterface $entity
-     * @return array
      */
     private function getAncestors(EntityWithFamilyVariantInterface $entity): array
     {

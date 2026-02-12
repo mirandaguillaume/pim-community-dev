@@ -9,11 +9,8 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Model;
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-abstract class AbstractProductPrice implements ProductPriceInterface
+abstract class AbstractProductPrice implements ProductPriceInterface, \Stringable
 {
-    /** @var float */
-    protected $data;
-
     /** @var null */
     protected $currency;
 
@@ -23,9 +20,8 @@ abstract class AbstractProductPrice implements ProductPriceInterface
      * @param float  $data
      * @param string $currency
      */
-    public function __construct($data, $currency)
+    public function __construct(protected $data, $currency)
     {
-        $this->data = $data;
         $this->currency = $currency;
     }
 
@@ -56,7 +52,7 @@ abstract class AbstractProductPrice implements ProductPriceInterface
     /**
      * {@inheritdoc}
      */
-    public function __toString()
+    public function __toString(): string
     {
         return ($this->data !== null) ? sprintf('%.2F %s', $this->data, $this->currency) : '';
     }

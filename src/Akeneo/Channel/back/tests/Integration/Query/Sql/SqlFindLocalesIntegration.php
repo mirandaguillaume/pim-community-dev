@@ -16,7 +16,7 @@ final class SqlFindLocalesIntegration extends TestCase
         parent::setUp();
 
         $this->sqlFindLocales = $this->get(
-            'Akeneo\Channel\Infrastructure\Query\Sql\SqlFindLocales'
+            \Akeneo\Channel\Infrastructure\Query\Sql\SqlFindLocales::class
         );
     }
 

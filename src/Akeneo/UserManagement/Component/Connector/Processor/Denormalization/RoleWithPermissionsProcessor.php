@@ -21,23 +21,14 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 final class RoleWithPermissionsProcessor extends AbstractProcessor implements ItemProcessorInterface
 {
-    private SimpleFactoryInterface $roleWithPermissionsFactory;
-    private ObjectUpdaterInterface $roleWithPermissionsUpdater;
-    private ValidatorInterface $validator;
-    private EditRolePermissionsRoleQuery $editRolePermissionsRoleQuery;
-
     public function __construct(
         IdentifiableObjectRepositoryInterface $repository,
-        SimpleFactoryInterface $roleWithPermissionsFactory,
-        ObjectUpdaterInterface $roleWithPermissionsUpdater,
-        ValidatorInterface $validator,
-        EditRolePermissionsRoleQuery $editRolePermissionsRoleQuery,
+        private readonly SimpleFactoryInterface $roleWithPermissionsFactory,
+        private readonly ObjectUpdaterInterface $roleWithPermissionsUpdater,
+        private readonly ValidatorInterface $validator,
+        private readonly EditRolePermissionsRoleQuery $editRolePermissionsRoleQuery,
     ) {
         parent::__construct($repository);
-        $this->roleWithPermissionsFactory = $roleWithPermissionsFactory;
-        $this->roleWithPermissionsUpdater = $roleWithPermissionsUpdater;
-        $this->validator = $validator;
-        $this->editRolePermissionsRoleQuery = $editRolePermissionsRoleQuery;
     }
 
     /**

@@ -17,39 +17,11 @@ use Akeneo\UserManagement\Bundle\Context\UserContext;
  */
 class ListRootCategoriesWithCountHandler
 {
-    /** @var CategoryRepositoryInterface */
-    private $categoryRepository;
-
-    /** @var UserContext */
-    private $userContext;
-
-    /** @var ListRootCategoriesWithCountIncludingSubCategories */
-    private $listAndCountIncludingSubCategories;
-
-    /** @var ListRootCategoriesWithCountNotIncludingSubCategories */
-    private $listAndCountNotIncludingSubCategories;
-
-    /**
-     * @param CategoryRepositoryInterface $categoryRepository
-     * @param UserContext $userContext
-     * @param ListRootCategoriesWithCountIncludingSubCategories $listAndCountIncludingSubCategories
-     * @param ListRootCategoriesWithCountNotIncludingSubCategories $listAndCountNotIncludingSubCategories
-     */
-    public function __construct(
-        CategoryRepositoryInterface                          $categoryRepository,
-        UserContext                                          $userContext,
-        ListRootCategoriesWithCountIncludingSubCategories    $listAndCountIncludingSubCategories,
-        ListRootCategoriesWithCountNotIncludingSubCategories $listAndCountNotIncludingSubCategories
-    ) {
-        $this->categoryRepository = $categoryRepository;
-        $this->userContext = $userContext;
-        $this->listAndCountIncludingSubCategories = $listAndCountIncludingSubCategories;
-        $this->listAndCountNotIncludingSubCategories = $listAndCountNotIncludingSubCategories;
+    public function __construct(private readonly CategoryRepositoryInterface                          $categoryRepository, private readonly UserContext                                          $userContext, private readonly ListRootCategoriesWithCountIncludingSubCategories    $listAndCountIncludingSubCategories, private readonly ListRootCategoriesWithCountNotIncludingSubCategories $listAndCountNotIncludingSubCategories)
+    {
     }
 
     /**
-     * @param ListRootCategoriesWithCount $query
-     *
      * @return RootCategory[]
      */
     public function handle(ListRootCategoriesWithCount $query): array
@@ -85,8 +57,6 @@ class ListRootCategoriesWithCountHandler
      * Try to get the categoryTreeId from url parameters.
      * If not set, try to get the root category id from selectedCategoryId in url parameters.
      * If the root category does not exist, try to get the user accessible categoryTreeId.
-     * @param ListRootCategoriesWithCount $query
-     * @return int|null
      */
     private function getDefaultCategoryTreeId(ListRootCategoriesWithCount $query): ?int
     {

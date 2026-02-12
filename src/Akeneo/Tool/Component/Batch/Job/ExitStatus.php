@@ -12,15 +12,15 @@ namespace Akeneo\Tool\Component\Batch\Job;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/MIT MIT
  */
-class ExitStatus
+class ExitStatus implements \Stringable
 {
-    const MAX_SEVERITY = 7;
+    final public const MAX_SEVERITY = 7;
 
     /**
      * Convenient constant value representing unknown state - assumed not
      * continuable.
      */
-    const UNKNOWN = "UNKNOWN";
+    final public const UNKNOWN = "UNKNOWN";
 
     /**
      * Convenient constant value representing continuable state where processing
@@ -29,29 +29,29 @@ class ExitStatus
      * another thread or process and the caller is not required to wait for the
      * result.
      */
-    const EXECUTING = "EXECUTING";
+    final public const EXECUTING = "EXECUTING";
 
     /**
      * Convenient constant value representing finished processing.
      */
-    const COMPLETED = "COMPLETED";
+    final public const COMPLETED = "COMPLETED";
 
     /**
      * Convenient constant value representing job that did no processing (e.g.
      * because it was already complete).
      */
-    const NOOP = "NOOP";
+    final public const NOOP = "NOOP";
 
     /**
      * Convenient constant value representing finished processing with an error.
      */
-    const FAILED = "FAILED";
+    final public const FAILED = "FAILED";
 
     /**
      * Convenient constant value representing finished processing with
      * interrupted status.
      */
-    const STOPPED = "STOPPED";
+    final public const STOPPED = "STOPPED";
 
     /** @var int[] */
     protected static array $statusSeverity = [
@@ -63,13 +63,8 @@ class ExitStatus
         self::UNKNOWN   => 6
     ];
 
-    private string $exitCode;
-    private string $exitDescription = "";
-
-    public function __construct(string $exitCode = self::UNKNOWN, string $exitDescription = "")
+    public function __construct(private string $exitCode = self::UNKNOWN, private string $exitDescription = "")
     {
-        $this->exitCode = $exitCode;
-        $this->exitDescription = $exitDescription;
     }
 
     public function getExitCode(): string

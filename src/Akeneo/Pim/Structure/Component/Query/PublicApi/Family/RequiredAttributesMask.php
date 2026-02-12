@@ -23,14 +23,11 @@ use Webmozart\Assert\Assert;
  */
 class RequiredAttributesMask
 {
-    private string $familyCode;
-
     /** @var array<string, RequiredAttributesMaskForChannelAndLocale> */
     private array $masks;
 
-    public function __construct(string $familyCode, array $masksPerChannelAndLocale)
+    public function __construct(private readonly string $familyCode, array $masksPerChannelAndLocale)
     {
-        $this->familyCode = $familyCode;
         Assert::allIsInstanceOf($masksPerChannelAndLocale, RequiredAttributesMaskForChannelAndLocale::class);
         $this->masks = [];
         foreach ($masksPerChannelAndLocale as $mask) {

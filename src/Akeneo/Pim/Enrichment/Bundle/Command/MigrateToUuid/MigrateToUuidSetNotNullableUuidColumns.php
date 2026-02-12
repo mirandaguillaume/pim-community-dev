@@ -33,8 +33,8 @@ class MigrateToUuidSetNotNullableUuidColumns implements MigrateToUuidStep
     use StatusAwareTrait;
 
     public function __construct(
-        private Connection $connection,
-        private LoggerInterface $logger
+        private readonly Connection $connection,
+        private readonly LoggerInterface $logger
     ) {
     }
 

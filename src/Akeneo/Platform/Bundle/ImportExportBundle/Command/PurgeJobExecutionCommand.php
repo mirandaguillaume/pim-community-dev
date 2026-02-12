@@ -27,7 +27,7 @@ class PurgeJobExecutionCommand extends Command
     private const DEFAULT_NUMBER_OF_DAYS = 90;
 
     public function __construct(
-        private PurgeJobExecution $purgeJobExecution,
+        private readonly PurgeJobExecution $purgeJobExecution,
     ) {
         parent::__construct();
     }

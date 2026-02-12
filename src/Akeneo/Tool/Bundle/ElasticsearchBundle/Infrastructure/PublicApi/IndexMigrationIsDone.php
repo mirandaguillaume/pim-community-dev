@@ -15,11 +15,8 @@ use Doctrine\DBAL\FetchMode;
 
 class IndexMigrationIsDone implements IndexMigrationIsDoneInterface
 {
-    private Connection $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function byIndexAliasAndHash(string $indexAlias, string $hash): bool

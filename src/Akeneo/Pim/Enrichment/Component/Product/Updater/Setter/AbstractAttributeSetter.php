@@ -24,9 +24,6 @@ abstract class AbstractAttributeSetter implements AttributeSetterInterface
     /** @var OptionsResolver */
     protected $resolver;
 
-    /**
-     * @param EntityWithValuesBuilderInterface $entityWithValuesBuilder
-     */
     public function __construct(EntityWithValuesBuilderInterface $entityWithValuesBuilder)
     {
         $this->entityWithValuesBuilder = $entityWithValuesBuilder;

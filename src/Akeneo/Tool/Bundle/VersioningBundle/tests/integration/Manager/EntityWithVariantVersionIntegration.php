@@ -88,12 +88,6 @@ class EntityWithVariantVersionIntegration extends TestCase
         return $this->catalog->useFunctionalCatalog('catalog_modeling');
     }
 
-    /**
-     * @param EntityWithFamilyVariantInterface $entity
-     * @param string                           $field
-     * @param string                           $oldData
-     * @param string                           $newData
-     */
     private function assertVersions(
         EntityWithFamilyVariantInterface $entity,
         string $field,
@@ -112,7 +106,7 @@ class EntityWithVariantVersionIntegration extends TestCase
             $resourceId,
             $resourceUuid
         );
-        $this->assertSame(2, count($versions));
+        $this->assertSame(2, is_countable($versions) ? count($versions) : 0);
 
         $lastVersion = $this->get('pim_versioning.repository.version')->getNewestLogEntry(
             ClassUtils::getClass($entity),
@@ -120,7 +114,7 @@ class EntityWithVariantVersionIntegration extends TestCase
             $resourceUuid
         );
         $changeSet = $lastVersion->getChangeset();
-        $this->assertSame(1, count($changeSet));
+        $this->assertSame(1, is_countable($changeSet) ? count($changeSet) : 0);
         $this->assertSame($changeSet[$field]['old'], $oldData);
         $this->assertSame($changeSet[$field]['new'], $newData);
     }
@@ -151,10 +145,6 @@ class EntityWithVariantVersionIntegration extends TestCase
         $this->get('akeneo_integration_tests.launcher.job_launcher')->launchConsumerUntilQueueIsEmpty();
     }
 
-    /**
-     * @param ProductInterface $variantProduct
-     * @param array            $data
-     */
     private function updateVariantProduct(ProductInterface $variantProduct, array $data): void
     {
         $this->get('pim_catalog.updater.product')->update($variantProduct, $data);

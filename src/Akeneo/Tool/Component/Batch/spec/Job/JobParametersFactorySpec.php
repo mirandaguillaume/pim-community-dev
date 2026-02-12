@@ -11,7 +11,7 @@ use PhpSpec\ObjectBehavior;
 
 class JobParametersFactorySpec extends ObjectBehavior
 {
-    const INSTANCE_CLASS = JobParameters::class;
+    final public const INSTANCE_CLASS = JobParameters::class;
 
     function let(DefaultValuesProviderRegistry $registry)
     {

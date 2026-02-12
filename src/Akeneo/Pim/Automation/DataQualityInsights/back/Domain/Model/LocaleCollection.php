@@ -7,8 +7,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\LocaleCode;
 
 final class LocaleCollection implements \IteratorAggregate, \Countable
 {
-    /** @var array */
-    private $localeCodes;
+    private ?array $localeCodes = null;
 
     public function __construct(array $localeCodes)
     {
@@ -38,7 +37,7 @@ final class LocaleCollection implements \IteratorAggregate, \Countable
 
     public function count(): int
     {
-        return count($this->localeCodes);
+        return count((array) $this->localeCodes);
     }
 
     public function toArrayString(): array

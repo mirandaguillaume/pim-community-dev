@@ -18,9 +18,9 @@ use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
  */
 class ClientSpec extends ObjectBehavior
 {
-    const PROJECT_ID = 'project-id';
-    const TOPIC_NAME = 'topic-name';
-    const SUBSCRIPTION_NAME = 'subscription-name';
+    final public const PROJECT_ID = 'project-id';
+    final public const TOPIC_NAME = 'topic-name';
+    final public const SUBSCRIPTION_NAME = 'subscription-name';
 
     public function let(
         PubSubClientFactory $pubSubClientFactory,

@@ -24,24 +24,12 @@ class CheckRequirementsCommand extends Command
 {
     protected static $defaultName = 'pim:reference-data:check';
 
-    /** @var ConfigurationRegistryInterface */
-    private $configurationRegistry;
-
-    /** @var ObjectManager */
-    private $objectManager;
-
-    /** @var string */
-    private $referenceDataInterface;
-
     public function __construct(
-        ConfigurationRegistryInterface $configurationRegistry,
-        ObjectManager $objectManager,
-        string $referenceDataInterface
+        private readonly ConfigurationRegistryInterface $configurationRegistry,
+        private readonly ObjectManager $objectManager,
+        private readonly string $referenceDataInterface
     ) {
         parent::__construct();
-        $this->configurationRegistry = $configurationRegistry;
-        $this->objectManager = $objectManager;
-        $this->referenceDataInterface = $referenceDataInterface;
     }
 
     /**
@@ -85,11 +73,6 @@ class CheckRequirementsCommand extends Command
         return $checkers;
     }
 
-    /**
-     * @param CheckerInterface                    $checker
-     * @param ReferenceDataConfigurationInterface $configuration
-     * @param OutputInterface                     $output
-     */
     protected function checkConfiguration(
         CheckerInterface $checker,
         ReferenceDataConfigurationInterface $configuration,

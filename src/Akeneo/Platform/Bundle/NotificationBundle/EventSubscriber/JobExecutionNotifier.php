@@ -22,8 +22,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class JobExecutionNotifier implements EventSubscriberInterface
 {
     public function __construct(
-        private NotificationFactoryRegistry $factoryRegistry,
-        private NotifierInterface $notifier,
+        private readonly NotificationFactoryRegistry $factoryRegistry,
+        private readonly NotifierInterface $notifier,
     ) {
     }
 

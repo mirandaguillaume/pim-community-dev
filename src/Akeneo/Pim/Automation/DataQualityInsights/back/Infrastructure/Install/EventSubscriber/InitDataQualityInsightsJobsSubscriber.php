@@ -16,12 +16,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class InitDataQualityInsightsJobsSubscriber implements EventSubscriberInterface
 {
-    /** @var InitializeJobs */
-    private $initializeJobs;
-
-    public function __construct(InitializeJobs $initializeJobs)
+    public function __construct(private readonly InitializeJobs $initializeJobs)
     {
-        $this->initializeJobs = $initializeJobs;
     }
 
     /**

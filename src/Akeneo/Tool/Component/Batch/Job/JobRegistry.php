@@ -16,18 +16,13 @@ class JobRegistry
     /** @var JobInterface[] */
     protected $jobs = [];
 
-    /**
-     * @param FeatureFlags $featureFlags
-     */
-    public function __construct(private FeatureFlags $featureFlags)
+    public function __construct(private readonly FeatureFlags $featureFlags)
     {
     }
 
     /**
-     * @param JobInterface $job
      * @param string       $jobType
      * @param string       $connector
-     *
      * @throws DuplicatedJobException
      */
     public function register(JobInterface $job, $jobType, $connector, $feature = null)
@@ -103,9 +98,7 @@ class JobRegistry
     {
         $jobs = array_filter(
             $this->getAllEnabledJobs(),
-            function ($job) use ($jobType) {
-                return $job['type'] === $jobType;
-            }
+            fn($job) => $job['type'] === $jobType
         );
 
         if (empty($jobs)) {

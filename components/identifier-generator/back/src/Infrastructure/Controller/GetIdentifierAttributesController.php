@@ -15,14 +15,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-final class GetIdentifierAttributesController
+final readonly class GetIdentifierAttributesController
 {
     private const MAX_RESULTS = 20;
 
     public function __construct(
-        private readonly FindFlattenAttributesInterface $findFlattenAttributes,
-        private readonly UserContext $userContext,
-        private readonly SecurityFacadeInterface $security,
+        private FindFlattenAttributesInterface $findFlattenAttributes,
+        private UserContext $userContext,
+        private SecurityFacadeInterface $security,
     ) {
     }
 

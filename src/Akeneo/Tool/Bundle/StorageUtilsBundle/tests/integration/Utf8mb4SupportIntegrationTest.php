@@ -14,7 +14,7 @@ use Doctrine\DBAL\Schema\AbstractSchemaManager;
  */
 class Utf8mb4SupportIntegrationTest extends TestCase
 {
-    const TEST_TABLE_NAME = "test_integration_storageutils_utf8mb4";
+    final public const TEST_TABLE_NAME = "test_integration_storageutils_utf8mb4";
 
     /** @var AbstractSchemaManager */
     protected $schemaManager;
@@ -44,9 +44,7 @@ class Utf8mb4SupportIntegrationTest extends TestCase
 
         $myTestTableSql = array_filter(
             $schema->toSql($this->connection->getDatabasePlatform()),
-            function ($sql) {
-                return (strpos($sql, 'CREATE TABLE '.self::TEST_TABLE_NAME) === 0);
-            }
+            fn($sql) => str_starts_with($sql, 'CREATE TABLE '.self::TEST_TABLE_NAME)
         );
         $myTestTableSql = reset($myTestTableSql);
 

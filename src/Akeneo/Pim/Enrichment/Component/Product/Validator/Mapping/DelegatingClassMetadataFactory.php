@@ -19,8 +19,6 @@ class DelegatingClassMetadataFactory implements MetadataFactoryInterface
 
     /**
      * Register a metadata factory
-     *
-     * @param MetadataFactoryInterface $factory
      */
     public function addMetadataFactory(MetadataFactoryInterface $factory)
     {

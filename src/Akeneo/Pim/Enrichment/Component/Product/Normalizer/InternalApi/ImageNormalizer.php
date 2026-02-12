@@ -16,9 +16,6 @@ class ImageNormalizer
     /** @var FileNormalizer */
     protected $fileNormalizer;
 
-    /**
-     * @param FileNormalizer $fileNormalizer
-     */
     public function __construct(FileNormalizer $fileNormalizer)
     {
         $this->fileNormalizer = $fileNormalizer;
@@ -27,11 +24,7 @@ class ImageNormalizer
     /**
      * Normalizes a value interface to display an image
      *
-     * @param ValueInterface|null $value
-     * @param string|null         $localeCode
-     * @param string|null         $channelCode
      *
-     * @return array|null
      */
     public function normalize(?ValueInterface $value, ?string $localeCode = null, ?string $channelCode = null): ?array
     {

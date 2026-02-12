@@ -13,8 +13,7 @@ use PhpSpec\ObjectBehavior;
 
 class HasNewAnnouncementsHandlerSpec extends ObjectBehavior
 {
-    /** @var InMemoryViewedAnnouncementRepository */
-    private $viewedAnnouncementsRepository;
+    private ?\Akeneo\Platform\CommunicationChannel\Infrastructure\Persistence\InMemory\Repository\InMemoryViewedAnnouncementRepository $viewedAnnouncementsRepository = null;
 
     public function let(FindNewAnnouncementIdsInterface $findNewAnnouncementIds): void
     {

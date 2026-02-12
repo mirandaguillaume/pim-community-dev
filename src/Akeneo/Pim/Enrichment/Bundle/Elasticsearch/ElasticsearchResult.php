@@ -13,12 +13,8 @@ use Akeneo\Pim\Enrichment\Component\Product\Query\ResultInterface;
  */
 class ElasticsearchResult implements ResultInterface
 {
-    /** @var array */
-    private $rawResult;
-
-    public function __construct(array $rawResult)
+    public function __construct(private readonly array $rawResult)
     {
-        $this->rawResult = $rawResult;
     }
 
     public function getRawResult(): array

@@ -17,13 +17,8 @@ use Twig\Environment;
  */
 class WidgetController
 {
-    protected Registry $widgetRegistry;
-    protected Environment $templating;
-
-    public function __construct(Registry $widgetRegistry, Environment $templating)
+    public function __construct(protected Registry $widgetRegistry, protected Environment $templating)
     {
-        $this->widgetRegistry = $widgetRegistry;
-        $this->templating = $templating;
     }
 
     /**
@@ -62,7 +57,6 @@ class WidgetController
     /**
      * Returns a rendered widget template
      *
-     * @param WidgetInterface $widget
      *
      * @return string
      */

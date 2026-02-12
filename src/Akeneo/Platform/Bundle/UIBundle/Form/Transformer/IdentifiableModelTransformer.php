@@ -24,10 +24,6 @@ class IdentifiableModelTransformer implements DataTransformerInterface
     /** @var bool */
     protected $multiple;
 
-    /**
-     * @param IdentifiableObjectRepositoryInterface $repository
-     * @param array                                 $options
-     */
     public function __construct(IdentifiableObjectRepositoryInterface $repository, array $options)
     {
         $this->repository = $repository;

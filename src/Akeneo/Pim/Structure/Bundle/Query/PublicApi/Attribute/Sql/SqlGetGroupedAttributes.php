@@ -11,14 +11,10 @@ use Doctrine\DBAL\Connection;
  * @author    Nicolas Marniesse <nicolas.marniesse@akeneo.com>
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  */
-final class SqlGetGroupedAttributes implements GetGroupedAttributes
+final readonly class SqlGetGroupedAttributes implements GetGroupedAttributes
 {
-    /** @var Connection */
-    private $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function findAttributes(
