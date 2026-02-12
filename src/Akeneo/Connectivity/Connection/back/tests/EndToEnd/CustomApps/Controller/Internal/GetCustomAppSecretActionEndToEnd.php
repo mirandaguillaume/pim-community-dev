@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class GetCustomAppSecretActionEndToEnd extends WebTestCase
 {
-    private readonly FilePersistedFeatureFlags $featureFlags;
+    private FilePersistedFeatureFlags $featureFlags;
     private CustomAppLoader $customAppLoader;
     private GetCustomAppSecretQuery $getCustomAppSecretQuery;
 

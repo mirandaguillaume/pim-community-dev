@@ -278,7 +278,7 @@ class JobInstance
     /**
      * @return ArrayCollection|JobExecution[]
      */
-    public function getJobExecutions(): \Doctrine\Common\Collections\ArrayCollection|array
+    public function getJobExecutions(): Collection|array
     {
         return $this->jobExecutions;
     }

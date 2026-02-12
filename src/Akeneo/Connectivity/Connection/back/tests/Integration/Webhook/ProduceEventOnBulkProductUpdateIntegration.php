@@ -21,7 +21,7 @@ class ProduceEventOnBulkProductUpdateIntegration extends TestCase
 {
     use AssertEventCountTrait;
 
-    private readonly UniqueValuesSet $uniqueValuesSet;
+    private UniqueValuesSet $uniqueValuesSet;
 
     protected function setUp(): void
     {
