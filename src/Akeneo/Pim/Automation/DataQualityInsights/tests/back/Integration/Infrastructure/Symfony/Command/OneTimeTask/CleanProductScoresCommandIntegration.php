@@ -14,6 +14,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Symfony\Command\One
 use Akeneo\Test\Pim\Automation\DataQualityInsights\Integration\DataQualityInsightsTestCase;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Doctrine\DBAL\Connection;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
@@ -24,6 +25,7 @@ final class CleanProductScoresCommandIntegration extends DataQualityInsightsTest
 {
     use OneTimeTaskCommandTrait;
 
+    private Connection $dbConnection;
     private const COMMAND_NAME = 'pim:data-quality-insights:clean-product-scores';
 
     public function setUp(): void

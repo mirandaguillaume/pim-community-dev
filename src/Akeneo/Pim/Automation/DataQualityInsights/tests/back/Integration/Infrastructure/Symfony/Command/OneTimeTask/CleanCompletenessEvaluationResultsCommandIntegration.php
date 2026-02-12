@@ -11,6 +11,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Transfo
 use Akeneo\Test\Pim\Automation\DataQualityInsights\Integration\DataQualityInsightsTestCase;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Doctrine\DBAL\Connection;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
@@ -21,6 +22,7 @@ final class CleanCompletenessEvaluationResultsCommandIntegration extends DataQua
 {
     use OneTimeTaskCommandTrait;
 
+    private Connection $dbConnection;
     private const COMMAND_NAME = 'pim:data-quality-insights:clean-completeness-evaluation-results';
 
     public function setUp(): void

@@ -8,6 +8,7 @@ use Akeneo\Tool\Component\Batch\Job\ExitStatus;
 use Akeneo\Tool\Component\Batch\Job\JobParameters;
 use Akeneo\Tool\Component\Batch\Job\RuntimeErrorException;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * Batch domain object representing the execution of a job
@@ -23,7 +24,7 @@ class JobExecution implements \Stringable
     /** @var int */
     private $id;
 
-    private \Doctrine\Common\Collections\ArrayCollection|array $stepExecutions;
+    private Collection|array $stepExecutions;
 
     private ?\Akeneo\Tool\Component\Batch\Model\JobInstance $jobInstance = null;
 
@@ -368,7 +369,7 @@ class JobExecution implements \Stringable
      *
      * @return ArrayCollection|StepExecution[] the step executions that were registered
      */
-    public function getStepExecutions(): \Doctrine\Common\Collections\ArrayCollection|array
+    public function getStepExecutions(): Collection|array
     {
         return $this->stepExecutions;
     }
