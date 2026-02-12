@@ -11,8 +11,8 @@ namespace Akeneo\Tool\Component\Localization\Factory;
  */
 class DateFactory
 {
-    final public const TYPE_DATE = \IntlDateFormatter::SHORT;
-    final public const TYPE_TIME = \IntlDateFormatter::NONE;
+    public const TYPE_DATE = \IntlDateFormatter::SHORT;
+    public const TYPE_TIME = \IntlDateFormatter::NONE;
 
     /** @var array */
     protected $dateFormats;

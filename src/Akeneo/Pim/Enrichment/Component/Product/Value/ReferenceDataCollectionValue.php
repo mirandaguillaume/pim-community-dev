@@ -16,9 +16,6 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface;
 class ReferenceDataCollectionValue extends AbstractValue implements
     ReferenceDataCollectionValueInterface, \Stringable
 {
-    /** @var ReferenceDataInterface[] */
-    protected $data;
-
     protected function __construct(string $attributeCode, ?array $data, ?string $scopeCode, ?string $localeCode)
     {
         if (null === $data) {

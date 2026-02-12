@@ -12,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DateRangeType extends AbstractType
 {
-    final public const NAME = 'pim_type_date_range';
+    public const NAME = 'pim_type_date_range';
 
     /**
      * {@inheritDoc}

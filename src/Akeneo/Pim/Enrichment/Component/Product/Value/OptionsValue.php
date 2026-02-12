@@ -14,9 +14,6 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface;
  */
 class OptionsValue extends AbstractValue implements OptionsValueInterface, \Stringable
 {
-    /** @var string[] Options codes */
-    protected $data;
-
     /**
      * {@inheritdoc}
      */

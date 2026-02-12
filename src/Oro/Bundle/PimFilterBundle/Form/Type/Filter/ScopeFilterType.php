@@ -18,7 +18,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ScopeFilterType extends ChoiceFilterType
 {
     /** @staticvar string */
-    final public const NAME = 'pim_type_scope_filter';
+    public const NAME = 'pim_type_scope_filter';
 
     public function __construct(TranslatorInterface $translator, protected UserContext $userContext)
     {

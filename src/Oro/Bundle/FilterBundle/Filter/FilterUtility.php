@@ -30,7 +30,7 @@ class FilterUtility
     /**
      * Applies filter to query by field
      */
-    public function applyFilter(FilterDatasourceAdapterInterface $ds, string $field, string $operator, mixed $value): never
+    public function applyFilter(FilterDatasourceAdapterInterface $ds, string $field, string $operator, mixed $value): void
     {
         throw new \RuntimeException('Not implemented. Use your own FilterUtility to implement this method.');
     }

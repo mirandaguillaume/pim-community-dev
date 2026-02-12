@@ -101,7 +101,7 @@ class RepositoryDatasource implements DatasourceInterface, ParameterizableInterf
     /**
      * {@inheritdoc}
      */
-    public function getMassActionRepository(): never
+    public function getMassActionRepository()
     {
         throw new \LogicException("No need to implement this method, design flaw in interface!");
     }
@@ -109,7 +109,7 @@ class RepositoryDatasource implements DatasourceInterface, ParameterizableInterf
     /**
      * {@inheritdoc}
      */
-    public function setMassActionRepository(MassActionRepositoryInterface $massActionRepository): never
+    public function setMassActionRepository(MassActionRepositoryInterface $massActionRepository)
     {
         throw new \LogicException("No need to implement this method, design flaw in interface!");
     }
@@ -117,7 +117,7 @@ class RepositoryDatasource implements DatasourceInterface, ParameterizableInterf
     /**
      * {@inheritdoc}
      */
-    public function setHydrator(HydratorInterface $hydrator): never
+    public function setHydrator(HydratorInterface $hydrator)
     {
         throw new \LogicException("No need to implement this method, design flaw in interface!");
     }

@@ -11,15 +11,15 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class NumberFilterType extends AbstractType
 {
-    final public const TYPE_GREATER_EQUAL = 1;
-    final public const TYPE_GREATER_THAN = 2;
-    final public const TYPE_EQUAL = 3;
-    final public const TYPE_LESS_EQUAL = 4;
-    final public const TYPE_LESS_THAN = 5;
-    final public const NAME = 'oro_type_number_filter';
+    public const TYPE_GREATER_EQUAL = 1;
+    public const TYPE_GREATER_THAN = 2;
+    public const TYPE_EQUAL = 3;
+    public const TYPE_LESS_EQUAL = 4;
+    public const TYPE_LESS_THAN = 5;
+    public const NAME = 'oro_type_number_filter';
 
-    final public const DATA_INTEGER = 'data_integer';
-    final public const DATA_DECIMAL = 'data_decimal';
+    public const DATA_INTEGER = 'data_integer';
+    public const DATA_DECIMAL = 'data_decimal';
 
     public function __construct(protected TranslatorInterface $translator)
     {

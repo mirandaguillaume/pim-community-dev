@@ -71,8 +71,8 @@ class AclManager extends AbstractAclManager
     public function __construct(
         ObjectIdentityFactory $objectIdentityFactory,
         AclExtensionSelector $extensionSelector,
-        private readonly MutableAclProvider $aclProvider = null,
-        AceManipulationHelper $aceProvider = null,
+        private readonly ?MutableAclProvider $aclProvider = null,
+        ?AceManipulationHelper $aceProvider = null,
         $privilegeRepositoryClass = null,
         private readonly ?\Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher = null
     ) {

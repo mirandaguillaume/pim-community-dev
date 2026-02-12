@@ -90,7 +90,7 @@ class FamilyDatasource implements DatasourceInterface, ParameterizableInterface
     /**
      * {@inheritdoc}
      */
-    public function getRepository(): never
+    public function getRepository()
     {
         throw new \LogicException("No need to implement this method, design flaw in interface!");
     }
@@ -106,7 +106,7 @@ class FamilyDatasource implements DatasourceInterface, ParameterizableInterface
     /**
      * {@inheritdoc}
      */
-    public function setMassActionRepository(MassActionRepositoryInterface $massActionRepository): never
+    public function setMassActionRepository(MassActionRepositoryInterface $massActionRepository)
     {
         throw new \LogicException("No need to implement this method, design flaw in interface!");
     }

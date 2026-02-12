@@ -18,9 +18,6 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface;
  */
 class ScalarValue extends AbstractValue implements ValueInterface, \Stringable
 {
-    /** @var mixed */
-    protected $data;
-
     /**
      * {@inheritdoc}
      */

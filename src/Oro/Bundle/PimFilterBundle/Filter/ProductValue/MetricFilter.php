@@ -91,7 +91,7 @@ class MetricFilter extends OroNumberFilter
      *
      * {@inheritdoc}
      */
-    public function parseData($data)
+    public function parseData(mixed $data): array|bool
     {
         $data['type'] ??= null;
 

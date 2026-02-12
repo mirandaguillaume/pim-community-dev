@@ -9,9 +9,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ChoiceFilterType extends AbstractChoiceType
 {
-    final public const TYPE_CONTAINS = 1;
-    final public const TYPE_NOT_CONTAINS = 2;
-    final public const NAME = 'oro_type_choice_filter';
+    public const TYPE_CONTAINS = 1;
+    public const TYPE_NOT_CONTAINS = 2;
+    public const NAME = 'oro_type_choice_filter';
 
     /**
      * {@inheritDoc}

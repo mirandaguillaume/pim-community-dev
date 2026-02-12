@@ -51,7 +51,7 @@ class BooleanFilter extends OroBooleanFilter
     /**
      * {@inheritdoc}
      */
-    public function parseData($data)
+    public function parseData($data): array|bool
     {
         $allowedValues = [
             BooleanFilterType::TYPE_YES,

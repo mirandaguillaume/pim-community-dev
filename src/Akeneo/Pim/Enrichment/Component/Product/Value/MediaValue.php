@@ -17,9 +17,6 @@ use Akeneo\Tool\Component\FileStorage\Model\FileInfoInterface;
  */
 class MediaValue extends AbstractValue implements MediaValueInterface, \Stringable
 {
-    /** @var FileInfoInterface|null */
-    protected $data;
-
     /**
      * {@inheritdoc}
      */

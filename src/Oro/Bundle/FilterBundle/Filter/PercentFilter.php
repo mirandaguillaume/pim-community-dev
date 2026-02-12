@@ -20,7 +20,7 @@ class PercentFilter extends NumberFilter
     /**
      * {@inheritdoc}
      */
-    public function parseData($data)
+    public function parseData(mixed $data): array|bool
     {
         $data = parent::parseData($data);
 

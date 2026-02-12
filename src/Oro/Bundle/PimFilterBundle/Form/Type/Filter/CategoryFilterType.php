@@ -22,7 +22,7 @@ class CategoryFilterType extends NumberFilterType
     final public const INCLUDE_SUB = 1;
 
     /** @staticvar string */
-    final public const NAME = 'pim_type_category_filter';
+    public const NAME = 'pim_type_category_filter';
 
     /**
      * {@inheritdoc}

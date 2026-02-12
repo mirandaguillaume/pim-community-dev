@@ -14,9 +14,6 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface;
  */
 class DateValue extends AbstractValue implements DateValueInterface, \Stringable
 {
-    /** @var \DateTime */
-    protected $data;
-
     /**
      * {@inheritdoc}
      */

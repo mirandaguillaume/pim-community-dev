@@ -17,7 +17,7 @@ class TranslationNormalizer implements NormalizerInterface, CacheableSupportsMet
     /**
      * @param IdentifiableObjectRepositoryInterface|null $localeRepository
      */
-    public function __construct(private readonly IdentifiableObjectRepositoryInterface $localeRepository = null)
+    public function __construct(private readonly ?IdentifiableObjectRepositoryInterface $localeRepository = null)
     {
     }
 
