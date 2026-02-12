@@ -110,7 +110,11 @@ class QueryParametersChecker implements QueryParametersCheckerInterface
      */
     public function checkCriterionParameters(string $searchString): array
     {
-        $searchParameters = json_decode($searchString, true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $searchParameters = json_decode($searchString, true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            throw new BadRequestHttpException('Search query parameter should be valid JSON.');
+        }
 
         if (null === $searchParameters) {
             throw new BadRequestHttpException('Search query parameter should be valid JSON.');

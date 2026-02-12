@@ -90,7 +90,7 @@ class IdentifierFilter extends AbstractAttributeFilter implements AttributeFilte
     /**
      * Apply the filtering conditions to the search query builder
      */
-    protected function applyFilter(AttributeInterface $attribute, string $operator, string|array $value)
+    protected function applyFilter(AttributeInterface $attribute, string $operator, string|array|null $value)
     {
         $attributePath = $this->getAttributePath($attribute, null, null);
         switch ($operator) {

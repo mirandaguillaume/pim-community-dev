@@ -29,12 +29,12 @@ class ViewElementExtension extends AbstractExtension
         return [
             new TwigFunction(
                 'view_elements',
-                $this->renderViewElements(...),
+                [$this, 'renderViewElements'],
                 ['needs_context' => true, 'is_safe' => ['html']]
             ),
             new TwigFunction(
                 'view_element_aliases',
-                $this->getViewElementAliases(...),
+                [$this, 'getViewElementAliases'],
                 ['needs_context' => true, 'is_safe' => ['html']]
             )
         ];

@@ -4,12 +4,8 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Symfony\Command\OneTimeTask;
 
-use Doctrine\DBAL\Connection;
-
 trait OneTimeTaskCommandTrait
 {
-    private Connection $dbConnection;
-
     private function startTask(string $taskCode): void
     {
         $query = <<<SQL

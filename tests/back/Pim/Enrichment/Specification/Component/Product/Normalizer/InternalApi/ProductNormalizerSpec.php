@@ -28,6 +28,7 @@ use Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface;
 use Akeneo\Platform\Bundle\UIBundle\Provider\Form\FormProviderInterface;
 use Akeneo\Platform\Bundle\UIBundle\Provider\StructureVersion\StructureVersionProviderInterface;
 use Akeneo\Tool\Bundle\VersioningBundle\Manager\VersionManager;
+use Akeneo\Tool\Component\Versioning\Model\Version;
 use Akeneo\UserManagement\Bundle\Context\UserContext;
 use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
@@ -111,7 +112,9 @@ class ProductNormalizerSpec extends ObjectBehavior
         AssociationTypeInterface $groupType,
         GroupInterface $group,
         ArrayCollection $groups,
-        ValueInterface $image
+        ValueInterface $image,
+        Version $createVersion,
+        Version $updateVersion
     ) {
         $options = [
             'decimal_separator' => ',',
@@ -176,11 +179,11 @@ class ProductNormalizerSpec extends ObjectBehavior
         $mug->isVariant()->willReturn(false);
         $mug->getUuid()->willReturn(Uuid::fromString('57700274-9b48-4857-b17d-a7da106cd150'));
         $mug->getIdentifier()->willReturn('mug');
-        $versionManager->getOldestLogEntry($mug)->willReturn('create_version');
-        $versionNormalizer->normalize('create_version', 'internal_api', ['timezone' => 'Pacific/Kiritimati'])
+        $versionManager->getOldestLogEntry($mug)->willReturn($createVersion);
+        $versionNormalizer->normalize($createVersion, 'internal_api', ['timezone' => 'Pacific/Kiritimati'])
             ->willReturn('normalized_create_version');
-        $versionManager->getNewestLogEntry($mug)->willReturn('update_version');
-        $versionNormalizer->normalize('update_version', 'internal_api', ['timezone' => 'Pacific/Kiritimati'])
+        $versionManager->getNewestLogEntry($mug)->willReturn($updateVersion);
+        $versionNormalizer->normalize($updateVersion, 'internal_api', ['timezone' => 'Pacific/Kiritimati'])
             ->willReturn('normalized_update_version');
 
         $localeRepository->getActivatedLocaleCodes()->willReturn(['en_US', 'fr_FR']);
@@ -310,7 +313,9 @@ class ProductNormalizerSpec extends ObjectBehavior
         AttributeInterface $color,
         AttributeInterface $size,
         AttributeInterface $description,
-        ProductModelInterface $productModel
+        ProductModelInterface $productModel,
+        Version $createVersion,
+        Version $updateVersion
     ) {
         $options = [
             'decimal_separator' => ',',
@@ -377,11 +382,11 @@ class ProductNormalizerSpec extends ObjectBehavior
 
         $mug->getUuid()->willReturn(Uuid::fromString('57700274-9b48-4857-b17d-a7da106cd150'));
         $mug->getIdentifier()->willReturn('mug');
-        $versionManager->getOldestLogEntry($mug)->willReturn('create_version');
-        $versionNormalizer->normalize('create_version', 'internal_api', ['timezone' => 'Pacific/Kiritimati'])
+        $versionManager->getOldestLogEntry($mug)->willReturn($createVersion);
+        $versionNormalizer->normalize($createVersion, 'internal_api', ['timezone' => 'Pacific/Kiritimati'])
             ->willReturn('normalized_create_version');
-        $versionManager->getNewestLogEntry($mug)->willReturn('update_version');
-        $versionNormalizer->normalize('update_version', 'internal_api', ['timezone' => 'Pacific/Kiritimati'])
+        $versionManager->getNewestLogEntry($mug)->willReturn($updateVersion);
+        $versionNormalizer->normalize($updateVersion, 'internal_api', ['timezone' => 'Pacific/Kiritimati'])
             ->willReturn('normalized_update_version');
 
         $localeRepository->getActivatedLocaleCodes()->willReturn(['en_US', 'fr_FR']);

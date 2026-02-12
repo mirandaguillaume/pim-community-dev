@@ -30,10 +30,10 @@ class LocaleExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('locale_code', $this->currentLocaleCode(...)),
-            new TwigFunction('locale_label', $this->localeLabel(...)),
-            new TwigFunction('currency_symbol', $this->currencySymbol(...)),
-            new TwigFunction('currency_label', $this->currencyLabel(...))
+            new TwigFunction('locale_code', [$this, 'currentLocaleCode']),
+            new TwigFunction('locale_label', [$this, 'localeLabel']),
+            new TwigFunction('currency_symbol', [$this, 'currencySymbol']),
+            new TwigFunction('currency_label', [$this, 'currencyLabel'])
         ];
     }
 
@@ -45,7 +45,7 @@ class LocaleExtension extends AbstractExtension
         return [
             new TwigFilter(
                 'flag',
-                $this->flag(...),
+                [$this, 'flag'],
                 [
                     'is_safe'           => ['html'],
                     'needs_environment' => true,
