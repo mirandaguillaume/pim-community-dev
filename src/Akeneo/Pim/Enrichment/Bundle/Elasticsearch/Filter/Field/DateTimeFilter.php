@@ -192,7 +192,7 @@ class DateTimeFilter extends AbstractFieldFilter implements FieldFilterInterface
      * @param string $operator
      * @param string $field
      */
-    protected function checkValue($operator, $field, string|array|\DateTimeInterface $value)
+    protected function checkValue($operator, $field, mixed $value)
     {
         switch ($operator) {
             case Operators::EQUALS:
@@ -259,7 +259,7 @@ class DateTimeFilter extends AbstractFieldFilter implements FieldFilterInterface
      *
      * @return string
      */
-    protected function getFormattedDate($field, string|\DateTime $value)
+    protected function getFormattedDate($field, string|\DateTimeInterface $value)
     {
         $dateTime = $value;
         $utcTimeZone = new \DateTimeZone('UTC');

@@ -64,6 +64,10 @@ final readonly class TransformCriterionEvaluationResultCodes
     {
         $resultDataByIds = [];
         foreach ($resultDataByCodes as $dataType => $dataByCodes) {
+            if (!isset(self::DATA_TYPES_ID[$dataType])) {
+                throw new CriterionEvaluationResultTransformationFailedException(sprintf('Unknown result data type "%s"', $dataType));
+            }
+
             $resultDataByIds[self::DATA_TYPES_ID[$dataType]] = match ($dataType) {
                 'attributes_with_rates', 'hashed_values' => $this->transformChannelLocaleDataByAttributesFromCodesToIds($dataByCodes),
                 'number_of_improvable_attributes', 'total_number_of_attributes' => $this->transformChannelLocaleDataFromCodesToIds($dataByCodes, fn ($number) => $number),

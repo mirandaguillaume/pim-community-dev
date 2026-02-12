@@ -84,7 +84,7 @@ class MetricNormalizer extends AbstractValueDataNormalizer implements CacheableS
     public function getMetricData(MetricInterface $metric, $withUnit, $decimalsAllowed = true)
     {
         $data = $metric->getData();
-        if (null === $data || 0 === $data) {
+        if (null === $data || '' === $data || 0 === $data) {
             return '';
         }
 
