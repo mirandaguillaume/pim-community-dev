@@ -44,8 +44,6 @@ class FieldChainedProvider implements FieldProviderInterface
 
     /**
      * Add a provider
-     *
-     * @param FieldProviderInterface $provider
      */
     public function addProvider(FieldProviderInterface $provider)
     {

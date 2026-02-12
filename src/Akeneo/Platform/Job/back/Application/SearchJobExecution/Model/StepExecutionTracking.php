@@ -10,7 +10,7 @@ use Akeneo\Platform\Job\Domain\Model\Status;
  * @copyright 2021 Akeneo SAS (https://www.akeneo.com)
  * @license https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class StepExecutionTracking
+final readonly class StepExecutionTracking
 {
     public function __construct(
         private int $id,

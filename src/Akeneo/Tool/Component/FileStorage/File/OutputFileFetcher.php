@@ -42,7 +42,7 @@ class OutputFileFetcher implements FileFetcherInterface
             );
         }
 
-        $filePath = DIRECTORY_SEPARATOR !== substr($options['filePath'], -1)
+        $filePath = DIRECTORY_SEPARATOR !== substr((string) $options['filePath'], -1)
             ? $options['filePath'] . DIRECTORY_SEPARATOR : $options['filePath'];
 
         $filename = !isset($options['filename']) || '' === $options['filename']

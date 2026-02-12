@@ -21,11 +21,8 @@ use Behat\Testwork\Environment\Environment;
 
 class SubStepTester implements StepTester
 {
-    private $baseTester;
-
-    public function __construct(StepTester $baseTester)
+    public function __construct(private readonly StepTester $baseTester)
     {
-        $this->baseTester = $baseTester;
     }
 
     /**
@@ -91,7 +88,7 @@ class SubStepTester implements StepTester
         $steps = $callResult->getReturn();
 
         if (!is_array($steps)) {
-            $steps = array($steps);
+            $steps = [$steps];
         }
 
         /** @var SubStep[] $steps */

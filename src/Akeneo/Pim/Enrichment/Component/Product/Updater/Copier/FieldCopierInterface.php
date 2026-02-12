@@ -17,11 +17,8 @@ interface FieldCopierInterface extends CopierInterface
     /**
      * Copy a data from a source field to a destination field
      *
-     * @param EntityWithValuesInterface $fromEntityWithValues
-     * @param EntityWithValuesInterface $toEntityWithValues
      * @param string                    $fromField
      * @param string                    $toField
-     * @param array                     $options
      *
      * @throws PropertyException
      */

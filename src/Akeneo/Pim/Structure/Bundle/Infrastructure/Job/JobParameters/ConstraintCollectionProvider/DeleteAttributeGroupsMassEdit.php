@@ -17,13 +17,13 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\Type;
 
-final class DeleteAttributeGroupsMassEdit implements ConstraintCollectionProviderInterface
+final readonly class DeleteAttributeGroupsMassEdit implements ConstraintCollectionProviderInterface
 {
     /**
      * @param array<string> $supportedJobNames
      */
     public function __construct(
-        private readonly array $supportedJobNames,
+        private array $supportedJobNames,
     ) {
     }
 

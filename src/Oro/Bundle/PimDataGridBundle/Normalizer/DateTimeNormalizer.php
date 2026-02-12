@@ -25,11 +25,6 @@ class DateTimeNormalizer implements NormalizerInterface, CacheableSupportsMethod
     /** @var UserContext */
     protected $userContext;
 
-    /**
-     * @param NormalizerInterface $standardNormalizer
-     * @param PresenterInterface  $presenter
-     * @param UserContext         $userContext
-     */
     public function __construct(
         NormalizerInterface $standardNormalizer,
         PresenterInterface $presenter,

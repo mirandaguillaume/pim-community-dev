@@ -9,12 +9,8 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\Category\GetCategoryTranslati
 
 class CategoryTranslator implements FlatPropertyValueTranslatorInterface
 {
-    /** @var GetCategoryTranslations */
-    private $getCategoryTranslations;
-
-    public function __construct(GetCategoryTranslations $getCategoryTranslations)
+    public function __construct(private readonly GetCategoryTranslations $getCategoryTranslations)
     {
-        $this->getCategoryTranslations = $getCategoryTranslations;
     }
 
     public function supports(string $columnName): bool
@@ -34,7 +30,7 @@ class CategoryTranslator implements FlatPropertyValueTranslatorInterface
                 continue;
             }
 
-            $categoryCodes = explode(',', $value);
+            $categoryCodes = explode(',', (string) $value);
             $categoriesLabelized = [];
 
             foreach ($categoryCodes as $categoryCode) {
@@ -55,7 +51,7 @@ class CategoryTranslator implements FlatPropertyValueTranslatorInterface
             if (empty($value)) {
                 continue;
             }
-            $categoryCodes = array_merge($categoryCodes, explode(',', $value));
+            $categoryCodes = array_merge($categoryCodes, explode(',', (string) $value));
         }
 
         return array_unique($categoryCodes);

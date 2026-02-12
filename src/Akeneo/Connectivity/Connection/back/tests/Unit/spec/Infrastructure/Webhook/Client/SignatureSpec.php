@@ -22,7 +22,7 @@ class SignatureSpec extends ObjectBehavior
     {
         $this->createSignature(
             '2bb80d537b1da3e38bd30361aa855686bde0eacd7162fef6a25fe97bf527a25b',
-            1598777637,
+            1_598_777_637,
             '{"data":"Hello world!"}'
         )
             ->shouldReturn('9ac9a8cd3e24a416e7001ebd2ca54c76307c058101102070d0b3a5e7e0bf98a6');
@@ -32,7 +32,7 @@ class SignatureSpec extends ObjectBehavior
     {
         $this->createSignature(
             '2bb80d537b1da3e38bd30361aa855686bde0eacd7162fef6a25fe97bf527a25b',
-            1598777637,
+            1_598_777_637,
             null
         )
             ->shouldReturn('5ec6023d0c34c6af78ce70e06e496a998882d1f4872a4f33245be00560789fb2');

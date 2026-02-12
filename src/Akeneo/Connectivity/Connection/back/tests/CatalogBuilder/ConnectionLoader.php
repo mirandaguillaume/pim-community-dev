@@ -18,8 +18,8 @@ use Akeneo\Connectivity\Connection\Domain\Settings\Model\Read\ConnectionWithCred
 class ConnectionLoader
 {
     public function __construct(
-        private CreateConnectionHandler $createConnectionHandler,
-        private UpdateConnectionHandler $updateConnectionHandler,
+        private readonly CreateConnectionHandler $createConnectionHandler,
+        private readonly UpdateConnectionHandler $updateConnectionHandler,
     ) {
     }
 

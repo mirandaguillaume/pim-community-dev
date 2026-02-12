@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints\File as BaseFile;
  */
 class File extends BaseFile
 {
-    public const EXTENSION_NOT_ALLOWED_ERROR = 'ead50d07-6369-48a2-b108-3f7e4eda0048';
+    final public const EXTENSION_NOT_ALLOWED_ERROR = 'ead50d07-6369-48a2-b108-3f7e4eda0048';
 
     /** @var array */
     public $allowedExtensions = [];

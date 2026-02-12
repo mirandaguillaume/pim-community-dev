@@ -24,13 +24,13 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
 class ListProductModelsQueryHandler
 {
     public function __construct(
-        private ApplyProductSearchQueryParametersToPQB $applyProductSearchQueryParametersToPQB,
-        private ProductQueryBuilderFactoryInterface $fromSizePqbFactory,
-        private ProductQueryBuilderFactoryInterface $searchAfterPqbFactory,
-        private GetConnectorProductModels $getConnectorProductModelsQuery,
-        private IdentifiableObjectRepositoryInterface $channelRepository,
-        private FindId $getProductModelId,
-        private GetProductModelsWithQualityScoresInterface $getProductModelsWithQualityScores
+        private readonly ApplyProductSearchQueryParametersToPQB $applyProductSearchQueryParametersToPQB,
+        private readonly ProductQueryBuilderFactoryInterface $fromSizePqbFactory,
+        private readonly ProductQueryBuilderFactoryInterface $searchAfterPqbFactory,
+        private readonly GetConnectorProductModels $getConnectorProductModelsQuery,
+        private readonly IdentifiableObjectRepositoryInterface $channelRepository,
+        private readonly FindId $getProductModelId,
+        private readonly GetProductModelsWithQualityScoresInterface $getProductModelsWithQualityScores
     ) {
     }
 

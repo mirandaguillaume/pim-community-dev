@@ -15,10 +15,6 @@ class PlaceholderNode extends \Twig_Node
      */
     protected $placeholder;
 
-    protected $variables;
-
-    protected $wrapClassName;
-
     /**
      * @param array $placeholder Array with placeholder data
      * @param       $variables Additional placeholder data
@@ -26,13 +22,11 @@ class PlaceholderNode extends \Twig_Node
      * @param int   $line Line
      * @param int   $tag twig tag
      */
-    public function __construct(array $placeholder, $variables, $wrapClassName, $line, $tag)
+    public function __construct(array $placeholder, protected $variables, protected $wrapClassName, $line, $tag)
     {
         $items = isset($placeholder['items']) ?: [];
         parent::__construct([], ['value' => $items], $line, $tag);
         $this->placeholder = $placeholder;
-        $this->wrapClassName = $wrapClassName;
-        $this->variables = $variables;
     }
 
     /**
@@ -48,7 +42,7 @@ class PlaceholderNode extends \Twig_Node
                 ->write("echo '</div>';\n")
             ;
         }*/
-        if (isset($this->placeholder['items']) && count($this->placeholder['items'])) {
+        if (isset($this->placeholder['items']) && (is_countable($this->placeholder['items']) ? count($this->placeholder['items']) : 0)) {
             foreach ($this->placeholder['items'] as $item) {
                 //$compiler->raw(
                 //    'echo \'<div id = "block-' . $blockData['name'] . '" class="' . $this->wrapClassName . '" >\';'

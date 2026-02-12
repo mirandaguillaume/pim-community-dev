@@ -19,9 +19,9 @@ use Akeneo\Pim\Enrichment\Component\Product\Normalizer\Standard\TranslationNorma
 class SqlFindGrantedCategoryTrees implements FindGrantedCategoryTrees
 {
     public function __construct(
-        private CategoryRepositoryInterface $categoryRepository,
-        private TranslationNormalizer $translationNormalizer,
-        private CollectionFilterInterface $collectionFilter
+        private readonly CategoryRepositoryInterface $categoryRepository,
+        private readonly TranslationNormalizer $translationNormalizer,
+        private readonly CollectionFilterInterface $collectionFilter
     ) {
     }
 

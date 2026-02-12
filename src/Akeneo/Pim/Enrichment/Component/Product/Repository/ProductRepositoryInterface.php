@@ -20,7 +20,6 @@ interface ProductRepositoryInterface extends ObjectRepository
     /**
      * Get available attribute ids from a product ids list
      *
-     * @param array $productIds
      *
      * @return array
      */
@@ -41,16 +40,12 @@ interface ProductRepositoryInterface extends ObjectRepository
     public function getItemsFromUuids(array $uuids): array;
 
     /**
-     * @param GroupInterface $group
      * @param int            $maxResults
-     *
      * @return array
      */
     public function getProductsByGroup(GroupInterface $group, $maxResults);
 
     /**
-     * @param GroupInterface $group
-     *
      * @return int
      */
     public function getProductCountByGroup(GroupInterface $group);

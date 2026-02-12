@@ -21,7 +21,7 @@ class JobExecutionSpec extends ObjectBehavior
         $this->getExitStatus()->shouldBeAnInstanceOf(ExitStatus::class);
         $this->getExitStatus()->getExitCode()->shouldReturn(ExitStatus::UNKNOWN);
         $this->getExecutionContext()->shouldBeAnInstanceOf(ExecutionContext::class);
-        $this->getStepExecutions()->shouldBeAnInstanceOf('Doctrine\Common\Collections\ArrayCollection');
+        $this->getStepExecutions()->shouldBeAnInstanceOf(\Doctrine\Common\Collections\ArrayCollection::class);
         $this->getStepExecutions()->shouldBeEmpty();
         $this->getCreateTime()->shouldBeAnInstanceOf('\DateTime');
         $this->getFailureExceptions()->shouldHaveCount(0);

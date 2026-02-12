@@ -44,12 +44,10 @@ class AjaxChoiceFilter extends ChoiceFilter
     {
         $formView = $this->getForm()->createView();
         $choices = array_map(
-            function (ChoiceView $choice) {
-                return [
-                    'label' => $choice->label,
-                    'value' => $choice->value
-                ];
-            },
+            fn(ChoiceView $choice) => [
+                'label' => $choice->label,
+                'value' => $choice->value
+            ],
             $formView->vars['choices']
         );
 
@@ -84,7 +82,7 @@ class AjaxChoiceFilter extends ChoiceFilter
     protected function parseData($data)
     {
         if (isset($data['type']) && in_array($data['type'], [FilterType::TYPE_EMPTY, FilterType::TYPE_NOT_EMPTY])) {
-            $data['value'] = isset($data['value']) ? $data['value'] : null;
+            $data['value'] ??= null;
 
             return $data;
         }

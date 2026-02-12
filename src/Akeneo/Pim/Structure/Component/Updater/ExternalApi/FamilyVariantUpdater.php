@@ -19,15 +19,8 @@ use Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface;
  */
 class FamilyVariantUpdater implements ObjectUpdaterInterface
 {
-    /** @var ObjectUpdaterInterface */
-    private $familyUpdater;
-
-    /**
-     * @param ObjectUpdaterInterface $familyUpdater
-     */
-    public function __construct(ObjectUpdaterInterface $familyUpdater)
+    public function __construct(private readonly ObjectUpdaterInterface $familyUpdater)
     {
-        $this->familyUpdater = $familyUpdater;
     }
 
     /**
@@ -61,8 +54,6 @@ class FamilyVariantUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param array $variantAttributeSets
-     *
      * @throws MandatoryPropertyException
      */
     private function validateVariantAttributeSets(array $variantAttributeSets): void

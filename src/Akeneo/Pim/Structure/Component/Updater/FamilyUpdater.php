@@ -68,12 +68,11 @@ class FamilyUpdater implements ObjectUpdaterInterface
      * Validate the data type of a field.
      *
      * @param string $field
-     * @param mixed  $data
      *
      * @throws InvalidPropertyTypeException
      * @throws UnknownPropertyException
      */
-    protected function validateDataType($field, $data)
+    protected function validateDataType($field, mixed $data)
     {
         if (in_array($field, ['code', 'attribute_as_label', 'attribute_as_image'])) {
             if (null !== $data && !is_scalar($data)) {
@@ -92,11 +91,10 @@ class FamilyUpdater implements ObjectUpdaterInterface
      * Validate that it is an array with scalar values.
      *
      * @param string $field
-     * @param mixed $data
      *
      * @throws InvalidPropertyTypeException
      */
-    protected function validateScalarArray($field, $data)
+    protected function validateScalarArray($field, mixed $data)
     {
         if (!is_array($data)) {
             throw InvalidPropertyTypeException::arrayExpected($field, static::class, $data);
@@ -114,11 +112,9 @@ class FamilyUpdater implements ObjectUpdaterInterface
         }
     }
     /**
-     * @param mixed $data
-     *
      * @throws InvalidPropertyTypeException
      */
-    protected function validateAttributeRequirements($data)
+    protected function validateAttributeRequirements(mixed $data)
     {
         if (!is_array($data)) {
             throw InvalidPropertyTypeException::arrayExpected('attribute_requirements', static::class, $data);
@@ -146,39 +142,25 @@ class FamilyUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param FamilyInterface $family
      * @param string          $field
-     * @param mixed           $data
      *
      * @throws UnknownPropertyException
      * @throws InvalidPropertyException
      */
-    protected function setData(FamilyInterface $family, $field, $data)
+    protected function setData(FamilyInterface $family, $field, mixed $data)
     {
-        switch ($field) {
-            case 'labels':
-                $this->setLabels($family, $data);
-                break;
-            case 'attribute_requirements':
-                $this->setAttributeRequirements($family, $data);
-                break;
-            case 'attributes':
-                $this->setAttributes($family, $data);
-                break;
-            case 'attribute_as_label':
-                $this->setAttributeAsLabel($family, $data);
-                break;
-            case 'attribute_as_image':
-                $this->setAttributeAsImage($family, $data);
-                break;
-            default:
-                $this->setValue($family, $field, $data);
-        }
+        match ($field) {
+            'labels' => $this->setLabels($family, $data),
+            'attribute_requirements' => $this->setAttributeRequirements($family, $data),
+            'attributes' => $this->setAttributes($family, $data),
+            'attribute_as_label' => $this->setAttributeAsLabel($family, $data),
+            'attribute_as_image' => $this->setAttributeAsImage($family, $data),
+            default => $this->setValue($family, $field, $data),
+        };
     }
 
     /**
      * set labels on a family, ensuring correct case of locale codes.
-     * @param array $localizedLabels
      */
     private function setLabels(FamilyInterface $family, array $localizedLabels): void
     {
@@ -195,13 +177,10 @@ class FamilyUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param FamilyInterface $family
-     * @param string          $field
-     * @param mixed           $data
      *
      * @throws UnknownPropertyException
      */
-    protected function setValue(FamilyInterface $family, string $field, $data)
+    protected function setValue(FamilyInterface $family, string $field, mixed $data)
     {
         try {
             $this->accessor->setValue($family, $field, $data);
@@ -215,10 +194,8 @@ class FamilyUpdater implements ObjectUpdaterInterface
      * If a channel is not present in the requirement list, this method does not update the requirements of this
      * channel.
      *
-     * @param FamilyInterface $family
      * @param array           $newRequirements The requirements for each channel. For example:
      *                                         ['mobile' => ['attr1', 'attr2'], 'tabled' => ['attr3']]
-     *
      * @throws InvalidPropertyException
      */
     protected function setAttributeRequirements(FamilyInterface $family, array $newRequirements)
@@ -255,8 +232,6 @@ class FamilyUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param FamilyInterface $family
-     * @param array           $attributeCodes
      * @param string          $channelCode
      *
      * @throws InvalidPropertyException
@@ -299,10 +274,6 @@ class FamilyUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param FamilyInterface    $family
-     * @param AttributeInterface $attribute
-     * @param ChannelInterface   $channel
-     *
      * @throws InvalidPropertyException
      *
      * @return AttributeRequirementInterface
@@ -324,8 +295,6 @@ class FamilyUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param FamilyInterface $family
-     * @param array           $data
      *
      * @throws InvalidPropertyException
      */
@@ -358,9 +327,7 @@ class FamilyUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param FamilyInterface $family
      * @param string          $data
-     *
      * @throws InvalidPropertyException
      */
     protected function setAttributeAsLabel(FamilyInterface $family, $data)
@@ -379,9 +346,7 @@ class FamilyUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param FamilyInterface $family
      * @param string          $data
-     *
      * @throws InvalidPropertyException
      */
     protected function setAttributeAsImage(FamilyInterface $family, $data): void

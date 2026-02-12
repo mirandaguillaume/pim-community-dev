@@ -15,7 +15,7 @@ use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag;
 class GetScoresByCriteriaStrategy
 {
     public function __construct(
-        private FeatureFlag $allCriteriaFeature,
+        private readonly FeatureFlag $allCriteriaFeature,
     ) {
     }
 

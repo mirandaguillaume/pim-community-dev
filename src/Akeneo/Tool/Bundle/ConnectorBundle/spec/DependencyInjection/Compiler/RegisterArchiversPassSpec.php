@@ -11,7 +11,7 @@ class RegisterArchiversPassSpec extends ObjectBehavior
 {
     function it_is_a_compiler_pass()
     {
-        $this->shouldImplement('\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface');
+        $this->shouldImplement('\\' . \Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface::class);
     }
 
     function it_does_not_process_anything_else_than_an_archivist_event_listener(ContainerBuilder $container)

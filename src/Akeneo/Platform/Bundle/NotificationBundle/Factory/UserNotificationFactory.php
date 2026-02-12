@@ -15,22 +15,16 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class UserNotificationFactory
 {
-    /** @var string */
-    protected $className;
-
     /**
      * @param string $className
      */
-    public function __construct($className)
+    public function __construct(protected $className)
     {
-        $this->className = $className;
     }
 
     /**
      * Creates a user notification
      *
-     * @param NotificationInterface $notification
-     * @param UserInterface         $user
      *
      * @return UserNotificationInterface
      */

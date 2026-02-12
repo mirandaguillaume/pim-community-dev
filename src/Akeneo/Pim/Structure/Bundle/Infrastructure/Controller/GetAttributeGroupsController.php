@@ -15,11 +15,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
-final class GetAttributeGroupsController
+final readonly class GetAttributeGroupsController
 {
     public function __construct(
-        private readonly SecurityFacadeInterface $securityFacade,
-        private readonly GetAttributeGroupsHandler $getAttributeGroupsHandler
+        private SecurityFacadeInterface $securityFacade,
+        private GetAttributeGroupsHandler $getAttributeGroupsHandler
     ) {
     }
 

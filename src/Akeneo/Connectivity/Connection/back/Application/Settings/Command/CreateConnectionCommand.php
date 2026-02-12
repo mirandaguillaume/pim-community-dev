@@ -12,12 +12,12 @@ namespace Akeneo\Connectivity\Connection\Application\Settings\Command;
 class CreateConnectionCommand
 {
     public function __construct(
-        private string $code,
-        private string $label,
-        private string $flowType,
-        private bool $auditable = false,
-        private ?string $type = null,
-        private ?string $userGroup = null,
+        private readonly string $code,
+        private readonly string $label,
+        private readonly string $flowType,
+        private readonly bool $auditable = false,
+        private readonly ?string $type = null,
+        private readonly ?string $userGroup = null,
     ) {
     }
 

@@ -22,11 +22,11 @@ final class UsersQuery
      * @param int[]|null  $includeGroupIds
      */
     public function __construct(
-        private ?string $search = null,
-        private ?int $searchAfterId = null,
+        private readonly ?string $search = null,
+        private readonly ?int $searchAfterId = null,
         public ?array $includeIds = null,
         public ?array $includeGroupIds = null,
-        private int $limit = FindUsers::DEFAULT_LIMIT,
+        private readonly int $limit = FindUsers::DEFAULT_LIMIT,
     ) {
     }
 

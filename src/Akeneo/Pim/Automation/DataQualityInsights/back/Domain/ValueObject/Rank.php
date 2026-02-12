@@ -8,7 +8,7 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class Rank implements \JsonSerializable
+final class Rank implements \JsonSerializable, \Stringable
 {
     public const LETTERS_MAPPING = [
         1 => 'A',
@@ -18,15 +18,13 @@ final class Rank implements \JsonSerializable
         5 => 'E',
     ];
 
-    /** @var int */
-    private $value;
+    private readonly int $value;
 
-    /** @var string */
-    private $code;
+    private readonly string $code;
 
     private function __construct(int $value, string $code)
     {
-        if (0 !== strpos($code, 'rank_')) {
+        if (!str_starts_with($code, 'rank_')) {
             throw new \InvalidArgumentException(sprintf('The rank code "%s" is invalid', $code));
         }
 
@@ -65,21 +63,16 @@ final class Rank implements \JsonSerializable
     {
         $rate = $rate->toInt();
 
-        switch (true) {
-            case ($rate >= 90):
-                return self::fromInt(1);
-            case ($rate >= 80):
-                return self::fromInt(2);
-            case ($rate >= 70):
-                return self::fromInt(3);
-            case ($rate >= 60):
-                return self::fromInt(4);
-            default:
-                return self::fromInt(5);
-        }
+        return match (true) {
+            $rate >= 90 => self::fromInt(1),
+            $rate >= 80 => self::fromInt(2),
+            $rate >= 70 => self::fromInt(3),
+            $rate >= 60 => self::fromInt(4),
+            default => self::fromInt(5),
+        };
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->code;
     }

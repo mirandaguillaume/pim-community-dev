@@ -18,15 +18,8 @@ class RegisterProductQueryFilterPass implements CompilerPassInterface
     /** @staticvar integer */
     private const DEFAULT_PRIORITY = 25;
 
-    /** @var string */
-    private $type;
-
-    /**
-     * @param string $type
-     */
-    public function __construct(string $type)
+    public function __construct(private readonly string $type)
     {
-        $this->type = $type;
     }
 
     /**
@@ -53,7 +46,6 @@ class RegisterProductQueryFilterPass implements CompilerPassInterface
      * Returns an array of service references for a specified tag name
      *
      * @param string           $tagName
-     * @param ContainerBuilder $container
      *
      * @return Reference[]
      */
@@ -64,7 +56,7 @@ class RegisterProductQueryFilterPass implements CompilerPassInterface
         $sortedServices = [];
         foreach ($services as $serviceId => $tags) {
             foreach ($tags as $tag) {
-                $priority = isset($tag['priority']) ? $tag['priority'] : self::DEFAULT_PRIORITY;
+                $priority = $tag['priority'] ?? self::DEFAULT_PRIORITY;
                 $sortedServices[$priority][] = new Reference($serviceId);
             }
         }

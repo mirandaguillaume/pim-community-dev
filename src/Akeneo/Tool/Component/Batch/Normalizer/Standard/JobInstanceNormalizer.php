@@ -52,7 +52,6 @@ class JobInstanceNormalizer implements NormalizerInterface, CacheableSupportsMet
     /**
      * Get normalized configuration
      *
-     * @param JobInstance $job
      *
      * @return mixed
      */

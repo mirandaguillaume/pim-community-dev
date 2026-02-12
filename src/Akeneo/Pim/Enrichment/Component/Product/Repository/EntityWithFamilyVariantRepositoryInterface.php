@@ -14,7 +14,6 @@ interface EntityWithFamilyVariantRepositoryInterface
     /**
      * Find entities with the same parent than the given $entity.
      *
-     * @param EntityWithFamilyVariantInterface $entity
      *
      * @return EntityWithFamilyVariantInterface[]
      */

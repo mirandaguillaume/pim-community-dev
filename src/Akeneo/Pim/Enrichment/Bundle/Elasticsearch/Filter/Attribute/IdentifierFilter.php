@@ -19,12 +19,8 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  */
 class IdentifierFilter extends AbstractAttributeFilter implements AttributeFilterInterface
 {
-    const IDENTIFIER_KEY = 'identifier';
+    final public const IDENTIFIER_KEY = 'identifier';
 
-    /**
-     * @param array $supportedAttributeTypes
-     * @param array $supportedOperators
-     */
     public function __construct(
         array $supportedAttributeTypes = [],
         array $supportedOperators = []
@@ -63,11 +59,10 @@ class IdentifierFilter extends AbstractAttributeFilter implements AttributeFilte
      *
      * @param string $property
      * @param string $operator
-     * @param mixed  $value
      *
      * @throws InvalidPropertyTypeException
      */
-    protected function checkValue($property, $operator, $value)
+    protected function checkValue($property, $operator, mixed $value)
     {
         if (Operators::IN_LIST === $operator || Operators::NOT_IN_LIST === $operator) {
             FieldFilterHelper::checkArray($property, $value, self::class);
@@ -94,12 +89,8 @@ class IdentifierFilter extends AbstractAttributeFilter implements AttributeFilte
 
     /**
      * Apply the filtering conditions to the search query builder
-     *
-     * @param AttributeInterface $attribute
-     * @param string             $operator
-     * @param string|array       $value
      */
-    protected function applyFilter(AttributeInterface $attribute, string $operator, $value)
+    protected function applyFilter(AttributeInterface $attribute, string $operator, string|array $value)
     {
         $attributePath = $this->getAttributePath($attribute, null, null);
         switch ($operator) {

@@ -22,9 +22,6 @@ class FilterStructureAttributeValidator extends ConstraintValidator
     /** @var AttributeRepositoryInterface */
     protected $attributeRepository;
 
-    /**
-     * @param AttributeRepositoryInterface $attributeRepository
-     */
     public function __construct(AttributeRepositoryInterface $attributeRepository)
     {
         $this->attributeRepository = $attributeRepository;
@@ -39,7 +36,7 @@ class FilterStructureAttributeValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint, FilterStructureAttribute::class);
         }
 
-        if (null === $attributes || !count($attributes)) {
+        if (null === $attributes || !(is_countable($attributes) ? count($attributes) : 0)) {
             return;
         }
 

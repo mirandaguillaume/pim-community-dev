@@ -29,7 +29,7 @@ class DatagridViewNormalizer implements NormalizerInterface, CacheableSupportsMe
             'label'          => (string) $object->getLabel(),
             'type'           => (string) $object->getType(),
             'datagrid_alias' => (string) $object->getDatagridAlias(),
-            'columns'        => explode(',', $object->getOrder()),
+            'columns'        => explode(',', (string) $object->getOrder()),
             'filters'        => (string) $object->getFilters(),
         ];
     }

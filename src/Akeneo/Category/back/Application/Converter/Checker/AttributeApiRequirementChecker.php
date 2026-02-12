@@ -47,7 +47,7 @@ class AttributeApiRequirementChecker implements RequirementChecker
                 Assert::nullOrStringNotEmpty($value['channel']);
                 Assert::nullOrStringNotEmpty($value['locale']);
                 Assert::notEmpty($value['attribute_code']);
-            } catch (\InvalidArgumentException $exception) {
+            } catch (\InvalidArgumentException) {
                 throw new StructureArrayConversionException(sprintf('No empty value is expected, provided empty value for %s', $key));
             }
         }
@@ -60,7 +60,7 @@ class AttributeApiRequirementChecker implements RequirementChecker
     {
         try {
             Assert::keyExists($haystack, $key);
-        } catch (\InvalidArgumentException $exception) {
+        } catch (\InvalidArgumentException) {
             throw new StructureArrayConversionException(sprintf('Field "%s" is expected', $key));
         }
     }

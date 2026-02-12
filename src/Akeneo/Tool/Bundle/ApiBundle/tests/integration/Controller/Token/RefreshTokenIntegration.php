@@ -10,8 +10,8 @@ class RefreshTokenIntegration extends ApiTestCase
 {
     public function testRefreshToken()
     {
-        list($clientId, $secret) = $this->createOAuthClient();
-        list($accessToken, $refreshToken) = $this->authenticate($clientId, $secret, self::USERNAME, self::PASSWORD);
+        [$clientId, $secret] = $this->createOAuthClient();
+        [$accessToken, $refreshToken] = $this->authenticate($clientId, $secret, self::USERNAME, self::PASSWORD);
 
         $client = $this->createAuthenticatedClient(
             [],
@@ -37,7 +37,7 @@ class RefreshTokenIntegration extends ApiTestCase
         );
 
         $response = $client->getResponse();
-        $responseBody = json_decode($response->getContent(), true);
+        $responseBody = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
         $this->assertArrayHasKey('access_token', $responseBody);
@@ -49,8 +49,8 @@ class RefreshTokenIntegration extends ApiTestCase
 
     public function testRefreshTokenWithFormUrlEncodedContentType()
     {
-        list($clientId, $secret) = $this->createOAuthClient();
-        list($accessToken, $refreshToken) = $this->authenticate($clientId, $secret, self::USERNAME, self::PASSWORD);
+        [$clientId, $secret] = $this->createOAuthClient();
+        [$accessToken, $refreshToken] = $this->authenticate($clientId, $secret, self::USERNAME, self::PASSWORD);
 
         $client = $this->createAuthenticatedClient(
             [],
@@ -77,7 +77,7 @@ class RefreshTokenIntegration extends ApiTestCase
         );
 
         $response = $client->getResponse();
-        $responseBody = json_decode($response->getContent(), true);
+        $responseBody = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
         $this->assertArrayHasKey('access_token', $responseBody);
@@ -89,7 +89,7 @@ class RefreshTokenIntegration extends ApiTestCase
 
     public function testMissingRefreshToken()
     {
-        list($clientId, $secret) = $this->createOAuthClient();
+        [$clientId, $secret] = $this->createOAuthClient();
         $client = $this->createAuthenticatedClient([], [], $clientId, $secret);
 
         $client->request('POST', 'api/oauth/v1/token',
@@ -104,7 +104,7 @@ class RefreshTokenIntegration extends ApiTestCase
         );
 
         $response = $client->getResponse();
-        $responseBody = json_decode($response->getContent(), true);
+        $responseBody = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
         $this->assertSame('Parameter "grant_type" or "refresh_token" is missing or empty', $responseBody['message']);
@@ -114,7 +114,7 @@ class RefreshTokenIntegration extends ApiTestCase
 
     public function testInvalidRefreshToken()
     {
-        list($clientId, $secret) = $this->createOAuthClient();
+        [$clientId, $secret] = $this->createOAuthClient();
         $client = $this->createAuthenticatedClient([], [], $clientId, $secret);
 
         $client->request('POST', 'api/oauth/v1/token',
@@ -130,7 +130,7 @@ class RefreshTokenIntegration extends ApiTestCase
         );
 
         $response = $client->getResponse();
-        $responseBody = json_decode($response->getContent(), true);
+        $responseBody = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
         $this->assertSame('Refresh token is invalid or has expired', $responseBody['message']);

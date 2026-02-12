@@ -14,7 +14,7 @@ use Doctrine\DBAL\Types\Types;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GetOutdatedProductModelIdsByDateAndCriteriaQuery implements GetOutdatedProductModelIdsByDateAndCriteriaQueryInterface
+final readonly class GetOutdatedProductModelIdsByDateAndCriteriaQuery implements GetOutdatedProductModelIdsByDateAndCriteriaQueryInterface
 {
     public function __construct(
         private Connection $dbConnection,

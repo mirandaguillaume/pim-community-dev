@@ -27,6 +27,7 @@ class GetCategorySql implements GetCategoryInterface
 
     public function byId(int $categoryId): ?Category
     {
+        $condition = [];
         $condition['sqlWhere'] = 'category.id = :category_id';
         $condition['params'] = ['category_id' => $categoryId];
         $condition['types'] = ['category_id' => \PDO::PARAM_INT];
@@ -36,6 +37,7 @@ class GetCategorySql implements GetCategoryInterface
 
     public function byCode(string $categoryCode): ?Category
     {
+        $condition = [];
         $condition['sqlWhere'] = 'category.code = :category_code';
         $condition['params'] = ['category_code' => $categoryCode];
         $condition['types'] = ['category_code' => \PDO::PARAM_STR];
@@ -50,6 +52,7 @@ class GetCategorySql implements GetCategoryInterface
      */
     public function byCodes(array $categoryCodes): \Generator
     {
+        $condition = [];
         $condition['sqlWhere'] = 'category.code IN (:category_codes)';
         $condition['params'] = ['category_codes' => $categoryCodes];
         $condition['types'] = ['category_codes' => Connection::PARAM_STR_ARRAY];
@@ -64,6 +67,7 @@ class GetCategorySql implements GetCategoryInterface
      */
     public function byIds(array $categoryIds): \Generator
     {
+        $condition = [];
         $condition['sqlWhere'] = 'category.id IN (:category_ids)';
         $condition['params'] = ['category_ids' => $categoryIds];
         $condition['types'] = ['category_ids' => Connection::PARAM_INT_ARRAY];

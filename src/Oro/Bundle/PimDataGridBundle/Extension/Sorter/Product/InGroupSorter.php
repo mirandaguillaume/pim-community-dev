@@ -20,9 +20,6 @@ class InGroupSorter implements SorterInterface
      */
     protected $requestParams;
 
-    /**
-     * @param RequestParameters $requestParams
-     */
     public function __construct(RequestParameters $requestParams)
     {
         $this->requestParams = $requestParams;

@@ -53,11 +53,10 @@ abstract class AbstractTranslation
     /**
      * Set foreignKey
      *
-     * @param mixed $foreignKey
      *
      * @return AbstractTranslation
      */
-    public function setForeignKey($foreignKey): self
+    public function setForeignKey(mixed $foreignKey): self
     {
         $this->foreignKey = $foreignKey;
 

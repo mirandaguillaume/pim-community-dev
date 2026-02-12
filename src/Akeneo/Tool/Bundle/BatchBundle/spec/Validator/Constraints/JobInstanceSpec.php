@@ -8,7 +8,7 @@ class JobInstanceSpec extends ObjectBehavior
 {
     function it_is_a_constraint()
     {
-        $this->shouldHaveType('Symfony\Component\Validator\Constraint');
+        $this->shouldHaveType(\Symfony\Component\Validator\Constraint::class);
     }
 
     function it_has_a_message()

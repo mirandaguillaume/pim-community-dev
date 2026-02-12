@@ -55,9 +55,6 @@ class MappingsOverrideConfigurator implements MappingsOverrideConfiguratorInterf
 
     /**
      * Set the association mappings of a metadata.
-     *
-     * @param ClassMetadataInfo $metadata
-     * @param Configuration     $configuration
      */
     protected function setAssociationMappings(ClassMetadataInfo $metadata, Configuration $configuration)
     {
@@ -83,8 +80,6 @@ class MappingsOverrideConfigurator implements MappingsOverrideConfiguratorInterf
 
     /**
      * Unset the association mappings of a metadata.
-     *
-     * @param ClassMetadataInfo $metadata
      */
     protected function unsetAssociationMappings(ClassMetadataInfo $metadata)
     {

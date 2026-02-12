@@ -17,7 +17,7 @@ use Webmozart\Assert\Assert;
 final class CommandMessageBus implements MessageBusInterface
 {
     /** @var array<string, callable> */
-    private array $handlers;
+    private readonly array $handlers;
 
     /**
      * @param iterable<string, callable> $handlers
@@ -34,9 +34,9 @@ final class CommandMessageBus implements MessageBusInterface
      */
     public function dispatch(object $message, array $stamps = []): Envelope
     {
-        $handler = $this->handlers[get_class($message)] ?? null;
+        $handler = $this->handlers[$message::class] ?? null;
         if (null === $handler) {
-            throw new UnknownCommandException(\sprintf('No configured handler for the "%s" command', get_class($message)));
+            throw new UnknownCommandException(\sprintf('No configured handler for the "%s" command', $message::class));
         }
 
         $handler($message);

@@ -42,11 +42,9 @@ class CurrencyUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param CurrencyInterface $currency
      * @param string            $field
-     * @param mixed             $data
      */
-    protected function setData(CurrencyInterface $currency, $field, $data)
+    protected function setData(CurrencyInterface $currency, $field, mixed $data)
     {
         if ('code' == $field) {
             $currency->setCode($data);

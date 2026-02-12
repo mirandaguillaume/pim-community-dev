@@ -32,11 +32,6 @@ class CompletenessFilter extends AbstractFieldFilter implements FieldFilterInter
     /** @var CachedObjectRepositoryInterface */
     protected $channelRepository;
 
-    /**
-     * @param CachedObjectRepositoryInterface $channelRepository
-     * @param array                           $supportedFields
-     * @param array                           $supportedOperators
-     */
     public function __construct(
         CachedObjectRepositoryInterface $channelRepository,
         array $supportedFields = [],
@@ -250,12 +245,11 @@ class CompletenessFilter extends AbstractFieldFilter implements FieldFilterInter
      *
      * @param string $field
      * @param string $channel
-     * @param mixed  $value
      *
      * @throws InvalidPropertyTypeException
      * @throws InvalidPropertyException
      */
-    protected function checkChannelAndValue($field, $channel, $value)
+    protected function checkChannelAndValue($field, $channel, mixed $value)
     {
         if (!is_numeric($value)) {
             throw InvalidPropertyTypeException::numericExpected($field, static::class, $value);
@@ -274,7 +268,6 @@ class CompletenessFilter extends AbstractFieldFilter implements FieldFilterInter
      *      LOWER_THAN_ON_ALL_LOCALES
      *
      * @param string $field
-     * @param array  $options
      *
      * @throws InvalidPropertyTypeException
      */

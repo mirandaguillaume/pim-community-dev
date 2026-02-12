@@ -14,7 +14,7 @@ final class CachedFindChannels implements FindChannels, CachedQueryInterface
     private ?array $cache = null;
 
     public function __construct(
-        private FindChannels $findChannels
+        private readonly FindChannels $findChannels
     ) {
     }
 

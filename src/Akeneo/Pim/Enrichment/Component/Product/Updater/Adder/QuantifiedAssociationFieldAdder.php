@@ -13,9 +13,6 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\QuantifiedAssociation\Quantifi
  */
 class QuantifiedAssociationFieldAdder extends AbstractFieldAdder
 {
-    /**
-     * @param array                       $supportedFields
-     */
     public function __construct(
         array $supportedFields
     ) {

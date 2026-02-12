@@ -17,8 +17,8 @@ use Doctrine\DBAL\Connection;
 class SqlFindFamiliesWithLabels implements FindFamiliesWithLabels
 {
     public function __construct(
-        private Connection $connection,
-        private FindFamilyCodes $findFamilyCodes,
+        private readonly Connection $connection,
+        private readonly FindFamilyCodes $findFamilyCodes,
     ) {
     }
 

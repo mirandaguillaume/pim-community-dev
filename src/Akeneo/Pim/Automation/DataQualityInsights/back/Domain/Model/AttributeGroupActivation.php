@@ -10,18 +10,10 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\AttributeGroupC
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class AttributeGroupActivation
+final readonly class AttributeGroupActivation
 {
-    /** @var AttributeGroupCode */
-    private $attributeGroupCode;
-
-    /** @var bool */
-    private $activated;
-
-    public function __construct(AttributeGroupCode $attributeGroupCode, bool $activated)
+    public function __construct(private AttributeGroupCode $attributeGroupCode, private bool $activated)
     {
-        $this->attributeGroupCode = $attributeGroupCode;
-        $this->activated = $activated;
     }
 
     public function getAttributeGroupCode(): AttributeGroupCode

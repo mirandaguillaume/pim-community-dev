@@ -95,7 +95,7 @@ final class JobExecutionWatchdogCommand extends Command
             throw new \InvalidArgumentException('You must specify job_execution_id or job_code');
         }
         if (null === $jobExecutionId) {
-            $jobConfiguration = $input->getOption('config') ? \json_decode($input->getOption('config'), true) : [];
+            $jobConfiguration = $input->getOption('config') ? \json_decode((string) $input->getOption('config'), true, 512, JSON_THROW_ON_ERROR) : [];
             $jobExecution = $this->createJobExecutionHandler->createFromBatchCode($jobCode, $jobConfiguration, null);
             $jobExecutionId = $jobExecution->getId();
             $this->logger->notice(
@@ -103,7 +103,7 @@ final class JobExecutionWatchdogCommand extends Command
                 [
                     'job_execution_id' => $jobExecutionId,
                     'job_code' => $jobCode,
-                    'configuration' => \json_encode($jobConfiguration),
+                    'configuration' => \json_encode($jobConfiguration, JSON_THROW_ON_ERROR),
                 ]
             );
         }
@@ -209,7 +209,7 @@ final class JobExecutionWatchdogCommand extends Command
 
         $process->start();
 
-        $nbIterationBeforeUpdatingHealthCheck = self::HEALTH_CHECK_INTERVAL * 1000000 / self::RUNNING_PROCESS_CHECK_INTERVAL;
+        $nbIterationBeforeUpdatingHealthCheck = self::HEALTH_CHECK_INTERVAL * 1_000_000 / self::RUNNING_PROCESS_CHECK_INTERVAL;
         $iteration = 1;
         while ($process->isRunning()) {
             if ($iteration < $nbIterationBeforeUpdatingHealthCheck) {

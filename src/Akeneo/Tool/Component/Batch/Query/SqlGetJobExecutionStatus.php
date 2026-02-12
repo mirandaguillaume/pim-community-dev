@@ -9,11 +9,8 @@ use Doctrine\DBAL\Connection;
 
 class SqlGetJobExecutionStatus implements GetJobExecutionStatusInterface
 {
-    private Connection $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function getByJobExecutionId(int $jobExecutionId): ?BatchStatus

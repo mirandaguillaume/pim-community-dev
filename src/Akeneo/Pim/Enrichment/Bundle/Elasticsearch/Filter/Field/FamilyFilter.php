@@ -21,11 +21,6 @@ class FamilyFilter extends AbstractFieldFilter implements FieldFilterInterface
     /** @var FamilyRepositoryInterface */
     protected $familyRepository;
 
-    /**
-     * @param FamilyRepositoryInterface $familyRepository
-     * @param array                     $supportedFields
-     * @param array                     $supportedOperators
-     */
     public function __construct(
         FamilyRepositoryInterface $familyRepository,
         array $supportedFields = [],
@@ -99,12 +94,10 @@ class FamilyFilter extends AbstractFieldFilter implements FieldFilterInterface
      * Check if value is valid (case insensitive)
      *
      * @param string $field
-     * @param mixed  $values
      *
      * @throws ObjectNotFoundException
      */
-
-    protected function checkValue($field, $values)
+    protected function checkValue($field, mixed $values)
     {
         FieldFilterHelper::checkArray($field, $values, static::class);
         $familyCodes = [];

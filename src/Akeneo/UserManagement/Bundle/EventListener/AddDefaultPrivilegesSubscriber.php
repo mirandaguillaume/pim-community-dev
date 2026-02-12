@@ -25,13 +25,8 @@ class AddDefaultPrivilegesSubscriber implements EventSubscriberInterface
 {
     private const FIXTURE_ROLE_JOB_NAME = 'fixtures_user_role_csv';
 
-    private ObjectRepository $roleRepository;
-    private AclManager $aclManager;
-
-    public function __construct(ObjectRepository $roleRepository, AclManager $aclManager)
+    public function __construct(private readonly ObjectRepository $roleRepository, private readonly AclManager $aclManager)
     {
-        $this->roleRepository = $roleRepository;
-        $this->aclManager = $aclManager;
     }
 
     public static function getSubscribedEvents(): array

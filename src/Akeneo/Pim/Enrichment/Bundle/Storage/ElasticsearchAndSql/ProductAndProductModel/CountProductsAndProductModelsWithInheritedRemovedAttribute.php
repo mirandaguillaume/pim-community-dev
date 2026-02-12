@@ -7,15 +7,10 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Query\CountProductsAndProductModelsWithInheritedRemovedAttributeInterface;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
 
-final class CountProductsAndProductModelsWithInheritedRemovedAttribute implements CountProductsAndProductModelsWithInheritedRemovedAttributeInterface
+final readonly class CountProductsAndProductModelsWithInheritedRemovedAttribute implements CountProductsAndProductModelsWithInheritedRemovedAttributeInterface
 {
-    /** @var Client */
-    private $elasticsearchClient;
-
-    public function __construct(
-        Client $elasticsearchClient
-    ) {
-        $this->elasticsearchClient = $elasticsearchClient;
+    public function __construct(private Client $elasticsearchClient)
+    {
     }
 
     public function count(array $attributesCodes): int
@@ -47,11 +42,9 @@ final class CountProductsAndProductModelsWithInheritedRemovedAttribute implement
                                     ],
                                 ],
                             ],
-                            'should' => array_map(function (string $attributeCode) {
-                                return [
-                                    'exists' => ['field' => sprintf('values.%s-*', $attributeCode)],
-                                ];
-                            }, $attributesCodes),
+                            'should' => array_map(fn(string $attributeCode) => [
+                                'exists' => ['field' => sprintf('values.%s-*', $attributeCode)],
+                            ], $attributesCodes),
                             'minimum_should_match' => 1,
                         ],
                     ],

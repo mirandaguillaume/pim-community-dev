@@ -166,7 +166,7 @@ class RequestAccessTokenActionEndToEnd extends WebTestCase
         Assert::assertEquals(Response::HTTP_OK, $response->getStatusCode());
         Assert::assertArrayHasKey('redirectUrl', $responseContent);
 
-        $query = \parse_url($responseContent['redirectUrl'], PHP_URL_QUERY);
+        $query = \parse_url((string) $responseContent['redirectUrl'], PHP_URL_QUERY);
         \parse_str($query, $params);
 
         return $params['code'];

@@ -17,12 +17,8 @@ class CountVariantProducts implements CountQuery
 {
     private const VOLUME_NAME = 'count_variant_products';
 
-    /** @var Client */
-    private $client;
-
-    public function __construct(Client $client)
+    public function __construct(private readonly Client $client)
     {
-        $this->client = $client;
     }
 
     public function fetch(): CountVolume

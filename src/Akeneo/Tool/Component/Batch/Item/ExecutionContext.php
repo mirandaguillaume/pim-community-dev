@@ -62,11 +62,10 @@ class ExecutionContext
      * Put a key-value pair in the context
      *
      * @param string $key
-     * @param mixed  $value
      *
      * @return $this
      */
-    public function put($key, $value)
+    public function put($key, mixed $value)
     {
         $this->context[$key] = $value;
 

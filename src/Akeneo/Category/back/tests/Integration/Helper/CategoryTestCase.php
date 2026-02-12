@@ -169,22 +169,13 @@ class CategoryTestCase extends TestCase
                     throw new \Exception('Can\'t generate mocked template: missing attribute type');
                 }
 
-                switch ($attribute['type']) {
-                    case AttributeType::TEXTAREA:
-                        $attributeClass = AttributeTextArea::class;
-                        break;
-                    case AttributeType::TEXT:
-                        $attributeClass = AttributeText::class;
-                        break;
-                    case AttributeType::IMAGE:
-                        $attributeClass = AttributeImage::class;
-                        break;
-                    case AttributeType::RICH_TEXT:
-                        $attributeClass = AttributeRichText::class;
-                        break;
-                    default:
-                        throw new \Exception(sprintf('Can\'t generate mocked template: unknown attribute type "%s"', $attribute['type']));
-                }
+                $attributeClass = match ($attribute['type']) {
+                    AttributeType::TEXTAREA => AttributeTextArea::class,
+                    AttributeType::TEXT => AttributeText::class,
+                    AttributeType::IMAGE => AttributeImage::class,
+                    AttributeType::RICH_TEXT => AttributeRichText::class,
+                    default => throw new \Exception(sprintf('Can\'t generate mocked template: unknown attribute type "%s"', $attribute['type'])),
+                };
 
                 $attributes[] = $attributeClass::create(
                     AttributeUuid::fromString($attribute['uuid']),
@@ -503,7 +494,7 @@ SQL;
             'currencies' => ['USD'],
             'category_tree' => 'master',
         ];
-        $data = array_merge($defaultData, $data);
+        $data = [...$defaultData, ...$data];
 
         $channel = $this->get('pim_catalog.repository.channel')->findOneByIdentifier($code);
         if (null === $channel) {

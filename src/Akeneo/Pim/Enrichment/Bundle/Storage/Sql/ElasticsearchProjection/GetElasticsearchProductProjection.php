@@ -21,7 +21,7 @@ use Webmozart\Assert\Assert;
  * @copyright 2019 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GetElasticsearchProductProjection implements GetElasticsearchProductProjectionInterface
+final readonly class GetElasticsearchProductProjection implements GetElasticsearchProductProjectionInterface
 {
     private const INDEXING_FORMAT_PRODUCT_AND_MODEL_INDEX = 'indexing_product_and_product_model';
 
@@ -104,16 +104,16 @@ final class GetElasticsearchProductProjection implements GetElasticsearchProduct
                 Type::getType(Types::DATETIME_IMMUTABLE)->convertToPhpValue($row['entity_updated_date'], $platform),
                 (bool) $row['is_enabled'],
                 $row['family_code'],
-                \json_decode($row['family_labels'], true),
+                \json_decode((string) $row['family_labels'], true, 512, JSON_THROW_ON_ERROR),
                 $row['family_variant_code'],
-                \json_decode($row['category_codes'], true),
-                \json_decode($row['category_codes_of_ancestors'], true),
-                \json_decode($row['group_codes'], true),
-                \json_decode($row['completeness'] ?? '{}', true),
+                \json_decode((string) $row['category_codes'], true, 512, JSON_THROW_ON_ERROR),
+                \json_decode((string) $row['category_codes_of_ancestors'], true, 512, JSON_THROW_ON_ERROR),
+                \json_decode((string) $row['group_codes'], true, 512, JSON_THROW_ON_ERROR),
+                \json_decode($row['completeness'] ?? '{}', true, 512, JSON_THROW_ON_ERROR),
                 $row['parent_product_model_code'],
                 $values,
-                array_filter(\json_decode($row['ancestor_ids'], true)),
-                array_filter(\json_decode($row['ancestor_codes'], true)),
+                array_filter(\json_decode((string) $row['ancestor_ids'], true, 512, JSON_THROW_ON_ERROR)),
+                array_filter(\json_decode((string) $row['ancestor_codes'], true, 512, JSON_THROW_ON_ERROR)),
                 $productLabels,
                 $row['attribute_codes_of_ancestor'],
                 $row['attribute_codes_for_this_level']
@@ -302,8 +302,8 @@ SQL;
                 return $row;
             }
 
-            $attributeCodesInFamily = \json_decode($row['attribute_codes_in_family'], true);
-            $attributeCodesAtVariantProductLevel = \json_decode($row['attribute_codes_at_variant_product_level'], true);
+            $attributeCodesInFamily = \json_decode((string) $row['attribute_codes_in_family'], true, 512, JSON_THROW_ON_ERROR);
+            $attributeCodesAtVariantProductLevel = \json_decode((string) $row['attribute_codes_at_variant_product_level'], true, 512, JSON_THROW_ON_ERROR);
 
             $row['attribute_codes_of_ancestor'] = array_values(array_unique(array_diff($attributeCodesInFamily, $attributeCodesAtVariantProductLevel)));
 
@@ -326,9 +326,9 @@ SQL;
     private function calculateAttributeCodeForOwnLevel(array $rows): array
     {
         return \array_map(static function (array $row) {
-            $attributesInProduct = \json_decode($row['attribute_codes_in_product_raw_values'], true);
-            $attributeCodesAtVariantProductLevel = \json_decode($row['attribute_codes_at_variant_product_level'], true);
-            $attributeCodesInFamily = \json_decode($row['attribute_codes_in_family'], true);
+            $attributesInProduct = \json_decode((string) $row['attribute_codes_in_product_raw_values'], true, 512, JSON_THROW_ON_ERROR);
+            $attributeCodesAtVariantProductLevel = \json_decode((string) $row['attribute_codes_at_variant_product_level'], true, 512, JSON_THROW_ON_ERROR);
+            $attributeCodesInFamily = \json_decode((string) $row['attribute_codes_in_family'], true, 512, JSON_THROW_ON_ERROR);
 
             if (null === $row['family_code']) {
                 $row['attribute_codes_for_this_level'] = $attributesInProduct;
@@ -366,7 +366,7 @@ SQL;
     {
         $rowsIndexedByProductUuid = [];
         foreach ($rows as $row) {
-            $row['raw_values'] = \json_decode($row['raw_values'], true);
+            $row['raw_values'] = \json_decode((string) $row['raw_values'], true, 512, JSON_THROW_ON_ERROR);
             $rowsIndexedByProductUuid[$row['uuid']] = $row;
         }
 
@@ -402,7 +402,7 @@ SQL;
         );
 
         foreach ($results as $uuid => $value) {
-            $completenesses = \json_decode($value, true);
+            $completenesses = \json_decode((string) $value, true, 512, JSON_THROW_ON_ERROR);
             $completenessesByUuid = [];
             foreach ($completenesses as $channelCode => $completenessByLocale) {
                 foreach ($completenessByLocale as $localeCode => $value) {
@@ -413,7 +413,7 @@ SQL;
                     $completenessesByUuid[$channelCode][$localeCode] = $ratio;
                 }
             }
-            $rows[$uuid]['completeness'] = json_encode($completenessesByUuid);
+            $rows[$uuid]['completeness'] = json_encode($completenessesByUuid, JSON_THROW_ON_ERROR);
         }
 
         return $rows;

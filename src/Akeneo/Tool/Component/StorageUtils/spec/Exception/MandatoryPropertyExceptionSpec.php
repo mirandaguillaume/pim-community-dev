@@ -22,7 +22,7 @@ class MandatoryPropertyExceptionSpec extends ObjectBehavior
             0
         );
 
-        $this->shouldBeAnInstanceOf(get_class($exception));
+        $this->shouldBeAnInstanceOf($exception::class);
         $this->getPropertyName()->shouldReturn('property');
         $this->getClassName()->shouldReturn($exception->getClassName());
         $this->getMessage()->shouldReturn($exception->getMessage());

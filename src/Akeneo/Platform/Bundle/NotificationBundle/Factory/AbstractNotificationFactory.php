@@ -16,7 +16,6 @@ abstract class AbstractNotificationFactory implements NotificationFactoryInterfa
     /**
      * Return the job execution status
      *
-     * @param JobExecution $jobExecution
      *
      * @return string
      */

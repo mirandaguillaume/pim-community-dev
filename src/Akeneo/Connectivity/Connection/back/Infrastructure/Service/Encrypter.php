@@ -12,7 +12,7 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\Service;
  */
 class Encrypter
 {
-    private string $initializationVector;
+    private readonly string $initializationVector;
 
     /**
      * @param string $method method to encrypt/decrypt data
@@ -21,8 +21,8 @@ class Encrypter
      *                                     it will be truncated at 16 bytes if too long and left padded with 0
      */
     public function __construct(
-        private string $method,
-        private string $key,
+        private readonly string $method,
+        private readonly string $key,
         string $initializationVector
     ) {
         $this->initializationVector = \str_pad(\substr($initializationVector, 0, 16), 16, "0", STR_PAD_LEFT);

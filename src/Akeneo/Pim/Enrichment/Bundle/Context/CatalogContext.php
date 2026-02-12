@@ -73,7 +73,7 @@ class CatalogContext
      *
      * @return CatalogContext
      */
-    public function setConfiguration($key, $data)
+    public function setConfiguration($key, mixed $data)
     {
         $this->configuration[$key] = $data;
 
@@ -92,7 +92,7 @@ class CatalogContext
     public function getConfiguration($key)
     {
         if (!isset($this->configuration[$key]) || $this->configuration[$key] === null) {
-            throw new \LogicException(sprintf('"%s" expects to be configured with "%s"', get_class($this), $key));
+            throw new \LogicException(sprintf('"%s" expects to be configured with "%s"', static::class, $key));
         }
 
         return $this->configuration[$key];

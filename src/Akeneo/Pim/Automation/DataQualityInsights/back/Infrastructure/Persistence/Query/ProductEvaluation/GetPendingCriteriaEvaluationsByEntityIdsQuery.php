@@ -21,7 +21,7 @@ use Doctrine\DBAL\ForwardCompatibility\Result;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GetPendingCriteriaEvaluationsByEntityIdsQuery implements GetPendingCriteriaEvaluationsByEntityIdsQueryInterface
+final readonly class GetPendingCriteriaEvaluationsByEntityIdsQuery implements GetPendingCriteriaEvaluationsByEntityIdsQueryInterface
 {
     public function __construct(
         private Connection                      $dbConnection,
@@ -49,7 +49,7 @@ final class GetPendingCriteriaEvaluationsByEntityIdsQuery implements GetPendingC
         $productsCriteriaEvaluations = [];
         while ($resultRow = $entityCriteriaEvaluationStatement->fetchAssociative()) {
             $entityId = $this->idFactory->create($resultRow['entity_id']);
-            $criteria = json_decode($resultRow['criteria']);
+            $criteria = json_decode((string) $resultRow['criteria'], null, 512, JSON_THROW_ON_ERROR);
             $productsCriteriaEvaluations[(string)$entityId] = $this->hydrateProductCriteriaEvaluations($entityId, $criteria);
         }
 

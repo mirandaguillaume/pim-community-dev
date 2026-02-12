@@ -17,15 +17,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class CategoryTreeController
 {
-    private FindGrantedCategoryTrees $findGrantedCategoryTrees;
-    private GetCategoryChildrenCodesPerTreeInterface $getCategoryChildrenCodesPerTree;
-
-    public function __construct(
-        FindGrantedCategoryTrees $findGrantedCategoryTrees,
-        GetCategoryChildrenCodesPerTreeInterface $getCategoryChildrenCodesPerTree
-    ) {
-        $this->findGrantedCategoryTrees = $findGrantedCategoryTrees;
-        $this->getCategoryChildrenCodesPerTree = $getCategoryChildrenCodesPerTree;
+    public function __construct(private readonly FindGrantedCategoryTrees $findGrantedCategoryTrees, private readonly GetCategoryChildrenCodesPerTreeInterface $getCategoryChildrenCodesPerTree)
+    {
     }
 
     public function __invoke(Request $request): JsonResponse
@@ -39,12 +32,12 @@ class CategoryTreeController
 
     private function categoryCodes(Request $request): array
     {
-        return json_decode($request->getContent(), true)['selectedCategoryCodes'] ?? [];
+        return json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR)['selectedCategoryCodes'] ?? [];
     }
 
     private function shouldIncludeChildren(Request $request): bool
     {
-        return json_decode($request->getContent(), true)['shouldIncludeChildren'] ?? [];
+        return json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR)['shouldIncludeChildren'] ?? [];
     }
 
     /**

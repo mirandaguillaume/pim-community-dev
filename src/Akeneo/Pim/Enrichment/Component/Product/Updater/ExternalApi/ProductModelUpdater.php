@@ -20,15 +20,8 @@ use Doctrine\Common\Util\ClassUtils;
  */
 class ProductModelUpdater implements ObjectUpdaterInterface
 {
-    /** @var ObjectUpdaterInterface */
-    private $productModelUpdater;
-
-    /**
-     * @param ObjectUpdaterInterface $productModelUpdater
-     */
-    public function __construct(ObjectUpdaterInterface $productModelUpdater)
+    public function __construct(private readonly ObjectUpdaterInterface $productModelUpdater)
     {
-        $this->productModelUpdater = $productModelUpdater;
     }
 
     /**

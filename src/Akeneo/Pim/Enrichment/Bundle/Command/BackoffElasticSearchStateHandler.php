@@ -15,16 +15,11 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class BackoffElasticSearchStateHandler
 {
-    const MAX_RETRY_COUNTER = 10;
-    const BACKOFF_LOGARITHMIC_INCREMENT = 2;
+    final public const MAX_RETRY_COUNTER = 10;
+    final public const BACKOFF_LOGARITHMIC_INCREMENT = 2;
 
-    private int $maxNumberRetry;
-    private int $backoffLogarithmicIncrement;
-
-    public function __construct(int $retryCounter=self::MAX_RETRY_COUNTER, int $backoffLogarithmicIncrement=self::BACKOFF_LOGARITHMIC_INCREMENT)
+    public function __construct(private readonly int $maxNumberRetry=self::MAX_RETRY_COUNTER, private readonly int $backoffLogarithmicIncrement=self::BACKOFF_LOGARITHMIC_INCREMENT)
     {
-        $this->maxNumberRetry = $retryCounter;
-        $this->backoffLogarithmicIncrement = $backoffLogarithmicIncrement;
     }
 
     public function bulkExecute(array $codes, BulkEsHandlerInterface $codesEsHandler):int
@@ -47,7 +42,7 @@ class BackoffElasticSearchStateHandler
                 $treated+=$codesEsHandler->bulkExecute($codes);
             } catch (BadRequest400Exception $e) {
                 if ($e->getCode() == Response::HTTP_TOO_MANY_REQUESTS  && $numberRetry < $this->maxNumberRetry) {
-                    $batchSize = intdiv(count($codes), $this->backoffLogarithmicIncrement);
+                    $batchSize = intdiv(is_countable($codes) ? count($codes) : 0, $this->backoffLogarithmicIncrement);
                     $smallerBatchOfCodes = array_chunk($codes, $batchSize);
                     $treated+=$this->executeAttempt($smallerBatchOfCodes, $codesEsHandler, ++$numberRetry);
                 } else {

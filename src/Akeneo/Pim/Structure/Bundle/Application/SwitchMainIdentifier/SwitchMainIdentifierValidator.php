@@ -14,7 +14,7 @@ use Webmozart\Assert\Assert;
  */
 final class SwitchMainIdentifierValidator
 {
-    private ?Attribute $newMainIdentifier;
+    private ?Attribute $newMainIdentifier = null;
 
     public function __construct(
         private readonly AttributeRepositoryInterface $attributeRepository,

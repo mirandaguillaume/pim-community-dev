@@ -18,8 +18,8 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\Rate;
  */
 final class CriterionEvaluationResult
 {
-    private CriterionRateCollection $rates;
-    private CriterionEvaluationResultStatusCollection $statusCollection;
+    private readonly CriterionRateCollection $rates;
+    private readonly CriterionEvaluationResultStatusCollection $statusCollection;
     /** @var ChannelLocaleDataCollection[] */
     private array $data;
 
@@ -37,9 +37,7 @@ final class CriterionEvaluationResult
 
     public function getDataToArray(): array
     {
-        return array_map(function (ChannelLocaleDataCollection $data) {
-            return $data->toArray();
-        }, $this->data);
+        return array_map(fn(ChannelLocaleDataCollection $data) => $data->toArray(), $this->data);
     }
 
     public function getStatus(): CriterionEvaluationResultStatusCollection

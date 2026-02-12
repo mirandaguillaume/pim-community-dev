@@ -17,14 +17,12 @@ use Elasticsearch\ClientBuilder;
  */
 class UpdateIndexMappingWrapper
 {
-    private NativeClient $nativeClient;
-    private Client $client;
+    private readonly NativeClient $nativeClient;
 
-    public function __construct(ClientBuilder $clientBuilder, $hosts, Client $client)
+    public function __construct(ClientBuilder $clientBuilder, $hosts, private readonly Client $client)
     {
         $hosts = is_string($hosts) ? [$hosts] : $hosts;
         $this->nativeClient = $clientBuilder->setHosts($hosts)->build();
-        $this->client = $client;
     }
 
     public function updateIndexMapping(): void

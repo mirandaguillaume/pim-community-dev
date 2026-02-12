@@ -16,7 +16,7 @@ use Webmozart\Assert\Assert;
  */
 class SetCategoriesApplier implements UserIntentApplier
 {
-    public function __construct(private ObjectUpdaterInterface $productUpdater)
+    public function __construct(private readonly ObjectUpdaterInterface $productUpdater)
     {
     }
 

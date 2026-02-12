@@ -14,20 +14,10 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ValidateLocales
+final readonly class ValidateLocales
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $localeRepository;
-
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $channelRepository;
-
-    public function __construct(
-        IdentifiableObjectRepositoryInterface $channelRepository,
-        IdentifiableObjectRepositoryInterface $localeRepository
-    ) {
-        $this->channelRepository = $channelRepository;
-        $this->localeRepository = $localeRepository;
+    public function __construct(private IdentifiableObjectRepositoryInterface $channelRepository, private IdentifiableObjectRepositoryInterface $localeRepository)
+    {
     }
 
     /**

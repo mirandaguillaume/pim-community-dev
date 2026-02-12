@@ -31,8 +31,6 @@ class AclExtensionSelector
 
     /**
      * Constructor
-     *
-     * @param ObjectIdAccessor $objectIdAccessor
      */
     public function __construct(ObjectIdAccessor $objectIdAccessor)
     {
@@ -41,8 +39,6 @@ class AclExtensionSelector
 
     /**
      * Adds ACL extension
-     *
-     * @param AclExtensionInterface $extension
      */
     public function addAclExtension(AclExtensionInterface $extension)
     {
@@ -56,7 +52,7 @@ class AclExtensionSelector
      * @throws InvalidDomainObjectException
      * @return AclExtensionInterface
      */
-    public function select($val)
+    public function select(mixed $val)
     {
         if ($val === null) {
             return new NullAclExtension();
@@ -80,7 +76,7 @@ class AclExtensionSelector
                 }
                 $id = $val->getType();
             } else {
-                $type = get_class($val);
+                $type = $val::class;
                 $id = $this->objectIdAccessor->getId($val);
             }
         }
@@ -116,15 +112,13 @@ class AclExtensionSelector
     /**
      * Creates an exception indicates that ACL extension was not found for the given domain object
      *
-     * @param mixed $val
      * @param string $type
-     * @param int|string $id
      * @return InvalidDomainObjectException
      */
-    protected function createAclExtensionNotFoundException($val, $type, $id)
+    protected function createAclExtensionNotFoundException(mixed $val, $type, int|string $id)
     {
         $objInfo = is_object($val) && !($val instanceof ObjectIdentityInterface)
-            ? get_class($val)
+            ? $val::class
             : (string)$val;
 
         return new InvalidDomainObjectException(

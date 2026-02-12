@@ -18,12 +18,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class CategoryType extends AbstractType
 {
-    /** @var string Entity FQCN */
-    protected $dataClass;
-
-    /** @var string Translation entity FQCN */
-    protected $translationDataClass;
-
     /** @var EventSubscriberInterface[] */
     protected $subscribers = [];
 
@@ -33,10 +27,8 @@ class CategoryType extends AbstractType
      * @param string $dataClass
      * @param string $translationDataClass
      */
-    public function __construct($dataClass, $translationDataClass)
+    public function __construct(protected $dataClass, protected $translationDataClass)
     {
-        $this->dataClass = $dataClass;
-        $this->translationDataClass = $translationDataClass;
     }
 
     /**

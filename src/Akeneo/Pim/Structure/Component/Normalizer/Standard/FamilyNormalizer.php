@@ -28,12 +28,6 @@ class FamilyNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
     /** @var AttributeRequirementRepositoryInterface */
     protected $attributeRequirementRepo;
 
-    /**
-     * @param NormalizerInterface                     $translationNormalizer
-     * @param CollectionFilterInterface               $collectionFilter
-     * @param AttributeRepositoryInterface            $attributeRepository
-     * @param AttributeRequirementRepositoryInterface $attributeRequirementRepo
-     */
     public function __construct(
         NormalizerInterface $translationNormalizer,
         CollectionFilterInterface $collectionFilter,
@@ -79,7 +73,6 @@ class FamilyNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
     /**
      * Normalize the attributes
      *
-     * @param FamilyInterface $family
      *
      * @return array
      */
@@ -103,7 +96,6 @@ class FamilyNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
     /**
      * Normalize the requirements
      *
-     * @param FamilyInterface $family
      *
      * @return array
      */

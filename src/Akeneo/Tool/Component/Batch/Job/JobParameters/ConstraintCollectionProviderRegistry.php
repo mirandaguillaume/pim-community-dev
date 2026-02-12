@@ -16,19 +16,14 @@ class ConstraintCollectionProviderRegistry
     /** @var ConstraintCollectionProviderInterface[] */
     protected $providers = [];
 
-    /**
-     * @param ConstraintCollectionProviderInterface $provider
-     */
     public function register(ConstraintCollectionProviderInterface $provider)
     {
         $this->providers[] = $provider;
     }
 
     /**
-     * @param JobInterface $job
      *
      * @throws NonExistingServiceException
-     *
      * @return ConstraintCollectionProviderInterface
      */
     public function get(JobInterface $job)

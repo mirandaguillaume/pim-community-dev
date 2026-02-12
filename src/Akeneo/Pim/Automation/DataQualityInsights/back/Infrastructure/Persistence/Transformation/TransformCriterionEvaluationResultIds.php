@@ -13,7 +13,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Transfo
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class TransformCriterionEvaluationResultIds
+final readonly class TransformCriterionEvaluationResultIds
 {
     public function __construct(
         private TransformChannelLocaleDataIds   $transformChannelLocaleDataIds,
@@ -78,9 +78,7 @@ final class TransformCriterionEvaluationResultIds
 
     private function transformRatesIdsToCodes(array $ratesIds): array
     {
-        return $this->transformChannelLocaleDataIds->transformToCodes($ratesIds, function ($rate) {
-            return $rate;
-        });
+        return $this->transformChannelLocaleDataIds->transformToCodes($ratesIds, fn($rate) => $rate);
     }
 
     private function transformStatusIdsToCodes(array $statusIds): array

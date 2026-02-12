@@ -21,8 +21,6 @@ class SettingsContext extends PimContext
     use SpinCapableTrait;
 
     /**
-     * @param TableNode $creationData
-     *
      * @When I create a connection with the following information:
      */
     public function createConnection(TableNode $creationData): void
@@ -38,8 +36,6 @@ class SettingsContext extends PimContext
     }
 
     /**
-     * @param string $connection
-     * @param string $listType
      *
      * @throws \Context\Spin\TimeoutException
      * @throws \UnexpectedValueException
@@ -52,13 +48,9 @@ class SettingsContext extends PimContext
 
         $element = $this->getListTypeFromConnectionType($listType);
 
-        $list = $this->spin(function () use ($element) {
-            return $this->getCurrentPage()->getElement($element);
-        }, sprintf('Can not find list for "%s"', $listType));
+        $list = $this->spin(fn() => $this->getCurrentPage()->getElement($element), sprintf('Can not find list for "%s"', $listType));
 
-        $this->spin(function () use ($list, $connection) {
-            return $list->find('css', sprintf('[title="%s"]', $connection));
-        }, sprintf('Can not find connection "%s" in list "%s"', $connection, $listType));
+        $this->spin(fn() => $list->find('css', sprintf('[title="%s"]', $connection)), sprintf('Can not find connection "%s" in list "%s"', $connection, $listType));
     }
 
     /**

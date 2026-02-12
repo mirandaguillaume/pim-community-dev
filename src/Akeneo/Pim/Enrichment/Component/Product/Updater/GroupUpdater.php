@@ -69,13 +69,11 @@ class GroupUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param GroupInterface $group
      * @param string         $field
-     * @param mixed          $data
      *
      * @throws InvalidPropertyException
      */
-    protected function setData(GroupInterface $group, $field, $data)
+    protected function setData(GroupInterface $group, $field, mixed $data)
     {
         switch ($field) {
             case 'code':
@@ -91,7 +89,6 @@ class GroupUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param GroupInterface $group
      * @param string         $code
      */
     protected function setCode(GroupInterface $group, $code)
@@ -100,9 +97,7 @@ class GroupUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param GroupInterface $group
      * @param string         $type
-     *
      * @throws InvalidPropertyException
      */
     protected function setType(GroupInterface $group, $type)
@@ -122,10 +117,6 @@ class GroupUpdater implements ObjectUpdaterInterface
         $group->setType($groupType);
     }
 
-    /**
-     * @param GroupInterface $group
-     * @param array          $labels
-     */
     protected function setLabels(GroupInterface $group, array $labels)
     {
         foreach ($labels as $localeCode => $label) {

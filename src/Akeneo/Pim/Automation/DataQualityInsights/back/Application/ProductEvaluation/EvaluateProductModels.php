@@ -18,10 +18,10 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 class EvaluateProductModels
 {
     public function __construct(
-        private EvaluatePendingCriteria $evaluatePendingProductModelCriteria,
-        private ConsolidateProductModelScores $consolidateProductModelScores,
-        private EventDispatcherInterface $eventDispatcher,
-        private LoggerInterface $logger
+        private readonly EvaluatePendingCriteria $evaluatePendingProductModelCriteria,
+        private readonly ConsolidateProductModelScores $consolidateProductModelScores,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly LoggerInterface $logger
     ) {
     }
 

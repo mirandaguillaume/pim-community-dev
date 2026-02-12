@@ -26,10 +26,6 @@ class AjaxReferenceDataTransformer implements DataTransformerInterface
 
     /**
      * Constructor
-     *
-     * @param ReferenceDataRepositoryInterface $repository
-     * @param LabelRenderer                    $renderer
-     * @param array                            $options
      */
     public function __construct(
         ReferenceDataRepositoryInterface $repository,
@@ -52,7 +48,7 @@ class AjaxReferenceDataTransformer implements DataTransformerInterface
             }
 
             $values = [];
-            foreach (explode(',', $value) as $id) {
+            foreach (explode(',', (string) $value) as $id) {
                 $values[] = $this->repository->find($id);
             }
 
@@ -82,11 +78,10 @@ class AjaxReferenceDataTransformer implements DataTransformerInterface
     /**
      * Returns the labels corresponding to the given value
      *
-     * @param mixed $value
      *
      * @return array
      */
-    public function getOptions($value)
+    public function getOptions(mixed $value)
     {
         if ($this->options['multiple']) {
             $options = [];

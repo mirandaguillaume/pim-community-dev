@@ -30,15 +30,15 @@ use Ramsey\Uuid\UuidInterface;
 class SqlGetConnectorProducts implements Query\GetConnectorProducts
 {
     public function __construct(
-        private GetValuesAndPropertiesFromProductUuids $getValuesAndPropertiesFromProductUuids,
-        private GetProductAssociationsByProductUuids $getProductAssociationsByProductUuids,
-        private GetProductModelAssociationsByProductUuids $getProductModelAssociationsByProductUuids,
-        private GetGroupAssociationsByProductUuids $getGroupAssociationsByProductUuids,
-        private GetProductQuantifiedAssociationsByProductUuids $getProductQuantifiedAssociationsByProductUuids,
-        private GetProductModelQuantifiedAssociationsByProductUuids $getProductModelQuantifiedAssociationsByProductUuids,
-        private GetCategoryCodesByProductUuids $getCategoryCodesByProductUuids,
-        private ReadValueCollectionFactory $readValueCollectionFactory,
-        private Connection $connection
+        private readonly GetValuesAndPropertiesFromProductUuids $getValuesAndPropertiesFromProductUuids,
+        private readonly GetProductAssociationsByProductUuids $getProductAssociationsByProductUuids,
+        private readonly GetProductModelAssociationsByProductUuids $getProductModelAssociationsByProductUuids,
+        private readonly GetGroupAssociationsByProductUuids $getGroupAssociationsByProductUuids,
+        private readonly GetProductQuantifiedAssociationsByProductUuids $getProductQuantifiedAssociationsByProductUuids,
+        private readonly GetProductModelQuantifiedAssociationsByProductUuids $getProductModelQuantifiedAssociationsByProductUuids,
+        private readonly GetCategoryCodesByProductUuids $getCategoryCodesByProductUuids,
+        private readonly ReadValueCollectionFactory $readValueCollectionFactory,
+        private readonly Connection $connection
     ) {
     }
 
@@ -53,9 +53,7 @@ class SqlGetConnectorProducts implements Query\GetConnectorProducts
         ?array $localesToFilterOn
     ): ConnectorProductList {
         $result = $pqb->execute();
-        $uuids = array_map(function (IdentifierResult $identifier) {
-            return $this->getUuidFromIdentifierResult($identifier->getId());
-        }, iterator_to_array($result));
+        $uuids = array_map(fn(IdentifierResult $identifier) => $this->getUuidFromIdentifierResult($identifier->getId()), iterator_to_array($result));
 
         $products = $this->fromProductUuids($uuids, $userId, $attributesToFilterOn, $channelToFilterOn, $localesToFilterOn);
 

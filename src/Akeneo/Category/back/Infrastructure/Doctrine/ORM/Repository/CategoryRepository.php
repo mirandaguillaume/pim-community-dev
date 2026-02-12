@@ -110,7 +110,7 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
                     $categoryParentsIds[] = $pathItem->getId();
                 }
             }
-            $parentsIds = array_merge($parentsIds, $categoryParentsIds);
+            $parentsIds = [...$parentsIds, ...$categoryParentsIds];
         }
         $parentsIds = array_unique($parentsIds);
 

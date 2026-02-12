@@ -21,12 +21,12 @@ class ListAnnouncementsActionIntegration extends WebTestCase
 
     public function test_it_can_list_first_paginated_announcements()
     {
-        $expectedAnnouncements = json_decode(file_get_contents(dirname(__FILE__) . '/../../../../../Infrastructure/CommunicationChannel/LocalFilestorage/serenity-updates.json'), true);
+        $expectedAnnouncements = json_decode(file_get_contents(__DIR__ . '/../../../../../Infrastructure/CommunicationChannel/LocalFilestorage/serenity-updates.json'), true, 512, JSON_THROW_ON_ERROR);
         $this->client->request(
             'GET',
             '/rest/announcements'
         );
-        $content = json_decode($this->client->getResponse()->getContent(), true);
+        $content = json_decode($this->client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         Assert::assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         Assert::assertIsArray($content['items']);
@@ -37,7 +37,7 @@ class ListAnnouncementsActionIntegration extends WebTestCase
 
     public function test_it_can_list_paginated_announcements_with_a_search_after_parameter()
     {
-        $expectedAnnouncements = json_decode(file_get_contents(dirname(__FILE__) . '/../../../../../Infrastructure/CommunicationChannel/LocalFilestorage/serenity-updates.json'), true);
+        $expectedAnnouncements = json_decode(file_get_contents(__DIR__ . '/../../../../../Infrastructure/CommunicationChannel/LocalFilestorage/serenity-updates.json'), true, 512, JSON_THROW_ON_ERROR);
         $searchAfter = '2e04e7e4-6c55-4cdd-b151-dab34d6a31a4';
         $this->client->request(
             'GET',
@@ -46,7 +46,7 @@ class ListAnnouncementsActionIntegration extends WebTestCase
                 'search_after' => $searchAfter
             ]
         );
-        $content = json_decode($this->client->getResponse()->getContent(), true);
+        $content = json_decode($this->client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         Assert::assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         Assert::assertIsArray($content['items']);

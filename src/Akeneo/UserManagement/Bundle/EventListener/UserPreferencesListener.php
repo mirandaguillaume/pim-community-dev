@@ -29,34 +29,12 @@ class UserPreferencesListener
     /** @var array */
     protected $deactivatedLocales = [];
 
-    /** @var CategoryRepositoryInterface */
-    private $categoryRepository;
-
-    /** @var ChannelRepositoryInterface */
-    private $channelRepository;
-
-    /** @var LocaleRepositoryInterface */
-    private $localeRepository;
-
-    /** @var UserRepositoryInterface */
-    private $userRepository;
-
-    public function __construct(
-        CategoryRepositoryInterface $categoryRepository,
-        ChannelRepositoryInterface $channelRepository,
-        LocaleRepositoryInterface $localeRepository,
-        UserRepositoryInterface $userRepository
-    ) {
-        $this->categoryRepository = $categoryRepository;
-        $this->channelRepository = $channelRepository;
-        $this->localeRepository = $localeRepository;
-        $this->userRepository = $userRepository;
+    public function __construct(private readonly CategoryRepositoryInterface $categoryRepository, private readonly ChannelRepositoryInterface $channelRepository, private readonly LocaleRepositoryInterface $localeRepository, private readonly UserRepositoryInterface $userRepository)
+    {
     }
 
     /**
      * On flush
-     *
-     * @param OnFlushEventArgs $args
      */
     public function onFlush(OnFlushEventArgs $args)
     {
@@ -72,8 +50,6 @@ class UserPreferencesListener
 
     /**
      * Post flush
-     *
-     * @param PostFlushEventArgs $args
      */
     public function postFlush(PostFlushEventArgs $args)
     {
@@ -87,8 +63,6 @@ class UserPreferencesListener
     /**
      * Before remove
      *
-     * @param UnitOfWork             $uow
-     * @param EntityManagerInterface $manager
      * @param object                 $entity
      */
     protected function preRemove(UnitOfWork $uow, EntityManagerInterface $manager, $entity)
@@ -120,14 +94,12 @@ class UserPreferencesListener
     /**
      * Get the metadata of an entity
      *
-     * @param EntityManagerInterface $manager
      * @param object                 $entity
-     *
      * @return array
      */
     protected function getMetadata(EntityManagerInterface $manager, $entity)
     {
-        $className = get_class($entity);
+        $className = $entity::class;
         if (!isset($this->metadata[$className])) {
             $this->metadata[$className] = $manager->getClassMetadata($className);
         }
@@ -138,8 +110,6 @@ class UserPreferencesListener
     /**
      * Compute changeset
      *
-     * @param UnitOfWork             $uow
-     * @param EntityManagerInterface $manager
      * @param object                 $entity
      */
     protected function computeChangeset(UnitOfWork $uow, EntityManagerInterface $manager, $entity)
@@ -150,10 +120,6 @@ class UserPreferencesListener
 
     /**
      * Update catalog scope of users using a channel that will be removed
-     *
-     * @param UnitOfWork             $uow
-     * @param EntityManagerInterface $manager
-     * @param ChannelInterface       $removedChannel
      */
     protected function onChannelRemoved(
         UnitOfWork $uow,
@@ -166,9 +132,7 @@ class UserPreferencesListener
         $defaultScope = current(
             array_filter(
                 $channels,
-                function ($channel) use ($removedChannel) {
-                    return $channel->getCode() !== $removedChannel->getCode();
-                }
+                fn($channel) => $channel->getCode() !== $removedChannel->getCode()
             )
         );
 
@@ -180,8 +144,6 @@ class UserPreferencesListener
 
     /**
      * Update default tree of users using a tree that will be removed
-     *
-     * @param CategoryInterface $removedTree
      */
     protected function onTreeRemoved(UnitOfWork $uow, EntityManagerInterface $manager, CategoryInterface $removedTree)
     {
@@ -191,9 +153,7 @@ class UserPreferencesListener
         $defaultTree = current(
             array_filter(
                 $trees,
-                function ($tree) use ($removedTree) {
-                    return $tree->getCode() !== $removedTree->getCode();
-                }
+                fn($tree) => $tree->getCode() !== $removedTree->getCode()
             )
         );
 

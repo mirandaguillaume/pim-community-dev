@@ -29,22 +29,16 @@ class AclVoter extends BaseAclVoter implements PermissionGrantingStrategyContext
 
     /**
      * The security token of the current voting operation
-     *
-     * @var mixed
      */
-    private $securityToken = null;
+    private ?\Symfony\Component\Security\Core\Authentication\Token\TokenInterface $securityToken = null;
 
     /**
      * An ACL extension responsible to process an object of the current voting operation
-     *
-     * @var AclExtensionInterface
      */
-    private $extension = null;
+    private ?\Oro\Bundle\SecurityBundle\Acl\Extension\AclExtensionInterface $extension = null;
 
     /**
      * Sets the ACL extension selector
-     *
-     * @param AclExtensionSelector $selector
      */
     public function setAclExtensionSelector(AclExtensionSelector $selector)
     {
@@ -63,7 +57,7 @@ class AclVoter extends BaseAclVoter implements PermissionGrantingStrategyContext
 
         try {
             $this->extension = $this->extensionSelector->select($object);
-        } catch (InvalidDomainObjectException $e) {
+        } catch (InvalidDomainObjectException) {
             return self::ACCESS_ABSTAIN;
         }
 

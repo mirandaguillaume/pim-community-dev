@@ -16,9 +16,6 @@ class AssociationTypeNormalizer implements NormalizerInterface, CacheableSupport
     /** @var NormalizerInterface */
     protected $stdNormalizer;
 
-    /**
-     * @param NormalizerInterface $stdNormalizer
-     */
     public function __construct(NormalizerInterface $stdNormalizer)
     {
         $this->stdNormalizer = $stdNormalizer;

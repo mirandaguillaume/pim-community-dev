@@ -28,8 +28,6 @@ interface EntityWithValuesInterface
     public function getRawValues();
 
     /**
-     * @param array $rawValues
-     *
      * @return EntityWithValuesInterface
      */
     public function setRawValues(array $rawValues);
@@ -44,7 +42,6 @@ interface EntityWithValuesInterface
     /**
      * Set values
      *
-     * @param WriteValueCollection $values
      *
      * @return EntityWithValuesInterface
      */
@@ -64,7 +61,6 @@ interface EntityWithValuesInterface
     /**
      * Add value, override to deal with relation owner side
      *
-     * @param ValueInterface $value
      *
      * @return EntityWithValuesInterface
      */
@@ -73,7 +69,6 @@ interface EntityWithValuesInterface
     /**
      * Remove value
      *
-     * @param ValueInterface $value
      *
      * @return EntityWithValuesInterface
      */

@@ -1642,7 +1642,7 @@ final class UpsertProductIntegration extends TestCase
             'labels' => $labels,
         ]);
         $constraints = $this->get('validator')->validate($attributeOption);
-        if (count($constraints) > 0) {
+        if ((is_countable($constraints) ? count($constraints) : 0) > 0) {
             throw new \InvalidArgumentException((string)$constraints);
         }
         $this->get('pim_catalog.saver.attribute_option')->save($attributeOption);

@@ -20,13 +20,8 @@ class RoleWithPermissionsRepository implements IdentifiableObjectRepositoryInter
     private const ACL_EXTENSION_KEY = 'action';
     private const ACL_PERMISSION = 'EXECUTE';
 
-    private IdentifiableObjectRepositoryInterface $roleRepository;
-    private AclManager $aclManager;
-
-    public function __construct(IdentifiableObjectRepositoryInterface $roleRepository, AclManager $aclManager)
+    public function __construct(private readonly IdentifiableObjectRepositoryInterface $roleRepository, private readonly AclManager $aclManager)
     {
-        $this->roleRepository = $roleRepository;
-        $this->aclManager = $aclManager;
     }
 
     /**

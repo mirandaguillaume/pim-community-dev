@@ -42,20 +42,7 @@ class LoggerSubscriber implements EventSubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-        return array(
-            EventInterface::JOB_EXECUTION_CREATED => 'jobExecutionCreated',
-            EventInterface::BEFORE_JOB_EXECUTION => 'beforeJobExecution',
-            EventInterface::JOB_EXECUTION_STOPPED => 'jobExecutionStopped',
-            EventInterface::JOB_EXECUTION_INTERRUPTED => 'jobExecutionInterrupted',
-            EventInterface::JOB_EXECUTION_FATAL_ERROR => 'jobExecutionFatalError',
-            EventInterface::BEFORE_JOB_STATUS_UPGRADE => 'beforeJobStatusUpgrade',
-            EventInterface::BEFORE_STEP_EXECUTION => 'beforeStepExecution',
-            EventInterface::STEP_EXECUTION_SUCCEEDED => 'stepExecutionSucceeded',
-            EventInterface::STEP_EXECUTION_INTERRUPTED => 'stepExecutionInterrupted',
-            EventInterface::STEP_EXECUTION_ERRORED => 'stepExecutionErrored',
-            EventInterface::STEP_EXECUTION_COMPLETED => 'stepExecutionCompleted',
-            EventInterface::INVALID_ITEM => 'invalidItem',
-        );
+        return [EventInterface::JOB_EXECUTION_CREATED => 'jobExecutionCreated', EventInterface::BEFORE_JOB_EXECUTION => 'beforeJobExecution', EventInterface::JOB_EXECUTION_STOPPED => 'jobExecutionStopped', EventInterface::JOB_EXECUTION_INTERRUPTED => 'jobExecutionInterrupted', EventInterface::JOB_EXECUTION_FATAL_ERROR => 'jobExecutionFatalError', EventInterface::BEFORE_JOB_STATUS_UPGRADE => 'beforeJobStatusUpgrade', EventInterface::BEFORE_STEP_EXECUTION => 'beforeStepExecution', EventInterface::STEP_EXECUTION_SUCCEEDED => 'stepExecutionSucceeded', EventInterface::STEP_EXECUTION_INTERRUPTED => 'stepExecutionInterrupted', EventInterface::STEP_EXECUTION_ERRORED => 'stepExecutionErrored', EventInterface::STEP_EXECUTION_COMPLETED => 'stepExecutionCompleted', EventInterface::INVALID_ITEM => 'invalidItem'];
     }
 
     /**
@@ -80,8 +67,6 @@ class LoggerSubscriber implements EventSubscriberInterface
 
     /**
      * Log the job execution creation
-     *
-     * @param JobExecutionEvent $event
      */
     public function jobExecutionCreated(JobExecutionEvent $event)
     {
@@ -92,8 +77,6 @@ class LoggerSubscriber implements EventSubscriberInterface
 
     /**
      * Log the job execution before the job execution
-     *
-     * @param JobExecutionEvent $event
      */
     public function beforeJobExecution(JobExecutionEvent $event)
     {
@@ -104,8 +87,6 @@ class LoggerSubscriber implements EventSubscriberInterface
 
     /**
      * Log the job execution when the job execution stopped
-     *
-     * @param JobExecutionEvent $event
      */
     public function jobExecutionStopped(JobExecutionEvent $event)
     {
@@ -116,8 +97,6 @@ class LoggerSubscriber implements EventSubscriberInterface
 
     /**
      * Log the job execution when the job execution was interrupted
-     *
-     * @param JobExecutionEvent $event
      */
     public function jobExecutionInterrupted(JobExecutionEvent $event)
     {
@@ -129,8 +108,6 @@ class LoggerSubscriber implements EventSubscriberInterface
 
     /**
      * Log the job execution when a fatal error was raised during job execution
-     *
-     * @param JobExecutionEvent $event
      */
     public function jobExecutionFatalError(JobExecutionEvent $event)
     {
@@ -144,8 +121,6 @@ class LoggerSubscriber implements EventSubscriberInterface
 
     /**
      * Log the job execution before its status is upgraded
-     *
-     * @param JobExecutionEvent $event
      */
     public function beforeJobStatusUpgrade(JobExecutionEvent $event)
     {
@@ -156,8 +131,6 @@ class LoggerSubscriber implements EventSubscriberInterface
 
     /**
      * Log the step execution before the step execution
-     *
-     * @param StepExecutionEvent $event
      */
     public function beforeStepExecution(StepExecutionEvent $event)
     {
@@ -168,8 +141,6 @@ class LoggerSubscriber implements EventSubscriberInterface
 
     /**
      * Log the step execution when the step execution succeeded
-     *
-     * @param StepExecutionEvent $event
      */
     public function stepExecutionSucceeded(StepExecutionEvent $event)
     {
@@ -180,8 +151,6 @@ class LoggerSubscriber implements EventSubscriberInterface
 
     /**
      * Log the step execution when the step execution was interrupted
-     *
-     * @param StepExecutionEvent $event
      */
     public function stepExecutionInterrupted(StepExecutionEvent $event)
     {
@@ -196,7 +165,6 @@ class LoggerSubscriber implements EventSubscriberInterface
     /**
      * Log the step execution when the step execution was errored
      *
-     * @param StepExecutionEvent $event
      *
      * @return null
      */
@@ -213,14 +181,12 @@ class LoggerSubscriber implements EventSubscriberInterface
                 implode(
                     ', ',
                     array_map(
-                        function ($exception) {
-                            return $this->translator->trans(
-                                $exception['message'],
-                                $exception['messageParameters'],
-                                $this->translationDomain,
-                                $this->translationLocale
-                            );
-                        },
+                        fn($exception) => $this->translator->trans(
+                            $exception['message'],
+                            $exception['messageParameters'],
+                            $this->translationDomain,
+                            $this->translationLocale
+                        ),
                         $stepExecution->getFailureExceptions()
                     )
                 )
@@ -230,8 +196,6 @@ class LoggerSubscriber implements EventSubscriberInterface
 
     /**
      * Log the step execution when the step execution was completed
-     *
-     * @param StepExecutionEvent $event
      */
     public function stepExecutionCompleted(StepExecutionEvent $event)
     {
@@ -242,8 +206,6 @@ class LoggerSubscriber implements EventSubscriberInterface
 
     /**
      * Log invalid item event
-     *
-     * @param InvalidItemEvent $event
      */
     public function invalidItem(InvalidItemEvent $event)
     {
@@ -265,11 +227,10 @@ class LoggerSubscriber implements EventSubscriberInterface
     /**
      * Format anything as a string
      *
-     * @param mixed $data
      *
      * @return string
      */
-    private function formatAsString($data)
+    private function formatAsString(mixed $data)
     {
         if (is_array($data)) {
             $result = [];

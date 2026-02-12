@@ -12,14 +12,8 @@ use Oro\Bundle\FilterBundle\Grid\Extension\Configuration as FilterConfiguration;
 
 class RegisterFamilyFilter
 {
-    private GetAllFamiliesLabelByLocaleQueryInterface $familyRepository;
-
-    private UserContext $userContext;
-
-    public function __construct(GetAllFamiliesLabelByLocaleQueryInterface $familiesLabelByLocaleQuery, UserContext $userContext)
+    public function __construct(private readonly GetAllFamiliesLabelByLocaleQueryInterface $familyRepository, private readonly UserContext $userContext)
     {
-        $this->familyRepository = $familiesLabelByLocaleQuery;
-        $this->userContext = $userContext;
     }
 
     public function buildBefore(BuildBefore $event): void

@@ -21,27 +21,11 @@ use Symfony\Component\Security\Core\Security;
  */
 final class DispatchProductRemovedEventSubscriber implements DispatchBufferedPimEventSubscriberInterface
 {
-    private Security $security;
-    private MessageBusInterface $messageBus;
-    private int $maxBulkSize;
-    private LoggerInterface $logger;
-    private LoggerInterface $loggerBusinessEvent;
-
     /** @var array<ProductRemoved> */
     private array $events = [];
 
-    public function __construct(
-        Security $security,
-        MessageBusInterface $messageBus,
-        int $maxBulkSize,
-        LoggerInterface $logger,
-        LoggerInterface $loggerBusinessEvent
-    ) {
-        $this->security = $security;
-        $this->messageBus = $messageBus;
-        $this->maxBulkSize = $maxBulkSize;
-        $this->logger = $logger;
-        $this->loggerBusinessEvent = $loggerBusinessEvent;
+    public function __construct(private readonly Security $security, private readonly MessageBusInterface $messageBus, private readonly int $maxBulkSize, private readonly LoggerInterface $logger, private readonly LoggerInterface $loggerBusinessEvent)
+    {
     }
 
     public static function getSubscribedEvents(): array
@@ -93,15 +77,13 @@ final class DispatchProductRemovedEventSubscriber implements DispatchBufferedPim
                     [
                         'type' => 'business_event.dispatch',
                         'event_count' => count($this->events),
-                        'events' => array_map(function ($event) {
-                            return [
-                                'name' => $event->getName(),
-                                'uuid' => $event->getUuid(),
-                                'author' => $event->getAuthor()->name(),
-                                'author_type' => $event->getAuthor()->type(),
-                                'timestamp' => $event->getTimestamp(),
-                            ];
-                        }, $this->events)
+                        'events' => array_map(fn($event) => [
+                            'name' => $event->getName(),
+                            'uuid' => $event->getUuid(),
+                            'author' => $event->getAuthor()->name(),
+                            'author_type' => $event->getAuthor()->type(),
+                            'timestamp' => $event->getTimestamp(),
+                        ], $this->events)
                     ],
                     JSON_THROW_ON_ERROR
                 )

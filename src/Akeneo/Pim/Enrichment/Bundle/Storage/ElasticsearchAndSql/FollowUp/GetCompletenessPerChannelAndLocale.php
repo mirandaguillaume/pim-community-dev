@@ -18,20 +18,8 @@ use Doctrine\DBAL\Connection;
  */
 class GetCompletenessPerChannelAndLocale implements GetCompletenessPerChannelAndLocaleInterface
 {
-    /** @var Connection */
-    private $connection;
-
-    /** @var Client */
-    private $client;
-
-    /**
-     * @param Connection $connection
-     * @param Client     $client
-     */
-    public function __construct(Connection $connection, Client $client)
+    public function __construct(private readonly Connection $connection, private readonly Client $client)
     {
-        $this->connection = $connection;
-        $this->client = $client;
     }
 
     /**
@@ -53,12 +41,10 @@ class GetCompletenessPerChannelAndLocale implements GetCompletenessPerChannelAnd
     /**
      * Search, by channel, all categories children code and active locales
      *
-     * @return array
      *
      *          [channel_code, channel_labels, [categoryCodes], [locales]]
      *
      *      ex : ['ecommerce', ['en_US' => 'Ecommerce'...], ['print','cameras'...], ['de_DE','fr_FR'...]]
-     *
      * @throws \Doctrine\DBAL\DBALException
      */
     private function getCategoriesCodesAndLocalesByChannel(): array
@@ -115,9 +101,9 @@ SQL;
         $rows = $this->connection->executeQuery($sql)->fetchAllAssociative();
 
         foreach ($rows as $i => $categoriesCodeAndLocalesByChannel) {
-            $rows[$i]['locales'] = \json_decode($categoriesCodeAndLocalesByChannel['locales']);
-            $rows[$i]['category_codes_in_channel'] = \json_decode($categoriesCodeAndLocalesByChannel['category_codes_in_channel']);
-            $rows[$i]['channel_labels'] = \json_decode($categoriesCodeAndLocalesByChannel['channel_labels'], true);
+            $rows[$i]['locales'] = \json_decode((string) $categoriesCodeAndLocalesByChannel['locales'], null, 512, JSON_THROW_ON_ERROR);
+            $rows[$i]['category_codes_in_channel'] = \json_decode((string) $categoriesCodeAndLocalesByChannel['category_codes_in_channel'], null, 512, JSON_THROW_ON_ERROR);
+            $rows[$i]['channel_labels'] = \json_decode((string) $categoriesCodeAndLocalesByChannel['channel_labels'], true, 512, JSON_THROW_ON_ERROR);
         }
 
         return $rows;
@@ -127,7 +113,6 @@ SQL;
      * Count with Elasticsearch the number of complete products in categories, by channel and by locale
      *
      * @param array $categoriesCodeAndLocalesByChannels
-     * @return array
      *      ex: ['ecommerce' => [
      *              'locales' => ['fr_Fr' => 15, 'de_DE' => 1, 'en_US' => 5],
      *              'all_locales' => 7  // Number of product complete on all locales

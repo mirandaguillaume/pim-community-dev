@@ -14,7 +14,7 @@ use Akeneo\Tool\Component\Buffer\Exception\UnsupportedItemTypeException;
  */
 class JSONFileBuffer implements BufferInterface
 {
-    const FILE_PREFIX = 'akeneo_buffer_';
+    final public const FILE_PREFIX = 'akeneo_buffer_';
 
     /** @var string */
     protected $filePath;
@@ -51,11 +51,11 @@ class JSONFileBuffer implements BufferInterface
     {
         if (!is_array($item) && !is_scalar($item)) {
             throw new UnsupportedItemTypeException(
-                sprintf('%s only supports items of type scalar or array', __CLASS__)
+                sprintf('%s only supports items of type scalar or array', self::class)
             );
         }
 
-        $this->file->fwrite(json_encode($item) . PHP_EOL);
+        $this->file->fwrite(json_encode($item, JSON_THROW_ON_ERROR) . PHP_EOL);
     }
 
     /**
@@ -65,7 +65,7 @@ class JSONFileBuffer implements BufferInterface
     {
         $rawLine = $this->file->current();
 
-        return json_decode($rawLine, true);
+        return json_decode($rawLine, true, 512, JSON_THROW_ON_ERROR);
     }
 
     /**

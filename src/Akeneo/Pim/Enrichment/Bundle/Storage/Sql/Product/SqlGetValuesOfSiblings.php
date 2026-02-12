@@ -16,18 +16,10 @@ use Doctrine\DBAL\Connection;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class SqlGetValuesOfSiblings implements GetValuesOfSiblings
+final readonly class SqlGetValuesOfSiblings implements GetValuesOfSiblings
 {
-    /** @var Connection  */
-    private $connection;
-
-    /** @var WriteValueCollectionFactory */
-    private $valueCollectionFactory;
-
-    public function __construct(Connection $connection, WriteValueCollectionFactory $valueCollectionFactory)
+    public function __construct(private Connection $connection, private WriteValueCollectionFactory $valueCollectionFactory)
     {
-        $this->connection = $connection;
-        $this->valueCollectionFactory = $valueCollectionFactory;
     }
 
     public function for(EntityWithFamilyVariantInterface $entity, array $attributeCodesToFilter = []): array
@@ -75,12 +67,10 @@ SQL;
         );
 
         foreach ($rows as $row) {
-            $rawValues = json_decode($row['raw_values'], true) ?? [];
+            $rawValues = json_decode((string) $row['raw_values'], true, 512, JSON_THROW_ON_ERROR) ?? [];
 
             if (!empty($attributeCodesToFilter)) {
-                $rawValues = array_filter($rawValues, function (string $attributeCode) use ($attributeCodesToFilter) {
-                    return in_array($attributeCode, $attributeCodesToFilter);
-                }, ARRAY_FILTER_USE_KEY);
+                $rawValues = array_filter($rawValues, fn(string $attributeCode) => in_array($attributeCode, $attributeCodesToFilter), ARRAY_FILTER_USE_KEY);
             }
 
             $valuesOfSiblings[$row['identifier'] ?? $row['uuid']] = $this->valueCollectionFactory->createFromStorageFormat(

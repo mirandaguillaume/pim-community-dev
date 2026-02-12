@@ -13,10 +13,10 @@ use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Repository\IdentifierGenera
  *
  * @phpstan-import-type NormalizedIdentifierGenerator from IdentifierGenerator
  */
-final class GetGeneratorsHandler
+final readonly class GetGeneratorsHandler
 {
     public function __construct(
-        private readonly IdentifierGeneratorRepository $identifierGeneratorRepository,
+        private IdentifierGeneratorRepository $identifierGeneratorRepository,
     ) {
     }
 

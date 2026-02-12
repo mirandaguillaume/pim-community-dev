@@ -19,7 +19,6 @@ interface UserRepositoryInterface extends IdentifiableObjectRepositoryInterface,
     /**
      * Return users who are AT LEAST in one of the given $groupIds
      *
-     * @param array $groupIds
      *
      * @return UserInterface[]
      */

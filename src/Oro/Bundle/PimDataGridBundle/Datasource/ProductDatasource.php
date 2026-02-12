@@ -99,6 +99,7 @@ class ProductDatasource extends Datasource
      */
     protected function initializeQueryBuilder($method, array $config = [])
     {
+        $factoryConfig = [];
         $factoryConfig['repository_parameters'] = $config;
         $factoryConfig['repository_method'] = $method;
         $factoryConfig['default_locale'] = $this->getConfiguration('locale_code');
@@ -116,15 +117,12 @@ class ProductDatasource extends Datasource
     /**
      * Normalizes an entity with values with the complete set of fields required to show it.
      *
-     * @param EntityWithValuesInterface $item
-     * @param array                     $context
      *
-     * @return array
      */
     private function normalizeEntityWithValues(EntityWithValuesInterface $item, array $context): array
     {
         $defaultNormalizedItem = [
-            'id'               => $item instanceof ProductInterface && get_class($item) !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct'
+            'id'               => $item instanceof ProductInterface && $item::class !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct'
                 ? $item->getUuid()->toString()
                 : $item->getId(),
             'dataLocale'       => $this->getParameters()['dataLocale'],
@@ -150,8 +148,6 @@ class ProductDatasource extends Datasource
     }
 
     /**
-     * @param array $attributeIdsToDisplay
-     * @param array $attributes
      *
      * @return array array of attribute codes
      */

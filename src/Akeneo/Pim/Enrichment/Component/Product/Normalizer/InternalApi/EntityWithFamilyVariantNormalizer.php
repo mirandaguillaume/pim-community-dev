@@ -37,59 +37,23 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class EntityWithFamilyVariantNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
     /** @var string[] */
-    private $supportedFormat = ['internal_api'];
-
-    /** @var ImageNormalizer */
-    private $imageNormalizer;
-
-    /** @var LocaleRepositoryInterface */
-    private $localeRepository;
-
-    /** @var EntityWithFamilyVariantAttributesProvider */
-    private $attributesProvider;
-
-    /** @var ProductCompletenessWithMissingAttributeCodesCollectionNormalizer */
-    private $completenessCollectionNormalizer;
-
-    /** @var VariantProductRatioInterface */
-    private $variantProductRatioQuery;
-
-    /** @var ImageAsLabel */
-    private $imageAsLabel;
-
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $attributeOptionRepository;
+    private array $supportedFormat = ['internal_api'];
 
     /** @var AxisValueLabelsNormalizer[] */
-    private $normalizers;
-
-    /** @var CatalogContext */
-    private $catalogContext;
-
-    /** @var CompletenessCalculator */
-    private $completenessCalculator;
+    private readonly array $normalizers;
 
     public function __construct(
-        ImageNormalizer $imageNormalizer,
-        LocaleRepositoryInterface $localeRepository,
-        EntityWithFamilyVariantAttributesProvider $attributesProvider,
-        ProductCompletenessWithMissingAttributeCodesCollectionNormalizer $completenessCollectionNormalizer,
-        VariantProductRatioInterface $variantProductRatioQuery,
-        ImageAsLabel $imageAsLabel,
-        CatalogContext $catalogContext,
-        IdentifiableObjectRepositoryInterface $attributeOptionRepository,
-        CompletenessCalculator $completenessCalculator,
+        private readonly ImageNormalizer $imageNormalizer,
+        private readonly LocaleRepositoryInterface $localeRepository,
+        private readonly EntityWithFamilyVariantAttributesProvider $attributesProvider,
+        private readonly ProductCompletenessWithMissingAttributeCodesCollectionNormalizer $completenessCollectionNormalizer,
+        private readonly VariantProductRatioInterface $variantProductRatioQuery,
+        private readonly ImageAsLabel $imageAsLabel,
+        private readonly CatalogContext $catalogContext,
+        private readonly IdentifiableObjectRepositoryInterface $attributeOptionRepository,
+        private readonly CompletenessCalculator $completenessCalculator,
         AxisValueLabelsNormalizer ...$normalizers
     ) {
-        $this->imageNormalizer                  = $imageNormalizer;
-        $this->localeRepository                 = $localeRepository;
-        $this->attributesProvider               = $attributesProvider;
-        $this->completenessCollectionNormalizer = $completenessCollectionNormalizer;
-        $this->variantProductRatioQuery         = $variantProductRatioQuery;
-        $this->imageAsLabel                     = $imageAsLabel;
-        $this->catalogContext                   = $catalogContext;
-        $this->attributeOptionRepository        = $attributeOptionRepository;
-        $this->completenessCalculator           = $completenessCalculator;
         $this->normalizers = $normalizers;
     }
 
@@ -103,7 +67,7 @@ class EntityWithFamilyVariantNormalizer implements NormalizerInterface, Cacheabl
                 '"%s" or "%s" expected, "%s" received',
                 ProductModelInterface::class,
                 ProductInterface::class,
-                get_class($entity)
+                $entity::class
             ));
         }
 
@@ -151,8 +115,6 @@ class EntityWithFamilyVariantNormalizer implements NormalizerInterface, Cacheabl
      * @param ValueInterface $data
      * @param string         $localeCode
      * @param string         $channelCode
-     *
-     * @return array|null
      */
     private function normalizeImage(?ValueInterface $data, ?string $channelCode = null, ?string $localeCode = null): ?array
     {
@@ -167,12 +129,9 @@ class EntityWithFamilyVariantNormalizer implements NormalizerInterface, Cacheabl
      *      'en_US' => 'Yellow, XL',
      * ]
      *
-     * @param EntityWithFamilyVariantInterface $entity
-     * @param array                            $localeCodes
      *
      * @throws \LogicException
      *
-     * @return array
      */
     private function getAxesValuesLabelsForLocales(EntityWithFamilyVariantInterface $entity, array $localeCodes): array
     {
@@ -214,9 +173,7 @@ class EntityWithFamilyVariantNormalizer implements NormalizerInterface, Cacheabl
     /**
      * Get completeness of the given $entity, whether it's a ProductModel or a VariantProduct.
      *
-     * @param EntityWithFamilyVariantInterface $entity
      *
-     * @return array
      */
     private function getCompletenessDependingOnEntity(EntityWithFamilyVariantInterface $entity): array
     {
@@ -246,8 +203,6 @@ class EntityWithFamilyVariantNormalizer implements NormalizerInterface, Cacheabl
      * It allows to sort on front-end to respect sort orders of attribute options.
      *
      * @param EntityWithFamilyVariantInterface $entity
-     *
-     * @return array
      */
     private function getOrder(EntityWithFamilyVariantInterface $entity): array
     {

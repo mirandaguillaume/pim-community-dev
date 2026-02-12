@@ -13,7 +13,7 @@ use Doctrine\DBAL\Connection as DbalConnection;
  */
 class DbalSelectWebhookSecretQuery implements SelectWebhookSecretQueryInterface
 {
-    public function __construct(private DbalConnection $dbalConnection)
+    public function __construct(private readonly DbalConnection $dbalConnection)
     {
     }
 

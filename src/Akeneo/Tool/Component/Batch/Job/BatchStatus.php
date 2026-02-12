@@ -11,19 +11,16 @@ namespace Akeneo\Tool\Component\Batch\Job;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/MIT MIT
  */
-class BatchStatus
+class BatchStatus implements \Stringable
 {
-    const __DEFAULT = self::UNKNOWN;
-
-    protected $value;
+    final public const __DEFAULT = self::UNKNOWN;
 
     /**
      * Constructor
-     * @param integer $status
+     * @param integer $value
      */
-    public function __construct($status = self::UNKNOWN)
+    public function __construct(protected $value = self::UNKNOWN)
     {
-        $this->value = $status;
     }
 
     /**
@@ -37,16 +34,16 @@ class BatchStatus
      * steps that have finished processing, but were not successful, and where
      * they should be skipped on a restart (so FAILED is the wrong status).
      */
-    const COMPLETED = 1;
-    const STARTING = 2;
-    const STARTED = 3;
-    const STOPPING = 4;
-    const STOPPED = 5;
-    const FAILED = 6;
-    const ABANDONED = 7;
-    const UNKNOWN = 8;
-    const PAUSING = 9;
-    const PAUSED = 10;
+    final public const COMPLETED = 1;
+    final public const STARTING = 2;
+    final public const STARTED = 3;
+    final public const STOPPING = 4;
+    final public const STOPPED = 5;
+    final public const FAILED = 6;
+    final public const ABANDONED = 7;
+    final public const UNKNOWN = 8;
+    final public const PAUSING = 9;
+    final public const PAUSED = 10;
 
     protected static array $statusLabels = [
         self::COMPLETED => 'COMPLETED',
@@ -64,11 +61,10 @@ class BatchStatus
     /**
      * Set the current status
      *
-     * @param mixed $value
      *
      * @return $this
      */
-    public function setValue($value)
+    public function setValue(mixed $value)
     {
         $this->value = $value;
 
@@ -180,8 +176,8 @@ class BatchStatus
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
-        return self::$statusLabels[$this->value];
+        return (string) self::$statusLabels[$this->value];
     }
 }

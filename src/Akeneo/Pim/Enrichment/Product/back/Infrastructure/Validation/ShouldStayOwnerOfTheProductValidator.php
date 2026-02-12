@@ -30,10 +30,10 @@ use Webmozart\Assert\Assert;
 final class ShouldStayOwnerOfTheProductValidator extends ConstraintValidator
 {
     public function __construct(
-        private GetOwnedCategories $getOwnedCategories,
-        private GetNonViewableCategoryCodes $getNonViewableCategoryCodes,
-        private GetCategoryCodes $getCategoryCodes,
-        private GetProductUuids $getProductUuids,
+        private readonly GetOwnedCategories $getOwnedCategories,
+        private readonly GetNonViewableCategoryCodes $getNonViewableCategoryCodes,
+        private readonly GetCategoryCodes $getCategoryCodes,
+        private readonly GetProductUuids $getProductUuids,
     ) {
     }
 

@@ -15,10 +15,10 @@ use Webmozart\Assert\Assert;
  */
 class MetricNormalizer extends AbstractValueDataNormalizer implements CacheableSupportsMethodInterface
 {
-    const LABEL_SEPARATOR = '-';
-    const MULTIPLE_FIELDS_FORMAT = 'multiple_fields';
-    const SINGLE_FIELD_FORMAT = 'single_field';
-    const UNIT_LABEL = 'unit';
+    final public const LABEL_SEPARATOR = '-';
+    final public const MULTIPLE_FIELDS_FORMAT = 'multiple_fields';
+    final public const SINGLE_FIELD_FORMAT = 'single_field';
+    final public const UNIT_LABEL = 'unit';
 
     /** @var string[] */
     protected $supportedFormats = ['flat'];
@@ -77,16 +77,14 @@ class MetricNormalizer extends AbstractValueDataNormalizer implements CacheableS
     /**
      * Get the data stored in the metric
      *
-     * @param MetricInterface $metric
      * @param bool            $withUnit
      * @param bool            $decimalsAllowed
-     *
      * @return string
      */
     public function getMetricData(MetricInterface $metric, $withUnit, $decimalsAllowed = true)
     {
         $data = $metric->getData();
-        if (null === $data || '' === $data) {
+        if (null === $data || 0 === $data) {
             return '';
         }
 
@@ -101,7 +99,6 @@ class MetricNormalizer extends AbstractValueDataNormalizer implements CacheableS
     /**
      * Merge default format option with context
      *
-     * @param array $context
      *
      * @return array
      */

@@ -20,18 +20,8 @@ class CategorySaver implements SaverInterface, BulkSaverInterface
 {
     private const LOCK_TTL_IN_SECONDS = 10;
 
-    private ObjectManager $objectManager;
-    private EventDispatcherInterface $eventDispatcher;
-    private LockFactory $lockFactory;
-
-    public function __construct(
-        ObjectManager $objectManager,
-        EventDispatcherInterface $eventDispatcher,
-        LockFactory $lockFactory,
-    ) {
-        $this->objectManager = $objectManager;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->lockFactory = $lockFactory;
+    public function __construct(private readonly ObjectManager $objectManager, private readonly EventDispatcherInterface $eventDispatcher, private readonly LockFactory $lockFactory)
+    {
     }
 
     /**
@@ -72,9 +62,7 @@ class CategorySaver implements SaverInterface, BulkSaverInterface
 
         $this->eventDispatcher->dispatch(new GenericEvent($objects, $options), StorageEvents::PRE_SAVE_ALL);
 
-        $areObjectsNew = array_map(function ($object) {
-            return null === $object->getId();
-        }, $objects);
+        $areObjectsNew = array_map(fn($object) => null === $object->getId(), $objects);
 
         foreach ($objects as $i => $object) {
             $this->validateObject($object);
@@ -131,7 +119,7 @@ class CategorySaver implements SaverInterface, BulkSaverInterface
         while (!$acquired && $errors < 3) {
             try {
                 $acquired = $lock->acquire(true);
-            } catch (LockConflictedException $ex) {
+            } catch (LockConflictedException) {
                 ++$errors;
                 continue;
             }

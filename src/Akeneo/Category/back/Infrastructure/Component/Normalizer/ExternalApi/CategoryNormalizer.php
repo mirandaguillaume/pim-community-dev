@@ -14,13 +14,8 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class CategoryNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    protected NormalizerInterface $stdNormalizer;
-    protected PositionResolverInterface $positionResolver;
-
-    public function __construct(NormalizerInterface $stdNormalizer, PositionResolverInterface $positionResolver)
+    public function __construct(protected NormalizerInterface $stdNormalizer, protected PositionResolverInterface $positionResolver)
     {
-        $this->stdNormalizer = $stdNormalizer;
-        $this->positionResolver = $positionResolver;
     }
 
     /**

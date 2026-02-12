@@ -4,17 +4,8 @@ namespace Akeneo\Pim\Structure\Component\Query\PublicApi\Association;
 
 class AssociationType
 {
-    private string $code;
-    private LabelCollection $labels;
-    private bool $isTwoWay;
-    private bool $isQuantified;
-
-    public function __construct(string $code, LabelCollection $labels, bool $isTwoWay, bool $isQuantified)
+    public function __construct(private readonly string $code, private readonly LabelCollection $labels, private readonly bool $isTwoWay, private readonly bool $isQuantified)
     {
-        $this->code = $code;
-        $this->labels = $labels;
-        $this->isTwoWay = $isTwoWay;
-        $this->isQuantified = $isQuantified;
     }
 
     public function getCode(): string

@@ -22,10 +22,10 @@ class RefreshVersioning implements TaskletInterface
     private StepExecution $stepExecution;
 
     public function __construct(
-        private LoggerInterface $logger,
-        private VersionManager $versionManager,
-        private BulkObjectDetacherInterface $bulkObjectDetacher,
-        private EntityManagerInterface $entityManager
+        private readonly LoggerInterface $logger,
+        private readonly VersionManager $versionManager,
+        private readonly BulkObjectDetacherInterface $bulkObjectDetacher,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -47,7 +47,7 @@ class RefreshVersioning implements TaskletInterface
             ->getVersionRepository()
             ->getPendingVersions($batchSize);
 
-        $nbPendings = \count($pendingVersions);
+        $nbPendings = \count((array) $pendingVersions);
 
         while ($nbPendings > 0) {
             $previousVersions = [];
@@ -71,7 +71,7 @@ class RefreshVersioning implements TaskletInterface
             $pendingVersions = $this->versionManager
                 ->getVersionRepository()
                 ->getPendingVersions($batchSize);
-            $nbPendings = count($pendingVersions);
+            $nbPendings = count((array) $pendingVersions);
         }
         $this->logger->info(sprintf('<info>%d created versions.</info>', $totalPendings));
     }

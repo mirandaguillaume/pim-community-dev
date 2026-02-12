@@ -16,7 +16,7 @@ use Akeneo\Platform\Bundle\ImportExportBundle\Domain\Model\StorageInterface;
 use Akeneo\Platform\Bundle\ImportExportBundle\Domain\TransferFilesToStorageInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-final class TransferFilesToStorage implements TransferFilesToStorageInterface
+final readonly class TransferFilesToStorage implements TransferFilesToStorageInterface
 {
     public function __construct(
         private StorageClientProvider $storageClientProvider,

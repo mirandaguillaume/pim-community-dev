@@ -61,7 +61,7 @@ class GetCategoryEndToEnd extends ApiTestCase
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
-        $content = json_decode($response->getContent(), true);
+        $content = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
         $this->assertCount(2, $content, 'response contains 2 items');
         $this->assertSame(Response::HTTP_NOT_FOUND, $content['code']);
         $this->assertSame('Category "not_found" does not exist.', $content['message']);
@@ -111,7 +111,7 @@ class GetCategoryEndToEnd extends ApiTestCase
     // @phpstan-ignore-next-line
     private function assertResponse(Response $response, array $expected): void
     {
-        $result = json_decode($response->getContent(), true);
+        $result = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         NormalizedCategoryCleaner::clean($expected);
         NormalizedCategoryCleaner::clean($result);

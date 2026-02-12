@@ -18,7 +18,7 @@ use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlags;
  *   - Quality on attributes and options
  *   - Spellcheck dictionary by locale
  */
-final class AllCriteriaFeature implements FeatureFlag
+final readonly class AllCriteriaFeature implements FeatureFlag
 {
     public function __construct(
         private FeatureFlag $onlySerenityFeature,

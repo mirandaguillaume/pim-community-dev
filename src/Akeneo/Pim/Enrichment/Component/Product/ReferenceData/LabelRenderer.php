@@ -14,12 +14,10 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ReferenceDataInterface;
 class LabelRenderer
 {
     /**
-     * @param ReferenceDataInterface $referenceData
      * @param bool                   $fallbackOnCode
      *
-     * @return string|null
      */
-    public function render(ReferenceDataInterface $referenceData, $fallbackOnCode = true)
+    public function render(ReferenceDataInterface $referenceData, $fallbackOnCode = true): ?string
     {
         if (null !== $labelProperty = $referenceData::getLabelProperty()) {
             $getter = MethodNameGuesser::guess('get', $labelProperty);
@@ -38,8 +36,6 @@ class LabelRenderer
     }
 
     /**
-     * @param ReferenceDataInterface $referenceData
-     *
      * @return string
      */
     public function getLabelProperty(ReferenceDataInterface $referenceData)

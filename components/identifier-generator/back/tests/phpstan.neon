@@ -5,9 +5,12 @@ parameters:
     level: 8
     paths:
         - %currentWorkingDirectory%/components/identifier-generator
+    reportUnmatchedIgnoredErrors: false
     ignoreErrors:
         # DBAL methods return mixed in type stubs (PHPStan 1.12+ strictness)
         - '#Parameter \#1 \$value of function intval expects array\|bool\|float\|int\|resource\|string\|null, mixed given#'
         - '#Cannot access offset string on mixed#'
         - '#Parameter \#1 \$callback of function array_map expects \(callable\(mixed\): mixed\)\|null, .strval. given#'
         - '#Parameter \#1 \$callback of function array_map expects \(callable\(mixed\): mixed\)\|null, .intval. given#'
+        # preg_match named groups may not exist in the result array
+        - "#Offset 'number' does not exist on array#"

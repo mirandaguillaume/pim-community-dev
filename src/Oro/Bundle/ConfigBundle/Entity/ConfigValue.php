@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * )
  * @ORM\Entity(repositoryClass="Oro\Bundle\ConfigBundle\Entity\Repository\ConfigValueRepository")
  */
-class ConfigValue
+class ConfigValue implements \Stringable
 {
     /**
      * @var integer
@@ -148,7 +148,7 @@ class ConfigValue
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->getValue();
     }

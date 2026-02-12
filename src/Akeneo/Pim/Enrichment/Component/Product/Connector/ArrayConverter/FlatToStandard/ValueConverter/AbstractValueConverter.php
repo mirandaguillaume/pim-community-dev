@@ -19,9 +19,6 @@ abstract class AbstractValueConverter implements ValueConverterInterface
     /** @var FieldSplitter */
     protected $fieldSplitter;
 
-    /**
-     * @param FieldSplitter $fieldSplitter
-     */
     public function __construct(FieldSplitter $fieldSplitter)
     {
         $this->fieldSplitter = $fieldSplitter;

@@ -10,12 +10,8 @@ use Ramsey\Uuid\Uuid;
 
 class FindNonExistingProductsQuery implements FindNonExistingProductsQueryInterface
 {
-    /** @var Connection */
-    private $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function byProductIdentifiers(array $productIdentifiers): array

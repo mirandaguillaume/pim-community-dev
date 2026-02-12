@@ -13,77 +13,30 @@ namespace Akeneo\Pim\Enrichment\Component\Category\CategoryTree\ReadModel;
  */
 class RootCategory
 {
-    /** @var integer */
-    private $id;
-
-    /** @var string */
-    private $code;
-
-    /** @var string */
-    private $label;
-
-    /** @var int */
-    private $numberProductsInCategory;
-
-    /** @var bool */
-    private $selected;
-
-    /**
-     * @param int    $id
-     * @param string $code
-     * @param string $label
-     * @param int    $numberProductsInCategory
-     * @param bool   $selected
-     */
-    public function __construct(
-        int $id,
-        string $code,
-        string $label,
-        int $numberProductsInCategory,
-        bool $selected
-    ) {
-        $this->id = $id;
-        $this->code = $code;
-        $this->label = $label;
-        $this->numberProductsInCategory = $numberProductsInCategory;
-        $this->selected = $selected;
+    public function __construct(private readonly int $id, private readonly string $code, private readonly string $label, private readonly int $numberProductsInCategory, private readonly bool $selected)
+    {
     }
 
-    /**
-     * @return int
-     */
     public function id(): int
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function code(): string
     {
         return $this->code;
     }
 
-    /**
-     * @return string
-     */
     public function label(): string
     {
         return $this->label;
     }
 
-    /**
-     * @return int
-     */
     public function numberProductsInCategory(): int
     {
         return $this->numberProductsInCategory;
     }
 
-    /**
-     * @return bool
-     */
     public function selected(): bool
     {
         return $this->selected;

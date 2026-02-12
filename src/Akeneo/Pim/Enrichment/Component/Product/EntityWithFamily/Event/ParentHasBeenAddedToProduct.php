@@ -16,35 +16,17 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class ParentHasBeenAddedToProduct extends Event
 {
-    /** @var ProductInterface */
-    private $variantProduct;
+    final public const EVENT_NAME = 'PARENT_HAS_BEEN_ADDED_TO_PRODUCT';
 
-    /** @var string */
-    private $parentCode;
-
-    public const EVENT_NAME = 'PARENT_HAS_BEEN_ADDED_TO_PRODUCT';
-
-    /**
-     * @param ProductInterface $variantProduct
-     * @param string           $parentCode
-     */
-    public function __construct(ProductInterface $variantProduct, string $parentCode)
+    public function __construct(private readonly ProductInterface $variantProduct, private readonly string $parentCode)
     {
-        $this->variantProduct = $variantProduct;
-        $this->parentCode = $parentCode;
     }
 
-    /**
-     * @return ProductInterface
-     */
     public function convertedProduct(): ProductInterface
     {
         return $this->variantProduct;
     }
 
-    /**
-     * @return string
-     */
     public function parentCode(): string
     {
         return $this->parentCode;

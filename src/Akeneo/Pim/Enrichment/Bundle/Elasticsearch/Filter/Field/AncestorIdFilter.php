@@ -34,20 +34,11 @@ class AncestorIdFilter extends AbstractFieldFilter
 {
     private const ANCESTOR_ID_ES_FIELD = 'ancestors.ids';
 
-    /** @var ProductModelRepositoryInterface */
-    private $productModelRepository;
-
-    /**
-     * @param ProductModelRepositoryInterface $productModelRepository
-     * @param array                           $supportedFields
-     * @param array                           $supportedOperators
-     */
     public function __construct(
-        ProductModelRepositoryInterface $productModelRepository,
+        private readonly ProductModelRepositoryInterface $productModelRepository,
         array $supportedFields,
         array $supportedOperators
     ) {
-        $this->productModelRepository = $productModelRepository;
         $this->supportedFields = $supportedFields;
         $this->supportedOperators = $supportedOperators;
     }
@@ -91,11 +82,10 @@ class AncestorIdFilter extends AbstractFieldFilter
     /**
      * Checks the value we want to filter on is valid
      *
-     * @param mixed $values
      *
      * @throws ObjectNotFoundException
      */
-    private function checkValues($values): void
+    private function checkValues(mixed $values): void
     {
         FieldFilterHelper::checkArray(self::ANCESTOR_ID_ES_FIELD, $values, static::class);
         foreach ($values as $value) {

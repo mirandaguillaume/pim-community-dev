@@ -14,25 +14,15 @@ use Akeneo\Pim\Enrichment\Component\Product\Normalizer\Standard\DateTimeNormaliz
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ConnectorProductModelNormalizer
+final readonly class ConnectorProductModelNormalizer
 {
-    /** @var ValuesNormalizer */
-    private $valuesNormalizer;
-
-    /** @var DateTimeNormalizer */
-    private $dateTimeNormalizer;
-
-    public function __construct(ValuesNormalizer $valuesNormalizer, DateTimeNormalizer $dateTimeNormalizer)
+    public function __construct(private ValuesNormalizer $valuesNormalizer, private DateTimeNormalizer $dateTimeNormalizer)
     {
-        $this->valuesNormalizer = $valuesNormalizer;
-        $this->dateTimeNormalizer = $dateTimeNormalizer;
     }
 
     public function normalizeConnectorProductModelList(ConnectorProductModelList $list): array
     {
-        return array_map(function (ConnectorProductModel $connectorProductModel): array {
-            return $this->normalizeConnectorProductModel($connectorProductModel);
-        }, $list->connectorProductModels());
+        return array_map(fn(ConnectorProductModel $connectorProductModel): array => $this->normalizeConnectorProductModel($connectorProductModel), $list->connectorProductModels());
     }
 
     public function normalizeConnectorProductModel(ConnectorProductModel $connectorProductModel): array

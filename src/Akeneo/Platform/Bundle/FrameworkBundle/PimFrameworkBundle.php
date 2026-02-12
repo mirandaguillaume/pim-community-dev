@@ -27,9 +27,9 @@ class PimFrameworkBundle extends Bundle
     {
         $url = $this->container->get('pim_framework.service.pim_url')->getPimUrl();
 
-        $scheme = parse_url($url, \PHP_URL_SCHEME);
-        $host = parse_url($url, \PHP_URL_HOST);
-        $port = (int) parse_url($url, \PHP_URL_PORT);
+        $scheme = parse_url((string) $url, \PHP_URL_SCHEME);
+        $host = parse_url((string) $url, \PHP_URL_HOST);
+        $port = (int) parse_url((string) $url, \PHP_URL_PORT);
 
         /** @var RequestContext $requestContext */
         $requestContext = $this->container->get('router')->getContext();

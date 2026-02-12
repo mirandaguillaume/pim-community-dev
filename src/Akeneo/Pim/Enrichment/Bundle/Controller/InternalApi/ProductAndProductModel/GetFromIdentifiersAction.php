@@ -23,14 +23,14 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class GetFromIdentifiersAction
 {
-    const MAX_RESULTS = 100;
+    final public const MAX_RESULTS = 100;
 
     public function __construct(
-        private ProductQueryBuilderFactoryInterface $productQueryBuilderFactory,
-        private ProductQueryBuilderFactoryInterface $productModelQueryBuilderFactory,
-        private LinkedProductsNormalizer $linkedProductsNormalizer,
-        private FetchProductAndProductModelRows $fetchProductAndProductModelRows,
-        private ValidatorInterface $validator
+        private readonly ProductQueryBuilderFactoryInterface $productQueryBuilderFactory,
+        private readonly ProductQueryBuilderFactoryInterface $productModelQueryBuilderFactory,
+        private readonly LinkedProductsNormalizer $linkedProductsNormalizer,
+        private readonly FetchProductAndProductModelRows $fetchProductAndProductModelRows,
+        private readonly ValidatorInterface $validator
     ) {
     }
 
@@ -43,7 +43,7 @@ class GetFromIdentifiersAction
 
         $channelCode = $request->query->get('channel');
         $localeCode = $request->query->get('locale');
-        $identifiers = json_decode($request->getContent(), true);
+        $identifiers = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $productRows = $this->findLinkedProductWithAssociations($identifiers['products'], $localeCode, $channelCode);
         $productModelRows = $this->findLinkedProductModelWithAssociations($identifiers['product_models'], $localeCode, $channelCode);

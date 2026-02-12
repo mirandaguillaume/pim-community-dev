@@ -12,8 +12,6 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Connector\ArrayConverter\FlatT
 class ColumnsMapper
 {
     /**
-     * @param array $row
-     * @param array $mapping
      *
      * @return array mapped row
      */

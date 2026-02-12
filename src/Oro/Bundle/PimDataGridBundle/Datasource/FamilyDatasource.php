@@ -30,11 +30,6 @@ class FamilyDatasource implements DatasourceInterface, ParameterizableInterface
     /** @var array */
     protected $parameters = [];
 
-    /**
-     * @param DatagridRepositoryInterface   $repository
-     * @param MassActionRepositoryInterface $massRepository
-     * @param HydratorInterface             $hydrator
-     */
     public function __construct(
         DatagridRepositoryInterface $repository,
         MassActionRepositoryInterface $massRepository,
@@ -95,7 +90,7 @@ class FamilyDatasource implements DatasourceInterface, ParameterizableInterface
     /**
      * {@inheritdoc}
      */
-    public function getRepository()
+    public function getRepository(): never
     {
         throw new \LogicException("No need to implement this method, design flaw in interface!");
     }
@@ -111,7 +106,7 @@ class FamilyDatasource implements DatasourceInterface, ParameterizableInterface
     /**
      * {@inheritdoc}
      */
-    public function setMassActionRepository(MassActionRepositoryInterface $massActionRepository)
+    public function setMassActionRepository(MassActionRepositoryInterface $massActionRepository): never
     {
         throw new \LogicException("No need to implement this method, design flaw in interface!");
     }

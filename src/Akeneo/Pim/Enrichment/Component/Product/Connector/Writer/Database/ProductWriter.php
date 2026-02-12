@@ -28,10 +28,6 @@ class ProductWriter implements ItemWriterInterface, StepExecutionAwareInterface,
     /** @var BulkSaverInterface */
     protected $productSaver;
 
-    /**
-     * @param VersionManager $versionManager
-     * @param BulkSaverInterface $productSaver
-     */
     public function __construct(
         VersionManager $versionManager,
         BulkSaverInterface $productSaver
@@ -70,9 +66,6 @@ class ProductWriter implements ItemWriterInterface, StepExecutionAwareInterface,
         $this->versionManager->setRealTimeVersioning($realTimeVersioning);
     }
 
-    /**
-     * @param ProductInterface $product
-     */
     protected function incrementCount(ProductInterface $product)
     {
         if ($product->getCreated()) {

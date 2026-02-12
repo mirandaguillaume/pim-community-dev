@@ -17,7 +17,7 @@ final class ProductCompletenessWithMissingAttributeCodesCollection implements \I
     /** @var ProductCompletenessWithMissingAttributeCodes[] */
     private array $completenesses = [];
 
-    public function __construct(private string $productId, array $completenesses)
+    public function __construct(private readonly string $productId, array $completenesses)
     {
         foreach ($completenesses as $completeness) {
             $this->add($completeness);

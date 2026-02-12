@@ -13,9 +13,9 @@ use Symfony\Component\Validator\Constraint;
  */
 class IsNumeric extends Constraint
 {
-    public const IS_NUMERIC = '3ee14592-14a8-4314-836f-b6177aaf7c05';
-    public const SHOULD_BE_NUMERIC_MESSAGE = 'The {{ attribute }} attribute requires a number, and the submitted {{ value }} value is not.';
-    public const SHOULD_NOT_CONTAINS_SPACE_MESSAGE = 'The {{ attribute }} attribute requires a value which does not contains space, and the submitted "{{ value }}" has at least one.';
+    final public const IS_NUMERIC = '3ee14592-14a8-4314-836f-b6177aaf7c05';
+    final public const SHOULD_BE_NUMERIC_MESSAGE = 'The {{ attribute }} attribute requires a number, and the submitted {{ value }} value is not.';
+    final public const SHOULD_NOT_CONTAINS_SPACE_MESSAGE = 'The {{ attribute }} attribute requires a value which does not contains space, and the submitted "{{ value }}" has at least one.';
 
     public string $attributeCode = '';
 }

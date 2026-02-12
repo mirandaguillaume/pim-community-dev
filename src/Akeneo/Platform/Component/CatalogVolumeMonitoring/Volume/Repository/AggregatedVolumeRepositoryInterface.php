@@ -15,8 +15,5 @@ use Akeneo\Platform\Component\CatalogVolumeMonitoring\Volume\Model\AggregatedVol
  */
 interface AggregatedVolumeRepositoryInterface
 {
-    /**
-     * @param AggregatedVolume $aggregatedVolume
-     */
     public function add(AggregatedVolume $aggregatedVolume): void;
 }

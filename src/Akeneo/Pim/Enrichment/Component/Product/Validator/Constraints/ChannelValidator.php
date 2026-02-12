@@ -20,9 +20,6 @@ class ChannelValidator extends ChoiceValidator
     /** @var ChannelRepositoryInterface */
     protected $channelRepository;
 
-    /**
-     * @param ChannelRepositoryInterface $channelRepository
-     */
     public function __construct(ChannelRepositoryInterface $channelRepository)
     {
         $this->channelRepository = $channelRepository;

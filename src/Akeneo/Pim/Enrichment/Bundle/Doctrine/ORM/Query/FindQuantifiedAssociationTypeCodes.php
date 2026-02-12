@@ -9,13 +9,10 @@ use Doctrine\DBAL\Connection;
 
 class FindQuantifiedAssociationTypeCodes implements FindQuantifiedAssociationTypeCodesInterface, CachedQueryInterface
 {
-    private Connection $connection;
-
     private ?array $cachedResult = null;
 
-    public function __construct(Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function execute(): array

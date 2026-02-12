@@ -13,8 +13,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\LocaleCode;
  */
 final class ChannelLocaleDataCollection implements \IteratorAggregate
 {
-    /** @var array */
-    private $channelLocaleData;
+    private array $channelLocaleData;
 
     public function __construct()
     {

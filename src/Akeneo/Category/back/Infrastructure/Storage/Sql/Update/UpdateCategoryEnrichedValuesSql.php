@@ -6,10 +6,10 @@ use Akeneo\Category\Application\Storage\UpdateCategoryEnrichedValues;
 use Akeneo\Category\Domain\ValueObject\ValueCollection;
 use Doctrine\DBAL\Connection;
 
-final class UpdateCategoryEnrichedValuesSql implements UpdateCategoryEnrichedValues
+final readonly class UpdateCategoryEnrichedValuesSql implements UpdateCategoryEnrichedValues
 {
     public function __construct(
-        private readonly Connection $connection,
+        private Connection $connection,
     ) {
     }
 

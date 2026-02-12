@@ -21,16 +21,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class ValidateUnitAction
 {
-    private ValidatorInterface $validator;
-
-    private NormalizerInterface $violationNormalizer;
-
-    public function __construct(
-        ValidatorInterface $validator,
-        NormalizerInterface $violationNormalizer
-    ) {
-        $this->validator = $validator;
-        $this->violationNormalizer = $violationNormalizer;
+    public function __construct(private readonly ValidatorInterface $validator, private readonly NormalizerInterface $violationNormalizer)
+    {
     }
 
     public function __invoke(Request $request): Response
@@ -49,7 +41,7 @@ class ValidateUnitAction
             if ($violations->count() > 0) {
                 return new JsonResponse($this->violationNormalizer->normalize($violations), Response::HTTP_UNPROCESSABLE_ENTITY);
             }
-        } catch (MeasurementFamilyNotFoundException $ex) {
+        } catch (MeasurementFamilyNotFoundException) {
             return new Response(null, Response::HTTP_NOT_FOUND);
         }
 
@@ -58,7 +50,7 @@ class ValidateUnitAction
 
     private function decodeRequest(Request $request): array
     {
-        $decodedRequest = json_decode($request->getContent(), true);
+        $decodedRequest = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         if (null === $decodedRequest) {
             throw new BadRequestHttpException('Invalid json message received');

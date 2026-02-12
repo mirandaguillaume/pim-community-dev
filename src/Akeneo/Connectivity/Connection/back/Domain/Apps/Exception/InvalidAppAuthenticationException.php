@@ -13,7 +13,7 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 class InvalidAppAuthenticationException extends \ErrorException
 {
     /** @var ConstraintViolationListInterface<ConstraintViolationInterface> */
-    private ConstraintViolationListInterface $constraintViolationList;
+    private readonly ConstraintViolationListInterface $constraintViolationList;
 
     /**
      * @param ConstraintViolationListInterface<ConstraintViolationInterface> $constraintViolationList

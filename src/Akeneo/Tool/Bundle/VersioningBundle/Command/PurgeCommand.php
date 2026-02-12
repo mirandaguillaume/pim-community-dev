@@ -29,7 +29,7 @@ class PurgeCommand extends Command
 
     private const JOB_CODE = 'versioning_purge';
 
-    const DEFAULT_MORE_THAN_DAYS = 90;
+    final public const DEFAULT_MORE_THAN_DAYS = 90;
 
     public function __construct(
         private readonly LoggerInterface $logger,
@@ -94,7 +94,7 @@ class PurgeCommand extends Command
         $isForced = $input->getOption('force');
 
         if (null !== $resourceFQCN && !class_exists($resourceFQCN)) {
-            $errorCallback = function ($resourceFQCN) use ($output) {
+            $errorCallback = function ($resourceFQCN) use ($output): never {
                 $output->writeln('<info>Abort the purge operation. Nothing has been deleted from the database.</info>');
                 throw new InvalidArgumentException(
                     sprintf(
@@ -152,7 +152,7 @@ class PurgeCommand extends Command
         $resourceName = $input->hasArgument('entity') ? $input->getArgument('entity') : null;
         $resourceNameLabel = null !== $resourceName ? sprintf('of %s ', $resourceName) : '';
         $operatorLabel = null !== $lessThanDays ? 'younger' : 'older';
-        $daysNumber = null !== $lessThanDays ? $lessThanDays : $moreThanDays;
+        $daysNumber = $lessThanDays ?? $moreThanDays;
 
         $output->writeln(
             sprintf(

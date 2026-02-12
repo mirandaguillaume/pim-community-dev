@@ -20,7 +20,7 @@ class StyleExtension extends AbstractExtension
     public function getFilters()
     {
         return [
-            new TwigFilter('highlight', [$this, 'highlight'])
+            new TwigFilter('highlight', $this->highlight(...))
         ];
     }
 

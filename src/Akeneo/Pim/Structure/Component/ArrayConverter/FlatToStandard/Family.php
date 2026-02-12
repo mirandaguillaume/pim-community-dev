@@ -17,9 +17,6 @@ class Family implements ArrayConverterInterface
     /** @var FieldsRequirementChecker */
     protected $fieldChecker;
 
-    /**
-     * @param FieldsRequirementChecker $fieldChecker
-     */
     public function __construct(FieldsRequirementChecker $fieldChecker)
     {
         $this->fieldChecker = $fieldChecker;
@@ -72,22 +69,20 @@ class Family implements ArrayConverterInterface
     }
 
     /**
-     * @param array  $convertedItem
      * @param string $field
-     * @param mixed  $data
      *
      * @return array
      */
-    protected function convertField(array $convertedItem, $field, $data)
+    protected function convertField(array $convertedItem, $field, mixed $data)
     {
-        if (false !== strpos($field, 'label-', 0)) {
+        if (str_contains($field, 'label-')) {
             $labelTokens = explode('-', $field);
             $labelLocale = $labelTokens[1];
             $convertedItem['labels'][$labelLocale] = $data;
-        } elseif ('' !== $data && false !== strpos($field, 'requirements-', 0)) {
+        } elseif ('' !== $data && str_contains($field, 'requirements-')) {
             $requirementsTokens = explode('-', $field);
             $requirementsLocale = $requirementsTokens[1];
-            $convertedItem['attribute_requirements'][$requirementsLocale] = explode(',', $data);
+            $convertedItem['attribute_requirements'][$requirementsLocale] = explode(',', (string) $data);
         } elseif ('' !== $data) {
             switch ($field) {
                 case 'code':
@@ -96,7 +91,7 @@ class Family implements ArrayConverterInterface
                     $convertedItem[$field] = (string) $data;
                     break;
                 case 'attributes':
-                    $convertedItem[$field] = explode(',', $data);
+                    $convertedItem[$field] = explode(',', (string) $data);
                     break;
             }
         }

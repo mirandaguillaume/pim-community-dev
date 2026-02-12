@@ -17,16 +17,12 @@ class AddMissingJobInstanceRemoveCompletenessChannelLocale extends Command
 {
     protected static $defaultName = 'akeneo:batch:add-missing-job-instance-remove-completeness-for-channel-and-locale';
 
-    const EXIT_SUCCESS_CODE = 0;
-    const EXIT_ERROR_CODE = 1;
+    final public const EXIT_SUCCESS_CODE = 0;
+    final public const EXIT_ERROR_CODE = 1;
 
-    /** @var Connection */
-    private $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
         parent::__construct();
-        $this->connection = $connection;
     }
 
     /**
@@ -63,7 +59,7 @@ SQL;
             ]);
 
             $output->writeln('The "remove_completeness_for_channel_and_locale" job instance successfully added');
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             $output->writeln("Error occurred");
             return self::EXIT_ERROR_CODE;
         }

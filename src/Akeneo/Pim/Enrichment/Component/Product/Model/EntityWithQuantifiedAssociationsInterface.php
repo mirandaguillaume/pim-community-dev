@@ -57,10 +57,6 @@ interface EntityWithQuantifiedAssociationsInterface
 
     /**
      * Hydrates quantified associations from raw quantified associations
-     *
-     * @param UuidMapping $mappedProductIds
-     * @param IdMapping $mappedProductModelIds
-     * @param array $associationTypeCodes
      */
     public function hydrateQuantifiedAssociations(
         UuidMapping $mappedProductIds,
@@ -91,9 +87,6 @@ interface EntityWithQuantifiedAssociationsInterface
 
     /**
      * Update raw quantified associations from quantified associations
-     *
-     * @param UuidMapping $uuidMappedProductIdentifiers
-     * @param IdMapping $mappedProductModelIdentifiers
      */
     public function updateRawQuantifiedAssociations(
         UuidMapping $uuidMappedProductIdentifiers,
@@ -109,13 +102,11 @@ interface EntityWithQuantifiedAssociationsInterface
 
     /**
      * Update quantified associations by merging with another quantified associations
-     * @param QuantifiedAssociationCollection $quantifiedAssociations
      */
     public function mergeQuantifiedAssociations(QuantifiedAssociationCollection $quantifiedAssociations): void;
 
     /**
      * Update quantified associations by path
-     * @param array $submittedQuantifiedAssociations
      */
     public function patchQuantifiedAssociations(array $submittedQuantifiedAssociations): void;
 }

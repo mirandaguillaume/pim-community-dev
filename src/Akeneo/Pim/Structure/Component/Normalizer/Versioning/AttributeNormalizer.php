@@ -16,28 +16,19 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class AttributeNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    const ITEM_SEPARATOR = ',';
-    const LOCALIZABLE_PATTERN = '{locale}:{value}';
-    const GROUP_SEPARATOR = '|';
-    const GLOBAL_SCOPE = 'Global';
-    const CHANNEL_SCOPE = 'Channel';
+    final public const ITEM_SEPARATOR = ',';
+    final public const LOCALIZABLE_PATTERN = '{locale}:{value}';
+    final public const GROUP_SEPARATOR = '|';
+    final public const GLOBAL_SCOPE = 'Global';
+    final public const CHANNEL_SCOPE = 'Channel';
 
     private const MAX_NUMBER_OF_ATTRIBUTE_OPTIONS_CODE = 10000;
 
     /** @var string[] */
     protected array $supportedFormats = ['flat'];
-    protected NormalizerInterface $standardNormalizer;
-    protected NormalizerInterface $translationNormalizer;
-    protected GetAttributeOptionCodes $getAttributeOptionCodes;
 
-    public function __construct(
-        NormalizerInterface $standardNormalizer,
-        NormalizerInterface $translationNormalizer,
-        GetAttributeOptionCodes $getAttributeOptionCodes
-    ) {
-        $this->standardNormalizer = $standardNormalizer;
-        $this->translationNormalizer = $translationNormalizer;
-        $this->getAttributeOptionCodes = $getAttributeOptionCodes;
+    public function __construct(protected NormalizerInterface $standardNormalizer, protected NormalizerInterface $translationNormalizer, protected GetAttributeOptionCodes $getAttributeOptionCodes)
+    {
     }
 
     /**

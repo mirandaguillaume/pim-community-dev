@@ -25,25 +25,18 @@ class FamilyFactory implements SimpleFactoryInterface
     /** @var AttributeRepositoryInterface */
     protected $attributeRepository;
 
-    /** @var string */
-    protected $familyClass;
-
     /**
-     * @param ChannelRepositoryInterface   $channelRepository
-     * @param AttributeRequirementFactory  $factory
-     * @param AttributeRepositoryInterface $attributeRepository
      * @param string                       $familyClass
      */
     public function __construct(
         ChannelRepositoryInterface $channelRepository,
         AttributeRequirementFactory $factory,
         AttributeRepositoryInterface $attributeRepository,
-        $familyClass
+        protected $familyClass
     ) {
         $this->channelRepository = $channelRepository;
         $this->factory = $factory;
         $this->attributeRepository = $attributeRepository;
-        $this->familyClass = $familyClass;
     }
 
     /**

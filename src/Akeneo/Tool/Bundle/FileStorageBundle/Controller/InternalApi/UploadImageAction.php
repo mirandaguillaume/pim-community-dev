@@ -24,7 +24,7 @@ final class UploadImageAction
     public function __construct(
         protected ValidatorInterface $validator,
         protected PathGeneratorInterface $pathGenerator,
-        private FileStorer $fileStorer,
+        private readonly FileStorer $fileStorer,
         private readonly array $supportedTypes = [],
     ) {
     }

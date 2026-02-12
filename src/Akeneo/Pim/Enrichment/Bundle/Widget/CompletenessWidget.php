@@ -18,19 +18,11 @@ class CompletenessWidget implements WidgetInterface
     /** @var UserContext */
     protected $userContext;
 
-    /** @var GetCompletenessPerChannelAndLocale */
-    private $completenessWidgetQuery;
-
-    /**
-     * @param UserContext $userContext
-     * @param GetCompletenessPerChannelAndLocale $completenessWidgetQuery
-     */
     public function __construct(
         UserContext $userContext,
-        GetCompletenessPerChannelAndLocale $completenessWidgetQuery
+        private readonly GetCompletenessPerChannelAndLocale $completenessWidgetQuery
     ) {
         $this->userContext      = $userContext;
-        $this->completenessWidgetQuery = $completenessWidgetQuery;
     }
 
     /**

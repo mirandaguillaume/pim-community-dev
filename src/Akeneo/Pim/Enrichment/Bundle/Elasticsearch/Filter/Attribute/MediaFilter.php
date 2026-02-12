@@ -19,7 +19,7 @@ use Akeneo\Tool\Component\Elasticsearch\QueryString;
  */
 class MediaFilter extends AbstractAttributeFilter implements AttributeFilterInterface
 {
-    const PATH_SUFFIX = 'original_filename';
+    final public const PATH_SUFFIX = 'original_filename';
 
     public function __construct(
         ElasticsearchFilterValidator $filterValidator,
@@ -165,11 +165,8 @@ class MediaFilter extends AbstractAttributeFilter implements AttributeFilterInte
 
     /**
      * Checks if the value is valid.
-     *
-     * @param AttributeInterface $attribute
-     * @param mixed              $value
      */
-    protected function checkValue(AttributeInterface $attribute, $value)
+    protected function checkValue(AttributeInterface $attribute, mixed $value)
     {
         FieldFilterHelper::checkString($attribute->getCode(), $value, self::class);
     }

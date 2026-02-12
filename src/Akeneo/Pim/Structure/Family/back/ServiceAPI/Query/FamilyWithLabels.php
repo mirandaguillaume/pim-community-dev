@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Structure\Family\ServiceAPI\Query;
 
-final class FamilyWithLabels
+final readonly class FamilyWithLabels
 {
     public function __construct(
         private string $code,

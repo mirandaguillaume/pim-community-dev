@@ -20,15 +20,8 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class ImmutableVariantAxesValidator extends ConstraintValidator
 {
-    /** @var EntityManagerInterface */
-    private $entityManager;
-
-    /**
-     * @param EntityManagerInterface $entityManager
-     */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
     /**
@@ -49,13 +42,9 @@ class ImmutableVariantAxesValidator extends ConstraintValidator
             return;
         }
 
-        $axisCodes = array_map(function (AttributeInterface $axis) {
-            return $axis->getCode();
-        }, $entity->getAxes()->toArray());
+        $axisCodes = array_map(fn(AttributeInterface $axis) => $axis->getCode(), $entity->getAxes()->toArray());
 
-        $originalAxisCodes = array_map(function (AttributeInterface $axis) {
-            return $axis->getCode();
-        }, $originalData['axes']->toArray());
+        $originalAxisCodes = array_map(fn(AttributeInterface $axis) => $axis->getCode(), $originalData['axes']->toArray());
 
         if (0 < count($this->getModifiedCodes($axisCodes, $originalAxisCodes))) {
             $this->context->buildViolation(
@@ -67,12 +56,6 @@ class ImmutableVariantAxesValidator extends ConstraintValidator
         }
     }
 
-    /**
-     * @param array $axisCodes
-     * @param array $originalAxisCodes
-     *
-     * @return array
-     */
     private function getModifiedCodes(array $axisCodes, array $originalAxisCodes): array
     {
         return array_merge(

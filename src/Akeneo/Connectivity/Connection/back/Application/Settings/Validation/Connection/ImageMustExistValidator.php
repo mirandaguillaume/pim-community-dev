@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class ImageMustExistValidator extends ConstraintValidator
 {
-    public function __construct(private DoesImageExistQueryInterface $doesImageExistQuery)
+    public function __construct(private readonly DoesImageExistQueryInterface $doesImageExistQuery)
     {
     }
 

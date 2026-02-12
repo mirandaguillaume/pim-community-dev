@@ -65,9 +65,7 @@ class AddProductScorePropertySpec extends ObjectBehavior
             'haveScoreProperties' => function (array $rows) {
                 foreach ($rows as $index => $row) {
                     $properties = iterator_to_array($row->additionalProperties()->getIterator());
-                    $values = array_filter($properties, function ($property) {
-                        return $property->name() === 'data_quality_insights_score';
-                    });
+                    $values = array_filter($properties, fn($property) => $property->name() === 'data_quality_insights_score');
                     if (count($values) === 0) {
                         throw new FailureException("Property not found for Row at index " . $index);
                     }

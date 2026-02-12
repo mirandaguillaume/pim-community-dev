@@ -36,11 +36,7 @@ abstract class AbstractProcessor implements StepExecutionAwareInterface, ItemPro
      */
     abstract public function process($item);
 
-    /**
-     * @param ConstraintViolationListInterface $violations
-     * @param mixed                            $item
-     */
-    protected function addWarningMessage(ConstraintViolationListInterface $violations, $item)
+    protected function addWarningMessage(ConstraintViolationListInterface $violations, mixed $item)
     {
         foreach ($violations as $violation) {
             // TODO re-format the message, property path doesn't exist for class constraint
@@ -48,7 +44,7 @@ abstract class AbstractProcessor implements StepExecutionAwareInterface, ItemPro
             if (is_object($invalidValue) && method_exists($invalidValue, '__toString')) {
                 $invalidValue = (string) $invalidValue;
             } elseif (is_object($invalidValue)) {
-                $invalidValue = get_class($invalidValue);
+                $invalidValue = $invalidValue::class;
             }
             $errors = sprintf(
                 "%s: %s: %s\n",

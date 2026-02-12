@@ -9,13 +9,10 @@ namespace Akeneo\Tool\Bundle\ElasticsearchBundle;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GetTotalFieldsLimit
+final readonly class GetTotalFieldsLimit
 {
-    private int $configurationLimit;
-
-    public function __construct(int $configurationLimit)
+    public function __construct(private int $configurationLimit)
     {
-        $this->configurationLimit = $configurationLimit;
     }
 
     public function getLimit(): int

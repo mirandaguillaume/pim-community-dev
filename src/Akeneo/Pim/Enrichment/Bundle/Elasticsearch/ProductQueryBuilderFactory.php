@@ -94,11 +94,6 @@ class ProductQueryBuilderFactory implements ProductQueryBuilderFactoryInterface
         return $pqb;
     }
 
-    /**
-     * @param array $options
-     *
-     * @return ProductQueryBuilderInterface
-     */
     protected function createProductQueryBuilder(array $options): ProductQueryBuilderInterface
     {
         $pqb = new $this->pqbClass(
@@ -113,11 +108,6 @@ class ProductQueryBuilderFactory implements ProductQueryBuilderFactoryInterface
         return $pqb;
     }
 
-    /**
-     * @param array $options
-     *
-     * @return array
-     */
     protected function resolveOptions(array $options): array
     {
         $resolver = new OptionsResolver();
@@ -136,9 +126,6 @@ class ProductQueryBuilderFactory implements ProductQueryBuilderFactoryInterface
         return $options;
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     protected function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefined([
@@ -174,9 +161,6 @@ class ProductQueryBuilderFactory implements ProductQueryBuilderFactoryInterface
         $resolver->setAllowedTypes('from', 'int');
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     protected function configureFilterOptions(OptionsResolver $resolver): void
     {
         $resolver

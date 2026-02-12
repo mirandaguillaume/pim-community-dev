@@ -12,7 +12,7 @@ use Symfony\Component\Security\Acl\Exception\InvalidDomainObjectException;
  */
 class ObjectIdentityFactory
 {
-    const ROOT_IDENTITY_TYPE = '(root)';
+    final public const ROOT_IDENTITY_TYPE = '(root)';
 
     /**
      * @var AclExtensionSelector
@@ -21,8 +21,6 @@ class ObjectIdentityFactory
 
     /**
      * Constructor
-     *
-     * @param AclExtensionSelector $extensionSelector
      */
     public function __construct(AclExtensionSelector $extensionSelector)
     {
@@ -38,7 +36,7 @@ class ObjectIdentityFactory
      *              string: The ACL extension key
      * @return ObjectIdentity
      */
-    public function root($oidOrExtensionKey)
+    public function root(\Symfony\Component\Security\Acl\Domain\ObjectIdentity|string $oidOrExtensionKey)
     {
         if ($oidOrExtensionKey instanceof ObjectIdentity) {
             $oidOrExtensionKey = $this->extensionSelector
@@ -55,7 +53,6 @@ class ObjectIdentityFactory
      * Constructs an underlying ObjectIdentity for given ObjectIdentity
      * Underlying is class level ObjectIdentity for given object level ObjectIdentity.
      *
-     * @param ObjectIdentity $oid
      * @throws InvalidAclException
      * @return ObjectIdentity
      */
@@ -85,7 +82,7 @@ class ObjectIdentityFactory
      * @throws InvalidDomainObjectException
      * @return ObjectIdentity
      */
-    public function get($val)
+    public function get(mixed $val)
     {
         try {
             $result = $this->extensionSelector
@@ -94,7 +91,7 @@ class ObjectIdentityFactory
 
             if ($result === null) {
                 $objInfo = is_object($val)
-                    ? get_class($val)
+                    ? $val::class
                     : (string)$val;
                 throw new \InvalidArgumentException(sprintf('Cannot create ObjectIdentity for: %s.', $objInfo));
             }

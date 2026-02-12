@@ -28,37 +28,16 @@ class PublishJobToQueueCommand extends Command
 {
     protected static $defaultName = 'akeneo:batch:publish-job-to-queue';
 
-    public const EXIT_SUCCESS_CODE = 0;
-
-    /** @var PublishJobToQueueInterface */
-    private $publishJobToQueue;
-
-    /** @var JobRepositoryInterface */
-    private $jobRepository;
-
-    /** @var JobRegistry */
-    private $jobRegistry;
-
-    /** @var JobParametersFactory */
-    private $jobParametersFactory;
-
-    /** @var string */
-    private $jobInstanceClass;
+    final public const EXIT_SUCCESS_CODE = 0;
 
     public function __construct(
-        PublishJobToQueueInterface $publishJobToQueue,
-        JobRepositoryInterface $jobRepository,
-        JobRegistry $jobRegistry,
-        JobParametersFactory $jobParametersFactory,
-        string $jobInstanceClass
+        private readonly PublishJobToQueueInterface $publishJobToQueue,
+        private readonly JobRepositoryInterface $jobRepository,
+        private readonly JobRegistry $jobRegistry,
+        private readonly JobParametersFactory $jobParametersFactory,
+        private readonly string $jobInstanceClass
     ) {
         parent::__construct();
-
-        $this->publishJobToQueue = $publishJobToQueue;
-        $this->jobRepository = $jobRepository;
-        $this->jobRegistry = $jobRegistry;
-        $this->jobParametersFactory = $jobParametersFactory;
-        $this->jobInstanceClass = $jobInstanceClass;
     }
 
     /**
@@ -120,7 +99,7 @@ class PublishJobToQueueCommand extends Command
         $output->writeln(
             sprintf(
                 '<info>%s %s has been successfully pushed into the queue.</info>',
-                ucfirst($jobInstance->getType()),
+                ucfirst((string) $jobInstance->getType()),
                 $jobInstance->getCode()
             )
         );
@@ -128,12 +107,6 @@ class PublishJobToQueueCommand extends Command
         return self::EXIT_SUCCESS_CODE;
     }
 
-    /**
-     * @param JobInstance    $jobInstance
-     * @param InputInterface $input
-     *
-     * @return JobParameters
-     */
     protected function createJobParameters(JobInstance $jobInstance, InputInterface $input): JobParameters
     {
         $job = $this->$this->jobRegistry->get($jobInstance->getJobName());
@@ -151,8 +124,6 @@ class PublishJobToQueueCommand extends Command
      * @param string $data
      *
      * @throws \InvalidArgumentException
-     *
-     * @return array
      */
     private function decodeConfiguration($data): array
     {
@@ -181,9 +152,6 @@ class PublishJobToQueueCommand extends Command
         throw new \InvalidArgumentException($error);
     }
 
-    /**
-     * @return EntityManagerInterface
-     */
     private function getJobManager(): EntityManagerInterface
     {
         return $this->jobRepository->getJobManager();

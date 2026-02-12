@@ -21,8 +21,8 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 class UniqueProductModelEntityValidator extends ConstraintValidator
 {
     public function __construct(
-        private FindId $findId,
-        private UniqueValuesSet $uniqueValuesSet
+        private readonly FindId $findId,
+        private readonly UniqueValuesSet $uniqueValuesSet
     ) {
     }
 

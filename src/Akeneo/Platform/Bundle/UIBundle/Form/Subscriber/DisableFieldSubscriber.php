@@ -17,25 +17,13 @@ use Symfony\Component\Form\FormEvents;
 class DisableFieldSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var string The name of the field to disable
-     */
-    protected $fieldName;
-
-    /**
-     * @var string The name of the method used to determine whether the field should be disabled
-     */
-    protected $determinator;
-
-    /**
      * Constructor
      *
      * @param string $fieldName
      * @param string $determinator
      */
-    public function __construct($fieldName, $determinator = 'getId')
+    public function __construct(protected $fieldName, protected $determinator = 'getId')
     {
-        $this->fieldName = $fieldName;
-        $this->determinator = $determinator;
     }
 
     /**
@@ -50,8 +38,6 @@ class DisableFieldSubscriber implements EventSubscriberInterface
 
     /**
      * Disable the code field
-     *
-     * @param FormEvent $event
      */
     public function postSetData(FormEvent $event)
     {
@@ -71,7 +57,6 @@ class DisableFieldSubscriber implements EventSubscriberInterface
     /**
      * Prepare form options from config
      *
-     * @param FormConfigInterface $config
      *
      * @return $config
      */

@@ -10,12 +10,8 @@ use Ramsey\Uuid\Uuid;
 
 class SqlGetProductLabels implements GetProductLabelsInterface
 {
-    /** @var Connection */
-    private $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function byIdentifiersAndLocaleAndScope(array $identifiers, string $locale, string $channel): array
@@ -52,7 +48,7 @@ SQL;
 
         $labels = [];
         foreach ($results as $result) {
-            $values = json_decode($result['raw_values'], true);
+            $values = json_decode((string) $result['raw_values'], true, 512, JSON_THROW_ON_ERROR);
 
             $productIdentifier = $result['identifier'];
             $labelCode = $result['label_code'];
@@ -95,7 +91,7 @@ SQL;
 
         $labels = [];
         foreach ($results as $result) {
-            $values = json_decode($result['raw_values'], true);
+            $values = json_decode((string) $result['raw_values'], true, 512, JSON_THROW_ON_ERROR);
 
             $productUuid = $result['uuid'];
             $labelCode = $result['label_code'];

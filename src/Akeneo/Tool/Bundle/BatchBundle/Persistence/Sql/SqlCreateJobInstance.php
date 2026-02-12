@@ -12,7 +12,7 @@ use Doctrine\DBAL\Connection;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class SqlCreateJobInstance implements CreateJobInstanceInterface
+final readonly class SqlCreateJobInstance implements CreateJobInstanceInterface
 {
     public function __construct(private Connection $connection)
     {

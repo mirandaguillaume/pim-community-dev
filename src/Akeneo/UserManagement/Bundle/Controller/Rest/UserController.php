@@ -42,24 +42,24 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class UserController
+final readonly class UserController
 {
     public function __construct(
-        private readonly TokenStorageInterface $tokenStorage,
-        private readonly NormalizerInterface $normalizer,
-        private readonly ObjectRepository $repository,
-        private readonly ObjectUpdaterInterface $updater,
-        private readonly ValidatorInterface $validator,
-        private readonly SaverInterface $saver,
-        private readonly NormalizerInterface $constraintViolationNormalizer,
-        private readonly SimpleFactoryInterface $factory,
-        private readonly RemoverInterface $remover,
-        private readonly NumberFactory $numberFactory,
-        private readonly TranslatorInterface $translator,
-        private readonly SecurityFacade $securityFacade,
-        private readonly PasswordCheckerInterface $passwordChecker,
-        private readonly UpdateUserCommandHandler $updateUserCommandHandler,
-        private readonly EditRolePermissionsUserQuery $editRolePermissionsUserQuery,
+        private TokenStorageInterface $tokenStorage,
+        private NormalizerInterface $normalizer,
+        private ObjectRepository $repository,
+        private ObjectUpdaterInterface $updater,
+        private ValidatorInterface $validator,
+        private SaverInterface $saver,
+        private NormalizerInterface $constraintViolationNormalizer,
+        private SimpleFactoryInterface $factory,
+        private RemoverInterface $remover,
+        private NumberFactory $numberFactory,
+        private TranslatorInterface $translator,
+        private SecurityFacade $securityFacade,
+        private PasswordCheckerInterface $passwordChecker,
+        private UpdateUserCommandHandler $updateUserCommandHandler,
+        private EditRolePermissionsUserQuery $editRolePermissionsUserQuery,
     ) {
     }
 
@@ -82,11 +82,6 @@ final class UserController
         return new JsonResponse($result);
     }
 
-    /**
-     * @param int $identifier
-     *
-     * @return JsonResponse
-     */
     public function getAction(int $identifier): JsonResponse
     {
         $token = $this->tokenStorage->getToken();
@@ -105,21 +100,19 @@ final class UserController
     }
 
     /**
-     * @param Request $request
-     * @param int     $identifier
      *
-     * @return Response
      * @throws UnprocessableEntityHttpException
      *
      * @AclAncestor("pim_user_user_edit")
      */
     public function postAction(Request $request, int $identifier): Response
     {
+        $normalizedViolations = [];
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');
         }
 
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         if (!$this->securityFacade->isGranted('pim_user_role_edit')) {
             unset($data['roles']);
@@ -160,7 +153,7 @@ final class UserController
             return new RedirectResponse('/');
         }
 
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $token = $this->tokenStorage->getToken();
         $currentUser = null !== $token ? $token->getUser() : null;
@@ -184,7 +177,7 @@ final class UserController
         }
 
         $user = $this->factory->create();
-        $content = json_decode($request->getContent(), true);
+        $content = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $violations = new ConstraintViolationList();
         $passwordViolations = $this->validatePasswordCreate($content);
@@ -232,7 +225,7 @@ final class UserController
 
         $baseUser = $this->getUserOr404($identifier);
         $targetUser = $baseUser->duplicate();
-        $content = \json_decode($request->getContent(), true);
+        $content = \json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $violations = new ConstraintViolationList();
         $passwordViolations = $this->validatePasswordCreate($content);
@@ -269,12 +262,6 @@ final class UserController
         return new JsonResponse($this->normalizer->normalize($targetUser, 'internal_api'));
     }
 
-    /**
-     * @param Request $request
-     * @param int     $identifier
-     *
-     * @return Response
-     */
     public function deleteAction(Request $request, int $identifier): Response
     {
         if (!$request->isXmlHttpRequest()) {
@@ -315,9 +302,6 @@ final class UserController
         return $user;
     }
 
-    /**
-     * @param array $data
-     */
     private function updateUser(int $identifier, array $data): Response
     {
         try {
@@ -354,6 +338,7 @@ final class UserController
 
     private function additionalProperties($user): array
     {
+        $decimalSeparator = [];
         $decimalSeparator['ui_locale_decimal_separator'] = $this->numberFactory
             ->create(['locale' => $user['user_default_locale']])
             ->getSymbol(\NumberFormatter::DECIMAL_SEPARATOR_SYMBOL);

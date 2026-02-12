@@ -18,7 +18,7 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  *
  */
-final class LoadEntitySubscriber implements EventSubscriber
+final readonly class LoadEntitySubscriber implements EventSubscriber
 {
     public function __construct(
         private GetUuidMappingQueryInterface $getUuidMappingQuery,

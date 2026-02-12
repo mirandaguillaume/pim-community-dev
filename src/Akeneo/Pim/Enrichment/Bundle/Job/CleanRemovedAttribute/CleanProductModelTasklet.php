@@ -17,21 +17,9 @@ class CleanProductModelTasklet implements TaskletInterface, TrackableTaskletInte
     private const BATCH_SIZE = 100;
 
     private StepExecution $stepExecution;
-    private GetProductModelIdentifiersWithRemovedAttributeInterface $getProductModelsIdentifiersWithRemovedAttribute;
-    private CountProductModelsWithRemovedAttributeInterface $countProductModelsWithRemovedAttribute;
-    private RemoveValuesFromProductModels $removeValuesFromProductModels;
-    private JobRepositoryInterface $jobRepository;
 
-    public function __construct(
-        GetProductModelIdentifiersWithRemovedAttributeInterface $getProductModelsIdentifiersWithRemovedAttribute,
-        CountProductModelsWithRemovedAttributeInterface $countProductModelsWithRemovedAttribute,
-        RemoveValuesFromProductModels $removeValuesFromProductModels,
-        JobRepositoryInterface $jobRepository
-    ) {
-        $this->getProductModelsIdentifiersWithRemovedAttribute = $getProductModelsIdentifiersWithRemovedAttribute;
-        $this->countProductModelsWithRemovedAttribute = $countProductModelsWithRemovedAttribute;
-        $this->removeValuesFromProductModels = $removeValuesFromProductModels;
-        $this->jobRepository = $jobRepository;
+    public function __construct(private readonly GetProductModelIdentifiersWithRemovedAttributeInterface $getProductModelsIdentifiersWithRemovedAttribute, private readonly CountProductModelsWithRemovedAttributeInterface $countProductModelsWithRemovedAttribute, private readonly RemoveValuesFromProductModels $removeValuesFromProductModels, private readonly JobRepositoryInterface $jobRepository)
+    {
     }
 
     public function setStepExecution(StepExecution $stepExecution)
@@ -60,7 +48,7 @@ class CleanProductModelTasklet implements TaskletInterface, TrackableTaskletInte
             self::BATCH_SIZE
         ) as $identifiers) {
             $this->removeValuesFromProductModels->forAttributeCodes($attributeCodes, $identifiers);
-            $productModelCount = count($identifiers);
+            $productModelCount = is_countable($identifiers) ? count($identifiers) : 0;
             $this->stepExecution->incrementSummaryInfo('process', $productModelCount);
             $this->stepExecution->incrementProcessedItems($productModelCount);
             $this->jobRepository->updateStepExecution($this->stepExecution);

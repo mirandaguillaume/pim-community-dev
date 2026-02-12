@@ -21,7 +21,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ComputeProductsAndAncestorsSubscriber implements EventSubscriberInterface
+final readonly class ComputeProductsAndAncestorsSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private ComputeAndPersistProductCompletenesses $computeAndPersistProductCompletenesses,
@@ -54,11 +54,9 @@ final class ComputeProductsAndAncestorsSubscriber implements EventSubscriberInte
 
         $products = array_filter(
             $products,
-            function ($product): bool {
-                return $product instanceof ProductInterface
-                    // TODO TIP-987 Remove this when decoupling PublishedProduct from Enrichment
-                    && get_class($product) !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct';
-            }
+            fn($product): bool => $product instanceof ProductInterface
+                // TODO TIP-987 Remove this when decoupling PublishedProduct from Enrichment
+                && $product::class !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct'
         );
 
         $productUuids = array_map(

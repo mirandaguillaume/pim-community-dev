@@ -24,11 +24,6 @@ class CommandLauncher
     /** @var string */
     protected $logsDir;
 
-    /**
-     * @param string $rootDir
-     * @param string $environment
-     * @param string $logsDir
-     */
     public function __construct(string $rootDir, string $environment, string $logsDir)
     {
         $this->rootDir = $rootDir;
@@ -36,10 +31,7 @@ class CommandLauncher
         $this->logsDir = $logsDir;
     }
 
-    /**
-     * @return false|string
-     */
-    protected function getPhp()
+    protected function getPhp(): false|string
     {
         $pathFinder = new PhpExecutableFinder();
 

@@ -8,20 +8,17 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    const FILTERS_KEY = 'filters';
-    const FILTERS_PATH = '[filters]';
-    const COLUMNS_PATH = '[filters][columns]';
-    const DEFAULT_FILTERS_PATH = '[filters][default]';
-
-    /** @var array */
-    protected $types;
+    final public const FILTERS_KEY = 'filters';
+    final public const FILTERS_PATH = '[filters]';
+    final public const COLUMNS_PATH = '[filters][columns]';
+    final public const DEFAULT_FILTERS_PATH = '[filters][default]';
 
     /**
      * @param $types
+     * @param mixed[] $types
      */
-    public function __construct($types)
+    public function __construct(protected $types)
     {
-        $this->types = $types;
     }
 
     /**

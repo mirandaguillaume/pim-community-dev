@@ -11,12 +11,12 @@ use Psr\Log\LoggerInterface;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class PublishPausedJobsToQueue
+final readonly class PublishPausedJobsToQueue
 {
     public function __construct(
-        private readonly JobExecutionQueueInterface $jobExecutionQueue,
-        private readonly GetPausedJobExecutionIdsInterface $getPausedJobExecutionIds,
-        private readonly LoggerInterface $logger,
+        private JobExecutionQueueInterface $jobExecutionQueue,
+        private GetPausedJobExecutionIdsInterface $getPausedJobExecutionIds,
+        private LoggerInterface $logger,
     ) {
     }
 

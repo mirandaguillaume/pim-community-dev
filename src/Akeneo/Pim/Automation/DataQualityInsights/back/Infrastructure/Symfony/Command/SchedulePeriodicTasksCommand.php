@@ -19,15 +19,9 @@ final class SchedulePeriodicTasksCommand extends Command
     protected static $defaultName = 'pim:data-quality-insights:schedule-periodic-tasks';
     protected static $defaultDescription = 'Schedule the periodic tasks of Data-Quality-Insights.';
 
-    private SchedulePeriodicTasks $schedulePeriodicTasks;
-    private FeatureFlag $featureFlag;
-
-    public function __construct(SchedulePeriodicTasks $schedulePeriodicTasks, FeatureFlag $featureFlag)
+    public function __construct(private readonly SchedulePeriodicTasks $schedulePeriodicTasks, private readonly FeatureFlag $featureFlag)
     {
         parent::__construct();
-
-        $this->schedulePeriodicTasks = $schedulePeriodicTasks;
-        $this->featureFlag = $featureFlag;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

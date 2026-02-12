@@ -11,11 +11,9 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
 class OperationCountValidator extends ConstraintValidator
 {
     private int $min = 1;
-    private int $max;
 
-    public function __construct(int $max)
+    public function __construct(private readonly int $max)
     {
-        $this->max = $max;
     }
 
     /**

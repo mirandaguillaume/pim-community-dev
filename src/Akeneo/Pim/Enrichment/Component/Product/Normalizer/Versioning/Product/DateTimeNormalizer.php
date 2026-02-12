@@ -18,15 +18,11 @@ class DateTimeNormalizer extends AbstractValueDataNormalizer implements Cacheabl
     /** @var string[] */
     protected $supportedFormats = ['csv', 'flat'];
 
-    /** @var string */
-    protected $format;
-
     /**
      * @param string $format see http://www.php.net/date
      */
-    public function __construct($format = 'c')
+    public function __construct(protected $format = 'c')
     {
-        $this->format = $format;
     }
 
     /**
@@ -55,7 +51,6 @@ class DateTimeNormalizer extends AbstractValueDataNormalizer implements Cacheabl
     /**
      * Merge default format option with context
      *
-     * @param array $context
      *
      * @return array
      */

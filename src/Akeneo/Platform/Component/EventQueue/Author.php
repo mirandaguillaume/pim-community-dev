@@ -14,21 +14,13 @@ use Webmozart\Assert\Assert;
 class Author
 {
     /** @var string */
-    const TYPE_API = 'api';
+    final public const TYPE_API = 'api';
 
     /** @var string */
-    const TYPE_UI = 'ui';
+    final public const TYPE_UI = 'ui';
 
-    /** @var string */
-    private $name;
-
-    /** @var string */
-    private $type;
-
-    private function __construct(string $name, string $type)
+    private function __construct(private readonly string $name, private readonly string $type)
     {
-        $this->name = $name;
-        $this->type = $type;
     }
 
     public static function fromUser(UserInterface $user): Author

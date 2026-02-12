@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Platform\Bundle\ImportExportBundle\Domain\Model;
 
-final class ManualUploadStorage implements StorageInterface
+final readonly class ManualUploadStorage implements StorageInterface
 {
     public const TYPE = 'manual_upload';
 

@@ -15,7 +15,7 @@ use Doctrine\DBAL\Connection;
 class FindJobType implements FindJobTypeInterface
 {
     public function __construct(
-        private Connection $connection,
+        private readonly Connection $connection,
     ) {
     }
 

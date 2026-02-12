@@ -19,7 +19,7 @@ interface AclExtensionInterface
      * @param mixed $id An id of an object to test
      * @return bool true if this class is valid ACL extension for the given object; otherwise, false
      */
-    public function supports($type, $id);
+    public function supports($type, mixed $id);
 
     /**
      * Gets a string which is identifies this ACL extension.
@@ -41,7 +41,7 @@ interface AclExtensionInterface
      * @param string|null $permission If null checks all permissions; otherwise, check only the given permission
      * @throws InvalidAclMaskException
      */
-    public function validateMask($mask, $object, $permission = null);
+    public function validateMask($mask, mixed $object, $permission = null);
 
     /**
      * Constructs an ObjectIdentity for the given object
@@ -49,7 +49,7 @@ interface AclExtensionInterface
      * @param mixed $val A domain object, object identity descriptor (id:type) or ACL annotation
      * @return ObjectIdentity
      */
-    public function getObjectIdentity($val);
+    public function getObjectIdentity(mixed $val);
 
     /**
      * Gets the new instance of the mask builder which can be used to build permission bitmask
@@ -167,7 +167,6 @@ interface AclExtensionInterface
     /**
      * Gets all permissions allowed for a domain object represented by te given object identity.
      *
-     * @param ObjectIdentity $oid
      * @return string[]
      */
     public function getAllowedPermissions(ObjectIdentity $oid);

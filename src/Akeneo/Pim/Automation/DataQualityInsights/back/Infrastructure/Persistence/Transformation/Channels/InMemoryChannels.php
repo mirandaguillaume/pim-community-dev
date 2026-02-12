@@ -8,17 +8,15 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\T
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class InMemoryChannels implements ChannelsInterface
+final readonly class InMemoryChannels implements ChannelsInterface
 {
-    private array $channelsIdsByCodes;
     private array $channelsCodesByIds;
 
     /**
      * @param array<string, int> $channelsIdsByCodes
      */
-    public function __construct(array $channelsIdsByCodes)
+    public function __construct(private array $channelsIdsByCodes)
     {
-        $this->channelsIdsByCodes = $channelsIdsByCodes;
         $this->channelsCodesByIds = array_flip($channelsIdsByCodes);
     }
 

@@ -15,11 +15,10 @@ class QueryCountCalculator
     /**
      * Calculates total count of query records
      *
-     * @param Query $query
      * @param \Doctrine\Common\Collections\ArrayCollection|array|null $parameters Query parameters.
      * @return integer
      */
-    public static function calculateCount(Query $query, $parameters = null)
+    public static function calculateCount(Query $query, \Doctrine\Common\Collections\ArrayCollection|array|null $parameters = null)
     {
         /** @var QueryCountCalculator $instance */
         $instance = new static();
@@ -29,11 +28,10 @@ class QueryCountCalculator
     /**
      * Calculates total count of query records
      *
-     * @param Query $query
      * @param \Doctrine\Common\Collections\ArrayCollection|array|null $parameters Query parameters.
      * @return integer
      */
-    public function getCount(Query $query, $parameters = null)
+    public function getCount(Query $query, \Doctrine\Common\Collections\ArrayCollection|array|null $parameters = null)
     {
         if (!empty($parameters)) {
             $query = clone $query;
@@ -42,7 +40,7 @@ class QueryCountCalculator
         $parser = new Parser($query);
         $parserResult = $parser->parse();
         $parameterMappings = $parserResult->getParameterMappings();
-        list($sqlParameters, $parameterTypes) = $this->processParameterMappings($query, $parameterMappings);
+        [$sqlParameters, $parameterTypes] = $this->processParameterMappings($query, $parameterMappings);
 
         $statement = $query->getEntityManager()->getConnection()->executeQuery(
             'SELECT COUNT(*) FROM (' . $query->getSQL() .') AS e',
@@ -55,7 +53,6 @@ class QueryCountCalculator
     }
 
     /**
-     * @param Query                              $query
      * @param array                              $paramMappings
      * @throws \Doctrine\ORM\Query\QueryException
      * @return array
@@ -86,7 +83,7 @@ class QueryCountCalculator
             $value = [$value];
             $countValue = count($value);
 
-            for ($i = 0, $l = count($sqlPositions); $i < $l; $i++) {
+            for ($i = 0, $l = is_countable($sqlPositions) ? count($sqlPositions) : 0; $i < $l; $i++) {
                 $sqlParams[$sqlPositions[$i]] = $value[($i % $countValue)];
             }
         }

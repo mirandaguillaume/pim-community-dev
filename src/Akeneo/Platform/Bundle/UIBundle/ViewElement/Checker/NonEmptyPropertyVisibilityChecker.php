@@ -27,7 +27,7 @@ class NonEmptyPropertyVisibilityChecker implements VisibilityCheckerInterface
 
         try {
             $value = $accessor->getValue($context, $config['property']);
-        } catch (NoSuchPropertyException $e) {
+        } catch (NoSuchPropertyException) {
             $value = null;
         }
 

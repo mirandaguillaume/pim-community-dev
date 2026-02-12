@@ -16,16 +16,16 @@ use Symfony\Component\DependencyInjection\Reference;
 class RegisterJobsPass implements CompilerPassInterface
 {
     /** @staticvar string The registry id */
-    const REGISTRY_ID = 'akeneo_batch.job.job_registry';
+    final public const REGISTRY_ID = 'akeneo_batch.job.job_registry';
 
     /** @staticvar string */
-    const SERVICE_TAG = 'akeneo_batch.job';
+    final public const SERVICE_TAG = 'akeneo_batch.job';
 
     /** @staticvar string */
-    const DEFAULT_CONNECTOR = 'default';
+    final public const DEFAULT_CONNECTOR = 'default';
 
     /** @staticvar string */
-    const DEFAULT_JOB_TYPE = 'default';
+    final public const DEFAULT_JOB_TYPE = 'default';
 
     /**
      * {@inheritdoc}
@@ -39,8 +39,8 @@ class RegisterJobsPass implements CompilerPassInterface
         $registryDefinition = $container->getDefinition(self::REGISTRY_ID);
         foreach ($container->findTaggedServiceIds(self::SERVICE_TAG) as $serviceId => $tags) {
             foreach ($tags as $tag) {
-                $connector = isset($tag['connector']) ? $tag['connector'] : self::DEFAULT_CONNECTOR;
-                $type = isset($tag['type']) ? $tag['type'] : self::DEFAULT_JOB_TYPE;
+                $connector = $tag['connector'] ?? self::DEFAULT_CONNECTOR;
+                $type = $tag['type'] ?? self::DEFAULT_JOB_TYPE;
                 $feature = $tag['feature'] ?? null;
                 $job = new Reference($serviceId);
                 $registryDefinition->addMethodCall('register', [$job, $type, $connector, $feature]);

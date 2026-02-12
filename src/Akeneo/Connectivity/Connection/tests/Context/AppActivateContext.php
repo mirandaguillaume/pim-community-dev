@@ -34,9 +34,7 @@ class AppActivateContext extends PimContext
         /** @var Element $page */
         $page = $this->getCurrentPage();
 
-        $appTitle = $this->spin(function () use ($appName, $page) {
-            return $page->find('named', ['content', $appName]);
-        }, sprintf('Cannot find the %s app', $appName));
+        $appTitle = $this->spin(fn() => $page->find('named', ['content', $appName]), sprintf('Cannot find the %s app', $appName));
 
         Assert::assertNotNull($appTitle);
     }
@@ -74,10 +72,8 @@ class AppActivateContext extends PimContext
     {
         $session = $this->getSession();
 
-        $this->spin(function () use ($session, $url) {
-            return $url === $session->getCurrentUrl()
-                || preg_match(sprintf('|^%s$|', $url), $session->getCurrentUrl());
-        }, sprintf('Current url is not %s, got %s', $url, $session->getCurrentUrl()));
+        $this->spin(fn() => $url === $session->getCurrentUrl()
+            || preg_match(sprintf('|^%s$|', $url), $session->getCurrentUrl()), sprintf('Current url is not %s, got %s', $url, $session->getCurrentUrl()));
     }
 
     /**
@@ -195,7 +191,7 @@ SQL;
         );
 
         $response = $client->getResponse();
-        $payload = json_decode($response->getContent(), true);
+        $payload = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         Assert::assertEquals([
             'access_token',
@@ -205,7 +201,7 @@ SQL;
 
         Assert::assertEquals('bearer', $payload['token_type']);
 
-        $scopes = \explode(' ', $payload['scope']);
+        $scopes = \explode(' ', (string) $payload['scope']);
         Assert::assertContains('read_products', $scopes);
         Assert::assertContains('write_products', $scopes);
         Assert::assertContains('delete_products', $scopes);
@@ -240,7 +236,7 @@ SQL;
         );
 
         $response = $client->getResponse();
-        $payload = json_decode($response->getContent(), true);
+        $payload = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         Assert::assertEquals([
             'access_token',
@@ -251,7 +247,7 @@ SQL;
 
         Assert::assertEquals('bearer', $payload['token_type']);
 
-        $scopes = \explode(' ', $payload['scope']);
+        $scopes = \explode(' ', (string) $payload['scope']);
         Assert::assertContains('read_products', $scopes);
         Assert::assertContains('write_products', $scopes);
         Assert::assertContains('delete_products', $scopes);

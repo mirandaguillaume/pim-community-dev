@@ -14,20 +14,8 @@ use Akeneo\Tool\Component\Localization\Localizer\LocalizerInterface;
  */
 class ProductModelCsvImport implements DefaultValuesProviderInterface
 {
-    /** @var DefaultValuesProviderInterface */
-    private $simpleProvider;
-
-    /** @var array */
-    private $supportedJobNames;
-
-    /**
-     * @param DefaultValuesProviderInterface $simpleProvider
-     * @param array                          $supportedJobNames
-     */
-    public function __construct(DefaultValuesProviderInterface $simpleProvider, array $supportedJobNames)
+    public function __construct(private readonly DefaultValuesProviderInterface $simpleProvider, private readonly array $supportedJobNames)
     {
-        $this->simpleProvider = $simpleProvider;
-        $this->supportedJobNames = $supportedJobNames;
     }
 
     /**

@@ -24,13 +24,9 @@ class ValidMetricValidator extends ConstraintValidator
     /** @var PropertyAccessorInterface */
     protected $propertyAccessor;
 
-    /** @var LegacyMeasurementProvider */
-    private $legacyMeasureProvider;
-
-    public function __construct(PropertyAccessorInterface $propertyAccessor, LegacyMeasurementProvider $provider)
+    public function __construct(PropertyAccessorInterface $propertyAccessor, private readonly LegacyMeasurementProvider $legacyMeasureProvider)
     {
         $this->propertyAccessor = $propertyAccessor;
-        $this->legacyMeasureProvider = $provider;
     }
 
     /**

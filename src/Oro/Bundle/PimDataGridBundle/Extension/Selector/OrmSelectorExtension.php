@@ -21,7 +21,7 @@ class OrmSelectorExtension extends AbstractExtension
     /**
      * @var string
      */
-    const COLUMN_SELECTOR_PATH = 'selector';
+    final public const COLUMN_SELECTOR_PATH = 'selector';
 
     /**
      * @var SelectorInterface[]
@@ -57,7 +57,6 @@ class OrmSelectorExtension extends AbstractExtension
      * Add selector to array of available selectors
      *
      * @param string            $name
-     * @param SelectorInterface $selector
      *
      * @return $this
      */
@@ -102,7 +101,6 @@ class OrmSelectorExtension extends AbstractExtension
     /**
      * Prepare selectors array
      *
-     * @param DatagridConfiguration $config
      *
      * @return SelectorInterface[]
      */

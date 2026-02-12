@@ -23,10 +23,6 @@ class CategoryFieldSetter extends AbstractFieldSetter
     /** @var IdentifiableObjectRepositoryInterface */
     protected $categoryRepository;
 
-    /**
-     * @param IdentifiableObjectRepositoryInterface $categoryRepository
-     * @param array                                 $supportedFields
-     */
     public function __construct(
         IdentifiableObjectRepositoryInterface $categoryRepository,
         array $supportedFields
@@ -60,18 +56,14 @@ class CategoryFieldSetter extends AbstractFieldSetter
 
         $formerCategories = $entity->getCategories();
         $categoriesToAdd = $categories->filter(
-            function (CategoryInterface $category) use ($formerCategories) {
-                return !$formerCategories->contains($category);
-            }
+            fn(CategoryInterface $category) => !$formerCategories->contains($category)
         );
         foreach ($categoriesToAdd as $categoryToAdd) {
             $entity->addCategory($categoryToAdd);
         }
 
         $categoriesToRemove = $formerCategories->filter(
-            function (Categoryinterface $category) use ($categories) {
-                return !$categories->contains($category);
-            }
+            fn(Categoryinterface $category) => !$categories->contains($category)
         );
         foreach ($categoriesToRemove as $categoryToRemove) {
             $entity->removeCategory($categoryToRemove);
@@ -82,11 +74,10 @@ class CategoryFieldSetter extends AbstractFieldSetter
      * Check if data are valid
      *
      * @param string $field
-     * @param mixed  $data
      *
      * @throws InvalidPropertyTypeException
      */
-    protected function checkData($field, $data)
+    protected function checkData($field, mixed $data)
     {
         if (!is_array($data)) {
             throw InvalidPropertyTypeException::arrayExpected(

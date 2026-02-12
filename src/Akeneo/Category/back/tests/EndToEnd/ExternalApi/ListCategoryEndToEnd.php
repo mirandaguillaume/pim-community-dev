@@ -686,6 +686,7 @@ JSON;
      */
     public function getStandardizedCategories(bool $withPosition, bool $withEnrichedValues): array
     {
+        $categories = [];
         $categories['master'] = [
             '_links' => [
                 'self' => [
@@ -857,7 +858,7 @@ JSON;
     {
         $this->assertSame(Response::HTTP_OK, $actualResponse->getStatusCode());
 
-        $responseContent = json_decode($actualResponse->getContent(), true);
+        $responseContent = json_decode($actualResponse->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $this->normalizeCategories($responseContent['_embedded']['items']);
         $this->normalizeCategories($expectedJson['_embedded']['items']);

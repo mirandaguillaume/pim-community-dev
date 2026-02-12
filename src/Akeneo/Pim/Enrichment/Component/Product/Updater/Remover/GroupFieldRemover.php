@@ -20,10 +20,6 @@ class GroupFieldRemover extends AbstractFieldRemover
     /** @var IdentifiableObjectRepositoryInterface */
     protected $groupRepository;
 
-    /**
-     * @param IdentifiableObjectRepositoryInterface $groupRepository
-     * @param array                                 $supportedFields
-     */
     public function __construct(
         IdentifiableObjectRepositoryInterface $groupRepository,
         array $supportedFields
@@ -41,7 +37,7 @@ class GroupFieldRemover extends AbstractFieldRemover
     {
         if (!$product instanceof ProductInterface) {
             throw InvalidObjectException::objectExpected(
-                \is_object($product) ? \get_class($product) : \gettype($product),
+                get_debug_type($product),
                 ProductInterface::class
             );
         }
@@ -74,11 +70,10 @@ class GroupFieldRemover extends AbstractFieldRemover
      * Check if data are valid
      *
      * @param string $field
-     * @param mixed  $data
      *
      * @throws InvalidPropertyTypeException
      */
-    protected function checkData($field, $data)
+    protected function checkData($field, mixed $data)
     {
         if (!is_array($data)) {
             throw InvalidPropertyTypeException::arrayExpected(

@@ -26,7 +26,7 @@ class AddContextSubscriberSpec extends ObjectBehavior
 
     function it_is_an_event_listener()
     {
-        $this->shouldImplement('Symfony\Component\EventDispatcher\EventSubscriberInterface');
+        $this->shouldImplement(\Symfony\Component\EventDispatcher\EventSubscriberInterface::class);
     }
 
     function it_subscribes_to_the_before_job_execution_event()

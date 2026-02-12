@@ -21,7 +21,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class AjaxChoiceFilterType extends ChoiceFilterType
 {
     /** @staticvar string */
-    const NAME = 'pim_type_ajax_choice_filter';
+    final public const NAME = 'pim_type_ajax_choice_filter';
 
     /**
      * {@inheritdoc}
@@ -77,9 +77,7 @@ class AjaxChoiceFilterType extends ChoiceFilterType
         $view->vars['preload_choices'] = $options['preload_choices'];
         $view->vars['choice_url'] = $options['choice_url'];
         $view->vars['choice_url_params'] = $options['choice_url_params'];
-        $view->vars['empty_choice'] = isset($options['field_options']['attr']['empty_choice']) ?
-            $options['field_options']['attr']['empty_choice'] :
-            false;
+        $view->vars['empty_choice'] = $options['field_options']['attr']['empty_choice'] ?? false;
     }
 
     /**

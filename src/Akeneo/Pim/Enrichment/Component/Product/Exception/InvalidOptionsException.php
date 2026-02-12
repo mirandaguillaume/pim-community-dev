@@ -14,10 +14,9 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyException;
  */
 class InvalidOptionsException extends InvalidPropertyException
 {
-    const VALID_ENTITY_CODE_EXPECTED_CODES = 306;
+    final public const VALID_ENTITY_CODE_EXPECTED_CODES = 306;
 
-    /** @var array */
-    private $propertyValues;
+    private readonly array $propertyValues;
 
     /**
      * @param string          $propertyName
@@ -43,13 +42,7 @@ class InvalidOptionsException extends InvalidPropertyException
     /**
      * Build an exception when the data are invalid entity codes.
      *
-     * @param string $propertyName
-     * @param string $key
-     * @param string $because
-     * @param string $className
-     * @param array  $values
      *
-     * @return InvalidOptionsException
      */
     public static function validEntityListCodesExpected(
         string $propertyName,
@@ -70,17 +63,11 @@ class InvalidOptionsException extends InvalidPropertyException
         );
     }
 
-    /**
-     * @return array
-     */
     public function toArray(): array
     {
         return $this->propertyValues;
     }
 
-    /**
-     * @return string
-     */
     public function toString(): string
     {
         return implode(', ', $this->propertyValues);

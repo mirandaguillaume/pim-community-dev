@@ -20,8 +20,8 @@ class IdFilter extends AbstractFieldFilter
     public function __construct(
         array $supportedFields,
         array $supportedOperators,
-        private string $prefix,
-        private Connection $connection
+        private readonly string $prefix,
+        private readonly Connection $connection
     ) {
         $this->supportedFields = $supportedFields;
         $this->supportedOperators = $supportedOperators;
@@ -46,9 +46,7 @@ class IdFilter extends AbstractFieldFilter
 
         if (is_array($value)) {
             $value = array_map(
-                function ($value) {
-                    return (string) $this->prefix.$value;
-                },
+                fn($value) => (string) $this->prefix.$value,
                 $value
             );
         } else {
@@ -109,9 +107,8 @@ class IdFilter extends AbstractFieldFilter
      * Checks that the value is a number.
      *
      * @param string $operator
-     * @param mixed  $value
      */
-    protected function checkValue($operator, $value)
+    protected function checkValue($operator, mixed $value)
     {
         if (in_array($operator, [Operators::EQUALS, Operators::NOT_EQUAL])) {
             FieldFilterHelper::checkString('id', $value, static::class);
@@ -134,11 +131,11 @@ class IdFilter extends AbstractFieldFilter
     {
         $ids = [];
         foreach ($values as $value) {
-            if (\strpos($value, 'product_') === false || \strpos($value, 'product_model_') !== false) {
+            if (!str_contains((string) $value, 'product_') || str_contains((string) $value, 'product_model_')) {
                 continue;
             }
 
-            $id = \str_replace('product_', '', $value);
+            $id = \str_replace('product_', '', (string) $value);
             if (\is_numeric($id)) {
                 $ids[] = $id;
             }

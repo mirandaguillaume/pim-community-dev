@@ -7,14 +7,8 @@ use Twig\Extension\AbstractExtension;
 
 class UiExtension extends AbstractExtension
 {
-    protected $placeholders;
-
-    protected $wrapClassName;
-
-    public function __construct($placeholders, $wrapClassName)
+    public function __construct(protected $placeholders, protected $wrapClassName)
     {
-        $this->placeholders = $placeholders;
-        $this->wrapClassName = $wrapClassName;
     }
 
     /**

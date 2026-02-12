@@ -22,15 +22,15 @@ use Webmozart\Assert\Assert;
  *  locale?: string|null
  * }
  */
-final class ReferenceEntityProperty implements PropertyInterface
+final readonly class ReferenceEntityProperty implements PropertyInterface
 {
     private const TYPE = 'reference_entity';
 
     private function __construct(
-        private readonly string $attributeCode,
-        private readonly Process $process,
-        private readonly ?string $scope = null,
-        private readonly ?string $locale = null
+        private string $attributeCode,
+        private Process $process,
+        private ?string $scope = null,
+        private ?string $locale = null
     ) {
         Assert::stringNotEmpty($this->attributeCode);
     }

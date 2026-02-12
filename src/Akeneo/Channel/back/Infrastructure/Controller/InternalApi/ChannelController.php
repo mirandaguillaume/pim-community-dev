@@ -31,15 +31,15 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class ChannelController
 {
     public function __construct(
-        private ChannelRepositoryInterface $channelRepository,
-        private NormalizerInterface $normalizer,
-        private ObjectUpdaterInterface $updater,
-        private SaverInterface $saver,
-        private RemoverInterface $remover,
-        private SimpleFactoryInterface $channelFactory,
-        private ValidatorInterface $validator,
-        private SecurityFacadeInterface $securityFacade,
-        private FindCategoryTrees $findCategoryTrees
+        private readonly ChannelRepositoryInterface $channelRepository,
+        private readonly NormalizerInterface $normalizer,
+        private readonly ObjectUpdaterInterface $updater,
+        private readonly SaverInterface $saver,
+        private readonly RemoverInterface $remover,
+        private readonly SimpleFactoryInterface $channelFactory,
+        private readonly ValidatorInterface $validator,
+        private readonly SecurityFacadeInterface $securityFacade,
+        private readonly FindCategoryTrees $findCategoryTrees
     ) {
     }
 
@@ -79,7 +79,6 @@ class ChannelController
 
     /**
      * Gets Category tree without apply user permission
-     * @return JsonResponse
      */
     public function listCategoryTreeAction(): JsonResponse
     {
@@ -96,7 +95,7 @@ class ChannelController
     {
         if (!$this->securityFacade->isGranted('pim_enrich_channel_create')) {
             throw AccessDeniedException::create(
-                __CLASS__,
+                self::class,
                 __METHOD__,
             );
         }
@@ -117,7 +116,7 @@ class ChannelController
     {
         if (!$this->securityFacade->isGranted('pim_enrich_channel_edit')) {
             throw AccessDeniedException::create(
-                __CLASS__,
+                self::class,
                 __METHOD__,
             );
         }
@@ -138,7 +137,7 @@ class ChannelController
     {
         if (!$this->securityFacade->isGranted('pim_enrich_channel_remove')) {
             throw AccessDeniedException::create(
-                __CLASS__,
+                self::class,
                 __METHOD__,
             );
         }
@@ -177,7 +176,7 @@ class ChannelController
 
     private function saveChannel(ChannelInterface $channel, Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
         $this->updater->update($channel, $data);
 
         $violations = $this->validator->validate($channel);

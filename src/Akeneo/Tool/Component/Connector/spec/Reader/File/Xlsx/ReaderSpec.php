@@ -169,9 +169,6 @@ class ReaderSpec extends ObjectBehavior
         return ['SKU-001', 'door',];
     }
 
-    /**
-     * @return string
-     */
     private function initFilePath(): string
     {
         return __DIR__ . DIRECTORY_SEPARATOR .
@@ -182,7 +179,6 @@ class ReaderSpec extends ObjectBehavior
     }
 
     /**
-     * @param Collaborator $stepExecution
      * @param $jobParameters
      */
     private function initStepExecution(Collaborator $stepExecution, $jobParameters): void
@@ -196,7 +192,6 @@ class ReaderSpec extends ObjectBehavior
     }
 
     /**
-     * @param Collaborator $fileIteratorFactory
      * @param $fileIterator
      */
     private function initFileIterator(Collaborator $fileIteratorFactory, $fileIterator): void

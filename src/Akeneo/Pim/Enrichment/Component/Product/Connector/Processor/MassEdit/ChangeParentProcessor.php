@@ -48,8 +48,6 @@ class ChangeParentProcessor extends AbstractProcessor
 
     /**
      * @param mixed $product
-     *
-     * @return null|EntityWithFamilyVariantInterface
      */
     public function process($product): ?EntityWithFamilyVariantInterface
     {
@@ -74,11 +72,10 @@ class ChangeParentProcessor extends AbstractProcessor
     /**
      * Validate the given object is the expected product type
      *
-     * @param mixed $product
      *
      * @throws InvalidObjectException
      */
-    private function validateIsProduct($product): void
+    private function validateIsProduct(mixed $product): void
     {
         if (! $product instanceof EntityWithFamilyVariantInterface) {
             throw InvalidObjectException::objectExpected(ClassUtils::getClass($product), EntityWithFamilyVariantInterface::class);
@@ -87,8 +84,6 @@ class ChangeParentProcessor extends AbstractProcessor
 
     /**
      * Get the new parent code from the input value
-     *
-     * @return string
      */
     private function getNewParentCode(): string
     {
@@ -100,10 +95,7 @@ class ChangeParentProcessor extends AbstractProcessor
     /**
      * Update the product entity with the new parent value
      *
-     * @param EntityWithFamilyVariantInterface $product
-     * @param string $newParentCode
      *
-     * @return void
      */
     private function updateEntity(EntityWithFamilyVariantInterface $product, string $newParentCode): void
     {
@@ -119,9 +111,7 @@ class ChangeParentProcessor extends AbstractProcessor
     /**
      * Check if the product to update is valid
      *
-     * @param EntityWithFamilyVariantInterface $product
      *
-     * @return bool
      */
     private function isProductValid(EntityWithFamilyVariantInterface $product): bool
     {

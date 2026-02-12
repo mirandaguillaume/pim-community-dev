@@ -27,17 +27,17 @@ use OAuth2\Model\IOAuth2AuthCode;
 class CreateAccessToken implements CreateAccessTokenInterface
 {
     public function __construct(
-        private IOAuth2GrantCode $storage,
-        private ClientProviderInterface $clientProvider,
-        private RandomCodeGeneratorInterface $randomCodeGenerator,
-        private GetAppConfirmationQueryInterface $appConfirmationQuery,
-        private UserRepositoryInterface $userRepository,
-        private CreateJsonWebToken $createJsonWebToken,
-        private GetConnectedAppScopesQueryInterface $getConnectedAppScopesQuery,
-        private GetUserConsentedAuthenticationUuidQueryInterface $getUserConsentedAuthenticationUuidQuery,
-        private GetUserConsentedAuthenticationScopesQueryInterface $getUserConsentedAuthenticationScopesQuery,
-        private GetAccessTokenQueryInterface $getAccessTokenQuery,
-        private DeleteAccessTokensQueryInterface $deleteAccessTokensQuery,
+        private readonly IOAuth2GrantCode $storage,
+        private readonly ClientProviderInterface $clientProvider,
+        private readonly RandomCodeGeneratorInterface $randomCodeGenerator,
+        private readonly GetAppConfirmationQueryInterface $appConfirmationQuery,
+        private readonly UserRepositoryInterface $userRepository,
+        private readonly CreateJsonWebToken $createJsonWebToken,
+        private readonly GetConnectedAppScopesQueryInterface $getConnectedAppScopesQuery,
+        private readonly GetUserConsentedAuthenticationUuidQueryInterface $getUserConsentedAuthenticationUuidQuery,
+        private readonly GetUserConsentedAuthenticationScopesQueryInterface $getUserConsentedAuthenticationScopesQuery,
+        private readonly GetAccessTokenQueryInterface $getAccessTokenQuery,
+        private readonly DeleteAccessTokensQueryInterface $deleteAccessTokensQuery,
     ) {
     }
 

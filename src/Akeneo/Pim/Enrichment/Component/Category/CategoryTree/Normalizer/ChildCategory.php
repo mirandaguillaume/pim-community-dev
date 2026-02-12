@@ -14,8 +14,6 @@ class ChildCategory
 {
     /**
      * @param ReadModel\ChildCategory[] $categories
-     *
-     * @return array
      */
     public function normalizeList(array $categories): array
     {
@@ -41,9 +39,7 @@ class ChildCategory
     /**
      * Ideally, CSS calculation should be done on front-end side.
      *
-     * @param ReadModel\ChildCategory $category
      *
-     * @return string
      */
     private function state(ReadModel\ChildCategory $category): string
     {

@@ -12,11 +12,11 @@ namespace Akeneo\Connectivity\Connection\Domain\Webhook\Model\Read;
 class ConnectionWebhook
 {
     public function __construct(
-        private string $connectionCode,
-        private bool $enabled,
-        private ?string $secret = null,
-        private ?string $url = null,
-        private bool $isUsingUuid = false,
+        private readonly string $connectionCode,
+        private readonly bool $enabled,
+        private readonly ?string $secret = null,
+        private readonly ?string $url = null,
+        private readonly bool $isUsingUuid = false,
     ) {
     }
 

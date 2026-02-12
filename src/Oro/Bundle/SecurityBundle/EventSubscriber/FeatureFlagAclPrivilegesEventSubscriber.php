@@ -17,7 +17,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class FeatureFlagAclPrivilegesEventSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private AclFeatureFlags $aclFeatureFlags
+        private readonly AclFeatureFlags $aclFeatureFlags
     ) {
     }
 

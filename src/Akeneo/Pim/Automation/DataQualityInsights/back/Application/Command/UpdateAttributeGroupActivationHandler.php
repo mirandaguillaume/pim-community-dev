@@ -16,13 +16,13 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\AttributeGroupC
 use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-final class UpdateAttributeGroupActivationHandler
+final readonly class UpdateAttributeGroupActivationHandler
 {
     public function __construct(
-        private readonly AttributeGroupActivationRepositoryInterface $attributeGroupActivationRepository,
-        private readonly MessageBusInterface $messageBus,
-        private readonly Clock $clock,
-        private readonly FeatureFlag $dqiUcsEventFeatureFlag,
+        private AttributeGroupActivationRepositoryInterface $attributeGroupActivationRepository,
+        private MessageBusInterface $messageBus,
+        private Clock $clock,
+        private FeatureFlag $dqiUcsEventFeatureFlag,
     ) {
     }
 

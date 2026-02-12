@@ -16,20 +16,11 @@ use Akeneo\Tool\Component\StorageUtils\Cursor\CursorInterface;
  */
 class IdentifierResultCursor implements CursorInterface, ResultAwareInterface
 {
-    /** @var \ArrayIterator */
-    private $identifiers;
+    private readonly \ArrayIterator $identifiers;
 
-    /** @var int */
-    private $totalCount;
-
-    /** @var ElasticsearchResult */
-    private $result;
-
-    public function __construct(array $identifiers, int $totalCount, ElasticsearchResult $result)
+    public function __construct(array $identifiers, private readonly int $totalCount, private readonly ElasticsearchResult $result)
     {
         $this->identifiers = new \ArrayIterator($identifiers);
-        $this->totalCount = $totalCount;
-        $this->result = $result;
     }
 
     /**

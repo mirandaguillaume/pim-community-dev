@@ -225,9 +225,9 @@ final class ProductModelCriterionEvaluationRepositoryIntegration extends DataQua
         $localeEn = new LocaleCode('en_US');
 
         $evaluationResult = (new Write\CriterionEvaluationResult())
-            ->addRate($channelEcommerce, $localeEn, new Rate(rand(0, 100)))
+            ->addRate($channelEcommerce, $localeEn, new Rate(random_int(0, 100)))
             ->addStatus($channelEcommerce, $localeEn, CriterionEvaluationResultStatus::done())
-            ->addRateByAttributes($channelEcommerce, $localeEn, ['a_text_area' => rand(0, 100)])
+            ->addRateByAttributes($channelEcommerce, $localeEn, ['a_text_area' => random_int(0, 100)])
         ;
 
         $evaluation->end($evaluationResult);

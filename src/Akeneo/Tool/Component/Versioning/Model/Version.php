@@ -19,23 +19,6 @@ class Version implements VersionInterface
     protected $id;
 
     /**
-     * @var string
-     */
-    protected $author;
-
-    /**
-     * @var string
-     */
-    protected $resourceName;
-
-    /**
-     * @var string
-     */
-    protected $resourceId;
-
-    protected ?UuidInterface $resourceUuid;
-
-    /**
      * @var array
      */
     protected $snapshot;
@@ -44,11 +27,6 @@ class Version implements VersionInterface
      * @var array
      */
     protected $changeset;
-
-    /**
-     * @var string
-     */
-    protected $context;
 
     /**
      * @var int
@@ -73,13 +51,8 @@ class Version implements VersionInterface
      * @param string      $author
      * @param string|null $context
      */
-    public function __construct($resourceName, $resourceId, ?UuidInterface $resourceUuid, $author, $context = null)
+    public function __construct(protected $resourceName, protected $resourceId, protected ?\Ramsey\Uuid\UuidInterface $resourceUuid, protected $author, protected $context = null)
     {
-        $this->resourceName = $resourceName;
-        $this->resourceId = $resourceId;
-        $this->resourceUuid = $resourceUuid;
-        $this->author = $author;
-        $this->context = $context;
         $this->loggedAt = new \DateTime('now', new \DateTimeZone('UTC'));
         $this->pending = true;
     }
@@ -180,7 +153,6 @@ class Version implements VersionInterface
     /**
      * Set snapshot
      *
-     * @param array $snapshot
      *
      * @return Version
      */
@@ -208,7 +180,6 @@ class Version implements VersionInterface
     /**
      * Set changeset
      *
-     * @param array $changeset
      *
      * @return Version
      */

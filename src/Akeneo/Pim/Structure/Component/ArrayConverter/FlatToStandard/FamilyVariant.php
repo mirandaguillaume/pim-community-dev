@@ -15,9 +15,6 @@ class FamilyVariant implements ArrayConverterInterface
     /** @var FieldsRequirementChecker */
     protected $fieldChecker;
 
-    /**
-     * @param FieldsRequirementChecker $fieldChecker
-     */
     public function __construct(FieldsRequirementChecker $fieldChecker)
     {
         $this->fieldChecker = $fieldChecker;
@@ -79,16 +76,9 @@ class FamilyVariant implements ArrayConverterInterface
         return $convertedItem;
     }
 
-    /**
-     * @param array  $convertedItem
-     * @param string $field
-     * @param mixed  $data
-     *
-     * @return array
-     */
-    protected function convertField(array $convertedItem, string $field, $data): array
+    protected function convertField(array $convertedItem, string $field, mixed $data): array
     {
-        if (false !== strpos($field, 'label-', 0)) {
+        if (str_contains($field, 'label-')) {
             $labelTokens = explode('-', $field);
             $labelLocale = $labelTokens[1];
             $convertedItem['labels'][$labelLocale] = $data;
@@ -99,7 +89,7 @@ class FamilyVariant implements ArrayConverterInterface
                     $convertedItem[$field] = (string) $data;
 
                     break;
-                case (false !== strpos($field, 'variant-axes_')):
+                case (str_contains($field, 'variant-axes_')):
                     $matches = null;
                     preg_match('/^variant-axes_(?P<level>.*)$/', $field, $matches);
                     $level = (int) $matches['level'];
@@ -110,10 +100,10 @@ class FamilyVariant implements ArrayConverterInterface
                         $convertedItem['variant_attribute_sets'][$level - 1]['level'] = $level;
                     }
 
-                    $convertedItem['variant_attribute_sets'][$level - 1]['axes'] = explode(',', $data);
+                    $convertedItem['variant_attribute_sets'][$level - 1]['axes'] = explode(',', (string) $data);
 
                     break;
-                case (false !== strpos($field, 'variant-attributes_')):
+                case (str_contains($field, 'variant-attributes_')):
                     $matches = null;
                     preg_match('/^variant-attributes_(?P<level>.*)$/', $field, $matches);
                     $level = (int) $matches['level'];
@@ -126,7 +116,7 @@ class FamilyVariant implements ArrayConverterInterface
 
                     $convertedItem['variant_attribute_sets'][$level - 1]['attributes'] = explode(
                         ',',
-                        $data
+                        (string) $data
                     );
 
                     break;

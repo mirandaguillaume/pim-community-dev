@@ -22,7 +22,7 @@ class SetRichTextApplier implements UserIntentApplier
     public function apply(UserIntent $userIntent, Category $category): void
     {
         if (!$userIntent instanceof SetRichText) {
-            throw new \InvalidArgumentException(sprintf('Unexpected class: %s', get_class($userIntent)));
+            throw new \InvalidArgumentException(sprintf('Unexpected class: %s', $userIntent::class));
         }
 
         $attributes = $category->getAttributes() ?? ValueCollection::fromArray([]);

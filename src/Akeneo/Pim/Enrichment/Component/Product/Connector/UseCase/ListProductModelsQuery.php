@@ -53,8 +53,6 @@ class ListProductModelsQuery
 
     /**
      * Returns the parameter 'with_count' typed as a boolean
-     *
-     * @return bool
      */
     public function withCountAsBoolean(): bool
     {

@@ -14,12 +14,6 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class InvalidItemEvent extends Event implements EventInterface
 {
-    /** @var string */
-    protected $class;
-
-    /** @var string */
-    protected $reason;
-
     /** @var array */
     protected $reasonParameters;
 
@@ -27,16 +21,12 @@ class InvalidItemEvent extends Event implements EventInterface
     protected $item;
 
     /**
-     * @param InvalidItemInterface  $item
      * @param string                $class
      * @param string                $reason
-     * @param array                 $reasonParameters
      */
-    public function __construct(InvalidItemInterface $item, $class, $reason, array $reasonParameters)
+    public function __construct(InvalidItemInterface $item, protected $class, protected $reason, array $reasonParameters)
     {
         $this->item = $item;
-        $this->class = $class;
-        $this->reason = $reason;
         $this->reasonParameters = $reasonParameters;
     }
 

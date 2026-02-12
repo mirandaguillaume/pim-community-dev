@@ -24,20 +24,12 @@ final class RecomputeProductsScores extends Command
     protected static $defaultName = 'pim:data-quality-insights:recompute-product-scores';
     protected static $defaultDescription = 'Launch the job that will re-compute all the products scores';
 
-    private FeatureFlag $featureFlag;
-    private JobLauncherInterface $queueJobLauncher;
-    private JobInstanceRepository $jobInstanceRepository;
-
     public function __construct(
-        FeatureFlag $featureFlag,
-        JobLauncherInterface $queueJobLauncher,
-        JobInstanceRepository $jobInstanceRepository
+        private readonly FeatureFlag $featureFlag,
+        private readonly JobLauncherInterface $queueJobLauncher,
+        private readonly JobInstanceRepository $jobInstanceRepository
     ) {
         parent::__construct();
-
-        $this->featureFlag = $featureFlag;
-        $this->queueJobLauncher = $queueJobLauncher;
-        $this->jobInstanceRepository = $jobInstanceRepository;
     }
 
     protected function configure()

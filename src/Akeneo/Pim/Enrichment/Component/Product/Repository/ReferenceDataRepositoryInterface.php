@@ -36,7 +36,6 @@ interface ReferenceDataRepositoryInterface extends ObjectRepository
     /**
      * Return an array of reference data codes
      *
-     * @param array $referenceDataCodes
      *
      * @return array
      */

@@ -24,10 +24,8 @@ class ContentTypeNegotiator
     /**
      * Returns the allowed content types for a given request.
      *
-     * @param Request $request
      *
      * @throws StopFormatListenerException
-     *
      * @return string[] array of content types
      */
     public function getContentTypes(Request $request)
@@ -54,9 +52,6 @@ class ContentTypeNegotiator
 
     /**
      * Add a request matcher and the associated rule.
-     *
-     * @param RequestMatcherInterface $requestMatcher
-     * @param array                   $rule
      */
     public function add(RequestMatcherInterface $requestMatcher, array $rule)
     {

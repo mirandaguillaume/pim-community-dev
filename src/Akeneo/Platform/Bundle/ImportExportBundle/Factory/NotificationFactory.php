@@ -19,16 +19,12 @@ class NotificationFactory extends AbstractNotificationFactory implements Notific
     /** @var array */
     protected $notificationTypes;
 
-    /** @var string */
-    protected $notificationClass;
-
     /**
      * @param string $notificationClass
      */
-    public function __construct(array $notificationTypes, $notificationClass)
+    public function __construct(array $notificationTypes, protected $notificationClass)
     {
         $this->notificationTypes = $notificationTypes;
-        $this->notificationClass = $notificationClass;
     }
 
     /**

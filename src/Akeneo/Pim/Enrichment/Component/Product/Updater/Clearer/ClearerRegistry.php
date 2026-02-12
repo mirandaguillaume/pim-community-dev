@@ -14,7 +14,7 @@ use Webmozart\Assert\Assert;
 final class ClearerRegistry implements ClearerRegistryInterface
 {
     /** @var ClearerInterface[] */
-    private $clearers = [];
+    private array $clearers = [];
 
     public function __construct(iterable $clearers)
     {

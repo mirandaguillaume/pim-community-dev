@@ -46,16 +46,16 @@ class ProductProcessor extends AbstractProcessor implements ItemProcessorInterfa
 
     public function __construct(
         IdentifiableObjectRepositoryInterface $repository,
-        private FindProductToImport $findProductToImport,
-        private AddParent $addParent,
+        private readonly FindProductToImport $findProductToImport,
+        private readonly AddParent $addParent,
         protected ObjectUpdaterInterface $updater,
         protected ValidatorInterface $validator,
         protected ObjectDetacherInterface $detacher,
         protected FilterInterface $productFilter,
-        private AttributeFilterInterface $productAttributeFilter,
-        private MediaStorer $mediaStorer,
-        private RemoveParentInterface $removeParent,
-        private CleanLineBreaksInTextAttributes $cleanLineBreaksInTextAttributes
+        private readonly AttributeFilterInterface $productAttributeFilter,
+        private readonly MediaStorer $mediaStorer,
+        private readonly RemoveParentInterface $removeParent,
+        private readonly CleanLineBreaksInTextAttributes $cleanLineBreaksInTextAttributes
     ) {
         $this->repository = $repository;
     }
@@ -174,8 +174,6 @@ class ProductProcessor extends AbstractProcessor implements ItemProcessorInterfa
     }
 
     /**
-     * @param ProductInterface $product
-     * @param array            $filteredItem
      *
      * @return array
      */
@@ -198,11 +196,6 @@ class ProductProcessor extends AbstractProcessor implements ItemProcessorInterfa
         return ('' !== $uuid) ? $uuid : null;
     }
 
-    /**
-     * @param array $item
-     *
-     * @return string
-     */
     protected function getFamilyCode(array $item): string
     {
         if (\array_key_exists('family', $item)) {
@@ -232,7 +225,6 @@ class ProductProcessor extends AbstractProcessor implements ItemProcessorInterfa
      * Filters item data to remove associations which are imported through a dedicated processor because we need to
      * create any products before to associate them
      *
-     * @param array $item
      *
      * @return array
      */
@@ -250,8 +242,6 @@ class ProductProcessor extends AbstractProcessor implements ItemProcessorInterfa
     }
 
     /**
-     * @param ProductInterface $product
-     * @param array            $filteredItem
      *
      * @throws PropertyException
      */
@@ -261,10 +251,8 @@ class ProductProcessor extends AbstractProcessor implements ItemProcessorInterfa
     }
 
     /**
-     * @param ProductInterface $product
      *
      * @throws \InvalidArgumentException
-     *
      * @return ConstraintViolationListInterface
      */
     protected function validateProduct(ProductInterface $product)
@@ -275,8 +263,6 @@ class ProductProcessor extends AbstractProcessor implements ItemProcessorInterfa
     /**
      * Detaches the product from the unit of work is the responsibility of the writer but in this case we
      * want ensure that an updated and invalid product will not be used in the association processor
-     *
-     * @param ProductInterface $product
      */
     protected function detachProduct(ProductInterface $product)
     {

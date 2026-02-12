@@ -13,13 +13,10 @@ use Ramsey\Uuid\Uuid;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class DescendantProductUuidsQuery implements DescendantProductUuidsQueryInterface
+final readonly class DescendantProductUuidsQuery implements DescendantProductUuidsQueryInterface
 {
-    private $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     /**
@@ -41,8 +38,6 @@ SQL;
             ['productModelIds' => Connection::PARAM_INT_ARRAY]
         )->fetchAllAssociative();
 
-        return array_map(function ($rowData) {
-            return Uuid::fromString($rowData['uuid']);
-        }, $resultRows);
+        return array_map(fn($rowData) => Uuid::fromString($rowData['uuid']), $resultRows);
     }
 }

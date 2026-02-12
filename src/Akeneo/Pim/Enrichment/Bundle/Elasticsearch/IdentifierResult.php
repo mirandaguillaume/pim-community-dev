@@ -20,9 +20,9 @@ use Ramsey\Uuid\Uuid;
  */
 class IdentifierResult
 {
-    private ?string $identifier;
-    private string $id;
-    private string $type;
+    private readonly ?string $identifier;
+    private readonly string $id;
+    private readonly string $type;
 
     public function __construct(?string $identifier, string $type, string $id)
     {
@@ -50,17 +50,11 @@ class IdentifierResult
         $this->id = $id;
     }
 
-    /**
-     * @return ?string
-     */
     public function getIdentifier(): ?string
     {
         return $this->identifier;
     }
 
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         return $this->type;
@@ -71,11 +65,6 @@ class IdentifierResult
         return $this->id;
     }
 
-    /**
-     * @param string $identifier
-     *
-     * @return bool
-     */
     public function isProductModelIdentifierEquals(string $identifier): bool
     {
         return $identifier === $this->identifier && ProductModelInterface::class === $this->type;

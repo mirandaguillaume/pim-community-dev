@@ -44,7 +44,7 @@ class ConsumeProductModelEventEndToEnd extends ApiTestCase
                 new ProductModelCreated(
                     $this->referenceAuthor,
                     ['code' => $this->referenceProductModel->getCode(),],
-                    1607094167,
+                    1_607_094_167,
                     '0d931d13-8eae-4f4a-bf37-33d3a932b8c9'
                 ),
             ]
@@ -70,7 +70,7 @@ class ConsumeProductModelEventEndToEnd extends ApiTestCase
                 new ProductModelUpdated(
                     $this->referenceAuthor,
                     ['code' => $this->referenceProductModel->getCode()],
-                    1607094167,
+                    1_607_094_167,
                     '0d931d13-8eae-4f4a-bf37-33d3a932b8c9'
                 ),
             ]
@@ -99,7 +99,7 @@ class ConsumeProductModelEventEndToEnd extends ApiTestCase
                         'code' => $this->referenceProductModel->getCode(),
                         'category_codes' => $this->referenceProductModel->getCategoryCodes(),
                     ],
-                    1607094167,
+                    1_607_094_167,
                     '0d931d13-8eae-4f4a-bf37-33d3a932b8c9'
                 ),
             ]

@@ -26,25 +26,12 @@ class RefreshProductCommand extends Command
 {
     protected static $defaultName = 'pim:product:refresh';
 
-    /** @var BulkSaverInterface */
-    private $productSaver;
-
-    /** @var BulkSaverInterface */
-    private $productModelSaver;
-
-    /** @var ProductQueryBuilderFactoryInterface */
-    private $productQueryBuilderFactory;
-
     public function __construct(
-        BulkSaverInterface $productSaver,
-        BulkSaverInterface $productModelSaver,
-        ProductQueryBuilderFactoryInterface $productQueryBuilderFactory
+        private readonly BulkSaverInterface $productSaver,
+        private readonly BulkSaverInterface $productModelSaver,
+        private readonly ProductQueryBuilderFactoryInterface $productQueryBuilderFactory
     ) {
         parent::__construct();
-
-        $this->productSaver = $productSaver;
-        $this->productModelSaver = $productModelSaver;
-        $this->productQueryBuilderFactory = $productQueryBuilderFactory;
     }
 
     /**
@@ -70,7 +57,7 @@ class RefreshProductCommand extends Command
         $identifiers = $input->getArgument('identifiers');
 
         $pqb = $this->productQueryBuilderFactory->create();
-        $pqb->addFilter('id', Operators::IN_LIST, explode(',', $identifiers));
+        $pqb->addFilter('id', Operators::IN_LIST, explode(',', (string) $identifiers));
         $products = $pqb->execute();
 
         $productsToSave = [

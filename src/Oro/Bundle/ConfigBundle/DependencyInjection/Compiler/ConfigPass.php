@@ -14,7 +14,7 @@ class ConfigPass implements CompilerPassInterface
         $settings = [];
 
         foreach ($container->getExtensions() as $name => $extension) {
-            if (strpos($name, 'oro_') !== false || strpos($name, 'pim_') !== false) {
+            if (str_contains($name, 'oro_') || str_contains($name, 'pim_')) {
                 if (!$config = $extension->getConfiguration([], $container)) {
                     continue;
                 }

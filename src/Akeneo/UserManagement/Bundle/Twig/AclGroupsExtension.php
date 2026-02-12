@@ -18,7 +18,7 @@ class AclGroupsExtension extends AbstractExtension
 {
     public function __construct(
         protected array $bundles,
-        private FeatureFlags $featureFlags,
+        private readonly FeatureFlags $featureFlags,
     ) {
     }
 
@@ -28,8 +28,8 @@ class AclGroupsExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('acl_groups', [$this, 'getAclGroups']),
-            new TwigFunction('acl_group_names', [$this, 'getAclGroupNames']),
+            new TwigFunction('acl_groups', $this->getAclGroups(...)),
+            new TwigFunction('acl_group_names', $this->getAclGroupNames(...)),
         ];
     }
 
@@ -93,19 +93,17 @@ class AclGroupsExtension extends AbstractExtension
     }
 
     /**
-     * @param array $config
-     *
      * @return array
      */
     protected function getGroups(array $config)
     {
         $groups = [];
         foreach ($config as $groupName => $groupConfig) {
-            $permissionGroup = isset($groupConfig['permission_group']) ? $groupConfig['permission_group'] : 'action';
+            $permissionGroup = $groupConfig['permission_group'] ?? 'action';
 
             $groups[$permissionGroup][] = [
                 'name'  => $groupName,
-                'order' => isset($groupConfig['order']) ? $groupConfig['order'] : -1
+                'order' => $groupConfig['order'] ?? -1
             ];
         }
 
@@ -113,8 +111,6 @@ class AclGroupsExtension extends AbstractExtension
     }
 
     /**
-     * @param array $groups
-     *
      * @return array
      */
     protected function sortGroups(array $groups)

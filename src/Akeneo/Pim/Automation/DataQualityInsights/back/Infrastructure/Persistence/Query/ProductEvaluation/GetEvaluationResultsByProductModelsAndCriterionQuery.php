@@ -17,7 +17,7 @@ use Webmozart\Assert\Assert;
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GetEvaluationResultsByProductModelsAndCriterionQuery implements GetEvaluationResultsByProductsAndCriterionQueryInterface
+final readonly class GetEvaluationResultsByProductModelsAndCriterionQuery implements GetEvaluationResultsByProductsAndCriterionQueryInterface
 {
     public function __construct(
         private Connection $dbConnection,
@@ -63,7 +63,7 @@ SQL;
             return null;
         }
 
-        $rawResult = json_decode($rawResult, true, JSON_THROW_ON_ERROR);
+        $rawResult = json_decode($rawResult, true, JSON_THROW_ON_ERROR, JSON_THROW_ON_ERROR);
         $rawResult = $this->transformCriterionEvaluationResultIds->transformToCodes($criterionCode, $rawResult);
 
         return Read\CriterionEvaluationResult::fromArray($rawResult);

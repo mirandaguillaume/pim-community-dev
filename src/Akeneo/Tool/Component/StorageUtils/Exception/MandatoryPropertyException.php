@@ -19,13 +19,6 @@ class MandatoryPropertyException extends PropertyException
     /** @var string */
     protected $className;
 
-    /**
-     * @param string          $propertyName
-     * @param string          $className
-     * @param string          $message
-     * @param int             $code
-     * @param \Exception|null $previous
-     */
     public function __construct(
         string $propertyName,
         string $className,

@@ -60,12 +60,8 @@ class CategoryNormalizerSpec extends ObjectBehavior
     public function getMatchers(): array
     {
         return [
-            'haveLabels' => function ($subject) {
-                return is_object($subject['labels']);
-            },
-            'havePosition' => function ($subject, $position) {
-                return array_key_exists('position', $subject) && $position === $subject['position'];
-            },
+            'haveLabels' => fn($subject) => is_object($subject['labels']),
+            'havePosition' => fn($subject, $position) => array_key_exists('position', $subject) && $position === $subject['position'],
         ];
     }
 }

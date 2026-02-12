@@ -20,12 +20,12 @@ use Psr\Log\LoggerInterface;
 /**
  * @author  JM Leroux <jmleroux.pro@gmail.com>
  */
-final class TenantContextFetcher implements TenantContextFetcherInterface
+final readonly class TenantContextFetcher implements TenantContextFetcherInterface
 {
     public function __construct(
-        private readonly LoggerInterface $logger,
-        private readonly ContextValueDecrypterInterface $tenantContextDecoder,
-        private readonly int $cacheTtl = 30
+        private LoggerInterface $logger,
+        private ContextValueDecrypterInterface $tenantContextDecoder,
+        private int $cacheTtl = 30
     ) {
     }
 
@@ -87,7 +87,7 @@ final class TenantContextFetcher implements TenantContextFetcherInterface
             // First context store format: all values encrypted in a stringified JSON
             if (is_string($context)) {
                 $context = [
-                    'v1_values' => \json_decode($context, true),
+                    'v1_values' => \json_decode($context, true, 512, JSON_THROW_ON_ERROR),
                 ];
             }
 

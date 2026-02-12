@@ -19,22 +19,16 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  */
 class PriceCollectionAttributeRemover extends AbstractAttributeRemover
 {
-    protected FindActivatedCurrenciesInterface $findActivatedCurrencies;
-    protected EntityWithValuesBuilderInterface $entityWithValuesBuilder;
-
     /**
      * @param string[] $supportedTypes
      */
     public function __construct(
         AttributeValidatorHelper $attrValidatorHelper,
-        FindActivatedCurrenciesInterface $findActivatedCurrencies,
-        EntityWithValuesBuilderInterface $entityWithValuesBuilder,
+        protected FindActivatedCurrenciesInterface $findActivatedCurrencies,
+        protected EntityWithValuesBuilderInterface $entityWithValuesBuilder,
         array $supportedTypes
     ) {
         parent::__construct($attrValidatorHelper);
-
-        $this->findActivatedCurrencies = $findActivatedCurrencies;
-        $this->entityWithValuesBuilder = $entityWithValuesBuilder;
         $this->supportedTypes = $supportedTypes;
     }
 
@@ -69,16 +63,13 @@ class PriceCollectionAttributeRemover extends AbstractAttributeRemover
     /**
      * Remove prices from the given $entityWithValues
      *
-     * @param EntityWithValuesInterface $entityWithValues
-     * @param AttributeInterface        $attribute
-     * @param mixed                     $data
      * @param string                    $locale
      * @param string                    $scope
      */
     protected function removePrices(
         EntityWithValuesInterface $entityWithValues,
         AttributeInterface $attribute,
-        $data,
+        mixed $data,
         $locale,
         $scope
     ): void {
@@ -105,13 +96,11 @@ class PriceCollectionAttributeRemover extends AbstractAttributeRemover
      * Check if data are valid
      * "data": doesn't need value
      *
-     * @param AttributeInterface $attribute
-     * @param mixed                                                    $data
      *
      * @throws InvalidPropertyTypeException
      * @throws InvalidPropertyException
      */
-    protected function checkData(AttributeInterface $attribute, $data): void
+    protected function checkData(AttributeInterface $attribute, mixed $data): void
     {
         if (!is_array($data)) {
             throw InvalidPropertyTypeException::arrayExpected(

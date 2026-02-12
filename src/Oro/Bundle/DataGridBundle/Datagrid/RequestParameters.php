@@ -7,8 +7,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class RequestParameters
 {
-    const ADDITIONAL_PARAMETERS = '_parameters';
-    const DEFAULT_ROOT_PARAM = 'grid';
+    final public const ADDITIONAL_PARAMETERS = '_parameters';
+    final public const DEFAULT_ROOT_PARAM = 'grid';
 
     /** @var string */
     protected $rootParam;
@@ -16,9 +16,6 @@ class RequestParameters
     /** @var RequestStack */
     protected $requestStack;
 
-    /**
-     * @param RequestStack $requestStack
-     */
     public function __construct(RequestStack $requestStack)
     {
         $this->requestStack = $requestStack;
@@ -28,24 +25,22 @@ class RequestParameters
      * Get parameter value from parameters container
      *
      * @param  string $type
-     * @param  mixed  $default
      *
      * @return mixed
      */
-    public function get($type, $default = [])
+    public function get($type, mixed $default = [])
     {
         $rootParameter = $this->getRootParameterValue();
 
-        return isset($rootParameter[$type]) ? $rootParameter[$type] : $default;
+        return $rootParameter[$type] ?? $default;
     }
 
     /**
      * @param  string $type
-     * @param  mixed  $value
      *
      * @return void
      */
-    public function set($type, $value)
+    public function set($type, mixed $value)
     {
         $parameters = $this->getRootParameterValue();
         $currentValue = $this->get($type);
@@ -87,9 +82,6 @@ class RequestParameters
         return $this->getRequest()->get($this->rootParam ? : self::DEFAULT_ROOT_PARAM, []);
     }
 
-    /**
-     * @return null|Request
-     */
     protected function getRequest(): ?Request
     {
         return $this->requestStack->getCurrentRequest();

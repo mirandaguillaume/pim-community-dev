@@ -15,7 +15,7 @@ use Akeneo\Connectivity\Connection\Domain\ErrorManagement\Model\ValueObject\Erro
  */
 class GetErrorCountPerConnectionHandler
 {
-    public function __construct(private SelectErrorCountPerConnectionQueryInterface $selectErrorCountPerConnectionQuery)
+    public function __construct(private readonly SelectErrorCountPerConnectionQueryInterface $selectErrorCountPerConnectionQuery)
     {
     }
 

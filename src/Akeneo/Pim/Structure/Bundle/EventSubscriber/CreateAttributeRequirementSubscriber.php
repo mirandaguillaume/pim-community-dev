@@ -26,8 +26,6 @@ class CreateAttributeRequirementSubscriber implements EventSubscriber
 
     /**
      * Constructor
-     *
-     * @param AttributeRequirementFactory $requirementFactory
      */
     public function __construct(AttributeRequirementFactory $requirementFactory)
     {
@@ -44,8 +42,6 @@ class CreateAttributeRequirementSubscriber implements EventSubscriber
 
     /**
      * Create requirements for each families' attributes for the newly created channel
-     *
-     * @param LifecycleEventArgs $event
      */
     public function prePersist(LifecycleEventArgs $event)
     {

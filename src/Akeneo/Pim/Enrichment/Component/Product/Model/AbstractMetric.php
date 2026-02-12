@@ -9,23 +9,8 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Model;
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-abstract class AbstractMetric implements MetricInterface
+abstract class AbstractMetric implements MetricInterface, \Stringable
 {
-    /** @var float */
-    protected $data;
-
-    /** @var string */
-    protected $unit;
-
-    /** @var float */
-    protected $baseData;
-
-    /** @var string */
-    protected $baseUnit;
-
-    /** @var string */
-    protected $family;
-
     /**
      * TODO master: add string type hiting for more strict data type and to handle big numbers and/or decimals
      *
@@ -35,13 +20,8 @@ abstract class AbstractMetric implements MetricInterface
      * @param string $baseUnit
      * @param float  $baseData
      */
-    public function __construct($family, $unit, $data, $baseUnit, $baseData)
+    public function __construct(protected $family, protected $unit, protected $data, protected $baseUnit, protected $baseData)
     {
-        $this->family = $family;
-        $this->unit = $unit;
-        $this->data = $data;
-        $this->baseUnit = $baseUnit;
-        $this->baseData = $baseData;
     }
 
     /**
@@ -107,7 +87,7 @@ abstract class AbstractMetric implements MetricInterface
     /**
      * {@inheritdoc}
      */
-    public function __toString()
+    public function __toString(): string
     {
         return join(' ', array_filter([
             $this->data !== null ? sprintf('%.4F', $this->data) : null,

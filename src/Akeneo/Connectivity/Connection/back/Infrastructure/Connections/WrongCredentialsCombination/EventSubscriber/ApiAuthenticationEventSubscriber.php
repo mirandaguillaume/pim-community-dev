@@ -18,8 +18,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class ApiAuthenticationEventSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private ConnectionContextInterface $connectionContext,
-        private WrongCredentialsCombinationRepositoryInterface $repository,
+        private readonly ConnectionContextInterface $connectionContext,
+        private readonly WrongCredentialsCombinationRepositoryInterface $repository,
     ) {
     }
 

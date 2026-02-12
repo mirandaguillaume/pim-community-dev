@@ -22,10 +22,10 @@ use Doctrine\ORM\EntityManagerInterface;
 class ExecuteJobExecutionHandler implements ExecuteJobExecutionHandlerInterface
 {
     public function __construct(
-        private BatchLogHandler $batchLogHandler,
-        private JobRepositoryInterface $jobRepository,
-        private JobRegistry $jobRegistry,
-        private FeatureFlags $featureFlags,
+        private readonly BatchLogHandler $batchLogHandler,
+        private readonly JobRepositoryInterface $jobRepository,
+        private readonly JobRegistry $jobRegistry,
+        private readonly FeatureFlags $featureFlags,
     ) {
     }
 

@@ -21,23 +21,15 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 final class ApiAggregatorForProductModelPostSaveEventSubscriber implements EventSubscriberInterface
 {
-    /** @var EventDispatcherInterface */
-    protected $eventDispatcher;
+    private bool $isActivated = false;
 
-    /** @var bool */
-    private $isActivated = false;
-
-    /** @var array */
-    private $eventProductModels = [];
+    private array $eventProductModels = [];
 
     /**
      * BatchOnSaveProductEvent constructor.
-     *
-     * @param EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(EventDispatcherInterface $eventDispatcher)
+    public function __construct(protected EventDispatcherInterface $eventDispatcher)
     {
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function getEventProductModels(): array

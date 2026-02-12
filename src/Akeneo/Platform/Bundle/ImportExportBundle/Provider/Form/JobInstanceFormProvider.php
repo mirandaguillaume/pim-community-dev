@@ -14,15 +14,11 @@ use Akeneo\Tool\Component\Batch\Model\JobInstance;
  */
 class JobInstanceFormProvider implements FormProviderInterface
 {
-    /** @var array */
-    protected $formConfig;
-
     /**
      * @param array $formConfig
      */
-    public function __construct($formConfig)
+    public function __construct(protected $formConfig)
     {
-        $this->formConfig = $formConfig;
     }
 
     /**

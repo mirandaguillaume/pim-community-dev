@@ -105,7 +105,7 @@ class NumberFilter extends OroNumberFilter
             return false;
         }
 
-        $data['type'] = isset($data['type']) ? $data['type'] : null;
+        $data['type'] ??= null;
 
         return $data;
     }

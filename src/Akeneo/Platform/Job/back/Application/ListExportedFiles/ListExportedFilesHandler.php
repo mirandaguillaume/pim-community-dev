@@ -15,7 +15,7 @@ class ListExportedFilesHandler implements ListExportedFilesHandlerInterface
 {
     public function __construct(
         private readonly JobExecutionRepository $jobExecutionRepository,
-        private FileWriterArchiver $fileWriterArchiver,
+        private readonly FileWriterArchiver $fileWriterArchiver,
     ) {
     }
 

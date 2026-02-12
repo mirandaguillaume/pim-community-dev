@@ -11,15 +11,11 @@ namespace Akeneo\Tool\Component\StorageUtils\Factory;
  */
 class SimpleFactory implements SimpleFactoryInterface
 {
-    /** @var string */
-    protected $class;
-
     /**
      * @param string $class
      */
-    public function __construct($class)
+    public function __construct(protected $class)
     {
-        $this->class = $class;
     }
 
     /**

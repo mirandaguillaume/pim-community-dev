@@ -15,8 +15,7 @@ use Symfony\Component\Process\Process;
 class ApiFindNewAnnouncementIdsIntegration extends KernelTestCase
 {
 
-    /** @var Process */
-    private $process;
+    private \Symfony\Component\Process\Process $process;
 
     public function setUp(): void
     {
@@ -59,9 +58,9 @@ class ApiFindNewAnnouncementIdsIntegration extends KernelTestCase
             try {
                 $httpClient = new Client(['base_uri' => self::getContainer()->getParameter('comm_panel_api_url')]);
                 $httpClient->get('/');
-            } catch (ConnectException $e) {
+            } catch (ConnectException) {
                 usleep(100000);
-            } catch (ClientException $e) {
+            } catch (ClientException) {
                 return; // started
             }
 

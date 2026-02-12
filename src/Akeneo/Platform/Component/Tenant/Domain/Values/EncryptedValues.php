@@ -21,11 +21,11 @@ use Webmozart\Assert\Assert;
  *
  * @author  JM Leroux <jmleroux.pro@gmail.com>
  */
-final class EncryptedValues
+final readonly class EncryptedValues
 {
     private function __construct(
-        private readonly string $data,
-        private readonly string $iv,
+        private string $data,
+        private string $iv,
     ) {
     }
 

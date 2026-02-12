@@ -50,7 +50,7 @@ class UserCatalogLocaleResetterTest extends TestCase
 
     private function getResetter(): UserCatalogLocaleResetter
     {
-        return $this->get('Akeneo\Platform\Installer\Infrastructure\UserConfigurationResetter\UserCatalogLocaleResetter');
+        return $this->get(\Akeneo\Platform\Installer\Infrastructure\UserConfigurationResetter\UserCatalogLocaleResetter::class);
     }
 
     private function assertUserCatalogLocale(string $expectedCatalogLocale): void

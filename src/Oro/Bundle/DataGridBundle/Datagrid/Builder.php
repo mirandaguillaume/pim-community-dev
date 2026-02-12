@@ -14,16 +14,10 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class Builder
 {
-    const DATASOURCE_PATH = '[source]';
-    const DATASOURCE_TYPE_PATH = '[source][type]';
-    const DATASOURCE_ACL_PATH = '[source][acl_resource]';
-    const BASE_DATAGRID_CLASS_PATH = '[options][base_datagrid_class]';
-
-    /** @var string */
-    protected $baseDatagridClass;
-
-    /** @var string */
-    protected $acceptorClass;
+    final public const DATASOURCE_PATH = '[source]';
+    final public const DATASOURCE_TYPE_PATH = '[source][type]';
+    final public const DATASOURCE_ACL_PATH = '[source][acl_resource]';
+    final public const BASE_DATAGRID_CLASS_PATH = '[options][base_datagrid_class]';
 
     /** @var EventDispatcherInterface */
     protected $eventDispatcher;
@@ -37,14 +31,16 @@ class Builder
     /** @var SecurityFacade */
     protected $securityFacade;
 
+    /**
+     * @param string $baseDatagridClass
+     * @param string $acceptorClass
+     */
     public function __construct(
-        $baseDatagridClass,
-        $acceptorClass,
+        protected $baseDatagridClass,
+        protected $acceptorClass,
         EventDispatcherInterface $eventDispatcher,
         SecurityFacade $securityFacade
     ) {
-        $this->baseDatagridClass = $baseDatagridClass;
-        $this->acceptorClass = $acceptorClass;
         $this->eventDispatcher = $eventDispatcher;
         $this->securityFacade = $securityFacade;
     }
@@ -52,7 +48,6 @@ class Builder
     /**
      * Create, configure and build datagrid
      *
-     * @param DatagridConfiguration $config
      *
      * @return DatagridInterface
      */
@@ -94,7 +89,6 @@ class Builder
      * Automatically registered services tagged by oro_datagrid.datasource tag
      *
      * @param string              $type
-     * @param DatasourceInterface $dataSource
      *
      * @return $this
      */
@@ -109,7 +103,6 @@ class Builder
      * Register extension
      * Automatically registered services tagged by oro_datagrid.extension tag
      *
-     * @param ExtensionVisitorInterface $extension
      *
      * @return $this
      */
@@ -124,8 +117,6 @@ class Builder
      * Try to find datasource adapter and process it
      * Datasource object should be self-acceptable to grid
      *
-     * @param DatagridInterface     $grid
-     * @param DatagridConfiguration $config
      *
      * @throws \RuntimeException
      */

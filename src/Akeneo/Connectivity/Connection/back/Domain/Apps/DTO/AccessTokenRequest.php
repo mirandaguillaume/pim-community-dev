@@ -12,11 +12,11 @@ namespace Akeneo\Connectivity\Connection\Domain\Apps\DTO;
 class AccessTokenRequest
 {
     public function __construct(
-        private string $clientId,
-        private string $authorizationCode,
-        private string $grantType,
-        private string $codeIdentifier,
-        private string $codeChallenge
+        private readonly string $clientId,
+        private readonly string $authorizationCode,
+        private readonly string $grantType,
+        private readonly string $codeIdentifier,
+        private readonly string $codeChallenge
     ) {
     }
 

@@ -25,11 +25,6 @@ class AttributeExtension extends AbstractExtension
     /** @var LocaleResolver */
     protected $localeResolver;
 
-    /**
-     * @param PresenterInterface $datePresenter
-     * @param PresenterInterface $datetimePresenter
-     * @param LocaleResolver     $localeResolver
-     */
     public function __construct(
         PresenterInterface $datePresenter,
         PresenterInterface $datetimePresenter,
@@ -46,8 +41,8 @@ class AttributeExtension extends AbstractExtension
     public function getFilters()
     {
         return [
-            new TwigFilter('datetime_presenter', [$this, 'datetimePresenter'], ['is_safe' => ['html']]),
-            new TwigFilter('date_presenter', [$this, 'datePresenter'], ['is_safe' => ['html']]),
+            new TwigFilter('datetime_presenter', $this->datetimePresenter(...), ['is_safe' => ['html']]),
+            new TwigFilter('date_presenter', $this->datePresenter(...), ['is_safe' => ['html']]),
         ];
     }
 

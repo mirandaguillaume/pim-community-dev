@@ -21,17 +21,11 @@ class ConfigureProductFiltersListener
     /** @var array */
     protected $disallowed = ['scope', 'locale'];
 
-    /**
-     * @param UserContext $context
-     */
     public function __construct(UserContext $context)
     {
         $this->context = $context;
     }
 
-    /**
-     * @param BuildAfter $event
-     */
     public function onBuildAfter(BuildAfter $event)
     {
         $defaults = $this->context->getUser()->getProductGridFilters();

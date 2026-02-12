@@ -45,7 +45,7 @@ class PurgeVersioningWatchdogIntegration extends TestCase
             ['id' => $jobExecutionId]
         )->fetchOne();
 
-        $jobExecutionRawParameters = \json_decode($jobExecutionRawParameters, true);
+        $jobExecutionRawParameters = \json_decode((string) $jobExecutionRawParameters, true, 512, JSON_THROW_ON_ERROR);
         Assert::assertNull($jobExecutionRawParameters['more-than-days']);
         Assert::assertNull($jobExecutionRawParameters['less-than-days']);
     }
@@ -78,7 +78,7 @@ class PurgeVersioningWatchdogIntegration extends TestCase
             ['id' => $jobExecutionId]
         )->fetchOne();
 
-        $jobExecutionRawParameters = \json_decode($jobExecutionRawParameters, true);
+        $jobExecutionRawParameters = \json_decode((string) $jobExecutionRawParameters, true, 512, JSON_THROW_ON_ERROR);
         Assert::assertEquals('15', $jobExecutionRawParameters['more-than-days']);
         Assert::assertEquals('5', $jobExecutionRawParameters['less-than-days']);
     }
@@ -135,7 +135,7 @@ class PurgeVersioningWatchdogIntegration extends TestCase
 
         $arrayInput = array_merge($defaultArrayInput, $arrayInput);
         if (isset($arrayInput['--config'])) {
-            $arrayInput['--config'] = \json_encode($arrayInput['--config']);
+            $arrayInput['--config'] = \json_encode($arrayInput['--config'], JSON_THROW_ON_ERROR);
         }
 
         $input = new ArrayInput($arrayInput);

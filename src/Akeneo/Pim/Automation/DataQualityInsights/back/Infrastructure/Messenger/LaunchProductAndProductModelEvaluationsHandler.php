@@ -17,18 +17,18 @@ use Psr\Log\LoggerInterface;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class LaunchProductAndProductModelEvaluationsHandler
+final readonly class LaunchProductAndProductModelEvaluationsHandler
 {
     public function __construct(
-        private readonly CriteriaByFeatureRegistry $productCriteriaRegistry,
-        private readonly CriteriaByFeatureRegistry $productModelCriteriaRegistry,
-        private readonly CreateCriteriaEvaluations $createProductCriteriaEvaluations,
-        private readonly CreateCriteriaEvaluations $createProductModelCriteriaEvaluations,
-        private readonly EvaluateProducts $evaluateProducts,
-        private readonly EvaluateProductModels $evaluateProductModels,
-        private readonly GetOutdatedProductUuidsByDateAndCriteriaQueryInterface $getOutdatedProductUuids,
-        private readonly GetOutdatedProductModelIdsByDateAndCriteriaQueryInterface $getOutdatedProductModelIds,
-        private readonly LoggerInterface $logger
+        private CriteriaByFeatureRegistry $productCriteriaRegistry,
+        private CriteriaByFeatureRegistry $productModelCriteriaRegistry,
+        private CreateCriteriaEvaluations $createProductCriteriaEvaluations,
+        private CreateCriteriaEvaluations $createProductModelCriteriaEvaluations,
+        private EvaluateProducts $evaluateProducts,
+        private EvaluateProductModels $evaluateProductModels,
+        private GetOutdatedProductUuidsByDateAndCriteriaQueryInterface $getOutdatedProductUuids,
+        private GetOutdatedProductModelIdsByDateAndCriteriaQueryInterface $getOutdatedProductModelIds,
+        private LoggerInterface $logger
     ) {
     }
 

@@ -18,10 +18,7 @@ class QuantifiedAssociationsStructureValidator
     private const PRODUCT_MODEL_LINK_TYPE = 'product_models';
     private const QUANTIFIED_LINK_TYPES = [self::PRODUCT_LINK_TYPE, self::PRODUCT_UUID_LINK_TYPE, self::PRODUCT_MODEL_LINK_TYPE];
 
-    /**
-     * @param mixed $data
-     */
-    public function validate(string $field, $data): void
+    public function validate(string $field, mixed $data): void
     {
         if (!is_array($data)) {
             throw InvalidPropertyTypeException::arrayExpected(

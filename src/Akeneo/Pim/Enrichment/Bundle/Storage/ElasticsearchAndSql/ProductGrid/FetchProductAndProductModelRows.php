@@ -18,7 +18,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Query\ResultAwareInterface;
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class FetchProductAndProductModelRows implements Query\FetchProductAndProductModelRows
+final readonly class FetchProductAndProductModelRows implements Query\FetchProductAndProductModelRows
 {
     public function __construct(
         private FetchProductRowsFromUuidsInterface $fetchProductRowsFromUuids,

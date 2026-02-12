@@ -50,7 +50,7 @@ class CreateOrUpdateDatagridViewIntegration extends ControllerIntegrationTestCas
         ]);
 
         $this->assertStatusCode($response, Response::HTTP_OK);
-        $id = \json_decode($response->getContent(), true)['id'] ?? null;
+        $id = \json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR)['id'] ?? null;
 
         $this->assertIsInt($id);
         $datagridView = $this->datagridViewRepository->find($id);
@@ -73,7 +73,7 @@ class CreateOrUpdateDatagridViewIntegration extends ControllerIntegrationTestCas
         ]);
 
         $this->assertStatusCode($response, Response::HTTP_OK);
-        $id = \json_decode($response->getContent(), true)['id'] ?? null;
+        $id = \json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR)['id'] ?? null;
 
         $this->assertIsInt($id);
         $datagridView = $this->datagridViewRepository->find($id);
@@ -100,7 +100,7 @@ class CreateOrUpdateDatagridViewIntegration extends ControllerIntegrationTestCas
         ]);
 
         $this->assertStatusCode($response, Response::HTTP_OK);
-        $id = \json_decode($response->getContent(), true)['id'] ?? null;
+        $id = \json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR)['id'] ?? null;
 
         $this->assertIsInt($id);
         $this->entityManagerClearer->clear();
@@ -130,7 +130,7 @@ class CreateOrUpdateDatagridViewIntegration extends ControllerIntegrationTestCas
         ]);
 
         $this->assertStatusCode($response, Response::HTTP_OK);
-        $id = \json_decode($response->getContent(), true)['id'] ?? null;
+        $id = \json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR)['id'] ?? null;
 
         $this->assertIsInt($id);
         $this->entityManagerClearer->clear();
@@ -216,7 +216,7 @@ class CreateOrUpdateDatagridViewIntegration extends ControllerIntegrationTestCas
             ['alias' => $alias],
             Request::METHOD_POST,
             [],
-            \json_encode($data)
+            \json_encode($data, JSON_THROW_ON_ERROR)
         );
 
         return $this->client->getResponse();

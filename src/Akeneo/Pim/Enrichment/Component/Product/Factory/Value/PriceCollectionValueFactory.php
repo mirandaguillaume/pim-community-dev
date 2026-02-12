@@ -49,7 +49,7 @@ final class PriceCollectionValueFactory implements ValueFactory
         if (!\is_array($data)) {
             throw InvalidPropertyTypeException::arrayExpected(
                 $attribute->code(),
-                static::class,
+                self::class,
                 $data
             );
         }
@@ -58,7 +58,7 @@ final class PriceCollectionValueFactory implements ValueFactory
             if (!\is_array($price)) {
                 throw InvalidPropertyTypeException::arrayOfArraysExpected(
                     $attribute->code(),
-                    static::class,
+                    self::class,
                     $data
                 );
             }
@@ -67,7 +67,7 @@ final class PriceCollectionValueFactory implements ValueFactory
                 throw InvalidPropertyTypeException::arrayKeyExpected(
                     $attribute->code(),
                     'amount',
-                    static::class,
+                    self::class,
                     $data
                 );
             }
@@ -76,7 +76,7 @@ final class PriceCollectionValueFactory implements ValueFactory
                 throw InvalidPropertyTypeException::arrayKeyExpected(
                     $attribute->code(),
                     'currency',
-                    static::class,
+                    self::class,
                     $data
                 );
             }
@@ -120,8 +120,6 @@ final class PriceCollectionValueFactory implements ValueFactory
      * ]
      *
      * @param array $arrayPrices
-     *
-     * @return array
      */
     private function sortByCurrency(array $arrayPrices): array
     {
@@ -137,9 +135,9 @@ final class PriceCollectionValueFactory implements ValueFactory
 
         if (false === $sort) {
             throw new \LogicException(
-                sprintf('Impossible to perform multisort on the following array: %s', json_encode($arrayPrices)),
+                sprintf('Impossible to perform multisort on the following array: %s', json_encode($arrayPrices, JSON_THROW_ON_ERROR)),
                 0,
-                static::class
+                self::class
             );
         }
 

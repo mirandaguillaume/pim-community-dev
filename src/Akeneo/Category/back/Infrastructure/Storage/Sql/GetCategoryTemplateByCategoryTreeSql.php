@@ -15,7 +15,7 @@ use Doctrine\DBAL\Connection;
  */
 class GetCategoryTemplateByCategoryTreeSql implements GetCategoryTemplateByCategoryTree
 {
-    public function __construct(private Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
     }
 

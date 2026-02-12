@@ -35,7 +35,7 @@ class RegisterComparatorsPass implements CompilerPassInterface
                 'addAttributeComparator',
                 [
                     new Reference($id),
-                    isset($attribute[0]['priority']) ? $attribute[0]['priority'] : 0
+                    $attribute[0]['priority'] ?? 0
                 ]
             );
         }
@@ -49,7 +49,7 @@ class RegisterComparatorsPass implements CompilerPassInterface
                 'addFieldComparator',
                 [
                     new Reference($id),
-                    isset($attribute[0]['priority']) ? $attribute[0]['priority'] : 0
+                    $attribute[0]['priority'] ?? 0
                 ]
             );
         }
@@ -58,15 +58,14 @@ class RegisterComparatorsPass implements CompilerPassInterface
     /**
      * Sorts comparator services descending by their priority
      *
-     * @param array $comparatorServices
      *
      * @return array
      */
     private function sortComparatorsByPriority(array $comparatorServices)
     {
         uasort($comparatorServices, function ($a, $b) {
-            $priorityA = isset($a[0]['priority']) ? $a[0]['priority'] : 0;
-            $priorityB = isset($b[0]['priority']) ? $b[0]['priority'] : 0;
+            $priorityA = $a[0]['priority'] ?? 0;
+            $priorityB = $b[0]['priority'] ?? 0;
 
             if ($priorityA > $priorityB) {
                 return -1;

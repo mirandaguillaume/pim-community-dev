@@ -53,7 +53,7 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
         $this->assertSame([
             ['code' => 'custom_metric_1', 'status_code' => 201],
-        ], json_decode($response->getContent(), true));
+        ], json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
         $this->assertMeasurementFamilyIsPersisted($measurementFamily);
     }
 
@@ -85,7 +85,7 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
                     ]
                 ],
             ]
-        ], json_decode($response->getContent(), true));
+        ], json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
     }
 
     /**
@@ -147,7 +147,7 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
                     ]
                 ],
             ]
-        ], json_decode($response->getContent(), true));
+        ], json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
     }
 
     /**
@@ -182,7 +182,7 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
         $this->assertSame([
             ['code' => 'custom_metric_1', 'status_code' => 204],
-        ], json_decode($response->getContent(), true));
+        ], json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
         $this->assertMeasurementFamilyIsPersisted($measurementFamily);
     }
 
@@ -237,7 +237,7 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
         $this->assertSame([
             ['code' => 'custom_metric_1', 'status_code' => 204],
-        ], json_decode($response->getContent(), true));
+        ], json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
         $this->assertMeasurementFamilyIsPersisted(MeasurementFamily::create(
             MeasurementFamilyCode::fromString('custom_metric_1'),
             LabelCollection::fromArray(['en_US' => 'Custom measurement 1', 'fr_FR' => 'Mesure personalisée 1']),
@@ -295,7 +295,7 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
         $this->assertSame([
             ['code' => 'custom_metric_1', 'status_code' => 204],
-        ], json_decode($response->getContent(), true));
+        ], json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
         $this->assertMeasurementFamilyIsPersisted(MeasurementFamily::create(
             MeasurementFamilyCode::fromString('custom_metric_1'),
             LabelCollection::fromArray(['en_US' => 'Custom measurement 1', 'fr_FR' => 'Mesure personalisée 1']),
@@ -341,7 +341,7 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
         $this->assertSame([
             ['code' => 'custom_metric_1', 'status_code' => 204],
-        ], json_decode($response->getContent(), true));
+        ], json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
         $this->assertMeasurementFamilyIsPersisted(MeasurementFamily::create(
             MeasurementFamilyCode::fromString('custom_metric_1'),
             LabelCollection::fromArray(['en_US' => 'Custom measurement 2']),
@@ -407,7 +407,7 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
         $this->assertSame([
             ['code' => 'custom_metric_1', 'status_code' => 204],
-        ], json_decode($response->getContent(), true));
+        ], json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
 
         $this->assertMeasurementFamilyIsPersisted(MeasurementFamily::create(
             MeasurementFamilyCode::fromString('custom_metric_1'),
@@ -485,7 +485,7 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
         $this->assertSame([
             ['code' => 'custom_metric_1', 'status_code' => 201],
             ['code' => 'custom_metric_2', 'status_code' => 201],
-        ], json_decode($response->getContent(), true));
+        ], json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
 
         foreach ($measurementFamilies as $measurementFamily) {
             $this->assertMeasurementFamilyIsPersisted($measurementFamily);
@@ -511,7 +511,7 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
                     ],
                 ]
             ],
-            json_decode($response->getContent(), true)
+            json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR)
         );
     }
 
@@ -540,7 +540,7 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
                         ]
                     ],
             ]
-        ], json_decode($response->getContent(), true));
+        ], json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
     }
 
     /**
@@ -591,7 +591,7 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
                         ],
                     ],
             ]
-        ], json_decode($response->getContent(), true));
+        ], json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
     }
 
     /**
@@ -612,7 +612,7 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
             [],
             [],
             [],
-            json_encode($measurementFamilies)
+            json_encode($measurementFamilies, JSON_THROW_ON_ERROR)
         );
 
         return $client->getResponse();

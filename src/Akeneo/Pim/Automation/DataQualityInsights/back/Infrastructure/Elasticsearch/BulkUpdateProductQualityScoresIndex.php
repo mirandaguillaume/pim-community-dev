@@ -25,11 +25,11 @@ class BulkUpdateProductQualityScoresIndex implements BulkUpdateProductQualitySco
     private const PRODUCT_MODEL_IDENTIFIER_PREFIX = 'product_model_';
 
     public function __construct(
-        private Client $esClient,
-        private GetProductScoresQueryInterface $getProductScoresQuery,
-        private GetProductModelScoresQueryInterface $getProductModelScoresQuery,
-        private ComputeProductsKeyIndicators $computeProductsKeyIndicators,
-        private string $documentType
+        private readonly Client $esClient,
+        private readonly GetProductScoresQueryInterface $getProductScoresQuery,
+        private readonly GetProductModelScoresQueryInterface $getProductModelScoresQuery,
+        private readonly ComputeProductsKeyIndicators $computeProductsKeyIndicators,
+        private readonly string $documentType
     ) {
     }
 

@@ -18,19 +18,8 @@ use Symfony\Component\Yaml\Parser;
  */
 class Loader
 {
-    /** @var array */
-    private $configurationFiles;
-
-    /** @var ParameterBagInterface */
-    private $parameterBag;
-
-    /**
-     * @param array $configurationFiles
-     */
-    public function __construct(array $configurationFiles, ParameterBagInterface $parameterBag)
+    public function __construct(private readonly array $configurationFiles, private readonly ParameterBagInterface $parameterBag)
     {
-        $this->configurationFiles = $configurationFiles;
-        $this->parameterBag = $parameterBag;
     }
 
     /**

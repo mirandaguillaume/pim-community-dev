@@ -11,17 +11,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DateRangeFilterType extends AbstractType
 {
-    const TYPE_BETWEEN = 1;
-    const TYPE_NOT_BETWEEN = 2;
-    const TYPE_MORE_THAN = 3;
-    const TYPE_LESS_THAN = 4;
-    const NAME = 'oro_type_date_range_filter';
+    final public const TYPE_BETWEEN = 1;
+    final public const TYPE_NOT_BETWEEN = 2;
+    final public const TYPE_MORE_THAN = 3;
+    final public const TYPE_LESS_THAN = 4;
+    final public const NAME = 'oro_type_date_range_filter';
 
-    protected TranslatorInterface $translator;
-
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(protected TranslatorInterface $translator)
     {
-        $this->translator = $translator;
     }
 
     /**

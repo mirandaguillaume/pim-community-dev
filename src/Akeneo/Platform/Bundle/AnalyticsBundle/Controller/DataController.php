@@ -17,9 +17,6 @@ class DataController
     /** @var ChainedDataCollector */
     protected $dataCollector;
 
-    /**
-     * @param ChainedDataCollector $dataCollector
-     */
     public function __construct(ChainedDataCollector $dataCollector)
     {
         $this->dataCollector = $dataCollector;

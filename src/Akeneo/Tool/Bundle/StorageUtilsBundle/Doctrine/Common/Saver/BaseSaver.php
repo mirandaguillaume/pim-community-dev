@@ -22,9 +22,9 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 class BaseSaver implements SaverInterface, BulkSaverInterface
 {
     public function __construct(
-        private ObjectManager $objectManager,
-        private EventDispatcherInterface $eventDispatcher,
-        private string $savedClass
+        private readonly ObjectManager $objectManager,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly string $savedClass
     ) {
     }
 
@@ -63,9 +63,7 @@ class BaseSaver implements SaverInterface, BulkSaverInterface
 
         $this->eventDispatcher->dispatch(new GenericEvent($objects, $options), StorageEvents::PRE_SAVE_ALL);
 
-        $areObjectsNew = array_map(function ($object) {
-            return null === $object->getId();
-        }, $objects);
+        $areObjectsNew = array_map(fn($object) => null === $object->getId(), $objects);
 
         foreach ($objects as $i => $object) {
             $this->validateObject($object);

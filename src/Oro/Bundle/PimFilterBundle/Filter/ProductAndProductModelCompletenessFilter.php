@@ -27,14 +27,11 @@ class ProductAndProductModelCompletenessFilter extends BooleanFilter
             return false;
         }
 
-        switch ($data['value']) {
-            case BooleanFilterType::TYPE_YES:
-                $this->util->applyFilter($ds, 'completeness', Operators::AT_LEAST_COMPLETE, null);
-                break;
-            case BooleanFilterType::TYPE_NO:
-                $this->util->applyFilter($ds, 'completeness', Operators::AT_LEAST_INCOMPLETE, null);
-                break;
-        }
+        match ($data['value']) {
+            BooleanFilterType::TYPE_YES => $this->util->applyFilter($ds, 'completeness', Operators::AT_LEAST_COMPLETE, null),
+            BooleanFilterType::TYPE_NO => $this->util->applyFilter($ds, 'completeness', Operators::AT_LEAST_INCOMPLETE, null),
+            default => true,
+        };
 
         return true;
     }

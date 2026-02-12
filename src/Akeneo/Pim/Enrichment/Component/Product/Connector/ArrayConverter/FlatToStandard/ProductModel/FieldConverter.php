@@ -16,20 +16,10 @@ use Akeneo\Pim\Enrichment\Component\Product\Connector\ArrayConverter\FlatToStand
  */
 class FieldConverter implements FieldConverterInterface
 {
-    /** @var FieldSplitter */
-    private $fieldSplitter;
-
-    /** @var AssociationColumnsResolver */
-    private $assocFieldResolver;
-
     private const PRODUCT_MODEL_FIELDS = ['parent', 'code', 'family_variant', 'categories'];
 
-    public function __construct(
-        FieldSplitter $fieldSplitter,
-        AssociationColumnsResolver $assocFieldResolver
-    ) {
-        $this->fieldSplitter = $fieldSplitter;
-        $this->assocFieldResolver = $assocFieldResolver;
+    public function __construct(private readonly FieldSplitter $fieldSplitter, private readonly AssociationColumnsResolver $assocFieldResolver)
+    {
     }
 
     /**
@@ -42,11 +32,11 @@ class FieldConverter implements FieldConverterInterface
 
         if (in_array($fieldName, $associationFields)) {
             $value = $this->fieldSplitter->splitCollection($value);
-            list($associationTypeCode, $associatedWith) = $this->fieldSplitter->splitFieldName($fieldName);
+            [$associationTypeCode, $associatedWith] = $this->fieldSplitter->splitFieldName($fieldName);
 
             return new ConvertedField('associations', [$associationTypeCode => [$associatedWith => $value]]);
         } elseif (in_array($fieldName, $quantifiedAssociationFields)) {
-            list($associationTypeCode, $associatedWith) = $this->fieldSplitter->splitFieldName($fieldName);
+            [$associationTypeCode, $associatedWith] = $this->fieldSplitter->splitFieldName($fieldName);
 
             return new ConvertedField('quantified_associations', [$associationTypeCode => [$associatedWith => $value]]);
         } elseif (in_array($fieldName, $this->assocFieldResolver->resolveQuantifiedQuantityAssociationColumns())) {

@@ -13,26 +13,10 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ConsolidationDa
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\DashboardProjectionCode;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\DashboardProjectionType;
 
-final class ConsolidateDashboardRates
+final readonly class ConsolidateDashboardRates
 {
-    private GetRanksDistributionFromProductScoresQueryInterface $getRanksDistributionFromProductScoresQuery;
-
-    private GetAllCategoryCodesQueryInterface $getAllCategoryCodesQuery;
-
-    private GetAllFamilyCodesQueryInterface $getAllFamilyCodesQuery;
-
-    private DashboardScoresProjectionRepositoryInterface $dashboardScoresProjectionRepository;
-
-    public function __construct(
-        GetRanksDistributionFromProductScoresQueryInterface $getRanksDistributionFromProductScoresQuery,
-        GetAllCategoryCodesQueryInterface $getAllCategoryCodesQuery,
-        GetAllFamilyCodesQueryInterface $getAllFamilyCodesQuery,
-        DashboardScoresProjectionRepositoryInterface $dashboardScoresProjectionRepository
-    ) {
-        $this->getRanksDistributionFromProductScoresQuery = $getRanksDistributionFromProductScoresQuery;
-        $this->getAllCategoryCodesQuery = $getAllCategoryCodesQuery;
-        $this->getAllFamilyCodesQuery = $getAllFamilyCodesQuery;
-        $this->dashboardScoresProjectionRepository = $dashboardScoresProjectionRepository;
+    public function __construct(private GetRanksDistributionFromProductScoresQueryInterface $getRanksDistributionFromProductScoresQuery, private GetAllCategoryCodesQueryInterface $getAllCategoryCodesQuery, private GetAllFamilyCodesQueryInterface $getAllFamilyCodesQuery, private DashboardScoresProjectionRepositoryInterface $dashboardScoresProjectionRepository)
+    {
     }
 
     public function consolidate(ConsolidationDate $day): void

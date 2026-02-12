@@ -7,7 +7,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Query\GetProductUuidsWithRemovedAttributeInterface;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
 
-final class GetProductUuidsWithRemovedAttribute implements GetProductUuidsWithRemovedAttributeInterface
+final readonly class GetProductUuidsWithRemovedAttribute implements GetProductUuidsWithRemovedAttributeInterface
 {
     private SearchQueryBuilder $searchQueryBuilder;
 
@@ -39,9 +39,7 @@ final class GetProductUuidsWithRemovedAttribute implements GetProductUuidsWithRe
         $rows = $this->elasticsearchClient->search($body);
 
         while (!empty($rows['hits']['hits'])) {
-            $uuids = array_map(function (array $product) {
-                return \str_replace('product_', '', $product['_source']['id']);
-            }, $rows['hits']['hits']);
+            $uuids = array_map(fn(array $product) => \str_replace('product_', '', (string) $product['_source']['id']), $rows['hits']['hits']);
             yield $uuids;
             $body['search_after'] = end($rows['hits']['hits'])['sort'];
             $rows = $this->elasticsearchClient->search($body);

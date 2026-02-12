@@ -27,7 +27,7 @@ class StandardUnitCodeShouldExistValidator extends ConstraintValidator
                 sprintf(
                     'Expect an instance of class "%s", "%s" given',
                     CreateMeasurementFamilyCommand::class,
-                    get_class($createMeasurementFamilyCommand)
+                    $createMeasurementFamilyCommand::class
                 )
             );
         }

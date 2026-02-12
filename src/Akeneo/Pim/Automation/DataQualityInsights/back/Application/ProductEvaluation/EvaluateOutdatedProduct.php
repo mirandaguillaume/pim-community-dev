@@ -18,9 +18,9 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductUuid;
 class EvaluateOutdatedProduct
 {
     public function __construct(
-        private HasUpToDateEvaluationQueryInterface $hasUpToDateEvaluationQuery,
-        private EvaluateProducts $evaluateProducts,
-        private ProductUuidFactory $factory
+        private readonly HasUpToDateEvaluationQueryInterface $hasUpToDateEvaluationQuery,
+        private readonly EvaluateProducts $evaluateProducts,
+        private readonly ProductUuidFactory $factory
     ) {
     }
 

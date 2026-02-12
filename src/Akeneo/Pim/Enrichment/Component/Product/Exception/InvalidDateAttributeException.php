@@ -17,7 +17,7 @@ class InvalidDateAttributeException extends InvalidPropertyException implements
     DomainErrorInterface,
     TemplatedErrorMessageInterface
 {
-    private TemplatedErrorMessage $templatedMessage;
+    private readonly TemplatedErrorMessage $templatedMessage;
 
     public function __construct(string $propertyName, string $propertyValue, string $className)
     {

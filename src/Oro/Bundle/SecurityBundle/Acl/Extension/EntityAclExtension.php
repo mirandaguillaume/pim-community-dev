@@ -47,9 +47,6 @@ class EntityAclExtension extends AbstractAclExtension
 
     /**
      * Constructor
-     *
-     * @param ObjectIdAccessor $objectIdAccessor
-     * @param EntityClassResolver $entityClassResolver
      */
     public function __construct(
         ObjectIdAccessor $objectIdAccessor,
@@ -421,10 +418,9 @@ class EntityAclExtension extends AbstractAclExtension
      *
      * @param string $permission
      * @param int $mask
-     * @param mixed $object
      * @throws InvalidAclMaskException
      */
-    protected function validateMaskAccessLevel($permission, $mask, $object)
+    protected function validateMaskAccessLevel($permission, $mask, mixed $object)
     {
         $identity = $this->permissionToMaskBuilderIdentity[$permission];
         if (0 !== ($mask & $this->getMaskBuilderConst($identity, 'GROUP_' . $permission))) {
@@ -449,10 +445,9 @@ class EntityAclExtension extends AbstractAclExtension
      * Gets all valid bitmasks for the given object
      *
      * @param string $permission
-     * @param mixed $object
      * @return int
      */
-    protected function getValidMasks($permission, $object)
+    protected function getValidMasks($permission, mixed $object)
     {
         if ($object instanceof ObjectIdentity && $object->getType() === ObjectIdentityFactory::ROOT_IDENTITY_TYPE) {
             $identity = $this->permissionToMaskBuilderIdentity[$permission];

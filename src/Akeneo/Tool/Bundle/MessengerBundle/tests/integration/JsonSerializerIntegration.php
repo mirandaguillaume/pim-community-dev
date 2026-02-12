@@ -69,7 +69,7 @@ final class JsonSerializerIntegration extends KernelTestCase
         Assert::isArray($decoded);
 
         Assert::string($decoded['body']);
-        $body = \json_decode($decoded['body'], true);
+        $body = \json_decode($decoded['body'], true, 512, JSON_THROW_ON_ERROR);
         Assert::keyExists($body, 'id');
         Assert::keyExists($body, 'job_execution_id');
         Assert::keyExists($body, 'created_time');
@@ -119,7 +119,7 @@ final class JsonSerializerIntegration extends KernelTestCase
         Assert::isArray($decoded);
 
         Assert::string($decoded['body']);
-        $body = \json_decode($decoded['body'], true);
+        $body = \json_decode($decoded['body'], true, 512, JSON_THROW_ON_ERROR);
         Assert::keyExists($body, 'job_code');
         Assert::keyExists($body, 'options');
         Assert::same($body['job_code'], 'foo_job_code');

@@ -19,8 +19,8 @@ use Doctrine\DBAL\Exception\DeadlockException;
 class CriterionEvaluationRepository
 {
     public function __construct(
-        private Connection $dbConnection,
-        private TransformCriterionEvaluationResultCodes $transformCriterionEvaluationResult
+        private readonly Connection $dbConnection,
+        private readonly TransformCriterionEvaluationResultCodes $transformCriterionEvaluationResult
     ) {
     }
 
@@ -106,13 +106,13 @@ SQL;
             try {
                 $this->dbConnection->executeQuery($query, $queryParametersValues, $queryParametersTypes);
                 $success = true;
-            } catch (DeadlockException $e) {
+            } catch (DeadlockException) {
                 $retry++;
                 if ($retry == 5) {
                     $this->executeWithLock($query, $queryParametersValues, $queryParametersTypes);
                     $success = true;
                 } else {
-                    usleep(rand(100000, 500000 * 2**$retry));
+                    usleep(random_int(100000, 500000 * 2**$retry));
                 }
             }
         }
@@ -194,7 +194,7 @@ SQL;
 
         $formattedCriterionEvaluationResult = $this->transformCriterionEvaluationResult->transformToIds($criterionEvaluationResult->toArray());
 
-        return json_encode($formattedCriterionEvaluationResult);
+        return json_encode($formattedCriterionEvaluationResult, JSON_THROW_ON_ERROR);
     }
 
     private function formatDate(?\DateTimeImmutable $date): ?string

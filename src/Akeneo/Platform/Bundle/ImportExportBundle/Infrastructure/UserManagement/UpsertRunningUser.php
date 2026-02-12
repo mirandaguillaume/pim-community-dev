@@ -18,9 +18,9 @@ use Akeneo\UserManagement\ServiceApi\UserRole\UserRole;
 class UpsertRunningUser
 {
     public function __construct(
-        private UpsertUserHandlerInterface $upsertUserHandler,
-        private ListUserRoleInterface $listUserRole,
-        private ResolveScheduledJobRunningUsername $resolveScheduledJobRunningUsername,
+        private readonly UpsertUserHandlerInterface $upsertUserHandler,
+        private readonly ListUserRoleInterface $listUserRole,
+        private readonly ResolveScheduledJobRunningUsername $resolveScheduledJobRunningUsername,
     ) {
     }
 

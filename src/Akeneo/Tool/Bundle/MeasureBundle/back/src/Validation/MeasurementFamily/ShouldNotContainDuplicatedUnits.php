@@ -13,5 +13,5 @@ use Symfony\Component\Validator\Constraint;
  */
 class ShouldNotContainDuplicatedUnits extends Constraint
 {
-    public const SHOULD_NOT_CONTAIN_DUPLICATED_UNITS = 'pim_measurements.validation.measurement_family.units.should_not_contain_duplicates';
+    final public const SHOULD_NOT_CONTAIN_DUPLICATED_UNITS = 'pim_measurements.validation.measurement_family.units.should_not_contain_duplicates';
 }

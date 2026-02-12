@@ -41,37 +41,9 @@ use Webmozart\Assert\Assert;
 class ComputeDataRelatedToFamilyProductsTasklet implements TaskletInterface, InitializableInterface, TrackableTaskletInterface
 {
     private ?StepExecution $stepExecution = null;
-    private IdentifiableObjectRepositoryInterface $familyRepository;
-    private ProductQueryBuilderFactoryInterface $productQueryBuilderFactory;
-    private ItemReaderInterface $familyReader;
-    private KeepOnlyValuesForVariation $keepOnlyValuesForVariation;
-    private ValidatorInterface $validator;
-    private BulkSaverInterface $productSaver;
-    private JobRepositoryInterface $jobRepository;
-    private EntityManagerClearerInterface $cacheClearer;
-    private int $batchSize;
 
-    public function __construct(
-        IdentifiableObjectRepositoryInterface $familyRepository,
-        ProductQueryBuilderFactoryInterface $productQueryBuilderFactory,
-        ItemReaderInterface $familyReader,
-        BulkSaverInterface $productSaver,
-        EntityManagerClearerInterface $cacheClearer,
-        JobRepositoryInterface $jobRepository,
-        KeepOnlyValuesForVariation $keepOnlyValuesForVariation,
-        ValidatorInterface $validator,
-        private ProductRepositoryInterface $productRepository,
-        int $batchSize
-    ) {
-        $this->familyRepository = $familyRepository;
-        $this->productQueryBuilderFactory = $productQueryBuilderFactory;
-        $this->familyReader = $familyReader;
-        $this->productSaver = $productSaver;
-        $this->jobRepository = $jobRepository;
-        $this->cacheClearer = $cacheClearer;
-        $this->keepOnlyValuesForVariation = $keepOnlyValuesForVariation;
-        $this->validator = $validator;
-        $this->batchSize = $batchSize;
+    public function __construct(private readonly IdentifiableObjectRepositoryInterface $familyRepository, private readonly ProductQueryBuilderFactoryInterface $productQueryBuilderFactory, private readonly ItemReaderInterface $familyReader, private readonly BulkSaverInterface $productSaver, private readonly EntityManagerClearerInterface $cacheClearer, private readonly JobRepositoryInterface $jobRepository, private readonly KeepOnlyValuesForVariation $keepOnlyValuesForVariation, private readonly ValidatorInterface $validator, private readonly ProductRepositoryInterface $productRepository, private readonly int $batchSize)
+    {
     }
 
     /**
@@ -193,7 +165,7 @@ class ComputeDataRelatedToFamilyProductsTasklet implements TaskletInterface, Ini
                 if (null === $familyItem) {
                     break;
                 }
-            } catch (InvalidItemException $e) {
+            } catch (InvalidItemException) {
                 continue;
             }
 

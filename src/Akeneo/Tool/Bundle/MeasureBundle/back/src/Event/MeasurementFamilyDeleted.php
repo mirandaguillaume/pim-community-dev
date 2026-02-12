@@ -14,11 +14,8 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class MeasurementFamilyDeleted extends Event
 {
-    private MeasurementFamilyCode $measurementFamilyCode;
-
-    public function __construct(MeasurementFamilyCode $measurementFamilyCode)
+    public function __construct(private readonly MeasurementFamilyCode $measurementFamilyCode)
     {
-        $this->measurementFamilyCode = $measurementFamilyCode;
     }
 
     public function getMeasurementFamilyCode(): MeasurementFamilyCode

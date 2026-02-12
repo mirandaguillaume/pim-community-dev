@@ -11,12 +11,9 @@ use Akeneo\Tool\Component\Connector\Step\TaskletInterface;
 class RemoveAttributeCodesFromBlacklistTasklet implements TaskletInterface
 {
     private StepExecution $stepExecution;
-    private AttributeCodeBlacklister $attributeCodeBlacklister;
 
-    public function __construct(
-        AttributeCodeBlacklister $attributeCodeBlacklister
-    ) {
-        $this->attributeCodeBlacklister = $attributeCodeBlacklister;
+    public function __construct(private readonly AttributeCodeBlacklister $attributeCodeBlacklister)
+    {
     }
 
     public function setStepExecution(StepExecution $stepExecution)

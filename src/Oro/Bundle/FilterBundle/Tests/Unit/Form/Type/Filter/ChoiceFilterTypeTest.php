@@ -10,10 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class ChoiceFilterTypeTest extends AbstractTypeTestCase
 {
-    /**
-     * @var ChoiceFilterType
-     */
-    private $type;
+    private \Oro\Bundle\FilterBundle\Form\Type\Filter\ChoiceFilterType $type;
 
     protected function setUp(): void
     {

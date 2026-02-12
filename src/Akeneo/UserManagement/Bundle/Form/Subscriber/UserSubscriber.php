@@ -85,7 +85,6 @@ class UserSubscriber implements EventSubscriberInterface
     /**
      * Returns true if passed user is currently authenticated
      *
-     * @param UserInterface $user
      *
      * @return bool
      */

@@ -24,50 +24,10 @@ use Akeneo\Pim\Enrichment\Component\Product\Query\ProductQueryBuilderInterface;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class SqlGetConnectorProductModels implements Query\GetConnectorProductModels
+final readonly class SqlGetConnectorProductModels implements Query\GetConnectorProductModels
 {
-    /** @var GetValuesAndPropertiesFromProductModelCodes */
-    private $getValuesAndPropertiesFromProductModelCodes;
-
-    /** @var GetCategoryCodesByProductModelCodes */
-    private $getCategoryCodesByProductModelCodes;
-
-    /** @var GetProductAssociationsByProductModelCodes */
-    private $getProductAssociationsByProductModelCodes;
-
-    /** @var GetProductModelsAssociationsByProductModelCodes */
-    private $getProductModelAssociationsByProductModelCodes;
-
-    /** @var GetGroupAssociationsByProductModelCodes */
-    private $getGroupAssociationsByProductModelCodes;
-
-    /** @var GetProductQuantifiedAssociationsByProductModelCodes */
-    private $getProductQuantifiedAssociationsByProductModelCodes;
-
-    /** @var GetProductModelQuantifiedAssociationsByProductModelCodes */
-    private $getProductModelQuantifiedAssociationsByProductModelCodes;
-
-    /** @var ReadValueCollectionFactory */
-    private $readValueCollectionFactory;
-
-    public function __construct(
-        GetValuesAndPropertiesFromProductModelCodes $getValuesAndPropertiesFromProductModelCodes,
-        GetCategoryCodesByProductModelCodes $getCategoryCodesByProductModelCodes,
-        GetProductAssociationsByProductModelCodes $getProductAssociationsByProductModelCodes,
-        GetProductModelsAssociationsByProductModelCodes $getProductModelAssociationsByProductModelCodes,
-        GetGroupAssociationsByProductModelCodes $getGroupAssociationsByProductModelCodes,
-        GetProductQuantifiedAssociationsByProductModelCodes $getProductQuantifiedAssociationsByProductModelCodes,
-        GetProductModelQuantifiedAssociationsByProductModelCodes $getProductModelQuantifiedAssociationsByProductModelCodes,
-        ReadValueCollectionFactory $readValueCollectionFactory
-    ) {
-        $this->getValuesAndPropertiesFromProductModelCodes = $getValuesAndPropertiesFromProductModelCodes;
-        $this->getCategoryCodesByProductModelCodes = $getCategoryCodesByProductModelCodes;
-        $this->getProductAssociationsByProductModelCodes = $getProductAssociationsByProductModelCodes;
-        $this->getProductModelAssociationsByProductModelCodes = $getProductModelAssociationsByProductModelCodes;
-        $this->getGroupAssociationsByProductModelCodes = $getGroupAssociationsByProductModelCodes;
-        $this->getProductQuantifiedAssociationsByProductModelCodes = $getProductQuantifiedAssociationsByProductModelCodes;
-        $this->getProductModelQuantifiedAssociationsByProductModelCodes = $getProductModelQuantifiedAssociationsByProductModelCodes;
-        $this->readValueCollectionFactory = $readValueCollectionFactory;
+    public function __construct(private GetValuesAndPropertiesFromProductModelCodes $getValuesAndPropertiesFromProductModelCodes, private GetCategoryCodesByProductModelCodes $getCategoryCodesByProductModelCodes, private GetProductAssociationsByProductModelCodes $getProductAssociationsByProductModelCodes, private GetProductModelsAssociationsByProductModelCodes $getProductModelAssociationsByProductModelCodes, private GetGroupAssociationsByProductModelCodes $getGroupAssociationsByProductModelCodes, private GetProductQuantifiedAssociationsByProductModelCodes $getProductQuantifiedAssociationsByProductModelCodes, private GetProductModelQuantifiedAssociationsByProductModelCodes $getProductModelQuantifiedAssociationsByProductModelCodes, private ReadValueCollectionFactory $readValueCollectionFactory)
+    {
     }
 
     /**
@@ -82,9 +42,7 @@ final class SqlGetConnectorProductModels implements Query\GetConnectorProductMod
     ): ConnectorProductModelList {
         $result = $productQueryBuilder->execute();
         $productModelCodes = array_map(
-            function (IdentifierResult $identifier) {
-                return $identifier->getIdentifier();
-            },
+            fn(IdentifierResult $identifier) => $identifier->getIdentifier(),
             iterator_to_array($result)
         );
 

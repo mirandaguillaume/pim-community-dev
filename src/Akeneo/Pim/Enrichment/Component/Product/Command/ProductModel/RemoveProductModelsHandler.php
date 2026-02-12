@@ -13,18 +13,8 @@ use Akeneo\Tool\Component\StorageUtils\Remover\BulkRemoverInterface;
  */
 class RemoveProductModelsHandler
 {
-    private ProductModelRepositoryInterface $productModelRepository;
-    private BulkRemoverInterface $bulkProductModelRemover;
-    private int $batchSize;
-
-    public function __construct(
-        ProductModelRepositoryInterface $productModelRepository,
-        BulkRemoverInterface $bulkProductModelRemover,
-        int $batchSize
-    ) {
-        $this->productModelRepository = $productModelRepository;
-        $this->bulkProductModelRemover = $bulkProductModelRemover;
-        $this->batchSize = $batchSize;
+    public function __construct(private readonly ProductModelRepositoryInterface $productModelRepository, private readonly BulkRemoverInterface $bulkProductModelRemover, private readonly int $batchSize)
+    {
     }
 
     public function __invoke(RemoveProductModelsCommand $command): void

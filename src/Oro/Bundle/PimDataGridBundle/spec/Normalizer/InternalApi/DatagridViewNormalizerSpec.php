@@ -10,7 +10,7 @@ class DatagridViewNormalizerSpec extends ObjectBehavior
 {
     function it_is_a_normalizer()
     {
-        $this->shouldImplement('Symfony\Component\Serializer\Normalizer\NormalizerInterface');
+        $this->shouldImplement(\Symfony\Component\Serializer\Normalizer\NormalizerInterface::class);
     }
 
     function it_supports_json_format(DatagridView $view)

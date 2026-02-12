@@ -18,9 +18,7 @@ class WrongValuesOnVariantProductCleaner
     /**
      * Return true if the product has been modified, false otherwise
      *
-     * @param ProductInterface $variantProduct
      *
-     * @return bool
      */
     public function cleanProduct(ProductInterface $variantProduct): bool
     {
@@ -43,10 +41,7 @@ class WrongValuesOnVariantProductCleaner
     /**
      * We want to know which attribute that are in the parent level but actually in the children level
      *
-     * @param ProductInterface   $variantProduct
-     * @param AttributeInterface $attribute
      *
-     * @return bool
      */
     private function isProductImpactedForAttribute(ProductInterface $variantProduct, AttributeInterface $attribute): bool
     {
@@ -60,10 +55,6 @@ class WrongValuesOnVariantProductCleaner
     }
 
 
-    /**
-     * @param ProductInterface   $variantProduct
-     * @param AttributeInterface $attribute
-     */
     private function cleanProductForAttribute(ProductInterface $variantProduct, AttributeInterface $attribute): void
     {
         $values = $variantProduct->getValuesForVariation();

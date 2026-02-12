@@ -15,10 +15,10 @@ use Akeneo\Category\Domain\ValueObject\LabelCollection;
 class CategoryTree
 {
     public function __construct(
-        private ?CategoryId $id,
-        private Code $code,
-        private ?LabelCollection $labels = null,
-        private ?CategoryTreeTemplate $categoryTreeTemplate = null,
+        private readonly ?CategoryId $id,
+        private readonly Code $code,
+        private readonly ?LabelCollection $labels = null,
+        private readonly ?CategoryTreeTemplate $categoryTreeTemplate = null,
     ) {
     }
 

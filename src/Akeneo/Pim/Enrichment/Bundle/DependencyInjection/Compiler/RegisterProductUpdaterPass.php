@@ -16,28 +16,28 @@ use Symfony\Component\DependencyInjection\Reference;
 class RegisterProductUpdaterPass implements CompilerPassInterface
 {
     /** @staticvar */
-    const SETTER_REGISTRY = 'pim_catalog.updater.setter.registry';
+    final public const SETTER_REGISTRY = 'pim_catalog.updater.setter.registry';
 
     /** @staticvar */
-    const SETTER_TAG = 'pim_catalog.updater.setter';
+    final public const SETTER_TAG = 'pim_catalog.updater.setter';
 
     /** @staticvar */
-    const COPIER_REGISTRY = 'pim_catalog.updater.copier.registry';
+    final public const COPIER_REGISTRY = 'pim_catalog.updater.copier.registry';
 
     /** @staticvar */
-    const COPIER_TAG = 'pim_catalog.updater.copier';
+    final public const COPIER_TAG = 'pim_catalog.updater.copier';
 
     /** @staticvar */
-    const ADDER_REGISTRY = 'pim_catalog.updater.adder.registry';
+    final public const ADDER_REGISTRY = 'pim_catalog.updater.adder.registry';
 
     /** @staticvar */
-    const ADDER_TAG = 'pim_catalog.updater.adder';
+    final public const ADDER_TAG = 'pim_catalog.updater.adder';
 
     /** @staticvar */
-    const REMOVER_REGISTRY = 'pim_catalog.updater.remover.registry';
+    final public const REMOVER_REGISTRY = 'pim_catalog.updater.remover.registry';
 
     /** @staticvar */
-    const REMOVER_TAG = 'pim_catalog.updater.remover';
+    final public const REMOVER_TAG = 'pim_catalog.updater.remover';
 
     /**
      * {@inheritdoc}
@@ -50,9 +50,6 @@ class RegisterProductUpdaterPass implements CompilerPassInterface
         $this->registerRemovers($container);
     }
 
-    /**
-     * @param ContainerBuilder $container
-     */
     protected function registerSetters(ContainerBuilder $container)
     {
         $registry = $container->getDefinition(self::SETTER_REGISTRY);
@@ -63,9 +60,6 @@ class RegisterProductUpdaterPass implements CompilerPassInterface
         }
     }
 
-    /**
-     * @param ContainerBuilder $container
-     */
     protected function registerCopiers(ContainerBuilder $container)
     {
         $registry = $container->getDefinition(self::COPIER_REGISTRY);
@@ -76,9 +70,6 @@ class RegisterProductUpdaterPass implements CompilerPassInterface
         }
     }
 
-    /**
-     * @param ContainerBuilder $container
-     */
     protected function registerAdders(ContainerBuilder $container)
     {
         $registry = $container->getDefinition(self::ADDER_REGISTRY);
@@ -89,9 +80,6 @@ class RegisterProductUpdaterPass implements CompilerPassInterface
         }
     }
 
-    /**
-     * @param ContainerBuilder $container
-     */
     protected function registerRemovers(ContainerBuilder $container)
     {
         $registry = $container->getDefinition(self::REMOVER_REGISTRY);

@@ -14,17 +14,15 @@ use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlags;
 class AttributeTypeRegistry
 {
     /** @var array<string,string> */
-    private $types = [];
+    private array $types = [];
 
-    public function __construct(private FeatureFlags $featureFlags)
+    public function __construct(private readonly FeatureFlags $featureFlags)
     {
     }
 
     /**
      * Register an attribute type
      *
-     * @param string                 $alias
-     * @param AttributeTypeInterface $type
      *
      * @return AttributeTypeRegistry
      */
@@ -70,9 +68,7 @@ class AttributeTypeRegistry
 
         return array_filter(
             $aliases,
-            function ($alias) {
-                return null === $this->types[$alias]['feature'] || $this->featureFlags->isEnabled($this->types[$alias]['feature']);
-            }
+            fn($alias) => null === $this->types[$alias]['feature'] || $this->featureFlags->isEnabled($this->types[$alias]['feature'])
         );
     }
 

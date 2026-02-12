@@ -31,12 +31,7 @@ class ValueConverterRegistry
         return $this;
     }
 
-    /**
-     * @param AttributeInterface $attribute
-     *
-     * @return ValueConverterInterface|null
-     */
-    public function getConverter(AttributeInterface $attribute)
+    public function getConverter(AttributeInterface $attribute): ?\Akeneo\Pim\Enrichment\Component\Product\Connector\ArrayConverter\StandardToFlat\Product\ValueConverter\ValueConverterInterface
     {
         foreach ($this->converters as $converter) {
             if ($converter->supportsAttribute($attribute)) {

@@ -30,11 +30,11 @@ final class EvaluateAllProductsCommand extends Command
     protected static $defaultDescription = 'Evaluate all products and product models having pending criteria.';
 
     public function __construct(
-        private Connection                        $dbConnection,
-        private GetProductUuidsToEvaluateQuery    $getProductIdsToEvaluateQuery,
-        private GetProductModelIdsToEvaluateQuery $getProductModelsIdsToEvaluateQuery,
-        private EvaluateProducts                  $evaluateProducts,
-        private EvaluateProductModels             $evaluateProductModels
+        private readonly Connection                        $dbConnection,
+        private readonly GetProductUuidsToEvaluateQuery    $getProductIdsToEvaluateQuery,
+        private readonly GetProductModelIdsToEvaluateQuery $getProductModelsIdsToEvaluateQuery,
+        private readonly EvaluateProducts                  $evaluateProducts,
+        private readonly EvaluateProductModels             $evaluateProductModels
     ) {
         parent::__construct();
     }

@@ -45,10 +45,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class SearchEventSubscriptionDebugLogsQuery implements SearchEventSubscriptionDebugLogsQueryInterface
 {
-    public const MAX_NUMBER_OF_NOTICE_AND_INFO_LOGS = 100;
-    public const MAX_LIFETIME_OF_WARNING_AND_ERROR_LOGS = 72 * 60 * 60;
+    final public const MAX_NUMBER_OF_NOTICE_AND_INFO_LOGS = 100;
+    final public const MAX_LIFETIME_OF_WARNING_AND_ERROR_LOGS = 72 * 60 * 60;
 
-    public function __construct(private Client $elasticsearchClient, private ClockInterface $clock, private Encrypter $encrypter)
+    public function __construct(private readonly Client $elasticsearchClient, private readonly ClockInterface $clock, private readonly Encrypter $encrypter)
     {
     }
 

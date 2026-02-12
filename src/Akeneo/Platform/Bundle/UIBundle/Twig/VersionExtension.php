@@ -15,12 +15,8 @@ use Twig\TwigFunction;
  */
 class VersionExtension extends AbstractExtension
 {
-    /** @var VersionProviderInterface */
-    private $versionProvider;
-
-    public function __construct(VersionProviderInterface $versionProvider)
+    public function __construct(private readonly VersionProviderInterface $versionProvider)
     {
-        $this->versionProvider = $versionProvider;
     }
 
     /**
@@ -29,7 +25,7 @@ class VersionExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('version', [$this, 'version']),
+            new TwigFunction('version', $this->version(...)),
         ];
     }
 

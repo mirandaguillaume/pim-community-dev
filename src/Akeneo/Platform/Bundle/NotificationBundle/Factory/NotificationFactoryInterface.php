@@ -16,11 +16,10 @@ interface NotificationFactoryInterface
     /**
      * Creates a notification
      *
-     * @param mixed $notification
      *
      * @return NotificationInterface
      */
-    public function create($notification);
+    public function create(mixed $notification);
 
     /**
      * Does this factory support the specified type ?

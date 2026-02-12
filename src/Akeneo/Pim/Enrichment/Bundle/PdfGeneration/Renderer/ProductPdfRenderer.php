@@ -22,36 +22,11 @@ use Twig\Environment;
  */
 class ProductPdfRenderer implements RendererInterface
 {
-    const PDF_FORMAT = 'pdf';
-    const THUMBNAIL_FILTER = 'pdf_thumbnail';
+    final public const PDF_FORMAT = 'pdf';
+    final public const THUMBNAIL_FILTER = 'pdf_thumbnail';
 
-    protected Environment $templating;
-    protected PdfBuilderInterface $pdfBuilder;
-    protected DataManager $dataManager;
-    protected CacheManager $cacheManager;
-    protected FilterManager $filterManager;
-    protected IdentifiableObjectRepositoryInterface $attributeRepository;
-    protected string $template;
-    protected ?string $customFont;
-
-    public function __construct(
-        Environment $templating,
-        PdfBuilderInterface $pdfBuilder,
-        DataManager $dataManager,
-        CacheManager $cacheManager,
-        FilterManager $filterManager,
-        IdentifiableObjectRepositoryInterface $attributeRepository,
-        string $template,
-        ?string $customFont = null
-    ) {
-        $this->templating = $templating;
-        $this->pdfBuilder = $pdfBuilder;
-        $this->dataManager = $dataManager;
-        $this->cacheManager = $cacheManager;
-        $this->filterManager = $filterManager;
-        $this->attributeRepository = $attributeRepository;
-        $this->template = $template;
-        $this->customFont = $customFont;
+    public function __construct(protected Environment $templating, protected PdfBuilderInterface $pdfBuilder, protected DataManager $dataManager, protected CacheManager $cacheManager, protected FilterManager $filterManager, protected IdentifiableObjectRepositoryInterface $attributeRepository, protected string $template, protected ?string $customFont = null)
+    {
     }
 
     /**
@@ -168,7 +143,6 @@ class ProductPdfRenderer implements RendererInterface
      * Generate media thumbnails cache used by the PDF document
      *
      * @param string[] $imagePaths
-     * @param string   $filter
      */
     protected function generateThumbnailsCache(array $imagePaths, string $filter)
     {

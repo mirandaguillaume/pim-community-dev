@@ -18,10 +18,6 @@ class CategoryFieldRemover extends AbstractFieldRemover
     /** @var IdentifiableObjectRepositoryInterface */
     protected $categoryRepository;
 
-    /**
-     * @param IdentifiableObjectRepositoryInterface $categoryRepository
-     * @param array                                 $supportedFields
-     */
     public function __construct(
         IdentifiableObjectRepositoryInterface $categoryRepository,
         array $supportedFields
@@ -64,11 +60,10 @@ class CategoryFieldRemover extends AbstractFieldRemover
      * Check if data are valid
      *
      * @param string $field
-     * @param mixed  $data
      *
      * @throws InvalidPropertyTypeException
      */
-    protected function checkData($field, $data)
+    protected function checkData($field, mixed $data)
     {
         if (!is_array($data)) {
             throw InvalidPropertyTypeException::arrayExpected(

@@ -11,10 +11,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class EntityFilterTypeTest extends AbstractTypeTestCase
 {
-    /**
-     * @var EntityFilterType
-     */
-    private $type;
+    private \Oro\Bundle\FilterBundle\Form\Type\Filter\EntityFilterType $type;
 
     protected function setUp(): void
     {
@@ -71,10 +68,6 @@ class EntityFilterTypeTest extends AbstractTypeTestCase
 
     /**
      * @dataProvider bindDataProvider
-     * @param array $bindData
-     * @param array $formData
-     * @param array $viewData
-     * @param array $customOptions
      */
     public function testBindData(
         array $bindData,

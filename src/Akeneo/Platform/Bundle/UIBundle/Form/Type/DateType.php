@@ -27,10 +27,6 @@ class DateType extends AbstractType
     /** @var DateFactory */
     protected $dateFactory;
 
-    /**
-     * @param LocaleResolver $localeResolver
-     * @param DateFactory $dateFactory
-     */
     public function __construct(LocaleResolver $localeResolver, DateFactory $dateFactory)
     {
         $this->localeResolver = $localeResolver;
@@ -42,9 +38,7 @@ class DateType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $placeholderDefault = function (Options $options) {
-            return $options['required'] ? null : '';
-        };
+        $placeholderDefault = fn(Options $options) => $options['required'] ? null : '';
 
         $constraint = new DateFormat();
         $dateFormat = $this->dateFactory->create(['locale' => $this->localeResolver->getCurrentLocale()])->getPattern();

@@ -78,7 +78,6 @@ class ReferenceDataCollectionNormalizer implements NormalizerInterface, Cacheabl
     /**
      * Get the reference data label (or the [code] is no label is present).
      *
-     * @param ReferenceDataInterface $referenceData
      *
      * @return string
      */

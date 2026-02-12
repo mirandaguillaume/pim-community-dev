@@ -17,10 +17,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class UpdateConnectedAppScopesWithAuthorizationHandler
 {
     public function __construct(
-        private ValidatorInterface $validator,
-        private AppAuthorizationSessionInterface $appAuthorizationSession,
-        private UpdateConnectedAppScopesQueryInterface $updateConnectedAppScopesQuery,
-        private UpdateConnectedAppRoleWithScopesInterface $updateConnectedAppRoleWithScopes,
+        private readonly ValidatorInterface $validator,
+        private readonly AppAuthorizationSessionInterface $appAuthorizationSession,
+        private readonly UpdateConnectedAppScopesQueryInterface $updateConnectedAppScopesQuery,
+        private readonly UpdateConnectedAppRoleWithScopesInterface $updateConnectedAppRoleWithScopes,
     ) {
     }
 

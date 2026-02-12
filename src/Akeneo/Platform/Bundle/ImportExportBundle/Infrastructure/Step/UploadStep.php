@@ -30,8 +30,8 @@ final class UploadStep extends AbstractStep
         $name,
         EventDispatcherInterface $eventDispatcher,
         JobRepositoryInterface $jobRepository,
-        private TransferFilesToStorageHandler $transferFilesToStorageHandler,
-        private FileWriterArchiver $fileWriterArchiver,
+        private readonly TransferFilesToStorageHandler $transferFilesToStorageHandler,
+        private readonly FileWriterArchiver $fileWriterArchiver,
     ) {
         parent::__construct($name, $eventDispatcher, $jobRepository);
     }

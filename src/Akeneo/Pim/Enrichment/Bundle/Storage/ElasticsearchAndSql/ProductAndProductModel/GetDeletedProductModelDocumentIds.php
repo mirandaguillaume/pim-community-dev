@@ -14,11 +14,11 @@ use Doctrine\DBAL\Connection;
  *
  * Fetches all product model documents in the ES index that are not present in the DB anymore
  */
-final class GetDeletedProductModelDocumentIds
+final readonly class GetDeletedProductModelDocumentIds
 {
     private const CHUNK_SIZE = 500;
 
-    public function __construct(private readonly Client $esClient, private readonly Connection $connection)
+    public function __construct(private Client $esClient, private Connection $connection)
     {
     }
 

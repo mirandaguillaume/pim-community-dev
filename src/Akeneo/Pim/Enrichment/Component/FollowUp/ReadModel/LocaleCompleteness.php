@@ -12,41 +12,20 @@ namespace Akeneo\Pim\Enrichment\Component\FollowUp\ReadModel;
  */
 class LocaleCompleteness
 {
-    /** @var string */
-    private $locale;
-
-    /** @var int */
-    private $numberOfCompleteProducts;
-
-    /**
-     * @param string $locale
-     * @param int $numberOfCompleteProducts
-     */
-    public function __construct(string $locale, int $numberOfCompleteProducts)
+    public function __construct(private readonly string $locale, private readonly int $numberOfCompleteProducts)
     {
-        $this->locale = $locale;
-        $this->numberOfCompleteProducts = $numberOfCompleteProducts;
     }
 
-    /**
-     * @return string
-     */
     public function locale(): string
     {
         return $this->locale;
     }
 
-    /**
-     * @return int
-     */
     public function numberOfCompleteProducts(): int
     {
         return $this->numberOfCompleteProducts;
     }
 
-    /**
-     * @return array
-     */
     public function toArray(): array
     {
         return [

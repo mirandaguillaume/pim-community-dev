@@ -44,8 +44,6 @@ class FilterChainedProvider implements FilterProviderInterface
 
     /**
      * Add a provider
-     *
-     * @param FilterProviderInterface $provider
      */
     public function addProvider(FilterProviderInterface $provider)
     {

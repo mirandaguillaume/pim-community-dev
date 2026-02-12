@@ -278,9 +278,6 @@ class CheckAuthenticationSecurityEndToEnd extends ApiTestCase
         return $this->get(FindAConnectionHandler::class)->handle($query);
     }
 
-    /**
-     * @return Configuration
-     */
     protected function getConfiguration(): Configuration
     {
         return $this->catalog->useMinimalCatalog();

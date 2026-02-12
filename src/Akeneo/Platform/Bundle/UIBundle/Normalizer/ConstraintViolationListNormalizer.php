@@ -13,12 +13,8 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
  */
 class ConstraintViolationListNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    /** @var NormalizerInterface */
-    private $normalizer;
-
-    public function __construct(NormalizerInterface $normalizer)
+    public function __construct(private readonly NormalizerInterface $normalizer)
     {
-        $this->normalizer = $normalizer;
     }
 
     public function normalize($constraintList, $format = null, array $context = [])

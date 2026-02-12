@@ -36,7 +36,7 @@ class RunMessageProcess
             'tenant_id' => $tenantId,
             'correlation_id' => $correlationId,
             'consumer_name' => $consumerName,
-            'message_class' => \get_class($message),
+            'message_class' => $message::class,
         ];
 
         $this->logger->debug('Message received', $context);
@@ -56,7 +56,7 @@ class RunMessageProcess
                 'bin/console',
                 'akeneo:process-message',
                 $consumerName,
-                \get_class($message),
+                $message::class,
                 $this->serializer->serialize($message, 'json'),
                 $correlationId,
             ], null, $env);
@@ -71,9 +71,7 @@ class RunMessageProcess
             throw $t;
         }
 
-        $this->logger->info('Message is handled', \array_merge($context, [
-            'duration_time_in_secs' => time() - $startTime,
-        ]));
+        $this->logger->info('Message is handled', [...$context, 'duration_time_in_secs' => time() - $startTime]);
 
         if (0 !== $exitCode) {
             throw new \RuntimeException(\sprintf('An error occurred, exit code: %d', $exitCode));

@@ -6,9 +6,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BooleanFilterType extends AbstractChoiceType
 {
-    const TYPE_YES = 1;
-    const TYPE_NO = 2;
-    const NAME = 'oro_type_boolean_filter';
+    final public const TYPE_YES = 1;
+    final public const TYPE_NO = 2;
+    final public const NAME = 'oro_type_boolean_filter';
 
     /**
      * {@inheritDoc}

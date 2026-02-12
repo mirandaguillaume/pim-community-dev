@@ -78,7 +78,6 @@ class ValuesController
     /**
      * Return the validation error for the product template
      *
-     * @param Request $request
      *
      * @return Response
      */
@@ -88,7 +87,7 @@ class ValuesController
             return new RedirectResponse('/');
         }
 
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $locale = $this->userContext->getUiLocale()->getCode();
         $data   = $this->productValueConverter->convert($data);
@@ -119,7 +118,6 @@ class ValuesController
     /**
      * Remove all violations related to identifier
      *
-     * @param ConstraintViolationListInterface $violations
      *
      * @return ConstraintViolationListInterface
      */
@@ -127,7 +125,7 @@ class ValuesController
     {
         $identifierPath = sprintf('values[%s-<all_channels>-<all_locales>]', $this->attributeRepository->getIdentifierCode());
         foreach ($violations as $offset => $violation) {
-            if (0 === strpos($violation->getPropertyPath(), $identifierPath)) {
+            if (str_starts_with($violation->getPropertyPath(), $identifierPath)) {
                 $violations->remove($offset);
             }
         }

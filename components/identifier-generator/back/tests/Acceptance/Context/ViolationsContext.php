@@ -21,7 +21,7 @@ final class ViolationsContext implements Context
      */
     public function iShouldNotGetAnyError(): void
     {
-        Assert::null($this->violationsException, 'Errors were raised: ' . \json_encode($this->violationsException?->normalize()));
+        Assert::null($this->violationsException, 'Errors were raised: ' . \json_encode($this->violationsException?->normalize(), JSON_THROW_ON_ERROR));
     }
 
     /**

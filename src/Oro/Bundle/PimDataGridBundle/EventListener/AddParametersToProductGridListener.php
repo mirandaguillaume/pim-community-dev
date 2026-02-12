@@ -39,8 +39,8 @@ class AddParametersToProductGridListener extends AddParametersToGridListener
         RequestParameters $requestParams,
         CatalogContext $catalogContext,
         UserContext $userContext,
-        $isEditMode = false,
-        RequestStack $requestStack
+        RequestStack $requestStack,
+        $isEditMode = false
     ) {
         parent::__construct($paramNames, $requestParams, $isEditMode);
 
@@ -49,9 +49,6 @@ class AddParametersToProductGridListener extends AddParametersToGridListener
         $this->requestStack = $requestStack;
     }
 
-    /**
-     * @return null|Request
-     */
     protected function getRequest(): ?Request
     {
         return $this->requestStack->getCurrentRequest();
@@ -109,7 +106,7 @@ class AddParametersToProductGridListener extends AddParametersToGridListener
         if (empty($filterValues)) {
             $filterValues = $this->getRequest()->get('filters');
             if (is_string($filterValues)) {
-                $filterValues = json_decode($filterValues, true);
+                $filterValues = json_decode($filterValues, true, 512, JSON_THROW_ON_ERROR);
             }
             if (!$filterValues) {
                 $filterValues = [];

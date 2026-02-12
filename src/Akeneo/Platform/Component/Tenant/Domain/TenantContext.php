@@ -23,13 +23,13 @@ use Akeneo\Platform\Component\Tenant\Domain\Values\EncryptedValues;
  *
  * @author  JM Leroux <jmleroux.pro@gmail.com>
  */
-final class TenantContext
+final readonly class TenantContext
 {
     private function __construct(
-        private readonly ContextValueDecrypterInterface $tenantContextDecoder,
-        private readonly ?EncryptedValues $v1Values = null,
-        private readonly ?array $plainValues = null,
-        private readonly ?EncryptedValues $secretValues = null,
+        private ContextValueDecrypterInterface $tenantContextDecoder,
+        private ?EncryptedValues $v1Values = null,
+        private ?array $plainValues = null,
+        private ?EncryptedValues $secretValues = null,
     ) {
     }
 

@@ -11,29 +11,26 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Exception;
  */
 class InvalidArgumentException extends \InvalidArgumentException
 {
-    const EXPECTED_CODE = 100;
-    const BOOLEAN_EXPECTED_CODE = 101;
-    const FLOAT_EXPECTED_CODE = 102;
-    const INTEGER_EXPECTED_CODE = 103;
-    const NUMERIC_EXPECTED_CODE = 104;
-    const STRING_EXPECTED_CODE = 105;
-    const ARRAY_EXPECTED_CODE = 106;
-    const ARRAY_OF_ARRAYS_EXPECTED_CODE = 107;
+    final public const EXPECTED_CODE = 100;
+    final public const BOOLEAN_EXPECTED_CODE = 101;
+    final public const FLOAT_EXPECTED_CODE = 102;
+    final public const INTEGER_EXPECTED_CODE = 103;
+    final public const NUMERIC_EXPECTED_CODE = 104;
+    final public const STRING_EXPECTED_CODE = 105;
+    final public const ARRAY_EXPECTED_CODE = 106;
+    final public const ARRAY_OF_ARRAYS_EXPECTED_CODE = 107;
 
-    const ARRAY_KEY_EXPECTED_CODE = 200;
-    const ARRAY_INVALID_KEY_CODE = 201;
-    const ARRAY_NUMERIC_KEY_EXPECTED_CODE = 202;
-    const ARRAY_STRING_KEY_EXPECTED_CODE = 203;
-    const ARRAY_STRING_VALUE_EXPECTED_CODE = 204;
-    const EMPTY_ARRAY_CODE = 205;
+    final public const ARRAY_KEY_EXPECTED_CODE = 200;
+    final public const ARRAY_INVALID_KEY_CODE = 201;
+    final public const ARRAY_NUMERIC_KEY_EXPECTED_CODE = 202;
+    final public const ARRAY_STRING_KEY_EXPECTED_CODE = 203;
+    final public const ARRAY_STRING_VALUE_EXPECTED_CODE = 204;
+    final public const EMPTY_ARRAY_CODE = 205;
 
-    const VALID_ENTITY_CODE_EXPECTED_CODE = 300;
-    const LOCALE_AND_SCOPE_EXPECTED_CODE = 301;
-    const SCOPE_EXPECTED_CODE = 302;
-    const ASSOCIATION_FORMAT_EXPECTED_CODE = 303;
-
-    /** @var string */
-    protected $className;
+    final public const VALID_ENTITY_CODE_EXPECTED_CODE = 300;
+    final public const LOCALE_AND_SCOPE_EXPECTED_CODE = 301;
+    final public const SCOPE_EXPECTED_CODE = 302;
+    final public const ASSOCIATION_FORMAT_EXPECTED_CODE = 303;
 
     /**
      * @param string          $className
@@ -41,11 +38,9 @@ class InvalidArgumentException extends \InvalidArgumentException
      * @param int             $code
      * @param \Exception|null $previous
      */
-    public function __construct($className, $message = '', $code = 0, \Exception $previous = null)
+    public function __construct(protected $className, $message = '', $code = 0, \Exception $previous = null)
     {
         parent::__construct($message, $code, $previous);
-
-        $this->className = $className;
     }
 
     /**
@@ -410,10 +405,8 @@ class InvalidArgumentException extends \InvalidArgumentException
     }
 
     /**
-     * @param \Exception $exception
      * @param string     $name
      * @param string     $className
-     *
      * @return InvalidArgumentException
      */
     public static function expectedFromPreviousException(\Exception $exception, $name, $className)

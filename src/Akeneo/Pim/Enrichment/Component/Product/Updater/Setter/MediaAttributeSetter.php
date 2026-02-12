@@ -74,12 +74,10 @@ class MediaAttributeSetter extends AbstractAttributeSetter
     }
 
     /**
-     * @param AttributeInterface $attribute
-     * @param mixed              $data
      *
      * @throws InvalidPropertyTypeException
      */
-    protected function checkData(AttributeInterface $attribute, $data)
+    protected function checkData(AttributeInterface $attribute, mixed $data)
     {
         if (null !== $data && !is_string($data)) {
             throw InvalidPropertyTypeException::stringExpected($attribute->getCode(), static::class, $data);

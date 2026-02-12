@@ -10,10 +10,7 @@ use Oro\Bundle\FilterBundle\Tests\Unit\Form\Type\AbstractTypeTestCase;
 
 class BooleanFilterTypeTest extends AbstractTypeTestCase
 {
-    /**
-     * @var BooleanFilterType
-     */
-    private $type;
+    private \Oro\Bundle\FilterBundle\Form\Type\Filter\BooleanFilterType $type;
 
     /**
      * @var array

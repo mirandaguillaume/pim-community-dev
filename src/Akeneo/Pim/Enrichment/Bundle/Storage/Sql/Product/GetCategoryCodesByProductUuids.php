@@ -15,7 +15,7 @@ use Webmozart\Assert\Assert;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GetCategoryCodesByProductUuids
+final readonly class GetCategoryCodesByProductUuids
 {
     public function __construct(private Connection $connection)
     {
@@ -70,7 +70,7 @@ SQL;
         );
 
         foreach ($queryResults as $queryResult) {
-            $categoryCodes = json_decode($queryResult['category_codes']);
+            $categoryCodes = json_decode((string) $queryResult['category_codes'], null, 512, JSON_THROW_ON_ERROR);
             sort($categoryCodes);
             // @todo https://akeneo.atlassian.net/browse/PIM-9220
             $categoryCodes = array_values(array_unique($categoryCodes));

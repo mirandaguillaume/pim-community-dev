@@ -35,7 +35,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UpdateCategoryControllerEndToEnd extends ControllerIntegrationTestCase
 {
-    private ?CategoryId $categoryID;
+    private ?CategoryId $categoryID = null;
 
     protected function setUp(): void
     {
@@ -234,9 +234,9 @@ class UpdateCategoryControllerEndToEnd extends ControllerIntegrationTestCase
             ],
             method: Request::METHOD_POST,
             content: json_encode([
-                'id' => 999999999,
-                'parent' => 9999999999,
-                'root_id' => 99999999999,
+                'id' => 999_999_999,
+                'parent' => 9_999_999_999,
+                'root_id' => 99_999_999_999,
                 'template_uuid' => null,
                 'properties' => [
                     'code' => null,

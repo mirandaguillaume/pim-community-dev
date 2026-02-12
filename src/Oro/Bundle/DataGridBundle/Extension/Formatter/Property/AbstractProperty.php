@@ -43,8 +43,6 @@ abstract class AbstractProperty implements PropertyInterface
     }
 
     /**
-     * @param ResultRecordInterface $record
-     *
      * @return mixed
      */
     abstract protected function getRawValue(ResultRecordInterface $record);
@@ -60,11 +58,10 @@ abstract class AbstractProperty implements PropertyInterface
     /**
      * Convert value to appropriate type
      *
-     * @param mixed $value
      *
      * @return mixed
      */
-    protected function convertValue($value)
+    protected function convertValue(mixed $value)
     {
         switch ($this->getOr(self::FRONTEND_TYPE_KEY)) {
             case self::TYPE_DATETIME:
@@ -97,11 +94,10 @@ abstract class AbstractProperty implements PropertyInterface
     /**
      * Format raw value.
      *
-     * @param mixed $value
      *
      * @return mixed
      */
-    protected function format($value)
+    protected function format(mixed $value)
     {
         if (null === $value) {
             return $value;
@@ -123,7 +119,7 @@ abstract class AbstractProperty implements PropertyInterface
     {
         $defaultMetadata = [
             // use field name if label not set
-            'label' => ucfirst($this->get('name')),
+            'label' => ucfirst((string) $this->get('name')),
         ];
 
         $metadata = $this->get()->toArray([], array_merge($this->excludeParams, $this->excludeParamsDefault));
@@ -167,7 +163,7 @@ abstract class AbstractProperty implements PropertyInterface
     protected function getOr($paramName = null, $default = null)
     {
         if ($paramName !== null) {
-            return isset($this->params[$paramName]) ? $this->params[$paramName] : $default;
+            return $this->params[$paramName] ?? $default;
         }
 
         return $this->params;
@@ -203,20 +199,13 @@ abstract class AbstractProperty implements PropertyInterface
     {
         $metadata = [];
 
-        switch ($this->getOr(self::FRONTEND_TYPE_KEY)) {
-            case self::TYPE_INTEGER:
-                $metadata = ['style' => 'integer'];
-                break;
-            case self::TYPE_DECIMAL:
-                $metadata = ['style' => 'decimal'];
-                break;
-            case self::TYPE_PERCENT:
-                $metadata = ['style' => 'percent'];
-                break;
-            case self::TYPE_BOOLEAN:
-                $metadata = ['width' => 10];
-                break;
-        }
+        $metadata = match ($this->getOr(self::FRONTEND_TYPE_KEY)) {
+            self::TYPE_INTEGER => ['style' => 'integer'],
+            self::TYPE_DECIMAL => ['style' => 'decimal'],
+            self::TYPE_PERCENT => ['style' => 'percent'],
+            self::TYPE_BOOLEAN => ['width' => 10],
+            default => $metadata,
+        };
 
         return $metadata;
     }

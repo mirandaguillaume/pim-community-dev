@@ -19,7 +19,7 @@ class QuantifiedAssociationUserIntentFactory implements UserIntentFactory
     use ValidateDataTrait;
 
     public function __construct(
-        private QuantifiedAssociationsStructureValidator $quantifiedAssociationsStructureValidator
+        private readonly QuantifiedAssociationsStructureValidator $quantifiedAssociationsStructureValidator
     ) {
     }
 

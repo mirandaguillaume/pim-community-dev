@@ -9,10 +9,10 @@ namespace Akeneo\Connectivity\Connection\Domain\Apps\DTO;
  */
 class AsymmetricKeys
 {
-    public const PUBLIC_KEY = 'public_key';
-    public const PRIVATE_KEY = 'private_key';
+    final public const PUBLIC_KEY = 'public_key';
+    final public const PRIVATE_KEY = 'private_key';
 
-    private function __construct(private string $publicKey, private string $privateKey)
+    private function __construct(private readonly string $publicKey, private readonly string $privateKey)
     {
     }
 

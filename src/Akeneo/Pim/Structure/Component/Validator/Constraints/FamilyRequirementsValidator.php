@@ -42,9 +42,6 @@ class FamilyRequirementsValidator extends ConstraintValidator
 
     /**
      * Validates that every required attribute is a family attribute.
-     *
-     * @param FamilyInterface    $family
-     * @param FamilyRequirements $constraint
      */
     protected function validateRequiredAttributes(FamilyInterface $family, FamilyRequirements $constraint)
     {

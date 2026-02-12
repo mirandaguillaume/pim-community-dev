@@ -13,10 +13,10 @@ use Webmozart\Assert\Assert;
 class SetSimpleSelectValue implements ValueUserIntent
 {
     public function __construct(
-        private string $attributeCode,
-        private ?string $channelCode,
-        private ?string $localeCode,
-        private string $value
+        private readonly string $attributeCode,
+        private readonly ?string $channelCode,
+        private readonly ?string $localeCode,
+        private readonly string $value
     ) {
         Assert::stringNotEmpty($value);
     }

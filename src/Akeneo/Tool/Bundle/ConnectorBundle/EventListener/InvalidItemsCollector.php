@@ -31,8 +31,6 @@ class InvalidItemsCollector implements EventSubscriberInterface
 
     /**
      * Collect unique invalid items
-     *
-     * @param InvalidItemEvent $event
      */
     public function collect(InvalidItemEvent $event)
     {
@@ -54,7 +52,6 @@ class InvalidItemsCollector implements EventSubscriberInterface
     /**
      * Get an unique hash for the given item
      *
-     * @param array $item
      *
      * @return string
      */

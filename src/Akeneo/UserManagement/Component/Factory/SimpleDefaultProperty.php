@@ -13,20 +13,8 @@ use Akeneo\UserManagement\Component\Model\UserInterface;
  */
 class SimpleDefaultProperty implements DefaultProperty
 {
-    /** @var string */
-    private $propertyName;
-
-    /** @var mixed */
-    private $defaultPropertyValue;
-
-    /**
-     * @param string $propertyName
-     * @param mixed $defaultPropertyValue
-     */
-    public function __construct(string $propertyName, $defaultPropertyValue)
+    public function __construct(private readonly string $propertyName, private readonly mixed $defaultPropertyValue)
     {
-        $this->propertyName = $propertyName;
-        $this->defaultPropertyValue = $defaultPropertyValue;
     }
 
     /**

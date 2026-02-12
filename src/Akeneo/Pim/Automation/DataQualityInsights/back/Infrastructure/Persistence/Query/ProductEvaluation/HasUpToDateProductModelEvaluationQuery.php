@@ -16,7 +16,7 @@ use Doctrine\DBAL\Connection;
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class HasUpToDateProductModelEvaluationQuery implements HasUpToDateEvaluationQueryInterface
+final readonly class HasUpToDateProductModelEvaluationQuery implements HasUpToDateEvaluationQueryInterface
 {
     public function __construct(
         private Connection $dbConnection,
@@ -62,9 +62,7 @@ SQL;
             return null;
         }
 
-        $ids = array_map(function ($resultRow) {
-            return $resultRow['id'];
-        }, $result);
+        $ids = array_map(fn($resultRow) => $resultRow['id'], $result);
 
         if (empty($ids)) {
             return null;

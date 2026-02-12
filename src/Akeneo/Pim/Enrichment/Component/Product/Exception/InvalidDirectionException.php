@@ -11,20 +11,12 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Exception;
  */
 class InvalidDirectionException extends \LogicException
 {
-    const NOT_SUPPORTED_CODE = 300;
+    final public const NOT_SUPPORTED_CODE = 300;
 
     /** @var array */
     protected $directions;
 
-    /** @var mixed */
-    protected $value;
-
-    /** @var string */
-    protected $className;
-
     /**
-     * @param array           $directions
-     * @param mixed           $value
      * @param string          $className
      * @param string          $message
      * @param int             $code
@@ -32,8 +24,8 @@ class InvalidDirectionException extends \LogicException
      */
     public function __construct(
         array $directions,
-        $value,
-        $className,
+        protected mixed $value,
+        protected $className,
         $message = '',
         $code = 0,
         \Exception $previous = null
@@ -41,8 +33,6 @@ class InvalidDirectionException extends \LogicException
         parent::__construct($message, $code, $previous);
 
         $this->directions = $directions;
-        $this->value = $value;
-        $this->className = $className;
     }
 
     /**

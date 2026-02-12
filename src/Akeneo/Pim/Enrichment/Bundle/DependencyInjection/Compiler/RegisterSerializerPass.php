@@ -17,18 +17,14 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class RegisterSerializerPass implements CompilerPassInterface
 {
-    /** @var string  */
-    protected $serializerServiceId;
-
     /** @staticvar integer The default priority for services */
-    const DEFAULT_PRIORITY = 100;
+    final public const DEFAULT_PRIORITY = 100;
 
     /**
      * @param string $serializerServiceId
      */
-    public function __construct($serializerServiceId)
+    public function __construct(protected $serializerServiceId)
     {
-        $this->serializerServiceId = $serializerServiceId;
     }
 
     /**
@@ -38,7 +34,7 @@ class RegisterSerializerPass implements CompilerPassInterface
     {
         if (!$container->hasDefinition($this->serializerServiceId)) {
             throw new \LogicException(
-                sprintf('Resolver "%s" is called on an incorrect serializer service id', get_class($this))
+                sprintf('Resolver "%s" is called on an incorrect serializer service id', static::class)
             );
         }
 
@@ -57,7 +53,6 @@ class RegisterSerializerPass implements CompilerPassInterface
      * Returns an array of service references for a specified tag name
      *
      * @param string           $tagName
-     * @param ContainerBuilder $container
      *
      * @return Reference[]
      */
@@ -74,7 +69,7 @@ class RegisterSerializerPass implements CompilerPassInterface
         $sortedServices = [];
         foreach ($services as $serviceId => $tags) {
             foreach ($tags as $tag) {
-                $priority = isset($tag['priority']) ? $tag['priority'] : self::DEFAULT_PRIORITY;
+                $priority = $tag['priority'] ?? self::DEFAULT_PRIORITY;
                 $sortedServices[$priority][] = new Reference($serviceId);
             }
         }

@@ -12,16 +12,8 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class ApiAuthenticationEvent extends Event
 {
-    /** @var string */
-    private $username;
-
-    /** @var string */
-    private $clientId;
-
-    public function __construct(string $username, string $clientId)
+    public function __construct(private readonly string $username, private readonly string $clientId)
     {
-        $this->username = $username;
-        $this->clientId = $clientId;
     }
 
     public function username(): string

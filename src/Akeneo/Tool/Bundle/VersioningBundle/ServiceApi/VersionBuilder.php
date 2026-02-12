@@ -94,18 +94,13 @@ class VersionBuilder
      */
     private function hasPermission(array $changeset): bool
     {
-        $changesetPermissions = array_filter($changeset, function ($key) {
-            return str_ends_with($key, '_permission');
-        }, ARRAY_FILTER_USE_KEY);
+        $changesetPermissions = array_filter($changeset, fn($key) => str_ends_with((string) $key, '_permission'), ARRAY_FILTER_USE_KEY);
 
         return count($changesetPermissions) > 0;
     }
 
     /**
      * Add a dedicated version when original version contains any changeset permission
-     *
-     * @param Version $version
-     * @return Version
      */
     private function buildPermissionVersion(Version $version): Version
     {

@@ -29,14 +29,14 @@ class RemoveCompletenessForChannelAndLocaleTasklet implements TaskletInterface
     private StepExecution $stepExecution;
 
     public function __construct(
-        private EntityManagerClearerInterface $cacheClearer,
-        private NotifierInterface $notifier,
-        private SimpleFactoryInterface $notificationFactory,
-        private ProductQueryBuilderFactoryInterface $productQueryBuilderFactory,
-        private ProductRepositoryInterface $productRepository,
-        private ChannelRepositoryInterface $channelRepository,
-        private BulkSaverInterface $productBulkSaver,
-        private int $productBatchSize
+        private readonly EntityManagerClearerInterface $cacheClearer,
+        private readonly NotifierInterface $notifier,
+        private readonly SimpleFactoryInterface $notificationFactory,
+        private readonly ProductQueryBuilderFactoryInterface $productQueryBuilderFactory,
+        private readonly ProductRepositoryInterface $productRepository,
+        private readonly ChannelRepositoryInterface $channelRepository,
+        private readonly BulkSaverInterface $productBulkSaver,
+        private readonly int $productBatchSize
     ) {
     }
 

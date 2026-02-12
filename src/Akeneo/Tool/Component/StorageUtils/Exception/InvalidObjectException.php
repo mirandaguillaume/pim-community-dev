@@ -11,24 +11,17 @@ namespace Akeneo\Tool\Component\StorageUtils\Exception;
  */
 class InvalidObjectException extends \LogicException
 {
-    /* @var string */
-    protected $objectClassName;
-
-    /* @var string */
-    protected $expectedClassName;
-
     /**
      * @param string     $objectClassName
      * @param string     $expectedClassName
      * @param string     $message
      * @param int        $code
-     * @param \Exception $previous
      */
-    public function __construct($objectClassName, $expectedClassName, $message = '', $code = 0, \Exception $previous = null)
+    public function __construct(/* @var string */
+    protected $objectClassName, /* @var string */
+    protected $expectedClassName, $message = '', $code = 0, \Exception $previous = null)
     {
         parent::__construct($message, $code, $previous);
-        $this->objectClassName   = $objectClassName;
-        $this->expectedClassName = $expectedClassName;
     }
 
     /**

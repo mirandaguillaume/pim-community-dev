@@ -20,11 +20,11 @@ use Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface;
 class GroupProductsHandler
 {
     public function __construct(
-        private FindProductUuidsInGroup $findUuids,
-        private GroupRepositoryInterface $groupRepository,
-        private BulkSaverInterface $productSaver,
-        private ProductRepositoryInterface $productRepository,
-        private int $batchSize
+        private readonly FindProductUuidsInGroup $findUuids,
+        private readonly GroupRepositoryInterface $groupRepository,
+        private readonly BulkSaverInterface $productSaver,
+        private readonly ProductRepositoryInterface $productRepository,
+        private readonly int $batchSize
     ) {
     }
 

@@ -10,10 +10,10 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final class GetFamilyTemplatesAction
+final readonly class GetFamilyTemplatesAction
 {
     public function __construct(
-        private readonly FetchFamilyTemplates $fetchFamilyTemplates
+        private FetchFamilyTemplates $fetchFamilyTemplates
     ) {
     }
 

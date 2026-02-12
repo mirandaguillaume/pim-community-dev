@@ -16,17 +16,12 @@ class FamilyVariantSearchableRepository implements SearchableRepositoryInterface
     /** @var EntityManagerInterface */
     protected $entityManager;
 
-    /** @var string */
-    protected $entityName;
-
     /**
-     * @param EntityManagerInterface $entityManager
      * @param string $entityName
      */
-    public function __construct(EntityManagerInterface $entityManager, $entityName)
+    public function __construct(EntityManagerInterface $entityManager, protected $entityName)
     {
         $this->entityManager = $entityManager;
-        $this->entityName = $entityName;
     }
 
     /**
@@ -48,8 +43,6 @@ class FamilyVariantSearchableRepository implements SearchableRepositoryInterface
     }
 
     /**
-     * @param QueryBuilder $qb
-     * @param array $options
      *
      * @return QueryBuilder
      */

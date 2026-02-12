@@ -18,9 +18,6 @@ class NotNullPropertiesValidator extends ConstraintValidator
     /** @var array */
     protected $supportedTypes;
 
-    /**
-     * @param array $supportedTypes
-     */
     public function __construct(array $supportedTypes)
     {
         $this->supportedTypes = $supportedTypes;

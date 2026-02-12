@@ -27,34 +27,11 @@ class ProductModelNormalizer implements NormalizerInterface, CacheableSupportsMe
     private const FIELD_ASSOCIATIONS = 'associations';
     private const FIELD_QUANTIFIED_ASSOCIATIONS = 'quantified_associations';
 
-    /** @var NormalizerInterface */
-    private $associationsNormalizer;
-
-    /** @var NormalizerInterface*/
-    private $standardNormalizer;
-
-    /** @var CollectionFilterInterface */
-    private $filter;
-
-    /** @var NormalizerInterface */
-    private $quantifiedAssociationsNormalizer;
-
     /**
      * @param CollectionFilterInterface $filter The collection filter
-     * @param NormalizerInterface       $associationsNormalizer
-     * @param NormalizerInterface       $standardNormalizer
-     * @param NormalizerInterface       $quantifiedAssociationsNormalizer
      */
-    public function __construct(
-        CollectionFilterInterface $filter,
-        NormalizerInterface $associationsNormalizer,
-        NormalizerInterface $standardNormalizer,
-        NormalizerInterface $quantifiedAssociationsNormalizer
-    ) {
-        $this->filter = $filter;
-        $this->associationsNormalizer = $associationsNormalizer;
-        $this->standardNormalizer = $standardNormalizer;
-        $this->quantifiedAssociationsNormalizer = $quantifiedAssociationsNormalizer;
+    public function __construct(private readonly CollectionFilterInterface $filter, private readonly NormalizerInterface $associationsNormalizer, private readonly NormalizerInterface $standardNormalizer, private readonly NormalizerInterface $quantifiedAssociationsNormalizer)
+    {
     }
 
     /**
@@ -62,8 +39,9 @@ class ProductModelNormalizer implements NormalizerInterface, CacheableSupportsMe
      *
      * @param ProductModelInterface $productModel
      */
-    public function normalize($productModel, $format = null, array $context = array()): array
+    public function normalize($productModel, $format = null, array $context = []): array
     {
+        $data = [];
         $context = array_merge(['filter_types' => ['pim.transform.product_value.structured']], $context);
 
         $data[self::FIELD_CODE] = $productModel->getCode();
@@ -95,9 +73,7 @@ class ProductModelNormalizer implements NormalizerInterface, CacheableSupportsMe
     /**
      * Normalize the values of the product model
      *
-     * @param WriteValueCollection $values
      * @param string $format
-     * @param array $context
      *
      * @return ArrayCollection
      */

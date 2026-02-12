@@ -18,7 +18,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\AttributeGroupC
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\FamilyId;
 use Doctrine\DBAL\Connection;
 
-final class SqlGetFamilyIds implements GetFamilyIds
+final readonly class SqlGetFamilyIds implements GetFamilyIds
 {
     public function __construct(private Connection $connection)
     {

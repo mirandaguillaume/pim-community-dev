@@ -10,7 +10,7 @@ use Akeneo\Pim\Structure\Component\AttributeTypes;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class AttributeType
+final readonly class AttributeType implements \Stringable
 {
     public const EVALUABLE_ATTRIBUTE_TYPES = [
         AttributeTypes::TEXT,
@@ -19,15 +19,11 @@ final class AttributeType
         AttributeTypes::OPTION_MULTI_SELECT,
     ];
 
-    /** @var string */
-    private $type;
-
-    public function __construct(string $code)
+    public function __construct(private string $type)
     {
-        $this->type = $code;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->type;
     }

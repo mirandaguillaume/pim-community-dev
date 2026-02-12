@@ -16,7 +16,7 @@ use Webmozart\Assert\Assert;
 class ProductModelScoreRepository implements ProductModelScoreRepositoryInterface
 {
     public function __construct(
-        private Connection $dbConnection
+        private readonly Connection $dbConnection
     ) {
     }
 
@@ -49,8 +49,8 @@ SQL;
             $queriesParameters[$productModelId] = (string)$productModelScore->getEntityId();
             $queriesParametersTypes[$productModelId] = \PDO::PARAM_INT;
             $queriesParameters[$evaluatedAt] = $productModelScore->getEvaluatedAt()->format('Y-m-d');
-            $queriesParameters[$scores] = \json_encode($productModelScore->getScores()->toNormalizedRates());
-            $queriesParameters[$scoresPartialCriteria] = \json_encode($productModelScore->getScoresPartialCriteria()->toNormalizedRates());
+            $queriesParameters[$scores] = \json_encode($productModelScore->getScores()->toNormalizedRates(), JSON_THROW_ON_ERROR);
+            $queriesParameters[$scoresPartialCriteria] = \json_encode($productModelScore->getScoresPartialCriteria()->toNormalizedRates(), JSON_THROW_ON_ERROR);
         }
 
         $this->dbConnection->executeQuery($queries, $queriesParameters, $queriesParametersTypes);

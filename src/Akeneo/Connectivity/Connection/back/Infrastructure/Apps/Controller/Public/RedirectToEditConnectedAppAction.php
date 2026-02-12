@@ -17,12 +17,12 @@ use Symfony\Component\Routing\RouterInterface;
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class RedirectToEditConnectedAppAction
+final readonly class RedirectToEditConnectedAppAction
 {
     public function __construct(
-        private readonly RouterInterface $router,
-        private readonly SecurityFacade $security,
-        private readonly FindOneConnectedAppByIdQueryInterface $findOneConnectedAppByIdQuery,
+        private RouterInterface $router,
+        private SecurityFacade $security,
+        private FindOneConnectedAppByIdQueryInterface $findOneConnectedAppByIdQuery,
     ) {
     }
 

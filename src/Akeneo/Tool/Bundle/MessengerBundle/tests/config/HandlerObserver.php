@@ -79,7 +79,7 @@ ON DUPLICATE KEY UPDATE `values` = :values
 SQL;
         $this->connection->executeQuery($query, [
             'code' => self::PIM_CONF_CODE,
-            'values' => \json_encode($this->executedHandlers),
+            'values' => \json_encode($this->executedHandlers, JSON_THROW_ON_ERROR),
         ]);
     }
 
@@ -93,7 +93,7 @@ SQL;
         ])->fetchOne();
 
         if ($values) {
-            $this->executedHandlers = \json_decode($values, true);
+            $this->executedHandlers = \json_decode((string) $values, true, 512, JSON_THROW_ON_ERROR);
         }
     }
 }

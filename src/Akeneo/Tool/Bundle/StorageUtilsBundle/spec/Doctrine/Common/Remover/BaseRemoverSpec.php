@@ -49,7 +49,7 @@ class BaseRemoverSpec extends ObjectBehavior
             sprintf(
                 'Expects a "%s", "%s" provided.',
                 ModelToRemove::class,
-                get_class($anythingElse)
+                $anythingElse::class
             )
         );
         $this->shouldThrow($exception)->during('remove', [$anythingElse]);

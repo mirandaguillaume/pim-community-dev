@@ -18,9 +18,6 @@ class ValueNormalizer implements NormalizerInterface, CacheableSupportsMethodInt
     /** @var NormalizerInterface */
     protected $standardNormalizer;
 
-    /**
-     * @param NormalizerInterface $standardNormalizer
-     */
     public function __construct(NormalizerInterface $standardNormalizer)
     {
         $this->standardNormalizer = $standardNormalizer;

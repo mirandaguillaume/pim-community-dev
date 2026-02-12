@@ -12,8 +12,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\AttributeType;
  */
 final class ProductValuesCollection implements \IteratorAggregate
 {
-    /** @var array */
-    private $productValuesByAttribute;
+    private array $productValuesByAttribute;
 
     public function __construct()
     {

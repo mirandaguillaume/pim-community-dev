@@ -11,7 +11,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\Query\ProductEvaluation\Get
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Query\ProductEvaluation\GetProductScoresQueryInterface;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductUuid;
 
-final class GetUpToDateProductEvaluationQuery implements GetProductEvaluationQueryInterface
+final readonly class GetUpToDateProductEvaluationQuery implements GetProductEvaluationQueryInterface
 {
     public function __construct(
         private GetCriteriaEvaluationsByEntityIdQueryInterface $getCriteriaEvaluationsByProductIdQuery,

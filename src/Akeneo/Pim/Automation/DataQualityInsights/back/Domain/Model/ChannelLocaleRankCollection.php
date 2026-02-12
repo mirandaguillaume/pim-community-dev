@@ -14,8 +14,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\Rank;
  */
 final class ChannelLocaleRankCollection
 {
-    /** @var ChannelLocaleDataCollection */
-    private $ranks;
+    private \Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\ChannelLocaleDataCollection $ranks;
 
     public function __construct()
     {
@@ -35,9 +34,7 @@ final class ChannelLocaleRankCollection
 
         $rankCollection->ranks = ChannelLocaleDataCollection::fromNormalizedChannelLocaleData(
             $normalizedRanks,
-            function ($normalizedRank) use ($getNormalizedRankValue) {
-                return Rank::fromInt(intval($getNormalizedRankValue($normalizedRank)));
-            }
+            fn($normalizedRank) => Rank::fromInt(intval($getNormalizedRankValue($normalizedRank)))
         );
 
         return $rankCollection;
@@ -45,8 +42,6 @@ final class ChannelLocaleRankCollection
 
     public function toArrayInt(): array
     {
-        return $this->ranks->mapWith(function (Rank $rank) {
-            return $rank->toInt();
-        });
+        return $this->ranks->mapWith(fn(Rank $rank) => $rank->toInt());
     }
 }

@@ -21,9 +21,6 @@ class PrePurgeVersionEvent extends Event
     /** @var VersionInterface */
     protected $version;
 
-    /**
-     * @param VersionInterface $version
-     */
     public function __construct(VersionInterface $version)
     {
         $this->version = $version;

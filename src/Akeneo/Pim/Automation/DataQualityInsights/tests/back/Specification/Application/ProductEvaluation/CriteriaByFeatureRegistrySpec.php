@@ -12,9 +12,9 @@ use PhpSpec\ObjectBehavior;
 
 class CriteriaByFeatureRegistrySpec extends ObjectBehavior
 {
-    private ?CriterionCode $criterionCodeWithoutFeature;
-    private ?CriterionCode $criterionCodeWhateverFeature;
-    private ?CriterionCode $criterionCodeAllFeatureOnly;
+    private ?CriterionCode $criterionCodeWithoutFeature = null;
+    private ?CriterionCode $criterionCodeWhateverFeature = null;
+    private ?CriterionCode $criterionCodeAllFeatureOnly = null;
 
     public function let(
         FeatureFlag $allCriteriaFeature,

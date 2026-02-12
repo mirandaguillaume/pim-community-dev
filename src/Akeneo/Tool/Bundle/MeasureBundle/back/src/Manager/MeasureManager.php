@@ -14,11 +14,8 @@ use Akeneo\Tool\Bundle\MeasureBundle\Provider\LegacyMeasurementProvider;
  */
 class MeasureManager
 {
-    private LegacyMeasurementProvider $legacyMeasurementProvider;
-
-    public function __construct(LegacyMeasurementProvider $legacyMeasurementProvider)
+    public function __construct(private readonly LegacyMeasurementProvider $legacyMeasurementProvider)
     {
-        $this->legacyMeasurementProvider = $legacyMeasurementProvider;
     }
 
     /**
@@ -44,8 +41,6 @@ class MeasureManager
      *
      * @param string $unitSymbol the unit symbol to check
      * @param string $family     the measure family
-     *
-     * @return bool
      */
     public function unitSymbolExistsInFamily($unitSymbol, $family): bool
     {
@@ -57,8 +52,6 @@ class MeasureManager
      *
      * @param string $unitCode the unit code to check
      * @param string $family   the measure family
-     *
-     * @return bool
      */
     public function unitCodeExistsInFamily($unitCode, $family): bool
     {

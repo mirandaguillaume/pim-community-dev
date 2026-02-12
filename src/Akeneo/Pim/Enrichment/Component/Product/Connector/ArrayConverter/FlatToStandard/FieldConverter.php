@@ -22,11 +22,6 @@ class FieldConverter implements FieldConverterInterface
     /** @var GroupTypeRepositoryInterface */
     protected $groupTypeRepository;
 
-    /**
-     * @param FieldSplitter                $fieldSplitter
-     * @param AssociationColumnsResolver   $assocFieldResolver
-     * @param GroupTypeRepositoryInterface $groupTypeRepository
-     */
     public function __construct(
         FieldSplitter $fieldSplitter,
         AssociationColumnsResolver $assocFieldResolver,
@@ -47,11 +42,11 @@ class FieldConverter implements FieldConverterInterface
 
         if (in_array($fieldName, $associationFields)) {
             $value = $this->fieldSplitter->splitCollection($value);
-            list($associationTypeCode, $associatedWith) = $this->fieldSplitter->splitFieldName($fieldName);
+            [$associationTypeCode, $associatedWith] = $this->fieldSplitter->splitFieldName($fieldName);
 
             return new ConvertedField('associations', [$associationTypeCode => [$associatedWith => $value]]);
         } elseif (in_array($fieldName, $quantifiedAssociationFields)) {
-            list($associationTypeCode, $associatedWith) = $this->fieldSplitter->splitFieldName($fieldName);
+            [$associationTypeCode, $associatedWith] = $this->fieldSplitter->splitFieldName($fieldName);
 
             return new ConvertedField('quantified_associations', [$associationTypeCode => [$associatedWith => $value]]);
         } elseif (in_array($fieldName, $this->assocFieldResolver->resolveQuantifiedQuantityAssociationColumns())) {
@@ -73,8 +68,6 @@ class FieldConverter implements FieldConverterInterface
 
     /**
      * @param string $column
-     *
-     * @return bool
      */
     public function supportsColumn($column): bool
     {
@@ -90,8 +83,6 @@ class FieldConverter implements FieldConverterInterface
      * Extract a variant group from column "groups"
      *
      * @param string $value
-     *
-     * @return ConvertedField
      */
     protected function extractGroup($value): ConvertedField
     {

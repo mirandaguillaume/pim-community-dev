@@ -11,11 +11,8 @@ use Twig\Environment;
 
 class SimpleSelectProductValueRenderer implements ProductValueRenderer
 {
-    private IdentifiableObjectRepositoryInterface $attributeOptionRepository;
-
-    public function __construct(IdentifiableObjectRepositoryInterface $attributeOptionRepository)
+    public function __construct(private readonly IdentifiableObjectRepositoryInterface $attributeOptionRepository)
     {
-        $this->attributeOptionRepository = $attributeOptionRepository;
     }
 
     public function render(Environment $environment, AttributeInterface $attribute, ?ValueInterface $value, string $localeCode): ?string
@@ -45,6 +42,6 @@ class SimpleSelectProductValueRenderer implements ProductValueRenderer
         $option->setLocale($localeCode);
         $translation = $option->getTranslation();
 
-        return null !== $translation->getValue() ? $translation->getValue() : sprintf('[%s]', $option->getCode());
+        return $translation->getValue() ?? sprintf('[%s]', $option->getCode());
     }
 }

@@ -16,7 +16,7 @@ final class CachedFindAllEditableLocalesForUser implements FindAllEditableLocale
     private array $cache = [];
 
     public function __construct(
-        private FindAllEditableLocalesForUser $findAllEditableLocalesForUser
+        private readonly FindAllEditableLocalesForUser $findAllEditableLocalesForUser
     ) {
     }
 

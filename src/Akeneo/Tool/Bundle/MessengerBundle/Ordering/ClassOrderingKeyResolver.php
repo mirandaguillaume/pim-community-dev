@@ -11,15 +11,10 @@ use Symfony\Component\Messenger\Envelope;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class ClassOrderingKeyResolver implements OrderingKeyResolverInterface
+final readonly class ClassOrderingKeyResolver implements OrderingKeyResolverInterface
 {
-    private string $class;
-    private string $orderingKey;
-
-    public function __construct(string $class, string $orderingKey)
+    public function __construct(private string $class, private string $orderingKey)
     {
-        $this->class = $class;
-        $this->orderingKey = $orderingKey;
     }
 
     /**

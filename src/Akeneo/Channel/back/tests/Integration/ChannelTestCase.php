@@ -90,7 +90,7 @@ class ChannelTestCase extends TestCase
             'currencies' => ['USD'],
             'category_tree' => 'master',
         ];
-        $data = array_merge($defaultData, $data);
+        $data = [...$defaultData, ...$data];
 
         $channel = $this->get('pim_catalog.repository.channel')->findOneByIdentifier($code);
         if (null === $channel) {

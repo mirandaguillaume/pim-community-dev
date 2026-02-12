@@ -27,9 +27,7 @@ class JobExecutionTracking
     {
         return array_reduce(
             $this->steps,
-            static function (bool $hasError, StepExecutionTracking $stepExecutionTracking) {
-                return $hasError || $stepExecutionTracking->hasError;
-            },
+            static fn(bool $hasError, StepExecutionTracking $stepExecutionTracking) => $hasError || $stepExecutionTracking->hasError,
             false
         );
     }
@@ -38,9 +36,7 @@ class JobExecutionTracking
     {
         return array_reduce(
             $this->steps,
-            static function (bool $hasWarning, StepExecutionTracking $stepExecutionTracking) {
-                return $hasWarning || $stepExecutionTracking->hasWarning;
-            },
+            static fn(bool $hasWarning, StepExecutionTracking $stepExecutionTracking) => $hasWarning || $stepExecutionTracking->hasWarning,
             false
         );
     }

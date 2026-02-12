@@ -37,12 +37,6 @@ class EditCommonAttributesProcessor extends AbstractProcessor
     /** @var ObjectDetacherInterface */
     protected $productDetacher;
 
-    /**
-     * @param ValidatorInterface                  $validator
-     * @param ProductRepositoryInterface          $productRepository
-     * @param ObjectUpdaterInterface              $productUpdater
-     * @param ObjectDetacherInterface             $productDetacher
-     */
     public function __construct(
         ValidatorInterface $validator,
         ProductRepositoryInterface $productRepository,
@@ -152,7 +146,6 @@ class EditCommonAttributesProcessor extends AbstractProcessor
     /**
      * Validate the product
      *
-     * @param ProductInterface $product
      *
      * @return bool
      */
@@ -165,8 +158,6 @@ class EditCommonAttributesProcessor extends AbstractProcessor
     }
 
     /**
-     * @param ProductInterface $product
-     *
      * @return bool
      */
     protected function isProductEditable(ProductInterface $product)
@@ -174,9 +165,6 @@ class EditCommonAttributesProcessor extends AbstractProcessor
         return true;
     }
 
-    /**
-     * @param ProductInterface $product
-     */
     protected function addWarning(ProductInterface $product)
     {
         /*

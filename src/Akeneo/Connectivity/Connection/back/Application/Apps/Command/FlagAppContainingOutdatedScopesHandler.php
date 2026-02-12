@@ -17,10 +17,10 @@ use Akeneo\Connectivity\Connection\Domain\Apps\ValueObject\ScopeList;
 class FlagAppContainingOutdatedScopesHandler
 {
     public function __construct(
-        private ScopeMapperRegistryInterface $scopeMapperRegistry,
-        private SaveConnectedAppOutdatedScopesFlagQueryInterface $saveConnectedAppOutdatedScopesFlagQuery,
-        private AuthorizationRequestNotifierInterface $authorizationRequestNotifier,
-        private ScopeListComparatorInterface $scopeListComparator,
+        private readonly ScopeMapperRegistryInterface $scopeMapperRegistry,
+        private readonly SaveConnectedAppOutdatedScopesFlagQueryInterface $saveConnectedAppOutdatedScopesFlagQuery,
+        private readonly AuthorizationRequestNotifierInterface $authorizationRequestNotifier,
+        private readonly ScopeListComparatorInterface $scopeListComparator,
     ) {
     }
 

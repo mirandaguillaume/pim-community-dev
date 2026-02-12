@@ -12,7 +12,7 @@ class GetAccessTokenIntegration extends ApiTestCase
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
-        list($clientId, $secret) = $this->createOAuthClient();
+        [$clientId, $secret] = $this->createOAuthClient();
 
         $client->request('POST', 'api/oauth/v1/token',
             [
@@ -29,7 +29,7 @@ class GetAccessTokenIntegration extends ApiTestCase
         );
 
         $response = $client->getResponse();
-        $responseBody = json_decode($response->getContent(), true);
+        $responseBody = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
         $this->assertArrayHasKey('access_token', $responseBody);
@@ -43,7 +43,7 @@ class GetAccessTokenIntegration extends ApiTestCase
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
-        list($clientId, $secret) = $this->createOAuthClient();
+        [$clientId, $secret] = $this->createOAuthClient();
 
         $client->request('POST', 'api/oauth/v1/token',
             [
@@ -60,7 +60,7 @@ class GetAccessTokenIntegration extends ApiTestCase
         );
 
         $response = $client->getResponse();
-        $responseBody = json_decode($response->getContent(), true);
+        $responseBody = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
         $this->assertArrayHasKey('access_token', $responseBody);
@@ -74,7 +74,7 @@ class GetAccessTokenIntegration extends ApiTestCase
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
-        list($clientId, $secret) = $this->createOAuthClient();
+        [$clientId, $secret] = $this->createOAuthClient();
 
         $client->request('POST', 'api/oauth/v1/token',
             [
@@ -106,7 +106,7 @@ JSON;
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
-        list($clientId, $secret) = $this->createOAuthClient();
+        [$clientId, $secret] = $this->createOAuthClient();
 
         $client->request('POST', 'api/oauth/v1/token',
             [
@@ -122,7 +122,7 @@ JSON;
         );
 
         $response = $client->getResponse();
-        $responseBody = json_decode($response->getContent(), true);
+        $responseBody = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
         $this->assertSame('Parameter "grant_type", "username" or "password" is missing, empty or invalid', $responseBody['message']);
@@ -134,7 +134,7 @@ JSON;
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
-        list($clientId, $secret) = $this->createOAuthClient();
+        [$clientId, $secret] = $this->createOAuthClient();
 
         $client->request('POST', 'api/oauth/v1/token',
             [
@@ -151,7 +151,7 @@ JSON;
         );
 
         $response = $client->getResponse();
-        $responseBody = json_decode($response->getContent(), true);
+        $responseBody = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
         $this->assertSame('Parameter "grant_type", "username" or "password" is missing, empty or invalid', $responseBody['message']);
@@ -163,7 +163,7 @@ JSON;
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
-        list($clientId, $secret) = $this->createOAuthClient();
+        [$clientId, $secret] = $this->createOAuthClient();
 
         $client->request('POST', 'api/oauth/v1/token',
             [
@@ -180,7 +180,7 @@ JSON;
         );
 
         $response = $client->getResponse();
-        $responseBody = json_decode($response->getContent(), true);
+        $responseBody = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
         $this->assertSame('This grant type is not authorized for this client', $responseBody['message']);
@@ -192,7 +192,7 @@ JSON;
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
-        list($clientId, $secret) = $this->createOAuthClient();
+        [$clientId, $secret] = $this->createOAuthClient();
 
         $client->request('POST', 'api/oauth/v1/token',
             [
@@ -209,7 +209,7 @@ JSON;
         );
 
         $response = $client->getResponse();
-        $responseBody = json_decode($response->getContent(), true);
+        $responseBody = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
         $this->assertSame('Parameter "client_id" is missing or does not match any client, or secret is invalid', $responseBody['message']);
@@ -221,7 +221,7 @@ JSON;
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
-        list($clientId, $secret) = $this->createOAuthClient();
+        [$clientId, $secret] = $this->createOAuthClient();
 
         $client->request('POST', 'api/oauth/v1/token',
             [
@@ -238,7 +238,7 @@ JSON;
         );
 
         $response = $client->getResponse();
-        $responseBody = json_decode($response->getContent(), true);
+        $responseBody = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
         $this->assertSame('Parameter "client_id" is missing or does not match any client, or secret is invalid', $responseBody['message']);
@@ -250,7 +250,7 @@ JSON;
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
-        list($clientId, $secret) = $this->createOAuthClient();
+        [$clientId, $secret] = $this->createOAuthClient();
 
         $client->request('POST', 'api/oauth/v1/token',
             [
@@ -266,7 +266,7 @@ JSON;
         );
 
         $response = $client->getResponse();
-        $responseBody = json_decode($response->getContent(), true);
+        $responseBody = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
         $this->assertSame('Parameter "grant_type", "username" or "password" is missing, empty or invalid', $responseBody['message']);
@@ -278,7 +278,7 @@ JSON;
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
-        list($clientId, $secret) = $this->createOAuthClient();
+        [$clientId, $secret] = $this->createOAuthClient();
 
         $client->request('POST', 'api/oauth/v1/token',
             [
@@ -294,7 +294,7 @@ JSON;
         );
 
         $response = $client->getResponse();
-        $responseBody = json_decode($response->getContent(), true);
+        $responseBody = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
         $this->assertSame('Parameter "grant_type", "username" or "password" is missing, empty or invalid', $responseBody['message']);
@@ -306,7 +306,7 @@ JSON;
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
-        list($clientId, $secret) = $this->createOAuthClient();
+        [$clientId, $secret] = $this->createOAuthClient();
 
         $client->request('POST', 'api/oauth/v1/token',
             [
@@ -323,7 +323,7 @@ JSON;
         );
 
         $response = $client->getResponse();
-        $responseBody = json_decode($response->getContent(), true);
+        $responseBody = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
         $this->assertSame('No user found for the given username and password', $responseBody['message']);
@@ -342,7 +342,7 @@ JSON;
         ]);
 
         $response = $client->getResponse();
-        $responseBody = json_decode($response->getContent(), true);
+        $responseBody = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
         $this->assertSame('The access token provided is invalid.', $responseBody['message']);
@@ -361,7 +361,7 @@ JSON;
             [],
             json_encode([
                 'large_content' => str_repeat('a', 300)
-            ])
+            ], JSON_THROW_ON_ERROR)
         );
 
         $expectedContent = <<<JSON

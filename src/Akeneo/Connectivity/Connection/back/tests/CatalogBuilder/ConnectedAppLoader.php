@@ -26,16 +26,16 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class ConnectedAppLoader
 {
     public function __construct(
-        private DbalConnection $dbalConnection,
-        private UserRoleLoader $userRoleLoader,
-        private OAuthStorage $OAuthStorage,
-        private ClientProviderInterface $clientProvider,
-        private CreateUserGroupInterface $createUserGroup,
-        private CreateUserInterface $createUser,
-        private CreateConnectionInterface $createConnection,
-        private CreateConnectedAppInterface $createApp,
-        private UserRepositoryInterface $userRepository,
-        private UnitOfWorkAndRepositoriesClearer $unitOfWorkAndRepositoriesClearer
+        private readonly DbalConnection $dbalConnection,
+        private readonly UserRoleLoader $userRoleLoader,
+        private readonly OAuthStorage $OAuthStorage,
+        private readonly ClientProviderInterface $clientProvider,
+        private readonly CreateUserGroupInterface $createUserGroup,
+        private readonly CreateUserInterface $createUser,
+        private readonly CreateConnectionInterface $createConnection,
+        private readonly CreateConnectedAppInterface $createApp,
+        private readonly UserRepositoryInterface $userRepository,
+        private readonly UnitOfWorkAndRepositoriesClearer $unitOfWorkAndRepositoriesClearer
     ) {
     }
 

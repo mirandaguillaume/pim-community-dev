@@ -19,15 +19,15 @@ use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
  * @copyright 2012 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class User implements UserInterface, EquatableInterface
+class User implements UserInterface, EquatableInterface, \Stringable
 {
-    const ROLE_DEFAULT = 'ROLE_USER';
-    const GROUP_DEFAULT = 'All';
-    const ROLE_ANONYMOUS = 'IS_AUTHENTICATED_ANONYMOUSLY';
-    const DEFAULT_TIMEZONE = 'UTC';
-    const TYPE_USER = 'user';
-    const TYPE_API = 'api';
-    const TYPE_JOB = 'job';
+    final public const ROLE_DEFAULT = 'ROLE_USER';
+    final public const GROUP_DEFAULT = 'All';
+    final public const ROLE_ANONYMOUS = 'IS_AUTHENTICATED_ANONYMOUSLY';
+    final public const DEFAULT_TIMEZONE = 'UTC';
+    final public const TYPE_USER = 'user';
+    final public const TYPE_API = 'api';
+    final public const TYPE_JOB = 'job';
 
     /** @var int|string */
     protected $id;
@@ -153,7 +153,7 @@ class User implements UserInterface, EquatableInterface
     protected $timezone;
 
     /** @var array $property bag for properties extension */
-    private $properties = [];
+    private array $properties = [];
 
     private int $consecutiveAuthenticationFailureCounter = 0;
 
@@ -165,7 +165,7 @@ class User implements UserInterface, EquatableInterface
 
     public function __construct()
     {
-        $this->salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+        $this->salt = base_convert(sha1(uniqid(random_int(0, mt_getrandmax()), true)), 16, 36);
         $this->roles = new ArrayCollection();
         $this->groups = new ArrayCollection();
         $this->defaultGridViews = new ArrayCollection();
@@ -194,14 +194,7 @@ class User implements UserInterface, EquatableInterface
      */
     public function unserialize($serialized)
     {
-        list(
-            $this->password,
-            $this->salt,
-            $this->username,
-            $this->enabled,
-            $this->confirmationToken,
-            $this->id
-        ) = unserialize($serialized);
+        [$this->password, $this->salt, $this->username, $this->enabled, $this->confirmationToken, $this->id] = unserialize($serialized);
     }
 
     /**
@@ -863,13 +856,13 @@ class User implements UserInterface, EquatableInterface
      */
     public function generateToken()
     {
-        return base_convert(bin2hex(hash('sha256', uniqid(mt_rand(), true), true)), 16, 36);
+        return base_convert(bin2hex(hash('sha256', uniqid(random_int(0, mt_getrandmax()), true), true)), 16, 36);
     }
 
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->getUserIdentifier();
     }

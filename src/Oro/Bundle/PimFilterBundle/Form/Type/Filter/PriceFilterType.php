@@ -21,16 +21,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class PriceFilterType extends AbstractType
 {
     /** @staticvar string */
-    const NAME = 'pim_type_price_filter';
+    final public const NAME = 'pim_type_price_filter';
 
     /**
      * @var CurrencyRepositoryInterface
      */
     protected $currencyRepository;
 
-    /**
-     * @param CurrencyRepositoryInterface $currencyRepository
-     */
     public function __construct(CurrencyRepositoryInterface $currencyRepository)
     {
         $this->currencyRepository = $currencyRepository;
@@ -65,7 +62,6 @@ class PriceFilterType extends AbstractType
     /**
      * Create currencies options list
      *
-     * @param array $options
      *
      * @return array
      */

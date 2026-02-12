@@ -41,7 +41,7 @@ class UpdateIndexMappingWithoutDowntimeIntegration extends TestCase
         Assert::assertEquals(1, $pqb->create()->execute()->count());
 
         /** @var UpdateIndexMappingWithoutDowntime $updateIndexMapping */
-        $updateIndexMapping = $this->get('Akeneo\Tool\Bundle\ElasticsearchBundle\IndexConfiguration\UpdateIndexMappingWithoutDowntime');
+        $updateIndexMapping = $this->get(\Akeneo\Tool\Bundle\ElasticsearchBundle\IndexConfiguration\UpdateIndexMappingWithoutDowntime::class);
         $updateIndexMapping->execute(
             $productAndProductModelIndexAlias,
             'temporary_index',
@@ -71,7 +71,7 @@ class UpdateIndexMappingWithoutDowntimeIntegration extends TestCase
         $indexNameBeforeMigration = $this->getIndexNameFromAlias($productAndProductModelIndexAlias);
 
         /** @var UpdateIndexMappingWithoutDowntime $updateIndexMapping */
-        $updateIndexMapping = $this->get('Akeneo\Tool\Bundle\ElasticsearchBundle\IndexConfiguration\UpdateIndexMappingWithoutDowntime');
+        $updateIndexMapping = $this->get(\Akeneo\Tool\Bundle\ElasticsearchBundle\IndexConfiguration\UpdateIndexMappingWithoutDowntime::class);
         $updateIndexMapping->execute(
             $productAndProductModelIndexAlias,
             'temporary_index_alias',

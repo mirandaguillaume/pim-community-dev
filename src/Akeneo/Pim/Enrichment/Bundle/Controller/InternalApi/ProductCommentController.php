@@ -90,7 +90,7 @@ class ProductCommentController
         }
 
         $product = $this->findProductOr404($uuid);
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
         $comment = $this->commentBuilder->buildComment($product, $this->getUser());
         $form = $this->formFactory->create(CommentType::class, $comment, ['csrf_protection' => false]);
         $form->submit($data, false);
@@ -127,7 +127,7 @@ class ProductCommentController
 
         $product = $this->findProductOr404($uuid);
 
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
         $data['parent'] = $commentId;
 
         $reply = $this->commentBuilder->buildComment($product, $this->getUser());
@@ -183,10 +183,8 @@ class ProductCommentController
 
     /**
      * Get the user from the Security Context
-     *
-     * @return UserInterface|null
      */
-    protected function getUser()
+    protected function getUser(): ?\Symfony\Component\Security\Core\User\UserInterface
     {
         if (null === $token = $this->tokenStorage->getToken()) {
             return null;

@@ -13,7 +13,7 @@ use Doctrine\DBAL\Types\Types;
  */
 class EventsApiRequestCountLoader
 {
-    public function __construct(private DbalConnection $dbalConnection)
+    public function __construct(private readonly DbalConnection $dbalConnection)
     {
     }
 

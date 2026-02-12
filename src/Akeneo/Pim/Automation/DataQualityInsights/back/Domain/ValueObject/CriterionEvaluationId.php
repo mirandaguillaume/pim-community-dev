@@ -10,12 +10,9 @@ use Ramsey\Uuid\Uuid;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class CriterionEvaluationId
+final class CriterionEvaluationId implements \Stringable
 {
-    /**
-     * @var string
-     */
-    private $uuid;
+    private readonly string $uuid;
 
     public function __construct(?string $uuid = null)
     {
@@ -25,7 +22,7 @@ final class CriterionEvaluationId
         $this->uuid = $uuid;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return strval($this->uuid);
     }

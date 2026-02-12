@@ -20,10 +20,6 @@ class DefaultColumnSorter implements ColumnSorterInterface
     /** @var array */
     protected $firstDefaultColumns;
 
-    /**
-     * @param FieldSplitter $fieldSplitter
-     * @param array $firstDefaultColumns
-     */
     public function __construct(FieldSplitter $fieldSplitter, array $firstDefaultColumns)
     {
         $this->fieldSplitter = $fieldSplitter;
@@ -49,11 +45,11 @@ class DefaultColumnSorter implements ColumnSorterInterface
             }
         }
 
-        usort($mainColumns, [$this, 'compare']);
+        usort($mainColumns, $this->compare(...));
         natcasesort($additionalColumns);
         natcasesort($trailingColumns);
 
-        return array_merge($mainColumns, $additionalColumns, $trailingColumns);
+        return [...$mainColumns, ...$additionalColumns, ...$trailingColumns];
     }
 
     /**
@@ -105,6 +101,6 @@ class DefaultColumnSorter implements ColumnSorterInterface
 
     private function isTrailingColumn(string $column): bool
     {
-        return 0 === strpos($column, sprintf('%s-', GetProductsWithQualityScoresInterface::FLAT_FIELD_PREFIX));
+        return str_starts_with($column, sprintf('%s-', GetProductsWithQualityScoresInterface::FLAT_FIELD_PREFIX));
     }
 }

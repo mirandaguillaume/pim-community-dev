@@ -17,10 +17,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class FamilyVariantLoader
 {
     public function __construct(
-        private SimpleFactoryInterface $factory,
-        private ObjectUpdaterInterface $updater,
-        private ValidatorInterface $validator,
-        private SaverInterface $saver,
+        private readonly SimpleFactoryInterface $factory,
+        private readonly ObjectUpdaterInterface $updater,
+        private readonly ValidatorInterface $validator,
+        private readonly SaverInterface $saver,
     ) {
     }
 

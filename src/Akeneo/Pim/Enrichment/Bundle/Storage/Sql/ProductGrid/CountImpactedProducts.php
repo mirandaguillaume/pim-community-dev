@@ -18,15 +18,10 @@ use Akeneo\Pim\Enrichment\Component\Product\Query\ProductQueryBuilderFactoryInte
 class CountImpactedProducts
 {
     public function __construct(
-        private ProductQueryBuilderFactoryInterface $productAndProductModelQueryBuilderFactory
+        private readonly ProductQueryBuilderFactoryInterface $productAndProductModelQueryBuilderFactory
     ) {
     }
 
-    /**
-     * @param array $filters
-     *
-     * @return int
-     */
     public function count(array $filters): int
     {
         // ALL
@@ -49,9 +44,7 @@ class CountImpactedProducts
     /**
      * Count products inside product model rows that have been selected.
      *
-     * @param array $filters
      *
-     * @return int
      */
     private function countProductsInsideSelectedProductModels(array $filters): int
     {
@@ -70,9 +63,7 @@ class CountImpactedProducts
      * Count products inside product model rows that have been unselected.
      * The idea is simply to change the "ID NOT IN ..." by "ID IN ...".
      *
-     * @param array $filters
      *
-     * @return int
      */
     private function countProductsInsideUnSelectedProductModels(array $filters): int
     {
@@ -88,9 +79,7 @@ class CountImpactedProducts
     /**
      * Count product rows that have been selected.
      *
-     * @param array $filters
      *
-     * @return int
      */
     private function countSelectedProducts(array $filters): int
     {
@@ -106,9 +95,7 @@ class CountImpactedProducts
      * Count product rows that have been unselected.
      * The idea is simply to change the "ID NOT IN ..." by "ID IN ...".
      *
-     * @param array $filters
      *
-     * @return int
      */
     private function countUnSelectedProducts(array $filters): int
     {
@@ -125,9 +112,7 @@ class CountImpactedProducts
      * Count all products (only variants) matching the given filters
      * (except we remove the ID filter and adapt the completeness filter).
      *
-     * @param array $filters
      *
-     * @return int
      */
     private function countAllProducts(array $filters): int
     {
@@ -170,9 +155,7 @@ class CountImpactedProducts
     /**
      * All rows are selected in the grid when there is no filter related to the ID of the selected rows.
      *
-     * @param array $filters
      *
-     * @return bool
      */
     private function areAllRowsSelected(array $filters): bool
     {
@@ -188,9 +171,7 @@ class CountImpactedProducts
     /**
      * Some rows are unselected in the grid when we receive a "ID NOT IN ..." filter.
      *
-     * @param array $filters
      *
-     * @return bool
      */
     private function areSomeRowsUnselected(array $filters): bool
     {
@@ -206,9 +187,7 @@ class CountImpactedProducts
     /**
      * Remove the ID filter from the filters.
      *
-     * @param array $filers
      *
-     * @return array
      */
     private function removeIdFilter(array $filers): array
     {
@@ -224,9 +203,7 @@ class CountImpactedProducts
     /**
      * Extract product models IDs from the filters.
      *
-     * @param array $filters
      *
-     * @return array
      */
     private function extractProductModelIds(array $filters): array
     {
@@ -234,7 +211,7 @@ class CountImpactedProducts
         foreach ($filters as $keyCondition => $condition) {
             if ('id' === $condition['field']) {
                 foreach ($condition['value'] as $keyValue => $id) {
-                    if (0 === strpos($id, 'product_model_')) {
+                    if (str_starts_with((string) $id, 'product_model_')) {
                         $productModelIds[] = $id;
                     }
                 }
@@ -247,9 +224,7 @@ class CountImpactedProducts
     /**
      * Adapt the grid completeness filter to the regular Product Query Builder completeness filter.
      *
-     * @param array $filters
      *
-     * @return array
      */
     private function adaptGridCompletenessFilter(array $filters): array
     {

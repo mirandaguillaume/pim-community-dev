@@ -14,24 +14,13 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Exception;
  */
 class AlreadyExistingAxisValueCombinationException extends \Exception
 {
-    /** @var string */
-    private $identifier;
-
-    /**
-     * @param string $identifier
-     * @param string $message
-     */
-    public function __construct(string $identifier, string $message)
+    public function __construct(private readonly string $identifier, string $message)
     {
-        $this->identifier = $identifier;
-
         parent::__construct($message);
     }
 
     /**
      * Returns the identifier of the entity having an already existing axis value combination.
-     *
-     * @return string
      */
     public function getEntityIdentifier(): string
     {

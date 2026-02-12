@@ -16,7 +16,7 @@ use Akeneo\Pim\Automation\IdentifierGenerator\Application\Update\UpdateGenerator
  */
 class BaseCreateOrUpdateIdentifierGenerator
 {
-    public const DEFAULT_IDENTIFIER_GENERATOR_CODE = 'generator_0';
+    final public const DEFAULT_IDENTIFIER_GENERATOR_CODE = 'generator_0';
 
     public function __construct(
         protected readonly ViolationsContext $violationsContext,
@@ -75,41 +75,40 @@ class BaseCreateOrUpdateIdentifierGenerator
 
     protected function getValidCondition(string $type, ?string $operator = null): array
     {
-        switch ($type) {
-            case 'enabled': return [
+        return match ($type) {
+            'enabled' => [
                 'type' => 'enabled',
                 'value' => true,
-            ];
-            case 'family': return [
+            ],
+            'family' => [
                 'type' => 'family',
                 'operator' => $operator ?? 'IN',
                 'value' => ['tshirt'],
-            ];
-            case 'simple_select': return [
+            ],
+            'simple_select' => [
                 'type' => 'simple_select',
                 'operator' => $operator ?? 'IN',
                 'attributeCode' => 'color',
                 'value' => ['green'],
-            ];
-            case 'reference_entity': return [
+            ],
+            'reference_entity' => [
                 'type' => 'reference_entity',
                 'operator' => 'NOT IN',
                 'attributeCode' => 'brand',
                 'value' => ['akeneo'],
-            ];
-            case 'multi_select': return [
+            ],
+            'multi_select' => [
                 'type' => 'multi_select',
                 'operator' => $operator ?? 'IN',
                 'attributeCode' => 'a_multi_select',
                 'value' => ['option_a', 'option_b'],
-            ];
-            case 'category': return [
+            ],
+            'category' => [
                 'type' => 'category',
                 'operator' => $operator ?? 'IN',
                 'value' => ['tshirts'],
-            ];
-        }
-
-        throw new \InvalidArgumentException('Unknown type ' . $type . ' for getValidCondition');
+            ],
+            default => throw new \InvalidArgumentException('Unknown type ' . $type . ' for getValidCondition'),
+        };
     }
 }

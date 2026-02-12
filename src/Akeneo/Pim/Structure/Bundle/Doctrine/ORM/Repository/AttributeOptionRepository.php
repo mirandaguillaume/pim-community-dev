@@ -91,9 +91,7 @@ class AttributeOptionRepository extends EntityRepository implements
         if ($autoSorting) {
             usort(
                 $results,
-                function ($first, $second) {
-                    return strcasecmp($first['text'], $second['text']);
-                }
+                fn($first, $second) => strcasecmp((string) $first['text'], (string) $second['text'])
             );
         }
 
@@ -129,7 +127,7 @@ class AttributeOptionRepository extends EntityRepository implements
      */
     public function findOneByIdentifier($code)
     {
-        list($attributeCode, $optionCode) = explode('.', $code);
+        [$attributeCode, $optionCode] = explode('.', $code);
 
         return $this->createQueryBuilder('o')
             ->innerJoin('o.attribute', 'a')

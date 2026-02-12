@@ -21,7 +21,7 @@ class AggregateVolumesCommand extends Command
     protected static $defaultName = 'pim:volume:aggregate';
     protected static $defaultDescription = 'Aggregate the result of all the volume queries that should not be executed live';
 
-    public function __construct(private VolumeAggregation $volumeAggregation)
+    public function __construct(private readonly VolumeAggregation $volumeAggregation)
     {
         parent::__construct();
     }

@@ -15,7 +15,6 @@ interface GetOwnedCategories
      * depending on the user group ids.
      *
      * @param string[] $categoryCodes
-     * @param int $userId
      * @return string[]
      */
     public function forUserId(array $categoryCodes, int $userId): array;

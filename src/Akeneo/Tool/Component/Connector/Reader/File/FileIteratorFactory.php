@@ -14,9 +14,6 @@ class FileIteratorFactory
     /** @var string */
     protected $className;
 
-    /** @var string */
-    protected $type;
-
     /**
      * Configure the factory with a class name
      *
@@ -25,22 +22,20 @@ class FileIteratorFactory
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct($className, $type)
+    public function __construct($className, protected $type)
     {
-        $interface = '\Akeneo\Tool\Component\Connector\Reader\File\FileIteratorInterface';
+        $interface = '\\' . \Akeneo\Tool\Component\Connector\Reader\File\FileIteratorInterface::class;
         if (!is_subclass_of($className, $interface)) {
             throw new \InvalidArgumentException(sprintf('%s must implement %s', $className, $interface));
         }
 
         $this->className = $className;
-        $this->type = $type;
     }
 
     /**
      * Create a file iterator instance
      *
      * @param string $filePath
-     * @param array  $options
      *
      * @return FileIteratorInterface
      */

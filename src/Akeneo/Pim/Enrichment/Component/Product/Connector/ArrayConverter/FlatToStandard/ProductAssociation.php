@@ -13,16 +13,13 @@ use Akeneo\Tool\Component\Connector\ArrayConverter\ArrayConverterInterface;
  */
 class ProductAssociation implements ArrayConverterInterface
 {
-    const QUANTITY_SEPARATOR = '|';
+    final public const QUANTITY_SEPARATOR = '|';
 
-    const IDENTIFIER_SEPARATOR = ',';
+    final public const IDENTIFIER_SEPARATOR = ',';
 
     /** @var ArrayConverterInterface */
     protected $productConverter;
 
-    /**
-     * @param ArrayConverterInterface $productConverter
-     */
     public function __construct(ArrayConverterInterface $productConverter)
     {
         $this->productConverter = $productConverter;
@@ -69,7 +66,6 @@ class ProductAssociation implements ArrayConverterInterface
     /**
      * Filters the item to keep only association related fields
      *
-     * @param array $item
      *
      * @return array
      */

@@ -14,105 +14,43 @@ namespace Akeneo\Pim\Enrichment\Component\Category\CategoryTree\ReadModel;
  */
 class ChildCategory
 {
-    /** @var int */
-    private $id;
-
-    /** @var string */
-    private $code;
-
-    /** @var string */
-    private $label;
-
-    /** @var bool */
-    private $selectedAsFilter;
-
-    /** @var bool */
-    private $isLeaf;
-
-    /** @var int */
-    private $numberProductsInCategory;
-
-    /** @var ChildCategory[] */
-    private $childrenCategoriesToExpand;
-
     /**
-     * @param int             $id
-     * @param string          $code
-     * @param string          $label
-     * @param bool            $selectedAsFilter
-     * @param bool            $isLeaf
-     * @param int             $numberProductsInCategory
      * @param ChildCategory[] $childrenCategoriesToExpand
      */
-    public function __construct(
-        int $id,
-        string $code,
-        string $label,
-        bool $selectedAsFilter,
-        bool $isLeaf,
-        int $numberProductsInCategory,
-        array $childrenCategoriesToExpand
-    ) {
-        $this->id = $id;
-        $this->code = $code;
-        $this->label = $label;
-        $this->selectedAsFilter = $selectedAsFilter;
-        $this->isLeaf = $isLeaf;
-        $this->numberProductsInCategory = $numberProductsInCategory;
-        $this->childrenCategoriesToExpand = $childrenCategoriesToExpand;
+    public function __construct(private readonly int $id, private readonly string $code, private readonly string $label, private readonly bool $selectedAsFilter, private readonly bool $isLeaf, private readonly int $numberProductsInCategory, private readonly array $childrenCategoriesToExpand)
+    {
     }
 
-    /**
-     * @return int
-     */
     public function id(): int
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function code(): string
     {
         return $this->code;
     }
 
-    /**
-     * @return string
-     */
     public function label(): string
     {
         return $this->label;
     }
 
-    /**
-     * @return bool
-     */
     public function selectedAsFilter(): bool
     {
         return $this->selectedAsFilter;
     }
 
-    /**
-     * @return bool
-     */
     public function isLeaf(): bool
     {
         return $this->isLeaf;
     }
 
-    /**
-     * @return bool
-     */
     public function expanded(): bool
     {
         return !empty($this->childrenCategoriesToExpand);
     }
 
-    /**
-     * @return int
-     */
     public function numberProductsInCategory(): int
     {
         return $this->numberProductsInCategory;

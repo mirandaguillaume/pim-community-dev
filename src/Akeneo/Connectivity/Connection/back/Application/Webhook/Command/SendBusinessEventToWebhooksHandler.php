@@ -26,13 +26,13 @@ use Psr\Log\LoggerInterface;
 class SendBusinessEventToWebhooksHandler
 {
     public function __construct(
-        private SelectActiveWebhooksQueryInterface $selectActiveWebhooksQuery,
-        private WebhookUserAuthenticator $webhookUserAuthenticator,
-        private WebhookClientInterface $client,
-        private WebhookEventBuilder $builder,
-        private LoggerInterface $logger,
-        private EventSubscriptionSkippedOwnEventLoggerInterface $eventSubscriptionSkippedOwnEventLogger,
-        private string $pimSource
+        private readonly SelectActiveWebhooksQueryInterface $selectActiveWebhooksQuery,
+        private readonly WebhookUserAuthenticator $webhookUserAuthenticator,
+        private readonly WebhookClientInterface $client,
+        private readonly WebhookEventBuilder $builder,
+        private readonly LoggerInterface $logger,
+        private readonly EventSubscriptionSkippedOwnEventLoggerInterface $eventSubscriptionSkippedOwnEventLogger,
+        private readonly string $pimSource
     ) {
     }
 

@@ -36,17 +36,17 @@ class BatchCommand extends Command
     protected static $defaultName = 'akeneo:batch:job';
     protected static $defaultDescription = '[Internal] Please use "akeneo:batch:publish-job-to-queue" to launch a registered job instance';
 
-    const EXIT_SUCCESS_CODE = 0;
-    const EXIT_ERROR_CODE = 1;
-    const EXIT_WARNING_CODE = 2;
+    final public const EXIT_SUCCESS_CODE = 0;
+    final public const EXIT_ERROR_CODE = 1;
+    final public const EXIT_WARNING_CODE = 2;
 
     public function __construct(
-        private LoggerInterface $logger,
-        private JobRepositoryInterface $jobRepository,
-        private ValidatorInterface $validator,
-        private Notifier $notifier,
-        private ExecuteJobExecutionHandlerInterface $jobExecutionRunner,
-        private CreateJobExecutionHandlerInterface $jobExecutionFactory,
+        private readonly LoggerInterface $logger,
+        private readonly JobRepositoryInterface $jobRepository,
+        private readonly ValidatorInterface $validator,
+        private readonly Notifier $notifier,
+        private readonly ExecuteJobExecutionHandlerInterface $jobExecutionRunner,
+        private readonly CreateJobExecutionHandlerInterface $jobExecutionFactory,
     ) {
         parent::__construct();
     }
@@ -99,7 +99,7 @@ class BatchCommand extends Command
 
         // Override mail notifier recipient emails
         $emails = $input->getOption('email');
-        if (0 < count($emails)) {
+        if (0 < (is_countable($emails) ? count($emails) : 0)) {
             $errors = $this->validator->validate(
                 $emails,
                 new Assert\All([new Assert\Email()]),
@@ -204,7 +204,6 @@ class BatchCommand extends Command
     /**
      * Writes failure exceptions to the output
      *
-     * @param OutputInterface $output
      * @param array[]         $exceptions
      * @param boolean         $verbose
      */

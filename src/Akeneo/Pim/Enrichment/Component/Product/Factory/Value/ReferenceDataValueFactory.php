@@ -40,7 +40,7 @@ final class ReferenceDataValueFactory implements ValueFactory
         if (!\is_string($data)) {
             throw InvalidPropertyTypeException::stringExpected(
                 $attribute->code(),
-                static::class,
+                self::class,
                 $data
             );
         }

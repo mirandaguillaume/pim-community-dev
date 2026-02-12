@@ -9,10 +9,6 @@ use Twig\Environment;
 
 class Controller
 {
-    protected TranslatorInterface $translator;
-    protected Environment $templating;
-    protected array $options;
-
     /**
      * @var string|TemplateReferenceInterface
      */
@@ -22,27 +18,23 @@ class Controller
      * @param string|TemplateReferenceInterface $template a template name or a TemplateReferenceInterface instance
      * @throws \InvalidArgumentException
      */
-    public function __construct(TranslatorInterface $translator, Environment $templating, $template, $options)
+    public function __construct(protected TranslatorInterface $translator, protected Environment $templating, $template, protected $options)
     {
-        $this->translator = $translator;
-        $this->templating = $templating;
         if (empty($template) || !($template instanceof TemplateReferenceInterface || is_string($template))) {
             throw new \InvalidArgumentException('Please provide valid twig template as third argument');
         }
         $this->template = $template;
-        $this->options = $options;
     }
 
     /**
      * Action point for js translation resource
      *
-     * @param Request $request
      * @param string $_locale
      * @return Response
      */
     public function indexAction(Request $request, $_locale)
     {
-        $domains = isset($this->options['domains']) ? $this->options['domains'] : [];
+        $domains = $this->options['domains'] ?? [];
         $debug = isset($this->options['debug']) ? (bool)$this->options['debug'] : false;
 
         $content = $this->renderJsTranslationContent($domains, $_locale, $debug);
@@ -53,7 +45,6 @@ class Controller
     /**
      * Combines JSON with js translation and renders js-resource
      *
-     * @param array $domains
      * @param string $locale
      * @param bool $debug
      * @return string
@@ -74,9 +65,7 @@ class Controller
         foreach ($domainsTranslations as $domain => $translations) {
             $result['messages'] += array_combine(
                 array_map(
-                    function ($id) use ($domain) {
-                        return sprintf('%s:%s', $domain, $id);
-                    },
+                    fn($id) => sprintf('%s:%s', $domain, $id),
                     array_keys($translations)
                 ),
                 array_values($translations)

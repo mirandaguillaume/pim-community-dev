@@ -15,9 +15,7 @@ abstract class AbstractAclExtension implements AclExtensionInterface
      */
     public function getMasks($permission)
     {
-        return isset($this->map[$permission])
-            ? $this->map[$permission]
-            : null;
+        return $this->map[$permission] ?? null;
     }
 
     /**
@@ -96,14 +94,13 @@ abstract class AbstractAclExtension implements AclExtensionInterface
      * Builds InvalidAclMaskException object
      *
      * @param int $mask
-     * @param mixed $object
      * @param string|null $errorDescription
      * @return InvalidAclMaskException
      */
-    protected function createInvalidAclMaskException($mask, $object, $errorDescription = null)
+    protected function createInvalidAclMaskException($mask, mixed $object, $errorDescription = null)
     {
         $objectDescription = is_object($object) && !($object instanceof ObjectIdentityInterface)
-            ? get_class($object)
+            ? $object::class
             : (string)$object;
         $msg = sprintf(
             'Invalid ACL mask "%s" for %s.',

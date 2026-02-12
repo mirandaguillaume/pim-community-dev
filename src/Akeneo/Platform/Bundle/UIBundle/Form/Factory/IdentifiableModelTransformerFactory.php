@@ -12,22 +12,16 @@ use Symfony\Component\Form\DataTransformerInterface;
  */
 class IdentifiableModelTransformerFactory
 {
-    /** @var array */
-    protected $className;
-
     /**
      * @param string $className Transformer class to create
      */
-    public function __construct($className)
+    public function __construct(protected $className)
     {
-        $this->className = $className;
     }
 
     /**
      * Creates a transformer for the given options
      *
-     * @param IdentifiableObjectRepositoryInterface $repository
-     * @param array                                 $options
      *
      * @return DataTransformerInterface
      */

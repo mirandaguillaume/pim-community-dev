@@ -9,7 +9,7 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Model;
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-abstract class AbstractReferenceData implements ReferenceDataInterface
+abstract class AbstractReferenceData implements ReferenceDataInterface, \Stringable
 {
     /** @var mixed */
     protected $id;
@@ -72,14 +72,14 @@ abstract class AbstractReferenceData implements ReferenceDataInterface
     /**
      * {@inheritdoc}
      */
-    public function __toString()
+    public function __toString(): string
     {
         if (null !== $labelProperty = static::getLabelProperty()) {
             $getter = 'get' . ucfirst($labelProperty);
             $label = $this->$getter();
 
             if (!empty($label)) {
-                return $label;
+                return (string) $label;
             }
         }
 

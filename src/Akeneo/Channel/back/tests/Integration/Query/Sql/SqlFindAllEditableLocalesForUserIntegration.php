@@ -16,7 +16,7 @@ final class SqlFindAllEditableLocalesForUserIntegration extends TestCase
         parent::setUp();
 
         $this->sqlFindAllEditableLocalesForUser = $this->get(
-            'Akeneo\Channel\Infrastructure\Query\Sql\SqlFindAllEditableLocalesForUser'
+            \Akeneo\Channel\Infrastructure\Query\Sql\SqlFindAllEditableLocalesForUser::class
         );
     }
 

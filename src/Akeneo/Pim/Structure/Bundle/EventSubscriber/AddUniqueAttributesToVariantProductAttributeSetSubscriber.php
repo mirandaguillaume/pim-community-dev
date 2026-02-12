@@ -24,15 +24,8 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class AddUniqueAttributesToVariantProductAttributeSetSubscriber implements EventSubscriberInterface
 {
-    /** @var AddUniqueAttributes */
-    private $addUniqueAttributes;
-
-    /**
-     * @param AddUniqueAttributes $addUniqueAttributes
-     */
-    public function __construct(AddUniqueAttributes $addUniqueAttributes)
+    public function __construct(private readonly AddUniqueAttributes $addUniqueAttributes)
     {
-        $this->addUniqueAttributes = $addUniqueAttributes;
     }
 
     /**
@@ -43,9 +36,6 @@ class AddUniqueAttributesToVariantProductAttributeSetSubscriber implements Event
         return [StorageEvents::PRE_SAVE => 'addUniqueAttributes',];
     }
 
-    /**
-     * @param GenericEvent $event
-     */
     public function addUniqueAttributes(GenericEvent $event)
     {
         $subject = $event->getSubject();

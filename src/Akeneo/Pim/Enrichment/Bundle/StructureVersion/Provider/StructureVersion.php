@@ -16,11 +16,9 @@ class StructureVersion implements StructureVersionProviderInterface
 {
     /** @var array */
     protected $resourceNames = [];
-    protected ManagerRegistry $doctrine;
 
-    public function __construct(ManagerRegistry $doctrine)
+    public function __construct(protected ManagerRegistry $doctrine)
     {
-        $this->doctrine = $doctrine;
     }
 
     /**

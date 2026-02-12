@@ -16,20 +16,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class ConfigureCategoryTreeForExportJobsAfterChangingTheChannelCategoryTree implements EventSubscriberInterface
+final readonly class ConfigureCategoryTreeForExportJobsAfterChangingTheChannelCategoryTree implements EventSubscriberInterface
 {
-    /** @var ObjectRepository */
-    private $jobInstanceRepository;
-
-    /** @var ObjectUpdaterInterface */
-    private $jobInstanceUpdater;
-
-    /** @var BulkSaverInterface */
-    private $jobInstanceSaver;
-
-    /** @var array|string[] */
-    private $supportedJobNames;
-
     public static function getSubscribedEvents(): array
     {
         return [
@@ -40,16 +28,8 @@ final class ConfigureCategoryTreeForExportJobsAfterChangingTheChannelCategoryTre
     /**
      * @param array|string[] $supportedJobNames
      */
-    public function __construct(
-        ObjectRepository $jobInstanceRepository,
-        ObjectUpdaterInterface $jobInstanceUpdater,
-        BulkSaverInterface $jobInstanceSaver,
-        array $supportedJobNames
-    ) {
-        $this->jobInstanceRepository = $jobInstanceRepository;
-        $this->jobInstanceUpdater = $jobInstanceUpdater;
-        $this->jobInstanceSaver = $jobInstanceSaver;
-        $this->supportedJobNames = $supportedJobNames;
+    public function __construct(private ObjectRepository $jobInstanceRepository, private ObjectUpdaterInterface $jobInstanceUpdater, private BulkSaverInterface $jobInstanceSaver, private array $supportedJobNames)
+    {
     }
 
     public function onChannelCategoryHasBeenUpdatedEvent(ChannelCategoryHasBeenUpdated $event): void
@@ -84,9 +64,7 @@ final class ConfigureCategoryTreeForExportJobsAfterChangingTheChannelCategoryTre
 
         return \array_filter(
             $jobInstances,
-            function (JobInstance $jobInstance) use ($channelCode) {
-                return $jobInstance->getRawParameters()['filters']['structure']['scope'] === $channelCode;
-            }
+            fn(JobInstance $jobInstance) => $jobInstance->getRawParameters()['filters']['structure']['scope'] === $channelCode
         );
     }
 

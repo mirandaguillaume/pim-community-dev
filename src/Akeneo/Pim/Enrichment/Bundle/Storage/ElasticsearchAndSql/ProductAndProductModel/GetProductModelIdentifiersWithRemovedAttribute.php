@@ -7,7 +7,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Query\GetProductModelIdentifiersWithRemovedAttributeInterface;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
 
-final class GetProductModelIdentifiersWithRemovedAttribute implements GetProductModelIdentifiersWithRemovedAttributeInterface
+final readonly class GetProductModelIdentifiersWithRemovedAttribute implements GetProductModelIdentifiersWithRemovedAttributeInterface
 {
     private SearchQueryBuilder $searchQueryBuilder;
 
@@ -39,9 +39,7 @@ final class GetProductModelIdentifiersWithRemovedAttribute implements GetProduct
         $rows = $this->elasticsearchClient->search($body);
 
         while (!empty($rows['hits']['hits'])) {
-            $identifiers = array_map(function (array $product) {
-                return $product['_source']['identifier'];
-            }, $rows['hits']['hits']);
+            $identifiers = array_map(fn(array $product) => $product['_source']['identifier'], $rows['hits']['hits']);
             yield $identifiers;
             $body['search_after'] = end($rows['hits']['hits'])['sort'];
             $rows = $this->elasticsearchClient->search($body);

@@ -9,9 +9,9 @@ use Akeneo\Pim\Automation\IdentifierGenerator\Application\Validation\ErrorList;
 class UnableToSetIdentifierException extends \Exception
 {
     public function __construct(
-        private string $identifier,
-        private string $target,
-        private ErrorList $errorList
+        private readonly string $identifier,
+        private readonly string $target,
+        private readonly ErrorList $errorList
     ) {
         parent::__construct(\sprintf(
             "Your product has been saved but your identifier could not be generated:\n%s",

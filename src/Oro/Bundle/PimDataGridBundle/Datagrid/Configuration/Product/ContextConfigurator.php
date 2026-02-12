@@ -27,19 +27,19 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class ContextConfigurator implements ConfiguratorInterface
 {
     /** @staticvar string */
-    const PRODUCT_STORAGE_KEY = 'product_storage';
+    final public const PRODUCT_STORAGE_KEY = 'product_storage';
 
     /** @staticvar string */
-    const CURRENT_GROUP_ID_KEY = 'current_group_id';
+    final public const CURRENT_GROUP_ID_KEY = 'current_group_id';
 
     /** @staticvar string */
-    const ASSOCIATION_TYPE_ID_KEY = 'association_type_id';
+    final public const ASSOCIATION_TYPE_ID_KEY = 'association_type_id';
 
     /** @staticvar string */
-    const CURRENT_PRODUCT_KEY = 'current_product';
+    final public const CURRENT_PRODUCT_KEY = 'current_product';
 
     /** @staticvar string */
-    const USER_CONFIG_ALIAS_KEY = 'user_config_alias';
+    final public const USER_CONFIG_ALIAS_KEY = 'user_config_alias';
 
     /** @var DatagridConfiguration */
     protected $configuration;
@@ -62,14 +62,6 @@ class ContextConfigurator implements ConfiguratorInterface
     /** @var GroupRepositoryInterface */
     protected $productGroupRepository;
 
-    /**
-     * @param ObjectRepository             $objectRepository
-     * @param RequestParameters            $requestParams
-     * @param UserContext                  $userContext
-     * @param ObjectManager                $objectManager
-     * @param GroupRepositoryInterface     $productGroupRepository
-     * @param RequestStack                 $requestStack
-     */
     public function __construct(
         ObjectRepository $objectRepository,
         RequestParameters $requestParams,
@@ -103,9 +95,6 @@ class ContextConfigurator implements ConfiguratorInterface
         $this->addPaginationConfig();
     }
 
-    /**
-     * @return Request|null
-     */
     protected function getRequest(): ?Request
     {
         return $this->requestStack->getCurrentRequest();
@@ -235,10 +224,7 @@ class ContextConfigurator implements ConfiguratorInterface
         return $dataLocale;
     }
 
-    /**
-     * @return int|null
-     */
-    protected function getProductGroupId()
+    protected function getProductGroupId(): ?int
     {
         $productGroupId = null;
         if (null !== $productGroup = $this->getRequest()->get('group', null)) {
@@ -294,7 +280,7 @@ class ContextConfigurator implements ConfiguratorInterface
         $params = $this->requestParams->get(RequestParameters::ADDITIONAL_PARAMETERS);
 
         if (isset($params['view']) && isset($params['view']['columns'])) {
-            return explode(',', $params['view']['columns']);
+            return explode(',', (string) $params['view']['columns']);
         }
 
         return [];

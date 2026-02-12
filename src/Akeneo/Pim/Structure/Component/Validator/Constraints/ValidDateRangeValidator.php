@@ -56,11 +56,10 @@ class ValidDateRangeValidator extends ConstraintValidator
     /**
      * Check if the date/time/datetime is valid based on the rules defined in the entity
      *
-     * @param mixed $date
      *
      * @return bool
      */
-    protected function isDateValid($date)
+    protected function isDateValid(mixed $date)
     {
         if (!$date || $date instanceof \DateTime) {
             return true;

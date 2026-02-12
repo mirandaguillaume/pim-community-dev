@@ -15,17 +15,10 @@ use Symfony\Component\Security\Core\User\User;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class SchedulePeriodicTasks
+final readonly class SchedulePeriodicTasks
 {
-    private JobLauncherInterface $queueJobLauncher;
-    private JobInstanceRepository $jobInstanceRepository;
-
-    public function __construct(
-        JobLauncherInterface $queueJobLauncher,
-        JobInstanceRepository $jobInstanceRepository
-    ) {
-        $this->queueJobLauncher = $queueJobLauncher;
-        $this->jobInstanceRepository = $jobInstanceRepository;
+    public function __construct(private JobLauncherInterface $queueJobLauncher, private JobInstanceRepository $jobInstanceRepository)
+    {
     }
 
     public function schedule(\DateTimeImmutable $date): void

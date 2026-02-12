@@ -29,12 +29,12 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class CreateJobExecutionHandler implements CreateJobExecutionHandlerInterface
 {
     public function __construct(
-        private JobRepositoryInterface $jobRepository,
-        private ManagerRegistry $doctrine,
-        private JobRegistry $jobRegistry,
-        private JobParametersFactory $jobParametersFactory,
-        private JobParametersValidator $jobParametersValidator,
-        private ValidatorInterface $validator,
+        private readonly JobRepositoryInterface $jobRepository,
+        private readonly ManagerRegistry $doctrine,
+        private readonly JobRegistry $jobRegistry,
+        private readonly JobParametersFactory $jobParametersFactory,
+        private readonly JobParametersValidator $jobParametersValidator,
+        private readonly ValidatorInterface $validator,
     ) {
     }
 
@@ -109,6 +109,6 @@ class CreateJobExecutionHandler implements CreateJobExecutionHandlerInterface
             throw new InvalidJobException($code, $job->getName(), $jobParametersViolations);
         }
 
-        $this->getDefaultEntityManager()->clear(get_class($jobInstance));
+        $this->getDefaultEntityManager()->clear($jobInstance::class);
     }
 }

@@ -13,27 +13,27 @@ class HTMLFilter
     /**
      * Attribute name context.
      */
-    public const CTX_ATTR_NAME = 'attr_name';
+    final public const CTX_ATTR_NAME = 'attr_name';
 
     /**
      * Attribute value context.
      */
-    public const CTX_ATTR_VALUE = 'attr_value';
+    final public const CTX_ATTR_VALUE = 'attr_value';
 
     /**
      * Tag attributes context.
      */
-    public const CTX_TAG_ATTRS = 'tag_attrs';
+    final public const CTX_TAG_ATTRS = 'tag_attrs';
 
     /**
      * Tag content context.
      */
-    public const CTX_TAG_CONTENT = 'tag_content';
+    final public const CTX_TAG_CONTENT = 'tag_content';
 
     /**
      * Tag name context.
      */
-    public const CTX_TAG_NAME = 'tag_name';
+    final public const CTX_TAG_NAME = 'tag_name';
 
     /**
      * Ignore content of these tags.
@@ -187,9 +187,7 @@ class HTMLFilter
     {
         return preg_replace_callback(
             '/&\w+;/',
-            static function ($match) {
-                return str_repeat(' ', strlen($match[0]));
-            },
+            static fn($match) => str_repeat(' ', strlen((string) $match[0])),
             $string
         );
     }
@@ -225,7 +223,7 @@ class HTMLFilter
         }
 
         foreach (self::$ignoreTags as $tag) {
-            if (strcasecmp($tag, $tagName) === 0) {
+            if (strcasecmp((string) $tag, $tagName) === 0) {
                 return true;
             }
         }

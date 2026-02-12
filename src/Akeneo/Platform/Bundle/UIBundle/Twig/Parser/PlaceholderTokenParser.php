@@ -12,16 +12,13 @@ class PlaceholderTokenParser extends AbstractTokenParser
      */
     protected $placeholders;
 
-    protected $wrapClassName;
-
     /**
      * @param array  $placeholders Array with placeholders
      * @param string $wrapClassName Wrapper css class
      */
-    public function __construct(array $placeholders, $wrapClassName)
+    public function __construct(array $placeholders, protected $wrapClassName)
     {
         $this->placeholders = $placeholders;
-        $this->wrapClassName = $wrapClassName;
     }
 
     /**

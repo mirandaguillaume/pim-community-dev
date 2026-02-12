@@ -28,7 +28,7 @@ class WritableDirectoryValidator extends ConstraintValidator
             return;
         }
 
-        if (!is_string($value) || strpos(dirname($value), DIRECTORY_SEPARATOR) !== 0) {
+        if (!is_string($value) || !str_starts_with(dirname($value), DIRECTORY_SEPARATOR)) {
             $this->context->buildViolation($constraint->invalidMessage)
                 ->addViolation();
         } else {

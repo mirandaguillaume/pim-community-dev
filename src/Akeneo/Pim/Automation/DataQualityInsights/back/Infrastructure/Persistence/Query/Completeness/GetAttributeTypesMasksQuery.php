@@ -11,14 +11,11 @@ use Doctrine\DBAL\FetchMode;
 
 class GetAttributeTypesMasksQuery implements GetRequiredAttributesMasks
 {
-    private Connection $connection;
-
     /** @var string[] */
-    private array $attributeTypes;
+    private readonly array $attributeTypes;
 
-    public function __construct(Connection $connection, array $attributeTypes)
+    public function __construct(private readonly Connection $connection, array $attributeTypes)
     {
-        $this->connection = $connection;
         $this->attributeTypes = array_map(fn ($code) => (string) $code, $attributeTypes);
     }
 
@@ -97,7 +94,7 @@ SQL;
             $masksPerFamily[$masksPerChannelAndLocale['family_code']][] = new RequiredAttributesMaskForChannelAndLocale(
                 $masksPerChannelAndLocale['channel_code'],
                 $masksPerChannelAndLocale['locale_code'],
-                json_decode($masksPerChannelAndLocale['mask'], true)
+                json_decode((string) $masksPerChannelAndLocale['mask'], true, 512, JSON_THROW_ON_ERROR)
             );
         }
 

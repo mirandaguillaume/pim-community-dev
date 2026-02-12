@@ -10,16 +10,16 @@ use Webmozart\Assert\Assert;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class AddAttributeCommand
+final readonly class AddAttributeCommand
 {
     private function __construct(
-        public readonly string $code,
-        public readonly string $locale,
-        public readonly ?string $label,
-        public readonly string $type,
-        public readonly bool $isScopable,
-        public readonly bool $isLocalizable,
-        public readonly string $templateUuid,
+        public string $code,
+        public string $locale,
+        public ?string $label,
+        public string $type,
+        public bool $isScopable,
+        public bool $isLocalizable,
+        public string $templateUuid,
     ) {
         Assert::uuid($templateUuid);
     }

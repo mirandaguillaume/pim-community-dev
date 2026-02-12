@@ -27,13 +27,13 @@ class LocaleController
     private const AUTHORIZED_FIELD_FILTERS = ['enabled'];
 
     public function __construct(
-        private ApiResourceRepositoryInterface $repository,
-        private NormalizerInterface $normalizer,
-        private PaginatorInterface $paginator,
-        private ParameterValidatorInterface $parameterValidator,
-        private QueryParametersCheckerInterface $queryParametersChecker,
-        private array $apiConfiguration,
-        private SecurityFacadeInterface $securityFacade,
+        private readonly ApiResourceRepositoryInterface $repository,
+        private readonly NormalizerInterface $normalizer,
+        private readonly PaginatorInterface $paginator,
+        private readonly ParameterValidatorInterface $parameterValidator,
+        private readonly QueryParametersCheckerInterface $queryParametersChecker,
+        private readonly array $apiConfiguration,
+        private readonly SecurityFacadeInterface $securityFacade,
     ) {
     }
 
@@ -41,7 +41,7 @@ class LocaleController
     {
         if (!$this->securityFacade->isGranted('pim_api_locale_list')) {
             throw AccessDeniedException::create(
-                __CLASS__,
+                self::class,
                 __METHOD__,
             );
         }
@@ -60,7 +60,7 @@ class LocaleController
     {
         if (!$this->securityFacade->isGranted('pim_api_locale_list')) {
             throw AccessDeniedException::create(
-                __CLASS__,
+                self::class,
                 __METHOD__,
             );
         }

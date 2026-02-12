@@ -25,17 +25,12 @@ class ListJobsCommand extends Command
     /**
      * @staticvar string Option used to list all jobs
      */
-    const LIST_ALL = 'all';
-
-    /** @var JobRepositoryInterface */
-    private $jobRepository;
+    final public const LIST_ALL = 'all';
 
     public function __construct(
-        JobRepositoryInterface $jobRepository
+        private readonly JobRepositoryInterface $jobRepository
     ) {
         parent::__construct();
-
-        $this->jobRepository = $jobRepository;
     }
 
     /**
@@ -73,8 +68,6 @@ class ListJobsCommand extends Command
     }
 
     /**
-     * @param array           $jobs
-     * @param OutputInterface $output
      *
      * @return HelperInterface
      */

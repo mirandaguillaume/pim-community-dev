@@ -23,10 +23,6 @@ class ProductCsvImport implements ConstraintCollectionProviderInterface
     /** @var array */
     protected $supportedJobNames;
 
-    /**
-     * @param ConstraintCollectionProviderInterface $simpleProvider
-     * @param array                                 $supportedJobNames
-     */
     public function __construct(ConstraintCollectionProviderInterface $simpleProvider, array $supportedJobNames)
     {
         $this->simpleProvider = $simpleProvider;

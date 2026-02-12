@@ -11,15 +11,8 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class ControllerListener
 {
-    private SecurityFacade $securityFacade;
-    private LoggerInterface $logger;
-
-    public function __construct(
-        SecurityFacade $securityFacade,
-        LoggerInterface $logger
-    ) {
-        $this->securityFacade = $securityFacade;
-        $this->logger = $logger;
+    public function __construct(private readonly SecurityFacade $securityFacade, private readonly LoggerInterface $logger)
+    {
     }
 
     /**

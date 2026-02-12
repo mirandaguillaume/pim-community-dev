@@ -19,17 +19,17 @@ use Psr\Log\LoggerInterface;
  */
 class EvaluatePendingCriteria
 {
-    public const NO_LIMIT = -1;
+    final public const NO_LIMIT = -1;
 
     public function __construct(
-        private CriterionEvaluationRepositoryInterface                 $repository,
-        private CriteriaEvaluationRegistry                             $evaluationRegistry,
-        private CriteriaApplicabilityRegistry                          $applicabilityRegistry,
-        private GetPendingCriteriaEvaluationsByEntityIdsQueryInterface $getPendingCriteriaEvaluationsQuery,
-        private GetEvaluableProductValuesQueryInterface                $getEvaluableProductValuesQuery,
-        private SynchronousCriterionEvaluationsFilterInterface         $synchronousCriterionEvaluationsFilter,
-        private LoggerInterface                                        $logger,
-        private ProductEntityIdFactoryInterface                        $idFactory
+        private readonly CriterionEvaluationRepositoryInterface                 $repository,
+        private readonly CriteriaEvaluationRegistry                             $evaluationRegistry,
+        private readonly CriteriaApplicabilityRegistry                          $applicabilityRegistry,
+        private readonly GetPendingCriteriaEvaluationsByEntityIdsQueryInterface $getPendingCriteriaEvaluationsQuery,
+        private readonly GetEvaluableProductValuesQueryInterface                $getEvaluableProductValuesQuery,
+        private readonly SynchronousCriterionEvaluationsFilterInterface         $synchronousCriterionEvaluationsFilter,
+        private readonly LoggerInterface                                        $logger,
+        private readonly ProductEntityIdFactoryInterface                        $idFactory
     ) {
     }
 

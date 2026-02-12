@@ -23,7 +23,7 @@ class UserIntentFactoryRegistry
      * @param iterable<UserIntentFactory> $userIntentFactories
      * @param string[] $ignoredFieldNames
      */
-    public function __construct(iterable $userIntentFactories, private array $ignoredFieldNames)
+    public function __construct(iterable $userIntentFactories, private readonly array $ignoredFieldNames)
     {
         Assert::allString($ignoredFieldNames);
 
@@ -37,7 +37,6 @@ class UserIntentFactoryRegistry
     }
 
     /**
-     * @param mixed $data
      * @return UserIntent[]
      */
     public function fromStandardFormatField(string $fieldName, mixed $data): array

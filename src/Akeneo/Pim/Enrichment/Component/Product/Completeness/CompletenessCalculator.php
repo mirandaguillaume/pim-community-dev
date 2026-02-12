@@ -18,8 +18,8 @@ use Ramsey\Uuid\UuidInterface;
 class CompletenessCalculator
 {
     public function __construct(
-        private GetCompletenessProductMasks $getCompletenessProductMasks,
-        private GetRequiredAttributesMasks $getRequiredAttributesMasks
+        private readonly GetCompletenessProductMasks $getCompletenessProductMasks,
+        private readonly GetRequiredAttributesMasks $getRequiredAttributesMasks
     ) {
     }
 
@@ -27,9 +27,7 @@ class CompletenessCalculator
     {
         $productMasks = $this->getCompletenessProductMasks->fromProductUuids($productUuids);
 
-        $familyCodes = array_map(function (CompletenessProductMask $product) {
-            return $product->familyCode();
-        }, $productMasks);
+        $familyCodes = array_map(fn(CompletenessProductMask $product) => $product->familyCode(), $productMasks);
 
         $requiredAttributesMasks = $this->getRequiredAttributesMasks->fromFamilyCodes(array_unique(array_filter($familyCodes)));
 

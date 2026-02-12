@@ -11,9 +11,9 @@ namespace Akeneo\Connectivity\Connection\Domain\Webhook\Model\Read;
 class EventSubscriptionFormData
 {
     public function __construct(
-        private ConnectionWebhook $eventSubscription,
-        private int $activeEventSubscriptionsLimit,
-        private int $activeEventSubscriptionsCount
+        private readonly ConnectionWebhook $eventSubscription,
+        private readonly int $activeEventSubscriptionsLimit,
+        private readonly int $activeEventSubscriptionsCount
     ) {
     }
 

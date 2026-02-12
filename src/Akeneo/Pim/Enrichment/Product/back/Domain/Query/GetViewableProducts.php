@@ -14,14 +14,12 @@ interface GetViewableProducts
 {
     /**
      * @param array<string> $productIdentifiers
-     * @param int $userId
      * @return array<string>
      */
     public function fromProductIdentifiers(array $productIdentifiers, int $userId): array;
 
     /**
      * @param array<UuidInterface> $productUuids
-     * @param int $userId
      * @return array<UuidInterface>
      */
     public function fromProductUuids(array $productUuids, int $userId): array;

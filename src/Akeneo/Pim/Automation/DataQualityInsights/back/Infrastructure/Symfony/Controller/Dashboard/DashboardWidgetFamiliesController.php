@@ -16,14 +16,10 @@ use Symfony\Component\HttpFoundation\Response;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class DashboardWidgetFamiliesController
+final readonly class DashboardWidgetFamiliesController
 {
-    /** @var GetAverageRanksQueryInterface */
-    private $getAverageRanks;
-
-    public function __construct(GetAverageRanksQueryInterface $getAverageRanks)
+    public function __construct(private GetAverageRanksQueryInterface $getAverageRanks)
     {
-        $this->getAverageRanks = $getAverageRanks;
     }
 
     public function __invoke(Request $request, string $channel, string $locale)
@@ -32,7 +28,7 @@ final class DashboardWidgetFamiliesController
             $channelCode = new ChannelCode($channel);
             $localeCode = new LocaleCode($locale);
             $familyCodes = $this->getFamilyCodesFromRequest($request);
-        } catch (\InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException) {
             return new JsonResponse(null, Response::HTTP_BAD_REQUEST);
         }
 
@@ -49,8 +45,6 @@ final class DashboardWidgetFamiliesController
             throw new \InvalidArgumentException('The list of families must be an array');
         }
 
-        return array_map(function ($familyCode) {
-            return new FamilyCode($familyCode);
-        }, $requestFamilies);
+        return array_map(fn($familyCode) => new FamilyCode($familyCode), $requestFamilies);
     }
 }

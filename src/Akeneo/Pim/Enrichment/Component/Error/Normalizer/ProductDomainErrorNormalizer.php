@@ -17,12 +17,8 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class ProductDomainErrorNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    /** @var DocumentationBuilderRegistry */
-    private $documentationBuilderRegistry;
-
-    public function __construct(DocumentationBuilderRegistry $documentationBuilderRegistry)
+    public function __construct(private readonly DocumentationBuilderRegistry $documentationBuilderRegistry)
     {
-        $this->documentationBuilderRegistry = $documentationBuilderRegistry;
     }
 
     /**

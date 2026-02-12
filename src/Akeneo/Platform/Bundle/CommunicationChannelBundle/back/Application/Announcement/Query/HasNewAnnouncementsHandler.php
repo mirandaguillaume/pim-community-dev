@@ -12,20 +12,10 @@ use Akeneo\Platform\CommunicationChannel\Domain\Announcement\Query\FindViewedAnn
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class HasNewAnnouncementsHandler
+final readonly class HasNewAnnouncementsHandler
 {
-    /** @var FindNewAnnouncementIdsInterface */
-    private $findNewAnnouncementIds;
-
-    /** @var FindViewedAnnouncementIdsInterface */
-    private $findViewedAnnouncementIds;
-
-    public function __construct(
-        FindNewAnnouncementIdsInterface $findNewAnnouncementIds,
-        FindViewedAnnouncementIdsInterface $findViewedAnnouncementIds
-    ) {
-        $this->findNewAnnouncementIds = $findNewAnnouncementIds;
-        $this->findViewedAnnouncementIds = $findViewedAnnouncementIds;
+    public function __construct(private FindNewAnnouncementIdsInterface $findNewAnnouncementIds, private FindViewedAnnouncementIdsInterface $findViewedAnnouncementIds)
+    {
     }
 
     public function execute(HasNewAnnouncementsQuery $query): bool

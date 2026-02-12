@@ -105,7 +105,7 @@ class Writer extends AbstractFileWriter implements ItemWriterInterface, Initiali
         );
 
         foreach ($writtenFiles as $writtenFile) {
-            $this->writtenFiles[] = WrittenFileInfo::fromLocalFile($writtenFile, \basename($writtenFile));
+            $this->writtenFiles[] = WrittenFileInfo::fromLocalFile($writtenFile, \basename((string) $writtenFile));
         }
     }
 

@@ -10,12 +10,12 @@ use Webmozart\Assert\Assert;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class FamilyWasUpdated implements FamilyWasCreatedOrUpdated
+final readonly class FamilyWasUpdated implements FamilyWasCreatedOrUpdated
 {
     public function __construct(
-        public readonly int $id,
-        public readonly string $code,
-        public readonly \DateTimeImmutable $updatedAt
+        public int $id,
+        public string $code,
+        public \DateTimeImmutable $updatedAt
     ) {
         Assert::stringNotEmpty($code);
     }

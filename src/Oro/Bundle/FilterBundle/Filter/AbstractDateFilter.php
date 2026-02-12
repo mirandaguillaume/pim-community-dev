@@ -10,7 +10,7 @@ abstract class AbstractDateFilter extends AbstractFilter
     /**
      * DateTime object as string format
      */
-    const DATETIME_FORMAT = 'Y-m-d';
+    final public const DATETIME_FORMAT = 'Y-m-d';
 
     /**
      * {@inheritdoc}
@@ -52,11 +52,9 @@ abstract class AbstractDateFilter extends AbstractFilter
     }
 
     /**
-     * @param mixed $data
-     *
      * @return array|bool
      */
-    public function parseData($data)
+    public function parseData(mixed $data)
     {
         if (!$this->isValidData($data)) {
             return false;

@@ -21,10 +21,6 @@ class CategoryUpdater implements ObjectUpdaterInterface
     /** @var TranslatableUpdater */
     protected $translatableUpdater;
 
-    /**
-     * @param ObjectUpdaterInterface $categoryUpdater
-     * @param TranslatableUpdater    $translatableUpdater
-     */
     public function __construct(ObjectUpdaterInterface $categoryUpdater, TranslatableUpdater $translatableUpdater)
     {
         $this->categoryUpdater = $categoryUpdater;

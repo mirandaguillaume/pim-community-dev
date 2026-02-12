@@ -13,7 +13,7 @@ class GetUserIntentsFromStandardFormat
     /**
      * @param array<string, mixed> $standardFormat
      */
-    public function __construct(private array $standardFormat)
+    public function __construct(private readonly array $standardFormat)
     {
     }
 

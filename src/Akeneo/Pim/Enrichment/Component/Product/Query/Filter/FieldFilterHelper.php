@@ -15,7 +15,7 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
 class FieldFilterHelper
 {
     /** @var string */
-    const CODE_PROPERTY = 'code';
+    final public const CODE_PROPERTY = 'code';
 
     /**
      * Get field code part
@@ -55,19 +55,17 @@ class FieldFilterHelper
      */
     public static function hasProperty($field)
     {
-        return strpos($field, '.') !== false;
+        return str_contains($field, '.');
     }
 
     /**
      * Check if value is an array
      *
      * @param string $field
-     * @param mixed  $value
      * @param string $className
-     *
      * @throws InvalidPropertyTypeException
      */
-    public static function checkArray($field, $value, $className)
+    public static function checkArray($field, mixed $value, $className)
     {
         if (!is_array($value)) {
             throw InvalidPropertyTypeException::arrayExpected(static::getCode($field), $className, $value);
@@ -89,13 +87,12 @@ class FieldFilterHelper
      * Check if value is a datetime corresponding to a format
      *
      * @param string $field
-     * @param string|\DateTimeInterface $value
      * @param string $format
      * @param string $dateMessageFormat
      * @param string $className
      *
      */
-    public static function checkDateTime($field, $value, $format, $dateMessageFormat, $className)
+    public static function checkDateTime($field, string|\DateTimeInterface $value, $format, $dateMessageFormat, $className)
     {
         if ($value instanceof \DateTimeInterface) {
             return;
@@ -131,12 +128,10 @@ class FieldFilterHelper
      * Check if value is a string
      *
      * @param string $field
-     * @param mixed  $value
      * @param string $className
-     *
      * @throws InvalidPropertyTypeException
      */
-    public static function checkString($field, $value, $className)
+    public static function checkString($field, mixed $value, $className)
     {
         if (!is_string($value)) {
             throw InvalidPropertyTypeException::stringExpected($field, $className, $value);
@@ -147,12 +142,10 @@ class FieldFilterHelper
      * Check if value is a valid identifier
      *
      * @param string $field
-     * @param mixed  $value
      * @param string $className
-     *
      * @throws InvalidPropertyTypeException
      */
-    public static function checkIdentifier($field, $value, $className)
+    public static function checkIdentifier($field, mixed $value, $className)
     {
         $invalidIdField = static::hasProperty($field) && static::getProperty($field) === 'id' && !is_numeric($value);
         if ($invalidIdField) {

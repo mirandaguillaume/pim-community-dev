@@ -30,8 +30,6 @@ class ConfigurationPass implements CompilerPassInterface
     /**
      * Collect datagrid configurations files located in the datagrid directory
      * and pass them to the configuration provider.
-     *
-     * @param ContainerBuilder $container
      */
     protected function registerDatagridFiles(ContainerBuilder $container)
     {
@@ -59,7 +57,6 @@ class ConfigurationPass implements CompilerPassInterface
     /**
      * Get all the datagrid configuration files registered in the Resources/datagrid/ directories.
      *
-     * @param ContainerBuilder $container
      *
      * @return SplFileInfo[] array the files (key: name of the file)
      */

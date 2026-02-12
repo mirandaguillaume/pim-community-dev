@@ -11,7 +11,7 @@ namespace Akeneo\Connectivity\Connection\Application\Settings\Query;
  */
 class FindAConnectionQuery
 {
-    public function __construct(private string $connectionCode)
+    public function __construct(private readonly string $connectionCode)
     {
     }
 

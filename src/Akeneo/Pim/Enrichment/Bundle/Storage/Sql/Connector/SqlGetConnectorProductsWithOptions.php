@@ -20,8 +20,8 @@ use Ramsey\Uuid\UuidInterface;
 class SqlGetConnectorProductsWithOptions implements Query\GetConnectorProducts
 {
     public function __construct(
-        private Query\GetConnectorProducts $getConnectorProducts,
-        private Connection $connection
+        private readonly Query\GetConnectorProducts $getConnectorProducts,
+        private readonly Connection $connection
     ) {
     }
 
@@ -78,13 +78,10 @@ class SqlGetConnectorProductsWithOptions implements Query\GetConnectorProducts
         $optionCodes = $this->getOptionCodes($connectorProducts);
         $optionWithLabels = $this->getOptionWithLabels($optionCodes);
 
-        return array_map(function (ConnectorProduct $product) use ($optionWithLabels) {
-            return $product->buildLinkedData($optionWithLabels);
-        }, $connectorProducts);
+        return array_map(fn(ConnectorProduct $product) => $product->buildLinkedData($optionWithLabels), $connectorProducts);
     }
 
     /**
-     * @param array $connectorProducts
      * @return array{'attribute_code': int, 'option_code': mixed|string}
      */
     private function getOptionCodes(array $connectorProducts): array
@@ -159,6 +156,6 @@ class SqlGetConnectorProductsWithOptions implements Query\GetConnectorProducts
             $queryParams
         )->fetchAssociative();
 
-        return isset($row['result']) ? json_decode($row['result'], true) : [];
+        return isset($row['result']) ? json_decode((string) $row['result'], true, 512, JSON_THROW_ON_ERROR) : [];
     }
 }

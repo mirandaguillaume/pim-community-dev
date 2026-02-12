@@ -19,9 +19,9 @@ final class PersistTwoWayAssociationSubscriber implements EventSubscriberInterfa
     private array $productModelCodesToIndex = [];
 
     public function __construct(
-        private ManagerRegistry $registry,
-        private ProductIndexerInterface $productIndexer,
-        private ProductModelIndexerInterface $productModelIndexer
+        private readonly ManagerRegistry $registry,
+        private readonly ProductIndexerInterface $productIndexer,
+        private readonly ProductModelIndexerInterface $productModelIndexer
     ) {
     }
 
@@ -42,7 +42,7 @@ final class PersistTwoWayAssociationSubscriber implements EventSubscriberInterfa
         }
 
         // TODO TIP-987 Remove this when decoupling PublishedProduct from Enrichment
-        if ('Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct' === \get_class($entity)) {
+        if ('Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct' === $entity::class) {
             return;
         }
 

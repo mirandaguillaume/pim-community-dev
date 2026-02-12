@@ -20,9 +20,9 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class GetCategoryController
 {
     public function __construct(
-        private SecurityFacade $securityFacade,
-        private GetCategoryInterface $getCategory,
-        private FindCategoryAdditionalPropertiesRegistry $findCategoryAdditionalPropertiesRegistry,
+        private readonly SecurityFacade $securityFacade,
+        private readonly GetCategoryInterface $getCategory,
+        private readonly FindCategoryAdditionalPropertiesRegistry $findCategoryAdditionalPropertiesRegistry,
     ) {
     }
 

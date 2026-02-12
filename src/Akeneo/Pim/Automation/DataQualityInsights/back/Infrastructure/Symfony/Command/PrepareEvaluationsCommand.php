@@ -22,17 +22,11 @@ class PrepareEvaluationsCommand extends Command
     protected static $defaultName = 'pim:data-quality-insights:prepare-evaluations';
     protected static $defaultDescription = 'Prepare the evaluations of products and structure';
 
-    private FeatureFlag $featureFlag;
-    private RunUniqueProcessJob $runUniqueProcessJob;
-
     public function __construct(
-        RunUniqueProcessJob $runUniqueProcessJob,
-        FeatureFlag $featureFlag
+        private readonly RunUniqueProcessJob $runUniqueProcessJob,
+        private readonly FeatureFlag $featureFlag
     ) {
         parent::__construct();
-
-        $this->runUniqueProcessJob = $runUniqueProcessJob;
-        $this->featureFlag = $featureFlag;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -53,7 +47,7 @@ class PrepareEvaluationsCommand extends Command
 
                 return [PrepareEvaluationsParameters::UPDATED_SINCE_PARAMETER => $from->format(PrepareEvaluationsParameters::UPDATED_SINCE_DATE_FORMAT)];
             });
-        } catch (AnotherJobStillRunningException $e) {
+        } catch (AnotherJobStillRunningException) {
             exit(0);
         }
 

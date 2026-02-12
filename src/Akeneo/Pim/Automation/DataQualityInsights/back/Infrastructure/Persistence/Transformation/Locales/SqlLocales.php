@@ -18,11 +18,8 @@ final class SqlLocales implements LocalesInterface
 
     private bool $localesLoaded;
 
-    private Connection $dbConnection;
-
-    public function __construct(Connection $dbConnection)
+    public function __construct(private readonly Connection $dbConnection)
     {
-        $this->dbConnection = $dbConnection;
         $this->localeIdsByCodes = [];
         $this->localeCodesByIds = [];
         $this->localesLoaded = false;
@@ -53,7 +50,7 @@ final class SqlLocales implements LocalesInterface
         )->fetchOne();
 
         if ($locales) {
-            $this->localeCodesByIds = json_decode($locales, true);
+            $this->localeCodesByIds = json_decode((string) $locales, true, 512, JSON_THROW_ON_ERROR);
             $this->localeIdsByCodes = array_flip($this->localeCodesByIds);
         }
 

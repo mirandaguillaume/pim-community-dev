@@ -27,8 +27,8 @@ class ProductIndexer implements ProductIndexerInterface
     private const BATCH_SIZE = 500;
 
     public function __construct(
-        private Client $productAndProductModelClient,
-        private GetElasticsearchProductProjectionInterface $getElasticsearchProductProjection
+        private readonly Client $productAndProductModelClient,
+        private readonly GetElasticsearchProductProjectionInterface $getElasticsearchProductProjection
     ) {
     }
 

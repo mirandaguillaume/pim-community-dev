@@ -19,7 +19,7 @@ class CreateOpenIdKeysCommand extends Command
     protected static $defaultName = 'akeneo:connectivity-connection:openid-keys:create';
     protected static $defaultDescription = 'Create or update a public/private key couple to be used to sign openid token and store it into database';
 
-    public function __construct(private GenerateAsymmetricKeysHandler $generateAsymmetricKeysHandler)
+    public function __construct(private readonly GenerateAsymmetricKeysHandler $generateAsymmetricKeysHandler)
     {
         parent::__construct();
     }

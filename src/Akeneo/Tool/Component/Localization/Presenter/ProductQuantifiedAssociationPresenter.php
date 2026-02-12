@@ -23,8 +23,6 @@ class ProductQuantifiedAssociationPresenter implements PresenterInterface
 
     /**
      * @param string $value
-     * @param array $options
-     * @return string
      */
     public function present($value, array $options = []): string
     {
@@ -46,7 +44,6 @@ class ProductQuantifiedAssociationPresenter implements PresenterInterface
 
     /**
      * @param string $propertyName
-     * @return bool
      */
     public function supports($propertyName): bool
     {

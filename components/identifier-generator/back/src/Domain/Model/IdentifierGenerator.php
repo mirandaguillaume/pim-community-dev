@@ -27,17 +27,17 @@ use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\Condition\EmptyIdenti
  *     text_transformation: TextTransformationNormalized
  * }
  */
-final class IdentifierGenerator
+final readonly class IdentifierGenerator
 {
     public function __construct(
-        private readonly IdentifierGeneratorId $id,
-        private readonly IdentifierGeneratorCode $code,
-        private readonly Conditions $conditions,
-        private readonly Structure $structure,
-        private readonly LabelCollection $labelCollection,
-        private readonly Target $target,
-        private readonly Delimiter $delimiter,
-        private readonly TextTransformation $textTransformation,
+        private IdentifierGeneratorId $id,
+        private IdentifierGeneratorCode $code,
+        private Conditions $conditions,
+        private Structure $structure,
+        private LabelCollection $labelCollection,
+        private Target $target,
+        private Delimiter $delimiter,
+        private TextTransformation $textTransformation,
     ) {
     }
 

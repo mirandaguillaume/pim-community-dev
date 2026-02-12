@@ -71,7 +71,7 @@ class CreateIdentifierGeneratorController
      */
     private function getContent(Request $request): array
     {
-        $data = \json_decode($request->getContent(), true);
+        $data = \json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
         if (!\is_array($data)) {
             throw new BadRequestHttpException('Invalid json message received');
         }

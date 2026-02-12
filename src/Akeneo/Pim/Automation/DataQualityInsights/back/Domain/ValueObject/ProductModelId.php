@@ -10,8 +10,7 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject;
  */
 final class ProductModelId implements ProductEntityIdInterface
 {
-    /** @var int */
-    private $id;
+    private readonly int $id;
 
     public function __construct(int $id)
     {

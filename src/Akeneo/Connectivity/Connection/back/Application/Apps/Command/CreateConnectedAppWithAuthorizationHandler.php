@@ -25,16 +25,16 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class CreateConnectedAppWithAuthorizationHandler
 {
     public function __construct(
-        private ValidatorInterface $validator,
-        private AppAuthorizationSessionInterface $session,
-        private GetAppQueryInterface $getAppQuery,
-        private CreateUserInterface $createUser,
-        private CreateUserGroupInterface $createUserGroup,
-        private CreateConnectionInterface $createConnection,
-        private AppRoleWithScopesFactoryInterface $appRoleWithScopesFactory,
-        private ClientProviderInterface $clientProvider,
-        private CreateConnectedAppInterface $createConnectedApp,
-        private EventDispatcherInterface $eventDispatcher,
+        private readonly ValidatorInterface $validator,
+        private readonly AppAuthorizationSessionInterface $session,
+        private readonly GetAppQueryInterface $getAppQuery,
+        private readonly CreateUserInterface $createUser,
+        private readonly CreateUserGroupInterface $createUserGroup,
+        private readonly CreateConnectionInterface $createConnection,
+        private readonly AppRoleWithScopesFactoryInterface $appRoleWithScopesFactory,
+        private readonly ClientProviderInterface $clientProvider,
+        private readonly CreateConnectedAppInterface $createConnectedApp,
+        private readonly EventDispatcherInterface $eventDispatcher,
     ) {
     }
 

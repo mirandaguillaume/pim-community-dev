@@ -22,10 +22,6 @@ class RemoveProductValueProcessor extends AbstractProcessor
     /** @var ValidatorInterface */
     protected $validator;
 
-    /**
-     * @param PropertyRemoverInterface $propertyRemover
-     * @param ValidatorInterface       $validator
-     */
     public function __construct(
         PropertyRemoverInterface $propertyRemover,
         ValidatorInterface $validator
@@ -54,11 +50,10 @@ class RemoveProductValueProcessor extends AbstractProcessor
     /**
      * Validate the product
      *
-     * @param ProductInterface|ProductModelInterface $product
      *
      * @return bool
      */
-    protected function isProductValid($product)
+    protected function isProductValid(\Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface|\Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface $product)
     {
         $violations = $this->validator->validate($product);
         $this->addWarningMessage($violations, $product);
@@ -68,11 +63,8 @@ class RemoveProductValueProcessor extends AbstractProcessor
 
     /**
      * Set data from $actions to the given $product
-     *
-     * @param ProductInterface|ProductModelInterface $product
-     * @param array                                  $actions
      */
-    protected function removeValuesFromProduct($product, array $actions)
+    protected function removeValuesFromProduct(\Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface|\Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface $product, array $actions)
     {
         foreach ($actions as $action) {
             $this->propertyRemover->removeData($product, $action['field'], $action['value']);

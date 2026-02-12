@@ -60,7 +60,7 @@ final class SelectOptionShouldExistValidator extends ConstraintValidator
             $this->context
                 ->buildViolation($constraint->optionsDoNotExist, [
                     '{{ attributeCode }}' => $selectCondition['attributeCode'],
-                    '{{ optionCodes }}' =>  \implode(', ', \array_map(fn (string $value): string => (string) \json_encode($value), $nonExistingCodes)),
+                    '{{ optionCodes }}' =>  \implode(', ', \array_map(fn (string $value): string => (string) \json_encode($value, JSON_THROW_ON_ERROR), $nonExistingCodes)),
                 ])
                 ->atPath('[value]')
                 ->addViolation();

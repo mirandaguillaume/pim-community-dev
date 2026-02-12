@@ -17,7 +17,7 @@ class PurgeJobExecutions implements TaskletInterface
 {
     protected StepExecution $stepExecution;
 
-    public function __construct(private PurgeJobExecution $purgeJobExecution, private LoggerInterface $logger)
+    public function __construct(private readonly PurgeJobExecution $purgeJobExecution, private readonly LoggerInterface $logger)
     {
     }
 

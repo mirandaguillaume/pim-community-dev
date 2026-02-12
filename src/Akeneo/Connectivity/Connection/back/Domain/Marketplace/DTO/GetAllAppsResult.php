@@ -13,12 +13,12 @@ use Akeneo\Connectivity\Connection\Domain\Marketplace\Model\App;
 final class GetAllAppsResult
 {
     /** @var array<App> */
-    private array $apps;
+    private readonly array $apps;
 
     /**
      * @param array<App> $apps
      */
-    private function __construct(private int $total, array $apps)
+    private function __construct(private readonly int $total, array $apps)
     {
         foreach ($apps as $app) {
             if (!$app instanceof App) {

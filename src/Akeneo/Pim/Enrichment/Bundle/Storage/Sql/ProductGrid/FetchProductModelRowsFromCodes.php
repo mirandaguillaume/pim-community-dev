@@ -16,12 +16,12 @@ use Doctrine\DBAL\Types\Types;
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class FetchProductModelRowsFromCodes implements FetchProductModelRowsFromCodesInterface
+final readonly class FetchProductModelRowsFromCodes implements FetchProductModelRowsFromCodesInterface
 {
     public function __construct(
-        private readonly Connection $connection,
-        private readonly WriteValueCollectionFactory $valueCollectionFactory,
-        private readonly ProductModelImagesFromCodes $productModelImagesFromCodes
+        private Connection $connection,
+        private WriteValueCollectionFactory $valueCollectionFactory,
+        private ProductModelImagesFromCodes $productModelImagesFromCodes
     ) {
     }
 
@@ -161,7 +161,7 @@ SQL;
 
         foreach ($completenessByProductModelCode as $value) {
             $code = $value['code'];
-            $completeness = \json_decode($value['completeness'], true);
+            $completeness = \json_decode((string) $value['completeness'], true, 512, JSON_THROW_ON_ERROR);
 
             $result[$code]['children_completeness']['total'] += 1;
 
@@ -264,7 +264,7 @@ SQL;
         $productModels = [];
 
         foreach ($rows as $row) {
-            $values = json_decode($row['raw_values'], true);
+            $values = json_decode((string) $row['raw_values'], true, 512, JSON_THROW_ON_ERROR);
             // filter attributes directly on raw_values for performance reason
             $attributeCodesToKeep = array_filter(
                 array_merge(
@@ -281,10 +281,8 @@ SQL;
 
         foreach ($valueCollections as $productModelCode => $valueCollection) {
             $result[$productModelCode]['value_collection'] = $valueCollection->filter(
-                function (ValueInterface $value) use ($channelCode, $localeCode) {
-                    return ($value->getScopeCode() === $channelCode || $value->getScopeCode() === null)
-                        && ($value->getLocaleCode() === $localeCode || $value->getLocaleCode() === null);
-                }
+                fn(ValueInterface $value) => ($value->getScopeCode() === $channelCode || $value->getScopeCode() === null)
+                    && ($value->getLocaleCode() === $localeCode || $value->getLocaleCode() === null)
             );
         }
 

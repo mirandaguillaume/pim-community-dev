@@ -19,10 +19,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GetNomenclatureController
+final readonly class GetNomenclatureController
 {
     public function __construct(
-        private readonly GetNomenclatureHandler $getNomenclatureHandler,
+        private GetNomenclatureHandler $getNomenclatureHandler,
     ) {
     }
 

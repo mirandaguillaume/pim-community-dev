@@ -16,14 +16,12 @@ use Akeneo\Tool\Bundle\MeasureBundle\Provider\LegacyMeasurementProvider;
  */
 class MeasureConverter
 {
-    public const SCALE = 12;
+    final public const SCALE = 12;
 
     private ?string $family = null;
-    private LegacyMeasurementProvider $legacyMeasurementProvider;
 
-    public function __construct(LegacyMeasurementProvider $provider)
+    public function __construct(private readonly LegacyMeasurementProvider $legacyMeasurementProvider)
     {
-        $this->legacyMeasurementProvider = $provider;
     }
 
     /**
@@ -41,7 +39,7 @@ class MeasureConverter
         }
 
         foreach (\array_keys($measurementFamilies) as $measurementFamilyCode) {
-            if (\strtolower($measurementFamilyCode) === \strtolower($familyCode)) {
+            if (\strtolower($measurementFamilyCode) === \strtolower((string) $familyCode)) {
                 $this->family = $measurementFamilyCode;
 
                 return $this;
@@ -60,7 +58,7 @@ class MeasureConverter
      *
      * @return string
      */
-    public function convert($baseUnit, $finalUnit, $value)
+    public function convert($baseUnit, $finalUnit, int|float|string $value)
     {
         $standardValue = $this->convertBaseToStandard($baseUnit, $value);
 
@@ -78,7 +76,7 @@ class MeasureConverter
      * @throws UnitNotFoundException
      * @throws UnknownOperatorException
      */
-    public function convertBaseToStandard($baseUnit, $value)
+    public function convertBaseToStandard($baseUnit, int|float|string $value)
     {
         $unitInfo = $this->getUnitInfo($baseUnit);
         $conversionConfig = $unitInfo['convert'];
@@ -103,7 +101,7 @@ class MeasureConverter
      * @return string
      *@throws UnknownOperatorException
      */
-    protected function applyOperation($value, $operator, $operand)
+    protected function applyOperation(int|float|string $value, $operator, $operand)
     {
         if (!is_numeric($value) || (is_string($value) && str_contains($value, ' '))) {
             return '0';
@@ -144,7 +142,7 @@ class MeasureConverter
      * @return string
      *
      */
-    public function convertStandardToResult($finalUnit, $value)
+    public function convertStandardToResult($finalUnit, int|float|string $value)
     {
         $unitInfo = $this->getUnitInfo($finalUnit);
         $conversionConfig = $unitInfo['convert'];
@@ -170,7 +168,7 @@ class MeasureConverter
      * @return string
      * @throws UnknownOperatorException
      */
-    protected function applyReversedOperation($value, $operator, $operand)
+    protected function applyReversedOperation(int|float|string $value, $operator, $operand)
     {
         $processedValue = (string) $value;
 
@@ -207,7 +205,7 @@ class MeasureConverter
         }
 
         foreach ($measurementFamilies[$this->family]['units'] as $familyUnitCode => $unitInfo) {
-            if (\strtolower($familyUnitCode) === \strtolower($unitCode)) {
+            if (\strtolower((string) $familyUnitCode) === \strtolower($unitCode)) {
                 return $unitInfo;
             }
         }

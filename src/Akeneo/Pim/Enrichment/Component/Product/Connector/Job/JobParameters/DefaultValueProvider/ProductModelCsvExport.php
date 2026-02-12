@@ -20,34 +20,8 @@ use Akeneo\Tool\Component\Localization\Localizer\LocalizerInterface;
  */
 class ProductModelCsvExport implements DefaultValuesProviderInterface
 {
-    /** @var DefaultValuesProviderInterface */
-    private $simpleProvider;
-
-    /** @var array */
-    private $supportedJobNames;
-
-    /** @var ChannelRepositoryInterface */
-    private $channelRepository;
-
-    /** @var LocaleRepositoryInterface */
-    private $localeRepository;
-
-    /**
-     * @param DefaultValuesProviderInterface $simpleProvider
-     * @param ChannelRepositoryInterface     $channelRepository
-     * @param LocaleRepositoryInterface      $localeRepository
-     * @param array                          $supportedJobNames
-     */
-    public function __construct(
-        DefaultValuesProviderInterface $simpleProvider,
-        ChannelRepositoryInterface $channelRepository,
-        LocaleRepositoryInterface $localeRepository,
-        array $supportedJobNames
-    ) {
-        $this->simpleProvider    = $simpleProvider;
-        $this->channelRepository = $channelRepository;
-        $this->localeRepository  = $localeRepository;
-        $this->supportedJobNames = $supportedJobNames;
+    public function __construct(private readonly DefaultValuesProviderInterface $simpleProvider, private readonly ChannelRepositoryInterface $channelRepository, private readonly LocaleRepositoryInterface $localeRepository, private readonly array $supportedJobNames)
+    {
     }
 
     /**

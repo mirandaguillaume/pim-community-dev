@@ -34,13 +34,6 @@ class SetAttributeRequirements extends AbstractProcessor
     /** @var ObjectDetacherInterface */
     protected $detacher;
 
-    /**
-     * @param AttributeRepositoryInterface $attributeRepository
-     * @param ChannelRepositoryInterface   $channelRepository
-     * @param AttributeRequirementFactory  $factory
-     * @param ValidatorInterface           $validator
-     * @param ObjectDetacherInterface      $detacher
-     */
     public function __construct(
         AttributeRepositoryInterface $attributeRepository,
         ChannelRepositoryInterface $channelRepository,

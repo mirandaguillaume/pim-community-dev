@@ -17,55 +17,21 @@ use Akeneo\Tool\Component\Connector\Exception\StructureArrayConversionException;
  */
 class ProductModel implements ArrayConverterInterface
 {
-    /** @var ColumnsMapper */
-    private $columnsMapper;
-
-    /** @var FieldConverter */
-    private $fieldConverter;
-
-    /** @var ArrayConverterInterface */
-    private $productValueConverter;
-
-    /** @var ColumnsMerger */
-    private $columnsMerger;
-
-    /** @var AttributeColumnsResolver */
-    private $attributeColumnsResolver;
-
-    /** @var FieldsRequirementChecker */
-    private $fieldsRequirementChecker;
-
-    /** @var AssociationColumnsResolver */
-    private $assocColumnsResolver;
-
-    /** @var array */
-    private $optionalAssocFields = [];
+    private array $optionalAssocFields = [];
 
     /**
-     * @param ColumnsMapper              $columnsMapper
      * @param FieldConverter             $fieldConverter
-     * @param ArrayConverterInterface    $productValueConverter
-     * @param ColumnsMerger              $columnsMerger
      * @param AttributeColumnsResolver   $attributeColumnsResolver ,
-     * @param FieldsRequirementChecker   $fieldsRequirementChecker
-     * @param AssociationColumnsResolver $assocColumnsResolver
      */
     public function __construct(
-        ColumnsMapper $columnsMapper,
-        FieldConverter $fieldConverter,
-        ArrayConverterInterface $productValueConverter,
-        ColumnsMerger $columnsMerger,
-        AttributeColumnsResolver $attributeColumnsResolver,
-        FieldsRequirementChecker $fieldsRequirementChecker,
-        AssociationColumnsResolver $assocColumnsResolver
+        private readonly ColumnsMapper $columnsMapper,
+        private readonly FieldConverter $fieldConverter,
+        private readonly ArrayConverterInterface $productValueConverter,
+        private readonly ColumnsMerger $columnsMerger,
+        private readonly AttributeColumnsResolver $attributeColumnsResolver,
+        private readonly FieldsRequirementChecker $fieldsRequirementChecker,
+        private readonly AssociationColumnsResolver $assocColumnsResolver
     ) {
-        $this->columnsMapper = $columnsMapper;
-        $this->fieldConverter = $fieldConverter;
-        $this->productValueConverter = $productValueConverter;
-        $this->columnsMerger = $columnsMerger;
-        $this->attributeColumnsResolver = $attributeColumnsResolver;
-        $this->fieldsRequirementChecker = $fieldsRequirementChecker;
-        $this->assocColumnsResolver = $assocColumnsResolver;
         $this->optionalAssocFields = [];
     }
 
@@ -75,7 +41,7 @@ class ProductModel implements ArrayConverterInterface
     public function convert(array $flatProductModel, array $options = []): array
     {
         $mappedFlatProductModel = $this->mapFields($flatProductModel, $options);
-        $filteredItem = $this->filterFields($mappedFlatProductModel, isset($options['with_associations']) ? $options['with_associations'] : true);
+        $filteredItem = $this->filterFields($mappedFlatProductModel, $options['with_associations'] ?? true);
         $this->validateItem($filteredItem);
 
         $mergedFlatProductModel = $this->columnsMerger->merge($filteredItem, $options);
@@ -108,12 +74,6 @@ class ProductModel implements ArrayConverterInterface
         return $mappedItem;
     }
 
-    /**
-     * @param array $flatProductModel
-     * @param array $options
-     *
-     * @return array
-     */
     private function mapFields(array $flatProductModel, array $options): array
     {
         if (isset($options['mapping'])) {
@@ -123,9 +83,6 @@ class ProductModel implements ArrayConverterInterface
         return $flatProductModel;
     }
 
-    /**
-     * @param array $mappedFlatProductModel
-     */
     protected function validateItem(array $mappedFlatProductModel): void
     {
         $this->fieldsRequirementChecker->checkFieldsPresence($mappedFlatProductModel, ['code']);
@@ -134,8 +91,6 @@ class ProductModel implements ArrayConverterInterface
     }
 
     /**
-     * @param array $mappedFlatProductModel
-     *
      * @throws StructureArrayConversionException
      */
     protected function validateOptionalFields(array $mappedFlatProductModel): void
@@ -179,8 +134,6 @@ class ProductModel implements ArrayConverterInterface
     }
 
     /**
-     * @param array $mappedFlatProductModel
-     *
      * @throws DataArrayConversionException
      */
     protected function validateFieldValueTypes(array $mappedFlatProductModel): void
@@ -196,11 +149,6 @@ class ProductModel implements ArrayConverterInterface
         }
     }
 
-    /**
-     * @param array $mergedFlatProductModel
-     *
-     * @return array
-     */
     protected function convertItem(array $mergedFlatProductModel): array
     {
         $convertedValues = $convertedFlatProductModel = [];

@@ -16,17 +16,8 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
  */
 final class LocalizableSubscriber implements EventSubscriber
 {
-    /**
-     * @var CatalogContext
-     */
-    protected $context;
-
-    /**
-     * @param CatalogContext $context
-     */
-    public function __construct(CatalogContext $context)
+    public function __construct(protected CatalogContext $context)
     {
-        $this->context = $context;
     }
 
     /**

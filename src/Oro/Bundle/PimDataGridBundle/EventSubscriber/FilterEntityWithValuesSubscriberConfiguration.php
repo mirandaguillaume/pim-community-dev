@@ -21,7 +21,6 @@ class FilterEntityWithValuesSubscriberConfiguration
 
     /**
      * @param AttributeInterface[] $attributeCodes
-     * @param bool                 $filterEntityWithValues
      */
     private function __construct(array $attributeCodes, bool $filterEntityWithValues)
     {
@@ -33,9 +32,7 @@ class FilterEntityWithValuesSubscriberConfiguration
      * Hydrate entity with only the values belonging to a list of attribute codes.
      * WARNING: Should only be used when loading entities for the datagrid.
      *
-     * @param array $attributeCodes
      *
-     * @return FilterEntityWithValuesSubscriberConfiguration
      */
     public static function filterEntityValues(array $attributeCodes): FilterEntityWithValuesSubscriberConfiguration
     {
@@ -44,25 +41,17 @@ class FilterEntityWithValuesSubscriberConfiguration
 
     /**
      * Hydrates entity with values with all the values.
-     *
-     * @return FilterEntityWithValuesSubscriberConfiguration
      */
     public static function doNotFilterEntityValues(): FilterEntityWithValuesSubscriberConfiguration
     {
         return new self([], false);
     }
 
-    /**
-     * @return array
-     */
     public function attributeCodesToFilterEntityValues(): array
     {
         return $this->attributeCodes;
     }
 
-    /**
-     * @return bool
-     */
     public function shouldFilterEntityValues(): bool
     {
         return $this->filterEntityWithValues;

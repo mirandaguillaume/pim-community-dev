@@ -26,11 +26,6 @@ class ProductNormalizer implements NormalizerInterface, CacheableSupportsMethodI
     /** @var RouterInterface */
     protected $router;
 
-    /**
-     * @param NormalizerInterface          $productNormalizer
-     * @param AttributeRepositoryInterface $attributeRepository
-     * @param RouterInterface              $router
-     */
     public function __construct(
         NormalizerInterface $productNormalizer,
         AttributeRepositoryInterface $attributeRepository,
@@ -96,8 +91,6 @@ class ProductNormalizer implements NormalizerInterface, CacheableSupportsMethodI
     }
 
     /**
-     * @param array  $values
-     *
      * @return array
      */
     protected function addDownloadLink(array $values)

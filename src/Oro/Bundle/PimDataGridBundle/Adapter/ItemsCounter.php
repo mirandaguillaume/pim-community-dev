@@ -39,6 +39,6 @@ class ItemsCounter
             throw new \Exception('There should one filter containing the items to filter.');
         }
 
-        return count($filters[0]['value']);
+        return is_countable($filters[0]['value']) ? count($filters[0]['value']) : 0;
     }
 }

@@ -15,22 +15,14 @@ namespace Akeneo\Tool\Component\Connector\Job;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class JobFileLocation
+final readonly class JobFileLocation
 {
     private const REMOTE_SCHEMA = 'pim_remote://';
 
     private const LOCAL_TEMP_PREFIX = 'from_remote_';
 
-    /** @var string */
-    private $path;
-
-    /** @var bool */
-    private $remote;
-
-    public function __construct(string $path, bool $remote)
+    public function __construct(private string $path, private bool $remote)
     {
-        $this->path = $path;
-        $this->remote = $remote;
     }
 
     /**
@@ -39,7 +31,7 @@ final class JobFileLocation
      */
     public static function parseUrl(string $url): JobFileLocation
     {
-        if (0 === strpos($url, self::REMOTE_SCHEMA)) {
+        if (str_starts_with($url, self::REMOTE_SCHEMA)) {
             $remote = true;
             $path = substr($url, strlen(self::REMOTE_SCHEMA));
         } else {

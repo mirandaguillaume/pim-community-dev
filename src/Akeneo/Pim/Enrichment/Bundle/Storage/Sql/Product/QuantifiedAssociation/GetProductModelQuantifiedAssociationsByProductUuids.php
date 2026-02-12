@@ -9,7 +9,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Query\FindQuantifiedAssociationTypeC
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\UuidInterface;
 
-final class GetProductModelQuantifiedAssociationsByProductUuids
+final readonly class GetProductModelQuantifiedAssociationsByProductUuids
 {
     public function __construct(
         private Connection $connection,
@@ -76,7 +76,7 @@ SQL;
                 continue;
             }
             $allQuantifiedAssociationsWithProductId = [];
-            $allQuantifiedAssociationsWithProductIdFromJson = json_decode($row['all_quantified_associations'], true);
+            $allQuantifiedAssociationsWithProductIdFromJson = json_decode((string) $row['all_quantified_associations'], true, 512, JSON_THROW_ON_ERROR);
             foreach ($allQuantifiedAssociationsWithProductIdFromJson as $key => $value) {
                 $allQuantifiedAssociationsWithProductId[\strval($key)] = $value;
             }
@@ -121,7 +121,7 @@ SQL;
             foreach ($associationWithIds['product_models'] as $associationWithProductId) {
                 try {
                     $identifier = $productIdMapping->getIdentifier($associationWithProductId['id']);
-                } catch (\Exception $exception) {
+                } catch (\Exception) {
                     continue;
                 }
                 $uniqueQuantifiedAssociations[$identifier] = [
@@ -140,9 +140,7 @@ SQL;
     private function productIds(array $quantifiedAssociationWithProductId): array
     {
         return array_map(
-            function (array $quantifiedAssociations) {
-                return $quantifiedAssociations['id'];
-            },
+            fn(array $quantifiedAssociations) => $quantifiedAssociations['id'],
             $quantifiedAssociationWithProductId['product_models'] ?? []
         );
     }

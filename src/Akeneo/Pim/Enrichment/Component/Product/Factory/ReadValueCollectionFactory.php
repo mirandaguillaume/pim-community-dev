@@ -17,21 +17,8 @@ use Ramsey\Uuid\Uuid;
  */
 class ReadValueCollectionFactory
 {
-    private ValueFactory $valueFactory;
-    private GetAttributes $getAttributeByCodes;
-    private ChainedNonExistentValuesFilterInterface $chainedNonExistentValuesFilter;
-    private LoggerInterface $logger;
-
-    public function __construct(
-        ValueFactory $valueFactory,
-        GetAttributes $getAttributeByCodes,
-        ChainedNonExistentValuesFilterInterface $chainedNonExistentValuesFilter,
-        LoggerInterface $logger
-    ) {
-        $this->valueFactory = $valueFactory;
-        $this->getAttributeByCodes = $getAttributeByCodes;
-        $this->chainedNonExistentValuesFilter = $chainedNonExistentValuesFilter;
-        $this->logger = $logger;
+    public function __construct(private readonly ValueFactory $valueFactory, private readonly GetAttributes $getAttributeByCodes, private readonly ChainedNonExistentValuesFilterInterface $chainedNonExistentValuesFilter, private readonly LoggerInterface $logger)
+    {
     }
 
     public function createFromStorageFormat(array $rawValues): ReadValueCollection
@@ -91,7 +78,7 @@ class ReadValueCollectionFactory
                                 $localeCode,
                                 $data
                             );
-                        } catch (\TypeError | InvalidPropertyTypeException | InvalidPropertyException $exception) {
+                        } catch (\TypeError | InvalidPropertyTypeException | InvalidPropertyException) {
                             $this->logger->notice(
                                 sprintf(
                                     'Tried to load a product value for attribute "%s" that does not have the '.

@@ -12,7 +12,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Transfo
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class TransformCommonCriterionResultDataIds implements TransformResultDataIdsInterface
+final readonly class TransformCommonCriterionResultDataIds implements TransformResultDataIdsInterface
 {
     public function __construct(
         private TransformChannelLocaleDataIds $transformChannelLocaleDataIds,

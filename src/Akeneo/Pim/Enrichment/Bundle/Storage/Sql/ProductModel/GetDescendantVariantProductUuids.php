@@ -16,7 +16,7 @@ use Ramsey\Uuid\UuidInterface;
 class GetDescendantVariantProductUuids
 {
     public function __construct(
-        private Connection $connection
+        private readonly Connection $connection
     ) {
     }
 

@@ -124,7 +124,7 @@ SQL;
         $this->dbConnection->executeQuery($insertQuery, [
             'productUuid' => $productScore->getEntityId()->toBytes(),
             'evaluatedAt' => $productScore->getEvaluatedAt()->format('Y-m-d'),
-            'scores' => \json_encode($productScore->getScores()->toNormalizedRates()),
+            'scores' => \json_encode($productScore->getScores()->toNormalizedRates(), JSON_THROW_ON_ERROR),
         ]);
     }
 

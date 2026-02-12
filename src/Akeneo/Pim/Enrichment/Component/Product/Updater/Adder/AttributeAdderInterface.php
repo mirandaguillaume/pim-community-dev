@@ -17,7 +17,6 @@ interface AttributeAdderInterface extends AdderInterface
     /**
      * Add attribute data
      *
-     * @param EntityWithValuesInterface $entityWithValues
      * @param AttributeInterface        $attribute The attribute of the product to update
      * @param mixed                     $data      The data to add
      * @param array                     $options   Options passed to the adder
@@ -28,7 +27,7 @@ interface AttributeAdderInterface extends AdderInterface
     public function addAttributeData(
         EntityWithValuesInterface $entityWithValues,
         AttributeInterface $attribute,
-        $data,
+        mixed $data,
         array $options = []
     ): void;
 

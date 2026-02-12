@@ -19,9 +19,9 @@ use Webmozart\Assert\Assert;
 class EvaluateOutdatedProductModel
 {
     public function __construct(
-        private HasUpToDateEvaluationQueryInterface $hasUpToDateEvaluationQuery,
-        private EvaluateProductModels $evaluateProductModels,
-        private ProductEntityIdFactoryInterface $factory,
+        private readonly HasUpToDateEvaluationQueryInterface $hasUpToDateEvaluationQuery,
+        private readonly EvaluateProductModels $evaluateProductModels,
+        private readonly ProductEntityIdFactoryInterface $factory,
     ) {
     }
 

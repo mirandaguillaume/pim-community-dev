@@ -10,7 +10,7 @@ class GenerateJobExecutionUrl implements GenerateJobExecutionUrlInterface
     private const JOB_EXECUTION_ROUTE = 'akeneo_job_process_tracker_details';
 
     public function __construct(
-        private RouterInterface $router
+        private readonly RouterInterface $router
     ) {
     }
 

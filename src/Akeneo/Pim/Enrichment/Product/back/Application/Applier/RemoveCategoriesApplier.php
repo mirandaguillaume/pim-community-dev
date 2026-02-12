@@ -18,8 +18,8 @@ use Webmozart\Assert\Assert;
 class RemoveCategoriesApplier implements UserIntentApplier
 {
     public function __construct(
-        private ObjectUpdaterInterface $productUpdater,
-        private GetCategoryCodes $getCategoryCodes
+        private readonly ObjectUpdaterInterface $productUpdater,
+        private readonly GetCategoryCodes $getCategoryCodes
     ) {
     }
 

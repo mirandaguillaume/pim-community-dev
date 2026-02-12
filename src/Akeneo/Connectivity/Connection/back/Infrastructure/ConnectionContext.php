@@ -27,7 +27,7 @@ class ConnectionContext implements ConnectionContextInterface
 
     private ?bool $areCredentialsValidCombination = null;
 
-    public function __construct(private AreCredentialsValidCombinationQueryInterface $areCredentialsValidCombinationQuery, private SelectConnectionCodeByClientIdQueryInterface $selectConnectionCodeByClientIdQuery, private ConnectionRepositoryInterface $connectionRepository)
+    public function __construct(private readonly AreCredentialsValidCombinationQueryInterface $areCredentialsValidCombinationQuery, private readonly SelectConnectionCodeByClientIdQueryInterface $selectConnectionCodeByClientIdQuery, private readonly ConnectionRepositoryInterface $connectionRepository)
     {
     }
 

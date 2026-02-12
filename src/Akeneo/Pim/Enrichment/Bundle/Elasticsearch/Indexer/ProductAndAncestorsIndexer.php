@@ -23,9 +23,9 @@ use Ramsey\Uuid\UuidInterface;
 class ProductAndAncestorsIndexer
 {
     public function __construct(
-        private ProductIndexerInterface $productIndexer,
-        private ProductModelIndexerInterface $productModelIndexer,
-        private GetAncestorProductModelCodes $getAncestorProductModelCodes
+        private readonly ProductIndexerInterface $productIndexer,
+        private readonly ProductModelIndexerInterface $productModelIndexer,
+        private readonly GetAncestorProductModelCodes $getAncestorProductModelCodes
     ) {
     }
 

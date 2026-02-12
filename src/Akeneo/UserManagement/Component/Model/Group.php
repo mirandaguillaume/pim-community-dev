@@ -10,15 +10,12 @@ use Doctrine\Common\Collections\Collection;
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Group implements GroupInterface
+class Group implements GroupInterface, \Stringable
 {
-    public const TYPE_DEFAULT = 'default';
+    final public const TYPE_DEFAULT = 'default';
 
     /** @var integer */
     protected $id;
-
-    /** @var string */
-    protected $name;
 
     /** @var ArrayCollection */
     protected $roles;
@@ -29,9 +26,8 @@ class Group implements GroupInterface
     /**
      * @param string $name [optional] Group name
      */
-    public function __construct($name = '')
+    public function __construct(protected $name = '')
     {
-        $this->name = $name;
         $this->roles = new ArrayCollection();
     }
 

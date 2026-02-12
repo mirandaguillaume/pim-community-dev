@@ -21,15 +21,11 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 class RemoveFamilyFromJobInstanceFiltersOnFamilyDeletionSubscriber implements EventSubscriberInterface
 {
     /** @var ObjectRepository */
-    private $jobInstanceRepository;
+    private readonly \Doctrine\ORM\EntityRepository $jobInstanceRepository;
 
-    /** @var BulkSaverInterface */
-    private $bulkSaver;
-
-    public function __construct(EntityManagerInterface $em, BulkSaverInterface $bulkSaver)
+    public function __construct(EntityManagerInterface $em, private readonly BulkSaverInterface $bulkSaver)
     {
         $this->jobInstanceRepository = $em->getRepository(JobInstance::class);
-        $this->bulkSaver = $bulkSaver;
     }
     /**
      * {@inheritdoc}

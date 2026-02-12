@@ -20,43 +20,25 @@ class EntityToIdentifierTransformer implements DataTransformerInterface
     /** @var ObjectRepository */
     protected $repository;
 
-    /** @var bool */
-    protected $multiple;
-
-    /**
-     * Delimiter used by imploded array
-     *
-     * @var string
-     */
-    protected $delimiter;
-
     /** @var PropertyAccessorInterface */
     protected $propertyAccessor;
-
-    /** @var string */
-    protected $identifierProperty;
 
     /**
      * Constructor
      *
-     * @param ObjectRepository          $repository
      * @param bool                      $multiple
-     * @param PropertyAccessorInterface $propertyAccessor
      * @param string                    $delimiter
      * @param string                    $identifierProperty
      */
     public function __construct(
         ObjectRepository $repository,
-        $multiple,
+        protected $multiple,
         PropertyAccessorInterface $propertyAccessor = null,
-        $delimiter = ',',
-        $identifierProperty = 'id'
+        protected $delimiter = ',',
+        protected $identifierProperty = 'id'
     ) {
         $this->repository = $repository;
-        $this->multiple = $multiple;
         $this->propertyAccessor = $propertyAccessor ?: PropertyAccess::createPropertyAccessor();
-        $this->delimiter = $delimiter;
-        $this->identifierProperty = $identifierProperty;
     }
 
     /**
@@ -73,9 +55,7 @@ class EntityToIdentifierTransformer implements DataTransformerInterface
                 throw new UnexpectedTypeException($value, 'array');
             }
 
-            $identifiers = array_map(function ($value) {
-                return $this->propertyAccessor->getValue($value, $this->identifierProperty);
-            }, $value);
+            $identifiers = array_map(fn($value) => $this->propertyAccessor->getValue($value, $this->identifierProperty), $value);
 
             if (null !== $this->delimiter) {
                 $identifiers = implode($this->delimiter, $identifiers);

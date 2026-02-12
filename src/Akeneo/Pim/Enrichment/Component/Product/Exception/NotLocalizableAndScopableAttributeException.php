@@ -17,8 +17,8 @@ class NotLocalizableAndScopableAttributeException extends InvalidAttributeExcept
     DomainErrorInterface,
     TemplatedErrorMessageInterface
 {
-    private TemplatedErrorMessage $templatedMessage;
-    private string $attributeCode;
+    private readonly TemplatedErrorMessage $templatedMessage;
+    private readonly string $attributeCode;
 
     private function __construct(TemplatedErrorMessage $templatedMessage, string $attributeCode)
     {

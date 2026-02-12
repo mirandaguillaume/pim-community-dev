@@ -23,8 +23,6 @@ use Symfony\Component\Finder\Finder;
  */
 class FlatFileIterator implements FileIteratorInterface
 {
-    protected string $type;
-    protected string $filePath;
     protected ?ReaderInterface $reader = null;
     protected \SplFileInfo $fileInfo;
     protected ?string $archivePath = null;
@@ -34,15 +32,12 @@ class FlatFileIterator implements FileIteratorInterface
     /**
      * @param string $type
      * @param string $filePath
-     * @param array  $options
      *
      * @throws UnsupportedTypeException
      * @throws FileNotFoundException
      */
-    public function __construct($type, $filePath, array $options = [])
+    public function __construct(protected $type, protected $filePath, array $options = [])
     {
-        $this->type = $type;
-        $this->filePath = $filePath;
         $this->fileInfo = new \SplFileInfo($filePath);
 
         if (!$this->fileInfo->isFile()) {

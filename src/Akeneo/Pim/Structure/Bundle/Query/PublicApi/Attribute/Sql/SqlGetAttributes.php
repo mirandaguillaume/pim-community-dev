@@ -11,14 +11,10 @@ use Doctrine\DBAL\Connection;
  * @author    Anael Chardan <anael.chardan@akeneo.com>
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  */
-final class SqlGetAttributes implements GetAttributes
+final readonly class SqlGetAttributes implements GetAttributes
 {
-    /** @var Connection */
-    private $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function forCodes(array $attributeCodes): array
@@ -74,7 +70,7 @@ SQL;
         foreach ($rawResults as $rawAttribute) {
             $properties = unserialize($rawAttribute['properties']);
 
-            $translations = $rawAttribute['translations'] !== null ? json_decode($rawAttribute['translations'], true) : [];
+            $translations = $rawAttribute['translations'] !== null ? json_decode((string) $rawAttribute['translations'], true, 512, JSON_THROW_ON_ERROR) : [];
 
             $attributes[$rawAttribute['code']] = new Attribute(
                 $rawAttribute['code'],
@@ -86,7 +82,7 @@ SQL;
                 $rawAttribute['default_metric_unit'],
                 boolval($rawAttribute['decimals_allowed']),
                 $rawAttribute['backend_type'],
-                json_decode($rawAttribute['available_locale_codes']),
+                json_decode((string) $rawAttribute['available_locale_codes'], null, 512, JSON_THROW_ON_ERROR),
                 boolval($rawAttribute['useable_as_grid_filter']),
                 $translations,
                 boolval($rawAttribute['main_identifier']),

@@ -16,20 +16,12 @@ use Symfony\Component\Form\FormEvents;
  */
 class FilterLocaleValueSubscriber implements EventSubscriberInterface
 {
-    /** @var string $currentLocale */
-    protected $currentLocale;
-
-    /** @var string $comparisonLocale */
-    protected $comparisonLocale;
-
     /**
      * @param string $currentLocale
      * @param string $comparisonLocale
      */
-    public function __construct($currentLocale, $comparisonLocale)
+    public function __construct(protected $currentLocale, protected $comparisonLocale)
     {
-        $this->currentLocale = $currentLocale;
-        $this->comparisonLocale = $comparisonLocale;
     }
 
     /**
@@ -42,9 +34,6 @@ class FilterLocaleValueSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param FormEvent $event
-     */
     public function preSetData(FormEvent $event)
     {
         $data = $event->getData();
@@ -79,8 +68,6 @@ class FilterLocaleValueSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param ValueInterface $value
-     *
      * @return bool
      */
     protected function isInCurrentLocale(ValueInterface $value)
@@ -89,8 +76,6 @@ class FilterLocaleValueSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param ValueInterface $value
-     *
      * @return bool
      */
     protected function isInComparisonLocale(ValueInterface $value)

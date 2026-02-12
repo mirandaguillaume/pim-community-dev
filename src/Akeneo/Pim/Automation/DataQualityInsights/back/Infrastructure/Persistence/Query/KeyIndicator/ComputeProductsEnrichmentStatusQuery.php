@@ -19,7 +19,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityId
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ComputeProductsEnrichmentStatusQuery implements ComputeProductsKeyIndicator
+final readonly class ComputeProductsEnrichmentStatusQuery implements ComputeProductsKeyIndicator
 {
     private const GOOD_ENRICHMENT_RATIO = 80;
 

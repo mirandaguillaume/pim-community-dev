@@ -24,7 +24,7 @@ class JobExecutionManager
 {
     private const MAX_TIME_TO_UPDATE_HEALTH_CHECK = 5;
 
-    public function __construct(private Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
     }
 

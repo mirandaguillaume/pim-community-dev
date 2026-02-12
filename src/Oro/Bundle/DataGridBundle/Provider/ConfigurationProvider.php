@@ -7,14 +7,10 @@ use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 
 class ConfigurationProvider implements ConfigurationProviderInterface
 {
-    protected array $rawConfiguration;
-    protected SystemAwareResolver $resolver;
     protected array $processedConfiguration = [];
 
-    public function __construct(array $rawConfiguration, SystemAwareResolver $resolver)
+    public function __construct(protected array $rawConfiguration, protected SystemAwareResolver $resolver)
     {
-        $this->rawConfiguration = $rawConfiguration;
-        $this->resolver = $resolver;
     }
 
     /**

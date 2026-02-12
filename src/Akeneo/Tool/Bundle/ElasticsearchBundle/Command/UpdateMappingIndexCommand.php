@@ -27,15 +27,11 @@ class UpdateMappingIndexCommand extends Command
 {
     protected static $defaultName = 'akeneo:elasticsearch:update-mapping';
 
-    /** @var ClientRegistry */
-    private $esClientsRegistry;
-
     /** @var array */
     private $hosts;
 
-    public function __construct(ClientRegistry $clientRegistry, $hosts)
+    public function __construct(private readonly ClientRegistry $esClientsRegistry, $hosts)
     {
-        $this->esClientsRegistry = $clientRegistry;
         $this->hosts = is_string($hosts) ? [$hosts] : $hosts;
         parent::__construct(self::$defaultName);
     }
@@ -74,9 +70,7 @@ TXT;
         }
 
         $clients = $this->esClients($indices);
-        $names = array_map(function (Client $client): string {
-            return $client->getIndexName();
-        }, $clients);
+        $names = array_map(fn(Client $client): string => $client->getIndexName(), $clients);
         $io->writeln("You will migrate those indices (if it misses one you gave, it means that you didn't write it correctly) : ");
         $io->listing($names);
 

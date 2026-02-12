@@ -22,15 +22,15 @@ use Webmozart\Assert\Assert;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class UpdateNomenclatureHandler
+final readonly class UpdateNomenclatureHandler
 {
     public function __construct(
-        private readonly FamilyNomenclatureRepository $familyNomenclatureRepository,
-        private readonly SimpleSelectNomenclatureRepository $simpleSelectNomenclatureRepository,
-        private readonly CommandValidatorInterface $validator,
-        private readonly GetNomenclatureHandler $getNomenclatureHandler,
-        private readonly GetAttributes $getAttributes,
-        private readonly ReferenceEntityNomenclatureRepository $referenceEntityNomenclatureRepository,
+        private FamilyNomenclatureRepository $familyNomenclatureRepository,
+        private SimpleSelectNomenclatureRepository $simpleSelectNomenclatureRepository,
+        private CommandValidatorInterface $validator,
+        private GetNomenclatureHandler $getNomenclatureHandler,
+        private GetAttributes $getAttributes,
+        private ReferenceEntityNomenclatureRepository $referenceEntityNomenclatureRepository,
     ) {
     }
 

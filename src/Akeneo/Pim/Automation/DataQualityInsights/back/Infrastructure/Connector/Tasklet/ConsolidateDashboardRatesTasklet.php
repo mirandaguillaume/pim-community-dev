@@ -17,19 +17,10 @@ use Psr\Log\LoggerInterface;
  */
 final class ConsolidateDashboardRatesTasklet implements TaskletInterface
 {
-    /** @var StepExecution */
-    private $stepExecution;
+    private ?\Akeneo\Tool\Component\Batch\Model\StepExecution $stepExecution = null;
 
-    /** @var ConsolidateDashboardRates */
-    private $consolidateDashboardRates;
-
-    /** @var LoggerInterface */
-    private $logger;
-
-    public function __construct(ConsolidateDashboardRates $consolidateDashboardRates, LoggerInterface $logger)
+    public function __construct(private readonly ConsolidateDashboardRates $consolidateDashboardRates, private readonly LoggerInterface $logger)
     {
-        $this->consolidateDashboardRates = $consolidateDashboardRates;
-        $this->logger = $logger;
     }
 
     /**

@@ -10,16 +10,8 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyException;
 
 class MediaStorer
 {
-    /** @var FileStorerInterface */
-    private $fileStorer;
-
-    /** @var AttributeRepositoryInterface */
-    private $attributeRepository;
-
-    public function __construct(FileStorerInterface $fileStorer, AttributeRepositoryInterface $attributeRepository)
+    public function __construct(private readonly FileStorerInterface $fileStorer, private readonly AttributeRepositoryInterface $attributeRepository)
     {
-        $this->fileStorer = $fileStorer;
-        $this->attributeRepository = $attributeRepository;
     }
 
     public function store(array $rawProductValues): array
@@ -37,7 +29,7 @@ class MediaStorer
                             new \SplFileInfo($value['data']),
                             FileStorage::CATALOG_STORAGE_ALIAS
                         );
-                    } catch (InvalidFile $e) {
+                    } catch (InvalidFile) {
                         throw InvalidPropertyException::validPathExpected($attributeCode, self::class, $value['data']);
                     }
                     $rawProductValues[$attributeCode][$index]['data'] = $file->getKey();

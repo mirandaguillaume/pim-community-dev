@@ -14,8 +14,8 @@ use Symfony\Component\Mime\Email;
 class MailNotifier implements MailNotifierInterface
 {
     public function __construct(
-        private MailerInterface $mailer,
-        private LoggerInterface $logger,
+        private readonly MailerInterface $mailer,
+        private readonly LoggerInterface $logger,
     ) {
     }
 

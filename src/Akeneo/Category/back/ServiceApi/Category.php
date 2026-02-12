@@ -16,12 +16,12 @@ class Category
      * @param array<string, array<int>>|null $permissions
      */
     public function __construct(
-        private int $id,
-        private string $code,
-        private ?array $labels = null,
-        private ?int $parent = null,
-        private ?array $attributes = null,
-        private ?array $permissions = null,
+        private readonly int $id,
+        private readonly string $code,
+        private readonly ?array $labels = null,
+        private readonly ?int $parent = null,
+        private readonly ?array $attributes = null,
+        private readonly ?array $permissions = null,
     ) {
     }
 

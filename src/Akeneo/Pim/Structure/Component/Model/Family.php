@@ -15,7 +15,7 @@ use Webmozart\Assert\Assert;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Family implements FamilyInterface
+class Family implements FamilyInterface, \Stringable
 {
     /** @var int */
     protected $id;
@@ -71,7 +71,7 @@ class Family implements FamilyInterface
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getLabel();
     }
@@ -266,12 +266,10 @@ class Family implements FamilyInterface
     public function getAttributeAsLabelChoices()
     {
         return $this->attributes->filter(
-            function ($attribute) {
-                return in_array(
-                    $attribute->getType(),
-                    [AttributeTypes::TEXT, AttributeTypes::IDENTIFIER]
-                );
-            }
+            fn($attribute) => in_array(
+                $attribute->getType(),
+                [AttributeTypes::TEXT, AttributeTypes::IDENTIFIER]
+            )
         )->toArray();
     }
 
@@ -303,7 +301,7 @@ class Family implements FamilyInterface
             return null;
         }
         foreach ($this->getTranslations() as $translation) {
-            if (\strtolower($translation->getLocale()) === \strtolower($locale)) {
+            if (\strtolower((string) $translation->getLocale()) === \strtolower($locale)) {
                 return $translation;
             }
         }

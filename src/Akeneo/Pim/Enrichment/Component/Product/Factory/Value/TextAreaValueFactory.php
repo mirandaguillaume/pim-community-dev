@@ -20,7 +20,7 @@ final class TextAreaValueFactory extends ScalarValueFactory implements ValueFact
         if (!\is_scalar($data) || (\is_string($data) && '' === \trim($data))) {
             throw InvalidAttributeValueTypeException::stringExpected(
                 $attribute->code(),
-                static::class,
+                self::class,
                 $data
             );
         }

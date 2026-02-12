@@ -13,18 +13,14 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Model;
  */
 final class ReadValueCollection implements \Countable, \IteratorAggregate
 {
-    /** @var ValueInterface[] */
-    private $values;
-
     /** @var array|string[] */
-    private $attributeCodes = [];
+    private array $attributeCodes = [];
 
     /**
      * @param ValueInterface[] $values
      */
-    public function __construct(array $values = [])
+    public function __construct(private array $values = [])
     {
-        $this->values = $values;
         $attributeCodes = [];
         foreach ($this->values as $value) {
             $attributeCodes[] = $value->getAttributeCode();

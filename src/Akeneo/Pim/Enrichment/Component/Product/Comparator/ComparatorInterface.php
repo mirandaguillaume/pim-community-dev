@@ -24,10 +24,8 @@ interface ComparatorInterface
      * Get the changes between a normalized product value instance and the updated data
      * If no changes detected, then the method returns null
      *
-     * @param mixed $data
-     * @param mixed $originals
      *
      * @return mixed
      */
-    public function compare($data, $originals);
+    public function compare(mixed $data, mixed $originals);
 }

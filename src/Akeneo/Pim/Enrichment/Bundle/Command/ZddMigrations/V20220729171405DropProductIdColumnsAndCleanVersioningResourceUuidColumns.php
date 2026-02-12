@@ -20,7 +20,7 @@ use Psr\Log\LoggerInterface;
  */
 class V20220729171405DropProductIdColumnsAndCleanVersioningResourceUuidColumns implements ZddMigration
 {
-    public const TABLES_TO_UPDATE = [
+    final public const TABLES_TO_UPDATE = [
         'pim_catalog_category_product' => [
             'column' => 'product_id',
             'triggers' => [
@@ -130,7 +130,7 @@ class V20220729171405DropProductIdColumnsAndCleanVersioningResourceUuidColumns i
 
     private bool $shouldLog = true;
 
-    public function __construct(private Connection $connection, private LoggerInterface $logger)
+    public function __construct(private readonly Connection $connection, private readonly LoggerInterface $logger)
     {
     }
 

@@ -16,10 +16,8 @@ class FieldNodeDefinition extends AbstractNodeDefinition
 
     /**
      * Return acl resource name if defined
-     *
-     * @return bool|string
      */
-    public function getAclResource()
+    public function getAclResource(): bool|string
     {
         if (!empty($this->definition['acl_resource'])) {
             return $this->definition['acl_resource'];
@@ -41,7 +39,6 @@ class FieldNodeDefinition extends AbstractNodeDefinition
     /**
      * Set field options
      *
-     * @param array $options
      *
      * @return $this
      */
@@ -56,11 +53,10 @@ class FieldNodeDefinition extends AbstractNodeDefinition
      * Replace field option by name
      *
      * @param string $name
-     * @param mixed  $value
      *
      * @return $this
      */
-    public function replaceOption($name, $value)
+    public function replaceOption($name, mixed $value)
     {
         $this->definition['options'][$name] = $value;
 
@@ -74,21 +70,15 @@ class FieldNodeDefinition extends AbstractNodeDefinition
      */
     public function toFormFieldOptions()
     {
-        return array_merge(
-            [
-                'target_field' => $this
-            ],
-            array_intersect_key(
-                $this->getOptions(),
-                array_flip(['label', 'required', 'block', 'subblock', 'tooltip'])
-            )
-        );
+        return ['target_field' => $this, ...array_intersect_key(
+            $this->getOptions(),
+            array_flip(['label', 'required', 'block', 'subblock', 'tooltip'])
+        )];
     }
 
     /**
      * Prepare definition, set default values
      *
-     * @param array $definition
      *
      * @return array
      */
@@ -114,7 +104,7 @@ class FieldNodeDefinition extends AbstractNodeDefinition
      */
     protected function newConstraint($name, $options)
     {
-        if (strpos($name, '\\') !== false && class_exists($name)) {
+        if (str_contains((string) $name, '\\') && class_exists($name)) {
             $className = (string)$name;
         } else {
             $className = 'Symfony\\Component\\Validator\\Constraints\\' . $name;
@@ -124,8 +114,6 @@ class FieldNodeDefinition extends AbstractNodeDefinition
     }
 
     /**
-     * @param array $nodes
-     *
      * @return array
      */
     protected function parseValidator(array $nodes)

@@ -23,24 +23,18 @@ class MetricFactory
     /** @var MeasureManager */
     protected $measureManager;
 
-    /** @var string */
-    protected $metricClass;
-
     /**
      * This method creates a metric instance, after calculating base amount and
      * base unit accordingly the the provided measure family.
      * All the data (amount, base amount, unit, base unit, measure family) are
      * directly set during metric instantiation.
      *
-     * @param MeasureConverter $measureConverter
-     * @param MeasureManager   $measureManager
      * @param string           $metricClass
      */
-    public function __construct(MeasureConverter $measureConverter, MeasureManager $measureManager, $metricClass)
+    public function __construct(MeasureConverter $measureConverter, MeasureManager $measureManager, protected $metricClass)
     {
         $this->measureConverter = $measureConverter;
         $this->measureManager = $measureManager;
-        $this->metricClass = $metricClass;
     }
 
     /**
@@ -77,8 +71,6 @@ class MetricFactory
      * Returns the standard unit of a metric family.
      *
      * @param string $family
-     *
-     * @return string
      */
     protected function getBaseUnit($family): string
     {

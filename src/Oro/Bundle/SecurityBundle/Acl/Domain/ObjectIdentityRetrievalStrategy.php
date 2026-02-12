@@ -17,8 +17,6 @@ class ObjectIdentityRetrievalStrategy implements ObjectIdentityRetrievalStrategy
 
     /**
      * Constructor
-     *
-     * @param ObjectIdentityFactory $objectIdentityFactory
      */
     public function __construct(ObjectIdentityFactory $objectIdentityFactory)
     {
@@ -32,7 +30,7 @@ class ObjectIdentityRetrievalStrategy implements ObjectIdentityRetrievalStrategy
     {
         try {
             return $this->objectIdentityFactory->get($domainObject);
-        } catch (InvalidDomainObjectException $failed) {
+        } catch (InvalidDomainObjectException) {
             return null;
         }
     }

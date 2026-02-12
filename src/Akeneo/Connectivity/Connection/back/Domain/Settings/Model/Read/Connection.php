@@ -14,12 +14,12 @@ use Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject\ConnectionT
 class Connection
 {
     public function __construct(
-        private string $code,
-        private string $label,
-        private string $flowType,
-        private ?string $image = null,
-        private bool $auditable = false,
-        private string $type = ConnectionType::DEFAULT_TYPE
+        private readonly string $code,
+        private readonly string $label,
+        private readonly string $flowType,
+        private readonly ?string $image = null,
+        private readonly bool $auditable = false,
+        private readonly string $type = ConnectionType::DEFAULT_TYPE
     ) {
     }
 

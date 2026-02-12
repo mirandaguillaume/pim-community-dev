@@ -13,9 +13,6 @@ use Akeneo\Pim\Enrichment\Component\Category\CategoryTree\ReadModel\RootCategory
 interface ListRootCategoriesWithCountIncludingSubCategories
 {
     /**
-     * @param string $translationLocaleCode
-     * @param int    $userId
-     * @param int    $rootCategoryIdToExpand
      *
      * @return RootCategory[]
      */

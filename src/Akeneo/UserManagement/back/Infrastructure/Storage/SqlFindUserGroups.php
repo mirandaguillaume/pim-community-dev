@@ -10,7 +10,7 @@ use Doctrine\DBAL\Exception;
 class SqlFindUserGroups implements FindUserGroups
 {
     public function __construct(
-        private Connection $connection,
+        private readonly Connection $connection,
     ) {
     }
 

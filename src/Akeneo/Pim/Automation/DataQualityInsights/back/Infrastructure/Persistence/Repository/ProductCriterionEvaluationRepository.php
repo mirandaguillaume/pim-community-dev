@@ -11,13 +11,10 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\Repository\CriterionEvaluat
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ProductCriterionEvaluationRepository implements CriterionEvaluationRepositoryInterface
+final readonly class ProductCriterionEvaluationRepository implements CriterionEvaluationRepositoryInterface
 {
-    private CriterionEvaluationRepository $repository;
-
-    public function __construct(CriterionEvaluationRepository $repository)
+    public function __construct(private CriterionEvaluationRepository $repository)
     {
-        $this->repository = $repository;
     }
 
     public function create(Write\CriterionEvaluationCollection $criteriaEvaluations): void

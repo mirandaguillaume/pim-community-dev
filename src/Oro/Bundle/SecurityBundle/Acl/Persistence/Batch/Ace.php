@@ -7,60 +7,17 @@ use Symfony\Component\Security\Acl\Model\SecurityIdentityInterface;
 class Ace
 {
     /**
-     * @var SecurityIdentityInterface
-     */
-    private $sid;
-
-    /**
-     * @var string
-     */
-    private $type;
-
-    /**
-     * @var string
-     */
-    private $field;
-
-    /**
-     * @var int
-     */
-    private $mask;
-
-    /**
-     * @var bool
-     */
-    private $granting;
-
-    /**
-     * @var string
-     */
-    private $strategy;
-
-    /**
-     * @var bool
-     */
-    private $replace;
-
-    /**
      * Constructor
      *
      * @param string                    $type
      * @param string|null               $field
-     * @param SecurityIdentityInterface $sid
      * @param bool                      $granting
      * @param int                       $mask
      * @param string|null               $strategy
      * @param bool                      $replace
      */
-    public function __construct($type, $field, SecurityIdentityInterface $sid, $granting, $mask, $strategy, $replace)
+    public function __construct(private $type, private $field, private readonly SecurityIdentityInterface $sid, private $granting, private $mask, private $strategy, private $replace)
     {
-        $this->type = $type;
-        $this->field = $field;
-        $this->sid = $sid;
-        $this->granting = $granting;
-        $this->mask = $mask;
-        $this->strategy = $strategy;
-        $this->replace = $replace;
     }
 
     /**
@@ -115,10 +72,8 @@ class Ace
 
     /**
      * Gets the strategy for comparing masks
-     *
-     * @return string|null
      */
-    public function getStrategy()
+    public function getStrategy(): ?string
     {
         return $this->strategy;
     }

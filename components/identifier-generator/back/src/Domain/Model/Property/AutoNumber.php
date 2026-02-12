@@ -14,7 +14,7 @@ use Webmozart\Assert\Assert;
  *
  * @phpstan-type AutoNumberNormalized array{type: 'auto_number', numberMin: int, digitsMin: int}
  */
-final class AutoNumber implements PropertyInterface
+final readonly class AutoNumber implements PropertyInterface
 {
     public const LIMIT_NUMBER_MIN = 0;
     public const LIMIT_DIGITS_MIN = 1;
@@ -23,8 +23,8 @@ final class AutoNumber implements PropertyInterface
     private const TYPE = 'auto_number';
 
     public function __construct(
-        private readonly int $numberMin,
-        private readonly int $digitsMin,
+        private int $numberMin,
+        private int $digitsMin,
     ) {
         Assert::greaterThanEq($numberMin, self::LIMIT_NUMBER_MIN);
         Assert::greaterThanEq($digitsMin, self::LIMIT_DIGITS_MIN);

@@ -11,8 +11,6 @@ class ChainConfigurationProvider implements ConfigurationProviderInterface
 
     /**
      * Registers the given provider in the chain
-     *
-     * @param ConfigurationProviderInterface $provider
      */
     public function addProvider(ConfigurationProviderInterface $provider)
     {

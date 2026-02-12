@@ -20,10 +20,6 @@ class ProductLocalized implements ArrayConverterInterface
     /** @var AttributeConverterInterface */
     protected $localizer;
 
-    /**
-     * @param ArrayConverterInterface     $converter
-     * @param AttributeConverterInterface $localizer
-     */
     public function __construct(
         ArrayConverterInterface $converter,
         AttributeConverterInterface $localizer

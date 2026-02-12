@@ -27,7 +27,7 @@ class Create extends Base
             [
                 'Creation form' => [
                     'css'        => '[data-testid="create-connection"]',
-                    'decorators' => ['Akeneo\Connectivity\Connection\Tests\EndToEnd\Decorator\Settings\CreationForm']
+                    'decorators' => [\Akeneo\Connectivity\Connection\Tests\EndToEnd\Decorator\Settings\CreationForm::class]
                 ],
             ]
         );

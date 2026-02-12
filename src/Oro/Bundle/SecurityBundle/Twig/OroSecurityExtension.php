@@ -13,9 +13,6 @@ class OroSecurityExtension extends AbstractExtension
      */
     protected $securityFacade;
 
-    /**
-     * @param SecurityFacade $securityFacade
-     */
     public function __construct(SecurityFacade $securityFacade)
     {
         $this->securityFacade = $securityFacade;
@@ -29,7 +26,7 @@ class OroSecurityExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('resource_granted', [$this, 'checkResourceIsGranted']),
+            new TwigFunction('resource_granted', $this->checkResourceIsGranted(...)),
         ];
     }
 
@@ -42,7 +39,7 @@ class OroSecurityExtension extends AbstractExtension
      *
      * @return bool
      */
-    public function checkResourceIsGranted($attributes, $object = null)
+    public function checkResourceIsGranted(string|array $attributes, mixed $object = null)
     {
         return $this->securityFacade->isGranted($attributes, $object);
     }

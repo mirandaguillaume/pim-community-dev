@@ -32,7 +32,7 @@ class Cursor extends AbstractCursor implements CursorInterface, ResultAwareInter
         ProductRepositoryInterface $productRepository,
         ProductModelRepositoryInterface $productModelRepository,
         array $esQuery,
-        private int $pageSize
+        private readonly int $pageSize
     ) {
         $this->esClient = $esClient;
         $this->productRepository = $productRepository;
@@ -46,7 +46,7 @@ class Cursor extends AbstractCursor implements CursorInterface, ResultAwareInter
     public function next(): void
     {
         if (false === next($this->items)) {
-            $this->position += count($this->items);
+            $this->position += count((array) $this->items);
             $this->items = $this->getNextItems($this->esQuery);
             reset($this->items);
         }

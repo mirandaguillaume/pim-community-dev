@@ -94,7 +94,7 @@ class ConsumeProductEventEndToEnd extends ApiTestCase
                         'identifier' => $this->tshirtProduct->getIdentifier(),
                         'uuid' => $this->tshirtProduct->getUuid(),
                     ],
-                    1607094167,
+                    1_607_094_167,
                     '0d931d13-8eae-4f4a-bf37-33d3a932b8c9'
                 ),
                 new ProductCreated(
@@ -103,7 +103,7 @@ class ConsumeProductEventEndToEnd extends ApiTestCase
                         'identifier' => $this->pantProduct->getIdentifier(),
                         'uuid' => $this->pantProduct->getUuid(),
                     ],
-                    1607094167,
+                    1_607_094_167,
                     '0d932313-8eae-4f4a-bf37-33d3a932b8c9'
                 ),
             ]
@@ -135,7 +135,7 @@ class ConsumeProductEventEndToEnd extends ApiTestCase
                         'identifier' => $this->tshirtProduct->getIdentifier(),
                         'uuid' => $this->tshirtProduct->getUuid(),
                     ],
-                    1607094167,
+                    1_607_094_167,
                     '0d931d13-8eae-4f4a-bf37-33d3a932b8c9'
                 ),
             ]
@@ -167,7 +167,7 @@ class ConsumeProductEventEndToEnd extends ApiTestCase
                         'uuid' => $this->tshirtProduct->getUuid(),
                         'category_codes' => $this->tshirtProduct->getCategoryCodes(),
                     ],
-                    1607094167,
+                    1_607_094_167,
                     '0d931d13-8eae-4f4a-bf37-33d3a932b8c9'
                 ),
             ]

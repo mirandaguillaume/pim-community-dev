@@ -26,10 +26,6 @@ class ProductAssociationWriter implements ItemWriterInterface, StepExecutionAwar
     /** @var BulkObjectDetacherInterface */
     protected $bulkDetacher;
 
-    /**
-     * @param BulkSaverInterface          $bulkSaver
-     * @param BulkObjectDetacherInterface $bulkDetacher
-     */
     public function __construct(
         BulkSaverInterface $bulkSaver,
         BulkObjectDetacherInterface $bulkDetacher
@@ -56,16 +52,13 @@ class ProductAssociationWriter implements ItemWriterInterface, StepExecutionAwar
         $this->stepExecution = $stepExecution;
     }
 
-    /**
-     * @param array $products
-     */
     protected function incrementCount(array $products)
     {
         foreach ($products as $product) {
             foreach ($product->getAssociations() as $association) {
-                $count = count($association->getProducts())
-                    + count($association->getProductModels())
-                    + count($association->getGroups());
+                $count = (is_countable($association->getProducts()) ? count($association->getProducts()) : 0)
+                    + (is_countable($association->getProductModels()) ? count($association->getProductModels()) : 0)
+                    + (is_countable($association->getGroups()) ? count($association->getGroups()) : 0);
 
                 $action = $association->getId() ? 'process' : 'create';
 

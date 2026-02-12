@@ -18,11 +18,11 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class UserRoleLoader
 {
     public function __construct(
-        private SimpleFactoryInterface $builder,
-        private ObjectUpdaterInterface $updater,
-        private ValidatorInterface $validator,
-        private SaverInterface $saver,
-        private Connection $connection,
+        private readonly SimpleFactoryInterface $builder,
+        private readonly ObjectUpdaterInterface $updater,
+        private readonly ValidatorInterface $validator,
+        private readonly SaverInterface $saver,
+        private readonly Connection $connection,
     ) {
     }
 

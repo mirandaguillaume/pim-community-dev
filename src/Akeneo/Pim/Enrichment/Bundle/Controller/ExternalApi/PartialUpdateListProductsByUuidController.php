@@ -20,11 +20,11 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 class PartialUpdateListProductsByUuidController
 {
     public function __construct(
-        private SecurityFacade $security,
-        private WarmupQueryCache $warmupQueryCache,
-        private ApiAggregatorForProductPostSaveEventSubscriber $apiAggregatorForProductPostSave,
-        private StreamResourceResponse $partialUpdateStreamResource,
-        private LoggerInterface $logger,
+        private readonly SecurityFacade $security,
+        private readonly WarmupQueryCache $warmupQueryCache,
+        private readonly ApiAggregatorForProductPostSaveEventSubscriber $apiAggregatorForProductPostSave,
+        private readonly StreamResourceResponse $partialUpdateStreamResource,
+        private readonly LoggerInterface $logger,
     ) {
     }
 

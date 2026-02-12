@@ -16,14 +16,10 @@ use Doctrine\ORM\EntityManagerInterface;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class AscendantCategories implements AscendantCategoriesInterface
+final readonly class AscendantCategories implements AscendantCategoriesInterface
 {
-    /** @var EntityManagerInterface */
-    private $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
     /**
@@ -43,9 +39,7 @@ final class AscendantCategories implements AscendantCategoriesInterface
                 ->where('product_model.id = :id')
                 ->setParameter(':id', $entity->getId());
 
-            $result = array_map(function ($id) {
-                return intval($id['id']);
-            }, $queryBuilder->getQuery()->getResult());
+            $result = array_map(fn($id) => intval($id['id']), $queryBuilder->getQuery()->getResult());
         } elseif ($entity instanceof ProductInterface && $entity->isVariant()) {
             $queryBuilder
                 ->select('category.id AS id, parent_category.id AS parent_id')

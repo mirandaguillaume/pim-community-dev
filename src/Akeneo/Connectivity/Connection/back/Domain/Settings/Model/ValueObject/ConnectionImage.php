@@ -11,7 +11,7 @@ namespace Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject;
  */
 class ConnectionImage implements \Stringable
 {
-    private string $filePath;
+    private readonly string $filePath;
 
     public function __construct(string $filePath)
     {

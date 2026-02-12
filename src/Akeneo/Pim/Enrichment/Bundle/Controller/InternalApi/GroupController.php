@@ -107,7 +107,7 @@ class GroupController
             throw new NotFoundHttpException(sprintf('Group with code "%s" not found', $code));
         }
 
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
         $this->updater->update($group, $data);
 
         $violations = $this->validator->validate($group);
@@ -163,7 +163,7 @@ class GroupController
             return new RedirectResponse('/');
         }
 
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
         $group = $this->groupFactory->createGroup();
         $this->updater->update($group, $data);
         $violations = $this->validator->validate($group);
@@ -189,11 +189,6 @@ class GroupController
         ));
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return array
-     */
     private function parseOptions(Request $request): array
     {
         $options = $request->get('options', []);
@@ -212,7 +207,7 @@ class GroupController
         }
 
         if (isset($options['identifiers'])) {
-            $options['ids'] = explode(',', $options['identifiers']);
+            $options['ids'] = explode(',', (string) $options['identifiers']);
         }
 
         return $options;

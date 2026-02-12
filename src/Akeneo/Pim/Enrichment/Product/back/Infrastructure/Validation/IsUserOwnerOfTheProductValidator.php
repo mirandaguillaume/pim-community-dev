@@ -24,9 +24,9 @@ use Webmozart\Assert\Assert;
 final class IsUserOwnerOfTheProductValidator extends ConstraintValidator
 {
     public function __construct(
-        private GetCategoryCodes $getCategoryCodes,
-        private GetOwnedCategories $getOwnedCategories,
-        private GetProductUuids $getProductUuids,
+        private readonly GetCategoryCodes $getCategoryCodes,
+        private readonly GetOwnedCategories $getOwnedCategories,
+        private readonly GetProductUuids $getProductUuids,
     ) {
     }
 

@@ -20,7 +20,6 @@ interface AttributeOptionRepositoryInterface extends
      * Return an array of attribute option codes
      *
      * @param string $code
-     * @param array  $optionCodes
      *
      * @return array
      */

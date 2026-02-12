@@ -25,9 +25,6 @@ class DatagridViewManager
 
     /**
      * Constructor
-     *
-     * @param EntityRepository $repository
-     * @param DatagridManager  $datagridManager
      */
     public function __construct(
         EntityRepository $repository,
@@ -97,9 +94,7 @@ class DatagridViewManager
     /**
      * Get default datagrid columns for the provided datagrid alias
      *
-     * @param string $alias
      *
-     * @return array
      */
     public function getDefaultColumns(string $alias): array
     {

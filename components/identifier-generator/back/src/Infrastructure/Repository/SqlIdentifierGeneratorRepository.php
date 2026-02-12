@@ -32,7 +32,7 @@ use Webmozart\Assert\Assert;
 class SqlIdentifierGeneratorRepository implements IdentifierGeneratorRepository
 {
     public function __construct(
-        private Connection $connection,
+        private readonly Connection $connection,
     ) {
     }
 
@@ -46,9 +46,9 @@ class SqlIdentifierGeneratorRepository implements IdentifierGeneratorRepository
             'code' => $identifierGenerator->code()->asString(),
             'target' => $identifierGenerator->target()->asString(),
             'delimiter' => $identifierGenerator->delimiter()->asString(),
-            'labels' => \json_encode($identifierGenerator->labelCollection()->normalize()),
-            'conditions' => \json_encode($identifierGenerator->conditions()->normalize()),
-            'structure' => \json_encode($identifierGenerator->structure()->normalize()),
+            'labels' => \json_encode($identifierGenerator->labelCollection()->normalize(), JSON_THROW_ON_ERROR),
+            'conditions' => \json_encode($identifierGenerator->conditions()->normalize(), JSON_THROW_ON_ERROR),
+            'structure' => \json_encode($identifierGenerator->structure()->normalize(), JSON_THROW_ON_ERROR),
             'text_transformation' => $identifierGenerator->textTransformation()->normalize(),
         ];
 
@@ -81,9 +81,9 @@ SQL;
             'code' => $identifierGenerator->code()->asString(),
             'target' => $identifierGenerator->target()->asString(),
             'delimiter' => $identifierGenerator->delimiter()->asString(),
-            'labels' => \json_encode($identifierGenerator->labelCollection()->normalize()),
-            'conditions' => \json_encode($identifierGenerator->conditions()->normalize()),
-            'structure' => \json_encode($identifierGenerator->structure()->normalize()),
+            'labels' => \json_encode($identifierGenerator->labelCollection()->normalize(), JSON_THROW_ON_ERROR),
+            'conditions' => \json_encode($identifierGenerator->conditions()->normalize(), JSON_THROW_ON_ERROR),
+            'structure' => \json_encode($identifierGenerator->structure()->normalize(), JSON_THROW_ON_ERROR),
             'text_transformation' => $identifierGenerator->textTransformation()->normalize(),
         ];
 
@@ -176,14 +176,14 @@ SQL;
         Assert::string($result['uuid']);
         Assert::string($result['code']);
         Assert::string($result['conditions']);
-        Assert::isList(\json_decode($result['conditions'], true));
+        Assert::isList(\json_decode($result['conditions'], true, 512, JSON_THROW_ON_ERROR));
         Assert::string($result['structure']);
-        Assert::isList(\json_decode($result['structure'], true));
+        Assert::isList(\json_decode($result['structure'], true, 512, JSON_THROW_ON_ERROR));
         Assert::string($result['labels']);
-        Assert::isArray(\json_decode($result['labels'], true));
+        Assert::isArray(\json_decode($result['labels'], true, 512, JSON_THROW_ON_ERROR));
         Assert::string($result['target']);
         Assert::string($result['options']);
-        $options = \json_decode($result['options'], true);
+        $options = \json_decode($result['options'], true, 512, JSON_THROW_ON_ERROR);
         Assert::isArray($options);
         Assert::keyExists($options, 'delimiter');
         Assert::nullOrString($options['delimiter']);
@@ -193,9 +193,9 @@ SQL;
         return new IdentifierGenerator(
             IdentifierGeneratorId::fromString($result['uuid']),
             IdentifierGeneratorCode::fromString($result['code']),
-            Conditions::fromNormalized(\json_decode($result['conditions'], true)),
-            Structure::fromNormalized(\json_decode($result['structure'], true)),
-            LabelCollection::fromNormalized(\json_decode($result['labels'], true)),
+            Conditions::fromNormalized(\json_decode($result['conditions'], true, 512, JSON_THROW_ON_ERROR)),
+            Structure::fromNormalized(\json_decode($result['structure'], true, 512, JSON_THROW_ON_ERROR)),
+            LabelCollection::fromNormalized(\json_decode($result['labels'], true, 512, JSON_THROW_ON_ERROR)),
             Target::fromString($result['target']),
             Delimiter::fromString($options['delimiter']),
             TextTransformation::fromString($options['text_transformation'])

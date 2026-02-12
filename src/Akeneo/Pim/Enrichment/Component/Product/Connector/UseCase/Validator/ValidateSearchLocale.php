@@ -14,17 +14,12 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ValidateSearchLocale
+final readonly class ValidateSearchLocale
 {
     private const COMPLETENESS_PROPERTY = 'completeness';
 
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $localeRepository;
-
-    public function __construct(
-        IdentifiableObjectRepositoryInterface $localeRepository
-    ) {
-        $this->localeRepository = $localeRepository;
+    public function __construct(private IdentifiableObjectRepositoryInterface $localeRepository)
+    {
     }
 
     /**

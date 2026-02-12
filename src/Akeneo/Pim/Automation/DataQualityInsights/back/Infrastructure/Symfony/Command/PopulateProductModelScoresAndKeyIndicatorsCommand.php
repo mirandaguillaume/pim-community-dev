@@ -25,9 +25,9 @@ class PopulateProductModelScoresAndKeyIndicatorsCommand extends Command
     protected static $defaultName = 'pim:data-quality-insights:populate-product-models-scores-and-ki';
 
     public function __construct(
-        private Connection $dbConnection,
-        private CreateCriteriaEvaluations $createCriteriaEvaluations,
-        private ProductEntityIdFactoryInterface $idFactory
+        private readonly Connection $dbConnection,
+        private readonly CreateCriteriaEvaluations $createCriteriaEvaluations,
+        private readonly ProductEntityIdFactoryInterface $idFactory
     ) {
         parent::__construct();
     }
@@ -146,8 +146,6 @@ SQL;
             ]
         );
 
-        return array_map(static function ($resultRow) {
-            return (int) $resultRow['id'];
-        }, $bulkResult->fetchAllAssociative());
+        return array_map(static fn($resultRow) => (int) $resultRow['id'], $bulkResult->fetchAllAssociative());
     }
 }

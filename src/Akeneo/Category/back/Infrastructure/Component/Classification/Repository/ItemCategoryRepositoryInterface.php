@@ -20,7 +20,7 @@ interface ItemCategoryRepositoryInterface
      *
      * @throws \InvalidArgumentException If the $item belongs to a class we don't handle
      */
-    public function getItemCountByTree($item);
+    public function getItemCountByTree(mixed $item);
 
     /**
      * Count items linked to category ids.
@@ -31,8 +31,6 @@ interface ItemCategoryRepositoryInterface
 
     /**
      * Return categories linked to an item.
-     *
-     * @param mixed $item
      */
-    public function findCategoriesItem($item): array;
+    public function findCategoriesItem(mixed $item): array;
 }

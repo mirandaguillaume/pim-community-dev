@@ -16,9 +16,6 @@ class PricesComparator implements ComparatorInterface
     /** @var array */
     protected $types;
 
-    /**
-     * @param array $types
-     */
     public function __construct(array $types)
     {
         $this->types = $types;
@@ -63,9 +60,7 @@ class PricesComparator implements ComparatorInterface
         }
 
         if ($dataPrices !== $originalPrices) {
-            $data['data'] = array_filter($data['data'], function (array $price) {
-                return null !== $price['amount'];
-            });
+            $data['data'] = array_filter($data['data'], fn(array $price) => null !== $price['amount']);
             return $data;
         }
 

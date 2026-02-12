@@ -50,7 +50,7 @@ class UserDefaultCategoryTreeResetterTest extends TestCase
 
     private function getResetter(): UserDefaultCategoryTreeResetter
     {
-        return $this->get('Akeneo\Platform\Installer\Infrastructure\UserConfigurationResetter\UserDefaultCategoryTreeResetter');
+        return $this->get(\Akeneo\Platform\Installer\Infrastructure\UserConfigurationResetter\UserDefaultCategoryTreeResetter::class);
     }
 
     private function assertUserDefaultCategoryTree(string $expectedCatalogLocale): void

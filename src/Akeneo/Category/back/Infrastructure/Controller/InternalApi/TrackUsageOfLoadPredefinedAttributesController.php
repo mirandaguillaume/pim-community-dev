@@ -28,7 +28,7 @@ class TrackUsageOfLoadPredefinedAttributesController
 
     public function __construct(
         private readonly SecurityFacade $securityFacade,
-        private GetTemplate $getTemplate,
+        private readonly GetTemplate $getTemplate,
         private readonly LoggerInterface $logger,
     ) {
     }
@@ -45,7 +45,7 @@ class TrackUsageOfLoadPredefinedAttributesController
             throw new NotFoundHttpException($e->getMessage());
         }
 
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
         $action = $data['action'];
         Assert::inArray($action, [TrackUsageOfLoadPredefinedAttributesController::LOAD_PREDEFINED_ATTRIBUTES, TrackUsageOfLoadPredefinedAttributesController::CREATE_FIRST_ATTRIBUTE]);
 

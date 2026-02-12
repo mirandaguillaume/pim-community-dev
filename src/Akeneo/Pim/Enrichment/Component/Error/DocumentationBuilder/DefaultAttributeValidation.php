@@ -31,7 +31,7 @@ use Symfony\Component\Validator\ConstraintViolationInterface;
  */
 final class DefaultAttributeValidation implements DocumentationBuilderInterface
 {
-    const SUPPORTED_CONSTRAINTS_CODES = [
+    public const SUPPORTED_CONSTRAINTS_CODES = [
         Boolean::NOT_BOOLEAN_ERROR,
         File::EXTENSION_NOT_ALLOWED_ERROR,
         Date::INVALID_FORMAT_ERROR,

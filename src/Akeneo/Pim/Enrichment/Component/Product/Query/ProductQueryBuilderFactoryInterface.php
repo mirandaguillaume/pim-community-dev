@@ -14,7 +14,6 @@ interface ProductQueryBuilderFactoryInterface
     /**
      * Create a product query builder
      *
-     * @param array $options
      *
      * @return ProductQueryBuilderInterface
      */

@@ -21,24 +21,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 abstract class AbstractListCategoryController extends AbstractController
 {
-    protected CategoryRepositoryInterface $categoryRepository;
-    protected SecurityFacade $securityFacade;
-    protected string $categoryClass;
-    protected string $acl;
-    protected string $template;
-
-    public function __construct(
-        CategoryRepositoryInterface $categoryRepository,
-        SecurityFacade $securityFacade,
-        string $categoryClass,
-        string $acl,
-        string $template
-    ) {
-        $this->categoryRepository = $categoryRepository;
-        $this->securityFacade = $securityFacade;
-        $this->categoryClass = $categoryClass;
-        $this->acl = $acl;
-        $this->template = $template;
+    public function __construct(protected CategoryRepositoryInterface $categoryRepository, protected SecurityFacade $securityFacade, protected string $categoryClass, protected string $acl, protected string $template)
+    {
     }
 
     protected function doListCategoriesAction(Request $request, string $id, string $categoryId): Response
@@ -70,10 +54,8 @@ abstract class AbstractListCategoryController extends AbstractController
     /**
      * Find an entity by its id or return a 404 response
      *
-     * @param string $id
      *
      * @return mixed
-     *
      * @throws NotFoundHttpException
      */
     abstract protected function findEntityWithCategoriesOr404(string $id);
@@ -81,8 +63,6 @@ abstract class AbstractListCategoryController extends AbstractController
     /**
      * Fetch the filled tree
      *
-     * @param CategoryInterface $parent
-     * @param Collection        $categories
      *
      * @return CategoryInterface[]
      */

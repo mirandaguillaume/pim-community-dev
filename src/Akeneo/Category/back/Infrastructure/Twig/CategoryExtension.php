@@ -21,13 +21,12 @@ class CategoryExtension extends AbstractExtension
     /** @var CategoryItemsCounterRegistry */
     protected $categoryItemsCounter;
 
-    /** @var int */
-    protected $itemsLimitRemoval;
-
-    public function __construct(CategoryItemsCounterRegistry $categoryItemsCounter, $itemsLimitRemoval = null)
+    /**
+     * @param int $itemsLimitRemoval
+     */
+    public function __construct(CategoryItemsCounterRegistry $categoryItemsCounter, protected $itemsLimitRemoval = null)
     {
         $this->categoryItemsCounter = $categoryItemsCounter;
-        $this->itemsLimitRemoval = $itemsLimitRemoval;
     }
 
     /**
@@ -36,19 +35,17 @@ class CategoryExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('children_response', [$this, 'childrenResponse']),
-            new TwigFunction('children_tree_response', [$this, 'childrenTreeResponse']),
-            new TwigFunction('list_categories_response', [$this, 'listCategoriesResponse']),
-            new TwigFunction('exceeds_products_limit_for_removal', [$this, 'exceedsProductsLimitForRemoval']),
-            new TwigFunction('get_products_limit_for_removal', [$this, 'getProductsLimitForRemoval']),
+            new TwigFunction('children_response', $this->childrenResponse(...)),
+            new TwigFunction('children_tree_response', $this->childrenTreeResponse(...)),
+            new TwigFunction('list_categories_response', $this->listCategoriesResponse(...)),
+            new TwigFunction('exceeds_products_limit_for_removal', $this->exceedsProductsLimitForRemoval(...)),
+            new TwigFunction('get_products_limit_for_removal', $this->getProductsLimitForRemoval(...)),
         ];
     }
 
     /**
      * Format a list of categories.
      *
-     * @param CategoryInterface $selectedCategory
-     * @param CategoryInterface $parent
      * @param bool $withProductCount
      * @param bool $includeSub
      * @param string $relatedEntity
@@ -89,11 +86,9 @@ class CategoryExtension extends AbstractExtension
     /**
      * List categories and children.
      *
-     * @param CategoryInterface $parent
      * @param bool $withProductCount
      * @param bool $includeSub
      * @param string $relatedEntity
-     *
      * @return array
      */
     public function childrenResponse(
@@ -338,7 +333,7 @@ class CategoryExtension extends AbstractExtension
         $selectedChildren = 0;
         foreach ($children as $child) {
             $selectedChildren += $child['selectedChildrenCount'];
-            if (preg_match('/checked/', $child['state'])) {
+            if (preg_match('/checked/', (string) $child['state'])) {
                 ++$selectedChildren;
             }
         }
@@ -432,7 +427,7 @@ class CategoryExtension extends AbstractExtension
     {
         $children = $category['__children'];
         $category = $category['item'];
-        $hasChild = (count($children) > 0);
+        $hasChild = ((is_countable($children) ? count($children) : 0) > 0);
 
         return $this->defineCategoryState($category, $hasChild, $selectedIds);
     }

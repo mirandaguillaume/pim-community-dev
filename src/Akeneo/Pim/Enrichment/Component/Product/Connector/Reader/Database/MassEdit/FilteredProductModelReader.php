@@ -32,39 +32,16 @@ class FilteredProductModelReader implements
     TrackableItemReaderInterface,
     StatefulInterface
 {
-    /** @var ProductQueryBuilderFactoryInterface */
-    private $pqbFactory;
+    private ?\Akeneo\Tool\Component\Batch\Model\StepExecution $stepExecution = null;
 
-    /** @var ChannelRepositoryInterface */
-    private $channelRepository;
+    private ?\Akeneo\Tool\Component\StorageUtils\Cursor\CursorInterface $productsAndProductModels = null;
 
-    /** @var MetricConverter */
-    private $metricConverter;
-
-    /** @var StepExecution */
-    private $stepExecution;
-
-    /** @var CursorInterface */
-    private $productsAndProductModels;
-
-    /** @var bool */
-    private $firstRead = true;
+    private bool $firstRead = true;
 
     private array $state = [];
 
-    /**
-     * @param ProductQueryBuilderFactoryInterface $pqbFactory
-     * @param ChannelRepositoryInterface          $channelRepository
-     * @param MetricConverter                     $metricConverter
-     */
-    public function __construct(
-        ProductQueryBuilderFactoryInterface $pqbFactory,
-        ChannelRepositoryInterface $channelRepository,
-        MetricConverter $metricConverter
-    ) {
-        $this->pqbFactory = $pqbFactory;
-        $this->channelRepository = $channelRepository;
-        $this->metricConverter = $metricConverter;
+    public function __construct(private readonly ProductQueryBuilderFactoryInterface $pqbFactory, private readonly ChannelRepositoryInterface $channelRepository, private readonly MetricConverter $metricConverter)
+    {
     }
 
     /**
@@ -118,8 +95,6 @@ class FilteredProductModelReader implements
      * Returns the configured channel from the parameters.
      *
      * @throws ObjectNotFoundException
-     *
-     * @return ChannelInterface|null
      */
     private function getConfiguredChannel(): ?ChannelInterface
     {
@@ -140,8 +115,6 @@ class FilteredProductModelReader implements
     /**
      * Returns the filters from the configuration.
      * The parameters can be in the 'filters' root node, or in filters data node (e.g. for export).
-     *
-     * @return array
      */
     private function getConfiguredFilters(): array
     {
@@ -151,16 +124,12 @@ class FilteredProductModelReader implements
             $filters = $filters['data'];
         }
 
-        return array_filter($filters, function ($filter) {
-            return count($filter) > 0;
-        });
+        return array_filter($filters, fn($filter) => (is_countable($filter) ? count($filter) : 0) > 0);
     }
 
     /**
-     * @param array                 $filters
      * @param ChannelInterface|null $channel
      *
-     * @return CursorInterface
      */
     private function getProductModelsCursor(array $filters, ChannelInterface $channel = null): CursorInterface
     {
@@ -181,8 +150,6 @@ class FilteredProductModelReader implements
 
     /**
      * This reader makes sure we return only product model entities.
-     *
-     * @return null|ProductModelInterface
      */
     private function getNextProductModel(): ?ProductModelInterface
     {

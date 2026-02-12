@@ -42,13 +42,11 @@ class GroupUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param GroupInterface $group
      * @param string         $field
-     * @param mixed          $data
      *
      * @throws \InvalidArgumentException
      */
-    protected function setData(GroupInterface $group, $field, $data)
+    protected function setData(GroupInterface $group, $field, mixed $data)
     {
         switch ($field) {
             case 'code':

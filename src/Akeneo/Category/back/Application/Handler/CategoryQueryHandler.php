@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class CategoryQueryHandler implements CategoryQueryInterface
 {
     public function __construct(
-        private GetCategoryInterface $getCategory,
+        private readonly GetCategoryInterface $getCategory,
     ) {
     }
 

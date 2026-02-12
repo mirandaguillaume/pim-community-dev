@@ -11,24 +11,13 @@ final class CatalogQualityScoreEvolution
 {
     private const NUMBER_OF_PAST_MONTHS_TO_RETURN = 5;
 
-    private \DateTimeImmutable $referenceDate;
-
-    private array $scores;
-
-    private string $channel;
-
-    private string $locale;
-
-    public function __construct(\DateTimeImmutable $referenceDate, array $scores, string $channel, string $locale)
+    public function __construct(private readonly \DateTimeImmutable $referenceDate, private array $scores, private readonly string $channel, private readonly string $locale)
     {
-        $this->referenceDate = $referenceDate;
-        $this->scores = $scores;
-        $this->channel = $channel;
-        $this->locale = $locale;
     }
 
     public function toArray(): array
     {
+        $productScoreEvolution = [];
         $data = $this->initLastMonthsWithEmptyData();
 
         foreach (array_keys($data) as $period) {

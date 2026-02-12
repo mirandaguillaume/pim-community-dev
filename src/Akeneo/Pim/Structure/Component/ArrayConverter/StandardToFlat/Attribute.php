@@ -17,9 +17,6 @@ class Attribute extends AbstractSimpleArrayConverter implements ArrayConverterIn
     /** @var array */
     protected $booleanFields;
 
-    /**
-     * @param array $booleanFields
-     */
     public function __construct(array $booleanFields)
     {
         $this->booleanFields = $booleanFields;
@@ -57,7 +54,7 @@ class Attribute extends AbstractSimpleArrayConverter implements ArrayConverterIn
                 }
                 break;
             case 'table_configuration':
-                $convertedItem[$property] = \json_encode($data);
+                $convertedItem[$property] = \json_encode($data, JSON_THROW_ON_ERROR);
                 break;
             default:
                 $convertedItem[$property] = (string) $data;

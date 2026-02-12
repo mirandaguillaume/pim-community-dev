@@ -185,7 +185,7 @@ SQL;
         $this->dbConnection->executeQuery($query, [
             'productUuid' => $productUuid->getBytes(),
             'criterionCode' => $criterionCode,
-            'result' => \json_encode($result)
+            'result' => \json_encode($result, JSON_THROW_ON_ERROR)
         ], [
             'productUuid' => \PDO::PARAM_STR,
         ]);
@@ -205,7 +205,7 @@ SQL;
             'productUuid' => \PDO::PARAM_STR,
         ])->fetchOne();
 
-        return $result ? \json_decode($result, true) : null;
+        return $result ? \json_decode((string) $result, true, 512, JSON_THROW_ON_ERROR) : null;
     }
 
     private function givenAProductModelWithDirtyCompletenessResults(): int
@@ -223,7 +223,7 @@ SQL;
         $this->dbConnection->executeQuery($query, [
             'productModelId' => $productModelId,
             'criterionCode' => EvaluateCompletenessOfNonRequiredAttributes::CRITERION_CODE,
-            'result' => \json_encode($dirtyResult)
+            'result' => \json_encode($dirtyResult, JSON_THROW_ON_ERROR)
         ]);
 
         return $productModelId;
@@ -241,6 +241,6 @@ SQL;
             'criterionCode' => EvaluateCompletenessOfNonRequiredAttributes::CRITERION_CODE
         ])->fetchOne();
 
-        $this->assertEquals(\json_decode($result, true), $this->buildCleanResult(3), 'The completeness results should have been cleaned for the dirty product model');
+        $this->assertEquals(\json_decode((string) $result, true, 512, JSON_THROW_ON_ERROR), $this->buildCleanResult(3), 'The completeness results should have been cleaned for the dirty product model');
     }
 }

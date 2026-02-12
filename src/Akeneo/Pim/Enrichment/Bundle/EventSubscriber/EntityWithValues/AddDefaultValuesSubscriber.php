@@ -24,20 +24,10 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class AddDefaultValuesSubscriber implements EventSubscriberInterface
 {
-    private GetAttributes $getAttributes;
-    private ValueFactory $valueFactory;
-    private GetChannelCodeWithLocaleCodesInterface $getChannelWithLocales;
-
     private ?array $cachedChannelsAndLocales = null;
 
-    public function __construct(
-        GetAttributes $getAttributes,
-        ValueFactory $valueFactory,
-        GetChannelCodeWithLocaleCodesInterface $getChannelWithLocales
-    ) {
-        $this->getAttributes = $getAttributes;
-        $this->valueFactory = $valueFactory;
-        $this->getChannelWithLocales = $getChannelWithLocales;
+    public function __construct(private readonly GetAttributes $getAttributes, private readonly ValueFactory $valueFactory, private readonly GetChannelCodeWithLocaleCodesInterface $getChannelWithLocales)
+    {
     }
 
     public static function getSubscribedEvents(): array
@@ -72,7 +62,6 @@ class AddDefaultValuesSubscriber implements EventSubscriberInterface
      * - for a simple product, the attribute must be part of the family
      * - for a variant product or product model, the attribute must be part of the matching variant attribute set
      *
-     * @param EntityWithFamilyVariantInterface $entity
      *
      * @return Attribute[]
      */

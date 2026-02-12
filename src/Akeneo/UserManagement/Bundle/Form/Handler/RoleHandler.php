@@ -29,11 +29,6 @@ class RoleHandler
      */
     protected $manager;
 
-    /**
-     * @param FormInterface $form
-     * @param RequestStack  $requestStack
-     * @param ObjectManager $manager
-     */
     public function __construct(FormInterface $form, RequestStack $requestStack, ObjectManager $manager)
     {
         $this->form = $form;
@@ -44,7 +39,6 @@ class RoleHandler
     /**
      * Process form
      *
-     * @param  Role $entity
      * @return bool True on successfull processing, false otherwise
      */
     public function process(Role $entity)
@@ -70,7 +64,6 @@ class RoleHandler
     /**
      * "Success" form handler
      *
-     * @param Role                                      $entity
      * @param UserInterface[] $appendUsers
      * @param UserInterface[]                           $removeUsers
      */
@@ -85,7 +78,6 @@ class RoleHandler
     /**
      * Append users to role
      *
-     * @param Role            $role
      * @param UserInterface[] $users
      */
     protected function appendUsers(Role $role, array $users)
@@ -100,7 +92,6 @@ class RoleHandler
     /**
      * Remove users from role
      *
-     * @param Role           $role
      * @param UserInterface[] $users
      */
     protected function removeUsers(Role $role, array $users)
@@ -114,8 +105,6 @@ class RoleHandler
 
     /**
      * Get Request
-     *
-     * @return null|Request
      */
     protected function getRequest(): ?Request
     {

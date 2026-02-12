@@ -11,7 +11,7 @@ use Webmozart\Assert\Assert;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class IdentifierGeneratorCode
+final readonly class IdentifierGeneratorCode
 {
     private function __construct(
         private string $code,

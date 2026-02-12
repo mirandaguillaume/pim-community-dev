@@ -23,8 +23,8 @@ final class SqlUpdateIdentifierPrefixesQuery implements UpdateIdentifierPrefixes
     private ?array $identifierAttributesCache;
 
     public function __construct(
-        private AttributeRepositoryInterface $attributeRepository,
-        private Connection $connection,
+        private readonly AttributeRepositoryInterface $attributeRepository,
+        private readonly Connection $connection,
     ) {
         $this->identifierAttributesCache = null;
     }
@@ -37,7 +37,7 @@ final class SqlUpdateIdentifierPrefixesQuery implements UpdateIdentifierPrefixes
         $onlyProducts = \array_filter(
             $products,
             // TODO TIP-987 Remove this when decoupling PublishedProduct from Enrichment
-            fn (ProductInterface $product): bool => \get_class($product) !==
+            fn (ProductInterface $product): bool => $product::class !==
                 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct'
         );
         if (\count($onlyProducts) > 0) {

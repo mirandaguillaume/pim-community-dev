@@ -19,9 +19,9 @@ class Volumes
     private array $averageMaxQueries = [];
 
     public function __construct(
-        private CountVolumeNormalizer $countVolumesNormalizer,
-        private AverageMaxVolumesNormalizer $averageMaxVolumesNormalizer,
-        private FeatureFlags $featureFlags
+        private readonly CountVolumeNormalizer $countVolumesNormalizer,
+        private readonly AverageMaxVolumesNormalizer $averageMaxVolumesNormalizer,
+        private readonly FeatureFlags $featureFlags
     ) {
     }
 

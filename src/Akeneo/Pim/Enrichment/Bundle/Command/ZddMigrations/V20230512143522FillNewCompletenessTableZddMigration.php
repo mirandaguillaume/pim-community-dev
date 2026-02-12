@@ -21,8 +21,8 @@ final class V20230512143522FillNewCompletenessTableZddMigration implements ZddMi
     private bool $shouldLog = true;
 
     public function __construct(
-        private Connection $connection,
-        private LoggerInterface $logger,
+        private readonly Connection $connection,
+        private readonly LoggerInterface $logger,
     ) {
     }
 

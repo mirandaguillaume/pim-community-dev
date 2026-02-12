@@ -15,12 +15,12 @@ use Symfony\Requirements\RequirementCollection;
 class CheckUpdateRequirementsCommand extends Command
 {
     protected static $defaultName = 'pim:update:check-requirements';
-    private Client $client;
+    private readonly Client $client;
 
     public function __construct(
-        private ClientRegistry $clientRegistry,
+        private readonly ClientRegistry $clientRegistry,
         ClientBuilder $clientBuilder,
-        private array $elasticsearchHosts
+        private readonly array $elasticsearchHosts
     ) {
         parent::__construct();
 
@@ -62,7 +62,7 @@ class CheckUpdateRequirementsCommand extends Command
             $versionCreated = $indexConfiguration['settings']['index']["version"]["created"];
             $requirements->add(
                 new Requirement(
-                    str_starts_with($versionCreated, '7') || str_starts_with($versionCreated, '8'),
+                    str_starts_with((string) $versionCreated, '7') || str_starts_with((string) $versionCreated, '8'),
                     "Index $indexName creation version",
                     !in_array($aliasName, $registeredAlias) ?
                         "The index $indexName seems to not be used by the PIM, please check if you use it. If you didn't use it delete it: curl --location --request DELETE 'http://$firstElasticsearchHost/$indexName'. If you want to keep it, reindex it with ElasticSearch 7: bin/console akeneo:elasticsearch:update-index-version $aliasName"

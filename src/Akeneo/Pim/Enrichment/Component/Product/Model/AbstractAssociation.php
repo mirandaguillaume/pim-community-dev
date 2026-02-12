@@ -226,7 +226,7 @@ abstract class AbstractAssociation implements AssociationInterface
         if (!$this->owner instanceof ProductInterface && !$this->owner instanceof ProductModelInterface) {
             throw new \InvalidArgumentException(sprintf(
                 'Owner must be a product or a product model, instance of \'%s\' given',
-                get_class($this->owner)
+                $this->owner::class
             ));
         }
 

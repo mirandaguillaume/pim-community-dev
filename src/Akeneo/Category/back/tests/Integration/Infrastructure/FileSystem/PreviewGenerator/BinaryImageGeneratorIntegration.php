@@ -194,7 +194,7 @@ class BinaryImageGeneratorIntegration extends TestCase
         $fileToUpload = new UploadedFile($fileInfo->getPathname(), $fileInfo->getFilename(), 'image/jpg');
         $file = $this->get('akeneo_file_storage.file_storage.file.file_storer')->store($fileToUpload, Storage::CATEGORY_STORAGE_ALIAS);
 
-        return base64_encode($file->getKey());
+        return base64_encode((string) $file->getKey());
     }
 
     private function generatePngImage(int $size, int $quality): string
@@ -207,7 +207,7 @@ class BinaryImageGeneratorIntegration extends TestCase
         $fileToUpload = new UploadedFile($fileInfo->getPathname(), $fileInfo->getFilename(), 'image/png');
         $file = $this->get('akeneo_file_storage.file_storage.file.file_storer')->store($fileToUpload, Storage::CATEGORY_STORAGE_ALIAS);
 
-        return base64_encode($file->getKey());
+        return base64_encode((string) $file->getKey());
     }
 
     private function uploadPdfFile(): string
@@ -216,7 +216,7 @@ class BinaryImageGeneratorIntegration extends TestCase
         $fileToUpload = new UploadedFile($fileInfo->getPathname(), $fileInfo->getFilename(), 'application/pdf');
         $file = $this->get('akeneo_file_storage.file_storage.file.file_storer')->store($fileToUpload, Storage::CATEGORY_STORAGE_ALIAS);
 
-        return base64_encode($file->getKey());
+        return base64_encode((string) $file->getKey());
     }
 
     /**

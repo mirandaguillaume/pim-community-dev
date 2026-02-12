@@ -31,36 +31,27 @@ class CommentController
     /** @var RemoverInterface */
     protected $commentRemover;
 
-    /** @var string */
-    protected $commentClassName;
-
     /**
-     * @param TokenStorageInterface $tokenStorage
-     * @param ObjectManager         $doctrine
-     * @param RemoverInterface      $commentRemover
      * @param string                $commentClassName
      */
     public function __construct(
         TokenStorageInterface $tokenStorage,
         ObjectManager $doctrine,
         RemoverInterface $commentRemover,
-        $commentClassName
+        protected $commentClassName
     ) {
         $this->tokenStorage = $tokenStorage;
         $this->doctrine = $doctrine;
         $this->commentRemover = $commentRemover;
-        $this->commentClassName = $commentClassName;
     }
 
     /**
      * Delete a comment with its children
      *
-     * @param Request $request
      * @param string  $id
      *
      * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     *
      * @return Response
      */
     public function deleteAction(Request $request, $id)
@@ -87,11 +78,10 @@ class CommentController
     /**
      * Get a user from the Security Context
      *
-     * @return \Symfony\Component\Security\Core\User\UserInterface|null
      *
      * @see Symfony\Component\Security\Core\Authentication\Token\TokenInterface::getUser()
      */
-    public function getUser()
+    public function getUser(): ?\Symfony\Component\Security\Core\User\UserInterface
     {
         if (null === $token = $this->tokenStorage->getToken()) {
             return null;

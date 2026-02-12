@@ -32,25 +32,23 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class AttributeOptionController
 {
     public function __construct(
-        private NormalizerInterface $normalizer,
-        private FormFactoryInterface $formFactory,
-        private AttributeOptionsSorter $sorter,
-        private SimpleFactoryInterface $optionFactory,
-        private SaverInterface $optionSaver,
-        private RemoverInterface $optionRemover,
-        private AttributeRepositoryInterface $attributeRepository,
-        private AttributeOptionRepositoryInterface $optionRepository,
-        private AttributeOptionSearchableRepository $attributeOptionRepository,
-        private NormalizerInterface $structureNormalizer
+        private readonly NormalizerInterface $normalizer,
+        private readonly FormFactoryInterface $formFactory,
+        private readonly AttributeOptionsSorter $sorter,
+        private readonly SimpleFactoryInterface $optionFactory,
+        private readonly SaverInterface $optionSaver,
+        private readonly RemoverInterface $optionRemover,
+        private readonly AttributeRepositoryInterface $attributeRepository,
+        private readonly AttributeOptionRepositoryInterface $optionRepository,
+        private readonly AttributeOptionSearchableRepository $attributeOptionRepository,
+        private readonly NormalizerInterface $structureNormalizer
     ) {
     }
 
     /**
      * Return the attribute option array
      *
-     * @param Request $request
      * @param int     $identifier
-     *
      * @return JsonResponse
      */
     public function getAction(Request $request, $identifier)
@@ -99,11 +97,9 @@ class AttributeOptionController
     /**
      * Create an option of an attribute
      *
-     * @param Request $request
      * @param int     $attributeId
      *
      * @return Response
-     *
      * @AclAncestor("pim_enrich_attribute_edit")
      */
     public function createAction(Request $request, $attributeId)
@@ -118,7 +114,7 @@ class AttributeOptionController
         $attributeOption->setAttribute($attribute);
 
         //Should be replaced by a paramConverter
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         return $this->manageFormSubmission($attributeOption, $data);
     }
@@ -126,11 +122,9 @@ class AttributeOptionController
     /**
      * Update an option of an attribute
      *
-     * @param Request $request
      * @param int     $attributeOptionId
      *
      * @return Response
-     *
      * @AclAncestor("pim_enrich_attribute_edit")
      */
     public function updateAction(Request $request, $attributeOptionId)
@@ -142,7 +136,7 @@ class AttributeOptionController
         $attributeOption = $this->findAttributeOptionOr404($attributeOptionId);
 
         //Should be replaced by a paramConverter
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         return $this->manageFormSubmission($attributeOption, $data);
     }
@@ -182,11 +176,9 @@ class AttributeOptionController
     /**
      * Update sorting of the options
      *
-     * @param Request $request
      * @param int     $attributeId
      *
      * @return Response
-     *
      * @AclAncestor("pim_enrich_attribute_edit")
      */
     public function updateSortingAction(Request $request, $attributeId)
@@ -197,7 +189,7 @@ class AttributeOptionController
 
         $attribute = $this->findAttributeOr404($attributeId);
         //Should be replaced by a paramConverter
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $sorting = array_flip($data);
 
@@ -209,8 +201,6 @@ class AttributeOptionController
     /**
      * Manage form submission of an attribute option
      *
-     * @param AttributeOptionInterface $attributeOption
-     * @param array                    $data
      *
      * @return JsonResponse
      */

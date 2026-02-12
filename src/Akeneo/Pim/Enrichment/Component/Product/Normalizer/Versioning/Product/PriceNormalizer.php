@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
  */
 class PriceNormalizer extends AbstractValueDataNormalizer implements CacheableSupportsMethodInterface
 {
-    const DECIMAL_PRECISION = 2;
+    final public const DECIMAL_PRECISION = 2;
     /** @var string[] */
     protected $supportedFormats = ['flat'];
 

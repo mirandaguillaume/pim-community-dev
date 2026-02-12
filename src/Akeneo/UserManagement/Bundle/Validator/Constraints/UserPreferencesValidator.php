@@ -32,11 +32,10 @@ class UserPreferencesValidator extends ConstraintValidator
      * Validate catalog locale
      *
      * @param UserInterface $user
-     * @param Constraint                              $constraint
      */
     protected function validateCatalogLocale($user, Constraint $constraint)
     {
-        if (is_callable([$user, 'getCatalogLocale'])) {
+        if (is_callable($user->getCatalogLocale(...))) {
             $locale = $user->getCatalogLocale();
             if (!$locale) {
                 $this->context->buildViolation($constraint->missingLocaleMsg)
@@ -52,11 +51,10 @@ class UserPreferencesValidator extends ConstraintValidator
      * Validate catalog Scope
      *
      * @param UserInterface $user
-     * @param Constraint                              $constraint
      */
     protected function validateCatalogScope($user, Constraint $constraint)
     {
-        if (is_callable([$user, 'getCatalogScope'])) {
+        if (is_callable($user->getCatalogScope(...))) {
             if (!$user->getCatalogScope()) {
                 $this->context->buildViolation($constraint->missingScopeMsg)
                     ->addViolation();
@@ -68,11 +66,10 @@ class UserPreferencesValidator extends ConstraintValidator
      * Validate default tree
      *
      * @param UserInterface $user
-     * @param Constraint                              $constraint
      */
     protected function validateDefaultTree($user, Constraint $constraint)
     {
-        if (is_callable([$user, 'getDefaultTree'])) {
+        if (is_callable($user->getDefaultTree(...))) {
             $tree = $user->getDefaultTree();
             if (!$tree) {
                 $this->context->buildViolation($constraint->missingTreeMsg)

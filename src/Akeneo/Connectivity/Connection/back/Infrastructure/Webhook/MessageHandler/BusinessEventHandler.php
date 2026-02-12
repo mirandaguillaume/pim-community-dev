@@ -14,9 +14,9 @@ use Symfony\Component\Process\Process;
 class BusinessEventHandler implements MessageSubscriberInterface
 {
     public function __construct(
-        private string $projectDir,
-        private LoggerInterface $logger,
-        private BulkEventNormalizer $normalizer
+        private readonly string $projectDir,
+        private readonly LoggerInterface $logger,
+        private readonly BulkEventNormalizer $normalizer
     ) {
     }
 

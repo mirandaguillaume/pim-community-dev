@@ -27,21 +27,11 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 final class UpdateIndexesOnCategoryDeletion implements EventSubscriberInterface
 {
-    /** @var GetDescendentCategoryCodes */
-    private $getDescendentCategoryCodes;
-
-    /** @var Client */
-    private $productAndProductModelClient;
-
     /** @var string[] */
-    private $categoryCodesToRemove = [];
+    private array $categoryCodesToRemove = [];
 
-    public function __construct(
-        GetDescendentCategoryCodes $getDescendentCategoryCodes,
-        Client $productAndProductModelClient
-    ) {
-        $this->getDescendentCategoryCodes = $getDescendentCategoryCodes;
-        $this->productAndProductModelClient = $productAndProductModelClient;
+    public function __construct(private readonly GetDescendentCategoryCodes $getDescendentCategoryCodes, private readonly Client $productAndProductModelClient)
+    {
     }
 
     /**

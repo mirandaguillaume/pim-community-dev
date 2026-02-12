@@ -16,17 +16,12 @@ use Webmozart\Assert\Assert;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class RoleWithPermissionsUpdater implements ObjectUpdaterInterface
+final readonly class RoleWithPermissionsUpdater implements ObjectUpdaterInterface
 {
     private const ACL_DEFAULT_EXTENSION = 'action';
 
-    private ObjectUpdaterInterface $roleUpdater;
-    private AclManager $aclManager;
-
-    public function __construct(ObjectUpdaterInterface $roleUpdater, AclManager $aclManager)
+    public function __construct(private ObjectUpdaterInterface $roleUpdater, private AclManager $aclManager)
     {
-        $this->roleUpdater = $roleUpdater;
-        $this->aclManager = $aclManager;
     }
 
     public function update($roleWithPermissions, array $data, array $options = []): self

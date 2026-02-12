@@ -36,13 +36,6 @@ class ChannelNormalizer implements NormalizerInterface, CacheableSupportsMethodI
     /** @var CollectionFilterInterface */
     protected $collectionFilter;
 
-    /**
-     * @param NormalizerInterface        $channelNormalizer
-     * @param NormalizerInterface        $localeNormalizer
-     * @param VersionRepositoryInterface $versionRepository
-     * @param NormalizerInterface        $versionNormalizer
-     * @param CollectionFilterInterface  $collectionFilter
-     */
     public function __construct(
         NormalizerInterface $channelNormalizer,
         NormalizerInterface $localeNormalizer,
@@ -113,11 +106,9 @@ class ChannelNormalizer implements NormalizerInterface, CacheableSupportsMethodI
      * Normalize and return given $locales
      *
      * @param $locales
-     * @param bool $filterLocales
      *
-     * @return array|\ArrayAccess
      */
-    protected function normalizeLocales($locales, bool $filterLocales)
+    protected function normalizeLocales($locales, bool $filterLocales): array|\ArrayAccess
     {
         $normalizedLocales = [];
         $locales = $filterLocales ? $this->collectionFilter->filterCollection($locales, 'pim.internal_api.locale.view') : $locales;

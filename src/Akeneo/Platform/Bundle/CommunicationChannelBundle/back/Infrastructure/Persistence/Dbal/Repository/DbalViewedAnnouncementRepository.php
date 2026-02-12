@@ -14,12 +14,8 @@ use Doctrine\DBAL\Connection as DbalConnection;
  */
 class DbalViewedAnnouncementRepository implements ViewedAnnouncementRepositoryInterface
 {
-    /** @var DbalConnection */
-    private $dbalConnection;
-
-    public function __construct(DbalConnection $dbalConnection)
+    public function __construct(private readonly DbalConnection $dbalConnection)
     {
-        $this->dbalConnection = $dbalConnection;
     }
 
     /**

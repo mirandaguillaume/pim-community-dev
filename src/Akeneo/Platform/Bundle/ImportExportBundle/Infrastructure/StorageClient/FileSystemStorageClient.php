@@ -14,7 +14,7 @@ use League\Flysystem\FilesystemOperator;
 
 class FileSystemStorageClient implements StorageClientInterface
 {
-    public function __construct(private FilesystemOperator $filesystemOperator)
+    public function __construct(private readonly FilesystemOperator $filesystemOperator)
     {
     }
 

@@ -34,7 +34,7 @@ class AbstractAclManager
             sprintf(
                 '$identity must be a string or implement one of RoleInterface, UserInterface, TokenInterface'
                 . ' (%s given)',
-                is_object($identity) ? get_class($identity) : gettype($identity)
+                get_debug_type($identity)
             )
         );
     }

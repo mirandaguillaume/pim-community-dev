@@ -18,13 +18,9 @@ final class MigrateProductCriterionEvaluationCommand extends Command
     protected static $defaultName = 'pimee:data-quality-insights:migrate-product-criterion-evaluation';
     protected static $defaultDescription = 'Migrate the products criteria evaluations with empty results and pending status.';
 
-    private Connection $dbConnection;
-
-    public function __construct(Connection $dbConnection)
+    public function __construct(private readonly Connection $dbConnection)
     {
         parent::__construct();
-
-        $this->dbConnection = $dbConnection;
     }
 
     protected function configure()

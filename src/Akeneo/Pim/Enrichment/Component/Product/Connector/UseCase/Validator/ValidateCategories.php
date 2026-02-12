@@ -14,14 +14,10 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ValidateCategories
+final readonly class ValidateCategories
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $categoryRepository;
-
-    public function __construct(IdentifiableObjectRepositoryInterface $categoryRepository)
+    public function __construct(private IdentifiableObjectRepositoryInterface $categoryRepository)
     {
-        $this->categoryRepository = $categoryRepository;
     }
 
     /**
@@ -43,7 +39,7 @@ final class ValidateCategories
         $errors = [];
         foreach ($categories as $category) {
             foreach ($category['value'] as $categoryCode) {
-                $categoryCode = trim($categoryCode);
+                $categoryCode = trim((string) $categoryCode);
                 if (null === $this->categoryRepository->findOneByIdentifier($categoryCode)) {
                     $errors[] = $categoryCode;
                 }

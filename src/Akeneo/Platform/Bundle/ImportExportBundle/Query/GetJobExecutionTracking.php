@@ -27,10 +27,10 @@ use Doctrine\Common\Collections\Collection;
 class GetJobExecutionTracking
 {
     public function __construct(
-        private JobRegistry $jobRegistry,
-        private JobExecutionRepository $jobExecutionRepository,
-        private JobExecutionManager $jobExecutionManager,
-        private ClockInterface $clock,
+        private readonly JobRegistry $jobRegistry,
+        private readonly JobExecutionRepository $jobExecutionRepository,
+        private readonly JobExecutionManager $jobExecutionManager,
+        private readonly ClockInterface $clock,
     ) {
     }
 
@@ -48,7 +48,7 @@ class GetJobExecutionTracking
             $job = $this->jobRegistry->get($jobName);
 
             return $this->createJobExecutionTrackingWithJob($jobExecution, $job);
-        } catch (UndefinedJobException $e) {
+        } catch (UndefinedJobException) {
             return $this->createJobExecutionTrackingWithoutJob($jobExecution);
         }
     }
@@ -186,7 +186,7 @@ class GetJobExecutionTracking
         $stepExecutionTracking->stepName = $stepExecution->getStepName();
         $stepExecutionTracking->status = (string) $stepExecution->getStatus();
         $stepExecutionTracking->duration = $duration;
-        $stepExecutionTracking->hasError = 0 !== count($stepExecution->getFailureExceptions()) || 0 !== count($stepExecution->getErrors());
+        $stepExecutionTracking->hasError = 0 !== (is_countable($stepExecution->getFailureExceptions()) ? count($stepExecution->getFailureExceptions()) : 0) || 0 !== count($stepExecution->getErrors());
         $stepExecutionTracking->hasWarning = 0 !== count($stepExecution->getWarnings());
 
         return $stepExecutionTracking;

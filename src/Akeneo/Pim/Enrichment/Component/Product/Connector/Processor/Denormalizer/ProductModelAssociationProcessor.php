@@ -128,20 +128,12 @@ class ProductModelAssociationProcessor extends AbstractProcessor implements
         return $entity;
     }
 
-    /**
-     * @param ProductModelInterface $product
-     * @param array                 $item
-     *
-     * @return array
-     */
     protected function filterIdenticalData(ProductModelInterface $product, array $item): array
     {
         return $this->associationsFilter->filter($product, $item);
     }
 
     /**
-     * @param ProductModelInterface $productModel
-     * @param array                 $item
      *
      * @throws PropertyException
      */
@@ -151,10 +143,6 @@ class ProductModelAssociationProcessor extends AbstractProcessor implements
     }
 
     /**
-     * @param string $identifier
-     * @param array  $item
-     *
-     * @return null|ProductModelInterface
      *
      * @throws \Akeneo\Tool\Component\Batch\Item\InvalidItemException
      */
@@ -195,8 +183,6 @@ class ProductModelAssociationProcessor extends AbstractProcessor implements
      * Detaches the product model from the unit of work is the responsibility of the writer but in this case we
      * want ensure that an updated and invalid product will not be used in the association processor.
      * Also we don't want to keep skipped product models in memory
-     *
-     * @param EntityWithAssociationsInterface $productModel
      */
     protected function detach(EntityWithAssociationsInterface $productModel): void
     {

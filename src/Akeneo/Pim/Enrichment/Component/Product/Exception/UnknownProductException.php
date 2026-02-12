@@ -16,8 +16,7 @@ class UnknownProductException extends \Exception implements
     DomainErrorInterface,
     TemplatedErrorMessageInterface
 {
-    /** @var TemplatedErrorMessage */
-    private $templatedErrorMessage;
+    private readonly \Akeneo\Pim\Enrichment\Component\Error\TemplatedErrorMessage\TemplatedErrorMessage $templatedErrorMessage;
 
     public function __construct(string $productIdentifier)
     {

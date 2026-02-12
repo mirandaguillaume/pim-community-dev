@@ -13,7 +13,7 @@ use Doctrine\DBAL\Connection;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GetAsymmetricKeysQuery implements GetAsymmetricKeysQueryInterface
+final readonly class GetAsymmetricKeysQuery implements GetAsymmetricKeysQueryInterface
 {
     public function __construct(private Connection $connection)
     {
@@ -32,7 +32,7 @@ final class GetAsymmetricKeysQuery implements GetAsymmetricKeysQueryInterface
             throw new OpenIdKeysNotFoundException();
         }
 
-        $keys = \json_decode($result, true, 512, JSON_THROW_ON_ERROR);
+        $keys = \json_decode((string) $result, true, 512, JSON_THROW_ON_ERROR);
 
         return AsymmetricKeys::create($keys[AsymmetricKeys::PUBLIC_KEY], $keys[AsymmetricKeys::PRIVATE_KEY]);
     }

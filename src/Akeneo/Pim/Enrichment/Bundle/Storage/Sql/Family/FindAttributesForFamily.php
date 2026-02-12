@@ -17,11 +17,8 @@ use Doctrine\DBAL\Result;
  */
 class FindAttributesForFamily
 {
-    private Connection $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     /**
@@ -45,8 +42,6 @@ SQL;
      */
     private function getAttributeCodes(Result $result): array
     {
-        return array_map(function (array $result) {
-            return $result['code'];
-        }, $result->fetchAllAssociative());
+        return array_map(fn(array $result) => $result['code'], $result->fetchAllAssociative());
     }
 }

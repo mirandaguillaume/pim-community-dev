@@ -16,9 +16,6 @@ class BooleanComparator implements ComparatorInterface
     /** @var array */
     protected $types;
 
-    /**
-     * @param array $types
-     */
     public function __construct(array $types)
     {
         $this->types = $types;

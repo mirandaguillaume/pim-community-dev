@@ -16,7 +16,7 @@ class AppAuthorizationSession implements AppAuthorizationSessionInterface
 {
     private const SESSION_PREFIX = '_app_auth_';
 
-    public function __construct(private SessionInterface $session)
+    public function __construct(private readonly SessionInterface $session)
     {
     }
 
@@ -46,7 +46,7 @@ class AppAuthorizationSession implements AppAuthorizationSessionInterface
             return null;
         }
 
-        return AppAuthorization::createFromNormalized(\json_decode($sessionAppAuthorization, true, 512, JSON_THROW_ON_ERROR));
+        return AppAuthorization::createFromNormalized(\json_decode((string) $sessionAppAuthorization, true, 512, JSON_THROW_ON_ERROR));
     }
 
     /**

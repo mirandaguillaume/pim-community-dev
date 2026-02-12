@@ -49,14 +49,8 @@ use Doctrine\DBAL\FetchMode;
  */
 class MediaCount implements MediaCountQuery
 {
-    private Connection $connection;
-
-    private Client $client;
-
-    public function __construct(Connection $connection, Client $client)
+    public function __construct(private readonly Connection $connection, private readonly Client $client)
     {
-        $this->connection = $connection;
-        $this->client = $client;
     }
 
     public function countFiles(): int
@@ -110,29 +104,27 @@ class MediaCount implements MediaCountQuery
             return 0;
         }
 
-        $queries = array_map(function (string $fieldPath) {
-            return  [
-                [], //empty array needed before each query for multisearch in ES
-                [
-                    'size' => 0,
-                    'query' => [
-                        'bool' => [
-                            'filter' => [
-                                [
-                                    'term' => [
-                                        'document_type' => ProductInterface::class,
-                                    ],
+        $queries = array_map(fn(string $fieldPath) => [
+            [], //empty array needed before each query for multisearch in ES
+            [
+                'size' => 0,
+                'query' => [
+                    'bool' => [
+                        'filter' => [
+                            [
+                                'term' => [
+                                    'document_type' => ProductInterface::class,
                                 ],
-                                [
-                                    'exists' => ['field' => $fieldPath],
-                                ]
+                            ],
+                            [
+                                'exists' => ['field' => $fieldPath],
                             ]
-                        ],
+                        ]
                     ],
-                    'track_total_hits' => true
-                ]
-            ];
-        }, $fieldPaths);
+                ],
+                'track_total_hits' => true
+            ]
+        ], $fieldPaths);
 
         $body = array_reduce($queries, 'array_merge', []);
         $rows = $this->client->msearch($body);

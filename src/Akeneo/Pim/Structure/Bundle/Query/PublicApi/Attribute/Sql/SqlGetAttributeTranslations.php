@@ -7,7 +7,7 @@ use Doctrine\DBAL\Connection;
 
 class SqlGetAttributeTranslations implements GetAttributeTranslations
 {
-    public function __construct(private Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
     }
 
@@ -78,7 +78,7 @@ SQL;
 
         $attributeTranslations = [];
         foreach ($rows as $attribute) {
-            $attributeTranslations[$attribute['code']] = json_decode($attribute['labels'], true);
+            $attributeTranslations[$attribute['code']] = json_decode((string) $attribute['labels'], true, 512, JSON_THROW_ON_ERROR);
         }
 
         return $attributeTranslations;

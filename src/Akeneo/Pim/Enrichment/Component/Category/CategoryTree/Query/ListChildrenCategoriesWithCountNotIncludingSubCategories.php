@@ -13,10 +13,6 @@ use Akeneo\Pim\Enrichment\Component\Category\CategoryTree\ReadModel\ChildCategor
 interface ListChildrenCategoriesWithCountNotIncludingSubCategories
 {
     /**
-     * @param string   $translationLocaleCode
-     * @param int      $userId
-     * @param int      $rootCategoryIdIdToExpand
-     * @param null|int $categorySelectedAsFilter
      *
      * @return ChildCategory[]
      */

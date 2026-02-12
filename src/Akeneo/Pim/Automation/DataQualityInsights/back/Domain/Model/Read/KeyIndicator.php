@@ -10,22 +10,10 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\KeyIndicatorCod
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class KeyIndicator
+final readonly class KeyIndicator
 {
-    private KeyIndicatorCode $code;
-
-    private int $totalGood;
-
-    private int $totalToImprove;
-
-    private array $extraData;
-
-    public function __construct(KeyIndicatorCode $code, int $totalGood, int $totalToImprove, array $extraData = [])
+    public function __construct(private KeyIndicatorCode $code, private int $totalGood, private int $totalToImprove, private array $extraData = [])
     {
-        $this->code = $code;
-        $this->totalGood = $totalGood;
-        $this->totalToImprove = $totalToImprove;
-        $this->extraData = $extraData;
     }
 
     public function getCode(): KeyIndicatorCode

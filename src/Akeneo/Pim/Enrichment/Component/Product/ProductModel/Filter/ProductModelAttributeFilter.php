@@ -24,28 +24,8 @@ use Doctrine\Common\Collections\Collection;
  */
 class ProductModelAttributeFilter implements AttributeFilterInterface
 {
-    /** @var FamilyVariantRepositoryInterface */
-    private $familyVariantRepository;
-
-    /** @var ProductModelRepositoryInterface */
-    private $productModelRepository;
-
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $attributeRepository;
-
-    /**
-     * @param IdentifiableObjectRepositoryInterface $familyVariantRepository
-     * @param IdentifiableObjectRepositoryInterface $productModelRepository
-     * @param IdentifiableObjectRepositoryInterface $attributeRepository
-     */
-    public function __construct(
-        IdentifiableObjectRepositoryInterface $familyVariantRepository,
-        IdentifiableObjectRepositoryInterface $productModelRepository,
-        IdentifiableObjectRepositoryInterface $attributeRepository
-    ) {
-        $this->familyVariantRepository = $familyVariantRepository;
-        $this->productModelRepository = $productModelRepository;
-        $this->attributeRepository = $attributeRepository;
+    public function __construct(private readonly IdentifiableObjectRepositoryInterface $familyVariantRepository, private readonly IdentifiableObjectRepositoryInterface $productModelRepository, private readonly IdentifiableObjectRepositoryInterface $attributeRepository)
+    {
     }
 
     /**
@@ -103,12 +83,6 @@ class ProductModelAttributeFilter implements AttributeFilterInterface
         return $this->keepOnlyAttributes($standardProductModel, $variantAttributeSet->getAttributes());
     }
 
-    /**
-     * @param array      $flatProductModel
-     * @param Collection $attributesToKeep
-     *
-     * @return array
-     */
     private function keepOnlyAttributes(array $flatProductModel, Collection $attributesToKeep): array
     {
         foreach ($flatProductModel['values'] as $attributeName => $value) {
@@ -116,9 +90,7 @@ class ProductModelAttributeFilter implements AttributeFilterInterface
             $shortAttributeName = $shortAttributeName[0];
 
             $keepedAttributeCodes = $attributesToKeep->exists(
-                function ($key, AttributeInterface $attribute) use ($shortAttributeName) {
-                    return $attribute->getCode() === $shortAttributeName;
-                }
+                fn($key, AttributeInterface $attribute) => $attribute->getCode() === $shortAttributeName
             );
 
             if (!$keepedAttributeCodes) {

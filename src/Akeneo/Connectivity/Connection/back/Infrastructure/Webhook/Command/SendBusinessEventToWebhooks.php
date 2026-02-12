@@ -58,7 +58,7 @@ class SendBusinessEventToWebhooks extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $message = \json_decode($input->getArgument('message'), true, 512, JSON_THROW_ON_ERROR);
+        $message = \json_decode((string) $input->getArgument('message'), true, 512, JSON_THROW_ON_ERROR);
         $event = $this->bulkEventNormalizer->denormalize($message, BulkEvent::class);
 
         if ($this->isWebhookLimitReached()) {

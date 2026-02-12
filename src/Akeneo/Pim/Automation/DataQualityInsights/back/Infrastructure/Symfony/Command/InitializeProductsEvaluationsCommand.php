@@ -26,9 +26,9 @@ final class InitializeProductsEvaluationsCommand extends Command
     private const BATCH_SIZE = 100;
 
     public function __construct(
-        private Connection $dbConnection,
-        private CriteriaByFeatureRegistry $productCriteriaRegistry,
-        private CriteriaByFeatureRegistry $productModelCriteriaRegistry
+        private readonly Connection $dbConnection,
+        private readonly CriteriaByFeatureRegistry $productCriteriaRegistry,
+        private readonly CriteriaByFeatureRegistry $productModelCriteriaRegistry
     ) {
         parent::__construct();
     }

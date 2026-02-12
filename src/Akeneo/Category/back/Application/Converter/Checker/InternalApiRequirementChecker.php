@@ -24,8 +24,8 @@ class InternalApiRequirementChecker implements RequirementChecker
      * @param AttributeApiRequirementChecker $attributeChecker
      */
     public function __construct(
-        private RequirementChecker $fieldsChecker,
-        private RequirementChecker $attributeChecker,
+        private readonly RequirementChecker $fieldsChecker,
+        private readonly RequirementChecker $attributeChecker,
     ) {
     }
 
@@ -53,7 +53,7 @@ class InternalApiRequirementChecker implements RequirementChecker
         try {
             Assert::keyExists($data, 'properties');
             Assert::keyExists($data, 'attributes');
-        } catch (\InvalidArgumentException $exception) {
+        } catch (\InvalidArgumentException) {
             throw new StructureArrayConversionException(vsprintf('Fields ["%s", "%s"] is expected', $expectedKeys));
         }
     }

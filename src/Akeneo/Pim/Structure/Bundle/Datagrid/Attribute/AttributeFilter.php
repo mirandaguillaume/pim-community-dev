@@ -58,17 +58,12 @@ final class AttributeFilter extends AbstractFilter
         return TextFilterType::class;
     }
 
-    /**
-     * @param mixed $data
-     */
-    protected function parseData($data): array
+    protected function parseData(mixed $data): array
     {
         if (!is_array($data) || !array_key_exists('value', $data) || !$data['value']) {
             return [];
         }
 
-        return array_map(function ($word) {
-            return sprintf('%%%s%%', \addcslashes($word, '_%'));
-        }, preg_split('/\s+/', $data['value']));
+        return array_map(fn($word) => sprintf('%%%s%%', \addcslashes((string) $word, '_%')), preg_split('/\s+/', (string) $data['value']));
     }
 }
