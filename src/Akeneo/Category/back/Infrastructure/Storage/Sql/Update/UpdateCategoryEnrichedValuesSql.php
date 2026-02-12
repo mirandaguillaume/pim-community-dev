@@ -2,6 +2,7 @@
 
 namespace Akeneo\Category\Infrastructure\Storage\Sql\Update;
 
+use Doctrine\DBAL\Driver\Exception;
 use Akeneo\Category\Application\Storage\UpdateCategoryEnrichedValues;
 use Akeneo\Category\Domain\ValueObject\ValueCollection;
 use Doctrine\DBAL\Connection;
@@ -31,7 +32,7 @@ final readonly class UpdateCategoryEnrichedValuesSql implements UpdateCategoryEn
      *
      * @param array<string, ValueCollection> $enrichedValuesByCode
      *
-     * @throws \Doctrine\DBAL\Driver\Exception
+     * @throws Exception
      * @throws \Doctrine\DBAL\Exception
      */
     public function execute(array $enrichedValuesByCode): void

@@ -49,15 +49,11 @@ class FosRegenerateClientSecret implements RegenerateClientSecretInterface
         $deleteSqlAccessToken = <<<SQL
 DELETE FROM pim_api_access_token WHERE client = :client_id
 SQL;
-        $stmt = $this->dbalConnection->prepare($deleteSqlAccessToken);
-        $stmt->bindValue('client_id', $clientId->id());
-        $stmt->executeStatement();
+        $this->dbalConnection->executeStatement($deleteSqlAccessToken, ['client_id' => $clientId->id()]);
 
         $deleteSqlRefreshToken = <<<SQL
 DELETE FROM pim_api_refresh_token WHERE client = :client_id
 SQL;
-        $stmt = $this->dbalConnection->prepare($deleteSqlRefreshToken);
-        $stmt->bindValue('client_id', $clientId->id());
-        $stmt->executeStatement();
+        $this->dbalConnection->executeStatement($deleteSqlRefreshToken, ['client_id' => $clientId->id()]);
     }
 }

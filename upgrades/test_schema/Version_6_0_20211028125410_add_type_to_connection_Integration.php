@@ -136,7 +136,7 @@ class Version_6_0_20211028125410_add_type_to_connection_Integration extends Test
     {
         $query = 'SELECT code, type FROM akeneo_connectivity_connection';
 
-        $data = $this->connection->executeQuery($query)->fetchAll();
+        $data = $this->connection->executeQuery($query)->fetchAllAssociative();
 
         return array_column($data, 'type', 'code');
     }

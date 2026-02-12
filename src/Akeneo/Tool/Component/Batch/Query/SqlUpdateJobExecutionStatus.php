@@ -20,7 +20,7 @@ UPDATE akeneo_batch_job_execution
 SET `status` = :batch_status, `exit_code` = :exit_code
 WHERE `id` = :job_execution_id
 SQL;
-        $this->connection->executeUpdate(
+        $this->connection->executeStatement(
             $sql,
             [
                 'batch_status'     => $batchStatus->getValue(),

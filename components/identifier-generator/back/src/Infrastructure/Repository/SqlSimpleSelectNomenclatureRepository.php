@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Automation\IdentifierGenerator\Infrastructure\Repository;
 
+use Doctrine\DBAL\Exception;
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\NomenclatureDefinition;
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Repository\SimpleSelectNomenclatureRepository;
 use Doctrine\DBAL\Connection;
@@ -74,7 +75,9 @@ SQL;
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @param string $attributeCode
+     * @return NomenclatureDefinition|null
+     * @throws Exception
      */
     private function getNomenclatureDefinition(string $attributeCode): ?NomenclatureDefinition
     {

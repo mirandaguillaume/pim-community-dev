@@ -42,6 +42,6 @@ CREATE TABLE akeneo_structure_version_last_update (
     PRIMARY KEY(resource_name)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 SQL;
-        $this->doctrine->getConnection()->exec($sql);
+        $this->doctrine->getConnection()->executeStatement($sql);
     }
 }

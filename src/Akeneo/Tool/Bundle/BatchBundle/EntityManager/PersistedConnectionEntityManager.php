@@ -39,7 +39,7 @@ class PersistedConnectionEntityManager extends EntityManagerDecorator
     }
 
     /**
-     * Ping the Server, if the connection is closed, it re-opens it automatically.
+     * Ensure the connection is still alive; reconnect if it has timed out.
      */
     private function checkConnection(): void
     {
@@ -47,7 +47,7 @@ class PersistedConnectionEntityManager extends EntityManagerDecorator
 
         try {
             $connection->executeQuery('SELECT 1');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $connection->close();
             $connection->connect();
         }

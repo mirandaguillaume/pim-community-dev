@@ -39,7 +39,7 @@ class Category extends BaseCategory implements CategoryInterface, \Stringable
     /** @var Collection<int, Channel> */
     protected $channels;
 
-    /** @var \DateTime */
+    /** @var \DateTimeInterface */
     protected $created;
 
     private \DateTime $updated;

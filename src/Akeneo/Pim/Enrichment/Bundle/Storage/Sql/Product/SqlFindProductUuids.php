@@ -2,6 +2,7 @@
 
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Product;
 
+use Doctrine\DBAL\Driver\Exception;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -24,7 +25,7 @@ final readonly class SqlFindProductUuids
      * @param string[] $identifiers
      * @return array<string, UuidInterface>
      *
-     * @throws \Doctrine\DBAL\Driver\Exception
+     * @throws Exception
      * @throws \Doctrine\DBAL\Exception
      */
     public function fromIdentifiers(array $identifiers): array

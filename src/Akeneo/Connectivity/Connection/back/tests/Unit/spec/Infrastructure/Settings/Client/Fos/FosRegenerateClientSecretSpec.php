@@ -9,7 +9,6 @@ use Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject\ClientId;
 use Akeneo\Connectivity\Connection\Infrastructure\Settings\Client\Fos\FosRegenerateClientSecret;
 use Akeneo\Tool\Bundle\ApiBundle\Entity\Client;
 use Doctrine\DBAL\Connection as DbalConnection;
-use Doctrine\DBAL\Statement;
 use FOS\OAuthServerBundle\Model\ClientManagerInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -35,9 +34,7 @@ class FosRegenerateClientSecretSpec extends ObjectBehavior
     public function it_regenerates_a_client_secret(
         $clientManager,
         $dbalConnection,
-        Client $client,
-        Statement $stmt1,
-        Statement $stmt2
+        Client $client
     ): void {
         $clientId = new ClientId(1);
 
@@ -45,13 +42,14 @@ class FosRegenerateClientSecretSpec extends ObjectBehavior
         $client->setSecret(Argument::type('string'))->shouldBeCalled();
         $clientManager->updateClient($client)->shouldBeCalled();
 
-        $dbalConnection->prepare(Argument::type('string'))->shouldBeCalledTimes(2);
-        $dbalConnection->prepare('DELETE FROM pim_api_access_token WHERE client = :client_id')->willReturn($stmt1);
-        $stmt1->bindValue('client_id', $clientId->id())->shouldBeCalled();
-        $stmt1->executeStatement()->willReturn(0);
-        $dbalConnection->prepare('DELETE FROM pim_api_refresh_token WHERE client = :client_id')->willReturn($stmt2);
-        $stmt2->bindValue('client_id', $clientId->id())->shouldBeCalled();
-        $stmt2->executeStatement()->willReturn(0);
+        $dbalConnection->executeStatement(
+            'DELETE FROM pim_api_access_token WHERE client = :client_id',
+            ['client_id' => $clientId->id()]
+        )->shouldBeCalled();
+        $dbalConnection->executeStatement(
+            'DELETE FROM pim_api_refresh_token WHERE client = :client_id',
+            ['client_id' => $clientId->id()]
+        )->shouldBeCalled();
 
         $this->execute($clientId);
     }
@@ -63,7 +61,7 @@ class FosRegenerateClientSecretSpec extends ObjectBehavior
         $clientManager->findClientBy(['id' => $clientId->id()])->willReturn(null);
         $clientManager->updateClient(Argument::any())->shouldNotBeCalled();
 
-        $dbalConnection->prepare(Argument::any())->shouldNotBeCalled();
+        $dbalConnection->executeStatement(Argument::any())->shouldNotBeCalled();
 
         $this->shouldThrow(new \InvalidArgumentException('Client with id "123" not found.'))
             ->during('execute', [$clientId]);

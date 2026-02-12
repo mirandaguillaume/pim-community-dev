@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Automation\IdentifierGenerator\Infrastructure\Repository;
 
+use Doctrine\DBAL\Exception;
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\NomenclatureDefinition;
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\Property\FamilyProperty;
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Repository\FamilyNomenclatureRepository;
@@ -181,7 +182,8 @@ SQL;
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @return NomenclatureDefinition|null
+     * @throws Exception
      */
     private function getNomenclatureDefinition(): ?NomenclatureDefinition
     {

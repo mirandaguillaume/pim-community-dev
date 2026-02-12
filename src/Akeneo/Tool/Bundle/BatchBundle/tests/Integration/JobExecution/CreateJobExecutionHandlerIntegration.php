@@ -54,11 +54,8 @@ class CreateJobExecutionHandlerIntegration extends TestCase
     private function selectJobExecution(int $id): array
     {
         $connection = $this->get('doctrine.orm.default_entity_manager')->getConnection();
-        $stmt = $connection->prepare('SELECT * from akeneo_batch_job_execution where id = :id');
-        $stmt->bindParam('id', $id);
-        $stmt->execute();
 
-        return $stmt->fetch();
+        return $connection->executeQuery('SELECT * from akeneo_batch_job_execution where id = :id', ['id' => $id])->fetchAssociative();
     }
 
     private function createJobInstance(string $jobName): JobInstance
