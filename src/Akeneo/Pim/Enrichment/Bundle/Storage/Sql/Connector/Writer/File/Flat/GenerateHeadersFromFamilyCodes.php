@@ -68,7 +68,7 @@ SQL;
         $attributesData = $this->connection->executeQuery(
             $attributesDataSql,
             ['familyCodes' => $familyCodes],
-            ['familyCodes' => \Doctrine\DBAL\Connection::PARAM_STR_ARRAY]
+            ['familyCodes' => Connection::PARAM_STR_ARRAY]
         )->fetchAllAssociative();
 
         $headers = [];

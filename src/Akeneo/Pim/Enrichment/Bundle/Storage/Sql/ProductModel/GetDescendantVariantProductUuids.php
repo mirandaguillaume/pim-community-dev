@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\ProductModel;
 
+use Doctrine\DBAL\Driver\Exception;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -24,7 +25,7 @@ class GetDescendantVariantProductUuids
      * @param string[] $productModelCodes
      * @return UuidInterface[] $uuids
      *
-     * @throws \Doctrine\DBAL\Driver\Exception
+     * @throws Exception
      * @throws \Doctrine\DBAL\Exception
      */
     public function fromProductModelCodes(array $productModelCodes): array

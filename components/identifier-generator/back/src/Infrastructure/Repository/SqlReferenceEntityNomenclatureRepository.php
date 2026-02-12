@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Automation\IdentifierGenerator\Infrastructure\Repository;
 
+use Doctrine\DBAL\Exception;
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\NomenclatureDefinition;
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Repository\ReferenceEntityNomenclatureRepository;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\GetAttributes;
@@ -44,7 +45,9 @@ class SqlReferenceEntityNomenclatureRepository implements ReferenceEntityNomencl
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @param string $attributeCode
+     * @return NomenclatureDefinition|null
+     * @throws Exception
      */
     private function getNomenclatureDefinition(string $attributeCode): ?NomenclatureDefinition
     {

@@ -33,7 +33,7 @@ WHERE updated < DATE_ADD(event_datetime, INTERVAL 1 HOUR) ORDER BY event_datetim
 SQL;
         $dateTimes = $this->dbalConnection->executeQuery($selectSQL)->fetchFirstColumn();
 
-        return \array_map(fn (string $dateTime): \Akeneo\Connectivity\Connection\Domain\ValueObject\HourlyInterval => HourlyInterval::createFromDateTime(
+        return \array_map(fn (string $dateTime): HourlyInterval => HourlyInterval::createFromDateTime(
             \DateTimeImmutable::createFromFormat(
                 $this->dbalConnection->getDatabasePlatform()->getDateTimeFormatString(),
                 $dateTime,

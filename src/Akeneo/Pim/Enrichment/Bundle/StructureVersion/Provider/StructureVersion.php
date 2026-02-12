@@ -2,6 +2,7 @@
 
 namespace Akeneo\Pim\Enrichment\Bundle\StructureVersion\Provider;
 
+use Doctrine\DBAL\Connection;
 use Akeneo\Platform\Bundle\UIBundle\Provider\StructureVersion\StructureVersionProviderInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -38,7 +39,7 @@ SQL;
         $stmt = $connection->executeQuery(
             $sql,
             ['resource_names' => $this->resourceNames],
-            ['resource_names' => \Doctrine\DBAL\Connection::PARAM_STR_ARRAY]
+            ['resource_names' => Connection::PARAM_STR_ARRAY]
         );
 
         $loggedAt = $stmt->fetchAssociative()['last_update'];

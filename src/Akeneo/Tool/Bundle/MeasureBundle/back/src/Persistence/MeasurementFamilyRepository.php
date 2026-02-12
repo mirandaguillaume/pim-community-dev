@@ -12,7 +12,6 @@ use Akeneo\Tool\Bundle\MeasureBundle\Model\Operation;
 use Akeneo\Tool\Bundle\MeasureBundle\Model\Unit;
 use Akeneo\Tool\Bundle\MeasureBundle\Model\UnitCode;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 
@@ -66,7 +65,7 @@ class MeasurementFamilyRepository implements MeasurementFamilyRepositoryInterfac
 SQL;
         $normalizedMeasurementFamily = $measurementFamily->normalize();
 
-        $affectedRows = $this->sqlConnection->executeUpdate(
+        $affectedRows = $this->sqlConnection->executeStatement(
             $updateSql,
             [
                 'code' => $normalizedMeasurementFamily['code'],
@@ -116,7 +115,7 @@ SQL;
     WHERE code = :code
 SQL;
 
-        $affectedRows = $this->sqlConnection->executeUpdate(
+        $affectedRows = $this->sqlConnection->executeStatement(
             $sql,
             [
                 'code' => $measurementFamilyCode->normalize(),

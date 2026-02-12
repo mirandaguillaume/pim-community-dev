@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\ProductGrid;
 
+use Akeneo\Pim\Enrichment\Component\Product\Grid\ReadModel\Row;
 use Akeneo\Pim\Enrichment\Component\Product\Factory\WriteValueCollectionFactory;
 use Akeneo\Pim\Enrichment\Component\Product\Grid\ReadModel;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface;
@@ -67,7 +68,7 @@ final readonly class FetchProductRowsFromUuids implements FetchProductRowsFromUu
             if (!$this->isExistingProduct($row)) {
                 continue;
             }
-            $products[] = ReadModel\Row::fromProduct(
+            $products[] = Row::fromProduct(
                 $row['identifier'],
                 $row['family_label'],
                 $row['groups'],
@@ -117,7 +118,7 @@ SQL;
         $rows = $this->connection->executeQuery(
             $sql,
             ['uuids' => array_map(fn (UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],
-            ['uuids' => \Doctrine\DBAL\Connection::PARAM_STR_ARRAY]
+            ['uuids' => Connection::PARAM_STR_ARRAY]
         )->fetchAllAssociative();
 
         $result = [];
@@ -154,7 +155,7 @@ SQL;
         $rows = $this->connection->executeQuery(
             $sql,
             ['uuids' => array_map(fn (UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],
-            ['uuids' => \Doctrine\DBAL\Connection::PARAM_STR_ARRAY]
+            ['uuids' => Connection::PARAM_STR_ARRAY]
         )->fetchAllAssociative();
 
         $result = [];
@@ -217,7 +218,7 @@ SQL;
         $rows = $this->connection->executeQuery(
             $sql,
             ['uuids' => array_map(fn (UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],
-            ['uuids' => \Doctrine\DBAL\Connection::PARAM_STR_ARRAY]
+            ['uuids' => Connection::PARAM_STR_ARRAY]
         )->fetchAllAssociative();
 
         foreach ($rows as $row) {
@@ -263,7 +264,7 @@ SQL;
         $rows = $this->connection->executeQuery(
             $sql,
             ['uuids' => array_map(fn (UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],
-            ['uuids' => \Doctrine\DBAL\Connection::PARAM_STR_ARRAY]
+            ['uuids' => Connection::PARAM_STR_ARRAY]
         )->fetchAllAssociative();
 
         foreach ($rows as $row) {
@@ -313,7 +314,7 @@ SQL;
                 'uuids' => array_map(fn (UuidInterface $uuid): string => $uuid->getBytes(), $uuids),
                 'locale_code' => $localeCode
             ],
-            ['uuids' => \Doctrine\DBAL\Connection::PARAM_STR_ARRAY]
+            ['uuids' => Connection::PARAM_STR_ARRAY]
         )->fetchAllAssociative();
 
         foreach ($rows as $row) {
@@ -352,7 +353,7 @@ SQL;
                 'uuids' => array_map(fn (UuidInterface $uuid): string => $uuid->getBytes(), $uuids),
                 'locale_code' => $localeCode
             ],
-            ['uuids' => \Doctrine\DBAL\Connection::PARAM_STR_ARRAY]
+            ['uuids' => Connection::PARAM_STR_ARRAY]
         )->fetchAllAssociative();
 
         foreach ($rows as $row) {

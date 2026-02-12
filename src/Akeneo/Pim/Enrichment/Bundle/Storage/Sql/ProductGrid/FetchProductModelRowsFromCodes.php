@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\ProductGrid;
 
+use Akeneo\Pim\Enrichment\Component\Product\Grid\ReadModel\Row;
 use Akeneo\Pim\Enrichment\Component\Product\Factory\WriteValueCollectionFactory;
 use Akeneo\Pim\Enrichment\Component\Product\Grid\ReadModel;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface;
@@ -57,7 +58,7 @@ final readonly class FetchProductModelRowsFromCodes implements FetchProductModel
             if (!$this->isExistingProductModel($row)) {
                 continue;
             }
-            $productModels[] = ReadModel\Row::fromProductModel(
+            $productModels[] = Row::fromProductModel(
                 $row['code'],
                 $row['family_label'],
                 Type::getType(Types::DATETIME_MUTABLE)->convertToPhpValue($row['created'], $platform),
@@ -93,7 +94,7 @@ SQL;
         $rows = $this->connection->executeQuery(
             $sql,
             ['codes' => $codes],
-            ['codes' => \Doctrine\DBAL\Connection::PARAM_STR_ARRAY]
+            ['codes' => Connection::PARAM_STR_ARRAY]
         )->fetchAllAssociative();
 
         $result = [];
@@ -129,7 +130,7 @@ SQL;
         $rows = $this->connection->executeQuery(
             $sql,
             ['codes' => $codes],
-            ['codes' => \Doctrine\DBAL\Connection::PARAM_STR_ARRAY]
+            ['codes' => Connection::PARAM_STR_ARRAY]
         )->fetchAllAssociative();
 
         foreach ($rows as $row) {
@@ -227,7 +228,7 @@ SQL;
         $rows = $this->connection->executeQuery(
             $sql,
             ['codes' => $codes, 'locale_code' => $localeCode],
-            ['codes' => \Doctrine\DBAL\Connection::PARAM_STR_ARRAY]
+            ['codes' => Connection::PARAM_STR_ARRAY]
         )->fetchAllAssociative();
 
         foreach ($rows as $row) {
@@ -257,7 +258,7 @@ SQL;
         $rows = $this->connection->executeQuery(
             $sql,
             ['codes' => $codes],
-            ['codes' => \Doctrine\DBAL\Connection::PARAM_STR_ARRAY]
+            ['codes' => Connection::PARAM_STR_ARRAY]
         )->fetchAllAssociative();
 
         $result = [];

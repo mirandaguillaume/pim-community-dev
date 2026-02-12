@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Family;
 
+use Doctrine\DBAL\Exception;
 use Akeneo\Pim\Enrichment\Component\Product\ProductAndProductModel\Query\CountEntityWithFamilyVariantInterface;
 use Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface;
 use Doctrine\DBAL\Connection;
@@ -29,7 +30,10 @@ final readonly class CountEntityWithFamilyVariant implements CountEntityWithFami
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @param FamilyVariantInterface $familyVariant
+     *
+     * @return int
+     * @throws Exception
      */
     private function countProductModels(FamilyVariantInterface $familyVariant): int
     {
@@ -40,7 +44,10 @@ final readonly class CountEntityWithFamilyVariant implements CountEntityWithFami
     }
 
     /**
-     * @throws \Doctrine\DBAL\DBALException
+     * @param FamilyVariantInterface $familyVariant
+     *
+     * @return int
+     * @throws Exception
      */
     private function countVariantProducts(FamilyVariantInterface $familyVariant): int
     {

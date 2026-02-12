@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Category\Infrastructure\Storage\Sql;
 
+use Doctrine\DBAL\Exception;
 use Akeneo\Category\Application\Query\GetCategoryChildrenIds;
 use Doctrine\DBAL\Connection;
 
@@ -20,7 +21,7 @@ final readonly class GetCategoryChildrenIdsSql implements GetCategoryChildrenIds
     /**
      * @return array<int>
      *
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      * @throws \JsonException|\Doctrine\DBAL\Driver\Exception
      */
     public function __invoke(int $categoryId): array

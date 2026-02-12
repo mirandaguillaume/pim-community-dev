@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Bundle\EventSubscriber\Family;
 
+use Doctrine\DBAL\Exception;
 use Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Family\FindAttributesForFamily;
 use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 use Akeneo\Pim\Structure\Component\Model\FamilyInterface;
@@ -61,7 +62,7 @@ final class ComputeCompletenessOnFamilyUpdateSubscriber implements EventSubscrib
      *
      * @param GenericEvent $event
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws Exception
      */
     public function checkIfUpdateNeedsToRunBackgroundJob(GenericEvent $event): void
     {
@@ -143,7 +144,7 @@ final class ComputeCompletenessOnFamilyUpdateSubscriber implements EventSubscrib
 
     /**
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws Exception
      *
      */
     private function isAttributeListUpdated(FamilyInterface $family): bool
