@@ -112,8 +112,8 @@ abstract class AbstractAttributeSorter implements AttributeSorterInterface
     /**
      * TODO: TIP-706: Those util functions should definitely be refactored somewhere else
      *
-     * @param string             $locale
-     * @param string             $channel
+     * @param string|null        $locale
+     * @param string|null        $channel
      * @return string
      */
     protected function getAttributePath(AttributeInterface $attribute, $locale, $channel)
