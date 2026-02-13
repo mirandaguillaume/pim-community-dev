@@ -107,8 +107,8 @@ abstract class AbstractAttributeFilter implements AttributeFilterInterface
      * TODO: TIP-706 - All this logic should be done somewhere else
      *
      * @param AttributeInterface $attribute
-     * @param string             $locale
-     * @param string             $channel
+     * @param string|null        $locale
+     * @param string|null        $channel
      *
      * @return string
      */
