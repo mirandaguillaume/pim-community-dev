@@ -19,7 +19,7 @@ final class ChannelLocaleCollection implements \Iterator
 
     private array $localeCollections = [];
 
-    /** @var \Iterator */
+    /** @var \ArrayIterator */
     private readonly \ArrayIterator $iterator;
 
     public function __construct(array $localesByChannel)
