@@ -45,7 +45,11 @@ class TrackUsageOfLoadPredefinedAttributesController
             throw new NotFoundHttpException($e->getMessage());
         }
 
-        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new Response('Invalid json message received', Response::HTTP_BAD_REQUEST);
+        }
         $action = $data['action'];
         Assert::inArray($action, [TrackUsageOfLoadPredefinedAttributesController::LOAD_PREDEFINED_ATTRIBUTES, TrackUsageOfLoadPredefinedAttributesController::CREATE_FIRST_ATTRIBUTE]);
 

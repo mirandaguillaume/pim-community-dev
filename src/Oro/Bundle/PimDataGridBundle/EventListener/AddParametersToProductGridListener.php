@@ -106,7 +106,11 @@ class AddParametersToProductGridListener extends AddParametersToGridListener
         if (empty($filterValues)) {
             $filterValues = $this->getRequest()->get('filters');
             if (is_string($filterValues)) {
-                $filterValues = json_decode($filterValues, true, 512, JSON_THROW_ON_ERROR);
+                try {
+                    $filterValues = json_decode($filterValues, true, 512, JSON_THROW_ON_ERROR);
+                } catch (\JsonException) {
+                    $filterValues = null;
+                }
             }
             if (!$filterValues) {
                 $filterValues = [];

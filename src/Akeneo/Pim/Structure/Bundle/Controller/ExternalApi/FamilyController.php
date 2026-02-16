@@ -134,8 +134,9 @@ class FamilyController
         ];
 
         $queryParameters = array_merge($defaultParameters, $request->query->all());
-        $searchFilters = json_decode($queryParameters['search'] ?? '[]', true, 512, JSON_THROW_ON_ERROR);
-        if (null === $searchFilters) {
+        try {
+            $searchFilters = json_decode($queryParameters['search'] ?? '[]', true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
             throw new BadRequestHttpException('The search query parameter must be a valid JSON.');
         }
 
@@ -244,9 +245,9 @@ class FamilyController
      */
     protected function getDecodedContent($content)
     {
-        $decodedContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
-
-        if (null === $decodedContent) {
+        try {
+            $decodedContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
             throw new BadRequestHttpException('Invalid json message received');
         }
 

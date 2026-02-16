@@ -176,7 +176,11 @@ class ChannelController
 
     private function saveChannel(ChannelInterface $channel, Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
         $this->updater->update($channel, $data);
 
         $violations = $this->validator->validate($channel);

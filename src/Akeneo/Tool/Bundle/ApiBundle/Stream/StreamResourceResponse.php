@@ -70,7 +70,11 @@ final class StreamResourceResponse
                 try {
                     $this->checkLineLength($line, $resource);
 
-                    $data = json_decode($line, true, 512, JSON_THROW_ON_ERROR);
+                    try {
+                        $data = json_decode($line, true, 512, JSON_THROW_ON_ERROR);
+                    } catch (\JsonException) {
+                        throw new BadRequestHttpException('Invalid json message received');
+                    }
                     if (null === $data) {
                         throw new BadRequestHttpException('Invalid json message received');
                     }

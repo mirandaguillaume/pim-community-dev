@@ -50,7 +50,11 @@ class ValidateUnitAction
 
     private function decodeRequest(Request $request): array
     {
-        $decodedRequest = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $decodedRequest = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            throw new BadRequestHttpException('Invalid json message received');
+        }
 
         if (null === $decodedRequest) {
             throw new BadRequestHttpException('Invalid json message received');

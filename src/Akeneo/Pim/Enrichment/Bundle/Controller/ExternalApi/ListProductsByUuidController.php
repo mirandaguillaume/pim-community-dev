@@ -59,7 +59,11 @@ class ListProductsByUuidController
             $query->localeCodes = explode(',', $request->query->get('locales'));
         }
         if ($request->query->has('search')) {
-            $query->search = json_decode($request->query->get('search'), true, 512, JSON_THROW_ON_ERROR);
+            try {
+                $query->search = json_decode($request->query->get('search'), true, 512, JSON_THROW_ON_ERROR);
+            } catch (\JsonException) {
+                throw new BadRequestHttpException('Search query parameter should be valid JSON.');
+            }
             if (!is_array($query->search)) {
                 throw new BadRequestHttpException('Search query parameter should be valid JSON.');
             }
@@ -87,7 +91,11 @@ class ListProductsByUuidController
         } catch (InvalidQueryException $e) {
             throw new UnprocessableEntityHttpException($e->getMessage(), $e);
         } catch (BadRequest400Exception $e) {
-            $message = json_decode($e->getMessage(), true, 512, JSON_THROW_ON_ERROR);
+            try {
+                $message = json_decode($e->getMessage(), true, 512, JSON_THROW_ON_ERROR);
+            } catch (\JsonException) {
+                $message = null;
+            }
             if (
                 null !== $message && isset($message['error']['root_cause'][0]['type'])
                 && 'illegal_argument_exception' === $message['error']['root_cause'][0]['type']

@@ -21,7 +21,11 @@ class MassActionParametersParser
 
         $filters = $request->get('filters', null);
         if (is_string($filters)) {
-            $filters = json_decode($filters, true, 512, JSON_THROW_ON_ERROR);
+            try {
+                $filters = json_decode($filters, true, 512, JSON_THROW_ON_ERROR);
+            } catch (\JsonException) {
+                $filters = null;
+            }
         }
         if (!$filters) {
             $filters = [];

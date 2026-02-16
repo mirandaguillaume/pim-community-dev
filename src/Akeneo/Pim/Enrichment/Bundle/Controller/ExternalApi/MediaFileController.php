@@ -420,8 +420,9 @@ class MediaFileController
      */
     protected function getProductDecodedContent($content): array
     {
-        $decodedContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
-        if (null === $decodedContent) {
+        try {
+            $decodedContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
             throw new BadRequestHttpException('Invalid json message received');
         }
 
@@ -442,8 +443,9 @@ class MediaFileController
      */
     protected function getProductModelDecodedContent($content): array
     {
-        $decodedContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
-        if (null === $decodedContent) {
+        try {
+            $decodedContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
             throw new BadRequestHttpException('Invalid json message received');
         }
 

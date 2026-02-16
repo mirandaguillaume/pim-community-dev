@@ -41,23 +41,23 @@ class JobExecution implements \Stringable
 
     private ?\DateTime $endTime = null;
 
-    private \DateTime $createTime;
+    private ?\DateTime $createTime = null;
 
     private ?\DateTime $updatedTime = null;
 
     private ?\DateTime $healthCheckTime = null;
 
     /* @var ExecutionContext $executionContext */
-    private \Akeneo\Tool\Component\Batch\Item\ExecutionContext $executionContext;
+    private ?\Akeneo\Tool\Component\Batch\Item\ExecutionContext $executionContext = null;
 
     /* @var ExitStatus $existStatus */
-    private \Akeneo\Tool\Component\Batch\Job\ExitStatus $exitStatus;
+    private ?\Akeneo\Tool\Component\Batch\Job\ExitStatus $exitStatus = null;
 
-    private string $exitCode;
+    private ?string $exitCode = null;
 
-    private string $exitDescription;
+    private ?string $exitDescription = null;
 
-    private array $failureExceptions;
+    private ?array $failureExceptions = null;
 
     /** @var string */
     private $logFile;

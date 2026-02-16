@@ -243,9 +243,9 @@ class AssociationTypeController
      */
     protected function getDecodedContent($content)
     {
-        $decodedContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
-
-        if (null === $decodedContent) {
+        try {
+            $decodedContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
             throw new BadRequestHttpException('Invalid json message received');
         }
 
