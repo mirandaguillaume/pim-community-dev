@@ -211,7 +211,11 @@ class SaveMeasurementFamiliesAction
 
     private function getNormalizedMeasurementFamiliesFromRequest(Request $request): array
     {
-        $normalizedMeasurementFamilies = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $normalizedMeasurementFamilies = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            throw new BadRequestHttpException('Invalid json message received');
+        }
 
         if (null === $normalizedMeasurementFamilies) {
             throw new BadRequestHttpException('Invalid json message received');

@@ -62,7 +62,11 @@ class CreateMeasurementFamilyAction
 
     private function decodeRequest(Request $request): array
     {
-        $normalizedRequest = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $normalizedRequest = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            throw new BadRequestHttpException('Invalid json message received');
+        }
 
         if (null === $normalizedRequest) {
             throw new BadRequestHttpException('Invalid json message received');

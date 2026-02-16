@@ -45,7 +45,7 @@ class Group
             id: $data['id'],
             name: $data['name'],
             type: $data['type'] ?? self::DEFAULT_TYPE,
-            defaultPermissions: json_decode((string) $data['default_permissions'], true, 512, JSON_THROW_ON_ERROR) ?? [],
+            defaultPermissions: (!empty($data['default_permissions']) ? json_decode((string) $data['default_permissions'], true, 512, JSON_THROW_ON_ERROR) : null) ?? [],
         );
     }
 }

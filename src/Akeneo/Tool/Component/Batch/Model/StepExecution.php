@@ -44,12 +44,12 @@ class StepExecution implements \Stringable
 
     private int $warningCount = 0;
 
-    private \DateTime $startTime;
+    private ?\DateTime $startTime = null;
 
     private ?\DateTime $endTime = null;
 
     /* @var ExecutionContext $executionContext */
-    private \Akeneo\Tool\Component\Batch\Item\ExecutionContext $executionContext;
+    private ?\Akeneo\Tool\Component\Batch\Item\ExecutionContext $executionContext = null;
 
     /* @var ExitStatus */
     private ?\Akeneo\Tool\Component\Batch\Job\ExitStatus $exitStatus = null;

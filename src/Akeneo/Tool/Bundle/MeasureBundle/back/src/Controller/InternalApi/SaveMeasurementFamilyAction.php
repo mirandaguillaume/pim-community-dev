@@ -86,7 +86,11 @@ class SaveMeasurementFamilyAction
 
     private function decodeRequest(Request $request): array
     {
-        $normalizedRequest = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $normalizedRequest = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            throw new BadRequestHttpException('Invalid json message received');
+        }
 
         if (null === $normalizedRequest) {
             throw new BadRequestHttpException('Invalid json message received');
@@ -100,7 +104,11 @@ class SaveMeasurementFamilyAction
      */
     private function hasDesynchronizedCode(Request $request): bool
     {
-        $normalizedCommand = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $normalizedCommand = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return false;
+        }
 
         return $normalizedCommand['code'] !== $request->get('measurement_family_code');
     }
