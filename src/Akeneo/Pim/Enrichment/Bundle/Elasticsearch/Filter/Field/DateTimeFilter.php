@@ -278,7 +278,13 @@ class DateTimeFilter extends AbstractFieldFilter implements FieldFilterInterface
             }
         }
 
-        $dateTime = $dateTime->setTimezone($utcTimeZone);
+        if ($dateTime instanceof \DateTime) {
+            $dateTime = \DateTimeImmutable::createFromMutable($dateTime);
+        }
+
+        if ($dateTime instanceof \DateTimeImmutable) {
+            $dateTime = $dateTime->setTimezone($utcTimeZone);
+        }
 
         return $dateTime->format('c');
     }

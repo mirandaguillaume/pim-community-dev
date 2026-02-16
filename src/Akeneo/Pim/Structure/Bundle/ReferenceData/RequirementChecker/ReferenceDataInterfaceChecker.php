@@ -20,7 +20,7 @@ class ReferenceDataInterfaceChecker implements CheckerInterface
     protected $failure;
 
     /**
-     * @param string $referenceDataInterface
+     * @param string $interface
      */
     public function __construct(protected $interface)
     {

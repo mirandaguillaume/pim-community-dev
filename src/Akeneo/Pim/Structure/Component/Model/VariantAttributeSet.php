@@ -16,10 +16,10 @@ class VariantAttributeSet implements VariantAttributeSetInterface
     private $id;
 
     /** @var Collection */
-    private \Doctrine\Common\Collections\ArrayCollection $attributes;
+    private \Doctrine\Common\Collections\Collection $attributes;
 
     /** @var Collection */
-    private \Doctrine\Common\Collections\ArrayCollection $axes;
+    private \Doctrine\Common\Collections\Collection $axes;
 
     private ?int $level = null;
 

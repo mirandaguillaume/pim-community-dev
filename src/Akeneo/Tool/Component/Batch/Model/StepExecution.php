@@ -64,7 +64,7 @@ class StepExecution implements \Stringable
 
     private array $errors = [];
 
-    private readonly \Doctrine\Common\Collections\ArrayCollection $warnings;
+    private \Doctrine\Common\Collections\ArrayCollection $warnings;
 
     private array $summary = [];
 

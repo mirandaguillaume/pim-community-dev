@@ -26,12 +26,12 @@ class FamilyVariant implements FamilyVariantInterface
     private ?\Akeneo\Pim\Structure\Component\Model\FamilyInterface $family = null;
 
     /** @var Collection */
-    private readonly \Doctrine\Common\Collections\ArrayCollection $variantAttributeSets;
+    private \Doctrine\Common\Collections\Collection $variantAttributeSets;
 
     private ?string $locale = null;
 
     /** @var Collection */
-    private readonly \Doctrine\Common\Collections\ArrayCollection $translations;
+    private \Doctrine\Common\Collections\Collection $translations;
 
     /** @var string[] */
     private array $events = [];
