@@ -47,9 +47,11 @@ class FosRegenerateClientSecretSpec extends ObjectBehavior
 
         $dbalConnection->prepare(Argument::type('string'))->shouldBeCalledTimes(2);
         $dbalConnection->prepare('DELETE FROM pim_api_access_token WHERE client = :client_id')->willReturn($stmt1);
-        $stmt1->execute(['client_id' => $clientId->id()])->shouldBeCalled();
+        $stmt1->bindValue('client_id', $clientId->id())->shouldBeCalled();
+        $stmt1->executeStatement()->willReturn(0);
         $dbalConnection->prepare('DELETE FROM pim_api_refresh_token WHERE client = :client_id')->willReturn($stmt2);
-        $stmt2->execute(['client_id' => $clientId->id()])->shouldBeCalled();
+        $stmt2->bindValue('client_id', $clientId->id())->shouldBeCalled();
+        $stmt2->executeStatement()->willReturn(0);
 
         $this->execute($clientId);
     }

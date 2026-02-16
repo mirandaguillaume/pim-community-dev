@@ -71,7 +71,6 @@ final readonly class TransformCriterionEvaluationResultCodes
             $resultDataByIds[self::DATA_TYPES_ID[$dataType]] = match ($dataType) {
                 'attributes_with_rates', 'hashed_values' => $this->transformChannelLocaleDataByAttributesFromCodesToIds($dataByCodes),
                 'number_of_improvable_attributes', 'total_number_of_attributes' => $this->transformChannelLocaleDataFromCodesToIds($dataByCodes, fn ($number) => $number),
-                default => throw new CriterionEvaluationResultTransformationFailedException(sprintf('Unknown result data type "%s"', $dataType)),
             };
         }
 

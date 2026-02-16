@@ -74,7 +74,11 @@ final readonly class UpdateIdentifierGeneratorController
      */
     private function getContent(Request $request): array
     {
-        $data = \json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $data = \json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            throw new BadRequestHttpException('Invalid json message received');
+        }
         if (!\is_array($data)) {
             throw new BadRequestHttpException('Invalid json message received');
         }
