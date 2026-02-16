@@ -57,12 +57,14 @@ class RegenerateUserPassword implements RegenerateUserPasswordInterface
 DELETE FROM pim_api_access_token WHERE user = :user_id
 SQL;
         $stmt = $this->dbalConnection->prepare($deleteSqlAccessToken);
-        $stmt->execute(['user_id' => $userId->id()]);
+        $stmt->bindValue('user_id', $userId->id());
+        $stmt->executeStatement();
 
         $deleteSqlRefreshToken = <<<SQL
 DELETE FROM pim_api_refresh_token WHERE user = :user_id
 SQL;
         $stmt = $this->dbalConnection->prepare($deleteSqlRefreshToken);
-        $stmt->execute(['user_id' => $userId->id()]);
+        $stmt->bindValue('user_id', $userId->id());
+        $stmt->executeStatement();
     }
 }
