@@ -114,7 +114,11 @@ class AttributeOptionController
         $attributeOption->setAttribute($attribute);
 
         //Should be replaced by a paramConverter
-        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
 
         return $this->manageFormSubmission($attributeOption, $data);
     }
@@ -136,7 +140,11 @@ class AttributeOptionController
         $attributeOption = $this->findAttributeOptionOr404($attributeOptionId);
 
         //Should be replaced by a paramConverter
-        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
 
         return $this->manageFormSubmission($attributeOption, $data);
     }
@@ -189,7 +197,11 @@ class AttributeOptionController
 
         $attribute = $this->findAttributeOr404($attributeId);
         //Should be replaced by a paramConverter
-        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
 
         $sorting = array_flip($data);
 

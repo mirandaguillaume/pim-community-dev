@@ -107,7 +107,11 @@ class GroupController
             throw new NotFoundHttpException(sprintf('Group with code "%s" not found', $code));
         }
 
-        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
         $this->updater->update($group, $data);
 
         $violations = $this->validator->validate($group);
@@ -163,7 +167,11 @@ class GroupController
             return new RedirectResponse('/');
         }
 
-        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
         $group = $this->groupFactory->createGroup();
         $this->updater->update($group, $data);
         $violations = $this->validator->validate($group);

@@ -112,7 +112,11 @@ final readonly class UserController
             return new RedirectResponse('/');
         }
 
-        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
 
         if (!$this->securityFacade->isGranted('pim_user_role_edit')) {
             unset($data['roles']);
@@ -153,7 +157,11 @@ final readonly class UserController
             return new RedirectResponse('/');
         }
 
-        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
 
         $token = $this->tokenStorage->getToken();
         $currentUser = null !== $token ? $token->getUser() : null;
@@ -177,7 +185,11 @@ final readonly class UserController
         }
 
         $user = $this->factory->create();
-        $content = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $content = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
 
         $violations = new ConstraintViolationList();
         $passwordViolations = $this->validatePasswordCreate($content);
@@ -225,7 +237,11 @@ final readonly class UserController
 
         $baseUser = $this->getUserOr404($identifier);
         $targetUser = $baseUser->duplicate();
-        $content = \json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $content = \json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
 
         $violations = new ConstraintViolationList();
         $passwordViolations = $this->validatePasswordCreate($content);

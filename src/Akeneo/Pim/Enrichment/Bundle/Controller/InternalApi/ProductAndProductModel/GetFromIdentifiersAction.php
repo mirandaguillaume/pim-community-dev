@@ -43,7 +43,11 @@ class GetFromIdentifiersAction
 
         $channelCode = $request->query->get('channel');
         $localeCode = $request->query->get('locale');
-        $identifiers = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $identifiers = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
 
         $productRows = $this->findLinkedProductWithAssociations($identifiers['products'], $localeCode, $channelCode);
         $productModelRows = $this->findLinkedProductModelWithAssociations($identifiers['product_models'], $localeCode, $channelCode);

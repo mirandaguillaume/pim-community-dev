@@ -90,7 +90,11 @@ class ProductCommentController
         }
 
         $product = $this->findProductOr404($uuid);
-        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
         $comment = $this->commentBuilder->buildComment($product, $this->getUser());
         $form = $this->formFactory->create(CommentType::class, $comment, ['csrf_protection' => false]);
         $form->submit($data, false);
@@ -127,7 +131,11 @@ class ProductCommentController
 
         $product = $this->findProductOr404($uuid);
 
-        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
         $data['parent'] = $commentId;
 
         $reply = $this->commentBuilder->buildComment($product, $this->getUser());

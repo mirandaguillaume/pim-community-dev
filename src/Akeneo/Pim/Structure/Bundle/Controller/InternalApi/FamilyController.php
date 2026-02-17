@@ -251,7 +251,11 @@ class FamilyController
             return new RedirectResponse('/');
         }
 
-        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
 
         if (!$this->securityFacade->isGranted('pim_enrich_family_edit_properties')) {
             $data = array_filter($data, fn($value, $key) => !in_array($key, $this->propertiesFields));
@@ -302,7 +306,12 @@ class FamilyController
         }
 
         $family = $this->familyFactory->create();
-        $this->updater->update($family, json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR));
+        try {
+            $decodedContent = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
+        $this->updater->update($family, $decodedContent);
         $violations = $this->validator->validate($family);
 
         $normalizedViolations = [];

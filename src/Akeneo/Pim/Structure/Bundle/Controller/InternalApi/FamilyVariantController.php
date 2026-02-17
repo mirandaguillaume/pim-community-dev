@@ -127,7 +127,11 @@ class FamilyVariantController
         }
 
         $familyVariant = $this->familyVariantFactory->create();
-        $content = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $content = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
 
         return $this->saveFamilyVariant($familyVariant, $content);
     }
@@ -139,7 +143,11 @@ class FamilyVariantController
         }
 
         $familyVariant = $this->getFamilyVariant($identifier);
-        $content = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $content = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
 
         return $this->saveFamilyVariant($familyVariant, $content);
     }

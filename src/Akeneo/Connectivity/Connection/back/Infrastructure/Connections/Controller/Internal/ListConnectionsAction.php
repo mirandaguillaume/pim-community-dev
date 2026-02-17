@@ -9,6 +9,7 @@ use Akeneo\Connectivity\Connection\Application\Settings\Query\FetchConnectionsQu
 use Akeneo\Connectivity\Connection\Domain\Settings\Model\Read\Connection;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Romain Monceau <romain@akeneo.com>
@@ -24,7 +25,12 @@ final readonly class ListConnectionsAction
 
     public function __invoke(Request $request): JsonResponse
     {
-        $query = new FetchConnectionsQuery(\json_decode((string) $request->get('search', "[]"), true, 512, JSON_THROW_ON_ERROR));
+        try {
+            $search = \json_decode((string) $request->get('search', "[]"), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
+        $query = new FetchConnectionsQuery($search);
 
         $connections = $this->fetchConnectionsHandler->handle($query);
 
