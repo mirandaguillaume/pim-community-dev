@@ -87,7 +87,11 @@ class ValuesController
             return new RedirectResponse('/');
         }
 
-        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
 
         $locale = $this->userContext->getUiLocale()->getCode();
         $data   = $this->productValueConverter->convert($data);

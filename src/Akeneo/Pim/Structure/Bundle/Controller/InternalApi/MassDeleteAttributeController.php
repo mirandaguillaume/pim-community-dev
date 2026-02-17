@@ -41,7 +41,11 @@ class MassDeleteAttributeController
             return new JsonResponse(status: Response::HTTP_UNAUTHORIZED);
         }
 
-        $configuration = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $configuration = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
         $configuration['users_to_notify'] = [$user->getUserIdentifier()];
         $configuration['send_email'] = true;
 

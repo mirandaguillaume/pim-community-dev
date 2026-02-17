@@ -107,7 +107,11 @@ class ProductModelController
         }
 
         $productModel = $this->productModelFactory->create();
-        $content = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $content = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
 
         $this->productModelUpdater->update($productModel, $content);
 
@@ -136,7 +140,11 @@ class ProductModelController
         }
 
         $productModel = $this->findProductModelOr404($id);
-        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
         $data = $this->productEditDataFilter->filterCollection($data, null, ['product' => $productModel]);
 
         try {

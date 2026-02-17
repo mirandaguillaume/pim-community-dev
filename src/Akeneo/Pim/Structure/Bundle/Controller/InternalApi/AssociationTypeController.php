@@ -112,7 +112,11 @@ class AssociationTypeController
 
         $associationType = $this->getAssociationTypeOr404($identifier);
 
-        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
         $this->updater->update($associationType, $data);
 
         $violations = $this->validator->validate($associationType);
@@ -191,7 +195,12 @@ class AssociationTypeController
         }
 
         $associationType = new AssociationType();
-        $this->updater->update($associationType, json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR));
+        try {
+            $decodedContent = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
+        $this->updater->update($associationType, $decodedContent);
         $violations = $this->validator->validate($associationType);
 
         $normalizedViolations = [];
