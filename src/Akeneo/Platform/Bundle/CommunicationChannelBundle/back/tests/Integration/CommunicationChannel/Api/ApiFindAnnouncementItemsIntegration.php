@@ -31,9 +31,10 @@ class ApiFindAnnouncementItemsIntegration extends KernelTestCase
 
     public function tearDown(): void
     {
-        parent::tearDown();
+        $this->process->stop(3, SIGKILL);
+        $this->waitServerDown();
 
-        $this->process->stop();
+        parent::tearDown();
     }
 
     public function test_it_finds_first_page_of_announcements()
@@ -95,5 +96,22 @@ class ApiFindAnnouncementItemsIntegration extends KernelTestCase
         } while ($attempt < 30);
 
         throw new \RuntimeException('Impossible to start the mock HTTP server.');
+    }
+
+    private function waitServerDown(): void
+    {
+        $attempt = 0;
+        do {
+            try {
+                $httpClient = new Client(['base_uri' => self::getContainer()->getParameter('comm_panel_api_url')]);
+                $httpClient->get('/', ['timeout' => 0.5, 'connect_timeout' => 0.5]);
+            } catch (ConnectException) {
+                return;
+            } catch (\Throwable) {
+                // Server still responding, wait
+            }
+            usleep(200000);
+            $attempt++;
+        } while ($attempt < 15);
     }
 }
