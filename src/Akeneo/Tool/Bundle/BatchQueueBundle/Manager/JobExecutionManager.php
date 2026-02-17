@@ -128,6 +128,12 @@ class JobExecutionManager
         $stmt = $this->connection->prepare($sql);
         $stmt->bindValue('jobExecutionId', $jobExecutionId);
 
-        return $stmt->executeQuery()->fetchOne();
+        $result = $stmt->executeQuery()->fetchOne();
+
+        if (false === $result) {
+            throw new \InvalidArgumentException(sprintf('No job execution found with id "%d".', $jobExecutionId));
+        }
+
+        return $result;
     }
 }

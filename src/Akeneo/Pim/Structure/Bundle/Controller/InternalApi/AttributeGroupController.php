@@ -295,6 +295,10 @@ class AttributeGroupController
             return new JsonResponse(status: Response::HTTP_UNAUTHORIZED);
         }
 
+        if (null === $jobInstance) {
+            return new JsonResponse(['message' => 'Job instance "delete_attribute_groups" not found.'], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
         $attributeGroupCodes = [$identifier];
         $replacementAttributeGroupCode = $request->get('replacement_attribute_group_code', AttributeGroupInterface::DEFAULT_CODE);
 
