@@ -79,7 +79,7 @@ class StepExecution implements \Stringable
      * @param string       $stepName     the step to which this execution belongs
      * @param JobExecution $jobExecution the current job execution
      */
-    public function __construct(private $stepName, private readonly JobExecution $jobExecution)
+    public function __construct(private $stepName, private JobExecution $jobExecution)
     {
         $jobExecution->addStepExecution($this);
         $this->warnings = new ArrayCollection();
