@@ -231,7 +231,8 @@ class ContextConfigurator implements ConfiguratorInterface
             $productGroupId = $productGroup->getId();
         }
         if (null === $productGroupId) {
-            $productGroupId = $this->requestParams->get('currentGroup', null);
+            $currentGroup = $this->requestParams->get('currentGroup', null);
+            $productGroupId = $currentGroup !== null ? (int) $currentGroup : null;
         }
 
         return $productGroupId;
