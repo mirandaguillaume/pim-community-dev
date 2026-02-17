@@ -100,7 +100,7 @@ SQL;
             return null;
         }
 
-        $rawResult = json_decode((string) $rawResult, true, JSON_THROW_ON_ERROR, JSON_THROW_ON_ERROR);
+        $rawResult = json_decode((string) $rawResult, true, 512, JSON_THROW_ON_ERROR);
         $rawResult = $this->transformCriterionEvaluationResultIds->transformToCodes($criterionCode, $rawResult);
 
         return Read\CriterionEvaluationResult::fromArray($rawResult);
