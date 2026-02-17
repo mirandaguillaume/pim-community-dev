@@ -8,6 +8,7 @@ use Akeneo\Platform\CommunicationChannel\Domain\Announcement\Model\Read\Announce
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\ServerException;
 use PHPUnit\Framework\Assert;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Process\Process;
@@ -60,7 +61,7 @@ class ApiFindNewAnnouncementIdsIntegration extends KernelTestCase
                 $httpClient->get('/');
             } catch (ConnectException) {
                 usleep(100000);
-            } catch (ClientException) {
+            } catch (ClientException | ServerException) {
                 return; // started
             }
 
