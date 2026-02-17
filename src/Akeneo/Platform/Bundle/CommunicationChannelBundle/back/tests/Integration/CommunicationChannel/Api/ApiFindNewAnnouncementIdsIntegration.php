@@ -16,25 +16,33 @@ use Symfony\Component\Process\Process;
 class ApiFindNewAnnouncementIdsIntegration extends KernelTestCase
 {
 
-    private \Symfony\Component\Process\Process $process;
+    private static ?Process $process = null;
+
+    public static function setUpBeforeClass(): void
+    {
+        parent::setUpBeforeClass();
+        static::bootKernel(['debug' => false]);
+
+        $configDir = __DIR__;
+        self::$process = Process::fromShellCommandline("./vendor/bin/phiremock --config-path '$configDir'");
+        self::$process->start();
+        self::waitServerUp();
+    }
+
+    public static function tearDownAfterClass(): void
+    {
+        if (self::$process !== null) {
+            self::$process->stop(3, SIGKILL);
+            self::$process = null;
+        }
+
+        parent::tearDownAfterClass();
+    }
 
     public function setUp(): void
     {
         parent::setUp();
         static::bootKernel(['debug' => false]);
-
-        $configDir = __DIR__;
-        $this->process = Process::fromShellCommandline("./vendor/bin/phiremock --config-path '$configDir'");
-        $this->process->start();
-        $this->waitServerUp();
-    }
-
-    public function tearDown(): void
-    {
-        $this->process->stop(3, SIGKILL);
-        $this->waitServerDown();
-
-        parent::tearDown();
     }
 
     public function test_it_finds_new_announcement_ids()
@@ -53,7 +61,7 @@ class ApiFindNewAnnouncementIdsIntegration extends KernelTestCase
         );
     }
 
-    public function waitServerUp()
+    private static function waitServerUp(): void
     {
         $attempt = 0;
         do {
@@ -70,22 +78,5 @@ class ApiFindNewAnnouncementIdsIntegration extends KernelTestCase
         } while ($attempt < 30);
 
         throw new \RuntimeException('Impossible to start the mock HTTP server.');
-    }
-
-    private function waitServerDown(): void
-    {
-        $attempt = 0;
-        do {
-            try {
-                $httpClient = new Client(['base_uri' => self::getContainer()->getParameter('comm_panel_api_url')]);
-                $httpClient->get('/', ['timeout' => 0.5, 'connect_timeout' => 0.5]);
-            } catch (ConnectException) {
-                return;
-            } catch (\Throwable) {
-                // Server still responding, wait
-            }
-            usleep(200000);
-            $attempt++;
-        } while ($attempt < 15);
     }
 }
