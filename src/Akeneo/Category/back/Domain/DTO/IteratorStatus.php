@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Akeneo\Category\Domain\DTO;
 
-final class IteratorStatus
+final readonly class IteratorStatus
 {
     private function __construct(
-        public readonly bool $isDone,
-        public readonly mixed $value = null,
+        public bool $isDone,
+        public mixed $value = null,
     ) {
     }
 

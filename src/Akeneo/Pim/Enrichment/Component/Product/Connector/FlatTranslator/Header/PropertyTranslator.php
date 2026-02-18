@@ -7,16 +7,8 @@ use Akeneo\Tool\Component\Localization\LabelTranslatorInterface;
 
 class PropertyTranslator implements FlatHeaderTranslatorInterface
 {
-    /** @var LabelTranslatorInterface */
-    private $labelTranslator;
-
-    /** @var array */
-    private $supportedFields;
-
-    public function __construct(LabelTranslatorInterface $labelTranslator, array $supportedFields)
+    public function __construct(private readonly LabelTranslatorInterface $labelTranslator, private readonly array $supportedFields)
     {
-        $this->labelTranslator = $labelTranslator;
-        $this->supportedFields = $supportedFields;
     }
 
     public function supports(string $columnName): bool

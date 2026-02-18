@@ -34,13 +34,10 @@ use Webmozart\Assert\Assert;
  *    }
  *  }
  */
-final class ProductScoreRepository implements ProductScoreRepositoryInterface
+final readonly class ProductScoreRepository implements ProductScoreRepositoryInterface
 {
-    private Connection $dbConnection;
-
-    public function __construct(Connection $dbConnection)
+    public function __construct(private Connection $dbConnection)
     {
-        $this->dbConnection = $dbConnection;
     }
 
     /**
@@ -60,8 +57,8 @@ final class ProductScoreRepository implements ProductScoreRepositoryInterface
                 "(UUID_TO_BIN('%s'), '%s', '%s', '%s')",
                 (string) $productUuid,
                 $productScore->getEvaluatedAt()->format('Y-m-d'),
-                \json_encode($productScore->getScores()->toNormalizedRates()),
-                \json_encode($productScore->getScoresPartialCriteria()->toNormalizedRates())
+                \json_encode($productScore->getScores()->toNormalizedRates(), JSON_THROW_ON_ERROR),
+                \json_encode($productScore->getScoresPartialCriteria()->toNormalizedRates(), JSON_THROW_ON_ERROR)
             );
         }, $productsScores));
 

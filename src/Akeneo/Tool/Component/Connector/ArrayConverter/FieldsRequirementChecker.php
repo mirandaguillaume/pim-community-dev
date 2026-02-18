@@ -17,8 +17,6 @@ class FieldsRequirementChecker
     /**
      * Validates if all the required fields are present.
      *
-     * @param array $item
-     * @param array $fields
      *
      * @throws StructureArrayConversionException
      */
@@ -40,8 +38,6 @@ class FieldsRequirementChecker
     /**
      * Check that all fields are filled.
      *
-     * @param array $item
-     * @param array $fields
      *
      * @throws DataArrayConversionException
      */

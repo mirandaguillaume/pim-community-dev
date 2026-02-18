@@ -13,16 +13,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class FilterType extends AbstractType
 {
-    const NAME = 'oro_type_filter';
-    const TYPE_EMPTY = 'empty';
-    const TYPE_NOT_EMPTY = 'not empty';
-    const TYPE_IN_LIST = 'in';
+    final public const NAME = 'oro_type_filter';
+    final public const TYPE_EMPTY = 'empty';
+    final public const TYPE_NOT_EMPTY = 'not empty';
+    final public const TYPE_IN_LIST = 'in';
 
-    protected TranslatorInterface $translator;
-
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(protected TranslatorInterface $translator)
     {
-        $this->translator = $translator;
     }
 
     /**
@@ -64,8 +61,6 @@ class FilterType extends AbstractType
     }
 
     /**
-     * @param array $options
-     *
      * @return array
      */
     protected function createOperatorOptions(array $options)
@@ -80,8 +75,6 @@ class FilterType extends AbstractType
     }
 
     /**
-     * @param array $options
-     *
      * @return array
      */
     protected function createFieldOptions(array $options)

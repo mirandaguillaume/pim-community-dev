@@ -10,9 +10,9 @@ use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Query\ReorderIdentifierGene
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ReorderGeneratorsHandler
+final readonly class ReorderGeneratorsHandler
 {
-    public function __construct(private readonly ReorderIdentifierGenerators $reorderIdentifierGenerators)
+    public function __construct(private ReorderIdentifierGenerators $reorderIdentifierGenerators)
     {
     }
 

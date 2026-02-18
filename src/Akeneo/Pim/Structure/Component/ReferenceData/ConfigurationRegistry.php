@@ -77,9 +77,6 @@ class ConfigurationRegistry implements ConfigurationRegistryInterface
         return $this;
     }
 
-    /**
-     * @param array $rawConfiguration
-     */
     protected function checkRawConfiguration(array $rawConfiguration)
     {
         $resolver = new OptionsResolver();

@@ -26,37 +26,15 @@ use Webmozart\Assert\Assert;
  */
 class VersionNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    protected UserManager $userManager;
-    protected TranslatorInterface $translator;
-    protected LocaleAwareInterface $localeAware;
-    protected PresenterRegistryInterface $presenterRegistry;
-
     /** @var string[] */
     protected array $supportedFormats = ['internal_api'];
 
     protected array $authorCache = [];
-    protected PresenterInterface $datetimePresenter;
-    protected AttributeRepositoryInterface $attributeRepository;
-    protected UserContext $userContext;
 
     private const ATTRIBUTE_HEADER_SEPARATOR = '-';
 
-    public function __construct(
-        UserManager $userManager,
-        TranslatorInterface $translator,
-        LocaleAwareInterface $localeAware,
-        PresenterInterface $datetimePresenter,
-        PresenterRegistryInterface $presenterRegistry,
-        AttributeRepositoryInterface $attributeRepository,
-        UserContext $userContext
-    ) {
-        $this->userManager = $userManager;
-        $this->translator = $translator;
-        $this->localeAware = $localeAware;
-        $this->datetimePresenter = $datetimePresenter;
-        $this->presenterRegistry = $presenterRegistry;
-        $this->attributeRepository = $attributeRepository;
-        $this->userContext = $userContext;
+    public function __construct(protected UserManager $userManager, protected TranslatorInterface $translator, protected LocaleAwareInterface $localeAware, protected PresenterInterface $datetimePresenter, protected PresenterRegistryInterface $presenterRegistry, protected AttributeRepositoryInterface $attributeRepository, protected UserContext $userContext)
+    {
     }
 
     /**
@@ -69,7 +47,7 @@ class VersionNormalizer implements NormalizerInterface, CacheableSupportsMethodI
         try {
             $timezone = $this->userContext->getUserTimezone();
             $loggedAtContext = array_merge($context, ['timezone' => $timezone]);
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             $loggedAtContext = $context;
         }
 
@@ -125,8 +103,6 @@ class VersionNormalizer implements NormalizerInterface, CacheableSupportsMethodI
     /**
      * Localize the changeset values
      *
-     * @param array $changeset
-     * @param array $context
      *
      * @return array
      */

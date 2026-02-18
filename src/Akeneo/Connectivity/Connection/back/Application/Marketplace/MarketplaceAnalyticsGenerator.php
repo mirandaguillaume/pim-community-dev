@@ -14,9 +14,9 @@ use Akeneo\Platform\Bundle\FrameworkBundle\Service\PimUrl;
 class MarketplaceAnalyticsGenerator
 {
     public function __construct(
-        private GetUserProfileQueryInterface $getUserProfileQuery,
-        private WebMarketplaceAliasesInterface $webMarketplaceAliases,
-        private PimUrl $pimUrl
+        private readonly GetUserProfileQueryInterface $getUserProfileQuery,
+        private readonly WebMarketplaceAliasesInterface $webMarketplaceAliases,
+        private readonly PimUrl $pimUrl
     ) {
     }
 

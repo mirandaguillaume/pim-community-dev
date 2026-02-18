@@ -42,77 +42,14 @@ class ProductModelController
 {
     private const PRODUCT_MODELS_LIMIT = 20;
 
-    private NormalizerInterface $normalizer;
-    private UserContext $userContext;
-    private ObjectFilterInterface $objectFilter;
-    private ProductModelRepositoryInterface $productModelRepository;
-    private AttributeConverterInterface $localizedConverter;
-    private EntityWithValuesFilter $emptyValuesFilter;
-    private ConverterInterface $productValueConverter;
-    private ObjectUpdaterInterface $productModelUpdater;
-    private ValidatorInterface $productModelValidator;
-    private SaverInterface $productModelSaver;
-    private NormalizerInterface $constraintViolationNormalizer;
-    private NormalizerInterface $entityWithFamilyVariantNormalizer;
-    private SimpleFactoryInterface $productModelFactory;
-    private NormalizerInterface $violationNormalizer;
-    private FamilyVariantRepositoryInterface $familyVariantRepository;
-    private AttributeFilterInterface $productModelAttributeFilter;
-    private Client $productAndProductModelClient;
-    private CollectionFilterInterface $productEditDataFilter;
-    private RemoveProductModelHandler $removeProductModelHandler;
-    private ValidatorInterface $validator;
-
-    public function __construct(
-        ProductModelRepositoryInterface $productModelRepository,
-        NormalizerInterface $normalizer,
-        UserContext $userContext,
-        ObjectFilterInterface $objectFilter,
-        AttributeConverterInterface $localizedConverter,
-        EntityWithValuesFilter $emptyValuesFilter,
-        ConverterInterface $productValueConverter,
-        ObjectUpdaterInterface $productModelUpdater,
-        ValidatorInterface $productModelValidator,
-        SaverInterface $productModelSaver,
-        NormalizerInterface $constraintViolationNormalizer,
-        NormalizerInterface $entityWithFamilyVariantNormalizer,
-        SimpleFactoryInterface $productModelFactory,
-        NormalizerInterface $violationNormalizer,
-        FamilyVariantRepositoryInterface $familyVariantRepository,
-        AttributeFilterInterface $productModelAttributeFilter,
-        Client $productAndProductModelClient,
-        CollectionFilterInterface $productEditDataFilter,
-        RemoveProductModelHandler $removeProductModelHandler,
-        ValidatorInterface $validator
-    ) {
-        $this->productModelRepository = $productModelRepository;
-        $this->normalizer = $normalizer;
-        $this->userContext = $userContext;
-        $this->objectFilter = $objectFilter;
-        $this->localizedConverter = $localizedConverter;
-        $this->emptyValuesFilter = $emptyValuesFilter;
-        $this->productValueConverter = $productValueConverter;
-        $this->productModelUpdater = $productModelUpdater;
-        $this->productModelValidator = $productModelValidator;
-        $this->productModelSaver = $productModelSaver;
-        $this->constraintViolationNormalizer = $constraintViolationNormalizer;
-        $this->entityWithFamilyVariantNormalizer = $entityWithFamilyVariantNormalizer;
-        $this->productModelFactory = $productModelFactory;
-        $this->violationNormalizer = $violationNormalizer;
-        $this->familyVariantRepository = $familyVariantRepository;
-        $this->productModelAttributeFilter = $productModelAttributeFilter;
-        $this->productAndProductModelClient = $productAndProductModelClient;
-        $this->productEditDataFilter = $productEditDataFilter;
-        $this->removeProductModelHandler = $removeProductModelHandler;
-        $this->validator = $validator;
+    public function __construct(private readonly ProductModelRepositoryInterface $productModelRepository, private readonly NormalizerInterface $normalizer, private readonly UserContext $userContext, private readonly ObjectFilterInterface $objectFilter, private readonly AttributeConverterInterface $localizedConverter, private readonly EntityWithValuesFilter $emptyValuesFilter, private readonly ConverterInterface $productValueConverter, private readonly ObjectUpdaterInterface $productModelUpdater, private readonly ValidatorInterface $productModelValidator, private readonly SaverInterface $productModelSaver, private readonly NormalizerInterface $constraintViolationNormalizer, private readonly NormalizerInterface $entityWithFamilyVariantNormalizer, private readonly SimpleFactoryInterface $productModelFactory, private readonly NormalizerInterface $violationNormalizer, private readonly FamilyVariantRepositoryInterface $familyVariantRepository, private readonly AttributeFilterInterface $productModelAttributeFilter, private readonly Client $productAndProductModelClient, private readonly CollectionFilterInterface $productEditDataFilter, private readonly RemoveProductModelHandler $removeProductModelHandler, private readonly ValidatorInterface $validator)
+    {
     }
 
     /**
      * @param int $id Product model id
      *
      * @throws NotFoundHttpException If product model is not found or the user cannot see it
-     *
-     * @return JsonResponse
      */
     public function getAction(int $id): JsonResponse
     {
@@ -123,11 +60,9 @@ class ProductModelController
     }
 
     /**
-     * @param string $identifier
      *
      * @throws NotFoundHttpException If product model is not found or the user cannot see it
      *
-     * @return JsonResponse
      */
     public function getByCodeAction(string $identifier): JsonResponse
     {
@@ -148,28 +83,22 @@ class ProductModelController
     /**
      * Returns a set of product models from identifiers parameter
      *
-     * @param Request $request
      *
-     * @return JsonResponse
      */
     public function indexAction(Request $request): JsonResponse
     {
-        $productModelIdentifiers = explode(',', $request->get('identifiers'));
+        $productModelIdentifiers = explode(',', (string) $request->get('identifiers'));
         $productModels = $this->productModelRepository->findByIdentifiers($productModelIdentifiers);
 
-        $normalizedProductModels = array_map(function ($productModel) {
-            return $this->normalizeProductModel($productModel);
-        }, $productModels);
+        $normalizedProductModels = array_map(fn($productModel) => $this->normalizeProductModel($productModel), $productModels);
 
         return new JsonResponse($normalizedProductModels);
     }
 
     /**
-     * @param Request $request
      *
      * @AclAncestor("pim_enrich_product_model_create")
      *
-     * @return Response
      */
     public function createAction(Request $request): Response
     {
@@ -178,7 +107,11 @@ class ProductModelController
         }
 
         $productModel = $this->productModelFactory->create();
-        $content = json_decode($request->getContent(), true);
+        try {
+            $content = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
 
         $this->productModelUpdater->update($productModel, $content);
 
@@ -197,12 +130,8 @@ class ProductModelController
     }
 
     /**
-     * @param Request $request
-     * @param int     $id
-     *
      * @AclAncestor("pim_enrich_product_model_edit_attributes")
      *
-     * @return Response
      */
     public function postAction(Request $request, int $id): Response
     {
@@ -211,7 +140,11 @@ class ProductModelController
         }
 
         $productModel = $this->findProductModelOr404($id);
-        $data = json_decode($request->getContent(), true);
+        try {
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
         $data = $this->productEditDataFilter->filterCollection($data, null, ['product' => $productModel]);
 
         try {
@@ -244,9 +177,7 @@ class ProductModelController
     /**
      * Return direct children (products or product models) of the parent's given id
      *
-     * @param Request $request
      *
-     * @return JsonResponse
      */
     public function childrenAction(Request $request): JsonResponse
     {
@@ -267,7 +198,7 @@ class ProductModelController
                     'Child of a product model must be of class "%s" or "%s", "%s" received.',
                     ProductModelInterface::class,
                     ProductInterface::class,
-                    get_class($child)
+                    $child::class
                 ));
             }
 
@@ -287,9 +218,7 @@ class ProductModelController
     /**
      * Returns the last level of product models belonging to a Family Variant with a given search code
      *
-     * @param Request $request
      *
-     * @return JsonResponse
      */
     public function searchLastLevelProductModelByCode(Request $request): JsonResponse
     {
@@ -314,7 +243,6 @@ class ProductModelController
     /**
      * Returns all the product models (sub and root) of a family variant
      *
-     * @param Request $request
      *
      * @return JsonResponse
      */
@@ -365,11 +293,9 @@ class ProductModelController
     /**
      * Returns the family variant object from a family variant code
      *
-     * @param string $familyVariantCode
      *
      * @throws \InvalidArgumentException
      *
-     * @return FamilyVariantInterface
      */
     private function getFamilyVariant(string $familyVariantCode): FamilyVariantInterface
     {
@@ -384,9 +310,7 @@ class ProductModelController
     /**
      * Returns an array of normalized product models from an array of product model objects
      *
-     * @param array $productModels
      *
-     * @return array
      */
     private function buildNormalizedProductModels(array $productModels): array
     {
@@ -400,11 +324,6 @@ class ProductModelController
         return $normalizedProductModels;
     }
 
-    /**
-     * @param ProductModelInterface $productModel
-     *
-     * @return array
-     */
     private function normalizeProductModel(ProductModelInterface $productModel): array
     {
         $normalizationContext = $this->userContext->toArray() + ['filter_types' => []];
@@ -418,9 +337,6 @@ class ProductModelController
 
     /**
      * Updates product with the provided request data
-     *
-     * @param ProductModelInterface $productModel
-     * @param array                 $data
      */
     private function updateProductModel(ProductModelInterface $productModel, array $data): void
     {
@@ -452,8 +368,6 @@ class ProductModelController
      * @param string $id the product id
      *
      * @throws NotFoundHttpException
-     *
-     * @return ProductModelInterface
      */
     protected function findProductModelOr404($id): ProductModelInterface
     {
@@ -479,7 +393,7 @@ class ProductModelController
         foreach ($violations as $violation) {
             $propertyPath = $violation->getPropertyPath();
 
-            if (0 === strpos($propertyPath, 'quantifiedAssociations.')) {
+            if (str_starts_with($propertyPath, 'quantifiedAssociations.')) {
                 $normalizedViolations['quantified_associations'][] = $this->normalizer->normalize(
                     $violation,
                     'internal_api',
@@ -508,7 +422,7 @@ class ProductModelController
         foreach ($violations as $violation) {
             $propertyPath = $violation->getPropertyPath();
 
-            if (0 === strpos($propertyPath, 'quantifiedAssociations.')) {
+            if (str_starts_with($propertyPath, 'quantifiedAssociations.')) {
                 $normalizedViolations['quantified_associations'][] = $this->normalizer->normalize(
                     $violation,
                     'internal_api',

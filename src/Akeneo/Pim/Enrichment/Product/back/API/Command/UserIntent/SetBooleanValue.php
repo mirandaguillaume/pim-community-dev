@@ -11,10 +11,10 @@ namespace Akeneo\Pim\Enrichment\Product\API\Command\UserIntent;
 class SetBooleanValue implements ValueUserIntent
 {
     public function __construct(
-        private string $attributeCode,
-        private ?string $channelCode,
-        private ?string $localeCode,
-        private bool $value
+        private readonly string $attributeCode,
+        private readonly ?string $channelCode,
+        private readonly ?string $localeCode,
+        private readonly bool $value
     ) {
     }
 

@@ -15,8 +15,6 @@ interface DumperInterface
 {
     /**
      * Dump data
-     *
-     * @param OutputInterface $output
      */
     public function dump(OutputInterface $output);
 }

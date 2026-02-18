@@ -21,9 +21,9 @@ use Ramsey\Uuid\Uuid;
 class CreateJsonWebToken
 {
     public function __construct(
-        private ClockInterface $clock,
-        private PimUrl $pimUrl,
-        private GetAsymmetricKeysQueryInterface $getAsymmetricKeysQuery
+        private readonly ClockInterface $clock,
+        private readonly PimUrl $pimUrl,
+        private readonly GetAsymmetricKeysQueryInterface $getAsymmetricKeysQuery
     ) {
     }
 

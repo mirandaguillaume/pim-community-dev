@@ -13,5 +13,5 @@ interface SecurityFacadeInterface
      *                                    or something else, it depends on registered security voters
      * @param mixed           $object     A domain object, object identity or object identity descriptor (id:type)
      */
-    public function isGranted($attributes, $object = null): bool;
+    public function isGranted($attributes, mixed $object = null): bool;
 }

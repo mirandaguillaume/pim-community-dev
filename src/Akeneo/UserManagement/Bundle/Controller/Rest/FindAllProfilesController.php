@@ -12,11 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FindAllProfilesController
 {
-    private ProfileRepositoryInterface $profileRepository;
-
-    public function __construct(ProfileRepositoryInterface $profileRepository)
+    public function __construct(private readonly ProfileRepositoryInterface $profileRepository)
     {
-        $this->profileRepository = $profileRepository;
     }
 
     public function __invoke(Request $request): Response

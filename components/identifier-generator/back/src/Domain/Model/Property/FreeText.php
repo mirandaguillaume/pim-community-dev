@@ -14,7 +14,7 @@ use Webmozart\Assert\Assert;
  *
  * @phpstan-type FreeTextNormalized array{type: 'free_text', string: string}
  */
-final class FreeText implements PropertyInterface
+final readonly class FreeText implements PropertyInterface
 {
     public const LENGTH_LIMIT = 100;
 

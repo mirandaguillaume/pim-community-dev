@@ -16,7 +16,7 @@ use Doctrine\DBAL\Connection;
 class SqlFindAllViewableLocalesForUser implements FindAllViewableLocalesForUser
 {
     public function __construct(
-        private Connection $connection
+        private readonly Connection $connection
     ) {
     }
 

@@ -19,5 +19,5 @@ class BuildVersionEvents
      *
      * @staticvar string
      */
-    const PRE_BUILD = 'pim_versioning.build_version.pre_build';
+    final public const PRE_BUILD = 'pim_versioning.build_version.pre_build';
 }

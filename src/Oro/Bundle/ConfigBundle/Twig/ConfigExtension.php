@@ -26,7 +26,7 @@ class ConfigExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('oro_config_value', [$this, 'getUserValue']),
+            new TwigFunction('oro_config_value', $this->getUserValue(...)),
         ];
     }
 

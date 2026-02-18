@@ -28,18 +28,18 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  */
 class ComputeFamilyVariantStructureChangesSubscriber implements EventSubscriberInterface
 {
-    public const DISABLE_JOB_LAUNCHING = 'DISABLE_COMPUTE_FAMILY_VARIANT_STRUCTURE_CHANGES_LAUNCHING';
+    final public const DISABLE_JOB_LAUNCHING = 'DISABLE_COMPUTE_FAMILY_VARIANT_STRUCTURE_CHANGES_LAUNCHING';
 
     /** @var array<string, bool> */
     private array $isFamilyVariantNew = [];
 
     public function __construct(
-        private TokenStorageInterface $tokenStorage,
-        private JobLauncherInterface $jobLauncher,
-        private IdentifiableObjectRepositoryInterface $jobInstanceRepository,
-        private Connection $connection,
-        private LoggerInterface $logger,
-        private string $jobName
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly JobLauncherInterface $jobLauncher,
+        private readonly IdentifiableObjectRepositoryInterface $jobInstanceRepository,
+        private readonly Connection $connection,
+        private readonly LoggerInterface $logger,
+        private readonly string $jobName
     ) {
     }
 

@@ -21,13 +21,9 @@ class FamilyRepository extends EntityRepository implements
     DatagridRepositoryInterface,
     MassActionRepositoryInterface
 {
-    protected UserContext $userContext;
-
-    public function __construct(UserContext $userContext, EntityManager $em, string $class)
+    public function __construct(protected UserContext $userContext, EntityManager $em, string $class)
     {
         parent::__construct($em, $em->getClassMetadata($class));
-
-        $this->userContext = $userContext;
     }
 
     /**
@@ -105,9 +101,7 @@ class FamilyRepository extends EntityRepository implements
 
         $qb->setParameters(
             $qb->getParameters()->filter(
-                function ($parameter) {
-                    return $parameter->getName() !== 'entityIds';
-                }
+                fn($parameter) => $parameter->getName() !== 'entityIds'
             )
         );
 

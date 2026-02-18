@@ -14,8 +14,8 @@ class ScheduledJobMessage implements ScheduledJobMessageInterface
     private ?string $tenantId = null;
 
     private function __construct(
-        private string $jobCode,
-        private array $options
+        private readonly string $jobCode,
+        private readonly array $options
     ) {
     }
 

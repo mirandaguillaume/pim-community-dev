@@ -16,7 +16,7 @@ use Akeneo\Platform\Job\Infrastructure\Clock\ClockInterface;
 class StepExecutionTrackingHydrator
 {
     public function __construct(
-        private ClockInterface $clock,
+        private readonly ClockInterface $clock,
     ) {
     }
 

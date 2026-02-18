@@ -26,10 +26,6 @@ class FamilyNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
     /** @var string[] */
     protected $activatedLocaleCodes;
 
-    /**
-     * @param NormalizerInterface       $translationNormalizer
-     * @param LocaleRepositoryInterface $localeRepository
-     */
     public function __construct(
         NormalizerInterface $translationNormalizer,
         LocaleRepositoryInterface $localeRepository

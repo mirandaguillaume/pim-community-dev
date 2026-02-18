@@ -20,11 +20,11 @@ use Akeneo\Platform\Bundle\FeatureFlagBundle\Internal\Registry;
  */
 class FilePersistedFeatureFlags implements FeatureFlags
 {
-    public const FILENAME = 'feature_flag.json';
+    final public const FILENAME = 'feature_flag.json';
 
-    private string $filepath;
+    private readonly string $filepath;
 
-    public function __construct(private Registry $registry, private string $featureFlagDir)
+    public function __construct(private readonly Registry $registry, private readonly string $featureFlagDir)
     {
         $this->filepath = $this->featureFlagDir . self::FILENAME;
     }
@@ -33,9 +33,9 @@ class FilePersistedFeatureFlags implements FeatureFlags
     {
         $this->throwExceptionIfFlagDoesNotExist($feature);
 
-        $enabledFeatures = file_exists($this->filepath) ? json_decode(file_get_contents($this->filepath), true) : [];
+        $enabledFeatures = file_exists($this->filepath) ? json_decode(file_get_contents($this->filepath), true, 512, JSON_THROW_ON_ERROR) : [];
         $enabledFeatures[$feature] = true;
-        file_put_contents($this->filepath, json_encode($enabledFeatures));
+        file_put_contents($this->filepath, json_encode($enabledFeatures, JSON_THROW_ON_ERROR));
     }
 
     public function disable(string $feature): void
@@ -44,15 +44,15 @@ class FilePersistedFeatureFlags implements FeatureFlags
             return;
         }
 
-        $enabledFeatures = json_decode(file_get_contents($this->filepath), true);
+        $enabledFeatures = json_decode(file_get_contents($this->filepath), true, 512, JSON_THROW_ON_ERROR);
         unset($enabledFeatures[$feature]);
-        file_put_contents($this->filepath, json_encode($enabledFeatures));
+        file_put_contents($this->filepath, json_encode($enabledFeatures, JSON_THROW_ON_ERROR));
     }
 
     public function isEnabled($feature): bool
     {
         $this->throwExceptionIfFlagDoesNotExist($feature);
-        $content = file_exists($this->filepath) ? json_decode(file_get_contents($this->filepath), true) : [];
+        $content = file_exists($this->filepath) ? json_decode(file_get_contents($this->filepath), true, 512, JSON_THROW_ON_ERROR) : [];
 
         return isset($content[$feature]);
     }
@@ -60,7 +60,7 @@ class FilePersistedFeatureFlags implements FeatureFlags
     public function all(): array
     {
         $featureFlagNames = array_keys($this->registry->all());
-        $enabledFeatures = file_exists($this->filepath) ? json_decode(file_get_contents($this->filepath), true) : [];
+        $enabledFeatures = file_exists($this->filepath) ? json_decode(file_get_contents($this->filepath), true, 512, JSON_THROW_ON_ERROR) : [];
 
         return array_merge(
             array_fill_keys($featureFlagNames, false),
@@ -75,9 +75,6 @@ class FilePersistedFeatureFlags implements FeatureFlags
         }
     }
 
-    /**
-     * @param string $feature
-     */
     private function throwExceptionIfFlagDoesNotExist(string $feature): void
     {
         $this->registry->get($feature);

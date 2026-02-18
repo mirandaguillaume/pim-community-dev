@@ -25,7 +25,7 @@ class CategoryRepository extends EntityRepository implements ApiResourceReposito
         protected EntityManager $entityManager,
         protected string $className,
         protected CategoryRepositoryInterface $categoryRepository,
-        private ValidatorInterface $validator,
+        private readonly ValidatorInterface $validator,
     ) {
         parent::__construct($entityManager, $entityManager->getClassMetadata($className));
     }
@@ -80,7 +80,7 @@ class CategoryRepository extends EntityRepository implements ApiResourceReposito
                 ->select('COUNT(r.id)')
                 ->getQuery()
                 ->getSingleScalarResult();
-        } catch (UnexpectedResultException $e) {
+        } catch (UnexpectedResultException) {
             return 0;
         }
     }

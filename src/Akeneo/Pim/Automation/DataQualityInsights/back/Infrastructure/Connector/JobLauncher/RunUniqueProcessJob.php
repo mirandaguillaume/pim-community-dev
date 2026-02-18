@@ -20,7 +20,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
-final class RunUniqueProcessJob
+final readonly class RunUniqueProcessJob
 {
     /** Interval in seconds before checking if the process is still running. */
     private const RUNNING_PROCESS_CHECK_INTERVAL = 5;
@@ -28,30 +28,8 @@ final class RunUniqueProcessJob
     /** Time for which a job execution is considered as outdated. */
     private const OUTDATED_JOB_EXECUTION_TIME = '-3 HOUR';
 
-    private EntityManager $entityManager;
-    private JobExecutionManager $executionManager;
-    private JobRepositoryInterface $jobRepository;
-    private JobExecutionMessageFactory $jobExecutionMessageFactory;
-    private LoggerInterface $logger;
-    private JobRegistry $jobRegistry;
-    private string $projectDir;
-
-    public function __construct(
-        EntityManager $entityManager,
-        JobExecutionManager $executionManager,
-        JobRepositoryInterface $jobRepository,
-        JobExecutionMessageFactory $jobExecutionMessageFactory,
-        LoggerInterface $logger,
-        JobRegistry $jobRegistry,
-        string $projectDir
-    ) {
-        $this->entityManager = $entityManager;
-        $this->executionManager = $executionManager;
-        $this->jobRepository = $jobRepository;
-        $this->jobExecutionMessageFactory = $jobExecutionMessageFactory;
-        $this->logger = $logger;
-        $this->jobRegistry = $jobRegistry;
-        $this->projectDir = $projectDir;
+    public function __construct(private EntityManager $entityManager, private JobExecutionManager $executionManager, private JobRepositoryInterface $jobRepository, private JobExecutionMessageFactory $jobExecutionMessageFactory, private LoggerInterface $logger, private JobRegistry $jobRegistry, private string $projectDir)
+    {
     }
 
     public function run(string $jobName, \Closure $buildJobParameters)

@@ -19,20 +19,11 @@ class AncestorCodeFilter extends AbstractFieldFilter
 {
     private const ANCESTOR_CODES_ES_FIELD = 'ancestors.codes';
 
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $productModelRepository;
-
-    /**
-     * @param ProductModelRepositoryInterface $productModelRepository
-     * @param array                           $supportedFields
-     * @param array                           $supportedOperators
-     */
     public function __construct(
-        ProductModelRepositoryInterface $productModelRepository,
+        private readonly ProductModelRepositoryInterface $productModelRepository,
         array $supportedFields,
         array $supportedOperators
     ) {
-        $this->productModelRepository = $productModelRepository;
         $this->supportedFields = $supportedFields;
         $this->supportedOperators = $supportedOperators;
     }

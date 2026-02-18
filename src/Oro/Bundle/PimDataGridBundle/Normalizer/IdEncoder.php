@@ -13,18 +13,15 @@ namespace Oro\Bundle\PimDataGridBundle\Normalizer;
  */
 class IdEncoder
 {
-    public const PRODUCT_TYPE = 'product';
-    public const PRODUCT_MODEL_TYPE = 'product_model';
+    final public const PRODUCT_TYPE = 'product';
+    final public const PRODUCT_MODEL_TYPE = 'product_model';
 
     /**
      * Encode id and type to a type_id format.
      *
-     * @param string $type
-     * @param int|string $id
      *
-     * @return string
      */
-    public static function encode(string $type, $id): string
+    public static function encode(string $type, int|string $id): string
     {
         return sprintf('%s_%s', $type, $id);
     }
@@ -32,9 +29,7 @@ class IdEncoder
     /**
      * Decode the type_id format into id and type values
      *
-     * @param  string $encodedId
      *
-     * @return array
      */
     public static function decode(string $encodedId): array
     {

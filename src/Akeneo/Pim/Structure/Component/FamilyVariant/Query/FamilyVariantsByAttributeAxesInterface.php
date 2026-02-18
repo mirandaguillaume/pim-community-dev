@@ -15,7 +15,6 @@ interface FamilyVariantsByAttributeAxesInterface
     /**
      * Find family variants identifiers by their attribute axes.
      *
-     * @param array $attributeAxesCodes
      *
      * @return array
      */

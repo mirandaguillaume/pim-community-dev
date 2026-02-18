@@ -15,16 +15,8 @@ use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
  */
 final class ESGetProductAndProductModelIdentifiersWithValuesIgnoringLocaleAndScope implements GetProductAndProductModelIdentifiersWithValuesIgnoringLocaleAndScope
 {
-    /** @var Client */
-    private $client;
-
-    /** @var int */
-    private $batchSize;
-
-    public function __construct(Client $client, int $batchSize)
+    public function __construct(private readonly Client $client, private int $batchSize)
     {
-        $this->client = $client;
-        $this->batchSize = $batchSize;
     }
 
     public function setBatchSize(int $batchSize): void
@@ -74,7 +66,7 @@ final class ESGetProductAndProductModelIdentifiersWithValuesIgnoringLocaleAndSco
             $response = $this->client->search($query);
 
             $hits = $response['hits']['hits'] ?? [];
-            if (0 === count($hits)) {
+            if (0 === (is_countable($hits) ? count($hits) : 0)) {
                 break;
             }
 

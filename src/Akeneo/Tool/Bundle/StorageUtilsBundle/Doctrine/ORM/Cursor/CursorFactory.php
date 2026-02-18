@@ -15,31 +15,22 @@ use Doctrine\ORM\EntityManager;
  */
 class CursorFactory implements CursorFactoryInterface
 {
-    /** @var string */
-    protected $cursorClass;
-
     /** @var EntityManager */
     protected $entityManager;
 
     /** @var string */
     protected $entityClass;
 
-    /** @var int */
-    protected $pageSize;
-
     /**
      * @param string        $cursorClass   class name implementation
-     * @param EntityManager $entityManager
      * @param int           $pageSize
      */
     public function __construct(
-        $cursorClass,
+        protected $cursorClass,
         EntityManager $entityManager,
-        $pageSize
+        protected $pageSize
     ) {
-        $this->cursorClass = $cursorClass;
         $this->entityManager = $entityManager;
-        $this->pageSize = $pageSize;
     }
 
     /**

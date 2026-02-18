@@ -63,11 +63,11 @@ class IndexMigrationIsDoneIntegration extends TestCase
 
     private function getIndexMigrationRepository(): IndexMigrationRepositoryInterface
     {
-        return $this->get('Akeneo\Tool\Bundle\ElasticsearchBundle\Infrastructure\Repository\IndexMigrationRepository');
+        return $this->get(\Akeneo\Tool\Bundle\ElasticsearchBundle\Infrastructure\Repository\IndexMigrationRepository::class);
     }
 
     private function getQuery(): IndexMigrationIsDoneInterface
     {
-        return $this->get('Akeneo\Tool\Component\Elasticsearch\PublicApi\Read\IndexMigrationIsDoneInterface');
+        return $this->get(\Akeneo\Tool\Component\Elasticsearch\PublicApi\Read\IndexMigrationIsDoneInterface::class);
     }
 }

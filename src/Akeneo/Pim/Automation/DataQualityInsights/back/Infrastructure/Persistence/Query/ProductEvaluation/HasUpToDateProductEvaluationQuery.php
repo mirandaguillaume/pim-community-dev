@@ -17,7 +17,7 @@ use Webmozart\Assert\Assert;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class HasUpToDateProductEvaluationQuery implements HasUpToDateEvaluationQueryInterface
+final readonly class HasUpToDateProductEvaluationQuery implements HasUpToDateEvaluationQueryInterface
 {
     public function __construct(
         private Connection $dbConnection,
@@ -71,9 +71,7 @@ SQL;
             return null;
         }
 
-        $uuids = array_map(function ($resultRow) {
-            return $resultRow['uuid'];
-        }, $result);
+        $uuids = array_map(fn($resultRow) => $resultRow['uuid'], $result);
 
         if (empty($uuids)) {
             return null;

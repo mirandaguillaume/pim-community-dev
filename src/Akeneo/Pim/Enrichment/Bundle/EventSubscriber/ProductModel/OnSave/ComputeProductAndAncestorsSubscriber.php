@@ -22,7 +22,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ComputeProductAndAncestorsSubscriber implements EventSubscriberInterface
+final readonly class ComputeProductAndAncestorsSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private ComputeAndPersistProductCompletenesses $computeAndPersistProductCompletenesses,
@@ -65,9 +65,7 @@ final class ComputeProductAndAncestorsSubscriber implements EventSubscriberInter
         }
 
         $this->computeAndIndexFromProductModelCodes(array_map(
-            function (ProductModelInterface $productModel) {
-                return $productModel->getCode();
-            },
+            fn(ProductModelInterface $productModel) => $productModel->getCode(),
             $productModels
         ));
     }

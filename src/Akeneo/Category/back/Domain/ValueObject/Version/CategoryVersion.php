@@ -16,7 +16,7 @@ namespace Akeneo\Category\Domain\ValueObject\Version;
  */
 class CategoryVersion
 {
-    public const CATEGORY_VERSION_RESOURCE_NAME = "Akeneo\Category\Infrastructure\Component\Model\Category";
+    final public const CATEGORY_VERSION_RESOURCE_NAME = "Akeneo\Category\Infrastructure\Component\Model\Category";
 
     /**
      * snapshot full example : [

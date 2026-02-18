@@ -7,8 +7,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    const DEFAULT_LAYOUT = '@OroFilter/Filter/layout.js.twig';
-    const DEFAULT_HEADER = '@OroFilter/Filter/header.html.twig';
+    final public const DEFAULT_LAYOUT = '@OroFilter/Filter/layout.js.twig';
+    final public const DEFAULT_HEADER = '@OroFilter/Filter/header.html.twig';
 
     /**
      * {@inheritDoc}

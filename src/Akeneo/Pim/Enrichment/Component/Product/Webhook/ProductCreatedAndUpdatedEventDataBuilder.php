@@ -25,9 +25,9 @@ use Ramsey\Uuid\UuidInterface;
 class ProductCreatedAndUpdatedEventDataBuilder implements EventDataBuilderInterface
 {
     public function __construct(
-        private GetConnectorProducts $getConnectorProductsQuery,
-        private ConnectorProductNormalizer $connectorProductNormalizer,
-        private ConnectorProductWithUuidNormalizer $connectorProductWithUuidNormalizer,
+        private readonly GetConnectorProducts $getConnectorProductsQuery,
+        private readonly ConnectorProductNormalizer $connectorProductNormalizer,
+        private readonly ConnectorProductWithUuidNormalizer $connectorProductWithUuidNormalizer,
     ) {
     }
 

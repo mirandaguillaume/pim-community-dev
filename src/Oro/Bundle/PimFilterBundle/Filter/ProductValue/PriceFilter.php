@@ -57,9 +57,9 @@ class PriceFilter extends OroNumberFilter
      *
      * {@inheritdoc}
      */
-    public function parseData($data)
+    public function parseData(mixed $data): array|bool
     {
-        $data['type'] = isset($data['type']) ? $data['type'] : null;
+        $data['type'] ??= null;
 
         if (!is_array($data)
             || !array_key_exists('value', $data)

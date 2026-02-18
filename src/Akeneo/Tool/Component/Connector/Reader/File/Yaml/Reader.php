@@ -30,15 +30,10 @@ class Reader implements FileReaderInterface, TrackableItemReaderInterface, Initi
     protected ?\ArrayIterator $yaml = null;
     protected array $state = [];
 
-    /**
-     * @param ArrayConverterInterface $converter
-     * @param bool                    $multiple
-     * @param string                  $codeField
-     */
     public function __construct(
-        private ArrayConverterInterface $converter,
-        private string $rootLevel,
-        private bool $multiple = false,
+        private readonly ArrayConverterInterface $converter,
+        private readonly string $rootLevel,
+        private readonly bool $multiple = false,
         private string $codeField = 'code'
     ) {
     }
@@ -197,9 +192,6 @@ class Reader implements FileReaderInterface, TrackableItemReaderInterface, Initi
     }
 
     /**
-     * @param array                        $item
-     * @param DataArrayConversionException $exception
-     *
      * @throws InvalidItemException
      * @throws InvalidItemFromViolationsException
      */

@@ -11,8 +11,8 @@ namespace Akeneo\Connectivity\Connection\Domain\Apps\Exception;
 class UserConsentRequiredException extends \Exception
 {
     public function __construct(
-        private string $appId,
-        private int $pimUserId,
+        private readonly string $appId,
+        private readonly int $pimUserId,
     ) {
         parent::__construct();
     }

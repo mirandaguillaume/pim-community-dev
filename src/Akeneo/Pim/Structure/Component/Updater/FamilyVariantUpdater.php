@@ -26,34 +26,8 @@ use Doctrine\Common\Util\ClassUtils;
  */
 class FamilyVariantUpdater implements ObjectUpdaterInterface
 {
-    /** @var SimpleFactoryInterface */
-    private $attributeSetFactory;
-
-    /** @var TranslatableUpdater */
-    private $translationUpdater;
-
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $familyRepository;
-
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $attributeRepository;
-
-    /**
-     * @param SimpleFactoryInterface                $attributeSetFactory
-     * @param TranslatableUpdater                   $translationUpdater
-     * @param IdentifiableObjectRepositoryInterface $familyRepository
-     * @param IdentifiableObjectRepositoryInterface $attributeRepository
-     */
-    public function __construct(
-        SimpleFactoryInterface $attributeSetFactory,
-        TranslatableUpdater $translationUpdater,
-        IdentifiableObjectRepositoryInterface $familyRepository,
-        IdentifiableObjectRepositoryInterface $attributeRepository
-    ) {
-        $this->attributeSetFactory = $attributeSetFactory;
-        $this->translationUpdater = $translationUpdater;
-        $this->familyRepository = $familyRepository;
-        $this->attributeRepository = $attributeRepository;
+    public function __construct(private readonly SimpleFactoryInterface $attributeSetFactory, private readonly TranslatableUpdater $translationUpdater, private readonly IdentifiableObjectRepositoryInterface $familyRepository, private readonly IdentifiableObjectRepositoryInterface $attributeRepository)
+    {
     }
 
     /**
@@ -75,12 +49,7 @@ class FamilyVariantUpdater implements ObjectUpdaterInterface
         return $this;
     }
 
-    /**
-     * @param FamilyVariantInterface $familyVariant
-     * @param string                 $field
-     * @param mixed                  $value
-     */
-    private function setData(FamilyVariantInterface $familyVariant, string $field, $value): void
+    private function setData(FamilyVariantInterface $familyVariant, string $field, mixed $value): void
     {
         switch ($field) {
             case 'code':
@@ -195,11 +164,6 @@ class FamilyVariantUpdater implements ObjectUpdaterInterface
         }
     }
 
-    /**
-     * @param array $attributeSets
-     *
-     * @return int
-     */
     private function getNumberOfLevel(array $attributeSets): int
     {
         $numberOfLevel = 0;
@@ -214,7 +178,6 @@ class FamilyVariantUpdater implements ObjectUpdaterInterface
 
     /**
      * @param string[] $attributeCodes
-     * @param int      $level
      *
      * @return AttributeInterface[]
      */

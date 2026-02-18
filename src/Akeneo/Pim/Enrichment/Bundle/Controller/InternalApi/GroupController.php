@@ -189,11 +189,6 @@ class GroupController
         ));
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return array
-     */
     private function parseOptions(Request $request): array
     {
         $options = $request->get('options', []);
@@ -212,7 +207,7 @@ class GroupController
         }
 
         if (isset($options['identifiers'])) {
-            $options['ids'] = explode(',', $options['identifiers']);
+            $options['ids'] = explode(',', (string) $options['identifiers']);
         }
 
         return $options;

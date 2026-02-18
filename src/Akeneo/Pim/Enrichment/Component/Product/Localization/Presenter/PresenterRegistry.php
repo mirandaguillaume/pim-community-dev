@@ -15,11 +15,11 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
  */
 class PresenterRegistry implements PresenterRegistryInterface
 {
-    const TYPE_PRODUCT_VALUE = 'product_value';
+    final public const TYPE_PRODUCT_VALUE = 'product_value';
 
-    const TYPE_PRODUCT_FIELD = 'product_field';
+    final public const TYPE_PRODUCT_FIELD = 'product_field';
 
-    const TYPE_ATTRIBUTE_OPTION = 'attribute_option';
+    final public const TYPE_ATTRIBUTE_OPTION = 'attribute_option';
 
     /** @var IdentifiableObjectRepositoryInterface */
     protected $attributeRepository;
@@ -27,9 +27,6 @@ class PresenterRegistry implements PresenterRegistryInterface
     /** @var PresenterInterface[] */
     protected $presenters = [];
 
-    /**
-     * @param IdentifiableObjectRepositoryInterface $attributeRepository
-     */
     public function __construct(IdentifiableObjectRepositoryInterface $attributeRepository)
     {
         $this->attributeRepository = $attributeRepository;
@@ -92,10 +89,8 @@ class PresenterRegistry implements PresenterRegistryInterface
      *
      * @param string $value
      * @param string $type
-     *
-     * @return PresenterInterface|null
      */
-    protected function getPresenter($value, $type)
+    protected function getPresenter($value, $type): ?\Akeneo\Tool\Component\Localization\Presenter\PresenterInterface
     {
         if (isset($this->presenters[$type])) {
             foreach ($this->presenters[$type] as $presenter) {

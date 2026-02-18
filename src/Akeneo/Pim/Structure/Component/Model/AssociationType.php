@@ -12,7 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class AssociationType implements AssociationTypeInterface
+class AssociationType implements AssociationTypeInterface, \Stringable
 {
     /** @var int */
     protected $id;
@@ -40,8 +40,7 @@ class AssociationType implements AssociationTypeInterface
     /** @var bool */
     protected $isTwoWay = false;
 
-    /** @var bool */
-    private $isQuantified = false;
+    private bool $isQuantified = false;
 
     /**
      * Constructor
@@ -151,7 +150,7 @@ class AssociationType implements AssociationTypeInterface
             return null;
         }
         foreach ($this->getTranslations() as $translation) {
-            if (\strtolower($translation->getLocale()) === \strtolower($locale)) {
+            if (\strtolower((string) $translation->getLocale()) === \strtolower($locale)) {
                 return $translation;
             }
         }
@@ -218,7 +217,7 @@ class AssociationType implements AssociationTypeInterface
     /**
      * {@inheritdoc}
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getLabel();
     }

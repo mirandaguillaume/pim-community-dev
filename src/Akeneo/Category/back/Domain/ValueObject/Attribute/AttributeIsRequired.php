@@ -11,7 +11,7 @@ namespace Akeneo\Category\Domain\ValueObject\Attribute;
 class AttributeIsRequired
 {
     private function __construct(
-        private bool $isRequired,
+        private readonly bool $isRequired,
     ) {
     }
 

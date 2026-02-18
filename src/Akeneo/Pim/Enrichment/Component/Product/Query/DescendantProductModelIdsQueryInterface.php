@@ -14,7 +14,6 @@ interface DescendantProductModelIdsQueryInterface
     /**
      * Fetches product model ids from a parent product model id
      *
-     * @param int $parentProductModelId
      *
      * @return int[]
      */

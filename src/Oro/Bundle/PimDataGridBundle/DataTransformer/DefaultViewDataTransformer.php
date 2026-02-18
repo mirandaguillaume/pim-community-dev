@@ -17,9 +17,6 @@ class DefaultViewDataTransformer implements DataTransformerInterface
     /** @var DatagridViewRepositoryInterface */
     protected $datagridViewRepo;
 
-    /**
-     * @param DatagridViewRepositoryInterface $datagridViewRepo
-     */
     public function __construct(DatagridViewRepositoryInterface $datagridViewRepo)
     {
         $this->datagridViewRepo = $datagridViewRepo;
@@ -36,7 +33,7 @@ class DefaultViewDataTransformer implements DataTransformerInterface
 
         $aliases = $this->datagridViewRepo->getDatagridViewAliasesByUser($value);
         foreach ($aliases as $alias) {
-            $field = 'default_' . str_replace('-', '_', $alias) . '_view';
+            $field = 'default_' . str_replace('-', '_', (string) $alias) . '_view';
             $value->$field = $value->getDefaultGridView($alias);
         }
 
@@ -54,7 +51,7 @@ class DefaultViewDataTransformer implements DataTransformerInterface
 
         $aliases = $this->datagridViewRepo->getDatagridViewAliasesByUser($value);
         foreach ($aliases as $alias) {
-            $field = 'default_' . str_replace('-', '_', $alias) . '_view';
+            $field = 'default_' . str_replace('-', '_', (string) $alias) . '_view';
 
             if (property_exists($value, $field)) {
                 if ($value->getDefaultGridView($alias) !== $value->$field) {

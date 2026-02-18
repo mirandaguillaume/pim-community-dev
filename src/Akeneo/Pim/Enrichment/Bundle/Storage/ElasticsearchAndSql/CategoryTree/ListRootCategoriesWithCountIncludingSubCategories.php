@@ -15,20 +15,8 @@ use Doctrine\DBAL\Connection;
  */
 class ListRootCategoriesWithCountIncludingSubCategories implements Query\ListRootCategoriesWithCountIncludingSubCategories
 {
-    /** @var Connection */
-    private $connection;
-
-    /** @var Client */
-    private $client;
-
-    /**
-     * @param Connection $connection
-     * @param Client     $client
-     */
-    public function __construct(Connection $connection, Client $client)
+    public function __construct(private readonly Connection $connection, private readonly Client $client)
     {
-        $this->connection = $connection;
-        $this->client = $client;
     }
 
     /**
@@ -45,7 +33,6 @@ class ListRootCategoriesWithCountIncludingSubCategories implements Query\ListRoo
     /**
      * @param string $translationLocaleCode
      *
-     * @return array
      * [
      *     [
      *         'root_id' => 1,
@@ -95,7 +82,7 @@ SQL;
 
         $categories = [];
         foreach ($rows as $row) {
-            $childrenCategoriesCodes = null !== $row['children_codes'] ? explode(',', $row['children_codes']) : [];
+            $childrenCategoriesCodes = null !== $row['children_codes'] ? explode(',', (string) $row['children_codes']) : [];
             $row['children_codes'] = $childrenCategoriesCodes;
 
             $categories[] = $row;
@@ -105,8 +92,6 @@ SQL;
     }
 
     /**
-     * @param array $categoriesWithoutCount
-     * @param int   $rootCategoryIdToExpand
      *
      * @return RootCategory[]
      */

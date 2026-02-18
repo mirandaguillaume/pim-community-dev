@@ -24,9 +24,6 @@ class OffsetHalPaginator implements PaginatorInterface
     /** @var OptionsResolver */
     protected $resolver;
 
-    /**
-     * @param RouterInterface $router
-     */
     public function __construct(RouterInterface $router)
     {
         $this->resolver = new OptionsResolver();
@@ -107,9 +104,7 @@ class OffsetHalPaginator implements PaginatorInterface
      * Create a link from a route name.
      *
      * @param string $routeName
-     * @param array  $parameters
      * @param string $linkName
-     *
      * @return Link
      */
     protected function createLink($routeName, array $parameters, $linkName)
@@ -123,7 +118,6 @@ class OffsetHalPaginator implements PaginatorInterface
      * Create the link to the first page.
      *
      * @param string $routeName
-     * @param array  $parameters
      *
      * @return Link
      */
@@ -138,12 +132,10 @@ class OffsetHalPaginator implements PaginatorInterface
      * Create the link to the next page if it exists.
      *
      * @param string $routeName
-     * @param array  $parameters
      * @param array  $items
-     *
      * @return Link|null return either a link to the next page or null if there is not a next page
      */
-    protected function createNextLink($routeName, array $parameters, $items)
+    protected function createNextLink($routeName, array $parameters, $items): ?\Akeneo\Tool\Component\Api\Hal\Link
     {
         if (count($items) < (int) $parameters['limit']) {
             return null;
@@ -158,11 +150,10 @@ class OffsetHalPaginator implements PaginatorInterface
      * Create the link to the previous page if it exists.
      *
      * @param string $routeName
-     * @param array  $parameters
      *
      * @return Link|null return either a link to the previous page or null if there is not a previous page
      */
-    protected function createPreviousLink($routeName, array $parameters)
+    protected function createPreviousLink($routeName, array $parameters): ?\Akeneo\Tool\Component\Api\Hal\Link
     {
         $currentPage = $parameters['page'];
 

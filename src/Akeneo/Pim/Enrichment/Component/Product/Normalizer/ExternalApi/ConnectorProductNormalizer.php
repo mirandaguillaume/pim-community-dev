@@ -19,7 +19,7 @@ use Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ConnectorProductNormalizer
+final readonly class ConnectorProductNormalizer
 {
     public function __construct(
         private ValuesNormalizer $valuesNormalizer,
@@ -118,8 +118,6 @@ final class ConnectorProductNormalizer
      *     'groups' => ['group_code_2']
      *   ],
      * ],
-     *
-     * @return array
      */
     private function normalizeAssociations(array $associations): array
     {
@@ -151,8 +149,6 @@ final class ConnectorProductNormalizer
      *     'groups' => ['group_code_2']
      *   ],
      * ],
-     *
-     * @return array
      */
     private function normalizeQuantifiedAssociations(array $quantifiedAssociations): array
     {

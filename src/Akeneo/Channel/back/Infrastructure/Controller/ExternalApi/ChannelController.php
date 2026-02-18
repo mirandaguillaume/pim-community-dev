@@ -36,18 +36,18 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class ChannelController
 {
     public function __construct(
-        private ApiResourceRepositoryInterface $repository,
-        private NormalizerInterface $normalizer,
-        private PaginatorInterface $paginator,
-        private ParameterValidatorInterface $parameterValidator,
-        private SimpleFactoryInterface $factory,
-        private ObjectUpdaterInterface $updater,
-        private ValidatorInterface $validator,
-        private RouterInterface $router,
-        private SaverInterface $saver,
-        private StreamResourceResponse $partialUpdateStreamResource,
-        private array $apiConfiguration,
-        private SecurityFacadeInterface $securityFacade,
+        private readonly ApiResourceRepositoryInterface $repository,
+        private readonly NormalizerInterface $normalizer,
+        private readonly PaginatorInterface $paginator,
+        private readonly ParameterValidatorInterface $parameterValidator,
+        private readonly SimpleFactoryInterface $factory,
+        private readonly ObjectUpdaterInterface $updater,
+        private readonly ValidatorInterface $validator,
+        private readonly RouterInterface $router,
+        private readonly SaverInterface $saver,
+        private readonly StreamResourceResponse $partialUpdateStreamResource,
+        private readonly array $apiConfiguration,
+        private readonly SecurityFacadeInterface $securityFacade,
     ) {
     }
 
@@ -55,7 +55,7 @@ class ChannelController
     {
         if (!$this->securityFacade->isGranted('pim_api_channel_list')) {
             throw AccessDeniedException::create(
-                __CLASS__,
+                self::class,
                 __METHOD__,
             );
         }
@@ -74,7 +74,7 @@ class ChannelController
     {
         if (!$this->securityFacade->isGranted('pim_api_channel_list')) {
             throw AccessDeniedException::create(
-                __CLASS__,
+                self::class,
                 __METHOD__,
             );
         }
@@ -116,7 +116,7 @@ class ChannelController
     {
         if (!$this->securityFacade->isGranted('pim_api_channel_edit')) {
             throw AccessDeniedException::create(
-                __CLASS__,
+                self::class,
                 __METHOD__,
             );
         }
@@ -143,7 +143,7 @@ class ChannelController
     {
         if (!$this->securityFacade->isGranted('pim_api_channel_edit')) {
             throw AccessDeniedException::create(
-                __CLASS__,
+                self::class,
                 __METHOD__,
             );
         }
@@ -179,7 +179,7 @@ class ChannelController
     {
         if (!$this->securityFacade->isGranted('pim_api_channel_edit')) {
             throw AccessDeniedException::create(
-                __CLASS__,
+                self::class,
                 __METHOD__,
             );
         }
@@ -199,9 +199,7 @@ class ChannelController
     {
         return array_filter(
             array_merge($channel->getConversionUnits(), $data['conversion_units']),
-            function ($value) {
-                return null !== $value && '' !== $value;
-            }
+            fn($value) => null !== $value && '' !== $value
         );
     }
 
@@ -210,9 +208,9 @@ class ChannelController
      */
     private function getDecodedContent(string $content): array
     {
-        $decodedContent = json_decode($content, true);
-
-        if (null === $decodedContent) {
+        try {
+            $decodedContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
             throw new BadRequestHttpException('Invalid json message received');
         }
 

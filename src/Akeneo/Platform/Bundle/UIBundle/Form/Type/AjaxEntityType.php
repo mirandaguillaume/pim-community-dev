@@ -48,11 +48,6 @@ class AjaxEntityType extends AbstractType
     /** @var UserContext */
     protected $userContext;
 
-    /**
-     * @param RouterInterface             $router
-     * @param TransformerFactoryInterface $transformerFactory
-     * @param UserContext                 $userContext
-     */
     public function __construct(
         RouterInterface $router,
         TransformerFactoryInterface $transformerFactory,
@@ -141,7 +136,7 @@ class AjaxEntityType extends AbstractType
         $view->vars['attr']['data-url'] = $options['url'];
         $view->vars['attr']['data-min-input-length'] = $options['minimum_input_length'];
         $view->vars['attr']['data-choices'] = json_encode(
-            $this->getTransformer($options)->getOptions($form->getData())
+            $this->getTransformer($options)->getOptions($form->getData()), JSON_THROW_ON_ERROR
         );
         if ($options['required']) {
             $view->vars['attr']['data-required'] = 'required';
@@ -151,7 +146,6 @@ class AjaxEntityType extends AbstractType
     /**
      * Returns the transformer options
      *
-     * @param array $options
      *
      * @return array
      */
@@ -169,7 +163,6 @@ class AjaxEntityType extends AbstractType
     /**
      * Returns the list route parameters
      *
-     * @param Options $options
      *
      * @return array
      */
@@ -187,7 +180,6 @@ class AjaxEntityType extends AbstractType
     /**
      * Returns the form type's transformer
      *
-     * @param array $options
      *
      * @return DataTransformerInterface
      */

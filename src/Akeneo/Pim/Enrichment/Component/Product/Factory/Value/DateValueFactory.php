@@ -44,7 +44,7 @@ final class DateValueFactory implements ValueFactory
         if (!\is_string($data)) {
             throw InvalidAttributeValueTypeException::stringExpected(
                 $attribute->code(),
-                static::class,
+                self::class,
                 $data
             );
         }
@@ -56,14 +56,14 @@ final class DateValueFactory implements ValueFactory
                 throw new InvalidDateAttributeException(
                     $attribute->code(),
                     self::DATE_FORMAT,
-                    static::class
+                    self::class
                 );
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             throw new InvalidDateAttributeException(
                 $attribute->code(),
                 self::DATE_FORMAT,
-                static::class
+                self::class
             );
         }
 

@@ -17,7 +17,7 @@ final class MigrateToUuidAddConstraints implements MigrateToUuidStep
     use MigrateToUuidTrait;
     use StatusAwareTrait;
 
-    public function __construct(private Connection $connection, private LoggerInterface $logger)
+    public function __construct(private readonly Connection $connection, private readonly LoggerInterface $logger)
     {
     }
 
@@ -112,8 +112,8 @@ final class MigrateToUuidAddConstraints implements MigrateToUuidStep
 
     private function hasPrimaryKey(string $tableName, array $primaryKeyColumns): bool
     {
-        $expected = \json_encode($primaryKeyColumns);
-        $real = \json_encode($this->getPrimaryKey($tableName));
+        $expected = \json_encode($primaryKeyColumns, JSON_THROW_ON_ERROR);
+        $real = \json_encode($this->getPrimaryKey($tableName), JSON_THROW_ON_ERROR);
 
         return $expected === $real;
     }

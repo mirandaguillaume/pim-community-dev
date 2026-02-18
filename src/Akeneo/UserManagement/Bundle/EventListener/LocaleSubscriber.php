@@ -25,26 +25,10 @@ use Symfony\Contracts\Translation\LocaleAwareInterface;
  */
 class LocaleSubscriber implements EventSubscriberInterface
 {
-    protected RequestStack $requestStack;
-    protected LocaleAwareInterface $localeAware;
-    protected EntityManager $em;
-    protected FirewallMapInterface $firewall;
-
-    public function __construct(
-        RequestStack $requestStack,
-        LocaleAwareInterface $localeAware,
-        EntityManager $em,
-        FirewallMapInterface $firewall
-    ) {
-        $this->requestStack = $requestStack;
-        $this->localeAware = $localeAware;
-        $this->em = $em;
-        $this->firewall = $firewall;
+    public function __construct(protected RequestStack $requestStack, protected LocaleAwareInterface $localeAware, protected EntityManager $em, protected FirewallMapInterface $firewall)
+    {
     }
 
-    /**
-     * @param GenericEvent $event
-     */
     public function onPostUpdate(GenericEvent $event)
     {
         $user = $event->getSubject();
@@ -66,9 +50,6 @@ class LocaleSubscriber implements EventSubscriberInterface
         }
     }
 
-    /**
-     * @param InteractiveLoginEvent $event
-     */
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
     {
         $user = $event->getAuthenticationToken()->getUser();
@@ -93,12 +74,7 @@ class LocaleSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return string|null
-     */
-    protected function getLocale(Request $request)
+    protected function getLocale(Request $request): ?string
     {
         if (in_array($this->firewall->getFirewallConfig($request)->getName(), ['api', 'oauth_token'], true)) {
             return 'en_US';
@@ -108,10 +84,7 @@ class LocaleSubscriber implements EventSubscriberInterface
             $request->getSession()->get('_locale') : $this->getLocaleFromOroConfigValue();
     }
 
-    /**
-     * @return string|null
-     */
-    protected function getLocaleFromOroConfigValue()
+    protected function getLocaleFromOroConfigValue(): ?string
     {
         $sql = 'SELECT value FROM oro_config_value WHERE name = "language" AND section = "pim_ui" LIMIT 1';
         $statement = $this->em->getConnection()->executeQuery($sql);

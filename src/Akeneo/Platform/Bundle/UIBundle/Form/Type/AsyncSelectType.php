@@ -30,10 +30,6 @@ class AsyncSelectType extends AbstractType
     /** @var IdentifiableModelTransformerFactory */
     protected $transformerFactory;
 
-    /**
-     * @param RouterInterface                     $router
-     * @param IdentifiableModelTransformerFactory $transformerFactory
-     */
     public function __construct(
         RouterInterface $router,
         IdentifiableModelTransformerFactory $transformerFactory
@@ -91,7 +87,7 @@ class AsyncSelectType extends AbstractType
         if (!$repository instanceof IdentifiableObjectRepositoryInterface) {
             throw new UnexpectedTypeException(
                 $repository,
-                '\Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface'
+                '\\' . \Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface::class
             );
         }
 
@@ -115,8 +111,6 @@ class AsyncSelectType extends AbstractType
     }
 
     /**
-     * @param array $options
-     *
      * @return string
      */
     protected function getUrl(array $options)
@@ -125,9 +119,7 @@ class AsyncSelectType extends AbstractType
     }
 
     /**
-     * @param IdentifiableObjectRepositoryInterface $repository
      * @param array                                 $options
-     *
      * @return DataTransformerInterface
      */
     protected function createDataTransformer(IdentifiableObjectRepositoryInterface $repository, $options)

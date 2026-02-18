@@ -15,15 +15,14 @@ class ObjectIdAccessor
      *
      * @param  object                       $domainObject
      * @throws InvalidDomainObjectException
-     * @return int|string
      */
-    public function getId($domainObject)
+    public function getId($domainObject): int|string
     {
         if ($domainObject instanceof DomainObjectInterface) {
             return $domainObject->getObjectIdentifier();
         } elseif (method_exists($domainObject, 'getUuid')
             // TODO TIP-987 Remove this when decoupling PublishedProduct from Enrichment
-            && get_class($domainObject) !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct'
+            && $domainObject::class !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct'
         ) {
             return $domainObject->getUuid()->toString();
         } elseif (method_exists($domainObject, 'getId')) {

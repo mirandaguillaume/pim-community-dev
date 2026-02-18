@@ -21,11 +21,11 @@ use Webmozart\Assert\Assert;
 final class SearchFiltersValidator extends ConstraintValidator
 {
     public function __construct(
-        private ValidateCriterion $validateCriterion,
-        private ValidateCategories $validateCategories,
-        private ValidateProperties $validateProperties,
-        private ValidateGrantedCategoriesInterface $validateGrantedCategories,
-        private ValidateGrantedPropertiesInterface $validateGrantedProperties
+        private readonly ValidateCriterion $validateCriterion,
+        private readonly ValidateCategories $validateCategories,
+        private readonly ValidateProperties $validateProperties,
+        private readonly ValidateGrantedCategoriesInterface $validateGrantedCategories,
+        private readonly ValidateGrantedPropertiesInterface $validateGrantedProperties
     ) {
     }
 

@@ -16,24 +16,19 @@ use Symfony\Component\Security\Acl\Model\SecurityIdentityInterface;
  */
 class PermissionGrantingStrategy implements PermissionGrantingStrategyInterface
 {
-    const ALL = 'all';
-    const ANY = 'any';
-    const EQUAL = 'equal';
+    final public const ALL = 'all';
+    final public const ANY = 'any';
+    final public const EQUAL = 'equal';
 
     /**
      * @var AuditLoggerInterface
      */
     protected $auditLogger;
 
-    /**
-     * @var ServiceLink
-     */
-    private $contextLink;
+    private ?\Oro\Bundle\SecurityBundle\DependencyInjection\Utils\ServiceLink $contextLink = null;
 
     /**
      * Sets the audit logger
-     *
-     * @param AuditLoggerInterface $auditLogger
      */
     public function setAuditLogger(AuditLoggerInterface $auditLogger)
     {
@@ -168,7 +163,7 @@ class PermissionGrantingStrategy implements PermissionGrantingStrategyInterface
         array $masks,
         array $sids,
         $administrativeMode
-    ) {
+    ): ?bool {
         $triggeredAce = null;
         $triggeredMask = 0;
         $result = false;
@@ -262,15 +257,11 @@ class PermissionGrantingStrategy implements PermissionGrantingStrategyInterface
         $requiredMask = $extension->removeServiceBits($requiredMask);
         $aceMask = $extension->removeServiceBits($aceMask);
         $strategy = $ace->getStrategy();
-        switch ($strategy) {
-            case self::ALL:
-                return $requiredMask === ($aceMask & $requiredMask);
-            case self::ANY:
-                return 0 !== ($aceMask & $requiredMask);
-            case self::EQUAL:
-                return $requiredMask === $aceMask;
-            default:
-                throw new \RuntimeException(sprintf('The strategy "%s" is not supported.', $strategy));
-        }
+        return match ($strategy) {
+            self::ALL => $requiredMask === ($aceMask & $requiredMask),
+            self::ANY => 0 !== ($aceMask & $requiredMask),
+            self::EQUAL => $requiredMask === $aceMask,
+            default => throw new \RuntimeException(sprintf('The strategy "%s" is not supported.', $strategy)),
+        };
     }
 }

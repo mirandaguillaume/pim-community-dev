@@ -14,7 +14,7 @@ class RootEndpointIntegration extends ApiTestCase
         $client->request('GET', 'api/rest/v1');
 
         $response = $client->getResponse();
-        $payload = json_decode($response->getContent(), true);
+        $payload = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
         $this->assertEquals([
             'route' => '/api/oauth/v1/token',

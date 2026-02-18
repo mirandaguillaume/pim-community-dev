@@ -20,15 +20,15 @@ use Symfony\Requirements\Requirement;
  */
 class PimRequirements
 {
-    const REQUIRED_PHP_VERSION = '8.1.0';
-    const REQUIRED_GD_VERSION = '2.0';
-    const REQUIRED_GHOSTSCRIPT_VERSION = '9.53';
-    const REQUIRED_CURL_VERSION = '7.74';
-    const REQUIRED_ICU_VERSION = '67.1';
-    const LOWEST_REQUIRED_MYSQL_VERSION = '8.0.30';
-    const GREATEST_REQUIRED_MYSQL_VERSION = '8.1.0';
+    final public const REQUIRED_PHP_VERSION = '8.1.0';
+    final public const REQUIRED_GD_VERSION = '2.0';
+    final public const REQUIRED_GHOSTSCRIPT_VERSION = '9.53';
+    final public const REQUIRED_CURL_VERSION = '7.74';
+    final public const REQUIRED_ICU_VERSION = '67.1';
+    final public const LOWEST_REQUIRED_MYSQL_VERSION = '8.0.30';
+    final public const GREATEST_REQUIRED_MYSQL_VERSION = '8.1.0';
 
-    const REQUIRED_EXTENSIONS = [
+    final public const REQUIRED_EXTENSIONS = [
         'apcu',
         'bcmath',
         'curl',
@@ -195,8 +195,8 @@ class PimRequirements
     protected function getMySQLVersion(): string
     {
         $mysqlVersion = $this->getConnection()->getAttribute(PDO::ATTR_SERVER_VERSION);
-        if (strpos($mysqlVersion, '-')) {
-            $mysqlVersion = substr($mysqlVersion, 0, strpos($mysqlVersion, '-'));
+        if (strpos((string) $mysqlVersion, '-')) {
+            $mysqlVersion = substr((string) $mysqlVersion, 0, strpos((string) $mysqlVersion, '-'));
         }
         return $mysqlVersion;
     }

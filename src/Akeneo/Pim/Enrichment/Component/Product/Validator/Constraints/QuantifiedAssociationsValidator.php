@@ -17,20 +17,20 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class QuantifiedAssociationsValidator extends ConstraintValidator
 {
-    const ALLOWED_LINK_TYPES = [
+    final public const ALLOWED_LINK_TYPES = [
         'products',
         'product_uuids',
         'product_models',
     ];
 
-    const MAX_ASSOCIATIONS = 100;
-    const MIN_QUANTITY = 1;
-    const MAX_QUANTITY = 2147483647;
+    final public const MAX_ASSOCIATIONS = 100;
+    final public const MIN_QUANTITY = 1;
+    final public const MAX_QUANTITY = 2_147_483_647;
 
     public function __construct(
-        private AssociationTypeRepositoryInterface $associationTypeRepository,
-        private FindNonExistingProductsQueryInterface $findNonExistingProductsQuery,
-        private FindNonExistingProductModelCodesQueryInterface $findNonExistingProductModelCodesQuery
+        private readonly AssociationTypeRepositoryInterface $associationTypeRepository,
+        private readonly FindNonExistingProductsQueryInterface $findNonExistingProductsQuery,
+        private readonly FindNonExistingProductModelCodesQueryInterface $findNonExistingProductModelCodesQuery
     ) {
     }
 
@@ -71,7 +71,7 @@ class QuantifiedAssociationsValidator extends ConstraintValidator
             $this->validateProductsExist($targets['product_uuids'] ?? [], $productsPropertyPath);
             $this->validateProductModelsExist($targets['product_models'], $productModelsPropertyPath);
 
-            $totalQuantifiedLinkCount = count($targets['product_models']) + count($targets['products']);
+            $totalQuantifiedLinkCount = (is_countable($targets['product_models']) ? count($targets['product_models']) : 0) + (is_countable($targets['products']) ? count($targets['products']) : 0);
             $this->validateTotalCount($totalQuantifiedLinkCount, $propertyPath);
         }
     }
@@ -159,9 +159,7 @@ class QuantifiedAssociationsValidator extends ConstraintValidator
     private function validateProductModelsExist(array $quantifiedLinks, string $propertyPath): void
     {
         $productModelCodes = array_map(
-            function ($quantifiedLink) {
-                return $quantifiedLink['identifier'];
-            },
+            fn($quantifiedLink) => $quantifiedLink['identifier'],
             $quantifiedLinks
         );
 
@@ -181,7 +179,7 @@ class QuantifiedAssociationsValidator extends ConstraintValidator
 
     private function validateAssociationQuantity($quantity, string $propertyPath): void
     {
-        if (!preg_match('/^[0-9]{1,10}$/', $quantity)
+        if (!preg_match('/^[0-9]{1,10}$/', (string) $quantity)
             || intval($quantity) < self::MIN_QUANTITY
             || intval($quantity) > self::MAX_QUANTITY) {
             $this->context->buildViolation(

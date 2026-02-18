@@ -16,8 +16,7 @@ final class ApiFindNewAnnouncementIds implements FindNewAnnouncementIdsInterface
 {
     private const BASE_URI = '/new_announcements';
 
-    /** @var Client */
-    private $client;
+    private readonly \GuzzleHttp\Client $client;
 
     public function __construct(string $apiUrl)
     {
@@ -41,6 +40,6 @@ final class ApiFindNewAnnouncementIds implements FindNewAnnouncementIdsInterface
             );
         }
 
-        return json_decode((string) $response->getBody(), true);
+        return json_decode((string) $response->getBody(), true, 512, JSON_THROW_ON_ERROR);
     }
 }

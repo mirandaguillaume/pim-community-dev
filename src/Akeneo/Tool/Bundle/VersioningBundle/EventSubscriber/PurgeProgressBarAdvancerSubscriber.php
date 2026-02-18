@@ -33,8 +33,6 @@ class PurgeProgressBarAdvancerSubscriber implements EventSubscriberInterface
 
     /**
      * Keeps the progress bar in track with the processed versions
-     *
-     * @param PreAdvisementVersionEvent $preAdvisementVersionEvent
      */
     public function advanceProgressBar(PreAdvisementVersionEvent $preAdvisementVersionEvent)
     {
@@ -43,9 +41,6 @@ class PurgeProgressBarAdvancerSubscriber implements EventSubscriberInterface
         }
     }
 
-    /**
-     * @param ProgressBar $progressBar
-     */
     public function setProgressBar(ProgressBar $progressBar)
     {
         $this->progressBar = $progressBar;

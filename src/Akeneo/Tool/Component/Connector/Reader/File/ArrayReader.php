@@ -36,10 +36,6 @@ class ArrayReader implements FileReaderInterface, InitializableInterface, Statef
     /** @var array */
     protected $remainingItems;
 
-    /**
-     * @param FileReaderInterface     $reader
-     * @param ArrayConverterInterface $converter
-     */
     public function __construct(
         FileReaderInterface $reader,
         ArrayConverterInterface $converter

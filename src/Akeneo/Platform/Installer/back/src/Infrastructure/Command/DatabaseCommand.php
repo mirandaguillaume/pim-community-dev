@@ -153,7 +153,7 @@ class DatabaseCommand extends Command
             );
         }
 
-        if (null === ($this->getInstallDatetime)()) {
+        if (!($this->getInstallDatetime)() instanceof \DateTime) {
             $this->installTimeQuery->withDatetime(new \DateTimeImmutable());
         }
 

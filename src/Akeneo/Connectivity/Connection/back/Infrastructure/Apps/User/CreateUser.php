@@ -18,10 +18,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class CreateUser implements CreateUserInterface
 {
     public function __construct(
-        private SimpleFactoryInterface $userFactory,
-        private ObjectUpdaterInterface $userUpdater,
-        private ValidatorInterface $validator,
-        private SaverInterface $userSaver
+        private readonly SimpleFactoryInterface $userFactory,
+        private readonly ObjectUpdaterInterface $userUpdater,
+        private readonly ValidatorInterface $validator,
+        private readonly SaverInterface $userSaver
     ) {
     }
 

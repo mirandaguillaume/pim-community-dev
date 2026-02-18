@@ -16,13 +16,8 @@ use Webmozart\Assert\Assert;
  */
 class SqlGetCategoryChildrenCodesPerTree implements GetCategoryChildrenCodesPerTreeInterface
 {
-    private Connection $connection;
-    private CategoryCodeFilterInterface $categoryCodeFilter;
-
-    public function __construct(Connection $connection, CategoryCodeFilterInterface $categoryCodeFilter)
+    public function __construct(private readonly Connection $connection, private readonly CategoryCodeFilterInterface $categoryCodeFilter)
     {
-        $this->connection = $connection;
-        $this->categoryCodeFilter = $categoryCodeFilter;
     }
 
     public function executeWithChildren(array $categoryCodes): array
@@ -54,7 +49,7 @@ SQL;
 
         $results = [];
         while ($result = $stmt->fetchAssociative()) {
-            $childrenCodes = array_unique(json_decode($result['children_codes'], true));
+            $childrenCodes = array_unique(json_decode((string) $result['children_codes'], true, 512, JSON_THROW_ON_ERROR));
 
             $results[$result['code']] = $this->categoryCodeFilter->filter($childrenCodes);
         }
@@ -91,7 +86,7 @@ SQL;
 
         $results = [];
         while ($result = $stmt->fetchAssociative()) {
-            $childrenCodes = array_unique(json_decode($result['children_codes'], true));
+            $childrenCodes = array_unique(json_decode((string) $result['children_codes'], true, 512, JSON_THROW_ON_ERROR));
 
             $results[$result['code']] = $this->categoryCodeFilter->filter($childrenCodes);
         }

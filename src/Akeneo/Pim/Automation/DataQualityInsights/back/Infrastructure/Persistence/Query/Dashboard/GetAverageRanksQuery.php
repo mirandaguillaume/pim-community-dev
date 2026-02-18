@@ -15,13 +15,10 @@ use Doctrine\DBAL\Connection;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GetAverageRanksQuery implements GetAverageRanksQueryInterface
+final readonly class GetAverageRanksQuery implements GetAverageRanksQueryInterface
 {
-    private Connection $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function byFamilies(ChannelCode $channelCode, LocaleCode $localeCode, array $familyCodes): array
@@ -60,7 +57,7 @@ SQL;
 
         $averageRanks = [];
         while ($rawAverageRanks = $stmt->fetchAssociative()) {
-            $averageRanks[strtolower($rawAverageRanks['code'])] = null !== $rawAverageRanks['average_rank'] ? Rank::fromString($rawAverageRanks['average_rank']) : null;
+            $averageRanks[strtolower((string) $rawAverageRanks['code'])] = null !== $rawAverageRanks['average_rank'] ? Rank::fromString($rawAverageRanks['average_rank']) : null;
         }
 
         $entityAverageRanks = [];

@@ -20,11 +20,8 @@ use Twig\TwigFunction;
  */
 class LocaleExtension extends AbstractExtension
 {
-    protected UserContext $userContext;
-
-    public function __construct(UserContext $userContext)
+    public function __construct(protected UserContext $userContext)
     {
-        $this->userContext = $userContext;
     }
 
     /**
@@ -113,11 +110,9 @@ class LocaleExtension extends AbstractExtension
     /**
      * Returns the flag icon for a locale with its country as long label or short code
      *
-     * @param Environment      $environment
      * @param string           $code
      * @param bool             $short
      * @param string           $translateIn
-     *
      * @return string
      */
     public function flag(Environment $environment, $code, $short = true, $translateIn = null)

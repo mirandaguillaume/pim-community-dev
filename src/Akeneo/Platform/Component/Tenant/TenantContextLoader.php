@@ -31,9 +31,9 @@ use Throwable;
  *
  * @author  JM Leroux <jmleroux.pro@gmail.com>
  */
-final class TenantContextLoader
+final readonly class TenantContextLoader
 {
-    public function __construct(private readonly ContextStoreInterface $contextStore)
+    public function __construct(private ContextStoreInterface $contextStore)
     {
     }
 

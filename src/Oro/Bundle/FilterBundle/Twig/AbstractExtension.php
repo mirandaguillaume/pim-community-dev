@@ -7,12 +7,7 @@ abstract class AbstractExtension extends \Twig\Extension\AbstractExtension
     /**
      * Extension name
      */
-    const NAME = 'oro_filter_abstract';
-
-    /**
-     * @var string
-     */
-    protected $templateName;
+    public const NAME = 'oro_filter_abstract';
 
     /**
      * @var array
@@ -25,8 +20,7 @@ abstract class AbstractExtension extends \Twig\Extension\AbstractExtension
     /**
      * @param string $templateName
      */
-    public function __construct($templateName)
+    public function __construct(protected $templateName)
     {
-        $this->templateName = $templateName;
     }
 }

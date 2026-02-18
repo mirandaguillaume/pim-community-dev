@@ -18,7 +18,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ComputeProductsAndAncestorsSubscriber implements EventSubscriberInterface
+final readonly class ComputeProductsAndAncestorsSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private ProductAndAncestorsIndexer $productAndAncestorsIndexer,
@@ -44,7 +44,7 @@ final class ComputeProductsAndAncestorsSubscriber implements EventSubscriberInte
             return;
         }
         // TODO TIP-987 Remove this when decoupling PublishedProduct from Enrichment
-        if (get_class($product) == 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct') {
+        if ($product::class == 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct') {
             return;
         }
         if (!$event->hasArgument('unitary') || true !== $event->getArgument('unitary')) {
@@ -67,11 +67,9 @@ final class ComputeProductsAndAncestorsSubscriber implements EventSubscriberInte
         if (!is_array($products) || !is_array($event->getSubjectId())) {
             return;
         }
-        $products = array_filter($products, function ($product) {
-            return $product instanceof ProductInterface
-                // TODO TIP-987 Remove this when decoupling PublishedProduct from Enrichment
-                && get_class($product) !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct';
-        });
+        $products = array_filter($products, fn($product) => $product instanceof ProductInterface
+            // TODO TIP-987 Remove this when decoupling PublishedProduct from Enrichment
+            && $product::class !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct');
 
         if ($this->elasticsearchShouldBeRefreshed($products)) {
             $this->esClient->refreshIndex();
@@ -104,7 +102,6 @@ final class ComputeProductsAndAncestorsSubscriber implements EventSubscriberInte
      * it is refreshed every second. We take 10 seconds by security in case of overload.
      *
      * @param ProductInterface[] $products
-     * @return bool
      */
     private function elasticsearchShouldBeRefreshed(array $products): bool
     {

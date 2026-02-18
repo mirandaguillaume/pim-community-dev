@@ -18,11 +18,8 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class SetAttributeOptionSortOrderSubscriber implements EventSubscriberInterface
 {
-    private GetAttributeOptionsMaxSortOrder $getAttributeOptionsMaxSortOrder;
-
-    public function __construct(GetAttributeOptionsMaxSortOrder $getAttributeOptionsMaxSortOrder)
+    public function __construct(private readonly GetAttributeOptionsMaxSortOrder $getAttributeOptionsMaxSortOrder)
     {
-        $this->getAttributeOptionsMaxSortOrder = $getAttributeOptionsMaxSortOrder;
     }
 
     public static function getSubscribedEvents(): array
@@ -84,17 +81,13 @@ class SetAttributeOptionSortOrderSubscriber implements EventSubscriberInterface
      */
     private function setSortOrders(array $options): void
     {
-        $options = array_filter($options, function (AttributeoptionInterface $option) {
-            return null === $option->getSortOrder();
-        });
+        $options = array_filter($options, fn(AttributeoptionInterface $option) => null === $option->getSortOrder());
 
         if (0 === \count($options)) {
             return;
         }
 
-        $attributeCodes = array_unique(array_map(function (AttributeOptionInterface $option): string {
-            return $option->getAttribute()->getCode();
-        }, $options));
+        $attributeCodes = array_unique(array_map(fn(AttributeOptionInterface $option): string => $option->getAttribute()->getCode(), $options));
 
         $currentMaxSortOrders = $this->getAttributeOptionsMaxSortOrder->forAttributeCodes(
             array_values($attributeCodes)

@@ -21,27 +21,14 @@ use Psr\Log\LoggerInterface;
  */
 class MetricPresenter extends NumberPresenter
 {
-    /** @var MeasurementFamilyRepositoryInterface */
-    private $measurementFamilyRepository;
-
-    /** @var BaseCachedObjectRepository */
-    private $baseCachedObjectRepository;
-
-    /** @var LoggerInterface */
-    private $logger;
-
     public function __construct(
         NumberFactory $numberFactory,
         array $attributeTypes,
-        MeasurementFamilyRepositoryInterface $measurementFamilyRepository,
-        BaseCachedObjectRepository $baseCachedObjectRepository,
-        LoggerInterface $logger
+        private readonly MeasurementFamilyRepositoryInterface $measurementFamilyRepository,
+        private readonly BaseCachedObjectRepository $baseCachedObjectRepository,
+        private readonly LoggerInterface $logger
     ) {
         parent::__construct($numberFactory, $attributeTypes);
-
-        $this->measurementFamilyRepository = $measurementFamilyRepository;
-        $this->baseCachedObjectRepository = $baseCachedObjectRepository;
-        $this->logger = $logger;
     }
 
     /**

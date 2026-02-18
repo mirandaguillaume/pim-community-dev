@@ -22,10 +22,6 @@ class Attribute implements ArrayConverterInterface
     /** @var array */
     protected $booleanFields;
 
-    /**
-     * @param FieldsRequirementChecker $fieldChecker
-     * @param array                    $booleanFields
-     */
     public function __construct(FieldsRequirementChecker $fieldChecker, array $booleanFields)
     {
         $this->fieldChecker = $fieldChecker;
@@ -53,18 +49,16 @@ class Attribute implements ArrayConverterInterface
     /**
      * @param string $field
      * @param array  $booleanFields
-     * @param mixed  $data
      * @param array  $convertedItem
-     *
      * @return array
      */
-    protected function convertFields($field, $booleanFields, $data, $convertedItem)
+    protected function convertFields($field, $booleanFields, mixed $data, $convertedItem)
     {
-        if (false !== strpos($field, 'label-', 0)) {
+        if (str_contains($field, 'label-')) {
             $labelTokens = explode('-', $field);
             $labelLocale = $labelTokens[1];
             $convertedItem['labels'][$labelLocale] = $data;
-        } elseif (0 === strpos($field, 'guidelines-')) {
+        } elseif (str_starts_with($field, 'guidelines-')) {
             if (!array_key_exists('guidelines', $convertedItem)) {
                 $convertedItem['guidelines'] = [];
             }
@@ -86,7 +80,7 @@ class Attribute implements ArrayConverterInterface
             'available_locales' === $field ||
             'allowed_extensions' === $field
         ) {
-            $convertedItem[$field] = ('' === $data) ? [] : explode(',', $data);
+            $convertedItem[$field] = ('' === $data) ? [] : explode(',', (string) $data);
         } elseif ('date_min' === $field ||
             'date_max'=== $field
         ) {
@@ -94,7 +88,7 @@ class Attribute implements ArrayConverterInterface
         } elseif ('table_configuration' === $field) {
             if ('' !== $data && null !== $data) {
                 try {
-                    $convertedItem[$field] = \json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+                    $convertedItem[$field] = \json_decode((string) $data, true, 512, JSON_THROW_ON_ERROR);
                 } catch (\JsonException $e) {
                     throw new DataArrayConversionException(
                         sprintf('The property "%s" could not be converted into JSON', $field),
@@ -114,12 +108,7 @@ class Attribute implements ArrayConverterInterface
         return $convertedItem;
     }
 
-    /**
-     * @param mixed $number
-     *
-     * @return string|null
-     */
-    protected function convertFloat($number)
+    protected function convertFloat(mixed $number): ?string
     {
         if ('' === $number || null === $number) {
             return null;
@@ -142,10 +131,8 @@ class Attribute implements ArrayConverterInterface
      * "not a date"
      *
      * @param mixed $date
-     *
-     * @return string|null
      */
-    protected function convertDate($date)
+    protected function convertDate(mixed $date): ?string
     {
         if ('' === $date || null === $date) {
             return null;
@@ -154,7 +141,7 @@ class Attribute implements ArrayConverterInterface
         $datetime = \DateTime::createFromFormat('Y-m-d', $date);
         $errors = \DateTime::getLastErrors();
 
-        if (0 === $errors['warning_count'] && 0 === $errors['error_count']) {
+        if (false === $errors || (0 === $errors['warning_count'] && 0 === $errors['error_count'])) {
             $datetime->setTime(0, 0, 0);
 
             return $datetime->format('c');

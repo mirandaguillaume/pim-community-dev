@@ -24,7 +24,7 @@ final class ElasticsearchEventsApiDebugRepository implements EventsApiDebugRepos
      */
     private array $buffer = [];
 
-    public function __construct(private Client $client)
+    public function __construct(private readonly Client $client)
     {
     }
 

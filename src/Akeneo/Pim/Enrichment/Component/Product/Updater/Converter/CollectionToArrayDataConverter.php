@@ -15,7 +15,7 @@ use Webmozart\Assert\Assert;
  */
 final class CollectionToArrayDataConverter implements ValueDataConverter
 {
-    private $supportedAttributeTypes = [
+    private array $supportedAttributeTypes = [
         AttributeTypes::REFERENCE_ENTITY_COLLECTION => [
             AttributeTypes::OPTION_MULTI_SELECT => true,
         ],

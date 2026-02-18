@@ -81,7 +81,7 @@ class CreateUserConsentQueryIntegration extends WebTestCase
         $this->assertArrayHasKey('consent_date', $result);
         $this->assertEquals($user->getId(), $result['user_id']);
         $this->assertEquals($appId, $result['app_id']);
-        $this->assertEquals($scopes, \array_values(\json_decode($result['scopes'], null, 512, JSON_THROW_ON_ERROR)));
+        $this->assertEquals($scopes, \array_values(\json_decode((string) $result['scopes'], null, 512, JSON_THROW_ON_ERROR)));
         $this->assertEquals(
             $this->clock->now()->format(\DateTimeInterface::ATOM),
             (new \DateTime($result['consent_date']))->format(\DateTimeInterface::ATOM)
@@ -141,7 +141,7 @@ class CreateUserConsentQueryIntegration extends WebTestCase
         $this->assertArrayHasKey('consent_date', $result);
         $this->assertEquals($user->getId(), $result['user_id']);
         $this->assertEquals($appId, $result['app_id']);
-        $this->assertEquals($scopes, \array_values(\json_decode($result['scopes'], null, 512, JSON_THROW_ON_ERROR)));
+        $this->assertEquals($scopes, \array_values(\json_decode((string) $result['scopes'], null, 512, JSON_THROW_ON_ERROR)));
         $this->assertEquals(
             $this->clock->now()->format(\DateTimeInterface::ATOM),
             (new \DateTime($result['consent_date']))->format(\DateTimeInterface::ATOM)
@@ -212,7 +212,7 @@ class CreateUserConsentQueryIntegration extends WebTestCase
         $this->assertArrayHasKey('consent_date', $result);
         $this->assertEquals($user->getId(), $result['user_id']);
         $this->assertEquals($appId, $result['app_id']);
-        $this->assertEquals($newScopes, \array_values(\json_decode($result['scopes'], null, 512, JSON_THROW_ON_ERROR)));
+        $this->assertEquals($newScopes, \array_values(\json_decode((string) $result['scopes'], null, 512, JSON_THROW_ON_ERROR)));
         $this->assertEquals(
             $this->clock->now()->format(\DateTimeInterface::ATOM),
             (new \DateTime($result['consent_date']))->format(\DateTimeInterface::ATOM)

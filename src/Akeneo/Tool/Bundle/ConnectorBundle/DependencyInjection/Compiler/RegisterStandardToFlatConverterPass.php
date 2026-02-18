@@ -16,9 +16,9 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class RegisterStandardToFlatConverterPass implements CompilerPassInterface
 {
-    const CONVERTER_REGISTRY = 'pim_connector.array_converter.standard_to_flat.product.value_converter.registry';
-    const CONVERTER_TAG = 'pim_connector.array_converter.standard_to_flat.product.value_converter';
-    const DEFAULT_PRIORITY = 100;
+    final public const CONVERTER_REGISTRY = 'pim_connector.array_converter.standard_to_flat.product.value_converter.registry';
+    final public const CONVERTER_TAG = 'pim_connector.array_converter.standard_to_flat.product.value_converter';
+    final public const DEFAULT_PRIORITY = 100;
 
     /**
      * {@inheritdoc}
@@ -38,7 +38,6 @@ class RegisterStandardToFlatConverterPass implements CompilerPassInterface
     }
 
     /**
-     * @param Definition $registry
      * @param string[]   $tags
      * @param string     $serviceId
      */

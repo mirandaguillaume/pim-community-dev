@@ -19,11 +19,11 @@ use Webmozart\Assert\Assert;
 /**
  * @author  JM Leroux <jmleroux.pro@gmail.com>
  */
-final class ContextValueDecrypter implements ContextValueDecrypterInterface
+final readonly class ContextValueDecrypter implements ContextValueDecrypterInterface
 {
     private const OPEN_SSL_CIPHER_METHOD = 'aes-256-cbc';
 
-    public function __construct(private readonly string $encodedEncryptionKey)
+    public function __construct(private string $encodedEncryptionKey)
     {
     }
 
@@ -74,13 +74,13 @@ final class ContextValueDecrypter implements ContextValueDecrypterInterface
                 associative: true,
                 flags: JSON_THROW_ON_ERROR
             );
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             throw new TenantContextDecoderException('Decrypted values is not a valid json string.');
         }
 
         try {
             Assert::isMap($decoded, 'Tenant values are not a valid map.');
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             throw new TenantContextDecoderException('Tenant values is not a valid json map.');
         }
 

@@ -13,7 +13,7 @@ use Akeneo\Platform\Bundle\ImportExportBundle\Domain\Model\NoneStorage;
 use Akeneo\Platform\Bundle\ImportExportBundle\Domain\Model\StorageInterface;
 use Akeneo\Platform\Bundle\ImportExportBundle\Domain\StorageHydratorInterface;
 
-final class StorageHydrator implements StorageHydratorInterface
+final readonly class StorageHydrator implements StorageHydratorInterface
 {
     public function __construct(private iterable $storageHydrators)
     {
@@ -27,7 +27,7 @@ final class StorageHydrator implements StorageHydratorInterface
             }
         }
 
-        throw new \LogicException(sprintf('No storage hydrator found for the given storage: %s', json_encode($normalizedStorage)));
+        throw new \LogicException(sprintf('No storage hydrator found for the given storage: %s', json_encode($normalizedStorage, JSON_THROW_ON_ERROR)));
     }
 
     public function supports(array $normalizedStorage): bool

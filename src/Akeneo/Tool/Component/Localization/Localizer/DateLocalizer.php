@@ -24,11 +24,6 @@ class DateLocalizer implements LocalizerInterface
     /** @var array */
     protected $attributeTypes;
 
-    /**
-     * @param ValidatorInterface $validator
-     * @param DateFactory        $factory
-     * @param array              $attributeTypes
-     */
     public function __construct(
         ValidatorInterface $validator,
         DateFactory $factory,
@@ -113,8 +108,6 @@ class DateLocalizer implements LocalizerInterface
     }
 
     /**
-     * @param array $options
-     *
      * @return array
      */
     protected function getOptions(array $options)

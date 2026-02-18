@@ -34,12 +34,6 @@ class NumberType extends AbstractType
     /** @var NumberFactory */
     protected $numberFactory;
 
-    /**
-     * @param LocalizerInterface $localizer
-     * @param LocaleResolver $localeResolver
-     * @param NumberFormatValidator $formatValidator
-     * @param NumberFactory $numberFactory
-     */
     public function __construct(
         LocalizerInterface $localizer,
         LocaleResolver $localeResolver,

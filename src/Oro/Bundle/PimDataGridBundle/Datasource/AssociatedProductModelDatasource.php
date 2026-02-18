@@ -31,18 +31,14 @@ class AssociatedProductModelDatasource extends ProductDatasource
     /** @var string */
     protected $sortOrder;
 
-    /** @var NormalizerInterface */
-    private $internalApiNormalizer;
-
     public function __construct(
         ObjectManager $om,
         ProductQueryBuilderFactoryInterface $factory,
         NormalizerInterface $serializer,
         FilterEntityWithValuesSubscriber $filterEntityWithValuesSubscriber,
-        NormalizerInterface $internalApiNormalizer
+        private readonly NormalizerInterface $internalApiNormalizer
     ) {
         parent::__construct($om, $factory, $serializer, $filterEntityWithValuesSubscriber);
-        $this->internalApiNormalizer = $internalApiNormalizer;
     }
 
     /**
@@ -158,13 +154,7 @@ class AssociatedProductModelDatasource extends ProductDatasource
         return $this->internalApiNormalizer->normalize($productModel, 'internal_api', $context);
     }
 
-    /**
-     * @param EntityWithFamilyVariantInterface $product
-     * @param mixed                            $associationTypeId
-     *
-     * @return AssociationInterface|null
-     */
-    protected function getParentAssociation(EntityWithFamilyVariantInterface $product, $associationTypeId): ?AssociationInterface
+    protected function getParentAssociation(EntityWithFamilyVariantInterface $product, mixed $associationTypeId): ?AssociationInterface
     {
         $parent = $product->getParent();
 
@@ -182,8 +172,6 @@ class AssociatedProductModelDatasource extends ProductDatasource
     }
 
     /**
-     * @param AssociationInterface $association
-     *
      * @return UuidInterface[]
      */
     protected function getAssociatedProductUuids(AssociationInterface $association): array
@@ -197,8 +185,6 @@ class AssociatedProductModelDatasource extends ProductDatasource
     }
 
     /**
-     * @param AssociationInterface $association
-     *
      * @return string[]
      */
     protected function getAssociatedProductModelIdentifiers(AssociationInterface $association): array
@@ -239,12 +225,10 @@ class AssociatedProductModelDatasource extends ProductDatasource
     }
 
     /**
-     * @param array  $associatedProductModelsIdentifiers
      * @param int    $limit
      * @param int    $from
      * @param string $locale
      * @param string $scope
-     *
      * @return CursorInterface
      */
     protected function getAssociatedProductModels(
@@ -262,11 +246,9 @@ class AssociatedProductModelDatasource extends ProductDatasource
     }
 
     /**
-     * @param CursorInterface $products
      * @param string[] $identifiersFromInheritance
      * @param string $locale
      * @param string $scope
-     *
      * @return array
      */
     protected function normalizeProductsAndProductModels(
@@ -331,6 +313,7 @@ class AssociatedProductModelDatasource extends ProductDatasource
      */
     protected function createQueryBuilder($limit, $from, $locale, $scope)
     {
+        $factoryConfig = [];
         if (null === $repositoryParameters = $this->getConfiguration('repository_parameters', false)) {
             $repositoryParameters = [];
         }
@@ -352,12 +335,7 @@ class AssociatedProductModelDatasource extends ProductDatasource
         return $pqb;
     }
 
-    /**
-     * @param EntityWithAssociationsInterface $sourceProduct
-     * @param mixed                           $associationTypeId
-     * @return null|AssociationInterface
-     */
-    private function getAssociation(EntityWithAssociationsInterface $sourceProduct, $associationTypeId): ?AssociationInterface
+    private function getAssociation(EntityWithAssociationsInterface $sourceProduct, mixed $associationTypeId): ?AssociationInterface
     {
         foreach ($sourceProduct->getAllAssociations() as $association) {
             if ($association->getAssociationType()->getId() === (int)$associationTypeId) {

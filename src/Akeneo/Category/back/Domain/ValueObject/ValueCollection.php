@@ -48,9 +48,7 @@ final class ValueCollection implements \IteratorAggregate, \Countable
     public static function fromDatabase(array $values): self
     {
         // We keep this filter to manage uncleaned data from previous code version
-        $values = array_filter($values, function ($valueKey) {
-            return $valueKey !== 'attribute_codes';
-        }, ARRAY_FILTER_USE_KEY);
+        $values = array_filter($values, fn($valueKey) => $valueKey !== 'attribute_codes', ARRAY_FILTER_USE_KEY);
 
         $newValues = [];
         foreach ($values as $value) {
@@ -67,12 +65,10 @@ final class ValueCollection implements \IteratorAggregate, \Countable
     {
         $filteredValue = array_filter(
             $this->getValues(),
-            static function (Value $value) use ($localeCode, $channel, $attributeUuid, $attributeCode) {
-                return (string) $value->getCode() === $attributeCode
-                    && (string) $value->getUuid() === $attributeUuid
-                    && $value->getChannel()?->getValue() === $channel
-                    && $value->getLocale()?->getValue() === $localeCode;
-            },
+            static fn(Value $value) => (string) $value->getCode() === $attributeCode
+                && (string) $value->getUuid() === $attributeUuid
+                && $value->getChannel()?->getValue() === $channel
+                && $value->getLocale()?->getValue() === $localeCode,
         );
 
         return !empty($filteredValue) ? reset($filteredValue) : null;
@@ -109,13 +105,11 @@ final class ValueCollection implements \IteratorAggregate, \Countable
 
     public function removeValue(Value $value): void
     {
-        $this->values = array_filter($this->values, static function ($existingValue) use ($value) {
-            return !(
-                (string) $existingValue->getUuid() === (string) $value->getUuid() &&
-                (string) $existingValue->getChannel() === (string) $value->getChannel() &&
-                (string) $existingValue->getLocale() === (string) $value->getLocale()
-            );
-        });
+        $this->values = array_filter($this->values, static fn($existingValue) => !(
+            (string) $existingValue->getUuid() === (string) $value->getUuid() &&
+            (string) $existingValue->getChannel() === (string) $value->getChannel() &&
+            (string) $existingValue->getLocale() === (string) $value->getLocale()
+        ));
     }
 
     /**

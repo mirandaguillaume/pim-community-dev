@@ -13,7 +13,7 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class BuildAfter extends Event implements GridEventInterface
 {
-    const NAME = 'oro_datagrid.datgrid.build.after';
+    final public const NAME = 'oro_datagrid.datgrid.build.after';
 
     /** @var DatagridInterface */
     protected $datagrid;

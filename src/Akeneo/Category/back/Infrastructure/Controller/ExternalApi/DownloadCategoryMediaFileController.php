@@ -14,15 +14,15 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class DownloadCategoryMediaFileController
+final readonly class DownloadCategoryMediaFileController
 {
     private const CATEGORY_STORAGE_ALIAS = 'categoryStorage';
 
     public function __construct(
-        private readonly SecurityFacade $securityFacade,
-        private readonly ApiResourceRepositoryInterface $mediaRepository,
-        private readonly FilesystemProvider $filesystemProvider,
-        private readonly FileFetcherInterface $fileFetcher,
+        private SecurityFacade $securityFacade,
+        private ApiResourceRepositoryInterface $mediaRepository,
+        private FilesystemProvider $filesystemProvider,
+        private FileFetcherInterface $fileFetcher,
     ) {
     }
 

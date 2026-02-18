@@ -46,7 +46,7 @@ class ObjectIdHydrator implements HydratorInterface
      *
      * @return mixed
      */
-    protected function setOrderByFieldsToSelect($qb)
+    protected function setOrderByFieldsToSelect(mixed $qb)
     {
         $originalSelects = $qb->getDQLPart('select');
         $orders = $qb->getDQLPart('orderBy');
@@ -56,7 +56,7 @@ class ObjectIdHydrator implements HydratorInterface
 
         foreach ($originalSelects as $select) {
             foreach ($select->getParts() as $part) {
-                $alias = stristr($part, ' as ');
+                $alias = stristr((string) $part, ' as ');
                 if (false !== $alias) {
                     $newSelects[str_ireplace(' as ', '', $alias)] = $part;
                 }
@@ -65,7 +65,7 @@ class ObjectIdHydrator implements HydratorInterface
 
         foreach ($orders as $order) {
             foreach ($order->getParts() as $part) {
-                $alias = explode(' ', $part)[0];
+                $alias = explode(' ', (string) $part)[0];
                 if (isset($newSelects[$alias])) {
                     $qb->addSelect($newSelects[$alias]);
                 }

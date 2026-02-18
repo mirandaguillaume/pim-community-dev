@@ -15,8 +15,8 @@ class UserFacingError extends \Exception
      * @param array<string,mixed> $translationParameters
      */
     public function __construct(
-        private string $translationKey,
-        private array $translationParameters = []
+        private readonly string $translationKey,
+        private readonly array $translationParameters = []
     ) {
         parent::__construct();
     }

@@ -17,18 +17,10 @@ use Symfony\Component\Routing\RouterInterface;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ValuesNormalizer
+final readonly class ValuesNormalizer
 {
-    /** @var ProductValueNormalizer */
-    private $valueNormalizer;
-
-    /** @var RouterInterface */
-    private $router;
-
-    public function __construct(ProductValueNormalizer $valueNormalizer, RouterInterface $router)
+    public function __construct(private ProductValueNormalizer $valueNormalizer, private RouterInterface $router)
     {
-        $this->valueNormalizer = $valueNormalizer;
-        $this->router = $router;
     }
 
     public function normalize(ReadValueCollection $values): array

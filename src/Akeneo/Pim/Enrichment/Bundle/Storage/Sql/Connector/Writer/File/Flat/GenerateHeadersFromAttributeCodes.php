@@ -13,14 +13,10 @@ use Doctrine\DBAL\Connection;
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GenerateHeadersFromAttributeCodes implements GenerateFlatHeadersFromAttributeCodesInterface
+final readonly class GenerateHeadersFromAttributeCodes implements GenerateFlatHeadersFromAttributeCodesInterface
 {
-    /** @var Connection */
-    private $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     /**
@@ -80,7 +76,7 @@ SQL;
                 ("1" === $attributeData["is_localizable"]),
                 $localeCodes,
                 $channelCurrencyCodes,
-                null !== $attributeData['specific_to_locales'] ? json_decode($attributeData['specific_to_locales'], true) : []
+                null !== $attributeData['specific_to_locales'] ? json_decode((string) $attributeData['specific_to_locales'], true, 512, JSON_THROW_ON_ERROR) : []
             );
         }
 

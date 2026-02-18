@@ -15,11 +15,8 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeOption\GetExistingAt
  */
 class SimpleSelectTranslator implements FlatAttributeValueTranslatorInterface
 {
-    private GetExistingAttributeOptionsWithValues $getExistingAttributeOptionsWithValues;
-
-    public function __construct(GetExistingAttributeOptionsWithValues $getExistingAttributeOptionsWithValues)
+    public function __construct(private readonly GetExistingAttributeOptionsWithValues $getExistingAttributeOptionsWithValues)
     {
-        $this->getExistingAttributeOptionsWithValues = $getExistingAttributeOptionsWithValues;
     }
 
     public function supports(string $attributeType, string $columnName): bool

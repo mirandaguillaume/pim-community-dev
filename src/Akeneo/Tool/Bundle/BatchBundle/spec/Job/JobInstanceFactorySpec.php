@@ -7,7 +7,7 @@ use PhpSpec\ObjectBehavior;
 
 class JobInstanceFactorySpec extends ObjectBehavior
 {
-    const TESTED_CLASS = JobInstance::class;
+    final public const TESTED_CLASS = JobInstance::class;
 
     function let()
     {

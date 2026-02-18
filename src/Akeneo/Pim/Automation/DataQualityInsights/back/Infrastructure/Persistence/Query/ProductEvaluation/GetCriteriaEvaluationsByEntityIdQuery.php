@@ -19,26 +19,10 @@ use Doctrine\DBAL\Connection;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GetCriteriaEvaluationsByEntityIdQuery implements GetCriteriaEvaluationsByEntityIdQueryInterface
+final readonly class GetCriteriaEvaluationsByEntityIdQuery implements GetCriteriaEvaluationsByEntityIdQueryInterface
 {
-    private Connection $db;
-
-    private Clock $clock;
-
-    private TransformCriterionEvaluationResultIds $transformCriterionEvaluationResultIds;
-
-    private string $tableName;
-
-    public function __construct(
-        Connection                            $db,
-        Clock                                 $clock,
-        TransformCriterionEvaluationResultIds $transformCriterionEvaluationResultIds,
-        string                                $tableName
-    ) {
-        $this->db = $db;
-        $this->clock = $clock;
-        $this->transformCriterionEvaluationResultIds = $transformCriterionEvaluationResultIds;
-        $this->tableName = $tableName;
+    public function __construct(private Connection                            $db, private Clock                                 $clock, private TransformCriterionEvaluationResultIds $transformCriterionEvaluationResultIds, private string                                $tableName)
+    {
     }
 
     public function execute(ProductEntityIdInterface $entityId): Read\CriterionEvaluationCollection
@@ -116,7 +100,7 @@ SQL;
             return null;
         }
 
-        $rawResult = json_decode($rawResult, true, JSON_THROW_ON_ERROR);
+        $rawResult = json_decode((string) $rawResult, true, 512, JSON_THROW_ON_ERROR);
         $rawResult = $this->transformCriterionEvaluationResultIds->transformToCodes($criterionCode, $rawResult);
 
         return Read\CriterionEvaluationResult::fromArray($rawResult);

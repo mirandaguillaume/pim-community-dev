@@ -50,8 +50,6 @@ class FamilyAttributeAsLabelValidator extends ConstraintValidator
     }
 
     /**
-     * @param FamilyInterface $family
-     *
      * @return bool
      */
     protected function doesAttributeAsLabelBelongToFamily(FamilyInterface $family)
@@ -65,8 +63,6 @@ class FamilyAttributeAsLabelValidator extends ConstraintValidator
     }
 
     /**
-     * @param FamilyInterface $family
-     *
      * @return bool
      */
     protected function isAttributeAsLabelTypeValid(FamilyInterface $family)

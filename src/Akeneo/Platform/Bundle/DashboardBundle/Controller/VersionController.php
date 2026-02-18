@@ -11,20 +11,8 @@ class VersionController
 {
     private const GENERAL_AVAILABILITY_TAG_PATTERN = '~^\d\.\d\.\d~';
 
-    private VersionProviderInterface $versionProvider;
-
-    private ConfigManager $configManager;
-
-    private string $analyticsUri;
-
-    public function __construct(
-        VersionProviderInterface $versionProvider,
-        ConfigManager $configManager,
-        string $analyticsUri
-    ) {
-        $this->versionProvider = $versionProvider;
-        $this->configManager = $configManager;
-        $this->analyticsUri = $analyticsUri;
+    public function __construct(private readonly VersionProviderInterface $versionProvider, private readonly ConfigManager $configManager, private readonly string $analyticsUri)
+    {
     }
 
     public function __invoke(): JsonResponse

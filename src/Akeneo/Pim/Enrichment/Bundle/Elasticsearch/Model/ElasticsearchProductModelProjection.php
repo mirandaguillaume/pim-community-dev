@@ -11,75 +11,19 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ElasticsearchProductModelProjection
+final readonly class ElasticsearchProductModelProjection
 {
     private const INDEX_DATE_FORMAT = 'c';
 
-    private int $id;
-    private string $code;
-    private \DateTimeImmutable $createdDate;
-    private \DateTimeImmutable $updatedDate;
-    private \DateTimeImmutable $entityUpdatedDate;
-    private string $familyCode;
-    /** @var string[] */
-    private array $familyLabels;
-    private string $familyVariantCode;
-    /** @var string[] */
-    private array $categoryCodes;
-    /** @var string[] */
-    private array $ancestorCategoryCodes;
-    private ?string $parentCode;
-    private array $values;
-    private array $allComplete;
-    private array $allIncomplete;
-    private ?int $parentId;
-    private array $labels;
-    /** @var string[] */
-    private array $ancestorAttributeCodes;
-    /** @var string[] */
-    private array $attributesForThisLevel;
-    private array $additionalData = [];
-
-    public function __construct(
-        int $id,
-        string $code,
-        \DateTimeImmutable $createdDate,
-        \DateTimeImmutable $updatedDate,
-        \DateTimeImmutable $entityUpdatedDate,
-        string $familyCode,
-        array $familyLabels,
-        string $familyVariantCode,
-        array $categoryCodes,
-        array $ancestorCategoryCodes,
-        ?string $parentCode,
-        array $values,
-        array $allComplete,
-        array $allIncomplete,
-        ?int $parentId,
-        array $labels,
-        array $ancestorAttributeCodes,
-        array $attributesForThisLevel,
-        array $additionalData = []
-    ) {
-        $this->id = $id;
-        $this->code = $code;
-        $this->createdDate = $createdDate;
-        $this->updatedDate = $updatedDate;
-        $this->entityUpdatedDate = $entityUpdatedDate;
-        $this->familyCode = $familyCode;
-        $this->familyLabels = $familyLabels;
-        $this->familyVariantCode = $familyVariantCode;
-        $this->categoryCodes = $categoryCodes;
-        $this->ancestorCategoryCodes = $ancestorCategoryCodes;
-        $this->parentCode = $parentCode;
-        $this->values = $values;
-        $this->allComplete = $allComplete;
-        $this->allIncomplete = $allIncomplete;
-        $this->parentId = $parentId;
-        $this->labels = $labels;
-        $this->ancestorAttributeCodes = $ancestorAttributeCodes;
-        $this->attributesForThisLevel = $attributesForThisLevel;
-        $this->additionalData = $additionalData;
+    /**
+     * @param string[] $familyLabels
+     * @param string[] $categoryCodes
+     * @param string[] $ancestorCategoryCodes
+     * @param string[] $ancestorAttributeCodes
+     * @param string[] $attributesForThisLevel
+     */
+    public function __construct(private int $id, private string $code, private \DateTimeImmutable $createdDate, private \DateTimeImmutable $updatedDate, private \DateTimeImmutable $entityUpdatedDate, private string $familyCode, private array $familyLabels, private string $familyVariantCode, private array $categoryCodes, private array $ancestorCategoryCodes, private ?string $parentCode, private array $values, private array $allComplete, private array $allIncomplete, private ?int $parentId, private array $labels, private array $ancestorAttributeCodes, private array $attributesForThisLevel, private array $additionalData = [])
+    {
     }
 
     public function addAdditionalData(array $additionalData): ElasticsearchProductModelProjection

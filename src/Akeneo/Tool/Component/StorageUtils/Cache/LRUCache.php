@@ -13,26 +13,20 @@ namespace Akeneo\Tool\Component\StorageUtils\Cache;
  */
 final class LRUCache
 {
-    /** @var int */
-    private $maximumSize;
+    private readonly int $maximumSize;
 
     /**
      * The front of the array contains the LRU element
-     *
-     * @var array
      */
-    private $data = [];
+    private array $data = [];
 
-    /** @var string */
-    private $nullData;
+    private readonly string $nullData;
 
-    /** @var string */
-    private $defaultValue;
+    private readonly string $defaultValue;
 
     /**
      * Create a LRU Cache
      *
-     * @param int $size
      * @throws \InvalidArgumentException
      */
     public function __construct(int $size)
@@ -129,8 +123,7 @@ final class LRUCache
         $this->data[$key] = $value;
 
         if (count($this->data) > $this->maximumSize) {
-            reset($this->data);
-            unset($this->data[key($this->data)]);
+            unset($this->data[array_key_first($this->data)]);
         }
     }
 

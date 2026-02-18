@@ -11,30 +11,20 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Completeness\Model;
  */
 final class ProductCompletenessWithMissingAttributeCodes
 {
-    /** @var string */
-    private $channelCode;
-
-    /** @var string */
-    private $localeCode;
-
-    /** @var int */
-    private $requiredCount;
+    private readonly int $requiredCount;
 
     /** @var string[] */
-    private $missingAttributeCodes;
+    private readonly array $missingAttributeCodes;
 
     public function __construct(
-        string $channelCode,
-        string $localeCode,
+        private readonly string $channelCode,
+        private readonly string $localeCode,
         int $requiredCount,
         array $missingAttributeCodes
     ) {
         if ($requiredCount < 0) {
             throw new \InvalidArgumentException('$requiredCount expects a positive integer');
         }
-
-        $this->channelCode = $channelCode;
-        $this->localeCode = $localeCode;
         $this->requiredCount = $requiredCount;
         $this->missingAttributeCodes = array_values($missingAttributeCodes);
     }

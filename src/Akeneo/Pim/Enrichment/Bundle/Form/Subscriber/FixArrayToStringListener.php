@@ -8,14 +8,11 @@ use Symfony\Component\Form\FormEvents;
 
 class FixArrayToStringListener implements EventSubscriberInterface
 {
-    private $delimiter;
-
     /**
      * @param string $delimiter
      */
-    public function __construct($delimiter)
+    public function __construct(private $delimiter)
     {
-        $this->delimiter = $delimiter;
     }
 
     public function preBind(FormEvent $event)

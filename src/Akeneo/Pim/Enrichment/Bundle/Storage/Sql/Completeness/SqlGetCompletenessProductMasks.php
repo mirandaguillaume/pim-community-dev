@@ -20,30 +20,10 @@ use Webmozart\Assert\Assert;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class SqlGetCompletenessProductMasks implements GetCompletenessProductMasks
+final readonly class SqlGetCompletenessProductMasks implements GetCompletenessProductMasks
 {
-    /** @var Connection */
-    private $connection;
-
-    /** @var MaskItemGenerator */
-    private $maskItemGenerator;
-
-    /** @var GetAttributes */
-    private $getAttributes;
-
-    /** @var NormalizerInterface */
-    private $valuesNormalizer;
-
-    public function __construct(
-        Connection $connection,
-        MaskItemGenerator $maskItemGenerator,
-        GetAttributes $getAttributes,
-        NormalizerInterface $valuesNormalizer
-    ) {
-        $this->connection = $connection;
-        $this->maskItemGenerator = $maskItemGenerator;
-        $this->getAttributes = $getAttributes;
-        $this->valuesNormalizer = $valuesNormalizer;
+    public function __construct(private Connection $connection, private MaskItemGenerator $maskItemGenerator, private GetAttributes $getAttributes, private NormalizerInterface $valuesNormalizer)
+    {
     }
 
     /**
@@ -78,13 +58,11 @@ SQL;
         $productUuidsAsBytes = \array_map(static fn (UuidInterface $uuid): string => $uuid->getBytes(), $productUuids);
 
         $rows = array_map(
-            function (array $row): array {
-                return [
-                    'id' => $row['uuid'],
-                    'familyCode' => $row['familyCode'],
-                    'cleanedRawValues' => json_decode($row['rawValues'], true),
-                ];
-            },
+            fn(array $row): array => [
+                'id' => $row['uuid'],
+                'familyCode' => $row['familyCode'],
+                'cleanedRawValues' => json_decode((string) $row['rawValues'], true, 512, JSON_THROW_ON_ERROR),
+            ],
             $this->connection->executeQuery(
                 $sql,
                 ['productUuids' => $productUuidsAsBytes],
@@ -120,7 +98,7 @@ SQL;
             // array_unique is important for big catalog (see PIM-9783), because for a very high number of rows the array_merge takes too much time.
             // For instance for 1.000 rows it can take 1 second, for 10.000 rows more than 1 minute.
             // With array_unique it's less than 1 second in both cases.
-            $attributeCodes = array_unique(array_merge($attributeCodes, array_keys($row['cleanedRawValues'])));
+            $attributeCodes = array_unique([...$attributeCodes, ...array_keys($row['cleanedRawValues'])]);
         }
         $attributes = $this->getAttributes->forCodes($attributeCodes);
 

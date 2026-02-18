@@ -16,16 +16,6 @@ class ServiceLink
     protected $container;
 
     /**
-     * @var string
-     */
-    protected $serviceId;
-
-    /**
-     * @var string
-     */
-    protected $isOptional;
-
-    /**
      * @var mixed
      */
     protected $service = false;
@@ -33,15 +23,12 @@ class ServiceLink
     /**
      * Constructor
      *
-     * @param ContainerInterface $container
      * @param string $serviceId
      * @param bool $isOptional
      */
-    public function __construct(ContainerInterface $container, $serviceId, $isOptional = false)
+    public function __construct(ContainerInterface $container, protected $serviceId, protected $isOptional = false)
     {
         $this->container = $container;
-        $this->serviceId = $serviceId;
-        $this->isOptional = $isOptional;
     }
 
     /**

@@ -37,9 +37,9 @@ class ImagePreviewController
     private const ROOT_FLAG = '__root__';
 
     public function __construct(
-        private GetAttribute $getAttribute,
-        private PreviewGeneratorInterface $previewGenerator,
-        private LoaderInterface $imageLoader,
+        private readonly GetAttribute $getAttribute,
+        private readonly PreviewGeneratorInterface $previewGenerator,
+        private readonly LoaderInterface $imageLoader,
     ) {
     }
 
@@ -53,7 +53,7 @@ class ImagePreviewController
             return new JsonResponse('Data is required', Response::HTTP_BAD_REQUEST);
         }
 
-        $data = urldecode($data);
+        $data = urldecode((string) $data);
         $regenerate = $request->isMethod('POST');
 
         try {

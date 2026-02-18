@@ -29,6 +29,7 @@ use Akeneo\Pim\Structure\Component\Model\FamilyInterface;
 use Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface;
 use Akeneo\Platform\Bundle\UIBundle\Provider\Form\FormProviderInterface;
 use Akeneo\Tool\Bundle\VersioningBundle\Manager\VersionManager;
+use Akeneo\Tool\Component\Versioning\Model\Version;
 use Akeneo\UserManagement\Bundle\Context\UserContext;
 use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
@@ -118,7 +119,9 @@ class ProductModelNormalizerSpec extends ObjectBehavior
         AssociationInterface $association,
         AssociationTypeInterface $associationType,
         GroupInterface $group,
-        ArrayCollection $groups
+        ArrayCollection $groups,
+        Version $createVersion,
+        Version $updateVersion
     ) {
         $options = [
             'decimal_separator' => ',',
@@ -203,11 +206,11 @@ class ProductModelNormalizerSpec extends ObjectBehavior
 
         $productModel->getId()->willReturn(12);
         $productModel->getCode()->willReturn('tshirt_blue');
-        $versionManager->getOldestLogEntry($productModel)->willReturn('create_version');
-        $versionNormalizer->normalize('create_version', 'internal_api', ['timezone' => 'Pacific/Kiritimati'])
+        $versionManager->getOldestLogEntry($productModel)->willReturn($createVersion);
+        $versionNormalizer->normalize($createVersion, 'internal_api', ['timezone' => 'Pacific/Kiritimati'])
             ->willReturn('normalized_create_version');
-        $versionManager->getNewestLogEntry($productModel)->willReturn('update_version');
-        $versionNormalizer->normalize('update_version', 'internal_api', ['timezone' => 'Pacific/Kiritimati'])
+        $versionManager->getNewestLogEntry($productModel)->willReturn($updateVersion);
+        $versionNormalizer->normalize($updateVersion, 'internal_api', ['timezone' => 'Pacific/Kiritimati'])
             ->willReturn('normalized_update_version');
 
         $productModel->getFamilyVariant()->willReturn($familyVariant);
@@ -333,7 +336,9 @@ class ProductModelNormalizerSpec extends ObjectBehavior
         ProductModelInterface $productModel,
         FamilyVariantInterface $familyVariant,
         FamilyInterface $family,
-        CompleteVariantProducts $completeVariantProducts
+        CompleteVariantProducts $completeVariantProducts,
+        Version $createVersion,
+        Version $updateVersion
     ) {
         $options = [
             'decimal_separator' => ',',
@@ -405,11 +410,11 @@ class ProductModelNormalizerSpec extends ObjectBehavior
 
         $productModel->getId()->willReturn(12);
         $productModel->getCode()->willReturn('tshirt_blue');
-        $versionManager->getOldestLogEntry($productModel)->willReturn('create_version');
-        $versionNormalizer->normalize('create_version', 'internal_api', ['timezone' => 'UTC'])
+        $versionManager->getOldestLogEntry($productModel)->willReturn($createVersion);
+        $versionNormalizer->normalize($createVersion, 'internal_api', ['timezone' => 'UTC'])
             ->willReturn('normalized_create_version');
-        $versionManager->getNewestLogEntry($productModel)->willReturn('update_version');
-        $versionNormalizer->normalize('update_version', 'internal_api', ['timezone' => 'UTC'])
+        $versionManager->getNewestLogEntry($productModel)->willReturn($updateVersion);
+        $versionNormalizer->normalize($updateVersion, 'internal_api', ['timezone' => 'UTC'])
             ->willReturn('normalized_update_version');
 
         $productModel->getFamilyVariant()->willReturn($familyVariant);
@@ -525,7 +530,9 @@ class ProductModelNormalizerSpec extends ObjectBehavior
         FamilyVariantInterface $familyVariant,
         FamilyInterface $family,
         ValueInterface $picture,
-        CompleteVariantProducts $completeVariantProducts
+        CompleteVariantProducts $completeVariantProducts,
+        Version $createVersion,
+        Version $updateVersion
     ) {
         $options = [
             'decimal_separator' => ',',
@@ -609,11 +616,11 @@ class ProductModelNormalizerSpec extends ObjectBehavior
 
         $productModel->getId()->willReturn(12);
         $productModel->getCode()->willReturn('tshirt_blue');
-        $versionManager->getOldestLogEntry($productModel)->willReturn('create_version');
-        $versionNormalizer->normalize('create_version', 'internal_api', ['timezone' => 'UTC'])
+        $versionManager->getOldestLogEntry($productModel)->willReturn($createVersion);
+        $versionNormalizer->normalize($createVersion, 'internal_api', ['timezone' => 'UTC'])
             ->willReturn('normalized_create_version');
-        $versionManager->getNewestLogEntry($productModel)->willReturn('update_version');
-        $versionNormalizer->normalize('update_version', 'internal_api', ['timezone' => 'UTC'])
+        $versionManager->getNewestLogEntry($productModel)->willReturn($updateVersion);
+        $versionNormalizer->normalize($updateVersion, 'internal_api', ['timezone' => 'UTC'])
             ->willReturn('normalized_update_version');
 
         $productModel->getFamilyVariant()->willReturn($familyVariant);

@@ -14,8 +14,6 @@ class RootCategory
 {
     /**
      * @param ReadModel\RootCategory[] $rootCategories
-     *
-     * @return array
      */
     public function normalizeList(array $rootCategories): array
     {

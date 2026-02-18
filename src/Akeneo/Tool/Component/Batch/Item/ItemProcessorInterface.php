@@ -30,5 +30,5 @@ interface ItemProcessorInterface
      * @return mixed Potentially modified or new item for continued processing
      *
      */
-    public function process($item);
+    public function process(mixed $item);
 }

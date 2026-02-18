@@ -37,29 +37,25 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class FamilyVariantController
 {
     public function __construct(
-        private ApiResourceRepositoryInterface $familyRepository,
-        private ApiResourceRepositoryInterface $familyVariantRepository,
-        private NormalizerInterface $normalizer,
-        private PaginatorInterface $paginator,
-        private ParameterValidatorInterface $parameterValidator,
-        private ValidatorInterface $validator,
-        private SimpleFactoryInterface $factory,
-        private ObjectUpdaterInterface $updater,
-        private SaverInterface $saver,
-        private RouterInterface $router,
-        private StreamResourceResponse $partialUpdateStreamResource,
-        private array $apiConfiguration
+        private readonly ApiResourceRepositoryInterface $familyRepository,
+        private readonly ApiResourceRepositoryInterface $familyVariantRepository,
+        private readonly NormalizerInterface $normalizer,
+        private readonly PaginatorInterface $paginator,
+        private readonly ParameterValidatorInterface $parameterValidator,
+        private readonly ValidatorInterface $validator,
+        private readonly SimpleFactoryInterface $factory,
+        private readonly ObjectUpdaterInterface $updater,
+        private readonly SaverInterface $saver,
+        private readonly RouterInterface $router,
+        private readonly StreamResourceResponse $partialUpdateStreamResource,
+        private readonly array $apiConfiguration
     ) {
     }
 
     /**
-     * @param Request $request
-     * @param string  $familyCode
-     * @param string  $code
      *
      * @throws NotFoundHttpException
      *
-     * @return JsonResponse
      *
      * @AclAncestor("pim_api_family_variant_list")
      */
@@ -71,7 +67,7 @@ class FamilyVariantController
         }
 
         $familyVariant = $this->familyVariantRepository->findOneByIdentifier($code);
-        if (null === $familyVariant || \strtolower($familyVariant->getFamily()->getCode()) !== \strtolower($familyCode)) {
+        if (null === $familyVariant || \strtolower((string) $familyVariant->getFamily()->getCode()) !== \strtolower($familyCode)) {
             throw new NotFoundHttpException(
                 sprintf(
                     'Family variant "%s" does not exist or is not a variant of the family "%s".',
@@ -87,18 +83,15 @@ class FamilyVariantController
     }
 
     /**
-     * @param Request $request
-     * @param string  $familyCode
      *
      * @throws NotFoundHttpException
      * @throws UnprocessableEntityHttpException
-     *
-     * @return JsonResponse
      *
      * @AclAncestor("pim_api_family_variant_list")
      */
     public function listAction(Request $request, string $familyCode): JsonResponse
     {
+        $criteria = [];
         $family = $this->familyRepository->findOneByIdentifier($familyCode);
         if (null === $family) {
             throw new NotFoundHttpException(sprintf('Family "%s" does not exist.', $familyCode));
@@ -141,13 +134,9 @@ class FamilyVariantController
     }
 
     /**
-     * @param Request $request
-     * @param string  $familyCode
      *
      * @throws BadRequestHttpException
      * @throws UnprocessableEntityHttpException
-     *
-     * @return Response
      *
      * @AclAncestor("pim_api_family_variant_edit")
      */
@@ -167,14 +156,10 @@ class FamilyVariantController
     }
 
     /**
-     * @param Request $request
-     * @param string  $familyCode
-     * @param string  $code
      *
      * @throws BadRequestHttpException
      * @throws UnprocessableEntityHttpException
      *
-     * @return Response
      *
      * @AclAncestor("pim_api_family_variant_edit")
      */
@@ -204,13 +189,9 @@ class FamilyVariantController
     }
 
     /**
-     * @param Request $request
-     * @param string  $familyCode
      *
      * @throws BadRequestHttpException
      * @throws UnprocessableEntityHttpException
-     *
-     * @return Response
      *
      * @AclAncestor("pim_api_family_variant_edit")
      */
@@ -225,10 +206,8 @@ class FamilyVariantController
     /**
      * Get a response with a location header to the created or updated resource.
      *
-     * @param FamilyVariantInterface $familyVariant
      * @param string                 $status
      *
-     * @return Response
      */
     protected function getResponse(FamilyVariantInterface $familyVariant, $status): Response
     {
@@ -248,8 +227,6 @@ class FamilyVariantController
      *
      * @param FamilyVariantInterface $familyVariant family variant to update
      * @param array                  $data          data of the request already decoded, it should be the standard format
-     * @param string                 $familyCode
-     * @param string                 $anchor
      *
      * @throws DocumentedHttpException
      */
@@ -274,7 +251,6 @@ class FamilyVariantController
      * Validate a family variant. It throws an error 422 with every violated constraints if
      * the validation failed.
      *
-     * @param FamilyVariantInterface $familyVariant
      *
      * @throws ViolationHttpException
      */
@@ -292,14 +268,12 @@ class FamilyVariantController
      * @param string $content content of a request to decode
      *
      * @throws BadRequestHttpException
-     *
-     * @return array
      */
     protected function getDecodedContent($content): array
     {
-        $decodedContent = json_decode($content, true);
-
-        if (null === $decodedContent) {
+        try {
+            $decodedContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
             throw new BadRequestHttpException('Invalid json message received');
         }
 

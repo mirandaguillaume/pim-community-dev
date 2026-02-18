@@ -14,7 +14,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ConnectorProductModel
+final readonly class ConnectorProductModel
 {
     public function __construct(
         private int $id,
@@ -125,9 +125,7 @@ final class ConnectorProductModel
 
     public function associatedWithQuantityProductIdentifiers()
     {
-        $associatedWithQuantityProducts = array_map(function ($quantifiedAssociations) {
-            return array_column($quantifiedAssociations['products'], 'identifier');
-        }, array_values($this->quantifiedAssociations));
+        $associatedWithQuantityProducts = array_map(fn($quantifiedAssociations) => array_column($quantifiedAssociations['products'], 'identifier'), array_values($this->quantifiedAssociations));
 
         if (empty($associatedWithQuantityProducts)) {
             return [];
@@ -138,9 +136,7 @@ final class ConnectorProductModel
 
     public function associatedWithQuantityProductModelCodes()
     {
-        $associatedWithQuantityProductModels = array_map(function ($quantifiedAssociations) {
-            return array_column($quantifiedAssociations['product_models'], 'identifier');
-        }, array_values($this->quantifiedAssociations));
+        $associatedWithQuantityProductModels = array_map(fn($quantifiedAssociations) => array_column($quantifiedAssociations['product_models'], 'identifier'), array_values($this->quantifiedAssociations));
 
         if (empty($associatedWithQuantityProductModels)) {
             return [];
@@ -175,10 +171,8 @@ final class ConnectorProductModel
         $attributeCodes = array_flip($attributeCodesToKeep);
         $localeCodes = array_flip($localeCodesToKeep);
         $values = $this->values->filter(
-            function (ValueInterface $value) use ($attributeCodes, $localeCodes) {
-                return isset($attributeCodes[$value->getAttributeCode()])
-                    && (!$value->isLocalizable() || isset($localeCodes[$value->getLocaleCode()]));
-            }
+            fn(ValueInterface $value) => isset($attributeCodes[$value->getAttributeCode()])
+                && (!$value->isLocalizable() || isset($localeCodes[$value->getLocaleCode()]))
         );
 
         return new self(
@@ -269,9 +263,7 @@ final class ConnectorProductModel
         foreach ($this->quantifiedAssociations as $associationType => $quantifiedAssociation) {
             $filteredProductModelQuantifiedAssociations = array_filter(
                 $quantifiedAssociation['product_models'],
-                function ($quantifiedLink) use ($productModelCodesToFilter) {
-                    return in_array($quantifiedLink['identifier'], $productModelCodesToFilter);
-                }
+                fn($quantifiedLink) => in_array($quantifiedLink['identifier'], $productModelCodesToFilter)
             );
 
             $filteredQuantifiedAssociations[$associationType]['products'] = $quantifiedAssociation['products'];
@@ -301,9 +293,7 @@ final class ConnectorProductModel
         foreach ($this->quantifiedAssociations as $associationType => $quantifiedAssociation) {
             $filteredProductQuantifiedAssociations = array_filter(
                 $quantifiedAssociation['products'],
-                function ($quantifiedLink) use ($productIdentifiersToFilter) {
-                    return in_array($quantifiedLink['identifier'], $productIdentifiersToFilter);
-                }
+                fn($quantifiedLink) => in_array($quantifiedLink['identifier'], $productIdentifiersToFilter)
             );
 
             $filteredQuantifiedAssociations[$associationType]['products'] = array_values($filteredProductQuantifiedAssociations);

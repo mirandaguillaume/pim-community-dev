@@ -12,10 +12,10 @@ use Webmozart\Assert\Assert;
  *
  * @phpstan-type EnabledNormalized array{type: 'enabled', value: bool}
  */
-final class Enabled implements ConditionInterface
+final readonly class Enabled implements ConditionInterface
 {
     public function __construct(
-        private readonly bool $value
+        private bool $value
     ) {
     }
 

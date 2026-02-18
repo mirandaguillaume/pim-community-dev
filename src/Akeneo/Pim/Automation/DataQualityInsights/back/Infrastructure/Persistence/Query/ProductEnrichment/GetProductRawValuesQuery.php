@@ -16,12 +16,11 @@ use Webmozart\Assert\Assert;
  */
 class GetProductRawValuesQuery implements GetProductRawValuesQueryInterface
 {
-    /** * @var Connection */
-    private $db;
-
-    public function __construct(Connection $db)
+    public function __construct(
+        /** * @var Connection */
+        private readonly Connection $db
+    )
     {
-        $this->db = $db;
     }
 
     public function execute(ProductEntityIdInterface $productId): array
@@ -53,6 +52,6 @@ SQL;
 
         $result = $statement->fetchOne();
 
-        return false === $result ? [] : json_decode($result, true);
+        return false === $result ? [] : json_decode((string) $result, true, 512, JSON_THROW_ON_ERROR);
     }
 }

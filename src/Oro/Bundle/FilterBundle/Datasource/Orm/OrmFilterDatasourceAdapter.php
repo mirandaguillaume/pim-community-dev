@@ -24,8 +24,6 @@ class OrmFilterDatasourceAdapter implements FilterDatasourceAdapterInterface
 
     /**
      * Constructor
-     *
-     * @param QueryBuilder $qb
      */
     public function __construct(QueryBuilder $qb)
     {
@@ -67,7 +65,7 @@ class OrmFilterDatasourceAdapter implements FilterDatasourceAdapterInterface
      */
     public function groupBy($_)
     {
-        return call_user_func_array([$this->qb, 'groupBy'], func_get_args());
+        return call_user_func_array($this->qb->groupBy(...), func_get_args());
     }
 
     /**
@@ -75,7 +73,7 @@ class OrmFilterDatasourceAdapter implements FilterDatasourceAdapterInterface
      */
     public function addGroupBy($_)
     {
-        return call_user_func_array([$this->qb, 'addGroupBy'], func_get_args());
+        return call_user_func_array($this->qb->addGroupBy(...), func_get_args());
     }
 
     /**
@@ -103,7 +101,7 @@ class OrmFilterDatasourceAdapter implements FilterDatasourceAdapterInterface
      */
     public function generateParameterName($filterName)
     {
-        return preg_replace('#[^a-z0-9]#i', '', $filterName) . mt_rand();
+        return preg_replace('#[^a-z0-9]#i', '', $filterName) . random_int(0, mt_getrandmax());
     }
 
     /**
@@ -125,7 +123,7 @@ class OrmFilterDatasourceAdapter implements FilterDatasourceAdapterInterface
      *                            Can be FilterUtility::CONDITION_OR or FilterUtility::CONDITION_AND.
      * @return bool true if a the given restriction was fixed and applied to the query builder; otherwise, false.
      */
-    protected function fixComparison($restriction, $condition)
+    protected function fixComparison(mixed $restriction, $condition)
     {
         if ($restriction instanceof Expr\Comparison
             && ($restriction->getOperator() === 'LIKE' || $restriction->getOperator() === 'NOT LIKE')
@@ -144,7 +142,7 @@ class OrmFilterDatasourceAdapter implements FilterDatasourceAdapterInterface
      *                            Can be FilterUtility::CONDITION_OR or FilterUtility::CONDITION_AND.
      * @return bool true if a the given restriction was applied to the query builder; otherwise, false.
      */
-    protected function tryApplyWhereRestriction($restriction, $condition)
+    protected function tryApplyWhereRestriction(mixed $restriction, $condition)
     {
         if (!($restriction instanceof Expr\Comparison)) {
             return false;
@@ -155,7 +153,7 @@ class OrmFilterDatasourceAdapter implements FilterDatasourceAdapterInterface
         $extraSelect = null;
         foreach ($this->qb->getDQLPart('select') as $selectPart) {
             foreach ($selectPart->getParts() as $part) {
-                if (preg_match("#(.*)\\s+as\\s+" . preg_quote($expectedAlias) . "#i", $part, $matches)) {
+                if (preg_match("#(.*)\\s+as\\s+" . preg_quote($expectedAlias) . "#i", (string) $part, $matches)) {
                     $extraSelect = $matches[1];
                     break;
                 }

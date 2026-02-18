@@ -17,7 +17,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Query\Sorter\FieldSorterInterface;
 final class QualityScoreSorter extends BaseFieldSorter
 {
     public function __construct(
-        private GetScoresPropertyStrategy $getScoresProperty,
+        private readonly GetScoresPropertyStrategy $getScoresProperty,
         array $supportedFields = [],
     ) {
         parent::__construct($supportedFields);
@@ -27,16 +27,11 @@ final class QualityScoreSorter extends BaseFieldSorter
     {
         $field = sprintf('data_quality_insights.%s.%s.%s', ($this->getScoresProperty)(), $channel, $locale);
 
-        switch ($direction) {
-            case Directions::ASCENDING:
-                $order = 'ASC';
-                break;
-            case Directions::DESCENDING:
-                $order = 'DESC';
-                break;
-            default:
-                throw InvalidDirectionException::notSupported($direction, static::class);
-        }
+        $order = match ($direction) {
+            Directions::ASCENDING => 'ASC',
+            Directions::DESCENDING => 'DESC',
+            default => throw InvalidDirectionException::notSupported($direction, self::class),
+        };
 
         $sortClause = [
             $field => [

@@ -22,18 +22,10 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class ProductValueNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    const DECIMAL_PRECISION = 4;
+    final public const DECIMAL_PRECISION = 4;
 
-    /** @var NormalizerInterface */
-    private $normalizer;
-
-    /** @var GetAttributes */
-    private $getAttributes;
-
-    public function __construct(NormalizerInterface $normalizer, GetAttributes $getAttributes)
+    public function __construct(private readonly NormalizerInterface $normalizer, private readonly GetAttributes $getAttributes)
     {
-        $this->normalizer = $normalizer;
-        $this->getAttributes = $getAttributes;
     }
 
     /**
@@ -144,17 +136,15 @@ class ProductValueNormalizer implements NormalizerInterface, CacheableSupportsMe
      *
      * @param ValueInterface $value
      * @param Attribute      $attribute
-     *
-     * @return string|int
      */
-    private function formatNumber(ValueInterface $value, Attribute $attribute)
+    private function formatNumber(ValueInterface $value, Attribute $attribute): string|int
     {
         if (!$attribute->isDecimalsAllowed()) {
             return (int) $value->getData();
         }
 
         $data = $value->getData();
-        $splitNumber = preg_split('/\./', $data);
+        $splitNumber = preg_split('/\./', (string) $data);
         if (!isset($splitNumber[1])) {
             return number_format($data, static::DECIMAL_PRECISION, '.', '');
         }

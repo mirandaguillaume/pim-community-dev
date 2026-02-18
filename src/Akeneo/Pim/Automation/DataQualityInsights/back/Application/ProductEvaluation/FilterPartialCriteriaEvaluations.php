@@ -13,7 +13,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Read;
 class FilterPartialCriteriaEvaluations
 {
     public function __construct(
-        private CriteriaByFeatureRegistry $criteriaRegistry,
+        private readonly CriteriaByFeatureRegistry $criteriaRegistry,
     ) {
     }
 

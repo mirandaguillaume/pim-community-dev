@@ -14,8 +14,6 @@ interface PageableRepositoryInterface
     /**
      * Find resources with offset > $offset and filtered by $criteria
      *
-     * @param array $criteria
-     * @param array $orders
      * @param int   $limit
      * @param int   $offset
      *
@@ -26,7 +24,6 @@ interface PageableRepositoryInterface
     /**
      * Return the count of resources filtered by $criteria
      *
-     * @param array $criteria
      *
      * @return int
      */

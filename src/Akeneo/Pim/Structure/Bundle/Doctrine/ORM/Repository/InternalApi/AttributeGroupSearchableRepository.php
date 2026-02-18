@@ -19,17 +19,12 @@ class AttributeGroupSearchableRepository implements SearchableRepositoryInterfac
     /** @var EntityManagerInterface */
     protected $entityManager;
 
-    /** @var string */
-    protected $entityName;
-
     /**
-     * @param EntityManagerInterface $entityManager
      * @param string                 $entityName
      */
-    public function __construct(EntityManagerInterface $entityManager, $entityName)
+    public function __construct(EntityManagerInterface $entityManager, protected $entityName)
     {
         $this->entityManager = $entityManager;
-        $this->entityName = $entityName;
     }
 
     /**
@@ -43,8 +38,6 @@ class AttributeGroupSearchableRepository implements SearchableRepositoryInterfac
     }
 
     /**
-     * @param  array $options
-     *
      * @return array
      */
     protected function resolveOptions(array $options)
@@ -79,7 +72,6 @@ class AttributeGroupSearchableRepository implements SearchableRepositoryInterfac
 
     /**
      * @param  string $search
-     * @param  array  $options
      *
      * @return QueryBuilder
      */

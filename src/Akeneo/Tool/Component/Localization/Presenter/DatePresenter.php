@@ -20,7 +20,6 @@ class DatePresenter implements PresenterInterface
     protected $attributeTypes;
 
     /**
-     * @param DateFactory $dateFactory
      * @param string[]    $attributeTypes
      */
     public function __construct(DateFactory $dateFactory, array $attributeTypes)
@@ -45,7 +44,7 @@ class DatePresenter implements PresenterInterface
         if (!($value instanceof \DateTime)) {
             try {
                 $value = new \DateTime($value);
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 return null;
             }
         }

@@ -30,7 +30,7 @@ class InfiniteLoopStep implements StepInterface
     public function execute(StepExecution $stepExecution)
     {
         while (true) {
-            sleep(1000000);
+            sleep(1_000_000);
         }
     }
 }

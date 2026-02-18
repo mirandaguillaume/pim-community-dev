@@ -9,13 +9,10 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\Association\GetAssociationTyp
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Association\LabelCollection;
 use Doctrine\DBAL\Connection;
 
-final class SqlGetAssociationTypes implements GetAssociationTypesInterface
+final readonly class SqlGetAssociationTypes implements GetAssociationTypesInterface
 {
-    private Connection $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     /**
@@ -53,7 +50,7 @@ SQL;
         foreach ($rows as $row) {
             $associationTypes[$row['code']] = new AssociationType(
                 $row['code'],
-                LabelCollection::fromArray(\json_decode($row['labels'] ?? '{}', true)),
+                LabelCollection::fromArray(\json_decode($row['labels'] ?? '{}', true, 512, JSON_THROW_ON_ERROR)),
                 \boolval($row['is_two_way']),
                 \boolval($row['is_quantified'])
             );

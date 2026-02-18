@@ -8,13 +8,11 @@ namespace Akeneo\Pim\Enrichment\Component\Error\TemplatedErrorMessage;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class TemplatedErrorMessage
+class TemplatedErrorMessage implements \Stringable
 {
-    /** @var string */
-    private $template;
+    private readonly string $template;
 
-    /** @var array */
-    private $parameters;
+    private readonly array $parameters;
 
     /**
      * @param string $template Message template with the following delimiters {} around parameters, e.g. {param}.

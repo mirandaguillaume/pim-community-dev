@@ -20,7 +20,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Exception as DriverException;
 use Doctrine\DBAL\Exception as DBALException;
 
-final class SqlFindUsers implements FindUsers
+final readonly class SqlFindUsers implements FindUsers
 {
     public function __construct(
         private Connection $connection
@@ -92,10 +92,10 @@ final class SqlFindUsers implements FindUsers
         return <<<SQL
             SELECT id, email, username, user_type, first_name, last_name, middle_name, name_suffix, image 
             FROM oro_user as ou
-            WHERE ou.user_type='${type}'
-            ${sqlWhereParts}
+            WHERE ou.user_type='{$type}'
+            {$sqlWhereParts}
             ORDER BY ou.id
-            ${sqlLimitPart} 
+            {$sqlLimitPart}
         SQL;
     }
 }

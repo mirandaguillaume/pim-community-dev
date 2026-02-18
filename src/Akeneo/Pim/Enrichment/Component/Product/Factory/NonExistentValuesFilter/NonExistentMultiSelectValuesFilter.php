@@ -64,7 +64,7 @@ class NonExistentMultiSelectValuesFilter implements NonExistentValuesFilter
         $caseInsensitiveOptionsCodes = [];
         foreach ($existingOptionCodes as $attributeCode => $optionCodesForThisAttribute) {
             foreach ($optionCodesForThisAttribute as $optionCodeForThisAttribute) {
-                $caseInsensitiveOptionsCodes[$attributeCode][strtolower($optionCodeForThisAttribute)] = $optionCodeForThisAttribute;
+                $caseInsensitiveOptionsCodes[$attributeCode][strtolower((string) $optionCodeForThisAttribute)] = $optionCodeForThisAttribute;
             }
         }
 
@@ -107,7 +107,7 @@ class NonExistentMultiSelectValuesFilter implements NonExistentValuesFilter
 
         foreach ($givenOptionCodes as $optionCode) {
             if (isset($existentOptionCodesIndexedInsensitive[strtolower($optionCode ?? '')])) {
-                $result[] = $existentOptionCodesIndexedInsensitive[strtolower($optionCode)];
+                $result[] = $existentOptionCodesIndexedInsensitive[strtolower((string) $optionCode)];
             }
         }
 

@@ -29,36 +29,8 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
  */
 class QueueJobLauncher implements JobLauncherInterface
 {
-    private JobRepositoryInterface $jobRepository;
-    private JobParametersFactory $jobParametersFactory;
-    private JobRegistry $jobRegistry;
-    private JobParametersValidator $jobParametersValidator;
-    private JobExecutionQueueInterface $queue;
-    private JobExecutionMessageFactory $jobExecutionMessageFactory;
-    private string $environment;
-    private EventDispatcherInterface $eventDispatcher;
-    private BatchLogHandler $batchLogHandler;
-
-    public function __construct(
-        JobRepositoryInterface $jobRepository,
-        JobParametersFactory $jobParametersFactory,
-        JobRegistry $jobRegistry,
-        JobParametersValidator $jobParametersValidator,
-        JobExecutionQueueInterface $queue,
-        JobExecutionMessageFactory $jobExecutionMessageFactory,
-        EventDispatcherInterface $eventDispatcher,
-        BatchLogHandler $batchLogHandler,
-        string $environment
-    ) {
-        $this->jobRepository = $jobRepository;
-        $this->jobParametersFactory = $jobParametersFactory;
-        $this->jobRegistry = $jobRegistry;
-        $this->jobParametersValidator = $jobParametersValidator;
-        $this->jobExecutionMessageFactory = $jobExecutionMessageFactory;
-        $this->queue = $queue;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->batchLogHandler = $batchLogHandler;
-        $this->environment = $environment;
+    public function __construct(private readonly JobRepositoryInterface $jobRepository, private readonly JobParametersFactory $jobParametersFactory, private readonly JobRegistry $jobRegistry, private readonly JobParametersValidator $jobParametersValidator, private readonly JobExecutionQueueInterface $queue, private readonly JobExecutionMessageFactory $jobExecutionMessageFactory, private readonly EventDispatcherInterface $eventDispatcher, private readonly BatchLogHandler $batchLogHandler, private readonly string $environment)
+    {
     }
 
     /**
@@ -87,13 +59,10 @@ class QueueJobLauncher implements JobLauncherInterface
     /**
      * Create a jobExecution
      *
-     * @param JobInstance   $jobInstance
      * @param UserInterface $user
-     * @param array         $configuration
      *
      * @throws \RuntimeException
      *
-     * @return JobExecution
      */
     private function createJobExecution(JobInstance $jobInstance, ?UserInterface $user, array $configuration): JobExecution
     {
@@ -110,7 +79,7 @@ class QueueJobLauncher implements JobLauncherInterface
                     'Job instance "%s" running the job "%s" with parameters "%s" is invalid because of "%s"',
                     $jobInstance->getCode(),
                     $job->getName(),
-                    json_encode($jobParameters->all()),
+                    json_encode($jobParameters->all(), JSON_THROW_ON_ERROR),
                     $this->getErrorMessages($errors)
                 )
             );
@@ -142,11 +111,6 @@ class QueueJobLauncher implements JobLauncherInterface
         $this->eventDispatcher->dispatch($event, $eventName);
     }
 
-    /**
-     * @param ConstraintViolationListInterface $errors
-     *
-     * @return string
-     */
     private function getErrorMessages(ConstraintViolationListInterface $errors): string
     {
         $errorsStr = '';

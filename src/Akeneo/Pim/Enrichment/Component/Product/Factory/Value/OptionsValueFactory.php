@@ -42,29 +42,29 @@ final class OptionsValueFactory implements ValueFactory
         if (!\is_array($data)) {
             throw InvalidPropertyTypeException::arrayExpected(
                 $attribute->code(),
-                static::class,
+                self::class,
                 $data
             );
         }
 
         try {
             Assert::allString($data);
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             throw InvalidPropertyTypeException::validArrayStructureExpected(
                 $attribute->code(),
                 'one of the options is not a string',
-                static::class,
+                self::class,
                 $data
             );
         }
 
         try {
             Assert::allStringNotEmpty($data);
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             throw InvalidPropertyTypeException::validArrayStructureExpected(
                 $attribute->code(),
                 'one of the options is an empty string',
-                static::class,
+                self::class,
                 $data
             );
         }

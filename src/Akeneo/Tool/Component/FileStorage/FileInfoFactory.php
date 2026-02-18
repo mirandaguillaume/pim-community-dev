@@ -14,13 +14,8 @@ use Symfony\Component\Mime\MimeTypes;
  */
 class FileInfoFactory implements FileInfoFactoryInterface
 {
-    protected PathGeneratorInterface $pathGenerator;
-    protected string $fileClass;
-
-    public function __construct(PathGeneratorInterface $pathGenerator, string $fileClass)
+    public function __construct(protected PathGeneratorInterface $pathGenerator, protected string $fileClass)
     {
-        $this->pathGenerator = $pathGenerator;
-        $this->fileClass = $fileClass;
     }
 
     /**

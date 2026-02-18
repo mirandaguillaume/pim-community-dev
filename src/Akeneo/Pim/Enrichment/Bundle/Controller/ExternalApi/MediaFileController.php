@@ -97,8 +97,6 @@ class MediaFileController
     /** @var array */
     protected $apiConfiguration;
 
-    protected EventDispatcherInterface $eventDispatcher;
-
     public function __construct(
         ApiResourceRepositoryInterface $mediaRepository,
         NormalizerInterface $normalizer,
@@ -117,7 +115,7 @@ class MediaFileController
         IdentifiableObjectRepositoryInterface $productModelRepository,
         ObjectUpdaterInterface $productModelUpdater,
         SaverInterface $productModelSaver,
-        EventDispatcherInterface $eventDispatcher,
+        protected EventDispatcherInterface $eventDispatcher,
         array $apiConfiguration
     ) {
         $this->mediaRepository = $mediaRepository;
@@ -138,15 +136,12 @@ class MediaFileController
         $this->productModelRepository = $productModelRepository;
         $this->productModelUpdater = $productModelUpdater;
         $this->productModelSaver = $productModelSaver;
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
-     * @param Request $request
      * @param string  $code
      *
      * @throws HttpException
-     *
      * @return JsonResponse
      */
     public function getAction(Request $request, $code)
@@ -162,10 +157,8 @@ class MediaFileController
     }
 
     /**
-     * @param Request $request
      *
      * @throws HttpException
-     *
      * @return JsonResponse
      */
     public function listAction(Request $request)
@@ -206,11 +199,9 @@ class MediaFileController
     }
 
     /**
-     * @param Request $request
      * @param string  $code
      *
      * @throws NotFoundHttpException
-     *
      * @return StreamedFileResponse
      */
     public function downloadAction(Request $request, $code)
@@ -242,10 +233,8 @@ class MediaFileController
     }
 
     /**
-     * @param Request $request
      *
      * @throws HttpException
-     *
      * @return Response
      */
     public function createAction(Request $request)
@@ -267,11 +256,6 @@ class MediaFileController
         );
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return Response
-     */
     protected function createProductModelMedia(Request $request): Response
     {
         $productModelInfos = $this->getProductModelDecodedContent($request->request->get('product_model'));
@@ -298,10 +282,8 @@ class MediaFileController
     }
 
     /**
-     * @param Request $request
      *
      * @throws HttpException
-     *
      * @return Response
      */
     protected function createProductMedia(Request $request)
@@ -331,13 +313,9 @@ class MediaFileController
     }
 
     /**
-     * @param FileInfoInterface $fileInfo
-     * @param ProductInterface  $product
-     * @param array             $productInfos
      *
      * @throws HttpException
      *
-     * @return ProductInterface
      */
     protected function linkFileToProduct(
         FileInfoInterface $fileInfo,
@@ -374,13 +352,9 @@ class MediaFileController
     }
 
     /**
-     * @param FileInfoInterface     $fileInfo
-     * @param ProductModelInterface $productModel
-     * @param array                 $productModelInfos
      *
      * @throws HttpException
      *
-     * @return ProductModelInterface
      */
     protected function linkFileToProductModel(
         FileInfoInterface $fileInfo,
@@ -418,10 +392,8 @@ class MediaFileController
     }
 
     /**
-     * @param FileBag $files
      *
      * @throws HttpException
-     *
      * @return FileInfoInterface
      */
     protected function storeFile(FileBag $files)
@@ -445,13 +417,12 @@ class MediaFileController
      * @param string $content
      *
      * @throws HttpException
-     *
-     * @return array
      */
     protected function getProductDecodedContent($content): array
     {
-        $decodedContent = json_decode($content, true);
-        if (null === $decodedContent) {
+        try {
+            $decodedContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
             throw new BadRequestHttpException('Invalid json message received');
         }
 
@@ -469,13 +440,12 @@ class MediaFileController
      * @param string $content
      *
      * @throws HttpException
-     *
-     * @return array
      */
     protected function getProductModelDecodedContent($content): array
     {
-        $decodedContent = json_decode($content, true);
-        if (null === $decodedContent) {
+        try {
+            $decodedContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
             throw new BadRequestHttpException('Invalid json message received');
         }
 

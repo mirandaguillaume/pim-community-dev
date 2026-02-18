@@ -16,9 +16,9 @@ final class FixturesLoader
     private array $jobInstances = [];
 
     public function __construct(
-        private Connection $dbalConnection,
-        private FixturesJobHelper $fixturesJobHelper,
-        private FixturesUserHelper $fixturesUserHelper
+        private readonly Connection $dbalConnection,
+        private readonly FixturesJobHelper $fixturesJobHelper,
+        private readonly FixturesUserHelper $fixturesUserHelper
     ) {
     }
 

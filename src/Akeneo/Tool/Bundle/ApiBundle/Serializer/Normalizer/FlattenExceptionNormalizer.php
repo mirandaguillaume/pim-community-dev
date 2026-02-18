@@ -20,12 +20,10 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 final class FlattenExceptionNormalizer implements NormalizerInterface
 {
-    private FosRestNormalizer $fosRestNormalizer;
     private NormalizerInterface $normalizer;
 
-    public function __construct(FosRestNormalizer $fosRestNormalizer)
+    public function __construct(private readonly FosRestNormalizer $fosRestNormalizer)
     {
-        $this->fosRestNormalizer = $fosRestNormalizer;
     }
 
     /**

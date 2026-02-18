@@ -37,8 +37,6 @@ class ProductPdfController
     /**
      * Generate Pdf and send it to the client for specific product
      *
-     * @param Request $request
-     * @param string  $uuid
      *
      * @AclAncestor("pim_pdf_generator_product_download")
      *

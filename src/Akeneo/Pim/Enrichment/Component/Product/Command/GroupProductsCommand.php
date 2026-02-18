@@ -11,8 +11,8 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Command;
 class GroupProductsCommand
 {
     public function __construct(
-        private int $groupId,
-        private array $productUuids,
+        private readonly int $groupId,
+        private readonly array $productUuids,
     ) {
     }
 

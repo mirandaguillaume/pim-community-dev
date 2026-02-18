@@ -22,33 +22,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class JobExecutionController
 {
-    protected TranslatorInterface $translator;
-    protected StepExecutionArchivist $archivist;
-    protected JobExecutionManager $jobExecutionManager;
-    protected JobExecutionRepository $jobExecutionRepo;
-    private NormalizerInterface $normalizer;
-    private SecurityFacade $securityFacade;
-    private array $jobSecurityMapping;
-    private FilesystemReader $logFilesystem;
-
-    public function __construct(
-        TranslatorInterface $translator,
-        StepExecutionArchivist $archivist,
-        JobExecutionManager $jobExecutionManager,
-        JobExecutionRepository $jobExecutionRepo,
-        NormalizerInterface $normalizer,
-        SecurityFacade $securityFacade,
-        FilesystemReader $logFilesystem,
-        array $jobSecurityMapping
-    ) {
-        $this->translator = $translator;
-        $this->archivist = $archivist;
-        $this->jobExecutionManager = $jobExecutionManager;
-        $this->jobExecutionRepo = $jobExecutionRepo;
-        $this->normalizer = $normalizer;
-        $this->securityFacade = $securityFacade;
-        $this->jobSecurityMapping = $jobSecurityMapping;
-        $this->logFilesystem = $logFilesystem;
+    public function __construct(protected TranslatorInterface $translator, protected StepExecutionArchivist $archivist, protected JobExecutionManager $jobExecutionManager, protected JobExecutionRepository $jobExecutionRepo, private readonly NormalizerInterface $normalizer, private readonly SecurityFacade $securityFacade, private readonly FilesystemReader $logFilesystem, private readonly array $jobSecurityMapping)
+    {
     }
 
     public function getAction($identifier): JsonResponse

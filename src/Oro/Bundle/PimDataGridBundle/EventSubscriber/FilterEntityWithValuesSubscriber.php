@@ -52,8 +52,6 @@ class FilterEntityWithValuesSubscriber implements EventSubscriber
     /**
      * Filter directly the real object values from the raw values field.
      * Should only be used in the datagrid context.
-     *
-     * @param LifecycleEventArgs $event
      */
     public function postLoad(LifecycleEventArgs $event): void
     {

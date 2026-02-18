@@ -26,7 +26,7 @@ class StandardFormatToUserIntentsIntegration extends TestCase
                 "fr_FR" => "saucisses"
             ]
         ];
-        $converter = $this->get('Akeneo\Category\Application\Converter\StandardFormatToUserIntentsInterface');
+        $converter = $this->get(\Akeneo\Category\Application\Converter\StandardFormatToUserIntentsInterface::class);
         $result = $converter->convert($standardFormat);
 
         Assert::assertEqualsCanonicalizing(
@@ -51,7 +51,7 @@ class StandardFormatToUserIntentsIntegration extends TestCase
                 "fr_FR" => "chaussettes"
             ]
         ];
-        $converter = $this->get('Akeneo\Category\Application\Converter\StandardFormatToUserIntentsInterface');
+        $converter = $this->get(\Akeneo\Category\Application\Converter\StandardFormatToUserIntentsInterface::class);
 
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage("Cannot create userIntent from ".$nonExistentAttributeCode." fieldName");

@@ -20,9 +20,9 @@ class QuantifiedLink
     private const UUID_KEY = 'uuid';
 
     private function __construct(
-        private int $quantity,
-        private ?string $identifier = null,
-        private ?UuidInterface $uuid = null,
+        private readonly int $quantity,
+        private readonly ?string $identifier = null,
+        private readonly ?UuidInterface $uuid = null,
     ) {
     }
 

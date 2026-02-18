@@ -17,8 +17,8 @@ class UpsertCategoryCommand
      * @param UserIntent[] $userIntents
      */
     public function __construct(
-        private string $categoryCode,
-        private array $userIntents = [],
+        private readonly string $categoryCode,
+        private readonly array $userIntents = [],
     ) {
         Assert::allImplementsInterface($this->userIntents, UserIntent::class);
     }

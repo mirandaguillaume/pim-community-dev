@@ -36,9 +36,7 @@ class PriceConverter extends AbstractValueConverter
             $data = [];
         }
 
-        $data = array_map(function ($priceValue) use ($attributeFieldInfo) {
-            return $this->convertPrice($priceValue, $attributeFieldInfo['attribute']);
-        }, $data);
+        $data = array_map(fn($priceValue) => $this->convertPrice($priceValue, $attributeFieldInfo['attribute']), $data);
 
         return [$attributeFieldInfo['attribute']->getCode() => [[
             'locale' => $attributeFieldInfo['locale_code'],
@@ -49,7 +47,6 @@ class PriceConverter extends AbstractValueConverter
 
     /**
      * @param string             $value
-     * @param AttributeInterface $attribute
      *
      * @return array
      */
@@ -67,13 +64,13 @@ class PriceConverter extends AbstractValueConverter
             } else {
                 if (isset($tokens[0])) {
                     $price = $tokens[0];
-                    $priceValue = !$attribute->isDecimalsAllowed() && preg_match('|^\d+$|', $price) ?
+                    $priceValue = !$attribute->isDecimalsAllowed() && preg_match('|^\d+$|', (string) $price) ?
                         (int) $price : (string) $price;
                 } else {
                     $priceValue = null;
                 }
 
-                $currency = isset($tokens[1]) ? $tokens[1] : null;
+                $currency = $tokens[1] ?? null;
             }
         }
 

@@ -17,20 +17,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class AddToExistingProductModelProcessor extends AbstractProcessor
 {
-    /** @var AddParent */
-    private $addParent;
-
-    /** @var ValidatorInterface */
-    private $validator;
-
-    /**
-     * @param AddParent          $addParent
-     * @param ValidatorInterface $validator
-     */
-    public function __construct(AddParent $addParent, ValidatorInterface $validator)
+    public function __construct(private readonly AddParent $addParent, private readonly ValidatorInterface $validator)
     {
-        $this->addParent = $addParent;
-        $this->validator = $validator;
     }
 
     /**
@@ -71,9 +59,7 @@ class AddToExistingProductModelProcessor extends AbstractProcessor
     /**
      * Validate the product
      *
-     * @param ProductInterface $product
      *
-     * @return bool
      */
     private function isProductValid(ProductInterface $product): bool
     {

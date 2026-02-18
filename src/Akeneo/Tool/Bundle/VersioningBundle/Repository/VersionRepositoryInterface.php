@@ -72,11 +72,9 @@ interface VersionRepositoryInterface
     /**
      * Find Version entities by a set of criteria
      *
-     * @param array      $criteria
      * @param array|null $orderBy
      * @param int|null   $limit
      * @param int|null   $offset
-     *
      * @return array
      */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);

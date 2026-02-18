@@ -14,13 +14,10 @@ use Twig\Environment;
 class TwigProperty extends FieldProperty
 {
     /** @staticvar string */
-    const TEMPLATE_KEY = 'template';
+    final public const TEMPLATE_KEY = 'template';
 
-    protected Environment $environment;
-
-    public function __construct(Environment $environment)
+    public function __construct(protected Environment $environment)
     {
-        $this->environment = $environment;
     }
 
     /**

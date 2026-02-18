@@ -13,7 +13,7 @@ use Webmozart\Assert\Assert;
  */
 class BulkEvent implements BulkEventInterface
 {
-    private array $events;
+    private readonly array $events;
     private ?string $tenantId = null;
 
     /**

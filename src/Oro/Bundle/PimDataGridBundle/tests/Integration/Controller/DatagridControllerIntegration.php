@@ -25,8 +25,8 @@ class DatagridControllerIntegration extends ControllerIntegrationTestCase
 
         $response = $this->client->getResponse();
         Assert::assertSame(Response::HTTP_OK, $response->getStatusCode());
-        $content = \json_decode($response->getContent(), true);
-        $groups = \json_decode($content['data'], true);
+        $content = \json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        $groups = \json_decode((string) $content['data'], true, 512, JSON_THROW_ON_ERROR);
         Assert::assertCount(3, $groups['data']);
         $groupNames = array_column($groups['data'], 'name');
         Assert::assertNotContains('do_not_show', $groupNames);

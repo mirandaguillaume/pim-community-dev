@@ -18,17 +18,12 @@ use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GpsReceiver implements ReceiverInterface
+final readonly class GpsReceiver implements ReceiverInterface
 {
     private const ACKNOWLEDGE_DEADLINE_IN_SECONDS = 600;
 
-    private SerializerInterface $serializer;
-    private Subscription $subscription;
-
-    public function __construct(Subscription $subscription, SerializerInterface $serializer)
+    public function __construct(private Subscription $subscription, private SerializerInterface $serializer)
     {
-        $this->subscription = $subscription;
-        $this->serializer = $serializer;
     }
 
     public function get(): iterable

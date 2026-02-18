@@ -87,7 +87,7 @@ class MassActionDispatcherSpec extends ObjectBehavior
             'gridName'   => 'grid',
             'massAction' => $massActionInterface,
             'actionName' => 'mass_edit_action',
-        ])->shouldReturnAnInstanceOf('\Oro\Bundle\PimDataGridBundle\Extension\MassAction\Handler\MassActionHandlerInterface');
+        ])->shouldReturnAnInstanceOf('\\' . \Oro\Bundle\PimDataGridBundle\Extension\MassAction\Handler\MassActionHandlerInterface::class);
     }
 
     function it_throws_an_exception_without_extension(

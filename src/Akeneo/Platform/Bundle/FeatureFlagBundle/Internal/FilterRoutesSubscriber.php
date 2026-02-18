@@ -19,14 +19,10 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class FilterRoutesSubscriber implements EventSubscriberInterface
 {
-    const FEATURE_KEY = '_feature';
+    final public const FEATURE_KEY = '_feature';
 
-    /** @var FeatureFlags */
-    private $featureFlags;
-
-    public function __construct(FeatureFlags $featureFlags)
+    public function __construct(private readonly FeatureFlags $featureFlags)
     {
-        $this->featureFlags = $featureFlags;
     }
 
     public function filterRoutesFromDisabledFeatureFlags(ControllerEvent $event)

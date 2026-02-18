@@ -30,9 +30,6 @@ class Acceptor
         }
     }
 
-    /**
-     * @param DatasourceInterface $datasource
-     */
     public function acceptDatasource(DatasourceInterface $datasource)
     {
         foreach ($this->getExtensions() as $extension) {
@@ -40,9 +37,6 @@ class Acceptor
         }
     }
 
-    /**
-     * @param ResultsIterableObject $result
-     */
     public function acceptResult(ResultsIterableObject $result)
     {
         foreach ($this->getExtensions() as $extension) {
@@ -50,9 +44,6 @@ class Acceptor
         }
     }
 
-    /**
-     * @param MetadataIterableObject $data
-     */
     public function acceptMetadata(MetadataIterableObject $data)
     {
         foreach ($this->getExtensions() as $extension) {
@@ -63,7 +54,6 @@ class Acceptor
     /**
      * Add extension that applicable to datagrid and resort all added extensions
      *
-     * @param ExtensionVisitorInterface $extension
      *
      * @return $this
      */
@@ -74,13 +64,7 @@ class Acceptor
          */
         $this->extensions[] = clone $extension;
 
-        $comparisonClosure = function (ExtensionVisitorInterface $a, ExtensionVisitorInterface $b) {
-            if ($a->getPriority() === $b->getPriority()) {
-                return 0;
-            }
-
-            return $a->getPriority() > $b->getPriority() ? -1 : 1;
-        };
+        $comparisonClosure = fn(ExtensionVisitorInterface $a, ExtensionVisitorInterface $b) => $b->getPriority() <=> $a->getPriority();
 
         // https://bugs.php.net/bug.php?id=50688
         @usort($this->extensions, $comparisonClosure);
@@ -101,7 +85,6 @@ class Acceptor
     /**
      * Setter for config
      *
-     * @param DatagridConfiguration $config
      *
      * @return mixed
      */

@@ -16,8 +16,6 @@ class AvailableAttributes
 
     /**
      * Set attribute
-     *
-     * @param array $attributes
      */
     public function setAttributes(array $attributes)
     {

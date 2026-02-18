@@ -21,7 +21,6 @@ class ProductQuickExport implements DefaultValuesProviderInterface
     protected $supportedJobNames;
 
     /**
-     * @param DefaultValuesProviderInterface $simpleProvider
      * @param string[]                       $supportedJobNames
      */
     public function __construct(DefaultValuesProviderInterface $simpleProvider, array $supportedJobNames)

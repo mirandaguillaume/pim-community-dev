@@ -11,22 +11,10 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\AttributeType;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class Attribute
+final readonly class Attribute
 {
-    /** @var AttributeCode */
-    private $code;
-
-    /** @var AttributeType */
-    private $type;
-
-    /** @var bool */
-    private $isLocalizable;
-
-    public function __construct(AttributeCode $code, AttributeType $type, bool $isLocalizable)
+    public function __construct(private AttributeCode $code, private AttributeType $type, private bool $isLocalizable)
     {
-        $this->code = $code;
-        $this->type = $type;
-        $this->isLocalizable = $isLocalizable;
     }
 
     public function getCode(): AttributeCode

@@ -13,19 +13,15 @@ namespace Akeneo\Tool\Bundle\ElasticsearchBundle;
  */
 final class Refresh
 {
-    const ENABLE = true;
-    const DISABLE = false;
-    const WAIT_FOR = 'wait_for';
-
-    /** @var bool|string */
-    private $type;
+    public const ENABLE = true;
+    public const DISABLE = false;
+    public const WAIT_FOR = 'wait_for';
 
     /**
      * @param string $type
      */
-    private function __construct($type)
+    private function __construct(private $type)
     {
-        $this->type = $type;
     }
 
     /**
@@ -62,10 +58,7 @@ final class Refresh
         return new self(Refresh::WAIT_FOR);
     }
 
-    /**
-     * @return bool|string
-     */
-    public function getType()
+    public function getType(): bool|string
     {
         return $this->type;
     }

@@ -14,8 +14,8 @@ use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Transfo
 class TransformChannelLocaleDataIds
 {
     public function __construct(
-        private ChannelsInterface $channels,
-        private LocalesInterface $locales
+        private readonly ChannelsInterface $channels,
+        private readonly LocalesInterface $locales
     ) {
     }
 

@@ -11,22 +11,16 @@ namespace Akeneo\Tool\Component\StorageUtils\Exception;
  */
 class InvalidPropertyException extends PropertyException
 {
-    const EXPECTED_CODE = 100;
-    const DATE_EXPECTED_CODE = 101;
+    final public const EXPECTED_CODE = 100;
+    final public const DATE_EXPECTED_CODE = 101;
 
-    const NOT_EMPTY_VALUE_EXPECTED_CODE = 200;
+    final public const NOT_EMPTY_VALUE_EXPECTED_CODE = 200;
 
-    const VALID_ENTITY_CODE_EXPECTED_CODE = 300;
-    const VALID_GROUP_TYPE_EXPECTED_CODE = 301;
-    const VALID_GROUP_EXPECTED_CODE = 302;
-    const VALID_PATH_EXPECTED_CODE = 304;
-    const VALID_DATA_EXPECTED_CODE = 305;
-
-    /** @var string */
-    protected $propertyValue;
-
-    /** @var string */
-    protected $className;
+    final public const VALID_ENTITY_CODE_EXPECTED_CODE = 300;
+    final public const VALID_GROUP_TYPE_EXPECTED_CODE = 301;
+    final public const VALID_GROUP_EXPECTED_CODE = 302;
+    final public const VALID_PATH_EXPECTED_CODE = 304;
+    final public const VALID_DATA_EXPECTED_CODE = 305;
 
     /**
      * @param string          $propertyName
@@ -38,8 +32,8 @@ class InvalidPropertyException extends PropertyException
      */
     public function __construct(
         $propertyName,
-        $propertyValue,
-        $className,
+        protected $propertyValue,
+        protected $className,
         $message = '',
         $code = 0,
         \Exception $previous = null
@@ -47,8 +41,6 @@ class InvalidPropertyException extends PropertyException
         parent::__construct($message, $code, $previous);
 
         $this->propertyName = $propertyName;
-        $this->propertyValue = $propertyValue;
-        $this->className = $className;
     }
 
     /**
@@ -252,7 +244,6 @@ class InvalidPropertyException extends PropertyException
      *
      * @param string     $propertyName
      * @param string     $className
-     * @param \Exception $exception
      *
      * @return InvalidPropertyException
      */

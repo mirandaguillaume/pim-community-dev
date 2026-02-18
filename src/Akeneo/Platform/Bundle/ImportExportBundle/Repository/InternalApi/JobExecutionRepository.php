@@ -19,7 +19,7 @@ use Oro\Bundle\PimDataGridBundle\Doctrine\ORM\Repository\DatagridRepositoryInter
  */
 class JobExecutionRepository extends EntityRepository implements DatagridRepositoryInterface
 {
-    public const HEALTH_CHECK_INTERVAL = 10;
+    final public const HEALTH_CHECK_INTERVAL = 10;
 
     public function __construct(EntityManager $em, string $class)
     {

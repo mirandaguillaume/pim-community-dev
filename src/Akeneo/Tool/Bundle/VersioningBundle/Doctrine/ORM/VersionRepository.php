@@ -90,8 +90,6 @@ class VersionRepository extends EntityRepository implements VersionRepositoryInt
     }
 
     /**
-     * @param array $parameters
-     *
      * @return QueryBuilder
      */
     public function createDatagridQueryBuilder(array $parameters = [])
@@ -183,9 +181,6 @@ class VersionRepository extends EntityRepository implements VersionRepositoryInt
         return $qb->getQuery()->getResult();
     }
 
-    /**
-     * @param CursorFactoryInterface $cursorFactory
-     */
     public function setCursorFactory(CursorFactoryInterface $cursorFactory)
     {
         $this->cursorFactory = $cursorFactory;
@@ -195,13 +190,10 @@ class VersionRepository extends EntityRepository implements VersionRepositoryInt
      * Get one log entry
      *
      * @param string    $resourceName
-     * @param string|null    $resourceId
-     * @param bool|null $pending
      * @param string    $sort
      *
-     * @return Version|null
      */
-    protected function getOneLogEntry($resourceName, $resourceId, ?UuidInterface $resourceUuid, $pending, $sort)
+    protected function getOneLogEntry($resourceName, ?string $resourceId, ?UuidInterface $resourceUuid, ?bool $pending, $sort): ?\Akeneo\Tool\Component\Versioning\Model\Version
     {
         $criteria = ['resourceName' => $resourceName];
         if (null !== $resourceUuid) {

@@ -16,12 +16,12 @@ use Doctrine\DBAL\Connection;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GetCategoriesSql implements GetCategoriesInterface
+final readonly class GetCategoriesSql implements GetCategoriesInterface
 {
     public function __construct(
-        private readonly Connection $connection,
-        private readonly GetDeactivatedTemplateAttributes $getDeactivatedTemplateAttributes,
-        private readonly DeactivatedTemplateAttributesInValueCollectionFilter $deactivatedAttributesInValueCollectionFilter,
+        private Connection $connection,
+        private GetDeactivatedTemplateAttributes $getDeactivatedTemplateAttributes,
+        private DeactivatedTemplateAttributesInValueCollectionFilter $deactivatedAttributesInValueCollectionFilter,
     ) {
     }
 

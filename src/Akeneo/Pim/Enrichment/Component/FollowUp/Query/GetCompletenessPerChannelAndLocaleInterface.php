@@ -15,7 +15,6 @@ interface GetCompletenessPerChannelAndLocaleInterface
     /**
      * Generate the completeness widget by searching numbers depending on locale code
      *
-     * @param string $translationLocaleCode
      * @return CompletenessWidget
      */
     public function fetch(string $translationLocaleCode): CompletenessWidget;

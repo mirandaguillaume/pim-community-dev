@@ -11,24 +11,16 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Exception;
  */
 class InvalidOperatorException extends \LogicException
 {
-    const EXPECTED_CODE = 100;
-    const SCALAR_EXPECTED_CODE = 101;
-    const ARRAY_EXPECTED_CODE = 200;
-    const NOT_SUPPORTED_CODE = 300;
-    const NOT_EMPTY_VALUE_EXPECTED_CODE = 400;
+    final public const EXPECTED_CODE = 100;
+    final public const SCALAR_EXPECTED_CODE = 101;
+    final public const ARRAY_EXPECTED_CODE = 200;
+    final public const NOT_SUPPORTED_CODE = 300;
+    final public const NOT_EMPTY_VALUE_EXPECTED_CODE = 400;
 
     /** @var array */
     protected $operators;
 
-    /** @var mixed */
-    protected $value;
-
-    /** @var string */
-    protected $className;
-
     /**
-     * @param array           $operators
-     * @param mixed           $value
      * @param string          $className
      * @param string          $message
      * @param int             $code
@@ -36,8 +28,8 @@ class InvalidOperatorException extends \LogicException
      */
     public function __construct(
         array $operators,
-        $value,
-        $className,
+        protected mixed $value,
+        protected $className,
         $message = '',
         $code = 0,
         \Exception $previous = null
@@ -45,20 +37,16 @@ class InvalidOperatorException extends \LogicException
         parent::__construct($message, $code, $previous);
 
         $this->operators = $operators;
-        $this->value = $value;
-        $this->className = $className;
     }
 
     /**
      * Build an exception when the operator receive a value which is not a scalar
      *
-     * @param array  $operators
      * @param string $className
      * @param mixed  $value a value that is not a scalar (array, object, null)
-     *
      * @return InvalidOperatorException
      */
-    public static function scalarExpected(array $operators, $className, $value)
+    public static function scalarExpected(array $operators, $className, mixed $value)
     {
         $message = 'Only scalar values are allowed for operators %s, "%s" given.';
 
@@ -80,7 +68,7 @@ class InvalidOperatorException extends \LogicException
      *
      * @return InvalidOperatorException
      */
-    public static function arrayExpected($operators, $className, $value)
+    public static function arrayExpected($operators, $className, mixed $value)
     {
         $message = 'Only array values are allowed for operators %s, "%s" given.';
 

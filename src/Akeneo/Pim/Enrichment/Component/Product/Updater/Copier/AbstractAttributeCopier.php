@@ -32,10 +32,6 @@ abstract class AbstractAttributeCopier implements AttributeCopierInterface
     /** @var OptionsResolver */
     protected $resolver;
 
-    /**
-     * @param EntityWithValuesBuilderInterface $entityWithValuesBuilder
-     * @param AttributeValidatorHelper         $attrValidatorHelper
-     */
     public function __construct(
         EntityWithValuesBuilderInterface $entityWithValuesBuilder,
         AttributeValidatorHelper $attrValidatorHelper
@@ -63,10 +59,8 @@ abstract class AbstractAttributeCopier implements AttributeCopierInterface
     /**
      * Check locale and scope are valid
      *
-     * @param AttributeInterface $attribute
      * @param string             $locale
      * @param string             $scope
-     *
      * @throws InvalidPropertyException
      */
     protected function checkLocaleAndScope(AttributeInterface $attribute, $locale, $scope)
@@ -85,8 +79,6 @@ abstract class AbstractAttributeCopier implements AttributeCopierInterface
 
     /**
      * Configure the option resolver
-     *
-     * @param OptionsResolver $resolver
      */
     protected function configureOptions(OptionsResolver $resolver)
     {

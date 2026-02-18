@@ -23,7 +23,7 @@ class ProductValueLocaleFilter implements CollectionFilterInterface, ObjectFilte
             throw new \LogicException('This filter only handles objects of type "ValueInterface"');
         }
 
-        $localeCodes = isset($options['locales']) ? $options['locales'] : [];
+        $localeCodes = $options['locales'] ?? [];
 
         return !empty($localeCodes) &&
             $value->isLocalizable() &&

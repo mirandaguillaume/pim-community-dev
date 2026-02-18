@@ -14,20 +14,12 @@ namespace Akeneo\Tool\Component\Api\Hal;
  */
 class Link
 {
-    /** @var string */
-    protected $rel;
-
-    /** @var string */
-    protected $url;
-
     /**
      * @param string $rel
      * @param string $url
      */
-    public function __construct($rel, $url)
+    public function __construct(protected $rel, protected $url)
     {
-        $this->rel = $rel;
-        $this->url = $url;
     }
 
     /**
@@ -59,6 +51,7 @@ class Link
      */
     public function toArray()
     {
+        $link = [];
         $link[$this->rel]['href'] = $this->url;
 
         return $link;

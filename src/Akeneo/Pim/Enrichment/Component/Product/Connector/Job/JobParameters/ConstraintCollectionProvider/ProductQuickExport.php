@@ -22,9 +22,9 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 class ProductQuickExport implements ConstraintCollectionProviderInterface
 {
     public function __construct(
-        private ConstraintCollectionProviderInterface $simpleConstraint,
-        private array $supportedJobNames,
-        private string $filePathExtension
+        private readonly ConstraintCollectionProviderInterface $simpleConstraint,
+        private readonly array $supportedJobNames,
+        private readonly string $filePathExtension
     ) {
     }
 

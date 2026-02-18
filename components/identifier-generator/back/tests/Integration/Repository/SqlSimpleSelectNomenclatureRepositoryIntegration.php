@@ -144,11 +144,6 @@ class SqlSimpleSelectNomenclatureRepositoryIntegration extends TestCase
         Assert::assertEqualsCanonicalizing($expected->values(), $result->values());
     }
 
-    /**
-     * @param array $data
-     *
-     * @return AttributeInterface
-     */
     protected function createAttribute(array $data = []): AttributeInterface
     {
         $attribute = $this->get('pim_catalog.factory.attribute')->create();
@@ -160,11 +155,6 @@ class SqlSimpleSelectNomenclatureRepositoryIntegration extends TestCase
         return $attribute;
     }
 
-    /**
-     * @param array $data
-     *
-     * @return AttributeOptionInterface
-     */
     protected function createAttributeOption(array $data = []): AttributeOptionInterface
     {
         $attributeOption = $this->get('pim_catalog.factory.attribute_option')->create();

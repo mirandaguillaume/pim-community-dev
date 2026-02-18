@@ -12,11 +12,8 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class OptionsValue extends AbstractValue implements OptionsValueInterface
+class OptionsValue extends AbstractValue implements OptionsValueInterface, \Stringable
 {
-    /** @var string[] Options codes */
-    protected $data;
-
     /**
      * {@inheritdoc}
      */

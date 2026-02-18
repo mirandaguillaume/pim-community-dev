@@ -18,7 +18,7 @@ class ProductKeyIndicatorsByFeatureRegistry
     private array $partialKeyIndicatorCodes = [];
 
     public function __construct(
-        private FeatureFlag $allCriteriaFeature,
+        private readonly FeatureFlag $allCriteriaFeature,
     ) {
     }
 

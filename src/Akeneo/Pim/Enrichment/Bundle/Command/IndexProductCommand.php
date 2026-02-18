@@ -127,8 +127,8 @@ class IndexProductCommand extends Command
         $progressBar->start();
         foreach ($chunkedProductUuids as $productUuids) {
             $this->productAndAncestorsIndexer->indexFromProductUuids($productUuids);
-            $indexedProductCount += count($productUuids);
-            $progressBar->advance(count($productUuids));
+            $indexedProductCount += is_countable($productUuids) ? count($productUuids) : 0;
+            $progressBar->advance(is_countable($productUuids) ? count($productUuids) : 0);
         }
         $progressBar->finish();
 

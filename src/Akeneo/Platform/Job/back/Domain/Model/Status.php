@@ -11,16 +11,16 @@ namespace Akeneo\Platform\Job\Domain\Model;
  */
 class Status
 {
-    public const COMPLETED = 1;
-    public const STARTING = 2;
-    public const IN_PROGRESS = 3;
-    public const STOPPING = 4;
-    public const STOPPED = 5;
-    public const FAILED = 6;
-    public const ABANDONED = 7;
-    public const UNKNOWN = 8;
-    public const PAUSING = 9;
-    public const PAUSED = 10;
+    final public const COMPLETED = 1;
+    final public const STARTING = 2;
+    final public const IN_PROGRESS = 3;
+    final public const STOPPING = 4;
+    final public const STOPPED = 5;
+    final public const FAILED = 6;
+    final public const ABANDONED = 7;
+    final public const UNKNOWN = 8;
+    final public const PAUSING = 9;
+    final public const PAUSED = 10;
 
     public static array $labels = [
         self::COMPLETED => 'COMPLETED',
@@ -64,7 +64,7 @@ class Status
     }
 
     private function __construct(
-        private int $status = self::UNKNOWN,
+        private readonly int $status = self::UNKNOWN,
     ) {
     }
 }

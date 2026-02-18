@@ -22,7 +22,7 @@ final class QualityScoreMultiLocalesFilter extends AbstractFieldFilter implement
     public const OPERATOR_IN_ALL_LOCALES = 'IN ALL LOCALES';
 
     public function __construct(
-        private GetScoresPropertyStrategy $getScoresProperty
+        private readonly GetScoresPropertyStrategy $getScoresProperty
     ) {
         $this->supportedFields = [self::FIELD];
         $this->supportedOperators = [
@@ -41,11 +41,11 @@ final class QualityScoreMultiLocalesFilter extends AbstractFieldFilter implement
         }
 
         if (!is_array($values)) {
-            throw InvalidPropertyTypeException::arrayExpected($field, static::class, $values);
+            throw InvalidPropertyTypeException::arrayExpected($field, self::class, $values);
         }
 
         if (null === $channel) {
-            throw InvalidPropertyException::dataExpected($field, 'a channel', static::class);
+            throw InvalidPropertyException::dataExpected($field, 'a channel', self::class);
         }
 
         $values = array_map(fn ($value) => intval($value), $values);
@@ -73,15 +73,15 @@ final class QualityScoreMultiLocalesFilter extends AbstractFieldFilter implement
     private function getLocalesFromOptions(array $options): array
     {
         if (!array_key_exists('locales', $options)) {
-            throw InvalidPropertyTypeException::arrayKeyExpected(self::FIELD, 'locales', static::class, $options);
+            throw InvalidPropertyTypeException::arrayKeyExpected(self::FIELD, 'locales', self::class, $options);
         }
 
         if (!is_array($options['locales'])) {
-            throw InvalidPropertyTypeException::arrayOfArraysExpected(self::FIELD, static::class, $options);
+            throw InvalidPropertyTypeException::arrayOfArraysExpected(self::FIELD, self::class, $options);
         }
 
         if (empty($options['locales'])) {
-            throw InvalidPropertyException::dataExpected(self::FIELD, 'at least one locale', static::class);
+            throw InvalidPropertyException::dataExpected(self::FIELD, 'at least one locale', self::class);
         }
 
         return $options['locales'];

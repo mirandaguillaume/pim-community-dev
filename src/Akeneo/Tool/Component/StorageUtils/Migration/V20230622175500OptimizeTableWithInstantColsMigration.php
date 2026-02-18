@@ -30,7 +30,7 @@ class V20230622175500OptimizeTableWithInstantColsMigration implements ZddMigrati
         'pimee_workflow_product_model_draft',
     ];
 
-    public function __construct(private Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
     }
 
@@ -41,11 +41,7 @@ class V20230622175500OptimizeTableWithInstantColsMigration implements ZddMigrati
 
     public function migrateNotZdd(): void
     {
-        $this->optimizeTables(array_merge(self::TABLES_THAT_HAVE_INSTANT_COLS, [
-            'akeneo_asset_manager_asset',
-            'pim_catalog_product_model',
-            'pim_data_quality_insights_product_model_score',
-        ]));
+        $this->optimizeTables([...self::TABLES_THAT_HAVE_INSTANT_COLS, 'akeneo_asset_manager_asset', 'pim_catalog_product_model', 'pim_data_quality_insights_product_model_score']);
     }
 
     public function getName(): string

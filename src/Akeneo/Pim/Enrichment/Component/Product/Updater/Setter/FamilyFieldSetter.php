@@ -23,10 +23,6 @@ class FamilyFieldSetter extends AbstractFieldSetter
     /** @var IdentifiableObjectRepositoryInterface */
     protected $familyRepository;
 
-    /**
-     * @param IdentifiableObjectRepositoryInterface $familyRepository
-     * @param array                                 $supportedFields
-     */
     public function __construct(
         IdentifiableObjectRepositoryInterface $familyRepository,
         array $supportedFields
@@ -66,11 +62,10 @@ class FamilyFieldSetter extends AbstractFieldSetter
      * Check if data are valid
      *
      * @param string $field
-     * @param mixed  $data
      *
      * @throws InvalidPropertyTypeException
      */
-    protected function checkData($field, $data)
+    protected function checkData($field, mixed $data)
     {
         if (!is_string($data) && null !== $data) {
             throw InvalidPropertyTypeException::stringExpected(

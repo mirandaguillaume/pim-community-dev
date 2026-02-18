@@ -16,21 +16,8 @@ class BlacklistedAttributeCodeValidator extends ConstraintValidator
 {
     private const JOB_TRACKER_ROUTE = 'akeneo_job_process_tracker_details';
 
-    protected IsAttributeCodeBlacklistedInterface $isAttributeCodeBlacklisted;
-    private GetBlacklistedAttributeJobExecutionIdInterface $getBlacklistedAttributeJobExecutionId;
-    private TranslatorInterface $translator;
-    private RouterInterface $router;
-
-    public function __construct(
-        IsAttributeCodeBlacklistedInterface $isAttributeCodeBlacklisted,
-        GetBlacklistedAttributeJobExecutionIdInterface $getBlacklistedAttributeJobExecutionId,
-        TranslatorInterface $translator,
-        RouterInterface $router
-    ) {
-        $this->isAttributeCodeBlacklisted = $isAttributeCodeBlacklisted;
-        $this->getBlacklistedAttributeJobExecutionId = $getBlacklistedAttributeJobExecutionId;
-        $this->translator = $translator;
-        $this->router = $router;
+    public function __construct(protected IsAttributeCodeBlacklistedInterface $isAttributeCodeBlacklisted, private readonly GetBlacklistedAttributeJobExecutionIdInterface $getBlacklistedAttributeJobExecutionId, private readonly TranslatorInterface $translator, private readonly RouterInterface $router)
+    {
     }
 
     /**

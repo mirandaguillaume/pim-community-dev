@@ -138,8 +138,6 @@ class ReferenceDataFilter extends AbstractAttributeFilter implements AttributeFi
     }
 
     /**
-     * @param AttributeInterface $attribute
-     *
      * @return bool
      */
     public function supportsAttribute(AttributeInterface $attribute)
@@ -156,12 +154,10 @@ class ReferenceDataFilter extends AbstractAttributeFilter implements AttributeFi
     /**
      * Check if values are valid
      *
-     * @param AttributeInterface $attribute
-     * @param mixed              $values
      *
      * @throws InvalidPropertyException
      */
-    protected function checkValue(AttributeInterface $attribute, $values)
+    protected function checkValue(AttributeInterface $attribute, mixed $values)
     {
         FieldFilterHelper::checkArray($attribute->getCode(), $values, static::class);
 
@@ -173,9 +169,7 @@ class ReferenceDataFilter extends AbstractAttributeFilter implements AttributeFi
         Assert::implementsInterface($referenceDataRepository, ReferenceDataRepositoryInterface::class);
         $existingReferenceData =  $referenceDataRepository->findCodesByIdentifiers($values);
         $referenceDataCodes = array_map(
-            function ($referenceData) {
-                return $referenceData['code'];
-            },
+            fn($referenceData) => $referenceData['code'],
             $existingReferenceData
         );
 

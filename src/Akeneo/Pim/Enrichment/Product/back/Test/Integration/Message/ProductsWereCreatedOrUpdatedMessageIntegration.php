@@ -46,7 +46,7 @@ final class ProductsWereCreatedOrUpdatedMessageIntegration extends EnrichmentPro
         /** @var Message $message */
         $message = current($messages);
         $productsWereCreatedOrUpdated = $this->get(ProductsWereCreatedOrUpdatedNormalizer::class)->denormalize(
-            \json_decode($message->data(), true),
+            \json_decode($message->data(), true, 512, JSON_THROW_ON_ERROR),
             ProductsWereCreatedOrUpdated::class
         );
         self::assertInstanceOf(ProductsWereCreatedOrUpdated::class, $productsWereCreatedOrUpdated);
@@ -76,7 +76,7 @@ final class ProductsWereCreatedOrUpdatedMessageIntegration extends EnrichmentPro
         /** @var Message $message */
         $message = current($messages);
         $productsWereCreatedOrUpdated = $this->get(ProductsWereCreatedOrUpdatedNormalizer::class)->denormalize(
-            \json_decode($message->data(), true),
+            \json_decode($message->data(), true, 512, JSON_THROW_ON_ERROR),
             ProductsWereCreatedOrUpdated::class
         );
         self::assertInstanceOf(ProductsWereCreatedOrUpdated::class, $productsWereCreatedOrUpdated);

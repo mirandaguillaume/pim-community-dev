@@ -20,7 +20,7 @@ class JobInstanceNormalizer implements NormalizerInterface, CacheableSupportsMet
     protected array $supportedFormats = ['flat'];
 
     public function __construct(
-        private CredentialsEncrypterRegistry $credentialsEncrypterRegistry
+        private readonly CredentialsEncrypterRegistry $credentialsEncrypterRegistry
     ) {
     }
 
@@ -44,7 +44,7 @@ class JobInstanceNormalizer implements NormalizerInterface, CacheableSupportsMet
             'label' => $jobInstance->getLabel(),
             'connector' => $jobInstance->getConnector(),
             'type' => $jobInstance->getType(),
-            'configuration' => json_encode($parameters),
+            'configuration' => json_encode($parameters, JSON_THROW_ON_ERROR),
         ];
     }
 

@@ -79,7 +79,7 @@ final class SetIdentifiersSubscriber implements EventSubscriberInterface
         $productProjection = null;
         foreach ($this->getIdentifierGeneratorsByTarget() as $identifierGeneratorsByTarget) {
             foreach ($identifierGeneratorsByTarget as $identifierGenerator) {
-                $productProjection = $productProjection ?? new ProductProjection(
+                $productProjection ??= new ProductProjection(
                     $product->isEnabled(),
                     $product->getFamily()?->getCode(),
                     $this->flatValues($product),

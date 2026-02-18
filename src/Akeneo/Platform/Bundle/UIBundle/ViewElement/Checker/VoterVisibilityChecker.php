@@ -17,9 +17,6 @@ class VoterVisibilityChecker implements VisibilityCheckerInterface
     /** @var SecurityFacade */
     protected $securityFacade;
 
-    /**
-     * @param SecurityFacade $securityFacade
-     */
     public function __construct(SecurityFacade $securityFacade)
     {
         $this->securityFacade = $securityFacade;
@@ -45,12 +42,10 @@ class VoterVisibilityChecker implements VisibilityCheckerInterface
      * If a string is provided as the object, extracts the object from the context,
      * otherwise returns the original object
      *
-     * @param mixed $object
-     * @param array $context
      *
      * @return mixed
      */
-    protected function getObject($object, array $context)
+    protected function getObject(mixed $object, array $context)
     {
         if (is_string($object)) {
             $accessor = PropertyAccess::createPropertyAccessor();

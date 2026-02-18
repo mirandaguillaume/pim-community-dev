@@ -20,9 +20,6 @@ class DatagridViewUpdater implements ObjectUpdaterInterface
     /** @var IdentifiableObjectRepositoryInterface */
     protected $userRepository;
 
-    /**
-     * @param IdentifiableObjectRepositoryInterface $userRepository
-     */
     public function __construct(IdentifiableObjectRepositoryInterface $userRepository)
     {
         $this->userRepository = $userRepository;
@@ -50,11 +47,9 @@ class DatagridViewUpdater implements ObjectUpdaterInterface
     /**
      * Set the value to an object property
      *
-     * @param DatagridView $datagridView
      * @param string       $field
-     * @param mixed        $value
      */
-    protected function setData(DatagridView $datagridView, $field, $value)
+    protected function setData(DatagridView $datagridView, $field, mixed $value)
     {
         switch ($field) {
             case 'label':
@@ -71,7 +66,7 @@ class DatagridViewUpdater implements ObjectUpdaterInterface
                 $datagridView->setType($value);
                 break;
             case 'columns':
-                $datagridView->setColumns(array_map('trim', explode(',', $value)));
+                $datagridView->setColumns(array_map('trim', explode(',', (string) $value)));
                 break;
             case 'filters':
                 $datagridView->setFilters($value);

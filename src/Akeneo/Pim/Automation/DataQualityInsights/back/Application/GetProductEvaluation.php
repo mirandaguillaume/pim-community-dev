@@ -41,10 +41,10 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityId
 class GetProductEvaluation
 {
     public function __construct(
-        private GetCriteriaEvaluationsByEntityIdQueryInterface $getCriteriaEvaluationsByProductIdQuery,
-        private GetLocalesByChannelQueryInterface $getLocalesByChannelQuery,
-        private CriteriaByFeatureRegistry $criteriaRegistry,
-        private CompleteEvaluationWithImprovableAttributes $completeEvaluationWithImprovableAttributes
+        private readonly GetCriteriaEvaluationsByEntityIdQueryInterface $getCriteriaEvaluationsByProductIdQuery,
+        private readonly GetLocalesByChannelQueryInterface $getLocalesByChannelQuery,
+        private readonly CriteriaByFeatureRegistry $criteriaRegistry,
+        private readonly CompleteEvaluationWithImprovableAttributes $completeEvaluationWithImprovableAttributes
     ) {
     }
 

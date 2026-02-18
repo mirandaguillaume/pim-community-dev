@@ -32,7 +32,11 @@ class ReorderTemplateAttributesController
             throw new AccessDeniedException();
         }
 
-        $attributeUuids = json_decode($request->getContent(), false, 512, JSON_THROW_ON_ERROR);
+        try {
+            $attributeUuids = json_decode($request->getContent(), false, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(null, Response::HTTP_BAD_REQUEST);
+        }
         $command = ReorderTemplateAttributesCommand::create(
             templateUuid: $templateUuid,
             attributeUuids: $attributeUuids,

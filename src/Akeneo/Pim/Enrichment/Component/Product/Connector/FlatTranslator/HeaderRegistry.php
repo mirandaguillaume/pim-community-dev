@@ -7,7 +7,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Connector\FlatTranslator\Header\Flat
 class HeaderRegistry
 {
     /** @var FlatHeaderTranslatorInterface[] */
-    private $translators = [];
+    private array $translators = [];
 
     public function addTranslator(FlatHeaderTranslatorInterface $translator): void
     {

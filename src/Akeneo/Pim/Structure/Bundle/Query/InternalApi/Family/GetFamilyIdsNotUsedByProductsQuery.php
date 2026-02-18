@@ -10,7 +10,7 @@ use Doctrine\DBAL\Connection;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class GetFamilyIdsNotUsedByProductsQuery implements GetFamilyIdsNotUsedByProductsQueryInterface
+final readonly class GetFamilyIdsNotUsedByProductsQuery implements GetFamilyIdsNotUsedByProductsQueryInterface
 {
     public function __construct(private Connection $connection)
     {
@@ -28,8 +28,6 @@ final class GetFamilyIdsNotUsedByProductsQuery implements GetFamilyIdsNotUsedByP
         );
         SQL;
 
-        return array_map(function (string $code) {
-            return intval($code);
-        }, $this->connection->executeQuery($query, [])->fetchFirstColumn());
+        return array_map(fn(string $code) => intval($code), $this->connection->executeQuery($query, [])->fetchFirstColumn());
     }
 }

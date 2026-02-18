@@ -21,7 +21,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ComputeProductAndAncestorsSubscriber implements EventSubscriberInterface
+final readonly class ComputeProductAndAncestorsSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private ProductModelDescendantsAndAncestorsIndexer $productModelDescendantsAndAncestorsIndexer,
@@ -74,7 +74,6 @@ final class ComputeProductAndAncestorsSubscriber implements EventSubscriberInter
      * it is refreshed every second. We take 10 seconds by security in case of overload.
      *
      * @param ProductModelInterface[] $productModels
-     * @return bool
      */
     private function elasticsearchShouldBeRefreshed(array $productModels): bool
     {

@@ -16,7 +16,7 @@ class File
      * @param resource $resource
      */
     public function __construct(
-        private string $fileName,
+        private readonly string $fileName,
         private $resource,
     ) {
         Assert::resource($resource, 'stream');

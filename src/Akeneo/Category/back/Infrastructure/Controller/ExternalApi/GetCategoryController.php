@@ -16,12 +16,12 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class GetCategoryController
+final readonly class GetCategoryController
 {
     public function __construct(
-        private readonly SecurityFacade $securityFacade,
-        private readonly GetCategoriesParametersBuilder $parametersBuilder,
-        private readonly GetCategoriesInterface $getCategories,
+        private SecurityFacade $securityFacade,
+        private GetCategoriesParametersBuilder $parametersBuilder,
+        private GetCategoriesInterface $getCategories,
     ) {
     }
 

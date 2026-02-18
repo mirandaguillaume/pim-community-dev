@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class IsVariantAxisWithoutAvailableLocalesValidator extends ConstraintValidator
 {
-    public function __construct(private AttributeIsAFamilyVariantAxisInterface $attributeIsAFamilyVariantAxis)
+    public function __construct(private readonly AttributeIsAFamilyVariantAxisInterface $attributeIsAFamilyVariantAxis)
     {
     }
 

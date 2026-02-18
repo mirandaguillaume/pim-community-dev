@@ -22,9 +22,7 @@ class DeactivatedTemplateAttributesInValueCollectionFilter
     {
         foreach ($deactivatedAttributes as $deactivatedAttribute) {
             $attributeCode = $deactivatedAttribute->code.AbstractValue::SEPARATOR.$deactivatedAttribute->uuid;
-            $decodedRawValueCollection = array_filter($decodedRawValueCollection, static function ($rawValue) use ($attributeCode) {
-                return $rawValue['attribute_code'] !== $attributeCode;
-            });
+            $decodedRawValueCollection = array_filter($decodedRawValueCollection, static fn($rawValue) => $rawValue['attribute_code'] !== $attributeCode);
         }
 
         return $decodedRawValueCollection;

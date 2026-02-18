@@ -13,7 +13,7 @@ use Doctrine\DBAL\Connection;
  */
 class V20220516171405SetProductIdentifierNullableZddMigration implements ZddMigration
 {
-    public function __construct(private Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
     }
 

@@ -11,12 +11,6 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException as BaseAcces
  */
 class AccessDeniedException extends BaseAccessDeniedException
 {
-    /** @var string */
-    protected $controllerClass;
-
-    /** @var string */
-    protected $method;
-
     /**
      * @param string $controllerClass
      * @param string $method
@@ -34,12 +28,9 @@ class AccessDeniedException extends BaseAccessDeniedException
      * @param string     $message
      * @param \Exception $previous
      */
-    public function __construct($controllerClass, $method, $message, \Exception $previous = null)
+    public function __construct(protected $controllerClass, protected $method, $message, \Exception $previous = null)
     {
         parent::__construct($message, $previous);
-
-        $this->controllerClass = $controllerClass;
-        $this->method = $method;
     }
 
     /**

@@ -21,13 +21,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *
  * @internal This is an undocumented API endpoint used for internal purposes only
  */
-final class DeleteCustomAppAction
+final readonly class DeleteCustomAppAction
 {
     public function __construct(
-        private readonly SecurityFacade $security,
-        private readonly DeleteCustomAppHandler $deleteCustomAppHandler,
-        private readonly GetCustomAppQueryInterface $getCustomAppQuery,
-        private readonly DeleteAppHandler $deleteAppHandler,
+        private SecurityFacade $security,
+        private DeleteCustomAppHandler $deleteCustomAppHandler,
+        private GetCustomAppQueryInterface $getCustomAppQuery,
+        private DeleteAppHandler $deleteAppHandler,
     ) {
     }
 

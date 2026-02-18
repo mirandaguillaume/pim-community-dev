@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final class RegenerateSecretAction
+final readonly class RegenerateSecretAction
 {
     public function __construct(
         private GenerateWebhookSecretHandler $generateWebhookSecretHandler,

@@ -25,10 +25,10 @@ class MailNotifier implements Notifier
     private array $recipientEmails = [];
 
     public function __construct(
-        private LoggerInterface $logger,
-        private TokenStorageInterface $tokenStorage,
-        private Environment $twig,
-        private MailNotification $mailer,
+        private readonly LoggerInterface $logger,
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly Environment $twig,
+        private readonly MailNotification $mailer,
     ) {
     }
 

@@ -17,15 +17,8 @@ class AverageMaxProductValues implements AverageMaxQuery
 {
     private const VOLUME_NAME = 'average_max_product_values';
 
-    /** @var Connection */
-    private $connection;
-
-    /**
-     * @param Connection $connection
-     */
-    public function __construct(Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     /**

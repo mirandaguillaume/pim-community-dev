@@ -14,7 +14,7 @@ use Ramsey\Uuid\UuidInterface;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class InMemoryGetCategoryCodes implements GetCategoryCodes
+final readonly class InMemoryGetCategoryCodes implements GetCategoryCodes
 {
     public function __construct(private ProductRepositoryInterface $productRepository)
     {
@@ -28,7 +28,7 @@ final class InMemoryGetCategoryCodes implements GetCategoryCodes
         $results = [];
         $productUuidsAsString = \array_map(fn (UuidInterface $uuid): string => $uuid->toString(), $productUuids);
         foreach ($this->productRepository->findAll() as $product) {
-            if (\in_array(\strtolower($product->getUuid()->toString()), $productUuidsAsString)) {
+            if (\in_array(\strtolower((string) $product->getUuid()->toString()), $productUuidsAsString)) {
                 $results[$product->getUuid()->toString()] = $product->getCategoryCodes();
             }
         }

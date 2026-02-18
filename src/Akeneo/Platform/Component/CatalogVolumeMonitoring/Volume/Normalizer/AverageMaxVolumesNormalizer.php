@@ -15,11 +15,6 @@ class AverageMaxVolumesNormalizer
 {
     private const VOLUME_TYPE = 'average_max';
 
-    /**
-     * @param AverageMaxVolumes $data
-     *
-     * @return array
-     */
     public function normalize(AverageMaxVolumes $data): array
     {
         $data = [

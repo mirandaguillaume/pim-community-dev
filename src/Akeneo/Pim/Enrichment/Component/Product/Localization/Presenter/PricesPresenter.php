@@ -72,8 +72,6 @@ class PricesPresenter extends NumberPresenter
      * Get price with currency only if data is not null
      * (if data is null and formatted by formatCurrency(), it will return 0)
      *
-     * @param \NumberFormatter $numberFormatter
-     * @param array            $price
      *
      * @return string
      */

@@ -15,11 +15,8 @@ class FormatterExtension extends AbstractExtension
     /** @var PropertyInterface[] */
     protected $properties = [];
 
-    protected TranslatorInterface $translator;
-
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(protected TranslatorInterface $translator)
     {
-        $this->translator = $translator;
     }
 
     /**
@@ -37,8 +34,6 @@ class FormatterExtension extends AbstractExtension
 
     /**
      * Validate configs nad fill default values
-     *
-     * @param DatagridConfiguration $config
      */
     public function processConfigs(DatagridConfiguration $config)
     {
@@ -118,7 +113,6 @@ class FormatterExtension extends AbstractExtension
      * Add property to array of available properties, usually called by DIC
      *
      * @param string            $name
-     * @param PropertyInterface $property
      */
     public function registerProperty($name, PropertyInterface $property)
     {
@@ -128,7 +122,6 @@ class FormatterExtension extends AbstractExtension
     /**
      * Returns prepared property object
      *
-     * @param PropertyConfiguration $config
      *
      * @return PropertyInterface
      */

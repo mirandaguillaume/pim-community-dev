@@ -16,7 +16,7 @@ class CheckHeadersRequestSubscriberIntegration extends ApiTestCase
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_ACCEPTABLE);
-        $content = json_decode($response->getContent(), true);
+        $content = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
         $this->assertCount(2, $content, 'Error response contains 2 items');
         $this->assertSame(Response::HTTP_NOT_ACCEPTABLE, $content['code']);
         $this->assertSame('"application/xml" in "Accept" header is not valid. Only "application/json" is allowed.', $content['message']);
@@ -52,7 +52,7 @@ class CheckHeadersRequestSubscriberIntegration extends ApiTestCase
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_UNSUPPORTED_MEDIA_TYPE);
-        $content = json_decode($response->getContent(), true);
+        $content = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
         $this->assertCount(2, $content, 'Error response contains 2 items');
         $this->assertSame(Response::HTTP_UNSUPPORTED_MEDIA_TYPE, $content['code']);
         $this->assertSame('"application/xml" in "Content-Type" header is not valid. Only "application/json" is allowed.', $content['message']);

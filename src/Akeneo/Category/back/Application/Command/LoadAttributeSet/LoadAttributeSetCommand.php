@@ -8,10 +8,10 @@ namespace Akeneo\Category\Application\Command\LoadAttributeSet;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class LoadAttributeSetCommand
+final readonly class LoadAttributeSetCommand
 {
     public function __construct(
-        public readonly string $templateUuid,
+        public string $templateUuid,
     ) {
     }
 }

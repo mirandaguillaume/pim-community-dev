@@ -23,7 +23,7 @@ class ProductValueChannelFilter implements CollectionFilterInterface, ObjectFilt
             throw new \LogicException('This filter only handles objects of type "ValueInterface"');
         }
 
-        $channelCodes = isset($options['channels']) ? $options['channels'] : [];
+        $channelCodes = $options['channels'] ?? [];
 
         return !empty($channelCodes) &&
             $value->isScopable() &&

@@ -20,7 +20,7 @@ class LocaleExtension extends AbstractExtension
     public function getFilters()
     {
         return [
-            new TwigFilter('pretty_locale_name', [$this, 'prettyLocaleName'], ['is_safe' => ['html']]),
+            new TwigFilter('pretty_locale_name', $this->prettyLocaleName(...), ['is_safe' => ['html']]),
         ];
     }
 

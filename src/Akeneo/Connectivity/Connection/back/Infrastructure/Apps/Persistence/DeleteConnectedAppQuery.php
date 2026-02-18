@@ -11,7 +11,7 @@ use Doctrine\DBAL\Connection;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class DeleteConnectedAppQuery implements DeleteConnectedAppQueryInterface
+final readonly class DeleteConnectedAppQuery implements DeleteConnectedAppQueryInterface
 {
     public function __construct(private Connection $connection)
     {

@@ -80,7 +80,7 @@ class CategorySpec extends ObjectBehavior
         $category->getLabels()->normalize()->shouldReturn(["fr_FR" => "category_libelle"]);
         $category->getRootId()->shouldReturn(null);
         $category->getParentId()->getValue()->shouldReturn(1);
-        $category->getUpdated()->getTimestamp()->shouldReturn(1616601600);
+        $category->getUpdated()->getTimestamp()->shouldReturn(1_616_601_600);
         $category->getAttributes()->normalize()->shouldReturn([]);
         $category->getPermissions()->normalize()->shouldReturn([
             "view" => [1 => "IT Support", 3 => "Redactor", 7 => "Manager"],
@@ -123,7 +123,7 @@ class CategorySpec extends ObjectBehavior
         $category->getLabels()->normalize()->shouldReturn(["fr_FR" => "category_libelle"]);
         $category->getRootId()->shouldReturn(null);
         $category->getParentId()->getValue()->shouldReturn(1);
-        $category->getUpdated()->getTimestamp()->shouldReturn(1616601600);
+        $category->getUpdated()->getTimestamp()->shouldReturn(1_616_601_600);
         $category->getAttributes()->normalize()->shouldReturn([]);
         $category->getPermissions()->normalize()->shouldReturn([
             "view" => [1 => "IT Support", 3 => "Redactor", 7 => "Manager"],

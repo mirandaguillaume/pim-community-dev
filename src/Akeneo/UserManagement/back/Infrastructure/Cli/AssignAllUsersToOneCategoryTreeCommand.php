@@ -47,7 +47,7 @@ final class AssignAllUsersToOneCategoryTreeCommand extends Command
         $categoryCode = $input->getOption('category-tree-code');
         try {
             $category = $this->categoryQuery->byCode($categoryCode);
-        } catch (NotFoundHttpException $exception) {
+        } catch (NotFoundHttpException) {
             $output->writeln('The category passed as argument does not exist');
 
             return Command::INVALID;

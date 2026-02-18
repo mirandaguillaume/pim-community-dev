@@ -8,23 +8,11 @@ use Symfony\Component\Form\Exception\UnexpectedTypeException;
 class ArrayToStringTransformer implements DataTransformerInterface
 {
     /**
-     * @var string
-     */
-    private $delimiter;
-
-    /**
-     * @var string
-     */
-    private $filterUniqueValues;
-
-    /**
      * @param string $delimiter
      * @param string $filterUniqueValues
      */
-    public function __construct($delimiter, $filterUniqueValues)
+    public function __construct(private $delimiter, private $filterUniqueValues)
     {
-        $this->delimiter = $delimiter;
-        $this->filterUniqueValues = $filterUniqueValues;
     }
 
     /**
@@ -79,7 +67,6 @@ class ArrayToStringTransformer implements DataTransformerInterface
     /**
      * Transforms array to string
      *
-     * @param array $arrayValue
      * @return string
      */
     private function transformArrayToString(array $arrayValue)
@@ -95,7 +82,6 @@ class ArrayToStringTransformer implements DataTransformerInterface
     /**
      * Trims all elements and apply unique filter if needed
      *
-     * @param array $arrayValue
      * @return array
      */
     private function filterArrayValue(array $arrayValue)

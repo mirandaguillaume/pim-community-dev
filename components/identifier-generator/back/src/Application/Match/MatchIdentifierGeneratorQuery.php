@@ -7,11 +7,11 @@ namespace Akeneo\Pim\Automation\IdentifierGenerator\Application\Match;
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\IdentifierGenerator;
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\ProductProjection;
 
-final class MatchIdentifierGeneratorQuery
+final readonly class MatchIdentifierGeneratorQuery
 {
     public function __construct(
-        private readonly IdentifierGenerator $identifierGenerator,
-        private readonly ProductProjection $productProjection
+        private IdentifierGenerator $identifierGenerator,
+        private ProductProjection $productProjection
     ) {
     }
 

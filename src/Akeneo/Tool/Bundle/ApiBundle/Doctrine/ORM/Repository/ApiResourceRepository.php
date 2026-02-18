@@ -83,7 +83,7 @@ class ApiResourceRepository extends EntityRepository implements ApiResourceRepos
                 ->select('COUNT(r.id)')
                 ->getQuery()
                 ->getSingleScalarResult();
-        } catch (UnexpectedResultException $e) {
+        } catch (UnexpectedResultException) {
             return 0;
         }
     }

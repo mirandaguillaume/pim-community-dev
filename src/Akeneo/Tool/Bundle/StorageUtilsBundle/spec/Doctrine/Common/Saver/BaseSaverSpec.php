@@ -58,7 +58,7 @@ class BaseSaverSpec extends ObjectBehavior
             sprintf(
                 'Expects a "%s", "%s" provided.',
                 ModelToSave::class,
-                get_class($anythingElse)
+                $anythingElse::class
             )
         );
         $this->shouldThrow($exception)->during('save', [$anythingElse]);
@@ -114,10 +114,8 @@ class BaseSaverSpec extends ObjectBehavior
 }
 
 class ModelToSave {
-    private $id;
-
-    public function __construct(?int $id = null) {
-        $this->id = $id;
+    public function __construct(private readonly ?int $id = null)
+    {
     }
 
     public function getId(): ?int {

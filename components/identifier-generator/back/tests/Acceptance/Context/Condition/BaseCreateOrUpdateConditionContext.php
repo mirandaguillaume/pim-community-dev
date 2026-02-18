@@ -85,7 +85,7 @@ final class BaseCreateOrUpdateConditionContext extends BaseCreateOrUpdateIdentif
         if ('undefined' === $value) {
             unset($defaultCondition['value']);
         } elseif ($value !== '') {
-            $defaultCondition['value'] = \json_decode($value);
+            $defaultCondition['value'] = \json_decode($value, null, 512, JSON_THROW_ON_ERROR);
         }
         if ('undefined' === $operator) {
             unset($defaultCondition['operator']);

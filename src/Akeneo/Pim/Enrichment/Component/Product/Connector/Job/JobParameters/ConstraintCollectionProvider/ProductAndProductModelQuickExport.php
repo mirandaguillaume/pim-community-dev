@@ -30,11 +30,7 @@ class ProductAndProductModelQuickExport implements ConstraintCollectionProviderI
     /** @var array */
     protected $supportedJobNames;
 
-    /**
-     * @param ConstraintCollectionProviderInterface $simple
-     * @param array                                 $supportedJobNames
-     */
-    public function __construct(ConstraintCollectionProviderInterface $simple, array $supportedJobNames, private string $filePathExtension)
+    public function __construct(ConstraintCollectionProviderInterface $simple, array $supportedJobNames, private readonly string $filePathExtension)
     {
         $this->simpleConstraint = $simple;
         $this->supportedJobNames = $supportedJobNames;

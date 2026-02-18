@@ -11,8 +11,8 @@ namespace Akeneo\Pim\Enrichment\Product\API\Command\UserIntent;
 class SetIdentifierValue implements ValueUserIntent
 {
     public function __construct(
-        private string $attributeCode,
-        private ?string $value
+        private readonly string $attributeCode,
+        private readonly ?string $value
     ) {
     }
 

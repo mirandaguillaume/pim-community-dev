@@ -66,8 +66,6 @@ abstract class AbstractProcessor implements StepExecutionAwareInterface
     /**
      * Get the identifier of a processed item
      *
-     * @param IdentifiableObjectRepositoryInterface $repository
-     * @param array                                 $item
      *
      * @throws MissingIdentifierException if the processed item doesn't contain the identifier properties
      *
@@ -94,8 +92,6 @@ abstract class AbstractProcessor implements StepExecutionAwareInterface
     /**
      * Sets an item as skipped and throws an invalid item exception
      *
-     * @param array      $item
-     * @param \Exception $previousException
      * @param string     $message
      *
      * @throws InvalidItemException
@@ -116,9 +112,6 @@ abstract class AbstractProcessor implements StepExecutionAwareInterface
     /**
      * Sets an item as skipped and throws an invalid item exception.
      *
-     * @param array                            $item
-     * @param ConstraintViolationListInterface $violations
-     * @param \Exception                       $previousException
      *
      * @throws InvalidItemException
      */

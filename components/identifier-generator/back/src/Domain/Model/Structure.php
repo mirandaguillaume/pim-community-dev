@@ -21,7 +21,7 @@ use Webmozart\Assert\Assert;
  * @phpstan-import-type PropertyNormalized from PropertyInterface
  * @phpstan-type StructureNormalized list<PropertyNormalized>
  */
-final class Structure
+final readonly class Structure
 {
     /**
      * @param PropertyInterface[] $properties
@@ -33,7 +33,6 @@ final class Structure
 
     /**
      * @param PropertyInterface[] $properties
-     * @return static
      */
     public static function fromArray(array $properties): self
     {
@@ -53,7 +52,6 @@ final class Structure
 
     /**
      * @param list<array<string, mixed>> $normalizedValues
-     * @return static
      */
     public static function fromNormalized(array $normalizedValues): self
     {

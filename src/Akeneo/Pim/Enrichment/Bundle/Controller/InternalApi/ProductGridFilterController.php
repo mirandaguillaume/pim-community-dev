@@ -22,27 +22,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class ProductGridFilterController
 {
-    protected Manager $datagridManager;
-    protected TokenStorageInterface $tokenStorage;
-    protected SearchableRepositoryInterface $attributeSearchRepository;
-    private NormalizerInterface $lightAttributeNormalizer;
-    private UserContext $userContext;
-    private TranslatorInterface $translator;
-
-    public function __construct(
-        Manager $datagridManager,
-        TokenStorageInterface $tokenStorage,
-        SearchableRepositoryInterface $attributeSearchRepository,
-        NormalizerInterface $lightAttributeNormalizer,
-        UserContext $userContext,
-        TranslatorInterface $translator
-    ) {
-        $this->datagridManager = $datagridManager;
-        $this->tokenStorage = $tokenStorage;
-        $this->attributeSearchRepository = $attributeSearchRepository;
-        $this->lightAttributeNormalizer = $lightAttributeNormalizer;
-        $this->userContext = $userContext;
-        $this->translator = $translator;
+    public function __construct(protected Manager $datagridManager, protected TokenStorageInterface $tokenStorage, protected SearchableRepositoryInterface $attributeSearchRepository, private readonly NormalizerInterface $lightAttributeNormalizer, private readonly UserContext $userContext, private readonly TranslatorInterface $translator)
+    {
     }
 
     /**
@@ -60,11 +41,11 @@ class ProductGridFilterController
         );
 
         $options['locale'] = $options['catalogLocale'] ?? null;
-        $options['page'] = $options['page'] ?? 1;
+        $options['page'] ??= 1;
         unset($options['catalogLocale']);
 
         if ($request->get('identifiers', null) !== null) {
-            $options['identifiers'] = array_unique(explode(',', $request->get('identifiers')));
+            $options['identifiers'] = array_unique(explode(',', (string) $request->get('identifiers')));
         }
 
         $options['useable_as_grid_filter'] = true;
@@ -83,13 +64,11 @@ class ProductGridFilterController
             $options
         );
 
-        $normalizedAttributes = array_map(function ($attribute) {
-            return $this->lightAttributeNormalizer->normalize(
-                $attribute,
-                'internal_api',
-                ['locale' => $this->userContext->getUiLocaleCode()]
-            );
-        }, $attributes);
+        $normalizedAttributes = array_map(fn($attribute) => $this->lightAttributeNormalizer->normalize(
+            $attribute,
+            'internal_api',
+            ['locale' => $this->userContext->getUiLocaleCode()]
+        ), $attributes);
 
         return new JsonResponse(array_merge($systemFilters, $normalizedAttributes));
     }
@@ -113,7 +92,7 @@ class ProductGridFilterController
         $formattedSystemFilters = [];
         foreach ($systemFilters as $code => $systemFilter) {
             $label = $this->translator->trans($systemFilter['label'], [], null, $locale);
-            if (!in_array($code, ['scope', 'locale']) && ('' === $search || stripos($code, $search) !== false || stripos($label, $search) !== false)) {
+            if (!in_array($code, ['scope', 'locale']) && ('' === $search || stripos((string) $code, $search) !== false || stripos($label, $search) !== false)) {
                 $formattedSystemFilters[] = [
                     'code' => $code,
                     'labels' => [$locale => $label],

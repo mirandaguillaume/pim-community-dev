@@ -21,20 +21,17 @@ class FamilyVariant implements FamilyVariantInterface
     /** @var int */
     private $id;
 
-    /** @var string */
-    private $code;
+    private ?string $code = null;
 
-    /** @var FamilyInterface */
-    private $family;
+    private ?\Akeneo\Pim\Structure\Component\Model\FamilyInterface $family = null;
 
     /** @var Collection */
-    private $variantAttributeSets;
+    private \Doctrine\Common\Collections\Collection $variantAttributeSets;
 
-    /** @var string */
-    private $locale;
+    private ?string $locale = null;
 
     /** @var Collection */
-    private $translations;
+    private \Doctrine\Common\Collections\Collection $translations;
 
     /** @var string[] */
     private array $events = [];
@@ -255,7 +252,7 @@ class FamilyVariant implements FamilyVariantInterface
             return null;
         }
         foreach ($this->getTranslations() as $translation) {
-            if (\strtolower($translation->getLocale()) === \strtolower($locale)) {
+            if (\strtolower((string) $translation->getLocale()) === \strtolower($locale)) {
                 return $translation;
             }
         }

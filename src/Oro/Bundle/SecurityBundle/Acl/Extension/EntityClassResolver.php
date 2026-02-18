@@ -13,11 +13,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class EntityClassResolver
 {
-    protected ManagerRegistry $doctrine;
-
-    public function __construct(ManagerRegistry $doctrine)
+    public function __construct(protected ManagerRegistry $doctrine)
     {
-        $this->doctrine = $doctrine;
     }
 
     /**

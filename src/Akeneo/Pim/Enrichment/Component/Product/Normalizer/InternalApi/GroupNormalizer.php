@@ -19,8 +19,8 @@ class GroupNormalizer implements NormalizerInterface, CacheableSupportsMethodInt
     protected array $supportedFormats = ['internal_api'];
 
     public function __construct(
-        private NormalizerInterface $groupNormalizer,
-        private FindProductUuidsInGroup $findProductUuids
+        private readonly NormalizerInterface $groupNormalizer,
+        private readonly FindProductUuidsInGroup $findProductUuids
     ) {
     }
 

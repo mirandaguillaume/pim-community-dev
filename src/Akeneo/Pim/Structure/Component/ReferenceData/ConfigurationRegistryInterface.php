@@ -14,17 +14,13 @@ use Akeneo\Pim\Structure\Component\Model\ReferenceDataConfigurationInterface;
 interface ConfigurationRegistryInterface
 {
     /**
-     * @param ReferenceDataConfigurationInterface $configuration
      * @param string                              $name
-     *
      * @return ConfigurationRegistryInterface
      */
     public function register(ReferenceDataConfigurationInterface $configuration, $name);
 
     /**
-     * @param array  $configuration
      * @param string $name
-     *
      * @return ConfigurationRegistryInterface
      */
     public function registerRaw(array $configuration, $name);

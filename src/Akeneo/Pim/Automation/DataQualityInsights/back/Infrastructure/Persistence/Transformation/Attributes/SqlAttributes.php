@@ -15,15 +15,12 @@ class SqlAttributes implements AttributesInterface
 {
     private const LRU_CACHE_SIZE = 1000;
 
-    private Connection $dbConnection;
+    private readonly LRUCache $attributeIdsByCodes;
 
-    private LRUCache $attributeIdsByCodes;
+    private readonly LRUCache $attributeCodesByIds;
 
-    private LRUCache $attributeCodesByIds;
-
-    public function __construct(Connection $dbConnection)
+    public function __construct(private readonly Connection $dbConnection)
     {
-        $this->dbConnection = $dbConnection;
         $this->attributeIdsByCodes = new LRUCache(self::LRU_CACHE_SIZE);
         $this->attributeCodesByIds = new LRUCache(self::LRU_CACHE_SIZE);
     }
@@ -31,21 +28,17 @@ class SqlAttributes implements AttributesInterface
     public function getCodesByIds(array $attributesIds): array
     {
         // Because LRUCache can only be used with string keys
-        $attributesIds = array_map(function ($attributeId) {
-            return $this->castAttributeIdIntToString($attributeId);
-        }, $attributesIds);
+        $attributesIds = array_map(fn($attributeId) => $this->castAttributeIdIntToString($attributeId), $attributesIds);
 
         $rawAttributesCodes = $this->attributeCodesByIds->getForKeys($attributesIds, function ($attributesIds) {
-            $attributesIds = array_map(function ($attributeId) {
-                return $this->castAttributeIdStringToInt($attributeId);
-            }, $attributesIds);
+            $attributesIds = array_map(fn($attributeId) => $this->castAttributeIdStringToInt($attributeId), $attributesIds);
             $attributesCodes = $this->dbConnection->executeQuery(
                 "SELECT JSON_OBJECTAGG(CONCAT('a_', id), code) FROM pim_catalog_attribute WHERE id IN (:ids);",
                 ['ids' => $attributesIds],
                 ['ids' => Connection::PARAM_INT_ARRAY]
             )->fetchOne();
 
-            return !$attributesCodes ? [] : json_decode($attributesCodes, true);
+            return !$attributesCodes ? [] : json_decode($attributesCodes, true, 512, JSON_THROW_ON_ERROR);
         });
 
         $attributesCodes = [];
@@ -67,7 +60,7 @@ class SqlAttributes implements AttributesInterface
                 ['codes' => Connection::PARAM_STR_ARRAY]
             )->fetchOne();
 
-            return !$attributesIds ? [] : json_decode($attributesIds, true);
+            return !$attributesIds ? [] : json_decode($attributesIds, true, 512, JSON_THROW_ON_ERROR);
         });
     }
 

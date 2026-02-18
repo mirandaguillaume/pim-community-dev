@@ -11,8 +11,7 @@ use Akeneo\Tool\Component\Localization\Model\AbstractTranslation;
  */
 class FamilyVariantTranslation extends AbstractTranslation implements FamilyVariantTranslationInterface
 {
-    /** @var string */
-    private $label;
+    private ?string $label = null;
 
     /**
      * {@inheritdoc}

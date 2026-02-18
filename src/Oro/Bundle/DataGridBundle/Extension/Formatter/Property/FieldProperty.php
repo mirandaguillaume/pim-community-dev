@@ -7,11 +7,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class FieldProperty extends AbstractProperty
 {
-    protected TranslatorInterface $translator;
-
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(protected TranslatorInterface $translator)
     {
-        $this->translator = $translator;
     }
 
     /**
@@ -24,9 +21,7 @@ class FieldProperty extends AbstractProperty
 
             $choices = $this->getOr('choices', []);
             $translated = array_map(
-                function ($item) use ($translator) {
-                    return $translator->trans($item);
-                },
+                fn($item) => $translator->trans($item),
                 $choices
             );
 
@@ -41,7 +36,7 @@ class FieldProperty extends AbstractProperty
     {
         try {
             $value = $record->getValue($this->getOr(self::DATA_NAME_KEY, $this->get(self::NAME_KEY)));
-        } catch (\LogicException $e) {
+        } catch (\LogicException) {
             // default value
             $value = null;
         }

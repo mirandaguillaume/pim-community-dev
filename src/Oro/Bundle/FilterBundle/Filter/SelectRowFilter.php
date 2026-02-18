@@ -65,10 +65,10 @@ class SelectRowFilter extends ChoiceFilter
         }
 
         if (isset($data['in']) && !is_array($data['in'])) {
-            $data['in'] = explode(',', $data['in']);
+            $data['in'] = explode(',', (string) $data['in']);
         }
         if (isset($data['out']) && !is_array($data['out'])) {
-            $data['out'] = explode(',', $data['out']);
+            $data['out'] = explode(',', (string) $data['out']);
         }
 
         return $data;

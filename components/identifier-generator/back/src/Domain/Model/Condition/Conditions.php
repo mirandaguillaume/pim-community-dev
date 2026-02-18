@@ -14,7 +14,7 @@ use Webmozart\Assert\Assert;
  * @phpstan-import-type ConditionNormalized from ConditionInterface
  * @phpstan-type ConditionsNormalized list<ConditionNormalized>
  */
-final class Conditions
+final readonly class Conditions
 {
     /**
      * @param ConditionInterface[] $conditions
@@ -26,7 +26,6 @@ final class Conditions
 
     /**
      * @param ConditionInterface[] $conditions
-     * @return static
      */
     public static function fromArray(array $conditions): self
     {

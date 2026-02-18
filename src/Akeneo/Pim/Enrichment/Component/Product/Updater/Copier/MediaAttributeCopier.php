@@ -90,10 +90,6 @@ class MediaAttributeCopier extends AbstractAttributeCopier
     /**
      * Copies a single media value and handle the file associated to it.
      *
-     * @param EntityWithValuesInterface $fromEntityWithValues
-     * @param EntityWithValuesInterface $toEntityWithValues
-     * @param AttributeInterface        $fromAttribute
-     * @param AttributeInterface        $toAttribute
      * @param string                    $fromLocale
      * @param string                    $toLocale
      * @param string                    $fromScope

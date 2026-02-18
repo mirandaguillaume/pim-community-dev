@@ -23,7 +23,6 @@ interface ProductModelRepositoryInterface extends
     /**
      * Find product models with the same parent than the given $productModel
      *
-     * @param ProductModelInterface $productModel
      *
      * @return ProductModelInterface[]
      */
@@ -39,7 +38,6 @@ interface ProductModelRepositoryInterface extends
     /**
      * Find product models which are the direct children of the given $productModel
      *
-     * @param ProductModelInterface $productModel
      *
      * @return array|ProductModelInterface[]
      */
@@ -48,7 +46,6 @@ interface ProductModelRepositoryInterface extends
     /**
      * Returns the identifiers of the products belonging to a product model descendants subtree
      *
-     * @param ProductModelInterface $productModel
      *
      * @return array
      */
@@ -57,7 +54,6 @@ interface ProductModelRepositoryInterface extends
     /**
      * Find several product models by their identifier
      *
-     * @param array $codes
      *
      * @return ProductModelInterface[]
      */
@@ -66,7 +62,6 @@ interface ProductModelRepositoryInterface extends
     /**
      * Find variant products which are the direct children of the given $productModel
      *
-     * @param ProductModelInterface $productModel
      *
      * @return array
      */
@@ -83,22 +78,16 @@ interface ProductModelRepositoryInterface extends
     public function searchRootProductModelsAfter(?ProductModelInterface $product, int $limit): array;
 
     /**
-     * @param FamilyVariantInterface $familyVariant
-     *
      * @return array
      */
     public function findSubProductModels(FamilyVariantInterface $familyVariant): array;
 
     /**
-     * @param FamilyVariantInterface $familyVariant
-     *
      * @return array
      */
     public function findRootProductModels(FamilyVariantInterface $familyVariant): array;
 
     /**
-     * @param FamilyVariantInterface $familyVariant
-     *
      * @return array
      */
     public function findProductModelsForFamilyVariant(
@@ -109,10 +98,6 @@ interface ProductModelRepositoryInterface extends
     ): array;
 
     /**
-     * @param FamilyVariantInterface $familyVariant
-     * @param String                 $search
-     * @param int                    $limit
-     * @param int                    $page
      *
      * @return array
      */

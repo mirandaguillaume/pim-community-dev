@@ -24,10 +24,6 @@ class GroupNormalizer implements NormalizerInterface, CacheableSupportsMethodInt
     /** @var NormalizerInterface */
     protected $translationNormalizer;
 
-    /**
-     * @param NormalizerInterface $standardNormalizer
-     * @param NormalizerInterface $translationNormalizer
-     */
     public function __construct(
         NormalizerInterface $standardNormalizer,
         NormalizerInterface $translationNormalizer

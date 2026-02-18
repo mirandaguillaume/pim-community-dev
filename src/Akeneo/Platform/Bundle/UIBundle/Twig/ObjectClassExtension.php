@@ -21,7 +21,7 @@ class ObjectClassExtension extends AbstractExtension
     public function getFilters()
     {
         return [
-            new TwigFilter('class', array($this, 'getClass')),
+            new TwigFilter('class', $this->getClass(...)),
         ];
     }
 

@@ -15,11 +15,8 @@ use Symfony\Component\Validator\ConstraintValidator;
  */
 class DateFormatValidator extends ConstraintValidator
 {
-    protected DateFactory $factory;
-
-    public function __construct(DateFactory $factory)
+    public function __construct(protected DateFactory $factory)
     {
-        $this->factory = $factory;
     }
 
     /**

@@ -16,20 +16,8 @@ use Doctrine\DBAL\Connection;
  */
 class ListChildrenCategoriesWithCountNotIncludingSubCategories implements Query\ListChildrenCategoriesWithCountNotIncludingSubCategories
 {
-    /** @var Connection */
-    private $connection;
-
-    /** @var Client */
-    private $client;
-
-    /**
-     * @param Connection $connection
-     * @param Client     $client
-     */
-    public function __construct(Connection $connection, Client $client)
+    public function __construct(private readonly Connection $connection, private readonly Client $client)
     {
-        $this->connection = $connection;
-        $this->client = $client;
     }
 
     /**
@@ -111,7 +99,6 @@ class ListChildrenCategoriesWithCountNotIncludingSubCategories implements Query\
      * @param int    $parentCategoryId
      * @param string $translationLocaleCode
      *
-     * @return array
      * [
      *     [
      *         'child_id' => 1,
@@ -120,7 +107,6 @@ class ListChildrenCategoriesWithCountNotIncludingSubCategories implements Query\
      *         'label' => 'label'
      *     ]
      * ]
-     *
      * @throws \Doctrine\DBAL\DBALException
      */
     private function fetchChildrenCategories(
@@ -173,7 +159,6 @@ SQL;
      *     ]
      * ]
      *
-     * @return array
      * [
      *     [
      *         'child_id' => 1,
@@ -274,9 +259,7 @@ SQL;
             ]
         )->fetchAllAssociative();
 
-        $ids = array_map(function ($row) {
-            return (int) $row['id'];
-        }, $rows);
+        $ids = array_map(fn($row) => (int) $row['id'], $rows);
 
         return $ids;
     }

@@ -6,13 +6,10 @@ namespace Akeneo\Pim\Structure\Bundle\Manager;
 
 use Doctrine\DBAL\Connection;
 
-final class AttributeCodeBlacklister
+final readonly class AttributeCodeBlacklister
 {
-    private Connection $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function blacklist(array $attributeCodes): void

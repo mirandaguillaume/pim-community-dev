@@ -18,8 +18,8 @@ use Doctrine\DBAL\Types\Types;
 class AuditLoader
 {
     public function __construct(
-        private DbalConnection $dbalConnection,
-        private BulkInsertEventCountsQueryInterface $bulkInsertEventCountsQuery,
+        private readonly DbalConnection $dbalConnection,
+        private readonly BulkInsertEventCountsQueryInterface $bulkInsertEventCountsQuery,
     ) {
     }
 

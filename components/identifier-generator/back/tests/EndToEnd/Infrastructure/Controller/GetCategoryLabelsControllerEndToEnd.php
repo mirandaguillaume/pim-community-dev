@@ -43,6 +43,6 @@ final class GetCategoryLabelsControllerEndToEnd extends ControllerEndToEndTestCa
             'categoryB' => '[categoryB]',
         ];
 
-        Assert::assertEquals($expected, \json_decode($response->getContent(), true));
+        Assert::assertEquals($expected, \json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
     }
 }

@@ -15,7 +15,7 @@ use Webmozart\Assert\Assert;
 
 final class ClientMigration implements ClientMigrationInterface
 {
-    private Client $client;
+    private readonly Client $client;
 
     public function __construct(ClientBuilder $clientBuilder, array $hosts)
     {

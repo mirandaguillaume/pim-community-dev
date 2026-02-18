@@ -12,72 +12,33 @@ namespace Akeneo\Pim\Enrichment\Component\FollowUp\ReadModel;
  */
 class ChannelCompleteness
 {
-    /** @var string */
-    private $channelCode;
-
-    /** @var array */
-    private $channelLabels;
-
-    /** @var int */
-    private $numberOfCompleteProducts;
-
-    /** @var int */
-    private $numberTotalOfProducts;
-
-    /** @var LocaleCompleteness[] */
-    private $localeCompletenesses;
-
     /**
-     * @param string $channelCode
-     * @param int $numberOfCompleteProducts
-     * @param int $numberTotalOfProducts
      * @param LocaleCompleteness[] $localeCompletenesses
-     * @param array $channelLabels
      */
-    public function __construct(string $channelCode, int $numberOfCompleteProducts, int $numberTotalOfProducts, array $localeCompletenesses, array $channelLabels = [])
+    public function __construct(private readonly string $channelCode, private readonly int $numberOfCompleteProducts, private readonly int $numberTotalOfProducts, private readonly array $localeCompletenesses, private readonly array $channelLabels = [])
     {
-        $this->channelCode = $channelCode;
-        $this->channelLabels = $channelLabels;
-        $this->numberOfCompleteProducts = $numberOfCompleteProducts;
-        $this->numberTotalOfProducts = $numberTotalOfProducts;
-        $this->localeCompletenesses = $localeCompletenesses;
     }
 
-    /**
-     * @return string
-     */
     public function channel(): string
     {
         return $this->channelCode;
     }
 
-    /**
-     * @return int
-     */
     public function numberOfCompleteProducts(): int
     {
         return $this->numberOfCompleteProducts;
     }
 
-    /**
-     * @return int
-     */
     public function numberTotalOfProducts(): int
     {
         return $this->numberTotalOfProducts;
     }
 
-    /**
-     * @return array
-     */
     public function localeCompletenesses(): array
     {
         return $this->localeCompletenesses;
     }
 
-    /**
-     * @return array
-     */
     public function toArray(): array
     {
         $locales = [];

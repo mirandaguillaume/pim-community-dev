@@ -18,14 +18,13 @@ use Webmozart\Assert\Assert;
 class ValueFactory
 {
     /** @var array|SingleValueFactory[] */
-    private $valueFactories;
+    private ?array $valueFactories = null;
 
-    /** @var array|SingleValueFactory[] */
-    private $notIndexedValuesFactories;
-
-    public function __construct(iterable $valueFactories)
+    /**
+     * @param mixed[]|\Akeneo\Pim\Enrichment\Component\Product\Factory\Value\ValueFactory[] $notIndexedValuesFactories
+     */
+    public function __construct(private readonly iterable $notIndexedValuesFactories)
     {
-        $this->notIndexedValuesFactories = $valueFactories;
     }
 
     public function createWithoutCheckingData(Attribute $attribute, ?string $channelCode, ?string $localeCode, $data): ValueInterface
@@ -36,7 +35,7 @@ class ValueFactory
     public function createByCheckingData(Attribute $attribute, ?string $channelCode, ?string $localeCode, $data): ValueInterface
     {
         if (null === $data || [] === $data || '' === $data) {
-            throw new InvalidArgumentException(get_class($this), sprintf('Data should not be empty, %s found', json_encode($data)));
+            throw new InvalidArgumentException(static::class, sprintf('Data should not be empty, %s found', json_encode($data, JSON_THROW_ON_ERROR)));
         }
 
         ValidateAttribute::validate($attribute, $channelCode, $localeCode);

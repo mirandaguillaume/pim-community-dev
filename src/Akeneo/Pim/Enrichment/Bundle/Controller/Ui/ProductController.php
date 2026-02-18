@@ -23,25 +23,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class ProductController extends AbstractListCategoryController
 {
-    protected TranslatorInterface $translator;
-    protected ProductRepositoryInterface $productRepository;
-    protected SaverInterface $productSaver;
-
     public function __construct(
-        TranslatorInterface $translator,
-        ProductRepositoryInterface $productRepository,
+        protected TranslatorInterface $translator,
+        protected ProductRepositoryInterface $productRepository,
         CategoryRepositoryInterface $categoryRepository,
-        SaverInterface $productSaver,
+        protected SaverInterface $productSaver,
         string $categoryClass,
         SecurityFacade $securityFacade,
         string $acl,
         string $template
     ) {
         parent::__construct($categoryRepository, $securityFacade, $categoryClass, $acl, $template);
-
-        $this->productRepository = $productRepository;
-        $this->translator = $translator;
-        $this->productSaver = $productSaver;
         $this->acl = $acl;
     }
 

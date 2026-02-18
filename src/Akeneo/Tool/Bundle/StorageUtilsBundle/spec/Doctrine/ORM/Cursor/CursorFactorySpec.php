@@ -14,7 +14,7 @@ use Prophecy\Argument;
 
 class CursorFactorySpec extends ObjectBehavior
 {
-    const DEFAULT_BATCH_SIZE = 100;
+    final public const DEFAULT_BATCH_SIZE = 100;
 
     function let(EntityManager $entityManager)
     {

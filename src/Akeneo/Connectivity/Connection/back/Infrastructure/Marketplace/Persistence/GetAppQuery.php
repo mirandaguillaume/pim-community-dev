@@ -13,11 +13,11 @@ use Akeneo\Connectivity\Connection\Infrastructure\Marketplace\WebMarketplaceApiI
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GetAppQuery implements GetAppQueryInterface
+final readonly class GetAppQuery implements GetAppQueryInterface
 {
     public function __construct(
-        private readonly WebMarketplaceApiInterface $webMarketplaceApi,
-        private readonly GetCustomAppQuery $getCustomAppQuery,
+        private WebMarketplaceApiInterface $webMarketplaceApi,
+        private GetCustomAppQuery $getCustomAppQuery,
     ) {
     }
 

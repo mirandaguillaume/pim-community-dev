@@ -14,8 +14,8 @@ use Webmozart\Assert\Assert;
 class GetNormalizedProductModelQualityScores implements GetNormalizedQualityScoresInterface
 {
     public function __construct(
-        private GetProductModelScoresQueryInterface $getProductModelScoresQuery,
-        private FeatureFlag $dataQualityInsightsFeature
+        private readonly GetProductModelScoresQueryInterface $getProductModelScoresQuery,
+        private readonly FeatureFlag $dataQualityInsightsFeature
     ) {
     }
 

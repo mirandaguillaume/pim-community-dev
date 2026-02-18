@@ -16,12 +16,8 @@ use Doctrine\DBAL\FetchMode;
  */
 class ApiConnectionCount implements ApiConnectionCountQuery
 {
-    /** @var Connection */
-    private $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function fetch(): array
@@ -39,6 +35,7 @@ SQL;
 
     private function normalize(array $data): array
     {
+        $normalized = [];
         $normalized[FlowType::DATA_SOURCE] = ['tracked' => 0, 'untracked' => 0];
         $normalized[FlowType::DATA_DESTINATION] = ['tracked' => 0, 'untracked' => 0];
         $normalized[FlowType::OTHER] = ['tracked' => 0, 'untracked' => 0];

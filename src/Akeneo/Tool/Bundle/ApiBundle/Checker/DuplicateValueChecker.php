@@ -25,11 +25,10 @@ class DuplicateValueChecker
      *   }
      * }
      *
-     * @param mixed $data
      *
      * @throws InvalidPropertyTypeException
      */
-    public function check($data): void
+    public function check(mixed $data): void
     {
         if (!is_array($data) ||
             !isset($data['values']) ||
@@ -52,8 +51,8 @@ class DuplicateValueChecker
                 }
 
                 $newKey = $this->generateKey(
-                    isset($value['scope']) ? $value['scope'] : null,
-                    isset($value['locale']) ? $value['locale'] : null
+                    $value['scope'] ?? null,
+                    $value['locale'] ?? null
                 );
 
                 if (isset($alreadyDefinedKeys[$newKey])) {
@@ -71,8 +70,8 @@ class DuplicateValueChecker
 
     private function generateKey(?string $channelCode, ?string $localeCode): string
     {
-        $channelCode = null !== $channelCode ? $channelCode : '<all_channels>';
-        $localeCode = null !== $localeCode ? $localeCode : '<all_locales>';
+        $channelCode ??= '<all_channels>';
+        $localeCode ??= '<all_locales>';
         $key = sprintf('%s-%s', $channelCode, $localeCode);
 
         return $key;

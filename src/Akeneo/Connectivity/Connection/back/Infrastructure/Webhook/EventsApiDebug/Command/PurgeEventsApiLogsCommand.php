@@ -26,9 +26,9 @@ class PurgeEventsApiLogsCommand extends Command
     protected static $defaultName = 'akeneo:connectivity-connection:purge-events-api-logs';
 
     public function __construct(
-        private PurgeEventsApiSuccessLogsQuery $purgeSuccessLogsQuery,
-        private PurgeEventsApiErrorLogsQuery $purgeErrorLogsQuery,
-        private LoggerInterface $logger,
+        private readonly PurgeEventsApiSuccessLogsQuery $purgeSuccessLogsQuery,
+        private readonly PurgeEventsApiErrorLogsQuery $purgeErrorLogsQuery,
+        private readonly LoggerInterface $logger,
     ) {
         parent::__construct();
     }

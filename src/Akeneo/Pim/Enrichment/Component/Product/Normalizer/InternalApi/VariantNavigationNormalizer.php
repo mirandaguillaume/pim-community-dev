@@ -19,24 +19,10 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class VariantNavigationNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
     /** @var string[] */
-    private $supportedFormat = ['internal_api'];
+    private array $supportedFormat = ['internal_api'];
 
-    /** @var LocaleRepositoryInterface */
-    private $localeRepository;
-
-    /** @var NormalizerInterface */
-    private $entityWithFamilyVariantNormalizer;
-
-    /**
-     * @param LocaleRepositoryInterface $localeRepository
-     * @param NormalizerInterface       $entityWithFamilyVariantNormalizer
-     */
-    public function __construct(
-        LocaleRepositoryInterface $localeRepository,
-        NormalizerInterface $entityWithFamilyVariantNormalizer
-    ) {
-        $this->localeRepository = $localeRepository;
-        $this->entityWithFamilyVariantNormalizer = $entityWithFamilyVariantNormalizer;
+    public function __construct(private readonly LocaleRepositoryInterface $localeRepository, private readonly NormalizerInterface $entityWithFamilyVariantNormalizer)
+    {
     }
 
     /**
@@ -49,7 +35,7 @@ class VariantNavigationNormalizer implements NormalizerInterface, CacheableSuppo
                 '"%s" or "%s" expected, "%s" received',
                 ProductModelInterface::class,
                 ProductInterface::class,
-                get_class($entity)
+                $entity::class
             ));
         }
 

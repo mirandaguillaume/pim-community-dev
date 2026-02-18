@@ -27,8 +27,8 @@ class RefreshCommand extends Command
     private const JOB_CODE = 'versioning_refresh';
 
     public function __construct(
-        private ExecuteJobExecutionHandlerInterface $jobExecutionRunner,
-        private CreateJobExecutionHandlerInterface $jobExecutionFactory,
+        private readonly ExecuteJobExecutionHandlerInterface $jobExecutionRunner,
+        private readonly CreateJobExecutionHandlerInterface $jobExecutionFactory,
     ) {
         parent::__construct();
     }

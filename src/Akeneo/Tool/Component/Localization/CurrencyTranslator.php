@@ -12,7 +12,7 @@ class CurrencyTranslator implements CurrencyTranslatorInterface
         try {
             $language = \Locale::getPrimaryLanguage($locale);
             $currencyTranslated = Currencies::getName($currencyCode, $language);
-        } catch (MissingResourceException $e) {
+        } catch (MissingResourceException) {
             return $fallback;
         }
 

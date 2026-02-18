@@ -57,6 +57,6 @@ class InstallStatusManager
 
     public function isPimInstalled(): bool
     {
-        return null !== $this->getPimInstallDateTime();
+        return $this->getPimInstallDateTime() instanceof \DateTime;
     }
 }

@@ -15,11 +15,11 @@ class PreviewGeneratorRegistry implements PreviewGeneratorInterface
     /** @var PreviewGeneratorInterface[] */
     private ?array $previewGenerators = null;
 
-    public const THUMBNAIL_TYPE = 'thumbnail';
-    public const THUMBNAIL_SMALL_TYPE = 'thumbnail_small';
-    public const PREVIEW_TYPE = 'preview';
+    final public const THUMBNAIL_TYPE = 'thumbnail';
+    final public const THUMBNAIL_SMALL_TYPE = 'thumbnail_small';
+    final public const PREVIEW_TYPE = 'preview';
 
-    public const IMAGE_TYPES = [
+    final public const IMAGE_TYPES = [
         self::THUMBNAIL_TYPE,
         self::THUMBNAIL_SMALL_TYPE,
         self::PREVIEW_TYPE,

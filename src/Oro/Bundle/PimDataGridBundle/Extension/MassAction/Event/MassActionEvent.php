@@ -35,10 +35,6 @@ class MassActionEvent extends Event
 
     /**
      * Constructor
-     *
-     * @param DatagridInterface   $datagrid
-     * @param MassActionInterface $massAction
-     * @param array               $objects
      */
     public function __construct(DatagridInterface $datagrid, MassActionInterface $massAction, array $objects)
     {

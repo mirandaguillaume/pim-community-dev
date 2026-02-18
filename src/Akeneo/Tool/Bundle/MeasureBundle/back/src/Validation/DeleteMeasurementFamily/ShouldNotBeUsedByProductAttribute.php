@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class ShouldNotBeUsedByProductAttribute extends Constraint
 {
-    public const MEASUREMENT_FAMILY_REMOVAL_NOT_ALLOWED = 'pim_measurements.validation.measurement_family.measurement_family_cannot_be_removed';
+    final public const MEASUREMENT_FAMILY_REMOVAL_NOT_ALLOWED = 'pim_measurements.validation.measurement_family.measurement_family_cannot_be_removed';
 
     public function getTargets(): string|array
     {

@@ -18,18 +18,13 @@ class GroupFactory implements SimpleFactoryInterface
     /** @var GroupTypeRepositoryInterface */
     protected $groupTypeRepository;
 
-    /** @var string */
-    protected $groupClass;
-
     /**
-     * @param GroupTypeRepositoryInterface $groupTypeRepository
      * @param string                       $groupClass
      */
     public function __construct(
         GroupTypeRepositoryInterface $groupTypeRepository,
-        $groupClass
+        protected $groupClass
     ) {
-        $this->groupClass = $groupClass;
         $this->groupTypeRepository = $groupTypeRepository;
     }
 

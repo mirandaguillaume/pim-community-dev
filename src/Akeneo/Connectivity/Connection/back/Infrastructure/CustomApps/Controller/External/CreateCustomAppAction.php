@@ -25,15 +25,15 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  *
  * @internal This is an undocumented API endpoint used for internal purposes only
  */
-final class CreateCustomAppAction
+final readonly class CreateCustomAppAction
 {
     public function __construct(
-        private readonly SecurityFacade $security,
-        private readonly ValidatorInterface $validator,
-        private readonly TranslatorInterface $translator,
-        private readonly TokenStorageInterface $tokenStorage,
-        private readonly CreateCustomAppCommandHandler $createCustomAppCommandHandler,
-        private readonly GetCustomAppSecretQueryInterface $getCustomAppSecretQuery,
+        private SecurityFacade $security,
+        private ValidatorInterface $validator,
+        private TranslatorInterface $translator,
+        private TokenStorageInterface $tokenStorage,
+        private CreateCustomAppCommandHandler $createCustomAppCommandHandler,
+        private GetCustomAppSecretQueryInterface $getCustomAppSecretQuery,
     ) {
     }
 

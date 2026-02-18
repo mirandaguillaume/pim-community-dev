@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Akeneo\UserManagement\ServiceApi\User;
 
-final class User
+final readonly class User
 {
     public function __construct(
         private int $id,

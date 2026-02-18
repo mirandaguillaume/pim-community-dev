@@ -21,8 +21,8 @@ class SearchJobExecution implements SearchJobExecutionInterface
     private const SEARCH_PART_PARAM_SUFFIX = 'search_part';
 
     public function __construct(
-        private Connection $connection,
-        private JobExecutionRowHydrator $jobExecutionRowHydrator,
+        private readonly Connection $connection,
+        private readonly JobExecutionRowHydrator $jobExecutionRowHydrator,
     ) {
     }
 

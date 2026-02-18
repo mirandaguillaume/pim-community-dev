@@ -28,12 +28,12 @@ class SynchronousJobLauncher implements JobLauncherInterface
     private const RUNNING_PROCESS_CHECK_INTERVAL = 5;
 
     public function __construct(
-        private JobExecutionManager $executionManager,
-        private JobRepositoryInterface $jobRepository,
-        private JobExecutionRepository $jobExecutionRepository,
-        private LoggerInterface $logger,
-        private JobRegistry $jobRegistry,
-        private string $projectDir
+        private readonly JobExecutionManager $executionManager,
+        private readonly JobRepositoryInterface $jobRepository,
+        private readonly JobExecutionRepository $jobExecutionRepository,
+        private readonly LoggerInterface $logger,
+        private readonly JobRegistry $jobRegistry,
+        private readonly string $projectDir
     ) {
     }
 

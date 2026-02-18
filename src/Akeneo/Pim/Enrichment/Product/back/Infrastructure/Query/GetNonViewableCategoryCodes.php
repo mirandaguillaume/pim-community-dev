@@ -15,8 +15,8 @@ use Akeneo\Pim\Enrichment\Product\Domain\Query\GetNonViewableCategoryCodes as Ge
 class GetNonViewableCategoryCodes implements GetNonViewableCategoryCodesInterface
 {
     public function __construct(
-        private GetCategoryCodes $getCategoryCodes,
-        private GetViewableCategories $getViewableCategories
+        private readonly GetCategoryCodes $getCategoryCodes,
+        private readonly GetViewableCategories $getViewableCategories
     ) {
     }
 

@@ -44,17 +44,17 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class CreateProductByUuidController
 {
     public function __construct(
-        private UrlGeneratorInterface $router,
-        private EventDispatcherInterface $eventDispatcher,
-        private DuplicateValueChecker $duplicateValueChecker,
-        private SecurityFacade $security,
-        private ValidatorInterface $validator,
-        private ObjectUpdaterInterface $updater,
-        private ProductBuilderInterface $productBuilder,
-        private SaverInterface $saver,
-        private AttributeFilterInterface $productAttributeFilter,
-        private ProductRepositoryInterface $productRepository,
-        private AttributeRepositoryInterface $attributeRepository,
+        private readonly UrlGeneratorInterface $router,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly DuplicateValueChecker $duplicateValueChecker,
+        private readonly SecurityFacade $security,
+        private readonly ValidatorInterface $validator,
+        private readonly ObjectUpdaterInterface $updater,
+        private readonly ProductBuilderInterface $productBuilder,
+        private readonly SaverInterface $saver,
+        private readonly AttributeFilterInterface $productAttributeFilter,
+        private readonly ProductRepositoryInterface $productRepository,
+        private readonly AttributeRepositoryInterface $attributeRepository,
     ) {
     }
 
@@ -141,9 +141,9 @@ class CreateProductByUuidController
 
     private function getDecodedContent($content): array
     {
-        $decodedContent = json_decode($content, true);
-
-        if (null === $decodedContent) {
+        try {
+            $decodedContent = json_decode((string) $content, true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
             throw new BadRequestHttpException('Invalid json message received');
         }
 
@@ -168,7 +168,7 @@ class CreateProductByUuidController
         return null !== $this->productRepository->find($uuid);
     }
 
-    private function throwDocumentedHttpException(string $message, \Exception $previousException = null)
+    private function throwDocumentedHttpException(string $message, \Exception $previousException = null): never
     {
         throw new DocumentedHttpException(
             Documentation::URL . 'post_products_uuid',
@@ -177,7 +177,7 @@ class CreateProductByUuidController
         );
     }
 
-    private function throwViolationException(string $message, string $propertyPath): void
+    private function throwViolationException(string $message, string $propertyPath): never
     {
         $list = new ConstraintViolationList([
             new ConstraintViolation($message, $message, [], null, $propertyPath, null),

@@ -30,12 +30,6 @@ class ProductXlsxExport implements DefaultValuesProviderInterface
     /** @var array */
     protected $supportedJobNames;
 
-    /**
-     * @param DefaultValuesProviderInterface $simpleProvider
-     * @param ChannelRepositoryInterface     $channelRepository
-     * @param LocaleRepositoryInterface      $localeRepository
-     * @param array                          $supportedJobNames
-     */
     public function __construct(
         DefaultValuesProviderInterface $simpleProvider,
         ChannelRepositoryInterface $channelRepository,

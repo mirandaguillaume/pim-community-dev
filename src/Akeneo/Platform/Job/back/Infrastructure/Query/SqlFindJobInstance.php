@@ -17,7 +17,7 @@ use Doctrine\DBAL\Connection;
 class SqlFindJobInstance implements FindJobInstanceInterface
 {
     public function __construct(
-        private Connection $connection,
+        private readonly Connection $connection,
     ) {
     }
 
@@ -117,15 +117,9 @@ SQL;
         ];
 
         if ($query->pagination instanceof JobInstanceQueryPagination) {
-            $queryParameters = array_merge($queryParameters, [
-                'offset' => ($query->pagination->page - 1) * $query->pagination->limit,
-                'limit' => $query->pagination->limit,
-            ]);
+            $queryParameters = [...$queryParameters, 'offset' => ($query->pagination->page - 1) * $query->pagination->limit, 'limit' => $query->pagination->limit];
 
-            $queryTypes = array_merge($queryTypes, [
-                'offset' => \PDO::PARAM_INT,
-                'limit' => \PDO::PARAM_INT,
-            ]);
+            $queryTypes = [...$queryTypes, 'offset' => \PDO::PARAM_INT, 'limit' => \PDO::PARAM_INT];
         }
 
         return [

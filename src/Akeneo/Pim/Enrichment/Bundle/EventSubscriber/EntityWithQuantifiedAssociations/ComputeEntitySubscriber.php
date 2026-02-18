@@ -35,8 +35,6 @@ final class ComputeEntitySubscriber implements EventSubscriberInterface
 
     /**
      * Normalizes product values into "storage" format, and sets the result as raw values.
-     *
-     * @param GenericEvent $event
      */
     public function computeRawQuantifiedAssociations(GenericEvent $event)
     {

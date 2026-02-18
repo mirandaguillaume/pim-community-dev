@@ -9,13 +9,10 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\Association\FindAssociationTy
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Association\LabelCollection;
 use Doctrine\DBAL\Connection;
 
-final class SqlFindAssociationTypes implements FindAssociationTypesInterface
+final readonly class SqlFindAssociationTypes implements FindAssociationTypesInterface
 {
-    private Connection $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     /**

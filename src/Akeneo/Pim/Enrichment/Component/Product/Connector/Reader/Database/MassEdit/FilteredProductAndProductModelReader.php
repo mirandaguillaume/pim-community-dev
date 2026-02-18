@@ -34,45 +34,16 @@ class FilteredProductAndProductModelReader implements
     TrackableItemReaderInterface,
     StatefulInterface
 {
-    /** @var ProductQueryBuilderFactoryInterface */
-    private $pqbFactory;
+    private ?\Akeneo\Tool\Component\Batch\Model\StepExecution $stepExecution = null;
 
-    /** @var ChannelRepositoryInterface */
-    private $channelRepository;
+    private ?\Akeneo\Tool\Component\StorageUtils\Cursor\CursorInterface $productsAndProductModels = null;
 
-    /** @var MetricConverter */
-    private $metricConverter;
-
-    /** @var bool */
-    private $readChildren;
-
-    /** @var StepExecution */
-    private $stepExecution;
-
-    /** @var CursorInterface */
-    private $productsAndProductModels;
-
-    /** @var bool */
-    private $firstRead = true;
+    private bool $firstRead = true;
 
     private array $state = [];
 
-    /**
-     * @param ProductQueryBuilderFactoryInterface $pqbFactory
-     * @param ChannelRepositoryInterface          $channelRepository
-     * @param MetricConverter                     $metricConverter
-     * @param bool                                $readChildren
-     */
-    public function __construct(
-        ProductQueryBuilderFactoryInterface $pqbFactory,
-        ChannelRepositoryInterface $channelRepository,
-        MetricConverter $metricConverter,
-        bool $readChildren
-    ) {
-        $this->pqbFactory = $pqbFactory;
-        $this->channelRepository = $channelRepository;
-        $this->metricConverter = $metricConverter;
-        $this->readChildren = $readChildren;
+    public function __construct(private readonly ProductQueryBuilderFactoryInterface $pqbFactory, private readonly ChannelRepositoryInterface $channelRepository, private readonly MetricConverter $metricConverter, private readonly bool $readChildren)
+    {
     }
 
     /**
@@ -128,8 +99,6 @@ class FilteredProductAndProductModelReader implements
      * If no channel is specified, returns null.
      *
      * @throws ObjectNotFoundException
-     *
-     * @return ChannelInterface|null
      */
     private function getConfiguredChannel(): ?ChannelInterface
     {
@@ -150,8 +119,6 @@ class FilteredProductAndProductModelReader implements
     /**
      * Returns the filters from the configuration.
      * The parameters can be in the 'filters' root node, or in filters data node (e.g. for export).
-     *
-     * @return array
      */
     private function getConfiguredFilters(): array
     {
@@ -175,17 +142,9 @@ class FilteredProductAndProductModelReader implements
             }, $filters);
         }
 
-        return array_filter($filters, function ($filter) {
-            return count($filter) > 0;
-        });
+        return array_filter($filters, fn($filter) => (is_countable($filter) ? count($filter) : 0) > 0);
     }
 
-    /**
-     * @param array            $filters
-     * @param ChannelInterface $channel
-     *
-     * @return CursorInterface
-     */
     private function getProductsCursor(array $filters, ChannelInterface $channel = null): CursorInterface
     {
         $options = ['filters' => $filters];
@@ -201,8 +160,6 @@ class FilteredProductAndProductModelReader implements
 
     /**
      * This reader makes sure we return only product entities.
-     *
-     * @return null|ProductInterface
      */
     private function getNextProduct(): ?ProductInterface
     {

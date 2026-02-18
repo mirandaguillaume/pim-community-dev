@@ -22,24 +22,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class CreateMeasurementFamilyAction
 {
-    private ValidatorInterface $validator;
-
-    private NormalizerInterface $violationNormalizer;
-
-    private CreateMeasurementFamilyHandler $createMeasurementFamilyHandler;
-
-    private SecurityFacade $securityFacade;
-
-    public function __construct(
-        ValidatorInterface $validator,
-        NormalizerInterface $violationNormalizer,
-        CreateMeasurementFamilyHandler $createMeasurementFamilyHandler,
-        SecurityFacade $securityFacade
-    ) {
-        $this->validator                      = $validator;
-        $this->violationNormalizer            = $violationNormalizer;
-        $this->createMeasurementFamilyHandler = $createMeasurementFamilyHandler;
-        $this->securityFacade                 = $securityFacade;
+    public function __construct(private readonly ValidatorInterface $validator, private readonly NormalizerInterface $violationNormalizer, private readonly CreateMeasurementFamilyHandler $createMeasurementFamilyHandler, private readonly SecurityFacade $securityFacade)
+    {
     }
 
     public function __invoke(Request $request): Response
@@ -78,7 +62,11 @@ class CreateMeasurementFamilyAction
 
     private function decodeRequest(Request $request): array
     {
-        $normalizedRequest = json_decode($request->getContent(), true);
+        try {
+            $normalizedRequest = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            throw new BadRequestHttpException('Invalid json message received');
+        }
 
         if (null === $normalizedRequest) {
             throw new BadRequestHttpException('Invalid json message received');

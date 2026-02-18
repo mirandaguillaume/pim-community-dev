@@ -27,10 +27,10 @@ use Doctrine\Common\Collections\Collection;
 class ProductAttributeFilter implements AttributeFilterInterface
 {
     public function __construct(
-        private ProductModelRepositoryInterface $productModelRepository,
-        private IdentifiableObjectRepositoryInterface $familyRepository,
-        private ProductRepositoryInterface $productRepository,
-        private IdentifiableObjectRepositoryInterface $attributeRepository
+        private readonly ProductModelRepositoryInterface $productModelRepository,
+        private readonly IdentifiableObjectRepositoryInterface $familyRepository,
+        private readonly ProductRepositoryInterface $productRepository,
+        private readonly IdentifiableObjectRepositoryInterface $attributeRepository
     ) {
     }
 
@@ -88,17 +88,9 @@ class ProductAttributeFilter implements AttributeFilterInterface
         return $standardProduct;
     }
 
-    /**
-     * @param array      $flatProduct
-     * @param Collection $attributesToKeep
-     *
-     * @return array
-     */
     private function keepOnlyAttributes(array $flatProduct, Collection $attributesToKeep): array
     {
-        $attributeCodesToKeep = $attributesToKeep->map(function (AttributeInterface $attribute) {
-            return $attribute->getCode();
-        })->toArray();
+        $attributeCodesToKeep = $attributesToKeep->map(fn(AttributeInterface $attribute) => $attribute->getCode())->toArray();
 
         foreach ($flatProduct['values'] as $attributeName => $value) {
             if (!in_array($attributeName, $attributeCodesToKeep)) {

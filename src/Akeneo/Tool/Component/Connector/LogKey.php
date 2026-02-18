@@ -11,15 +11,10 @@ use Akeneo\Tool\Component\Batch\Model\JobExecution;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class LogKey
+final readonly class LogKey implements \Stringable
 {
-    /** @var JobExecution */
-    private $jobExecution;
-
-    public function __construct(JobExecution $jobExecution)
+    public function __construct(private JobExecution $jobExecution)
     {
-        $this->jobExecution = $jobExecution;
-
         if (empty($jobExecution->getLogFile())) {
             throw new \InvalidArgumentException('The log file should not be empty');
         }

@@ -16,12 +16,8 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class ProductValuesNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    /** @var NormalizerInterface */
-    private $normalizer;
-
-    public function __construct(NormalizerInterface $normalizer)
+    public function __construct(private readonly NormalizerInterface $normalizer)
     {
-        $this->normalizer = $normalizer;
     }
 
     /**

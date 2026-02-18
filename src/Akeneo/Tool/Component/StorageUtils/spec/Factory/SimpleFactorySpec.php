@@ -6,7 +6,7 @@ use PhpSpec\ObjectBehavior;
 
 class SimpleFactorySpec extends ObjectBehavior
 {
-    const MY_CLASS = 'stdClass';
+    final public const MY_CLASS = 'stdClass';
 
     function let()
     {

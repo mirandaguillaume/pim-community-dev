@@ -46,7 +46,7 @@ class MetricConverter extends AbstractValueConverter
                  * The case 2 is valid but will not imply a value update as there is no amount
                  * The case 3 will raise an invalid unit value from ValidMetric validator.
                  */
-                if (preg_match('/^[A-Za-z_]+$/', $tokens[0])) {
+                if (preg_match('/^[A-Za-z_]+$/', (string) $tokens[0])) {
                     $data = null;
                     $unit = $tokens[0];
                 } else {
@@ -59,7 +59,7 @@ class MetricConverter extends AbstractValueConverter
             }
 
             if (null !== $data) {
-                $data = !$attributeFieldInfo['attribute']->isDecimalsAllowed() && preg_match('|^\d+$|', $data) ?
+                $data = !$attributeFieldInfo['attribute']->isDecimalsAllowed() && preg_match('|^\d+$|', (string) $data) ?
                     (int) $data : (string) $data;
             }
 

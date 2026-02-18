@@ -19,7 +19,7 @@ interface CategoryFilterableRepositoryInterface
      *
      * @param mixed $qb query builder to update
      */
-    public function applyFilterByUnclassified($qb);
+    public function applyFilterByUnclassified(mixed $qb);
 
     /**
      * Apply a filter by category ids.
@@ -37,5 +37,5 @@ interface CategoryFilterableRepositoryInterface
      * @param mixed $qb query builder to update
      * @param array $categoryIds category ids
      */
-    public function applyFilterByCategoryIdsOrUnclassified($qb, array $categoryIds);
+    public function applyFilterByCategoryIdsOrUnclassified(mixed $qb, array $categoryIds);
 }

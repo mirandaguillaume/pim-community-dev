@@ -16,13 +16,10 @@ use Symfony\Component\HttpFoundation\Response;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class DashboardWidgetCategoriesController
+final readonly class DashboardWidgetCategoriesController
 {
-    private GetAverageRanksQueryInterface $getAverageRanks;
-
-    public function __construct(GetAverageRanksQueryInterface $getAverageRanks)
+    public function __construct(private GetAverageRanksQueryInterface $getAverageRanks)
     {
-        $this->getAverageRanks = $getAverageRanks;
     }
 
     public function __invoke(Request $request, string $channel, string $locale)
@@ -31,7 +28,7 @@ final class DashboardWidgetCategoriesController
             $channelCode = new ChannelCode($channel);
             $localeCode = new LocaleCode($locale);
             $categoryCodes = $this->getCategoryCodesFromRequest($request);
-        } catch (\InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException) {
             return new JsonResponse(null, Response::HTTP_BAD_REQUEST);
         }
 
@@ -48,8 +45,6 @@ final class DashboardWidgetCategoriesController
             throw new \InvalidArgumentException('The list of categories must be an array');
         }
 
-        return array_map(function ($categoryCode) {
-            return new CategoryCode($categoryCode);
-        }, $requestCategories);
+        return array_map(fn($categoryCode) => new CategoryCode($categoryCode), $requestCategories);
     }
 }

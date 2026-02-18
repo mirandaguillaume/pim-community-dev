@@ -13,13 +13,10 @@ use Symfony\Component\Messenger\MessageBusInterface;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class MessengerJobExecutionQueue implements JobExecutionQueueInterface
+final readonly class MessengerJobExecutionQueue implements JobExecutionQueueInterface
 {
-    private MessageBusInterface $bus;
-
-    public function __construct(MessageBusInterface $bus)
+    public function __construct(private MessageBusInterface $bus)
     {
-        $this->bus = $bus;
     }
 
     public function publish(JobExecutionMessageInterface $jobExecutionMessage): void

@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
  */
 class EventSubscriptionsLimitValidator extends ConstraintValidator
 {
-    public function __construct(private SelectActiveWebhooksQueryInterface $selectActiveWebhooksQuery, private int $activeEventSubscriptionsLimit)
+    public function __construct(private readonly SelectActiveWebhooksQueryInterface $selectActiveWebhooksQuery, private readonly int $activeEventSubscriptionsLimit)
     {
     }
 

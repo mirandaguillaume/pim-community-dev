@@ -14,21 +14,17 @@ interface RendererInterface
     /**
      * Render the given entity in the specified format
      *
-     * @param mixed  $object
      * @param string $format
-     * @param array  $context
      *
      * @return mixed
      */
-    public function render($object, $format, array $context = []);
+    public function render(mixed $object, $format, array $context = []);
 
     /**
      * Test if the given generator support given object and format rendering
      *
-     * @param mixed  $object
      * @param string $format
-     *
      * @return bool
      */
-    public function supports($object, $format);
+    public function supports(mixed $object, $format);
 }

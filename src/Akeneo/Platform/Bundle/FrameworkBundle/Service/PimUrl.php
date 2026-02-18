@@ -10,11 +10,8 @@ namespace Akeneo\Platform\Bundle\FrameworkBundle\Service;
  */
 class PimUrl
 {
-    private string $pimUrl;
-
-    public function __construct(string $pimUrl)
+    public function __construct(private readonly string $pimUrl)
     {
-        $this->pimUrl = $pimUrl;
     }
 
     public function getPimUrl():string

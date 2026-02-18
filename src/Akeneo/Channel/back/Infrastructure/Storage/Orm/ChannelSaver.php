@@ -15,20 +15,10 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ChannelSaver implements ChannelSaverInterface
+final readonly class ChannelSaver implements ChannelSaverInterface
 {
-    /** @var ObjectManager */
-    private $objectManager;
-
-    /** @var EventDispatcherInterface */
-    private $eventDispatcher;
-
-    public function __construct(
-        ObjectManager $objectManager,
-        EventDispatcherInterface $eventDispatcher
-    ) {
-        $this->objectManager = $objectManager;
-        $this->eventDispatcher = $eventDispatcher;
+    public function __construct(private ObjectManager $objectManager, private EventDispatcherInterface $eventDispatcher)
+    {
     }
 
     /**
@@ -72,13 +62,11 @@ final class ChannelSaver implements ChannelSaverInterface
     private function formatDataOptionsAndEvents(array $channels, array $commonOptions) : array
     {
         return array_map(
-            function (ChannelInterface $channel) use ($commonOptions) {
-                return [
-                    $channel,
-                    array_merge($commonOptions, ['is_new' => null === $channel->getId()]),
-                    $channel->popEvents()
-                ];
-            },
+            fn(ChannelInterface $channel) => [
+                $channel,
+                array_merge($commonOptions, ['is_new' => null === $channel->getId()]),
+                $channel->popEvents()
+            ],
             $channels
         );
     }

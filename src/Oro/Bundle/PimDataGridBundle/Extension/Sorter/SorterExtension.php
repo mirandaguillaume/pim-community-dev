@@ -17,13 +17,13 @@ use Oro\Bundle\DataGridBundle\Extension\AbstractExtension;
 class SorterExtension extends AbstractExtension
 {
     /** @staticvar string Query param */
-    const SORTERS_ROOT_PARAM = '_sort_by';
+    final public const SORTERS_ROOT_PARAM = '_sort_by';
 
     /** @staticvar string Ascending sorting direction */
-    const DIRECTION_ASC = "ASC";
+    final public const DIRECTION_ASC = "ASC";
 
     /** @staticvar string Descending sorting direction */
-    const DIRECTION_DESC = "DESC";
+    final public const DIRECTION_DESC = "DESC";
 
     /**
      * @var SorterInterface[]
@@ -58,7 +58,7 @@ class SorterExtension extends AbstractExtension
     {
         $sorters = $this->getSortersToApply($config);
         foreach ($sorters as $definition) {
-            list($direction, $sorter) = $definition;
+            [$direction, $sorter] = $definition;
             $sortKey = $sorter['data_name'];
             if (isset($sorter['sorter']) && $sorter['sorter'] !== null) {
                 $sorterAlias = $sorter['sorter'];
@@ -107,7 +107,7 @@ class SorterExtension extends AbstractExtension
         $sortersState = $data->offsetGetByPath('[state][sorters]', []);
         $sorters = $this->getSortersToApply($config);
         foreach ($sorters as $column => $definition) {
-            list($direction) = $definition;
+            [$direction] = $definition;
             $sortersState[$column] = $this->normalizeDirection($direction);
         }
 
@@ -126,7 +126,6 @@ class SorterExtension extends AbstractExtension
     /**
      * Retrieve and prepare list of sorters
      *
-     * @param DatagridConfiguration $config
      *
      * @return array
      */
@@ -140,7 +139,6 @@ class SorterExtension extends AbstractExtension
     /**
      * Prepare sorters array
      *
-     * @param DatagridConfiguration $config
      *
      * @return array
      */
@@ -160,7 +158,7 @@ class SorterExtension extends AbstractExtension
         }
 
         foreach ($sortBy as $column => $direction) {
-            $sorter = isset($sorters[$column]) ? $sorters[$column] : false;
+            $sorter = $sorters[$column] ?? false;
 
             if ($sorter !== false) {
                 $direction = $this->normalizeDirection($direction);
@@ -197,7 +195,6 @@ class SorterExtension extends AbstractExtension
      * Add sorters to array of available sorters
      *
      * @param string          $name
-     * @param SorterInterface $sorter
      *
      * @return $this
      */

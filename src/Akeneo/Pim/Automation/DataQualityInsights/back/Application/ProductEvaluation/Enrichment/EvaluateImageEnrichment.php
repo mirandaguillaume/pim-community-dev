@@ -20,22 +20,15 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\Rate;
  */
 class EvaluateImageEnrichment implements EvaluateCriterionInterface
 {
-    public const CRITERION_CODE = 'enrichment_image';
+    final public const CRITERION_CODE = 'enrichment_image';
 
-    public const CRITERION_COEFFICIENT = 2;
+    final public const CRITERION_COEFFICIENT = 2;
 
-    private CalculateProductCompletenessInterface $completenessCalculator;
+    private readonly CriterionCode $code;
 
-    private CriterionCode $code;
-
-    private GetLocalesByChannelQueryInterface $localesByChannelQuery;
-
-    public function __construct(CalculateProductCompletenessInterface $completenessCalculator, GetLocalesByChannelQueryInterface $localesByChannelQuery)
+    public function __construct(private readonly CalculateProductCompletenessInterface $completenessCalculator, private readonly GetLocalesByChannelQueryInterface $localesByChannelQuery)
     {
         $this->code = new CriterionCode(self::CRITERION_CODE);
-
-        $this->completenessCalculator = $completenessCalculator;
-        $this->localesByChannelQuery = $localesByChannelQuery;
     }
 
     public function evaluate(Write\CriterionEvaluation $criterionEvaluation, ProductValuesCollection $productValues): Write\CriterionEvaluationResult

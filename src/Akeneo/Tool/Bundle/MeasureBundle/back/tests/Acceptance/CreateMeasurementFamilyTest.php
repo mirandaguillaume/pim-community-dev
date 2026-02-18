@@ -671,7 +671,7 @@ class CreateMeasurementFamilyTest extends AcceptanceTestCase
     {
         try {
             $this->measurementFamilyRepository->getByCode(MeasurementFamilyCode::fromString($measurementFamilyCode));
-        } catch (MeasurementFamilyNotFoundException $e) {
+        } catch (MeasurementFamilyNotFoundException) {
             return;
         }
 

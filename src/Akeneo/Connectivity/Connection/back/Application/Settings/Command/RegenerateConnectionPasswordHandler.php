@@ -15,8 +15,8 @@ use Akeneo\Connectivity\Connection\Domain\Settings\Persistence\Repository\Connec
 class RegenerateConnectionPasswordHandler
 {
     public function __construct(
-        private ConnectionRepositoryInterface $repository,
-        private RegenerateUserPasswordInterface $regenerateUserPassword
+        private readonly ConnectionRepositoryInterface $repository,
+        private readonly RegenerateUserPasswordInterface $regenerateUserPassword
     ) {
     }
 

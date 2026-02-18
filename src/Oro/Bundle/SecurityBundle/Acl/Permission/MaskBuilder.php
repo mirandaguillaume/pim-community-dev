@@ -39,23 +39,23 @@ abstract class MaskBuilder
      * All characters are allowed here, but only a character defined in self::OFF constant
      * is interpreted as bit placeholder.
      */
-    const PATTERN_ALL_OFF = '................................';
+    public const PATTERN_ALL_OFF = '................................';
 
     /**
      * Defines the brief form of a human-readable format of a bitmask
      */
-    const PATTERN_ALL_OFF_BRIEF = '................................';
+    public const PATTERN_ALL_OFF_BRIEF = '................................';
 
     /**
      * A symbol is used in PATTERN_ALL_* constants as a placeholder of a bit
      */
-    const OFF = '.';
+    public const OFF = '.';
 
     /**
      * The default character is used in a human-readable format to show that a bit in the bitmask is set
      * If you want more readable character please define CODE_* constants in your mask builder class.
      */
-    const ON = '*';
+    public const ON = '*';
 
     protected $mask;
 
@@ -87,11 +87,11 @@ abstract class MaskBuilder
     public function add($mask)
     {
         if (is_string($mask)) {
-            $name = 'static::MASK_' . strtoupper($mask);
-            if (!defined($name)) {
+            $constName = 'MASK_' . strtoupper($mask);
+            if (!(new \ReflectionClass(static::class))->hasConstant($constName)) {
                 throw new \InvalidArgumentException(sprintf('Undefined mask: %s.', $mask));
             }
-            $mask = constant($name);
+            $mask = (new \ReflectionClassConstant(static::class, $constName))->getValue();
         } elseif (!is_int($mask)) {
             throw new \InvalidArgumentException('$mask must be a string or an integer.');
         }
@@ -110,8 +110,8 @@ abstract class MaskBuilder
      */
     public function remove($mask)
     {
-        if (is_string($mask) && defined($name = 'static::MASK_' . strtoupper($mask))) {
-            $mask = constant($name);
+        if (is_string($mask) && (new \ReflectionClass(static::class))->hasConstant($name = 'MASK_' . strtoupper($mask))) {
+            $mask = (new \ReflectionClassConstant(static::class, $name))->getValue();
         } elseif (!is_int($mask)) {
             throw new \InvalidArgumentException('$mask must be a string or an integer.');
         }
@@ -161,10 +161,10 @@ abstract class MaskBuilder
         }
 
         $pattern = $brief ? static::PATTERN_ALL_OFF_BRIEF : static::PATTERN_ALL_OFF;
-        $length = strlen(static::PATTERN_ALL_OFF_BRIEF);
+        $length = strlen((string) static::PATTERN_ALL_OFF_BRIEF);
         $bitmask = str_pad(decbin($mask), $length, '0', STR_PAD_LEFT);
 
-        for ($i = $length - 1, $p = strlen($pattern) - 1; $i >= 0; $i--, $p--) {
+        for ($i = $length - 1, $p = strlen((string) $pattern) - 1; $i >= 0; $i--, $p--) {
             // skip non mask chars if any
             while ($p >= 0 && static::OFF !== $pattern[$p]) {
                 $p--;
@@ -185,22 +185,23 @@ abstract class MaskBuilder
      */
     protected static function getCode($mask)
     {
-        $reflection = new \ReflectionClass(get_called_class());
+        $reflection = new \ReflectionClass(static::class);
         foreach ($reflection->getConstants() as $name => $cMask) {
-            if (0 !== strpos($name, 'MASK_')) {
+            if (!str_starts_with($name, 'MASK_')) {
                 continue;
             }
 
             if ($mask === $cMask) {
-                $cName = 'static::CODE_' . substr($name, 5);
-                if (defined($cName)) {
-                    return constant($cName);
+                $cName = 'CODE_' . substr($name, 5);
+                $refClass = new \ReflectionClass(static::class);
+                if ($refClass->hasConstant($cName)) {
+                    return (new \ReflectionClassConstant(static::class, $cName))->getValue();
                 }
                 $lastDelim = strrpos($name, '_');
                 if ($lastDelim > 5) {
-                    $cName = 'static::CODE_' . substr($name, 5, $lastDelim - 5);
-                    if (defined($cName)) {
-                        return constant($cName);
+                    $cName = 'CODE_' . substr($name, 5, $lastDelim - 5);
+                    if ($refClass->hasConstant($cName)) {
+                        return (new \ReflectionClassConstant(static::class, $cName))->getValue();
                     }
                 }
             }
@@ -217,7 +218,7 @@ abstract class MaskBuilder
      */
     public static function hasConst($name)
     {
-        return defined('static::' . $name);
+        return (new \ReflectionClass(static::class))->hasConstant($name);
     }
 
     /**
@@ -228,6 +229,6 @@ abstract class MaskBuilder
      */
     public static function getConst($name)
     {
-        return constant('static::' . $name);
+        return (new \ReflectionClassConstant(static::class, $name))->getValue();
     }
 }

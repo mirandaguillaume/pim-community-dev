@@ -34,72 +34,8 @@ class ProductModelNormalizer implements NormalizerInterface, CacheableSupportsMe
     /** @var string[] */
     private array $supportedFormat = ['internal_api'];
 
-    private NormalizerInterface $normalizer;
-    private NormalizerInterface $versionNormalizer;
-    private ImageNormalizer $imageNormalizer;
-    private VersionManager $versionManager;
-    private AttributeConverterInterface $localizedConverter;
-    private ConverterInterface $productValueConverter;
-    private FormProviderInterface $formProvider;
-    private LocaleRepositoryInterface $localeRepository;
-    private FillMissingValuesInterface $fillMissingProductModelValues;
-    private EntityWithFamilyVariantAttributesProvider $attributesProvider;
-    private VariantProductRatioInterface $variantProductRatioQuery;
-    private VariantNavigationNormalizer $navigationNormalizer;
-    private ImageAsLabel $imageAsLabel;
-    private AscendantCategoriesInterface $ascendantCategoriesQuery;
-    private UserContext $userContext;
-    private NormalizerInterface $parentAssociationsNormalizer;
-    private MissingAssociationAdder $missingAssociationAdder;
-    private CatalogContext $catalogContext;
-    private MissingRequiredAttributesCalculatorInterface $missingRequiredAttributesCalculator;
-    private MissingRequiredAttributesNormalizerInterface $missingRequiredAttributesNormalizer;
-    private QuantifiedAssociationsNormalizer $quantifiedAssociationsNormalizer;
-
-    public function __construct(
-        NormalizerInterface $normalizer,
-        NormalizerInterface $versionNormalizer,
-        VersionManager $versionManager,
-        ImageNormalizer $imageNormalizer,
-        AttributeConverterInterface $localizedConverter,
-        ConverterInterface $productValueConverter,
-        FormProviderInterface $formProvider,
-        LocaleRepositoryInterface $localeRepository,
-        FillMissingValuesInterface $fillMissingProductModelValues,
-        EntityWithFamilyVariantAttributesProvider $attributesProvider,
-        VariantNavigationNormalizer $navigationNormalizer,
-        VariantProductRatioInterface $variantProductRatioQuery,
-        ImageAsLabel $imageAsLabel,
-        AscendantCategoriesInterface $ascendantCategoriesQuery,
-        UserContext $userContext,
-        MissingAssociationAdder $missingAssociationAdder,
-        NormalizerInterface $parentAssociationsNormalizer,
-        CatalogContext $catalogContext,
-        MissingRequiredAttributesCalculatorInterface $missingRequiredAttributesCalculator,
-        MissingRequiredAttributesNormalizerInterface $missingRequiredAttributesNormalizer,
-        QuantifiedAssociationsNormalizer $quantifiedAssociationsNormalizer
-    ) {
-        $this->normalizer = $normalizer;
-        $this->versionNormalizer = $versionNormalizer;
-        $this->versionManager = $versionManager;
-        $this->imageNormalizer = $imageNormalizer;
-        $this->localizedConverter = $localizedConverter;
-        $this->productValueConverter = $productValueConverter;
-        $this->formProvider = $formProvider;
-        $this->localeRepository = $localeRepository;
-        $this->fillMissingProductModelValues = $fillMissingProductModelValues;
-        $this->attributesProvider = $attributesProvider;
-        $this->navigationNormalizer = $navigationNormalizer;
-        $this->variantProductRatioQuery = $variantProductRatioQuery;
-        $this->imageAsLabel = $imageAsLabel;
-        $this->ascendantCategoriesQuery = $ascendantCategoriesQuery;
-        $this->userContext = $userContext;
-        $this->missingAssociationAdder = $missingAssociationAdder;
-        $this->parentAssociationsNormalizer = $parentAssociationsNormalizer;
-        $this->catalogContext = $catalogContext;
-        $this->missingRequiredAttributesCalculator = $missingRequiredAttributesCalculator;
-        $this->missingRequiredAttributesNormalizer = $missingRequiredAttributesNormalizer;
-        $this->quantifiedAssociationsNormalizer = $quantifiedAssociationsNormalizer;
+    public function __construct(private readonly NormalizerInterface $normalizer, private readonly NormalizerInterface $versionNormalizer, private readonly VersionManager $versionManager, private readonly ImageNormalizer $imageNormalizer, private readonly AttributeConverterInterface $localizedConverter, private readonly ConverterInterface $productValueConverter, private readonly FormProviderInterface $formProvider, private readonly LocaleRepositoryInterface $localeRepository, private readonly FillMissingValuesInterface $fillMissingProductModelValues, private readonly EntityWithFamilyVariantAttributesProvider $attributesProvider, private readonly VariantNavigationNormalizer $navigationNormalizer, private readonly VariantProductRatioInterface $variantProductRatioQuery, private readonly ImageAsLabel $imageAsLabel, private readonly AscendantCategoriesInterface $ascendantCategoriesQuery, private readonly UserContext $userContext, private readonly MissingAssociationAdder $missingAssociationAdder, private readonly NormalizerInterface $parentAssociationsNormalizer, private readonly CatalogContext $catalogContext, private readonly MissingRequiredAttributesCalculatorInterface $missingRequiredAttributesCalculator, private readonly MissingRequiredAttributesNormalizerInterface $missingRequiredAttributesNormalizer, private readonly QuantifiedAssociationsNormalizer $quantifiedAssociationsNormalizer)
+    {
     }
 
     /**
@@ -197,10 +133,8 @@ class ProductModelNormalizer implements NormalizerInterface, CacheableSupportsMe
     }
 
     /**
-     * @param ProductModelInterface $productModel
      * @param string|null           $scopeCode
      *
-     * @return array
      */
     private function getLabels(ProductModelInterface $productModel, string $scopeCode = null): array
     {
@@ -214,8 +148,6 @@ class ProductModelNormalizer implements NormalizerInterface, CacheableSupportsMe
     }
 
     /**
-     * @param ProductModelInterface $productModel
-     *
      * @return array
      */
     protected function getAssociationMeta(ProductModelInterface $productModel)
@@ -226,9 +158,7 @@ class ProductModelNormalizer implements NormalizerInterface, CacheableSupportsMe
         foreach ($associations as $association) {
             $associationType = $association->getAssociationType();
             $meta[$associationType->getCode()]['groupIds'] = array_map(
-                function ($group) {
-                    return $group->getId();
-                },
+                fn($group) => $group->getId(),
                 $association->getGroups()->toArray()
             );
         }
@@ -237,11 +167,9 @@ class ProductModelNormalizer implements NormalizerInterface, CacheableSupportsMe
     }
 
     /**
-     * @param ValueInterface|null $data
      * @param string              $localeCode
      * @param string              $channelCode
      *
-     * @return array|null
      */
     private function normalizeImage(?ValueInterface $data, ?string $channelCode, ?string $localeCode = null): ?array
     {

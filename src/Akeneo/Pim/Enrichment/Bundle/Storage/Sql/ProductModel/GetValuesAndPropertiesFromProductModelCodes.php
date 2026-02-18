@@ -16,14 +16,10 @@ use Doctrine\DBAL\Types\Types;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class GetValuesAndPropertiesFromProductModelCodes
+final readonly class GetValuesAndPropertiesFromProductModelCodes
 {
-    /** @var Connection */
-    private $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function fromProductModelCodes(array $productModelCodes): array
@@ -32,9 +28,7 @@ final class GetValuesAndPropertiesFromProductModelCodes
             return [];
         }
 
-        $productModelCodes = (function (string ...$productModelCodes) {
-            return $productModelCodes;
-        })(...$productModelCodes);
+        $productModelCodes = (fn(string ...$productModelCodes) => $productModelCodes)(...$productModelCodes);
 
         $query = <<<SQL
 SELECT
@@ -71,7 +65,7 @@ SQL;
                 'family' => Type::getType(Types::STRING)->convertToPHPValue($row['family'], $platform),
                 'family_variant' => Type::getType(Types::STRING)->convertToPHPValue($row['family_variant'], $platform),
                 'parent' => Type::getType(Types::STRING)->convertToPHPValue($row['parent'], $platform),
-                'raw_values' => json_decode($row['raw_values'], true),
+                'raw_values' => json_decode((string) $row['raw_values'], true, 512, JSON_THROW_ON_ERROR),
                 'created' => Type::getType(Types::DATETIME_IMMUTABLE)->convertToPhpValue($row['created'], $platform),
                 'updated' => Type::getType(Types::DATETIME_IMMUTABLE)->convertToPhpValue($row['updated'], $platform),
             ];

@@ -13,12 +13,8 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
  */
 class SimpleSelectOptionNormalizer implements AxisValueLabelsNormalizer
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $attributeOptionRepository;
-
-    public function __construct(IdentifiableObjectRepositoryInterface $attributeOptionRepository)
+    public function __construct(private readonly IdentifiableObjectRepositoryInterface $attributeOptionRepository)
     {
-        $this->attributeOptionRepository = $attributeOptionRepository;
     }
 
     /**

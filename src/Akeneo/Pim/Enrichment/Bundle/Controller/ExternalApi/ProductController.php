@@ -96,32 +96,30 @@ class ProductController
         protected ProductQueryBuilderFactoryInterface $fromSizePqbFactory,
         protected ProductBuilderInterface $variantProductBuilder,
         protected AttributeFilterInterface $productAttributeFilter,
-        private AddParent $addParent,
-        private ListProductsQueryValidator $listProductsQueryValidator,
-        private array $apiConfiguration,
-        private ListProductsQueryHandler $listProductsQueryHandler,
-        private ConnectorProductNormalizer $connectorProductNormalizer,
-        private TokenStorageInterface $tokenStorage,
-        private GetConnectorProducts $getConnectorProducts,
-        private GetConnectorProducts $getConnectorProductsWithOptions,
-        private ApiAggregatorForProductPostSaveEventSubscriber $apiAggregatorForProductPostSave,
-        private WarmupQueryCache $warmupQueryCache,
-        private EventDispatcherInterface $eventDispatcher,
+        private readonly AddParent $addParent,
+        private readonly ListProductsQueryValidator $listProductsQueryValidator,
+        private readonly array $apiConfiguration,
+        private readonly ListProductsQueryHandler $listProductsQueryHandler,
+        private readonly ConnectorProductNormalizer $connectorProductNormalizer,
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly GetConnectorProducts $getConnectorProducts,
+        private readonly GetConnectorProducts $getConnectorProductsWithOptions,
+        private readonly ApiAggregatorForProductPostSaveEventSubscriber $apiAggregatorForProductPostSave,
+        private readonly WarmupQueryCache $warmupQueryCache,
+        private readonly EventDispatcherInterface $eventDispatcher,
         protected DuplicateValueChecker $duplicateValueChecker,
-        private LoggerInterface $logger,
-        private GetProductsWithQualityScoresInterface $getProductsWithQualityScores,
-        private RemoveParentInterface $removeParent,
-        private GetProductsWithCompletenessesInterface $getProductsWithCompletenesses,
-        private SecurityFacade $security,
-        private ValidatorInterface $validator,
-        private SqlFindProductUuids $findProductUuids
+        private readonly LoggerInterface $logger,
+        private readonly GetProductsWithQualityScoresInterface $getProductsWithQualityScores,
+        private readonly RemoveParentInterface $removeParent,
+        private readonly GetProductsWithCompletenessesInterface $getProductsWithCompletenesses,
+        private readonly SecurityFacade $security,
+        private readonly ValidatorInterface $validator,
+        private readonly SqlFindProductUuids $findProductUuids
     ) {
     }
 
     /**
-     * @param Request $request
      *
-     * @return JsonResponse
      *
      * @throws ServerErrorResponseException
      * @throws UnprocessableEntityHttpException
@@ -139,7 +137,11 @@ class ProductController
             $query->localeCodes = explode(',', $request->query->get('locales'));
         }
         if ($request->query->has('search')) {
-            $query->search = json_decode($request->query->get('search'), true);
+            try {
+                $query->search = json_decode($request->query->get('search'), true, 512, JSON_THROW_ON_ERROR);
+            } catch (\JsonException) {
+                throw new BadRequestHttpException('Search query parameter should be valid JSON.');
+            }
             if (!is_array($query->search)) {
                 throw new BadRequestHttpException('Search query parameter should be valid JSON.');
             }
@@ -170,11 +172,15 @@ class ProductController
             }
             throw new UnprocessableEntityHttpException($e->getMessage(), $e);
         } catch (BadRequest400Exception $e) {
-            $message = json_decode($e->getMessage(), true);
+            try {
+                $message = json_decode($e->getMessage(), true, 512, JSON_THROW_ON_ERROR);
+            } catch (\JsonException) {
+                $message = null;
+            }
             if (
                 null !== $message && isset($message['error']['root_cause'][0]['type'])
                 && 'illegal_argument_exception' === $message['error']['root_cause'][0]['type']
-                && 0 === strpos($message['error']['root_cause'][0]['reason'], 'Result window is too large, from + size must be less than or equal to:')
+                && str_starts_with((string) $message['error']['root_cause'][0]['reason'], 'Result window is too large, from + size must be less than or equal to:')
             ) {
                 throw new DocumentedHttpException(
                     Documentation::URL_DOCUMENTATION . 'pagination.html#the-search-after-method',
@@ -246,9 +252,7 @@ class ProductController
     }
 
     /**
-     * @param Request $request
      *
-     * @return Response
      * @throws BadRequestHttpException
      *
      */
@@ -305,10 +309,8 @@ class ProductController
     }
 
     /**
-     * @param Request $request
      * @param string  $code
      *
-     * @return Response
      * @throws HttpException
      *
      */
@@ -395,9 +397,7 @@ class ProductController
     /**
      * Products are saved 1 by 1, but we batch events in order to improve performances.
      *
-     * @param Request $request
      *
-     * @return Response
      * @throws HttpException
      *
      */
@@ -426,15 +426,14 @@ class ProductController
      *
      * @param string $content content of a request to decode
      *
-     * @return array
      * @throws BadRequestHttpException
      *
      */
     protected function getDecodedContent($content): array
     {
-        $decodedContent = json_decode($content, true);
-
-        if (null === $decodedContent) {
+        try {
+            $decodedContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
             throw new BadRequestHttpException('Invalid json message received');
         }
 
@@ -446,7 +445,6 @@ class ProductController
      *
      * @param ProductInterface $product category to update
      * @param array            $data data of the request already decoded
-     * @param string           $anchor
      *
      * @throws DocumentedHttpException
      */
@@ -503,10 +501,7 @@ class ProductController
     /**
      * Filter product's values to have only updated or new values.
      *
-     * @param ProductInterface $product
-     * @param array            $data
      *
-     * @return array
      * @throws DocumentedHttpException
      *
      */
@@ -545,7 +540,6 @@ class ProductController
      * Validate a product. It throws an error 422 with every violated constraints if
      * the validation failed.
      *
-     * @param ProductInterface $product
      *
      * @throws ViolationHttpException
      */
@@ -562,10 +556,7 @@ class ProductController
     /**
      * Get a response with a location header to the created or updated resource.
      *
-     * @param ProductInterface $product
-     * @param int              $status
      *
-     * @return Response
      */
     protected function getResponse(ProductInterface $product, int $status): Response
     {
@@ -606,14 +597,12 @@ class ProductController
      * Add to the data the identifier product value with the same identifier as the value of the identifier property.
      * It silently overwrite the identifier product value if one is already provided in the input.
      *
-     * @param array $data
      *
-     * @return array
      */
     protected function populateIdentifierProductValue(array $data): array
     {
         $identifierProperty = $this->attributeRepository->getIdentifierCode();
-        $identifier = isset($data['identifier']) ? $data['identifier'] : null;
+        $identifier = $data['identifier'] ?? null;
 
         unset($data['values'][$identifierProperty]);
 
@@ -654,11 +643,7 @@ class ProductController
      * Is it an update from a product to a variant product ?
      * That's the case if we are updating (and not creating) a product (not a variant) and 'parent' index is in $data.
      *
-     * @param ProductInterface $product
-     * @param array            $data
-     * @param bool             $isCreation
      *
-     * @return bool
      */
     protected function needUpdateFromProductToVariant(ProductInterface $product, array $data, bool $isCreation): bool
     {
@@ -672,10 +657,7 @@ class ProductController
      * - it is a variant product
      * - and 'parent' is explicitly null
      *
-     * @param ProductInterface $product
-     * @param array $data
      *
-     * @return bool
      */
     protected function needUpdateFromVariantToSimple(ProductInterface $product, array $data): bool
     {
@@ -692,7 +674,7 @@ class ProductController
         ];
 
         if ($query->search !== []) {
-            $queryParameters['search'] = json_encode($query->search);
+            $queryParameters['search'] = json_encode($query->search, JSON_THROW_ON_ERROR);
         }
         if (null !== $query->channelCode) {
             $queryParameters['scope'] = $query->channelCode;
@@ -769,15 +751,11 @@ class ProductController
 
     private function deniedAccessMessage(string $acl): string
     {
-        switch ($acl) {
-            case 'pim_api_product_list':
-                return 'Access forbidden. You are not allowed to list products.';
-            case 'pim_api_product_edit':
-                return 'Access forbidden. You are not allowed to create or update products.';
-            case 'pim_api_product_remove':
-                return 'Access forbidden. You are not allowed to delete products.';
-            default:
-                return 'Access forbidden.';
-        }
+        return match ($acl) {
+            'pim_api_product_list' => 'Access forbidden. You are not allowed to list products.',
+            'pim_api_product_edit' => 'Access forbidden. You are not allowed to create or update products.',
+            'pim_api_product_remove' => 'Access forbidden. You are not allowed to delete products.',
+            default => 'Access forbidden.',
+        };
     }
 }

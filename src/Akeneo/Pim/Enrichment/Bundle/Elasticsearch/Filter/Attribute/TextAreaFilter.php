@@ -168,11 +168,8 @@ class TextAreaFilter extends AbstractAttributeFilter implements AttributeFilterI
 
     /**
      * Check if the value is valid
-     *
-     * @param AttributeInterface $attribute
-     * @param mixed              $value
      */
-    protected function checkValue(AttributeInterface $attribute, $value)
+    protected function checkValue(AttributeInterface $attribute, mixed $value)
     {
         if (!is_string($value)) {
             throw InvalidPropertyTypeException::stringExpected($attribute->getCode(), static::class, $value);

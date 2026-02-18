@@ -16,11 +16,8 @@ use Ramsey\Uuid\UuidInterface;
  */
 class GetProductsWithCompletenesses implements GetProductsWithCompletenessesInterface
 {
-    private GetProductCompletenesses $getProductCompletenesses;
-
-    public function __construct(GetProductCompletenesses $getProductCompletenesses)
+    public function __construct(private readonly GetProductCompletenesses $getProductCompletenesses)
     {
-        $this->getProductCompletenesses = $getProductCompletenesses;
     }
 
     public function fromConnectorProduct(ConnectorProduct $product): ConnectorProduct

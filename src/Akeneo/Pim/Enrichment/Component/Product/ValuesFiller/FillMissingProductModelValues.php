@@ -83,26 +83,15 @@ final class FillMissingProductModelValues implements FillMissingValuesInterface
         $attributesInFamily = $this->getAttributesInFamilyVariantIndexedByCode($familyVariantCode, $level);
         $nonPriceAttributes = array_filter(
             $attributesInFamily,
-            function (AttributeInterface $attribute): bool {
-                return AttributeTypes::PRICE_COLLECTION !== $attribute->getType();
-            }
+            fn(AttributeInterface $attribute): bool => AttributeTypes::PRICE_COLLECTION !== $attribute->getType()
         );
 
         foreach ($nonPriceAttributes as $attribute) {
-            switch ($attribute->getType()) {
-                case AttributeTypes::METRIC:
-                    $nullValue = ['unit' => null, 'amount' => null];
-                    break;
-                case AttributeTypes::OPTION_MULTI_SELECT:
-                case AttributeTypes::REFERENCE_DATA_MULTI_SELECT:
-                case AttributeTypes::REFERENCE_ENTITY_COLLECTION:
-                case AttributeTypes::ASSET_COLLECTION:
-                    $nullValue = [];
-                    break;
-                default:
-                    $nullValue = null;
-                    break;
-            }
+            $nullValue = match ($attribute->getType()) {
+                AttributeTypes::METRIC => ['unit' => null, 'amount' => null],
+                AttributeTypes::OPTION_MULTI_SELECT, AttributeTypes::REFERENCE_DATA_MULTI_SELECT, AttributeTypes::REFERENCE_ENTITY_COLLECTION, AttributeTypes::ASSET_COLLECTION => [],
+                default => null,
+            };
 
             if (!$attribute->isScopable() && !$attribute->isLocalizable()) {
                 $nullValues[$attribute->getCode()]['<all_channels>']['<all_locales>'] = $nullValue;
@@ -148,9 +137,7 @@ final class FillMissingProductModelValues implements FillMissingValuesInterface
         );
         $nonPriceAttributes = array_filter(
             $attributesInFamily,
-            function (AttributeInterface $attribute): bool {
-                return AttributeTypes::PRICE_COLLECTION !== $attribute->getType();
-            }
+            fn(AttributeInterface $attribute): bool => AttributeTypes::PRICE_COLLECTION !== $attribute->getType()
         );
 
         $valuesInPivotFormat = [];
@@ -159,8 +146,8 @@ final class FillMissingProductModelValues implements FillMissingValuesInterface
                 continue;
             }
             foreach ($values as $value) {
-                $channelCode = null === $value['scope'] ? '<all_channels>' : $value['scope'];
-                $localeCode = null === $value['locale'] ? '<all_locales>' : $value['locale'];
+                $channelCode = $value['scope'] ?? '<all_channels>';
+                $localeCode = $value['locale'] ?? '<all_locales>';
                 $valuesInPivotFormat[$attributeCode][$channelCode][$localeCode] = $value['data'];
             }
         }
@@ -203,9 +190,7 @@ final class FillMissingProductModelValues implements FillMissingValuesInterface
 
         $priceAttributes = array_filter(
             $attributesInFamily,
-            function (AttributeInterface $attribute): bool {
-                return AttributeTypes::PRICE_COLLECTION === $attribute->getType();
-            }
+            fn(AttributeInterface $attribute): bool => AttributeTypes::PRICE_COLLECTION === $attribute->getType()
         );
 
         foreach ($priceAttributes as $attribute) {
@@ -261,9 +246,7 @@ final class FillMissingProductModelValues implements FillMissingValuesInterface
         );
         $priceAttributes = array_filter(
             $attributesInFamily,
-            function (AttributeInterface $attribute): bool {
-                return AttributeTypes::PRICE_COLLECTION === $attribute->getType();
-            }
+            fn(AttributeInterface $attribute): bool => AttributeTypes::PRICE_COLLECTION === $attribute->getType()
         );
 
         $valuesInPivotFormat = [];
@@ -272,8 +255,8 @@ final class FillMissingProductModelValues implements FillMissingValuesInterface
                 continue;
             }
             foreach ($values as $value) {
-                $channelCode = null === $value['scope'] ? '<all_channels>' : $value['scope'];
-                $localeCode = null === $value['locale'] ? '<all_locales>' : $value['locale'];
+                $channelCode = $value['scope'] ?? '<all_channels>';
+                $localeCode = $value['locale'] ?? '<all_locales>';
 
                 foreach ($value['data'] as $price) {
                     $valuesInPivotFormat[$attributeCode][$channelCode][$localeCode][$price['currency']] = $price['amount'];
@@ -363,9 +346,7 @@ final class FillMissingProductModelValues implements FillMissingValuesInterface
 
     private function sortCurrenciesByCode(array $currencies): array
     {
-        usort($currencies, function (CurrencyInterface $a, CurrencyInterface $b) {
-            return $a->getCode() <=> $b->getCode();
-        });
+        usort($currencies, fn(CurrencyInterface $a, CurrencyInterface $b) => $a->getCode() <=> $b->getCode());
 
         return $currencies;
     }

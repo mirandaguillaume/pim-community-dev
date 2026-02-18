@@ -153,7 +153,7 @@ JSON;
         $client->request('POST', 'api/rest/v1/categories', [], [], [], $data);
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_BAD_REQUEST);
-        $this->assertSame($expectedContent, json_decode($response->getContent(), true));
+        $this->assertSame($expectedContent, json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
     }
 
     public function testResponseWhenContentIsNotValid(): void
@@ -170,7 +170,7 @@ JSON;
         $client->request('POST', 'api/rest/v1/categories', [], [], [], $data);
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_BAD_REQUEST);
-        $this->assertSame($expectedContent, json_decode($response->getContent(), true));
+        $this->assertSame($expectedContent, json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
     }
 
     public function testResponseWhenCategoryCodeAlreadyExists(): void
@@ -199,7 +199,7 @@ JSON;
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $this->assertSame($expectedContent, json_decode($response->getContent(), true));
+        $this->assertSame($expectedContent, json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
     }
 
     public function testResponseWhenValidationFailed(): void
@@ -228,7 +228,7 @@ JSON;
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $this->assertSame($expectedContent, json_decode($response->getContent(), true));
+        $this->assertSame($expectedContent, json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
     }
 
     public function testResponseWhenAPropertyIsNotExpected(): void
@@ -257,7 +257,7 @@ JSON;
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $this->assertSame($expectedContent, json_decode($response->getContent(), true));
+        $this->assertSame($expectedContent, json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
     }
 
     public function testResponseWhenLabelsIsNull(): void
@@ -285,7 +285,7 @@ JSON;
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $this->assertSame($expectedContent, json_decode($response->getContent(), true));
+        $this->assertSame($expectedContent, json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
     }
 
     public function testResponseWhenLocaleCodeInLabelsIsEmpty(): void
@@ -317,7 +317,7 @@ JSON;
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $this->assertSame($expectedContent, json_decode($response->getContent(), true));
+        $this->assertSame($expectedContent, json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
     }
 
     public function testResponseWhenLocaleCodeDoesNotExist(): void
@@ -349,7 +349,7 @@ JSON;
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $this->assertSame($expectedContent, json_decode($response->getContent(), true));
+        $this->assertSame($expectedContent, json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
     }
 
     /**

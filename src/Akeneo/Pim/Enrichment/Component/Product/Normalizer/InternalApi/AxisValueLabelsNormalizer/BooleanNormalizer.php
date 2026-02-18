@@ -17,7 +17,7 @@ use Akeneo\Tool\Component\Localization\LabelTranslatorInterface;
 class BooleanNormalizer implements AxisValueLabelsNormalizer
 {
     public function __construct(
-        private LabelTranslatorInterface $labelTranslator
+        private readonly LabelTranslatorInterface $labelTranslator
     ) {
     }
 

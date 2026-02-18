@@ -22,15 +22,15 @@ use Webmozart\Assert\Assert;
  *  locale?: string|null
  * }
  */
-final class SimpleSelectProperty implements PropertyInterface
+final readonly class SimpleSelectProperty implements PropertyInterface
 {
     private const TYPE = 'simple_select';
 
     private function __construct(
-        private readonly string $attributeCode,
-        private readonly Process $process,
-        private readonly ?string $scope = null,
-        private readonly ?string $locale = null
+        private string $attributeCode,
+        private Process $process,
+        private ?string $scope = null,
+        private ?string $locale = null
     ) {
     }
 

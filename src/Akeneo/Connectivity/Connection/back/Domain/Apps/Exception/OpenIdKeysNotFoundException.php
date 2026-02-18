@@ -9,7 +9,7 @@ namespace Akeneo\Connectivity\Connection\Domain\Apps\Exception;
  */
 class OpenIdKeysNotFoundException extends \Exception
 {
-    public const MESSAGE = 'No OpenId keys';
+    final public const MESSAGE = 'No OpenId keys';
 
     public function __construct()
     {

@@ -20,9 +20,6 @@ abstract class AbstractReferenceDataUniqueCodeChecker implements CheckerInterfac
     /** @var string */
     protected $failure;
 
-    /**
-     * @param ObjectManager $om
-     */
     public function __construct(ObjectManager $om)
     {
         $this->om = $om;

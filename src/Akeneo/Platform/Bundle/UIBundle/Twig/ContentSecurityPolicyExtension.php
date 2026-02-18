@@ -17,12 +17,8 @@ use Twig\TwigFunction;
  */
 class ContentSecurityPolicyExtension extends AbstractExtension
 {
-    /** @var ScriptNonceGenerator */
-    private $scriptNonceGenerator;
-
-    public function __construct(ScriptNonceGenerator $scriptNonceGenerator)
+    public function __construct(private readonly ScriptNonceGenerator $scriptNonceGenerator)
     {
-        $this->scriptNonceGenerator = $scriptNonceGenerator;
     }
 
     /**
@@ -31,7 +27,7 @@ class ContentSecurityPolicyExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('js_nonce', [$this, 'getScriptNonce']),
+            new TwigFunction('js_nonce', $this->getScriptNonce(...)),
         ];
     }
 

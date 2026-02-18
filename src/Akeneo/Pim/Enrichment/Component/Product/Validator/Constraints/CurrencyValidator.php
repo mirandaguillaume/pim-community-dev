@@ -18,12 +18,10 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class CurrencyValidator extends ConstraintValidator
 {
-    protected FindActivatedCurrenciesInterface $findActivatedCurrencies;
     protected array $currencyCodes;
 
-    public function __construct(FindActivatedCurrenciesInterface $findActivatedCurrencies)
+    public function __construct(protected FindActivatedCurrenciesInterface $findActivatedCurrencies)
     {
-        $this->findActivatedCurrencies = $findActivatedCurrencies;
         $this->currencyCodes = [];
     }
 
@@ -56,9 +54,6 @@ class CurrencyValidator extends ConstraintValidator
         }
     }
 
-    /**
-     * @return array
-     */
     protected function getCurrencyCodes(): array
     {
         if (empty($this->currencyCodes)) {

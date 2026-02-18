@@ -20,21 +20,10 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class ReindexFormerAncestorsSubscriber implements EventSubscriberInterface
 {
-    /** @var GetAncestorAndDescendantProductModelCodes */
-    private $getAncestorProductModelCodes;
+    private array $formerParentCodes = [];
 
-    /** @var ProductModelIndexerInterface */
-    private $productModelIndexer;
-
-    /** @var array */
-    private $formerParentCodes = [];
-
-    public function __construct(
-        GetAncestorAndDescendantProductModelCodes $getAncestorProductModelCodes,
-        ProductModelIndexerInterface $productModelIndexer
-    ) {
-        $this->getAncestorProductModelCodes = $getAncestorProductModelCodes;
-        $this->productModelIndexer = $productModelIndexer;
+    public function __construct(private readonly GetAncestorAndDescendantProductModelCodes $getAncestorProductModelCodes, private readonly ProductModelIndexerInterface $productModelIndexer)
+    {
     }
 
     public static function getSubscribedEvents(): array

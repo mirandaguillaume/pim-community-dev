@@ -14,19 +14,19 @@ use Akeneo\Pim\Structure\Component\Repository\AssociationTypeRepositoryInterface
 class AssociationColumnsResolver
 {
     /** @var string */
-    public const GROUP_ASSOCIATION_SUFFIX = '-groups';
+    final public const GROUP_ASSOCIATION_SUFFIX = '-groups';
 
     /** @var string */
-    public const PRODUCT_ASSOCIATION_SUFFIX = '-products';
+    final public const PRODUCT_ASSOCIATION_SUFFIX = '-products';
 
     /** @var string */
-    public const PRODUCT_UUID_ASSOCIATION_SUFFIX = '-product_uuids';
+    final public const PRODUCT_UUID_ASSOCIATION_SUFFIX = '-product_uuids';
 
     /** @var string */
-    public const PRODUCT_MODEL_ASSOCIATION_SUFFIX = '-product_models';
+    final public const PRODUCT_MODEL_ASSOCIATION_SUFFIX = '-product_models';
 
     /** @var string */
-    public const QUANTITY_SUFFIX = '-quantity';
+    final public const QUANTITY_SUFFIX = '-quantity';
 
     /** @var AssociationTypeRepositoryInterface */
     protected $assocTypeRepository;
@@ -43,9 +43,6 @@ class AssociationColumnsResolver
     /** @var array */
     protected $quantifiedAssocQuantityFieldsCache;
 
-    /**
-     * @param AssociationTypeRepositoryInterface $repository
-     */
     public function __construct(AssociationTypeRepositoryInterface $repository)
     {
         $this->assocTypeRepository = $repository;

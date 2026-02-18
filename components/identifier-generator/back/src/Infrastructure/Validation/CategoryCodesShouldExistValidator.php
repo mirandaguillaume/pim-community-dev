@@ -47,7 +47,7 @@ final class CategoryCodesShouldExistValidator extends ConstraintValidator
         if (\count($nonExistingCodes) > 0) {
             $this->context
                 ->buildViolation($constraint->categoriesDoNotExist, [
-                    '{{ categoryCodes }}' =>  \implode(', ', \array_map(fn (string $value): string => (string) \json_encode($value), $nonExistingCodes)),
+                    '{{ categoryCodes }}' =>  \implode(', ', \array_map(fn (string $value): string => (string) \json_encode($value, JSON_THROW_ON_ERROR), $nonExistingCodes)),
                 ])
                 ->addViolation();
         }

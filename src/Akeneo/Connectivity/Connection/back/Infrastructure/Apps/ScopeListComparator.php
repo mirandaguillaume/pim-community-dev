@@ -10,7 +10,7 @@ use Akeneo\Connectivity\Connection\Application\Apps\Security\ScopeMapperRegistry
 class ScopeListComparator implements ScopeListComparatorInterface
 {
     public function __construct(
-        private ScopeMapperRegistryInterface $scopeMapperRegistry,
+        private readonly ScopeMapperRegistryInterface $scopeMapperRegistry,
     ) {
     }
 

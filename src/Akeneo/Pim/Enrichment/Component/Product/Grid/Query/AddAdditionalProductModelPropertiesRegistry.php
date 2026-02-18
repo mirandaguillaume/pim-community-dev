@@ -11,16 +11,11 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Grid\Query;
 final class AddAdditionalProductModelPropertiesRegistry
 {
     /** @var AddAdditionalProductModelProperties[] */
-    private $queries;
+    private readonly array $queries;
 
-    /**
-     * @param iterable $queries
-     */
     public function __construct(iterable $queries)
     {
-        $this->queries = (function (AddAdditionalProductModelProperties ...$query) {
-            return $query;
-        })(...$queries);
+        $this->queries = (fn(AddAdditionalProductModelProperties ...$query) => $query)(...$queries);
     }
 
     public function add(FetchProductAndProductModelRowsParameters $queryParameters, array $rows): array

@@ -17,7 +17,6 @@ class Registry
     /**
      * Add a widget to the register
      *
-     * @param WidgetInterface $widget
      * @param int             $position
      */
     public function add(WidgetInterface $widget, $position)
@@ -34,10 +33,8 @@ class Registry
      * Get a widget from the register
      *
      * @param string $alias
-     *
-     * @return null|WidgetInterface
      */
-    public function get($alias)
+    public function get($alias): ?\Akeneo\Platform\Bundle\DashboardBundle\Widget\WidgetInterface
     {
         foreach ($this->widgets as $widget) {
             if ($widget->getAlias() === $alias) {

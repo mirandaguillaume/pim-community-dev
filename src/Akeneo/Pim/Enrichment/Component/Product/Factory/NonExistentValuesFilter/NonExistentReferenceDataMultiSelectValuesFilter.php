@@ -16,12 +16,8 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  */
 class NonExistentReferenceDataMultiSelectValuesFilter implements NonExistentValuesFilter
 {
-    /** @var GetExistingReferenceDataCodes */
-    private $getExistingReferenceDataCodes;
-
-    public function __construct(GetExistingReferenceDataCodes $getExistingReferenceDataCodes)
+    public function __construct(private readonly GetExistingReferenceDataCodes $getExistingReferenceDataCodes)
     {
-        $this->getExistingReferenceDataCodes = $getExistingReferenceDataCodes;
     }
 
     public function filter(OnGoingFilteredRawValues $onGoingFilteredRawValues): OnGoingFilteredRawValues

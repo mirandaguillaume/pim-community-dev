@@ -55,7 +55,7 @@ class ResilientDeadlockConnection
                 }
 
                 $this->logger->warning(sprintf('Deadlock occurred during the execution of "%s", %d/%d retry', $cause, $retry, self::MAX_RETRY - 1));
-                usleep(self::DELAY_BETWEEN_RETRY_IN_MICROSECONDS + rand(self::MINIMUM_RANDOM_DELAY_IN_MICROSECONDS, $retry * self::MAXIMUM_RANDOM_DELAY_IN_MICROSECONDS));
+                usleep(self::DELAY_BETWEEN_RETRY_IN_MICROSECONDS + random_int(self::MINIMUM_RANDOM_DELAY_IN_MICROSECONDS, $retry * self::MAXIMUM_RANDOM_DELAY_IN_MICROSECONDS));
             }
         }
     }

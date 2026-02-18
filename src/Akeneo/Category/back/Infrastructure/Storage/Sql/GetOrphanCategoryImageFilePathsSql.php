@@ -15,9 +15,9 @@ use Doctrine\DBAL\Connection;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GetOrphanCategoryImageFilePathsSql implements GetOrphanCategoryImageFilePaths
+final readonly class GetOrphanCategoryImageFilePathsSql implements GetOrphanCategoryImageFilePaths
 {
-    public function __construct(private readonly Connection $connection)
+    public function __construct(private Connection $connection)
     {
     }
 
@@ -102,7 +102,7 @@ final class GetOrphanCategoryImageFilePathsSql implements GetOrphanCategoryImage
 
             foreach ($rawValueCollections as $rawValueCollection) {
                 $valueCollection = ValueCollection::fromDatabase(
-                    \json_decode($rawValueCollection, true, 512, \JSON_THROW_ON_ERROR),
+                    \json_decode((string) $rawValueCollection, true, 512, \JSON_THROW_ON_ERROR),
                 );
                 foreach ($valueCollection->getValues() as $value) {
                     if ($value instanceof ImageValue) {

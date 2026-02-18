@@ -39,27 +39,21 @@ class Cursor extends AbstractCursor
     protected $repository;
 
     /** @var int */
-    protected $pageSize;
-
-    /** @var int */
     protected $currentPage;
 
     /** @var Object */
     protected $entity;
 
     /**
-     * @param QueryBuilder  $queryBuilder
-     * @param EntityManager $entityManager
      * @param int           $pageSize
      */
     public function __construct(
         QueryBuilder $queryBuilder,
         EntityManager $entityManager,
-        $pageSize
+        protected $pageSize
     ) {
         $this->queryBuilder = $queryBuilder;
         $this->entityManager = $entityManager;
-        $this->pageSize = $pageSize;
         $this->rewind();
     }
 

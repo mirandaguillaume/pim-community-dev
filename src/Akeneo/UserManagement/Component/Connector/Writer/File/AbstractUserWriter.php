@@ -29,31 +29,18 @@ abstract class AbstractUserWriter extends AbstractFileWriter implements
     InitializableInterface,
     FlushableInterface
 {
-    private ArrayConverterInterface $arrayConverter;
-    private BufferFactory $bufferFactory;
-    private FlatItemBufferFlusher $flusher;
     private ?FlatItemBuffer $flatRowBuffer = null;
-    private FileInfoRepositoryInterface $fileInfoRepository;
-    private FilesystemProvider $filesystemProvider;
-    private FileExporterPathGeneratorInterface $pathGenerator;
     private array $state = [];
 
     public function __construct(
-        ArrayConverterInterface $arrayConverter,
-        BufferFactory $bufferFactory,
-        FlatItemBufferFlusher $flusher,
-        FileInfoRepositoryInterface $fileInfoRepository,
-        FilesystemProvider $filesystemProvider,
-        FileExporterPathGeneratorInterface $pathGenerator,
+        private readonly ArrayConverterInterface $arrayConverter,
+        private readonly BufferFactory $bufferFactory,
+        private readonly FlatItemBufferFlusher $flusher,
+        private readonly FileInfoRepositoryInterface $fileInfoRepository,
+        private readonly FilesystemProvider $filesystemProvider,
+        private readonly FileExporterPathGeneratorInterface $pathGenerator,
         private readonly JobFileBackuper $jobFileBackuper,
     ) {
-        $this->arrayConverter = $arrayConverter;
-        $this->bufferFactory = $bufferFactory;
-        $this->flusher = $flusher;
-        $this->fileInfoRepository = $fileInfoRepository;
-        $this->filesystemProvider = $filesystemProvider;
-        $this->pathGenerator = $pathGenerator;
-
         parent::__construct();
     }
 
@@ -109,7 +96,7 @@ abstract class AbstractUserWriter extends AbstractFileWriter implements
         );
 
         foreach ($writtenFiles as $writtenFile) {
-            $this->writtenFiles[] = WrittenFileInfo::fromLocalFile($writtenFile, \basename($writtenFile));
+            $this->writtenFiles[] = WrittenFileInfo::fromLocalFile($writtenFile, \basename((string) $writtenFile));
         }
     }
 

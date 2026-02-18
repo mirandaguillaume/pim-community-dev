@@ -13,49 +13,24 @@ use Akeneo\Pim\Structure\Component\AttributeTypes;
  */
 final class FlatFileHeader
 {
-    /** @var string */
-    private $code;
+    private ?bool $usesUnit = null;
 
-    /** @var bool */
-    private $isScopable;
+    private ?bool $usesCurrencies = null;
 
-    /** @var string */
-    private $channelCode;
+    private ?bool $isLocaleSpecific = null;
 
-    /** @var bool */
-    private $isLocalizable;
-
-    /** @var array */
-    private $localeCodes;
-
-    /** @var bool */
-    private $isMedia;
-
-    /** @var bool */
-    private $usesUnit;
-
-    /** @var bool */
-    private $usesCurrencies;
-
-    /** @var array */
-    private $channelCurrencyCodes;
-
-    /** @var bool */
-    private $isLocaleSpecific;
-
-    /** @var array */
-    private $specificToLocales;
+    private ?array $specificToLocales = null;
 
     public function __construct(
-        string $code,
-        ?bool $isScopable = false,
-        ?string $channelCode = null,
-        ?bool $isLocalizable = false,
-        ?array $localeCodes = [],
-        ?bool $isMedia = false,
+        private readonly string $code,
+        private readonly ?bool $isScopable = false,
+        private readonly ?string $channelCode = null,
+        private readonly ?bool $isLocalizable = false,
+        private readonly ?array $localeCodes = [],
+        private readonly ?bool $isMedia = false,
         ?bool $usesUnit = false,
         ?bool $usesCurrencies = false,
-        ?array $channelCurrencyCodes = [],
+        private readonly ?array $channelCurrencyCodes = [],
         ?bool $isLocaleSpecific = false,
         ?array $specificToLocales = []
     ) {
@@ -71,20 +46,9 @@ final class FlatFileHeader
                 'A header cannot have both currencies and unit.'
             );
         }
-
-        $this->code = $code;
-
-        $this->isScopable = $isScopable;
-        $this->channelCode = $channelCode;
-
-        $this->isLocalizable = $isLocalizable;
-        $this->localeCodes = $localeCodes;
-
-        $this->isMedia = $isMedia;
         $this->usesUnit = $usesUnit;
 
         $this->usesCurrencies = $usesCurrencies;
-        $this->channelCurrencyCodes = $channelCurrencyCodes;
 
         $this->isLocaleSpecific = $isLocaleSpecific;
         $this->specificToLocales = $specificToLocales;

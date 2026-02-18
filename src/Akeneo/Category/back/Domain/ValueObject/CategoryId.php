@@ -12,7 +12,7 @@ use Webmozart\Assert\Assert;
  */
 class CategoryId
 {
-    public function __construct(private int $id)
+    public function __construct(private readonly int $id)
     {
         Assert::greaterThan($id, 0);
     }

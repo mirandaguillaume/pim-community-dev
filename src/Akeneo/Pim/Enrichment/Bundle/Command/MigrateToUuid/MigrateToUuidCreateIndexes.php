@@ -18,8 +18,8 @@ class MigrateToUuidCreateIndexes implements MigrateToUuidStep
     private const DEFAULT_INDEX_NAME = 'product_uuid';
 
     public function __construct(
-        private Connection $connection,
-        private LoggerInterface $logger
+        private readonly Connection $connection,
+        private readonly LoggerInterface $logger
     ) {
     }
 

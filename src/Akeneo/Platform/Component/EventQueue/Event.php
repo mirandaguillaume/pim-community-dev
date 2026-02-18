@@ -12,19 +12,15 @@ use Ramsey\Uuid\Uuid;
  */
 abstract class Event implements EventInterface
 {
-    private Author $author;
-    protected array $data;
-    private int $timestamp;
-    private string $uuid;
+    private readonly int $timestamp;
+    private readonly string $uuid;
 
     public function __construct(
-        Author $author,
-        array $data,
+        private readonly Author $author,
+        protected array $data,
         int $timestamp = null,
         string $uuid = null
     ) {
-        $this->author = $author;
-        $this->data = $data;
         $this->timestamp = $timestamp ?? time();
         $this->uuid = $uuid ?? Uuid::uuid4()->toString();
     }

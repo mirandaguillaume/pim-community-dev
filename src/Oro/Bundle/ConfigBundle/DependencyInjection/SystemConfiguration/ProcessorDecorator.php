@@ -8,17 +8,15 @@ use Symfony\Component\Config\Definition\Processor;
 
 class ProcessorDecorator
 {
-    const ROOT = 'oro_system_configuration';
-    const GROUPS_NODE = 'groups';
-    const FIELDS_ROOT = 'fields';
-    const TREE_ROOT = 'tree';
+    final public const ROOT = 'oro_system_configuration';
+    final public const GROUPS_NODE = 'groups';
+    final public const FIELDS_ROOT = 'fields';
+    final public const TREE_ROOT = 'tree';
 
     /** @var Processor */
     protected $processor;
 
     /**
-     * @param array $data
-     *
      * @return array
      */
     public function process(array $data)
@@ -43,21 +41,16 @@ class ProcessorDecorator
 
         if (!empty($newData[self::ROOT])) {
             foreach ((array)$newData[self::ROOT] as $nodeName => $node) {
-                switch ($nodeName) {
-                    // merge recursive all nodes in tree
-                    case self::TREE_ROOT:
-                        $source[self::ROOT][$nodeName] = array_merge_recursive(
-                            $source[self::ROOT][$nodeName],
-                            $node
-                        );
-                        break;
-                        // replace all overrides in other nodes
-                    default:
-                        $source[self::ROOT][$nodeName] = array_replace_recursive(
-                            $source[self::ROOT][$nodeName],
-                            $node
-                        );
-                }
+                $source[self::ROOT][$nodeName] = match ($nodeName) {
+                    self::TREE_ROOT => array_merge_recursive(
+                        $source[self::ROOT][$nodeName],
+                        $node
+                    ),
+                    default => array_replace_recursive(
+                        $source[self::ROOT][$nodeName],
+                        $node
+                    ),
+                };
             }
         }
 

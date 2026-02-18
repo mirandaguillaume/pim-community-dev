@@ -15,12 +15,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class SearchAfterSizeIdentifierResultCursorFactory implements CursorFactoryInterface
 {
-    /** @var Client */
-    private $esClient;
-
-    public function __construct(Client $esClient)
+    public function __construct(private readonly Client $esClient)
     {
-        $this->esClient = $esClient;
     }
 
     /**

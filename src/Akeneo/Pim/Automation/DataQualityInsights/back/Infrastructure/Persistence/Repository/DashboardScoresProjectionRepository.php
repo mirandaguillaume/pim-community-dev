@@ -68,13 +68,10 @@ use Doctrine\DBAL\Connection;
  *    "average_ranks_consolidated_at" => "2020-01-24 14:42:35"
  *  }
  */
-final class DashboardScoresProjectionRepository implements DashboardScoresProjectionRepositoryInterface
+final readonly class DashboardScoresProjectionRepository implements DashboardScoresProjectionRepositoryInterface
 {
-    private Connection $db;
-
-    public function __construct(Connection $db)
+    public function __construct(private Connection $db)
     {
-        $this->db = $db;
     }
 
     public function save(Write\DashboardRatesProjection $ratesProjection): void
@@ -88,7 +85,7 @@ SQL;
         $this->db->executeQuery($query, [
             'type' => $ratesProjection->getType(),
             'code' => $ratesProjection->getCode(),
-            'scores' => json_encode($ratesProjection->getRanksDistributionsPerTimePeriod())
+            'scores' => json_encode($ratesProjection->getRanksDistributionsPerTimePeriod(), JSON_THROW_ON_ERROR)
         ]);
 
         $this->saveAverageRanks($ratesProjection);
@@ -136,7 +133,7 @@ SQL;
         $this->db->executeQuery($query, [
             'type' => $ratesProjection->getType(),
             'code' => $ratesProjection->getCode(),
-            'scores' => json_encode($scores),
+            'scores' => json_encode($scores, JSON_THROW_ON_ERROR),
             'consolidated_at' => $ratesProjection->getConsolidationDate()->format('Y-m-d H:i:s')
         ]);
     }

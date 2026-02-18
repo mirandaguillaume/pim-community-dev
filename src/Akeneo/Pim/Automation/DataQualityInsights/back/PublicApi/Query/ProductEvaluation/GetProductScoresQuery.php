@@ -20,8 +20,8 @@ use Ramsey\Uuid\UuidInterface;
 class GetProductScoresQuery implements GetProductScoresQueryInterface
 {
     public function __construct(
-        private GetProductScoresByUuidsQuery $getProductScoresByUuidsQuery,
-        private GetScoresByCriteriaStrategy  $getScoresByCriteria,
+        private readonly GetProductScoresByUuidsQuery $getProductScoresByUuidsQuery,
+        private readonly GetScoresByCriteriaStrategy  $getScoresByCriteria,
     ) {
     }
 

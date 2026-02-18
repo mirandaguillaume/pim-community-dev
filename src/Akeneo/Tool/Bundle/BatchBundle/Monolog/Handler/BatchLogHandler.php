@@ -100,6 +100,6 @@ class BatchLogHandler extends StreamHandler
      */
     private function generateLogFilename()
     {
-        return sprintf('batch_%s.log', sha1(uniqid(rand(), true)));
+        return sprintf('batch_%s.log', sha1(uniqid(random_int(0, mt_getrandmax()), true)));
     }
 }

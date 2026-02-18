@@ -21,9 +21,6 @@ class JobExecutionManager
      */
     protected $entityManager;
 
-    /**
-     * @param EntityManager $entityManager
-     */
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
@@ -31,7 +28,6 @@ class JobExecutionManager
 
     /**
      * Check if the given JoExecution is still running using his PID
-     * @param JobExecution $jobExecution
      *
      * @return bool
      */
@@ -48,7 +44,6 @@ class JobExecutionManager
 
     /**
      * Test if the process is still running
-     * @param JobExecution $jobExecution
      *
      * @return bool
      */
@@ -67,7 +62,6 @@ class JobExecutionManager
 
     /**
      * Mark a job execution as failed
-     * @param JobExecution $jobExecution
      */
     public function markAsFailed(JobExecution $jobExecution)
     {

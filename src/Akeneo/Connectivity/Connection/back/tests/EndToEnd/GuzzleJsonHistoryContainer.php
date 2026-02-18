@@ -17,7 +17,7 @@ use Webmozart\Assert\Assert;
  */
 class GuzzleJsonHistoryContainer implements \ArrayAccess, \Countable
 {
-    public function __construct(private string $filepath)
+    public function __construct(private readonly string $filepath)
     {
     }
 

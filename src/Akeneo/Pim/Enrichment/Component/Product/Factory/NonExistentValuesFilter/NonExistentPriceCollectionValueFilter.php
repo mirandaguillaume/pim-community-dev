@@ -12,14 +12,10 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class NonExistentPriceCollectionValueFilter implements NonExistentValuesFilter
+final readonly class NonExistentPriceCollectionValueFilter implements NonExistentValuesFilter
 {
-    /** @var FindActivatedCurrenciesInterface */
-    private $findActivatedCurrencies;
-
-    public function __construct(FindActivatedCurrenciesInterface $findActivatedCurrencies)
+    public function __construct(private FindActivatedCurrenciesInterface $findActivatedCurrencies)
     {
-        $this->findActivatedCurrencies = $findActivatedCurrencies;
     }
 
     public function filter(OnGoingFilteredRawValues $onGoingFilteredRawValues): OnGoingFilteredRawValues
@@ -59,7 +55,7 @@ final class NonExistentPriceCollectionValueFilter implements NonExistentValuesFi
                         if (!\is_array($value)) {
                             throw InvalidPropertyTypeException::arrayExpected(
                                 $attributeCode,
-                                static::class,
+                                self::class,
                                 $value
                             );
                         }

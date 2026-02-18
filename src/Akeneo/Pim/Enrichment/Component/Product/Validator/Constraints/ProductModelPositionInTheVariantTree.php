@@ -17,8 +17,8 @@ use Symfony\Component\Validator\Constraint;
  */
 class ProductModelPositionInTheVariantTree extends Constraint
 {
-    public const INVALID_PARENT = 'pim_catalog.constraint.cannot_have_product_model_as_parent';
-    public const CANNOT_HAVE_PARENT = 'pim_catalog.constraint.cannot_have_parent';
+    final public const INVALID_PARENT = 'pim_catalog.constraint.cannot_have_product_model_as_parent';
+    final public const CANNOT_HAVE_PARENT = 'pim_catalog.constraint.cannot_have_parent';
 
     /**
      * {@inheritdoc}

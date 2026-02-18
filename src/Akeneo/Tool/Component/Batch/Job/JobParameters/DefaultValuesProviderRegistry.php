@@ -16,19 +16,14 @@ class DefaultValuesProviderRegistry
     /** @var DefaultValuesProviderInterface[] */
     protected $providers = [];
 
-    /**
-     * @param DefaultValuesProviderInterface $provider
-     */
     public function register(DefaultValuesProviderInterface $provider)
     {
         $this->providers[] = $provider;
     }
 
     /**
-     * @param JobInterface $job
      *
      * @throws NonExistingServiceException
-     *
      * @return DefaultValuesProviderInterface
      */
     public function get(JobInterface $job)

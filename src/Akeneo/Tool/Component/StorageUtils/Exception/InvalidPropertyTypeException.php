@@ -12,31 +12,24 @@ namespace Akeneo\Tool\Component\StorageUtils\Exception;
  */
 class InvalidPropertyTypeException extends PropertyException
 {
-    const EXPECTED_CODE = 100;
+    final public const EXPECTED_CODE = 100;
 
-    const SCALAR_EXPECTED_CODE = 101;
-    const BOOLEAN_EXPECTED_CODE = 102;
-    const FLOAT_EXPECTED_CODE = 103;
-    const INTEGER_EXPECTED_CODE = 104;
-    const NUMERIC_EXPECTED_CODE = 105;
-    const STRING_EXPECTED_CODE = 106;
-    const DECIMAL_EXPECTED_CODE = 107;
+    final public const SCALAR_EXPECTED_CODE = 101;
+    final public const BOOLEAN_EXPECTED_CODE = 102;
+    final public const FLOAT_EXPECTED_CODE = 103;
+    final public const INTEGER_EXPECTED_CODE = 104;
+    final public const NUMERIC_EXPECTED_CODE = 105;
+    final public const STRING_EXPECTED_CODE = 106;
+    final public const DECIMAL_EXPECTED_CODE = 107;
 
-    const ARRAY_EXPECTED_CODE = 200;
-    const VALID_ARRAY_STRUCTURE_EXPECTED_CODE = 201;
-    const ARRAY_OF_ARRAYS_EXPECTED_CODE = 202;
-    const ARRAY_KEY_EXPECTED_CODE = 203;
-    const ARRAY_OF_OBJECTS_EXPECTED_CODE = 204;
-
-    /** @var mixed */
-    protected $propertyValue;
-
-    /** @var string */
-    protected $className;
+    final public const ARRAY_EXPECTED_CODE = 200;
+    final public const VALID_ARRAY_STRUCTURE_EXPECTED_CODE = 201;
+    final public const ARRAY_OF_ARRAYS_EXPECTED_CODE = 202;
+    final public const ARRAY_KEY_EXPECTED_CODE = 203;
+    final public const ARRAY_OF_OBJECTS_EXPECTED_CODE = 204;
 
     /**
      * @param string          $propertyName
-     * @param mixed           $propertyValue
      * @param string          $className
      * @param string          $message
      * @param int             $code
@@ -44,16 +37,14 @@ class InvalidPropertyTypeException extends PropertyException
      */
     public function __construct(
         $propertyName,
-        $propertyValue,
-        $className,
+        protected mixed $propertyValue,
+        protected $className,
         $message = '',
         $code = 0,
         \Exception $previous = null
     ) {
         parent::__construct($message, $code, $previous);
         $this->propertyName = $propertyName;
-        $this->propertyValue = $propertyValue;
-        $this->className = $className;
     }
 
     /**
@@ -65,7 +56,7 @@ class InvalidPropertyTypeException extends PropertyException
      *
      * @return InvalidPropertyTypeException
      */
-    public static function scalarExpected($propertyName, $className, $propertyValue)
+    public static function scalarExpected($propertyName, $className, mixed $propertyValue)
     {
         $message = 'Property "%s" expects a scalar as data, "%s" given.';
 
@@ -87,7 +78,7 @@ class InvalidPropertyTypeException extends PropertyException
      *
      * @return InvalidPropertyTypeException
      */
-    public static function booleanExpected($propertyName, $className, $propertyValue)
+    public static function booleanExpected($propertyName, $className, mixed $propertyValue)
     {
         $message = 'Property "%s" expects a boolean as data, "%s" given.';
 
@@ -109,7 +100,7 @@ class InvalidPropertyTypeException extends PropertyException
      *
      * @return InvalidPropertyTypeException
      */
-    public static function floatExpected($propertyName, $className, $propertyValue)
+    public static function floatExpected($propertyName, $className, mixed $propertyValue)
     {
         $message = 'Property "%s" expects a float as data, "%s" given.';
 
@@ -131,7 +122,7 @@ class InvalidPropertyTypeException extends PropertyException
      *
      * @return InvalidPropertyTypeException
      */
-    public static function integerExpected($propertyName, $className, $propertyValue)
+    public static function integerExpected($propertyName, $className, mixed $propertyValue)
     {
         $message = 'Property "%s" expects an integer as data, "%s" given.';
 
@@ -153,7 +144,7 @@ class InvalidPropertyTypeException extends PropertyException
      *
      * @return InvalidPropertyTypeException
      */
-    public static function numericExpected($propertyName, $className, $propertyValue)
+    public static function numericExpected($propertyName, $className, mixed $propertyValue)
     {
         $message = 'Property "%s" expects a numeric as data, "%s" given.';
 
@@ -175,7 +166,7 @@ class InvalidPropertyTypeException extends PropertyException
      *
      * @return InvalidPropertyTypeException
      */
-    public static function decimalExpected($propertyName, $className, $propertyValue)
+    public static function decimalExpected($propertyName, $className, mixed $propertyValue)
     {
         $message = 'Property "%s" expects a decimal as data, "%s" given.';
 
@@ -197,7 +188,7 @@ class InvalidPropertyTypeException extends PropertyException
      *
      * @return InvalidPropertyTypeException
      */
-    public static function stringExpected($propertyName, $className, $propertyValue)
+    public static function stringExpected($propertyName, $className, mixed $propertyValue)
     {
         $message = 'Property "%s" expects a string as data, "%s" given.';
 
@@ -219,7 +210,7 @@ class InvalidPropertyTypeException extends PropertyException
      *
      * @return InvalidPropertyTypeException
      */
-    public static function arrayExpected($propertyName, $className, $propertyValue)
+    public static function arrayExpected($propertyName, $className, mixed $propertyValue)
     {
         $message = 'Property "%s" expects an array as data, "%s" given.';
 
@@ -287,7 +278,7 @@ class InvalidPropertyTypeException extends PropertyException
      *
      * @return InvalidPropertyTypeException
      */
-    public static function arrayOfObjectsExpected($propertyName, $className, $propertyValue)
+    public static function arrayOfObjectsExpected($propertyName, $className, mixed $propertyValue)
     {
         $message = 'Property "%s" expects an array of objects as data.';
 

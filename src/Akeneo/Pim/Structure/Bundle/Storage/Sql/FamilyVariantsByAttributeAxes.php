@@ -16,12 +16,8 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class FamilyVariantsByAttributeAxes implements FamilyVariantsByAttributeAxesInterface
 {
-    /** @var EntityManagerInterface */
-    private $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
     /**
@@ -43,9 +39,7 @@ class FamilyVariantsByAttributeAxes implements FamilyVariantsByAttributeAxesInte
             ->getArrayResult();
 
         return array_map(
-            function ($data) {
-                return $data['code'];
-            },
+            fn($data) => $data['code'],
             $codes
         );
     }

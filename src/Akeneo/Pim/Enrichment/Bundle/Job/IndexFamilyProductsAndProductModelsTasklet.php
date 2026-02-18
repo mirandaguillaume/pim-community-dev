@@ -36,14 +36,14 @@ final class IndexFamilyProductsAndProductModelsTasklet implements TaskletInterfa
     private StepExecution $stepExecution;
 
     public function __construct(
-        private JobRepositoryInterface $jobRepository,
-        private ItemReaderInterface $familyReader,
-        private ProductQueryBuilderFactoryInterface $productModelQueryBuilderFactory,
-        private ProductAndAncestorsIndexer $productAndAncestorsIndexer,
-        private ProductModelDescendantsAndAncestorsIndexer $productModelDescendantsAndAncestorsIndexer,
-        private EntityManagerClearerInterface $cacheClearer,
-        private MessageBusInterface $messageBus,
-        private int $batchSize = self::DEFAULT_BATCH_SIZE
+        private readonly JobRepositoryInterface $jobRepository,
+        private readonly ItemReaderInterface $familyReader,
+        private readonly ProductQueryBuilderFactoryInterface $productModelQueryBuilderFactory,
+        private readonly ProductAndAncestorsIndexer $productAndAncestorsIndexer,
+        private readonly ProductModelDescendantsAndAncestorsIndexer $productModelDescendantsAndAncestorsIndexer,
+        private readonly EntityManagerClearerInterface $cacheClearer,
+        private readonly MessageBusInterface $messageBus,
+        private readonly int $batchSize = self::DEFAULT_BATCH_SIZE
     ) {
     }
 

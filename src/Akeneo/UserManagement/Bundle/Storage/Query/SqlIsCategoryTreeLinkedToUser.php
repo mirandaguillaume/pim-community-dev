@@ -13,11 +13,8 @@ use Doctrine\DBAL\Connection;
  */
 class SqlIsCategoryTreeLinkedToUser implements IsCategoryTreeLinkedToUser
 {
-    private Connection $connection;
-
-    public function __construct($connection)
+    public function __construct(private $connection)
     {
-        $this->connection = $connection;
     }
 
     public function byCategoryTreeId(int $categoryTreeId): bool

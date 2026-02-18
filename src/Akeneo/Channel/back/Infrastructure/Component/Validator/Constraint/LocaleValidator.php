@@ -19,9 +19,6 @@ class LocaleValidator extends ConstraintValidator
     /** @var IdentifiableObjectRepositoryInterface */
     protected $localeRepository;
 
-    /**
-     * @param IdentifiableObjectRepositoryInterface $localeRepository
-     */
     public function __construct(IdentifiableObjectRepositoryInterface $localeRepository)
     {
         $this->localeRepository = $localeRepository;

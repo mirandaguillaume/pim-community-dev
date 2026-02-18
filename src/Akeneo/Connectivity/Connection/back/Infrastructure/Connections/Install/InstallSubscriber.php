@@ -16,11 +16,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class InstallSubscriber implements EventSubscriberInterface
 {
-    public const ICECAT_DEMO_DEV = 'icecat_demo_dev';
+    final public const ICECAT_DEMO_DEV = 'icecat_demo_dev';
 
     public function __construct(
-        private DbalConnection $dbalConnection,
-        private FixturesLoader $fixturesLoader,
+        private readonly DbalConnection $dbalConnection,
+        private readonly FixturesLoader $fixturesLoader,
     ) {
     }
 
@@ -40,7 +40,7 @@ class InstallSubscriber implements EventSubscriberInterface
 
     public function loadFixtures(InstallerEvent $installerEvent): void
     {
-        if (!\str_ends_with($installerEvent->getArgument('catalog'), self::ICECAT_DEMO_DEV)) {
+        if (!\str_ends_with((string) $installerEvent->getArgument('catalog'), self::ICECAT_DEMO_DEV)) {
             return;
         }
 

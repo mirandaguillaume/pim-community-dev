@@ -68,19 +68,6 @@ class FamilyController
     /** @var array */
     protected $apiConfiguration;
 
-    /**
-     * @param ApiResourceRepositoryInterface $repository
-     * @param NormalizerInterface            $normalizer
-     * @param SimpleFactoryInterface         $factory
-     * @param ObjectUpdaterInterface         $updater
-     * @param ValidatorInterface             $validator
-     * @param SaverInterface                 $saver
-     * @param RouterInterface                $router
-     * @param PaginatorInterface             $paginator
-     * @param ParameterValidatorInterface    $parameterValidator
-     * @param StreamResourceResponse         $partialUpdateStreamResource
-     * @param array                          $apiConfiguration
-     */
     public function __construct(
         ApiResourceRepositoryInterface $repository,
         NormalizerInterface $normalizer,
@@ -108,13 +95,11 @@ class FamilyController
     }
 
     /**
-     * @param Request $request
      * @param string  $code
      *
      * @throws NotFoundHttpException
      *
      * @return JsonResponse
-     *
      * @AclAncestor("pim_api_family_list")
      */
     public function getAction(Request $request, $code)
@@ -130,10 +115,8 @@ class FamilyController
     }
 
     /**
-     * @param Request $request
      *
      * @return JsonResponse
-     *
      * @AclAncestor("pim_api_family_list")
      */
     public function listAction(Request $request)
@@ -151,8 +134,9 @@ class FamilyController
         ];
 
         $queryParameters = array_merge($defaultParameters, $request->query->all());
-        $searchFilters = json_decode($queryParameters['search'] ?? '[]', true);
-        if (null === $searchFilters) {
+        try {
+            $searchFilters = json_decode($queryParameters['search'] ?? '[]', true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
             throw new BadRequestHttpException('The search query parameter must be a valid JSON.');
         }
 
@@ -180,13 +164,11 @@ class FamilyController
     }
 
     /**
-     * @param Request $request
      *
      * @throws BadRequestHttpException
      * @throws UnprocessableEntityHttpException
      *
      * @return Response
-     *
      * @AclAncestor("pim_api_family_edit")
      */
     public function createAction(Request $request)
@@ -205,12 +187,10 @@ class FamilyController
     }
 
     /**
-     * @param Request $request
      *
      * @throws HttpException
      *
      * @return Response
-     *
      * @AclAncestor("pim_api_family_edit")
      */
     public function partialUpdateListAction(Request $request)
@@ -222,13 +202,11 @@ class FamilyController
     }
 
     /**
-     * @param Request $request
      *
      * @throws BadRequestHttpException
      * @throws UnprocessableEntityHttpException
      *
      * @return Response
-     *
      * @AclAncestor("pim_api_family_edit")
      */
     public function partialUpdateAction(Request $request, $code)
@@ -267,9 +245,9 @@ class FamilyController
      */
     protected function getDecodedContent($content)
     {
-        $decodedContent = json_decode($content, true);
-
-        if (null === $decodedContent) {
+        try {
+            $decodedContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
             throw new BadRequestHttpException('Invalid json message received');
         }
 
@@ -302,7 +280,6 @@ class FamilyController
      * Validate a family. It throws an error 422 with every violated constraints if
      * the validation failed.
      *
-     * @param FamilyInterface $family
      *
      * @throws ViolationHttpException
      */
@@ -317,9 +294,7 @@ class FamilyController
     /**
      * Get a response with a location header to the created or updated resource.
      *
-     * @param FamilyInterface $family
      * @param string          $status
-     *
      * @return Response
      */
     protected function getResponse(FamilyInterface $family, $status)

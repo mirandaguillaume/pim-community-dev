@@ -18,22 +18,13 @@ class AttributeFactory implements SimpleFactoryInterface
     /** @var AttributeTypeRegistry */
     protected $registry;
 
-    /** @var string */
-    protected $attributeClass;
-
-    /** @var string */
-    protected $productClass;
-
     /**
-     * @param AttributeTypeRegistry $registry
      * @param string                $attributeClass
      * @param string                $productClass
      */
-    public function __construct(AttributeTypeRegistry $registry, $attributeClass, $productClass)
+    public function __construct(AttributeTypeRegistry $registry, protected $attributeClass, protected $productClass)
     {
         $this->registry = $registry;
-        $this->attributeClass = $attributeClass;
-        $this->productClass = $productClass;
     }
 
     /**
@@ -50,11 +41,10 @@ class AttributeFactory implements SimpleFactoryInterface
     /**
      * Create and configure an attribute
      *
-     * @param string|null $type
      *
      * @return AttributeInterface
      */
-    public function createAttribute($type = null)
+    public function createAttribute(?string $type = null)
     {
         $attribute = $this->create();
 

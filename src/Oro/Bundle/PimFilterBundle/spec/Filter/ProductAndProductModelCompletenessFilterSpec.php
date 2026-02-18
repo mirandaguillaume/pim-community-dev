@@ -18,7 +18,7 @@ class ProductAndProductModelCompletenessFilterSpec extends ObjectBehavior
 
     function it_is_an_oro_choice_filter()
     {
-        $this->shouldBeAnInstanceOf('Oro\Bundle\FilterBundle\Filter\ChoiceFilter');
+        $this->shouldBeAnInstanceOf(\Oro\Bundle\FilterBundle\Filter\ChoiceFilter::class);
     }
 
     function it_applies_a_filter_on_complete_products_and_product_models(

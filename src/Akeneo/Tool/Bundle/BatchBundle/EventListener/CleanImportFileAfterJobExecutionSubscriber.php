@@ -15,10 +15,10 @@ use Akeneo\Tool\Component\Batch\Job\BatchStatus;
 use Akeneo\Tool\Component\Connector\Job\JobFileBackuper;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-final class CleanImportFileAfterJobExecutionSubscriber implements EventSubscriberInterface
+final readonly class CleanImportFileAfterJobExecutionSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly JobFileBackuper $jobFileBackuper
+        private JobFileBackuper $jobFileBackuper
     ) {
     }
 

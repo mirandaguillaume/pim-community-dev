@@ -15,12 +15,8 @@ use Doctrine\DBAL\Connection;
  */
 final class AttributeGroupActivationRepository implements AttributeGroupActivationRepositoryInterface
 {
-    /** @var Connection */
-    protected $dbConnection;
-
-    public function __construct(Connection $dbConnection)
+    public function __construct(protected Connection $dbConnection)
     {
-        $this->dbConnection = $dbConnection;
     }
 
     public function save(AttributeGroupActivation $attributeGroupActivation): void

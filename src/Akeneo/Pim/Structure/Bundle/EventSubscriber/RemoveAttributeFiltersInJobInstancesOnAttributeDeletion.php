@@ -19,16 +19,8 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class RemoveAttributeFiltersInJobInstancesOnAttributeDeletion implements EventSubscriberInterface
 {
-    /** @var ObjectRepository */
-    private $jobInstanceRepository;
-
-    /** @var BulkSaverInterface */
-    private $bulkSaver;
-
-    public function __construct(ObjectRepository $jobInstanceRepository, BulkSaverInterface $bulkSaver)
+    public function __construct(private readonly ObjectRepository $jobInstanceRepository, private readonly BulkSaverInterface $bulkSaver)
     {
-        $this->jobInstanceRepository = $jobInstanceRepository;
-        $this->bulkSaver = $bulkSaver;
     }
 
     public static function getSubscribedEvents(): array

@@ -14,11 +14,8 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface;
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class ReferenceDataCollectionValue extends AbstractValue implements
-    ReferenceDataCollectionValueInterface
+    ReferenceDataCollectionValueInterface, \Stringable
 {
-    /** @var ReferenceDataInterface[] */
-    protected $data;
-
     protected function __construct(string $attributeCode, ?array $data, ?string $scopeCode, ?string $localeCode)
     {
         if (null === $data) {

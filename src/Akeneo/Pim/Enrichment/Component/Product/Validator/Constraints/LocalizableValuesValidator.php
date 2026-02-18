@@ -16,23 +16,8 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 final class LocalizableValuesValidator extends ConstraintValidator
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $localeRepository;
-
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $channelRepository;
-
-    /** @var GetAttributes */
-    private $getAttributes;
-
-    public function __construct(
-        IdentifiableObjectRepositoryInterface $localeRepository,
-        IdentifiableObjectRepositoryInterface $channelRepository,
-        GetAttributes $getAttributes
-    ) {
-        $this->localeRepository = $localeRepository;
-        $this->channelRepository = $channelRepository;
-        $this->getAttributes = $getAttributes;
+    public function __construct(private readonly IdentifiableObjectRepositoryInterface $localeRepository, private readonly IdentifiableObjectRepositoryInterface $channelRepository, private readonly GetAttributes $getAttributes)
+    {
     }
 
     /**
@@ -50,9 +35,7 @@ final class LocalizableValuesValidator extends ConstraintValidator
         }
 
         $localizableValues = $values->filter(
-            function (ValueInterface $value): bool {
-                return $value->isLocalizable();
-            }
+            fn(ValueInterface $value): bool => $value->isLocalizable()
         );
 
         $attributes = $this->getAttributes->forCodes($localizableValues->getAttributeCodes());

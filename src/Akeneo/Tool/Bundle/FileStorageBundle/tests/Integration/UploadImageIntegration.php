@@ -55,7 +55,7 @@ final class UploadImageIntegration extends TestCase
 
         $violations = $this->get('validator')->validate($fileToUpload, $constraint);
 
-        $this->assertTrue(count($violations) > 0);
+        $this->assertTrue((is_countable($violations) ? count($violations) : 0) > 0);
     }
 
     private function unsupportedFilesProvider(): array

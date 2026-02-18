@@ -19,6 +19,7 @@ final class GetProductIdsImpactedByAttributeGroupActivationQueryIntegration exte
 {
     public function test_it_retrieves_products_impacted_by_attribute_group_activation_updated_since_a_given_date()
     {
+        $expectedProducts = [];
         $updatedSince = new \DateTimeImmutable('2020-10-05 14:35:42');
 
         $this->createAttributeGroupActivation('other', false, $updatedSince->modify('-1 day'));
@@ -34,9 +35,7 @@ final class GetProductIdsImpactedByAttributeGroupActivationQueryIntegration exte
         $expectedProducts[] = $this->createProduct('expected_product_B', [new SetFamily('impacted_family_B')]);
         $expectedProducts[] = $this->createProduct('expected_product_C', [new SetFamily('impacted_family_B')]);
 
-        $expectedProductUuids = array_map(function ($product) {
-            return $this->get(ProductUuidFactory::class)->create((string) $product->getUuid());
-        }, $expectedProducts);
+        $expectedProductUuids = array_map(fn($product) => $this->get(ProductUuidFactory::class)->create((string) $product->getUuid()), $expectedProducts);
 
         $this->createProduct('not_impacted_product', [new SetFamily('not_impacted_family')]);
 

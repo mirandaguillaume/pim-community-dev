@@ -38,13 +38,11 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Domain\Model;
  */
 final class RanksDistributionCollection implements \IteratorAggregate
 {
-    private array $channelLocaleRanksDistributions;
+    private readonly array $channelLocaleRanksDistributions;
 
     public function __construct(array $channelLocaleRanksDistributions)
     {
-        $this->channelLocaleRanksDistributions = $this->mapRanksDistributions(function (array $ranksDistribution) {
-            return new RanksDistribution($ranksDistribution);
-        }, $channelLocaleRanksDistributions);
+        $this->channelLocaleRanksDistributions = $this->mapRanksDistributions(fn(array $ranksDistribution) => new RanksDistribution($ranksDistribution), $channelLocaleRanksDistributions);
     }
 
     public function getIterator(): \Traversable
@@ -54,16 +52,12 @@ final class RanksDistributionCollection implements \IteratorAggregate
 
     public function toArray(): array
     {
-        return $this->mapRanksDistributions(function (RanksDistribution $ranksDistribution) {
-            return $ranksDistribution->toArray();
-        }, $this->channelLocaleRanksDistributions);
+        return $this->mapRanksDistributions(fn(RanksDistribution $ranksDistribution) => $ranksDistribution->toArray(), $this->channelLocaleRanksDistributions);
     }
 
     public function getAverageRanks(): array
     {
-        return $this->mapRanksDistributions(function (RanksDistribution $ranksDistribution) {
-            return $ranksDistribution->getAverageRank();
-        }, $this->channelLocaleRanksDistributions);
+        return $this->mapRanksDistributions(fn(RanksDistribution $ranksDistribution) => $ranksDistribution->getAverageRank(), $this->channelLocaleRanksDistributions);
     }
 
     private function mapRanksDistributions(callable $callback, array $channelLocaleRanksDistributions): array

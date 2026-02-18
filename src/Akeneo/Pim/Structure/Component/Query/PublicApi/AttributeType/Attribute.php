@@ -7,7 +7,7 @@ namespace Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType;
  * @author    Anael Chardan <anael.chardan@akeneo.com>
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  */
-final class Attribute
+final readonly class Attribute
 {
     public function __construct(
         private string $attributeCode,
@@ -22,7 +22,7 @@ final class Attribute
         private array $availableLocaleCodes,
         private ?bool $useableAsGridFilter = null,
         private array $labels = [],
-        private readonly bool $mainIdentifier = false,
+        private bool $mainIdentifier = false,
     ) {
     }
 

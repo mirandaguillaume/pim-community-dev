@@ -21,7 +21,7 @@ use UnexpectedValueException;
  */
 class JsonSerializer implements SerializerInterface
 {
-    private Serializer $serializer;
+    private readonly Serializer $serializer;
 
     /**
      * @param (NormalizerInterface|DenormalizerInterface)[] $normalizers
@@ -136,7 +136,7 @@ class JsonSerializer implements SerializerInterface
             throw new \LogicException(
                 sprintf(
                     'Custom header stamp %s should have only one instance in the message.',
-                    get_class(end($stamps))
+                    end($stamps)::class
                 )
             );
         }

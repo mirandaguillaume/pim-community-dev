@@ -25,9 +25,6 @@ class ObjectDetacher implements ObjectDetacherInterface, BulkObjectDetacherInter
     /** @var array */
     protected $scheduledForCheck;
 
-    /**
-     * @param ObjectManager $objectManager
-     */
     public function __construct(ObjectManager $objectManager)
     {
         $this->objectManager = $objectManager;
@@ -60,7 +57,7 @@ class ObjectDetacher implements ObjectDetacherInterface, BulkObjectDetacherInter
      * @param mixed $entity  The entity to be detached
      * @param array $visited Array of already detached entities
      */
-    protected function doDetachScheduled($entity, array &$visited)
+    protected function doDetachScheduled(mixed $entity, array &$visited)
     {
         $oid = spl_object_hash($entity);
         if (isset($visited[$oid])) {
@@ -91,15 +88,13 @@ class ObjectDetacher implements ObjectDetacherInterface, BulkObjectDetacherInter
      * @param mixed $entity  The entity to be detached
      * @param array $visited Array of already detached entities
      */
-    protected function cascadeDetachScheduled($entity, array &$visited)
+    protected function cascadeDetachScheduled(mixed $entity, array &$visited)
     {
         $class = $this->objectManager->getClassMetadata(ClassUtils::getClass($entity));
 
         $associationMappings = array_filter(
             $class->associationMappings,
-            function ($assoc) {
-                return $assoc['isCascadeDetach'];
-            }
+            fn($assoc) => $assoc['isCascadeDetach']
         );
 
         foreach ($associationMappings as $assoc) {
@@ -128,15 +123,12 @@ class ObjectDetacher implements ObjectDetacherInterface, BulkObjectDetacherInter
     /**
      * ScheduledForDirtyCheck getter
      *
-     * @param UnitOfWork $uow
      *
      * @return array
      */
     protected function &getScheduledForDirtyCheck(UnitOfWork $uow)
     {
-        $closure = \Closure::bind(function &($uow) {
-            return $uow->scheduledForDirtyCheck;
-        }, null, $uow);
+        $closure = \Closure::bind(fn&($uow) => $uow->scheduledForDirtyCheck, null, $uow);
 
         return $closure($uow);
     }

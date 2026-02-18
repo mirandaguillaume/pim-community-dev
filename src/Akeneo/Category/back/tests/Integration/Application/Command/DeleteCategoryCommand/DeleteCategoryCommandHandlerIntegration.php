@@ -54,7 +54,7 @@ class DeleteCategoryCommandHandlerIntegration extends CategoryTestCase
         // Act
 
         $this->deleteCategoryCommandHandler->__invoke(
-            new DeleteCategoryCommand(10000000)
+            new DeleteCategoryCommand(10_000_000)
         );
 
         // Assert

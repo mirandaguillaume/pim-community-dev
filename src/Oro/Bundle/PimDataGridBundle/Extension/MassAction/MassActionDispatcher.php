@@ -26,7 +26,7 @@ use Oro\Bundle\PimDataGridBundle\Extension\MassAction\Handler\MassActionHandlerI
 class MassActionDispatcher
 {
     /** @staticvar string */
-    const FAMILY_GRID_NAME = 'family-grid';
+    final public const FAMILY_GRID_NAME = 'family-grid';
 
     /** @var MassActionHandlerRegistry */
     protected $handlerRegistry;
@@ -43,13 +43,6 @@ class MassActionDispatcher
     /** @var array */
     protected $supportedGridNames;
 
-    /**
-     * @param MassActionHandlerRegistry  $handlerRegistry
-     * @param ManagerInterface           $manager
-     * @param RequestParameters          $requestParams
-     * @param MassActionParametersParser $parametersParser
-     * @param array                      $supportedGridNames
-     */
     public function __construct(
         MassActionHandlerRegistry $handlerRegistry,
         ManagerInterface $manager,
@@ -67,7 +60,6 @@ class MassActionDispatcher
     /**
      * Dispatch datagrid mass action
      *
-     * @param array $parameters
      *
      * @return MassActionResponseInterface
      */
@@ -134,10 +126,8 @@ class MassActionDispatcher
     /**
      * Dispatch datagrid mass action
      *
-     * @param array $parameters
      *
      * @throws \LogicException
-     *
      * @return array
      */
     protected function prepareMassActionParameters(array $parameters)
@@ -184,40 +174,32 @@ class MassActionDispatcher
     }
 
     /**
-     * @param array $parameters
-     *
      * @return bool
      */
     protected function prepareInsetParameter(array $parameters)
     {
-        return isset($parameters['inset']) ? $parameters['inset'] : true;
+        return $parameters['inset'] ?? true;
     }
 
     /**
-     * @param array $parameters
-     *
      * @return array
      */
     protected function prepareValuesParameter(array $parameters)
     {
-        return isset($parameters['values']) ? $parameters['values'] : [];
+        return $parameters['values'] ?? [];
     }
 
     /**
-     * @param array $parameters
-     *
      * @return array
      */
     protected function prepareFiltersParameter(array $parameters)
     {
-        return isset($parameters['filters']) ? $parameters['filters'] : [];
+        return $parameters['filters'] ?? [];
     }
 
     /**
      * Prepare query builder, apply mass action parameters and call handler
      *
-     * @param DatagridInterface   $datagrid
-     * @param MassActionInterface $massAction
      *
      * @return MassActionResponseInterface
      */
@@ -232,10 +214,8 @@ class MassActionDispatcher
 
     /**
      * @param string            $massActionName
-     * @param DatagridInterface $datagrid
      *
      * @throws \LogicException
-     *
      * @return MassActionInterface
      */
     protected function getMassActionByName($massActionName, DatagridInterface $datagrid)
@@ -243,9 +223,7 @@ class MassActionDispatcher
         $massAction = null;
         $extensions = array_filter(
             $datagrid->getAcceptor()->getExtensions(),
-            function (ExtensionVisitorInterface $extension) {
-                return $extension instanceof MassActionExtension;
-            }
+            fn(ExtensionVisitorInterface $extension) => $extension instanceof MassActionExtension
         );
 
         /** @var MassActionExtension|bool $extension */
@@ -266,7 +244,6 @@ class MassActionDispatcher
     /**
      * Get mass action handler from handler registry
      *
-     * @param MassActionInterface $massAction
      *
      * @return MassActionHandlerInterface
      */
@@ -300,9 +277,6 @@ class MassActionDispatcher
      * returns the sub product model but not the variant product.
      * The field "parent" of the variant product cannot be used because it does not contain the root product model.
      * We have to use the ancestor.code field that contains all parent codes.
-     *
-     * @param array $filters
-     * @return array
      */
     private function convertParentFieldIfAllRowsAreSelected(array $filters): array
     {
@@ -320,9 +294,7 @@ class MassActionDispatcher
     /**
      * All rows are selected in the grid when there is no filter related to the ID of the selected rows.
      *
-     * @param array $filters
      *
-     * @return bool
      */
     private function areAllRowsSelected(array $filters): bool
     {

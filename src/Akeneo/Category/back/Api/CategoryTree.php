@@ -15,9 +15,9 @@ namespace Akeneo\Category\Api;
  */
 class CategoryTree
 {
-    public const ID = 'id';
-    public const CODE = 'code';
-    public const LABELS = 'labels';
+    final public const ID = 'id';
+    final public const CODE = 'code';
+    final public const LABELS = 'labels';
 
     public int $id;
     public string $code;

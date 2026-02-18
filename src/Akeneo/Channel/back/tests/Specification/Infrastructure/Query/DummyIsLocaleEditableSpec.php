@@ -20,7 +20,7 @@ class DummyIsLocaleEditableSpec extends ObjectBehavior
     {
         foreach (['en_US', 'fr_FR', 'de_DE'] as $localeCode) {
             $this->forUserId($localeCode, 1)->shouldReturn(true);
-            $this->forUserId($localeCode, 4638765483)->shouldReturn(true);
+            $this->forUserId($localeCode, 4_638_765_483)->shouldReturn(true);
             $this->forUserId($localeCode, 0)->shouldReturn(true);
         }
     }

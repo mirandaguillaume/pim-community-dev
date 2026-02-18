@@ -20,20 +20,10 @@ use Webmozart\Assert\Assert;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class RoleWithPermissionsSaver implements BulkSaverInterface
+final readonly class RoleWithPermissionsSaver implements BulkSaverInterface
 {
-    private ObjectManager $objectManager;
-    private EventDispatcherInterface $eventDispatcher;
-    private AclManager $aclManager;
-
-    public function __construct(
-        ObjectManager $objectManager,
-        EventDispatcherInterface $eventDispatcher,
-        AclManager $aclManager
-    ) {
-        $this->objectManager = $objectManager;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->aclManager = $aclManager;
+    public function __construct(private ObjectManager $objectManager, private EventDispatcherInterface $eventDispatcher, private AclManager $aclManager)
+    {
     }
 
     public function saveAll(array $rolesWithPermissions, array $options = []): void
@@ -51,9 +41,7 @@ final class RoleWithPermissionsSaver implements BulkSaverInterface
         $this->eventDispatcher->dispatch(new GenericEvent($userRoles, $options), StorageEvents::PRE_SAVE_ALL);
 
         $areObjectsNew = array_map(
-            function (RoleInterface $role) {
-                return null === $role->getId();
-            },
+            fn(RoleInterface $role) => null === $role->getId(),
             $userRoles
         );
 

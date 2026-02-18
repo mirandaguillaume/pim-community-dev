@@ -17,28 +17,8 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class JobExecutionNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    /** @var NormalizerInterface */
-    private $jobExecutionStandardNormalizer;
-
-    /** @var UserContext */
-    private $userContext;
-
-    /** @var GetJobExecutionTracking */
-    private $getJobExecutionTracking;
-
-    /** @var NormalizerInterface */
-    private $jobExecutionTrackingNormalizer;
-
-    public function __construct(
-        NormalizerInterface $jobExecutionStandardNormalizer,
-        UserContext $userContext,
-        GetJobExecutionTracking $getJobExecutionTracking,
-        NormalizerInterface $jobExecutionTrackingNormalizer
-    ) {
-        $this->jobExecutionStandardNormalizer = $jobExecutionStandardNormalizer;
-        $this->userContext = $userContext;
-        $this->getJobExecutionTracking = $getJobExecutionTracking;
-        $this->jobExecutionTrackingNormalizer = $jobExecutionTrackingNormalizer;
+    public function __construct(private readonly NormalizerInterface $jobExecutionStandardNormalizer, private readonly UserContext $userContext, private readonly GetJobExecutionTracking $getJobExecutionTracking, private readonly NormalizerInterface $jobExecutionTrackingNormalizer)
+    {
     }
 
     /**
@@ -52,7 +32,7 @@ class JobExecutionNormalizer implements NormalizerInterface, CacheableSupportsMe
                 $context,
                 ['locale' => $this->userContext->getUiLocaleCode(), 'timezone' => $timezone]
             );
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
         }
 
         $normalizedJobExecution = $this->jobExecutionStandardNormalizer->normalize(

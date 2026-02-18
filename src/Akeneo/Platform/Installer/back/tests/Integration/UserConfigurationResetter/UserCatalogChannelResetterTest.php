@@ -50,7 +50,7 @@ class UserCatalogChannelResetterTest extends TestCase
 
     private function getResetter(): UserCatalogChannelResetter
     {
-        return $this->get('Akeneo\Platform\Installer\Infrastructure\UserConfigurationResetter\UserCatalogChannelResetter');
+        return $this->get(\Akeneo\Platform\Installer\Infrastructure\UserConfigurationResetter\UserCatalogChannelResetter::class);
     }
 
     private function assertUserCatalogChannel(string $expectedCatalogChannel): void

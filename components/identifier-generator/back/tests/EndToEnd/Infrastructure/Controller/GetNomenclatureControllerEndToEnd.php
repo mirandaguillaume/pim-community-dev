@@ -54,7 +54,7 @@ final class GetNomenclatureControllerEndToEnd extends ControllerEndToEndTestCase
                 'generate_if_empty' => false,
                 'values' => ['FamilyA1' => 'FA1', 'FamilyA2' => 'FA2'],
             ],
-            \json_decode($response->getContent(), true),
+            \json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR),
         );
     }
 
@@ -117,7 +117,7 @@ final class GetNomenclatureControllerEndToEnd extends ControllerEndToEndTestCase
                 'generate_if_empty' => false,
                 'values' => $values,
             ],
-            \json_decode($response->getContent(), true),
+            \json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR),
         );
     }
 
@@ -128,7 +128,7 @@ final class GetNomenclatureControllerEndToEnd extends ControllerEndToEndTestCase
 
     private function getUpdateNomenclatureHandler(): UpdateNomenclatureHandler
     {
-        return $this->get('Akeneo\Pim\Automation\IdentifierGenerator\Application\Update\UpdateNomenclatureHandler');
+        return $this->get(\Akeneo\Pim\Automation\IdentifierGenerator\Application\Update\UpdateNomenclatureHandler::class);
     }
 
     private function createNomenclature(string $propertyCode, array $values): void

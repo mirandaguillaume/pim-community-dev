@@ -15,10 +15,10 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final class IsMaintenanceModeEnabledAction
+final readonly class IsMaintenanceModeEnabledAction
 {
     public function __construct(
-        private readonly IsMaintenanceModeEnabledHandler $isMaintenanceModeEnabledHandler,
+        private IsMaintenanceModeEnabledHandler $isMaintenanceModeEnabledHandler,
     ) {
     }
 

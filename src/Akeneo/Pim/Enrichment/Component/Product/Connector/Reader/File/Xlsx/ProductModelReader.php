@@ -17,9 +17,6 @@ use Akeneo\Tool\Component\Connector\Reader\File\Xlsx\Reader;
  */
 class ProductModelReader extends Reader implements FileReaderInterface
 {
-    /** @var MediaPathTransformer */
-    private $mediaPathTransformer;
-
     /**
      * @param FileIteratorFactory     $fileIteratorFactory
      * @param ArrayConverterInterface $converter
@@ -29,12 +26,10 @@ class ProductModelReader extends Reader implements FileReaderInterface
     public function __construct(
         FileIteratorFactory $fileIteratorFactory,
         ArrayConverterInterface $converter,
-        MediaPathTransformer $mediaPathTransformer,
+        private readonly MediaPathTransformer $mediaPathTransformer,
         array $options = []
     ) {
         parent::__construct($fileIteratorFactory, $converter, $options);
-
-        $this->mediaPathTransformer = $mediaPathTransformer;
     }
 
     /**

@@ -89,7 +89,7 @@ SQL;
             $values = $this->writeValueCollectionFactory->createMultipleFromStorageFormat(
                 \array_map(
                     static function (string $rawValues) use ($identifierAttributeCodes): array {
-                        $values = \json_decode($rawValues, true);
+                        $values = \json_decode($rawValues, true, 512, JSON_THROW_ON_ERROR);
                         Assert::isArray($values);
 
                         return \array_filter(

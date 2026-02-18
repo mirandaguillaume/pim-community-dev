@@ -19,15 +19,8 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class ProductModelSaver implements SaverInterface, BulkSaverInterface
 {
-    protected ObjectManager $objectManager;
-    protected EventDispatcherInterface $eventDispatcher;
-
-    public function __construct(
-        ObjectManager $objectManager,
-        EventDispatcherInterface $eventDispatcher
-    ) {
-        $this->objectManager = $objectManager;
-        $this->eventDispatcher = $eventDispatcher;
+    public function __construct(protected ObjectManager $objectManager, protected EventDispatcherInterface $eventDispatcher)
+    {
     }
 
     /**
@@ -67,9 +60,7 @@ class ProductModelSaver implements SaverInterface, BulkSaverInterface
             $productModels = array_values(
                 array_filter(
                     $productModels,
-                    function (ProductModelInterface $product): bool {
-                        return $product->isDirty();
-                    }
+                    fn(ProductModelInterface $product): bool => $product->isDirty()
                 )
             );
         }
@@ -83,9 +74,7 @@ class ProductModelSaver implements SaverInterface, BulkSaverInterface
         $this->eventDispatcher->dispatch(new GenericEvent($productModels, $options), StorageEvents::PRE_SAVE_ALL);
 
         $areProductsNew = array_map(
-            function ($productModel) {
-                return null === $productModel->getId();
-            },
+            fn($productModel) => null === $productModel->getId(),
             $productModels
         );
 

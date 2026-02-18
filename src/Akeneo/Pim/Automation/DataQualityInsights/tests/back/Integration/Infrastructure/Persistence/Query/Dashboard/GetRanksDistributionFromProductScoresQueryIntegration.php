@@ -142,23 +142,17 @@ final class GetRanksDistributionFromProductScoresQueryIntegration extends TestCa
 
     private function givenProductsByRankAndAxisForWholeCatalog(int $countProducts, int $rank): void
     {
-        $this->createProductAxesRatesWithDifferentDates($countProducts, $rank, function () {
-            return $this->createProductWithFamily('mugs');
-        });
+        $this->createProductAxesRatesWithDifferentDates($countProducts, $rank, fn() => $this->createProductWithFamily('mugs'));
     }
 
     private function givenProductsWithFamilyByRankAndAxis(string $family, int $countProducts, int $rank)
     {
-        $this->createProductAxesRatesWithDifferentDates($countProducts, $rank, function () use ($family) {
-            return $this->createProductWithFamily($family);
-        });
+        $this->createProductAxesRatesWithDifferentDates($countProducts, $rank, fn() => $this->createProductWithFamily($family));
     }
 
     private function givenProductsWithCategoriesByRankAndAxis(array $categories, int $countProducts, int $rank)
     {
-        $this->createProductAxesRatesWithDifferentDates($countProducts, $rank, function () use ($categories) {
-            return $this->createProductWithCategories($categories);
-        });
+        $this->createProductAxesRatesWithDifferentDates($countProducts, $rank, fn() => $this->createProductWithCategories($categories));
     }
 
     private function createProductAxesRatesWithDifferentDates(int $nbProducts, int $rank, callable $createProduct)

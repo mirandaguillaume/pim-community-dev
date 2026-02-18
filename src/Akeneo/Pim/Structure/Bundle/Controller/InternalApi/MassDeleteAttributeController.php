@@ -22,10 +22,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class MassDeleteAttributeController
 {
     public function __construct(
-        private TokenStorageInterface $tokenStorage,
-        private JobLauncherInterface $jobLauncher,
-        private IdentifiableObjectRepositoryInterface $jobInstanceRepository,
-        private SecurityFacadeInterface $securityFacade,
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly JobLauncherInterface $jobLauncher,
+        private readonly IdentifiableObjectRepositoryInterface $jobInstanceRepository,
+        private readonly SecurityFacadeInterface $securityFacade,
     ) {
     }
 
@@ -41,7 +41,11 @@ class MassDeleteAttributeController
             return new JsonResponse(status: Response::HTTP_UNAUTHORIZED);
         }
 
-        $configuration = json_decode($request->getContent(), true);
+        try {
+            $configuration = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
         $configuration['users_to_notify'] = [$user->getUserIdentifier()];
         $configuration['send_email'] = true;
 

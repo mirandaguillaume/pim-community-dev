@@ -30,8 +30,8 @@ class ProductProcessor implements ItemProcessorInterface, StepExecutionAwareInte
         protected IdentifiableObjectRepositoryInterface $channelRepository,
         protected AttributeRepositoryInterface $attributeRepository,
         protected FillMissingValuesInterface $fillMissingProductModelValues,
-        private GetAttributes $getAttributes,
-        private GetNormalizedQualityScoresInterface $getNormalizedQualityScores
+        private readonly GetAttributes $getAttributes,
+        private readonly GetNormalizedQualityScoresInterface $getNormalizedQualityScores
     ) {
     }
 
@@ -111,9 +111,7 @@ class ProductProcessor implements ItemProcessorInterface, StepExecutionAwareInte
     /**
      * Return a list of attributes to export
      *
-     * @param JobParameters $parameters
      *
-     * @return array
      */
     protected function getAttributesCodesToFilter(JobParameters $parameters): array
     {
@@ -129,9 +127,7 @@ class ProductProcessor implements ItemProcessorInterface, StepExecutionAwareInte
     /**
      * Are there attributes to filter?
      *
-     * @param JobParameters $parameters
      *
-     * @return bool
      */
     protected function areAttributesToFilter(JobParameters $parameters): bool
     {

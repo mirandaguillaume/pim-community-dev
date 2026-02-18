@@ -25,11 +25,6 @@ class UserRoleController
     /** @var UserContext */
     protected $userContext;
 
-    /**
-     * @param RoleRepository      $roleRepository
-     * @param NormalizerInterface $normalizer
-     * @param UserContext         $userContext
-     */
     public function __construct(
         RoleRepository $roleRepository,
         NormalizerInterface $normalizer,

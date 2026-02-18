@@ -13,13 +13,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final class DashboardQualityScoreEvolutionController
+final readonly class DashboardQualityScoreEvolutionController
 {
-    private GetCatalogProductScoreEvolutionQueryInterface $getCatalogProductScoreEvolution;
-
-    public function __construct(GetCatalogProductScoreEvolutionQueryInterface $getCatalogProductScoreEvolution)
+    public function __construct(private GetCatalogProductScoreEvolutionQueryInterface $getCatalogProductScoreEvolution)
     {
-        $this->getCatalogProductScoreEvolution = $getCatalogProductScoreEvolution;
     }
 
     public function __invoke(Request $request, string $channel, string $locale)

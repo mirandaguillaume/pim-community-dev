@@ -14,7 +14,7 @@ use Oro\Bundle\SecurityBundle\SecurityFacade;
  */
 class MassOperationConverter implements ConverterInterface
 {
-    const EDIT_COMMON_JOB_CODE = 'edit_common_attributes';
+    final public const EDIT_COMMON_JOB_CODE = 'edit_common_attributes';
 
     /** @var UserContext */
     protected $userContext;
@@ -39,13 +39,6 @@ class MassOperationConverter implements ConverterInterface
         'groups'        => 'pim_enrich_product_add_to_groups',
     ];
 
-    /**
-     * @param UserContext                 $userContext
-     * @param ConverterInterface          $productValueConverter
-     * @param AttributeConverterInterface $localizedConverter
-     * @param CollectionFilterInterface   $productValuesFilter
-     * @param SecurityFacade              $securityFacade
-     */
     public function __construct(
         UserContext $userContext,
         ConverterInterface $productValueConverter,
@@ -89,23 +82,13 @@ class MassOperationConverter implements ConverterInterface
                 return true;
             }
 
-            switch ($action['field']) {
-                case 'enabled':
-                    return $this->checkAclForType('enabled');
-                    break;
-                case 'family':
-                    return $this->checkAclForType('family');
-                    break;
-                case 'categories':
-                    return $this->checkAclForType('categories');
-                    break;
-                case 'groups':
-                    return $this->checkAclForType('groups');
-                    break;
-                default:
-                    return true;
-                    break;
-            }
+            return match ($action['field']) {
+                'enabled' => $this->checkAclForType('enabled'),
+                'family' => $this->checkAclForType('family'),
+                'categories' => $this->checkAclForType('categories'),
+                'groups' => $this->checkAclForType('groups'),
+                default => true,
+            };
         });
 
         return $operation;
@@ -114,9 +97,7 @@ class MassOperationConverter implements ConverterInterface
     /**
      * Return whether the current user has ACL to do the given modification $type on the product
      *
-     * @param string $type
      *
-     * @return bool
      */
     protected function checkAclForType(string $type): bool
     {
@@ -128,12 +109,10 @@ class MassOperationConverter implements ConverterInterface
     /**
      * Return which ACL should be used to filter data of specified type.
      *
-     * @param string $type
      *
-     * @return string|null
      */
     protected function getAclForType(string $type): ?string
     {
-        return isset($this->acls[$type]) ? $this->acls[$type] : null;
+        return $this->acls[$type] ?? null;
     }
 }

@@ -17,7 +17,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ApiErrorEventSubscriber implements EventSubscriberInterface
+final readonly class ApiErrorEventSubscriber implements EventSubscriberInterface
 {
     public function __construct(private CollectApiError $collectApiError)
     {

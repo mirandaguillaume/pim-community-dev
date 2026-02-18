@@ -47,19 +47,11 @@ use Symfony\Component\Security\Http\ParameterBagUtils;
  */
 class FormLoginAuthenticator extends AbstractLoginFormAuthenticator
 {
-    private $httpUtils;
-    private $userProvider;
-    private $successHandler;
-    private $failureHandler;
     private $options;
-    private $httpKernel;
+    private ?\Symfony\Component\HttpKernel\HttpKernelInterface $httpKernel = null;
 
-    public function __construct(HttpUtils $httpUtils, UserProviderInterface $userProvider, AuthenticationSuccessHandlerInterface $successHandler, AuthenticationFailureHandlerInterface $failureHandler, array $options)
+    public function __construct(private readonly HttpUtils $httpUtils, private readonly UserProviderInterface $userProvider, private readonly AuthenticationSuccessHandlerInterface $successHandler, private readonly AuthenticationFailureHandlerInterface $failureHandler, array $options)
     {
-        $this->httpUtils = $httpUtils;
-        $this->userProvider = $userProvider;
-        $this->successHandler = $successHandler;
-        $this->failureHandler = $failureHandler;
         $this->options = array_merge([
             'username_parameter' => '_username',
             'password_parameter' => '_password',
@@ -117,7 +109,7 @@ class FormLoginAuthenticator extends AbstractLoginFormAuthenticator
      */
     public function createAuthenticatedToken(PassportInterface $passport, string $firewallName): TokenInterface
     {
-        trigger_deprecation('symfony/security-http', '5.4', 'Method "%s()" is deprecated, use "%s::createToken()" instead.', __METHOD__, __CLASS__);
+        trigger_deprecation('symfony/security-http', '5.4', 'Method "%s()" is deprecated, use "%s::createToken()" instead.', __METHOD__, self::class);
 
         return $this->createToken($passport, $firewallName);
     }

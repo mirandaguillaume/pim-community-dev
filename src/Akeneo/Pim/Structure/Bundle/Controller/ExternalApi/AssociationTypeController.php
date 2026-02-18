@@ -68,19 +68,6 @@ class AssociationTypeController
     /** @var array */
     protected $apiConfiguration;
 
-    /**
-     * @param ApiResourceRepository       $repository
-     * @param NormalizerInterface         $normalizer
-     * @param ParameterValidatorInterface $parameterValidator
-     * @param PaginatorInterface          $paginator
-     * @param SimpleFactoryInterface      $factory
-     * @param ObjectUpdaterInterface      $updater
-     * @param ValidatorInterface          $validator
-     * @param RouterInterface             $router
-     * @param SaverInterface              $saver
-     * @param StreamResourceResponse      $partialUpdateStreamResource
-     * @param array                       $apiConfiguration
-     */
     public function __construct(
         ApiResourceRepository $repository,
         NormalizerInterface $normalizer,
@@ -108,13 +95,11 @@ class AssociationTypeController
     }
 
     /**
-     * @param Request $request
      * @param string  $code
      *
      * @throws NotFoundHttpException
      *
      * @return JsonResponse
-     *
      * @AclAncestor("pim_api_association_type_list")
      */
     public function getAction(Request $request, $code)
@@ -130,12 +115,10 @@ class AssociationTypeController
     }
 
     /**
-     * @param Request $request
      *
      * @throws UnprocessableEntityHttpException
      *
      * @return JsonResponse
-     *
      * @AclAncestor("pim_api_association_type_list")
      */
     public function listAction(Request $request)
@@ -179,13 +162,11 @@ class AssociationTypeController
     }
 
     /**
-     * @param Request $request
      *
      * @throws BadRequestHttpException
      * @throws UnprocessableEntityHttpException
      *
      * @return Response
-     *
      * @AclAncestor("pim_api_association_type_edit")
      */
     public function createAction(Request $request)
@@ -204,13 +185,11 @@ class AssociationTypeController
     }
 
     /**
-     * @param Request $request
      * @param string  $code
      *
      * @throws HttpException
      *
      * @return Response
-     *
      * @AclAncestor("pim_api_association_type_edit")
      */
     public function partialUpdateAction(Request $request, $code)
@@ -239,12 +218,10 @@ class AssociationTypeController
     }
 
     /**
-     * @param Request $request
      *
      * @throws HttpException
      *
      * @return Response
-     *
      * @AclAncestor("pim_api_association_type_edit")
      */
     public function partialUpdateListAction(Request $request)
@@ -266,9 +243,9 @@ class AssociationTypeController
      */
     protected function getDecodedContent($content)
     {
-        $decodedContent = json_decode($content, true);
-
-        if (null === $decodedContent) {
+        try {
+            $decodedContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
             throw new BadRequestHttpException('Invalid json message received');
         }
 
@@ -278,8 +255,6 @@ class AssociationTypeController
     /**
      * Update an association type. It throws an error 422 if a problem occurred during the update.
      *
-     * @param AssociationTypeInterface $associationType
-     * @param array                    $data
      * @param string                   $anchor
      *
      * @throws DocumentedHttpException
@@ -301,7 +276,6 @@ class AssociationTypeController
      * Validate an association type. It throws an error 422 with every violated constraints if
      * the validation failed.
      *
-     * @param AssociationTypeInterface $associationType
      *
      * @throws ViolationHttpException
      */
@@ -316,9 +290,7 @@ class AssociationTypeController
     /**
      * Get a response with a location header to the created or updated resource.
      *
-     * @param AssociationTypeInterface $associationType
      * @param int                      $status
-     *
      * @return Response
      */
     protected function getResponse(AssociationTypeInterface $associationType, $status)

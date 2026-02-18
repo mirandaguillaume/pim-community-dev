@@ -13,13 +13,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 class MarkJobExecutionAsFailedWhenInterruptedCommand extends Command
 {
     protected static $defaultName = 'akeneo:batch:clean-job-executions';
-    private MarkJobExecutionAsFailedWhenInterrupted $markJobExecutionAsFailedWhenInterrupted;
 
     public function __construct(
-        MarkJobExecutionAsFailedWhenInterrupted $markJobExecutionAsFailedWhenInterrupted
+        private readonly MarkJobExecutionAsFailedWhenInterrupted $markJobExecutionAsFailedWhenInterrupted
     ) {
         parent::__construct();
-        $this->markJobExecutionAsFailedWhenInterrupted = $markJobExecutionAsFailedWhenInterrupted;
     }
 
     protected function configure()
@@ -38,7 +36,7 @@ class MarkJobExecutionAsFailedWhenInterruptedCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $jobCodes = $input->getArgument('jobCodes');
-        $jobCodes =  array_map('trim', explode(',', trim($jobCodes)));
+        $jobCodes =  array_map('trim', explode(',', trim((string) $jobCodes)));
 
         $impactedRows = $this->markJobExecutionAsFailedWhenInterrupted->execute($jobCodes);
         $output->writeln(sprintf('<info>%s job executions cleaned</info>', $impactedRows));

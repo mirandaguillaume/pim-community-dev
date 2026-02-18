@@ -13,7 +13,7 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
  */
 final class ViolationsException extends \LogicException
 {
-    public function __construct(private ConstraintViolationListInterface $constraintViolationList)
+    public function __construct(private readonly ConstraintViolationListInterface $constraintViolationList)
     {
         parent::__construct(
             $this->constraintViolationList instanceof ConstraintViolationList

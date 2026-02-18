@@ -11,12 +11,12 @@ namespace Akeneo\Connectivity\Connection\Application\Audit\Query;
  */
 class GetErrorCountPerConnectionQuery
 {
-    private \DateTimeImmutable $fromDateTime;
+    private readonly \DateTimeImmutable $fromDateTime;
 
-    private \DateTimeImmutable $upToDateTime;
+    private readonly \DateTimeImmutable $upToDateTime;
 
     public function __construct(
-        private string $errorType,
+        private readonly string $errorType,
         \DateTimeImmutable $fromDateTime,
         \DateTimeImmutable $upToDateTime
     ) {

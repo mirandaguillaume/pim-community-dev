@@ -49,7 +49,7 @@ class SortersConfigurator implements ConfiguratorInterface
     {
         $path = sprintf(self::SOURCE_PATH, self::USEABLE_ATTRIBUTES_KEY);
         $attributes = $this->configuration->offsetGetByPath($path);
-        $attributes = ($attributes === null) ? [] : $attributes;
+        $attributes ??= [];
         $columns = $this->configuration->offsetGetByPath(
             sprintf('[%s]', FormatterConfiguration::COLUMNS_KEY)
         );

@@ -19,7 +19,7 @@ final class SqlFindChannelsIntegration extends TestCase
 
         $this->connection = $this->get('database_connection');
         $this->sqlFindChannels = $this->get(
-            'Akeneo\Channel\Infrastructure\Query\Sql\SqlFindChannels'
+            \Akeneo\Channel\Infrastructure\Query\Sql\SqlFindChannels::class
         );
     }
 

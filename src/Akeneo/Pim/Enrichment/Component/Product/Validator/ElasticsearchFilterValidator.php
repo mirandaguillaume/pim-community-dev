@@ -14,18 +14,8 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
  */
 class ElasticsearchFilterValidator
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $attributeRepository;
-
-    /** @var AttributeValidatorHelper */
-    private $attributeValidator;
-
-    public function __construct(
-        IdentifiableObjectRepositoryInterface $attributeRepository,
-        AttributeValidatorHelper $attributeValidator
-    ) {
-        $this->attributeRepository = $attributeRepository;
-        $this->attributeValidator = $attributeValidator;
+    public function __construct(private readonly IdentifiableObjectRepositoryInterface $attributeRepository, private readonly AttributeValidatorHelper $attributeValidator)
+    {
     }
 
     public function validateLocaleForAttribute(string $attributeCode, ?string $localeCode)
@@ -34,7 +24,7 @@ class ElasticsearchFilterValidator
 
         try {
             $this->attributeValidator->validateLocale($attribute, $localeCode);
-        } catch (UnavailableSpecificLocaleException $exception) {
+        } catch (UnavailableSpecificLocaleException) {
             // We don't throw anything if the provided locale is not available
             // See https://akeneo.atlassian.net/browse/PIM-9113
         }

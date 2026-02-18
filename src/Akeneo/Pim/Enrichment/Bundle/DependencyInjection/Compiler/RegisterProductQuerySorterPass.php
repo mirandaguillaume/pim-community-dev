@@ -16,13 +16,13 @@ use Symfony\Component\DependencyInjection\Reference;
 class RegisterProductQuerySorterPass implements CompilerPassInterface
 {
     /** @staticvar integer */
-    const DEFAULT_PRIORITY = 25;
+    final public const DEFAULT_PRIORITY = 25;
 
     /** @staticvar string */
-    const QUERY_SORTER_REGISTRY = 'pim_catalog.query.sorter.registry';
+    final public const QUERY_SORTER_REGISTRY = 'pim_catalog.query.sorter.registry';
 
     /** @staticvar string */
-    const QUERY_SORTER_TAG = 'pim_catalog.elasticsearch.query.sorter';
+    final public const QUERY_SORTER_TAG = 'pim_catalog.elasticsearch.query.sorter';
 
     /**
      * {@inheritdoc}
@@ -32,9 +32,6 @@ class RegisterProductQuerySorterPass implements CompilerPassInterface
         $this->registerSorters($container);
     }
 
-    /**
-     * @param ContainerBuilder $container
-     */
     protected function registerSorters(ContainerBuilder $container)
     {
         if (!$container->hasDefinition(self::QUERY_SORTER_REGISTRY)) {
@@ -53,7 +50,6 @@ class RegisterProductQuerySorterPass implements CompilerPassInterface
      * Returns an array of service references for a specified tag name
      *
      * @param string           $tagName
-     * @param ContainerBuilder $container
      *
      * @return \Symfony\Component\DependencyInjection\Reference[]
      */
@@ -64,7 +60,7 @@ class RegisterProductQuerySorterPass implements CompilerPassInterface
         $sortedServices = [];
         foreach ($services as $serviceId => $tags) {
             foreach ($tags as $tag) {
-                $priority = isset($tag['priority']) ? $tag['priority'] : self::DEFAULT_PRIORITY;
+                $priority = $tag['priority'] ?? self::DEFAULT_PRIORITY;
                 $sortedServices[$priority][] = new Reference($serviceId);
             }
         }

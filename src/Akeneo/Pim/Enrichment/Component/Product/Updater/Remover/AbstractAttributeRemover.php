@@ -24,9 +24,6 @@ abstract class AbstractAttributeRemover implements AttributeRemoverInterface
     /** @var OptionsResolver */
     protected $resolver;
 
-    /**
-     * @param AttributeValidatorHelper $attrValidatorHelper
-     */
     public function __construct(AttributeValidatorHelper $attrValidatorHelper)
     {
         $this->attrValidatorHelper = $attrValidatorHelper;
@@ -44,8 +41,6 @@ abstract class AbstractAttributeRemover implements AttributeRemoverInterface
 
     /**
      * Configure the option resolver
-     *
-     * @param OptionsResolver $resolver
      */
     protected function configureOptions(OptionsResolver $resolver)
     {

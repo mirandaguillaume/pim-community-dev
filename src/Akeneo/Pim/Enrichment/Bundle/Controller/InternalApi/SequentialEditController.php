@@ -34,9 +34,7 @@ class SequentialEditController
     /**
      * Get ids from datagrid request
      *
-     * @param Request $request
      *
-     * @return JsonResponse
      */
     public function getIdsAction(Request $request): JsonResponse
     {
@@ -66,12 +64,6 @@ class SequentialEditController
         return new JsonResponse(['entities' => $products, 'total' => $cursor->count()]);
     }
 
-    /**
-     * @param array $filters
-     * @param array $context
-     *
-     * @return CursorInterface
-     */
     protected function getProductsCursor(array $filters, array $context): CursorInterface
     {
         $productQueryBuilder = $this->pqbFactory->create(['filters' => $filters]);

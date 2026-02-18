@@ -11,27 +11,17 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Storage\Indexer;
  */
 interface ProductModelIndexerInterface
 {
-    /**
-     * @param string $productModelCode
-     * @param array  $options
-     */
     public function indexFromProductModelCode(string $productModelCode, array $options = []): void;
 
     /**
      * @param string[] $productModelCodes
-     * @param array    $options
      */
     public function indexFromProductModelCodes(array $productModelCodes, array $options = []): void;
 
-    /**
-     * @param int   $productModelId
-     * @param array $options
-     */
     public function removeFromProductModelId(int $productModelId, array $options = []): void;
 
     /**
      * @param int[] $productModelIds
-     * @param array $options
      */
     public function removeFromProductModelIds(array $productModelIds, array $options = []): void;
 }

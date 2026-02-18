@@ -40,21 +40,21 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class AttributeGroupController
 {
     public function __construct(
-        private AttributeGroupRepositoryInterface $attributeGroupRepo,
-        private SearchableRepositoryInterface $attributeGroupSearchableRepository,
-        private NormalizerInterface $normalizer,
-        private CollectionFilterInterface $collectionFilter,
-        private ObjectUpdaterInterface $updater,
-        private ValidatorInterface $validator,
-        private SaverInterface $saver,
-        private EntityRepository $attributeRepository,
-        private ObjectUpdaterInterface $attributeUpdater,
-        private SaverInterface $attributeSaver,
-        private SecurityFacadeInterface $securityFacade,
-        private SimpleFactoryInterface $attributeGroupFactory,
-        private EventDispatcherInterface $eventDispatcher,
-        private CollectionFilterInterface $inputFilter,
-        private FindAttributeCodesForAttributeGroup $findAttributeCodesForAttributeGroup,
+        private readonly AttributeGroupRepositoryInterface $attributeGroupRepo,
+        private readonly SearchableRepositoryInterface $attributeGroupSearchableRepository,
+        private readonly NormalizerInterface $normalizer,
+        private readonly CollectionFilterInterface $collectionFilter,
+        private readonly ObjectUpdaterInterface $updater,
+        private readonly ValidatorInterface $validator,
+        private readonly SaverInterface $saver,
+        private readonly EntityRepository $attributeRepository,
+        private readonly ObjectUpdaterInterface $attributeUpdater,
+        private readonly SaverInterface $attributeSaver,
+        private readonly SecurityFacadeInterface $securityFacade,
+        private readonly SimpleFactoryInterface $attributeGroupFactory,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly CollectionFilterInterface $inputFilter,
+        private readonly FindAttributeCodesForAttributeGroup $findAttributeCodesForAttributeGroup,
         private readonly TokenStorageInterface $tokenStorage,
         private readonly JobLauncherInterface $jobLauncher,
         private readonly IdentifiableObjectRepositoryInterface $jobInstanceRepository,
@@ -64,7 +64,6 @@ class AttributeGroupController
     /**
      * Search attribute group collection
      *
-     * @param Request $request
      *
      * @return JsonResponse
      */
@@ -118,7 +117,6 @@ class AttributeGroupController
     /**
      * Get a single attribute group
      *
-     * @param string $identifier
      *
      * @return JsonResponse
      */
@@ -134,10 +132,8 @@ class AttributeGroupController
     }
 
     /**
-     * @param Request $request
      *
      * @return Response
-     *
      * @AclAncestor("pim_enrich_attributegroup_create")
      */
     public function createAction(Request $request)
@@ -150,7 +146,11 @@ class AttributeGroupController
         $attributeGroup = $this->attributeGroupFactory->create();
         $attributeGroup->setSortOrder($maxSortOrder + 1);
 
-        $data = json_decode($request->getContent(), true);
+        try {
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
         $this->updater->update($attributeGroup, $data);
 
         $violations = $this->validator->validate($attributeGroup);
@@ -179,11 +179,9 @@ class AttributeGroupController
     }
 
     /**
-     * @param Request $request
      * @param string  $identifier
      *
      * @return Response
-     *
      * @AclAncestor("pim_enrich_attributegroup_edit")
      */
     public function postAction(Request $request, $identifier)
@@ -194,7 +192,11 @@ class AttributeGroupController
 
         $attributeGroup = $this->getAttributeGroupOr404($identifier);
 
-        $data = json_decode($request->getContent(), true);
+        try {
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
         $sortOrder = $data['attributes_sort_order'];
         unset($data['attributes_sort_order']);
 
@@ -246,10 +248,8 @@ class AttributeGroupController
     /**
      * Sort the attribute groups
      *
-     * @param Request $request
      *
      * @AclAncestor("pim_enrich_attributegroup_sort")
-     *
      * @return Response
      */
     public function sortAction(Request $request)
@@ -258,7 +258,11 @@ class AttributeGroupController
             return new RedirectResponse('/');
         }
 
-        $data = json_decode($request->getContent(), true);
+        try {
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
 
         foreach ($data as $attributeGroupCode => $sortOrder) {
             $attributeGroup = $this->attributeGroupRepo->findOneByIdentifier($attributeGroupCode);
@@ -289,6 +293,10 @@ class AttributeGroupController
 
         if (!$user instanceof UserInterface) {
             return new JsonResponse(status: Response::HTTP_UNAUTHORIZED);
+        }
+
+        if (null === $jobInstance) {
+            return new JsonResponse(['message' => 'Job instance "delete_attribute_groups" not found.'], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         $attributeGroupCodes = [$identifier];
@@ -341,11 +349,9 @@ class AttributeGroupController
     /**
      * Finds attribute group type by identifier or throws not found exception
      *
-     * @param string $identifier
      *
      * @throws NotFoundHttpException
      *
-     * @return AttributeGroupInterface
      */
     protected function getAttributeGroupOr404(string $identifier): AttributeGroupInterface
     {
@@ -361,8 +367,6 @@ class AttributeGroupController
 
     /**
      * Check that the user doesn't change the attribute list without permission
-     *
-     * @param array $newAttributeGroup
      */
     protected function checkAttributeCollectionRights(array $newAttributeGroup): void
     {
@@ -378,7 +382,7 @@ class AttributeGroupController
         }
 
         if (!$this->securityFacade->isGranted('pim_enrich_attributegroup_add_attribute') &&
-            count($attributeCodesAfter) > 0 &&
+            (is_countable($attributeCodesAfter) ? count($attributeCodesAfter) : 0) > 0 &&
             count(array_diff($attributeCodesAfter, $attributeCodesBefore)) > 0
         ) {
             throw new AccessDeniedHttpException('You cannot add attributes to the attribute group');

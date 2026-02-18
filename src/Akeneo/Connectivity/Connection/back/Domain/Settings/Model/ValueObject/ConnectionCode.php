@@ -11,7 +11,7 @@ namespace Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject;
  */
 class ConnectionCode implements \Stringable
 {
-    private string $code;
+    private readonly string $code;
 
     public function __construct(string $code)
     {

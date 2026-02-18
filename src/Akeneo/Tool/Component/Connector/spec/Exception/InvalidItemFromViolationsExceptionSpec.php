@@ -95,10 +95,8 @@ class InvalidItemFromViolationsExceptionSpec extends ObjectBehavior
         ConstraintViolationInterface $violation
     ) {
         $class = new class {
-            private $data;
-            public function __construct(string $data = 'foo')
+            public function __construct(private readonly string $data = 'foo')
             {
-                $this->data = $data;
             }
             public function __toString()
             {

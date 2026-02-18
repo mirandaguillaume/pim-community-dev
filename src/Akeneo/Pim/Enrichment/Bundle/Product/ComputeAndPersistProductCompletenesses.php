@@ -26,12 +26,12 @@ class ComputeAndPersistProductCompletenesses
     private const CHUNK_SIZE = 1000;
 
     public function __construct(
-        private CompletenessCalculator $completenessCalculator,
-        private SaveProductCompletenesses $saveProductCompletenesses,
-        private GetProductCompletenesses $getProductCompletenesses,
-        private EventDispatcherInterface $eventDispatcher,
-        private Clock $clock,
-        private TokenStorageInterface $tokenStorage,
+        private readonly CompletenessCalculator $completenessCalculator,
+        private readonly SaveProductCompletenesses $saveProductCompletenesses,
+        private readonly GetProductCompletenesses $getProductCompletenesses,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly Clock $clock,
+        private readonly TokenStorageInterface $tokenStorage,
         private readonly LoggerInterface $logger
     ) {
     }

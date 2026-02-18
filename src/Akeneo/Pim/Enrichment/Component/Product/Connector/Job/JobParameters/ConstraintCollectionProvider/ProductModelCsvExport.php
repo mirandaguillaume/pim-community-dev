@@ -24,20 +24,8 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 class ProductModelCsvExport implements ConstraintCollectionProviderInterface
 {
-    /** @var ConstraintCollectionProviderInterface */
-    private $simpleProvider;
-
-    /** @var array */
-    private $supportedJobNames;
-
-    /**
-     * @param ConstraintCollectionProviderInterface $simpleCsv
-     * @param array                                 $supportedJobNames
-     */
-    public function __construct(ConstraintCollectionProviderInterface $simpleCsv, array $supportedJobNames)
+    public function __construct(private readonly ConstraintCollectionProviderInterface $simpleProvider, private readonly array $supportedJobNames)
     {
-        $this->simpleProvider = $simpleCsv;
-        $this->supportedJobNames = $supportedJobNames;
     }
 
     /**

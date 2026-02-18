@@ -75,7 +75,7 @@ class UniqueValuesSet
     {
         if ($entity instanceof ProductInterface || $entity instanceof ProductModelInterface) {
             if (null !== $entity->getCreated()) {
-                return $entity instanceof ProductInterface && get_class($entity) !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct'
+                return $entity instanceof ProductInterface && $entity::class !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct'
                     ? $entity->getUuid()->toString()
                     : $entity->getId();
             }

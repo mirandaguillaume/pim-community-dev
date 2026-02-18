@@ -27,11 +27,11 @@ class ExternalUrlValidator extends ConstraintValidator
     /**
      * @var string[]
      */
-    private array $networkWhitelist;
+    private readonly array $networkWhitelist;
 
     public function __construct(
-        private DnsLookupInterface $dnsLookup,
-        private IpMatcherInterface $ipMatcher,
+        private readonly DnsLookupInterface $dnsLookup,
+        private readonly IpMatcherInterface $ipMatcher,
         string $networkWhitelist = ''
     ) {
         $this->networkWhitelist = empty($networkWhitelist) ? [] : \explode(',', $networkWhitelist);

@@ -61,7 +61,7 @@ class SimpleSelectPropertyContext extends BaseCreateOrUpdateIdentifierGenerator 
      */
     public function iTryToCreateAnIdentifierGeneratorWithSimpleSelectProcessWithTypeAndOperatorAndValue($type, $operator, $value): void
     {
-        $value = \json_decode($value);
+        $value = \json_decode((string) $value, null, 512, JSON_THROW_ON_ERROR);
         $defaultStructure = [
             'attributeCode' => 'color',
             'type' => 'simple_select',
@@ -124,7 +124,7 @@ class SimpleSelectPropertyContext extends BaseCreateOrUpdateIdentifierGenerator 
      */
     public function iTryToUpdateAnIdentifierGeneratorWithSimpleSelectProcessWithTypeAndOperatorAndValue($type, $operator, $value): void
     {
-        $value = \json_decode($value);
+        $value = \json_decode((string) $value, null, 512, JSON_THROW_ON_ERROR);
         $defaultStructure = [
             'attributeCode' => 'color',
             'type' => 'simple_select',

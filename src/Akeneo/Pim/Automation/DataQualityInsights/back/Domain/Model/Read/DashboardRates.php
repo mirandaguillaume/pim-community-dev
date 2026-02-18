@@ -18,17 +18,14 @@ final class DashboardRates
 
     private const NUMBER_OF_MONTHS_TO_RETURN = 6;
 
-    private array $rates;
+    private readonly string $channelCode;
 
-    private string $channelCode;
+    private readonly string $localeCode;
 
-    private string $localeCode;
+    private readonly string $timePeriod;
 
-    private string $timePeriod;
-
-    public function __construct(array $rates, ChannelCode $channelCode, LocaleCode $localeCode, TimePeriod $timePeriod)
+    public function __construct(private readonly array $rates, ChannelCode $channelCode, LocaleCode $localeCode, TimePeriod $timePeriod)
     {
-        $this->rates = $rates;
         $this->channelCode = strval($channelCode);
         $this->localeCode = strval($localeCode);
         $this->timePeriod = strval($timePeriod);
@@ -43,15 +40,9 @@ final class DashboardRates
         $result = $this->convertRatesByTimePeriod($this->timePeriod);
 
         $actions = [
-            TimePeriod::DAILY => function (array $rates) {
-                return $this->ensureRatesContainEnoughDays($rates);
-            },
-            TimePeriod::WEEKLY => function (array $rates) {
-                return $this->ensureRatesContainEnoughWeeks($rates);
-            },
-            TimePeriod::MONTHLY => function (array $rates) {
-                return $this->ensureRatesContainEnoughMonths($rates);
-            },
+            TimePeriod::DAILY => fn(array $rates) => $this->ensureRatesContainEnoughDays($rates),
+            TimePeriod::WEEKLY => fn(array $rates) => $this->ensureRatesContainEnoughWeeks($rates),
+            TimePeriod::MONTHLY => fn(array $rates) => $this->ensureRatesContainEnoughMonths($rates),
         ];
 
         return $actions[$this->timePeriod]($result);

@@ -21,7 +21,6 @@ class AttributeTypeForOptionValidator extends ConstraintValidator
 
     /**
      * AttributeTypeForOptionValidator constructor.
-     * @param array $supportedAttributeTypes
      */
     public function __construct(array $supportedAttributeTypes)
     {
@@ -49,8 +48,6 @@ class AttributeTypeForOptionValidator extends ConstraintValidator
     }
 
     /**
-     * @param AttributeTypeForOption   $constraint
-     * @param AttributeOptionInterface $option
      * @param string[]                 $authorizedTypes
      */
     protected function addInvalidAttributeViolation(

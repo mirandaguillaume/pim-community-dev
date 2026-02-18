@@ -17,10 +17,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class FromSizeCursorFactory implements CursorFactoryInterface
 {
     public function __construct(
-        private Client $searchEngine,
-        private ProductRepositoryInterface $productRepository,
-        private ProductModelRepositoryInterface $productModelRepository,
-        private int $pageSize
+        private readonly Client $searchEngine,
+        private readonly ProductRepositoryInterface $productRepository,
+        private readonly ProductModelRepositoryInterface $productModelRepository,
+        private readonly int $pageSize
     ) {
     }
 

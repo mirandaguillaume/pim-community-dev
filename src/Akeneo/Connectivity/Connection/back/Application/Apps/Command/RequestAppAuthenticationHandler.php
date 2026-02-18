@@ -18,10 +18,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class RequestAppAuthenticationHandler
 {
     public function __construct(
-        private GetUserConsentedAuthenticationScopesQueryInterface $getUserConsentedAuthenticationScopesQuery,
-        private CreateUserConsentQueryInterface $createUserConsentQuery,
-        private ClockInterface $clock,
-        private ValidatorInterface $validator
+        private readonly GetUserConsentedAuthenticationScopesQueryInterface $getUserConsentedAuthenticationScopesQuery,
+        private readonly CreateUserConsentQueryInterface $createUserConsentQuery,
+        private readonly ClockInterface $clock,
+        private readonly ValidatorInterface $validator
     ) {
     }
 

@@ -10,10 +10,10 @@ use Oro\Bundle\DataGridBundle\Extension\Action\Actions\ActionInterface;
 
 class MassActionExtension extends ActionExtension
 {
-    const ACTION_KEY = 'mass_actions';
-    const MASS_ACTIONS_GROUPS_KEY = 'mass_actions_groups';
-    const METADATA_ACTION_KEY = 'massActions';
-    const METADATA_MASS_ACTIONS_GROUPS_KEY = 'massActionsGroups';
+    public const ACTION_KEY = 'mass_actions';
+    public const MASS_ACTIONS_GROUPS_KEY = 'mass_actions_groups';
+    public const METADATA_ACTION_KEY = 'massActions';
+    public const METADATA_MASS_ACTIONS_GROUPS_KEY = 'massActionsGroups';
 
     /** @var array */
     protected $actions = [];
@@ -32,11 +32,9 @@ class MassActionExtension extends ActionExtension
      * Get grid massaction by name
      *
      * @param string           $name
-     * @param DatagridInterface $datagrid
      *
-     * @return bool|ActionInterface
      */
-    public function getMassAction($name, DatagridInterface $datagrid)
+    public function getMassAction($name, DatagridInterface $datagrid): bool|\Oro\Bundle\DataGridBundle\Extension\Action\Actions\ActionInterface
     {
         $config = $datagrid->getAcceptor()->getConfig();
 

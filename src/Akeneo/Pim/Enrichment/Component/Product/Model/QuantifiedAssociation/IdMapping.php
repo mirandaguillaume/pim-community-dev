@@ -13,11 +13,9 @@ use Webmozart\Assert\Assert;
  */
 final class IdMapping
 {
-    /** @var array  */
-    private $idsToIdentifiers;
+    private array $idsToIdentifiers;
 
-    /** @var array  */
-    private $identifiersToIds;
+    private array $identifiersToIds;
 
     private function __construct(array $mapping)
     {

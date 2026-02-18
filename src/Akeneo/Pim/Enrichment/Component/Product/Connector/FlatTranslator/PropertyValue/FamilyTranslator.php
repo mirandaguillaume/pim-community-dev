@@ -9,12 +9,8 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\GetFamilyTranslations;
 
 class FamilyTranslator implements FlatPropertyValueTranslatorInterface
 {
-    /** @var GetFamilyTranslations */
-    private $getFamilyTranslations;
-
-    public function __construct(GetFamilyTranslations $getFamilyTranslations)
+    public function __construct(private readonly GetFamilyTranslations $getFamilyTranslations)
     {
-        $this->getFamilyTranslations = $getFamilyTranslations;
     }
 
     public function supports(string $columnName): bool

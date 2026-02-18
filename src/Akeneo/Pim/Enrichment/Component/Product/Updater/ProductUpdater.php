@@ -35,37 +35,17 @@ class ProductUpdater implements ObjectUpdaterInterface
     /** @var array */
     protected $ignoredFields = [];
 
-    /** @var ParentAssociationsFilter */
-    private $parentAssociationsFilter;
-
-    /** @var QuantifiedAssociationsFromAncestorsFilter */
-    private $quantifiedAssociationsFromAncestorsFilter;
-
-    /** @var QuantifiedAssociationsStructureValidatorInterface */
-    private $quantifiedAssociationsStructureValidator;
-
-    /**
-     * @param PropertySetterInterface $propertySetter
-     * @param ObjectUpdaterInterface $valuesUpdater
-     * @param ParentAssociationsFilter $parentAssociationsFilter
-     * @param QuantifiedAssociationsFromAncestorsFilter $quantifiedAssociationsFromAncestorsFilter
-     * @param QuantifiedAssociationsStructureValidatorInterface $quantifiedAssociationsStructureValidator
-     * @param array $ignoredFields
-     */
     public function __construct(
         PropertySetterInterface $propertySetter,
         ObjectUpdaterInterface $valuesUpdater,
-        ParentAssociationsFilter $parentAssociationsFilter,
-        QuantifiedAssociationsFromAncestorsFilter $quantifiedAssociationsFromAncestorsFilter,
-        QuantifiedAssociationsStructureValidatorInterface $quantifiedAssociationsStructureValidator,
+        private readonly ParentAssociationsFilter $parentAssociationsFilter,
+        private readonly QuantifiedAssociationsFromAncestorsFilter $quantifiedAssociationsFromAncestorsFilter,
+        private readonly QuantifiedAssociationsStructureValidatorInterface $quantifiedAssociationsStructureValidator,
         array $ignoredFields
     ) {
         $this->propertySetter = $propertySetter;
         $this->valuesUpdater = $valuesUpdater;
         $this->ignoredFields = $ignoredFields;
-        $this->parentAssociationsFilter = $parentAssociationsFilter;
-        $this->quantifiedAssociationsFromAncestorsFilter = $quantifiedAssociationsFromAncestorsFilter;
-        $this->quantifiedAssociationsStructureValidator = $quantifiedAssociationsStructureValidator;
     }
 
     /**
@@ -328,7 +308,6 @@ class ProductUpdater implements ObjectUpdaterInterface
      * This example does not work because the parent setter will set the family with the parent family.
      *
      * @param array $data
-     * @return array
      */
     private function reorderParentProperty(array $data): array
     {

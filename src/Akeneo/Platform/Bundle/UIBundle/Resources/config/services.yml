@@ -76,8 +76,6 @@ services:
 
     pim_enrich.normalizer.constraint_violation_list:
         class: 'Akeneo\Platform\Bundle\UIBundle\Normalizer\ConstraintViolationListNormalizer'
-        arguments:
-            - '@serializer.normalizer.object'
         tags:
             - { name: serializer.normalizer, priority: 90 }
 

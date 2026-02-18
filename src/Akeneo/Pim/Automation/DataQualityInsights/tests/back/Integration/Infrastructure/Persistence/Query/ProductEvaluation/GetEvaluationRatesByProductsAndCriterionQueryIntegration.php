@@ -59,6 +59,7 @@ final class GetEvaluationRatesByProductsAndCriterionQueryIntegration extends Dat
 
     private function givenSampleA(): array
     {
+        $evaluationResults = [];
         $product = $this->createProductWithoutEvaluations('product_A');
 
         $expectedRates = [
@@ -88,6 +89,7 @@ final class GetEvaluationRatesByProductsAndCriterionQueryIntegration extends Dat
 
     private function givenSampleB(): array
     {
+        $evaluationResults = [];
         $product = $this->createProductWithoutEvaluations('product_B');
 
         $expectedRates = [
@@ -108,6 +110,7 @@ final class GetEvaluationRatesByProductsAndCriterionQueryIntegration extends Dat
 
     private function givenANotInvolvedProduct(): void
     {
+        $evaluationResults = [];
         $product = $this->createProductWithoutEvaluations('whatever');
 
         $evaluationResults['spelling'] = $this->buildEvaluationResult([

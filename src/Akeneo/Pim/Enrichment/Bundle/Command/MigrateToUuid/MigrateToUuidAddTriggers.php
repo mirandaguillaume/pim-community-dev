@@ -17,7 +17,7 @@ final class MigrateToUuidAddTriggers implements MigrateToUuidStep
     use MigrateToUuidTrait;
     use StatusAwareTrait;
 
-    public function __construct(private Connection $connection, private LoggerInterface $logger)
+    public function __construct(private readonly Connection $connection, private readonly LoggerInterface $logger)
     {
     }
 
@@ -40,11 +40,11 @@ final class MigrateToUuidAddTriggers implements MigrateToUuidStep
     {
         $count = 0;
         foreach ($this->getTablesToMigrate() as $tableName => $columnNames) {
-            if (!$this->triggerExists($this->getInsertTriggerName($tableName))) {
+            if (!$this->triggerExists(self::getInsertTriggerName($tableName))) {
                 $count++;
             }
 
-            if (!$this->triggerExists($this->getUpdateTriggerName($tableName))) {
+            if (!$this->triggerExists(self::getUpdateTriggerName($tableName))) {
                 $count++;
             }
         }
@@ -77,7 +77,7 @@ final class MigrateToUuidAddTriggers implements MigrateToUuidStep
 
         foreach ($this->getTablesToMigrate() as $tableName => $columnNames) {
             $logContext->addContext('substep', $tableName);
-            $insertTriggerName = $this->getInsertTriggerName($tableName);
+            $insertTriggerName = self::getInsertTriggerName($tableName);
             if (!$this->triggerExists($insertTriggerName)) {
                 $this->logger->notice(\sprintf('Will add %s trigger on "%s" table', $insertTriggerName, $tableName), $logContext->toArray());
                 if (!$context->dryRun()) {
@@ -92,7 +92,7 @@ final class MigrateToUuidAddTriggers implements MigrateToUuidStep
                 }
             }
 
-            $updateTriggerName = $this->getUpdateTriggerName($tableName);
+            $updateTriggerName = self::getUpdateTriggerName($tableName);
             if (!$this->triggerExists($updateTriggerName)) {
                 $this->logger->notice(\sprintf('Will add %s trigger on "%s" table', $updateTriggerName, $tableName), $logContext->toArray());
                 if (!$context->dryRun()) {

@@ -18,7 +18,7 @@ use Webmozart\Assert\Assert;
 class AddToGroupsApplier implements UserIntentApplier
 {
     public function __construct(
-        private ObjectUpdaterInterface $productUpdater
+        private readonly ObjectUpdaterInterface $productUpdater
     ) {
     }
 

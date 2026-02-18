@@ -52,16 +52,6 @@ class AssociationTypeController
     /** @var NormalizerInterface */
     protected $constraintViolationNormalizer;
 
-    /**
-     * @param AssociationTypeRepositoryInterface $associationTypeRepo
-     * @param NormalizerInterface                $normalizer
-     * @param RemoverInterface                   $remover
-     * @param ObjectUpdaterInterface             $updater
-     * @param SaverInterface                     $saver
-     * @param ValidatorInterface                 $validator
-     * @param UserContext                        $userContext
-     * @param NormalizerInterface                $constraintViolationNormalizer
-     */
     public function __construct(
         AssociationTypeRepositoryInterface $associationTypeRepo,
         NormalizerInterface $normalizer,
@@ -109,11 +99,9 @@ class AssociationTypeController
     }
 
     /**
-     * @param Request $request
      * @param string  $identifier
      *
      * @return Response
-     *
      * @AclAncestor("pim_enrich_associationtype_edit")
      */
     public function postAction(Request $request, $identifier)
@@ -124,7 +112,11 @@ class AssociationTypeController
 
         $associationType = $this->getAssociationTypeOr404($identifier);
 
-        $data = json_decode($request->getContent(), true);
+        try {
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
         $this->updater->update($associationType, $data);
 
         $violations = $this->validator->validate($associationType);
@@ -152,11 +144,9 @@ class AssociationTypeController
     /**
      * Remove action
      *
-     * @param Request $request
      * @param string  $code
      *
      * @return Response
-     *
      * @AclAncestor("pim_enrich_associationtype_remove")
      */
     public function removeAction(Request $request, $code)
@@ -175,10 +165,8 @@ class AssociationTypeController
     /**
      * Finds association type by code or throws not found exception
      *
-     * @param string $code
      *
      * @throws NotFoundHttpException
-     *
      * @return AssociationTypeInterface
      */
     protected function getAssociationTypeOr404(string $code)
@@ -196,10 +184,8 @@ class AssociationTypeController
     /**
      * Creates association type
      *
-     * @param Request $request
      *
      * @return Response
-     *
      * @AclAncestor("pim_enrich_associationtype_create")
      */
     public function createAction(Request $request)
@@ -209,7 +195,12 @@ class AssociationTypeController
         }
 
         $associationType = new AssociationType();
-        $this->updater->update($associationType, json_decode($request->getContent(), true));
+        try {
+            $decodedContent = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
+        $this->updater->update($associationType, $decodedContent);
         $violations = $this->validator->validate($associationType);
 
         $normalizedViolations = [];

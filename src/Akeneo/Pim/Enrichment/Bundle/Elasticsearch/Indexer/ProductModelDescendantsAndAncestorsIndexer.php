@@ -25,10 +25,10 @@ use Akeneo\Pim\Enrichment\Component\Product\Storage\Indexer\ProductModelIndexerI
 class ProductModelDescendantsAndAncestorsIndexer
 {
     public function __construct(
-        private ProductIndexerInterface $productIndexer,
-        private ProductModelIndexerInterface $productModelIndexer,
-        private GetDescendantVariantProductUuids $getDescendantVariantProductUuids,
-        private GetAncestorAndDescendantProductModelCodes $getAncestorAndDescendantProductModelCodes
+        private readonly ProductIndexerInterface $productIndexer,
+        private readonly ProductModelIndexerInterface $productModelIndexer,
+        private readonly GetDescendantVariantProductUuids $getDescendantVariantProductUuids,
+        private readonly GetAncestorAndDescendantProductModelCodes $getAncestorAndDescendantProductModelCodes
     ) {
     }
 
@@ -62,8 +62,6 @@ class ProductModelDescendantsAndAncestorsIndexer
 
     /**
      * Remove product model and descendants from index, and re-index ancestor.
-     *
-     * @param array $productModelIds
      */
     public function removeFromProductModelIds(array $productModelIds): void
     {

@@ -10,7 +10,7 @@ class ResolveTargetRepositorySubscriberSpec extends ObjectBehavior
 {
     function it_is_a_doctrine_subscriber()
     {
-        $this->shouldHaveType('Doctrine\Common\EventSubscriber');
+        $this->shouldHaveType(\Doctrine\Common\EventSubscriber::class);
     }
 
     function it_subscribes_to_the_load_class_metadata_event()

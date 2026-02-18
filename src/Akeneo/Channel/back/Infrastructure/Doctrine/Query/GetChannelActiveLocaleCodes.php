@@ -13,12 +13,8 @@ use Doctrine\DBAL\Connection;
  */
 class GetChannelActiveLocaleCodes
 {
-    /** @var Connection */
-    private $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function execute(string $channelCode): array
@@ -36,8 +32,6 @@ SQL;
             ['channel_code' => \PDO::PARAM_STR]
         );
 
-        return array_map(function ($value) {
-            return $value['code'];
-        }, $statement->fetchAllAssociative());
+        return array_map(fn($value) => $value['code'], $statement->fetchAllAssociative());
     }
 }

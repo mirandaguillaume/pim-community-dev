@@ -20,16 +20,13 @@ class OrmFilterExtension extends AbstractExtension
     /**
      * Query param
      */
-    const FILTER_ROOT_PARAM = '_filter';
+    final public const FILTER_ROOT_PARAM = '_filter';
 
     /** @var FilterInterface[] */
     protected $filters = [];
 
-    protected TranslatorInterface $translator;
-
-    public function __construct(RequestParameters $requestParams, TranslatorInterface $translator)
+    public function __construct(RequestParameters $requestParams, protected TranslatorInterface $translator)
     {
-        $this->translator = $translator;
         parent::__construct($requestParams);
     }
 
@@ -69,7 +66,7 @@ class OrmFilterExtension extends AbstractExtension
         $datasourceAdapter = new OrmFilterDatasourceAdapter($datasource->getQueryBuilder());
 
         foreach ($filters as $filter) {
-            $value = isset($values[$filter->getName()]) ? $values[$filter->getName()] : false;
+            $value = $values[$filter->getName()] ?? false;
 
             if ($value !== false) {
                 $form = $filter->getForm();
@@ -96,7 +93,7 @@ class OrmFilterExtension extends AbstractExtension
         $values = $this->getValuesToApply($config);
 
         foreach ($filters as $filter) {
-            $value = isset($values[$filter->getName()]) ? $values[$filter->getName()] : false;
+            $value = $values[$filter->getName()] ?? false;
 
             if ($value !== false) {
                 $form = $filter->getForm();
@@ -124,7 +121,6 @@ class OrmFilterExtension extends AbstractExtension
      * Add filter to array of available filters
      *
      * @param string          $name
-     * @param FilterInterface $filter
      *
      * @return $this
      */
@@ -138,7 +134,6 @@ class OrmFilterExtension extends AbstractExtension
     /**
      * Prepare filters array
      *
-     * @param DatagridConfiguration $config
      *
      * @return FilterInterface[]
      */
@@ -163,7 +158,6 @@ class OrmFilterExtension extends AbstractExtension
     /**
      * Takes param from request and merge with default filters
      *
-     * @param DatagridConfiguration $config
      *
      * @return array
      */
@@ -189,7 +183,6 @@ class OrmFilterExtension extends AbstractExtension
      * Returns prepared filter object
      *
      * @param string $name
-     * @param array  $config
      *
      * @return FilterInterface
      */

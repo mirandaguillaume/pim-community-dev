@@ -18,13 +18,10 @@ use Doctrine\DBAL\Connection;
  */
 class SqlGetAllViewableLocalesForUser implements GetAllViewableLocalesForUserInterface, CachedQueryInterface
 {
-    private Connection $sqlConnection;
-
     private ?array $cache = null;
 
-    public function __construct(Connection $sqlConnection)
+    public function __construct(private readonly Connection $sqlConnection)
     {
-        $this->sqlConnection = $sqlConnection;
     }
 
     public function fetchAll(int $userId): array

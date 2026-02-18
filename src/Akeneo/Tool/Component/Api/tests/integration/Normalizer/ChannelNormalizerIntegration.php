@@ -31,7 +31,6 @@ class ChannelNormalizerIntegration extends AbstractNormalizerTestCase
 
     /**
      * @param string $channelCode
-     * @param array  $expected
      */
     private function assert($channelCode, array $expected)
     {

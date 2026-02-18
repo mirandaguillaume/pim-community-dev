@@ -27,8 +27,6 @@ use Akeneo\Tool\Component\FileStorage\Repository\FileInfoRepositoryInterface;
  */
 class ProductWriter extends AbstractItemMediaWriter implements ItemWriterInterface, InitializableInterface
 {
-    protected GenerateFlatHeadersFromFamilyCodesInterface $generateHeadersFromFamilyCodes;
-    protected GenerateFlatHeadersFromAttributeCodesInterface $generateHeadersFromAttributeCodes;
     protected array $familyCodes = [];
     private bool $hasItems = false;
 
@@ -38,8 +36,8 @@ class ProductWriter extends AbstractItemMediaWriter implements ItemWriterInterfa
         FlatItemBufferFlusher $flusher,
         AttributeRepositoryInterface $attributeRepository,
         FileExporterPathGeneratorInterface $fileExporterPath,
-        GenerateFlatHeadersFromFamilyCodesInterface $generateHeadersFromFamilyCodes,
-        GenerateFlatHeadersFromAttributeCodesInterface $generateHeadersFromAttributeCodes,
+        protected GenerateFlatHeadersFromFamilyCodesInterface $generateHeadersFromFamilyCodes,
+        protected GenerateFlatHeadersFromAttributeCodesInterface $generateHeadersFromAttributeCodes,
         FlatTranslatorInterface $flatTranslator,
         FileInfoRepositoryInterface $fileInfoRepository,
         FilesystemProvider $filesystemProvider,
@@ -60,9 +58,6 @@ class ProductWriter extends AbstractItemMediaWriter implements ItemWriterInterfa
             $jobFileBackuper,
             $jobParamFilePath
         );
-
-        $this->generateHeadersFromFamilyCodes = $generateHeadersFromFamilyCodes;
-        $this->generateHeadersFromAttributeCodes = $generateHeadersFromAttributeCodes;
     }
 
     /**
@@ -100,8 +95,8 @@ class ProductWriter extends AbstractItemMediaWriter implements ItemWriterInterfa
         $parameters = $this->stepExecution->getJobParameters();
         $filters = $parameters->get('filters');
 
-        $localeCodes = isset($filters['structure']['locales']) ? $filters['structure']['locales'] : [$parameters->get('locale')];
-        $channelCode = isset($filters['structure']['scope']) ? $filters['structure']['scope'] : $parameters->get('scope');
+        $localeCodes = $filters['structure']['locales'] ?? [$parameters->get('locale')];
+        $channelCode = $filters['structure']['scope'] ?? $parameters->get('scope');
 
         $attributeCodes = [];
 

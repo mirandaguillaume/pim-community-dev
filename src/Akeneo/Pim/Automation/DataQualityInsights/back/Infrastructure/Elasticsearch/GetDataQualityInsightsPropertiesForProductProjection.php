@@ -16,7 +16,7 @@ use Webmozart\Assert\Assert;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GetDataQualityInsightsPropertiesForProductProjection implements GetAdditionalPropertiesForProductProjectionInterface
+final readonly class GetDataQualityInsightsPropertiesForProductProjection implements GetAdditionalPropertiesForProductProjectionInterface
 {
     public function __construct(
         private GetProductScoresQueryInterface $getProductScoresQuery,
@@ -45,7 +45,7 @@ final class GetDataQualityInsightsPropertiesForProductProjection implements GetA
                 'data_quality_insights' => [
                     'scores' => isset($productScores[$index]) ? $productScores[$index]->allCriteria()->toArrayIntRank() : [],
                     'scores_partial_criteria' => isset($productScores[$index]) ? $productScores[$index]->partialCriteria()->toArrayIntRank() : [],
-                    'key_indicators' => isset($productKeyIndicators[$index]) ? $productKeyIndicators[$index] : []
+                    'key_indicators' => $productKeyIndicators[$index] ?? []
                 ],
             ];
         }

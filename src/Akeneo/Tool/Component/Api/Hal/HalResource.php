@@ -159,8 +159,6 @@ class HalResource
 
     /**
      * Add a link in the resource.
-     *
-     * @param Link $link
      */
     protected function addLink(Link $link)
     {

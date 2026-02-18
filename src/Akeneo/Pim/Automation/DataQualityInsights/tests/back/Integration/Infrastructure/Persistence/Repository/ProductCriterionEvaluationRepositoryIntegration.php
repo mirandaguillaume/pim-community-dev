@@ -220,9 +220,9 @@ final class ProductCriterionEvaluationRepositoryIntegration extends DataQualityI
         $this->createAttribute('description');
 
         $evaluationResult = (new Write\CriterionEvaluationResult())
-            ->addRate($channelEcommerce, $localeEn, new Rate(rand(0, 100)))
+            ->addRate($channelEcommerce, $localeEn, new Rate(random_int(0, 100)))
             ->addStatus($channelEcommerce, $localeEn, CriterionEvaluationResultStatus::done())
-            ->addRateByAttributes($channelEcommerce, $localeEn, ['description' => rand(0, 100)])
+            ->addRateByAttributes($channelEcommerce, $localeEn, ['description' => random_int(0, 100)])
         ;
 
         $evaluation->end($evaluationResult);

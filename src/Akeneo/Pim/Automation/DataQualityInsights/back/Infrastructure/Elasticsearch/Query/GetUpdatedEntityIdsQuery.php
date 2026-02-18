@@ -21,9 +21,9 @@ class GetUpdatedEntityIdsQuery implements GetUpdatedEntityIdsQueryInterface
     private const PRODUCT_MODEL_IDENTIFIER_PREFIX = 'product_model_';
 
     public function __construct(
-        private Client                          $esClient,
-        private string                          $documentType,
-        private ProductEntityIdFactoryInterface $idFactory
+        private readonly Client                          $esClient,
+        private readonly string                          $documentType,
+        private readonly ProductEntityIdFactoryInterface $idFactory
     ) {
     }
 
@@ -104,7 +104,7 @@ class GetUpdatedEntityIdsQuery implements GetUpdatedEntityIdsQueryInterface
             ? self::PRODUCT_MODEL_IDENTIFIER_PREFIX
             : self::PRODUCT_IDENTIFIER_PREFIX;
 
-        $productId =  \str_replace($identifierPrexis, '', $productData['_source']['id']);
+        $productId =  \str_replace($identifierPrexis, '', (string) $productData['_source']['id']);
 
         return (string) $productId;
     }

@@ -4,13 +4,13 @@ namespace Akeneo\UserManagement\Domain\Model;
 
 class Group
 {
-    public const DEFAULT_TYPE = 'default';
+    final public const DEFAULT_TYPE = 'default';
 
     private function __construct(
-        private int $id,
-        private string $name,
-        private string $type,
-        private array $defaultPermissions,
+        private readonly int $id,
+        private readonly string $name,
+        private readonly string $type,
+        private readonly array $defaultPermissions,
     ) {
     }
 
@@ -45,7 +45,7 @@ class Group
             id: $data['id'],
             name: $data['name'],
             type: $data['type'] ?? self::DEFAULT_TYPE,
-            defaultPermissions: json_decode($data['default_permissions'], true) ?? [],
+            defaultPermissions: (!empty($data['default_permissions']) ? json_decode((string) $data['default_permissions'], true, 512, JSON_THROW_ON_ERROR) : null) ?? [],
         );
     }
 }

@@ -12,15 +12,14 @@ class Datagrid implements DatagridInterface
     /** @var DatasourceInterface */
     protected $datasource;
 
-    /** @var string */
-    protected $name;
-
     /** @var Acceptor */
     protected $acceptor;
 
-    public function __construct($name, Acceptor $acceptor)
+    /**
+     * @param string $name
+     */
+    public function __construct(protected $name, Acceptor $acceptor)
     {
-        $this->name = $name;
         $this->setAcceptor($acceptor);
     }
 

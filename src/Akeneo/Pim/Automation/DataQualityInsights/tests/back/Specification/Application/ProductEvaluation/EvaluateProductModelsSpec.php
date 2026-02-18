@@ -34,9 +34,7 @@ class EvaluateProductModelsSpec extends ObjectBehavior
         $productModelIdCollection = ProductModelIdCollection::fromStrings(['123', '321']);
         $evaluatePendingProductModelCriteria->evaluateAllCriteria($productModelIdCollection)->shouldBeCalled();
         $consolidateProductScores->consolidate($productModelIdCollection)->shouldBeCalled();
-        $eventDispatcher->dispatch(Argument::that(static function ($event) use ($productModelIdCollection) {
-            return $event instanceof ProductModelsEvaluated && $event->getProductModelIds() === $productModelIdCollection;
-        }));
+        $eventDispatcher->dispatch(Argument::that(static fn($event) => $event instanceof ProductModelsEvaluated && $event->getProductModelIds() === $productModelIdCollection));
         $this->__invoke($productModelIdCollection);
     }
 }

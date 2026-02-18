@@ -61,7 +61,7 @@ class ReferenceEntityPropertyContext extends BaseCreateOrUpdateIdentifierGenerat
      */
     public function iTryToCreateAnIdentifierGeneratorWithReferenceEntityProcessWithTypeAndOperatorAndValue($type, $operator, $value): void
     {
-        $value = \json_decode($value);
+        $value = \json_decode((string) $value, null, 512, JSON_THROW_ON_ERROR);
         $defaultStructure = [
             'attributeCode' => 'brand',
             'type' => 'reference_entity',
@@ -124,7 +124,7 @@ class ReferenceEntityPropertyContext extends BaseCreateOrUpdateIdentifierGenerat
      */
     public function iTryToUpdateAnIdentifierGeneratorWithReferenceEntityProcessWithTypeAndOperatorAndValue($type, $operator, $value): void
     {
-        $value = \json_decode($value);
+        $value = \json_decode((string) $value, null, 512, JSON_THROW_ON_ERROR);
         $defaultStructure = [
             'attributeCode' => 'brand',
             'type' => 'reference_entity',

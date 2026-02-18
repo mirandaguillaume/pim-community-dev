@@ -48,7 +48,7 @@ class CreateMeasurementFamilyActionEndToEnd extends WebTestCase
             [
                 'HTTP_X-Requested-With' => 'XMLHttpRequest',
             ],
-            json_encode($normalizedMeasurementFamily)
+            json_encode($normalizedMeasurementFamily, JSON_THROW_ON_ERROR)
         );
 
         $response = $this->client->getResponse();
@@ -74,12 +74,12 @@ class CreateMeasurementFamilyActionEndToEnd extends WebTestCase
             [
                 'HTTP_X-Requested-With' => 'XMLHttpRequest',
             ],
-            json_encode($normalizedMeasurementFamily)
+            json_encode($normalizedMeasurementFamily, JSON_THROW_ON_ERROR)
         );
 
         $response = $this->client->getResponse();
         $this->assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
-        $responseBody = json_decode($response->getContent(), true);
+        $responseBody = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
         $this->assertEquals(
             'This field can only contain letters, numbers, and underscores.',
             $responseBody[0]['message']
@@ -103,7 +103,7 @@ class CreateMeasurementFamilyActionEndToEnd extends WebTestCase
             [
                 'HTTP_X-Requested-With' => 'XMLHttpRequest',
             ],
-            json_encode($normalizedMeasurementFamily)
+            json_encode($normalizedMeasurementFamily, JSON_THROW_ON_ERROR)
         );
 
         $this->client->restart();
@@ -117,7 +117,7 @@ class CreateMeasurementFamilyActionEndToEnd extends WebTestCase
             [
                 'HTTP_X-Requested-With' => 'XMLHttpRequest',
             ],
-            json_encode($normalizedMeasurementFamily)
+            json_encode($normalizedMeasurementFamily, JSON_THROW_ON_ERROR)
         );
 
         $response = $this->client->getResponse();

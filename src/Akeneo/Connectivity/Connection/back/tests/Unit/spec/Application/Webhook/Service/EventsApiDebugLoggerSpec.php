@@ -56,7 +56,7 @@ class EventsApiDebugLoggerSpec extends ObjectBehavior
                 }
                 unset($actual['id']);
                 return $actual === [
-                        'timestamp' => 1609459200,
+                        'timestamp' => 1_609_459_200,
                         'level' => 'info',
                         'message' => 'The API event request was sent.',
                         'connection_code' => 'erp_000',
@@ -105,7 +105,7 @@ class EventsApiDebugLoggerSpec extends ObjectBehavior
                 }
                 unset($actual['id']);
                 return $actual === [
-                        'timestamp' => 1609459200,
+                        'timestamp' => 1_609_459_200,
                         'level' => 'notice',
                         'message' => 'The event was not sent because it was raised by the same connection.',
                         'connection_code' => 'erp_000',
@@ -143,7 +143,7 @@ class EventsApiDebugLoggerSpec extends ObjectBehavior
                 }
                 unset($actual['id']);
                 return $actual === [
-                        'timestamp' => 1609459200,
+                        'timestamp' => 1_609_459_200,
                         'level' => 'warning',
                         'message' => 'The maximum number of events sent per hour has been reached.',
                         'connection_code' => null,
@@ -172,7 +172,7 @@ class EventsApiDebugLoggerSpec extends ObjectBehavior
                 }
                 unset($actual['id']);
                 return $actual === [
-                        'timestamp' => 1609459200,
+                        'timestamp' => 1_609_459_200,
                         'level' => 'notice',
                         'message' => 'The event was not sent because the product does not exists or the connection does not have the required permissions.',
                         'connection_code' => 'erp_000',

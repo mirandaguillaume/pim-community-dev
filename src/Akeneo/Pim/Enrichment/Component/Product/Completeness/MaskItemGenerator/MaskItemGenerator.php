@@ -12,7 +12,7 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Completeness\MaskItemGenerator
 class MaskItemGenerator
 {
     /** @var MaskItemGeneratorForAttributeType[] */
-    private $generators;
+    private array $generators;
 
     public function __construct(iterable $generators)
     {

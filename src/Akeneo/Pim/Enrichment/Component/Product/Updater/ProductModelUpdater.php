@@ -25,58 +25,8 @@ use Doctrine\Common\Util\ClassUtils;
  */
 class ProductModelUpdater implements ObjectUpdaterInterface
 {
-    /** @var PropertySetterInterface */
-    private $propertySetter;
-
-    /** @var ObjectUpdaterInterface */
-    private $valuesUpdater;
-
-    /** @var array */
-    private $ignoredFields;
-
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $familyVariantRepository;
-
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $productModelRepository;
-
-    /** @var ParentAssociationsFilter */
-    private $parentAssociationsFilter;
-
-    /** @var QuantifiedAssociationsFromAncestorsFilter */
-    private $quantifiedAssociationsFromAncestorsFilter;
-
-    /** @var QuantifiedAssociationsStructureValidatorInterface */
-    private $quantifiedAssociationsStructureValidator;
-
-    /**
-     * @param PropertySetterInterface $propertySetter
-     * @param ObjectUpdaterInterface $valuesUpdater
-     * @param IdentifiableObjectRepositoryInterface $familyVariantRepository
-     * @param IdentifiableObjectRepositoryInterface $productModelRepository
-     * @param ParentAssociationsFilter $parentAssociationsFilter
-     * @param QuantifiedAssociationsFromAncestorsFilter $quantifiedAssociationsFromAncestorsFilter
-     * @param QuantifiedAssociationsStructureValidatorInterface $quantifiedAssociationsStructureValidator
-     * @param array $ignoredFields
-     */
-    public function __construct(
-        PropertySetterInterface $propertySetter,
-        ObjectUpdaterInterface $valuesUpdater,
-        IdentifiableObjectRepositoryInterface $familyVariantRepository,
-        IdentifiableObjectRepositoryInterface $productModelRepository,
-        ParentAssociationsFilter $parentAssociationsFilter,
-        QuantifiedAssociationsFromAncestorsFilter $quantifiedAssociationsFromAncestorsFilter,
-        QuantifiedAssociationsStructureValidatorInterface $quantifiedAssociationsStructureValidator,
-        array $ignoredFields
-    ) {
-        $this->propertySetter = $propertySetter;
-        $this->valuesUpdater = $valuesUpdater;
-        $this->familyVariantRepository = $familyVariantRepository;
-        $this->productModelRepository = $productModelRepository;
-        $this->ignoredFields = $ignoredFields;
-        $this->parentAssociationsFilter = $parentAssociationsFilter;
-        $this->quantifiedAssociationsFromAncestorsFilter = $quantifiedAssociationsFromAncestorsFilter;
-        $this->quantifiedAssociationsStructureValidator = $quantifiedAssociationsStructureValidator;
+    public function __construct(private readonly PropertySetterInterface $propertySetter, private readonly ObjectUpdaterInterface $valuesUpdater, private readonly IdentifiableObjectRepositoryInterface $familyVariantRepository, private readonly IdentifiableObjectRepositoryInterface $productModelRepository, private readonly ParentAssociationsFilter $parentAssociationsFilter, private readonly QuantifiedAssociationsFromAncestorsFilter $quantifiedAssociationsFromAncestorsFilter, private readonly QuantifiedAssociationsStructureValidatorInterface $quantifiedAssociationsStructureValidator, private readonly array $ignoredFields)
+    {
     }
 
     /**
@@ -208,9 +158,6 @@ class ProductModelUpdater implements ObjectUpdaterInterface
      * parent, it needs to be set first, then the family.
      * However, the family variant will be automatically set only if there is not
      * already one and if the product model has a parent.
-     *
-     * @param ProductModelInterface $productModel
-     * @param array $data
      */
     private function updateParentAndFamily(ProductModelInterface $productModel, array $data): void
     {
@@ -231,8 +178,6 @@ class ProductModelUpdater implements ObjectUpdaterInterface
      * If the product model is a root one, it cannot have a parent, so an
      * exception will be thrown.
      *
-     * @param ProductModelInterface $productModel
-     * @param string|null $parentCode
      *
      * @throws ImmutablePropertyException
      * @throws InvalidPropertyException
@@ -290,8 +235,6 @@ class ProductModelUpdater implements ObjectUpdaterInterface
     /**
      * Updates the family variant of the family variant of the product model.
      *
-     * @param ProductModelInterface $productModel
-     * @param string $familyVariantCode
      *
      * @throws ImmutablePropertyException
      * @throws InvalidPropertyException
@@ -340,11 +283,10 @@ class ProductModelUpdater implements ObjectUpdaterInterface
     /**
      * Validate association data
      *
-     * @param mixed $data
      *
      * @throws InvalidPropertyTypeException
      */
-    protected function validateAssociationsDataType($data): void
+    protected function validateAssociationsDataType(mixed $data): void
     {
         if (!is_array($data)) {
             throw InvalidPropertyTypeException::arrayExpected(
@@ -373,12 +315,8 @@ class ProductModelUpdater implements ObjectUpdaterInterface
 
     /**
      * Sets the field
-     *
-     * @param ProductModelInterface $productModel
-     * @param string $field
-     * @param mixed $value
      */
-    protected function updateProductModelFields(ProductModelInterface $productModel, string $field, $value): void
+    protected function updateProductModelFields(ProductModelInterface $productModel, string $field, mixed $value): void
     {
         $this->propertySetter->setData($productModel, $field, $value);
     }

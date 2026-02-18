@@ -18,7 +18,7 @@ use Webmozart\Assert\Assert;
 class RemoveFromGroupsApplier implements UserIntentApplier
 {
     public function __construct(
-        private ObjectUpdaterInterface $productUpdater
+        private readonly ObjectUpdaterInterface $productUpdater
     ) {
     }
 

@@ -11,15 +11,10 @@ namespace Akeneo\Pim\Enrichment\Component\Error\Documentation;
  */
 class HrefMessageParameter implements MessageParameterInterface
 {
-    /** @var string */
-    private $title;
+    private readonly string $href;
 
-    /** @var string */
-    private $href;
-
-    public function __construct(string $title, string $href)
+    public function __construct(private readonly string $title, string $href)
     {
-        $this->title = $title;
         if (false === filter_var($href, FILTER_VALIDATE_URL)) {
             throw new \InvalidArgumentException(
                 sprintf(

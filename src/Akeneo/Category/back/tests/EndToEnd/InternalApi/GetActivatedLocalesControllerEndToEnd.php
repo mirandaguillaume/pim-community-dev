@@ -34,7 +34,7 @@ class GetActivatedLocalesControllerEndToEnd extends ControllerIntegrationTestCas
         // locale 'en_US' is present in DB by default
         $this->assertEqualsCanonicalizing(
             ['en_US', 'yy_YY'],
-            json_decode($response->getContent(), true),
+            json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR),
         );
     }
 

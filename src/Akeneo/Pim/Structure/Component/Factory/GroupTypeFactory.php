@@ -13,15 +13,11 @@ use Akeneo\Tool\Component\StorageUtils\Factory\SimpleFactoryInterface;
  */
 class GroupTypeFactory implements SimpleFactoryInterface
 {
-    /** @var string */
-    protected $groupTypeClass;
-
     /**
      * @param string $groupTypeClass
      */
-    public function __construct($groupTypeClass)
+    public function __construct(protected $groupTypeClass)
     {
-        $this->groupTypeClass = $groupTypeClass;
     }
 
     /**

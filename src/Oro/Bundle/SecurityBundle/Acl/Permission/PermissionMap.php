@@ -18,8 +18,6 @@ class PermissionMap implements PermissionMapInterface
 
     /**
      * Constructor
-     *
-     * @param AclExtensionSelector $extensionSelector
      */
     public function __construct(AclExtensionSelector $extensionSelector)
     {

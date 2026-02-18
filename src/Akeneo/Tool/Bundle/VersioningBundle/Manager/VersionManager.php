@@ -26,7 +26,7 @@ class VersionManager
      *
      * @var string
      */
-    const DEFAULT_SYSTEM_USER = 'admin';
+    final public const DEFAULT_SYSTEM_USER = 'admin';
 
     /** @var bool */
     protected $realTimeVersioning = true;
@@ -53,12 +53,6 @@ class VersionManager
     /** @var EventDispatcherInterface */
     protected $eventDispatcher;
 
-    /**
-     * @param ObjectManager            $objectManager
-     * @param VersionBuilder           $versionBuilder
-     * @param VersionContext           $versionContext
-     * @param EventDispatcherInterface $eventDispatcher
-     */
     public function __construct(
         ObjectManager $objectManager,
         VersionBuilder $versionBuilder,
@@ -107,7 +101,6 @@ class VersionManager
      * Build a version from a versionable entity
      *
      * @param object $versionable
-     * @param array  $changeset
      *
      * @return Version[]
      */
@@ -125,9 +118,7 @@ class VersionManager
 
             $builtVersions = array_filter(
                 $createdVersions,
-                function ($version) {
-                    return count($version->getChangeset()) > 0;
-                }
+                fn($version) => (is_countable($version->getChangeset()) ? count($version->getChangeset()) : 0) > 0
             );
 
             if (!empty($builtVersions)) {
@@ -203,11 +194,9 @@ class VersionManager
      * desc, it means the very last line of the log
      *
      * @param object    $versionable
-     * @param null|bool $pending
      *
-     * @return Version|null
      */
-    public function getOldestLogEntry($versionable, $pending = false)
+    public function getOldestLogEntry($versionable, ?bool $pending = false): ?\Akeneo\Tool\Component\Versioning\Model\Version
     {
         if ($this->hasUuid($versionable)) {
             $resourceId = null;
@@ -230,11 +219,9 @@ class VersionManager
      * desc, it means the first line of the log
      *
      * @param object    $versionable
-     * @param null|bool $pending
      *
-     * @return Version|null
      */
-    public function getNewestLogEntry($versionable, $pending = false)
+    public function getNewestLogEntry($versionable, ?bool $pending = false): ?\Akeneo\Tool\Component\Versioning\Model\Version
     {
         if ($this->hasUuid($versionable)) {
             $resourceId = null;
@@ -255,9 +242,7 @@ class VersionManager
     /**
      * Build a pending version
      *
-     * @param Version      $pending
      * @param Version|null $previousVersion
-     *
      * @return Version
      */
     public function buildPendingVersion(Version $pending, Version $previousVersion = null)
@@ -311,6 +296,6 @@ class VersionManager
     private function hasUuid($versionable): bool
     {
         return method_exists($versionable, 'getUuid') &&
-            get_class($versionable) !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct';
+            $versionable::class !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct';
     }
 }

@@ -19,8 +19,8 @@ use Webmozart\Assert\Assert;
 final class LocaleAndChannelShouldBeConsistentValidator extends ConstraintValidator
 {
     public function __construct(
-        private GetAttributes $getAttributes,
-        private ChannelExistsWithLocaleInterface $channelExistsWithLocale
+        private readonly GetAttributes $getAttributes,
+        private readonly ChannelExistsWithLocaleInterface $channelExistsWithLocale
     ) {
     }
 

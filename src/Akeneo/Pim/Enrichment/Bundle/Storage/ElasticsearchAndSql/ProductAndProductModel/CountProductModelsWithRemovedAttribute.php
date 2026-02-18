@@ -7,12 +7,12 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Query\CountProductModelsWithRemovedAttributeInterface;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
 
-final class CountProductModelsWithRemovedAttribute implements CountProductModelsWithRemovedAttributeInterface
+final readonly class CountProductModelsWithRemovedAttribute implements CountProductModelsWithRemovedAttributeInterface
 {
-    private readonly SearchQueryBuilder $searchQueryBuilder;
+    private SearchQueryBuilder $searchQueryBuilder;
 
     public function __construct(
-        private readonly Client $elasticsearchClient
+        private Client $elasticsearchClient
     ) {
         $this->searchQueryBuilder = new SearchQueryBuilder();
     }

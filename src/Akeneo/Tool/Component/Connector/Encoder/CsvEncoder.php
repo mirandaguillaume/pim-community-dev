@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Encoder\EncoderInterface;
 class CsvEncoder implements EncoderInterface
 {
     /** @staticvar string */
-    const FORMAT = 'csv';
+    final public const FORMAT = 'csv';
 
     /** @var bool */
     protected $firstExecution = true;
@@ -80,7 +80,6 @@ class CsvEncoder implements EncoderInterface
     /**
      * Initialize CSV encoder context merging default configuration
      *
-     * @param array $context
      *
      * @throws \RuntimeException
      */
@@ -118,35 +117,31 @@ class CsvEncoder implements EncoderInterface
 
     /**
      * @param array  $data
-     * @param mixed  $output
      * @param string $delimiter
      * @param string $enclosure
      */
-    private function encodeHeader($data, $output, $delimiter, $enclosure)
+    private function encodeHeader($data, mixed $output, $delimiter, $enclosure)
     {
         $this->write($output, array_keys($data), $delimiter, $enclosure);
         $this->hasHeader = true;
     }
 
     /**
-     * @param mixed  $output
      * @param array  $entry
      * @param string $delimiter
      * @param string $enclosure
      */
-    private function write($output, $entry, $delimiter, $enclosure)
+    private function write(mixed $output, $entry, $delimiter, $enclosure)
     {
         fputcsv($output, $entry, $delimiter, $enclosure);
     }
 
     /**
-     * @param mixed $csvResource
      *
      * @throws \Exception
-     *
      * @return string
      */
-    private function readCsv($csvResource)
+    private function readCsv(mixed $csvResource)
     {
         rewind($csvResource);
 
@@ -154,8 +149,6 @@ class CsvEncoder implements EncoderInterface
     }
 
     /**
-     * @param array $data
-     * @param array $columns
      *
      * @return array
      */
@@ -169,8 +162,6 @@ class CsvEncoder implements EncoderInterface
     }
 
     /**
-     * @param array $data
-     *
      * @return array
      */
     private function getColumns(array $data)
@@ -187,8 +178,6 @@ class CsvEncoder implements EncoderInterface
     }
 
     /**
-     * @param array $data
-     *
      * @throws \InvalidArgumentException
      */
     private function checkHasStringKeys(array $data)

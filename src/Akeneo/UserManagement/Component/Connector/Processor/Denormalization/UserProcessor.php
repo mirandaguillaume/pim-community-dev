@@ -73,7 +73,7 @@ class UserProcessor extends Processor
                     'catalogStorage'
                 );
                 $item['avatar']['filePath'] = $file->getKey();
-            } catch (InvalidFile $e) {
+            } catch (InvalidFile) {
                 throw InvalidPropertyException::validPathExpected('avatar', self::class, $item['avatar']['filePath']);
             }
         }

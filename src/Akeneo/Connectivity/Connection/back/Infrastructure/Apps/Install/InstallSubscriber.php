@@ -17,8 +17,8 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 class InstallSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private DbalConnection $dbalConnection,
-        private AddAclToRoles $addAclToRoles,
+        private readonly DbalConnection $dbalConnection,
+        private readonly AddAclToRoles $addAclToRoles,
     ) {
     }
 
@@ -39,7 +39,7 @@ class InstallSubscriber implements EventSubscriberInterface
 
     public function loadFixtures(GenericEvent $event): void
     {
-        if (!\str_ends_with($event->getArgument('catalog'), 'icecat_demo_dev')) {
+        if (!\str_ends_with((string) $event->getArgument('catalog'), 'icecat_demo_dev')) {
             return;
         }
 

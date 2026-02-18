@@ -26,9 +26,7 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('limit_by_default')->end()
                     ->end()
                     ->validate()
-                        ->ifTrue(function ($v) {
-                            return $v['limit_max'] < $v['limit_by_default'];
-                        })
+                        ->ifTrue(fn($v) => $v['limit_max'] < $v['limit_by_default'])
                         ->thenInvalid('API configuration: "limit_by_default" cannot be greater than "limit_max.')
                     ->end()
                 ->end()

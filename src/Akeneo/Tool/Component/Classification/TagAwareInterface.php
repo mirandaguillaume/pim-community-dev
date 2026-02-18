@@ -20,15 +20,11 @@ interface TagAwareInterface
     public function getTags();
 
     /**
-     * @param TagInterface $tag
-     *
      * @return mixed
      */
     public function removeTag(TagInterface $tag);
 
     /**
-     * @param TagInterface $tag
-     *
      * @return mixed
      */
     public function addTag(TagInterface $tag);

@@ -33,7 +33,7 @@ use Oro\Bundle\PimDataGridBundle\Entity\DatagridView;
 class UserUpdater implements ObjectUpdaterInterface
 {
     /** @var string[] */
-    private $properties;
+    private readonly array $properties;
 
     public function __construct(
         private readonly UserManager $userManager,
@@ -86,13 +86,11 @@ class UserUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param UserInterface $user
      * @param string        $field
-     * @param mixed         $data
      *
      * @throws InvalidPropertyException
      */
-    protected function setData(UserInterface $user, $field, $data)
+    protected function setData(UserInterface $user, $field, mixed $data)
     {
         switch ($field) {
             case 'username':
@@ -241,8 +239,6 @@ class UserUpdater implements ObjectUpdaterInterface
      * @param string $code
      *
      * @throws InvalidPropertyException
-     *
-     * @return DatagridView|null
      */
     protected function findDefaultGridView($alias, $code): ?DatagridView
     {
@@ -298,10 +294,8 @@ class UserUpdater implements ObjectUpdaterInterface
      * @param string $code
      *
      * @throws InvalidPropertyException
-     *
-     * @return ChannelInterface|null
      */
-    protected function findChannel($code)
+    protected function findChannel($code): ?\Akeneo\Channel\Infrastructure\Component\Model\ChannelInterface
     {
         $channel = $this->channelRepository->findOneByIdentifier($code);
 
@@ -400,7 +394,7 @@ class UserUpdater implements ObjectUpdaterInterface
 
         if ($data['filePath'] !== null && $data['filePath'] !== '') {
             $fileInfo = $this->fileInfoRepository->findOneBy([
-                'key' => str_replace($this->fileStorageFolder, '', $data['filePath']),
+                'key' => str_replace($this->fileStorageFolder, '', (string) $data['filePath']),
             ]);
 
             if (null === $fileInfo) {

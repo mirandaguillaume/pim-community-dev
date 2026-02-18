@@ -30,10 +30,6 @@ class CheckHeadersRequestSubscriber implements EventSubscriberInterface
     /** @var ContentTypeNegotiator */
     protected $contentTypeNegotiator;
 
-    /**
-     * @param FormatNegotiator      $formatNegotiator
-     * @param ContentTypeNegotiator $contentTypeNegotiator
-     */
     public function __construct(
         FormatNegotiator $formatNegotiator,
         ContentTypeNegotiator $contentTypeNegotiator
@@ -111,7 +107,7 @@ class CheckHeadersRequestSubscriber implements EventSubscriberInterface
                     );
                 }
             }
-        } catch (StopFormatListenerException $e) {
+        } catch (StopFormatListenerException) {
             // do nothing.
             // StopFormatListenerException is thrown when the URI is outside the API
         }

@@ -9,13 +9,10 @@ use Akeneo\Tool\Component\Batch\Job\ExitStatus;
 use Akeneo\Tool\Component\Batch\Query\MarkJobExecutionAsFailedWhenInterrupted;
 use Doctrine\DBAL\Connection;
 
-final class SqlMarkJobExecutionAsFailedWhenInterrupted implements MarkJobExecutionAsFailedWhenInterrupted
+final readonly class SqlMarkJobExecutionAsFailedWhenInterrupted implements MarkJobExecutionAsFailedWhenInterrupted
 {
-    private Connection $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function execute(array $jobCodes): int

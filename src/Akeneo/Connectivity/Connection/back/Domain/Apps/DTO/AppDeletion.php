@@ -11,10 +11,10 @@ namespace Akeneo\Connectivity\Connection\Domain\Apps\DTO;
 class AppDeletion
 {
     public function __construct(
-        private string $appId,
-        private string $connectionCode,
-        private string $userGroupName,
-        private string $userRole
+        private readonly string $appId,
+        private readonly string $connectionCode,
+        private readonly string $userGroupName,
+        private readonly string $userRole
     ) {
     }
 

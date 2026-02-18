@@ -44,7 +44,7 @@ class FilesystemPurgeTest extends TestCase
 
     private function getPurger(): FilesystemPurger
     {
-        return $this->get('Akeneo\Platform\Installer\Infrastructure\FilesystemsPurger\FilesystemPurger');
+        return $this->get(\Akeneo\Platform\Installer\Infrastructure\FilesystemsPurger\FilesystemPurger::class);
     }
 
     private function assertFilesystemEmpty(FilesystemOperator $filesystem): void

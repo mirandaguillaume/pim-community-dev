@@ -19,9 +19,6 @@ class UserGroupController
     /** @var GroupRepository */
     protected $groupRepository;
 
-    /**
-     * @param GroupRepository $groupRepository
-     */
     public function __construct(GroupRepository $groupRepository)
     {
         $this->groupRepository = $groupRepository;
@@ -34,15 +31,13 @@ class UserGroupController
      */
     public function indexAction()
     {
-        $userGroups = array_map(function (GroupInterface $group) {
-            return [
-                'name' => $group->getName(),
-                'meta' => [
-                    'id'      => $group->getId(),
-                    'default' => 'All' === $group->getName()
-                ]
-            ];
-        }, $this->groupRepository->findBy(['type' => Group::TYPE_DEFAULT]));
+        $userGroups = array_map(fn(GroupInterface $group) => [
+            'name' => $group->getName(),
+            'meta' => [
+                'id'      => $group->getId(),
+                'default' => 'All' === $group->getName()
+            ]
+        ], $this->groupRepository->findBy(['type' => Group::TYPE_DEFAULT]));
 
         return new JsonResponse($userGroups);
     }

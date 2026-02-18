@@ -12,17 +12,14 @@ use Webmozart\Assert\Assert;
  */
 class SearchAttributeOptionsResult
 {
-    private int $matchesCount;
-
     /** @var AttributeOption[] */
-    private array $items;
+    private readonly array $items;
 
-    public function __construct(array $items, int $matchesCount)
+    public function __construct(array $items, private readonly int $matchesCount)
     {
         Assert::allIsInstanceOf($items, AttributeOption::class);
 
         $this->items = $items;
-        $this->matchesCount = $matchesCount;
     }
 
     public function getMatchesCount(): int

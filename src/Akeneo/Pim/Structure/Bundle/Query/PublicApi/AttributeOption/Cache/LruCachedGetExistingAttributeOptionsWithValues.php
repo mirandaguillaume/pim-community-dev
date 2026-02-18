@@ -12,17 +12,12 @@ use Akeneo\Tool\Component\StorageUtils\Cache\LRUCache;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class LruCachedGetExistingAttributeOptionsWithValues implements GetExistingAttributeOptionsWithValues
+final readonly class LruCachedGetExistingAttributeOptionsWithValues implements GetExistingAttributeOptionsWithValues
 {
-    /** @var GetExistingAttributeOptionsWithValues */
-    private $getExistingAttributeOptionsWithValues;
+    private \Akeneo\Tool\Component\StorageUtils\Cache\LRUCache $cache;
 
-    /** @var LRUCache */
-    private $cache;
-
-    public function __construct(GetExistingAttributeOptionsWithValues $getExistingAttributeOptionsWithValues)
+    public function __construct(private GetExistingAttributeOptionsWithValues $getExistingAttributeOptionsWithValues)
     {
-        $this->getExistingAttributeOptionsWithValues = $getExistingAttributeOptionsWithValues;
         $this->cache = new LRUCache(10000);
     }
 
@@ -37,7 +32,7 @@ final class LruCachedGetExistingAttributeOptionsWithValues implements GetExistin
 
         return $this->cache->getForKeys(
             $optionKeys,
-            \Closure::fromCallable([$this->getExistingAttributeOptionsWithValues, 'fromAttributeCodeAndOptionCodes'])
+            \Closure::fromCallable($this->getExistingAttributeOptionsWithValues->fromAttributeCodeAndOptionCodes(...))
         );
     }
 }

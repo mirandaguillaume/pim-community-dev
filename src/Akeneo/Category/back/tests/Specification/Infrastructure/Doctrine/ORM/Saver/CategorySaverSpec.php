@@ -49,10 +49,8 @@ class CategorySaverSpec extends ObjectBehavior
 
         $eventDispatcher->dispatch(
             Argument::that(
-                function (GenericEvent $event) {
-                    return $event->getSubject() instanceof CategoryInterface
-                        && $event->getArgument('unitary') === true;
-                }
+                fn(GenericEvent $event) => $event->getSubject() instanceof CategoryInterface
+                    && $event->getArgument('unitary') === true
             ),
             Argument::exact(StorageEvents::PRE_SAVE)
         )->shouldBeCalled();
@@ -62,10 +60,8 @@ class CategorySaverSpec extends ObjectBehavior
 
         $eventDispatcher->dispatch(
             Argument::that(
-                function (GenericEvent $event) {
-                    return $event->getSubject() instanceof CategoryInterface
-                        && $event->getArgument('unitary') === true;
-                }
+                fn(GenericEvent $event) => $event->getSubject() instanceof CategoryInterface
+                    && $event->getArgument('unitary') === true
             ),
             Argument::exact(StorageEvents::POST_SAVE)
         )->shouldBeCalled();

@@ -11,8 +11,8 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class FindFamiliesController
 {
     public function __construct(
-        private SearchableRepositoryInterface $familySearchableRepository,
-        private NormalizerInterface $normalizer,
+        private readonly SearchableRepositoryInterface $familySearchableRepository,
+        private readonly NormalizerInterface $normalizer,
     ) {
     }
 
@@ -21,13 +21,13 @@ class FindFamiliesController
         $identifiers = $request->query->get('identifiers') ?? [];
         $families = $this->familySearchableRepository->findBySearch(null, [
             'identifiers' => $identifiers,
-            'limit' => count($identifiers),
+            'limit' => is_countable($identifiers) ? count($identifiers) : 0,
         ]);
 
         $normalizedFamilies = [];
         foreach ($families as $family) {
             // PIM-10633: force the family code in lowercase
-            $familyCode = strtolower($family->getCode());
+            $familyCode = strtolower((string) $family->getCode());
             $normalizedFamilies[$familyCode] = [
                 ...$this->normalizer->normalize($family, 'internal_api', ['expanded' => true]),
                 'code' => $familyCode,

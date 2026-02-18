@@ -25,23 +25,15 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
 {
     use NormalizerAwareTrait;
 
-    /** @var CollectionFilterInterface */
-    private $filter;
-
     /** @var ImageNormalizer */
     protected $imageNormalizer;
 
-    /** @var GetProductCompletenesses */
-    private $getProductCompletenesses;
-
     public function __construct(
-        CollectionFilterInterface $filter,
+        private readonly CollectionFilterInterface $filter,
         ImageNormalizer $imageNormalizer,
-        GetProductCompletenesses $getProductCompletenesses
+        private readonly GetProductCompletenesses $getProductCompletenesses
     ) {
-        $this->filter = $filter;
         $this->imageNormalizer = $imageNormalizer;
-        $this->getProductCompletenesses = $getProductCompletenesses;
     }
 
     /**
@@ -92,9 +84,7 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
     }
 
     /**
-     * @param ProductInterface $product
      * @param string           $locale
-     *
      * @return string
      */
     protected function getFamilyLabel(ProductInterface $product, $locale)
@@ -110,9 +100,7 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
     }
 
     /**
-     * @param ProductInterface $product
      * @param string           $locale
-     *
      * @return string
      */
     protected function getGroupsLabels(ProductInterface $product, $locale)
@@ -129,10 +117,7 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
     /**
      * Get the completenesses of the product
      *
-     * @param ProductInterface $product
-     * @param array            $context
      *
-     * @return int|null
      */
     protected function getCompletenessRatio(ProductInterface $product, array $context): ?int
     {
@@ -146,22 +131,19 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
 
     /**
      * @param string      $code
-     * @param string|null $value
      *
      * @return string
      */
-    protected function getLabel($code, $value = null)
+    protected function getLabel($code, ?string $value = null)
     {
         return '' === $value || null === $value ? sprintf('[%s]', $code) : $value;
     }
 
     /**
      * @param ValueInterface $data
-     * @param array          $context
      *
-     * @return array|null
      */
-    protected function normalizeImage(?ValueInterface $data, array $context = [])
+    protected function normalizeImage(?ValueInterface $data, array $context = []): ?array
     {
         return $this->imageNormalizer->normalize(
             $data,
@@ -173,9 +155,7 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
     /**
      * Normalize the values of the product
      *
-     * @param WriteValueCollection $values
      * @param string                   $format
-     * @param array                    $context
      *
      * @return array
      */
@@ -190,11 +170,6 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
         return $data;
     }
 
-    /**
-     * @param EntityWithFamilyInterface $product
-     *
-     * @return null|string
-     */
     private function getParentCode(EntityWithFamilyInterface $product): ?string
     {
         if ($product instanceof ProductInterface && $product->isVariant() && null !== $product->getParent()) {

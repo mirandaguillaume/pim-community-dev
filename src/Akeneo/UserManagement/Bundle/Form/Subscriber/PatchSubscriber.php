@@ -34,7 +34,6 @@ class PatchSubscriber implements EventSubscriberInterface
     /**
      * Returns the form's data like $form->submit() expects it
      *
-     * @param FormInterface $form
      * @return array
      */
     protected function unbind(FormInterface $form)

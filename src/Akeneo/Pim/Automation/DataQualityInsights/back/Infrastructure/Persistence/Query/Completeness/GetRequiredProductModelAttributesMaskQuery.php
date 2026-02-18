@@ -16,7 +16,7 @@ use Doctrine\DBAL\Connection;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GetRequiredProductModelAttributesMaskQuery implements GetProductModelAttributesMaskQueryInterface
+final readonly class GetRequiredProductModelAttributesMaskQuery implements GetProductModelAttributesMaskQueryInterface
 {
     public function __construct(
         private Connection $dbConnection,
@@ -75,13 +75,11 @@ GROUP BY family.code, channel_code, locale_code;
             return null;
         }
 
-        $masksPerChannelAndLocale = array_map(function (array $row) {
-            return new RequiredAttributesMaskForChannelAndLocale(
-                $row['channel_code'],
-                $row['locale_code'],
-                json_decode($row['mask'], true)
-            );
-        }, $rows);
+        $masksPerChannelAndLocale = array_map(fn(array $row) => new RequiredAttributesMaskForChannelAndLocale(
+            $row['channel_code'],
+            $row['locale_code'],
+            json_decode((string) $row['mask'], true, 512, JSON_THROW_ON_ERROR)
+        ), $rows);
 
         return new RequiredAttributesMask($rows[0]['family_code'], $masksPerChannelAndLocale);
     }

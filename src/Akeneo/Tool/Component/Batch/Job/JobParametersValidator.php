@@ -23,10 +23,6 @@ class JobParametersValidator
     /** @var ConstraintCollectionProviderRegistry */
     protected $registry;
 
-    /**
-     * @param ValidatorInterface                   $validator
-     * @param ConstraintCollectionProviderRegistry $registry
-     */
     public function __construct(ValidatorInterface $validator, ConstraintCollectionProviderRegistry $registry)
     {
         $this->validator = $validator;
@@ -34,8 +30,6 @@ class JobParametersValidator
     }
 
     /**
-     * @param JobInterface  $job
-     * @param JobParameters $jobParameters
      * @param array         $groups
      *
      * @return ConstraintViolationListInterface A list of constraint violations. If the

@@ -20,14 +20,9 @@ class RevokeClientCommand extends Command
 {
     protected static $defaultName = 'pim:oauth-server:revoke-client';
 
-    /** @var ClientManagerInterface */
-    private $clientManager;
-
-    public function __construct(ClientManagerInterface $clientManager)
+    public function __construct(private readonly ClientManagerInterface $clientManager)
     {
         parent::__construct();
-
-        $this->clientManager = $clientManager;
     }
 
     /**

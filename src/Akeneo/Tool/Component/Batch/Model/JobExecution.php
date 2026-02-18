@@ -8,6 +8,7 @@ use Akeneo\Tool\Component\Batch\Job\ExitStatus;
 use Akeneo\Tool\Component\Batch\Job\JobParameters;
 use Akeneo\Tool\Component\Batch\Job\RuntimeErrorException;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * Batch domain object representing the execution of a job
@@ -18,16 +19,14 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/MIT MIT
  */
-class JobExecution
+class JobExecution implements \Stringable
 {
     /** @var int */
     private $id;
 
-    /** @var ArrayCollection */
-    private $stepExecutions;
+    private Collection|array $stepExecutions;
 
-    /** @var JobInstance */
-    private $jobInstance;
+    private ?\Akeneo\Tool\Component\Batch\Model\JobInstance $jobInstance = null;
 
     /** @var int Process Identifier */
     private $pid;
@@ -38,44 +37,34 @@ class JobExecution
     /** @var int */
     private $status;
 
-    /** @var \DateTime */
-    private $startTime;
+    private ?\DateTime $startTime = null;
 
-    /** @var \DateTime */
-    private $endTime;
+    private ?\DateTime $endTime = null;
 
-    /** @var \DateTime */
-    private $createTime;
+    private ?\DateTime $createTime = null;
 
-    /** @var \DateTime */
-    private $updatedTime;
+    private ?\DateTime $updatedTime = null;
 
-    /** @var \DateTime */
-    private $healthCheckTime;
+    private ?\DateTime $healthCheckTime = null;
 
     /* @var ExecutionContext $executionContext */
-    private $executionContext;
+    private ?\Akeneo\Tool\Component\Batch\Item\ExecutionContext $executionContext = null;
 
     /* @var ExitStatus $existStatus */
-    private $exitStatus;
+    private ?\Akeneo\Tool\Component\Batch\Job\ExitStatus $exitStatus = null;
 
-    /** @var string */
-    private $exitCode;
+    private ?string $exitCode = null;
 
-    /** @var string */
-    private $exitDescription;
+    private ?string $exitDescription = null;
 
-    /** @var array */
-    private $failureExceptions;
+    private ?array $failureExceptions = null;
 
     /** @var string */
     private $logFile;
 
-    /** @var JobParameters */
-    private $jobParameters;
+    private ?\Akeneo\Tool\Component\Batch\Job\JobParameters $jobParameters = null;
 
-    /** @var array */
-    private $rawParameters;
+    private array $rawParameters;
     private bool $isStoppable;
     private int $stepCount;
     private bool $isVisible;
@@ -255,8 +244,6 @@ class JobExecution
      * Sets the time this execution has been health checked
      *
      * @param \DateTime $healthCheckTime the time this execution has been health checked
-     *
-     * @return JobExecution
      */
     public function setHealthcheckTime(\DateTime $healthCheckTime): JobExecution
     {
@@ -291,10 +278,8 @@ class JobExecution
 
     /**
      * Returns the user who launched the job
-     *
-     * @return string|null
      */
-    public function getUser()
+    public function getUser(): ?string
     {
         return $this->user;
     }
@@ -346,7 +331,7 @@ class JobExecution
      *
      * @return JobExecution
      */
-    public function upgradeStatus($status)
+    public function upgradeStatus(mixed $status)
     {
         $newBatchStatus = $this->getStatus();
         $newBatchStatus->upgradeTo($status);
@@ -356,8 +341,6 @@ class JobExecution
     }
 
     /**
-     * @param ExitStatus $exitStatus
-     *
      * @return JobExecution
      */
     public function setExitStatus(ExitStatus $exitStatus)
@@ -386,7 +369,7 @@ class JobExecution
      *
      * @return ArrayCollection|StepExecution[] the step executions that were registered
      */
-    public function getStepExecutions()
+    public function getStepExecutions(): Collection|array
     {
         return $this->stepExecutions;
     }
@@ -398,7 +381,7 @@ class JobExecution
      *
      * @return StepExecution the created stepExecution
      */
-    public function createStepExecution($stepName)
+    public function createStepExecution(mixed $stepName)
     {
         $stepExecution = new StepExecution($stepName, $this);
 
@@ -408,7 +391,6 @@ class JobExecution
     /**
      * Add a step executions to job's step execution
      *
-     * @param StepExecution $stepExecution
      *
      * @return JobExecution
      */
@@ -469,14 +451,13 @@ class JobExecution
 
     /**
      * Add a failure exception
-     * @param \Exception $e
      *
      * @return JobExecution
      */
     public function addFailureException(\Exception $e)
     {
         $this->failureExceptions[] = [
-            'class'             => get_class($e),
+            'class'             => $e::class,
             'message'           => $e->getMessage(),
             'messageParameters' => $e instanceof RuntimeErrorException ? $e->getMessageParameters() : [],
             'code'              => $e->getCode(),
@@ -567,7 +548,7 @@ class JobExecution
      * To string
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         $startTime = self::formatDate($this->startTime);
         $endTime = self::formatDate($this->endTime);
@@ -591,9 +572,7 @@ class JobExecution
     /**
      * Format a date or return empty string if null
      *
-     * @param \DateTime $date
      * @param string    $format
-     *
      * @return string Date formatted
      */
     public static function formatDate(\DateTime $date = null, $format = \DateTime::ATOM)
@@ -607,11 +586,6 @@ class JobExecution
         return $formattedDate;
     }
 
-    /**
-     * @param JobParameters $jobParameters
-     *
-     * @return JobExecution
-     */
     public function setJobParameters(JobParameters $jobParameters): JobExecution
     {
         $this->jobParameters = $jobParameters;

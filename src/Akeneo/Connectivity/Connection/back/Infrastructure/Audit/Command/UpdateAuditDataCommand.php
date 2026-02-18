@@ -25,8 +25,8 @@ class UpdateAuditDataCommand extends Command
     protected static $defaultName = 'akeneo:connectivity-audit:update-data';
 
     public function __construct(
-        private UpdateAuditData $updateAuditData,
-        private LoggerInterface $logger,
+        private readonly UpdateAuditData $updateAuditData,
+        private readonly LoggerInterface $logger,
     ) {
         parent::__construct();
     }

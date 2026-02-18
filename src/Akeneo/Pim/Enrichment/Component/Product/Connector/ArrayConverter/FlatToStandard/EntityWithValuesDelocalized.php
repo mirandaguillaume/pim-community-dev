@@ -21,10 +21,6 @@ class EntityWithValuesDelocalized implements ArrayConverterInterface
     /** @var AttributeConverterInterface */
     protected $delocalizer;
 
-    /**
-     * @param ArrayConverterInterface     $converter
-     * @param AttributeConverterInterface $delocalizer
-     */
     public function __construct(ArrayConverterInterface $converter, AttributeConverterInterface $delocalizer)
     {
         $this->converter = $converter;

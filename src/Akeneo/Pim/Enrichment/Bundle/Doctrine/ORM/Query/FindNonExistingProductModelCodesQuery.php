@@ -9,12 +9,8 @@ use Doctrine\DBAL\Connection;
 
 class FindNonExistingProductModelCodesQuery implements FindNonExistingProductModelCodesQueryInterface
 {
-    /** @var Connection */
-    private $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function execute(array $productModelCodes): array

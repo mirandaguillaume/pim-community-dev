@@ -19,12 +19,12 @@ use Ramsey\Uuid\UuidInterface;
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class FetchProductRowsFromUuids implements FetchProductRowsFromUuidsInterface
+final readonly class FetchProductRowsFromUuids implements FetchProductRowsFromUuidsInterface
 {
     public function __construct(
-        private readonly Connection $connection,
-        private readonly WriteValueCollectionFactory $valueCollectionFactory,
-        private readonly GetProductCompletenesses $getProductCompletenesses,
+        private Connection $connection,
+        private WriteValueCollectionFactory $valueCollectionFactory,
+        private GetProductCompletenesses $getProductCompletenesses,
     ) {
     }
 
@@ -161,7 +161,7 @@ SQL;
         $products = [];
 
         foreach ($rows as $row) {
-            $values = json_decode($row['raw_values'], true);
+            $values = json_decode((string) $row['raw_values'], true, 512, JSON_THROW_ON_ERROR);
             $attributeCodesToKeep = array_filter(
                 array_merge(
                     $attributeCodes,
@@ -178,10 +178,8 @@ SQL;
 
         foreach ($valueCollections as $productUuid => $valueCollection) {
             $result[$productUuid]['value_collection'] = $valueCollection->filter(
-                function (ValueInterface $value) use ($channelCode, $localeCode) {
-                    return ($value->getScopeCode() === $channelCode || $value->getScopeCode() === null)
-                        && ($value->getLocaleCode() === $localeCode || $value->getLocaleCode() === null);
-                }
+                fn(ValueInterface $value) => ($value->getScopeCode() === $channelCode || $value->getScopeCode() === null)
+                    && ($value->getLocaleCode() === $localeCode || $value->getLocaleCode() === null)
             );
         }
 
@@ -358,7 +356,7 @@ SQL;
         )->fetchAllAssociative();
 
         foreach ($rows as $row) {
-            $result[$row['uuid']]['groups'] = json_decode($row['product_groups']);
+            $result[$row['uuid']]['groups'] = json_decode((string) $row['product_groups'], null, 512, JSON_THROW_ON_ERROR);
         }
 
         return $result;

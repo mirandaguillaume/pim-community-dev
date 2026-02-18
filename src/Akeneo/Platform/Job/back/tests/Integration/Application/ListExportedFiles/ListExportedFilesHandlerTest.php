@@ -20,7 +20,7 @@ use Ramsey\Uuid\Uuid;
 
 class ListExportedFilesHandlerTest extends TestCase
 {
-    public const JOB_INSTANCE_CODE = 'csv_product_export';
+    final public const JOB_INSTANCE_CODE = 'csv_product_export';
 
     private ListExportedFilesHandler $handler;
     private JobInstanceRepository $jobInstanceRepository;

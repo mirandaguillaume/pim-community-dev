@@ -16,7 +16,7 @@ final class ProductModelIdCollection implements ProductEntityIdCollection
     /**
      * @var array<ProductModelId>
      */
-    private array $productModelIds;
+    private readonly array $productModelIds;
 
     private function __construct(array $productModelIds)
     {

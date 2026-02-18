@@ -24,7 +24,7 @@ class CriteriaByFeatureRegistry
     private array $partialCriteriaCodes = [];
 
     public function __construct(
-        private FeatureFlag $allCriteriaFeature,
+        private readonly FeatureFlag $allCriteriaFeature,
     ) {
     }
 

@@ -9,10 +9,10 @@ declare(strict_types=1);
 
 namespace Akeneo\Platform\Installer\Application\UpdateMaintenanceMode;
 
-final class UpdateMaintenanceModeCommand
+final readonly class UpdateMaintenanceModeCommand
 {
     public function __construct(
-        public readonly bool $isEnabled,
+        public bool $isEnabled,
     ) {
     }
 }

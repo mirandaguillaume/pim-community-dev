@@ -15,7 +15,7 @@ use Oro\Bundle\FilterBundle\Grid\Extension\Configuration;
 class FeatureFlagDatagridFilterListener
 {
     public function __construct(
-        private FeatureFlags $featureFlags
+        private readonly FeatureFlags $featureFlags
     ) {
     }
 

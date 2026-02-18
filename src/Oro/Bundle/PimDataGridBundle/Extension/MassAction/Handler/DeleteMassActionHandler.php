@@ -20,19 +20,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class DeleteMassActionHandler implements MassActionHandlerInterface
 {
-    protected HydratorInterface $hydrator;
-    protected TranslatorInterface $translator;
-    protected EventDispatcherInterface $eventDispatcher;
     protected string $responseMessage = 'pim_datagrid.mass_action.delete.success_message';
 
-    public function __construct(
-        HydratorInterface $hydrator,
-        TranslatorInterface $translator,
-        EventDispatcherInterface $eventDispatcher
-    ) {
-        $this->hydrator = $hydrator;
-        $this->translator = $translator;
-        $this->eventDispatcher = $eventDispatcher;
+    public function __construct(protected HydratorInterface $hydrator, protected TranslatorInterface $translator, protected EventDispatcherInterface $eventDispatcher)
+    {
     }
 
     /**
@@ -68,9 +59,7 @@ class DeleteMassActionHandler implements MassActionHandlerInterface
     /**
      * Prepare mass action response
      *
-     * @param MassActionInterface $massAction
      * @param int                 $countRemoved
-     *
      * @return MassActionResponse
      */
     protected function getResponse(MassActionInterface $massAction, $countRemoved = 0)

@@ -32,40 +32,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class SaveMeasurementFamiliesAction
 {
-    private MeasurementFamilyListValidator $measurementFamilyListValidator;
-
-    private MeasurementFamilyCommonStructureValidator $measurementFamilyCommonStructureValidator;
-
-    private MeasurementFamilyValidator $measurementFamilyStructureValidator;
-
-    private ValidatorInterface $validator;
-
-    private ViolationNormalizer $violationNormalizer;
-
-    private SaveMeasurementFamilyHandler $saveMeasurementFamilyHandler;
-
-    private CreateMeasurementFamilyHandler $createMeasurementFamilyHandler;
-
-    private MeasurementFamilyRepositoryInterface $measurementFamilyRepository;
-
-    public function __construct(
-        MeasurementFamilyListValidator $measurementFamilyListValidator,
-        MeasurementFamilyCommonStructureValidator $measurementFamilyCommonStructureValidator,
-        MeasurementFamilyValidator $measurementFamilyStructureValidator,
-        ValidatorInterface $validator,
-        ViolationNormalizer $violationNormalizer,
-        SaveMeasurementFamilyHandler $saveMeasurementFamilyHandler,
-        CreateMeasurementFamilyHandler $createMeasurementFamilyHandler,
-        MeasurementFamilyRepositoryInterface $measurementFamilyRepository
-    ) {
-        $this->measurementFamilyListValidator = $measurementFamilyListValidator;
-        $this->measurementFamilyCommonStructureValidator = $measurementFamilyCommonStructureValidator;
-        $this->measurementFamilyStructureValidator = $measurementFamilyStructureValidator;
-        $this->validator = $validator;
-        $this->violationNormalizer = $violationNormalizer;
-        $this->saveMeasurementFamilyHandler = $saveMeasurementFamilyHandler;
-        $this->createMeasurementFamilyHandler = $createMeasurementFamilyHandler;
-        $this->measurementFamilyRepository = $measurementFamilyRepository;
+    public function __construct(private readonly MeasurementFamilyListValidator $measurementFamilyListValidator, private readonly MeasurementFamilyCommonStructureValidator $measurementFamilyCommonStructureValidator, private readonly MeasurementFamilyValidator $measurementFamilyStructureValidator, private readonly ValidatorInterface $validator, private readonly ViolationNormalizer $violationNormalizer, private readonly SaveMeasurementFamilyHandler $saveMeasurementFamilyHandler, private readonly CreateMeasurementFamilyHandler $createMeasurementFamilyHandler, private readonly MeasurementFamilyRepositoryInterface $measurementFamilyRepository)
+    {
     }
 
     public function __invoke(Request $request): Response
@@ -128,7 +96,7 @@ class SaveMeasurementFamiliesAction
     {
         try {
             return $this->measurementFamilyRepository->getByCode($measurementFamilyCode);
-        } catch (MeasurementFamilyNotFoundException $exception) {
+        } catch (MeasurementFamilyNotFoundException) {
             return null;
         }
     }
@@ -243,7 +211,11 @@ class SaveMeasurementFamiliesAction
 
     private function getNormalizedMeasurementFamiliesFromRequest(Request $request): array
     {
-        $normalizedMeasurementFamilies = json_decode($request->getContent(), true);
+        try {
+            $normalizedMeasurementFamilies = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            throw new BadRequestHttpException('Invalid json message received');
+        }
 
         if (null === $normalizedMeasurementFamilies) {
             throw new BadRequestHttpException('Invalid json message received');

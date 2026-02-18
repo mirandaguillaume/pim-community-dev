@@ -20,16 +20,11 @@ use Doctrine\Common\Util\ClassUtils;
  */
 class ParentFieldSetter extends AbstractFieldSetter
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $productModelRepository;
-
     /**
-     * @param IdentifiableObjectRepositoryInterface $productModelRepository
      * @param string[]                              $supportedFields
      */
-    public function __construct(IdentifiableObjectRepositoryInterface $productModelRepository, array $supportedFields)
+    public function __construct(private readonly IdentifiableObjectRepositoryInterface $productModelRepository, array $supportedFields)
     {
-        $this->productModelRepository = $productModelRepository;
         $this->supportedFields = $supportedFields;
     }
 

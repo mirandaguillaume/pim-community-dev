@@ -14,26 +14,20 @@ class RequiredAttributesMaskForChannelAndLocale
      *
      * @var string
      */
-    public const ATTRIBUTE_CHANNEL_LOCALE_SEPARATOR = '-';
-
-    /** @var string */
-    private $channelCode;
-
-    /** @var string */
-    private $localeCode;
+    final public const ATTRIBUTE_CHANNEL_LOCALE_SEPARATOR = '-';
 
     /**
-     * ['name-ecommerce-en_US', 'sku-<all_channel>-<all_locales>', ...]
-     *
-     * @var string[]
+     * @param string[] $mask
      */
-    private $mask;
-
-    public function __construct(string $channelCode, string $localeCode, array $mask)
+    public function __construct(
+        private readonly string $channelCode,
+        private readonly string $localeCode,
+        /**
+         * ['name-ecommerce-en_US', 'sku-<all_channel>-<all_locales>', ...]
+         */
+        private readonly array $mask
+    )
     {
-        $this->channelCode = $channelCode;
-        $this->localeCode = $localeCode;
-        $this->mask = $mask;
     }
 
     public function channelCode(): string

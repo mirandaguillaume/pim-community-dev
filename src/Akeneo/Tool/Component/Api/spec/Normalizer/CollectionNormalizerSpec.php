@@ -11,14 +11,14 @@ class CollectionNormalizerSpec extends ObjectBehavior
 {
     function let(SerializerInterface $serializer)
     {
-        $serializer->implement('Symfony\Component\Serializer\Normalizer\NormalizerInterface');
+        $serializer->implement(\Symfony\Component\Serializer\Normalizer\NormalizerInterface::class);
         $this->setSerializer($serializer);
     }
 
     function it_is_a_serializer_aware_normalizer()
     {
-        $this->shouldBeAnInstanceOf('Symfony\Component\Serializer\Normalizer\NormalizerInterface');
-        $this->shouldBeAnInstanceOf('Symfony\Component\Serializer\SerializerAwareInterface');
+        $this->shouldBeAnInstanceOf(\Symfony\Component\Serializer\Normalizer\NormalizerInterface::class);
+        $this->shouldBeAnInstanceOf(\Symfony\Component\Serializer\SerializerAwareInterface::class);
     }
 
     function it_supports_iterables()

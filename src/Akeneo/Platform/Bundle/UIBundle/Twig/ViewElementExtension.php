@@ -17,15 +17,8 @@ use Twig\TwigFunction;
  */
 class ViewElementExtension extends AbstractExtension
 {
-    protected ViewElementRegistry $registry;
-    protected Environment $templating;
-    protected bool $debug;
-
-    public function __construct(ViewElementRegistry $registry, Environment $templating, bool $debug = false)
+    public function __construct(protected ViewElementRegistry $registry, protected Environment $templating, protected bool $debug = false)
     {
-        $this->registry = $registry;
-        $this->templating = $templating;
-        $this->debug = $debug;
     }
 
     /**
@@ -50,10 +43,8 @@ class ViewElementExtension extends AbstractExtension
     /**
      * Render view elements
      *
-     * @param array  $context
      * @param string $type
      *
-     * @return string
      */
     public function renderViewElements(array $context, $type): string
     {
@@ -95,9 +86,7 @@ class ViewElementExtension extends AbstractExtension
     /**
      * Return a list of aliases of displayable view elements of the requested type
      *
-     * @param array  $context
      * @param string $type
-     *
      * @return string[]
      */
     public function getViewElementAliases(array $context, $type)
@@ -116,7 +105,6 @@ class ViewElementExtension extends AbstractExtension
      * Returns view elements from the registry that are visible in the given context
      *
      * @param string $type
-     * @param array  $context
      *
      * @return ViewElementInterface[]
      */

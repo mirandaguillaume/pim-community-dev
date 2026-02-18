@@ -17,7 +17,7 @@ use Doctrine\DBAL\Driver\Exception;
  */
 class GetDeactivatedCategoryTemplateAttributeSql implements GetDeactivatedAttribute
 {
-    public function __construct(private Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
     }
 
@@ -61,9 +61,7 @@ class GetDeactivatedCategoryTemplateAttributeSql implements GetDeactivatedAttrib
             ->executeQuery()
             ->fetchAllAssociative();
 
-        $attributes = array_map(static function ($attributes) {
-            return Attribute::fromDatabase($attributes);
-        }, $categoryAttributes);
+        $attributes = array_map(static fn($attributes) => Attribute::fromDatabase($attributes), $categoryAttributes);
 
         return AttributeCollection::fromArray($attributes);
     }

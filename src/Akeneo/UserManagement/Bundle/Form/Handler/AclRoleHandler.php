@@ -51,17 +51,11 @@ class AclRoleHandler
     ) {
     }
 
-    /**
-     * @param AclManager $aclManager
-     */
     public function setAclManager(AclManager $aclManager)
     {
         $this->aclManager = $aclManager;
     }
 
-    /**
-     * @param ObjectManager $manager
-     */
     public function setEntityManager(ObjectManager $manager)
     {
         $this->manager = $manager;
@@ -70,7 +64,6 @@ class AclRoleHandler
     /**
      * Create form for role manipulation
      *
-     * @param Role $role
      *
      * @return FormInterface
      */
@@ -86,7 +79,7 @@ class AclRoleHandler
             $role,
             [
                 'privilegeConfigOption' => $this->privilegeConfig,
-                'constraints' => new Callback([$this, 'validateEditRolePermissions']),
+                'constraints' => new Callback($this->validateEditRolePermissions(...)),
             ]
         );
 
@@ -141,7 +134,6 @@ class AclRoleHandler
     /**
      * Save role
      *
-     * @param Role $role
      *
      * @return bool
      */
@@ -188,17 +180,11 @@ class AclRoleHandler
         return $this->form->createView();
     }
 
-    /**
-     * @return null|Request
-     */
     protected function getRequest(): ?Request
     {
         return $this->requestStack->getCurrentRequest();
     }
 
-    /**
-     * @param Role $role
-     */
     protected function setRolePrivileges(Role $role)
     {
         /** @var ArrayCollection $privileges */
@@ -219,9 +205,6 @@ class AclRoleHandler
         }
     }
 
-    /**
-     * @param Role $role
-     */
     protected function processPrivileges(Role $role)
     {
         $formPrivileges = [];
@@ -237,24 +220,19 @@ class AclRoleHandler
     }
 
     /**
-     * @param ArrayCollection $privileges
-     * @param array           $rootIds
      *
      * @return ArrayCollection
      */
     protected function filterPrivileges(ArrayCollection $privileges, array $rootIds)
     {
         return $privileges->filter(
-            function (AclPrivilege $entry) use ($rootIds) {
-                return in_array($entry->getExtensionKey(), $rootIds) && $entry->isVisible();
-            }
+            fn(AclPrivilege $entry) => in_array($entry->getExtensionKey(), $rootIds) && $entry->isVisible()
         );
     }
 
     /**
      * "Success" form handler
      *
-     * @param Role            $entity
      * @param UserInterface[] $appendUsers
      * @param UserInterface[] $removeUsers
      */
@@ -269,7 +247,6 @@ class AclRoleHandler
     /**
      * Append users to role
      *
-     * @param Role            $role
      * @param UserInterface[] $users
      */
     protected function appendUsers(Role $role, array $users)
@@ -284,7 +261,6 @@ class AclRoleHandler
     /**
      * Remove users from role
      *
-     * @param Role            $role
      * @param UserInterface[] $users
      */
     protected function removeUsers(Role $role, array $users)

@@ -23,5 +23,5 @@ interface PropertySetterInterface
      *
      * @return PropertySetterInterface
      */
-    public function setData($object, $property, $data, array $options = []);
+    public function setData($object, $property, mixed $data, array $options = []);
 }

@@ -42,9 +42,6 @@ class PimUIExtension extends Extension
 
     /**
      * Add placeholders mapping
-     *
-     * @param array            $config
-     * @param ContainerBuilder $container
      */
     protected function placeholdersConfig(array $config, ContainerBuilder $container)
     {
@@ -65,7 +62,7 @@ class PimUIExtension extends Extension
             }
         }
 
-        if (isset($config['placeholders_items']) && count($config['placeholders_items'])) {
+        if (isset($config['placeholders_items']) && (is_countable($config['placeholders_items']) ? count($config['placeholders_items']) : 0)) {
             $placeholders = $this->overwritePlaceholders($config['placeholders_items'], $placeholders);
         }
 
@@ -77,15 +74,13 @@ class PimUIExtension extends Extension
     /**
      * Insert items data (templates, actions, etc) into placeholders item data
      *
-     * @param array $placeholders
-     * @param array $items
      *
      * @return array
      */
     protected function addItemsToPlaceholders(array $placeholders, array $items)
     {
         foreach ($placeholders as $placeholderName => $placeholder) {
-            if (isset($placeholder['items']) && count($placeholder['items'])) {
+            if (isset($placeholder['items']) && (is_countable($placeholder['items']) ? count($placeholder['items']) : 0)) {
                 foreach ($placeholder['items'] as $itemName => $itemData) {
                     if (!isset($items[$itemName])) {
                         unset($placeholders[$placeholderName]['items'][$itemName]);
@@ -148,7 +143,6 @@ class PimUIExtension extends Extension
     /**
      * Change placeholders block order
      *
-     * @param array $placeholders
      *
      * @return array
      */
@@ -156,7 +150,7 @@ class PimUIExtension extends Extension
     {
         foreach ($placeholders as $placeholderName => $placeholderData) {
             if (isset($placeholders[$placeholderName]['items'])) {
-                usort($placeholders[$placeholderName]['items'], [$this, "comparePlaceholderBlocks"]);
+                usort($placeholders[$placeholderName]['items'], $this->comparePlaceholderBlocks(...));
             }
         }
 
@@ -181,11 +175,6 @@ class PimUIExtension extends Extension
         if (isset($b['order'])) {
             $bOrder = $b['order'];
         }
-
-        if ($aOrder == $bOrder) {
-            return 0;
-        }
-
-        return ($aOrder < $bOrder) ? -1 : 1;
+        return $aOrder <=> $bOrder;
     }
 }

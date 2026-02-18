@@ -37,7 +37,6 @@ interface AttributeFilterInterface extends FilterInterface
     /**
      * This filter supports the attribute
      *
-     * @param AttributeInterface $attribute
      *
      * @return bool
      */

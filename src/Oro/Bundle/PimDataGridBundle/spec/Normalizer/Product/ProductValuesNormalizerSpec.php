@@ -19,7 +19,7 @@ class ProductValuesNormalizerSpec extends ObjectBehavior
     function let(SerializerInterface $serializer, PresenterRegistryInterface $presenterRegistry, UserContext $userContext)
     {
         $this->beConstructedWith($presenterRegistry, $userContext);
-        $serializer->implement('Symfony\Component\Serializer\Normalizer\NormalizerInterface');
+        $serializer->implement(\Symfony\Component\Serializer\Normalizer\NormalizerInterface::class);
 
         $this->setSerializer($serializer);
     }
@@ -31,8 +31,8 @@ class ProductValuesNormalizerSpec extends ObjectBehavior
 
     function it_is_a_normalizer()
     {
-        $this->shouldImplement('Symfony\Component\Serializer\Normalizer\NormalizerInterface');
-        $this->shouldBeAnInstanceOf('Symfony\Component\Serializer\SerializerAwareInterface');
+        $this->shouldImplement(\Symfony\Component\Serializer\Normalizer\NormalizerInterface::class);
+        $this->shouldBeAnInstanceOf(\Symfony\Component\Serializer\SerializerAwareInterface::class);
     }
 
     function it_supports_datagrid_format_and_collection_values()

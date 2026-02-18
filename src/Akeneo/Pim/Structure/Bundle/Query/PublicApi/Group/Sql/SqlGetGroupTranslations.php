@@ -9,12 +9,8 @@ use Doctrine\DBAL\Connection;
 
 class SqlGetGroupTranslations implements GetGroupTranslations
 {
-    /** @var Connection */
-    private $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function byGroupCodesAndLocale(array $groupCodes, string $locale): array

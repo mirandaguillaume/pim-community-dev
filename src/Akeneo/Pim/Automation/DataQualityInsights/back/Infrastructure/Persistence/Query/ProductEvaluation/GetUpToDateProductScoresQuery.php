@@ -19,8 +19,8 @@ use Webmozart\Assert\Assert;
 class GetUpToDateProductScoresQuery implements GetProductScoresQueryInterface
 {
     public function __construct(
-        private HasUpToDateEvaluationQueryInterface $hasUpToDateEvaluationQuery,
-        private GetProductScoresQueryInterface $getProductScoresQuery
+        private readonly HasUpToDateEvaluationQueryInterface $hasUpToDateEvaluationQuery,
+        private readonly GetProductScoresQueryInterface $getProductScoresQuery
     ) {
     }
 

@@ -15,23 +15,17 @@ use Akeneo\Pim\Structure\Component\Model\AttributeRequirementInterface;
  */
 class AttributeRequirementFactory
 {
-    /** @var string */
-    protected $attrRequirementClass;
-
     /**
      * @param string $attrRequirementClass
      */
-    public function __construct($attrRequirementClass)
+    public function __construct(protected $attrRequirementClass)
     {
-        $this->attrRequirementClass = $attrRequirementClass;
     }
 
     /**
      * This method creates an attribute requirement instance.
      * Attribute, channel and requirement are set after instantiation.
      *
-     * @param AttributeInterface $attribute
-     * @param ChannelInterface   $channel
      * @param bool               $required
      *
      * @return AttributeRequirementInterface

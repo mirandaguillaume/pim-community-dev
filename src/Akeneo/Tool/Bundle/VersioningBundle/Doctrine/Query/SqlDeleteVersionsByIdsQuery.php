@@ -12,12 +12,8 @@ use Doctrine\DBAL\Connection;
  */
 class SqlDeleteVersionsByIdsQuery
 {
-    /** @var Connection */
-    private $dbConnection;
-
-    public function __construct(Connection $dbConnection)
+    public function __construct(private readonly Connection $dbConnection)
     {
-        $this->dbConnection = $dbConnection;
     }
 
     /**

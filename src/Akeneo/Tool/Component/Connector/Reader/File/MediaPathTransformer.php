@@ -16,9 +16,6 @@ class MediaPathTransformer
     /** @var AttributeRepositoryInterface */
     protected $attributeRepository;
 
-    /**
-     * @param AttributeRepositoryInterface $attributeRepository
-     */
     public function __construct(AttributeRepositoryInterface $attributeRepository)
     {
         $this->attributeRepository = $attributeRepository;

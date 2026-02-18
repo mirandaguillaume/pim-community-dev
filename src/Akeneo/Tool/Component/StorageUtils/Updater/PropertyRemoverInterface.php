@@ -23,5 +23,5 @@ interface PropertyRemoverInterface
      *
      * @return PropertyRemoverInterface
      */
-    public function removeData($object, $property, $data, array $options = []);
+    public function removeData($object, $property, mixed $data, array $options = []);
 }

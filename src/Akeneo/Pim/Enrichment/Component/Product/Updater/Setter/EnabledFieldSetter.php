@@ -15,9 +15,6 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  */
 class EnabledFieldSetter extends AbstractFieldSetter
 {
-    /**
-     * @param array $supportedFields
-     */
     public function __construct(array $supportedFields)
     {
         $this->supportedFields = $supportedFields;
@@ -32,7 +29,7 @@ class EnabledFieldSetter extends AbstractFieldSetter
     {
         if (!$product instanceof ProductInterface) {
             throw InvalidObjectException::objectExpected(
-                \is_object($product) ? \get_class($product) : \gettype($product),
+                get_debug_type($product),
                 ProductInterface::class
             );
         }

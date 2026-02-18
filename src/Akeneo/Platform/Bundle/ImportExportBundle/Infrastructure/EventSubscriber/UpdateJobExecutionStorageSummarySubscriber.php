@@ -26,12 +26,12 @@ class UpdateJobExecutionStorageSummarySubscriber implements EventSubscriberInter
         ];
     }
 
-    public function onFileCannotBeExported(FileCannotBeExported $event): void
+    public function onFileCannotBeExported(FileCannotBeExported $event): never
     {
         throw new \RuntimeException(sprintf("An error occured during file upload for the following reason: \n %s", $event->getReason()));
     }
 
-    public function onFileCannotBeImported(FileCannotBeImported $event): void
+    public function onFileCannotBeImported(FileCannotBeImported $event): never
     {
         throw new \RuntimeException(sprintf("An error occured during file download for the following reason: \n %s", $event->getReason()));
     }

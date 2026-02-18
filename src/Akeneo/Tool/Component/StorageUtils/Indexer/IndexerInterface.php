@@ -19,5 +19,5 @@ interface IndexerInterface
      *
      * @throws \InvalidArgumentException
      */
-    public function index($object, array $options = []);
+    public function index(mixed $object, array $options = []);
 }

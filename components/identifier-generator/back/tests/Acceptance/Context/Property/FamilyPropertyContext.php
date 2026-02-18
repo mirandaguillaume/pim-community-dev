@@ -50,7 +50,7 @@ class FamilyPropertyContext extends BaseCreateOrUpdateIdentifierGenerator implem
      */
     public function iTryToCreateAnIdentifierGeneratorWithFamilyProcessWithTypeAndOperatorAndValue($type, $operator, $value): void
     {
-        $value = \json_decode($value);
+        $value = \json_decode((string) $value, null, 512, JSON_THROW_ON_ERROR);
         $defaultStructure = [
             'type' => 'family',
             'process' => ['type' => $type, 'operator' => $operator, 'value' => $value],
@@ -101,7 +101,7 @@ class FamilyPropertyContext extends BaseCreateOrUpdateIdentifierGenerator implem
      */
     public function iTryToUpdateAnIdentifierGeneratorWithFamilyProcessWithTypeAndOperatorAndValue($type, $operator, $value): void
     {
-        $value = \json_decode($value);
+        $value = \json_decode((string) $value, null, 512, JSON_THROW_ON_ERROR);
         $defaultStructure = ['type' => 'family', 'process' => ['type' => $type, 'operator' => $operator, 'value' => $value]];
         if ($operator === 'undefined') {
             unset($defaultStructure['process']['operator']);

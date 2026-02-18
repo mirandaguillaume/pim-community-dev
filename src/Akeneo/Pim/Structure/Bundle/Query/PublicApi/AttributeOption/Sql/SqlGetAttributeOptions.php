@@ -12,15 +12,12 @@ use Doctrine\DBAL\Connection;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class SqlGetAttributeOptions implements GetAttributeOptions
+final readonly class SqlGetAttributeOptions implements GetAttributeOptions
 {
     private const BATCH_QUERY_SIZE = 1000;
 
-    private Connection $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function forAttributeCode(string $attributeCode): iterable
@@ -55,7 +52,7 @@ final class SqlGetAttributeOptions implements GetAttributeOptions
             foreach ($results as $result) {
                 yield new AttributeOption(
                     $result['attributeOptionCode'],
-                    \array_filter(\json_decode($result['labels'], true), fn ($label): bool => null !== $label)
+                    \array_filter(\json_decode((string) $result['labels'], true, 512, JSON_THROW_ON_ERROR), fn ($label): bool => null !== $label)
                 );
                 $searchAfterId = $result['attributeOptionId'];
             }

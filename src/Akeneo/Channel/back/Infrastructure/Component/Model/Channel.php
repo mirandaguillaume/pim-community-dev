@@ -14,7 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Channel implements ChannelInterface
+class Channel implements ChannelInterface, \Stringable
 {
     /** @var int $id */
     protected $id;
@@ -46,7 +46,7 @@ class Channel implements ChannelInterface
     protected $conversionUnits = [];
 
     /** @var array|ChannelEvent[] */
-    private $events = [];
+    private array $events = [];
 
     public function __construct()
     {
@@ -115,7 +115,7 @@ class Channel implements ChannelInterface
             return null;
         }
         foreach ($this->getTranslations() as $translation) {
-            if (\strtolower($translation->getLocale()) === \strtolower($locale)) {
+            if (\strtolower((string) $translation->getLocale()) === \strtolower($locale)) {
                 return $translation;
             }
         }
@@ -275,9 +275,7 @@ class Channel implements ChannelInterface
     public function getLocaleCodes()
     {
         return $this->locales->map(
-            function ($locale) {
-                return $locale->getCode();
-            }
+            fn($locale) => $locale->getCode()
         )->toArray();
     }
 
@@ -359,7 +357,7 @@ class Channel implements ChannelInterface
     /**
      * {@inheritdoc}
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getLabel();
     }

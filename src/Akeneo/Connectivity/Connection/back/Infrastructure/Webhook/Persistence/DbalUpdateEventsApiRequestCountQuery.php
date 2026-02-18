@@ -14,7 +14,7 @@ use Doctrine\DBAL\Types\Types;
  */
 class DbalUpdateEventsApiRequestCountQuery implements UpdateEventsApiRequestCountQueryInterface
 {
-    public function __construct(private Connection $dbalConnection)
+    public function __construct(private readonly Connection $dbalConnection)
     {
     }
 

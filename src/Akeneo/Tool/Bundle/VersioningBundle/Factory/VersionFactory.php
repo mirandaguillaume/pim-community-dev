@@ -14,28 +14,22 @@ use Ramsey\Uuid\UuidInterface;
  */
 class VersionFactory
 {
-    /** @var string */
-    protected $versionClass;
-
     /**
      * @param string $versionClass
      */
-    public function __construct($versionClass)
+    public function __construct(protected $versionClass)
     {
-        $this->versionClass = $versionClass;
     }
 
     /**
      * Create a version
      *
      * @param  string  $resourceName
-     * @param  mixed   $resourceId
      * @param  string  $author
-     * @param  mixed   $context
      *
      * @return Version
      */
-    public function create($resourceName, $resourceId, ?UuidInterface $resourceUuid, $author, $context = null)
+    public function create($resourceName, mixed $resourceId, ?UuidInterface $resourceUuid, $author, mixed $context = null)
     {
         return new $this->versionClass($resourceName, $resourceId, $resourceUuid, $author, $context);
     }

@@ -9,7 +9,7 @@ use Akeneo\Connectivity\Connection\Application\Webhook\Command\CheckWebhookReach
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-final class CheckWebhookReachabilityAction
+final readonly class CheckWebhookReachabilityAction
 {
     public function __construct(
         private CheckWebhookReachabilityHandler $checkWebhookReachabilityHandler,

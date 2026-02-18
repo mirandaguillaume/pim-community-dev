@@ -16,16 +16,11 @@ use Symfony\Component\Form\FormFactoryInterface;
  */
 class DateTimeRangeFilter extends AbstractDateFilter
 {
-    const DATETIME_FORMAT = 'Y-m-d H:i:s';
+    final public const DATETIME_FORMAT = 'Y-m-d H:i:s';
 
-    /** @var UserContext */
-    private $userContext;
-
-    public function __construct(FormFactoryInterface $factory, FilterUtility $util, UserContext $userContext)
+    public function __construct(FormFactoryInterface $factory, FilterUtility $util, private readonly UserContext $userContext)
     {
         parent::__construct($factory, $util);
-
-        $this->userContext = $userContext;
     }
 
     /**
@@ -33,7 +28,7 @@ class DateTimeRangeFilter extends AbstractDateFilter
      *
      * Override to set the time of the DateTime object on-the-fly according to the chosen operator.
      */
-    public function parseData($data)
+    public function parseData(mixed $data)
     {
         if (!$this->isValidData($data)) {
             return false;
@@ -72,12 +67,6 @@ class DateTimeRangeFilter extends AbstractDateFilter
         return DateRangeFilterType::class;
     }
 
-    /**
-     * @param \DateTimeZone      $userTimeZone
-     * @param \DateTimeInterface $dateTime
-     *
-     * @return \DateTimeInterface
-     */
     private function applyTimeZone(\DateTimeZone $userTimeZone, \DateTimeInterface $dateTime): \DateTimeInterface
     {
         $dateTime->setTimezone(new \DateTimeZone('UTC'));

@@ -25,22 +25,16 @@ class BaseRemover implements RemoverInterface, BulkRemoverInterface
     /** @var EventDispatcherInterface */
     protected $eventDispatcher;
 
-    /** @var string */
-    protected $removedClass;
-
     /**
-     * @param ObjectManager                    $objectManager
-     * @param EventDispatcherInterface         $eventDispatcher
      * @param string                           $removedClass
      */
     public function __construct(
         ObjectManager $objectManager,
         EventDispatcherInterface $eventDispatcher,
-        $removedClass
+        protected $removedClass
     ) {
         $this->objectManager = $objectManager;
         $this->eventDispatcher = $eventDispatcher;
-        $this->removedClass = $removedClass;
     }
 
     /**

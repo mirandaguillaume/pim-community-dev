@@ -20,8 +20,8 @@ use Symfony\Component\HttpFoundation\Request;
 final class GetWeeklyAuditAction extends AbstractAuditAction
 {
     public function __construct(
-        private UserContext $userContext,
-        private GetPeriodEventCountPerConnectionHandler $getPeriodEventCountPerConnectionHandler,
+        private readonly UserContext $userContext,
+        private readonly GetPeriodEventCountPerConnectionHandler $getPeriodEventCountPerConnectionHandler,
     ) {
     }
 

@@ -21,13 +21,9 @@ final class PurgeOutdatedDataCommand extends Command
     protected static $defaultName = 'pim:data-quality-insights:purge-outdated-data';
     protected static $defaultDescription = 'Purge the outdated data persisted for Data-Quality-Insights.';
 
-    private PurgeOutdatedData $purgeOutdatedData;
-
-    public function __construct(PurgeOutdatedData $purgeOutdatedData)
+    public function __construct(private readonly PurgeOutdatedData $purgeOutdatedData)
     {
         parent::__construct();
-
-        $this->purgeOutdatedData = $purgeOutdatedData;
     }
 
     protected function configure()

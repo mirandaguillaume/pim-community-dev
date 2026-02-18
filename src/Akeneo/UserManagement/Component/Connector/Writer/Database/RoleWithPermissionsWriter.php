@@ -17,12 +17,10 @@ use Webmozart\Assert\Assert;
  */
 final class RoleWithPermissionsWriter implements ItemWriterInterface, StepExecutionAwareInterface
 {
-    private BulkSaverInterface $roleWithPermissionsSaver;
     private ?StepExecution $stepExecution = null;
 
-    public function __construct(BulkSaverInterface $roleWithPermissionsSaver)
+    public function __construct(private readonly BulkSaverInterface $roleWithPermissionsSaver)
     {
-        $this->roleWithPermissionsSaver = $roleWithPermissionsSaver;
     }
 
     /**

@@ -8,10 +8,9 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ProductIdentifier
+final class ProductIdentifier implements \Stringable
 {
-    /** @var string */
-    private $identifier;
+    private readonly string $identifier;
 
     public function __construct(string $identifier)
     {
@@ -22,7 +21,7 @@ final class ProductIdentifier
         $this->identifier = $identifier;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->identifier;
     }

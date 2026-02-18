@@ -20,10 +20,6 @@ class FileComparator implements ComparatorInterface
     /** @var array */
     protected $types;
 
-    /**
-     * @param array                   $types
-     * @param FileInfoRepositoryInterface $repository
-     */
     public function __construct(array $types, FileInfoRepositoryInterface $repository)
     {
         $this->types = $types;
@@ -76,10 +72,8 @@ class FileComparator implements ComparatorInterface
 
     /**
      * @param string $filePath
-     *
-     * @return null|string
      */
-    protected function getHashFile($filePath = null)
+    protected function getHashFile($filePath = null): ?string
     {
         return null !== $filePath ? sha1_file($filePath) : null;
     }

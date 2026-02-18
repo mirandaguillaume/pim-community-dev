@@ -262,12 +262,12 @@ JSON;
             "a_file": [{
                 "locale": null,
                 "scope": null,
-                "data": "${files['akeneo_pdf']}"
+                "data": "{$files['akeneo_pdf']}"
             }],
             "an_image": [{
                 "locale": null,
                 "scope": null,
-                "data": "${files['ziggy_png']}"
+                "data": "{$files['ziggy_png']}"
             }],
             "a_date": [{
                 "locale": null,
@@ -393,11 +393,11 @@ JSON;
             "a_localizable_scopable_image": [{
                 "locale": "en_US",
                 "scope": "ecommerce",
-                "data": "${files['ziggy_png']}"
+                "data": "{$files['ziggy_png']}"
             }, {
                 "locale": "fr_FR",
                 "scope": "tablet",
-                "data": "${files['akeneo_jpg']}"
+                "data": "{$files['akeneo_jpg']}"
             }],
             "a_scopable_price": [{
                 "locale": null,
@@ -909,10 +909,10 @@ JSON;
         $expected = <<<JSON
 {
     "code":422,
-    "message":"${message}",
+    "message":"{$message}",
     "_links":{
         "documentation":{
-            "href": "${link}"
+            "href": "{$link}"
         }
     }
 }

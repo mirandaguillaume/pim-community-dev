@@ -15,8 +15,8 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class ChannelNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    const ITEM_SEPARATOR = ',';
-    const UNIT_LABEL_PREFIX = 'conversion_unit';
+    final public const ITEM_SEPARATOR = ',';
+    final public const UNIT_LABEL_PREFIX = 'conversion_unit';
 
     /** @var string[] */
     protected $supportedFormats = ['flat'];
@@ -27,10 +27,6 @@ class ChannelNormalizer implements NormalizerInterface, CacheableSupportsMethodI
     /** @var NormalizerInterface */
     protected $translationNormalizer;
 
-    /**
-     * @param NormalizerInterface $standardNormalizer
-     * @param NormalizerInterface $translationNormalizer
-     */
     public function __construct(
         NormalizerInterface $standardNormalizer,
         NormalizerInterface $translationNormalizer
@@ -82,7 +78,6 @@ class ChannelNormalizer implements NormalizerInterface, CacheableSupportsMethodI
     /**
      * Normalizes the conversion units into a flat array
      *
-     * @param array $conversionUnits
      *
      * @return array
      */

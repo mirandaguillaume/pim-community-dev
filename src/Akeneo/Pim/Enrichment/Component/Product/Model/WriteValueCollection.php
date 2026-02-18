@@ -23,10 +23,10 @@ class WriteValueCollection implements \Countable, \IteratorAggregate
     private array $values;
 
     /** @var string[] */
-    private $attributeCodes;
+    private array $attributeCodes;
 
     /** @var int[] */
-    private $valuesNumberPerAttribute;
+    private array $valuesNumberPerAttribute;
 
     /**
      * @param ValueInterface[] $values
@@ -42,11 +42,6 @@ class WriteValueCollection implements \Countable, \IteratorAggregate
         }
     }
 
-    /**
-     * @param WriteValueCollection $collection
-     *
-     * @return WriteValueCollection
-     */
     public static function fromCollection(WriteValueCollection $collection): WriteValueCollection
     {
         return new static($collection->toArray());
@@ -190,7 +185,7 @@ class WriteValueCollection implements \Countable, \IteratorAggregate
      */
     public function getByKey($key)
     {
-        return isset($this->values[$key]) ? $this->values[$key] : null;
+        return $this->values[$key] ?? null;
     }
 
     /**
@@ -295,8 +290,8 @@ class WriteValueCollection implements \Countable, \IteratorAggregate
 
     private function generateKey(string $attributeCode, ?string $channelCode, ?string $localeCode): string
     {
-        $channelCode = null !== $channelCode ? $channelCode : '<all_channels>';
-        $localeCode = null !== $localeCode ? $localeCode : '<all_locales>';
+        $channelCode ??= '<all_channels>';
+        $localeCode ??= '<all_locales>';
         $key = sprintf('%s-%s-%s', $attributeCode, $channelCode, $localeCode);
 
         return $key;

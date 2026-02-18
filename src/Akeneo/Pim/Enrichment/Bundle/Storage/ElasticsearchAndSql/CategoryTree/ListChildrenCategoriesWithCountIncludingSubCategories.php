@@ -16,20 +16,8 @@ use Doctrine\DBAL\Connection;
  */
 class ListChildrenCategoriesWithCountIncludingSubCategories implements Query\ListChildrenCategoriesWithCountIncludingSubCategories
 {
-    /** @var Connection */
-    private $connection;
-
-    /** @var Client */
-    private $client;
-
-    /**
-     * @param Connection $connection
-     * @param Client     $client
-     */
-    public function __construct(Connection $connection, Client $client)
+    public function __construct(private readonly Connection $connection, private readonly Client $client)
     {
-        $this->connection = $connection;
-        $this->client = $client;
     }
 
     /**
@@ -91,7 +79,7 @@ class ListChildrenCategoriesWithCountIncludingSubCategories implements Query\Lis
             $childrenCategoriesToExpand = null !== $subchildCategoryId && $subchildCategoryId === (int) $category['child_id'] ?
                 $this->getRecursivelyCategories($categoryIdsInPath, $translationLocaleCode, $categoryIdToSelectedAsFilter): [];
 
-            $isLeaf = count($category['children_codes']) === 0;
+            $isLeaf = (is_countable($category['children_codes']) ? count($category['children_codes']) : 0) === 0;
             $isUsedAsFilter = null !== $categoryIdToSelectedAsFilter ? (int) $category['child_id'] === $categoryIdToSelectedAsFilter: false;
 
             $categories[] = new ChildCategory(
@@ -112,7 +100,6 @@ class ListChildrenCategoriesWithCountIncludingSubCategories implements Query\Lis
      * @param int    $parentCategoryId
      * @param string $translationLocaleCode
      *
-     * @return array
      * [
      *     [
      *         'child_id' => 1,
@@ -157,7 +144,7 @@ SQL;
 
         $categories = [];
         foreach ($rows as $row) {
-            $childrenCategoryCodes = null !== $row['children_codes'] ? explode(',', $row['children_codes']) : [];
+            $childrenCategoryCodes = null !== $row['children_codes'] ? explode(',', (string) $row['children_codes']) : [];
             $row['children_codes'] = $childrenCategoryCodes;
             array_shift($row['children_codes']);
 
@@ -179,7 +166,6 @@ SQL;
      *     ]
      * ]
      *
-     * @return array
      * [
      *     [
      *         'child_id' => 1,
@@ -284,9 +270,7 @@ SQL;
             ]
         )->fetchAllAssociative();
 
-        $ids = array_map(function ($row) {
-            return (int) $row['id'];
-        }, $rows);
+        $ids = array_map(fn($row) => (int) $row['id'], $rows);
 
         return $ids;
     }

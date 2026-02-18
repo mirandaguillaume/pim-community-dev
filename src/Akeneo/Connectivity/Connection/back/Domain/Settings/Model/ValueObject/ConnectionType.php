@@ -13,7 +13,7 @@ final class ConnectionType implements \Stringable
     public const DEFAULT_TYPE = 'default';
     public const APP_TYPE = 'app';
 
-    private string $type;
+    private readonly string $type;
 
     public function __construct(?string $type = self::DEFAULT_TYPE)
     {

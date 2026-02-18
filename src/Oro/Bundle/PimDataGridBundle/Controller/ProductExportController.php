@@ -27,18 +27,18 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class ProductExportController
 {
-    const DATETIME_FORMAT = 'Y-m-d_H:i:s';
+    final public const DATETIME_FORMAT = 'Y-m-d_H:i:s';
     private const FILE_PATH_KEYS = ['filePathProduct', 'filePathProductModel'];
 
     public function __construct(
-        private RequestStack $requestStack,
-        private GridFilterAdapterInterface $gridFilterAdapter,
-        private IdentifiableObjectRepositoryInterface $jobInstanceRepo,
-        private TokenStorageInterface $tokenStorage,
-        private JobLauncherInterface $jobLauncher,
-        private DataGridManager $datagridManager,
-        private MassActionParametersParser $parameterParser,
-        private VersionProviderInterface $versionProvider
+        private readonly RequestStack $requestStack,
+        private readonly GridFilterAdapterInterface $gridFilterAdapter,
+        private readonly IdentifiableObjectRepositoryInterface $jobInstanceRepo,
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly JobLauncherInterface $jobLauncher,
+        private readonly DataGridManager $datagridManager,
+        private readonly MassActionParametersParser $parameterParser,
+        private readonly VersionProviderInterface $versionProvider
     ) {
     }
 
@@ -79,9 +79,9 @@ class ProductExportController
         }
 
         if ($withGridContext) {
-            $gridName = (null !== $request->get('gridName')) ? $request->get('gridName') : 'product_grid';
+            $gridName = $request->get('gridName') ?? 'product_grid';
             if (isset($request->get($gridName)['_parameters'])) {
-                $columns = explode(',', $request->get($gridName)['_parameters']['view']['columns']);
+                $columns = explode(',', (string) $request->get($gridName)['_parameters']['view']['columns']);
             } else {
                 $columns = array_keys($this->datagridManager->getConfigurationForGrid($gridName)['columns']);
             }

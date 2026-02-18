@@ -17,20 +17,11 @@ class QueryHelpProductCommand extends Command
 {
     protected static $defaultName = 'pim:product:query-help';
 
-    /** @var DumperInterface */
-    private $fieldDumper;
-
-    /** @var DumperInterface */
-    private $attributeDumper;
-
     public function __construct(
-        DumperInterface $fieldDumper,
-        DumperInterface $attributeDumper
+        private readonly DumperInterface $fieldDumper,
+        private readonly DumperInterface $attributeDumper
     ) {
         parent::__construct();
-
-        $this->fieldDumper = $fieldDumper;
-        $this->attributeDumper = $attributeDumper;
     }
 
     /**

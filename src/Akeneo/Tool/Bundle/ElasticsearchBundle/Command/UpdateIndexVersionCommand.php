@@ -29,7 +29,7 @@ class UpdateIndexVersionCommand extends Command
 {
     protected static $defaultName = 'akeneo:elasticsearch:update-index-version';
 
-    public function __construct(private IndexUpdaterClient $indexUpdaterClient)
+    public function __construct(private readonly IndexUpdaterClient $indexUpdaterClient)
     {
         parent::__construct();
     }

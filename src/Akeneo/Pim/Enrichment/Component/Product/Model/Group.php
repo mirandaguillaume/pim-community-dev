@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @Assert\GroupSequenceProvider
  */
-class Group implements GroupInterface
+class Group implements GroupInterface, \Stringable
 {
     /** @var int $id */
     protected $id;
@@ -122,7 +122,7 @@ class Group implements GroupInterface
             return null;
         }
         foreach ($this->getTranslations() as $translation) {
-            if (\strtolower($translation->getLocale()) === \strtolower($locale)) {
+            if (\strtolower((string) $translation->getLocale()) === \strtolower($locale)) {
                 return $translation;
             }
         }
@@ -201,7 +201,7 @@ class Group implements GroupInterface
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getLabel();
     }

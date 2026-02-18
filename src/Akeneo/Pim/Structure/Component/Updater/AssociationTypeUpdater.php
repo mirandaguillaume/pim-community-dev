@@ -22,9 +22,6 @@ class AssociationTypeUpdater implements ObjectUpdaterInterface
     /** @var TranslatableUpdater */
     protected $translatableUpdater;
 
-    /**
-     * @param TranslatableUpdater $translatableUpdater
-     */
     public function __construct(TranslatableUpdater $translatableUpdater)
     {
         $this->translatableUpdater = $translatableUpdater;
@@ -51,13 +48,11 @@ class AssociationTypeUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param AssociationTypeInterface $associationType
      * @param string                   $field
-     * @param mixed                    $data
      *
      * @throws UnknownPropertyException
      */
-    protected function setData(AssociationTypeInterface $associationType, $field, $data)
+    protected function setData(AssociationTypeInterface $associationType, $field, mixed $data)
     {
         if ('code' === $field) {
             $associationType->setCode($data);
@@ -74,12 +69,11 @@ class AssociationTypeUpdater implements ObjectUpdaterInterface
      * Validate the data type of a field.
      *
      * @param string $field
-     * @param mixed  $data
      *
      * @throws InvalidPropertyTypeException
      * @throws UnknownPropertyException
      */
-    protected function validateDataType($field, $data)
+    protected function validateDataType($field, mixed $data)
     {
         if ('labels' === $field) {
             if (!is_array($data)) {

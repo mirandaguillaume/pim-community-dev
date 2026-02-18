@@ -16,14 +16,10 @@ use Symfony\Component\Validator\Constraints\Type;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class RemoveNonExistingProductValues implements ConstraintCollectionProviderInterface
+final readonly class RemoveNonExistingProductValues implements ConstraintCollectionProviderInterface
 {
-    /** @var array */
-    private $supportedJobNames;
-
-    public function __construct(array $supportedJobNames)
+    public function __construct(private array $supportedJobNames)
     {
-        $this->supportedJobNames = $supportedJobNames;
     }
 
     /**

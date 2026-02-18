@@ -13,7 +13,7 @@ use Doctrine\DBAL\Connection;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class SqlFindChannels implements FindChannels
+final readonly class SqlFindChannels implements FindChannels
 {
     public function __construct(
         private Connection $connection
@@ -52,9 +52,9 @@ final class SqlFindChannels implements FindChannels
         foreach ($results as $result) {
             $channels[] = new Channel(
                 $result['channelCode'],
-                array_values(json_decode($result['localeCodes'], true)),
-                LabelCollection::fromArray(json_decode($result['labels'], true)),
-                array_values(json_decode($result['activatedCurrencies'], true)),
+                array_values(json_decode((string) $result['localeCodes'], true, 512, JSON_THROW_ON_ERROR)),
+                LabelCollection::fromArray(json_decode((string) $result['labels'], true, 512, JSON_THROW_ON_ERROR)),
+                array_values(json_decode((string) $result['activatedCurrencies'], true, 512, JSON_THROW_ON_ERROR)),
                 ConversionUnitCollection::fromArray(unserialize($result['conversionUnits'])),
             );
         }

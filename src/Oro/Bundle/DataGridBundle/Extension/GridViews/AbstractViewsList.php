@@ -7,12 +7,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class AbstractViewsList
 {
-    protected TranslatorInterface $translator;
     protected ?ArrayCollection $views = null;
 
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(protected TranslatorInterface $translator)
     {
-        $this->translator = $translator;
     }
 
     /**
@@ -53,9 +51,7 @@ abstract class AbstractViewsList
         }
 
         $filtered = $this->getList()->filter(
-            function (View $view) use ($name) {
-                return $view->getName() === $name;
-            }
+            fn(View $view) => $view->getName() === $name
         );
 
         return $filtered->first();
@@ -86,9 +82,7 @@ abstract class AbstractViewsList
     public function getMetadata()
     {
         $result = $this->getList()->map(
-            function (View $view) {
-                return $view->getMetadata();
-            }
+            fn(View $view) => $view->getMetadata()
         );
 
         return [
@@ -100,7 +94,6 @@ abstract class AbstractViewsList
     /**
      * Validates input array
      *
-     * @param array $list
      *
      * @throws \InvalidArgumentException
      */

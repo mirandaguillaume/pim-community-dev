@@ -16,9 +16,6 @@ class GroupNormalizer implements NormalizerInterface, CacheableSupportsMethodInt
     /** @var TranslationNormalizer */
     protected $translationNormalizer;
 
-    /**
-     * @param TranslationNormalizer $translationNormalizer
-     */
     public function __construct(TranslationNormalizer $translationNormalizer)
     {
         $this->translationNormalizer = $translationNormalizer;

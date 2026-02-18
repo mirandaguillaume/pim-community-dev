@@ -18,11 +18,11 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityId
 class ConsolidateProductScores
 {
     public function __construct(
-        private GetCriteriaEvaluationsByEntityIdQueryInterface $getCriteriaEvaluationsQuery,
-        private ComputeScores $computeScores,
-        private ProductScoreRepositoryInterface $productScoreRepository,
-        private Clock $clock,
-        private FilterPartialCriteriaEvaluations $filterPartialCriteriaEvaluations,
+        private readonly GetCriteriaEvaluationsByEntityIdQueryInterface $getCriteriaEvaluationsQuery,
+        private readonly ComputeScores $computeScores,
+        private readonly ProductScoreRepositoryInterface $productScoreRepository,
+        private readonly Clock $clock,
+        private readonly FilterPartialCriteriaEvaluations $filterPartialCriteriaEvaluations,
     ) {
     }
 

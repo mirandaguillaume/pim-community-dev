@@ -28,7 +28,7 @@ inputs:
   php-version:
     description: 'PHP version to use'
     required: false
-    default: '8.1'
+    default: '8.2'
 
 runs:
   using: 'composite'
@@ -76,6 +76,10 @@ runs:
           ~/.cache/Cypress
         key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
         restore-keys: yarn-${{ runner.os }}-
+
+    - name: Tune kernel for Elasticsearch
+      shell: bash
+      run: sudo sysctl -w vm.max_map_count=262144
 
     - name: Copy docker-compose override
       if: inputs.docker-compose-override == 'true'

@@ -49,7 +49,7 @@ class FileTypeGuesser implements FileTypeGuesserInterface
                     return $fileType;
                 }
 
-                if ($discrete = strstr($mappedType, '/*', true)) {
+                if ($discrete = strstr((string) $mappedType, '/*', true)) {
                     if (strstr($mimeType, '/', true) === $discrete) {
                         return $fileType;
                     }

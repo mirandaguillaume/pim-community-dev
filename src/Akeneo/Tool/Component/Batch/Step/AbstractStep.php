@@ -98,7 +98,7 @@ abstract class AbstractStep implements StepInterface
                 $this->dispatchStepExecutionEvent(EventInterface::STEP_EXECUTION_SUCCEEDED, $stepExecution);
             }
         } catch (\Exception $e) {
-            $stepExecution->upgradeStatus($this->determineBatchStatus($e));
+            $stepExecution->upgradeStatus(self::determineBatchStatus($e));
 
             $exitStatus = $exitStatus->logicalAnd($this->getDefaultExitStatusForFailure($e));
             $stepExecution->addFailureException($e);
@@ -137,7 +137,7 @@ abstract class AbstractStep implements StepInterface
     {
         if ($e instanceof JobInterruptedException || $e->getPrevious() instanceof JobInterruptedException) {
             $exitStatus = new ExitStatus(ExitStatus::STOPPED);
-            $exitStatus->addExitDescription(get_class(new JobInterruptedException()));
+            $exitStatus->addExitDescription((new JobInterruptedException())::class);
         } else {
             $exitStatus = new ExitStatus(ExitStatus::FAILED);
             $exitStatus->addExitDescription($e);
@@ -163,8 +163,6 @@ abstract class AbstractStep implements StepInterface
      *
      * @param string $class
      * @param string $reason
-     * @param array  $reasonParameters
-     * @param InvalidItemInterface  $item
      */
     protected function dispatchInvalidItemEvent($class, $reason, array $reasonParameters, InvalidItemInterface $item)
     {

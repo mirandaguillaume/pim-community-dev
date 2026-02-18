@@ -10,7 +10,7 @@ use Webmozart\Assert\Assert;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ProductProjection
+final readonly class ProductProjection
 {
     /**
      * @param bool $enabled
@@ -24,10 +24,10 @@ final class ProductProjection
      * @param array<string> $categoryCodes
      */
     public function __construct(
-        private readonly bool $enabled,
-        private readonly ?string $familyCode,
-        private readonly array $productValues,
-        private readonly array $categoryCodes,
+        private bool $enabled,
+        private ?string $familyCode,
+        private array $productValues,
+        private array $categoryCodes,
     ) {
         Assert::isMap($productValues);
     }

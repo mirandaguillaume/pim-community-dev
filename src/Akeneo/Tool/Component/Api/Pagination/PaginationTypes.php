@@ -11,6 +11,6 @@ namespace Akeneo\Tool\Component\Api\Pagination;
  */
 class PaginationTypes
 {
-    const SEARCH_AFTER = 'search_after';
-    const OFFSET = 'page';
+    final public const SEARCH_AFTER = 'search_after';
+    final public const OFFSET = 'page';
 }

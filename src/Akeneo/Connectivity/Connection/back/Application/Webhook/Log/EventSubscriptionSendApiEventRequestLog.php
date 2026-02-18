@@ -21,7 +21,7 @@ class EventSubscriptionSendApiEventRequestLog
     /**
      * @param array<string, int|string> $headers
      */
-    public function __construct(private WebhookRequest $webhookRequest, private array $headers, private float $startTime)
+    public function __construct(private readonly WebhookRequest $webhookRequest, private readonly array $headers, private readonly float $startTime)
     {
     }
 

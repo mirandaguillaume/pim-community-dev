@@ -15,7 +15,7 @@ use Psr\Log\LoggerInterface;
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class UpdateAuditData
+final readonly class UpdateAuditData
 {
     public function __construct(
         private UpdateDataSourceProductEventCountHandler $updateDataSourceProductEventCountHandler,
@@ -65,8 +65,6 @@ final class UpdateAuditData
     /**
      * Returns an array of HourlyInterval instances representing hourly intervals between the start and end dates.
      *
-     * @param \DateTimeInterface $startDateTime
-     * @param \DateTimeInterface $endDateTime
      *
      * @return HourlyInterval[]
      */

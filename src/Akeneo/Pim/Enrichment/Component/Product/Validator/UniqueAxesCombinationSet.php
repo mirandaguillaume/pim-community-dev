@@ -19,8 +19,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface;
  */
 class UniqueAxesCombinationSet
 {
-    /** @var array */
-    private $uniqueAxesCombination;
+    private array $uniqueAxesCombination;
 
     /**
      * Initializes the set.
@@ -43,8 +42,6 @@ class UniqueAxesCombinationSet
      * exception with the code/identifier of the entity that already contains
      * this combination.
      *
-     * @param EntityWithFamilyVariantInterface $entity
-     * @param string                           $axisValueCombination
      *
      * @throws AlreadyExistingAxisValueCombinationException
      */
@@ -65,7 +62,7 @@ class UniqueAxesCombinationSet
                         $axisValueCombination
                     )
                 );
-            } elseif ($entity instanceof ProductModelInterface && $cachedIdentifierOrUuid['identifier'] !== \mb_strtolower($entity->getIdentifier())) {
+            } elseif ($entity instanceof ProductModelInterface && $cachedIdentifierOrUuid['identifier'] !== \mb_strtolower((string) $entity->getIdentifier())) {
                 throw new AlreadyExistingAxisValueCombinationException(
                     $cachedIdentifierOrUuid['identifier'],
                     sprintf(

@@ -92,19 +92,17 @@ SQL,
         $this->assertNotEmpty($productScore);
 
         $expectedScores = $this->formatScoresForComparison($expectedProductScore->getScores());
-        $this->assertEquals($expectedScores, json_decode($productScore['scores'], true));
+        $this->assertEquals($expectedScores, json_decode((string) $productScore['scores'], true, 512, JSON_THROW_ON_ERROR));
 
         $expectedScoresPartialCriteria = $this->formatScoresForComparison($expectedProductScore->getScoresPartialCriteria());
-        $this->assertEquals($expectedScoresPartialCriteria, json_decode($productScore['scores_partial_criteria'], true));
+        $this->assertEquals($expectedScoresPartialCriteria, json_decode((string) $productScore['scores_partial_criteria'], true, 512, JSON_THROW_ON_ERROR));
     }
 
     private function formatScoresForComparison(ChannelLocaleRateCollection $scores): array
     {
-        return $scores->mapWith(function (Rate $score) {
-            return [
-                'rank' => Rank::fromRate($score)->toInt(),
-                'value' => $score->toInt(),
-            ];
-        });
+        return $scores->mapWith(fn(Rate $score) => [
+            'rank' => Rank::fromRate($score)->toInt(),
+            'value' => $score->toInt(),
+        ]);
     }
 }

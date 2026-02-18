@@ -21,33 +21,19 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class UserNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    private DateTimeNormalizer $dateTimeNormalizer;
-    private NormalizerInterface $fileNormalizer;
-    private SecurityFacade $securityFacade;
-    private TokenStorageInterface $tokenStorage;
-    private DatagridViewRepositoryInterface $datagridViewRepo;
-
-    /** @var array */
-    private $properties;
+    private readonly array $properties;
     protected array $supportedFormats = ['internal_api'];
-    private array $userNormalizers;
 
     public function __construct(
-        DateTimeNormalizer $dateTimeNormalizer,
-        NormalizerInterface $fileNormalizer,
-        SecurityFacade $securityFacade,
-        TokenStorageInterface $tokenStorage,
-        DatagridViewRepositoryInterface $datagridViewRepo,
-        array $userNormalizers = [],
+        private readonly DateTimeNormalizer $dateTimeNormalizer,
+        private readonly NormalizerInterface $fileNormalizer,
+        private readonly SecurityFacade $securityFacade,
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly DatagridViewRepositoryInterface $datagridViewRepo,
+        private readonly array $userNormalizers = [],
         string ...$properties
     ) {
-        $this->dateTimeNormalizer = $dateTimeNormalizer;
-        $this->fileNormalizer = $fileNormalizer;
-        $this->securityFacade = $securityFacade;
-        $this->tokenStorage = $tokenStorage;
-        $this->datagridViewRepo = $datagridViewRepo;
         $this->properties = $properties;
-        $this->userNormalizers = $userNormalizers;
     }
 
     /**
@@ -103,17 +89,13 @@ class UserNormalizer implements NormalizerInterface, CacheableSupportsMethodInte
         foreach ($aliases as $alias) {
             $defaultView = $user->getDefaultGridView($alias);
             // Set default_product_grid_view, default_published_product_grid_view, etc.
-            $result[sprintf('default_%s_view', str_replace('-', '_', $alias))]
+            $result[sprintf('default_%s_view', str_replace('-', '_', (string) $alias))]
                 = $defaultView === null ? null : $defaultView->getId();
         }
 
-        $normalizedProperties = array_reduce($this->properties, function ($result, string $propertyName) use ($user) {
-            return $result + [$propertyName => $user->getProperty($propertyName)];
-        }, []);
+        $normalizedProperties = array_reduce($this->properties, fn($result, string $propertyName) => $result + [$propertyName => $user->getProperty($propertyName)], []);
 
-        $normalizedCompound = array_map(function ($normalizer) use ($user, $format, $context) {
-            return $normalizer->normalize($user, $format, $context);
-        }, $this->userNormalizers);
+        $normalizedCompound = array_map(fn($normalizer) => $normalizer->normalize($user, $format, $context), $this->userNormalizers);
 
         $result['properties'] = $normalizedProperties;
 
@@ -134,21 +116,15 @@ class UserNormalizer implements NormalizerInterface, CacheableSupportsMethodInte
     }
 
     /**
-     * @param UserInterface $user
-     *
      * @return string[]
      */
     private function getRoleNames(UserInterface $user): array
     {
-        return $user->getRolesCollection()->map(function (Role $role) {
-            return $role->getRole();
-        })->toArray();
+        return $user->getRolesCollection()->map(fn(Role $role) => $role->getRole())->toArray();
     }
 
     /**
      * @param UserInterface $user
-     *
-     * @return string
      */
     private function getFormName($user): string
     {

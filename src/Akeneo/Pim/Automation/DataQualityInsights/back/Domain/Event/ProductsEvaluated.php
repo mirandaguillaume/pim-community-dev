@@ -14,7 +14,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 final class ProductsEvaluated extends Event
 {
     public function __construct(
-        private ProductEntityIdCollection $productIdCollection
+        private readonly ProductEntityIdCollection $productIdCollection
     ) {
     }
 

@@ -28,8 +28,8 @@ class CreateConnectionCommand extends Command
     protected static $defaultName = 'akeneo:connectivity-connection:create';
 
     public function __construct(
-        private CreateConnectionHandler $createConnection,
-        private TranslatorInterface $translator,
+        private readonly CreateConnectionHandler $createConnection,
+        private readonly TranslatorInterface $translator,
     ) {
         parent::__construct();
     }

@@ -19,16 +19,8 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\Rate;
  */
 class ComputeScores
 {
-    private GetLocalesByChannelQueryInterface $getLocalesByChannelQuery;
-
-    private CriteriaEvaluationRegistry $criteriaEvaluationRegistry;
-
-    public function __construct(
-        GetLocalesByChannelQueryInterface $getLocalesByChannelQuery,
-        CriteriaEvaluationRegistry $criteriaEvaluationRegistry
-    ) {
-        $this->getLocalesByChannelQuery = $getLocalesByChannelQuery;
-        $this->criteriaEvaluationRegistry = $criteriaEvaluationRegistry;
+    public function __construct(private readonly GetLocalesByChannelQueryInterface $getLocalesByChannelQuery, private readonly CriteriaEvaluationRegistry $criteriaEvaluationRegistry)
+    {
     }
 
     public function fromCriteriaEvaluations(Read\CriterionEvaluationCollection $criteriaEvaluations): ChannelLocaleRateCollection

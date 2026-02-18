@@ -23,11 +23,6 @@ class PagerResolver implements PagerResolverInterface
     /** @var array */
     protected $gridsWithDummyPager;
 
-    /**
-     * @param PagerInterface $ormPager
-     * @param PagerInterface $dummyPager
-     * @param array          $gridsWithDummyPager
-     */
     public function __construct(PagerInterface $ormPager, PagerInterface $dummyPager, array $gridsWithDummyPager)
     {
         $this->ormPager = $ormPager;

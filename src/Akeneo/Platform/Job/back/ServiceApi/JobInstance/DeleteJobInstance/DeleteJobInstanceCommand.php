@@ -9,13 +9,13 @@ declare(strict_types=1);
 
 namespace Akeneo\Platform\Job\ServiceApi\JobInstance\DeleteJobInstance;
 
-final class DeleteJobInstanceCommand
+final readonly class DeleteJobInstanceCommand
 {
     /**
      * @param string[] $codes
      */
     public function __construct(
-        public readonly array $codes,
+        public array $codes,
     ) {
     }
 }

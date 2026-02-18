@@ -18,19 +18,14 @@ class TokenController
     /** @var OAuth2 */
     protected $oauthServer;
 
-    /**
-     * @param OAuth2 $oauthServer
-     */
     public function __construct(OAuth2 $oauthServer)
     {
         $this->oauthServer = $oauthServer;
     }
 
     /**
-     * @param Request $request
      *
      * @throws UnprocessableEntityHttpException
-     *
      * @return Response
      */
     public function tokenAction(Request $request)
@@ -41,7 +36,7 @@ class TokenController
             $grantType = $request->request->get('grant_type');
             $message = $this->getErrorMessage($e->getMessage(), $grantType);
 
-            throw new UnprocessableEntityHttpException(null !== $message ? $message : $e->getDescription());
+            throw new UnprocessableEntityHttpException($message ?? $e->getDescription());
         }
     }
 
@@ -50,10 +45,8 @@ class TokenController
      *
      * @param string $errorCode
      * @param string $grantType
-     *
-     * @return null|string
      */
-    protected function getErrorMessage($errorCode, $grantType)
+    protected function getErrorMessage($errorCode, $grantType): ?string
     {
         $messages = [
             OAuth2::ERROR_INVALID_REQUEST     => 'Parameter "grant_type", "username" or "password" is missing, empty or invalid',
@@ -67,6 +60,6 @@ class TokenController
             $messages[OAuth2::ERROR_INVALID_GRANT]   = 'Refresh token is invalid or has expired';
         }
 
-        return isset($messages[$errorCode]) ? $messages[$errorCode] : null;
+        return $messages[$errorCode] ?? null;
     }
 }

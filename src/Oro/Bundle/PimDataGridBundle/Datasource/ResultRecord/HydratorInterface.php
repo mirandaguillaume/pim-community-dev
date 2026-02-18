@@ -16,10 +16,8 @@ interface HydratorInterface
     /**
      * Execute the query and hydrate as result record array
      *
-     * @param mixed $qb
-     * @param array $options
      *
      * @return ResultRecord[]
      */
-    public function hydrate($qb, array $options = []);
+    public function hydrate(mixed $qb, array $options = []);
 }

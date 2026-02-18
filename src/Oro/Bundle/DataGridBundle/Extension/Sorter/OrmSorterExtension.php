@@ -14,17 +14,17 @@ class OrmSorterExtension extends AbstractExtension
     /**
      * Query param
      */
-    const SORTERS_ROOT_PARAM = '_sort_by';
+    final public const SORTERS_ROOT_PARAM = '_sort_by';
 
     /**
      * Ascending sorting direction
      */
-    const DIRECTION_ASC = "ASC";
+    final public const DIRECTION_ASC = "ASC";
 
     /**
      * Descending sorting direction
      */
-    const DIRECTION_DESC = "DESC";
+    final public const DIRECTION_DESC = "DESC";
 
     /**
      * {@inheritDoc}
@@ -57,7 +57,7 @@ class OrmSorterExtension extends AbstractExtension
         $sorters = $this->getSortersToApply($config);
         $multisort = $config->offsetGetByPath(Configuration::MULTISORT_PATH, false);
         foreach ($sorters as $definition) {
-            list($direction, $sorter) = $definition;
+            [$direction, $sorter] = $definition;
 
             $sortKey = $sorter['data_name'];
 
@@ -98,7 +98,7 @@ class OrmSorterExtension extends AbstractExtension
         $sortersState = $data->offsetGetByPath('[state][sorters]', []);
         $sorters = $this->getSortersToApply($config);
         foreach ($sorters as $column => $definition) {
-            list($direction) = $definition;
+            [$direction] = $definition;
             $sortersState[$column] = $this->normalizeDirection($direction);
         }
 
@@ -117,7 +117,6 @@ class OrmSorterExtension extends AbstractExtension
     /**
      * Retrieve and prepare list of sorters
      *
-     * @param DatagridConfiguration $config
      *
      * @return array
      */
@@ -136,7 +135,6 @@ class OrmSorterExtension extends AbstractExtension
     /**
      * Prepare sorters array
      *
-     * @param DatagridConfiguration $config
      *
      * @return array
      */
@@ -157,7 +155,7 @@ class OrmSorterExtension extends AbstractExtension
         }
 
         foreach ($sortBy as $column => $direction) {
-            $sorter = isset($sorters[$column]) ? $sorters[$column] : false;
+            $sorter = $sorters[$column] ?? false;
 
             if ($sorter !== false) {
                 $direction = $this->normalizeDirection($direction);

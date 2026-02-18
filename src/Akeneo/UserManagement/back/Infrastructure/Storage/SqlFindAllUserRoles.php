@@ -16,7 +16,7 @@ use Doctrine\DBAL\Exception;
 class SqlFindAllUserRoles implements FindAllUserRoles
 {
     public function __construct(
-        private Connection $connection,
+        private readonly Connection $connection,
     ) {
     }
 

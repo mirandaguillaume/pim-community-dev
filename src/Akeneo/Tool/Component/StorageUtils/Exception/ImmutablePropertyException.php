@@ -11,12 +11,6 @@ namespace Akeneo\Tool\Component\StorageUtils\Exception;
  */
 class ImmutablePropertyException extends PropertyException
 {
-    /** @var string */
-    protected $propertyValue;
-
-    /** @var string */
-    protected $className;
-
     /**
      * @param string          $propertyName
      * @param string          $propertyValue
@@ -27,8 +21,8 @@ class ImmutablePropertyException extends PropertyException
      */
     public function __construct(
         $propertyName,
-        $propertyValue,
-        $className,
+        protected $propertyValue,
+        protected $className,
         $message = '',
         $code = 0,
         \Exception $previous = null
@@ -36,8 +30,6 @@ class ImmutablePropertyException extends PropertyException
         parent::__construct($message, $code, $previous);
 
         $this->propertyName  = $propertyName;
-        $this->propertyValue = $propertyValue;
-        $this->className = $className;
     }
 
     /**

@@ -16,7 +16,7 @@ use RuntimeException;
 
 class PublishToJobQueueIntegration extends TestCase
 {
-    const EXPORT_DIRECTORY = 'pim-integration-tests-export';
+    final public const EXPORT_DIRECTORY = 'pim-integration-tests-export';
 
     protected JobLauncher $jobLauncher;
 
@@ -50,12 +50,12 @@ class PublishToJobQueueIntegration extends TestCase
         $this->assertNotNull($jobExecution['create_time']);
         $this->assertNull($jobExecution['pid']);
         $this->assertNull($jobExecution['log_file']);
-        $this->assertNotNull(json_decode($jobExecution['raw_parameters'], true));
+        $this->assertNotNull(json_decode((string) $jobExecution['raw_parameters'], true, 512, JSON_THROW_ON_ERROR));
         $this->assertNull($jobExecution['user']);
 
         $jobExecutionMessage = $this->getJobExecutionMessage();
         self::assertNotNull($jobExecutionMessage);
-        $jobExecutionMessage = \json_decode($jobExecutionMessage->data(), true);
+        $jobExecutionMessage = \json_decode($jobExecutionMessage->data(), true, 512, JSON_THROW_ON_ERROR);
 
         self::assertNotNull($jobExecutionMessage['job_execution_id']);
         self::assertSame(['env' => 'test'], $jobExecutionMessage['options']);
@@ -103,7 +103,7 @@ class PublishToJobQueueIntegration extends TestCase
 
         $jobExecution = $this->getJobExecution();
 
-        $config = json_decode($jobExecution['raw_parameters'], true);
+        $config = json_decode((string) $jobExecution['raw_parameters'], true, 512, JSON_THROW_ON_ERROR);
         $this->assertEquals($filePath, $config['storage']['file_path']);
 
         $this->jobLauncher->launchConsumerOnce();
@@ -123,7 +123,7 @@ class PublishToJobQueueIntegration extends TestCase
 
         $jobExecutionMessage = $this->getJobExecutionMessage();
         self::assertNotNull($jobExecutionMessage);
-        $jobExecutionMessage = \json_decode($jobExecutionMessage->data(), true);
+        $jobExecutionMessage = \json_decode($jobExecutionMessage->data(), true, 512, JSON_THROW_ON_ERROR);
 
         self::assertSame(
             ['env' => 'test', 'no-log' => true],
@@ -145,7 +145,7 @@ class PublishToJobQueueIntegration extends TestCase
 
         $jobExecutionMessage = $this->getJobExecutionMessage();
         self::assertNotNull($jobExecutionMessage);
-        $jobExecutionMessage = \json_decode($jobExecutionMessage->data(), true);
+        $jobExecutionMessage = \json_decode($jobExecutionMessage->data(), true, 512, JSON_THROW_ON_ERROR);
 
         self::assertSame(
             ['env' => 'test', 'email' => ['ziggy@akeneo.com']],

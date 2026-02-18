@@ -14,8 +14,6 @@ interface ListProductGridAvailableColumnGroups
     /**
      * Fetch the list of the available column groups in product grid, with the number of columns in each group.
      *
-     * @param string $locale
-     * @param int    $userId
      *
      * @return array
      */

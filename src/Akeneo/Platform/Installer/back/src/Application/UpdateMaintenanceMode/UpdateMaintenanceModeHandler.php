@@ -11,10 +11,10 @@ namespace Akeneo\Platform\Installer\Application\UpdateMaintenanceMode;
 
 use Akeneo\Platform\Installer\Domain\Query\UpdateMaintenanceModeInterface;
 
-final class UpdateMaintenanceModeHandler
+final readonly class UpdateMaintenanceModeHandler
 {
     public function __construct(
-        private readonly UpdateMaintenanceModeInterface $updateMaintenanceMode,
+        private UpdateMaintenanceModeInterface $updateMaintenanceMode,
     ) {
     }
 

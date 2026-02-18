@@ -13,59 +13,28 @@ final class AnnouncementItem
 {
     private const DATE_FORMAT = 'F\, jS Y';
 
-    /** @var string */
-    private $id;
+    private readonly \DateTimeImmutable $startDate;
 
-    /** @var string */
-    private $title;
-
-    /** @var string */
-    private $description;
-
-    /** @var string|null */
-    private $img;
-
-    /** @var string|null */
-    private $altImg;
-
-    /** @var string */
-    private $link;
-
-    /** @var \DateTimeImmutable */
-    private $startDate;
-
-    /** @var \DateTimeImmutable */
-    private $endDate;
-
-    /** @var string[] */
-    private $tags;
+    private readonly \DateTimeImmutable $endDate;
 
     /**
      * @param string[] $tags
      */
     public function __construct(
-        string $id,
-        string $title,
-        string $description,
-        ?string $img,
-        ?string $altImg,
-        string $link,
+        private readonly string $id,
+        private readonly string $title,
+        private readonly string $description,
+        private readonly ?string $img,
+        private readonly ?string $altImg,
+        private readonly string $link,
         \DateTimeImmutable $startDate,
         \DateTimeImmutable $endDate,
-        array $tags
+        private readonly array $tags
     ) {
         $startDateWithoutTime = $startDate->setTime(0, 0);
         $endDateWithoutTime = $endDate->setTime(0, 0);
-
-        $this->id = $id;
-        $this->title = $title;
-        $this->description = $description;
-        $this->img = $img;
-        $this->altImg = $altImg;
-        $this->link = $link;
         $this->startDate = $startDateWithoutTime;
         $this->endDate = $endDateWithoutTime;
-        $this->tags = $tags;
     }
 
     /**
@@ -87,8 +56,6 @@ final class AnnouncementItem
 
     /**
      * @param array<string> $viewedAnnouncementIds
-     *
-     * @return bool
      */
     public function shouldBeNotified(array $viewedAnnouncementIds): bool
     {

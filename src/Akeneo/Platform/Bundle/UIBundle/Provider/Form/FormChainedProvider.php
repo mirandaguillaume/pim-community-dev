@@ -44,8 +44,6 @@ class FormChainedProvider implements FormProviderInterface
 
     /**
      * Add a provider
-     *
-     * @param FormProviderInterface $provider
      */
     public function addProvider(FormProviderInterface $provider): void
     {

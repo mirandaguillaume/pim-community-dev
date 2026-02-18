@@ -45,16 +45,13 @@ class FileInfoFactorySpec extends ObjectBehavior
     public function getMatchers(): array
     {
         return [
-            'beValidFile' => function ($subject) {
-                return
-                    $subject->getKey() === '1/2/3/4/12345_my_file.php' &&
-                    $subject->getOriginalFilename() === 'FileInfoFactorySpec.php' &&
-                    $subject->getMimeType() === 'text/x-php' &&
-                    $subject->getSize() === filesize(__FILE__) &&
-                    $subject->getExtension() === 'php' &&
-                    $subject->getStorage() === 'destination' &&
-                    $subject->getHash() === sha1_file(__FILE__);
-            }
+            'beValidFile' => fn($subject) => $subject->getKey() === '1/2/3/4/12345_my_file.php' &&
+            $subject->getOriginalFilename() === 'FileInfoFactorySpec.php' &&
+            $subject->getMimeType() === 'text/x-php' &&
+            $subject->getSize() === filesize(__FILE__) &&
+            $subject->getExtension() === 'php' &&
+            $subject->getStorage() === 'destination' &&
+            $subject->getHash() === sha1_file(__FILE__)
         ];
     }
 }

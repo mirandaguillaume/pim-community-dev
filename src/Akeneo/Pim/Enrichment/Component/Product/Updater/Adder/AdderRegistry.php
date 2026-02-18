@@ -23,9 +23,6 @@ class AdderRegistry implements AdderRegistryInterface
     /** @var IdentifiableObjectRepositoryInterface */
     protected $attributeRepository;
 
-    /**
-     * @param IdentifiableObjectRepositoryInterface $repository
-     */
     public function __construct(IdentifiableObjectRepositoryInterface $repository)
     {
         $this->attributeRepository = $repository;
@@ -91,10 +88,8 @@ class AdderRegistry implements AdderRegistryInterface
 
     /**
      * @param string $code
-     *
-     * @return AttributeInterface|null
      */
-    protected function getAttribute($code)
+    protected function getAttribute($code): ?\Akeneo\Pim\Structure\Component\Model\AttributeInterface
     {
         return $this->attributeRepository->findOneByIdentifier($code);
     }

@@ -33,12 +33,6 @@ class VersionedAttributeNormalizer implements NormalizerInterface, CacheableSupp
     /** @var StructureVersionProviderInterface */
     protected $structureVersionProvider;
 
-    /**
-     * @param NormalizerInterface               $normalizer
-     * @param VersionManager                    $versionManager
-     * @param NormalizerInterface               $versionNormalizer
-     * @param StructureVersionProviderInterface $structureVersionProvider
-     */
     public function __construct(
         NormalizerInterface $normalizer,
         VersionManager $versionManager,

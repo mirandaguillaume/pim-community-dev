@@ -341,9 +341,7 @@ class CategoryExtensionSpec extends ObjectBehavior
     public function getMatchers(): array
     {
         return [
-            'equalUsingJSON' => function ($subject, $value) {
-                return json_encode($subject) === json_encode($value);
-            }
+            'equalUsingJSON' => fn($subject, $value) => json_encode($subject, JSON_THROW_ON_ERROR) === json_encode($value, JSON_THROW_ON_ERROR)
         ];
     }
 }

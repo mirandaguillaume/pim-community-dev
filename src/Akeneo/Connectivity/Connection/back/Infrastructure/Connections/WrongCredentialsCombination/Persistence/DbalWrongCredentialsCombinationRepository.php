@@ -16,7 +16,7 @@ use Doctrine\DBAL\Connection;
  */
 class DbalWrongCredentialsCombinationRepository implements WrongCredentialsCombinationRepositoryInterface
 {
-    public function __construct(private Connection $dbalConnection)
+    public function __construct(private readonly Connection $dbalConnection)
     {
     }
 
@@ -51,7 +51,7 @@ SQL;
 
         if (null !== $results && $results !== []) {
             \array_walk($results, function (array &$combinations): void {
-                $combinations['users'] = \json_decode($combinations['users'], true, 512, JSON_THROW_ON_ERROR);
+                $combinations['users'] = \json_decode((string) $combinations['users'], true, 512, JSON_THROW_ON_ERROR);
             });
         }
 

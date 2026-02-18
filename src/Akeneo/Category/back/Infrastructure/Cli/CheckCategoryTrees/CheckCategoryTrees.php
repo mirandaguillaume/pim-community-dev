@@ -23,12 +23,9 @@ class CheckCategoryTrees extends Command
 {
     protected static $defaultName = 'akeneo:categories:check-order';
 
-    private Connection $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
         parent::__construct();
-        $this->connection = $connection;
     }
 
     /**
@@ -97,7 +94,7 @@ class CheckCategoryTrees extends Command
             $fixedTree = $root->reorder();
             $corruptions = $root->diff($fixedTree);
 
-            $rootHasCorruptions = (bool) count($corruptions);
+            $rootHasCorruptions = (bool) (is_countable($corruptions) ? count($corruptions) : 0);
             if ($rootHasCorruptions) {
                 if ($inputOptionDumpCorruptions) {
                     $output->writeln($corruptions);
@@ -151,7 +148,7 @@ SQL;
             if (!$this->connection->commit()) {
                 throw new \Exception('Could not commit update transaction');
             }
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             $this->connection->rollBack();
         }
     }

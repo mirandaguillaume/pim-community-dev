@@ -23,7 +23,6 @@ interface GroupRepositoryInterface extends IdentifiableObjectRepositoryInterface
      * @param string $dataLocale
      * @param int    $collectionId
      * @param string $search
-     * @param array  $options
      *
      * @return array
      */

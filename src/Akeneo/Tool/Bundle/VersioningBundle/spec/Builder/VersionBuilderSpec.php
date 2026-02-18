@@ -60,10 +60,10 @@ class VersionBuilderSpec extends ObjectBehavior
     function it_builds_pending_versions_with_attribute_with_numeric_code(Version $pending)
     {
         $pending->setVersion(1)->willReturn($pending);
-        $pending->setSnapshot([12345678 => 'bar'])->willReturn($pending);
-        $pending->getChangeset()->willReturn([12345678 => 'bar']);
+        $pending->setSnapshot([12_345_678 => 'bar'])->willReturn($pending);
+        $pending->getChangeset()->willReturn([12_345_678 => 'bar']);
 
-        $pending->setChangeset([12345678 => ['old' => '', 'new' => 'bar']])->shouldBeCalled()->willReturn($pending);
+        $pending->setChangeset([12_345_678 => ['old' => '', 'new' => 'bar']])->shouldBeCalled()->willReturn($pending);
 
         $this->buildPendingVersion($pending);
     }

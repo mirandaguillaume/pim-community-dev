@@ -18,11 +18,11 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  *
  * @internal This is an undocumented API endpoint used for internal purposes only
  */
-final class GetCustomAppsAction
+final readonly class GetCustomAppsAction
 {
     public function __construct(
-        private readonly TokenStorageInterface $tokenStorage,
-        private readonly GetCustomAppsQueryInterface $getCustomAppsQuery,
+        private TokenStorageInterface $tokenStorage,
+        private GetCustomAppsQueryInterface $getCustomAppsQuery,
     ) {
     }
 

@@ -53,8 +53,6 @@ class RemoveCategoryFilterInJobInstanceSubscriber implements EventSubscriberInte
     /**
      * We can not get the child's codes of a category after delete. So when a category is going to be deleted,
      * we get all the child's codes linked to it and keep them in $computedCodes property.
-     *
-     * @param GenericEvent $event
      */
     public function computeAndHoldCategoryTreeCodes(GenericEvent $event): void
     {
@@ -80,9 +78,6 @@ class RemoveCategoryFilterInJobInstanceSubscriber implements EventSubscriberInte
 
     /**
      * Returns the number of updated jobs.
-     *
-     * @param GenericEvent $event
-     * @return int
      */
     public function removeCategoryFilter(GenericEvent $event): int
     {
@@ -102,9 +97,6 @@ class RemoveCategoryFilterInJobInstanceSubscriber implements EventSubscriberInte
 
     /**
      * Returns the number of updated jobs.
-     *
-     * @param GenericEvent $event
-     * @return int
      */
     public function removeCategoryFilters(GenericEvent $event): int
     {
@@ -125,7 +117,6 @@ class RemoveCategoryFilterInJobInstanceSubscriber implements EventSubscriberInte
     /**
      * Get the code of the category and its children.
      *
-     * @param CategoryInterface $category
      * @return string[]
      */
     private function getCodeAndChildrenCodes(CategoryInterface $category): array
@@ -166,10 +157,6 @@ class RemoveCategoryFilterInJobInstanceSubscriber implements EventSubscriberInte
 
     /**
      * Returns true if $jobInstance object is updated, false otherwise.
-     *
-     * @param JobInstance $jobInstance
-     * @param array       $categoryCodes
-     * @return bool
      */
     protected function updateCategoryCodesFilterInJobInstance(JobInstance $jobInstance, array $categoryCodes): bool
     {
@@ -199,7 +186,7 @@ class RemoveCategoryFilterInJobInstanceSubscriber implements EventSubscriberInte
                     return true;
                 }
 
-                if (count($newValues) !== count(($filter['value']))) {
+                if (count($newValues) !== (is_countable($filter['value']) ? count(($filter['value'])) : 0)) {
                     $rawParameters['filters']['data'][$filterKey]['value'] = $newValues;
                     $jobInstance->setRawParameters($rawParameters);
 

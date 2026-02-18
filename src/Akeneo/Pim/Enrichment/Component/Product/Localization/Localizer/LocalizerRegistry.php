@@ -28,10 +28,8 @@ class LocalizerRegistry implements LocalizerRegistryInterface
      * Get a localizer supported by value
      *
      * @param string $value
-     *
-     * @return LocalizerInterface|null
      */
-    public function getLocalizer($value)
+    public function getLocalizer($value): ?\Akeneo\Tool\Component\Localization\Localizer\LocalizerInterface
     {
         foreach ($this->localizers as $localizer) {
             if ($localizer->supports($value)) {

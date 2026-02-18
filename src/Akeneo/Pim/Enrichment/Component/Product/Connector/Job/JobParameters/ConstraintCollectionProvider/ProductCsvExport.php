@@ -30,10 +30,6 @@ class ProductCsvExport implements ConstraintCollectionProviderInterface
     /** @var array */
     protected $supportedJobNames;
 
-    /**
-     * @param ConstraintCollectionProviderInterface $simpleCsv
-     * @param array                                 $supportedJobNames
-     */
     public function __construct(ConstraintCollectionProviderInterface $simpleCsv, array $supportedJobNames)
     {
         $this->simpleProvider = $simpleCsv;

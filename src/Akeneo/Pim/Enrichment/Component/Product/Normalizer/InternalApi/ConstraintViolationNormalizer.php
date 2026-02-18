@@ -74,11 +74,9 @@ class ConstraintViolationNormalizer implements NormalizerInterface, CacheableSup
      * entity property (example: 'metricFamily' -> 'metric_family').
      * If the constraint is global and has no explicit path defined in its payload, it returns null.
      *
-     * @param ConstraintViolation $violation
      *
-     * @return string|null
      */
-    protected function getStandardPath(ConstraintViolation $violation)
+    protected function getStandardPath(ConstraintViolation $violation): ?string
     {
         $constraint = $violation->getConstraint();
 

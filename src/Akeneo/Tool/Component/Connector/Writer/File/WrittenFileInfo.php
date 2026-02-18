@@ -17,9 +17,9 @@ final class WrittenFileInfo
 {
     private const LOCAL_FILESYSTEM = 'localFilesystem';
 
-    private string $sourceKey;
-    private string $sourceStorage;
-    private string $outputFilepath;
+    private readonly string $sourceKey;
+    private readonly string $sourceStorage;
+    private readonly string $outputFilepath;
 
     private function __construct(string $sourceKey, string $sourceStorage, string $outputFilepath)
     {

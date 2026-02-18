@@ -10,12 +10,12 @@ use Webmozart\Assert\Assert;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class AttributeWasCreated
+final readonly class AttributeWasCreated
 {
     public function __construct(
-        public readonly int $id,
-        public readonly string $code,
-        public readonly \DateTimeImmutable $createdAt
+        public int $id,
+        public string $code,
+        public \DateTimeImmutable $createdAt
     ) {
         Assert::stringNotEmpty($code);
     }

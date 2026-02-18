@@ -63,8 +63,6 @@ class ViolationNormalizer implements NormalizerInterface, CacheableSupportsMetho
     }
 
     /**
-     * @param ConstraintViolationListInterface $violations
-     *
      * @return array
      */
     protected function normalizeViolations(ConstraintViolationListInterface $violations)
@@ -104,8 +102,6 @@ class ViolationNormalizer implements NormalizerInterface, CacheableSupportsMetho
      * TODO: TIP-722 - to revert once the identifier product value is dropped.
      *
      * @param ConstraintViolationInterface $violation
-     *
-     * @return array
      */
     protected function normalizeViolation(ConstraintViolationInterface $violation): array
     {
@@ -152,7 +148,6 @@ class ViolationNormalizer implements NormalizerInterface, CacheableSupportsMetho
      * If a name has been set in the constraint payload it is used, else it fallbacks on a tableized version of the
      * entity property (example: 'metricFamily' -> 'metric_family').
      *
-     * @param ConstraintViolationInterface $violation
      *
      * @return string
      */

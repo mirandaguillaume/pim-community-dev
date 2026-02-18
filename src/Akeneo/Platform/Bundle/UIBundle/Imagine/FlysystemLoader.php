@@ -18,19 +18,11 @@ use Symfony\Component\Mime\FileBinaryMimeTypeGuesser;
  */
 class FlysystemLoader implements LoaderInterface
 {
-    protected FilesystemProvider $filesystemProvider;
-    /** @var string[] */
-    protected array $filesystemAliases;
-    protected FileInfoRepositoryInterface $fileInfoRepository;
-
-    public function __construct(
-        FilesystemProvider $filesystemProvider,
-        array $filesystemAliases,
-        FileInfoRepositoryInterface $fileInfoRepository
-    ) {
-        $this->filesystemProvider = $filesystemProvider;
-        $this->filesystemAliases = $filesystemAliases;
-        $this->fileInfoRepository = $fileInfoRepository;
+    /**
+     * @param string[] $filesystemAliases
+     */
+    public function __construct(protected FilesystemProvider $filesystemProvider, protected array $filesystemAliases, protected FileInfoRepositoryInterface $fileInfoRepository)
+    {
     }
 
     /**
@@ -58,10 +50,8 @@ class FlysystemLoader implements LoaderInterface
      * @param string $path
      *
      * @throws NotLoadableException
-     *
-     * @return Binary|null|string
      */
-    protected function retrieveContentFileFromVfs($path)
+    protected function retrieveContentFileFromVfs($path): \Liip\ImagineBundle\Model\Binary|null|string
     {
         $content = null;
         $mimeType = null;
@@ -106,10 +96,8 @@ class FlysystemLoader implements LoaderInterface
      * @param string $path
      *
      * @throws NotLoadableException
-     *
-     * @return Binary|string
      */
-    protected function retrieveContentFileFromLocal($path)
+    protected function retrieveContentFileFromLocal($path): \Liip\ImagineBundle\Model\Binary|string
     {
         $content = file_get_contents($path);
         $mimeType = (new FileBinaryMimeTypeGuesser())->guessMimeType($path);

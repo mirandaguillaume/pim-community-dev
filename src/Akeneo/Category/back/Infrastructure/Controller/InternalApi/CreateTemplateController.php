@@ -41,7 +41,7 @@ class CreateTemplateController
             $templateUuid = ($this->createTemplateCommandHandler)($command);
         } catch (ViolationsException $violationsException) {
             return new JsonResponse($violationsException->normalize(), Response::HTTP_BAD_REQUEST);
-        } catch (CategoryTreeNotFoundException $exception) {
+        } catch (CategoryTreeNotFoundException) {
             return new JsonResponse(null, Response::HTTP_NOT_FOUND);
         }
 

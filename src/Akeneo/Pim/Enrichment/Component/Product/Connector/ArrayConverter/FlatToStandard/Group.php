@@ -22,10 +22,6 @@ class Group implements ArrayConverterInterface
     /** @var FieldsRequirementChecker */
     protected $fieldChecker;
 
-    /**
-     * @param LocaleRepositoryInterface  $localeRepository
-     * @param FieldsRequirementChecker   $fieldChecker
-     */
     public function __construct(
         LocaleRepositoryInterface $localeRepository,
         FieldsRequirementChecker $fieldChecker
@@ -74,13 +70,12 @@ class Group implements ArrayConverterInterface
     /**
      * @param array  $convertedItem
      * @param string $field
-     * @param mixed  $data
      *
      * @return array
      */
-    protected function convertField($convertedItem, $field, $data)
+    protected function convertField($convertedItem, $field, mixed $data)
     {
-        if (false !== strpos($field, 'label-', 0)) {
+        if (str_contains($field, 'label-')) {
             $labelTokens = explode('-', $field);
             $labelLocale = $labelTokens[1];
             $convertedItem['labels'][$labelLocale] = $data;
@@ -96,9 +91,6 @@ class Group implements ArrayConverterInterface
         return $convertedItem;
     }
 
-    /**
-     * @param array $item
-     */
     protected function validate(array $item)
     {
         $this->fieldChecker->checkFieldsPresence($item, ['code', 'type']);
@@ -107,8 +99,6 @@ class Group implements ArrayConverterInterface
     }
 
     /**
-     * @param array $item
-     * @param array $authorizedFields
      *
      * @throws StructureArrayConversionException
      */

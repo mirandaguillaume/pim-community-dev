@@ -10,7 +10,7 @@ use Akeneo\Pim\Automation\IdentifierGenerator\Application\CommandInterface;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class UpdateGeneratorCommand implements CommandInterface
+final readonly class UpdateGeneratorCommand implements CommandInterface
 {
     /**
      * @param list<array<string, mixed>> $conditions
@@ -18,13 +18,13 @@ final class UpdateGeneratorCommand implements CommandInterface
      * @param array<string, string> $labels
      */
     public function __construct(
-        public readonly string $code,
-        public readonly array $conditions,
-        public readonly array $structure,
-        public readonly array $labels,
-        public readonly string $target,
-        public readonly ?string $delimiter,
-        public readonly string $textTransformation,
+        public string $code,
+        public array $conditions,
+        public array $structure,
+        public array $labels,
+        public string $target,
+        public ?string $delimiter,
+        public string $textTransformation,
     ) {
     }
 }

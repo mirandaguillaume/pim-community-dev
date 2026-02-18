@@ -14,7 +14,7 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class JobExecutionEvent extends Event implements EventInterface
 {
-    public function __construct(private JobExecution $jobExecution)
+    public function __construct(private readonly JobExecution $jobExecution)
     {
     }
 

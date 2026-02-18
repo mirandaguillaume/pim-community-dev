@@ -13,7 +13,7 @@ use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag;
 class GetScoresPropertyStrategy
 {
     public function __construct(
-        private FeatureFlag $allCriteriaFeature
+        private readonly FeatureFlag $allCriteriaFeature
     ) {
     }
 

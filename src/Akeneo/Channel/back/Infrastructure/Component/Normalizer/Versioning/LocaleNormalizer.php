@@ -21,9 +21,6 @@ class LocaleNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
     /** @var NormalizerInterface */
     protected $standardNormalizer;
 
-    /**
-     * @param NormalizerInterface $standardNormalizer
-     */
     public function __construct(NormalizerInterface $standardNormalizer)
     {
         $this->standardNormalizer = $standardNormalizer;

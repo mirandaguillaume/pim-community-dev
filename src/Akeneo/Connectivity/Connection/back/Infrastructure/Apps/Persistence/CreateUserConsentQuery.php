@@ -13,7 +13,7 @@ use Ramsey\Uuid\Uuid;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class CreateUserConsentQuery implements CreateUserConsentQueryInterface
+final readonly class CreateUserConsentQuery implements CreateUserConsentQueryInterface
 {
     public function __construct(private Connection $connection)
     {
