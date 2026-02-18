@@ -12,11 +12,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class PrivilegesPostLoadEvent
 {
-    private ArrayCollection $privileges;
-
-    public function __construct(ArrayCollection $privileges)
+    public function __construct(private ArrayCollection $privileges)
     {
-        $this->privileges = $privileges;
     }
 
     public function getPrivileges(): ArrayCollection

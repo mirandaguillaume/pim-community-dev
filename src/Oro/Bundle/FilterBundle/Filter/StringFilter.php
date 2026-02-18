@@ -22,27 +22,22 @@ class StringFilter extends AbstractFilter
         $operator = $this->getOperator($data['type']);
         $parameterName = $ds->generateParameterName($this->getName());
 
-        switch ($operator) {
-            case Operators::IS_EMPTY:
-                $expression = $ds->expr()->orX(
-                    $ds->expr()->isNull($this->get(FilterUtility::DATA_NAME_KEY)),
-                    $ds->expr()->eq($this->get(FilterUtility::DATA_NAME_KEY), $parameterName, true)
-                );
-                break;
-            case Operators::IS_NOT_EMPTY:
-                $expression = $ds->expr()->andX(
-                    $ds->expr()->isNotNull($this->get(FilterUtility::DATA_NAME_KEY)),
-                    $ds->expr()->neq($this->get(FilterUtility::DATA_NAME_KEY), $parameterName, true)
-                );
-                break;
-            default:
-                $expression = $ds->expr()->comparison(
-                    $this->get(FilterUtility::DATA_NAME_KEY),
-                    $operator,
-                    $parameterName,
-                    true
-                );
-        }
+        $expression = match ($operator) {
+            Operators::IS_EMPTY => $ds->expr()->orX(
+                $ds->expr()->isNull($this->get(FilterUtility::DATA_NAME_KEY)),
+                $ds->expr()->eq($this->get(FilterUtility::DATA_NAME_KEY), $parameterName, true)
+            ),
+            Operators::IS_NOT_EMPTY => $ds->expr()->andX(
+                $ds->expr()->isNotNull($this->get(FilterUtility::DATA_NAME_KEY)),
+                $ds->expr()->neq($this->get(FilterUtility::DATA_NAME_KEY), $parameterName, true)
+            ),
+            default => $ds->expr()->comparison(
+                $this->get(FilterUtility::DATA_NAME_KEY),
+                $operator,
+                $parameterName,
+                true
+            ),
+        };
 
         $this->applyFilterToClause($ds, $expression);
         $ds->setParameter($parameterName, $data['value']);
@@ -74,10 +69,10 @@ class StringFilter extends AbstractFilter
             return false;
         }
 
-        $data['type'] = $data['type'] ?? null;
+        $data['type'] ??= null;
 
         $formattedValue = \in_array($this->getOperator($data['type']), [Operators::IS_LIKE, Operators::IS_NOT_LIKE]) ?
-            \addcslashes($data['value'], '_%') : $data['value'];
+            \addcslashes((string) $data['value'], '_%') : $data['value'];
 
         $data['value'] = sprintf(
             $this->getFormatByComparisonType($data['type']),

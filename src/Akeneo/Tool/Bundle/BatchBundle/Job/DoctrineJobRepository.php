@@ -35,22 +35,18 @@ use Doctrine\ORM\PersistentCollection;
  */
 class DoctrineJobRepository implements JobRepositoryInterface
 {
-    const DATETIME_FORMAT = 'Y-m-d H:i:s';
+    final public const DATETIME_FORMAT = 'Y-m-d H:i:s';
 
     protected ?EntityManagerInterface $jobManager = null;
-    protected string $jobExecutionClass;
-    protected int $batchSize;
-    protected JobRegistry $jobRegistry;
 
     public function __construct(
         EntityManager $entityManager,
-        string $jobExecutionClass,
+        protected string $jobExecutionClass,
         string $jobInstanceClass,
         string $jobInstanceRepoClass,
-        JobRegistry $jobRegistry,
-        int $batchSize = 100
+        protected JobRegistry $jobRegistry,
+        protected int $batchSize = 100
     ) {
-        $this->jobRegistry = $jobRegistry;
         $currentConn = $entityManager->getConnection();
 
         $currentConnParams = $currentConn->getParams();
@@ -70,7 +66,6 @@ class DoctrineJobRepository implements JobRepositoryInterface
         );
 
         $this->jobManager = new PersistedConnectionEntityManager($jobManager);
-        $this->jobExecutionClass = $jobExecutionClass;
 
         // ... there is an ugly fix related to PIM-5589...
         // by default, doctrine creates an `ORM\EntityRepository` to query on entities
@@ -84,11 +79,6 @@ class DoctrineJobRepository implements JobRepositoryInterface
         // repository is never customized, so we simulate the injection of the custom repository
         $metadata = $entityManager->getClassMetadata($jobInstanceClass);
         $metadata->customRepositoryClassName = $jobInstanceRepoClass;
-        // the good way to fix this is to configure the new connection in a more classic way and to re-write parts of
-        // BatchBundle to avoid job instance merges and other weirdnesses
-        // ... end of the ugly fix ...
-
-        $this->batchSize = $batchSize;
     }
 
     public function getJobManager(): EntityManagerInterface

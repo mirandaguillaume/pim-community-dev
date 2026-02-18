@@ -20,17 +20,11 @@ class StoreFileCommand extends Command
 {
     protected static $defaultName = 'akeneo:file-storage:store';
 
-    private FileStorerInterface $fileStorer;
-    private FilesystemProvider $filesystemProvider;
-
     public function __construct(
-        FileStorerInterface $fileStorer,
-        FilesystemProvider $filesystemProvider
+        private readonly FileStorerInterface $fileStorer,
+        private readonly FilesystemProvider $filesystemProvider
     ) {
         parent::__construct();
-
-        $this->fileStorer = $fileStorer;
-        $this->filesystemProvider = $filesystemProvider;
     }
 
     /**
@@ -87,7 +81,7 @@ class StoreFileCommand extends Command
     {
         try {
             $this->filesystemProvider->getFilesystem($storageFsAlias);
-        } catch (\LogicException $e) {
+        } catch (\LogicException) {
             return false;
         }
 

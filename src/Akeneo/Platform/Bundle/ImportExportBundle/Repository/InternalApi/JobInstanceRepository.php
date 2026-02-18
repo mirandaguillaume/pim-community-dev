@@ -17,14 +17,11 @@ use Oro\Bundle\PimDataGridBundle\Doctrine\ORM\Repository\DatagridRepositoryInter
  */
 class JobInstanceRepository extends EntityRepository implements DatagridRepositoryInterface
 {
-    private JobRegistry $jobRegistry;
-
     /**
      * @param string $class
      */
-    public function __construct(JobRegistry $jobRegistry, EntityManager $em, $class)
+    public function __construct(private readonly JobRegistry $jobRegistry, EntityManager $em, $class)
     {
-        $this->jobRegistry = $jobRegistry;
         parent::__construct($em, $em->getClassMetadata($class));
     }
 

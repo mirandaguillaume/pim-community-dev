@@ -21,7 +21,7 @@ final class NumberValueFactory extends ScalarValueFactory implements ValueFactor
         if (!\is_int($data) && !\is_float($data) && (!\is_string($data) || '' === \trim($data))) {
             throw InvalidPropertyTypeException::numericExpected(
                 $attribute->code(),
-                static::class,
+                self::class,
                 $data
             );
         }

@@ -25,8 +25,6 @@ class RootBasedAclProvider implements AclProviderInterface
 
     /**
      * Constructor
-     *
-     * @param ObjectIdentityFactory $objectIdentityFactory
      */
     public function __construct(ObjectIdentityFactory $objectIdentityFactory)
     {
@@ -35,8 +33,6 @@ class RootBasedAclProvider implements AclProviderInterface
 
     /**
      * Sets the base ACL provider
-     *
-     * @param AclProviderInterface $provider
      */
     public function setBaseAclProvider(AclProviderInterface $provider)
     {
@@ -64,13 +60,13 @@ class RootBasedAclProvider implements AclProviderInterface
                 // Try to get ACL for underlying object
                 $underlyingOid = $this->objectIdentityFactory->underlying($oid);
                 $acl = $this->getAcl($underlyingOid, $sids, $rootOid);
-            } catch (\Exception $noUnderlyingAcl) {
+            } catch (\Exception) {
                 // Try to get ACL for root object
                 try {
                     $this->baseAclProvider->cacheEmptyAcl($oid);
 
                     return $this->baseAclProvider->findAcl($rootOid, $sids);
-                } catch (AclNotFoundException $noRootAcl) {
+                } catch (AclNotFoundException) {
                     throw new AclNotFoundException(
                         sprintf('There is no ACL for %s. The root ACL %s was not found as well.', $oid, $rootOid),
                         0,
@@ -94,17 +90,14 @@ class RootBasedAclProvider implements AclProviderInterface
     /**
      * Get Acl based on given OID and Parent OID
      *
-     * @param ObjectIdentityInterface $oid
-     * @param array $sids
-     * @param ObjectIdentityInterface $rootOid
      * @return RootBasedAclWrapper|AclInterface
      */
-    protected function getAcl(ObjectIdentityInterface $oid, array $sids, ObjectIdentityInterface $rootOid)
+    protected function getAcl(ObjectIdentityInterface $oid, array $sids, ObjectIdentityInterface $rootOid): \Oro\Bundle\SecurityBundle\Acl\Domain\RootBasedAclWrapper|\Symfony\Component\Security\Acl\Model\AclInterface
     {
         $acl = $this->baseAclProvider->findAcl($oid, $sids);
         try {
             $rootAcl = $this->baseAclProvider->findAcl($rootOid, $sids);
-        } catch (AclNotFoundException $noRootAcl) {
+        } catch (AclNotFoundException) {
             return $acl;
         }
 

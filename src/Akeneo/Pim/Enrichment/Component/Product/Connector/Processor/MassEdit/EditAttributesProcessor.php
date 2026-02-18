@@ -104,10 +104,7 @@ class EditAttributesProcessor extends AbstractProcessor
     /**
      * Set data from $actions to the given $entity
      *
-     * @param EntityWithFamilyInterface $entity
-     * @param array                     $filteredValues
      *
-     * @return EntityWithFamilyInterface
      */
     protected function updateEntity(EntityWithFamilyInterface $entity, array $filteredValues): EntityWithFamilyInterface
     {
@@ -121,10 +118,6 @@ class EditAttributesProcessor extends AbstractProcessor
     }
 
     /**
-     * @param EntityWithFamilyInterface $entity
-     * @param string                    $attributeCode
-     *
-     * @return bool
      *
      * @throws \Exception
      */
@@ -138,9 +131,7 @@ class EditAttributesProcessor extends AbstractProcessor
     /**
      * Validate the entity
      *
-     * @param EntityWithFamilyInterface $entity
      *
-     * @return bool
      */
     protected function isValid(EntityWithFamilyInterface $entity): bool
     {
@@ -157,18 +148,13 @@ class EditAttributesProcessor extends AbstractProcessor
     /**
      * Sadly, this is override in Enterprise Edition to check the permissions of the entity.
      *
-     * @param EntityWithFamilyInterface $entity
      *
-     * @return bool
      */
     protected function isEntityEditable(EntityWithFamilyInterface $entity): bool
     {
         return true;
     }
 
-    /**
-     * @param EntityWithFamilyInterface $entity
-     */
     protected function addWarning(EntityWithFamilyInterface $entity): void
     {
         $this->stepExecution->addWarning(
@@ -176,7 +162,7 @@ class EditAttributesProcessor extends AbstractProcessor
             [],
             new DataInvalidItem(
                 array_merge(
-                    $entity instanceof ProductInterface && get_class($entity) !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProductInterface'
+                    $entity instanceof ProductInterface && $entity::class !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProductInterface'
                         ? ['uuid' => $entity->getUuid()->toString()]
                         : ['id' => $entity->getId()],
                     [
@@ -213,8 +199,6 @@ class EditAttributesProcessor extends AbstractProcessor
      *
      * @param EntityWithFamilyInterface $entity
      * @param array                     $actions
-     *
-     * @return array
      */
     private function extractValuesToUpdate(EntityWithFamilyInterface $entity, array $actions): array
     {

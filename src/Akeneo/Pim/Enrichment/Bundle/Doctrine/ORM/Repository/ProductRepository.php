@@ -49,7 +49,9 @@ class ProductRepository extends EntityRepository implements
             ]
         );
 
-        return $this->findBy(['uuid' => $uuidsAsBytes]);
+        $uuids = array_map(fn (string $bytes) => Uuid::fromBytes($bytes), $uuidsAsBytes);
+
+        return $this->findBy(['uuid' => $uuids]);
     }
 
     /**
@@ -61,16 +63,18 @@ class ProductRepository extends EntityRepository implements
             return [];
         }
 
-        $uuidsAsBytes = [];
+        $uuidObjects = [];
         foreach ($uuids as $uuid) {
-            if (Uuid::isValid($uuid)) {
-                $uuidsAsBytes[] = Uuid::fromString($uuid)->getBytes();
+            if ($uuid instanceof UuidInterface) {
+                $uuidObjects[] = $uuid;
+            } elseif (Uuid::isValid($uuid)) {
+                $uuidObjects[] = Uuid::fromString($uuid);
             } else {
-                $uuidsAsBytes[] = $uuid;
+                $uuidObjects[] = Uuid::fromBytes($uuid);
             }
         }
 
-        return $this->findBy(['uuid' => $uuidsAsBytes]);
+        return $this->findBy(['uuid' => $uuidObjects]);
     }
 
     /**

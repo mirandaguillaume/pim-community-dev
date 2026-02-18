@@ -29,24 +29,12 @@ class CalculateCompletenessCommand extends Command
 
     protected static $defaultName = 'pim:completeness:calculate';
 
-    /** @var ProductAndAncestorsIndexer */
-    private $productAndAncestorsIndexer;
-
-    /** @var ComputeAndPersistProductCompletenesses */
-    private $computeAndPersistProductCompleteness;
-
-    /** @var Connection */
-    private $connection;
-
     public function __construct(
-        ProductAndAncestorsIndexer $productANdAncestorsIndexer,
-        ComputeAndPersistProductCompletenesses $computeAndPersistProductCompleteness,
-        Connection $connection
+        private readonly ProductAndAncestorsIndexer $productAndAncestorsIndexer,
+        private readonly ComputeAndPersistProductCompletenesses $computeAndPersistProductCompleteness,
+        private readonly Connection $connection
     ) {
         parent::__construct();
-        $this->productAndAncestorsIndexer = $productANdAncestorsIndexer;
-        $this->computeAndPersistProductCompleteness = $computeAndPersistProductCompleteness;
-        $this->connection = $connection;
     }
 
     /**
@@ -86,7 +74,7 @@ class CalculateCompletenessCommand extends Command
         foreach ($this->getProductUuids($batchSize) as $productUuids) {
             $this->computeAndPersistProductCompleteness->fromProductUuids($productUuids);
             $this->productAndAncestorsIndexer->indexFromProductUuids($productUuids);
-            $progressBar->advance(count($productUuids));
+            $progressBar->advance(is_countable($productUuids) ? count($productUuids) : 0);
         }
         $progressBar->finish();
         $output->writeln('');

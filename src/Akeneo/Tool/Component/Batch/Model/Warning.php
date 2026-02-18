@@ -14,32 +14,13 @@ class Warning
     /** @var integer */
     private $id;
 
-    /** @var StepExecution */
-    private $stepExecution;
-
-    /** @var string */
-    private $reason;
-
-    /** @var array */
-    private $reasonParameters = [];
-
-    /** @var array */
-    private $item;
-
     /**
      * Constructor
      *
-     * @param StepExecution $stepExecution
      * @param string        $reason
-     * @param array         $reasonParameters
-     * @param array         $item
      */
-    public function __construct(StepExecution $stepExecution, $reason, array $reasonParameters, array $item)
+    public function __construct(private StepExecution $stepExecution, private $reason, private array $reasonParameters, private array $item)
     {
-        $this->stepExecution = $stepExecution;
-        $this->reason = $reason;
-        $this->reasonParameters = $reasonParameters;
-        $this->item = $item;
     }
 
     /**
@@ -65,7 +46,6 @@ class Warning
     /**
      * Sets the step execution
      *
-     * @param StepExecution $stepExecution
      *
      * @return $this
      */
@@ -113,7 +93,6 @@ class Warning
     /**
      * Sets  the reason parameters
      *
-     * @param array $reasonParameters
      *
      * @return $this
      */

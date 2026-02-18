@@ -14,7 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-abstract class AbstractAttribute implements AttributeInterface
+abstract class AbstractAttribute implements AttributeInterface, \Stringable
 {
     /** @var int|string */
     protected $id;
@@ -430,7 +430,7 @@ abstract class AbstractAttribute implements AttributeInterface
      */
     public function getProperty($property)
     {
-        return isset($this->properties[$property]) ? $this->properties[$property] : null;
+        return $this->properties[$property] ?? null;
     }
 
     /**
@@ -471,7 +471,7 @@ abstract class AbstractAttribute implements AttributeInterface
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getLabel();
     }
@@ -925,7 +925,7 @@ abstract class AbstractAttribute implements AttributeInterface
             return null;
         }
         foreach ($this->getTranslations() as $translation) {
-            if (\strtolower($translation->getLocale()) === \strtolower($locale)) {
+            if (\strtolower((string) $translation->getLocale()) === \strtolower($locale)) {
                 return $translation;
             }
         }

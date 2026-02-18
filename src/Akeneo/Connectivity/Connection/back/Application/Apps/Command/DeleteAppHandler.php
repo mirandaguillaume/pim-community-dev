@@ -21,14 +21,14 @@ use Akeneo\Connectivity\Connection\Domain\Settings\Persistence\Repository\Connec
 class DeleteAppHandler
 {
     public function __construct(
-        private GetAppDeletionQueryInterface $getAppDeletionQuery,
-        private DeleteConnectedAppQueryInterface $deleteConnectedAppQuery,
-        private ConnectionRepositoryInterface $connectionRepository,
-        private DeleteUserInterface $deleteUser,
-        private DeleteClientInterface $deleteClient,
-        private DeleteUserGroupInterface $deleteUserGroup,
-        private DeleteUserRoleInterface $deleteUserRole,
-        private SaveRevokedAccessTokensOfDisconnectedAppQueryInterface $saveRevokedAccessTokensOfDisconnectedAppQuery
+        private readonly GetAppDeletionQueryInterface $getAppDeletionQuery,
+        private readonly DeleteConnectedAppQueryInterface $deleteConnectedAppQuery,
+        private readonly ConnectionRepositoryInterface $connectionRepository,
+        private readonly DeleteUserInterface $deleteUser,
+        private readonly DeleteClientInterface $deleteClient,
+        private readonly DeleteUserGroupInterface $deleteUserGroup,
+        private readonly DeleteUserRoleInterface $deleteUserRole,
+        private readonly SaveRevokedAccessTokensOfDisconnectedAppQueryInterface $saveRevokedAccessTokensOfDisconnectedAppQuery
     ) {
     }
 

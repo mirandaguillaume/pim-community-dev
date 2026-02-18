@@ -11,7 +11,7 @@ namespace Akeneo\Category\Domain\ValueObject\Attribute;
 class AttributeIsScopable
 {
     private function __construct(
-        private bool $isScopable,
+        private readonly bool $isScopable,
     ) {
     }
 

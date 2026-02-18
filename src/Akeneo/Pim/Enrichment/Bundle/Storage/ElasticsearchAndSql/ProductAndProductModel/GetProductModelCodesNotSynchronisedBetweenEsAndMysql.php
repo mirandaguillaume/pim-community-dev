@@ -11,11 +11,11 @@ use Doctrine\DBAL\Connection;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GetProductModelCodesNotSynchronisedBetweenEsAndMysql
+final readonly class GetProductModelCodesNotSynchronisedBetweenEsAndMysql
 {
     public function __construct(
-        private readonly Client $productAndProductModelClient,
-        private readonly Connection $connection,
+        private Client $productAndProductModelClient,
+        private Connection $connection,
     ) {
     }
 

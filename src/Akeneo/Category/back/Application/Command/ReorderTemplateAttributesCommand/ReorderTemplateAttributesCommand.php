@@ -10,14 +10,14 @@ use Webmozart\Assert\Assert;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ReorderTemplateAttributesCommand
+final readonly class ReorderTemplateAttributesCommand
 {
     /**
      * @param array<string> $attributeUuids
      */
     private function __construct(
-        public readonly string $templateUuid,
-        public readonly array $attributeUuids,
+        public string $templateUuid,
+        public array $attributeUuids,
     ) {
         Assert::uuid($templateUuid);
         Assert::AllString($attributeUuids);

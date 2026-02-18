@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class DateTimeNormalizerSpec extends ObjectBehavior
 {
-    const TEST_TIMEZONE = 'Europe/Paris';
+    final public const TEST_TIMEZONE = 'Europe/Paris';
 
     protected $userTimezone;
 
@@ -34,7 +34,7 @@ class DateTimeNormalizerSpec extends ObjectBehavior
 
     function it_is_a_normalizer()
     {
-        $this->shouldImplement('Symfony\Component\Serializer\Normalizer\NormalizerInterface');
+        $this->shouldImplement(\Symfony\Component\Serializer\Normalizer\NormalizerInterface::class);
     }
 
     function it_supports_datagrid_normalization_on_datetimes_only()

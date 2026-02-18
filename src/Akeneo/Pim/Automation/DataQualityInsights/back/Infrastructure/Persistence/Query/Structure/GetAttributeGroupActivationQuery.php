@@ -15,12 +15,8 @@ use Doctrine\DBAL\Connection;
  */
 final class GetAttributeGroupActivationQuery implements GetAttributeGroupActivationQueryInterface
 {
-    /** @var Connection */
-    protected $dbConnection;
-
-    public function __construct(Connection $dbConnection)
+    public function __construct(protected Connection $dbConnection)
     {
-        $this->dbConnection = $dbConnection;
     }
 
     public function byCode(AttributeGroupCode $attributeGroupCode): ?AttributeGroupActivation

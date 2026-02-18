@@ -21,9 +21,6 @@ class TimestampableSubscriber implements EventSubscriber
     /** @var EntityManagerInterface */
     protected $em;
 
-    /**
-     * @param EntityManagerInterface $em
-     */
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
@@ -39,9 +36,6 @@ class TimestampableSubscriber implements EventSubscriber
         return ['prePersist'];
     }
 
-    /**
-     * @param LifecycleEventArgs $args
-     */
     public function prePersist(LifecycleEventArgs $args)
     {
         $version = $args->getObject();

@@ -19,22 +19,23 @@ use Webmozart\Assert\Assert;
  */
 final class EvaluateProductsAndProductModelsCriteriaTasklet implements TaskletInterface
 {
-    private ?StepExecution $stepExecution;
+    private ?StepExecution $stepExecution = null;
 
     public function __construct(
-        private GetEntityIdsToEvaluateQueryInterface $getProductUuidsToEvaluateQuery,
-        private GetEntityIdsToEvaluateQueryInterface $getProductModelsIdsToEvaluateQuery,
-        private EvaluateProducts $evaluateProducts,
-        private EvaluateProductModels $evaluateProductModels,
-        private int $limitPerLoop = 1000,
-        private int $bulkSize = 100,
-        private int $timeBoxInSecondsAllowed = 1700, //~28 minutes
-        private int $noEvaluationSleep = 60,
+        private readonly GetEntityIdsToEvaluateQueryInterface $getProductUuidsToEvaluateQuery,
+        private readonly GetEntityIdsToEvaluateQueryInterface $getProductModelsIdsToEvaluateQuery,
+        private readonly EvaluateProducts $evaluateProducts,
+        private readonly EvaluateProductModels $evaluateProductModels,
+        private readonly int $limitPerLoop = 1000,
+        private readonly int $bulkSize = 100,
+        private readonly int $timeBoxInSecondsAllowed = 1700, //~28 minutes
+        private readonly int $noEvaluationSleep = 60,
     ) {
     }
 
     public function execute(): void
     {
+        $evaluationTime = [];
         $continueToEvaluateProducts = true;
         $continueToEvaluateProductModels = true;
         $startTime = time();

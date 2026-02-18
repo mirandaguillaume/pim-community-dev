@@ -59,8 +59,8 @@ SQL;
         foreach ($rows as $row) {
             $families[$row['code']] = new Family(
                 $row['code'],
-                $row['labels'] !== null ? json_decode($row['labels'], true) : [],
-                json_decode($row['attributeCodes'], true)
+                $row['labels'] !== null ? json_decode((string) $row['labels'], true, 512, JSON_THROW_ON_ERROR) : [],
+                json_decode((string) $row['attributeCodes'], true, 512, JSON_THROW_ON_ERROR)
             );
         }
 

@@ -20,10 +20,6 @@ class ProductValueConverter
     /** @var CachedObjectRepositoryInterface */
     protected $attributeRepo;
 
-    /**
-     * @param ValueConverterRegistry          $converterRegistry
-     * @param CachedObjectRepositoryInterface $attributeRepo
-     */
     public function __construct(
         ValueConverterRegistry $converterRegistry,
         CachedObjectRepositoryInterface $attributeRepo
@@ -34,11 +30,10 @@ class ProductValueConverter
 
     /**
      * @param string $attributeCode
-     * @param mixed  $data
      *
      * @return array
      */
-    public function convertAttribute($attributeCode, $data)
+    public function convertAttribute($attributeCode, mixed $data)
     {
         $attribute = $this->attributeRepo->findOneByIdentifier($attributeCode);
         $converter = $this->converterRegistry->getConverter($attribute);

@@ -24,10 +24,6 @@ abstract class MessengerTestCase extends DataQualityInsightsTestCase
     {
         parent::setUp();
 
-        foreach ($this->pubSubQueueStatuses as $pubSubStatus) {
-            $pubSubStatus->createTopicAndSubscription();
-        }
-
         $this->flushQueues();
 
         $this->get('akeneo_integration_tests.helper.authenticator')->logIn('admin');
@@ -53,7 +49,7 @@ abstract class MessengerTestCase extends DataQualityInsightsTestCase
 
             do {
                 $messages = $subscription->pull(['maxMessages' => 10, 'returnImmediately' => true]);
-                $count = count($messages);
+                $count = is_countable($messages) ? count($messages) : 0;
                 if ($count > 0) {
                     $subscription->acknowledgeBatch($messages);
                 }

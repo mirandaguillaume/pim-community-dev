@@ -42,18 +42,18 @@ final class ReferenceDataCollectionValueFactory implements ValueFactory
         if (!\is_array($data)) {
             throw InvalidPropertyTypeException::arrayExpected(
                 $attribute->code(),
-                static::class,
+                self::class,
                 $data
             );
         }
 
         try {
             Assert::allString($data);
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             throw InvalidPropertyTypeException::validArrayStructureExpected(
                 $attribute->code(),
                 'one of the reference data code is not a string',
-                static::class,
+                self::class,
                 $data
             );
         }

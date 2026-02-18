@@ -13,7 +13,7 @@ use Doctrine\DBAL\Types\Types;
  * @copyright 2021 Akeneo SAS (https://www.akeneo.com)
  * @license https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class FixturesJobHelper
+final readonly class FixturesJobHelper
 {
     public function __construct(private Connection $dbalConnection)
     {
@@ -32,7 +32,7 @@ final class FixturesJobHelper
         $dataToInsert = array_merge($defaultData, $data);
         $dataToInsert['raw_parameters'] = serialize($dataToInsert['raw_parameters']);
         if (array_key_exists('automation', $dataToInsert)) {
-            $dataToInsert['automation'] = json_encode($dataToInsert['automation']);
+            $dataToInsert['automation'] = json_encode($dataToInsert['automation'], JSON_THROW_ON_ERROR);
         }
 
         $this->dbalConnection->insert(

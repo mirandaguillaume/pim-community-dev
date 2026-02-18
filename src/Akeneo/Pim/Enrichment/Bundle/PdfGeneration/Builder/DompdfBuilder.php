@@ -25,15 +25,9 @@ class DompdfBuilder implements PdfBuilderInterface
      */
     protected $dompdf;
 
-    protected HtmlFormatter $arabicHtmlFormatter;
-
-    private string $publicDir;
-
-    public function __construct(string $rootDir, $publicDir, HtmlFormatter $arabicHtmlFormatter)
+    public function __construct(string $rootDir, private $publicDir, protected HtmlFormatter $arabicHtmlFormatter)
     {
         $this->rootDir = $rootDir;
-        $this->publicDir = $publicDir;
-        $this->arabicHtmlFormatter = $arabicHtmlFormatter;
     }
 
     /**

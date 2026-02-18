@@ -28,14 +28,14 @@ use Webmozart\Assert\Assert;
 class GetProductByUuidController
 {
     public function __construct(
-        private ConnectorProductWithUuidNormalizer $connectorProductWithUuidNormalizer,
-        private TokenStorageInterface $tokenStorage,
-        private GetConnectorProducts $getConnectorProducts,
-        private GetConnectorProducts $getConnectorProductsWithOptions,
-        private EventDispatcherInterface $eventDispatcher,
-        private GetProductsWithQualityScoresInterface $getProductsWithQualityScores,
-        private GetProductsWithCompletenessesInterface $getProductsWithCompletenesses,
-        private SecurityFacade $security
+        private readonly ConnectorProductWithUuidNormalizer $connectorProductWithUuidNormalizer,
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly GetConnectorProducts $getConnectorProducts,
+        private readonly GetConnectorProducts $getConnectorProductsWithOptions,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly GetProductsWithQualityScoresInterface $getProductsWithQualityScores,
+        private readonly GetProductsWithCompletenessesInterface $getProductsWithCompletenesses,
+        private readonly SecurityFacade $security
     ) {
     }
 

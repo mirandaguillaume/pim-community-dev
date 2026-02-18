@@ -33,9 +33,6 @@ class ProductUniqueDataSynchronizer
         $this->attributeRepository = $attributeRepository;
     }
 
-    /**
-     * @param ProductInterface $product
-     */
     public function synchronize(ProductInterface $product)
     {
         // We get the unique data collection that we can to update
@@ -136,9 +133,7 @@ class ProductUniqueDataSynchronizer
     private function getAttributeCodes(array $uniqueDataCollectionToUpdate)
     {
         return array_values(array_map(
-            function ($uniqueData) {
-                return $uniqueData->getAttribute()->getCode();
-            },
+            fn($uniqueData) => $uniqueData->getAttribute()->getCode(),
             $uniqueDataCollectionToUpdate
         ));
     }
@@ -147,9 +142,7 @@ class ProductUniqueDataSynchronizer
     {
         return array_filter(
             $uniqueDataCollection,
-            function (ProductUniqueDataInterface $uniqueData) use ($attributeCodes) {
-                return in_array($uniqueData->getAttribute()->getCode(), $attributeCodes);
-            }
+            fn(ProductUniqueDataInterface $uniqueData) => in_array($uniqueData->getAttribute()->getCode(), $attributeCodes)
         );
     }
 

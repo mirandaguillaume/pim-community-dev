@@ -25,9 +25,6 @@ class SearchAfterHalPaginator implements PaginatorInterface
     /** @var OptionsResolver */
     protected $resolver;
 
-    /**
-     * @param RouterInterface $router
-     */
     public function __construct(RouterInterface $router)
     {
         $this->resolver = new OptionsResolver();
@@ -110,11 +107,7 @@ class SearchAfterHalPaginator implements PaginatorInterface
      * Create a link from a route name.
      *
      * @param string      $routeName
-     * @param array       $parameters
-     * @param string|null $searchAfterIdentifierOrUuid
-     * @param string      $linkName
      *
-     * @return Link
      */
     protected function createLink($routeName, array $parameters, ?string $searchAfterIdentifierOrUuid, string $linkName): Link
     {

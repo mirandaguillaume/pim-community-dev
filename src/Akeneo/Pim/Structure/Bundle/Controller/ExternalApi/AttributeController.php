@@ -70,10 +70,6 @@ class AttributeController
     /** @var array */
     protected $apiConfiguration;
 
-    private ApiAggregatorForAttributePostSaveEventSubscriber $apiAggregatorForAttributePostSave;
-
-    private LoggerInterface $logger;
-
     public function __construct(
         AttributeRepositoryInterface $repository,
         NormalizerInterface $normalizer,
@@ -86,8 +82,8 @@ class AttributeController
         ParameterValidatorInterface $parameterValidator,
         StreamResourceResponse $partialUpdateStreamResource,
         array $apiConfiguration,
-        ApiAggregatorForAttributePostSaveEventSubscriber $apiAggregatorForAttributePostSave,
-        LoggerInterface $logger
+        private readonly ApiAggregatorForAttributePostSaveEventSubscriber $apiAggregatorForAttributePostSave,
+        private readonly LoggerInterface $logger
     ) {
         $this->repository = $repository;
         $this->normalizer = $normalizer;
@@ -100,8 +96,6 @@ class AttributeController
         $this->paginator = $paginator;
         $this->partialUpdateStreamResource = $partialUpdateStreamResource;
         $this->apiConfiguration = $apiConfiguration;
-        $this->apiAggregatorForAttributePostSave = $apiAggregatorForAttributePostSave;
-        $this->logger = $logger;
     }
 
     /**
@@ -141,8 +135,9 @@ class AttributeController
         ];
 
         $queryParameters = array_merge($defaultParameters, $request->query->all());
-        $searchFilters = json_decode($queryParameters['search'] ?? '[]', true);
-        if (null === $searchFilters) {
+        try {
+            $searchFilters = json_decode($queryParameters['search'] ?? '[]', true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
             throw new BadRequestHttpException('The search query parameter must be a valid JSON.');
         }
 
@@ -172,13 +167,11 @@ class AttributeController
     }
 
     /**
-     * @param Request $request
      *
      * @throws BadRequestHttpException
      * @throws UnprocessableEntityHttpException
      *
      * @return Response
-     *
      * @AclAncestor("pim_api_attribute_edit")
      */
     public function createAction(Request $request)
@@ -197,12 +190,10 @@ class AttributeController
     }
 
     /**
-     * @param Request $request
      *
      * @throws HttpException
      *
      * @return Response
-     *
      * @AclAncestor("pim_api_attribute_edit")
      */
     public function partialUpdateListAction(Request $request)
@@ -225,11 +216,9 @@ class AttributeController
     }
 
     /**
-     * @param Request $request
      * @param string  $code
      *
      * @return Response
-     *
      * @AclAncestor("pim_api_attribute_edit")
      */
     public function partialUpdateAction(Request $request, $code)
@@ -268,9 +257,9 @@ class AttributeController
      */
     protected function getDecodedContent($content)
     {
-        $decodedContent = json_decode($content, true);
-
-        if (null === $decodedContent) {
+        try {
+            $decodedContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
             throw new BadRequestHttpException('Invalid json message received');
         }
 
@@ -280,8 +269,6 @@ class AttributeController
     /**
      * Update an attribute. It throws an error 422 if a problem occurred during the update.
      *
-     * @param AttributeInterface $attribute
-     * @param array              $data
      * @param string             $anchor
      *
      * @throws DocumentedHttpException
@@ -303,7 +290,6 @@ class AttributeController
      * Validate an attribute. It throws an error 422 with every violated constraints if
      * the validation failed.
      *
-     * @param AttributeInterface $attribute
      *
      * @throws ViolationHttpException
      */
@@ -342,9 +328,7 @@ class AttributeController
     /**
      * Get a response with a location header to the created or updated resource.
      *
-     * @param AttributeInterface $attribute
      * @param int                $status
-     *
      * @return Response
      */
     protected function getResponse(AttributeInterface $attribute, $status)

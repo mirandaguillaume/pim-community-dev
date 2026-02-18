@@ -12,7 +12,7 @@ use Akeneo\Pim\Automation\IdentifierGenerator\Application\Validation\ErrorList;
  */
 final class ViolationsException extends \LogicException
 {
-    public function __construct(private ErrorList $constraintViolationList)
+    public function __construct(private readonly ErrorList $constraintViolationList)
     {
         parent::__construct($this->constraintViolationList->__toString());
     }

@@ -22,5 +22,5 @@ interface SaverInterface
      * @throws \InvalidArgumentException
      * @throws DuplicateObjectException
      */
-    public function save($object, array $options = []);
+    public function save(mixed $object, array $options = []);
 }

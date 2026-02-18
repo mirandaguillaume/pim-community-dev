@@ -24,34 +24,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class SelectedAttributesConfigurator implements ConfiguratorInterface
 {
-    /** @var AttributeRepositoryInterface */
-    private $attributeRepository;
-
-    /** @var UserContext */
-    private $userContext;
-
-    /** @var RequestParameters */
-    private $requestParams;
-
-    /** @var RequestStack */
-    private $requestStack;
-
-    /**
-     * @param AttributeRepositoryInterface $attributeRepository
-     * @param UserContext                  $userContext
-     * @param RequestParameters            $requestParams
-     * @param RequestStack                 $requestStack
-     */
-    public function __construct(
-        AttributeRepositoryInterface $attributeRepository,
-        UserContext $userContext,
-        RequestParameters $requestParams,
-        RequestStack $requestStack
-    ) {
-        $this->attributeRepository = $attributeRepository;
-        $this->userContext = $userContext;
-        $this->requestParams = $requestParams;
-        $this->requestStack = $requestStack;
+    public function __construct(private readonly AttributeRepositoryInterface $attributeRepository, private readonly UserContext $userContext, private readonly RequestParameters $requestParams, private readonly RequestStack $requestStack)
+    {
     }
 
     /**
@@ -66,7 +40,6 @@ class SelectedAttributesConfigurator implements ConfiguratorInterface
     /**
      * Inject attributes configurations in the product grid configuration
      *
-     * @param DatagridConfiguration $configuration
      *
      * @return array
      */
@@ -100,8 +73,6 @@ class SelectedAttributesConfigurator implements ConfiguratorInterface
 
     /**
      * Inject the displayed attribute ids in the product grid configuration
-     *
-     * @param DatagridConfiguration $configuration
      */
     protected function addAttributesIds(DatagridConfiguration $configuration): void
     {
@@ -109,7 +80,7 @@ class SelectedAttributesConfigurator implements ConfiguratorInterface
         $params = $this->requestParams->get(RequestParameters::ADDITIONAL_PARAMETERS);
 
         if (isset($params['view']) && isset($params['view']['columns'])) {
-            $attributeCodes = explode(',', $params['view']['columns']);
+            $attributeCodes = explode(',', (string) $params['view']['columns']);
         }
 
         $attributeIds = empty($attributeCodes) ? [] : $this->attributeRepository->getAttributeIdsUseableInGrid($attributeCodes);
@@ -120,8 +91,6 @@ class SelectedAttributesConfigurator implements ConfiguratorInterface
 
     /**
      * @param string $key the configuration key
-     *
-     * @return string
      */
     private function getSourcePath($key): string
     {
@@ -130,8 +99,6 @@ class SelectedAttributesConfigurator implements ConfiguratorInterface
 
     /**
      * Get current locale from datagrid parameters, then request parameters, then user config
-     *
-     * @return string|null
      */
     private function getCurrentLocaleCode(): ?string
     {

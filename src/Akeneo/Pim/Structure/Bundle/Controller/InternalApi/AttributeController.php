@@ -70,23 +70,8 @@ class AttributeController
     /** @var AttributeFactory */
     protected $factory;
 
-    /** @var UserContext */
-    private $userContext;
-
     /** @var LocalizerInterface */
     protected $numberLocalizer;
-
-    /** @var NormalizerInterface */
-    private $lightAttributeNormalizer;
-
-    /** @var TranslatorInterface */
-    private $translator;
-
-    /** @var AttributeIsAFamilyVariantAxis */
-    private $attributeIsAFamilyVariantAxisQuery;
-
-    /** @var ObjectRepository */
-    private $channelRepository;
 
     public function __construct(
         AttributeRepositoryInterface $attributeRepository,
@@ -99,12 +84,12 @@ class AttributeController
         SaverInterface $saver,
         RemoverInterface $remover,
         AttributeFactory $factory,
-        UserContext $userContext,
+        private readonly UserContext $userContext,
         LocalizerInterface $numberLocalizer,
-        NormalizerInterface $lightAttributeNormalizer,
-        TranslatorInterface $translator,
-        AttributeIsAFamilyVariantAxis $attributeIsAFamilyVariantAxisQuery,
-        ObjectRepository $channelRepository
+        private readonly NormalizerInterface $lightAttributeNormalizer,
+        private readonly TranslatorInterface $translator,
+        private readonly AttributeIsAFamilyVariantAxis $attributeIsAFamilyVariantAxisQuery,
+        private readonly ObjectRepository $channelRepository
     ) {
         $this->attributeRepository = $attributeRepository;
         $this->normalizer = $normalizer;
@@ -116,12 +101,7 @@ class AttributeController
         $this->saver = $saver;
         $this->remover = $remover;
         $this->factory = $factory;
-        $this->userContext = $userContext;
         $this->numberLocalizer = $numberLocalizer;
-        $this->lightAttributeNormalizer = $lightAttributeNormalizer;
-        $this->translator = $translator;
-        $this->attributeIsAFamilyVariantAxisQuery = $attributeIsAFamilyVariantAxisQuery;
-        $this->channelRepository = $channelRepository;
     }
 
     /**
@@ -137,27 +117,27 @@ class AttributeController
     public function indexAction(Request $request)
     {
         $options = $request->get('options', []);
-        $options['locale'] = $options['locale'] ?? null;
-        $options['limit'] = $options['limit'] ?? SearchableRepositoryInterface::FETCH_LIMIT;
-        $options['identifiers'] = $options['identifiers'] ?? [];
+        $options['locale'] ??= null;
+        $options['limit'] ??= SearchableRepositoryInterface::FETCH_LIMIT;
+        $options['identifiers'] ??= [];
 
         // If 'identifiers=' is used, any 'options[identifiers][]=' passed will be overwritten.
         if ($request->get('identifiers', null) !== null) {
-            $options['identifiers'] = array_unique(explode(',', $request->get('identifiers')));
+            $options['identifiers'] = array_unique(explode(',', (string) $request->get('identifiers')));
         }
 
-        if (count($options['identifiers']) > 0) {
-            $options['limit'] = count($options['identifiers']);
+        if ((is_countable($options['identifiers']) ? count($options['identifiers']) : 0) > 0) {
+            $options['limit'] = is_countable($options['identifiers']) ? count($options['identifiers']) : 0;
         }
 
         if ($request->get('types', null) !== null) {
             $options['types'] = is_array($request->get('types')) ?
                 $request->get('types') :
-                explode(',', $request->get('types'));
+                explode(',', (string) $request->get('types'));
         }
 
         if ($request->get('attribute_groups', null) !== null) {
-            $options['attribute_groups'] = array_unique(explode(',', $request->get('attribute_groups')));
+            $options['attribute_groups'] = array_unique(explode(',', (string) $request->get('attribute_groups')));
         }
 
         if ($request->get('localizable', null) !== null) {
@@ -194,13 +174,11 @@ class AttributeController
             $options
         );
 
-        $normalizedAttributes = array_map(function ($attribute) {
-            return $this->lightAttributeNormalizer->normalize(
-                $attribute,
-                'internal_api',
-                ['locale' => $this->userContext->getUiLocale()->getCode()]
-            );
-        }, $attributes);
+        $normalizedAttributes = array_map(fn($attribute) => $this->lightAttributeNormalizer->normalize(
+            $attribute,
+            'internal_api',
+            ['locale' => $this->userContext->getUiLocale()->getCode()]
+        ), $attributes);
 
         return new JsonResponse($normalizedAttributes);
     }
@@ -208,11 +186,9 @@ class AttributeController
     /**
      * Get attribute by identifier
      *
-     * @param Request $request
      * @param string  $identifier
      *
      * @throws NotFoundHttpException
-     *
      * @return JsonResponse
      */
     public function getAction(Request $request, $identifier)
@@ -236,10 +212,8 @@ class AttributeController
     }
 
     /**
-     * @param Request $request
      *
      * @return Response
-     *
      * @AclAncestor("pim_enrich_attribute_create")
      */
     public function createAction(Request $request)
@@ -250,7 +224,11 @@ class AttributeController
 
         $attribute = $this->factory->create();
 
-        $data = json_decode($request->getContent(), true);
+        try {
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
 
         $localizedDataViolations = $this->validateLocalizedData($data);
         $this->updateAttribute($attribute, $data);
@@ -279,11 +257,9 @@ class AttributeController
     }
 
     /**
-     * @param Request $request
      * @param string  $identifier
      *
      * @return Response
-     *
      * @AclAncestor("pim_enrich_attribute_edit")
      */
     public function postAction(Request $request, $identifier)
@@ -294,7 +270,11 @@ class AttributeController
 
         $attribute = $this->getAttributeOr404($identifier);
 
-        $data = json_decode($request->getContent(), true);
+        try {
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
 
         $localizedDataViolations = $this->validateLocalizedData($data);
         $this->updateAttribute($attribute, $data);
@@ -416,7 +396,6 @@ class AttributeController
     /**
      * List attribute axes
      *
-     * @param Request $request
      *
      * @return JsonResponse
      */

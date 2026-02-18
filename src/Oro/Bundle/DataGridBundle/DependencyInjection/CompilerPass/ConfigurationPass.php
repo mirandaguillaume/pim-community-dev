@@ -10,16 +10,16 @@ use Symfony\Component\Yaml\Yaml;
 
 class ConfigurationPass implements CompilerPassInterface
 {
-    const BUILDER_SERVICE_ID = 'oro_datagrid.datagrid.builder';
-    const PROVIDER_SERVICE_ID = 'oro_datagrid.configuration.provider';
-    const CHAIN_PROVIDER_SERVICE_ID = 'oro_datagrid.configuration.provider.chain';
+    final public const BUILDER_SERVICE_ID = 'oro_datagrid.datagrid.builder';
+    final public const PROVIDER_SERVICE_ID = 'oro_datagrid.configuration.provider';
+    final public const CHAIN_PROVIDER_SERVICE_ID = 'oro_datagrid.configuration.provider.chain';
 
-    const SOURCE_TAG_NAME = 'oro_datagrid.datasource';
-    const EXTENSION_TAG_NAME = 'oro_datagrid.extension';
-    const PROVIDER_TAG_NAME = 'oro_datagrid.configuration.provider';
+    final public const SOURCE_TAG_NAME = 'oro_datagrid.datasource';
+    final public const EXTENSION_TAG_NAME = 'oro_datagrid.extension';
+    final public const PROVIDER_TAG_NAME = 'oro_datagrid.configuration.provider';
 
-    const CONFIG_FILE_NAME = 'datagrid.yml';
-    const ROOT_PARAMETER = 'datagrid';
+    final public const CONFIG_FILE_NAME = 'datagrid.yml';
+    final public const ROOT_PARAMETER = 'datagrid';
 
     /**
      * {@inheritDoc}
@@ -33,8 +33,6 @@ class ConfigurationPass implements CompilerPassInterface
 
     /**
      * Collect datagrid configurations files and pass them to the configuration provider
-     *
-     * @param ContainerBuilder $container
      */
     protected function registerConfigFiles(ContainerBuilder $container)
     {
@@ -59,15 +57,13 @@ class ConfigurationPass implements CompilerPassInterface
 
     /**
      * Register all datagrid configuration providers
-     *
-     * @param ContainerBuilder $container
      */
     protected function registerConfigProviders(ContainerBuilder $container)
     {
         if ($container->hasDefinition(self::CHAIN_PROVIDER_SERVICE_ID)) {
             $providers = [];
             foreach ($container->findTaggedServiceIds(self::PROVIDER_TAG_NAME) as $id => $attributes) {
-                $priority = isset($attributes[0]['priority']) ? $attributes[0]['priority'] : 0;
+                $priority = $attributes[0]['priority'] ?? 0;
                 $providers[$priority][] = new Reference($id);
             }
             if (!empty($providers)) {
@@ -85,8 +81,6 @@ class ConfigurationPass implements CompilerPassInterface
 
     /**
      * Find and add available datasources and extensions to grid builder
-     *
-     * @param ContainerBuilder $container
      */
     protected function registerDataSources(ContainerBuilder $container)
     {

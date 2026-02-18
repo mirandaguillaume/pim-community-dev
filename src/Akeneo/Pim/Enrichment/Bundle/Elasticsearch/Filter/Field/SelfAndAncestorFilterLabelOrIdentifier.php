@@ -43,6 +43,7 @@ class SelfAndAncestorFilterLabelOrIdentifier extends AbstractFieldFilter
      */
     public function addFieldFilter($field, $operator, $value, $locale = null, $channel = null, $options = []): void
     {
+        $clauses = [];
         if (null === $this->searchQueryBuilder) {
             throw new \LogicException('The search query builder is not initialized in the filter.');
         }
@@ -142,9 +143,6 @@ class SelfAndAncestorFilterLabelOrIdentifier extends AbstractFieldFilter
         );
     }
 
-    /**
-     * @param string $value
-     */
     protected function checkValue(string $value): void
     {
         FieldFilterHelper::checkString('self_and_ancestor.label_or_identifier', $value, static::class);
@@ -160,8 +158,6 @@ class SelfAndAncestorFilterLabelOrIdentifier extends AbstractFieldFilter
      * TODO: TIP-706 - This may move somewhere else
      *
      * @param string $value
-     *
-     * @return string
      */
     protected function escapeValue(string $value): string
     {

@@ -27,10 +27,6 @@ class ProductValuesNormalizer implements NormalizerInterface, SerializerAwareInt
     /** @var UserContext */
     protected $userContext;
 
-    /**
-     * @param PresenterRegistryInterface $presenterRegistry
-     * @param UserContext                $userContext
-     */
     public function __construct(PresenterRegistryInterface $presenterRegistry, UserContext $userContext)
     {
         $this->presenterRegistry = $presenterRegistry;

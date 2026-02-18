@@ -16,10 +16,10 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\GetAttributes;
 class NonExistentChannelLocaleValuesFilter implements NonExistentValuesFilter
 {
     public function __construct(
-        private ChannelExistsWithLocaleInterface $channelsLocales,
-        private GetCaseSensitiveLocaleCodeInterface $getCaseSensitiveLocaleCode,
-        private GetCaseSensitiveChannelCodeInterface $getCaseSensitiveChannelCode,
-        private GetAttributes $getAttributes
+        private readonly ChannelExistsWithLocaleInterface $channelsLocales,
+        private readonly GetCaseSensitiveLocaleCodeInterface $getCaseSensitiveLocaleCode,
+        private readonly GetCaseSensitiveChannelCodeInterface $getCaseSensitiveChannelCode,
+        private readonly GetAttributes $getAttributes
     ) {
     }
 

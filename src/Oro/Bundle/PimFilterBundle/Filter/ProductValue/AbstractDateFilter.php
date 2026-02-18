@@ -141,7 +141,7 @@ abstract class AbstractDateFilter extends OroAbstractDateFilter
     /**
      * {@inheritdoc}
      */
-    public function parseData($data)
+    public function parseData(mixed $data)
     {
         if (!$this->isValidData($data)) {
             return false;

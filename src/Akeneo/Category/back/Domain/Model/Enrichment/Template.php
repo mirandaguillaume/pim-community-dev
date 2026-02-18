@@ -18,10 +18,10 @@ use Ramsey\Uuid\Uuid;
 class Template
 {
     public function __construct(
-        private TemplateUuid $uuid,
-        private TemplateCode $code,
-        private LabelCollection $labelCollection,
-        private CategoryId $categoryTreeId,
+        private readonly TemplateUuid $uuid,
+        private readonly TemplateCode $code,
+        private readonly LabelCollection $labelCollection,
+        private readonly CategoryId $categoryTreeId,
         private ?AttributeCollection $attributeCollection,
     ) {
     }

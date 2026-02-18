@@ -14,7 +14,6 @@ interface RemovingOptionsResolverInterface
     /**
      * Resolve options for a single remove
      *
-     * @param array $options
      *
      * @return array
      */
@@ -23,7 +22,6 @@ interface RemovingOptionsResolverInterface
     /**
      * Resolve options for a bulk remove
      *
-     * @param array $options
      *
      * @return array
      */

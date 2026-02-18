@@ -30,8 +30,6 @@ class GroupSubscriber implements EventSubscriberInterface
 
     /**
      * Pre delete a user group
-     *
-     * @param GenericEvent $event
      */
     public function preDeleteGroup(GenericEvent $event)
     {
@@ -40,8 +38,6 @@ class GroupSubscriber implements EventSubscriberInterface
 
     /**
      * Pre update a user group
-     *
-     * @param GenericEvent $event
      */
     public function preUpdateGroup(GenericEvent $event)
     {
@@ -51,7 +47,6 @@ class GroupSubscriber implements EventSubscriberInterface
     /**
      * Check if the current user group is the default group.
      *
-     * @param GenericEvent $event
      *
      * @throws \Exception
      */

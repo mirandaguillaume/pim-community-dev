@@ -18,11 +18,8 @@ final class SqlChannels implements ChannelsInterface
 
     private bool $channelsLoaded;
 
-    private Connection $dbConnection;
-
-    public function __construct(Connection $dbConnection)
+    public function __construct(private readonly Connection $dbConnection)
     {
-        $this->dbConnection = $dbConnection;
         $this->channelCodesByIds = [];
         $this->channelIdsByCodes = [];
         $this->channelsLoaded = false;
@@ -53,7 +50,7 @@ final class SqlChannels implements ChannelsInterface
         )->fetchOne();
 
         if ($channels) {
-            $this->channelCodesByIds = json_decode($channels, true);
+            $this->channelCodesByIds = json_decode((string) $channels, true, 512, JSON_THROW_ON_ERROR);
             $this->channelIdsByCodes = array_flip($this->channelCodesByIds);
         }
 

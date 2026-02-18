@@ -16,7 +16,7 @@ use Akeneo\Platform\Bundle\ImportExportBundle\Domain\Model\StorageInterface;
 use Akeneo\Platform\Bundle\ImportExportBundle\Domain\StorageClientInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-final class DownloadFileFromStorage implements DownloadFileFromStorageInterface
+final readonly class DownloadFileFromStorage implements DownloadFileFromStorageInterface
 {
     private const MAX_FILE_SIZE = 512_000_000;
 

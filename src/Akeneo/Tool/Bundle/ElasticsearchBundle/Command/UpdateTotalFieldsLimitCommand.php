@@ -17,26 +17,16 @@ class UpdateTotalFieldsLimitCommand extends Command
 {
     protected static $defaultName = 'akeneo:elasticsearch:update-total-fields-limit';
 
-    private ClientRegistry $esClientsRegistry;
-
-    private GetTotalFieldsLimit $getTotalFieldsLimit;
-
-    private array $hosts;
-
-    private array $indexesToUpdate;
+    private readonly array $hosts;
 
     public function __construct(
-        ClientRegistry $esClientsRegistry,
-        GetTotalFieldsLimit $getTotalFieldsLimit,
+        private readonly ClientRegistry $esClientsRegistry,
+        private readonly GetTotalFieldsLimit $getTotalFieldsLimit,
         $hosts,
-        array $indexesToUpdate
+        private readonly array $indexesToUpdate
     ) {
         parent::__construct();
-
-        $this->esClientsRegistry = $esClientsRegistry;
-        $this->getTotalFieldsLimit = $getTotalFieldsLimit;
         $this->hosts = is_string($hosts) ? [$hosts] : $hosts;
-        $this->indexesToUpdate = $indexesToUpdate;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

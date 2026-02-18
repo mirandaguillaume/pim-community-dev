@@ -40,13 +40,6 @@ class ConfigureProductGridListener
     /** @var ConfiguratorInterface */
     protected $attributesConfigurator;
 
-    /**
-     * @param ContextConfigurator   $contextConfigurator
-     * @param ColumnsConfigurator   $columnsConfigurator
-     * @param ConfiguratorInterface $filtersConfigurator
-     * @param SortersConfigurator   $sortersConfigurator
-     * @param ConfiguratorInterface $attributesConfigurator
-     */
     public function __construct(
         ContextConfigurator $contextConfigurator,
         ColumnsConfigurator $columnsConfigurator,
@@ -64,7 +57,6 @@ class ConfigureProductGridListener
     /**
      * Configure product columns, filters, sorters dynamically
      *
-     * @param BuildBefore $event
      *
      * @throws \LogicException
      */

@@ -4,17 +4,8 @@ namespace Akeneo\Pim\Structure\Component\Query\PublicApi\Attribute;
 
 class FlattenAttribute
 {
-    private string $code;
-    private string $label;
-    private string $attributeGroupCode;
-    private string $attributeGroupLabel;
-
-    public function __construct(string $code, string $label, string $attributeGroupCode, string $attributeGroupLabel)
+    public function __construct(private readonly string $code, private readonly string $label, private readonly string $attributeGroupCode, private readonly string $attributeGroupLabel)
     {
-        $this->code = $code;
-        $this->label = $label;
-        $this->attributeGroupCode = $attributeGroupCode;
-        $this->attributeGroupLabel = $attributeGroupLabel;
     }
 
     public function getCode(): string

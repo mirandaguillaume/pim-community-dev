@@ -26,12 +26,12 @@ use Doctrine\Common\Collections\Collection;
  */
 class JobInstance
 {
-    public const STATUS_READY = 0;
-    public const STATUS_DRAFT = 1;
-    public const STATUS_IN_PROGRESS = 2;
+    final public const STATUS_READY = 0;
+    final public const STATUS_DRAFT = 1;
+    final public const STATUS_IN_PROGRESS = 2;
 
-    public const TYPE_IMPORT = 'import';
-    public const TYPE_EXPORT = 'export';
+    final public const TYPE_IMPORT = 'import';
+    final public const TYPE_EXPORT = 'export';
 
     /** @var int */
     protected $id;
@@ -42,21 +42,8 @@ class JobInstance
     /** @var string */
     protected $label;
 
-    /** @var string */
-    protected $jobName;
-
     /** @var int */
     protected $status = self::STATUS_READY;
-
-    /** @var string */
-    protected $connector;
-
-    /**
-     * JobInstance type export or import.
-     *
-     * @var string
-     */
-    protected $type;
 
     /** @var array */
     protected $rawParameters = [];
@@ -77,11 +64,8 @@ class JobInstance
      * @param string $type
      * @param string $jobName
      */
-    public function __construct($connector = null, $type = null, $jobName = null)
+    public function __construct(protected $connector = null, protected $type = null, protected $jobName = null)
     {
-        $this->connector = $connector;
-        $this->type = $type;
-        $this->jobName = $jobName;
         $this->jobExecutions = new ArrayCollection();
     }
 
@@ -294,7 +278,7 @@ class JobInstance
     /**
      * @return ArrayCollection|JobExecution[]
      */
-    public function getJobExecutions()
+    public function getJobExecutions(): Collection|array
     {
         return $this->jobExecutions;
     }

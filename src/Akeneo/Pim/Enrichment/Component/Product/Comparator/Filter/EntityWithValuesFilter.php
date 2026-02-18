@@ -36,13 +36,6 @@ class EntityWithValuesFilter implements FilterInterface
     /** @var array[] */
     protected $attributeTypeByCodes;
 
-    /**
-     * @param NormalizerInterface          $normalizer
-     * @param ComparatorRegistry           $comparatorRegistry
-     * @param AttributeRepositoryInterface $attributeRepository
-     * @param FilterInterface              $productFieldFilter
-     * @param array                        $entityFields
-     */
     public function __construct(
         NormalizerInterface $normalizer,
         ComparatorRegistry $comparatorRegistry,
@@ -90,12 +83,9 @@ class EntityWithValuesFilter implements FilterInterface
     /**
      * Compare entity's values
      *
-     * @param array $originalValues
-     * @param array $values
      *
      * @throws \LogicException
      *
-     * @return array|null
      */
     protected function compareAttribute(array $originalValues, array $values): ?array
     {
@@ -131,11 +121,8 @@ class EntityWithValuesFilter implements FilterInterface
     }
 
     /**
-     * @param array  $originalValues
-     * @param array  $attribute
      * @param string $code
      *
-     * @return array
      */
     protected function getOriginalAttribute(array $originalValues, array $attribute, $code): array
     {
@@ -147,9 +134,7 @@ class EntityWithValuesFilter implements FilterInterface
     /**
      * Normalize original entity
      *
-     * @param EntityWithValuesInterface $entity
      *
-     * @return array
      */
     protected function getOriginalEntity(EntityWithValuesInterface $entity): array
     {
@@ -162,9 +147,7 @@ class EntityWithValuesFilter implements FilterInterface
      * Flat entity values to have keys formatted like that: $code-$locale-$scope.
      * That simplifies the search when we compare two arrays
      *
-     * @param array $entity
      *
-     * @return array
      */
     protected function flatEntityValues(array $entity): array
     {
@@ -185,8 +168,6 @@ class EntityWithValuesFilter implements FilterInterface
     /**
      * @param array $collection The collection in which we add the element
      * @param array $value      The structured value to add to the collection
-     *
-     * @return array
      */
     protected function mergeValueToResult(array $collection, array $value): array
     {
@@ -202,19 +183,14 @@ class EntityWithValuesFilter implements FilterInterface
     }
 
     /**
-     * @param array  $data
      * @param string $code
      *
-     * @return string
      */
     protected function buildKey(array $data, $code): string
     {
         return sprintf('%s-%s-%s', $code, $data['locale'], $data['scope']);
     }
 
-    /**
-     * @param array $codes
-     */
     private function cacheAttributeTypeByCodes(array $codes): void
     {
         $codesToFetch = array_diff($codes, array_keys($this->attributeTypeByCodes));

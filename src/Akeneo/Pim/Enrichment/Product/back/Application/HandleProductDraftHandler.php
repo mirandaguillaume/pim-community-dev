@@ -17,13 +17,13 @@ use Webmozart\Assert\Assert;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class HandleProductDraftHandler
+final readonly class HandleProductDraftHandler
 {
     public function __construct(
-        private readonly ProductRepositoryInterface $productRepository,
-        private readonly ValidatorInterface $validator,
-        private readonly ObjectUpdaterInterface $productUpdater,
-        private readonly SaverInterface $productSaver,
+        private ProductRepositoryInterface $productRepository,
+        private ValidatorInterface $validator,
+        private ObjectUpdaterInterface $productUpdater,
+        private SaverInterface $productSaver,
     ) {
     }
 

@@ -13,7 +13,7 @@ use Webmozart\Assert\Assert;
  */
 final class MeasurementFamilyCode
 {
-    private string $code;
+    private readonly string $code;
 
     private function __construct(string $code)
     {

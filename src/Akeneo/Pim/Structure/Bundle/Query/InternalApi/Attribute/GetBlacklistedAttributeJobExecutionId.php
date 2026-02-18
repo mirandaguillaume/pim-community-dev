@@ -7,13 +7,10 @@ namespace Akeneo\Pim\Structure\Bundle\Query\InternalApi\Attribute;
 use Akeneo\Pim\Structure\Component\Query\InternalApi\GetBlacklistedAttributeJobExecutionIdInterface;
 use Doctrine\DBAL\Connection;
 
-final class GetBlacklistedAttributeJobExecutionId implements GetBlacklistedAttributeJobExecutionIdInterface
+final readonly class GetBlacklistedAttributeJobExecutionId implements GetBlacklistedAttributeJobExecutionIdInterface
 {
-    private Connection $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function forAttributeCode(string $attributeCode): ?int

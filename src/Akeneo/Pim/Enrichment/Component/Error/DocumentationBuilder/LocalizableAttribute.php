@@ -18,7 +18,7 @@ use Symfony\Component\Validator\ConstraintViolationInterface;
  */
 class LocalizableAttribute implements DocumentationBuilderInterface
 {
-    const SUPPORTED_CONSTRAINTS_CODES = [
+    final public const SUPPORTED_CONSTRAINTS_CODES = [
         LocalizableValues::NON_ACTIVE_LOCALE,
         LocalizableValues::INVALID_LOCALE_FOR_CHANNEL
     ];

@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class GetProductEvaluationController
 {
-    public function __construct(private GetProductEvaluation $getEntityEvaluation)
+    public function __construct(private readonly GetProductEvaluation $getEntityEvaluation)
     {
     }
 

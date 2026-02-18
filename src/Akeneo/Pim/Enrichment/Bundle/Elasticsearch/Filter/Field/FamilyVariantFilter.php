@@ -22,11 +22,6 @@ class FamilyVariantFilter extends AbstractFieldFilter implements FieldFilterInte
     /** @var FamilyVariantRepositoryInterface */
     protected $familyVariantRepository;
 
-    /**
-     * @param FamilyVariantRepositoryInterface $familyVariantRepository
-     * @param array                            $supportedFields
-     * @param array                            $supportedOperators
-     */
     public function __construct(
         FamilyVariantRepositoryInterface $familyVariantRepository,
         array $supportedFields = [],
@@ -94,11 +89,10 @@ class FamilyVariantFilter extends AbstractFieldFilter implements FieldFilterInte
      * Check if value is valid
      *
      * @param string $field
-     * @param mixed  $values
      *
      * @throws ObjectNotFoundException
      */
-    protected function checkValue($field, $values)
+    protected function checkValue($field, mixed $values)
     {
         FieldFilterHelper::checkArray($field, $values, static::class);
 

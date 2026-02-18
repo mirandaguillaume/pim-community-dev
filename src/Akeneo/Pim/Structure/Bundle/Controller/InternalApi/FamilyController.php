@@ -31,7 +31,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class FamilyController
 {
-    const FAMILY_VARIANTS_LIMIT = 20;
+    final public const FAMILY_VARIANTS_LIMIT = 20;
 
     /** @var FamilyRepositoryInterface */
     protected $familyRepository;
@@ -75,18 +75,6 @@ class FamilyController
     /** @var NormalizerInterface */
     protected $constraintViolationNormalizer;
 
-    /**
-     * @param FamilyRepositoryInterface  $familyRepository
-     * @param NormalizerInterface        $normalizer
-     * @param FamilySearchableRepository $familySearchableRepo
-     * @param FamilyUpdater              $updater
-     * @param SaverInterface             $saver
-     * @param RemoverInterface           $remover
-     * @param ValidatorInterface         $validator
-     * @param SecurityFacade             $securityFacade
-     * @param FamilyFactory              $familyFactory
-     * @param NormalizerInterface        $constraintViolationNormalizer
-     */
     public function __construct(
         FamilyRepositoryInterface $familyRepository,
         NormalizerInterface $normalizer,
@@ -114,7 +102,6 @@ class FamilyController
     /**
      * Get the family collection
      *
-     * @param Request $request
      *
      * @return JsonResponse
      */
@@ -169,9 +156,7 @@ class FamilyController
     /**
      * Updates family
      *
-     * @param Request $request
      * @param string  $code
-     *
      * @return Response
      */
     public function putAction(Request $request, $code)
@@ -194,9 +179,7 @@ class FamilyController
     /**
      * Removes given family
      *
-     * @param Request $request
      * @param string  $code
-     *
      * @return Response
      */
     public function removeAction(Request $request, $code)
@@ -224,19 +207,12 @@ class FamilyController
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
 
-    /**
-     * @param string  $code
-     *
-     * @return JsonResponse
-     */
     public function getAvailableAxesAction(string $code): JsonResponse
     {
         $family = $this->getFamily($code);
         $allowedTypes = FamilyVariant::getAvailableAxesAttributeTypes();
 
-        $availableAxes = $family->getAttributes()->filter(function (AttributeInterface $attribute) use ($allowedTypes) {
-            return in_array($attribute->getType(), $allowedTypes);
-        });
+        $availableAxes = $family->getAttributes()->filter(fn(AttributeInterface $attribute) => in_array($attribute->getType(), $allowedTypes));
 
         $normalizedAvailableAttributes = [];
         foreach ($availableAxes as $availableAxis) {
@@ -249,9 +225,7 @@ class FamilyController
     /**
      * Gets family
      *
-     * @param string $code
      *
-     * @return FamilyInterface
      */
     protected function getFamily(string $code): FamilyInterface
     {
@@ -269,10 +243,7 @@ class FamilyController
     /**
      * Saves family
      *
-     * @param Request         $request
-     * @param FamilyInterface $family
      *
-     * @return Response
      */
     protected function saveFamily(Request $request, FamilyInterface $family): Response
     {
@@ -280,18 +251,18 @@ class FamilyController
             return new RedirectResponse('/');
         }
 
-        $data = json_decode($request->getContent(), true);
+        try {
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
 
         if (!$this->securityFacade->isGranted('pim_enrich_family_edit_properties')) {
-            $data = array_filter($data, function ($value, $key) {
-                return !in_array($key, $this->propertiesFields);
-            });
+            $data = array_filter($data, fn($value, $key) => !in_array($key, $this->propertiesFields));
         }
 
         if (!$this->securityFacade->isGranted('pim_enrich_family_edit_attributes')) {
-            $data = array_filter($data, function ($value, $key) {
-                return !in_array($key, $this->attributeFields);
-            });
+            $data = array_filter($data, fn($value, $key) => !in_array($key, $this->attributeFields));
         }
 
         $this->updater->update($family, $data);
@@ -322,7 +293,6 @@ class FamilyController
     /**
      * Creates family
      *
-     * @param Request $request
      *
      * @return Response
      */
@@ -336,7 +306,12 @@ class FamilyController
         }
 
         $family = $this->familyFactory->create();
-        $this->updater->update($family, json_decode($request->getContent(), true));
+        try {
+            $decodedContent = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
+        $this->updater->update($family, $decodedContent);
         $violations = $this->validator->validate($family);
 
         $normalizedViolations = [];
@@ -363,9 +338,7 @@ class FamilyController
     /**
      * Gets families with familyVariants
      *
-     * @param Request $request
      *
-     * @return JsonResponse
      */
     public function getWithVariantsAction(Request $request): JsonResponse
     {

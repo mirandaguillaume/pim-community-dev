@@ -17,15 +17,12 @@ interface VariantProductRepositoryInterface
     /**
      * Finds products with the same parent than the provided $product.
      *
-     * @param ProductInterface $product
      *
      * @return ProductInterface[]
      */
     public function findSiblingsProducts(ProductInterface $product): array;
 
     /**
-     * @param ProductModelInterface $parent
-     *
      * @return null|ProductInterface
      */
     public function findLastCreatedByParent(ProductModelInterface $parent): ?ProductInterface;

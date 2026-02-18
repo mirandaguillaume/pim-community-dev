@@ -11,7 +11,7 @@ use Doctrine\DBAL\Connection;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GetConnectedAppScopesQuery implements GetConnectedAppScopesQueryInterface
+final readonly class GetConnectedAppScopesQuery implements GetConnectedAppScopesQueryInterface
 {
     public function __construct(private Connection $connection)
     {
@@ -28,6 +28,6 @@ final class GetConnectedAppScopesQuery implements GetConnectedAppScopesQueryInte
             'id' => $appId,
         ]);
 
-        return empty($scopes) ? [] : \json_decode($scopes, null, 512, JSON_THROW_ON_ERROR);
+        return empty($scopes) ? [] : \json_decode((string) $scopes, null, 512, JSON_THROW_ON_ERROR);
     }
 }

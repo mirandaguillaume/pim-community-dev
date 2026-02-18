@@ -13,7 +13,7 @@ use Webmozart\Assert\Assert;
  *
  * @copyright 2021 Akeneo SAS (https://www.akeneo.com)
  */
-final class UpdateIndexMappingWithoutDowntime
+final readonly class UpdateIndexMappingWithoutDowntime
 {
     public function __construct(
         private ClockInterface $clock,

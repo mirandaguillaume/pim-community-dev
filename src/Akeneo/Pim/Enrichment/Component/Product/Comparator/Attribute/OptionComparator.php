@@ -16,9 +16,6 @@ class OptionComparator implements ComparatorInterface
     /** @var array */
     protected $types;
 
-    /**
-     * @param array $types
-     */
     public function __construct(array $types)
     {
         $this->types = $types;
@@ -44,7 +41,7 @@ class OptionComparator implements ComparatorInterface
         $default = ['locale' => null, 'scope' => null, 'data' => null];
         $originals = \array_merge($default, $originals);
 
-        if (\strtolower($data['data']) === \strtolower($originals['data'])) {
+        if (\strtolower($data['data']) === \strtolower((string) $originals['data'])) {
             return null;
         }
 

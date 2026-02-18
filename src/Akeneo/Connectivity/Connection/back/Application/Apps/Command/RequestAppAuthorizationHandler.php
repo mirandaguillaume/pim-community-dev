@@ -19,9 +19,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class RequestAppAuthorizationHandler
 {
     public function __construct(
-        private ValidatorInterface $validator,
-        private AppAuthorizationSessionInterface $session,
-        private ScopeMapperRegistry $scopeMapper,
+        private readonly ValidatorInterface $validator,
+        private readonly AppAuthorizationSessionInterface $session,
+        private readonly ScopeMapperRegistry $scopeMapper,
     ) {
     }
 

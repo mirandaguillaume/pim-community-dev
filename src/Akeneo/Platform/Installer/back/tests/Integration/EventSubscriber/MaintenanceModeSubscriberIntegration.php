@@ -58,7 +58,7 @@ class MaintenanceModeSubscriberIntegration extends TestCase
     {
         $result = $this->connection->fetchOne("SELECT `values` FROM pim_configuration WHERE code = 'maintenance_mode'");
 
-        return (false === $result) ? false : json_decode($result, true)['enabled'];
+        return (false === $result) ? false : json_decode((string) $result, true, 512, JSON_THROW_ON_ERROR)['enabled'];
     }
 
     private function enableMaintenanceMode(): void

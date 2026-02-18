@@ -25,10 +25,9 @@ class VersionContext
     /**
      * Add context
      *
-     * @param string|null $info
      * @param string      $context
      */
-    public function addContextInfo($info, $context = null)
+    public function addContextInfo(?string $info, $context = null)
     {
         if ($context) {
             $this->mapping[$context] = $info;
@@ -40,11 +39,9 @@ class VersionContext
     /**
      * Get context
      *
-     * @param string|null $context
      *
-     * @return null|string
      */
-    public function getContextInfo($context = null)
+    public function getContextInfo(?string $context = null): ?string
     {
         if (isset($this->mapping[$context])) {
             return $this->mapping[$context];

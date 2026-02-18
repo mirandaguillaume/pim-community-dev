@@ -20,18 +20,18 @@ use Webmozart\Assert\Assert;
  *   locale?: string,
  * }
  */
-final class MultiSelect implements ConditionInterface
+final readonly class MultiSelect implements ConditionInterface
 {
     /**
      * @param MultiSelectOperator $operator
      * @param string[]|null $value
      */
     private function __construct(
-        private readonly string $operator,
-        private readonly string $attributeCode,
-        private readonly ?array $value = null,
-        private readonly ?string $scope = null,
-        private readonly ?string $locale = null,
+        private string $operator,
+        private string $attributeCode,
+        private ?array $value = null,
+        private ?string $scope = null,
+        private ?string $locale = null,
     ) {
     }
 

@@ -10,14 +10,10 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\GetAttributes;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class TransformRawValuesCollections
+final readonly class TransformRawValuesCollections
 {
-    /** @var GetAttributes */
-    private $getAttributes;
-
-    public function __construct(GetAttributes $getAttributes)
+    public function __construct(private GetAttributes $getAttributes)
     {
-        $this->getAttributes = $getAttributes;
     }
 
     public function toValueCollectionsIndexedByType(array $rawValueCollections): array

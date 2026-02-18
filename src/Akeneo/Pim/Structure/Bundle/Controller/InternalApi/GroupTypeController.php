@@ -55,15 +55,7 @@ class GroupTypeController
     protected $constraintViolationNormalizer;
 
     /**
-     * @param GroupTypeRepositoryInterface $groupTypeRepo
-     * @param NormalizerInterface          $normalizer
-     * @param RemoverInterface             $remover
-     * @param ObjectUpdaterInterface       $updater
-     * @param SaverInterface               $saver
-     * @param ValidatorInterface           $validator
-     * @param UserContext                  $userContext
      * @param groupTypeFactory             $groupTypeFactory
-     * @param NormalizerInterface          $constraintViolationNormalizer
      */
     public function __construct(
         GroupTypeRepositoryInterface $groupTypeRepo,
@@ -121,10 +113,8 @@ class GroupTypeController
 
     /**
      *
-     * @param Request $request
      *
      * @return Response
-     *
      * @AclAncestor("pim_enrich_grouptype_edit")
      */
     public function postAction(Request $request, $identifier)
@@ -135,7 +125,11 @@ class GroupTypeController
 
         $groupType = $this->getGroupTypeOr404($identifier);
 
-        $data = json_decode($request->getContent(), true);
+        try {
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
 
         $this->updater->update($groupType, $data);
 
@@ -214,10 +208,8 @@ class GroupTypeController
     /**
      * Creates group type
      *
-     * @param Request $request
      *
      * @return Response
-     *
      * @AclAncestor("pim_enrich_grouptype_create")
      */
     public function createAction(Request $request)
@@ -227,7 +219,12 @@ class GroupTypeController
         }
 
         $groupType = $this->groupTypeFactory->create();
-        $this->updater->update($groupType, json_decode($request->getContent(), true));
+        try {
+            $decodedContent = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
+        $this->updater->update($groupType, $decodedContent);
         $violations = $this->validator->validate($groupType);
 
         $normalizedViolations = [];

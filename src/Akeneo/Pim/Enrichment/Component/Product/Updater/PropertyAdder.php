@@ -27,10 +27,6 @@ class PropertyAdder implements PropertyAdderInterface
     /** @var AdderRegistryInterface */
     protected $adderRegistry;
 
-    /**
-     * @param IdentifiableObjectRepositoryInterface $repository
-     * @param AdderRegistryInterface                $adderRegistry
-     */
     public function __construct(
         IdentifiableObjectRepositoryInterface $repository,
         AdderRegistryInterface $adderRegistry
@@ -64,7 +60,7 @@ class PropertyAdder implements PropertyAdderInterface
         } else {
             throw new \RuntimeException(sprintf(
                 "The adder must implements AttributeAdderInterface or FieldAdderInterface, '%s' given",
-                get_class($adder)
+                $adder::class
             ));
         }
 
@@ -73,10 +69,8 @@ class PropertyAdder implements PropertyAdderInterface
 
     /**
      * @param string $code
-     *
-     * @return AttributeInterface|null
      */
-    protected function getAttribute($code)
+    protected function getAttribute($code): ?\Akeneo\Pim\Structure\Component\Model\AttributeInterface
     {
         return $this->attributeRepository->findOneByIdentifier($code);
     }

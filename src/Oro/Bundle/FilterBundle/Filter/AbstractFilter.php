@@ -30,9 +30,6 @@ abstract class AbstractFilter implements FilterInterface
 
     /**
      * Constructor
-     *
-     * @param FormFactoryInterface $factory
-     * @param FilterUtility        $util
      */
     public function __construct(FormFactoryInterface $factory, FilterUtility $util)
     {
@@ -129,11 +126,8 @@ abstract class AbstractFilter implements FilterInterface
 
     /**
      * Apply filter expression to having or where clause depending on configuration
-     *
-     * @param FilterDatasourceAdapterInterface $ds
-     * @param mixed                            $expression
      */
-    protected function applyFilterToClause(FilterDatasourceAdapterInterface $ds, $expression)
+    protected function applyFilterToClause(FilterDatasourceAdapterInterface $ds, mixed $expression)
     {
         $ds->addRestriction(
             $expression,
@@ -176,7 +170,7 @@ abstract class AbstractFilter implements FilterInterface
     protected function getOr($paramName = null, $default = null)
     {
         if ($paramName !== null) {
-            return isset($this->params[$paramName]) ? $this->params[$paramName] : $default;
+            return $this->params[$paramName] ?? $default;
         }
 
         return $this->params;

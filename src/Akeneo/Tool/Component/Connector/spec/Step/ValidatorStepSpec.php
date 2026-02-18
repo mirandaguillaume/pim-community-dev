@@ -19,12 +19,12 @@ class ValidatorStepSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('\Akeneo\Tool\Component\Connector\Step\ValidatorStep');
+        $this->shouldHaveType('\\' . \Akeneo\Tool\Component\Connector\Step\ValidatorStep::class);
     }
 
     function it_is_a_step()
     {
-        $this->shouldHaveType('\Akeneo\Tool\Component\Batch\Step\StepInterface');
-        $this->shouldHaveType('\Akeneo\Tool\Component\Batch\Step\AbstractStep');
+        $this->shouldHaveType('\\' . \Akeneo\Tool\Component\Batch\Step\StepInterface::class);
+        $this->shouldHaveType('\\' . \Akeneo\Tool\Component\Batch\Step\AbstractStep::class);
     }
 }

@@ -9,11 +9,8 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class OptionsValueWithLinkedData extends AbstractValue implements OptionsValueInterface
+class OptionsValueWithLinkedData extends AbstractValue implements OptionsValueInterface, \Stringable
 {
-    /** @var array */
-    protected $data;
-
     /** @var array */
     protected $linkedData;
 
@@ -39,9 +36,6 @@ class OptionsValueWithLinkedData extends AbstractValue implements OptionsValueIn
         return $this->data;
     }
 
-    /**
-     * @return array|null
-     */
     public function getLinkedData(): ?array
     {
         return $this->linkedData;
@@ -93,7 +87,7 @@ class OptionsValueWithLinkedData extends AbstractValue implements OptionsValueIn
         $thisAttributeOptions = $this->getData();
 
         if ($value instanceof OptionsValueWithLinkedData &&
-            strcmp(json_encode($value->getLinkedData()), json_encode($this->getLinkedData()))
+            strcmp(json_encode($value->getLinkedData(), JSON_THROW_ON_ERROR), json_encode($this->getLinkedData(), JSON_THROW_ON_ERROR))
         ) {
             return false;
         }

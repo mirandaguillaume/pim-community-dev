@@ -57,30 +57,10 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class ProductCompletenessWithMissingAttributeCodesCollectionNormalizer
 {
-    /** @var NormalizerInterface */
-    private $normalizer;
-
-    /** @var GetChannelLabelsInterface */
-    private $getChannelLabels;
-
-    /** @var GetAttributeLabelsInterface */
-    private $getAttributeLabels;
-
-    public function __construct(
-        NormalizerInterface $normalizer,
-        GetChannelLabelsInterface $getChannelLabels,
-        GetAttributeLabelsInterface $getAttributeLabels
-    ) {
-        $this->normalizer = $normalizer;
-        $this->getChannelLabels = $getChannelLabels;
-        $this->getAttributeLabels = $getAttributeLabels;
+    public function __construct(private readonly NormalizerInterface $normalizer, private readonly GetChannelLabelsInterface $getChannelLabels, private readonly GetAttributeLabelsInterface $getAttributeLabels)
+    {
     }
 
-    /**
-     * @param ProductCompletenessWithMissingAttributeCodesCollection $completenesses
-     *
-     * @return array
-     */
     public function normalize(ProductCompletenessWithMissingAttributeCodesCollection $completenesses): array
     {
         $channelCodes = $this->getChannelCodes($completenesses);
@@ -106,8 +86,6 @@ class ProductCompletenessWithMissingAttributeCodesCollectionNormalizer
     }
 
     /**
-     * @param ProductCompletenessWithMissingAttributeCodesCollection $completenesses
-     *
      * @return string[]
      */
     private function getChannelCodes(ProductCompletenessWithMissingAttributeCodesCollection $completenesses): array
@@ -121,8 +99,6 @@ class ProductCompletenessWithMissingAttributeCodesCollectionNormalizer
     }
 
     /**
-     * @param ProductCompletenessWithMissingAttributeCodesCollection $completenesses
-     *
      * @return string[]
      */
     private function getMissingAttributeCodes(ProductCompletenessWithMissingAttributeCodesCollection $completenesses): array
@@ -136,8 +112,6 @@ class ProductCompletenessWithMissingAttributeCodesCollectionNormalizer
     }
 
     /**
-     * @param ProductCompletenessWithMissingAttributeCodesCollection $completenesses
-     *
      * @return string[]
      */
     private function getLocaleCodes(ProductCompletenessWithMissingAttributeCodesCollection $completenesses): array
@@ -150,11 +124,6 @@ class ProductCompletenessWithMissingAttributeCodesCollectionNormalizer
         return array_values(array_unique($localeCodes));
     }
 
-    /**
-     * @param ProductCompletenessWithMissingAttributeCodesCollection $completenesses
-     *
-     * @return array
-     */
     private function getCompletenessesByChannel(ProductCompletenessWithMissingAttributeCodesCollection $completenesses): array
     {
         $sortedCompletenesses = [];
@@ -166,13 +135,9 @@ class ProductCompletenessWithMissingAttributeCodesCollectionNormalizer
     }
 
     /**
-     * @param string                $channelCode
      * @param ProductCompletenessWithMissingAttributeCodes[] $channelCompletenesses
-     * @param array                 $channelLabels
-     * @param array                 $attributeLabels
      * @param string[]              $localeCodes
      *
-     * @return array
      */
     private function normalizeChannelCompletenesses(
         string $channelCode,
@@ -197,8 +162,6 @@ class ProductCompletenessWithMissingAttributeCodesCollectionNormalizer
      * Returns how many completenesses have a ratio of 100 for a provided list of completeness.
      *
      * @param ProductCompletenessWithMissingAttributeCodes[] $completenesses
-     *
-     * @return int
      */
     private function countComplete(array $completenesses): int
     {
@@ -216,8 +179,6 @@ class ProductCompletenessWithMissingAttributeCodesCollectionNormalizer
      * Returns the average completeness of a specific channel
      *
      * @param ProductCompletenessWithMissingAttributeCodes[] $completenesses
-     *
-     * @return int
      */
     private function average(array $completenesses): int
     {
@@ -234,9 +195,7 @@ class ProductCompletenessWithMissingAttributeCodesCollectionNormalizer
      *
      * @param ProductCompletenessWithMissingAttributeCodes[] $completenesses
      * @param string[]              $localeCodes
-     * @param array                 $attributeLabels
      *
-     * @return array
      */
     private function normalizeCompletenessesByLocale(
         array $completenesses,
@@ -247,12 +206,10 @@ class ProductCompletenessWithMissingAttributeCodesCollectionNormalizer
         foreach ($completenesses as $completeness) {
             $normalizedCompletenesses[$completeness->localeCode()] = [
                 'completeness' => $this->normalizer->normalize($completeness, 'internal_api'),
-                'missing' => array_map(function ($attributeCode) use ($localeCodes, $attributeLabels) {
-                    return [
-                        'code'   => $attributeCode,
-                        'labels' => $this->normalizeAttributeLabels($attributeLabels, $attributeCode, $localeCodes),
-                    ];
-                }, $completeness->missingAttributeCodes()),
+                'missing' => array_map(fn($attributeCode) => [
+                    'code'   => $attributeCode,
+                    'labels' => $this->normalizeAttributeLabels($attributeLabels, $attributeCode, $localeCodes),
+                ], $completeness->missingAttributeCodes()),
                 'label' => $this->getLocaleName($completeness->localeCode()),
             ];
         }
@@ -261,11 +218,8 @@ class ProductCompletenessWithMissingAttributeCodesCollectionNormalizer
     }
 
     /**
-     * @param array    $attributeLabels
-     * @param string   $attributeCode
      * @param string[] $localeCodes
      *
-     * @return array
      */
     private function normalizeAttributeLabels(array $attributeLabels, string $attributeCode, array $localeCodes): array
     {
@@ -282,9 +236,7 @@ class ProductCompletenessWithMissingAttributeCodesCollectionNormalizer
     }
 
     /**
-     * @param array    $channelLabels
      * @param string[] $localeCodes
-     * @param string   $channelCode
      *
      * @return string[]
      */
@@ -303,11 +255,6 @@ class ProductCompletenessWithMissingAttributeCodesCollectionNormalizer
         return $result;
     }
 
-    /**
-     * @param string $localeCode
-     *
-     * @return string
-     */
     private function getLocaleName(string $localeCode): string
     {
         return \Locale::getDisplayName($localeCode);

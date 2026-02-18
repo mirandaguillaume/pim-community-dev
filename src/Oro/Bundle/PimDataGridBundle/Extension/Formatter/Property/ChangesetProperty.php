@@ -15,13 +15,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class ChangesetProperty extends FieldProperty
 {
-    protected PresenterInterface $presenter;
-
-    public function __construct(TranslatorInterface $translator, PresenterInterface $presenter)
+    public function __construct(TranslatorInterface $translator, protected PresenterInterface $presenter)
     {
         parent::__construct($translator);
-
-        $this->presenter = $presenter;
     }
 
     /**

@@ -7,34 +7,11 @@ use Oro\Bundle\SecurityBundle\Acl\Extension\AclClassInfo;
 class ActionMetadata implements AclClassInfo, \Serializable
 {
     /**
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * @var string
-     */
-    protected $group;
-
-    /**
-     * @var string
-     */
-    protected $label;
-
-    /**
      * Defines if the ACL must be enabled/disabled at creation for all roles.
      *
      * @var bool
      */
     protected $isEnabledAtCreation;
-
-    protected int $order = 0;
-
-    /**
-     * true if the ACL must be visible in the UI. eg: the edit role permissions screen
-     * ACL that are not visible still exist and can be managed by the code.
-     */
-    protected bool $visible = true;
 
     /**
      * Gets an action name
@@ -71,20 +48,24 @@ class ActionMetadata implements AclClassInfo, \Serializable
         return $this->isEnabledAtCreation;
     }
 
+    /**
+     * @param string $name
+     * @param string $group
+     * @param string $label
+     */
     public function __construct(
-        $name = '',
-        $group = '',
-        $label = '',
+        protected $name = '',
+        protected $group = '',
+        protected $label = '',
         bool $isEnabledAtCreation = true,
-        int $order = 0,
-        bool $visible = true
+        protected int $order = 0,
+        /**
+         * true if the ACL must be visible in the UI. eg: the edit role permissions screen
+         * ACL that are not visible still exist and can be managed by the code.
+         */
+        protected bool $visible = true
     ) {
-        $this->name = $name;
-        $this->group = $group;
-        $this->label = $label;
         $this->isEnabledAtCreation = $isEnabledAtCreation;
-        $this->order = $order;
-        $this->visible = $visible;
     }
 
     public function getOrder(): int
@@ -119,13 +100,6 @@ class ActionMetadata implements AclClassInfo, \Serializable
      */
     public function unserialize($serialized)
     {
-        list(
-            $this->name,
-            $this->group,
-            $this->label,
-            $this->isEnabledAtCreation,
-            $this->order,
-            $this->visible,
-        ) = unserialize($serialized);
+        [$this->name, $this->group, $this->label, $this->isEnabledAtCreation, $this->order, $this->visible, ] = unserialize($serialized);
     }
 }

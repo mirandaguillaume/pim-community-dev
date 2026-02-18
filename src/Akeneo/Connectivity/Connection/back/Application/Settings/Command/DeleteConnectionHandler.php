@@ -16,9 +16,9 @@ use Akeneo\Connectivity\Connection\Domain\Settings\Persistence\Repository\Connec
 class DeleteConnectionHandler
 {
     public function __construct(
-        private ConnectionRepositoryInterface $repository,
-        private DeleteClientInterface $deleteClient,
-        private DeleteUserInterface $deleteUser
+        private readonly ConnectionRepositoryInterface $repository,
+        private readonly DeleteClientInterface $deleteClient,
+        private readonly DeleteUserInterface $deleteUser
     ) {
     }
 

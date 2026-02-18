@@ -12,16 +12,16 @@ use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Webmozart\Assert\Assert;
 
-final class UpdateFamilyNomenclatureContext implements Context
+final readonly class UpdateFamilyNomenclatureContext implements Context
 {
     private const DEFAULT_OPERATOR = '<=';
     private const DEFAULT_VALUE = 3;
     private const DEFAULT_GENERATE_IF_EMPTY = false;
 
     public function __construct(
-        private readonly ViolationsContext $violationsContext,
-        private readonly FamilyNomenclatureRepository $nomenclatureRepository,
-        private readonly UpdateNomenclatureHandler $updateNomenclatureValuesHandler,
+        private ViolationsContext $violationsContext,
+        private FamilyNomenclatureRepository $nomenclatureRepository,
+        private UpdateNomenclatureHandler $updateNomenclatureValuesHandler,
     ) {
     }
 

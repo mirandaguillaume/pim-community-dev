@@ -16,19 +16,10 @@ use Psr\Log\LoggerInterface;
  */
 final class PurgeOutdatedDataTasklet implements TaskletInterface
 {
-    /** @var StepExecution */
-    private $stepExecution;
+    private ?\Akeneo\Tool\Component\Batch\Model\StepExecution $stepExecution = null;
 
-    /** @var LoggerInterface */
-    private $logger;
-
-    /** @var PurgeOutdatedData */
-    private $purgeOutdatedData;
-
-    public function __construct(PurgeOutdatedData $purgeOutdatedData, LoggerInterface $logger)
+    public function __construct(private readonly PurgeOutdatedData $purgeOutdatedData, private readonly LoggerInterface $logger)
     {
-        $this->purgeOutdatedData = $purgeOutdatedData;
-        $this->logger = $logger;
     }
 
     /**

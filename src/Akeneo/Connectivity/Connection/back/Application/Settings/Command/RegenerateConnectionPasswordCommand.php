@@ -11,7 +11,7 @@ namespace Akeneo\Connectivity\Connection\Application\Settings\Command;
  */
 class RegenerateConnectionPasswordCommand
 {
-    public function __construct(private string $code)
+    public function __construct(private readonly string $code)
     {
     }
 

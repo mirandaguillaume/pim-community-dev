@@ -23,9 +23,9 @@ class LaunchEvaluationsCommand extends Command
     protected static $defaultDescription = 'Launch the evaluations of products and structure';
 
     public function __construct(
-        private RunUniqueProcessJob $runUniqueProcessJob,
-        private FeatureFlag $featureFlag,
-        private Connection $connection
+        private readonly RunUniqueProcessJob $runUniqueProcessJob,
+        private readonly FeatureFlag $featureFlag,
+        private readonly Connection $connection
     ) {
         parent::__construct();
     }
@@ -43,10 +43,8 @@ class LaunchEvaluationsCommand extends Command
         }
 
         try {
-            $this->runUniqueProcessJob->run('data_quality_insights_evaluations', function (?JobExecution $lastJobExecution) {
-                return [];
-            });
-        } catch (AnotherJobStillRunningException $e) {
+            $this->runUniqueProcessJob->run('data_quality_insights_evaluations', fn(?JobExecution $lastJobExecution) => []);
+        } catch (AnotherJobStillRunningException) {
             exit(0);
         }
 

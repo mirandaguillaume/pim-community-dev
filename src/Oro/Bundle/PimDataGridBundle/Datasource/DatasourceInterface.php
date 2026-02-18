@@ -53,7 +53,6 @@ interface DatasourceInterface extends OroDatasourceInterface
     /**
      * Define mass action repository for datasource
      *
-     * @param MassActionRepositoryInterface $massActionRepository
      *
      * @deprecated you should avoid this method, it's a design flaw, still used defining datasource services for
      * product, published product and rules
@@ -63,10 +62,8 @@ interface DatasourceInterface extends OroDatasourceInterface
     /**
      * Set hydrator
      *
-     * @param HydratorInterface $hydrator
      *
      * @return DatasourceInterface
-     *
      * @deprecated you should avoid this method, it's a design flaw, it allows the change the hydration mode in several
      * actions, for instance, still in used by,
      *   `Oro\Bundle\PimDataGridBundle\Extension\MassAction\Handler\DeleteMassActionHandler`,

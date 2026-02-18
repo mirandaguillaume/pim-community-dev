@@ -13,10 +13,10 @@ use Doctrine\DBAL\Connection;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class VariantProductCompletenessRatio implements VariantProductRatioInterface
+final readonly class VariantProductCompletenessRatio implements VariantProductRatioInterface
 {
     public function __construct(
-        private readonly Connection $connection,
+        private Connection $connection,
     ) {
     }
 
@@ -59,7 +59,7 @@ WITH descendant_product_uuids as (
 SQL;
 
         return \array_map(
-            static fn (string $json): array => \json_decode($json, true),
+            static fn (string $json): array => \json_decode($json, true, 512, JSON_THROW_ON_ERROR),
             $this->connection->fetchAllKeyValue($sql, [
                 'product_model_id' => $productModel->getId(),
             ])

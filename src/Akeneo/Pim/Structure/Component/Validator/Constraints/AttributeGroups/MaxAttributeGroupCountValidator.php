@@ -15,8 +15,8 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 class MaxAttributeGroupCountValidator extends ConstraintValidator
 {
     public function __construct(
-        private AttributeGroupRepositoryInterface $attributeGroupRepository,
-        private int $maxAttributeGroupCount,
+        private readonly AttributeGroupRepositoryInterface $attributeGroupRepository,
+        private readonly int $maxAttributeGroupCount,
     ) {
     }
 

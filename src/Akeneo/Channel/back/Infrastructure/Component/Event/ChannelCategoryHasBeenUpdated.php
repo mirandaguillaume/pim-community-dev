@@ -14,20 +14,8 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 final class ChannelCategoryHasBeenUpdated extends Event
 {
-    /** @var string */
-    private $channelCode;
-
-    /** @var string */
-    private $previousCategoryCode;
-
-    /** @var string */
-    private $newCategoryCode;
-
-    public function __construct(string $channelCode, string $previousCategoryCode, string $newCategoryCode)
+    public function __construct(private readonly string $channelCode, private readonly string $previousCategoryCode, private readonly string $newCategoryCode)
     {
-        $this->channelCode = $channelCode;
-        $this->newCategoryCode = $newCategoryCode;
-        $this->previousCategoryCode = $previousCategoryCode;
     }
 
     public function channelCode(): string

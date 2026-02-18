@@ -28,10 +28,6 @@ class PropertySetter implements PropertySetterInterface
     /** @var SetterRegistryInterface */
     protected $setterRegistry;
 
-    /**
-     * @param IdentifiableObjectRepositoryInterface $repository
-     * @param SetterRegistryInterface               $setterRegistry
-     */
     public function __construct(
         IdentifiableObjectRepositoryInterface $repository,
         SetterRegistryInterface $setterRegistry
@@ -67,10 +63,9 @@ class PropertySetter implements PropertySetterInterface
     /**
      * @param string $code
      *
-     * @return null|AttributeInterface
      * @throws ResourceNotFoundException
      */
-    protected function getAttribute($code)
+    protected function getAttribute($code): ?\Akeneo\Pim\Structure\Component\Model\AttributeInterface
     {
         $attribute = $this->attributeRepository->findOneByIdentifier($code);
 

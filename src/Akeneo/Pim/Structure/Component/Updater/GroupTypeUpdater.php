@@ -45,11 +45,9 @@ class GroupTypeUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param GroupTypeInterface $groupType
      * @param string             $field
-     * @param mixed              $data
      */
-    protected function setData(GroupTypeInterface $groupType, $field, $data)
+    protected function setData(GroupTypeInterface $groupType, $field, mixed $data)
     {
         switch ($field) {
             case 'code':

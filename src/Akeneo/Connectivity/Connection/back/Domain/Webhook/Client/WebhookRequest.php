@@ -17,7 +17,7 @@ class WebhookRequest
     /**
      * @param array<WebhookEvent> $apiEvents
      */
-    public function __construct(private ActiveWebhook $webhook, private array $apiEvents)
+    public function __construct(private readonly ActiveWebhook $webhook, private readonly array $apiEvents)
     {
     }
 

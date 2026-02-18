@@ -12,9 +12,9 @@ use Doctrine\DBAL\Connection;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class SqlReorderIdentifierGenerators implements ReorderIdentifierGenerators
+final readonly class SqlReorderIdentifierGenerators implements ReorderIdentifierGenerators
 {
-    public function __construct(private readonly Connection $connection)
+    public function __construct(private Connection $connection)
     {
     }
 

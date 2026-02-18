@@ -52,13 +52,7 @@ class StringFilter extends OroStringFilter
         return true;
     }
 
-    /**
-     * @param FilterDatasourceAdapterInterface $ds
-     * @param mixed                            $data
-     *
-     * @return array|bool
-     */
-    protected function prepareData(FilterDatasourceAdapterInterface $ds, $data)
+    protected function prepareData(FilterDatasourceAdapterInterface $ds, mixed $data): array|bool
     {
         if (!is_array($data) || !array_key_exists('value', $data) || !array_key_exists('type', $data)) {
             return false;
@@ -76,7 +70,7 @@ class StringFilter extends OroStringFilter
 
         if (FilterType::TYPE_IN_LIST === $data['type']) {
             // Here we replace the non-breaking spaces with actual spaces, see: PIM-9623
-            $data['value'] = explode(',', preg_replace('/\xc2\xa0/', ' ', $data['value']));
+            $data['value'] = explode(',', preg_replace('/\xc2\xa0/', ' ', (string) $data['value']));
         }
 
         return $data;
@@ -91,7 +85,7 @@ class StringFilter extends OroStringFilter
             return false;
         }
 
-        $data['type'] = isset($data['type']) ? $data['type'] : null;
+        $data['type'] ??= null;
 
         return $data;
     }

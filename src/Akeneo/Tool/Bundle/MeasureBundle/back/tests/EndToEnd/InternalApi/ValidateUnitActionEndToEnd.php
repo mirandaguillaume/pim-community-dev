@@ -99,7 +99,7 @@ class ValidateUnitActionEndToEnd extends WebTestCase
 JSON;
 
         $this->assertSame(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
-        $this->assertEquals(json_decode($expectedResponse), json_decode($response->getContent()));
+        $this->assertEquals(json_decode($expectedResponse), json_decode((string) $response->getContent(), null, 512, JSON_THROW_ON_ERROR));
     }
 
     /**
@@ -130,7 +130,7 @@ JSON;
             [
                 'HTTP_X-Requested-With' => 'XMLHttpRequest',
             ],
-            json_encode($unit->normalize())
+            json_encode($unit->normalize(), JSON_THROW_ON_ERROR)
         );
 
         return $this->client->getResponse();

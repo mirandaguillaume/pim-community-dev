@@ -21,8 +21,8 @@ use Ramsey\Uuid\Uuid;
 class AddScoresToProductAndProductModelRows
 {
     public function __construct(
-        private GetQualityScoresFactory         $getQualityScoresFactory,
-        private ProductEntityIdFactoryInterface $idFactory
+        private readonly GetQualityScoresFactory         $getQualityScoresFactory,
+        private readonly ProductEntityIdFactoryInterface $idFactory
     ) {
     }
 

@@ -18,10 +18,10 @@ use Symfony\Component\HttpFoundation\Request;
 class ConfigureHistoryGridListener
 {
     /** @staticvar string */
-    const GRID_PARAM_CLASS = 'object_class';
+    final public const GRID_PARAM_CLASS = 'object_class';
 
     /** @staticvar string */
-    const GRID_PARAM_OBJECT_ID = 'object_id';
+    final public const GRID_PARAM_OBJECT_ID = 'object_id';
 
     /**
      * @var Request
@@ -38,19 +38,12 @@ class ConfigureHistoryGridListener
      */
     protected $FQCNResolver;
 
-    /**
-     * @param RequestParameters $requestParams
-     * @param FQCNResolver      $FQCNResolver
-     */
     public function __construct(RequestParameters $requestParams, FQCNResolver $FQCNResolver)
     {
         $this->requestParams = $requestParams;
         $this->FQCNResolver = $FQCNResolver;
     }
 
-    /**
-     * @param BuildBefore $event
-     */
     public function onBuildBefore(BuildBefore $event)
     {
         $config = $event->getConfig();

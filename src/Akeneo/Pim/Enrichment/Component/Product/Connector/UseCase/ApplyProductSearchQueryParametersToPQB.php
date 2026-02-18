@@ -16,26 +16,16 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ApplyProductSearchQueryParametersToPQB
+final readonly class ApplyProductSearchQueryParametersToPQB
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $channelRepository;
-
-    public function __construct(
-        IdentifiableObjectRepositoryInterface $channelRepository
-    ) {
-        $this->channelRepository = $channelRepository;
+    public function __construct(private IdentifiableObjectRepositoryInterface $channelRepository)
+    {
     }
 
     /**
      * Set the PQB filters.
      * If a scope is requested, add a filter to return only products linked to its category tree
      *
-     * @param ProductQueryBuilderInterface $pqb
-     * @param array $search
-     * @param string|null $channelCode
-     * @param string|null $searchLocaleCode
-     * @param string|null $searchChannelCode
      *
      * @throws UnprocessableEntityHttpException
      */

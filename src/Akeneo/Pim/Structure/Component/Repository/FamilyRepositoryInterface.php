@@ -21,9 +21,7 @@ interface FamilyRepositoryInterface extends
     /**
      * Returns a querybuilder to get full requirements
      *
-     * @param FamilyInterface $family
      * @param string          $localeCode
-     *
      * @return \Doctrine\ORM\QueryBuilder
      */
     public function getFullRequirementsQB(FamilyInterface $family, $localeCode);
@@ -32,18 +30,14 @@ interface FamilyRepositoryInterface extends
      * Returns all families code with their required attributes code
      * Requirements can be restricted to a channel.
      *
-     * @param FamilyInterface  $family
-     * @param ChannelInterface $channel
      *
      * @return FamilyInterface[]
      */
     public function getFullFamilies(FamilyInterface $family = null, ChannelInterface $channel = null);
 
     /**
-     * @param array $familyIds
      *
      * @throws \InvalidArgumentException array of id should not be empty
-     *
      * @return array
      */
     public function findByIds(array $familyIds);

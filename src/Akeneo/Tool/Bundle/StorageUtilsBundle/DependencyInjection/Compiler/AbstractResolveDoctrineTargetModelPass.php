@@ -25,8 +25,6 @@ abstract class AbstractResolveDoctrineTargetModelPass implements CompilerPassInt
 
     /**
      * Resolve target entity interfaces by using container parameters
-     *
-     * @param ContainerBuilder $container
      */
     protected function resolveTargetEntities(ContainerBuilder $container)
     {

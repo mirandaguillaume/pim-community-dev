@@ -17,34 +17,22 @@ use Akeneo\Tool\Component\StorageUtils\Cursor\CursorFactoryInterface;
 
 class AbstractEntityWithValuesQueryBuilder implements ProductQueryBuilderInterface
 {
-    public const DOCUMENT_TYPE_FACET_NAME = 'document_type_facet';
+    final public const DOCUMENT_TYPE_FACET_NAME = 'document_type_facet';
     private const DOCUMENT_TYPE_FIELD = 'document_type';
 
     /** @var mixed */
     protected $qb;
-
-    protected AttributeRepositoryInterface $attributeRepository;
-    protected FilterRegistryInterface $filterRegistry;
-    protected SorterRegistryInterface $sorterRegistry;
     protected array $defaultContext;
-    protected CursorFactoryInterface $cursorFactory;
-    protected ProductQueryBuilderOptionsResolverInterface $optionResolver;
     protected array $rawFilters = [];
 
     public function __construct(
-        AttributeRepositoryInterface $attributeRepository,
-        FilterRegistryInterface $filterRegistry,
-        SorterRegistryInterface $sorterRegistry,
-        CursorFactoryInterface $cursorFactory,
-        ProductQueryBuilderOptionsResolverInterface $optionResolver,
+        protected AttributeRepositoryInterface $attributeRepository,
+        protected FilterRegistryInterface $filterRegistry,
+        protected SorterRegistryInterface $sorterRegistry,
+        protected CursorFactoryInterface $cursorFactory,
+        protected ProductQueryBuilderOptionsResolverInterface $optionResolver,
         array $defaultContext
     ) {
-        $this->attributeRepository = $attributeRepository;
-        $this->filterRegistry = $filterRegistry;
-        $this->sorterRegistry = $sorterRegistry;
-        $this->cursorFactory = $cursorFactory;
-        $this->optionResolver = $optionResolver;
-
         $this->defaultContext = $this->optionResolver->resolve($defaultContext);
     }
 
@@ -60,9 +48,7 @@ class AbstractEntityWithValuesQueryBuilder implements ProductQueryBuilderInterfa
         $allowedCursorOptions = ['page_size', 'search_after', 'search_after_unique_key', 'limit', 'from'];
         $cursorOptions = array_filter(
             $this->defaultContext,
-            function ($key) use ($allowedCursorOptions) {
-                return in_array($key, $allowedCursorOptions);
-            },
+            fn($key) => in_array($key, $allowedCursorOptions),
             ARRAY_FILTER_USE_KEY
         );
 
@@ -187,7 +173,7 @@ class AbstractEntityWithValuesQueryBuilder implements ProductQueryBuilderInterfa
      *
      * @return ProductQueryBuilderInterface
      */
-    protected function addFieldFilter(FieldFilterInterface $filter, $field, $operator, $value, array $context)
+    protected function addFieldFilter(FieldFilterInterface $filter, $field, $operator, mixed $value, array $context)
     {
         $filter->setQueryBuilder($this->getQueryBuilder());
         $filter->addFieldFilter($field, $operator, $value, $context['locale'], $context['scope'], $context);
@@ -210,7 +196,7 @@ class AbstractEntityWithValuesQueryBuilder implements ProductQueryBuilderInterfa
         AttributeFilterInterface $filter,
         AttributeInterface $attribute,
         $operator,
-        $value,
+        mixed $value,
         array $context
     ) {
         $locale = $attribute->isLocalizable() ? $context['locale'] : null;
@@ -269,7 +255,6 @@ class AbstractEntityWithValuesQueryBuilder implements ProductQueryBuilderInterfa
     /**
      * Merge default context with provided one
      *
-     * @param array $context
      *
      * @return array
      */

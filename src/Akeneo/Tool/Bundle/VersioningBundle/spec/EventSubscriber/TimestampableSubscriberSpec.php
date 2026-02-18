@@ -21,7 +21,7 @@ class TimestampableSubscriberSpec extends ObjectBehavior
 
     function it_is_a_doctrine_event_listener()
     {
-        $this->shouldImplement('Doctrine\Common\EventSubscriber');
+        $this->shouldImplement(\Doctrine\Common\EventSubscriber::class);
     }
 
     function it_subscribes_to_pre_persist_event()
@@ -113,8 +113,5 @@ class TimestampableSubscriberSpec extends ObjectBehavior
 
 interface NonTimestampableInterface
 {
-    /**
-     * @param \DateTime $updated
-     */
     public function setUpdated(\DateTime $updated);
 }

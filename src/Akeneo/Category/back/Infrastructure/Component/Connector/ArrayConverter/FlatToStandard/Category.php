@@ -61,13 +61,12 @@ class Category implements ArrayConverterInterface
     /**
      * @param array $convertedItem
      * @param string $field
-     * @param mixed $data
      *
      * @return array
      */
-    protected function convertField($convertedItem, $field, $data)
+    protected function convertField($convertedItem, $field, mixed $data)
     {
-        if (false !== strpos($field, 'label-', 0)) {
+        if (str_contains($field, 'label-')) {
             $labelTokens = explode('-', $field);
             $labelLocale = $labelTokens[1];
             $convertedItem['labels'][$labelLocale] = $data;

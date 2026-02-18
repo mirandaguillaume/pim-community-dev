@@ -32,22 +32,17 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
  */
 class ActionAclVoter extends Voter implements VoterInterface
 {
-    const OID_IDENTIFIER = 'action';
+    final public const OID_IDENTIFIER = 'action';
 
     /** @var VoterInterface */
     protected $baseAclVoter;
 
-    /** @var string */
-    protected $oidType;
-
     /**
-     * @param VoterInterface $baseAclVoter
      * @param string         $oidType
      */
-    public function __construct(VoterInterface $baseAclVoter, $oidType)
+    public function __construct(VoterInterface $baseAclVoter, protected $oidType)
     {
         $this->baseAclVoter = $baseAclVoter;
-        $this->oidType = $oidType;
     }
 
     /**

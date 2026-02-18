@@ -22,7 +22,7 @@ class InMemoryFeatureFlags implements FeatureFlags
 {
     private array $flags = [];
 
-    public function __construct(private Registry $registry)
+    public function __construct(private readonly Registry $registry)
     {
         $featureFlagNames = array_keys($this->registry->all());
         $this->flags = array_fill_keys($featureFlagNames, false);

@@ -6,9 +6,9 @@ use Oro\Bundle\DataGridBundle\Common\IterableObject;
 
 class MetadataIterableObject extends IterableObject
 {
-    const GRID_NAME_KEY = 'gridName';
-    const OPTIONS_KEY = 'options';
-    const REQUIRED_MODULES_KEY = 'requireJSModules';
+    final public const GRID_NAME_KEY = 'gridName';
+    final public const OPTIONS_KEY = 'options';
+    final public const REQUIRED_MODULES_KEY = 'requireJSModules';
 
     /**
      * Default metadata array

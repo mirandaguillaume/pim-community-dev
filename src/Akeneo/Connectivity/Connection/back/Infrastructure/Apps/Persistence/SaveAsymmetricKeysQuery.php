@@ -13,7 +13,7 @@ use Doctrine\DBAL\Types\Types;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class SaveAsymmetricKeysQuery implements SaveAsymmetricKeysQueryInterface
+final readonly class SaveAsymmetricKeysQuery implements SaveAsymmetricKeysQueryInterface
 {
     public const OPTION_CODE = 'OPENID_ASYMMETRIC_KEYS';
 
@@ -35,7 +35,7 @@ final class SaveAsymmetricKeysQuery implements SaveAsymmetricKeysQueryInterface
 
         $this->connection->executeQuery($query, [
             'code' => self::OPTION_CODE,
-            'asymmetricKeys' => \array_merge($asymmetricKeys->normalize(), ['updated_at' => $updatedAt]),
+            'asymmetricKeys' => [...$asymmetricKeys->normalize(), 'updated_at' => $updatedAt],
         ], [
             'code' => Types::STRING,
             'asymmetricKeys' => Types::JSON,

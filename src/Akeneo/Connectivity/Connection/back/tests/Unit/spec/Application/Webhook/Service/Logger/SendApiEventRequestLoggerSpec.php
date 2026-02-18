@@ -58,9 +58,9 @@ class SendApiEventRequestLoggerSpec extends ObjectBehavior
         $eventSubscriptionSendApiEventRequestLog = new EventSubscriptionSendApiEventRequestLog(
             $webhookRequest,
             ['Content-Type' => 'application/json'],
-            1603935007.832
+            1_603_935_007.832
         );
-        $eventSubscriptionSendApiEventRequestLog->setEndTime(1603935008.832);
+        $eventSubscriptionSendApiEventRequestLog->setEndTime(1_603_935_008.832);
         $eventSubscriptionSendApiEventRequestLog->setMessage('a message');
         $eventSubscriptionSendApiEventRequestLog->setResponse(new Response());
         $eventSubscriptionSendApiEventRequestLog->setSuccess(true);
@@ -81,18 +81,18 @@ class SendApiEventRequestLoggerSpec extends ObjectBehavior
                     'author' => 'julia',
                     'author_type' => 'ui',
                     'name' => 'product.created',
-                    'timestamp' => 1577836800
+                    'timestamp' => 1_577_836_800
                 ],
                 [
                     'uuid' => '8bdfe74c-da2e-4bda-a2b1-b5e2a3006ea3',
                     'author' => 'julia',
                     'author_type' => 'ui',
                     'name' => 'product.updated',
-                    'timestamp' => 1577836811,
+                    'timestamp' => 1_577_836_811,
                 ]
             ],
-            'max_propagation_seconds' => 26098208,
-            'min_propagation_seconds' => 26098197,
+            'max_propagation_seconds' => 26_098_208,
+            'min_propagation_seconds' => 26_098_197,
         ];
 
         $logger->info(\json_encode($expectedLog, JSON_THROW_ON_ERROR))->shouldBeCalled();
@@ -138,9 +138,9 @@ class SendApiEventRequestLoggerSpec extends ObjectBehavior
         $eventSubscriptionSendApiEventRequestLog = new EventSubscriptionSendApiEventRequestLog(
             $webhookRequest,
             ['Content-Type' => 'application/json'],
-            1603935007.832
+            1_603_935_007.832
         );
-        $eventSubscriptionSendApiEventRequestLog->setEndTime(1603935008.832);
+        $eventSubscriptionSendApiEventRequestLog->setEndTime(1_603_935_008.832);
         $eventSubscriptionSendApiEventRequestLog->setMessage('a message');
         $eventSubscriptionSendApiEventRequestLog->setResponse(null);
         $eventSubscriptionSendApiEventRequestLog->setSuccess(false);
@@ -159,18 +159,18 @@ class SendApiEventRequestLoggerSpec extends ObjectBehavior
                     'author' => 'julia',
                     'author_type' => 'ui',
                     'name' => 'product.created',
-                    'timestamp' => 1577836800
+                    'timestamp' => 1_577_836_800
                 ],
                 [
                     'uuid' => '8bdfe74c-da2e-4bda-a2b1-b5e2a3006ea3',
                     'author' => 'julia',
                     'author_type' => 'ui',
                     'name' => 'product.updated',
-                    'timestamp' => 1577836811,
+                    'timestamp' => 1_577_836_811,
                 ]
             ],
-            'max_propagation_seconds' => 26098208,
-            'min_propagation_seconds' => 26098197,
+            'max_propagation_seconds' => 26_098_208,
+            'min_propagation_seconds' => 26_098_197,
         ];
 
         $logger->info(\json_encode($expectedLog, JSON_THROW_ON_ERROR))->shouldBeCalled();
@@ -216,9 +216,9 @@ class SendApiEventRequestLoggerSpec extends ObjectBehavior
         $eventSubscriptionSendApiEventRequestLog = new EventSubscriptionSendApiEventRequestLog(
             $webhookRequest,
             ['Content-Type' => 'application/json'],
-            1603935007.832
+            1_603_935_007.832
         );
-        $eventSubscriptionSendApiEventRequestLog->setEndTime(1603935029.121);
+        $eventSubscriptionSendApiEventRequestLog->setEndTime(1_603_935_029.121);
         $eventSubscriptionSendApiEventRequestLog->setResponse(new Response());
         $eventSubscriptionSendApiEventRequestLog->setSuccess(true);
 
@@ -267,7 +267,7 @@ class SendApiEventRequestLoggerSpec extends ObjectBehavior
 
     private function createEvent(Author $author, array $data): EventInterface
     {
-        $timestamp = 1577836800;
+        $timestamp = 1_577_836_800;
         $uuid = '5d30d0f6-87a6-45ad-ba6b-3a302b0d328c';
 
         return new class($author, $data, $timestamp, $uuid) extends Event {

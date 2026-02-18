@@ -49,8 +49,6 @@ class MutableAclProvider extends BaseMutableAclProvider
 
     /**
      * Clear cache by $oid
-     *
-     * @param ObjectIdentityInterface $oid
      */
     public function clearOidCache(ObjectIdentityInterface $oid)
     {
@@ -59,8 +57,6 @@ class MutableAclProvider extends BaseMutableAclProvider
 
     /**
      * Put in cache empty ACL object for given OID
-     *
-     * @param ObjectIdentityInterface $oid
      */
     public function cacheEmptyAcl(ObjectIdentityInterface $oid)
     {
@@ -94,7 +90,6 @@ class MutableAclProvider extends BaseMutableAclProvider
     /**
      * Updates a security identity when the user's username or the role name changes
      *
-     * @param SecurityIdentityInterface $sid
      * @param string $oldName The old security identity name.
      *                        It is the user's username if $sid is UserSecurityIdentity
      *                        or the role name if $sid is RoleSecurityIdentity
@@ -135,7 +130,6 @@ class MutableAclProvider extends BaseMutableAclProvider
     /**
      * Constructs the SQL for updating a security identity.
      *
-     * @param SecurityIdentityInterface $sid
      * @param string $oldName
      * @throws \InvalidArgumentException
      * @return string
@@ -198,7 +192,7 @@ class MutableAclProvider extends BaseMutableAclProvider
      * This method is an adaptation of the fix coming from https://github.com/symfony/security-acl/pull/29 (The PR was never merged for no reason, despite one approve)
      * We cannot override the hydrateObjectIdentities method to do exactly the same fix as the PR, so we fix the results
      */
-    public function findAcls(array $oids, array $sids = array())
+    public function findAcls(array $oids, array $sids = [])
     {
         /** @var \SplObjectStorage $acls */
         $acls = parent::findAcls($oids, $sids);

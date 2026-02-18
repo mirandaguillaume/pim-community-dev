@@ -13,14 +13,10 @@ use Doctrine\DBAL\Connection;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GetProductIdentifierFromProductUuidQuery implements GetProductIdentifierFromProductUuidQueryInterface
+final readonly class GetProductIdentifierFromProductUuidQuery implements GetProductIdentifierFromProductUuidQueryInterface
 {
-    /** @var Connection */
-    private $db;
-
-    public function __construct(Connection $db)
+    public function __construct(private Connection $db)
     {
-        $this->db = $db;
     }
 
     public function execute(ProductUuid $productUuid): ProductIdentifier

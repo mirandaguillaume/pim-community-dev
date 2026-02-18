@@ -37,12 +37,12 @@ class ComputeCompletenessOfFamilyProductsTasklet implements TaskletInterface, Tr
     private StepExecution $stepExecution;
 
     public function __construct(
-        private ItemReaderInterface $familyReader,
-        private EntityManagerClearerInterface $cacheClearer,
-        private JobRepositoryInterface $jobRepository,
-        private CompletenessCalculator $completenessCalculator,
-        private SaveProductCompletenesses $saveProductCompletenesses,
-        private MessageBusInterface $messageBus
+        private readonly ItemReaderInterface $familyReader,
+        private readonly EntityManagerClearerInterface $cacheClearer,
+        private readonly JobRepositoryInterface $jobRepository,
+        private readonly CompletenessCalculator $completenessCalculator,
+        private readonly SaveProductCompletenesses $saveProductCompletenesses,
+        private readonly MessageBusInterface $messageBus
     ) {
     }
 

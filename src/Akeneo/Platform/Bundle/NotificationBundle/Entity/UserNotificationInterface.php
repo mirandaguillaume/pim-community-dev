@@ -23,7 +23,6 @@ interface UserNotificationInterface
     /**
      * Set notification
      *
-     * @param NotificationInterface $notification
      *
      * @return UserNotificationInterface
      */
@@ -39,7 +38,6 @@ interface UserNotificationInterface
     /**
      * Set user
      *
-     * @param UserInterface $user
      *
      * @return UserNotificationInterface
      */

@@ -5,25 +5,13 @@ namespace Oro\Bundle\SecurityBundle\Model;
 class AclPermission
 {
     /**
-     * @var string
-     */
-    private $name;
-
-    /**
-     * @var int Can be any AccessLevel::*_LEVEL
-     */
-    private $accessLevel;
-
-    /**
      * Constructor
      *
      * @param string|null $name
      * @param int|null    $accessLevel Can be any AccessLevel::*_LEVEL
      */
-    public function __construct($name = null, $accessLevel = null)
+    public function __construct(private $name = null, private $accessLevel = null)
     {
-        $this->name = $name;
-        $this->accessLevel = $accessLevel;
     }
 
     /**

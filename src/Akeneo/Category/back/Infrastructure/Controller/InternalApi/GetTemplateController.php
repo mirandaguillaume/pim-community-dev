@@ -22,9 +22,9 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class GetTemplateController
 {
     public function __construct(
-        private SecurityFacade $securityFacade,
-        private GetTemplate $getTemplate,
-        private GetAttribute $getAttribute,
+        private readonly SecurityFacade $securityFacade,
+        private readonly GetTemplate $getTemplate,
+        private readonly GetAttribute $getAttribute,
     ) {
     }
 
@@ -38,7 +38,7 @@ class GetTemplateController
 
         try {
             $template = $this->getTemplate->byUuid(TemplateUuid::fromString($templateUuid));
-        } catch (TemplateNotFoundException $exception) {
+        } catch (TemplateNotFoundException) {
             throw new NotFoundHttpException();
         }
 

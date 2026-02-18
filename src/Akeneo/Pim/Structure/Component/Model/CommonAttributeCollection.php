@@ -14,11 +14,6 @@ use Doctrine\Common\Collections\Collection;
  */
 class CommonAttributeCollection extends ArrayCollection
 {
-    /**
-     * @param Collection $collection
-     *
-     * @return CommonAttributeCollection
-     */
     public static function fromCollection(Collection $collection): CommonAttributeCollection
     {
         return new static($collection->toArray());

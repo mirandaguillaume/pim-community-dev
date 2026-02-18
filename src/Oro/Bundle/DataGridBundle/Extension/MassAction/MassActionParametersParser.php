@@ -7,8 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 class MassActionParametersParser
 {
     /**
-     * @param Request $request
-     *
      * @return array
      */
     public function parse(Request $request)
@@ -18,12 +16,16 @@ class MassActionParametersParser
 
         $values = $request->get('values', '');
         if (!is_array($values)) {
-            $values = $values !== '' ? explode(',', $values) : [];
+            $values = $values !== '' ? explode(',', (string) $values) : [];
         }
 
         $filters = $request->get('filters', null);
         if (is_string($filters)) {
-            $filters = json_decode($filters, true);
+            try {
+                $filters = json_decode($filters, true, 512, JSON_THROW_ON_ERROR);
+            } catch (\JsonException) {
+                $filters = null;
+            }
         }
         if (!$filters) {
             $filters = [];
@@ -32,9 +34,9 @@ class MassActionParametersParser
         $actionName = $request->get('actionName');
         $gridName = $request->get('gridName');
         $dataLocale = $request->get('dataLocale');
-        $dataScope = isset($filters['scope']) ? $filters['scope'] : null;
+        $dataScope = $filters['scope'] ?? null;
         $gridParams = $request->get($gridName);
-        $sort = isset($gridParams['_sort_by']) ? $gridParams['_sort_by'] : null;
+        $sort = $gridParams['_sort_by'] ?? null;
 
         return [
             'inset'      => $inset,

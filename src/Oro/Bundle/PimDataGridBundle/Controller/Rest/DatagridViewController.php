@@ -33,42 +33,8 @@ use Webmozart\Assert\Assert;
  */
 class DatagridViewController
 {
-    protected NormalizerInterface $normalizer;
-    protected DatagridViewRepositoryInterface $datagridViewRepo;
-    protected TokenStorageInterface $tokenStorage;
-    protected DatagridViewManager $datagridViewManager;
-    protected SaverInterface $saver;
-    protected RemoverInterface $remover;
-    protected ValidatorInterface $validator;
-    protected TranslatorInterface $translator;
-    protected CollectionFilterInterface $datagridViewFilter;
-    protected ObjectUpdaterInterface $updater;
-    protected SimpleFactoryInterface $factory;
-
-    public function __construct(
-        NormalizerInterface $normalizer,
-        DatagridViewRepositoryInterface $datagridViewRepo,
-        TokenStorageInterface $tokenStorage,
-        DatagridViewManager $datagridViewManager,
-        SaverInterface $saver,
-        RemoverInterface $remover,
-        ValidatorInterface $validator,
-        TranslatorInterface $translator,
-        CollectionFilterInterface $datagridViewFilter,
-        ObjectUpdaterInterface $updater,
-        SimpleFactoryInterface $factory
-    ) {
-        $this->normalizer = $normalizer;
-        $this->datagridViewRepo = $datagridViewRepo;
-        $this->tokenStorage = $tokenStorage;
-        $this->datagridViewManager = $datagridViewManager;
-        $this->saver = $saver;
-        $this->remover = $remover;
-        $this->validator = $validator;
-        $this->translator = $translator;
-        $this->datagridViewFilter = $datagridViewFilter;
-        $this->updater = $updater;
-        $this->factory = $factory;
+    public function __construct(protected NormalizerInterface $normalizer, protected DatagridViewRepositoryInterface $datagridViewRepo, protected TokenStorageInterface $tokenStorage, protected DatagridViewManager $datagridViewManager, protected SaverInterface $saver, protected RemoverInterface $remover, protected ValidatorInterface $validator, protected TranslatorInterface $translator, protected CollectionFilterInterface $datagridViewFilter, protected ObjectUpdaterInterface $updater, protected SimpleFactoryInterface $factory)
+    {
     }
 
     /**
@@ -98,7 +64,7 @@ class DatagridViewController
             $options['limit']
         );
 
-        $moreResults = count($filteredViews) > $options['page']*$options['limit'];
+        $moreResults = (is_countable($filteredViews) ? count($filteredViews) : 0) > $options['page']*$options['limit'];
 
         return new JsonResponse([
             'results' => $this->normalizer->normalize($viewsInPage, 'internal_api'),

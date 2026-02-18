@@ -30,11 +30,6 @@ class FamilyDatasource implements DatasourceInterface, ParameterizableInterface
     /** @var array */
     protected $parameters = [];
 
-    /**
-     * @param DatagridRepositoryInterface   $repository
-     * @param MassActionRepositoryInterface $massRepository
-     * @param HydratorInterface             $hydrator
-     */
     public function __construct(
         DatagridRepositoryInterface $repository,
         MassActionRepositoryInterface $massRepository,

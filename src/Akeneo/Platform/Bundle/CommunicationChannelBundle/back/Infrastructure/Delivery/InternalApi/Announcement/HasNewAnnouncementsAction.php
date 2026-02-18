@@ -18,23 +18,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class HasNewAnnouncementsAction
 {
-    /** @var VersionProviderInterface */
-    private $versionProvider;
-
-    /** @var UserContext */
-    private $userContext;
-
-    /** @var HasNewAnnouncementsHandler */
-    private $hasNewAnnouncementsHandler;
-
-    public function __construct(
-        VersionProviderInterface $versionProviderInterface,
-        UserContext $userContext,
-        HasNewAnnouncementsHandler $hasNewAnnouncementsHandler
-    ) {
-        $this->versionProvider = $versionProviderInterface;
-        $this->userContext = $userContext;
-        $this->hasNewAnnouncementsHandler = $hasNewAnnouncementsHandler;
+    public function __construct(private readonly VersionProviderInterface $versionProvider, private readonly UserContext $userContext, private readonly HasNewAnnouncementsHandler $hasNewAnnouncementsHandler)
+    {
     }
 
     public function __invoke()

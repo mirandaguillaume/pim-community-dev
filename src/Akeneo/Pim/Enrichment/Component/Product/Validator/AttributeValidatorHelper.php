@@ -31,10 +31,6 @@ class AttributeValidatorHelper
     /** @var array */
     protected $scopeCodes;
 
-    /**
-     * @param LocaleRepositoryInterface  $localeRepository
-     * @param ChannelRepositoryInterface $scopeRepository
-     */
     public function __construct(
         LocaleRepositoryInterface $localeRepository,
         ChannelRepositoryInterface $scopeRepository
@@ -46,9 +42,7 @@ class AttributeValidatorHelper
     /**
      * Check if locale data is consistent with the attribute localizable property
      *
-     * @param AttributeInterface $attribute
      * @param string             $locale
-     *
      * @throws \LogicException
      */
     public function validateLocale(AttributeInterface $attribute, $locale)
@@ -104,9 +98,6 @@ class AttributeValidatorHelper
 
     /**
      * Check if metric family of attribute are the same
-     *
-     * @param AttributeInterface $fromAttribute
-     * @param AttributeInterface $toAttribute
      */
     public function validateUnitFamilies(
         AttributeInterface $fromAttribute,
@@ -126,9 +117,7 @@ class AttributeValidatorHelper
     /**
      * Check if scope data is consistent with the attribute scopable property
      *
-     * @param AttributeInterface $attribute
      * @param string             $scope
-     *
      * @throws \LogicException
      */
     public function validateScope(AttributeInterface $attribute, $scope)

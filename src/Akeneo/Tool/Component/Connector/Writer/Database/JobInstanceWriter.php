@@ -31,10 +31,6 @@ class JobInstanceWriter implements ItemWriterInterface, StepExecutionAwareInterf
     /** @var BulkObjectDetacherInterface */
     protected $bulkDetacher;
 
-    /**
-     * @param BulkSaverInterface          $bulkSaver
-     * @param BulkObjectDetacherInterface $bulkDetacher
-     */
     public function __construct(
         BulkSaverInterface $bulkSaver,
         BulkObjectDetacherInterface $bulkDetacher
@@ -61,9 +57,6 @@ class JobInstanceWriter implements ItemWriterInterface, StepExecutionAwareInterf
         $this->stepExecution = $stepExecution;
     }
 
-    /**
-     * @param array $objects
-     */
     protected function incrementCount(array $objects): void
     {
         foreach ($objects as $object) {

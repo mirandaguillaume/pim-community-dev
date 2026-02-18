@@ -35,10 +35,6 @@ interface GetConnectorProductModels
 
     /**
      * @param string[] $productModelCodes
-     * @param int $userId
-     * @param array|null $attributesToFilterOn
-     * @param string|null $channelToFilterOn
-     * @param array|null $localesToFilterOn
      * @return ConnectorProductModelList
      */
     public function fromProductModelCodes(

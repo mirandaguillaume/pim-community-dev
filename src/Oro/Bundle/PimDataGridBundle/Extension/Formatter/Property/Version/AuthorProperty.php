@@ -42,7 +42,7 @@ class AuthorProperty extends FieldProperty
 
         try {
             $context = $record->getValue('context');
-        } catch (\LogicException $e) {
+        } catch (\LogicException) {
             $context = null;
         }
 

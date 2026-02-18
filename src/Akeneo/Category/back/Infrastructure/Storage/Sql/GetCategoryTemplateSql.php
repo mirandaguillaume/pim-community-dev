@@ -16,7 +16,7 @@ use Doctrine\DBAL\Connection;
  */
 class GetCategoryTemplateSql implements GetTemplate
 {
-    public function __construct(private Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
     }
 

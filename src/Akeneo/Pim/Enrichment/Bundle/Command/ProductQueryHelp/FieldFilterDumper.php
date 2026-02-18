@@ -19,9 +19,6 @@ class FieldFilterDumper implements DumperInterface
     /** @var FilterRegistryInterface */
     protected $registry;
 
-    /**
-     * @param FilterRegistryInterface $registry
-     */
     public function __construct(FilterRegistryInterface $registry)
     {
         $this->registry = $registry;
@@ -36,7 +33,7 @@ class FieldFilterDumper implements DumperInterface
 
         $rows = [];
         foreach ($this->registry->getFieldFilters() as $filter) {
-            $class = get_class($filter);
+            $class = $filter::class;
             $operators = implode(', ', $filter->getOperators());
             foreach ($filter->getFields() as $field) {
                 $rows[] = [$field, $operators, $class];

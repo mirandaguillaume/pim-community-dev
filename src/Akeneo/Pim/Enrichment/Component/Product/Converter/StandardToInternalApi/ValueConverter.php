@@ -20,10 +20,6 @@ class ValueConverter implements ConverterInterface
     /** @var FileInfoRepositoryInterface */
     protected $fileInfoRepository;
 
-    /**
-     * @param AttributeRepositoryInterface $attributeRepository
-     * @param FileInfoRepositoryInterface  $fileInfoRepository
-     */
     public function __construct(
         AttributeRepositoryInterface $attributeRepository,
         FileInfoRepositoryInterface $fileInfoRepository

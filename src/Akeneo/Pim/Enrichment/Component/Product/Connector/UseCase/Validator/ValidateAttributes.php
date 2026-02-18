@@ -14,14 +14,10 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ValidateAttributes
+final readonly class ValidateAttributes
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $attributeRepository;
-
-    public function __construct(IdentifiableObjectRepositoryInterface $attributeRepository)
+    public function __construct(private IdentifiableObjectRepositoryInterface $attributeRepository)
     {
-        $this->attributeRepository = $attributeRepository;
     }
 
     /**
@@ -35,7 +31,7 @@ final class ValidateAttributes
 
         $errors = [];
         foreach ($attributeCodes as $attributeCode) {
-            $attributeCode = trim($attributeCode);
+            $attributeCode = trim((string) $attributeCode);
             if (null === $this->attributeRepository->findOneByIdentifier($attributeCode)) {
                 $errors[] = $attributeCode;
             }

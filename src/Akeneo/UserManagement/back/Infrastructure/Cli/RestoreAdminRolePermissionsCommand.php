@@ -15,7 +15,7 @@ class RestoreAdminRolePermissionsCommand extends Command
 {
     protected static $defaultName = 'pim:user:restore-admin-permissions';
 
-    public function __construct(private RestoreAdminRolePermissions $restoreAdminRolePermissions)
+    public function __construct(private readonly RestoreAdminRolePermissions $restoreAdminRolePermissions)
     {
         parent::__construct();
     }
@@ -48,7 +48,7 @@ class RestoreAdminRolePermissionsCommand extends Command
 
         try {
             ($this->restoreAdminRolePermissions)((bool) $input->getOption('create'));
-        } catch (UnknownUserRole $exception) {
+        } catch (UnknownUserRole) {
             $output->writeln('<error>The ROLE_ADMINISTRATOR user role does not exist</error>');
             return Command::FAILURE;
         }

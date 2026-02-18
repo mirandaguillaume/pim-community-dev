@@ -68,8 +68,6 @@ class BulkIndexationIntegration extends TestCase
 
     /**
      * Indexes the given list of products
-     *
-     * @param array $products
      */
     private function indexProductDocuments(array $products)
     {

@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-final class ValidateApiRequestQueryParametersSubscriber implements EventSubscriberInterface
+final readonly class ValidateApiRequestQueryParametersSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private Firewall $firewall

@@ -11,10 +11,10 @@ namespace Akeneo\Connectivity\Connection\Application\Webhook\Command;
 class UpdateWebhookCommand
 {
     public function __construct(
-        private string $code,
-        private bool $enabled,
-        private ?string $url = null,
-        private bool $isUsingUuid = false,
+        private readonly string $code,
+        private readonly bool $enabled,
+        private readonly ?string $url = null,
+        private readonly bool $isUsingUuid = false,
     ) {
     }
 

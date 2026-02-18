@@ -19,22 +19,13 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  */
 class ParentFilter extends AbstractFieldFilter implements FieldFilterInterface
 {
-    /** @var ProductModelRepositoryInterface */
-    private $productModelRepository;
-
-    /**
-     * @param ProductModelRepositoryInterface $productModelRepository
-     * @param array                           $supportedFields
-     * @param array                           $supportedOperators
-     */
     public function __construct(
-        ProductModelRepositoryInterface $productModelRepository,
+        private readonly ProductModelRepositoryInterface $productModelRepository,
         array $supportedFields = [],
         array $supportedOperators = []
     ) {
         $this->supportedFields = $supportedFields;
         $this->supportedOperators = $supportedOperators;
-        $this->productModelRepository = $productModelRepository;
     }
 
     /**
@@ -87,12 +78,11 @@ class ParentFilter extends AbstractFieldFilter implements FieldFilterInterface
      * Check if value is valid
      *
      * @param string $field
-     * @param mixed  $values
      *
      * @throws ObjectNotFoundException
      * @throws InvalidPropertyTypeException
      */
-    protected function checkValue($field, $values)
+    protected function checkValue($field, mixed $values)
     {
         FieldFilterHelper::checkArray($field, $values, static::class);
         foreach ($values as $value) {

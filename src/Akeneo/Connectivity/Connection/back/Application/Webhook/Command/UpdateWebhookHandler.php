@@ -18,10 +18,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class UpdateWebhookHandler
 {
     public function __construct(
-        private UpdateConnectionWebhookQueryInterface $updateConnectionWebhookQuery,
-        private ValidatorInterface $validator,
-        private SelectWebhookSecretQueryInterface $selectWebhookSecretQuery,
-        private GenerateWebhookSecretHandler $generateWebhookSecretHandler
+        private readonly UpdateConnectionWebhookQueryInterface $updateConnectionWebhookQuery,
+        private readonly ValidatorInterface $validator,
+        private readonly SelectWebhookSecretQueryInterface $selectWebhookSecretQuery,
+        private readonly GenerateWebhookSecretHandler $generateWebhookSecretHandler
     ) {
     }
 

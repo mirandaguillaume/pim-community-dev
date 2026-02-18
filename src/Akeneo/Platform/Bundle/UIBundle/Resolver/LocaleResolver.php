@@ -16,17 +16,12 @@ class LocaleResolver
     /** @var RequestStack */
     protected $requestStack;
 
-    /** @var string */
-    protected $defaultLocale;
-
     /**
-     * @param RequestStack $requestStack
      * @param string       $defaultLocale
      */
-    public function __construct(RequestStack $requestStack, $defaultLocale)
+    public function __construct(RequestStack $requestStack, protected $defaultLocale)
     {
         $this->requestStack = $requestStack;
-        $this->defaultLocale = $defaultLocale;
     }
 
     /**

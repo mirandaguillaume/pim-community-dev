@@ -43,6 +43,7 @@ class LabelOrIdentifierFilter extends AbstractFieldFilter
         $channel = null,
         $options = []
     ) {
+        $clauses = [];
         if (null === $this->searchQueryBuilder) {
             throw new \LogicException('The search query builder is not initialized in the filter.');
         }
@@ -106,9 +107,8 @@ class LabelOrIdentifierFilter extends AbstractFieldFilter
      * Checks that the value is a number.
      *
      * @param string $operator
-     * @param mixed  $value
      */
-    protected function checkValue($operator, $value): void
+    protected function checkValue($operator, mixed $value): void
     {
         FieldFilterHelper::checkString('label_or_identifier', $value, static::class);
 
@@ -127,8 +127,6 @@ class LabelOrIdentifierFilter extends AbstractFieldFilter
      * TODO: TIP-706 - This may move somewhere else
      *
      * @param string $value
-     *
-     * @return string
      */
     protected function escapeValue(string $value): string
     {

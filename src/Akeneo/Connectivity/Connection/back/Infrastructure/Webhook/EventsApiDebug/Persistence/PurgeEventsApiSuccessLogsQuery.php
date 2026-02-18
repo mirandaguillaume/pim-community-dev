@@ -14,7 +14,7 @@ use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
  */
 class PurgeEventsApiSuccessLogsQuery
 {
-    public function __construct(private Client $esClient)
+    public function __construct(private readonly Client $esClient)
     {
     }
 

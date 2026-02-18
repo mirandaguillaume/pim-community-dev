@@ -26,11 +26,11 @@ final class MigrateToUuidReindexElasticsearch implements MigrateToUuidStep
     private const BATCH_SIZE = 500;
 
     public function __construct(
-        private Connection $connection,
-        private LoggerInterface $logger,
-        private Client $esClient,
-        private ProductIndexerInterface $productIndexer,
-        private SqlFindProductUuids $findProductUuids
+        private readonly Connection $connection,
+        private readonly LoggerInterface $logger,
+        private readonly Client $esClient,
+        private readonly ProductIndexerInterface $productIndexer,
+        private readonly SqlFindProductUuids $findProductUuids
     ) {
     }
 
@@ -131,7 +131,7 @@ final class MigrateToUuidReindexElasticsearch implements MigrateToUuidStep
     {
         $identifiers = [];
         foreach ($this->getEsResult()['hits']['hits'] as $hit) {
-            $id = \substr($hit['fields']['id'][0], 8);
+            $id = \substr((string) $hit['fields']['id'][0], 8);
             $identifiers[(int) $id] = $hit['fields']['identifier'][0];
         }
 

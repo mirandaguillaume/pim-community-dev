@@ -48,7 +48,7 @@ class FileReaderArchiver extends AbstractFilesystemArchiver
             $archivePath = strtr(
                 $this->getRelativeArchivePath($stepExecution->getJobExecution()),
                 [
-                    '%filename%' => basename($filePath),
+                    '%filename%' => basename((string) $filePath),
                 ]
             );
 
@@ -88,9 +88,7 @@ class FileReaderArchiver extends AbstractFilesystemArchiver
     /**
      * Verify if the reader is usable or not
      *
-     * @param ItemReaderInterface $reader
      *
-     * @return bool
      */
     protected function isReaderUsable(ItemReaderInterface $reader): bool
     {

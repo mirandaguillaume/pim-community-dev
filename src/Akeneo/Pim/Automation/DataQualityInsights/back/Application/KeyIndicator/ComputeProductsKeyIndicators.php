@@ -14,15 +14,11 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityId
  */
 class ComputeProductsKeyIndicators
 {
-    private GetLocalesByChannelQueryInterface $getLocalesByChannelQuery;
-
-    /** @var ComputeProductsKeyIndicator[] */
-    private iterable $keyIndicatorQueries;
-
-    public function __construct(GetLocalesByChannelQueryInterface $getLocalesByChannelQuery, iterable $keyIndicatorQueries)
+    /**
+     * @param \Akeneo\Pim\Automation\DataQualityInsights\Domain\Query\Dashboard\ComputeProductsKeyIndicator[] $keyIndicatorQueries
+     */
+    public function __construct(private readonly GetLocalesByChannelQueryInterface $getLocalesByChannelQuery, private readonly iterable $keyIndicatorQueries)
     {
-        $this->getLocalesByChannelQuery = $getLocalesByChannelQuery;
-        $this->keyIndicatorQueries = $keyIndicatorQueries;
     }
 
     public function compute(ProductEntityIdCollection $productIdCollection): array

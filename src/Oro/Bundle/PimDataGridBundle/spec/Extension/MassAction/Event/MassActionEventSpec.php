@@ -31,6 +31,6 @@ class MassActionEventSpec extends ObjectBehavior
 
     function it_returns_objects($objects)
     {
-        $this->getObjects()->shouldReturn(array('foo'));
+        $this->getObjects()->shouldReturn(['foo']);
     }
 }

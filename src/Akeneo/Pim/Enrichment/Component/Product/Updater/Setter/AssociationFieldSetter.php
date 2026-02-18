@@ -32,9 +32,9 @@ class AssociationFieldSetter extends AbstractFieldSetter
         protected ProductRepositoryInterface $productRepository,
         protected ProductModelRepositoryInterface $productModelRepository,
         protected GroupRepositoryInterface $groupRepository,
-        private TwoWayAssociationUpdaterInterface $twoWayAssociationUpdater,
-        private MissingAssociationAdder $missingAssociationAdder,
-        private AssociationTypeRepositoryInterface $associationTypeRepository,
+        private readonly TwoWayAssociationUpdaterInterface $twoWayAssociationUpdater,
+        private readonly MissingAssociationAdder $missingAssociationAdder,
+        private readonly AssociationTypeRepositoryInterface $associationTypeRepository,
         array $supportedFields
     ) {
         $this->supportedFields = $supportedFields;

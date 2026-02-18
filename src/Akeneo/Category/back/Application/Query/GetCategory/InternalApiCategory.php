@@ -51,16 +51,16 @@ use Akeneo\Category\Domain\ValueObject\ValueCollection;
 class InternalApiCategory
 {
     public function __construct(
-        private ?CategoryId $id,
-        private Code $code,
-        private ?TemplateUuid $templateUuid,
-        private ?LabelCollection $labels = null,
-        private ?CategoryId $parentId = null,
-        private ?CategoryId $rootId = null,
-        private ?ValueCollection $attributes = null,
-        private ?PermissionCollection $permissions = null,
-        private bool $isRoot = false,
-        private ?InternalApiCategory $root = null,
+        private readonly ?CategoryId $id,
+        private readonly Code $code,
+        private readonly ?TemplateUuid $templateUuid,
+        private readonly ?LabelCollection $labels = null,
+        private readonly ?CategoryId $parentId = null,
+        private readonly ?CategoryId $rootId = null,
+        private readonly ?ValueCollection $attributes = null,
+        private readonly ?PermissionCollection $permissions = null,
+        private readonly bool $isRoot = false,
+        private readonly ?InternalApiCategory $root = null,
     ) {
     }
 

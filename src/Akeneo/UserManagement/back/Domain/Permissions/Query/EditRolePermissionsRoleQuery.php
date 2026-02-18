@@ -10,8 +10,8 @@ use Akeneo\UserManagement\Domain\Permissions\MinimumEditRolePermission;
 class EditRolePermissionsRoleQuery
 {
     public function __construct(
-        private RoleWithPermissionsRepository $roleWithPermissionsRepository,
-        private RoleRepositoryInterface $roleRepository,
+        private readonly RoleWithPermissionsRepository $roleWithPermissionsRepository,
+        private readonly RoleRepositoryInterface $roleRepository,
     ) {
     }
 

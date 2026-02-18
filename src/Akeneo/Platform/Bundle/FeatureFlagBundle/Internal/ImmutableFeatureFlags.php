@@ -12,7 +12,7 @@ use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlags;
  */
 class ImmutableFeatureFlags implements FeatureFlags
 {
-    public function __construct(private Registry $registry)
+    public function __construct(private readonly Registry $registry)
     {
     }
 

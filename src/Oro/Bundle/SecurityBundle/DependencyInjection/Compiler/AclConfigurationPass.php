@@ -11,24 +11,24 @@ use Symfony\Component\Yaml\Yaml;
 
 class AclConfigurationPass implements CompilerPassInterface
 {
-    const NEW_ACL_VOTER_CLASS = 'oro_security.acl.voter.class';
-    const NEW_ACL_PROVIDER = 'oro_security.acl.provider';
-    const NEW_ACL_DBAL_PROVIDER_CLASS = 'oro_security.acl.dbal.provider.class';
-    const NEW_ACL_PERMISSION_GRANTING_STRATEGY = 'oro_security.acl.permission_granting_strategy';
-    const NEW_ACL_PERMISSION_MAP = 'oro_security.acl.permission_map';
-    const NEW_ACL_OBJECT_ID_STRATEGY = 'oro_security.acl.object_identity_retrieval_strategy';
+    final public const NEW_ACL_VOTER_CLASS = 'oro_security.acl.voter.class';
+    final public const NEW_ACL_PROVIDER = 'oro_security.acl.provider';
+    final public const NEW_ACL_DBAL_PROVIDER_CLASS = 'oro_security.acl.dbal.provider.class';
+    final public const NEW_ACL_PERMISSION_GRANTING_STRATEGY = 'oro_security.acl.permission_granting_strategy';
+    final public const NEW_ACL_PERMISSION_MAP = 'oro_security.acl.permission_map';
+    final public const NEW_ACL_OBJECT_ID_STRATEGY = 'oro_security.acl.object_identity_retrieval_strategy';
 
-    const DEFAULT_ACL_VOTER = 'security.acl.voter.basic_permissions';
-    const DEFAULT_ACL_VOTER_LINK = 'oro_security.acl.voter_link';
-    const DEFAULT_ACL_PROVIDER = 'security.acl.dbal.provider';
-    const DEFAULT_ACL_CACHE = 'security.acl.cache.doctrine';
+    final public const DEFAULT_ACL_VOTER = 'security.acl.voter.basic_permissions';
+    final public const DEFAULT_ACL_VOTER_LINK = 'oro_security.acl.voter_link';
+    final public const DEFAULT_ACL_PROVIDER = 'security.acl.dbal.provider';
+    final public const DEFAULT_ACL_CACHE = 'security.acl.cache.doctrine';
 
-    const ACL_EXTENSION_SELECTOR = 'oro_security.acl.extension_selector';
-    const ACL_EXTENSION_TAG = 'oro_security.acl.extension';
+    final public const ACL_EXTENSION_SELECTOR = 'oro_security.acl.extension_selector';
+    final public const ACL_EXTENSION_TAG = 'oro_security.acl.extension';
 
-    const DOCTRINE_CONVERTER = 'sensio_framework_extra.converter.doctrine.orm';
-    const DOCTRINE_CONVERTER_CLASS = 'Oro\Bundle\SecurityBundle\Request\ParamConverter\DoctrineParamConverter';
-    const SECURITY_FACADE_SERVICE = 'oro_security.security_facade';
+    final public const DOCTRINE_CONVERTER = 'sensio_framework_extra.converter.doctrine.orm';
+    final public const DOCTRINE_CONVERTER_CLASS = 'Oro\Bundle\SecurityBundle\Request\ParamConverter\DoctrineParamConverter';
+    final public const SECURITY_FACADE_SERVICE = 'oro_security.security_facade';
 
     /**
      * {@inheritDoc}
@@ -42,9 +42,6 @@ class AclConfigurationPass implements CompilerPassInterface
         $this->loadAclFeatureFlagRegistry($container);
     }
 
-    /**
-     * @param ContainerBuilder $container
-     */
     protected function configureAclExtensionSelector(ContainerBuilder $container)
     {
         if ($container->hasDefinition(self::ACL_EXTENSION_SELECTOR)) {
@@ -56,9 +53,6 @@ class AclConfigurationPass implements CompilerPassInterface
         }
     }
 
-    /**
-     * @param ContainerBuilder $container
-     */
     protected function configureDefaultAclProvider(ContainerBuilder $container)
     {
         if ($container->hasDefinition(self::DEFAULT_ACL_PROVIDER)) {
@@ -74,9 +68,6 @@ class AclConfigurationPass implements CompilerPassInterface
         }
     }
 
-    /**
-     * @param ContainerBuilder $container
-     */
     protected function configureDefaultAclCache(ContainerBuilder $container)
     {
         if ($container->hasDefinition(self::DEFAULT_ACL_CACHE)) {
@@ -89,9 +80,6 @@ class AclConfigurationPass implements CompilerPassInterface
         }
     }
 
-    /**
-     * @param ContainerBuilder $container
-     */
     protected function configureDefaultAclVoter(ContainerBuilder $container)
     {
         if ($container->hasDefinition(self::DEFAULT_ACL_VOTER)) {
@@ -133,7 +121,6 @@ class AclConfigurationPass implements CompilerPassInterface
     /**
      * Load ACL extensions and sort them by priority.
      *
-     * @param  ContainerBuilder $container
      * @return array
      */
     protected function loadAclExtensions(ContainerBuilder $container)
@@ -152,17 +139,13 @@ class AclConfigurationPass implements CompilerPassInterface
         }
         usort(
             $extensions,
-            function ($a, $b) {
-                return $a['priority'] == $b['priority']
-                    ? 0
-                    : (($a['priority'] < $b['priority']) ? -1 : 1);
-            }
+            fn($a, $b) => $a['priority'] == $b['priority']
+                ? 0
+                : (($a['priority'] < $b['priority']) ? -1 : 1)
         );
 
         return array_map(
-            function ($el) {
-                return $el['id'];
-            },
+            fn($el) => $el['id'],
             $extensions
         );
     }

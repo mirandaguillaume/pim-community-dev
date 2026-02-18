@@ -52,9 +52,7 @@ class Acl implements \Serializable
     /**
      * Constructor
      *
-     * @param  array                     $data
      * @throws \InvalidArgumentException
-     *
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function __construct(array $data = null)
@@ -63,20 +61,20 @@ class Acl implements \Serializable
             return;
         }
 
-        $this->id = isset($data['id']) ? $data['id'] : null;
-        if (empty($this->id) || strpos($this->id, ' ') !== false) {
+        $this->id = $data['id'] ?? null;
+        if (empty($this->id) || str_contains((string) $this->id, ' ')) {
             throw new \InvalidArgumentException('ACL id must not be empty or contain blank spaces.');
         }
 
-        $this->type = isset($data['type']) ? $data['type'] : null;
+        $this->type = $data['type'] ?? null;
         if (empty($this->type)) {
             throw new \InvalidArgumentException(sprintf('ACL type must not be empty. Id: %s.', $this->id));
         }
 
-        $this->permission = isset($data['permission']) ? $data['permission'] : '';
-        $this->class = isset($data['class']) ? $data['class'] : '';
-        $this->group = isset($data['group_name']) ? $data['group_name'] : '';
-        $this->label = isset($data['label']) ? $data['label'] : '';
+        $this->permission = $data['permission'] ?? '';
+        $this->class = $data['class'] ?? '';
+        $this->group = $data['group_name'] ?? '';
+        $this->label = $data['label'] ?? '';
         $this->isEnabledAtCreation = $data['enabled_at_creation'] ?? true;
         $this->order = $data['order'] ?? 0;
         $this->visible = $data['visible'] ?? true;
@@ -191,15 +189,6 @@ class Acl implements \Serializable
      */
     public function unserialize($serialized)
     {
-        list(
-            $this->id,
-            $this->type,
-            $this->class,
-            $this->permission,
-            $this->group,
-            $this->label,
-            $this->order,
-            $this->visible,
-        ) = unserialize($serialized);
+        [$this->id, $this->type, $this->class, $this->permission, $this->group, $this->label, $this->order, $this->visible, ] = unserialize($serialized);
     }
 }

@@ -22,10 +22,6 @@ class EntityWithFamilyVariantRepository implements EntityWithFamilyVariantReposi
     /** @var VariantProductRepositoryInterface */
     protected $productRepository;
 
-    /**
-     * @param ProductModelRepositoryInterface   $productModelRepository
-     * @param VariantProductRepositoryInterface $productRepository
-     */
     public function __construct(
         ProductModelRepositoryInterface $productModelRepository,
         VariantProductRepositoryInterface $productRepository

@@ -14,7 +14,7 @@ use Doctrine\DBAL\Types\Types;
  */
 class SaveConnectedAppOutdatedScopesFlagQuery implements SaveConnectedAppOutdatedScopesFlagQueryInterface
 {
-    public function __construct(private Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
     }
 

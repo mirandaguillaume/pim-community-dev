@@ -99,8 +99,8 @@ final class GetProductUuidsIntegration extends TestCase
         $this->adminUserId = (int) $this->get('database_connection')->fetchOne(
             'SELECT id from oro_user WHERE username = \'admin\''
         );
-        $this->sqlQuery = $this->get('Akeneo\Pim\Enrichment\Product\Infrastructure\Query\SqlGetProductUuids');
-        $this->cachedQuery = $this->get('Akeneo\Pim\Enrichment\Product\API\Query\GetProductUuids');
+        $this->sqlQuery = $this->get(\Akeneo\Pim\Enrichment\Product\Infrastructure\Query\SqlGetProductUuids::class);
+        $this->cachedQuery = $this->get(\Akeneo\Pim\Enrichment\Product\API\Query\GetProductUuids::class);
         $this->createProduct($this->uuidFoo, 'foo');
         $this->createProduct($this->uuidBar, 'bar');
     }

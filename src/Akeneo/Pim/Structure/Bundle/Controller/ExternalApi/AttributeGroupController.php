@@ -51,13 +51,11 @@ class AttributeGroupController
     }
 
     /**
-     * @param Request $request
      * @param string  $code
      *
      * @throws NotFoundHttpException
      *
      * @return JsonResponse
-     *
      * @AclAncestor("pim_api_attribute_group_list")
      */
     public function getAction(Request $request, $code)
@@ -73,12 +71,10 @@ class AttributeGroupController
     }
 
     /**
-     * @param Request $request
      *
      * @throws UnprocessableEntityHttpException
      *
      * @return JsonResponse
-     *
      * @AclAncestor("pim_api_attribute_group_list")
      */
     public function listAction(Request $request)
@@ -96,8 +92,9 @@ class AttributeGroupController
         ];
 
         $queryParameters = array_merge($defaultParameters, $request->query->all());
-        $searchFilters = json_decode($queryParameters['search'] ?? '[]', true);
-        if (null === $searchFilters) {
+        try {
+            $searchFilters = json_decode($queryParameters['search'] ?? '[]', true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
             throw new BadRequestHttpException('The search query parameter must be a valid JSON.');
         }
 
@@ -130,13 +127,11 @@ class AttributeGroupController
     }
 
     /**
-     * @param Request $request
      *
      * @throws BadRequestHttpException
      * @throws UnprocessableEntityHttpException
      *
      * @return Response
-     *
      * @AclAncestor("pim_api_attribute_group_edit")
      */
     public function createAction(Request $request)
@@ -155,13 +150,11 @@ class AttributeGroupController
     }
 
     /**
-     * @param Request $request
      * @param string  $code
      *
      * @throws HttpException
      *
      * @return Response
-     *
      * @AclAncestor("pim_api_attribute_group_edit")
      */
     public function partialUpdateAction(Request $request, $code)
@@ -190,12 +183,10 @@ class AttributeGroupController
     }
 
     /**
-     * @param Request $request
      *
      * @throws HttpException
      *
      * @return Response
-     *
      * @AclAncestor("pim_api_attribute_group_edit")
      */
     public function partialUpdateListAction(Request $request)
@@ -217,9 +208,9 @@ class AttributeGroupController
      */
     protected function getDecodedContent($content)
     {
-        $decodedContent = json_decode($content, true);
-
-        if (null === $decodedContent) {
+        try {
+            $decodedContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
             throw new BadRequestHttpException('Invalid json message received');
         }
 
@@ -229,8 +220,6 @@ class AttributeGroupController
     /**
      * Update an attribute group. It throws an error 422 if a problem occurred during the update.
      *
-     * @param AttributeGroupInterface $attributeGroup
-     * @param array                   $data
      * @param string                  $anchor
      *
      * @throws DocumentedHttpException
@@ -252,7 +241,6 @@ class AttributeGroupController
      * Validate an attribute group. It throws an error 422 with every violated constraints if
      * the validation failed.
      *
-     * @param AttributeGroupInterface $attributeGroup
      *
      * @throws ViolationHttpException
      */
@@ -291,9 +279,7 @@ class AttributeGroupController
     /**
      * Get a response with a location header to the created or updated resource.
      *
-     * @param AttributeGroupInterface $attributeGroup
      * @param int                     $status
-     *
      * @return Response
      */
     protected function getResponse(AttributeGroupInterface $attributeGroup, $status)

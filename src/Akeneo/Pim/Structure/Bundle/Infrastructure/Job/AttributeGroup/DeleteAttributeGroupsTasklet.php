@@ -48,7 +48,7 @@ final class DeleteAttributeGroupsTasklet implements TaskletInterface, TrackableT
 
         $attributeGroupCodesToDelete = $this->stepExecution->getJobParameters()->get('filters')['codes'];
 
-        $this->stepExecution->setTotalItems(count($attributeGroupCodesToDelete));
+        $this->stepExecution->setTotalItems(is_countable($attributeGroupCodesToDelete) ? count($attributeGroupCodesToDelete) : 0);
         $this->stepExecution->addSummaryInfo('deleted_attribute_groups', 0);
         $this->stepExecution->addSummaryInfo('skipped_attribute_groups', 0);
 

@@ -14,10 +14,10 @@ use Webmozart\Assert\Assert;
 final class RemoveProductModelsCommand
 {
     /** @var RemoveProductModelCommand[] */
-    private array $removeProductModelCommands;
+    private readonly array $removeProductModelCommands;
 
     /** @var ProductModelInterface[]|null */
-    private ?array $productModels;
+    private readonly ?array $productModels;
 
     /**
      * If the product models are already fetched at some point, you can provide them in second argument. It will

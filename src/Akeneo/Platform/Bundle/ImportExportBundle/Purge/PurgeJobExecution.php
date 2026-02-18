@@ -13,20 +13,10 @@ use Akeneo\Tool\Component\Batch\Job\BatchStatus;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class PurgeJobExecution
+final readonly class PurgeJobExecution
 {
-    private DeleteJobExecution $deleteJobExecution;
-    private DeleteOrphanJobExecutionDirectories $deleteOrphansJobExecutionDirectories;
-    private DeleteJobExecutionLogs $deleteJobExecutionLogs;
-
-    public function __construct(
-        DeleteJobExecution $deleteJobExecution,
-        DeleteOrphanJobExecutionDirectories $deleteOrphansJobExecutionDirectories,
-        DeleteJobExecutionLogs $deleteJobExecutionLogs
-    ) {
-        $this->deleteJobExecution = $deleteJobExecution;
-        $this->deleteOrphansJobExecutionDirectories = $deleteOrphansJobExecutionDirectories;
-        $this->deleteJobExecutionLogs = $deleteJobExecutionLogs;
+    public function __construct(private DeleteJobExecution $deleteJobExecution, private DeleteOrphanJobExecutionDirectories $deleteOrphansJobExecutionDirectories, private DeleteJobExecutionLogs $deleteJobExecutionLogs)
+    {
     }
 
     public function olderThanDays(int $days, array $jobInstanceCodes, ?BatchStatus $status): int

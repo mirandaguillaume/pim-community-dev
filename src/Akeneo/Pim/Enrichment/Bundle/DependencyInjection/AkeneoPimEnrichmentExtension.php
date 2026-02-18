@@ -121,10 +121,6 @@ class AkeneoPimEnrichmentExtension extends Extension
         }
     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @param array            $config
-     */
     protected function loadLocalizationConfiguration(ContainerBuilder $container, array $config)
     {
         $localization = $config['localization'];

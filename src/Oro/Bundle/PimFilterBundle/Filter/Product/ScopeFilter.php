@@ -98,10 +98,8 @@ class ScopeFilter extends ChoiceFilter
 
     /**
      * @param mixed $data
-     *
-     * @return string|bool
      */
-    protected function parseData($data)
+    protected function parseData($data): string|bool
     {
         if (!is_array($data) || empty($data['value'])) {
             return false;

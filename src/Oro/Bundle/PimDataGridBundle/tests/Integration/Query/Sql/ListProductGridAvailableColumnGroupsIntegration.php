@@ -67,11 +67,6 @@ class ListProductGridAvailableColumnGroupsIntegration extends TestCase
         $this->assertSame($expectedColumnGroups, $availableColumnGroups);
     }
 
-    /**
-     * @param array $attributeData
-     *
-     * @return Attribute
-     */
     private function createAttribute(array $attributeData): Attribute
     {
         $attribute = $this->get('pim_catalog.factory.attribute')->create();

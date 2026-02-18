@@ -24,10 +24,6 @@ class EditMassActionHandler implements MassActionHandlerInterface
     /** @var EventDispatcherInterface */
     protected $eventDispatcher;
 
-    /**
-     * @param HydratorInterface        $hydrator
-     * @param EventDispatcherInterface $eventDispatcher
-     */
     public function __construct(
         HydratorInterface $hydrator,
         EventDispatcherInterface $eventDispatcher

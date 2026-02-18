@@ -32,41 +32,27 @@ class RangeValidator extends BaseRangeValidator
             return;
         }
 
-        switch (true) {
-            case $value instanceof \DateTimeInterface:
-                $this->validateDateTime($value, $constraint);
-                break;
-
-            case $value instanceof MetricInterface || $value instanceof ProductPriceInterface:
-                $this->validateData($value->getData(), $constraint);
-                break;
-
-            case is_numeric($value):
-                $this->validateNumeric($value, $constraint);
-                break;
-
-            default:
-                $this->context->buildViolation(
-                    $constraint->invalidMessage,
-                    [
-                        '{{ attribute }}' => $constraint->attributeCode,
-                        '{{ value }}' => $value,
-                    ]
-                )
-                    ->setCode(Range::INVALID_CHARACTERS_ERROR)
-                    ->addViolation();
-                break;
-        }
+        match (true) {
+            $value instanceof \DateTimeInterface => $this->validateDateTime($value, $constraint),
+            $value instanceof MetricInterface || $value instanceof ProductPriceInterface => $this->validateData($value->getData(), $constraint),
+            is_numeric($value) => $this->validateNumeric($value, $constraint),
+            default => $this->context->buildViolation(
+                $constraint->invalidMessage,
+                [
+                    '{{ attribute }}' => $constraint->attributeCode,
+                    '{{ value }}' => $value,
+                ]
+            )
+                ->setCode(Range::INVALID_CHARACTERS_ERROR)
+                ->addViolation(),
+        };
     }
 
     /**
      * Validate the data property of a Metric or ProductPrice value
      * and add the violation to the 'data' property path
-     *
-     * @param mixed $value
-     * @param Range $constraint
      */
-    protected function validateData($value, Range $constraint): void
+    protected function validateData(mixed $value, Range $constraint): void
     {
         $violation = $this->buildRangeViolation($value, $constraint);
 

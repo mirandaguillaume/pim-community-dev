@@ -10,7 +10,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\Repository\ProductScoreRepo
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ConsolidationDate;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\TimePeriod;
 
-final class PurgeOutdatedData
+final readonly class PurgeOutdatedData
 {
     public const EVALUATIONS_RETENTION_DAYS = 1;
 

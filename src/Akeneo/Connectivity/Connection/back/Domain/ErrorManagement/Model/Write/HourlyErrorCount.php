@@ -16,15 +16,15 @@ use Akeneo\Connectivity\Connection\Domain\ValueObject\HourlyInterval;
  */
 class HourlyErrorCount
 {
-    private ConnectionCode $connectionCode;
+    private readonly ConnectionCode $connectionCode;
 
-    private int $errorCount;
+    private readonly int $errorCount;
 
-    private ErrorType $errorType;
+    private readonly ErrorType $errorType;
 
     public function __construct(
         string $connectionCode,
-        private HourlyInterval $hourlyInterval,
+        private readonly HourlyInterval $hourlyInterval,
         int $errorCount,
         string $errorType
     ) {

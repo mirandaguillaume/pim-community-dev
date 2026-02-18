@@ -13,7 +13,7 @@ use Doctrine\DBAL\Connection;
  */
 class SqlGetUnit implements GetUnit
 {
-    public function __construct(private Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
     }
 
@@ -51,9 +51,9 @@ SQL;
 
         $unit = new Unit();
         $unit->code = $result['code'];
-        $unit->labels = json_decode($result['labels'], true);
+        $unit->labels = json_decode((string) $result['labels'], true, 512, JSON_THROW_ON_ERROR);
         $unit->symbol = $result['symbol'];
-        $unit->convertFromStandard = json_decode($result['convert_from_standard'], true);
+        $unit->convertFromStandard = json_decode((string) $result['convert_from_standard'], true, 512, JSON_THROW_ON_ERROR);
 
         return $unit;
     }

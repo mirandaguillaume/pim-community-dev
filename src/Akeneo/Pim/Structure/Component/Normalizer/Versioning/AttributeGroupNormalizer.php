@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class AttributeGroupNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    const ITEM_SEPARATOR = ',';
+    final public const ITEM_SEPARATOR = ',';
 
     /** @var string[] */
     protected $supportedFormats = ['flat'];
@@ -26,10 +26,6 @@ class AttributeGroupNormalizer implements NormalizerInterface, CacheableSupports
     /** @var NormalizerInterface */
     protected $translationNormalizer;
 
-    /**
-     * @param NormalizerInterface $standardNormalizer
-     * @param NormalizerInterface $translationNormalizer
-     */
     public function __construct(
         NormalizerInterface $standardNormalizer,
         NormalizerInterface $translationNormalizer

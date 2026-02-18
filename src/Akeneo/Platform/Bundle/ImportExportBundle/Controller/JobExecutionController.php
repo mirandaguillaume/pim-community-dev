@@ -25,21 +25,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class JobExecutionController
 {
-    protected EventDispatcherInterface $eventDispatcher;
-    protected StepExecutionArchivist $archivist;
-    protected JobExecutionRepository $jobExecutionRepo;
-    private FilesystemReader $logFileSystem;
-
-    public function __construct(
-        EventDispatcherInterface $eventDispatcher,
-        StepExecutionArchivist $archivist,
-        JobExecutionRepository $jobExecutionRepo,
-        FilesystemReader $logFileSystem
-    ) {
-        $this->eventDispatcher = $eventDispatcher;
-        $this->archivist = $archivist;
-        $this->jobExecutionRepo = $jobExecutionRepo;
-        $this->logFileSystem = $logFileSystem;
+    public function __construct(protected EventDispatcherInterface $eventDispatcher, protected StepExecutionArchivist $archivist, protected JobExecutionRepository $jobExecutionRepo, private readonly FilesystemReader $logFileSystem)
+    {
     }
 
     /**
@@ -66,7 +53,7 @@ class JobExecutionController
         $response = new Response($logFileContent);
         $disposition = $response->headers->makeDisposition(
             ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-            basename($jobExecution->getLogFile())
+            basename((string) $jobExecution->getLogFile())
         );
         $response->headers->set('Content-Disposition', $disposition);
 

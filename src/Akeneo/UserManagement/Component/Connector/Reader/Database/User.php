@@ -19,11 +19,8 @@ class User extends AbstractReader implements
     InitializableInterface,
     StepExecutionAwareInterface
 {
-    protected ObjectRepository $repository;
-
-    public function __construct(ObjectRepository $repository)
+    public function __construct(protected ObjectRepository $repository)
     {
-        $this->repository = $repository;
     }
 
     /**

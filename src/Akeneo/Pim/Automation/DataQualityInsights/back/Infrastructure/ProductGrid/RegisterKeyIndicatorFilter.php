@@ -16,14 +16,14 @@ use Oro\Bundle\FilterBundle\Grid\Extension\Configuration;
  */
 class RegisterKeyIndicatorFilter
 {
-    public const PRODUCT_DATAGRID_NAME = 'product-grid';
+    final public const PRODUCT_DATAGRID_NAME = 'product-grid';
 
     public function __construct(
-        private FeatureFlag $dqiFeature,
-        private FeatureFlags $featureFlags,
+        private readonly FeatureFlag $dqiFeature,
+        private readonly FeatureFlags $featureFlags,
         private string $filterName,
-        private string $filterLabel,
-        private ?string $featureName,
+        private readonly string $filterLabel,
+        private readonly ?string $featureName,
     ) {
     }
 

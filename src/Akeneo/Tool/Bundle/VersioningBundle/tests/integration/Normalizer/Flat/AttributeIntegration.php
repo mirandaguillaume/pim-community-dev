@@ -1000,7 +1000,6 @@ class AttributeIntegration extends AbstractFlatNormalizerTestCase
 
     /**
      * @param string $identifier
-     * @param array  $expected
      */
     private function assert($identifier, array $expected)
     {

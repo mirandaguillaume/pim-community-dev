@@ -30,7 +30,7 @@ final class MessageNormalizer implements NormalizerInterface, DenormalizerInterf
 
     public function supportsNormalization($data, string $format = null)
     {
-        $messageClass = \get_class($data);
+        $messageClass = $data::class;
 
         return $messageClass === Message1::class || $messageClass === Message2::class;
     }

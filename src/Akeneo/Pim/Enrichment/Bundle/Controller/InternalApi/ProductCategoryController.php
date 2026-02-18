@@ -28,11 +28,6 @@ class ProductCategoryController
     /** @var ObjectFilterInterface */
     protected $objectFilter;
 
-    /**
-     * @param ProductRepositoryInterface         $productRepository
-     * @param ProductCategoryRepositoryInterface $productCategoryRepository
-     * @param ObjectFilterInterface              $objectFilter
-     */
     public function __construct(
         ProductRepositoryInterface $productRepository,
         ProductCategoryRepositoryInterface $productCategoryRepository,
@@ -54,6 +49,7 @@ class ProductCategoryController
      */
     public function listAction($uuid)
     {
+        $result = [];
         $product = $this->findProductOr404($uuid);
         $trees = $this->productCategoryRepository->getItemCountByTree($product);
 
@@ -85,8 +81,6 @@ class ProductCategoryController
     }
 
     /**
-     * @param array $trees
-     *
      * @return array
      */
     protected function buildTrees(array $trees)
@@ -110,8 +104,6 @@ class ProductCategoryController
     }
 
     /**
-     * @param ProductInterface $product
-     *
      * @return array
      */
     protected function buildCategories(ProductInterface $product)

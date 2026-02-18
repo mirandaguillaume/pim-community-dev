@@ -9,12 +9,8 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\Group\GetGroupTranslations;
 
 class GroupTranslator implements FlatPropertyValueTranslatorInterface
 {
-    /** @var GetGroupTranslations */
-    private $getGroupTranslations;
-
-    public function __construct(GetGroupTranslations $getGroupTranslations)
+    public function __construct(private readonly GetGroupTranslations $getGroupTranslations)
     {
-        $this->getGroupTranslations = $getGroupTranslations;
     }
 
     public function supports(string $columnName): bool
@@ -34,7 +30,7 @@ class GroupTranslator implements FlatPropertyValueTranslatorInterface
                 continue;
             }
 
-            $groupCodes = explode(',', $value);
+            $groupCodes = explode(',', (string) $value);
             $groupsLabelized = [];
 
             foreach ($groupCodes as $groupCode) {
@@ -55,7 +51,7 @@ class GroupTranslator implements FlatPropertyValueTranslatorInterface
             if (empty($value)) {
                 continue;
             }
-            $groupCodes = array_merge($groupCodes, explode(',', $value));
+            $groupCodes = array_merge($groupCodes, explode(',', (string) $value));
         }
 
         return array_unique($groupCodes);

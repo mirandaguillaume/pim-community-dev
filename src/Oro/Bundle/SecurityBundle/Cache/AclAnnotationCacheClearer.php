@@ -8,18 +8,10 @@ use Symfony\Component\HttpKernel\CacheClearer\CacheClearerInterface;
 class AclAnnotationCacheClearer implements CacheClearerInterface
 {
     /**
-     * @var AclAnnotationProvider
-     */
-    private $provider;
-
-    /**
      * Constructor
-     *
-     * @param AclAnnotationProvider $provider
      */
-    public function __construct(AclAnnotationProvider $provider)
+    public function __construct(private readonly AclAnnotationProvider $provider)
     {
-        $this->provider = $provider;
     }
 
     /**

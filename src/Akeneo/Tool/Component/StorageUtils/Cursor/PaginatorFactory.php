@@ -11,20 +11,12 @@ namespace Akeneo\Tool\Component\StorageUtils\Cursor;
  */
 class PaginatorFactory implements PaginatorFactoryInterface
 {
-    /** @var string */
-    protected $paginatorClass;
-
-    /** @var int */
-    protected $defaultPageSize;
-
     /**
      * @param string $paginatorClass  class name implementation
      * @param int    $defaultPageSize the default page size
      */
-    public function __construct($paginatorClass, $defaultPageSize)
+    public function __construct(protected $paginatorClass, protected $defaultPageSize)
     {
-        $this->paginatorClass = $paginatorClass;
-        $this->defaultPageSize = $defaultPageSize;
     }
 
     /**

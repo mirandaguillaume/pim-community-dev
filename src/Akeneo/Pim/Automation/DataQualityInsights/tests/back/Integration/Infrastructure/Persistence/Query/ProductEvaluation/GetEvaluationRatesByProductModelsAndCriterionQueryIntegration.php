@@ -57,6 +57,7 @@ final class GetEvaluationRatesByProductModelsAndCriterionQueryIntegration extend
 
     private function givenProductModelA(): array
     {
+        $evaluationResults = [];
         $productModel = $this->createProductModelWithoutEvaluations('product_model_A', 'a_family_variant');
 
         $expectedRates = [
@@ -86,6 +87,7 @@ final class GetEvaluationRatesByProductModelsAndCriterionQueryIntegration extend
 
     private function givenProductModelB(): array
     {
+        $evaluationResults = [];
         $productModel = $this->createProductModelWithoutEvaluations('product_model_B', 'a_family_variant');
 
         $expectedRates = [
@@ -106,6 +108,7 @@ final class GetEvaluationRatesByProductModelsAndCriterionQueryIntegration extend
 
     private function givenANotInvolvedProductModel(): void
     {
+        $evaluationResults = [];
         $productModel = $this->createProductModelWithoutEvaluations('whatever', 'a_family_variant');
 
         $evaluationResults['spelling'] = $this->buildEvaluationResult([

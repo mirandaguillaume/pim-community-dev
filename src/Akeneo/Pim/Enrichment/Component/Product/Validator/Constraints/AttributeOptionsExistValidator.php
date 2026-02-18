@@ -19,12 +19,8 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class AttributeOptionsExistValidator extends ConstraintValidator
 {
-    /** @var GetExistingAttributeOptionCodes */
-    private $getExistingAttibuteOptionCodes;
-
-    public function __construct(GetExistingAttributeOptionCodes $getExistingAttibuteOptionCodes)
+    public function __construct(private readonly GetExistingAttributeOptionCodes $getExistingAttibuteOptionCodes)
     {
-        $this->getExistingAttibuteOptionCodes = $getExistingAttibuteOptionCodes;
     }
 
     public function validate($values, Constraint $constraint)
@@ -38,9 +34,7 @@ class AttributeOptionsExistValidator extends ConstraintValidator
         }
 
         $optionValues = $values->filter(
-            function (ValueInterface $value): bool {
-                return $value instanceof OptionValueInterface || $value instanceof OptionsValueInterface;
-            }
+            fn(ValueInterface $value): bool => $value instanceof OptionValueInterface || $value instanceof OptionsValueInterface
         );
 
         if ($optionValues->isEmpty()) {

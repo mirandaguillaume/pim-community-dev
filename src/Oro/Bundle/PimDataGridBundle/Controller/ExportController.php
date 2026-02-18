@@ -31,11 +31,6 @@ class ExportController
     /** @var ExportMassAction $exportMassAction */
     protected $exportMassAction;
 
-    /**
-     * @param RequestStack         $requestStack
-     * @param MassActionDispatcher $massActionDispatcher
-     * @param SerializerInterface  $serializer
-     */
     public function __construct(
         RequestStack $requestStack,
         MassActionDispatcher $massActionDispatcher,

@@ -20,7 +20,7 @@ final class PurgeVersioning implements TaskletInterface
     protected StepExecution $stepExecution;
 
     public function __construct(
-        private VersionPurgerInterface $versionPurger,
+        private readonly VersionPurgerInterface $versionPurger,
     ) {
     }
 
@@ -31,6 +31,7 @@ final class PurgeVersioning implements TaskletInterface
 
     public function execute(): void
     {
+        $purgeOptions = [];
         $purgeOptions['batch_size'] = (int)$this->stepExecution->getJobParameters()->get('batch-size');
 
         $moreThanDays = null !== $this->stepExecution->getJobParameters()->get('more-than-days') ?

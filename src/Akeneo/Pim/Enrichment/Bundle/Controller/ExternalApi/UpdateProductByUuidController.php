@@ -44,19 +44,19 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class UpdateProductByUuidController
 {
     public function __construct(
-        private FindProduct $findProduct,
-        private UrlGeneratorInterface $router,
-        private FilterInterface $emptyValuesFilter,
-        private EventDispatcherInterface $eventDispatcher,
-        private DuplicateValueChecker $duplicateValueChecker,
-        private SecurityFacade $security,
-        private ValidatorInterface $validator,
-        private ObjectUpdaterInterface $updater,
-        private ProductBuilderInterface $productBuilder,
-        private SaverInterface $saver,
-        private AttributeFilterInterface $productAttributeFilter,
-        private ValidatorInterface $productValidator,
-        private RemoveParentInterface $removeParent,
+        private readonly FindProduct $findProduct,
+        private readonly UrlGeneratorInterface $router,
+        private readonly FilterInterface $emptyValuesFilter,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly DuplicateValueChecker $duplicateValueChecker,
+        private readonly SecurityFacade $security,
+        private readonly ValidatorInterface $validator,
+        private readonly ObjectUpdaterInterface $updater,
+        private readonly ProductBuilderInterface $productBuilder,
+        private readonly SaverInterface $saver,
+        private readonly AttributeFilterInterface $productAttributeFilter,
+        private readonly ValidatorInterface $productValidator,
+        private readonly RemoveParentInterface $removeParent,
     ) {
     }
 
@@ -114,9 +114,9 @@ class UpdateProductByUuidController
     private function getDecodedContent($content): array
     {
         // TODO: CPM-718
-        $decodedContent = json_decode($content, true);
-
-        if (null === $decodedContent) {
+        try {
+            $decodedContent = json_decode((string) $content, true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
             throw new BadRequestHttpException('Invalid json message received');
         }
 
@@ -212,7 +212,7 @@ class UpdateProductByUuidController
         }
     }
 
-    private function throwDocumentedHttpException(string $message, \Exception $previousException = null)
+    private function throwDocumentedHttpException(string $message, \Exception $previousException = null): never
     {
         throw new DocumentedHttpException(
             Documentation::URL . 'patch_products_uuid__uuid_',

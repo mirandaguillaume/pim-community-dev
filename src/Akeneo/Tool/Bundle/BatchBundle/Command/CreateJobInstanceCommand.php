@@ -22,11 +22,11 @@ class CreateJobInstanceCommand extends Command
 {
     protected static $defaultName = 'akeneo:batch:create-job';
 
-    const EXIT_SUCCESS_CODE = 0;
-    const EXIT_ERROR_CODE = 1;
+    final public const EXIT_SUCCESS_CODE = 0;
+    final public const EXIT_ERROR_CODE = 1;
 
     public function __construct(
-        private CreateJobInstanceHandlerInterface $createJobInstanceHandler
+        private readonly CreateJobInstanceHandlerInterface $createJobInstanceHandler
     ) {
         parent::__construct();
     }
@@ -56,9 +56,9 @@ class CreateJobInstanceCommand extends Command
         $type = $input->getArgument('type');
         $code = $input->getArgument('code');
         $label = $input->getArgument('label');
-        $label = $label ? $label : $code;
+        $label = $label ?: $code;
         $jsonConfig = $input->getArgument('config');
-        $rawConfig = null === $jsonConfig ? [] : json_decode($jsonConfig, true);
+        $rawConfig = null === $jsonConfig ? [] : json_decode((string) $jsonConfig, true, 512, JSON_THROW_ON_ERROR);
 
         $command = new CreateJobInstanceCqrsCommand(
             $type,
@@ -95,8 +95,6 @@ class CreateJobInstanceCommand extends Command
     }
 
     /**
-     * @param ConstraintViolationListInterface $errors
-     *
      * @return string
      */
     protected function getErrorMessages(ConstraintViolationListInterface $errors)

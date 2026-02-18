@@ -15,9 +15,6 @@ class ProductModelAssociation implements ArrayConverterInterface
     /** @var ArrayConverterInterface */
     protected $productModelConverter;
 
-    /**
-     * @param ArrayConverterInterface $converter
-     */
     public function __construct(ArrayConverterInterface $converter)
     {
         $this->productModelConverter = $converter;
@@ -59,16 +56,12 @@ class ProductModelAssociation implements ArrayConverterInterface
     /**
      * Filters the item to keep only association related fields
      *
-     * @param array $item
      *
-     * @return array
      */
     protected function filter(array $item): array
     {
         $allowed = ['code', 'associations', 'quantified_associations'];
 
-        return array_filter($item, function ($key) use ($allowed) {
-            return in_array($key, $allowed);
-        }, ARRAY_FILTER_USE_KEY);
+        return array_filter($item, fn($key) => in_array($key, $allowed), ARRAY_FILTER_USE_KEY);
     }
 }

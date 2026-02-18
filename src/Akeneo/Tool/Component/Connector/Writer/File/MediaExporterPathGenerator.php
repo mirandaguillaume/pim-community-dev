@@ -16,7 +16,7 @@ class MediaExporterPathGenerator implements FileExporterPathGeneratorInterface
      */
     public function generate($value, array $options = [])
     {
-        $identifier = str_replace(DIRECTORY_SEPARATOR, '_', $options['identifier']);
+        $identifier = str_replace(DIRECTORY_SEPARATOR, '_', (string) $options['identifier']);
         $target = sprintf('files/%s/%s', $identifier, $options['code']);
 
         if (null !== $value['locale']) {

@@ -28,10 +28,6 @@ class AttributeConverter implements AttributeConverterInterface
     /** @var array[] */
     protected $attributeTypeByCodes;
 
-    /**
-     * @param LocalizerRegistryInterface   $localizerRegistry
-     * @param AttributeRepositoryInterface $attributeRepository
-     */
     public function __construct(
         LocalizerRegistryInterface $localizerRegistry,
         AttributeRepositoryInterface $attributeRepository
@@ -152,9 +148,6 @@ class AttributeConverter implements AttributeConverterInterface
     /**
      * Convert a localized attribute
      *
-     * @param LocalizerInterface $localizer
-     * @param array              $item
-     * @param array              $options
      * @param string             $path
      *
      * @return array
@@ -174,9 +167,7 @@ class AttributeConverter implements AttributeConverterInterface
     /**
      * Build the property path of the attribute
      *
-     * @param array  $data
      * @param string $attributeCode
-     *
      * @return string
      */
     protected function buildPropertyPath(array $data, $attributeCode)
@@ -187,9 +178,6 @@ class AttributeConverter implements AttributeConverterInterface
         return sprintf('values[%s-%s-%s]', $attributeCode, $channelCode, $localeCode);
     }
 
-    /**
-     * @param array $codes
-     */
     private function cacheAttributeTypeByCodes(array $codes)
     {
         $codesToFetch = array_diff($codes, array_keys($this->attributeTypeByCodes));

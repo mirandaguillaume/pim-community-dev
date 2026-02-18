@@ -30,10 +30,6 @@ class TranslatableFieldType extends AbstractType
      */
     protected $userContext;
 
-    /**
-     * @param ValidatorInterface $validator
-     * @param UserContext        $userContext
-     */
     public function __construct(ValidatorInterface $validator, UserContext $userContext)
     {
         $this->validator = $validator;

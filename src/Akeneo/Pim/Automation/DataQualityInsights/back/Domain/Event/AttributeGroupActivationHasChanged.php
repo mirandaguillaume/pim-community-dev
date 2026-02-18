@@ -9,12 +9,12 @@ use Webmozart\Assert\Assert;
  * @copyright 2023 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class AttributeGroupActivationHasChanged
+final readonly class AttributeGroupActivationHasChanged
 {
     public function __construct(
-        public readonly string $attributeGroupCode,
-        public readonly bool $newIsActivated,
-        public readonly \DateTimeImmutable $updatedAt,
+        public string $attributeGroupCode,
+        public bool $newIsActivated,
+        public \DateTimeImmutable $updatedAt,
     ) {
     }
 

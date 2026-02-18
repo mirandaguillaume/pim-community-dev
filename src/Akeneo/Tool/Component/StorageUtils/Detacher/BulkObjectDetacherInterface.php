@@ -11,8 +11,5 @@ namespace Akeneo\Tool\Component\StorageUtils\Detacher;
  */
 interface BulkObjectDetacherInterface
 {
-    /**
-     * @param array $objects
-     */
     public function detachAll(array $objects);
 }

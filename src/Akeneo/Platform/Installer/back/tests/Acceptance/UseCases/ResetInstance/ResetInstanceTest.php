@@ -64,16 +64,16 @@ class ResetInstanceTest extends KernelTestCase
 
     private function getDatabasePurger(): FakeDatabasePurger
     {
-        return self::getContainer()->get('Akeneo\Platform\Installer\Infrastructure\DatabasePurger\DbalPurger');
+        return self::getContainer()->get(\Akeneo\Platform\Installer\Infrastructure\DatabasePurger\DbalPurger::class);
     }
 
     private function getFixtureInstaller(): FakeFixturesInstaller
     {
-        return self::getContainer()->get('Akeneo\Platform\Installer\Infrastructure\FixtureInstaller\MinimalFixtureInstaller');
+        return self::getContainer()->get(\Akeneo\Platform\Installer\Infrastructure\FixtureInstaller\MinimalFixtureInstaller::class);
     }
 
     private function getHandler(): ResetInstanceHandler
     {
-        return self::getContainer()->get('Akeneo\Platform\Installer\Application\ResetInstance\ResetInstanceHandler');
+        return self::getContainer()->get(\Akeneo\Platform\Installer\Application\ResetInstance\ResetInstanceHandler::class);
     }
 }

@@ -16,20 +16,11 @@ use Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface;
  */
 class AttributeColumnsResolver
 {
-    protected AttributeRepositoryInterface $attributeRepository;
-    protected FindActivatedCurrenciesInterface $findActivatedCurrenciesInterface;
-    protected AttributeValuesResolverInterface $valuesResolver;
     protected array $attributesFields = [];
     protected string $identifierField = '';
 
-    public function __construct(
-        AttributeRepositoryInterface $attributeRepository,
-        FindActivatedCurrenciesInterface $findActivatedCurrenciesInterface,
-        AttributeValuesResolverInterface $valuesResolver
-    ) {
-        $this->findActivatedCurrenciesInterface = $findActivatedCurrenciesInterface;
-        $this->attributeRepository = $attributeRepository;
-        $this->valuesResolver = $valuesResolver;
+    public function __construct(protected AttributeRepositoryInterface $attributeRepository, protected FindActivatedCurrenciesInterface $findActivatedCurrenciesInterface, protected AttributeValuesResolverInterface $valuesResolver)
+    {
     }
 
     public function resolveIdentifierField(): string
@@ -64,6 +55,7 @@ class AttributeColumnsResolver
      */
     protected function resolveAttributeField(array $value, array $currencyCodes): array
     {
+        $fields = [];
         $field = $this->resolveFlatAttributeName($value['attribute'], $value['locale'], $value['scope']);
 
         if (AttributeTypes::PRICE_COLLECTION === $value['type']) {

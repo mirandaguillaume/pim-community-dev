@@ -106,8 +106,6 @@ class ProductIntegration extends TestCase
     }
 
     /**
-     * @param array $data
-     * @param array $mediaAttributes
      *
      * @return array
      */

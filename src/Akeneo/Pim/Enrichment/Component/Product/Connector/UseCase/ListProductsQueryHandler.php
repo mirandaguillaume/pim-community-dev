@@ -28,59 +28,12 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ListProductsQueryHandler
+final readonly class ListProductsQueryHandler
 {
-    /** @var ApplyProductSearchQueryParametersToPQB */
-    private $applyProductSearchQueryParametersToPQB;
-
-    /** @var ProductQueryBuilderFactoryInterface */
-    private $fromSizePqbFactory;
-
-    /** @var ProductQueryBuilderFactoryInterface */
-    private $searchAfterPqbFactory;
-
-    /** @var GetConnectorProducts */
-    private $getConnectorProductsQuery;
-
-    /** @var GetConnectorProducts */
-    private $getConnectorProductsQuerywithOptions;
-
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $channelRepository;
-
-    /** @var EventDispatcherInterface */
-    private $eventDispatcher;
-
-    private GetProductsWithQualityScoresInterface $getProductsWithQualityScores;
-
-    private GetProductsWithCompletenessesInterface $getProductsWithCompletenesses;
-
-    public function __construct(
-        IdentifiableObjectRepositoryInterface $channelRepository,
-        ApplyProductSearchQueryParametersToPQB $applyProductSearchQueryParametersToPQB,
-        ProductQueryBuilderFactoryInterface $fromSizePqbFactory,
-        ProductQueryBuilderFactoryInterface $searchAfterPqbFactory,
-        GetConnectorProducts $getConnectorProductsQuery,
-        GetConnectorProducts $getConnectorProductsQuerywithOptions,
-        EventDispatcherInterface $eventDispatcher,
-        GetProductsWithQualityScoresInterface $getProductsWithQualityScores,
-        GetProductsWithCompletenessesInterface $getProductsWithCompletenesses,
-    ) {
-        $this->channelRepository = $channelRepository;
-        $this->applyProductSearchQueryParametersToPQB = $applyProductSearchQueryParametersToPQB;
-        $this->fromSizePqbFactory = $fromSizePqbFactory;
-        $this->searchAfterPqbFactory = $searchAfterPqbFactory;
-        $this->getConnectorProductsQuery = $getConnectorProductsQuery;
-        $this->getConnectorProductsQuerywithOptions = $getConnectorProductsQuerywithOptions;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->getProductsWithQualityScores = $getProductsWithQualityScores;
-        $this->getProductsWithCompletenesses = $getProductsWithCompletenesses;
+    public function __construct(private IdentifiableObjectRepositoryInterface $channelRepository, private ApplyProductSearchQueryParametersToPQB $applyProductSearchQueryParametersToPQB, private ProductQueryBuilderFactoryInterface $fromSizePqbFactory, private ProductQueryBuilderFactoryInterface $searchAfterPqbFactory, private GetConnectorProducts $getConnectorProductsQuery, private GetConnectorProducts $getConnectorProductsQuerywithOptions, private EventDispatcherInterface $eventDispatcher, private GetProductsWithQualityScoresInterface $getProductsWithQualityScores, private GetProductsWithCompletenessesInterface $getProductsWithCompletenesses)
+    {
     }
 
-    /**
-     * @param ListProductsQuery $query
-     * @return ConnectorProductList
-     */
     public function handle(ListProductsQuery $query): ConnectorProductList
     {
         $pqb = $this->getSearchPQB($query);

@@ -8,11 +8,11 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Automation\DataQualityInsights\Application\Command;
 
-final class UpdateAttributeGroupActivationCommand
+final readonly class UpdateAttributeGroupActivationCommand
 {
     public function __construct(
-        public readonly string $attributeGroupCode,
-        public readonly bool $isActivated
+        public string $attributeGroupCode,
+        public bool $isActivated
     ) {
     }
 }

@@ -17,10 +17,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class CategoryLoader
 {
     public function __construct(
-        private SimpleFactoryInterface $builder,
-        private ObjectUpdaterInterface $updater,
-        private ValidatorInterface $validator,
-        private SaverInterface $saver,
+        private readonly SimpleFactoryInterface $builder,
+        private readonly ObjectUpdaterInterface $updater,
+        private readonly ValidatorInterface $validator,
+        private readonly SaverInterface $saver,
     ) {
     }
 

@@ -12,7 +12,7 @@ namespace Akeneo\Pim\Enrichment\Component\Error\Documentation;
 class DocumentationCollection
 {
     /** @var Documentation[] */
-    private $collection;
+    private readonly array $collection;
 
     /**
      * @param Documentation[] $documentations
@@ -25,7 +25,7 @@ class DocumentationCollection
                     'Class "%s" can only contain collection of "%s", instance of "%s" given.',
                     self::class,
                     Documentation::class,
-                    get_class($documentation)
+                    $documentation::class
                 ));
             }
         }

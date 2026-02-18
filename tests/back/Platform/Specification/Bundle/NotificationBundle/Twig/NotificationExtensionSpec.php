@@ -7,7 +7,7 @@ use PhpSpec\ObjectBehavior;
 use Akeneo\Platform\Bundle\NotificationBundle\Entity\Repository\UserNotificationRepositoryInterface;
 use Akeneo\UserManagement\Bundle\Context\UserContext;
 use Prophecy\Argument;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Akeneo\UserManagement\Component\Model\UserInterface;
 
 class NotificationExtensionSpec extends ObjectBehavior
 {

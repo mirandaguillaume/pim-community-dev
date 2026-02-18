@@ -11,16 +11,9 @@ namespace Akeneo\Tool\Component\Connector\Exception;
  */
 class BusinessArrayConversionException extends ArrayConversionException
 {
-    /** @var string */
-    private $messageKey;
-    /** @var  array */
-    private $messageParameters;
-
-    public function __construct($message, string $messageKey, array  $messageParameters, \Throwable $previous = null, $code = 0)
+    public function __construct($message, private readonly string $messageKey, private readonly array  $messageParameters, \Throwable $previous = null, $code = 0)
     {
         parent::__construct($message, $code, $previous);
-        $this->messageKey = $messageKey;
-        $this->messageParameters = $messageParameters;
     }
 
     /**
@@ -31,9 +24,6 @@ class BusinessArrayConversionException extends ArrayConversionException
         return $this->messageKey;
     }
 
-    /**
-     * @return array
-     */
     public function getMessageParameters(): array
     {
         return $this->messageParameters;

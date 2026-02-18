@@ -8,6 +8,7 @@ use Akeneo\Platform\CommunicationChannel\Domain\Announcement\Model\Read\Announce
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\ServerException;
 use PHPUnit\Framework\Assert;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Process\Process;
@@ -15,25 +16,33 @@ use Symfony\Component\Process\Process;
 class ApiFindNewAnnouncementIdsIntegration extends KernelTestCase
 {
 
-    /** @var Process */
-    private $process;
+    private static ?Process $process = null;
+
+    public static function setUpBeforeClass(): void
+    {
+        parent::setUpBeforeClass();
+        static::bootKernel(['debug' => false]);
+
+        $configDir = __DIR__;
+        self::$process = Process::fromShellCommandline("./vendor/bin/phiremock --config-path '$configDir'");
+        self::$process->start();
+        self::waitServerUp();
+    }
+
+    public static function tearDownAfterClass(): void
+    {
+        if (self::$process !== null) {
+            self::$process->stop(3, SIGKILL);
+            self::$process = null;
+        }
+
+        parent::tearDownAfterClass();
+    }
 
     public function setUp(): void
     {
         parent::setUp();
         static::bootKernel(['debug' => false]);
-
-        $configDir = __DIR__;
-        $this->process = Process::fromShellCommandline("./vendor/bin/phiremock --config-path '$configDir'");
-        $this->process->start();
-        $this->waitServerUp();
-    }
-
-    public function tearDown(): void
-    {
-        parent::tearDown();
-
-        $this->process->stop();
     }
 
     public function test_it_finds_new_announcement_ids()
@@ -52,16 +61,16 @@ class ApiFindNewAnnouncementIdsIntegration extends KernelTestCase
         );
     }
 
-    public function waitServerUp()
+    private static function waitServerUp(): void
     {
         $attempt = 0;
         do {
             try {
                 $httpClient = new Client(['base_uri' => self::getContainer()->getParameter('comm_panel_api_url')]);
                 $httpClient->get('/');
-            } catch (ConnectException $e) {
+            } catch (ConnectException) {
                 usleep(100000);
-            } catch (ClientException $e) {
+            } catch (ClientException | ServerException) {
                 return; // started
             }
 

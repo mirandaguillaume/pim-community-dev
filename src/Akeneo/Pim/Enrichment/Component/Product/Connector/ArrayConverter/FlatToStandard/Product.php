@@ -50,15 +50,6 @@ class Product implements ArrayConverterInterface
     /** @var ArrayConverterInterface */
     protected $productValueConverter;
 
-    /**
-     * @param AssociationColumnsResolver      $assocColumnsResolver
-     * @param AttributeColumnsResolver        $attrColumnsResolver
-     * @param FieldConverter                  $fieldConverter
-     * @param ColumnsMerger                   $columnsMerger
-     * @param ColumnsMapper                   $columnsMapper
-     * @param AttributeRepositoryInterface    $attributeRepository
-     * @param ArrayConverterInterface         $productValueConverter
-     */
     public function __construct(
         AssociationColumnsResolver $assocColumnsResolver,
         AttributeColumnsResolver $attrColumnsResolver,
@@ -180,25 +171,14 @@ class Product implements ArrayConverterInterface
         return $convertedItem;
     }
 
-    /**
-     * @param array $options
-     *
-     * @return array
-     */
     protected function prepareOptions(array $options): array
     {
-        $options['with_associations'] = isset($options['with_associations']) ? $options['with_associations'] : true;
-        $options['default_values'] = isset($options['default_values']) ? $options['default_values'] : [];
+        $options['with_associations'] ??= true;
+        $options['default_values'] ??= [];
 
         return $options;
     }
 
-    /**
-     * @param array $item
-     * @param array $options
-     *
-     * @return array
-     */
     protected function mapFields(array $item, array $options): array
     {
         if (isset($options['mapping'])) {
@@ -217,11 +197,6 @@ class Product implements ArrayConverterInterface
         return $this->filterQualityScoreFields($mappedItem);
     }
 
-    /**
-     * @param array $item
-     *
-     * @return array
-     */
     protected function convertItem(array $item): array
     {
         $convertedItem = [];
@@ -247,9 +222,6 @@ class Product implements ArrayConverterInterface
         return $convertedItem;
     }
 
-    /**
-     * @param array $item
-     */
     protected function validateItem(array $item): void
     {
         $this->validateOptionalFields($item);
@@ -257,8 +229,6 @@ class Product implements ArrayConverterInterface
     }
 
     /**
-     * @param array $item
-     *
      * @throws StructureArrayConversionException
      */
     protected function validateOptionalFields(array $item): void
@@ -304,8 +274,6 @@ class Product implements ArrayConverterInterface
     }
 
     /**
-     * @param array $item
-     *
      * @throws DataArrayConversionException
      */
     protected function validateFieldValueTypes(array $item): void
@@ -395,8 +363,6 @@ class Product implements ArrayConverterInterface
 
     private function filterQualityScoreFields(array $mappedItem): array
     {
-        return array_filter($mappedItem, function ($field) {
-            return 0 !== strpos($field, sprintf('%s-', GetProductsWithQualityScoresInterface::FLAT_FIELD_PREFIX));
-        }, ARRAY_FILTER_USE_KEY);
+        return array_filter($mappedItem, fn($field) => !str_starts_with((string) $field, sprintf('%s-', GetProductsWithQualityScoresInterface::FLAT_FIELD_PREFIX)), ARRAY_FILTER_USE_KEY);
     }
 }

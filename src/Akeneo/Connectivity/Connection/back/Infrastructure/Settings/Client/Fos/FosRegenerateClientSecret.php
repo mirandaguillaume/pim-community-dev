@@ -7,7 +7,7 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\Settings\Client\Fos;
 use Akeneo\Connectivity\Connection\Application\Settings\Service\RegenerateClientSecretInterface;
 use Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject\ClientId;
 use Akeneo\Tool\Bundle\ApiBundle\Entity\Client;
-use Doctrine\DBAL\Driver\Connection as DbalConnection;
+use Doctrine\DBAL\Connection as DbalConnection;
 use FOS\OAuthServerBundle\Model\ClientManagerInterface;
 use FOS\OAuthServerBundle\Util\Random;
 
@@ -18,7 +18,7 @@ use FOS\OAuthServerBundle\Util\Random;
  */
 class FosRegenerateClientSecret implements RegenerateClientSecretInterface
 {
-    public function __construct(private ClientManagerInterface $clientManager, private DbalConnection $dbalConnection)
+    public function __construct(private readonly ClientManagerInterface $clientManager, private readonly DbalConnection $dbalConnection)
     {
     }
 
@@ -50,12 +50,14 @@ class FosRegenerateClientSecret implements RegenerateClientSecretInterface
 DELETE FROM pim_api_access_token WHERE client = :client_id
 SQL;
         $stmt = $this->dbalConnection->prepare($deleteSqlAccessToken);
-        $stmt->execute(['client_id' => $clientId->id()]);
+        $stmt->bindValue('client_id', $clientId->id());
+        $stmt->executeStatement();
 
         $deleteSqlRefreshToken = <<<SQL
 DELETE FROM pim_api_refresh_token WHERE client = :client_id
 SQL;
         $stmt = $this->dbalConnection->prepare($deleteSqlRefreshToken);
-        $stmt->execute(['client_id' => $clientId->id()]);
+        $stmt->bindValue('client_id', $clientId->id());
+        $stmt->executeStatement();
     }
 }

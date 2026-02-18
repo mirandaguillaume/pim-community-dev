@@ -15,8 +15,7 @@ use Webmozart\Assert\Assert;
  */
 final class NumberToStringDataConverter implements ValueDataConverter
 {
-    /** @var array */
-    private $supportedAttributeTypes = [
+    private array $supportedAttributeTypes = [
         AttributeTypes::NUMBER => [
             AttributeTypes::TEXT => true,
             AttributeTypes::TEXTAREA => true,

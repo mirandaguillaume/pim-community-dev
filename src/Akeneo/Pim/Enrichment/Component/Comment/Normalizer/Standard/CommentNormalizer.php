@@ -55,8 +55,6 @@ class CommentNormalizer implements NormalizerInterface, NormalizerAwareInterface
     /**
      * Normalize the children comments of the comment.
      *
-     * @param array $children
-     * @param array $context
      *
      * @return array
      */

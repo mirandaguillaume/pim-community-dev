@@ -20,13 +20,8 @@ abstract class AbstractItemCategoryRepository implements
     ItemCategoryRepositoryInterface,
     CategoryFilterableRepositoryInterface
 {
-    protected string $entityName;
-    protected EntityManager $em;
-
-    public function __construct(EntityManager $em, string $entityName)
+    public function __construct(protected EntityManager $em, protected string $entityName)
     {
-        $this->em = $em;
-        $this->entityName = $entityName;
     }
 
     /**
@@ -77,7 +72,7 @@ abstract class AbstractItemCategoryRepository implements
             $config['relation']
         );
 
-        if ($item instanceof ProductInterface && get_class($item) !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProductInterface') {
+        if ($item instanceof ProductInterface && $item::class !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProductInterface') {
             $id = $item->getUuid()->getBytes();
         } else {
             $id = $item->getId();

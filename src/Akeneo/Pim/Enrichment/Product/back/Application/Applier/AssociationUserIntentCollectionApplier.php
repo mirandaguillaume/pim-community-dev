@@ -31,7 +31,7 @@ use Webmozart\Assert\Assert;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class AssociationUserIntentCollectionApplier implements UserIntentApplier
+final readonly class AssociationUserIntentCollectionApplier implements UserIntentApplier
 {
     private const PRODUCTS = 'products';
     private const PRODUCT_UUIDS = 'product_uuids';
@@ -86,10 +86,7 @@ final class AssociationUserIntentCollectionApplier implements UserIntentApplier
     }
 
     /**
-     * @param AssociationUserIntent $associationUserIntent
      * @param array<string, array<string, array<string>>> $normalizedAssociations
-     * @param ProductInterface $product
-     * @param string $entityType
      *
      * @return array<string>
      */
@@ -173,8 +170,6 @@ final class AssociationUserIntentCollectionApplier implements UserIntentApplier
     /**
      * @param array<string> $formerAssociations
      * @param array<string> $entityAssociations
-     * @param string $entityType
-     * @param int $userId
      * @return array<string>|null
      */
     private function replaceAssociatedEntities(array $formerAssociations, array $entityAssociations, string $entityType, int $userId): ?array
@@ -201,7 +196,6 @@ final class AssociationUserIntentCollectionApplier implements UserIntentApplier
     /**
      * @param array<string> $formerAssociations
      * @param array<string> $entityAssociations
-     * @param int $userId
      * @return array<string>|null
      */
     private function replaceAssociatedProductsByUuid(array $formerAssociations, array $entityAssociations, int $userId): ?array

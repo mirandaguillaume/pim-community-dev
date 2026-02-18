@@ -20,20 +20,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class ListAnnouncementsAction
 {
-    /** @var VersionProviderInterface */
-    private $versionProvider;
-
-    /** @var UserContext */
-    private $userContext;
-
-    /** @var ListAnnouncementsHandler */
-    private $listAnnouncementsHandler;
-
-    public function __construct(VersionProviderInterface $versionProviderInterface, UserContext $userContext, ListAnnouncementsHandler $listAnnouncementsHandler)
+    public function __construct(private readonly VersionProviderInterface $versionProvider, private readonly UserContext $userContext, private readonly ListAnnouncementsHandler $listAnnouncementsHandler)
     {
-        $this->versionProvider = $versionProviderInterface;
-        $this->userContext = $userContext;
-        $this->listAnnouncementsHandler = $listAnnouncementsHandler;
     }
 
     public function __invoke(Request $request)
@@ -60,8 +48,6 @@ class ListAnnouncementsAction
 
     private function normalizeAnnouncementItems(array $announcementItems): array
     {
-        return array_map(function (AnnouncementItem $item) {
-            return $item->toArray();
-        }, $announcementItems);
+        return array_map(fn(AnnouncementItem $item) => $item->toArray(), $announcementItems);
     }
 }

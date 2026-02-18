@@ -61,8 +61,6 @@ class FlatItemBuffer extends JSONFileBuffer implements BufferInterface, \Countab
 
     /**
      * Add the specified keys to the list of headers
-     *
-     * @param array $keys
      */
     public function addToHeaders(array $keys)
     {

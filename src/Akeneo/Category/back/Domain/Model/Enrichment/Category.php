@@ -19,17 +19,17 @@ use Akeneo\Category\Domain\ValueObject\ValueCollection;
 class Category
 {
     public function __construct(
-        private ?CategoryId $id,
-        private Code $code,
+        private readonly ?CategoryId $id,
+        private readonly Code $code,
         private ?TemplateUuid $templateUuid,
-        private ?LabelCollection $labels = null,
-        private ?CategoryId $parentId = null,
-        private ?Code $parentCode = null,
-        private ?CategoryId $rootId = null,
-        private ?\DateTimeImmutable $updated = null,
+        private readonly ?LabelCollection $labels = null,
+        private readonly ?CategoryId $parentId = null,
+        private readonly ?Code $parentCode = null,
+        private readonly ?CategoryId $rootId = null,
+        private readonly ?\DateTimeImmutable $updated = null,
         private ?ValueCollection $attributes = null,
-        private ?PermissionCollection $permissions = null,
-        private ?Position $position = null,
+        private readonly ?PermissionCollection $permissions = null,
+        private readonly ?Position $position = null,
     ) {
     }
 
@@ -53,7 +53,7 @@ class Category
     public static function fromDatabase(array $category): self
     {
         $translations = $category['translations'] ? json_decode($category['translations'], true, 512, JSON_THROW_ON_ERROR) : [];
-        $permissions = isset($category['permissions']) && $category['permissions'] ? json_decode($category['permissions'], true) : null;
+        $permissions = isset($category['permissions']) && $category['permissions'] ? json_decode($category['permissions'], true, 512, JSON_THROW_ON_ERROR) : null;
 
         return new self(
             id: new CategoryId((int) $category['id']),
@@ -65,7 +65,7 @@ class Category
             rootId: $category['root_id'] ? new CategoryId((int) $category['root_id']) : null,
             updated: $category['updated'] ? \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $category['updated']) : null,
             attributes: $category['value_collection'] ?
-                ValueCollection::fromDatabase(json_decode($category['value_collection'], true)) : null,
+                ValueCollection::fromDatabase(json_decode($category['value_collection'], true, 512, JSON_THROW_ON_ERROR)) : null,
             permissions: PermissionCollection::fromArray($permissions),
             position: new Position((int) $category['lft'], (int) $category['rgt'], (int) $category['lvl']),
         );

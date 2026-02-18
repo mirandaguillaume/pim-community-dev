@@ -25,7 +25,7 @@ class AttributeRepository extends EntityRepository implements AttributeRepositor
         protected EntityManager $em,
         protected string $className,
         protected CatalogAttributeRepositoryInterface $attributeRepository,
-        private ValidatorInterface $validator
+        private readonly ValidatorInterface $validator
     ) {
         parent::__construct($em, $em->getClassMetadata($className));
     }
@@ -42,10 +42,8 @@ class AttributeRepository extends EntityRepository implements AttributeRepositor
      * Find resources with offset > $offset and filtered by $criteria
      *
      * @param array{string: array{operator: string, value: mixed}[]} $searchFilters
-     * @param array $orders
      * @param int   $limit
      * @param int   $offset
-     *
      * @return array
      */
     public function searchAfterOffset(array $searchFilters, array $orders, $limit, $offset)
@@ -79,7 +77,7 @@ class AttributeRepository extends EntityRepository implements AttributeRepositor
                 ->select('COUNT(r.id)')
                 ->getQuery()
                 ->getSingleScalarResult();
-        } catch (UnexpectedResultException $e) {
+        } catch (UnexpectedResultException) {
             return 0;
         }
     }

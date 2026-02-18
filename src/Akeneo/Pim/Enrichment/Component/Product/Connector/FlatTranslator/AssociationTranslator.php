@@ -64,7 +64,7 @@ class AssociationTranslator
     {
         $codes = [];
         foreach ($values as $value) {
-            $codes = array_merge($codes, explode(',', $value));
+            $codes = array_merge($codes, explode(',', (string) $value));
         }
 
         return array_unique($codes);
@@ -79,7 +79,7 @@ class AssociationTranslator
                 continue;
             }
 
-            $codes = explode(',', $value);
+            $codes = explode(',', (string) $value);
             $labelized = [];
 
             foreach ($codes as $code) {
@@ -95,17 +95,17 @@ class AssociationTranslator
 
     private function isProductModelAssocation(string $columnName): bool
     {
-        return false !== strpos($columnName, self::PRODUCT_MODELS_COLUMN_SUFFIX);
+        return str_contains($columnName, self::PRODUCT_MODELS_COLUMN_SUFFIX);
     }
 
     private function isProductAssociation(string $columnName): bool
     {
-        return false !== strpos($columnName, self::PRODUCTS_COLUMN_SUFFIX);
+        return str_contains($columnName, self::PRODUCTS_COLUMN_SUFFIX);
     }
 
     private function isProductUuidAssociation(string $columnName): bool
     {
-        return false !== strpos($columnName, self::PRODUCT_UUIDS_COLUMN_SUFFIX);
+        return str_contains($columnName, self::PRODUCT_UUIDS_COLUMN_SUFFIX);
     }
 
     private function isGroupAssociation(string $columnName): bool

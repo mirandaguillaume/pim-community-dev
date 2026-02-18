@@ -15,8 +15,6 @@ class MissingIdentifierException extends \Exception
 {
     /**
      * Constructor
-     *
-     * @param ProductInterface $product
      */
     public function __construct(ProductInterface $product)
     {

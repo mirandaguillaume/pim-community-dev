@@ -20,19 +20,11 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class AttributeSaver implements SaverInterface, BulkSaverInterface
 {
-    protected EntityManagerInterface $entityManager;
-    protected EventDispatcherInterface $eventDispatcher;
-    /** @var SaverInterface[] */
-    protected array $additionalSavers;
-
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        EventDispatcherInterface $eventDispatcher,
-        array $additionalSavers = []
-    ) {
-        $this->entityManager = $entityManager;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->additionalSavers = $additionalSavers;
+    /**
+     * @param \Akeneo\Tool\Component\StorageUtils\Saver\SaverInterface[] $additionalSavers
+     */
+    public function __construct(protected EntityManagerInterface $entityManager, protected EventDispatcherInterface $eventDispatcher, protected array $additionalSavers = [])
+    {
     }
 
     /**

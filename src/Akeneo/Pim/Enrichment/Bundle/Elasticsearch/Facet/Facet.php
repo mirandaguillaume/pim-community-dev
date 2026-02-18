@@ -14,18 +14,10 @@ use Webmozart\Assert\Assert;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class Facet
+final readonly class Facet
 {
-    /** @var string */
-    private $name;
-
-    /** @var array */
-    private $counts = [];
-
-    private function __construct(string $name, array $counts)
+    private function __construct(private string $name, private array $counts)
     {
-        $this->name = $name;
-        $this->counts = $counts;
     }
 
     public static function create(string $name, array $counts): Facet

@@ -21,10 +21,10 @@ use Oro\Bundle\DataGridBundle\Extension\Toolbar\ToolbarExtension;
 class PagerExtension extends AbstractExtension
 {
     /** @staticvar string Query params */
-    const PAGER_ROOT_PARAM = '_pager';
-    const PAGE_PARAM = '_page';
-    const PER_PAGE_PARAM = '_per_page';
-    const TOTAL_PARAM = 'totalRecords';
+    final public const PAGER_ROOT_PARAM = '_pager';
+    final public const PAGE_PARAM = '_page';
+    final public const PER_PAGE_PARAM = '_per_page';
+    final public const TOTAL_PARAM = 'totalRecords';
 
     /** @var PagerResolverInterface */
     protected $pagerResolver;
@@ -111,12 +111,10 @@ class PagerExtension extends AbstractExtension
     {
         $pagerParameters = $this->requestParams->get(self::PAGER_ROOT_PARAM);
 
-        return isset($pagerParameters[$paramName]) ? $pagerParameters[$paramName] : $default;
+        return $pagerParameters[$paramName] ?? $default;
     }
 
     /**
-     * @param DatagridConfiguration $config
-     *
      * @return PagerInterface
      */
     protected function getPager(DatagridConfiguration $config)

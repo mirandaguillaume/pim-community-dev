@@ -25,33 +25,19 @@ use Symfony\Component\Filesystem\Filesystem;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/MIT MIT
  */
-class Job implements JobInterface, StoppableJobInterface, PausableJobInterface, JobWithStepsInterface, VisibleJobInterface
+class Job implements JobInterface, StoppableJobInterface, PausableJobInterface, JobWithStepsInterface, VisibleJobInterface, \Stringable
 {
-    protected string $name;
-    protected EventDispatcherInterface $eventDispatcher;
-    protected JobRepositoryInterface $jobRepository;
-    protected array $steps;
-    protected bool $isStoppable;
-    protected bool $isVisible;
-    protected bool $isPausable;
     protected Filesystem $filesystem;
 
     public function __construct(
-        string $name,
-        EventDispatcherInterface $eventDispatcher,
-        JobRepositoryInterface $jobRepository,
-        array $steps = [],
-        bool $isStoppable = false,
-        bool $isVisible = true,
-        bool $isPausable = false
+        protected string $name,
+        protected EventDispatcherInterface $eventDispatcher,
+        protected JobRepositoryInterface $jobRepository,
+        protected array $steps = [],
+        protected bool $isStoppable = false,
+        protected bool $isVisible = true,
+        protected bool $isPausable = false
     ) {
-        $this->name = $name;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->jobRepository = $jobRepository;
-        $this->steps = $steps;
-        $this->isStoppable = $isStoppable;
-        $this->isVisible = $isVisible;
-        $this->isPausable = $isPausable;
         $this->filesystem = new Filesystem();
     }
 
@@ -100,7 +86,7 @@ class Job implements JobInterface, StoppableJobInterface, PausableJobInterface, 
 
     public function __toString(): string
     {
-        return get_class($this) . ': [name=' . $this->name . ']';
+        return static::class . ': [name=' . $this->name . ']';
     }
 
     /**
@@ -321,7 +307,7 @@ class Job implements JobInterface, StoppableJobInterface, PausableJobInterface, 
     {
         if ($e instanceof JobInterruptedException || $e->getPrevious() instanceof JobInterruptedException) {
             $exitStatus = new ExitStatus(ExitStatus::STOPPED);
-            $exitStatus->addExitDescription(get_class(new JobInterruptedException()));
+            $exitStatus->addExitDescription((new JobInterruptedException())::class);
         } else {
             $exitStatus = new ExitStatus(ExitStatus::FAILED);
             $exitStatus->addExitDescription($e);
@@ -347,7 +333,7 @@ class Job implements JobInterface, StoppableJobInterface, PausableJobInterface, 
         $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . uniqid('akeneo_batch_') . DIRECTORY_SEPARATOR;
         try {
             $this->filesystem->mkdir($path);
-        } catch (IOException $e) {
+        } catch (IOException) {
             // this exception will be catched by {Job->execute()} and will set the batch as failed
             throw new RuntimeErrorException('Failed to write to file %path%', ['%path%' => $path]);
         }

@@ -8,7 +8,7 @@ use Akeneo\UserManagement\Component\Repository\RoleRepositoryInterface;
 class EditRolePermissionsUserQuery
 {
     public function __construct(
-        private RoleRepositoryInterface $roleRepository,
+        private readonly RoleRepositoryInterface $roleRepository,
         private readonly EditRolePermissionsRoleQuery $editRolePermissionsRoleQuery,
     ) {
     }
@@ -63,8 +63,6 @@ class EditRolePermissionsUserQuery
     {
         $editRoleRolesPermissions = $this->editRolePermissionsRoleQuery->getRolesWithMinimumEditRolePermissions();
         $editRoleRolesNamePermissions = array_map(fn ($role) => $role->getRole(), $editRoleRolesPermissions);
-        return array_filter($roles, (function ($role) use ($editRoleRolesNamePermissions) {
-            return in_array($role, $editRoleRolesNamePermissions);
-        }));
+        return array_filter($roles, (fn($role) => in_array($role, $editRoleRolesNamePermissions)));
     }
 }

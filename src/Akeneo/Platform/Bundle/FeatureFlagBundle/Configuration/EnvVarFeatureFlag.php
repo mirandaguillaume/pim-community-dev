@@ -6,8 +6,7 @@ use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag;
 
 class EnvVarFeatureFlag implements FeatureFlag
 {
-    /** @var bool */
-    private $envVar;
+    private readonly bool $envVar;
 
     public function __construct($envVar)
     {

@@ -17,18 +17,8 @@ use Twig\TwigFunction;
  */
 class FilterExtension extends AbstractExtension
 {
-    private Manager $datagridManager;
-    private ConfiguratorInterface $filtersConfigurator;
-    private TranslatorInterface $translator;
-
-    public function __construct(
-        Manager               $datagridManager,
-        ConfiguratorInterface $filtersConfigurator,
-        TranslatorInterface   $translator
-    ) {
-        $this->datagridManager = $datagridManager;
-        $this->filtersConfigurator = $filtersConfigurator;
-        $this->translator = $translator;
+    public function __construct(private readonly Manager               $datagridManager, private readonly ConfiguratorInterface $filtersConfigurator, private readonly TranslatorInterface   $translator)
+    {
     }
 
     /**
@@ -37,7 +27,7 @@ class FilterExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('filter_label', [$this, 'filterLabel']),
+            new TwigFunction('filter_label', $this->filterLabel(...)),
         ];
     }
 

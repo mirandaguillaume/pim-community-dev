@@ -16,12 +16,8 @@ use Doctrine\DBAL\Connection;
  */
 class SqlSearchAttributeOptions implements SearchAttributeOptionsInterface
 {
-    private Connection $connection;
-
-    public function __construct(
-        Connection $connection
-    ) {
-        $this->connection = $connection;
+    public function __construct(private readonly Connection $connection)
+    {
     }
 
     public function search(
@@ -94,7 +90,7 @@ SQL;
         return array_map(
             static fn (array $attributeOption) => new AttributeOption(
                 $attributeOption['code'],
-                null !== $attributeOption['labels'] ? json_decode($attributeOption['labels'], true) : [],
+                null !== $attributeOption['labels'] ? json_decode((string) $attributeOption['labels'], true, 512, JSON_THROW_ON_ERROR) : [],
             ),
             $attributeOptions,
         );

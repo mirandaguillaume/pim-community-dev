@@ -9,21 +9,13 @@ use Symfony\Component\Security\Acl\Model\SecurityIdentityInterface as SID;
 
 class AclSidManager extends AbstractAclManager
 {
-    const ROLE_DISABLED_FLAG = '-DISABLED-';
-
-    /**
-     * @var MutableAclProvider
-     */
-    private $aclProvider;
+    final public const ROLE_DISABLED_FLAG = '-DISABLED-';
 
     /**
      * Constructor
-     *
-     * @param MutableAclProvider $aclProvider
      */
-    public function __construct(MutableAclProvider $aclProvider = null)
+    public function __construct(private readonly ?MutableAclProvider $aclProvider = null)
     {
-        $this->aclProvider = $aclProvider;
     }
 
     /**
@@ -53,8 +45,6 @@ class AclSidManager extends AbstractAclManager
 
     /**
      * Deletes the given security identity.
-     *
-     * @param SID $sid
      */
     public function deleteSid(SID $sid)
     {

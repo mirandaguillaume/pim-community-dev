@@ -170,10 +170,10 @@ class Datasource implements DatasourceInterface, ParameterizableInterface
         }
 
         if ($isRequired && !isset($this->configuration[$key])) {
-            throw new \Exception(sprintf('"%s" expects to be configured with "%s"', get_class($this), $key));
+            throw new \Exception(sprintf('"%s" expects to be configured with "%s"', static::class, $key));
         }
 
-        return isset($this->configuration[$key]) ? $this->configuration[$key] : null;
+        return $this->configuration[$key] ?? null;
     }
 
     /**

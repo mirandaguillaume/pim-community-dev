@@ -12,10 +12,10 @@ namespace Akeneo\UserManagement\ServiceApi\UserRole;
 class UserRole
 {
     public function __construct(
-        private int $id,
-        private string $role,
-        private string $label,
-        private string $type,
+        private readonly int $id,
+        private readonly string $role,
+        private readonly string $label,
+        private readonly string $type,
     ) {
     }
 

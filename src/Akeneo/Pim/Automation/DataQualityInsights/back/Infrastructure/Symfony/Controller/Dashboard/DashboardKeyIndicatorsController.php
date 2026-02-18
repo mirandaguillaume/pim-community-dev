@@ -17,13 +17,10 @@ use Symfony\Component\HttpFoundation\Response;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class DashboardKeyIndicatorsController
+final readonly class DashboardKeyIndicatorsController
 {
-    private GetKeyIndicatorsInterface $getKeyIndicators;
-
-    public function __construct(GetKeyIndicatorsInterface $getKeyIndicators)
+    public function __construct(private GetKeyIndicatorsInterface $getKeyIndicators)
     {
-        $this->getKeyIndicators = $getKeyIndicators;
     }
 
     public function __invoke(Request $request, string $channel, string $locale)
@@ -41,7 +38,7 @@ final class DashboardKeyIndicatorsController
             } else {
                 $keyIndicators = $this->getKeyIndicators->all($channel, $locale);
             }
-        } catch (\InvalidArgumentException $exception) {
+        } catch (\InvalidArgumentException) {
             return new JsonResponse(null, Response::HTTP_BAD_REQUEST);
         }
 

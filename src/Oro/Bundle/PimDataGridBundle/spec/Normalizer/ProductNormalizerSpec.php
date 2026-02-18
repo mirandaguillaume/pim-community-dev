@@ -46,7 +46,7 @@ class ProductNormalizerSpec extends ObjectBehavior
 
     function it_is_a_normalizer()
     {
-        $this->shouldImplement('Symfony\Component\Serializer\Normalizer\NormalizerInterface');
+        $this->shouldImplement(\Symfony\Component\Serializer\Normalizer\NormalizerInterface::class);
     }
 
     function it_supports_datagrid_format_and_product_value(ProductInterface $product)

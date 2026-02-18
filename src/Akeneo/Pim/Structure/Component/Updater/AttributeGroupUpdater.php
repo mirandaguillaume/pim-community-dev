@@ -32,11 +32,6 @@ class AttributeGroupUpdater implements ObjectUpdaterInterface
     /** @var TranslatableUpdater */
     protected $translatableUpdater;
 
-    /**
-     * @param IdentifiableObjectRepositoryInterface $attributeRepository
-     * @param AttributeGroupRepositoryInterface     $attributeGroupRepository
-     * @param TranslatableUpdater                   $translatableUpdater
-     */
     public function __construct(
         IdentifiableObjectRepositoryInterface $attributeRepository,
         AttributeGroupRepositoryInterface $attributeGroupRepository,
@@ -82,12 +77,11 @@ class AttributeGroupUpdater implements ObjectUpdaterInterface
      * Validate the data type of a field.
      *
      * @param string $field
-     * @param mixed  $data
      *
      * @throws InvalidPropertyTypeException
      * @throws UnknownPropertyException
      */
-    protected function validateDataType($field, $data)
+    protected function validateDataType($field, mixed $data)
     {
         if (in_array($field, ['labels', 'attributes'])) {
             if (!is_array($data)) {
@@ -116,11 +110,10 @@ class AttributeGroupUpdater implements ObjectUpdaterInterface
     /**
      * @param AttributeGroupInterface $attributeGroup
      * @param string                  $field
-     * @param mixed                   $data
      *
      * @throws InvalidPropertyException
      */
-    protected function setData($attributeGroup, $field, $data)
+    protected function setData($attributeGroup, $field, mixed $data)
     {
         if ('code' == $field) {
             $attributeGroup->setCode($data);
@@ -139,9 +132,7 @@ class AttributeGroupUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param AttributeGroupInterface $attributeGroup
      * @param string[]                $data
-     *
      * @throws InvalidPropertyException
      */
     protected function setAttributes(AttributeGroupInterface $attributeGroup, array $data)

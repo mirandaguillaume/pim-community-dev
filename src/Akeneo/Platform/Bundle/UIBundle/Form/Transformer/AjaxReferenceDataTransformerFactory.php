@@ -14,20 +14,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class AjaxReferenceDataTransformerFactory implements TransformerFactoryInterface
 {
-    protected ManagerRegistry $doctrine;
-    protected LabelRenderer $renderer;
-
-    /** @var string */
-    protected $class;
-
     /**
      * @param string            $class
      */
-    public function __construct(ManagerRegistry $doctrine, LabelRenderer $renderer, $class)
+    public function __construct(protected ManagerRegistry $doctrine, protected LabelRenderer $renderer, protected $class)
     {
-        $this->doctrine = $doctrine;
-        $this->renderer = $renderer;
-        $this->class = $class;
     }
 
     /**

@@ -23,7 +23,7 @@ class JobInstanceValidatorSpec extends ObjectBehavior
 
     function it_is_a_constraint_validator()
     {
-        $this->shouldHaveType('\Symfony\Component\Validator\ConstraintValidator');
+        $this->shouldHaveType('\\' . \Symfony\Component\Validator\ConstraintValidator::class);
     }
 
     function it_validates_only_job_instance($context, $object, Constraint $constraint)

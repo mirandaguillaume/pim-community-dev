@@ -16,9 +16,6 @@ class BundlesDataCollector implements DataCollectorInterface
     /** @var array */
     protected $bundles;
 
-    /**
-     * @param array $bundles
-     */
     public function __construct(array $bundles)
     {
         $this->bundles = $bundles;

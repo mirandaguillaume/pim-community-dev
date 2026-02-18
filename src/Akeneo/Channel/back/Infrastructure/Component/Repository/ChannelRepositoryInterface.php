@@ -40,7 +40,6 @@ interface ChannelRepositoryInterface extends IdentifiableObjectRepositoryInterfa
     /**
      * Get channels count for the given currency
      *
-     * @param CurrencyInterface $currency
      *
      * @return int
      */

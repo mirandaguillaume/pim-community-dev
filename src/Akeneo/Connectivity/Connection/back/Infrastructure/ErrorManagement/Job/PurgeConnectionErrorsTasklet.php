@@ -21,9 +21,9 @@ class PurgeConnectionErrorsTasklet implements TaskletInterface
     protected const JOB_CODE = 'purge_connection_error';
 
     public function __construct(
-        private SelectAllAuditableConnectionCodeQuery $selectAllAuditableConnectionCodes,
-        private PurgeConnectionErrorsQuery $purgeErrors,
-        private LoggerInterface $logger,
+        private readonly SelectAllAuditableConnectionCodeQuery $selectAllAuditableConnectionCodes,
+        private readonly PurgeConnectionErrorsQuery $purgeErrors,
+        private readonly LoggerInterface $logger,
     ) {
     }
 

@@ -10,7 +10,7 @@ use Akeneo\Connectivity\Connection\Infrastructure\Service\User\RegenerateUserPas
 use Akeneo\UserManagement\Bundle\Manager\UserManager;
 use Akeneo\UserManagement\Component\Model\UserInterface;
 use Doctrine\DBAL\Connection as DbalConnection;
-use Doctrine\DBAL\Driver\Statement;
+use Doctrine\DBAL\Statement;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -47,9 +47,11 @@ class RegenerateUserPasswordSpec extends ObjectBehavior
 
         $dbalConnection->prepare(Argument::type('string'))->shouldBeCalledTimes(2);
         $dbalConnection->prepare('DELETE FROM pim_api_access_token WHERE user = :user_id')->willReturn($stmt1);
-        $stmt1->execute(['user_id' => $userId->id()])->shouldBeCalled();
+        $stmt1->bindValue('user_id', $userId->id())->shouldBeCalled();
+        $stmt1->executeStatement()->willReturn(0);
         $dbalConnection->prepare('DELETE FROM pim_api_refresh_token WHERE user = :user_id')->willReturn($stmt2);
-        $stmt2->execute(['user_id' => $userId->id()])->shouldBeCalled();
+        $stmt2->bindValue('user_id', $userId->id())->shouldBeCalled();
+        $stmt2->executeStatement()->willReturn(0);
 
         $this->execute($userId);
     }

@@ -46,27 +46,17 @@ class RoleUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param RoleInterface $role
-     * @param string        $field
-     * @param mixed         $data
      *
      * @throws UnknownPropertyException
      */
-    protected function setData(RoleInterface $role, string $field, $data)
+    protected function setData(RoleInterface $role, string $field, mixed $data)
     {
-        switch ($field) {
-            case 'role':
-                $role->setRole($data);
-                break;
-            case 'label':
-                $role->setLabel($data);
-                break;
-            case 'type':
-                $role->setType($data);
-                break;
-            default:
-                throw UnknownPropertyException::unknownProperty($field);
-        }
+        match ($field) {
+            'role' => $role->setRole($data),
+            'label' => $role->setLabel($data),
+            'type' => $role->setType($data),
+            default => throw UnknownPropertyException::unknownProperty($field),
+        };
     }
 
     protected function checkDataType(string $field, $data): void

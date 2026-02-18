@@ -18,9 +18,6 @@ class ProductValueNormalizer implements NormalizerInterface, CacheableSupportsMe
     /** @var NormalizerInterface */
     protected $stdNormalizer;
 
-    /**
-     * @param NormalizerInterface $normalizer
-     */
     public function __construct(NormalizerInterface $normalizer)
     {
         $this->stdNormalizer = $normalizer;
@@ -34,8 +31,8 @@ class ProductValueNormalizer implements NormalizerInterface, CacheableSupportsMe
         $stdValue = $this->stdNormalizer->normalize($value, $format, $context);
 
         $attributeCode = $value->getAttributeCode();
-        $channelCode = null !== $stdValue['scope'] ? $stdValue['scope'] : '<all_channels>';
-        $localeCode = null !== $stdValue['locale'] ? $stdValue['locale'] : '<all_locales>';
+        $channelCode = $stdValue['scope'] ?? '<all_channels>';
+        $localeCode = $stdValue['locale'] ?? '<all_locales>';
 
         $storageValue = [];
         $storageValue[$attributeCode][$channelCode][$localeCode] = $stdValue['data'];

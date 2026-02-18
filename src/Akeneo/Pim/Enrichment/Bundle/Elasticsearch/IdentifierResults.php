@@ -68,17 +68,12 @@ class IdentifierResults
         return $this->identifierResults;
     }
 
-    /**
-     * @return bool
-     */
     public function isEmpty(): bool
     {
         return empty($this->identifierResults);
     }
 
     /**
-     * @param string $type
-     *
      * @return string[] our identifiers are string only
      */
     private function getIdentifiersByType(string $type): array

@@ -14,8 +14,7 @@ use Google\Cloud\PubSub\PubSubClient;
  */
 class PubSubClientFactory
 {
-    /** @var ?string */
-    private $keyFilePath = null;
+    private ?string $keyFilePath = null;
 
     public function __construct(string $keyFilePath)
     {

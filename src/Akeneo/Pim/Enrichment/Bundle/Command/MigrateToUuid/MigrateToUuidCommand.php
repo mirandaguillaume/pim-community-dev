@@ -25,7 +25,7 @@ class MigrateToUuidCommand extends Command
     private const WAIT_TIME_IN_SECONDS = 30;
 
     /** @var array<MigrateToUuidStep> */
-    private array $steps;
+    private readonly array $steps;
 
     public function __construct(
         MigrateToUuidStep $migrateToUuidCreateIndexes,
@@ -38,8 +38,8 @@ class MigrateToUuidCommand extends Command
         MigrateToUuidStep $migrateToUuidAddConstraints,
         MigrateToUuidStep $migrateToUuidCompletenessTable,
         MigrateToUuidStep $migrateToUuidReindexElasticsearch,
-        private LoggerInterface $logger,
-        private Connection $connection
+        private readonly LoggerInterface $logger,
+        private readonly Connection $connection
     ) {
         parent::__construct();
         $this->steps = [
@@ -164,7 +164,7 @@ class MigrateToUuidCommand extends Command
         SQL, [
             'code' => self::$defaultName,
             'status' => 'started',
-            'values' => \json_encode((object) []),
+            'values' => \json_encode((object) [], JSON_THROW_ON_ERROR),
         ]);
     }
 

@@ -10,7 +10,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\WriteValueCollection;
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class Row
+final readonly class Row
 {
     private const PRODUCT_TYPE = 'product';
     private const PRODUCT_MODEL_TYPE = 'product_model';
@@ -170,8 +170,6 @@ final class Row
     /**
      * This method return a type object because in EE it can return
      * a MediaValue|ReferenceDataCollectionValue
-     *
-     * @return null|object
      */
     public function image(): ?object
     {
@@ -203,9 +201,6 @@ final class Row
         return $this->checked;
     }
 
-    /**
-     * @return array
-     */
     public function childrenCompleteness(): array
     {
         return $this->childrenCompleteness;

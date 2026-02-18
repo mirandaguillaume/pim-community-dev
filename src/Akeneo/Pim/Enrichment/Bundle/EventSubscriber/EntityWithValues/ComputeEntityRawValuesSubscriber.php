@@ -25,20 +25,8 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 final class ComputeEntityRawValuesSubscriber implements EventSubscriberInterface
 {
-    /** @var NormalizerInterface */
-    protected $normalizer;
-
-    /** @var AttributeRepositoryInterface */
-    protected $attributeRepository;
-
-    /**
-     * @param NormalizerInterface          $normalizer
-     * @param AttributeRepositoryInterface $attributeRepository
-     */
-    public function __construct(NormalizerInterface $normalizer, AttributeRepositoryInterface $attributeRepository)
+    public function __construct(protected NormalizerInterface $normalizer, protected AttributeRepositoryInterface $attributeRepository)
     {
-        $this->normalizer = $normalizer;
-        $this->attributeRepository = $attributeRepository;
     }
 
     /**
@@ -51,8 +39,6 @@ final class ComputeEntityRawValuesSubscriber implements EventSubscriberInterface
 
     /**
      * Normalizes product values into "storage" format, and sets the result as raw values.
-     *
-     * @param GenericEvent $event
      */
     public function computeRawValues(GenericEvent $event)
     {
@@ -69,9 +55,7 @@ final class ComputeEntityRawValuesSubscriber implements EventSubscriberInterface
     /**
      * For products and product models we want to retrieve only the values of the current variation.
      *
-     * @param EntityWithValuesInterface $entity
      *
-     * @return WriteValueCollection
      */
     private function getValues(EntityWithValuesInterface $entity): WriteValueCollection
     {

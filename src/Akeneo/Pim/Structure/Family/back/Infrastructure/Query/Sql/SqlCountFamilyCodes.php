@@ -15,7 +15,7 @@ use Doctrine\DBAL\Connection;
 class SqlCountFamilyCodes implements CountFamilyCodes
 {
     public function __construct(
-        private Connection $connection,
+        private readonly Connection $connection,
     ) {
     }
 

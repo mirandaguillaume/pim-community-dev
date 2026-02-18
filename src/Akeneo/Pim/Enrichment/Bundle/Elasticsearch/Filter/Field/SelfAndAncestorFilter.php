@@ -44,8 +44,8 @@ class SelfAndAncestorFilter extends AbstractFieldFilter
      * @param string[] $supportedOperators
      */
     public function __construct(
-        private ProductModelRepositoryInterface $productModelRepository,
-        private ProductRepositoryInterface $productRepository,
+        private readonly ProductModelRepositoryInterface $productModelRepository,
+        private readonly ProductRepositoryInterface $productRepository,
         array $supportedFields,
         array $supportedOperators
     ) {
@@ -104,11 +104,10 @@ class SelfAndAncestorFilter extends AbstractFieldFilter
     /**
      * Checks the value we want to filter on is valid
      *
-     * @param mixed $values
      *
      * @throws ObjectNotFoundException
      */
-    private function checkValues($values): void
+    private function checkValues(mixed $values): void
     {
         FieldFilterHelper::checkArray(self::ANCESTOR_ID_ES_FIELD, $values, static::class);
         foreach ($values as $value) {
@@ -121,14 +120,9 @@ class SelfAndAncestorFilter extends AbstractFieldFilter
         }
     }
 
-    /**
-     * @param string $value
-     *
-     * @return bool
-     */
     private function isValidProductModelId(string $value): bool
     {
-        if (0 !== strpos($value, 'product_model_')) {
+        if (!str_starts_with($value, 'product_model_')) {
             return false;
         }
 
@@ -137,14 +131,9 @@ class SelfAndAncestorFilter extends AbstractFieldFilter
         return null !== $this->productModelRepository->findOneBy(['id' => $id]);
     }
 
-    /**
-     * @param string $value
-     *
-     * @return bool
-     */
     private function isValidProductId(string $value): bool
     {
-        if (0 !== strpos($value, 'product_')) {
+        if (!str_starts_with($value, 'product_')) {
             return false;
         }
 

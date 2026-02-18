@@ -26,11 +26,6 @@ class DefaultImageProvider implements DefaultImageProviderInterface
     /** @var array */
     protected $defaultImages;
 
-    /**
-     * @param FilterManager $filterManager
-     * @param CacheManager  $cacheManager
-     * @param array         $defaultImages
-     */
     public function __construct(FilterManager $filterManager, CacheManager $cacheManager, array $defaultImages)
     {
         $this->filterManager = $filterManager;
@@ -83,8 +78,6 @@ class DefaultImageProvider implements DefaultImageProviderInterface
 
     /**
      * Ensure $defaultImages parameter validity
-     *
-     * @param OptionsResolver $resolver
      */
     protected function configureDefaultImagesOptions(OptionsResolver $resolver)
     {

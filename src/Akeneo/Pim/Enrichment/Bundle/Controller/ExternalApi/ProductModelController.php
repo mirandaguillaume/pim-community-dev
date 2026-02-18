@@ -60,99 +60,13 @@ use Webmozart\Assert\Assert;
  */
 class ProductModelController
 {
-    protected ProductQueryBuilderFactoryInterface $pqbFactory;
-    protected ProductQueryBuilderFactoryInterface $pqbSearchAfterFactory;
-    protected NormalizerInterface $normalizer;
-    protected IdentifiableObjectRepositoryInterface $channelRepository;
-    protected PaginatorInterface $offsetPaginator;
-    protected PaginatorInterface $searchAfterPaginator;
-    protected array $apiConfiguration;
-    protected ObjectUpdaterInterface $updater;
-    protected SimpleFactoryInterface $factory;
-    protected SaverInterface $saver;
-    protected UrlGeneratorInterface $router;
-    protected ValidatorInterface $productModelValidator;
-    protected AttributeFilterInterface $productModelAttributeFilter;
-    protected IdentifiableObjectRepositoryInterface $productModelRepository;
-    protected StreamResourceResponse $partialUpdateStreamResource;
-    private ListProductModelsQueryValidator $listProductModelsQueryValidator;
-    private ListProductModelsQueryHandler $listProductModelsQueryHandler;
-    private ConnectorProductModelNormalizer $connectorProductModelNormalizer;
-    private GetConnectorProductModels $getConnectorProductModels;
-    private TokenStorageInterface $tokenStorage;
-    private ApiAggregatorForProductModelPostSaveEventSubscriber $apiAggregatorForProductModelPostSave;
-    private WarmupQueryCache $warmupQueryCache;
-    private LoggerInterface $logger;
-    private SecurityFacade $security;
-    private RemoveProductModelHandler $removeProductModelHandler;
-    private ValidatorInterface $validator;
-    private GetProductModelsWithQualityScoresInterface $getProductModelsWithQualityScores;
-
-    public function __construct(
-        ProductQueryBuilderFactoryInterface $pqbFactory,
-        ProductQueryBuilderFactoryInterface $pqbSearchAfterFactory,
-        NormalizerInterface $normalizer,
-        IdentifiableObjectRepositoryInterface $channelRepository,
-        PaginatorInterface $offsetPaginator,
-        PaginatorInterface $searchAfterPaginator,
-        ObjectUpdaterInterface $updater,
-        SimpleFactoryInterface $factory,
-        SaverInterface $saver,
-        UrlGeneratorInterface $router,
-        ValidatorInterface $productModelValidator,
-        AttributeFilterInterface $productModelAttributeFilter,
-        IdentifiableObjectRepositoryInterface $productModelRepository,
-        StreamResourceResponse $partialUpdateStreamResource,
-        ListProductModelsQueryValidator $listProductModelsQueryValidator,
-        ListProductModelsQueryHandler $listProductModelsQueryHandler,
-        ConnectorProductModelNormalizer $connectorProductModelNormalizer,
-        GetConnectorProductModels $getConnectorProductModels,
-        TokenStorageInterface $tokenStorage,
-        ApiAggregatorForProductModelPostSaveEventSubscriber $apiAggregatorForProductModelPostSave,
-        WarmupQueryCache $warmupQueryCache,
-        LoggerInterface $logger,
-        array $apiConfiguration,
-        SecurityFacade $security,
-        RemoveProductModelHandler $removeProductModelHandler,
-        ValidatorInterface $validator,
-        GetProductModelsWithQualityScoresInterface $getProductModelsWithQualityScores
-    ) {
-        $this->pqbFactory = $pqbFactory;
-        $this->pqbSearchAfterFactory = $pqbSearchAfterFactory;
-        $this->normalizer = $normalizer;
-        $this->channelRepository = $channelRepository;
-        $this->offsetPaginator = $offsetPaginator;
-        $this->searchAfterPaginator = $searchAfterPaginator;
-        $this->updater = $updater;
-        $this->factory = $factory;
-        $this->saver = $saver;
-        $this->router = $router;
-        $this->productModelValidator = $productModelValidator;
-        $this->productModelAttributeFilter = $productModelAttributeFilter;
-        $this->productModelRepository = $productModelRepository;
-        $this->partialUpdateStreamResource = $partialUpdateStreamResource;
-        $this->listProductModelsQueryValidator = $listProductModelsQueryValidator;
-        $this->listProductModelsQueryHandler = $listProductModelsQueryHandler;
-        $this->connectorProductModelNormalizer = $connectorProductModelNormalizer;
-        $this->getConnectorProductModels = $getConnectorProductModels;
-        $this->tokenStorage = $tokenStorage;
-        $this->apiAggregatorForProductModelPostSave = $apiAggregatorForProductModelPostSave;
-        $this->warmupQueryCache = $warmupQueryCache;
-        $this->logger = $logger;
-        $this->apiConfiguration = $apiConfiguration;
-        $this->security = $security;
-        $this->removeProductModelHandler = $removeProductModelHandler;
-        $this->validator = $validator;
-        $this->getProductModelsWithQualityScores = $getProductModelsWithQualityScores;
+    public function __construct(protected ProductQueryBuilderFactoryInterface $pqbFactory, protected ProductQueryBuilderFactoryInterface $pqbSearchAfterFactory, protected NormalizerInterface $normalizer, protected IdentifiableObjectRepositoryInterface $channelRepository, protected PaginatorInterface $offsetPaginator, protected PaginatorInterface $searchAfterPaginator, protected ObjectUpdaterInterface $updater, protected SimpleFactoryInterface $factory, protected SaverInterface $saver, protected UrlGeneratorInterface $router, protected ValidatorInterface $productModelValidator, protected AttributeFilterInterface $productModelAttributeFilter, protected IdentifiableObjectRepositoryInterface $productModelRepository, protected StreamResourceResponse $partialUpdateStreamResource, private readonly ListProductModelsQueryValidator $listProductModelsQueryValidator, private readonly ListProductModelsQueryHandler $listProductModelsQueryHandler, private readonly ConnectorProductModelNormalizer $connectorProductModelNormalizer, private readonly GetConnectorProductModels $getConnectorProductModels, private readonly TokenStorageInterface $tokenStorage, private readonly ApiAggregatorForProductModelPostSaveEventSubscriber $apiAggregatorForProductModelPostSave, private readonly WarmupQueryCache $warmupQueryCache, private readonly LoggerInterface $logger, protected array $apiConfiguration, private readonly SecurityFacade $security, private readonly RemoveProductModelHandler $removeProductModelHandler, private readonly ValidatorInterface $validator, private readonly GetProductModelsWithQualityScoresInterface $getProductModelsWithQualityScores)
+    {
     }
 
     /**
-     * @param Request $request
-     * @param string $code
-     *
      * @throws NotFoundHttpException
      *
-     * @return JsonResponse
      */
     public function getAction(Request $request, string $code): JsonResponse
     {
@@ -167,7 +81,7 @@ class ProductModelController
             if ($request->query->getAlpha('with_quality_scores', 'false') === 'true') {
                 $productModel = $this->getProductModelsWithQualityScores->fromConnectorProductModel($productModel);
             }
-        } catch (ObjectNotFoundException $e) {
+        } catch (ObjectNotFoundException) {
             throw new NotFoundHttpException(sprintf('Product model "%s" does not exist or you do not have permission to access it.', $code));
         }
 
@@ -177,11 +91,9 @@ class ProductModelController
     }
 
     /**
-     * @param Request $request
      *
      * @throws BadRequestHttpException
      *
-     * @return Response
      */
     public function createAction(Request $request): Response
     {
@@ -208,12 +120,10 @@ class ProductModelController
     }
 
     /**
-     * @param Request $request
      * @param string  $code
      *
      * @throws HttpException
      *
-     * @return Response
      */
     public function partialUpdateAction(Request $request, $code): Response
     {
@@ -280,12 +190,10 @@ class ProductModelController
     }
 
     /**
-     * @param Request $request
      *
      * @throws UnprocessableEntityHttpException
      * @throws ServerErrorResponseException
      *
-     * @return JsonResponse
      */
     public function listAction(Request $request): JsonResponse
     {
@@ -303,7 +211,11 @@ class ProductModelController
             $query->localeCodes = explode(',', $request->query->get('locales'));
         }
         if ($request->query->has('search')) {
-            $query->search = json_decode($request->query->get('search'), true);
+            try {
+                $query->search = json_decode($request->query->get('search'), true, 512, JSON_THROW_ON_ERROR);
+            } catch (\JsonException) {
+                throw new UnprocessableEntityHttpException('Search query parameter should be valid JSON.');
+            }
             if (!is_array($query->search)) {
                 throw new UnprocessableEntityHttpException('Search query parameter should be valid JSON.');
             }
@@ -328,11 +240,15 @@ class ProductModelController
             }
             throw new UnprocessableEntityHttpException($e->getMessage(), $e);
         } catch (BadRequest400Exception $e) {
-            $message = json_decode($e->getMessage(), true);
+            try {
+                $message = json_decode($e->getMessage(), true, 512, JSON_THROW_ON_ERROR);
+            } catch (\JsonException) {
+                $message = null;
+            }
 
             if (null !== $message && isset($message['error']['root_cause'][0]['type'])
                 && 'illegal_argument_exception' === $message['error']['root_cause'][0]['type']
-                && 0 === strpos($message['error']['root_cause'][0]['reason'], 'Result window is too large, from + size must be less than or equal to:')) {
+                && str_starts_with((string) $message['error']['root_cause'][0]['reason'], 'Result window is too large, from + size must be less than or equal to:')) {
                 throw new DocumentedHttpException(
                     Documentation::URL_DOCUMENTATION . 'pagination.html#the-search-after-method',
                     'You have reached the maximum number of pages you can retrieve with the "page" pagination type. Please use the search after pagination type instead',
@@ -349,8 +265,6 @@ class ProductModelController
     /**
      * Product models are saved 1 by 1, but we batch events in order to improve performances.
      *
-     * @param Request $request
-     * @return Response
      * @throws HttpException
      */
     public function partialUpdateListAction(Request $request): Response
@@ -402,14 +316,12 @@ class ProductModelController
      * @param string $content content of a request to decode
      *
      * @throws BadRequestHttpException
-     *
-     * @return array
      */
     protected function getDecodedContent($content): array
     {
-        $decodedContent = json_decode($content, true);
-
-        if (null === $decodedContent) {
+        try {
+            $decodedContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
             throw new BadRequestHttpException('Invalid json message received');
         }
 
@@ -443,10 +355,7 @@ class ProductModelController
     /**
      * Get a response with a location header to the created or updated resource.
      *
-     * @param ProductModelInterface $productModel
-     * @param int                   $status
      *
-     * @return Response
      */
     protected function getResponse(ProductModelInterface $productModel, int $status): Response
     {
@@ -464,9 +373,6 @@ class ProductModelController
     /**
      * Updates product model with the provided request data
      *
-     * @param ProductModelInterface $productModel
-     * @param array                 $data
-     * @param string                $anchor
      *
      * @throws DocumentedHttpException
      */
@@ -499,7 +405,6 @@ class ProductModelController
      * Validate a product. It throws an error 422 with every violated constraints if
      * the validation failed.
      *
-     * @param ProductModelInterface $productModel
      *
      * @throws ViolationHttpException
      */
@@ -520,7 +425,7 @@ class ProductModelController
         ];
 
         if ($query->search !== []) {
-            $queryParameters['search'] = json_encode($query->search);
+            $queryParameters['search'] = json_encode($query->search, JSON_THROW_ON_ERROR);
         }
         if (null !== $query->channelCode) {
             $queryParameters['scope'] = $query->channelCode;
@@ -584,15 +489,11 @@ class ProductModelController
 
     private function deniedAccessMessage(string $acl): string
     {
-        switch ($acl) {
-            case 'pim_api_product_list':
-                return 'Access forbidden. You are not allowed to list products.';
-            case 'pim_api_product_edit':
-                return 'Access forbidden. You are not allowed to create or update products.';
-            case 'pim_api_product_remove':
-                return 'Access forbidden. You are not allowed to delete products.';
-            default:
-                return 'Access forbidden.';
-        }
+        return match ($acl) {
+            'pim_api_product_list' => 'Access forbidden. You are not allowed to list products.',
+            'pim_api_product_edit' => 'Access forbidden. You are not allowed to create or update products.',
+            'pim_api_product_remove' => 'Access forbidden. You are not allowed to delete products.',
+            default => 'Access forbidden.',
+        };
     }
 }

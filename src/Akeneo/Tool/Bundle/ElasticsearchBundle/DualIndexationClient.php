@@ -18,8 +18,6 @@ use Elasticsearch\ClientBuilder;
  */
 final class DualIndexationClient extends Client
 {
-    private Client $dualClient;
-
     public function __construct(
         ClientBuilder $builder,
         Loader $configurationLoader,
@@ -27,10 +25,9 @@ final class DualIndexationClient extends Client
         string $aliasName,
         string $idPrefix,
         int $maxChunkSize,
-        Client $dualClient
+        private readonly Client $dualClient
     ) {
         parent::__construct($builder, $configurationLoader, $hosts, $aliasName, $idPrefix, $maxChunkSize);
-        $this->dualClient = $dualClient;
     }
 
     /**

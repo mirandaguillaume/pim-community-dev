@@ -19,7 +19,7 @@ use Symfony\Component\Security\Core\Security;
  * @copyright 2021 Akeneo SAS (https://www.akeneo.com)
  * @license https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class GetJobExecutionAction
+final readonly class GetJobExecutionAction
 {
     public function __construct(
         private Security $security,

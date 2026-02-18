@@ -22,18 +22,8 @@ class JobExecutionNormalizer implements NormalizerInterface, NormalizerAwareInte
 {
     use NormalizerAwareTrait;
 
-    protected TranslatorInterface $translator;
-    protected NormalizerInterface $jobInstanceNormalizer;
-    private JobRegistry $jobRegistry;
-
-    public function __construct(
-        TranslatorInterface $translator,
-        NormalizerInterface $jobInstanceNormalizer,
-        JobRegistry $jobRegistry
-    ) {
-        $this->translator = $translator;
-        $this->jobInstanceNormalizer = $jobInstanceNormalizer;
-        $this->jobRegistry = $jobRegistry;
+    public function __construct(protected TranslatorInterface $translator, protected NormalizerInterface $jobInstanceNormalizer, private readonly JobRegistry $jobRegistry)
+    {
     }
 
     /**
@@ -48,9 +38,7 @@ class JobExecutionNormalizer implements NormalizerInterface, NormalizerAwareInte
 
         return [
             'failures' => array_map(
-                function ($exception) {
-                    return $this->translator->trans($exception['message'], $exception['messageParameters']);
-                },
+                fn($exception) => $this->translator->trans($exception['message'], $exception['messageParameters']),
                 $jobExecution->getFailureExceptions()
             ),
             'stepExecutions' => $this->normalizeStepExecutions($jobExecution->getStepExecutions(), $format, $context),

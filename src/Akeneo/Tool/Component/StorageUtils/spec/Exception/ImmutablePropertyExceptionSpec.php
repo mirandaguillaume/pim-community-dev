@@ -23,7 +23,7 @@ class ImmutablePropertyExceptionSpec extends ObjectBehavior
             0
         );
 
-        $this->shouldBeAnInstanceOf(get_class($exception));
+        $this->shouldBeAnInstanceOf($exception::class);
         $this->getPropertyName()->shouldReturn('property');
         $this->getPropertyValue()->shouldReturn($exception->getPropertyValue());
         $this->getClassName()->shouldReturn($exception->getClassName());

@@ -19,30 +19,10 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class UpdateAttributeGroupActivationSubscriber implements EventSubscriberInterface
+final readonly class UpdateAttributeGroupActivationSubscriber implements EventSubscriberInterface
 {
-    /** @var FeatureFlag */
-    private $dataQualityInsightsFeature;
-
-    /** @var AttributeGroupActivationRepositoryInterface */
-    private $attributeGroupActivationRepository;
-
-    /** @var GetAttributeGroupActivationQueryInterface */
-    private $getAttributeGroupActivationQuery;
-
-    /** @var LoggerInterface */
-    private $logger;
-
-    public function __construct(
-        FeatureFlag $dataQualityInsightsFeature,
-        AttributeGroupActivationRepositoryInterface $attributeGroupActivationRepository,
-        GetAttributeGroupActivationQueryInterface $getAttributeGroupActivationQuery,
-        LoggerInterface $logger
-    ) {
-        $this->dataQualityInsightsFeature = $dataQualityInsightsFeature;
-        $this->attributeGroupActivationRepository = $attributeGroupActivationRepository;
-        $this->getAttributeGroupActivationQuery = $getAttributeGroupActivationQuery;
-        $this->logger = $logger;
+    public function __construct(private FeatureFlag $dataQualityInsightsFeature, private AttributeGroupActivationRepositoryInterface $attributeGroupActivationRepository, private GetAttributeGroupActivationQueryInterface $getAttributeGroupActivationQuery, private LoggerInterface $logger)
+    {
     }
 
     public static function getSubscribedEvents(): array

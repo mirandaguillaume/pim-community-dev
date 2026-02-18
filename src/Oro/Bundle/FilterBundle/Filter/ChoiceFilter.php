@@ -71,7 +71,7 @@ class ChoiceFilter extends AbstractFilter
 
                 throw new \RuntimeException(sprintf(
                     'Invalid type of option for Choicefilter, expected ChoiceView or ChoiceGroupView, got "%s"',
-                    get_class($choice)
+                    $choice::class
                 ));
             },
             $fieldView->vars['choices']
@@ -112,7 +112,7 @@ class ChoiceFilter extends AbstractFilter
             $value = [$value];
         }
 
-        $data['type'] = isset($data['type']) ? $data['type'] : null;
+        $data['type'] ??= null;
         $data['value'] = $value;
 
         return $data;
@@ -134,6 +134,6 @@ class ChoiceFilter extends AbstractFilter
             FilterType::TYPE_NOT_EMPTY          => Operators::IS_NOT_EMPTY,
         ];
 
-        return isset($operatorTypes[$type]) ? $operatorTypes[$type] : Operators::IN_LIST;
+        return $operatorTypes[$type] ?? Operators::IN_LIST;
     }
 }

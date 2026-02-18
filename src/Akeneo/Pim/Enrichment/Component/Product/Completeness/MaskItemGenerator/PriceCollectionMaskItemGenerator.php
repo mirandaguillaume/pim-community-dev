@@ -15,7 +15,7 @@ use Akeneo\Pim\Structure\Component\AttributeTypes;
 class PriceCollectionMaskItemGenerator implements MaskItemGeneratorForAttributeType
 {
     public function __construct(
-        private FindActivatedCurrenciesInterface $findActivatedCurrencies
+        private readonly FindActivatedCurrenciesInterface $findActivatedCurrencies
     ) {
     }
 

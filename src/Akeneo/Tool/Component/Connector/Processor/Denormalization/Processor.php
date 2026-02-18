@@ -84,8 +84,6 @@ class Processor extends AbstractProcessor implements ItemProcessorInterface, Ste
     }
 
     /**
-     * @param string $itemIdentifier
-     *
      * @return mixed
      */
     protected function findOrCreateObject(string $itemIdentifier)
@@ -102,7 +100,6 @@ class Processor extends AbstractProcessor implements ItemProcessorInterface, Ste
      * Creates an empty new object to process.
      * We look first if there is already a processed item save in the execution context for the same identifier.
      *
-     * @param string $itemIdentifier
      *
      * @return object
      */
@@ -121,19 +118,14 @@ class Processor extends AbstractProcessor implements ItemProcessorInterface, Ste
     /**
      * Validates the processed entity.
      *
-     * @param mixed $entity
      *
      * @return ConstraintViolationListInterface
      */
-    protected function validate($entity)
+    protected function validate(mixed $entity)
     {
         return $this->validator->validate($entity);
     }
 
-    /**
-     * @param string $itemIdentifier
-     * @param mixed  $processedItem
-     */
     protected function saveProcessedItemInStepExecutionContext(string $itemIdentifier, mixed $processedItem): void
     {
         $executionContext = $this->stepExecution->getExecutionContext();

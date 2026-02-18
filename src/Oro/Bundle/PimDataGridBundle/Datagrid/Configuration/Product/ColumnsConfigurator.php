@@ -91,7 +91,7 @@ class ColumnsConfigurator implements ConfiguratorInterface
     {
         $path = sprintf(self::SOURCE_PATH, self::USEABLE_ATTRIBUTES_KEY);
         $attributes = $this->configuration->offsetGetByPath($path);
-        $attributes = ($attributes === null) ? [] : $attributes;
+        $attributes ??= [];
         $this->attributesColumns = [];
 
         foreach ($attributes as $attributeCode => $attribute) {
@@ -123,9 +123,7 @@ class ColumnsConfigurator implements ConfiguratorInterface
 
         uasort(
             $this->attributesColumns,
-            function ($col1, $col2) {
-                return strcmp($col1['label'], $col2['label']);
-            }
+            fn($col1, $col2) => strcmp((string) $col1['label'], (string) $col2['label'])
         );
     }
 

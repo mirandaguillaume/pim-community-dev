@@ -18,9 +18,6 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class FileValidator extends ConstraintValidator
 {
-    /** @var array */
-    private $extensionToMimeTypeMapping;
-
     protected static $suffices = [
         1                            => 'bytes',
         BaseFileValidator::KB_BYTES  => 'kB',
@@ -29,12 +26,8 @@ class FileValidator extends ConstraintValidator
         BaseFileValidator::MIB_BYTES => 'MiB',
     ];
 
-    /**
-     * @param array $extensionToMimeTypeMapping
-     */
-    public function __construct(array $extensionToMimeTypeMapping)
+    public function __construct(private readonly array $extensionToMimeTypeMapping)
     {
-        $this->extensionToMimeTypeMapping = $extensionToMimeTypeMapping;
     }
 
     /**
@@ -79,9 +72,6 @@ class FileValidator extends ConstraintValidator
 
     /**
      * Validate if file size is allowed.
-     *
-     * @param FileInfoInterface $fileInfo
-     * @param File              $constraint
      */
     protected function validateFileSize(FileInfoInterface $fileInfo, File $constraint)
     {
@@ -91,7 +81,7 @@ class FileValidator extends ConstraintValidator
 
             if ($fileInfo->getSize() > $limitInBytes) {
                 $factorizeSizes = $this->factorizeSizes($fileInfo->getSize(), $limitInBytes, $constraint->binaryFormat);
-                list($sizeAsString, $limitAsString, $suffix) = $factorizeSizes;
+                [$sizeAsString, $limitAsString, $suffix] = $factorizeSizes;
 
                 $attribute = $this->context->getObject() instanceof AbstractValue ?
                     $this->context->getObject()->getAttributeCode()
@@ -159,10 +149,6 @@ class FileValidator extends ConstraintValidator
         return strlen((string)$double) > strlen(round($double, $numberOfDecimals));
     }
 
-    /**
-     * @param FileInfoInterface $fileInfo
-     * @param File              $constraint
-     */
     private function validateMimeType(FileInfoInterface $fileInfo, File $constraint)
     {
         if (empty($constraint->allowedExtensions)) {

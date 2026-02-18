@@ -12,8 +12,8 @@ use Symfony\Component\HttpFoundation\Request;
 class GetSystemInformationController
 {
     public function __construct(
-        private VersionProviderInterface $versionProvider,
-        private GrowthVersion $growthVersion,
+        private readonly VersionProviderInterface $versionProvider,
+        private readonly GrowthVersion $growthVersion,
     ) {
     }
 

@@ -134,8 +134,6 @@ class ColumnsMerger
 
     /**
      * Merge collected metric in result rows.
-     *
-     * @return array
      */
     protected function mergeMetricData(array $resultRow, array $collectedMetrics, array $options): array
     {
@@ -175,7 +173,7 @@ class ColumnsMerger
     {
         $cleanField = $this->getCleanFieldName($attributeInfos);
         if (null !== $attributeInfos['price_currency']) {
-            $collectedPrices[$cleanField] = $collectedPrices[$cleanField] ?? [];
+            $collectedPrices[$cleanField] ??= [];
             if ('' === trim($fieldValue)) {
                 return $collectedPrices;
             }
@@ -199,7 +197,7 @@ class ColumnsMerger
 
     private function collectQuantifiedQuantityAssociationData(array $collectedQuantifiedAssociations, string $fieldName, $fieldValue): array
     {
-        list($associationTypeCode, $productType) = explode('-', $fieldName);
+        [$associationTypeCode, $productType] = explode('-', $fieldName);
         if (!isset($collectedQuantifiedAssociations[$associationTypeCode])) {
             $collectedQuantifiedAssociations[$associationTypeCode] = ['products' => [], 'product_models' => []];
         }
@@ -210,7 +208,7 @@ class ColumnsMerger
 
         $collectedQuantifiedAssociations[$associationTypeCode][$productType] = array_merge(
             $collectedQuantifiedAssociations[$associationTypeCode][$productType] ?? [],
-            ['quantities' => explode(ProductAssociation::QUANTITY_SEPARATOR, $fieldValue)]
+            ['quantities' => explode(ProductAssociation::QUANTITY_SEPARATOR, (string) $fieldValue)]
         );
 
         return $collectedQuantifiedAssociations;
@@ -218,7 +216,7 @@ class ColumnsMerger
 
     private function collectQuantifiedIdentifierAssociationData(array $collectedQuantifiedAssociations, string $fieldName, $fieldValue): array
     {
-        list($associationTypeCode, $productType) = explode('-', $fieldName);
+        [$associationTypeCode, $productType] = explode('-', $fieldName);
         if (!isset($collectedQuantifiedAssociations[$associationTypeCode])) {
             $collectedQuantifiedAssociations[$associationTypeCode] = ['products' => [], 'product_models' => []];
         }
@@ -227,7 +225,7 @@ class ColumnsMerger
             return $collectedQuantifiedAssociations;
         }
 
-        $values = explode(ProductAssociation::IDENTIFIER_SEPARATOR, $fieldValue);
+        $values = explode(ProductAssociation::IDENTIFIER_SEPARATOR, (string) $fieldValue);
         $isUuids = \count(\array_filter($values, fn ($value) => !Uuid::isValid($value))) === 0;
 
         if ($isUuids) {
@@ -274,7 +272,7 @@ class ColumnsMerger
                 $isUuids = \array_key_exists('uuids', $quantifiedAssociation[$entityType]);
                 $uuidsOrIdentifiers = $isUuids ? $quantifiedAssociation[$entityType]['uuids'] : $quantifiedAssociation[$entityType]['identifiers'];
 
-                if (count($uuidsOrIdentifiers) !== count($quantifiedAssociation[$entityType]['quantities'])) {
+                if ((is_countable($uuidsOrIdentifiers) ? count($uuidsOrIdentifiers) : 0) !== (is_countable($quantifiedAssociation[$entityType]['quantities']) ? count($quantifiedAssociation[$entityType]['quantities']) : 0)) {
                     throw new \LogicException('Inconsistency detected: the count of uuids and quantities is not the same');
                 }
 

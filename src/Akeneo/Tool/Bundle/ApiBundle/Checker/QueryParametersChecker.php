@@ -14,34 +14,8 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
  */
 class QueryParametersChecker implements QueryParametersCheckerInterface
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $localeRepository;
-
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $attributeRepository;
-
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $categoryRepository;
-
-    /** @var array */
-    private $productFields;
-
-    /**
-     * @param IdentifiableObjectRepositoryInterface $localeRepository
-     * @param IdentifiableObjectRepositoryInterface $attributeRepository
-     * @param IdentifiableObjectRepositoryInterface $categoryRepository
-     * @param array                                 $productFields
-     */
-    public function __construct(
-        IdentifiableObjectRepositoryInterface $localeRepository,
-        IdentifiableObjectRepositoryInterface $attributeRepository,
-        IdentifiableObjectRepositoryInterface $categoryRepository,
-        array $productFields
-    ) {
-        $this->localeRepository = $localeRepository;
-        $this->attributeRepository = $attributeRepository;
-        $this->categoryRepository = $categoryRepository;
-        $this->productFields = $productFields;
+    public function __construct(private readonly IdentifiableObjectRepositoryInterface $localeRepository, private readonly IdentifiableObjectRepositoryInterface $attributeRepository, private readonly IdentifiableObjectRepositoryInterface $categoryRepository, private readonly array $productFields)
+    {
     }
 
     /**
@@ -82,7 +56,7 @@ class QueryParametersChecker implements QueryParametersCheckerInterface
     {
         $errors = [];
         foreach ($attributeCodes as $attributeCode) {
-            $attributeCode = trim($attributeCode);
+            $attributeCode = trim((string) $attributeCode);
             if (null === $this->attributeRepository->findOneByIdentifier($attributeCode)) {
                 $errors[] = $attributeCode;
             }
@@ -118,7 +92,7 @@ class QueryParametersChecker implements QueryParametersCheckerInterface
         $errors = [];
         foreach ($categories as $category) {
             foreach ($category['value'] as $categoryCode) {
-                $categoryCode = trim($categoryCode);
+                $categoryCode = trim((string) $categoryCode);
                 if (null === $this->categoryRepository->findOneByIdentifier($categoryCode)) {
                     $errors[] = $categoryCode;
                 }
@@ -136,7 +110,11 @@ class QueryParametersChecker implements QueryParametersCheckerInterface
      */
     public function checkCriterionParameters(string $searchString): array
     {
-        $searchParameters = json_decode($searchString, true);
+        try {
+            $searchParameters = json_decode($searchString, true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            throw new BadRequestHttpException('Search query parameter should be valid JSON.');
+        }
 
         if (null === $searchParameters) {
             throw new BadRequestHttpException('Search query parameter should be valid JSON.');

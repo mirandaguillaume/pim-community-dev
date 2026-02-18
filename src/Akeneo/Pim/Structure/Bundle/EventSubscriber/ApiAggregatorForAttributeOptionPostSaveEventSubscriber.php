@@ -16,15 +16,12 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 final class ApiAggregatorForAttributeOptionPostSaveEventSubscriber implements EventSubscriberInterface
 {
-    private EventDispatcherInterface $eventDispatcher;
-
     private bool $isActivated;
 
     private array $eventsAttributesOptions;
 
-    public function __construct(EventDispatcherInterface $eventDispatcher)
+    public function __construct(private readonly EventDispatcherInterface $eventDispatcher)
     {
-        $this->eventDispatcher = $eventDispatcher;
         $this->isActivated = false;
         $this->eventsAttributesOptions = [];
     }

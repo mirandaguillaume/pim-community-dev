@@ -54,7 +54,7 @@ class AuthorizationCodeGeneratorSpec extends ObjectBehavior
             $fosClientId,
         );
         $redirectUri = 'https://foo.example.com/oauth/callback';
-        $timestamp = 1634572000;
+        $timestamp = 1_634_572_000;
         $pimUserId = 1;
 
         $randomCodeGenerator->generate()->willReturn($code);

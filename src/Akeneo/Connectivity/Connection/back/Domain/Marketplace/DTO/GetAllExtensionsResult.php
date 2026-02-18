@@ -12,12 +12,12 @@ use Akeneo\Connectivity\Connection\Domain\Marketplace\Model\Extension;
 final class GetAllExtensionsResult
 {
     /** @var array<Extension> */
-    private array $extensions;
+    private readonly array $extensions;
 
     /**
      * @param array<Extension> $extensions
      */
-    private function __construct(private int $total, array $extensions)
+    private function __construct(private readonly int $total, array $extensions)
     {
         foreach ($extensions as $extension) {
             if (!$extension instanceof Extension) {

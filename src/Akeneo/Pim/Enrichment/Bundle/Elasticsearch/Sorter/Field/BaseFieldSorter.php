@@ -22,9 +22,6 @@ class BaseFieldSorter implements FieldSorterInterface
     /** @var array */
     protected $supportedFields;
 
-    /**
-     * @param array $supportedFields
-     */
     public function __construct(array $supportedFields = [])
     {
         $this->supportedFields = $supportedFields;

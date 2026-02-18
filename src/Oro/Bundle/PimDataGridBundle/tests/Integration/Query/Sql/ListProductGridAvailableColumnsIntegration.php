@@ -182,11 +182,6 @@ class ListProductGridAvailableColumnsIntegration extends TestCase
         $this->assertSame($expectedColumns, $availableColumns);
     }
 
-    /**
-     * @param array $attributeData
-     *
-     * @return Attribute
-     */
     private function createAttribute(array $attributeData): Attribute
     {
         $attribute = $this->get('pim_catalog.factory.attribute')->create();
@@ -195,9 +190,6 @@ class ListProductGridAvailableColumnsIntegration extends TestCase
         return $attribute;
     }
 
-    /**
-     * @return array
-     */
     private function getSystemColumns(): array
     {
         return [

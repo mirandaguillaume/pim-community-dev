@@ -17,20 +17,10 @@ use Doctrine\ORM\EntityManager;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GetExistingReferenceDataCodes implements GetExistingReferenceDataCodesInterface
+final readonly class GetExistingReferenceDataCodes implements GetExistingReferenceDataCodesInterface
 {
-    /** @var EntityManager */
-    private $entityManager;
-
-    /** @var ReferenceDataRepositoryResolverInterface */
-    private $repositoryResolver;
-
-    public function __construct(
-        EntityManager $entityManager,
-        ReferenceDataRepositoryResolverInterface $repositoryResolver
-    ) {
-        $this->entityManager = $entityManager;
-        $this->repositoryResolver = $repositoryResolver;
+    public function __construct(private EntityManager $entityManager, private ReferenceDataRepositoryResolverInterface $repositoryResolver)
+    {
     }
 
     public function fromReferenceDataNameAndCodes(string $referenceDataName, array $codes): array

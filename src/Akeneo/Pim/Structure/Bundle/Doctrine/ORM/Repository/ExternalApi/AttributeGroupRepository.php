@@ -25,7 +25,7 @@ class AttributeGroupRepository extends EntityRepository implements ApiResourceRe
         protected EntityManager $entityManager,
         protected string $className,
         protected AttributeGroupRepositoryInterface $attributeGroupRepository,
-        private ValidatorInterface $validator
+        private readonly ValidatorInterface $validator
     ) {
         parent::__construct($entityManager, $entityManager->getClassMetadata($className));
     }
@@ -68,7 +68,7 @@ class AttributeGroupRepository extends EntityRepository implements ApiResourceRe
                 ->select('COUNT(r.id)')
                 ->getQuery()
                 ->getSingleScalarResult();
-        } catch (UnexpectedResultException $e) {
+        } catch (UnexpectedResultException) {
             return 0;
         }
     }
@@ -81,16 +81,11 @@ class AttributeGroupRepository extends EntityRepository implements ApiResourceRe
             foreach ($searchFilter as $key => $criterion) {
                 $parameter = sprintf(':%s_%s', $property, $key);
                 $field = sprintf('r.%s', $property);
-                switch ($criterion['operator']) {
-                    case 'IN':
-                        $qb->andWhere($qb->expr()->in($field, $parameter));
-                        break;
-                    case '>':
-                        $qb->andWhere($qb->expr()->gt($field, $parameter));
-                        break;
-                    default:
-                        throw new \InvalidArgumentException('Invalid operator for search query.');
-                }
+                match ($criterion['operator']) {
+                    'IN' => $qb->andWhere($qb->expr()->in($field, $parameter)),
+                    '>' => $qb->andWhere($qb->expr()->gt($field, $parameter)),
+                    default => throw new \InvalidArgumentException('Invalid operator for search query.'),
+                };
                 $qb->setParameter($parameter, $criterion['value']);
             }
         }

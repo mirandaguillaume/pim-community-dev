@@ -64,7 +64,6 @@ class YamlConverter implements QueryConverterInterface
     }
 
     /**
-     * @param QueryBuilder $qb
      * @param array        $value
      */
     protected function addJoin(QueryBuilder $qb, $value)
@@ -88,7 +87,6 @@ class YamlConverter implements QueryConverterInterface
     }
 
     /**
-     * @param QueryBuilder $qb
      * @param array        $value
      */
     protected function addWhere(QueryBuilder $qb, $value)
@@ -109,7 +107,6 @@ class YamlConverter implements QueryConverterInterface
     }
 
     /**
-     * @param QueryBuilder $qb
      * @param array        $value
      */
     protected function addOrder(QueryBuilder $qb, $value)

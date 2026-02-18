@@ -132,7 +132,7 @@ class UpsertCategoryBaseSqlIntegration extends CategoryTestCase
 
         $this->assertEquals(
             $expected['value_collection'],
-            json_decode($actual['value_collection'], true)
+            json_decode((string) $actual['value_collection'], true, 512, JSON_THROW_ON_ERROR)
         );
     }
 
@@ -173,7 +173,7 @@ class UpsertCategoryBaseSqlIntegration extends CategoryTestCase
         $upsertCategoryBaseSql->execute($categoryToUpdate);
 
         $updatedCategory = $this->getCategoryByCode('myCategory');
-        $valueCollectionUpdated = \json_decode($updatedCategory['value_collection'], true);
+        $valueCollectionUpdated = \json_decode((string) $updatedCategory['value_collection'], true, 512, JSON_THROW_ON_ERROR);
         $valueUpdated = $valueCollectionUpdated[$expectedCompositeKey];
 
         $this->assertSame($updatedCategory['code'], (string)$categoryInserted->getCode());
@@ -258,7 +258,7 @@ class UpsertCategoryBaseSqlIntegration extends CategoryTestCase
 
         // Then
         $updatedCategory = $this->getCategoryByCode('myCategory');
-        $valueCollectionUpdated = \json_decode($updatedCategory['value_collection'], true);
+        $valueCollectionUpdated = \json_decode((string) $updatedCategory['value_collection'], true, 512, JSON_THROW_ON_ERROR);
 
         $this->assertEquals(
             [

@@ -8,21 +8,17 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class DashboardProjectionType
+final readonly class DashboardProjectionType implements \Stringable
 {
-    const CATALOG = 'catalog';
-    const CATEGORY = 'category';
-    const FAMILY = 'family';
+    public const CATALOG = 'catalog';
+    public const CATEGORY = 'category';
+    public const FAMILY = 'family';
 
-    /** @var string */
-    private $type;
-
-    private function __construct(string $type)
+    private function __construct(private string $type)
     {
-        $this->type = $type;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->type;
     }

@@ -11,11 +11,8 @@ use Doctrine\DBAL\Types\Types;
 
 class IndexMigrationRepository implements IndexMigrationRepositoryInterface
 {
-    private Connection $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function save(IndexMigration $indexMigration): void

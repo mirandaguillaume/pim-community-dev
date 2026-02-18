@@ -17,7 +17,7 @@ interface FilterDatasourceAdapterInterface
      *                            For an example for ORM datasource it means that a restriction should be added
      *                            to the HAVING part of a query.
      */
-    public function addRestriction($restriction, $condition, $isComputed = false);
+    public function addRestriction(mixed $restriction, $condition, $isComputed = false);
 
     /**
      * Specifies a grouping over the results of a data source.
@@ -25,7 +25,7 @@ interface FilterDatasourceAdapterInterface
      *
      * @param mixed $_ The grouping expression arguments.
      */
-    public function groupBy($_);
+    public function groupBy(mixed $_);
 
     /**
      * Adds a grouping expression to a data source.
@@ -33,7 +33,7 @@ interface FilterDatasourceAdapterInterface
      *
      * @param mixed $_ The grouping expression arguments.
      */
-    public function addGroupBy($_);
+    public function addGroupBy(mixed $_);
 
     /**
      * Gets an expression builder object used for object-oriented construction of datasource restrictions
@@ -49,7 +49,7 @@ interface FilterDatasourceAdapterInterface
      * @param mixed          $value The parameter value.
      * @param string|null    $type  The parameter type.
      */
-    public function setParameter($key, $value, $type = null);
+    public function setParameter($key, mixed $value, $type = null);
 
     /**
      * Generates unique parameter name

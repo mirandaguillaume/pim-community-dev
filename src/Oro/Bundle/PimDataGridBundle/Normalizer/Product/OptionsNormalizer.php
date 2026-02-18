@@ -27,7 +27,7 @@ class OptionsNormalizer implements NormalizerInterface, CacheableSupportsMethodI
      */
     public function normalize($optionsValue, $format = null, array $context = [])
     {
-        $locale = isset($context['data_locale']) ? $context['data_locale'] : null;
+        $locale = $context['data_locale'] ?? null;
         $attributeCode = $optionsValue->getAttributeCode();
 
         $labels = [];
@@ -35,7 +35,7 @@ class OptionsNormalizer implements NormalizerInterface, CacheableSupportsMethodI
             $option = $this->attributeOptionRepository->findOneByIdentifier($attributeCode.'.'.$optionCode);
 
             $translation = $option->getTranslation($locale);
-            $labels[] = null !== $translation->getValue() ? $translation->getValue() : sprintf('[%s]', $option->getCode());
+            $labels[] = $translation->getValue() ?? sprintf('[%s]', $option->getCode());
         }
 
         sort($labels);

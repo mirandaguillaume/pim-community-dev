@@ -19,16 +19,16 @@ use Symfony\Component\Form\FormFactoryInterface;
 class CategoryFilter extends NumberFilter
 {
     /** @staticvar integer */
-    const UNKNOWN_TREE = 0;
+    final public const UNKNOWN_TREE = 0;
 
     /** @staticvar integer */
-    const DEFAULT_TYPE = 1;
+    final public const DEFAULT_TYPE = 1;
 
     /** @staticvar integer */
-    const UNCLASSIFIED_CATEGORY = -1;
+    final public const UNCLASSIFIED_CATEGORY = -1;
 
     /** @staticvar integer */
-    const ALL_CATEGORY = -2;
+    final public const ALL_CATEGORY = -2;
 
     /** @var CategoryRepositoryInterface */
     protected $categoryRepo;
@@ -74,7 +74,7 @@ class CategoryFilter extends NumberFilter
      *
      * @return array|bool
      */
-    public function parseData($data)
+    public function parseData(mixed $data): array|bool
     {
         if (!is_array($data) || !array_key_exists('value', $data) || !is_array($data['value'])) {
             return false;
@@ -90,9 +90,7 @@ class CategoryFilter extends NumberFilter
     /**
      * Add filter to display all products
      *
-     * @param FilterDatasourceAdapterInterface $ds
      * @param array                            $data
-     *
      * @return bool has been applied
      */
     protected function applyFilterByAll(FilterDatasourceAdapterInterface $ds, $data)
@@ -103,9 +101,7 @@ class CategoryFilter extends NumberFilter
     /**
      * Add filter to display unclassified products
      *
-     * @param FilterDatasourceAdapterInterface $ds
      * @param array                            $data
-     *
      * @return bool has been applied
      */
     protected function applyFilterByUnclassified(FilterDatasourceAdapterInterface $ds, $data)
@@ -123,9 +119,7 @@ class CategoryFilter extends NumberFilter
     /**
      * Add filter to display categorized products
      *
-     * @param FilterDatasourceAdapterInterface $ds
      * @param array                            $data
-     *
      * @return bool has been applied
      */
     protected function applyFilterByCategory(FilterDatasourceAdapterInterface $ds, $data)

@@ -12,15 +12,14 @@ use Webmozart\Assert\Assert;
  *
  * @phpstan-type CategoryNormalized array{type: 'category', operator: value-of<CategoryOperator>, value?: string[]}
  */
-final class Category implements ConditionInterface
+final readonly class Category implements ConditionInterface
 {
     /**
-     * @param CategoryOperator $operator
      * @param string[]|null $value
      */
     private function __construct(
-        private readonly CategoryOperator $operator,
-        private readonly ?array $value = null,
+        private CategoryOperator $operator,
+        private ?array $value = null,
     ) {
     }
 

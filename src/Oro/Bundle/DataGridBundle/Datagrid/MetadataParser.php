@@ -15,39 +15,16 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class MetadataParser
 {
-    const ROUTE = 'oro_datagrid_index';
+    final public const ROUTE = 'oro_datagrid_index';
 
-    /** @var FragmentHandler */
-    private $fragmentHandler;
-
-    /** @var Manager */
-    private $manager;
-
-    /** @var RequestParameters */
-    private $requestParams;
-
-    /** @var RouterInterface */
-    private $router;
-
-    public function __construct(
-        FragmentHandler $fragmentHandler,
-        Manager $manager,
-        RequestParameters $requestParams,
-        RouterInterface $router
-    ) {
-        $this->fragmentHandler = $fragmentHandler;
-        $this->manager = $manager;
-        $this->requestParams = $requestParams;
-        $this->router = $router;
+    public function __construct(private readonly FragmentHandler $fragmentHandler, private readonly Manager $manager, private readonly RequestParameters $requestParams, private readonly RouterInterface $router)
+    {
     }
 
     /**
      * Returns grid metadata array
      *
-     * @param string $name
-     * @param array  $params
      *
-     * @return array
      */
     public function getGridMetadata(string $name, array $params = []): array
     {
@@ -61,10 +38,7 @@ class MetadataParser
      * Renders grid data using internal request
      * We add additional params form current request to avoid two request on page refresh
      *
-     * @param string            $name
-     * @param array             $params
      *
-     * @return string
      */
     public function getGridData(string $name, array $params = []): string
     {
@@ -72,11 +46,8 @@ class MetadataParser
     }
 
     /**
-     * @param string $name
-     * @param array  $params
      * @param bool   $mixRequest
      *
-     * @return string
      */
     protected function generateUrl(string $name, array $params): string
     {

@@ -16,7 +16,7 @@ class WritableDirectoryValidatorSpec extends ObjectBehavior
 
     function it_is_a_constraint_validator()
     {
-        $this->shouldHaveType('Symfony\Component\Validator\ConstraintValidator');
+        $this->shouldHaveType(\Symfony\Component\Validator\ConstraintValidator::class);
     }
 
     function it_does_not_validate_a_null_value($context, $constraint)

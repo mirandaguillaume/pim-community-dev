@@ -28,10 +28,6 @@ class ProductEditDataFilter implements CollectionFilterInterface
         'associations' => 'pim_enrich_associations_view'
     ];
 
-    /**
-     * @param SecurityFacade            $securityFacade
-     * @param CollectionFilterInterface $productValuesFilter
-     */
     public function __construct(
         SecurityFacade $securityFacade,
         CollectionFilterInterface $productValuesFilter
@@ -84,27 +80,15 @@ class ProductEditDataFilter implements CollectionFilterInterface
     {
         $isAllowed = true;
 
-        switch ($type) {
-            case 'family':
-                $isAllowed = $this->isAllowedToUpdateFamily($product);
-                break;
-            case 'groups':
-                // We don't update groups from the PEF side
-                $isAllowed = false;
-                break;
-            case 'categories':
-                $isAllowed = $this->isAllowedToClassify($product);
-                break;
-            case 'enabled':
-                $isAllowed = $this->isAllowedToUpdateStatus($product);
-                break;
-            case 'associations':
-                $isAllowed = $this->isAllowedToUpdateAssociations($product);
-                break;
-            case 'values':
-                $isAllowed = $this->isAllowedToUpdateValues($product);
-                break;
-        }
+        $isAllowed = match ($type) {
+            'family' => $this->isAllowedToUpdateFamily($product),
+            'groups' => false,
+            'categories' => $this->isAllowedToClassify($product),
+            'enabled' => $this->isAllowedToUpdateStatus($product),
+            'associations' => $this->isAllowedToUpdateAssociations($product),
+            'values' => $this->isAllowedToUpdateValues($product),
+            default => $isAllowed,
+        };
 
         return $isAllowed;
     }
@@ -164,6 +148,6 @@ class ProductEditDataFilter implements CollectionFilterInterface
      */
     protected function getAclForType(string $type): ?string
     {
-        return isset($this->acls[$type]) ? $this->acls[$type] : null;
+        return $this->acls[$type] ?? null;
     }
 }

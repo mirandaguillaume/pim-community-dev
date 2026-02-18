@@ -32,7 +32,7 @@ class ProductAnalyzer implements AnalyzerInterface
 
         while ($valuesData = $reader->read()) {
             if (0 === $stats['columns_count']) {
-                $stats['columns_count'] = count($valuesData);
+                $stats['columns_count'] = is_countable($valuesData) ? count($valuesData) : 0;
             }
 
             $valuesCount = $this->countValues($valuesData);
@@ -62,7 +62,6 @@ class ProductAnalyzer implements AnalyzerInterface
     /**
      * Analyze a CSV line by providing the number of non null values in the line
      *
-     * @param array $values
      *
      * @return int
      */
@@ -84,9 +83,7 @@ class ProductAnalyzer implements AnalyzerInterface
      * current line valuesCount
      *
      * @param int   $valuesCount
-     * @param array $currentStats
      * @param int   $lineNumber
-     *
      * @return array
      */
     protected function computeValuesStats($valuesCount, array $currentStats, $lineNumber)

@@ -15,7 +15,7 @@ final class InvalidAssociationProductIdentifierException extends InvalidProperty
     DomainErrorInterface,
     TemplatedErrorMessageInterface
 {
-    private TemplatedErrorMessage $templatedErrorMessage;
+    private readonly TemplatedErrorMessage $templatedErrorMessage;
 
     public function __construct(
         string $className,

@@ -12,7 +12,7 @@ use Akeneo\Connectivity\Connection\Domain\Marketplace\Model\App as MarketplaceAp
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class CreateConnectedApp implements CreateConnectedAppInterface
+final readonly class CreateConnectedApp implements CreateConnectedAppInterface
 {
     public function __construct(
         private CreateConnectedAppQueryInterface $createConnectedAppQuery,

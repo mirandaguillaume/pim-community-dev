@@ -9,7 +9,7 @@ use League\Flysystem\FilesystemOperator;
 class JobFileStorer implements JobFileStorerInterface
 {
     public function __construct(
-        private FilesystemOperator $filesystem
+        private readonly FilesystemOperator $filesystem
     ) {
     }
 

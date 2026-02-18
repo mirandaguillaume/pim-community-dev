@@ -11,27 +11,22 @@ namespace Akeneo\Pim\Enrichment\Component\Error\Documentation;
  */
 class Documentation
 {
-    const STYLE_TEXT = 'text';
-    const STYLE_INFORMATION = 'information';
-
-    /** @var string */
-    private $message;
+    final public const STYLE_TEXT = 'text';
+    final public const STYLE_INFORMATION = 'information';
 
     /** @var array<string, MessageParameterInterface> */
-    private $messageParameters;
+    private readonly array $messageParameters;
 
     /** @var self::STYLE_* */
-    private $style;
+    private ?string $style = null;
 
     /**
      * @param string $message Could include parameters with the pattern {needle}.
      * @param array<string, MessageParameterInterface> $messageParameters Must have as many parameters as {needle} in message.
      * @param self::STYLE_* $style Type of the documentation.
      */
-    public function __construct(string $message, array $messageParameters, string $style)
+    public function __construct(private readonly string $message, array $messageParameters, string $style)
     {
-        $this->message = $message;
-
         foreach ($messageParameters as $needle => $messageParameter) {
             if (!$messageParameter instanceof MessageParameterInterface) {
                 throw new \InvalidArgumentException(sprintf(
@@ -50,14 +45,10 @@ class Documentation
         }
         $this->messageParameters = $messageParameters;
 
-        switch ($style) {
-            case self::STYLE_TEXT:
-            case self::STYLE_INFORMATION:
-                $this->style = $style;
-                break;
-            default:
-                throw new \InvalidArgumentException('Documentation $style is not valid.');
-        }
+        $this->style = match ($style) {
+            self::STYLE_TEXT, self::STYLE_INFORMATION => $style,
+            default => throw new \InvalidArgumentException('Documentation $style is not valid.'),
+        };
     }
 
     /**

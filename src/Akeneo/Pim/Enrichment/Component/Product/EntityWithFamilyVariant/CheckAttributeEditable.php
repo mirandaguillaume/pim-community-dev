@@ -61,11 +61,6 @@ class CheckAttributeEditable
         return $attributeSet->hasAttribute($attribute);
     }
 
-    /**
-     * @param EntityWithFamilyInterface $entity
-     *
-     * @return bool
-     */
     private function isNonVariantProduct(EntityWithFamilyInterface $entity): bool
     {
         if ($entity instanceof ProductModelInterface) {

@@ -8,7 +8,7 @@ use Akeneo\Connectivity\Connection\Application\Settings\Service\RegenerateUserPa
 use Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject\UserId;
 use Akeneo\UserManagement\Bundle\Manager\UserManager;
 use Akeneo\UserManagement\Component\Model\UserInterface;
-use Doctrine\DBAL\Driver\Connection as DbalConnection;
+use Doctrine\DBAL\Connection as DbalConnection;
 
 /**
  * @author    Pierre Jolly <pierre.jolly@akeneo.com>
@@ -17,7 +17,7 @@ use Doctrine\DBAL\Driver\Connection as DbalConnection;
  */
 class RegenerateUserPassword implements RegenerateUserPasswordInterface
 {
-    public function __construct(private UserManager $userManager, private DbalConnection $dbalConnection)
+    public function __construct(private readonly UserManager $userManager, private readonly DbalConnection $dbalConnection)
     {
     }
 
@@ -57,12 +57,14 @@ class RegenerateUserPassword implements RegenerateUserPasswordInterface
 DELETE FROM pim_api_access_token WHERE user = :user_id
 SQL;
         $stmt = $this->dbalConnection->prepare($deleteSqlAccessToken);
-        $stmt->execute(['user_id' => $userId->id()]);
+        $stmt->bindValue('user_id', $userId->id());
+        $stmt->executeStatement();
 
         $deleteSqlRefreshToken = <<<SQL
 DELETE FROM pim_api_refresh_token WHERE user = :user_id
 SQL;
         $stmt = $this->dbalConnection->prepare($deleteSqlRefreshToken);
-        $stmt->execute(['user_id' => $userId->id()]);
+        $stmt->bindValue('user_id', $userId->id());
+        $stmt->executeStatement();
     }
 }

@@ -13,7 +13,7 @@ use Akeneo\Connectivity\Connection\Domain\Webhook\Persistence\Query\SelectEvents
  */
 class GetDelayUntilNextRequest
 {
-    public function __construct(private SelectEventsApiRequestCountWithinLastHourQueryInterface $selectEventsApiRequestCountWithinLastHourQuery)
+    public function __construct(private readonly SelectEventsApiRequestCountWithinLastHourQueryInterface $selectEventsApiRequestCountWithinLastHourQuery)
     {
     }
 

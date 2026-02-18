@@ -9,12 +9,8 @@ use Akeneo\Tool\Component\Localization\LabelTranslatorInterface;
 
 class EnabledTranslator implements FlatPropertyValueTranslatorInterface
 {
-    /** @var LabelTranslatorInterface */
-    private $labelTranslator;
-
-    public function __construct(LabelTranslatorInterface $labelTranslator)
+    public function __construct(private readonly LabelTranslatorInterface $labelTranslator)
     {
-        $this->labelTranslator = $labelTranslator;
     }
 
     public function supports(string $columnName): bool

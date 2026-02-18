@@ -16,12 +16,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class FromSizeIdentifierResultCursorFactory implements CursorFactoryInterface
 {
-    /** @var Client */
-    private $esClient;
-
-    public function __construct(Client $esClient)
+    public function __construct(private readonly Client $esClient)
     {
-        $this->esClient = $esClient;
     }
 
     /**
@@ -52,8 +48,6 @@ class FromSizeIdentifierResultCursorFactory implements CursorFactoryInterface
     }
 
     /**
-     * @param array $options
-     *
      * @return array
      */
     protected function resolveOptions(array $options)

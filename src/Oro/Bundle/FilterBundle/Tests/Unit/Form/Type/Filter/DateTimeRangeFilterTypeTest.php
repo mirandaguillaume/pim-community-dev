@@ -12,10 +12,7 @@ use Oro\Bundle\PimFilterBundle\Form\Type\DateTimeRangeType;
 
 class DateTimeRangeFilterTypeTest extends AbstractTypeTestCase
 {
-    /**
-     * @var DateTimeRangeFilterType
-     */
-    private $type;
+    private \Oro\Bundle\FilterBundle\Form\Type\Filter\DateTimeRangeFilterType $type;
 
     protected function setUp(): void
     {

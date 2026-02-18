@@ -16,17 +16,12 @@ class CommandResult implements CommandResultInterface
     /** @var array */
     protected $commandOutput;
 
-    /** @var int */
-    protected $commandStatus;
-
     /**
-     * @param array $output
-     * @param int   $status
+     * @param int $commandStatus
      */
-    public function __construct(array $output, $status)
+    public function __construct(array $output, protected $commandStatus)
     {
         $this->commandOutput = $output;
-        $this->commandStatus = $status;
     }
 
     /**

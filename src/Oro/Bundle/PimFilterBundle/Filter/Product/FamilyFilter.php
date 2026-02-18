@@ -31,12 +31,12 @@ class FamilyFilter extends AjaxChoiceFilter
         }
 
         try {
-            if (in_array(strtoupper($data['type']), [Operators::IS_EMPTY, Operators::IS_NOT_EMPTY])) {
-                $this->util->applyFilter($dataSource, 'family', strtoupper($data['type']), null);
+            if (in_array(strtoupper((string) $data['type']), [Operators::IS_EMPTY, Operators::IS_NOT_EMPTY])) {
+                $this->util->applyFilter($dataSource, 'family', strtoupper((string) $data['type']), null);
             } else {
                 $this->util->applyFilter($dataSource, 'family', Operators::IN_LIST, $data['value']);
             }
-        } catch (ObjectNotFoundException $exception) {
+        } catch (ObjectNotFoundException) {
             return false;
         }
 

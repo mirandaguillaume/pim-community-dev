@@ -17,9 +17,6 @@ class Channel implements ArrayConverterInterface
     /** @var FieldsRequirementChecker */
     protected $fieldChecker;
 
-    /**
-     * @param FieldsRequirementChecker $fieldChecker
-     */
     public function __construct(FieldsRequirementChecker $fieldChecker)
     {
         $this->fieldChecker = $fieldChecker;
@@ -72,20 +69,18 @@ class Channel implements ArrayConverterInterface
     }
 
     /**
-     * @param array  $convertedItem
      * @param string $field
-     * @param mixed  $data
      *
      * @return array
      */
-    protected function convertField(array $convertedItem, $field, $data)
+    protected function convertField(array $convertedItem, $field, mixed $data)
     {
-        if (false !== strpos($field, 'label-', 0)) {
+        if (str_contains($field, 'label-')) {
             $labelTokens = explode('-', $field);
             $labelLocale = $labelTokens[1];
             $convertedItem['labels'][$labelLocale] = $data;
         } elseif ('locales' === $field || 'currencies' === $field) {
-            $convertedItem[$field] = explode(',', $data);
+            $convertedItem[$field] = explode(',', (string) $data);
         } elseif ('conversion_units' === $field) {
             $convertedItem[$field] = $this->convertUnits($data);
         } elseif ('tree' === $field) {
@@ -108,7 +103,7 @@ class Channel implements ArrayConverterInterface
 
         $formattedUnits = [];
         foreach ($units as $unit) {
-            list($key, $value) = explode(':', trim($unit));
+            [$key, $value] = explode(':', trim($unit));
             $formattedUnits[trim($key)] = trim($value);
         }
 

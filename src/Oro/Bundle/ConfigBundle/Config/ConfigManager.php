@@ -9,20 +9,13 @@ use Symfony\Component\Form\FormInterface;
 
 class ConfigManager
 {
-    const SECTION_VIEW_SEPARATOR = '___';
-    const SECTION_MODEL_SEPARATOR = '.';
+    final public const SECTION_VIEW_SEPARATOR = '___';
+    final public const SECTION_MODEL_SEPARATOR = '.';
 
     /**
      * @var ObjectManager
      */
     protected $om;
-
-    /**
-     * Settings array, initiated with global application settings
-     *
-     * @var array
-     */
-    protected $settings;
 
     /**
      * @var array
@@ -31,13 +24,11 @@ class ConfigManager
 
     /**
      *
-     * @param ObjectManager $om
      * @param array         $settings
      */
-    public function __construct(ObjectManager $om, $settings = [])
+    public function __construct(ObjectManager $om, protected $settings = [])
     {
         $this->om = $om;
-        $this->settings = $settings;
     }
 
     /**
@@ -50,6 +41,7 @@ class ConfigManager
      */
     public function get($name, $default = false, $full = false)
     {
+        $settings = [];
         $entity = $this->getScopedEntityName();
         $entityId = $this->getScopeId();
         $this->loadStoredSettings($entity, $entityId);
@@ -89,10 +81,10 @@ class ConfigManager
             ->getRepository('OroConfigBundle:Config')
             ->getByEntity($entityName, $entityId);
 
-        list($updated, $removed) = $this->getChanged($newSettings);
+        [$updated, $removed] = $this->getChanged($newSettings);
 
         foreach ($updated as $newItemKey => $newItemValue) {
-            $newItemKey = explode(self::SECTION_VIEW_SEPARATOR, $newItemKey);
+            $newItemKey = explode(self::SECTION_VIEW_SEPARATOR, (string) $newItemKey);
             $newItemValue = is_array($newItemValue) ? $newItemValue['value'] : $newItemValue;
 
             /** @var ConfigValue $value */
@@ -122,7 +114,7 @@ class ConfigManager
                 str_replace(
                     self::SECTION_VIEW_SEPARATOR,
                     self::SECTION_MODEL_SEPARATOR,
-                    $key
+                    (string) $key
                 ),
                 false,
                 true
@@ -139,7 +131,7 @@ class ConfigManager
                 && $value['use_parent_scope_value'] == false;
 
             if ($valueDefined && !$valueStillDefined) {
-                $key = explode(self::SECTION_VIEW_SEPARATOR, $key);
+                $key = explode(self::SECTION_VIEW_SEPARATOR, (string) $key);
                 $removed[] = [$key[0], $key[1]];
             }
         }
@@ -167,8 +159,6 @@ class ConfigManager
     }
 
     /**
-     * @param FormInterface $form
-     *
      * @return array
      */
     public function getSettingsByForm(FormInterface $form)

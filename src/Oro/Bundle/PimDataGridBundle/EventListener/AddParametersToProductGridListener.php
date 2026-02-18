@@ -49,9 +49,6 @@ class AddParametersToProductGridListener extends AddParametersToGridListener
         $this->requestStack = $requestStack;
     }
 
-    /**
-     * @return null|Request
-     */
     protected function getRequest(): ?Request
     {
         return $this->requestStack->getCurrentRequest();
@@ -109,7 +106,11 @@ class AddParametersToProductGridListener extends AddParametersToGridListener
         if (empty($filterValues)) {
             $filterValues = $this->getRequest()->get('filters');
             if (is_string($filterValues)) {
-                $filterValues = json_decode($filterValues, true);
+                try {
+                    $filterValues = json_decode($filterValues, true, 512, JSON_THROW_ON_ERROR);
+                } catch (\JsonException) {
+                    $filterValues = null;
+                }
             }
             if (!$filterValues) {
                 $filterValues = [];

@@ -14,22 +14,14 @@ use Akeneo\Platform\CommunicationChannel\Infrastructure\Persistence\InMemory\Rep
  */
 class InMemoryFindViewedAnnouncementIds implements FindViewedAnnouncementIdsInterface
 {
-    /** @var InMemoryViewedAnnouncementRepository */
-    private $viewedAnnouncementRepository;
-
-    public function __construct(InMemoryViewedAnnouncementRepository $viewedAnnouncementRepository)
+    public function __construct(private readonly InMemoryViewedAnnouncementRepository $viewedAnnouncementRepository)
     {
-        $this->viewedAnnouncementRepository = $viewedAnnouncementRepository;
     }
 
     public function byUserId(int $userId): array
     {
-        $viewedAnnouncements = array_filter($this->viewedAnnouncementRepository->dataRows, function ($row) use ($userId) {
-            return $row['user_id'] === $userId;
-        });
+        $viewedAnnouncements = array_filter($this->viewedAnnouncementRepository->dataRows, fn($row) => $row['user_id'] === $userId);
 
-        return array_map(function (array $viewedAnnouncement) {
-            return $viewedAnnouncement['announcement_id'];
-        }, $viewedAnnouncements);
+        return array_map(fn(array $viewedAnnouncement) => $viewedAnnouncement['announcement_id'], $viewedAnnouncements);
     }
 }

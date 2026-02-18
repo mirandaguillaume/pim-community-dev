@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class SearchEventSubscriptionLogsAction
+final readonly class SearchEventSubscriptionLogsAction
 {
     public function __construct(
         private SearchEventSubscriptionDebugLogsQueryInterface $searchEventSubscriptionDebugLogsQuery,
@@ -31,7 +31,11 @@ final class SearchEventSubscriptionLogsAction
 
         $connectionCode = $request->query->get('connection_code');
         $searchAfter = $request->query->get('search_after');
-        $filters = \json_decode($request->query->get('filters', '[]'), true, 512, JSON_THROW_ON_ERROR) ?: [];
+        try {
+            $filters = \json_decode($request->query->get('filters', '[]'), true, 512, JSON_THROW_ON_ERROR) ?: [];
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
 
         $logs = $this->searchEventSubscriptionDebugLogsQuery->execute($connectionCode, $searchAfter, $filters);
 

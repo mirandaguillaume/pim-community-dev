@@ -40,7 +40,7 @@ class AllowedExtensionsValidator extends ConstraintValidator
             return;
         }
 
-        $extensions = explode(',', $value);
+        $extensions = explode(',', (string) $value);
 
         foreach ($extensions as $extension) {
             if (!in_array($extension, $this->validExtensions)) {

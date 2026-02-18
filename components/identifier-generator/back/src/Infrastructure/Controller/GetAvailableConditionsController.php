@@ -24,17 +24,17 @@ use Webmozart\Assert\Assert;
  * @phpstan-type ConditionItemGroup array{'id': string, 'text': string, 'children': non-empty-list<ConditionItem>}
  * @phpstan-import-type AttributeDetails from GetGroupedAttributes
  */
-final class GetAvailableConditionsController
+final readonly class GetAvailableConditionsController
 {
     private const DEFAULT_LIMIT_PAGINATION = 20;
     private const FIELD_TRANSLATION_BASE = 'pim_catalog_identifier_generator.condition.fields.';
     private const SYSTEM_GROUP_TRANSLATION_KEY = 'pim_catalog_identifier_generator.condition.field_groups.system';
 
     public function __construct(
-        private readonly GetGroupedAttributes $getGroupedAttributes,
-        private readonly UserContext $userContext,
-        private readonly TranslatorInterface $translator,
-        private readonly SecurityFacadeInterface $security,
+        private GetGroupedAttributes $getGroupedAttributes,
+        private UserContext $userContext,
+        private TranslatorInterface $translator,
+        private SecurityFacadeInterface $security,
     ) {
     }
 
@@ -76,16 +76,12 @@ final class GetAvailableConditionsController
         }
 
         return new JsonResponse(
-            \array_merge(
-                $this->formatSystemFields($paginatedFields),
-                $this->formatAttributes($paginatedAttributes)
-            )
+            [...$this->formatSystemFields($paginatedFields), ...$this->formatAttributes($paginatedAttributes)]
         );
     }
 
     /**
      * @param string[] $fields
-     * @param string|null $search
      *
      * @return string[]
      */

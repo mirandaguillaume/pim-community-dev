@@ -9,13 +9,10 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductUuid;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-final class GetProductQualityScoreController
+final readonly class GetProductQualityScoreController
 {
-    private GetProductScores $getProductScores;
-
-    public function __construct(GetProductScores $getProductScores)
+    public function __construct(private GetProductScores $getProductScores)
     {
-        $this->getProductScores = $getProductScores;
     }
 
     public function __invoke(string $productUuid): JsonResponse

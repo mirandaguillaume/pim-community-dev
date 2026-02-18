@@ -22,12 +22,12 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class CurrencyController
 {
     public function __construct(
-        private ApiResourceRepository $repository,
-        private NormalizerInterface $normalizer,
-        private ParameterValidatorInterface $parameterValidator,
-        private PaginatorInterface $paginator,
-        private array $apiConfiguration,
-        private SecurityFacadeInterface $securityFacade,
+        private readonly ApiResourceRepository $repository,
+        private readonly NormalizerInterface $normalizer,
+        private readonly ParameterValidatorInterface $parameterValidator,
+        private readonly PaginatorInterface $paginator,
+        private readonly array $apiConfiguration,
+        private readonly SecurityFacadeInterface $securityFacade,
     ) {
     }
 
@@ -35,7 +35,7 @@ class CurrencyController
     {
         if (!$this->securityFacade->isGranted('pim_api_currency_list')) {
             throw AccessDeniedException::create(
-                __CLASS__,
+                self::class,
                 __METHOD__,
             );
         }
@@ -54,7 +54,7 @@ class CurrencyController
     {
         if (!$this->securityFacade->isGranted('pim_api_currency_list')) {
             throw AccessDeniedException::create(
-                __CLASS__,
+                self::class,
                 __METHOD__,
             );
         }

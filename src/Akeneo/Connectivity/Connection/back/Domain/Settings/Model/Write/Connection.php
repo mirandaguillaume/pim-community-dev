@@ -19,19 +19,19 @@ use Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject\UserId;
  */
 class Connection
 {
-    private ConnectionCode $code;
+    private readonly ConnectionCode $code;
 
     private ConnectionLabel $label;
 
     private FlowType $flowType;
 
-    private ClientId $clientId;
+    private readonly ClientId $clientId;
 
-    private UserId $userId;
+    private readonly UserId $userId;
 
     private ?ConnectionImage $image;
 
-    private ConnectionType $type;
+    private readonly ConnectionType $type;
 
     public function __construct(
         string $code,

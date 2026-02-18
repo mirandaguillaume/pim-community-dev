@@ -14,8 +14,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\LocaleCode;
  */
 final class CriterionEvaluationResultStatusCollection implements \IteratorAggregate
 {
-    /** @var ChannelLocaleDataCollection */
-    private $resultsStatus;
+    private \Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\ChannelLocaleDataCollection $resultsStatus;
 
     public function __construct()
     {
@@ -36,9 +35,7 @@ final class CriterionEvaluationResultStatusCollection implements \IteratorAggreg
 
     public function toArrayString(): array
     {
-        return $this->resultsStatus->mapWith(function (CriterionEvaluationResultStatus $resultStatus) {
-            return strval($resultStatus);
-        });
+        return $this->resultsStatus->mapWith(fn(CriterionEvaluationResultStatus $resultStatus) => strval($resultStatus));
     }
 
     public function getIterator(): \Iterator
@@ -49,9 +46,7 @@ final class CriterionEvaluationResultStatusCollection implements \IteratorAggreg
     public static function fromArrayString(array $rawStatusCollection): self
     {
         $statusCollection = new self();
-        $statusCollection->resultsStatus = ChannelLocaleDataCollection::fromNormalizedChannelLocaleData($rawStatusCollection, function ($status) {
-            return new CriterionEvaluationResultStatus($status);
-        });
+        $statusCollection->resultsStatus = ChannelLocaleDataCollection::fromNormalizedChannelLocaleData($rawStatusCollection, fn($status) => new CriterionEvaluationResultStatus($status));
 
         return $statusCollection;
     }

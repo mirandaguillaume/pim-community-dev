@@ -31,7 +31,7 @@ class IndexProductModelCommand extends Command
 
     private const ERROR_CODE_USAGE = 1;
 
-    private BackoffElasticSearchStateHandler $batchEsStateHandler;
+    private readonly BackoffElasticSearchStateHandler $batchEsStateHandler;
 
     public function __construct(
         private readonly Client $productAndProductModelClient,
@@ -116,11 +116,8 @@ class IndexProductModelCommand extends Command
         }
 
         $bulkESHandler = new class($this->productModelDescendantAndAncestorsIndexer) implements BulkEsHandlerInterface {
-            private ProductModelDescendantsAndAncestorsIndexer $productModelDescendantsAndAncestorsIndexer;
-
-            public function __construct(ProductModelDescendantsAndAncestorsIndexer $productModelDescendantsAndAncestorsIndexer)
+            public function __construct(private readonly ProductModelDescendantsAndAncestorsIndexer $productModelDescendantsAndAncestorsIndexer)
             {
-                $this->productModelDescendantsAndAncestorsIndexer = $productModelDescendantsAndAncestorsIndexer;
             }
             public function bulkExecute(array $codes): int
             {

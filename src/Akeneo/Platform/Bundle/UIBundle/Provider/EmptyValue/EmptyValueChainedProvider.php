@@ -44,8 +44,6 @@ class EmptyValueChainedProvider implements EmptyValueProviderInterface
 
     /**
      * Add a provider
-     *
-     * @param EmptyValueProviderInterface $provider
      */
     public function addProvider(EmptyValueProviderInterface $provider)
     {

@@ -16,8 +16,8 @@ use Akeneo\UserManagement\ServiceApi\User\DeleteUserHandlerInterface;
 class DeleteRunningUser
 {
     public function __construct(
-        private DeleteUserHandlerInterface $deleteUserHandler,
-        private ResolveScheduledJobRunningUsername $resolveScheduledJobRunningUsername,
+        private readonly DeleteUserHandlerInterface $deleteUserHandler,
+        private readonly ResolveScheduledJobRunningUsername $resolveScheduledJobRunningUsername,
     ) {
     }
 

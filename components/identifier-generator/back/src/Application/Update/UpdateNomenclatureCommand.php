@@ -10,17 +10,17 @@ use Akeneo\Pim\Automation\IdentifierGenerator\Application\CommandInterface;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class UpdateNomenclatureCommand implements CommandInterface
+final readonly class UpdateNomenclatureCommand implements CommandInterface
 {
     /**
      * @param array<string, ?string> $values
      */
     public function __construct(
-        private readonly string $propertyCode,
-        private readonly ?string $operator,
-        private readonly ?int $value,
-        private readonly ?bool $generateIfEmpty,
-        private readonly ?array $values = [],
+        private string $propertyCode,
+        private ?string $operator,
+        private ?int $value,
+        private ?bool $generateIfEmpty,
+        private ?array $values = [],
     ) {
     }
 

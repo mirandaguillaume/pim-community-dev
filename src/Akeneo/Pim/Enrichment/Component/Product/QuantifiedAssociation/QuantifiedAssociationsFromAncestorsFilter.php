@@ -24,13 +24,8 @@ class QuantifiedAssociationsFromAncestorsFilter
     private const PRODUCTS_QUANTIFIED_LINKS_KEY = 'products';
     private const PRODUCT_MODELS_QUANTIFIED_LINKS_KEY = 'product_models';
 
-    /** @var QuantifiedAssociationsMerger */
-    private $quantifiedAssociationsMerger;
-
-    public function __construct(
-        QuantifiedAssociationsMerger $quantifiedAssociationsMerger
-    ) {
-        $this->quantifiedAssociationsMerger = $quantifiedAssociationsMerger;
+    public function __construct(private readonly QuantifiedAssociationsMerger $quantifiedAssociationsMerger)
+    {
     }
 
     public function filter(array $data, EntityWithQuantifiedAssociationsInterface $entity)
@@ -80,9 +75,6 @@ class QuantifiedAssociationsFromAncestorsFilter
      * This function returns an array with the ancestors in the following order:
      * [product_model, product_variant_level_1, product_variant_level_2]
      * It will only returns the parents, not the current entity.
-     *
-     * @param EntityWithFamilyVariantInterface $entity
-     * @return array
      */
     private function getAncestors(EntityWithFamilyVariantInterface $entity): array
     {

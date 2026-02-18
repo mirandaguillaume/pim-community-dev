@@ -13,12 +13,8 @@ use Akeneo\Tool\Bundle\VersioningBundle\Doctrine\Query\SqlGetFirstVersionIdsById
  */
 class SkipFirstVersionPurgerAdvisor implements VersionPurgerAdvisorInterface
 {
-    /** @var SqlGetFirstVersionIdsByIdsQuery */
-    private $getFirstVersionsByIdsQuery;
-
-    public function __construct(SqlGetFirstVersionIdsByIdsQuery $getFirstVersionsByIdsQuery)
+    public function __construct(private readonly SqlGetFirstVersionIdsByIdsQuery $getFirstVersionsByIdsQuery)
     {
-        $this->getFirstVersionsByIdsQuery = $getFirstVersionsByIdsQuery;
     }
 
     /**

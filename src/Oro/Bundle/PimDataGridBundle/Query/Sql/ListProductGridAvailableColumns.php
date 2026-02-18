@@ -17,20 +17,8 @@ use Oro\Bundle\PimDataGridBundle\Query\ListProductGridAvailableColumns as ListPr
  */
 class ListProductGridAvailableColumns implements ListProductGridAvailableColumnsQuery
 {
-    /** @var Connection */
-    private $connection;
-
-    /** @var ConfigurationProviderInterface */
-    private $configurationProvider;
-
-    /**
-     * @param Connection                     $connection
-     * @param ConfigurationProviderInterface $configurationProvider
-     */
-    public function __construct(Connection $connection, ConfigurationProviderInterface $configurationProvider)
+    public function __construct(private readonly Connection $connection, private readonly ConfigurationProviderInterface $configurationProvider)
     {
-        $this->connection = $connection;
-        $this->configurationProvider = $configurationProvider;
     }
 
     /**
@@ -59,9 +47,6 @@ class ListProductGridAvailableColumns implements ListProductGridAvailableColumns
         return array_replace($systemColumns, $attributeColumns);
     }
 
-    /**
-     * @return array
-     */
     private function getColumnsFromProductGridConfiguration(): array
     {
         $datagridConfiguration = $this->configurationProvider->getConfiguration('product-grid');
@@ -79,11 +64,6 @@ class ListProductGridAvailableColumns implements ListProductGridAvailableColumns
         return $propertiesColumns + $otherColumns;
     }
 
-    /**
-     * @param string $searchOnLabel
-     *
-     * @return array
-     */
     private function fetchSystemColumns(string $searchOnLabel): array
     {
         $configurationColumns = $this->getColumnsFromProductGridConfiguration();
@@ -97,22 +77,14 @@ class ListProductGridAvailableColumns implements ListProductGridAvailableColumns
         }
 
         if ('' !== $searchOnLabel) {
-            $systemColumns = array_filter($systemColumns, function ($property) use ($searchOnLabel) {
-                return false !== stripos($property['label'], $searchOnLabel);
-            });
+            $systemColumns = array_filter($systemColumns, fn($property) => false !== stripos((string) $property['label'], $searchOnLabel));
         }
 
         return $systemColumns;
     }
 
     /**
-     * @param string $locale
-     * @param int    $limit
-     * @param int    $offset
-     * @param string $groupCode
-     * @param string $searchOnLabel
      *
-     * @return array
      *
      * @throws DBALException
      */

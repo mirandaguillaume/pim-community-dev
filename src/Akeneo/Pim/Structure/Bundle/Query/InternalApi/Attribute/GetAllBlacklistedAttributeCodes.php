@@ -7,13 +7,10 @@ namespace Akeneo\Pim\Structure\Bundle\Query\InternalApi\Attribute;
 use Akeneo\Pim\Structure\Component\Query\InternalApi\GetAllBlacklistedAttributeCodesInterface;
 use Doctrine\DBAL\Connection;
 
-final class GetAllBlacklistedAttributeCodes implements GetAllBlacklistedAttributeCodesInterface
+final readonly class GetAllBlacklistedAttributeCodes implements GetAllBlacklistedAttributeCodesInterface
 {
-    private Connection $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function execute(): array

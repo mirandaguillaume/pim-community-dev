@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Specification\Akeneo\Platform\Bundle\CatalogVolumeMonitoringBundle\Persistence\Repository\Sql;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Driver\Statement;
+use Doctrine\DBAL\Statement;
 use PhpSpec\ObjectBehavior;
 use Akeneo\Platform\Bundle\CatalogVolumeMonitoringBundle\Persistence\Repository\Sql\AggregatedVolumeRepository;
 use Akeneo\Platform\Component\CatalogVolumeMonitoring\Volume\Model\AggregatedVolume;

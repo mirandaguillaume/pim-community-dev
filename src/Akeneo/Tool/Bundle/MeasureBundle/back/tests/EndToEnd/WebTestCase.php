@@ -39,7 +39,7 @@ abstract class WebTestCase extends TestCase
 
     protected function getAdminUser(): UserInterface
     {
-        if ($this->user === null) {
+        if (!$this->user instanceof \Akeneo\UserManagement\Component\Model\UserInterface) {
             $this->user = self::getContainer()->get('pim_user.manager')->findUserByUsername('admin') ?? $this->createAdminUser();
         }
 

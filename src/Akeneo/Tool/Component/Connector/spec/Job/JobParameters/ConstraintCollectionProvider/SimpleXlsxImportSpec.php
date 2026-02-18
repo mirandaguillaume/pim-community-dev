@@ -21,7 +21,7 @@ class SimpleXlsxImportSpec extends ObjectBehavior
     public function it_provides_constraints_collection(): void
     {
         $collection = $this->getConstraintCollection();
-        $collection->shouldReturnAnInstanceOf('Symfony\Component\Validator\Constraints\Collection');
+        $collection->shouldReturnAnInstanceOf(\Symfony\Component\Validator\Constraints\Collection::class);
         $fields = $collection->fields;
         $fields->shouldHaveCount(6);
         $fields->shouldHaveKey('storage');

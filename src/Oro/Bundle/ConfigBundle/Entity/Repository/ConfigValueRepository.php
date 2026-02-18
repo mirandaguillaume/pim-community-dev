@@ -40,10 +40,8 @@ class ConfigValueRepository extends EntityRepository
      * @param string  $section
      * @param string  $entityName
      * @param integer $scopeId
-     *
-     * @return string|null
      */
-    public function getSectionForEntityAndScope($section, $entityName, $scopeId)
+    public function getSectionForEntityAndScope($section, $entityName, $scopeId): ?string
     {
         return $this->createQueryBuilder('v')
             ->leftJoin('v.config', 'c')

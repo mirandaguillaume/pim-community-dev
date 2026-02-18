@@ -20,9 +20,6 @@ class FQCNResolver
     /** @var ContainerInterface */
     protected $container;
 
-    /**
-     * @param ContainerInterface $container
-     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
@@ -32,16 +29,14 @@ class FQCNResolver
      * Get FQCN for the given entity type
      *
      * @param string $entityType
-     *
-     * @return string|null
      */
-    public function getFQCN($entityType)
+    public function getFQCN($entityType): ?string
     {
         try {
             $className = $this->container->getParameter(
                 sprintf('pim_catalog.entity.%s.class', $entityType)
             );
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
             $className = null;
         }
 

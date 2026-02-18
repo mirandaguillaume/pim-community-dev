@@ -14,7 +14,7 @@ use Webmozart\Assert\Assert;
  * @phpstan-type ProcessType 'no'|'truncate'|'nomenclature'
  * @phpstan-type ProcessNormalized array{type: 'no'}|array{type: 'truncate', operator: string, value: int}|array{type: 'nomenclature'}
  */
-final class Process
+final readonly class Process
 {
     public const PROCESS_TYPE_NO = 'no';
     public const PROCESS_TYPE_TRUNCATE = 'truncate';

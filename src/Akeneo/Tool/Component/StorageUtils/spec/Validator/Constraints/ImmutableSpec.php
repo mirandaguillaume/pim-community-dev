@@ -14,7 +14,7 @@ class ImmutableSpec extends ObjectBehavior
 
     function it_is_a_validator_constraint()
     {
-        $this->shouldBeAnInstanceOf('Symfony\Component\Validator\Constraint');
+        $this->shouldBeAnInstanceOf(\Symfony\Component\Validator\Constraint::class);
     }
 
     function it_has_message()

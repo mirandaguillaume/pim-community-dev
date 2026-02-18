@@ -27,7 +27,7 @@ class NotificationController
         protected UserContext $userContext,
         protected UserNotificationRepositoryInterface $userNotifRepository,
         protected RemoverInterface $userNotifRemover,
-        private Connection $connection
+        private readonly Connection $connection
     ) {
     }
 
@@ -89,7 +89,7 @@ class NotificationController
      *
      * @return JsonResponse
      */
-    public function markAsViewedAction($id)
+    public function markAsViewedAction(?int $id)
     {
         $user = $this->userContext->getUser();
 
@@ -103,9 +103,7 @@ class NotificationController
     /**
      * Remove a notification
      *
-     * @param Request $request
      * @param int $id
-     *
      * @return Response
      */
     public function removeAction(Request $request, $id)

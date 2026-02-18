@@ -155,10 +155,6 @@ class ListAttributesUsableInProductGridIntegration extends TestCase
     }
 
 
-    /**
-     * @param array $attributeData
-     * @return Attribute
-     */
     private function createAttribute(array $attributeData): Attribute
     {
         $attribute = $this->get('pim_catalog.factory.attribute')->create();
@@ -170,9 +166,6 @@ class ListAttributesUsableInProductGridIntegration extends TestCase
     /**
      * Assert that two array of attributes are the same.
      * The order of the attributes is important, but not the order of the data inside each attribute.
-     *
-     * @param array $expectedAttributes
-     * @param array $currentAttributes
      */
     private function assertSameAttributes(array $expectedAttributes, array $currentAttributes): void
     {

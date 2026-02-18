@@ -30,7 +30,7 @@ class FieldProperty extends OroFieldProperty
         try {
             $productValuePath = sprintf('[values][%s]', $this->get(self::NAME_KEY));
             $value = $record->getValue($productValuePath);
-        } catch (\LogicException $e) {
+        } catch (\LogicException) {
             return null;
         }
 

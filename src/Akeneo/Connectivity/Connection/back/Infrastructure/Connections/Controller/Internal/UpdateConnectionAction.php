@@ -19,7 +19,7 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class UpdateConnectionAction
+final readonly class UpdateConnectionAction
 {
     public function __construct(
         private UpdateConnectionHandler $updateConnectionHandler,
@@ -33,8 +33,11 @@ final class UpdateConnectionAction
             throw new AccessDeniedException();
         }
 
-        $data = \json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
-        // TODO: Valid JSON format
+        try {
+            $data = \json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
 
         $command = new UpdateConnectionCommand(
             $request->get('code', ''),

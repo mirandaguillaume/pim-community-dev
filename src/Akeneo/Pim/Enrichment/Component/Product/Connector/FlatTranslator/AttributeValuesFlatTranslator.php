@@ -10,23 +10,8 @@ use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 
 class AttributeValuesFlatTranslator
 {
-    /** @var AttributeValueRegistry */
-    private $attributeValueRegistry;
-
-    /** @var AttributeColumnInfoExtractor */
-    private $attributeColumnInfoExtractor;
-
-    /** @var AttributeColumnsResolver */
-    private $attributeColumnsResolver;
-
-    public function __construct(
-        AttributeValueRegistry $attributeValueRegistry,
-        AttributeColumnInfoExtractor $attributeColumnInfoExtractor,
-        AttributeColumnsResolver $attributeColumnsResolver
-    ) {
-        $this->attributeValueRegistry = $attributeValueRegistry;
-        $this->attributeColumnInfoExtractor = $attributeColumnInfoExtractor;
-        $this->attributeColumnsResolver = $attributeColumnsResolver;
+    public function __construct(private readonly AttributeValueRegistry $attributeValueRegistry, private readonly AttributeColumnInfoExtractor $attributeColumnInfoExtractor, private readonly AttributeColumnsResolver $attributeColumnsResolver)
+    {
     }
 
     public function supports(string $columnName): bool

@@ -16,8 +16,7 @@ use Prophecy\Argument;
 
 class ListAnnouncementsHandlerSpec extends ObjectBehavior
 {
-    /** @var InMemoryViewedAnnouncementRepository */
-    private $viewedAnnouncementsRepository;
+    private ?\Akeneo\Platform\CommunicationChannel\Infrastructure\Persistence\InMemory\Repository\InMemoryViewedAnnouncementRepository $viewedAnnouncementsRepository = null;
 
     public function let(FindAnnouncementItemsInterface $findAnnouncementItems): void
     {

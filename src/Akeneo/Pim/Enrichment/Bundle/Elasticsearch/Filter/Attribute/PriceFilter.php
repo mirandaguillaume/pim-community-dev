@@ -41,16 +41,13 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  */
 class PriceFilter extends AbstractAttributeFilter implements AttributeFilterInterface
 {
-    protected FindActivatedCurrenciesInterface $findActivatedCurrencies;
-
     public function __construct(
         ElasticsearchFilterValidator $filterValidator,
-        FindActivatedCurrenciesInterface $findActivatedCurrencies,
+        protected FindActivatedCurrenciesInterface $findActivatedCurrencies,
         array $supportedAttributeTypes = [],
         array $supportedOperators = []
     ) {
         $this->filterValidator = $filterValidator;
-        $this->findActivatedCurrencies = $findActivatedCurrencies;
         $this->supportedAttributeTypes = $supportedAttributeTypes;
         $this->supportedOperators = $supportedOperators;
     }
@@ -246,13 +243,11 @@ class PriceFilter extends AbstractAttributeFilter implements AttributeFilterInte
     /**
      * Checks that the value is correctly set
      *
-     * @param AttributeInterface $attribute
-     * @param mixed              $data
      *
      * @throws InvalidPropertyTypeException
      * @throws InvalidPropertyException
      */
-    protected function checkAmount(AttributeInterface $attribute, $data): void
+    protected function checkAmount(AttributeInterface $attribute, mixed $data): void
     {
         if (!is_array($data)) {
             throw InvalidPropertyTypeException::arrayExpected($attribute->getCode(), static::class, $data);
@@ -277,13 +272,10 @@ class PriceFilter extends AbstractAttributeFilter implements AttributeFilterInte
     }
 
     /**
-     * @param AttributeInterface $attribute
-     * @param mixed              $data
-     *
      * @throws InvalidPropertyTypeException
      * @throws InvalidPropertyException
      */
-    protected function checkCurrency(AttributeInterface $attribute, $data): void
+    protected function checkCurrency(AttributeInterface $attribute, mixed $data): void
     {
         if (!is_array($data)) {
             throw InvalidPropertyTypeException::arrayExpected($attribute->getCode(), static::class, $data);

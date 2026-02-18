@@ -16,9 +16,9 @@ use Webmozart\Assert\Assert;
 
 final class IndexUpdaterClient
 {
-    private Client $client;
+    private readonly Client $client;
 
-    public function __construct(private Logger $logger, ClientBuilder $clientBuilder, array $hosts)
+    public function __construct(private readonly Logger $logger, ClientBuilder $clientBuilder, array $hosts)
     {
         $this->client = $clientBuilder->setHosts($hosts)->build();
     }
@@ -79,7 +79,7 @@ final class IndexUpdaterClient
             ]
         ]);
 
-        $this->logger->notice('Indexation result', ['response' => json_encode($reindexResponse)]);
+        $this->logger->notice('Indexation result', ['response' => json_encode($reindexResponse, JSON_THROW_ON_ERROR)]);
 
         $this->logger->notice("Reindex document indexed during first indexation");
         $reindexResponse = $this->client->reindex([
@@ -96,7 +96,7 @@ final class IndexUpdaterClient
             ]
         ]);
 
-        $this->logger->notice('Indexation result', ['response' => json_encode($reindexResponse)]);
+        $this->logger->notice('Indexation result', ['response' => json_encode($reindexResponse, JSON_THROW_ON_ERROR)]);
     }
 
     public function reindexDocumentsAfterSwitch(string $sourceAliasName, string $destinationAliasName)
@@ -116,7 +116,7 @@ final class IndexUpdaterClient
             ]
         ]);
 
-        $this->logger->notice('Indexation result', ['response' => json_encode($reindexResponse)]);
+        $this->logger->notice('Indexation result', ['response' => json_encode($reindexResponse, JSON_THROW_ON_ERROR)]);
     }
 
     public function createDestinationIndex(string $destinationIndexName, string $destinationAliasName, array $sourceIndexConfiguration)

@@ -15,9 +15,9 @@ final class Context
     public LogContext $logContext;
 
     public function __construct(
-        private bool $dryRun,
-        private bool $withStats,
-        private bool $lockTables
+        private readonly bool $dryRun,
+        private readonly bool $withStats,
+        private readonly bool $lockTables
     ) {
     }
 

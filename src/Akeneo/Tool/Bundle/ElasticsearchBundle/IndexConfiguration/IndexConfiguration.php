@@ -11,15 +11,8 @@ namespace Akeneo\Tool\Bundle\ElasticsearchBundle\IndexConfiguration;
  */
 class IndexConfiguration
 {
-    protected array $settings;
-    protected array $mappings;
-    protected array $aliases;
-
-    public function __construct(array $settings, array $mappings, array $aliases)
+    public function __construct(protected array $settings, protected array $mappings, protected array $aliases)
     {
-        $this->settings = $settings;
-        $this->mappings = $mappings;
-        $this->aliases = $aliases;
     }
 
     /**
@@ -64,6 +57,6 @@ class IndexConfiguration
 
     public function getHash(): string
     {
-        return \sha1(\json_encode($this->buildAggregated()));
+        return \sha1(\json_encode($this->buildAggregated(), JSON_THROW_ON_ERROR));
     }
 }

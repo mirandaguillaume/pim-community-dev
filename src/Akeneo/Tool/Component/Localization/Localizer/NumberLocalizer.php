@@ -25,11 +25,6 @@ class NumberLocalizer implements LocalizerInterface
     /** @var array */
     protected $attributeTypes;
 
-    /**
-     * @param ValidatorInterface $validator
-     * @param NumberFactory      $numberFactory
-     * @param array              $attributeTypes
-     */
     public function __construct(
         ValidatorInterface $validator,
         NumberFactory $numberFactory,
@@ -88,7 +83,7 @@ class NumberLocalizer implements LocalizerInterface
         }
 
         if (isset($matchesNumber['decimal'])) {
-            return str_replace($matchesNumber['decimal'], static::DEFAULT_DECIMAL_SEPARATOR, $number);
+            return str_replace($matchesNumber['decimal'], static::DEFAULT_DECIMAL_SEPARATOR, (string) $number);
         }
 
         return (string) $number;
@@ -138,8 +133,6 @@ class NumberLocalizer implements LocalizerInterface
     }
 
     /**
-     * @param array $options
-     *
      * @return array
      */
     protected function getOptions(array $options)

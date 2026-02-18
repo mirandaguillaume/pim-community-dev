@@ -17,7 +17,6 @@ class ViewElementRegistry
     /**
      * Register a view element
      *
-     * @param ViewElementInterface $element
      * @param string               $type
      * @param int                  $position
      */
@@ -39,7 +38,7 @@ class ViewElementRegistry
      */
     public function get($type)
     {
-        $elements = isset($this->elements[$type]) ? $this->elements[$type] : [];
+        $elements = $this->elements[$type] ?? [];
         ksort($elements);
 
         return $elements;

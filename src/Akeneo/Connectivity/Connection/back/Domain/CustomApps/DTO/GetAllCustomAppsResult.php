@@ -10,14 +10,14 @@ use Akeneo\Connectivity\Connection\Domain\Marketplace\Model\App;
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GetAllCustomAppsResult
+final readonly class GetAllCustomAppsResult
 {
     /**
      * @param array<App> $apps
      */
     private function __construct(
-        private readonly int $total,
-        private readonly array $apps,
+        private int $total,
+        private array $apps,
     ) {
         foreach ($apps as $app) {
             if (!$app instanceof App) {

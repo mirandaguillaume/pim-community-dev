@@ -37,20 +37,12 @@ class OrmFilterDatasourceAdapter extends OroOrmFilterDatasourceAdapter implement
      */
     public function getFormatByComparisonType($comparisonType)
     {
-        switch ($comparisonType) {
-            case TextFilterType::TYPE_STARTS_WITH:
-                $format = '%s%%';
-                break;
-            case TextFilterType::TYPE_ENDS_WITH:
-                $format = '%%%s';
-                break;
-            case TextFilterType::TYPE_CONTAINS:
-            case TextFilterType::TYPE_NOT_CONTAINS:
-                $format = '%%%s%%';
-                break;
-            default:
-                $format = '%s';
-        }
+        $format = match ($comparisonType) {
+            TextFilterType::TYPE_STARTS_WITH => '%s%%',
+            TextFilterType::TYPE_ENDS_WITH => '%%%s',
+            TextFilterType::TYPE_CONTAINS, TextFilterType::TYPE_NOT_CONTAINS => '%%%s%%',
+            default => '%s',
+        };
 
         return $format;
     }

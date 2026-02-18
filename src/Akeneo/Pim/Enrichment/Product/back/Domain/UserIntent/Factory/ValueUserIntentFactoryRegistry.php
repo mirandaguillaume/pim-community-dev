@@ -20,7 +20,7 @@ class ValueUserIntentFactoryRegistry implements UserIntentFactory
      * @param iterable<ValueUserIntentFactory> $valueUserIntentFactories
      */
     public function __construct(
-        private GetAttributeTypes $getAttributeTypes,
+        private readonly GetAttributeTypes $getAttributeTypes,
         iterable $valueUserIntentFactories
     ) {
         foreach ($valueUserIntentFactories as $valueUserIntentFactory) {

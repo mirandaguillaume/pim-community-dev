@@ -83,10 +83,8 @@ abstract class AbstractAttributeFilter implements AttributeFilterInterface
     /**
      * Check locale and scope are valid
      *
-     * @param AttributeInterface $attribute
      * @param string             $locale
      * @param string             $channel
-     *
      * @throws InvalidPropertyException
      */
     protected function checkLocaleAndChannel(AttributeInterface $attribute, $locale, $channel)
@@ -109,15 +107,15 @@ abstract class AbstractAttributeFilter implements AttributeFilterInterface
      * TODO: TIP-706 - All this logic should be done somewhere else
      *
      * @param AttributeInterface $attribute
-     * @param string             $locale
-     * @param string             $channel
+     * @param string|null        $locale
+     * @param string|null        $channel
      *
      * @return string
      */
     protected function getAttributePath(AttributeInterface $attribute, $locale, $channel)
     {
-        $locale = (null === $locale) ? '<all_locales>' : $locale;
-        $channel = (null === $channel) ? '<all_channels>' : $channel;
+        $locale ??= '<all_locales>';
+        $channel ??= '<all_channels>';
 
         return 'values.' . $attribute->getCode() . '-' . $attribute->getBackendType() . '.' . $channel . '.' . $locale;
     }

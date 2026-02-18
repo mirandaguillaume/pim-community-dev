@@ -179,7 +179,6 @@ abstract class AbstractInvalidItemWriter extends AbstractFilesystemArchiver
      * Get the input file iterator to iterate on all the items of the file.
      * The returned FileIteratorInterface instance should be position on the first item of the file.
      *
-     * @param JobParameters $jobParameters
      *
      * @return FileIteratorInterface
      */
@@ -192,9 +191,7 @@ abstract class AbstractInvalidItemWriter extends AbstractFilesystemArchiver
 
     private function removeValuesWithEmptyHeaders(array $readItem, array $headers): array
     {
-        $emptyHeaderKeys = array_keys(array_filter($headers, function (string $columnName) {
-            return '' === trim($columnName);
-        }));
+        $emptyHeaderKeys = array_keys(array_filter($headers, fn(string $columnName) => '' === trim($columnName)));
 
         foreach ($emptyHeaderKeys as $key) {
             unset($readItem[$key]);
@@ -205,9 +202,7 @@ abstract class AbstractInvalidItemWriter extends AbstractFilesystemArchiver
 
     private function removeEmptyHeaders(array $headers): array
     {
-        return array_filter($headers, function (string $columnName) {
-            return '' !== trim($columnName);
-        });
+        return array_filter($headers, fn(string $columnName) => '' !== trim($columnName));
     }
 
     private function padEmptyValuesToReadItem(array $readItem, int $headersLength): array

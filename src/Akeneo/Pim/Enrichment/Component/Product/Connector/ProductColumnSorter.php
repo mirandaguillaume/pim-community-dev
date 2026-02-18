@@ -40,17 +40,13 @@ class ProductColumnSorter extends DefaultColumnSorter implements ColumnSorterInt
                 ['uuid'],
                 [$this->identifierAttributeCode()],
                 $this->firstDefaultColumns,
-                array_map(function ($associationType) {
-                    return $associationType->getCode();
-                }, $this->associationTypeRepository->findAll()),
+                array_map(fn($associationType) => $associationType->getCode(), $this->associationTypeRepository->findAll()),
                 $context['filters']['structure']['attributes']
             );
 
             $sortedColumns = [];
             foreach ($rawColumns as $columnCode) {
-                $sortedColumns = array_merge($sortedColumns, array_filter($columns, function ($columnCandidate) use ($columnCode) {
-                    return 0 !== preg_match(sprintf('/^%s(-.*)*$/', $columnCode), $columnCandidate);
-                }));
+                $sortedColumns = array_merge($sortedColumns, array_filter($columns, fn($columnCandidate) => 0 !== preg_match(sprintf('/^%s(-.*)*$/', $columnCode), (string) $columnCandidate)));
             }
 
             return array_unique($sortedColumns);

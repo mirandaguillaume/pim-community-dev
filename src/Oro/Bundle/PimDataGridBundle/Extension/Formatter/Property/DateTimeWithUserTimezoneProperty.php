@@ -20,18 +20,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class DateTimeWithUserTimezoneProperty extends FieldProperty
 {
-    private PresenterInterface $presenter;
-    private UserContext $userContext;
-
     public function __construct(
         TranslatorInterface $translator,
-        PresenterInterface $presenter,
-        UserContext $userContext
+        private readonly PresenterInterface $presenter,
+        private readonly UserContext $userContext
     ) {
         parent::__construct($translator);
-
-        $this->presenter = $presenter;
-        $this->userContext = $userContext;
     }
 
     /**

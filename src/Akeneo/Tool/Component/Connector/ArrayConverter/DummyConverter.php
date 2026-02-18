@@ -21,11 +21,6 @@ class DummyConverter implements ArrayConverterInterface
     /** @var array */
     protected $fieldsFilling;
 
-    /**
-     * @param FieldsRequirementChecker $checker
-     * @param array                    $fieldsPresence
-     * @param array                    $fieldsFilling
-     */
     public function __construct(
         FieldsRequirementChecker $checker,
         array $fieldsPresence = [],

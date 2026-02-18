@@ -21,7 +21,7 @@ class PurgeMessengerCommand extends Command
     protected static $defaultName = 'akeneo:messenger:doctrine:purge-messages';
     protected static $defaultDescription = 'Purges the messenger SQL table in terms of the given retention time (default is 7200 seconds)';
 
-    public function __construct(private PurgeDoctrineQueueQuery $purgeDoctrineQueue)
+    public function __construct(private readonly PurgeDoctrineQueueQuery $purgeDoctrineQueue)
     {
         parent::__construct();
     }

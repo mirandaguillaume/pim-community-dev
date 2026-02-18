@@ -12,7 +12,7 @@ parameters:
     ignoreErrors:
         - '#Unsafe usage of new static\(\)\.#'
         # Internal deprecation
-        - '#Call to deprecated method useTechnicalSqlCatalog\(\) of class Akeneo\\Test\\IntegrationTestsBundle\\Configuration\\CatalogInterface#'
+        - '#Call to deprecated method useTechnicalSqlCatalog\(\) of (class|interface) Akeneo\\Test\\IntegrationTestsBundle\\Configuration\\CatalogInterface#'
         - '#Call to deprecated method fromProductIdentifiers\(\) of class Akeneo\\Pim\\Enrichment\\Product\\Domain\\Query\\GetCategoryCodes.#'
         - '#Call to deprecated method createOAuthClient\(\) of class Akeneo\\Tool\\Bundle\\ApiBundle\\tests\\integration\\ApiTestCase.#'
         - '#Call to deprecated method createFromCollection\(\) of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UpsertProductCommand.#'
@@ -30,26 +30,32 @@ parameters:
         - '#Class Akeneo\\Platform\\Bundle\\UIBundle\\EventListener\\ExceptionListener extends @final class Symfony\\Component\\Security\\Http\\Firewall\\ExceptionListener.#'
         # Doctrine DBAL migration (CPM-741-upgrade-doctrine)
         - '#Call to deprecated method executeUpdate#'
-        - '#Call to deprecated method fetch\(\) of class Doctrine\\DBAL\\Driver\\ResultStatement#'
-        - '#Call to deprecated method closeCursor\(\) of class Doctrine\\DBAL\\Driver\\ResultStatement#'
+        - '#Call to deprecated method fetch\(\) of (class|interface) Doctrine\\DBAL\\Driver\\ResultStatement#'
+        - '#Call to deprecated method closeCursor\(\) of (class|interface) Doctrine\\DBAL\\Driver\\ResultStatement#'
         - '#Call to deprecated method exec\(\) of class Doctrine\\DBAL\\Connection#'
         - '#Call to deprecated method execute\(\) of class Doctrine\\DBAL\\Statement#'
         - '#Call to deprecated method query\(\)#'
-        - '#Call to deprecated method fetchAll\(\) of class Doctrine\\DBAL\\Driver\\ResultStatement#'
+        - '#Call to deprecated method fetchAll\(\) of (class|interface) Doctrine\\DBAL\\Driver\\ResultStatement#'
         - '#Call to deprecated method clear\(\) of class Doctrine\\ORM\\EntityRepository#'
         - '#Call to deprecated method ping\(\) of class Doctrine\\DBAL\\Connection.#'
-        - '#Call to deprecated method merge\(\) of class Doctrine\\Persistence\\ObjectManager#'
+        - '#Call to deprecated method merge\(\) of (class|interface) Doctrine\\Persistence\\ObjectManager#'
         - '#Call to deprecated method fetchAll\(\) of class Doctrine\\DBAL\\Connection#'
         - '#Call to deprecated method fetchAllAssociative\(\) of class Doctrine\\DBAL\\Statement:#'
         - '#Call to deprecated method fetchOne\(\) of class Doctrine\\DBAL\\Statement#'
         - '#Fetching deprecated class constant DATETIME_IMMUTABLE of class Doctrine\\DBAL\\Types\\Type#'
         - '#Fetching class constant ASSOCIATIVE of deprecated class Doctrine\\DBAL\\FetchMode#'
         - '#Fetching class constant COLUMN of deprecated class Doctrine\\DBAL\\FetchMode#'
+        # Doctrine ORM migration
+        - '#Call to deprecated method create\(\) of class Doctrine\\ORM\\EntityManager#'
+        - '#has typehint with deprecated class Doctrine\\ORM\\Event\\LifecycleEventArgs#'
         # Doctrine DBAL migration (RAB-1192)
-        - '#Call to deprecated method getAliasNamespace\(\) of class Doctrine\\Persistence\\ManagerRegistry#'
+        - '#Call to deprecated method getAliasNamespace\(\) of (class|interface) Doctrine\\Persistence\\ManagerRegistry#'
         - '#Class Oro\\Bundle\\SecurityBundle\\Acl\\Cache\\FilesystemCache extends deprecated class Doctrine\\Common\\Cache\\FilesystemCache#'
         # Behat
         - '#Call to deprecated method getSession\(\) of class Behat\\Mink\\Element\\Element:#'
+        - '#Class Behat\\ChainedStepsExtension\\Step\\SubStep extends @final class Behat\\Gherkin\\Node\\StepNode#'
+        # PHPUnit
+        - '#Call to deprecated method withConsecutive\(\) of class PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker#'
         # To revalidate
         - '#Cannot import type alias StandardInternalApi: type alias does not exist in Akeneo\\Category\\Infrastructure\\Converter\\InternalApi\\InternalApiToStd.#'
         - '#Class PHP_CodeSniffer\\Standards\\Generic\\Sniffs\\Formatting\\SpaceAfterNotSniff not found.#'

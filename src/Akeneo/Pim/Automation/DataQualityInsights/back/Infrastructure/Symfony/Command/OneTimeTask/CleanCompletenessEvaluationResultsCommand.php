@@ -29,7 +29,7 @@ final class CleanCompletenessEvaluationResultsCommand extends Command
     private int $bulkSize = 200;
 
     public function __construct(
-        private Connection $dbConnection
+        private readonly Connection $dbConnection
     ) {
         parent::__construct();
     }
@@ -124,7 +124,7 @@ SQL;
             if (!empty($results)) {
                 $lastProductUuidAsBytes = Uuid::fromString(end($results)['product_uuid'])->getBytes();
                 yield array_map(function (array $resultRow) {
-                    $resultRow['result'] = null !== $resultRow['result'] ? \json_decode($resultRow['result'], true) : [];
+                    $resultRow['result'] = null !== $resultRow['result'] ? \json_decode((string) $resultRow['result'], true, 512, JSON_THROW_ON_ERROR) : [];
                     return $resultRow;
                 }, $results);
             }
@@ -165,7 +165,7 @@ SQL;
             if (!empty($results)) {
                 $lastProductModelId = end($results)['product_id'];
                 yield array_map(function (array $resultRow) {
-                    $resultRow['result'] = null !== $resultRow['result'] ? \json_decode($resultRow['result'], true) : [];
+                    $resultRow['result'] = null !== $resultRow['result'] ? \json_decode((string) $resultRow['result'], true, 512, JSON_THROW_ON_ERROR) : [];
                     return $resultRow;
                 }, $results);
             }
@@ -194,7 +194,7 @@ SQL;
     {
         return array_map(
             fn ($attributesByLocale) => array_map(
-                fn ($attributes) => count($attributes),
+                fn ($attributes) => is_countable($attributes) ? count($attributes) : 0,
                 $attributesByLocale
             ),
             $attributesList
@@ -207,15 +207,13 @@ SQL;
             return;
         }
 
-        $values = implode(', ', array_map(function (array $result) {
-            return sprintf(
-                "(UUID_TO_BIN('%s'), '%s', '%s', '%s')",
-                $result['product_uuid'],
-                $result['criterion_code'],
-                $result['status'],
-                \json_encode($result['result'])
-            );
-        }, $cleanedResults));
+        $values = implode(', ', array_map(fn(array $result) => sprintf(
+            "(UUID_TO_BIN('%s'), '%s', '%s', '%s')",
+            $result['product_uuid'],
+            $result['criterion_code'],
+            $result['status'],
+            \json_encode($result['result'], JSON_THROW_ON_ERROR)
+        ), $cleanedResults));
 
         // To update data by bulk in a single query, it's easiest to do it with "INSERT INTO... ON DUPLICATE KEY UPDATE..."
         $query = <<<SQL
@@ -233,15 +231,13 @@ SQL;
             return;
         }
 
-        $values = implode(', ', array_map(function (array $result) {
-            return sprintf(
-                "(%d, '%s', '%s', '%s')",
-                $result['product_id'],
-                $result['criterion_code'],
-                $result['status'],
-                \json_encode($result['result'])
-            );
-        }, $cleanedResults));
+        $values = implode(', ', array_map(fn(array $result) => sprintf(
+            "(%d, '%s', '%s', '%s')",
+            $result['product_id'],
+            $result['criterion_code'],
+            $result['status'],
+            \json_encode($result['result'], JSON_THROW_ON_ERROR)
+        ), $cleanedResults));
 
         // To update data by bulk in a single query, it's easiest to do it with "INSERT INTO... ON DUPLICATE KEY UPDATE..."
         $query = <<<SQL

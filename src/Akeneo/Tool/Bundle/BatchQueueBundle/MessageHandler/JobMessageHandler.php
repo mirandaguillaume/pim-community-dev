@@ -17,12 +17,12 @@ use Symfony\Component\Process\Process;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class JobMessageHandler implements MessageSubscriberInterface
+final readonly class JobMessageHandler implements MessageSubscriberInterface
 {
     public function __construct(
-        private readonly LoggerInterface $logger,
-        private readonly string $projectDir,
-        private readonly FeatureFlags $featureFlags,
+        private LoggerInterface $logger,
+        private string $projectDir,
+        private FeatureFlags $featureFlags,
     ) {
     }
 

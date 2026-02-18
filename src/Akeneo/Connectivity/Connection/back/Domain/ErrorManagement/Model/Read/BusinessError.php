@@ -8,7 +8,7 @@ namespace Akeneo\Connectivity\Connection\Domain\ErrorManagement\Model\Read;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class BusinessError
+final readonly class BusinessError
 {
     public function __construct(private string $connectionCode, private \DateTimeImmutable $dateTime, private string $content)
     {

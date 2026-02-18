@@ -13,15 +13,11 @@ use Akeneo\Tool\Component\Batch\Model\JobInstance;
  */
 class JobInstanceFactory
 {
-    /** @var string */
-    protected $jobInstanceClass;
-
     /**
      * @param string $jobInstanceClass
      */
-    public function __construct($jobInstanceClass)
+    public function __construct(protected $jobInstanceClass)
     {
-        $this->jobInstanceClass = $jobInstanceClass;
     }
 
     /**

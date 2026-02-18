@@ -37,13 +37,6 @@ class AddRemoveVersionSubscriber implements EventSubscriberInterface
     /** @var SaverInterface */
     protected $versionSaver;
 
-    /**
-     * @param VersionFactory                $versionFactory
-     * @param VersionRepositoryInterface    $versionRepository
-     * @param TokenStorageInterface         $tokenStorage
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param SaverInterface                $versionSaver
-     */
     public function __construct(
         VersionFactory $versionFactory,
         VersionRepositoryInterface $versionRepository,
@@ -68,9 +61,6 @@ class AddRemoveVersionSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param RemoveEvent $event
-     */
     public function addRemoveVersion(RemoveEvent $event)
     {
         $author = '';
@@ -113,7 +103,7 @@ class AddRemoveVersionSubscriber implements EventSubscriberInterface
     private function shouldUseUuid($subject): bool
     {
         return method_exists($subject, 'getUuid')
-            && get_class($subject) !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct'
+            && $subject::class !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct'
         ;
     }
 }

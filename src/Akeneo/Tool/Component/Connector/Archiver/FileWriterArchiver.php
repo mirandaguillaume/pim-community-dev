@@ -79,9 +79,7 @@ class FileWriterArchiver extends AbstractFilesystemArchiver
     /**
      * Verify if the writer is usable or not
      *
-     * @param ItemWriterInterface $writer
      *
-     * @return bool
      */
     protected function isUsableWriter(ItemWriterInterface $writer): bool
     {
@@ -89,7 +87,6 @@ class FileWriterArchiver extends AbstractFilesystemArchiver
     }
 
     /**
-     * @param JobExecution $jobExecution
      * @param WrittenFileInfo[] $filesToArchive
      */
     protected function doArchive(JobExecution $jobExecution, array $filesToArchive): void
@@ -119,7 +116,7 @@ class FileWriterArchiver extends AbstractFilesystemArchiver
                         'key' => $fileToArchive->sourceKey(),
                         'storage' => $fileToArchive->sourceStorage(),
                         'exception' => [
-                            'type' => \get_class($e),
+                            'type' => $e::class,
                             'message' => $e->getMessage(),
                         ],
                     ]

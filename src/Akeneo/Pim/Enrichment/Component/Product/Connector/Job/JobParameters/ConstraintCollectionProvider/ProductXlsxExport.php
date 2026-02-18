@@ -28,10 +28,6 @@ class ProductXlsxExport implements ConstraintCollectionProviderInterface
     /** @var array */
     protected $supportedJobNames;
 
-    /**
-     * @param ConstraintCollectionProviderInterface $simpleXlsx
-     * @param array                                 $supportedJobNames
-     */
     public function __construct(ConstraintCollectionProviderInterface $simpleXlsx, array $supportedJobNames)
     {
         $this->simpleProvider = $simpleXlsx;

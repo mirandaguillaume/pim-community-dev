@@ -22,10 +22,10 @@ use Doctrine\Common\Util\ClassUtils;
 class JobInstanceUpdater implements ObjectUpdaterInterface
 {
     public function __construct(
-        private JobParametersFactory $jobParametersFactory,
-        private JobRegistry $jobRegistry,
-        private UpsertRunningUser $upsertRunningUser,
-        private ClockInterface $clock,
+        private readonly JobParametersFactory $jobParametersFactory,
+        private readonly JobRegistry $jobRegistry,
+        private readonly UpsertRunningUser $upsertRunningUser,
+        private readonly ClockInterface $clock,
     ) {
     }
 

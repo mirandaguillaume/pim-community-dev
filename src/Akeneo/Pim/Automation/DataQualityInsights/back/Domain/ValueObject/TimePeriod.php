@@ -8,12 +8,12 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class TimePeriod
+final class TimePeriod implements \Stringable
 {
-    const DAILY = 'daily';
-    const WEEKLY = 'weekly';
-    const MONTHLY = 'monthly';
-    const YEARLY = 'yearly';
+    public const DAILY = 'daily';
+    public const WEEKLY = 'weekly';
+    public const MONTHLY = 'monthly';
+    public const YEARLY = 'yearly';
 
     private const ALLOWED_VALUES = [
         self::DAILY,
@@ -22,8 +22,7 @@ final class TimePeriod
         self::YEARLY,
     ];
 
-    /** @var string */
-    private $value;
+    private readonly string $value;
 
     public function __construct(string $value)
     {
@@ -34,7 +33,7 @@ final class TimePeriod
         $this->value = $value;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->value;
     }

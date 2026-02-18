@@ -21,7 +21,7 @@ use Doctrine\Common\Util\ClassUtils;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/MIT MIT
  */
-class StepExecution
+class StepExecution implements \Stringable
 {
     private const TRACKING_DATA_PROCESSED_ITEMS = 'processedItems';
     private const TRACKING_DATA_TOTAL_ITEMS = 'totalItems';
@@ -33,61 +33,42 @@ class StepExecution
     /** @var integer */
     private $id;
 
-    /** @var JobExecution */
-    private $jobExecution = null;
-
-    /** @var string */
-    private $stepName;
-
     /** @var integer */
     private $status = null;
 
-    /** @var integer */
-    private $readCount = 0;
+    private int $readCount = 0;
 
-    /** @var integer */
-    private $writeCount = 0;
+    private int $writeCount = 0;
 
-    /** @var integer */
-    private $filterCount = 0;
+    private int $filterCount = 0;
 
     private int $warningCount = 0;
 
-    /** @var \DateTime */
-    private $startTime;
+    private ?\DateTime $startTime = null;
 
-    /** @var \DateTime | null */
-    private $endTime;
+    private ?\DateTime $endTime = null;
 
     /* @var ExecutionContext $executionContext */
-    private $executionContext;
+    private ?\Akeneo\Tool\Component\Batch\Item\ExecutionContext $executionContext = null;
 
     /* @var ExitStatus */
-    private $exitStatus = null;
+    private ?\Akeneo\Tool\Component\Batch\Job\ExitStatus $exitStatus = null;
 
-    /** @var string */
-    private $exitCode = null;
+    private ?string $exitCode = null;
 
-    /** @var string */
-    private $exitDescription = null;
+    private ?string $exitDescription = null;
 
-    /** @var boolean */
-    private $terminateOnly = false;
+    private bool $terminateOnly = false;
 
-    /** @var array */
-    private $failureExceptions = null;
+    private ?array $failureExceptions = null;
 
-    /** @var array */
-    private $errors = [];
+    private array $errors = [];
 
-    /** @var ArrayCollection */
-    private $warnings;
+    private \Doctrine\Common\Collections\Collection $warnings;
 
-    /** @var array */
-    private $summary = [];
+    private array $summary = [];
 
-    /** @var array */
-    private $trackingData = self::TRACKING_DATA_DEFAULT;
+    private array $trackingData = self::TRACKING_DATA_DEFAULT;
 
     private bool $isTrackable;
     private ?array $currentState;
@@ -98,10 +79,8 @@ class StepExecution
      * @param string       $stepName     the step to which this execution belongs
      * @param JobExecution $jobExecution the current job execution
      */
-    public function __construct($stepName, JobExecution $jobExecution)
+    public function __construct(private $stepName, private JobExecution $jobExecution)
     {
-        $this->stepName = $stepName;
-        $this->jobExecution = $jobExecution;
         $jobExecution->addStepExecution($this);
         $this->warnings = new ArrayCollection();
         $this->executionContext = new ExecutionContext();
@@ -161,7 +140,7 @@ class StepExecution
      *
      * @return \DateTime | null time that this execution ended
      */
-    public function getEndTime()
+    public function getEndTime(): ?\DateTime
     {
         return $this->endTime;
     }
@@ -332,7 +311,7 @@ class StepExecution
      *
      * @return StepExecution
      */
-    public function upgradeStatus($status)
+    public function upgradeStatus(mixed $status)
     {
         $newBatchStatus = $this->getStatus();
         $newBatchStatus->upgradeTo($status);
@@ -350,8 +329,6 @@ class StepExecution
     }
 
     /**
-     * @param ExitStatus $exitStatus
-     *
      * @return StepExecution
      */
     public function setExitStatus(ExitStatus $exitStatus)
@@ -404,14 +381,13 @@ class StepExecution
 
     /**
      * Add a failure exception
-     * @param \Exception $e
      *
      * @return StepExecution
      */
     public function addFailureException(\Exception $e)
     {
         $this->failureExceptions[] = [
-            'class'             => get_class($e),
+            'class'             => $e::class,
             'message'           => $e->getMessage(),
             'messageParameters' => $e instanceof RuntimeErrorException ? $e->getMessageParameters() : [],
             'code'              => $e->getCode(),
@@ -429,9 +405,7 @@ class StepExecution
         return implode(
             ' ',
             array_map(
-                function ($e) {
-                    return $e['message'];
-                },
+                fn($e) => $e['message'],
                 $this->failureExceptions
             )
         );
@@ -461,8 +435,6 @@ class StepExecution
      * Add a warning
      *
      * @param string               $reason
-     * @param array                $reasonParameters
-     * @param InvalidItemInterface $item
      */
     public function addWarning($reason, array $reasonParameters, InvalidItemInterface $item)
     {
@@ -475,7 +447,7 @@ class StepExecution
         if (is_object($data)) {
             $id = '[unknown]';
             if (\method_exists($data, 'getUuid')
-                && get_class($data) !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct'
+                && $data::class !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct'
             ) {
                 $id = $data->getUuid()->toString();
             } elseif (\method_exists($data, 'getId')) {
@@ -520,9 +492,8 @@ class StepExecution
      * Add row in summary
      *
      * @param string $key
-     * @param mixed  $info
      */
-    public function addSummaryInfo($key, $info)
+    public function addSummaryInfo($key, mixed $info)
     {
         $this->summary[$key] = $info;
     }
@@ -551,7 +522,7 @@ class StepExecution
      */
     public function getSummaryInfo($key, mixed $defaultValue = '')
     {
-        return isset($this->summary[$key]) ? $this->summary[$key] : $defaultValue;
+        return $this->summary[$key] ?? $defaultValue;
     }
 
     /**
@@ -643,7 +614,7 @@ class StepExecution
      * To string
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         $summary = 'id=%d, name=[%s], status=[%s], exitCode=[%s], exitDescription=[%s]';
 

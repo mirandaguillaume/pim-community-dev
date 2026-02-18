@@ -15,9 +15,9 @@ use Akeneo\Connectivity\Connection\Domain\Webhook\Persistence\Query\GetAConnecti
 class GetAConnectionWebhookHandler
 {
     public function __construct(
-        private GetAConnectionWebhookQueryInterface $getAConnectionWebhookQuery,
-        private int $activeEventSubscriptionsLimit,
-        private CountActiveEventSubscriptionsQueryInterface $countActiveEventSubscriptionsQuery
+        private readonly GetAConnectionWebhookQueryInterface $getAConnectionWebhookQuery,
+        private readonly int $activeEventSubscriptionsLimit,
+        private readonly CountActiveEventSubscriptionsQueryInterface $countActiveEventSubscriptionsQuery
     ) {
     }
 

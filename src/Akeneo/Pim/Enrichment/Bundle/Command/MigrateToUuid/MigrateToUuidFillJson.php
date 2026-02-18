@@ -33,8 +33,8 @@ class MigrateToUuidFillJson implements MigrateToUuidStep
     private LogContext $logContext;
 
     public function __construct(
-        private Connection $connection,
-        private LoggerInterface $logger
+        private readonly Connection $connection,
+        private readonly LoggerInterface $logger
     ) {
     }
 
@@ -118,7 +118,7 @@ class MigrateToUuidFillJson implements MigrateToUuidStep
             fn (array $productAssociation): string => \sprintf(
                 "ROW(%d, '%s')",
                 $productAssociation['id'],
-                \json_encode($productAssociation['quantified_associations'])
+                \json_encode($productAssociation['quantified_associations'], JSON_THROW_ON_ERROR)
             ),
             $productAssociations
         );
@@ -161,7 +161,7 @@ class MigrateToUuidFillJson implements MigrateToUuidStep
 
         $result = [];
         foreach ($associations as $association) {
-            $result[] = ['id' => $association['id'], 'quantified_associations' => \json_decode($association['quantified_associations'], true)];
+            $result[] = ['id' => $association['id'], 'quantified_associations' => \json_decode((string) $association['quantified_associations'], true, 512, JSON_THROW_ON_ERROR)];
         }
 
         return $result;

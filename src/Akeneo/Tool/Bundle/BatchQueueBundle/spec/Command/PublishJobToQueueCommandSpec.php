@@ -30,7 +30,7 @@ class PublishJobToQueueCommandSpec extends ObjectBehavior
         JobInstanceRepository $jobInstanceRepository,
         EntityManagerInterface $entityManager
     ) {
-        $jobInstanceClass = 'Akeneo\Tool\Component\Batch\Model\JobInstance';
+        $jobInstanceClass = \Akeneo\Tool\Component\Batch\Model\JobInstance::class;
         $jobRepository->getJobManager()->willReturn($entityManager);
         $entityManager->getRepository($jobInstanceClass)->willReturn($jobInstanceRepository);
 

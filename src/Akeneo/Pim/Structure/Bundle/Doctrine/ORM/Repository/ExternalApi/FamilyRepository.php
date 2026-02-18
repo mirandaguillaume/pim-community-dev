@@ -28,7 +28,7 @@ class FamilyRepository extends EntityRepository implements ApiResourceRepository
         protected FamilyRepositoryInterface $familyRepository,
         protected GetFamilyIdsUsedByProductsQueryInterface $getFamilyIdsUsedByProductsQuery,
         protected GetFamilyIdsNotUsedByProductsQueryInterface $getFamilyIdsNotUsedByProductsQuery,
-        private ValidatorInterface $validator
+        private readonly ValidatorInterface $validator
     ) {
         parent::__construct($entityManager, $entityManager->getClassMetadata($className));
     }
@@ -47,8 +47,6 @@ class FamilyRepository extends EntityRepository implements ApiResourceRepository
      * Find resources with offset > $offset and filtered by $criteria
      *
      * @param array{string: array{operator: string, value: mixed}[]} $searchFilters
-     *
-     * @return array
      */
     public function searchAfterOffset(array $searchFilters, array $orders, $limit, $offset): array
     {
@@ -83,7 +81,7 @@ class FamilyRepository extends EntityRepository implements ApiResourceRepository
                 ->select('COUNT(r.id)')
                 ->getQuery()
                 ->getSingleScalarResult();
-        } catch (UnexpectedResultException $e) {
+        } catch (UnexpectedResultException) {
             return 0;
         }
     }

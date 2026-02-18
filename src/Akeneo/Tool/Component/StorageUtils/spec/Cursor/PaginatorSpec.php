@@ -9,7 +9,7 @@ use PhpSpec\ObjectBehavior;
 
 class PaginatorSpec extends ObjectBehavior
 {
-    const PAGE_SIZE = 10;
+    final public const PAGE_SIZE = 10;
 
     function let(CursorInterface $cursor)
     {
@@ -37,7 +37,7 @@ class PaginatorSpec extends ObjectBehavior
             new Entity(10)
         ];
         $page2 = [new Entity(11), new Entity(12), new Entity(13)];
-        $data = array_merge($page1, $page2);
+        $data = [...$page1, ...$page2];
 
         $cursor->count()->shouldBeCalled()->willReturn(13);
         $cursor->next()->shouldBeCalled()->will(function () use ($cursor, &$data) {
@@ -48,7 +48,7 @@ class PaginatorSpec extends ObjectBehavior
             $cursor->current()->willReturn($item);
         });
         $cursor->rewind()->shouldBeCalled()->will(function () use ($cursor, &$data, $page1, $page2) {
-            $data = array_merge($page1, $page2);
+            $data = [...$page1, ...$page2];
             $item = array_shift($data);
             if ($item === null) {
                 $item = false;
@@ -97,10 +97,7 @@ class PaginatorSpec extends ObjectBehavior
 
 class Entity
 {
-    protected $id;
-
-    public function __construct($id)
+    public function __construct(protected $id)
     {
-        $this->id = $id;
     }
 }

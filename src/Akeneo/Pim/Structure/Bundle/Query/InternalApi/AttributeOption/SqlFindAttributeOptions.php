@@ -11,11 +11,11 @@ use Doctrine\DBAL\Connection;
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class SqlFindAttributeOptions implements FindAttributeOptions
+final readonly class SqlFindAttributeOptions implements FindAttributeOptions
 {
     public function __construct(
-        private readonly Connection $connection,
-        private readonly UserContext $userContext,
+        private Connection $connection,
+        private UserContext $userContext,
     ) {
     }
 

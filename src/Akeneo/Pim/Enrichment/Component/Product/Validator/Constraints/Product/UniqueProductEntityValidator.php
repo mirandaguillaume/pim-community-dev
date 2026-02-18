@@ -23,9 +23,9 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 class UniqueProductEntityValidator extends ConstraintValidator
 {
     public function __construct(
-        private FindId $findId,
-        private UniqueValuesSet $uniqueValuesSet,
-        private AttributeRepositoryInterface $attributeRepository
+        private readonly FindId $findId,
+        private readonly UniqueValuesSet $uniqueValuesSet,
+        private readonly AttributeRepositoryInterface $attributeRepository
     ) {
     }
 

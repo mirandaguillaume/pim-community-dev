@@ -22,10 +22,6 @@ class AddProductValueProcessor extends AbstractProcessor
     /** @var ValidatorInterface */
     protected $validator;
 
-    /**
-     * @param PropertyAdderInterface              $propertyAdder
-     * @param ValidatorInterface                  $validator
-     */
     public function __construct(PropertyAdderInterface $propertyAdder, ValidatorInterface $validator)
     {
         $this->propertyAdder = $propertyAdder;
@@ -52,11 +48,10 @@ class AddProductValueProcessor extends AbstractProcessor
     /**
      * Validate the product
      *
-     * @param ProductInterface|ProductModelInterface $product
      *
      * @return bool
      */
-    protected function isProductValid($product)
+    protected function isProductValid(\Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface|\Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface $product)
     {
         $violations = $this->validator->validate($product);
         $this->addWarningMessage($violations, $product);
@@ -66,11 +61,8 @@ class AddProductValueProcessor extends AbstractProcessor
 
     /**
      * Add data from $actions to the given $product
-     *
-     * @param ProductInterface|ProductModelInterface $product
-     * @param array                                  $actions
      */
-    protected function addData($product, array $actions)
+    protected function addData(\Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface|\Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface $product, array $actions)
     {
         foreach ($actions as $action) {
             $this->propertyAdder->addData($product, $action['field'], $action['value']);

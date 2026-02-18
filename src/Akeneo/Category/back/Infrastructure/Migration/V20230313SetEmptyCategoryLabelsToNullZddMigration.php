@@ -15,7 +15,7 @@ use Doctrine\DBAL\Exception;
 class V20230313SetEmptyCategoryLabelsToNullZddMigration implements ZddMigration
 {
     public function __construct(
-        private Connection $connection,
+        private readonly Connection $connection,
     ) {
     }
 

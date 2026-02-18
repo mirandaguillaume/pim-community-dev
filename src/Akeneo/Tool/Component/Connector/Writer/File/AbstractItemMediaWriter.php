@@ -35,18 +35,6 @@ abstract class AbstractItemMediaWriter implements
 {
     protected const DEFAULT_FILE_PATH = 'file_path';
 
-    protected ArrayConverterInterface $arrayConverter;
-    protected FlatItemBufferFlusher $flusher;
-    protected BufferFactory $bufferFactory;
-    protected AttributeRepositoryInterface $attributeRepository;
-    protected FileExporterPathGeneratorInterface $fileExporterPath;
-    private FlatTranslatorInterface $flatTranslator;
-    private FileInfoRepositoryInterface $fileInfoRepository;
-    private FilesystemProvider $filesystemProvider;
-    /** @var string[] */
-    protected array $mediaAttributeTypes;
-    protected string $jobParamFilePath;
-
     protected ?StepExecution $stepExecution = null;
 
     protected Filesystem $localFs;
@@ -56,30 +44,22 @@ abstract class AbstractItemMediaWriter implements
     protected string $datetimeFormat = 'Y-m-d_H-i-s';
     protected array $state = [];
 
+    /**
+     * @param string[] $mediaAttributeTypes
+     */
     public function __construct(
-        ArrayConverterInterface $arrayConverter,
-        BufferFactory $bufferFactory,
-        FlatItemBufferFlusher $flusher,
-        AttributeRepositoryInterface $attributeRepository,
-        FileExporterPathGeneratorInterface $fileExporterPath,
-        FlatTranslatorInterface $flatTranslator,
-        FileInfoRepositoryInterface $fileInfoRepository,
-        FilesystemProvider $filesystemProvider,
-        array $mediaAttributeTypes,
+        protected ArrayConverterInterface $arrayConverter,
+        protected BufferFactory $bufferFactory,
+        protected FlatItemBufferFlusher $flusher,
+        protected AttributeRepositoryInterface $attributeRepository,
+        protected FileExporterPathGeneratorInterface $fileExporterPath,
+        private readonly FlatTranslatorInterface $flatTranslator,
+        private readonly FileInfoRepositoryInterface $fileInfoRepository,
+        private readonly FilesystemProvider $filesystemProvider,
+        protected array $mediaAttributeTypes,
         private readonly JobFileBackuper $jobFileBackuper,
-        string $jobParamFilePath = self::DEFAULT_FILE_PATH
+        protected string $jobParamFilePath = self::DEFAULT_FILE_PATH
     ) {
-        $this->arrayConverter = $arrayConverter;
-        $this->bufferFactory = $bufferFactory;
-        $this->flusher = $flusher;
-        $this->attributeRepository = $attributeRepository;
-        $this->mediaAttributeTypes = $mediaAttributeTypes;
-        $this->fileExporterPath = $fileExporterPath;
-        $this->jobParamFilePath = $jobParamFilePath;
-        $this->flatTranslator = $flatTranslator;
-        $this->fileInfoRepository = $fileInfoRepository;
-        $this->filesystemProvider = $filesystemProvider;
-
         $this->localFs = new Filesystem();
     }
 
@@ -165,7 +145,7 @@ abstract class AbstractItemMediaWriter implements
         foreach ($flatFiles as $flatFile) {
             $this->writtenFiles[] = WrittenFileInfo::fromLocalFile(
                 $flatFile,
-                \basename($flatFile)
+                \basename((string) $flatFile)
             );
         }
     }
@@ -185,7 +165,7 @@ abstract class AbstractItemMediaWriter implements
             ? $storage[$this->jobParamFilePath]
             : sprintf('%s%s%s', sys_get_temp_dir(), DIRECTORY_SEPARATOR, $storage[$this->jobParamFilePath]);
 
-        if (false !== \strpos($filePath, '%')) {
+        if (str_contains((string) $filePath, '%')) {
             $datetime = $this->stepExecution->getStartTime()->format($this->datetimeFormat);
             $defaultPlaceholders = ['%datetime%' => $datetime, '%job_label%' => ''];
             $jobExecution = $this->stepExecution->getJobExecution();
@@ -228,7 +208,6 @@ abstract class AbstractItemMediaWriter implements
     /**
      * Return the identifier of the item (e.q sku or variant group code)
      *
-     * @param array $item
      *
      * @return string
      */
@@ -322,8 +301,6 @@ abstract class AbstractItemMediaWriter implements
     }
 
     /**
-     * @param JobParameters $parameters
-     *
      * @return array
      */
     protected function getConverterOptions(JobParameters $parameters): array
@@ -348,7 +325,6 @@ abstract class AbstractItemMediaWriter implements
     /**
      * Replace [^A-Za-z0-9\.] from a string by '_'
      *
-     * @param string $value
      *
      * @return string
      */

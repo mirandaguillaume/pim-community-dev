@@ -19,5 +19,5 @@ interface RemoverInterface
      *
      * @throws \InvalidArgumentException
      */
-    public function remove($object, array $options = []);
+    public function remove(mixed $object, array $options = []);
 }

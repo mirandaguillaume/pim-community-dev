@@ -99,7 +99,6 @@ interface AttributeRepositoryInterface extends
     /**
      * Get attribute type by code attributes
      *
-     * @param array $codes
      *
      * @return array
      */
@@ -117,7 +116,6 @@ interface AttributeRepositoryInterface extends
     /**
      * Get attribute codes by attribute group
      *
-     * @param AttributeGroupInterface $group
      *
      * @return string[]
      */
@@ -127,8 +125,6 @@ interface AttributeRepositoryInterface extends
      * Get attributes by group codes
      *
      * @param string[] $groupCodes
-     * @param int $limit
-     * @param string|null $searchAfter
      *
      * @return AttributeInterface[]
      */
@@ -137,7 +133,6 @@ interface AttributeRepositoryInterface extends
     /**
      * Get attributes by family
      *
-     * @param FamilyInterface $family
      *
      * @return AttributeInterface[]
      */

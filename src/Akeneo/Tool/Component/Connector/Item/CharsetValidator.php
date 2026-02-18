@@ -15,27 +15,18 @@ use Akeneo\Tool\Component\Connector\Exception\CharsetException;
  */
 class CharsetValidator implements StepExecutionAwareInterface
 {
-    /** @var string */
-    protected $charset;
-
     /** @var StepExecution */
     protected $stepExecution;
-
-    /** @var int */
-    protected $maxErrors;
 
     /** @var array */
     protected $whiteListExtension;
 
     /**
-     * @param array  $whiteListExtension
      * @param string $charset
      * @param int    $maxErrors
      */
-    public function __construct(array $whiteListExtension = ['xls', 'xlsx', 'zip'], $charset = 'UTF-8', $maxErrors = 10)
+    public function __construct(array $whiteListExtension = ['xls', 'xlsx', 'zip'], protected $charset = 'UTF-8', protected $maxErrors = 10)
     {
-        $this->charset = $charset;
-        $this->maxErrors = $maxErrors;
         $this->whiteListExtension = $whiteListExtension;
     }
 

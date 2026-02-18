@@ -18,9 +18,6 @@ class GroupViolationNormalizer implements NormalizerInterface
     /** @var NormalizerInterface */
     protected $normalizer;
 
-    /**
-     * @param NormalizerInterface $normalizer
-     */
     public function __construct(NormalizerInterface $normalizer)
     {
         $this->normalizer = $normalizer;
@@ -36,8 +33,8 @@ class GroupViolationNormalizer implements NormalizerInterface
 
         foreach ($violations as $violation) {
             $path = $violation->getPropertyPath();
-            if (0 === strpos($path, 'translations')) {
-                $propertyPath = str_replace('.label', '', $path);
+            if (str_starts_with((string) $path, 'translations')) {
+                $propertyPath = str_replace('.label', '', (string) $path);
 
                 $translation = $accessor->getValue($violation->getRoot(), $propertyPath);
 

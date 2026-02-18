@@ -21,10 +21,6 @@ class NumberLocalizerTransformer implements DataTransformerInterface
     /** @var array */
     protected $options;
 
-    /**
-     * @param LocalizerInterface $localizer
-     * @param array              $options
-     */
     public function __construct(LocalizerInterface $localizer, array $options)
     {
         $this->localizer = $localizer;

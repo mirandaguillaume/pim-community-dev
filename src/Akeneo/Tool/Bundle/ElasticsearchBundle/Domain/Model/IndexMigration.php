@@ -8,17 +8,15 @@ use Webmozart\Assert\Assert;
 
 class IndexMigration
 {
-    private string $indexAlias;
-    private string $indexConfigurationHash;
-    private \DateTimeImmutable $startedAt;
-    private string $temporaryIndexAlias;
-    private string $newIndexName;
+    private readonly string $indexAlias;
+    private readonly string $temporaryIndexAlias;
+    private readonly string $newIndexName;
     private string $status;
 
     private function __construct(
         string $indexAlias,
-        string $indexConfigurationHash,
-        \DateTimeImmutable $startedAt,
+        private readonly string $indexConfigurationHash,
+        private readonly \DateTimeImmutable $startedAt,
         string $temporaryIndexAlias,
         string $newIndexName
     ) {
@@ -27,8 +25,6 @@ class IndexMigration
         Assert::notEq($newIndexName, $temporaryIndexAlias);
 
         $this->indexAlias = $indexAlias;
-        $this->indexConfigurationHash = $indexConfigurationHash;
-        $this->startedAt = $startedAt;
         $this->temporaryIndexAlias = $temporaryIndexAlias;
         $this->newIndexName = $newIndexName;
         $this->status = 'started';

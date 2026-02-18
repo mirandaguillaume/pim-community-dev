@@ -14,15 +14,11 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class TranslationNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    /** @var IdentifiableObjectRepositoryInterface */
-    private $localeRepository;
-
     /**
      * @param IdentifiableObjectRepositoryInterface|null $localeRepository
      */
-    public function __construct(IdentifiableObjectRepositoryInterface $localeRepository = null)
+    public function __construct(private readonly ?IdentifiableObjectRepositoryInterface $localeRepository = null)
     {
-        $this->localeRepository = $localeRepository;
     }
 
     /**
@@ -39,7 +35,7 @@ class TranslationNormalizer implements NormalizerInterface, CacheableSupportsMet
         );
 
         $translations = array_fill_keys($context['locales'], null);
-        $method = sprintf('get%s', ucfirst($context['property']));
+        $method = sprintf('get%s', ucfirst((string) $context['property']));
 
         foreach ($object->getTranslations() as $translation) {
             $locale = $this->localeRepository->findOneByIdentifier($translation->getLocale());
@@ -49,12 +45,12 @@ class TranslationNormalizer implements NormalizerInterface, CacheableSupportsMet
 
             if (false === method_exists($translation, $method)) {
                 throw new \LogicException(
-                    sprintf("Class %s doesn't provide method %s", get_class($translation), $method)
+                    sprintf("Class %s doesn't provide method %s", $translation::class, $method)
                 );
             }
 
             $contextLocalesLowercase = \array_map('strtolower', $context['locales']);
-            if (empty($context['locales']) || in_array(\strtolower($locale->getCode()), $contextLocalesLowercase)) {
+            if (empty($context['locales']) || in_array(\strtolower((string) $locale->getCode()), $contextLocalesLowercase)) {
                 $translations[$locale->getCode()] = '' === $translation->$method() ? null : $translation->$method();
             }
         }

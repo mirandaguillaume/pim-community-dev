@@ -24,10 +24,6 @@ class AttributeFilterDumper implements DumperInterface
     /** @var AttributeRepositoryInterface */
     protected $repository;
 
-    /**
-     * @param FilterRegistryInterface      $registry
-     * @param AttributeRepositoryInterface $repository
-     */
     public function __construct(FilterRegistryInterface $registry, AttributeRepositoryInterface $repository)
     {
         $this->registry = $registry;
@@ -78,8 +74,6 @@ class AttributeFilterDumper implements DumperInterface
     /**
      * Returns available information for the attribute and filters which supports it
      *
-     * @param AttributeInterface $attribute
-     * @param array              $attributeFilters
      *
      * @return array
      */
@@ -93,7 +87,7 @@ class AttributeFilterDumper implements DumperInterface
         $newEntries = [];
         if (array_key_exists($attributeType, $attributeFilters)) {
             foreach ($attributeFilters[$attributeType] as $filter) {
-                $class = get_class($filter);
+                $class = $filter::class;
                 $operators = implode(', ', $filter->getOperators());
 
                 $newEntries[] = [
@@ -112,7 +106,7 @@ class AttributeFilterDumper implements DumperInterface
         if ($attribute->isBackendTypeReferenceData()) {
             foreach ($this->registry->getAttributeFilters() as $filter) {
                 if ($filter->supportsAttribute($attribute)) {
-                    $class = get_class($filter);
+                    $class = $filter::class;
                     $operators = implode(', ', $filter->getOperators());
 
                     $newEntries[] = [

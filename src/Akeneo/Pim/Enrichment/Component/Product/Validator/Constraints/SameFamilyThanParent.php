@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class SameFamilyThanParent extends Constraint
 {
-    public const MESSAGE = 'pim_catalog.constraint.variant_product_invalid_family';
+    final public const MESSAGE = 'pim_catalog.constraint.variant_product_invalid_family';
 
     /** @var string */
     public $propertyPath = 'family';

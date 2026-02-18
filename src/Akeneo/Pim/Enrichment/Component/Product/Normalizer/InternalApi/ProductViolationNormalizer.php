@@ -24,9 +24,6 @@ class ProductViolationNormalizer implements NormalizerInterface, CacheableSuppor
     /** @var AttributeRepositoryInterface */
     protected $attributeRepository;
 
-    /**
-     * @param AttributeRepositoryInterface $attributeRepository
-     */
     public function __construct(AttributeRepositoryInterface $attributeRepository)
     {
         $this->attributeRepository = $attributeRepository;
@@ -49,7 +46,7 @@ class ProductViolationNormalizer implements NormalizerInterface, CacheableSuppor
             ];
         }
 
-        if (1 === preg_match('|^values\[(?P<attribute>[a-z0-9-_\<\>]+)|i', $propertyPath, $matches)) {
+        if (1 === preg_match('|^values\[(?P<attribute>[a-z0-9-_\<\>]+)|i', (string) $propertyPath, $matches)) {
             if (!isset($context['product']) && !isset($context['productModel'])) {
                 throw new \InvalidArgumentException('Expects a product or product model context');
             }
@@ -76,14 +73,14 @@ class ProductViolationNormalizer implements NormalizerInterface, CacheableSuppor
             ];
         }
 
-        if (0 === strpos($propertyPath, 'values[')) {
+        if (str_starts_with((string) $propertyPath, 'values[')) {
             if (!isset($context['product']) && !isset($context['productModel'])) {
                 throw new \InvalidArgumentException('Expects a product or product model context');
             }
 
-            $codeStart = strpos($propertyPath, '[') + 1;
-            $codeLength = strpos($propertyPath, ']') - $codeStart;
-            $attribute = json_decode(substr($propertyPath, $codeStart, $codeLength), true);
+            $codeStart = strpos((string) $propertyPath, '[') + 1;
+            $codeLength = strpos((string) $propertyPath, ']') - $codeStart;
+            $attribute = json_decode(substr((string) $propertyPath, $codeStart, $codeLength), true, 512, JSON_THROW_ON_ERROR);
 
             return [
                 'attribute' => $attribute['code'],

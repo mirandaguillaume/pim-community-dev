@@ -22,9 +22,6 @@ class AuthenticateCommandAsAdminUserListener
     ) {
     }
 
-    /**
-     * @param ConsoleCommandEvent $event
-     */
     public function createUserSystem(ConsoleCommandEvent $event): void
     {
         if (!$this->commandRegistry->isCommandRegistered($event->getCommand()->getName())) {

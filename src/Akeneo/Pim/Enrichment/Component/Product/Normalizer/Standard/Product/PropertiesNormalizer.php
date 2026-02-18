@@ -19,19 +19,19 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class PropertiesNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    public const FIELD_UUID = 'uuid';
-    public const FIELD_IDENTIFIER = 'identifier';
-    public const FIELD_LABEL = 'label';
-    public const FIELD_FAMILY = 'family';
-    public const FIELD_PARENT = 'parent';
-    public const FIELD_GROUPS = 'groups';
-    public const FIELD_CATEGORIES = 'categories';
-    public const FIELD_ENABLED = 'enabled';
-    public const FIELD_VALUES = 'values';
-    public const FIELD_CREATED = 'created';
-    public const FIELD_UPDATED = 'updated';
+    final public const FIELD_UUID = 'uuid';
+    final public const FIELD_IDENTIFIER = 'identifier';
+    final public const FIELD_LABEL = 'label';
+    final public const FIELD_FAMILY = 'family';
+    final public const FIELD_PARENT = 'parent';
+    final public const FIELD_GROUPS = 'groups';
+    final public const FIELD_CATEGORIES = 'categories';
+    final public const FIELD_ENABLED = 'enabled';
+    final public const FIELD_VALUES = 'values';
+    final public const FIELD_CREATED = 'created';
+    final public const FIELD_UPDATED = 'updated';
 
-    public function __construct(private CollectionFilterInterface $filter, private NormalizerInterface $normalizer)
+    public function __construct(private readonly CollectionFilterInterface $filter, private readonly NormalizerInterface $normalizer)
     {
     }
 
@@ -44,7 +44,7 @@ class PropertiesNormalizer implements NormalizerInterface, CacheableSupportsMeth
         $data = [];
 
         // TODO TIP-987 Remove this when decoupling PublishedProduct from Enrichment
-        if (\get_class($product) !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct') {
+        if ($product::class !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct') {
             $data[self::FIELD_UUID] = $product->getUuid()->toString();
         }
         $data[self::FIELD_IDENTIFIER] = $product->getIdentifier();
@@ -80,9 +80,7 @@ class PropertiesNormalizer implements NormalizerInterface, CacheableSupportsMeth
     /**
      * Normalize the values of the product
      *
-     * @param WriteValueCollection $values
      * @param string                   $format
-     * @param array                    $context
      *
      * @return ArrayCollection
      */

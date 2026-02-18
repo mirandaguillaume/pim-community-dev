@@ -13,14 +13,10 @@ use Akeneo\Tool\Component\FileStorage\Repository\FileInfoRepositoryInterface;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class NonExistentFileValueFilter implements NonExistentValuesFilter
+final readonly class NonExistentFileValueFilter implements NonExistentValuesFilter
 {
-    /** @var FileInfoRepositoryInterface */
-    private $fileInfoRepository;
-
-    public function __construct(FileInfoRepositoryInterface $fileInfoRepository)
+    public function __construct(private FileInfoRepositoryInterface $fileInfoRepository)
     {
-        $this->fileInfoRepository = $fileInfoRepository;
     }
 
     /**

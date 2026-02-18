@@ -29,7 +29,7 @@ final class DownloadStep extends AbstractStep
         string $name,
         EventDispatcherInterface $eventDispatcher,
         JobRepositoryInterface $jobRepository,
-        private DownloadFileFromStorageHandler $downloadFileFromStorageHandler,
+        private readonly DownloadFileFromStorageHandler $downloadFileFromStorageHandler,
         private readonly string $localStorageRoot,
     ) {
         parent::__construct($name, $eventDispatcher, $jobRepository);

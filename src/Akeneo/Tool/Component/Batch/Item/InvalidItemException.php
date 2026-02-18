@@ -21,10 +21,7 @@ class InvalidItemException extends \Exception
      * Constructor
      *
      * @param string               $message
-     * @param InvalidItemInterface $item
-     * @param array                $messageParameters
      * @param int                  $code
-     * @param \Throwable           $previous
      */
     public function __construct(
         $message,

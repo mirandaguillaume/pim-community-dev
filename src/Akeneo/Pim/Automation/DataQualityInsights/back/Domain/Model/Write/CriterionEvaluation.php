@@ -19,8 +19,8 @@ final class CriterionEvaluation
     private ?CriterionEvaluationResult $result = null;
 
     public function __construct(
-        private CriterionCode             $criterionCode,
-        private ProductEntityIdInterface  $entityId,
+        private readonly CriterionCode             $criterionCode,
+        private readonly ProductEntityIdInterface  $entityId,
         private CriterionEvaluationStatus $status
     ) {
     }

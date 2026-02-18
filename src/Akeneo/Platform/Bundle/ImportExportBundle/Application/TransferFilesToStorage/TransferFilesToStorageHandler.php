@@ -15,7 +15,7 @@ use Akeneo\Platform\Bundle\ImportExportBundle\Domain\Model\NoneStorage;
 use Akeneo\Platform\Bundle\ImportExportBundle\Domain\StorageHydratorInterface;
 use Akeneo\Platform\Bundle\ImportExportBundle\Domain\TransferFilesToStorageInterface;
 
-final class TransferFilesToStorageHandler
+final readonly class TransferFilesToStorageHandler
 {
     public function __construct(
         private StorageHydratorInterface $storageHydrator,

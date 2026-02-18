@@ -34,7 +34,7 @@ final class SqlGetCategoryCodesIntegration extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->getCategoryCodes = $this->get('Akeneo\Pim\Enrichment\Product\Domain\Query\GetCategoryCodes');
+        $this->getCategoryCodes = $this->get(\Akeneo\Pim\Enrichment\Product\Domain\Query\GetCategoryCodes::class);
 
         $this->createProductModel([
             'code' => 'root_a1',

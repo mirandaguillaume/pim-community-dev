@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class IsConnectionsNumberLimitReachedValidator extends ConstraintValidator
 {
-    public function __construct(private IsConnectionsNumberLimitReachedQueryInterface $isConnectionsNumberLimitReachedQuery)
+    public function __construct(private readonly IsConnectionsNumberLimitReachedQueryInterface $isConnectionsNumberLimitReachedQuery)
     {
     }
 

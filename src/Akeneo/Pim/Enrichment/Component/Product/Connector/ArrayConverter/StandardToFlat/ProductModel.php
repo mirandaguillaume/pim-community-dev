@@ -18,7 +18,7 @@ class ProductModel extends AbstractSimpleArrayConverter implements ArrayConverte
 {
     public function __construct(
         protected ProductValueConverter $valueConverter,
-        private QualityScoreConverter $qualityScoreConverter
+        private readonly QualityScoreConverter $qualityScoreConverter
     ) {
     }
 
@@ -85,8 +85,6 @@ class ProductModel extends AbstractSimpleArrayConverter implements ArrayConverte
      *
      * @param array $data
      * @param array $convertedItem
-     *
-     * @return array
      */
     protected function convertAssociations(array $data, array $convertedItem): array
     {

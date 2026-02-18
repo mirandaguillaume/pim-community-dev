@@ -144,16 +144,16 @@ JSON;
 
         $data =
 <<<JSON
-${line['invalid_json_1']}
-${line['invalid_json_2']}
-${line['invalid_json_3']}
-${line['line_too_long_1']}
-${line['line_too_long_2']}
-${line['line_too_long_3']}
-${line['line_too_long_4']}
-${line['line_too_long_5']}
-${line['line_too_long_6']}
-${line['invalid_json_4']}
+{$line['invalid_json_1']}
+{$line['invalid_json_2']}
+{$line['invalid_json_3']}
+{$line['line_too_long_1']}
+{$line['line_too_long_2']}
+{$line['line_too_long_3']}
+{$line['line_too_long_4']}
+{$line['line_too_long_5']}
+{$line['line_too_long_6']}
+{$line['invalid_json_4']}
 JSON;
 
         $expectedContent =

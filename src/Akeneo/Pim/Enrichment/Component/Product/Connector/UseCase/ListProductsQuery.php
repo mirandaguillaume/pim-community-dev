@@ -60,8 +60,6 @@ final class ListProductsQuery
 
     /**
      * Returns the parameter 'with_count' typed as a boolean
-     *
-     * @return bool
      */
     public function withCountAsBoolean(): bool
     {
@@ -70,8 +68,6 @@ final class ListProductsQuery
 
     /**
      * Returns the parameter 'with_attribute_options' typed as a boolean
-     *
-     * @return bool
      */
     public function withAttributeOptionsAsBoolean(): bool
     {

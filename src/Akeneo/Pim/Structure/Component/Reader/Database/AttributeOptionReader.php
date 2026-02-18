@@ -23,9 +23,6 @@ class AttributeOptionReader extends AbstractReader implements
     /** @var AttributeOptionRepositoryInterface */
     protected $repository;
 
-    /**
-     * @param AttributeOptionRepositoryInterface $repository
-     */
     public function __construct(AttributeOptionRepositoryInterface $repository)
     {
         $this->repository = $repository;

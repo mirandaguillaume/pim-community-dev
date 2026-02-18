@@ -20,13 +20,9 @@ class ListClientsCommand extends Command
     protected static $defaultName = 'pim:oauth-server:list-clients';
     protected static $defaultDescription = 'Lists all existing pairs of client id / secret for the web API';
 
-    private EntityRepository $clientRepository;
-
-    public function __construct(EntityRepository $clientRepository)
+    public function __construct(private readonly EntityRepository $clientRepository)
     {
         parent::__construct();
-
-        $this->clientRepository = $clientRepository;
     }
 
     /**
@@ -53,7 +49,7 @@ class ListClientsCommand extends Command
             ]);
         }
 
-        $table->render($output);
+        $table->render();
 
         return Command::SUCCESS;
     }

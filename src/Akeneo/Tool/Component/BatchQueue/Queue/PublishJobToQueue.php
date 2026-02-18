@@ -27,14 +27,14 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class PublishJobToQueue implements PublishJobToQueueInterface
 {
     public function __construct(
-        private string $kernelEnv,
-        private DoctrineJobRepository $jobRepository,
-        private ValidatorInterface $validator,
-        private JobExecutionQueueInterface $jobExecutionQueue,
-        private JobExecutionMessageFactory $jobExecutionMessageFactory,
-        private EventDispatcherInterface $eventDispatcher,
-        private BatchLogHandler $batchLogHandler,
-        private CreateJobExecutionHandlerInterface $createJobExecutionHandler,
+        private readonly string $kernelEnv,
+        private readonly DoctrineJobRepository $jobRepository,
+        private readonly ValidatorInterface $validator,
+        private readonly JobExecutionQueueInterface $jobExecutionQueue,
+        private readonly JobExecutionMessageFactory $jobExecutionMessageFactory,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly BatchLogHandler $batchLogHandler,
+        private readonly CreateJobExecutionHandlerInterface $createJobExecutionHandler,
     ) {
     }
 

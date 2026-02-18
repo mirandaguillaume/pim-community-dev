@@ -18,11 +18,11 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class ProductModelLoader
 {
     public function __construct(
-        private SimpleFactoryInterface $factory,
-        private ObjectUpdaterInterface $updater,
-        private ValidatorInterface $validator,
-        private SaverInterface $saver,
-        private Client $client,
+        private readonly SimpleFactoryInterface $factory,
+        private readonly ObjectUpdaterInterface $updater,
+        private readonly ValidatorInterface $validator,
+        private readonly SaverInterface $saver,
+        private readonly Client $client,
     ) {
     }
 

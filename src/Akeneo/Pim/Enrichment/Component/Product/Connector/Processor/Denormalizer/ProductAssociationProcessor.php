@@ -112,8 +112,6 @@ class ProductAssociationProcessor extends AbstractProcessor implements ItemProce
     }
 
     /**
-     * @param ProductInterface $product
-     * @param array            $item
      *
      * @return array
      */
@@ -123,8 +121,6 @@ class ProductAssociationProcessor extends AbstractProcessor implements ItemProce
     }
 
     /**
-     * @param ProductInterface $product
-     * @param array            $item
      *
      * @throws PropertyException
      */
@@ -133,12 +129,6 @@ class ProductAssociationProcessor extends AbstractProcessor implements ItemProce
         $this->updater->update($product, $item);
     }
 
-    /**
-     * @param string $identifier
-     * @param array  $item
-     *
-     * @return null|ProductInterface
-     */
     public function findProduct(string $identifier, array $item): ?ProductInterface
     {
         try {
@@ -176,8 +166,6 @@ class ProductAssociationProcessor extends AbstractProcessor implements ItemProce
      * Detaches the product from the unit of work is the responsibility of the writer but in this case we
      * want ensure that an updated and invalid product will not be used in the association processor.
      * Also we don't want to keep skipped products in memory
-     *
-     * @param ProductInterface $product
      */
     protected function detachProduct(ProductInterface $product)
     {

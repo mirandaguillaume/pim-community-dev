@@ -21,10 +21,10 @@ use Webmozart\Assert\Assert;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class UpdateNomenclatureController
+final readonly class UpdateNomenclatureController
 {
     public function __construct(
-        private readonly UpdateNomenclatureHandler $updateNomenclatureHandler,
+        private UpdateNomenclatureHandler $updateNomenclatureHandler,
     ) {
     }
 
@@ -67,7 +67,11 @@ final class UpdateNomenclatureController
      */
     private function getContent(Request $request): array
     {
-        $content = \json_decode($request->getContent(), true);
+        try {
+            $content = \json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            throw new BadRequestHttpException('Invalid json message received');
+        }
         if (null === $content) {
             throw new BadRequestHttpException('Invalid json message received');
         }

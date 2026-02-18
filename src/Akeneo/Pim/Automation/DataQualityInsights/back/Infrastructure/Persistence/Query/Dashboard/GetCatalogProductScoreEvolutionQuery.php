@@ -15,16 +15,10 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\LocaleCode;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Result;
 
-final class GetCatalogProductScoreEvolutionQuery implements GetCatalogProductScoreEvolutionQueryInterface
+final readonly class GetCatalogProductScoreEvolutionQuery implements GetCatalogProductScoreEvolutionQueryInterface
 {
-    private Connection $db;
-
-    private Clock $clock;
-
-    public function __construct(Connection $db, Clock $clock)
+    public function __construct(private Connection $db, private Clock $clock)
     {
-        $this->db = $db;
-        $this->clock = $clock;
     }
 
     public function byCatalog(ChannelCode $channel, LocaleCode $locale): array
@@ -86,7 +80,7 @@ SQL;
             return $productScoreEvolution;
         }
 
-        $scores = json_decode($result, true);
+        $scores = json_decode((string) $result, true, 512, JSON_THROW_ON_ERROR);
         if (empty($scores) || !array_key_exists('monthly', $scores)) {
             return $productScoreEvolution;
         }

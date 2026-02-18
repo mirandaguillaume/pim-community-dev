@@ -16,11 +16,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class InitLockDbSchemaSubscriber implements EventSubscriberInterface
 {
-    private $connection;
-
-    public function __construct(Connection $dbalConnection)
+    public function __construct(private readonly Connection $connection)
     {
-        $this->connection = $dbalConnection;
     }
 
     public static function getSubscribedEvents(): array

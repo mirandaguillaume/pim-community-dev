@@ -20,9 +20,9 @@ use Webmozart\Assert\Assert;
 class GetQualityScoresFactory
 {
     public function __construct(
-        private GetProductScoresQueryInterface      $getProductScoresQuery,
-        private GetProductModelScoresQueryInterface $getProductModelScoresQuery,
-        private GetScoresByCriteriaStrategy         $getScoresByCriteria,
+        private readonly GetProductScoresQueryInterface      $getProductScoresQuery,
+        private readonly GetProductModelScoresQueryInterface $getProductModelScoresQuery,
+        private readonly GetScoresByCriteriaStrategy         $getScoresByCriteria,
     ) {
     }
 

@@ -16,20 +16,8 @@ use Symfony\Component\Validator\Constraints\Type;
  */
 class ProductModelCsvImport implements ConstraintCollectionProviderInterface
 {
-    /** @var ConstraintCollectionProviderInterface */
-    private $simpleProvider;
-
-    /** @var array */
-    private $supportedJobNames;
-
-    /**
-     * @param ConstraintCollectionProviderInterface $simpleProvider
-     * @param array                                 $supportedJobNames
-     */
-    public function __construct(ConstraintCollectionProviderInterface $simpleProvider, array $supportedJobNames)
+    public function __construct(private readonly ConstraintCollectionProviderInterface $simpleProvider, private readonly array $supportedJobNames)
     {
-        $this->simpleProvider = $simpleProvider;
-        $this->supportedJobNames = $supportedJobNames;
     }
 
     /**

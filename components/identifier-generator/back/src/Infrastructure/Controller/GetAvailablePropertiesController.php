@@ -24,17 +24,17 @@ use Webmozart\Assert\Assert;
  * @phpstan-type PropertyItemGroup array{'id': string, 'text': string, 'children': non-empty-list<PropertyItem>}
  * @phpstan-import-type AttributeDetails from GetGroupedAttributes
  */
-final class GetAvailablePropertiesController
+final readonly class GetAvailablePropertiesController
 {
     private const DEFAULT_LIMIT_PAGINATION = 20;
     private const FIELD_TRANSLATION_BASE = 'pim_catalog_identifier_generator.structure.fields.';
     private const SYSTEM_GROUP_TRANSLATION_KEY = 'pim_catalog_identifier_generator.structure.field_groups.system';
 
     public function __construct(
-        private readonly GetGroupedAttributes $getGroupedAttributes,
-        private readonly UserContext $userContext,
-        private readonly TranslatorInterface $translator,
-        private readonly SecurityFacadeInterface $securityFacade,
+        private GetGroupedAttributes $getGroupedAttributes,
+        private UserContext $userContext,
+        private TranslatorInterface $translator,
+        private SecurityFacadeInterface $securityFacade,
     ) {
     }
 
@@ -76,16 +76,12 @@ final class GetAvailablePropertiesController
         }
 
         return new JsonResponse(
-            \array_merge(
-                $this->formatSystemFields($paginatedFields),
-                $this->formatAttributes($paginatedAttributes)
-            )
+            [...$this->formatSystemFields($paginatedFields), ...$this->formatAttributes($paginatedAttributes)]
         );
     }
 
     /**
      * @param string[] $fields
-     * @param string|null $search
      *
      * @return string[]
      */

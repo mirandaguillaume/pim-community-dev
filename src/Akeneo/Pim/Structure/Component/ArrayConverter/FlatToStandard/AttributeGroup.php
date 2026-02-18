@@ -17,9 +17,6 @@ class AttributeGroup implements ArrayConverterInterface
     /** @var FieldsRequirementChecker */
     protected $fieldChecker;
 
-    /**
-     * @param FieldsRequirementChecker $fieldChecker
-     */
     public function __construct(FieldsRequirementChecker $fieldChecker)
     {
         $this->fieldChecker = $fieldChecker;
@@ -64,16 +61,14 @@ class AttributeGroup implements ArrayConverterInterface
     }
 
     /**
-     * @param array  $convertedItem
      * @param string $field
-     * @param mixed  $data
      *
      * @return array
      */
-    protected function convertField(array $convertedItem, $field, $data)
+    protected function convertField(array $convertedItem, $field, mixed $data)
     {
         if ('attributes' === $field) {
-            $convertedItem[$field] = empty($data) ? [] : explode(',', $data);
+            $convertedItem[$field] = empty($data) ? [] : explode(',', (string) $data);
         } elseif (preg_match('/^label-(?P<locale>[\w_]+)$/', $field, $matches)) {
             if (!isset($convertedItem['labels'])) {
                 $convertedItem['labels'] = [];

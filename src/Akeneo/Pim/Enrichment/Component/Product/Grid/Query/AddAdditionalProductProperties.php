@@ -13,9 +13,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Grid\ReadModel\Row;
 interface AddAdditionalProductProperties
 {
     /**
-     * @param FetchProductAndProductModelRowsParameters $queryParameters
      * @param Row[]                                     $rows
-     *
      * @return Row[]
      */
     public function add(FetchProductAndProductModelRowsParameters $queryParameters, array $rows): array;

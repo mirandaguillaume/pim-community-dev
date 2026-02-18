@@ -18,7 +18,7 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeOption\GetExistingAt
  */
 class NonExistentSimpleSelectValuesFilter implements NonExistentValuesFilter
 {
-    public function __construct(private GetExistingAttributeOptionCodes $getExistingAttributeOptionCodes)
+    public function __construct(private readonly GetExistingAttributeOptionCodes $getExistingAttributeOptionCodes)
     {
     }
 
@@ -63,7 +63,7 @@ class NonExistentSimpleSelectValuesFilter implements NonExistentValuesFilter
         $caseInsensitiveOptionsCodes = [];
         foreach ($existingOptionCodes as $attributeCode => $optionCodesForThisAttribute) {
             foreach ($optionCodesForThisAttribute as $optionCodeForThisAttribute) {
-                $caseInsensitiveOptionsCodes[$attributeCode][strtolower($optionCodeForThisAttribute)] = $optionCodeForThisAttribute;
+                $caseInsensitiveOptionsCodes[$attributeCode][strtolower((string) $optionCodeForThisAttribute)] = $optionCodeForThisAttribute;
             }
         }
 

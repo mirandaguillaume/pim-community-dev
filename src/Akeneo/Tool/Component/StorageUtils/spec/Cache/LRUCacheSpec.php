@@ -55,9 +55,7 @@ final class LRUCacheSpec extends ObjectBehavior
      */
     function it_store_null_values_and_does_not_call_the_query_if_null_value_is_stored()
     {
-        $query = function(string $entityCode) {
-            return null;
-        };
+        $query = fn(string $entityCode) => null;
 
         $this->getForKey('entity_code_1', $query)->shouldBe(null);
         $this->getForKey('entity_code_1', $query)->shouldBe(null);
@@ -152,16 +150,12 @@ final class LRUCacheSpec extends ObjectBehavior
 
     private function queryToFetchEntityFromCode(EntityObjectQuery $entityObjectQuery)
     {
-        return function(string $entityCode)  use ($entityObjectQuery) {
-            return $entityObjectQuery->fromCode($entityCode);
-        };
+        return fn(string $entityCode) => $entityObjectQuery->fromCode($entityCode);
     }
 
     private function queryToFetchEntitiesFromCodes(EntityObjectQuery $entityObjectQuery)
     {
-        return function(array $entityCodes) use ($entityObjectQuery) {
-            return $entityObjectQuery->fromCodes($entityCodes);
-        };
+        return fn(array $entityCodes) => $entityObjectQuery->fromCodes($entityCodes);
     }
 }
 
@@ -171,10 +165,7 @@ interface EntityObjectQuery {
 }
 
 class EntityObject {
-    private $id;
-
-    public function __construct(string $id)
+    public function __construct(private readonly string $id)
     {
-        $this->id = $id;
     }
 }

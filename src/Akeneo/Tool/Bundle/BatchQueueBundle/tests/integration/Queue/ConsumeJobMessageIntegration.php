@@ -157,7 +157,7 @@ class ConsumeJobMessageIntegration extends TestCase
             ['Default', 'Execution']
         );
 
-        if (count($errors) > 0) {
+        if ((is_countable($errors) ? count($errors) : 0) > 0) {
             throw new \RuntimeException('JobExecution could not be created due to invalid job parameters.');
         }
 

@@ -12,7 +12,7 @@ use Akeneo\Connectivity\Connection\Domain\ErrorManagement\ErrorTypes;
  */
 class ErrorType implements \Stringable
 {
-    private string $type;
+    private readonly string $type;
 
     public function __construct(string $type)
     {

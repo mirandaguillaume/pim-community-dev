@@ -14,26 +14,19 @@ use Webmozart\Assert\Assert;
  */
 class MeasurementFamily
 {
-    public const MIN_UNIT_COUNT = 1;
+    final public const MIN_UNIT_COUNT = 1;
 
-    private MeasurementFamilyCode $code;
+    private readonly UnitCode $standardUnitCode;
 
-    private LabelCollection $labels;
+    private readonly array $units;
 
-    private UnitCode $standardUnitCode;
-
-    private array $units;
-
-    private function __construct(MeasurementFamilyCode $code, LabelCollection $labels, UnitCode $standardUnitCode, array $units)
+    private function __construct(private readonly MeasurementFamilyCode $code, private readonly LabelCollection $labels, UnitCode $standardUnitCode, array $units)
     {
         Assert::allIsInstanceOf($units, Unit::class);
         Assert::minCount($units, self::MIN_UNIT_COUNT);
         $this->assertStandardUnitExists($standardUnitCode, $units);
         $this->assertStandardUnitOperationIsAMultiplyByOne($standardUnitCode, $units);
         $this->assertNoDuplicatedUnits($units);
-
-        $this->code = $code;
-        $this->labels = $labels;
         $this->standardUnitCode = $standardUnitCode;
         $this->units = $units;
     }

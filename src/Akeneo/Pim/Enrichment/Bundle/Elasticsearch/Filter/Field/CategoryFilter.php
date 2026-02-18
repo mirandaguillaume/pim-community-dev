@@ -21,11 +21,6 @@ class CategoryFilter extends AbstractFieldFilter implements FieldFilterInterface
     /** @var CategoryRepositoryInterface */
     protected $categoryRepository;
 
-    /**
-     * @param CategoryRepositoryInterface $categoryRepository
-     * @param array                       $supportedFields
-     * @param array                       $supportedOperators
-     */
     public function __construct(
         CategoryRepositoryInterface $categoryRepository,
         array $supportedFields = [],
@@ -143,10 +138,9 @@ class CategoryFilter extends AbstractFieldFilter implements FieldFilterInterface
      * Check if value is valid
      *
      * @param string $field
-     * @param mixed  $values
      * @throws ObjectNotFoundException
      */
-    protected function checkValue($field, $values): void
+    protected function checkValue($field, mixed $values): void
     {
         FieldFilterHelper::checkArray($field, $values, static::class);
 

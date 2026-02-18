@@ -13,7 +13,7 @@ use Akeneo\UserManagement\Component\Repository\RoleRepositoryInterface;
 use Akeneo\UserManagement\Component\Storage\Saver\RoleWithPermissionsSaver;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
 
-final class FixturesUserHelper
+final readonly class FixturesUserHelper
 {
     public function __construct(
         private UserFactory $userFactory,

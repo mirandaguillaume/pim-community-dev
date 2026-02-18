@@ -15,18 +15,13 @@ use Doctrine\ORM\EntityManager;
  */
 class ProductModelCategoryRepository extends AbstractItemCategoryRepository implements ProductModelCategoryRepositoryInterface
 {
-    /** @var string */
-    protected $categoryClass;
-
     /**
      * @param EntityManager $em
      * @param string        $entityName
      * @param string        $categoryClass
      */
-    public function __construct(EntityManager $em, $entityName, $categoryClass)
+    public function __construct(EntityManager $em, $entityName, protected $categoryClass)
     {
         parent::__construct($em, $entityName);
-
-        $this->categoryClass = $categoryClass;
     }
 }

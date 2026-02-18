@@ -78,25 +78,15 @@ class ReferenceDataAttributeCopier extends AbstractAttributeCopier
         return $supportsFrom && $supportsTo && $referenceData;
     }
 
-    /**
-     * @param EntityWithValuesInterface $fromEntityWithValues
-     * @param EntityWithValuesInterface $toEntityWithValues
-     * @param AttributeInterface        $fromAttribute
-     * @param AttributeInterface        $toAttribute
-     * @param string|null               $fromLocale
-     * @param string|null               $toLocale
-     * @param string|null               $fromScope
-     * @param string|null               $toScope
-     */
     protected function copySingleValue(
         EntityWithValuesInterface $fromEntityWithValues,
         EntityWithValuesInterface $toEntityWithValues,
         AttributeInterface $fromAttribute,
         AttributeInterface $toAttribute,
-        $fromLocale,
-        $toLocale,
-        $fromScope,
-        $toScope
+        ?string $fromLocale,
+        ?string $toLocale,
+        ?string $fromScope,
+        ?string $toScope
     ) {
         $fromValue = $fromEntityWithValues->getValue($fromAttribute->getCode(), $fromLocale, $fromScope);
         $value = (null !== $fromValue && null !== $fromValue->getData()) ? $fromValue->getData() : null;

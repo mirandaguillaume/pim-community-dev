@@ -8,27 +8,27 @@ namespace Akeneo\Connectivity\Connection\Domain\Apps\Model;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ConnectedApp
+final readonly class ConnectedApp
 {
     /**
      * @param string[] $scopes
      * @param string[] $categories
      */
     public function __construct(
-        private readonly string $id,
-        private readonly string $name,
-        private readonly array $scopes,
-        private readonly string $connectionCode,
-        private readonly ?string $logo,
-        private readonly ?string $author,
-        private readonly string $userGroupName,
-        private readonly string $connectionUsername,
-        private readonly array $categories = [],
-        private readonly bool $certified = false,
-        private readonly ?string $partner = null,
-        private readonly bool $isCustomApp = false,
-        private readonly bool $isPending = false,
-        private readonly bool $hasOutdatedScopes = false,
+        private string $id,
+        private string $name,
+        private array $scopes,
+        private string $connectionCode,
+        private ?string $logo,
+        private ?string $author,
+        private string $userGroupName,
+        private string $connectionUsername,
+        private array $categories = [],
+        private bool $certified = false,
+        private ?string $partner = null,
+        private bool $isCustomApp = false,
+        private bool $isPending = false,
+        private bool $hasOutdatedScopes = false,
     ) {
     }
 

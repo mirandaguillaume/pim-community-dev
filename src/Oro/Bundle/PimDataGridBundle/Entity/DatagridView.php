@@ -14,8 +14,8 @@ use Akeneo\UserManagement\Component\Model\UserInterface;
 class DatagridView
 {
     /** @staticvar string */
-    const TYPE_PUBLIC = 'public';
-    const TYPE_PRIVATE = 'private';
+    final public const TYPE_PUBLIC = 'public';
+    final public const TYPE_PRIVATE = 'private';
 
     /** @var int */
     protected $id;
@@ -50,10 +50,8 @@ class DatagridView
 
     /**
      * Get id
-     *
-     * @return int|null
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -109,7 +107,6 @@ class DatagridView
     /**
      * Set owner
      *
-     * @param UserInterface $owner
      *
      * @return DatagridView
      */
@@ -157,7 +154,6 @@ class DatagridView
     /**
      * Set columns
      *
-     * @param array $columns
      *
      * @return DatagridView
      */

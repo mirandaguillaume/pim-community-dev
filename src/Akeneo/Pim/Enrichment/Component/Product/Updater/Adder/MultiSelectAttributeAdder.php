@@ -56,9 +56,6 @@ class MultiSelectAttributeAdder extends AbstractAttributeAdder
     /**
      * Adds options into the value
      *
-     * @param EntityWithValuesInterface $entityWithValues
-     * @param AttributeInterface        $attribute
-     * @param array                     $optionCodes
      * @param string                    $locale
      * @param string                    $scope
      */

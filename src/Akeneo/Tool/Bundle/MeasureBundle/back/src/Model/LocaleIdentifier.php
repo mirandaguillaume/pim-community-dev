@@ -12,7 +12,7 @@ use Webmozart\Assert\Assert;
  */
 class LocaleIdentifier
 {
-    private string $identifier;
+    private readonly string $identifier;
 
     private function __construct(string $identifier)
     {

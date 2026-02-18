@@ -13,20 +13,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class AjaxEntityTransformerFactory implements TransformerFactoryInterface
 {
-    protected ManagerRegistry $doctrine;
-
-    /**
-     * @var string
-     */
-    protected $class;
-
     /**
      * @param string            $class
      */
-    public function __construct(ManagerRegistry $doctrine, $class)
+    public function __construct(protected ManagerRegistry $doctrine, protected $class)
     {
-        $this->doctrine = $doctrine;
-        $this->class = $class;
     }
 
     /**

@@ -18,7 +18,7 @@ use Ramsey\Uuid\UuidInterface;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class GetValuesAndPropertiesFromProductUuids
+final readonly class GetValuesAndPropertiesFromProductUuids
 {
     public function __construct(private Connection $connection)
     {
@@ -77,7 +77,7 @@ SQL;
         $platform = $this->connection->getDatabasePlatform();
         $results = [];
         foreach ($rows as $row) {
-            $groupCodes = array_values(array_filter(json_decode($row['group_codes'])));
+            $groupCodes = array_values(array_filter(json_decode((string) $row['group_codes'], null, 512, JSON_THROW_ON_ERROR)));
             sort($groupCodes);
 
             $results[$row['uuid']] = [
@@ -89,7 +89,7 @@ SQL;
                 'updated' => Type::getType(Types::DATETIME_IMMUTABLE)->convertToPhpValue($row['updated'], $platform),
                 'family_code' => Type::getType(Types::STRING)->convertToPHPValue($row['family_code'], $platform),
                 'group_codes' => $groupCodes,
-                'raw_values' => json_decode($row['raw_values'], true)
+                'raw_values' => json_decode((string) $row['raw_values'], true, 512, JSON_THROW_ON_ERROR)
             ];
         }
 

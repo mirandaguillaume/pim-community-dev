@@ -15,12 +15,6 @@ use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
  */
 class DatasourceAdapterResolver implements DatasourceAdapterResolverInterface
 {
-    /** @var string */
-    protected $ormAdapter;
-
-    /** @var string */
-    protected $productOrmAdapter;
-
     /** @var array */
     protected $productDatasources = [];
 
@@ -28,12 +22,8 @@ class DatasourceAdapterResolver implements DatasourceAdapterResolverInterface
      * @param string $ormAdapter
      * @param string $productOrmAdapter
      */
-    public function __construct(
-        $ormAdapter,
-        $productOrmAdapter
-    ) {
-        $this->ormAdapter = $ormAdapter;
-        $this->productOrmAdapter = $productOrmAdapter;
+    public function __construct(protected $ormAdapter, protected $productOrmAdapter)
+    {
     }
 
     /**

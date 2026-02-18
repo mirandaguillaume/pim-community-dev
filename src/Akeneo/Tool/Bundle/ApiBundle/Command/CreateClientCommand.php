@@ -23,14 +23,9 @@ class CreateClientCommand extends Command
 {
     protected static $defaultName = 'pim:oauth-server:create-client';
 
-    /** @var ClientManagerInterface */
-    private $clientManager;
-
-    public function __construct(ClientManagerInterface $clientManager)
+    public function __construct(private readonly ClientManagerInterface $clientManager)
     {
         parent::__construct();
-
-        $this->clientManager = $clientManager;
     }
 
     /**

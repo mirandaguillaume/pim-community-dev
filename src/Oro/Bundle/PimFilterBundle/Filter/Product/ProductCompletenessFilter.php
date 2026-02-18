@@ -27,14 +27,11 @@ class ProductCompletenessFilter extends BooleanFilter
             return false;
         }
 
-        switch ($data['value']) {
-            case BooleanFilterType::TYPE_YES:
-                $this->util->applyFilter($ds, 'completeness', Operators::EQUALS_ON_AT_LEAST_ONE_LOCALE, 100);
-                break;
-            case BooleanFilterType::TYPE_NO:
-                $this->util->applyFilter($ds, 'completeness', Operators::LOWER_THAN_ON_AT_LEAST_ONE_LOCALE, 100);
-                break;
-        }
+        match ($data['value']) {
+            BooleanFilterType::TYPE_YES => $this->util->applyFilter($ds, 'completeness', Operators::EQUALS_ON_AT_LEAST_ONE_LOCALE, 100),
+            BooleanFilterType::TYPE_NO => $this->util->applyFilter($ds, 'completeness', Operators::LOWER_THAN_ON_AT_LEAST_ONE_LOCALE, 100),
+            default => true,
+        };
 
         return true;
     }

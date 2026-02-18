@@ -43,7 +43,7 @@ class ResetIndexesCommandIntegration extends TestCase
                     'match_all' => new \StdClass(),
                 ],
             ]);
-            $this->assertGreaterThan(0, count($allDocuments['hits']['hits']));
+            $this->assertGreaterThan(0, is_countable($allDocuments['hits']['hits']) ? count($allDocuments['hits']['hits']) : 0);
         }
     }
 
@@ -64,7 +64,7 @@ class ResetIndexesCommandIntegration extends TestCase
                     'match_all' => new \StdClass(),
                 ],
             ]);
-            $this->assertEquals(0, count($allDocuments['hits']['hits']));
+            $this->assertEquals(0, is_countable($allDocuments['hits']['hits']) ? count($allDocuments['hits']['hits']) : 0);
         }
     }
 

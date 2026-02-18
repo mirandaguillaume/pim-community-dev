@@ -57,7 +57,7 @@ class InvalidDataItemConverterSpec extends ObjectBehavior
     }
 }
 
-class FakeObject
+class FakeObject implements \Stringable
 {
     /** @var string */
     public $property;

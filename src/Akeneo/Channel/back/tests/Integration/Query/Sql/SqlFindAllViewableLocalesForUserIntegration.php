@@ -16,7 +16,7 @@ final class SqlFindAllViewableLocalesForUserIntegration extends TestCase
         parent::setUp();
 
         $this->sqlFindAllViewableLocalesForUser = $this->get(
-            'Akeneo\Channel\Infrastructure\Query\Sql\SqlFindAllViewableLocalesForUser'
+            \Akeneo\Channel\Infrastructure\Query\Sql\SqlFindAllViewableLocalesForUser::class
         );
     }
 

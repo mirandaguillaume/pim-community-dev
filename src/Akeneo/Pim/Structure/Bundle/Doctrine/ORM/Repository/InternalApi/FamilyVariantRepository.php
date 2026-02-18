@@ -15,13 +15,8 @@ use Oro\Bundle\PimDataGridBundle\Doctrine\ORM\Repository\DatagridRepositoryInter
  */
 class FamilyVariantRepository implements DatagridRepositoryInterface
 {
-    private EntityManagerInterface $entityManager;
-    private string $entityName;
-
-    public function __construct(EntityManagerInterface $entityManager, string $entityName)
+    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly string $entityName)
     {
-        $this->entityManager = $entityManager;
-        $this->entityName = $entityName;
     }
 
     public function createDatagridQueryBuilder(array $parameters = []): QueryBuilder

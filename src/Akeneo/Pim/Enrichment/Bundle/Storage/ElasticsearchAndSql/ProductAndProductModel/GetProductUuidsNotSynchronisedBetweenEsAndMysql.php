@@ -13,11 +13,11 @@ use Ramsey\Uuid\UuidInterface;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GetProductUuidsNotSynchronisedBetweenEsAndMysql
+final readonly class GetProductUuidsNotSynchronisedBetweenEsAndMysql
 {
     public function __construct(
-        private readonly Client $productAndProductModelClient,
-        private readonly Connection $connection,
+        private Client $productAndProductModelClient,
+        private Connection $connection,
     ) {
     }
 

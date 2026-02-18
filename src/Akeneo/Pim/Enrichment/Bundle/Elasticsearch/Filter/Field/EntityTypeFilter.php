@@ -24,10 +24,6 @@ class EntityTypeFilter extends AbstractFieldFilter implements FieldFilterInterfa
 {
     private const ES_FIELD = 'document_type';
 
-    /**
-     * @param array $supportedFields
-     * @param array $supportedOperators
-     */
     public function __construct(
         array $supportedFields = [],
         array $supportedOperators = []

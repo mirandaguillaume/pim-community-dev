@@ -13,11 +13,11 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class RegisterVersionPurgerAdvisorPass implements CompilerPassInterface
 {
-    const DEFAULT_PRIORITY = 100;
+    final public const DEFAULT_PRIORITY = 100;
 
-    const REGISTRY_ID = 'pim_versioning.purger.version';
+    final public const REGISTRY_ID = 'pim_versioning.purger.version';
 
-    const ADVISOR_TAG_NAME = 'pim_versioning.purger.advisor';
+    final public const ADVISOR_TAG_NAME = 'pim_versioning.purger.advisor';
 
     /**
      * {@inheritdoc}
@@ -36,7 +36,7 @@ class RegisterVersionPurgerAdvisorPass implements CompilerPassInterface
 
         foreach ($taggedServices as $serviceId => $tags) {
             foreach ($tags as $tag) {
-                $priority = isset($tag['priority']) ? $tag['priority'] : static::DEFAULT_PRIORITY;
+                $priority = $tag['priority'] ?? static::DEFAULT_PRIORITY;
                 $services[$priority][] = $serviceId;
             }
         }

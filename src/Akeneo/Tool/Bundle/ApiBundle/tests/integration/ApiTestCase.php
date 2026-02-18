@@ -35,8 +35,8 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
  */
 abstract class ApiTestCase extends WebTestCase
 {
-    const USERNAME = 'admin';
-    const PASSWORD = 'admin';
+    final public const USERNAME = 'admin';
+    final public const PASSWORD = 'admin';
 
     /** @var KernelInterface */
     protected $testKernel;
@@ -117,7 +117,6 @@ abstract class ApiTestCase extends WebTestCase
     /**
      * Creates a new OAuth client and returns its client id and secret.
      *
-     * @param string|null $label
      *
      * @return string[]
      * @deprecated
@@ -125,7 +124,7 @@ abstract class ApiTestCase extends WebTestCase
      */
     protected function createOAuthClient(?string $label = null): array
     {
-        $label = $label ?? uniqid('Api_Test_Case_client');
+        $label ??= uniqid('Api_Test_Case_client');
         $connection = $this->createConnection($label);
 
         return [$connection->clientId(), $connection->secret()];
@@ -192,7 +191,7 @@ abstract class ApiTestCase extends WebTestCase
         );
 
         $response = $webClient->getResponse();
-        $responseBody = json_decode($response->getContent(), true);
+        $responseBody = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         return [
             $responseBody['access_token'],
@@ -226,8 +225,6 @@ abstract class ApiTestCase extends WebTestCase
     }
 
     /**
-     * @param string $service
-     *
      * @return mixed
      */
     protected function get(string $service)
@@ -236,8 +233,6 @@ abstract class ApiTestCase extends WebTestCase
     }
 
     /**
-     * @param string $parameter
-     *
      * @return mixed
      */
     protected function getParameter(string $parameter)
@@ -260,7 +255,6 @@ abstract class ApiTestCase extends WebTestCase
      * Look in every fixture directory if a fixture $name exists.
      * And return the pathname of the fixture if it exists.
      *
-     * @param string $name
      *
      * @return string
      * @throws \Exception if no fixture $name has been found
@@ -381,7 +375,6 @@ abstract class ApiTestCase extends WebTestCase
     /**
      * See https://github.com/symfony/symfony/commit/76f6c97416aca79e24a5b3e20e182fd6cc064b69...
      *
-     * @param string $string
      *
      * @return string
      */

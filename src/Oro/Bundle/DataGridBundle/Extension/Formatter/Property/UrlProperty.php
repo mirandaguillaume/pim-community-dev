@@ -7,19 +7,16 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class UrlProperty extends AbstractProperty
 {
-    const ROUTE_KEY = 'route';
-    const IS_ABSOLUTE_KEY = 'isAbsolute';
-    const ANCHOR_KEY = 'anchor';
-    const PARAMS_KEY = 'params';
+    final public const ROUTE_KEY = 'route';
+    final public const IS_ABSOLUTE_KEY = 'isAbsolute';
+    final public const ANCHOR_KEY = 'anchor';
+    final public const PARAMS_KEY = 'params';
 
     /** @var array */
     protected $excludeParams = [self::ROUTE_KEY, self::IS_ABSOLUTE_KEY, self::ANCHOR_KEY, self::PARAMS_KEY];
 
-    protected UrlGeneratorInterface $router;
-
-    public function __construct(UrlGeneratorInterface $router)
+    public function __construct(protected UrlGeneratorInterface $router)
     {
-        $this->router = $router;
     }
 
     /**

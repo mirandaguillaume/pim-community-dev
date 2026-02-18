@@ -12,9 +12,9 @@ use Doctrine\DBAL\Connection;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GetDeactivatedTemplateAttributesSql implements GetDeactivatedTemplateAttributes
+final readonly class GetDeactivatedTemplateAttributesSql implements GetDeactivatedTemplateAttributes
 {
-    public function __construct(private readonly Connection $connection)
+    public function __construct(private Connection $connection)
     {
     }
 

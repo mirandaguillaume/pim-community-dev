@@ -6,7 +6,7 @@ use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag;
 
 class OnlySerenityFeatureFlag implements FeatureFlag
 {
-    public function __construct(private string $edition)
+    public function __construct(private readonly string $edition)
     {
     }
 

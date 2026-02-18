@@ -19,21 +19,12 @@ class User extends AbstractSimpleArrayConverter implements ArrayConverterInterfa
      */
     protected function convertProperty($property, $data, array $convertedItem, array $options)
     {
-        switch ($property) {
-            case 'enabled':
-                $convertedItem[$property] = (true === $data) ? '1' : '0';
-                break;
-            case 'roles':
-            case 'groups':
-            case 'product_grid_filters':
-                $convertedItem[$property] = implode(',', $data);
-                break;
-            case 'avatar':
-                $convertedItem[$property] = $data['filePath'] ?? null;
-                break;
-            default:
-                $convertedItem[$property] = (string) $data;
-        }
+        $convertedItem[$property] = match ($property) {
+            'enabled' => (true === $data) ? '1' : '0',
+            'roles', 'groups', 'product_grid_filters' => implode(',', $data),
+            'avatar' => $data['filePath'] ?? null,
+            default => (string) $data,
+        };
 
         return $convertedItem;
     }

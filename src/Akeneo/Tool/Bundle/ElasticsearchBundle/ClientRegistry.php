@@ -13,12 +13,8 @@ namespace Akeneo\Tool\Bundle\ElasticsearchBundle;
  */
 class ClientRegistry
 {
-    /** @var array */
-    private $esClients = [];
+    private array $esClients = [];
 
-    /**
-     * @param Client $client
-     */
     public function register(Client $client): void
     {
         $this->esClients[] = $client;

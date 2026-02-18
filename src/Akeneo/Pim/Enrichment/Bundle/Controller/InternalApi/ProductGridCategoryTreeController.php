@@ -23,57 +23,17 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class ProductGridCategoryTreeController
 {
-    /** @var ListRootCategoriesWithCountHandler */
-    private $listRootCategoriesWithCount;
-
-    /** @var ListChildrenCategoriesWithCountHandler */
-    private $listChildrenCategoriesWithCount;
-
-    /** @var RootCategory */
-    private $rootCategoryNormalizer;
-
-    /** @var ChildCategory */
-    private $childCategoryNormalizer;
-
-    /** @var UserContext */
-    private $userContext;
-
-    /** @var SecurityFacade */
-    private $securityFacade;
-
-    /**
-     * @param ListRootCategoriesWithCountHandler $listRootCategoriesWithCount
-     * @param ListChildrenCategoriesWithCountHandler $listChildrenCategoriesWithCount
-     * @param RootCategory $rootCategoryNormalizer
-     * @param ChildCategory $childCategoryNormalizer
-     * @param UserContext $userContext
-     * @param SecurityFacade $securityFacade
-     */
-    public function __construct(
-        ListRootCategoriesWithCountHandler $listRootCategoriesWithCount,
-        ListChildrenCategoriesWithCountHandler $listChildrenCategoriesWithCount,
-        RootCategory $rootCategoryNormalizer,
-        ChildCategory $childCategoryNormalizer,
-        UserContext $userContext,
-        SecurityFacade $securityFacade
-    ) {
-        $this->listRootCategoriesWithCount = $listRootCategoriesWithCount;
-        $this->listChildrenCategoriesWithCount = $listChildrenCategoriesWithCount;
-        $this->rootCategoryNormalizer = $rootCategoryNormalizer;
-        $this->childCategoryNormalizer = $childCategoryNormalizer;
-        $this->userContext = $userContext;
-        $this->securityFacade = $securityFacade;
+    public function __construct(private readonly ListRootCategoriesWithCountHandler $listRootCategoriesWithCount, private readonly ListChildrenCategoriesWithCountHandler $listChildrenCategoriesWithCount, private readonly RootCategory $rootCategoryNormalizer, private readonly ChildCategory $childCategoryNormalizer, private readonly UserContext $userContext, private readonly SecurityFacade $securityFacade)
+    {
     }
 
     /**
      * The select_node_id is the id of the category selected as filter.
      * It allows to determine the selected tree where the category selected as filter belongs to.
      *
-     * @param Request $request
      *
      * @throws AccessDeniedException
      *
-     * @return Response
      */
     public function listTreeAction(Request $request): Response
     {
@@ -111,8 +71,6 @@ class ProductGridCategoryTreeController
      * @param Request $request
      *
      * @throws AccessDeniedException
-     *
-     * @return Response
      */
     public function listChildrenAction(Request $request): Response
     {

@@ -15,9 +15,9 @@ use Akeneo\Platform\Bundle\PimVersionBundle\VersionProviderInterface;
 class WebMarketplaceAliases implements WebMarketplaceAliasesInterface
 {
     public function __construct(
-        private VersionProviderInterface $versionProvider,
-        private PimVersion $growthVersion,
-        private PimVersion $freeTrialVersion,
+        private readonly VersionProviderInterface $versionProvider,
+        private readonly PimVersion $growthVersion,
+        private readonly PimVersion $freeTrialVersion,
     ) {
     }
 

@@ -9,7 +9,6 @@ interface TransformerFactoryInterface
     /**
      * Creates a transformer for the given options
      *
-     * @param array $options
      *
      * @return DataTransformerInterface
      */

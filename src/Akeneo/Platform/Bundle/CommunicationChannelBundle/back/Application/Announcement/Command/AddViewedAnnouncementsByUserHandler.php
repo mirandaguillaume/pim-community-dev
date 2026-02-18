@@ -12,23 +12,18 @@ use Akeneo\Platform\CommunicationChannel\Domain\Announcement\Repository\ViewedAn
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class AddViewedAnnouncementsByUserHandler
+final readonly class AddViewedAnnouncementsByUserHandler
 {
-    private ViewedAnnouncementRepositoryInterface $viewedAnnouncementRepository;
-
-    public function __construct(ViewedAnnouncementRepositoryInterface $viewedAnnouncementRepository)
+    public function __construct(private ViewedAnnouncementRepositoryInterface $viewedAnnouncementRepository)
     {
-        $this->viewedAnnouncementRepository = $viewedAnnouncementRepository;
     }
 
     public function execute(AddViewedAnnouncementsByUserCommand $command): void
     {
-        $viewedAnnouncements = array_map(function ($viewedAnnouncementId) use ($command) {
-            return ViewedAnnouncement::create(
-                $viewedAnnouncementId,
-                $command->userId()
-            );
-        }, $command->viewedAnnouncementIds());
+        $viewedAnnouncements = array_map(fn($viewedAnnouncementId) => ViewedAnnouncement::create(
+            $viewedAnnouncementId,
+            $command->userId()
+        ), $command->viewedAnnouncementIds());
 
         $this->viewedAnnouncementRepository->create($viewedAnnouncements);
     }

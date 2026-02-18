@@ -34,9 +34,9 @@ final class ProductQueryBuilderAdapter extends AbstractEntityWithValuesQueryBuil
         FilterRegistryInterface $filterRegistry,
         SorterRegistryInterface $sorterRegistry,
         ProductQueryBuilderOptionsResolverInterface $optionResolver,
-        private FeatureFlags $featureFlags,
-        private UserRepositoryInterface $userRepository,
-        private ?GetGrantedCategoryCodes $getGrantedCategoryCodes
+        private readonly FeatureFlags $featureFlags,
+        private readonly UserRepositoryInterface $userRepository,
+        private readonly ?GetGrantedCategoryCodes $getGrantedCategoryCodes
     ) {
         $cursorFactory = new class implements CursorFactoryInterface {
             /**

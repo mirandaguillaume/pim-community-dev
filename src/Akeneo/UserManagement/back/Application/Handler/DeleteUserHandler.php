@@ -16,7 +16,7 @@ use Akeneo\UserManagement\ServiceApi\User\DeleteUserCommand;
 use Akeneo\UserManagement\ServiceApi\User\DeleteUserHandlerInterface;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 
-final class DeleteUserHandler implements DeleteUserHandlerInterface
+final readonly class DeleteUserHandler implements DeleteUserHandlerInterface
 {
     public function __construct(
         private UserRepositoryInterface $userRepository,

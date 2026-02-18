@@ -14,84 +14,13 @@ use Akeneo\Tool\Component\Api\Exception\InvalidQueryException;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ListProductsQueryValidator
+final readonly class ListProductsQueryValidator
 {
-    /** @var ValidateAttributes */
-    private $validateAttributes;
-
-    /** @var ValidateChannel */
-    private $validateChannel;
-
-    /** @var ValidateLocales */
-    private $validateLocales;
-
-    /** @var ValidatePagination */
-    private $validatePagination;
-
-    /** @var ValidateCriterion */
-    private $validateCriterion;
-
-    /** @var ValidateCategories */
-    private $validateCategories;
-
-    /** @var ValidateProperties */
-    private $validateProperties;
-
-    /** @var ValidateSearchLocale */
-    private $validateSearchLocales;
-
-    /** @var ValidateGrantedSearchLocaleInterface */
-    private $validateGrantedSearchLocales;
-
-    /** @var ValidateGrantedCategoriesInterface */
-    private $validateGrantedCategories;
-
-    /** @var ValidateGrantedPropertiesInterface */
-    private $validateGrantedProperties;
-
-    /** @var ValidateGrantedAttributesInterface */
-    private $validateGrantedAttributes;
-
-    /** @var ValidateGrantedLocalesInterface */
-    private $validateGrantedLocales;
-
-    private ValidateIdentifiersLimit $validateIdentifiersLimit;
-
-    public function __construct(
-        ValidateAttributes $validateAttributes,
-        ValidateChannel $validateChannel,
-        ValidateLocales $validateLocales,
-        ValidatePagination $validatePagination,
-        ValidateCriterion $validateCriterion,
-        ValidateCategories $validateCategories,
-        ValidateProperties $validateProperties,
-        ValidateSearchLocale $validateSearchLocales,
-        ValidateGrantedSearchLocaleInterface $validateGrantedSearchLocales,
-        ValidateGrantedCategoriesInterface $validateGrantedCategories,
-        ValidateGrantedPropertiesInterface $validateGrantedProperties,
-        ValidateGrantedAttributesInterface $validateGrantedAttributes,
-        ValidateGrantedLocalesInterface $validateGrantedLocales,
-        ValidateIdentifiersLimit $validateIdentifiersLimit
-    ) {
-        $this->validateAttributes = $validateAttributes;
-        $this->validateChannel = $validateChannel;
-        $this->validateLocales = $validateLocales;
-        $this->validatePagination = $validatePagination;
-        $this->validateCriterion = $validateCriterion;
-        $this->validateCategories = $validateCategories;
-        $this->validateProperties = $validateProperties;
-        $this->validateSearchLocales = $validateSearchLocales;
-        $this->validateGrantedSearchLocales = $validateGrantedSearchLocales;
-        $this->validateGrantedCategories = $validateGrantedCategories;
-        $this->validateGrantedProperties = $validateGrantedProperties;
-        $this->validateGrantedAttributes = $validateGrantedAttributes;
-        $this->validateGrantedLocales = $validateGrantedLocales;
-        $this->validateIdentifiersLimit = $validateIdentifiersLimit;
+    public function __construct(private ValidateAttributes $validateAttributes, private ValidateChannel $validateChannel, private ValidateLocales $validateLocales, private ValidatePagination $validatePagination, private ValidateCriterion $validateCriterion, private ValidateCategories $validateCategories, private ValidateProperties $validateProperties, private ValidateSearchLocale $validateSearchLocales, private ValidateGrantedSearchLocaleInterface $validateGrantedSearchLocales, private ValidateGrantedCategoriesInterface $validateGrantedCategories, private ValidateGrantedPropertiesInterface $validateGrantedProperties, private ValidateGrantedAttributesInterface $validateGrantedAttributes, private ValidateGrantedLocalesInterface $validateGrantedLocales, private ValidateIdentifiersLimit $validateIdentifiersLimit)
+    {
     }
 
     /**
-     * @param ListProductsQuery $query
-     *
      * @throws InvalidQueryException
      */
     public function validate(ListProductsQuery $query): void

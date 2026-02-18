@@ -26,9 +26,6 @@ class AttributeOptionUpdater implements ObjectUpdaterInterface
     /** @var AttributeRepositoryInterface */
     protected $attributeRepository;
 
-    /**
-     * @param AttributeRepositoryInterface $attributeRepository
-     */
     public function __construct(AttributeRepositoryInterface $attributeRepository)
     {
         $this->attributeRepository = $attributeRepository;
@@ -70,12 +67,11 @@ class AttributeOptionUpdater implements ObjectUpdaterInterface
      * Validate the data type of a field.
      *
      * @param string $field
-     * @param mixed  $data
      *
      * @throws InvalidPropertyTypeException
      * @throws UnknownPropertyException
      */
-    protected function validateDataType($field, $data)
+    protected function validateDataType($field, mixed $data)
     {
         if ('labels' === $field) {
             if (!is_array($data)) {
@@ -106,13 +102,11 @@ class AttributeOptionUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param AttributeOptionInterface $attributeOption
      * @param string                   $field
-     * @param mixed                    $data
      *
      * @throws InvalidPropertyException
      */
-    protected function setData(AttributeOptionInterface $attributeOption, $field, $data)
+    protected function setData(AttributeOptionInterface $attributeOption, $field, mixed $data)
     {
         if ('code' === $field && 0 !== \strcasecmp($attributeOption->getCode() ?? '', strval($data))) {
             $attributeOption->setCode(strval($data));

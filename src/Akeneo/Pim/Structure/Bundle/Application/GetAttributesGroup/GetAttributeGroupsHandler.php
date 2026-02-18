@@ -11,10 +11,10 @@ namespace Akeneo\Pim\Structure\Bundle\Application\GetAttributesGroup;
 
 use Akeneo\Pim\Structure\Bundle\Domain\Query\Sql\GetAttributeGroupsInterface;
 
-final class GetAttributeGroupsHandler
+final readonly class GetAttributeGroupsHandler
 {
     public function __construct(
-        private readonly GetAttributeGroupsInterface $getAttributeGroups
+        private GetAttributeGroupsInterface $getAttributeGroups
     ) {
     }
 

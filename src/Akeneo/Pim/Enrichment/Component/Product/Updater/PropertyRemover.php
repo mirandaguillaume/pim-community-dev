@@ -27,10 +27,6 @@ class PropertyRemover implements PropertyRemoverInterface
     /** @var RemoverRegistryInterface */
     protected $removerRegistry;
 
-    /**
-     * @param IdentifiableObjectRepositoryInterface $repository
-     * @param RemoverRegistryInterface              $removerRegistry
-     */
     public function __construct(
         IdentifiableObjectRepositoryInterface $repository,
         RemoverRegistryInterface $removerRegistry
@@ -64,7 +60,7 @@ class PropertyRemover implements PropertyRemoverInterface
         } else {
             throw new \RuntimeException(sprintf(
                 "The remover must implements AttributeRemoverInterface or FieldRemoverInterface, '%s' given",
-                get_class($remover)
+                $remover::class
             ));
         }
 
@@ -73,10 +69,8 @@ class PropertyRemover implements PropertyRemoverInterface
 
     /**
      * @param string $code
-     *
-     * @return AttributeInterface|null
      */
-    protected function getAttribute($code)
+    protected function getAttribute($code): ?\Akeneo\Pim\Structure\Component\Model\AttributeInterface
     {
         return $this->attributeRepository->findOneByIdentifier($code);
     }

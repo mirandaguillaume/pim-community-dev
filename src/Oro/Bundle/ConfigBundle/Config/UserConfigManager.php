@@ -13,8 +13,6 @@ class UserConfigManager extends ConfigManager
 
     /**
      * DI setter for token storage
-     *
-     * @param TokenStorageInterface $tokenStorage
      */
     public function setSecurity(TokenStorageInterface $tokenStorage)
     {

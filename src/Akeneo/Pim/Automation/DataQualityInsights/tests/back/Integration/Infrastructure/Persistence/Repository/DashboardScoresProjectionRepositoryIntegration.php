@@ -183,7 +183,7 @@ SQL;
             'code' => DashboardProjectionCode::CATALOG
         ]);
 
-        $averageRanks = json_decode($stmt->fetchOne(), true);
+        $averageRanks = json_decode((string) $stmt->fetchOne(), true, 512, JSON_THROW_ON_ERROR);
 
         $this->assertEquals($expectedAverageRanks, $averageRanks);
     }

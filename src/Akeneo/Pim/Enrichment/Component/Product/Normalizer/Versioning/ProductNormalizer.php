@@ -53,14 +53,10 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
     /** @var CollectionFilterInterface | null */
     protected $filter;
 
-    /** @var QuantifiedAssociationsNormalizer */
-    private $quantifiedAssociationsNormalized;
-
     public function __construct(
-        QuantifiedAssociationsNormalizer $quantifiedAssociationsNormalized,
+        private readonly QuantifiedAssociationsNormalizer $quantifiedAssociationsNormalized,
         CollectionFilterInterface $filter = null
     ) {
-        $this->quantifiedAssociationsNormalized = $quantifiedAssociationsNormalized;
         $this->filter = $filter;
     }
 
@@ -102,13 +98,9 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
     /**
      * Normalize values
      *
-     * @param ProductInterface $product
-     * @param string|null      $format
-     * @param array            $context
      *
-     * @return array
      */
-    protected function normalizeValues(ProductInterface $product, $format = null, array $context = []): array
+    protected function normalizeValues(ProductInterface $product, ?string $format = null, array $context = []): array
     {
         $values = $this->getFilteredValues($product, $context);
 
@@ -127,12 +119,10 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
     /**
      * Get filtered values
      *
-     * @param ProductInterface $product
-     * @param array            $context
      *
      * @return WriteValueCollection|ValueInterface[]
      */
-    protected function getFilteredValues(ProductInterface $product, array $context = [])
+    protected function getFilteredValues(ProductInterface $product, array $context = []): \Akeneo\Pim\Enrichment\Component\Product\Model\WriteValueCollection|array
     {
         if ($product->isVariant()) {
             $values = $product->getValuesForVariation();
@@ -162,8 +152,6 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
      * Normalize the field name for values
      *
      * @param ValueInterface $value
-     *
-     * @return string
      */
     protected function getFieldValue($value): string
     {
@@ -182,9 +170,7 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
     /**
      * Normalizes a family
      *
-     * @param FamilyInterface $family
      *
-     * @return string
      */
     protected function normalizeFamily(FamilyInterface $family = null): string
     {
@@ -195,8 +181,6 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
      * Normalizes groups
      *
      * @param GroupInterface[] $groups
-     *
-     * @return string
      */
     protected function normalizeGroups(array $groups = []): string
     {
@@ -206,9 +190,7 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
     /**
      * Normalizes categories
      *
-     * @param array $categories
      *
-     * @return string
      */
     protected function normalizeCategories(array $categories = []): string
     {
@@ -218,9 +200,7 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
     /**
      * Normalizes a product parent.
      *
-     * @param ProductModelInterface $parent
      *
-     * @return string
      */
     protected function normalizeParent(ProductModelInterface $parent = null): string
     {
@@ -231,10 +211,8 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
      * Normalize associations
      *
      * @param Collection|AssociationInterface[] $associations
-     *
-     * @return array
      */
-    protected function normalizeAssociations($associations): array
+    protected function normalizeAssociations(\Doctrine\Common\Collections\Collection|array $associations): array
     {
         $results = [];
         foreach ($associations as $association) {
@@ -266,9 +244,7 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
     /**
      * Merge default format option with context
      *
-     * @param array $context
      *
-     * @return array
      */
     protected function resolveContext(array $context): array
     {

@@ -14,17 +14,17 @@ class ConnectionWithCredentials
     private ?string $password = null;
 
     public function __construct(
-        private string $code,
-        private string $label,
-        private string $flowType,
-        private ?string $image,
-        private string $clientId,
-        private string $secret,
-        private string $username,
-        private string $userRoleId,
-        private ?string $userGroupId,
-        private bool $auditable,
-        private string $type
+        private readonly string $code,
+        private readonly string $label,
+        private readonly string $flowType,
+        private readonly ?string $image,
+        private readonly string $clientId,
+        private readonly string $secret,
+        private readonly string $username,
+        private readonly string $userRoleId,
+        private readonly ?string $userGroupId,
+        private readonly bool $auditable,
+        private readonly string $type
     ) {
     }
 

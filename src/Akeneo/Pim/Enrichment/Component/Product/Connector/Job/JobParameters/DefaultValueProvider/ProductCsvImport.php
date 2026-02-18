@@ -21,10 +21,6 @@ class ProductCsvImport implements DefaultValuesProviderInterface
     /** @var array */
     protected $supportedJobNames;
 
-    /**
-     * @param DefaultValuesProviderInterface $simpleProvider
-     * @param array                          $supportedJobNames
-     */
     public function __construct(DefaultValuesProviderInterface $simpleProvider, array $supportedJobNames)
     {
         $this->simpleProvider = $simpleProvider;

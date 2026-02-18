@@ -12,17 +12,12 @@ namespace Akeneo\Tool\Component\Batch\Job;
  */
 class RuntimeErrorException extends \RuntimeException
 {
-    protected array $messageParameters;
-
     /**
      * @param string $message
-     * @param array  $messageParameters
      */
-    public function __construct($message, array $messageParameters = [])
+    public function __construct($message, protected array $messageParameters = [])
     {
         parent::__construct($message);
-
-        $this->messageParameters = $messageParameters;
     }
 
     /**

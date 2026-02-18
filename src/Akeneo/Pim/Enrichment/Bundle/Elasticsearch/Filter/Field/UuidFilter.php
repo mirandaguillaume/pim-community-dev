@@ -14,7 +14,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Query\Filter\Operators;
  */
 final class UuidFilter extends AbstractFieldFilter
 {
-    public function __construct(private string $prefix)
+    public function __construct(private readonly string $prefix)
     {
         $this->supportedFields = ['uuid'];
         $this->supportedOperators = [Operators::IN_LIST, Operators::NOT_IN_LIST];

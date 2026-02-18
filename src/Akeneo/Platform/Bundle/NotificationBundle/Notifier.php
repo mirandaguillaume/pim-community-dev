@@ -31,12 +31,6 @@ class Notifier implements NotifierInterface
     /** @var BulkSaverInterface */
     protected $userNotifsSaver;
 
-    /**
-     * @param UserNotificationFactory $userNotifFactory
-     * @param UserProviderInterface   $userProvider
-     * @param SaverInterface          $notificationSaver
-     * @param BulkSaverInterface      $userNotifsSaver
-     */
     public function __construct(
         UserNotificationFactory $userNotifFactory,
         UserProviderInterface $userProvider,
@@ -61,7 +55,7 @@ class Notifier implements NotifierInterface
             try {
                 $user = is_object($user) ? $user : $this->userProvider->loadUserByIdentifier($user);
                 $userNotifications[] = $this->userNotifFactory->createUserNotification($notification, $user);
-            } catch (UserNotFoundException $e) {
+            } catch (UserNotFoundException) {
                 continue;
             }
         }
@@ -75,7 +69,6 @@ class Notifier implements NotifierInterface
     /**
      * Do not notify the System user.
      *
-     * @param array $users
      *
      * @return array
      */

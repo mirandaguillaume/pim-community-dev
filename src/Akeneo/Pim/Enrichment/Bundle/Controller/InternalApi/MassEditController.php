@@ -10,6 +10,7 @@ use Oro\Bundle\PimDataGridBundle\Adapter\GridFilterAdapterInterface;
 use Oro\Bundle\PimDataGridBundle\Adapter\ItemsCounter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Mass edit controller
@@ -35,13 +36,6 @@ class MassEditController
     /** @var ItemsCounter */
     protected $itemsCounter;
 
-    /**
-     * @param MassActionParametersParser $parameterParser
-     * @param GridFilterAdapterInterface $filterAdapter
-     * @param OperationJobLauncher       $operationJobLauncher
-     * @param ConverterInterface         $operationConverter
-     * @param ItemsCounter               $itemsCounter
-     */
     public function __construct(
         MassActionParametersParser $parameterParser,
         GridFilterAdapterInterface $filterAdapter,
@@ -59,7 +53,6 @@ class MassEditController
     /**
      * Get filters from datagrid request
      *
-     * @param Request $request
      *
      * @return JsonResponse
      */
@@ -80,13 +73,16 @@ class MassEditController
     /**
      * Launch mass edit action
      *
-     * @param Request $request
      *
      * @return JsonResponse
      */
     public function launchAction(Request $request)
     {
-        $data = json_decode($request->getContent(), true);
+        try {
+            $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return new JsonResponse(['message' => 'Invalid json message received'], Response::HTTP_BAD_REQUEST);
+        }
 
         $data = $this->operationConverter->convert($data);
         $operation = new MassEditOperation($data['jobInstanceCode'], $data['filters'], $data['actions']);

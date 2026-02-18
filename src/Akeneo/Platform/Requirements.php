@@ -50,9 +50,7 @@ class Requirements extends SymfonyRequirements
      */
     public function getPimRequirements(): array
     {
-        return array_filter($this->getRequirements(), function ($requirement) {
-            return $requirement instanceof Requirement;
-        });
+        return array_filter($this->getRequirements(), fn($requirement) => $requirement instanceof Requirement);
     }
 
     /**
@@ -60,9 +58,7 @@ class Requirements extends SymfonyRequirements
      */
     public function getMandatoryRequirements(): array
     {
-        return array_filter($this->getRequirements(), function ($requirement) {
-            return !($requirement instanceof Requirement);
-        });
+        return array_filter($this->getRequirements(), fn($requirement) => !($requirement instanceof Requirement));
     }
 
     /**
@@ -70,8 +66,6 @@ class Requirements extends SymfonyRequirements
      */
     public function getPhpIniRequirements(): array
     {
-        return array_filter($this->getRequirements(), function ($requirement) {
-            return $requirement instanceof PhpConfigRequirement;
-        });
+        return array_filter($this->getRequirements(), fn($requirement) => $requirement instanceof PhpConfigRequirement);
     }
 }

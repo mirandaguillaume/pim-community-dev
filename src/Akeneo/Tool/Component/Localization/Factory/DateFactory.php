@@ -11,24 +11,19 @@ namespace Akeneo\Tool\Component\Localization\Factory;
  */
 class DateFactory
 {
-    const TYPE_DATE = \IntlDateFormatter::SHORT;
-    const TYPE_TIME = \IntlDateFormatter::NONE;
+    public const TYPE_DATE = \IntlDateFormatter::SHORT;
+    public const TYPE_TIME = \IntlDateFormatter::NONE;
 
     /** @var array */
     protected $dateFormats;
 
-    /**
-     * @param array $dateFormats
-     */
     public function __construct(array $dateFormats)
     {
         $this->dateFormats = $dateFormats;
     }
 
     /**
-     * @param array $options
      * @param bool $fourDigitYear replace 2-digit year by 4-digit year format unless the format is explicitly specified
-     *
      * @return \IntlDateFormatter
      */
     public function create(array $options = [], bool $fourDigitYear = true)
@@ -52,8 +47,6 @@ class DateFactory
     }
 
     /**
-     * @param array $options
-     *
      * @return array
      */
     protected function resolveOptions(array $options)

@@ -16,16 +16,8 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class FamilyVariantNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    /** @var NormalizerInterface */
-    private $translationNormalizer;
-
-    /**
-     * @param NormalizerInterface $translationNormalizer
-     */
-    public function __construct(
-        NormalizerInterface $translationNormalizer
-    ) {
-        $this->translationNormalizer = $translationNormalizer;
+    public function __construct(private readonly NormalizerInterface $translationNormalizer)
+    {
     }
 
     /**
@@ -73,31 +65,23 @@ class FamilyVariantNormalizer implements NormalizerInterface, CacheableSupportsM
      * ]
      *
      * @param Collection $variantAttributeSets
-     *
-     * @return array
      */
     private function normalizeVariantAttributeSets(Collection $variantAttributeSets): array
     {
-        return $variantAttributeSets->map(function (VariantAttributeSetInterface $variantAttributeSet) {
-            return [
-                'level' => $variantAttributeSet->getLevel(),
-                'axes' => $this->normalizeAttributes($variantAttributeSet->getAxes()),
-                'attributes' => $this->normalizeAttributes($variantAttributeSet->getAttributes()),
-            ];
-        })->toArray();
+        return $variantAttributeSets->map(fn(VariantAttributeSetInterface $variantAttributeSet) => [
+            'level' => $variantAttributeSet->getLevel(),
+            'axes' => $this->normalizeAttributes($variantAttributeSet->getAxes()),
+            'attributes' => $this->normalizeAttributes($variantAttributeSet->getAttributes()),
+        ])->toArray();
     }
 
     /**
      * Normalizes a collection of attributes as an array of attribute codes.
      *
-     * @param Collection $attributes
      *
-     * @return array
      */
     private function normalizeAttributes(Collection $attributes): array
     {
-        return $attributes->map(function (AttributeInterface $attribute) {
-            return $attribute->getCode();
-        })->toArray();
+        return $attributes->map(fn(AttributeInterface $attribute) => $attribute->getCode())->toArray();
     }
 }

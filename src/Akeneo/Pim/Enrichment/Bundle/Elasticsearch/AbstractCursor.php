@@ -82,7 +82,6 @@ abstract class AbstractCursor implements CursorInterface
     /**
      * Get the next items (hydrated from doctrine repository).
      *
-     * @param array $esQuery
      *
      * @return array
      */

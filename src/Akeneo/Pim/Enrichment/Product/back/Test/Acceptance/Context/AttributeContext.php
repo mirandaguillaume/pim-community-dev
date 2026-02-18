@@ -18,7 +18,7 @@ use Webmozart\Assert\Assert;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class AttributeContext implements Context
+final readonly class AttributeContext implements Context
 {
     public function __construct(
         private InMemoryAttributeRepository $attributeRepository,
@@ -56,7 +56,7 @@ final class AttributeContext implements Context
                 if ('' === $attributeData['table_configuration']) {
                     unset($attributeData['table_configuration']);
                 } else {
-                    $attributeData['table_configuration'] = \json_decode($attributeData['table_configuration'], true);
+                    $attributeData['table_configuration'] = \json_decode($attributeData['table_configuration'], true, 512, JSON_THROW_ON_ERROR);
                 }
             }
 

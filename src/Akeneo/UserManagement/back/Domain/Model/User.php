@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Akeneo\UserManagement\Domain\Model;
 
-final class User
+final readonly class User
 {
     private function __construct(
         private int $id,

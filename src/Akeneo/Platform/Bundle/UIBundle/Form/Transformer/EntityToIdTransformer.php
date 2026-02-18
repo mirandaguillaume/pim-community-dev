@@ -25,11 +25,6 @@ class EntityToIdTransformer implements DataTransformerInterface
     /**
      * @var string
      */
-    protected $className;
-
-    /**
-     * @var string
-     */
     protected $property;
 
     /**
@@ -44,16 +39,14 @@ class EntityToIdTransformer implements DataTransformerInterface
     protected PropertyAccessor $propertyAccessor;
 
     /**
-     * @param EntityManager $em
      * @param string $className
      * @param string|null $property
      * @param callable $queryBuilderCallback
      * @throws UnexpectedTypeException When $queryBuilderCallback is set and not callable
      */
-    public function __construct(EntityManager $em, $className, $property = null, $queryBuilderCallback = null)
+    public function __construct(EntityManager $em, protected $className, $property = null, $queryBuilderCallback = null)
     {
         $this->em = $em;
-        $this->className = $className;
         if (!$property) {
             $property = $this->getIdPropertyPathFromEntityManager($em, $className);
         }
@@ -69,7 +62,6 @@ class EntityToIdTransformer implements DataTransformerInterface
     /**
      * Get identifier field name of entity using metadata
      *
-     * @param EntityManager $em
      * @param string $className
      * @throws FormException When entity has composite key
      * @return string
@@ -79,7 +71,7 @@ class EntityToIdTransformer implements DataTransformerInterface
         $meta = $em->getClassMetadata($className);
         try {
             return $meta->getSingleIdentifierFieldName();
-        } catch (MappingException $e) {
+        } catch (MappingException) {
             throw new FormException(
                 "Cannot get id property path of entity. \"$className\" has composite primary key."
             );
@@ -117,18 +109,17 @@ class EntityToIdTransformer implements DataTransformerInterface
     /**
      * Load entity by id
      *
-     * @param mixed $id
      * @throws UnexpectedTypeException if query builder callback returns invalid type
      * @return object
      */
-    protected function loadEntityById($id)
+    protected function loadEntityById(mixed $id)
     {
         $repository = $this->em->getRepository($this->className);
         if ($this->queryBuilderCallback) {
             /** @var $qb QueryBuilder */
             $qb = call_user_func($this->queryBuilderCallback, $repository, $id);
             if (!$qb instanceof QueryBuilder) {
-                throw new UnexpectedTypeException($qb, 'Doctrine\ORM\QueryBuilder');
+                throw new UnexpectedTypeException($qb, \Doctrine\ORM\QueryBuilder::class);
             }
             return $qb->getQuery()->execute();
         } else {

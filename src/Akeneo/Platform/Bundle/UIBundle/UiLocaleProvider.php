@@ -17,29 +17,19 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class UiLocaleProvider implements LocaleProviderInterface
 {
-    const MAIN_LOCALE = 'en_US';
-
-    protected TranslatorInterface $translator;
+    final public const MAIN_LOCALE = 'en_US';
     protected float $minPercentage;
-
-    /** @var string[] */
-    protected array $localeCodes;
-
-    protected LocaleRepositoryInterface $localeRepository;
 
     /**
      * @param string[] $localeCodes
      */
     public function __construct(
-        TranslatorInterface $translator,
-        LocaleRepositoryInterface $localeRepository,
+        protected TranslatorInterface $translator,
+        protected LocaleRepositoryInterface $localeRepository,
         float $minPercentage,
-        array $localeCodes
+        protected array $localeCodes
     ) {
-        $this->translator = $translator;
-        $this->localeRepository = $localeRepository;
         $this->minPercentage = (float) $minPercentage;
-        $this->localeCodes = $localeCodes;
     }
 
     /**
@@ -73,17 +63,15 @@ class UiLocaleProvider implements LocaleProviderInterface
     {
         $catalogue = $this->translator->getCatalogue($locale);
 
-        return count($catalogue->all(), COUNT_RECURSIVE);
+        return is_countable($catalogue->all()) ? count($catalogue->all(), COUNT_RECURSIVE) : 0;
     }
 
     /**
      * Return if the locale is available. A locale is available if it belongs to the fallback locales or if it is
      * translated to more than the percentage of the main locale.
      *
-     * @param array  $fallbackLocales
      * @param string $code
      * @param int    $mainProgress
-     *
      * @return bool
      */
     protected function isAvailableLocale(array $fallbackLocales, $code, $mainProgress)
@@ -92,7 +80,7 @@ class UiLocaleProvider implements LocaleProviderInterface
             return true;
         }
 
-        if (strpos($code, '_') === false) {
+        if (!str_contains($code, '_')) {
             // Remove locales without region
             return false;
         }

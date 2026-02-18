@@ -23,7 +23,7 @@ class InvalidPropertyTypeExceptionSpec extends ObjectBehavior
             InvalidPropertyTypeException::SCALAR_EXPECTED_CODE
         );
 
-        $this->shouldBeAnInstanceOf(get_class($exception));
+        $this->shouldBeAnInstanceOf($exception::class);
         $this->getPropertyName()->shouldReturn($exception->getPropertyName());
         $this->getPropertyValue()->shouldReturn($exception->getPropertyValue());
         $this->getClassName()->shouldReturn($exception->getClassName());
@@ -47,7 +47,7 @@ class InvalidPropertyTypeExceptionSpec extends ObjectBehavior
             InvalidPropertyTypeException::BOOLEAN_EXPECTED_CODE
         );
 
-        $this->shouldBeAnInstanceOf(get_class($exception));
+        $this->shouldBeAnInstanceOf($exception::class);
         $this->getPropertyName()->shouldReturn($exception->getPropertyName());
         $this->getPropertyValue()->shouldReturn($exception->getPropertyValue());
         $this->getClassName()->shouldReturn($exception->getClassName());
@@ -71,7 +71,7 @@ class InvalidPropertyTypeExceptionSpec extends ObjectBehavior
             InvalidPropertyTypeException::FLOAT_EXPECTED_CODE
         );
 
-        $this->shouldBeAnInstanceOf(get_class($exception));
+        $this->shouldBeAnInstanceOf($exception::class);
         $this->getPropertyName()->shouldReturn($exception->getPropertyName());
         $this->getPropertyValue()->shouldReturn($exception->getPropertyValue());
         $this->getClassName()->shouldReturn($exception->getClassName());
@@ -95,7 +95,7 @@ class InvalidPropertyTypeExceptionSpec extends ObjectBehavior
             InvalidPropertyTypeException::INTEGER_EXPECTED_CODE
         );
 
-        $this->shouldBeAnInstanceOf(get_class($exception));
+        $this->shouldBeAnInstanceOf($exception::class);
         $this->getPropertyName()->shouldReturn($exception->getPropertyName());
         $this->getPropertyValue()->shouldReturn($exception->getPropertyValue());
         $this->getClassName()->shouldReturn($exception->getClassName());
@@ -119,7 +119,7 @@ class InvalidPropertyTypeExceptionSpec extends ObjectBehavior
             InvalidPropertyTypeException::NUMERIC_EXPECTED_CODE
         );
 
-        $this->shouldBeAnInstanceOf(get_class($exception));
+        $this->shouldBeAnInstanceOf($exception::class);
         $this->getPropertyName()->shouldReturn($exception->getPropertyName());
         $this->getPropertyValue()->shouldReturn($exception->getPropertyValue());
         $this->getClassName()->shouldReturn($exception->getClassName());
@@ -143,7 +143,7 @@ class InvalidPropertyTypeExceptionSpec extends ObjectBehavior
             InvalidPropertyTypeException::STRING_EXPECTED_CODE
         );
 
-        $this->shouldBeAnInstanceOf(get_class($exception));
+        $this->shouldBeAnInstanceOf($exception::class);
         $this->getPropertyName()->shouldReturn($exception->getPropertyName());
         $this->getPropertyValue()->shouldReturn($exception->getPropertyValue());
         $this->getClassName()->shouldReturn($exception->getClassName());
@@ -167,7 +167,7 @@ class InvalidPropertyTypeExceptionSpec extends ObjectBehavior
             InvalidPropertyTypeException::ARRAY_EXPECTED_CODE
         );
 
-        $this->shouldBeAnInstanceOf(get_class($exception));
+        $this->shouldBeAnInstanceOf($exception::class);
         $this->getPropertyName()->shouldReturn($exception->getPropertyName());
         $this->getPropertyValue()->shouldReturn($exception->getPropertyValue());
         $this->getClassName()->shouldReturn($exception->getClassName());
@@ -192,7 +192,7 @@ class InvalidPropertyTypeExceptionSpec extends ObjectBehavior
             InvalidPropertyTypeException::VALID_ARRAY_STRUCTURE_EXPECTED_CODE
         );
 
-        $this->shouldBeAnInstanceOf(get_class($exception));
+        $this->shouldBeAnInstanceOf($exception::class);
         $this->getPropertyName()->shouldReturn($exception->getPropertyName());
         $this->getPropertyValue()->shouldReturn($exception->getPropertyValue());
         $this->getClassName()->shouldReturn($exception->getClassName());
@@ -216,7 +216,7 @@ class InvalidPropertyTypeExceptionSpec extends ObjectBehavior
             InvalidPropertyTypeException::ARRAY_OF_ARRAYS_EXPECTED_CODE
         );
 
-        $this->shouldBeAnInstanceOf(get_class($exception));
+        $this->shouldBeAnInstanceOf($exception::class);
         $this->getPropertyName()->shouldReturn($exception->getPropertyName());
         $this->getPropertyValue()->shouldReturn($exception->getPropertyValue());
         $this->getClassName()->shouldReturn($exception->getClassName());
@@ -240,7 +240,7 @@ class InvalidPropertyTypeExceptionSpec extends ObjectBehavior
             InvalidPropertyTypeException::ARRAY_OF_OBJECTS_EXPECTED_CODE
         );
 
-        $this->shouldBeAnInstanceOf(get_class($exception));
+        $this->shouldBeAnInstanceOf($exception::class);
         $this->getPropertyName()->shouldReturn($exception->getPropertyName());
         $this->getPropertyValue()->shouldReturn($exception->getPropertyValue());
         $this->getClassName()->shouldReturn($exception->getClassName());
@@ -265,7 +265,7 @@ class InvalidPropertyTypeExceptionSpec extends ObjectBehavior
             InvalidPropertyTypeException::ARRAY_KEY_EXPECTED_CODE
         );
 
-        $this->shouldBeAnInstanceOf(get_class($exception));
+        $this->shouldBeAnInstanceOf($exception::class);
         $this->getPropertyName()->shouldReturn($exception->getPropertyName());
         $this->getPropertyValue()->shouldReturn($exception->getPropertyValue());
         $this->getClassName()->shouldReturn($exception->getClassName());

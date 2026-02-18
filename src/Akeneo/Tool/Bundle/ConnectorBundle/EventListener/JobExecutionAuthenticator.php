@@ -19,11 +19,6 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  */
 class JobExecutionAuthenticator implements EventSubscriberInterface
 {
-    /**
-     * @param UserProviderInterface $jobUserProvider
-     * @param UserProviderInterface $uiUserProvider
-     * @param TokenStorageInterface $tokenStorage
-     */
     public function __construct(
         protected UserProviderInterface $jobUserProvider,
         protected UserProviderInterface $uiUserProvider,
@@ -46,8 +41,6 @@ class JobExecutionAuthenticator implements EventSubscriberInterface
      * according to the parameters of the job execution.
      *
      * @throws UserNotFoundException
-     *
-     * @param JobExecutionEvent $event
      */
     public function authenticate(JobExecutionEvent $event): void
     {

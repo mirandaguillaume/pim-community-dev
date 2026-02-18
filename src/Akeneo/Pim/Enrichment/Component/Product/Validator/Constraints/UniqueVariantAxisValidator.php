@@ -70,7 +70,6 @@ class UniqueVariantAxisValidator extends ConstraintValidator
      * Adds a constraint violation if there is a sibling of "$entity" with the
      * same combination of variant axis values in database.
      *
-     * @param EntityWithFamilyVariantInterface $entity
      * @param AttributeInterface[]             $axes
      */
     private function validateValueIsNotAlreadyInDatabase(EntityWithFamilyVariantInterface $entity, array $axes): void
@@ -81,9 +80,7 @@ class UniqueVariantAxisValidator extends ConstraintValidator
             return;
         }
 
-        $axesAttributesCodesToFilter = array_map(function (AttributeInterface $axisAttribute) {
-            return $axisAttribute->getCode();
-        }, $axes);
+        $axesAttributesCodesToFilter = array_map(fn(AttributeInterface $axisAttribute) => $axisAttribute->getCode(), $axes);
 
         $siblingValues = $this->getValuesOfSiblings->for($entity, $axesAttributesCodesToFilter);
 
@@ -156,8 +153,6 @@ class UniqueVariantAxisValidator extends ConstraintValidator
      *
      * @param WriteValueCollection $values
      * @param AttributeInterface[] $axes
-     *
-     * @return string
      */
     private function getCombinationOfAxisValues(WriteValueCollection $values, array $axes): string
     {
@@ -172,12 +167,6 @@ class UniqueVariantAxisValidator extends ConstraintValidator
         return implode(',', $combination);
     }
 
-    /**
-     * @param array                            $axes
-     * @param string                           $combination
-     * @param EntityWithFamilyVariantInterface $entityWithFamilyVariant
-     * @param string                           $siblingIdentifier
-     */
     private function addViolation(
         array $axes,
         string $combination,
@@ -185,9 +174,7 @@ class UniqueVariantAxisValidator extends ConstraintValidator
         string $siblingIdentifier
     ): void {
         $axesCodes = implode(',', array_map(
-            function (AttributeInterface $axis) {
-                return $axis->getCode();
-            },
+            fn(AttributeInterface $axis) => $axis->getCode(),
             $axes
         ));
 
@@ -195,7 +182,7 @@ class UniqueVariantAxisValidator extends ConstraintValidator
         $message = UniqueVariantAxis::DUPLICATE_VALUE_IN_PRODUCT_MODEL;
         if ($entityWithFamilyVariant instanceof ProductInterface) {
             $message = UniqueVariantAxis::DUPLICATE_VALUE_IN_VARIANT_PRODUCT;
-            $identifierOrUuid = $identifierOrUuid ?? $entityWithFamilyVariant->getUuid()->toString();
+            $identifierOrUuid ??= $entityWithFamilyVariant->getUuid()->toString();
         }
 
         $this->context->buildViolation($message, [

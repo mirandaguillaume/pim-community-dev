@@ -15,8 +15,7 @@ use Doctrine\DBAL\Types\DateTimeType;
  */
 class UTCDateTimeType extends DateTimeType
 {
-    /** @var null|\DateTimeZone */
-    private static $utc = null;
+    private static ?\DateTimeZone $utc = null;
 
     /**
      * {@inheritdoc}
@@ -27,7 +26,7 @@ class UTCDateTimeType extends DateTimeType
             return null;
         }
 
-        $value->setTimeZone((self::$utc) ? self::$utc : (self::$utc = new \DateTimeZone('UTC')));
+        $value->setTimeZone(self::$utc ?: (self::$utc = new \DateTimeZone('UTC')));
 
         return parent::convertToDatabaseValue($value, $platform);
     }
@@ -44,20 +43,20 @@ class UTCDateTimeType extends DateTimeType
         $val = \DateTime::createFromFormat(
             $platform->getDateTimeFormatString(),
             $value,
-            (self::$utc) ? self::$utc : (self::$utc = new \DateTimeZone('UTC'))
+            self::$utc ?: (self::$utc = new \DateTimeZone('UTC'))
         );
-
-        $serverTimezone = date_default_timezone_get();
-        $val->setTimezone(new \DateTimeZone($serverTimezone));
 
         if (!$val) {
             throw ConversionException::conversionFailed($value, $this->getName());
         }
 
-        $errors = $val->getLastErrors();
+        $serverTimezone = date_default_timezone_get();
+        $val->setTimezone(new \DateTimeZone($serverTimezone));
+
+        $errors = \DateTime::getLastErrors();
 
         // date was parsed to completely not valid value
-        if ($errors['warning_count'] > 0 && (int) $val->format('Y') < 0) {
+        if (\is_array($errors) && $errors['warning_count'] > 0 && (int) $val->format('Y') < 0) {
             return null;
         }
 

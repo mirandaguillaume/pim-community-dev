@@ -12,11 +12,9 @@ namespace Oro\Bundle\PimDataGridBundle\Doctrine\ORM\Repository;
 interface MassActionRepositoryInterface
 {
     /**
-     * @param mixed $qb
      * @param bool  $inset
-     * @param array $values
      *
      * @return mixed
      */
-    public function applyMassActionParameters($qb, $inset, array $values);
+    public function applyMassActionParameters(mixed $qb, $inset, array $values);
 }

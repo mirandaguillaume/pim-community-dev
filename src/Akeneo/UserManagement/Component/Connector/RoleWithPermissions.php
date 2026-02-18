@@ -14,12 +14,10 @@ use Webmozart\Assert\Assert;
  */
 final class RoleWithPermissions
 {
-    private RoleInterface $role;
     private array $permissions;
 
-    private function __construct(RoleInterface $role, array $privileges)
+    private function __construct(private readonly RoleInterface $role, array $privileges)
     {
-        $this->role = $role;
         $this->setPermissions($privileges);
     }
 

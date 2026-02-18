@@ -13,15 +13,15 @@ use Webmozart\Assert\Assert;
  * @phpstan-type FamilyOperator 'IN'|'NOT IN'|'EMPTY'|'NOT EMPTY'
  * @phpstan-type FamilyNormalized array{type: 'family', operator: FamilyOperator, value?: string[]}
  */
-final class Family implements ConditionInterface
+final readonly class Family implements ConditionInterface
 {
     /**
      * @param FamilyOperator $operator
      * @param string[]|null $value
      */
     private function __construct(
-        private readonly string $operator,
-        private readonly ?array $value = null,
+        private string $operator,
+        private ?array $value = null,
     ) {
     }
 

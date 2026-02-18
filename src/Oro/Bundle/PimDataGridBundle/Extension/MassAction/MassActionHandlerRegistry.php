@@ -20,7 +20,6 @@ class MassActionHandlerRegistry
      * Add handler service in registry
      *
      * @param string                     $alias
-     * @param MassActionHandlerInterface $handler
      *
      * @throws \LogicException
      */

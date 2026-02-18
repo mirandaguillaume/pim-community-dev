@@ -15,9 +15,9 @@ use Akeneo\Category\Domain\ValueObject\Template\TemplateUuid;
 class CategoryTreeTemplate
 {
     public function __construct(
-        private ?TemplateUuid $templateUuid = null,
-        private ?TemplateCode $templateCode = null,
-        private ?LabelCollection $templateLabels = null,
+        private readonly ?TemplateUuid $templateUuid = null,
+        private readonly ?TemplateCode $templateCode = null,
+        private readonly ?LabelCollection $templateLabels = null,
     ) {
     }
 

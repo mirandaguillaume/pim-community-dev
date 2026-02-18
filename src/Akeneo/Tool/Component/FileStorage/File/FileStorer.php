@@ -28,9 +28,9 @@ use Symfony\Component\Filesystem\Filesystem;
 class FileStorer implements FileStorerInterface
 {
     public function __construct(
-        private FilesystemProvider $filesystemProvider,
-        private SaverInterface $saver,
-        private FileInfoFactoryInterface $factory
+        private readonly FilesystemProvider $filesystemProvider,
+        private readonly SaverInterface $saver,
+        private readonly FileInfoFactoryInterface $factory
     ) {
     }
 
@@ -89,8 +89,6 @@ class FileStorer implements FileStorerInterface
     }
 
     /**
-     * @param \SplFileInfo $file
-     *
      * @throws FileRemovalException
      */
     private function deleteRawFile(\SplFileInfo $file): void

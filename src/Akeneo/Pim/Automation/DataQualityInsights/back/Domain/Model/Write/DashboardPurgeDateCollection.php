@@ -13,8 +13,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\TimePeriod;
  */
 class DashboardPurgeDateCollection implements \IteratorAggregate
 {
-    /** @var array */
-    private $purgeDates = [];
+    private array $purgeDates = [];
 
     public function add(TimePeriod $period, ConsolidationDate $date): self
     {

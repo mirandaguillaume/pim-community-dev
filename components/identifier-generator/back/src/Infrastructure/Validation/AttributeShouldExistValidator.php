@@ -15,7 +15,7 @@ use Webmozart\Assert\Assert;
  */
 final class AttributeShouldExistValidator extends ConstraintValidator
 {
-    public function __construct(private GetAttributes $getAttributes)
+    public function __construct(private readonly GetAttributes $getAttributes)
     {
     }
 

@@ -14,7 +14,6 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityId
 interface ProductEntityIdFactoryInterface
 {
     /**
-     * @param string $id
      * @return ProductEntityIdInterface
      */
     public function create(string $id): ProductEntityIdInterface;

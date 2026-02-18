@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class FileInfo implements FileInfoInterface
+class FileInfo implements FileInfoInterface, \Stringable
 {
     /** @var int */
     protected $id;
@@ -226,7 +226,7 @@ class FileInfo implements FileInfoInterface
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getOriginalFilename();
     }

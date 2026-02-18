@@ -8,17 +8,15 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\T
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class InMemoryLocales implements LocalesInterface
+final readonly class InMemoryLocales implements LocalesInterface
 {
-    private array $localesIdsByCodes;
     private array $localesCodesByIds;
 
     /**
      * @param array<string, int> $localesIdsByCodes
      */
-    public function __construct(array $localesIdsByCodes)
+    public function __construct(private array $localesIdsByCodes)
     {
-        $this->localesIdsByCodes = $localesIdsByCodes;
         $this->localesCodesByIds = array_flip($localesIdsByCodes);
     }
 

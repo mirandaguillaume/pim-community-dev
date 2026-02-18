@@ -12,8 +12,7 @@ class PercentFilter extends NumberFilter
     public function init($name, array $params)
     {
         $params[FilterUtility::FRONTEND_TYPE_KEY] = 'number';
-        $params[FilterUtility::FORM_OPTIONS_KEY] =
-            isset($params[FilterUtility::FORM_OPTIONS_KEY]) ? $params[FilterUtility::FORM_OPTIONS_KEY] : [];
+        $params[FilterUtility::FORM_OPTIONS_KEY] ??= [];
         $params[FilterUtility::FORM_OPTIONS_KEY]['data_type'] = NumberFilterType::DATA_DECIMAL;
         parent::init($name, $params);
     }
@@ -21,7 +20,7 @@ class PercentFilter extends NumberFilter
     /**
      * {@inheritdoc}
      */
-    public function parseData($data)
+    public function parseData(mixed $data): array|bool
     {
         $data = parent::parseData($data);
 

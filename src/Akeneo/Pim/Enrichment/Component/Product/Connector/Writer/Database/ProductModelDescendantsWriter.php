@@ -23,9 +23,6 @@ class ProductModelDescendantsWriter implements ItemWriterInterface, StepExecutio
     /** @var SaverInterface */
     protected $descendantsSaver;
 
-    /**
-     * @param SaverInterface                $descendantsSaver
-     */
     public function __construct(
         SaverInterface $descendantsSaver
     ) {

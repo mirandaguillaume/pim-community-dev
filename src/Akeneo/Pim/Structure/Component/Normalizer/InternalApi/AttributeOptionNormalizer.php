@@ -75,7 +75,6 @@ class AttributeOptionNormalizer implements NormalizerInterface, NormalizerAwareI
     /**
      * Ensure that there is an option for all activated locales
      *
-     * @param Collection $optionValues
      *
      * @return Collection
      */

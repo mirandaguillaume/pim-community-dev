@@ -21,14 +21,13 @@ class UserManager implements UserProviderInterface
         protected string $class,
         protected ObjectManager $om,
         protected PasswordHasherFactoryInterface $encoderFactory,
-        private SaverInterface $saver
+        private readonly SaverInterface $saver
     ) {
     }
 
     /**
      * Updates a user
      *
-     * @param  SecurityUserInterface $user
      * @throws \RuntimeException
      */
     public function updateUser(SecurityUserInterface $user)
@@ -52,12 +51,10 @@ class UserManager implements UserProviderInterface
 
     /**
      * Updates a user password if a plain password is set
-     *
-     * @param UserInterface $user
      */
     public function updatePassword(UserInterface $user)
     {
-        if (0 !== strlen($password = $user->getPlainPassword())) {
+        if (0 !== strlen((string) ($password = $user->getPlainPassword()))) {
             $encoder = $this->getEncoder($user);
             $user->setPassword($encoder->hash($password, $user->getSalt()));
         }
@@ -65,8 +62,6 @@ class UserManager implements UserProviderInterface
 
     /**
      * Deletes a user
-     *
-     * @param SecurityUserInterface $user
      */
     public function deleteUser(SecurityUserInterface $user)
     {
@@ -77,7 +72,6 @@ class UserManager implements UserProviderInterface
     /**
      * Finds one user by the given criteria
      *
-     * @param  array $criteria
      * @return SecurityUserInterface
      */
     public function findUserBy(array $criteria)
@@ -145,8 +139,6 @@ class UserManager implements UserProviderInterface
 
     /**
      * Reloads a user
-     *
-     * @param SecurityUserInterface $user
      */
     public function reloadUser(SecurityUserInterface $user)
     {
@@ -175,7 +167,7 @@ class UserManager implements UserProviderInterface
 
         if (!$user instanceof SecurityUserInterface) {
             throw new UnsupportedUserException(
-                sprintf('Expected an instance of Akeneo\UserManagement\Component\Model\UserInterface, but got "%s"', get_class($user))
+                sprintf('Expected an instance of Akeneo\UserManagement\Component\Model\UserInterface, but got "%s"', $user::class)
             );
         }
 

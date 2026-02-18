@@ -24,10 +24,10 @@ use Webmozart\Assert\Assert;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class DatabaseContext implements Context
+final readonly class DatabaseContext implements Context
 {
     public function __construct(
-        private readonly IdentifierGeneratorRepository $generatorRepository,
+        private IdentifierGeneratorRepository $generatorRepository,
     ) {
     }
 
@@ -135,8 +135,8 @@ final class DatabaseContext implements Context
 
         Assert::same($orderedCodes, CodesSplitter::split($codes), \sprintf(
             "Codes are not sorted as expected:\n- Value: %s\nExpected: %s",
-            \json_encode($orderedCodes),
-            \json_encode(CodesSplitter::split($codes))
+            \json_encode($orderedCodes, JSON_THROW_ON_ERROR),
+            \json_encode(CodesSplitter::split($codes), JSON_THROW_ON_ERROR)
         ));
     }
 }

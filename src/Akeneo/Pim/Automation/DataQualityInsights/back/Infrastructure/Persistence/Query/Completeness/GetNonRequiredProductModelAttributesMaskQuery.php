@@ -19,8 +19,8 @@ use Doctrine\DBAL\Connection;
 class GetNonRequiredProductModelAttributesMaskQuery implements GetProductModelAttributesMaskQueryInterface
 {
     public function __construct(
-        private Connection        $dbConnection,
-        private BuildSqlMaskField $mask,
+        private readonly Connection        $dbConnection,
+        private readonly BuildSqlMaskField $mask,
     ) {
     }
 
@@ -77,13 +77,11 @@ GROUP BY family.code, channel_code, locale_code;
             return null;
         }
 
-        $masksPerChannelAndLocale = array_map(function (array $row) {
-            return new RequiredAttributesMaskForChannelAndLocale(
-                $row['channel_code'],
-                $row['locale_code'],
-                json_decode($row['mask'], true)
-            );
-        }, $rows);
+        $masksPerChannelAndLocale = array_map(fn(array $row) => new RequiredAttributesMaskForChannelAndLocale(
+            $row['channel_code'],
+            $row['locale_code'],
+            json_decode((string) $row['mask'], true, 512, JSON_THROW_ON_ERROR)
+        ), $rows);
 
         return new RequiredAttributesMask($rows[0]['family_code'], $masksPerChannelAndLocale);
     }

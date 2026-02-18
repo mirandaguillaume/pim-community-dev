@@ -21,24 +21,18 @@ class AttributeOptionSearchableRepository implements SearchableRepositoryInterfa
     /** @var EntityManagerInterface */
     protected $entityManager;
 
-    /** @var string */
-    protected $entityName;
-
     /** @var AttributeRepositoryInterface */
     protected $attributeRepository;
 
     /**
-     * @param EntityManagerInterface       $entityManager
      * @param string                       $entityName
-     * @param AttributeRepositoryInterface $attributeRepository
      */
     public function __construct(
         EntityManagerInterface $entityManager,
-        $entityName,
+        protected $entityName,
         AttributeRepositoryInterface $attributeRepository
     ) {
         $this->entityManager       = $entityManager;
-        $this->entityName          = $entityName;
         $this->attributeRepository = $attributeRepository;
     }
 
@@ -82,8 +76,6 @@ class AttributeOptionSearchableRepository implements SearchableRepositoryInterfa
     }
 
     /**
-     * @param QueryBuilder $qb
-     * @param array        $options
      *
      * @return QueryBuilder
      */

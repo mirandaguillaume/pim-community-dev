@@ -14,7 +14,7 @@ use Akeneo\Pim\Enrichment\Product\Domain\UserIntent\UserIntentFactoryRegistry;
  */
 class ConvertStandardFormatIntoUserIntentsHandler
 {
-    public function __construct(private UserIntentFactoryRegistry $userIntentFactoryRegistry)
+    public function __construct(private readonly UserIntentFactoryRegistry $userIntentFactoryRegistry)
     {
     }
 

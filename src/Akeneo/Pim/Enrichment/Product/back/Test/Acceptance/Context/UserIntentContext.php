@@ -50,8 +50,8 @@ final class UserIntentContext implements Context
     private ?array $expectedResult = null;
 
     public function __construct(
-        private ExceptionContext $exceptionContext,
-        private MessageBusInterface $queryMessageBus
+        private readonly ExceptionContext $exceptionContext,
+        private readonly MessageBusInterface $queryMessageBus
     ) {
     }
 

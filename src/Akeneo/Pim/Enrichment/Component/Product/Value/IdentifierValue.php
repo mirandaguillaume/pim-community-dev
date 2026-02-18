@@ -11,12 +11,12 @@ use Webmozart\Assert\Assert;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class IdentifierValue implements IdentifierValueInterface
+final readonly class IdentifierValue implements IdentifierValueInterface, \Stringable
 {
     private function __construct(
-        private readonly string $attributeCode,
-        private readonly bool $isMainIdentifier,
-        private readonly ?string $data
+        private string $attributeCode,
+        private bool $isMainIdentifier,
+        private ?string $data
     ) {
     }
 
@@ -73,6 +73,6 @@ final class IdentifierValue implements IdentifierValueInterface
 
     public function __toString(): string
     {
-        return $this->data;
+        return (string) $this->data;
     }
 }

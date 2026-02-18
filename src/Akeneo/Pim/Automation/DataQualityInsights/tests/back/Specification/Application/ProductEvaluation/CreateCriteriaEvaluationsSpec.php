@@ -28,9 +28,7 @@ final class CreateCriteriaEvaluationsSpec extends ObjectBehavior
 
         $criteriaRegistry->getAllCriterionCodes()->willReturn([new CriterionCode('criterion1'), new CriterionCode('criterion2')]);
 
-        $criterionEvaluationRepository->create(Argument::that(function (CriterionEvaluationCollection $collection) {
-            return $collection->count() === 2;
-        }))->shouldBeCalled();
+        $criterionEvaluationRepository->create(Argument::that(fn(CriterionEvaluationCollection $collection) => $collection->count() === 2))->shouldBeCalled();
 
         $this->createAll($productUuids);
     }

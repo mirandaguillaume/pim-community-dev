@@ -13,21 +13,8 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 
 class RemoveValuesFromProductModels
 {
-    private ProductModelRepositoryInterface $productModelRepository;
-    private Connection $connection;
-    private EventDispatcherInterface $eventDispatcher;
-    private UnitOfWorkAndRepositoriesClearer $clearer;
-
-    public function __construct(
-        ProductModelRepositoryInterface $productModelRepository,
-        Connection $connection,
-        EventDispatcherInterface $eventDispatcher,
-        UnitOfWorkAndRepositoriesClearer $clearer
-    ) {
-        $this->productModelRepository = $productModelRepository;
-        $this->connection = $connection;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->clearer = $clearer;
+    public function __construct(private readonly ProductModelRepositoryInterface $productModelRepository, private readonly Connection $connection, private readonly EventDispatcherInterface $eventDispatcher, private readonly UnitOfWorkAndRepositoriesClearer $clearer)
+    {
     }
 
     public function forAttributeCodes(array $attributeCodes, array $productModelIdentifiers): void

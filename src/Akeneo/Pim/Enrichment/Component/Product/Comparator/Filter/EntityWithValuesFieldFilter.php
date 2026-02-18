@@ -26,11 +26,6 @@ class EntityWithValuesFieldFilter implements FilterInterface
     /** @var array */
     protected $entityFields;
 
-    /**
-     * @param NormalizerInterface $normalizer
-     * @param ComparatorRegistry  $comparatorRegistry
-     * @param array               $entityFields
-     */
     public function __construct(
         NormalizerInterface $normalizer,
         ComparatorRegistry $comparatorRegistry,

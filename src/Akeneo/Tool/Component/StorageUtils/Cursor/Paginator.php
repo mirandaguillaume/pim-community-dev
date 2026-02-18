@@ -15,9 +15,6 @@ class Paginator implements PaginatorInterface
     protected $cursor;
 
     /** @var int */
-    protected $pageSize;
-
-    /** @var int */
     protected $pageNumber;
 
     /** @var int */
@@ -27,13 +24,11 @@ class Paginator implements PaginatorInterface
     protected $pageData;
 
     /**
-     * @param CursorInterface $cursor
      * @param int             $pageSize
      */
-    public function __construct(CursorInterface $cursor, $pageSize)
+    public function __construct(CursorInterface $cursor, protected $pageSize)
     {
         $this->cursor = $cursor;
-        $this->pageSize = $pageSize;
         $this->pageNumber = 0;
     }
 

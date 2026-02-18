@@ -43,11 +43,6 @@ class UserContextListener implements EventSubscriberInterface
 
     /**
      * Constructor
-     *
-     * @param TokenStorageInterface $tokenStorage
-     * @param AddLocaleListener     $listener
-     * @param CatalogContext        $catalogContext
-     * @param UserContext           $userContext
      */
     public function __construct(
         TokenStorageInterface $tokenStorage,
@@ -80,7 +75,7 @@ class UserContextListener implements EventSubscriberInterface
         try {
             $this->configureTranslatableListener();
             $this->configureCatalogContext();
-        } catch (\LogicException $e) {
+        } catch (\LogicException) {
             // If there are no activated locales, skip configuring the listener and productmanager
         }
     }

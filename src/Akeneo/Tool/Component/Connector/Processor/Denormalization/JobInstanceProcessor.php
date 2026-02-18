@@ -110,8 +110,6 @@ class JobInstanceProcessor extends AbstractProcessor implements ItemProcessorInt
     }
 
     /**
-     * @param array $convertedItem
-     *
      * @return JobInstance
      */
     protected function findOrCreateObject(array $convertedItem)

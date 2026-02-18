@@ -20,13 +20,9 @@ final class ConsolidateDashboardRatesCommand extends Command
     protected static $defaultName = 'pim:data-quality-insights:consolidate-dashboard-rates';
     protected static $defaultDescription = 'Consolidate the Data-Quality-Insights dashboard rates.';
 
-    private ConsolidateDashboardRates $consolidateDashboardRates;
-
-    public function __construct(ConsolidateDashboardRates $consolidateDashboardRates)
+    public function __construct(private readonly ConsolidateDashboardRates $consolidateDashboardRates)
     {
         parent::__construct();
-
-        $this->consolidateDashboardRates = $consolidateDashboardRates;
     }
 
     protected function configure()

@@ -25,10 +25,6 @@ class CategoryProductsCounter implements CategoryItemsCounterInterface
     /** @var CategoryRepositoryInterface */
     protected $categoryRepository;
 
-    /**
-     * @param ProductQueryBuilderFactoryInterface $pqbFactory
-     * @param CategoryRepositoryInterface         $categoryRepository
-     */
     public function __construct(
         ProductQueryBuilderFactoryInterface $pqbFactory,
         CategoryRepositoryInterface $categoryRepository

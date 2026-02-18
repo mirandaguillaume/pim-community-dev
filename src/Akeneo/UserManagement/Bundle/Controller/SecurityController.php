@@ -42,7 +42,7 @@ class SecurityController
         return new Response($content);
     }
 
-    public function check()
+    public function check(): never
     {
         throw new \RuntimeException(
             'You must configure the check path to be handled by the firewall ' .
@@ -50,7 +50,7 @@ class SecurityController
         );
     }
 
-    public function logout()
+    public function logout(): never
     {
         throw new \RuntimeException('You must activate the logout in your security firewall configuration.');
     }

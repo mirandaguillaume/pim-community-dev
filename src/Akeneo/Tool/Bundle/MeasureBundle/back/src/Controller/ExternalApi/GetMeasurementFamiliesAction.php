@@ -17,8 +17,8 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class GetMeasurementFamiliesAction
 {
     public function __construct(
-        private MeasurementFamilyRepositoryInterface $measurementFamilyRepository,
-        private NormalizerInterface $normalizer,
+        private readonly MeasurementFamilyRepositoryInterface $measurementFamilyRepository,
+        private readonly NormalizerInterface $normalizer,
     ) {
     }
 

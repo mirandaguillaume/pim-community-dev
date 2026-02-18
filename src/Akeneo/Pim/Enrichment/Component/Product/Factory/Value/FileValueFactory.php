@@ -17,14 +17,10 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class FileValueFactory implements ValueFactory
+final readonly class FileValueFactory implements ValueFactory
 {
-    /** @var FileInfoRepositoryInterface */
-    private $fileInfoRepository;
-
-    public function __construct(FileInfoRepositoryInterface $fileInfoRepository)
+    public function __construct(private FileInfoRepositoryInterface $fileInfoRepository)
     {
-        $this->fileInfoRepository = $fileInfoRepository;
     }
 
     public function createWithoutCheckingData(Attribute $attribute, ?string $channelCode, ?string $localeCode, $data): ValueInterface
@@ -55,7 +51,7 @@ final class FileValueFactory implements ValueFactory
         if (!\is_string($data) && !$data instanceof FileInfoInterface) {
             throw InvalidPropertyTypeException::stringExpected(
                 $attribute->code(),
-                static::class,
+                self::class,
                 $data
             );
         }
@@ -67,7 +63,7 @@ final class FileValueFactory implements ValueFactory
                 $attribute->code(),
                 'fileinfo key',
                 'The media does not exist',
-                static::class,
+                self::class,
                 $data
             );
         }

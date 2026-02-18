@@ -9,19 +9,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TextFilterType extends AbstractType
 {
-    const TYPE_CONTAINS = 1;
-    const TYPE_NOT_CONTAINS = 2;
-    const TYPE_EQUAL = 3;
-    const TYPE_STARTS_WITH = 4;
-    const TYPE_ENDS_WITH = 5;
-    const TYPE_EMPTY = 'empty';
-    const NAME = 'oro_type_text_filter';
+    final public const TYPE_CONTAINS = 1;
+    final public const TYPE_NOT_CONTAINS = 2;
+    final public const TYPE_EQUAL = 3;
+    final public const TYPE_STARTS_WITH = 4;
+    final public const TYPE_ENDS_WITH = 5;
+    final public const TYPE_EMPTY = 'empty';
+    final public const NAME = 'oro_type_text_filter';
 
-    protected TranslatorInterface $translator;
-
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(protected TranslatorInterface $translator)
     {
-        $this->translator = $translator;
     }
 
     /**

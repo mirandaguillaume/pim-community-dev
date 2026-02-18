@@ -13,12 +13,8 @@ use Doctrine\DBAL\Connection;
  */
 class IsDemoCatalog implements IsDemoCatalogQuery
 {
-    /** @var Connection */
-    private $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private readonly Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     /**

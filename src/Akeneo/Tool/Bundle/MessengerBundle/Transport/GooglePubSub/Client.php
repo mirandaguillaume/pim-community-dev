@@ -16,9 +16,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class Client
 {
-    private Topic $topic;
+    private readonly Topic $topic;
     private ?Subscription $subscription = null;
-    private array $subscriptionOptions;
 
     /**
      * @param string $dsn Must be `gps:`
@@ -66,9 +65,8 @@ class Client
         string $projectId,
         string $topicName,
         ?string $subscriptionName,
-        array $subscriptionOptions = []
+        private readonly array $subscriptionOptions = []
     ) {
-        $this->subscriptionOptions = $subscriptionOptions;
         $pubSubClient = $pubSubClientFactory->createPubSubClient([
             'projectId' => $projectId
         ]);
@@ -92,7 +90,7 @@ class Client
         try {
             // The "exist" method below use cached info. "reload" avoid to have cache problems.
             $this->subscription->reload();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
         if (!$this->subscription->exists()) {
             $this->subscription->create($this->subscriptionOptions);

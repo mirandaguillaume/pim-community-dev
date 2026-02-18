@@ -42,15 +42,9 @@ class UserFactory implements SimpleFactoryInterface
     protected $userClass;
 
     /** @var DefaultProperty[] */
-    private $defaultProperties;
+    private readonly array $defaultProperties;
 
     /**
-     * @param LocaleRepositoryInterface $localeRepository
-     * @param ChannelRepositoryInterface $channelRepository
-     * @param CategoryRepositoryInterface $categoryRepository
-     * @param GroupRepositoryInterface $groupRepository
-     * @param RoleRepositoryInterface $roleRepository
-     * @param string $userClass
      * @param DefaultProperty[] $defaultProperties
      */
     public function __construct(
@@ -96,9 +90,7 @@ class UserFactory implements SimpleFactoryInterface
             $user->addRole($role);
         }
 
-        return array_reduce($this->defaultProperties, function ($user, DefaultProperty $defaultProperty) {
-            return $defaultProperty->mutate($user);
-        }, $user);
+        return array_reduce($this->defaultProperties, fn($user, DefaultProperty $defaultProperty) => $defaultProperty->mutate($user), $user);
     }
 
     /**

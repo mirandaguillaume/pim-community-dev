@@ -38,13 +38,6 @@ class AttributeNormalizer implements NormalizerInterface, CacheableSupportsMetho
     /** @var LocalizerInterface */
     protected $numberLocalizer;
 
-    /**
-     * @param NormalizerInterface               $normalizer
-     * @param FieldProviderInterface            $fieldProvider
-     * @param EmptyValueProviderInterface       $emptyValueProvider
-     * @param FilterProviderInterface           $filterProvider
-     * @param LocalizerInterface                $numberLocalizer
-     */
     public function __construct(
         NormalizerInterface $normalizer,
         FieldProviderInterface $fieldProvider,

@@ -9,7 +9,7 @@ namespace Akeneo\Channel\Infrastructure\Component\Model;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Currency implements CurrencyInterface
+class Currency implements CurrencyInterface, \Stringable
 {
     /**
      * @var int
@@ -39,7 +39,7 @@ class Currency implements CurrencyInterface
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->code;
     }

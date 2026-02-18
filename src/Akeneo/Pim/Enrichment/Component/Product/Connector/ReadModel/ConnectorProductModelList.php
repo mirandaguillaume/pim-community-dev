@@ -12,18 +12,13 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Connector\ReadModel;
  */
 final class ConnectorProductModelList
 {
-    /** @var int total number of product models returned by the search without the pagination */
-    private $totalNumberOfProductModels;
-
     /** @var ConnectorProductModel[] paginated list of product models for the connectors */
-    private $connectorProductModels;
+    private readonly array $connectorProductModels;
 
-    public function __construct(int $totalNumberOfProductModels, array $connectorProductModels)
+    public function __construct(/** @var int total number of product models returned by the search without the pagination */
+    private readonly int $totalNumberOfProductModels, array $connectorProductModels)
     {
-        $this->totalNumberOfProductModels = $totalNumberOfProductModels;
-        $this->connectorProductModels = (function (ConnectorProductModel ...$connectorProductModels) {
-            return $connectorProductModels;
-        })(...$connectorProductModels);
+        $this->connectorProductModels = (fn(ConnectorProductModel ...$connectorProductModels) => $connectorProductModels)(...$connectorProductModels);
     }
 
     public function totalNumberOfProductModels(): int

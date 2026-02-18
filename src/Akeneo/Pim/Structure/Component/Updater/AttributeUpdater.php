@@ -43,16 +43,9 @@ class AttributeUpdater implements ObjectUpdaterInterface
     protected $translatableUpdater;
 
     /** @var array<string> */
-    private $properties;
-
-    /** @var array<string> */
     protected $ignoredFields = [];
 
     /**
-     * @param AttributeGroupRepositoryInterface $attrGroupRepo
-     * @param LocaleRepositoryInterface         $localeRepository
-     * @param AttributeTypeRegistry             $registry
-     * @param TranslatableUpdater               $translatableUpdater
      * @param array<string>                     $properties
      * @param array<string>                     $ignoredFields
      */
@@ -61,7 +54,7 @@ class AttributeUpdater implements ObjectUpdaterInterface
         LocaleRepositoryInterface $localeRepository,
         AttributeTypeRegistry $registry,
         TranslatableUpdater $translatableUpdater,
-        array $properties,
+        private readonly array $properties,
         array $ignoredFields
     ) {
         $this->attrGroupRepo = $attrGroupRepo;
@@ -69,7 +62,6 @@ class AttributeUpdater implements ObjectUpdaterInterface
         $this->registry = $registry;
         $this->accessor = PropertyAccess::createPropertyAccessor();
         $this->translatableUpdater = $translatableUpdater;
-        $this->properties = $properties;
         $this->ignoredFields = $ignoredFields;
     }
 
@@ -100,12 +92,11 @@ class AttributeUpdater implements ObjectUpdaterInterface
      * Validate the data type of a field.
      *
      * @param string $field
-     * @param mixed  $data
      *
      * @throws InvalidPropertyTypeException
      * @throws UnknownPropertyException
      */
-    protected function validateDataType($field, $data)
+    protected function validateDataType($field, mixed $data)
     {
         if (in_array($field, ['labels', 'available_locales', 'allowed_extensions', 'guidelines'])) {
             if (!is_array($data)) {
@@ -164,14 +155,12 @@ class AttributeUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param AttributeInterface $attribute
      * @param string             $field
-     * @param mixed              $data
      *
      * @throws InvalidPropertyException
      * @throws UnknownPropertyException
      */
-    protected function setData(AttributeInterface $attribute, $field, $data)
+    protected function setData(AttributeInterface $attribute, $field, mixed $data)
     {
         switch ($field) {
             case 'type':
@@ -222,10 +211,8 @@ class AttributeUpdater implements ObjectUpdaterInterface
 
     /**
      * @param string $code
-     *
-     * @return AttributeGroupInterface|null
      */
-    protected function findAttributeGroup($code)
+    protected function findAttributeGroup($code): ?\Akeneo\Pim\Structure\Component\Model\AttributeGroupInterface
     {
         $attributeGroup = $this->attrGroupRepo->findOneByIdentifier($code);
 
@@ -233,13 +220,11 @@ class AttributeUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param AttributeInterface $attribute
      * @param string             $field
-     * @param mixed              $data
      *
      * @throws UnknownPropertyException
      */
-    protected function setValue(AttributeInterface $attribute, $field, $data)
+    protected function setValue(AttributeInterface $attribute, $field, mixed $data)
     {
         try {
             $this->accessor->setValue($attribute, $field, $data);
@@ -249,9 +234,7 @@ class AttributeUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param AttributeInterface $attribute
      * @param string                                                   $field
-     * @param array                                                    $availableLocaleCodes
      *
      * @throws UnknownPropertyException
      * @throws InvalidPropertyException
@@ -278,9 +261,7 @@ class AttributeUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param AttributeInterface $attribute
      * @param string             $data
-     *
      * @throws InvalidPropertyException
      */
     protected function setGroup(AttributeInterface $attribute, $data)
@@ -300,12 +281,10 @@ class AttributeUpdater implements ObjectUpdaterInterface
     }
 
     /**
-     * @param AttributeInterface $attribute
-     * @param mixed              $data
      *
      * @throws InvalidPropertyException
      */
-    protected function setType(AttributeInterface $attribute, $data)
+    protected function setType(AttributeInterface $attribute, mixed $data)
     {
         if (('' === $data) || (null === $data)) {
             throw InvalidPropertyException::valueNotEmptyExpected('type', static::class);
@@ -313,7 +292,7 @@ class AttributeUpdater implements ObjectUpdaterInterface
 
         try {
             $attributeType = $this->registry->get($data);
-        } catch (\LogicException $exception) {
+        } catch (\LogicException) {
             throw InvalidPropertyException::validEntityCodeExpected(
                 'type',
                 'attribute type',
@@ -353,7 +332,7 @@ class AttributeUpdater implements ObjectUpdaterInterface
 
         try {
             new \DateTime($data);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             throw InvalidPropertyException::dateExpected($field, 'yyyy-mm-dd', static::class, $data);
         }
 
@@ -364,10 +343,8 @@ class AttributeUpdater implements ObjectUpdaterInterface
 
     /**
      * @param string $date
-     *
-     * @return \DateTime|null
      */
-    protected function getDate($date)
+    protected function getDate($date): ?\DateTime
     {
         if (null === $date) {
             return null;

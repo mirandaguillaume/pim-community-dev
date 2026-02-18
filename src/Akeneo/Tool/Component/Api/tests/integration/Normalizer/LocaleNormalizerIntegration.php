@@ -21,7 +21,6 @@ class LocaleNormalizerIntegration extends AbstractNormalizerTestCase
 
     /**
      * @param string $localeCode
-     * @param array  $expected
      */
     private function assert($localeCode, array $expected)
     {

@@ -15,14 +15,10 @@ use Doctrine\DBAL\Connection;
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class CountProductsWithFamily implements CountProductsWithFamilyInterface
+final readonly class CountProductsWithFamily implements CountProductsWithFamilyInterface
 {
-    /** @var Connection */
-    private $connection;
-
-    public function __construct(Connection $connection)
+    public function __construct(private Connection $connection)
     {
-        $this->connection = $connection;
     }
 
     public function count(FamilyInterface $family): int

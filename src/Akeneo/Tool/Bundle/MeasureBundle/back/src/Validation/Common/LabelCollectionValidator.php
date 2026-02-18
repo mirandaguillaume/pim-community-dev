@@ -33,10 +33,7 @@ class LabelCollectionValidator extends ConstraintValidator
         }
     }
 
-    /**
-     * @param mixed $localeCode
-     */
-    private function validateLocaleCode(ValidatorInterface $validator, $localeCode): void
+    private function validateLocaleCode(ValidatorInterface $validator, mixed $localeCode): void
     {
         $violations = $validator->validate($localeCode, [
             new NotBlank(),

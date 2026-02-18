@@ -12,7 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Locale implements LocaleInterface, VersionableInterface
+class Locale implements LocaleInterface, VersionableInterface, \Stringable
 {
     /**
      * @var int
@@ -47,7 +47,7 @@ class Locale implements LocaleInterface, VersionableInterface
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->code;
     }

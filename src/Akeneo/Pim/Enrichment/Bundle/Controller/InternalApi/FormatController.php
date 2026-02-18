@@ -32,13 +32,6 @@ class FormatController
     /** @var array */
     protected $formats;
 
-    /**
-     * @param DateFactory    $dateFactory
-     * @param DateFactory    $datetimeFactory
-     * @param LocaleResolver $localeResolver
-     * @param UserContext    $userContext
-     * @param array          $formats
-     */
     public function __construct(
         DateFactory $dateFactory,
         DateFactory $datetimeFactory,
@@ -86,7 +79,7 @@ class FormatController
                 ],
                 'timezone'       => $this->userContext->getUserTimezone(),
                 'language'       => $locale,
-                '12_hour_format' => false !== strpos($timeFormatter->getPattern(), 'a')
+                '12_hour_format' => str_contains($timeFormatter->getPattern(), 'a')
             ]
         );
     }

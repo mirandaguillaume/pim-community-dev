@@ -25,7 +25,7 @@ final class CleanProductScoresCommand extends Command
     private int $bulkSize = 1000;
 
     public function __construct(
-        private Connection $dbConnection
+        private readonly Connection $dbConnection
     ) {
         parent::__construct();
     }

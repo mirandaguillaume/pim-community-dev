@@ -32,39 +32,16 @@ class ProductAndProductModelReader implements
     TrackableItemReaderInterface,
     StatefulInterface
 {
-    /** @var ProductQueryBuilderFactoryInterface */
-    private $pqbFactory;
+    private ?\Akeneo\Tool\Component\Batch\Model\StepExecution $stepExecution = null;
 
-    /** @var ChannelRepositoryInterface */
-    private $channelRepository;
+    private ?\Akeneo\Tool\Component\StorageUtils\Cursor\CursorInterface $productsAndProductModels = null;
 
-    /** @var StepExecution */
-    private $stepExecution;
-
-    /** @var CursorInterface */
-    private $productsAndProductModels;
-
-    /** @var bool */
-    private $readChildren;
-
-    /** @var bool */
-    private $firstRead = true;
+    private bool $firstRead = true;
 
     private array $state = [];
 
-    /**
-     * @param ProductQueryBuilderFactoryInterface $pqbFactory
-     * @param ChannelRepositoryInterface          $channelRepository
-     * @param bool                                $readChildren
-     */
-    public function __construct(
-        ProductQueryBuilderFactoryInterface $pqbFactory,
-        ChannelRepositoryInterface $channelRepository,
-        bool $readChildren
-    ) {
-        $this->pqbFactory          = $pqbFactory;
-        $this->channelRepository   = $channelRepository;
-        $this->readChildren        = $readChildren;
+    public function __construct(private readonly ProductQueryBuilderFactoryInterface $pqbFactory, private readonly ChannelRepositoryInterface $channelRepository, private readonly bool $readChildren)
+    {
     }
 
     /**
@@ -126,8 +103,6 @@ class ProductAndProductModelReader implements
      * If no channel is specified, returns null.
      *
      * @throws ObjectNotFoundException
-     *
-     * @return ChannelInterface|null
      */
     private function getConfiguredChannel(): ?ChannelInterface
     {
@@ -151,8 +126,6 @@ class ProductAndProductModelReader implements
      *
      * Here we transform the ID filter into SELF_AND_ANCESTOR.ID in order to retrieve
      * all the product models and products that are possibly impacted by the mass edit.
-     *
-     * @return array
      */
     private function getConfiguredFilters(): array
     {
@@ -176,17 +149,9 @@ class ProductAndProductModelReader implements
             }, $filters);
         }
 
-        return array_filter($filters, function ($filter) {
-            return count($filter) > 0;
-        });
+        return array_filter($filters, fn($filter) => (is_countable($filter) ? count($filter) : 0) > 0);
     }
 
-    /**
-     * @param array            $filters
-     * @param ChannelInterface $channel
-     *
-     * @return CursorInterface
-     */
     private function getCursor(array $filters, ChannelInterface $channel = null): CursorInterface
     {
         $options = ['filters' => $filters];

@@ -31,5 +31,5 @@ interface MappingsOverrideConfiguratorInterface
      *
      * @return ClassMetadata
      */
-    public function configure(ClassMetadata $metadata, array $mappingOverrides, $configuration);
+    public function configure(ClassMetadata $metadata, array $mappingOverrides, mixed $configuration);
 }

@@ -32,33 +32,16 @@ class ProductPropertiesNormalizer implements NormalizerInterface, CacheableSuppo
     private const FIELD_ANCESTORS = 'ancestors';
     private const FIELD_CATEGORIES_OF_ANCESTORS = 'categories_of_ancestors';
 
-    /** @var ChannelRepositoryInterface */
-    private $channelRepository;
-
-    /** @var LocaleRepositoryInterface */
-    private $localeRepository;
-
     /** @var NormalizerInterface[] */
-    private $additionalDataNormalizers;
-
-    /** @var GetProductCompletenesses */
-    private $getProductCompletenesses;
-
-    /** @var NormalizerInterface */
-    private $normalizer;
+    private readonly iterable $additionalDataNormalizers;
 
     public function __construct(
-        ChannelRepositoryInterface $channelRepository,
-        LocaleRepositoryInterface $localeRepository,
-        GetProductCompletenesses $getProductCompletenesses,
-        NormalizerInterface $normalizer,
+        private readonly ChannelRepositoryInterface $channelRepository,
+        private readonly LocaleRepositoryInterface $localeRepository,
+        private readonly GetProductCompletenesses $getProductCompletenesses,
+        private readonly NormalizerInterface $normalizer,
         iterable $additionalDataNormalizers = []
     ) {
-        $this->channelRepository = $channelRepository;
-        $this->localeRepository = $localeRepository;
-        $this->getProductCompletenesses = $getProductCompletenesses;
-        $this->normalizer = $normalizer;
-
         $this->ensureAdditionalNormalizersAreValid($additionalDataNormalizers);
         $this->additionalDataNormalizers = $additionalDataNormalizers;
     }
@@ -149,10 +132,7 @@ class ProductPropertiesNormalizer implements NormalizerInterface, CacheableSuppo
     /**
      * Get label of the given product
      *
-     * @param array            $values
-     * @param ProductInterface $product
      *
-     * @return array
      */
     private function getLabel(array $values, ProductInterface $product): array
     {
@@ -183,11 +163,6 @@ class ProductPropertiesNormalizer implements NormalizerInterface, CacheableSuppo
         return true;
     }
 
-    /**
-     * @param ProductInterface $product
-     *
-     * @return array
-     */
     private function getAncestors(ProductInterface $product): array
     {
         $ancestorsIds = [];
@@ -208,11 +183,6 @@ class ProductPropertiesNormalizer implements NormalizerInterface, CacheableSuppo
         return $ancestors;
     }
 
-    /**
-     * @param EntityWithFamilyVariantInterface $entityWithFamilyVariant
-     *
-     * @return array
-     */
     private function getAncestorsIds(EntityWithFamilyVariantInterface $entityWithFamilyVariant): array
     {
         $ancestorsIds = [];
@@ -225,8 +195,6 @@ class ProductPropertiesNormalizer implements NormalizerInterface, CacheableSuppo
     }
 
     /**
-     * @param EntityWithFamilyVariantInterface $entityWithFamilyVariant
-     *
      * @return array
      */
     private function getAncestorsCodes(EntityWithFamilyVariantInterface $entityWithFamilyVariant)
@@ -243,9 +211,7 @@ class ProductPropertiesNormalizer implements NormalizerInterface, CacheableSuppo
     /**
      * Retrieves ancestors labels for each locales and channels.
      *
-     * @param EntityWithFamilyVariantInterface $entity
      *
-     * @return array
      */
     private function getAncestorsLabels(EntityWithFamilyVariantInterface $entity): array
     {
@@ -285,12 +251,6 @@ class ProductPropertiesNormalizer implements NormalizerInterface, CacheableSuppo
         return $ancestorsLabels;
     }
 
-    /**
-     * @param EntityWithFamilyVariantInterface $entity
-     * @param string $attributeCodeAsLabel
-     *
-     * @return array
-     */
     private function getLocalizableAndScopableLabels(
         EntityWithFamilyVariantInterface $entity,
         string $attributeCodeAsLabel
@@ -309,12 +269,6 @@ class ProductPropertiesNormalizer implements NormalizerInterface, CacheableSuppo
         return $ancestorsLabels;
     }
 
-    /**
-     * @param EntityWithFamilyVariantInterface $entity
-     * @param string $attributeCodeAsLabel
-     *
-     * @return array
-     */
     private function getScopableLabels(EntityWithFamilyVariantInterface $entity, string $attributeCodeAsLabel): array
     {
         $ancestorsLabels = [];
@@ -328,12 +282,6 @@ class ProductPropertiesNormalizer implements NormalizerInterface, CacheableSuppo
         return $ancestorsLabels;
     }
 
-    /**
-     * @param EntityWithFamilyVariantInterface $entity
-     * @param string $attributeCodeAsLabel
-     *
-     * @return array
-     */
     private function getLocalizableLabels(EntityWithFamilyVariantInterface $entity, string $attributeCodeAsLabel): array
     {
         $ancestorsLabels = [];

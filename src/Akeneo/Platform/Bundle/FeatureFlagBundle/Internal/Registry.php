@@ -15,7 +15,7 @@ use InvalidArgumentException;
 class Registry
 {
     /** @var FeatureFlag[] */
-    private $flags = [];
+    private array $flags = [];
 
     public function add(string $feature, FeatureFlag $flag)
     {

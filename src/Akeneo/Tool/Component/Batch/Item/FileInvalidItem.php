@@ -15,17 +15,12 @@ class FileInvalidItem implements InvalidItemInterface
     /** @var array */
     protected $invalidData;
 
-    /** @var int */
-    protected $itemPosition;
-
     /**
-     * @param array $invalidData
      * @param int   $itemPosition
      */
-    public function __construct(array $invalidData, $itemPosition)
+    public function __construct(array $invalidData, protected $itemPosition)
     {
         $this->invalidData = $invalidData;
-        $this->itemPosition = $itemPosition;
     }
 
     /**

@@ -19,71 +19,10 @@ use Akeneo\Tool\Component\Analytics\DataCollectorInterface;
  */
 class AttributeDataCollector implements DataCollectorInterface
 {
-    /** @var CountQuery */
-    private $attributeCountQuery;
-
-    /** @var CountQuery */
-    private $localizableAttributeCountQuery;
-
-    /** @var CountQuery */
-    private $scopableAttributeCountQuery;
-
-    /** @var CountQuery */
-    private $localizableAndScopableAttributeCountQuery;
-
-    /** @var CountQuery */
-    private $useableAsGridFilterAttributeCountQuery;
-
-    /** @var AverageMaxQuery */
-    private $localizableAttributePerFamilyAverageMaxQuery;
-
-    /** @var AverageMaxQuery */
-    private $scopableAttributePerFamilyAverageMaxQuery;
-
-    /** @var AverageMaxQuery */
-    private $localizableAndScopableAttributePerFamilyAverageMaxQuery;
-
-    /** @var AverageMaxQuery */
-    private $attributePerFamilyAverageMaxQuery;
-
-    /**
-     * @param CountQuery        $attributeCountQuery
-     * @param CountQuery        $localizableAttributeCountQuery
-     * @param CountQuery        $scopableAttributeCountQuery
-     * @param CountQuery        $localizableAndScopableAttributeCountQuery
-     * @param CountQuery        $useableAsGridFilterAttributeCountQuery
-     * @param AverageMaxQuery   $localizableAttributePerFamilyAverageMaxQuery
-     * @param AverageMaxQuery   $scopableAttributePerFamilyAverageMaxQuery
-     * @param AverageMaxQuery   $localizableAndScopableAttributePerFamilyAverageMaxQuery
-     * @param AverageMaxQuery   $attributePerFamilyAverageMaxQuery
-     *
-     */
-    public function __construct(
-        CountQuery $attributeCountQuery,
-        CountQuery $localizableAttributeCountQuery,
-        CountQuery $scopableAttributeCountQuery,
-        CountQuery $localizableAndScopableAttributeCountQuery,
-        CountQuery $useableAsGridFilterAttributeCountQuery,
-        AverageMaxQuery $localizableAttributePerFamilyAverageMaxQuery,
-        AverageMaxQuery $scopableAttributePerFamilyAverageMaxQuery,
-        AverageMaxQuery $localizableAndScopableAttributePerFamilyAverageMaxQuery,
-        AverageMaxQuery $attributePerFamilyAverageMaxQuery
-    ) {
-        $this->attributeCountQuery = $attributeCountQuery;
-        $this->localizableAttributeCountQuery = $localizableAttributeCountQuery;
-        $this->scopableAttributeCountQuery = $scopableAttributeCountQuery;
-        $this->localizableAndScopableAttributeCountQuery = $localizableAndScopableAttributeCountQuery;
-        $this->useableAsGridFilterAttributeCountQuery = $useableAsGridFilterAttributeCountQuery;
-
-        $this->localizableAttributePerFamilyAverageMaxQuery = $localizableAttributePerFamilyAverageMaxQuery;
-        $this->scopableAttributePerFamilyAverageMaxQuery = $scopableAttributePerFamilyAverageMaxQuery;
-        $this->localizableAndScopableAttributePerFamilyAverageMaxQuery = $localizableAndScopableAttributePerFamilyAverageMaxQuery;
-        $this->attributePerFamilyAverageMaxQuery = $attributePerFamilyAverageMaxQuery;
+    public function __construct(private readonly CountQuery $attributeCountQuery, private readonly CountQuery $localizableAttributeCountQuery, private readonly CountQuery $scopableAttributeCountQuery, private readonly CountQuery $localizableAndScopableAttributeCountQuery, private readonly CountQuery $useableAsGridFilterAttributeCountQuery, private readonly AverageMaxQuery $localizableAttributePerFamilyAverageMaxQuery, private readonly AverageMaxQuery $scopableAttributePerFamilyAverageMaxQuery, private readonly AverageMaxQuery $localizableAndScopableAttributePerFamilyAverageMaxQuery, private readonly AverageMaxQuery $attributePerFamilyAverageMaxQuery)
+    {
     }
 
-    /**
-     * @return array
-     */
     public function collect(): array
     {
         $data = [

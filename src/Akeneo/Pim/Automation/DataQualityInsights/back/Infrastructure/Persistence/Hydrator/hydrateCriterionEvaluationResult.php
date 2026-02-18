@@ -15,13 +15,13 @@ use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Transfo
 class hydrateCriterionEvaluationResult
 {
     public function __construct(
-        private TransformCriterionEvaluationResultIds $transformCriterionEvaluationResultIds
+        private readonly TransformCriterionEvaluationResultIds $transformCriterionEvaluationResultIds
     ) {
     }
 
     public function __invoke(CriterionCode $criterionCode, string $rawResult): ?Read\CriterionEvaluationResult
     {
-        $rawResult = json_decode($rawResult, true, JSON_THROW_ON_ERROR);
+        $rawResult = json_decode($rawResult, true, 512, JSON_THROW_ON_ERROR);
         $rawResult = $this->transformCriterionEvaluationResultIds->transformToCodes($criterionCode, $rawResult);
 
         return Read\CriterionEvaluationResult::fromArray($rawResult);

@@ -47,7 +47,7 @@ class EventSubscriptionSendApiEventRequestLogSpec extends ObjectBehavior
         $this->beConstructedWith(
             $webhookRequest,
             ['Content-Type' => 'application/json'],
-            1603935007.832
+            1_603_935_007.832
         );
     }
 
@@ -58,7 +58,7 @@ class EventSubscriptionSendApiEventRequestLogSpec extends ObjectBehavior
 
     public function it_returns_the_start_time(): void
     {
-        $this->getStartTime()->shouldReturn(1603935007.832);
+        $this->getStartTime()->shouldReturn(1_603_935_007.832);
     }
 
     public function it_returns_the_headers(): void
@@ -96,7 +96,7 @@ class EventSubscriptionSendApiEventRequestLogSpec extends ObjectBehavior
         $this->beConstructedWith(
             $webhookRequest,
             ['Content-Type' => 'application/json'],
-            1603935007.832
+            1_603_935_007.832
         );
 
         $this->getWebhookRequest()->shouldReturn($webhookRequest);
@@ -118,9 +118,9 @@ class EventSubscriptionSendApiEventRequestLogSpec extends ObjectBehavior
 
     public function it_returns_the_end_time(): void
     {
-        $this->setEndTime(1603935009.832);
+        $this->setEndTime(1_603_935_009.832);
 
-        $this->getEndTime()->shouldReturn(1603935009.832);
+        $this->getEndTime()->shouldReturn(1_603_935_009.832);
     }
 
     public function it_returns_the_response(): void
@@ -133,7 +133,7 @@ class EventSubscriptionSendApiEventRequestLogSpec extends ObjectBehavior
 
     private function createEvent(Author $author, array $data): EventInterface
     {
-        $timestamp = 1577836800;
+        $timestamp = 1_577_836_800;
         $uuid = '5d30d0f6-87a6-45ad-ba6b-3a302b0d328c';
 
         return new class($author, $data, $timestamp, $uuid) extends Event {

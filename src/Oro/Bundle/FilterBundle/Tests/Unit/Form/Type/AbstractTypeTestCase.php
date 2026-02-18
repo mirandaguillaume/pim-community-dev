@@ -24,15 +24,9 @@ abstract class AbstractTypeTestCase extends FormIntegrationTestCase
      */
     protected $defaultTimezone = null;
 
-    /**
-     * @var string
-     */
-    private $oldLocale;
+    private ?string $oldLocale = null;
 
-    /**
-     * @var string
-     */
-    private $oldTimezone;
+    private ?string $oldTimezone = null;
 
     /**
      * @var FormExtensionInterface[]
@@ -87,8 +81,6 @@ abstract class AbstractTypeTestCase extends FormIntegrationTestCase
 
     /**
      * @dataProvider configureOptionsDataProvider
-     * @param array $defaultOptions
-     * @param array $requiredOptions
      */
     public function testSetDefaultOptions(array $defaultOptions, array $requiredOptions = [])
     {
@@ -114,10 +106,6 @@ abstract class AbstractTypeTestCase extends FormIntegrationTestCase
 
     /**
      * @dataProvider bindDataProvider
-     * @param array $bindData
-     * @param array $formData
-     * @param array $viewData
-     * @param array $customOptions
      */
     public function testBindData(
         array $bindData,

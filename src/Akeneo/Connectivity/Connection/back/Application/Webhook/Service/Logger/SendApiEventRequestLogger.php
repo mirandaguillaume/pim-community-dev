@@ -16,9 +16,9 @@ use Psr\Log\LoggerInterface;
  */
 class SendApiEventRequestLogger
 {
-    public const TYPE = 'event_api.send_api_event_request';
+    final public const TYPE = 'event_api.send_api_event_request';
 
-    public function __construct(private LoggerInterface $logger)
+    public function __construct(private readonly LoggerInterface $logger)
     {
     }
 

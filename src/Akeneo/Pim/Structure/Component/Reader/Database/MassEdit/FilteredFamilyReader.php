@@ -28,14 +28,10 @@ class FilteredFamilyReader implements ItemReaderInterface, StepExecutionAwareInt
     /** @var FamilyRepositoryInterface */
     protected $familyRepository;
 
-    /** @var bool */
-    private $firstRead = true;
+    private bool $firstRead = true;
 
     private array $state = [];
 
-    /**
-     * @param FamilyRepositoryInterface $familyRepository
-     */
     public function __construct(FamilyRepositoryInterface $familyRepository)
     {
         $this->familyRepository = $familyRepository;
@@ -46,7 +42,7 @@ class FilteredFamilyReader implements ItemReaderInterface, StepExecutionAwareInt
         $filters = $this->getConfiguredFilters();
         $familyIds = $this->getFamilyIds($filters);
 
-        return count($familyIds);
+        return is_countable($familyIds) ? count($familyIds) : 0;
     }
 
     /**
@@ -101,7 +97,6 @@ class FilteredFamilyReader implements ItemReaderInterface, StepExecutionAwareInt
      * In this particular case, we'll only have 1 filter based on ids
      * (We don't have raw filters yet for family grid)
      *
-     * @param array $filters
      *
      * @return \Generator
      */

@@ -17,11 +17,8 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class UniqueDatagridViewEntityValidator extends ConstraintValidator
 {
-    private DatagridViewRepositoryInterface $datagridViewRepository;
-
-    public function __construct(DatagridViewRepositoryInterface $datagridViewRepository)
+    public function __construct(private readonly DatagridViewRepositoryInterface $datagridViewRepository)
     {
-        $this->datagridViewRepository = $datagridViewRepository;
     }
 
     public function validate($entity, Constraint $constraint): void

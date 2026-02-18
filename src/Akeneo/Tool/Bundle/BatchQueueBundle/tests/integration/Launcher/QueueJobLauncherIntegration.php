@@ -43,7 +43,7 @@ class QueueJobLauncherIntegration extends TestCase
         self::assertCount(1, $messages);
         /** @var Message $message */
         $message = $messages[0];
-        $data = \json_decode($message->data(), true);
+        $data = \json_decode($message->data(), true, 512, JSON_THROW_ON_ERROR);
         self::assertSame(['env' => 'test', 'email' => ['mary@example.com']], $data['options']);
         self::assertNotNull($data['created_time']);
         self::assertNull($data['updated_time']);

@@ -23,28 +23,8 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class FamilyVariantRemover implements RemoverInterface
 {
-    /** @var ObjectManager */
-    private $objectManager;
-
-    /** @var EventDispatcherInterface */
-    private $eventDispatcher;
-
-    /** @var CountEntityWithFamilyVariantInterface */
-    private $counter;
-
-    /**
-     * @param ObjectManager                         $objectManager
-     * @param EventDispatcherInterface              $eventDispatcher
-     * @param CountEntityWithFamilyVariantInterface $counter
-     */
-    public function __construct(
-        ObjectManager $objectManager,
-        EventDispatcherInterface $eventDispatcher,
-        CountEntityWithFamilyVariantInterface $counter
-    ) {
-        $this->objectManager = $objectManager;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->counter = $counter;
+    public function __construct(private readonly ObjectManager $objectManager, private readonly EventDispatcherInterface $eventDispatcher, private readonly CountEntityWithFamilyVariantInterface $counter)
+    {
     }
 
     /**
@@ -78,10 +58,6 @@ class FamilyVariantRemover implements RemoverInterface
         return 0 !== $this->counter->belongingToFamilyVariant($familyVariant);
     }
 
-    /**
-     * @param FamilyVariantInterface $familyVariant
-     * @param array                  $options
-     */
     private function removeFamilyVariant(FamilyVariantInterface $familyVariant, array $options): void
     {
         $objectId = $familyVariant->getId();

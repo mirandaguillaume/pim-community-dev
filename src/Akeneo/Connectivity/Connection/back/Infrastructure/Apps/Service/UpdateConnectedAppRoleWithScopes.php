@@ -16,7 +16,7 @@ use Akeneo\UserManagement\Component\Repository\RoleRepositoryInterface;
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class UpdateConnectedAppRoleWithScopes implements UpdateConnectedAppRoleWithScopesInterface
+final readonly class UpdateConnectedAppRoleWithScopes implements UpdateConnectedAppRoleWithScopesInterface
 {
     public function __construct(
         private GetConnectedAppRoleIdentifierQueryInterface $getConnectedAppRoleIdentifierQuery,

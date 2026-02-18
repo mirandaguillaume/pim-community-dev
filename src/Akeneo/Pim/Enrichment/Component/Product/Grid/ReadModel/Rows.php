@@ -8,26 +8,13 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Grid\ReadModel;
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class Rows
+final readonly class Rows
 {
-    /** @var Row[] */
-    private $rows;
-
-    /** @var int */
-    private $totalCount;
-
-    /** @var int|null */
-    private $totalProductCount;
-
-    /** @var int|null */
-    private $totalProductModelCount;
-
-    public function __construct(array $rows, int $totalCount, ?int $totalProductCount, ?int $totalProductModelCount)
+    /**
+     * @param \Akeneo\Pim\Enrichment\Component\Product\Grid\ReadModel\Row[] $rows
+     */
+    public function __construct(private array $rows, private int $totalCount, private ?int $totalProductCount, private ?int $totalProductModelCount)
     {
-        $this->rows = $rows;
-        $this->totalCount = $totalCount;
-        $this->totalProductCount = $totalProductCount;
-        $this->totalProductModelCount = $totalProductModelCount;
     }
 
     public function rows(): array

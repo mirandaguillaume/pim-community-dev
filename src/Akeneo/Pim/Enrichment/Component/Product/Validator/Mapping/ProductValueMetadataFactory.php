@@ -72,8 +72,6 @@ class ProductValueMetadataFactory implements MetadataFactoryInterface
     }
 
     /**
-     * @param ValueInterface $value
-     *
      * @return ClassMetadata
      */
     protected function createMetadata(ValueInterface $value)
@@ -97,11 +95,6 @@ class ProductValueMetadataFactory implements MetadataFactoryInterface
         return $this->attrConstraintsCache[$cacheKey];
     }
 
-    /**
-     * @param ClassMetadata      $metadata
-     * @param Constraint         $constraint
-     * @param AttributeInterface $attribute
-     */
     protected function addConstraint(ClassMetadata $metadata, Constraint $constraint, AttributeInterface $attribute)
     {
         $targets = $constraint->getTargets();

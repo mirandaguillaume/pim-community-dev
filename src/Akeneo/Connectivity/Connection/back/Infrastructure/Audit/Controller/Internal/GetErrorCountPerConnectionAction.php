@@ -18,8 +18,8 @@ use Symfony\Component\HttpFoundation\Request;
 final class GetErrorCountPerConnectionAction extends AbstractAuditAction
 {
     public function __construct(
-        private UserContext $userContext,
-        private GetErrorCountPerConnectionHandler $getErrorCountPerConnectionHandler,
+        private readonly UserContext $userContext,
+        private readonly GetErrorCountPerConnectionHandler $getErrorCountPerConnectionHandler,
     ) {
     }
 

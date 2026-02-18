@@ -30,7 +30,7 @@ use Webmozart\Assert\Assert;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class UpsertProductHandler
+final readonly class UpsertProductHandler
 {
     public function __construct(
         private ValidatorInterface $validator,
@@ -101,20 +101,7 @@ final class UpsertProductHandler
             $command->valueUserIntents()
         );
         $userIntents = \array_filter(
-            array_merge(
-                [
-                    'parentUserIntent' => $command->parentUserIntent(),
-                ],
-                $indexedValueUserIntents,
-                [
-                    'enabledUserIntent' => $command->enabledUserIntent(),
-                    'familyUserIntent' => $command->familyUserIntent(),
-                    'categoryUserIntent' => $command->categoryUserIntent(),
-                    'groupUserIntent' => $command->groupUserIntent(),
-                    'associationUserIntents' => $command->associationUserIntents(),
-                    'quantifiedAssociationUserIntents' => $command->quantifiedAssociationUserIntents(),
-                ]
-            ),
+            ['parentUserIntent' => $command->parentUserIntent(), ...$indexedValueUserIntents, 'enabledUserIntent' => $command->enabledUserIntent(), 'familyUserIntent' => $command->familyUserIntent(), 'categoryUserIntent' => $command->categoryUserIntent(), 'groupUserIntent' => $command->groupUserIntent(), 'associationUserIntents' => $command->associationUserIntents(), 'quantifiedAssociationUserIntents' => $command->quantifiedAssociationUserIntents()],
             fn ($userIntent): bool => null !== $userIntent
         );
 
@@ -138,7 +125,7 @@ final class UpsertProductHandler
                     throw new ViolationsException($violations);
                 }
             } else {
-                throw new \InvalidArgumentException(\sprintf('The "%s" intent cannot be handled.', get_class($userIntent)));
+                throw new \InvalidArgumentException(\sprintf('The "%s" intent cannot be handled.', $userIntent::class));
             }
         }
     }

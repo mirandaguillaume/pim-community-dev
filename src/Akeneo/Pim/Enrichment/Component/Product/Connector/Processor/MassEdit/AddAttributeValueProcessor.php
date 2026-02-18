@@ -26,9 +26,6 @@ class AddAttributeValueProcessor extends AbstractProcessor
     /** @var ValidatorInterface */
     protected $productModelValidator;
 
-    /** @var PropertyAdderInterface */
-    private $propertyAdder;
-
     /** @var IdentifiableObjectRepositoryInterface */
     protected $attributeRepository;
 
@@ -38,25 +35,16 @@ class AddAttributeValueProcessor extends AbstractProcessor
     /** @var array */
     protected $supportedTypes;
 
-    /**
-     * @param ValidatorInterface                    $productValidator
-     * @param ValidatorInterface                    $productModelValidator
-     * @param PropertyAdderInterface                $propertyAdder
-     * @param IdentifiableObjectRepositoryInterface $attributeRepository
-     * @param CheckAttributeEditable                $checkAttributeEditable
-     * @param array                                 $supportedTypes
-     */
     public function __construct(
         ValidatorInterface $productValidator,
         ValidatorInterface $productModelValidator,
-        PropertyAdderInterface $propertyAdder,
+        private readonly PropertyAdderInterface $propertyAdder,
         IdentifiableObjectRepositoryInterface $attributeRepository,
         CheckAttributeEditable $checkAttributeEditable,
         array $supportedTypes
     ) {
         $this->productValidator = $productValidator;
         $this->productModelValidator = $productModelValidator;
-        $this->propertyAdder = $propertyAdder;
         $this->attributeRepository = $attributeRepository;
         $this->checkAttributeEditable = $checkAttributeEditable;
         $this->supportedTypes = $supportedTypes;
@@ -96,10 +84,7 @@ class AddAttributeValueProcessor extends AbstractProcessor
     /**
      * Set data from $actions to the given $entity
      *
-     * @param EntityWithFamilyInterface $entity
-     * @param array                     $filteredValues
      *
-     * @return EntityWithFamilyInterface
      */
     protected function updateEntity(EntityWithFamilyInterface $entity, array $filteredValues): EntityWithFamilyInterface
     {
@@ -121,10 +106,6 @@ class AddAttributeValueProcessor extends AbstractProcessor
     }
 
     /**
-     * @param EntityWithFamilyInterface $entity
-     * @param string                    $attributeCode
-     *
-     * @return bool
      *
      * @throws \Exception
      */
@@ -141,9 +122,7 @@ class AddAttributeValueProcessor extends AbstractProcessor
     /**
      * Validate the entity
      *
-     * @param EntityWithFamilyInterface $entity
      *
-     * @return bool
      */
     protected function isValid(EntityWithFamilyInterface $entity): bool
     {
@@ -160,18 +139,13 @@ class AddAttributeValueProcessor extends AbstractProcessor
     /**
      * Sadly, this is override in Enterprise Edition to check the permissions of the entity.
      *
-     * @param EntityWithFamilyInterface $entity
      *
-     * @return bool
      */
     protected function isEntityEditable(EntityWithFamilyInterface $entity): bool
     {
         return true;
     }
 
-    /**
-     * @param EntityWithFamilyInterface $entity
-     */
     protected function addWarning(EntityWithFamilyInterface $entity): void
     {
         $this->stepExecution->addWarning(
@@ -180,7 +154,7 @@ class AddAttributeValueProcessor extends AbstractProcessor
             new DataInvalidItem(
                 [
                     'class'  => ClassUtils::getClass($entity),
-                    'id'     => $entity instanceof ProductInterface && get_class($entity) !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProductInterface'
+                    'id'     => $entity instanceof ProductInterface && $entity::class !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProductInterface'
                         ? $entity->getUuid()->toString()
                         : $entity->getId(),
                     'string' => $entity->getIdentifier(),
@@ -214,8 +188,6 @@ class AddAttributeValueProcessor extends AbstractProcessor
      *
      * @param EntityWithFamilyInterface $entity
      * @param array                     $actions
-     *
-     * @return array
      */
     private function extractValuesToUpdate(EntityWithFamilyInterface $entity, array $actions): array
     {

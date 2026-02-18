@@ -67,12 +67,10 @@ class DbalViewedAnnouncementRepositoryIntegration extends TestCase
 
     private function createViewedAnnouncements(array $viewAnnouncementIds)
     {
-        return array_map(function ($viewAnnouncementId) {
-            return ViewedAnnouncement::create(
-                $viewAnnouncementId,
-                (int) $this->userFromDb['id']
-            );
-        }, $viewAnnouncementIds);
+        return array_map(fn($viewAnnouncementId) => ViewedAnnouncement::create(
+            $viewAnnouncementId,
+            (int) $this->userFromDb['id']
+        ), $viewAnnouncementIds);
     }
 
     private function selectUserFromDb()

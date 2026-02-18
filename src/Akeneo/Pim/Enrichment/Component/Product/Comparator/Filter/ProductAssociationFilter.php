@@ -18,9 +18,9 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class ProductAssociationFilter implements FilterInterface
 {
     public function __construct(
-        private NormalizerInterface $associationsNormalizer,
-        private NormalizerInterface $quantifiedAssociationsNormalizer,
-        private ComparatorRegistry $comparatorRegistry,
+        private readonly NormalizerInterface $associationsNormalizer,
+        private readonly NormalizerInterface $quantifiedAssociationsNormalizer,
+        private readonly ComparatorRegistry $comparatorRegistry,
     ) {
     }
 

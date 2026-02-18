@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 class UserGroupMustExistValidator extends ConstraintValidator
 {
     public function __construct(
-        private GroupRepositoryInterface $groupRepository
+        private readonly GroupRepositoryInterface $groupRepository
     ) {
     }
 

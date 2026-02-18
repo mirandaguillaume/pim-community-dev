@@ -21,15 +21,8 @@ use Webmozart\Assert\Assert;
  */
 class RemoveParent implements RemoveParentInterface
 {
-    private MissingAssociationAdder $missingAssociationAdder;
-    private EventDispatcherInterface $eventDispatcher;
-
-    public function __construct(
-        MissingAssociationAdder $missingAssociationAdder,
-        EventDispatcherInterface $eventDispatcher
-    ) {
-        $this->missingAssociationAdder = $missingAssociationAdder;
-        $this->eventDispatcher = $eventDispatcher;
+    public function __construct(private readonly MissingAssociationAdder $missingAssociationAdder, private readonly EventDispatcherInterface $eventDispatcher)
+    {
     }
 
     public function from(ProductInterface $product): void

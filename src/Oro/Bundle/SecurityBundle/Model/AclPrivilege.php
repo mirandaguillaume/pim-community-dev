@@ -21,10 +21,7 @@ class AclPrivilege
      */
     private $extensionKey;
 
-    /**
-     * @var ArrayCollection
-     */
-    private $permissions;
+    private readonly \Doctrine\Common\Collections\ArrayCollection $permissions;
 
     private int $order = 0;
 
@@ -99,7 +96,7 @@ class AclPrivilege
     /**
      * @return AclPermission[]|ArrayCollection
      */
-    public function getPermissions()
+    public function getPermissions(): array|\Doctrine\Common\Collections\ArrayCollection
     {
         return $this->permissions;
     }
@@ -113,7 +110,6 @@ class AclPrivilege
     }
 
     /**
-     * @param  AclPermission $permission
      * @return AclPrivilege
      */
     public function addPermission(AclPermission $permission)
@@ -124,7 +120,6 @@ class AclPrivilege
     }
 
     /**
-     * @param AclPermission $permission
      * @return $this
      */
     public function removePermission(AclPermission $permission)

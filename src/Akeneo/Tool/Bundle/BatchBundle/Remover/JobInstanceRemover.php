@@ -17,10 +17,10 @@ use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 class JobInstanceRemover implements RemoverInterface, BulkRemoverInterface
 {
     public function __construct(
-        private RemovableObjectRepositoryInterface $jobInstanceRepository,
-        private EventDispatcherInterface $eventDispatcher,
-        private DeleteRunningUser $deleteRunningUser,
-        private LoggerInterface $logger,
+        private readonly RemovableObjectRepositoryInterface $jobInstanceRepository,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly DeleteRunningUser $deleteRunningUser,
+        private readonly LoggerInterface $logger,
     ) {
     }
 

@@ -11,7 +11,7 @@ namespace Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject;
  */
 class ConnectionLabel implements \Stringable
 {
-    private string $label;
+    private readonly string $label;
 
     public function __construct(string $label)
     {

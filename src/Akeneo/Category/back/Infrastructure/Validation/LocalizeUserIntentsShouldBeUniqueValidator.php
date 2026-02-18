@@ -34,13 +34,11 @@ final class LocalizeUserIntentsShouldBeUniqueValidator extends ConstraintValidat
     private function validUniqueConstraint(array $value, Constraint $constraint): void
     {
         /** @var LocalizeUserIntent[] $localizeUserIntents */
-        $localizeUserIntents = array_values(array_filter($value, function ($userIntent) {
-            return is_subclass_of($userIntent, LocalizeUserIntent::class);
-        }));
+        $localizeUserIntents = array_values(array_filter($value, fn($userIntent) => is_subclass_of($userIntent, LocalizeUserIntent::class)));
 
         $existingIntents = [];
         foreach ($localizeUserIntents as $localizeIntent) {
-            $className = get_class($localizeIntent);
+            $className = $localizeIntent::class;
             $intentLocale = $localizeIntent->localeCode() ?? '<all_locales>';
 
             if (\in_array($intentLocale, $existingIntents[$className] ?? [])) {

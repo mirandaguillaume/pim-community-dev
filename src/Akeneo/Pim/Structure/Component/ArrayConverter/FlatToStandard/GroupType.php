@@ -17,9 +17,6 @@ class GroupType implements ArrayConverterInterface
     /** @var FieldsRequirementChecker */
     protected $fieldChecker;
 
-    /**
-     * @param FieldsRequirementChecker $fieldChecker
-     */
     public function __construct(FieldsRequirementChecker $fieldChecker)
     {
         $this->fieldChecker = $fieldChecker;
@@ -60,13 +57,11 @@ class GroupType implements ArrayConverterInterface
     }
 
     /**
-     * @param array  $convertedItem
      * @param string $field
-     * @param mixed  $data
      *
      * @return array
      */
-    protected function convertField(array $convertedItem, $field, $data)
+    protected function convertField(array $convertedItem, $field, mixed $data)
     {
         if ('code' === $field) {
             $convertedItem[$field] = $data;

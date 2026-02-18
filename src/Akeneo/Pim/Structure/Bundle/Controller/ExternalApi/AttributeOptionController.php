@@ -78,10 +78,6 @@ class AttributeOptionController
     /** @var array */
     protected $supportedAttributeTypes;
 
-    private ApiAggregatorForAttributeOptionPostSaveEventSubscriber $apiAggregatorForAttributeOptionPostSave;
-
-    private LoggerInterface $logger;
-
     public function __construct(
         AttributeRepositoryInterface $attributeRepository,
         ApiResourceRepositoryInterface $attributeOptionsRepository,
@@ -94,8 +90,8 @@ class AttributeOptionController
         PaginatorInterface $paginator,
         ParameterValidatorInterface $parameterValidator,
         StreamResourceResponse $partialUpdateStreamResource,
-        ApiAggregatorForAttributeOptionPostSaveEventSubscriber $apiAggregatorForAttributeOptionPostSave,
-        LoggerInterface $logger,
+        private readonly ApiAggregatorForAttributeOptionPostSaveEventSubscriber $apiAggregatorForAttributeOptionPostSave,
+        private readonly LoggerInterface $logger,
         array $apiConfiguration,
         array $supportedAttributeTypes
     ) {
@@ -110,21 +106,17 @@ class AttributeOptionController
         $this->paginator = $paginator;
         $this->parameterValidator = $parameterValidator;
         $this->partialUpdateStreamResource = $partialUpdateStreamResource;
-        $this->apiAggregatorForAttributeOptionPostSave = $apiAggregatorForAttributeOptionPostSave;
-        $this->logger = $logger;
         $this->apiConfiguration = $apiConfiguration;
         $this->supportedAttributeTypes = $supportedAttributeTypes;
     }
 
     /**
-     * @param Request $request
      * @param string  $attributeCode
      * @param string  $code
      *
      * @throws NotFoundHttpException
      *
      * @return JsonResponse
-     *
      * @AclAncestor("pim_api_attribute_option_list")
      */
     public function getAction(Request $request, $attributeCode, $code)
@@ -149,17 +141,16 @@ class AttributeOptionController
     }
 
     /**
-     * @param Request $request
      * @param string  $attributeCode
      *
      * @throws HttpException
      *
      * @return JsonResponse
-     *
      * @AclAncestor("pim_api_attribute_option_list")
      */
     public function listAction(Request $request, $attributeCode)
     {
+        $criteria = [];
         $attribute = $this->getAttribute($attributeCode);
         $this->isAttributeSupportingOptions($attribute);
 
@@ -205,13 +196,11 @@ class AttributeOptionController
     }
 
     /**
-     * @param Request $request
      * @param string  $attributeCode
      *
      * @throws HttpException
      *
      * @return Response
-     *
      * @AclAncestor("pim_api_attribute_option_edit")
      */
     public function createAction(Request $request, $attributeCode)
@@ -235,14 +224,12 @@ class AttributeOptionController
     }
 
     /**
-     * @param Request $request
      * @param string  $attributeCode
      * @param string  $code
      *
      * @throws HttpException
      *
      * @return Response
-     *
      * @AclAncestor("pim_api_attribute_option_edit")
      */
     public function partialUpdateAction(Request $request, $attributeCode, $code)
@@ -274,10 +261,6 @@ class AttributeOptionController
     }
 
     /**
-     * @param Request $request
-     * @param string  $attributeCode
-     *
-     * @return Response
      *
      * @AclAncestor("pim_api_attribute_option_edit")
      */
@@ -323,7 +306,6 @@ class AttributeOptionController
     /**
      * Verify if an attribute supports options.
      *
-     * @param AttributeInterface $attribute
      *
      * @throws NotFoundHttpException
      */
@@ -352,9 +334,9 @@ class AttributeOptionController
      */
     protected function getDecodedContent($content)
     {
-        $decodedContent = json_decode($content, true);
-
-        if (null === $decodedContent) {
+        try {
+            $decodedContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
             throw new BadRequestHttpException('Invalid json message received');
         }
 
@@ -364,10 +346,8 @@ class AttributeOptionController
     /**
      * Update an attribute option. It throws an error 422 if a problem occurred during the update.
      *
-     * @param AttributeOptionInterface $attributeOption
      * @param array                    $data
      * @param string                   $anchor
-     *
      * @throws DocumentedHttpException
      */
     protected function updateAttributeOption(AttributeOptionInterface $attributeOption, $data, $anchor)
@@ -387,7 +367,6 @@ class AttributeOptionController
      * Validate an attribute option. It throws an error 422 with every violated constraints if
      * the validation failed.
      *
-     * @param AttributeOptionInterface $attributeOption
      *
      * @throws ViolationHttpException
      */
@@ -402,8 +381,6 @@ class AttributeOptionController
     /**
      * Get a response with a location header to the created or updated resource.
      *
-     * @param AttributeInterface       $attribute
-     * @param AttributeOptionInterface $attributeOption
      * @param int                      $status
      *
      * @return Response
@@ -442,7 +419,7 @@ class AttributeOptionController
      *
      * @throws UnprocessableEntityHttpException
      */
-    protected function validateCodeConsistency($attributeCode, $optionCode, array $data, $isCreation)
+    protected function validateCodeConsistency($attributeCode, ?string $optionCode, array $data, $isCreation)
     {
         if ($isCreation && array_key_exists('attribute', $data) && $attributeCode !== $data['attribute']) {
             throw new UnprocessableEntityHttpException(

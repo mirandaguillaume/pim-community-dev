@@ -46,9 +46,7 @@ class AttributeCollection implements \Countable
     {
         $attribute = array_filter(
             $this->attributes,
-            static function ($attribute) use ($identifier) {
-                return $attribute->getIdentifier() === $identifier;
-            },
+            static fn($attribute) => $attribute->getIdentifier() === $identifier,
         );
         if (empty($attribute) || count($attribute) > 1) {
             return null;
@@ -61,9 +59,7 @@ class AttributeCollection implements \Countable
     {
         $attribute = array_filter(
             $this->attributes,
-            static function ($attribute) use ($uuid) {
-                return (string) $attribute->getUuid() === $uuid;
-            },
+            static fn($attribute) => (string) $attribute->getUuid() === $uuid,
         );
         if (empty($attribute) || count($attribute) > 1) {
             return null;
@@ -76,9 +72,7 @@ class AttributeCollection implements \Countable
     {
         $attribute = array_filter(
             $this->attributes,
-            static function ($attribute) use ($code) {
-                return (string) $attribute->getCode() === $code;
-            },
+            static fn($attribute) => (string) $attribute->getCode() === $code,
         );
         if (empty($attribute) || count($attribute) > 1) {
             return null;
@@ -120,9 +114,7 @@ class AttributeCollection implements \Countable
 
         usort(
             $attributeList,
-            static function (Attribute $a, Attribute $b) {
-                return $a->getOrder()->intValue() - $b->getOrder()->intValue();
-            },
+            static fn(Attribute $a, Attribute $b) => $a->getOrder()->intValue() - $b->getOrder()->intValue(),
         );
         $reindexedAttributeList = [];
         array_walk(

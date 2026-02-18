@@ -15,13 +15,10 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\LocaleCode;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class EvaluateCompleteness
+final readonly class EvaluateCompleteness
 {
-    private GetLocalesByChannelQueryInterface $localesByChannelQuery;
-
-    public function __construct(GetLocalesByChannelQueryInterface $localesByChannelQuery)
+    public function __construct(private GetLocalesByChannelQueryInterface $localesByChannelQuery)
     {
-        $this->localesByChannelQuery = $localesByChannelQuery;
     }
 
     public function evaluate(CalculateProductCompletenessInterface $completenessCalculator, Write\CriterionEvaluation $criterionEvaluation): Write\CriterionEvaluationResult

@@ -18,13 +18,11 @@ class FamilyTemplate
         public string $iconPath,
         public array $attributes,
     ) {
-        $this->attributes = array_map(function ($attribute) {
-            return new FamilyTemplateAttribute(
-                $attribute['attributeId'],
-                $attribute['type'],
-                $attribute['scopable'],
-                $attribute['localizable'],
-            );
-        }, $attributes);
+        $this->attributes = array_map(fn($attribute) => new FamilyTemplateAttribute(
+            $attribute['attributeId'],
+            $attribute['type'],
+            $attribute['scopable'],
+            $attribute['localizable'],
+        ), $attributes);
     }
 }

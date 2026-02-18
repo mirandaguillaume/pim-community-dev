@@ -48,7 +48,7 @@ class ItemStep extends AbstractStep implements TrackableStepInterface, LoggerAwa
         protected ItemProcessorInterface $processor,
         protected ItemWriterInterface $writer,
         protected int $batchSize = 100,
-        private ?JobStopperInterface $jobStopper = null,
+        private readonly ?JobStopperInterface $jobStopper = null,
     ) {
         parent::__construct($name, $eventDispatcher, $jobRepository);
     }
@@ -199,11 +199,9 @@ class ItemStep extends AbstractStep implements TrackableStepInterface, LoggerAwa
     }
 
     /**
-     * @param mixed $readItem
-     *
      * @return mixed processed item
      */
-    protected function process($readItem)
+    protected function process(mixed $readItem)
     {
         try {
             $processedItem = $this->processor->process($readItem);
@@ -237,14 +235,10 @@ class ItemStep extends AbstractStep implements TrackableStepInterface, LoggerAwa
 
     /**
      * Handle step execution warning
-     *
-     * @param StepExecution        $stepExecution
-     * @param mixed                $element
-     * @param InvalidItemException $e
      */
     protected function handleStepExecutionWarning(
         StepExecution $stepExecution,
-        $element,
+        mixed $element,
         InvalidItemException $e
     ) {
         $warning = new Warning(
@@ -257,7 +251,7 @@ class ItemStep extends AbstractStep implements TrackableStepInterface, LoggerAwa
         $this->jobRepository->addWarning($warning);
 
         $this->dispatchInvalidItemEvent(
-            get_class($element),
+            $element::class,
             $e->getMessage(),
             $e->getMessageParameters(),
             $e->getItem()
@@ -281,7 +275,7 @@ class ItemStep extends AbstractStep implements TrackableStepInterface, LoggerAwa
 
         try {
             return $this->reader->totalItems();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             if ($this->logger) {
                 $this->logger->critical('Impossible to get the total items to process from the reader.');
             }

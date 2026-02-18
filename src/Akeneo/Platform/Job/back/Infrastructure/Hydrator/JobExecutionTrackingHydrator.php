@@ -15,7 +15,7 @@ use Akeneo\Platform\Job\Application\SearchJobExecution\Model\StepExecutionTracki
 class JobExecutionTrackingHydrator
 {
     public function __construct(
-        private StepExecutionTrackingHydrator $stepExecutionHydrator,
+        private readonly StepExecutionTrackingHydrator $stepExecutionHydrator,
     ) {
     }
 

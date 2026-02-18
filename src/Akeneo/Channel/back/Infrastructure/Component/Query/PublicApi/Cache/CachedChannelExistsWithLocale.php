@@ -53,7 +53,7 @@ final class CachedChannelExistsWithLocale implements ChannelExistsWithLocaleInte
     private ?array $indexedChannels = null;
 
     public function __construct(
-        private GetChannelCodeWithLocaleCodesInterface $getChannelCodeWithLocaleCodes
+        private readonly GetChannelCodeWithLocaleCodesInterface $getChannelCodeWithLocaleCodes
     ) {
     }
 
@@ -140,11 +140,11 @@ final class CachedChannelExistsWithLocale implements ChannelExistsWithLocaleInte
             $channelsWithLocales = $this->getChannelCodeWithLocaleCodes->findAll();
             foreach ($channelsWithLocales as $channelWithLocales) {
                 $channelCode = $channelWithLocales['channelCode'];
-                $lowercaseChannelCode = \mb_strtolower($channelCode);
+                $lowercaseChannelCode = \mb_strtolower((string) $channelCode);
                 $this->indexedChannels[$lowercaseChannelCode] = $channelCode;
                 $localeCodes = $channelWithLocales['localeCodes'];
                 foreach ($localeCodes as $localeCode) {
-                    $this->indexedLocales[\mb_strtolower($localeCode)] = $localeCode;
+                    $this->indexedLocales[\mb_strtolower((string) $localeCode)] = $localeCode;
                 }
                 $lowercaseLocaleCodes = \array_map(static fn (string $localeCode): string => \mb_strtolower($localeCode), $localeCodes);
                 $this->indexedChannelsWithLocales[$lowercaseChannelCode] = $lowercaseLocaleCodes;

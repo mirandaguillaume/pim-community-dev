@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class TypeValidator extends ConstraintValidator
 {
     public function __construct(
-        private ValidatorInterface $validator
+        private readonly ValidatorInterface $validator
     ) {
     }
 

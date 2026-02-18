@@ -20,8 +20,6 @@ class ConfigureSortersListener
 {
     /**
      * Reconfigure sorters
-     *
-     * @param BuildBefore $event
      */
     public function onBuildBefore(BuildBefore $event)
     {

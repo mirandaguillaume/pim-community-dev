@@ -17,9 +17,6 @@ class BaseCachedObjectRepository implements CachedObjectRepositoryInterface
     /** @var array */
     protected $objectsCache;
 
-    /**
-     * @param IdentifiableObjectRepositoryInterface $repository
-     */
     public function __construct(IdentifiableObjectRepositoryInterface $repository)
     {
         $this->repository = $repository;

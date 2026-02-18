@@ -21,7 +21,7 @@ final class UnableToSetIdentifiersSubscriber implements EventSubscriberInterface
     /** @var UnableToSetIdentifierEvent[] */
     private array $events = [];
 
-    public function __construct(private JobRepositoryInterface $jobRepository)
+    public function __construct(private readonly JobRepositoryInterface $jobRepository)
     {
     }
 

@@ -22,7 +22,7 @@ final class SchedulePeriodicTasksTasklet implements TaskletInterface
 
     protected StepExecution $stepExecution;
 
-    public function __construct(private SchedulePeriodicTasks $schedulePeriodicTasks, private FeatureFlag $featureFlag)
+    public function __construct(private readonly SchedulePeriodicTasks $schedulePeriodicTasks, private readonly FeatureFlag $featureFlag)
     {
     }
 

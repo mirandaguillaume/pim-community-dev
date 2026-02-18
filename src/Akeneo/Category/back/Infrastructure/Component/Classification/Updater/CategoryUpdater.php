@@ -26,19 +26,13 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
 class CategoryUpdater implements ObjectUpdaterInterface
 {
     protected PropertyAccessor $accessor;
-    protected IdentifiableObjectRepositoryInterface $categoryRepository;
-    private IsCategoryTreeLinkedToUser $isCategoryTreeLinkedToUser;
-    private IsCategoryTreeLinkedToChannel $isCategoryTreeLinkedToChannel;
 
     public function __construct(
-        IdentifiableObjectRepositoryInterface $categoryRepository,
-        IsCategoryTreeLinkedToUser $isCategoryTreeLinkedToUser,
-        IsCategoryTreeLinkedToChannel $isCategoryTreeLinkedToChannel,
+        protected IdentifiableObjectRepositoryInterface $categoryRepository,
+        private readonly IsCategoryTreeLinkedToUser $isCategoryTreeLinkedToUser,
+        private readonly IsCategoryTreeLinkedToChannel $isCategoryTreeLinkedToChannel,
     ) {
         $this->accessor = PropertyAccess::createPropertyAccessor();
-        $this->categoryRepository = $categoryRepository;
-        $this->isCategoryTreeLinkedToUser = $isCategoryTreeLinkedToUser;
-        $this->isCategoryTreeLinkedToChannel = $isCategoryTreeLinkedToChannel;
     }
 
     /**
@@ -62,12 +56,11 @@ class CategoryUpdater implements ObjectUpdaterInterface
      * Validate the data type of a field.
      *
      * @param string $field
-     * @param mixed $data
      *
      * @throws InvalidPropertyTypeException
      * @throws UnknownPropertyException
      */
-    protected function validateDataType($field, $data)
+    protected function validateDataType($field, mixed $data)
     {
         if ('labels' === $field) {
             if (!is_array($data)) {
@@ -90,12 +83,11 @@ class CategoryUpdater implements ObjectUpdaterInterface
 
     /**
      * @param string $field
-     * @param mixed $data
      *
      * @throws InvalidPropertyException
      * @throws UnknownPropertyException
      */
-    protected function setData(CategoryInterface $category, $field, $data)
+    protected function setData(CategoryInterface $category, $field, mixed $data)
     {
         if ('labels' === $field) {
             foreach ($data as $localeCode => $label) {

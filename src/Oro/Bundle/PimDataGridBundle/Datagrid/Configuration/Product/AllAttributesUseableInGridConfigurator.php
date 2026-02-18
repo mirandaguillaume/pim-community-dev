@@ -23,34 +23,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class AllAttributesUseableInGridConfigurator implements ConfiguratorInterface
 {
-    /** @var AttributeRepositoryInterface */
-    private $attributeRepository;
-
-    /** @var UserContext */
-    private $userContext;
-
-    /** @var RequestParameters */
-    private $requestParams;
-
-    /** @var RequestStack */
-    private $requestStack;
-
-    /**
-     * @param AttributeRepositoryInterface $attributeRepository
-     * @param UserContext                  $userContext
-     * @param RequestParameters            $requestParams
-     * @param RequestStack                 $requestStack
-     */
-    public function __construct(
-        AttributeRepositoryInterface $attributeRepository,
-        UserContext $userContext,
-        RequestParameters $requestParams,
-        RequestStack $requestStack
-    ) {
-        $this->attributeRepository = $attributeRepository;
-        $this->userContext = $userContext;
-        $this->requestParams = $requestParams;
-        $this->requestStack = $requestStack;
+    public function __construct(private readonly AttributeRepositoryInterface $attributeRepository, private readonly UserContext $userContext, private readonly RequestParameters $requestParams, private readonly RequestStack $requestStack)
+    {
     }
 
     /**
@@ -64,8 +38,6 @@ class AllAttributesUseableInGridConfigurator implements ConfiguratorInterface
 
     /**
      * Inject the displayed attribute ids in the datagrid configuration
-     *
-     * @param DatagridConfiguration $configuration
      */
     private function addAttributesIds(DatagridConfiguration $configuration)
     {
@@ -73,7 +45,7 @@ class AllAttributesUseableInGridConfigurator implements ConfiguratorInterface
         $params = $this->requestParams->get(RequestParameters::ADDITIONAL_PARAMETERS);
 
         if (isset($params['view']) && isset($params['view']['columns'])) {
-            $attributeCodes = explode(',', $params['view']['columns']);
+            $attributeCodes = explode(',', (string) $params['view']['columns']);
         }
 
         $attributeIds = $this->attributeRepository->getAttributeIdsUseableInGrid($attributeCodes);
@@ -84,8 +56,6 @@ class AllAttributesUseableInGridConfigurator implements ConfiguratorInterface
 
     /**
      * Inject attributes configurations in the datagrid configuration
-     *
-     * @param DatagridConfiguration $configuration
      */
     private function addAttributesConfig(DatagridConfiguration $configuration)
     {
@@ -103,8 +73,6 @@ class AllAttributesUseableInGridConfigurator implements ConfiguratorInterface
 
     /**
      * Get current locale from datagrid parameters, then request parameters, then user config
-     *
-     * @return string|null
      */
     private function getCurrentLocaleCode(): ?string
     {
@@ -122,8 +90,6 @@ class AllAttributesUseableInGridConfigurator implements ConfiguratorInterface
 
     /**
      * @param string $key the configuration key
-     *
-     * @return string
      */
     private function getSourcePath($key): string
     {

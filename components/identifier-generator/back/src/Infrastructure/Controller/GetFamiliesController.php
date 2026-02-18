@@ -20,15 +20,15 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class GetFamiliesController
+final readonly class GetFamiliesController
 {
     private const DEFAULT_PAGE_PAGINATION = 1;
     private const DEFAULT_LIMIT_PAGINATION = 20;
 
     public function __construct(
-        private readonly FindFamiliesWithLabels $findFamiliesWithLabels,
-        private readonly UserContext $userContext,
-        private readonly SecurityFacadeInterface $securityFacade,
+        private FindFamiliesWithLabels $findFamiliesWithLabels,
+        private UserContext $userContext,
+        private SecurityFacadeInterface $securityFacade,
     ) {
     }
 

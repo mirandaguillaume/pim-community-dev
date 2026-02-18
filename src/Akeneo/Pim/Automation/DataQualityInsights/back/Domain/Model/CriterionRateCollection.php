@@ -15,7 +15,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\Rate;
 final class CriterionRateCollection implements \IteratorAggregate
 {
     /** @var array [channel_code => [locale_code => rate]] */
-    private $rates = [];
+    private array $rates = [];
 
     public function addRate(ChannelCode $channelCode, LocaleCode $localeCode, Rate $rate): self
     {
@@ -31,20 +31,12 @@ final class CriterionRateCollection implements \IteratorAggregate
 
     public function toArrayInt(): array
     {
-        return array_map(function ($ratesPerLocale) {
-            return array_map(function ($rate) {
-                return $rate->toInt();
-            }, $ratesPerLocale);
-        }, $this->rates);
+        return array_map(fn($ratesPerLocale) => array_map(fn($rate) => $rate->toInt(), $ratesPerLocale), $this->rates);
     }
 
     public function toArrayString(): array
     {
-        return array_map(function ($ratesPerLocale) {
-            return array_map(function ($rate) {
-                return strval($rate);
-            }, $ratesPerLocale);
-        }, $this->rates);
+        return array_map(fn($ratesPerLocale) => array_map(fn($rate) => strval($rate), $ratesPerLocale), $this->rates);
     }
 
     public static function fromArray(array $rawRates): self

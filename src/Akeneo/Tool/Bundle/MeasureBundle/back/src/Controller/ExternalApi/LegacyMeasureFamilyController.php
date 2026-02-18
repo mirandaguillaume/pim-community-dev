@@ -21,35 +21,8 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
  */
 class LegacyMeasureFamilyController
 {
-    protected ArrayConverterInterface $measureFamilyConverter;
-
-    protected ParameterValidatorInterface $parameterValidator;
-
-    protected PaginatorInterface $paginator;
-
-    protected array $apiConfiguration;
-
-    private LegacyMeasurementProvider $legacyMeasurementProvider;
-
-    /**
-     * @param ArrayConverterInterface     $measureFamilyConverter
-     * @param ParameterValidatorInterface $parameterValidator
-     * @param PaginatorInterface          $paginator
-     * @param LegacyMeasurementProvider   $legacyMeasurementProvider
-     * @param array                       $apiConfiguration
-     */
-    public function __construct(
-        ArrayConverterInterface $measureFamilyConverter,
-        ParameterValidatorInterface $parameterValidator,
-        PaginatorInterface $paginator,
-        LegacyMeasurementProvider $legacyMeasurementProvider,
-        array $apiConfiguration
-    ) {
-        $this->measureFamilyConverter = $measureFamilyConverter;
-        $this->parameterValidator = $parameterValidator;
-        $this->paginator = $paginator;
-        $this->apiConfiguration = $apiConfiguration;
-        $this->legacyMeasurementProvider = $legacyMeasurementProvider;
+    public function __construct(protected ArrayConverterInterface $measureFamilyConverter, protected ParameterValidatorInterface $parameterValidator, protected PaginatorInterface $paginator, private readonly LegacyMeasurementProvider $legacyMeasurementProvider, protected array $apiConfiguration)
+    {
     }
 
     /**
@@ -78,10 +51,8 @@ class LegacyMeasureFamilyController
     }
 
     /**
-     * @param Request $request
      *
      * @throws UnprocessableEntityHttpException
-     *
      * @return JsonResponse
      */
     public function listAction(Request $request)

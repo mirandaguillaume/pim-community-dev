@@ -7,7 +7,7 @@ use Twig\TwigFunction;
 
 class MetadataExtension extends \Twig\Extension\AbstractExtension
 {
-    public function __construct(private MetadataParser $metadataParser)
+    public function __construct(private readonly MetadataParser $metadataParser)
     {
     }
 
@@ -17,8 +17,8 @@ class MetadataExtension extends \Twig\Extension\AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('oro_datagrid_data', [$this->metadataParser, 'getGridData']),
-            new TwigFunction('oro_datagrid_metadata', [$this->metadataParser, 'getGridMetadata'])
+            new TwigFunction('oro_datagrid_data', $this->metadataParser->getGridData(...)),
+            new TwigFunction('oro_datagrid_metadata', $this->metadataParser->getGridMetadata(...))
         ];
     }
 }

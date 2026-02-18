@@ -44,8 +44,6 @@ class SqlReferenceEntityNomenclatureRepository implements ReferenceEntityNomencl
     }
 
     /**
-     * @param string $attributeCode
-     * @return NomenclatureDefinition|null
      * @throws \Doctrine\DBAL\Exception
      */
     private function getNomenclatureDefinition(string $attributeCode): ?NomenclatureDefinition
@@ -63,7 +61,7 @@ SQL;
         }
         Assert::string($definition);
 
-        $jsonResult = \json_decode($definition, true);
+        $jsonResult = \json_decode($definition, true, 512, JSON_THROW_ON_ERROR);
         Assert::isArray($jsonResult, \sprintf('Invalid JSON: "%s"', $definition));
 
         return $this->fromNormalized($jsonResult);
@@ -154,7 +152,7 @@ SQL;
                 'operator' => $nomenclatureDefinition->operator(),
                 'value' => $nomenclatureDefinition->value(),
                 'generate_if_empty' => $nomenclatureDefinition->generateIfEmpty(),
-            ]),
+            ], JSON_THROW_ON_ERROR),
         ]);
     }
 

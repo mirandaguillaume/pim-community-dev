@@ -28,7 +28,6 @@ interface AttributeSorterInterface extends SorterInterface
     /**
      * This filter supports the attribute
      *
-     * @param AttributeInterface $attribute
      *
      * @return bool
      */

@@ -9,7 +9,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class IterableObject implements \ArrayAccess, \IteratorAggregate
 {
-    const NAME_KEY = 'name';
+    final public const NAME_KEY = 'name';
 
     /** @var PropertyAccessor */
     protected $accessor;
@@ -26,7 +26,6 @@ class IterableObject implements \ArrayAccess, \IteratorAggregate
     /**
      * Creates object from array
      *
-     * @param array $params
      *
      * @return $this
      */
@@ -40,7 +39,6 @@ class IterableObject implements \ArrayAccess, \IteratorAggregate
      *
      *
      * @param string $name
-     * @param array  $params
      *
      * @return $this
      */
@@ -71,8 +69,6 @@ class IterableObject implements \ArrayAccess, \IteratorAggregate
      * Returns param array
      * If keys specified returns only intersection
      *
-     * @param array $keys
-     * @param array $excludeKeys
      *
      * @return array
      */
@@ -125,7 +121,7 @@ class IterableObject implements \ArrayAccess, \IteratorAggregate
      */
     public function offsetGetOr($offset, $default = null)
     {
-        return isset($this[$offset]) ? $this[$offset] : $default;
+        return $this[$offset] ?? $default;
     }
 
     /**
@@ -153,11 +149,10 @@ class IterableObject implements \ArrayAccess, \IteratorAggregate
      * Set property using PropertyAccessor
      *
      * @param string $path
-     * @param mixed  $value
      *
      * @return $this
      */
-    public function offsetSetByPath($path, $value)
+    public function offsetSetByPath($path, mixed $value)
     {
         $this->accessor->setValue($this->params, $path, $value);
 
@@ -175,7 +170,6 @@ class IterableObject implements \ArrayAccess, \IteratorAggregate
     /**
      * Merge additional params
      *
-     * @param array $params
      *
      * @return $this
      */
@@ -190,7 +184,6 @@ class IterableObject implements \ArrayAccess, \IteratorAggregate
      * Merge value to array property, if property not isset creates new one
      *
      * @param string $offset
-     * @param array  $value
      *
      * @return $this
      */
@@ -206,7 +199,6 @@ class IterableObject implements \ArrayAccess, \IteratorAggregate
      * Merge value to array property, if property not isset creates new one
      *
      * @param  string $path
-     * @param array   $value
      *
      * @return $this
      */
@@ -221,7 +213,6 @@ class IterableObject implements \ArrayAccess, \IteratorAggregate
     /**
      * Validation self using configuration tree definition
      *
-     * @param ConfigurationInterface $configuration
      *
      * @return $this
      */

@@ -22,7 +22,7 @@ class SwitchType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->setData(isset($options['data']) ? $options['data'] : false);
+        $builder->setData($options['data'] ?? false);
         $builder->resetViewTransformers();
         $builder->addViewTransformer(new BooleanToStringTransformer($options['value']));
     }

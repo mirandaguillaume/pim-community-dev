@@ -51,54 +51,23 @@ class CreateUserCommand extends Command
     /** @var string */
     private $catalogDefaultLocaleCode;
 
-    /** @var string */
-    private $catalogDefaultScopeCode;
+    private ?string $catalogDefaultScopeCode = null;
 
-    /** @var string */
-    private $defaultTreeCode;
+    private ?string $defaultTreeCode = null;
 
     /** @var bool */
     private $isAdmin = false;
 
-    /** @var SimpleFactoryInterface */
-    private $userFactory;
-
-    /** @var ObjectUpdaterInterface */
-    private $userUpdater;
-
-    /** @var ValidatorInterface */
-    private $validator;
-
-    /** @var SaverInterface */
-    private $userSaver;
-
-    /** @var GroupRepositoryInterface */
-    private $groupRepository;
-
-    /** @var RoleRepositoryInterface */
-    private $roleRepository;
-
-    /** @var LocaleRepositoryInterface */
-    private $localeRepository;
-
     public function __construct(
-        SimpleFactoryInterface $userFactory,
-        ObjectUpdaterInterface $userUpdater,
-        ValidatorInterface $validator,
-        SaverInterface $userSaver,
-        GroupRepositoryInterface $groupRepository,
-        RoleRepositoryInterface $roleRepository,
-        LocaleRepositoryInterface $localeRepository
+        private readonly SimpleFactoryInterface $userFactory,
+        private readonly ObjectUpdaterInterface $userUpdater,
+        private readonly ValidatorInterface $validator,
+        private readonly SaverInterface $userSaver,
+        private readonly GroupRepositoryInterface $groupRepository,
+        private readonly RoleRepositoryInterface $roleRepository,
+        private readonly LocaleRepositoryInterface $localeRepository
     ) {
         parent::__construct();
-
-        $this->userFactory = $userFactory;
-        $this->userUpdater = $userUpdater;
-        $this->validator = $validator;
-        $this->userSaver = $userSaver;
-        $this->groupRepository = $groupRepository;
-        $this->roleRepository = $roleRepository;
-        $this->localeRepository = $localeRepository;
     }
 
     /**

@@ -17,9 +17,6 @@ class User implements ArrayConverterInterface
     /** @var FieldsRequirementChecker */
     protected $fieldsChecker;
 
-    /**
-     * @param FieldsRequirementChecker $fieldsChecker
-     */
     public function __construct(FieldsRequirementChecker $fieldsChecker)
     {
         $this->fieldsChecker = $fieldsChecker;
@@ -77,14 +74,7 @@ class User implements ArrayConverterInterface
         return $convertedItem;
     }
 
-    /**
-     * @param array $convertedItem
-     * @param string $field
-     * @param mixed $data
-     *
-     * @return array
-     */
-    protected function convertField(array $convertedItem, string $field, $data): array
+    protected function convertField(array $convertedItem, string $field, mixed $data): array
     {
         if ('' === $data) {
             $convertedItem[$field] = null;
@@ -96,7 +86,7 @@ class User implements ArrayConverterInterface
             case 'roles':
             case 'groups':
             case 'product_grid_filters':
-                $convertedItem[$field] = \explode(',', $data);
+                $convertedItem[$field] = \explode(',', (string) $data);
                 break;
             case 'enabled':
                 $convertedItem[$field] = $this->convertBoolean((string)$data);

@@ -14,11 +14,8 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\GetAttributes;
  */
 class CleanLineBreaksInTextAttributes
 {
-    private GetAttributes $getAttributes;
-
-    public function __construct(GetAttributes $getAttributes)
+    public function __construct(private readonly GetAttributes $getAttributes)
     {
-        $this->getAttributes = $getAttributes;
     }
 
     public function cleanStandardFormat(array $item): array
@@ -63,7 +60,7 @@ class CleanLineBreaksInTextAttributes
             foreach ($values as $value) {
                 if (
                     is_string($value['data'])
-                    && (false !== strpos($value['data'], "\r") || false !== strpos($value['data'], "\n"))
+                    && (str_contains($value['data'], "\r") || str_contains($value['data'], "\n"))
                 ) {
                     $fieldsWithLineBreak[] = $field;
 

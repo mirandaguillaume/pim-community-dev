@@ -23,7 +23,7 @@ final class ElasticsearchProductUuidQueryFetcher implements ProductUuidQueryFetc
     /** @var mixed[] */
     private array $searchAfter = [];
 
-    public function __construct(private Client $esClient, private int $pageSize)
+    public function __construct(private readonly Client $esClient, private readonly int $pageSize)
     {
     }
 
@@ -83,7 +83,7 @@ final class ElasticsearchProductUuidQueryFetcher implements ProductUuidQueryFetc
         $uuids = [];
         foreach ($response['hits']['hits'] as $hit) {
             Assert::same($hit['_source']['document_type'], ProductInterface::class);
-            $uuids[] = Uuid::fromString(\str_replace('product_', '', $hit['_source']['id']));
+            $uuids[] = Uuid::fromString(\str_replace('product_', '', (string) $hit['_source']['id']));
         }
 
         $lastResult = \end($response['hits']['hits']);

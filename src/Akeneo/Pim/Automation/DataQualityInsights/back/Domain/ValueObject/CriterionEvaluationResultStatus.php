@@ -8,7 +8,7 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class CriterionEvaluationResultStatus
+final class CriterionEvaluationResultStatus implements \Stringable
 {
     public const DONE = 'done';
     public const IN_PROGRESS = 'in_progress';
@@ -22,8 +22,7 @@ final class CriterionEvaluationResultStatus
         self::ERROR,
     ];
 
-    /** @var string */
-    private $status;
+    private readonly string $status;
 
     public function __construct(string $status)
     {
@@ -38,7 +37,7 @@ final class CriterionEvaluationResultStatus
         $this->status = $status;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->status;
     }

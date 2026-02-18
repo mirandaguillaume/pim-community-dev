@@ -2,11 +2,11 @@
 
 namespace Akeneo\Platform\Bundle\ImportExportBundle\Infrastructure\Security;
 
-final class CredentialsEncrypterRegistry
+final readonly class CredentialsEncrypterRegistry
 {
     public function __construct(
         /** @var $credentialsEncrypters CredentialsEncrypter[] */
-        private readonly iterable $credentialsEncrypters,
+        private iterable $credentialsEncrypters,
     ) {
     }
 

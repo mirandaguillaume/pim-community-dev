@@ -19,8 +19,8 @@ class MigrateToUuidFillProductUuid implements MigrateToUuidStep
     private const BATCH_SIZE = 1000;
 
     public function __construct(
-        private Connection $connection,
-        private LoggerInterface $logger
+        private readonly Connection $connection,
+        private readonly LoggerInterface $logger
     ) {
     }
 

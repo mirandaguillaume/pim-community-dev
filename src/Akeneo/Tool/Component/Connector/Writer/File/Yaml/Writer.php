@@ -21,14 +21,11 @@ use Symfony\Component\Yaml\Yaml;
  */
 class Writer extends AbstractFileWriter implements ItemWriterInterface, FlushableInterface, InitializableInterface
 {
-    const INLINE_ARRAY_LEVEL = 8;
-    const INDENT_SPACES = 4;
+    final public const INLINE_ARRAY_LEVEL = 8;
+    final public const INDENT_SPACES = 4;
 
     /** @var ArrayConverterInterface */
     protected $arrayConverter;
-
-    /** @var string */
-    protected $header;
 
     /** @var bool */
     protected $isFirstWriting;
@@ -42,12 +39,11 @@ class Writer extends AbstractFileWriter implements ItemWriterInterface, Flushabl
     public function __construct(
         ArrayConverterInterface $arrayConverter,
         private readonly JobFileBackuper $jobFileBackuper,
-        $header = null,
+        protected $header = null,
     ) {
         parent::__construct();
 
         $this->arrayConverter = $arrayConverter;
-        $this->header = $header;
         $this->isFirstWriting = true;
     }
 
@@ -104,12 +100,6 @@ class Writer extends AbstractFileWriter implements ItemWriterInterface, Flushabl
         $this->isFirstWriting = true;
     }
 
-    /**
-     * @param array $items
-     * @param string $path
-     *
-     * @return array
-     */
     protected function overwrite(array $items, string $path): array
     {
         $data = [];
@@ -127,12 +117,6 @@ class Writer extends AbstractFileWriter implements ItemWriterInterface, Flushabl
         return $data;
     }
 
-    /**
-     * @param array $items
-     * @param string $path
-     *
-     * @return array
-     */
     protected function append(array $items, string $path): array
     {
         $yaml = Yaml::dump($items, self::INLINE_ARRAY_LEVEL, self::INDENT_SPACES);
@@ -149,9 +133,6 @@ class Writer extends AbstractFileWriter implements ItemWriterInterface, Flushabl
         return $items;
     }
 
-    /**
-     * @param array $data
-     */
     protected function incrementSummaryInfo(array $data): void
     {
         $items = null !== $this->header ? $data[$this->header] : $data;

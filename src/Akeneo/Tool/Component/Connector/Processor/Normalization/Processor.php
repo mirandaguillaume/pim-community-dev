@@ -21,10 +21,6 @@ class Processor implements ItemProcessorInterface
     /** @var ObjectDetacherInterface */
     protected $objectDetacher;
 
-    /**
-     * @param NormalizerInterface     $normalizer
-     * @param ObjectDetacherInterface $objectDetacher
-     */
     public function __construct(NormalizerInterface $normalizer, ObjectDetacherInterface $objectDetacher)
     {
         $this->normalizer = $normalizer;

@@ -28,14 +28,14 @@ final class RemoveNonExistingProductValuesTasklet implements TaskletInterface
     private ?StepExecution $stepExecution = null;
 
     public function __construct(
-        private GetProductAndProductModelIdentifiersWithValuesIgnoringLocaleAndScope $getProductAndProductModelIdentifiersWithValues,
-        private GetAttributes $getAttributes,
-        private ProductRepositoryInterface $productRepository,
-        private ProductModelRepositoryInterface $productModelRepository,
-        private BulkSaverInterface $productSaver,
-        private BulkSaverInterface $productModelSaver,
-        private EntityManagerClearerInterface $entityManagerClearer,
-        private int $batchSize
+        private readonly GetProductAndProductModelIdentifiersWithValuesIgnoringLocaleAndScope $getProductAndProductModelIdentifiersWithValues,
+        private readonly GetAttributes $getAttributes,
+        private readonly ProductRepositoryInterface $productRepository,
+        private readonly ProductModelRepositoryInterface $productModelRepository,
+        private readonly BulkSaverInterface $productSaver,
+        private readonly BulkSaverInterface $productModelSaver,
+        private readonly EntityManagerClearerInterface $entityManagerClearer,
+        private readonly int $batchSize
     ) {
     }
 

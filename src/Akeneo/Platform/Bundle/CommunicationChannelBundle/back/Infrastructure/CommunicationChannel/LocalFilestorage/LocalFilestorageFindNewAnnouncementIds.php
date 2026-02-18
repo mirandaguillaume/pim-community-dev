@@ -11,21 +11,20 @@ use Akeneo\Platform\CommunicationChannel\Domain\Announcement\Query\FindNewAnnoun
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class LocalFilestorageFindNewAnnouncementIds implements FindNewAnnouncementIdsInterface
+final readonly class LocalFilestorageFindNewAnnouncementIds implements FindNewAnnouncementIdsInterface
 {
     private const FILENAME = 'serenity-updates.json';
 
-    /** @var string */
-    private $externalJson;
+    private string|bool $externalJson;
 
     public function __construct()
     {
-        $this->externalJson = file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . self::FILENAME);
+        $this->externalJson = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . self::FILENAME);
     }
 
     public function find(string $pimEdition, string $pimVersion, string $locale): array
     {
-        $content = json_decode($this->externalJson, true);
+        $content = json_decode($this->externalJson, true, 512, JSON_THROW_ON_ERROR);
 
         $currentDate = new \DateTimeImmutable();
 

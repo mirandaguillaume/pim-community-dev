@@ -9,11 +9,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class AbstractChoiceType extends AbstractType
 {
-    protected TranslatorInterface $translator;
-
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(protected TranslatorInterface $translator)
     {
-        $this->translator = $translator;
     }
 
     public function finishView(FormView $view, FormInterface $form, array $options)

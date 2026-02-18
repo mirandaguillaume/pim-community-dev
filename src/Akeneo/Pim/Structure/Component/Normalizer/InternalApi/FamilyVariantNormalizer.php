@@ -25,10 +25,6 @@ class FamilyVariantNormalizer implements NormalizerInterface, CacheableSupportsM
     /** @var StructureVersionProviderInterface */
     protected $structureVersionProvider;
 
-    /**
-     * @param NormalizerInterface               $normalizer
-     * @param StructureVersionProviderInterface $structureVersionProvider
-     */
     public function __construct(
         NormalizerInterface $normalizer,
         StructureVersionProviderInterface $structureVersionProvider
