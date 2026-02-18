@@ -29,6 +29,12 @@ final class EvaluateAfterAttributeGroupActivateEndToEnd extends MessengerTestCas
             $this->launchProductEvaluationsQueueStatus,
         ];
 
+        // Ensure PubSub topics and subscriptions exist before any messages are dispatched.
+        // The synchronous EvaluateAfterAttributeGroupActivateHandler publishes messages to the
+        // launch_product_evaluations topic via the producer transport, which only creates the topic.
+        // The subscription must already exist for those messages to be delivered to it.
+        $this->launchProductEvaluationsQueueStatus->createTopicAndSubscription();
+
         parent::setUp();
 
         $this->updateAttributeGroupActivationHandler = $this->get(UpdateAttributeGroupActivationHandler::class);
