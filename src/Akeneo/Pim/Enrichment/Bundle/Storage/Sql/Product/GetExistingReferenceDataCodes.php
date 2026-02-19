@@ -7,7 +7,6 @@ namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Product;
 use Akeneo\Pim\Enrichment\Component\Product\Query\GetExistingReferenceDataCodes as GetExistingReferenceDataCodesInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Repository\ReferenceDataRepositoryResolverInterface;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\ORM\EntityManager;
 
 /**

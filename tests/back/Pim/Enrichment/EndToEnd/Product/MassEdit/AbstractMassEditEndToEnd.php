@@ -69,8 +69,6 @@ SQL;
         $timeout = 0;
         $isCompleted = false;
 
-        $stmt = $this->dbalConnection->prepare($query);
-
         while (!$isCompleted) {
             if ($timeout > 30) {
                 throw new \RuntimeException(
@@ -80,9 +78,10 @@ SQL;
                     )
                 );
             }
-            $stmt->bindValue('instance_code', $jobInstanceCode);
-            $stmt->execute();
-            $result = $stmt->fetch();
+            $result = $this->dbalConnection->executeQuery(
+                $query,
+                ['instance_code' => $jobInstanceCode]
+            )->fetchAssociative();
 
             $isCompleted = isset($result['status']) && BatchStatus::COMPLETED === (int) $result['status'];
 

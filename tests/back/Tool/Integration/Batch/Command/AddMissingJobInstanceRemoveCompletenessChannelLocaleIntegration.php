@@ -48,7 +48,7 @@ class AddMissingJobInstanceRemoveCompletenessChannelLocaleIntegration extends Te
 SQL;
         $statement = $this->connection->executeQuery($sql);
         $platform = $this->connection->getDatabasePlatform();
-        $result = $statement->fetch(\PDO::FETCH_ASSOC);
+        $result = $statement->fetchAssociative();
 
         return Type::getType(Types::BOOLEAN)->convertToPhpValue($result['is_existing'], $platform);
     }

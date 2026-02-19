@@ -22,14 +22,12 @@ class ReferenceDataLoader
     {
         $query = $manager->createQuery('SELECT COUNT(f) FROM \Acme\Bundle\AppBundle\Entity\Fabric f');
         if (0 === $query->getSingleScalarResult()) {
-            $stmt = $manager->getConnection()->prepare($this->getFabricsSql());
-            $stmt->execute();
+            $manager->getConnection()->executeStatement($this->getFabricsSql());
         }
 
         $query = $manager->createQuery('SELECT COUNT(c) FROM \Acme\Bundle\AppBundle\Entity\Color c');
         if (0 === $query->getSingleScalarResult()) {
-            $stmt = $manager->getConnection()->prepare($this->getColorSql());
-            $stmt->execute();
+            $manager->getConnection()->executeStatement($this->getColorSql());
         }
     }
 

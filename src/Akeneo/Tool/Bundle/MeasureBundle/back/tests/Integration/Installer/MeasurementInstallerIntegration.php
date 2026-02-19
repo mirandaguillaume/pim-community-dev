@@ -79,7 +79,7 @@ class MeasurementInstallerIntegration extends SqlIntegrationTestCase
         /** @var Connection $connection */
         $connection = $this->get('database_connection');
         $stmt = $connection->executeQuery('SELECT COUNT(*) FROM akeneo_measurement;');
-        $actualNumberOfMeasurements = $stmt->fetch(\PDO::FETCH_COLUMN);
+        $actualNumberOfMeasurements = $stmt->fetchOne();
         Assert::assertEquals($expectedNumberOfMeasurements, $actualNumberOfMeasurements);
     }
 }

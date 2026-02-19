@@ -99,7 +99,7 @@ SQL;
             'code' => $excludedMeasurementFamilyCode->normalize(),
         ]);
 
-        return (int) $statement->fetch(\PDO::FETCH_COLUMN);
+        return (int) $statement->fetchOne();
     }
 
     public function clear(): void
