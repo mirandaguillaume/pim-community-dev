@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Channel;
 
 use Akeneo\Pim\Enrichment\Component\Product\Query\GetChannelLabelsInterface;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -43,7 +44,7 @@ SQL;
         $rows = $this->connection->executeQuery(
             $sql,
             ['channelCodes' => $channelCodes],
-            ['channelCodes' => Connection::PARAM_STR_ARRAY]
+            ['channelCodes' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
         $result = [];

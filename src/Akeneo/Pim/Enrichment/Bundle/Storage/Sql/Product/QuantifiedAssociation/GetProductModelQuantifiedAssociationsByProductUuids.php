@@ -6,6 +6,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Product\QuantifiedAssociation
 
 use Akeneo\Pim\Enrichment\Bundle\Doctrine\ORM\Query\QuantifiedAssociation\GetIdMappingFromProductModelIdsQuery;
 use Akeneo\Pim\Enrichment\Component\Product\Query\FindQuantifiedAssociationTypeCodesInterface;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\UuidInterface;
 
@@ -60,7 +61,7 @@ SQL;
         $rows = $this->connection->executeQuery(
             $query,
             ['productUuids' => $uuidsAsBytes],
-            ['productUuids' => Connection::PARAM_STR_ARRAY]
+            ['productUuids' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
         return $rows;

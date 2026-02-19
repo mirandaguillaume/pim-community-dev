@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Q
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Query\ProductEvaluation\GetOutdatedProductModelIdsByDateAndCriteriaQueryInterface;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductModelId;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductModelIdCollection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Types;
 
@@ -37,7 +38,7 @@ final readonly class GetOutdatedProductModelIdsByDateAndCriteriaQuery implements
         ];
 
         $queryTypes = [
-            'product_model_ids' => Connection::PARAM_STR_ARRAY,
+            'product_model_ids' => ArrayParameterType::STRING,
             'evaluation_date' => Types::DATETIME_IMMUTABLE,
         ];
 
@@ -45,7 +46,7 @@ final readonly class GetOutdatedProductModelIdsByDateAndCriteriaQuery implements
         if (!empty($criteria)) {
             $criteriaSubQuery = 'AND criterion_code IN (:criterion_codes)';
             $queryParameters['criterion_codes'] = $criteria;
-            $queryTypes['criterion_codes'] = Connection::PARAM_STR_ARRAY;
+            $queryTypes['criterion_codes'] = ArrayParameterType::STRING;
         }
 
         $query = <<<SQL

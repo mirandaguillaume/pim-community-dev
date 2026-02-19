@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Oro\Bundle\PimDataGridBundle\Query\Sql;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Oro\Bundle\DataGridBundle\Extension\Formatter\Configuration;
 use Oro\Bundle\DataGridBundle\Provider\ConfigurationProviderInterface;
@@ -70,7 +71,7 @@ SQL;
                 'attributesToExclude' => $attributesToExclude,
             ],
             [
-                'attributesToExclude' => Connection::PARAM_STR_ARRAY,
+                'attributesToExclude' => ArrayParameterType::STRING,
             ]
         );
 

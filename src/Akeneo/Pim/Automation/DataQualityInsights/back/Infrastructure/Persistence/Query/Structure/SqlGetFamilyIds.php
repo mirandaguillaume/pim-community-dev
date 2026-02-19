@@ -16,6 +16,7 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Q
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Query\Structure\GetFamilyIds;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\AttributeGroupCode;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\FamilyId;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 final readonly class SqlGetFamilyIds implements GetFamilyIds
@@ -45,7 +46,7 @@ SQL;
         $stmt = $this->connection->executeQuery(
             $query,
             ['attribute_ids' => $attributeIds],
-            ['attribute_ids' => Connection::PARAM_INT_ARRAY]
+            ['attribute_ids' => ArrayParameterType::INTEGER]
         );
 
         while ($familyId = $stmt->fetchOne()) {

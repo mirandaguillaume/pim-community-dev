@@ -9,6 +9,7 @@ use Akeneo\Platform\Job\Application\SearchJobExecution\SearchJobExecutionInterfa
 use Akeneo\Platform\Job\Application\SearchJobExecution\SearchJobExecutionQuery;
 use Akeneo\Platform\Job\Domain\Model\Status;
 use Akeneo\Platform\Job\Infrastructure\Hydrator\JobExecutionRowHydrator;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -223,10 +224,10 @@ SQL;
     private function buildQueryParamsTypes(): array
     {
         return [
-            'type' => Connection::PARAM_STR_ARRAY,
-            'status' => Connection::PARAM_STR_ARRAY,
-            'user' => Connection::PARAM_STR_ARRAY,
-            'code' => Connection::PARAM_STR_ARRAY,
+            'type' => ArrayParameterType::STRING,
+            'status' => ArrayParameterType::STRING,
+            'user' => ArrayParameterType::STRING,
+            'code' => ArrayParameterType::STRING,
         ];
     }
 }

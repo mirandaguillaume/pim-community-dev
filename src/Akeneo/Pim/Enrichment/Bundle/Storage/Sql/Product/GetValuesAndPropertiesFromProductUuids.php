@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Product;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
@@ -71,7 +72,7 @@ SQL;
         $rows = $this->connection->fetchAllAssociative(
             $query,
             [$uuidsAsBytes, $uuidsAsBytes],
-            [Connection::PARAM_STR_ARRAY, Connection::PARAM_STR_ARRAY]
+            [ArrayParameterType::STRING, ArrayParameterType::STRING]
         );
 
         $platform = $this->connection->getDatabasePlatform();

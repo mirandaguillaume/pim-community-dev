@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Structure\Bundle\Query\PublicApi\Group\Sql;
 
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Group\GetGroupTranslations;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 class SqlGetGroupTranslations implements GetGroupTranslations
@@ -34,7 +35,7 @@ SQL;
                 'groupCodes' => $groupCodes,
                 'locale' => $locale
             ],
-            ['groupCodes' => Connection::PARAM_STR_ARRAY]
+            ['groupCodes' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
         $groupTranslations = [];

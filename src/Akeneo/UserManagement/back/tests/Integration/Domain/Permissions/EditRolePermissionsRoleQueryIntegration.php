@@ -11,6 +11,7 @@ use Akeneo\UserManagement\Bundle\Doctrine\ORM\Repository\RoleWithPermissionsRepo
 use Akeneo\UserManagement\Component\Storage\Saver\RoleWithPermissionsSaver;
 use Akeneo\UserManagement\Domain\Permissions\MinimumEditRolePermission;
 use Akeneo\UserManagement\Domain\Permissions\Query\EditRolePermissionsRoleQuery;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
@@ -106,7 +107,7 @@ class EditRolePermissionsRoleQueryIntegration extends TestCase
         $this->connection->executeQuery(
             'DELETE FROM oro_access_role WHERE role NOT IN (:roles)',
             ['roles' => $roles],
-            ['roles' => Connection::PARAM_STR_ARRAY]
+            ['roles' => ArrayParameterType::STRING]
         );
     }
     protected function getConfiguration(): Configuration

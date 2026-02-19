@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Enrichment\Bundle\Command\MigrateToUuid;
 
 use Akeneo\Pim\Enrichment\Bundle\Command\MigrateToUuid\Utils\StatusAwareTrait;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Psr\Log\LoggerInterface;
 
@@ -106,7 +107,7 @@ class MigrateToUuidCleanGhostRecords implements MigrateToUuidStep
                             ]
                         ),
                         ['idsToRemove' => $idsToRemove],
-                        ['idsToRemove' => Connection::PARAM_INT_ARRAY]
+                        ['idsToRemove' => ArrayParameterType::INTEGER]
                     );
 
                     $cleanedRows += \count($idsToRemove);

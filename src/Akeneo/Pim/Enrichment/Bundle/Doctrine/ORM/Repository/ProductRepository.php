@@ -7,6 +7,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Repository\ProductRepositoryInterface;
 use Akeneo\Tool\Component\StorageUtils\Repository\CursorableRepositoryInterface;
 use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityRepository;
@@ -44,7 +45,7 @@ class ProductRepository extends EntityRepository implements
                 'attributeId' => $this->getMainIdentifierId(),
             ],
             [
-                'identifiers' => Connection::PARAM_STR_ARRAY,
+                'identifiers' => ArrayParameterType::STRING,
                 'attributeId' => ParameterType::INTEGER,
             ]
         );

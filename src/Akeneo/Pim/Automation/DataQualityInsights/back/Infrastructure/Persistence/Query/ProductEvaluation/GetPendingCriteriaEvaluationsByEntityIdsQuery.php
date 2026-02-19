@@ -13,6 +13,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityId
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityIdInterface;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductModelIdCollection;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductUuidCollection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Result;
 
@@ -73,7 +74,7 @@ SQL;
             'product_uuids' => $productUuids->toArrayBytes(),
         ], [
             'status' => \PDO::PARAM_STR,
-            'product_uuids' => Connection::PARAM_STR_ARRAY,
+            'product_uuids' => ArrayParameterType::STRING,
         ]);
     }
 
@@ -94,7 +95,7 @@ SQL;
             'product_model_ids' => $productModelIdCollection->toArrayString(),
         ], [
             'status' => \PDO::PARAM_STR,
-            'product_model_ids' => Connection::PARAM_INT_ARRAY,
+            'product_model_ids' => ArrayParameterType::INTEGER,
         ]);
     }
 

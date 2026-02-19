@@ -7,6 +7,7 @@ namespace Akeneo\Category\back\tests\Integration\Infrastructure\Storage\Sql;
 use Akeneo\Category\Application\Query\ExternalApiSqlParameters;
 use Akeneo\Category\Application\Query\GetCategoriesParametersBuilder;
 use Akeneo\Category\back\tests\Integration\Helper\CategoryTestCase;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -44,7 +45,7 @@ class GetCategoriesParametersBuilderSqlIntegration extends CategoryTestCase
                 'with_enriched_attributes' => true,
             ],
             types: [
-                'code_0' => Connection::PARAM_STR_ARRAY,
+                'code_0' => ArrayParameterType::STRING,
                 'limit' => \PDO::PARAM_INT,
                 'offset' => \PDO::PARAM_INT,
                 'with_position' => \PDO::PARAM_BOOL,
@@ -84,7 +85,7 @@ class GetCategoriesParametersBuilderSqlIntegration extends CategoryTestCase
                 'with_enriched_attributes' => true,
             ],
             types: [
-                'code_0' => Connection::PARAM_STR_ARRAY,
+                'code_0' => ArrayParameterType::STRING,
                 'limit' => \PDO::PARAM_INT,
                 'with_position' => \PDO::PARAM_BOOL,
                 'with_enriched_attributes' => \PDO::PARAM_BOOL,
@@ -154,7 +155,7 @@ class GetCategoriesParametersBuilderSqlIntegration extends CategoryTestCase
                 'with_enriched_attributes' => false,
             ],
             types: [
-                'code_0' => Connection::PARAM_STR_ARRAY,
+                'code_0' => ArrayParameterType::STRING,
                 'limit' => \PDO::PARAM_INT,
                 'offset' => \PDO::PARAM_INT,
                 'with_position' => \PDO::PARAM_BOOL,

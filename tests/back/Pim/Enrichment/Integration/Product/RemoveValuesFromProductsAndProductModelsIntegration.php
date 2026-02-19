@@ -15,6 +15,7 @@ use Akeneo\Test\Common\EntityWithValue\Builder;
 use Akeneo\Test\Integration\Configuration;
 use Akeneo\Test\Integration\TestCase;
 use Akeneo\Test\IntegrationTestsBundle\Messenger\AssertEventCountTrait;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\Uuid;
 
@@ -116,7 +117,7 @@ SQL,
             ],
             [
 
-                'product_uuids' => Connection::PARAM_STR_ARRAY
+                'product_uuids' => ArrayParameterType::STRING
             ]
         )->fetchOne();
 
@@ -144,7 +145,7 @@ SQL,
             ],
             [
 
-                'product_model_codes' => Connection::PARAM_STR_ARRAY
+                'product_model_codes' => ArrayParameterType::STRING
             ]
         )->fetchOne();
 

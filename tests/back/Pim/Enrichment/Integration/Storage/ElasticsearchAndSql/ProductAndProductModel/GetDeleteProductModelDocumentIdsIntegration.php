@@ -8,6 +8,7 @@ use Akeneo\Pim\Enrichment\Bundle\Storage\ElasticsearchAndSql\ProductAndProductMo
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface;
 use Akeneo\Test\Integration\Configuration;
 use Akeneo\Test\Integration\TestCase;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use PHPUnit\Framework\Assert;
@@ -47,7 +48,7 @@ final class GetDeleteProductModelDocumentIdsIntegration extends TestCase
             [
                 'randomId' => $randomId,
             ],
-            ['randomId' => Connection::PARAM_STR_ARRAY]
+            ['randomId' => ArrayParameterType::STRING]
         );
 
         return $randomId;

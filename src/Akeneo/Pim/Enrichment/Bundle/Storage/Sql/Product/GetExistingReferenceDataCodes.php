@@ -6,6 +6,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Product;
 
 use Akeneo\Pim\Enrichment\Component\Product\Query\GetExistingReferenceDataCodes as GetExistingReferenceDataCodesInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Repository\ReferenceDataRepositoryResolverInterface;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManager;
 
@@ -36,7 +37,7 @@ final readonly class GetExistingReferenceDataCodes implements GetExistingReferen
         return $this->entityManager->getConnection()->executeQuery(
             $sql,
             ['codes' => $codes],
-            ['codes' => Connection::PARAM_STR_ARRAY]
+            ['codes' => ArrayParameterType::STRING]
         )->fetchFirstColumn();
     }
 }

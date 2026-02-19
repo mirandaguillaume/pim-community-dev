@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Enrichment\Bundle\Doctrine\ORM\Query;
 
 use Akeneo\Pim\Enrichment\Component\Product\Query\FindNonExistingProductsQueryInterface;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\Uuid;
 
@@ -36,7 +37,7 @@ SQL;
         $results = $this->connection->executeQuery(
             $query,
             ['product_identifiers' => $productIdentifiers],
-            ['product_identifiers' => Connection::PARAM_STR_ARRAY]
+            ['product_identifiers' => ArrayParameterType::STRING]
         )->fetchFirstColumn();
 
         return array_values(array_diff($productIdentifiers, $results));
@@ -57,7 +58,7 @@ SQL;
         $results = $this->connection->executeQuery(
             $query,
             ['product_uuids' => $productUuidsAsBytes],
-            ['product_uuids' => Connection::PARAM_STR_ARRAY]
+            ['product_uuids' => ArrayParameterType::STRING]
         )->fetchFirstColumn();
 
         return array_values(array_diff($productUuids, $results));

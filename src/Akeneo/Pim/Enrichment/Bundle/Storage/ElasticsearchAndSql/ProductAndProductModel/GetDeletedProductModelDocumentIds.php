@@ -6,6 +6,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\Storage\ElasticsearchAndSql\ProductAndPro
 
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -90,7 +91,7 @@ final readonly class GetDeletedProductModelDocumentIds
         $existingProductModelCodes = $this->connection->executeQuery(
             'SELECT code FROM pim_catalog_product_model WHERE code IN (:identifiers)',
             ['identifiers' => \array_values($indexedIdentifiers)],
-            ['identifiers' => Connection::PARAM_STR_ARRAY]
+            ['identifiers' => ArrayParameterType::STRING]
         )->fetchFirstColumn();
 
         return \array_keys(\array_diff($indexedIdentifiers, $existingProductModelCodes));

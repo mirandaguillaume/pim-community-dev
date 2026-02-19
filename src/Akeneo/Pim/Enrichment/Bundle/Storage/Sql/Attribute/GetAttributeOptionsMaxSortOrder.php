@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Attribute;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -34,7 +35,7 @@ SQL;
                 'attributeCodes' => $attributeCodes,
             ],
             [
-                'attributeCodes' => Connection::PARAM_STR_ARRAY,
+                'attributeCodes' => ArrayParameterType::STRING,
             ]
         )->fetchAllAssociative();
 

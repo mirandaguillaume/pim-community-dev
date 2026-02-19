@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Enrichment\Product\Infrastructure\Query;
 
 use Akeneo\Pim\Enrichment\Product\API\Query\GetProductUuids;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -48,7 +49,7 @@ LEFT JOIN pim_catalog_product_unique_data
 WHERE raw_data in (:identifiers)
 SQL,
             ['identifiers' => $identifiers],
-            ['identifiers' => Connection::PARAM_STR_ARRAY]
+            ['identifiers' => ArrayParameterType::STRING]
         );
 
         $indexedUuidsByIdentifier = [];
@@ -74,7 +75,7 @@ SQL,
             $this->connection->fetchFirstColumn(
                 'SELECT BIN_TO_UUID(uuid) FROM pim_catalog_product WHERE uuid IN (:uuids)',
                 ['uuids' => \array_map(static fn (UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],
-                ['uuids' => Connection::PARAM_STR_ARRAY],
+                ['uuids' => ArrayParameterType::STRING],
             ),
             static fn (array $carry, string $uuid): array => $carry + [$uuid => Uuid::fromString($uuid)],
             []

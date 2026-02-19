@@ -18,6 +18,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Exception\ObjectNotFoundException;
 use Akeneo\Pim\Enrichment\Component\Product\Factory\ReadValueCollectionFactory;
 use Akeneo\Pim\Enrichment\Component\Product\Query;
 use Akeneo\Pim\Enrichment\Component\Product\Query\ProductQueryBuilderInterface;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -284,7 +285,7 @@ SQL;
             $this->connection->fetchFirstColumn(
                 $sql,
                 ['identifiers' => $productIdentifiers],
-                ['identifiers' => Connection::PARAM_STR_ARRAY]
+                ['identifiers' => ArrayParameterType::STRING]
             )
         );
     }

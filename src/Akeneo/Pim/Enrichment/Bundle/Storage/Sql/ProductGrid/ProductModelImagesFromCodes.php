@@ -6,6 +6,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\ProductGrid;
 
 use Doctrine\DBAL\Exception;
 use Akeneo\Pim\Enrichment\Component\Product\Factory\WriteValueCollectionFactory;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -127,7 +128,7 @@ SQL;
         $rows = $this->connection->executeQuery(
             $sql,
             ['codes' => $codes],
-            ['codes' => Connection::PARAM_STR_ARRAY]
+            ['codes' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
         foreach ($rows as $row) {
@@ -169,7 +170,7 @@ SQL;
         $rows = $this->connection->executeQuery(
             $sql,
             ['codes' => $codes],
-            ['codes' => Connection::PARAM_STR_ARRAY]
+            ['codes' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
         $productModels = [];

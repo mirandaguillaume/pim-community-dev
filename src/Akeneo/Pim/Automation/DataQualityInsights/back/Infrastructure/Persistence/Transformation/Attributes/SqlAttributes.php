@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Transformation\Attributes;
 
 use Akeneo\Tool\Component\StorageUtils\Cache\LRUCache;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -35,7 +36,7 @@ class SqlAttributes implements AttributesInterface
             $attributesCodes = $this->dbConnection->executeQuery(
                 "SELECT JSON_OBJECTAGG(CONCAT('a_', id), code) FROM pim_catalog_attribute WHERE id IN (:ids);",
                 ['ids' => $attributesIds],
-                ['ids' => Connection::PARAM_INT_ARRAY]
+                ['ids' => ArrayParameterType::INTEGER]
             )->fetchOne();
 
             return !$attributesCodes ? [] : json_decode($attributesCodes, true, 512, JSON_THROW_ON_ERROR);
@@ -57,7 +58,7 @@ class SqlAttributes implements AttributesInterface
             $attributesIds = $this->dbConnection->executeQuery(
                 'SELECT JSON_OBJECTAGG(code, id) FROM pim_catalog_attribute WHERE code IN (:codes);',
                 ['codes' => $attributesCodes],
-                ['codes' => Connection::PARAM_STR_ARRAY]
+                ['codes' => ArrayParameterType::STRING]
             )->fetchOne();
 
             return !$attributesIds ? [] : json_decode($attributesIds, true, 512, JSON_THROW_ON_ERROR);

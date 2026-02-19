@@ -6,6 +6,7 @@ namespace Akeneo\Category\Infrastructure\Storage\Sql;
 
 use Akeneo\Category\Domain\Model\Classification\CategoryTree;
 use Akeneo\Category\Domain\Query\GetCategoryTreesInterface;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -28,7 +29,7 @@ class GetCategoryTreesSql implements GetCategoryTreesInterface
         $condition = [];
         $condition['sqlAnd'] = 'AND category.id IN (:ids)';
         $condition['params'] = ['ids' => $categryTreeIds];
-        $condition['types'] = ['ids' => Connection::PARAM_INT_ARRAY];
+        $condition['types'] = ['ids' => ArrayParameterType::INTEGER];
 
         return $this->execute($condition);
     }

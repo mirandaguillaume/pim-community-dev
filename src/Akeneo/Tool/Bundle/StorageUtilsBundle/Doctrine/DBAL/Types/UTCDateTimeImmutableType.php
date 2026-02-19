@@ -42,7 +42,7 @@ class UTCDateTimeImmutableType extends DateTimeImmutableType
         if (!$converted) {
             throw ConversionException::conversionFailedFormat(
                 $value,
-                $this->getName(),
+                'datetime_immutable',
                 $platform->getDateTimeFormatString()
             );
         }

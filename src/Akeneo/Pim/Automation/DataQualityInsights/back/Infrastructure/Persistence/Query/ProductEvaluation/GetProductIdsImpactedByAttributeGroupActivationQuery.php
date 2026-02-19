@@ -11,6 +11,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\Query\Structure\GetFamilyId
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\AttributeGroupCode;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\FamilyId;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityIdCollection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -44,7 +45,7 @@ SQL;
         $stmt = $this->dbConnection->executeQuery(
             $query,
             ['families' => $impactedFamilies],
-            ['families' => Connection::PARAM_INT_ARRAY,]
+            ['families' => ArrayParameterType::INTEGER,]
         );
 
         $productUuids = [];
@@ -91,7 +92,7 @@ SQL;
         $stmt = $this->dbConnection->executeQuery(
             'SELECT BIN_TO_UUID(product.uuid) FROM pim_catalog_product AS product WHERE product.family_id IN (:families)',
             ['families' => \array_map(fn (FamilyId $familyId) => $familyId->toInt(), $impactedFamilies)],
-            ['families' => Connection::PARAM_INT_ARRAY,]
+            ['families' => ArrayParameterType::INTEGER,]
         );
 
         $productUuids = [];

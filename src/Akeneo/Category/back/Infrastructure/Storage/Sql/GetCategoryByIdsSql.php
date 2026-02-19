@@ -6,6 +6,7 @@ namespace Akeneo\Category\Infrastructure\Storage\Sql;
 
 use Akeneo\Category\Domain\Model\Enrichment\Category;
 use Akeneo\Category\Domain\Query\GetCategoryByIds;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -56,7 +57,7 @@ class GetCategoryByIdsSql implements GetCategoryByIds
         $rows = $this->connection->executeQuery(
             $sqlQuery,
             ['ids' => $categoryIds],
-            ['ids' => Connection::PARAM_INT_ARRAY],
+            ['ids' => ArrayParameterType::INTEGER],
         )->fetchAllAssociative();
 
         if (!$rows) {

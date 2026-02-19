@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Q
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\ChannelLocaleRateCollection;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Read;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Query\ProductEvaluation\GetProductModelScoresByCodesQueryInterface;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -49,7 +50,7 @@ SQL;
         $stmt = $this->dbConnection->executeQuery(
             $query,
             ['productModelCodes' => $productModelCodes],
-            ['productModelCodes' => Connection::PARAM_STR_ARRAY]
+            ['productModelCodes' => ArrayParameterType::STRING]
         );
 
         $productModelsScores = [];

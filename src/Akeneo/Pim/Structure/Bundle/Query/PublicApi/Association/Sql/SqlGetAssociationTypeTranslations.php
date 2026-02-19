@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Structure\Bundle\Query\PublicApi\Association\Sql;
 
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Association\GetAssociationTypeTranslations;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 class SqlGetAssociationTypeTranslations implements GetAssociationTypeTranslations
@@ -34,7 +35,7 @@ SQL;
                 'associationTypeCodes' => $associationTypeCodes,
                 'locale' => $locale
             ],
-            ['associationTypeCodes' => Connection::PARAM_STR_ARRAY]
+            ['associationTypeCodes' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
         $associationTypeTranslations = [];

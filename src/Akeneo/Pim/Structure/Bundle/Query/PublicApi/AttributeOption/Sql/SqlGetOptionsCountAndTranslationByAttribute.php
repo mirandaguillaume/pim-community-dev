@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Structure\Bundle\Query\PublicApi\AttributeOption\Sql;
 use Doctrine\DBAL\Driver\Exception;
 use Akeneo\Pim\Structure\Component\AttributeTypes;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeOption\GetOptionsCountAndTranslationByAttribute;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -59,7 +60,7 @@ final readonly class SqlGetOptionsCountAndTranslationByAttribute implements GetO
                 'limit' => \PDO::PARAM_INT,
                 'offset' => \PDO::PARAM_INT,
                 'search' => \PDO::PARAM_STR,
-                'select_attribute_types' => Connection::PARAM_STR_ARRAY,
+                'select_attribute_types' => ArrayParameterType::STRING,
                 'locale' => \PDO::PARAM_STR,
             ],
         )->fetchAllAssociative();
