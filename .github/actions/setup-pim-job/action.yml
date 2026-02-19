@@ -33,6 +33,12 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Free up ports used by pre-installed services
+      shell: bash
+      run: |
+        sudo systemctl stop mysql || true
+        sudo systemctl stop mono-xsp4 || true
+
     - name: Setup docker-compose
       uses: ./.github/actions/setup-docker-compose
 
