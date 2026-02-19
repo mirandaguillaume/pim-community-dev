@@ -3,6 +3,7 @@
 namespace Akeneo\Pim\Structure\Bundle\Query\PublicApi\Attribute\Sql;
 
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Attribute\GetAttributeTranslations;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 class SqlGetAttributeTranslations implements GetAttributeTranslations
@@ -35,7 +36,7 @@ SQL;
                 'attributeCodes' => $attributeCodes
             ],
             [
-                'attributeCodes' => Connection::PARAM_STR_ARRAY,
+                'attributeCodes' => ArrayParameterType::STRING,
             ]
         )->fetchAllAssociative();
 
@@ -72,7 +73,7 @@ SQL;
                 'attributeCodes' => $attributeCodes
             ],
             [
-                'attributeCodes' => Connection::PARAM_STR_ARRAY,
+                'attributeCodes' => ArrayParameterType::STRING,
             ]
         )->fetchAllAssociative();
 

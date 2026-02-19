@@ -53,10 +53,10 @@ SELECT raw_parameters
 FROM akeneo_batch_job_instance
 WHERE id = :jobId
 SQL;
-        $stmt = $this->get('doctrine.orm.entity_manager')->getConnection()->prepare($sql);
-        $stmt->bindValue('jobId', $jobInstance->getId());
-        $stmt->execute();
-        $rawParameters = unserialize($stmt->fetchColumn(0));
+        $rawParameters = unserialize($this->get('doctrine.orm.entity_manager')->getConnection()->executeQuery(
+            $sql,
+            ['jobId' => $jobInstance->getId()]
+        )->fetchOne());
 
         return $rawParameters;
     }

@@ -10,6 +10,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\Query\ProductEvaluation\Has
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityIdCollection;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityIdInterface;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductModelIdCollection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -53,7 +54,7 @@ SQL;
         $stmt = $this->dbConnection->executeQuery(
             $query,
             ['product_ids' => $productIdCollection->toArrayString()],
-            ['product_ids' => Connection::PARAM_INT_ARRAY]
+            ['product_ids' => ArrayParameterType::INTEGER]
         );
 
         $result = $stmt->fetchAllAssociative();

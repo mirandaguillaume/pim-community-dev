@@ -41,7 +41,7 @@ class AggregatedVolumeRepositorySpec extends ObjectBehavior
         $aggregatedVolume->aggregatedAt()->willReturn(new \DateTime());
 
         $statement->bindValue(Argument::cetera())->shouldBeCalled();
-        $statement->execute()->shouldBeCalled();
+        $statement->executeStatement()->willReturn(1);
 
         $this->add($aggregatedVolume);
     }

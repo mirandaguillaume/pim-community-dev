@@ -13,7 +13,6 @@ use Akeneo\Connectivity\Connection\Tests\CatalogBuilder\ConnectionLoader;
 use Akeneo\Test\Integration\Configuration;
 use Akeneo\Test\Integration\TestCase;
 use Doctrine\DBAL\Connection as DbalConnection;
-use Doctrine\DBAL\Types\Types;
 use PHPUnit\Framework\Assert;
 
 class DbalConnectionRepositoryIntegration extends TestCase
@@ -130,8 +129,8 @@ SQL;
                 'redirect_uris' => [],
             ],
             [
-                'allowed_grant_types' => Types::ARRAY,
-                'redirect_uris' => Types::ARRAY
+                'allowed_grant_types' => 'array',
+                'redirect_uris' => 'array'
             ]
         );
 

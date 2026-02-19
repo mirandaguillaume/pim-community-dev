@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Category\Infrastructure\Storage\Sql;
 
 use Akeneo\Category\ServiceApi\Query\CategoriesHaveAtLeastOneChild as BaseCategoriesHaveAtLeastOneChild;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -70,7 +71,7 @@ SQL;
         foreach ($this->connection->fetchAllAssociative(
             $sql,
             ['categoryCodes' => $categoryCodes],
-            ['categoryCodes' => Connection::PARAM_STR_ARRAY],
+            ['categoryCodes' => ArrayParameterType::STRING],
         ) as $row) {
             $result[$row['code']] = [
                 'lft' => \intval($row['lft']),

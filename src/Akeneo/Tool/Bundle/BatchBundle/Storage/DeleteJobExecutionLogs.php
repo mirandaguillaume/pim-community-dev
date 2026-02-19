@@ -6,7 +6,6 @@ namespace Akeneo\Tool\Bundle\BatchBundle\Storage;
 
 use Akeneo\Tool\Bundle\BatchBundle\Persistence\Sql\GetJobExecutionIds;
 use Akeneo\Tool\Component\Batch\Job\BatchStatus;
-use Doctrine\DBAL\FetchMode;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\ElasticsearchAndSql\ProductAndProductModel;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -37,7 +38,7 @@ SQL;
         $uuids = $this->connection->executeQuery(
             $sql,
             ['identifiers' => $identifiers],
-            ['identifiers' => Connection::PARAM_STR_ARRAY]
+            ['identifiers' => ArrayParameterType::STRING]
         )->fetchFirstColumn();
 
         return array_map(static fn (string $uuid): UuidInterface => Uuid::fromBytes($uuid), $uuids);

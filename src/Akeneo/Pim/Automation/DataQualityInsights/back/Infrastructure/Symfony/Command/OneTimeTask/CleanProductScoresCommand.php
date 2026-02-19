@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Symfony\Command\OneTimeTask;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -105,7 +106,7 @@ SQL,
                 'productUuidAsBytes' => $productUuidsAsBytes
             ],
             [
-                'productUuidAsBytes' => Connection::PARAM_STR_ARRAY,
+                'productUuidAsBytes' => ArrayParameterType::STRING,
             ]
         );
     }

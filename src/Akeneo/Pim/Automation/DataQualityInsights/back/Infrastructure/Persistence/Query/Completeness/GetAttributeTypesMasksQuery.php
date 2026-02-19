@@ -6,8 +6,8 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Q
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\GetRequiredAttributesMasks;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\RequiredAttributesMask;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\RequiredAttributesMaskForChannelAndLocale;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 
 class GetAttributeTypesMasksQuery implements GetRequiredAttributesMasks
 {
@@ -84,8 +84,8 @@ SQL;
                 'attributeTypes' => $this->attributeTypes
             ],
             [
-                'familyCodes' => Connection::PARAM_STR_ARRAY,
-                'attributeTypes' => Connection::PARAM_STR_ARRAY
+                'familyCodes' => ArrayParameterType::STRING,
+                'attributeTypes' => ArrayParameterType::STRING
             ]
         )->fetchAllAssociative();
 

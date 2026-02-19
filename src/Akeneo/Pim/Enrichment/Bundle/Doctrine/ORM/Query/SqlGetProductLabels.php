@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Enrichment\Bundle\Doctrine\ORM\Query;
 
 use Akeneo\Pim\Enrichment\Component\Product\Query\GetProductLabelsInterface;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\Uuid;
 
@@ -43,7 +44,7 @@ SQL;
         $results = $this->connection->executeQuery(
             $query,
             ['identifiers' => $identifiers],
-            ['identifiers' => Connection::PARAM_STR_ARRAY]
+            ['identifiers' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
         $labels = [];
@@ -86,7 +87,7 @@ SQL;
         $results = $this->connection->executeQuery(
             $query,
             ['uuids' => \array_filter($uuidAsBytes)],
-            ['uuids' => Connection::PARAM_STR_ARRAY]
+            ['uuids' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
         $labels = [];

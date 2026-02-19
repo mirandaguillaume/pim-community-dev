@@ -11,6 +11,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\Query\ProductEvaluation\Get
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityIdCollection;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityIdInterface;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductUuidCollection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Webmozart\Assert\Assert;
 
@@ -54,7 +55,7 @@ SQL;
         $stmt = $this->dbConnection->executeQuery(
             $query,
             ['product_uuids' => $productUuidCollection->toArrayBytes()],
-            ['product_uuids' => Connection::PARAM_STR_ARRAY]
+            ['product_uuids' => ArrayParameterType::STRING]
         );
 
         $productsScores = [];

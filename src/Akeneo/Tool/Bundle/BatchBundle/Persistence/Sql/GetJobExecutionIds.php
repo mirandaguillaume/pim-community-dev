@@ -6,6 +6,7 @@ namespace Akeneo\Tool\Bundle\BatchBundle\Persistence\Sql;
 
 use Akeneo\Tool\Component\Batch\Job\BatchStatus;
 use DateTime;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Types\Types;
@@ -76,7 +77,7 @@ final readonly class GetJobExecutionIds
         return $this->connection->executeQuery(
             $query,
             ['job_instance_codes' => $jobInstanceCodes, 'status_code' => $status?->getValue()],
-            ['job_instance_codes' => Connection::PARAM_STR_ARRAY]
+            ['job_instance_codes' => ArrayParameterType::STRING]
         );
     }
 
@@ -119,7 +120,7 @@ final readonly class GetJobExecutionIds
             ],
             [
                 'create_time' => Types::DATETIME_MUTABLE,
-                'job_instance_codes' => Connection::PARAM_STR_ARRAY
+                'job_instance_codes' => ArrayParameterType::STRING
             ]
         );
     }

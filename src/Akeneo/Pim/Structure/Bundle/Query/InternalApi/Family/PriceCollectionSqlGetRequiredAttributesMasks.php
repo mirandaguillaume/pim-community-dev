@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Structure\Bundle\Query\InternalApi\Family;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\GetRequiredAttributesMasksForAttributeType;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\RequiredAttributesMask;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\RequiredAttributesMaskForChannelAndLocale;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -78,7 +79,7 @@ SQL;
         $rows = $this->connection->executeQuery(
             $sql,
             ['familyCodes' => $familyCodes],
-            ['familyCodes' => Connection::PARAM_STR_ARRAY]
+            ['familyCodes' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
         $masksPerFamily = [];

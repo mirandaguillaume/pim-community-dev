@@ -8,7 +8,6 @@ use Akeneo\Test\Integration\Configuration;
 use Akeneo\Test\Integration\TestCase;
 use Akeneo\Tool\Bundle\MessengerBundle\Query\PurgeDoctrineQueueQuery;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use PHPUnit\Framework\Assert;
 
 class PurgeDoctrineQueueIntegration extends TestCase

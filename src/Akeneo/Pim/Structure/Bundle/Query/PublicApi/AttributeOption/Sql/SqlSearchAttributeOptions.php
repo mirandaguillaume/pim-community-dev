@@ -8,6 +8,7 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeOption\AttributeOpti
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeOption\SearchAttributeOptionsInterface;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeOption\SearchAttributeOptionsParameters;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeOption\SearchAttributeOptionsResult;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -81,8 +82,8 @@ SQL;
             'attribute_code' => \PDO::PARAM_STR,
             'search' => \PDO::PARAM_STR,
             'locale_code' => \PDO::PARAM_STR,
-            'include_codes' => Connection::PARAM_STR_ARRAY,
-            'exclude_codes' => Connection::PARAM_STR_ARRAY,
+            'include_codes' => ArrayParameterType::STRING,
+            'exclude_codes' => ArrayParameterType::STRING,
             'limit' => \PDO::PARAM_INT,
             'offset' => \PDO::PARAM_INT,
         ])->fetchAllAssociative();
@@ -125,8 +126,8 @@ SQL;
             'attribute_code' => \PDO::PARAM_STR,
             'search' => \PDO::PARAM_STR,
             'locale_code' => \PDO::PARAM_STR,
-            'include_codes' => Connection::PARAM_STR_ARRAY,
-            'exclude_codes' => Connection::PARAM_STR_ARRAY,
+            'include_codes' => ArrayParameterType::STRING,
+            'exclude_codes' => ArrayParameterType::STRING,
         ])->fetchOne();
 
         return (int) $matchesCount;

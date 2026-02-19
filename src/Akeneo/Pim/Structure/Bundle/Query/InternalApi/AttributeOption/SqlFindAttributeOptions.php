@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Structure\Bundle\Query\InternalApi\AttributeOption;
 
 use Akeneo\UserManagement\Bundle\Context\UserContext;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -68,7 +69,7 @@ final readonly class SqlFindAttributeOptions implements FindAttributeOptions
         if (null !== $includeCodes) {
             $sql = \strtr($sql, ['{includeCodesQuery}' => 'AND attribute_option.code IN (:includeCodes)']);
             $parameters['includeCodes'] = $includeCodes;
-            $types['includeCodes'] = Connection::PARAM_STR_ARRAY;
+            $types['includeCodes'] = ArrayParameterType::STRING;
         } else {
             $sql = \strtr($sql, ['{includeCodesQuery}' => '']);
         }

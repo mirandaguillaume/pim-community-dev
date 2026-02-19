@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Repository;
 
+use Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Write\DashboardRatesProjection;
+use Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Write\DashboardPurgeDateCollection;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Write;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Repository\DashboardScoresProjectionRepositoryInterface;
 use Doctrine\DBAL\Connection;
@@ -74,7 +76,7 @@ final readonly class DashboardScoresProjectionRepository implements DashboardSco
     {
     }
 
-    public function save(Write\DashboardRatesProjection $ratesProjection): void
+    public function save(DashboardRatesProjection $ratesProjection): void
     {
         $query = <<<SQL
 INSERT INTO pim_data_quality_insights_dashboard_scores_projection (type, code, scores)
@@ -91,7 +93,7 @@ SQL;
         $this->saveAverageRanks($ratesProjection);
     }
 
-    public function purgeRates(Write\DashboardPurgeDateCollection $purgeDates): void
+    public function purgeRates(DashboardPurgeDateCollection $purgeDates): void
     {
         $pathsToRemove = [];
 
@@ -114,7 +116,7 @@ SQL;
         $this->db->executeQuery($query);
     }
 
-    private function saveAverageRanks(Write\DashboardRatesProjection $ratesProjection): void
+    private function saveAverageRanks(DashboardRatesProjection $ratesProjection): void
     {
         $query = <<<SQL
 UPDATE pim_data_quality_insights_dashboard_scores_projection

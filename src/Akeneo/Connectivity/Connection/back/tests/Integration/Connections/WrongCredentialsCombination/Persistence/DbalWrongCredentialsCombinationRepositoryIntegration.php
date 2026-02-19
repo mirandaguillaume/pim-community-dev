@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Tests\Integration\Connections\WrongCredentialsCombination\Persistence;
 
+use Akeneo\Connectivity\Connection\Domain\WrongCredentialsConnection\Model\Write\WrongCredentialsCombination;
+use Akeneo\Connectivity\Connection\Domain\WrongCredentialsConnection\Model\Read\WrongCredentialsCombinations;
 use Akeneo\Connectivity\Connection\Domain\WrongCredentialsConnection\Model\Read;
 use Akeneo\Connectivity\Connection\Domain\WrongCredentialsConnection\Model\Write;
 use Akeneo\Connectivity\Connection\Domain\WrongCredentialsConnection\Persistence\Repository\WrongCredentialsCombinationRepositoryInterface;
@@ -37,7 +39,7 @@ class DbalWrongCredentialsCombinationRepositoryIntegration extends TestCase
 
     public function test_it_saves_a_wrong_credentials_combination(): void
     {
-        $this->repository->create(new Write\WrongCredentialsCombination('erp', 'admin'));
+        $this->repository->create(new WrongCredentialsCombination('erp', 'admin'));
 
         $expected = [
             ['connection_code' => 'erp', 'username' => 'admin']
@@ -53,10 +55,10 @@ class DbalWrongCredentialsCombinationRepositoryIntegration extends TestCase
 
     public function test_it_saves_only_one_entry_for_each_credentials_combination(): void
     {
-        $this->repository->create(new Write\WrongCredentialsCombination('ecommerce', 'admin'));
-        $this->repository->create(new Write\WrongCredentialsCombination('erp', 'admin'));
-        $this->repository->create(new Write\WrongCredentialsCombination('erp', 'julia'));
-        $this->repository->create(new Write\WrongCredentialsCombination('erp', 'julia'));
+        $this->repository->create(new WrongCredentialsCombination('ecommerce', 'admin'));
+        $this->repository->create(new WrongCredentialsCombination('erp', 'admin'));
+        $this->repository->create(new WrongCredentialsCombination('erp', 'julia'));
+        $this->repository->create(new WrongCredentialsCombination('erp', 'julia'));
 
         $expected = [
             ['connection_code' => 'ecommerce', 'username' => 'admin'],
@@ -78,12 +80,12 @@ class DbalWrongCredentialsCombinationRepositoryIntegration extends TestCase
         SELECT authentication_date FROM akeneo_connectivity_connection_wrong_credentials_combination;
         SQL;
 
-        $this->repository->create(new Write\WrongCredentialsCombination('erp', 'admin'));
+        $this->repository->create(new WrongCredentialsCombination('erp', 'admin'));
         $previous = $this->dbalConnection->executeQuery($sql)->fetchAllAssociative();
 
         \sleep(1);
 
-        $this->repository->create(new Write\WrongCredentialsCombination('erp', 'admin'));
+        $this->repository->create(new WrongCredentialsCombination('erp', 'admin'));
         $current = $this->dbalConnection->executeQuery($sql)->fetchAllAssociative();
 
         Assert::assertNotSame($previous, $current);
@@ -100,7 +102,7 @@ class DbalWrongCredentialsCombinationRepositoryIntegration extends TestCase
         SQL;
         $this->dbalConnection->executeQuery($sql);
 
-        $expected = new Read\WrongCredentialsCombinations([
+        $expected = new WrongCredentialsCombinations([
             [
                 'connection_code' => 'ecommerce',
                 'users' => [

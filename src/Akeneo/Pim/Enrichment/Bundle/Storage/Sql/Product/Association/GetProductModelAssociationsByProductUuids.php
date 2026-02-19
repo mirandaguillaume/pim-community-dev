@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Product\Association;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\UuidInterface;
 use Webmozart\Assert\Assert;
@@ -89,7 +90,7 @@ SQL;
         $rows = $this->connection->executeQuery(
             $query,
             ['productUuids' => $uuidsAsBytes],
-            ['productUuids' => Connection::PARAM_STR_ARRAY]
+            ['productUuids' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
         $results = [];

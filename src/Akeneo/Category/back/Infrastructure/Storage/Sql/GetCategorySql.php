@@ -9,6 +9,7 @@ use Akeneo\Category\Domain\Query\GetCategoryInterface;
 use Akeneo\Category\Domain\Query\GetDeactivatedTemplateAttributes\DeactivatedTemplateAttributeIdentifier;
 use Akeneo\Category\Domain\Query\GetDeactivatedTemplateAttributes\DeactivatedTemplateAttributesInValueCollectionFilter;
 use Akeneo\Category\Domain\Query\GetDeactivatedTemplateAttributes\GetDeactivatedTemplateAttributes;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 
@@ -55,7 +56,7 @@ class GetCategorySql implements GetCategoryInterface
         $condition = [];
         $condition['sqlWhere'] = 'category.code IN (:category_codes)';
         $condition['params'] = ['category_codes' => $categoryCodes];
-        $condition['types'] = ['category_codes' => Connection::PARAM_STR_ARRAY];
+        $condition['types'] = ['category_codes' => ArrayParameterType::STRING];
 
         return $this->executeAll($condition);
     }
@@ -70,7 +71,7 @@ class GetCategorySql implements GetCategoryInterface
         $condition = [];
         $condition['sqlWhere'] = 'category.id IN (:category_ids)';
         $condition['params'] = ['category_ids' => $categoryIds];
-        $condition['types'] = ['category_ids' => Connection::PARAM_INT_ARRAY];
+        $condition['types'] = ['category_ids' => ArrayParameterType::INTEGER];
 
         return $this->executeAll($condition);
     }

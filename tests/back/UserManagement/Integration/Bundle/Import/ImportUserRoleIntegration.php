@@ -15,6 +15,7 @@ use Akeneo\UserManagement\Component\Model\Role;
 use Akeneo\UserManagement\Component\Repository\RoleRepositoryInterface;
 use Akeneo\UserManagement\Component\Storage\Saver\RoleWithPermissionsSaver;
 use Akeneo\UserManagement\Domain\Permissions\MinimumEditRolePermission;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use OpenSpout\Common\Entity\Row;
 use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
@@ -313,7 +314,7 @@ INNER JOIN akeneo_batch_job_instance abji ON abje.job_instance_id = abji.id
 WHERE abji.code = :jobCode
 SQL,
             ['jobCode' => $jobCode]
-        )->fetchAll();
+        )->fetchAllAssociative();
         Assert::assertCount(1, $warnings);
         Assert::assertMatchesRegularExpression($pattern, $warnings[0]['reason']);
     }
@@ -326,7 +327,7 @@ SQL,
         $this->connection->executeQuery(
             'DELETE FROM oro_access_role WHERE role NOT IN (:roles)',
             ['roles' => $roles],
-            ['roles' => Connection::PARAM_STR_ARRAY]
+            ['roles' => ArrayParameterType::STRING]
         );
     }
 

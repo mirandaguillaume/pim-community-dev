@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Enrichment\Bundle\Doctrine\ORM\Query;
 
 use Akeneo\Pim\Enrichment\Component\Product\Query\GetProductModelLabelsInterface;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 class SqlGetProductModelLabels implements GetProductModelLabelsInterface
@@ -33,7 +34,7 @@ SQL;
         $results = $this->connection->executeQuery(
             $query,
             ['codes' => $codes],
-            ['codes' => Connection::PARAM_STR_ARRAY]
+            ['codes' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
         $labels = [];

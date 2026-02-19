@@ -47,7 +47,7 @@ class UTCDateTimeType extends DateTimeType
         );
 
         if (!$val) {
-            throw ConversionException::conversionFailed($value, $this->getName());
+            throw ConversionException::conversionFailed($value, 'datetime');
         }
 
         $serverTimezone = date_default_timezone_get();

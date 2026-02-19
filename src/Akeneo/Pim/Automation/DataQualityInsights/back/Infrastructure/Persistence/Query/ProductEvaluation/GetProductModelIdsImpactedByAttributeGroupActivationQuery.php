@@ -9,6 +9,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Application\ProductEntityIdFactory
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Query\ProductEvaluation\GetEntityIdsImpactedByAttributeGroupActivationQueryInterface;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\AttributeGroupCode;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityIdCollection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Result;
 
@@ -70,7 +71,7 @@ SQL;
         return $this->dbConnection->executeQuery(
             $query,
             ['familyVariants' => $familyVariantIds],
-            ['familyVariants' => Connection::PARAM_INT_ARRAY]
+            ['familyVariants' => ArrayParameterType::INTEGER]
         );
     }
 
@@ -113,7 +114,7 @@ SQL;
         return $this->dbConnection->executeQuery(
             $query,
             ['familyVariants' => $familyVariantIds],
-            ['familyVariants' => Connection::PARAM_INT_ARRAY,]
+            ['familyVariants' => ArrayParameterType::INTEGER,]
         );
     }
 
@@ -208,7 +209,7 @@ SQL;
         return $this->dbConnection->executeQuery(
             $query,
             ['familyVariants' => $familyVariantIds],
-            ['familyVariants' => Connection::PARAM_INT_ARRAY]
+            ['familyVariants' => ArrayParameterType::INTEGER]
         );
     }
 
@@ -248,7 +249,7 @@ SQL;
         return $this->dbConnection->executeQuery(
             $query,
             ['familyVariants' => $familyVariantIds],
-            ['familyVariants' => Connection::PARAM_INT_ARRAY]
+            ['familyVariants' => ArrayParameterType::INTEGER]
         );
     }
 }

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Akeneo\Test\Pim\Automation\DataQualityInsights\Integration\Infrastructure\Persistence\Repository;
 
+use Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Write\CriterionEvaluationCollection;
+use Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Write\CriterionEvaluation;
+use Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Write\CriterionEvaluationResult;
 use Akeneo\Pim\Automation\DataQualityInsights\Application\Clock;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Read;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Write;
@@ -46,13 +49,13 @@ final class ProductCriterionEvaluationRepositoryIntegration extends DataQualityI
         $productUuid = ProductUuid::fromUuid($product->getUuid());
         $this->deleteAllProductCriterionEvaluations();
 
-        $criteria = (new Write\CriterionEvaluationCollection)
-            ->add(new Write\CriterionEvaluation(
+        $criteria = (new CriterionEvaluationCollection)
+            ->add(new CriterionEvaluation(
                 new CriterionCode('completeness'),
                 $productUuid,
                 CriterionEvaluationStatus::pending()
             ))
-            ->add(new Write\CriterionEvaluation(
+            ->add(new CriterionEvaluation(
                 new CriterionCode('completion'),
                 $productUuid,
                 CriterionEvaluationStatus::pending()
@@ -84,13 +87,13 @@ final class ProductCriterionEvaluationRepositoryIntegration extends DataQualityI
 
         $existingEvaluation = $this->givenAnExistingCriterionEvaluation($criterionCode, $productUuidWithExistingEvaluation);
 
-        $this->productCriterionEvaluationRepository->create((new Write\CriterionEvaluationCollection)
-            ->add(new Write\CriterionEvaluation(
+        $this->productCriterionEvaluationRepository->create((new CriterionEvaluationCollection)
+            ->add(new CriterionEvaluation(
                 $criterionCode,
                 $productUuidWithExistingEvaluation,
                 CriterionEvaluationStatus::pending()
             ))
-            ->add(new Write\CriterionEvaluation(
+            ->add(new CriterionEvaluation(
                 $criterionCode,
                 $productUuidWithoutEvaluation,
                 CriterionEvaluationStatus::pending()
@@ -111,12 +114,12 @@ final class ProductCriterionEvaluationRepositoryIntegration extends DataQualityI
 
         $productUuid = ProductUuid::fromUuid($this->createProduct('ziggy')->getUuid());
 
-        $criterionEvaluationA = new Write\CriterionEvaluation(
+        $criterionEvaluationA = new CriterionEvaluation(
             new CriterionCode('completeness'),
             $productUuid,
             CriterionEvaluationStatus::pending()
         );
-        $criterionEvaluationB = new Write\CriterionEvaluation(
+        $criterionEvaluationB = new CriterionEvaluation(
             new CriterionCode('spelling'),
             $productUuid,
             CriterionEvaluationStatus::pending()
@@ -127,11 +130,11 @@ final class ProductCriterionEvaluationRepositoryIntegration extends DataQualityI
 
         $this->productCriterionEvaluationRepository->create($criteriaEvaluationCollection);
 
-        $evaluationResultA = (new Write\CriterionEvaluationResult())
+        $evaluationResultA = (new CriterionEvaluationResult())
             ->addRate(new ChannelCode('mobile'), new LocaleCode('en_US'), new Rate(75))
             ->addStatus(new ChannelCode('mobile'), new LocaleCode('en_US'), CriterionEvaluationResultStatus::done())
         ;
-        $evaluationResultB = (new Write\CriterionEvaluationResult())
+        $evaluationResultB = (new CriterionEvaluationResult())
             ->addRate(new ChannelCode('mobile'), new LocaleCode('en_US'), new Rate(64))
             ->addStatus(new ChannelCode('mobile'), new LocaleCode('en_US'), CriterionEvaluationResultStatus::done())
             ->addRateByAttributes(new ChannelCode('mobile'), new LocaleCode('en_US'), ['description' => 13])
@@ -142,7 +145,7 @@ final class ProductCriterionEvaluationRepositoryIntegration extends DataQualityI
         $criterionEvaluationB->start();
         $criterionEvaluationB->end($evaluationResultB);
         $this->productCriterionEvaluationRepository->update(
-            (new Write\CriterionEvaluationCollection())
+            (new CriterionEvaluationCollection())
                 ->add($criterionEvaluationA)
                 ->add($criterionEvaluationB)
         );
@@ -154,15 +157,15 @@ final class ProductCriterionEvaluationRepositoryIntegration extends DataQualityI
         $this->assertCriterionEvaluationEquals($criterionEvaluationB, $updatedCriterionEvaluationB);
     }
 
-    private function buildCollection(): Write\CriterionEvaluationCollection
+    private function buildCollection(): CriterionEvaluationCollection
     {
-        return (new Write\CriterionEvaluationCollection)
-            ->add(new Write\CriterionEvaluation(
+        return (new CriterionEvaluationCollection)
+            ->add(new CriterionEvaluation(
                 new CriterionCode('completeness'),
                 ProductUuid::fromUuid($this->createProduct('a_product')->getUuid()),
                 CriterionEvaluationStatus::pending()
             ))
-            ->add(new Write\CriterionEvaluation(
+            ->add(new CriterionEvaluation(
                 new CriterionCode('completion'),
                 ProductUuid::fromUuid($this->createProduct('another_product')->getUuid()),
                 CriterionEvaluationStatus::pending()
@@ -171,7 +174,7 @@ final class ProductCriterionEvaluationRepositoryIntegration extends DataQualityI
 
     private function findAllProductEvaluations(): array
     {
-        $stmt = $this->db->query('SELECT * FROM pim_data_quality_insights_product_criteria_evaluation');
+        $stmt = $this->db->executeQuery('SELECT * FROM pim_data_quality_insights_product_criteria_evaluation');
 
         return $stmt->fetchAllAssociative();
     }
@@ -194,7 +197,7 @@ final class ProductCriterionEvaluationRepositoryIntegration extends DataQualityI
         $this->assertSame($expectedCount, $count);
     }
 
-    private function assertCriterionEvaluationEquals(Write\CriterionEvaluation $expectedCriterionEvaluation, Read\CriterionEvaluation $criterionEvaluation): void
+    private function assertCriterionEvaluationEquals(CriterionEvaluation $expectedCriterionEvaluation, Read\CriterionEvaluation $criterionEvaluation): void
     {
         $this->assertEquals($expectedCriterionEvaluation->getCriterionCode(), $criterionEvaluation->getCriterionCode());
         $this->assertEquals($expectedCriterionEvaluation->getEntityId(), $criterionEvaluation->getProductId());
@@ -205,14 +208,14 @@ final class ProductCriterionEvaluationRepositoryIntegration extends DataQualityI
         $this->assertEquals($expectedCriterionEvaluation->getResult()->getDataToArray(), $criterionEvaluation->getResult()->getData());
     }
 
-    private function givenAnExistingCriterionEvaluation(CriterionCode $criterionCode, ProductUuid $productId): Write\CriterionEvaluation
+    private function givenAnExistingCriterionEvaluation(CriterionCode $criterionCode, ProductUuid $productId): CriterionEvaluation
     {
-        $evaluation = new Write\CriterionEvaluation(
+        $evaluation = new CriterionEvaluation(
             $criterionCode,
             $productId,
             CriterionEvaluationStatus::pending()
         );
-        $evaluations = (new Write\CriterionEvaluationCollection())->add($evaluation);
+        $evaluations = (new CriterionEvaluationCollection())->add($evaluation);
         $this->productCriterionEvaluationRepository->create($evaluations);
 
         $channelEcommerce = new ChannelCode('ecommerce');

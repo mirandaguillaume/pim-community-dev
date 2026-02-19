@@ -6,6 +6,7 @@ namespace Akeneo\Pim\Structure\Bundle\Query\PublicApi\Attribute\Sql;
 
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Attribute\FindFlattenAttributesInterface;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Attribute\FlattenAttribute;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 final readonly class SqlFindFlattenAttributes implements FindFlattenAttributesInterface
@@ -80,7 +81,7 @@ SQL;
                 'search' => $search,
             ],
             [
-                'attributeTypes' => Connection::PARAM_STR_ARRAY,
+                'attributeTypes' => ArrayParameterType::STRING,
                 'limit' => \PDO::PARAM_INT,
                 'offset' => \PDO::PARAM_INT,
                 'localeCode' => \PDO::PARAM_STR,

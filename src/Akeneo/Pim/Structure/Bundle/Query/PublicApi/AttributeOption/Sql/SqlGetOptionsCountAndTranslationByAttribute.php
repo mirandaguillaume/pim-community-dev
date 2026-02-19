@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Structure\Bundle\Query\PublicApi\AttributeOption\Sql;
 
+use Doctrine\DBAL\Driver\Exception;
 use Akeneo\Pim\Structure\Component\AttributeTypes;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeOption\GetOptionsCountAndTranslationByAttribute;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -28,7 +30,7 @@ final readonly class SqlGetOptionsCountAndTranslationByAttribute implements GetO
      *          ['code' => 'attribute2', 'label' => null, 'options_count' => 2],
      *          ...
      *      ]
-     * @throws \Doctrine\DBAL\Driver\Exception
+     * @throws Exception
      * @throws \Doctrine\DBAL\Exception
      */
     public function search(string $localeCode, int $limit = self::MAX_PAGE_SIZE, int $offset = 0, ?string $search = null): array
@@ -58,7 +60,7 @@ final readonly class SqlGetOptionsCountAndTranslationByAttribute implements GetO
                 'limit' => \PDO::PARAM_INT,
                 'offset' => \PDO::PARAM_INT,
                 'search' => \PDO::PARAM_STR,
-                'select_attribute_types' => Connection::PARAM_STR_ARRAY,
+                'select_attribute_types' => ArrayParameterType::STRING,
                 'locale' => \PDO::PARAM_STR,
             ],
         )->fetchAllAssociative();

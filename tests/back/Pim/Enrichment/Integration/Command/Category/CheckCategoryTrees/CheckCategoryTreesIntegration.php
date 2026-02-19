@@ -4,8 +4,7 @@ namespace AkeneoTest\Pim\Enrichment\Integration\Command\Category\CheckCategoryTr
 
 use Akeneo\Test\Integration\Configuration;
 use Akeneo\Test\Integration\TestCase;
-use Doctrine\DBAL\Driver\Connection;
-use Doctrine\DBAL\FetchMode;
+use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -98,17 +97,17 @@ SELECT id, parent_id, root, code, lvl, lft, rgt
 FROM pim_catalog_category
 WHERE code = :code
 SQL;
-        return $this->getConnection()->executeQuery($sql, ['code' => $code])->fetch(FetchMode::ASSOCIATIVE);
+        return $this->getConnection()->executeQuery($sql, ['code' => $code])->fetchAssociative();
     }
 
-    private function updateOrder(string $code, int $left, int $right): array
+    private function updateOrder(string $code, int $left, int $right): void
     {
         $sql = <<< SQL
 UPDATE pim_catalog_category
 SET lft = :left, rgt = :right
 WHERE code = :code
 SQL;
-        return $this->getConnection()->executeQuery($sql, ['code' => $code, 'left' => $left, 'right' => $right])->fetchAll(FetchMode::ASSOCIATIVE);
+        $this->getConnection()->executeStatement($sql, ['code' => $code, 'left' => $left, 'right' => $right]);
     }
 
     private function getConnection(): Connection

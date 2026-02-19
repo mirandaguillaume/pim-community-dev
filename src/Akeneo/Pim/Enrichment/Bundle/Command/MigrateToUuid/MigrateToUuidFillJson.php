@@ -4,6 +4,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\Command\MigrateToUuid;
 
 use Akeneo\Pim\Enrichment\Bundle\Command\MigrateToUuid\Utils\LogContext;
 use Akeneo\Pim\Enrichment\Bundle\Command\MigrateToUuid\Utils\StatusAwareTrait;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Psr\Log\LoggerInterface;
 
@@ -193,7 +194,7 @@ class MigrateToUuidFillJson implements MigrateToUuidStep
         $products = $this->connection->fetchAllAssociative($sql, [
             'productIds' => $productIds,
         ], [
-            'productIds' => Connection::PARAM_INT_ARRAY
+            'productIds' => ArrayParameterType::INTEGER
         ]);
 
         $result = [];

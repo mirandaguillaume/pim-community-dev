@@ -76,13 +76,13 @@ SQL;
         $loggedAt = $date->format('Y-m-d');
 
         $statement = $this->dbConnection->prepare($query);
-        $statement->bindParam('resource_name', $resourceName, \PDO::PARAM_STR);
-        $statement->bindParam('list_size', $listSize, \PDO::PARAM_INT);
+        $statement->bindValue('resource_name', $resourceName, \PDO::PARAM_STR);
+        $statement->bindValue('list_size', $listSize, \PDO::PARAM_INT);
         $lastId = $startingId;
 
         do {
-            $statement->bindParam('logged_at', $loggedAt, \PDO::PARAM_STR);
-            $statement->bindParam('last_id', $lastId, \PDO::PARAM_INT);
+            $statement->bindValue('logged_at', $loggedAt, \PDO::PARAM_STR);
+            $statement->bindValue('last_id', $lastId, \PDO::PARAM_INT);
             $results = $statement->executeQuery()->fetchAllAssociative();
 
             if (!empty($results)) {

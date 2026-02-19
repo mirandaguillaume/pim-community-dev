@@ -8,6 +8,7 @@ use Akeneo\Connectivity\Connection\Infrastructure\Apps\Persistence\GetAllPending
 use Akeneo\Connectivity\Connection\Tests\CatalogBuilder\ConnectedAppLoader;
 use Akeneo\Test\Integration\Configuration;
 use Akeneo\Test\Integration\TestCase;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 class GetAllPendingAppsPublicIdsQueryIntegration extends TestCase
@@ -79,6 +80,6 @@ DELETE FROM pim_api_access_token WHERE client IN (
 )
 SQL;
 
-        $this->connection->executeQuery($sql, ['ids' => $ids], ['ids' => Connection::PARAM_STR_ARRAY]);
+        $this->connection->executeQuery($sql, ['ids' => $ids], ['ids' => ArrayParameterType::STRING]);
     }
 }

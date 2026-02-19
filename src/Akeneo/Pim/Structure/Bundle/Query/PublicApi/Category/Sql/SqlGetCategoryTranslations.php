@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Structure\Bundle\Query\PublicApi\Category\Sql;
 
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Category\GetCategoryTranslations;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 class SqlGetCategoryTranslations implements GetCategoryTranslations
@@ -34,7 +35,7 @@ SQL;
                 'categoryCodes' => $categoryCodes,
                 'locale' => $locale
             ],
-            ['categoryCodes' => Connection::PARAM_STR_ARRAY]
+            ['categoryCodes' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
         $categoryTranslations = [];

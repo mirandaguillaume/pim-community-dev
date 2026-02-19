@@ -154,8 +154,8 @@ class CategoryRepositoryApiResourceIntegration extends TestCase
         $this->initFixtures();
 
         $connection = $this->get('database_connection');
-        $connection->exec('UPDATE pim_catalog_category SET updated="2019-05-15 16:27:00"');
-        $connection->exec('UPDATE pim_catalog_category SET updated="2019-07-15 16:27:00" WHERE code IN ("ring","men")');
+        $connection->executeStatement('UPDATE pim_catalog_category SET updated="2019-05-15 16:27:00"');
+        $connection->executeStatement('UPDATE pim_catalog_category SET updated="2019-07-15 16:27:00" WHERE code IN ("ring","men")');
 
         $categories = $this->getRepository()->searchAfterOffset(
             ['updated' => [['operator' => '>', 'value' => '2019-06-09T12:00:00+00:00']]],

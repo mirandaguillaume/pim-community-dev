@@ -11,6 +11,7 @@ use Akeneo\Category\Domain\ValueObject\CategoryId;
 use Akeneo\Category\Domain\ValueObject\Code;
 use Akeneo\Category\Domain\ValueObject\Position;
 use Akeneo\Category\Infrastructure\Validation\ExternalApiSearchFiltersValidator;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -199,7 +200,7 @@ class SearchFiltersSqlSpec extends ObjectBehavior
                 ]
             ],
             types: [
-                'code_0' => Connection::PARAM_STR_ARRAY,
+                'code_0' => ArrayParameterType::STRING,
             ],
             limitAndOffset: null,
         );

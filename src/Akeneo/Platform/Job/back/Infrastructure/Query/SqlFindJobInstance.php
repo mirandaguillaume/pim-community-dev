@@ -8,6 +8,7 @@ use Akeneo\Platform\Job\ServiceApi\JobInstance\FindJobInstanceInterface;
 use Akeneo\Platform\Job\ServiceApi\JobInstance\JobInstance;
 use Akeneo\Platform\Job\ServiceApi\JobInstance\JobInstanceQuery;
 use Akeneo\Platform\Job\ServiceApi\JobInstance\JobInstanceQueryPagination;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -112,7 +113,7 @@ SQL;
         ];
 
         $queryTypes = [
-            'job_names' => Connection::PARAM_STR_ARRAY,
+            'job_names' => ArrayParameterType::STRING,
             'search' => \PDO::PARAM_STR,
         ];
 

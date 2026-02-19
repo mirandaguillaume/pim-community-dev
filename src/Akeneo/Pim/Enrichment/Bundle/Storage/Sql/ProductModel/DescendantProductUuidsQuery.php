@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\ProductModel;
 
 use Akeneo\Pim\Enrichment\Component\Product\Query\DescendantProductUuidsQueryInterface;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\Uuid;
 
@@ -35,7 +36,7 @@ SQL;
         $resultRows = $this->connection->executeQuery(
             $sql,
             ['productModelIds' => $productModelIds],
-            ['productModelIds' => Connection::PARAM_INT_ARRAY]
+            ['productModelIds' => ArrayParameterType::INTEGER]
         )->fetchAllAssociative();
 
         return array_map(fn($rowData) => Uuid::fromString($rowData['uuid']), $resultRows);

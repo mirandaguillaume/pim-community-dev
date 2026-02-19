@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Category\Infrastructure\Storage\Sql;
 
+use Doctrine\DBAL\Driver\Exception;
 use Akeneo\Category\Domain\Query\UpdateCategoryTemplateAttributesOrder;
 use Akeneo\Category\Domain\ValueObject\Attribute\AttributeCollection;
 use Doctrine\DBAL\Connection;
@@ -20,7 +21,7 @@ class UpdateCategoryTemplateAttributesOrderSql implements UpdateCategoryTemplate
     }
 
     /**
-     * @throws \Doctrine\DBAL\Driver\Exception
+     * @throws Exception
      * @throws \Doctrine\DBAL\Exception
      */
     public function fromAttributeCollection(AttributeCollection $attributeList): void

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Category\Infrastructure\Storage\Sql;
 
+use Doctrine\DBAL\Driver\Exception;
 use Akeneo\Category\Application\Query\GetCategoryTemplateByCategoryTree;
 use Akeneo\Category\Domain\Model\Enrichment\Template;
 use Akeneo\Category\Domain\ValueObject\CategoryId;
@@ -22,7 +23,7 @@ class GetCategoryTemplateByCategoryTreeSql implements GetCategoryTemplateByCateg
     /**
      * @return ?Template
      *
-     * @throws \Doctrine\DBAL\Driver\Exception
+     * @throws Exception
      * @throws \Doctrine\DBAL\Exception
      * @throws \JsonException
      */

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Channel\Infrastructure\Query\Sql;
 
 use Akeneo\Channel\Infrastructure\Component\Query\IsChannelUsedInProductExportJobInterface;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -31,7 +32,7 @@ SQL;
         $result = $this->dbConnection->executeQuery(
             $query,
             ['jobNames' => $this->productExportJobNames],
-            ['jobNames' => Connection::PARAM_STR_ARRAY]
+            ['jobNames' => ArrayParameterType::STRING]
         )->fetchOne();
 
         return boolval($result);

@@ -12,6 +12,7 @@ use Akeneo\Connectivity\Connection\Tests\CatalogBuilder\Enrichment\UserLoader;
 use Akeneo\Connectivity\Connection\Tests\CatalogBuilder\Security\AclLoader;
 use Akeneo\Test\Integration\Configuration;
 use Akeneo\Test\Integration\TestCase;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -90,7 +91,7 @@ class FlagAppContainingOutdatedScopesHandlerIntegration extends TestCase
         $userNotificationCount = (int) $this->connection->fetchOne(
             $query,
             ['userIds' => $userIds],
-            ['userIds' => Connection::PARAM_INT_ARRAY]
+            ['userIds' => ArrayParameterType::INTEGER]
         );
 
         self::assertEquals(\count($userIds), $userNotificationCount);

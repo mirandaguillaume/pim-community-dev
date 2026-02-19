@@ -11,6 +11,7 @@ use Akeneo\Connectivity\Connection\Domain\Audit\Persistence\SelectPeriodEventCou
 use Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject\FlowType;
 use Akeneo\Connectivity\Connection\Domain\ValueObject\DateTimePeriod;
 use Akeneo\Connectivity\Connection\Infrastructure\Audit\Persistence\Traits\PeriodEventCountTrait;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Types;
 
@@ -102,7 +103,7 @@ SQL;
             [
                 'from_datetime' => Types::DATETIME_IMMUTABLE,
                 'up_to_datetime' => Types::DATETIME_IMMUTABLE,
-                'connection_codes' => Connection::PARAM_STR_ARRAY,
+                'connection_codes' => ArrayParameterType::STRING,
             ]
         )->fetchAllAssociative();
     }
@@ -139,7 +140,7 @@ SQL;
             [
                 'from_datetime' => Types::DATETIME_IMMUTABLE,
                 'up_to_datetime' => Types::DATETIME_IMMUTABLE,
-                'connection_codes' => Connection::PARAM_STR_ARRAY,
+                'connection_codes' => ArrayParameterType::STRING,
             ]
         )->fetchAllAssociative();
     }
