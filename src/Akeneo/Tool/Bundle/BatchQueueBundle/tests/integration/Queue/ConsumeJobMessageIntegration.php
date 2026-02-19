@@ -55,7 +55,7 @@ class ConsumeJobMessageIntegration extends TestCase
         Assert::assertEquals(ExitStatus::COMPLETED, $row['exit_code']);
         Assert::assertNotNull($row['health_check_time']);
 
-        $this->jobExecutionRepository->clear();
+        $this->em->clear();
         $jobExecution = $this->jobExecutionRepository->findBy(['id' => $jobExecution->getId()]);
         $jobExecution = $this->getJobExecutionManager()->resolveJobExecutionStatus($jobExecution[0]);
 
