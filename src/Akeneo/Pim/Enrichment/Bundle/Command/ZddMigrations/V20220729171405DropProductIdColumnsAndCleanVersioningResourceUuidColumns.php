@@ -6,6 +6,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\Command\ZddMigrations;
 
 use Akeneo\Pim\Enrichment\Component\Product\Model\Product;
 use Akeneo\Platform\Installer\Infrastructure\Command\ZddMigration;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\Column;
 use Psr\Log\LoggerInterface;
@@ -196,14 +197,14 @@ class V20220729171405DropProductIdColumnsAndCleanVersioningResourceUuidColumns i
 
     private function tableExists(string $table): bool
     {
-        return $this->connection->getSchemaManager()->tablesExist([$table]);
+        return $this->connection->createSchemaManager()->tablesExist([$table]);
     }
 
     private function columnExists(string $table, string $columnName): bool
     {
         $tableColumnNames = array_map(
             static fn (Column $column) => $column->getName(),
-            $this->connection->getSchemaManager()->listTableColumns($table)
+            $this->connection->createSchemaManager()->listTableColumns($table)
         );
 
         return \in_array($columnName, $tableColumnNames);
@@ -223,10 +224,10 @@ class V20220729171405DropProductIdColumnsAndCleanVersioningResourceUuidColumns i
 
     public function dropForeignKeys(string $table, string $column): void
     {
-        $foreignKeys = $this->connection->getSchemaManager()->listTableForeignKeys($table);
+        $foreignKeys = $this->connection->createSchemaManager()->listTableForeignKeys($table);
         foreach ($foreignKeys as $foreignKey) {
             if (\in_array($column, $foreignKey->getLocalColumns())) {
-                $this->connection->getSchemaManager()->dropForeignKey($foreignKey, $table);
+                $this->connection->createSchemaManager()->dropForeignKey($foreignKey, $table);
                 $this->log(
                     \sprintf('Dropped %s foreign key constraint on %s', $foreignKey->getName(), $table)
                 );
@@ -236,10 +237,10 @@ class V20220729171405DropProductIdColumnsAndCleanVersioningResourceUuidColumns i
 
     private function dropIndexes(string $table, string $column): void
     {
-        $indexes = $this->connection->getSchemaManager()->listTableIndexes($table);
+        $indexes = $this->connection->createSchemaManager()->listTableIndexes($table);
         foreach ($indexes as $index) {
             if (\in_array($column, $index->getColumns())) {
-                $this->connection->getSchemaManager()->dropIndex($index->getName(), $table);
+                $this->connection->createSchemaManager()->dropIndex($index->getName(), $table);
                 $this->log(
                     \sprintf('Dropped %s index on %s', $index->getName(), $table)
                 );
@@ -279,7 +280,7 @@ class V20220729171405DropProductIdColumnsAndCleanVersioningResourceUuidColumns i
         $this->connection->executeStatement(
             $emptyResourceUuidQuery,
             ['version_ids' => $versionIdsToClean],
-            ['version_ids' => Connection::PARAM_INT_ARRAY]
+            ['version_ids' => ArrayParameterType::INTEGER]
         );
     }
 

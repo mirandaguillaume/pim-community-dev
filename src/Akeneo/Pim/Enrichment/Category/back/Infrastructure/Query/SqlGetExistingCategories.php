@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Enrichment\Category\Infrastructure\Query;
 
 use Akeneo\Pim\Enrichment\Category\API\Query\GetViewableCategories;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Webmozart\Assert\Assert;
 
@@ -35,7 +36,7 @@ final readonly class SqlGetExistingCategories implements GetViewableCategories
         return $this->connection->executeQuery(
             $query,
             ['codes' => $categoryCodes],
-            ['codes' => Connection::PARAM_STR_ARRAY]
+            ['codes' => ArrayParameterType::STRING]
         )->fetchFirstColumn();
     }
 }

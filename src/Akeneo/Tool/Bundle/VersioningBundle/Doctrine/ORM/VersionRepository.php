@@ -162,7 +162,7 @@ class VersionRepository extends EntityRepository implements VersionRepositoryInt
         }
 
 
-        return $qb->execute();
+        return $qb->executeQuery();
     }
 
     /**

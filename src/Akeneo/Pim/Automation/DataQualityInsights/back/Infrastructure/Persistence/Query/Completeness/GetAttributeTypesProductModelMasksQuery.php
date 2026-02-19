@@ -8,6 +8,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductModelId;
 use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Enrichment\GetProductModelAttributesMaskQueryInterface;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\RequiredAttributesMask;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\RequiredAttributesMaskForChannelAndLocale;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 class GetAttributeTypesProductModelMasksQuery implements GetProductModelAttributesMaskQueryInterface
@@ -94,7 +95,7 @@ SQL;
             ],
             [
                 'productModelId' => \PDO::PARAM_INT,
-                'attributeTypes' => Connection::PARAM_STR_ARRAY
+                'attributeTypes' => ArrayParameterType::STRING
             ]
         )->fetchAllAssociative();
 

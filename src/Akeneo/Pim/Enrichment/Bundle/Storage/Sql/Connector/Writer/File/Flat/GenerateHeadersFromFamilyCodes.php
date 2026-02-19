@@ -6,6 +6,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Connector\Writer\File\Flat;
 
 use Akeneo\Pim\Enrichment\Component\Product\Connector\Writer\File\FlatFileHeader;
 use Akeneo\Pim\Enrichment\Component\Product\Connector\Writer\File\GenerateFlatHeadersFromFamilyCodesInterface;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -68,7 +69,7 @@ SQL;
         $attributesData = $this->connection->executeQuery(
             $attributesDataSql,
             ['familyCodes' => $familyCodes],
-            ['familyCodes' => Connection::PARAM_STR_ARRAY]
+            ['familyCodes' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
         $headers = [];

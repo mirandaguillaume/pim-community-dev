@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Enrichment\Bundle\Doctrine\ORM\Query;
 
 use Akeneo\Pim\Enrichment\Component\Product\Query\FindNonExistingProductModelCodesQueryInterface;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 class FindNonExistingProductModelCodesQuery implements FindNonExistingProductModelCodesQueryInterface
@@ -26,7 +27,7 @@ SQL;
         $results = $this->connection->executeQuery(
             $query,
             ['product_model_codes' => $productModelCodes],
-            ['product_model_codes' => Connection::PARAM_STR_ARRAY]
+            ['product_model_codes' => ArrayParameterType::STRING]
         )->fetchFirstColumn();
 
         $nonExistingProductModelCodes = array_values(array_diff($productModelCodes, $results));

@@ -11,6 +11,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\AttributeType;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityIdInterface;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductUuid;
 use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Structure\EditableAttributeFilter;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Webmozart\Assert\Assert;
 
@@ -56,7 +57,7 @@ SQL;
             ],
             [
                 'product_uuid' => \PDO::PARAM_STR,
-                'attribute_types' => Connection::PARAM_STR_ARRAY,
+                'attribute_types' => ArrayParameterType::STRING,
             ]
         );
 

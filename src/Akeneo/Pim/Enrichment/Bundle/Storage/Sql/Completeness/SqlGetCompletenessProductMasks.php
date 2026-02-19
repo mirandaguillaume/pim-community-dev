@@ -10,6 +10,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Completeness\Query\GetCompletenessPr
 use Akeneo\Pim\Enrichment\Component\Product\Model\WriteValueCollection;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\Attribute;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\GetAttributes;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -66,7 +67,7 @@ SQL;
             $this->connection->executeQuery(
                 $sql,
                 ['productUuids' => $productUuidsAsBytes],
-                ['productUuids' => Connection::PARAM_STR_ARRAY]
+                ['productUuids' => ArrayParameterType::STRING]
             )->fetchAllAssociative()
         );
 

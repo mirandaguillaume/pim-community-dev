@@ -13,6 +13,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductUuidColl
 use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Clock\SystemClock;
 use Akeneo\Pim\Enrichment\Product\API\Command\UserIntent\SetFamily;
 use Akeneo\Test\Pim\Automation\DataQualityInsights\Integration\DataQualityInsightsTestCase;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Types;
 use PHPUnit\Framework\Assert;
@@ -139,7 +140,7 @@ SQL;
         if (!empty($criteria)) {
             $query .= ' AND criterion_code IN (:criteria)';
             $queryParameters['criteria'] = $criteria;
-            $queryTypes['criteria'] = Connection::PARAM_STR_ARRAY;
+            $queryTypes['criteria'] = ArrayParameterType::STRING;
         }
 
         $this->dbConnection->executeQuery($query, $queryParameters, $queryTypes);

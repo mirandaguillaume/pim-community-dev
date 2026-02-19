@@ -8,6 +8,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Repository\ProductRepositoryInterfac
 use Akeneo\Platform\Bundle\FrameworkBundle\Service\ResilientDeadlockConnection;
 use Akeneo\Tool\Bundle\ConnectorBundle\Doctrine\UnitOfWorkAndRepositoriesClearer;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\DeadlockException;
@@ -63,7 +64,7 @@ class RemoveValuesFromProducts
                 'uuids' => $uuidsAsBytes,
             ],
             [
-                'uuids' => Connection::PARAM_STR_ARRAY,
+                'uuids' => ArrayParameterType::STRING,
             ],
             sprintf('%s:%s', self::class, 'removeValuesForAttributeCodes'),
         );

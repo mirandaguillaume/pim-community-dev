@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Structure\Bundle\Query\PublicApi\Association\Sql;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Association\AssociationType;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Association\GetAssociationTypesInterface;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Association\LabelCollection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 final readonly class SqlGetAssociationTypes implements GetAssociationTypesInterface
@@ -42,7 +43,7 @@ SQL;
                 'association_type_code' => $associationTypeCodes,
             ],
             [
-                'association_type_code' => Connection::PARAM_STR_ARRAY
+                'association_type_code' => ArrayParameterType::STRING
             ]
         )->fetchAllAssociative();
 

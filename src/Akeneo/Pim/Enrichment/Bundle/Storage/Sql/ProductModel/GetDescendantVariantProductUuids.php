@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\ProductModel;
 
 use Doctrine\DBAL\Driver\Exception;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -55,7 +56,7 @@ SQL;
         $result = $this->connection->executeQuery(
             $sql,
             ['codes' => $productModelCodes],
-            ['codes' => Connection::PARAM_STR_ARRAY]
+            ['codes' => ArrayParameterType::STRING]
         )->fetchFirstColumn();
 
         return array_map(fn (string $uuid): UuidInterface => Uuid::fromString($uuid), $result);

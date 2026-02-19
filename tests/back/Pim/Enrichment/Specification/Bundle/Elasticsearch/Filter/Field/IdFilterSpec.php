@@ -8,6 +8,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Exception\InvalidOperatorException;
 use Akeneo\Pim\Enrichment\Component\Product\Query\Filter\FieldFilterInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Query\Filter\Operators;
 use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Result;
 use PhpSpec\ObjectBehavior;
@@ -70,7 +71,7 @@ class IdFilterSpec extends ObjectBehavior
             ]
         )->shouldBeCalled();
 
-        $connection->executeQuery(Argument::type('string'), ['ids' => ['2', '3']], ['ids' => Connection::PARAM_STR_ARRAY])
+        $connection->executeQuery(Argument::type('string'), ['ids' => ['2', '3']], ['ids' => ArrayParameterType::STRING])
             ->shouldBeCalledOnce()->willReturn($result);
         $result->fetchFirstColumn()->willReturn(['70d6073b-beb5-4913-a171-1fab0f52de27', 'fa5cb34f-1070-4a89-a465-71f4b01bf601']);
 

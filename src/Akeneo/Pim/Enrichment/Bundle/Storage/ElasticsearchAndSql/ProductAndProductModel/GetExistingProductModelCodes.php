@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\ElasticsearchAndSql\ProductAndProductModel;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Webmozart\Assert\Assert;
 
@@ -35,7 +36,7 @@ SQL;
                 'codes' => $productModelCodes,
             ],
             [
-                'codes' => Connection::PARAM_STR_ARRAY,
+                'codes' => ArrayParameterType::STRING,
             ]
         )->fetchFirstColumn();
     }

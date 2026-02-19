@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Symfony\Comma
 use Akeneo\Pim\Automation\DataQualityInsights\Application\ProductEvaluation\Enrichment\EvaluateCompletenessOfNonRequiredAttributes;
 use Akeneo\Pim\Automation\DataQualityInsights\Application\ProductEvaluation\Enrichment\EvaluateCompletenessOfRequiredAttributes;
 use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Transformation\TransformCriterionEvaluationResultCodes;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Command\Command;
@@ -117,7 +118,7 @@ SQL;
                 ],
                 [
                     'lastProductUuidAsBytes' => \PDO::PARAM_STR,
-                    'criterionCodes' => Connection::PARAM_STR_ARRAY,
+                    'criterionCodes' => ArrayParameterType::STRING,
                 ]
             )->fetchAllAssociative();
 
@@ -158,7 +159,7 @@ SQL;
                 ],
                 [
                     'lastProductModelId' => \PDO::PARAM_INT,
-                    'criterionCodes' => Connection::PARAM_STR_ARRAY,
+                    'criterionCodes' => ArrayParameterType::STRING,
                 ]
             )->fetchAllAssociative();
 

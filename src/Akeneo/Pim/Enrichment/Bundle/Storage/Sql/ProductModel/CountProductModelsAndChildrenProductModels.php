@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\ProductModel;
 
 use Akeneo\Pim\Enrichment\Component\Product\ProductModel\Query\CountProductModelsAndChildrenProductModelsInterface;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -44,7 +45,7 @@ SQL;
         $stmt = $this->connection->executeQuery(
             $sql,
             ['productModelCodes' => $productModelCodes],
-            ['productModelCodes' => Connection::PARAM_STR_ARRAY]
+            ['productModelCodes' => ArrayParameterType::STRING]
         );
 
         return (int)$stmt->fetchOne();

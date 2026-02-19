@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Enrichment\Product\Infrastructure\Query;
 
 use Akeneo\Pim\Enrichment\Product\Domain\Query\GetCategoryCodes;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\UuidInterface;
 use Webmozart\Assert\Assert;
@@ -70,7 +71,7 @@ final readonly class SqlGetCategoryCodes implements GetCategoryCodes
         $results = $this->connection->executeQuery(
             $sql,
             ['product_uuids' => $productUuidsAsBytes],
-            ['product_uuids' => Connection::PARAM_STR_ARRAY]
+            ['product_uuids' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
         $indexedResults = [];

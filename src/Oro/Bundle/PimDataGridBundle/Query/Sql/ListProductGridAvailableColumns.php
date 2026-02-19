@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Oro\Bundle\PimDataGridBundle\Query\Sql;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception as DBALException;
 use Oro\Bundle\DataGridBundle\Extension\Formatter\Configuration;
@@ -120,7 +121,7 @@ SQL;
             'attributesToExclude' => $attributesToExclude,
         ];
         $queryParametersTypes = [
-            'attributesToExclude' => Connection::PARAM_STR_ARRAY,
+            'attributesToExclude' => ArrayParameterType::STRING,
         ];
 
         if ('' !== $searchOnLabel) {

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Structure\Bundle\Query\PublicApi\Family\Sql;
 
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\GetFamilyTranslations;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 class SqlGetFamilyTranslations implements GetFamilyTranslations
@@ -34,7 +35,7 @@ SQL;
                 'familyCodes' => $familyCodes,
                 'locale' => $locale
             ],
-            ['familyCodes' => Connection::PARAM_STR_ARRAY]
+            ['familyCodes' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
         $familyTranslations = [];

@@ -6,6 +6,7 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\Settings\Persistence;
 
 use Akeneo\Connectivity\Connection\Domain\Settings\Model\Read\Connection;
 use Akeneo\Connectivity\Connection\Domain\Settings\Persistence\Query\SelectConnectionsQueryInterface;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection as DbalConnection;
 
 /**
@@ -37,7 +38,7 @@ SQL;
  WHERE type IN (:types)
 SQL;
             $parameters['types'] = $types;
-            $parametersTypes['types'] = DbalConnection::PARAM_STR_ARRAY;
+            $parametersTypes['types'] = ArrayParameterType::STRING;
         }
 
         $selectSQL .= <<<SQL

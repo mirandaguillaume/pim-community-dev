@@ -8,6 +8,7 @@ use Akeneo\Test\Integration\Configuration;
 use Akeneo\Test\Integration\TestCase;
 use Akeneo\Tool\Bundle\BatchBundle\Persistence\Sql\DeleteJobExecution;
 use Akeneo\Tool\Component\Batch\Job\BatchStatus;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use PHPUnit\Framework\Assert;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -131,7 +132,7 @@ class DeleteJobExecutionIntegration extends TestCase
         $numberOfJobs = (int) $this->getConnection()->executeQuery(
             $query,
             ['job_instance_codes' => $jobInstanceCodes],
-            ['job_instance_codes' => Connection::PARAM_STR_ARRAY]
+            ['job_instance_codes' => ArrayParameterType::STRING]
         )->fetchOne();
         Assert::assertSame($expectedCount, $numberOfJobs);
     }

@@ -12,6 +12,7 @@ use Akeneo\Test\Common\EntityBuilder;
 use Akeneo\Test\Integration\Configuration;
 use Akeneo\Test\Integration\TestCase;
 use Akeneo\Tool\Component\StorageUtils\Saver\SaverInterface;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use PHPUnit\Framework\Assert;
 
@@ -135,7 +136,7 @@ SQL;
         $this->getConnection()->executeQuery(
             $sql,
             ['attributeCodes' => $attributeCodes],
-            ['attributeCodes' => Connection::PARAM_STR_ARRAY],
+            ['attributeCodes' => ArrayParameterType::STRING],
         );
     }
 

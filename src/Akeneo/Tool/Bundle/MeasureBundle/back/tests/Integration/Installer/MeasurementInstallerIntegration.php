@@ -57,7 +57,7 @@ class MeasurementInstallerIntegration extends SqlIntegrationTestCase
     private function assertMeasurementTableExist()
     {
         /** @var AbstractSchemaManager $schemaManager */
-        $schemaManager = $this->get('database_connection')->getSchemaManager();
+        $schemaManager = $this->get('database_connection')->createSchemaManager();
         $tables = $schemaManager->listTableNames();
         Assert::assertContains('akeneo_measurement', $tables);
     }
@@ -66,7 +66,7 @@ class MeasurementInstallerIntegration extends SqlIntegrationTestCase
     {
         $actualColumnsAndTypes = [];
         /** @var AbstractSchemaManager $schemaManager */
-        $schemaManager = $this->get('database_connection')->getSchemaManager();
+        $schemaManager = $this->get('database_connection')->createSchemaManager();
         $tableColumns = $schemaManager->listTableColumns('akeneo_measurement');
         foreach ($tableColumns as $actualColumn) {
             $actualColumnsAndTypes[$actualColumn->getName()] =  $actualColumn->getType()->getName();

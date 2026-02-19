@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\ProductModel;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -44,7 +45,7 @@ SQL;
         return $this->connection->executeQuery(
             $sql,
             ['codes' => $productModelCodes],
-            ['codes' => Connection::PARAM_STR_ARRAY]
+            ['codes' => ArrayParameterType::STRING]
         )->fetchFirstColumn();
     }
 
@@ -62,7 +63,7 @@ SQL;
         return $this->connection->executeQuery(
             $sql,
             ['ids' => $productModelIds],
-            ['ids' => Connection::PARAM_STR_ARRAY]
+            ['ids' => ArrayParameterType::STRING]
         )->fetchFirstColumn();
     }
 }

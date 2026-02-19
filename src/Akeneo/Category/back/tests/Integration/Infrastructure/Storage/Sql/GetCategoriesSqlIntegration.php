@@ -13,6 +13,7 @@ use Akeneo\Category\Domain\Model\Enrichment\Category;
 use Akeneo\Category\Infrastructure\Component\Model\CategoryInterface as CategoryDoctrine;
 use Akeneo\Category\ServiceApi\ExternalApiCategory;
 use Akeneo\Test\Integration\Configuration;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -89,7 +90,7 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
                 'with_position' => false,
             ],
             types: [
-                'category_codes' => Connection::PARAM_STR_ARRAY,
+                'category_codes' => ArrayParameterType::STRING,
                 'with_enriched_attributes' => \PDO::PARAM_BOOL,
                 'with_position' => \PDO::PARAM_BOOL,
             ],
@@ -110,7 +111,7 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
                 'with_position' => false,
             ],
             types: [
-                'category_codes' => Connection::PARAM_STR_ARRAY,
+                'category_codes' => ArrayParameterType::STRING,
                 'with_enriched_attributes' => \PDO::PARAM_BOOL,
                 'with_position' => \PDO::PARAM_BOOL,
             ],
@@ -131,7 +132,7 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
                 'with_position' => false,
             ],
             types: [
-                'category_codes' => Connection::PARAM_STR_ARRAY,
+                'category_codes' => ArrayParameterType::STRING,
                 'with_enriched_attributes' => \PDO::PARAM_BOOL,
                 'with_position' => \PDO::PARAM_BOOL,
             ],
@@ -188,7 +189,7 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
                 'with_position' => true,
             ],
             types: [
-                'category_codes' => Connection::PARAM_STR_ARRAY,
+                'category_codes' => ArrayParameterType::STRING,
                 'with_enriched_attributes' => \PDO::PARAM_BOOL,
                 'with_position' => \PDO::PARAM_BOOL,
             ],
@@ -243,7 +244,7 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
                 'with_position' => false,
             ],
             types: [
-                'category_codes' => Connection::PARAM_STR_ARRAY,
+                'category_codes' => ArrayParameterType::STRING,
                 'with_enriched_attributes' => \PDO::PARAM_BOOL,
                 'with_position' => \PDO::PARAM_BOOL,
             ],
@@ -304,7 +305,7 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
                 'with_position' => false,
             ],
             types: [
-                'category_codes' => Connection::PARAM_STR_ARRAY,
+                'category_codes' => ArrayParameterType::STRING,
                 'with_enriched_attributes' => \PDO::PARAM_BOOL,
                 'with_position' => \PDO::PARAM_BOOL,
             ],
@@ -362,7 +363,7 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
                 'with_position' => false,
             ],
             types: [
-                'category_codes' => Connection::PARAM_STR_ARRAY,
+                'category_codes' => ArrayParameterType::STRING,
                 'with_enriched_attributes' => \PDO::PARAM_BOOL,
                 'with_position' => \PDO::PARAM_BOOL,
             ],
@@ -406,7 +407,7 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
                 'with_position' => false,
             ],
             types: [
-                'category_codes' => Connection::PARAM_STR_ARRAY,
+                'category_codes' => ArrayParameterType::STRING,
                 'with_enriched_attributes' => \PDO::PARAM_BOOL,
                 'with_position' => \PDO::PARAM_BOOL,
             ],
@@ -442,7 +443,7 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
                 'with_position' => false,
             ],
             types: [
-                'category_codes' => Connection::PARAM_STR_ARRAY,
+                'category_codes' => ArrayParameterType::STRING,
                 'with_enriched_attributes' => \PDO::PARAM_BOOL,
                 'with_position' => \PDO::PARAM_BOOL,
             ],
@@ -523,7 +524,7 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
                 'with_position' => false,
             ],
             types: [
-                'category_codes' => Connection::PARAM_STR_ARRAY,
+                'category_codes' => ArrayParameterType::STRING,
                 'with_enriched_attributes' => \PDO::PARAM_BOOL,
                 'with_position' => \PDO::PARAM_BOOL,
             ],
@@ -552,7 +553,7 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
         $parameters = new ExternalApiSqlParameters(
             'category.code IN (:category_codes)',
             ['category_codes' => ['socks', 'shoes']],
-            ['category_codes' => Connection::PARAM_STR_ARRAY]
+            ['category_codes' => ArrayParameterType::STRING]
         );
         $numberOfCategories = $this->get(GetCategoriesInterface::class)->count($parameters);
 

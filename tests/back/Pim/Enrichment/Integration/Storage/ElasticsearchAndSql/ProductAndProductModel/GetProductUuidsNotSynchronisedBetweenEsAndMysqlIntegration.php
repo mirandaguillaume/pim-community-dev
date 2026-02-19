@@ -8,6 +8,7 @@ use Akeneo\Pim\Enrichment\Bundle\Storage\ElasticsearchAndSql\ProductAndProductMo
 use Akeneo\Test\Integration\Configuration;
 use Akeneo\Test\Integration\TestCase;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use PHPUnit\Framework\Assert;
 use Ramsey\Uuid\Uuid;
@@ -122,7 +123,7 @@ final class GetProductUuidsNotSynchronisedBetweenEsAndMysqlIntegration extends T
                 static fn (UuidInterface $uuid): string => $uuid->getBytes(),
                 $productUuids
             )],
-            ['uuids' => Connection::PARAM_STR_ARRAY]
+            ['uuids' => ArrayParameterType::STRING]
         );
     }
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Structure\Bundle\Query\PublicApi\Attribute\Sql;
 
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Attribute\GetGroupedAttributes;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -83,7 +84,7 @@ SQL;
                 'search' => $search,
             ],
             [
-                'attributeTypes' => Connection::PARAM_STR_ARRAY,
+                'attributeTypes' => ArrayParameterType::STRING,
                 'limit' => \PDO::PARAM_INT,
                 'offset' => \PDO::PARAM_INT,
                 'localeCode' => \PDO::PARAM_STR,

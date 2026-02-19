@@ -9,6 +9,7 @@ use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\ProductIdentifier;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface;
 use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 use Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Webmozart\Assert\Assert;
@@ -113,7 +114,7 @@ SQL;
         $this->connection->executeQuery(
             $deleteSql,
             ['product_uuids' => $productUuidsAsBytes],
-            ['product_uuids' => Connection::PARAM_STR_ARRAY]
+            ['product_uuids' => ArrayParameterType::STRING]
         );
     }
 

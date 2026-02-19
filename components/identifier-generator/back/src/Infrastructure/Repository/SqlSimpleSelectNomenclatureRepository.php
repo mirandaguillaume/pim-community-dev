@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Automation\IdentifierGenerator\Infrastructure\Repository;
 use Doctrine\DBAL\Exception;
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\NomenclatureDefinition;
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Repository\SimpleSelectNomenclatureRepository;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Webmozart\Assert\Assert;
 
@@ -120,7 +121,7 @@ SQL;
                 'option_ids' => $optionIds,
             ],
             [
-                'option_ids' => Connection::PARAM_STR_ARRAY,
+                'option_ids' => ArrayParameterType::STRING,
             ]
         );
 
@@ -172,7 +173,7 @@ SQL;
                 'attributeCode' => $attributeCode,
             ],
             [
-                'attributeOptionCodes' => Connection::PARAM_STR_ARRAY,
+                'attributeOptionCodes' => ArrayParameterType::STRING,
             ]
         );
 
@@ -213,7 +214,7 @@ SQL;
         $this->connection->executeStatement($deleteSql, [
             'option_ids' => $attributeOptionIdsToDelete,
         ], [
-            'option_ids' => Connection::PARAM_INT_ARRAY,
+            'option_ids' => ArrayParameterType::INTEGER,
         ]);
     }
 
@@ -237,8 +238,8 @@ SQL;
         ));
 
         foreach ($valuesToUpdateOrInsert as $i => $valueToUpdateOrInsert) {
-            $statement->bindParam(\sprintf('optionId%d', $i), $valueToUpdateOrInsert['attributeOptionId']);
-            $statement->bindParam(\sprintf('value%d', $i), $valueToUpdateOrInsert['value']);
+            $statement->bindValue(\sprintf('optionId%d', $i), $valueToUpdateOrInsert['attributeOptionId']);
+            $statement->bindValue(\sprintf('value%d', $i), $valueToUpdateOrInsert['value']);
         }
 
         $statement->executeStatement();

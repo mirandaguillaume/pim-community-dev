@@ -6,6 +6,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Category;
 
 use Akeneo\Category\Api\GetCategoryChildrenCodesPerTreeInterface;
 use Akeneo\Pim\Enrichment\Bundle\Filter\CategoryCodeFilterInterface;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Webmozart\Assert\Assert;
 
@@ -44,7 +45,7 @@ SQL;
         $stmt = $this->connection->executeQuery(
             $query,
             ['categoryCodes' => $categoryCodes],
-            ['categoryCodes' => Connection::PARAM_STR_ARRAY]
+            ['categoryCodes' => ArrayParameterType::STRING]
         );
 
         $results = [];
@@ -81,7 +82,7 @@ SQL;
         $stmt = $this->connection->executeQuery(
             $query,
             ['categoryCodes' => $categoryCodes],
-            ['categoryCodes' => Connection::PARAM_STR_ARRAY]
+            ['categoryCodes' => ArrayParameterType::STRING]
         );
 
         $results = [];

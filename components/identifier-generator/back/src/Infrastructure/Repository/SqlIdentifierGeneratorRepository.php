@@ -124,7 +124,7 @@ WHERE pim_catalog_identifier_generator.code=:code
 SQL;
 
         $stmt = $this->connection->prepare($sql);
-        $stmt->bindParam('code', $identifierGeneratorCode, \PDO::PARAM_STR);
+        $stmt->bindValue('code', $identifierGeneratorCode, \PDO::PARAM_STR);
 
         try {
             $result = $stmt->executeQuery()->fetchAssociative();
@@ -238,7 +238,7 @@ LIMIT 1;
 SQL;
 
         $stmt = $this->connection->prepare($sql);
-        $stmt->bindParam('code', $identifierGeneratorCode, \PDO::PARAM_STR);
+        $stmt->bindValue('code', $identifierGeneratorCode, \PDO::PARAM_STR);
 
         try {
             $stmt->executeQuery();

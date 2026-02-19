@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Structure\Bundle\Manager;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 final readonly class AttributeCodeBlacklister
@@ -57,7 +58,7 @@ SQL;
                 'job_execution_id' => $jobExecutionId
             ],
             [
-                'attribute_codes' => Connection::PARAM_STR_ARRAY,
+                'attribute_codes' => ArrayParameterType::STRING,
                 'job_execution_id' => \PDO::PARAM_INT
             ]
         );
@@ -80,7 +81,7 @@ SQL;
                 'attribute_codes' => $attributeCodes,
             ],
             [
-                'attribute_codes' => Connection::PARAM_STR_ARRAY,
+                'attribute_codes' => ArrayParameterType::STRING,
             ]
         );
     }

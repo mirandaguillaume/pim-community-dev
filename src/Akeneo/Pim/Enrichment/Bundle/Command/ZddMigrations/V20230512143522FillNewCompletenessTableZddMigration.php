@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Enrichment\Bundle\Command\ZddMigrations;
 
 use Akeneo\Platform\Installer\Infrastructure\Command\ZddMigration;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;
@@ -91,7 +92,7 @@ SQL;
         return \intval($this->connection->executeStatement(
             $sql,
             ['uuids' => \array_map(static fn (UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],
-            ['uuids' => Connection::PARAM_STR_ARRAY]
+            ['uuids' => ArrayParameterType::STRING]
         ));
     }
 

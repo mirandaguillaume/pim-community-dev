@@ -3,6 +3,7 @@
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Product;
 
 use Doctrine\DBAL\Driver\Exception;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -43,7 +44,7 @@ WHERE raw_data IN (:identifiers)
 AND main_identifier = 1
 SQL,
             ['identifiers' => $identifiers],
-            ['identifiers' => Connection::PARAM_STR_ARRAY]
+            ['identifiers' => ArrayParameterType::STRING]
         );
 
         return array_map(fn (string $uuid): UuidInterface => Uuid::fromString($uuid), $result);

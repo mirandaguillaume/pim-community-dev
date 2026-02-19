@@ -6,6 +6,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\Doctrine\ORM\Query\QuantifiedAssociation;
 
 use Akeneo\Pim\Enrichment\Component\Product\Model\QuantifiedAssociation\IdMapping;
 use Akeneo\Pim\Enrichment\Component\Product\Query\QuantifiedAssociation\GetIdMappingFromProductIdsQueryInterface;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -40,7 +41,7 @@ SQL;
         $mapping = array_column($this->connection->executeQuery(
             $query,
             ['product_ids' => $productIds],
-            ['product_ids' => Connection::PARAM_INT_ARRAY]
+            ['product_ids' => ArrayParameterType::INTEGER]
         )->fetchAllAssociative(), 'identifier', 'id');
 
         return IdMapping::createFromMapping($mapping);

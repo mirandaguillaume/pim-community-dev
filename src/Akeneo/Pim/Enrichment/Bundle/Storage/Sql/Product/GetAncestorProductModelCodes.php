@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Product;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\UuidInterface;
 
@@ -49,7 +50,7 @@ SQL;
         return $this->connection->executeQuery(
             $sql,
             ['uuids' => $productUuidsAsBytes],
-            ['uuids' => Connection::PARAM_STR_ARRAY]
+            ['uuids' => ArrayParameterType::STRING]
         )->fetchFirstColumn();
     }
 }

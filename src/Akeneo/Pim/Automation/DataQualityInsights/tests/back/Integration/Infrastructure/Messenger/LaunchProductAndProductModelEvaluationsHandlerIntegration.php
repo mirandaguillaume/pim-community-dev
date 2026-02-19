@@ -14,6 +14,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Messenger\LaunchPro
 use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Messenger\LaunchProductAndProductModelEvaluationsMessage;
 use Akeneo\Pim\Enrichment\Product\API\Command\UserIntent\SetFamily;
 use Akeneo\Test\Pim\Automation\DataQualityInsights\Integration\DataQualityInsightsTestCase;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use PHPUnit\Framework\Assert;
 use Ramsey\Uuid\Uuid;
@@ -125,7 +126,7 @@ SQL;
         $result = $this->dbConnection->executeQuery(
             $query,
             ['product_uuids' => $productUuids->toArrayBytes()],
-            ['product_uuids' => Connection::PARAM_STR_ARRAY]
+            ['product_uuids' => ArrayParameterType::STRING]
         )->fetchOne();
 
         Assert::assertFalse($result, 'Some products are evaluated');
@@ -143,7 +144,7 @@ SQL;
         $result = $this->dbConnection->executeQuery(
             $query,
             ['product_model_ids' => $productModelIds->toArrayString()],
-            ['product_model_ids' => Connection::PARAM_STR_ARRAY]
+            ['product_model_ids' => ArrayParameterType::STRING]
         )->fetchOne();
 
         Assert::assertFalse($result, 'Some product models are evaluated');
@@ -161,7 +162,7 @@ SQL;
         $stmt = $this->dbConnection->executeQuery(
             $query,
             ['product_uuids' => $productUuids->toArrayBytes()],
-            ['product_uuids' => Connection::PARAM_STR_ARRAY]
+            ['product_uuids' => ArrayParameterType::STRING]
         );
 
         $nbEvaluationsByProduct = [];
@@ -190,7 +191,7 @@ SQL;
         $stmt = $this->dbConnection->executeQuery(
             $query,
             ['product_model_ids' => $productModelIds->toArrayString()],
-            ['product_model_ids' => Connection::PARAM_STR_ARRAY]
+            ['product_model_ids' => ArrayParameterType::STRING]
         );
 
         $nbEvaluationsByProductModel = [];

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Product;
 
 use Akeneo\Pim\Enrichment\Component\Product\Query\FindIdentifier;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\Uuid;
 use Webmozart\Assert\Assert;
@@ -68,7 +69,7 @@ LEFT JOIN pim_catalog_product_unique_data pcpud
 WHERE uuid IN (:uuids)
 SQL,
             ['uuids' => $uuidsAsBytes],
-            ['uuids' => Connection::PARAM_STR_ARRAY]
+            ['uuids' => ArrayParameterType::STRING]
         );
 
         $identifiers = [];

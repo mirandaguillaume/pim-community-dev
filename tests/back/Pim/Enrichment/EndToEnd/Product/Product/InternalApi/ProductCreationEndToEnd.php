@@ -8,6 +8,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Connector\ReadModel\ConnectorProduct
 use Akeneo\Pim\Enrichment\Component\Product\Query\GetConnectorProducts;
 use Akeneo\Test\Integration\Configuration;
 use AkeneoTest\Pim\Enrichment\EndToEnd\InternalApiTestCase;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -100,7 +101,7 @@ SQL;
             self::getContainer()->get('database_connection')->fetchFirstColumn(
                 $sql,
                 ['identifiers' => $productIdentifiers],
-                ['identifiers' => Connection::PARAM_STR_ARRAY]
+                ['identifiers' => ArrayParameterType::STRING]
             )
         );
     }
