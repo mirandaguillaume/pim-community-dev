@@ -5,14 +5,12 @@ parameters:
     excludePaths:
         analyse:
             - %rootDir%/../../../src/Akeneo/Pim/Enrichment/Product/back/Test
-    # PHPStan 2.x is stricter than 1.x: disable checks that are new in 2.x
-    # to keep backward compatibility with existing codebase
-    checkAlwaysTrueCheckTypeFunctionCall: false
-    checkAlwaysTrueStrictComparison: false
     reportAlwaysTrueInLastCondition: false
     reportMaybesInPropertyPhpDocTypes: false
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
+        # PHPStan 2.x: redundant webmozart/assert calls
+        - '#Call to static method .* will always evaluate to true#'
         # PHPStan 2.x: redundant array operations
         - '#Parameter \#1 .* of array_values is already a list, call has no effect#'
         - '#to function array_filter does not contain falsy values, the array will always stay the same#'
