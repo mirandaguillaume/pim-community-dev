@@ -7,7 +7,6 @@ namespace Akeneo\Platform\Bundle\AnalyticsBundle\Query\Sql;
 use Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject\FlowType;
 use Akeneo\Tool\Component\Analytics\ApiConnectionCountQuery;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 
 /**
  * @author Pierre Jolly <pierre.jolly@akeneo.com>

@@ -7,7 +7,6 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\GetRequiredAttributesM
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\RequiredAttributesMask;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\RequiredAttributesMaskForChannelAndLocale;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 
 class GetAttributeTypesMasksQuery implements GetRequiredAttributesMasks
 {

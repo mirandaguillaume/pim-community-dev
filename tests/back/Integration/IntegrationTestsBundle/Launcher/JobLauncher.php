@@ -276,15 +276,14 @@ class JobLauncher
         $timeout = 0;
         $isCompleted = false;
 
-        $stmt = $this->dbConnection->prepare('SELECT status from akeneo_batch_job_execution where id = :id');
-
         while (!$isCompleted) {
             if ($timeout > 30) {
                 throw new \RuntimeException(sprintf('Timeout: job execution "%s" is not complete.', $jobExecution->getId()));
             }
-            $stmt->bindValue('id', $jobExecution->getId());
-            $stmt->execute();
-            $result = $stmt->fetch();
+            $result = $this->dbConnection->executeQuery(
+                'SELECT status from akeneo_batch_job_execution where id = :id',
+                ['id' => $jobExecution->getId()]
+            )->fetchAssociative();
 
             $isCompleted = isset($result['status']) && BatchStatus::COMPLETED === (int) $result['status'];
 
