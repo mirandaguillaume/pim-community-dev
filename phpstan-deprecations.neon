@@ -17,10 +17,17 @@ parameters:
         - '#Call to deprecated method createOAuthClient\(\) of class Akeneo\\Tool\\Bundle\\ApiBundle\\tests\\integration\\ApiTestCase.#'
         - '#Call to deprecated method createFromCollection\(\) of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UpsertProductCommand.#'
         - '#Call to deprecated method getQueryBuilder\(\) of class Oro\\Bundle\\PimDataGridBundle\\Datasource\\Datasource:#'
+        - '#Call to deprecated method getQueryBuilder\(\) of class Oro\\Bundle\\PimDataGridBundle\\Datasource\\(Family|Repository)Datasource:#'
+        - '#(Call to method|Access to property) .* of deprecated class Oro\\Bundle\\PimDataGridBundle\\Datasource\\Datasource#'
         - '#Class Oro\\Bundle\\PimDataGridBundle\\Datasource\\ProductDatasource extends deprecated class Oro\\Bundle\\PimDataGridBundle\\Datasource\\Datasource#'
         - '#Class Oro\\Bundle\\PimDataGridBundle\\Datasource\\ProductAndProductModelDatasource extends deprecated class Oro\\Bundle\\PimDataGridBundle\\Datasource\\Datasource#'
         - '#Return type of method Oro\\Bundle\\PimDataGridBundle\\Datasource\\ProductDatasource::initializeQueryBuilder\(\) has typehint with deprecated class#'
         - '#Return type of method Oro\\Bundle\\PimDataGridBundle\\Datasource\\ProductAndProductModelDatasource::initializeQueryBuilder\(\) has typehint with deprecated class#'
+        # PHPStan 2.x: Serializable interface deprecation in Oro SecurityBundle
+        - '#Non-abstract class Oro\\Bundle\\SecurityBundle\\.* implements the Serializable interface, but does not implement __serialize\(\)#'
+        - '#Non-abstract class Oro\\Bundle\\SecurityBundle\\.* implements the Serializable interface, but does not implement __unserialize\(\)#'
+        # Doctrine FileCache deprecation
+        - '#Access to property .* of deprecated class Doctrine\\Common\\Cache\\FileCache#'
         # Guard symfony migration (RAB-1149)
         - '#Call to deprecated method setAuthenticated\(\) of class Symfony\\Component\\Security\\Core\\Authentication\\Token\\AbstractToken#'
         - '#Call to method __construct\(\) of deprecated class Symfony\\Component\\Security\\Core\\Authentication\\Provider\\DaoAuthenticationProvider#'
