@@ -8,6 +8,7 @@ use Akeneo\Tool\Bundle\MeasureBundle\Installer\MeasurementInstaller;
 use Akeneo\Tool\Bundle\MeasureBundle\tests\Integration\SqlIntegrationTestCase;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
+use Doctrine\DBAL\Types\Type;
 use PHPUnit\Framework\Assert;
 
 /**
@@ -69,7 +70,7 @@ class MeasurementInstallerIntegration extends SqlIntegrationTestCase
         $schemaManager = $this->get('database_connection')->createSchemaManager();
         $tableColumns = $schemaManager->listTableColumns('akeneo_measurement');
         foreach ($tableColumns as $actualColumn) {
-            $actualColumnsAndTypes[$actualColumn->getName()] =  $actualColumn->getType()->getName();
+            $actualColumnsAndTypes[$actualColumn->getName()] = Type::getTypeRegistry()->lookupName($actualColumn->getType());
         }
         Assert::assertEquals($expectedColumnsAndTypes, $actualColumnsAndTypes);
     }
