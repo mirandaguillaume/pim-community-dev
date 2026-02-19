@@ -2,6 +2,8 @@
 
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Product;
 
+use Doctrine\DBAL\Driver\Exception;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -24,7 +26,7 @@ final readonly class SqlFindProductUuids
      * @param string[] $identifiers
      * @return array<string, UuidInterface>
      *
-     * @throws \Doctrine\DBAL\Driver\Exception
+     * @throws Exception
      * @throws \Doctrine\DBAL\Exception
      */
     public function fromIdentifiers(array $identifiers): array
@@ -42,7 +44,7 @@ WHERE raw_data IN (:identifiers)
 AND main_identifier = 1
 SQL,
             ['identifiers' => $identifiers],
-            ['identifiers' => Connection::PARAM_STR_ARRAY]
+            ['identifiers' => ArrayParameterType::STRING]
         );
 
         return array_map(fn (string $uuid): UuidInterface => Uuid::fromString($uuid), $result);

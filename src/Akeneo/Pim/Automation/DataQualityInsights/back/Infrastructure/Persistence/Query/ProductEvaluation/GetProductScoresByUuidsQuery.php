@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Q
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\ChannelLocaleRateCollection;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Read;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Query\ProductEvaluation\GetProductScoresByUuidsQueryInterface;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\UuidInterface;
 
@@ -49,7 +50,7 @@ SQL;
         $stmt = $this->dbConnection->executeQuery(
             $query,
             ['productUuids' => $uuidsAsBytes],
-            ['productUuids' => Connection::PARAM_STR_ARRAY]
+            ['productUuids' => ArrayParameterType::STRING]
         );
 
         $productsScores = [];

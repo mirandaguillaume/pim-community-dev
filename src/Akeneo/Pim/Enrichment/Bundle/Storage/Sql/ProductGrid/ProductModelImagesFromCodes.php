@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\ProductGrid;
 
+use Doctrine\DBAL\Exception;
 use Akeneo\Pim\Enrichment\Component\Product\Factory\WriteValueCollectionFactory;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -75,13 +77,13 @@ final readonly class ProductModelImagesFromCodes
      *
      * @param array $codes
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws Exception
+     * @return array
      *              [
      *                'image_in_current_or_parent_product_model' => ['product_model_1']
      *                'image_in_sub_product_model' => ['product_model_2']
      *                'image_in_variant_product' => ['product_model_3']
      *              ]
-     *
      */
     private function codesPerImageLevel(array $codes): array
     {
@@ -126,7 +128,7 @@ SQL;
         $rows = $this->connection->executeQuery(
             $sql,
             ['codes' => $codes],
-            ['codes' => \Doctrine\DBAL\Connection::PARAM_STR_ARRAY]
+            ['codes' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
         foreach ($rows as $row) {
@@ -168,7 +170,7 @@ SQL;
         $rows = $this->connection->executeQuery(
             $sql,
             ['codes' => $codes],
-            ['codes' => \Doctrine\DBAL\Connection::PARAM_STR_ARRAY]
+            ['codes' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
         $productModels = [];
@@ -208,7 +210,8 @@ SQL;
      * @param string $channelCode
      * @param string $localeCode
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws Exception
+     * @return array
      */
     private function getImagesFromSubProductModel(array $codes, string $channelCode, string $localeCode): array
     {
@@ -289,7 +292,8 @@ SQL;
      * @param string $channelCode
      * @param string $localeCode
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws Exception
+     * @return array
      */
     private function getImagesFromVariantProduct(array $codes, string $channelCode, string $localeCode): array
     {

@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Automation\IdentifierGenerator\Infrastructure\Repository;
 
+use Doctrine\DBAL\Exception;
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\NomenclatureDefinition;
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Repository\ReferenceEntityNomenclatureRepository;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\GetAttributes;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Webmozart\Assert\Assert;
 
@@ -44,7 +46,9 @@ class SqlReferenceEntityNomenclatureRepository implements ReferenceEntityNomencl
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @param string $attributeCode
+     * @return NomenclatureDefinition|null
+     * @throws Exception
      */
     private function getNomenclatureDefinition(string $attributeCode): ?NomenclatureDefinition
     {
@@ -103,7 +107,7 @@ SQL;
                 'record_identifiers' => $recordIdentifiers,
             ],
             [
-                'record_identifiers' => Connection::PARAM_STR_ARRAY,
+                'record_identifiers' => ArrayParameterType::STRING,
             ]
         );
 
@@ -175,7 +179,7 @@ SQL;
                 'refDataName' => $refDataName,
             ],
             [
-                'recordCodes' => Connection::PARAM_STR_ARRAY,
+                'recordCodes' => ArrayParameterType::STRING,
             ]
         );
 
@@ -217,7 +221,7 @@ SQL;
         $this->connection->executeStatement($deleteSql, [
             'recordIdentifiers' => $recordIdentifiersToDelete,
         ], [
-            'recordIdentifiers' => Connection::PARAM_STR_ARRAY,
+            'recordIdentifiers' => ArrayParameterType::STRING,
         ]);
     }
 
@@ -241,8 +245,8 @@ SQL;
         ));
 
         foreach ($valuesToUpdateOrInsert as $i => $valueToUpdateOrInsert) {
-            $statement->bindParam(\sprintf('recordIdentifier%d', $i), $valueToUpdateOrInsert['recordIdentifier']);
-            $statement->bindParam(\sprintf('value%d', $i), $valueToUpdateOrInsert['value']);
+            $statement->bindValue(\sprintf('recordIdentifier%d', $i), $valueToUpdateOrInsert['recordIdentifier']);
+            $statement->bindValue(\sprintf('value%d', $i), $valueToUpdateOrInsert['value']);
         }
 
         $statement->executeStatement();

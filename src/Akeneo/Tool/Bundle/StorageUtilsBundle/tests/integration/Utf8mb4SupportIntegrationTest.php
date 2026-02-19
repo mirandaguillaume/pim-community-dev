@@ -26,7 +26,7 @@ class Utf8mb4SupportIntegrationTest extends TestCase
     {
         parent::setup();
         $this->connection = $this->get('doctrine.orm.entity_manager')->getConnection();
-        $this->schemaManager = $this->connection->getSchemaManager();
+        $this->schemaManager = $this->connection->createSchemaManager();
     }
 
     public function testUtf8mb4Support() : void
@@ -35,7 +35,7 @@ class Utf8mb4SupportIntegrationTest extends TestCase
             $this->schemaManager->dropTable(self::TEST_TABLE_NAME);
         }
 
-        $schema = $this->schemaManager->createSchema();
+        $schema = $this->schemaManager->introspectSchema();
 
         $myTestTable = $schema->createTable(self::TEST_TABLE_NAME);
         $myTestTable->addColumn('id', 'integer');
@@ -48,7 +48,7 @@ class Utf8mb4SupportIntegrationTest extends TestCase
         );
         $myTestTableSql = reset($myTestTableSql);
 
-        $this->connection->exec($myTestTableSql);
+        $this->connection->executeStatement($myTestTableSql);
 
         $insertCount = $this->connection->insert(
             self::TEST_TABLE_NAME,

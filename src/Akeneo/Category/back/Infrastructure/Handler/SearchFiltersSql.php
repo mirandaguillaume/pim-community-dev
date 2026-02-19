@@ -8,6 +8,7 @@ use Akeneo\Category\Application\Handler\SearchFilters;
 use Akeneo\Category\Application\Query\ExternalApiSqlParameters;
 use Akeneo\Category\Domain\Query\GetCategoryInterface;
 use Akeneo\Category\Infrastructure\Validation\ExternalApiSearchFiltersValidator;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -62,7 +63,7 @@ class SearchFiltersSql implements SearchFilters
                         $sqlWhere = $this->addSqlAndIfNecessary($sqlWhere);
                         $sqlWhere .= "$SqlColumn IN (:$SqlParameter)";
                         $sqlParameters[$SqlParameter] = $criterion['value'];
-                        $sqlTypes[$SqlParameter] = Connection::PARAM_STR_ARRAY;
+                        $sqlTypes[$SqlParameter] = ArrayParameterType::STRING;
                         break;
                     case '>':
                         $sqlWhere = $this->addSqlAndIfNecessary($sqlWhere);

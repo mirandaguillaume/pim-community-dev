@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\ElasticsearchAndSql\CategoryTree;
 
+use Doctrine\DBAL\Exception;
 use Akeneo\Pim\Enrichment\Component\Category\CategoryTree\Query;
 use Akeneo\Pim\Enrichment\Component\Category\CategoryTree\ReadModel\ChildCategory;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface;
@@ -107,7 +108,8 @@ class ListChildrenCategoriesWithCountNotIncludingSubCategories implements Query\
      *         'label' => 'label'
      *     ]
      * ]
-     * @throws \Doctrine\DBAL\DBALException
+     *
+     * @throws Exception
      */
     private function fetchChildrenCategories(
         int $parentCategoryId,
@@ -233,7 +235,7 @@ SQL;
      *
      * @return string[]
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws Exception
      */
     private function fetchCategoriesBetween(int $fromCategoryId, int $toCategoryId): array
     {

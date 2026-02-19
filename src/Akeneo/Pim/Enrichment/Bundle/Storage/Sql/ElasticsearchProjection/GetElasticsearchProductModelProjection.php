@@ -9,6 +9,7 @@ use Akeneo\Pim\Enrichment\Bundle\Elasticsearch\GetElasticsearchProductModelProje
 use Akeneo\Pim\Enrichment\Bundle\Elasticsearch\Model\ElasticsearchProductModelProjection;
 use Akeneo\Pim\Enrichment\Component\Product\Factory\ReadValueCollectionFactory;
 use Akeneo\Pim\Enrichment\Component\Product\Normalizer\Indexing\Value\ValueCollectionNormalizer;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
@@ -165,7 +166,7 @@ SQL;
         $rows = $this->connection->fetchAllAssociative(
             $query,
             ['productModelCodes' => $productModelCodes],
-            ['productModelCodes' => Connection::PARAM_STR_ARRAY]
+            ['productModelCodes' => ArrayParameterType::STRING]
         );
 
         $rows = $this->createValueCollectionInBatchFromRows($rows);
@@ -265,7 +266,7 @@ SQL;
         $rows = $this->connection->fetchAllAssociative(
             $query,
             ['productModelCodes' => $productModelCodes],
-            ['productModelCodes' => Connection::PARAM_STR_ARRAY]
+            ['productModelCodes' => ArrayParameterType::STRING]
         );
 
         $results = array_fill_keys(
@@ -358,7 +359,7 @@ SQL;
                 'codes' => $productModelCodes,
             ],
             [
-                'codes' => Connection::PARAM_STR_ARRAY,
+                'codes' => ArrayParameterType::STRING,
             ]
         );
 

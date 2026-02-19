@@ -24,6 +24,6 @@ class PurgeDoctrineQueueQuery
             ->where('created_at < :datetime AND queue_name = :queue')
             ->setParameter('datetime', $olderThan, Types::DATETIME_IMMUTABLE)
             ->setParameter('queue', $queueName)
-            ->execute();
+            ->executeStatement();
     }
 }

@@ -233,6 +233,17 @@ jobs:
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
 
+      - name: Start MySQL (needed by Symfony console commands)
+        run: |
+          docker-compose up -d mysql
+          echo "Waiting for MySQL…"
+          for i in $(seq 1 45); do
+            docker-compose exec -T mysql mysql --protocol TCP -uroot -proot -e "SELECT 1" >/dev/null 2>&1 && break
+            [ "$i" -eq 45 ] && { echo "MySQL not ready after 45s"; exit 1; }
+            sleep 1
+          done
+          echo "MySQL is ready"
+
       - name: Prepare frontend directories
         run: docker-compose run --rm php sh -c "mkdir -p public/js public/bundles"
 
@@ -325,6 +336,17 @@ jobs:
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
 
+      - name: Start MySQL (needed by Symfony console commands)
+        run: |
+          docker-compose up -d mysql
+          echo "Waiting for MySQL…"
+          for i in $(seq 1 45); do
+            docker-compose exec -T mysql mysql --protocol TCP -uroot -proot -e "SELECT 1" >/dev/null 2>&1 && break
+            [ "$i" -eq 45 ] && { echo "MySQL not ready after 45s"; exit 1; }
+            sleep 1
+          done
+          echo "MySQL is ready"
+
       - name: Prepare frontend directories
         run: docker-compose run --rm php sh -c "mkdir -p public/js public/bundles"
 
@@ -375,6 +397,17 @@ jobs:
           path: .phpstan-cache
           key: phpstan-${{ runner.os }}-${{ hashFiles('phpstan.neon*', 'composer.lock') }}
           restore-keys: phpstan-${{ runner.os }}-
+
+      - name: Start MySQL (needed by Symfony cache:warmup)
+        run: |
+          docker-compose up -d mysql
+          echo "Waiting for MySQL…"
+          for i in $(seq 1 45); do
+            docker-compose exec -T mysql mysql --protocol TCP -uroot -proot -e "SELECT 1" >/dev/null 2>&1 && break
+            [ "$i" -eq 45 ] && { echo "MySQL not ready after 45s"; exit 1; }
+            sleep 1
+          done
+          echo "MySQL is ready"
 
       - name: Fix identifier generator CS (auto-fix before dry-run)
         continue-on-error: true
@@ -440,6 +473,17 @@ jobs:
       - uses: ./.github/actions/setup-pim-job
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Start MySQL (needed by Symfony lint:container)
+        run: |
+          docker-compose up -d mysql
+          echo "Waiting for MySQL…"
+          for i in $(seq 1 45); do
+            docker-compose exec -T mysql mysql --protocol TCP -uroot -proot -e "SELECT 1" >/dev/null 2>&1 && break
+            [ "$i" -eq 45 ] && { echo "MySQL not ready after 45s"; exit 1; }
+            sleep 1
+          done
+          echo "MySQL is ready"
 
       - name: Run static checks
         run: |

@@ -26,7 +26,6 @@ $rules = [
             'Akeneo\UserManagement\Bundle\Context\UserContext',
             'Symfony\Component',
             'Doctrine\DBAL\Connection',
-            'Doctrine\DBAL\FetchMode',
             'GuzzleHttp\Client'
         ]
     )->in('Akeneo\Platform\CommunicationChannel\Infrastructure'),

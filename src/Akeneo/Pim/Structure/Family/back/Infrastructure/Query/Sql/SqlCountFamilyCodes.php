@@ -6,6 +6,7 @@ namespace Akeneo\Pim\Structure\Family\Infrastructure\Query\Sql;
 
 use Akeneo\Pim\Structure\Family\ServiceAPI\Query\CountFamilyCodes;
 use Akeneo\Pim\Structure\Family\ServiceAPI\Query\FamilyQuery;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -45,8 +46,8 @@ class SqlCountFamilyCodes implements CountFamilyCodes
         $types = [
             'search' => \PDO::PARAM_STR,
             'locale_code' => \PDO::PARAM_STR,
-            'include_codes' => Connection::PARAM_STR_ARRAY,
-            'exclude_codes' => Connection::PARAM_STR_ARRAY,
+            'include_codes' => ArrayParameterType::STRING,
+            'exclude_codes' => ArrayParameterType::STRING,
         ];
 
         return (int) $this->connection->executeQuery($sql, $params, $types)->fetchOne();

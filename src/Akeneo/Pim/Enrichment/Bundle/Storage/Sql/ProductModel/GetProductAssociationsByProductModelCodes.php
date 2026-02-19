@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\ProductModel;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -75,8 +76,8 @@ SQL;
         $rows = $this->connection->executeQuery(
             $query,
             ['productModelCodes' => $productModelCodes],
-            ['productModelCodes' => Connection::PARAM_STR_ARRAY]
-        );
+            ['productModelCodes' => ArrayParameterType::STRING]
+        )->fetchAllAssociative();
 
         $results = [];
 

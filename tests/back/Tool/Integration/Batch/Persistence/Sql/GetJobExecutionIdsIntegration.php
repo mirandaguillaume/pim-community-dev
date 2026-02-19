@@ -8,7 +8,6 @@ use Akeneo\Test\Integration\TestCase;
 use Akeneo\Tool\Bundle\BatchBundle\Persistence\Sql\GetJobExecutionIds;
 use Akeneo\Tool\Component\Batch\Job\BatchStatus;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 
 class GetJobExecutionIdsIntegration extends TestCase
 {
@@ -29,7 +28,7 @@ class GetJobExecutionIdsIntegration extends TestCase
         /** @var GetJobExecutionIds $getJobExecutionIds */
         $getJobExecutionIds = $this->get(GetJobExecutionIds::class);
         $result = $getJobExecutionIds->olderThanDays(5, [], null);
-        $ids = $result->fetchAll(FetchMode::COLUMN);
+        $ids = $result->fetchFirstColumn();
         $expectedIds = [1, 2, 4, 5];
         $this->assertEquals($expectedIds, $ids);
     }
@@ -41,7 +40,7 @@ class GetJobExecutionIdsIntegration extends TestCase
         /** @var GetJobExecutionIds $getJobExecutionIds */
         $getJobExecutionIds = $this->get(GetJobExecutionIds::class);
         $result = $getJobExecutionIds->olderThanDays(5, ['csv_product_model_export'], null);
-        $ids = $result->fetchAll(FetchMode::COLUMN);
+        $ids = $result->fetchFirstColumn();
         $expectedIds = [4, 5];
         $this->assertEquals($expectedIds, $ids);
     }
@@ -53,7 +52,7 @@ class GetJobExecutionIdsIntegration extends TestCase
         /** @var GetJobExecutionIds $getJobExecutionIds */
         $getJobExecutionIds = $this->get(GetJobExecutionIds::class);
         $result = $getJobExecutionIds->olderThanDays(5, [], new BatchStatus(BatchStatus::FAILED));
-        $ids = $result->fetchAll(FetchMode::COLUMN);
+        $ids = $result->fetchFirstColumn();
         $expectedIds = [2, 5];
         $this->assertEquals($expectedIds, $ids);
     }
@@ -65,7 +64,7 @@ class GetJobExecutionIdsIntegration extends TestCase
         /** @var GetJobExecutionIds $getJobExecutionIds */
         $getJobExecutionIds = $this->get(GetJobExecutionIds::class);
         $result = $getJobExecutionIds->olderThanDays(5, ['csv_product_model_export'], new BatchStatus(BatchStatus::FAILED));
-        $ids = $result->fetchAll(FetchMode::COLUMN);
+        $ids = $result->fetchFirstColumn();
         $expectedIds = [5];
         $this->assertEquals($expectedIds, $ids);
     }
@@ -77,7 +76,7 @@ class GetJobExecutionIdsIntegration extends TestCase
         /** @var GetJobExecutionIds $getJobExecutionIds */
         $getJobExecutionIds = $this->get(GetJobExecutionIds::class);
         $result = $getJobExecutionIds->all([], null);
-        $ids = $result->fetchAll(FetchMode::COLUMN);
+        $ids = $result->fetchFirstColumn();
         $expectedIds = [1, 2, 3, 4, 5, 6];
         $this->assertEquals($expectedIds, $ids);
     }
@@ -89,7 +88,7 @@ class GetJobExecutionIdsIntegration extends TestCase
         /** @var GetJobExecutionIds $getJobExecutionIds */
         $getJobExecutionIds = $this->get(GetJobExecutionIds::class);
         $result = $getJobExecutionIds->all(['csv_product_model_export'], null);
-        $ids = $result->fetchAll(FetchMode::COLUMN);
+        $ids = $result->fetchFirstColumn();
         $expectedIds = [4, 5, 6];
         $this->assertEquals($expectedIds, $ids);
     }
@@ -101,7 +100,7 @@ class GetJobExecutionIdsIntegration extends TestCase
         /** @var GetJobExecutionIds $getJobExecutionIds */
         $getJobExecutionIds = $this->get(GetJobExecutionIds::class);
         $result = $getJobExecutionIds->all([], new BatchStatus(BatchStatus::FAILED));
-        $ids = $result->fetchAll(FetchMode::COLUMN);
+        $ids = $result->fetchFirstColumn();
         $expectedIds = [2, 5];
         $this->assertEquals($expectedIds, $ids);
     }

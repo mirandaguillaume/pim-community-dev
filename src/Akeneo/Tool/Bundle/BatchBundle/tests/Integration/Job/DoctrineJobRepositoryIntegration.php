@@ -178,9 +178,9 @@ class DoctrineJobRepositoryIntegration extends TestCase
     private function selectJobExecution(int $id): array {
         $connection = $this->get('doctrine.orm.default_entity_manager')->getConnection();
         $stmt = $connection->prepare('SELECT * from akeneo_batch_job_execution where id = :id');
-        $stmt->bindParam('id', $id);
-        $stmt->execute();
-        return $stmt->fetch();
+        $stmt->bindValue('id', $id);
+        $result = $stmt->executeQuery();
+        return $result->fetchAssociative();
 
     }
 

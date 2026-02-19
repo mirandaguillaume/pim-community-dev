@@ -8,6 +8,7 @@ use Akeneo\Pim\Enrichment\Bundle\Elasticsearch\GetAdditionalPropertiesForProduct
 use Akeneo\Pim\Enrichment\Bundle\Elasticsearch\GetElasticsearchProductProjectionInterface;
 use Akeneo\Pim\Enrichment\Bundle\Elasticsearch\Model\ElasticsearchProductProjection;
 use Akeneo\Pim\Enrichment\Component\Product\Factory\ReadValueCollectionFactory;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
@@ -283,7 +284,7 @@ SQL;
 
         $rows =  $this
             ->connection
-            ->fetchAllAssociative($sql, ['uuids' => $productUuidsAsBytes], ['uuids' => Connection::PARAM_STR_ARRAY]);
+            ->fetchAllAssociative($sql, ['uuids' => $productUuidsAsBytes], ['uuids' => ArrayParameterType::STRING]);
 
         $result = [];
         foreach ($rows as $row) {
@@ -397,7 +398,7 @@ SQL;
                 'uuids' => \array_map(static fn (string $uuid): string => Uuid::fromString($uuid)->getBytes(), \array_keys($rows)),
             ],
             [
-                'uuids' => Connection::PARAM_STR_ARRAY
+                'uuids' => ArrayParameterType::STRING
             ]
         );
 

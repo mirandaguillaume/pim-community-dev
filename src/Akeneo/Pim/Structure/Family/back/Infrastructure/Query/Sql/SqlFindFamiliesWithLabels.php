@@ -8,6 +8,7 @@ use Akeneo\Pim\Structure\Family\ServiceAPI\Query\FamilyQuery;
 use Akeneo\Pim\Structure\Family\ServiceAPI\Query\FamilyWithLabels;
 use Akeneo\Pim\Structure\Family\ServiceAPI\Query\FindFamiliesWithLabels;
 use Akeneo\Pim\Structure\Family\ServiceAPI\Query\FindFamilyCodes;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -44,7 +45,7 @@ class SqlFindFamiliesWithLabels implements FindFamiliesWithLabels
                 'family_codes' => $familyCodes,
             ],
             [
-                'family_codes' => Connection::PARAM_STR_ARRAY,
+                'family_codes' => ArrayParameterType::STRING,
             ]
         );
 

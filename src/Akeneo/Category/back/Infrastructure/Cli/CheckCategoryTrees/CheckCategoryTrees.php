@@ -132,7 +132,7 @@ SELECT id, parent_id, root, code, lvl, lft, rgt
 FROM pim_catalog_category
 ORDER BY lft
 SQL;
-        $rows = $this->connection->executeQuery($sql)->fetchAll();
+        $rows = $this->connection->executeQuery($sql)->fetchAllAssociative();
 
         return new CategoriesPool($rows);
     }

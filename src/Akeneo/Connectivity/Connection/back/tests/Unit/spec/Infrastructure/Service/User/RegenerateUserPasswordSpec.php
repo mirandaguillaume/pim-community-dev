@@ -10,7 +10,6 @@ use Akeneo\Connectivity\Connection\Infrastructure\Service\User\RegenerateUserPas
 use Akeneo\UserManagement\Bundle\Manager\UserManager;
 use Akeneo\UserManagement\Component\Model\UserInterface;
 use Doctrine\DBAL\Connection as DbalConnection;
-use Doctrine\DBAL\Statement;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -35,9 +34,7 @@ class RegenerateUserPasswordSpec extends ObjectBehavior
     public function it_regenerates_a_user_password(
         $userManager,
         $dbalConnection,
-        UserInterface $user,
-        Statement $stmt1,
-        Statement $stmt2
+        UserInterface $user
     ): void {
         $userId = new UserId(1);
 
@@ -45,13 +42,14 @@ class RegenerateUserPasswordSpec extends ObjectBehavior
         $user->setPlainPassword(Argument::type('string'))->shouldBeCalled();
         $userManager->updateUser($user)->shouldBeCalled();
 
-        $dbalConnection->prepare(Argument::type('string'))->shouldBeCalledTimes(2);
-        $dbalConnection->prepare('DELETE FROM pim_api_access_token WHERE user = :user_id')->willReturn($stmt1);
-        $stmt1->bindValue('user_id', $userId->id())->shouldBeCalled();
-        $stmt1->executeStatement()->willReturn(0);
-        $dbalConnection->prepare('DELETE FROM pim_api_refresh_token WHERE user = :user_id')->willReturn($stmt2);
-        $stmt2->bindValue('user_id', $userId->id())->shouldBeCalled();
-        $stmt2->executeStatement()->willReturn(0);
+        $dbalConnection->executeStatement(
+            'DELETE FROM pim_api_access_token WHERE user = :user_id',
+            ['user_id' => $userId->id()]
+        )->shouldBeCalled();
+        $dbalConnection->executeStatement(
+            'DELETE FROM pim_api_refresh_token WHERE user = :user_id',
+            ['user_id' => $userId->id()]
+        )->shouldBeCalled();
 
         $this->execute($userId);
     }
@@ -63,7 +61,7 @@ class RegenerateUserPasswordSpec extends ObjectBehavior
         $userManager->findUserBy(['id' => $userId->id()])->willReturn(null);
         $userManager->updateUser(Argument::any())->shouldNotBeCalled();
 
-        $dbalConnection->prepare(Argument::any())->shouldNotBeCalled();
+        $dbalConnection->executeStatement(Argument::any())->shouldNotBeCalled();
 
         $this->shouldThrow(new \InvalidArgumentException('User with id "1" not found.'))
             ->during('execute', [$userId]);

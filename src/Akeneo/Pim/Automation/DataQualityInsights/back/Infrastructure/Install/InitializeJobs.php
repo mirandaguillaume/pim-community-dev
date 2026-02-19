@@ -50,7 +50,7 @@ VALUES (
     'data_quality_insights'
 );
 SQL;
-        $this->db->executeUpdate(
+        $this->db->executeStatement(
             $query,
             [
                 'job_name' => $jobName,

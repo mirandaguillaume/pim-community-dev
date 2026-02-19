@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Automation\IdentifierGenerator\Infrastructure\Repository;
 
+use Doctrine\DBAL\Exception;
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\NomenclatureDefinition;
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\Property\FamilyProperty;
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Repository\FamilyNomenclatureRepository;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Webmozart\Assert\Assert;
 
@@ -73,7 +75,7 @@ SQL;
         $result = $this->connection->fetchAllKeyValue($sql, [
             'family_codes' => $familyCodes,
         ], [
-            'family_codes' => Connection::PARAM_STR_ARRAY,
+            'family_codes' => ArrayParameterType::STRING,
         ]);
 
         $familyIds = [];
@@ -96,7 +98,7 @@ SQL;
         $this->connection->executeStatement($deleteSql, [
             'family_ids' => $familyIdsToDelete,
         ], [
-            'family_ids' => Connection::PARAM_INT_ARRAY,
+            'family_ids' => ArrayParameterType::INTEGER,
         ]);
     }
 
@@ -120,8 +122,8 @@ SQL;
         ));
 
         foreach ($valuesToUpdateOrInsert as $i => $valueToUpdateOrInsert) {
-            $statement->bindParam(\sprintf('familyId%d', $i), $valueToUpdateOrInsert['familyId']);
-            $statement->bindParam(\sprintf('value%d', $i), $valueToUpdateOrInsert['value']);
+            $statement->bindValue(\sprintf('familyId%d', $i), $valueToUpdateOrInsert['familyId']);
+            $statement->bindValue(\sprintf('value%d', $i), $valueToUpdateOrInsert['value']);
         }
 
         $statement->executeStatement();
@@ -181,7 +183,8 @@ SQL;
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @return NomenclatureDefinition|null
+     * @throws Exception
      */
     private function getNomenclatureDefinition(): ?NomenclatureDefinition
     {

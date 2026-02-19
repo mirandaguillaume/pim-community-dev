@@ -5,6 +5,7 @@ namespace Akeneo\Pim\Structure\Bundle\Query\PublicApi\Attribute\Sql;
 
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\Attribute;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\GetAttributes;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -62,7 +63,7 @@ SQL;
         $rawResults = $this->connection->executeQuery(
             $query,
             ['attributeCodes' => $attributeCodes],
-            ['attributeCodes' => Connection::PARAM_STR_ARRAY]
+            ['attributeCodes' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
         $attributes = [];

@@ -16,6 +16,7 @@ namespace Akeneo\UserManagement\Infrastructure\Storage;
 use Akeneo\UserManagement\Component\Model\User;
 use Akeneo\UserManagement\Domain\Model\User as ServiceApiUser;
 use Akeneo\UserManagement\Domain\Storage\FindUsers;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Exception as DriverException;
 use Doctrine\DBAL\Exception as DBALException;
@@ -49,8 +50,8 @@ final readonly class SqlFindUsers implements FindUsers
                 'includeGroupIds' => $includeGroupIds,
             ],
             [
-                'includeIds' => Connection::PARAM_STR_ARRAY,
-                'includeGroupIds' => Connection::PARAM_STR_ARRAY,
+                'includeIds' => ArrayParameterType::STRING,
+                'includeGroupIds' => ArrayParameterType::STRING,
             ]
         )->fetchAllAssociative();
 

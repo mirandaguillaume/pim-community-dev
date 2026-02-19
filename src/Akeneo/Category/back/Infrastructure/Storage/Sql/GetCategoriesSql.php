@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Category\Infrastructure\Storage\Sql;
 
+use Doctrine\DBAL\Exception;
 use Akeneo\Category\Application\Query\ExternalApiSqlParameters;
 use Akeneo\Category\Application\Query\GetCategoriesInterface;
 use Akeneo\Category\Domain\Query\GetDeactivatedTemplateAttributes\DeactivatedTemplateAttributeIdentifier;
@@ -28,7 +29,7 @@ final readonly class GetCategoriesSql implements GetCategoriesInterface
     /**
      * @return array<ExternalApiCategory>
      *
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      * @throws \JsonException|\Doctrine\DBAL\Driver\Exception
      */
     public function execute(ExternalApiSqlParameters $sqlParameters): array

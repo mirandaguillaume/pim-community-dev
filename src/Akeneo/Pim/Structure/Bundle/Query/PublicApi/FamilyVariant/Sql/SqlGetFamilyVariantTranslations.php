@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Structure\Bundle\Query\PublicApi\FamilyVariant\Sql;
 
 use Akeneo\Pim\Structure\Component\Query\PublicApi\FamilyVariant\GetFamilyVariantTranslations;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 class SqlGetFamilyVariantTranslations implements GetFamilyVariantTranslations
@@ -34,7 +35,7 @@ SQL;
                 'familyVariantCodes' => $familyVariantCodes,
                 'locale' => $locale
             ],
-            ['familyVariantCodes' => Connection::PARAM_STR_ARRAY]
+            ['familyVariantCodes' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
         $familyVariantTranslations = [];

@@ -13,9 +13,9 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityId
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityIdInterface;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductModelIdCollection;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductUuidCollection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\ForwardCompatibility\DriverResultStatement;
-use Doctrine\DBAL\ForwardCompatibility\Result;
+use Doctrine\DBAL\Result;
 
 /**
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
@@ -56,7 +56,7 @@ final readonly class GetPendingCriteriaEvaluationsByEntityIdsQuery implements Ge
         return $productsCriteriaEvaluations;
     }
 
-    private function executeForProductUuidCollection(ProductUuidCollection $productUuids): Result|DriverResultStatement
+    private function executeForProductUuidCollection(ProductUuidCollection $productUuids): Result
     {
         $criterionEvaluationTable = $this->tableName;
 
@@ -74,11 +74,11 @@ SQL;
             'product_uuids' => $productUuids->toArrayBytes(),
         ], [
             'status' => \PDO::PARAM_STR,
-            'product_uuids' => Connection::PARAM_STR_ARRAY,
+            'product_uuids' => ArrayParameterType::STRING,
         ]);
     }
 
-    private function executeForProductModelIdCollection(ProductModelIdCollection $productModelIdCollection): Result|DriverResultStatement
+    private function executeForProductModelIdCollection(ProductModelIdCollection $productModelIdCollection): Result
     {
         $criterionEvaluationTable = $this->tableName;
 
@@ -95,7 +95,7 @@ SQL;
             'product_model_ids' => $productModelIdCollection->toArrayString(),
         ], [
             'status' => \PDO::PARAM_STR,
-            'product_model_ids' => Connection::PARAM_INT_ARRAY,
+            'product_model_ids' => ArrayParameterType::INTEGER,
         ]);
     }
 

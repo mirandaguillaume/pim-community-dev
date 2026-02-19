@@ -10,6 +10,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\AttributeCode;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\AttributeType;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityIdInterface;
 use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Structure\EditableAttributeFilter;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -62,7 +63,7 @@ SQL;
             ],
             [
                 'product_model_id' => \PDO::PARAM_INT,
-                'attribute_types' => Connection::PARAM_STR_ARRAY,
+                'attribute_types' => ArrayParameterType::STRING,
             ]
         );
 

@@ -11,7 +11,6 @@ namespace Akeneo\Tool\Bundle\ElasticsearchBundle\Infrastructure\PublicApi;
 
 use Akeneo\Tool\Component\Elasticsearch\PublicApi\Read\IndexMigrationIsDoneInterface;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 
 class IndexMigrationIsDone implements IndexMigrationIsDoneInterface
 {
@@ -37,7 +36,7 @@ class IndexMigrationIsDone implements IndexMigrationIsDoneInterface
         ]);
 
         $result = $statement->fetchAssociative();
-        $statement->closeCursor();
+        $statement->free();
 
         return '1' === $result['index_migration_is_done'];
     }

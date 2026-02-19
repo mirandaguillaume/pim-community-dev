@@ -6,6 +6,7 @@ namespace Akeneo\Pim\Structure\Bundle\Query\PublicApi\Family\Sql;
 
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\Family;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\GetFamilies;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 class SqlGetFamilies implements GetFamilies
@@ -52,7 +53,7 @@ SQL;
             [
                 'familyCodes' => $familyCodes,
             ],
-            ['familyCodes' => Connection::PARAM_STR_ARRAY]
+            ['familyCodes' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
         $families = [];

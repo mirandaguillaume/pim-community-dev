@@ -9,6 +9,7 @@ use Akeneo\Test\Integration\TestCase;
 use Akeneo\Tool\Bundle\BatchBundle\Persistence\Sql\SqlMarkJobExecutionAsFailedWhenInterrupted;
 use Akeneo\Tool\Component\Batch\Job\BatchStatus;
 use Akeneo\Tool\Component\Batch\Job\ExitStatus;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use PHPUnit\Framework\Assert;
 
@@ -110,9 +111,9 @@ SQL,
                 'jobExecutionIds' => $jobExecutionIds,
             ],
             [
-                'jobExecutionIds' => Connection::PARAM_INT_ARRAY,
+                'jobExecutionIds' => ArrayParameterType::INTEGER,
             ]
-        )->fetchAll();
+        )->fetchAllAssociative();
 
         $isFailed = false;
         foreach ($results as $result) {

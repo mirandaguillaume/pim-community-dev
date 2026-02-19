@@ -195,12 +195,12 @@ SQL;
         $connection = $this->jobManager->getConnection();
         $stepExecution = $warning->getStepExecution();
 
-        $statement = $connection->prepare($sqlQuery);
-        $statement->bindValue('step_execution_id', $stepExecution->getId());
-        $statement->bindValue('reason', $warning->getReason());
-        $statement->bindValue('reason_parameters', $warning->getReasonParameters(), 'array');
-        $statement->bindValue('item', $warning->getItem(), 'array');
-        $statement->execute();
+        $connection->executeStatement($sqlQuery, [
+            'step_execution_id' => $stepExecution->getId(),
+            'reason' => $warning->getReason(),
+            'reason_parameters' => serialize($warning->getReasonParameters()),
+            'item' => serialize($warning->getItem()),
+        ]);
 
         $this->incrementWarningCount($stepExecution->getId());
 

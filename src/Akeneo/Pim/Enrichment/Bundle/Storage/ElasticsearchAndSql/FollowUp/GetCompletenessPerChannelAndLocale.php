@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\ElasticsearchAndSql\FollowUp;
 
+use Doctrine\DBAL\Exception;
 use Akeneo\Pim\Enrichment\Component\FollowUp\Query\GetCompletenessPerChannelAndLocaleInterface;
 use Akeneo\Pim\Enrichment\Component\FollowUp\ReadModel\ChannelCompleteness;
 use Akeneo\Pim\Enrichment\Component\FollowUp\ReadModel\CompletenessWidget;
@@ -45,7 +46,8 @@ class GetCompletenessPerChannelAndLocale implements GetCompletenessPerChannelAnd
      *          [channel_code, channel_labels, [categoryCodes], [locales]]
      *
      *      ex : ['ecommerce', ['en_US' => 'Ecommerce'...], ['print','cameras'...], ['de_DE','fr_FR'...]]
-     * @throws \Doctrine\DBAL\DBALException
+     *
+     * @throws Exception
      */
     private function getCategoriesCodesAndLocalesByChannel(): array
     {

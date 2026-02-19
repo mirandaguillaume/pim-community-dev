@@ -6,6 +6,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\Doctrine\ORM\Query\QuantifiedAssociation;
 
 use Akeneo\Pim\Enrichment\Component\Product\Model\QuantifiedAssociation\UuidMapping;
 use Akeneo\Pim\Enrichment\Component\Product\Query\QuantifiedAssociation\GetUuidMappingQueryInterface;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\UuidInterface;
 
@@ -45,7 +46,7 @@ SQL;
         $mapping = $this->connection->executeQuery(
             $query,
             ['product_identifiers' => $productIdentifiers, 'product_uuids' => $productUuidsAsBytes],
-            ['product_identifiers' => Connection::PARAM_STR_ARRAY, 'product_uuids' => Connection::PARAM_STR_ARRAY]
+            ['product_identifiers' => ArrayParameterType::STRING, 'product_uuids' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
         return UuidMapping::createFromMapping($mapping);
@@ -77,7 +78,7 @@ SQL;
         $mapping = $this->connection->executeQuery(
             $query,
             ['product_ids' => $productIds, 'product_uuids' => $productUuidsAsBytes],
-            ['product_ids' => Connection::PARAM_STR_ARRAY, 'product_uuids' => Connection::PARAM_STR_ARRAY]
+            ['product_ids' => ArrayParameterType::STRING, 'product_uuids' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
         return UuidMapping::createFromMapping($mapping);

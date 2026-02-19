@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Tool\Bundle\VersioningBundle\Doctrine\Query;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -31,7 +32,7 @@ SQL;
         $results = $this->dbConnection->executeQuery(
             $query,
             ['version_ids' => $versionIds],
-            ['version_ids' => Connection::PARAM_INT_ARRAY]
+            ['version_ids' => ArrayParameterType::INTEGER]
         )->fetchFirstColumn();
 
         return array_map('intval', $results);

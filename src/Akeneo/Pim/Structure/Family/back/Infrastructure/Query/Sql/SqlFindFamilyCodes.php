@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Structure\Family\Infrastructure\Query\Sql;
 use Akeneo\Pim\Structure\Family\ServiceAPI\Query\FamilyQuery;
 use Akeneo\Pim\Structure\Family\ServiceAPI\Query\FamilyQueryPagination;
 use Akeneo\Pim\Structure\Family\ServiceAPI\Query\FindFamilyCodes;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -53,8 +54,8 @@ class SqlFindFamilyCodes implements FindFamilyCodes
             [
                 'search' => \PDO::PARAM_STR,
                 'locale_code' => \PDO::PARAM_STR,
-                'include_codes' => Connection::PARAM_STR_ARRAY,
-                'exclude_codes' => Connection::PARAM_STR_ARRAY,
+                'include_codes' => ArrayParameterType::STRING,
+                'exclude_codes' => ArrayParameterType::STRING,
                 'limit' => \PDO::PARAM_INT,
                 'offset' => \PDO::PARAM_INT,
             ]

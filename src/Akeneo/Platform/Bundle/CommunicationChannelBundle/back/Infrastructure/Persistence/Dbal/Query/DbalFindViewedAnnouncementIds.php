@@ -6,7 +6,6 @@ namespace Akeneo\Platform\CommunicationChannel\Infrastructure\Persistence\Dbal\Q
 
 use Akeneo\Platform\CommunicationChannel\Domain\Announcement\Query\FindViewedAnnouncementIdsInterface;
 use Doctrine\DBAL\Connection as DbalConnection;
-use Doctrine\DBAL\FetchMode;
 
 /**
  * @author    Christophe Chausseray <chausseray.christophe@gmail.com>
@@ -37,7 +36,7 @@ class DbalFindViewedAnnouncementIds implements FindViewedAnnouncementIdsInterfac
             ]
         );
         $results = $statement->fetchFirstColumn();
-        $statement->closeCursor();
+        $statement->free();
 
         if (!$results) {
             return [];

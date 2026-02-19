@@ -9,7 +9,7 @@ use Akeneo\Tool\Bundle\BatchBundle\Command\BatchCommand;
 use Akeneo\Tool\Component\Batch\Job\BatchStatus;
 use Akeneo\Tool\Component\Batch\Model\JobExecution;
 use AkeneoTest\Integration\IntegrationTestsBundle\Launcher\PubSubQueueStatus;
-use Doctrine\DBAL\Driver\Connection;
+use Doctrine\DBAL\Connection;
 use Google\Cloud\PubSub\Message;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -276,15 +276,14 @@ class JobLauncher
         $timeout = 0;
         $isCompleted = false;
 
-        $stmt = $this->dbConnection->prepare('SELECT status from akeneo_batch_job_execution where id = :id');
-
         while (!$isCompleted) {
             if ($timeout > 30) {
                 throw new \RuntimeException(sprintf('Timeout: job execution "%s" is not complete.', $jobExecution->getId()));
             }
-            $stmt->bindValue('id', $jobExecution->getId());
-            $stmt->execute();
-            $result = $stmt->fetch();
+            $result = $this->dbConnection->executeQuery(
+                'SELECT status from akeneo_batch_job_execution where id = :id',
+                ['id' => $jobExecution->getId()]
+            )->fetchAssociative();
 
             $isCompleted = isset($result['status']) && BatchStatus::COMPLETED === (int) $result['status'];
 

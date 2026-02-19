@@ -46,6 +46,7 @@ $rules = [
             'Akeneo\Tool\Component\Connector\Job\JobFileLocation',
             'League\Flysystem\FilesystemOperator',
             'Doctrine\DBAL\Connection',
+            'Doctrine\DBAL\ArrayParameterType',
             'Oro\Bundle\SecurityBundle\SecurityFacade',
             'Symfony\Component',
         ],

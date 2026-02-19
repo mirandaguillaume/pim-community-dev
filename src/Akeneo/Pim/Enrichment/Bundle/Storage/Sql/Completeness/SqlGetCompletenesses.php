@@ -8,6 +8,7 @@ use Akeneo\Channel\Infrastructure\Component\Query\PublicApi\ChannelExistsWithLoc
 use Akeneo\Pim\Enrichment\Component\Product\Completeness\Model\ProductCompleteness;
 use Akeneo\Pim\Enrichment\Component\Product\Completeness\Model\ProductCompletenessCollection;
 use Akeneo\Pim\Enrichment\Component\Product\Query\GetProductCompletenesses;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -45,7 +46,7 @@ SQL;
                 'productUuids' => $uuidsAsBytes,
             ],
             [
-                'productUuids' => Connection::PARAM_STR_ARRAY
+                'productUuids' => ArrayParameterType::STRING
             ]
         )->fetchAllAssociative();
 

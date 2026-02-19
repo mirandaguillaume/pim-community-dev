@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Tool\Bundle\BatchBundle\Persistence\Sql;
 
 use Akeneo\Tool\Component\Batch\Job\BatchStatus;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Types;
 use Webmozart\Assert\Assert;
@@ -69,7 +70,7 @@ final readonly class DeleteJobExecution
         return $this->connection->executeStatement(
             $query,
             ['job_instance_codes' => $jobInstanceCodes, 'status_code' => $status?->getValue()],
-            ['job_instance_codes' => Connection::PARAM_STR_ARRAY]
+            ['job_instance_codes' => ArrayParameterType::STRING]
         );
     }
 
@@ -121,7 +122,7 @@ final readonly class DeleteJobExecution
             ],
             [
                 'create_time' => Types::DATETIME_MUTABLE,
-                'job_instance_codes' => Connection::PARAM_STR_ARRAY
+                'job_instance_codes' => ArrayParameterType::STRING
             ]
         );
     }

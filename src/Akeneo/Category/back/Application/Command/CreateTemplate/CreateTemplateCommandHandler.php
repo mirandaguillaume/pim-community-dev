@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Category\Application\Command\CreateTemplate;
 
+use Doctrine\DBAL\Driver\Exception;
 use Akeneo\Category\Application\Query\GetCategoryTemplateByCategoryTree;
 use Akeneo\Category\Application\Storage\Save\Saver\CategoryTemplateSaver;
 use Akeneo\Category\Application\Storage\Save\Saver\CategoryTreeTemplateSaver;
@@ -68,7 +69,7 @@ class CreateTemplateCommandHandler
      *  - the current category tree has no template attached
      *  - the attached category id is the root of a category tree.
      *
-     * @throws \Doctrine\DBAL\Driver\Exception
+     * @throws Exception
      * @throws \Doctrine\DBAL\Exception
      */
     private function validateTemplateCreation(Category $categoryTree): bool

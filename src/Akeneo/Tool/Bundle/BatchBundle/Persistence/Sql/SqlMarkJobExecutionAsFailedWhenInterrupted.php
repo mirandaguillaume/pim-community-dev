@@ -7,6 +7,7 @@ namespace Akeneo\Tool\Bundle\BatchBundle\Persistence\Sql;
 use Akeneo\Tool\Component\Batch\Job\BatchStatus;
 use Akeneo\Tool\Component\Batch\Job\ExitStatus;
 use Akeneo\Tool\Component\Batch\Query\MarkJobExecutionAsFailedWhenInterrupted;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 final readonly class SqlMarkJobExecutionAsFailedWhenInterrupted implements MarkJobExecutionAsFailedWhenInterrupted
@@ -26,7 +27,7 @@ AND job_execution.health_check_time IS NULL
 AND job_execution.status IN (:runningStatuses);
 SQL;
 
-        return $this->connection->executeUpdate(
+        return $this->connection->executeStatement(
             $sql,
             [
                 'jobCodes' => $jobCodes,
@@ -35,8 +36,8 @@ SQL;
                 'runningStatuses' => [BatchStatus::STARTED, BatchStatus::STOPPING],
             ],
             [
-                'jobCodes' => Connection::PARAM_STR_ARRAY,
-                'runningStatuses' => Connection::PARAM_INT_ARRAY,
+                'jobCodes' => ArrayParameterType::STRING,
+                'runningStatuses' => ArrayParameterType::INTEGER,
             ]
         );
     }
