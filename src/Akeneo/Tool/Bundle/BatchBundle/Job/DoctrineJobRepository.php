@@ -95,7 +95,8 @@ class DoctrineJobRepository implements JobRepositoryInterface
         JobParameters $jobParameters
     ): JobExecution {
         if (null !== $jobInstance->getId()) {
-            $jobInstance = $this->jobManager->merge($jobInstance);
+            $jobInstance = $this->jobManager->find(JobInstance::class, $jobInstance->getId()) ?? $jobInstance;
+            $this->jobManager->persist($jobInstance);
         } else {
             $this->jobManager->persist($jobInstance);
         }
