@@ -14,7 +14,7 @@ parameters:
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
         # PHPStan 2.x: redundant array operations
-        - '#Parameter #1 .* of array_values is already a list, call has no effect#'
+        - '#Parameter \#1 .* of array_values is already a list, call has no effect#'
         - '#to function array_filter does not contain falsy values, the array will always stay the same#'
         # PHPStan 2.x: stricter return types
         - '#Method .* should return int<0, max> but returns int#'
