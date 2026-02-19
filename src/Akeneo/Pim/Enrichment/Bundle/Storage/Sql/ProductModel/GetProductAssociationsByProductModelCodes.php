@@ -76,7 +76,7 @@ SQL;
             $query,
             ['productModelCodes' => $productModelCodes],
             ['productModelCodes' => Connection::PARAM_STR_ARRAY]
-        );
+        )->fetchAllAssociative();
 
         $results = [];
 
