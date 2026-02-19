@@ -31,7 +31,7 @@ final readonly class DeleteJobInstance implements DeleteJobInstanceInterface
             DELETE FROM akeneo_batch_job_instance WHERE code IN (:codes)
         SQL;
 
-        $this->connection->executeQuery($sql, ['codes' => $codes], ['codes' => Connection::PARAM_STR_ARRAY])->execute();
+        $this->connection->executeStatement($sql, ['codes' => $codes], ['codes' => Connection::PARAM_STR_ARRAY]);
     }
 
     public function checkJobsExist(array $codes): void
