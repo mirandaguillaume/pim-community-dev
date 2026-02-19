@@ -109,6 +109,6 @@ class CreateJobExecutionHandler implements CreateJobExecutionHandlerInterface
             throw new InvalidJobException($code, $job->getName(), $jobParametersViolations);
         }
 
-        $this->getDefaultEntityManager()->clear($jobInstance::class);
+        $this->getDefaultEntityManager()->clear();
     }
 }

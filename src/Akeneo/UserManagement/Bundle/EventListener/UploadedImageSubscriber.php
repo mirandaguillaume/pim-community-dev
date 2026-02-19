@@ -4,7 +4,7 @@ namespace Akeneo\UserManagement\Bundle\EventListener;
 
 use Akeneo\UserManagement\Component\EntityUploadedImageInterface;
 use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 
 class UploadedImageSubscriber implements EventSubscriber
 {
