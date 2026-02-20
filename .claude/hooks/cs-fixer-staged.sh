@@ -1,45 +1,31 @@
 #!/usr/bin/env bash
 # Hook: PreToolUse on Bash (git commit)
-# Runs php-cs-fixer dry-run on staged PHP files before committing.
-# Catches code style violations that would fail lint-back in CI.
+# Runs php-cs-fixer dry-run on staged PHP files in a single batch.
 
 set -euo pipefail
 
 INPUT=$(cat)
-COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
+COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null) || exit 0
 
-if [ -z "$COMMAND" ]; then
-    exit 0
-fi
+[ -z "$COMMAND" ] && exit 0
+echo "$COMMAND" | grep -qE 'git\s+commit' || exit 0
 
-# Only trigger on git commit commands
-if ! echo "$COMMAND" | grep -qE 'git\s+commit'; then
-    exit 0
-fi
-
-# Get staged PHP files (exclude Spec.php and Integration.php as they're excluded from cs-fixer)
+# Get staged PHP files (exclude Spec.php and Integration.php — they're excluded from cs-fixer)
 STAGED_PHP=$(git diff --cached --name-only --diff-filter=ACMR -- '*.php' 2>/dev/null \
     | grep -v 'Spec\.php$' \
     | grep -v 'Integration\.php$' \
     || true)
 
-if [ -z "$STAGED_PHP" ]; then
-    exit 0
-fi
+[ -z "$STAGED_PHP" ] && exit 0
 
-# Run cs-fixer dry-run on staged files
-VIOLATIONS=""
-for file in $STAGED_PHP; do
-    if [ -f "$file" ]; then
-        RESULT=$(docker-compose run --rm -T php php vendor/bin/php-cs-fixer fix --dry-run --diff --config=.php_cs.php "$file" 2>&1 || true)
-        if echo "$RESULT" | grep -q 'diff'; then
-            VIOLATIONS="${VIOLATIONS}\n${file}"
-        fi
-    fi
-done
+# Run cs-fixer in a single Docker invocation for all files at once
+RESULT=$(docker-compose run --rm -T php php vendor/bin/php-cs-fixer fix \
+    --dry-run --config=.php-cs-fixer.dist.php --path-mode=intersection \
+    $STAGED_PHP 2>&1 || true)
 
-if [ -n "$VIOLATIONS" ]; then
-    echo "{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"additionalContext\":\"CS-FIXER VIOLATIONS detected in staged files:${VIOLATIONS}\nRun: docker-compose run --rm php php vendor/bin/php-cs-fixer fix --config=.php_cs.php on these files before committing.\"}}"
+if echo "$RESULT" | grep -qE 'that can be fixed'; then
+    VIOLATION_FILES=$(echo "$RESULT" | grep -oE '[0-9]+\)' | wc -l)
+    echo "{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"additionalContext\":\"CS-FIXER: $VIOLATION_FILES file(s) need formatting. Run: docker-compose run --rm php php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php\"}}"
 fi
 
 exit 0

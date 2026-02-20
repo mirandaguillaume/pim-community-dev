@@ -16,54 +16,49 @@
           },
           {
             "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/composer-platform-check.sh",
+            "statusMessage": "Checking PHP platform compatibility..."
+          },
+          {
+            "type": "command",
             "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/cs-fixer-staged.sh",
             "statusMessage": "Checking code style on staged files...",
             "timeout": 120
           },
           {
             "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/phpstan-pre-push.sh",
-            "statusMessage": "Running PHPStan on changed files...",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/phpstan-staged.sh",
+            "statusMessage": "Running PHPStan on staged files...",
             "timeout": 120
+          },
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/phpspec-staged.sh",
+            "statusMessage": "Running PHPSpec for staged files...",
+            "timeout": 120
+          },
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/eslint-staged.sh",
+            "statusMessage": "Running ESLint on staged files...",
+            "timeout": 60
+          },
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/jest-staged.sh",
+            "statusMessage": "Running Jest for staged files...",
+            "timeout": 120
+          },
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/coupling-pre-push.sh",
+            "statusMessage": "Checking architecture coupling...",
+            "timeout": 180
           },
           {
             "type": "command",
             "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/yarn-lint-pre-push.sh",
             "statusMessage": "Running ESLint on changed front files...",
-            "timeout": 60
-          }
-        ]
-      }
-    ],
-    "PostToolUse": [
-      {
-        "matcher": "Edit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/lint-php-on-edit.sh",
-            "statusMessage": "PHP syntax check..."
-          },
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/composer-platform-check.sh",
-            "statusMessage": "Checking PHP platform compatibility..."
-          },
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/run-related-spec.sh",
-            "statusMessage": "Running related PHPSpec...",
-            "timeout": 60
-          },
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/lint-js-on-edit.sh",
-            "statusMessage": "ESLint check..."
-          },
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/jest-related-test.sh",
-            "statusMessage": "Running related Jest test...",
             "timeout": 60
           }
         ]

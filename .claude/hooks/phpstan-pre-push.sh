@@ -1,23 +1,15 @@
 #!/usr/bin/env bash
 # Hook: PreToolUse on Bash (git push)
-# Runs PHPStan level 2 on changed PHP files before pushing.
-# Catches the most common CI failure (lint-back PHPStan errors).
+# Runs PHPStan on changed PHP files before pushing.
 
 set -euo pipefail
 
 INPUT=$(cat)
-COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
+COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null) || exit 0
 
-if [ -z "$COMMAND" ]; then
-    exit 0
-fi
+[ -z "$COMMAND" ] && exit 0
+echo "$COMMAND" | grep -qE 'git\s+push' || exit 0
 
-# Only trigger on git push commands
-if ! echo "$COMMAND" | grep -qE 'git\s+push'; then
-    exit 0
-fi
-
-# Find the base branch (usually master)
 BASE="origin/master"
 
 # Get changed PHP files compared to base (only in src/)
@@ -27,22 +19,17 @@ CHANGED_PHP=$(git diff --name-only "$BASE"...HEAD -- 'src/Akeneo/Pim/**.php' 2>/
     | grep -v '/Test/' \
     || true)
 
-if [ -z "$CHANGED_PHP" ]; then
-    exit 0
-fi
+[ -z "$CHANGED_PHP" ] && exit 0
 
 FILE_COUNT=$(echo "$CHANGED_PHP" | wc -l)
 
-# Run PHPStan on changed files only (much faster than full analysis)
-TMPFILE=$(mktemp /tmp/phpstan-files-XXXXXX)
-echo "$CHANGED_PHP" > "$TMPFILE"
+# Run PHPStan in a single Docker invocation
+RESULT=$(docker-compose run --rm -T php php -d memory_limit=1G \
+    vendor/bin/phpstan analyse --level 2 $CHANGED_PHP 2>&1 || true)
 
-RESULT=$(docker-compose run --rm -T php php -d memory_limit=1G vendor/bin/phpstan analyse --level 2 $(cat "$TMPFILE" | tr '\n' ' ') 2>&1 || true)
-rm -f "$TMPFILE"
-
-if echo "$RESULT" | grep -qE '\[ERROR\]|errors'; then
+if echo "$RESULT" | grep -qE '\[ERROR\]|Found [0-9]+ error'; then
     ERROR_SUMMARY=$(echo "$RESULT" | grep -E 'Found [0-9]+ error' || echo "PHPStan errors found")
-    echo "{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"additionalContext\":\"PHPSTAN ERRORS in $FILE_COUNT changed files:\n$ERROR_SUMMARY\nFix these before pushing — they will fail lint-back in CI (~40min wait).\"}}"
+    echo "{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"additionalContext\":\"PHPSTAN ERRORS in $FILE_COUNT changed files: $ERROR_SUMMARY\nFix before pushing — lint-back CI takes ~40min.\"}}"
 fi
 
 exit 0
