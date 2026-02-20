@@ -83,6 +83,9 @@ final class PurgeOutdatedDataCommand extends Command
 
     private function getQuestionHelper(): QuestionHelper
     {
-        return $this->getHelper('question');
+        /** @var QuestionHelper $helper */
+        $helper = $this->getHelper('question');
+
+        return $helper;
     }
 }
