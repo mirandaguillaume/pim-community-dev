@@ -85,6 +85,7 @@ class JobTrackerController
             contentType: 'application/octet-stream',
             defaultEnableZeroHeader: true,
             comment: 'Generated zip archive',
+            sendHttpHeaders: false,
         );
 
         return new StreamedResponse(
