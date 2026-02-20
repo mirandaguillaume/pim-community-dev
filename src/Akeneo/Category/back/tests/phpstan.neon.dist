@@ -8,3 +8,12 @@ parameters:
   excludePaths:
     - %rootDir%/../../../src/Akeneo/Category/back/tests/Specification
     - %rootDir%/../../../src/Akeneo/Category/back/Infrastructure
+  ignoreErrors:
+    # PHPStan 2.x: Webmozart Assert calls redundant based on type inference
+    - '#Call to static method Webmozart\\Assert\\Assert::\w+\(\).*will always evaluate to true#'
+    # PHPStan 2.x: instanceof checks always true based on type inference
+    - '#Instanceof between.*will always evaluate to true#'
+    # PHPStan 2.x: array_filter on non-falsy arrays
+    - '#Parameter \#1 \$array.*to function array_filter does not contain falsy values#'
+    # PHPStan 2.x: return type variance in normalize()
+    - '#Method Akeneo\\Category\\Application\\Query\\GetCategory\\InternalApiCategory::normalize\(\) should return#'
