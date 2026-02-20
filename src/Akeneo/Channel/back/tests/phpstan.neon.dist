@@ -9,3 +9,7 @@ parameters:
     - %rootDir%/../../../src/Akeneo/Channel/back/tests/Specification
     - %rootDir%/../../../src/Akeneo/Channel/back/tests/Acceptance/Specification
     - %rootDir%/../../../src/Akeneo/Channel/back/Infrastructure
+  ignoreErrors:
+    # PHPStan 2.x: redundant type checks
+    - '#Call to static method Webmozart\\Assert\\Assert::\w+\(\).*will always evaluate to (true|false)#'
+    - '#Call to method PHPUnit\\Framework\\Assert::\w+\(\).*will always evaluate to (true|false)#'
