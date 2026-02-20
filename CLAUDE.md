@@ -6,8 +6,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Akeneo PIM (Product Information Management) Community Edition. PHP 8.2/Symfony backend with React 17 frontend. Dockerized development environment with MySQL 8, Elasticsearch 8.4, MinIO (object storage), and Google PubSub emulator for async messaging.
 
-**IMPORTANT: Always use Docker to run PHP commands** — the host has PHP 8.1 but the project requires PHP 8.2+. Use `docker-compose run --rm php php <command>` for all PHP operations (Rector, PHPStan, PHPSpec, PHPUnit, Composer, etc.).
-
 ## Architecture
 
 ### Two Architectural Patterns Coexist
@@ -120,8 +118,6 @@ yarn acceptance tests/features # Cucumber acceptance tests
 
 ### Docker
 ```bash
-# PHP commands go through the php service
-docker-compose run --rm php php <command>
 # Node/Yarn commands go through the node service
 docker-compose run -u node --rm node yarn <command>
 # Enable Xdebug
@@ -129,6 +125,8 @@ make xdebug-on
 # Services needed for integration tests
 APP_ENV=test C='httpd mysql elasticsearch object-storage pubsub-emulator' make up
 ```
+
+> **Note:** PHP/Composer Docker usage is enforced by the Claude Code hook `enforce-docker-php.sh`.
 
 ## CI Pipeline (GitHub Actions)
 
