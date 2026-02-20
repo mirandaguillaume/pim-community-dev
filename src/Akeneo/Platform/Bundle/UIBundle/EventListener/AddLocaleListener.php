@@ -4,7 +4,7 @@ namespace Akeneo\Platform\Bundle\UIBundle\EventListener;
 
 use Akeneo\Tool\Component\Localization\Model\TranslatableInterface;
 use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 
 /**
  * Aims to inject user context locale into translatable entities, used by views to display relevant titles for family,

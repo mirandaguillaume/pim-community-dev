@@ -6,7 +6,7 @@ use Rector\Config\RectorConfig;
 use Rector\Doctrine\Set\DoctrineSetList;
 
 /**
- * Rector configuration for Doctrine DBAL 2.x → 3.x migration.
+ * Rector configuration for Doctrine migration.
  *
  * Usage:
  *   vendor/bin/rector process --dry-run
@@ -37,14 +37,13 @@ return static function (RectorConfig $rectorConfig): void {
         '*/vendor/*',
     ]);
 
-    // DBAL 2.x → 3.x migration sets (incremental)
+    // Doctrine Persistence 2 → 3 migration
     $rectorConfig->sets([
-        DoctrineSetList::DOCTRINE_DBAL_210,
-        DoctrineSetList::DOCTRINE_DBAL_211,
-        DoctrineSetList::DOCTRINE_DBAL_30,
-        DoctrineSetList::DOCTRINE_CODE_QUALITY,
+        DoctrineSetList::DOCTRINE_COMMON_20,   // Doctrine\Common\Persistence\* → Doctrine\Persistence\*
+        DoctrineSetList::DOCTRINE_ORM_213,     // ORM event args → Persistence event args
     ]);
 
-    $rectorConfig->importNames();
+    // Don't auto-import names to avoid cosmetic changes across the codebase
+    $rectorConfig->importNames(false);
     $rectorConfig->importShortClasses(false);
 };

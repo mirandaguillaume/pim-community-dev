@@ -93,9 +93,12 @@ class CreateJobExecutionHandler implements CreateJobExecutionHandlerInterface
 
     private function validateJob(JobInterface $job, JobInstance $jobInstance, JobParameters $jobParameters, string $code): void
     {
-        // We merge the JobInstance from the JobManager EntityManager to the DefaultEntityManager
+        // We load the JobInstance into the DefaultEntityManager's identity map
         // in order to be able to have a working UniqueEntity validation
-        $this->getDefaultEntityManager()->merge($jobInstance);
+        $managedInstance = null;
+        if (null !== $jobInstance->getId()) {
+            $managedInstance = $this->getDefaultEntityManager()->find(JobInstance::class, $jobInstance->getId());
+        }
 
         $jobInstanceViolations = $this->validator->validate($jobInstance, new JobInstanceConstraint());
 
@@ -109,6 +112,10 @@ class CreateJobExecutionHandler implements CreateJobExecutionHandlerInterface
             throw new InvalidJobException($code, $job->getName(), $jobParametersViolations);
         }
 
-        $this->getDefaultEntityManager()->clear($jobInstance::class);
+        // Detach the loaded instance to avoid polluting the default EM
+        // (replaces partial clear($className) removed in persistence 3)
+        if (null !== $managedInstance) {
+            $this->getDefaultEntityManager()->detach($managedInstance);
+        }
     }
 }

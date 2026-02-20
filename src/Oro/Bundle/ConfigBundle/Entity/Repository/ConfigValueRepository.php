@@ -3,6 +3,7 @@
 namespace Oro\Bundle\ConfigBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Oro\Bundle\ConfigBundle\Entity\ConfigValue;
 
 /**
  * ConfigValueRepository
@@ -22,7 +23,7 @@ class ConfigValueRepository extends EntityRepository
 
         $this->getEntityManager()->beginTransaction();
         foreach ($removed as $item) {
-            $builder->delete('OroConfigBundle:ConfigValue', 'cv')
+            $builder->delete(ConfigValue::class, 'cv')
                 ->where('cv.config = :configId')
                 ->andWhere('cv.name = :name')
                 ->andWhere('cv.section = :section')

@@ -113,8 +113,9 @@ final class ImportExportFileContext extends PimContext implements SnippetAccepti
     private function waitForJobToFinish(JobInstance $jobInstance): JobExecution
     {
         $jobExecutionRepository = $this->getService('pim_enrich.repository.job_execution');
-        $this->spin(function () use ($jobInstance, $jobExecutionRepository) {
-            $jobExecutionRepository->clear();
+        $entityManager = $this->getService('doctrine.orm.entity_manager');
+        $this->spin(function () use ($jobInstance, $jobExecutionRepository, $entityManager) {
+            $entityManager->clear();
             $jobExecution = $jobExecutionRepository->findOneBy(
                 ['jobInstance' => $jobInstance],
                 ['createTime' => 'desc']
