@@ -13,6 +13,18 @@
             "type": "command",
             "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/warn-large-diff.sh",
             "statusMessage": "Checking commit size..."
+          },
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/cs-fixer-staged.sh",
+            "statusMessage": "Checking code style on staged files...",
+            "timeout": 120
+          },
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/phpstan-pre-push.sh",
+            "statusMessage": "Running PHPStan on changed files...",
+            "timeout": 120
           }
         ]
       }
@@ -25,6 +37,17 @@
             "type": "command",
             "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/lint-php-on-edit.sh",
             "statusMessage": "PHP syntax check..."
+          },
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/composer-platform-check.sh",
+            "statusMessage": "Checking PHP platform compatibility..."
+          },
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/run-related-spec.sh",
+            "statusMessage": "Running related PHPSpec...",
+            "timeout": 60
           }
         ]
       }
