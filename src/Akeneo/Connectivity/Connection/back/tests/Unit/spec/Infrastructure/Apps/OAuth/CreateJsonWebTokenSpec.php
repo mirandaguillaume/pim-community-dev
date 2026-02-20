@@ -10,7 +10,6 @@ use Akeneo\Connectivity\Connection\Domain\Apps\ValueObject\ScopeList;
 use Akeneo\Connectivity\Connection\Domain\ClockInterface;
 use Akeneo\Connectivity\Connection\Infrastructure\Apps\OAuth\CreateJsonWebToken;
 use Akeneo\Platform\Bundle\FrameworkBundle\Service\PimUrl;
-use Lcobucci\Clock\FrozenClock;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
@@ -118,15 +117,26 @@ class CreateJsonWebTokenSpec extends ObjectBehavior
 
         Assert::assertInstanceOf(UnencryptedToken::class, $token);
 
-        $configuration->setValidationConstraints(new IssuedBy($this->pimUrl));
-        $configuration->setValidationConstraints(new RelatedTo($this->ppid));
-        $configuration->setValidationConstraints(new PermittedFor($this->clientId));
-        $configuration->setValidationConstraints(new LooseValidAt(new FrozenClock($this->now)));
-        $configuration->setValidationConstraints(
-            new SignedWith($configuration->signer(), $configuration->verificationKey())
-        );
+        $frozenClock = new class($this->now) implements \Psr\Clock\ClockInterface {
+            public function __construct(private readonly \DateTimeImmutable $now)
+            {
+            }
 
-        Assert::assertTrue($configuration->validator()->validate($token, ...$configuration->validationConstraints()));
+            public function now(): \DateTimeImmutable
+            {
+                return $this->now;
+            }
+        };
+
+        $constraints = [
+            new IssuedBy($this->pimUrl),
+            new RelatedTo($this->ppid),
+            new PermittedFor($this->clientId),
+            new LooseValidAt($frozenClock),
+            new SignedWith($configuration->signer(), $configuration->verificationKey()),
+        ];
+
+        Assert::assertTrue($configuration->validator()->validate($token, ...$constraints));
 
         Assert::assertTrue($token->claims()->has(RegisteredClaims::ISSUED_AT));
         $ia = $token->claims()->get(RegisteredClaims::ISSUED_AT);
