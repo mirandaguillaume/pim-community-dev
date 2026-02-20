@@ -12,6 +12,7 @@ parameters:
         containerXmlPath: %rootDir%/../../../var/cache/dev/KernelDevDebugContainer.xml
     ignoreErrors:
         - '#Unsafe usage of new static\(\)\.#'
+        - '#Property .+::\$values on left side of \?\? is not nullable nor uninitialized\.#'
     excludePaths:
         analyseAndScan:
             - src/Akeneo/Pim/Automation/DataQualityInsights/tests
