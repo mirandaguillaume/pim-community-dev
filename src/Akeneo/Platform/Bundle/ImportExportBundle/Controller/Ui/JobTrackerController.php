@@ -24,7 +24,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use ZipStream\Option\Archive;
 use ZipStream\ZipStream;
 
 /**
@@ -81,12 +80,12 @@ class JobTrackerController
 
         $zipArchiveName = $this->getZipArchiveName($jobExecution);
 
-        $options = new Archive();
-        $options->setContentType('application/octet-stream');
-        // this is needed to prevent issues with truncated zip files
-        $options->setZeroHeader(true);
-        $options->setComment('Generated zip archive');
-        $zip = new ZipStream($zipArchiveName, $options);
+        $zip = new ZipStream(
+            outputName: $zipArchiveName,
+            contentType: 'application/octet-stream',
+            defaultEnableZeroHeader: true,
+            comment: 'Generated zip archive',
+        );
 
         return new StreamedResponse(
             function () use ($zip, $jobExecution) {
