@@ -503,7 +503,7 @@ SQL;
 
         $this->get('pim_catalog.updater.channel')->update($channel, $data);
         $errors = $this->get('validator')->validate($channel);
-        Assert::count($errors, 0, $errors);
+        Assert::count($errors, 0, (string) $errors);
 
         $this->saveChannels([$channel]);
 

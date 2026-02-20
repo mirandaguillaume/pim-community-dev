@@ -141,6 +141,7 @@ final readonly class UpsertProductHandler
     private function checkConsistencyWithConnectedUser(int $userId): void
     {
         $user = $this->tokenStorage->getToken()?->getUser();
+        Assert::notNull($user);
         Assert::implementsInterface($user, UserInterface::class);
 
         // should be deleted once we don't rely on the token storage anymore
