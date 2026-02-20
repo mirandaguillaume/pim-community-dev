@@ -20,13 +20,11 @@ class JobInstanceNormalizer implements NormalizerInterface, CacheableSupportsMet
     protected array $supportedFormats = ['flat'];
 
     public function __construct(
-        private readonly CredentialsEncrypterRegistry $credentialsEncrypterRegistry
+        private readonly CredentialsEncrypterRegistry $credentialsEncrypterRegistry,
     ) {
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @param JobInstance $jobInstance
      *
      * @return array
@@ -48,9 +46,6 @@ class JobInstanceNormalizer implements NormalizerInterface, CacheableSupportsMet
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof JobInstance && in_array($format, $this->supportedFormats);

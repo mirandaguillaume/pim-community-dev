@@ -23,9 +23,6 @@ class CategoryNormalizer implements NormalizerInterface, CacheableSupportsMethod
         $this->translationNormalizer = $translationNormalizer;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function normalize($category, $format = null, array $context = [])
     {
         return [
@@ -36,9 +33,6 @@ class CategoryNormalizer implements NormalizerInterface, CacheableSupportsMethod
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof CategoryInterface && 'standard' === $format;

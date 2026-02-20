@@ -40,7 +40,7 @@ final class ImageValue extends AbstractValue
      *     file_path: string,
      *     mime_type: string,
      *     original_filename: string,
-     * } | null $value
+     * }|null $value
      */
     public static function fromApplier(
         ?array $value,

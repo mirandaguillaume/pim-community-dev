@@ -29,9 +29,6 @@ class CategoryExtension extends AbstractExtension
         $this->categoryItemsCounter = $categoryItemsCounter;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getFunctions()
     {
         return [
@@ -54,8 +51,8 @@ class CategoryExtension extends AbstractExtension
      */
     public function childrenTreeResponse(
         array $categories,
-        CategoryInterface $selectedCategory = null,
-        CategoryInterface $parent = null,
+        ?CategoryInterface $selectedCategory = null,
+        ?CategoryInterface $parent = null,
         $withProductCount = false,
         $includeSub = false,
         $relatedEntity = 'product',
@@ -89,11 +86,12 @@ class CategoryExtension extends AbstractExtension
      * @param bool $withProductCount
      * @param bool $includeSub
      * @param string $relatedEntity
+     *
      * @return array
      */
     public function childrenResponse(
         array $categories,
-        CategoryInterface $parent = null,
+        ?CategoryInterface $parent = null,
         $withProductCount = false,
         $includeSub = false,
         $relatedEntity = 'product',
@@ -139,8 +137,8 @@ class CategoryExtension extends AbstractExtension
      */
     public function exceedsProductsLimitForRemoval(CategoryInterface $category, $includeSub, $relatedEntity = 'product')
     {
-        return null !== $this->itemsLimitRemoval &&
-            $this->countItems($category, $includeSub, $relatedEntity) > $this->itemsLimitRemoval;
+        return null !== $this->itemsLimitRemoval
+            && $this->countItems($category, $includeSub, $relatedEntity) > $this->itemsLimitRemoval;
     }
 
     /**

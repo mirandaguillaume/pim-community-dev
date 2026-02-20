@@ -55,7 +55,7 @@ class GetJobExecutionTracking
 
     private function createJobExecutionTrackingWithJob(
         JobExecution $jobExecution,
-        JobInterface $job
+        JobInterface $job,
     ): JobExecutionTracking {
         $stepExecutions = $jobExecution->getStepExecutions();
 
@@ -139,7 +139,7 @@ class GetJobExecutionTracking
     private function createAlreadyStartedStepExecutionTracking(
         StepInterface $step,
         StepExecution $stepExecution,
-        string $jobName
+        string $jobName,
     ): StepExecutionTracking {
         $stepExecutionTracking = $this->createStepExecutionTrackingFromStepExecution($stepExecution, $jobName);
         if ($step instanceof TrackableStepInterface && $step->isTrackable()) {

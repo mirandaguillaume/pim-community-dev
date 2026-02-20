@@ -20,8 +20,6 @@ class CategoryItemsCounterRegistry
      * Register a category item counter extension.
      *
      * @param string $type
-     *
-     * @return mixed
      */
     public function register(CategoryItemsCounterInterface $categoryItemsCounter, $type)
     {

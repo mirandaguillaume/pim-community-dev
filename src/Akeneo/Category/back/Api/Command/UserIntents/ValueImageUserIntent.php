@@ -25,7 +25,7 @@ interface ValueImageUserIntent extends UserIntent
      *     file_path: string,
      *     mime_type: string,
      *     original_filename: string,
-     * } | null
+     * }|null
      */
-    public function value(): array|null;
+    public function value(): ?array;
 }

@@ -67,9 +67,6 @@ class CategoryRepository extends EntityRepository implements ApiResourceReposito
             ->execute();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function count(array $searchFilters = []): int
     {
         try {

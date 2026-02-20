@@ -138,7 +138,7 @@ final readonly class GetCategoriesSql implements GetCategoriesInterface
         return $retrievedCategories;
     }
 
-    public function count(ExternalApiSqlParameters $parameters): int|null
+    public function count(ExternalApiSqlParameters $parameters): ?int
     {
         $sqlWhere = $parameters->getSqlWhere();
 

@@ -67,8 +67,8 @@ final readonly class CreateJobInstanceHandler implements CreateJobInstanceHandle
     private function checkUserHasPrivilege(string $jobType): void
     {
         if (
-            (self::EXPORT_TYPE === $jobType && !$this->securityFacade->isGranted(self::CREATE_EXPORT_JOB_ACL)) ||
-            (self::IMPORT_TYPE === $jobType && !$this->securityFacade->isGranted(self::CREATE_IMPORT_JOB_ACL))
+            (self::EXPORT_TYPE === $jobType && !$this->securityFacade->isGranted(self::CREATE_EXPORT_JOB_ACL))
+            || (self::IMPORT_TYPE === $jobType && !$this->securityFacade->isGranted(self::CREATE_IMPORT_JOB_ACL))
         ) {
             throw CannotCreateJobInstanceException::insufficientPrivilege();
         }

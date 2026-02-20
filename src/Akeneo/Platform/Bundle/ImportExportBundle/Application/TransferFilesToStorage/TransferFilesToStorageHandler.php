@@ -20,7 +20,7 @@ final readonly class TransferFilesToStorageHandler
     public function __construct(
         private StorageHydratorInterface $storageHydrator,
         private TransferFilesToStorageInterface $transferFilesToStorage,
-        private FeatureFlags $featureFlags
+        private FeatureFlags $featureFlags,
     ) {
     }
 

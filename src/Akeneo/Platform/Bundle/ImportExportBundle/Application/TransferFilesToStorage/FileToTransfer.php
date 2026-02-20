@@ -15,7 +15,7 @@ final readonly class FileToTransfer
         private string $fileKey,
         private string $storage,
         private string $outputFileName,
-        private bool $isLocal
+        private bool $isLocal,
     ) {
     }
 

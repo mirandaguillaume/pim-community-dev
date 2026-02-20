@@ -27,7 +27,6 @@ interface PreviewGeneratorInterface
 
     /**
      * @param string $data The filename of the external image we want to generate (ex : akeneo.jpg)
-     * @param Attribute $attribute The attribute which need to have a preview
      * @param string $type The format type used to generate the image (ex : dam_thumbnail, dam_preview)
      */
     public function remove(string $data, string $type);

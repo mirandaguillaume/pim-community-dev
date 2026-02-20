@@ -32,9 +32,6 @@ class PurgeJobExecutionCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -60,9 +57,6 @@ class PurgeJobExecutionCommand extends Command
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $days = $this->getDays($input, $output);

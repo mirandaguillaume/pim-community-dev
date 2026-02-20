@@ -38,9 +38,9 @@ final readonly class CategoriesHaveAtLeastOneChild implements BaseCategoriesHave
 
         foreach ($parentsCategoryInfos as $parentCategoryInfo) {
             foreach ($childrenCategoryInfos as $childrenCategoryInfo) {
-                if ($childrenCategoryInfo['root'] === $parentCategoryInfo['root'] &&
-                    $childrenCategoryInfo['lft'] >= $parentCategoryInfo['lft'] &&
-                    $childrenCategoryInfo['rgt'] <= $parentCategoryInfo['rgt']) {
+                if ($childrenCategoryInfo['root'] === $parentCategoryInfo['root']
+                    && $childrenCategoryInfo['lft'] >= $parentCategoryInfo['lft']
+                    && $childrenCategoryInfo['rgt'] <= $parentCategoryInfo['rgt']) {
                     return true;
                 }
             }

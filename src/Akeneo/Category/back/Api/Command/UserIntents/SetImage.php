@@ -17,7 +17,7 @@ class SetImage implements ValueImageUserIntent
      *     file_path: string,
      *     mime_type: string,
      *     original_filename: string,
-     * } | null $value
+     * }|null $value
      */
     public function __construct(
         private readonly string $attributeUuid,

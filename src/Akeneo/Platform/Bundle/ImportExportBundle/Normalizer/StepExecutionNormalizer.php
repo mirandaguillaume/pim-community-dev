@@ -22,9 +22,6 @@ class StepExecutionNormalizer implements NormalizerInterface, CacheableSupportsM
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function normalize($stepExecution, $format = null, array $context = [])
     {
         $normalizedWarnings = $this->normalizeWarnings($stepExecution->getWarnings(), $context);
@@ -50,9 +47,6 @@ class StepExecutionNormalizer implements NormalizerInterface, CacheableSupportsM
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof StepExecution;

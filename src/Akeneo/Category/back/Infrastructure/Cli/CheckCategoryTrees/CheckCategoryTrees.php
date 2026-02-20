@@ -28,9 +28,6 @@ class CheckCategoryTrees extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -62,9 +59,6 @@ class CheckCategoryTrees extends Command
             ->setDescription('Check all category trees against nested structure');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $inputOptionDumpCorruptions = (bool) $input->getOption('dump-corruptions');

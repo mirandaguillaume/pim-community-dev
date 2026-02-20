@@ -111,9 +111,9 @@ class GetCategoryTemplateAttributeSql implements GetAttribute
         $attributes = $this->byUuids([$attributeUuid]);
         if ($attributes->count() > 0) {
             return $attributes->getAttributes()[0];
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**

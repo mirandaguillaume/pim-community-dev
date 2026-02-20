@@ -21,8 +21,6 @@ class GetCategoryTemplateByCategoryTreeSql implements GetCategoryTemplateByCateg
     }
 
     /**
-     * @return ?Template
-     *
      * @throws Exception
      * @throws \Doctrine\DBAL\Exception
      * @throws \JsonException

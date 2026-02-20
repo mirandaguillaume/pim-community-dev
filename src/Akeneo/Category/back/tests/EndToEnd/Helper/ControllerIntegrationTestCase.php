@@ -37,9 +37,6 @@ abstract class ControllerIntegrationTestCase extends WebTestCase
         return self::getContainer()->get($service);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function tearDown(): void
     {
         $connectionCloser = $this->get('akeneo_integration_tests.doctrine.connection.connection_closer');
@@ -60,7 +57,7 @@ abstract class ControllerIntegrationTestCase extends WebTestCase
         string $method = 'GET',
         array $headers = [],
         array $parameters = [],
-        string $content = null,
+        ?string $content = null,
     ): void {
         $url = $this->router->generate($route, $routeArguments);
         $client->request($method, $url, $parameters, [], $headers, $content);
@@ -76,7 +73,7 @@ abstract class ControllerIntegrationTestCase extends WebTestCase
         array $routeArguments = [],
         string $method = 'GET',
         array $parameters = [],
-        string $content = null,
+        ?string $content = null,
     ): void {
         $headers = [
             'HTTP_X-Requested-With' => 'XMLHttpRequest',

@@ -19,7 +19,7 @@ final class TransferFile
         StorageClientInterface $sourceFilesystem,
         StorageClientInterface $destinationFilesystem,
         string $sourceFilePath,
-        string $destinationFilePath
+        string $destinationFilePath,
     ): void {
         if (!$sourceFilesystem->fileExists($sourceFilePath)) {
             throw new \RuntimeException(sprintf('The file "%s" does not exist in the selected storage.', $sourceFilePath));

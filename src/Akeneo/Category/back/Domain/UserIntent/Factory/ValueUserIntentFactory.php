@@ -29,9 +29,6 @@ final readonly class ValueUserIntentFactory implements UserIntentFactory
     {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getSupportedFieldNames(): array
     {
         return ['values'];

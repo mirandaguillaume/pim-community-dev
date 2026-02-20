@@ -20,7 +20,7 @@ final readonly class DownloadFileFromStorageHandler
     public function __construct(
         private StorageHydratorInterface $storageHydrator,
         private DownloadFileFromStorageInterface $downloadFileFromStorage,
-        private FeatureFlags $featureFlags
+        private FeatureFlags $featureFlags,
     ) {
     }
 

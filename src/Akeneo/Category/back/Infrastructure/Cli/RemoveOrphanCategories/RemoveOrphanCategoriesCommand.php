@@ -25,17 +25,11 @@ final class RemoveOrphanCategoriesCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure(): void
     {
         $this->setDescription('Remove categories that have no parent and aren\'t category trees');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $affectedRows = $this->purgeOrphanCategories->execute();

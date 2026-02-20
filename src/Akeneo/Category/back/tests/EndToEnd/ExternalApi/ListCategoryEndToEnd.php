@@ -158,11 +158,11 @@ class ListCategoryEndToEnd extends ApiCategoryTestCase
                 'items' => [
                     $categories['categoryA1'],
                     [
-                       '_links' => [
-                           'self' => [
-                               'href' => 'http://localhost/api/rest/v1/categories/categoryA1-1',
-                           ],
-                       ],
+                        '_links' => [
+                            'self' => [
+                                'href' => 'http://localhost/api/rest/v1/categories/categoryA1-1',
+                            ],
+                        ],
                         'code' => 'categoryA1-1',
                         'parent' => 'categoryA1',
                         'updated' => '2016-06-14T13:12:50+02:00',
@@ -843,9 +843,6 @@ JSON;
         return $category;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getConfiguration(): Configuration
     {
         return $this->catalog->useTechnicalCatalog();

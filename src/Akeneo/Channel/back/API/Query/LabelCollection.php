@@ -12,7 +12,7 @@ final readonly class LabelCollection
      * @param array<string, string> $translatedLabels
      */
     private function __construct(
-        private array $translatedLabels
+        private array $translatedLabels,
     ) {
     }
 

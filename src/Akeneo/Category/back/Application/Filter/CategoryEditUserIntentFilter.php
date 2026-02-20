@@ -15,9 +15,9 @@ use Akeneo\Category\Api\Command\UserIntents\UserIntent;
 class CategoryEditUserIntentFilter
 {
     /**
-     * @param userIntent[] $collection
+     * @param UserIntent[] $collection
      *
-     * @return userIntent[]
+     * @return UserIntent[]
      */
     public function filterCollection(array $collection): array
     {

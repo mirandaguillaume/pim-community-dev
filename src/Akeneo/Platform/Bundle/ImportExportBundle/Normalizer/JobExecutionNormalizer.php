@@ -26,9 +26,6 @@ class JobExecutionNormalizer implements NormalizerInterface, NormalizerAwareInte
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function normalize($jobExecution, $format = null, array $context = [])
     {
         $jobInstance = $jobExecution->getJobInstance();
@@ -72,9 +69,6 @@ class JobExecutionNormalizer implements NormalizerInterface, NormalizerAwareInte
         return $result;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof JobExecution;

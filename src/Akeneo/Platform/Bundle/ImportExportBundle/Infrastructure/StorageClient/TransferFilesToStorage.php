@@ -21,7 +21,7 @@ final readonly class TransferFilesToStorage implements TransferFilesToStorageInt
     public function __construct(
         private StorageClientProvider $storageClientProvider,
         private TransferFile $transferFile,
-        private EventDispatcherInterface $eventDispatcher
+        private EventDispatcherInterface $eventDispatcher,
     ) {
     }
 

@@ -25,9 +25,6 @@ class PurgeOrphanCategoryImageFiles extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $iterator = $this->commandBus->dispatch(

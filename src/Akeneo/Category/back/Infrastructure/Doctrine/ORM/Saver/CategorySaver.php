@@ -24,9 +24,6 @@ class CategorySaver implements SaverInterface, BulkSaverInterface
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function save($object, array $options = [])
     {
         $this->validateObject($object);
@@ -49,9 +46,6 @@ class CategorySaver implements SaverInterface, BulkSaverInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function saveAll(array $objects, array $options = [])
     {
         if (empty($objects)) {

@@ -24,7 +24,7 @@ class UpsertCategoryCommand
     }
 
     /**
-     * @param userIntent[] $userIntents
+     * @param UserIntent[] $userIntents
      */
     public static function create(string $categoryCode, array $userIntents): self
     {

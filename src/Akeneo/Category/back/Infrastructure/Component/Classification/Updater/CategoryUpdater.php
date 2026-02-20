@@ -35,9 +35,6 @@ class CategoryUpdater implements ObjectUpdaterInterface
         $this->accessor = PropertyAccess::createPropertyAccessor();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function update($category, array $data, array $options = [])
     {
         if (!$category instanceof CategoryInterface) {

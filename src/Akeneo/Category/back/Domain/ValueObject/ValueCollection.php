@@ -24,7 +24,7 @@ final class ValueCollection implements \IteratorAggregate, \Countable
      */
     private function __construct(private array $values)
     {
-        assert::allIsInstanceOf($values, Value::class);
+        Assert::allIsInstanceOf($values, Value::class);
         $this->assertUniqueValue($values);
     }
 
@@ -106,9 +106,9 @@ final class ValueCollection implements \IteratorAggregate, \Countable
     public function removeValue(Value $value): void
     {
         $this->values = array_filter($this->values, static fn ($existingValue) => !(
-            (string) $existingValue->getUuid() === (string) $value->getUuid() &&
-            (string) $existingValue->getChannel() === (string) $value->getChannel() &&
-            (string) $existingValue->getLocale() === (string) $value->getLocale()
+            (string) $existingValue->getUuid() === (string) $value->getUuid()
+            && (string) $existingValue->getChannel() === (string) $value->getChannel()
+            && (string) $existingValue->getLocale() === (string) $value->getLocale()
         ));
     }
 

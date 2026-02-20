@@ -35,7 +35,7 @@ class AttributeCollectionTest extends CategoryTestCase
             '8dda490c-0fd1-4485-bdc5-342929783d9a',
             '840fcd1a-f66b-4f0c-9bbd-596629732950',
             'unknown-uuid',
-            ];
+        ];
 
         // When
         $attributeCollection->reorder($orderedUuids);
