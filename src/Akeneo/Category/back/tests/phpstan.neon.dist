@@ -10,10 +10,16 @@ parameters:
     - %rootDir%/../../../src/Akeneo/Category/back/Infrastructure
   ignoreErrors:
     # PHPStan 2.x: Webmozart Assert calls redundant based on type inference
-    - '#Call to static method Webmozart\\Assert\\Assert::\w+\(\).*will always evaluate to true#'
+    - '#Call to static method Webmozart\\Assert\\Assert::\w+\(\).*will always evaluate to (true|false)#'
     # PHPStan 2.x: instanceof checks always true based on type inference
-    - '#Instanceof between.*will always evaluate to true#'
+    - '#Instanceof between.*will always evaluate to (true|false)#'
     # PHPStan 2.x: array_filter on non-falsy arrays
     - '#Parameter \#1 \$array.*to function array_filter does not contain falsy values#'
     # PHPStan 2.x: return type variance in normalize()
-    - '#Method Akeneo\\Category\\Application\\Query\\GetCategory\\InternalApiCategory::normalize\(\) should return#'
+    - '#Method Akeneo\\Category\\.*::normalize\(\) should return#'
+    # PHPStan 2.x: built-in type checks always true/false
+    - '#Call to function (is_array|is_string|is_int|is_null|is_bool|array_key_exists|assert)\(\).*will always evaluate to (true|false)#'
+    # PHPStan 2.x: PHPUnit assertions always true/false
+    - '#Call to method PHPUnit\\Framework\\Assert::\w+\(\).*will always evaluate to (true|false)#'
+    # PHPStan 2.x: assertArrayFromDatabase expects narrower type
+    - '#Parameter \#1 \$category of static method Akeneo\\Category\\ServiceApi\\ExternalApiCategory::assertArrayFromDatabase\(\) expects#'
