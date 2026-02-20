@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\ElasticsearchAndSql\FollowUp;
 
-use Doctrine\DBAL\Exception;
 use Akeneo\Pim\Enrichment\Component\FollowUp\Query\GetCompletenessPerChannelAndLocaleInterface;
 use Akeneo\Pim\Enrichment\Component\FollowUp\ReadModel\ChannelCompleteness;
 use Akeneo\Pim\Enrichment\Component\FollowUp\ReadModel\CompletenessWidget;
@@ -12,6 +11,7 @@ use Akeneo\Pim\Enrichment\Component\FollowUp\ReadModel\LocaleCompleteness;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 
 /**
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)

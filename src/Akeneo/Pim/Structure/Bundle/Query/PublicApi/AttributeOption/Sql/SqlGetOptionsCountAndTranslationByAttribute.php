@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Structure\Bundle\Query\PublicApi\AttributeOption\Sql;
 
-use Doctrine\DBAL\Driver\Exception;
 use Akeneo\Pim\Structure\Component\AttributeTypes;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeOption\GetOptionsCountAndTranslationByAttribute;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Driver\Exception;
 
 /**
  * @author    Adrien Migaire <adrien.migaire@akeneo.com>

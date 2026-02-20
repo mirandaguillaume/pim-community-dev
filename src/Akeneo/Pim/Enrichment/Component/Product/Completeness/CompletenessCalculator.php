@@ -27,7 +27,7 @@ class CompletenessCalculator
     {
         $productMasks = $this->getCompletenessProductMasks->fromProductUuids($productUuids);
 
-        $familyCodes = array_map(fn(CompletenessProductMask $product) => $product->familyCode(), $productMasks);
+        $familyCodes = array_map(fn (CompletenessProductMask $product) => $product->familyCode(), $productMasks);
 
         $requiredAttributesMasks = $this->getRequiredAttributesMasks->fromFamilyCodes(array_unique(array_filter($familyCodes)));
 

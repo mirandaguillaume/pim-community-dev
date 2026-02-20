@@ -93,7 +93,7 @@ class CategoryTreeController extends AbstractController
             $selectedTreeId = $selectNode->isRoot() ? $selectNode->getId() : $selectNode->getRoot();
         }
 
-        $formatedTrees = array_map(fn(CategoryTree $tree) => [
+        $formatedTrees = array_map(fn (CategoryTree $tree) => [
             'id' => $tree->getId()->getValue(),
             'code' => (string) $tree->getCode(),
             'label' => $tree->getLabel($this->userContext->getCurrentLocaleCode()),

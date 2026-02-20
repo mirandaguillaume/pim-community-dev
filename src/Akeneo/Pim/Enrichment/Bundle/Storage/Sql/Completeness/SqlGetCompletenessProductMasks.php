@@ -59,7 +59,7 @@ SQL;
         $productUuidsAsBytes = \array_map(static fn (UuidInterface $uuid): string => $uuid->getBytes(), $productUuids);
 
         $rows = array_map(
-            fn(array $row): array => [
+            fn (array $row): array => [
                 'id' => $row['uuid'],
                 'familyCode' => $row['familyCode'],
                 'cleanedRawValues' => json_decode((string) $row['rawValues'], true, 512, JSON_THROW_ON_ERROR),

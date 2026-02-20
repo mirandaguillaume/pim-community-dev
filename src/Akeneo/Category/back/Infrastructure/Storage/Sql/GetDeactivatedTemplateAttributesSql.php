@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Akeneo\Category\Infrastructure\Storage\Sql;
 
-use Doctrine\DBAL\Driver\Exception;
 use Akeneo\Category\Domain\Query\GetDeactivatedTemplateAttributes\DeactivatedTemplateAttributeIdentifier;
 use Akeneo\Category\Domain\Query\GetDeactivatedTemplateAttributes\GetDeactivatedTemplateAttributes;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Driver\Exception;
 
 /**
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)

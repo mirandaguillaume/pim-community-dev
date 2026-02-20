@@ -125,7 +125,7 @@ final readonly class ConnectorProductModel
 
     public function associatedWithQuantityProductIdentifiers()
     {
-        $associatedWithQuantityProducts = array_map(fn($quantifiedAssociations) => array_column($quantifiedAssociations['products'], 'identifier'), array_values($this->quantifiedAssociations));
+        $associatedWithQuantityProducts = array_map(fn ($quantifiedAssociations) => array_column($quantifiedAssociations['products'], 'identifier'), array_values($this->quantifiedAssociations));
 
         if (empty($associatedWithQuantityProducts)) {
             return [];
@@ -136,7 +136,7 @@ final readonly class ConnectorProductModel
 
     public function associatedWithQuantityProductModelCodes()
     {
-        $associatedWithQuantityProductModels = array_map(fn($quantifiedAssociations) => array_column($quantifiedAssociations['product_models'], 'identifier'), array_values($this->quantifiedAssociations));
+        $associatedWithQuantityProductModels = array_map(fn ($quantifiedAssociations) => array_column($quantifiedAssociations['product_models'], 'identifier'), array_values($this->quantifiedAssociations));
 
         if (empty($associatedWithQuantityProductModels)) {
             return [];
@@ -171,7 +171,7 @@ final readonly class ConnectorProductModel
         $attributeCodes = array_flip($attributeCodesToKeep);
         $localeCodes = array_flip($localeCodesToKeep);
         $values = $this->values->filter(
-            fn(ValueInterface $value) => isset($attributeCodes[$value->getAttributeCode()])
+            fn (ValueInterface $value) => isset($attributeCodes[$value->getAttributeCode()])
                 && (!$value->isLocalizable() || isset($localeCodes[$value->getLocaleCode()]))
         );
 
@@ -263,7 +263,7 @@ final readonly class ConnectorProductModel
         foreach ($this->quantifiedAssociations as $associationType => $quantifiedAssociation) {
             $filteredProductModelQuantifiedAssociations = array_filter(
                 $quantifiedAssociation['product_models'],
-                fn($quantifiedLink) => in_array($quantifiedLink['identifier'], $productModelCodesToFilter)
+                fn ($quantifiedLink) => in_array($quantifiedLink['identifier'], $productModelCodesToFilter)
             );
 
             $filteredQuantifiedAssociations[$associationType]['products'] = $quantifiedAssociation['products'];
@@ -293,7 +293,7 @@ final readonly class ConnectorProductModel
         foreach ($this->quantifiedAssociations as $associationType => $quantifiedAssociation) {
             $filteredProductQuantifiedAssociations = array_filter(
                 $quantifiedAssociation['products'],
-                fn($quantifiedLink) => in_array($quantifiedLink['identifier'], $productIdentifiersToFilter)
+                fn ($quantifiedLink) => in_array($quantifiedLink['identifier'], $productIdentifiersToFilter)
             );
 
             $filteredQuantifiedAssociations[$associationType]['products'] = array_values($filteredProductQuantifiedAssociations);

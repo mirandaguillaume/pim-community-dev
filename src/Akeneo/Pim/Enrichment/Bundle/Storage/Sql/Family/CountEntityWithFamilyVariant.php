@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Family;
 
-use Doctrine\DBAL\Exception;
 use Akeneo\Pim\Enrichment\Component\Product\ProductAndProductModel\Query\CountEntityWithFamilyVariantInterface;
 use Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 
 /**
  * Find the number of product and product models count belonging to the given family variant

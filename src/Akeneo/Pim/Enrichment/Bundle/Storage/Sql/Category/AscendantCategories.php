@@ -39,7 +39,7 @@ final readonly class AscendantCategories implements AscendantCategoriesInterface
                 ->where('product_model.id = :id')
                 ->setParameter(':id', $entity->getId());
 
-            $result = array_map(fn($id) => intval($id['id']), $queryBuilder->getQuery()->getResult());
+            $result = array_map(fn ($id) => intval($id['id']), $queryBuilder->getQuery()->getResult());
         } elseif ($entity instanceof ProductInterface && $entity->isVariant()) {
             $queryBuilder
                 ->select('category.id AS id, parent_category.id AS parent_id')

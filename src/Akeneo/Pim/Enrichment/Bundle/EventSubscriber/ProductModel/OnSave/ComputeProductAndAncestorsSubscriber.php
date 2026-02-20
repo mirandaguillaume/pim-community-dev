@@ -65,7 +65,7 @@ final readonly class ComputeProductAndAncestorsSubscriber implements EventSubscr
         }
 
         $this->computeAndIndexFromProductModelCodes(array_map(
-            fn(ProductModelInterface $productModel) => $productModel->getCode(),
+            fn (ProductModelInterface $productModel) => $productModel->getCode(),
             $productModels
         ));
     }

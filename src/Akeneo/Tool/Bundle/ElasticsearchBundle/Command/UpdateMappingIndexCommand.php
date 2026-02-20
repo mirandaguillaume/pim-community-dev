@@ -70,7 +70,7 @@ TXT;
         }
 
         $clients = $this->esClients($indices);
-        $names = array_map(fn(Client $client): string => $client->getIndexName(), $clients);
+        $names = array_map(fn (Client $client): string => $client->getIndexName(), $clients);
         $io->writeln("You will migrate those indices (if it misses one you gave, it means that you didn't write it correctly) : ");
         $io->listing($names);
 

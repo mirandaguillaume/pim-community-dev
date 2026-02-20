@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Akeneo\Category\Infrastructure\Storage\Sql;
 
-use Doctrine\DBAL\Driver\Exception;
 use Akeneo\Category\Application\Query\GetCategoryTemplateByCategoryTree;
 use Akeneo\Category\Domain\Model\Enrichment\Template;
 use Akeneo\Category\Domain\ValueObject\CategoryId;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Driver\Exception;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)

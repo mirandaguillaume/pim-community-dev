@@ -90,7 +90,7 @@ class ProductAttributeFilter implements AttributeFilterInterface
 
     private function keepOnlyAttributes(array $flatProduct, Collection $attributesToKeep): array
     {
-        $attributeCodesToKeep = $attributesToKeep->map(fn(AttributeInterface $attribute) => $attribute->getCode())->toArray();
+        $attributeCodesToKeep = $attributesToKeep->map(fn (AttributeInterface $attribute) => $attribute->getCode())->toArray();
 
         foreach ($flatProduct['values'] as $attributeName => $value) {
             if (!in_array($attributeName, $attributeCodesToKeep)) {

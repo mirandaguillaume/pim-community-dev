@@ -29,10 +29,10 @@ class SqlAttributes implements AttributesInterface
     public function getCodesByIds(array $attributesIds): array
     {
         // Because LRUCache can only be used with string keys
-        $attributesIds = array_map(fn($attributeId) => $this->castAttributeIdIntToString($attributeId), $attributesIds);
+        $attributesIds = array_map(fn ($attributeId) => $this->castAttributeIdIntToString($attributeId), $attributesIds);
 
         $rawAttributesCodes = $this->attributeCodesByIds->getForKeys($attributesIds, function ($attributesIds) {
-            $attributesIds = array_map(fn($attributeId) => $this->castAttributeIdStringToInt($attributeId), $attributesIds);
+            $attributesIds = array_map(fn ($attributeId) => $this->castAttributeIdStringToInt($attributeId), $attributesIds);
             $attributesCodes = $this->dbConnection->executeQuery(
                 "SELECT JSON_OBJECTAGG(CONCAT('a_', id), code) FROM pim_catalog_attribute WHERE id IN (:ids);",
                 ['ids' => $attributesIds],

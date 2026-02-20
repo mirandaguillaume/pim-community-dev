@@ -42,7 +42,7 @@ final readonly class CountProductsAndProductModelsWithInheritedRemovedAttribute 
                                     ],
                                 ],
                             ],
-                            'should' => array_map(fn(string $attributeCode) => [
+                            'should' => array_map(fn (string $attributeCode) => [
                                 'exists' => ['field' => sprintf('values.%s-*', $attributeCode)],
                             ], $attributesCodes),
                             'minimum_should_match' => 1,

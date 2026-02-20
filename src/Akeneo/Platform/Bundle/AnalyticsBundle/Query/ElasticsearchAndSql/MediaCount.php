@@ -103,7 +103,7 @@ class MediaCount implements MediaCountQuery
             return 0;
         }
 
-        $queries = array_map(fn(string $fieldPath) => [
+        $queries = array_map(fn (string $fieldPath) => [
             [], //empty array needed before each query for multisearch in ES
             [
                 'size' => 0,

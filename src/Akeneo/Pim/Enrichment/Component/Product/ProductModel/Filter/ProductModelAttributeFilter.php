@@ -90,7 +90,7 @@ class ProductModelAttributeFilter implements AttributeFilterInterface
             $shortAttributeName = $shortAttributeName[0];
 
             $keepedAttributeCodes = $attributesToKeep->exists(
-                fn($key, AttributeInterface $attribute) => $attribute->getCode() === $shortAttributeName
+                fn ($key, AttributeInterface $attribute) => $attribute->getCode() === $shortAttributeName
             );
 
             if (!$keepedAttributeCodes) {

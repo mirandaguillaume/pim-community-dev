@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Akeneo\Category\Infrastructure\Storage\Sql;
 
-use Doctrine\DBAL\Exception;
 use Akeneo\Category\Application\Query\GetCategoryChildrenIds;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)

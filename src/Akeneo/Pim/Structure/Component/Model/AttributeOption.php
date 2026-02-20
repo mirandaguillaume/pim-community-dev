@@ -150,7 +150,7 @@ class AttributeOption implements AttributeOptionInterface, \Stringable
     {
         $locale = $this->locale;
         $values = $this->optionValues->filter(
-            fn($value): bool => \strtolower((string) $value->getLocale()) === \strtolower($locale)
+            fn ($value): bool => \strtolower((string) $value->getLocale()) === \strtolower($locale)
         );
 
         if ($values->isEmpty()) {

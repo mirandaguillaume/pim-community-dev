@@ -208,7 +208,7 @@ SQL;
             return;
         }
 
-        $values = implode(', ', array_map(fn(array $result) => sprintf(
+        $values = implode(', ', array_map(fn (array $result) => sprintf(
             "(UUID_TO_BIN('%s'), '%s', '%s', '%s')",
             $result['product_uuid'],
             $result['criterion_code'],
@@ -232,7 +232,7 @@ SQL;
             return;
         }
 
-        $values = implode(', ', array_map(fn(array $result) => sprintf(
+        $values = implode(', ', array_map(fn (array $result) => sprintf(
             "(%d, '%s', '%s', '%s')",
             $result['product_id'],
             $result['criterion_code'],

@@ -29,7 +29,7 @@ final readonly class GetValuesAndPropertiesFromProductModelCodes
             return [];
         }
 
-        $productModelCodes = (fn(string ...$productModelCodes) => $productModelCodes)(...$productModelCodes);
+        $productModelCodes = (fn (string ...$productModelCodes) => $productModelCodes)(...$productModelCodes);
 
         $query = <<<SQL
 SELECT

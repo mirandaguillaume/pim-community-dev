@@ -42,7 +42,7 @@ final readonly class SqlGetConnectorProductModels implements Query\GetConnectorP
     ): ConnectorProductModelList {
         $result = $productQueryBuilder->execute();
         $productModelCodes = array_map(
-            fn(IdentifierResult $identifier) => $identifier->getIdentifier(),
+            fn (IdentifierResult $identifier) => $identifier->getIdentifier(),
             iterator_to_array($result)
         );
 

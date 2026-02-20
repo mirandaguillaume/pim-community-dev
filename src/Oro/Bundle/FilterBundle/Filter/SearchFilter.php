@@ -52,6 +52,6 @@ class SearchFilter extends AbstractFilter
             return [];
         }
 
-        return array_map(fn($word) => sprintf('%%%s%%', \addcslashes((string) $word, '_%')), preg_split('/\s+/', (string) ($words = $data['value'])));
+        return array_map(fn ($word) => sprintf('%%%s%%', \addcslashes((string) $word, '_%')), preg_split('/\s+/', (string) ($words = $data['value'])));
     }
 }

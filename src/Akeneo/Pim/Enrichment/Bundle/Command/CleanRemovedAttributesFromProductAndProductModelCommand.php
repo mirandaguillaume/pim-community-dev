@@ -231,7 +231,7 @@ class CleanRemovedAttributesFromProductAndProductModelCommand extends Command
                 " - %d product(s)\n" .
                 " Do you want to proceed?",
             implode(
-                array_map(fn(string $attributeCode) => sprintf(" - %s\n", $attributeCode), $attributeCodes)
+                array_map(fn (string $attributeCode) => sprintf(" - %s\n", $attributeCode), $attributeCodes)
             ),
             $countProductModels,
             $countProductVariants,

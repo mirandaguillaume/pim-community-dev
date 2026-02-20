@@ -80,7 +80,7 @@ class UniqueVariantAxisValidator extends ConstraintValidator
             return;
         }
 
-        $axesAttributesCodesToFilter = array_map(fn(AttributeInterface $axisAttribute) => $axisAttribute->getCode(), $axes);
+        $axesAttributesCodesToFilter = array_map(fn (AttributeInterface $axisAttribute) => $axisAttribute->getCode(), $axes);
 
         $siblingValues = $this->getValuesOfSiblings->for($entity, $axesAttributesCodesToFilter);
 
@@ -174,7 +174,7 @@ class UniqueVariantAxisValidator extends ConstraintValidator
         string $siblingIdentifier
     ): void {
         $axesCodes = implode(',', array_map(
-            fn(AttributeInterface $axis) => $axis->getCode(),
+            fn (AttributeInterface $axis) => $axis->getCode(),
             $axes
         ));
 

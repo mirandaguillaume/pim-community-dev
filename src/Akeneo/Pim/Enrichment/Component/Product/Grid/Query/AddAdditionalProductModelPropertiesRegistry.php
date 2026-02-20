@@ -15,7 +15,7 @@ final class AddAdditionalProductModelPropertiesRegistry
 
     public function __construct(iterable $queries)
     {
-        $this->queries = (fn(AddAdditionalProductModelProperties ...$query) => $query)(...$queries);
+        $this->queries = (fn (AddAdditionalProductModelProperties ...$query) => $query)(...$queries);
     }
 
     public function add(FetchProductAndProductModelRowsParameters $queryParameters, array $rows): array

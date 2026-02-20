@@ -44,7 +44,7 @@ class StepExecutionNormalizer implements NormalizerInterface, CacheableSupportsM
             'warnings' => $normalizedWarnings,
             'errors' => $stepExecution->getErrors(),
             'failures' => array_map(
-                fn($failure) => $this->translator->trans($failure['message'], $failure['messageParameters']),
+                fn ($failure) => $this->translator->trans($failure['message'], $failure['messageParameters']),
                 $stepExecution->getFailureExceptions()
             ),
         ];

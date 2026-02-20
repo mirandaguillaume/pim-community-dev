@@ -42,17 +42,17 @@ final readonly class FilterValues
 
         foreach ($standardFormatValues as &$values) {
             if ([] !== $this->localeCodesToKeep) {
-                $values = array_filter($values, fn(array $value): bool => null === $value['locale'] || in_array($value['locale'], $this->localeCodesToKeep, true));
+                $values = array_filter($values, fn (array $value): bool => null === $value['locale'] || in_array($value['locale'], $this->localeCodesToKeep, true));
             }
 
             if ('' !== $this->channelCodeToKeep) {
-                $values = array_filter($values, fn(array $value): bool => null === $value['scope'] || $value['scope'] === $this->channelCodeToKeep);
+                $values = array_filter($values, fn (array $value): bool => null === $value['scope'] || $value['scope'] === $this->channelCodeToKeep);
             }
 
             $values = array_values($values);
         }
 
-        $standardFormatValues = array_filter($standardFormatValues, fn($value): bool => [] !== $value);
+        $standardFormatValues = array_filter($standardFormatValues, fn ($value): bool => [] !== $value);
 
         return $standardFormatValues;
     }

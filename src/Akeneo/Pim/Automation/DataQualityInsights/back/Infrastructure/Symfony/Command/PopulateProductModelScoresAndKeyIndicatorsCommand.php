@@ -146,6 +146,6 @@ SQL;
             ]
         );
 
-        return array_map(static fn($resultRow) => (int) $resultRow['id'], $bulkResult->fetchAllAssociative());
+        return array_map(static fn ($resultRow) => (int) $resultRow['id'], $bulkResult->fetchAllAssociative());
     }
 }

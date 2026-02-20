@@ -41,7 +41,7 @@ final readonly class RoleWithPermissionsSaver implements BulkSaverInterface
         $this->eventDispatcher->dispatch(new GenericEvent($userRoles, $options), StorageEvents::PRE_SAVE_ALL);
 
         $areObjectsNew = array_map(
-            fn(RoleInterface $role) => null === $role->getId(),
+            fn (RoleInterface $role) => null === $role->getId(),
             $userRoles
         );
 

@@ -34,7 +34,7 @@ class AttributeOptionsExistValidator extends ConstraintValidator
         }
 
         $optionValues = $values->filter(
-            fn(ValueInterface $value): bool => $value instanceof OptionValueInterface || $value instanceof OptionsValueInterface
+            fn (ValueInterface $value): bool => $value instanceof OptionValueInterface || $value instanceof OptionsValueInterface
         );
 
         if ($optionValues->isEmpty()) {

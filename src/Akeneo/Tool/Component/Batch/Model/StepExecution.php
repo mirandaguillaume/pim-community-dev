@@ -405,7 +405,7 @@ class StepExecution implements \Stringable
         return implode(
             ' ',
             array_map(
-                fn($e) => $e['message'],
+                fn ($e) => $e['message'],
                 $this->failureExceptions
             )
         );

@@ -93,9 +93,9 @@ class UserNormalizer implements NormalizerInterface, CacheableSupportsMethodInte
                 = $defaultView === null ? null : $defaultView->getId();
         }
 
-        $normalizedProperties = array_reduce($this->properties, fn($result, string $propertyName) => $result + [$propertyName => $user->getProperty($propertyName)], []);
+        $normalizedProperties = array_reduce($this->properties, fn ($result, string $propertyName) => $result + [$propertyName => $user->getProperty($propertyName)], []);
 
-        $normalizedCompound = array_map(fn($normalizer) => $normalizer->normalize($user, $format, $context), $this->userNormalizers);
+        $normalizedCompound = array_map(fn ($normalizer) => $normalizer->normalize($user, $format, $context), $this->userNormalizers);
 
         $result['properties'] = $normalizedProperties;
 
@@ -120,7 +120,7 @@ class UserNormalizer implements NormalizerInterface, CacheableSupportsMethodInte
      */
     private function getRoleNames(UserInterface $user): array
     {
-        return $user->getRolesCollection()->map(fn(Role $role) => $role->getRole())->toArray();
+        return $user->getRolesCollection()->map(fn (Role $role) => $role->getRole())->toArray();
     }
 
     /**

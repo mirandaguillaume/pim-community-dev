@@ -44,7 +44,7 @@ class Utf8mb4SupportIntegrationTest extends TestCase
 
         $myTestTableSql = array_filter(
             $schema->toSql($this->connection->getDatabasePlatform()),
-            fn($sql) => str_starts_with($sql, 'CREATE TABLE '.self::TEST_TABLE_NAME)
+            fn ($sql) => str_starts_with($sql, 'CREATE TABLE '.self::TEST_TABLE_NAME)
         );
         $myTestTableSql = reset($myTestTableSql);
 

@@ -48,9 +48,9 @@ class SettingsContext extends PimContext
 
         $element = $this->getListTypeFromConnectionType($listType);
 
-        $list = $this->spin(fn() => $this->getCurrentPage()->getElement($element), sprintf('Can not find list for "%s"', $listType));
+        $list = $this->spin(fn () => $this->getCurrentPage()->getElement($element), sprintf('Can not find list for "%s"', $listType));
 
-        $this->spin(fn() => $list->find('css', sprintf('[title="%s"]', $connection)), sprintf('Can not find connection "%s" in list "%s"', $connection, $listType));
+        $this->spin(fn () => $list->find('css', sprintf('[title="%s"]', $connection)), sprintf('Can not find connection "%s" in list "%s"', $connection, $listType));
     }
 
     /**

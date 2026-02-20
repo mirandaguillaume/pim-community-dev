@@ -314,13 +314,13 @@ class ProductModel implements ProductModelInterface, \Stringable
     {
         $formerCategories = $this->getCategories();
         $categoriesToAdd = $categories->filter(
-            fn(CategoryInterface $category) => !$formerCategories->contains($category)
+            fn (CategoryInterface $category) => !$formerCategories->contains($category)
         );
         foreach ($categoriesToAdd as $categoryToAdd) {
             $this->addCategory($categoryToAdd);
         }
         $categoriesToRemove = $formerCategories->filter(
-            fn(Categoryinterface $category) => !$categories->contains($category)
+            fn (Categoryinterface $category) => !$categories->contains($category)
         );
         foreach ($categoriesToRemove as $categoryToRemove) {
             $this->removeCategory($categoryToRemove);
@@ -332,7 +332,7 @@ class ProductModel implements ProductModelInterface, \Stringable
      */
     public function getCategoryCodes(): array
     {
-        $codes = $this->getCategories()->map(fn(CategoryInterface $category) => $category->getCode())->toArray();
+        $codes = $this->getCategories()->map(fn (CategoryInterface $category) => $category->getCode())->toArray();
 
         sort($codes);
 

@@ -275,7 +275,7 @@ class Channel implements ChannelInterface, \Stringable
     public function getLocaleCodes()
     {
         return $this->locales->map(
-            fn($locale) => $locale->getCode()
+            fn ($locale) => $locale->getCode()
         )->toArray();
     }
 

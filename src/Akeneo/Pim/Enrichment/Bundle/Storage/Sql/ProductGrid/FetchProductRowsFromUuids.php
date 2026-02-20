@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\ProductGrid;
 
-use Akeneo\Pim\Enrichment\Component\Product\Grid\ReadModel\Row;
 use Akeneo\Pim\Enrichment\Component\Product\Factory\WriteValueCollectionFactory;
 use Akeneo\Pim\Enrichment\Component\Product\Grid\ReadModel;
+use Akeneo\Pim\Enrichment\Component\Product\Grid\ReadModel\Row;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Query\FetchProductRowsFromUuidsInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Query\GetProductCompletenesses;
@@ -180,7 +180,7 @@ SQL;
 
         foreach ($valueCollections as $productUuid => $valueCollection) {
             $result[$productUuid]['value_collection'] = $valueCollection->filter(
-                fn(ValueInterface $value) => ($value->getScopeCode() === $channelCode || $value->getScopeCode() === null)
+                fn (ValueInterface $value) => ($value->getScopeCode() === $channelCode || $value->getScopeCode() === null)
                     && ($value->getLocaleCode() === $localeCode || $value->getLocaleCode() === null)
             );
         }

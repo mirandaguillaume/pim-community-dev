@@ -16,9 +16,10 @@ final class ConnectorProductModelList
     private readonly array $connectorProductModels;
 
     public function __construct(/** @var int total number of product models returned by the search without the pagination */
-    private readonly int $totalNumberOfProductModels, array $connectorProductModels)
-    {
-        $this->connectorProductModels = (fn(ConnectorProductModel ...$connectorProductModels) => $connectorProductModels)(...$connectorProductModels);
+        private readonly int $totalNumberOfProductModels,
+        array $connectorProductModels
+    ) {
+        $this->connectorProductModels = (fn (ConnectorProductModel ...$connectorProductModels) => $connectorProductModels)(...$connectorProductModels);
     }
 
     public function totalNumberOfProductModels(): int

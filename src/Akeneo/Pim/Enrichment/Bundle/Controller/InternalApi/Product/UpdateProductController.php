@@ -100,7 +100,7 @@ final class UpdateProductController
             $hasPermissionException = \count(
                 \array_filter(
                     \iterator_to_array($e->violations()),
-                    fn(ConstraintViolationInterface $violation): bool => \is_int($violation->getCode()) && ViolationCode::containsViolationCode((int)$violation->getCode(), ViolationCode::PERMISSION)
+                    fn (ConstraintViolationInterface $violation): bool => \is_int($violation->getCode()) && ViolationCode::containsViolationCode((int)$violation->getCode(), ViolationCode::PERMISSION)
                 )
             ) > 0;
             if ($hasPermissionException) {

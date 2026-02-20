@@ -199,7 +199,7 @@ class ChannelController
     {
         return array_filter(
             array_merge($channel->getConversionUnits(), $data['conversion_units']),
-            fn($value) => null !== $value && '' !== $value
+            fn ($value) => null !== $value && '' !== $value
         );
     }
 

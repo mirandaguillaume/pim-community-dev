@@ -26,6 +26,6 @@ SQL;
 
         $statement = $this->connection->executeQuery($query);
 
-        return array_map(fn($row) => new CategoryCode($row['code']), $statement->fetchAllAssociative());
+        return array_map(fn ($row) => new CategoryCode($row['code']), $statement->fetchAllAssociative());
     }
 }

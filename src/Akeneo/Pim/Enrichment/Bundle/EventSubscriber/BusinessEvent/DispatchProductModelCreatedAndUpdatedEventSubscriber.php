@@ -84,7 +84,7 @@ final class DispatchProductModelCreatedAndUpdatedEventSubscriber implements Disp
                     [
                         'type' => 'business_event.dispatch',
                         'event_count' => count($this->events),
-                        'events' => array_map(fn($event) => [
+                        'events' => array_map(fn ($event) => [
                             'name' => $event->getName(),
                             'uuid' => $event->getUuid(),
                             'author' => $event->getAuthor()->name(),

@@ -98,7 +98,7 @@ class JobRegistry
     {
         $jobs = array_filter(
             $this->getAllEnabledJobs(),
-            fn($job) => $job['type'] === $jobType
+            fn ($job) => $job['type'] === $jobType
         );
 
         if (empty($jobs)) {

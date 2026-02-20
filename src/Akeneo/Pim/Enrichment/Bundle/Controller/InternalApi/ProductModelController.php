@@ -90,7 +90,7 @@ class ProductModelController
         $productModelIdentifiers = explode(',', (string) $request->get('identifiers'));
         $productModels = $this->productModelRepository->findByIdentifiers($productModelIdentifiers);
 
-        $normalizedProductModels = array_map(fn($productModel) => $this->normalizeProductModel($productModel), $productModels);
+        $normalizedProductModels = array_map(fn ($productModel) => $this->normalizeProductModel($productModel), $productModels);
 
         return new JsonResponse($normalizedProductModels);
     }

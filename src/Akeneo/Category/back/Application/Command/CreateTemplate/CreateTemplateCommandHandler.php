@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Akeneo\Category\Application\Command\CreateTemplate;
 
-use Doctrine\DBAL\Driver\Exception;
 use Akeneo\Category\Application\Query\GetCategoryTemplateByCategoryTree;
 use Akeneo\Category\Application\Storage\Save\Saver\CategoryTemplateSaver;
 use Akeneo\Category\Application\Storage\Save\Saver\CategoryTreeTemplateSaver;
@@ -16,6 +15,7 @@ use Akeneo\Category\Domain\Query\GetCategoryInterface;
 use Akeneo\Category\Domain\ValueObject\LabelCollection;
 use Akeneo\Category\Domain\ValueObject\Template\TemplateCode;
 use Akeneo\Category\Domain\ValueObject\Template\TemplateUuid;
+use Doctrine\DBAL\Driver\Exception;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**

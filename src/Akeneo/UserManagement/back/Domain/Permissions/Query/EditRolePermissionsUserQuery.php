@@ -63,6 +63,6 @@ class EditRolePermissionsUserQuery
     {
         $editRoleRolesPermissions = $this->editRolePermissionsRoleQuery->getRolesWithMinimumEditRolePermissions();
         $editRoleRolesNamePermissions = array_map(fn ($role) => $role->getRole(), $editRoleRolesPermissions);
-        return array_filter($roles, (fn($role) => in_array($role, $editRoleRolesNamePermissions)));
+        return array_filter($roles, (fn ($role) => in_array($role, $editRoleRolesNamePermissions)));
     }
 }

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\ElasticsearchAndSql\CategoryTree;
 
-use Doctrine\DBAL\Exception;
 use Akeneo\Pim\Enrichment\Component\Category\CategoryTree\Query;
 use Akeneo\Pim\Enrichment\Component\Category\CategoryTree\ReadModel\ChildCategory;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 
 /**
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)
@@ -261,7 +261,7 @@ SQL;
             ]
         )->fetchAllAssociative();
 
-        $ids = array_map(fn($row) => (int) $row['id'], $rows);
+        $ids = array_map(fn ($row) => (int) $row['id'], $rows);
 
         return $ids;
     }

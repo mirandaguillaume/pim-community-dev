@@ -54,7 +54,7 @@ class SqlGetConnectorProducts implements Query\GetConnectorProducts
         ?array $localesToFilterOn
     ): ConnectorProductList {
         $result = $pqb->execute();
-        $uuids = array_map(fn(IdentifierResult $identifier) => $this->getUuidFromIdentifierResult($identifier->getId()), iterator_to_array($result));
+        $uuids = array_map(fn (IdentifierResult $identifier) => $this->getUuidFromIdentifierResult($identifier->getId()), iterator_to_array($result));
 
         $products = $this->fromProductUuids($uuids, $userId, $attributesToFilterOn, $channelToFilterOn, $localesToFilterOn);
 

@@ -32,6 +32,6 @@ SQL;
             ['channel_code' => \PDO::PARAM_STR]
         );
 
-        return array_map(fn($value) => $value['code'], $statement->fetchAllAssociative());
+        return array_map(fn ($value) => $value['code'], $statement->fetchAllAssociative());
     }
 }

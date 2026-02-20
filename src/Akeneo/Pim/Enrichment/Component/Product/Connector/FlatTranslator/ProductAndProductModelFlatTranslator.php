@@ -96,7 +96,7 @@ class ProductAndProductModelFlatTranslator implements FlatTranslatorInterface
 
     private function areValuesEmpty(array $values): bool
     {
-        return 0 === count(array_filter($values, fn($value) => '' !== $value));
+        return 0 === count(array_filter($values, fn ($value) => '' !== $value));
     }
 
     /**

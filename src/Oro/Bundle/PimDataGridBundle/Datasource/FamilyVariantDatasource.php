@@ -34,7 +34,7 @@ class FamilyVariantDatasource extends RepositoryDatasource
     {
         $familyVariants = $this->qb->getQuery()->execute();
 
-        return array_map(fn($familyVariant) => new ResultRecord(
+        return array_map(fn ($familyVariant) => new ResultRecord(
             $this->normalizer->normalize(
                 $familyVariant,
                 'datagrid',

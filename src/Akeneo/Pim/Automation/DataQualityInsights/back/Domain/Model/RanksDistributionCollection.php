@@ -42,7 +42,7 @@ final class RanksDistributionCollection implements \IteratorAggregate
 
     public function __construct(array $channelLocaleRanksDistributions)
     {
-        $this->channelLocaleRanksDistributions = $this->mapRanksDistributions(fn(array $ranksDistribution) => new RanksDistribution($ranksDistribution), $channelLocaleRanksDistributions);
+        $this->channelLocaleRanksDistributions = $this->mapRanksDistributions(fn (array $ranksDistribution) => new RanksDistribution($ranksDistribution), $channelLocaleRanksDistributions);
     }
 
     public function getIterator(): \Traversable
@@ -52,12 +52,12 @@ final class RanksDistributionCollection implements \IteratorAggregate
 
     public function toArray(): array
     {
-        return $this->mapRanksDistributions(fn(RanksDistribution $ranksDistribution) => $ranksDistribution->toArray(), $this->channelLocaleRanksDistributions);
+        return $this->mapRanksDistributions(fn (RanksDistribution $ranksDistribution) => $ranksDistribution->toArray(), $this->channelLocaleRanksDistributions);
     }
 
     public function getAverageRanks(): array
     {
-        return $this->mapRanksDistributions(fn(RanksDistribution $ranksDistribution) => $ranksDistribution->getAverageRank(), $this->channelLocaleRanksDistributions);
+        return $this->mapRanksDistributions(fn (RanksDistribution $ranksDistribution) => $ranksDistribution->getAverageRank(), $this->channelLocaleRanksDistributions);
     }
 
     private function mapRanksDistributions(callable $callback, array $channelLocaleRanksDistributions): array

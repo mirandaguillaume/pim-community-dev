@@ -132,7 +132,7 @@ class UserPreferencesListener
         $defaultScope = current(
             array_filter(
                 $channels,
-                fn($channel) => $channel->getCode() !== $removedChannel->getCode()
+                fn ($channel) => $channel->getCode() !== $removedChannel->getCode()
             )
         );
 
@@ -153,7 +153,7 @@ class UserPreferencesListener
         $defaultTree = current(
             array_filter(
                 $trees,
-                fn($tree) => $tree->getCode() !== $removedTree->getCode()
+                fn ($tree) => $tree->getCode() !== $removedTree->getCode()
             )
         );
 

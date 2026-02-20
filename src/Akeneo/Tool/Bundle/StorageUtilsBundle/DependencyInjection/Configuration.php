@@ -30,7 +30,7 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('original')->isRequired()->cannotBeEmpty()
                                 ->validate()
                                 ->ifTrue(
-                                    fn($class) => false === class_exists($class)
+                                    fn ($class) => false === class_exists($class)
                                 )
                                 ->thenInvalid('Invalid original class "%s".')
                                 ->end()
@@ -38,7 +38,7 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('override')->isRequired()->cannotBeEmpty()
                                 ->validate()
                                 ->ifTrue(
-                                    fn($class) => false === class_exists($class)
+                                    fn ($class) => false === class_exists($class)
                                 )
                                 ->thenInvalid('Invalid overriden class "%s".')
                                 ->end()

@@ -21,7 +21,7 @@ class LinkedProductsNormalizer
     public function normalize(Rows $rows, string $channelCode, string $localeCode): array
     {
         return array_map(
-            fn(Row $row) => [
+            fn (Row $row) => [
                 'id'                             => $row->technicalId(),
                 'identifier'                     => $row->identifier(),
                 'label'                          => $row->label(),

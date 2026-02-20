@@ -195,7 +195,7 @@ class DeleteProductsAndProductModelsTasklet implements TaskletInterface, Trackab
     {
         return count($products) + $this->countVariantProducts->forProductModelCodes(
             array_map(
-                fn(ProductModelInterface $productModel) => $productModel->getCode(),
+                fn (ProductModelInterface $productModel) => $productModel->getCode(),
                 $productModels
             )
         );
@@ -208,7 +208,7 @@ class DeleteProductsAndProductModelsTasklet implements TaskletInterface, Trackab
     {
         return $this->countProductModelsAndChildrenProductModels->forProductModelCodes(
             array_map(
-                fn(ProductModelInterface $productModel) => $productModel->getCode(),
+                fn (ProductModelInterface $productModel) => $productModel->getCode(),
                 $productModels
             )
         );
@@ -228,7 +228,7 @@ class DeleteProductsAndProductModelsTasklet implements TaskletInterface, Trackab
     private function filterProducts(array $entities): array
     {
         return array_values(
-            array_filter($entities, fn($item) => $item instanceof ProductInterface)
+            array_filter($entities, fn ($item) => $item instanceof ProductInterface)
         );
     }
 
@@ -241,7 +241,7 @@ class DeleteProductsAndProductModelsTasklet implements TaskletInterface, Trackab
     private function filterProductModels(array $entities): array
     {
         return array_values(
-            array_filter($entities, fn($item) => $item instanceof ProductModelInterface)
+            array_filter($entities, fn ($item) => $item instanceof ProductModelInterface)
         );
     }
 

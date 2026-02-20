@@ -20,7 +20,7 @@ final readonly class AddViewedAnnouncementsByUserHandler
 
     public function execute(AddViewedAnnouncementsByUserCommand $command): void
     {
-        $viewedAnnouncements = array_map(fn($viewedAnnouncementId) => ViewedAnnouncement::create(
+        $viewedAnnouncements = array_map(fn ($viewedAnnouncementId) => ViewedAnnouncement::create(
             $viewedAnnouncementId,
             $command->userId()
         ), $command->viewedAnnouncementIds());

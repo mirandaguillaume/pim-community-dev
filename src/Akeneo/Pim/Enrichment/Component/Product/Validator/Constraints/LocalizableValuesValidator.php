@@ -35,7 +35,7 @@ final class LocalizableValuesValidator extends ConstraintValidator
         }
 
         $localizableValues = $values->filter(
-            fn(ValueInterface $value): bool => $value->isLocalizable()
+            fn (ValueInterface $value): bool => $value->isLocalizable()
         );
 
         $attributes = $this->getAttributes->forCodes($localizableValues->getAttributeCodes());

@@ -47,7 +47,7 @@ final readonly class CriterionEvaluationResult
                     return [];
                 }
 
-                $attributes = array_keys(array_filter($attributes, fn($rate) => $rate < 100));
+                $attributes = array_keys(array_filter($attributes, fn ($rate) => $rate < 100));
 
                 return $attributes;
             });
@@ -56,7 +56,7 @@ final readonly class CriterionEvaluationResult
         // The 'attributes' array key is deprecated but kept here to allow backward compatibility
         $attributes = $this->data['attributes'] ?? [];
 
-        return ChannelLocaleDataCollection::fromNormalizedChannelLocaleData($attributes, fn($attributeCodes) => is_array($attributeCodes) ? $attributeCodes : []);
+        return ChannelLocaleDataCollection::fromNormalizedChannelLocaleData($attributes, fn ($attributeCodes) => is_array($attributeCodes) ? $attributeCodes : []);
     }
 
     public function getStatus(): CriterionEvaluationResultStatusCollection

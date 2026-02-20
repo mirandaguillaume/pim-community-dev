@@ -142,7 +142,7 @@ class ProductNormalizer implements NormalizerInterface, CacheableSupportsMethodI
         foreach ($associations as $association) {
             $associationType = $association->getAssociationType();
             $meta[$associationType->getCode()]['groupIds'] = array_map(
-                fn($group) => $group->getId(),
+                fn ($group) => $group->getId(),
                 $association->getGroups()->toArray()
             );
         }

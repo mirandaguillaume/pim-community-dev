@@ -42,6 +42,6 @@ SQL;
      */
     private function getAttributeCodes(Result $result): array
     {
-        return array_map(fn(array $result) => $result['code'], $result->fetchAllAssociative());
+        return array_map(fn (array $result) => $result['code'], $result->fetchAllAssociative());
     }
 }

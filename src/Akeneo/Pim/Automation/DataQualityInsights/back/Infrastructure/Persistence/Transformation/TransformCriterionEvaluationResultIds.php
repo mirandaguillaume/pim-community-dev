@@ -78,7 +78,7 @@ final readonly class TransformCriterionEvaluationResultIds
 
     private function transformRatesIdsToCodes(array $ratesIds): array
     {
-        return $this->transformChannelLocaleDataIds->transformToCodes($ratesIds, fn($rate) => $rate);
+        return $this->transformChannelLocaleDataIds->transformToCodes($ratesIds, fn ($rate) => $rate);
     }
 
     private function transformStatusIdsToCodes(array $statusIds): array

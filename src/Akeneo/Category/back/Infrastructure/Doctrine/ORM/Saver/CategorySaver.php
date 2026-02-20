@@ -62,7 +62,7 @@ class CategorySaver implements SaverInterface, BulkSaverInterface
 
         $this->eventDispatcher->dispatch(new GenericEvent($objects, $options), StorageEvents::PRE_SAVE_ALL);
 
-        $areObjectsNew = array_map(fn($object) => null === $object->getId(), $objects);
+        $areObjectsNew = array_map(fn ($object) => null === $object->getId(), $objects);
 
         foreach ($objects as $i => $object) {
             $this->validateObject($object);

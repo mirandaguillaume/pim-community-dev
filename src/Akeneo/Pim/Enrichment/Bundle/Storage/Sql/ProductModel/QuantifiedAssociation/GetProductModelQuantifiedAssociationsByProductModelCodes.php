@@ -123,7 +123,7 @@ SQL;
     private function productModelIds(array $quantifiedAssociationWithProductModelId): array
     {
         return array_map(
-            fn(array $quantifiedAssociations) => $quantifiedAssociations['id'],
+            fn (array $quantifiedAssociations) => $quantifiedAssociations['id'],
             $quantifiedAssociationWithProductModelId['product_models'] ?? []
         );
     }

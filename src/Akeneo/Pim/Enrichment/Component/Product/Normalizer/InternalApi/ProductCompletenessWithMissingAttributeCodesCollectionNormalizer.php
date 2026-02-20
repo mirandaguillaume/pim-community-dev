@@ -206,7 +206,7 @@ class ProductCompletenessWithMissingAttributeCodesCollectionNormalizer
         foreach ($completenesses as $completeness) {
             $normalizedCompletenesses[$completeness->localeCode()] = [
                 'completeness' => $this->normalizer->normalize($completeness, 'internal_api'),
-                'missing' => array_map(fn($attributeCode) => [
+                'missing' => array_map(fn ($attributeCode) => [
                     'code'   => $attributeCode,
                     'labels' => $this->normalizeAttributeLabels($attributeLabels, $attributeCode, $localeCodes),
                 ], $completeness->missingAttributeCodes()),

@@ -63,7 +63,7 @@ SQL;
             return null;
         }
 
-        $ids = array_map(fn($resultRow) => $resultRow['id'], $result);
+        $ids = array_map(fn ($resultRow) => $resultRow['id'], $result);
 
         if (empty($ids)) {
             return null;

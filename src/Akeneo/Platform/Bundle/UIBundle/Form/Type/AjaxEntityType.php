@@ -136,7 +136,8 @@ class AjaxEntityType extends AbstractType
         $view->vars['attr']['data-url'] = $options['url'];
         $view->vars['attr']['data-min-input-length'] = $options['minimum_input_length'];
         $view->vars['attr']['data-choices'] = json_encode(
-            $this->getTransformer($options)->getOptions($form->getData()), JSON_THROW_ON_ERROR
+            $this->getTransformer($options)->getOptions($form->getData()),
+            JSON_THROW_ON_ERROR
         );
         if ($options['required']) {
             $view->vars['attr']['data-required'] = 'required';

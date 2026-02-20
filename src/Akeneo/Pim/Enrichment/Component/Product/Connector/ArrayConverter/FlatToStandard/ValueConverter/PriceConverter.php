@@ -36,7 +36,7 @@ class PriceConverter extends AbstractValueConverter
             $data = [];
         }
 
-        $data = array_map(fn($priceValue) => $this->convertPrice($priceValue, $attributeFieldInfo['attribute']), $data);
+        $data = array_map(fn ($priceValue) => $this->convertPrice($priceValue, $attributeFieldInfo['attribute']), $data);
 
         return [$attributeFieldInfo['attribute']->getCode() => [[
             'locale' => $attributeFieldInfo['locale_code'],

@@ -68,7 +68,7 @@ class AttributeTypeRegistry
 
         return array_filter(
             $aliases,
-            fn($alias) => null === $this->types[$alias]['feature'] || $this->featureFlags->isEnabled($this->types[$alias]['feature'])
+            fn ($alias) => null === $this->types[$alias]['feature'] || $this->featureFlags->isEnabled($this->types[$alias]['feature'])
         );
     }
 

@@ -187,7 +187,7 @@ class HTMLFilter
     {
         return preg_replace_callback(
             '/&\w+;/',
-            static fn($match) => str_repeat(' ', strlen((string) $match[0])),
+            static fn ($match) => str_repeat(' ', strlen((string) $match[0])),
             $string
         );
     }

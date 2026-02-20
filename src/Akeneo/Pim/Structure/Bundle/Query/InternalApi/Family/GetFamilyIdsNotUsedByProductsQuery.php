@@ -28,6 +28,6 @@ final readonly class GetFamilyIdsNotUsedByProductsQuery implements GetFamilyIdsN
         );
         SQL;
 
-        return array_map(fn(string $code) => intval($code), $this->connection->executeQuery($query, [])->fetchFirstColumn());
+        return array_map(fn (string $code) => intval($code), $this->connection->executeQuery($query, [])->fetchFirstColumn());
     }
 }

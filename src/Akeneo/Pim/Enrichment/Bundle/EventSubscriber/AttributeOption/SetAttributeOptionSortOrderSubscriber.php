@@ -81,13 +81,13 @@ class SetAttributeOptionSortOrderSubscriber implements EventSubscriberInterface
      */
     private function setSortOrders(array $options): void
     {
-        $options = array_filter($options, fn(AttributeoptionInterface $option) => null === $option->getSortOrder());
+        $options = array_filter($options, fn (AttributeoptionInterface $option) => null === $option->getSortOrder());
 
         if (0 === \count($options)) {
             return;
         }
 
-        $attributeCodes = array_unique(array_map(fn(AttributeOptionInterface $option): string => $option->getAttribute()->getCode(), $options));
+        $attributeCodes = array_unique(array_map(fn (AttributeOptionInterface $option): string => $option->getAttribute()->getCode(), $options));
 
         $currentMaxSortOrders = $this->getAttributeOptionsMaxSortOrder->forAttributeCodes(
             array_values($attributeCodes)

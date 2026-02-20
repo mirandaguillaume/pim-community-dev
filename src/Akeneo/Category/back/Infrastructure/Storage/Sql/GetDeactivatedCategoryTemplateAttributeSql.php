@@ -61,7 +61,7 @@ class GetDeactivatedCategoryTemplateAttributeSql implements GetDeactivatedAttrib
             ->executeQuery()
             ->fetchAllAssociative();
 
-        $attributes = array_map(static fn($attributes) => Attribute::fromDatabase($attributes), $categoryAttributes);
+        $attributes = array_map(static fn ($attributes) => Attribute::fromDatabase($attributes), $categoryAttributes);
 
         return AttributeCollection::fromArray($attributes);
     }

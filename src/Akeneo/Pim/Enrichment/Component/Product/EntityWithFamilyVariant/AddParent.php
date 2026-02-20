@@ -72,7 +72,7 @@ class AddParent
         }
 
         $filteredValues = $product->getValues()->filter(
-            fn(ValueInterface $value) => in_array($value->getAttributeCode(), $attributeCodes)
+            fn (ValueInterface $value) => in_array($value->getAttributeCode(), $attributeCodes)
         );
 
         return $filteredValues;

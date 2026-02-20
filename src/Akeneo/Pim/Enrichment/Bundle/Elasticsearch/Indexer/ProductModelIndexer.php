@@ -93,7 +93,7 @@ class ProductModelIndexer implements ProductModelIndexerInterface
         }
 
         $indexIdentifiers = array_map(
-            fn($productModelId) => self::PRODUCT_MODEL_IDENTIFIER_PREFIX . (string) $productModelId,
+            fn ($productModelId) => self::PRODUCT_MODEL_IDENTIFIER_PREFIX . (string) $productModelId,
             $productModelIds
         );
 

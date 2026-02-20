@@ -64,7 +64,7 @@ final readonly class ConfigureCategoryTreeForExportJobsAfterChangingTheChannelCa
 
         return \array_filter(
             $jobInstances,
-            fn(JobInstance $jobInstance) => $jobInstance->getRawParameters()['filters']['structure']['scope'] === $channelCode
+            fn (JobInstance $jobInstance) => $jobInstance->getRawParameters()['filters']['structure']['scope'] === $channelCode
         );
     }
 

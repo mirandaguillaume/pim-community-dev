@@ -40,9 +40,9 @@ final class DashboardRates
         $result = $this->convertRatesByTimePeriod($this->timePeriod);
 
         $actions = [
-            TimePeriod::DAILY => fn(array $rates) => $this->ensureRatesContainEnoughDays($rates),
-            TimePeriod::WEEKLY => fn(array $rates) => $this->ensureRatesContainEnoughWeeks($rates),
-            TimePeriod::MONTHLY => fn(array $rates) => $this->ensureRatesContainEnoughMonths($rates),
+            TimePeriod::DAILY => fn (array $rates) => $this->ensureRatesContainEnoughDays($rates),
+            TimePeriod::WEEKLY => fn (array $rates) => $this->ensureRatesContainEnoughWeeks($rates),
+            TimePeriod::MONTHLY => fn (array $rates) => $this->ensureRatesContainEnoughMonths($rates),
         ];
 
         return $actions[$this->timePeriod]($result);

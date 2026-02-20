@@ -34,7 +34,7 @@ class AppActivateContext extends PimContext
         /** @var Element $page */
         $page = $this->getCurrentPage();
 
-        $appTitle = $this->spin(fn() => $page->find('named', ['content', $appName]), sprintf('Cannot find the %s app', $appName));
+        $appTitle = $this->spin(fn () => $page->find('named', ['content', $appName]), sprintf('Cannot find the %s app', $appName));
 
         Assert::assertNotNull($appTitle);
     }
@@ -72,7 +72,7 @@ class AppActivateContext extends PimContext
     {
         $session = $this->getSession();
 
-        $this->spin(fn() => $url === $session->getCurrentUrl()
+        $this->spin(fn () => $url === $session->getCurrentUrl()
             || preg_match(sprintf('|^%s$|', $url), $session->getCurrentUrl()), sprintf('Current url is not %s, got %s', $url, $session->getCurrentUrl()));
     }
 

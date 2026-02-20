@@ -47,7 +47,7 @@ class IdFilter extends AbstractFieldFilter
 
         if (is_array($value)) {
             $value = array_map(
-                fn($value) => (string) $this->prefix.$value,
+                fn ($value) => (string) $this->prefix.$value,
                 $value
             );
         } else {

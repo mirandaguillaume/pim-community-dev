@@ -18,9 +18,12 @@ class InvalidObjectException extends \LogicException
      * @param int        $code
      */
     public function __construct(/* @var string */
-    protected $objectClassName, /* @var string */
-    protected $expectedClassName, $message = '', $code = 0, \Exception $previous = null)
-    {
+        protected $objectClassName, /* @var string */
+        protected $expectedClassName,
+        $message = '',
+        $code = 0,
+        \Exception $previous = null
+    ) {
         parent::__construct($message, $code, $previous);
     }
 

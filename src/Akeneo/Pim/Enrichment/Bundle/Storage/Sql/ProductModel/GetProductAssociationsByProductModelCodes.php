@@ -24,7 +24,7 @@ final readonly class GetProductAssociationsByProductModelCodes
             return [];
         }
 
-        $productModelCodes = (fn(string ...$codes) => $codes)(... $productModelCodes);
+        $productModelCodes = (fn (string ...$codes) => $codes)(... $productModelCodes);
 
         $query = <<<SQL
 WITH main_identifier AS (

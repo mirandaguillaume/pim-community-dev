@@ -76,7 +76,7 @@ class ProductSaver implements SaverInterface, BulkSaverInterface
             $products = array_values(
                 array_filter(
                     $products,
-                    fn(ProductInterface $product): bool => $product->isDirty()
+                    fn (ProductInterface $product): bool => $product->isDirty()
                 )
             );
         }
@@ -89,7 +89,7 @@ class ProductSaver implements SaverInterface, BulkSaverInterface
 
         $this->eventDispatcher->dispatch(new GenericEvent($products, $options), StorageEvents::PRE_SAVE_ALL);
 
-        $areProductsNew = array_map(fn($product) => null === $product->getCreated(), $products);
+        $areProductsNew = array_map(fn ($product) => null === $product->getCreated(), $products);
 
         $this->objectManager->getConnection()->beginTransaction();
 

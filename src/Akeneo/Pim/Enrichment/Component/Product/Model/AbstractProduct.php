@@ -402,13 +402,13 @@ abstract class AbstractProduct implements ProductInterface, \Stringable
     {
         $formerCategories = $this->getCategories();
         $categoriesToAdd = $categories->filter(
-            fn(CategoryInterface $category) => !$formerCategories->contains($category)
+            fn (CategoryInterface $category) => !$formerCategories->contains($category)
         );
         foreach ($categoriesToAdd as $categoryToAdd) {
             $this->addCategory($categoryToAdd);
         }
         $categoriesToRemove = $formerCategories->filter(
-            fn(Categoryinterface $category) => !$categories->contains($category)
+            fn (Categoryinterface $category) => !$categories->contains($category)
         );
         foreach ($categoriesToRemove as $categoryToRemove) {
             $this->removeCategory($categoryToRemove);
@@ -432,7 +432,7 @@ abstract class AbstractProduct implements ProductInterface, \Stringable
      */
     public function getCategoryCodes()
     {
-        $codes = $this->getCategories()->map(fn(CategoryInterface $category): string => $category->getCode())->toArray();
+        $codes = $this->getCategories()->map(fn (CategoryInterface $category): string => $category->getCode())->toArray();
         sort($codes);
 
         return $codes;
@@ -443,7 +443,7 @@ abstract class AbstractProduct implements ProductInterface, \Stringable
      */
     public function getGroupCodes()
     {
-        $codes = $this->groups->map(fn(GroupInterface $group): string => $group->getCode())->toArray();
+        $codes = $this->groups->map(fn (GroupInterface $group): string => $group->getCode())->toArray();
         sort($codes);
 
         return $codes;
@@ -455,11 +455,11 @@ abstract class AbstractProduct implements ProductInterface, \Stringable
     public function setGroups(Collection $groups): void
     {
         $formerGroups = $this->getGroups();
-        $groupsToAdd = $groups->filter(fn(GroupInterface $group): bool => !$formerGroups->contains($group));
+        $groupsToAdd = $groups->filter(fn (GroupInterface $group): bool => !$formerGroups->contains($group));
         foreach ($groupsToAdd as $groupToAdd) {
             $this->addGroup($groupToAdd);
         }
-        $groupsToRemove = $formerGroups->filter(fn(GroupInterface $group): bool => !$groups->contains($group));
+        $groupsToRemove = $formerGroups->filter(fn (GroupInterface $group): bool => !$groups->contains($group));
         foreach ($groupsToRemove as $groupToRemove) {
             $this->removeGroup($groupToRemove);
         }

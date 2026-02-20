@@ -2,10 +2,10 @@
 
 namespace Akeneo\Category\Infrastructure\Storage\Sql\Update;
 
-use Doctrine\DBAL\Driver\Exception;
 use Akeneo\Category\Application\Storage\UpdateCategoryEnrichedValues;
 use Akeneo\Category\Domain\ValueObject\ValueCollection;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Driver\Exception;
 
 final readonly class UpdateCategoryEnrichedValuesSql implements UpdateCategoryEnrichedValues
 {

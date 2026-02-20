@@ -78,7 +78,7 @@ class SqlGetConnectorProductsWithOptions implements Query\GetConnectorProducts
         $optionCodes = $this->getOptionCodes($connectorProducts);
         $optionWithLabels = $this->getOptionWithLabels($optionCodes);
 
-        return array_map(fn(ConnectorProduct $product) => $product->buildLinkedData($optionWithLabels), $connectorProducts);
+        return array_map(fn (ConnectorProduct $product) => $product->buildLinkedData($optionWithLabels), $connectorProducts);
     }
 
     /**

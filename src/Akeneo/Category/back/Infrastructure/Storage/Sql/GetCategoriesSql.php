@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Akeneo\Category\Infrastructure\Storage\Sql;
 
-use Doctrine\DBAL\Exception;
 use Akeneo\Category\Application\Query\ExternalApiSqlParameters;
 use Akeneo\Category\Application\Query\GetCategoriesInterface;
 use Akeneo\Category\Domain\Query\GetDeactivatedTemplateAttributes\DeactivatedTemplateAttributeIdentifier;
@@ -12,6 +11,7 @@ use Akeneo\Category\Domain\Query\GetDeactivatedTemplateAttributes\DeactivatedTem
 use Akeneo\Category\Domain\Query\GetDeactivatedTemplateAttributes\GetDeactivatedTemplateAttributes;
 use Akeneo\Category\ServiceApi\ExternalApiCategory;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)

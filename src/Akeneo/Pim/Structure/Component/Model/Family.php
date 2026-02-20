@@ -266,7 +266,7 @@ class Family implements FamilyInterface, \Stringable
     public function getAttributeAsLabelChoices()
     {
         return $this->attributes->filter(
-            fn($attribute) => in_array(
+            fn ($attribute) => in_array(
                 $attribute->getType(),
                 [AttributeTypes::TEXT, AttributeTypes::IDENTIFIER]
             )

@@ -72,7 +72,7 @@ SQL;
             return null;
         }
 
-        $uuids = array_map(fn($resultRow) => $resultRow['uuid'], $result);
+        $uuids = array_map(fn ($resultRow) => $resultRow['uuid'], $result);
 
         if (empty($uuids)) {
             return null;
