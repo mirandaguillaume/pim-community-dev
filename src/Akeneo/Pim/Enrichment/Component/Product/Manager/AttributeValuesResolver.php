@@ -51,7 +51,7 @@ class AttributeValuesResolver implements AttributeValuesResolverInterface
      * @param ChannelInterface[]   $channels   Context channels (all channels by default)
      * @param LocaleInterface[]    $locales    Context locales (all locales by default)
      *
-     * @return array:array
+     * @return array[]
      */
     public function resolveEligibleValues(array $attributes, array $channels = null, array $locales = null) : array
     {

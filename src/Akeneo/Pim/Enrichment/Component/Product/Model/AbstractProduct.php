@@ -293,6 +293,7 @@ abstract class AbstractProduct implements ProductInterface, \Stringable
      */
     public function setValues(WriteValueCollection $values)
     {
+        /** @phpstan-ignore nullCoalesce.property */
         $formerValues = WriteValueCollection::fromCollection($this->values ?? new WriteValueCollection());
         foreach ($formerValues as $formerValue) {
             $matching = $values->getSame($formerValue);
