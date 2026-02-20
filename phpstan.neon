@@ -13,9 +13,10 @@ parameters:
     ignoreErrors:
         - '#Unsafe usage of new static\(\)\.#'
     excludePaths:
-        - %currentWorkingDirectory%/src/Akeneo/Pim/Automation/DataQualityInsights/tests
-        - %currentWorkingDirectory%/src/Akeneo/Pim/Enrichment/Bundle/Resources/fonts
-        - %currentWorkingDirectory%/src/Akeneo/Pim/Platform/Job (?)
-        - %currentWorkingDirectory%/src/Akeneo/Pim/Enrichment/Product/back/Test/Specification
-        - %currentWorkingDirectory%/src/Akeneo/Pim/Enrichment/Product/back/Test/Acceptance/Specification
-        - %currentWorkingDirectory%/src/Akeneo/Pim/Enrichment/Category/back/Test/Acceptance/Specification (?)
+        analyseAndScan:
+            - src/Akeneo/Pim/Automation/DataQualityInsights/tests
+            - src/Akeneo/Pim/Enrichment/Bundle/Resources/fonts
+            - src/Akeneo/Pim/Platform/Job (?)
+            - src/Akeneo/Pim/Enrichment/Product/back/Test/Specification
+            - src/Akeneo/Pim/Enrichment/Product/back/Test/Acceptance/Specification
+            - src/Akeneo/Pim/Enrichment/Category/back/Test/Acceptance/Specification (?)
