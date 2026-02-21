@@ -8,8 +8,8 @@ use Akeneo\Connectivity\Connection\Application\Settings\Service\CreateClientInte
 use Akeneo\Connectivity\Connection\Domain\Settings\Model\Read\Client;
 use Akeneo\Connectivity\Connection\Infrastructure\Settings\Client\Fos\CreateClient;
 use Akeneo\Tool\Bundle\ApiBundle\Entity\Client as FosClient;
-use FOS\OAuthServerBundle\Model\ClientManagerInterface;
-use OAuth2\OAuth2;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientManagerInterface;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\OAuth2;
 use PhpSpec\ObjectBehavior;
 
 class CreateClientSpec extends ObjectBehavior

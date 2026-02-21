@@ -9,7 +9,7 @@ use Akeneo\Tool\Bundle\ApiBundle\Entity\Client;
 use Akeneo\Tool\Bundle\ApiBundle\Handler\DeleteExpiredTokensHandler;
 use Akeneo\Tool\Bundle\ApiBundle\tests\integration\ApiTestCase;
 use Doctrine\DBAL\Connection;
-use FOS\OAuthServerBundle\Model\ClientManagerInterface;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientManagerInterface;
 
 /**
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)

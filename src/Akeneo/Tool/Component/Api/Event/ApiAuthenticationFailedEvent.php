@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Tool\Component\Api\Event;
 
-use OAuth2\OAuth2AuthenticateException;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\OAuth2AuthenticateException;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**

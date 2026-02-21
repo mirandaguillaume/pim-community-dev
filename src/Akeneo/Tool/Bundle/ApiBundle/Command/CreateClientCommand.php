@@ -2,8 +2,8 @@
 
 namespace Akeneo\Tool\Bundle\ApiBundle\Command;
 
-use FOS\OAuthServerBundle\Model\ClientManagerInterface;
-use OAuth2\OAuth2;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientManagerInterface;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\OAuth2;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

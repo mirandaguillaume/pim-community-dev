@@ -6,8 +6,8 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\Apps\OAuth;
 
 use Akeneo\Connectivity\Connection\Domain\Marketplace\Model\App;
 use Akeneo\Tool\Bundle\ApiBundle\Entity\Client;
-use FOS\OAuthServerBundle\Model\ClientManagerInterface;
-use OAuth2\OAuth2;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientManagerInterface;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\OAuth2;
 
 /**
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)

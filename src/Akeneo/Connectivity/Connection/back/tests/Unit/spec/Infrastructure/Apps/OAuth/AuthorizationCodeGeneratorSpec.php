@@ -7,11 +7,11 @@ namespace spec\Akeneo\Connectivity\Connection\Infrastructure\Apps\OAuth;
 use Akeneo\Connectivity\Connection\Application\RandomCodeGeneratorInterface;
 use Akeneo\Connectivity\Connection\Domain\Apps\DTO\AppConfirmation;
 use Akeneo\Connectivity\Connection\Domain\ClockInterface;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\IOAuth2GrantCode;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientInterface;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientManagerInterface;
 use Akeneo\UserManagement\Component\Model\UserInterface;
 use Akeneo\UserManagement\Component\Repository\UserRepositoryInterface;
-use FOS\OAuthServerBundle\Model\ClientManagerInterface;
-use OAuth2\IOAuth2GrantCode;
-use OAuth2\Model\IOAuth2Client;
 use PhpSpec\ObjectBehavior;
 
 class AuthorizationCodeGeneratorSpec extends ObjectBehavior
@@ -39,7 +39,7 @@ class AuthorizationCodeGeneratorSpec extends ObjectBehavior
         RandomCodeGeneratorInterface $randomCodeGenerator,
         ClockInterface $clock,
         \DateTimeImmutable $now,
-        IOAuth2Client $client,
+        ClientInterface $client,
         UserInterface $pimUser
     ): void {
         $code = 'MjE3NTE3YjQ0MzcwYTU1YjZlZjRhMzZiZGQwOWZmMDhlMmFkMzIxNmM5YjhiYjg2M2QwMjg4ZGIzZjE5ZjAzMg';

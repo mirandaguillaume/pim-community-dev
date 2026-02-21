@@ -6,8 +6,8 @@ namespace spec\Akeneo\Connectivity\Connection\Infrastructure\Apps\Validation;
 
 use Akeneo\Connectivity\Connection\Infrastructure\Apps\Validation\ClientIdMustBeValid;
 use Akeneo\Connectivity\Connection\Infrastructure\Apps\Validation\ClientIdMustBeValidValidator;
-use FOS\OAuthServerBundle\Model\ClientInterface;
-use FOS\OAuthServerBundle\Model\ClientManagerInterface;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientInterface;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientManagerInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\Validator\Constraint;

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Infrastructure\Apps\Validation;
 
-use FOS\OAuthServerBundle\Model\ClientInterface;
-use FOS\OAuthServerBundle\Model\ClientManagerInterface;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientInterface;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientManagerInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;

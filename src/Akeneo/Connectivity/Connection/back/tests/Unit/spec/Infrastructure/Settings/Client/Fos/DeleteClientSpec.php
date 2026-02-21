@@ -8,7 +8,7 @@ use Akeneo\Connectivity\Connection\Application\Settings\Service\DeleteClientInte
 use Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject\ClientId;
 use Akeneo\Connectivity\Connection\Infrastructure\Settings\Client\Fos\DeleteClient;
 use Akeneo\Tool\Bundle\ApiBundle\Entity\Client;
-use FOS\OAuthServerBundle\Model\ClientManagerInterface;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientManagerInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 

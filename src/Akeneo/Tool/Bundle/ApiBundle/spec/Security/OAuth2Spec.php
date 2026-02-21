@@ -2,8 +2,8 @@
 
 namespace spec\Akeneo\Tool\Bundle\ApiBundle\Security;
 
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\IOAuth2Storage;
 use Akeneo\Tool\Component\Api\Event\ApiAuthenticationFailedEvent;
-use OAuth2\IOAuth2Storage;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;

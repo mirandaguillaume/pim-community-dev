@@ -10,7 +10,7 @@ use Akeneo\Tool\Bundle\ApiBundle\Entity\Client;
 use Akeneo\Tool\Bundle\ApiBundle\tests\integration\ApiTestCase;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
-use FOS\OAuthServerBundle\Model\ClientManagerInterface;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientManagerInterface;
 
 /**
  * @copyright 2023 Akeneo SAS (http://www.akeneo.com)

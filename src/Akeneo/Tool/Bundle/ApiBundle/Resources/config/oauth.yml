@@ -1,0 +1,57 @@
+parameters:
+    # Backward-compatible parameter aliases (previously set by FOSOAuthServerBundle)
+    fos_oauth_server.model.client.class: Akeneo\Tool\Bundle\ApiBundle\Entity\Client
+    fos_oauth_server.model.access_token.class: Akeneo\Tool\Bundle\ApiBundle\Entity\AccessToken
+    fos_oauth_server.model.refresh_token.class: Akeneo\Tool\Bundle\ApiBundle\Entity\RefreshToken
+    fos_oauth_server.model.auth_code.class: Akeneo\Tool\Bundle\ApiBundle\Entity\AuthCode
+
+    # OAuth2 server options (replaces fos_oauth_server.server.options)
+    fos_oauth_server.server.options:
+        access_token_lifetime: 3600
+        refresh_token_lifetime: 1209600
+
+services:
+    # --- Core OAuth2 storage (replaces fos_oauth_server.storage and fos_oauth_server.storage.default) ---
+    Akeneo\Tool\Bundle\ApiBundle\OAuth\OAuthStorage:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@security.user.provider.concrete.chain_provider_api'
+            - '@security.password_hasher_factory'
+            - '%fos_oauth_server.model.client.class%'
+            - '%fos_oauth_server.model.access_token.class%'
+            - '%fos_oauth_server.model.refresh_token.class%'
+            - '%fos_oauth_server.model.auth_code.class%'
+
+    # Backward-compatible aliases
+    fos_oauth_server.storage:
+        alias: Akeneo\Tool\Bundle\ApiBundle\OAuth\OAuthStorage
+        public: true
+
+    fos_oauth_server.storage.default:
+        alias: Akeneo\Tool\Bundle\ApiBundle\OAuth\OAuthStorage
+        public: true
+
+    # --- Client manager (replaces fos_oauth_server.client_manager.default) ---
+    Akeneo\Tool\Bundle\ApiBundle\OAuth\ClientManager:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '%fos_oauth_server.model.client.class%'
+
+    fos_oauth_server.client_manager.default:
+        alias: Akeneo\Tool\Bundle\ApiBundle\OAuth\ClientManager
+        public: true
+
+    # Alias for the interface used in type-hints
+    Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientManagerInterface:
+        alias: Akeneo\Tool\Bundle\ApiBundle\OAuth\ClientManager
+
+    # --- Entity manager alias (replaces fos_oauth_server.entity_manager) ---
+    fos_oauth_server.entity_manager:
+        alias: doctrine.orm.entity_manager
+        public: true
+
+    # --- Security authenticator ---
+    Akeneo\Tool\Bundle\ApiBundle\OAuth\Security\OAuthAuthenticator:
+        arguments:
+            - '@fos_oauth_server.server'
+            - '@security.user.provider.concrete.chain_provider_api'

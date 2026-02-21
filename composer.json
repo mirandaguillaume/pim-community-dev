@@ -8,6 +8,7 @@
             "homepage": "http://www.akeneo.com"
         }
     ],
+    "repositories": [],
     "autoload": {
         "psr-0": {
             "": "src/"
@@ -74,7 +75,6 @@
         "ext-pdo": "*",
         "ext-xml": "*",
         "ext-zip": "*",
-        "akeneo/oauth-server-bundle": "^v3.0.0",
         "ass/xmlsecurity": "1.1.1",
         "aws/aws-sdk-php": "^3.368.0",
         "doctrine/annotations": "^1.13.2",

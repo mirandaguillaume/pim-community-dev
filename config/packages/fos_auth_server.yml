@@ -1,8 +1,3 @@
-fos_oauth_server:
-    db_driver:                orm
-    client_class:             Akeneo\Tool\Bundle\ApiBundle\Entity\Client
-    access_token_class:       Akeneo\Tool\Bundle\ApiBundle\Entity\AccessToken
-    refresh_token_class:      Akeneo\Tool\Bundle\ApiBundle\Entity\RefreshToken
-    auth_code_class:          Akeneo\Tool\Bundle\ApiBundle\Entity\AuthCode
-    service:
-        user_provider:        security.user.provider.concrete.chain_provider_api
+# FOS OAuthServerBundle has been removed.
+# OAuth2 is now handled by Akeneo\Tool\Bundle\ApiBundle\OAuth classes.
+# This file is kept empty to avoid Symfony config errors on import.

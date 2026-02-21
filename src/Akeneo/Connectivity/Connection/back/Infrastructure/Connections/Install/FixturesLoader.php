@@ -6,6 +6,7 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\Connections\Install;
 
 use Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject\FlowType;
 use Akeneo\Pim\Enrichment\Component\FileStorage;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\OAuth2;
 use Akeneo\Tool\Component\FileStorage\File\FileStorerInterface;
 use Akeneo\Tool\Component\FileStorage\Model\FileInfoInterface;
 use Akeneo\Tool\Component\StorageUtils\Factory\SimpleFactoryInterface;
@@ -16,7 +17,6 @@ use Akeneo\UserManagement\Component\Model\RoleInterface;
 use Akeneo\UserManagement\Component\Model\UserInterface;
 use Doctrine\DBAL\Connection as DbalConnection;
 use Doctrine\DBAL\Types\Types;
-use OAuth2\OAuth2;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class FixturesLoader

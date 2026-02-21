@@ -6,8 +6,8 @@ namespace spec\Akeneo\Connectivity\Connection\Infrastructure\Apps\Validation;
 
 use Akeneo\Connectivity\Connection\Infrastructure\Apps\Validation\AuthorizationCodeMustBeValid;
 use Akeneo\Connectivity\Connection\Infrastructure\Apps\Validation\AuthorizationCodeMustBeValidValidator;
-use OAuth2\IOAuth2GrantCode;
-use OAuth2\Model\IOAuth2AuthCode;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\IOAuth2AuthCode;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\IOAuth2GrantCode;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\Validator\Constraint;
