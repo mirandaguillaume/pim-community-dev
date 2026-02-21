@@ -15,6 +15,12 @@ parameters:
 		-
 			message: '#return type has no value type specified in iterable type array#'
 			reportUnmatched: false
+		-
+			message: '#Strict comparison using [!=]+ between .* will always evaluate to (true|false)#'
+			reportUnmatched: false
+		-
+			message: '#Parameter .* of class GuzzleHttp\\Psr7\\Request constructor expects#'
+			reportUnmatched: false
 
 rules:
 	- Akeneo\Connectivity\Connection\Tests\PhpStan\Rule\CoverQueryByIntegrationTestRule
