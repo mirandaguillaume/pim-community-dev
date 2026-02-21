@@ -39,7 +39,7 @@ class AssociationTypeNormalizer implements NormalizerInterface, CacheableSupport
      *
      * @return array
      */
-    public function normalize($associationType, $format = null, array $context = [])
+    public function normalize($associationType, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $standardAssociationType = $this->standardNormalizer->normalize($associationType, 'standard', $context);
         $flatAssociationType = $standardAssociationType;

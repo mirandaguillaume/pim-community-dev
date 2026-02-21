@@ -24,10 +24,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:batch:publish-job-to-queue', description: 'Publish a registered job instance to execute into the job execution queue')]
 class PublishJobToQueueCommand extends Command
 {
-    protected static $defaultName = 'akeneo:batch:publish-job-to-queue';
-
     final public const EXIT_SUCCESS_CODE = 0;
 
     public function __construct(
@@ -46,7 +45,6 @@ class PublishJobToQueueCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Publish a registered job instance to execute into the job execution queue')
             ->addArgument('code', InputArgument::REQUIRED, 'Job instance code')
             ->addOption(
                 'config',

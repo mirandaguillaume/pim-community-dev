@@ -21,7 +21,7 @@ class ProductCompletenessCollectionNormalizer implements NormalizerInterface, Ca
      *
      * @param ProductCompletenessCollection $completenesses
      */
-    public function normalize($completenesses, $format = null, array $context = [])
+    public function normalize($completenesses, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $data = [];
 

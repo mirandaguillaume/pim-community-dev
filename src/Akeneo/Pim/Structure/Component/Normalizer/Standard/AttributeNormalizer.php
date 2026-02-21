@@ -28,7 +28,7 @@ class AttributeNormalizer implements NormalizerInterface, CacheableSupportsMetho
      *
      * @param AttributeInterface $attribute
      */
-    public function normalize($attribute, $format = null, array $context = [])
+    public function normalize($attribute, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $normalizedAttribute = [
             'code'                   => $attribute->getCode(),

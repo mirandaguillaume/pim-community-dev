@@ -16,10 +16,9 @@ use Webmozart\Assert\Assert;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:zdd-migration:migrate', description: 'Execute ZDD Migrations')]
 final class MigrateZddCommand extends Command
 {
-    protected static $defaultName = 'pim:zdd-migration:migrate';
-
     /** @var ZddMigration[] */
     private array $zddMigrations;
 
@@ -44,7 +43,6 @@ final class MigrateZddCommand extends Command
 
     protected function configure(): void
     {
-        $this->setDescription('Execute ZDD Migrations');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

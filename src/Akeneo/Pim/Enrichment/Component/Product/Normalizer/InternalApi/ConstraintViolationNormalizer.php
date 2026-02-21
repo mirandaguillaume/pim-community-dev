@@ -22,7 +22,7 @@ class ConstraintViolationNormalizer implements NormalizerInterface, CacheableSup
     /**
      * {@inheritdoc}
      */
-    public function normalize($violation, $format = null, array $context = [])
+    public function normalize($violation, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         Assert::isInstanceOf($violation, ConstraintViolation::class);
         $path = $this->getStandardPath($violation);

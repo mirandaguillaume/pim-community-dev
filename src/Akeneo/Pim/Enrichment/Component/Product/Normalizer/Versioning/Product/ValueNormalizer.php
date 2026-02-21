@@ -50,7 +50,7 @@ class ValueNormalizer implements NormalizerInterface, NormalizerAwareInterface, 
     /**
      * {@inheritdoc}
      */
-    public function normalize($entity, $format = null, array $context = [])
+    public function normalize($entity, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $data = $entity->getData();
         $fieldName = $this->getFieldName($entity);

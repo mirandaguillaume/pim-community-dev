@@ -25,7 +25,7 @@ class OptionsNormalizer implements NormalizerInterface, CacheableSupportsMethodI
     /**
      * {@inheritdoc}
      */
-    public function normalize($optionsValue, $format = null, array $context = [])
+    public function normalize($optionsValue, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $locale = $context['data_locale'] ?? null;
         $attributeCode = $optionsValue->getAttributeCode();

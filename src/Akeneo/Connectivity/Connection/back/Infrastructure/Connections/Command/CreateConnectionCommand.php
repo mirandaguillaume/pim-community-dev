@@ -20,13 +20,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:connectivity-connection:create', description: 'Creates a new connection')]
 class CreateConnectionCommand extends Command
 {
-    /**
-     * @var string
-     */
-    protected static $defaultName = 'akeneo:connectivity-connection:create';
-
     public function __construct(
         private readonly CreateConnectionHandler $createConnection,
         private readonly TranslatorInterface $translator,
@@ -40,7 +36,6 @@ class CreateConnectionCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Creates a new connection')
             ->addArgument(
                 'code',
                 InputArgument::REQUIRED,

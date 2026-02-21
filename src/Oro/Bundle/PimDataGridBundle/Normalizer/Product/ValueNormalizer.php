@@ -26,7 +26,7 @@ class ValueNormalizer implements NormalizerInterface, CacheableSupportsMethodInt
     /**
      * {@inheritdoc}
      */
-    public function normalize($entity, $format = null, array $context = [])
+    public function normalize($entity, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $stdProductValue = $this->standardNormalizer->normalize($entity, 'standard', $context);
 

@@ -25,7 +25,7 @@ class TranslationNormalizer implements NormalizerInterface
      *
      * @return array
      */
-    public function normalize($translatable, $format = null, array $context = [])
+    public function normalize($translatable, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $context = array_merge(
             [

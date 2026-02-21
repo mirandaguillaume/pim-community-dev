@@ -20,7 +20,7 @@ class LocaleType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $choices = $this->localeProvider->getLocales();
         $resolver->setDefaults(['choices' => $choices]);

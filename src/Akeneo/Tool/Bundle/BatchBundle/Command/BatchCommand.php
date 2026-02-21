@@ -31,11 +31,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  * @copyright 2013 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/MIT MIT
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:batch:job', description: '[Internal] Please use "akeneo:batch:publish-job-to-queue" to launch a registered job instance')]
 class BatchCommand extends Command
 {
-    protected static $defaultName = 'akeneo:batch:job';
-    protected static $defaultDescription = '[Internal] Please use "akeneo:batch:publish-job-to-queue" to launch a registered job instance';
-
     final public const EXIT_SUCCESS_CODE = 0;
     final public const EXIT_ERROR_CODE = 1;
     final public const EXIT_WARNING_CODE = 2;

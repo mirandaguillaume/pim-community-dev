@@ -12,9 +12,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Requirements\Requirement;
 use Symfony\Requirements\RequirementCollection;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:update:check-requirements')]
 class CheckUpdateRequirementsCommand extends Command
 {
-    protected static $defaultName = 'pim:update:check-requirements';
     private readonly Client $client;
 
     public function __construct(

@@ -43,7 +43,7 @@ class CategoryFilterType extends NumberFilterType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $choices = [
             self::EXCLUDE_SUB => 0,

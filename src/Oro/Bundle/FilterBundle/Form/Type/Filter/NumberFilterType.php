@@ -44,7 +44,7 @@ class NumberFilterType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $operatorChoices = [
             self::TYPE_EQUAL         => $this->translator->trans('oro.filter.form.label_type_equal'),

@@ -29,7 +29,7 @@ final class AclPrivilegeNormalizer implements NormalizerInterface, CacheableSupp
     /**
      * {@inheritdoc}
      */
-    public function normalize($privilege, $format = null, array $context = [])
+    public function normalize($privilege, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         Assert::isInstanceOf($privilege, AclPrivilege::class);
 

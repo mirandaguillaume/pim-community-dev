@@ -24,7 +24,7 @@ class ChannelNormalizer implements NormalizerInterface, CacheableSupportsMethodI
     /**
      * {@inheritdoc}
      */
-    public function normalize($channel, $format = null, array $context = [])
+    public function normalize($channel, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         return [
             'code'             => $channel->getCode(),

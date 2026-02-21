@@ -13,10 +13,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:batch:add-missing-job-instance-remove-completeness-for-channel-and-locale', description: 'Add missing job instance remove_completeness_for_channel_and_locale')]
 class AddMissingJobInstanceRemoveCompletenessChannelLocale extends Command
 {
-    protected static $defaultName = 'akeneo:batch:add-missing-job-instance-remove-completeness-for-channel-and-locale';
-
     final public const EXIT_SUCCESS_CODE = 0;
     final public const EXIT_ERROR_CODE = 1;
 
@@ -30,7 +29,6 @@ class AddMissingJobInstanceRemoveCompletenessChannelLocale extends Command
      */
     protected function configure()
     {
-        $this->setDescription('Add missing job instance remove_completeness_for_channel_and_locale');
     }
 
     /**

@@ -20,10 +20,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:reference-data:check', description: 'Check the requirements of the reference data configuration')]
 class CheckRequirementsCommand extends Command
 {
-    protected static $defaultName = 'pim:reference-data:check';
-
     public function __construct(
         private readonly ConfigurationRegistryInterface $configurationRegistry,
         private readonly ObjectManager $objectManager,
@@ -37,8 +36,6 @@ class CheckRequirementsCommand extends Command
      */
     protected function configure()
     {
-        $this
-            ->setDescription('Check the requirements of the reference data configuration');
     }
 
     /**

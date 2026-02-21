@@ -24,11 +24,9 @@ use Symfony\Component\Process\Process;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:batch:watchdog', description: '[Internal] Launched by the job queue consumer', hidden: true)]
 final class JobExecutionWatchdogCommand extends Command
 {
-    protected static $defaultName = 'akeneo:batch:watchdog';
-    protected static $defaultDescription = '[Internal] Launched by the job queue consumer';
-
     /** Interval in seconds before updating health check if job is still running. */
     public const HEALTH_CHECK_INTERVAL = 5;
 
@@ -47,7 +45,6 @@ final class JobExecutionWatchdogCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setHidden(true)
             ->addOption(
                 'job_execution_id',
                 null,

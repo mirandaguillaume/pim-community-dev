@@ -42,7 +42,7 @@ class AjaxChoiceFilterType extends ChoiceFilterType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         parent::buildForm($builder, $options);
         $builder->add('type', $options['operator_type'], ['choices' => $this->getOperatorChoices($options)]);
@@ -53,7 +53,7 @@ class AjaxChoiceFilterType extends ChoiceFilterType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 

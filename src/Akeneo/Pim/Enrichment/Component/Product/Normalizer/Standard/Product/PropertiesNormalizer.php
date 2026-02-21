@@ -38,7 +38,7 @@ class PropertiesNormalizer implements NormalizerInterface, CacheableSupportsMeth
     /**
      * {@inheritdoc}
      */
-    public function normalize($product, $format = null, array $context = [])
+    public function normalize($product, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $context = array_merge(['filter_types' => ['pim.transform.product_value.structured']], $context);
         $data = [];

@@ -13,7 +13,7 @@ class UploadedFile extends Constraint
     public string $unsupportedExtensionMessage = 'The extension of the file is invalid ({{ extension }}). Allowed extensions are {{ extensions }}.';
     public string $fileIsCorruptedMessage = 'The content of the file is corrupted.';
 
-    public function getRequiredOptions()
+    public function getRequiredOptions(): array
     {
         return ['types'];
     }

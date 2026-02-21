@@ -16,10 +16,9 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:oauth-server:revoke-client', description: 'This command revokes a pair of client id / secret')]
 class RevokeClientCommand extends Command
 {
-    protected static $defaultName = 'pim:oauth-server:revoke-client';
-
     public function __construct(private readonly ClientManagerInterface $clientManager)
     {
         parent::__construct();
@@ -31,7 +30,6 @@ class RevokeClientCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('This command revokes a pair of client id / secret')
             ->addArgument(
                 'client_id',
                 InputArgument::REQUIRED,

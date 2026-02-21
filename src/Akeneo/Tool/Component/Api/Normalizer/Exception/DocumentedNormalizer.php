@@ -19,7 +19,7 @@ class DocumentedNormalizer implements NormalizerInterface, CacheableSupportsMeth
     /**
      * {@inheritdoc}
      */
-    public function normalize($exception, $format = null, array $context = [])
+    public function normalize($exception, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $data = [
             'code'    => $exception->getStatusCode(),

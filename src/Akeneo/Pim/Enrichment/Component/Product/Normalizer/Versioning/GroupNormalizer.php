@@ -39,7 +39,7 @@ class GroupNormalizer implements NormalizerInterface, CacheableSupportsMethodInt
      *
      * @return array
      */
-    public function normalize($group, $format = null, array $context = [])
+    public function normalize($group, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $standardGroup = $this->standardNormalizer->normalize($group, 'standard', $context);
         $flatGroup = $standardGroup;

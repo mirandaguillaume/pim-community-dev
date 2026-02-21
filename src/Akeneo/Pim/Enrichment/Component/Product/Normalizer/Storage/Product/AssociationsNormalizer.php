@@ -26,7 +26,7 @@ class AssociationsNormalizer implements NormalizerInterface, CacheableSupportsMe
     /**
      * {@inheritdoc}
      */
-    public function normalize($product, $format = null, array $context = [])
+    public function normalize($product, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         return $this->stdNormalizer->normalize($product, $format, $context);
     }

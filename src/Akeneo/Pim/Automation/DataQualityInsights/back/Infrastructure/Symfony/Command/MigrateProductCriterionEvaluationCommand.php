@@ -13,11 +13,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pimee:data-quality-insights:migrate-product-criterion-evaluation', description: 'Migrate the products criteria evaluations with empty results and pending status.', hidden: true)]
 final class MigrateProductCriterionEvaluationCommand extends Command
 {
-    protected static $defaultName = 'pimee:data-quality-insights:migrate-product-criterion-evaluation';
-    protected static $defaultDescription = 'Migrate the products criteria evaluations with empty results and pending status.';
-
     public function __construct(private readonly Connection $dbConnection)
     {
         parent::__construct();
@@ -25,7 +23,6 @@ final class MigrateProductCriterionEvaluationCommand extends Command
 
     protected function configure()
     {
-        $this->setHidden(true);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

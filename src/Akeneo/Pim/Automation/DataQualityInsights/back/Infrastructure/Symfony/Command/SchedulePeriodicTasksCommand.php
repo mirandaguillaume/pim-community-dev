@@ -14,11 +14,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:data-quality-insights:schedule-periodic-tasks', description: 'Schedule the periodic tasks of Data-Quality-Insights.')]
 final class SchedulePeriodicTasksCommand extends Command
 {
-    protected static $defaultName = 'pim:data-quality-insights:schedule-periodic-tasks';
-    protected static $defaultDescription = 'Schedule the periodic tasks of Data-Quality-Insights.';
-
     public function __construct(private readonly SchedulePeriodicTasks $schedulePeriodicTasks, private readonly FeatureFlag $featureFlag)
     {
         parent::__construct();

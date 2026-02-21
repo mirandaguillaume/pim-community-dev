@@ -18,7 +18,7 @@ class AttributeOptionValueNormalizer implements NormalizerInterface, CacheableSu
     /**
      * {@inheritdoc}
      */
-    public function normalize($object, $format = null, array $context = [])
+    public function normalize($object, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         return [
             'id'     => $object->getId(),

@@ -21,13 +21,11 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:data-quality-insights:evaluate-all-products', description: 'Evaluate all products and product models having pending criteria.', hidden: true)]
 final class EvaluateAllProductsCommand extends Command
 {
     private const LIMIT_PER_LOOP = 1000;
     private const DEFAULT_BULK_SIZE = 100;
-
-    protected static $defaultName = 'pim:data-quality-insights:evaluate-all-products';
-    protected static $defaultDescription = 'Evaluate all products and product models having pending criteria.';
 
     public function __construct(
         private readonly Connection                        $dbConnection,
@@ -41,7 +39,6 @@ final class EvaluateAllProductsCommand extends Command
 
     protected function configure()
     {
-        $this->setHidden(true);
         $this->addOption('bulk-size', null, InputOption::VALUE_REQUIRED, sprintf('Bulk size (%d by default)', self::DEFAULT_BULK_SIZE));
     }
 

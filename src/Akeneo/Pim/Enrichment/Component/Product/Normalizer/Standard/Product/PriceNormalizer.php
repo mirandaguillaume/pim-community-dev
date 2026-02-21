@@ -20,7 +20,7 @@ class PriceNormalizer implements NormalizerInterface, CacheableSupportsMethodInt
     /**
      * {@inheritdoc}
      */
-    public function normalize($price, $format = null, array $context = [])
+    public function normalize($price, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $amount = $price->getData();
 

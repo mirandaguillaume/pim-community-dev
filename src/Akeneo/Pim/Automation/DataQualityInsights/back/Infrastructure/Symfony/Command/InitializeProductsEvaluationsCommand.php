@@ -18,11 +18,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:data-quality-insights:initialize-products-evaluations', description: 'Initialize the evaluations of all the products and product models.', hidden: true)]
 final class InitializeProductsEvaluationsCommand extends Command
 {
-    protected static $defaultName = 'pim:data-quality-insights:initialize-products-evaluations';
-    protected static $defaultDescription = 'Initialize the evaluations of all the products and product models.';
-
     private const BATCH_SIZE = 100;
 
     public function __construct(
@@ -35,7 +33,6 @@ final class InitializeProductsEvaluationsCommand extends Command
 
     protected function configure()
     {
-        $this->setHidden(true);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

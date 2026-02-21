@@ -18,12 +18,10 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
  * @copyright 2016 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:batch:purge-job-execution', description: 'Purge all jobs execution before a given date.
+             If the value is equals to 0, it will delete everything. By default 90 days, minimum is 0 day')]
 class PurgeJobExecutionCommand extends Command
 {
-    protected static $defaultName = 'akeneo:batch:purge-job-execution';
-    protected static $defaultDescription = 'Purge all jobs execution before a given date.
-             If the value is equals to 0, it will delete everything. By default 90 days, minimum is 0 day';
-
     private const DEFAULT_NUMBER_OF_DAYS = 90;
 
     public function __construct(

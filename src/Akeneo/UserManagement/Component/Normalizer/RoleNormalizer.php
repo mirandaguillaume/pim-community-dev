@@ -29,7 +29,7 @@ final class RoleNormalizer implements NormalizerInterface, CacheableSupportsMeth
     /**
      * {@inheritdoc}
      */
-    public function normalize($role, $format = null, array $context = [])
+    public function normalize($role, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         Assert::isInstanceOf($role, RoleInterface::class);
 

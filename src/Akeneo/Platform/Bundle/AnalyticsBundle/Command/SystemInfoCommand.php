@@ -17,10 +17,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * @copyright 2016 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:system:information', description: 'Displays Akeneo PIM system information')]
 class SystemInfoCommand extends Command
 {
-    protected static $defaultName = 'pim:system:information';
-
     public function __construct(
         private readonly TranslatorInterface $translator,
         private readonly ChainedDataCollector $chainedDataCollector
@@ -33,8 +32,6 @@ class SystemInfoCommand extends Command
      */
     protected function configure()
     {
-        $this
-            ->setDescription('Displays Akeneo PIM system information');
     }
 
     /**

@@ -17,7 +17,8 @@ use Symfony\Component\Process\Process;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final readonly class JobMessageHandler implements MessageSubscriberInterface
+#[\Symfony\Component\Messenger\Attribute\AsMessageHandler]
+final readonly class JobMessageHandler
 {
     public function __construct(
         private LoggerInterface $logger,
@@ -25,18 +26,7 @@ final readonly class JobMessageHandler implements MessageSubscriberInterface
         private FeatureFlags $featureFlags,
     ) {
     }
-
-    public static function getHandledMessages(): iterable
-    {
-        yield JobExecutionMessageInterface::class => [
-            'method' => 'handleJobExecution',
-        ];
-
-        yield ScheduledJobMessageInterface::class => [
-            'method' => 'handleScheduledJob',
-        ];
-    }
-
+    #[\Symfony\Component\Messenger\Attribute\AsMessageHandler]
     public function handleJobExecution(JobExecutionMessageInterface $jobExecutionMessage): void
     {
         $this->logger->notice('Launching job watchdog for ID "{job_execution_id}".', [
@@ -52,7 +42,7 @@ final readonly class JobMessageHandler implements MessageSubscriberInterface
             'tenant_id' => $jobExecutionMessage->getTenantId(),
         ]);
     }
-
+    #[\Symfony\Component\Messenger\Attribute\AsMessageHandler]
     public function handleScheduledJob(ScheduledJobMessageInterface $scheduledJobMessage): void
     {
         $this->logger->notice('Launching scheduled job "{code}".', [
@@ -71,7 +61,6 @@ final readonly class JobMessageHandler implements MessageSubscriberInterface
             ]
         );
     }
-
     private function launchWatchdog(JobExecutionMessageInterface|ScheduledJobMessageInterface $jobMessage): int
     {
         $console = sprintf('%s/bin/console', $this->projectDir);
@@ -131,7 +120,6 @@ final readonly class JobMessageHandler implements MessageSubscriberInterface
 
         return time() - $startTime;
     }
-
     /**
      * Return all the arguments of the command to execute.
      * Options are considered as arguments.

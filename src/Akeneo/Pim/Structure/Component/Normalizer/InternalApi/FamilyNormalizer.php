@@ -62,7 +62,7 @@ class FamilyNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
     /**
      * {@inheritdoc}
      */
-    public function normalize($family, $format = null, array $context = [])
+    public function normalize($family, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $fullAttributes = array_key_exists('full_attributes', $context)
             && true === $context['full_attributes'];

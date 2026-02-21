@@ -39,7 +39,7 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function normalize($product, $format = null, array $context = [])
+    public function normalize($product, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         if (!$this->normalizer instanceof NormalizerInterface) {
             throw new \LogicException('Serializer must be a normalizer');

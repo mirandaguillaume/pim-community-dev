@@ -15,10 +15,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @copyright 2023 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:categories:remove-orphans', description: 'Remove categories that have no parent and aren\'t category trees')]
 final class RemoveOrphanCategoriesCommand extends Command
 {
-    protected static $defaultName = 'akeneo:categories:remove-orphans';
-
     public function __construct(
         private readonly PurgeOrphanCategories $purgeOrphanCategories,
     ) {
@@ -27,7 +26,6 @@ final class RemoveOrphanCategoriesCommand extends Command
 
     protected function configure(): void
     {
-        $this->setDescription('Remove categories that have no parent and aren\'t category trees');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

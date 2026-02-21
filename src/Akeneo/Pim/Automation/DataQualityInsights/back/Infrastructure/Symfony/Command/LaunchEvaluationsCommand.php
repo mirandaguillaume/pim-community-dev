@@ -17,11 +17,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:data-quality-insights:evaluations', description: 'Launch the evaluations of products and structure')]
 class LaunchEvaluationsCommand extends Command
 {
-    protected static $defaultName = 'pim:data-quality-insights:evaluations';
-    protected static $defaultDescription = 'Launch the evaluations of products and structure';
-
     public function __construct(
         private readonly RunUniqueProcessJob $runUniqueProcessJob,
         private readonly FeatureFlag $featureFlag,

@@ -16,10 +16,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:user:assign-users-to-category-tree', description: 'Sets the default category tree to the tree (category code) passed as parameter for all users')]
 final class AssignAllUsersToOneCategoryTreeCommand extends Command
 {
-    protected static $defaultName = 'akeneo:user:assign-users-to-category-tree';
-
     public function __construct(
         private readonly AssignAllUsersToOneCategory $assignAllUsersToOneCategory,
         private readonly CategoryQueryInterface $categoryQuery,
@@ -32,7 +31,6 @@ final class AssignAllUsersToOneCategoryTreeCommand extends Command
      */
     protected function configure(): void
     {
-        $this->setDescription('Sets the default category tree to the tree (category code) passed as parameter for all users');
         $this->addOption(
             name: 'category-tree-code',
             mode: InputOption::VALUE_REQUIRED

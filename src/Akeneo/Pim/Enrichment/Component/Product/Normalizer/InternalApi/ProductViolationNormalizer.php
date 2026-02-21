@@ -32,7 +32,7 @@ class ProductViolationNormalizer implements NormalizerInterface, CacheableSuppor
     /**
      * {@inheritdoc}
      */
-    public function normalize($violation, $format = null, array $context = [])
+    public function normalize($violation, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $propertyPath = $violation->getPropertyPath();
 

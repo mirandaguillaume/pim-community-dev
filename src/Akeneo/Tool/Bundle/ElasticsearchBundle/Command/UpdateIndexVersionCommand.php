@@ -25,10 +25,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:elasticsearch:update-index-version')]
 class UpdateIndexVersionCommand extends Command
 {
-    protected static $defaultName = 'akeneo:elasticsearch:update-index-version';
-
     public function __construct(private readonly IndexUpdaterClient $indexUpdaterClient)
     {
         parent::__construct();

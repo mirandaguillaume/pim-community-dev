@@ -17,12 +17,10 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:product:clean-removed-products', description: 'Erase documents present in Elasticsearch but missing in MySQL')]
 class CleanRemovedProductsCommand extends Command
 {
     private const DEFAULT_BATCH_SIZE = 100;
-
-    protected static $defaultName = 'pim:product:clean-removed-products';
-    protected static $defaultDescription = 'Erase documents present in Elasticsearch but missing in MySQL';
 
     public function __construct(
         private readonly GetDeletedProductDocumentIds $getDeletedProductDocumentIds,

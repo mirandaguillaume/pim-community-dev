@@ -48,7 +48,7 @@ class VersionedAttributeNormalizer implements NormalizerInterface, CacheableSupp
     /**
      * {@inheritdoc}
      */
-    public function normalize($attribute, $format = null, array $context = [])
+    public function normalize($attribute, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $normalizedAttribute = $this->normalizer->normalize($attribute, 'internal_api', $context);
 

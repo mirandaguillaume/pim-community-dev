@@ -30,11 +30,9 @@ use Symfony\Component\Process\Process;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:installer:db', description: 'Prepare database and load fixtures')]
 class DatabaseCommand extends Command
 {
-    protected static $defaultName = 'pim:installer:db';
-    protected static $defaultDescription = 'Prepare database and load fixtures';
-
     protected ?CommandExecutor $commandExecutor = null;
 
     public function __construct(

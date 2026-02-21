@@ -13,10 +13,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:batch:publish-paused-jobs-to-queue')]
 final class PublishPausedJobsToQueueCommand extends Command
 {
-    protected static $defaultName = 'akeneo:batch:publish-paused-jobs-to-queue';
-
     public function __construct(
         private readonly PublishPausedJobsToQueue $publishPausedJobsToQueue
     ) {

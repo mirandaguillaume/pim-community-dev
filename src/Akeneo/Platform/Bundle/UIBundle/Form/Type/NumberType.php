@@ -49,7 +49,7 @@ class NumberType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addModelTransformer(new NumberLocalizerTransformer($this->localizer, $options['locale_options']));
     }
@@ -57,7 +57,7 @@ class NumberType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $options = ['locale' => $this->localeResolver->getCurrentLocale()];
         $decimalSeparator = $this->numberFactory->create($options)

@@ -23,10 +23,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:elasticsearch:update-mapping')]
 class UpdateMappingIndexCommand extends Command
 {
-    protected static $defaultName = 'akeneo:elasticsearch:update-mapping';
-
     /** @var array */
     private $hosts;
 
