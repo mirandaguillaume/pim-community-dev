@@ -31,6 +31,14 @@ class UserApiProvider implements UserProviderInterface
     }
 
     /**
+     * @deprecated since Symfony 5.3, use loadUserByIdentifier() instead
+     */
+    public function loadUserByUsername(string $username): SecurityUserInterface
+    {
+        return $this->loadUserByIdentifier($username);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function loadUserByIdentifier(string $identifier): SecurityUserInterface

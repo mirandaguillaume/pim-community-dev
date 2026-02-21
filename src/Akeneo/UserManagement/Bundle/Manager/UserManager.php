@@ -181,6 +181,14 @@ class UserManager implements UserProviderInterface
     }
 
     /**
+     * @deprecated since Symfony 5.3, use loadUserByIdentifier() instead
+     */
+    public function loadUserByUsername(string $username): SecurityUserInterface
+    {
+        return $this->loadUserByIdentifier($username);
+    }
+
+    /**
      * Loads a user by username.
      * It is strongly discouraged to call this method manually as it bypasses
      * all ACL checks.
