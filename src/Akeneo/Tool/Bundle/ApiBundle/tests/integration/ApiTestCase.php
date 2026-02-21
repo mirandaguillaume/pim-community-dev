@@ -143,7 +143,7 @@ abstract class ApiTestCase extends WebTestCase
 
         $connection = $this->get(CreateConnectionHandler::class)->handle($createConnectionCommand);
 
-        $user = $this->get('pim_user.manager')->loadUserByUsername($connection->username());
+        $user = $this->get('pim_user.manager')->loadUserByIdentifier($connection->username());
 
         $adminRole = $this->get('pim_user.repository.role')->findOneByIdentifier('ROLE_ADMINISTRATOR');
         $user->addRole($adminRole);

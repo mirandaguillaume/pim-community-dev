@@ -19,14 +19,6 @@ class JobUserProvider implements UserProviderInterface
     }
 
     /**
-     * @TODO: Remove this function when symfony will be in 6.0
-     */
-    public function loadUserByUsername(string $username)
-    {
-        return $this->loadUserByIdentifier($username);
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function loadUserByIdentifier(string $identifier): UserInterface
