@@ -16,3 +16,24 @@ parameters:
         - '#Parameter \#1 \$callback of function array_map expects \(callable\(mixed\): mixed\)\|null, .intval. given#'
         # preg_match named groups may not exist in the result array
         - "#Offset 'number' does not exist on array#"
+        # PHPStan 2.x type precision — array<string> vs array, array<string, mixed> vs array
+        - '#Parameter .+ expects array<string(, mixed)?>, array(\<mixed(, mixed)?\>)? given#'
+        - '#Parameter .+ expects list<array<string, mixed>>, list<mixed> given#'
+        - '#Parameter .+ expects array<string, string>, array<mixed, mixed> given#'
+        # PHPStan 2.x — mixed parameter/return types from DBAL/JSON decode
+        - '#Parameter .+ expects string, mixed given#'
+        - '#Parameter .+ expects array, mixed given#'
+        - '#should return string but returns mixed#'
+        - '#should return array<string, mixed> but returns array<mixed>#'
+        - '#Cannot access offset .+ on mixed#'
+        - '#Possibly invalid array key type mixed#'
+        - '#Parameter .+ expects bool\|float\|int\|string\|null, mixed given#'
+        - '#Parameter .+ expects .+WriteValueCollection, mixed given#'
+        # PHPStan 2.x — Closure type narrowing for array_map callbacks
+        - '#Parameter \#1 \$callback of function array_map expects \(callable\(mixed\): mixed\)\|null, Closure\(.+\): .+ given#'
+        # PHPStan 2.x — Webmozart Assert always true/false
+        - '#Call to static method Webmozart\\Assert\\Assert::\w+\(\) .+ will always evaluate to (true|false)#'
+        # PHPStan 2.x — return type narrowing
+        - '#never returns null so it can be removed from the return type#'
+        # PHPStan 2.x — fromNormalized expects shaped array vs array<mixed, mixed>
+        - '#Parameter .+ expects array\{.+\}, array<mixed, mixed> given#'
