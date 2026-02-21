@@ -41,5 +41,5 @@ parameters:
         - '#Parameter .+ expects array\{.+\}, array<mixed, mixed> given#'
         # PHPStan 2.x — method return type shape mismatches (array shapes, list vs array)
         - '#Method .+ should return array\{.+\} but returns array\{.+\}#'
-        - '#Method .+ should return list<.+> but returns array<.+>#'
+        - '#Method .+ should return list<.+> but returns array[<\{].+[>\}]#'
         - '#Method .+ should return array\{.+\} but returns array<mixed, mixed>#'
