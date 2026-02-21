@@ -16,10 +16,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:file-storage:store')]
 class StoreFileCommand extends Command
 {
-    protected static $defaultName = 'akeneo:file-storage:store';
-
     public function __construct(
         private readonly FileStorerInterface $fileStorer,
         private readonly FilesystemProvider $filesystemProvider

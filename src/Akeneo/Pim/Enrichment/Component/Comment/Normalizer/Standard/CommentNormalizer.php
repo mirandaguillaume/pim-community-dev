@@ -22,7 +22,7 @@ class CommentNormalizer implements NormalizerInterface, NormalizerAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function normalize($comment, $format = null, array $context = [])
+    public function normalize($comment, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $data = [
             'id'           => $comment->getId(),

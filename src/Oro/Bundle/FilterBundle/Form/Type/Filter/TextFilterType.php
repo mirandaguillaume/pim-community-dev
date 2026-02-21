@@ -40,7 +40,7 @@ class TextFilterType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $choices = [
             self::TYPE_CONTAINS     => $this->translator->trans('oro.filter.form.label_type_contains'),

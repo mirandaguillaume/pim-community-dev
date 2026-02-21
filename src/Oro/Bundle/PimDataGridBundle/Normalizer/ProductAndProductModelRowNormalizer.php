@@ -35,7 +35,7 @@ class ProductAndProductModelRowNormalizer implements NormalizerInterface, Normal
     /**
      * {@inheritdoc}
      */
-    public function normalize($row, $format = null, array $context = [])
+    public function normalize($row, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $data = [];
         Assert::isInstanceOf($this->normalizer, NormalizerInterface::class);

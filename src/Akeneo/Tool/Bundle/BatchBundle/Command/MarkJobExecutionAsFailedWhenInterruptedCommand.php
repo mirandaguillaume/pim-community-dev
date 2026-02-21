@@ -10,10 +10,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:batch:clean-job-executions', description: 'Mark as failed the job executions that are stuck in status STARTED or STOPPING.')]
 class MarkJobExecutionAsFailedWhenInterruptedCommand extends Command
 {
-    protected static $defaultName = 'akeneo:batch:clean-job-executions';
-
     public function __construct(
         private readonly MarkJobExecutionAsFailedWhenInterrupted $markJobExecutionAsFailedWhenInterrupted
     ) {
@@ -27,9 +26,6 @@ class MarkJobExecutionAsFailedWhenInterruptedCommand extends Command
                 'jobCodes',
                 InputArgument::REQUIRED,
                 'Job instance codes that need to have job executions to be cleaned. For example: "job_1,job_2".'
-            )
-            ->setDescription(
-                'Mark as failed the job executions that are stuck in status STARTED or STOPPING.'
             );
     }
 

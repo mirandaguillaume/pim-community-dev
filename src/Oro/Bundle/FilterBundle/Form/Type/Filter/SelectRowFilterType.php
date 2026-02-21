@@ -14,7 +14,7 @@ class SelectRowFilterType extends AbstractChoiceType
     final public const NOT_SELECTED_VALUE = 0;
     final public const SELECTED_VALUE = 1;
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $emptyData = function ($form, $submittedData) {
             if ($submittedData === null) {
@@ -49,7 +49,7 @@ class SelectRowFilterType extends AbstractChoiceType
     /**
      * {@inheritDoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             [

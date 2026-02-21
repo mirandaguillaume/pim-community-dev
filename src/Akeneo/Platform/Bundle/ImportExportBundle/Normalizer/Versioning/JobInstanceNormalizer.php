@@ -29,7 +29,7 @@ class JobInstanceNormalizer implements NormalizerInterface, CacheableSupportsMet
      *
      * @return array
      */
-    public function normalize($jobInstance, $format = null, array $context = [])
+    public function normalize($jobInstance, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $parameters = $jobInstance->getRawParameters();
         if (isset($parameters['storage'])) {

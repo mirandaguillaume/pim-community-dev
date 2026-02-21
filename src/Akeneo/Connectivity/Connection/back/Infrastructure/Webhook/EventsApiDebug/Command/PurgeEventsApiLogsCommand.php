@@ -18,13 +18,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:connectivity-connection:purge-events-api-logs')]
 class PurgeEventsApiLogsCommand extends Command
 {
-    /**
-     * @var string
-     */
-    protected static $defaultName = 'akeneo:connectivity-connection:purge-events-api-logs';
-
     public function __construct(
         private readonly PurgeEventsApiSuccessLogsQuery $purgeSuccessLogsQuery,
         private readonly PurgeEventsApiErrorLogsQuery $purgeErrorLogsQuery,

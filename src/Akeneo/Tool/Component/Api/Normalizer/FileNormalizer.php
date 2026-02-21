@@ -31,7 +31,7 @@ class FileNormalizer implements NormalizerInterface, CacheableSupportsMethodInte
     /**
      * {@inheritdoc}
      */
-    public function normalize($file, $format = null, array $context = [])
+    public function normalize($file, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $normalizedFile = $this->stdNormalizer->normalize($file, 'standard', $context);
 

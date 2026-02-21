@@ -11,6 +11,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
 use Symfony\Component\Process\Process;
 
+#[\Symfony\Component\Messenger\Attribute\AsMessageHandler]
 class BusinessEventHandler implements MessageSubscriberInterface
 {
     public function __construct(

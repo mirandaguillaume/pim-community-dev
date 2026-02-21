@@ -14,13 +14,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:connectivity-audit:purge-error-count')]
 class PurgeAuditErrorCommand extends Command
 {
-    /**
-     * @var string
-     */
-    protected static $defaultName = 'akeneo:connectivity-audit:purge-error-count';
-
     public function __construct(private readonly PurgeAuditErrorQuery $purgeAuditErrorsQuery)
     {
         parent::__construct();

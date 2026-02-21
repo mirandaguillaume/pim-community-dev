@@ -16,12 +16,10 @@ use Webmozart\Assert\Assert;
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:data-quality-insights:clean-product-scores', description: 'Clean product scores in order to have one score per product id.')]
 final class CleanProductScoresCommand extends Command
 {
     use OneTimeTaskCommandTrait;
-
-    protected static $defaultName = 'pim:data-quality-insights:clean-product-scores';
-    protected static $defaultDescription = 'Clean product scores in order to have one score per product id.';
 
     private int $bulkSize = 1000;
 

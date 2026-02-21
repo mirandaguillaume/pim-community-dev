@@ -38,9 +38,9 @@ use Symfony\Component\Security\Core\User\InMemoryUser;
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:product:clean-removed-attributes', description: 'Removes all values of deleted attributes on all products and product models')]
 class CleanRemovedAttributesFromProductAndProductModelCommand extends Command
 {
-    protected static $defaultName = 'pim:product:clean-removed-attributes';
     private const JOB_NAME = 'clean_removed_attribute_job';
     private const JOB_TRACKER_ROUTE = 'akeneo_job_process_tracker_details';
 
@@ -69,7 +69,6 @@ class CleanRemovedAttributesFromProductAndProductModelCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Removes all values of deleted attributes on all products and product models')
             ->addOption('all-blacklisted-attributes')
             ->addArgument('attributes', InputArgument::OPTIONAL | InputArgument::IS_ARRAY);
     }

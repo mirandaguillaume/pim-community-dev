@@ -26,7 +26,7 @@ class GroupViolationNormalizer implements NormalizerInterface
     /**
      * {@inheritdoc}
      */
-    public function normalize($violations, $format = null, array $context = [])
+    public function normalize($violations, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $normalizedViolations = [];
         $accessor = PropertyAccess::createPropertyAccessor();

@@ -19,11 +19,9 @@ use Symfony\Component\Security\Core\User\InMemoryUser;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:data-quality-insights:recompute-product-scores', description: 'Launch the job that will re-compute all the products scores', hidden: true)]
 final class RecomputeProductsScores extends Command
 {
-    protected static $defaultName = 'pim:data-quality-insights:recompute-product-scores';
-    protected static $defaultDescription = 'Launch the job that will re-compute all the products scores';
-
     public function __construct(
         private readonly FeatureFlag $featureFlag,
         private readonly JobLauncherInterface $queueJobLauncher,
@@ -34,7 +32,6 @@ final class RecomputeProductsScores extends Command
 
     protected function configure()
     {
-        $this->setHidden(true);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

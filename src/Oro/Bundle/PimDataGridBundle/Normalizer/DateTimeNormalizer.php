@@ -38,7 +38,7 @@ class DateTimeNormalizer implements NormalizerInterface, CacheableSupportsMethod
     /**
      * {@inheritdoc}
      */
-    public function normalize($date, $format = null, array $context = [])
+    public function normalize($date, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $stdProductValue = $this->standardNormalizer->normalize($date, 'standard', $context);
 

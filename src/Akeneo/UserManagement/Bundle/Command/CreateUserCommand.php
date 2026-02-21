@@ -26,10 +26,16 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:user:create', description: <<<DESC
+Creates a PIM user. This command can be launched interactively or non interactively (with the "-n" option). 
+When launched non interactively you have to provide arguments to the command. For instance:
+
+    pim:user:create kbeck secretp@ssw0rd kbeck@example.com Kent Beck en_US --admin -n
+
+When launched interactively, command arguments will be ignored.'
+DESC)]
 class CreateUserCommand extends Command
 {
-    protected static $defaultName = 'pim:user:create';
-
     /** @var string */
     private $password;
 
@@ -76,16 +82,6 @@ class CreateUserCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription(
-                <<<DESC
-Creates a PIM user. This command can be launched interactively or non interactively (with the "-n" option). 
-When launched non interactively you have to provide arguments to the command. For instance:
-
-    pim:user:create kbeck secretp@ssw0rd kbeck@example.com Kent Beck en_US --admin -n
-
-When launched interactively, command arguments will be ignored.'
-DESC
-            )
             ->addArgument('username')
             ->addArgument('password')
             ->addArgument('email')

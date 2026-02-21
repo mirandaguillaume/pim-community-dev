@@ -21,10 +21,9 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:elasticsearch:reset-indexes', description: 'Resets all registered ES indexes')]
 class ResetIndexesCommand extends Command
 {
-    protected static $defaultName = 'akeneo:elasticsearch:reset-indexes';
-
     public function __construct(private readonly ClientRegistry $clientRegistry)
     {
         parent::__construct();
@@ -42,8 +41,7 @@ class ResetIndexesCommand extends Command
                 InputOption::VALUE_NONE,
                 'Resets registered ES indexes prior to reindex'
             )
-            ->addOption('index', 'i', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'ES index name to reset')
-            ->setDescription('Resets all registered ES indexes');
+            ->addOption('index', 'i', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'ES index name to reset');
     }
 
     /**

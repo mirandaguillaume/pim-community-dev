@@ -13,10 +13,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:elasticsearch:update-total-fields-limit')]
 class UpdateTotalFieldsLimitCommand extends Command
 {
-    protected static $defaultName = 'akeneo:elasticsearch:update-total-fields-limit';
-
     private readonly array $hosts;
 
     public function __construct(

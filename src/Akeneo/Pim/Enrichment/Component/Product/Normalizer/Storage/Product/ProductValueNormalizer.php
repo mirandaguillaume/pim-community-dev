@@ -26,7 +26,7 @@ class ProductValueNormalizer implements NormalizerInterface, CacheableSupportsMe
     /**
      * {@inheritdoc}
      */
-    public function normalize($value, $format = null, array $context = [])
+    public function normalize($value, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $stdValue = $this->stdNormalizer->normalize($value, $format, $context);
 

@@ -22,11 +22,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:connectivity:send-business-event', description: 'Send business event to webhooks', hidden: true)]
 class SendBusinessEventToWebhooks extends Command
 {
     private const MYSQL_IS_UNAVAILABLE_ERROR_CODE = 2002;
-    protected static $defaultName = 'akeneo:connectivity:send-business-event';
-    protected static $defaultDescription = 'Send business event to webhooks';
 
     public function __construct(
         private readonly BulkEventNormalizer $bulkEventNormalizer,
@@ -45,7 +44,6 @@ class SendBusinessEventToWebhooks extends Command
     protected function configure()
     {
         $this
-            ->setHidden(true)
             ->addArgument(
                 'message',
                 InputArgument::REQUIRED,

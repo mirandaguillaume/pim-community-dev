@@ -96,7 +96,7 @@ class ResetController extends AbstractController
 
         return $this->render('@PimUser/Reset/reset.html.twig', [
             'token' => $token,
-            'form' => $this->form->createView(),
+            'form' => $this->form,
         ]);
     }
 }

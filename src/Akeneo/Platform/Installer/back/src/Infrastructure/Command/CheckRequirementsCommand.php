@@ -15,11 +15,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:installer:check-requirements', description: 'heck requirements for Akeneo PIM')]
 class CheckRequirementsCommand extends Command
 {
-    protected static $defaultName = 'pim:installer:check-requirements';
-    protected static $defaultDescription = 'heck requirements for Akeneo PIM';
-
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('<info>Akeneo PIM requirements check:</info>');

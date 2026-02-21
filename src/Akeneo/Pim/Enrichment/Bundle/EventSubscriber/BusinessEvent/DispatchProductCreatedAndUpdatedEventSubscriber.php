@@ -25,7 +25,7 @@ final class DispatchProductCreatedAndUpdatedEventSubscriber implements DispatchB
     /** @var array<ProductCreated|ProductUpdated> */
     private array $events = [];
 
-    public function __construct(private readonly Security $security, private readonly MessageBusInterface $messageBus, private readonly int $maxBulkSize, private readonly LoggerInterface $logger, private readonly LoggerInterface $loggerBusinessEvent)
+    public function __construct(private readonly \Symfony\Bundle\SecurityBundle\Security $security, private readonly MessageBusInterface $messageBus, private readonly int $maxBulkSize, private readonly LoggerInterface $logger, private readonly LoggerInterface $loggerBusinessEvent)
     {
     }
 

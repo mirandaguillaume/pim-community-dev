@@ -41,7 +41,7 @@ class MetricNormalizer extends AbstractValueDataNormalizer implements CacheableS
      *
      * @param MetricInterface $object
      */
-    public function normalize($object, $format = null, array $context = [])
+    public function normalize($object, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $context = $this->resolveContext($context);
         $decimalsAllowed = !array_key_exists('decimals_allowed', $context) || true === $context['decimals_allowed'];

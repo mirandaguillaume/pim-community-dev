@@ -11,10 +11,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:user:restore-admin-permissions', description: 'Restore all permissions to the <info>ROLE_ADMINISTRATOR</info> user role')]
 class RestoreAdminRolePermissionsCommand extends Command
 {
-    protected static $defaultName = 'pim:user:restore-admin-permissions';
-
     public function __construct(private readonly RestoreAdminRolePermissions $restoreAdminRolePermissions)
     {
         parent::__construct();
@@ -23,7 +22,6 @@ class RestoreAdminRolePermissionsCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Restore all permissions to the <info>ROLE_ADMINISTRATOR</info> user role')
             ->addOption(
                 'create',
                 'c',
@@ -33,7 +31,7 @@ class RestoreAdminRolePermissionsCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         /** @var QuestionHelper $helper **/
         $helper = $this->getHelper('question');
