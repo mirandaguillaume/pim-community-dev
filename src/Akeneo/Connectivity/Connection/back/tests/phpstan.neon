@@ -1,12 +1,20 @@
 parameters:
-  reportUnmatchedIgnoredErrors: false
   ignoreErrors:
-    # PHPStan 2.x: redundant type checks
-    - '#Call to static method Webmozart\\Assert\\Assert::\w+\(\).*will always evaluate to (true|false)#'
-    - '#Instanceof between.*will always evaluate to (true|false)#'
-    - '#Call to function (is_string|is_array|is_int|is_null|is_bool)\(\).*will always evaluate to (true|false)#'
-    - '#PHPDoc tag .@return. has invalid value#'
-    - '#return type has no value type specified in iterable type array#'
+    -
+      message: '#Call to static method Webmozart\\Assert\\Assert::\w+\(\).*will always evaluate to (true|false)#'
+      reportUnmatched: false
+    -
+      message: '#Instanceof between.*will always evaluate to (true|false)#'
+      reportUnmatched: false
+    -
+      message: '#Call to function (is_string|is_array|is_int|is_null|is_bool)\(\).*will always evaluate to (true|false)#'
+      reportUnmatched: false
+    -
+      message: '#PHPDoc tag .@return. has invalid value#'
+      reportUnmatched: false
+    -
+      message: '#return type has no value type specified in iterable type array#'
+      reportUnmatched: false
 
 rules:
     - Akeneo\Connectivity\Connection\Tests\PhpStan\Rule\CoverQueryByIntegrationTestRule
