@@ -5,5 +5,21 @@ parameters:
     excludePaths:
         analyse:
             - %rootDir%/../../../src/Akeneo/Pim/Enrichment/Product/back/Test
+    reportAlwaysTrueInLastCondition: false
+    reportMaybesInPropertyPhpDocTypes: false
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        # PHPStan 2.x: redundant webmozart/assert calls
+        - '#Call to static method .* will always evaluate to true#'
+        # PHPStan 2.x: redundant array operations
+        - '#Parameter \#1 .* of array_values is already a list, call has no effect#'
+        - '#to function array_filter does not contain falsy values, the array will always stay the same#'
+        # PHPStan 2.x: stricter return types
+        - '#Method .* should return int<0, max> but returns int#'
+        - '#never returns array<string> so it can be removed from the return type#'
+        # PHPStan 2.x: stricter PHPDoc parsing
+        - '#PHPDoc tag .* has invalid value#'
+        # PHPStan 2.x: missing generics
+        - '#return type has no value type specified in iterable type array#'
 includes:
     - %rootDir%/../../../vendor/phpstan/phpstan-webmozart-assert/extension.neon

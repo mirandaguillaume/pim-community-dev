@@ -35,4 +35,9 @@ final class ProductModelId implements ProductEntityIdInterface
     {
         return $this->id;
     }
+
+    public function toBytes(): string
+    {
+        return pack('N', $this->id);
+    }
 }

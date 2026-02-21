@@ -44,8 +44,8 @@ final readonly class KeyIndicator
     public function toArray(): array
     {
         return [
-            'totalGood' => $this->totalGood ?? 0,
-            'totalToImprove' => $this->totalToImprove ?? 0,
+            'totalGood' => $this->totalGood,
+            'totalToImprove' => $this->totalToImprove,
             'extraData' => $this->extraData,
         ];
     }

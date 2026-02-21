@@ -12,12 +12,7 @@ interface GetAttributeTypes
 {
     /**
      * @param string[] $attributeCodes
-     * @return array<string, string>, example:
-     *  {
-     *      "sku": "pim_catalog_identifier",
-     *      "name": "pim_catalog_text",
-     *      ...
-     *  }
+     * @return array<string, string>
      */
     public function fromAttributeCodes(array $attributeCodes): array;
 }
