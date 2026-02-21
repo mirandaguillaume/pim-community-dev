@@ -10,7 +10,7 @@ parameters:
 			message: '#Call to function (is_string|is_array|is_int|is_null|is_bool)\(\).*will always evaluate to (true|false)#'
 			reportUnmatched: false
 		-
-			message: '#PHPDoc tag .@return. has invalid value#'
+			message: '#PHPDoc tag.*@return.*has invalid value#'
 			reportUnmatched: false
 		-
 			message: '#return type has no value type specified in iterable type array#'
