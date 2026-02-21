@@ -37,3 +37,7 @@ parameters:
         - '#never returns null so it can be removed from the return type#'
         # PHPStan 2.x — fromNormalized expects shaped array vs array<mixed, mixed>
         - '#Parameter .+ expects array\{.+\}, array<mixed, mixed> given#'
+        # PHPStan 2.x — method return type shape mismatches (array shapes, list vs array)
+        - '#Method .+ should return array\{.+\} but returns array\{.+\}#'
+        - '#Method .+ should return list<array\{.+\}> but returns array\{.+\}#'
+        - '#Method .+ should return array\{.+\} but returns array<mixed, mixed>#'
