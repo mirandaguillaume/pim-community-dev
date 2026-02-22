@@ -9,9 +9,9 @@ use Akeneo\Connectivity\Connection\Infrastructure\Apps\OAuth\ClientProvider;
 use Akeneo\Test\Integration\Configuration;
 use Akeneo\Test\Integration\TestCase;
 use Akeneo\Tool\Bundle\ApiBundle\Entity\Client;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientManagerInterface;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\OAuth2;
 use Doctrine\DBAL\Connection;
-use FOS\OAuthServerBundle\Model\ClientManagerInterface;
-use OAuth2\OAuth2;
 use PHPUnit\Framework\Assert;
 
 /**

@@ -2,8 +2,8 @@
 
 namespace Akeneo\Tool\Bundle\ApiBundle\Controller;
 
-use OAuth2\OAuth2;
-use OAuth2\OAuth2ServerException;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\OAuth2;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\OAuth2ServerException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
@@ -41,7 +41,7 @@ class TokenController
     }
 
     /**
-     * Wraps the mapping between FOS OAuth server error messages (which are actually kind of codes) and our messages.
+     * Wraps the mapping between OAuth server error messages (which are actually kind of codes) and our messages.
      *
      * @param string $errorCode
      * @param string $grantType

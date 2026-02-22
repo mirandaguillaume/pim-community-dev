@@ -1,16 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Tool\Bundle\ApiBundle\Security;
 
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\IOAuth2AccessToken;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\IOAuth2Storage;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\OAuth2 as BaseOAuth2;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\OAuth2AuthenticateException;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\OAuth2ServerException;
 use Akeneo\Tool\Component\Api\Event\ApiAuthenticationEvent;
 use Akeneo\Tool\Component\Api\Event\ApiAuthenticationFailedEvent;
 use Akeneo\UserManagement\Component\Model\User;
-use OAuth2\IOAuth2Storage;
-use OAuth2\Model\IOAuth2AccessToken;
-use OAuth2\OAuth2 as BaseOAuth2;
-use OAuth2\OAuth2AuthenticateException;
-use OAuth2\OAuth2ServerException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,7 +29,7 @@ class OAuth2 extends BaseOAuth2
         parent::__construct($storage, $config);
     }
 
-    public function verifyAccessToken($tokenParam, $scope = null): IOAuth2AccessToken
+    public function verifyAccessToken(string $tokenParam, ?string $scope = null): IOAuth2AccessToken
     {
         try {
             $accessToken = parent::verifyAccessToken($tokenParam, $scope);
@@ -58,7 +59,7 @@ class OAuth2 extends BaseOAuth2
      *
      * @throws OAuth2ServerException
      */
-    public function grantAccessToken(Request $request = null): Response
+    public function grantAccessToken(?Request $request = null): Response
     {
         $response = parent::grantAccessToken($request);
 
@@ -72,8 +73,7 @@ class OAuth2 extends BaseOAuth2
             $inputData = $request->query->all();
         }
 
-        $authHeaders = $this->getAuthorizationHeader($request);
-        $clientCredentials = $this->getClientCredentials($inputData, $authHeaders);
+        $clientCredentials = $this->getClientCredentials($request, $inputData);
 
         $this->eventDispatcher->dispatch(
             new ApiAuthenticationEvent(

@@ -7,10 +7,10 @@ namespace Akeneo\Tool\Bundle\ApiBundle\tests\integration\Doctrine\DBAL;
 use Akeneo\Test\Integration\Configuration;
 use Akeneo\Tool\Bundle\ApiBundle\Doctrine\DBAL\DeleteExpiredAccessTokenQuery;
 use Akeneo\Tool\Bundle\ApiBundle\Entity\Client;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientManagerInterface;
 use Akeneo\Tool\Bundle\ApiBundle\tests\integration\ApiTestCase;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
-use FOS\OAuthServerBundle\Model\ClientManagerInterface;
 
 /**
  * @copyright 2023 Akeneo SAS (http://www.akeneo.com)

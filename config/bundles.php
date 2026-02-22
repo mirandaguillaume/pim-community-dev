@@ -23,7 +23,7 @@ return [
     Akeneo\Tool\Bundle\MeasureBundle\AkeneoMeasureBundle::class => ['all' => true],
     Akeneo\Tool\Bundle\StorageUtilsBundle\AkeneoStorageUtilsBundle::class => ['all' => true],
     Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle::class => ['all' => true],
-    FOS\OAuthServerBundle\FOSOAuthServerBundle::class => ['all' => true],
+    // FOSOAuthServerBundle removed - OAuth2 now handled by Akeneo\Tool\Bundle\ApiBundle\OAuth
     Oneup\FlysystemBundle\OneupFlysystemBundle::class => ['all' => true],
     Akeneo\Tool\Bundle\MessengerBundle\AkeneoMessengerBundle::class => ['all' => true],
     Oro\Bundle\PimFilterBundle\PimFilterBundle::class => ['all' => true],

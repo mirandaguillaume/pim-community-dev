@@ -7,8 +7,8 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\Settings\Client\Fos;
 use Akeneo\Connectivity\Connection\Application\Settings\Service\CreateClientInterface;
 use Akeneo\Connectivity\Connection\Domain\Settings\Model\Read\Client;
 use Akeneo\Tool\Bundle\ApiBundle\Entity\Client as ApiClient;
-use FOS\OAuthServerBundle\Model\ClientManagerInterface;
-use OAuth2\OAuth2;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientManagerInterface;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\OAuth2;
 
 /**
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>

@@ -7,7 +7,7 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\Settings\Client\Fos;
 use Akeneo\Connectivity\Connection\Application\Settings\Service\DeleteClientInterface;
 use Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject\ClientId;
 use Akeneo\Tool\Bundle\ApiBundle\Entity\Client;
-use FOS\OAuthServerBundle\Model\ClientManagerInterface;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientManagerInterface;
 
 /**
  * @author Pierre Jolly <pierre.jolly@akeneo.com>

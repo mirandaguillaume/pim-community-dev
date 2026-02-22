@@ -18,10 +18,10 @@ use Akeneo\Connectivity\Connection\Infrastructure\Apps\OAuth\ClientProviderInter
 use Akeneo\Connectivity\Connection\Infrastructure\Apps\OAuth\CreateAccessToken;
 use Akeneo\Connectivity\Connection\Infrastructure\Apps\OAuth\CreateJsonWebToken;
 use Akeneo\Tool\Bundle\ApiBundle\Entity\Client;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\IOAuth2AuthCode;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\IOAuth2GrantCode;
 use Akeneo\UserManagement\Component\Model\UserInterface;
 use Akeneo\UserManagement\Component\Repository\UserRepositoryInterface;
-use OAuth2\IOAuth2GrantCode;
-use OAuth2\Model\IOAuth2AuthCode;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 

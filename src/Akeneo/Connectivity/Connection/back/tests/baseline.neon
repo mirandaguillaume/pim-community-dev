@@ -1101,6 +1101,11 @@ parameters:
 			path: ../Infrastructure/Service/User/CreateUser.php
 
 		-
+			message: "#^Parameter \\#3 \\$secret of class Akeneo\\\\Connectivity\\\\Connection\\\\Domain\\\\Settings\\\\Model\\\\Read\\\\Client constructor expects string, string\\|null given\\.$#"
+			count: 1
+			path: ../Infrastructure/Settings/Client/Fos/CreateClient.php
+
+		-
 			message: "#^Cannot access offset 'count' on array\\<string, mixed\\>\\|false\\.$#"
 			count: 1
 			path: ../Infrastructure/Settings/FileInfo/DoesImageExistQuery.php
@@ -1541,22 +1546,12 @@ parameters:
 			path: ../ServiceApi/Service/ConnectedAppFactory.php
 
 		-
-			message: "#^Parameter \\#4 \\$expires of method FOS\\\\OAuthServerBundle\\\\Storage\\\\OAuthStorage\\:\\:createAccessToken\\(\\) expects int, null given\\.$#"
-			count: 1
-			path: ../ServiceApi/Service/ConnectedAppFactory.php
-
-		-
 			message: "#^Parameter \\#4 \\$roles of method Akeneo\\\\Connectivity\\\\Connection\\\\Application\\\\Apps\\\\Service\\\\CreateUserInterface\\:\\:execute\\(\\) expects array\\<string\\>, array\\<int, string\\|null\\> given\\.$#"
 			count: 1
 			path: ../ServiceApi/Service/ConnectedAppFactory.php
 
 		-
 			message: "#^Parameter \\#4 \\$userGroupName of method Akeneo\\\\Connectivity\\\\Connection\\\\Application\\\\Apps\\\\Service\\\\CreateConnectedAppInterface\\:\\:execute\\(\\) expects string, string\\|null given\\.$#"
-			count: 1
-			path: ../ServiceApi/Service/ConnectedAppFactory.php
-
-		-
-			message: "#^Parameter \\#5 \\$expires of method FOS\\\\OAuthServerBundle\\\\Storage\\\\OAuthStorage\\:\\:createAuthCode\\(\\) expects int, null given\\.$#"
 			count: 1
 			path: ../ServiceApi/Service/ConnectedAppFactory.php
 
@@ -1576,27 +1571,12 @@ parameters:
 			path: CatalogBuilder/ConnectedAppLoader.php
 
 		-
-			message: "#^Parameter \\#4 \\$expires of method FOS\\\\OAuthServerBundle\\\\Storage\\\\OAuthStorage\\:\\:createAccessToken\\(\\) expects int, null given\\.$#"
-			count: 1
-			path: CatalogBuilder/ConnectedAppLoader.php
-
-		-
-			message: "#^Parameter \\#4 \\$expires of method FOS\\\\OAuthServerBundle\\\\Storage\\\\OAuthStorage\\:\\:createRefreshToken\\(\\) expects int, null given\\.$#"
-			count: 1
-			path: CatalogBuilder/ConnectedAppLoader.php
-
-		-
 			message: "#^Parameter \\#4 \\$groups of method Akeneo\\\\Connectivity\\\\Connection\\\\Application\\\\Settings\\\\Service\\\\CreateUserInterface\\:\\:execute\\(\\) expects array\\<string\\>\\|null, array\\<int, string\\|null\\> given\\.$#"
 			count: 1
 			path: CatalogBuilder/ConnectedAppLoader.php
 
 		-
 			message: "#^Parameter \\#4 \\$userGroupName of method Akeneo\\\\Connectivity\\\\Connection\\\\Application\\\\Apps\\\\Service\\\\CreateConnectedAppInterface\\:\\:execute\\(\\) expects string, string\\|null given\\.$#"
-			count: 1
-			path: CatalogBuilder/ConnectedAppLoader.php
-
-		-
-			message: "#^Parameter \\#5 \\$expires of method FOS\\\\OAuthServerBundle\\\\Storage\\\\OAuthStorage\\:\\:createAuthCode\\(\\) expects int, null given\\.$#"
 			count: 1
 			path: CatalogBuilder/ConnectedAppLoader.php
 
@@ -1721,7 +1701,7 @@ parameters:
 			path: EndToEnd/Apps/Internal/ConfirmAuthenticationEndToEnd.php
 
 		-
-			message: "#^Property Akeneo\\\\Connectivity\\\\Connection\\\\Tests\\\\EndToEnd\\\\Apps\\\\Internal\\\\ConfirmAuthenticationEndToEnd\\:\\:\\$clientManager \\(FOS\\\\OAuthServerBundle\\\\Model\\\\ClientManagerInterface\\) does not accept mixed\\.$#"
+			message: "#^Property Akeneo\\\\Connectivity\\\\Connection\\\\Tests\\\\EndToEnd\\\\Apps\\\\Internal\\\\ConfirmAuthenticationEndToEnd\\:\\:\\$clientManager \\(Akeneo\\\\Tool\\\\Bundle\\\\ApiBundle\\\\OAuth\\\\Model\\\\ClientManagerInterface\\) does not accept mixed\\.$#"
 			count: 1
 			path: EndToEnd/Apps/Internal/ConfirmAuthenticationEndToEnd.php
 
@@ -3601,7 +3581,7 @@ parameters:
 			path: Integration/Apps/Command/ConsentAppAuthenticationHandlerIntegration.php
 
 		-
-			message: "#^Property Akeneo\\\\Connectivity\\\\Connection\\\\Tests\\\\Integration\\\\Apps\\\\Command\\\\ConsentAppAuthenticationHandlerIntegration\\:\\:\\$clientManager \\(FOS\\\\OAuthServerBundle\\\\Model\\\\ClientManagerInterface\\) does not accept mixed\\.$#"
+			message: "#^Property Akeneo\\\\Connectivity\\\\Connection\\\\Tests\\\\Integration\\\\Apps\\\\Command\\\\ConsentAppAuthenticationHandlerIntegration\\:\\:\\$clientManager \\(Akeneo\\\\Tool\\\\Bundle\\\\ApiBundle\\\\OAuth\\\\Model\\\\ClientManagerInterface\\) does not accept mixed\\.$#"
 			count: 1
 			path: Integration/Apps/Command/ConsentAppAuthenticationHandlerIntegration.php
 
@@ -3686,7 +3666,7 @@ parameters:
 			path: Integration/Apps/Command/CreateConnectedAppWithAuthorizationHandlerIntegration.php
 
 		-
-			message: "#^Property Akeneo\\\\Connectivity\\\\Connection\\\\Tests\\\\Integration\\\\Apps\\\\Command\\\\CreateConnectedAppWithAuthorizationHandlerIntegration\\:\\:\\$clientManager \\(FOS\\\\OAuthServerBundle\\\\Model\\\\ClientManagerInterface\\) does not accept mixed\\.$#"
+			message: "#^Property Akeneo\\\\Connectivity\\\\Connection\\\\Tests\\\\Integration\\\\Apps\\\\Command\\\\CreateConnectedAppWithAuthorizationHandlerIntegration\\:\\:\\$clientManager \\(Akeneo\\\\Tool\\\\Bundle\\\\ApiBundle\\\\OAuth\\\\Model\\\\ClientManagerInterface\\) does not accept mixed\\.$#"
 			count: 1
 			path: Integration/Apps/Command/CreateConnectedAppWithAuthorizationHandlerIntegration.php
 
@@ -3926,7 +3906,7 @@ parameters:
 			path: Integration/Apps/Command/RequestAppAuthenticationHandlerIntegration.php
 
 		-
-			message: "#^Property Akeneo\\\\Connectivity\\\\Connection\\\\Tests\\\\Integration\\\\Apps\\\\Command\\\\RequestAppAuthenticationHandlerIntegration\\:\\:\\$clientManager \\(FOS\\\\OAuthServerBundle\\\\Model\\\\ClientManagerInterface\\) does not accept mixed\\.$#"
+			message: "#^Property Akeneo\\\\Connectivity\\\\Connection\\\\Tests\\\\Integration\\\\Apps\\\\Command\\\\RequestAppAuthenticationHandlerIntegration\\:\\:\\$clientManager \\(Akeneo\\\\Tool\\\\Bundle\\\\ApiBundle\\\\OAuth\\\\Model\\\\ClientManagerInterface\\) does not accept mixed\\.$#"
 			count: 1
 			path: Integration/Apps/Command/RequestAppAuthenticationHandlerIntegration.php
 
@@ -3956,7 +3936,7 @@ parameters:
 			path: Integration/Apps/Command/RequestAppAuthorizationHandlerIntegration.php
 
 		-
-			message: "#^Property Akeneo\\\\Connectivity\\\\Connection\\\\Tests\\\\Integration\\\\Apps\\\\Command\\\\RequestAppAuthorizationHandlerIntegration\\:\\:\\$clientManager \\(FOS\\\\OAuthServerBundle\\\\Model\\\\ClientManagerInterface\\) does not accept mixed\\.$#"
+			message: "#^Property Akeneo\\\\Connectivity\\\\Connection\\\\Tests\\\\Integration\\\\Apps\\\\Command\\\\RequestAppAuthorizationHandlerIntegration\\:\\:\\$clientManager \\(Akeneo\\\\Tool\\\\Bundle\\\\ApiBundle\\\\OAuth\\\\Model\\\\ClientManagerInterface\\) does not accept mixed\\.$#"
 			count: 1
 			path: Integration/Apps/Command/RequestAppAuthorizationHandlerIntegration.php
 
@@ -4066,7 +4046,7 @@ parameters:
 			path: Integration/Apps/OAuth/ClientProviderIntegration.php
 
 		-
-			message: "#^Property Akeneo\\\\Connectivity\\\\Connection\\\\back\\\\tests\\\\Integration\\\\Apps\\\\OAuth\\\\ClientProviderIntegration\\:\\:\\$clientManager \\(FOS\\\\OAuthServerBundle\\\\Model\\\\ClientManagerInterface\\) does not accept mixed\\.$#"
+			message: "#^Property Akeneo\\\\Connectivity\\\\Connection\\\\back\\\\tests\\\\Integration\\\\Apps\\\\OAuth\\\\ClientProviderIntegration\\:\\:\\$clientManager \\(Akeneo\\\\Tool\\\\Bundle\\\\ApiBundle\\\\OAuth\\\\Model\\\\ClientManagerInterface\\) does not accept mixed\\.$#"
 			count: 1
 			path: Integration/Apps/OAuth/ClientProviderIntegration.php
 
@@ -6407,7 +6387,7 @@ parameters:
 
 		-
 			message: "#^Cannot call method willReturn\\(\\) on int\\.$#"
-			count: 1
+			count: 2
 			path: Unit/spec/Application/Apps/Command/CreateConnectedAppWithAuthorizationHandlerSpec.php
 
 		-
@@ -10606,7 +10586,12 @@ parameters:
 			path: Unit/spec/Infrastructure/Apps/OAuth/AuthorizationCodeGeneratorSpec.php
 
 		-
-			message: "#^Cannot call method willReturn\\(\\) on FOS\\\\OAuthServerBundle\\\\Model\\\\ClientInterface\\|null\\.$#"
+			message: "#^Cannot call method shouldBeCalled\\(\\) on null\\.$#"
+			count: 1
+			path: Unit/spec/Infrastructure/Apps/OAuth/AuthorizationCodeGeneratorSpec.php
+
+		-
+			message: "#^Cannot call method willReturn\\(\\) on Akeneo\\\\Tool\\\\Bundle\\\\ApiBundle\\\\OAuth\\\\Model\\\\ClientInterface\\|null\\.$#"
 			count: 1
 			path: Unit/spec/Infrastructure/Apps/OAuth/AuthorizationCodeGeneratorSpec.php
 
@@ -10631,13 +10616,28 @@ parameters:
 			path: Unit/spec/Infrastructure/Apps/OAuth/AuthorizationCodeGeneratorSpec.php
 
 		-
-			message: "#^Call to an undefined method OAuth2\\\\Model\\\\IOAuth2AuthCode\\:\\:willReturn\\(\\)\\.$#"
-			count: 6
+			message: "#^Result of method Akeneo\\\\Tool\\\\Bundle\\\\ApiBundle\\\\OAuth\\\\IOAuth2GrantCode\\:\\:createAuthCode\\(\\) \\(void\\) is used\\.$#"
+			count: 1
+			path: Unit/spec/Infrastructure/Apps/OAuth/AuthorizationCodeGeneratorSpec.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Tool\\\\Bundle\\\\ApiBundle\\\\OAuth\\\\IOAuth2AccessToken\\:\\:shouldBeCalled\\(\\)\\.$#"
+			count: 3
+			path: Unit/spec/Infrastructure/Apps/OAuth/CreateAccessTokenSpec.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Tool\\\\Bundle\\\\ApiBundle\\\\OAuth\\\\IOAuth2AccessToken\\:\\:shouldNotBeCalled\\(\\)\\.$#"
+			count: 1
 			path: Unit/spec/Infrastructure/Apps/OAuth/CreateAccessTokenSpec.php
 
 		-
 			message: "#^Call to an undefined method spec\\\\Akeneo\\\\Connectivity\\\\Connection\\\\Infrastructure\\\\Apps\\\\OAuth\\\\CreateAccessTokenSpec\\:\\:create\\(\\)\\.$#"
 			count: 3
+			path: Unit/spec/Infrastructure/Apps/OAuth/CreateAccessTokenSpec.php
+
+		-
+			message: "#^Cannot call method shouldBeCalled\\(\\) on null\\.$#"
+			count: 4
 			path: Unit/spec/Infrastructure/Apps/OAuth/CreateAccessTokenSpec.php
 
 		-
@@ -10653,6 +10653,11 @@ parameters:
 		-
 			message: "#^Cannot call method willReturn\\(\\) on Akeneo\\\\Tool\\\\Bundle\\\\ApiBundle\\\\Entity\\\\Client\\|null\\.$#"
 			count: 7
+			path: Unit/spec/Infrastructure/Apps/OAuth/CreateAccessTokenSpec.php
+
+		-
+			message: "#^Cannot call method willReturn\\(\\) on Akeneo\\\\Tool\\\\Bundle\\\\ApiBundle\\\\OAuth\\\\IOAuth2AuthCode\\|null\\.$#"
+			count: 6
 			path: Unit/spec/Infrastructure/Apps/OAuth/CreateAccessTokenSpec.php
 
 		-
@@ -10691,7 +10696,7 @@ parameters:
 			path: Unit/spec/Infrastructure/Apps/OAuth/CreateAccessTokenSpec.php
 
 		-
-			message: "#^Method OAuth2\\\\IOAuth2Storage\\:\\:createAccessToken\\(\\) invoked with 1 parameter, 4\\-5 required\\.$#"
+			message: "#^Method Akeneo\\\\Tool\\\\Bundle\\\\ApiBundle\\\\OAuth\\\\IOAuth2Storage\\:\\:createAccessToken\\(\\) invoked with 1 parameter, 4\\-5 required\\.$#"
 			count: 1
 			path: Unit/spec/Infrastructure/Apps/OAuth/CreateAccessTokenSpec.php
 
@@ -10701,13 +10706,13 @@ parameters:
 			path: Unit/spec/Infrastructure/Apps/OAuth/CreateAccessTokenSpec.php
 
 		-
-			message: "#^Parameter \\#1 \\$oauthToken of method OAuth2\\\\IOAuth2Storage\\:\\:createAccessToken\\(\\) expects string, Prophecy\\\\Argument\\\\Token\\\\AnyValuesToken given\\.$#"
+			message: "#^Parameter \\#1 \\$oauthToken of method Akeneo\\\\Tool\\\\Bundle\\\\ApiBundle\\\\OAuth\\\\IOAuth2Storage\\:\\:createAccessToken\\(\\) expects string, Prophecy\\\\Argument\\\\Token\\\\AnyValuesToken given\\.$#"
 			count: 1
 			path: Unit/spec/Infrastructure/Apps/OAuth/CreateAccessTokenSpec.php
 
 		-
-			message: "#^Parameter \\#4 \\$expires of method OAuth2\\\\IOAuth2Storage\\:\\:createAccessToken\\(\\) expects int, null given\\.$#"
-			count: 3
+			message: "#^Result of method Akeneo\\\\Tool\\\\Bundle\\\\ApiBundle\\\\OAuth\\\\IOAuth2GrantCode\\:\\:markAuthCodeAsUsed\\(\\) \\(void\\) is used\\.$#"
+			count: 4
 			path: Unit/spec/Infrastructure/Apps/OAuth/CreateAccessTokenSpec.php
 
 		-
@@ -10951,11 +10956,6 @@ parameters:
 			path: Unit/spec/Infrastructure/Apps/User/CreateUserGroupSpec.php
 
 		-
-			message: "#^Call to an undefined method OAuth2\\\\Model\\\\IOAuth2AuthCode\\:\\:willReturn\\(\\)\\.$#"
-			count: 2
-			path: Unit/spec/Infrastructure/Apps/Validation/AuthorizationCodeMustBeValidValidatorSpec.php
-
-		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldBeCalled\\(\\)\\.$#"
 			count: 2
 			path: Unit/spec/Infrastructure/Apps/Validation/AuthorizationCodeMustBeValidValidatorSpec.php
@@ -10972,6 +10972,11 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method spec\\\\Akeneo\\\\Connectivity\\\\Connection\\\\Infrastructure\\\\Apps\\\\Validation\\\\AuthorizationCodeMustBeValidValidatorSpec\\:\\:validate\\(\\)\\.$#"
+			count: 2
+			path: Unit/spec/Infrastructure/Apps/Validation/AuthorizationCodeMustBeValidValidatorSpec.php
+
+		-
+			message: "#^Cannot call method willReturn\\(\\) on Akeneo\\\\Tool\\\\Bundle\\\\ApiBundle\\\\OAuth\\\\IOAuth2AuthCode\\|null\\.$#"
 			count: 2
 			path: Unit/spec/Infrastructure/Apps/Validation/AuthorizationCodeMustBeValidValidatorSpec.php
 
@@ -10996,11 +11001,6 @@ parameters:
 			path: Unit/spec/Infrastructure/Apps/Validation/AuthorizationCodeMustBeValidValidatorSpec.php
 
 		-
-			message: "#^Call to an undefined method OAuth2\\\\Model\\\\IOAuth2AuthCode\\:\\:willReturn\\(\\)\\.$#"
-			count: 2
-			path: Unit/spec/Infrastructure/Apps/Validation/AuthorizationCodeMustNotBeExpiredValidatorSpec.php
-
-		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldBeCalled\\(\\)\\.$#"
 			count: 2
 			path: Unit/spec/Infrastructure/Apps/Validation/AuthorizationCodeMustNotBeExpiredValidatorSpec.php
@@ -11017,6 +11017,11 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method spec\\\\Akeneo\\\\Connectivity\\\\Connection\\\\Infrastructure\\\\Apps\\\\Validation\\\\AuthorizationCodeMustNotBeExpiredValidatorSpec\\:\\:validate\\(\\)\\.$#"
+			count: 2
+			path: Unit/spec/Infrastructure/Apps/Validation/AuthorizationCodeMustNotBeExpiredValidatorSpec.php
+
+		-
+			message: "#^Cannot call method willReturn\\(\\) on Akeneo\\\\Tool\\\\Bundle\\\\ApiBundle\\\\OAuth\\\\IOAuth2AuthCode\\|null\\.$#"
 			count: 2
 			path: Unit/spec/Infrastructure/Apps/Validation/AuthorizationCodeMustNotBeExpiredValidatorSpec.php
 
@@ -11061,7 +11066,7 @@ parameters:
 			path: Unit/spec/Infrastructure/Apps/Validation/ClientIdMustBeValidValidatorSpec.php
 
 		-
-			message: "#^Cannot call method willReturn\\(\\) on FOS\\\\OAuthServerBundle\\\\Model\\\\ClientInterface\\|null\\.$#"
+			message: "#^Cannot call method willReturn\\(\\) on Akeneo\\\\Tool\\\\Bundle\\\\ApiBundle\\\\OAuth\\\\Model\\\\ClientInterface\\|null\\.$#"
 			count: 2
 			path: Unit/spec/Infrastructure/Apps/Validation/ClientIdMustBeValidValidatorSpec.php
 
@@ -12266,8 +12271,23 @@ parameters:
 			path: Unit/spec/Infrastructure/Settings/Client/Fos/CreateClientSpec.php
 
 		-
+			message: "#^Cannot call method shouldBeCalled\\(\\) on null\\.$#"
+			count: 1
+			path: Unit/spec/Infrastructure/Settings/Client/Fos/CreateClientSpec.php
+
+		-
+			message: "#^Cannot call method willReturn\\(\\) on int\\.$#"
+			count: 1
+			path: Unit/spec/Infrastructure/Settings/Client/Fos/CreateClientSpec.php
+
+		-
 			message: "#^Cannot call method willReturn\\(\\) on string\\.$#"
-			count: 2
+			count: 1
+			path: Unit/spec/Infrastructure/Settings/Client/Fos/CreateClientSpec.php
+
+		-
+			message: "#^Cannot call method willReturn\\(\\) on string\\|null\\.$#"
+			count: 1
 			path: Unit/spec/Infrastructure/Settings/Client/Fos/CreateClientSpec.php
 
 		-
@@ -12277,6 +12297,11 @@ parameters:
 
 		-
 			message: "#^Method spec\\\\Akeneo\\\\Connectivity\\\\Connection\\\\Infrastructure\\\\Settings\\\\Client\\\\Fos\\\\CreateClientSpec\\:\\:it_creates_a_client_with_a_label\\(\\) has parameter \\$clientManager with no type specified\\.$#"
+			count: 1
+			path: Unit/spec/Infrastructure/Settings/Client/Fos/CreateClientSpec.php
+
+		-
+			message: "#^Result of method Akeneo\\\\Tool\\\\Bundle\\\\ApiBundle\\\\Entity\\\\Client\\:\\:setAllowedGrantTypes\\(\\) \\(void\\) is used\\.$#"
 			count: 1
 			path: Unit/spec/Infrastructure/Settings/Client/Fos/CreateClientSpec.php
 
@@ -12306,6 +12331,11 @@ parameters:
 			path: Unit/spec/Infrastructure/Settings/Client/Fos/FosRegenerateClientSecretSpec.php
 
 		-
+			message: "#^Cannot call method shouldBeCalled\\(\\) on null\\.$#"
+			count: 1
+			path: Unit/spec/Infrastructure/Settings/Client/Fos/FosRegenerateClientSecretSpec.php
+
+		-
 			message: "#^Class spec\\\\Akeneo\\\\Connectivity\\\\Connection\\\\Infrastructure\\\\Settings\\\\Client\\\\Fos\\\\FosRegenerateClientSecretSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
 			count: 1
 			path: Unit/spec/Infrastructure/Settings/Client/Fos/FosRegenerateClientSecretSpec.php
@@ -12331,7 +12361,12 @@ parameters:
 			path: Unit/spec/Infrastructure/Settings/Client/Fos/FosRegenerateClientSecretSpec.php
 
 		-
-			message: "#^Parameter \\#1 \\$secret of method FOS\\\\OAuthServerBundle\\\\Model\\\\Client\\:\\:setSecret\\(\\) expects string, Prophecy\\\\Argument\\\\Token\\\\TypeToken given\\.$#"
+			message: "#^Parameter \\#1 \\$secret of method Akeneo\\\\Tool\\\\Bundle\\\\ApiBundle\\\\Entity\\\\Client\\:\\:setSecret\\(\\) expects string\\|null, Prophecy\\\\Argument\\\\Token\\\\TypeToken given\\.$#"
+			count: 1
+			path: Unit/spec/Infrastructure/Settings/Client/Fos/FosRegenerateClientSecretSpec.php
+
+		-
+			message: "#^Result of method Akeneo\\\\Tool\\\\Bundle\\\\ApiBundle\\\\Entity\\\\Client\\:\\:setSecret\\(\\) \\(void\\) is used\\.$#"
 			count: 1
 			path: Unit/spec/Infrastructure/Settings/Client/Fos/FosRegenerateClientSecretSpec.php
 

@@ -7,11 +7,11 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\Apps\OAuth;
 use Akeneo\Connectivity\Connection\Application\RandomCodeGeneratorInterface;
 use Akeneo\Connectivity\Connection\Domain\Apps\DTO\AppConfirmation;
 use Akeneo\Connectivity\Connection\Domain\ClockInterface;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\IOAuth2GrantCode;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientInterface;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientManagerInterface;
 use Akeneo\UserManagement\Component\Model\UserInterface;
 use Akeneo\UserManagement\Component\Repository\UserRepositoryInterface;
-use FOS\OAuthServerBundle\Model\ClientManagerInterface;
-use OAuth2\IOAuth2GrantCode;
-use OAuth2\Model\IOAuth2Client;
 
 /**
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
@@ -61,7 +61,7 @@ class AuthorizationCodeGenerator implements AuthorizationCodeGeneratorInterface
         return $user;
     }
 
-    private function findFosClient(int $fosClientId): IOAuth2Client
+    private function findFosClient(int $fosClientId): ClientInterface
     {
         $client = $this->clientManager->findClientBy(['id' => $fosClientId]);
 

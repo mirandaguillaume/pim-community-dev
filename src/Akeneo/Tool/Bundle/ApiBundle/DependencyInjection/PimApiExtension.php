@@ -26,6 +26,7 @@ class PimApiExtension extends Extension
         $container->setParameter('pim_api.configuration', $config);
 
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader->load('oauth.yml');
         $loader->load('controllers.yml');
         $loader->load('checkers.yml');
         $loader->load('converters.yml');

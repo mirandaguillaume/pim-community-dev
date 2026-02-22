@@ -170,7 +170,7 @@ JSON;
 {"code": "ecommerce_china","currencies": ["EUR"]}
 JSON;
 
-        ob_start(fn() => '');
+        ob_start(fn () => '');
         $client->request('PATCH', '/api/rest/v1/channels', [], [], [], $data);
         ob_end_flush();
 

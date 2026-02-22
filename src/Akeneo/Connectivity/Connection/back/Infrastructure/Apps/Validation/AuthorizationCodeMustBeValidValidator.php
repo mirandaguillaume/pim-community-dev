@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Infrastructure\Apps\Validation;
 
-use OAuth2\IOAuth2GrantCode;
-use OAuth2\Model\IOAuth2AuthCode;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\IOAuth2AuthCode;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\IOAuth2GrantCode;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;

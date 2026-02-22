@@ -14,10 +14,10 @@ use Akeneo\Connectivity\Connection\Domain\Apps\Persistence\GetConnectedAppScopes
 use Akeneo\Connectivity\Connection\Domain\Apps\Persistence\GetUserConsentedAuthenticationScopesQueryInterface;
 use Akeneo\Connectivity\Connection\Domain\Apps\Persistence\GetUserConsentedAuthenticationUuidQueryInterface;
 use Akeneo\Connectivity\Connection\Domain\Apps\ValueObject\ScopeList;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\IOAuth2AuthCode;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\IOAuth2GrantCode;
 use Akeneo\UserManagement\Component\Model\UserInterface;
 use Akeneo\UserManagement\Component\Repository\UserRepositoryInterface;
-use OAuth2\IOAuth2GrantCode;
-use OAuth2\Model\IOAuth2AuthCode;
 
 /**
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
@@ -66,7 +66,6 @@ class CreateAccessToken implements CreateAccessTokenInterface
             $token = $this->randomCodeGenerator->generate();
 
             $appUser = $this->getAppUser($appId);
-            /* @phpstan-ignore-next-line */
             $this->storage->createAccessToken($token, $client, $appUser, null, $scopeString);
         }
 

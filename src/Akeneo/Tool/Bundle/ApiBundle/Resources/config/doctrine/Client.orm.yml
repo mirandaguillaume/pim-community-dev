@@ -7,6 +7,23 @@ Akeneo\Tool\Bundle\ApiBundle\Entity\Client:
             id: true
             generator:
                 strategy: AUTO
+        randomId:
+            column: random_id
+            type: string
+            length: 255
+            nullable: true
+        secret:
+            type: string
+            length: 255
+            nullable: true
+        redirectUris:
+            column: redirect_uris
+            type: array
+            nullable: true
+        allowedGrantTypes:
+            column: allowed_grant_types
+            type: array
+            nullable: true
         label:
             type: string
             length: 255

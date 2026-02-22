@@ -2,20 +2,20 @@
 
 namespace spec\Akeneo\Tool\Bundle\ApiBundle\Checker;
 
-use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface;
-use PhpSpec\ObjectBehavior;
-use Akeneo\Tool\Bundle\ApiBundle\Checker\QueryParametersCheckerInterface;
-use Akeneo\Pim\Structure\Component\Model\AttributeGroupInterface;
-use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 use Akeneo\Category\Infrastructure\Component\Model\CategoryInterface;
 use Akeneo\Channel\Infrastructure\Component\Model\LocaleInterface;
+use Akeneo\Pim\Structure\Component\Model\AttributeGroupInterface;
+use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 use Akeneo\Tool\Bundle\ApiBundle\Checker\QueryParametersChecker;
+use Akeneo\Tool\Bundle\ApiBundle\Checker\QueryParametersCheckerInterface;
+use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface;
+use PhpSpec\ObjectBehavior;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 class QueryParametersCheckerSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         IdentifiableObjectRepositoryInterface $localeRepository,
         IdentifiableObjectRepositoryInterface $attributeRepository,
         IdentifiableObjectRepositoryInterface $categoryRepository
@@ -28,17 +28,17 @@ class QueryParametersCheckerSpec extends ObjectBehavior
         );
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(QueryParametersChecker::class);
     }
 
-    function it_should_be_a_query_param_checker()
+    public function it_should_be_a_query_param_checker()
     {
         $this->shouldHaveType(QueryParametersCheckerInterface::class);
     }
 
-    function it_raises_an_exception_if_a_locale_does_not_exist($localeRepository, LocaleInterface $enUsLocale)
+    public function it_raises_an_exception_if_a_locale_does_not_exist($localeRepository, LocaleInterface $enUsLocale)
     {
         $localeCodes = ['de_DE', 'en_US'];
         $enUsLocale->isActivated()->willReturn(true);
@@ -49,7 +49,7 @@ class QueryParametersCheckerSpec extends ObjectBehavior
             ->during('checkLocalesParameters', [$localeCodes, null]);
     }
 
-    function it_raises_an_exception_if_a_locale_is_not_activated($localeRepository, LocaleInterface $enUsLocale)
+    public function it_raises_an_exception_if_a_locale_is_not_activated($localeRepository, LocaleInterface $enUsLocale)
     {
         $localeCodes = ['de_DE', 'en_US'];
         $enUsLocale->isActivated()->willReturn(false);
@@ -60,7 +60,7 @@ class QueryParametersCheckerSpec extends ObjectBehavior
             ->during('checkLocalesParameters', [$localeCodes, null]);
     }
 
-    function it_raises_an_exception_if_locales_do_not_exist($localeRepository)
+    public function it_raises_an_exception_if_locales_do_not_exist($localeRepository)
     {
         $localeCodes = ['de_DE', 'en_US'];
         $localeRepository->findOneByIdentifier('de_DE')->willReturn(null);
@@ -70,7 +70,7 @@ class QueryParametersCheckerSpec extends ObjectBehavior
             ->during('checkLocalesParameters', [$localeCodes, null]);
     }
 
-    function it_should_not_raise_an_exception_if_a_locale_exist(
+    public function it_should_not_raise_an_exception_if_a_locale_exist(
         $localeRepository,
         LocaleInterface $enUsLocale,
         LocaleInterface $deDeLocale
@@ -83,7 +83,7 @@ class QueryParametersCheckerSpec extends ObjectBehavior
             ->during('checkLocalesParameters', [$localeCodes, null]);
     }
 
-    function it_raises_an_exception_if_an_attribute_does_not_exist(
+    public function it_raises_an_exception_if_an_attribute_does_not_exist(
         $attributeRepository,
         AttributeInterface $attribute1,
         AttributeInterface $attribute2,
@@ -102,7 +102,7 @@ class QueryParametersCheckerSpec extends ObjectBehavior
             ->during('checkAttributesParameters', [$attributeCodes]);
     }
 
-    function it_raises_an_exception_if_attributes_do_not_exist(
+    public function it_raises_an_exception_if_attributes_do_not_exist(
         $attributeRepository,
         AttributeInterface $attribute1,
         AttributeInterface $attribute2,
@@ -121,7 +121,7 @@ class QueryParametersCheckerSpec extends ObjectBehavior
             ->during('checkAttributesParameters', [$attributeCodes]);
     }
 
-    function it_should_not_raise_an_exception_if_attribute_exist(
+    public function it_should_not_raise_an_exception_if_attribute_exist(
         $attributeRepository,
         AttributeInterface $attribute1,
         AttributeInterface $attribute2,
@@ -140,7 +140,7 @@ class QueryParametersCheckerSpec extends ObjectBehavior
             ->during('checkAttributesParameters', [$attributeCodes]);
     }
 
-    function it_raises_an_exception_if_a_category_does_not_exist(
+    public function it_raises_an_exception_if_a_category_does_not_exist(
         $categoryRepository,
         CategoryInterface $category1,
         CategoryInterface $category2
@@ -157,7 +157,7 @@ class QueryParametersCheckerSpec extends ObjectBehavior
             ->during('checkCategoriesParameters', [$categories]);
     }
 
-    function it_raises_an_exception_if_categories_do_not_exist(
+    public function it_raises_an_exception_if_categories_do_not_exist(
         $categoryRepository,
         CategoryInterface $category1,
         CategoryInterface $category2
@@ -174,7 +174,7 @@ class QueryParametersCheckerSpec extends ObjectBehavior
             ->during('checkCategoriesParameters', [$categories]);
     }
 
-    function it_should_not_raise_an_exception_if_a_category_exist(
+    public function it_should_not_raise_an_exception_if_a_category_exist(
         $categoryRepository,
         CategoryInterface $category1,
         CategoryInterface $category2
@@ -191,13 +191,13 @@ class QueryParametersCheckerSpec extends ObjectBehavior
             ->during('checkCategoriesParameters', [$categories]);
     }
 
-    function it_should_throw_an_exception_if_json_is_null()
+    public function it_should_throw_an_exception_if_json_is_null()
     {
         $this->shouldThrow(new BadRequestHttpException('Search query parameter should be valid JSON.'))
             ->during('checkCriterionParameters', ['']);
     }
 
-    function it_should_throw_an_exception_if_it_is_not_correctly_structured()
+    public function it_should_throw_an_exception_if_it_is_not_correctly_structured()
     {
         $this->shouldThrow(
             new UnprocessableEntityHttpException('Structure of filter "categories" should respect this structure: {"categories":[{"operator": "my_operator", "value": "my_value"}]}')
@@ -205,7 +205,7 @@ class QueryParametersCheckerSpec extends ObjectBehavior
             ->during('checkCriterionParameters', ['{"categories":[]}']);
     }
 
-    function it_should_throw_an_exception_if_operator_is_missing()
+    public function it_should_throw_an_exception_if_operator_is_missing()
     {
         $this->shouldThrow(
             new UnprocessableEntityHttpException('Operator is missing for the property "categories".')
@@ -213,7 +213,7 @@ class QueryParametersCheckerSpec extends ObjectBehavior
             ->during('checkCriterionParameters', ['{"categories":[{"value": "my_value"}]}']);
     }
 
-    function it_should_throw_an_exception_if_property_is_not_a_product_filter_or_an_attribute()
+    public function it_should_throw_an_exception_if_property_is_not_a_product_filter_or_an_attribute()
     {
         $this->shouldThrow(
             new UnprocessableEntityHttpException('Filter on property "wrong_attribute" is not supported or does not support operator "my_operator"')

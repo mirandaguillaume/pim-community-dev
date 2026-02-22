@@ -8,8 +8,8 @@ use Akeneo\Connectivity\Connection\Application\Settings\Service\RegenerateClient
 use Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject\ClientId;
 use Akeneo\Connectivity\Connection\Infrastructure\Settings\Client\Fos\FosRegenerateClientSecret;
 use Akeneo\Tool\Bundle\ApiBundle\Entity\Client;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientManagerInterface;
 use Doctrine\DBAL\Connection as DbalConnection;
-use FOS\OAuthServerBundle\Model\ClientManagerInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
