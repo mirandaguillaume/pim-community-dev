@@ -17,7 +17,7 @@ use Doctrine\DBAL\Connection;
 final readonly class DeleteJobInstance implements DeleteJobInstanceInterface
 {
     public function __construct(
-        private Connection $connection
+        private Connection $connection,
     ) {
     }
 

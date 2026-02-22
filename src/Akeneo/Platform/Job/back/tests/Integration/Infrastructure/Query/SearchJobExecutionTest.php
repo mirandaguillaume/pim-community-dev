@@ -510,7 +510,7 @@ class SearchJobExecutionTest extends IntegrationTestCase
 
     private function getExpectedJobExecutionRow(int $jobExecutionId): JobExecutionRow
     {
-        if (empty($this->cachedExpectedJobExecutionRows)) {
+        if ($this->cachedExpectedJobExecutionRows === []) {
             $this->cachedExpectedJobExecutionRows = [
                 $this->jobExecutionIds[0] => new JobExecutionRow(
                     $this->jobExecutionIds[0],

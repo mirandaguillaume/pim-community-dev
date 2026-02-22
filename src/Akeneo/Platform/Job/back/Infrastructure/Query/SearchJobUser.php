@@ -22,9 +22,6 @@ class SearchJobUser implements SearchJobUserInterface
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function search(SearchJobUserQuery $query): array
     {
         $sql = $this->createSqlQuery($query);
@@ -49,7 +46,7 @@ class SearchJobUser implements SearchJobUserInterface
 
         $wherePart = '';
 
-        if (!empty($username)) {
+        if ($username !== '' && $username !== '0') {
             $wherePart = 'AND job_execution.user LIKE :username';
         }
 

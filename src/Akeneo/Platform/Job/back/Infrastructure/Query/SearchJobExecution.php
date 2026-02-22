@@ -117,30 +117,30 @@ SQL;
             $sqlWhereParts[] = $automation ? 'job_execution.user LIKE "job_automated%"' : 'job_execution.user NOT LIKE "job_automated%"';
         }
 
-        if (!empty($type)) {
+        if ($type !== []) {
             $sqlWhereParts[] = 'job_instance.type IN (:type)';
         }
 
-        if (!empty($code)) {
+        if ($code !== []) {
             $sqlWhereParts[] = 'job_instance.code IN (:code)';
         }
 
-        if (!empty($status)) {
+        if ($status !== []) {
             $sqlWhereParts[] = $this->buildStatusSubQuery().' IN (:status)';
         }
 
-        if (!empty($user)) {
+        if ($user !== []) {
             $sqlWhereParts[] = 'job_execution.user IN (:user)';
         }
 
-        if (!empty($search)) {
+        if ($search !== '' && $search !== '0') {
             $searchParts = explode(' ', $search);
             foreach (array_keys($searchParts) as $index) {
                 $sqlWhereParts[] = sprintf('job_instance.label LIKE :%s_%s', self::SEARCH_PART_PARAM_SUFFIX, $index);
             }
         }
 
-        return empty($sqlWhereParts) ? '' : 'AND '.implode(' AND ', $sqlWhereParts);
+        return $sqlWhereParts === [] ? '' : 'AND '.implode(' AND ', $sqlWhereParts);
     }
 
     private function buildSqlOrderByPart(SearchJobExecutionQuery $query): string
