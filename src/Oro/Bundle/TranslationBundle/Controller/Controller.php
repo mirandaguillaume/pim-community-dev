@@ -8,14 +8,17 @@ use Twig\Environment;
 
 class Controller
 {
+    protected string $template;
+
     /**
      * @throws \InvalidArgumentException
      */
-    public function __construct(protected TranslatorInterface $translator, protected Environment $templating, protected string $template, protected $options)
+    public function __construct(protected TranslatorInterface $translator, protected Environment $templating, string $template, protected $options)
     {
         if (empty($template)) {
             throw new \InvalidArgumentException('Please provide valid twig template as third argument');
         }
+        $this->template = $template;
     }
 
     /**

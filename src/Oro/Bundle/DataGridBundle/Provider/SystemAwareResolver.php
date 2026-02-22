@@ -2,10 +2,9 @@
 
 namespace Oro\Bundle\DataGridBundle\Provider;
 
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class SystemAwareResolver implements ContainerAwareInterface
+class SystemAwareResolver
 {
     final public const PARAMETER_REGEX = '#%([\w\._]+)%#';
     final public const STATIC_METHOD_REGEX = '#%([\w\._]+)%::([\w\._]+)#';
@@ -24,7 +23,7 @@ class SystemAwareResolver implements ContainerAwareInterface
 
     public function __construct(ContainerInterface $container)
     {
-        $this->setContainer($container);
+        $this->container = $container;
     }
 
     /**
@@ -131,18 +130,6 @@ class SystemAwareResolver implements ContainerAwareInterface
         }
 
         return $val;
-    }
-
-    /**
-     * Sets the Container.
-     *
-     * @param ContainerInterface|null $container A ContainerInterface instance or null
-     *
-     * @api
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
     }
 
     /**

@@ -5,8 +5,10 @@ namespace Oro\Bundle\SecurityBundle\Annotation;
 /**
  * @Annotation
  * @Target({"METHOD", "CLASS"})
+ *
+ * TODO: Migrate @Annotation docblock to PHP 8 #[\Attribute] when Doctrine Annotations are fully replaced.
  */
-class Acl implements \Serializable
+class Acl
 {
     /**
      * @var string
@@ -166,33 +168,34 @@ class Acl implements \Serializable
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @deprecated Serializable interface is deprecated since PHP 8.1. Migrate to __serialize()/__unserialize() in a future PR.
+     * @return array<string, mixed>
      */
-    public function serialize(): string
+    public function __serialize(): array
     {
-        return serialize(
-            [
-                $this->id,
-                $this->type,
-                $this->class,
-                $this->permission,
-                $this->group,
-                $this->label,
-                $this->order,
-                $this->visible,
-            ]
-        );
+        return [
+            'id' => $this->id,
+            'type' => $this->type,
+            'class' => $this->class,
+            'permission' => $this->permission,
+            'group' => $this->group,
+            'label' => $this->label,
+            'order' => $this->order,
+            'visible' => $this->visible,
+        ];
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @deprecated Serializable interface is deprecated since PHP 8.1. Migrate to __serialize()/__unserialize() in a future PR.
+     * @param array<string, mixed> $data
      */
-    public function unserialize($serialized): void
+    public function __unserialize(array $data): void
     {
-        [$this->id, $this->type, $this->class, $this->permission, $this->group, $this->label, $this->order, $this->visible, ] = unserialize($serialized);
+        $this->id = $data['id'];
+        $this->type = $data['type'];
+        $this->class = $data['class'];
+        $this->permission = $data['permission'];
+        $this->group = $data['group'];
+        $this->label = $data['label'];
+        $this->order = $data['order'];
+        $this->visible = $data['visible'];
     }
 }

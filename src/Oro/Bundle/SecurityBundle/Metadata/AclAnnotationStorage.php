@@ -5,7 +5,7 @@ namespace Oro\Bundle\SecurityBundle\Metadata;
 use Oro\Bundle\SecurityBundle\Annotation\Acl as AclAnnotation;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor as AclAnnotationAncestor;
 
-class AclAnnotationStorage implements \Serializable
+class AclAnnotationStorage
 {
     /**
      * @var AclAnnotation[]
@@ -214,39 +214,22 @@ class AclAnnotationStorage implements \Serializable
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @deprecated Serializable interface is deprecated since PHP 8.1. Migrate to __serialize()/__unserialize() in a future PR.
+     * @return array<string, mixed>
      */
-    public function serialize(): string
+    public function __serialize(): array
     {
-        $data = [];
-        foreach ($this->annotations as $annotation) {
-            $data[] = $annotation->serialize();
-        }
-
-        return serialize(
-            [
-                $data,
-                $this->classes
-            ]
-        );
+        return [
+            'annotations' => $this->annotations,
+            'classes' => $this->classes,
+        ];
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @deprecated Serializable interface is deprecated since PHP 8.1. Migrate to __serialize()/__unserialize() in a future PR.
+     * @param array<string, mixed> $data
      */
-    public function unserialize($serialized): void
+    public function __unserialize(array $data): void
     {
-        [$data, $this->classes] = unserialize($serialized);
-
-        $this->annotations = [];
-        foreach ($data as $d) {
-            $annotation = new AclAnnotation();
-            $annotation->unserialize($d);
-            $this->annotations[$annotation->getId()] = $annotation;
-        }
+        $this->annotations = $data['annotations'];
+        $this->classes = $data['classes'];
     }
 }
