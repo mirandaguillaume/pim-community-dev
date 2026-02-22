@@ -18,9 +18,6 @@ class FindTables implements FindTablesInterface
     {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function all(): array
     {
         return $this->connection->executeQuery(

@@ -37,9 +37,6 @@ class AssetsCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure(): void
     {
         $this
@@ -48,9 +45,6 @@ class AssetsCommand extends Command
             ->addOption('clean', null, InputOption::VALUE_NONE, 'Clean previous assets');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         $this->commandExecutor = new CommandExecutor(
@@ -60,9 +54,6 @@ class AssetsCommand extends Command
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('<info>Akeneo PIM assets</info>');

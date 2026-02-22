@@ -46,7 +46,7 @@ class FixtureJobLoader
      */
     public function deleteJobInstances(): void
     {
-        $jobInstances = $this->jobInstanceRepository->findBy(['type' => static::JOB_TYPE]);
+        $jobInstances = $this->jobInstanceRepository->findBy(['type' => self::JOB_TYPE]);
         $this->jobInstanceRemover->removeAll($jobInstances);
     }
 
@@ -72,11 +72,11 @@ class FixtureJobLoader
     {
         if ([] === $replacePaths) {
             return $this->jobInstancesConfigurator->configureJobInstancesWithInstallerData($catalogPath, $jobInstances);
-        } else {
-            return $this->jobInstancesConfigurator->configureJobInstancesWithReplacementPaths(
-                $jobInstances,
-                $replacePaths,
-            );
         }
+
+        return $this->jobInstancesConfigurator->configureJobInstancesWithReplacementPaths(
+            $jobInstances,
+            $replacePaths,
+        );
     }
 }

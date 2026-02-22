@@ -39,9 +39,6 @@ abstract class ControllerIntegrationTestCase extends WebTestCase
         return self::getContainer()->get($service);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function tearDown(): void
     {
         $this->ensureKernelShutdown();

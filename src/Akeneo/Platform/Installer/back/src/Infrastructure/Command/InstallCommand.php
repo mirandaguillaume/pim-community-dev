@@ -30,9 +30,6 @@ class InstallCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure(): void
     {
         $this
@@ -47,9 +44,6 @@ class InstallCommand extends Command
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         $this->commandExecutor = new CommandExecutor(
@@ -59,9 +53,6 @@ class InstallCommand extends Command
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $forceInstall = $input->getOption('force');
