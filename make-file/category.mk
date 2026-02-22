@@ -1,3 +1,4 @@
+# @deprecated Use Castor instead. See castor.php and castor/ directory.
 .PHONY: category-front-up
 category-front-up: #Doc: launch category micro front-end, http://localhost:3000/
 	$(DOCKER_COMPOSE) -f docker-compose.yml -f src/Akeneo/Category/front/docker-compose.micro-frontend.yml up -d --remove-orphans

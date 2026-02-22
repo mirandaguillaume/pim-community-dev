@@ -1,3 +1,4 @@
+# @deprecated Use Castor instead. See castor.php and castor/ directory.
 .PHONY: measurement-lint-back
 measurement-lint-back: #Doc: launch PHPStan for Measurement bounded context
 	${PHP_RUN} vendor/bin/rector process --dry-run --config src/Akeneo/Tool/Bundle/MeasureBundle/back/tests/rector.php

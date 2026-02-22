@@ -1,3 +1,4 @@
+# @deprecated Use Castor instead. See castor.php and castor/ directory.
 IDENTIFIER_GENERATOR_PATH ?= components/identifier-generator
 
 .PHONY: identifier-generator-front-check
