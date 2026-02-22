@@ -29,7 +29,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\User\User;
+use Symfony\Component\Security\Core\User\InMemoryUser;
 
 /**
  * Removes all values of deleted attributes on all products and product models
@@ -245,7 +245,7 @@ class CleanRemovedAttributesFromProductAndProductModelCommand extends Command
         }
 
         $jobInstance = $this->jobInstanceRepository->findOneByIdentifier(self::JOB_NAME);
-        $jobExecution = $this->jobLauncher->launch($jobInstance, new User(UserInterface::SYSTEM_USER_NAME, null), [
+        $jobExecution = $this->jobLauncher->launch($jobInstance, new InMemoryUser(UserInterface::SYSTEM_USER_NAME, null), [
             'attribute_codes' => $attributeCodes,
         ]);
 

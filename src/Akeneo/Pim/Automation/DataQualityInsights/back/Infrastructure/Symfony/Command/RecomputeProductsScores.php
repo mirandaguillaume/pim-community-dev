@@ -13,7 +13,7 @@ use Akeneo\UserManagement\Component\Model\UserInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Security\Core\User\User;
+use Symfony\Component\Security\Core\User\InMemoryUser;
 
 /**
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
@@ -45,7 +45,7 @@ final class RecomputeProductsScores extends Command
         }
 
         $jobInstance = $this->getJobInstance();
-        $user = new User(UserInterface::SYSTEM_USER_NAME, null);
+        $user = new InMemoryUser(UserInterface::SYSTEM_USER_NAME, null);
         $this->queueJobLauncher->launch($jobInstance, $user, [RecomputeProductScoresParameters::LAST_PRODUCT_UUID => '']);
 
         $output->writeln('The job that re-compute products scores has been launched.');

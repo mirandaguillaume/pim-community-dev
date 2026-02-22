@@ -9,7 +9,7 @@ use Akeneo\Tool\Bundle\BatchBundle\Job\JobInstanceRepository;
 use Akeneo\Tool\Bundle\BatchBundle\Launcher\JobLauncherInterface;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
 use Akeneo\UserManagement\Component\Model\UserInterface;
-use Symfony\Component\Security\Core\User\User;
+use Symfony\Component\Security\Core\User\InMemoryUser;
 
 /**
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
@@ -24,7 +24,7 @@ final readonly class SchedulePeriodicTasks
     public function schedule(\DateTimeImmutable $date): void
     {
         $jobInstance = $this->getJobInstance();
-        $user = new User(UserInterface::SYSTEM_USER_NAME, null);
+        $user = new InMemoryUser(UserInterface::SYSTEM_USER_NAME, null);
         $jobParameters = [
             PeriodicTasksParameters::DATE_FIELD => $date->format(PeriodicTasksParameters::DATE_FORMAT),
         ];
