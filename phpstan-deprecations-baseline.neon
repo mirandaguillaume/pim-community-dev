@@ -1,0 +1,256 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '''
+				#^Call to method __construct\(\) of deprecated class Symfony\\Component\\Security\\Core\\User\\User\:
+				since Symfony 5\.3, use \{@link InMemoryUser\} instead$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Akeneo/Pim/Automation/DataQualityInsights/back/Infrastructure/Connector/JobLauncher/SchedulePeriodicTasks.php
+
+		-
+			message: '''
+				#^Call to method __construct\(\) of deprecated class Symfony\\Component\\Security\\Core\\User\\User\:
+				since Symfony 5\.3, use \{@link InMemoryUser\} instead$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Akeneo/Pim/Automation/DataQualityInsights/back/Infrastructure/Connector/Tasklet/RecomputeProductScoresTasklet.php
+
+		-
+			message: '''
+				#^Call to method __construct\(\) of deprecated class Symfony\\Component\\Security\\Core\\User\\User\:
+				since Symfony 5\.3, use \{@link InMemoryUser\} instead$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Akeneo/Pim/Automation/DataQualityInsights/back/Infrastructure/Symfony/Command/RecomputeProductsScores.php
+
+		-
+			message: '''
+				#^Call to method __construct\(\) of deprecated class Symfony\\Component\\Security\\Core\\User\\User\:
+				since Symfony 5\.3, use \{@link InMemoryUser\} instead$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Akeneo/Pim/Enrichment/Bundle/Command/CleanRemovedAttributesFromProductAndProductModelCommand.php
+
+		-
+			message: '''
+				#^Call to method getPattern\(\) of deprecated class Symfony\\Component\\Intl\\DateFormatter\\IntlDateFormatter\:
+				since Symfony 5\.3, use symfony/polyfill\-intl\-icu \^1\.21 instead$#
+			'''
+			identifier: method.deprecatedClass
+			count: 3
+			path: src/Akeneo/Pim/Enrichment/Bundle/Controller/InternalApi/FormatController.php
+
+		-
+			message: '''
+				#^Call to method formatCurrency\(\) of deprecated class Symfony\\Component\\Intl\\NumberFormatter\\NumberFormatter\:
+				since Symfony 5\.3, use symfony/polyfill\-intl\-icu \^1\.21 instead$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Akeneo/Pim/Enrichment/Component/Product/Localization/Presenter/PricesPresenter.php
+
+		-
+			message: '#^Property Akeneo\\Pim\\Enrichment\\Component\\Product\\Model\\AbstractProduct\:\:\$values on left side of \?\? is not nullable nor uninitialized\.$#'
+			identifier: nullCoalesce.initializedProperty
+			count: 1
+			path: src/Akeneo/Pim/Enrichment/Component/Product/Model/AbstractProduct.php
+
+		-
+			message: '#^Property Akeneo\\Pim\\Enrichment\\Component\\Product\\Model\\ProductModel\:\:\$values on left side of \?\? is not nullable nor uninitialized\.$#'
+			identifier: nullCoalesce.initializedProperty
+			count: 1
+			path: src/Akeneo/Pim/Enrichment/Component/Product/Model/ProductModel.php
+
+		-
+			message: '''
+				#^Call to method getPattern\(\) of deprecated class Symfony\\Component\\Intl\\DateFormatter\\IntlDateFormatter\:
+				since Symfony 5\.3, use symfony/polyfill\-intl\-icu \^1\.21 instead$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Akeneo/Platform/Bundle/UIBundle/Form/Type/DateType.php
+
+		-
+			message: '''
+				#^Call to method getSymbol\(\) of deprecated class Symfony\\Component\\Intl\\NumberFormatter\\NumberFormatter\:
+				since Symfony 5\.3, use symfony/polyfill\-intl\-icu \^1\.21 instead$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Akeneo/Platform/Bundle/UIBundle/Form/Type/NumberType.php
+
+		-
+			message: '''
+				#^Call to method getPattern\(\) of deprecated class Symfony\\Component\\Intl\\DateFormatter\\IntlDateFormatter\:
+				since Symfony 5\.3, use symfony/polyfill\-intl\-icu \^1\.21 instead$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Akeneo/Tool/Component/Localization/Factory/DateFactory.php
+
+		-
+			message: '''
+				#^Call to method setPattern\(\) of deprecated class Symfony\\Component\\Intl\\DateFormatter\\IntlDateFormatter\:
+				since Symfony 5\.3, use symfony/polyfill\-intl\-icu \^1\.21 instead$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Akeneo/Tool/Component/Localization/Factory/DateFactory.php
+
+		-
+			message: '''
+				#^Call to method setPattern\(\) of deprecated class Symfony\\Component\\Intl\\NumberFormatter\\NumberFormatter\:
+				since Symfony 5\.3, use symfony/polyfill\-intl\-icu \^1\.21 instead$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Akeneo/Tool/Component/Localization/Factory/NumberFactory.php
+
+		-
+			message: '''
+				#^Call to method format\(\) of deprecated class Symfony\\Component\\Intl\\DateFormatter\\IntlDateFormatter\:
+				since Symfony 5\.3, use symfony/polyfill\-intl\-icu \^1\.21 instead$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Akeneo/Tool/Component/Localization/Localizer/DateLocalizer.php
+
+		-
+			message: '''
+				#^Call to method getPattern\(\) of deprecated class Symfony\\Component\\Intl\\DateFormatter\\IntlDateFormatter\:
+				since Symfony 5\.3, use symfony/polyfill\-intl\-icu \^1\.21 instead$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Akeneo/Tool/Component/Localization/Localizer/DateLocalizer.php
+
+		-
+			message: '''
+				#^Call to method parse\(\) of deprecated class Symfony\\Component\\Intl\\DateFormatter\\IntlDateFormatter\:
+				since Symfony 5\.3, use symfony/polyfill\-intl\-icu \^1\.21 instead$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Akeneo/Tool/Component/Localization/Localizer/DateLocalizer.php
+
+		-
+			message: '''
+				#^Call to method setLenient\(\) of deprecated class Symfony\\Component\\Intl\\DateFormatter\\IntlDateFormatter\:
+				since Symfony 5\.3, use symfony/polyfill\-intl\-icu \^1\.21 instead$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Akeneo/Tool/Component/Localization/Localizer/DateLocalizer.php
+
+		-
+			message: '''
+				#^Call to method format\(\) of deprecated class Symfony\\Component\\Intl\\NumberFormatter\\NumberFormatter\:
+				since Symfony 5\.3, use symfony/polyfill\-intl\-icu \^1\.21 instead$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Akeneo/Tool/Component/Localization/Localizer/NumberLocalizer.php
+
+		-
+			message: '''
+				#^Call to method getSymbol\(\) of deprecated class Symfony\\Component\\Intl\\NumberFormatter\\NumberFormatter\:
+				since Symfony 5\.3, use symfony/polyfill\-intl\-icu \^1\.21 instead$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Akeneo/Tool/Component/Localization/Localizer/NumberLocalizer.php
+
+		-
+			message: '''
+				#^Call to method setAttribute\(\) of deprecated class Symfony\\Component\\Intl\\NumberFormatter\\NumberFormatter\:
+				since Symfony 5\.3, use symfony/polyfill\-intl\-icu \^1\.21 instead$#
+			'''
+			identifier: method.deprecatedClass
+			count: 2
+			path: src/Akeneo/Tool/Component/Localization/Localizer/NumberLocalizer.php
+
+		-
+			message: '''
+				#^Call to method setSymbol\(\) of deprecated class Symfony\\Component\\Intl\\NumberFormatter\\NumberFormatter\:
+				since Symfony 5\.3, use symfony/polyfill\-intl\-icu \^1\.21 instead$#
+			'''
+			identifier: method.deprecatedClass
+			count: 2
+			path: src/Akeneo/Tool/Component/Localization/Localizer/NumberLocalizer.php
+
+		-
+			message: '''
+				#^Call to method format\(\) of deprecated class Symfony\\Component\\Intl\\DateFormatter\\IntlDateFormatter\:
+				since Symfony 5\.3, use symfony/polyfill\-intl\-icu \^1\.21 instead$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Akeneo/Tool/Component/Localization/Presenter/DatePresenter.php
+
+		-
+			message: '''
+				#^Call to method format\(\) of deprecated class Symfony\\Component\\Intl\\NumberFormatter\\NumberFormatter\:
+				since Symfony 5\.3, use symfony/polyfill\-intl\-icu \^1\.21 instead$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Akeneo/Tool/Component/Localization/Presenter/NumberPresenter.php
+
+		-
+			message: '''
+				#^Call to method setAttribute\(\) of deprecated class Symfony\\Component\\Intl\\NumberFormatter\\NumberFormatter\:
+				since Symfony 5\.3, use symfony/polyfill\-intl\-icu \^1\.21 instead$#
+			'''
+			identifier: method.deprecatedClass
+			count: 2
+			path: src/Akeneo/Tool/Component/Localization/Presenter/NumberPresenter.php
+
+		-
+			message: '''
+				#^Call to method parse\(\) of deprecated class Symfony\\Component\\Intl\\DateFormatter\\IntlDateFormatter\:
+				since Symfony 5\.3, use symfony/polyfill\-intl\-icu \^1\.21 instead$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Akeneo/Tool/Component/Localization/Validator/Constraints/DateFormatValidator.php
+
+		-
+			message: '''
+				#^Call to method setLenient\(\) of deprecated class Symfony\\Component\\Intl\\DateFormatter\\IntlDateFormatter\:
+				since Symfony 5\.3, use symfony/polyfill\-intl\-icu \^1\.21 instead$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Akeneo/Tool/Component/Localization/Validator/Constraints/DateFormatValidator.php
+
+		-
+			message: '''
+				#^Call to method getSymbol\(\) of deprecated class Symfony\\Component\\Intl\\NumberFormatter\\NumberFormatter\:
+				since Symfony 5\.3, use symfony/polyfill\-intl\-icu \^1\.21 instead$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Akeneo/UserManagement/Bundle/Controller/Rest/UserController.php
+
+		-
+			message: '''
+				#^Call to method getSymbol\(\) of deprecated class Symfony\\Component\\Intl\\NumberFormatter\\NumberFormatter\:
+				since Symfony 5\.3, use symfony/polyfill\-intl\-icu \^1\.21 instead$#
+			'''
+			identifier: method.deprecatedClass
+			count: 2
+			path: src/Oro/Bundle/FilterBundle/Filter/NumberFilter.php
+
+		-
+			message: '''
+				#^Call to method getSymbol\(\) of deprecated class Symfony\\Component\\Intl\\NumberFormatter\\NumberFormatter\:
+				since Symfony 5\.3, use symfony/polyfill\-intl\-icu \^1\.21 instead$#
+			'''
+			identifier: method.deprecatedClass
+			count: 2
+			path: src/Oro/Bundle/FilterBundle/Form/Type/Filter/NumberFilterType.php
