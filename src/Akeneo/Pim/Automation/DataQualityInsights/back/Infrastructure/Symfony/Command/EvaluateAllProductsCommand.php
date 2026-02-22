@@ -48,7 +48,7 @@ final class EvaluateAllProductsCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $io->title($this::$defaultDescription);
+        $io->title($this->getDescription());
         $io->text('Use command pim:data-quality-insights:initialize-products-evaluations first if you want to re-evaluate the totality of the catalog.');
         $io->caution(['This operation can take a lot of time.']);
 
