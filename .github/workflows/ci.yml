@@ -130,6 +130,8 @@ jobs:
               - 'docker/**'
               - 'Makefile'
               - 'make-file/**'
+              - 'castor/**'
+              - 'castor.php'
 
   # ===========================================================================
   # BUILD PHP IMAGE (pushed to GHCR, not artifacts)
@@ -210,11 +212,13 @@ jobs:
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn packages:build
 
-      - name: Install PHP dependencies
+      - name: Install Castor
         run: |
-          HOST_UID=$(id -u)
-          HOST_GID=$(id -g)
-          make YARN_RUN="docker-compose run --rm --user ${HOST_UID}:${HOST_GID} -e YARN_REGISTRY -e PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 -e PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome node yarn --no-bin-links" dependencies
+          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
+          chmod +x /usr/local/bin/castor
+
+      - name: Install PHP dependencies
+        run: castor back:vendor
 
       - name: Upload front packages build
         uses: actions/upload-artifact@v4
@@ -302,12 +306,18 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           yarn-cache: 'false'
 
+      - name: Install Castor
+        run: |
+          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
+          chmod +x /usr/local/bin/castor
+        if: steps.db-cache.outputs.cache-hit != 'true'
+
       - name: Start services and create database
         if: steps.db-cache.outputs.cache-hit != 'true'
         run: |
-          APP_ENV=test C='httpd mysql elasticsearch object-storage pubsub-emulator gcs-emulator' make up
+          APP_ENV=test castor docker:up 'httpd mysql elasticsearch object-storage pubsub-emulator gcs-emulator'
           docker/wait_docker_up.sh
-          APP_ENV=test make database
+          APP_ENV=test castor back:database
 
       - name: Dump database
         if: steps.db-cache.outputs.cache-hit != 'true'
@@ -366,11 +376,16 @@ jobs:
           name: front-packages-lib
           path: .
 
+      - name: Install Castor
+        run: |
+          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
+          chmod +x /usr/local/bin/castor
+
       - name: Build CSS (LESS compilation)
-        run: make css
+        run: castor front:css
 
       - name: Build frontend (webpack)
-        run: make javascript-dev-strict
+        run: castor front:javascript-dev-strict
 
       - name: Upload front build artifacts
         if: success()
@@ -415,8 +430,13 @@ jobs:
           name: front-packages-lib
           path: .
 
+      - name: Install Castor
+        run: |
+          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
+          chmod +x /usr/local/bin/castor
+
       - name: Run ESLint and Prettier
-        run: PIM_CONTEXT=test make lint-front
+        run: castor test:lint-front
 
   # ===========================================================================
   # FRONT-UNIT: Jest unit tests (sharded x2)
@@ -515,14 +535,19 @@ jobs:
           done
           echo "MySQL is ready (project: ${COMPOSE_PROJECT_NAME:-default})"
 
+      - name: Install Castor
+        run: |
+          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
+          chmod +x /usr/local/bin/castor
+
       - name: Fix identifier generator CS (auto-fix before dry-run)
         continue-on-error: true
         run: docker-compose run --rm php php vendor/bin/php-cs-fixer fix --config=components/identifier-generator/back/tests/.php_cs.php --allow-risky=yes
 
       - name: Run PHPStan, php-cs-fixer and static checks
         run: |
-          PIM_CONTEXT=test make lint-back
-          PIM_CONTEXT=test make static-back
+          castor test:lint-back
+          castor test:static-back
 
   # ===========================================================================
   # DEPRECATION-BACK: PHPStan deprecation analysis (parallel with lint-back)
@@ -549,8 +574,13 @@ jobs:
             sleep 1
           done
 
+      - name: Install Castor
+        run: |
+          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
+          chmod +x /usr/local/bin/castor
+
       - name: Run PHPStan deprecation analysis
-        run: PIM_CONTEXT=test make deprecation-back
+        run: castor test:deprecation-back
 
   # ===========================================================================
   # CODE-STYLE-BACK: Coupling detection + legacy translations (no MySQL)
@@ -568,10 +598,15 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           pull-base-images: 'false'
 
+      - name: Install Castor
+        run: |
+          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
+          chmod +x /usr/local/bin/castor
+
       - name: Run coupling and translation checks
         run: |
-          PIM_CONTEXT=test make find-legacy-translations
-          PIM_CONTEXT=test make coupling-back
+          castor test:find-legacy-translations
+          castor test:coupling-back
 
   # ===========================================================================
   # PHPSPEC: Unit tests (fast, no external dependencies)
@@ -596,8 +631,13 @@ jobs:
           key: phpspec-${{ runner.os }}-${{ hashFiles('phpspec.yml*', 'composer.lock') }}
           restore-keys: phpspec-${{ runner.os }}-
 
+      - name: Install Castor
+        run: |
+          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
+          chmod +x /usr/local/bin/castor
+
       - name: Run PHPSpec unit tests
-        run: PIM_CONTEXT=test make unit-back
+        run: castor test:unit-back
 
       - name: Upload PHPSpec results
         if: always()
@@ -632,8 +672,13 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Install Castor
+        run: |
+          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
+          chmod +x /usr/local/bin/castor
+
       - name: Run main Behat acceptance tests
-        run: PIM_CONTEXT=test make acceptance-back-main
+        run: castor test:acceptance-back
 
       - name: Upload acceptance results
         if: always()
@@ -660,8 +705,13 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Install Castor
+        run: |
+          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
+          chmod +x /usr/local/bin/castor
+
       - name: Run bounded context acceptance tests
-        run: PIM_CONTEXT=test make acceptance-back-contexts
+        run: castor test:acceptance-back-contexts
 
       - name: Upload acceptance context results
         if: always()
@@ -729,12 +779,17 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Install Castor
+        run: |
+          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
+          chmod +x /usr/local/bin/castor
+
       - name: Run data migrations tests
         run: |
-          APP_ENV=test C='httpd mysql elasticsearch object-storage pubsub-emulator' make up
+          APP_ENV=test castor docker:up 'httpd mysql elasticsearch object-storage pubsub-emulator'
           docker/wait_docker_up.sh
-          APP_ENV=test make database
-          PIM_CONTEXT=test make migration-back
+          APP_ENV=test castor back:database
+          castor test:migration-back
 
       - name: Upload migration results
         if: always()
@@ -770,12 +825,17 @@ jobs:
           name: db-seed
           path: seed
 
+      - name: Install Castor
+        run: |
+          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
+          chmod +x /usr/local/bin/castor
+
       - name: Cleanup stale containers
         run: docker-compose down --remove-orphans 2>/dev/null || true
 
       - name: Setup test database
         run: |
-          APP_ENV=test C='httpd mysql elasticsearch object-storage pubsub-emulator gcs-emulator' make up
+          APP_ENV=test castor docker:up 'httpd mysql elasticsearch object-storage pubsub-emulator gcs-emulator'
           docker/wait_docker_up.sh
           .github/scripts/setup-test-db.sh akeneo_pim_test seed/db-seed.sql
           docker-compose run --rm php php bin/console akeneo:elasticsearch:reset-indexes --env=test
@@ -793,8 +853,7 @@ jobs:
 
       - name: Run PHPUnit tests (shard ${{ matrix.shard }}/6)
         run: |
-          .github/scripts/run_phpunit.sh . .github/scripts/find_phpunit.php \
-            PIM_Integration_Test,Akeneo_Connectivity_Connection_Integration,Akeneo_Communication_Channel_Integration,Job_Integration_Test,Channel_Integration_Test,Identifier_Generator_PhpUnit,Installer_Integration_Test,End_to_End
+          castor test:pim-integration-back
         env:
           PHPUNIT_SHARD: ${{ matrix.shard }}
           PHPUNIT_TOTAL_SHARDS: 6
@@ -876,6 +935,11 @@ jobs:
           fi
           echo "TESTSUITE=${TESTSUITE}" >> $GITHUB_ENV
 
+      - name: Install Castor
+        run: |
+          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
+          chmod +x /usr/local/bin/castor
+
       - name: Cleanup stale containers
         run: docker-compose down --remove-orphans 2>/dev/null || true
 
@@ -883,7 +947,7 @@ jobs:
         run: |
           DB_NAME=$(grep '^APP_DATABASE_NAME=' .env.behat 2>/dev/null | cut -d= -f2 || echo "akeneo_pim_test")
           DB_NAME=${DB_NAME:-akeneo_pim_test}
-          APP_ENV=behat C='httpd mysql elasticsearch object-storage selenium pubsub-emulator' make up
+          APP_ENV=behat castor docker:up 'httpd mysql elasticsearch object-storage selenium pubsub-emulator'
           docker/wait_docker_up.sh
           .github/scripts/setup-test-db.sh "${DB_NAME}" seed/db-seed.sql
           docker-compose run --rm php php bin/console akeneo:elasticsearch:reset-indexes --env=test
@@ -914,7 +978,7 @@ jobs:
         run: |
           export BEHAT_SPLIT="${{ matrix.shard }}/10"
           export BEHAT_TIMING_FILE=".test-timings/behat.json"
-          PIM_CONTEXT=test make end-to-end-legacy SUITE=${TESTSUITE}
+          SUITE=${TESTSUITE} castor test:end-to-end-legacy
 
       - name: Archive behat artifacts
         if: always()
@@ -963,13 +1027,18 @@ jobs:
       - name: Install Playwright browsers
         run: ./node_modules/.bin/playwright install --with-deps chromium
 
+      - name: Install Castor
+        run: |
+          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
+          chmod +x /usr/local/bin/castor
+
       - name: Setup and run Playwright
         run: |
           DB_NAME=$(grep '^APP_DATABASE_NAME=' .env | cut -d= -f2 || echo "akeneo_pim")
           DB_NAME=${DB_NAME:-akeneo_pim}
-          APP_ENV=prod C='httpd mysql elasticsearch object-storage pubsub-emulator' make up
+          APP_ENV=prod castor docker:up 'httpd mysql elasticsearch object-storage pubsub-emulator'
           docker/wait_docker_up.sh
-          APP_ENV=prod O="--catalog src/Akeneo/Platform/Installer/back/src/Infrastructure/Symfony/Resources/fixtures/icecat_demo_dev" make database
+          APP_ENV=prod castor back:database '--catalog src/Akeneo/Platform/Installer/back/src/Infrastructure/Symfony/Resources/fixtures/icecat_demo_dev'
           .github/scripts/setup-test-db.sh "${DB_NAME}" "" .github/scripts/behat-extra-tables.sql
           # Reset Elasticsearch indexes and re-index products so the product grid works
           docker-compose run --rm php php bin/console akeneo:elasticsearch:reset-indexes --env=prod
@@ -1012,7 +1081,7 @@ jobs:
           echo "=== HTTP asset check ==="
           curl -sI http://localhost:${DOCKER_PORT_HTTP:-8080}/dist/vendor.min.js 2>&1 | head -3
           curl -sI http://localhost:${DOCKER_PORT_HTTP:-8080}/js/extensions.json 2>&1 | head -3
-          PIM_URL=http://localhost:${DOCKER_PORT_HTTP:-8080} make end-to-end-front
+          PIM_URL=http://localhost:${DOCKER_PORT_HTTP:-8080} castor test:end-to-end-front
 
       - name: Upload Playwright report
         if: failure()
