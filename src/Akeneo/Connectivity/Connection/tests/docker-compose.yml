@@ -1,10 +1,13 @@
 services:
     selenium:
-        image: 'selenium/standalone-chrome-debug:3.141.59-oxygen'
+        image: 'selenium/standalone-chrome:4.27.0'
+        environment:
+            SE_NODE_MAX_SESSIONS: '1'
+            SE_START_VNC: 'true'
         volumes:
             - './:/srv/pim:ro'
             - '/dev/shm:/dev/shm'
         ports:
-            - '${DOCKER_PORT_SELENIUM:-5910}:5900'
+            - '${DOCKER_PORT_SELENIUM:-7900}:7900'
         networks:
             - 'pim'

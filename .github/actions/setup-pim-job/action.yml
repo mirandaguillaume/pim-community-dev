@@ -70,7 +70,7 @@ runs:
       shell: bash
       run: |
         docker pull mysql:8.0.30 &
-        docker pull selenium/standalone-chrome-debug:3.141.59 &
+        docker pull selenium/standalone-chrome:4.27.0 &
         docker pull node:20 &
         wait
 
