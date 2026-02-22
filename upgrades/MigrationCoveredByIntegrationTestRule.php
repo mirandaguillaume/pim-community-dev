@@ -9,7 +9,11 @@ use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleErrorBuilder;
 
+/**
+ * @implements Rule<InClassNode>
+ */
 class MigrationCoveredByIntegrationTestRule implements Rule
 {
     public function getNodeType(): string
@@ -32,7 +36,11 @@ class MigrationCoveredByIntegrationTestRule implements Rule
         $integration = \sprintf('Pim\\Upgrade\\Schema\\Tests\\%s_Integration', $basename);
 
         if (!\class_exists($integration)) {
-            return ['Migration must be covered by an integration test'];
+            return [
+                RuleErrorBuilder::message('Migration must be covered by an integration test')
+                    ->identifier('pim.migrationWithoutTest')
+                    ->build(),
+            ];
         }
 
         return [];
