@@ -35,38 +35,97 @@ defaults:
     shell: bash
 
 # =============================================================================
-# JOB DEPENDENCY GRAPH (fail-fast optimized):
+# JOB DEPENDENCY GRAPH (with path filtering):
 #
+#   detect-changes ──────────────────────────(outputs: backend, frontend, ci)──┐
+#     │                                                                        │
 #   image ─────────────────────────────────────────────────────────────────────┐
 #     │                                                                        │
-#     ├──► prepare ──┬──► front-build ─────────────────┬─────────────────────►│
+#     ├──► prepare ──┬──► front-build [if frontend] ───┬─────────────────────►│
 #     │              │                                 │                       │
-#     │              ├──► front-lint ─────────────────►│                       │
+#     │              ├──► front-lint [if frontend] ───►│                       │
 #     │              │                                 │                       │
-#     │              ├──► front-unit ─────────────────►│                       │
+#     │              ├──► front-unit [if frontend] ───►│                       │
 #     │              │                                 │                       │
-#     │              ├──► lint-back ──────────────────►│                       │
+#     │              ├──► lint-back [if backend] ─────►│                       │
 #     │              │                                 │                       │
-#     │              ├──► phpspec ────────────────────►│                       │
+#     │              ├──► phpspec [if backend] ───────►│                       │
 #     │              │                                 │                       │
-#     │              ├──► static-checks ──────────────►│                       │
+#     │              ├──► static-checks [if backend] ─►│                       │
 #     │              │                                 │                       │
-#     │              ├──► acceptance-back ─┬──► phpunit ──────────────────────►│
-#     │              │                     │                                   │
-#     │              │                     ├──► behat-legacy ─────────────────►│
-#     │              │                     │                                   │
-#     │              │                     └──► cypress (needs front-build) ──►│
+#     │              ├──► acceptance-back [if backend]─┬──► phpunit ──────────►│
+#     │              │                                 │                       │
+#     │              │                                 ├──► behat-legacy ─────►│
+#     │              │                                 │                       │
+#     │              │                                 └──► cypress [if front]►│
 #     │              │                                                         │
-#     │              ├──► data-migrations ────────────────────────────────────►│
+#     │              ├──► data-migrations [if backend] ───────────────────────►│
 #     │              │                                                         │
-#     │              └──► deptrac (matrix) ───────────────────────────────────►│
+#     │              └──► deptrac [if backend] (matrix) ─────────────────────►│
 #     │                                                                        │
-#     └──► db-seed ────────────────────────────────────────────────────────────┤
+#     └──► db-seed [if backend] ───────────────────────────────────────────────┤
 #                                                                              │
-#                                                                     ci-success
+#   ci-success accepts 'success' or 'skipped' (path-filtered jobs)    ────────┘
 # =============================================================================
 
 jobs:
+  # ===========================================================================
+  # DETECT CHANGES: Categorize changed files for conditional job execution
+  # ===========================================================================
+  detect-changes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+      ci: ${{ steps.filter.outputs.ci }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            backend:
+              - 'src/**/*.php'
+              - 'tests/**/*.php'
+              - 'spec/**/*.php'
+              - 'upgrades/**'
+              - 'config/**'
+              - 'composer.json'
+              - 'composer.lock'
+              - 'phpstan*.neon'
+              - 'phpspec.yml*'
+              - 'phpunit.xml*'
+              - '.php_cs*'
+              - '.php-cs-fixer*'
+              - 'deptrac-*.yaml'
+              - 'components/**/*.php'
+              - 'src/**/Resources/config/**/*.yml'
+              - 'src/**/Resources/config/**/*.yaml'
+              - 'src/**/Resources/translations/**'
+            frontend:
+              - 'front-packages/**'
+              - 'frontend/**'
+              - 'yarn.lock'
+              - 'package.json'
+              - 'webpack*.js'
+              - 'babel.config.*'
+              - 'jest.config.*'
+              - '.eslintrc*'
+              - 'tsconfig*.json'
+              - 'cypress/**'
+              - 'src/**/*.ts'
+              - 'src/**/*.tsx'
+              - 'src/**/*.js'
+              - 'src/**/*.jsx'
+              - 'src/**/*.less'
+            ci:
+              - '.github/**'
+              - 'docker-compose*.yml'
+              - 'docker/**'
+              - 'Makefile'
+              - 'make-file/**'
+
   # ===========================================================================
   # BUILD PHP IMAGE (pushed to GHCR, not artifacts)
   # ===========================================================================
@@ -165,7 +224,8 @@ jobs:
   # ===========================================================================
   db-seed:
     runs-on: ubuntu-latest
-    needs: [prepare, image]
+    needs: [prepare, image, detect-changes]
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
@@ -217,7 +277,8 @@ jobs:
   # ===========================================================================
   front-build:
     runs-on: ubuntu-latest
-    needs: prepare
+    needs: [prepare, detect-changes]
+    if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
@@ -290,7 +351,8 @@ jobs:
   # ===========================================================================
   front-lint:
     runs-on: ubuntu-latest
-    needs: prepare
+    needs: [prepare, detect-changes]
+    if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
@@ -320,7 +382,8 @@ jobs:
   # ===========================================================================
   front-unit:
     runs-on: ubuntu-latest
-    needs: prepare
+    needs: [prepare, detect-changes]
+    if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
@@ -382,7 +445,8 @@ jobs:
   # ===========================================================================
   lint-back:
     runs-on: ubuntu-latest
-    needs: prepare
+    needs: [prepare, detect-changes]
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
@@ -423,7 +487,8 @@ jobs:
   # ===========================================================================
   phpspec:
     runs-on: ubuntu-latest
-    needs: prepare
+    needs: [prepare, detect-changes]
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
@@ -465,7 +530,8 @@ jobs:
   # ===========================================================================
   static-checks:
     runs-on: ubuntu-latest
-    needs: prepare
+    needs: [prepare, detect-changes]
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
@@ -496,7 +562,8 @@ jobs:
   # ===========================================================================
   acceptance-back:
     runs-on: ubuntu-latest
-    needs: prepare
+    needs: [prepare, detect-changes]
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
@@ -523,7 +590,8 @@ jobs:
   # ===========================================================================
   deptrac:
     runs-on: ubuntu-latest
-    needs: [prepare, image]
+    needs: [prepare, image, detect-changes]
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 15
     strategy:
       fail-fast: false
@@ -761,7 +829,13 @@ jobs:
   # ===========================================================================
   cypress:
     runs-on: ubuntu-latest
-    needs: [prepare, front-build, acceptance-back]
+    needs: [prepare, front-build, acceptance-back, detect-changes]
+    if: >-
+      always() &&
+      (needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true') &&
+      needs.prepare.result == 'success' &&
+      needs.front-build.result == 'success' &&
+      (needs.acceptance-back.result == 'success' || needs.acceptance-back.result == 'skipped')
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
@@ -849,6 +923,7 @@ jobs:
   ci-success:
     runs-on: ubuntu-latest
     needs:
+      - detect-changes
       - front-build
       - front-lint
       - front-unit
@@ -866,7 +941,12 @@ jobs:
     steps:
       - name: Check all jobs passed
         run: |
-          echo "Job results:"
+          echo "=== Path filter results ==="
+          echo "  backend changes: ${{ needs.detect-changes.outputs.backend }}"
+          echo "  frontend changes: ${{ needs.detect-changes.outputs.frontend }}"
+          echo "  ci changes: ${{ needs.detect-changes.outputs.ci }}"
+          echo ""
+          echo "=== Job results ==="
           echo "  front-build: ${{ needs.front-build.result }}"
           echo "  front-lint: ${{ needs.front-lint.result }}"
           echo "  front-unit: ${{ needs.front-unit.result }}"
@@ -880,18 +960,30 @@ jobs:
           echo "  behat-legacy: ${{ needs.behat-legacy.result }}"
           echo "  cypress: ${{ needs.cypress.result }}"
 
-          if [[ "${{ needs.front-build.result }}" != "success" ]] || \
-             [[ "${{ needs.front-lint.result }}" != "success" ]] || \
-             [[ "${{ needs.front-unit.result }}" != "success" ]] || \
-             [[ "${{ needs.lint-back.result }}" != "success" ]] || \
-             [[ "${{ needs.phpspec.result }}" != "success" ]] || \
-             [[ "${{ needs.static-checks.result }}" != "success" ]] || \
-             [[ "${{ needs.acceptance-back.result }}" != "success" ]] || \
-             [[ "${{ needs.deptrac.result }}" != "success" ]] || \
-             [[ "${{ needs.phpunit.result }}" != "success" ]] || \
-             [[ "${{ needs.data-migrations.result }}" != "success" ]] || \
-             [[ "${{ needs.behat-legacy.result }}" != "success" ]] || \
-             [[ "${{ needs.cypress.result }}" != "success" ]]; then
+          # Each job must be either 'success' or 'skipped' (path-filtered)
+          results=(
+            "${{ needs.front-build.result }}"
+            "${{ needs.front-lint.result }}"
+            "${{ needs.front-unit.result }}"
+            "${{ needs.lint-back.result }}"
+            "${{ needs.phpspec.result }}"
+            "${{ needs.static-checks.result }}"
+            "${{ needs.acceptance-back.result }}"
+            "${{ needs.deptrac.result }}"
+            "${{ needs.phpunit.result }}"
+            "${{ needs.data-migrations.result }}"
+            "${{ needs.behat-legacy.result }}"
+            "${{ needs.cypress.result }}"
+          )
+
+          failed=false
+          for result in "${results[@]}"; do
+            if [[ "$result" != "success" && "$result" != "skipped" ]]; then
+              failed=true
+            fi
+          done
+
+          if [[ "$failed" == "true" ]]; then
             echo "::error::One or more CI jobs failed"
             exit 1
           fi
