@@ -573,6 +573,9 @@ jobs:
           PIM_CONTEXT=test make find-legacy-translations
           PIM_CONTEXT=test make coupling-back
 
+      - name: Audit PHP dependencies for known vulnerabilities
+        run: docker-compose run --rm php composer audit --locked --no-interaction || echo "::warning::composer audit found vulnerabilities"
+
   # ===========================================================================
   # PHPSPEC: Unit tests (fast, no external dependencies)
   # ===========================================================================
