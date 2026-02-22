@@ -16,16 +16,13 @@ use AkeneoTest\Integration\IntegrationTestsBundle\Launcher\PubSubQueueStatus;
  */
 final class EvaluateAfterAttributeGroupActivateEndToEnd extends MessengerTestCase
 {
-    private PubSubQueueStatus $evaluateAfterAttributeGroupActivateQueueStatus;
     private PubSubQueueStatus $launchProductEvaluationsQueueStatus;
     private UpdateAttributeGroupActivationHandler $updateAttributeGroupActivationHandler;
 
     protected function setUp(): void
     {
-        $this->evaluateAfterAttributeGroupActivateQueueStatus = $this->get('akeneo_integration_tests.pub_sub_queue_status.dqi_attribute_group_activate_consumer');
         $this->launchProductEvaluationsQueueStatus = $this->get('akeneo_integration_tests.pub_sub_queue_status.dqi_launch_product_evaluations_consumer');
         $this->pubSubQueueStatuses = [
-            $this->evaluateAfterAttributeGroupActivateQueueStatus,
             $this->launchProductEvaluationsQueueStatus,
         ];
 
@@ -81,12 +78,12 @@ final class EvaluateAfterAttributeGroupActivateEndToEnd extends MessengerTestCas
         ($this->updateAttributeGroupActivationHandler)(new UpdateAttributeGroupActivationCommand('unchanged_group1', false));
         ($this->updateAttributeGroupActivationHandler)(new UpdateAttributeGroupActivationCommand('unchanged_group2', true));
 
-        while ($this->evaluateAfterAttributeGroupActivateQueueStatus->hasMessageInQueue()) {
-            $this->launchConsumer('dqi_evaluate_after_attribute_group_activate');
-        }
-        while ($this->launchProductEvaluationsQueueStatus->hasMessageInQueue()) {
-            $this->launchConsumer('dqi_launch_product_evaluations');
-        }
+        // The EvaluateAfterAttributeGroupActivateHandler runs synchronously (no transport
+        // routing for AttributeGroupActivationHasChanged) and dispatches
+        // LaunchProductAndProductModelEvaluationsMessage to the launch_product_evaluations
+        // PubSub topic. We consume all messages from that queue.
+        $this->consumeAllMessages('dqi_launch_product_evaluations', $this->launchProductEvaluationsQueueStatus);
+
         $this->assertProductScoreIsComputed(ProductUuid::fromUuid($product1Uuid));
         $this->assertProductScoreIsComputed(ProductUuid::fromUuid($product2Uuid));
         $this->assertProductScoreIsNotComputed(ProductUuid::fromUuid($product3Uuid));
@@ -111,12 +108,11 @@ final class EvaluateAfterAttributeGroupActivateEndToEnd extends MessengerTestCas
         $this->assertProductModelScoreIsNotComputed(ProductModelId::fromString((string) $pm->getId()));
 
         ($this->updateAttributeGroupActivationHandler)(new UpdateAttributeGroupActivationCommand('changed_group1', false));
-        while ($this->evaluateAfterAttributeGroupActivateQueueStatus->hasMessageInQueue()) {
-            $this->launchConsumer('dqi_evaluate_after_attribute_group_activate');
-        }
-        while ($this->launchProductEvaluationsQueueStatus->hasMessageInQueue()) {
-            $this->launchConsumer('dqi_launch_product_evaluations');
-        }
+
+        // The EvaluateAfterAttributeGroupActivateHandler runs synchronously and dispatches
+        // LaunchProductAndProductModelEvaluationsMessage to the launch_product_evaluations
+        // PubSub topic. We consume all messages from that queue.
+        $this->consumeAllMessages('dqi_launch_product_evaluations', $this->launchProductEvaluationsQueueStatus);
 
         $this->assertProductModelScoreIsComputed(ProductModelId::fromString((string) $pm->getId()));
     }
