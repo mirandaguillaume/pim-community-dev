@@ -8,7 +8,7 @@ use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlags;
 use Akeneo\Tool\Component\BatchQueue\Queue\JobExecutionMessageInterface;
 use Akeneo\Tool\Component\BatchQueue\Queue\ScheduledJobMessageInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Process\Process;
 
 /**
@@ -17,7 +17,6 @@ use Symfony\Component\Process\Process;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-#[\Symfony\Component\Messenger\Attribute\AsMessageHandler]
 final readonly class JobMessageHandler
 {
     public function __construct(
@@ -26,7 +25,8 @@ final readonly class JobMessageHandler
         private FeatureFlags $featureFlags,
     ) {
     }
-    #[\Symfony\Component\Messenger\Attribute\AsMessageHandler]
+
+    #[AsMessageHandler]
     public function handleJobExecution(JobExecutionMessageInterface $jobExecutionMessage): void
     {
         $this->logger->notice('Launching job watchdog for ID "{job_execution_id}".', [
@@ -42,7 +42,8 @@ final readonly class JobMessageHandler
             'tenant_id' => $jobExecutionMessage->getTenantId(),
         ]);
     }
-    #[\Symfony\Component\Messenger\Attribute\AsMessageHandler]
+
+    #[AsMessageHandler]
     public function handleScheduledJob(ScheduledJobMessageInterface $scheduledJobMessage): void
     {
         $this->logger->notice('Launching scheduled job "{code}".', [
@@ -61,6 +62,7 @@ final readonly class JobMessageHandler
             ]
         );
     }
+
     private function launchWatchdog(JobExecutionMessageInterface|ScheduledJobMessageInterface $jobMessage): int
     {
         $console = sprintf('%s/bin/console', $this->projectDir);
@@ -120,6 +122,7 @@ final readonly class JobMessageHandler
 
         return time() - $startTime;
     }
+
     /**
      * Return all the arguments of the command to execute.
      * Options are considered as arguments.
