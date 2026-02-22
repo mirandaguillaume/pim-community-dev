@@ -1,86 +1,193 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Cannot call method create\\(\\) on mixed\\.$#"
+			message: '#^Possibly invalid array key type mixed\.$#'
+			identifier: offsetAccess.invalidOffset
+			count: 1
+			path: Acceptance/InMemory/InMemoryIsLocaleEditable.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
 			count: 2
 			path: Integration/ChannelTestCase.php
 
 		-
-			message: "#^Cannot call method findAll\\(\\) on mixed\\.$#"
-			count: 2
-			path: Integration/ChannelTestCase.php
-
-		-
-			message: "#^Cannot call method findOneByIdentifier\\(\\) on mixed\\.$#"
+			message: '#^Cannot call method addGroup\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: Integration/ChannelTestCase.php
 
 		-
-			message: "#^Cannot call method save\\(\\) on mixed\\.$#"
+			message: '#^Cannot call method addRole\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: Integration/ChannelTestCase.php
+
+		-
+			message: '#^Cannot call method count\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: Integration/ChannelTestCase.php
+
+		-
+			message: '#^Cannot call method create\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: Integration/ChannelTestCase.php
+
+		-
+			message: '#^Cannot call method findAll\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: Integration/ChannelTestCase.php
+
+		-
+			message: '#^Cannot call method findOneByIdentifier\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: Integration/ChannelTestCase.php
+
+		-
+			message: '#^Cannot call method getName\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: Integration/ChannelTestCase.php
+
+		-
+			message: '#^Cannot call method getRole\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: Integration/ChannelTestCase.php
+
+		-
+			message: '#^Cannot call method save\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 4
 			path: Integration/ChannelTestCase.php
 
 		-
-			message: "#^Cannot call method update\\(\\) on mixed\\.$#"
+			message: '#^Cannot call method setEmail\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: Integration/ChannelTestCase.php
 
 		-
-			message: "#^Cannot call method validate\\(\\) on mixed\\.$#"
+			message: '#^Cannot call method setFirstName\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: Integration/ChannelTestCase.php
+
+		-
+			message: '#^Cannot call method setLastName\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: Integration/ChannelTestCase.php
+
+		-
+			message: '#^Cannot call method setPassword\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: Integration/ChannelTestCase.php
+
+		-
+			message: '#^Cannot call method setUsername\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: Integration/ChannelTestCase.php
+
+		-
+			message: '#^Cannot call method update\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: Integration/ChannelTestCase.php
+
+		-
+			message: '#^Cannot call method validate\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 2
 			path: Integration/ChannelTestCase.php
 
 		-
-			message: "#^Property Akeneo\\\\Test\\\\Channel\\\\Integration\\\\Query\\\\Sql\\\\SqlFindAllEditableLocalesForUserIntegration\\:\\:\\$sqlFindAllEditableLocalesForUser \\(Akeneo\\\\Channel\\\\API\\\\Query\\\\FindAllEditableLocalesForUser\\) does not accept mixed\\.$#"
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 2
+			path: Integration/ChannelTestCase.php
+
+		-
+			message: '#^Method Akeneo\\Test\\Channel\\Integration\\ChannelTestCase\:\:createOrUpdateChannel\(\) should return Akeneo\\Channel\\Infrastructure\\Component\\Model\\ChannelInterface but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: Integration/ChannelTestCase.php
+
+		-
+			message: '#^Method Akeneo\\Test\\Channel\\Integration\\ChannelTestCase\:\:createUser\(\) should return Akeneo\\UserManagement\\Component\\Model\\UserInterface but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: Integration/ChannelTestCase.php
+
+		-
+			message: '#^Property Akeneo\\Test\\Channel\\Integration\\Query\\Sql\\SqlFindAllEditableLocalesForUserIntegration\:\:\$sqlFindAllEditableLocalesForUser \(Akeneo\\Channel\\API\\Query\\FindAllEditableLocalesForUser\) does not accept mixed\.$#'
+			identifier: assign.propertyType
 			count: 1
 			path: Integration/Query/Sql/SqlFindAllEditableLocalesForUserIntegration.php
 
 		-
-			message: "#^Property Akeneo\\\\Test\\\\Channel\\\\Integration\\\\Query\\\\Sql\\\\SqlFindAllViewableLocalesForUserIntegration\\:\\:\\$sqlFindAllViewableLocalesForUser \\(Akeneo\\\\Channel\\\\API\\\\Query\\\\FindAllViewableLocalesForUser\\) does not accept mixed\\.$#"
+			message: '#^Property Akeneo\\Test\\Channel\\Integration\\Query\\Sql\\SqlFindAllViewableLocalesForUserIntegration\:\:\$sqlFindAllViewableLocalesForUser \(Akeneo\\Channel\\API\\Query\\FindAllViewableLocalesForUser\) does not accept mixed\.$#'
+			identifier: assign.propertyType
 			count: 1
 			path: Integration/Query/Sql/SqlFindAllViewableLocalesForUserIntegration.php
 
 		-
-			message: "#^Cannot call method getActiveCurrencies\\(\\) on Akeneo\\\\Channel\\\\API\\\\Query\\\\Channel\\|false\\.$#"
+			message: '#^Cannot call method getActiveCurrencies\(\) on Akeneo\\Channel\\API\\Query\\Channel\|false\.$#'
+			identifier: method.nonObject
 			count: 2
 			path: Integration/Query/Sql/SqlFindChannelsIntegration.php
 
 		-
-			message: "#^Cannot call method getConversionUnits\\(\\) on Akeneo\\\\Channel\\\\API\\\\Query\\\\Channel\\|false\\.$#"
+			message: '#^Cannot call method getConversionUnits\(\) on Akeneo\\Channel\\API\\Query\\Channel\|false\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: Integration/Query/Sql/SqlFindChannelsIntegration.php
 
 		-
-			message: "#^Cannot call method getLabels\\(\\) on Akeneo\\\\Channel\\\\API\\\\Query\\\\Channel\\|false\\.$#"
+			message: '#^Cannot call method getLabels\(\) on Akeneo\\Channel\\API\\Query\\Channel\|false\.$#'
+			identifier: method.nonObject
 			count: 4
 			path: Integration/Query/Sql/SqlFindChannelsIntegration.php
 
 		-
-			message: "#^Cannot call method getLocaleCodes\\(\\) on Akeneo\\\\Channel\\\\API\\\\Query\\\\Channel\\|false\\.$#"
+			message: '#^Cannot call method getLocaleCodes\(\) on Akeneo\\Channel\\API\\Query\\Channel\|false\.$#'
+			identifier: method.nonObject
 			count: 3
 			path: Integration/Query/Sql/SqlFindChannelsIntegration.php
 
 		-
-			message: "#^Property Akeneo\\\\Test\\\\Channel\\\\Integration\\\\Query\\\\Sql\\\\SqlFindChannelsIntegration\\:\\:\\$connection \\(Doctrine\\\\DBAL\\\\Connection\\) does not accept mixed\\.$#"
+			message: '#^Property Akeneo\\Test\\Channel\\Integration\\Query\\Sql\\SqlFindChannelsIntegration\:\:\$connection \(Doctrine\\DBAL\\Connection\) does not accept mixed\.$#'
+			identifier: assign.propertyType
 			count: 1
 			path: Integration/Query/Sql/SqlFindChannelsIntegration.php
 
 		-
-			message: "#^Property Akeneo\\\\Test\\\\Channel\\\\Integration\\\\Query\\\\Sql\\\\SqlFindChannelsIntegration\\:\\:\\$sqlFindChannels \\(Akeneo\\\\Channel\\\\API\\\\Query\\\\FindChannels\\) does not accept mixed\\.$#"
+			message: '#^Property Akeneo\\Test\\Channel\\Integration\\Query\\Sql\\SqlFindChannelsIntegration\:\:\$sqlFindChannels \(Akeneo\\Channel\\API\\Query\\FindChannels\) does not accept mixed\.$#'
+			identifier: assign.propertyType
 			count: 1
 			path: Integration/Query/Sql/SqlFindChannelsIntegration.php
 
 		-
-			message: "#^Cannot call method getCode\\(\\) on Akeneo\\\\Channel\\\\API\\\\Query\\\\Locale\\|false\\.$#"
+			message: '#^Cannot call method getCode\(\) on Akeneo\\Channel\\API\\Query\\Locale\|false\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: Integration/Query/Sql/SqlFindLocalesIntegration.php
 
 		-
-			message: "#^Cannot call method isActivated\\(\\) on Akeneo\\\\Channel\\\\API\\\\Query\\\\Locale\\|false\\.$#"
+			message: '#^Cannot call method isActivated\(\) on Akeneo\\Channel\\API\\Query\\Locale\|false\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: Integration/Query/Sql/SqlFindLocalesIntegration.php
 
 		-
-			message: "#^Property Akeneo\\\\Test\\\\Channel\\\\Integration\\\\Query\\\\Sql\\\\SqlFindLocalesIntegration\\:\\:\\$sqlFindLocales \\(Akeneo\\\\Channel\\\\API\\\\Query\\\\FindLocales\\) does not accept mixed\\.$#"
+			message: '#^Property Akeneo\\Test\\Channel\\Integration\\Query\\Sql\\SqlFindLocalesIntegration\:\:\$sqlFindLocales \(Akeneo\\Channel\\API\\Query\\FindLocales\) does not accept mixed\.$#'
+			identifier: assign.propertyType
 			count: 1
 			path: Integration/Query/Sql/SqlFindLocalesIntegration.php

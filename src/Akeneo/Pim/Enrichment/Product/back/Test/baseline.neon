@@ -1,661 +1,1285 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Cannot call method normalize\\(\\) on mixed\\.$#"
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:allIsInstanceOf\(\) with array\<Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\Association\\AssociationUserIntent\> and ''Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\Association\\\\AssociationUserIntent'' will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: ../API/Command/UserIntent/Association/AssociationUserIntentCollection.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:allIsInstanceOf\(\) with non\-empty\-array\<Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\QuantifiedAssociation\\QuantifiedEntity\> and ''Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\QuantifiedAssociation\\\\QuantifiedEntity'' will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: ../API/Command/UserIntent/QuantifiedAssociation/AssociateQuantifiedProductModels.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:allIsInstanceOf\(\) with non\-empty\-array\<Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\QuantifiedAssociation\\QuantifiedEntity\> and ''Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\QuantifiedAssociation\\\\QuantifiedEntity'' will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: ../API/Command/UserIntent/QuantifiedAssociation/AssociateQuantifiedProducts.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:allIsInstanceOf\(\) with array\<Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\QuantifiedAssociation\\QuantifiedAssociationUserIntent\> and ''Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\QuantifiedAssociation\\\\QuantifiedAssociationUserIntent'' will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: ../API/Command/UserIntent/QuantifiedAssociation/QuantifiedAssociationUserIntentCollection.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:allIsInstanceOf\(\) with array\<Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\QuantifiedAssociation\\QuantifiedEntity\> and ''Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\QuantifiedAssociation\\\\QuantifiedEntity'' will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: ../API/Command/UserIntent/QuantifiedAssociation/ReplaceAssociatedQuantifiedProductModels.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:allIsInstanceOf\(\) with array\<Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\QuantifiedAssociation\\QuantifiedEntity\> and ''Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\QuantifiedAssociation\\\\QuantifiedEntity'' will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: ../API/Command/UserIntent/QuantifiedAssociation/ReplaceAssociatedQuantifiedProductUuids.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:allIsInstanceOf\(\) with array\<Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\QuantifiedAssociation\\QuantifiedEntity\> and ''Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\QuantifiedAssociation\\\\QuantifiedEntity'' will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: ../API/Command/UserIntent/QuantifiedAssociation/ReplaceAssociatedQuantifiedProducts.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:allString\(\) with non\-empty\-array\<string\> will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: ../API/Command/UserIntent/SetMultiSelectValue.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:allIsInstanceOf\(\) with array\<Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\PriceValue\> and ''Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\PriceValue'' will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: ../API/Command/UserIntent/SetPriceCollectionValue.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:allIsArray\(\) with list\<array\<string, mixed\>\> will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: ../API/Command/UserIntent/SetTableValue.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:allString\(\) with list\<string\> will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: ../API/CommandMessageBus.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:allString\(\) with list\<string\> will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: ../API/QueryMessageBus.php
+
+		-
+			message: '#^Cannot call method normalize\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Application/Applier/AddAssetValueApplier.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function array_map expects array, mixed given\\.$#"
+			message: '#^Parameter \#2 \$array of function array_map expects array, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Application/Applier/AddAssetValueApplier.php
 
 		-
-			message: "#^Cannot cast mixed to string\\.$#"
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
 			count: 1
 			path: ../Application/Applier/AddMultiReferenceEntityValueApplier.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function array_map expects array, mixed given\\.$#"
+			message: '#^Parameter \#2 \$array of function array_map expects array, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Application/Applier/AddMultiReferenceEntityValueApplier.php
 
 		-
-			message: "#^Parameter \\#1 \\.\\.\\.\\$arrays of function array_merge expects array, mixed given\\.$#"
+			message: '#^Parameter \#1 \.\.\.\$arrays of function array_merge expects array, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Application/Applier/AddMultipleValuesApplier.php
 
 		-
-			message: "#^Anonymous function should return string but returns mixed\\.$#"
+			message: '#^Anonymous function should return string but returns mixed\.$#'
+			identifier: return.type
 			count: 2
 			path: ../Application/Applier/AssociationUserIntentCollectionApplier.php
 
 		-
-			message: "#^Parameter \\#1 \\$func of method Doctrine\\\\Common\\\\Collections\\\\ReadableCollection\\<\\(int\\|string\\),mixed\\>\\:\\:map\\(\\) expects Closure\\(mixed\\)\\: string, Closure\\(Akeneo\\\\Pim\\\\Enrichment\\\\Component\\\\Product\\\\Model\\\\GroupInterface\\)\\: string given\\.$#"
+			message: '#^Method Akeneo\\Pim\\Enrichment\\Product\\Application\\Applier\\AssociationUserIntentCollectionApplier\:\:userIntentEntityAssociations\(\) should return array\<string\> but returns mixed\.$#'
+			identifier: return.type
+			count: 4
+			path: ../Application/Applier/AssociationUserIntentCollectionApplier.php
+
+		-
+			message: '#^Parameter \#1 \$func of method Doctrine\\Common\\Collections\\ReadableCollection\<\(int\|string\),mixed\>\:\:map\(\) expects Closure\(mixed\)\: non\-empty\-string, Closure\(Akeneo\\Pim\\Enrichment\\Component\\Product\\Model\\ProductInterface\)\: non\-empty\-string given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Application/Applier/AssociationUserIntentCollectionApplier.php
 
 		-
-			message: "#^Parameter \\#1 \\$func of method Doctrine\\\\Common\\\\Collections\\\\ReadableCollection\\<\\(int\\|string\\),mixed\\>\\:\\:map\\(\\) expects Closure\\(mixed\\)\\: string, Closure\\(Akeneo\\\\Pim\\\\Enrichment\\\\Component\\\\Product\\\\Model\\\\ProductInterface\\)\\: non\\-empty\\-string given\\.$#"
+			message: '#^Parameter \#1 \$func of method Doctrine\\Common\\Collections\\ReadableCollection\<\(int\|string\),mixed\>\:\:map\(\) expects Closure\(mixed\)\: string, Closure\(Akeneo\\Pim\\Enrichment\\Component\\Product\\Model\\GroupInterface\)\: string given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Application/Applier/AssociationUserIntentCollectionApplier.php
 
 		-
-			message: "#^Parameter \\#1 \\$func of method Doctrine\\\\Common\\\\Collections\\\\ReadableCollection\\<\\(int\\|string\\),mixed\\>\\:\\:map\\(\\) expects Closure\\(mixed\\)\\: string, Closure\\(Akeneo\\\\Pim\\\\Enrichment\\\\Component\\\\Product\\\\Model\\\\ProductInterface\\)\\: string given\\.$#"
+			message: '#^Parameter \#1 \$func of method Doctrine\\Common\\Collections\\ReadableCollection\<\(int\|string\),mixed\>\:\:map\(\) expects Closure\(mixed\)\: string, Closure\(Akeneo\\Pim\\Enrichment\\Component\\Product\\Model\\ProductInterface\)\: string given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Application/Applier/AssociationUserIntentCollectionApplier.php
 
 		-
-			message: "#^Parameter \\#1 \\$func of method Doctrine\\\\Common\\\\Collections\\\\ReadableCollection\\<\\(int\\|string\\),mixed\\>\\:\\:map\\(\\) expects Closure\\(mixed\\)\\: string, Closure\\(Akeneo\\\\Pim\\\\Enrichment\\\\Component\\\\Product\\\\Model\\\\ProductModelInterface\\)\\: string given\\.$#"
+			message: '#^Parameter \#1 \$func of method Doctrine\\Common\\Collections\\ReadableCollection\<\(int\|string\),mixed\>\:\:map\(\) expects Closure\(mixed\)\: string, Closure\(Akeneo\\Pim\\Enrichment\\Component\\Product\\Model\\ProductModelInterface\)\: string given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Application/Applier/AssociationUserIntentCollectionApplier.php
 
 		-
-			message: "#^Cannot call method toArray\\(\\) on mixed\\.$#"
+			message: '#^Cannot call method toArray\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Application/Applier/ClearPriceValueApplier.php
 
 		-
-			message: "#^Cannot call method normalize\\(\\) on mixed\\.$#"
+			message: '#^Parameter \#1 \$array of function array_filter expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Application/Applier/ClearPriceValueApplier.php
+
+		-
+			message: '#^Parameter \#1 \$callback of function array_map expects \(callable\(mixed\)\: mixed\)\|null, Closure\(Akeneo\\Pim\\Enrichment\\Component\\Product\\Model\\ProductPrice\)\: array\{amount\: float, currency\: string\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Application/Applier/ClearPriceValueApplier.php
+
+		-
+			message: '#^Parameter \#2 \$callback of function array_filter expects \(callable\(mixed\)\: bool\)\|null, Closure\(Akeneo\\Pim\\Enrichment\\Component\\Product\\Model\\ProductPrice\)\: bool given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Application/Applier/ClearPriceValueApplier.php
+
+		-
+			message: '#^Cannot access offset ''product_models'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../Application/Applier/QuantifiedAssociationUserIntentCollectionApplier.php
+
+		-
+			message: '#^Cannot access offset ''products'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../Application/Applier/QuantifiedAssociationUserIntentCollectionApplier.php
+
+		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 6
+			path: ../Application/Applier/QuantifiedAssociationUserIntentCollectionApplier.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Enrichment\\Product\\Application\\Applier\\QuantifiedAssociationUserIntentCollectionApplier\:\:getProductModelQuantifiedLinks\(\) should return array\<array\{identifier\: string, quantity\: int\}\> but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: ../Application/Applier/QuantifiedAssociationUserIntentCollectionApplier.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Enrichment\\Product\\Application\\Applier\\QuantifiedAssociationUserIntentCollectionApplier\:\:getProductQuantifiedLinks\(\) should return array\<array\{uuid\: string\|null, identifier\: string\|null, quantity\: int\}\> but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: ../Application/Applier/QuantifiedAssociationUserIntentCollectionApplier.php
+
+		-
+			message: '#^Parameter \#1 \$array \(list\<array\{identifier\: string, quantity\: int\}\>\) of array_values is already a list, call has no effect\.$#'
+			identifier: arrayValues.list
+			count: 1
+			path: ../Application/Applier/QuantifiedAssociationUserIntentCollectionApplier.php
+
+		-
+			message: '#^Parameter \#1 \$array \(list\<array\{uuid\: string\|null, identifier\: string\|null, quantity\: int\}\>\) of array_values is already a list, call has no effect\.$#'
+			identifier: arrayValues.list
+			count: 2
+			path: ../Application/Applier/QuantifiedAssociationUserIntentCollectionApplier.php
+
+		-
+			message: '#^Cannot call method normalize\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Application/Applier/RemoveAssetValueApplier.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function array_map expects array, mixed given\\.$#"
+			message: '#^Parameter \#2 \$array of function array_map expects array, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Application/Applier/RemoveAssetValueApplier.php
 
 		-
-			message: "#^Cannot cast mixed to string\\.$#"
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
 			count: 1
 			path: ../Application/Applier/RemoveMultiReferenceEntityValueApplier.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function array_map expects array, mixed given\\.$#"
+			message: '#^Parameter \#2 \$array of function array_map expects array, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Application/Applier/RemoveMultiReferenceEntityValueApplier.php
 
 		-
-			message: "#^Cannot call method getValues\\(\\) on mixed\\.$#"
+			message: '#^Cannot call method getValues\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Application/Applier/SetPriceValueApplier.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
+			message: '#^Parameter \#1 \$callback of function array_map expects \(callable\(mixed\)\: mixed\)\|null, Closure\(Akeneo\\Pim\\Enrichment\\Component\\Product\\Model\\ProductPrice\)\: array\{amount\: float, currency\: string\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Application/Applier/SetPriceValueApplier.php
+
+		-
+			message: '#^Parameter \#2 \$array of function array_map expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Application/Applier/SetPriceValueApplier.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:allIsInstanceOf\(\) with iterable\<Akeneo\\Pim\\Enrichment\\Product\\Application\\Applier\\UserIntentApplier\> and ''Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\Application\\\\Applier\\\\UserIntentApplier'' will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: ../Application/Applier/UserIntentApplierRegistry.php
+
+		-
+			message: '#^Parameter \#1 \$array \(array\<Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\UserIntent\>\) to function array_filter does not contain falsy values, the array will always stay the same\.$#'
+			identifier: arrayFilter.same
+			count: 1
+			path: ../Application/StandardFormat/ConvertStandardFormatIntoUserIntentsHandler.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Enrichment\\Product\\Domain\\PQB\\ProductUuidCursor\:\:count\(\) should return int\<0, max\> but returns int\.$#'
+			identifier: return.type
+			count: 1
+			path: ../Domain/PQB/ProductUuidCursor.php
+
+		-
+			message: '#^Cannot access offset ''identifier'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: ../Domain/StandardFormat/Validator/QuantifiedAssociationsStructureValidator.php
+
+		-
+			message: '#^Cannot access offset ''quantity'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../Domain/StandardFormat/Validator/QuantifiedAssociationsStructureValidator.php
+
+		-
+			message: '#^Cannot access offset ''uuid'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../Domain/StandardFormat/Validator/QuantifiedAssociationsStructureValidator.php
+
+		-
+			message: '#^Parameter \#2 \$array of function array_key_exists expects array, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/AssociationsUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#4 \\$propertyValue of static method Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Exception\\\\InvalidPropertyTypeException\\:\\:arrayKeyExpected\\(\\) expects array, mixed given\\.$#"
+			message: '#^Parameter \#2 \$groupCodes of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\Association\\ReplaceAssociatedGroups constructor expects array\<string\>, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/AssociationsUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#1 \\$categoryCodes of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetCategories constructor expects array\\<string\\>, mixed given\\.$#"
+			message: '#^Parameter \#2 \$productIdentifiers of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\Association\\ReplaceAssociatedProducts constructor expects array\<string\>, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Domain/UserIntent/Factory/AssociationsUserIntentFactory.php
+
+		-
+			message: '#^Parameter \#2 \$productModelCodes of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\Association\\ReplaceAssociatedProductModels constructor expects array\<string\>, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Domain/UserIntent/Factory/AssociationsUserIntentFactory.php
+
+		-
+			message: '#^Parameter \#2 \$productUuids of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\Association\\ReplaceAssociatedProductUuids constructor expects array\<string\>, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Domain/UserIntent/Factory/AssociationsUserIntentFactory.php
+
+		-
+			message: '#^Parameter \#1 \$categoryCodes of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetCategories constructor expects array\<string\>, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/CategoriesUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
+			message: '#^Parameter \#2 \$array of function array_key_exists expects array, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/CategoriesUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#4 \\$propertyValue of static method Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Exception\\\\InvalidPropertyTypeException\\:\\:arrayKeyExpected\\(\\) expects array, mixed given\\.$#"
-			count: 1
-			path: ../Domain/UserIntent/Factory/CategoriesUserIntentFactory.php
-
-		-
-			message: "#^Parameter \\#1 \\$groupCodes of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\Groups\\\\SetGroups constructor expects array\\<string\\>, mixed given\\.$#"
+			message: '#^Parameter \#1 \$groupCodes of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\Groups\\SetGroups constructor expects array\<string\>, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/GroupsUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
+			message: '#^Parameter \#2 \$array of function array_key_exists expects array, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/GroupsUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#4 \\$propertyValue of static method Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Exception\\\\InvalidPropertyTypeException\\:\\:arrayKeyExpected\\(\\) expects array, mixed given\\.$#"
-			count: 1
-			path: ../Domain/UserIntent/Factory/GroupsUserIntentFactory.php
-
-		-
-			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
 			count: 1
 			path: ../Domain/UserIntent/Factory/QuantifiedAssociationUserIntentFactory.php
 
 		-
-			message: "#^Cannot cast mixed to string\\.$#"
+			message: '#^Cannot access offset ''identifier'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: ../Domain/UserIntent/Factory/QuantifiedAssociationUserIntentFactory.php
+
+		-
+			message: '#^Cannot access offset ''quantity'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 3
 			path: ../Domain/UserIntent/Factory/QuantifiedAssociationUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
-			count: 4
-			path: ../Domain/UserIntent/Factory/QuantifiedAssociationUserIntentFactory.php
-
-		-
-			message: "#^Parameter \\#4 \\$propertyValue of static method Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Exception\\\\InvalidPropertyTypeException\\:\\:arrayKeyExpected\\(\\) expects array, mixed given\\.$#"
+			message: '#^Cannot access offset ''uuid'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../Domain/UserIntent/Factory/QuantifiedAssociationUserIntentFactory.php
 
 		-
-			message: "#^Cannot access offset 'data' on mixed\\.$#"
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 3
+			path: ../Domain/UserIntent/Factory/QuantifiedAssociationUserIntentFactory.php
+
+		-
+			message: '#^Parameter \#1 \$entityIdentifier of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\QuantifiedAssociation\\QuantifiedEntity constructor expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 3
+			path: ../Domain/UserIntent/Factory/QuantifiedAssociationUserIntentFactory.php
+
+		-
+			message: '#^Parameter \#2 \$array of function array_key_exists expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: ../Domain/UserIntent/Factory/QuantifiedAssociationUserIntentFactory.php
+
+		-
+			message: '#^Parameter \#2 \$array of function array_map expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 3
+			path: ../Domain/UserIntent/Factory/QuantifiedAssociationUserIntentFactory.php
+
+		-
+			message: '#^Parameter \#2 \$quantity of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\QuantifiedAssociation\\QuantifiedEntity constructor expects int, mixed given\.$#'
+			identifier: argument.type
+			count: 3
+			path: ../Domain/UserIntent/Factory/QuantifiedAssociationUserIntentFactory.php
+
+		-
+			message: '#^Cannot access offset ''data'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/BooleanValueUserIntentFactory.php
 
 		-
-			message: "#^Cannot access offset 'locale' on mixed\\.$#"
+			message: '#^Cannot access offset ''locale'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 2
 			path: ../Domain/UserIntent/Factory/Value/BooleanValueUserIntentFactory.php
 
 		-
-			message: "#^Cannot access offset 'scope' on mixed\\.$#"
+			message: '#^Cannot access offset ''scope'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 2
 			path: ../Domain/UserIntent/Factory/Value/BooleanValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
+			message: '#^Parameter \#2 \$array of function array_key_exists expects array, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/BooleanValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$channelCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\ClearValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/BooleanValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetBooleanValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$channelCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetBooleanValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/BooleanValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#3 \$localeCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\ClearValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/BooleanValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetBooleanValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#3 \$localeCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetBooleanValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/BooleanValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#4 \\$propertyValue of static method Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Exception\\\\InvalidPropertyTypeException\\:\\:arrayKeyExpected\\(\\) expects array, mixed given\\.$#"
-			count: 1
-			path: ../Domain/UserIntent/Factory/Value/BooleanValueUserIntentFactory.php
-
-		-
-			message: "#^Cannot access offset 'data' on mixed\\.$#"
+			message: '#^Cannot access offset ''data'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/DateValueUserIntentFactory.php
 
 		-
-			message: "#^Cannot access offset 'locale' on mixed\\.$#"
+			message: '#^Cannot access offset ''locale'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 2
 			path: ../Domain/UserIntent/Factory/Value/DateValueUserIntentFactory.php
 
 		-
-			message: "#^Cannot access offset 'scope' on mixed\\.$#"
+			message: '#^Cannot access offset ''scope'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 2
 			path: ../Domain/UserIntent/Factory/Value/DateValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
+			message: '#^Parameter \#2 \$array of function array_key_exists expects array, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/DateValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$channelCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\ClearValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/DateValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetDateValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$channelCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetDateValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/DateValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#3 \$localeCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\ClearValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/DateValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetDateValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#3 \$localeCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetDateValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/DateValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#4 \\$propertyValue of static method Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Exception\\\\InvalidPropertyTypeException\\:\\:arrayKeyExpected\\(\\) expects array, mixed given\\.$#"
-			count: 1
-			path: ../Domain/UserIntent/Factory/Value/DateValueUserIntentFactory.php
-
-		-
-			message: "#^Cannot access offset 'data' on mixed\\.$#"
+			message: '#^Cannot access offset ''data'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/MeasurementValueUserIntentFactory.php
 
 		-
-			message: "#^Cannot access offset 'locale' on mixed\\.$#"
+			message: '#^Cannot access offset ''locale'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 3
 			path: ../Domain/UserIntent/Factory/Value/MeasurementValueUserIntentFactory.php
 
 		-
-			message: "#^Cannot access offset 'scope' on mixed\\.$#"
+			message: '#^Cannot access offset ''scope'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 3
 			path: ../Domain/UserIntent/Factory/Value/MeasurementValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
+			message: '#^Parameter \#2 \$array of function array_key_exists expects array, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/MeasurementValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$channelCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\ClearValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 2
 			path: ../Domain/UserIntent/Factory/Value/MeasurementValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetMeasurementValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$channelCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetMeasurementValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/MeasurementValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#3 \$localeCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\ClearValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 2
 			path: ../Domain/UserIntent/Factory/Value/MeasurementValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetMeasurementValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#3 \$localeCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetMeasurementValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/MeasurementValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#4 \\$propertyValue of static method Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Exception\\\\InvalidPropertyTypeException\\:\\:arrayKeyExpected\\(\\) expects array, mixed given\\.$#"
-			count: 3
+			message: '#^Parameter \#4 \$propertyValue of static method Akeneo\\Tool\\Component\\StorageUtils\\Exception\\InvalidPropertyTypeException\:\:arrayKeyExpected\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 2
 			path: ../Domain/UserIntent/Factory/Value/MeasurementValueUserIntentFactory.php
 
 		-
-			message: "#^Cannot access offset 'data' on mixed\\.$#"
+			message: '#^Cannot access offset ''data'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
 
 		-
-			message: "#^Cannot access offset 'locale' on mixed\\.$#"
+			message: '#^Cannot access offset ''locale'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 5
 			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
 
 		-
-			message: "#^Cannot access offset 'scope' on mixed\\.$#"
+			message: '#^Cannot access offset ''scope'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 5
 			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
+			message: '#^Parameter \#2 \$array of function array_key_exists expects array, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$channelCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\ClearValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetAssetValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$channelCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetAssetValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetMultiReferenceDataValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$channelCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetMultiReferenceDataValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetMultiReferenceEntityValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$channelCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetMultiReferenceEntityValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetMultiSelectValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$channelCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetMultiSelectValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#3 \$localeCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\ClearValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetAssetValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#3 \$localeCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetAssetValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetMultiReferenceDataValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#3 \$localeCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetMultiReferenceDataValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetMultiReferenceEntityValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#3 \$localeCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetMultiReferenceEntityValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetMultiSelectValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#3 \$localeCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetMultiSelectValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#4 \\$assetCodes of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetAssetValue constructor expects array\\<string\\>, mixed given\\.$#"
+			message: '#^Parameter \#4 \$assetCodes of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetAssetValue constructor expects array\<string\>, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#4 \\$propertyValue of static method Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Exception\\\\InvalidPropertyTypeException\\:\\:arrayKeyExpected\\(\\) expects array, mixed given\\.$#"
+			message: '#^Parameter \#4 \$recordCodes of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetMultiReferenceEntityValue constructor expects array\<string\>, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#4 \\$recordCodes of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetMultiReferenceEntityValue constructor expects array\\<string\\>, mixed given\\.$#"
+			message: '#^Parameter \#4 \$values of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetMultiReferenceDataValue constructor expects array\<string\>, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#4 \\$values of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetMultiReferenceDataValue constructor expects array\\<string\\>, mixed given\\.$#"
+			message: '#^Parameter \#4 \$values of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetMultiSelectValue constructor expects array\<string\>, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#4 \\$values of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetMultiSelectValue constructor expects array\\<string\\>, mixed given\\.$#"
-			count: 1
-			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
-
-		-
-			message: "#^Cannot access offset 'data' on mixed\\.$#"
+			message: '#^Cannot access offset ''data'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/NumberValueUserIntentFactory.php
 
 		-
-			message: "#^Cannot access offset 'locale' on mixed\\.$#"
+			message: '#^Cannot access offset ''locale'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 2
 			path: ../Domain/UserIntent/Factory/Value/NumberValueUserIntentFactory.php
 
 		-
-			message: "#^Cannot access offset 'scope' on mixed\\.$#"
+			message: '#^Cannot access offset ''scope'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 2
 			path: ../Domain/UserIntent/Factory/Value/NumberValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
+			message: '#^Parameter \#2 \$array of function array_key_exists expects array, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/NumberValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$channelCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\ClearValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/NumberValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetNumberValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$channelCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetNumberValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/NumberValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#3 \$localeCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\ClearValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/NumberValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetNumberValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#3 \$localeCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetNumberValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/NumberValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#4 \\$propertyValue of static method Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Exception\\\\InvalidPropertyTypeException\\:\\:arrayKeyExpected\\(\\) expects array, mixed given\\.$#"
+			message: '#^Parameter \#4 \$value of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetNumberValue constructor expects string, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/NumberValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#4 \\$value of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetNumberValue constructor expects string, mixed given\\.$#"
-			count: 1
-			path: ../Domain/UserIntent/Factory/Value/NumberValueUserIntentFactory.php
-
-		-
-			message: "#^Cannot access offset 'data' on mixed\\.$#"
+			message: '#^Cannot access offset ''data'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/PriceCollectionValueUserIntentFactory.php
 
 		-
-			message: "#^Cannot access offset 'locale' on mixed\\.$#"
+			message: '#^Cannot access offset ''locale'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 3
 			path: ../Domain/UserIntent/Factory/Value/PriceCollectionValueUserIntentFactory.php
 
 		-
-			message: "#^Cannot access offset 'scope' on mixed\\.$#"
+			message: '#^Cannot access offset ''scope'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 3
 			path: ../Domain/UserIntent/Factory/Value/PriceCollectionValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
-			count: 1
-			path: ../Domain/UserIntent/Factory/Value/PriceCollectionValueUserIntentFactory.php
-
-		-
-			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$array of function array_key_exists expects array, mixed given\.$#'
+			identifier: argument.type
 			count: 2
 			path: ../Domain/UserIntent/Factory/Value/PriceCollectionValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetPriceCollectionValue constructor expects string\\|null, mixed given\\.$#"
-			count: 1
-			path: ../Domain/UserIntent/Factory/Value/PriceCollectionValueUserIntentFactory.php
-
-		-
-			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$channelCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\ClearValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 2
 			path: ../Domain/UserIntent/Factory/Value/PriceCollectionValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetPriceCollectionValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$channelCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetPriceCollectionValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/PriceCollectionValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#4 \\$propertyValue of static method Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Exception\\\\InvalidPropertyTypeException\\:\\:arrayKeyExpected\\(\\) expects array, mixed given\\.$#"
-			count: 3
+			message: '#^Parameter \#3 \$localeCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\ClearValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 2
 			path: ../Domain/UserIntent/Factory/Value/PriceCollectionValueUserIntentFactory.php
 
 		-
-			message: "#^Cannot access offset 'data' on mixed\\.$#"
+			message: '#^Parameter \#3 \$localeCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetPriceCollectionValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/PriceCollectionValueUserIntentFactory.php
+
+		-
+			message: '#^Parameter \#4 \$propertyValue of static method Akeneo\\Tool\\Component\\StorageUtils\\Exception\\InvalidPropertyTypeException\:\:arrayKeyExpected\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: ../Domain/UserIntent/Factory/Value/PriceCollectionValueUserIntentFactory.php
+
+		-
+			message: '#^Cannot access offset ''data'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
 
 		-
-			message: "#^Cannot access offset 'locale' on mixed\\.$#"
+			message: '#^Cannot access offset ''locale'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 8
 			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
 
 		-
-			message: "#^Cannot access offset 'scope' on mixed\\.$#"
+			message: '#^Cannot access offset ''scope'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 8
 			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
+			message: '#^Parameter \#2 \$array of function array_key_exists expects array, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$channelCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\ClearValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetFileValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$channelCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetFileValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetImageValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$channelCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetImageValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetSimpleReferenceDataValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$channelCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetSimpleReferenceDataValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetSimpleReferenceEntityValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$channelCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetSimpleReferenceEntityValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetSimpleSelectValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$channelCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetSimpleSelectValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetTextValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$channelCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetTextValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetTextareaValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$channelCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetTextareaValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#3 \$localeCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\ClearValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetFileValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#3 \$localeCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetFileValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetImageValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#3 \$localeCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetImageValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetSimpleReferenceDataValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#3 \$localeCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetSimpleReferenceDataValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetSimpleReferenceEntityValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#3 \$localeCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetSimpleReferenceEntityValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetSimpleSelectValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#3 \$localeCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetSimpleSelectValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetTextValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#3 \$localeCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetTextValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetTextareaValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#3 \$localeCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetTextareaValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#4 \\$propertyValue of static method Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Exception\\\\InvalidPropertyTypeException\\:\\:arrayKeyExpected\\(\\) expects array, mixed given\\.$#"
-			count: 1
-			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
-
-		-
-			message: "#^Cannot access offset 'data' on mixed\\.$#"
+			message: '#^Cannot access offset ''data'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/TableValueUserIntentFactory.php
 
 		-
-			message: "#^Cannot access offset 'locale' on mixed\\.$#"
+			message: '#^Cannot access offset ''locale'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 2
 			path: ../Domain/UserIntent/Factory/Value/TableValueUserIntentFactory.php
 
 		-
-			message: "#^Cannot access offset 'scope' on mixed\\.$#"
+			message: '#^Cannot access offset ''scope'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 2
 			path: ../Domain/UserIntent/Factory/Value/TableValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
+			message: '#^Parameter \#2 \$array of function array_key_exists expects array, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/TableValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$channelCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\ClearValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/TableValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetTableValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$channelCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetTableValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/TableValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#3 \$localeCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\ClearValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/TableValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetTableValue constructor expects string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#3 \$localeCode of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetTableValue constructor expects string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/TableValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#4 \\$propertyValue of static method Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Exception\\\\InvalidPropertyTypeException\\:\\:arrayKeyExpected\\(\\) expects array, mixed given\\.$#"
+			message: '#^Parameter \#4 \$tableValue of class Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\SetTableValue constructor expects array\<int, array\<string, mixed\>\>, array\<mixed, mixed\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Domain/UserIntent/Factory/Value/TableValueUserIntentFactory.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_keys expects array, mixed given\\.$#"
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
 			count: 1
 			path: ../Domain/UserIntent/Factory/ValueUserIntentFactoryRegistry.php
 
 		-
-			message: "#^Parameter \\#1 \\.\\.\\.\\$arrays of function array_merge expects array, mixed given\\.$#"
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:isInstanceOf\(\) with Akeneo\\Pim\\Enrichment\\Product\\Domain\\UserIntent\\Factory\\ValueUserIntentFactory and ''Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\Domain\\\\UserIntent\\\\Factory\\\\ValueUserIntentFactory'' will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: ../Domain/UserIntent/Factory/ValueUserIntentFactoryRegistry.php
+
+		-
+			message: '#^Parameter \#1 \$array of function array_keys expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Domain/UserIntent/Factory/ValueUserIntentFactoryRegistry.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:allString\(\) with array\<string\> will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: ../Domain/UserIntent/UserIntentFactoryRegistry.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:isInstanceOf\(\) with Akeneo\\Pim\\Enrichment\\Product\\Domain\\UserIntent\\Factory\\UserIntentFactory and ''Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\Domain\\\\UserIntent\\\\Factory\\\\UserIntentFactory'' will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: ../Domain/UserIntent/UserIntentFactoryRegistry.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:allString\(\) with non\-empty\-array\<string\> will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: ../Infrastructure/AntiCorruptionLayer/ACLGetAttributeTypes.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\AntiCorruptionLayer\\ACLGetAttributeTypes\:\:fromAttributeCodes\(\) should return array\<string, string\> but returns array\.$#'
+			identifier: return.type
+			count: 1
+			path: ../Infrastructure/AntiCorruptionLayer/ACLGetAttributeTypes.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\Normalizer\\ProductsWereCreatedOrUpdatedNormalizer\:\:normalize\(\) should return array\<string, array\<int, mixed\>\> but returns array\<string, array\<array\<string, string\>\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: ../Infrastructure/Normalizer/ProductsWereCreatedOrUpdatedNormalizer.php
+
+		-
+			message: '#^Parameter \#2 \$datetime of static method DateTimeImmutable\:\:createFromFormat\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: ../Infrastructure/Normalizer/ProductsWereCreatedOrUpdatedNormalizer.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\Query\\Cache\\LRUCacheGetProductUuids\:\:fromIdentifier\(\) should return Ramsey\\Uuid\\UuidInterface\|null but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: ../Infrastructure/Query/Cache/LRUCacheGetProductUuids.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\Query\\Cache\\LRUCacheGetProductUuids\:\:fromIdentifiers\(\) should return array\<string, Ramsey\\Uuid\\UuidInterface\> but returns array\.$#'
+			identifier: return.type
+			count: 1
+			path: ../Infrastructure/Query/Cache/LRUCacheGetProductUuids.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\Query\\Cache\\LRUCacheGetProductUuids\:\:fromUuid\(\) should return Ramsey\\Uuid\\UuidInterface\|null but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: ../Infrastructure/Query/Cache/LRUCacheGetProductUuids.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\Query\\Cache\\LRUCacheGetProductUuids\:\:fromUuids\(\) should return array\<string, Ramsey\\Uuid\\UuidInterface\> but returns array\.$#'
+			identifier: return.type
+			count: 1
+			path: ../Infrastructure/Query/Cache/LRUCacheGetProductUuids.php
+
+		-
+			message: '#^Parameter \#1 \$callback of function array_map expects \(callable\(mixed\)\: mixed\)\|null, Closure\(string\)\: Ramsey\\Uuid\\UuidInterface given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Infrastructure/Query/Cache/LRUCacheGetProductUuids.php
+
+		-
+			message: '#^Parameter \#1 \$identifiers of method Akeneo\\Pim\\Enrichment\\Product\\API\\Query\\GetProductUuids\:\:fromIdentifiers\(\) expects array\<string\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Infrastructure/Query/Cache/LRUCacheGetProductUuids.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
 			count: 1
 			path: ../Infrastructure/Query/Elasticsearch/ElasticsearchProductUuidQueryFetcher.php
 
 		-
-			message: "#^Parameter \\#2 \\$haystack of function in_array expects array, mixed given\\.$#"
+			message: '#^Cannot access an offset on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: ../Infrastructure/Query/Elasticsearch/ElasticsearchProductUuidQueryFetcher.php
+
+		-
+			message: '#^Cannot access offset ''_source'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: ../Infrastructure/Query/Elasticsearch/ElasticsearchProductUuidQueryFetcher.php
+
+		-
+			message: '#^Cannot access offset ''document_type'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../Infrastructure/Query/Elasticsearch/ElasticsearchProductUuidQueryFetcher.php
 
 		-
-			message: "#^Cannot cast mixed to string\\.$#"
+			message: '#^Cannot access offset ''hits'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../Infrastructure/Query/Elasticsearch/ElasticsearchProductUuidQueryFetcher.php
+
+		-
+			message: '#^Cannot access offset ''id'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../Infrastructure/Query/Elasticsearch/ElasticsearchProductUuidQueryFetcher.php
+
+		-
+			message: '#^Cannot access offset ''sort'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../Infrastructure/Query/Elasticsearch/ElasticsearchProductUuidQueryFetcher.php
+
+		-
+			message: '#^Cannot access offset ''total'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../Infrastructure/Query/Elasticsearch/ElasticsearchProductUuidQueryFetcher.php
+
+		-
+			message: '#^Cannot access offset ''value'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../Infrastructure/Query/Elasticsearch/ElasticsearchProductUuidQueryFetcher.php
+
+		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 1
+			path: ../Infrastructure/Query/Elasticsearch/ElasticsearchProductUuidQueryFetcher.php
+
+		-
+			message: '#^Parameter \#1 \$array of function end expects array\|object, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Infrastructure/Query/Elasticsearch/ElasticsearchProductUuidQueryFetcher.php
+
+		-
+			message: '#^Parameter \#1 \.\.\.\$arrays of function array_merge expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Infrastructure/Query/Elasticsearch/ElasticsearchProductUuidQueryFetcher.php
+
+		-
+			message: '#^Parameter \#2 \$count of class Akeneo\\Pim\\Enrichment\\Product\\Domain\\PQB\\ProductResults constructor expects int, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Infrastructure/Query/Elasticsearch/ElasticsearchProductUuidQueryFetcher.php
+
+		-
+			message: '#^Parameter \#2 \$haystack of function in_array expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: ../Infrastructure/Query/Elasticsearch/ElasticsearchProductUuidQueryFetcher.php
+
+		-
+			message: '#^Property Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\Query\\Elasticsearch\\ElasticsearchProductUuidQueryFetcher\:\:\$esQuery \(array\<string, mixed\>\|null\) does not accept array\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: ../Infrastructure/Query/Elasticsearch/ElasticsearchProductUuidQueryFetcher.php
+
+		-
+			message: '#^Property Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\Query\\Elasticsearch\\ElasticsearchProductUuidQueryFetcher\:\:\$searchAfter \(array\<mixed\>\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: ../Infrastructure/Query/Elasticsearch/ElasticsearchProductUuidQueryFetcher.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\Query\\Elasticsearch\\ProductQueryBuilderAdapter\:\:buildQuery\(\) should return array\<string, mixed\> but returns array\.$#'
+			identifier: return.type
+			count: 1
+			path: ../Infrastructure/Query/Elasticsearch/ProductQueryBuilderAdapter.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:allIsInstanceOf\(\) with non\-empty\-array\<Ramsey\\Uuid\\UuidInterface\> and ''Ramsey\\\\Uuid\\\\UuidInterface'' will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: ../Infrastructure/Query/SqlGetCategoryCodes.php
+
+		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
 			count: 2
 			path: ../Infrastructure/Query/SqlGetCategoryCodes.php
 
 		-
-			message: "#^Method Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\Infrastructure\\\\Query\\\\SqlGetCategoryCodes\\:\\:fromProductUuids\\(\\) should return array\\<string, array\\<string\\>\\> but returns array\\<string, mixed\\>\\.$#"
+			message: '#^Method Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\Query\\SqlGetCategoryCodes\:\:fromProductUuids\(\) should return array\<string, array\<string\>\> but returns array\<string, mixed\>\.$#'
+			identifier: return.type
 			count: 1
 			path: ../Infrastructure/Query/SqlGetCategoryCodes.php
 
 		-
-			message: "#^Cannot cast mixed to string\\.$#"
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
 			count: 1
 			path: ../Infrastructure/Query/SqlGetProductUuids.php
 
 		-
-			message: "#^Parameter \\#1 \\$uuid of static method Ramsey\\\\Uuid\\\\Uuid\\:\\:fromString\\(\\) expects string, mixed given\\.$#"
+			message: '#^Method Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\Query\\SqlGetProductUuids\:\:fromUuids\(\) should return array\<string, Ramsey\\Uuid\\UuidInterface\> but returns array\.$#'
+			identifier: return.type
 			count: 1
 			path: ../Infrastructure/Query/SqlGetProductUuids.php
 
 		-
-			message: "#^Parameter \\#2 \\$callback of function array_reduce expects callable\\(array, mixed\\)\\: array, Closure\\(array, string\\)\\: non\\-empty\\-array given\\.$#"
+			message: '#^Parameter \#1 \$uuid of static method Ramsey\\Uuid\\Uuid\:\:fromString\(\) expects string, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Infrastructure/Query/SqlGetProductUuids.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of static method Webmozart\\\\Assert\\\\Assert\\:\\:implementsInterface\\(\\) expects Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\CategoryUserIntent\\|class\\-string\\<Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\CategoryUserIntent\\>, mixed given\\.$#"
+			message: '#^Parameter \#2 \$callback of function array_reduce expects callable\(array, mixed\)\: array, Closure\(array, string\)\: non\-empty\-array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Infrastructure/Query/SqlGetProductUuids.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:greaterThanEq\(\) with int\<1, max\> and 1 will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: ../Infrastructure/Subscriber/ProductWasCreatedOrUpdatedSubscriber.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:isInstanceOf\(\) with DateTime and ''DateTime'' will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 2
+			path: ../Infrastructure/Subscriber/ProductWasCreatedOrUpdatedSubscriber.php
+
+		-
+			message: '#^Cannot call method getCreated\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../Infrastructure/Subscriber/ProductWasCreatedOrUpdatedSubscriber.php
+
+		-
+			message: '#^Cannot call method getUuid\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../Infrastructure/Subscriber/ProductWasCreatedOrUpdatedSubscriber.php
+
+		-
+			message: '#^Cannot call method toString\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../Infrastructure/Subscriber/ProductWasCreatedOrUpdatedSubscriber.php
+
+		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 1
+			path: ../Infrastructure/Subscriber/ProductWasCreatedOrUpdatedSubscriber.php
+
+		-
+			message: '#^Parameter \#1 \$callback of function array_map expects \(callable\(mixed\)\: mixed\)\|null, Closure\(Akeneo\\Pim\\Enrichment\\Component\\Product\\Model\\ProductInterface\)\: \(Akeneo\\Pim\\Enrichment\\Product\\API\\Event\\ProductWasCreated\|Akeneo\\Pim\\Enrichment\\Product\\API\\Event\\ProductWasUpdated\) given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Infrastructure/Subscriber/ProductWasCreatedOrUpdatedSubscriber.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\Validation\\AttributeGroupShouldBeEditable\:\:getTargets\(\) never returns array\<string\> so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: ../Infrastructure/Validation/AttributeGroupShouldBeEditable.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\Validation\\IsUserOwnerOfTheProduct\:\:getTargets\(\) never returns array\<string\> so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: ../Infrastructure/Validation/IsUserOwnerOfTheProduct.php
+
+		-
+			message: '#^Anonymous function should return string but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: ../Infrastructure/Validation/LocaleAndChannelShouldBeConsistentValidator.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:isArray\(\) with array\<Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\ValueUserIntent\> will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: ../Infrastructure/Validation/LocaleAndChannelShouldBeConsistentValidator.php
+
+		-
+			message: '#^Parameter \#2 \$channelCode of method Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\Validation\\LocaleAndChannelShouldBeConsistentValidator\:\:validateChannelCode\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Infrastructure/Validation/LocaleAndChannelShouldBeConsistentValidator.php
+
+		-
+			message: '#^Parameter \#2 \$localeCode of method Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\Validation\\LocaleAndChannelShouldBeConsistentValidator\:\:validateLocaleCode\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Infrastructure/Validation/LocaleAndChannelShouldBeConsistentValidator.php
+
+		-
+			message: '#^Parameter \#3 \$channelCode of method Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\Validation\\LocaleAndChannelShouldBeConsistentValidator\:\:validateLocaleCode\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Infrastructure/Validation/LocaleAndChannelShouldBeConsistentValidator.php
+
+		-
+			message: '#^Possibly invalid array key type mixed\.$#'
+			identifier: offsetAccess.invalidOffset
+			count: 1
+			path: ../Infrastructure/Validation/LocaleAndChannelShouldBeConsistentValidator.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\Validation\\PQB\\SearchFilters\:\:getTargets\(\) never returns array\<string\> so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: ../Infrastructure/Validation/PQB/SearchFilters.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\Validation\\ShouldStayOwnerOfTheProduct\:\:getTargets\(\) never returns array\<string\> so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: ../Infrastructure/Validation/ShouldStayOwnerOfTheProduct.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:isInstanceOf\(\) with Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UpsertProductCommand and ''Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UpsertProductCommand'' will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
 			count: 1
 			path: ../Infrastructure/Validation/ShouldStayOwnerOfTheProductValidator.php
+
+		-
+			message: '#^Parameter \#1 \$value of static method Webmozart\\Assert\\Assert\:\:implementsInterface\(\) expects Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\CategoryUserIntent\|class\-string\<Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\CategoryUserIntent\>, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Infrastructure/Validation/ShouldStayOwnerOfTheProductValidator.php
+
+		-
+			message: '#^Parameter \#1 \$value of static method Webmozart\\Assert\\Assert\:\:allImplementsInterface\(\) expects iterable\<Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\ValueUserIntent\|class\-string\<Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\ValueUserIntent\>\>, array\<mixed, mixed\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Infrastructure/Validation/UserIntentsShouldBeUniqueValidator.php

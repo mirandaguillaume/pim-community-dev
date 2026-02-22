@@ -1,131 +1,199 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Parameter \\#3 \\$application of class Akeneo\\\\Tool\\\\Component\\\\Console\\\\CommandExecutor constructor expects Symfony\\\\Component\\\\Console\\\\Application, Symfony\\\\Component\\\\Console\\\\Application\\|null given\\.$#"
+			message: '#^Parameter \#3 \$application of class Akeneo\\Tool\\Component\\Console\\CommandExecutor constructor expects Symfony\\Component\\Console\\Application, Symfony\\Component\\Console\\Application\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../src/Infrastructure/Command/AssetsCommand.php
 
 		-
-			message: "#^Cannot call method runCommand\\(\\) on Akeneo\\\\Tool\\\\Component\\\\Console\\\\CommandExecutor\\|null\\.$#"
+			message: '#^Parameter \#1 \$collection of method Akeneo\\Platform\\Installer\\Infrastructure\\Command\\CheckRequirementsCommand\:\:renderTable\(\) expects array\<int, Symfony\\Requirements\\Requirement\>, array given\.$#'
+			identifier: argument.type
+			count: 3
+			path: ../src/Infrastructure/Command/CheckRequirementsCommand.php
+
+		-
+			message: '#^Parameter \#1 \$collection of method Akeneo\\Platform\\Installer\\Infrastructure\\Command\\CheckRequirementsCommand\:\:renderTable\(\) expects array\<int, Symfony\\Requirements\\Requirement\>, array\<Symfony\\Requirements\\Requirement\> given\.$#'
+			identifier: argument.type
+			count: 2
+			path: ../src/Infrastructure/Command/CheckRequirementsCommand.php
+
+		-
+			message: '#^Cannot call method runCommand\(\) on Akeneo\\Tool\\Component\\Console\\CommandExecutor\|null\.$#'
+			identifier: method.nonObject
 			count: 4
 			path: ../src/Infrastructure/Command/DatabaseCommand.php
 
 		-
-			message: "#^Parameter \\#1 \\$catalogPath of method Akeneo\\\\Platform\\\\Installer\\\\Infrastructure\\\\FixtureLoader\\\\FixtureJobLoader\\:\\:loadJobInstances\\(\\) expects string, mixed given\\.$#"
+			message: '#^Parameter \#1 \$catalogPath of method Akeneo\\Platform\\Installer\\Infrastructure\\FixtureLoader\\FixtureJobLoader\:\:loadJobInstances\(\) expects string, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../src/Infrastructure/Command/DatabaseCommand.php
 
 		-
-			message: "#^Parameter \\#2 \\$haystack of function in_array expects array, mixed given\\.$#"
+			message: '#^Parameter \#2 \$haystack of function in_array expects array, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../src/Infrastructure/Command/DatabaseCommand.php
 
 		-
-			message: "#^Parameter \\#2 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../src/Infrastructure/Command/DatabaseCommand.php
 
 		-
-			message: "#^Parameter \\#3 \\$application of class Akeneo\\\\Tool\\\\Component\\\\Console\\\\CommandExecutor constructor expects Symfony\\\\Component\\\\Console\\\\Application, Symfony\\\\Component\\\\Console\\\\Application\\|null given\\.$#"
+			message: '#^Parameter \#3 \$application of class Akeneo\\Tool\\Component\\Console\\CommandExecutor constructor expects Symfony\\Component\\Console\\Application, Symfony\\Component\\Console\\Application\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../src/Infrastructure/Command/DatabaseCommand.php
 
 		-
-			message: "#^Parameter \\#1 \\$path of function dirname expects string, string\\|false given\\.$#"
+			message: '#^Parameter \#1 \$path of function dirname expects string, string\|false given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../src/Infrastructure/Command/DumpRequirePathsCommand.php
 
 		-
-			message: "#^Parameter \\#3 \\$application of class Akeneo\\\\Tool\\\\Component\\\\Console\\\\CommandExecutor constructor expects Symfony\\\\Component\\\\Console\\\\Application, Symfony\\\\Component\\\\Console\\\\Application\\|null given\\.$#"
+			message: '#^Parameter \#3 \$application of class Akeneo\\Tool\\Component\\Console\\CommandExecutor constructor expects Symfony\\Component\\Console\\Application, Symfony\\Component\\Console\\Application\|null given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../src/Infrastructure/Command/InstallCommand.php
 
 		-
-			message: "#^Parameter \\#2 \\$startPath of method Symfony\\\\Component\\\\Filesystem\\\\Filesystem\\:\\:makePathRelative\\(\\) expects string, string\\|false given\\.$#"
+			message: '#^Parameter \#2 \$startPath of method Symfony\\Component\\Filesystem\\Filesystem\:\:makePathRelative\(\) expects string, string\|false given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../src/Infrastructure/Event/Subscriber/AssetsInstaller.php
 
 		-
-			message: "#^Cannot call method getUser\\(\\) on Symfony\\\\Component\\\\Security\\\\Core\\\\Authentication\\\\Token\\\\TokenInterface\\|null\\.$#"
+			message: '#^Cannot call method getUser\(\) on Symfony\\Component\\Security\\Core\\Authentication\\Token\\TokenInterface\|null\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../src/Infrastructure/FilesystemsPurger/FilesystemsPurger.php
 
 		-
-			message: "#^Parameter \\#1 \\$jobInstance of method Akeneo\\\\Tool\\\\Bundle\\\\BatchBundle\\\\Launcher\\\\JobLauncherInterface\\:\\:launch\\(\\) expects Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Model\\\\JobInstance, mixed given\\.$#"
+			message: '#^Parameter \#1 \$jobInstance of method Akeneo\\Tool\\Bundle\\BatchBundle\\Launcher\\JobLauncherInterface\:\:launch\(\) expects Akeneo\\Tool\\Component\\Batch\\Model\\JobInstance, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../src/Infrastructure/FilesystemsPurger/FilesystemsPurger.php
 
 		-
-			message: "#^Parameter \\#1 \\$path of function dirname expects string, string\\|false given\\.$#"
+			message: '#^Parameter \#1 \$path of function dirname expects string, string\|false given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../src/Infrastructure/FixtureLoader/FixturePathProvider.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Installer\\\\Infrastructure\\\\FixtureLoader\\\\JobInstancesBuilder\\:\\:buildJobInstances\\(\\) should return array\\<Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Model\\\\JobInstance\\> but returns array\\<int\\<0, max\\>, mixed\\>\\.$#"
+			message: '#^Method Akeneo\\Platform\\Installer\\Infrastructure\\FixtureLoader\\JobInstancesBuilder\:\:buildJobInstances\(\) should return array\<Akeneo\\Tool\\Component\\Batch\\Model\\JobInstance\> but returns list\<mixed\>\.$#'
+			identifier: return.type
 			count: 1
 			path: ../src/Infrastructure/FixtureLoader/JobInstancesBuilder.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Installer\\\\Infrastructure\\\\FixtureLoader\\\\JobInstancesBuilder\\:\\:readOrderedRawJobData\\(\\) should return array\\<int, array\\<string, mixed\\>\\> but returns array\\<int, mixed\\>\\.$#"
+			message: '#^Method Akeneo\\Platform\\Installer\\Infrastructure\\FixtureLoader\\JobInstancesBuilder\:\:readOrderedRawJobData\(\) should return array\<int, array\<string, mixed\>\> but returns list\<mixed\>\.$#'
+			identifier: return.type
 			count: 1
 			path: ../src/Infrastructure/FixtureLoader/JobInstancesBuilder.php
 
 		-
-			message: "#^Parameter \\#2 \\$callback of function usort expects callable\\(mixed, mixed\\)\\: int, Closure\\(array, array\\)\\: int\\<\\-1, 1\\> given\\.$#"
+			message: '#^Parameter \#2 \$callback of function usort expects callable\(mixed, mixed\)\: int, Closure\(array, array\)\: int\<\-1, 1\> given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../src/Infrastructure/FixtureLoader/JobInstancesBuilder.php
 
 		-
-			message: "#^Cannot access offset 'database_installed…' on mixed\\.$#"
+			message: '#^Cannot access offset ''file_path'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 4
+			path: ../src/Infrastructure/FixtureLoader/JobInstancesConfigurator.php
+
+		-
+			message: '#^Parameter \#2 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../src/Infrastructure/FixtureLoader/JobInstancesConfigurator.php
+
+		-
+			message: '#^Parameter \#3 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../src/Infrastructure/FixtureLoader/JobInstancesConfigurator.php
+
+		-
+			message: '#^Possibly invalid array key type mixed\.$#'
+			identifier: offsetAccess.invalidOffset
+			count: 2
+			path: ../src/Infrastructure/FixtureLoader/JobInstancesConfigurator.php
+
+		-
+			message: '#^Cannot access offset ''database_installed_at'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../src/Infrastructure/Persistence/Sql/GetInstallDatetime.php
 
 		-
-			message: "#^Cannot cast mixed to string\\.$#"
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
 			count: 1
 			path: ../src/Infrastructure/Persistence/Sql/GetInstallDatetime.php
 
 		-
-			message: "#^Parameter \\#1 \\$datetime of class DateTime constructor expects string, mixed given\\.$#"
+			message: '#^Parameter \#1 \$datetime of class DateTime constructor expects string, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../src/Infrastructure/Persistence/Sql/GetInstallDatetime.php
 
 		-
-			message: "#^Cannot cast mixed to string\\.$#"
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
 			count: 1
 			path: ../src/Infrastructure/Persistence/Sql/GetResetEvents.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function array_map expects \\(callable\\(mixed\\)\\: mixed\\)\\|null, Closure\\(array\\)\\: array\\{time\\: DateTimeImmutable\\} given\\.$#"
+			message: '#^Method Akeneo\\Platform\\Installer\\Infrastructure\\Persistence\\Sql\\GetResetEvents\:\:__invoke\(\) should return array\<int, array\{time\: DateTimeImmutable\}\> but returns array\<array\{time\: DateTimeImmutable\}\>\.$#'
+			identifier: return.type
 			count: 1
 			path: ../src/Infrastructure/Persistence/Sql/GetResetEvents.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function array_map expects array, mixed given\\.$#"
+			message: '#^Parameter \#1 \$callback of function array_map expects \(callable\(mixed\)\: mixed\)\|null, Closure\(array\)\: array\{time\: DateTimeImmutable\} given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../src/Infrastructure/Persistence/Sql/GetResetEvents.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Installer\\\\Infrastructure\\\\Query\\\\FindTables\\:\\:all\\(\\) should return array\\<string\\> but returns array\\<int, mixed\\>\\.$#"
+			message: '#^Parameter \#1 \$datetime of class DateTimeImmutable constructor expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../src/Infrastructure/Persistence/Sql/GetResetEvents.php
+
+		-
+			message: '#^Parameter \#2 \$array of function array_map expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../src/Infrastructure/Persistence/Sql/GetResetEvents.php
+
+		-
+			message: '#^Method Akeneo\\Platform\\Installer\\Infrastructure\\Query\\FindTables\:\:all\(\) should return array\<string\> but returns list\<mixed\>\.$#'
+			identifier: return.type
 			count: 1
 			path: ../src/Infrastructure/Query/FindTables.php
 
 		-
-			message: "#^Cannot access offset 'enabled' on mixed\\.$#"
+			message: '#^Cannot access offset ''enabled'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../src/Infrastructure/Query/IsMaintenanceModeEnabled.php
 
 		-
-			message: "#^Cannot cast mixed to string\\.$#"
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
 			count: 1
 			path: ../src/Infrastructure/Query/IsMaintenanceModeEnabled.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Installer\\\\Infrastructure\\\\Query\\\\IsMaintenanceModeEnabled\\:\\:execute\\(\\) should return bool but returns mixed\\.$#"
+			message: '#^Method Akeneo\\Platform\\Installer\\Infrastructure\\Query\\IsMaintenanceModeEnabled\:\:execute\(\) should return bool but returns mixed\.$#'
+			identifier: return.type
 			count: 1
 			path: ../src/Infrastructure/Query/IsMaintenanceModeEnabled.php
-
-		-
-			message: "#^Cannot call method execute\\(\\) on mixed\\.$#"
-			count: 1
-			path: ../src/Infrastructure/UserConfigurationResetter/UserConfigurationResetter.php
