@@ -438,6 +438,12 @@ jobs:
       - name: Run ESLint and Prettier
         run: castor test:lint-front
 
+      - name: Audit JS dependencies for known vulnerabilities
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn npm audit --severity moderate || echo "::warning::yarn audit found vulnerabilities — review before merging"
+
   # ===========================================================================
   # FRONT-UNIT: Jest unit tests (sharded x2)
   # ===========================================================================
