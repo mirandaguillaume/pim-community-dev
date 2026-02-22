@@ -1,0 +1,46 @@
+import {Meta, Canvas, Story, ArgTypes} from '@storybook/blocks';
+import * as Stories from './Information.stories';
+import {Information, HighlightTitle} from './Information';
+import {Link} from '../Link/Link';
+import {UsersIllustration} from '../../illustrations';
+import * as Illustrations from '../../illustrations';
+
+<Meta of={Stories} />
+
+# Information helper
+
+## Usage
+
+Allows to help the user by pushing contextual information.
+
+## General guidance
+
+Located at the top of a page, it helps the user on the page's features. A link guides the user to additional information. *i.e., the help center*
+
+## Playground
+
+Use this playground to test the helper component
+
+<Canvas of={Stories.Standard} />
+
+<ArgTypes of={Stories.Standard} />
+
+## Composition
+
+Generally Information contain also link.
+Title can also be composed of highlight.
+
+<Canvas of={Stories.Composition} />
+
+## Fit content height
+
+The box fits to the content height
+
+<Canvas of={Stories.FitContentHeight} />
+
+## Related components
+
+<ul>
+  <li><LinkTo kind="Components/Helper" story="Standard">Helper</LinkTo></li>
+  <li><LinkTo kind="Components/Link" story="Standard">Link</LinkTo></li>
+</ul>

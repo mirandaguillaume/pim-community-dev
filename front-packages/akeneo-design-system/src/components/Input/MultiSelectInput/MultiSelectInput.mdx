@@ -1,0 +1,52 @@
+import {Meta, Canvas, Story, ArgTypes} from '@storybook/blocks';
+import * as Stories from './MultiSelectInput.stories';
+import {useState} from 'react';
+import {MultiSelectInput} from './MultiSelectInput.tsx';
+import {SpaceContainer} from '../../../storybook/PreviewGallery.tsx';
+import {Locale} from '../../../components';
+
+<Meta of={Stories} />
+
+# Multi select input
+
+## Usage
+
+Multi select input allows the user to select content and data when the expected user input is composed of multiple option values.
+
+### Placeholder text
+
+The placeholder text provides tips or examples of items to enter. Placeholder text disappears when the user begins entering data.
+
+## Playground
+
+<Canvas of={Stories.Standard} />
+
+<ArgTypes of={Stories.Standard} />
+
+## Variation on readOnly
+
+<Canvas of={Stories.ReadOnly} />
+
+## Variation on locked values
+
+<Canvas of={Stories.LockedValues} />
+
+## Variation on invalid
+
+<Canvas of={Stories.Invalid} />
+
+## Variation on invalid value
+
+<Canvas of={Stories.InvalidValue} />
+
+## Variation on vertical position
+
+<Canvas of={Stories.VerticalPosition} />
+
+## Variation on large select input
+
+<Canvas of={Stories.Large} />
+
+## Pagination
+
+<Canvas of={Stories.Pagination} />

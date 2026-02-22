@@ -1,0 +1,96 @@
+import {Meta, Canvas, Story} from '@storybook/blocks';
+import * as Stories from './BulkActions.stories';
+import {Badge, Button, Checkbox, Dropdown, IconButton, Image, Table, Toolbar, Card, CardGrid} from '../../components';
+import {rows} from '../../components/Table/shared-stories-data';
+import {SpaceContainer} from '../../storybook/PreviewGallery';
+import {useBooleanState, useSelection} from '../../hooks';
+import {ArrowDownIcon} from '../../icons';
+
+<Meta of={Stories} />
+                    <Table.Cell>
+                      <Image src={row.image} alt="The alt" />
+                    </Table.Cell>
+                    <Table.Cell>{row.name}</Table.Cell>
+                    <Table.Cell>{row.family}</Table.Cell>
+                    <Table.Cell>{row.order}</Table.Cell>
+                    <Table.Cell>{row.genus}</Table.Cell>
+                    <Table.Cell>
+                      <Badge level={row.conservation_status_level}>{row.conservation_status}</Badge>
+                    </Table.Cell>
+                    <Table.ActionCell>
+                      <Button level="primary" ghost>
+                        Button
+                      </Button>
+                    </Table.ActionCell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>
+          </div>
+          <Toolbar isVisible={!!selectionState}>
+            <Toolbar.SelectionContainer>
+              <Checkbox checked={selectionState} onChange={value => onSelectAllChange(value)} />
+              <Dropdown>
+                <IconButton
+                  size="small"
+                  level="tertiary"
+                  ghost="borderless"
+                  icon={<ArrowDownIcon />}
+                  title="Select"
+                  onClick={open}
+                />
+                {isOpen && (
+                  <Dropdown.Overlay onClose={close}>
+                    <Dropdown.Header>
+                      <Dropdown.Title>Select</Dropdown.Title>
+                    </Dropdown.Header>
+                    <Dropdown.ItemCollection>
+                      <Dropdown.Item
+                        onClick={() => {
+                          onSelectAllChange(true);
+                          close();
+                        }}
+                      >
+                        Select all
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        onClick={() => {
+                          onSelectAllChange(true);
+                          close();
+                        }}
+                      >
+                        Select all visible
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        onClick={() => {
+                          onSelectAllChange(false);
+                          close();
+                        }}
+                      >
+                        Select none
+                      </Dropdown.Item>
+                    </Dropdown.ItemCollection>
+                  </Dropdown.Overlay>
+                )}
+              </Dropdown>
+            </Toolbar.SelectionContainer>
+            <Toolbar.LabelContainer>{selectedCount} Selected</Toolbar.LabelContainer>
+            <Toolbar.ActionsContainer>
+              <Button level="secondary">Button 1</Button>
+              <Button level="tertiary">Button 2</Button>
+              <Button level="danger">Button 3</Button>
+            </Toolbar.ActionsContainer>
+          </Toolbar>
+        </SpaceContainer>
+      );
+    }}
+  </Story>
+</Canvas>
+
+## Small Table
+
+<Canvas of={Stories.SmallTable} />
+
+## With Cards
+
+<Canvas of={Stories.WithCards} />

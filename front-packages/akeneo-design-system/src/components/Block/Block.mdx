@@ -1,0 +1,32 @@
+import {Meta, Canvas, Story, ArgTypes} from '@storybook/blocks';
+import * as Stories from './Block.stories';
+import {useState} from 'react';
+import {Block} from './Block';
+import {IconButton} from '../IconButton/IconButton';
+import {CloseIcon, ArrowDownIcon, MoreIcon} from '../../icons';
+
+<Meta of={Stories} />
+
+# Block
+
+## Usage
+
+Block is a visual component that can be used to group content.
+When it is removable and hovered, it can be removed by clicking on the X icon.
+
+## Playground
+
+Use this playground to test the block component
+
+<Canvas of={Stories.Standard} />
+
+<ArgTypes of={Stories.Standard} />
+
+## Without Actions
+
+<Canvas of={Stories.WithoutActions} />
+
+
+## With Actions
+
+<Canvas of={Stories.WithActions} />
