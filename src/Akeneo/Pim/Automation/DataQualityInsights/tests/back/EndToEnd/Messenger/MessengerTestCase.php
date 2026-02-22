@@ -82,7 +82,7 @@ abstract class MessengerTestCase extends DataQualityInsightsTestCase
             '-vvv',
             \sprintf('--time-limit=%d', 5),
             $consumerName,
-            '--bus=pim_event.handle.bus'
+            '--bus=pim_event.handle.bus',
         ];
 
         $process = new Process($command);
@@ -118,10 +118,10 @@ abstract class MessengerTestCase extends DataQualityInsightsTestCase
     ): bool {
         return (bool) $this->get('database_connection')->executeQuery(
             <<<SQL
-                SELECT product_uuid
-                FROM pim_data_quality_insights_product_score
-                WHERE product_uuid = :product_uuid AND evaluated_at = :evaluated_at
-            SQL,
+                    SELECT product_uuid
+                    FROM pim_data_quality_insights_product_score
+                    WHERE product_uuid = :product_uuid AND evaluated_at = :evaluated_at
+                SQL,
             ['product_uuid' => $productUuid->toBytes(), 'evaluated_at' => $evaluatedAt->format('Y-m-d')]
         )->fetchOne();
     }
@@ -152,10 +152,10 @@ abstract class MessengerTestCase extends DataQualityInsightsTestCase
     ): bool {
         return (bool) $this->get('database_connection')->executeQuery(
             <<<SQL
-                SELECT product_model_id
-                FROM pim_data_quality_insights_product_model_score
-                WHERE product_model_id = :product_model_id AND evaluated_at = :evaluated_at
-            SQL,
+                    SELECT product_model_id
+                    FROM pim_data_quality_insights_product_model_score
+                    WHERE product_model_id = :product_model_id AND evaluated_at = :evaluated_at
+                SQL,
             ['product_model_id' => $productModelId->toInt(), 'evaluated_at' => $evaluatedAt->format('Y-m-d')]
         )->fetchOne();
     }

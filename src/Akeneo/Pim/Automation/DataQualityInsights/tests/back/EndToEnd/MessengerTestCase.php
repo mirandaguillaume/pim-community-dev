@@ -106,7 +106,7 @@ abstract class MessengerTestCase extends DataQualityInsightsTestCase
             '-vvv',
             \sprintf('--time-limit=%d', 10),
             $consumerName,
-            '--bus=pim_event.handle.bus'
+            '--bus=pim_event.handle.bus',
         ];
 
         $process = new Process($command);
