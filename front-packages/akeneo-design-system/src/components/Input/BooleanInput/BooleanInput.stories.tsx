@@ -55,13 +55,13 @@ type Story = StoryObj<typeof meta>;
 
 export const Standard: Story = {
   name: 'Standard',
-  render: (args) => (
+  render: (args) => {
     const [{value}, updateArgs] = useArgs();
       const setValue = newValue => {
         updateArgs({value: newValue});
       };
       return <BooleanInput {...args} value={value} onChange={setValue} />;
-  ),
+  },
 };
 
 export const Value: Story = {

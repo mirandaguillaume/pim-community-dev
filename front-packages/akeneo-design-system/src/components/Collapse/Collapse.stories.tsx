@@ -15,11 +15,11 @@ type Story = StoryObj<typeof meta>;
 
 export const Standard: Story = {
   name: 'Standard',
-  render: (args) => (
+  render: (args) => {
     const [{isOpen}, updateArgs] = useArgs();
       const onCollapse = isOpen => updateArgs({isOpen});
       return <Collapse {...args} onCollapse={onCollapse} />;
-  ),
+  },
 };
 
 export const WithPill: Story = {

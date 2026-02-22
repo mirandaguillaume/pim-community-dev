@@ -26,17 +26,17 @@ type Story = StoryObj<typeof meta>;
 
 export const Standard: Story = {
   name: 'Standard',
-  render: (args) => (
+  render: (args) => {
     const IllustrationComponent = createElement(Illustrations[args.illustration]);
       return <Placeholder {...args} illustration={IllustrationComponent} />;
-  ),
+  },
 };
 
 export const Size: Story = {
   name: 'Size',
-  render: (args) => (
+  render: (args) => {
     const IllustrationComponent = createElement(Illustrations.AttributesIllustration);
       return <Placeholder {...args} title="Large placeholder" illustration={IllustrationComponent} size="large" />;
-  ),
+  },
 };
 

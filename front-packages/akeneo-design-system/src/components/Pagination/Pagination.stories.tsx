@@ -24,12 +24,13 @@ export const Standard: Story = {
 
 export const SmallNumberOfPages: Story = {
   name: 'Small number of pages',
-  render: (args) => (
+  render: (args) => {
     return (
                 <>
                     <Pagination totalItems={8} currentPage={1} itemsPerPage={2} onClick={() => {}}/>
                     <Pagination totalItems={3} currentPage={1} itemsPerPage={2} onClick={() => {}}/>
                 </>
-  ),
+    );
+  },
 };
 

@@ -21,13 +21,13 @@ type Story = StoryObj<typeof meta>;
 
 export const Standard: Story = {
   name: 'Standard',
-  render: (args) => (
+  render: (args) => {
     const [{checked}, updateArgs] = useArgs();
       const toggleChecked = () => {
         updateArgs({checked: !checked});
       };
       return <Checkbox {...args} checked={checked} onChange={toggleChecked} />;
-  ),
+  },
 };
 
 export const State: Story = {

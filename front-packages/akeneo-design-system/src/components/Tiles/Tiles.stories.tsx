@@ -17,7 +17,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Standard: Story = {
   name: 'Standard',
-  render: (args) => (
+  render: (args) => {
     const [isCurrent, switchTo] = useTabBar('Identifier');
       return <Tiles {...args} >
         <Tile icon={<AssetCollectionIcon/>} selected={isCurrent('Assets collection')} onClick={() => {switchTo('Assets collection')}}>
@@ -51,7 +51,7 @@ export const Standard: Story = {
           </Tooltip>
         </Tile>
       </Tiles>;
-  ),
+  },
 };
 
 export const Size: Story = {

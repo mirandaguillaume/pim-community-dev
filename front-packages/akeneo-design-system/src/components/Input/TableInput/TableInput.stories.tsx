@@ -22,7 +22,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Standard: Story = {
   name: 'Standard',
-  render: (args) => (
+  render: (args) => {
     const {getValue, setValue, searchValue, setSearchValue, match, lengthUnits} = useFakeTableInput(6);
       return <TableInput {...args}>
         <TableInput.Header>
@@ -108,7 +108,7 @@ export const Standard: Story = {
         )}
         </TableInput.Body>
       </TableInput>;
-  ),
+  },
 };
 
 export const HighlightCells: Story = {
