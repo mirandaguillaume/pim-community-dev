@@ -167,8 +167,10 @@ class Acl implements \Serializable
 
     /**
      * {@inheritdoc}
+     *
+     * @deprecated Serializable interface is deprecated since PHP 8.1. Migrate to __serialize()/__unserialize() in a future PR.
      */
-    public function serialize()
+    public function serialize(): string
     {
         return serialize(
             [
@@ -186,8 +188,10 @@ class Acl implements \Serializable
 
     /**
      * {@inheritdoc}
+     *
+     * @deprecated Serializable interface is deprecated since PHP 8.1. Migrate to __serialize()/__unserialize() in a future PR.
      */
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
         [$this->id, $this->type, $this->class, $this->permission, $this->group, $this->label, $this->order, $this->visible, ] = unserialize($serialized);
     }

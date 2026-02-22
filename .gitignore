@@ -53,3 +53,11 @@ castor.phar
 /.env.local.php
 /.env.*.local
 /.envrc
+
+# IDE & tooling
+.idea/
+.grepai/
+.serena/
+.claude/agents/
+.claude/skills/
+seed/

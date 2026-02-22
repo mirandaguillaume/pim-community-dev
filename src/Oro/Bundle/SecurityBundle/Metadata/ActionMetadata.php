@@ -80,8 +80,10 @@ class ActionMetadata implements AclClassInfo, \Serializable
 
     /**
      * {@inheritdoc}
+     *
+     * @deprecated Serializable interface is deprecated since PHP 8.1. Migrate to __serialize()/__unserialize() in a future PR.
      */
-    public function serialize()
+    public function serialize(): string
     {
         return serialize(
             [
@@ -97,8 +99,10 @@ class ActionMetadata implements AclClassInfo, \Serializable
 
     /**
      * {@inheritdoc}
+     *
+     * @deprecated Serializable interface is deprecated since PHP 8.1. Migrate to __serialize()/__unserialize() in a future PR.
      */
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
         [$this->name, $this->group, $this->label, $this->isEnabledAtCreation, $this->order, $this->visible, ] = unserialize($serialized);
     }

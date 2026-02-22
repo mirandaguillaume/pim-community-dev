@@ -72,8 +72,6 @@ $rules = [
         // TIP-1005: Clean UI form types
         'Akeneo\Platform\Bundle\UIBundle\Form\Type\EntityIdentifierType',
 
-        'Oro\Bundle\UserBundle\Exception\UserCannotBeDeletedException',
-
         // TIP-1539: clean installer events
         'Akeneo\Platform\Installer\Infrastructure\Event\InstallerEvent',
         'Akeneo\Platform\Installer\Infrastructure\Event\InstallerEvents',
