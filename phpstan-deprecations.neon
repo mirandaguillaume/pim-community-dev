@@ -22,7 +22,6 @@ parameters:
         - '#Return type of method Oro\\Bundle\\PimDataGridBundle\\Datasource\\ProductDatasource::initializeQueryBuilder\(\) has typehint with deprecated class#'
         - '#Return type of method Oro\\Bundle\\PimDataGridBundle\\Datasource\\ProductAndProductModelDatasource::initializeQueryBuilder\(\) has typehint with deprecated class#'
         # Guard symfony migration (RAB-1149)
-        - '#Instantiation of deprecated class Symfony\\Component\\Security\\Core\\User\\User#'
         - '#Call to deprecated method setAuthenticated\(\) of class Symfony\\Component\\Security\\Core\\Authentication\\Token\\AbstractToken#'
         - '#Call to method __construct\(\) of deprecated class Symfony\\Component\\Security\\Core\\Authentication\\Provider\\DaoAuthenticationProvider#'
         - '#Call to method checkAuthentication\(\) of deprecated class Symfony\\Component\\Security\\Core\\Authentication\\Provider\\DaoAuthenticationProvider#'

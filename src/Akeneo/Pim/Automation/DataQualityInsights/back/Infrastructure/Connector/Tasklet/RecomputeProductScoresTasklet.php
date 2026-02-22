@@ -15,7 +15,7 @@ use Akeneo\Tool\Component\Connector\Step\TaskletInterface;
 use Akeneo\UserManagement\Component\Model\UserInterface;
 use Doctrine\DBAL\Connection;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Security\Core\User\User;
+use Symfony\Component\Security\Core\User\InMemoryUser;
 
 final class RecomputeProductScoresTasklet implements TaskletInterface
 {
@@ -96,7 +96,7 @@ final class RecomputeProductScoresTasklet implements TaskletInterface
     private function scheduleNextRecomputeProductsScoresJob($lastProductId): void
     {
         $jobInstance = $this->getJobInstance();
-        $user = new User(UserInterface::SYSTEM_USER_NAME, null);
+        $user = new InMemoryUser(UserInterface::SYSTEM_USER_NAME, null);
         $jobParameters = [RecomputeProductScoresParameters::LAST_PRODUCT_UUID => $lastProductId];
         $this->queueJobLauncher->launch($jobInstance, $user, $jobParameters);
     }
