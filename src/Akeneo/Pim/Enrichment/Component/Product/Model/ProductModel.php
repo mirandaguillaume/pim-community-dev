@@ -9,6 +9,8 @@ use Akeneo\Pim\Structure\Component\Model\FamilyInterface;
 use Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @author    Damien Carcel (damien.carcel@akeneo.com)
@@ -30,8 +32,7 @@ class ProductModel implements ProductModelInterface, \Stringable
     #[ORM\Column(name: 'quantified_associations', type: Types::JSON, nullable: true)]
     protected $rawQuantifiedAssociations;
     use EntityWithQuantifiedAssociationTrait;
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\DBAL\Types\Types;
+
 
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
@@ -49,10 +50,6 @@ use Doctrine\DBAL\Types\Types;
      * Not persisted. Loaded on the fly via the $rawValues.
      */
     protected WriteValueCollection $values;
-
-    protected ?\DateTime $created = null;
-
-    protected ?\DateTime $updated = null;
 
     #[ORM\ManyToMany(targetEntity: \Akeneo\Category\Infrastructure\Component\Model\CategoryInterface::class)]
     #[ORM\JoinTable(name: 'pim_catalog_category_product_model')]

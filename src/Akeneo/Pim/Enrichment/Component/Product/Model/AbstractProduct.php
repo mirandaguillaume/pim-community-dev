@@ -12,6 +12,8 @@ use Akeneo\Pim\Structure\Component\Model\FamilyInterface;
 use Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Webmozart\Assert\Assert;
@@ -30,8 +32,7 @@ abstract class AbstractProduct implements ProductInterface, \Stringable
     #[ORM\Column(name: 'quantified_associations', type: Types::JSON, nullable: true)]
     protected $rawQuantifiedAssociations;
     use EntityWithQuantifiedAssociationTrait;
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\DBAL\Types\Types;
+
 
     /** @var int|string */
     #[ORM\Column(type: Types::INTEGER, unique: true, columnDefinition: 'INT AUTO_INCREMENT NOT NULL', generated: 'INSERT')]
