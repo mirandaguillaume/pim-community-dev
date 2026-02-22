@@ -25,7 +25,7 @@ class AkeneoFileStorageBundle extends Bundle
             ->addCompilerPass(new ResolveDoctrineTargetModelPass());
 
         $mappings = [
-            'Akeneo\Tool\Component\FileStorage\Model' => realpath(__DIR__.'/../../Component/FileStorage/Model'),
+            'Akeneo\Tool\Component\FileStorage\Model' => __DIR__.'/../../Component/FileStorage/Model',
         ];
 
         $container->addCompilerPass(

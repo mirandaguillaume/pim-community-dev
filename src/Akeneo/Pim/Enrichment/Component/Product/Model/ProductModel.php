@@ -22,17 +22,13 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
 class ProductModel implements ProductModelInterface, \Stringable
 {
+    use EntityWithQuantifiedAssociationTrait;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     protected $created;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     protected $updated;
-
-    #[ORM\Column(name: 'quantified_associations', type: Types::JSON, nullable: true)]
-    protected $rawQuantifiedAssociations;
-    use EntityWithQuantifiedAssociationTrait;
-
 
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]

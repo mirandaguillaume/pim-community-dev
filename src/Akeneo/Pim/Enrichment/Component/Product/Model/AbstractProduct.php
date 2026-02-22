@@ -28,11 +28,7 @@ use Webmozart\Assert\Assert;
 #[ORM\MappedSuperclass]
 abstract class AbstractProduct implements ProductInterface, \Stringable
 {
-
-    #[ORM\Column(name: 'quantified_associations', type: Types::JSON, nullable: true)]
-    protected $rawQuantifiedAssociations;
     use EntityWithQuantifiedAssociationTrait;
-
 
     /** @var int|string */
     #[ORM\Column(type: Types::INTEGER, unique: true, columnDefinition: 'INT AUTO_INCREMENT NOT NULL', generated: 'INSERT')]

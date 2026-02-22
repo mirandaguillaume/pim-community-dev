@@ -63,8 +63,8 @@ class AkeneoPimEnrichmentBundle extends Bundle
         ;
 
         $mappings = [
-            'Akeneo\Pim\Enrichment\Component\Product\Model' => realpath(__DIR__ . '/../Component/Product/Model'),
-            'Akeneo\Pim\Enrichment\Component\Comment\Model' => realpath(__DIR__ . '/../Component/Comment/Model'),
+            'Akeneo\Pim\Enrichment\Component\Product\Model' => __DIR__ . '/../Component/Product/Model',
+            'Akeneo\Pim\Enrichment\Component\Comment\Model' => __DIR__ . '/../Component/Comment/Model',
         ];
 
         $container->addCompilerPass(

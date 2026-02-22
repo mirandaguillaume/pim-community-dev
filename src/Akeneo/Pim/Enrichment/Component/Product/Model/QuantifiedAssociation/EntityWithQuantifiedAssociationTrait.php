@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Component\Product\Model\QuantifiedAssociation;
 
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * @author    Samir Boulil <samir.boulil@akeneo.com>
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
@@ -11,6 +14,7 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Model\QuantifiedAssociation;
  */
 trait EntityWithQuantifiedAssociationTrait
 {
+    #[ORM\Column(name: 'quantified_associations', type: Types::JSON, nullable: true)]
     public ?array $rawQuantifiedAssociations = null;
 
     /**
