@@ -215,8 +215,10 @@ class AclAnnotationStorage implements \Serializable
 
     /**
      * {@inheritdoc}
+     *
+     * @deprecated Serializable interface is deprecated since PHP 8.1. Migrate to __serialize()/__unserialize() in a future PR.
      */
-    public function serialize()
+    public function serialize(): string
     {
         $data = [];
         foreach ($this->annotations as $annotation) {
@@ -233,8 +235,10 @@ class AclAnnotationStorage implements \Serializable
 
     /**
      * {@inheritdoc}
+     *
+     * @deprecated Serializable interface is deprecated since PHP 8.1. Migrate to __serialize()/__unserialize() in a future PR.
      */
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
         [$data, $this->classes] = unserialize($serialized);
 
