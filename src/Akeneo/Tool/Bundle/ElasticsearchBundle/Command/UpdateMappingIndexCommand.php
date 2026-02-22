@@ -32,7 +32,7 @@ class UpdateMappingIndexCommand extends Command
     public function __construct(private readonly ClientRegistry $esClientsRegistry, $hosts)
     {
         $this->hosts = is_string($hosts) ? [$hosts] : $hosts;
-        parent::__construct(self::$defaultName);
+        parent::__construct();
     }
 
     public function configure()

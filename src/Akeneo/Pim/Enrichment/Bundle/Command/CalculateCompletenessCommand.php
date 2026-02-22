@@ -58,7 +58,7 @@ class CalculateCompletenessCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (!$this->lock()) {
-            $output->writeln(sprintf('The command "%s" is still running in another process.', self::$defaultName));
+            $output->writeln(sprintf('The command "%s" is still running in another process.', $this->getName()));
 
             return 0;
         }

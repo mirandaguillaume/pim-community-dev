@@ -160,7 +160,7 @@ class MigrateToUuidCommand extends Command
             VALUES (:code, :status, NOW(), :values)
             ON DUPLICATE KEY UPDATE status='started', start_time=NOW();
         SQL, [
-            'code' => self::$defaultName,
+            'code' => $this->getName(),
             'status' => 'started',
             'values' => \json_encode((object) [], JSON_THROW_ON_ERROR),
         ]);
@@ -173,7 +173,7 @@ class MigrateToUuidCommand extends Command
             SET status=:status, end_time=NOW()
             WHERE code=:code
         SQL, [
-            'code' => self::$defaultName,
+            'code' => $this->getName(),
             'status' => 'finished',
         ]);
     }
@@ -183,7 +183,7 @@ class MigrateToUuidCommand extends Command
         $this->connection->executeQuery(<<<SQL
             DELETE FROM `pim_one_time_task` WHERE code=:code
         SQL, [
-            'code' => self::$defaultName
+            'code' => $this->getName()
         ]);
     }
 
@@ -227,7 +227,7 @@ class MigrateToUuidCommand extends Command
         SQL;
 
         return (bool) $this->connection->fetchOne($sql, [
-            'code' => self::$defaultName,
+            'code' => $this->getName(),
             'status' => 'finished',
         ]);
     }

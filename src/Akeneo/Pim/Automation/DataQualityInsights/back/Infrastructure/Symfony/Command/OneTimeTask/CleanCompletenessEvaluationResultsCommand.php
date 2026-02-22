@@ -45,25 +45,25 @@ final class CleanCompletenessEvaluationResultsCommand extends Command
             Assert::greaterThan($this->bulkSize, 0, 'Bulk size must be greater than zero.');
         }
 
-        if (!$this->taskCanBeStarted(self::$defaultName)) {
+        if (!$this->taskCanBeStarted($this->getName())) {
             $output->writeln('This task has already been performed or is in progress.', OutputInterface::VERBOSITY_VERBOSE);
             return Command::SUCCESS;
         }
 
         $output->writeln('Start cleaning...');
-        $this->startTask(self::$defaultName);
+        $this->startTask($this->getName());
 
         try {
             $this->cleanEvaluationResultsForProducts();
             $this->cleanEvaluationResultsForProductModels();
         } catch (\Throwable $exception) {
-            $this->deleteTask(self::$defaultName);
+            $this->deleteTask($this->getName());
             throw $exception;
         }
 
         $output->writeln('Cleaning done.');
 
-        $this->finishTask(self::$defaultName);
+        $this->finishTask($this->getName());
 
         return Command::SUCCESS;
     }

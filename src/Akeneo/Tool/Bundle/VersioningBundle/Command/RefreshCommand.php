@@ -65,7 +65,7 @@ class RefreshCommand extends Command
                 BatchStatus::STOPPED === $jobExecution->getStatus()->getValue()
             )
         ) {
-            $output->writeln(sprintf('<info>Command %s was succesfully executed.</info>', self::$defaultName));
+            $output->writeln(sprintf('<info>Command %s was succesfully executed.</info>', $this->getName()));
 
             return Command::SUCCESS;
         }
