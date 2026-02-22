@@ -15,15 +15,34 @@ use Doctrine\Common\Collections\Collection;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
+#[ORM\Entity(repositoryClass: \Akeneo\Pim\Enrichment\Bundle\Doctrine\ORM\Repository\ProductModelRepository::class)]
+#[ORM\Table(name: 'pim_catalog_product_model')]
+#[ORM\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
 class ProductModel implements ProductModelInterface, \Stringable
 {
-    use EntityWithQuantifiedAssociationTrait;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    protected $created;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    protected $updated;
+
+    #[ORM\Column(name: 'quantified_associations', type: Types::JSON, nullable: true)]
+    protected $rawQuantifiedAssociations;
+    use EntityWithQuantifiedAssociationTrait;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
+
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: Types::INTEGER)]
     protected ?int $id = null;
 
+    #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
     protected ?string $code = null;
 
     /** @var array|object */
+    #[ORM\Column(name: 'raw_values', type: Types::JSON)]
     protected $rawValues;
 
     /**
@@ -35,16 +54,27 @@ class ProductModel implements ProductModelInterface, \Stringable
 
     protected ?\DateTime $updated = null;
 
+    #[ORM\ManyToMany(targetEntity: \Akeneo\Category\Infrastructure\Component\Model\CategoryInterface::class)]
+    #[ORM\JoinTable(name: 'pim_catalog_category_product_model')]
+    #[ORM\JoinColumn(name: 'product_model_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'category_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     protected Collection $categories;
 
+    #[ORM\OneToMany(targetEntity: \Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface::class, mappedBy: 'parent')]
     protected Collection $products;
 
+    #[ORM\ManyToOne(targetEntity: \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface::class, inversedBy: 'productModels')]
+    #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     protected ?ProductModelInterface $parent = null;
 
+    #[ORM\OneToMany(targetEntity: \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface::class, mappedBy: 'parent')]
     protected Collection $productModels;
 
+    #[ORM\ManyToOne(targetEntity: \Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface::class)]
+    #[ORM\JoinColumn(name: 'family_variant_id', referencedColumnName: 'id')]
     protected ?FamilyVariantInterface $familyVariant = null;
 
+    #[ORM\OneToMany(targetEntity: \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelAssociationInterface::class, mappedBy: 'owner', cascade: ['persist', 'refresh', 'detach'])]
     protected Collection $associations;
 
     /**

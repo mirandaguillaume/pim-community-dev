@@ -4,6 +4,8 @@ namespace Akeneo\Pim\Structure\Component\Model;
 
 use Akeneo\Tool\Component\Localization\Model\TranslationInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * Attribute Group entity
@@ -12,36 +14,48 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[ORM\Entity(repositoryClass: \Akeneo\Pim\Structure\Bundle\Doctrine\ORM\Repository\AttributeGroupRepository::class)]
+#[ORM\Table(name: 'pim_catalog_attribute_group')]
+#[ORM\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
 class AttributeGroup implements AttributeGroupInterface, \Stringable
 {
     /**
      * @var int
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: Types::INTEGER)]
     protected $id;
 
     /**
      * @var string
      */
+    #[ORM\Column(type: Types::STRING, length: 100, unique: true)]
     protected $code;
 
     /**
      * @var int
      */
+    #[ORM\Column(name: 'sort_order', type: Types::INTEGER)]
     protected $sortOrder;
 
     /**
      * @var \DateTime
      */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     protected $created;
 
     /**
      * @var \DateTime
      */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     protected $updated;
 
     /**
      * @var ArrayCollection
      */
+    #[ORM\OneToMany(targetEntity: \Akeneo\Pim\Structure\Component\Model\AttributeInterface::class, mappedBy: 'group', cascade: ['persist', 'detach'])]
+    #[ORM\OrderBy(['sortOrder' => 'ASC'])]
     protected $attributes;
 
     /**
@@ -55,6 +69,7 @@ class AttributeGroup implements AttributeGroupInterface, \Stringable
     /**
      * @var ArrayCollection
      */
+    #[ORM\OneToMany(targetEntity: \Akeneo\Pim\Structure\Component\Model\AttributeGroupTranslationInterface::class, mappedBy: 'foreignKey', cascade: ['persist', 'detach'], orphanRemoval: true)]
     protected $translations;
 
     /**

@@ -10,6 +10,8 @@ use Akeneo\Tool\Component\Batch\Job\JobParameters;
 use Akeneo\Tool\Component\Batch\Job\RuntimeErrorException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Util\ClassUtils;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * Batch domain object representation the execution of a step. Unlike JobExecution, there are additional properties
@@ -21,6 +23,8 @@ use Doctrine\Common\Util\ClassUtils;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/MIT MIT
  */
+#[ORM\Entity()]
+#[ORM\Table(name: 'akeneo_batch_step_execution')]
 class StepExecution implements \Stringable
 {
     private const TRACKING_DATA_PROCESSED_ITEMS = 'processedItems';
@@ -31,21 +35,31 @@ class StepExecution implements \Stringable
     ];
 
     /** @var integer */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: Types::INTEGER)]
     private $id;
 
     /** @var integer */
+    #[ORM\Column(type: Types::INTEGER)]
     private $status = null;
 
+    #[ORM\Column(name: 'read_count', type: Types::INTEGER)]
     private int $readCount = 0;
 
+    #[ORM\Column(name: 'write_count', type: Types::INTEGER)]
     private int $writeCount = 0;
 
+    #[ORM\Column(name: 'filter_count', type: Types::INTEGER)]
     private int $filterCount = 0;
 
+    #[ORM\Column(name: 'warning_count', type: Types::INTEGER, options: ['default' => 0])]
     private int $warningCount = 0;
 
+    #[ORM\Column(name: 'start_time', type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTime $startTime = null;
 
+    #[ORM\Column(name: 'end_time', type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTime $endTime = null;
 
     /* @var ExecutionContext $executionContext */
@@ -54,23 +68,33 @@ class StepExecution implements \Stringable
     /* @var ExitStatus */
     private ?\Akeneo\Tool\Component\Batch\Job\ExitStatus $exitStatus = null;
 
+    #[ORM\Column(name: 'exit_code', type: Types::STRING, length: 255, nullable: true)]
     private ?string $exitCode = null;
 
+    #[ORM\Column(name: 'exit_description', type: Types::TEXT, nullable: true)]
     private ?string $exitDescription = null;
 
+    #[ORM\Column(name: 'terminate_only', type: Types::BOOLEAN, nullable: true)]
     private bool $terminateOnly = false;
 
+    #[ORM\Column(name: 'failure_exceptions', type: Types::ARRAY, nullable: true)]
     private ?array $failureExceptions = null;
 
+    #[ORM\Column(type: Types::ARRAY)]
     private array $errors = [];
 
+    #[ORM\OneToMany(targetEntity: \Akeneo\Tool\Component\Batch\Model\Warning::class, mappedBy: 'stepExecution', cascade: ['persist'], orphanRemoval: true)]
     private \Doctrine\Common\Collections\Collection $warnings;
 
+    #[ORM\Column(type: Types::ARRAY)]
     private array $summary = [];
 
+    #[ORM\Column(name: 'tracking_data', type: Types::JSON, nullable: true)]
     private array $trackingData = self::TRACKING_DATA_DEFAULT;
 
+    #[ORM\Column(name: 'is_trackable', type: Types::BOOLEAN, options: ['default' => false])]
     private bool $isTrackable;
+    #[ORM\Column(name: 'current_state', type: Types::JSON, nullable: true)]
     private ?array $currentState;
 
     /**
@@ -79,6 +103,9 @@ class StepExecution implements \Stringable
      * @param string       $stepName     the step to which this execution belongs
      * @param JobExecution $jobExecution the current job execution
      */
+    #[ORM\ManyToOne(targetEntity: \Akeneo\Tool\Component\Batch\Model\JobExecution::class, inversedBy: 'stepExecutions')]
+    #[ORM\JoinColumn(name: 'job_execution_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\Column(name: 'step_name', type: Types::STRING, length: 100, nullable: true)]
     public function __construct(private $stepName, private JobExecution $jobExecution)
     {
         $jobExecution->addStepExecution($this);

@@ -5,6 +5,8 @@ namespace Akeneo\Tool\Component\Batch\Model;
 use Akeneo\Tool\Component\Batch\Job\Job;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * Batch domain object representing a uniquely identifiable configured job.
@@ -24,6 +26,10 @@ use Doctrine\Common\Collections\Collection;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/MIT MIT
  */
+#[ORM\Entity()]
+#[ORM\Table(name: 'akeneo_batch_job_instance')]
+#[ORM\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
+#[ORM\UniqueConstraint(name: 'searchunique_idx', columns: ['code'])]
 class JobInstance
 {
     final public const STATUS_READY = 0;
@@ -34,27 +40,38 @@ class JobInstance
     final public const TYPE_EXPORT = 'export';
 
     /** @var int */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: Types::INTEGER)]
     protected $id;
 
     /** @var string */
+    #[ORM\Column(type: Types::STRING, length: 100)]
     protected $code;
 
     /** @var string */
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected $label;
 
     /** @var int */
+    #[ORM\Column(type: Types::INTEGER)]
     protected $status = self::STATUS_READY;
 
     /** @var array */
+    #[ORM\Column(name: 'raw_parameters', type: Types::ARRAY)]
     protected $rawParameters = [];
 
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
     protected bool $scheduled = false;
 
+    #[ORM\Column(type: Types::JSON, nullable: true)]
     protected ?array $automation = null;
 
     /** @var Collection|JobExecution[] */
+    #[ORM\OneToMany(targetEntity: \Akeneo\Tool\Component\Batch\Model\JobExecution::class, mappedBy: 'jobInstance', orphanRemoval: true)]
     protected $jobExecutions;
 
+    #[ORM\Column(name: 'is_visible', type: Types::BOOLEAN, options: ['default' => true])]
     protected bool $isVisible = true;
 
     /**
@@ -64,6 +81,9 @@ class JobInstance
      * @param string $type
      * @param string $jobName
      */
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    #[ORM\Column(name: 'job_name', type: Types::STRING, length: 50)]
     public function __construct(protected $connector = null, protected $type = null, protected $jobName = null)
     {
         $this->jobExecutions = new ArrayCollection();

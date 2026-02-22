@@ -3,6 +3,8 @@
 namespace Akeneo\Tool\Bundle\ApiBundle\Entity;
 
 use Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientInterface;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Standalone OAuth client entity.
@@ -12,26 +14,31 @@ use Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientInterface;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'pim_api_client')]
 class Client implements ClientInterface
 {
-    /** @var int|null */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: Types::INTEGER)]
     protected $id;
 
-    /** @var string|null */
+    #[ORM\Column(name: 'random_id', type: Types::STRING, length: 255, nullable: true)]
     protected $randomId;
 
-    /** @var string|null */
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected $secret;
 
-    /** @var array */
+    #[ORM\Column(name: 'redirect_uris', type: Types::ARRAY, nullable: true)]
     protected $redirectUris = [];
 
-    /** @var array */
+    #[ORM\Column(name: 'allowed_grant_types', type: Types::ARRAY, nullable: true)]
     protected $allowedGrantTypes = [];
 
-    /** @var string|null */
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected $label;
 
+    #[ORM\Column(name: 'marketplace_public_app_id', type: Types::STRING, length: 255, nullable: true)]
     protected ?string $marketplacePublicAppId = null;
 
     public function getId(): int

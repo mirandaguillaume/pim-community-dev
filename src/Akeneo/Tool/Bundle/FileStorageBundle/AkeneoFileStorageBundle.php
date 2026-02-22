@@ -25,11 +25,11 @@ class AkeneoFileStorageBundle extends Bundle
             ->addCompilerPass(new ResolveDoctrineTargetModelPass());
 
         $mappings = [
-            realpath(__DIR__.'/Resources/config/model/doctrine') => 'Akeneo\Tool\Component\FileStorage\Model',
+            'Akeneo\Tool\Component\FileStorage\Model' => realpath(__DIR__.'/../../Component/FileStorage/Model'),
         ];
 
         $container->addCompilerPass(
-            DoctrineOrmMappingsPass::createYamlMappingDriver(
+            DoctrineOrmMappingsPass::createAttributeMappingDriver(
                 $mappings,
                 ['doctrine.orm.entity_manager'],
                 false

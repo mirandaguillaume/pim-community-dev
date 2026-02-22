@@ -13,12 +13,18 @@ use Doctrine\Inflector\NoopWordInflector;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * @author    Nicolas Dupont <nicalas@akeneo.com>
  * @copyright 2012 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[ORM\Entity(repositoryClass: \Akeneo\UserManagement\Bundle\Doctrine\ORM\Repository\UserRepository::class)]
+#[ORM\Table(name: 'oro_user')]
+#[ORM\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
+#[ORM\HasLifecycleCallbacks]
 class User implements UserInterface, EquatableInterface, \Stringable
 {
     final public const ROLE_DEFAULT = 'ROLE_USER';
@@ -30,27 +36,37 @@ class User implements UserInterface, EquatableInterface, \Stringable
     final public const TYPE_JOB = 'job';
 
     /** @var int|string */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: Types::INTEGER)]
     protected $id;
 
     /** @var string */
+    #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
     protected $username;
 
     /** @var string */
+    #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
     protected $email;
 
     /** @var string */
+    #[ORM\Column(name: 'name_prefix', type: Types::STRING, length: 255, nullable: true)]
     protected $namePrefix;
 
     /** @var string */
+    #[ORM\Column(name: 'first_name', type: Types::STRING, length: 255, nullable: true)]
     protected $firstName;
 
     /** @var string */
+    #[ORM\Column(name: 'middle_name', type: Types::STRING, length: 255, nullable: true)]
     protected $middleName;
 
     /** @var string */
+    #[ORM\Column(name: 'last_name', type: Types::STRING, length: 255, nullable: true)]
     protected $lastName;
 
     /** @var string */
+    #[ORM\Column(name: 'name_suffix', type: Types::STRING, length: 255, nullable: true)]
     protected $nameSuffix;
 
     /**
@@ -58,9 +74,12 @@ class User implements UserInterface, EquatableInterface, \Stringable
      *
      * @var string
      */
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected $image;
 
     /** @var FileInfoInterface */
+    #[ORM\OneToOne(targetEntity: \Akeneo\Tool\Component\FileStorage\Model\FileInfoInterface::class)]
+    #[ORM\JoinColumn(name: 'file_info_id', referencedColumnName: 'id')]
     protected $avatar;
 
     /**
@@ -71,6 +90,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     protected $imageFile;
 
     /** @var boolean */
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => true])]
     protected $enabled = true;
 
     /**
@@ -78,6 +98,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
      *
      * @var string
      */
+    #[ORM\Column(type: Types::STRING)]
     protected $salt;
 
     /**
@@ -85,6 +106,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
      *
      * @var string
      */
+    #[ORM\Column(type: Types::STRING)]
     protected $password;
 
     /**
@@ -99,68 +121,103 @@ class User implements UserInterface, EquatableInterface, \Stringable
      *
      * @var string
      */
+    #[ORM\Column(name: 'confirmation_token', type: Types::STRING, nullable: true)]
     protected $confirmationToken;
 
     /** @var \DateTime */
+    #[ORM\Column(name: 'password_requested', type: Types::DATETIME_MUTABLE, nullable: true)]
     protected $passwordRequestedAt;
 
     /** @var \DateTime */
+    #[ORM\Column(name: 'last_login', type: Types::DATETIME_MUTABLE, nullable: true)]
     protected $lastLogin;
 
     /** @var int */
+    #[ORM\Column(name: 'login_count', type: Types::INTEGER, options: ['unsigned' => true, 'default' => '0'])]
     protected $loginCount = 0;
 
     /** @var Role[] */
+    #[ORM\ManyToMany(targetEntity: \Akeneo\UserManagement\Component\Model\Role::class)]
+    #[ORM\JoinTable(name: 'oro_user_access_role')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'role_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     protected $roles;
 
     /** @var GroupInterface[] */
+    #[ORM\ManyToMany(targetEntity: \Akeneo\UserManagement\Component\Model\Group::class)]
+    #[ORM\JoinTable(name: 'oro_user_access_group')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'group_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     protected $groups;
 
     /** @var string */
     protected $api;
 
     /** @var \DateTime $createdAt */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     protected $createdAt;
 
     /** @var \DateTime $updatedAt */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     protected $updatedAt;
 
     /** @var LocaleInterface */
+    #[ORM\ManyToOne(targetEntity: \Akeneo\Channel\Infrastructure\Component\Model\LocaleInterface::class)]
+    #[ORM\JoinColumn(nullable: false)]
     protected $catalogLocale;
 
     /** @var LocaleInterface */
+    #[ORM\ManyToOne(targetEntity: \Akeneo\Channel\Infrastructure\Component\Model\LocaleInterface::class)]
+    #[ORM\JoinColumn(name: 'ui_locale_id', referencedColumnName: 'id', nullable: false)]
     protected $uiLocale;
 
     /** @var ChannelInterface */
+    #[ORM\ManyToOne(targetEntity: \Akeneo\Channel\Infrastructure\Component\Model\ChannelInterface::class)]
+    #[ORM\JoinColumn(nullable: false)]
     protected $catalogScope;
 
     /** @var CategoryInterface */
+    #[ORM\ManyToOne(targetEntity: \Akeneo\Category\Infrastructure\Component\Model\CategoryInterface::class)]
+    #[ORM\JoinColumn(nullable: false)]
     protected $defaultTree;
 
     /** @var ArrayCollection */
+    #[ORM\ManyToMany(targetEntity: \Oro\Bundle\PimDataGridBundle\Entity\DatagridView::class)]
+    #[ORM\JoinTable(name: 'pim_user_default_datagrid_view')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'view_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     protected $defaultGridViews;
 
     /** @var bool */
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
     protected $emailNotifications = false;
 
     /** @var array */
+    #[ORM\Column(name: 'product_grid_filters', type: Types::JSON, nullable: true)]
     protected $productGridFilters = [];
 
     /** @var string */
+    #[ORM\Column(type: Types::STRING, length: 20, nullable: true)]
     protected $phone;
 
     /** @var string */
+    #[ORM\Column(type: Types::STRING, length: 30)]
     protected $timezone;
 
     /** @var array $property bag for properties extension */
+    #[ORM\Column(type: Types::JSON)]
     private array $properties = [];
 
+    #[ORM\Column(name: 'consecutive_authentication_failure_counter', type: Types::INTEGER, options: ['default' => 0, 'unsigned' => true])]
     private int $consecutiveAuthenticationFailureCounter = 0;
 
+    #[ORM\Column(name: 'authentication_failure_reset_date', type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTime $authenticationFailureResetDate = null;
 
+    #[ORM\Column(name: 'user_type', type: Types::STRING, length: 20, options: ['default' => 'user'])]
     protected $type = self::TYPE_USER;
 
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $profile = null;
 
     public function __construct()
@@ -870,6 +927,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
+    #[ORM\PrePersist]
     public function beforeSave()
     {
         $this->createdAt = new \DateTime('now', new \DateTimeZone('UTC'));
@@ -880,6 +938,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritdoc}
      */
+    #[ORM\PreUpdate]
     public function preUpdate()
     {
         $this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));

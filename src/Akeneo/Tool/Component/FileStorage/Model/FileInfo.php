@@ -3,6 +3,8 @@
 namespace Akeneo\Tool\Component\FileStorage\Model;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * File.
@@ -11,30 +13,43 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[ORM\Entity(repositoryClass: \Akeneo\Tool\Bundle\FileStorageBundle\Doctrine\ORM\Repository\FileInfoRepository::class)]
+#[ORM\Table(name: 'akeneo_file_storage_file_info')]
+#[ORM\Index(columns: ['original_filename', 'hash', 'storage'], name: 'original_filename_hash_storage_idx')]
 class FileInfo implements FileInfoInterface, \Stringable
 {
     /** @var int */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: Types::INTEGER)]
     protected $id;
 
     /** @var string */
+    #[ORM\Column(name: 'file_key', type: Types::STRING, length: 255, unique: true)]
     protected $key;
 
     /** @var string */
+    #[ORM\Column(name: 'original_filename', type: Types::STRING)]
     protected $originalFilename;
 
     /** @var string */
+    #[ORM\Column(name: 'mime_type', type: Types::STRING, length: 255)]
     protected $mimeType;
 
     /** @var int */
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
     protected $size;
 
     /** @var string */
+    #[ORM\Column(type: Types::STRING, length: 10)]
     protected $extension;
 
     /** @var string */
+    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
     protected $hash;
 
     /** @var string */
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     protected $storage;
 
     /** @var bool */

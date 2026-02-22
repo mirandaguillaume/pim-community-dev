@@ -28,11 +28,11 @@ class AkeneoPimStructureBundle extends Bundle
         ;
 
         $productMappings = [
-            realpath(__DIR__ . '/Resources/config/model/doctrine') => 'Akeneo\Pim\Structure\Component\Model'
+            'Akeneo\Pim\Structure\Component\Model' => realpath(__DIR__ . '/../Component/Model')
         ];
 
         $container->addCompilerPass(
-            DoctrineOrmMappingsPass::createYamlMappingDriver(
+            DoctrineOrmMappingsPass::createAttributeMappingDriver(
                 $productMappings,
                 ['doctrine.orm.entity_manager'],
                 false

@@ -3,6 +3,8 @@
 namespace Oro\Bundle\PimDataGridBundle\Entity;
 
 use Akeneo\UserManagement\Component\Model\UserInterface;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * Datagrid view entity
@@ -11,6 +13,9 @@ use Akeneo\UserManagement\Component\Model\UserInterface;
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[ORM\Entity(repositoryClass: \Oro\Bundle\PimDataGridBundle\Repository\DatagridViewRepository::class)]
+#[ORM\Table(name: 'pim_datagrid_view')]
+#[ORM\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
 class DatagridView
 {
     /** @staticvar string */
@@ -18,24 +23,34 @@ class DatagridView
     final public const TYPE_PRIVATE = 'private';
 
     /** @var int */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: Types::INTEGER)]
     protected $id;
 
     /** @var string */
+    #[ORM\Column(type: Types::STRING, length: 100)]
     protected $label;
 
     /** @var string */
+    #[ORM\Column(type: Types::STRING, length: 10, nullable: true)]
     protected $type;
 
     /** @var UserInterface */
+    #[ORM\ManyToOne(targetEntity: \Akeneo\UserManagement\Component\Model\UserInterface::class)]
+    #[ORM\JoinColumn(name: 'owner_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     protected $owner;
 
     /** @var string */
+    #[ORM\Column(name: 'datagrid_alias', type: Types::STRING)]
     protected $datagridAlias;
 
     /** @var array */
+    #[ORM\Column(type: Types::ARRAY)]
     protected $columns = [];
 
     /** @var string */
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected $filters;
 
     /**

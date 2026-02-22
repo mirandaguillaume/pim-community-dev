@@ -2,15 +2,22 @@
 
 namespace Akeneo\Tool\Component\Localization\Model;
 
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 /**
  * Abstract translation class
  */
+#[ORM\MappedSuperclass]
 abstract class AbstractTranslation
 {
     /** @var int */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: Types::INTEGER)]
     protected $id;
 
     /** @var string */
+    #[ORM\Column(type: Types::STRING, length: 20)]
     protected $locale;
 
     /** @var mixed */

@@ -6,6 +6,8 @@ use Akeneo\Category\Infrastructure\Component\Model\CategoryInterface;
 use Akeneo\Channel\Infrastructure\Component\Event\ChannelCategoryHasBeenUpdated;
 use Akeneo\Tool\Component\Localization\Model\TranslationInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * Channel entity
@@ -14,21 +16,38 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[ORM\Entity(repositoryClass: \Akeneo\Channel\Infrastructure\Doctrine\Repository\ChannelRepository::class)]
+#[ORM\Table(name: 'pim_catalog_channel')]
+#[ORM\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
 class Channel implements ChannelInterface, \Stringable
 {
     /** @var int $id */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: Types::INTEGER)]
     protected $id;
 
     /** @var string $code */
+    #[ORM\Column(type: Types::STRING, length: 100, unique: true)]
     protected $code;
 
     /** @var CategoryInterface $category */
+    #[ORM\ManyToOne(targetEntity: \Akeneo\Category\Infrastructure\Component\Model\CategoryInterface::class, inversedBy: 'channels')]
+    #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id')]
     protected $category;
 
     /** @var ArrayCollection $currencies */
+    #[ORM\ManyToMany(targetEntity: \Akeneo\Channel\Infrastructure\Component\Model\CurrencyInterface::class)]
+    #[ORM\JoinTable(name: 'pim_catalog_channel_currency')]
+    #[ORM\JoinColumn(name: 'channel_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'currency_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     protected $currencies;
 
     /** @var ArrayCollection $locales */
+    #[ORM\ManyToMany(targetEntity: \Akeneo\Channel\Infrastructure\Component\Model\LocaleInterface::class, inversedBy: 'channels', cascade: ['persist', 'detach'])]
+    #[ORM\JoinTable(name: 'pim_catalog_channel_locale')]
+    #[ORM\JoinColumn(name: 'channel_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'locale_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     protected $locales;
 
     /**
@@ -40,9 +59,11 @@ class Channel implements ChannelInterface, \Stringable
     protected $locale;
 
     /** @var ChannelTranslation[] */
+    #[ORM\OneToMany(targetEntity: \Akeneo\Channel\Infrastructure\Component\Model\ChannelTranslationInterface::class, mappedBy: 'foreignKey', cascade: ['persist', 'detach', 'remove'], orphanRemoval: true)]
     protected $translations;
 
     /** @var array $conversionUnits */
+    #[ORM\Column(type: Types::ARRAY)]
     protected $conversionUnits = [];
 
     /** @var array|ChannelEvent[] */

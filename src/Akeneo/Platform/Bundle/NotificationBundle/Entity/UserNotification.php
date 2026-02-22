@@ -3,6 +3,8 @@
 namespace Akeneo\Platform\Bundle\NotificationBundle\Entity;
 
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * UserNotification entity
@@ -11,18 +13,28 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[ORM\Entity(repositoryClass: \Akeneo\Platform\Bundle\NotificationBundle\Entity\Repository\UserNotificationRepository::class)]
+#[ORM\Table(name: 'pim_notification_user_notification')]
 class UserNotification implements UserNotificationInterface
 {
     /** @var int */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: Types::INTEGER)]
     protected $id;
 
     /** @var bool */
+    #[ORM\Column(type: Types::BOOLEAN)]
     protected $viewed = false;
 
     /** @var NotificationInterface */
+    #[ORM\ManyToOne(targetEntity: \Akeneo\Platform\Bundle\NotificationBundle\Entity\Notification::class)]
+    #[ORM\JoinColumn(name: 'notification', referencedColumnName: 'id', onDelete: 'CASCADE')]
     protected $notification;
 
     /** @var UserInterface */
+    #[ORM\ManyToOne(targetEntity: \Akeneo\UserManagement\Component\Model\UserInterface::class)]
+    #[ORM\JoinColumn(name: 'user', referencedColumnName: 'id', onDelete: 'CASCADE')]
     protected $user;
 
     /**

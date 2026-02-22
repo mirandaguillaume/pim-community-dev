@@ -2,6 +2,8 @@
 
 namespace Akeneo\Pim\Enrichment\Component\Product\Model;
 
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 /**
  * Reference data abstract class
  *
@@ -9,15 +11,21 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Model;
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[ORM\MappedSuperclass]
 abstract class AbstractReferenceData implements ReferenceDataInterface, \Stringable
 {
     /** @var mixed */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: Types::INTEGER)]
     protected $id;
 
     /** @var string */
+    #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
     protected $code;
 
     /** @var int */
+    #[ORM\Column(type: Types::INTEGER)]
     protected $sortOrder = 1;
 
     /**

@@ -4,23 +4,40 @@ namespace Akeneo\Pim\Structure\Component\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * @author    Arnaud Langlade <arnaud.langlade@akeneo.com>
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[ORM\Entity()]
+#[ORM\Table(name: 'pim_catalog_family_variant_attribute_set')]
+#[ORM\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
 class VariantAttributeSet implements VariantAttributeSetInterface
 {
     /** @var int */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: Types::INTEGER)]
     private $id;
 
     /** @var Collection */
+    #[ORM\ManyToMany(targetEntity: \Akeneo\Pim\Structure\Component\Model\AttributeInterface::class)]
+    #[ORM\JoinTable(name: 'pim_catalog_variant_attribute_set_has_attributes')]
+    #[ORM\JoinColumn(name: 'variant_attribute_set_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'attributes_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private \Doctrine\Common\Collections\Collection $attributes;
 
     /** @var Collection */
+    #[ORM\ManyToMany(targetEntity: \Akeneo\Pim\Structure\Component\Model\AttributeInterface::class)]
+    #[ORM\JoinTable(name: 'pim_catalog_variant_attribute_set_has_axes')]
+    #[ORM\JoinColumn(name: 'variant_attribute_set_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'axes_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private \Doctrine\Common\Collections\Collection $axes;
 
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $level = null;
 
     public function __construct()

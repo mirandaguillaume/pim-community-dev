@@ -7,6 +7,8 @@ use Akeneo\Tool\Component\Localization\Model\TranslationInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Webmozart\Assert\Assert;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * A variant in a family defines the structure for the products with variants:
@@ -16,21 +18,35 @@ use Webmozart\Assert\Assert;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[ORM\Entity()]
+#[ORM\Table(name: 'pim_catalog_family_variant')]
+#[ORM\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
 class FamilyVariant implements FamilyVariantInterface
 {
     /** @var int */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: Types::INTEGER)]
     private $id;
 
+    #[ORM\Column(type: Types::STRING, length: 100, unique: true)]
     private ?string $code = null;
 
+    #[ORM\ManyToOne(targetEntity: \Akeneo\Pim\Structure\Component\Model\FamilyInterface::class, inversedBy: 'familyVariants')]
+    #[ORM\JoinColumn(name: 'family_id', referencedColumnName: 'id')]
     private ?\Akeneo\Pim\Structure\Component\Model\FamilyInterface $family = null;
 
     /** @var Collection */
+    #[ORM\ManyToMany(targetEntity: \Akeneo\Pim\Structure\Component\Model\VariantAttributeSetInterface::class, cascade: ['persist', 'detach', 'remove'])]
+    #[ORM\JoinTable(name: 'pim_catalog_family_variant_has_variant_attribute_sets')]
+    #[ORM\JoinColumn(name: 'family_variant_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'variant_attribute_sets_id', referencedColumnName: 'id', unique: true, onDelete: 'CASCADE')]
     private \Doctrine\Common\Collections\Collection $variantAttributeSets;
 
     private ?string $locale = null;
 
     /** @var Collection */
+    #[ORM\OneToMany(targetEntity: \Akeneo\Pim\Structure\Component\Model\FamilyVariantTranslationInterface::class, mappedBy: 'foreignKey', cascade: ['persist', 'detach'], orphanRemoval: true)]
     private \Doctrine\Common\Collections\Collection $translations;
 
     /** @var string[] */

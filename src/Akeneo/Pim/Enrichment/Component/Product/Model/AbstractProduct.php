@@ -23,15 +23,26 @@ use Webmozart\Assert\Assert;
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
+#[ORM\MappedSuperclass]
 abstract class AbstractProduct implements ProductInterface, \Stringable
 {
+
+    #[ORM\Column(name: 'quantified_associations', type: Types::JSON, nullable: true)]
+    protected $rawQuantifiedAssociations;
     use EntityWithQuantifiedAssociationTrait;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
     /** @var int|string */
+    #[ORM\Column(type: Types::INTEGER, unique: true, columnDefinition: 'INT AUTO_INCREMENT NOT NULL', generated: 'INSERT')]
     protected $id;
 
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'uuid_binary')]
     protected UuidInterface $uuid;
 
+    #[ORM\Column(name: 'raw_values', type: Types::JSON)]
     protected array $rawValues;
 
     protected ?\DateTime $created = null;
@@ -43,14 +54,26 @@ abstract class AbstractProduct implements ProductInterface, \Stringable
      */
     protected WriteValueCollection $values;
 
+    #[ORM\ManyToOne(targetEntity: \Akeneo\Pim\Structure\Component\Model\FamilyInterface::class)]
+    #[ORM\JoinColumn(name: 'family_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
     protected ?FamilyInterface $family = null;
 
+    #[ORM\ManyToMany(targetEntity: \Akeneo\Category\Infrastructure\Component\Model\CategoryInterface::class, inversedBy: 'products')]
+    #[ORM\JoinTable(name: 'pim_catalog_category_product')]
+    #[ORM\JoinColumn(name: 'product_uuid', referencedColumnName: 'uuid', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'category_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     protected Collection $categories;
 
+    #[ORM\Column(name: 'is_enabled', type: Types::BOOLEAN)]
     protected bool $enabled = true;
 
+    #[ORM\ManyToMany(targetEntity: \Akeneo\Pim\Enrichment\Component\Product\Model\GroupInterface::class, inversedBy: 'products')]
+    #[ORM\JoinTable(name: 'pim_catalog_group_product')]
+    #[ORM\JoinColumn(name: 'product_uuid', referencedColumnName: 'uuid', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'group_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     protected Collection $groups;
 
+    #[ORM\OneToMany(targetEntity: \Akeneo\Pim\Enrichment\Component\Product\Model\ProductAssociationInterface::class, mappedBy: 'owner', cascade: ['persist', 'refresh', 'detach'])]
     protected Collection $associations;
 
     /**
@@ -60,12 +83,18 @@ abstract class AbstractProduct implements ProductInterface, \Stringable
 
     protected Collection $completenesses;
 
+    #[ORM\Column(type: Types::STRING, unique: true, nullable: true, insertable: false, updatable: false)]
     protected ?string $identifier = null;
 
+    #[ORM\OneToMany(targetEntity: \Akeneo\Pim\Enrichment\Component\Product\Model\ProductUniqueDataInterface::class, mappedBy: 'product', cascade: ['remove', 'persist', 'refresh', 'detach'], orphanRemoval: true)]
     protected Collection $uniqueData;
 
+    #[ORM\ManyToOne(targetEntity: \Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface::class, inversedBy: 'products')]
+    #[ORM\JoinColumn(name: 'product_model_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     protected ?ProductModelInterface $parent = null;
 
+    #[ORM\ManyToOne(targetEntity: \Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface::class)]
+    #[ORM\JoinColumn(name: 'family_variant_id', referencedColumnName: 'id')]
     protected ?FamilyVariantInterface $familyVariant = null;
 
     protected bool $dirty = false;

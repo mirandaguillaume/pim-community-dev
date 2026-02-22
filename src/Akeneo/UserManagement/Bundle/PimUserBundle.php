@@ -23,11 +23,11 @@ class PimUserBundle extends Bundle
         $container->addCompilerPass(new ResolveDoctrineTargetModelPass());
 
         $productMappings = [
-            realpath(__DIR__ . '/Resources/config/model/doctrine') => 'Akeneo\UserManagement\Component\Model'
+            'Akeneo\UserManagement\Component\Model' => realpath(__DIR__ . '/../Component/Model')
         ];
 
         $container->addCompilerPass(
-            DoctrineOrmMappingsPass::createYamlMappingDriver(
+            DoctrineOrmMappingsPass::createAttributeMappingDriver(
                 $productMappings,
                 ['doctrine.orm.entity_manager'],
                 false
