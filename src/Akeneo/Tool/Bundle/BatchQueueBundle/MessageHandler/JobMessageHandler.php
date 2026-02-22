@@ -8,7 +8,7 @@ use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlags;
 use Akeneo\Tool\Component\BatchQueue\Queue\JobExecutionMessageInterface;
 use Akeneo\Tool\Component\BatchQueue\Queue\ScheduledJobMessageInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
 use Symfony\Component\Process\Process;
 
 /**
@@ -17,7 +17,7 @@ use Symfony\Component\Process\Process;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final readonly class JobMessageHandler
+final readonly class JobMessageHandler implements MessageSubscriberInterface
 {
     public function __construct(
         private LoggerInterface $logger,
@@ -26,7 +26,17 @@ final readonly class JobMessageHandler
     ) {
     }
 
-    #[AsMessageHandler]
+    public static function getHandledMessages(): iterable
+    {
+        yield JobExecutionMessageInterface::class => [
+            'method' => 'handleJobExecution',
+        ];
+
+        yield ScheduledJobMessageInterface::class => [
+            'method' => 'handleScheduledJob',
+        ];
+    }
+
     public function handleJobExecution(JobExecutionMessageInterface $jobExecutionMessage): void
     {
         $this->logger->notice('Launching job watchdog for ID "{job_execution_id}".', [
@@ -43,7 +53,6 @@ final readonly class JobMessageHandler
         ]);
     }
 
-    #[AsMessageHandler]
     public function handleScheduledJob(ScheduledJobMessageInterface $scheduledJobMessage): void
     {
         $this->logger->notice('Launching scheduled job "{code}".', [
