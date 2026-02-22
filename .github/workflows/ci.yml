@@ -41,27 +41,23 @@ defaults:
 #     │                                                                        │
 #   image ─────────────────────────────────────────────────────────────────────┐
 #     │                                                                        │
-#     ├──► prepare ──┬──► front-build [if frontend] ───┬─────────────────────►│
+#     ├──► prepare ──┬──► front-build [if frontend] ──┬──► cypress [if front]►│
 #     │              │                                 │                       │
-#     │              ├──► front-lint [if frontend] ───►│                       │
-#     │              │                                 │                       │
-#     │              ├──► front-unit [if frontend] ───►│                       │
-#     │              │                                 │                       │
-#     │              ├──► lint-back [if backend] ─────►│                       │
-#     │              │                                 │                       │
-#     │              ├──► phpspec [if backend] ───────►│                       │
-#     │              │                                 │                       │
-#     │              ├──► static-checks [if backend] ─►│                       │
-#     │              │                                 │                       │
-#     │              ├──► acceptance-back [if backend]─┬──► phpunit ──────────►│
-#     │              │                                 │                       │
-#     │              │                                 ├──► behat-legacy ─────►│
-#     │              │                                 │                       │
-#     │              │                                 └──► cypress [if front]►│
+#     │              ├──► front-lint-unit [if frontend]──────────────────────►│
 #     │              │                                                         │
-#     │              ├──► data-migrations [if backend] ───────────────────────►│
+#     │              ├──► lint-and-static-back [if backend] ────────────────►│
 #     │              │                                                         │
-#     │              └──► deptrac [if backend] (matrix) ─────────────────────►│
+#     │              ├──► phpspec [if backend] ────────────────────────────►│
+#     │              │                                                         │
+#     │              ├──► acceptance-back [if backend] ────────────────────►│
+#     │              │                                                         │
+#     │              ├──► data-migrations [if backend] ───────────────────►│
+#     │              │                                                         │
+#     │              ├──► deptrac [if backend] (all configs, 1 job) ──────►│
+#     │              │                                                         │
+#     │              ├──► phpunit (6 shards) ─────────────────────────────►│
+#     │              │                                                         │
+#     │              └──► behat-legacy (10 shards) ──────────────────────►│
 #     │                                                                        │
 #     └──► db-seed [if backend] ───────────────────────────────────────────────┤
 #                                                                              │
@@ -347,44 +343,13 @@ jobs:
           retention-days: 1
 
   # ===========================================================================
-  # FRONT-LINT: ESLint + Prettier (fast feedback on code style)
+  # FRONT-LINT-UNIT: ESLint + Prettier + Jest unit tests (shared setup)
   # ===========================================================================
-  front-lint:
+  front-lint-unit:
     runs-on: ubuntu-latest
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: ./.github/actions/setup-pim-job
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          yarn-cache: 'true'
-
-      - name: Install JS dependencies
-        run: |
-          HOST_UID=$(id -u)
-          HOST_GID=$(id -g)
-          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
-
-      - name: Build front packages
-        run: |
-          HOST_UID=$(id -u)
-          HOST_GID=$(id -g)
-          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn packages:build
-
-      - name: Run ESLint and Prettier
-        run: PIM_CONTEXT=test make lint-front
-
-  # ===========================================================================
-  # FRONT-UNIT: Jest unit tests
-  # ===========================================================================
-  front-unit:
-    runs-on: ubuntu-latest
-    needs: [prepare, detect-changes]
-    if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 
@@ -431,6 +396,9 @@ jobs:
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn packages:build
 
+      - name: Run ESLint and Prettier
+        run: PIM_CONTEXT=test make lint-front
+
       - name: Generate models (JSON schemas)
         run: |
           HOST_UID=$(id -u)
@@ -441,13 +409,13 @@ jobs:
         run: PIM_CONTEXT=test make unit-front
 
   # ===========================================================================
-  # LINT-BACK: PHPStan + php-cs-fixer (fast feedback on code quality)
+  # LINT-AND-STATIC-BACK: PHPStan + php-cs-fixer + container lint + coupling
   # ===========================================================================
-  lint-back:
+  lint-and-static-back:
     runs-on: ubuntu-latest
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 
@@ -462,7 +430,7 @@ jobs:
           key: phpstan-${{ runner.os }}-${{ hashFiles('phpstan.neon*', 'composer.lock') }}
           restore-keys: phpstan-${{ runner.os }}-
 
-      - name: Start MySQL (needed by Symfony cache:warmup)
+      - name: Start MySQL (needed by Symfony cache:warmup and lint:container)
         run: |
           docker-compose up -d mysql
           echo "Waiting for MySQL…"
@@ -482,6 +450,12 @@ jobs:
           PIM_CONTEXT=test make deprecation-back
           PIM_CONTEXT=test make lint-back
 
+      - name: Run static checks (container lint, coupling, translations)
+        run: |
+          PIM_CONTEXT=test make find-legacy-translations
+          PIM_CONTEXT=test make static-back
+          PIM_CONTEXT=test make coupling-back
+
   # ===========================================================================
   # PHPSPEC: Unit tests (fast, no external dependencies)
   # ===========================================================================
@@ -496,6 +470,7 @@ jobs:
       - uses: ./.github/actions/setup-pim-job
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          pull-base-images: 'false'
 
       - name: Restore PHPSpec cache
         uses: actions/cache@v4
@@ -526,39 +501,7 @@ jobs:
           fail-on-error: false
 
   # ===========================================================================
-  # STATIC-CHECKS: Container lint, pullup, legacy translations, coupling
-  # ===========================================================================
-  static-checks:
-    runs-on: ubuntu-latest
-    needs: [prepare, detect-changes]
-    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: ./.github/actions/setup-pim-job
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Start MySQL (needed by Symfony lint:container)
-        run: |
-          docker-compose up -d mysql
-          echo "Waiting for MySQL…"
-          for i in $(seq 1 45); do
-            docker-compose exec -T mysql mysql --protocol TCP -uroot -proot -e "SELECT 1" >/dev/null 2>&1 && break
-            [ "$i" -eq 45 ] && { echo "MySQL not ready after 45s"; exit 1; }
-            sleep 1
-          done
-          echo "MySQL is ready"
-
-      - name: Run static checks
-        run: |
-          PIM_CONTEXT=test make find-legacy-translations
-          PIM_CONTEXT=test make static-back
-          PIM_CONTEXT=test make coupling-back
-
-  # ===========================================================================
-  # ACCEPTANCE-BACK: Behat acceptance tests (gate for integration tests)
+  # ACCEPTANCE-BACK: Behat acceptance tests
   # ===========================================================================
   acceptance-back:
     runs-on: ubuntu-latest
@@ -586,23 +529,13 @@ jobs:
           retention-days: 3
 
   # ===========================================================================
-  # DEPTRAC: Architecture coupling analysis (parallelized)
+  # DEPTRAC: Architecture coupling analysis (all configs in 1 job)
   # ===========================================================================
   deptrac:
     runs-on: ubuntu-latest
     needs: [prepare, image, detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 15
-    strategy:
-      fail-fast: false
-      matrix:
-        config:
-          - structure
-          - core
-          - job
-          - enrichment
-          - channel
-          - importexport
     steps:
       - uses: actions/checkout@v4
 
@@ -610,33 +543,38 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           create-var-dirs: 'false'
+          pull-base-images: 'false'
 
       - name: Restore Deptrac cache
         uses: actions/cache@v4
         with:
           path: .deptrac-cache
-          key: deptrac-${{ matrix.config }}-${{ runner.os }}-${{ hashFiles('deptrac-*.yaml', 'composer.lock') }}
-          restore-keys: deptrac-${{ matrix.config }}-${{ runner.os }}-
+          key: deptrac-all-${{ runner.os }}-${{ hashFiles('deptrac-*.yaml', 'composer.lock') }}
+          restore-keys: deptrac-all-${{ runner.os }}-
 
       - name: Download Deptrac
         run: |
           curl -sSL https://github.com/qossmic/deptrac/releases/latest/download/deptrac.phar -o deptrac.phar
           chmod +x deptrac.phar
 
-      - name: Run Deptrac (${{ matrix.config }})
+      - name: Run Deptrac (all configs)
         run: |
-          docker-compose run --rm php php /srv/pim/deptrac.phar analyze \
-            --config-file=deptrac-${{ matrix.config }}.yaml \
-            --formatter=github-actions \
-            --cache-file=/srv/pim/.deptrac-cache/${{ matrix.config }}.cache \
-            --no-progress
+          for config in structure core job enrichment channel importexport; do
+            echo "::group::Deptrac - ${config}"
+            docker-compose run --rm php php /srv/pim/deptrac.phar analyze \
+              --config-file=deptrac-${config}.yaml \
+              --formatter=github-actions \
+              --cache-file=/srv/pim/.deptrac-cache/${config}.cache \
+              --no-progress
+            echo "::endgroup::"
+          done
 
   # ===========================================================================
   # DATA MIGRATIONS: Test database migrations
   # ===========================================================================
   data-migrations:
     runs-on: ubuntu-latest
-    needs: [prepare, acceptance-back]
+    needs: [prepare]
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
@@ -667,7 +605,7 @@ jobs:
   # ===========================================================================
   phpunit:
     runs-on: ubuntu-latest
-    needs: [prepare, db-seed, acceptance-back]
+    needs: [prepare, db-seed]
     timeout-minutes: 90
     strategy:
       fail-fast: false
@@ -746,13 +684,12 @@ jobs:
   # ===========================================================================
   behat-legacy:
     runs-on: ubuntu-latest
-    needs: [prepare, db-seed, front-build, acceptance-back]
+    needs: [prepare, db-seed, front-build]
     timeout-minutes: 120
     strategy:
       fail-fast: false
-      max-parallel: 10
       matrix:
-        shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+        shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     steps:
       - uses: actions/checkout@v4
 
@@ -807,9 +744,9 @@ jobs:
       - name: Warmup Symfony cache
         run: docker-compose run --rm php php bin/console cache:warmup --env=behat
 
-      - name: Run Behat legacy tests (shard ${{ matrix.shard }}/15)
+      - name: Run Behat legacy tests (shard ${{ matrix.shard }}/10)
         run: |
-          export BEHAT_SPLIT="${{ matrix.shard }}/15"
+          export BEHAT_SPLIT="${{ matrix.shard }}/10"
           PIM_CONTEXT=test make end-to-end-legacy SUITE=${TESTSUITE}
 
       - name: Archive behat artifacts
@@ -829,13 +766,11 @@ jobs:
   # ===========================================================================
   cypress:
     runs-on: ubuntu-latest
-    needs: [prepare, front-build, acceptance-back, detect-changes]
+    needs: [prepare, front-build, detect-changes]
     if: >-
-      always() &&
       (needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true') &&
       needs.prepare.result == 'success' &&
-      needs.front-build.result == 'success' &&
-      (needs.acceptance-back.result == 'success' || needs.acceptance-back.result == 'skipped')
+      needs.front-build.result == 'success'
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
@@ -925,11 +860,9 @@ jobs:
     needs:
       - detect-changes
       - front-build
-      - front-lint
-      - front-unit
-      - lint-back
+      - front-lint-unit
+      - lint-and-static-back
       - phpspec
-      - static-checks
       - acceptance-back
       - deptrac
       - phpunit
@@ -948,11 +881,9 @@ jobs:
           echo ""
           echo "=== Job results ==="
           echo "  front-build: ${{ needs.front-build.result }}"
-          echo "  front-lint: ${{ needs.front-lint.result }}"
-          echo "  front-unit: ${{ needs.front-unit.result }}"
-          echo "  lint-back: ${{ needs.lint-back.result }}"
+          echo "  front-lint-unit: ${{ needs.front-lint-unit.result }}"
+          echo "  lint-and-static-back: ${{ needs.lint-and-static-back.result }}"
           echo "  phpspec: ${{ needs.phpspec.result }}"
-          echo "  static-checks: ${{ needs.static-checks.result }}"
           echo "  acceptance-back: ${{ needs.acceptance-back.result }}"
           echo "  deptrac: ${{ needs.deptrac.result }}"
           echo "  phpunit: ${{ needs.phpunit.result }}"
@@ -963,11 +894,9 @@ jobs:
           # Each job must be either 'success' or 'skipped' (path-filtered)
           results=(
             "${{ needs.front-build.result }}"
-            "${{ needs.front-lint.result }}"
-            "${{ needs.front-unit.result }}"
-            "${{ needs.lint-back.result }}"
+            "${{ needs.front-lint-unit.result }}"
+            "${{ needs.lint-and-static-back.result }}"
             "${{ needs.phpspec.result }}"
-            "${{ needs.static-checks.result }}"
             "${{ needs.acceptance-back.result }}"
             "${{ needs.deptrac.result }}"
             "${{ needs.phpunit.result }}"

@@ -29,6 +29,10 @@ inputs:
     description: 'PHP version to use'
     required: false
     default: '8.2'
+  pull-base-images:
+    description: 'Whether to pull base Docker images (mysql, selenium, node). Set to false for PHP-only jobs.'
+    required: false
+    default: 'true'
 
 runs:
   using: 'composite'
@@ -56,6 +60,7 @@ runs:
         docker tag "$IMAGE" akeneo/pim-php-dev:${{ inputs.php-version }}
 
     - name: Pull base Docker images
+      if: inputs.pull-base-images == 'true'
       shell: bash
       run: |
         docker pull mysql:8.0.30 &

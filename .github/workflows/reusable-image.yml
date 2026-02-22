@@ -39,7 +39,19 @@ jobs:
           echo "image=${IMAGE}" >> $GITHUB_OUTPUT
           echo "Image will be: ${IMAGE}"
 
+      - name: Check if image already exists in GHCR
+        id: check
+        run: |
+          if docker manifest inspect "${{ steps.meta.outputs.image }}" >/dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "Image already exists, skipping build"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "Image not found, will build"
+          fi
+
       - name: Cache Docker layers
+        if: steps.check.outputs.exists != 'true'
         uses: actions/cache@v4
         with:
           path: /tmp/.buildx-cache
@@ -48,6 +60,7 @@ jobs:
             buildx-php-${{ inputs.php-version }}-${{ runner.os }}-
 
       - name: Build and push PHP image
+        if: steps.check.outputs.exists != 'true'
         uses: docker/build-push-action@v5
         with:
           context: .
@@ -60,6 +73,7 @@ jobs:
             PHP_VERSION=${{ inputs.php-version }}
 
       - name: Move cache
+        if: steps.check.outputs.exists != 'true'
         run: |
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
