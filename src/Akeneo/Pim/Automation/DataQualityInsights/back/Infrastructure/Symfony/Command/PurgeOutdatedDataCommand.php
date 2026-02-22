@@ -11,12 +11,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Command to launch manually a purge of the outdated data persisted for Data-Quality-Insights
  * It aims to be used as a replacement of the purge job. So the option date should be the date the job should have run.
  */
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:data-quality-insights:purge-outdated-data', description: 'Purge the outdated data persisted for Data-Quality-Insights.')]
+#[AsCommand(name: 'pim:data-quality-insights:purge-outdated-data', description: 'Purge the outdated data persisted for Data-Quality-Insights.')]
+
 final class PurgeOutdatedDataCommand extends Command
 {
     public function __construct(private readonly PurgeOutdatedData $purgeOutdatedData)

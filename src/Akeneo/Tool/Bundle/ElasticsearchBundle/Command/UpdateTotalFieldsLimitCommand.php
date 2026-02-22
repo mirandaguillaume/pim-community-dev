@@ -12,8 +12,10 @@ use Elasticsearch\Namespaces\IndicesNamespace;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:elasticsearch:update-total-fields-limit')]
+#[AsCommand(name: 'akeneo:elasticsearch:update-total-fields-limit')]
+
 class UpdateTotalFieldsLimitCommand extends Command
 {
     private readonly array $hosts;

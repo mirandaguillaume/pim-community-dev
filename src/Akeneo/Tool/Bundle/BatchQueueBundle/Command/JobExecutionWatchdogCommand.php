@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * The watchdog process is launched by the daemon consuming messages to run jobs. This watchdog process  launches
@@ -24,7 +25,8 @@ use Symfony\Component\Process\Process;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:batch:watchdog', description: '[Internal] Launched by the job queue consumer', hidden: true)]
+#[AsCommand(name: 'akeneo:batch:watchdog', description: '[Internal] Launched by the job queue consumer', hidden: true)]
+
 final class JobExecutionWatchdogCommand extends Command
 {
     /** Interval in seconds before updating health check if job is still running. */

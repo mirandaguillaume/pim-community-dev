@@ -13,8 +13,10 @@ use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:data-quality-insights:schedule-periodic-tasks', description: 'Schedule the periodic tasks of Data-Quality-Insights.')]
+#[AsCommand(name: 'pim:data-quality-insights:schedule-periodic-tasks', description: 'Schedule the periodic tasks of Data-Quality-Insights.')]
+
 final class SchedulePeriodicTasksCommand extends Command
 {
     public function __construct(private readonly SchedulePeriodicTasks $schedulePeriodicTasks, private readonly FeatureFlag $featureFlag)

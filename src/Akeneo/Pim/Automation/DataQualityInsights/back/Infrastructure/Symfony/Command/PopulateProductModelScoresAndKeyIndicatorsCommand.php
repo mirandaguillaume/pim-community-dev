@@ -14,12 +14,13 @@ use Doctrine\DBAL\Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:data-quality-insights:populate-product-models-scores-and-ki', description: 'Populate scores and key indicators for existing product models')]
+#[AsCommand(name: 'pim:data-quality-insights:populate-product-models-scores-and-ki', description: 'Populate scores and key indicators for existing product models')]
 class PopulateProductModelScoresAndKeyIndicatorsCommand extends Command
 {
     private const BULK_SIZE = 1000;

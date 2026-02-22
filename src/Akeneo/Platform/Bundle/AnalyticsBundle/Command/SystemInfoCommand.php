@@ -9,6 +9,7 @@ use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Displays system information provided by the data collectors through command line.
@@ -17,7 +18,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * @copyright 2016 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:system:information', description: 'Displays Akeneo PIM system information')]
+#[AsCommand(name: 'pim:system:information', description: 'Displays Akeneo PIM system information')]
+
 class SystemInfoCommand extends Command
 {
     public function __construct(

@@ -8,6 +8,7 @@ use Akeneo\Platform\Component\CatalogVolumeMonitoring\Volume\Service\VolumeAggre
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Aggregate the result of all the volume queries that should not be executed live.
@@ -16,7 +17,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:volume:aggregate', description: 'Aggregate the result of all the volume queries that should not be executed live')]
+#[AsCommand(name: 'pim:volume:aggregate', description: 'Aggregate the result of all the volume queries that should not be executed live')]
+
 class AggregateVolumesCommand extends Command
 {
     public function __construct(private readonly VolumeAggregation $volumeAggregation)

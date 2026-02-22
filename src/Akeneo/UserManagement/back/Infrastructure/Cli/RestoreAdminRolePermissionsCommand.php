@@ -10,8 +10,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Console\Attribute\AsCommand;
 
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:user:restore-admin-permissions', description: 'Restore all permissions to the <info>ROLE_ADMINISTRATOR</info> user role')]
+#[AsCommand(name: 'pim:user:restore-admin-permissions', description: 'Restore all permissions to the <info>ROLE_ADMINISTRATOR</info> user role')]
+
 class RestoreAdminRolePermissionsCommand extends Command
 {
     public function __construct(private readonly RestoreAdminRolePermissions $restoreAdminRolePermissions)

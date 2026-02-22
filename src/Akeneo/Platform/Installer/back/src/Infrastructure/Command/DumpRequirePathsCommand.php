@@ -5,6 +5,7 @@ namespace Akeneo\Platform\Installer\Infrastructure\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Dump a file called require-paths containing a list of required bundle paths.
@@ -13,7 +14,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:installer:dump-require-paths', description: 'Dump the paths for all the requirejs.yml files for each bundle')]
+#[AsCommand(name: 'pim:installer:dump-require-paths', description: 'Dump the paths for all the requirejs.yml files for each bundle')]
+
 class DumpRequirePathsCommand extends Command
 {
     final public const MAIN_CONFIG_FILE_NAME = 'js/require-paths.js';

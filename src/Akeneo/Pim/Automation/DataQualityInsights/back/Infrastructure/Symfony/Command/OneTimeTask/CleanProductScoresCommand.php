@@ -11,12 +11,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Webmozart\Assert\Assert;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:data-quality-insights:clean-product-scores', description: 'Clean product scores in order to have one score per product id.')]
+#[AsCommand(name: 'pim:data-quality-insights:clean-product-scores', description: 'Clean product scores in order to have one score per product id.')]
 final class CleanProductScoresCommand extends Command
 {
     use OneTimeTaskCommandTrait;

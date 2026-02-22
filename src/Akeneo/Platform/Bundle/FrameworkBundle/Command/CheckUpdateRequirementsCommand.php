@@ -11,8 +11,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Requirements\Requirement;
 use Symfony\Requirements\RequirementCollection;
+use Symfony\Component\Console\Attribute\AsCommand;
 
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:update:check-requirements')]
+#[AsCommand(name: 'pim:update:check-requirements')]
+
 class CheckUpdateRequirementsCommand extends Command
 {
     private readonly Client $client;

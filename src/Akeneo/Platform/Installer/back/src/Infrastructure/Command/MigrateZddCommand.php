@@ -11,12 +11,14 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Webmozart\Assert\Assert;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:zdd-migration:migrate', description: 'Execute ZDD Migrations')]
+#[AsCommand(name: 'pim:zdd-migration:migrate', description: 'Execute ZDD Migrations')]
+
 final class MigrateZddCommand extends Command
 {
     /** @var ZddMigration[] */

@@ -10,8 +10,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'oro:translation:dump', description: 'Dumps oro js-translations')]
+#[AsCommand(name: 'oro:translation:dump', description: 'Dumps oro js-translations')]
+
 class OroTranslationDumpCommand extends Command
 {
     public function __construct(

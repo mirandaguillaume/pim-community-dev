@@ -18,6 +18,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Interactive command to create a PIM user.

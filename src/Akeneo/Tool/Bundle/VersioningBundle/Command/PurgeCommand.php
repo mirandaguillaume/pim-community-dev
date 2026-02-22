@@ -14,6 +14,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Purge version of entities
@@ -22,7 +23,8 @@ use Symfony\Component\Console\Question\Question;
  * @copyright 2016 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:versioning:purge', description: 'Purge versions of entities, except first and last versions.')]
+#[AsCommand(name: 'pim:versioning:purge', description: 'Purge versions of entities, except first and last versions.')]
+
 class PurgeCommand extends Command
 {
     private const JOB_CODE = 'versioning_purge';

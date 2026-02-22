@@ -16,12 +16,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:data-quality-insights:evaluate-all-products', description: 'Evaluate all products and product models having pending criteria.', hidden: true)]
+#[AsCommand(name: 'pim:data-quality-insights:evaluate-all-products', description: 'Evaluate all products and product models having pending criteria.', hidden: true)]
+
 final class EvaluateAllProductsCommand extends Command
 {
     private const LIMIT_PER_LOOP = 1000;
