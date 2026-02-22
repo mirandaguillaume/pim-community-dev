@@ -48,3 +48,11 @@ front-packages/akeneo-design-system/lib
 /.env.local.php
 /.env.*.local
 /.envrc
+
+# IDE & tooling
+.idea/
+.grepai/
+.serena/
+.claude/agents/
+.claude/skills/
+seed/
