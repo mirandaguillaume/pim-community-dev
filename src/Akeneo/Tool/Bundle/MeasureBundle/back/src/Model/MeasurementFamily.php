@@ -76,7 +76,7 @@ class MeasurementFamily
 
     private function assertStandardUnitExists(UnitCode $standardUnitCode, array $units): void
     {
-        $isStandardUnitCodePresentInUnits = !empty($this->getUnit($standardUnitCode, $units));
+        $isStandardUnitCodePresentInUnits = $this->getUnit($standardUnitCode, $units) instanceof \Akeneo\Tool\Bundle\MeasureBundle\Model\Unit;
         Assert::true(
             $isStandardUnitCodePresentInUnits,
             sprintf(

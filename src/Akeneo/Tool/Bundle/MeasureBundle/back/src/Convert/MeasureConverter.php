@@ -107,22 +107,22 @@ class MeasureConverter
             return '0';
         }
 
-        $processedValue = is_float($value) ? \number_format($value, static::SCALE, '.', '') : (string) $value;
+        $processedValue = is_float($value) ? \number_format($value, self::SCALE, '.', '') : (string) $value;
 
         switch ($operator) {
             case "div":
                 if ($operand !== '0') {
-                    $processedValue = bcdiv($processedValue, $operand, static::SCALE);
+                    $processedValue = bcdiv($processedValue, $operand, self::SCALE);
                 }
                 break;
             case "mul":
-                $processedValue = bcmul($processedValue, $operand, static::SCALE);
+                $processedValue = bcmul($processedValue, $operand, self::SCALE);
                 break;
             case "add":
-                $processedValue = bcadd($processedValue, $operand, static::SCALE);
+                $processedValue = bcadd($processedValue, $operand, self::SCALE);
                 break;
             case "sub":
-                $processedValue = bcsub($processedValue, $operand, static::SCALE);
+                $processedValue = bcsub($processedValue, $operand, self::SCALE);
                 break;
             default:
                 throw new UnknownOperatorException();
@@ -174,18 +174,18 @@ class MeasureConverter
 
         switch ($operator) {
             case "div":
-                $processedValue = bcmul($processedValue, $operand, static::SCALE);
+                $processedValue = bcmul($processedValue, $operand, self::SCALE);
                 break;
             case "mul":
                 if ($operand !== '0') {
-                    $processedValue = bcdiv($processedValue, $operand, static::SCALE);
+                    $processedValue = bcdiv($processedValue, $operand, self::SCALE);
                 }
                 break;
             case "add":
-                $processedValue = bcsub($processedValue, $operand, static::SCALE);
+                $processedValue = bcsub($processedValue, $operand, self::SCALE);
                 break;
             case "sub":
-                $processedValue = bcadd($processedValue, $operand, static::SCALE);
+                $processedValue = bcadd($processedValue, $operand, self::SCALE);
                 break;
             default:
                 throw new UnknownOperatorException();

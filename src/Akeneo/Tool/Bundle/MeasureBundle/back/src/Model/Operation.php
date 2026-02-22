@@ -26,7 +26,7 @@ final class Operation
         Assert::oneOf($operator, self::SUPPORTED_OPERATORS);
         Assert::regex(
             $value,
-            '~^[0-9]*\.?[0-9]+$~',
+            '~^\d*\.?\d+$~',
             sprintf('Expecting operation value to be a numeric, "%s" given', $value)
         );
 

@@ -46,7 +46,7 @@ class SearchJobUser implements SearchJobUserInterface
 
         $wherePart = '';
 
-        if ($username !== '' && $username !== '0') {
+        if ('' !== $username && '0' !== $username) {
             $wherePart = 'AND job_execution.user LIKE :username';
         }
 
