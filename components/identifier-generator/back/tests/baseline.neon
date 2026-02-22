@@ -1,0 +1,3116 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\BaseCreateOrUpdateIdentifierGenerator\\:\\:getValidCondition\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Acceptance/Context/BaseCreateOrUpdateIdentifierGenerator.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\BaseCreateOrUpdateIdentifierGenerator\\:\\:tryToCreateGenerator\\(\\) has parameter \\$conditions with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Acceptance/Context/BaseCreateOrUpdateIdentifierGenerator.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\BaseCreateOrUpdateIdentifierGenerator\\:\\:tryToCreateGenerator\\(\\) has parameter \\$labels with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Acceptance/Context/BaseCreateOrUpdateIdentifierGenerator.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\BaseCreateOrUpdateIdentifierGenerator\\:\\:tryToCreateGenerator\\(\\) has parameter \\$structure with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Acceptance/Context/BaseCreateOrUpdateIdentifierGenerator.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\BaseCreateOrUpdateIdentifierGenerator\\:\\:tryToUpdateGenerator\\(\\) has parameter \\$conditions with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Acceptance/Context/BaseCreateOrUpdateIdentifierGenerator.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\BaseCreateOrUpdateIdentifierGenerator\\:\\:tryToUpdateGenerator\\(\\) has parameter \\$labels with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Acceptance/Context/BaseCreateOrUpdateIdentifierGenerator.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\BaseCreateOrUpdateIdentifierGenerator\\:\\:tryToUpdateGenerator\\(\\) has parameter \\$structure with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Acceptance/Context/BaseCreateOrUpdateIdentifierGenerator.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\CodesSplitter\\:\\:split\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Acceptance/Context/CodesSplitter.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function array_map expects array, array\\<int, string\\>\\|false given\\.$#"
+			count: 1
+			path: Acceptance/Context/CodesSplitter.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\Condition\\\\BaseCreateOrUpdateConditionContext\\:\\:getCondition\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Acceptance/Context/Condition/BaseCreateOrUpdateConditionContext.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\Condition\\\\EnabledConditionContext\\:\\:iTryToUpdateAnIdentifierGeneratorWithEnabledConditions\\(\\) has parameter \\$arg1 with no type specified\\.$#"
+			count: 1
+			path: Acceptance/Context/Condition/EnabledConditionContext.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\Property\\\\FamilyPropertyContext\\:\\:iTryToCreateAnIdentifierGeneratorWithFamilyProcessWithTypeAndOperatorAndValue\\(\\) has parameter \\$operator with no type specified\\.$#"
+			count: 1
+			path: Acceptance/Context/Property/FamilyPropertyContext.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\Property\\\\FamilyPropertyContext\\:\\:iTryToCreateAnIdentifierGeneratorWithFamilyProcessWithTypeAndOperatorAndValue\\(\\) has parameter \\$type with no type specified\\.$#"
+			count: 1
+			path: Acceptance/Context/Property/FamilyPropertyContext.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\Property\\\\FamilyPropertyContext\\:\\:iTryToCreateAnIdentifierGeneratorWithFamilyProcessWithTypeAndOperatorAndValue\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: Acceptance/Context/Property/FamilyPropertyContext.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\Property\\\\FamilyPropertyContext\\:\\:iTryToUpdateAnIdentifierGeneratorWithFamilyProcessWithTypeAndOperatorAndValue\\(\\) has parameter \\$operator with no type specified\\.$#"
+			count: 1
+			path: Acceptance/Context/Property/FamilyPropertyContext.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\Property\\\\FamilyPropertyContext\\:\\:iTryToUpdateAnIdentifierGeneratorWithFamilyProcessWithTypeAndOperatorAndValue\\(\\) has parameter \\$type with no type specified\\.$#"
+			count: 1
+			path: Acceptance/Context/Property/FamilyPropertyContext.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\Property\\\\FamilyPropertyContext\\:\\:iTryToUpdateAnIdentifierGeneratorWithFamilyProcessWithTypeAndOperatorAndValue\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: Acceptance/Context/Property/FamilyPropertyContext.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\Property\\\\ReferenceEntityPropertyContext\\:\\:iTryToCreateAnIdentifierGeneratorWithReferenceEntityProcessWithTypeAndOperatorAndValue\\(\\) has parameter \\$operator with no type specified\\.$#"
+			count: 1
+			path: Acceptance/Context/Property/ReferenceEntityPropertyContext.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\Property\\\\ReferenceEntityPropertyContext\\:\\:iTryToCreateAnIdentifierGeneratorWithReferenceEntityProcessWithTypeAndOperatorAndValue\\(\\) has parameter \\$type with no type specified\\.$#"
+			count: 1
+			path: Acceptance/Context/Property/ReferenceEntityPropertyContext.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\Property\\\\ReferenceEntityPropertyContext\\:\\:iTryToCreateAnIdentifierGeneratorWithReferenceEntityProcessWithTypeAndOperatorAndValue\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: Acceptance/Context/Property/ReferenceEntityPropertyContext.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\Property\\\\ReferenceEntityPropertyContext\\:\\:iTryToUpdateAnIdentifierGeneratorWithReferenceEntityProcessWithTypeAndOperatorAndValue\\(\\) has parameter \\$operator with no type specified\\.$#"
+			count: 1
+			path: Acceptance/Context/Property/ReferenceEntityPropertyContext.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\Property\\\\ReferenceEntityPropertyContext\\:\\:iTryToUpdateAnIdentifierGeneratorWithReferenceEntityProcessWithTypeAndOperatorAndValue\\(\\) has parameter \\$type with no type specified\\.$#"
+			count: 1
+			path: Acceptance/Context/Property/ReferenceEntityPropertyContext.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\Property\\\\ReferenceEntityPropertyContext\\:\\:iTryToUpdateAnIdentifierGeneratorWithReferenceEntityProcessWithTypeAndOperatorAndValue\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: Acceptance/Context/Property/ReferenceEntityPropertyContext.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\Property\\\\SimpleSelectPropertyContext\\:\\:iTryToCreateAnIdentifierGeneratorWithSimpleSelectProcessWithTypeAndOperatorAndValue\\(\\) has parameter \\$operator with no type specified\\.$#"
+			count: 1
+			path: Acceptance/Context/Property/SimpleSelectPropertyContext.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\Property\\\\SimpleSelectPropertyContext\\:\\:iTryToCreateAnIdentifierGeneratorWithSimpleSelectProcessWithTypeAndOperatorAndValue\\(\\) has parameter \\$type with no type specified\\.$#"
+			count: 1
+			path: Acceptance/Context/Property/SimpleSelectPropertyContext.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\Property\\\\SimpleSelectPropertyContext\\:\\:iTryToCreateAnIdentifierGeneratorWithSimpleSelectProcessWithTypeAndOperatorAndValue\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: Acceptance/Context/Property/SimpleSelectPropertyContext.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\Property\\\\SimpleSelectPropertyContext\\:\\:iTryToUpdateAnIdentifierGeneratorWithSimpleSelectProcessWithTypeAndOperatorAndValue\\(\\) has parameter \\$operator with no type specified\\.$#"
+			count: 1
+			path: Acceptance/Context/Property/SimpleSelectPropertyContext.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\Property\\\\SimpleSelectPropertyContext\\:\\:iTryToUpdateAnIdentifierGeneratorWithSimpleSelectProcessWithTypeAndOperatorAndValue\\(\\) has parameter \\$type with no type specified\\.$#"
+			count: 1
+			path: Acceptance/Context/Property/SimpleSelectPropertyContext.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\Property\\\\SimpleSelectPropertyContext\\:\\:iTryToUpdateAnIdentifierGeneratorWithSimpleSelectProcessWithTypeAndOperatorAndValue\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: Acceptance/Context/Property/SimpleSelectPropertyContext.php
+
+		-
+			message: "#^Cannot access offset 'attributeOptionCode' on mixed\\.$#"
+			count: 1
+			path: Acceptance/Context/SimpleSelectNomenclatureContext.php
+
+		-
+			message: "#^Cannot access offset 'value' on mixed\\.$#"
+			count: 1
+			path: Acceptance/Context/SimpleSelectNomenclatureContext.php
+
+		-
+			message: "#^Cannot call method generateIfEmpty\\(\\) on Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinition\\|null\\.$#"
+			count: 1
+			path: Acceptance/Context/SimpleSelectNomenclatureContext.php
+
+		-
+			message: "#^Cannot call method operator\\(\\) on Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinition\\|null\\.$#"
+			count: 1
+			path: Acceptance/Context/SimpleSelectNomenclatureContext.php
+
+		-
+			message: "#^Cannot call method value\\(\\) on Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinition\\|null\\.$#"
+			count: 1
+			path: Acceptance/Context/SimpleSelectNomenclatureContext.php
+
+		-
+			message: "#^Cannot call method values\\(\\) on Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinition\\|null\\.$#"
+			count: 2
+			path: Acceptance/Context/SimpleSelectNomenclatureContext.php
+
+		-
+			message: "#^Expression on left side of \\?\\? is not nullable\\.$#"
+			count: 2
+			path: Acceptance/Context/SimpleSelectNomenclatureContext.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Acceptance\\\\Context\\\\SimpleSelectNomenclatureContext\\:\\:iShouldHaveAnError\\(\\) has parameter \\$message with no type specified\\.$#"
+			count: 1
+			path: Acceptance/Context/SimpleSelectNomenclatureContext.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Channel\\\\Infrastructure\\\\Component\\\\Repository\\\\ChannelRepositoryInterface\\:\\:save\\(\\)\\.$#"
+			count: 1
+			path: Acceptance/Context/StructureContext.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Repository\\\\AttributeOptionRepositoryInterface\\:\\:save\\(\\)\\.$#"
+			count: 1
+			path: Acceptance/Context/StructureContext.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Repository\\\\AttributeRepositoryInterface\\:\\:save\\(\\)\\.$#"
+			count: 1
+			path: Acceptance/Context/StructureContext.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Pim\\\\Structure\\\\Family\\\\ServiceAPI\\\\Query\\\\FindFamilyCodes\\:\\:save\\(\\)\\.$#"
+			count: 1
+			path: Acceptance/Context/StructureContext.php
+
+		-
+			message: "#^Parameter \\#1 \\$attribute of method Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Model\\\\AttributeOption\\:\\:setAttribute\\(\\) expects Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Model\\\\AttributeInterface\\|null, mixed given\\.$#"
+			count: 1
+			path: Acceptance/Context/StructureContext.php
+
+		-
+			message: "#^Cannot access offset 'familyCode' on mixed\\.$#"
+			count: 1
+			path: Acceptance/Context/UpdateFamilyNomenclatureContext.php
+
+		-
+			message: "#^Cannot access offset 'value' on mixed\\.$#"
+			count: 1
+			path: Acceptance/Context/UpdateFamilyNomenclatureContext.php
+
+		-
+			message: "#^Cannot call method generateIfEmpty\\(\\) on Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinition\\|null\\.$#"
+			count: 1
+			path: Acceptance/Context/UpdateFamilyNomenclatureContext.php
+
+		-
+			message: "#^Cannot call method operator\\(\\) on Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinition\\|null\\.$#"
+			count: 1
+			path: Acceptance/Context/UpdateFamilyNomenclatureContext.php
+
+		-
+			message: "#^Cannot call method value\\(\\) on Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinition\\|null\\.$#"
+			count: 1
+			path: Acceptance/Context/UpdateFamilyNomenclatureContext.php
+
+		-
+			message: "#^Cannot call method values\\(\\) on Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinition\\|null\\.$#"
+			count: 1
+			path: Acceptance/Context/UpdateFamilyNomenclatureContext.php
+
+		-
+			message: "#^Expression on left side of \\?\\? is not nullable\\.$#"
+			count: 1
+			path: Acceptance/Context/UpdateFamilyNomenclatureContext.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Platform\\\\Bundle\\\\FeatureFlagBundle\\\\FeatureFlags\\:\\:enable\\(\\)\\.$#"
+			count: 1
+			path: EndToEnd/ControllerEndToEndTestCase.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\ControllerEndToEndTestCase\\:\\:callCreateRoute\\(\\) has parameter \\$header with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: EndToEnd/ControllerEndToEndTestCase.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\ControllerEndToEndTestCase\\:\\:callDeleteRoute\\(\\) has parameter \\$header with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: EndToEnd/ControllerEndToEndTestCase.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\ControllerEndToEndTestCase\\:\\:callDeleteRoute\\(\\) has parameter \\$routeArguments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: EndToEnd/ControllerEndToEndTestCase.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\ControllerEndToEndTestCase\\:\\:callGetRoute\\(\\) has parameter \\$header with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: EndToEnd/ControllerEndToEndTestCase.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\ControllerEndToEndTestCase\\:\\:callGetRouteWithQueryParam\\(\\) has parameter \\$header with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: EndToEnd/ControllerEndToEndTestCase.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\ControllerEndToEndTestCase\\:\\:callGetRouteWithQueryParam\\(\\) has parameter \\$queryParam with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: EndToEnd/ControllerEndToEndTestCase.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\ControllerEndToEndTestCase\\:\\:callRoute\\(\\) has parameter \\$header with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: EndToEnd/ControllerEndToEndTestCase.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\ControllerEndToEndTestCase\\:\\:callRoute\\(\\) has parameter \\$routeParams with no type specified\\.$#"
+			count: 1
+			path: EndToEnd/ControllerEndToEndTestCase.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\ControllerEndToEndTestCase\\:\\:callUpdateRoute\\(\\) has parameter \\$header with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: EndToEnd/ControllerEndToEndTestCase.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\ControllerEndToEndTestCase\\:\\:callUpdateRoute\\(\\) has parameter \\$routeArguments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: EndToEnd/ControllerEndToEndTestCase.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\ControllerEndToEndTestCase\\:\\:createAttribute\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: EndToEnd/ControllerEndToEndTestCase.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\ControllerEndToEndTestCase\\:\\:createRecords\\(\\) has parameter \\$recordCodes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: EndToEnd/ControllerEndToEndTestCase.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\ControllerEndToEndTestCase\\:\\:createReferenceEntity\\(\\) has parameter \\$labels with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: EndToEnd/ControllerEndToEndTestCase.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\ControllerEndToEndTestCase\\:\\:get\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: EndToEnd/ControllerEndToEndTestCase.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\ControllerEndToEndTestCase\\:\\:setAcls\\(\\) has parameter \\$newPermissions with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: EndToEnd/ControllerEndToEndTestCase.php
+
+		-
+			message: "#^Parameter \\#3 \\$routeArguments of method Akeneo\\\\Test\\\\IntegrationTestsBundle\\\\Helper\\\\WebClientHelper\\:\\:callRoute\\(\\) expects array, array\\|null given\\.$#"
+			count: 1
+			path: EndToEnd/ControllerEndToEndTestCase.php
+
+		-
+			message: "#^Parameter \\#5 \\$headers of method Akeneo\\\\Test\\\\IntegrationTestsBundle\\\\Helper\\\\WebClientHelper\\:\\:callRoute\\(\\) expects array, array\\|null given\\.$#"
+			count: 6
+			path: EndToEnd/ControllerEndToEndTestCase.php
+
+		-
+			message: "#^Parameter \\#3 \\$content of method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\ControllerEndToEndTestCase\\:\\:callCreateRoute\\(\\) expects string, string\\|false given\\.$#"
+			count: 3
+			path: EndToEnd/Infrastructure/Controller/CreateIdentifierGeneratorControllerEndToEnd.php
+
+		-
+			message: "#^Parameter \\#3 \\$content of method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\ControllerEndToEndTestCase\\:\\:callCreateRoute\\(\\) expects string, string\\|false given\\.$#"
+			count: 2
+			path: EndToEnd/Infrastructure/Controller/CreateIdentifierGeneratorWithSimpleSelectEndToEnd.php
+
+		-
+			message: "#^Parameter \\#3 \\$content of method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\ControllerEndToEndTestCase\\:\\:callCreateRoute\\(\\) expects string, string\\|false given\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/DeleteIdentifierGeneratorControllerEndToEnd.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of function json_decode expects string, string\\|false given\\.$#"
+			count: 4
+			path: EndToEnd/Infrastructure/Controller/GetAttributeOptionsControllerEndToEnd.php
+
+		-
+			message: "#^Cannot call method permissions\\(\\) on Akeneo\\\\UserManagement\\\\Component\\\\Connector\\\\RoleWithPermissions\\|null\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/GetAvailableConditionsControllerEndToEnd.php
+
+		-
+			message: "#^Cannot call method setPermissions\\(\\) on Akeneo\\\\UserManagement\\\\Component\\\\Connector\\\\RoleWithPermissions\\|null\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/GetAvailableConditionsControllerEndToEnd.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\Controller\\\\GetAvailableConditionsControllerEndToEnd\\:\\:assertResponse\\(\\) has parameter \\$expectedResponse with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/GetAvailableConditionsControllerEndToEnd.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\Controller\\\\GetAvailableConditionsControllerEndToEnd\\:\\:assertResponse\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/GetAvailableConditionsControllerEndToEnd.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\Controller\\\\GetAvailableConditionsControllerEndToEnd\\:\\:updateAttributeLabels\\(\\) has parameter \\$labels with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/GetAvailableConditionsControllerEndToEnd.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of function json_decode expects string, string\\|false given\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/GetAvailableConditionsControllerEndToEnd.php
+
+		-
+			message: "#^Cannot call method permissions\\(\\) on Akeneo\\\\UserManagement\\\\Component\\\\Connector\\\\RoleWithPermissions\\|null\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/GetAvailablePropertiesControllerEndToEnd.php
+
+		-
+			message: "#^Cannot call method setPermissions\\(\\) on Akeneo\\\\UserManagement\\\\Component\\\\Connector\\\\RoleWithPermissions\\|null\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/GetAvailablePropertiesControllerEndToEnd.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\Controller\\\\GetAvailablePropertiesControllerEndToEnd\\:\\:assertResponse\\(\\) has parameter \\$expectedResponse with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/GetAvailablePropertiesControllerEndToEnd.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\Controller\\\\GetAvailablePropertiesControllerEndToEnd\\:\\:assertResponse\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/GetAvailablePropertiesControllerEndToEnd.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\Controller\\\\GetAvailablePropertiesControllerEndToEnd\\:\\:updateAttributeLabels\\(\\) has parameter \\$labels with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/GetAvailablePropertiesControllerEndToEnd.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of function json_decode expects string, string\\|false given\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/GetAvailablePropertiesControllerEndToEnd.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of function json_decode expects string, string\\|false given\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/GetCategoryLabelsControllerEndToEnd.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of function json_decode expects string, string\\|false given\\.$#"
+			count: 4
+			path: EndToEnd/Infrastructure/Controller/GetFamiliesControllerEndToEnd.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:setAttribute\\(\\)\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/GetIdentifierGeneratorControllerEndToEnd.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:setCode\\(\\)\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/GetIdentifierGeneratorControllerEndToEnd.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:setSortOrder\\(\\)\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/GetIdentifierGeneratorControllerEndToEnd.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\Controller\\\\GetIdentifierGeneratorControllerEndToEnd\\:\\:createSimpleSelectAttributeWithOptions\\(\\) has parameter \\$optionCodes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/GetIdentifierGeneratorControllerEndToEnd.php
+
+		-
+			message: "#^Parameter \\#3 \\$content of method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\ControllerEndToEndTestCase\\:\\:callCreateRoute\\(\\) expects string, string\\|false given\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/GetIdentifierGeneratorControllerEndToEnd.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\Controller\\\\GetNomenclatureControllerEndToEnd\\:\\:createNomenclature\\(\\) has parameter \\$values with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/GetNomenclatureControllerEndToEnd.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of function json_decode expects string, string\\|false given\\.$#"
+			count: 2
+			path: EndToEnd/Infrastructure/Controller/GetNomenclatureControllerEndToEnd.php
+
+		-
+			message: "#^Parameter \\#2 \\$actualJson of static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertJsonStringEqualsJsonString\\(\\) expects string, string\\|false given\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/GetNomenclatureControllerEndToEnd.php
+
+		-
+			message: "#^Cannot access offset 'uuid' on mixed\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/ListIdentifierGeneratorControllerEndToEnd.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of function json_decode expects string, string\\|false given\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/ListIdentifierGeneratorControllerEndToEnd.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function array_map expects array, mixed given\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/ListIdentifierGeneratorControllerEndToEnd.php
+
+		-
+			message: "#^Parameter \\#3 \\$content of method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\ControllerEndToEndTestCase\\:\\:callCreateRoute\\(\\) expects string, string\\|false given\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/ListIdentifierGeneratorControllerEndToEnd.php
+
+		-
+			message: "#^Cannot call method generateIfEmpty\\(\\) on Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinition\\|null\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/UpdateFamilyNomenclatureControllerEndToEnd.php
+
+		-
+			message: "#^Cannot call method operator\\(\\) on Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinition\\|null\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/UpdateFamilyNomenclatureControllerEndToEnd.php
+
+		-
+			message: "#^Cannot call method value\\(\\) on Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinition\\|null\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/UpdateFamilyNomenclatureControllerEndToEnd.php
+
+		-
+			message: "#^Cannot call method values\\(\\) on Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinition\\|null\\.$#"
+			count: 3
+			path: EndToEnd/Infrastructure/Controller/UpdateFamilyNomenclatureControllerEndToEnd.php
+
+		-
+			message: "#^Expression on left side of \\?\\? is not nullable\\.$#"
+			count: 3
+			path: EndToEnd/Infrastructure/Controller/UpdateFamilyNomenclatureControllerEndToEnd.php
+
+		-
+			message: "#^Parameter \\#4 \\$content of method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\ControllerEndToEndTestCase\\:\\:callUpdateRoute\\(\\) expects string, string\\|false given\\.$#"
+			count: 2
+			path: EndToEnd/Infrastructure/Controller/UpdateFamilyNomenclatureControllerEndToEnd.php
+
+		-
+			message: "#^Parameter \\#3 \\$content of method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\ControllerEndToEndTestCase\\:\\:callCreateRoute\\(\\) expects string, string\\|false given\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/UpdateIdentifierGeneratorControllerEndToEnd.php
+
+		-
+			message: "#^Parameter \\#4 \\$content of method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\ControllerEndToEndTestCase\\:\\:callUpdateRoute\\(\\) expects string, string\\|false given\\.$#"
+			count: 6
+			path: EndToEnd/Infrastructure/Controller/UpdateIdentifierGeneratorControllerEndToEnd.php
+
+		-
+			message: "#^Cannot call method generateIfEmpty\\(\\) on Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinition\\|null\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/UpdateReferenceEntityNomenclatureControllerEndToEnd.php
+
+		-
+			message: "#^Cannot call method operator\\(\\) on Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinition\\|null\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/UpdateReferenceEntityNomenclatureControllerEndToEnd.php
+
+		-
+			message: "#^Cannot call method value\\(\\) on Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinition\\|null\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/UpdateReferenceEntityNomenclatureControllerEndToEnd.php
+
+		-
+			message: "#^Cannot call method values\\(\\) on Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinition\\|null\\.$#"
+			count: 7
+			path: EndToEnd/Infrastructure/Controller/UpdateReferenceEntityNomenclatureControllerEndToEnd.php
+
+		-
+			message: "#^Expression on left side of \\?\\? is not nullable\\.$#"
+			count: 7
+			path: EndToEnd/Infrastructure/Controller/UpdateReferenceEntityNomenclatureControllerEndToEnd.php
+
+		-
+			message: "#^Parameter \\#4 \\$content of method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\ControllerEndToEndTestCase\\:\\:callUpdateRoute\\(\\) expects string, string\\|false given\\.$#"
+			count: 3
+			path: EndToEnd/Infrastructure/Controller/UpdateReferenceEntityNomenclatureControllerEndToEnd.php
+
+		-
+			message: "#^Cannot call method generateIfEmpty\\(\\) on Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinition\\|null\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/UpdateSimpleSelectNomenclatureControllerEndToEnd.php
+
+		-
+			message: "#^Cannot call method operator\\(\\) on Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinition\\|null\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/UpdateSimpleSelectNomenclatureControllerEndToEnd.php
+
+		-
+			message: "#^Cannot call method value\\(\\) on Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinition\\|null\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Controller/UpdateSimpleSelectNomenclatureControllerEndToEnd.php
+
+		-
+			message: "#^Cannot call method values\\(\\) on Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinition\\|null\\.$#"
+			count: 7
+			path: EndToEnd/Infrastructure/Controller/UpdateSimpleSelectNomenclatureControllerEndToEnd.php
+
+		-
+			message: "#^Expression on left side of \\?\\? is not nullable\\.$#"
+			count: 7
+			path: EndToEnd/Infrastructure/Controller/UpdateSimpleSelectNomenclatureControllerEndToEnd.php
+
+		-
+			message: "#^Parameter \\#4 \\$content of method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\ControllerEndToEndTestCase\\:\\:callUpdateRoute\\(\\) expects string, string\\|false given\\.$#"
+			count: 3
+			path: EndToEnd/Infrastructure/Controller/UpdateSimpleSelectNomenclatureControllerEndToEnd.php
+
+		-
+			message: "#^Anonymous function should return Akeneo\\\\Pim\\\\Enrichment\\\\Component\\\\Product\\\\Model\\\\ProductInterface but returns object\\|null\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/EndToEndTestCase.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Saver\\\\SaverInterface\\:\\:saveAll\\(\\)\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/EndToEndTestCase.php
+
+		-
+			message: "#^Cannot call method create\\(\\) on mixed\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/EndToEndTestCase.php
+
+		-
+			message: "#^Cannot call method save\\(\\) on mixed\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/EndToEndTestCase.php
+
+		-
+			message: "#^Cannot call method update\\(\\) on mixed\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/EndToEndTestCase.php
+
+		-
+			message: "#^Cannot call method validate\\(\\) on mixed\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/EndToEndTestCase.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\EndToEndTestCase\\:\\:createProduct\\(\\) should return Akeneo\\\\Pim\\\\Enrichment\\\\Component\\\\Product\\\\Model\\\\ProductInterface but returns object\\|null\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/EndToEndTestCase.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\EndToEndTestCase\\:\\:getAuthenticator\\(\\) should return Akeneo\\\\Test\\\\IntegrationTestsBundle\\\\Helper\\\\AuthenticatorHelper but returns mixed\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/EndToEndTestCase.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\EndToEndTestCase\\:\\:getCommandMessageBus\\(\\) should return Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\CommandMessageBus but returns mixed\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/EndToEndTestCase.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\EndToEndTestCase\\:\\:getFamilyRepository\\(\\) should return Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Repository\\\\FamilyRepositoryInterface but returns object\\|null\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/EndToEndTestCase.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\EndToEndTestCase\\:\\:getProductRepository\\(\\) should return Akeneo\\\\Pim\\\\Enrichment\\\\Component\\\\Product\\\\Repository\\\\ProductRepositoryInterface but returns mixed\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/EndToEndTestCase.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\EndToEndTestCase\\:\\:getProductSaver\\(\\) should return Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Saver\\\\SaverInterface but returns mixed\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/EndToEndTestCase.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\EndToEndTestCase\\:\\:updateProductIdentifier\\(\\) should return Akeneo\\\\Pim\\\\Enrichment\\\\Component\\\\Product\\\\Model\\\\ProductInterface but returns object\\|null\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/EndToEndTestCase.php
+
+		-
+			message: "#^Parameter \\#1 \\$family of method Akeneo\\\\Pim\\\\Enrichment\\\\Component\\\\Product\\\\Model\\\\AbstractProduct\\:\\:setFamily\\(\\) expects Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Model\\\\FamilyInterface\\|null, mixed given\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/EndToEndTestCase.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of static method Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UpsertProductCommand\\:\\:createWithUuid\\(\\) expects int, mixed given\\.$#"
+			count: 4
+			path: EndToEnd/Infrastructure/EndToEndTestCase.php
+
+		-
+			message: "#^Parameter \\#3 \\$userIntents of static method Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UpsertProductCommand\\:\\:createWithUuid\\(\\) expects array\\<Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\UserIntent\\>, array\\<Akeneo\\\\Category\\\\Api\\\\Command\\\\UserIntents\\\\UserIntent\\|Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetFamily\\|Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetIdentifierValue\\>\\|null given\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/EndToEndTestCase.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\Subscriber\\\\SqlUpdateIdentifierPrefixesQueryEndToEnd\\:\\:getConnection\\(\\) should return Doctrine\\\\DBAL\\\\Connection but returns mixed\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Query/SqlUpdateIdentifierPrefixesQueryEndToEnd.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\Subscriber\\\\SqlUpdateIdentifierPrefixesQueryEndToEnd\\:\\:getPrefixes\\(\\) has parameter \\$identifierId with no type specified\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Query/SqlUpdateIdentifierPrefixesQueryEndToEnd.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\Subscriber\\\\SqlUpdateIdentifierPrefixesQueryEndToEnd\\:\\:getPrefixes\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Query/SqlUpdateIdentifierPrefixesQueryEndToEnd.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\Subscriber\\\\SqlUpdateIdentifierPrefixesQueryEndToEnd\\:\\:getProductRemover\\(\\) should return Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Remover\\\\RemoverInterface but returns mixed\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Query/SqlUpdateIdentifierPrefixesQueryEndToEnd.php
+
+		-
+			message: "#^Anonymous function should return string\\|null but returns mixed\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Subscriber/SetIdentifiersSubscriberEndToEnd.php
+
+		-
+			message: "#^Cannot call method clear\\(\\) on mixed\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Subscriber/SetIdentifiersSubscriberEndToEnd.php
+
+		-
+			message: "#^Cannot call method create\\(\\) on mixed\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Subscriber/SetIdentifiersSubscriberEndToEnd.php
+
+		-
+			message: "#^Cannot call method enable\\(\\) on mixed\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Subscriber/SetIdentifiersSubscriberEndToEnd.php
+
+		-
+			message: "#^Cannot call method getData\\(\\) on Akeneo\\\\Pim\\\\Enrichment\\\\Component\\\\Product\\\\Model\\\\ValueInterface\\|null\\.$#"
+			count: 5
+			path: EndToEnd/Infrastructure/Subscriber/SetIdentifiersSubscriberEndToEnd.php
+
+		-
+			message: "#^Cannot call method getIdentifier\\(\\) on object\\|null\\.$#"
+			count: 2
+			path: EndToEnd/Infrastructure/Subscriber/SetIdentifiersSubscriberEndToEnd.php
+
+		-
+			message: "#^Cannot call method save\\(\\) on mixed\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Subscriber/SetIdentifiersSubscriberEndToEnd.php
+
+		-
+			message: "#^Cannot call method update\\(\\) on mixed\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Subscriber/SetIdentifiersSubscriberEndToEnd.php
+
+		-
+			message: "#^Cannot call method validate\\(\\) on mixed\\.$#"
+			count: 3
+			path: EndToEnd/Infrastructure/Subscriber/SetIdentifiersSubscriberEndToEnd.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\IntegrationTestsBundle\\\\Configuration\\\\CatalogInterface\\:\\:useMinimalCatalog\\(\\) invoked with 1 parameter, 0 required\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Subscriber/SetIdentifiersSubscriberEndToEnd.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\Subscriber\\\\SetIdentifiersSubscriberEndToEnd\\:\\:createAttribute\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Subscriber/SetIdentifiersSubscriberEndToEnd.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\Subscriber\\\\SetIdentifiersSubscriberEndToEnd\\:\\:createIdentifierGenerator\\(\\) has parameter \\$conditions with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Subscriber/SetIdentifiersSubscriberEndToEnd.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\Subscriber\\\\SetIdentifiersSubscriberEndToEnd\\:\\:createIdentifierGenerator\\(\\) has parameter \\$structure with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Subscriber/SetIdentifiersSubscriberEndToEnd.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\Subscriber\\\\SetIdentifiersSubscriberEndToEnd\\:\\:createNomenclature\\(\\) has parameter \\$values with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Subscriber/SetIdentifiersSubscriberEndToEnd.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\Subscriber\\\\SetIdentifiersSubscriberEndToEnd\\:\\:createRecords\\(\\) has parameter \\$recordCodes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Subscriber/SetIdentifiersSubscriberEndToEnd.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\Subscriber\\\\SetIdentifiersSubscriberEndToEnd\\:\\:getAttributeFactory\\(\\) should return Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Factory\\\\AttributeFactory but returns mixed\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Subscriber/SetIdentifiersSubscriberEndToEnd.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\Subscriber\\\\SetIdentifiersSubscriberEndToEnd\\:\\:getAttributeOptionSaver\\(\\) should return Akeneo\\\\Tool\\\\Bundle\\\\StorageUtilsBundle\\\\Doctrine\\\\Common\\\\Saver\\\\BaseSaver but returns mixed\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Subscriber/SetIdentifiersSubscriberEndToEnd.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\Subscriber\\\\SetIdentifiersSubscriberEndToEnd\\:\\:getAttributeSaver\\(\\) should return Akeneo\\\\Pim\\\\Structure\\\\Bundle\\\\Doctrine\\\\ORM\\\\Saver\\\\AttributeSaver but returns mixed\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Subscriber/SetIdentifiersSubscriberEndToEnd.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\Subscriber\\\\SetIdentifiersSubscriberEndToEnd\\:\\:getAttributeUpdater\\(\\) should return Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Updater\\\\AttributeUpdater but returns mixed\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Subscriber/SetIdentifiersSubscriberEndToEnd.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\Subscriber\\\\SetIdentifiersSubscriberEndToEnd\\:\\:getConnection\\(\\) should return Doctrine\\\\DBAL\\\\Connection but returns mixed\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Subscriber/SetIdentifiersSubscriberEndToEnd.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\Subscriber\\\\SetIdentifiersSubscriberEndToEnd\\:\\:getCreateGeneratorHandler\\(\\) should return Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Create\\\\CreateGeneratorHandler but returns mixed\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Subscriber/SetIdentifiersSubscriberEndToEnd.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\Subscriber\\\\SetIdentifiersSubscriberEndToEnd\\:\\:getUpdateNomenclatureHandler\\(\\) should return Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Update\\\\UpdateNomenclatureHandler but returns mixed\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Subscriber/SetIdentifiersSubscriberEndToEnd.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\Subscriber\\\\SetIdentifiersSubscriberEndToEnd\\:\\:getValidator\\(\\) should return Symfony\\\\Component\\\\Validator\\\\Validator\\\\ValidatorInterface but returns mixed\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Subscriber/SetIdentifiersSubscriberEndToEnd.php
+
+		-
+			message: "#^Parameter \\#1 \\$attribute of method Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Model\\\\AttributeOption\\:\\:setAttribute\\(\\) expects Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Model\\\\AttributeInterface\\|null, object given\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Subscriber/SetIdentifiersSubscriberEndToEnd.php
+
+		-
+			message: "#^Parameter \\$userIntents of method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\EndToEndTestCase\\:\\:createProduct\\(\\) expects array\\<Akeneo\\\\Category\\\\Api\\\\Command\\\\UserIntents\\\\UserIntent\\>\\|null, array\\<int, Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetSimpleReferenceEntityValue\\> given\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Subscriber/SetIdentifiersSubscriberEndToEnd.php
+
+		-
+			message: "#^Parameter \\$userIntents of method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\EndToEnd\\\\Infrastructure\\\\EndToEndTestCase\\:\\:createProduct\\(\\) expects array\\<Akeneo\\\\Category\\\\Api\\\\Command\\\\UserIntents\\\\UserIntent\\>\\|null, array\\<int, Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetSimpleSelectValue\\> given\\.$#"
+			count: 1
+			path: EndToEnd/Infrastructure/Subscriber/SetIdentifiersSubscriberEndToEnd.php
+
+		-
+			message: "#^Trying to invoke mixed but it's not a callable\\.$#"
+			count: 2
+			path: EndToEnd/Infrastructure/Subscriber/SetIdentifiersSubscriberEndToEnd.php
+
+		-
+			message: "#^Cannot cast mixed to int\\.$#"
+			count: 1
+			path: Integration/Import/ImportProductsIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Integration\\\\Import\\\\ImportProductsIntegration\\:\\:getConnection\\(\\) should return Doctrine\\\\DBAL\\\\Connection but returns mixed\\.$#"
+			count: 1
+			path: Integration/Import/ImportProductsIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Integration\\\\Import\\\\ImportProductsIntegration\\:\\:getIdentifierGeneratorRepository\\(\\) should return Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Repository\\\\IdentifierGeneratorRepository but returns mixed\\.$#"
+			count: 1
+			path: Integration/Import/ImportProductsIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Integration\\\\Import\\\\ImportProductsIntegration\\:\\:getImportWarnings\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Integration/Import/ImportProductsIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Integration\\\\Import\\\\ImportProductsIntegration\\:\\:getJobLauncher\\(\\) should return Akeneo\\\\Test\\\\IntegrationTestsBundle\\\\Launcher\\\\JobLauncher but returns mixed\\.$#"
+			count: 1
+			path: Integration/Import/ImportProductsIntegration.php
+
+		-
+			message: "#^Parameter \\#1 \\$data of function unserialize expects string, mixed given\\.$#"
+			count: 1
+			path: Integration/Import/ImportProductsIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Integration\\\\Query\\\\ReorderIdentifierGeneratorsIntegration\\:\\:assertOrder\\(\\) has parameter \\$expectedCodes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Integration/Query/ReorderIdentifierGeneratorsIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Integration\\\\Query\\\\ReorderIdentifierGeneratorsIntegration\\:\\:getConnection\\(\\) should return Doctrine\\\\DBAL\\\\Connection but returns mixed\\.$#"
+			count: 1
+			path: Integration/Query/ReorderIdentifierGeneratorsIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Integration\\\\Query\\\\ReorderIdentifierGeneratorsIntegration\\:\\:getCreateHandler\\(\\) should return Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Create\\\\CreateGeneratorHandler but returns mixed\\.$#"
+			count: 1
+			path: Integration/Query/ReorderIdentifierGeneratorsIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Integration\\\\Query\\\\ReorderIdentifierGeneratorsIntegration\\:\\:getReorderQuery\\(\\) should return Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Query\\\\ReorderIdentifierGenerators but returns mixed\\.$#"
+			count: 1
+			path: Integration/Query/ReorderIdentifierGeneratorsIntegration.php
+
+		-
+			message: "#^Parameter \\#1 \\$code of class Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Create\\\\CreateGeneratorCommand constructor expects string, string\\|null given\\.$#"
+			count: 1
+			path: Integration/Query/ReorderIdentifierGeneratorsIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\IntegrationTestsBundle\\\\Configuration\\\\CatalogInterface\\:\\:useMinimalCatalog\\(\\) invoked with 1 parameter, 0 required\\.$#"
+			count: 1
+			path: Integration/Repository/SqlIdentifierGeneratorRepositoryIntegration.php
+
+		-
+			message: "#^Property Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Integration\\\\Repository\\\\SqlIdentifierGeneratorRepositoryIntegration\\:\\:\\$connection \\(Doctrine\\\\DBAL\\\\Connection\\) does not accept mixed\\.$#"
+			count: 1
+			path: Integration/Repository/SqlIdentifierGeneratorRepositoryIntegration.php
+
+		-
+			message: "#^Property Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Integration\\\\Repository\\\\SqlIdentifierGeneratorRepositoryIntegration\\:\\:\\$identifierGeneratorRepository \\(Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Repository\\\\IdentifierGeneratorRepository\\) does not accept mixed\\.$#"
+			count: 1
+			path: Integration/Repository/SqlIdentifierGeneratorRepositoryIntegration.php
+
+		-
+			message: "#^Parameter \\#2 \\$result of method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Integration\\\\Repository\\\\SqlReferenceEntityNomenclatureRepositoryIntegration\\:\\:assertSameNomenclatureDefinition\\(\\) expects Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinition, Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinition\\|null given\\.$#"
+			count: 3
+			path: Integration/Repository/SqlReferenceEntityNomenclatureRepositoryIntegration.php
+
+		-
+			message: "#^Cannot call method create\\(\\) on mixed\\.$#"
+			count: 2
+			path: Integration/Repository/SqlSimpleSelectNomenclatureRepositoryIntegration.php
+
+		-
+			message: "#^Cannot call method save\\(\\) on mixed\\.$#"
+			count: 2
+			path: Integration/Repository/SqlSimpleSelectNomenclatureRepositoryIntegration.php
+
+		-
+			message: "#^Cannot call method update\\(\\) on mixed\\.$#"
+			count: 2
+			path: Integration/Repository/SqlSimpleSelectNomenclatureRepositoryIntegration.php
+
+		-
+			message: "#^Cannot call method validate\\(\\) on mixed\\.$#"
+			count: 2
+			path: Integration/Repository/SqlSimpleSelectNomenclatureRepositoryIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\IntegrationTestsBundle\\\\Configuration\\\\CatalogInterface\\:\\:useMinimalCatalog\\(\\) invoked with 1 parameter, 0 required\\.$#"
+			count: 1
+			path: Integration/Repository/SqlSimpleSelectNomenclatureRepositoryIntegration.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Integration\\\\Repository\\\\SqlSimpleSelectNomenclatureRepositoryIntegration\\:\\:createAttribute\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Integration/Repository/SqlSimpleSelectNomenclatureRepositoryIntegration.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Integration\\\\Repository\\\\SqlSimpleSelectNomenclatureRepositoryIntegration\\:\\:createAttributeOption\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Integration/Repository/SqlSimpleSelectNomenclatureRepositoryIntegration.php
+
+		-
+			message: "#^Parameter \\#2 \\$result of method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Integration\\\\Repository\\\\SqlSimpleSelectNomenclatureRepositoryIntegration\\:\\:assertSameNomenclatureDefinition\\(\\) expects Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinition, Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinition\\|null given\\.$#"
+			count: 3
+			path: Integration/Repository/SqlSimpleSelectNomenclatureRepositoryIntegration.php
+
+		-
+			message: "#^Property Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Integration\\\\Repository\\\\SqlSimpleSelectNomenclatureRepositoryIntegration\\:\\:\\$connection \\(Doctrine\\\\DBAL\\\\Connection\\) does not accept mixed\\.$#"
+			count: 1
+			path: Integration/Repository/SqlSimpleSelectNomenclatureRepositoryIntegration.php
+
+		-
+			message: "#^Property Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Integration\\\\Repository\\\\SqlSimpleSelectNomenclatureRepositoryIntegration\\:\\:\\$connection is never read, only written\\.$#"
+			count: 1
+			path: Integration/Repository/SqlSimpleSelectNomenclatureRepositoryIntegration.php
+
+		-
+			message: "#^Property Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Integration\\\\Repository\\\\SqlSimpleSelectNomenclatureRepositoryIntegration\\:\\:\\$simpleSelectNomenclatureRepository \\(Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Repository\\\\SimpleSelectNomenclatureRepository\\) does not accept mixed\\.$#"
+			count: 1
+			path: Integration/Repository/SqlSimpleSelectNomenclatureRepositoryIntegration.php
+
+		-
+			message: "#^Cannot call method clear\\(\\) on mixed\\.$#"
+			count: 1
+			path: Integration/ZddMigrations/V20221205153905FillIdentifierPrefixesZddMigrationIntegration.php
+
+		-
+			message: "#^Cannot call method dispatch\\(\\) on mixed\\.$#"
+			count: 1
+			path: Integration/ZddMigrations/V20221205153905FillIdentifierPrefixesZddMigrationIntegration.php
+
+		-
+			message: "#^Cannot call method logIn\\(\\) on mixed\\.$#"
+			count: 1
+			path: Integration/ZddMigrations/V20221205153905FillIdentifierPrefixesZddMigrationIntegration.php
+
+		-
+			message: "#^Cannot call method reset\\(\\) on object\\|null\\.$#"
+			count: 1
+			path: Integration/ZddMigrations/V20221205153905FillIdentifierPrefixesZddMigrationIntegration.php
+
+		-
+			message: "#^Cannot call method toString\\(\\) on Ramsey\\\\Uuid\\\\UuidInterface\\|null\\.$#"
+			count: 1
+			path: Integration/ZddMigrations/V20221205153905FillIdentifierPrefixesZddMigrationIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Integration\\\\ZddMigrations\\\\V20221205153905FillIdentifierPrefixesZddMigrationIntegration\\:\\:createProduct\\(\\) has parameter \\$userIntents with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Integration/ZddMigrations/V20221205153905FillIdentifierPrefixesZddMigrationIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Integration\\\\ZddMigrations\\\\V20221205153905FillIdentifierPrefixesZddMigrationIntegration\\:\\:getConnection\\(\\) should return Doctrine\\\\DBAL\\\\Connection but returns mixed\\.$#"
+			count: 1
+			path: Integration/ZddMigrations/V20221205153905FillIdentifierPrefixesZddMigrationIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Integration\\\\ZddMigrations\\\\V20221205153905FillIdentifierPrefixesZddMigrationIntegration\\:\\:getIdentifierGeneratorPrefixes\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Integration/ZddMigrations/V20221205153905FillIdentifierPrefixesZddMigrationIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Test\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Integration\\\\ZddMigrations\\\\V20221205153905FillIdentifierPrefixesZddMigrationIntegration\\:\\:getMigration\\(\\) should return Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\ZddMigrations\\\\V20221205153905FillIdentifierPrefixesZddMigration but returns mixed\\.$#"
+			count: 1
+			path: Integration/ZddMigrations/V20221205153905FillIdentifierPrefixesZddMigrationIntegration.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\IdentifierGeneratorId\\:\\:shouldBeCalled\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Create/CreateGeneratorHandlerSpec.php
+
+		-
+			message: "#^Cannot call method shouldBeCalledOnce\\(\\) on null\\.$#"
+			count: 1
+			path: Specification/Application/Create/CreateGeneratorHandlerSpec.php
+
+		-
+			message: "#^Cannot call method shouldHaveBeenCalled\\(\\) on null\\.$#"
+			count: 1
+			path: Specification/Application/Create/CreateGeneratorHandlerSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Create\\\\CreateGeneratorHandlerSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Application/Create/CreateGeneratorHandlerSpec.php
+
+		-
+			message: "#^Parameter \\#1 \\$identifierGenerator of method Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Repository\\\\IdentifierGeneratorRepository\\:\\:save\\(\\) expects Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\IdentifierGenerator, Prophecy\\\\Argument\\\\Token\\\\TypeToken given\\.$#"
+			count: 1
+			path: Specification/Application/Create/CreateGeneratorHandlerSpec.php
+
+		-
+			message: "#^Result of method Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Validation\\\\CommandValidatorInterface\\:\\:validate\\(\\) \\(void\\) is used\\.$#"
+			count: 1
+			path: Specification/Application/Create/CreateGeneratorHandlerSpec.php
+
+		-
+			message: "#^Result of method Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Repository\\\\IdentifierGeneratorRepository\\:\\:save\\(\\) \\(void\\) is used\\.$#"
+			count: 1
+			path: Specification/Application/Create/CreateGeneratorHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Exception\\\\ViolationsExceptionSpec\\:\\:normalize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Exception/ViolationsExceptionSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Exception\\\\ViolationsExceptionSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Application/Exception/ViolationsExceptionSpec.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Query\\\\GetNextIdentifierQuery\\:\\:getWrappedObject\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Generate/GenerateIdentifierHandlerSpec.php
+
+		-
+			message: "#^Cannot call method shouldBeCalled\\(\\) on int\\.$#"
+			count: 3
+			path: Specification/Application/Generate/GenerateIdentifierHandlerSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Generate\\\\GenerateIdentifierHandlerSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Application/Generate/GenerateIdentifierHandlerSpec.php
+
+		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 1
+			path: Specification/Application/Generate/GenerateIdentifierHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Generate\\\\Property\\\\GenerateAutoNumberHandlerSpec\\:\\:getPropertyClass\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Generate/Property/GenerateAutoNumberHandlerSpec.php
+
+		-
+			message: "#^Cannot call method shouldBeCalled\\(\\) on int\\.$#"
+			count: 4
+			path: Specification/Application/Generate/Property/GenerateAutoNumberHandlerSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Generate\\\\Property\\\\GenerateAutoNumberHandlerSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Application/Generate/Property/GenerateAutoNumberHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Repository\\\\FamilyNomenclatureRepository\\:\\:getWrappedObject\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Generate/Property/GenerateFamilyHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Repository\\\\ReferenceEntityNomenclatureRepository\\:\\:getWrappedObject\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Generate/Property/GenerateFamilyHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Repository\\\\SimpleSelectNomenclatureRepository\\:\\:getWrappedObject\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Generate/Property/GenerateFamilyHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Query\\\\PublicApi\\\\AttributeType\\\\GetAttributes\\:\\:getWrappedObject\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Generate/Property/GenerateFamilyHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Generate\\\\Property\\\\GenerateFamilyHandlerSpec\\:\\:getPropertyClass\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Generate/Property/GenerateFamilyHandlerSpec.php
+
+		-
+			message: "#^Cannot call method shouldBeCalled\\(\\) on Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinition\\|null\\.$#"
+			count: 2
+			path: Specification/Application/Generate/Property/GenerateFamilyHandlerSpec.php
+
+		-
+			message: "#^Cannot call method shouldBeCalledOnce\\(\\) on Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinition\\|null\\.$#"
+			count: 4
+			path: Specification/Application/Generate/Property/GenerateFamilyHandlerSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Generate\\\\Property\\\\GenerateFamilyHandlerSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Application/Generate/Property/GenerateFamilyHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Generate\\\\Property\\\\GenerateFreeTextHandlerSpec\\:\\:getPropertyClass\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Generate/Property/GenerateFreeTextHandlerSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Generate\\\\Property\\\\GenerateFreeTextHandlerSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Application/Generate/Property/GenerateFreeTextHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Repository\\\\FamilyNomenclatureRepository\\:\\:getWrappedObject\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Generate/Property/GenerateReferenceEntityHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Repository\\\\ReferenceEntityNomenclatureRepository\\:\\:getWrappedObject\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Generate/Property/GenerateReferenceEntityHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Repository\\\\SimpleSelectNomenclatureRepository\\:\\:getWrappedObject\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Generate/Property/GenerateReferenceEntityHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Query\\\\PublicApi\\\\AttributeType\\\\GetAttributes\\:\\:getWrappedObject\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Generate/Property/GenerateReferenceEntityHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Generate\\\\Property\\\\GenerateReferenceEntityHandlerSpec\\:\\:getPropertyClass\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Generate/Property/GenerateReferenceEntityHandlerSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Generate\\\\Property\\\\GenerateReferenceEntityHandlerSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Application/Generate/Property/GenerateReferenceEntityHandlerSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Generate\\\\Property\\\\GenerateReferenceEntityHandlerSpec\\:\\:getProductProjection\\(\\) has parameter \\$productValues with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Specification/Application/Generate/Property/GenerateReferenceEntityHandlerSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Generate\\\\Property\\\\GenerateReferenceEntityHandlerSpec\\:\\:let\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Application/Generate/Property/GenerateReferenceEntityHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Repository\\\\FamilyNomenclatureRepository\\:\\:getWrappedObject\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Generate/Property/GenerateSimpleSelectHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Repository\\\\ReferenceEntityNomenclatureRepository\\:\\:getWrappedObject\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Generate/Property/GenerateSimpleSelectHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Repository\\\\SimpleSelectNomenclatureRepository\\:\\:getWrappedObject\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Generate/Property/GenerateSimpleSelectHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Query\\\\PublicApi\\\\AttributeType\\\\GetAttributes\\:\\:getWrappedObject\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Generate/Property/GenerateSimpleSelectHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Generate\\\\Property\\\\GenerateSimpleSelectHandlerSpec\\:\\:getPropertyClass\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Generate/Property/GenerateSimpleSelectHandlerSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Generate\\\\Property\\\\GenerateSimpleSelectHandlerSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Application/Generate/Property/GenerateSimpleSelectHandlerSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Generate\\\\Property\\\\GenerateSimpleSelectHandlerSpec\\:\\:getProductProjection\\(\\) has parameter \\$productValues with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Specification/Application/Generate/Property/GenerateSimpleSelectHandlerSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Generate\\\\Property\\\\GenerateSimpleSelectHandlerSpec\\:\\:let\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Application/Generate/Property/GenerateSimpleSelectHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Generate\\\\Property\\\\PropertyProcessApplierSpec\\:\\:apply\\(\\)\\.$#"
+			count: 8
+			path: Specification/Application/Generate/Property/PropertyProcessApplierSpec.php
+
+		-
+			message: "#^Cannot call method shouldBeCalled\\(\\) on Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinition\\|null\\.$#"
+			count: 2
+			path: Specification/Application/Generate/Property/PropertyProcessApplierSpec.php
+
+		-
+			message: "#^Cannot call method shouldBeCalledOnce\\(\\) on Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinition\\|null\\.$#"
+			count: 6
+			path: Specification/Application/Generate/Property/PropertyProcessApplierSpec.php
+
+		-
+			message: "#^Cannot call method shouldBeCalledOnce\\(\\) on Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Query\\\\PublicApi\\\\AttributeType\\\\Attribute\\|null\\.$#"
+			count: 4
+			path: Specification/Application/Generate/Property/PropertyProcessApplierSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Generate\\\\Property\\\\PropertyProcessApplierSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Application/Generate/Property/PropertyProcessApplierSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Generate\\\\Property\\\\PropertyProcessApplierSpec\\:\\:let\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Application/Generate/Property/PropertyProcessApplierSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchCategoryHandlerSpec\\:\\:getConditionClass\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchCategoryHandlerSpec.php
+
+		-
+			message: "#^Cannot call method shouldBeCalled\\(\\) on bool\\.$#"
+			count: 6
+			path: Specification/Application/Match/Condition/MatchCategoryHandlerSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchCategoryHandlerSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchCategoryHandlerSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchCategoryHandlerSpec\\:\\:let\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchCategoryHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchEmptyIdentifierHandlerSpec\\:\\:getConditionClass\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchEmptyIdentifierHandlerSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchEmptyIdentifierHandlerSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchEmptyIdentifierHandlerSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchEmptyIdentifierHandlerSpec\\:\\:it_should_match_product_with_empty_identifier\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchEmptyIdentifierHandlerSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchEmptyIdentifierHandlerSpec\\:\\:it_should_match_product_without_identifier\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchEmptyIdentifierHandlerSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchEmptyIdentifierHandlerSpec\\:\\:it_should_not_match_product_with_filled_identifier\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchEmptyIdentifierHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchEnabledHandlerSpec\\:\\:getConditionClass\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchEnabledHandlerSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchEnabledHandlerSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchEnabledHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchFamilyHandlerSpec\\:\\:getConditionClass\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchFamilyHandlerSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchFamilyHandlerSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchFamilyHandlerSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchFamilyHandlerSpec\\:\\:it_should_match_empty\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchFamilyHandlerSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchFamilyHandlerSpec\\:\\:it_should_match_in\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchFamilyHandlerSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchFamilyHandlerSpec\\:\\:it_should_match_not_empty\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchFamilyHandlerSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchFamilyHandlerSpec\\:\\:it_should_match_not_in\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchFamilyHandlerSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchFamilyHandlerSpec\\:\\:it_should_not_match_empty\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchFamilyHandlerSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchFamilyHandlerSpec\\:\\:it_should_not_match_in\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchFamilyHandlerSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchFamilyHandlerSpec\\:\\:it_should_not_match_not_empty\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchFamilyHandlerSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchFamilyHandlerSpec\\:\\:it_should_not_match_not_in\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchFamilyHandlerSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchFamilyHandlerSpec\\:\\:it_should_not_match_not_in_when_product_has_no_family\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchFamilyHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchMultiSelectHandlerSpec\\:\\:getConditionClass\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchMultiSelectHandlerSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchMultiSelectHandlerSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchMultiSelectHandlerSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchMultiSelectHandlerSpec\\:\\:it_should_match_empty\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchMultiSelectHandlerSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchMultiSelectHandlerSpec\\:\\:it_should_match_in_list\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchMultiSelectHandlerSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchMultiSelectHandlerSpec\\:\\:it_should_match_not_empty\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchMultiSelectHandlerSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchMultiSelectHandlerSpec\\:\\:it_should_match_not_in_list\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchMultiSelectHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchReferenceEntityHandlerSpec\\:\\:getConditionClass\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchReferenceEntityHandlerSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchReferenceEntityHandlerSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchReferenceEntityHandlerSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchReferenceEntityHandlerSpec\\:\\:it_should_match_not_empty\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchReferenceEntityHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchSimpleSelectHandlerSpec\\:\\:getConditionClass\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchSimpleSelectHandlerSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchSimpleSelectHandlerSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchSimpleSelectHandlerSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchSimpleSelectHandlerSpec\\:\\:it_should_match_empty\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchSimpleSelectHandlerSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchSimpleSelectHandlerSpec\\:\\:it_should_match_in_list\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchSimpleSelectHandlerSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchSimpleSelectHandlerSpec\\:\\:it_should_match_not_empty\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchSimpleSelectHandlerSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\Condition\\\\MatchSimpleSelectHandlerSpec\\:\\:it_should_match_not_in_list\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Application/Match/Condition/MatchSimpleSelectHandlerSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\MatchIdentifierGeneratorHandlerSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Application/Match/MatchIdentifierGeneratorHandlerSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Match\\\\MatchIdentifierGeneratorHandlerSpec\\:\\:it_should_match_all_conditions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Application/Match/MatchIdentifierGeneratorHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Validation\\\\ErrorListSpec\\:\\:normalize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Validation/ErrorListSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Validation\\\\ErrorListSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Application/Validation/ErrorListSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Validation\\\\ErrorSpec\\:\\:normalize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Application/Validation/ErrorSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Application\\\\Validation\\\\ErrorSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Application/Validation/ErrorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\CategorySpec\\:\\:normalize\\(\\)\\.$#"
+			count: 2
+			path: Specification/Domain/Model/Condition/CategorySpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\CategorySpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/CategorySpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\ConditionsSpec\\:\\:and\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/ConditionsSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\ConditionsSpec\\:\\:normalize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/ConditionsSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\ConditionsSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/ConditionsSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\EmptyIdentifierSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/EmptyIdentifierSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\EmptyIdentifierSpec\\:\\:it_is_a_condition\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/EmptyIdentifierSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\EmptyIdentifierSpec\\:\\:let\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/EmptyIdentifierSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\EnabledSpec\\:\\:fromNormalized\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/EnabledSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\EnabledSpec\\:\\:normalize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/EnabledSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\EnabledSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/EnabledSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\FamilySpec\\:\\:normalize\\(\\)\\.$#"
+			count: 2
+			path: Specification/Domain/Model/Condition/FamilySpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\FamilySpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/FamilySpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\FamilySpec\\:\\:it_should_normalize_with_value\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/FamilySpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\FamilySpec\\:\\:it_should_normalize_without_value\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/FamilySpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\FamilySpec\\:\\:it_should_throw_exception_if_no_operator_is_defined\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/FamilySpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\FamilySpec\\:\\:it_should_throw_exception_if_operator_is_not_a_string\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/FamilySpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\FamilySpec\\:\\:it_should_throw_exception_if_type_is_not_family\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/FamilySpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\FamilySpec\\:\\:it_should_throw_exception_if_value_defined\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/FamilySpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\FamilySpec\\:\\:it_should_throw_exception_if_value_is_empty\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/FamilySpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\FamilySpec\\:\\:it_should_throw_exception_if_value_is_not_an_array_of_strings\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/FamilySpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\FamilySpec\\:\\:it_should_throw_exception_if_value_is_not_defined\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/FamilySpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\MultiSelectSpec\\:\\:normalize\\(\\)\\.$#"
+			count: 3
+			path: Specification/Domain/Model/Condition/MultiSelectSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\MultiSelectSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/MultiSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\MultiSelectSpec\\:\\:it_can_be_normalized_with_scope_and_locale\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/MultiSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\MultiSelectSpec\\:\\:it_can_be_normalized_with_value_and_in_operator\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/MultiSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\MultiSelectSpec\\:\\:it_can_be_normalized_without_value_and_empty_operator\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/MultiSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\MultiSelectSpec\\:\\:it_cant_be_instanciated_if_attribute_code_is_not_a_string\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/MultiSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\MultiSelectSpec\\:\\:it_cant_be_instanciated_if_locale_is_not_a_string\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/MultiSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\MultiSelectSpec\\:\\:it_cant_be_instanciated_if_no_attribute_code_is_defined\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/MultiSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\MultiSelectSpec\\:\\:it_cant_be_instanciated_if_no_operator_is_defined\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/MultiSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\MultiSelectSpec\\:\\:it_cant_be_instanciated_if_operator_is_invalid\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/MultiSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\MultiSelectSpec\\:\\:it_cant_be_instanciated_if_operator_is_not_a_string\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/MultiSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\MultiSelectSpec\\:\\:it_cant_be_instanciated_if_scope_is_not_a_string\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/MultiSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\MultiSelectSpec\\:\\:it_cant_be_instanciated_if_value_is_defined_and_operator_is_empty\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/MultiSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\MultiSelectSpec\\:\\:it_cant_be_instanciated_if_value_is_empty_for_in_operator\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/MultiSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\MultiSelectSpec\\:\\:it_cant_be_instanciated_if_value_is_not_an_array\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/MultiSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\MultiSelectSpec\\:\\:it_cant_be_instanciated_if_value_is_not_an_array_of_strings\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/MultiSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\MultiSelectSpec\\:\\:it_cant_be_instanciated_if_value_is_not_defined\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/MultiSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\MultiSelectSpec\\:\\:it_cant_be_instanciated_with_invalid_type\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/MultiSelectSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\ReferenceEntitySpec\\:\\:normalize\\(\\)\\.$#"
+			count: 2
+			path: Specification/Domain/Model/Condition/ReferenceEntitySpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\ReferenceEntitySpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/ReferenceEntitySpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\ReferenceEntitySpec\\:\\:it_is_initializable\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/ReferenceEntitySpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\ReferenceEntitySpec\\:\\:it_should_normalize\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/ReferenceEntitySpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\ReferenceEntitySpec\\:\\:it_should_normalize_with_scope_and_locale\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/ReferenceEntitySpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\ReferenceEntitySpec\\:\\:it_should_throw_exception_if_attribute_code_is_not_a_string\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/ReferenceEntitySpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\ReferenceEntitySpec\\:\\:it_should_throw_exception_if_locale_is_not_a_string\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/ReferenceEntitySpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\ReferenceEntitySpec\\:\\:it_should_throw_exception_if_no_attribute_code_is_defined\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/ReferenceEntitySpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\ReferenceEntitySpec\\:\\:it_should_throw_exception_if_no_operator_is_defined\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/ReferenceEntitySpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\ReferenceEntitySpec\\:\\:it_should_throw_exception_if_operator_is_invalid\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/ReferenceEntitySpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\ReferenceEntitySpec\\:\\:it_should_throw_exception_if_operator_is_not_a_string\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/ReferenceEntitySpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\ReferenceEntitySpec\\:\\:it_should_throw_exception_if_scope_is_not_a_string\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/ReferenceEntitySpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\ReferenceEntitySpec\\:\\:it_should_throw_exception_if_type_is_not_ref_entity\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/ReferenceEntitySpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\SimpleSelectSpec\\:\\:normalize\\(\\)\\.$#"
+			count: 3
+			path: Specification/Domain/Model/Condition/SimpleSelectSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\SimpleSelectSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/SimpleSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\SimpleSelectSpec\\:\\:it_should_normalize_with_scope_and_locale\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/SimpleSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\SimpleSelectSpec\\:\\:it_should_normalize_with_value\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/SimpleSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\SimpleSelectSpec\\:\\:it_should_normalize_without_value\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/SimpleSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\SimpleSelectSpec\\:\\:it_should_throw_exception_if_attribute_code_is_not_a_string\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/SimpleSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\SimpleSelectSpec\\:\\:it_should_throw_exception_if_locale_is_not_a_string\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/SimpleSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\SimpleSelectSpec\\:\\:it_should_throw_exception_if_no_attribute_code_is_defined\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/SimpleSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\SimpleSelectSpec\\:\\:it_should_throw_exception_if_no_operator_is_defined\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/SimpleSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\SimpleSelectSpec\\:\\:it_should_throw_exception_if_operator_is_invalid\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/SimpleSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\SimpleSelectSpec\\:\\:it_should_throw_exception_if_operator_is_not_a_string\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/SimpleSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\SimpleSelectSpec\\:\\:it_should_throw_exception_if_scope_is_not_a_string\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/SimpleSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\SimpleSelectSpec\\:\\:it_should_throw_exception_if_type_is_not_family\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/SimpleSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\SimpleSelectSpec\\:\\:it_should_throw_exception_if_value_is_defined_and_operator_is_empty\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/SimpleSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\SimpleSelectSpec\\:\\:it_should_throw_exception_if_value_is_empty\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/SimpleSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\SimpleSelectSpec\\:\\:it_should_throw_exception_if_value_is_not_an_array\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/SimpleSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\SimpleSelectSpec\\:\\:it_should_throw_exception_if_value_is_not_an_array_of_strings\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/SimpleSelectSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Condition\\\\SimpleSelectSpec\\:\\:it_should_throw_exception_if_value_is_not_defined\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Condition/SimpleSelectSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\DelimiterSpec\\:\\:asString\\(\\)\\.$#"
+			count: 2
+			path: Specification/Domain/Model/DelimiterSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\DelimiterSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Domain/Model/DelimiterSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\IdentifierGeneratorCodeSpec\\:\\:asString\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/IdentifierGeneratorCodeSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\IdentifierGeneratorCodeSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Domain/Model/IdentifierGeneratorCodeSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\IdentifierGeneratorIdSpec\\:\\:asString\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/IdentifierGeneratorIdSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\IdentifierGeneratorIdSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Domain/Model/IdentifierGeneratorIdSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\IdentifierGeneratorSpec\\:\\:code\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/IdentifierGeneratorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\IdentifierGeneratorSpec\\:\\:conditions\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/IdentifierGeneratorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\IdentifierGeneratorSpec\\:\\:delimiter\\(\\)\\.$#"
+			count: 4
+			path: Specification/Domain/Model/IdentifierGeneratorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\IdentifierGeneratorSpec\\:\\:id\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/IdentifierGeneratorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\IdentifierGeneratorSpec\\:\\:labelCollection\\(\\)\\.$#"
+			count: 3
+			path: Specification/Domain/Model/IdentifierGeneratorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\IdentifierGeneratorSpec\\:\\:normalize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/IdentifierGeneratorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\IdentifierGeneratorSpec\\:\\:structure\\(\\)\\.$#"
+			count: 3
+			path: Specification/Domain/Model/IdentifierGeneratorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\IdentifierGeneratorSpec\\:\\:target\\(\\)\\.$#"
+			count: 3
+			path: Specification/Domain/Model/IdentifierGeneratorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\IdentifierGeneratorSpec\\:\\:withDelimiter\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/IdentifierGeneratorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\IdentifierGeneratorSpec\\:\\:withLabelCollection\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/IdentifierGeneratorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\IdentifierGeneratorSpec\\:\\:withStructure\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/IdentifierGeneratorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\IdentifierGeneratorSpec\\:\\:withTarget\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/IdentifierGeneratorSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\IdentifierGeneratorSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Domain/Model/IdentifierGeneratorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\LabelCollectionSpec\\:\\:normalize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/LabelCollectionSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\LabelCollectionSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Domain/Model/LabelCollectionSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinitionSpec\\:\\:operator\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/NomenclatureDefinitionSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinitionSpec\\:\\:value\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/NomenclatureDefinitionSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinitionSpec\\:\\:withOperator\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/NomenclatureDefinitionSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinitionSpec\\:\\:withValue\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/NomenclatureDefinitionSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinitionSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Domain/Model/NomenclatureDefinitionSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinitionSpec\\:\\:it_clones_with_operator\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/NomenclatureDefinitionSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinitionSpec\\:\\:it_clones_with_value\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/NomenclatureDefinitionSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinitionSpec\\:\\:it_has_a_value\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/NomenclatureDefinitionSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinitionSpec\\:\\:it_has_an_operator\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/NomenclatureDefinitionSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinitionSpec\\:\\:it_is_initializable\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/NomenclatureDefinitionSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\NomenclatureDefinitionSpec\\:\\:let\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/NomenclatureDefinitionSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\ProductIdentifierSpec\\:\\:getPrefixes\\(\\)\\.$#"
+			count: 4
+			path: Specification/Domain/Model/ProductIdentifierSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\ProductIdentifierSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Domain/Model/ProductIdentifierSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\ProductIdentifierSpec\\:\\:it_does_not_generate_prefixes_with_too_big_numbers\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/ProductIdentifierSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\ProductIdentifierSpec\\:\\:it_does_not_return_any_prefix\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/ProductIdentifierSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\ProductIdentifierSpec\\:\\:it_generates_complex_prefixes\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/ProductIdentifierSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\ProductIdentifierSpec\\:\\:it_generates_simple_prefixes\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/ProductIdentifierSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\ProductIdentifierSpec\\:\\:it_is_a_product_identifier\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Domain/Model/ProductIdentifierSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Property\\\\AutoNumberSpec\\:\\:digitsMin\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Property/AutoNumberSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Property\\\\AutoNumberSpec\\:\\:fromNormalized\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Property/AutoNumberSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Property\\\\AutoNumberSpec\\:\\:normalize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Property/AutoNumberSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Property\\\\AutoNumberSpec\\:\\:numberMin\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Property/AutoNumberSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Property\\\\AutoNumberSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Domain/Model/Property/AutoNumberSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Property\\\\FamilyPropertySpec\\:\\:getImplicitCondition\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Property/FamilyPropertySpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Property\\\\FamilyPropertySpec\\:\\:normalize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Property/FamilyPropertySpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Property\\\\FamilyPropertySpec\\:\\:process\\(\\)\\.$#"
+			count: 2
+			path: Specification/Domain/Model/Property/FamilyPropertySpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Property\\\\FamilyPropertySpec\\:\\:type\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Property/FamilyPropertySpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Property\\\\FamilyPropertySpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Domain/Model/Property/FamilyPropertySpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Property\\\\FreeTextSpec\\:\\:asString\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Property/FreeTextSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Property\\\\FreeTextSpec\\:\\:fromNormalized\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Property/FreeTextSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Property\\\\FreeTextSpec\\:\\:normalize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Property/FreeTextSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Property\\\\FreeTextSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Domain/Model/Property/FreeTextSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Property\\\\ProcessSpec\\:\\:normalize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Property/ProcessSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Property\\\\ProcessSpec\\:\\:type\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Property/ProcessSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Property\\\\ProcessSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Domain/Model/Property/ProcessSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Property\\\\ReferenceEntityPropertySpec\\:\\:getImplicitCondition\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Property/ReferenceEntityPropertySpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Property\\\\ReferenceEntityPropertySpec\\:\\:normalize\\(\\)\\.$#"
+			count: 2
+			path: Specification/Domain/Model/Property/ReferenceEntityPropertySpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Property\\\\ReferenceEntityPropertySpec\\:\\:process\\(\\)\\.$#"
+			count: 2
+			path: Specification/Domain/Model/Property/ReferenceEntityPropertySpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Property\\\\ReferenceEntityPropertySpec\\:\\:type\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Property/ReferenceEntityPropertySpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Property\\\\ReferenceEntityPropertySpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Domain/Model/Property/ReferenceEntityPropertySpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Property\\\\SimpleSelectPropertySpec\\:\\:getImplicitCondition\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Property/SimpleSelectPropertySpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Property\\\\SimpleSelectPropertySpec\\:\\:normalize\\(\\)\\.$#"
+			count: 2
+			path: Specification/Domain/Model/Property/SimpleSelectPropertySpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Property\\\\SimpleSelectPropertySpec\\:\\:process\\(\\)\\.$#"
+			count: 2
+			path: Specification/Domain/Model/Property/SimpleSelectPropertySpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Property\\\\SimpleSelectPropertySpec\\:\\:type\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/Property/SimpleSelectPropertySpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\Property\\\\SimpleSelectPropertySpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Domain/Model/Property/SimpleSelectPropertySpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\StructureSpec\\:\\:fromNormalized\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/StructureSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\StructureSpec\\:\\:getImplicitConditions\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/StructureSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\StructureSpec\\:\\:getProperties\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/StructureSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\StructureSpec\\:\\:normalize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/StructureSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\StructureSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Domain/Model/StructureSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\TargetSpec\\:\\:asString\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/TargetSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\TargetSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Domain/Model/TargetSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\TextTransformationSpec\\:\\:normalize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Domain/Model/TextTransformationSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\TextTransformationSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Domain/Model/TextTransformationSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Repository\\\\InMemoryFamilyNomenclatureRepositorySpec\\:\\:get\\(\\)\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Repository/InMemoryFamilyNomenclatureRepositorySpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Repository\\\\InMemoryFamilyNomenclatureRepositorySpec\\:\\:update\\(\\)\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Repository/InMemoryFamilyNomenclatureRepositorySpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Repository\\\\InMemoryFamilyNomenclatureRepositorySpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Infrastructure/Repository/InMemoryFamilyNomenclatureRepositorySpec.php
+
+		-
+			message: "#^Access to an undefined property Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Repository\\\\InMemoryIdentifierGeneratorRepositorySpec\\:\\:\\$generators\\.$#"
+			count: 4
+			path: Specification/Infrastructure/Repository/InMemoryIdentifierGeneratorRepositorySpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Repository\\\\InMemoryIdentifierGeneratorRepositorySpec\\:\\:count\\(\\)\\.$#"
+			count: 5
+			path: Specification/Infrastructure/Repository/InMemoryIdentifierGeneratorRepositorySpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Repository\\\\InMemoryIdentifierGeneratorRepositorySpec\\:\\:delete\\(\\)\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Repository/InMemoryIdentifierGeneratorRepositorySpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Repository\\\\InMemoryIdentifierGeneratorRepositorySpec\\:\\:get\\(\\)\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Repository/InMemoryIdentifierGeneratorRepositorySpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Repository\\\\InMemoryIdentifierGeneratorRepositorySpec\\:\\:getAll\\(\\)\\.$#"
+			count: 3
+			path: Specification/Infrastructure/Repository/InMemoryIdentifierGeneratorRepositorySpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Repository\\\\InMemoryIdentifierGeneratorRepositorySpec\\:\\:reorder\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Repository/InMemoryIdentifierGeneratorRepositorySpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Repository\\\\InMemoryIdentifierGeneratorRepositorySpec\\:\\:save\\(\\)\\.$#"
+			count: 10
+			path: Specification/Infrastructure/Repository/InMemoryIdentifierGeneratorRepositorySpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Repository\\\\InMemoryIdentifierGeneratorRepositorySpec\\:\\:update\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Repository/InMemoryIdentifierGeneratorRepositorySpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Repository\\\\InMemoryIdentifierGeneratorRepositorySpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Infrastructure/Repository/InMemoryIdentifierGeneratorRepositorySpec.php
+
+		-
+			message: "#^Access to an undefined property Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Repository\\\\InMemoryReferenceEntityNomenclatureRepositorySpec\\:\\:\\$nomenclatureDefinitions\\.$#"
+			count: 4
+			path: Specification/Infrastructure/Repository/InMemoryReferenceEntityNomenclatureRepositorySpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Repository\\\\InMemoryReferenceEntityNomenclatureRepositorySpec\\:\\:get\\(\\)\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Repository/InMemoryReferenceEntityNomenclatureRepositorySpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Repository\\\\InMemoryReferenceEntityNomenclatureRepositorySpec\\:\\:update\\(\\)\\.$#"
+			count: 5
+			path: Specification/Infrastructure/Repository/InMemoryReferenceEntityNomenclatureRepositorySpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Repository\\\\InMemoryReferenceEntityNomenclatureRepositorySpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Infrastructure/Repository/InMemoryReferenceEntityNomenclatureRepositorySpec.php
+
+		-
+			message: "#^Access to an undefined property Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Repository\\\\InMemorySimpleSelectNomenclatureRepositorySpec\\:\\:\\$nomenclatureDefinitions\\.$#"
+			count: 4
+			path: Specification/Infrastructure/Repository/InMemorySimpleSelectNomenclatureRepositorySpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Repository\\\\InMemorySimpleSelectNomenclatureRepositorySpec\\:\\:get\\(\\)\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Repository/InMemorySimpleSelectNomenclatureRepositorySpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Repository\\\\InMemorySimpleSelectNomenclatureRepositorySpec\\:\\:update\\(\\)\\.$#"
+			count: 5
+			path: Specification/Infrastructure/Repository/InMemorySimpleSelectNomenclatureRepositorySpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Repository\\\\InMemorySimpleSelectNomenclatureRepositorySpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Infrastructure/Repository/InMemorySimpleSelectNomenclatureRepositorySpec.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Pim\\\\Enrichment\\\\Component\\\\Product\\\\Model\\\\EntityWithValuesInterface\\:\\:shouldBeCalled\\(\\)\\.$#"
+			count: 6
+			path: Specification/Infrastructure/Subscriber/SetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Pim\\\\Enrichment\\\\Component\\\\Product\\\\Model\\\\ProductInterface\\:\\:getWrappedObject\\(\\)\\.$#"
+			count: 3
+			path: Specification/Infrastructure/Subscriber/SetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Pim\\\\Enrichment\\\\Component\\\\Product\\\\Model\\\\WriteValueCollection\\:\\:shouldBeCalled\\(\\)\\.$#"
+			count: 3
+			path: Specification/Infrastructure/Subscriber/SetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Call to an undefined method Prophecy\\\\Argument\\\\Token\\\\AnyValuesToken\\:\\:shouldBeCalled\\(\\)\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Subscriber/SetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Call to an undefined method Prophecy\\\\Argument\\\\Token\\\\AnyValuesToken\\:\\:shouldNotBeCalled\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Subscriber/SetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Subscriber\\\\SetIdentifiersSubscriberSpec\\:\\:getSubscribedEvents\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Subscriber/SetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Subscriber\\\\SetIdentifiersSubscriberSpec\\:\\:setIdentifier\\(\\)\\.$#"
+			count: 4
+			path: Specification/Infrastructure/Subscriber/SetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\ConstraintViolationListInterface\\:\\:shouldBeCalled\\(\\)\\.$#"
+			count: 6
+			path: Specification/Infrastructure/Subscriber/SetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Mapping\\\\MetadataInterface\\:\\:shouldBeCalled\\(\\)\\.$#"
+			count: 3
+			path: Specification/Infrastructure/Subscriber/SetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Cannot call method shouldBeCalled\\(\\) on Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Model\\\\FamilyInterface\\|null\\.$#"
+			count: 3
+			path: Specification/Infrastructure/Subscriber/SetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Cannot call method shouldBeCalled\\(\\) on array\\.$#"
+			count: 3
+			path: Specification/Infrastructure/Subscriber/SetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Cannot call method shouldBeCalled\\(\\) on array\\<Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\IdentifierGenerator\\>\\.$#"
+			count: 3
+			path: Specification/Infrastructure/Subscriber/SetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Cannot call method shouldBeCalled\\(\\) on array\\<Symfony\\\\Component\\\\Validator\\\\Constraint\\>\\.$#"
+			count: 3
+			path: Specification/Infrastructure/Subscriber/SetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Cannot call method shouldBeCalled\\(\\) on array\\<Symfony\\\\Component\\\\Validator\\\\Mapping\\\\PropertyMetadataInterface\\>\\.$#"
+			count: 3
+			path: Specification/Infrastructure/Subscriber/SetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Cannot call method shouldBeCalled\\(\\) on bool\\.$#"
+			count: 5
+			path: Specification/Infrastructure/Subscriber/SetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Cannot call method shouldBeCalled\\(\\) on mixed\\.$#"
+			count: 3
+			path: Specification/Infrastructure/Subscriber/SetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Cannot call method shouldBeCalled\\(\\) on null\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Subscriber/SetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Cannot call method shouldNotBeCalled\\(\\) on array\\<Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\IdentifierGenerator\\>\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Subscriber/SetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Cannot call method shouldNotBeCalled\\(\\) on null\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Subscriber/SetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Cannot call method willReturn\\(\\) on bool\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Subscriber/SetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Subscriber\\\\SetIdentifiersSubscriberSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Infrastructure/Subscriber/SetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Parameter \\#1 \\$message of method Psr\\\\Log\\\\LoggerInterface\\:\\:notice\\(\\) expects string, Prophecy\\\\Argument\\\\Token\\\\AnyValuesToken given\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Subscriber/SetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Result of method Psr\\\\Log\\\\LoggerInterface\\:\\:notice\\(\\) \\(void\\) is used\\.$#"
+			count: 3
+			path: Specification/Infrastructure/Subscriber/SetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Model\\\\StepExecution\\:\\:getWrappedObject\\(\\)\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Subscriber/UnableToSetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Model\\\\StepExecution\\:\\:shouldBeCalled\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Subscriber/UnableToSetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Subscriber\\\\UnableToSetIdentifiersSubscriberSpec\\:\\:getSubscribedEvents\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Subscriber/UnableToSetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Subscriber\\\\UnableToSetIdentifiersSubscriberSpec\\:\\:storeEvent\\(\\)\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Subscriber/UnableToSetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Subscriber\\\\UnableToSetIdentifiersSubscriberSpec\\:\\:writeWarnings\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Subscriber/UnableToSetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Cannot call method shouldBeCalled\\(\\) on null\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Subscriber/UnableToSetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Subscriber\\\\UnableToSetIdentifiersSubscriberSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Infrastructure/Subscriber/UnableToSetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Subscriber\\\\UnableToSetIdentifiersSubscriberSpec\\:\\:let\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Subscriber/UnableToSetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Result of method Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Job\\\\JobRepositoryInterface\\:\\:addWarnings\\(\\) \\(void\\) is used\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Subscriber/UnableToSetIdentifiersSubscriberSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\AttributeShouldExistValidatorSpec\\:\\:initialize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/AttributeShouldExistValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\AttributeShouldExistValidatorSpec\\:\\:validate\\(\\)\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Validation/AttributeShouldExistValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldBeCalled\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/AttributeShouldExistValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldNotBeCalled\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/AttributeShouldExistValidatorSpec.php
+
+		-
+			message: "#^Cannot call method shouldBeCalledOnce\\(\\) on Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Query\\\\PublicApi\\\\AttributeType\\\\Attribute\\|null\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/AttributeShouldExistValidatorSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\AttributeShouldExistValidatorSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/AttributeShouldExistValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\AttributeShouldHaveTypeValidatorSpec\\:\\:initialize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/AttributeShouldHaveTypeValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\AttributeShouldHaveTypeValidatorSpec\\:\\:validate\\(\\)\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Validation/AttributeShouldHaveTypeValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldBeCalled\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/AttributeShouldHaveTypeValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldNotBeCalled\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/AttributeShouldHaveTypeValidatorSpec.php
+
+		-
+			message: "#^Cannot call method shouldBeCalledOnce\\(\\) on Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Query\\\\PublicApi\\\\AttributeType\\\\Attribute\\|null\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Validation/AttributeShouldHaveTypeValidatorSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\AttributeShouldHaveTypeValidatorSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/AttributeShouldHaveTypeValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\AutoNumberShouldBeValidValidatorSpec\\:\\:initialize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/AutoNumberShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\AutoNumberShouldBeValidValidatorSpec\\:\\:validate\\(\\)\\.$#"
+			count: 4
+			path: Specification/Infrastructure/Validation/AutoNumberShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldBeCalled\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/AutoNumberShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldNotBeCalled\\(\\)\\.$#"
+			count: 3
+			path: Specification/Infrastructure/Validation/AutoNumberShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\AutoNumberShouldBeValidValidatorSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/AutoNumberShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Generator\\<mixed, Akeneo\\\\Category\\\\ServiceApi\\\\Category, mixed, mixed\\>\\:\\:shouldBeCalled\\(\\)\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Validation/CategoryCodesShouldExistValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\CategoryCodesShouldExistValidatorSpec\\:\\:initialize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/CategoryCodesShouldExistValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\CategoryCodesShouldExistValidatorSpec\\:\\:validate\\(\\)\\.$#"
+			count: 5
+			path: Specification/Infrastructure/Validation/CategoryCodesShouldExistValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldBeCalled\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/CategoryCodesShouldExistValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldNotBeCalled\\(\\)\\.$#"
+			count: 4
+			path: Specification/Infrastructure/Validation/CategoryCodesShouldExistValidatorSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\CategoryCodesShouldExistValidatorSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/CategoryCodesShouldExistValidatorSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\CategoryCodesShouldExistValidatorSpec\\:\\:arrayAsGenerator\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/CategoryCodesShouldExistValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\CategoryShouldBeValidValidatorSpec\\:\\:initialize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/CategoryShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\CategoryShouldBeValidValidatorSpec\\:\\:validate\\(\\)\\.$#"
+			count: 5
+			path: Specification/Infrastructure/Validation/CategoryShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\ConstraintViolationListInterface\\:\\:shouldBeCalledTimes\\(\\)\\.$#"
+			count: 3
+			path: Specification/Infrastructure/Validation/CategoryShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\ConstraintViolationListInterface\\:\\:shouldNotBeCalled\\(\\)\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Validation/CategoryShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Validator\\\\ContextualValidatorInterface\\:\\:willReturn\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/CategoryShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldNotBeCalled\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/CategoryShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\CategoryShouldBeValidValidatorSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/CategoryShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Parameter \\#2 \\$constraints of method Symfony\\\\Component\\\\Validator\\\\Validator\\\\ValidatorInterface\\:\\:validate\\(\\) expects array\\<Symfony\\\\Component\\\\Validator\\\\Constraint\\>\\|Symfony\\\\Component\\\\Validator\\\\Constraint\\|null, Prophecy\\\\Argument\\\\Token\\\\AnyValueToken given\\.$#"
+			count: 3
+			path: Specification/Infrastructure/Validation/CategoryShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\ConditionsShouldNotContainMultipleConditionValidatorSpec\\:\\:initialize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/ConditionsShouldNotContainMultipleConditionValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\ConditionsShouldNotContainMultipleConditionValidatorSpec\\:\\:validate\\(\\)\\.$#"
+			count: 6
+			path: Specification/Infrastructure/Validation/ConditionsShouldNotContainMultipleConditionValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldBeCalled\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/ConditionsShouldNotContainMultipleConditionValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldNotBeCalled\\(\\)\\.$#"
+			count: 5
+			path: Specification/Infrastructure/Validation/ConditionsShouldNotContainMultipleConditionValidatorSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\ConditionsShouldNotContainMultipleConditionValidatorSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/ConditionsShouldNotContainMultipleConditionValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\EnabledShouldBeValidValidatorSpec\\:\\:initialize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/EnabledShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\EnabledShouldBeValidValidatorSpec\\:\\:validate\\(\\)\\.$#"
+			count: 5
+			path: Specification/Infrastructure/Validation/EnabledShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldBeCalled\\(\\)\\.$#"
+			count: 3
+			path: Specification/Infrastructure/Validation/EnabledShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldNotBeCalled\\(\\)\\.$#"
+			count: 3
+			path: Specification/Infrastructure/Validation/EnabledShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\EnabledShouldBeValidValidatorSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/EnabledShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\FamilyCodesShouldExistValidatorSpec\\:\\:initialize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/FamilyCodesShouldExistValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\FamilyCodesShouldExistValidatorSpec\\:\\:validate\\(\\)\\.$#"
+			count: 4
+			path: Specification/Infrastructure/Validation/FamilyCodesShouldExistValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldBeCalled\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/FamilyCodesShouldExistValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldNotBeCalled\\(\\)\\.$#"
+			count: 3
+			path: Specification/Infrastructure/Validation/FamilyCodesShouldExistValidatorSpec.php
+
+		-
+			message: "#^Cannot call method willReturn\\(\\) on array\\<string\\>\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/FamilyCodesShouldExistValidatorSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\FamilyCodesShouldExistValidatorSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/FamilyCodesShouldExistValidatorSpec.php
+
+		-
+			message: "#^Parameter \\#1 \\$message of method Symfony\\\\Component\\\\Validator\\\\Context\\\\ExecutionContext\\:\\:buildViolation\\(\\) expects string, Prophecy\\\\Argument\\\\Token\\\\AnyValueToken given\\.$#"
+			count: 4
+			path: Specification/Infrastructure/Validation/FamilyCodesShouldExistValidatorSpec.php
+
+		-
+			message: "#^Parameter \\#1 \\$query of method Akeneo\\\\Pim\\\\Structure\\\\Family\\\\ServiceAPI\\\\Query\\\\FindFamilyCodes\\:\\:fromQuery\\(\\) expects Akeneo\\\\Pim\\\\Structure\\\\Family\\\\ServiceAPI\\\\Query\\\\FamilyQuery, Prophecy\\\\Argument\\\\Token\\\\AnyValueToken given\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/FamilyCodesShouldExistValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\FamilyPropertyShouldBeValidValidatorSpec\\:\\:initialize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/FamilyPropertyShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\FamilyPropertyShouldBeValidValidatorSpec\\:\\:validate\\(\\)\\.$#"
+			count: 6
+			path: Specification/Infrastructure/Validation/FamilyPropertyShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldBeCalledOnce\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/FamilyPropertyShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldNotBeCalled\\(\\)\\.$#"
+			count: 5
+			path: Specification/Infrastructure/Validation/FamilyPropertyShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\FamilyPropertyShouldBeValidValidatorSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/FamilyPropertyShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\FamilyShouldBeValidValidatorSpec\\:\\:initialize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/FamilyShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\FamilyShouldBeValidValidatorSpec\\:\\:validate\\(\\)\\.$#"
+			count: 5
+			path: Specification/Infrastructure/Validation/FamilyShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\ConstraintViolationListInterface\\:\\:shouldBeCalledTimes\\(\\)\\.$#"
+			count: 3
+			path: Specification/Infrastructure/Validation/FamilyShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\ConstraintViolationListInterface\\:\\:shouldNotBeCalled\\(\\)\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Validation/FamilyShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Validator\\\\ContextualValidatorInterface\\:\\:willReturn\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/FamilyShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldNotBeCalled\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/FamilyShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\FamilyShouldBeValidValidatorSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/FamilyShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Parameter \\#1 \\$message of method Symfony\\\\Component\\\\Validator\\\\Context\\\\ExecutionContext\\:\\:buildViolation\\(\\) expects string, Prophecy\\\\Argument\\\\Token\\\\AnyValueToken given\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/FamilyShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Parameter \\#2 \\$constraints of method Symfony\\\\Component\\\\Validator\\\\Validator\\\\ValidatorInterface\\:\\:validate\\(\\) expects array\\<Symfony\\\\Component\\\\Validator\\\\Constraint\\>\\|Symfony\\\\Component\\\\Validator\\\\Constraint\\|null, Prophecy\\\\Argument\\\\Token\\\\AnyValueToken given\\.$#"
+			count: 3
+			path: Specification/Infrastructure/Validation/FamilyShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\FreeTextShouldBeValidValidatorSpec\\:\\:initialize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/FreeTextShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\FreeTextShouldBeValidValidatorSpec\\:\\:validate\\(\\)\\.$#"
+			count: 4
+			path: Specification/Infrastructure/Validation/FreeTextShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldBeCalled\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/FreeTextShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldNotBeCalled\\(\\)\\.$#"
+			count: 3
+			path: Specification/Infrastructure/Validation/FreeTextShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\FreeTextShouldBeValidValidatorSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/FreeTextShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\IdentifierGeneratorCreationLimitValidatorSpec\\:\\:initialize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/IdentifierGeneratorCreationLimitValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\IdentifierGeneratorCreationLimitValidatorSpec\\:\\:validate\\(\\)\\.$#"
+			count: 3
+			path: Specification/Infrastructure/Validation/IdentifierGeneratorCreationLimitValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldBeCalled\\(\\)\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Validation/IdentifierGeneratorCreationLimitValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldNotBeCalled\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/IdentifierGeneratorCreationLimitValidatorSpec.php
+
+		-
+			message: "#^Cannot call method shouldBeCalledOnce\\(\\) on int\\.$#"
+			count: 3
+			path: Specification/Infrastructure/Validation/IdentifierGeneratorCreationLimitValidatorSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\IdentifierGeneratorCreationLimitValidatorSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/IdentifierGeneratorCreationLimitValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\IdentifierGenerator\\:\\:shouldBeCalledOnce\\(\\)\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Validation/IdentifierGeneratorShouldExistValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\IdentifierGenerator\\:\\:shouldNotBeCalled\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/IdentifierGeneratorShouldExistValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\IdentifierGeneratorShouldExistValidatorSpec\\:\\:initialize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/IdentifierGeneratorShouldExistValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\IdentifierGeneratorShouldExistValidatorSpec\\:\\:validate\\(\\)\\.$#"
+			count: 3
+			path: Specification/Infrastructure/Validation/IdentifierGeneratorShouldExistValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldBeCalled\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/IdentifierGeneratorShouldExistValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldNotBeCalled\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/IdentifierGeneratorShouldExistValidatorSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\IdentifierGeneratorShouldExistValidatorSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/IdentifierGeneratorShouldExistValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\PropertyProcessShouldBeValidValidatorSpec\\:\\:initialize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/PropertyProcessShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\PropertyProcessShouldBeValidValidatorSpec\\:\\:validate\\(\\)\\.$#"
+			count: 4
+			path: Specification/Infrastructure/Validation/PropertyProcessShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\ConstraintViolationListInterface\\:\\:shouldBeCalledOnce\\(\\)\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Validation/PropertyProcessShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\ConstraintViolationListInterface\\:\\:shouldNotBeCalled\\(\\)\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Validation/PropertyProcessShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Validator\\\\ContextualValidatorInterface\\:\\:willReturn\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/PropertyProcessShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldNotBeCalled\\(\\)\\.$#"
+			count: 4
+			path: Specification/Infrastructure/Validation/PropertyProcessShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\PropertyProcessShouldBeValidValidatorSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/PropertyProcessShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Parameter \\#2 \\$constraints of method Symfony\\\\Component\\\\Validator\\\\Validator\\\\ValidatorInterface\\:\\:validate\\(\\) expects array\\<Symfony\\\\Component\\\\Validator\\\\Constraint\\>\\|Symfony\\\\Component\\\\Validator\\\\Constraint\\|null, Prophecy\\\\Argument\\\\Token\\\\TypeToken given\\.$#"
+			count: 4
+			path: Specification/Infrastructure/Validation/PropertyProcessShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\ScopeAndLocaleShouldBeValidValidatorSpec\\:\\:initialize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/ScopeAndLocaleShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\ScopeAndLocaleShouldBeValidValidatorSpec\\:\\:validate\\(\\)\\.$#"
+			count: 10
+			path: Specification/Infrastructure/Validation/ScopeAndLocaleShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldBeCalled\\(\\)\\.$#"
+			count: 14
+			path: Specification/Infrastructure/Validation/ScopeAndLocaleShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldNotBeCalled\\(\\)\\.$#"
+			count: 3
+			path: Specification/Infrastructure/Validation/ScopeAndLocaleShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Cannot call method shouldBeCalled\\(\\) on Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Query\\\\PublicApi\\\\AttributeType\\\\Attribute\\|null\\.$#"
+			count: 8
+			path: Specification/Infrastructure/Validation/ScopeAndLocaleShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Cannot call method willReturn\\(\\) on array\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/ScopeAndLocaleShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\ScopeAndLocaleShouldBeValidValidatorSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/ScopeAndLocaleShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Parameter \\#1 \\$message of method Symfony\\\\Component\\\\Validator\\\\Context\\\\ExecutionContext\\:\\:buildViolation\\(\\) expects string, Prophecy\\\\Argument\\\\Token\\\\AnyValueToken given\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Validation/ScopeAndLocaleShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\SelectOptionShouldExistValidatorSpec\\:\\:initialize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/SelectOptionShouldExistValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\SelectOptionShouldExistValidatorSpec\\:\\:validate\\(\\)\\.$#"
+			count: 7
+			path: Specification/Infrastructure/Validation/SelectOptionShouldExistValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldBeCalled\\(\\)\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Validation/SelectOptionShouldExistValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldNotBeCalled\\(\\)\\.$#"
+			count: 6
+			path: Specification/Infrastructure/Validation/SelectOptionShouldExistValidatorSpec.php
+
+		-
+			message: "#^Cannot call method shouldBeCalled\\(\\) on array\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/SelectOptionShouldExistValidatorSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\SelectOptionShouldExistValidatorSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/SelectOptionShouldExistValidatorSpec.php
+
+		-
+			message: "#^Method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\SelectOptionShouldExistValidatorSpec\\:\\:it_should_add_violation_if_codes_do_not_exist\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/SelectOptionShouldExistValidatorSpec.php
+
+		-
+			message: "#^Parameter \\#1 \\$message of method Symfony\\\\Component\\\\Validator\\\\Context\\\\ExecutionContext\\:\\:buildViolation\\(\\) expects string, Prophecy\\\\Argument\\\\Token\\\\AnyValueToken given\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/SelectOptionShouldExistValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\SimpleOrMultiSelectShouldBeValidValidatorSpec\\:\\:initialize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/SimpleOrMultiSelectShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\SimpleOrMultiSelectShouldBeValidValidatorSpec\\:\\:validate\\(\\)\\.$#"
+			count: 6
+			path: Specification/Infrastructure/Validation/SimpleOrMultiSelectShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\ConstraintViolationListInterface\\:\\:shouldBeCalledTimes\\(\\)\\.$#"
+			count: 4
+			path: Specification/Infrastructure/Validation/SimpleOrMultiSelectShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\ConstraintViolationListInterface\\:\\:shouldNotBeCalled\\(\\)\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Validation/SimpleOrMultiSelectShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Validator\\\\ContextualValidatorInterface\\:\\:willReturn\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/SimpleOrMultiSelectShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldNotBeCalled\\(\\)\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Validation/SimpleOrMultiSelectShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\SimpleOrMultiSelectShouldBeValidValidatorSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/SimpleOrMultiSelectShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Parameter \\#1 \\$message of method Symfony\\\\Component\\\\Validator\\\\Context\\\\ExecutionContext\\:\\:buildViolation\\(\\) expects string, Prophecy\\\\Argument\\\\Token\\\\AnyValueToken given\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Validation/SimpleOrMultiSelectShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Parameter \\#2 \\$constraints of method Symfony\\\\Component\\\\Validator\\\\Validator\\\\ValidatorInterface\\:\\:validate\\(\\) expects array\\<Symfony\\\\Component\\\\Validator\\\\Constraint\\>\\|Symfony\\\\Component\\\\Validator\\\\Constraint\\|null, Prophecy\\\\Argument\\\\Token\\\\AnyValueToken given\\.$#"
+			count: 4
+			path: Specification/Infrastructure/Validation/SimpleOrMultiSelectShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\SimpleSelectPropertyShouldBeValidValidatorSpec\\:\\:initialize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/SimpleSelectPropertyShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\SimpleSelectPropertyShouldBeValidValidatorSpec\\:\\:validate\\(\\)\\.$#"
+			count: 6
+			path: Specification/Infrastructure/Validation/SimpleSelectPropertyShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\ConstraintViolationListInterface\\:\\:shouldBeCalledOnce\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/SimpleSelectPropertyShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Validator\\\\ContextualValidatorInterface\\:\\:willReturn\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/SimpleSelectPropertyShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldBeCalledOnce\\(\\)\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Validation/SimpleSelectPropertyShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldNotBeCalled\\(\\)\\.$#"
+			count: 4
+			path: Specification/Infrastructure/Validation/SimpleSelectPropertyShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\SimpleSelectPropertyShouldBeValidValidatorSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/SimpleSelectPropertyShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Parameter \\#2 \\$constraints of method Symfony\\\\Component\\\\Validator\\\\Validator\\\\ValidatorInterface\\:\\:validate\\(\\) expects array\\<Symfony\\\\Component\\\\Validator\\\\Constraint\\>\\|Symfony\\\\Component\\\\Validator\\\\Constraint\\|null, Prophecy\\\\Argument\\\\Token\\\\AnyValueToken given\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/SimpleSelectPropertyShouldBeValidValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\StructureShouldNotContainMultipleAutoNumberValidatorSpec\\:\\:initialize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/StructureShouldNotContainMultipleAutoNumberValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\StructureShouldNotContainMultipleAutoNumberValidatorSpec\\:\\:validate\\(\\)\\.$#"
+			count: 6
+			path: Specification/Infrastructure/Validation/StructureShouldNotContainMultipleAutoNumberValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldBeCalled\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/StructureShouldNotContainMultipleAutoNumberValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldNotBeCalled\\(\\)\\.$#"
+			count: 5
+			path: Specification/Infrastructure/Validation/StructureShouldNotContainMultipleAutoNumberValidatorSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\StructureShouldNotContainMultipleAutoNumberValidatorSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/StructureShouldNotContainMultipleAutoNumberValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\IdentifierGenerator\\:\\:shouldBeCalled\\(\\)\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Validation/UniqueIdentifierGeneratorCodeValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Domain\\\\Model\\\\IdentifierGenerator\\:\\:shouldNotBeCalled\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/UniqueIdentifierGeneratorCodeValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\UniqueIdentifierGeneratorCodeValidatorSpec\\:\\:initialize\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/UniqueIdentifierGeneratorCodeValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\UniqueIdentifierGeneratorCodeValidatorSpec\\:\\:validate\\(\\)\\.$#"
+			count: 3
+			path: Specification/Infrastructure/Validation/UniqueIdentifierGeneratorCodeValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldBeCalled\\(\\)\\.$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/UniqueIdentifierGeneratorCodeValidatorSpec.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Validator\\\\Violation\\\\ConstraintViolationBuilderInterface\\:\\:shouldNotBeCalled\\(\\)\\.$#"
+			count: 2
+			path: Specification/Infrastructure/Validation/UniqueIdentifierGeneratorCodeValidatorSpec.php
+
+		-
+			message: "#^Class Specification\\\\Akeneo\\\\Pim\\\\Automation\\\\IdentifierGenerator\\\\Infrastructure\\\\Validation\\\\UniqueIdentifierGeneratorCodeValidatorSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Specification/Infrastructure/Validation/UniqueIdentifierGeneratorCodeValidatorSpec.php

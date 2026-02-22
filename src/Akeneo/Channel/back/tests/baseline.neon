@@ -1,0 +1,86 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Cannot call method create\\(\\) on mixed\\.$#"
+			count: 2
+			path: Integration/ChannelTestCase.php
+
+		-
+			message: "#^Cannot call method findAll\\(\\) on mixed\\.$#"
+			count: 2
+			path: Integration/ChannelTestCase.php
+
+		-
+			message: "#^Cannot call method findOneByIdentifier\\(\\) on mixed\\.$#"
+			count: 1
+			path: Integration/ChannelTestCase.php
+
+		-
+			message: "#^Cannot call method save\\(\\) on mixed\\.$#"
+			count: 4
+			path: Integration/ChannelTestCase.php
+
+		-
+			message: "#^Cannot call method update\\(\\) on mixed\\.$#"
+			count: 1
+			path: Integration/ChannelTestCase.php
+
+		-
+			message: "#^Cannot call method validate\\(\\) on mixed\\.$#"
+			count: 2
+			path: Integration/ChannelTestCase.php
+
+		-
+			message: "#^Property Akeneo\\\\Test\\\\Channel\\\\Integration\\\\Query\\\\Sql\\\\SqlFindAllEditableLocalesForUserIntegration\\:\\:\\$sqlFindAllEditableLocalesForUser \\(Akeneo\\\\Channel\\\\API\\\\Query\\\\FindAllEditableLocalesForUser\\) does not accept mixed\\.$#"
+			count: 1
+			path: Integration/Query/Sql/SqlFindAllEditableLocalesForUserIntegration.php
+
+		-
+			message: "#^Property Akeneo\\\\Test\\\\Channel\\\\Integration\\\\Query\\\\Sql\\\\SqlFindAllViewableLocalesForUserIntegration\\:\\:\\$sqlFindAllViewableLocalesForUser \\(Akeneo\\\\Channel\\\\API\\\\Query\\\\FindAllViewableLocalesForUser\\) does not accept mixed\\.$#"
+			count: 1
+			path: Integration/Query/Sql/SqlFindAllViewableLocalesForUserIntegration.php
+
+		-
+			message: "#^Cannot call method getActiveCurrencies\\(\\) on Akeneo\\\\Channel\\\\API\\\\Query\\\\Channel\\|false\\.$#"
+			count: 2
+			path: Integration/Query/Sql/SqlFindChannelsIntegration.php
+
+		-
+			message: "#^Cannot call method getConversionUnits\\(\\) on Akeneo\\\\Channel\\\\API\\\\Query\\\\Channel\\|false\\.$#"
+			count: 1
+			path: Integration/Query/Sql/SqlFindChannelsIntegration.php
+
+		-
+			message: "#^Cannot call method getLabels\\(\\) on Akeneo\\\\Channel\\\\API\\\\Query\\\\Channel\\|false\\.$#"
+			count: 4
+			path: Integration/Query/Sql/SqlFindChannelsIntegration.php
+
+		-
+			message: "#^Cannot call method getLocaleCodes\\(\\) on Akeneo\\\\Channel\\\\API\\\\Query\\\\Channel\\|false\\.$#"
+			count: 3
+			path: Integration/Query/Sql/SqlFindChannelsIntegration.php
+
+		-
+			message: "#^Property Akeneo\\\\Test\\\\Channel\\\\Integration\\\\Query\\\\Sql\\\\SqlFindChannelsIntegration\\:\\:\\$connection \\(Doctrine\\\\DBAL\\\\Connection\\) does not accept mixed\\.$#"
+			count: 1
+			path: Integration/Query/Sql/SqlFindChannelsIntegration.php
+
+		-
+			message: "#^Property Akeneo\\\\Test\\\\Channel\\\\Integration\\\\Query\\\\Sql\\\\SqlFindChannelsIntegration\\:\\:\\$sqlFindChannels \\(Akeneo\\\\Channel\\\\API\\\\Query\\\\FindChannels\\) does not accept mixed\\.$#"
+			count: 1
+			path: Integration/Query/Sql/SqlFindChannelsIntegration.php
+
+		-
+			message: "#^Cannot call method getCode\\(\\) on Akeneo\\\\Channel\\\\API\\\\Query\\\\Locale\\|false\\.$#"
+			count: 1
+			path: Integration/Query/Sql/SqlFindLocalesIntegration.php
+
+		-
+			message: "#^Cannot call method isActivated\\(\\) on Akeneo\\\\Channel\\\\API\\\\Query\\\\Locale\\|false\\.$#"
+			count: 1
+			path: Integration/Query/Sql/SqlFindLocalesIntegration.php
+
+		-
+			message: "#^Property Akeneo\\\\Test\\\\Channel\\\\Integration\\\\Query\\\\Sql\\\\SqlFindLocalesIntegration\\:\\:\\$sqlFindLocales \\(Akeneo\\\\Channel\\\\API\\\\Query\\\\FindLocales\\) does not accept mixed\\.$#"
+			count: 1
+			path: Integration/Query/Sql/SqlFindLocalesIntegration.php

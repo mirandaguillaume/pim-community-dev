@@ -1,12 +1,67 @@
 parameters:
 	ignoreErrors:
 		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_6_0_20210101000000_fix_json_columns\\:\\:getAlterSqlQuery\\(\\) has parameter \\$columnInfo with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_6_0_20210101000000_fix_json_columns.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_6_0_20210101000000_fix_json_columns\\:\\:getLegacyJsonColumns\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_6_0_20210101000000_fix_json_columns.php
+
+		-
 			message: "#^Migration must be covered by an integration test$#"
 			count: 1
 			path: schema/Version_6_0_20210211141311_add_attribute_guidelines.php
 
 		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_6_0_20210222120000_create_events_api_debug_index\\:\\:setContainer\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: schema/Version_6_0_20210222120000_create_events_api_debug_index.php
+
+		-
+			message: "#^Parameter \\#1 \\$builder of class Akeneo\\\\Tool\\\\Bundle\\\\ElasticsearchBundle\\\\Client constructor expects Elasticsearch\\\\ClientBuilder, object\\|null given\\.$#"
+			count: 1
+			path: schema/Version_6_0_20210222120000_create_events_api_debug_index.php
+
+		-
+			message: "#^Parameter \\#4 \\$indexName of class Akeneo\\\\Tool\\\\Bundle\\\\ElasticsearchBundle\\\\Client constructor expects string, array\\|bool\\|float\\|int\\|string\\|UnitEnum\\|null given\\.$#"
+			count: 1
+			path: schema/Version_6_0_20210222120000_create_events_api_debug_index.php
+
+		-
+			message: "#^Part \\$ceDir \\(array\\|bool\\|float\\|int\\|string\\|UnitEnum\\|null\\) of encapsed string cannot be cast to string\\.$#"
+			count: 1
+			path: schema/Version_6_0_20210222120000_create_events_api_debug_index.php
+
+		-
+			message: "#^Property Pim\\\\Upgrade\\\\Schema\\\\Version_6_0_20210222120000_create_events_api_debug_index\\:\\:\\$container \\(Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\) does not accept Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\|null\\.$#"
+			count: 1
+			path: schema/Version_6_0_20210222120000_create_events_api_debug_index.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_6_0_20210331105730_remove_datagrid_view_unique_label_constraint\\:\\:dbalConnection\\(\\) should return Doctrine\\\\DBAL\\\\Connection but returns object\\|null\\.$#"
+			count: 1
+			path: schema/Version_6_0_20210331105730_remove_datagrid_view_unique_label_constraint.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_6_0_20210331105730_remove_datagrid_view_unique_label_constraint\\:\\:setContainer\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: schema/Version_6_0_20210331105730_remove_datagrid_view_unique_label_constraint.php
+
+		-
 			message: "#^Migration must be covered by an integration test$#"
+			count: 1
+			path: schema/Version_6_0_20210331105730_remove_datagrid_view_unique_label_constraint.php
+
+		-
+			message: "#^Part \\$uniqueConstraintKeyName \\(mixed\\) of encapsed string cannot be cast to string\\.$#"
+			count: 1
+			path: schema/Version_6_0_20210331105730_remove_datagrid_view_unique_label_constraint.php
+
+		-
+			message: "#^Property Pim\\\\Upgrade\\\\Schema\\\\Version_6_0_20210331105730_remove_datagrid_view_unique_label_constraint\\:\\:\\$container \\(Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\) does not accept Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\|null\\.$#"
 			count: 1
 			path: schema/Version_6_0_20210331105730_remove_datagrid_view_unique_label_constraint.php
 
@@ -21,7 +76,27 @@ parameters:
 			path: schema/Version_6_0_20210505180000_add_updated_to_category.php
 
 		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_6_0_20210510102539_fix_micro_operations\\:\\:getCorrectedUnit\\(\\) has parameter \\$unit with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_6_0_20210510102539_fix_micro_operations.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_6_0_20210510102539_fix_micro_operations\\:\\:getCorrectedUnit\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_6_0_20210510102539_fix_micro_operations.php
+
+		-
 			message: "#^Migration must be covered by an integration test$#"
+			count: 1
+			path: schema/Version_6_0_20210510102539_fix_micro_operations.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of function json_decode expects string, mixed given\\.$#"
+			count: 1
+			path: schema/Version_6_0_20210510102539_fix_micro_operations.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function array_map expects array, mixed given\\.$#"
 			count: 1
 			path: schema/Version_6_0_20210510102539_fix_micro_operations.php
 
@@ -61,7 +136,22 @@ parameters:
 			path: schema/Version_6_0_20210901133833_create_connection_app_table.php
 
 		-
+			message: "#^Cannot call method get\\(\\) on Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\|null\\.$#"
+			count: 1
+			path: schema/Version_6_0_20210908142400_add_product_web_api_acl.php
+
+		-
+			message: "#^Cannot cast mixed to int\\.$#"
+			count: 4
+			path: schema/Version_6_0_20210908142400_add_product_web_api_acl.php
+
+		-
 			message: "#^Left side of && is always true\\.$#"
+			count: 1
+			path: schema/Version_6_0_20210908142400_add_product_web_api_acl.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_6_0_20210908142400_add_product_web_api_acl\\:\\:getRoles\\(\\) should return array\\<string\\> but returns array\\<int, mixed\\>\\.$#"
 			count: 1
 			path: schema/Version_6_0_20210908142400_add_product_web_api_acl.php
 
@@ -76,14 +166,54 @@ parameters:
 			path: schema/Version_6_0_20211209000000_add_akeneo_connectivity_user_consent_table.php
 
 		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_6_0_20211214000000_add_openid_keys_into_pim_configuration\\:\\:setContainer\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: schema/Version_6_0_20211214000000_add_openid_keys_into_pim_configuration.php
+
+		-
+			message: "#^Parameter \\#1 \\$cert of method phpseclib3\\\\File\\\\X509\\:\\:saveX509\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: schema/Version_6_0_20211214000000_add_openid_keys_into_pim_configuration.php
+
+		-
+			message: "#^Parameter \\#1 \\$val of static method phpseclib3\\\\Crypt\\\\RSA\\:\\:setOpenSSLConfigPath\\(\\) expects string, array\\|bool\\|float\\|int\\|string\\|UnitEnum\\|null given\\.$#"
+			count: 1
+			path: schema/Version_6_0_20211214000000_add_openid_keys_into_pim_configuration.php
+
+		-
+			message: "#^Property Pim\\\\Upgrade\\\\Schema\\\\Version_6_0_20211214000000_add_openid_keys_into_pim_configuration\\:\\:\\$container \\(Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\) does not accept Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\|null\\.$#"
+			count: 1
+			path: schema/Version_6_0_20211214000000_add_openid_keys_into_pim_configuration.php
+
+		-
+			message: "#^Cannot cast mixed to int\\.$#"
+			count: 2
+			path: schema/Version_6_0_20211221170000_modify_metric_family_and_default_metric_unit.php
+
+		-
 			message: "#^Migration must be covered by an integration test$#"
 			count: 1
 			path: schema/Version_6_0_20220103100000_add_test_app_table.php
 
 		-
+			message: "#^Cannot call method get\\(\\) on Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\|null\\.$#"
+			count: 1
+			path: schema/Version_6_0_20220518134914_set_not_null_fields_for_job_and_step_execution_tables.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_6_0_20220518134914_set_not_null_fields_for_job_and_step_execution_tables\\:\\:isMigrationDone\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: schema/Version_6_0_20220518134914_set_not_null_fields_for_job_and_step_execution_tables.php
+
+		-
 			message: "#^Migration must be covered by an integration test$#"
 			count: 1
 			path: schema/Version_6_0_20220518134914_set_not_null_fields_for_job_and_step_execution_tables.php
+
+		-
+			message: "#^Cannot access offset 'IS_NULLABLE' on array\\<string, mixed\\>\\|false\\.$#"
+			count: 1
+			path: schema/Version_6_0_20220524122443_oro_user_field_consecutive_authentication_failure_counter_is_not_nullable.php
 
 		-
 			message: "#^Migration must be covered by an integration test$#"
@@ -116,11 +246,6 @@ parameters:
 			path: schema/Version_7_0_20220429132029_remove_temporary_indexes_from_uuid_migration.php
 
 		-
-			message: "#^Offset 7 on array\\{0\\: 'id'\\|'original_product_id'\\|'owner_id'\\|'product_id'\\|'resource_id', 1\\: 'original_product…'\\|'owner_uuid'\\|'product_uuid'\\|'resource_uuid'\\|'uuid', 6\\: 'IDX_3A3A49D45C977207'\\|'IDX_3FF3ED195C977207'\\|'IDX_512179C15C977207'\\|'IDX_6F63A25F5C977207'\\|'IDX_7AC0C83A5C977207'\\|'IDX_CC27100147D93336'\\|'IDX_E0768BA35C977207'\\|'product_uuid'\\|'UNIQ…'\\|null, 2\\: array\\{0\\: 'association_id'\\|'locale_id'\\|'product_uuid'\\|'project_id'\\|'uuid', 1\\?\\: 'category_id'\\|'channel_id'\\|'criterion_code'\\|'evaluated_at'\\|'group_id'\\|'product_uuid', 2\\?\\: 'product_uuid', 3\\?\\: 'attribute_group_id'\\}\\|null, 3\\: 'attr_grp…'\\|'FK_3A3A49D45C977207'\\|'FK_3FF3ED195C977207'\\|'FK_512179C15C977207'\\|'FK_6F63A25F5C977207'\\|'FK_7AC0C83A5C977207'\\|'FK_CC27100147D93336'\\|'FK_dqi_product_uuid…'\\|'FK_dqi_product_uuid…'\\|'FK_E0768BA35C977207'\\|'FK_E3566E6987DBB431'\\|'product_selection…'\\|null, 4\\: array\\{\\}\\|array\\{channel_locale_product_unique_idx\\: array\\{'channel_id', 'locale_id', 'product_uuid'\\}\\}\\|array\\{owner_uuid_association_type_id_idx\\: array\\{'owner_uuid', 'association_type_id'\\}\\}\\|array\\{UNIQ_E3566E6987DBB431\\: array\\{'original_product…'\\}\\}\\|array\\{unique_author_product_idx\\: array\\{'product_uuid', 'author'\\}\\}, 5\\: array\\{\\}\\|array\\{IDX_512179C15C977207\\: array\\{'product_uuid'\\}\\}\\|array\\{IDX_6F63A25F5C977207\\: array\\{'product_uuid'\\}\\}\\|array\\{IDX_7AC0C83A5C977207\\: array\\{'product_uuid'\\}\\}\\|array\\{IDX_E0768BA35C977207\\: array\\{'product_uuid'\\}\\}\\|array\\{resource_name_resource_uuid_idx\\: array\\{'resource_name', 'resource_uuid'\\}\\}\\|array\\{resource_name_resource_uuid_version_idx\\: array\\{'resource_name', 'resource_uuid', 'version'\\}\\}, 7\\: array\\{\\}\\|array\\{migrate_to_uuid_temporary_index\\: array\\{0\\: 'product_uuid'\\|'resource_name', 1\\?\\: 'resource_uuid', 2\\?\\: 'resource_id'\\}\\}\\} on left side of \\?\\? always exists and is not nullable\\.$#"
-			count: 1
-			path: schema/Version_7_0_20220429132029_remove_temporary_indexes_from_uuid_migration.php
-
-		-
 			message: "#^Migration must be covered by an integration test$#"
 			count: 1
 			path: schema/Version_7_0_20220505000000_add_catalog_table.php
@@ -129,6 +254,111 @@ parameters:
 			message: "#^Migration must be covered by an integration test$#"
 			count: 1
 			path: schema/Version_7_0_20220616074214_add_product_selection_criteria_field_to_catalogs.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220629142647_dqi_update_pk_on_product_score\\:\\:runCommand\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220629142647_dqi_update_pk_on_product_score.php
+
+		-
+			message: "#^Cannot call method executeQuery\\(\\) on object\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220704141138_update_job_instance_parameter_path.php
+
+		-
+			message: "#^Cannot call method get\\(\\) on Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\|null\\.$#"
+			count: 2
+			path: schema/Version_7_0_20220704141138_update_job_instance_parameter_path.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220704141138_update_job_instance_parameter_path\\:\\:getJobInstances\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220704141138_update_job_instance_parameter_path.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220704141138_update_job_instance_parameter_path\\:\\:migrateRawParameters\\(\\) has parameter \\$rawParameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220704141138_update_job_instance_parameter_path.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220704141138_update_job_instance_parameter_path\\:\\:migrateRawParameters\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220704141138_update_job_instance_parameter_path.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220704141138_update_job_instance_parameter_path\\:\\:updateJobInstance\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220704141138_update_job_instance_parameter_path.php
+
+		-
+			message: "#^Parameter \\#1 \\$rawParameters of method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220704141138_update_job_instance_parameter_path\\:\\:migrateRawParameters\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220704141138_update_job_instance_parameter_path.php
+
+		-
+			message: "#^Cannot call method executeQuery\\(\\) on object\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220722090828_remove_old_file_path_on_product_and_product_model_quick_export_job.php
+
+		-
+			message: "#^Cannot call method get\\(\\) on Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220722090828_remove_old_file_path_on_product_and_product_model_quick_export_job.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220722090828_remove_old_file_path_on_product_and_product_model_quick_export_job\\:\\:getJobInstances\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220722090828_remove_old_file_path_on_product_and_product_model_quick_export_job.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220722090828_remove_old_file_path_on_product_and_product_model_quick_export_job\\:\\:migrateRawParameters\\(\\) has parameter \\$rawParameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220722090828_remove_old_file_path_on_product_and_product_model_quick_export_job.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220722090828_remove_old_file_path_on_product_and_product_model_quick_export_job\\:\\:migrateRawParameters\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220722090828_remove_old_file_path_on_product_and_product_model_quick_export_job.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220722090828_remove_old_file_path_on_product_and_product_model_quick_export_job\\:\\:updateJobInstance\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220722090828_remove_old_file_path_on_product_and_product_model_quick_export_job.php
+
+		-
+			message: "#^Parameter \\#1 \\$rawParameters of method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220722090828_remove_old_file_path_on_product_and_product_model_quick_export_job\\:\\:migrateRawParameters\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220722090828_remove_old_file_path_on_product_and_product_model_quick_export_job.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220726143600_add_scheduled_jobs\\:\\:addScheduledJob\\(\\) has parameter \\$rawParameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220726143600_add_scheduled_jobs.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220726143600_add_scheduled_jobs\\:\\:dbalConnection\\(\\) should return Doctrine\\\\DBAL\\\\Connection but returns object\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220726143600_add_scheduled_jobs.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220726143600_add_scheduled_jobs\\:\\:setContainer\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220726143600_add_scheduled_jobs.php
+
+		-
+			message: "#^Property Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220726143600_add_scheduled_jobs\\:\\:\\$container \\(Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\) does not accept Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220726143600_add_scheduled_jobs.php
+
+		-
+			message: "#^Cannot call method executeQuery\\(\\) on object\\|null\\.$#"
+			count: 2
+			path: schema/Version_7_0_20220802151250_add_automation_column_in_job_instance.php
+
+		-
+			message: "#^Cannot call method get\\(\\) on Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\|null\\.$#"
+			count: 2
+			path: schema/Version_7_0_20220802151250_add_automation_column_in_job_instance.php
 
 		-
 			message: "#^Migration must be covered by an integration test$#"
@@ -141,6 +371,51 @@ parameters:
 			path: schema/Version_7_0_20220808143128_add_value_collection_to_category.php
 
 		-
+			message: "#^Cannot access offset 'standard_unit' on array\\<string, mixed\\>\\|false\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220818093018_fix_volume_flow_conversion.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220818093018_fix_volume_flow_conversion\\:\\:findIncorrectConversionByCode\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220818093018_fix_volume_flow_conversion.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220818093018_fix_volume_flow_conversion\\:\\:fixUnit\\(\\) has parameter \\$unit with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220818093018_fix_volume_flow_conversion.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220818093018_fix_volume_flow_conversion\\:\\:fixUnit\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220818093018_fix_volume_flow_conversion.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220818093018_fix_volume_flow_conversion\\:\\:getFixedConversionByCode\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220818093018_fix_volume_flow_conversion.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220818093018_fix_volume_flow_conversion\\:\\:unitIsIncorrect\\(\\) has parameter \\$unit with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220818093018_fix_volume_flow_conversion.php
+
+		-
+			message: "#^Parameter \\#1 \\$callback of function array_map expects \\(callable\\(mixed\\)\\: mixed\\)\\|null, Closure\\(array\\)\\: array given\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220818093018_fix_volume_flow_conversion.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of function json_decode expects string, mixed given\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220818093018_fix_volume_flow_conversion.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function array_map expects array, mixed given\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220818093018_fix_volume_flow_conversion.php
+
+		-
 			message: "#^Strict comparison using \\=\\=\\= between null and array\\<string, mixed\\>\\|false will always evaluate to false\\.$#"
 			count: 1
 			path: schema/Version_7_0_20220818093018_fix_volume_flow_conversion.php
@@ -151,6 +426,566 @@ parameters:
 			path: schema/Version_7_0_20220818143128_remove_zdd_setidentifiernullable_from_pim_one_time_task_table.php
 
 		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220822173400_add_scheduled_jobs\\:\\:addScheduledJob\\(\\) has parameter \\$rawParameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220823094700_add_scheduled_jobs.php
+
+		-
 			message: "#^Migration must be covered by an integration test$#"
 			count: 1
 			path: schema/Version_7_0_20220823094700_add_scheduled_jobs.php
+
+		-
+			message: "#^Cannot call method executeQuery\\(\\) on object\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220905141238_update_job_instance_parameter_user_to_notify.php
+
+		-
+			message: "#^Cannot call method get\\(\\) on Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220905141238_update_job_instance_parameter_user_to_notify.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220905141238_update_job_instance_parameter_user_to_notify\\:\\:getJobInstancesToMigrate\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220905141238_update_job_instance_parameter_user_to_notify.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220905141238_update_job_instance_parameter_user_to_notify\\:\\:migrateRawParameters\\(\\) has parameter \\$rawParameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220905141238_update_job_instance_parameter_user_to_notify.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220905141238_update_job_instance_parameter_user_to_notify\\:\\:migrateRawParameters\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220905141238_update_job_instance_parameter_user_to_notify.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220905141238_update_job_instance_parameter_user_to_notify\\:\\:updateJobInstance\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220905141238_update_job_instance_parameter_user_to_notify.php
+
+		-
+			message: "#^Parameter \\#1 \\$rawParameters of method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220905141238_update_job_instance_parameter_user_to_notify\\:\\:migrateRawParameters\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220905141238_update_job_instance_parameter_user_to_notify.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220905141238_update_job_instance_parameter_user_to_notify.php
+
+		-
+			message: "#^Cannot call method executeQuery\\(\\) on object\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220914143410_update_job_instance_parameter_user_to_notify_for_quick_export.php
+
+		-
+			message: "#^Cannot call method get\\(\\) on Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220914143410_update_job_instance_parameter_user_to_notify_for_quick_export.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220914143410_update_job_instance_parameter_user_to_notify_for_quick_export\\:\\:getJobInstancesToMigrate\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220914143410_update_job_instance_parameter_user_to_notify_for_quick_export.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220914143410_update_job_instance_parameter_user_to_notify_for_quick_export\\:\\:migrateRawParameters\\(\\) has parameter \\$rawParameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220914143410_update_job_instance_parameter_user_to_notify_for_quick_export.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220914143410_update_job_instance_parameter_user_to_notify_for_quick_export\\:\\:migrateRawParameters\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220914143410_update_job_instance_parameter_user_to_notify_for_quick_export.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220914143410_update_job_instance_parameter_user_to_notify_for_quick_export\\:\\:updateJobInstance\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220914143410_update_job_instance_parameter_user_to_notify_for_quick_export.php
+
+		-
+			message: "#^Parameter \\#1 \\$rawParameters of method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220914143410_update_job_instance_parameter_user_to_notify_for_quick_export\\:\\:migrateRawParameters\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220914143410_update_job_instance_parameter_user_to_notify_for_quick_export.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220914143410_update_job_instance_parameter_user_to_notify_for_quick_export.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220919145300_add_scheduled_jobs\\:\\:addScheduledJob\\(\\) has parameter \\$rawParameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220919145300_add_scheduled_jobs.php
+
+		-
+			message: "#^Cannot call method build\\(\\) on object\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220920000000_deduplicate_elasticsearch_indices.php
+
+		-
+			message: "#^Cannot call method get\\(\\) on Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220920000000_deduplicate_elasticsearch_indices.php
+
+		-
+			message: "#^Cannot call method getParameter\\(\\) on Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\|null\\.$#"
+			count: 3
+			path: schema/Version_7_0_20220920000000_deduplicate_elasticsearch_indices.php
+
+		-
+			message: "#^Cannot call method setHosts\\(\\) on object\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220920000000_deduplicate_elasticsearch_indices.php
+
+		-
+			message: "#^Parameter \\#1 \\$alias of method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220920000000_deduplicate_elasticsearch_indices\\:\\:removeDuplicatedIndices\\(\\) expects string, array\\|bool\\|float\\|int\\|string\\|UnitEnum\\|null given\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220920000000_deduplicate_elasticsearch_indices.php
+
+		-
+			message: "#^Cannot call method executeQuery\\(\\) on object\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220921104755_update_job_instance_parameter_user_to_notify_for_jobs.php
+
+		-
+			message: "#^Cannot call method get\\(\\) on Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220921104755_update_job_instance_parameter_user_to_notify_for_jobs.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220921104755_update_job_instance_parameter_user_to_notify_for_jobs\\:\\:getJobInstancesToMigrate\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220921104755_update_job_instance_parameter_user_to_notify_for_jobs.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220921104755_update_job_instance_parameter_user_to_notify_for_jobs\\:\\:migrateRawParameters\\(\\) has parameter \\$rawParameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220921104755_update_job_instance_parameter_user_to_notify_for_jobs.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220921104755_update_job_instance_parameter_user_to_notify_for_jobs\\:\\:migrateRawParameters\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220921104755_update_job_instance_parameter_user_to_notify_for_jobs.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220921104755_update_job_instance_parameter_user_to_notify_for_jobs\\:\\:updateJobInstance\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220921104755_update_job_instance_parameter_user_to_notify_for_jobs.php
+
+		-
+			message: "#^Parameter \\#1 \\$rawParameters of method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220921104755_update_job_instance_parameter_user_to_notify_for_jobs\\:\\:migrateRawParameters\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220921104755_update_job_instance_parameter_user_to_notify_for_jobs.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220921104755_update_job_instance_parameter_user_to_notify_for_jobs.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20220926115200_add_scheduled_jobs\\:\\:addScheduledJob\\(\\) has parameter \\$rawParameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20220926115200_add_scheduled_jobs.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221004093900_add_scheduled_jobs\\:\\:addScheduledJob\\(\\) has parameter \\$rawParameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221004093900_add_scheduled_jobs.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221024171500_add_scheduled_jobs\\:\\:addScheduledJob\\(\\) has parameter \\$rawParameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221024171500_add_scheduled_jobs.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221025104400_add_scheduled_jobs_connectivity_audit_purge_error\\:\\:addScheduledJob\\(\\) has parameter \\$rawParameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221025104400_add_scheduled_jobs_connectivity_audit_purge_error.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221025165900_add_scheduled_jobs_purge_connection_error\\:\\:addScheduledJob\\(\\) has parameter \\$rawParameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221025165900_add_scheduled_jobs_purge_connection_error.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221026090000_add_scheduled_job_update_audit_data\\:\\:addScheduledJob\\(\\) has parameter \\$rawParameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221026090000_add_scheduled_job_update_audit_data.php
+
+		-
+			message: "#^Cannot call method build\\(\\) on object\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221026154157_add_id_to_events_api_debug_index_mapping.php
+
+		-
+			message: "#^Cannot call method setHosts\\(\\) on object\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221026154157_add_id_to_events_api_debug_index_mapping.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221026154157_add_id_to_events_api_debug_index_mapping\\:\\:getMappingConfiguration\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221026154157_add_id_to_events_api_debug_index_mapping.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221026154157_add_id_to_events_api_debug_index_mapping\\:\\:getMappingConfiguration\\(\\) should return array but returns mixed\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221026154157_add_id_to_events_api_debug_index_mapping.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221026154157_add_id_to_events_api_debug_index_mapping\\:\\:setContainer\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221026154157_add_id_to_events_api_debug_index_mapping.php
+
+		-
+			message: "#^Parameter \\#2 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, array\\|bool\\|float\\|int\\|string\\|UnitEnum\\|null given\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221026154157_add_id_to_events_api_debug_index_mapping.php
+
+		-
+			message: "#^Part \\$ceDir \\(array\\|bool\\|float\\|int\\|string\\|UnitEnum\\|null\\) of encapsed string cannot be cast to string\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221026154157_add_id_to_events_api_debug_index_mapping.php
+
+		-
+			message: "#^Cannot call method build\\(\\) on object\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221027152057_add_id_field_to_connection_error_index_mapping.php
+
+		-
+			message: "#^Cannot call method setHosts\\(\\) on object\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221027152057_add_id_field_to_connection_error_index_mapping.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221027152057_add_id_field_to_connection_error_index_mapping\\:\\:getMappingConfiguration\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221027152057_add_id_field_to_connection_error_index_mapping.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221027152057_add_id_field_to_connection_error_index_mapping\\:\\:getMappingConfiguration\\(\\) should return array but returns mixed\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221027152057_add_id_field_to_connection_error_index_mapping.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221027152057_add_id_field_to_connection_error_index_mapping\\:\\:setContainer\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221027152057_add_id_field_to_connection_error_index_mapping.php
+
+		-
+			message: "#^Parameter \\#2 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, array\\|bool\\|float\\|int\\|string\\|UnitEnum\\|null given\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221027152057_add_id_field_to_connection_error_index_mapping.php
+
+		-
+			message: "#^Part \\$ceDir \\(array\\|bool\\|float\\|int\\|string\\|UnitEnum\\|null\\) of encapsed string cannot be cast to string\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221027152057_add_id_field_to_connection_error_index_mapping.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221028090000_add_scheduled_job_connectivity_create_openid_keys\\:\\:addScheduledJob\\(\\) has parameter \\$rawParameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221028090000_add_scheduled_job_connectivity_create_openid_keys.php
+
+		-
+			message: "#^Cannot call method get\\(\\) on Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221114112755_clean_family_codes_from_export_job_filters.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221114112755_clean_family_codes_from_export_job_filters\\:\\:cleanRawParameters\\(\\) has parameter \\$familyCodes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221114112755_clean_family_codes_from_export_job_filters.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221114112755_clean_family_codes_from_export_job_filters\\:\\:cleanRawParameters\\(\\) has parameter \\$rawParameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221114112755_clean_family_codes_from_export_job_filters.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221114112755_clean_family_codes_from_export_job_filters\\:\\:cleanRawParameters\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221114112755_clean_family_codes_from_export_job_filters.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221114112755_clean_family_codes_from_export_job_filters\\:\\:fetchFamilyCodes\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221114112755_clean_family_codes_from_export_job_filters.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221114112755_clean_family_codes_from_export_job_filters\\:\\:fetchJobInstances\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221114112755_clean_family_codes_from_export_job_filters.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221114112755_clean_family_codes_from_export_job_filters\\:\\:filterJobInstanceToClean\\(\\) has parameter \\$familyCodes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221114112755_clean_family_codes_from_export_job_filters.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221114112755_clean_family_codes_from_export_job_filters\\:\\:filterJobInstanceToClean\\(\\) has parameter \\$jobInstances with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221114112755_clean_family_codes_from_export_job_filters.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221114112755_clean_family_codes_from_export_job_filters\\:\\:filterJobInstanceToClean\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221114112755_clean_family_codes_from_export_job_filters.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221114112755_clean_family_codes_from_export_job_filters\\:\\:getConnection\\(\\) should return Doctrine\\\\DBAL\\\\Connection but returns object\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221114112755_clean_family_codes_from_export_job_filters.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221114112755_clean_family_codes_from_export_job_filters\\:\\:updateJobInstanceRawParameters\\(\\) has parameter \\$rawParameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221114112755_clean_family_codes_from_export_job_filters.php
+
+		-
+			message: "#^Parameter \\#1 \\$data of function unserialize expects string, mixed given\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221114112755_clean_family_codes_from_export_job_filters.php
+
+		-
+			message: "#^Cannot call method get\\(\\) on Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221121160755_clean_family_codes_from_export_job_filters.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221121160755_clean_family_codes_from_export_job_filters\\:\\:cleanRawParameters\\(\\) has parameter \\$rawParameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221121160755_clean_family_codes_from_export_job_filters.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221121160755_clean_family_codes_from_export_job_filters\\:\\:cleanRawParameters\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221121160755_clean_family_codes_from_export_job_filters.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221121160755_clean_family_codes_from_export_job_filters\\:\\:fetchJobInstances\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221121160755_clean_family_codes_from_export_job_filters.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221121160755_clean_family_codes_from_export_job_filters\\:\\:filterJobInstanceToClean\\(\\) has parameter \\$jobInstances with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221121160755_clean_family_codes_from_export_job_filters.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221121160755_clean_family_codes_from_export_job_filters\\:\\:filterJobInstanceToClean\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221121160755_clean_family_codes_from_export_job_filters.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221121160755_clean_family_codes_from_export_job_filters\\:\\:getConnection\\(\\) should return Doctrine\\\\DBAL\\\\Connection but returns object\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221121160755_clean_family_codes_from_export_job_filters.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20221121160755_clean_family_codes_from_export_job_filters\\:\\:updateJobInstanceRawParameters\\(\\) has parameter \\$rawParameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221121160755_clean_family_codes_from_export_job_filters.php
+
+		-
+			message: "#^Parameter \\#1 \\$data of function unserialize expects string, mixed given\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221121160755_clean_family_codes_from_export_job_filters.php
+
+		-
+			message: "#^Parameter \\#1 \\$datetime of class DateTimeImmutable constructor expects string, mixed given\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221212160000_add_database_install_time.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of function json_decode expects string, mixed given\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221212160000_add_database_install_time.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
+			count: 1
+			path: schema/Version_7_0_20221212160000_add_database_install_time.php
+
+		-
+			message: "#^Cannot call method clearCache\\(\\) on object\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20230110161438_initialize_identifier_generator_acl.php
+
+		-
+			message: "#^Cannot call method fetchFirstColumn\\(\\) on object\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20230110161438_initialize_identifier_generator_acl.php
+
+		-
+			message: "#^Cannot call method findOneByIdentifier\\(\\) on object\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20230110161438_initialize_identifier_generator_acl.php
+
+		-
+			message: "#^Cannot call method flush\\(\\) on object\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20230110161438_initialize_identifier_generator_acl.php
+
+		-
+			message: "#^Cannot call method saveAll\\(\\) on object\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20230110161438_initialize_identifier_generator_acl.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20230110161438_initialize_identifier_generator_acl\\:\\:setContainer\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: schema/Version_7_0_20230110161438_initialize_identifier_generator_acl.php
+
+		-
+			message: "#^Property Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20230110161438_initialize_identifier_generator_acl\\:\\:\\$container \\(Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\) does not accept Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20230110161438_initialize_identifier_generator_acl.php
+
+		-
+			message: "#^Cannot call method get\\(\\) on Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20230201143400_drop_product_id_columns_and_clean_versioning_resource_uuid_columns.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20230201143400_drop_product_id_columns_and_clean_versioning_resource_uuid_columns\\:\\:getMigration\\(\\) should return Akeneo\\\\Pim\\\\Enrichment\\\\Bundle\\\\Command\\\\ZddMigrations\\\\V20220729171405DropProductIdColumnsAndCleanVersioningResourceUuidColumns but returns object\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20230201143400_drop_product_id_columns_and_clean_versioning_resource_uuid_columns.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20230201143400_drop_product_id_columns_and_clean_versioning_resource_uuid_columns\\:\\:setContainer\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: schema/Version_7_0_20230201143400_drop_product_id_columns_and_clean_versioning_resource_uuid_columns.php
+
+		-
+			message: "#^Cannot call method get\\(\\) on Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20230201143500_set_product_identifier_nullable.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20230201143500_set_product_identifier_nullable\\:\\:getMigration\\(\\) should return Akeneo\\\\Pim\\\\Enrichment\\\\Bundle\\\\Command\\\\ZddMigrations\\\\V20220516171405SetProductIdentifierNullableZddMigration but returns object\\|null\\.$#"
+			count: 1
+			path: schema/Version_7_0_20230201143500_set_product_identifier_nullable.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20230201143500_set_product_identifier_nullable\\:\\:setContainer\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: schema/Version_7_0_20230201143500_set_product_identifier_nullable.php
+
+		-
+			message: "#^Cannot cast mixed to int\\.$#"
+			count: 1
+			path: schema/Version_7_0_20230213153500_remove_index_on_product_uuid.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_7_0_20230213153500_remove_index_on_product_uuid\\:\\:removeUuidIndex\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: schema/Version_7_0_20230213153500_remove_index_on_product_uuid.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_8_0_20230124095459_add_scheduled_job_delete_expired_tokens\\:\\:addScheduledJob\\(\\) has parameter \\$rawParameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: schema/Version_8_0_20230124095459_add_scheduled_job_delete_expired_tokens.php
+
+		-
+			message: "#^Cannot call method clearCache\\(\\) on object\\|null\\.$#"
+			count: 1
+			path: schema/Version_8_0_20230308113214_disable_attribute_groups_mass_delete_acl.php
+
+		-
+			message: "#^Cannot call method fetchFirstColumn\\(\\) on object\\|null\\.$#"
+			count: 1
+			path: schema/Version_8_0_20230308113214_disable_attribute_groups_mass_delete_acl.php
+
+		-
+			message: "#^Cannot call method findOneByIdentifier\\(\\) on object\\|null\\.$#"
+			count: 1
+			path: schema/Version_8_0_20230308113214_disable_attribute_groups_mass_delete_acl.php
+
+		-
+			message: "#^Cannot call method flush\\(\\) on object\\|null\\.$#"
+			count: 1
+			path: schema/Version_8_0_20230308113214_disable_attribute_groups_mass_delete_acl.php
+
+		-
+			message: "#^Cannot call method saveAll\\(\\) on object\\|null\\.$#"
+			count: 1
+			path: schema/Version_8_0_20230308113214_disable_attribute_groups_mass_delete_acl.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_8_0_20230308113214_disable_attribute_groups_mass_delete_acl\\:\\:setContainer\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: schema/Version_8_0_20230308113214_disable_attribute_groups_mass_delete_acl.php
+
+		-
+			message: "#^Property Pim\\\\Upgrade\\\\Schema\\\\Version_8_0_20230308113214_disable_attribute_groups_mass_delete_acl\\:\\:\\$container \\(Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\) does not accept Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\|null\\.$#"
+			count: 1
+			path: schema/Version_8_0_20230308113214_disable_attribute_groups_mass_delete_acl.php
+
+		-
+			message: "#^Cannot call method clearCache\\(\\) on object\\|null\\.$#"
+			count: 1
+			path: schema/Version_8_0_20230308152730_disable_attributes_mass_delete_acl.php
+
+		-
+			message: "#^Cannot call method fetchFirstColumn\\(\\) on object\\|null\\.$#"
+			count: 1
+			path: schema/Version_8_0_20230308152730_disable_attributes_mass_delete_acl.php
+
+		-
+			message: "#^Cannot call method findOneByIdentifier\\(\\) on object\\|null\\.$#"
+			count: 1
+			path: schema/Version_8_0_20230308152730_disable_attributes_mass_delete_acl.php
+
+		-
+			message: "#^Cannot call method flush\\(\\) on object\\|null\\.$#"
+			count: 1
+			path: schema/Version_8_0_20230308152730_disable_attributes_mass_delete_acl.php
+
+		-
+			message: "#^Cannot call method saveAll\\(\\) on object\\|null\\.$#"
+			count: 1
+			path: schema/Version_8_0_20230308152730_disable_attributes_mass_delete_acl.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_8_0_20230308152730_disable_attributes_mass_delete_acl\\:\\:setContainer\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: schema/Version_8_0_20230308152730_disable_attributes_mass_delete_acl.php
+
+		-
+			message: "#^Property Pim\\\\Upgrade\\\\Schema\\\\Version_8_0_20230308152730_disable_attributes_mass_delete_acl\\:\\:\\$container \\(Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\) does not accept Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\|null\\.$#"
+			count: 1
+			path: schema/Version_8_0_20230308152730_disable_attributes_mass_delete_acl.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function intval expects array\\|bool\\|float\\|int\\|resource\\|string\\|null, mixed given\\.$#"
+			count: 1
+			path: schema/Version_8_0_20230417092236_fix_completeness_table_auto_increment.php
+
+		-
+			message: "#^Cannot call method get\\(\\) on Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\|null\\.$#"
+			count: 2
+			path: schema/Version_8_0_20230627173000_remove_instant_cols.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_8_0_20230627173000_remove_instant_cols\\:\\:getMigration\\(\\) should return Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Migration\\\\V20230622175500OptimizeTableWithInstantColsMigration but returns object\\|null\\.$#"
+			count: 1
+			path: schema/Version_8_0_20230627173000_remove_instant_cols.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_8_0_20230627173000_remove_instant_cols\\:\\:setContainer\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: schema/Version_8_0_20230627173000_remove_instant_cols.php
+
+		-
+			message: "#^Cannot call method get\\(\\) on Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\|null\\.$#"
+			count: 1
+			path: schema/Version_8_0_20230628104642_fill_new_completeness_table.php
+
+		-
+			message: "#^Method Pim\\\\Upgrade\\\\Schema\\\\Version_8_0_20230628104642_fill_new_completeness_table\\:\\:getMigration\\(\\) should return Akeneo\\\\Pim\\\\Enrichment\\\\Bundle\\\\Command\\\\ZddMigrations\\\\V20230512143522FillNewCompletenessTableZddMigration but returns object\\|null\\.$#"
+			count: 1
+			path: schema/Version_8_0_20230628104642_fill_new_completeness_table.php

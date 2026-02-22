@@ -1,5 +1,8 @@
+includes:
+    - baseline.neon
+
 parameters:
-  level: 5
+  level: max
   paths:
     - %rootDir%/../../../src/Akeneo/Platform/Job
   excludePaths:

@@ -1,3 +1,13 @@
+includes:
+    - baseline.neon
+
+parameters:
+    level: max
+    paths:
+        - %rootDir%/../../../src/Akeneo/Connectivity/Connection/back
+    excludePaths:
+        - %rootDir%/../../../src/Akeneo/Connectivity/Connection/back/tests/PhpStan
+
 rules:
     - Akeneo\Connectivity\Connection\Tests\PhpStan\Rule\CoverQueryByIntegrationTestRule
     - Akeneo\Connectivity\Connection\Tests\PhpStan\Rule\FinalControllerRule

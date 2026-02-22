@@ -5,7 +5,4 @@ parameters:
     level: max
     reportUnmatchedIgnoredErrors: false
     paths:
-        - schema
-
-rules:
-    - Pim\Upgrade\MigrationCoveredByIntegrationTestRule
+        - %rootDir%/../../../src/Akeneo/Pim
