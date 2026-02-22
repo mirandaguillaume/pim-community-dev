@@ -8,6 +8,7 @@
 namespace back;
 
 use Castor\Attribute\AsArgument;
+use Castor\Attribute\AsOption;
 use Castor\Attribute\AsTask;
 
 use function Castor\run;
@@ -40,12 +41,13 @@ function checkRequirements(): void
 
 #[AsTask(namespace: 'back', name: 'database', description: 'Drop and recreate database')]
 function database(
-    #[AsArgument(description: 'Extra options (e.g. --catalog)')]
-    string $options = '',
+    #[AsOption(description: 'Catalog fixture path for pim:installer:db')]
+    string $catalog = '',
 ): void {
     \phpRun('bin/console doctrine:database:drop --force --if-exists');
     \phpRun('bin/console doctrine:database:create --if-not-exists');
-    \phpRun('bin/console pim:installer:db ' . $options);
+    $catalogOption = $catalog !== '' ? '--catalog ' . $catalog : '';
+    \phpRun('bin/console pim:installer:db ' . $catalogOption);
 }
 
 #[AsTask(namespace: 'back', name: 'start-job-worker', description: 'Start messenger consumer')]

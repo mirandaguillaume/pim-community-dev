@@ -1038,7 +1038,7 @@ jobs:
           DB_NAME=${DB_NAME:-akeneo_pim}
           APP_ENV=prod castor docker:up 'httpd mysql elasticsearch object-storage pubsub-emulator'
           docker/wait_docker_up.sh
-          APP_ENV=prod castor back:database '--catalog src/Akeneo/Platform/Installer/back/src/Infrastructure/Symfony/Resources/fixtures/icecat_demo_dev'
+          APP_ENV=prod castor back:database --catalog src/Akeneo/Platform/Installer/back/src/Infrastructure/Symfony/Resources/fixtures/icecat_demo_dev
           .github/scripts/setup-test-db.sh "${DB_NAME}" "" .github/scripts/behat-extra-tables.sql
           # Reset Elasticsearch indexes and re-index products so the product grid works
           docker-compose run --rm php php bin/console akeneo:elasticsearch:reset-indexes --env=prod
