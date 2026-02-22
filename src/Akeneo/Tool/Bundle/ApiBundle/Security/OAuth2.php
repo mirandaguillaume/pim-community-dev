@@ -73,8 +73,7 @@ class OAuth2 extends BaseOAuth2
             $inputData = $request->query->all();
         }
 
-        $authHeaders = $this->getAuthorizationHeader($request);
-        $clientCredentials = $this->getClientCredentials($inputData, $authHeaders);
+        $clientCredentials = $this->getClientCredentials($request, $inputData);
 
         $this->eventDispatcher->dispatch(
             new ApiAuthenticationEvent(

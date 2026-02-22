@@ -61,8 +61,6 @@ class OAuth2
         if (null === $token) {
             throw new OAuth2AuthenticateException(
                 Response::HTTP_UNAUTHORIZED,
-                self::TOKEN_TYPE_BEARER,
-                'Service',
                 self::ERROR_INVALID_GRANT,
                 'The access token provided is invalid.'
             );
@@ -71,8 +69,6 @@ class OAuth2
         if ($token->hasExpired()) {
             throw new OAuth2AuthenticateException(
                 Response::HTTP_UNAUTHORIZED,
-                self::TOKEN_TYPE_BEARER,
-                'Service',
                 self::ERROR_INVALID_GRANT,
                 'The access token provided has expired.'
             );
@@ -81,8 +77,6 @@ class OAuth2
         if (null !== $scope && !$this->checkScope($scope, $token->getScope())) {
             throw new OAuth2AuthenticateException(
                 Response::HTTP_FORBIDDEN,
-                self::TOKEN_TYPE_BEARER,
-                'Service',
                 self::ERROR_INVALID_SCOPE,
                 'The request requires higher privileges than provided by the access token.'
             );
@@ -110,8 +104,7 @@ class OAuth2
             ? $request->request->all()
             : $request->query->all();
 
-        $authHeaders = $this->getAuthorizationHeader($request);
-        $clientCredentials = $this->getClientCredentials($inputData, $authHeaders);
+        $clientCredentials = $this->getClientCredentials($request, $inputData);
 
         $client = $this->storage->getClient($clientCredentials[0]);
 
@@ -130,6 +123,23 @@ class OAuth2
                 Response::HTTP_BAD_REQUEST,
                 self::ERROR_INVALID_REQUEST,
                 'Missing grant_type parameter.'
+            );
+        }
+
+        // Check if the grant type is recognized by the server
+        $supportedGrantTypes = [
+            self::GRANT_TYPE_USER_CREDENTIALS,
+            self::GRANT_TYPE_REFRESH_TOKEN,
+            self::GRANT_TYPE_AUTH_CODE,
+            self::GRANT_TYPE_CLIENT_CREDENTIALS,
+            self::GRANT_TYPE_IMPLICIT,
+        ];
+
+        if (!in_array($grantType, $supportedGrantTypes, true)) {
+            throw new OAuth2ServerException(
+                Response::HTTP_BAD_REQUEST,
+                self::ERROR_INVALID_REQUEST,
+                sprintf('Grant type "%s" is not supported.', $grantType)
             );
         }
 
@@ -163,10 +173,7 @@ class OAuth2
             $responseData['refresh_token'] = $tokenData['refresh_token'];
         }
 
-        // Remove null scope to avoid putting "scope: null" in JSON
-        if (null === $responseData['scope']) {
-            unset($responseData['scope']);
-        }
+        // Keep scope in response even when null (backward compatibility)
 
         return new Response(
             json_encode($responseData, JSON_THROW_ON_ERROR),
@@ -180,19 +187,26 @@ class OAuth2
     }
 
     /**
-     * Extract client credentials from Basic Auth header or request body.
+     * Extract client credentials from request (Basic Auth, PHP_AUTH_USER, or body).
      *
      * @return array{0: string, 1: string|null} [client_id, client_secret]
      */
-    protected function getClientCredentials(array $inputData, ?string $authHeaders): array
+    protected function getClientCredentials(Request $request, array $inputData): array
     {
         // Check for Basic auth header
+        $authHeaders = $request->headers->get('Authorization');
         if (null !== $authHeaders && str_starts_with($authHeaders, 'Basic ')) {
             $decoded = base64_decode(substr($authHeaders, 6), true);
             if (false !== $decoded && str_contains($decoded, ':')) {
                 [$clientId, $clientSecret] = explode(':', $decoded, 2);
                 return [$clientId, $clientSecret];
             }
+        }
+
+        // Check PHP_AUTH_USER / PHP_AUTH_PW (Symfony converts these to getUser/getPassword)
+        $user = $request->getUser();
+        if (null !== $user && '' !== $user) {
+            return [$user, $request->getPassword()];
         }
 
         // Check request body
@@ -208,14 +222,6 @@ class OAuth2
         }
 
         return [$clientId, $clientSecret];
-    }
-
-    /**
-     * Extract the Authorization header from the request.
-     */
-    protected function getAuthorizationHeader(Request $request): ?string
-    {
-        return $request->headers->get('Authorization');
     }
 
     /**

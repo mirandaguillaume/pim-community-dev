@@ -13,7 +13,6 @@ class OAuth2ServerException extends \Exception
         private readonly int $httpCode,
         private readonly string $errorType,
         private readonly string $errorDescription = '',
-        array $errorData = []
     ) {
         parent::__construct($errorType);
     }
