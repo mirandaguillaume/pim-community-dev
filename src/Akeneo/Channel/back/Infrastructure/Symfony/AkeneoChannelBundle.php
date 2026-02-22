@@ -28,7 +28,7 @@ class AkeneoChannelBundle extends Bundle
         ;
 
         $channelMappings = [
-            'Akeneo\Channel\Infrastructure\Component\Model' => __DIR__.'/../../Component/Model'
+            'Akeneo\Channel\Infrastructure\Component\Model' => dirname(__DIR__).'/Component/Model'
         ];
 
         $container->addCompilerPass(

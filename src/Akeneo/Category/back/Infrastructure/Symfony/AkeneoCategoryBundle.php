@@ -27,7 +27,7 @@ class AkeneoCategoryBundle extends Bundle
         ;
 
         $mappings = [
-            'Akeneo\Category\Infrastructure\Component\Model' => __DIR__.'/../../Component/Model',
+            'Akeneo\Category\Infrastructure\Component\Model' => dirname(__DIR__).'/Component/Model',
         ];
 
         $container->addCompilerPass(
