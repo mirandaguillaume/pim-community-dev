@@ -1,0 +1,2551 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: ../../back/Application/Consolidation/ComputeScores.php
+
+		-
+			message: "#^Parameter \\#1 \\$channelCode of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleRateCollection\\:\\:addRate\\(\\) expects Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\ChannelCode, mixed given\\.$#"
+			count: 1
+			path: ../../back/Application/Consolidation/ComputeScores.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\Consolidation\\\\ComputeScores\\:\\:computeChannelLocaleScore\\(\\) expects Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\ChannelCode, mixed given\\.$#"
+			count: 1
+			path: ../../back/Application/Consolidation/ComputeScores.php
+
+		-
+			message: "#^Parameter \\#2 \\$localeCode of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleRateCollection\\:\\:addRate\\(\\) expects Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\LocaleCode, mixed given\\.$#"
+			count: 1
+			path: ../../back/Application/Consolidation/ComputeScores.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\Consolidation\\\\ComputeScores\\:\\:computeChannelLocaleScore\\(\\) expects Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\LocaleCode, mixed given\\.$#"
+			count: 1
+			path: ../../back/Application/Consolidation/ComputeScores.php
+
+		-
+			message: "#^Parameter \\#1 \\$entityId of class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Write\\\\ProductScores constructor expects Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\ProductEntityIdInterface, mixed given\\.$#"
+			count: 1
+			path: ../../back/Application/Consolidation/ConsolidateProductModelScores.php
+
+		-
+			message: "#^Parameter \\#1 \\$entityId of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Query\\\\ProductEvaluation\\\\GetCriteriaEvaluationsByEntityIdQueryInterface\\:\\:execute\\(\\) expects Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\ProductEntityIdInterface, mixed given\\.$#"
+			count: 1
+			path: ../../back/Application/Consolidation/ConsolidateProductModelScores.php
+
+		-
+			message: "#^Parameter \\#1 \\$entityId of class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Write\\\\ProductScores constructor expects Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\ProductEntityIdInterface, mixed given\\.$#"
+			count: 1
+			path: ../../back/Application/Consolidation/ConsolidateProductScores.php
+
+		-
+			message: "#^Parameter \\#1 \\$entityId of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Query\\\\ProductEvaluation\\\\GetCriteriaEvaluationsByEntityIdQueryInterface\\:\\:execute\\(\\) expects Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\ProductEntityIdInterface, mixed given\\.$#"
+			count: 1
+			path: ../../back/Application/Consolidation/ConsolidateProductScores.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\Consolidation\\\\PurgeOutdatedData\\:\\:purgeAllFrom\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../../back/Application/Consolidation/PurgeOutdatedData.php
+
+		-
+			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: ../../back/Application/GetProductEvaluation.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\GetProductEvaluation\\:\\:formatCriteriaEvaluations\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Application/GetProductEvaluation.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\GetProductEvaluation\\:\\:formatCriterionEvaluation\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Application/GetProductEvaluation.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\GetProductEvaluation\\:\\:get\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Application/GetProductEvaluation.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function strval expects bool\\|float\\|int\\|resource\\|string\\|null, mixed given\\.$#"
+			count: 2
+			path: ../../back/Application/GetProductEvaluation.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\GetProductEvaluation\\:\\:formatCriteriaEvaluations\\(\\) expects Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\ChannelCode, mixed given\\.$#"
+			count: 1
+			path: ../../back/Application/GetProductEvaluation.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\GetProductEvaluation\\:\\:formatCriteriaEvaluations\\(\\) expects Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\LocaleCode, mixed given\\.$#"
+			count: 1
+			path: ../../back/Application/GetProductEvaluation.php
+
+		-
+			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: ../../back/Application/GetProductModelScores.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\GetProductModelScores\\:\\:get\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Application/GetProductModelScores.php
+
+		-
+			message: "#^Parameter \\#1 \\$channel of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleRateCollection\\:\\:getByChannelAndLocale\\(\\) expects Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\ChannelCode, mixed given\\.$#"
+			count: 1
+			path: ../../back/Application/GetProductModelScores.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function strval expects bool\\|float\\|int\\|resource\\|string\\|null, mixed given\\.$#"
+			count: 2
+			path: ../../back/Application/GetProductModelScores.php
+
+		-
+			message: "#^Parameter \\#2 \\$locale of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleRateCollection\\:\\:getByChannelAndLocale\\(\\) expects Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\LocaleCode, mixed given\\.$#"
+			count: 1
+			path: ../../back/Application/GetProductModelScores.php
+
+		-
+			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: ../../back/Application/GetProductScores.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\GetProductScores\\:\\:get\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Application/GetProductScores.php
+
+		-
+			message: "#^Parameter \\#1 \\$channel of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleRateCollection\\:\\:getByChannelAndLocale\\(\\) expects Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\ChannelCode, mixed given\\.$#"
+			count: 1
+			path: ../../back/Application/GetProductScores.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function strval expects bool\\|float\\|int\\|resource\\|string\\|null, mixed given\\.$#"
+			count: 2
+			path: ../../back/Application/GetProductScores.php
+
+		-
+			message: "#^Parameter \\#2 \\$locale of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleRateCollection\\:\\:getByChannelAndLocale\\(\\) expects Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\LocaleCode, mixed given\\.$#"
+			count: 1
+			path: ../../back/Application/GetProductScores.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: ../../back/Application/KeyIndicator/ComputeProductsKeyIndicators.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\KeyIndicator\\\\ComputeProductsKeyIndicators\\:\\:compute\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Application/KeyIndicator/ComputeProductsKeyIndicators.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\KeyIndicator\\\\ComputeProductsKeyIndicators\\:\\:executeAllKeyIndicatorsQueries\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Application/KeyIndicator/ComputeProductsKeyIndicators.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\KeyIndicator\\\\GetKeyIndicators\\:\\:all\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Application/KeyIndicator/GetKeyIndicators.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\KeyIndicator\\\\GetKeyIndicators\\:\\:byCategory\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Application/KeyIndicator/GetKeyIndicators.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\KeyIndicator\\\\GetKeyIndicators\\:\\:byFamily\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Application/KeyIndicator/GetKeyIndicators.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\KeyIndicator\\\\GetKeyIndicators\\:\\:formatKeyIndicators\\(\\) has parameter \\$productKeyIndicators with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Application/KeyIndicator/GetKeyIndicators.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\KeyIndicator\\\\GetKeyIndicators\\:\\:formatKeyIndicators\\(\\) has parameter \\$productModelKeyIndicators with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Application/KeyIndicator/GetKeyIndicators.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\KeyIndicator\\\\GetKeyIndicators\\:\\:formatKeyIndicators\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Application/KeyIndicator/GetKeyIndicators.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\KeyIndicator\\\\GetKeyIndicatorsInterface\\:\\:all\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Application/KeyIndicator/GetKeyIndicatorsInterface.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\KeyIndicator\\\\GetKeyIndicatorsInterface\\:\\:byCategory\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Application/KeyIndicator/GetKeyIndicatorsInterface.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\KeyIndicator\\\\GetKeyIndicatorsInterface\\:\\:byFamily\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Application/KeyIndicator/GetKeyIndicatorsInterface.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\KeyIndicator\\\\ProductKeyIndicatorsByFeatureRegistry\\:\\:\\$allKeyIndicatorCodes type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Application/KeyIndicator/ProductKeyIndicatorsByFeatureRegistry.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\KeyIndicator\\\\ProductKeyIndicatorsByFeatureRegistry\\:\\:\\$partialKeyIndicatorCodes type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Application/KeyIndicator/ProductKeyIndicatorsByFeatureRegistry.php
+
+		-
+			message: "#^Cannot call method getCriterionCode\\(\\) on mixed\\.$#"
+			count: 1
+			path: ../../back/Application/ProductEvaluation/AsynchronousCriterionEvaluationsFilterIterator.php
+
+		-
+			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: ../../back/Application/ProductEvaluation/CompleteEvaluationWithImprovableAttributes.php
+
+		-
+			message: "#^Cannot call method getData\\(\\) on Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\CriterionEvaluationResult\\|null\\.$#"
+			count: 1
+			path: ../../back/Application/ProductEvaluation/CompleteEvaluationWithImprovableAttributes.php
+
+		-
+			message: "#^Cannot call method getStatus\\(\\) on Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\CriterionEvaluationResult\\|null\\.$#"
+			count: 1
+			path: ../../back/Application/ProductEvaluation/CompleteEvaluationWithImprovableAttributes.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\ProductEvaluation\\\\CompleteEvaluationWithImprovableAttributes\\:\\:getAttributesWithRates\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Application/ProductEvaluation/CompleteEvaluationWithImprovableAttributes.php
+
+		-
+			message: "#^Parameter \\#1 \\$channel of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleDataCollection\\:\\:getByChannelAndLocale\\(\\) expects Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\ChannelCode, mixed given\\.$#"
+			count: 1
+			path: ../../back/Application/ProductEvaluation/CompleteEvaluationWithImprovableAttributes.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function strval expects bool\\|float\\|int\\|resource\\|string\\|null, mixed given\\.$#"
+			count: 2
+			path: ../../back/Application/ProductEvaluation/CompleteEvaluationWithImprovableAttributes.php
+
+		-
+			message: "#^Parameter \\#2 \\$locale of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleDataCollection\\:\\:getByChannelAndLocale\\(\\) expects Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\LocaleCode, mixed given\\.$#"
+			count: 1
+			path: ../../back/Application/ProductEvaluation/CompleteEvaluationWithImprovableAttributes.php
+
+		-
+			message: "#^Parameter \\#2 \\$entityId of class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Write\\\\CriterionEvaluation constructor expects Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\ProductEntityIdInterface, mixed given\\.$#"
+			count: 1
+			path: ../../back/Application/ProductEvaluation/CreateCriteriaEvaluations.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\ProductEvaluation\\\\CriteriaApplicabilityRegistry\\:\\:__construct\\(\\) has parameter \\$criterionApplicabilityServices with no value type specified in iterable type iterable\\.$#"
+			count: 1
+			path: ../../back/Application/ProductEvaluation/CriteriaApplicabilityRegistry.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\ProductEvaluation\\\\CriteriaApplicabilityRegistry\\:\\:\\$criterionApplicabilityServices type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Application/ProductEvaluation/CriteriaApplicabilityRegistry.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\ProductEvaluation\\\\CriteriaByFeatureRegistry\\:\\:\\$allCriteriaCodes type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Application/ProductEvaluation/CriteriaByFeatureRegistry.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\ProductEvaluation\\\\CriteriaByFeatureRegistry\\:\\:\\$partialCriteriaCodes type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Application/ProductEvaluation/CriteriaByFeatureRegistry.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\ProductEvaluation\\\\CriteriaEvaluationRegistry\\:\\:__construct\\(\\) has parameter \\$criterionEvaluationServices with no value type specified in iterable type iterable\\.$#"
+			count: 1
+			path: ../../back/Application/ProductEvaluation/CriteriaEvaluationRegistry.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\ProductEvaluation\\\\CriteriaEvaluationRegistry\\:\\:\\$criterionEvaluationServices type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Application/ProductEvaluation/CriteriaEvaluationRegistry.php
+
+		-
+			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: ../../back/Application/ProductEvaluation/Enrichment/EvaluateCompleteness.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\ProductEvaluation\\\\Enrichment\\\\EvaluateCompleteness\\:\\:evaluateChannelLocaleRate\\(\\) expects Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\ChannelCode, mixed given\\.$#"
+			count: 1
+			path: ../../back/Application/ProductEvaluation/Enrichment/EvaluateCompleteness.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\ProductEvaluation\\\\Enrichment\\\\EvaluateCompleteness\\:\\:evaluateChannelLocaleRate\\(\\) expects Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\LocaleCode, mixed given\\.$#"
+			count: 1
+			path: ../../back/Application/ProductEvaluation/Enrichment/EvaluateCompleteness.php
+
+		-
+			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: ../../back/Application/ProductEvaluation/Enrichment/EvaluateImageEnrichment.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\ProductEvaluation\\\\Enrichment\\\\EvaluateImageEnrichment\\:\\:evaluateChannelLocaleRate\\(\\) expects Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\ChannelCode, mixed given\\.$#"
+			count: 1
+			path: ../../back/Application/ProductEvaluation/Enrichment/EvaluateImageEnrichment.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\ProductEvaluation\\\\Enrichment\\\\EvaluateImageEnrichment\\:\\:evaluateChannelLocaleRate\\(\\) expects Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\LocaleCode, mixed given\\.$#"
+			count: 1
+			path: ../../back/Application/ProductEvaluation/Enrichment/EvaluateImageEnrichment.php
+
+		-
+			message: "#^Parameter \\#1 \\$criterionEvaluation of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\ProductEvaluation\\\\EvaluatePendingCriteria\\:\\:evaluateCriterion\\(\\) expects Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Write\\\\CriterionEvaluation, mixed given\\.$#"
+			count: 1
+			path: ../../back/Application/ProductEvaluation/EvaluatePendingCriteria.php
+
+		-
+			message: "#^Parameter \\#1 \\$criterionEvaluation of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\ProductEvaluation\\\\EvaluatePendingCriteria\\:\\:evaluateCriterionApplicability\\(\\) expects Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Write\\\\CriterionEvaluation, mixed given\\.$#"
+			count: 1
+			path: ../../back/Application/ProductEvaluation/EvaluatePendingCriteria.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\ProductEvaluation\\\\SynchronousCriterionEvaluationsFilter\\:\\:filter\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Application/ProductEvaluation/SynchronousCriterionEvaluationsFilter.php
+
+		-
+			message: "#^Parameter \\#2 \\$callback of function array_filter expects \\(callable\\(mixed\\)\\: bool\\)\\|null, Closure\\(Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Write\\\\CriterionEvaluation\\)\\: bool given\\.$#"
+			count: 1
+			path: ../../back/Application/ProductEvaluation/SynchronousCriterionEvaluationsFilter.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\ProductEvaluation\\\\SynchronousCriterionEvaluationsFilterInterface\\:\\:filter\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Application/ProductEvaluation/SynchronousCriterionEvaluationsFilterInterface.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Exception\\\\JobNotFoundException\\:\\:__construct\\(\\) has parameter \\$jobName with no type specified\\.$#"
+			count: 1
+			path: ../../back/Domain/Exception/JobNotFoundException.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Attribute\\:\\:hasOptions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Attribute.php
+
+		-
+			message: "#^Class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleCollection implements generic interface Iterator but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: ../../back/Domain/Model/ChannelLocaleCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleCollection\\:\\:__construct\\(\\) has parameter \\$localesByChannel with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/ChannelLocaleCollection.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleCollection\\:\\:\\$channelCodes type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/ChannelLocaleCollection.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleCollection\\:\\:\\$iterator with generic class ArrayIterator does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: ../../back/Domain/Model/ChannelLocaleCollection.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleCollection\\:\\:\\$localeCollections type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/ChannelLocaleCollection.php
+
+		-
+			message: "#^Class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleDataCollection implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: ../../back/Domain/Model/ChannelLocaleDataCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleDataCollection\\:\\:addToChannelAndLocale\\(\\) has parameter \\$data with no type specified\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/ChannelLocaleDataCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleDataCollection\\:\\:fromNormalizedChannelLocaleData\\(\\) has parameter \\$normalizedChannelLocaleData with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/ChannelLocaleDataCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleDataCollection\\:\\:getByChannelAndLocale\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/ChannelLocaleDataCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleDataCollection\\:\\:mapWith\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/ChannelLocaleDataCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleDataCollection\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/ChannelLocaleDataCollection.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleDataCollection\\:\\:\\$channelLocaleData type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/ChannelLocaleDataCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleRankCollection\\:\\:fromNormalizedRanks\\(\\) has parameter \\$normalizedRanks with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/ChannelLocaleRankCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleRankCollection\\:\\:toArrayInt\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/ChannelLocaleRankCollection.php
+
+		-
+			message: "#^Class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleRateCollection implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: ../../back/Domain/Model/ChannelLocaleRateCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleRateCollection\\:\\:fromArrayInt\\(\\) has parameter \\$rawRates with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/ChannelLocaleRateCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleRateCollection\\:\\:mapWith\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/ChannelLocaleRateCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleRateCollection\\:\\:toArrayInt\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/ChannelLocaleRateCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleRateCollection\\:\\:toArrayIntRank\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/ChannelLocaleRateCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleRateCollection\\:\\:toArrayLetter\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/ChannelLocaleRateCollection.php
+
+		-
+			message: "#^Class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\CriterionEvaluationResultStatusCollection implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: ../../back/Domain/Model/CriterionEvaluationResultStatusCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\CriterionEvaluationResultStatusCollection\\:\\:fromArrayString\\(\\) has parameter \\$rawStatusCollection with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/CriterionEvaluationResultStatusCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\CriterionEvaluationResultStatusCollection\\:\\:toArrayString\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/CriterionEvaluationResultStatusCollection.php
+
+		-
+			message: "#^Class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\CriterionRateCollection implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: ../../back/Domain/Model/CriterionRateCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\CriterionRateCollection\\:\\:fromArray\\(\\) has parameter \\$rawRates with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/CriterionRateCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\CriterionRateCollection\\:\\:toArrayInt\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/CriterionRateCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\CriterionRateCollection\\:\\:toArrayString\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/CriterionRateCollection.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\CriterionRateCollection\\:\\:\\$rates type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/CriterionRateCollection.php
+
+		-
+			message: "#^Class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\LocaleCollection implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: ../../back/Domain/Model/LocaleCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\LocaleCollection\\:\\:__construct\\(\\) has parameter \\$localeCodes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/LocaleCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\LocaleCollection\\:\\:toArrayString\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/LocaleCollection.php
+
+		-
+			message: "#^Parameter \\#1 \\$array of class ArrayIterator constructor expects array, array\\|null given\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/LocaleCollection.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function array_map expects array, array\\|null given\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/LocaleCollection.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\LocaleCollection\\:\\:\\$localeCodes type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/LocaleCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ProductValues\\:\\:getValueByChannelAndLocale\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/ProductValues.php
+
+		-
+			message: "#^Cannot call method getAttribute\\(\\) on mixed\\.$#"
+			count: 2
+			path: ../../back/Domain/Model/ProductValuesCollection.php
+
+		-
+			message: "#^Class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ProductValuesCollection implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: ../../back/Domain/Model/ProductValuesCollection.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ProductValuesCollection\\:\\:\\$productValuesByAttribute type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/ProductValuesCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\RanksDistribution\\:\\:__construct\\(\\) has parameter \\$ranksDistribution with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/RanksDistribution.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\RanksDistribution\\:\\:getPercentages\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/RanksDistribution.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\RanksDistribution\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/RanksDistribution.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\RanksDistribution\\:\\:\\$ranksDistribution type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/RanksDistribution.php
+
+		-
+			message: "#^Class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\RanksDistributionCollection implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: ../../back/Domain/Model/RanksDistributionCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\RanksDistributionCollection\\:\\:__construct\\(\\) has parameter \\$channelLocaleRanksDistributions with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/RanksDistributionCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\RanksDistributionCollection\\:\\:getAverageRanks\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/RanksDistributionCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\RanksDistributionCollection\\:\\:mapRanksDistributions\\(\\) has parameter \\$channelLocaleRanksDistributions with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/RanksDistributionCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\RanksDistributionCollection\\:\\:mapRanksDistributions\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/RanksDistributionCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\RanksDistributionCollection\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/RanksDistributionCollection.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\RanksDistributionCollection\\:\\:\\$channelLocaleRanksDistributions type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/RanksDistributionCollection.php
+
+		-
+			message: "#^Cannot call method toLetter\\(\\) on Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\Rank\\|null\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Read/CatalogQualityScoreEvolution.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\CatalogQualityScoreEvolution\\:\\:__construct\\(\\) has parameter \\$scores with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Read/CatalogQualityScoreEvolution.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\CatalogQualityScoreEvolution\\:\\:addCurrentCatalogAverageRankToCurrentMonth\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Read/CatalogQualityScoreEvolution.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\CatalogQualityScoreEvolution\\:\\:addCurrentCatalogAverageRankToCurrentMonth\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Read/CatalogQualityScoreEvolution.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\CatalogQualityScoreEvolution\\:\\:initLastMonthsWithEmptyData\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Read/CatalogQualityScoreEvolution.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\CatalogQualityScoreEvolution\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Read/CatalogQualityScoreEvolution.php
+
+		-
+			message: "#^Class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\CriterionEvaluationCollection implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: ../../back/Domain/Model/Read/CriterionEvaluationCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\CriterionEvaluationResult\\:\\:__construct\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Read/CriterionEvaluationResult.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\CriterionEvaluationResult\\:\\:fromArray\\(\\) has parameter \\$rawResult with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Read/CriterionEvaluationResult.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\CriterionEvaluationResult\\:\\:getData\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Read/CriterionEvaluationResult.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\DashboardRates\\:\\:__construct\\(\\) has parameter \\$rates with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Read/DashboardRates.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\DashboardRates\\:\\:convertRatesByTimePeriod\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Read/DashboardRates.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\DashboardRates\\:\\:ensureRatesContainEnoughDays\\(\\) has parameter \\$result with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Read/DashboardRates.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\DashboardRates\\:\\:ensureRatesContainEnoughDays\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Read/DashboardRates.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\DashboardRates\\:\\:ensureRatesContainEnoughMonths\\(\\) has parameter \\$result with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Read/DashboardRates.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\DashboardRates\\:\\:ensureRatesContainEnoughMonths\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Read/DashboardRates.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\DashboardRates\\:\\:ensureRatesContainEnoughWeeks\\(\\) has parameter \\$result with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Read/DashboardRates.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\DashboardRates\\:\\:ensureRatesContainEnoughWeeks\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Read/DashboardRates.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\DashboardRates\\:\\:fillMissingDates\\(\\) has parameter \\$lastDates with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Read/DashboardRates.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\DashboardRates\\:\\:fillMissingDates\\(\\) has parameter \\$result with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Read/DashboardRates.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\DashboardRates\\:\\:fillMissingDates\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Read/DashboardRates.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\DashboardRates\\:\\:toArray\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Read/DashboardRates.php
+
+		-
+			message: "#^Parameter \\#1 \\$timestamp of method DateTimeImmutable\\:\\:setTimestamp\\(\\) expects int, int\\|false given\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Read/DashboardRates.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\KeyIndicator\\:\\:__construct\\(\\) has parameter \\$extraData with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Read/KeyIndicator.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\KeyIndicator\\:\\:getExtraData\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Read/KeyIndicator.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\KeyIndicator\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Read/KeyIndicator.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Write\\\\CompletenessCalculationResult\\:\\:addMissingAttributes\\(\\) has parameter \\$missingAttributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Write/CompletenessCalculationResult.php
+
+		-
+			message: "#^Class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Write\\\\CriterionEvaluationCollection implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: ../../back/Domain/Model/Write/CriterionEvaluationCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Write\\\\CriterionEvaluationResult\\:\\:addData\\(\\) has parameter \\$data with no type specified\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Write/CriterionEvaluationResult.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Write\\\\CriterionEvaluationResult\\:\\:addRateByAttributes\\(\\) has parameter \\$rateByAttributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Write/CriterionEvaluationResult.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Write\\\\CriterionEvaluationResult\\:\\:getDataToArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Write/CriterionEvaluationResult.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Write\\\\CriterionEvaluationResult\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Write/CriterionEvaluationResult.php
+
+		-
+			message: "#^Class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Write\\\\DashboardPurgeDateCollection implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: ../../back/Domain/Model/Write/DashboardPurgeDateCollection.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Write\\\\DashboardPurgeDateCollection\\:\\:\\$purgeDates type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Write/DashboardPurgeDateCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Write\\\\DashboardRatesProjection\\:\\:getAverageRanks\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Write/DashboardRatesProjection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Write\\\\DashboardRatesProjection\\:\\:getRanksDistributionsPerTimePeriod\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Model/Write/DashboardRatesProjection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Query\\\\Dashboard\\\\GetAverageRanksQueryInterface\\:\\:byCategories\\(\\) has parameter \\$categoryCodes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Query/Dashboard/GetAverageRanksQueryInterface.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Query\\\\Dashboard\\\\GetAverageRanksQueryInterface\\:\\:byCategories\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Query/Dashboard/GetAverageRanksQueryInterface.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Query\\\\Dashboard\\\\GetAverageRanksQueryInterface\\:\\:byFamilies\\(\\) has parameter \\$familyCodes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Query/Dashboard/GetAverageRanksQueryInterface.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Query\\\\Dashboard\\\\GetAverageRanksQueryInterface\\:\\:byFamilies\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Query/Dashboard/GetAverageRanksQueryInterface.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Query\\\\Dashboard\\\\GetCatalogProductScoreEvolutionQueryInterface\\:\\:byCatalog\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Query/Dashboard/GetCatalogProductScoreEvolutionQueryInterface.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Query\\\\Dashboard\\\\GetCatalogProductScoreEvolutionQueryInterface\\:\\:byCategory\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Query/Dashboard/GetCatalogProductScoreEvolutionQueryInterface.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Query\\\\Dashboard\\\\GetCatalogProductScoreEvolutionQueryInterface\\:\\:byFamily\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Query/Dashboard/GetCatalogProductScoreEvolutionQueryInterface.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Query\\\\ProductEnrichment\\\\GetProductRawValuesQueryInterface\\:\\:execute\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Query/ProductEnrichment/GetProductRawValuesQueryInterface.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Query\\\\ProductEvaluation\\\\GetEvaluableAttributesByProductQueryInterface\\:\\:execute\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Query/ProductEvaluation/GetEvaluableAttributesByProductQueryInterface.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Query\\\\ProductEvaluation\\\\GetEvaluationRatesByProductsAndCriterionQueryInterface\\:\\:execute\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Query/ProductEvaluation/GetEvaluationRatesByProductsAndCriterionQueryInterface.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Query\\\\ProductEvaluation\\\\GetProductModelScoresByCodesQueryInterface\\:\\:byProductModelCodes\\(\\) has parameter \\$productModelCodes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Query/ProductEvaluation/GetProductModelScoresByCodesQueryInterface.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Query\\\\Structure\\\\GetAllAttributeGroupsActivationQueryInterface\\:\\:execute\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Query/Structure/GetAllAttributeGroupsActivationQueryInterface.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Query\\\\Structure\\\\GetLocalesByChannelQueryInterface\\:\\:getArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/Query/Structure/GetLocalesByChannelQueryInterface.php
+
+		-
+			message: "#^Interface Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\ProductEntityIdCollection extends generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: ../../back/Domain/ValueObject/ProductEntityIdCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\ProductModelIdCollection\\:\\:__construct\\(\\) has parameter \\$productModelIds with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/ValueObject/ProductModelIdCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\ProductModelIdCollection\\:\\:getIterator\\(\\) return type with generic class ArrayIterator does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: ../../back/Domain/ValueObject/ProductModelIdCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\ProductUuidCollection\\:\\:__construct\\(\\) has parameter \\$productUuids with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/ValueObject/ProductUuidCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\ProductUuidCollection\\:\\:fromProductUuids\\(\\) has parameter \\$productUuids with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/ValueObject/ProductUuidCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\ProductUuidCollection\\:\\:getIterator\\(\\) return type with generic class ArrayIterator does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: ../../back/Domain/ValueObject/ProductUuidCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\ProductUuidCollection\\:\\:toArrayBytes\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Domain/ValueObject/ProductUuidCollection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\Rate\\:\\:toLetter\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../../back/Domain/ValueObject/Rate.php
+
+		-
+			message: "#^Cannot call method isRunning\\(\\) on Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Job\\\\ExitStatus\\|null\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Connector/JobLauncher/RunUniqueProcessJob.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Connector\\\\JobLauncher\\\\RunUniqueProcessJob\\:\\:run\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Connector/JobLauncher/RunUniqueProcessJob.php
+
+		-
+			message: "#^Parameter \\#1 \\$jobExecutionId of method Akeneo\\\\Tool\\\\Bundle\\\\BatchQueueBundle\\\\Manager\\\\JobExecutionManager\\:\\:getExitStatus\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Connector/JobLauncher/RunUniqueProcessJob.php
+
+		-
+			message: "#^Parameter \\#1 \\$jobExecutionId of method Akeneo\\\\Tool\\\\Bundle\\\\BatchQueueBundle\\\\Manager\\\\JobExecutionManager\\:\\:markAsFailed\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Connector/JobLauncher/RunUniqueProcessJob.php
+
+		-
+			message: "#^Parameter \\#1 \\$jobExecutionId of method Akeneo\\\\Tool\\\\Bundle\\\\BatchQueueBundle\\\\Manager\\\\JobExecutionManager\\:\\:updateHealthCheck\\(\\) expects int, int\\|null given\\.$#"
+			count: 2
+			path: ../../back/Infrastructure/Connector/JobLauncher/RunUniqueProcessJob.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Connector\\\\JobParameters\\\\PeriodicTasksParameters\\:\\:getDefaultValues\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Connector/JobParameters/PeriodicTasksParameters.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Connector\\\\JobParameters\\\\PrepareEvaluationsParameters\\:\\:getDefaultValues\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Connector/JobParameters/PrepareEvaluationsParameters.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Connector\\\\JobParameters\\\\RecomputeProductScoresParameters\\:\\:getDefaultValues\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Connector/JobParameters/RecomputeProductScoresParameters.php
+
+		-
+			message: "#^Cannot call method addFailureException\\(\\) on Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Model\\\\StepExecution\\|null\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Connector/Tasklet/ConsolidateDashboardRatesTasklet.php
+
+		-
+			message: "#^Cannot call method getId\\(\\) on Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Model\\\\StepExecution\\|null\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Connector/Tasklet/ConsolidateDashboardRatesTasklet.php
+
+		-
+			message: "#^Cannot call method getJobParameters\\(\\) on Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Model\\\\StepExecution\\|null\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Connector/Tasklet/ConsolidateDashboardRatesTasklet.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Connector\\\\Tasklet\\\\ConsolidateDashboardRatesTasklet\\:\\:execute\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Connector/Tasklet/ConsolidateDashboardRatesTasklet.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Connector\\\\Tasklet\\\\ConsolidateDashboardRatesTasklet\\:\\:setStepExecution\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Connector/Tasklet/ConsolidateDashboardRatesTasklet.php
+
+		-
+			message: "#^Parameter \\#1 \\$dateTime of class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\ConsolidationDate constructor expects DateTimeImmutable, DateTimeImmutable\\|false given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Connector/Tasklet/ConsolidateDashboardRatesTasklet.php
+
+		-
+			message: "#^Parameter \\#2 \\$datetime of static method DateTimeImmutable\\:\\:createFromFormat\\(\\) expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Connector/Tasklet/ConsolidateDashboardRatesTasklet.php
+
+		-
+			message: "#^Cannot call method addSummaryInfo\\(\\) on Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Model\\\\StepExecution\\|null\\.$#"
+			count: 2
+			path: ../../back/Infrastructure/Connector/Tasklet/EvaluateProductsAndProductModelsCriteriaTasklet.php
+
+		-
+			message: "#^Cannot call method getWriteCount\\(\\) on Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Model\\\\StepExecution\\|null\\.$#"
+			count: 2
+			path: ../../back/Infrastructure/Connector/Tasklet/EvaluateProductsAndProductModelsCriteriaTasklet.php
+
+		-
+			message: "#^Cannot call method setWriteCount\\(\\) on Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Model\\\\StepExecution\\|null\\.$#"
+			count: 2
+			path: ../../back/Infrastructure/Connector/Tasklet/EvaluateProductsAndProductModelsCriteriaTasklet.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Connector\\\\Tasklet\\\\EvaluateProductsAndProductModelsCriteriaTasklet\\:\\:setStepExecution\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Connector/Tasklet/EvaluateProductsAndProductModelsCriteriaTasklet.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Connector\\\\Tasklet\\\\MarkEvaluation\\\\AbstractMarkEvaluationTasklet\\:\\:updatedSince\\(\\) should return DateTimeImmutable but returns DateTimeImmutable\\|false\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Connector/Tasklet/MarkEvaluation/AbstractMarkEvaluationTasklet.php
+
+		-
+			message: "#^Parameter \\#2 \\$datetime of static method DateTimeImmutable\\:\\:createFromFormat\\(\\) expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Connector/Tasklet/MarkEvaluation/AbstractMarkEvaluationTasklet.php
+
+		-
+			message: "#^Cannot call method addFailureException\\(\\) on Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Model\\\\StepExecution\\|null\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Connector/Tasklet/PurgeOutdatedDataTasklet.php
+
+		-
+			message: "#^Cannot call method getId\\(\\) on Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Model\\\\StepExecution\\|null\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Connector/Tasklet/PurgeOutdatedDataTasklet.php
+
+		-
+			message: "#^Cannot call method getJobParameters\\(\\) on Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Model\\\\StepExecution\\|null\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Connector/Tasklet/PurgeOutdatedDataTasklet.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Connector\\\\Tasklet\\\\PurgeOutdatedDataTasklet\\:\\:execute\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Connector/Tasklet/PurgeOutdatedDataTasklet.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Connector\\\\Tasklet\\\\PurgeOutdatedDataTasklet\\:\\:setStepExecution\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Connector/Tasklet/PurgeOutdatedDataTasklet.php
+
+		-
+			message: "#^Parameter \\#1 \\$date of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\Consolidation\\\\PurgeOutdatedData\\:\\:purgeAllFrom\\(\\) expects DateTimeImmutable, DateTimeImmutable\\|false given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Connector/Tasklet/PurgeOutdatedDataTasklet.php
+
+		-
+			message: "#^Parameter \\#2 \\$datetime of static method DateTimeImmutable\\:\\:createFromFormat\\(\\) expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Connector/Tasklet/PurgeOutdatedDataTasklet.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Connector\\\\Tasklet\\\\RecomputeProductScoresTasklet\\:\\:getNextProductUuids\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Connector/Tasklet/RecomputeProductScoresTasklet.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Connector\\\\Tasklet\\\\RecomputeProductScoresTasklet\\:\\:scheduleNextRecomputeProductsScoresJob\\(\\) has parameter \\$lastProductId with no type specified\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Connector/Tasklet/RecomputeProductScoresTasklet.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Elasticsearch\\\\Filter\\\\KeyIndicatorFilter\\:\\:addFieldFilter\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Elasticsearch/Filter/KeyIndicatorFilter.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Elasticsearch\\\\Filter\\\\KeyIndicatorFilter\\:\\:addFieldFilter\\(\\) has parameter \\$value with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Elasticsearch/Filter/KeyIndicatorFilter.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Elasticsearch\\\\Filter\\\\QualityScoreFilter\\:\\:addFieldFilter\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Elasticsearch/Filter/QualityScoreFilter.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Elasticsearch\\\\Filter\\\\QualityScoreFilter\\:\\:addFieldFilter\\(\\) has parameter \\$values with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Elasticsearch/Filter/QualityScoreFilter.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Elasticsearch\\\\Filter\\\\QualityScoreMultiLocalesFilter\\:\\:addFieldFilter\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Elasticsearch/Filter/QualityScoreMultiLocalesFilter.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Elasticsearch\\\\Filter\\\\QualityScoreMultiLocalesFilter\\:\\:addFieldFilter\\(\\) has parameter \\$values with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Elasticsearch/Filter/QualityScoreMultiLocalesFilter.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Elasticsearch\\\\Filter\\\\QualityScoreMultiLocalesFilter\\:\\:getLocalesFromOptions\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Elasticsearch/Filter/QualityScoreMultiLocalesFilter.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Elasticsearch\\\\Filter\\\\QualityScoreMultiLocalesFilter\\:\\:getLocalesFromOptions\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Elasticsearch/Filter/QualityScoreMultiLocalesFilter.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Elasticsearch\\\\GetDataQualityInsightsPropertiesForProductModelProjection\\:\\:fromProductModelCodes\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Elasticsearch/GetDataQualityInsightsPropertiesForProductModelProjection.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Elasticsearch/GetDataQualityInsightsPropertiesForProductProjection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Elasticsearch\\\\GetDataQualityInsightsPropertiesForProductProjection\\:\\:fromProductUuids\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 2
+			path: ../../back/Infrastructure/Elasticsearch/GetDataQualityInsightsPropertiesForProductProjection.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Elasticsearch\\\\Query\\\\GetProductKeyIndicatorsQuery\\:\\:executeQuery\\(\\) has parameter \\$extraTerms with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Elasticsearch/Query/GetProductKeyIndicatorsQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Elasticsearch\\\\Query\\\\GetProductKeyIndicatorsQuery\\:\\:executeQuery\\(\\) has parameter \\$keyIndicatorCodes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Elasticsearch/Query/GetProductKeyIndicatorsQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Elasticsearch\\\\Query\\\\GetProductKeyIndicatorsQuery\\:\\:executeQuery\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Elasticsearch/Query/GetProductKeyIndicatorsQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Elasticsearch\\\\Query\\\\GetProductKeyIndicatorsQuery\\:\\:formatKeyIndicator\\(\\) has parameter \\$aggregationBuckets with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Elasticsearch/Query/GetProductKeyIndicatorsQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Elasticsearch\\\\Query\\\\GetUpdatedEntityIdsQuery\\:\\:countUpdatedProducts\\(\\) has parameter \\$query with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Elasticsearch/Query/GetUpdatedEntityIdsQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Elasticsearch\\\\Query\\\\GetUpdatedEntityIdsQuery\\:\\:formatProductId\\(\\) has parameter \\$productData with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Elasticsearch/Query/GetUpdatedEntityIdsQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Elasticsearch\\\\Query\\\\GetUpdatedEntityIdsQuery\\:\\:searchAfter\\(\\) has parameter \\$query with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Elasticsearch/Query/GetUpdatedEntityIdsQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Elasticsearch\\\\Query\\\\GetUpdatedEntityIdsQuery\\:\\:searchAfter\\(\\) has parameter \\$searchAfter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Elasticsearch/Query/GetUpdatedEntityIdsQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Elasticsearch\\\\Query\\\\GetUpdatedEntityIdsQuery\\:\\:searchAfter\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Elasticsearch/Query/GetUpdatedEntityIdsQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Elasticsearch\\\\Sorter\\\\QualityScoreSorter\\:\\:__construct\\(\\) has parameter \\$supportedFields with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Elasticsearch/Sorter/QualityScoreSorter.php
+
+		-
+			message: "#^Argument of an invalid type Akeneo\\\\Pim\\\\Enrichment\\\\Component\\\\Product\\\\Completeness\\\\Model\\\\ProductCompletenessWithMissingAttributeCodesCollection\\|null supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Enrichment/CalculateProductCompleteness.php
+
+		-
+			message: "#^Cannot call method channelCode\\(\\) on mixed\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Enrichment/CalculateProductCompleteness.php
+
+		-
+			message: "#^Cannot call method localeCode\\(\\) on mixed\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Enrichment/CalculateProductCompleteness.php
+
+		-
+			message: "#^Cannot call method missingAttributeCodes\\(\\) on mixed\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Enrichment/CalculateProductCompleteness.php
+
+		-
+			message: "#^Cannot call method ratio\\(\\) on mixed\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Enrichment/CalculateProductCompleteness.php
+
+		-
+			message: "#^Cannot call method requiredCount\\(\\) on mixed\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Enrichment/CalculateProductCompleteness.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:getFamily\\(\\)\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Enrichment/CalculateProductModelCompleteness.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:getId\\(\\)\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Enrichment/CalculateProductModelCompleteness.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:getValues\\(\\)\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Enrichment/CalculateProductModelCompleteness.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Install\\\\InitializeJobs\\:\\:__construct\\(\\) has parameter \\$jobInstanceRepository with generic interface Doctrine\\\\Persistence\\\\ObjectRepository but does not specify its types\\: T$#"
+			count: 1
+			path: ../../back/Infrastructure/Install/InitializeJobs.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Messenger\\\\LaunchProductAndProductModelEvaluationsMessage\\:\\:denormalize\\(\\) has parameter \\$normalized with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Messenger/LaunchProductAndProductModelEvaluationsMessage.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Messenger\\\\LaunchProductAndProductModelEvaluationsMessage\\:\\:normalize\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Messenger/LaunchProductAndProductModelEvaluationsMessage.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Messenger\\\\LaunchProductAndProductModelEvaluationsMessageNormalizer\\:\\:denormalize\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Messenger/LaunchProductAndProductModelEvaluationsMessageNormalizer.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Messenger\\\\LaunchProductAndProductModelEvaluationsMessageNormalizer\\:\\:normalize\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Messenger/LaunchProductAndProductModelEvaluationsMessageNormalizer.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Messenger\\\\LaunchProductAndProductModelEvaluationsMessageNormalizer\\:\\:normalize\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Messenger/LaunchProductAndProductModelEvaluationsMessageNormalizer.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Messenger\\\\LaunchProductAndProductModelEvaluationsMessageNormalizer\\:\\:normalize\\(\\) return type with generic class ArrayObject does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: ../../back/Infrastructure/Messenger/LaunchProductAndProductModelEvaluationsMessageNormalizer.php
+
+		-
+			message: "#^Parameter \\#1 \\$normalized of static method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Messenger\\\\LaunchProductAndProductModelEvaluationsMessage\\:\\:denormalize\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Messenger/LaunchProductAndProductModelEvaluationsMessageNormalizer.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Normalizer\\\\AttributeGroupActivationHasChangedNormalizer\\:\\:denormalize\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Normalizer/AttributeGroupActivationHasChangedNormalizer.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Normalizer\\\\AttributeGroupActivationHasChangedNormalizer\\:\\:normalize\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Normalizer/AttributeGroupActivationHasChangedNormalizer.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Normalizer\\\\AttributeGroupActivationHasChangedNormalizer\\:\\:normalize\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Normalizer/AttributeGroupActivationHasChangedNormalizer.php
+
+		-
+			message: "#^Parameter \\#1 \\$normalized of static method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Event\\\\AttributeGroupActivationHasChanged\\:\\:denormalize\\(\\) expects array\\<string, mixed\\>, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Normalizer/AttributeGroupActivationHasChangedNormalizer.php
+
+		-
+			message: "#^Parameter \\#2 \\$evaluationResult of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\TransformCriterionEvaluationResultIds\\:\\:transformToCodes\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Hydrator/hydrateCriterionEvaluationResult.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\Completeness\\\\AttributeCase\\> given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/BuildSqlMaskField.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Completeness/GetAttributeTypesMasksQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\Completeness\\\\GetAttributeTypesMasksQuery\\:\\:__construct\\(\\) has parameter \\$attributeTypes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Completeness/GetAttributeTypesMasksQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$channelCode of class Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Query\\\\PublicApi\\\\Family\\\\RequiredAttributesMaskForChannelAndLocale constructor expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Completeness/GetAttributeTypesMasksQuery.php
+
+		-
+			message: "#^Parameter \\#2 \\$localeCode of class Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Query\\\\PublicApi\\\\Family\\\\RequiredAttributesMaskForChannelAndLocale constructor expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Completeness/GetAttributeTypesMasksQuery.php
+
+		-
+			message: "#^Parameter \\#3 \\$mask of class Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Query\\\\PublicApi\\\\Family\\\\RequiredAttributesMaskForChannelAndLocale constructor expects array\\<string\\>, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Completeness/GetAttributeTypesMasksQuery.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Completeness/GetAttributeTypesProductModelMasksQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\Completeness\\\\GetAttributeTypesProductModelMasksQuery\\:\\:__construct\\(\\) has parameter \\$attributeTypes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Completeness/GetAttributeTypesProductModelMasksQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$channelCode of class Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Query\\\\PublicApi\\\\Family\\\\RequiredAttributesMaskForChannelAndLocale constructor expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Completeness/GetAttributeTypesProductModelMasksQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$familyCode of class Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Query\\\\PublicApi\\\\Family\\\\RequiredAttributesMask constructor expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Completeness/GetAttributeTypesProductModelMasksQuery.php
+
+		-
+			message: "#^Parameter \\#2 \\$localeCode of class Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Query\\\\PublicApi\\\\Family\\\\RequiredAttributesMaskForChannelAndLocale constructor expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Completeness/GetAttributeTypesProductModelMasksQuery.php
+
+		-
+			message: "#^Parameter \\#3 \\$mask of class Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Query\\\\PublicApi\\\\Family\\\\RequiredAttributesMaskForChannelAndLocale constructor expects array\\<string\\>, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Completeness/GetAttributeTypesProductModelMasksQuery.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 3
+			path: ../../back/Infrastructure/Persistence/Query/Completeness/GetNonRequiredAttributesMasksQuery.php
+
+		-
+			message: "#^Parameter \\#3 \\$mask of class Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Query\\\\PublicApi\\\\Family\\\\RequiredAttributesMaskForChannelAndLocale constructor expects array\\<string\\>, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Completeness/GetNonRequiredAttributesMasksQuery.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Completeness/GetNonRequiredProductModelAttributesMaskQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$channelCode of class Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Query\\\\PublicApi\\\\Family\\\\RequiredAttributesMaskForChannelAndLocale constructor expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Completeness/GetNonRequiredProductModelAttributesMaskQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$familyCode of class Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Query\\\\PublicApi\\\\Family\\\\RequiredAttributesMask constructor expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Completeness/GetNonRequiredProductModelAttributesMaskQuery.php
+
+		-
+			message: "#^Parameter \\#2 \\$localeCode of class Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Query\\\\PublicApi\\\\Family\\\\RequiredAttributesMaskForChannelAndLocale constructor expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Completeness/GetNonRequiredProductModelAttributesMaskQuery.php
+
+		-
+			message: "#^Parameter \\#3 \\$mask of class Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Query\\\\PublicApi\\\\Family\\\\RequiredAttributesMaskForChannelAndLocale constructor expects array\\<string\\>, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Completeness/GetNonRequiredProductModelAttributesMaskQuery.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Completeness/GetRequiredAttributesMasksQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$channelCode of class Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Query\\\\PublicApi\\\\Family\\\\RequiredAttributesMaskForChannelAndLocale constructor expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Completeness/GetRequiredAttributesMasksQuery.php
+
+		-
+			message: "#^Parameter \\#2 \\$localeCode of class Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Query\\\\PublicApi\\\\Family\\\\RequiredAttributesMaskForChannelAndLocale constructor expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Completeness/GetRequiredAttributesMasksQuery.php
+
+		-
+			message: "#^Parameter \\#3 \\$mask of class Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Query\\\\PublicApi\\\\Family\\\\RequiredAttributesMaskForChannelAndLocale constructor expects array\\<string\\>, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Completeness/GetRequiredAttributesMasksQuery.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Completeness/GetRequiredProductModelAttributesMaskQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$channelCode of class Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Query\\\\PublicApi\\\\Family\\\\RequiredAttributesMaskForChannelAndLocale constructor expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Completeness/GetRequiredProductModelAttributesMaskQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$familyCode of class Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Query\\\\PublicApi\\\\Family\\\\RequiredAttributesMask constructor expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Completeness/GetRequiredProductModelAttributesMaskQuery.php
+
+		-
+			message: "#^Parameter \\#2 \\$localeCode of class Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Query\\\\PublicApi\\\\Family\\\\RequiredAttributesMaskForChannelAndLocale constructor expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Completeness/GetRequiredProductModelAttributesMaskQuery.php
+
+		-
+			message: "#^Parameter \\#3 \\$mask of class Akeneo\\\\Pim\\\\Structure\\\\Component\\\\Query\\\\PublicApi\\\\Family\\\\RequiredAttributesMaskForChannelAndLocale constructor expects array\\<string\\>, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Completeness/GetRequiredProductModelAttributesMaskQuery.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Dashboard/GetAverageRanksQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\Dashboard\\\\GetAverageRanksQuery\\:\\:byCategories\\(\\) has parameter \\$categoryCodes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Dashboard/GetAverageRanksQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\Dashboard\\\\GetAverageRanksQuery\\:\\:byCategories\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Dashboard/GetAverageRanksQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\Dashboard\\\\GetAverageRanksQuery\\:\\:byFamilies\\(\\) has parameter \\$familyCodes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Dashboard/GetAverageRanksQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\Dashboard\\\\GetAverageRanksQuery\\:\\:byFamilies\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Dashboard/GetAverageRanksQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\Dashboard\\\\GetAverageRanksQuery\\:\\:fetchByCodes\\(\\) has parameter \\$entityCodes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Dashboard/GetAverageRanksQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\Dashboard\\\\GetAverageRanksQuery\\:\\:fetchByCodes\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Dashboard/GetAverageRanksQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$code of static method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\Rank\\:\\:fromString\\(\\) expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Dashboard/GetAverageRanksQuery.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Dashboard/GetCatalogProductScoreEvolutionQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\Dashboard\\\\GetCatalogProductScoreEvolutionQuery\\:\\:buildResult\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Dashboard/GetCatalogProductScoreEvolutionQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\Dashboard\\\\GetCatalogProductScoreEvolutionQuery\\:\\:byCatalog\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Dashboard/GetCatalogProductScoreEvolutionQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\Dashboard\\\\GetCatalogProductScoreEvolutionQuery\\:\\:byCategory\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Dashboard/GetCatalogProductScoreEvolutionQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\Dashboard\\\\GetCatalogProductScoreEvolutionQuery\\:\\:byFamily\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Dashboard/GetCatalogProductScoreEvolutionQuery.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Dashboard/GetCatalogProductScoreEvolutionQuery.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Dashboard/GetDashboardScoresQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$rates of class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\DashboardRates constructor expects array, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Dashboard/GetDashboardScoresQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\Dashboard\\\\GetRanksDistributionFromProductScoresQuery\\:\\:buildRankDistributionQuery\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Dashboard/GetRanksDistributionFromProductScoresQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\Dashboard\\\\GetRanksDistributionFromProductScoresQuery\\:\\:hydrateToRankDistributionCollection\\(\\) has parameter \\$elasticsearchResult with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Dashboard/GetRanksDistributionFromProductScoresQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\KeyIndicator\\\\ComputeProductsEnrichmentStatusQuery\\:\\:computeForChannelsLocales\\(\\) has parameter \\$channelsLocales with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/KeyIndicator/ComputeProductsEnrichmentStatusQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\KeyIndicator\\\\ComputeProductsEnrichmentStatusQuery\\:\\:computeForChannelsLocales\\(\\) has parameter \\$evaluations with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/KeyIndicator/ComputeProductsEnrichmentStatusQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\KeyIndicator\\\\ComputeProductsEnrichmentStatusQuery\\:\\:computeForChannelsLocales\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/KeyIndicator/ComputeProductsEnrichmentStatusQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\KeyIndicator\\\\ComputeProductsEnrichmentStatusQuery\\:\\:getProductsCompletenessResults\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/KeyIndicator/ComputeProductsEnrichmentStatusQuery.php
+
+		-
+			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEnrichment/GetEvaluableProductValuesQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEnrichment\\\\GetEvaluableProductValuesQuery\\:\\:buildProductValuesByChannelAndLocale\\(\\) has parameter \\$rawValues with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEnrichment/GetEvaluableProductValuesQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEnrichment\\\\GetEvaluableProductValuesQuery\\:\\:getValue\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEnrichment/GetEvaluableProductValuesQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEnrichment\\\\GetEvaluableProductValuesQuery\\:\\:getValue\\(\\) has parameter \\$rawValues with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEnrichment/GetEvaluableProductValuesQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$channel of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleDataCollection\\:\\:addToChannelAndLocale\\(\\) expects Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\ChannelCode, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEnrichment/GetEvaluableProductValuesQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function strval expects bool\\|float\\|int\\|resource\\|string\\|null, mixed given\\.$#"
+			count: 2
+			path: ../../back/Infrastructure/Persistence/Query/ProductEnrichment/GetEvaluableProductValuesQuery.php
+
+		-
+			message: "#^Parameter \\#2 \\$locale of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleDataCollection\\:\\:addToChannelAndLocale\\(\\) expects Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\LocaleCode, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEnrichment/GetEvaluableProductValuesQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$identifier of class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\ProductIdentifier constructor expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEnrichment/GetProductIdentifierFromProductUuidQuery.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEnrichment/GetProductModelIdsFromProductModelCodesQuery.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEnrichment/GetProductModelRawValuesQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEnrichment\\\\GetProductModelRawValuesQuery\\:\\:execute\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEnrichment/GetProductModelRawValuesQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEnrichment\\\\GetProductModelRawValuesQuery\\:\\:execute\\(\\) should return array but returns mixed\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEnrichment/GetProductModelRawValuesQuery.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEnrichment/GetProductRawValuesQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEnrichment\\\\GetProductRawValuesQuery\\:\\:execute\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEnrichment/GetProductRawValuesQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEnrichment\\\\GetProductRawValuesQuery\\:\\:execute\\(\\) should return array but returns mixed\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEnrichment/GetProductRawValuesQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEvaluation\\\\GetCriteriaEvaluationsByEntityIdQuery\\:\\:executeForProductModelId\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetCriteriaEvaluationsByEntityIdQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEvaluation\\\\GetCriteriaEvaluationsByEntityIdQuery\\:\\:executeForProductUuid\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetCriteriaEvaluationsByEntityIdQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEvaluation\\\\GetCriteriaEvaluationsByEntityIdQuery\\:\\:hydrateCriterionEvaluationResult\\(\\) has parameter \\$rawResult with no type specified\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetCriteriaEvaluationsByEntityIdQuery.php
+
+		-
+			message: "#^Parameter \\#2 \\$evaluationResult of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\TransformCriterionEvaluationResultIds\\:\\:transformToCodes\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetCriteriaEvaluationsByEntityIdQuery.php
+
+		-
+			message: "#^Cannot access offset 'code' on mixed\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetEvaluableAttributesByProductModelQuery.php
+
+		-
+			message: "#^Cannot access offset 'is_localizable' on mixed\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetEvaluableAttributesByProductModelQuery.php
+
+		-
+			message: "#^Cannot access offset 'type' on mixed\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetEvaluableAttributesByProductModelQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEvaluation\\\\GetEvaluableAttributesByProductModelQuery\\:\\:execute\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetEvaluableAttributesByProductModelQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$code of class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\AttributeCode constructor expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetEvaluableAttributesByProductModelQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$type of class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\AttributeType constructor expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetEvaluableAttributesByProductModelQuery.php
+
+		-
+			message: "#^Cannot access offset 'code' on mixed\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetEvaluableAttributesByProductQuery.php
+
+		-
+			message: "#^Cannot access offset 'is_localizable' on mixed\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetEvaluableAttributesByProductQuery.php
+
+		-
+			message: "#^Cannot access offset 'type' on mixed\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetEvaluableAttributesByProductQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEvaluation\\\\GetEvaluableAttributesByProductQuery\\:\\:execute\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetEvaluableAttributesByProductQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$code of class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\AttributeCode constructor expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetEvaluableAttributesByProductQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$type of class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\AttributeType constructor expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetEvaluableAttributesByProductQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEvaluation\\\\GetEvaluationRatesByProductModelsAndCriterionQuery\\:\\:execute\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetEvaluationRatesByProductModelsAndCriterionQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEvaluation\\\\GetEvaluationRatesByProductModelsAndCriterionQuery\\:\\:formatEvaluationRates\\(\\) has parameter \\$evaluationResult with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetEvaluationRatesByProductModelsAndCriterionQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEvaluation\\\\GetEvaluationRatesByProductModelsAndCriterionQuery\\:\\:formatEvaluationRates\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetEvaluationRatesByProductModelsAndCriterionQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEvaluation\\\\GetEvaluationRatesByProductsAndCriterionQuery\\:\\:execute\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetEvaluationRatesByProductsAndCriterionQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEvaluation\\\\GetEvaluationRatesByProductsAndCriterionQuery\\:\\:formatEvaluationRates\\(\\) has parameter \\$evaluationResult with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetEvaluationRatesByProductsAndCriterionQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEvaluation\\\\GetEvaluationRatesByProductsAndCriterionQuery\\:\\:formatEvaluationRates\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetEvaluationRatesByProductsAndCriterionQuery.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetEvaluationResultsByProductModelsAndCriterionQuery.php
+
+		-
+			message: "#^Parameter \\#2 \\$evaluationResult of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\TransformCriterionEvaluationResultIds\\:\\:transformToCodes\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetEvaluationResultsByProductModelsAndCriterionQuery.php
+
+		-
+			message: "#^Parameter \\#2 \\$rawResult of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEvaluation\\\\GetEvaluationResultsByProductModelsAndCriterionQuery\\:\\:hydrateEvaluationResult\\(\\) expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetEvaluationResultsByProductModelsAndCriterionQuery.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetEvaluationResultsByProductsAndCriterionQuery.php
+
+		-
+			message: "#^Parameter \\#2 \\$evaluationResult of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\TransformCriterionEvaluationResultIds\\:\\:transformToCodes\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetEvaluationResultsByProductsAndCriterionQuery.php
+
+		-
+			message: "#^Parameter \\#2 \\$rawResult of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEvaluation\\\\GetEvaluationResultsByProductsAndCriterionQuery\\:\\:hydrateEvaluationResult\\(\\) expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetEvaluationResultsByProductsAndCriterionQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$productEntityIds of static method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\ProductModelIdCollection\\:\\:fromStrings\\(\\) expects array\\<string\\>, array\\<int, mixed\\> given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetOutdatedProductModelIdsByDateAndCriteriaQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$productUuids of static method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\ProductUuidCollection\\:\\:fromStrings\\(\\) expects array\\<string\\>, array\\<int, mixed\\> given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetOutdatedProductUuidsByDateAndCriteriaQuery.php
+
+		-
+			message: "#^Cannot call method fetchAssociative\\(\\) on array\\|Doctrine\\\\DBAL\\\\Result\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetPendingCriteriaEvaluationsByEntityIdsQuery.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetPendingCriteriaEvaluationsByEntityIdsQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEvaluation\\\\GetPendingCriteriaEvaluationsByEntityIdsQuery\\:\\:hydrateProductCriteriaEvaluations\\(\\) has parameter \\$criteria with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetPendingCriteriaEvaluationsByEntityIdsQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$id of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\ProductEntityIdFactoryInterface\\:\\:create\\(\\) expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetPendingCriteriaEvaluationsByEntityIdsQuery.php
+
+		-
+			message: "#^Parameter \\#2 \\$criteria of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEvaluation\\\\GetPendingCriteriaEvaluationsByEntityIdsQuery\\:\\:hydrateProductCriteriaEvaluations\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetPendingCriteriaEvaluationsByEntityIdsQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$status of class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\CriterionEvaluationStatus constructor expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetProductCriterionEvaluationByProductIdAndCriterionCodeQuery.php
+
+		-
+			message: "#^Parameter \\#2 \\$rawResult of callable Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Hydrator\\\\hydrateCriterionEvaluationResult expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetProductCriterionEvaluationByProductIdAndCriterionCodeQuery.php
+
+		-
+			message: "#^Parameter \\#3 \\$evaluatedAt of class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\CriterionEvaluation constructor expects DateTimeImmutable\\|null, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetProductCriterionEvaluationByProductIdAndCriterionCodeQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEvaluation\\\\GetProductIdsImpactedByAttributeGroupActivationQuery\\:\\:retrieveFamiliesWithAttributeGroupActivationUpdatedSince\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetProductIdsImpactedByAttributeGroupActivationQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$ids of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\ProductEntityIdFactoryInterface\\:\\:createCollection\\(\\) expects array\\<string\\>, array\\<int, mixed\\> given\\.$#"
+			count: 4
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetProductIdsImpactedByAttributeGroupActivationQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$status of class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\CriterionEvaluationStatus constructor expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetProductModelCriterionEvaluationByProductIdAndCriterionCodeQuery.php
+
+		-
+			message: "#^Parameter \\#2 \\$rawResult of callable Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Hydrator\\\\hydrateCriterionEvaluationResult expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetProductModelCriterionEvaluationByProductIdAndCriterionCodeQuery.php
+
+		-
+			message: "#^Parameter \\#3 \\$evaluatedAt of class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\Read\\\\CriterionEvaluation constructor expects DateTimeImmutable\\|null, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetProductModelCriterionEvaluationByProductIdAndCriterionCodeQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEvaluation\\\\GetProductModelIdsImpactedByAttributeGroupActivationQuery\\:\\:retrieveFamilyVariantsWithAttributeGroupActivationUpdatedSince\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetProductModelIdsImpactedByAttributeGroupActivationQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEvaluation\\\\GetProductModelIdsImpactedByAttributeGroupActivationQuery\\:\\:retrieveLevelTwoFamilyVariantsWithAttributeGroupActivationUpdatedSince\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetProductModelIdsImpactedByAttributeGroupActivationQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$ids of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\ProductEntityIdFactoryInterface\\:\\:createCollection\\(\\) expects array\\<string\\>, array\\<int, mixed\\> given\\.$#"
+			count: 6
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetProductModelIdsImpactedByAttributeGroupActivationQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$ids of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\ProductModelIdFactory\\:\\:createCollection\\(\\) expects array\\<string\\>, array\\<int, mixed\\> given\\.$#"
+			count: 2
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetProductModelIdsToEvaluateQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEvaluation\\\\GetProductModelScoresByCodesQuery\\:\\:byProductModelCodes\\(\\) has parameter \\$productModelCodes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetProductModelScoresByCodesQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$normalizedRates of static method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleRateCollection\\:\\:fromNormalizedRates\\(\\) expects array\\<string, array\\<string, array\\{rank\\: int, value\\: int\\}\\>\\>, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetProductModelScoresByCodesQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$rawScores of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEvaluation\\\\GetProductModelScoresByCodesQuery\\:\\:hydrateScores\\(\\) expects string, mixed given\\.$#"
+			count: 2
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetProductModelScoresByCodesQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$normalizedRates of static method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleRateCollection\\:\\:fromNormalizedRates\\(\\) expects array\\<string, array\\<string, array\\{rank\\: int, value\\: int\\}\\>\\>, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetProductModelScoresQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$rawScores of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEvaluation\\\\GetProductModelScoresQuery\\:\\:hydrateScores\\(\\) expects string, mixed given\\.$#"
+			count: 2
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetProductModelScoresQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$normalizedRates of static method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleRateCollection\\:\\:fromNormalizedRates\\(\\) expects array\\<string, array\\<string, array\\{rank\\: int, value\\: int\\}\\>\\>, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetProductScoresByUuidsQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$rawScores of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEvaluation\\\\GetProductScoresByUuidsQuery\\:\\:hydrateScores\\(\\) expects string, mixed given\\.$#"
+			count: 2
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetProductScoresByUuidsQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$normalizedRates of static method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\Model\\\\ChannelLocaleRateCollection\\:\\:fromNormalizedRates\\(\\) expects array\\<string, array\\<string, array\\{rank\\: int, value\\: int\\}\\>\\>, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetProductScoresQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$rawScores of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\ProductEvaluation\\\\GetProductScoresQuery\\:\\:hydrateScores\\(\\) expects string, mixed given\\.$#"
+			count: 2
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetProductScoresQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$uuids of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\ProductUuidFactory\\:\\:createCollection\\(\\) expects array\\<string\\>, array\\<int, mixed\\> given\\.$#"
+			count: 2
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/GetProductUuidsToEvaluateQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$uuids of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\ProductUuidFactory\\:\\:createCollection\\(\\) expects array\\<string\\>, array\\<int, mixed\\> given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/HasUpToDateProductEvaluationQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$ids of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\ProductModelIdFactory\\:\\:createCollection\\(\\) expects array\\<string\\>, array\\<int, mixed\\> given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/ProductEvaluation/HasUpToDateProductModelEvaluationQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\Structure\\\\CachedGetLocalesByChannelQuery\\:\\:getArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Structure/CachedGetLocalesByChannelQuery.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\Structure\\\\CachedGetLocalesByChannelQuery\\:\\:\\$cachedChannelLocaleArray type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Structure/CachedGetLocalesByChannelQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\Structure\\\\GetAllAttributeGroupsActivationQuery\\:\\:execute\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Structure/GetAllAttributeGroupsActivationQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$code of class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\CategoryCode constructor expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Structure/GetAllCategoryCodesQuery.php
+
+		-
+			message: "#^Parameter \\#1 \\$code of class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\FamilyCode constructor expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Structure/GetAllFamilyCodesQuery.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Query\\\\Structure\\\\GetCategoryChildrenCodesQuery\\:\\:execute\\(\\) should return array\\<string\\> but returns array\\<int, mixed\\>\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Query/Structure/GetCategoryChildrenCodesQuery.php
+
+		-
+			message: "#^Cannot cast mixed to int\\.$#"
+			count: 2
+			path: ../../back/Infrastructure/Persistence/Query/Structure/SqlGetFamilyIds.php
+
+		-
+			message: "#^Cannot call method getCriterionCode\\(\\) on mixed\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Repository/CriterionEvaluationRepository.php
+
+		-
+			message: "#^Cannot call method getEntityId\\(\\) on mixed\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Repository/CriterionEvaluationRepository.php
+
+		-
+			message: "#^Cannot call method getStatus\\(\\) on mixed\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Repository/CriterionEvaluationRepository.php
+
+		-
+			message: "#^Cannot cast mixed to int\\.$#"
+			count: 3
+			path: ../../back/Infrastructure/Persistence/Repository/CriterionEvaluationRepository.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Repository\\\\CriterionEvaluationRepository\\:\\:executeWithLock\\(\\) has parameter \\$queryParametersTypes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Repository/CriterionEvaluationRepository.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Repository\\\\CriterionEvaluationRepository\\:\\:executeWithLock\\(\\) has parameter \\$queryParametersValues with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Repository/CriterionEvaluationRepository.php
+
+		-
+			message: "#^Parameter \\#2 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, mixed given\\.$#"
+			count: 8
+			path: ../../back/Infrastructure/Persistence/Repository/CriterionEvaluationRepository.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\Attributes\\\\InMemoryAttributes\\:\\:\\$attributesCodesByIds type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/Attributes/InMemoryAttributes.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of function json_decode expects string, mixed given\\.$#"
+			count: 2
+			path: ../../back/Infrastructure/Persistence/Transformation/Attributes/SqlAttributes.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\Channels\\\\InMemoryChannels\\:\\:\\$channelsCodesByIds type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/Channels/InMemoryChannels.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/Channels/SqlChannels.php
+
+		-
+			message: "#^Parameter \\#1 \\$array of function array_flip expects array\\<int\\|string\\>, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/Channels/SqlChannels.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\Channels\\\\SqlChannels\\:\\:\\$channelCodesByIds \\(array\\) does not accept mixed\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/Channels/SqlChannels.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\Channels\\\\SqlChannels\\:\\:\\$channelCodesByIds type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/Channels/SqlChannels.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\Channels\\\\SqlChannels\\:\\:\\$channelIdsByCodes type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/Channels/SqlChannels.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\CriterionEvaluationResultData\\\\TransformCommonCriterionResultDataIds\\:\\:transformResultAttributeDataIdsToCodes\\(\\) has parameter \\$resultAttributeIdsData with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/CriterionEvaluationResultData/TransformCommonCriterionResultDataIds.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\CriterionEvaluationResultData\\\\TransformCommonCriterionResultDataIds\\:\\:transformResultAttributeDataIdsToCodes\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/CriterionEvaluationResultData/TransformCommonCriterionResultDataIds.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\CriterionEvaluationResultData\\\\TransformCommonCriterionResultDataIds\\:\\:transformToCodes\\(\\) has parameter \\$resultData with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/CriterionEvaluationResultData/TransformCommonCriterionResultDataIds.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\CriterionEvaluationResultData\\\\TransformCommonCriterionResultDataIds\\:\\:transformToCodes\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/CriterionEvaluationResultData/TransformCommonCriterionResultDataIds.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\CriterionEvaluationResultData\\\\TransformCompletenessResultDataIds\\:\\:transformToCodes\\(\\) has parameter \\$resultData with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/CriterionEvaluationResultData/TransformCompletenessResultDataIds.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\CriterionEvaluationResultData\\\\TransformCompletenessResultDataIds\\:\\:transformToCodes\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/CriterionEvaluationResultData/TransformCompletenessResultDataIds.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\CriterionEvaluationResultData\\\\TransformResultDataIdsInterface\\:\\:transformToCodes\\(\\) has parameter \\$resultData with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/CriterionEvaluationResultData/TransformResultDataIdsInterface.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\CriterionEvaluationResultData\\\\TransformResultDataIdsInterface\\:\\:transformToCodes\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/CriterionEvaluationResultData/TransformResultDataIdsInterface.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\Locales\\\\InMemoryLocales\\:\\:\\$localesCodesByIds type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/Locales/InMemoryLocales.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/Locales/SqlLocales.php
+
+		-
+			message: "#^Parameter \\#1 \\$array of function array_flip expects array\\<int\\|string\\>, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/Locales/SqlLocales.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\Locales\\\\SqlLocales\\:\\:\\$localeCodesByIds \\(array\\) does not accept mixed\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/Locales/SqlLocales.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\Locales\\\\SqlLocales\\:\\:\\$localeCodesByIds type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/Locales/SqlLocales.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\Locales\\\\SqlLocales\\:\\:\\$localeIdsByCodes type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/Locales/SqlLocales.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\TransformChannelLocaleDataIds\\:\\:transformToCodes\\(\\) has parameter \\$channelLocaleData with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/TransformChannelLocaleDataIds.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\TransformChannelLocaleDataIds\\:\\:transformToCodes\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/TransformChannelLocaleDataIds.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\TransformCriterionEvaluationResultCodes\\:\\:transformChannelLocaleDataByAttributesFromCodesToIds\\(\\) has parameter \\$dataByAttributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/TransformCriterionEvaluationResultCodes.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\TransformCriterionEvaluationResultCodes\\:\\:transformChannelLocaleDataByAttributesFromCodesToIds\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/TransformCriterionEvaluationResultCodes.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\TransformCriterionEvaluationResultCodes\\:\\:transformChannelLocaleDataFromCodesToIds\\(\\) has parameter \\$channelLocaleData with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/TransformCriterionEvaluationResultCodes.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\TransformCriterionEvaluationResultCodes\\:\\:transformChannelLocaleDataFromCodesToIds\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/TransformCriterionEvaluationResultCodes.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\TransformCriterionEvaluationResultCodes\\:\\:transformRatesCodesToIds\\(\\) has parameter \\$ratesCodes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/TransformCriterionEvaluationResultCodes.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\TransformCriterionEvaluationResultCodes\\:\\:transformRatesCodesToIds\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/TransformCriterionEvaluationResultCodes.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\TransformCriterionEvaluationResultCodes\\:\\:transformResultDataCodesToIds\\(\\) has parameter \\$resultDataByCodes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/TransformCriterionEvaluationResultCodes.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\TransformCriterionEvaluationResultCodes\\:\\:transformResultDataCodesToIds\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/TransformCriterionEvaluationResultCodes.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\TransformCriterionEvaluationResultCodes\\:\\:transformStatusCodesToIds\\(\\) has parameter \\$statusCodes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/TransformCriterionEvaluationResultCodes.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\TransformCriterionEvaluationResultCodes\\:\\:transformStatusCodesToIds\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/TransformCriterionEvaluationResultCodes.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\TransformCriterionEvaluationResultCodes\\:\\:transformToIds\\(\\) has parameter \\$evaluationResult with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/TransformCriterionEvaluationResultCodes.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\TransformCriterionEvaluationResultCodes\\:\\:transformToIds\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/TransformCriterionEvaluationResultCodes.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\TransformCriterionEvaluationResultIds\\:\\:transformRatesIdsToCodes\\(\\) has parameter \\$ratesIds with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/TransformCriterionEvaluationResultIds.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\TransformCriterionEvaluationResultIds\\:\\:transformRatesIdsToCodes\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/TransformCriterionEvaluationResultIds.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\TransformCriterionEvaluationResultIds\\:\\:transformStatusIdsToCodes\\(\\) has parameter \\$statusIds with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/TransformCriterionEvaluationResultIds.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\TransformCriterionEvaluationResultIds\\:\\:transformStatusIdsToCodes\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/TransformCriterionEvaluationResultIds.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\TransformCriterionEvaluationResultIds\\:\\:transformToCodes\\(\\) has parameter \\$evaluationResult with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/TransformCriterionEvaluationResultIds.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Persistence\\\\Transformation\\\\TransformCriterionEvaluationResultIds\\:\\:transformToCodes\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Persistence/Transformation/TransformCriterionEvaluationResultIds.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\ProductGrid\\\\AddScoresToProductAndProductModelRows\\:\\:__invoke\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/ProductGrid/AddScoresToProductAndProductModelRows.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\ProductGrid\\\\AddScoresToProductAndProductModelRows\\:\\:retrieveScore\\(\\) has parameter \\$scores with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/ProductGrid/AddScoresToProductAndProductModelRows.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\ProductGrid\\\\GetQualityScoresFactory\\:\\:__invoke\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/ProductGrid/GetQualityScoresFactory.php
+
+		-
+			message: "#^Cannot access offset 'value' on mixed\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/ProductGrid/KeyIndicatorFilter.php
+
+		-
+			message: "#^Cannot access offset 'value' on mixed\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/ProductGrid/QualityScoreFilter.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\ProductGrid\\\\QualityScoreSorter\\:\\:apply\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/ProductGrid/QualityScoreSorter.php
+
+		-
+			message: "#^Cannot access offset 'columns' on mixed\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/ProductGrid/RegisterKeyIndicatorFilter.php
+
+		-
+			message: "#^Cannot access offset string on mixed\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/ProductGrid/RegisterKeyIndicatorFilter.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\ProductGrid\\\\RegisterKeyIndicatorFilter\\:\\:buildFilter\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/ProductGrid/RegisterKeyIndicatorFilter.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\ProductGrid\\\\RegisterKeyIndicatorFilter\\:\\:getFilterChoices\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/ProductGrid/RegisterKeyIndicatorFilter.php
+
+		-
+			message: "#^Parameter \\#2 \\$value of method Oro\\\\Bundle\\\\DataGridBundle\\\\Common\\\\IterableObject\\:\\:offsetAddToArray\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/ProductGrid/RegisterKeyIndicatorFilter.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Spellcheck\\\\Filter\\\\HTMLFilter\\:\\:filterEntities\\(\\) should return string but returns string\\|null\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Spellcheck/Filter/HTMLFilter.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Spellcheck\\\\Filter\\\\HTMLFilter\\:\\:filterMetaTags\\(\\) should return string but returns string\\|null\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Spellcheck/Filter/HTMLFilter.php
+
+		-
+			message: "#^Offset 2 does not exist on array\\{0\\: string, 1\\: non\\-falsy\\-string, 2\\?\\: non\\-empty\\-string\\}\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Spellcheck/Filter/HTMLFilter.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Spellcheck\\\\Filter\\\\HTMLFilter\\:\\:\\$ignoreTags type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Spellcheck/Filter/HTMLFilter.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Spellcheck\\\\Filter\\\\HTMLFilter\\:\\:\\$textAttrs type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Spellcheck/Filter/HTMLFilter.php
+
+		-
+			message: "#^Property Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Spellcheck\\\\Filter\\\\HTMLFilter\\:\\:\\$textMetaTags type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Spellcheck/Filter/HTMLFilter.php
+
+		-
+			message: "#^Cannot access offset 'is_read_only' on mixed\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Structure/EditableAttributeFilter.php
+
+		-
+			message: "#^Cannot access offset 'properties' on mixed\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Structure/EditableAttributeFilter.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Structure\\\\EditableAttributeFilter\\:\\:__construct\\(\\) has parameter \\$attributes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Structure/EditableAttributeFilter.php
+
+		-
+			message: "#^Parameter \\#1 \\$data of function unserialize expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Structure/EditableAttributeFilter.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\AkeneoDataQualityInsightsBundle\\:\\:build\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/AkeneoDataQualityInsightsBundle.php
+
+		-
+			message: "#^Parameter \\#2 \\$datetime of static method DateTimeImmutable\\:\\:createFromFormat\\(\\) expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/ConsolidateDashboardRatesCommand.php
+
+		-
+			message: "#^Parameter \\#2 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/ConsolidateDashboardRatesCommand.php
+
+		-
+			message: "#^Parameter \\#1 \\$message of method Symfony\\\\Component\\\\Console\\\\Style\\\\SymfonyStyle\\:\\:title\\(\\) expects string, string\\|null given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/EvaluateAllProductsCommand.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function intval expects array\\|bool\\|float\\|int\\|resource\\|string\\|null, mixed given\\.$#"
+			count: 4
+			path: ../../back/Infrastructure/Symfony/Command/EvaluateAllProductsCommand.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Command\\\\InitializeProductsEvaluationsCommand\\:\\:buildProductCriteriaEvaluationsValues\\(\\) has parameter \\$criteria with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/InitializeProductsEvaluationsCommand.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Command\\\\InitializeProductsEvaluationsCommand\\:\\:buildProductCriteriaEvaluationsValues\\(\\) has parameter \\$productUuids with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/InitializeProductsEvaluationsCommand.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Command\\\\InitializeProductsEvaluationsCommand\\:\\:buildProductCriteriaEvaluationsValues\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/InitializeProductsEvaluationsCommand.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Command\\\\InitializeProductsEvaluationsCommand\\:\\:buildProductModelCriteriaEvaluationsValues\\(\\) has parameter \\$criteria with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/InitializeProductsEvaluationsCommand.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Command\\\\InitializeProductsEvaluationsCommand\\:\\:buildProductModelCriteriaEvaluationsValues\\(\\) has parameter \\$productModelIds with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/InitializeProductsEvaluationsCommand.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Command\\\\InitializeProductsEvaluationsCommand\\:\\:buildProductModelCriteriaEvaluationsValues\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/InitializeProductsEvaluationsCommand.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Command\\\\InitializeProductsEvaluationsCommand\\:\\:getProductModelIdsFrom\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/InitializeProductsEvaluationsCommand.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Command\\\\InitializeProductsEvaluationsCommand\\:\\:getProductUuidsFrom\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/InitializeProductsEvaluationsCommand.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function intval expects array\\|bool\\|float\\|int\\|resource\\|string\\|null, mixed given\\.$#"
+			count: 2
+			path: ../../back/Infrastructure/Symfony/Command/InitializeProductsEvaluationsCommand.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 2
+			path: ../../back/Infrastructure/Symfony/Command/OneTimeTask/CleanCompletenessEvaluationResultsCommand.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Command\\\\OneTimeTask\\\\CleanCompletenessEvaluationResultsCommand\\:\\:cleanBulkOfCriterionResults\\(\\) has parameter \\$resultsBulk with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/OneTimeTask/CleanCompletenessEvaluationResultsCommand.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Command\\\\OneTimeTask\\\\CleanCompletenessEvaluationResultsCommand\\:\\:cleanBulkOfCriterionResults\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/OneTimeTask/CleanCompletenessEvaluationResultsCommand.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Command\\\\OneTimeTask\\\\CleanCompletenessEvaluationResultsCommand\\:\\:countAttributesByChannelAndLocales\\(\\) has parameter \\$attributesList with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/OneTimeTask/CleanCompletenessEvaluationResultsCommand.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Command\\\\OneTimeTask\\\\CleanCompletenessEvaluationResultsCommand\\:\\:countAttributesByChannelAndLocales\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/OneTimeTask/CleanCompletenessEvaluationResultsCommand.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Command\\\\OneTimeTask\\\\CleanCompletenessEvaluationResultsCommand\\:\\:saveBulkOfProductCleanedResults\\(\\) has parameter \\$cleanedResults with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/OneTimeTask/CleanCompletenessEvaluationResultsCommand.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Command\\\\OneTimeTask\\\\CleanCompletenessEvaluationResultsCommand\\:\\:saveBulkOfProductModelCleanedResults\\(\\) has parameter \\$cleanedResults with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/OneTimeTask/CleanCompletenessEvaluationResultsCommand.php
+
+		-
+			message: "#^Parameter \\#1 \\$resultsBulk of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Command\\\\OneTimeTask\\\\CleanCompletenessEvaluationResultsCommand\\:\\:cleanBulkOfCriterionResults\\(\\) expects array, mixed given\\.$#"
+			count: 2
+			path: ../../back/Infrastructure/Symfony/Command/OneTimeTask/CleanCompletenessEvaluationResultsCommand.php
+
+		-
+			message: "#^Parameter \\#1 \\$taskCode of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Command\\\\OneTimeTask\\\\CleanCompletenessEvaluationResultsCommand\\:\\:deleteTask\\(\\) expects string, string\\|null given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/OneTimeTask/CleanCompletenessEvaluationResultsCommand.php
+
+		-
+			message: "#^Parameter \\#1 \\$taskCode of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Command\\\\OneTimeTask\\\\CleanCompletenessEvaluationResultsCommand\\:\\:finishTask\\(\\) expects string, string\\|null given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/OneTimeTask/CleanCompletenessEvaluationResultsCommand.php
+
+		-
+			message: "#^Parameter \\#1 \\$taskCode of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Command\\\\OneTimeTask\\\\CleanCompletenessEvaluationResultsCommand\\:\\:startTask\\(\\) expects string, string\\|null given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/OneTimeTask/CleanCompletenessEvaluationResultsCommand.php
+
+		-
+			message: "#^Parameter \\#1 \\$taskCode of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Command\\\\OneTimeTask\\\\CleanCompletenessEvaluationResultsCommand\\:\\:taskCanBeStarted\\(\\) expects string, string\\|null given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/OneTimeTask/CleanCompletenessEvaluationResultsCommand.php
+
+		-
+			message: "#^Parameter \\#1 \\$uuid of static method Ramsey\\\\Uuid\\\\Uuid\\:\\:fromString\\(\\) expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/OneTimeTask/CleanCompletenessEvaluationResultsCommand.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function intval expects array\\|bool\\|float\\|int\\|resource\\|string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/OneTimeTask/CleanCompletenessEvaluationResultsCommand.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Command\\\\OneTimeTask\\\\CleanProductScoresCommand\\:\\:cleanProductScores\\(\\) has parameter \\$productUuidsAsBytes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/OneTimeTask/CleanProductScoresCommand.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Command\\\\OneTimeTask\\\\CleanProductScoresCommand\\:\\:getNextProductUuidAsBytesScoresToClean\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/OneTimeTask/CleanProductScoresCommand.php
+
+		-
+			message: "#^Parameter \\#1 \\$taskCode of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Command\\\\OneTimeTask\\\\CleanProductScoresCommand\\:\\:deleteTask\\(\\) expects string, string\\|null given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/OneTimeTask/CleanProductScoresCommand.php
+
+		-
+			message: "#^Parameter \\#1 \\$taskCode of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Command\\\\OneTimeTask\\\\CleanProductScoresCommand\\:\\:finishTask\\(\\) expects string, string\\|null given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/OneTimeTask/CleanProductScoresCommand.php
+
+		-
+			message: "#^Parameter \\#1 \\$taskCode of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Command\\\\OneTimeTask\\\\CleanProductScoresCommand\\:\\:startTask\\(\\) expects string, string\\|null given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/OneTimeTask/CleanProductScoresCommand.php
+
+		-
+			message: "#^Parameter \\#1 \\$taskCode of method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Command\\\\OneTimeTask\\\\CleanProductScoresCommand\\:\\:taskCanBeStarted\\(\\) expects string, string\\|null given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/OneTimeTask/CleanProductScoresCommand.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function intval expects array\\|bool\\|float\\|int\\|resource\\|string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/OneTimeTask/CleanProductScoresCommand.php
+
+		-
+			message: "#^Cannot cast mixed to int\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/PopulateProductModelScoresAndKeyIndicatorsCommand.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Command\\\\PurgeOutdatedDataCommand\\:\\:purgeOutdatedData\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/PurgeOutdatedDataCommand.php
+
+		-
+			message: "#^Parameter \\#2 \\$datetime of static method DateTimeImmutable\\:\\:createFromFormat\\(\\) expects string, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/PurgeOutdatedDataCommand.php
+
+		-
+			message: "#^Parameter \\#2 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Command/PurgeOutdatedDataCommand.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Controller\\\\Dashboard\\\\DashboardController\\:\\:__invoke\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Controller/Dashboard/DashboardController.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Controller\\\\Dashboard\\\\DashboardKeyIndicatorsController\\:\\:__invoke\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Controller/Dashboard/DashboardKeyIndicatorsController.php
+
+		-
+			message: "#^Parameter \\#1 \\$code of class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\CategoryCode constructor expects string, bool\\|float\\|int\\|string\\|null given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Controller/Dashboard/DashboardKeyIndicatorsController.php
+
+		-
+			message: "#^Parameter \\#1 \\$code of class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\FamilyCode constructor expects string, bool\\|float\\|int\\|string\\|null given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Controller/Dashboard/DashboardKeyIndicatorsController.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Controller\\\\Dashboard\\\\DashboardOverviewController\\:\\:__invoke\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Controller/Dashboard/DashboardOverviewController.php
+
+		-
+			message: "#^Parameter \\#1 \\$code of class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\CategoryCode constructor expects string, bool\\|float\\|int\\|string\\|null given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Controller/Dashboard/DashboardOverviewController.php
+
+		-
+			message: "#^Parameter \\#1 \\$code of class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\FamilyCode constructor expects string, bool\\|float\\|int\\|string\\|null given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Controller/Dashboard/DashboardOverviewController.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Controller\\\\Dashboard\\\\DashboardQualityScoreEvolutionController\\:\\:__invoke\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Controller/Dashboard/DashboardQualityScoreEvolutionController.php
+
+		-
+			message: "#^Parameter \\#1 \\$code of class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\CategoryCode constructor expects string, bool\\|float\\|int\\|string\\|null given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Controller/Dashboard/DashboardQualityScoreEvolutionController.php
+
+		-
+			message: "#^Parameter \\#1 \\$code of class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Domain\\\\ValueObject\\\\FamilyCode constructor expects string, bool\\|float\\|int\\|string\\|null given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Controller/Dashboard/DashboardQualityScoreEvolutionController.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Controller\\\\Dashboard\\\\DashboardWidgetCategoriesController\\:\\:__invoke\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Controller/Dashboard/DashboardWidgetCategoriesController.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Controller\\\\Dashboard\\\\DashboardWidgetCategoriesController\\:\\:getCategoryCodesFromRequest\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Controller/Dashboard/DashboardWidgetCategoriesController.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Controller\\\\Dashboard\\\\DashboardWidgetFamiliesController\\:\\:__invoke\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Controller/Dashboard/DashboardWidgetFamiliesController.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Controller\\\\Dashboard\\\\DashboardWidgetFamiliesController\\:\\:getFamilyCodesFromRequest\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Controller/Dashboard/DashboardWidgetFamiliesController.php
+
+		-
+			message: "#^Only iterables can be unpacked, array\\|ArrayObject\\|bool\\|float\\|int\\|string\\|null given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Controller/Dashboard/FindFamiliesController.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\Controller\\\\UpdateAttributeGroupActivationController\\:\\:__invoke\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Controller/UpdateAttributeGroupActivationController.php
+
+		-
+			message: "#^Parameter \\#1 \\$attributeGroupCode of class Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Application\\\\Command\\\\UpdateAttributeGroupActivationCommand constructor expects string, bool\\|float\\|int\\|string\\|null given\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/Controller/UpdateAttributeGroupActivationController.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\DependencyInjection\\\\AkeneoDataQualityInsightsExtension\\:\\:load\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/DependencyInjection/AkeneoDataQualityInsightsExtension.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\DependencyInjection\\\\Compiler\\\\CriteriaByFeatureRegistryPass\\:\\:process\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/DependencyInjection/Compiler/CriteriaByFeatureRegistryPass.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\Infrastructure\\\\Symfony\\\\DependencyInjection\\\\Compiler\\\\ProductKeyIndicatorsByFeatureRegistryPass\\:\\:process\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../../back/Infrastructure/Symfony/DependencyInjection/Compiler/ProductKeyIndicatorsByFeatureRegistryPass.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\PublicApi\\\\Model\\\\AttributeGroupsActivation\\:\\:__construct\\(\\) has parameter \\$attributeGroupsActivation with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/PublicApi/Model/AttributeGroupsActivation.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Automation\\\\DataQualityInsights\\\\PublicApi\\\\Model\\\\QualityScoreCollection\\:\\:__construct\\(\\) has parameter \\$qualityScores with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../../back/PublicApi/Model/QualityScoreCollection.php

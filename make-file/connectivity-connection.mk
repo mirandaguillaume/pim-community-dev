@@ -68,16 +68,8 @@ ifneq ($(CI),true)
 endif
 	$(PHP_RUN) vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle --config=src/Akeneo/Connectivity/Connection/back/tests/.php_cs.php | { command -v cs2pr >/dev/null && cs2pr || cat; }
 	$(PHP_RUN) vendor/bin/phpstan analyse \
-		--level=8 \
 		--configuration src/Akeneo/Connectivity/Connection/back/tests/phpstan.neon \
-		--error-format=github \
-		src/Akeneo/Connectivity/Connection/back/Application \
-		src/Akeneo/Connectivity/Connection/back/Domain
-	$(PHP_RUN) vendor/bin/phpstan analyse \
-		--level=5 \
-		--configuration src/Akeneo/Connectivity/Connection/back/tests/phpstan.neon \
-		--error-format=github \
-		src/Akeneo/Connectivity/Connection/back/Infrastructure
+		--error-format=github
 	$(PHP_RUN) vendor/bin/phpstan analyse \
 		--level=1 \
 		--configuration src/Akeneo/Connectivity/Connection/back/tests/phpstan-deprecations.neon \

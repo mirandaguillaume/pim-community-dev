@@ -1,8 +1,10 @@
 includes:
     - %currentWorkingDirectory%/vendor/phpstan/phpstan-symfony/extension.neon
     - %currentWorkingDirectory%/vendor/phpstan/phpstan-webmozart-assert/extension.neon
+    - baseline.neon
+
 parameters:
-    level: 8
+    level: max
     paths:
         - %currentWorkingDirectory%/components/identifier-generator
     reportUnmatchedIgnoredErrors: false

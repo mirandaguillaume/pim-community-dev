@@ -57,8 +57,7 @@ _COMMUNICATION_CHANNEL_YARN_RUN = $(YARN_RUN) run --cwd=src/Akeneo/Platform/Bund
 # Tests Back
 
 communication-channel-lint-back:
-	$(PHP_RUN) vendor/bin/phpstan analyse --level=8 --error-format=github src/Akeneo/Platform/Bundle/CommunicationChannelBundle/back/Application src/Akeneo/Platform/Bundle/CommunicationChannelBundle/back/Domain
-	$(PHP_RUN) vendor/bin/phpstan analyse --level=5 --error-format=github src/Akeneo/Platform/Bundle/CommunicationChannelBundle/back/Infrastructure
+	$(PHP_RUN) vendor/bin/phpstan analyse --configuration src/Akeneo/Platform/Bundle/CommunicationChannelBundle/back/tests/phpstan.neon --error-format=github
 
 communication-channel-coupling-back:
 	$(PHP_RUN) vendor/bin/php-coupling-detector detect --config-file=src/Akeneo/Platform/Bundle/CommunicationChannelBundle/back/tests/.php_cd.php src/Akeneo/Platform/Bundle/CommunicationChannelBundle/back

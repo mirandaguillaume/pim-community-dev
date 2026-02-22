@@ -1,0 +1,501 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Cannot access offset 'data' on mixed\\.$#"
+			count: 1
+			path: ../Infrastructure/CommunicationChannel/Api/ApiFindAnnouncementItems.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Infrastructure\\\\CommunicationChannel\\\\Api\\\\ApiFindAnnouncementItems\\:\\:getAnnouncementItem\\(\\) has parameter \\$announcement with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../Infrastructure/CommunicationChannel/Api/ApiFindAnnouncementItems.php
+
+		-
+			message: "#^Parameter \\#1 \\$announcement of method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Infrastructure\\\\CommunicationChannel\\\\Api\\\\ApiFindAnnouncementItems\\:\\:getAnnouncementItem\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: ../Infrastructure/CommunicationChannel/Api/ApiFindAnnouncementItems.php
+
+		-
+			message: "#^Parameter \\#1 \\$array of function array_values expects array\\<T\\>, mixed given\\.$#"
+			count: 1
+			path: ../Infrastructure/CommunicationChannel/Api/ApiFindAnnouncementItems.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Infrastructure\\\\CommunicationChannel\\\\Api\\\\ApiFindNewAnnouncementIds\\:\\:find\\(\\) should return array\\<string\\> but returns mixed\\.$#"
+			count: 1
+			path: ../Infrastructure/CommunicationChannel/Api/ApiFindNewAnnouncementIds.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Infrastructure\\\\CommunicationChannel\\\\LocalFilestorage\\\\LocalFilestorageFindAnnouncementItems\\:\\:getAnnouncementItem\\(\\) has parameter \\$announcement with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../Infrastructure/CommunicationChannel/LocalFilestorage/LocalFilestorageFindAnnouncementItems.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Infrastructure\\\\CommunicationChannel\\\\LocalFilestorage\\\\LocalFilestorageFindAnnouncementItems\\:\\:paginateItems\\(\\) has parameter \\$content with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../Infrastructure/CommunicationChannel/LocalFilestorage/LocalFilestorageFindAnnouncementItems.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Infrastructure\\\\CommunicationChannel\\\\LocalFilestorage\\\\LocalFilestorageFindAnnouncementItems\\:\\:paginateItems\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../Infrastructure/CommunicationChannel/LocalFilestorage/LocalFilestorageFindAnnouncementItems.php
+
+		-
+			message: "#^Parameter \\#1 \\$content of method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Infrastructure\\\\CommunicationChannel\\\\LocalFilestorage\\\\LocalFilestorageFindAnnouncementItems\\:\\:paginateItems\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: ../Infrastructure/CommunicationChannel/LocalFilestorage/LocalFilestorageFindAnnouncementItems.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of function json_decode expects string, bool\\|string given\\.$#"
+			count: 1
+			path: ../Infrastructure/CommunicationChannel/LocalFilestorage/LocalFilestorageFindAnnouncementItems.php
+
+		-
+			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: ../Infrastructure/CommunicationChannel/LocalFilestorage/LocalFilestorageFindNewAnnouncementIds.php
+
+		-
+			message: "#^Cannot access offset 'data' on mixed\\.$#"
+			count: 1
+			path: ../Infrastructure/CommunicationChannel/LocalFilestorage/LocalFilestorageFindNewAnnouncementIds.php
+
+		-
+			message: "#^Cannot access offset 'id' on mixed\\.$#"
+			count: 1
+			path: ../Infrastructure/CommunicationChannel/LocalFilestorage/LocalFilestorageFindNewAnnouncementIds.php
+
+		-
+			message: "#^Cannot access offset 'notificationEndDate' on mixed\\.$#"
+			count: 1
+			path: ../Infrastructure/CommunicationChannel/LocalFilestorage/LocalFilestorageFindNewAnnouncementIds.php
+
+		-
+			message: "#^Cannot access offset 'startDate' on mixed\\.$#"
+			count: 1
+			path: ../Infrastructure/CommunicationChannel/LocalFilestorage/LocalFilestorageFindNewAnnouncementIds.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Infrastructure\\\\CommunicationChannel\\\\LocalFilestorage\\\\LocalFilestorageFindNewAnnouncementIds\\:\\:find\\(\\) should return array\\<string\\> but returns array\\<int\\<0, max\\>, mixed\\>\\.$#"
+			count: 1
+			path: ../Infrastructure/CommunicationChannel/LocalFilestorage/LocalFilestorageFindNewAnnouncementIds.php
+
+		-
+			message: "#^Parameter \\#1 \\$datetime of class DateTimeImmutable constructor expects string, mixed given\\.$#"
+			count: 2
+			path: ../Infrastructure/CommunicationChannel/LocalFilestorage/LocalFilestorageFindNewAnnouncementIds.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of function json_decode expects string, bool\\|string given\\.$#"
+			count: 1
+			path: ../Infrastructure/CommunicationChannel/LocalFilestorage/LocalFilestorageFindNewAnnouncementIds.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Infrastructure\\\\Delivery\\\\InternalApi\\\\Announcement\\\\AddViewedAnnouncementsAction\\:\\:__invoke\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../Infrastructure/Delivery/InternalApi/Announcement/AddViewedAnnouncementsAction.php
+
+		-
+			message: "#^Parameter \\#1 \\$viewedAnnouncementIds of class Akeneo\\\\Platform\\\\CommunicationChannel\\\\Application\\\\Announcement\\\\Command\\\\AddViewedAnnouncementsByUserCommand constructor expects array\\<string\\>, array\\<int, bool\\|float\\|int\\|string\\> given\\.$#"
+			count: 1
+			path: ../Infrastructure/Delivery/InternalApi/Announcement/AddViewedAnnouncementsAction.php
+
+		-
+			message: "#^Parameter \\#2 \\$userId of class Akeneo\\\\Platform\\\\CommunicationChannel\\\\Application\\\\Announcement\\\\Command\\\\AddViewedAnnouncementsByUserCommand constructor expects int, mixed given\\.$#"
+			count: 1
+			path: ../Infrastructure/Delivery/InternalApi/Announcement/AddViewedAnnouncementsAction.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Infrastructure\\\\Delivery\\\\InternalApi\\\\Announcement\\\\HasNewAnnouncementsAction\\:\\:__invoke\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../Infrastructure/Delivery/InternalApi/Announcement/HasNewAnnouncementsAction.php
+
+		-
+			message: "#^Parameter \\#4 \\$userId of class Akeneo\\\\Platform\\\\CommunicationChannel\\\\Application\\\\Announcement\\\\Query\\\\HasNewAnnouncementsQuery constructor expects int, mixed given\\.$#"
+			count: 1
+			path: ../Infrastructure/Delivery/InternalApi/Announcement/HasNewAnnouncementsAction.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Infrastructure\\\\Delivery\\\\InternalApi\\\\Announcement\\\\ListAnnouncementsAction\\:\\:__invoke\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: ../Infrastructure/Delivery/InternalApi/Announcement/ListAnnouncementsAction.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Infrastructure\\\\Delivery\\\\InternalApi\\\\Announcement\\\\ListAnnouncementsAction\\:\\:normalizeAnnouncementItems\\(\\) has parameter \\$announcementItems with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../Infrastructure/Delivery/InternalApi/Announcement/ListAnnouncementsAction.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Infrastructure\\\\Delivery\\\\InternalApi\\\\Announcement\\\\ListAnnouncementsAction\\:\\:normalizeAnnouncementItems\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../Infrastructure/Delivery/InternalApi/Announcement/ListAnnouncementsAction.php
+
+		-
+			message: "#^Parameter \\#4 \\$userId of class Akeneo\\\\Platform\\\\CommunicationChannel\\\\Application\\\\Announcement\\\\Query\\\\ListAnnouncementsQuery constructor expects int, mixed given\\.$#"
+			count: 1
+			path: ../Infrastructure/Delivery/InternalApi/Announcement/ListAnnouncementsAction.php
+
+		-
+			message: "#^Parameter \\#5 \\$searchAfter of class Akeneo\\\\Platform\\\\CommunicationChannel\\\\Application\\\\Announcement\\\\Query\\\\ListAnnouncementsQuery constructor expects string\\|null, bool\\|float\\|int\\|string\\|null given\\.$#"
+			count: 1
+			path: ../Infrastructure/Delivery/InternalApi/Announcement/ListAnnouncementsAction.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Infrastructure\\\\Framework\\\\Symfony\\\\DependencyInjection\\\\AkeneoCommunicationChannelExtension\\:\\:load\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../Infrastructure/Framework/Symfony/DependencyInjection/AkeneoCommunicationChannelExtension.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Infrastructure\\\\Persistence\\\\Dbal\\\\Query\\\\DbalFindViewedAnnouncementIds\\:\\:byUserId\\(\\) should return array\\<string\\> but returns array\\<int, mixed\\>\\.$#"
+			count: 1
+			path: ../Infrastructure/Persistence/Dbal/Query/DbalFindViewedAnnouncementIds.php
+
+		-
+			message: "#^Property Akeneo\\\\Platform\\\\CommunicationChannel\\\\Infrastructure\\\\Persistence\\\\InMemory\\\\Repository\\\\InMemoryViewedAnnouncementRepository\\:\\:\\$dataRows type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: ../Infrastructure/Persistence/InMemory/Repository/InMemoryViewedAnnouncementRepository.php
+
+		-
+			message: "#^Cannot call method byPimVersion\\(\\) on object\\|null\\.$#"
+			count: 2
+			path: Integration/CommunicationChannel/Api/ApiFindAnnouncementItemsIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Delivery\\\\InternalApi\\\\Announcement\\\\ApiFindAnnouncementItemsIntegration\\:\\:test_it_finds_first_page_of_announcements\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Integration/CommunicationChannel/Api/ApiFindAnnouncementItemsIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Delivery\\\\InternalApi\\\\Announcement\\\\ApiFindAnnouncementItemsIntegration\\:\\:test_it_finds_second_page_of_announcements\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Integration/CommunicationChannel/Api/ApiFindAnnouncementItemsIntegration.php
+
+		-
+			message: "#^Cannot call method find\\(\\) on object\\|null\\.$#"
+			count: 1
+			path: Integration/CommunicationChannel/Api/ApiFindNewAnnouncementIdsIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Delivery\\\\InternalApi\\\\Announcement\\\\ApiFindNewAnnouncementIdsIntegration\\:\\:test_it_finds_new_announcement_ids\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Integration/CommunicationChannel/Api/ApiFindNewAnnouncementIdsIntegration.php
+
+		-
+			message: "#^Call to method getId\\(\\) on an unknown class Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Delivery\\\\InternalApi\\\\Announcement\\\\UserInterface\\.$#"
+			count: 1
+			path: Integration/Delivery/InternalApi/Announcement/AddViewedAnnouncementsActionIntegration.php
+
+		-
+			message: "#^Cannot access property \\$dataRows on mixed\\.$#"
+			count: 1
+			path: Integration/Delivery/InternalApi/Announcement/AddViewedAnnouncementsActionIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Delivery\\\\InternalApi\\\\Announcement\\\\AddViewedAnnouncementsActionIntegration\\:\\:assertViewedAnnouncement\\(\\) has parameter \\$viewedAnnouncementIds with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Integration/Delivery/InternalApi/Announcement/AddViewedAnnouncementsActionIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Delivery\\\\InternalApi\\\\Announcement\\\\AddViewedAnnouncementsActionIntegration\\:\\:test_it_can_add_viewed_announcements\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Integration/Delivery/InternalApi/Announcement/AddViewedAnnouncementsActionIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Delivery\\\\InternalApi\\\\Announcement\\\\AddViewedAnnouncementsActionIntegration\\:\\:test_it_throws_an_exception_when_it_does_not_have_a_view_announcement_ids\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Integration/Delivery/InternalApi/Announcement/AddViewedAnnouncementsActionIntegration.php
+
+		-
+			message: "#^Property Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Delivery\\\\InternalApi\\\\Announcement\\\\AddViewedAnnouncementsActionIntegration\\:\\:\\$user \\(Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Delivery\\\\InternalApi\\\\Announcement\\\\UserInterface\\) does not accept Akeneo\\\\UserManagement\\\\Component\\\\Model\\\\UserInterface\\.$#"
+			count: 1
+			path: Integration/Delivery/InternalApi/Announcement/AddViewedAnnouncementsActionIntegration.php
+
+		-
+			message: "#^Property Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Delivery\\\\InternalApi\\\\Announcement\\\\AddViewedAnnouncementsActionIntegration\\:\\:\\$user has unknown class Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Delivery\\\\InternalApi\\\\Announcement\\\\UserInterface as its type\\.$#"
+			count: 1
+			path: Integration/Delivery/InternalApi/Announcement/AddViewedAnnouncementsActionIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Delivery\\\\InternalApi\\\\Announcement\\\\HasNewAnnouncementsActionIntegration\\:\\:test_it_can_respond_if_it_has_new_announcements_or_not\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Integration/Delivery/InternalApi/Announcement/HasNewAnnouncementsActionIntegration.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of function json_decode expects string, string\\|false given\\.$#"
+			count: 1
+			path: Integration/Delivery/InternalApi/Announcement/HasNewAnnouncementsActionIntegration.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertArrayHasKey\\(\\) expects array\\|ArrayAccess, mixed given\\.$#"
+			count: 1
+			path: Integration/Delivery/InternalApi/Announcement/HasNewAnnouncementsActionIntegration.php
+
+		-
+			message: "#^Cannot access offset 'data' on mixed\\.$#"
+			count: 2
+			path: Integration/Delivery/InternalApi/Announcement/ListAnnouncementsActionIntegration.php
+
+		-
+			message: "#^Cannot access offset 'items' on mixed\\.$#"
+			count: 2
+			path: Integration/Delivery/InternalApi/Announcement/ListAnnouncementsActionIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Delivery\\\\InternalApi\\\\Announcement\\\\ListAnnouncementsActionIntegration\\:\\:assertFirstItem\\(\\) has parameter \\$announcementItems with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Integration/Delivery/InternalApi/Announcement/ListAnnouncementsActionIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Delivery\\\\InternalApi\\\\Announcement\\\\ListAnnouncementsActionIntegration\\:\\:assertFirstItem\\(\\) has parameter \\$expectedAnnouncementItems with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Integration/Delivery/InternalApi/Announcement/ListAnnouncementsActionIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Delivery\\\\InternalApi\\\\Announcement\\\\ListAnnouncementsActionIntegration\\:\\:assertItemKeys\\(\\) has parameter \\$item with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Integration/Delivery/InternalApi/Announcement/ListAnnouncementsActionIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Delivery\\\\InternalApi\\\\Announcement\\\\ListAnnouncementsActionIntegration\\:\\:test_it_can_list_first_paginated_announcements\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Integration/Delivery/InternalApi/Announcement/ListAnnouncementsActionIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Delivery\\\\InternalApi\\\\Announcement\\\\ListAnnouncementsActionIntegration\\:\\:test_it_can_list_paginated_announcements_with_a_search_after_parameter\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Integration/Delivery/InternalApi/Announcement/ListAnnouncementsActionIntegration.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of function json_decode expects string, string\\|false given\\.$#"
+			count: 4
+			path: Integration/Delivery/InternalApi/Announcement/ListAnnouncementsActionIntegration.php
+
+		-
+			message: "#^Parameter \\#2 \\$expectedAnnouncementItems of method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Delivery\\\\InternalApi\\\\Announcement\\\\ListAnnouncementsActionIntegration\\:\\:assertFirstItem\\(\\) expects array, mixed given\\.$#"
+			count: 2
+			path: Integration/Delivery/InternalApi/Announcement/ListAnnouncementsActionIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Persistence\\\\Dbal\\\\Repository\\\\DbalFindViewedAnnouncementIdsIntegration\\:\\:createViewedAnnouncements\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Integration/Persistence/Dbal/Query/DbalFindViewedAnnouncementIdsIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Persistence\\\\Dbal\\\\Repository\\\\DbalFindViewedAnnouncementIdsIntegration\\:\\:createViewedAnnouncements\\(\\) has parameter \\$viewAnnouncementIds with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Integration/Persistence/Dbal/Query/DbalFindViewedAnnouncementIdsIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Persistence\\\\Dbal\\\\Repository\\\\DbalFindViewedAnnouncementIdsIntegration\\:\\:selectUserFromDb\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Integration/Persistence/Dbal/Query/DbalFindViewedAnnouncementIdsIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Persistence\\\\Dbal\\\\Repository\\\\DbalFindViewedAnnouncementIdsIntegration\\:\\:test_it_can_find_the_viewed_announcements_by_user_id\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Integration/Persistence/Dbal/Query/DbalFindViewedAnnouncementIdsIntegration.php
+
+		-
+			message: "#^Property Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Persistence\\\\Dbal\\\\Repository\\\\DbalFindViewedAnnouncementIdsIntegration\\:\\:\\$dbalConnection \\(Doctrine\\\\DBAL\\\\Connection\\) does not accept mixed\\.$#"
+			count: 1
+			path: Integration/Persistence/Dbal/Query/DbalFindViewedAnnouncementIdsIntegration.php
+
+		-
+			message: "#^Property Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Persistence\\\\Dbal\\\\Repository\\\\DbalFindViewedAnnouncementIdsIntegration\\:\\:\\$findViewedAnnouncementIdsQuery \\(Akeneo\\\\Platform\\\\CommunicationChannel\\\\Infrastructure\\\\Persistence\\\\Dbal\\\\Query\\\\DbalFindViewedAnnouncementIds\\) does not accept mixed\\.$#"
+			count: 1
+			path: Integration/Persistence/Dbal/Query/DbalFindViewedAnnouncementIdsIntegration.php
+
+		-
+			message: "#^Property Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Persistence\\\\Dbal\\\\Repository\\\\DbalFindViewedAnnouncementIdsIntegration\\:\\:\\$repository \\(Akeneo\\\\Platform\\\\CommunicationChannel\\\\Infrastructure\\\\Persistence\\\\Dbal\\\\Repository\\\\DbalViewedAnnouncementRepository\\) does not accept mixed\\.$#"
+			count: 1
+			path: Integration/Persistence/Dbal/Query/DbalFindViewedAnnouncementIdsIntegration.php
+
+		-
+			message: "#^Property Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Persistence\\\\Dbal\\\\Repository\\\\DbalFindViewedAnnouncementIdsIntegration\\:\\:\\$userFromDb type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Integration/Persistence/Dbal/Query/DbalFindViewedAnnouncementIdsIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Persistence\\\\Dbal\\\\Repository\\\\DbalViewedAnnouncementRepositoryIntegration\\:\\:createViewedAnnouncements\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Integration/Persistence/Dbal/Repository/DbalViewedAnnouncementRepositoryIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Persistence\\\\Dbal\\\\Repository\\\\DbalViewedAnnouncementRepositoryIntegration\\:\\:createViewedAnnouncements\\(\\) has parameter \\$viewAnnouncementIds with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Integration/Persistence/Dbal/Repository/DbalViewedAnnouncementRepositoryIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Persistence\\\\Dbal\\\\Repository\\\\DbalViewedAnnouncementRepositoryIntegration\\:\\:selectUserFromDb\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Integration/Persistence/Dbal/Repository/DbalViewedAnnouncementRepositoryIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Persistence\\\\Dbal\\\\Repository\\\\DbalViewedAnnouncementRepositoryIntegration\\:\\:selectViewedAnnouncementByUserFromDb\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Integration/Persistence/Dbal/Repository/DbalViewedAnnouncementRepositoryIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Persistence\\\\Dbal\\\\Repository\\\\DbalViewedAnnouncementRepositoryIntegration\\:\\:test_it_creates_viewed_announcements_by_the_user\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Integration/Persistence/Dbal/Repository/DbalViewedAnnouncementRepositoryIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Persistence\\\\Dbal\\\\Repository\\\\DbalViewedAnnouncementRepositoryIntegration\\:\\:test_it_updates_when_the_viewed_announcement_already_exists\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Integration/Persistence/Dbal/Repository/DbalViewedAnnouncementRepositoryIntegration.php
+
+		-
+			message: "#^Property Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Persistence\\\\Dbal\\\\Repository\\\\DbalViewedAnnouncementRepositoryIntegration\\:\\:\\$dbalConnection \\(Doctrine\\\\DBAL\\\\Connection\\) does not accept mixed\\.$#"
+			count: 1
+			path: Integration/Persistence/Dbal/Repository/DbalViewedAnnouncementRepositoryIntegration.php
+
+		-
+			message: "#^Property Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Persistence\\\\Dbal\\\\Repository\\\\DbalViewedAnnouncementRepositoryIntegration\\:\\:\\$repository \\(Akeneo\\\\Platform\\\\CommunicationChannel\\\\Infrastructure\\\\Persistence\\\\Dbal\\\\Repository\\\\DbalViewedAnnouncementRepository\\) does not accept mixed\\.$#"
+			count: 1
+			path: Integration/Persistence/Dbal/Repository/DbalViewedAnnouncementRepositoryIntegration.php
+
+		-
+			message: "#^Property Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\Persistence\\\\Dbal\\\\Repository\\\\DbalViewedAnnouncementRepositoryIntegration\\:\\:\\$userFromDb type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Integration/Persistence/Dbal/Repository/DbalViewedAnnouncementRepositoryIntegration.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\WebTestCase\\:\\:authenticate\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Integration/WebTestCase.php
+
+		-
+			message: "#^Method Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\WebTestCase\\:\\:getSession\\(\\) should return Symfony\\\\Component\\\\HttpFoundation\\\\Session\\\\SessionInterface but returns object\\|null\\.$#"
+			count: 1
+			path: Integration/WebTestCase.php
+
+		-
+			message: "#^Property Akeneo\\\\Platform\\\\CommunicationChannel\\\\Test\\\\Integration\\\\WebTestCase\\:\\:\\$client \\(Symfony\\\\Bundle\\\\FrameworkBundle\\\\KernelBrowser\\) does not accept object\\|null\\.$#"
+			count: 1
+			path: Integration/WebTestCase.php
+
+		-
+			message: "#^Call to an undefined method spec\\\\Akeneo\\\\Platform\\\\CommunicationChannel\\\\Application\\\\Announcement\\\\Command\\\\AddViewedAnnouncementsByUserHandlerSpec\\:\\:execute\\(\\)\\.$#"
+			count: 1
+			path: Unit/spec/Application/Announcement/Command/AddViewedAnnouncementsByUserHandlerSpec.php
+
+		-
+			message: "#^Class spec\\\\Akeneo\\\\Platform\\\\CommunicationChannel\\\\Application\\\\Announcement\\\\Command\\\\AddViewedAnnouncementsByUserHandlerSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Unit/spec/Application/Announcement/Command/AddViewedAnnouncementsByUserHandlerSpec.php
+
+		-
+			message: "#^Method spec\\\\Akeneo\\\\Platform\\\\CommunicationChannel\\\\Application\\\\Announcement\\\\Command\\\\AddViewedAnnouncementsByUserHandlerSpec\\:\\:it_handles_the_add_viewed_announcements_by_user\\(\\) has parameter \\$viewedAnnouncementRepository with no type specified\\.$#"
+			count: 1
+			path: Unit/spec/Application/Announcement/Command/AddViewedAnnouncementsByUserHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method spec\\\\Akeneo\\\\Platform\\\\CommunicationChannel\\\\Application\\\\Announcement\\\\Query\\\\HasNewAnnouncementsHandlerSpec\\:\\:execute\\(\\)\\.$#"
+			count: 2
+			path: Unit/spec/Application/Announcement/Query/HasNewAnnouncementsHandlerSpec.php
+
+		-
+			message: "#^Cannot access property \\$dataRows on Akeneo\\\\Platform\\\\CommunicationChannel\\\\Infrastructure\\\\Persistence\\\\InMemory\\\\Repository\\\\InMemoryViewedAnnouncementRepository\\|null\\.$#"
+			count: 2
+			path: Unit/spec/Application/Announcement/Query/HasNewAnnouncementsHandlerSpec.php
+
+		-
+			message: "#^Class spec\\\\Akeneo\\\\Platform\\\\CommunicationChannel\\\\Application\\\\Announcement\\\\Query\\\\HasNewAnnouncementsHandlerSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Unit/spec/Application/Announcement/Query/HasNewAnnouncementsHandlerSpec.php
+
+		-
+			message: "#^Method spec\\\\Akeneo\\\\Platform\\\\CommunicationChannel\\\\Application\\\\Announcement\\\\Query\\\\HasNewAnnouncementsHandlerSpec\\:\\:it_returns_false_if_it_has_only_new_announcements_already_seen_by_the_user\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Unit/spec/Application/Announcement/Query/HasNewAnnouncementsHandlerSpec.php
+
+		-
+			message: "#^Method spec\\\\Akeneo\\\\Platform\\\\CommunicationChannel\\\\Application\\\\Announcement\\\\Query\\\\HasNewAnnouncementsHandlerSpec\\:\\:it_returns_false_if_it_has_only_new_announcements_already_seen_by_the_user\\(\\) has parameter \\$findNewAnnouncementIds with no type specified\\.$#"
+			count: 1
+			path: Unit/spec/Application/Announcement/Query/HasNewAnnouncementsHandlerSpec.php
+
+		-
+			message: "#^Method spec\\\\Akeneo\\\\Platform\\\\CommunicationChannel\\\\Application\\\\Announcement\\\\Query\\\\HasNewAnnouncementsHandlerSpec\\:\\:it_returns_true_if_it_has_new_announcements_not_seen_by_the_user\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Unit/spec/Application/Announcement/Query/HasNewAnnouncementsHandlerSpec.php
+
+		-
+			message: "#^Method spec\\\\Akeneo\\\\Platform\\\\CommunicationChannel\\\\Application\\\\Announcement\\\\Query\\\\HasNewAnnouncementsHandlerSpec\\:\\:it_returns_true_if_it_has_new_announcements_not_seen_by_the_user\\(\\) has parameter \\$findNewAnnouncementIds with no type specified\\.$#"
+			count: 1
+			path: Unit/spec/Application/Announcement/Query/HasNewAnnouncementsHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method spec\\\\Akeneo\\\\Platform\\\\CommunicationChannel\\\\Application\\\\Announcement\\\\Query\\\\ListAnnouncementsHandlerSpec\\:\\:execute\\(\\)\\.$#"
+			count: 2
+			path: Unit/spec/Application/Announcement/Query/ListAnnouncementsHandlerSpec.php
+
+		-
+			message: "#^Cannot access property \\$dataRows on Akeneo\\\\Platform\\\\CommunicationChannel\\\\Infrastructure\\\\Persistence\\\\InMemory\\\\Repository\\\\InMemoryViewedAnnouncementRepository\\|null\\.$#"
+			count: 1
+			path: Unit/spec/Application/Announcement/Query/ListAnnouncementsHandlerSpec.php
+
+		-
+			message: "#^Class spec\\\\Akeneo\\\\Platform\\\\CommunicationChannel\\\\Application\\\\Announcement\\\\Query\\\\ListAnnouncementsHandlerSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Unit/spec/Application/Announcement/Query/ListAnnouncementsHandlerSpec.php
+
+		-
+			message: "#^Method spec\\\\Akeneo\\\\Platform\\\\CommunicationChannel\\\\Application\\\\Announcement\\\\Query\\\\ListAnnouncementsHandlerSpec\\:\\:getAnnouncements\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: Unit/spec/Application/Announcement/Query/ListAnnouncementsHandlerSpec.php
+
+		-
+			message: "#^Method spec\\\\Akeneo\\\\Platform\\\\CommunicationChannel\\\\Application\\\\Announcement\\\\Query\\\\ListAnnouncementsHandlerSpec\\:\\:it_handles_the_list_paginated_announcements_query\\(\\) has parameter \\$findAnnouncementItems with no type specified\\.$#"
+			count: 1
+			path: Unit/spec/Application/Announcement/Query/ListAnnouncementsHandlerSpec.php
+
+		-
+			message: "#^Method spec\\\\Akeneo\\\\Platform\\\\CommunicationChannel\\\\Application\\\\Announcement\\\\Query\\\\ListAnnouncementsHandlerSpec\\:\\:it_notifies_new_announcements_when_user_has_not_seen_it\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Unit/spec/Application/Announcement/Query/ListAnnouncementsHandlerSpec.php
+
+		-
+			message: "#^Method spec\\\\Akeneo\\\\Platform\\\\CommunicationChannel\\\\Application\\\\Announcement\\\\Query\\\\ListAnnouncementsHandlerSpec\\:\\:it_notifies_new_announcements_when_user_has_not_seen_it\\(\\) has parameter \\$findAnnouncementItems with no type specified\\.$#"
+			count: 1
+			path: Unit/spec/Application/Announcement/Query/ListAnnouncementsHandlerSpec.php
+
+		-
+			message: "#^Call to an undefined method spec\\\\Akeneo\\\\Platform\\\\CommunicationChannel\\\\Domain\\\\Announcement\\\\Model\\\\Read\\\\AnnouncementItemSpec\\:\\:callOnWrappedObject\\(\\)\\.$#"
+			count: 3
+			path: Unit/spec/Domain/Announcement/Model/Read/AnnouncementItemSpec.php
+
+		-
+			message: "#^Call to an undefined method spec\\\\Akeneo\\\\Platform\\\\CommunicationChannel\\\\Domain\\\\Announcement\\\\Model\\\\Read\\\\AnnouncementItemSpec\\:\\:toArray\\(\\)\\.$#"
+			count: 1
+			path: Unit/spec/Domain/Announcement/Model/Read/AnnouncementItemSpec.php
+
+		-
+			message: "#^Call to an undefined method spec\\\\Akeneo\\\\Platform\\\\CommunicationChannel\\\\Domain\\\\Announcement\\\\Model\\\\Read\\\\AnnouncementItemSpec\\:\\:toNotify\\(\\)\\.$#"
+			count: 1
+			path: Unit/spec/Domain/Announcement/Model/Read/AnnouncementItemSpec.php
+
+		-
+			message: "#^Class spec\\\\Akeneo\\\\Platform\\\\CommunicationChannel\\\\Domain\\\\Announcement\\\\Model\\\\Read\\\\AnnouncementItemSpec extends generic class PhpSpec\\\\ObjectBehavior but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: Unit/spec/Domain/Announcement/Model/Read/AnnouncementItemSpec.php
+
+		-
+			message: "#^Method spec\\\\Akeneo\\\\Platform\\\\CommunicationChannel\\\\Domain\\\\Announcement\\\\Model\\\\Read\\\\AnnouncementItemSpec\\:\\:it_adds_new_as_tag_when_we_notify_the_announcement\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Unit/spec/Domain/Announcement/Model/Read/AnnouncementItemSpec.php
+
+		-
+			message: "#^Method spec\\\\Akeneo\\\\Platform\\\\CommunicationChannel\\\\Domain\\\\Announcement\\\\Model\\\\Read\\\\AnnouncementItemSpec\\:\\:it_should_be_notified_when_the_announcement_is_new_and_not_already_viewed\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Unit/spec/Domain/Announcement/Model/Read/AnnouncementItemSpec.php
+
+		-
+			message: "#^Method spec\\\\Akeneo\\\\Platform\\\\CommunicationChannel\\\\Domain\\\\Announcement\\\\Model\\\\Read\\\\AnnouncementItemSpec\\:\\:it_should_not_be_notify_when_the_announcement_end_date_is_after_the_current_date\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Unit/spec/Domain/Announcement/Model/Read/AnnouncementItemSpec.php
+
+		-
+			message: "#^Method spec\\\\Akeneo\\\\Platform\\\\CommunicationChannel\\\\Domain\\\\Announcement\\\\Model\\\\Read\\\\AnnouncementItemSpec\\:\\:it_should_not_be_notify_when_the_announcement_is_already_viewed\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: Unit/spec/Domain/Announcement/Model/Read/AnnouncementItemSpec.php

@@ -1,0 +1,661 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Cannot call method normalize\\(\\) on mixed\\.$#"
+			count: 1
+			path: ../Application/Applier/AddAssetValueApplier.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function array_map expects array, mixed given\\.$#"
+			count: 1
+			path: ../Application/Applier/AddAssetValueApplier.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: ../Application/Applier/AddMultiReferenceEntityValueApplier.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function array_map expects array, mixed given\\.$#"
+			count: 1
+			path: ../Application/Applier/AddMultiReferenceEntityValueApplier.php
+
+		-
+			message: "#^Parameter \\#1 \\.\\.\\.\\$arrays of function array_merge expects array, mixed given\\.$#"
+			count: 1
+			path: ../Application/Applier/AddMultipleValuesApplier.php
+
+		-
+			message: "#^Anonymous function should return string but returns mixed\\.$#"
+			count: 2
+			path: ../Application/Applier/AssociationUserIntentCollectionApplier.php
+
+		-
+			message: "#^Parameter \\#1 \\$func of method Doctrine\\\\Common\\\\Collections\\\\ReadableCollection\\<\\(int\\|string\\),mixed\\>\\:\\:map\\(\\) expects Closure\\(mixed\\)\\: string, Closure\\(Akeneo\\\\Pim\\\\Enrichment\\\\Component\\\\Product\\\\Model\\\\GroupInterface\\)\\: string given\\.$#"
+			count: 1
+			path: ../Application/Applier/AssociationUserIntentCollectionApplier.php
+
+		-
+			message: "#^Parameter \\#1 \\$func of method Doctrine\\\\Common\\\\Collections\\\\ReadableCollection\\<\\(int\\|string\\),mixed\\>\\:\\:map\\(\\) expects Closure\\(mixed\\)\\: string, Closure\\(Akeneo\\\\Pim\\\\Enrichment\\\\Component\\\\Product\\\\Model\\\\ProductInterface\\)\\: non\\-empty\\-string given\\.$#"
+			count: 1
+			path: ../Application/Applier/AssociationUserIntentCollectionApplier.php
+
+		-
+			message: "#^Parameter \\#1 \\$func of method Doctrine\\\\Common\\\\Collections\\\\ReadableCollection\\<\\(int\\|string\\),mixed\\>\\:\\:map\\(\\) expects Closure\\(mixed\\)\\: string, Closure\\(Akeneo\\\\Pim\\\\Enrichment\\\\Component\\\\Product\\\\Model\\\\ProductInterface\\)\\: string given\\.$#"
+			count: 1
+			path: ../Application/Applier/AssociationUserIntentCollectionApplier.php
+
+		-
+			message: "#^Parameter \\#1 \\$func of method Doctrine\\\\Common\\\\Collections\\\\ReadableCollection\\<\\(int\\|string\\),mixed\\>\\:\\:map\\(\\) expects Closure\\(mixed\\)\\: string, Closure\\(Akeneo\\\\Pim\\\\Enrichment\\\\Component\\\\Product\\\\Model\\\\ProductModelInterface\\)\\: string given\\.$#"
+			count: 1
+			path: ../Application/Applier/AssociationUserIntentCollectionApplier.php
+
+		-
+			message: "#^Cannot call method toArray\\(\\) on mixed\\.$#"
+			count: 1
+			path: ../Application/Applier/ClearPriceValueApplier.php
+
+		-
+			message: "#^Cannot call method normalize\\(\\) on mixed\\.$#"
+			count: 1
+			path: ../Application/Applier/RemoveAssetValueApplier.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function array_map expects array, mixed given\\.$#"
+			count: 1
+			path: ../Application/Applier/RemoveAssetValueApplier.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: ../Application/Applier/RemoveMultiReferenceEntityValueApplier.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function array_map expects array, mixed given\\.$#"
+			count: 1
+			path: ../Application/Applier/RemoveMultiReferenceEntityValueApplier.php
+
+		-
+			message: "#^Cannot call method getValues\\(\\) on mixed\\.$#"
+			count: 1
+			path: ../Application/Applier/SetPriceValueApplier.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/AssociationsUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#4 \\$propertyValue of static method Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Exception\\\\InvalidPropertyTypeException\\:\\:arrayKeyExpected\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/AssociationsUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#1 \\$categoryCodes of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetCategories constructor expects array\\<string\\>, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/CategoriesUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/CategoriesUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#4 \\$propertyValue of static method Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Exception\\\\InvalidPropertyTypeException\\:\\:arrayKeyExpected\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/CategoriesUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#1 \\$groupCodes of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\Groups\\\\SetGroups constructor expects array\\<string\\>, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/GroupsUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/GroupsUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#4 \\$propertyValue of static method Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Exception\\\\InvalidPropertyTypeException\\:\\:arrayKeyExpected\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/GroupsUserIntentFactory.php
+
+		-
+			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/QuantifiedAssociationUserIntentFactory.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 3
+			path: ../Domain/UserIntent/Factory/QuantifiedAssociationUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
+			count: 4
+			path: ../Domain/UserIntent/Factory/QuantifiedAssociationUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#4 \\$propertyValue of static method Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Exception\\\\InvalidPropertyTypeException\\:\\:arrayKeyExpected\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/QuantifiedAssociationUserIntentFactory.php
+
+		-
+			message: "#^Cannot access offset 'data' on mixed\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/BooleanValueUserIntentFactory.php
+
+		-
+			message: "#^Cannot access offset 'locale' on mixed\\.$#"
+			count: 2
+			path: ../Domain/UserIntent/Factory/Value/BooleanValueUserIntentFactory.php
+
+		-
+			message: "#^Cannot access offset 'scope' on mixed\\.$#"
+			count: 2
+			path: ../Domain/UserIntent/Factory/Value/BooleanValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/BooleanValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/BooleanValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetBooleanValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/BooleanValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/BooleanValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetBooleanValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/BooleanValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#4 \\$propertyValue of static method Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Exception\\\\InvalidPropertyTypeException\\:\\:arrayKeyExpected\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/BooleanValueUserIntentFactory.php
+
+		-
+			message: "#^Cannot access offset 'data' on mixed\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/DateValueUserIntentFactory.php
+
+		-
+			message: "#^Cannot access offset 'locale' on mixed\\.$#"
+			count: 2
+			path: ../Domain/UserIntent/Factory/Value/DateValueUserIntentFactory.php
+
+		-
+			message: "#^Cannot access offset 'scope' on mixed\\.$#"
+			count: 2
+			path: ../Domain/UserIntent/Factory/Value/DateValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/DateValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/DateValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetDateValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/DateValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/DateValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetDateValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/DateValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#4 \\$propertyValue of static method Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Exception\\\\InvalidPropertyTypeException\\:\\:arrayKeyExpected\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/DateValueUserIntentFactory.php
+
+		-
+			message: "#^Cannot access offset 'data' on mixed\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/MeasurementValueUserIntentFactory.php
+
+		-
+			message: "#^Cannot access offset 'locale' on mixed\\.$#"
+			count: 3
+			path: ../Domain/UserIntent/Factory/Value/MeasurementValueUserIntentFactory.php
+
+		-
+			message: "#^Cannot access offset 'scope' on mixed\\.$#"
+			count: 3
+			path: ../Domain/UserIntent/Factory/Value/MeasurementValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/MeasurementValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			count: 2
+			path: ../Domain/UserIntent/Factory/Value/MeasurementValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetMeasurementValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/MeasurementValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			count: 2
+			path: ../Domain/UserIntent/Factory/Value/MeasurementValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetMeasurementValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/MeasurementValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#4 \\$propertyValue of static method Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Exception\\\\InvalidPropertyTypeException\\:\\:arrayKeyExpected\\(\\) expects array, mixed given\\.$#"
+			count: 3
+			path: ../Domain/UserIntent/Factory/Value/MeasurementValueUserIntentFactory.php
+
+		-
+			message: "#^Cannot access offset 'data' on mixed\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
+
+		-
+			message: "#^Cannot access offset 'locale' on mixed\\.$#"
+			count: 5
+			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
+
+		-
+			message: "#^Cannot access offset 'scope' on mixed\\.$#"
+			count: 5
+			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetAssetValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetMultiReferenceDataValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetMultiReferenceEntityValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetMultiSelectValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetAssetValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetMultiReferenceDataValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetMultiReferenceEntityValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetMultiSelectValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#4 \\$assetCodes of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetAssetValue constructor expects array\\<string\\>, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#4 \\$propertyValue of static method Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Exception\\\\InvalidPropertyTypeException\\:\\:arrayKeyExpected\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#4 \\$recordCodes of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetMultiReferenceEntityValue constructor expects array\\<string\\>, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#4 \\$values of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetMultiReferenceDataValue constructor expects array\\<string\\>, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#4 \\$values of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetMultiSelectValue constructor expects array\\<string\\>, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/MultiStringValueUserIntentFactory.php
+
+		-
+			message: "#^Cannot access offset 'data' on mixed\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/NumberValueUserIntentFactory.php
+
+		-
+			message: "#^Cannot access offset 'locale' on mixed\\.$#"
+			count: 2
+			path: ../Domain/UserIntent/Factory/Value/NumberValueUserIntentFactory.php
+
+		-
+			message: "#^Cannot access offset 'scope' on mixed\\.$#"
+			count: 2
+			path: ../Domain/UserIntent/Factory/Value/NumberValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/NumberValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/NumberValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetNumberValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/NumberValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/NumberValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetNumberValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/NumberValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#4 \\$propertyValue of static method Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Exception\\\\InvalidPropertyTypeException\\:\\:arrayKeyExpected\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/NumberValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#4 \\$value of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetNumberValue constructor expects string, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/NumberValueUserIntentFactory.php
+
+		-
+			message: "#^Cannot access offset 'data' on mixed\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/PriceCollectionValueUserIntentFactory.php
+
+		-
+			message: "#^Cannot access offset 'locale' on mixed\\.$#"
+			count: 3
+			path: ../Domain/UserIntent/Factory/Value/PriceCollectionValueUserIntentFactory.php
+
+		-
+			message: "#^Cannot access offset 'scope' on mixed\\.$#"
+			count: 3
+			path: ../Domain/UserIntent/Factory/Value/PriceCollectionValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/PriceCollectionValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			count: 2
+			path: ../Domain/UserIntent/Factory/Value/PriceCollectionValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetPriceCollectionValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/PriceCollectionValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			count: 2
+			path: ../Domain/UserIntent/Factory/Value/PriceCollectionValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetPriceCollectionValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/PriceCollectionValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#4 \\$propertyValue of static method Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Exception\\\\InvalidPropertyTypeException\\:\\:arrayKeyExpected\\(\\) expects array, mixed given\\.$#"
+			count: 3
+			path: ../Domain/UserIntent/Factory/Value/PriceCollectionValueUserIntentFactory.php
+
+		-
+			message: "#^Cannot access offset 'data' on mixed\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
+
+		-
+			message: "#^Cannot access offset 'locale' on mixed\\.$#"
+			count: 8
+			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
+
+		-
+			message: "#^Cannot access offset 'scope' on mixed\\.$#"
+			count: 8
+			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetFileValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetImageValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetSimpleReferenceDataValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetSimpleReferenceEntityValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetSimpleSelectValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetTextValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetTextareaValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetFileValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetImageValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetSimpleReferenceDataValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetSimpleReferenceEntityValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetSimpleSelectValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetTextValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetTextareaValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#4 \\$propertyValue of static method Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Exception\\\\InvalidPropertyTypeException\\:\\:arrayKeyExpected\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/StringValueUserIntentFactory.php
+
+		-
+			message: "#^Cannot access offset 'data' on mixed\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/TableValueUserIntentFactory.php
+
+		-
+			message: "#^Cannot access offset 'locale' on mixed\\.$#"
+			count: 2
+			path: ../Domain/UserIntent/Factory/Value/TableValueUserIntentFactory.php
+
+		-
+			message: "#^Cannot access offset 'scope' on mixed\\.$#"
+			count: 2
+			path: ../Domain/UserIntent/Factory/Value/TableValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/TableValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/TableValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#2 \\$channelCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetTableValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/TableValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\ClearValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/TableValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$localeCode of class Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\SetTableValue constructor expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/TableValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#4 \\$propertyValue of static method Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Exception\\\\InvalidPropertyTypeException\\:\\:arrayKeyExpected\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/Value/TableValueUserIntentFactory.php
+
+		-
+			message: "#^Parameter \\#1 \\$array of function array_keys expects array, mixed given\\.$#"
+			count: 1
+			path: ../Domain/UserIntent/Factory/ValueUserIntentFactoryRegistry.php
+
+		-
+			message: "#^Parameter \\#1 \\.\\.\\.\\$arrays of function array_merge expects array, mixed given\\.$#"
+			count: 1
+			path: ../Infrastructure/Query/Elasticsearch/ElasticsearchProductUuidQueryFetcher.php
+
+		-
+			message: "#^Parameter \\#2 \\$haystack of function in_array expects array, mixed given\\.$#"
+			count: 1
+			path: ../Infrastructure/Query/Elasticsearch/ElasticsearchProductUuidQueryFetcher.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 2
+			path: ../Infrastructure/Query/SqlGetCategoryCodes.php
+
+		-
+			message: "#^Method Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\Infrastructure\\\\Query\\\\SqlGetCategoryCodes\\:\\:fromProductUuids\\(\\) should return array\\<string, array\\<string\\>\\> but returns array\\<string, mixed\\>\\.$#"
+			count: 1
+			path: ../Infrastructure/Query/SqlGetCategoryCodes.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: ../Infrastructure/Query/SqlGetProductUuids.php
+
+		-
+			message: "#^Parameter \\#1 \\$uuid of static method Ramsey\\\\Uuid\\\\Uuid\\:\\:fromString\\(\\) expects string, mixed given\\.$#"
+			count: 1
+			path: ../Infrastructure/Query/SqlGetProductUuids.php
+
+		-
+			message: "#^Parameter \\#2 \\$callback of function array_reduce expects callable\\(array, mixed\\)\\: array, Closure\\(array, string\\)\\: non\\-empty\\-array given\\.$#"
+			count: 1
+			path: ../Infrastructure/Query/SqlGetProductUuids.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of static method Webmozart\\\\Assert\\\\Assert\\:\\:implementsInterface\\(\\) expects Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\CategoryUserIntent\\|class\\-string\\<Akeneo\\\\Pim\\\\Enrichment\\\\Product\\\\API\\\\Command\\\\UserIntent\\\\CategoryUserIntent\\>, mixed given\\.$#"
+			count: 1
+			path: ../Infrastructure/Validation/ShouldStayOwnerOfTheProductValidator.php

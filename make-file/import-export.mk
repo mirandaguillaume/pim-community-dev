@@ -1,6 +1,6 @@
 .PHONY: import-export-lint-back
 import-export-lint-back: #Doc: launch PHPStan for ImportExport bounded context
-	$(DOCKER_COMPOSE) run --rm php php -d memory_limit=1G vendor/bin/phpstan analyse src/Akeneo/Platform/Bundle/ImportExportBundle --level 5 --error-format=github
+	$(DOCKER_COMPOSE) run --rm php php -d memory_limit=1G vendor/bin/phpstan analyse --configuration src/Akeneo/Platform/Bundle/ImportExportBundle/tests/phpstan.neon --error-format=github
 	${PHP_RUN} vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle --config=src/Akeneo/Platform/Bundle/ImportExportBundle/Test/.php_cs.php | { command -v cs2pr >/dev/null && cs2pr || cat; }
 
 .PHONY: import-export-lint-fix-back

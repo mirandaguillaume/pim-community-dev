@@ -25,15 +25,8 @@ identifier-generator-fix-lint-back:
 identifier-generator-lint-back:
 	$(PHP_RUN) vendor/bin/php-cs-fixer fix --config=$(IDENTIFIER_GENERATOR_PATH)/back/tests/.php_cs.php --allow-risky=yes --dry-run --format=checkstyle | { command -v cs2pr >/dev/null && cs2pr || cat; }
 	$(PHP_RUN) vendor/bin/phpstan analyse \
-		--level max \
 		--configuration components/identifier-generator/back/tests/phpstan.neon \
-		--error-format=github \
-		$(IDENTIFIER_GENERATOR_PATH)/back/src/Infrastructure
-	$(PHP_RUN) vendor/bin/phpstan analyse \
-		--level max \
-		--configuration components/identifier-generator/back/tests/phpstan.neon \
-		--error-format=github \
-		$(IDENTIFIER_GENERATOR_PATH)/back/src/Domain $(IDENTIFIER_GENERATOR_PATH)/back/src/Application
+		--error-format=github
 	$(PHP_RUN) vendor/bin/phpstan analyse \
 		--level 0 \
 		--configuration components/identifier-generator/back/tests/phpstan.neon \

@@ -59,4 +59,4 @@ enrichment-coupling-back:
 
 .PHONY: enrichment-lint-back
 enrichment-lint-back:
-	$(PHP_RUN) vendor/bin/phpstan analyse --level=2 src/Akeneo/Pim/Enrichment --error-format=github
+	$(PHP_RUN) vendor/bin/phpstan analyse --configuration src/Akeneo/Pim/phpstan.neon --error-format=github
