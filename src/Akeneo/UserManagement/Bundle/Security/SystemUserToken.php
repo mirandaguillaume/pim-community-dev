@@ -24,5 +24,14 @@ final class SystemUserToken extends AbstractToken
     {
         parent::__construct($user->getRoles());
         $this->setUser($user);
+        $this->setAuthenticated(true);
+    }
+
+    /**
+     * @deprecated since Symfony 5.4, will be removed in Symfony 6.0
+     */
+    public function getCredentials()
+    {
+        return null;
     }
 }
