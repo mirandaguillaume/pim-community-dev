@@ -8,13 +8,13 @@ use Akeneo\Connectivity\Connection\Application\Settings\Command\CreateConnection
 use Akeneo\Connectivity\Connection\Application\Settings\Command\CreateConnectionHandler;
 use Akeneo\Connectivity\Connection\Domain\Settings\Exception\ConstraintViolationListException;
 use Akeneo\Connectivity\Connection\Domain\Settings\Model\ValueObject\FlowType;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
@@ -24,10 +24,6 @@ use Symfony\Component\Console\Attribute\AsCommand;
 #[AsCommand(name: 'akeneo:connectivity-connection:create', description: 'Creates a new connection')]
 class CreateConnectionCommand extends Command
 {
-    /**
-     * @var string
-     */
-
     public function __construct(
         private readonly CreateConnectionHandler $createConnection,
         private readonly TranslatorInterface $translator,

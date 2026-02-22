@@ -6,10 +6,10 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\Apps\Command;
 
 use Akeneo\Connectivity\Connection\Application\Apps\Command\GenerateAsymmetricKeysCommand;
 use Akeneo\Connectivity\Connection\Application\Apps\Command\GenerateAsymmetricKeysHandler;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)

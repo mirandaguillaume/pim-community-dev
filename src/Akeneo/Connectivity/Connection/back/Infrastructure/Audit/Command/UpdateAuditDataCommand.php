@@ -8,10 +8,10 @@ use Akeneo\Connectivity\Connection\Infrastructure\Audit\UpdateAuditData;
 use Doctrine\DBAL\Exception\ConnectionException;
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @author    Romain Monceau <romain@akeneo.com>

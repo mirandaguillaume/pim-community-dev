@@ -16,12 +16,12 @@ use Akeneo\Platform\Component\EventQueue\BulkEventNormalizer;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\Exception\IndexationException;
 use Doctrine\DBAL\Exception\ConnectionException;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'akeneo:connectivity:send-business-event', description: 'Send business event to webhooks', hidden: true)]
 class SendBusinessEventToWebhooks extends Command

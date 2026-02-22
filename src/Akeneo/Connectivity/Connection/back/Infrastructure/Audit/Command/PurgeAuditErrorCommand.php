@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Akeneo\Connectivity\Connection\Infrastructure\Audit\Command;
 
 use Akeneo\Connectivity\Connection\Infrastructure\Audit\Persistence\PurgeAuditErrorQuery;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
@@ -18,10 +18,6 @@ use Symfony\Component\Console\Attribute\AsCommand;
 #[AsCommand(name: 'akeneo:connectivity-audit:purge-error-count')]
 class PurgeAuditErrorCommand extends Command
 {
-    /**
-     * @var string
-     */
-
     public function __construct(private readonly PurgeAuditErrorQuery $purgeAuditErrorsQuery)
     {
         parent::__construct();
