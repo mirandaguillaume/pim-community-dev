@@ -13,6 +13,7 @@ jobs:
       - name: Checkout the current branch
         uses: actions/checkout@v4
 
+
       - name: Install node 20 for the rest of the workflow
         uses: actions/setup-node@v4
         with:
