@@ -17,16 +17,33 @@ STAGED_PHP=$(git diff --cached --name-only --diff-filter=ACMR -- '*.php' 2>/dev/
     | grep -v '/Test/' \
     || true)
 
-[ -z "$STAGED_PHP" ] && exit 0
+ERRORS=""
 
-FILE_COUNT=$(echo "$STAGED_PHP" | wc -l)
+# Check migration files with their own PHPStan config (level 5)
+STAGED_MIGRATIONS=$(echo "$STAGED_PHP" | grep '^upgrades/' || true)
+if [ -n "$STAGED_MIGRATIONS" ] && [ -f "upgrades/phpstan.neon" ]; then
+    RESULT=$(docker-compose run --rm -T php php -d memory_limit=1G \
+        vendor/bin/phpstan analyse --configuration upgrades/phpstan.neon --no-progress 2>&1 || true)
+    if echo "$RESULT" | grep -qE '\[ERROR\]|Found [0-9]+ error'; then
+        ERROR_SUMMARY=$(echo "$RESULT" | grep -E 'Found [0-9]+ error' | head -1 || echo "PHPStan errors found")
+        ERRORS="$ERRORS\n- migrations: $ERROR_SUMMARY"
+    fi
+fi
 
-RESULT=$(docker-compose run --rm -T php php -d memory_limit=1G \
-    vendor/bin/phpstan analyse --level 2 --no-progress $STAGED_PHP 2>&1 || true)
+# Check other PHP files with level 2
+STAGED_SRC=$(echo "$STAGED_PHP" | grep -v '^upgrades/' || true)
+if [ -n "$STAGED_SRC" ]; then
+    FILE_COUNT=$(echo "$STAGED_SRC" | wc -l)
+    RESULT=$(docker-compose run --rm -T php php -d memory_limit=1G \
+        vendor/bin/phpstan analyse --level 2 --no-progress $STAGED_SRC 2>&1 || true)
+    if echo "$RESULT" | grep -qE '\[ERROR\]|Found [0-9]+ error'; then
+        ERROR_SUMMARY=$(echo "$RESULT" | grep -E 'Found [0-9]+ error' | head -1 || echo "PHPStan errors found")
+        ERRORS="$ERRORS\n- src ($FILE_COUNT files): $ERROR_SUMMARY"
+    fi
+fi
 
-if echo "$RESULT" | grep -qE '\[ERROR\]|Found [0-9]+ error'; then
-    ERROR_SUMMARY=$(echo "$RESULT" | grep -E 'Found [0-9]+ error' | head -1 || echo "PHPStan errors found")
-    echo "{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"additionalContext\":\"PHPSTAN ERRORS in $FILE_COUNT staged file(s): $ERROR_SUMMARY\nFix before committing — saves 40min CI wait.\"}}"
+if [ -n "$ERRORS" ]; then
+    echo "{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"additionalContext\":\"PHPSTAN ERRORS in staged file(s):$ERRORS\nFix before committing — saves 40min CI wait.\"}}"
 fi
 
 exit 0
