@@ -66,7 +66,6 @@ class CreateAccessToken implements CreateAccessTokenInterface
             $token = $this->randomCodeGenerator->generate();
 
             $appUser = $this->getAppUser($appId);
-            /* @phpstan-ignore-next-line */
             $this->storage->createAccessToken($token, $client, $appUser, null, $scopeString);
         }
 
