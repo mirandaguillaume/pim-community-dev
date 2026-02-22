@@ -156,7 +156,7 @@ class OAuthStorage implements IOAuth2GrantCode
         string $redirectUri,
         ?int $expires,
         ?string $scope = null
-    ): mixed {
+    ): void {
         /** @var AuthCode $authCode */
         $authCode = new $this->authCodeClass();
         $authCode->setToken($code);
@@ -168,8 +168,6 @@ class OAuthStorage implements IOAuth2GrantCode
 
         $this->em->persist($authCode);
         $this->em->flush();
-
-        return $authCode;
     }
 
     public function markAuthCodeAsUsed(string $code): void

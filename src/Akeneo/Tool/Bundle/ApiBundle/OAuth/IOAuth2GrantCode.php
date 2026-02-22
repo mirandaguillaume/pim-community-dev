@@ -34,7 +34,7 @@ interface IOAuth2GrantCode extends IOAuth2Storage
         string $redirectUri,
         ?int $expires,
         ?string $scope = null
-    ): mixed;
+    ): void;
 
     /**
      * Mark an authorization code as used.

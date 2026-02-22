@@ -14,7 +14,9 @@ class GetAccessTokenIntegration extends ApiTestCase
         $client = static::createClient();
         [$clientId, $secret] = $this->createOAuthClient();
 
-        $client->request('POST', 'api/oauth/v1/token',
+        $client->request(
+            'POST',
+            'api/oauth/v1/token',
             [
                'username'   => static::USERNAME,
                'password'   => static::PASSWORD,
@@ -45,7 +47,9 @@ class GetAccessTokenIntegration extends ApiTestCase
         $client = static::createClient();
         [$clientId, $secret] = $this->createOAuthClient();
 
-        $client->request('POST', 'api/oauth/v1/token',
+        $client->request(
+            'POST',
+            'api/oauth/v1/token',
             [
                 'username'   => static::USERNAME,
                 'password'   => static::PASSWORD,
@@ -76,7 +80,9 @@ class GetAccessTokenIntegration extends ApiTestCase
         $client = static::createClient();
         [$clientId, $secret] = $this->createOAuthClient();
 
-        $client->request('POST', 'api/oauth/v1/token',
+        $client->request(
+            'POST',
+            'api/oauth/v1/token',
             [
                 'username'   => static::USERNAME,
                 'password'   => static::PASSWORD,
@@ -108,7 +114,9 @@ JSON;
         $client = static::createClient();
         [$clientId, $secret] = $this->createOAuthClient();
 
-        $client->request('POST', 'api/oauth/v1/token',
+        $client->request(
+            'POST',
+            'api/oauth/v1/token',
             [
                 'username'   => static::USERNAME,
                 'password'   => static::PASSWORD,
@@ -136,7 +144,9 @@ JSON;
         $client = static::createClient();
         [$clientId, $secret] = $this->createOAuthClient();
 
-        $client->request('POST', 'api/oauth/v1/token',
+        $client->request(
+            'POST',
+            'api/oauth/v1/token',
             [
                 'username'   => static::USERNAME,
                 'password'   => static::PASSWORD,
@@ -165,7 +175,9 @@ JSON;
         $client = static::createClient();
         [$clientId, $secret] = $this->createOAuthClient();
 
-        $client->request('POST', 'api/oauth/v1/token',
+        $client->request(
+            'POST',
+            'api/oauth/v1/token',
             [
                 'username'   => static::USERNAME,
                 'password'   => static::PASSWORD,
@@ -194,7 +206,9 @@ JSON;
         $client = static::createClient();
         [$clientId, $secret] = $this->createOAuthClient();
 
-        $client->request('POST', 'api/oauth/v1/token',
+        $client->request(
+            'POST',
+            'api/oauth/v1/token',
             [
                 'username'   => static::USERNAME,
                 'password'   => static::PASSWORD,
@@ -223,7 +237,9 @@ JSON;
         $client = static::createClient();
         [$clientId, $secret] = $this->createOAuthClient();
 
-        $client->request('POST', 'api/oauth/v1/token',
+        $client->request(
+            'POST',
+            'api/oauth/v1/token',
             [
                 'username'   => static::USERNAME,
                 'password'   => static::PASSWORD,
@@ -252,7 +268,9 @@ JSON;
         $client = static::createClient();
         [$clientId, $secret] = $this->createOAuthClient();
 
-        $client->request('POST', 'api/oauth/v1/token',
+        $client->request(
+            'POST',
+            'api/oauth/v1/token',
             [
                 'password'   => static::PASSWORD,
                 'grant_type' => 'password',
@@ -280,7 +298,9 @@ JSON;
         $client = static::createClient();
         [$clientId, $secret] = $this->createOAuthClient();
 
-        $client->request('POST', 'api/oauth/v1/token',
+        $client->request(
+            'POST',
+            'api/oauth/v1/token',
             [
                 'username'   => static::USERNAME,
                 'grant_type' => 'password',
@@ -308,7 +328,9 @@ JSON;
         $client = static::createClient();
         [$clientId, $secret] = $this->createOAuthClient();
 
-        $client->request('POST', 'api/oauth/v1/token',
+        $client->request(
+            'POST',
+            'api/oauth/v1/token',
             [
                 'username'   => 'michel',
                 'password'   => 'michelpwd',

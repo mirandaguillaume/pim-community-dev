@@ -34,8 +34,10 @@ class Client implements ClientInterface
 
     protected ?string $marketplacePublicAppId = null;
 
-    public function getId(): ?int
+    public function getId(): int
     {
+        \assert(null !== $this->id, 'Client must be persisted before calling getId()');
+
         return $this->id;
     }
 

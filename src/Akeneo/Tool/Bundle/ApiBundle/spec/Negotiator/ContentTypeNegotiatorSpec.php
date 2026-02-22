@@ -2,15 +2,15 @@
 
 namespace spec\Akeneo\Tool\Bundle\ApiBundle\Negotiator;
 
+use Akeneo\Tool\Bundle\ApiBundle\Negotiator\ContentTypeNegotiator;
 use FOS\RestBundle\Util\StopFormatListenerException;
 use PhpSpec\ObjectBehavior;
-use Akeneo\Tool\Bundle\ApiBundle\Negotiator\ContentTypeNegotiator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestMatcherInterface;
 
 class ContentTypeNegotiatorSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         RequestMatcherInterface $requestMatcher1,
         RequestMatcherInterface $requestMatcher2,
         RequestMatcherInterface $requestMatcher3
@@ -20,7 +20,7 @@ class ContentTypeNegotiatorSpec extends ObjectBehavior
         $this->add($requestMatcher3, ['stop' => true, 'priority' => 100]);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(ContentTypeNegotiator::class);
     }

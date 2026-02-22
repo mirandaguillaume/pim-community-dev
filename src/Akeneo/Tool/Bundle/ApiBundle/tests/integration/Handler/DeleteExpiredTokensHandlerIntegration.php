@@ -7,9 +7,9 @@ namespace Akeneo\Tool\Bundle\ApiBundle\tests\integration\Handler;
 use Akeneo\Test\Integration\Configuration;
 use Akeneo\Tool\Bundle\ApiBundle\Entity\Client;
 use Akeneo\Tool\Bundle\ApiBundle\Handler\DeleteExpiredTokensHandler;
+use Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientManagerInterface;
 use Akeneo\Tool\Bundle\ApiBundle\tests\integration\ApiTestCase;
 use Doctrine\DBAL\Connection;
-use Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientManagerInterface;
 
 /**
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)

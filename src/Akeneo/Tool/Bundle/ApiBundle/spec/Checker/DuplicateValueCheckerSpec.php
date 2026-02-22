@@ -9,7 +9,7 @@ use PhpSpec\ObjectBehavior;
 
 class DuplicateValueCheckerSpec extends ObjectBehavior
 {
-    function it_throws_exception_if_values_are_duplicated()
+    public function it_throws_exception_if_values_are_duplicated()
     {
         $this->shouldThrow(InvalidPropertyTypeException::class)->during('check', [[
             'values' => [
@@ -21,7 +21,7 @@ class DuplicateValueCheckerSpec extends ObjectBehavior
         ]]);
     }
 
-    function it_does_not_throws_exception_if_values_are_different()
+    public function it_does_not_throws_exception_if_values_are_different()
     {
         $this->shouldNotThrow(InvalidPropertyTypeException::class)->during('check', [[
             'values' => [

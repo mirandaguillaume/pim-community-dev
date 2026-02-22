@@ -10,7 +10,7 @@ namespace Akeneo\Tool\Bundle\ApiBundle\OAuth\Model;
  */
 interface ClientInterface
 {
-    public function getId(): ?int;
+    public function getId(): int;
 
     public function getPublicId(): string;
 
