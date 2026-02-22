@@ -1,3 +1,4 @@
+# @deprecated Use Castor instead. See castor.php and castor/ directory.
 .PHONY: job-lint-back
 job-lint-back: #Doc: launch PHPStan for job bounded context
 	$(PHP_RUN) vendor/bin/phpstan analyse --configuration src/Akeneo/Platform/Job/back/tests/phpstan.neon.dist --error-format=github

@@ -1,3 +1,4 @@
+# @deprecated Use Castor instead. See castor.php and castor/ directory.
 .PHONY: installer-lint-back
 installer-lint-back: #Doc: launch PHPStan for installer
 	$(PHP_RUN) vendor/bin/phpstan analyse --configuration src/Akeneo/Platform/Installer/back/tests/phpstan.neon --error-format=github

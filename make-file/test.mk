@@ -1,3 +1,4 @@
+# @deprecated Use Castor instead. See castor.php and castor/ directory.
 var/tests/%:
 	mkdir -p $@
 

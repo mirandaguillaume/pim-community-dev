@@ -1,3 +1,4 @@
+# @deprecated Use Castor instead. See castor.php and castor/ directory.
 # Define here the targets your team needs to work and the targets to run tests on CI
 #
 # Which kind of tests do/should we have in the PIM?

@@ -1,3 +1,4 @@
+# @deprecated Use Castor instead. See castor.php and castor/ directory.
 .PHONY: channel-lint-back
 channel-lint-back: #Doc: launch PHPStan for channel bounded context
 	$(PHP_RUN) vendor/bin/phpstan analyse --configuration src/Akeneo/Channel/back/tests/phpstan.neon.dist --error-format=github

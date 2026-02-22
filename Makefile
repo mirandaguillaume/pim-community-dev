@@ -1,3 +1,7 @@
+# @deprecated This Makefile is deprecated. Use Castor instead: castor <namespace>:<task>
+# See castor.php and castor/ directory for the PHP-based task runner.
+# Run `castor list` to see all available tasks.
+
 DOCKER_COMPOSE = docker-compose
 NODE_RUN ?= $(DOCKER_COMPOSE) run -u node --rm -e YARN_REGISTRY -e PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 -e PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome node
 YARN_RUN ?= $(NODE_RUN) yarn

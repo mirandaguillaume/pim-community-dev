@@ -1,3 +1,4 @@
+# @deprecated Use Castor instead. See castor.php and castor/ directory.
 .PHONY: import-export-lint-back
 import-export-lint-back: #Doc: launch PHPStan for ImportExport bounded context
 	$(DOCKER_COMPOSE) run --rm php php -d memory_limit=1G vendor/bin/phpstan analyse --configuration src/Akeneo/Platform/Bundle/ImportExportBundle/tests/phpstan.neon --error-format=github

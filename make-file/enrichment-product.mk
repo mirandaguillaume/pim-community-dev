@@ -1,3 +1,4 @@
+# @deprecated Use Castor instead. See castor.php and castor/ directory.
 .PHONY: enrichment-product-coupling-back
 enrichment-product-coupling-back:
 	$(PHP_RUN) vendor/bin/php-coupling-detector detect --config-file=src/Akeneo/Pim/Enrichment/Product/back/Test/.php_cd.php src/Akeneo/Pim/Enrichment/Product/back
