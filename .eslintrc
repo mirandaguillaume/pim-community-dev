@@ -27,10 +27,17 @@
         "any"
     ],
     "indent": [
-      1,
-      4,
+      2,
+      2,
       {
-        "ArrayExpression": "first"
+        "ArrayExpression": "first",
+        "SwitchCase": 1,
+        "MemberExpression": 1,
+        "flatTernaryExpressions": true,
+        "ignoredNodes": [
+          "ConditionalExpression",
+          "ConditionalExpression *"
+        ]
       }
     ],
     "no-use-before-define": 0,
