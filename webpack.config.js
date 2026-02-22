@@ -7,6 +7,8 @@ const _ = require('lodash');
 
 const ExtraWatchWebpackPlugin = require('extra-watch-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
+const isAnalyze = process.env.ANALYZE === 'true';
 const isProd = process.argv && process.argv.indexOf('--env=prod') > -1;
 const isStrict = process.env.STRICT === '1';
 const {getModulePaths, createModuleRegistry} = require('./frontend/webpack/requirejs-utils');
@@ -254,6 +256,12 @@ const webpackConfig = {
       'process.env.NODE_ENV': isProd ? JSON.stringify('production') : JSON.stringify('development'),
       'process.env.EDITION': JSON.stringify(process.env.EDITION),
     }),
+
+    ...(isAnalyze ? [new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      reportFilename: path.resolve(rootDir, 'var/bundle-report.html'),
+      openAnalyzer: false,
+    })] : []),
   ],
 };
 
