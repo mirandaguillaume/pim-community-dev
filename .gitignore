@@ -43,6 +43,11 @@ cypress/screenshots
 # See ".github/actions/extract/entrypoint.sh"
 front-packages/akeneo-design-system/lib
 
+###> castor ###
+castor.phar
+.castor.stub.php
+###< castor ###
+
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
