@@ -45,6 +45,10 @@ final class ComputeProductScoreOnProductCreateOrUpdateEndToEnd extends Messenger
         $uuid1 = Uuid::uuid4();
         $this->upsertProductWithUuid($uuid1);
 
+        // Consume the creation message first, then flush any remaining messages.
+        // This avoids the race condition where flushJobQueue() runs before the
+        // PubSub emulator has delivered the creation message to the subscription.
+        $this->launchConsumer(self::CONSUMER_NAME);
         $this->productScoreComputeOnUpsertQueueStatus->flushJobQueue();
         $this->simulateOldProductScoreCompute();
         self::assertFalse($this->isProductScoreComputed(ProductUuid::fromString($uuid1->toString())));
@@ -60,6 +64,10 @@ final class ComputeProductScoreOnProductCreateOrUpdateEndToEnd extends Messenger
         $uuid1 = Uuid::uuid4();
         $this->upsertProductWithUuid($uuid1);
 
+        // Consume the creation message first, then flush any remaining messages.
+        // This avoids the race condition where flushJobQueue() runs before the
+        // PubSub emulator has delivered the creation message to the subscription.
+        $this->launchConsumer(self::CONSUMER_NAME);
         $this->productScoreComputeOnUpsertQueueStatus->flushJobQueue();
         $this->simulateOldProductScoreCompute();
         self::assertFalse($this->isProductScoreComputed(ProductUuid::fromString($uuid1->toString())));
@@ -75,7 +83,6 @@ final class ComputeProductScoreOnProductCreateOrUpdateEndToEnd extends Messenger
         self::assertCount(0, $this->get('pim_catalog.validator.product')->validate($product2));
 
         $this->get('pim_catalog.saver.product')->saveAll([$product1, $product2]);
-
 
         $this->launchConsumer(self::CONSUMER_NAME);
 

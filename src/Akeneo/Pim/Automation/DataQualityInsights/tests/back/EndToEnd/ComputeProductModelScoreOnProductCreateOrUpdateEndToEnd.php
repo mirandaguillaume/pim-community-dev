@@ -70,8 +70,8 @@ final class ComputeProductModelScoreOnProductCreateOrUpdateEndToEnd extends Mess
     public function test_it_computes_product_model_score_after_bulk_save(): void
     {
         $codes = [
-          'product-model-1',
-          'product-model-2',
+            'product-model-1',
+            'product-model-2',
         ];
 
         $productModels = $this->createProductModels($codes, 'shoes_color');
