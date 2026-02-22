@@ -62,7 +62,7 @@ class BusinessEventHandler implements MessageSubscriberInterface
         $message = \json_encode($this->normalizer->normalize($event), JSON_THROW_ON_ERROR);
         return [
             \sprintf('%s/bin/console', $this->projectDir),
-            SendBusinessEventToWebhooks::getDefaultName(),
+            'akeneo:connectivity:send-business-event',
             $message,
         ];
     }
