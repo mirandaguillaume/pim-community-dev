@@ -3,27 +3,19 @@ namespace Oro\Bundle\TranslationBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Templating\TemplateReferenceInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
 class Controller
 {
     /**
-     * @var string|TemplateReferenceInterface
-     */
-    protected $template;
-
-    /**
-     * @param string|TemplateReferenceInterface $template a template name or a TemplateReferenceInterface instance
      * @throws \InvalidArgumentException
      */
-    public function __construct(protected TranslatorInterface $translator, protected Environment $templating, $template, protected $options)
+    public function __construct(protected TranslatorInterface $translator, protected Environment $templating, protected string $template, protected $options)
     {
-        if (empty($template) || !($template instanceof TemplateReferenceInterface || is_string($template))) {
+        if (empty($template)) {
             throw new \InvalidArgumentException('Please provide valid twig template as third argument');
         }
-        $this->template = $template;
     }
 
     /**

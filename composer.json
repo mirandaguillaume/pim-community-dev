@@ -143,7 +143,6 @@
         "symfony/security-core": "^5.4.0",
         "symfony/security-csrf": "^5.4.0",
         "symfony/security-http": "^5.4.0",
-        "symfony/templating": "^5.4.0",
         "symfony/translation": "^5.4.0",
         "symfony/twig-bundle": "^5.4.0",
         "symfony/validator": "^5.4.0",
