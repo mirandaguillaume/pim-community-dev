@@ -31,6 +31,7 @@ class AkeneoFileStorageBundle extends Bundle
         $container->addCompilerPass(
             DoctrineOrmMappingsPass::createAttributeMappingDriver(
                 $mappings,
+                array_values($mappings),
                 ['doctrine.orm.entity_manager'],
                 false
             )

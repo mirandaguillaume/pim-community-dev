@@ -33,6 +33,7 @@ class AkeneoBatchBundle extends Bundle
             ->addCompilerPass(
                 DoctrineOrmMappingsPass::createAttributeMappingDriver(
                     $mappings,
+                    array_values($mappings),
                     ['doctrine.orm.entity_manager'],
                     false
                 )

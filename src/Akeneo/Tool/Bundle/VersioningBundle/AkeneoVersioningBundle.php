@@ -35,6 +35,7 @@ class AkeneoVersioningBundle extends Bundle
         $container->addCompilerPass(
             DoctrineOrmMappingsPass::createAttributeMappingDriver(
                 $versionMappings,
+                array_values($versionMappings),
                 ['doctrine.orm.entity_manager'],
                 false
             )

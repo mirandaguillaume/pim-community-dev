@@ -34,6 +34,7 @@ class AkeneoPimStructureBundle extends Bundle
         $container->addCompilerPass(
             DoctrineOrmMappingsPass::createAttributeMappingDriver(
                 $productMappings,
+                array_values($productMappings),
                 ['doctrine.orm.entity_manager'],
                 false
             )
