@@ -20,14 +20,17 @@ export async function goToProductsGrid(page: Page) {
   await page.waitForResponse(resp => resp.url().includes('/datagrid_view/rest/product-grid/default'));
   await page.waitForResponse(resp => resp.url().includes('/datagrid/product-grid'));
 
-  // Switch to ungrouped (products only) view
-  await page.locator('.search-zone [data-type="grouped-variant"]').click();
-  await page.locator('.search-zone [data-value="product"]').click();
+  // Switch to ungrouped (products only) view if the selector exists (Enterprise feature)
+  const groupedVariant = page.locator('.search-zone [data-type="grouped-variant"]');
+  if (await groupedVariant.isVisible({timeout: 5_000}).catch(() => false)) {
+    await groupedVariant.click();
+    await page.locator('.search-zone [data-value="product"]').click();
 
-  await expect(page.locator('.AknLoadingMask')).toBeVisible();
-  await page.waitForResponse(resp => resp.url().includes('/datagrid/product-grid'));
-  await expect(page.locator('.AknLoadingMask')).toBeHidden();
-  await expect(page.locator('.AknTitleContainer-title div')).not.toContainText('product models');
+    await expect(page.locator('.AknLoadingMask')).toBeVisible();
+    await page.waitForResponse(resp => resp.url().includes('/datagrid/product-grid'));
+    await expect(page.locator('.AknLoadingMask')).toBeHidden();
+    await expect(page.locator('.AknTitleContainer-title div')).not.toContainText('product models');
+  }
 }
 
 export async function selectFirstProduct(page: Page) {
