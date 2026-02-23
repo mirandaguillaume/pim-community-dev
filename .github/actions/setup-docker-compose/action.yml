@@ -38,3 +38,16 @@ runs:
           echo "::error::docker-compose is not available and could not be installed"
           exit 1
         fi
+
+    - name: Isolate Docker Compose project per runner
+      shell: bash
+      run: |
+        # On multi-runner hosts, each runner must use a unique project name
+        # to avoid container/network conflicts between concurrent jobs.
+        COMPOSE_NAME="pim-${RUNNER_NAME:-default}"
+        COMPOSE_NAME=$(echo "$COMPOSE_NAME" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g')
+        echo "COMPOSE_PROJECT_NAME=${COMPOSE_NAME}" >> "$GITHUB_ENV"
+        export COMPOSE_PROJECT_NAME="${COMPOSE_NAME}"
+        echo "Docker Compose project: ${COMPOSE_NAME}"
+        # Clean up containers from previous jobs on this runner
+        docker-compose down --remove-orphans 2>/dev/null || true
