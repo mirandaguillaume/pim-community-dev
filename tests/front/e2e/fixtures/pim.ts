@@ -14,7 +14,7 @@ export async function login(page: Page, username: string, password: string) {
 }
 
 export async function goToProductsGrid(page: Page) {
-  await page.getByRole('menuitem', {name: 'Activity'}).waitFor();
+  await page.getByRole('menuitem', {name: 'Activity'}).first().waitFor();
   await page.getByText('Products').click();
 
   await page.waitForResponse(resp => resp.url().includes('/datagrid_view/rest/product-grid/default'));
