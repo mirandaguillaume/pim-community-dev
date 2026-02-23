@@ -195,17 +195,17 @@ jobs:
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
 
-      - name: Install PHP dependencies
-        run: |
-          HOST_UID=$(id -u)
-          HOST_GID=$(id -g)
-          make YARN_RUN="docker-compose run --rm --user ${HOST_UID}:${HOST_GID} -e YARN_REGISTRY -e PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 -e PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome node yarn --no-bin-links" dependencies
-
       - name: Build front packages (shared across downstream jobs)
         run: |
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn packages:build
+
+      - name: Install PHP dependencies
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          make YARN_RUN="docker-compose run --rm --user ${HOST_UID}:${HOST_GID} -e YARN_REGISTRY -e PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 -e PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome node yarn --no-bin-links" dependencies
 
       - name: Upload front packages build
         uses: actions/upload-artifact@v4
