@@ -34,93 +34,50 @@ fi
 
 echo "Running $FILE_COUNT scenarios in a single Behat invocation"
 
-BATCH_OUTPUT_FILE="var/tests/behat/batch_output.txt"
 mkdir -p var/tests/behat
 
 # First pass: run all scenarios in one batch.
-# Pipe through tee to capture output for failed scenario extraction.
+# Uses "progress" formatter for lightweight stdout and "pim" for structured results.
+# Behat automatically writes failed scenarios to its rerun cache (/tmp/behat_rerun_cache/).
 set +e
 docker-compose exec -u www-data -T httpd ./vendor/bin/behat \
   --strict \
   --format pim --out var/tests/behat/batch_results \
-  --format pretty --out std \
+  --format progress --out std \
   --colors \
   -p legacy -s $TEST_SUITE \
-  $TEST_FILES 2>&1 | tee "$BATCH_OUTPUT_FILE"
-BATCH_RESULT=${PIPESTATUS[0]}
+  $TEST_FILES
+BATCH_RESULT=$?
 set -eo pipefail
 
 if [ $BATCH_RESULT -eq 0 ]; then
+    echo ""
     echo "All scenarios passed on first run."
     exit 0
 fi
 
-# Extract failed scenarios from captured output.
-# Strip ANSI escape codes and the "--- " prefix Behat adds, then find
-# the "Failed scenarios:" block up to the summary line (N scenarios).
-# Scenario paths may include "(on line N)" suffix — extract just the path:line.
-FAILED_SCENARIOS=$(sed 's/\x1b\[[0-9;]*[a-zA-Z]//g; s/^--- //' "$BATCH_OUTPUT_FILE" \
-  | awk '/^Failed scenarios:/,/^[0-9]+ scenario/' \
-  | grep -oE 'tests/[^ ]+' || true)
-
-if [ -z "$FAILED_SCENARIOS" ]; then
-    # Behat crashed (e.g. Selenium error) without producing a "Failed scenarios:" summary.
-    # Retry the entire batch once — crashes are often transient (browser alert, timeout).
-    echo ""
-    echo "=== Behat crashed without listing failed scenarios. Retrying entire batch... ==="
-    set +e
-    docker-compose exec -u www-data -T httpd ./vendor/bin/behat \
-      --strict \
-      --format pim --out var/tests/behat/batch_results_retry \
-      --format pretty --out std \
-      --colors \
-      -p legacy -s $TEST_SUITE \
-      $TEST_FILES
-    RETRY_RESULT=$?
-    set -eo pipefail
-
-    if [ $RETRY_RESULT -eq 0 ]; then
-        echo "All scenarios passed on retry."
-        exit 0
-    fi
-
-    echo "Batch still failed after full retry. Exiting with failure."
-    exit 1
-fi
-
-FAILED_COUNT=$(echo "$FAILED_SCENARIOS" | wc -w)
 echo ""
-echo "=== $FAILED_COUNT scenario(s) failed. Retrying individually... ==="
+echo "=== Some scenarios failed. Retrying with --rerun... ==="
 
-fail=0
-for SCENARIO in $FAILED_SCENARIOS; do
-    echo -e "\nRetrying: $SCENARIO"
-    output=$(basename $SCENARIO)_retry_$(uuidgen)
+# Second pass: use Behat's built-in --rerun to retry only failed scenarios.
+# --rerun reads the cache written by the first pass — no stdout parsing needed.
+set +e
+docker-compose exec -u www-data -T httpd ./vendor/bin/behat \
+  --strict \
+  --rerun \
+  --format pim --out var/tests/behat/batch_results_retry \
+  --format progress --out std \
+  --colors \
+  -p legacy -s $TEST_SUITE
+RETRY_RESULT=$?
+set -eo pipefail
 
-    set +e
-    docker-compose exec -u www-data -T httpd ./vendor/bin/behat \
-      --strict \
-      --format pim --out "var/tests/behat/${output}" \
-      --format pretty --out std \
-      --colors \
-      -p legacy -s $TEST_SUITE \
-      $SCENARIO
-    RETRY_RESULT=$?
-    set -eo pipefail
-
-    if [ $RETRY_RESULT -ne 0 ]; then
-        echo "FAILED (after retry): $SCENARIO"
-        docker-compose exec -u www-data -T httpd /bin/bash -c "echo $SCENARIO >> var/tests/behat/behats_retried.txt"
-        fail=$((fail + 1))
-    else
-        echo "PASSED on retry: $SCENARIO"
-    fi
-done
-
-if [ $fail -gt 0 ]; then
-    echo "$fail scenario(s) still failed after retry."
-    exit 1
+if [ $RETRY_RESULT -eq 0 ]; then
+    echo ""
+    echo "All previously failed scenarios passed on retry."
+    exit 0
 fi
 
-echo "All previously failed scenarios passed on retry."
-exit 0
+echo ""
+echo "Some scenarios still failed after retry."
+exit 1

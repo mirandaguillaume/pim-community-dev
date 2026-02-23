@@ -90,7 +90,6 @@ runs:
           node_modules
           front-packages/akeneo-design-system/lib
           front-packages/shared/lib
-          ~/.cache/Cypress
         key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
         restore-keys: yarn-${{ runner.os }}-
 
@@ -106,7 +105,7 @@ runs:
     - name: Prepare filesystem permissions
       shell: bash
       run: |
-        mkdir -p ~/.cache/yarn ~/.cache/Cypress ~/.composer
+        mkdir -p ~/.cache/yarn ~/.composer
         sudo chmod -R a+rwX ~/.cache ~/.composer
         sudo chmod -R a+rwX .
         sudo chmod -R a+rwX node_modules front-packages 2>/dev/null || true
