@@ -46,7 +46,8 @@ defaults:
 #     │                                                                        │
 #     ├──► prepare ──┬──► front-build [if frontend] ──┬──► playwright [if front]►│
 #     │              │                                 │                       │
-#     │              ├──► front-lint-unit [if frontend]──────────────────────►│
+#     │              ├──► front-lint [if frontend] ────────────────────────►│
+#     │              ├──► front-unit [if frontend] (2 shards) ───────────►│
 #     │              │                                                         │
 #     │              ├──► phpstan-back [if backend] ──────────────────────►│
 #     │              │                                                         │
@@ -385,13 +386,13 @@ jobs:
           retention-days: 1
 
   # ===========================================================================
-  # FRONT-LINT-UNIT: ESLint + Prettier + Jest unit tests (shared setup)
+  # FRONT-LINT: ESLint + Prettier
   # ===========================================================================
-  front-lint-unit:
+  front-lint:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
-    timeout-minutes: 20
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
 
@@ -399,6 +400,43 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           yarn-cache: 'true'
+          pull-base-images: 'false'
+
+      - name: Install JS dependencies
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
+
+      - name: Download front packages build
+        uses: actions/download-artifact@v4
+        with:
+          name: front-packages-lib
+          path: .
+
+      - name: Run ESLint and Prettier
+        run: PIM_CONTEXT=test make lint-front
+
+  # ===========================================================================
+  # FRONT-UNIT: Jest unit tests (sharded x2)
+  # ===========================================================================
+  front-unit:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [prepare, detect-changes]
+    if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-pim-job
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          yarn-cache: 'true'
+          pull-base-images: 'false'
 
       - name: Install JS dependencies
         run: |
@@ -423,17 +461,18 @@ jobs:
           name: front-packages-lib
           path: .
 
-      - name: Run ESLint and Prettier
-        run: PIM_CONTEXT=test make lint-front
-
       - name: Generate models (JSON schemas)
         run: |
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn generate-models
 
-      - name: Run Jest unit tests
-        run: PIM_CONTEXT=test make unit-front
+      - name: Run Jest unit tests (shard ${{ matrix.shard }}/2)
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn unit --shard=${{ matrix.shard }}/2
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn workspace @akeneo-pim-community/connectivity-connection unit --shard=${{ matrix.shard }}/2
 
   # ===========================================================================
   # PHPSTAN-BACK: PHPStan + php-cs-fixer + container lint (needs MySQL)
@@ -999,7 +1038,8 @@ jobs:
     needs:
       - detect-changes
       - front-build
-      - front-lint-unit
+      - front-lint
+      - front-unit
       - phpstan-back
       - code-style-back
       - phpspec
@@ -1022,7 +1062,8 @@ jobs:
           echo ""
           echo "=== Job results ==="
           echo "  front-build: ${{ needs.front-build.result }}"
-          echo "  front-lint-unit: ${{ needs.front-lint-unit.result }}"
+          echo "  front-lint: ${{ needs.front-lint.result }}"
+          echo "  front-unit: ${{ needs.front-unit.result }}"
           echo "  phpstan-back: ${{ needs.phpstan-back.result }}"
           echo "  code-style-back: ${{ needs.code-style-back.result }}"
           echo "  phpspec: ${{ needs.phpspec.result }}"
@@ -1037,7 +1078,8 @@ jobs:
           # Each job must be either 'success' or 'skipped' (path-filtered)
           results=(
             "${{ needs.front-build.result }}"
-            "${{ needs.front-lint-unit.result }}"
+            "${{ needs.front-lint.result }}"
+            "${{ needs.front-unit.result }}"
             "${{ needs.phpstan-back.result }}"
             "${{ needs.code-style-back.result }}"
             "${{ needs.phpspec.result }}"
