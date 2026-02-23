@@ -34,21 +34,20 @@ fi
 
 echo "Running $FILE_COUNT scenarios in a single Behat invocation"
 
-PRETTY_OUTPUT_FILE="var/tests/behat/batch_pretty.txt"
+BATCH_OUTPUT_FILE="var/tests/behat/batch_output.txt"
 mkdir -p var/tests/behat
 
 # First pass: run all scenarios in one batch.
-# Write pretty output to a file so we can parse failed scenarios for retry.
+# Pipe through tee to capture output for failed scenario extraction.
 set +e
 docker-compose exec -u www-data -T httpd ./vendor/bin/behat \
   --strict \
   --format pim --out var/tests/behat/batch_results \
-  --format pretty --out "$PRETTY_OUTPUT_FILE" \
   --format pretty --out std \
   --colors \
   -p legacy -s $TEST_SUITE \
-  $TEST_FILES
-BATCH_RESULT=$?
+  $TEST_FILES 2>&1 | tee "$BATCH_OUTPUT_FILE"
+BATCH_RESULT=${PIPESTATUS[0]}
 set -eo pipefail
 
 if [ $BATCH_RESULT -eq 0 ]; then
@@ -56,13 +55,11 @@ if [ $BATCH_RESULT -eq 0 ]; then
     exit 0
 fi
 
-# Extract failed scenarios from pretty format output.
-# Behat lists them after "Failed scenarios:" until a line starting with a digit (summary).
-FAILED_SCENARIOS=""
-if [ -f "$PRETTY_OUTPUT_FILE" ]; then
-    FAILED_SCENARIOS=$(awk '/^Failed scenarios:$/,/^[0-9]/' "$PRETTY_OUTPUT_FILE" \
-      | grep -E '^\s+' | sed 's/^\s*//' || true)
-fi
+# Extract failed scenarios from captured output.
+# Strip ANSI escape codes, then find the "Failed scenarios:" block.
+FAILED_SCENARIOS=$(sed 's/\x1b\[[0-9;]*[a-zA-Z]//g' "$BATCH_OUTPUT_FILE" \
+  | awk '/^Failed scenarios:$/,/^[0-9]/' \
+  | grep -E '^\s+' | sed 's/^\s*//' || true)
 
 if [ -z "$FAILED_SCENARIOS" ]; then
     echo "Batch failed but could not extract failed scenarios. Exiting with failure."
