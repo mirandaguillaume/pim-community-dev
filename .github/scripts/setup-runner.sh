@@ -19,6 +19,11 @@ apt-get update
 apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin docker-buildx-plugin
 apt-get install -y php8.3-cli php8.3-xml php8.3-mbstring
 
+echo "=== Install Node.js 18 + yarn ==="
+curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+apt-get install -y nodejs
+npm install -g yarn
+
 systemctl enable docker && systemctl start docker
 
 # Symlink docker-compose v2 plugin as standalone command (expected by CI)
