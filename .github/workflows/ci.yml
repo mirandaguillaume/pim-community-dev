@@ -31,7 +31,7 @@ env:
   YARN_ENABLE_IMMUTABLE_INSTALLS: true
   # Runner label: set repository variable RUNNER_LABEL to 'self-hosted' in
   # Settings > Secrets and variables > Actions > Variables to use your own runner.
-  # All jobs use self-hosted except phpunit/behat shards (GitHub-hosted for parallelism).
+  # All jobs use self-hosted (3 runners on Hetzner CCX33).
 
 defaults:
   run:
@@ -599,7 +599,7 @@ jobs:
   # PHPUNIT: Integration and E2E tests (sharded)
   # ===========================================================================
   phpunit:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, db-seed]
     timeout-minutes: 90
     strategy:
@@ -678,7 +678,7 @@ jobs:
   # BEHAT LEGACY: End-to-end legacy tests (sharded)
   # ===========================================================================
   behat-legacy:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, db-seed, front-build]
     timeout-minutes: 120
     strategy:
