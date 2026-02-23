@@ -56,10 +56,12 @@ if [ $BATCH_RESULT -eq 0 ]; then
 fi
 
 # Extract failed scenarios from captured output.
-# Strip ANSI escape codes, then find the "Failed scenarios:" block.
-FAILED_SCENARIOS=$(sed 's/\x1b\[[0-9;]*[a-zA-Z]//g' "$BATCH_OUTPUT_FILE" \
-  | awk '/^Failed scenarios:$/,/^[0-9]/' \
-  | grep -E '^\s+' | sed 's/^\s*//' || true)
+# Strip ANSI escape codes and the "--- " prefix Behat adds, then find
+# the "Failed scenarios:" block up to the summary line (N scenarios).
+# Scenario paths may include "(on line N)" suffix — extract just the path:line.
+FAILED_SCENARIOS=$(sed 's/\x1b\[[0-9;]*[a-zA-Z]//g; s/^--- //' "$BATCH_OUTPUT_FILE" \
+  | awk '/^Failed scenarios:/,/^[0-9]+ scenario/' \
+  | grep -oE 'tests/[^ ]+' || true)
 
 if [ -z "$FAILED_SCENARIOS" ]; then
     # Behat crashed (e.g. Selenium error) without producing a "Failed scenarios:" summary.
