@@ -201,6 +201,31 @@ jobs:
           HOST_GID=$(id -g)
           make YARN_RUN="docker-compose run --rm --user ${HOST_UID}:${HOST_GID} -e YARN_REGISTRY -e PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 -e PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome node yarn --no-bin-links" dependencies
 
+      - name: Build front packages (shared across downstream jobs)
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn packages:build
+
+      - name: Upload front packages build
+        uses: actions/upload-artifact@v4
+        with:
+          name: front-packages-lib
+          path: |
+            front-packages/akeneo-design-system/lib
+            front-packages/shared/lib
+            src/Akeneo/Pim/Structure/front/lib
+            src/Akeneo/Tool/Bundle/MeasureBundle/front/lib
+            src/Akeneo/Platform/Bundle/CatalogVolumeMonitoringBundle/front/lib
+            src/Akeneo/Category/front/lib
+            src/Akeneo/Platform/Bundle/UIBundle/Resources/workspaces/system/lib
+            src/Akeneo/Platform/Job/front/process-tracker/lib
+            src/Akeneo/Platform/Bundle/ImportExportBundle/front/lib
+            src/Oro/Bundle/ConfigBundle/front/lib
+            components/catalogs/mock/lib
+            components/identifier-generator/front/lib
+          retention-days: 1
+
       - name: Start MySQL (for Symfony console commands)
         run: |
           docker-compose up -d mysql
@@ -330,11 +355,11 @@ jobs:
           cp -a front-assets-pre/. public/
           sudo chmod -R a+rwX public/
 
-      - name: Build front packages
-        run: |
-          HOST_UID=$(id -u)
-          HOST_GID=$(id -g)
-          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn packages:build
+      - name: Download front packages build
+        uses: actions/download-artifact@v4
+        with:
+          name: front-packages-lib
+          path: .
 
       - name: Build CSS (LESS compilation)
         run: make css
@@ -389,11 +414,11 @@ jobs:
           cp -a front-assets-pre/. public/
           sudo chmod -R a+rwX public/
 
-      - name: Build front packages
-        run: |
-          HOST_UID=$(id -u)
-          HOST_GID=$(id -g)
-          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn packages:build
+      - name: Download front packages build
+        uses: actions/download-artifact@v4
+        with:
+          name: front-packages-lib
+          path: .
 
       - name: Run ESLint and Prettier
         run: PIM_CONTEXT=test make lint-front
@@ -636,13 +661,13 @@ jobs:
       - name: Install Symfony assets
         run: docker-compose run --rm php php bin/console pim:installer:assets --symlink --clean --env=test
 
-      - name: Get test files for this shard
-        id: shard
-        run: |
-          TEST_FILES=$(php .github/scripts/shard-phpunit-tests.php ${{ matrix.shard }} 6 tests/back)
-          echo "files<<EOF" >> $GITHUB_OUTPUT
-          echo "$TEST_FILES" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+      - name: Restore PHPUnit timing data
+        uses: actions/cache/restore@v4
+        with:
+          path: .test-timings/phpunit.json
+          key: test-timings-phpunit-${{ github.ref }}-
+          restore-keys: |
+            test-timings-phpunit-refs/heads/master-
 
       - name: Run PHPUnit integration tests (shard ${{ matrix.shard }}/6)
         run: |
@@ -650,6 +675,7 @@ jobs:
         env:
           PHPUNIT_SHARD: ${{ matrix.shard }}
           PHPUNIT_TOTAL_SHARDS: 6
+          PHPUNIT_TIMING_FILE: .test-timings/phpunit.json
 
       - name: Run PHPUnit E2E tests (shard ${{ matrix.shard }}/6)
         run: |
@@ -657,6 +683,23 @@ jobs:
         env:
           PHPUNIT_SHARD: ${{ matrix.shard }}
           PHPUNIT_TOTAL_SHARDS: 6
+          PHPUNIT_TIMING_FILE: .test-timings/phpunit.json
+
+      - name: Collect PHPUnit timings
+        if: always()
+        run: |
+          .github/scripts/collect-timings.sh \
+            "var/tests/phpunit/**/*.xml" \
+            ".test-timings/phpunit-shard-${{ matrix.shard }}.json" \
+            ".test-timings/phpunit.json"
+
+      - name: Upload PHPUnit timing data
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phpunit-timings-${{ matrix.shard }}
+          path: .test-timings/phpunit-shard-${{ matrix.shard }}.json
+          retention-days: 1
 
       - name: Upload PHPUnit results
         if: always()
@@ -743,9 +786,18 @@ jobs:
       - name: Warmup Symfony cache
         run: docker-compose run --rm php php bin/console cache:warmup --env=behat
 
+      - name: Restore Behat timing data
+        uses: actions/cache/restore@v4
+        with:
+          path: .test-timings/behat.json
+          key: test-timings-behat-${{ github.ref }}-
+          restore-keys: |
+            test-timings-behat-refs/heads/master-
+
       - name: Run Behat legacy tests (shard ${{ matrix.shard }}/10)
         run: |
           export BEHAT_SPLIT="${{ matrix.shard }}/10"
+          export BEHAT_TIMING_FILE=".test-timings/behat.json"
           PIM_CONTEXT=test make end-to-end-legacy SUITE=${TESTSUITE}
 
       - name: Archive behat artifacts
@@ -850,6 +902,48 @@ jobs:
             cypress/screenshots
             cypress/videos
           retention-days: 3
+
+  # ===========================================================================
+  # SAVE TIMINGS: Merge shard timing data into cache (master only)
+  # ===========================================================================
+  save-timings:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [phpunit, behat-legacy]
+    if: always() && github.ref == 'refs/heads/master'
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/scripts
+
+      - name: Download all PHPUnit timing artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: phpunit-timings-*
+          path: timing-shards/phpunit
+          merge-multiple: true
+
+      - name: Merge and save PHPUnit timings
+        run: |
+          mkdir -p .test-timings
+          python3 -c "
+          import json, glob, os
+          merged = {}
+          for f in glob.glob('timing-shards/phpunit/*.json'):
+              with open(f) as fh:
+                  data = json.load(fh)
+                  merged.update(data)
+          os.makedirs('.test-timings', exist_ok=True)
+          with open('.test-timings/phpunit.json', 'w') as fh:
+              json.dump(merged, fh, indent=2, sort_keys=True)
+          print(f'Merged {len(merged)} PHPUnit timing entries')
+          "
+
+      - name: Save PHPUnit timing cache
+        uses: actions/cache/save@v4
+        with:
+          path: .test-timings/phpunit.json
+          key: test-timings-phpunit-${{ github.ref }}-${{ github.run_number }}
 
   # ===========================================================================
   # CI SUCCESS: Final gate job
