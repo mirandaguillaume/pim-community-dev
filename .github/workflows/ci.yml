@@ -473,7 +473,13 @@ jobs:
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn unit --shard=${{ matrix.shard }}/2
-          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn workspace @akeneo-pim-community/connectivity-connection unit --shard=${{ matrix.shard }}/2
+
+      - name: Run Connectivity Connection unit tests
+        if: matrix.shard == 1
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn workspace @akeneo-pim-community/connectivity-connection unit
 
   # ===========================================================================
   # LINT-BACK: PHPStan + php-cs-fixer + static checks (needs MySQL)
