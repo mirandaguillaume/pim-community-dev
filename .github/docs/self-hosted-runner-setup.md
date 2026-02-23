@@ -1,9 +1,9 @@
 # Self-Hosted GitHub Actions Runner Setup
 
-Guide for setting up a Hetzner CCX33 (8 vCPU / 32 GB / NVMe) as a self-hosted CI runner.
+Guide for setting up a Hetzner dedicated cloud server as a self-hosted CI runner.
 
 Estimated CI time: **10-15 min** (vs ~50 min on GitHub-hosted).
-Cost: **45 EUR/month** fixed.
+Cost: **~45 EUR/month** fixed (CCX33).
 
 ## Prerequisites
 
@@ -13,13 +13,34 @@ Cost: **45 EUR/month** fixed.
 ## Step 1: Create the Hetzner server
 
 1. Go to [cloud.hetzner.com](https://cloud.hetzner.com) > New Project > Add Server
-2. Configuration:
-   - **Location**: Falkenstein (EU-Central)
-   - **Image**: Ubuntu 24.04
-   - **Type**: CCX33 (8 dedicated vCPU / 32 GB RAM / 160 GB NVMe)
-   - **SSH Key**: add your public key
-   - **Name**: `ci-runner-01`
-3. Click "Create & Buy" — you get an IP address in seconds
+
+2. **Location** (any works, negligible impact on CI):
+
+   | Location | City | Notes |
+   |---|---|---|
+   | **FSN1** | Falkenstein, DE | Default choice, EU-Central |
+   | **NBG1** | Nuremberg, DE | Same Hetzner network as FSN1 |
+   | **HEL1** | Helsinki, FI | Slightly higher latency to GitHub |
+   | **ASH** | Ashburn, US | Lowest latency to GitHub (same datacenter) |
+
+3. **Image**: Ubuntu 24.04
+
+4. **Type** (dedicated vCPU — CCX series, AMD EPYC):
+
+   | Type | vCPU | RAM | SSD | Price/mo | Verdict |
+   |---|---|---|---|---|---|
+   | CCX13 | 2 | 8 GB | 80 GB | ~15€ | Too small — PHPStan/webpack will OOM |
+   | CCX23 | 4 | 16 GB | 160 GB | ~30€ | Tight — behat/phpunit squeeze RAM |
+   | **CCX33** | **8** | **32 GB** | **240 GB** | **~45€** | **Recommended** — 32 GB covers MySQL+ES+PHP |
+   | CCX43 | 16 | 64 GB | 360 GB | ~90€ | Overkill — tests are I/O bound, not CPU |
+
+   > **Why 32 GB?** During a run: MySQL (~2 GB) + Elasticsearch (~4 GB) + PHP tests (~4 GB) + Selenium (~1 GB) + Node/webpack (~3 GB) + Docker overhead (~2 GB) = ~16 GB peak. With 16 GB you're at the limit, with 32 GB you're comfortable.
+   >
+   > **Why not more CPU?** PHPUnit and Behat are sequential per shard and I/O bound (waiting on MySQL/ES). Doubling CPU gives <10% improvement for 2x the price.
+
+5. **SSH Key**: add your public key
+6. **Name**: `ci-runner-01`
+7. Click "Create & Buy" — you get an IP address in seconds
 
 ## Step 2: Install dependencies
 
