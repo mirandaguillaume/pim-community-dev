@@ -127,7 +127,7 @@ else
 endif
 
 end-to-end-front:
-	$(DOCKER_COMPOSE) -f docker-compose-cypress.yml run --rm cypress
+	npx playwright test
 
 # How to debug a behat locally?
 # -----------------------------

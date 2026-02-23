@@ -44,7 +44,7 @@ defaults:
 #     │                                                                        │
 #   image ─────────────────────────────────────────────────────────────────────┐
 #     │                                                                        │
-#     ├──► prepare ──┬──► front-build [if frontend] ──┬──► cypress [if front]►│
+#     ├──► prepare ──┬──► front-build [if frontend] ──┬──► playwright [if front]►│
 #     │              │                                 │                       │
 #     │              ├──► front-lint-unit [if frontend]──────────────────────►│
 #     │              │                                                         │
@@ -112,7 +112,7 @@ jobs:
               - 'jest.config.*'
               - '.eslintrc*'
               - 'tsconfig*.json'
-              - 'cypress/**'
+              - 'playwright.config.ts'
               - 'src/**/*.ts'
               - 'src/**/*.tsx'
               - 'src/**/*.js'
@@ -323,7 +323,7 @@ jobs:
           retention-days: 1
 
   # ===========================================================================
-  # FRONT-BUILD: Webpack build (produces artifacts for cypress)
+  # FRONT-BUILD: Webpack build (produces artifacts for E2E tests)
   # ===========================================================================
   front-build:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
@@ -806,9 +806,9 @@ jobs:
           retention-days: 3
 
   # ===========================================================================
-  # CYPRESS: Frontend E2E tests
+  # PLAYWRIGHT: Frontend E2E tests
   # ===========================================================================
-  cypress:
+  playwright:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, front-build, detect-changes]
     if: >-
@@ -830,12 +830,10 @@ jobs:
           name: front-build
           path: front-build
 
-      - name: Setup and run Cypress
-        env:
-          CYPRESS_defaultCommandTimeout: 40000
-          CYPRESS_requestTimeout: 15000
-          CYPRESS_responseTimeout: 60000
-          CYPRESS_pageLoadTimeout: 120000
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Setup and run Playwright
         run: |
           DB_NAME=$(grep '^APP_DATABASE_NAME=' .env | cut -d= -f2 || echo "akeneo_pim")
           DB_NAME=${DB_NAME:-akeneo_pim}
@@ -884,16 +882,16 @@ jobs:
           echo "=== HTTP asset check ==="
           curl -sI http://localhost:${DOCKER_PORT_HTTP:-8080}/dist/vendor.min.js 2>&1 | head -3
           curl -sI http://localhost:${DOCKER_PORT_HTTP:-8080}/js/extensions.json 2>&1 | head -3
-          make end-to-end-front
+          PIM_URL=http://localhost:${DOCKER_PORT_HTTP:-8080} make end-to-end-front
 
-      - name: Upload cypress artifacts
-        if: always()
+      - name: Upload Playwright report
+        if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: cypress-results
+          name: playwright-report
           path: |
-            cypress/screenshots
-            cypress/videos
+            playwright-report/
+            test-results/
           retention-days: 3
 
   # ===========================================================================
@@ -954,7 +952,7 @@ jobs:
       - phpunit
       - data-migrations
       - behat-legacy
-      - cypress
+      - playwright
     if: always()
     timeout-minutes: 5
     steps:
@@ -975,7 +973,7 @@ jobs:
           echo "  phpunit: ${{ needs.phpunit.result }}"
           echo "  data-migrations: ${{ needs.data-migrations.result }}"
           echo "  behat-legacy: ${{ needs.behat-legacy.result }}"
-          echo "  cypress: ${{ needs.cypress.result }}"
+          echo "  playwright: ${{ needs.playwright.result }}"
 
           # Each job must be either 'success' or 'skipped' (path-filtered)
           results=(
@@ -988,7 +986,7 @@ jobs:
             "${{ needs.phpunit.result }}"
             "${{ needs.data-migrations.result }}"
             "${{ needs.behat-legacy.result }}"
-            "${{ needs.cypress.result }}"
+            "${{ needs.playwright.result }}"
           )
 
           failed=false
