@@ -30,9 +30,8 @@ env:
   DOCKER_BUILDKIT: 1
   YARN_ENABLE_IMMUTABLE_INSTALLS: true
   # Runner label: set repository variable RUNNER_LABEL to 'self-hosted' in
-  # Settings > Secrets and variables > Actions > Variables to route heavy jobs
-  # (image, prepare, db-seed, cypress) to your own runner.
-  # Parallel jobs (phpunit, behat, etc.) always use GitHub-hosted runners.
+  # Settings > Secrets and variables > Actions > Variables to use your own runner.
+  # All jobs use self-hosted except phpunit/behat shards (GitHub-hosted for parallelism).
 
 defaults:
   run:
@@ -73,7 +72,7 @@ jobs:
   # DETECT CHANGES: Categorize changed files for conditional job execution
   # ===========================================================================
   detect-changes:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     timeout-minutes: 5
     outputs:
       backend: ${{ steps.filter.outputs.backend }}
@@ -300,7 +299,7 @@ jobs:
   # FRONT-BUILD: Webpack build (produces artifacts for cypress)
   # ===========================================================================
   front-build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 20
@@ -359,7 +358,7 @@ jobs:
   # FRONT-LINT-UNIT: ESLint + Prettier + Jest unit tests (shared setup)
   # ===========================================================================
   front-lint-unit:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 20
@@ -410,7 +409,7 @@ jobs:
   # LINT-AND-STATIC-BACK: PHPStan + php-cs-fixer + container lint + coupling
   # ===========================================================================
   lint-and-static-back:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 20
@@ -456,7 +455,7 @@ jobs:
   # PHPSPEC: Unit tests (fast, no external dependencies)
   # ===========================================================================
   phpspec:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 15
@@ -500,7 +499,7 @@ jobs:
   # ACCEPTANCE-BACK: Behat acceptance tests
   # ===========================================================================
   acceptance-back:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 20
@@ -528,7 +527,7 @@ jobs:
   # DEPTRAC: Architecture coupling analysis (all configs in 1 job)
   # ===========================================================================
   deptrac:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, image, detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 15
@@ -569,7 +568,7 @@ jobs:
   # DATA MIGRATIONS: Test database migrations
   # ===========================================================================
   data-migrations:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare]
     timeout-minutes: 30
     steps:
@@ -852,7 +851,7 @@ jobs:
   # CI SUCCESS: Final gate job
   # ===========================================================================
   ci-success:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs:
       - detect-changes
       - front-build
