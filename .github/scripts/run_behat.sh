@@ -5,10 +5,9 @@ set -eo pipefail
 TEST_SUITE=$1
 
 ALL_SCENARIOS=$(docker-compose run --rm -T php vendor/bin/behat --list-scenarios -p legacy -s $TEST_SUITE)
-if command -v circleci >/dev/null 2>&1; then
-    TEST_FILES=$(echo "$ALL_SCENARIOS" | circleci tests split --split-by=timings)
-elif [[ -n "$BEHAT_SPLIT" ]]; then
-    # GitHub Actions sharding: BEHAT_SPLIT="N/TOTAL" (e.g. "3/15")
+
+if [[ -n "$BEHAT_SPLIT" ]]; then
+    # GitHub Actions sharding: BEHAT_SPLIT="N/TOTAL" (e.g. "3/10")
     SHARD_NUM="${BEHAT_SPLIT%%/*}"
     SHARD_TOTAL="${BEHAT_SPLIT##*/}"
     echo "Running Behat shard $SHARD_NUM of $SHARD_TOTAL for suite $TEST_SUITE"
@@ -33,28 +32,73 @@ elif [[ -n "$BEHAT_SPLIT" ]]; then
     fi
 else
     TEST_FILES="$ALL_SCENARIOS"
+    FILE_COUNT=$(echo $TEST_FILES | wc -w)
 fi
-echo "TEST FILES ON THIS CONTAINER: $TEST_FILES"
+
+echo "Running $FILE_COUNT scenarios in a single Behat invocation"
+
+RERUN_FILE="var/tests/behat/rerun.txt"
+mkdir -p var/tests/behat
+
+# First pass: run all scenarios in one batch.
+# Use rerun format to capture failed scenarios for targeted retry.
+set +e
+docker-compose exec -u www-data -T httpd ./vendor/bin/behat \
+  --strict \
+  --format pim --out var/tests/behat/batch_results \
+  --format pretty --out std \
+  --format rerun --out "$RERUN_FILE" \
+  --colors \
+  -p legacy -s $TEST_SUITE \
+  $TEST_FILES
+BATCH_RESULT=$?
+set -eo pipefail
+
+if [ $BATCH_RESULT -eq 0 ]; then
+    echo "All scenarios passed on first run."
+    exit 0
+fi
+
+# Check if rerun file has failed scenarios
+if [ ! -s "$RERUN_FILE" ]; then
+    echo "Batch failed but no rerun file found. Exiting with failure."
+    exit 1
+fi
+
+FAILED_SCENARIOS=$(cat "$RERUN_FILE" | tr '\n' ' ')
+FAILED_COUNT=$(echo $FAILED_SCENARIOS | wc -w)
+echo ""
+echo "=== $FAILED_COUNT scenario(s) failed. Retrying individually... ==="
 
 fail=0
-counter=1
-total=$(echo $TEST_FILES | tr ' ' "\n" | wc -l)
-
-for TEST_FILE in $TEST_FILES; do
-    echo -e "\nLAUNCHING $TEST_FILE ($counter/$total):"
-    output=$(basename $TEST_FILE)_$(uuidgen)
+for SCENARIO in $FAILED_SCENARIOS; do
+    echo -e "\nRetrying: $SCENARIO"
+    output=$(basename $SCENARIO)_retry_$(uuidgen)
 
     set +e
-    docker-compose exec -u www-data -T httpd ./vendor/bin/behat --strict --format pim --out var/tests/behat/${output} --format pretty --out std --colors -p legacy -s $TEST_SUITE $TEST_FILE ||
-    (
-      echo Retrying $TEST_FILE &&
-      docker-compose exec -u www-data -T httpd /bin/bash -c "echo $TEST_FILE >> var/tests/behat/behats_retried.txt" &&
-      docker-compose exec -u www-data -T httpd ./vendor/bin/behat --strict --format pim --out var/tests/behat/${output} --format pretty --out std --colors -p legacy -s $TEST_SUITE $TEST_FILE
-    )
-
-    fail=$(($fail + $?))
-    counter=$(($counter + 1))
+    docker-compose exec -u www-data -T httpd ./vendor/bin/behat \
+      --strict \
+      --format pim --out "var/tests/behat/${output}" \
+      --format pretty --out std \
+      --colors \
+      -p legacy -s $TEST_SUITE \
+      $SCENARIO
+    RETRY_RESULT=$?
     set -eo pipefail
+
+    if [ $RETRY_RESULT -ne 0 ]; then
+        echo "FAILED (after retry): $SCENARIO"
+        docker-compose exec -u www-data -T httpd /bin/bash -c "echo $SCENARIO >> var/tests/behat/behats_retried.txt"
+        fail=$((fail + 1))
+    else
+        echo "PASSED on retry: $SCENARIO"
+    fi
 done
 
-exit $fail
+if [ $fail -gt 0 ]; then
+    echo "$fail scenario(s) still failed after retry."
+    exit 1
+fi
+
+echo "All previously failed scenarios passed on retry."
+exit 0
