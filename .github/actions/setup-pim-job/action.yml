@@ -55,7 +55,9 @@ runs:
       if: inputs.php-image == 'true'
       shell: bash
       run: |
-        IMAGE="ghcr.io/${{ github.repository }}/php:${{ github.sha }}-${{ inputs.php-version }}"
+        HASH=$(sha256sum Dockerfile | cut -c1-12)
+        IMAGE="ghcr.io/${{ github.repository }}/php:df-${HASH}-${{ inputs.php-version }}"
+        echo "Pulling PHP image: ${IMAGE}"
         docker pull "$IMAGE"
         docker tag "$IMAGE" akeneo/pim-php-dev:${{ inputs.php-version }}
 

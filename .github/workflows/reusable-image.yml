@@ -32,22 +32,25 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Generate image metadata
+      - name: Generate content-hash image tag
         id: meta
         run: |
-          IMAGE="ghcr.io/${{ github.repository }}/php:${{ github.sha }}-${{ inputs.php-version }}"
+          # Tag by Dockerfile content hash — image only changes when Dockerfile changes
+          # (application code is volume-mounted, not baked in)
+          HASH=$(sha256sum Dockerfile | cut -c1-12)
+          IMAGE="ghcr.io/${{ github.repository }}/php:df-${HASH}-${{ inputs.php-version }}"
           echo "image=${IMAGE}" >> $GITHUB_OUTPUT
-          echo "Image will be: ${IMAGE}"
+          echo "Image tag: ${IMAGE}"
 
       - name: Check if image already exists in GHCR
         id: check
         run: |
           if docker manifest inspect "${{ steps.meta.outputs.image }}" >/dev/null 2>&1; then
             echo "exists=true" >> $GITHUB_OUTPUT
-            echo "Image already exists, skipping build"
+            echo "Image already exists in GHCR, skipping build"
           else
             echo "exists=false" >> $GITHUB_OUTPUT
-            echo "Image not found, will build"
+            echo "Image not found, will build and push"
           fi
 
       - name: Cache Docker layers
@@ -55,7 +58,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: /tmp/.buildx-cache
-          key: buildx-php-${{ inputs.php-version }}-${{ runner.os }}-${{ hashFiles('Dockerfile', 'composer.lock') }}
+          key: buildx-php-${{ inputs.php-version }}-${{ runner.os }}-${{ hashFiles('Dockerfile') }}
           restore-keys: |
             buildx-php-${{ inputs.php-version }}-${{ runner.os }}-
 
