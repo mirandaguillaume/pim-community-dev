@@ -22,7 +22,7 @@ export async function goToProductsGrid(page: Page) {
 
   // Switch to ungrouped (products only) view if the selector exists (Enterprise feature)
   const groupedVariant = page.locator('.search-zone [data-type="grouped-variant"]');
-  if (await groupedVariant.isVisible({timeout: 5_000}).catch(() => false)) {
+  if (await groupedVariant.isVisible({timeout: 15_000}).catch(() => false)) {
     await groupedVariant.click();
     await page.locator('.search-zone [data-value="product"]').click();
 
