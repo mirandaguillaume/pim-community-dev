@@ -23,6 +23,7 @@ final class EvaluateAfterAttributeGroupActivateEndToEnd extends MessengerTestCas
     protected function setUp(): void
     {
         $this->launchProductEvaluationsQueueStatus = $this->get('akeneo_integration_tests.pub_sub_queue_status.dqi_launch_product_evaluations_consumer');
+        \assert($this->launchProductEvaluationsQueueStatus instanceof PubSubQueueStatus);
         $this->pubSubQueueStatuses = [
             $this->launchProductEvaluationsQueueStatus,
         ];

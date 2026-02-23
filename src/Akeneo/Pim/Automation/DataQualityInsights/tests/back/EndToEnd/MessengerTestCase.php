@@ -70,7 +70,7 @@ abstract class MessengerTestCase extends DataQualityInsightsTestCase
             $consecutiveEmptyPolls = 0;
             while ($consecutiveEmptyPolls < self::FLUSH_EMPTY_POLLS_REQUIRED) {
                 $messages = $subscription->pull(['maxMessages' => 10, 'returnImmediately' => true]);
-                $count = is_countable($messages) ? count($messages) : 0;
+                $count = count($messages);
                 if ($count > 0) {
                     $subscription->acknowledgeBatch($messages);
                     $consecutiveEmptyPolls = 0;

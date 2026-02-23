@@ -25,6 +25,7 @@ final class ComputeProductScoreOnProductCreateOrUpdateEndToEnd extends Messenger
     protected function setUp(): void
     {
         $this->productScoreComputeOnUpsertQueueStatus = $this->get('akeneo_integration_tests.pub_sub_queue_status.dqi_product_score_compute_on_upsert');
+        \assert($this->productScoreComputeOnUpsertQueueStatus instanceof PubSubQueueStatus);
         $this->pubSubQueueStatuses = [$this->productScoreComputeOnUpsertQueueStatus];
 
         parent::setUp();

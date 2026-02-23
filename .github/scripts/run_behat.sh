@@ -34,17 +34,17 @@ fi
 
 echo "Running $FILE_COUNT scenarios in a single Behat invocation"
 
-RERUN_FILE="var/tests/behat/rerun.txt"
+PRETTY_OUTPUT_FILE="var/tests/behat/batch_pretty.txt"
 mkdir -p var/tests/behat
 
 # First pass: run all scenarios in one batch.
-# Use rerun format to capture failed scenarios for targeted retry.
+# Write pretty output to a file so we can parse failed scenarios for retry.
 set +e
 docker-compose exec -u www-data -T httpd ./vendor/bin/behat \
   --strict \
   --format pim --out var/tests/behat/batch_results \
+  --format pretty --out "$PRETTY_OUTPUT_FILE" \
   --format pretty --out std \
-  --format rerun --out "$RERUN_FILE" \
   --colors \
   -p legacy -s $TEST_SUITE \
   $TEST_FILES
@@ -56,14 +56,20 @@ if [ $BATCH_RESULT -eq 0 ]; then
     exit 0
 fi
 
-# Check if rerun file has failed scenarios
-if [ ! -s "$RERUN_FILE" ]; then
-    echo "Batch failed but no rerun file found. Exiting with failure."
+# Extract failed scenarios from pretty format output.
+# Behat lists them after "Failed scenarios:" until a line starting with a digit (summary).
+FAILED_SCENARIOS=""
+if [ -f "$PRETTY_OUTPUT_FILE" ]; then
+    FAILED_SCENARIOS=$(awk '/^Failed scenarios:$/,/^[0-9]/' "$PRETTY_OUTPUT_FILE" \
+      | grep -E '^\s+' | sed 's/^\s*//' || true)
+fi
+
+if [ -z "$FAILED_SCENARIOS" ]; then
+    echo "Batch failed but could not extract failed scenarios. Exiting with failure."
     exit 1
 fi
 
-FAILED_SCENARIOS=$(cat "$RERUN_FILE" | tr '\n' ' ')
-FAILED_COUNT=$(echo $FAILED_SCENARIOS | wc -w)
+FAILED_COUNT=$(echo "$FAILED_SCENARIOS" | wc -w)
 echo ""
 echo "=== $FAILED_COUNT scenario(s) failed. Retrying individually... ==="
 

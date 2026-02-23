@@ -19,6 +19,7 @@ final class ComputeProductModelScoreOnProductCreateOrUpdateEndToEnd extends Mess
     public function setUp(): void
     {
         $this->productModelScoreComputeOnUpsertQueueStatus = $this->get('akeneo_integration_tests.pub_sub_queue_status.dqi_product_model_score_compute_on_upsert');
+        \assert($this->productModelScoreComputeOnUpsertQueueStatus instanceof PubSubQueueStatus);
         $this->pubSubQueueStatuses = [$this->productModelScoreComputeOnUpsertQueueStatus];
 
         parent::setUp();
