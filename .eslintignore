@@ -10,3 +10,5 @@ src/Akeneo/Platform/Job/front/process-tracker
 src/Akeneo/Tool/Bundle/MeasureBundle/front
 src/Oro/**/**/*.js
 src/Oro/Bundle/ConfigBundle/front
+tests/front/unit/jest
+src/**/legacy-bridge/tests
