@@ -8,7 +8,8 @@ set -euo pipefail
 echo "=== System update ==="
 apt-get update && apt-get upgrade -y
 apt-get install -y \
-  curl git jq unzip acl ca-certificates gnupg
+  curl git jq unzip acl ca-certificates gnupg \
+  make build-essential
 
 echo "=== Install Docker (official repo) ==="
 install -m 0755 -d /etc/apt/keyrings
