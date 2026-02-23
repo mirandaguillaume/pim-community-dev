@@ -93,6 +93,19 @@ acceptance-back:
 	$(MAKE) identifier-generator-acceptance-back
 	$(MAKE) installer-acceptance-back
 
+.PHONY: acceptance-back-main
+acceptance-back-main:
+	APP_ENV=behat ${PHP_RUN} vendor/bin/behat -p acceptance --format pim --out var/tests/behat --format progress --out std --colors
+
+.PHONY: acceptance-back-contexts
+acceptance-back-contexts:
+	$(MAKE) import-export-acceptance-back
+	$(MAKE) job-acceptance-back
+	$(MAKE) channel-acceptance-back
+	$(MAKE) measurement-acceptance-back
+	$(MAKE) identifier-generator-acceptance-back
+	$(MAKE) installer-acceptance-back
+
 .PHONY: acceptance-front
 acceptance-front:
 	MAX_RANDOM_LATENCY_MS=100 $(YARN_RUN) acceptance run acceptance ./tests/features

@@ -48,11 +48,15 @@ defaults:
 #     │              │                                 │                       │
 #     │              ├──► front-lint-unit [if frontend]──────────────────────►│
 #     │              │                                                         │
-#     │              ├──► lint-and-static-back [if backend] ────────────────►│
+#     │              ├──► phpstan-back [if backend] ──────────────────────►│
+#     │              │                                                         │
+#     │              ├──► code-style-back [if backend] ───────────────────►│
 #     │              │                                                         │
 #     │              ├──► phpspec [if backend] ────────────────────────────►│
 #     │              │                                                         │
-#     │              ├──► acceptance-back [if backend] ────────────────────►│
+#     │              ├──► acceptance-back [if backend] ───────────────────►│
+#     │              │                                                         │
+#     │              ├──► acceptance-contexts [if backend] ───────────────►│
 #     │              │                                                         │
 #     │              ├──► data-migrations [if backend] ───────────────────►│
 #     │              │                                                         │
@@ -433,9 +437,9 @@ jobs:
         run: PIM_CONTEXT=test make unit-front
 
   # ===========================================================================
-  # LINT-AND-STATIC-BACK: PHPStan + php-cs-fixer + container lint + coupling
+  # PHPSTAN-BACK: PHPStan + php-cs-fixer + container lint (needs MySQL)
   # ===========================================================================
-  lint-and-static-back:
+  phpstan-back:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
@@ -469,15 +473,31 @@ jobs:
         continue-on-error: true
         run: docker-compose run --rm php php vendor/bin/php-cs-fixer fix --config=components/identifier-generator/back/tests/.php_cs.php --allow-risky=yes
 
-      - name: Run PHPStan and php-cs-fixer
+      - name: Run PHPStan, php-cs-fixer and static checks
         run: |
           PIM_CONTEXT=test make deprecation-back
           PIM_CONTEXT=test make lint-back
+          PIM_CONTEXT=test make static-back
 
-      - name: Run static checks (container lint, coupling, translations)
+  # ===========================================================================
+  # CODE-STYLE-BACK: Coupling detection + legacy translations (no MySQL)
+  # ===========================================================================
+  code-style-back:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [prepare, detect-changes]
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-pim-job
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pull-base-images: 'false'
+
+      - name: Run coupling and translation checks
         run: |
           PIM_CONTEXT=test make find-legacy-translations
-          PIM_CONTEXT=test make static-back
           PIM_CONTEXT=test make coupling-back
 
   # ===========================================================================
@@ -525,13 +545,13 @@ jobs:
           fail-on-error: false
 
   # ===========================================================================
-  # ACCEPTANCE-BACK: Behat acceptance tests
+  # ACCEPTANCE-BACK: Main Behat acceptance tests
   # ===========================================================================
   acceptance-back:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
-    timeout-minutes: 20
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
 
@@ -539,14 +559,42 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Run Behat acceptance tests
-        run: PIM_CONTEXT=test make acceptance-back
+      - name: Run main Behat acceptance tests
+        run: PIM_CONTEXT=test make acceptance-back-main
 
       - name: Upload acceptance results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: acceptance-back-results
+          path: |
+            var/tests
+            var/logs
+          retention-days: 3
+
+  # ===========================================================================
+  # ACCEPTANCE-CONTEXTS: Bounded context acceptance tests (parallel with main)
+  # ===========================================================================
+  acceptance-contexts:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [prepare, detect-changes]
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-pim-job
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run bounded context acceptance tests
+        run: PIM_CONTEXT=test make acceptance-back-contexts
+
+      - name: Upload acceptance context results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: acceptance-contexts-results
           path: |
             var/tests
             var/logs
@@ -598,7 +646,8 @@ jobs:
   # ===========================================================================
   data-migrations:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
-    needs: [prepare]
+    needs: [prepare, detect-changes]
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
@@ -952,9 +1001,11 @@ jobs:
       - detect-changes
       - front-build
       - front-lint-unit
-      - lint-and-static-back
+      - phpstan-back
+      - code-style-back
       - phpspec
       - acceptance-back
+      - acceptance-contexts
       - deptrac
       - phpunit
       - data-migrations
@@ -973,9 +1024,11 @@ jobs:
           echo "=== Job results ==="
           echo "  front-build: ${{ needs.front-build.result }}"
           echo "  front-lint-unit: ${{ needs.front-lint-unit.result }}"
-          echo "  lint-and-static-back: ${{ needs.lint-and-static-back.result }}"
+          echo "  phpstan-back: ${{ needs.phpstan-back.result }}"
+          echo "  code-style-back: ${{ needs.code-style-back.result }}"
           echo "  phpspec: ${{ needs.phpspec.result }}"
           echo "  acceptance-back: ${{ needs.acceptance-back.result }}"
+          echo "  acceptance-contexts: ${{ needs.acceptance-contexts.result }}"
           echo "  deptrac: ${{ needs.deptrac.result }}"
           echo "  phpunit: ${{ needs.phpunit.result }}"
           echo "  data-migrations: ${{ needs.data-migrations.result }}"
@@ -986,9 +1039,11 @@ jobs:
           results=(
             "${{ needs.front-build.result }}"
             "${{ needs.front-lint-unit.result }}"
-            "${{ needs.lint-and-static-back.result }}"
+            "${{ needs.phpstan-back.result }}"
+            "${{ needs.code-style-back.result }}"
             "${{ needs.phpspec.result }}"
             "${{ needs.acceptance-back.result }}"
+            "${{ needs.acceptance-contexts.result }}"
             "${{ needs.deptrac.result }}"
             "${{ needs.phpunit.result }}"
             "${{ needs.data-migrations.result }}"
