@@ -60,6 +60,17 @@ curl -o actions-runner.tar.gz -L \
 tar xzf actions-runner.tar.gz && rm actions-runner.tar.gz
 chown -R runner:runner /home/runner/actions-runner
 
+echo "=== Setup pre-job hook (fix Docker root-owned files) ==="
+cat > /home/runner/cleanup-workspace.sh << 'HOOK'
+#!/bin/bash
+# Docker containers run as root and leave files the runner can't clean up.
+# This hook runs before each job so actions/checkout can do git clean.
+if [ -n "${GITHUB_WORKSPACE:-}" ] && [ -d "${GITHUB_WORKSPACE}" ]; then
+  sudo chown -R $(id -u):$(id -g) "${GITHUB_WORKSPACE}" 2>/dev/null || true
+fi
+HOOK
+chmod +x /home/runner/cleanup-workspace.sh
+
 echo "=== Setup weekly cleanup cron ==="
 cat > /etc/cron.weekly/cleanup-runner << 'CRON'
 #!/bin/bash
@@ -81,6 +92,7 @@ echo " 3. Run:"
 echo "    su - runner"
 echo "    cd ~/actions-runner"
 echo "    ./config.sh --url https://github.com/YOUR_USER/YOUR_REPO --token YOUR_TOKEN --name ci-runner-01 --labels self-hosted,linux,x64 --work _work"
+echo "    echo 'ACTIONS_RUNNER_HOOK_JOB_STARTED=/home/runner/cleanup-workspace.sh' >> .env"
 echo "    sudo ./svc.sh install runner"
 echo "    sudo ./svc.sh start"
 echo " 4. Set repository variable RUNNER_LABEL=self-hosted in GitHub Settings"
