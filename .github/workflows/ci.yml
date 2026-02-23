@@ -209,6 +209,9 @@ jobs:
             [ "$i" -eq 30 ] && { echo "MySQL not ready"; exit 1; }
             sleep 1
           done
+          # Verify MySQL accepts real connections (not just ping)
+          docker-compose exec -T mysql mysql -uroot -proot -e "SELECT 1" >/dev/null 2>&1
+          echo "MySQL is ready (project: ${COMPOSE_PROJECT_NAME:-default})"
 
       - name: Pre-generate front assets (routes, require-paths, bundles)
         run: |
@@ -435,6 +438,8 @@ jobs:
             [ "$i" -eq 30 ] && { echo "MySQL not ready"; exit 1; }
             sleep 1
           done
+          docker-compose exec -T mysql mysql -uroot -proot -e "SELECT 1" >/dev/null 2>&1
+          echo "MySQL is ready (project: ${COMPOSE_PROJECT_NAME:-default})"
 
       - name: Fix identifier generator CS (auto-fix before dry-run)
         continue-on-error: true
