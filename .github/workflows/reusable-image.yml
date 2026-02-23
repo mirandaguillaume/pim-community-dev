@@ -59,6 +59,7 @@ jobs:
         with:
           context: .
           file: Dockerfile
+          target: ci
           push: true
           tags: ${{ steps.meta.outputs.image }}
           cache-from: type=registry,ref=ghcr.io/${{ github.repository }}/php:buildcache-${{ inputs.php-version }}
