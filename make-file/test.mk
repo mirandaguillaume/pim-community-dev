@@ -68,7 +68,10 @@ lint-front:
 .PHONY: unit-back
 unit-back: var/tests/phpspec
 ifeq ($(CI),true)
-	$(DOCKER_COMPOSE) run -T --rm php php vendor/bin/phpspec run --format=junit > var/tests/phpspec/specs.xml
+	$(DOCKER_COMPOSE) run -T --rm php php vendor/bin/phpspec run --format=junit > var/tests/phpspec/specs.xml 2>var/tests/phpspec/stderr.log; \
+	PHPSPEC_EXIT=$$?; \
+	grep -v 'project_dir/bin/console' var/tests/phpspec/stderr.log >&2 || true; \
+	exit $$PHPSPEC_EXIT
 	.github/scripts/find_non_executed_phpspec.sh
 else
 	${PHP_RUN} vendor/bin/phpspec run
@@ -127,7 +130,7 @@ else
 endif
 
 end-to-end-front:
-	npx playwright test
+	./node_modules/.bin/playwright test
 
 # How to debug a behat locally?
 # -----------------------------
