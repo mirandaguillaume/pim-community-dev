@@ -15,7 +15,7 @@ export async function login(page: Page, username: string, password: string) {
 
 export async function goToProductsGrid(page: Page) {
   await page.getByRole('menuitem', {name: 'Activity'}).first().waitFor();
-  await page.getByText('Products').click();
+  await page.getByText('Products').first().click();
 
   await page.waitForResponse(resp => resp.url().includes('/datagrid_view/rest/product-grid/default'));
   await page.waitForResponse(resp => resp.url().includes('/datagrid/product-grid'));
@@ -43,7 +43,7 @@ export async function saveProduct(page: Page) {
   const savePromise = page.waitForResponse(resp =>
     /\/enrich\/product\/rest\//.test(resp.url()) && resp.request().method() === 'POST'
   );
-  await page.getByText('Save').click();
+  await page.getByText('Save').first().click();
   await savePromise;
 }
 
