@@ -60,7 +60,7 @@ echo ""
 echo "=== Some scenarios failed. Retrying with --rerun... ==="
 
 # Second pass: use Behat's built-in --rerun to retry only failed scenarios.
-# --rerun reads the cache written by the first pass — no stdout parsing needed.
+# Must pass the same paths ($TEST_FILES) so the rerun cache key matches the first pass.
 set +e
 docker-compose exec -u www-data -T httpd ./vendor/bin/behat \
   --strict \
@@ -68,7 +68,8 @@ docker-compose exec -u www-data -T httpd ./vendor/bin/behat \
   --format pim --out var/tests/behat/batch_results_retry \
   --format progress --out std \
   --colors \
-  -p legacy -s $TEST_SUITE
+  -p legacy -s $TEST_SUITE \
+  $TEST_FILES
 RETRY_RESULT=$?
 set -eo pipefail
 
