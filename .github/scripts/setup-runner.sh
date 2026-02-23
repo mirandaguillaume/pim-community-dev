@@ -8,15 +8,29 @@ set -euo pipefail
 echo "=== System update ==="
 apt-get update && apt-get upgrade -y
 apt-get install -y \
-  curl git jq unzip acl \
-  docker.io docker-compose-plugin \
-  php8.3-cli php8.3-xml php8.3-mbstring
+  curl git jq unzip acl ca-certificates gnupg
+
+echo "=== Install Docker (official repo) ==="
+install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+chmod a+r /etc/apt/keyrings/docker.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" > /etc/apt/sources.list.d/docker.list
+apt-get update
+apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin docker-buildx-plugin
+apt-get install -y php8.3-cli php8.3-xml php8.3-mbstring
 
 systemctl enable docker && systemctl start docker
+
+# Symlink docker-compose v2 plugin as standalone command (expected by CI)
+ln -sf /usr/libexec/docker/cli-plugins/docker-compose /usr/local/bin/docker-compose
 
 echo "=== Create runner user ==="
 id runner &>/dev/null || useradd -m -s /bin/bash -G docker runner
 loginctl enable-linger runner
+
+# Passwordless sudo (required by GitHub Actions workflows)
+echo "runner ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/runner
+chmod 440 /etc/sudoers.d/runner
 
 echo "=== Pre-pull Docker images (persistent cache) ==="
 docker pull mysql:8.0.30 &
