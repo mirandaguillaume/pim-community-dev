@@ -49,5 +49,18 @@ runs:
         echo "COMPOSE_PROJECT_NAME=${COMPOSE_NAME}" >> "$GITHUB_ENV"
         export COMPOSE_PROJECT_NAME="${COMPOSE_NAME}"
         echo "Docker Compose project: ${COMPOSE_NAME}"
+
+        # Assign unique host ports per runner to avoid bind conflicts.
+        # Extract runner number from name (e.g. ci-runner-02 → 2), default 0.
+        RUNNER_NUM=$(echo "${RUNNER_NAME:-}" | grep -oE '[0-9]+$' || echo "0")
+        OFFSET=$(( RUNNER_NUM * 10 ))
+        echo "DOCKER_PORT_HTTP=$((8080 + OFFSET))" >> "$GITHUB_ENV"
+        echo "DOCKER_PORT_MYSQL=$((33006 + OFFSET))" >> "$GITHUB_ENV"
+        echo "DOCKER_PORT_ELASTICSEARCH=$((9210 + OFFSET))" >> "$GITHUB_ENV"
+        echo "DOCKER_PORT_SELENIUM=$((5910 + OFFSET))" >> "$GITHUB_ENV"
+        echo "DOCKER_PORT_OBJECT_STORAGE=$((9090 + OFFSET))" >> "$GITHUB_ENV"
+        echo "DOCKER_PORT_OBJECT_STORAGE_CONSOLE=$((9091 + OFFSET))" >> "$GITHUB_ENV"
+        echo "Port offset: +${OFFSET} (runner #${RUNNER_NUM})"
+
         # Clean up containers from previous jobs on this runner
         docker-compose down --remove-orphans 2>/dev/null || true

@@ -820,21 +820,21 @@ jobs:
           # Wait for httpd to serve a fully-rendered login page (proves kernel + Twig + assets work)
           echo "Waiting for login page to be ready..."
           for i in $(seq 1 24); do
-            if curl -sS http://localhost:8080/user/login 2>/dev/null | grep -q '_username'; then
+            if curl -sS http://localhost:${DOCKER_PORT_HTTP:-8080}/user/login 2>/dev/null | grep -q '_username'; then
               echo "Login page ready after $((i * 5))s"
               break
             fi
             if [ "$i" -eq 24 ]; then
               echo "ERROR: Login page not ready after 120s. Response:"
-              curl -sS http://localhost:8080/user/login 2>&1 | head -50
+              curl -sS http://localhost:${DOCKER_PORT_HTTP:-8080}/user/login 2>&1 | head -50
               exit 1
             fi
             sleep 5
           done
           # Verify JS assets are served correctly via HTTP
           echo "=== HTTP asset check ==="
-          curl -sI http://localhost:8080/dist/vendor.min.js 2>&1 | head -3
-          curl -sI http://localhost:8080/js/extensions.json 2>&1 | head -3
+          curl -sI http://localhost:${DOCKER_PORT_HTTP:-8080}/dist/vendor.min.js 2>&1 | head -3
+          curl -sI http://localhost:${DOCKER_PORT_HTTP:-8080}/js/extensions.json 2>&1 | head -3
           make end-to-end-front
 
       - name: Upload cypress artifacts
