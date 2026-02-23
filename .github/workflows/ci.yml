@@ -213,8 +213,7 @@ jobs:
       - name: Pre-generate front assets (routes, require-paths, bundles)
         run: |
           docker-compose run --rm php sh -c "mkdir -p public/js public/bundles"
-          docker-compose run --rm php php bin/console pim:installer:assets --symlink --clean --env=prod
-          docker-compose run --rm php sh -c "[ -L public/bundles/pimui ] && exit 0; mkdir -p public/bundles/pimui && cp -a src/Akeneo/Platform/Bundle/UIBundle/Resources/public/. public/bundles/pimui/"
+          docker-compose run --rm php php bin/console pim:installer:assets --clean --env=prod
           docker-compose run --rm php php bin/console fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json
           docker-compose run --rm php sh -c "mkdir -p public/js && php bin/console pim:installer:dump-require-paths"
 
@@ -222,10 +221,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: front-assets-pre
-          path: |
-            public/js/fos_js_routes.json
-            public/js/require-paths.js
-            public/bundles
+          path: public/
           retention-days: 1
 
       - name: Save composer cache
@@ -329,9 +325,7 @@ jobs:
 
       - name: Restore pre-generated front assets
         run: |
-          mkdir -p public/js public/bundles
-          cp -a front-assets-pre/public/js/. public/js/
-          cp -a front-assets-pre/public/bundles/. public/bundles/
+          cp -a front-assets-pre/. public/
           sudo chmod -R a+rwX public/
 
       - name: Build front packages
@@ -390,9 +384,7 @@ jobs:
 
       - name: Restore pre-generated front assets
         run: |
-          mkdir -p public/js public/bundles
-          cp -a front-assets-pre/public/js/. public/js/
-          cp -a front-assets-pre/public/bundles/. public/bundles/
+          cp -a front-assets-pre/. public/
           sudo chmod -R a+rwX public/
 
       - name: Build front packages
