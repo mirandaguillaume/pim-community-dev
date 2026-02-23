@@ -193,26 +193,26 @@ jobs:
       - name: Copy docker-compose override
         run: cp .github/scripts/docker-compose.override.yml.dist docker-compose.override.yml
 
-      - name: Install JS and PHP dependencies (parallel)
+      - name: Start MySQL early (needed later for front assets)
+        run: docker-compose up -d mysql
+
+      - name: Install JS dependencies
         run: |
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
-          # Start MySQL early (needed later for front assets) while deps install
-          docker-compose up -d mysql &
-          # Install JS and PHP deps in parallel
-          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress" &
-          YARN_PID=$!
-          make YARN_RUN="docker-compose run --rm --user ${HOST_UID}:${HOST_GID} -e YARN_REGISTRY -e PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 -e PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome node yarn --no-bin-links" dependencies &
-          COMPOSER_PID=$!
-          # Wait for both installs
-          wait $YARN_PID || { echo "::error::yarn install failed"; exit 1; }
-          wait $COMPOSER_PID || { echo "::error::composer install failed"; exit 1; }
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
 
       - name: Build front packages (shared across downstream jobs)
         run: |
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn packages:build
+
+      - name: Install PHP dependencies
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          make YARN_RUN="docker-compose run --rm --user ${HOST_UID}:${HOST_GID} -e YARN_REGISTRY -e PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 -e PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome node yarn --no-bin-links" dependencies
 
       - name: Upload front packages build
         uses: actions/upload-artifact@v4
@@ -241,7 +241,7 @@ jobs:
             [ "$i" -eq 30 ] && { echo "MySQL not ready after 30s"; docker-compose logs mysql | tail -20; exit 1; }
             sleep 1
           done
-          echo "MySQL is ready (project: ${COMPOSE_PROJECT_NAME:-default})"
+          echo "MySQL is ready"
           docker-compose run --rm php sh -c "mkdir -p public/js public/bundles"
           docker-compose run --rm php php bin/console pim:installer:assets --clean --env=prod
           docker-compose run --rm php php bin/console fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json
