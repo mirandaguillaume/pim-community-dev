@@ -62,7 +62,27 @@ FAILED_SCENARIOS=$(sed 's/\x1b\[[0-9;]*[a-zA-Z]//g' "$BATCH_OUTPUT_FILE" \
   | grep -E '^\s+' | sed 's/^\s*//' || true)
 
 if [ -z "$FAILED_SCENARIOS" ]; then
-    echo "Batch failed but could not extract failed scenarios. Exiting with failure."
+    # Behat crashed (e.g. Selenium error) without producing a "Failed scenarios:" summary.
+    # Retry the entire batch once — crashes are often transient (browser alert, timeout).
+    echo ""
+    echo "=== Behat crashed without listing failed scenarios. Retrying entire batch... ==="
+    set +e
+    docker-compose exec -u www-data -T httpd ./vendor/bin/behat \
+      --strict \
+      --format pim --out var/tests/behat/batch_results_retry \
+      --format pretty --out std \
+      --colors \
+      -p legacy -s $TEST_SUITE \
+      $TEST_FILES
+    RETRY_RESULT=$?
+    set -eo pipefail
+
+    if [ $RETRY_RESULT -eq 0 ]; then
+        echo "All scenarios passed on retry."
+        exit 0
+    fi
+
+    echo "Batch still failed after full retry. Exiting with failure."
     exit 1
 fi
 
