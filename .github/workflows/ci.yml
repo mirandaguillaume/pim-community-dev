@@ -49,7 +49,8 @@ defaults:
 #     │              ├──► front-lint [if frontend] ────────────────────────►│
 #     │              ├──► front-unit [if frontend] (2 shards) ───────────►│
 #     │              │                                                         │
-#     │              ├──► phpstan-back [if backend] ──────────────────────►│
+#     │              ├──► lint-back [if backend] ───────────────────────►│
+#     │              ├──► deprecation-back [if backend] ──────────────────►│
 #     │              │                                                         │
 #     │              ├──► code-style-back [if backend] ───────────────────►│
 #     │              │                                                         │
@@ -475,9 +476,9 @@ jobs:
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn workspace @akeneo-pim-community/connectivity-connection unit --shard=${{ matrix.shard }}/2
 
   # ===========================================================================
-  # PHPSTAN-BACK: PHPStan + php-cs-fixer + container lint (needs MySQL)
+  # LINT-BACK: PHPStan + php-cs-fixer + static checks (needs MySQL)
   # ===========================================================================
-  phpstan-back:
+  lint-back:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
@@ -513,9 +514,36 @@ jobs:
 
       - name: Run PHPStan, php-cs-fixer and static checks
         run: |
-          PIM_CONTEXT=test make deprecation-back
           PIM_CONTEXT=test make lint-back
           PIM_CONTEXT=test make static-back
+
+  # ===========================================================================
+  # DEPRECATION-BACK: PHPStan deprecation analysis (parallel with lint-back)
+  # ===========================================================================
+  deprecation-back:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [prepare, detect-changes]
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-pim-job
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Start MySQL (needed by Symfony cache:warmup)
+        run: |
+          docker-compose up -d mysql
+          echo "Waiting for MySQL to accept connections..."
+          for i in $(seq 1 30); do
+            docker-compose exec -T mysql mysql -uroot -proot -e "SELECT 1" >/dev/null 2>&1 && break
+            [ "$i" -eq 30 ] && { echo "MySQL not ready after 30s"; docker-compose logs mysql | tail -20; exit 1; }
+            sleep 1
+          done
+
+      - name: Run PHPStan deprecation analysis
+        run: PIM_CONTEXT=test make deprecation-back
 
   # ===========================================================================
   # CODE-STYLE-BACK: Coupling detection + legacy translations (no MySQL)
@@ -1040,7 +1068,8 @@ jobs:
       - front-build
       - front-lint
       - front-unit
-      - phpstan-back
+      - lint-back
+      - deprecation-back
       - code-style-back
       - phpspec
       - acceptance-back
@@ -1064,7 +1093,8 @@ jobs:
           echo "  front-build: ${{ needs.front-build.result }}"
           echo "  front-lint: ${{ needs.front-lint.result }}"
           echo "  front-unit: ${{ needs.front-unit.result }}"
-          echo "  phpstan-back: ${{ needs.phpstan-back.result }}"
+          echo "  lint-back: ${{ needs.lint-back.result }}"
+          echo "  deprecation-back: ${{ needs.deprecation-back.result }}"
           echo "  code-style-back: ${{ needs.code-style-back.result }}"
           echo "  phpspec: ${{ needs.phpspec.result }}"
           echo "  acceptance-back: ${{ needs.acceptance-back.result }}"
@@ -1080,7 +1110,8 @@ jobs:
             "${{ needs.front-build.result }}"
             "${{ needs.front-lint.result }}"
             "${{ needs.front-unit.result }}"
-            "${{ needs.phpstan-back.result }}"
+            "${{ needs.lint-back.result }}"
+            "${{ needs.deprecation-back.result }}"
             "${{ needs.code-style-back.result }}"
             "${{ needs.phpspec.result }}"
             "${{ needs.acceptance-back.result }}"
