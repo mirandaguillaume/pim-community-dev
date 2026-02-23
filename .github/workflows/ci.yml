@@ -830,6 +830,13 @@ jobs:
           name: front-build
           path: front-build
 
+      - name: Install node dependencies (if cache miss)
+        run: |
+          if [ ! -f node_modules/.bin/playwright ]; then
+            echo "Cache miss — running yarn install"
+            yarn install --frozen-lockfile
+          fi
+
       - name: Install Playwright browsers
         run: ./node_modules/.bin/playwright install --with-deps chromium
 
