@@ -1,0 +1,4 @@
+# The Dockerfile only COPYs docker/build/*.ini files.
+# Application code is mounted at runtime via docker-compose volumes.
+*
+!docker/build/

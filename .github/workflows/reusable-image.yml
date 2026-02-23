@@ -53,15 +53,6 @@ jobs:
             echo "Image not found, will build and push"
           fi
 
-      - name: Cache Docker layers
-        if: steps.check.outputs.exists != 'true'
-        uses: actions/cache@v4
-        with:
-          path: /tmp/.buildx-cache
-          key: buildx-php-${{ inputs.php-version }}-${{ runner.os }}-${{ hashFiles('Dockerfile') }}
-          restore-keys: |
-            buildx-php-${{ inputs.php-version }}-${{ runner.os }}-
-
       - name: Build and push PHP image
         if: steps.check.outputs.exists != 'true'
         uses: docker/build-push-action@v5
@@ -70,13 +61,7 @@ jobs:
           file: Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.image }}
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}/php:buildcache-${{ inputs.php-version }}
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository }}/php:buildcache-${{ inputs.php-version }},mode=max
           build-args: |
             PHP_VERSION=${{ inputs.php-version }}
-
-      - name: Move cache
-        if: steps.check.outputs.exists != 'true'
-        run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
