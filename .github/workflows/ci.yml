@@ -479,7 +479,8 @@ jobs:
         run: |
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
-          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn workspace @akeneo-pim-community/connectivity-connection unit
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn workspace @akeneo-pim-community/connectivity-connection jest --ci
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn run --cwd=src/Akeneo/Connectivity/Connection/workspaces/permission-form/ jest --ci --coverage
 
   # ===========================================================================
   # LINT-BACK: PHPStan + php-cs-fixer + static checks (needs MySQL)
