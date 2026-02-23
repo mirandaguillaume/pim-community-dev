@@ -6,6 +6,7 @@
 # Environment variables:
 #   PHPUNIT_SHARD        - Current shard number (1-based)
 #   PHPUNIT_TOTAL_SHARDS - Total number of shards
+#   PHPUNIT_TIMING_FILE  - Optional JSON file with test durations for smart sharding
 #
 
 set -eo pipefail
@@ -14,6 +15,8 @@ CONFIG_DIRECTORY=$1
 FIND_PHPUNIT_SCRIPT=$2
 TEST_SUITES=$3
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
 # Get all test files for this testsuite
 TEST_FILES=$(docker-compose run --rm -T php php $FIND_PHPUNIT_SCRIPT -c $CONFIG_DIRECTORY --testsuite $TEST_SUITES)
 
@@ -21,19 +24,10 @@ TEST_FILES=$(docker-compose run --rm -T php php $FIND_PHPUNIT_SCRIPT -c $CONFIG_
 if [[ -n "$PHPUNIT_SHARD" && -n "$PHPUNIT_TOTAL_SHARDS" ]]; then
     echo "Running shard $PHPUNIT_SHARD of $PHPUNIT_TOTAL_SHARDS for testsuite $TEST_SUITES"
 
-    # Filter to only this shard using hash-based distribution
-    SHARD_FILES=""
-    while IFS= read -r file; do
-        if [[ -n "$file" ]]; then
-            HASH=$(echo -n "$file" | cksum | cut -d' ' -f1)
-            ASSIGNED_SHARD=$(( (HASH % PHPUNIT_TOTAL_SHARDS) + 1 ))
-            if [[ "$ASSIGNED_SHARD" -eq "$PHPUNIT_SHARD" ]]; then
-                SHARD_FILES="$SHARD_FILES $file"
-            fi
-        fi
-    done <<< "$TEST_FILES"
+    SHARD_FILES=$(echo "$TEST_FILES" | "$SCRIPT_DIR/shard-by-timing.sh" \
+      "${PHPUNIT_TIMING_FILE:-}" "$PHPUNIT_SHARD" "$PHPUNIT_TOTAL_SHARDS" 30)
 
-    FILE_COUNT=$(echo $SHARD_FILES | wc -w)
+    FILE_COUNT=$(echo "$SHARD_FILES" | grep -c '.' || true)
     echo "Shard $PHPUNIT_SHARD has $FILE_COUNT test files"
 
     if [[ -z "$SHARD_FILES" || "$FILE_COUNT" -eq 0 ]]; then
@@ -42,6 +36,8 @@ if [[ -n "$PHPUNIT_SHARD" && -n "$PHPUNIT_TOTAL_SHARDS" ]]; then
     fi
 
     TEST_FILES="$SHARD_FILES"
+else
+    FILE_COUNT=$(echo "$TEST_FILES" | grep -c '.' || true)
 fi
 
 # Run all test files in a single PHPUnit process (one container, one bootstrap).

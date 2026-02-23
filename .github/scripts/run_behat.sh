@@ -1,29 +1,26 @@
 #!/bin/bash
+#
+# Environment variables:
+#   BEHAT_SPLIT        - Shard spec "N/TOTAL" (e.g. "3/10")
+#   BEHAT_TIMING_FILE  - Optional JSON file with scenario durations for smart sharding
+#
 
 set -eo pipefail
 
 TEST_SUITE=$1
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 ALL_SCENARIOS=$(docker-compose run --rm -T php vendor/bin/behat --list-scenarios -p legacy -s $TEST_SUITE)
 
 if [[ -n "$BEHAT_SPLIT" ]]; then
-    # GitHub Actions sharding: BEHAT_SPLIT="N/TOTAL" (e.g. "3/10")
     SHARD_NUM="${BEHAT_SPLIT%%/*}"
     SHARD_TOTAL="${BEHAT_SPLIT##*/}"
     echo "Running Behat shard $SHARD_NUM of $SHARD_TOTAL for suite $TEST_SUITE"
 
-    TEST_FILES=""
-    while IFS= read -r scenario; do
-        if [[ -n "$scenario" ]]; then
-            HASH=$(echo -n "$scenario" | cksum | cut -d' ' -f1)
-            ASSIGNED=$(( (HASH % SHARD_TOTAL) + 1 ))
-            if [[ "$ASSIGNED" -eq "$SHARD_NUM" ]]; then
-                TEST_FILES="$TEST_FILES $scenario"
-            fi
-        fi
-    done <<< "$ALL_SCENARIOS"
+    TEST_FILES=$(echo "$ALL_SCENARIOS" | "$SCRIPT_DIR/shard-by-timing.sh" \
+      "${BEHAT_TIMING_FILE:-}" "$SHARD_NUM" "$SHARD_TOTAL" 60)
 
-    FILE_COUNT=$(echo $TEST_FILES | wc -w)
+    FILE_COUNT=$(echo "$TEST_FILES" | grep -c '.' || true)
     echo "Shard $SHARD_NUM has $FILE_COUNT scenarios"
 
     if [[ -z "$TEST_FILES" || "$FILE_COUNT" -eq 0 ]]; then
@@ -32,7 +29,7 @@ if [[ -n "$BEHAT_SPLIT" ]]; then
     fi
 else
     TEST_FILES="$ALL_SCENARIOS"
-    FILE_COUNT=$(echo $TEST_FILES | wc -w)
+    FILE_COUNT=$(echo "$TEST_FILES" | grep -c '.' || true)
 fi
 
 echo "Running $FILE_COUNT scenarios in a single Behat invocation"
