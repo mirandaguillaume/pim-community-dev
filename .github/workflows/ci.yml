@@ -669,17 +669,10 @@ jobs:
           restore-keys: |
             test-timings-phpunit-refs/heads/master-
 
-      - name: Run PHPUnit integration tests (shard ${{ matrix.shard }}/6)
+      - name: Run PHPUnit tests (shard ${{ matrix.shard }}/6)
         run: |
-          PIM_CONTEXT=test make pim-integration-back
-        env:
-          PHPUNIT_SHARD: ${{ matrix.shard }}
-          PHPUNIT_TOTAL_SHARDS: 6
-          PHPUNIT_TIMING_FILE: .test-timings/phpunit.json
-
-      - name: Run PHPUnit E2E tests (shard ${{ matrix.shard }}/6)
-        run: |
-          PIM_CONTEXT=test make end-to-end-back
+          .github/scripts/run_phpunit.sh . .github/scripts/find_phpunit.php \
+            PIM_Integration_Test,Akeneo_Connectivity_Connection_Integration,Akeneo_Communication_Channel_Integration,Job_Integration_Test,Channel_Integration_Test,Identifier_Generator_PhpUnit,Installer_Integration_Test,End_to_End
         env:
           PHPUNIT_SHARD: ${{ matrix.shard }}
           PHPUNIT_TOTAL_SHARDS: 6

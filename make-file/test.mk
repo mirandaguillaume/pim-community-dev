@@ -100,10 +100,11 @@ integration-front:
 	$(YARN_RUN) integration
 
 .PHONY: pim-integration-back
-pim-integration-back: var/tests/phpunit connectivity-connection-integration-back communication-channel-integration-back job-integration-back channel-integration-back identifier-generator-phpunit-back installer-integration-back
 ifeq ($(CI),true)
-	.github/scripts/run_phpunit.sh . .github/scripts/find_phpunit.php PIM_Integration_Test
+pim-integration-back: var/tests/phpunit
+	.github/scripts/run_phpunit.sh . .github/scripts/find_phpunit.php PIM_Integration_Test,Akeneo_Connectivity_Connection_Integration,Akeneo_Communication_Channel_Integration,Job_Integration_Test,Channel_Integration_Test,Identifier_Generator_PhpUnit,Installer_Integration_Test
 else
+pim-integration-back: var/tests/phpunit connectivity-connection-integration-back communication-channel-integration-back job-integration-back channel-integration-back identifier-generator-phpunit-back installer-integration-back
 	@echo "Run integration test locally is too long, please use the target defined for your bounded context (ex: bounded-context-integration-back)"
 endif
 
