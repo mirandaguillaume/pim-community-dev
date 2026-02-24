@@ -426,6 +426,8 @@ jobs:
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 15
+    env:
+      MATRIX_INDEX: ${{ matrix.shard }}
     strategy:
       fail-fast: false
       matrix:
@@ -753,6 +755,8 @@ jobs:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, db-seed]
     timeout-minutes: 90
+    env:
+      MATRIX_INDEX: ${{ matrix.shard }}
     strategy:
       fail-fast: false
       matrix:
@@ -843,6 +847,8 @@ jobs:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, db-seed, front-build]
     timeout-minutes: 120
+    env:
+      MATRIX_INDEX: ${{ matrix.shard }}
     strategy:
       fail-fast: false
       max-parallel: 4
