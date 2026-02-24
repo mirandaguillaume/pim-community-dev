@@ -91,6 +91,47 @@
             <directory suffix="Integration.php">src/Akeneo/Category/back/tests/Integration</directory>
         </testsuite>
 
+        <testsuite name="Category_Unit_Test">
+            <directory suffix="Test.php">src/Akeneo/Category/back/tests/Unit</directory>
+        </testsuite>
+
+        <testsuite name="Category_EndToEnd_Test">
+            <directory suffix="EndToEnd.php">src/Akeneo/Category/back/tests/EndToEnd</directory>
+        </testsuite>
+
+        <testsuite name="Channel_Integration_Test">
+            <directory suffix="Integration.php">src/Akeneo/Channel/back/tests/Integration</directory>
+        </testsuite>
+
+        <testsuite name="Channel_Acceptance_Test">
+            <directory suffix="Test.php">src/Akeneo/Channel/back/tests/Acceptance</directory>
+        </testsuite>
+
+        <testsuite name="Job_Integration_Test">
+            <directory suffix="Test.php">src/Akeneo/Platform/Job/back/tests/Integration</directory>
+        </testsuite>
+
+        <testsuite name="Job_Acceptance_Test">
+            <directory suffix="Test.php">src/Akeneo/Platform/Job/back/tests/Acceptance</directory>
+        </testsuite>
+
+        <testsuite name="Installer_Integration_Test">
+            <directory suffix="Integration.php">src/Akeneo/Platform/Installer/back/tests/Integration</directory>
+            <directory suffix="Test.php">src/Akeneo/Platform/Installer/back/tests/Integration</directory>
+        </testsuite>
+
+        <testsuite name="Installer_Acceptance_Test">
+            <directory suffix="Test.php">src/Akeneo/Platform/Installer/back/tests/Acceptance</directory>
+        </testsuite>
+
+        <testsuite name="FamilyTemplate_Integration_Test">
+            <directory suffix="Test.php">src/Akeneo/Pim/Structure/FamilyTemplate/back/tests/Integration</directory>
+        </testsuite>
+
+        <testsuite name="Akeneo_StorageUtils_Integration">
+            <directory suffix="Test.php">src/Akeneo/Tool/Bundle/StorageUtilsBundle/tests/integration</directory>
+        </testsuite>
+
         <testsuite name="Identifier_Generator_PhpUnit">
             <directory suffix="EndToEnd.php">components/identifier-generator/back/tests/EndToEnd</directory>
             <directory suffix="Integration.php">components/identifier-generator/back/tests/Integration</directory>
