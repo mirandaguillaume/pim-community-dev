@@ -22,7 +22,9 @@ const renderHookWithProviders = (hook: () => any) => renderHook(hook, {wrapper: 
 
 const fetchMockResponseOnce = (requestUrl: string, responseBody: string) =>
   fetchMock.mockResponseOnce(request =>
-    request.url === requestUrl ? Promise.resolve(responseBody) : Promise.reject()
+    request.url === requestUrl
+      ? Promise.resolve(responseBody)
+      : Promise.reject(new Error(`Unexpected fetch URL: ${request.url}, expected: ${requestUrl}`))
   );
 
 export {renderWithProviders, renderDOMWithProviders, renderHookWithProviders, fetchMockResponseOnce};

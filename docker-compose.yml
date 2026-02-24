@@ -121,11 +121,11 @@ services:
 
   gcs-emulator:
     image: 'fsouza/fake-gcs-server:1.45'
-    command: ["-scheme", "http", "-external-url", "http://localhost:4443"]
+    command: ["-scheme", "http", "-external-url", "http://localhost:${DOCKER_PORT_GCS_EMULATOR:-4443}"]
     volumes:
       - './docker/buckets:/data'
     ports:
-      - '4443:4443'
+      - '${DOCKER_PORT_GCS_EMULATOR:-4443}:4443'
     networks:
       - 'pim'
     profiles:

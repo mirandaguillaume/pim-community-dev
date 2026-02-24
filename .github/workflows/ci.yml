@@ -29,6 +29,9 @@ env:
   COMPOSER_MEMORY_LIMIT: -1
   DOCKER_BUILDKIT: 1
   YARN_ENABLE_IMMUTABLE_INSTALLS: true
+  # Runner label: set repository variable RUNNER_LABEL to 'self-hosted' in
+  # Settings > Secrets and variables > Actions > Variables to use your own runner.
+  # All jobs use self-hosted (5 runners on Hetzner CCX33).
 
 defaults:
   run:
@@ -41,27 +44,29 @@ defaults:
 #     │                                                                        │
 #   image ─────────────────────────────────────────────────────────────────────┐
 #     │                                                                        │
-#     ├──► prepare ──┬──► front-build [if frontend] ───┬─────────────────────►│
+#     ├──► prepare ──┬──► front-build [if frontend] ──┬──► playwright [if front]►│
 #     │              │                                 │                       │
-#     │              ├──► front-lint [if frontend] ───►│                       │
-#     │              │                                 │                       │
-#     │              ├──► front-unit [if frontend] ───►│                       │
-#     │              │                                 │                       │
-#     │              ├──► lint-back [if backend] ─────►│                       │
-#     │              │                                 │                       │
-#     │              ├──► phpspec [if backend] ───────►│                       │
-#     │              │                                 │                       │
-#     │              ├──► static-checks [if backend] ─►│                       │
-#     │              │                                 │                       │
-#     │              ├──► acceptance-back [if backend]─┬──► phpunit ──────────►│
-#     │              │                                 │                       │
-#     │              │                                 ├──► behat-legacy ─────►│
-#     │              │                                 │                       │
-#     │              │                                 └──► cypress [if front]►│
+#     │              ├──► front-lint [if frontend] ────────────────────────►│
+#     │              ├──► front-unit [if frontend] (2 shards) ───────────►│
 #     │              │                                                         │
-#     │              ├──► data-migrations [if backend] ───────────────────────►│
+#     │              ├──► lint-back [if backend] ───────────────────────►│
+#     │              ├──► deprecation-back [if backend] ──────────────────►│
 #     │              │                                                         │
-#     │              └──► deptrac [if backend] (matrix) ─────────────────────►│
+#     │              ├──► code-style-back [if backend] ───────────────────►│
+#     │              │                                                         │
+#     │              ├──► phpspec [if backend] ────────────────────────────►│
+#     │              │                                                         │
+#     │              ├──► acceptance-back [if backend] ───────────────────►│
+#     │              │                                                         │
+#     │              ├──► acceptance-contexts [if backend] ───────────────►│
+#     │              │                                                         │
+#     │              ├──► data-migrations [if backend] ───────────────────►│
+#     │              │                                                         │
+#     │              ├──► deptrac [if backend] (all configs, 1 job) ──────►│
+#     │              │                                                         │
+#     │              ├──► phpunit (6 shards) ─────────────────────────────►│
+#     │              │                                                         │
+#     │              └──► behat-legacy (10 shards) ──────────────────────►│
 #     │                                                                        │
 #     └──► db-seed [if backend] ───────────────────────────────────────────────┤
 #                                                                              │
@@ -73,7 +78,7 @@ jobs:
   # DETECT CHANGES: Categorize changed files for conditional job execution
   # ===========================================================================
   detect-changes:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     timeout-minutes: 5
     outputs:
       backend: ${{ steps.filter.outputs.backend }}
@@ -113,7 +118,7 @@ jobs:
               - 'jest.config.*'
               - '.eslintrc*'
               - 'tsconfig*.json'
-              - 'cypress/**'
+              - 'playwright.config.ts'
               - 'src/**/*.ts'
               - 'src/**/*.tsx'
               - 'src/**/*.js'
@@ -137,7 +142,7 @@ jobs:
   # PREPARE: Install dependencies, save caches
   # ===========================================================================
   prepare:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     timeout-minutes: 25
     needs: image
     steps:
@@ -150,7 +155,8 @@ jobs:
 
       - name: Pull PHP image from GHCR
         run: |
-          IMAGE="ghcr.io/${{ github.repository }}/php:${{ github.sha }}-8.2"
+          HASH=$(sha256sum Dockerfile | cut -c1-12)
+          IMAGE="ghcr.io/${{ github.repository }}/php:df-${HASH}-8.2"
           docker pull "$IMAGE"
           docker tag "$IMAGE" akeneo/pim-php-dev:8.2
 
@@ -176,12 +182,12 @@ jobs:
             node_modules
             front-packages/akeneo-design-system/lib
             front-packages/shared/lib
-            ~/.cache/Cypress
+            ~/.cache/ms-playwright
           key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
 
       - name: Prepare filesystem permissions
         run: |
-          mkdir -p ~/.cache/yarn ~/.cache/Cypress ~/.composer
+          mkdir -p ~/.cache/yarn ~/.composer
           sudo chmod -R a+rwX ~/.cache ~/.composer
           sudo chmod -R a+rwX .
           sudo chmod -R a+rwX node_modules front-packages || true
@@ -189,17 +195,66 @@ jobs:
       - name: Copy docker-compose override
         run: cp .github/scripts/docker-compose.override.yml.dist docker-compose.override.yml
 
+      - name: Start MySQL early (needed later for front assets)
+        run: docker-compose up -d mysql
+
       - name: Install JS dependencies
         run: |
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
 
+      - name: Build front packages (shared across downstream jobs)
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn packages:build
+
       - name: Install PHP dependencies
         run: |
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
           make YARN_RUN="docker-compose run --rm --user ${HOST_UID}:${HOST_GID} -e YARN_REGISTRY -e PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 -e PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome node yarn --no-bin-links" dependencies
+
+      - name: Upload front packages build
+        uses: actions/upload-artifact@v4
+        with:
+          name: front-packages-lib
+          path: |
+            front-packages/akeneo-design-system/lib
+            front-packages/shared/lib
+            src/Akeneo/Pim/Structure/front/lib
+            src/Akeneo/Tool/Bundle/MeasureBundle/front/lib
+            src/Akeneo/Platform/Bundle/CatalogVolumeMonitoringBundle/front/lib
+            src/Akeneo/Category/front/lib
+            src/Akeneo/Platform/Bundle/UIBundle/Resources/workspaces/system/lib
+            src/Akeneo/Platform/Job/front/process-tracker/lib
+            src/Akeneo/Platform/Bundle/ImportExportBundle/front/lib
+            src/Oro/Bundle/ConfigBundle/front/lib
+            components/catalogs/mock/lib
+            components/identifier-generator/front/lib
+          retention-days: 1
+
+      - name: Wait for MySQL and generate front assets
+        run: |
+          echo "Waiting for MySQL to accept connections..."
+          for i in $(seq 1 30); do
+            docker-compose exec -T mysql mysql -uroot -proot -e "SELECT 1" >/dev/null 2>&1 && break
+            [ "$i" -eq 30 ] && { echo "MySQL not ready after 30s"; docker-compose logs mysql | tail -20; exit 1; }
+            sleep 1
+          done
+          echo "MySQL is ready"
+          docker-compose run --rm php sh -c "mkdir -p public/js public/bundles"
+          docker-compose run --rm php php bin/console pim:installer:assets --clean --env=prod
+          docker-compose run --rm php php bin/console fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json
+          docker-compose run --rm php sh -c "mkdir -p public/js && php bin/console pim:installer:dump-require-paths"
+
+      - name: Upload pre-generated front assets
+        uses: actions/upload-artifact@v4
+        with:
+          name: front-assets-pre
+          path: public/
+          retention-days: 1
 
       - name: Save composer cache
         if: steps.composer-cache.outputs.cache-hit != 'true'
@@ -216,14 +271,14 @@ jobs:
             node_modules
             front-packages/akeneo-design-system/lib
             front-packages/shared/lib
-            ~/.cache/Cypress
+            ~/.cache/ms-playwright
           key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
 
   # ===========================================================================
   # DB SEED: Create database dump for integration tests
   # ===========================================================================
   db-seed:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, image, detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 25
@@ -273,10 +328,10 @@ jobs:
           retention-days: 1
 
   # ===========================================================================
-  # FRONT-BUILD: Webpack build (produces artifacts for cypress)
+  # FRONT-BUILD: Webpack build (produces artifacts for E2E tests)
   # ===========================================================================
   front-build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 20
@@ -294,37 +349,22 @@ jobs:
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
 
-      - name: Start MySQL (needed by Symfony console commands)
+      - name: Download pre-generated front assets
+        uses: actions/download-artifact@v4
+        with:
+          name: front-assets-pre
+          path: front-assets-pre
+
+      - name: Restore pre-generated front assets
         run: |
-          docker-compose up -d mysql
-          echo "Waiting for MySQL…"
-          for i in $(seq 1 45); do
-            docker-compose exec -T mysql mysql --protocol TCP -uroot -proot -e "SELECT 1" >/dev/null 2>&1 && break
-            [ "$i" -eq 45 ] && { echo "MySQL not ready after 45s"; exit 1; }
-            sleep 1
-          done
-          echo "MySQL is ready"
+          cp -a front-assets-pre/. public/
+          sudo chmod -R a+rwX public/
 
-      - name: Prepare frontend directories
-        run: docker-compose run --rm php sh -c "mkdir -p public/js public/bundles"
-
-      - name: Install UI assets (symlink bundles)
-        run: docker-compose run --rm php php bin/console pim:installer:assets --symlink --clean --env=prod
-
-      - name: Sync UI bundle sources
-        run: docker-compose run --rm php sh -c "[ -L public/bundles/pimui ] && exit 0; mkdir -p public/bundles/pimui && cp -a src/Akeneo/Platform/Bundle/UIBundle/Resources/public/. public/bundles/pimui/"
-
-      - name: Dump JS routes
-        run: docker-compose run --rm php php bin/console fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json
-
-      - name: Generate require paths
-        run: docker-compose run --rm php sh -c "mkdir -p public/js && php bin/console pim:installer:dump-require-paths"
-
-      - name: Build front packages
-        run: |
-          HOST_UID=$(id -u)
-          HOST_GID=$(id -g)
-          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn packages:build
+      - name: Download front packages build
+        uses: actions/download-artifact@v4
+        with:
+          name: front-packages-lib
+          path: .
 
       - name: Build CSS (LESS compilation)
         run: make css
@@ -347,10 +387,10 @@ jobs:
           retention-days: 1
 
   # ===========================================================================
-  # FRONT-LINT: ESLint + Prettier (fast feedback on code style)
+  # FRONT-LINT: ESLint + Prettier
   # ===========================================================================
   front-lint:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 10
@@ -361,6 +401,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           yarn-cache: 'true'
+          pull-base-images: 'false'
 
       - name: Install JS dependencies
         run: |
@@ -368,23 +409,27 @@ jobs:
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
 
-      - name: Build front packages
-        run: |
-          HOST_UID=$(id -u)
-          HOST_GID=$(id -g)
-          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn packages:build
+      - name: Download front packages build
+        uses: actions/download-artifact@v4
+        with:
+          name: front-packages-lib
+          path: .
 
       - name: Run ESLint and Prettier
         run: PIM_CONTEXT=test make lint-front
 
   # ===========================================================================
-  # FRONT-UNIT: Jest unit tests
+  # FRONT-UNIT: Jest unit tests (sharded x2)
   # ===========================================================================
   front-unit:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
     steps:
       - uses: actions/checkout@v4
 
@@ -392,6 +437,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           yarn-cache: 'true'
+          pull-base-images: 'false'
 
       - name: Install JS dependencies
         run: |
@@ -399,37 +445,22 @@ jobs:
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
 
-      - name: Start MySQL (needed by Symfony console commands)
+      - name: Download pre-generated front assets
+        uses: actions/download-artifact@v4
+        with:
+          name: front-assets-pre
+          path: front-assets-pre
+
+      - name: Restore pre-generated front assets
         run: |
-          docker-compose up -d mysql
-          echo "Waiting for MySQL…"
-          for i in $(seq 1 45); do
-            docker-compose exec -T mysql mysql --protocol TCP -uroot -proot -e "SELECT 1" >/dev/null 2>&1 && break
-            [ "$i" -eq 45 ] && { echo "MySQL not ready after 45s"; exit 1; }
-            sleep 1
-          done
-          echo "MySQL is ready"
+          cp -a front-assets-pre/. public/
+          sudo chmod -R a+rwX public/
 
-      - name: Prepare frontend directories
-        run: docker-compose run --rm php sh -c "mkdir -p public/js public/bundles"
-
-      - name: Install UI assets (symlink bundles)
-        run: docker-compose run --rm php php bin/console pim:installer:assets --symlink --clean --env=prod
-
-      - name: Sync UI bundle sources
-        run: docker-compose run --rm php sh -c "[ -L public/bundles/pimui ] && exit 0; mkdir -p public/bundles/pimui && cp -a src/Akeneo/Platform/Bundle/UIBundle/Resources/public/. public/bundles/pimui/"
-
-      - name: Dump JS routes
-        run: docker-compose run --rm php php bin/console fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json
-
-      - name: Generate require paths
-        run: docker-compose run --rm php sh -c "mkdir -p public/js && php bin/console pim:installer:dump-require-paths"
-
-      - name: Build front packages
-        run: |
-          HOST_UID=$(id -u)
-          HOST_GID=$(id -g)
-          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn packages:build
+      - name: Download front packages build
+        uses: actions/download-artifact@v4
+        with:
+          name: front-packages-lib
+          path: .
 
       - name: Generate models (JSON schemas)
         run: |
@@ -437,17 +468,28 @@ jobs:
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn generate-models
 
-      - name: Run Jest unit tests
-        run: PIM_CONTEXT=test make unit-front
+      - name: Run Jest unit tests (shard ${{ matrix.shard }}/2)
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn unit --shard=${{ matrix.shard }}/2
+
+      - name: Run Connectivity Connection unit tests
+        if: matrix.shard == 1
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn workspace @akeneo-pim-community/connectivity-connection jest --ci
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn run --cwd=src/Akeneo/Connectivity/Connection/workspaces/permission-form/ jest --ci --coverage
 
   # ===========================================================================
-  # LINT-BACK: PHPStan + php-cs-fixer (fast feedback on code quality)
+  # LINT-BACK: PHPStan + php-cs-fixer + static checks (needs MySQL)
   # ===========================================================================
   lint-back:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 
@@ -462,31 +504,31 @@ jobs:
           key: phpstan-${{ runner.os }}-${{ hashFiles('phpstan.neon*', 'composer.lock') }}
           restore-keys: phpstan-${{ runner.os }}-
 
-      - name: Start MySQL (needed by Symfony cache:warmup)
+      - name: Start MySQL (needed by Symfony cache:warmup and lint:container)
         run: |
           docker-compose up -d mysql
-          echo "Waiting for MySQL…"
-          for i in $(seq 1 45); do
-            docker-compose exec -T mysql mysql --protocol TCP -uroot -proot -e "SELECT 1" >/dev/null 2>&1 && break
-            [ "$i" -eq 45 ] && { echo "MySQL not ready after 45s"; exit 1; }
+          echo "Waiting for MySQL to accept connections..."
+          for i in $(seq 1 30); do
+            docker-compose exec -T mysql mysql -uroot -proot -e "SELECT 1" >/dev/null 2>&1 && break
+            [ "$i" -eq 30 ] && { echo "MySQL not ready after 30s"; docker-compose logs mysql | tail -20; exit 1; }
             sleep 1
           done
-          echo "MySQL is ready"
+          echo "MySQL is ready (project: ${COMPOSE_PROJECT_NAME:-default})"
 
       - name: Fix identifier generator CS (auto-fix before dry-run)
         continue-on-error: true
         run: docker-compose run --rm php php vendor/bin/php-cs-fixer fix --config=components/identifier-generator/back/tests/.php_cs.php --allow-risky=yes
 
-      - name: Run PHPStan and php-cs-fixer
+      - name: Run PHPStan, php-cs-fixer and static checks
         run: |
-          PIM_CONTEXT=test make deprecation-back
           PIM_CONTEXT=test make lint-back
+          PIM_CONTEXT=test make static-back
 
   # ===========================================================================
-  # PHPSPEC: Unit tests (fast, no external dependencies)
+  # DEPRECATION-BACK: PHPStan deprecation analysis (parallel with lint-back)
   # ===========================================================================
-  phpspec:
-    runs-on: ubuntu-latest
+  deprecation-back:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 15
@@ -496,6 +538,56 @@ jobs:
       - uses: ./.github/actions/setup-pim-job
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Start MySQL (needed by Symfony cache:warmup)
+        run: |
+          docker-compose up -d mysql
+          echo "Waiting for MySQL to accept connections..."
+          for i in $(seq 1 30); do
+            docker-compose exec -T mysql mysql -uroot -proot -e "SELECT 1" >/dev/null 2>&1 && break
+            [ "$i" -eq 30 ] && { echo "MySQL not ready after 30s"; docker-compose logs mysql | tail -20; exit 1; }
+            sleep 1
+          done
+
+      - name: Run PHPStan deprecation analysis
+        run: PIM_CONTEXT=test make deprecation-back
+
+  # ===========================================================================
+  # CODE-STYLE-BACK: Coupling detection + legacy translations (no MySQL)
+  # ===========================================================================
+  code-style-back:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [prepare, detect-changes]
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-pim-job
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pull-base-images: 'false'
+
+      - name: Run coupling and translation checks
+        run: |
+          PIM_CONTEXT=test make find-legacy-translations
+          PIM_CONTEXT=test make coupling-back
+
+  # ===========================================================================
+  # PHPSPEC: Unit tests (fast, no external dependencies)
+  # ===========================================================================
+  phpspec:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [prepare, detect-changes]
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-pim-job
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pull-base-images: 'false'
 
       - name: Restore PHPSpec cache
         uses: actions/cache@v4
@@ -526,10 +618,10 @@ jobs:
           fail-on-error: false
 
   # ===========================================================================
-  # STATIC-CHECKS: Container lint, pullup, legacy translations, coupling
+  # ACCEPTANCE-BACK: Main Behat acceptance tests
   # ===========================================================================
-  static-checks:
-    runs-on: ubuntu-latest
+  acceptance-back:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 15
@@ -540,40 +632,8 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Start MySQL (needed by Symfony lint:container)
-        run: |
-          docker-compose up -d mysql
-          echo "Waiting for MySQL…"
-          for i in $(seq 1 45); do
-            docker-compose exec -T mysql mysql --protocol TCP -uroot -proot -e "SELECT 1" >/dev/null 2>&1 && break
-            [ "$i" -eq 45 ] && { echo "MySQL not ready after 45s"; exit 1; }
-            sleep 1
-          done
-          echo "MySQL is ready"
-
-      - name: Run static checks
-        run: |
-          PIM_CONTEXT=test make find-legacy-translations
-          PIM_CONTEXT=test make static-back
-          PIM_CONTEXT=test make coupling-back
-
-  # ===========================================================================
-  # ACCEPTANCE-BACK: Behat acceptance tests (gate for integration tests)
-  # ===========================================================================
-  acceptance-back:
-    runs-on: ubuntu-latest
-    needs: [prepare, detect-changes]
-    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: ./.github/actions/setup-pim-job
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Run Behat acceptance tests
-        run: PIM_CONTEXT=test make acceptance-back
+      - name: Run main Behat acceptance tests
+        run: PIM_CONTEXT=test make acceptance-back-main
 
       - name: Upload acceptance results
         if: always()
@@ -586,23 +646,41 @@ jobs:
           retention-days: 3
 
   # ===========================================================================
-  # DEPTRAC: Architecture coupling analysis (parallelized)
+  # ACCEPTANCE-CONTEXTS: Bounded context acceptance tests (parallel with main)
+  # ===========================================================================
+  acceptance-contexts:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [prepare, detect-changes]
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-pim-job
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run bounded context acceptance tests
+        run: PIM_CONTEXT=test make acceptance-back-contexts
+
+      - name: Upload acceptance context results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: acceptance-contexts-results
+          path: |
+            var/tests
+            var/logs
+          retention-days: 3
+
+  # ===========================================================================
+  # DEPTRAC: Architecture coupling analysis (all configs in 1 job)
   # ===========================================================================
   deptrac:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, image, detect-changes]
     if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 15
-    strategy:
-      fail-fast: false
-      matrix:
-        config:
-          - structure
-          - core
-          - job
-          - enrichment
-          - channel
-          - importexport
     steps:
       - uses: actions/checkout@v4
 
@@ -610,33 +688,39 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           create-var-dirs: 'false'
+          pull-base-images: 'false'
 
       - name: Restore Deptrac cache
         uses: actions/cache@v4
         with:
           path: .deptrac-cache
-          key: deptrac-${{ matrix.config }}-${{ runner.os }}-${{ hashFiles('deptrac-*.yaml', 'composer.lock') }}
-          restore-keys: deptrac-${{ matrix.config }}-${{ runner.os }}-
+          key: deptrac-all-${{ runner.os }}-${{ hashFiles('deptrac-*.yaml', 'composer.lock') }}
+          restore-keys: deptrac-all-${{ runner.os }}-
 
       - name: Download Deptrac
         run: |
           curl -sSL https://github.com/qossmic/deptrac/releases/latest/download/deptrac.phar -o deptrac.phar
           chmod +x deptrac.phar
 
-      - name: Run Deptrac (${{ matrix.config }})
+      - name: Run Deptrac (all configs)
         run: |
-          docker-compose run --rm php php /srv/pim/deptrac.phar analyze \
-            --config-file=deptrac-${{ matrix.config }}.yaml \
-            --formatter=github-actions \
-            --cache-file=/srv/pim/.deptrac-cache/${{ matrix.config }}.cache \
-            --no-progress
+          for config in structure core job enrichment channel importexport; do
+            echo "::group::Deptrac - ${config}"
+            docker-compose run --rm php php /srv/pim/deptrac.phar analyze \
+              --config-file=deptrac-${config}.yaml \
+              --formatter=github-actions \
+              --cache-file=/srv/pim/.deptrac-cache/${config}.cache \
+              --no-progress
+            echo "::endgroup::"
+          done
 
   # ===========================================================================
   # DATA MIGRATIONS: Test database migrations
   # ===========================================================================
   data-migrations:
-    runs-on: ubuntu-latest
-    needs: [prepare, acceptance-back]
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [prepare, detect-changes]
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
@@ -666,8 +750,8 @@ jobs:
   # PHPUNIT: Integration and E2E tests (sharded)
   # ===========================================================================
   phpunit:
-    runs-on: ubuntu-latest
-    needs: [prepare, db-seed, acceptance-back]
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [prepare, db-seed]
     timeout-minutes: 90
     strategy:
       fail-fast: false
@@ -699,27 +783,38 @@ jobs:
       - name: Install Symfony assets
         run: docker-compose run --rm php php bin/console pim:installer:assets --symlink --clean --env=test
 
-      - name: Get test files for this shard
-        id: shard
-        run: |
-          TEST_FILES=$(php .github/scripts/shard-phpunit-tests.php ${{ matrix.shard }} 6 tests/back)
-          echo "files<<EOF" >> $GITHUB_OUTPUT
-          echo "$TEST_FILES" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+      - name: Restore PHPUnit timing data
+        uses: actions/cache/restore@v4
+        with:
+          path: .test-timings/phpunit.json
+          key: test-timings-phpunit-${{ github.ref }}-
+          restore-keys: |
+            test-timings-phpunit-refs/heads/master-
 
-      - name: Run PHPUnit integration tests (shard ${{ matrix.shard }}/6)
+      - name: Run PHPUnit tests (shard ${{ matrix.shard }}/6)
         run: |
-          PIM_CONTEXT=test make pim-integration-back
+          .github/scripts/run_phpunit.sh . .github/scripts/find_phpunit.php \
+            PIM_Integration_Test,Akeneo_Connectivity_Connection_Integration,Akeneo_Communication_Channel_Integration,Job_Integration_Test,Channel_Integration_Test,Identifier_Generator_PhpUnit,Installer_Integration_Test,End_to_End
         env:
           PHPUNIT_SHARD: ${{ matrix.shard }}
           PHPUNIT_TOTAL_SHARDS: 6
+          PHPUNIT_TIMING_FILE: .test-timings/phpunit.json
 
-      - name: Run PHPUnit E2E tests (shard ${{ matrix.shard }}/6)
+      - name: Collect PHPUnit timings
+        if: always()
         run: |
-          PIM_CONTEXT=test make end-to-end-back
-        env:
-          PHPUNIT_SHARD: ${{ matrix.shard }}
-          PHPUNIT_TOTAL_SHARDS: 6
+          .github/scripts/collect-timings.sh \
+            "var/tests/phpunit/**/*.xml" \
+            ".test-timings/phpunit-shard-${{ matrix.shard }}.json" \
+            ".test-timings/phpunit.json"
+
+      - name: Upload PHPUnit timing data
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phpunit-timings-${{ matrix.shard }}
+          path: .test-timings/phpunit-shard-${{ matrix.shard }}.json
+          retention-days: 1
 
       - name: Upload PHPUnit results
         if: always()
@@ -745,14 +840,14 @@ jobs:
   # BEHAT LEGACY: End-to-end legacy tests (sharded)
   # ===========================================================================
   behat-legacy:
-    runs-on: ubuntu-latest
-    needs: [prepare, db-seed, front-build, acceptance-back]
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [prepare, db-seed, front-build]
     timeout-minutes: 120
     strategy:
       fail-fast: false
-      max-parallel: 10
+      max-parallel: 4
       matrix:
-        shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+        shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     steps:
       - uses: actions/checkout@v4
 
@@ -807,9 +902,18 @@ jobs:
       - name: Warmup Symfony cache
         run: docker-compose run --rm php php bin/console cache:warmup --env=behat
 
-      - name: Run Behat legacy tests (shard ${{ matrix.shard }}/15)
+      - name: Restore Behat timing data
+        uses: actions/cache/restore@v4
+        with:
+          path: .test-timings/behat.json
+          key: test-timings-behat-${{ github.ref }}-
+          restore-keys: |
+            test-timings-behat-refs/heads/master-
+
+      - name: Run Behat legacy tests (shard ${{ matrix.shard }}/10)
         run: |
-          export BEHAT_SPLIT="${{ matrix.shard }}/15"
+          export BEHAT_SPLIT="${{ matrix.shard }}/10"
+          export BEHAT_TIMING_FILE=".test-timings/behat.json"
           PIM_CONTEXT=test make end-to-end-legacy SUITE=${TESTSUITE}
 
       - name: Archive behat artifacts
@@ -825,17 +929,15 @@ jobs:
           retention-days: 3
 
   # ===========================================================================
-  # CYPRESS: Frontend E2E tests
+  # PLAYWRIGHT: Frontend E2E tests
   # ===========================================================================
-  cypress:
-    runs-on: ubuntu-latest
-    needs: [prepare, front-build, acceptance-back, detect-changes]
+  playwright:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [prepare, front-build, detect-changes]
     if: >-
-      always() &&
       (needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true') &&
       needs.prepare.result == 'success' &&
-      needs.front-build.result == 'success' &&
-      (needs.acceptance-back.result == 'success' || needs.acceptance-back.result == 'skipped')
+      needs.front-build.result == 'success'
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
@@ -851,12 +953,17 @@ jobs:
           name: front-build
           path: front-build
 
-      - name: Setup and run Cypress
-        env:
-          CYPRESS_defaultCommandTimeout: 40000
-          CYPRESS_requestTimeout: 15000
-          CYPRESS_responseTimeout: 60000
-          CYPRESS_pageLoadTimeout: 120000
+      - name: Install node dependencies (if cache miss)
+        run: |
+          if [ ! -f node_modules/.bin/playwright ]; then
+            echo "Cache miss — running yarn install"
+            yarn install --frozen-lockfile
+          fi
+
+      - name: Install Playwright browsers
+        run: ./node_modules/.bin/playwright install --with-deps chromium
+
+      - name: Setup and run Playwright
         run: |
           DB_NAME=$(grep '^APP_DATABASE_NAME=' .env | cut -d= -f2 || echo "akeneo_pim")
           DB_NAME=${DB_NAME:-akeneo_pim}
@@ -890,52 +997,96 @@ jobs:
           # Wait for httpd to serve a fully-rendered login page (proves kernel + Twig + assets work)
           echo "Waiting for login page to be ready..."
           for i in $(seq 1 24); do
-            if curl -sS http://localhost:8080/user/login 2>/dev/null | grep -q '_username'; then
+            if curl -sS http://localhost:${DOCKER_PORT_HTTP:-8080}/user/login 2>/dev/null | grep -q '_username'; then
               echo "Login page ready after $((i * 5))s"
               break
             fi
             if [ "$i" -eq 24 ]; then
               echo "ERROR: Login page not ready after 120s. Response:"
-              curl -sS http://localhost:8080/user/login 2>&1 | head -50
+              curl -sS http://localhost:${DOCKER_PORT_HTTP:-8080}/user/login 2>&1 | head -50
               exit 1
             fi
             sleep 5
           done
           # Verify JS assets are served correctly via HTTP
           echo "=== HTTP asset check ==="
-          curl -sI http://localhost:8080/dist/vendor.min.js 2>&1 | head -3
-          curl -sI http://localhost:8080/js/extensions.json 2>&1 | head -3
-          make end-to-end-front
+          curl -sI http://localhost:${DOCKER_PORT_HTTP:-8080}/dist/vendor.min.js 2>&1 | head -3
+          curl -sI http://localhost:${DOCKER_PORT_HTTP:-8080}/js/extensions.json 2>&1 | head -3
+          PIM_URL=http://localhost:${DOCKER_PORT_HTTP:-8080} make end-to-end-front
 
-      - name: Upload cypress artifacts
-        if: always()
+      - name: Upload Playwright report
+        if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: cypress-results
+          name: playwright-report
           path: |
-            cypress/screenshots
-            cypress/videos
+            playwright-report/
+            test-results/
           retention-days: 3
+
+  # ===========================================================================
+  # SAVE TIMINGS: Merge shard timing data into cache (master only)
+  # ===========================================================================
+  save-timings:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [phpunit, behat-legacy]
+    if: always() && github.ref == 'refs/heads/master'
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/scripts
+
+      - name: Download all PHPUnit timing artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: phpunit-timings-*
+          path: timing-shards/phpunit
+          merge-multiple: true
+
+      - name: Merge and save PHPUnit timings
+        run: |
+          mkdir -p .test-timings
+          python3 -c "
+          import json, glob, os
+          merged = {}
+          for f in glob.glob('timing-shards/phpunit/*.json'):
+              with open(f) as fh:
+                  data = json.load(fh)
+                  merged.update(data)
+          os.makedirs('.test-timings', exist_ok=True)
+          with open('.test-timings/phpunit.json', 'w') as fh:
+              json.dump(merged, fh, indent=2, sort_keys=True)
+          print(f'Merged {len(merged)} PHPUnit timing entries')
+          "
+
+      - name: Save PHPUnit timing cache
+        uses: actions/cache/save@v4
+        with:
+          path: .test-timings/phpunit.json
+          key: test-timings-phpunit-${{ github.ref }}-${{ github.run_number }}
 
   # ===========================================================================
   # CI SUCCESS: Final gate job
   # ===========================================================================
   ci-success:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs:
       - detect-changes
       - front-build
       - front-lint
       - front-unit
       - lint-back
+      - deprecation-back
+      - code-style-back
       - phpspec
-      - static-checks
       - acceptance-back
+      - acceptance-contexts
       - deptrac
       - phpunit
       - data-migrations
       - behat-legacy
-      - cypress
+      - playwright
     if: always()
     timeout-minutes: 5
     steps:
@@ -951,14 +1102,16 @@ jobs:
           echo "  front-lint: ${{ needs.front-lint.result }}"
           echo "  front-unit: ${{ needs.front-unit.result }}"
           echo "  lint-back: ${{ needs.lint-back.result }}"
+          echo "  deprecation-back: ${{ needs.deprecation-back.result }}"
+          echo "  code-style-back: ${{ needs.code-style-back.result }}"
           echo "  phpspec: ${{ needs.phpspec.result }}"
-          echo "  static-checks: ${{ needs.static-checks.result }}"
           echo "  acceptance-back: ${{ needs.acceptance-back.result }}"
+          echo "  acceptance-contexts: ${{ needs.acceptance-contexts.result }}"
           echo "  deptrac: ${{ needs.deptrac.result }}"
           echo "  phpunit: ${{ needs.phpunit.result }}"
           echo "  data-migrations: ${{ needs.data-migrations.result }}"
           echo "  behat-legacy: ${{ needs.behat-legacy.result }}"
-          echo "  cypress: ${{ needs.cypress.result }}"
+          echo "  playwright: ${{ needs.playwright.result }}"
 
           # Each job must be either 'success' or 'skipped' (path-filtered)
           results=(
@@ -966,14 +1119,16 @@ jobs:
             "${{ needs.front-lint.result }}"
             "${{ needs.front-unit.result }}"
             "${{ needs.lint-back.result }}"
+            "${{ needs.deprecation-back.result }}"
+            "${{ needs.code-style-back.result }}"
             "${{ needs.phpspec.result }}"
-            "${{ needs.static-checks.result }}"
             "${{ needs.acceptance-back.result }}"
+            "${{ needs.acceptance-contexts.result }}"
             "${{ needs.deptrac.result }}"
             "${{ needs.phpunit.result }}"
             "${{ needs.data-migrations.result }}"
             "${{ needs.behat-legacy.result }}"
-            "${{ needs.cypress.result }}"
+            "${{ needs.playwright.result }}"
           )
 
           failed=false

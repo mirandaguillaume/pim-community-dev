@@ -1,30 +1,26 @@
 #!/bin/bash
+#
+# Environment variables:
+#   BEHAT_SPLIT        - Shard spec "N/TOTAL" (e.g. "3/10")
+#   BEHAT_TIMING_FILE  - Optional JSON file with scenario durations for smart sharding
+#
 
 set -eo pipefail
 
 TEST_SUITE=$1
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 ALL_SCENARIOS=$(docker-compose run --rm -T php vendor/bin/behat --list-scenarios -p legacy -s $TEST_SUITE)
-if command -v circleci >/dev/null 2>&1; then
-    TEST_FILES=$(echo "$ALL_SCENARIOS" | circleci tests split --split-by=timings)
-elif [[ -n "$BEHAT_SPLIT" ]]; then
-    # GitHub Actions sharding: BEHAT_SPLIT="N/TOTAL" (e.g. "3/15")
+
+if [[ -n "$BEHAT_SPLIT" ]]; then
     SHARD_NUM="${BEHAT_SPLIT%%/*}"
     SHARD_TOTAL="${BEHAT_SPLIT##*/}"
     echo "Running Behat shard $SHARD_NUM of $SHARD_TOTAL for suite $TEST_SUITE"
 
-    TEST_FILES=""
-    while IFS= read -r scenario; do
-        if [[ -n "$scenario" ]]; then
-            HASH=$(echo -n "$scenario" | cksum | cut -d' ' -f1)
-            ASSIGNED=$(( (HASH % SHARD_TOTAL) + 1 ))
-            if [[ "$ASSIGNED" -eq "$SHARD_NUM" ]]; then
-                TEST_FILES="$TEST_FILES $scenario"
-            fi
-        fi
-    done <<< "$ALL_SCENARIOS"
+    TEST_FILES=$(echo "$ALL_SCENARIOS" | "$SCRIPT_DIR/shard-by-timing.sh" \
+      "${BEHAT_TIMING_FILE:-}" "$SHARD_NUM" "$SHARD_TOTAL" 60)
 
-    FILE_COUNT=$(echo $TEST_FILES | wc -w)
+    FILE_COUNT=$(echo "$TEST_FILES" | grep -c '.' || true)
     echo "Shard $SHARD_NUM has $FILE_COUNT scenarios"
 
     if [[ -z "$TEST_FILES" || "$FILE_COUNT" -eq 0 ]]; then
@@ -33,28 +29,56 @@ elif [[ -n "$BEHAT_SPLIT" ]]; then
     fi
 else
     TEST_FILES="$ALL_SCENARIOS"
+    FILE_COUNT=$(echo "$TEST_FILES" | grep -c '.' || true)
 fi
-echo "TEST FILES ON THIS CONTAINER: $TEST_FILES"
 
-fail=0
-counter=1
-total=$(echo $TEST_FILES | tr ' ' "\n" | wc -l)
+echo "Running $FILE_COUNT scenarios in a single Behat invocation"
 
-for TEST_FILE in $TEST_FILES; do
-    echo -e "\nLAUNCHING $TEST_FILE ($counter/$total):"
-    output=$(basename $TEST_FILE)_$(uuidgen)
+mkdir -p var/tests/behat
 
-    set +e
-    docker-compose exec -u www-data -T httpd ./vendor/bin/behat --strict --format pim --out var/tests/behat/${output} --format pretty --out std --colors -p legacy -s $TEST_SUITE $TEST_FILE ||
-    (
-      echo Retrying $TEST_FILE &&
-      docker-compose exec -u www-data -T httpd /bin/bash -c "echo $TEST_FILE >> var/tests/behat/behats_retried.txt" &&
-      docker-compose exec -u www-data -T httpd ./vendor/bin/behat --strict --format pim --out var/tests/behat/${output} --format pretty --out std --colors -p legacy -s $TEST_SUITE $TEST_FILE
-    )
+# First pass: run all scenarios in one batch.
+# Uses "progress" formatter for lightweight stdout and "pim" for structured results.
+# Behat automatically writes failed scenarios to its rerun cache (/tmp/behat_rerun_cache/).
+set +e
+docker-compose exec -u www-data -T httpd ./vendor/bin/behat \
+  --strict \
+  --format pim --out var/tests/behat/batch_results \
+  --format progress --out std \
+  --colors \
+  -p legacy -s $TEST_SUITE \
+  $TEST_FILES
+BATCH_RESULT=$?
+set -eo pipefail
 
-    fail=$(($fail + $?))
-    counter=$(($counter + 1))
-    set -eo pipefail
-done
+if [ $BATCH_RESULT -eq 0 ]; then
+    echo ""
+    echo "All scenarios passed on first run."
+    exit 0
+fi
 
-exit $fail
+echo ""
+echo "=== Some scenarios failed. Retrying with --rerun... ==="
+
+# Second pass: use Behat's built-in --rerun to retry only failed scenarios.
+# Must pass the same paths ($TEST_FILES) so the rerun cache key matches the first pass.
+set +e
+docker-compose exec -u www-data -T httpd ./vendor/bin/behat \
+  --strict \
+  --rerun \
+  --format pim --out var/tests/behat/batch_results_retry \
+  --format progress --out std \
+  --colors \
+  -p legacy -s $TEST_SUITE \
+  $TEST_FILES
+RETRY_RESULT=$?
+set -eo pipefail
+
+if [ $RETRY_RESULT -eq 0 ]; then
+    echo ""
+    echo "All previously failed scenarios passed on retry."
+    exit 0
+fi
+
+echo ""
+echo "Some scenarios still failed after retry."
+exit 1

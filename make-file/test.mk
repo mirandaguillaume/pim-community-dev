@@ -68,7 +68,10 @@ lint-front:
 .PHONY: unit-back
 unit-back: var/tests/phpspec
 ifeq ($(CI),true)
-	$(DOCKER_COMPOSE) run -T --rm php php vendor/bin/phpspec run --format=junit > var/tests/phpspec/specs.xml
+	$(DOCKER_COMPOSE) run -T --rm php php vendor/bin/phpspec run --format=junit > var/tests/phpspec/specs.xml 2>var/tests/phpspec/stderr.log; \
+	PHPSPEC_EXIT=$$?; \
+	grep -v 'project_dir/bin/console' var/tests/phpspec/stderr.log >&2 || true; \
+	exit $$PHPSPEC_EXIT
 	.github/scripts/find_non_executed_phpspec.sh
 else
 	${PHP_RUN} vendor/bin/phpspec run
@@ -90,6 +93,19 @@ acceptance-back:
 	$(MAKE) identifier-generator-acceptance-back
 	$(MAKE) installer-acceptance-back
 
+.PHONY: acceptance-back-main
+acceptance-back-main:
+	APP_ENV=behat ${PHP_RUN} vendor/bin/behat -p acceptance --format pim --out var/tests/behat --format progress --out std --colors
+
+.PHONY: acceptance-back-contexts
+acceptance-back-contexts:
+	$(MAKE) import-export-acceptance-back
+	$(MAKE) job-acceptance-back
+	$(MAKE) channel-acceptance-back
+	$(MAKE) measurement-acceptance-back
+	$(MAKE) identifier-generator-acceptance-back
+	$(MAKE) installer-acceptance-back
+
 .PHONY: acceptance-front
 acceptance-front:
 	MAX_RANDOM_LATENCY_MS=100 $(YARN_RUN) acceptance run acceptance ./tests/features
@@ -100,10 +116,11 @@ integration-front:
 	$(YARN_RUN) integration
 
 .PHONY: pim-integration-back
-pim-integration-back: var/tests/phpunit connectivity-connection-integration-back communication-channel-integration-back job-integration-back channel-integration-back identifier-generator-phpunit-back installer-integration-back
 ifeq ($(CI),true)
-	.github/scripts/run_phpunit.sh . .github/scripts/find_phpunit.php PIM_Integration_Test
+pim-integration-back: var/tests/phpunit
+	.github/scripts/run_phpunit.sh . .github/scripts/find_phpunit.php PIM_Integration_Test,Akeneo_Connectivity_Connection_Integration,Akeneo_Communication_Channel_Integration,Job_Integration_Test,Channel_Integration_Test,Identifier_Generator_PhpUnit,Installer_Integration_Test
 else
+pim-integration-back: var/tests/phpunit connectivity-connection-integration-back communication-channel-integration-back job-integration-back channel-integration-back identifier-generator-phpunit-back installer-integration-back
 	@echo "Run integration test locally is too long, please use the target defined for your bounded context (ex: bounded-context-integration-back)"
 endif
 
@@ -126,7 +143,7 @@ else
 endif
 
 end-to-end-front:
-	$(DOCKER_COMPOSE) -f docker-compose-cypress.yml run --rm cypress
+	./node_modules/.bin/playwright test
 
 # How to debug a behat locally?
 # -----------------------------

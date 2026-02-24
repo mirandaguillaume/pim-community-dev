@@ -95,3 +95,15 @@ RUN mkdir -p /var/www/.composer && chown www-data:www-data /var/www/.composer
 RUN mkdir -p /var/www/.cache && chown www-data:www-data /var/www/.cache
 
 VOLUME /srv/pim
+
+FROM dev as ci
+
+ARG PHP_VERSION=8.2
+
+# Disable xdebug and blackfire for CI performance (~20% faster)
+RUN rm -f /etc/php/${PHP_VERSION}/cli/conf.d/99-akeneo-xdebug.ini \
+         /etc/php/${PHP_VERSION}/fpm/conf.d/99-akeneo-xdebug.ini \
+         /etc/php/${PHP_VERSION}/cli/conf.d/20-xdebug.ini \
+         /etc/php/${PHP_VERSION}/fpm/conf.d/20-xdebug.ini \
+         /etc/php/${PHP_VERSION}/cli/conf.d/99-akeneo-blackfire.ini \
+         /etc/php/${PHP_VERSION}/fpm/conf.d/99-akeneo-blackfire.ini

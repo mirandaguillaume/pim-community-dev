@@ -1,4 +1,4 @@
--- Extra tables required for Behat/Cypress tests that may not be created by migrations
+-- Extra tables required for Behat/Playwright tests that may not be created by migrations
 -- These are session, configuration, and messenger tables
 
 CREATE TABLE IF NOT EXISTS pim_session (

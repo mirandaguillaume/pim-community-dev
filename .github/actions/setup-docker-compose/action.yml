@@ -38,3 +38,35 @@ runs:
           echo "::error::docker-compose is not available and could not be installed"
           exit 1
         fi
+
+    - name: Isolate Docker Compose project per runner
+      shell: bash
+      run: |
+        # On multi-runner hosts, each runner must use a unique project name
+        # to avoid container/network conflicts between concurrent jobs.
+        COMPOSE_NAME="pim-${RUNNER_NAME:-default}"
+        COMPOSE_NAME=$(echo "$COMPOSE_NAME" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g')
+        echo "COMPOSE_PROJECT_NAME=${COMPOSE_NAME}" >> "$GITHUB_ENV"
+        export COMPOSE_PROJECT_NAME="${COMPOSE_NAME}"
+        echo "Docker Compose project: ${COMPOSE_NAME}"
+
+        # Assign unique host ports per runner to avoid bind conflicts.
+        # Extract runner number from name (e.g. ci-runner-02 → 2), default 0.
+        # GitHub-hosted runners have large numbers (e.g. 1000010646) — they don't
+        # need port isolation since each job gets its own VM. Cap at 9.
+        RUNNER_NUM=$(echo "${RUNNER_NAME:-}" | grep -oE '[0-9]+$' || echo "0")
+        RUNNER_NUM=$(( RUNNER_NUM % 10 ))
+        OFFSET=$(( RUNNER_NUM * 10 ))
+        echo "DOCKER_PORT_HTTP=$((8080 + OFFSET))" >> "$GITHUB_ENV"
+        echo "DOCKER_PORT_MYSQL=$((33006 + OFFSET))" >> "$GITHUB_ENV"
+        echo "DOCKER_PORT_ELASTICSEARCH=$((9210 + OFFSET))" >> "$GITHUB_ENV"
+        echo "DOCKER_PORT_SELENIUM=$((5910 + OFFSET))" >> "$GITHUB_ENV"
+        echo "DOCKER_PORT_OBJECT_STORAGE=$((9090 + OFFSET))" >> "$GITHUB_ENV"
+        echo "DOCKER_PORT_OBJECT_STORAGE_CONSOLE=$((9091 + OFFSET))" >> "$GITHUB_ENV"
+        echo "DOCKER_PORT_GCS_EMULATOR=$((4443 + OFFSET))" >> "$GITHUB_ENV"
+        echo "Port offset: +${OFFSET} (runner #${RUNNER_NUM})"
+
+        # Clean up containers from previous jobs on this runner.
+        # Also clean up old default project name (before per-runner isolation).
+        COMPOSE_PROJECT_NAME=pim-community-dev docker-compose down --remove-orphans 2>/dev/null || true
+        docker-compose down --remove-orphans 2>/dev/null || true
