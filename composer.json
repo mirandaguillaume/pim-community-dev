@@ -208,7 +208,7 @@
             "composer/package-versions-deprecated": true
         },
         "audit": {
-            "block-insecure": false
+            "block-insecure": true
         },
         "platform": {
             "php": "8.2.30"
