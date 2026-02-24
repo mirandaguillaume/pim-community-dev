@@ -1,4 +1,13 @@
 {
   "extends": "./tsconfig.json",
-  "exclude": ["src/**/*.unit.ts", "src/**/*.unit.tsx", "src/**/*.visual.tsx", "**/__mocks__/*"]
+  "exclude": [
+    "src/**/*.unit.ts",
+    "src/**/*.unit.tsx",
+    "src/**/*.visual.tsx",
+    "src/**/*.stories.tsx",
+    "src/**/*.stories.ts",
+    "src/**/*.mdx",
+    "src/storybook/**",
+    "**/__mocks__/*"
+  ]
 }

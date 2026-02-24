@@ -23,7 +23,7 @@ parameters:
     oro_security.action_metadata_provider.class:               Oro\Bundle\SecurityBundle\Metadata\ActionMetadataProvider
 
     oro_security.acl.annotation_provider.class:                Oro\Bundle\SecurityBundle\Metadata\AclAnnotationProvider
-    oro_security.acl.annotation_provider.cache.class:          Doctrine\Common\Cache\FilesystemCache
+    # oro_security.acl.annotation_provider.cache removed (doctrine/cache 2.x dropped FilesystemCache)
     oro_security.acl.annotation_loader.class:                  Oro\Bundle\SecurityBundle\Annotation\Loader\AclAnnotationLoader
     oro_security.acl.yaml_config_loader.class:                 Oro\Bundle\SecurityBundle\Annotation\Loader\AclYamlConfigLoader
 
@@ -67,11 +67,7 @@ services:
         tags:
             - { name: oro_service_link,  service: oro_security.acl.sid_manager }
 
-    security.acl.cache.doctrine.cache_impl:
-        public: false
-        class: '%oro_security.acl.cache.class%'
-        arguments:
-            - '%kernel.cache_dir%/oro_acl'
+    # security.acl.cache.doctrine.cache_impl removed (doctrine/cache 2.x dropped FilesystemCache)
 
     oro_security.acl.ace_provider:
         public: false
@@ -147,23 +143,9 @@ services:
         class: '%oro_security.action_metadata_provider.class%'
         arguments:
             - '@oro_security.acl.annotation_provider'
-            - '@oro_security.action_metadata_provider.cache'
-
-    oro_security.action_metadata_provider.cache:
-        public: false
-        parent: oro_security.acl.annotation_provider.cache
 
     oro_security.acl.annotation_provider:
         class: '%oro_security.acl.annotation_provider.class%'
-        arguments:
-          - '@oro_security.acl.annotation_provider.cache'
-          - '@oro_security.acl.acl_feature_flags'
-
-    oro_security.acl.annotation_provider.cache:
-        public: false
-        class: '%oro_security.acl.annotation_provider.cache.class%'
-        arguments:
-            - '%kernel.cache_dir%/oro_acl_annotations'
 
     oro_security.acl.annotation_loader:
         public: false
