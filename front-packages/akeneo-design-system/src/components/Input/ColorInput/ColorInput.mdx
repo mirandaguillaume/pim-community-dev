@@ -1,0 +1,30 @@
+import {Meta, Canvas, Story, ArgTypes} from '@storybook/blocks';
+import * as Stories from './ColorInput.stories';
+import {useState} from 'react';
+import {ColorInput} from './ColorInput.tsx';
+
+<Meta of={Stories} />
+
+# ColorInput (Beta)
+
+## Usage
+
+Color input component allows the user to enter a color in hexadecimal format.
+
+### Placeholder text
+
+The placeholder text provides tips or examples of items to enter. Placeholder text disappears when the user begins entering data.
+
+## Playground
+
+<Canvas of={Stories.Standard} />
+
+<ArgTypes of={Stories.Standard} />
+
+## Variation on readOnly
+
+<Canvas of={Stories.ReadOnly} />
+
+## Variation on invalid
+
+<Canvas of={Stories.Invalid} />

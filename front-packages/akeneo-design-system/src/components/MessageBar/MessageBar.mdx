@@ -1,0 +1,50 @@
+import {Meta, Canvas, Story, ArgTypes} from '@storybook/blocks';
+import * as Stories from './MessageBar.stories';
+import {useState} from 'react';
+import {MessageBarContainer} from '../../storybook/PreviewGallery';
+import {MessageBar, AnimateMessageBar} from './MessageBar.tsx';
+import {Link} from '../Link/Link';
+import {Button} from '../Button/Button';
+import * as Icons from '../../icons';
+
+<Meta of={Stories} />
+
+# Message bar
+
+## Usage
+
+A message bar (or push message) is a message that communicates information to the user.
+
+### Title
+
+All messages have subject headings, which must be short and descriptive.
+
+### Message
+
+We recommend that the body of the message holds within two lines maximum. Be descriptive and include any troubleshooting actions or next steps. If possible, communicate the main message using only the title. You can add links in the message body that redirect the user to the following actions.
+
+### Close
+
+The MessageBar automatically disappears after 5 seconds for success, info & warning and 8s for error.
+
+### Icons
+
+Icons can bring extra clarity. They should be placed at the left of the title. They can be found in the <LinkTo kind="Guidelines/Iconography" story="Standard">icon library</LinkTo>.
+
+## Playground
+
+<Canvas of={Stories.Standard} />
+
+<ArgTypes of={Stories.Standard} />
+
+## Variation on level
+
+<Canvas of={Stories.Level} />
+
+## Variation on content
+
+<Canvas of={Stories.Content} />
+
+## Animation
+
+<Canvas of={Stories.Animate} />

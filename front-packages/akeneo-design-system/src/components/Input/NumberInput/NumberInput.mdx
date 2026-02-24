@@ -1,0 +1,30 @@
+import {Meta, Canvas, Story, ArgTypes} from '@storybook/blocks';
+import * as Stories from './NumberInput.stories';
+import {useState} from 'react';
+import {NumberInput} from './NumberInput.tsx';
+
+<Meta of={Stories} />
+
+# Number input
+
+## Usage
+
+Number input allows the user to enter content and data when the expected user input is only numbers.
+
+### Placeholder text
+
+The placeholder text provides tips or examples of items to enter. Placeholder text disappears when the user begins entering data.
+
+## Playground
+
+<Canvas of={Stories.Standard} />
+
+<ArgTypes of={Stories.Standard} />
+
+## Variation on readOnly
+
+<Canvas of={Stories.ReadOnly} />
+
+## Variation on invalid
+
+<Canvas of={Stories.Invalid} />

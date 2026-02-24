@@ -1,0 +1,20 @@
+import {Meta, Canvas, Story, ArgTypes} from '@storybook/blocks';
+import * as Stories from './Tooltip.stories';
+import {Tooltip} from './Tooltip.tsx';
+
+<Meta of={Stories} />
+        </div>
+      ),
+    ]}
+  >
+    {args => {
+      return <Tooltip {...args}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Tooltip>;
+    }}
+  </Story>
+</Canvas>
+
+<ArgTypes of={Stories.Standard} />
+
+## With a title
+
+<Canvas of={Stories.WithTitle} />
