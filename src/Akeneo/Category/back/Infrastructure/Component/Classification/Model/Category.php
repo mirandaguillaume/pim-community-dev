@@ -4,6 +4,8 @@ namespace Akeneo\Category\Infrastructure\Component\Classification\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * Implementation of CategoryInterface.
@@ -12,30 +14,43 @@ use Doctrine\Common\Collections\Collection;
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[ORM\MappedSuperclass]
 class Category implements CategoryInterface
 {
     /** @var int */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: Types::INTEGER)]
     protected $id;
 
     /** @var string */
+    #[ORM\Column(type: Types::STRING, length: 100, unique: true)]
     protected $code;
 
     /** @var int */
+    #[ORM\Column(name: 'lft', type: Types::INTEGER)]
     protected $left;
 
     /** @var int */
+    #[ORM\Column(name: 'lvl', type: Types::INTEGER)]
     protected $level;
 
     /** @var int */
+    #[ORM\Column(name: 'rgt', type: Types::INTEGER)]
     protected $right;
 
     /** @var int */
+    #[ORM\Column(type: Types::INTEGER)]
     protected $root;
 
     /** @var CategoryInterface */
+    #[ORM\ManyToOne(targetEntity: \Akeneo\Category\Infrastructure\Component\Model\CategoryInterface::class, inversedBy: 'children')]
+    #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
     protected $parent;
 
     /** @var Collection */
+    #[ORM\OneToMany(targetEntity: \Akeneo\Category\Infrastructure\Component\Model\CategoryInterface::class, mappedBy: 'parent', cascade: ['persist'])]
+    #[ORM\OrderBy(['left' => 'ASC'])]
     protected $children;
 
     public function __construct()

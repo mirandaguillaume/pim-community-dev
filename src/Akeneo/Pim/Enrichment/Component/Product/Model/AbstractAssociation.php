@@ -5,6 +5,8 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Model;
 use Akeneo\Pim\Structure\Component\Model\AssociationTypeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * Abstract association entity
@@ -13,9 +15,13 @@ use Doctrine\Common\Collections\Collection;
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[ORM\MappedSuperclass]
 abstract class AbstractAssociation implements AssociationInterface
 {
     /** @var int|string */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: Types::INTEGER)]
     protected $id;
 
     /** @var AssociationTypeInterface */

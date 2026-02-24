@@ -9,6 +9,8 @@ use Akeneo\Tool\Component\Batch\Job\JobParameters;
 use Akeneo\Tool\Component\Batch\Job\RuntimeErrorException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * Batch domain object representing the execution of a job
@@ -19,32 +21,48 @@ use Doctrine\Common\Collections\Collection;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/MIT MIT
  */
+#[ORM\Entity()]
+#[ORM\Table(name: 'akeneo_batch_job_execution')]
 class JobExecution implements \Stringable
 {
     /** @var int */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: Types::INTEGER)]
     private $id;
 
+    #[ORM\OneToMany(targetEntity: \Akeneo\Tool\Component\Batch\Model\StepExecution::class, mappedBy: 'jobExecution', cascade: ['persist'], orphanRemoval: true)]
     private Collection|array $stepExecutions;
 
+    #[ORM\ManyToOne(targetEntity: \Akeneo\Tool\Component\Batch\Model\JobInstance::class, inversedBy: 'jobExecutions')]
+    #[ORM\JoinColumn(name: 'job_instance_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private ?\Akeneo\Tool\Component\Batch\Model\JobInstance $jobInstance = null;
 
     /** @var int Process Identifier */
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private $pid;
 
     /** @var string|null The user who launched the job */
+    #[ORM\Column(type: Types::STRING, nullable: true)]
     private $user;
 
     /** @var int */
+    #[ORM\Column(type: Types::INTEGER)]
     private $status;
 
+    #[ORM\Column(name: 'start_time', type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTime $startTime = null;
 
+    #[ORM\Column(name: 'end_time', type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTime $endTime = null;
 
+    #[ORM\Column(name: 'create_time', type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTime $createTime = null;
 
+    #[ORM\Column(name: 'updated_time', type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTime $updatedTime = null;
 
+    #[ORM\Column(name: 'health_check_time', type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTime $healthCheckTime = null;
 
     /* @var ExecutionContext $executionContext */
@@ -53,20 +71,28 @@ class JobExecution implements \Stringable
     /* @var ExitStatus $existStatus */
     private ?\Akeneo\Tool\Component\Batch\Job\ExitStatus $exitStatus = null;
 
+    #[ORM\Column(name: 'exit_code', type: Types::STRING, length: 255, nullable: true)]
     private ?string $exitCode = null;
 
+    #[ORM\Column(name: 'exit_description', type: Types::TEXT, nullable: true)]
     private ?string $exitDescription = null;
 
+    #[ORM\Column(name: 'failure_exceptions', type: Types::ARRAY, nullable: true)]
     private ?array $failureExceptions = null;
 
     /** @var string */
+    #[ORM\Column(name: 'log_file', type: Types::STRING, length: 255, nullable: true)]
     private $logFile;
 
     private ?\Akeneo\Tool\Component\Batch\Job\JobParameters $jobParameters = null;
 
+    #[ORM\Column(name: 'raw_parameters', type: Types::JSON)]
     private array $rawParameters;
+    #[ORM\Column(name: 'is_stoppable', type: Types::BOOLEAN, options: ['default' => 0])]
     private bool $isStoppable;
+    #[ORM\Column(name: 'step_count', type: Types::INTEGER, options: ['default' => 1])]
     private int $stepCount;
+    #[ORM\Column(name: 'is_visible', type: Types::BOOLEAN, options: ['default' => 1])]
     private bool $isVisible;
 
     /**

@@ -3,24 +3,35 @@
 namespace Akeneo\Pim\Enrichment\Component\Product\Model;
 
 use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * @author    Damien Carcel (damien.carcel@akeneo.com)
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[ORM\MappedSuperclass]
 abstract class AbstractProductUniqueData implements ProductUniqueDataInterface
 {
     /** @var int */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: Types::INTEGER)]
     protected $id;
 
     /** @var ProductInterface */
+    #[ORM\ManyToOne(targetEntity: \Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface::class, inversedBy: 'uniqueData')]
+    #[ORM\JoinColumn(name: 'product_uuid', referencedColumnName: 'uuid', nullable: false, onDelete: 'CASCADE')]
     protected $product;
 
     /** @var AttributeInterface */
+    #[ORM\ManyToOne(targetEntity: \Akeneo\Pim\Structure\Component\Model\AttributeInterface::class)]
+    #[ORM\JoinColumn(name: 'attribute_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     protected $attribute;
 
     /** @var string */
+    #[ORM\Column(name: 'raw_data', type: Types::STRING)]
     protected $rawData;
 
     public function __construct(ProductInterface $product, AttributeInterface $attribute, string $rawData)

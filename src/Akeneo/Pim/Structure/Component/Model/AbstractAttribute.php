@@ -6,6 +6,8 @@ use Akeneo\Channel\Infrastructure\Component\Model\LocaleInterface;
 use Akeneo\Pim\Structure\Component\AttributeTypes;
 use Akeneo\Tool\Component\Localization\Model\TranslationInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * Abstract product attribute
@@ -14,9 +16,13 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[ORM\MappedSuperclass]
 abstract class AbstractAttribute implements AttributeInterface, \Stringable
 {
     /** @var int|string */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: Types::INTEGER)]
     protected $id;
 
     /**
@@ -24,6 +30,7 @@ abstract class AbstractAttribute implements AttributeInterface, \Stringable
      *
      * @var string
      */
+    #[ORM\Column(type: Types::STRING, length: 100)]
     protected $code;
 
     /**
@@ -38,6 +45,7 @@ abstract class AbstractAttribute implements AttributeInterface, \Stringable
      *
      * @var string
      */
+    #[ORM\Column(name: 'entity_type', type: Types::STRING, length: 255)]
     protected $entityType;
 
     /**
@@ -45,6 +53,7 @@ abstract class AbstractAttribute implements AttributeInterface, \Stringable
      *
      * @var string
      */
+    #[ORM\Column(name: 'attribute_type', type: Types::STRING, length: 255)]
     protected $type;
 
     /**
@@ -52,12 +61,15 @@ abstract class AbstractAttribute implements AttributeInterface, \Stringable
      *
      * @var string
      */
+    #[ORM\Column(name: 'backend_type', type: Types::STRING, length: 255)]
     protected $backendType;
 
     /** @var \DateTime */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     protected $created;
 
     /** @var \DateTime */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     protected $updated;
 
     /**
@@ -65,6 +77,7 @@ abstract class AbstractAttribute implements AttributeInterface, \Stringable
      *
      * @var bool
      */
+    #[ORM\Column(name: 'is_required', type: Types::BOOLEAN)]
     protected $required;
 
     /**
@@ -72,80 +85,110 @@ abstract class AbstractAttribute implements AttributeInterface, \Stringable
      *
      * @var bool
      */
+    #[ORM\Column(name: 'is_unique', type: Types::BOOLEAN)]
     protected $unique;
 
     /** @var bool */
+    #[ORM\Column(name: 'is_localizable', type: Types::BOOLEAN)]
     protected $localizable;
 
     /** @var bool */
+    #[ORM\Column(name: 'is_scopable', type: Types::BOOLEAN)]
     protected $scopable;
 
     /** @var array */
+    #[ORM\Column(type: Types::ARRAY, nullable: true)]
     protected $properties;
 
     /** @var ArrayCollection */
+    #[ORM\OneToMany(targetEntity: \Akeneo\Pim\Structure\Component\Model\AttributeOptionInterface::class, mappedBy: 'attribute', cascade: ['persist', 'detach'])]
+    #[ORM\OrderBy(['sortOrder' => 'ASC', 'code' => 'ASC'])]
     protected $options;
 
     /** @var int */
+    #[ORM\Column(name: 'sort_order', type: Types::INTEGER)]
     protected $sortOrder = 0;
 
     /** @var AttributeGroupInterface $group */
+    #[ORM\ManyToOne(targetEntity: \Akeneo\Pim\Structure\Component\Model\AttributeGroupInterface::class, inversedBy: 'attributes')]
+    #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
     protected $group;
 
     /** @var bool */
+    #[ORM\Column(name: 'useable_as_grid_filter', type: Types::BOOLEAN, options: ['default' => false])]
     protected $useableAsGridFilter;
 
     /** @var ArrayCollection */
+    #[ORM\ManyToMany(targetEntity: \Akeneo\Channel\Infrastructure\Component\Model\LocaleInterface::class)]
+    #[ORM\JoinTable(name: 'pim_catalog_attribute_locale')]
+    #[ORM\JoinColumn(name: 'attribute_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'locale_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     protected $availableLocales;
 
     /** @var ArrayCollection */
+    #[ORM\ManyToMany(targetEntity: \Akeneo\Pim\Structure\Component\Model\FamilyInterface::class, mappedBy: 'attributes')]
     protected $families;
 
     /** @var int */
+    #[ORM\Column(name: 'max_characters', type: Types::INTEGER, nullable: true)]
     protected $maxCharacters;
 
     /** @var string */
+    #[ORM\Column(name: 'validation_rule', type: Types::STRING, length: 10, nullable: true)]
     protected $validationRule;
 
     /** @var string */
+    #[ORM\Column(name: 'validation_regexp', type: Types::STRING, length: 500, nullable: true)]
     protected $validationRegexp;
 
     /** @var bool */
+    #[ORM\Column(name: 'wysiwyg_enabled', type: Types::BOOLEAN, nullable: true)]
     protected $wysiwygEnabled;
 
     /** @var float */
+    #[ORM\Column(name: 'number_min', type: Types::DECIMAL, precision: 14, scale: 4, nullable: true)]
     protected $numberMin;
 
     /** @var float */
+    #[ORM\Column(name: 'number_max', type: Types::DECIMAL, precision: 14, scale: 4, nullable: true)]
     protected $numberMax;
 
     /** @var bool */
+    #[ORM\Column(name: 'decimals_allowed', type: Types::BOOLEAN, nullable: true)]
     protected $decimalsAllowed;
 
     /** @var bool */
+    #[ORM\Column(name: 'negative_allowed', type: Types::BOOLEAN, nullable: true)]
     protected $negativeAllowed;
 
     /** @var \DateTime */
+    #[ORM\Column(name: 'date_min', type: Types::DATETIME_MUTABLE, nullable: true)]
     protected $dateMin;
 
     /** @var \DateTime */
+    #[ORM\Column(name: 'date_max', type: Types::DATETIME_MUTABLE, nullable: true)]
     protected $dateMax;
 
     /** @var string */
+    #[ORM\Column(name: 'metric_family', type: Types::STRING, length: 100, nullable: true)]
     protected $metricFamily;
 
     /** @var string */
+    #[ORM\Column(name: 'default_metric_unit', type: Types::STRING, length: 100, nullable: true)]
     protected $defaultMetricUnit;
 
     /**
      * @var float expressed in MB so decimal is needed for values < 1 MB
      */
+    #[ORM\Column(name: 'max_file_size', type: Types::DECIMAL, precision: 6, scale: 2, nullable: true)]
     protected $maxFileSize;
 
     /** @var array */
+    #[ORM\Column(name: 'allowed_extensions', type: Types::STRING, length: 255, nullable: true)]
     protected $allowedExtensions;
 
     /** @var int */
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     protected $minimumInputLength;
 
     /**
@@ -157,13 +200,16 @@ abstract class AbstractAttribute implements AttributeInterface, \Stringable
     protected $locale;
 
     /** @var ArrayCollection */
+    #[ORM\OneToMany(targetEntity: \Akeneo\Pim\Structure\Component\Model\AttributeTranslationInterface::class, mappedBy: 'foreignKey', cascade: ['persist', 'detach'], orphanRemoval: true)]
     protected $translations;
 
     /** @var string[] */
+    #[ORM\Column(type: Types::JSON, columnDefinition: 'JSON NOT NULL DEFAULT (JSON_OBJECT())')]
     protected array $guidelines = [];
 
     protected ?array $rawTableConfiguration = null;
 
+    #[ORM\Column(name: 'main_identifier', type: Types::BOOLEAN, options: ['default' => false], insertable: false, updatable: false)]
     protected bool $mainIdentifier;
 
     public function __construct()

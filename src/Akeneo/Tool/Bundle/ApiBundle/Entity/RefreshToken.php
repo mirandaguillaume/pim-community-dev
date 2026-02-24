@@ -4,6 +4,9 @@ namespace Akeneo\Tool\Bundle\ApiBundle\Entity;
 
 use Akeneo\Tool\Bundle\ApiBundle\OAuth\IOAuth2RefreshToken;
 use Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\TokenInterface;
+use Akeneo\UserManagement\Component\Model\UserInterface;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Standalone OAuth refresh token entity.
@@ -13,24 +16,30 @@ use Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\TokenInterface;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'pim_api_refresh_token')]
 class RefreshToken implements IOAuth2RefreshToken, TokenInterface
 {
-    /** @var int|null */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: Types::INTEGER)]
     protected $id;
 
-    /** @var string|null */
+    #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
     protected $token;
 
-    /** @var Client|null */
+    #[ORM\ManyToOne(targetEntity: Client::class)]
+    #[ORM\JoinColumn(name: 'client', referencedColumnName: 'id', onDelete: 'CASCADE')]
     protected $client;
 
-    /** @var mixed */
+    #[ORM\ManyToOne(targetEntity: UserInterface::class)]
+    #[ORM\JoinColumn(name: 'user', referencedColumnName: 'id', onDelete: 'CASCADE')]
     protected $user;
 
-    /** @var int|null */
+    #[ORM\Column(name: 'expires_at', type: Types::INTEGER, nullable: true)]
     protected $expiresAt;
 
-    /** @var string|null */
+    #[ORM\Column(type: Types::STRING, length: 1000, nullable: true)]
     protected $scope;
 
     public function getId(): ?int

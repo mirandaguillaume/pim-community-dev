@@ -2,6 +2,8 @@
 
 namespace Akeneo\Tool\Component\Batch\Model;
 
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 /**
  * Represents a Warning raised during step execution
  *
@@ -9,9 +11,14 @@ namespace Akeneo\Tool\Component\Batch\Model;
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[ORM\Entity()]
+#[ORM\Table(name: 'akeneo_batch_warning')]
 class Warning
 {
     /** @var integer */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: Types::INTEGER)]
     private $id;
 
     /**
@@ -19,6 +26,11 @@ class Warning
      *
      * @param string        $reason
      */
+    #[ORM\ManyToOne(targetEntity: \Akeneo\Tool\Component\Batch\Model\StepExecution::class, inversedBy: 'warnings')]
+    #[ORM\JoinColumn(name: 'step_execution_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\Column(type: Types::ARRAY)]
+    #[ORM\Column(name: 'reason_parameters', type: Types::ARRAY)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     public function __construct(private StepExecution $stepExecution, private $reason, private array $reasonParameters, private array $item)
     {
     }

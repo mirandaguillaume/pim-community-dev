@@ -9,6 +9,8 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface;
 use Akeneo\Tool\Component\Localization\Model\TranslationInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * Category class allowing to organize a flexible product class into trees.
@@ -17,9 +19,16 @@ use Doctrine\Common\Collections\Collection;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[ORM\Entity(repositoryClass: \Akeneo\Category\Infrastructure\Doctrine\ORM\Repository\CategoryRepository::class)]
+#[ORM\Table(name: 'pim_catalog_category')]
+#[ORM\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
+#[ORM\Index(columns: ['lft'], name: 'left_idx')]
+#[ORM\Index(columns: ['updated'], name: 'updated_idx')]
+#[ORM\UniqueConstraint(name: 'pim_category_code_uc', columns: ['code'])]
 class Category extends BaseCategory implements CategoryInterface, \Stringable
 {
     /** @var Collection<int, ProductInterface> */
+    #[ORM\ManyToMany(targetEntity: \Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface::class, mappedBy: 'categories', fetch: 'EXTRA_LAZY')]
     protected Collection $products;
 
     /** @var Collection<int, ProductModelInterface> */
@@ -34,14 +43,18 @@ class Category extends BaseCategory implements CategoryInterface, \Stringable
     protected $locale;
 
     /** @var Collection<int, TranslationInterface> */
+    #[ORM\OneToMany(targetEntity: \Akeneo\Category\Infrastructure\Component\Model\CategoryTranslationInterface::class, mappedBy: 'foreignKey', cascade: ['persist', 'detach'], orphanRemoval: true)]
     protected $translations;
 
     /** @var Collection<int, Channel> */
+    #[ORM\OneToMany(targetEntity: \Akeneo\Channel\Infrastructure\Component\Model\ChannelInterface::class, mappedBy: 'category')]
     protected $channels;
 
     /** @var \DateTimeInterface */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     protected $created;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private \DateTime $updated;
 
     public function __construct()

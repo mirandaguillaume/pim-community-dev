@@ -6,6 +6,8 @@ use Akeneo\Pim\Structure\Component\Model\GroupTypeInterface;
 use Akeneo\Tool\Component\Localization\Model\TranslationInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * Group entity
@@ -13,18 +15,26 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @author    Nicolas Dupont <nicolas@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- *
- * @Assert\GroupSequenceProvider
  */
+#[Assert\GroupSequenceProvider]
+#[ORM\Entity(repositoryClass: \Akeneo\Pim\Enrichment\Bundle\Doctrine\ORM\Repository\GroupRepository::class)]
+#[ORM\Table(name: 'pim_catalog_group')]
+#[ORM\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
 class Group implements GroupInterface, \Stringable
 {
     /** @var int $id */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: Types::INTEGER)]
     protected $id;
 
     /** @var string $code */
+    #[ORM\Column(type: Types::STRING, length: 100, unique: true)]
     protected $code;
 
     /** @var GroupTypeInterface */
+    #[ORM\ManyToOne(targetEntity: \Akeneo\Pim\Structure\Component\Model\GroupTypeInterface::class, inversedBy: 'groups')]
+    #[ORM\JoinColumn(name: 'type_id', referencedColumnName: 'id', nullable: false)]
     protected $type;
 
     /**  @var ArrayCollection */
@@ -39,6 +49,7 @@ class Group implements GroupInterface, \Stringable
     protected $locale;
 
     /**  @var ArrayCollection $translations */
+    #[ORM\OneToMany(targetEntity: \Akeneo\Pim\Enrichment\Component\Product\Model\GroupTranslationInterface::class, mappedBy: 'foreignKey', cascade: ['persist', 'detach', 'refresh'])]
     protected $translations;
 
     /**

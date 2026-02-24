@@ -3,6 +3,9 @@
 namespace Akeneo\Tool\Bundle\ApiBundle\Entity;
 
 use Akeneo\Tool\Bundle\ApiBundle\OAuth\IOAuth2AuthCode;
+use Akeneo\UserManagement\Component\Model\User;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Standalone OAuth authorization code entity.
@@ -12,27 +15,33 @@ use Akeneo\Tool\Bundle\ApiBundle\OAuth\IOAuth2AuthCode;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'pim_api_auth_code')]
 class AuthCode implements IOAuth2AuthCode
 {
-    /** @var int|null */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: Types::INTEGER)]
     protected $id;
 
-    /** @var string|null */
+    #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
     protected $token;
 
-    /** @var Client|null */
+    #[ORM\ManyToOne(targetEntity: Client::class)]
+    #[ORM\JoinColumn(name: 'client_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     protected $client;
 
-    /** @var mixed */
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     protected $user;
 
-    /** @var string|null */
+    #[ORM\Column(name: 'redirect_uri', type: Types::STRING, length: 255, nullable: true)]
     protected $redirectUri;
 
-    /** @var int|null */
+    #[ORM\Column(name: 'expires_at', type: Types::INTEGER, nullable: true)]
     protected $expiresAt;
 
-    /** @var string|null */
+    #[ORM\Column(type: Types::STRING, length: 1000, nullable: true)]
     protected $scope;
 
     public function getId(): ?int

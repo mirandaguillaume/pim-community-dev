@@ -22,7 +22,7 @@ class AkeneoBatchBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         $mappings = [
-            realpath(__DIR__ . '/Resources/config/model/doctrine') => 'Akeneo\Tool\Component\Batch\Model'
+            'Akeneo\Tool\Component\Batch\Model' => dirname(__DIR__, 2) . '/Component/Batch/Model'
         ];
         $container
             ->addCompilerPass(new Compiler\RegisterNotifiersPass())
@@ -31,8 +31,9 @@ class AkeneoBatchBundle extends Bundle
             ->addCompilerPass(new Compiler\RegisterJobParametersPass('default_values_provider'))
             ->addCompilerPass(new Compiler\RegisterJobParametersPass('constraint_collection_provider'))
             ->addCompilerPass(
-                DoctrineOrmMappingsPass::createYamlMappingDriver(
+                DoctrineOrmMappingsPass::createAttributeMappingDriver(
                     $mappings,
+                    array_values($mappings),
                     ['doctrine.orm.entity_manager'],
                     false
                 )

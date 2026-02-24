@@ -7,6 +7,8 @@ use Akeneo\Tool\Component\Localization\Model\TranslationInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Webmozart\Assert\Assert;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * Family entity
@@ -15,15 +17,26 @@ use Webmozart\Assert\Assert;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[ORM\Entity(repositoryClass: \Akeneo\Pim\Structure\Bundle\Doctrine\ORM\Repository\FamilyRepository::class)]
+#[ORM\Table(name: 'pim_catalog_family')]
+#[ORM\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
 class Family implements FamilyInterface, \Stringable
 {
     /** @var int */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: Types::INTEGER)]
     protected $id;
 
     /** @var string */
+    #[ORM\Column(type: Types::STRING, length: 100, unique: true)]
     protected $code;
 
     /** @var Collection */
+    #[ORM\ManyToMany(targetEntity: \Akeneo\Pim\Structure\Component\Model\AttributeInterface::class, inversedBy: 'families')]
+    #[ORM\JoinTable(name: 'pim_catalog_family_attribute')]
+    #[ORM\JoinColumn(name: 'family_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'attribute_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     protected $attributes;
 
     /**
@@ -35,24 +48,33 @@ class Family implements FamilyInterface, \Stringable
     protected $locale;
 
     /** @var Collection */
+    #[ORM\OneToMany(targetEntity: \Akeneo\Pim\Structure\Component\Model\FamilyTranslationInterface::class, mappedBy: 'foreignKey', cascade: ['persist', 'detach', 'remove'], orphanRemoval: true, indexBy: 'locale')]
     protected $translations;
 
     /** @var AttributeInterface */
+    #[ORM\ManyToOne(targetEntity: \Akeneo\Pim\Structure\Component\Model\AttributeInterface::class)]
+    #[ORM\JoinColumn(name: 'label_attribute_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
     protected $attributeAsLabel;
 
     /** @var AttributeInterface */
+    #[ORM\ManyToOne(targetEntity: \Akeneo\Pim\Structure\Component\Model\AttributeInterface::class)]
+    #[ORM\JoinColumn(name: 'image_attribute_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
     protected $attributeAsImage;
 
     /** @var Collection */
+    #[ORM\OneToMany(targetEntity: \Akeneo\Pim\Structure\Component\Model\AttributeRequirementInterface::class, mappedBy: 'family', cascade: ['persist', 'detach', 'remove', 'refresh'], orphanRemoval: true)]
     protected $requirements;
 
     /** @var \DateTime */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     protected $created;
 
     /** @var \DateTime */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     protected $updated;
 
     /** @var Collection */
+    #[ORM\OneToMany(targetEntity: \Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface::class, mappedBy: 'family')]
     protected $familyVariants;
 
     /**

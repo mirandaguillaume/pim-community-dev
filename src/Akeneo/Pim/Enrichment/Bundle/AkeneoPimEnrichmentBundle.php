@@ -63,13 +63,14 @@ class AkeneoPimEnrichmentBundle extends Bundle
         ;
 
         $mappings = [
-            realpath(__DIR__ . '/Resources/config/doctrine/Product') => 'Akeneo\Pim\Enrichment\Component\Product\Model',
-            realpath(__DIR__ . '/Resources/config/doctrine/Comment') => 'Akeneo\Pim\Enrichment\Component\Comment\Model',
+            'Akeneo\Pim\Enrichment\Component\Product\Model' => dirname(__DIR__) . '/Component/Product/Model',
+            'Akeneo\Pim\Enrichment\Component\Comment\Model' => dirname(__DIR__) . '/Component/Comment/Model',
         ];
 
         $container->addCompilerPass(
-            DoctrineOrmMappingsPass::createYamlMappingDriver(
+            DoctrineOrmMappingsPass::createAttributeMappingDriver(
                 $mappings,
+                array_values($mappings),
                 ['doctrine.orm.entity_manager'],
                 false
             )

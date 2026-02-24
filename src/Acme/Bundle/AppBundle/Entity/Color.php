@@ -4,6 +4,8 @@ namespace Acme\Bundle\AppBundle\Entity;
 
 use Akeneo\Pim\Enrichment\Component\Product\Model\AbstractReferenceData;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ReferenceDataInterface;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * Acme Color entity (used as simple reference data)
@@ -12,36 +14,49 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ReferenceDataInterface;
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[ORM\Entity(repositoryClass: \Akeneo\Pim\Enrichment\Bundle\Doctrine\ORM\Repository\ReferenceDataRepository::class)]
+#[ORM\Table(name: 'acme_reference_data_color')]
+#[ORM\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
 class Color extends AbstractReferenceData implements ReferenceDataInterface
 {
     /** @var string */
+    #[ORM\Column(type: Types::STRING, length: 255)]
     protected $name;
 
     /** @var string */
+    #[ORM\Column(type: Types::STRING, length: 255)]
     protected $hex;
 
     /** @var int */
+    #[ORM\Column(type: Types::INTEGER)]
     protected $red;
 
     /** @var int */
+    #[ORM\Column(type: Types::INTEGER)]
     protected $green;
 
     /** @var int */
+    #[ORM\Column(type: Types::INTEGER)]
     protected $blue;
 
     /** @var int */
+    #[ORM\Column(type: Types::INTEGER)]
     protected $hue;
 
     /** @var int */
+    #[ORM\Column(type: Types::INTEGER)]
     protected $hslSaturation;
 
     /** @var int */
+    #[ORM\Column(type: Types::INTEGER)]
     protected $light;
 
     /** @var int */
+    #[ORM\Column(type: Types::INTEGER)]
     protected $hsvSaturation;
 
     /** @var int */
+    #[ORM\Column(type: Types::INTEGER)]
     protected $value;
 
     /**

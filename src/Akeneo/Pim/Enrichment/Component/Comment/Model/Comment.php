@@ -5,6 +5,8 @@ namespace Akeneo\Pim\Enrichment\Component\Comment\Model;
 use Akeneo\UserManagement\Component\Model\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Ramsey\Uuid\UuidInterface;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * Comment model
@@ -14,35 +16,55 @@ use Ramsey\Uuid\UuidInterface;
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[ORM\Entity()]
+#[ORM\Table(name: 'pim_comment_comment')]
+#[ORM\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
+#[ORM\Index(columns: ['resource_name', 'resource_id'], name: 'resource_name_resource_id_idx')]
+#[ORM\Index(columns: ['resource_name', 'resource_uuid'], name: 'resource_name_resource_uuid_idx')]
 class Comment implements CommentInterface
 {
     /** @var int */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: Types::INTEGER)]
     protected $id;
 
     /** @var string */
+    #[ORM\Column(name: 'resource_name', type: Types::STRING)]
     protected $resourceName;
 
     /** @var string */
+    #[ORM\Column(name: 'resource_id', type: Types::STRING, length: 24, nullable: true)]
     protected $resourceId;
 
+    #[ORM\Column(name: 'resource_uuid', type: 'uuid_binary', nullable: true)]
     protected UuidInterface $resourceUuid;
 
     /** @var UserInterface */
+    #[ORM\ManyToOne(targetEntity: \Akeneo\UserManagement\Component\Model\UserInterface::class)]
+    #[ORM\JoinColumn(name: 'author_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
     protected $author;
 
     /** @var string */
+    #[ORM\Column(type: Types::TEXT)]
     protected $body;
 
     /** @var \DateTime */
+    #[ORM\Column(name: 'created_at', type: Types::DATETIME_MUTABLE)]
     protected $createdAt;
 
     /** @var \DateTime */
+    #[ORM\Column(name: 'replied_at', type: Types::DATETIME_MUTABLE)]
     protected $repliedAt;
 
     /** @var CommentInterface */
+    #[ORM\ManyToOne(targetEntity: \Akeneo\Pim\Enrichment\Component\Comment\Model\CommentInterface::class, inversedBy: 'children')]
+    #[ORM\JoinColumn(referencedColumnName: 'id', onDelete: 'CASCADE')]
     protected $parent;
 
     /** @var ArrayCollection[] */
+    #[ORM\OneToMany(targetEntity: \Akeneo\Pim\Enrichment\Component\Comment\Model\CommentInterface::class, mappedBy: 'parent')]
+    #[ORM\OrderBy(['createdAt' => 'ASC'])]
     protected $children;
 
     /**

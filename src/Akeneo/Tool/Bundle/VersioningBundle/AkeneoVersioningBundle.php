@@ -29,12 +29,13 @@ class AkeneoVersioningBundle extends Bundle
             ->addCompilerPass(new RegisterVersionPurgerAdvisorPass());
 
         $versionMappings = [
-            realpath(__DIR__.'/Resources/config/model/doctrine') => 'Akeneo\Tool\Component\Versioning\Model',
+            'Akeneo\Tool\Component\Versioning\Model' => dirname(__DIR__, 2).'/Component/Versioning/Model',
         ];
 
         $container->addCompilerPass(
-            DoctrineOrmMappingsPass::createYamlMappingDriver(
+            DoctrineOrmMappingsPass::createAttributeMappingDriver(
                 $versionMappings,
+                array_values($versionMappings),
                 ['doctrine.orm.entity_manager'],
                 false
             )

@@ -28,12 +28,13 @@ class AkeneoChannelBundle extends Bundle
         ;
 
         $channelMappings = [
-            realpath(__DIR__.'/Resources/config/doctrine/model/') => 'Akeneo\Channel\Infrastructure\Component\Model'
+            'Akeneo\Channel\Infrastructure\Component\Model' => dirname(__DIR__).'/Component/Model'
         ];
 
         $container->addCompilerPass(
-            DoctrineOrmMappingsPass::createYamlMappingDriver(
+            DoctrineOrmMappingsPass::createAttributeMappingDriver(
                 $channelMappings,
+                array_values($channelMappings),
                 ['doctrine.orm.entity_manager'],
                 false
             )
