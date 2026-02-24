@@ -190,5 +190,8 @@
     "src/Akeneo/Tool/Bundle/MeasureBundle/front",
     "src/Akeneo/UserManagement/Bundle/Resources/workspaces/user-ui",
     "src/Oro/Bundle/ConfigBundle/front"
-  ]
+  ],
+  "resolutions": {
+    "babel-eslint": "npm:@babel/eslint-parser@^7.25.0"
+  }
 }
