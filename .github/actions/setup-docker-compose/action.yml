@@ -51,11 +51,11 @@ runs:
         echo "Docker Compose project: ${COMPOSE_NAME}"
 
         # Assign unique host ports per runner to avoid bind conflicts.
-        # Extract runner number from name (e.g. ci-runner-02 → 2), default 0.
-        # GitHub-hosted runners have large numbers (e.g. 1000010646) — they don't
-        # need port isolation since each job gets its own VM. Cap at 9.
+        # Extract runner number from name (e.g. ci-runner-02 → 2, bare-metal-10 → 10).
+        # GitHub-hosted runners have large numbers — they don't need port isolation
+        # since each job gets its own VM. Cap at 20 to support up to 20 runners.
         RUNNER_NUM=$(echo "${RUNNER_NAME:-}" | grep -oE '[0-9]+$' || echo "0")
-        RUNNER_NUM=$(( RUNNER_NUM % 10 ))
+        RUNNER_NUM=$(( RUNNER_NUM % 20 ))
         OFFSET=$(( RUNNER_NUM * 10 ))
         echo "DOCKER_PORT_HTTP=$((8080 + OFFSET))" >> "$GITHUB_ENV"
         echo "DOCKER_PORT_MYSQL=$((33006 + OFFSET))" >> "$GITHUB_ENV"
