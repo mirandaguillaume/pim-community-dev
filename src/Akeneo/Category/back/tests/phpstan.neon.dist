@@ -8,3 +8,32 @@ parameters:
   excludePaths:
     - %rootDir%/../../../src/Akeneo/Category/back/tests/Specification
     - %rootDir%/../../../src/Akeneo/Category/back/Infrastructure
+  ignoreErrors:
+    # PHPStan 2.x: Webmozart Assert calls redundant based on type inference
+    -
+      message: '#Call to static method Webmozart\\Assert\\Assert::\w+\(\).*will always evaluate to (true|false)#'
+      reportUnmatched: false
+    # PHPStan 2.x: instanceof checks always true based on type inference
+    -
+      message: '#Instanceof between.*will always evaluate to (true|false)#'
+      reportUnmatched: false
+    # PHPStan 2.x: array_filter on non-falsy arrays
+    -
+      message: '#Parameter \#1 \$array.*to function array_filter does not contain falsy values#'
+      reportUnmatched: false
+    # PHPStan 2.x: return type variance in normalize()
+    -
+      message: '#Method Akeneo\\Category\\.*::normalize\(\) should return#'
+      reportUnmatched: false
+    # PHPStan 2.x: built-in type checks always true/false
+    -
+      message: '#Call to function (is_array|is_string|is_int|is_null|is_bool|array_key_exists|assert)\(\).*will always evaluate to (true|false)#'
+      reportUnmatched: false
+    # PHPStan 2.x: PHPUnit assertions always true/false
+    -
+      message: '#Call to method PHPUnit\\Framework\\Assert::\w+\(\).*will always evaluate to (true|false)#'
+      reportUnmatched: false
+    # PHPStan 2.x: assertArrayFromDatabase expects narrower type
+    -
+      message: '#Parameter \#1 \$category of static method Akeneo\\Category\\ServiceApi\\ExternalApiCategory::assertArrayFromDatabase\(\) expects#'
+      reportUnmatched: false

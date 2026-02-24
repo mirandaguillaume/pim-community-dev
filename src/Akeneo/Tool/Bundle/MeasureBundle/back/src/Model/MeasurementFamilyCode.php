@@ -25,7 +25,7 @@ final class MeasurementFamilyCode
         );
         Assert::regex(
             $code,
-            '/^[a-zA-Z0-9_]+$/',
+            '/^\w+$/',
             sprintf('Measurement family code may contain only letters, numbers and underscores. "%s" given', $code)
         );
 

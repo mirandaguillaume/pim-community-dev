@@ -74,6 +74,6 @@ class ResetInstanceTest extends KernelTestCase
 
     private function getHandler(): ResetInstanceHandler
     {
-        return self::getContainer()->get(\Akeneo\Platform\Installer\Application\ResetInstance\ResetInstanceHandler::class);
+        return self::getContainer()->get(ResetInstanceHandler::class);
     }
 }

@@ -9,6 +9,7 @@ use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Trait_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleErrorBuilder;
 
 final class SuffixTraitRule implements Rule
 {
@@ -23,14 +24,14 @@ final class SuffixTraitRule implements Rule
     {
         if (\str_ends_with((string) $node->name, 'Trait')) {
             if (!$node instanceof Trait_) {
-                return [self::ERROR_MESSAGE];
+                return [RuleErrorBuilder::message(self::ERROR_MESSAGE)->build()];
             }
 
             return [];
         }
 
         if ($node instanceof Trait_) {
-            return [self::ERROR_MESSAGE];
+            return [RuleErrorBuilder::message(self::ERROR_MESSAGE)->build()];
         }
 
         return [];

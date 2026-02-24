@@ -49,7 +49,7 @@ class UpdateMaintenanceModeTest extends TestCase
 
     private function getQuery(): UpdateMaintenanceMode
     {
-        return $this->get(\Akeneo\Platform\Installer\Infrastructure\Query\UpdateMaintenanceMode::class);
+        return $this->get(UpdateMaintenanceMode::class);
     }
 
     private function getConnection(): Connection

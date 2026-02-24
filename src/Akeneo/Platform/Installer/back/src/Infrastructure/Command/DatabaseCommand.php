@@ -50,9 +50,6 @@ class DatabaseCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure(): void
     {
         $this
@@ -87,9 +84,6 @@ class DatabaseCommand extends Command
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         $this->commandExecutor = new CommandExecutor(
@@ -99,9 +93,6 @@ class DatabaseCommand extends Command
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->logger->info('Prepare database schema');

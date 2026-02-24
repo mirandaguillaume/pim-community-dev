@@ -25,7 +25,7 @@ final class UnitCode
         );
         Assert::regex(
             $code,
-            '/^[a-zA-Z0-9_]+$/',
+            '/^\w+$/',
             sprintf('Unit code may contain only letters, numbers and underscores. "%s" given', $code)
         );
         $this->code = $code;

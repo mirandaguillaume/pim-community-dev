@@ -28,7 +28,7 @@ class CodeValidator extends ConstraintValidator
                 new Length(['max' => self::MAX_CODE_LENGTH]),
                 new Regex(
                     [
-                        'pattern' => '/^[a-zA-Z0-9_]+$/',
+                        'pattern' => '/^\w+$/',
                         'message' => 'pim_measurements.validation.common.code.pattern',
                     ]
                 ),

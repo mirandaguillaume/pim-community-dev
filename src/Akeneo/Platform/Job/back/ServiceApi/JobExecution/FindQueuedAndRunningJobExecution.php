@@ -20,9 +20,6 @@ class FindQueuedAndRunningJobExecution implements FindQueuedAndRunningJobExecuti
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function count(int $size = 25): int
     {
         $query = new SearchJobExecutionQuery();

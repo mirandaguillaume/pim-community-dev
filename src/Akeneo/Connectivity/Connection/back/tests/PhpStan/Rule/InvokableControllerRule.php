@@ -7,6 +7,7 @@ namespace Akeneo\Connectivity\Connection\Tests\PhpStan\Rule;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\RuleErrorBuilder;
 
 final class InvokableControllerRule extends AbstractControllerRule
 {
@@ -32,6 +33,6 @@ final class InvokableControllerRule extends AbstractControllerRule
             }
         }
 
-        return [self::ERROR_MESSAGE];
+        return [RuleErrorBuilder::message(self::ERROR_MESSAGE)->build()];
     }
 }

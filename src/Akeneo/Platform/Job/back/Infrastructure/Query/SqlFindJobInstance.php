@@ -63,7 +63,7 @@ SQL;
             $sqlWhereParts[] = 'job_instance.code = :search';
         }
 
-        return empty($sqlWhereParts) ? '' : 'WHERE '.implode(' AND ', $sqlWhereParts);
+        return [] === $sqlWhereParts ? '' : 'WHERE '.implode(' AND ', $sqlWhereParts);
     }
 
     private function buildPaginationPart(JobInstanceQueryPagination $queryPagination): string
@@ -80,7 +80,7 @@ SQL;
             $sqlPaginationParts[] = ':limit';
         }
 
-        return empty($sqlPaginationParts) ? '' : 'LIMIT '.implode(' ', $sqlPaginationParts);
+        return [] === $sqlPaginationParts ? '' : 'LIMIT '.implode(' ', $sqlPaginationParts);
     }
 
     private function fetchJobInstances(string $sql, JobInstanceQuery $query): array

@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleErrorBuilder;
 
 final class CoverQueryByIntegrationTestRule implements Rule
 {
@@ -34,7 +35,7 @@ final class CoverQueryByIntegrationTestRule implements Rule
             );
 
             if (!\class_exists($integrationTestClass)) {
-                return [self::ERROR_MESSAGE];
+                return [RuleErrorBuilder::message(self::ERROR_MESSAGE)->build()];
             }
         }
 

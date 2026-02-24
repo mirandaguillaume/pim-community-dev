@@ -76,7 +76,7 @@ SQL;
         );
 
         // 0 if SAME, 1 if INSERT, 2 if UPDATE
-        if ($affectedRows !== 0 && $affectedRows !== 1 && $affectedRows !== 2) {
+        if (!in_array($affectedRows, [0, 1, 2], true)) {
             throw new \RuntimeException(
                 sprintf('Expected to create/update one measurement family, but %d were affected', $affectedRows)
             );

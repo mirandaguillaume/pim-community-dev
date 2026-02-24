@@ -50,7 +50,7 @@ class UserUiLocaleResetterTest extends TestCase
 
     private function getResetter(): UserUiLocaleResetter
     {
-        return $this->get(\Akeneo\Platform\Installer\Infrastructure\UserConfigurationResetter\UserUiLocaleResetter::class);
+        return $this->get(UserUiLocaleResetter::class);
     }
 
     private function assertUserUiLocale(string $expectedCatalogLocale): void

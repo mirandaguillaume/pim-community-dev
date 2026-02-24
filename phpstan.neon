@@ -9,13 +9,17 @@ parameters:
     scanFiles:
         - tests/back/phpstan-stubs/firestore.php
     symfony:
-        container_xml_path: %rootDir%/../../../var/cache/dev/KernelDevDebugContainer.xml
+        containerXmlPath: %rootDir%/../../../var/cache/dev/KernelDevDebugContainer.xml
     ignoreErrors:
         - '#Unsafe usage of new static\(\)\.#'
+        - '#Property .+::\$values on left side of \?\? is not nullable nor uninitialized\.#'
+        # PHPStan 2.x — return type narrowing
+        - '#never returns .+ so it can be removed from the return type#'
     excludePaths:
-        - %currentWorkingDirectory%/src/Akeneo/Pim/Automation/DataQualityInsights/tests
-        - %currentWorkingDirectory%/src/Akeneo/Pim/Enrichment/Bundle/Resources/fonts
-        - %currentWorkingDirectory%/src/Akeneo/Pim/Platform/Job
-        - %currentWorkingDirectory%/src/Akeneo/Pim/Enrichment/Product/back/Test/Specification
-        - %currentWorkingDirectory%/src/Akeneo/Pim/Enrichment/Product/back/Test/Acceptance/Specification
-        - %currentWorkingDirectory%/src/Akeneo/Pim/Enrichment/Category/back/Test/Acceptance/Specification
+        analyseAndScan:
+            - src/Akeneo/Pim/Automation/DataQualityInsights/tests
+            - src/Akeneo/Pim/Enrichment/Bundle/Resources/fonts
+            - src/Akeneo/Pim/Platform/Job (?)
+            - src/Akeneo/Pim/Enrichment/Product/back/Test/Specification
+            - src/Akeneo/Pim/Enrichment/Product/back/Test/Acceptance/Specification
+            - src/Akeneo/Pim/Enrichment/Category/back/Test/Acceptance/Specification (?)

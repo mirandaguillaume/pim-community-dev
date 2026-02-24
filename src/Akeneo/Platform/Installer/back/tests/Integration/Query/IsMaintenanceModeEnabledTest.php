@@ -44,7 +44,7 @@ class IsMaintenanceModeEnabledTest extends TestCase
 
     private function getQuery(): IsMaintenanceModeEnabled
     {
-        return $this->get(\Akeneo\Platform\Installer\Infrastructure\Query\IsMaintenanceModeEnabled::class);
+        return $this->get(IsMaintenanceModeEnabled::class);
     }
 
     private function getConnection(): Connection

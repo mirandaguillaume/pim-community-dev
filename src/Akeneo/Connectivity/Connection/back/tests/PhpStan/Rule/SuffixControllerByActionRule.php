@@ -7,6 +7,7 @@ namespace Akeneo\Connectivity\Connection\Tests\PhpStan\Rule;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\RuleErrorBuilder;
 
 final class SuffixControllerByActionRule extends AbstractControllerRule
 {
@@ -27,7 +28,7 @@ final class SuffixControllerByActionRule extends AbstractControllerRule
         }
 
         if (!\str_ends_with((string) $node->name, 'Action')) {
-            return [self::ERROR_MESSAGE];
+            return [RuleErrorBuilder::message(self::ERROR_MESSAGE)->build()];
         }
 
         return [];
