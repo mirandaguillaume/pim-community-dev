@@ -1,896 +1,1633 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Application\\\\DownloadFileFromStorage\\\\DownloadFileFromStorageCommand\\:\\:__construct\\(\\) has parameter \\$normalizedStorage with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Application\\DownloadFileFromStorage\\DownloadFileFromStorageCommand\:\:__construct\(\) has parameter \$normalizedStorage with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Application/DownloadFileFromStorage/DownloadFileFromStorageCommand.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Application\\\\TransferFilesToStorage\\\\TransferFilesToStorageCommand\\:\\:__construct\\(\\) has parameter \\$filesToTransfer with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Application\\TransferFilesToStorage\\TransferFilesToStorageCommand\:\:__construct\(\) has parameter \$filesToTransfer with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Application/TransferFilesToStorage/TransferFilesToStorageCommand.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Application\\\\TransferFilesToStorage\\\\TransferFilesToStorageCommand\\:\\:__construct\\(\\) has parameter \\$normalizedStorage with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Application\\TransferFilesToStorage\\TransferFilesToStorageCommand\:\:__construct\(\) has parameter \$normalizedStorage with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Application/TransferFilesToStorage/TransferFilesToStorageCommand.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Application\\\\TransferFilesToStorage\\\\TransferFilesToStorageHandler\\:\\:handle\\(\\) has no return type specified\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Application\\TransferFilesToStorage\\TransferFilesToStorageHandler\:\:handle\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: ../Application/TransferFilesToStorage/TransferFilesToStorageHandler.php
 
 		-
-			message: "#^Cannot cast mixed to int\\.$#"
+			message: '#^Parameter \#1 \$filesToTransfer of method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Domain\\TransferFilesToStorageInterface\:\:transfer\(\) expects array\<Akeneo\\Platform\\Bundle\\ImportExportBundle\\Application\\TransferFilesToStorage\\FileToTransfer\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Application/TransferFilesToStorage/TransferFilesToStorageHandler.php
+
+		-
+			message: '#^Cannot cast mixed to int\.$#'
+			identifier: cast.int
 			count: 1
 			path: ../Command/PurgeJobExecutionCommand.php
 
 		-
-			message: "#^Parameter \\#1 \\$jobInstanceCodes of method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Purge\\\\PurgeJobExecution\\:\\:all\\(\\) expects array, mixed given\\.$#"
+			message: '#^Parameter \#1 \$jobInstanceCodes of method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Purge\\PurgeJobExecution\:\:all\(\) expects array, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Command/PurgeJobExecutionCommand.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function implode expects array\\<string\\>, mixed given\\.$#"
+			message: '#^Parameter \#2 \$array of function implode expects array, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Command/PurgeJobExecutionCommand.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function implode expects array\\|null, mixed given\\.$#"
+			message: '#^Parameter \#2 \$jobInstanceCodes of method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Purge\\PurgeJobExecution\:\:olderThanDays\(\) expects array, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Command/PurgeJobExecutionCommand.php
 
 		-
-			message: "#^Parameter \\#2 \\$jobInstanceCodes of method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Purge\\\\PurgeJobExecution\\:\\:olderThanDays\\(\\) expects array, mixed given\\.$#"
+			message: '#^Parameter \#2 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Command/PurgeJobExecutionCommand.php
 
 		-
-			message: "#^Parameter \\#2 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, mixed given\\.$#"
-			count: 1
-			path: ../Command/PurgeJobExecutionCommand.php
-
-		-
-			message: "#^Cannot access offset 'meta' on array\\|ArrayObject\\|bool\\|float\\|int\\|string\\|null\\.$#"
+			message: '#^Cannot access offset ''meta'' on array\|ArrayObject\|bool\|float\|int\|string\|null\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../Controller/InternalApi/JobExecutionController.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Controller\\\\InternalApi\\\\JobExecutionController\\:\\:__construct\\(\\) has parameter \\$jobSecurityMapping with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Controller\\InternalApi\\JobExecutionController\:\:__construct\(\) has parameter \$jobSecurityMapping with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Controller/InternalApi/JobExecutionController.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Controller\\\\InternalApi\\\\JobExecutionController\\:\\:archives\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Controller\\InternalApi\\JobExecutionController\:\:archives\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Controller/InternalApi/JobExecutionController.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Controller\\\\InternalApi\\\\JobExecutionController\\:\\:getAction\\(\\) has parameter \\$identifier with no type specified\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Controller\\InternalApi\\JobExecutionController\:\:getAction\(\) has parameter \$identifier with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: ../Controller/InternalApi/JobExecutionController.php
 
 		-
-			message: "#^Cannot access offset 'code' on mixed\\.$#"
-			count: 2
-			path: ../Controller/InternalApi/JobInstanceController.php
-
-		-
-			message: "#^Cannot access offset 'configuration' on mixed\\.$#"
+			message: '#^Parameter \#1 \$attributes of method Oro\\Bundle\\SecurityBundle\\SecurityFacade\:\:isGranted\(\) expects array\<string\>\|string, mixed given\.$#'
+			identifier: argument.type
 			count: 1
-			path: ../Controller/InternalApi/JobInstanceController.php
+			path: ../Controller/InternalApi/JobExecutionController.php
 
 		-
-			message: "#^Cannot access offset 'label' on mixed\\.$#"
+			message: '#^Parameter \#1 \$iterator of function iterator_to_array expects iterable, mixed given\.$#'
+			identifier: argument.type
 			count: 1
-			path: ../Controller/InternalApi/JobInstanceController.php
+			path: ../Controller/InternalApi/JobExecutionController.php
 
 		-
-			message: "#^Cannot access offset 'storage' on mixed\\.$#"
+			message: '#^Parameter \#2 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
-			path: ../Controller/InternalApi/JobInstanceController.php
+			path: ../Controller/InternalApi/JobExecutionController.php
 
 		-
-			message: "#^Cannot call method getConnector\\(\\) on mixed\\.$#"
+			message: '#^Possibly invalid array key type mixed\.$#'
+			identifier: offsetAccess.invalidOffset
 			count: 1
-			path: ../Controller/InternalApi/JobInstanceController.php
+			path: ../Controller/InternalApi/JobExecutionController.php
 
 		-
-			message: "#^Cannot call method getJobName\\(\\) on mixed\\.$#"
-			count: 2
-			path: ../Controller/InternalApi/JobInstanceController.php
-
-		-
-			message: "#^Cannot call method getType\\(\\) on mixed\\.$#"
-			count: 2
-			path: ../Controller/InternalApi/JobInstanceController.php
-
-		-
-			message: "#^Cannot call method getUser\\(\\) on Symfony\\\\Component\\\\Security\\\\Core\\\\Authentication\\\\Token\\\\TokenInterface\\|null\\.$#"
-			count: 1
-			path: ../Controller/InternalApi/JobInstanceController.php
-
-		-
-			message: "#^Cannot call method getUserIdentifier\\(\\) on Symfony\\\\Component\\\\Security\\\\Core\\\\User\\\\UserInterface\\|null\\.$#"
-			count: 1
-			path: ../Controller/InternalApi/JobInstanceController.php
-
-		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Controller\\\\InternalApi\\\\JobInstanceController\\:\\:duplicateAction\\(\\) has parameter \\$code with no type specified\\.$#"
-			count: 1
-			path: ../Controller/InternalApi/JobInstanceController.php
-
-		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Controller\\\\InternalApi\\\\JobInstanceController\\:\\:getJobInstance\\(\\) should return Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Model\\\\JobInstance but returns mixed\\.$#"
-			count: 1
-			path: ../Controller/InternalApi/JobInstanceController.php
-
-		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Controller\\\\InternalApi\\\\JobInstanceController\\:\\:getSanitizedClientFileName\\(\\) should return string but returns string\\|null\\.$#"
-			count: 1
-			path: ../Controller/InternalApi/JobInstanceController.php
-
-		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Controller\\\\InternalApi\\\\JobInstanceController\\:\\:getValidationErrors\\(\\) has parameter \\$groups with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../Controller/InternalApi/JobInstanceController.php
-
-		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Controller\\\\InternalApi\\\\JobInstanceController\\:\\:getValidationErrors\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../Controller/InternalApi/JobInstanceController.php
-
-		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Controller\\\\InternalApi\\\\JobInstanceController\\:\\:normalizeJobInstance\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: ../Controller/InternalApi/JobInstanceController.php
-
-		-
-			message: "#^Parameter \\#1 \\$jobType of method Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Job\\\\JobRegistry\\:\\:allByTypeGroupByConnector\\(\\) expects string, bool\\|float\\|int\\|string\\|null given\\.$#"
-			count: 1
-			path: ../Controller/InternalApi/JobInstanceController.php
-
-		-
-			message: "#^Parameter \\#1 \\$json of function json_decode expects string, resource\\|string given\\.$#"
+			message: '#^Cannot access an offset on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 3
 			path: ../Controller/InternalApi/JobInstanceController.php
 
 		-
-			message: "#^Parameter \\#1 \\.\\.\\.\\$arrays of function array_merge expects array, array\\|ArrayObject\\|bool\\|float\\|int\\|string\\|null given\\.$#"
+			message: '#^Cannot access offset ''code'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: ../Controller/InternalApi/JobInstanceController.php
+
+		-
+			message: '#^Cannot access offset ''configuration'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../Controller/InternalApi/JobInstanceController.php
 
 		-
-			message: "#^Parameter \\#2 \\$data of method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Security\\\\CredentialsEncrypterRegistry\\:\\:encryptCredentials\\(\\) expects array, mixed given\\.$#"
+			message: '#^Cannot access offset ''label'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../Controller/InternalApi/JobInstanceController.php
 
 		-
-			message: "#^Parameter \\#2 \\$data of method Akeneo\\\\Tool\\\\Component\\\\StorageUtils\\\\Updater\\\\ObjectUpdaterInterface\\:\\:update\\(\\) expects array, mixed given\\.$#"
+			message: '#^Cannot access offset ''normalized_errors'' on array\|object\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../Controller/InternalApi/JobInstanceController.php
+
+		-
+			message: '#^Cannot access offset ''storage'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 3
 			path: ../Controller/InternalApi/JobInstanceController.php
 
 		-
-			message: "#^Call to an undefined method object\\:\\:getLogFile\\(\\)\\.$#"
+			message: '#^Cannot access offset ''type'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../Controller/InternalApi/JobInstanceController.php
+
+		-
+			message: '#^Cannot call method getConnector\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../Controller/InternalApi/JobInstanceController.php
+
+		-
+			message: '#^Cannot call method getJobName\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: ../Controller/InternalApi/JobInstanceController.php
+
+		-
+			message: '#^Cannot call method getType\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: ../Controller/InternalApi/JobInstanceController.php
+
+		-
+			message: '#^Cannot call method getUser\(\) on Symfony\\Component\\Security\\Core\\Authentication\\Token\\TokenInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../Controller/InternalApi/JobInstanceController.php
+
+		-
+			message: '#^Cannot call method getUserIdentifier\(\) on Symfony\\Component\\Security\\Core\\User\\UserInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../Controller/InternalApi/JobInstanceController.php
+
+		-
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Controller\\InternalApi\\JobInstanceController\:\:duplicateAction\(\) has parameter \$code with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../Controller/InternalApi/JobInstanceController.php
+
+		-
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Controller\\InternalApi\\JobInstanceController\:\:getJobInstance\(\) should return Akeneo\\Tool\\Component\\Batch\\Model\\JobInstance but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: ../Controller/InternalApi/JobInstanceController.php
+
+		-
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Controller\\InternalApi\\JobInstanceController\:\:getSanitizedClientFileName\(\) should return string but returns string\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: ../Controller/InternalApi/JobInstanceController.php
+
+		-
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Controller\\InternalApi\\JobInstanceController\:\:getValidationErrors\(\) has parameter \$groups with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../Controller/InternalApi/JobInstanceController.php
+
+		-
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Controller\\InternalApi\\JobInstanceController\:\:getValidationErrors\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../Controller/InternalApi/JobInstanceController.php
+
+		-
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Controller\\InternalApi\\JobInstanceController\:\:getValidationErrors\(\) should return array but returns array\|ArrayAccess\.$#'
+			identifier: return.type
+			count: 1
+			path: ../Controller/InternalApi/JobInstanceController.php
+
+		-
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Controller\\InternalApi\\JobInstanceController\:\:normalizeJobInstance\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../Controller/InternalApi/JobInstanceController.php
+
+		-
+			message: '#^Parameter \#1 \$code of method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Controller\\InternalApi\\JobInstanceController\:\:getJobInstance\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Controller/InternalApi/JobInstanceController.php
+
+		-
+			message: '#^Parameter \#1 \$data of method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Security\\CredentialsEncrypterRegistry\:\:obfuscateCredentials\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: ../Controller/InternalApi/JobInstanceController.php
+
+		-
+			message: '#^Parameter \#1 \$jobName of method Akeneo\\Tool\\Component\\Batch\\Job\\JobRegistry\:\:has\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Controller/InternalApi/JobInstanceController.php
+
+		-
+			message: '#^Parameter \#1 \$jobType of method Akeneo\\Tool\\Component\\Batch\\Job\\JobRegistry\:\:allByTypeGroupByConnector\(\) expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Controller/InternalApi/JobInstanceController.php
+
+		-
+			message: '#^Parameter \#1 \$json of function json_decode expects string, resource\|string given\.$#'
+			identifier: argument.type
+			count: 3
+			path: ../Controller/InternalApi/JobInstanceController.php
+
+		-
+			message: '#^Parameter \#1 \$previousData of method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Security\\CredentialsEncrypterRegistry\:\:encryptCredentials\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Controller/InternalApi/JobInstanceController.php
+
+		-
+			message: '#^Parameter \#1 \.\.\.\$arrays of function array_merge expects array, array\|ArrayObject\|bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Controller/InternalApi/JobInstanceController.php
+
+		-
+			message: '#^Parameter \#2 \$data of method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Security\\CredentialsEncrypterRegistry\:\:encryptCredentials\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Controller/InternalApi/JobInstanceController.php
+
+		-
+			message: '#^Parameter \#2 \$data of method Akeneo\\Tool\\Component\\StorageUtils\\Updater\\ObjectUpdaterInterface\:\:update\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 3
+			path: ../Controller/InternalApi/JobInstanceController.php
+
+		-
+			message: '#^Parameter \#2 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Controller/InternalApi/JobInstanceController.php
+
+		-
+			message: '#^Parameter \#3 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Controller/InternalApi/JobInstanceController.php
+
+		-
+			message: '#^Parameter \#4 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Controller/InternalApi/JobInstanceController.php
+
+		-
+			message: '#^Parameter \#5 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Controller/InternalApi/JobInstanceController.php
+
+		-
+			message: '#^Call to an undefined method object\:\:getLogFile\(\)\.$#'
+			identifier: method.notFound
 			count: 1
 			path: ../Controller/JobExecutionController.php
 
 		-
-			message: "#^Parameter \\#1 \\$jobExecution of class Akeneo\\\\Tool\\\\Component\\\\Connector\\\\LogKey constructor expects Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Model\\\\JobExecution, object given\\.$#"
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
 			count: 1
 			path: ../Controller/JobExecutionController.php
 
 		-
-			message: "#^Parameter \\#1 \\$jobExecution of method Akeneo\\\\Tool\\\\Bundle\\\\ConnectorBundle\\\\EventListener\\\\StepExecutionArchivist\\:\\:getArchive\\(\\) expects Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Model\\\\JobExecution, object given\\.$#"
+			message: '#^Parameter \#1 \$jobExecution of class Akeneo\\Tool\\Component\\Connector\\LogKey constructor expects Akeneo\\Tool\\Component\\Batch\\Model\\JobExecution, object given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Controller/JobExecutionController.php
 
 		-
-			message: "#^Cannot access offset 'selectedCategoryCod…' on mixed\\.$#"
+			message: '#^Parameter \#1 \$jobExecution of method Akeneo\\Tool\\Bundle\\ConnectorBundle\\EventListener\\StepExecutionArchivist\:\:getArchive\(\) expects Akeneo\\Tool\\Component\\Batch\\Model\\JobExecution, object given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Controller/JobExecutionController.php
+
+		-
+			message: '#^Parameter \#2 \$values of method Symfony\\Component\\HttpFoundation\\ResponseHeaderBag\:\:set\(\) expects array\<string\>\|string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Controller/JobExecutionController.php
+
+		-
+			message: '#^Cannot access offset ''selectedCategoryCodes'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../Controller/Ui/CategoryTreeController.php
 
 		-
-			message: "#^Cannot access offset 'shouldIncludeChildr…' on mixed\\.$#"
+			message: '#^Cannot access offset ''shouldIncludeChildren'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../Controller/Ui/CategoryTreeController.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Controller\\\\Ui\\\\CategoryTreeController\\:\\:categoryCodes\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Controller\\Ui\\CategoryTreeController\:\:categoryCodes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Controller/Ui/CategoryTreeController.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Controller\\\\Ui\\\\CategoryTreeController\\:\\:categoryCodes\\(\\) should return array but returns mixed\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Controller\\Ui\\CategoryTreeController\:\:categoryCodes\(\) should return array but returns mixed\.$#'
+			identifier: return.type
 			count: 1
 			path: ../Controller/Ui/CategoryTreeController.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Controller\\\\Ui\\\\CategoryTreeController\\:\\:findCategoryCountPerTree\\(\\) has parameter \\$selectedCategoryCodes with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Controller\\Ui\\CategoryTreeController\:\:findCategoryCountPerTree\(\) has parameter \$selectedCategoryCodes with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Controller/Ui/CategoryTreeController.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Controller\\\\Ui\\\\CategoryTreeController\\:\\:findCategoryCountPerTree\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Controller\\Ui\\CategoryTreeController\:\:findCategoryCountPerTree\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Controller/Ui/CategoryTreeController.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Controller\\\\Ui\\\\CategoryTreeController\\:\\:normalizedCategoryTreesWithSelectedCount\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Controller\\Ui\\CategoryTreeController\:\:normalizedCategoryTreesWithSelectedCount\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Controller/Ui/CategoryTreeController.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Controller\\\\Ui\\\\CategoryTreeController\\:\\:shouldIncludeChildren\\(\\) should return bool but returns mixed\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Controller\\Ui\\CategoryTreeController\:\:shouldIncludeChildren\(\) should return bool but returns mixed\.$#'
+			identifier: return.type
 			count: 1
 			path: ../Controller/Ui/CategoryTreeController.php
 
 		-
-			message: "#^Offset 'code' does not exist on array\\{id\\?\\: int, code\\?\\: string, labels\\?\\: array\\<string, string\\>\\}\\.$#"
+			message: '#^Offset ''code'' might not exist on array\{id\?\: int, code\?\: string, labels\?\: array\<string, string\>\}\.$#'
+			identifier: offsetAccess.notFound
 			count: 1
 			path: ../Controller/Ui/CategoryTreeController.php
 
 		-
-			message: "#^Parameter \\#1 \\$json of function json_decode expects string, resource\\|string given\\.$#"
+			message: '#^Parameter \#1 \$categoryCodes of method Akeneo\\Category\\Api\\GetCategoryChildrenCodesPerTreeInterface\:\:executeWithChildren\(\) expects array\<string\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Controller/Ui/CategoryTreeController.php
+
+		-
+			message: '#^Parameter \#1 \$categoryCodes of method Akeneo\\Category\\Api\\GetCategoryChildrenCodesPerTreeInterface\:\:executeWithoutChildren\(\) expects array\<string\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Controller/Ui/CategoryTreeController.php
+
+		-
+			message: '#^Parameter \#1 \$json of function json_decode expects string, resource\|string given\.$#'
+			identifier: argument.type
 			count: 2
 			path: ../Controller/Ui/CategoryTreeController.php
 
 		-
-			message: "#^Cannot call method getJobInstance\\(\\) on object\\|null\\.$#"
+			message: '#^Parameter \#1 \$selectedCategoryCodes of method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Controller\\Ui\\CategoryTreeController\:\:normalizedCategoryTreesWithSelectedCount\(\) expects array\<string\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Controller/Ui/CategoryTreeController.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
 			count: 1
 			path: ../Controller/Ui/JobTrackerController.php
 
 		-
-			message: "#^Cannot call method isRunning\\(\\) on object\\|null\\.$#"
+			message: '#^Cannot call method getJobInstance\(\) on object\|null\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Controller/Ui/JobTrackerController.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Controller\\\\Ui\\\\JobTrackerController\\:\\:__construct\\(\\) has parameter \\$jobSecurityMapping with no value type specified in iterable type array\\.$#"
+			message: '#^Cannot call method getJobName\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Controller/Ui/JobTrackerController.php
 
 		-
-			message: "#^Parameter \\#1 \\$jobExecution of method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Controller\\\\Ui\\\\JobTrackerController\\:\\:getZipArchiveName\\(\\) expects Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Model\\\\JobExecution, object given\\.$#"
+			message: '#^Cannot call method getStepName\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Controller/Ui/JobTrackerController.php
 
 		-
-			message: "#^Parameter \\#1 \\$jobExecution of method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Controller\\\\Ui\\\\JobTrackerController\\:\\:isJobGranted\\(\\) expects Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Model\\\\JobExecution, object given\\.$#"
+			message: '#^Cannot call method isRunning\(\) on object\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../Controller/Ui/JobTrackerController.php
+
+		-
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Controller\\Ui\\JobTrackerController\:\:__construct\(\) has parameter \$jobSecurityMapping with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../Controller/Ui/JobTrackerController.php
+
+		-
+			message: '#^Parameter \#1 \$attributes of method Oro\\Bundle\\SecurityBundle\\SecurityFacade\:\:isGranted\(\) expects array\<string\>\|string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Controller/Ui/JobTrackerController.php
+
+		-
+			message: '#^Parameter \#1 \$fileName of method ZipStream\\ZipStream\:\:addFileFromStream\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Controller/Ui/JobTrackerController.php
+
+		-
+			message: '#^Parameter \#1 \$jobExecution of method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Controller\\Ui\\JobTrackerController\:\:getZipArchiveName\(\) expects Akeneo\\Tool\\Component\\Batch\\Model\\JobExecution, object given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Controller/Ui/JobTrackerController.php
+
+		-
+			message: '#^Parameter \#1 \$jobExecution of method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Controller\\Ui\\JobTrackerController\:\:isJobGranted\(\) expects Akeneo\\Tool\\Component\\Batch\\Model\\JobExecution, object given\.$#'
+			identifier: argument.type
 			count: 2
 			path: ../Controller/Ui/JobTrackerController.php
 
 		-
-			message: "#^Parameter \\#1 \\$jobExecution of method Akeneo\\\\Tool\\\\Bundle\\\\ConnectorBundle\\\\EventListener\\\\StepExecutionArchivist\\:\\:getArchive\\(\\) expects Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Model\\\\JobExecution, object given\\.$#"
+			message: '#^Parameter \#1 \$jobExecution of method Akeneo\\Tool\\Bundle\\ConnectorBundle\\EventListener\\StepExecutionArchivist\:\:getArchive\(\) expects Akeneo\\Tool\\Component\\Batch\\Model\\JobExecution, object given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Controller/Ui/JobTrackerController.php
 
 		-
-			message: "#^Parameter \\#1 \\$jobExecution of method Akeneo\\\\Tool\\\\Bundle\\\\ConnectorBundle\\\\EventListener\\\\StepExecutionArchivist\\:\\:getArchives\\(\\) expects Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Model\\\\JobExecution, object given\\.$#"
+			message: '#^Parameter \#1 \$jobExecution of method Akeneo\\Tool\\Bundle\\ConnectorBundle\\EventListener\\StepExecutionArchivist\:\:getArchives\(\) expects Akeneo\\Tool\\Component\\Batch\\Model\\JobExecution, object given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Controller/Ui/JobTrackerController.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Datagrid\\\\JobDatagridProvider\\:\\:getConnectorChoices\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Parameter \#1 \$jobName of method Akeneo\\Tool\\Component\\Batch\\Job\\JobRegistry\:\:get\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Controller/Ui/JobTrackerController.php
+
+		-
+			message: '#^Parameter \#1 \$location of method League\\Flysystem\\FilesystemReader\:\:readStream\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Controller/Ui/JobTrackerController.php
+
+		-
+			message: '#^Parameter \#1 \$stepExecution of method Akeneo\\Tool\\Component\\Batch\\Step\\StepExecutionAwareInterface\:\:setStepExecution\(\) expects Akeneo\\Tool\\Component\\Batch\\Model\\StepExecution, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Controller/Ui/JobTrackerController.php
+
+		-
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Datagrid\\JobDatagridProvider\:\:getConnectorChoices\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Datagrid/JobDatagridProvider.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Datagrid\\\\JobDatagridProvider\\:\\:getExportConnectorChoices\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Datagrid\\JobDatagridProvider\:\:getExportConnectorChoices\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Datagrid/JobDatagridProvider.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Datagrid\\\\JobDatagridProvider\\:\\:getExportJobChoices\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Datagrid\\JobDatagridProvider\:\:getExportJobChoices\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Datagrid/JobDatagridProvider.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Datagrid\\\\JobDatagridProvider\\:\\:getImportConnectorChoices\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Datagrid\\JobDatagridProvider\:\:getImportConnectorChoices\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Datagrid/JobDatagridProvider.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Datagrid\\\\JobDatagridProvider\\:\\:getImportJobChoices\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Datagrid\\JobDatagridProvider\:\:getImportJobChoices\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Datagrid/JobDatagridProvider.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Datagrid\\\\JobDatagridProvider\\:\\:getJobChoices\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Datagrid\\JobDatagridProvider\:\:getJobChoices\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Datagrid/JobDatagridProvider.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\DependencyInjection\\\\PimImportExportExtension\\:\\:load\\(\\) has no return type specified\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\DependencyInjection\\PimImportExportExtension\:\:load\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: ../DependencyInjection/PimImportExportExtension.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\DependencyInjection\\\\PimImportExportExtension\\:\\:load\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\DependencyInjection\\PimImportExportExtension\:\:load\(\) has parameter \$configs with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../DependencyInjection/PimImportExportExtension.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Domain\\\\StorageHydratorInterface\\:\\:hydrate\\(\\) has parameter \\$normalizedStorage with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Domain\\StorageHydratorInterface\:\:hydrate\(\) has parameter \$normalizedStorage with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Domain/StorageHydratorInterface.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Domain\\\\StorageHydratorInterface\\:\\:supports\\(\\) has parameter \\$normalizedStorage with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Domain\\StorageHydratorInterface\:\:supports\(\) has parameter \$normalizedStorage with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Domain/StorageHydratorInterface.php
 
 		-
-			message: "#^Call to an undefined method object\\:\\:setType\\(\\)\\.$#"
+			message: '#^Call to an undefined method object\:\:setType\(\)\.$#'
+			identifier: method.notFound
 			count: 1
 			path: ../Factory/MassEditNotificationFactory.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Factory\\\\MassEditNotificationFactory\\:\\:create\\(\\) has parameter \\$jobExecution with no type specified\\.$#"
+			message: '#^Cannot call method setContext\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Factory/MassEditNotificationFactory.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Factory\\\\MassEditNotificationFactory\\:\\:create\\(\\) should return Akeneo\\\\Platform\\\\Bundle\\\\NotificationBundle\\\\Entity\\\\NotificationInterface but returns object\\.$#"
+			message: '#^Cannot call method setMessage\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Factory/MassEditNotificationFactory.php
 
 		-
-			message: "#^Unable to resolve the template type T in call to method static method Doctrine\\\\Common\\\\Util\\\\ClassUtils\\:\\:getClass\\(\\)$#"
+			message: '#^Cannot call method setMessageParams\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Factory/MassEditNotificationFactory.php
 
 		-
-			message: "#^Call to an undefined method object\\:\\:setType\\(\\)\\.$#"
+			message: '#^Cannot call method setRoute\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../Factory/MassEditNotificationFactory.php
+
+		-
+			message: '#^Cannot call method setRouteParams\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../Factory/MassEditNotificationFactory.php
+
+		-
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Factory\\MassEditNotificationFactory\:\:create\(\) has parameter \$jobExecution with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../Factory/MassEditNotificationFactory.php
+
+		-
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Factory\\MassEditNotificationFactory\:\:create\(\) should return Akeneo\\Platform\\Bundle\\NotificationBundle\\Entity\\NotificationInterface but returns object\.$#'
+			identifier: return.type
+			count: 1
+			path: ../Factory/MassEditNotificationFactory.php
+
+		-
+			message: '#^Parameter \#1 \$object of static method Doctrine\\Common\\Util\\ClassUtils\:\:getClass\(\) expects object, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Factory/MassEditNotificationFactory.php
+
+		-
+			message: '#^Unable to resolve the template type T in call to static method Doctrine\\Common\\Util\\ClassUtils\:\:getClass\(\)$#'
+			identifier: argument.templateType
+			count: 1
+			path: ../Factory/MassEditNotificationFactory.php
+
+		-
+			message: '#^Call to an undefined method object\:\:setType\(\)\.$#'
+			identifier: method.notFound
 			count: 1
 			path: ../Factory/NotificationFactory.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Factory\\\\NotificationFactory\\:\\:__construct\\(\\) has parameter \\$notificationTypes with no value type specified in iterable type array\\.$#"
+			message: '#^Cannot call method setContext\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Factory/NotificationFactory.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Factory\\\\NotificationFactory\\:\\:create\\(\\) has parameter \\$jobExecution with no type specified\\.$#"
+			message: '#^Cannot call method setMessage\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Factory/NotificationFactory.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Factory\\\\NotificationFactory\\:\\:create\\(\\) should return Akeneo\\\\Platform\\\\Bundle\\\\NotificationBundle\\\\Entity\\\\NotificationInterface but returns object\\.$#"
+			message: '#^Cannot call method setMessageParams\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Factory/NotificationFactory.php
 
 		-
-			message: "#^Property Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Factory\\\\NotificationFactory\\:\\:\\$notificationTypes type has no value type specified in iterable type array\\.$#"
+			message: '#^Cannot call method setRoute\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Factory/NotificationFactory.php
 
 		-
-			message: "#^Unable to resolve the template type T in call to method static method Doctrine\\\\Common\\\\Util\\\\ClassUtils\\:\\:getClass\\(\\)$#"
+			message: '#^Cannot call method setRouteParams\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Factory/NotificationFactory.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Hydrator\\\\LocalStorageHydrator\\:\\:hydrate\\(\\) has parameter \\$normalizedStorage with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Factory\\NotificationFactory\:\:__construct\(\) has parameter \$notificationTypes with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../Factory/NotificationFactory.php
+
+		-
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Factory\\NotificationFactory\:\:create\(\) has parameter \$jobExecution with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../Factory/NotificationFactory.php
+
+		-
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Factory\\NotificationFactory\:\:create\(\) should return Akeneo\\Platform\\Bundle\\NotificationBundle\\Entity\\NotificationInterface but returns object\.$#'
+			identifier: return.type
+			count: 1
+			path: ../Factory/NotificationFactory.php
+
+		-
+			message: '#^Parameter \#1 \$object of static method Doctrine\\Common\\Util\\ClassUtils\:\:getClass\(\) expects object, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Factory/NotificationFactory.php
+
+		-
+			message: '#^Property Akeneo\\Platform\\Bundle\\ImportExportBundle\\Factory\\NotificationFactory\:\:\$notificationTypes type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../Factory/NotificationFactory.php
+
+		-
+			message: '#^Unable to resolve the template type T in call to static method Doctrine\\Common\\Util\\ClassUtils\:\:getClass\(\)$#'
+			identifier: argument.templateType
+			count: 1
+			path: ../Factory/NotificationFactory.php
+
+		-
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Hydrator\\LocalStorageHydrator\:\:hydrate\(\) has parameter \$normalizedStorage with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Hydrator/LocalStorageHydrator.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Hydrator\\\\LocalStorageHydrator\\:\\:supports\\(\\) has parameter \\$normalizedStorage with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Hydrator\\LocalStorageHydrator\:\:supports\(\) has parameter \$normalizedStorage with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Hydrator/LocalStorageHydrator.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Hydrator\\\\ManualUploadStorageHydrator\\:\\:hydrate\\(\\) has parameter \\$normalizedStorage with no value type specified in iterable type array\\.$#"
+			message: '#^Parameter \#1 \$filePath of class Akeneo\\Platform\\Bundle\\ImportExportBundle\\Domain\\Model\\LocalStorage constructor expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Infrastructure/Hydrator/LocalStorageHydrator.php
+
+		-
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Hydrator\\ManualUploadStorageHydrator\:\:hydrate\(\) has parameter \$normalizedStorage with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Hydrator/ManualUploadStorageHydrator.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Hydrator\\\\ManualUploadStorageHydrator\\:\\:supports\\(\\) has parameter \\$normalizedStorage with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Hydrator\\ManualUploadStorageHydrator\:\:supports\(\) has parameter \$normalizedStorage with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Hydrator/ManualUploadStorageHydrator.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Hydrator\\\\NoneStorageHydrator\\:\\:hydrate\\(\\) has parameter \\$normalizedStorage with no value type specified in iterable type array\\.$#"
+			message: '#^Parameter \#1 \$filePath of class Akeneo\\Platform\\Bundle\\ImportExportBundle\\Domain\\Model\\ManualUploadStorage constructor expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Infrastructure/Hydrator/ManualUploadStorageHydrator.php
+
+		-
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Hydrator\\NoneStorageHydrator\:\:hydrate\(\) has parameter \$normalizedStorage with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Hydrator/NoneStorageHydrator.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Hydrator\\\\NoneStorageHydrator\\:\\:supports\\(\\) has parameter \\$normalizedStorage with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Hydrator\\NoneStorageHydrator\:\:hydrate\(\) never returns Akeneo\\Platform\\Bundle\\ImportExportBundle\\Domain\\Model\\StorageInterface so it can be removed from the return type\.$#'
+			identifier: return.unusedType
 			count: 1
 			path: ../Infrastructure/Hydrator/NoneStorageHydrator.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Hydrator\\\\StorageHydrator\\:\\:__construct\\(\\) has parameter \\$storageHydrators with no value type specified in iterable type iterable\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Hydrator\\NoneStorageHydrator\:\:supports\(\) has parameter \$normalizedStorage with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../Infrastructure/Hydrator/NoneStorageHydrator.php
+
+		-
+			message: '#^Cannot call method hydrate\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Infrastructure/Hydrator/StorageHydrator.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Hydrator\\\\StorageHydrator\\:\\:hydrate\\(\\) has parameter \\$normalizedStorage with no value type specified in iterable type array\\.$#"
+			message: '#^Cannot call method supports\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: ../Infrastructure/Hydrator/StorageHydrator.php
+
+		-
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Hydrator\\StorageHydrator\:\:__construct\(\) has parameter \$storageHydrators with no value type specified in iterable type iterable\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Hydrator/StorageHydrator.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Hydrator\\\\StorageHydrator\\:\\:supports\\(\\) has parameter \\$normalizedStorage with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Hydrator\\StorageHydrator\:\:hydrate\(\) has parameter \$normalizedStorage with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Hydrator/StorageHydrator.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Security\\\\CredentialsEncrypter\\:\\:decryptCredentials\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Hydrator\\StorageHydrator\:\:hydrate\(\) should return Akeneo\\Platform\\Bundle\\ImportExportBundle\\Domain\\Model\\NoneStorage\|Akeneo\\Platform\\Bundle\\ImportExportBundle\\Domain\\Model\\StorageInterface but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: ../Infrastructure/Hydrator/StorageHydrator.php
+
+		-
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Hydrator\\StorageHydrator\:\:supports\(\) has parameter \$normalizedStorage with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../Infrastructure/Hydrator/StorageHydrator.php
+
+		-
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Security\\CredentialsEncrypter\:\:decryptCredentials\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Security/CredentialsEncrypter.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Security\\\\CredentialsEncrypter\\:\\:decryptCredentials\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Security\\CredentialsEncrypter\:\:decryptCredentials\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Security/CredentialsEncrypter.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Security\\\\CredentialsEncrypter\\:\\:encryptCredentials\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Security\\CredentialsEncrypter\:\:encryptCredentials\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Security/CredentialsEncrypter.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Security\\\\CredentialsEncrypter\\:\\:encryptCredentials\\(\\) has parameter \\$previousData with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Security\\CredentialsEncrypter\:\:encryptCredentials\(\) has parameter \$previousData with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Security/CredentialsEncrypter.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Security\\\\CredentialsEncrypter\\:\\:encryptCredentials\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Security\\CredentialsEncrypter\:\:encryptCredentials\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Security/CredentialsEncrypter.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Security\\\\CredentialsEncrypter\\:\\:obfuscateCredentials\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Security\\CredentialsEncrypter\:\:obfuscateCredentials\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Security/CredentialsEncrypter.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Security\\\\CredentialsEncrypter\\:\\:obfuscateCredentials\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Security\\CredentialsEncrypter\:\:obfuscateCredentials\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Security/CredentialsEncrypter.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Security\\\\CredentialsEncrypter\\:\\:support\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Security\\CredentialsEncrypter\:\:support\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Security/CredentialsEncrypter.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Security\\\\CredentialsEncrypterRegistry\\:\\:encryptCredentials\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Security\\CredentialsEncrypterRegistry\:\:encryptCredentials\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Security/CredentialsEncrypterRegistry.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Security\\\\CredentialsEncrypterRegistry\\:\\:encryptCredentials\\(\\) has parameter \\$previousData with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Security\\CredentialsEncrypterRegistry\:\:encryptCredentials\(\) has parameter \$previousData with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Security/CredentialsEncrypterRegistry.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Security\\\\CredentialsEncrypterRegistry\\:\\:encryptCredentials\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Security\\CredentialsEncrypterRegistry\:\:encryptCredentials\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Security/CredentialsEncrypterRegistry.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Security\\\\CredentialsEncrypterRegistry\\:\\:obfuscateCredentials\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Security\\CredentialsEncrypterRegistry\:\:obfuscateCredentials\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Security/CredentialsEncrypterRegistry.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Security\\\\CredentialsEncrypterRegistry\\:\\:obfuscateCredentials\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Security\\CredentialsEncrypterRegistry\:\:obfuscateCredentials\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Security/CredentialsEncrypterRegistry.php
 
 		-
-			message: "#^Cannot call method set\\(\\) on Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Job\\\\JobParameters\\|null\\.$#"
+			message: '#^Cannot access offset ''type'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../Infrastructure/Step/DownloadStep.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Step\\\\DownloadStep\\:\\:doExecute\\(\\) has no return type specified\\.$#"
+			message: '#^Cannot call method set\(\) on Akeneo\\Tool\\Component\\Batch\\Job\\JobParameters\|null\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Infrastructure/Step/DownloadStep.php
 
 		-
-			message: "#^Parameter \\#2 \\$workingDirectory of class Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Application\\\\DownloadFileFromStorage\\\\DownloadFileFromStorageCommand constructor expects string, mixed given\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Step\\DownloadStep\:\:doExecute\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: ../Infrastructure/Step/DownloadStep.php
 
 		-
-			message: "#^Cannot access offset 'file_path' on mixed\\.$#"
+			message: '#^Parameter \#1 \$normalizedStorage of class Akeneo\\Platform\\Bundle\\ImportExportBundle\\Application\\DownloadFileFromStorage\\DownloadFileFromStorageCommand constructor expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Infrastructure/Step/DownloadStep.php
+
+		-
+			message: '#^Parameter \#2 \$workingDirectory of class Akeneo\\Platform\\Bundle\\ImportExportBundle\\Application\\DownloadFileFromStorage\\DownloadFileFromStorageCommand constructor expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Infrastructure/Step/DownloadStep.php
+
+		-
+			message: '#^Cannot access offset ''file_path'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../Infrastructure/Step/UploadStep.php
 
 		-
-			message: "#^Cannot call method get\\(\\) on Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Job\\\\JobParameters\\|null\\.$#"
+			message: '#^Cannot access offset ''type'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../Infrastructure/Step/UploadStep.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Step\\\\UploadStep\\:\\:__construct\\(\\) has parameter \\$name with no type specified\\.$#"
+			message: '#^Cannot call method get\(\) on Akeneo\\Tool\\Component\\Batch\\Job\\JobParameters\|null\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Infrastructure/Step/UploadStep.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Step\\\\UploadStep\\:\\:doExecute\\(\\) has no return type specified\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Step\\UploadStep\:\:__construct\(\) has parameter \$name with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: ../Infrastructure/Step/UploadStep.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Step\\\\UploadStep\\:\\:extractFileToTransfer\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Step\\UploadStep\:\:doExecute\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: ../Infrastructure/Step/UploadStep.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Step\\\\UploadStep\\:\\:getDestinationPath\\(\\) should return string but returns mixed\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Step\\UploadStep\:\:extractFileToTransfer\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Step/UploadStep.php
 
 		-
-			message: "#^Offset 'dirname' does not exist on array\\{dirname\\?\\: string, basename\\: string, extension\\?\\: string, filename\\: string\\}\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Step\\UploadStep\:\:getDestinationPath\(\) should return string but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: ../Infrastructure/Step/UploadStep.php
+
+		-
+			message: '#^Parameter \#1 \$name of method Akeneo\\Tool\\Component\\Batch\\Step\\AbstractStep\:\:__construct\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Infrastructure/Step/UploadStep.php
+
+		-
+			message: '#^Parameter \#2 \$normalizedStorage of class Akeneo\\Platform\\Bundle\\ImportExportBundle\\Application\\TransferFilesToStorage\\TransferFilesToStorageCommand constructor expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Infrastructure/Step/UploadStep.php
+
+		-
+			message: '#^Offset ''dirname'' might not exist on array\{dirname\?\: string, basename\: string, extension\?\: string, filename\: string\}\.$#'
+			identifier: offsetAccess.notFound
 			count: 1
 			path: ../Infrastructure/StorageClient/TransferFile.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\UserManagement\\\\UpsertRunningUser\\:\\:execute\\(\\) has parameter \\$userGroupCodes with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\UserManagement\\UpsertRunningUser\:\:execute\(\) has parameter \$userGroupCodes with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/UserManagement/UpsertRunningUser.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Validation\\\\FilePath\\:\\:getSupportedFileExtensions\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Parameter \#7 \$groupIds of static method Akeneo\\UserManagement\\ServiceApi\\User\\UpsertUserCommand\:\:job\(\) expects array\<string\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Infrastructure/UserManagement/UpsertRunningUser.php
+
+		-
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Validation\\FilePath\:\:getSupportedFileExtensions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Validation/FilePath.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Validation\\\\FilePathValidator\\:\\:validateFileExtension\\(\\) has parameter \\$supportedFileExtensions with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Validation\\FilePathValidator\:\:validateFileExtension\(\) has parameter \$supportedFileExtensions with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Validation/FilePathValidator.php
 
 		-
-			message: "#^Parameter \\#1 \\$filePath of method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Validation\\\\FilePathValidator\\:\\:validateFileExtension\\(\\) expects string, mixed given\\.$#"
+			message: '#^Parameter \#1 \$filePath of method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Validation\\FilePathValidator\:\:validateFileExtension\(\) expects string, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Infrastructure/Validation/FilePathValidator.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Validation\\\\Storage\\:\\:getFilePathSupportedFileExtensions\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Validation\\Storage\:\:getFilePathSupportedFileExtensions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Validation/Storage.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Validation\\\\StorageConstraint\\:\\:getFilePathSupportedFileExtensions\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Parameter \#1 \$supportedFileExtensions of class Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Validation\\FilePath constructor expects array\<string\>, array given\.$#'
+			identifier: argument.type
+			count: 3
+			path: ../Infrastructure/Validation/Storage/Local/LocalStorageValidator.php
+
+		-
+			message: '#^Parameter \#1 \$supportedFileExtensions of class Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Validation\\FilePath constructor expects array\<string\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Infrastructure/Validation/Storage/ManualUpload/ManualUploadStorageValidator.php
+
+		-
+			message: '#^Parameter \#1 \$supportedFileExtensions of class Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Validation\\FilePath constructor expects array\<string\>, array given\.$#'
+			identifier: argument.type
+			count: 4
+			path: ../Infrastructure/Validation/Storage/None/NoneStorageValidator.php
+
+		-
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Validation\\StorageConstraint\:\:getFilePathSupportedFileExtensions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Validation/StorageConstraint.php
 
 		-
-			message: "#^Cannot access offset 'type' on mixed\\.$#"
+			message: '#^Cannot access offset ''type'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../Infrastructure/Validation/StorageValidator.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Validation\\\\StorageValidator\\:\\:__construct\\(\\) has parameter \\$storageConstraints with no value type specified in iterable type iterable\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Validation\\StorageValidator\:\:__construct\(\) has parameter \$storageConstraints with no value type specified in iterable type iterable\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Validation/StorageValidator.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Validation\\\\StorageValidator\\:\\:getStorageTypes\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Validation\\StorageValidator\:\:getStorageTypes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Validation/StorageValidator.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Validation\\\\StorageValidator\\:\\:validateStorageByType\\(\\) has parameter \\$allowedExtensions with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Validation\\StorageValidator\:\:validateStorageByType\(\) has parameter \$allowedExtensions with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Validation/StorageValidator.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Validation\\\\StorageValidator\\:\\:validateStorageByType\\(\\) has parameter \\$storage with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Validation\\StorageValidator\:\:validateStorageByType\(\) has parameter \$storage with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Infrastructure/Validation/StorageValidator.php
 
 		-
-			message: "#^Parameter \\#1 \\$storage of method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Validation\\\\StorageValidator\\:\\:validateStorageByType\\(\\) expects array, mixed given\\.$#"
+			message: '#^Parameter \#1 \$filePathSupportedFileExtensions of method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Validation\\StorageConstraint\:\:setFilePathSupportedFileExtensions\(\) expects array\<string\>, array given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Infrastructure/Validation/StorageValidator.php
 
 		-
-			message: "#^Property Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Infrastructure\\\\Validation\\\\StorageValidator\\:\\:\\$storageConstraints type has no value type specified in iterable type array\\.$#"
+			message: '#^Parameter \#1 \$storage of method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Validation\\StorageValidator\:\:validateStorageByType\(\) expects array, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Infrastructure/Validation/StorageValidator.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Job\\\\JobParameters\\\\PurgeJobExecutions\\:\\:getDefaultValues\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Possibly invalid array key type mixed\.$#'
+			identifier: offsetAccess.invalidOffset
+			count: 1
+			path: ../Infrastructure/Validation/StorageValidator.php
+
+		-
+			message: '#^Property Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Validation\\StorageValidator\:\:\$storageConstraints type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../Infrastructure/Validation/StorageValidator.php
+
+		-
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Job\\JobParameters\\PurgeJobExecutions\:\:getDefaultValues\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Job/JobParameters/PurgeJobExecutions.php
 
 		-
-			message: "#^Cannot cast mixed to int\\.$#"
+			message: '#^Cannot cast mixed to int\.$#'
+			identifier: cast.int
 			count: 1
 			path: ../Job/PurgeJobExecutions.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of class Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Job\\\\BatchStatus constructor expects int, mixed given\\.$#"
+			message: '#^Parameter \#1 \$value of class Akeneo\\Tool\\Component\\Batch\\Job\\BatchStatus constructor expects int, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../Job/PurgeJobExecutions.php
 
 		-
-			message: "#^Cannot access offset 'tracking' on array\\|ArrayObject\\|bool\\|float\\|int\\|string\\|null\\.$#"
+			message: '#^Cannot access offset ''tracking'' on array\|ArrayObject\|bool\|float\|int\|string\|null\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../Normalizer/InternalApi/JobExecutionNormalizer.php
 
 		-
-			message: "#^Cannot call method getId\\(\\) on mixed\\.$#"
+			message: '#^Cannot call method getId\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Normalizer/InternalApi/JobExecutionNormalizer.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Normalizer\\\\InternalApi\\\\JobExecutionNormalizer\\:\\:normalize\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Normalizer\\InternalApi\\JobExecutionNormalizer\:\:normalize\(\) has parameter \$context with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Normalizer/InternalApi/JobExecutionNormalizer.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Normalizer\\\\InternalApi\\\\JobExecutionNormalizer\\:\\:normalize\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Normalizer\\InternalApi\\JobExecutionNormalizer\:\:normalize\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Normalizer/InternalApi/JobExecutionNormalizer.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Normalizer\\\\InternalApi\\\\JobExecutionNormalizer\\:\\:normalize\\(\\) should return array but returns array\\|ArrayObject\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Normalizer\\InternalApi\\JobExecutionNormalizer\:\:normalize\(\) should return array but returns array\|ArrayObject\.$#'
+			identifier: return.type
 			count: 1
 			path: ../Normalizer/InternalApi/JobExecutionNormalizer.php
 
 		-
-			message: "#^Cannot call method getFailureExceptions\\(\\) on mixed\\.$#"
+			message: '#^Parameter \#1 \$jobExecutionId of method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Query\\GetJobExecutionTracking\:\:execute\(\) expects int, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Normalizer/InternalApi/JobExecutionNormalizer.php
+
+		-
+			message: '#^Cannot access offset ''message'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../Normalizer/JobExecutionNormalizer.php
 
 		-
-			message: "#^Cannot call method getJobInstance\\(\\) on mixed\\.$#"
+			message: '#^Cannot access offset ''messageParameters'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../Normalizer/JobExecutionNormalizer.php
 
 		-
-			message: "#^Cannot call method getStatus\\(\\) on mixed\\.$#"
+			message: '#^Cannot call method getFailureExceptions\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Normalizer/JobExecutionNormalizer.php
 
 		-
-			message: "#^Cannot call method getStepExecutions\\(\\) on mixed\\.$#"
+			message: '#^Cannot call method getJobInstance\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Normalizer/JobExecutionNormalizer.php
 
 		-
-			message: "#^Cannot call method isRunning\\(\\) on mixed\\.$#"
+			message: '#^Cannot call method getJobName\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Normalizer/JobExecutionNormalizer.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Normalizer\\\\JobExecutionNormalizer\\:\\:normalize\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
+			message: '#^Cannot call method getStatus\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Normalizer/JobExecutionNormalizer.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Normalizer\\\\JobExecutionNormalizer\\:\\:normalize\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Cannot call method getStepExecutions\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Normalizer/JobExecutionNormalizer.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Normalizer\\\\JobExecutionNormalizer\\:\\:normalize\\(\\) return type with generic class ArrayObject does not specify its types\\: TKey, TValue$#"
+			message: '#^Cannot call method getValue\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Normalizer/JobExecutionNormalizer.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Normalizer\\\\JobExecutionNormalizer\\:\\:normalizeStepExecutions\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
+			message: '#^Cannot call method isRunning\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Normalizer/JobExecutionNormalizer.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Normalizer\\\\JobExecutionNormalizer\\:\\:normalizeStepExecutions\\(\\) has parameter \\$stepExecutions with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Normalizer\\JobExecutionNormalizer\:\:normalize\(\) has parameter \$context with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Normalizer/JobExecutionNormalizer.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Normalizer\\\\JobExecutionNormalizer\\:\\:normalizeStepExecutions\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Normalizer\\JobExecutionNormalizer\:\:normalize\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Normalizer/JobExecutionNormalizer.php
 
 		-
-			message: "#^Parameter \\#2 \\$format of method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Normalizer\\\\JobExecutionNormalizer\\:\\:normalizeStepExecutions\\(\\) expects string, string\\|null given\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Normalizer\\JobExecutionNormalizer\:\:normalize\(\) return type with generic class ArrayObject does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
 			count: 1
 			path: ../Normalizer/JobExecutionNormalizer.php
 
 		-
-			message: "#^Cannot call method addSummaryInfo\\(\\) on mixed\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Normalizer\\JobExecutionNormalizer\:\:normalizeStepExecutions\(\) has parameter \$context with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../Normalizer/JobExecutionNormalizer.php
+
+		-
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Normalizer\\JobExecutionNormalizer\:\:normalizeStepExecutions\(\) has parameter \$stepExecutions with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../Normalizer/JobExecutionNormalizer.php
+
+		-
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Normalizer\\JobExecutionNormalizer\:\:normalizeStepExecutions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../Normalizer/JobExecutionNormalizer.php
+
+		-
+			message: '#^Parameter \#1 \$id of method Symfony\\Contracts\\Translation\\TranslatorInterface\:\:trans\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Normalizer/JobExecutionNormalizer.php
+
+		-
+			message: '#^Parameter \#1 \$jobName of method Akeneo\\Tool\\Component\\Batch\\Job\\JobRegistry\:\:get\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Normalizer/JobExecutionNormalizer.php
+
+		-
+			message: '#^Parameter \#1 \$stepExecutions of method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Normalizer\\JobExecutionNormalizer\:\:normalizeStepExecutions\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Normalizer/JobExecutionNormalizer.php
+
+		-
+			message: '#^Parameter \#2 \$array of function array_map expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Normalizer/JobExecutionNormalizer.php
+
+		-
+			message: '#^Parameter \#2 \$format of method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Normalizer\\JobExecutionNormalizer\:\:normalizeStepExecutions\(\) expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Normalizer/JobExecutionNormalizer.php
+
+		-
+			message: '#^Parameter \#2 \$parameters of method Symfony\\Contracts\\Translation\\TranslatorInterface\:\:trans\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Normalizer/JobExecutionNormalizer.php
+
+		-
+			message: '#^Parameter \#2 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Normalizer/JobExecutionNormalizer.php
+
+		-
+			message: '#^Binary operation "\." between non\-falsy\-string and mixed results in an error\.$#'
+			identifier: binaryOp.invalid
 			count: 1
 			path: ../Normalizer/StepExecutionNormalizer.php
 
 		-
-			message: "#^Cannot call method getEndTime\\(\\) on mixed\\.$#"
+			message: '#^Cannot access offset ''message'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../Normalizer/StepExecutionNormalizer.php
 
 		-
-			message: "#^Cannot call method getErrors\\(\\) on mixed\\.$#"
+			message: '#^Cannot access offset ''messageParameters'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: ../Normalizer/StepExecutionNormalizer.php
 
 		-
-			message: "#^Cannot call method getFailureExceptions\\(\\) on mixed\\.$#"
+			message: '#^Cannot call method addSummaryInfo\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Normalizer/StepExecutionNormalizer.php
 
 		-
-			message: "#^Cannot call method getItem\\(\\) on mixed\\.$#"
-			count: 1
-			path: ../Normalizer/StepExecutionNormalizer.php
-
-		-
-			message: "#^Cannot call method getJobExecution\\(\\) on mixed\\.$#"
-			count: 1
-			path: ../Normalizer/StepExecutionNormalizer.php
-
-		-
-			message: "#^Cannot call method getReason\\(\\) on mixed\\.$#"
-			count: 1
-			path: ../Normalizer/StepExecutionNormalizer.php
-
-		-
-			message: "#^Cannot call method getReasonParameters\\(\\) on mixed\\.$#"
-			count: 1
-			path: ../Normalizer/StepExecutionNormalizer.php
-
-		-
-			message: "#^Cannot call method getStartTime\\(\\) on mixed\\.$#"
-			count: 1
-			path: ../Normalizer/StepExecutionNormalizer.php
-
-		-
-			message: "#^Cannot call method getStatus\\(\\) on mixed\\.$#"
+			message: '#^Cannot call method count\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 2
 			path: ../Normalizer/StepExecutionNormalizer.php
 
 		-
-			message: "#^Cannot call method getStepName\\(\\) on mixed\\.$#"
+			message: '#^Cannot call method getEndTime\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Normalizer/StepExecutionNormalizer.php
 
 		-
-			message: "#^Cannot call method getSummary\\(\\) on mixed\\.$#"
+			message: '#^Cannot call method getErrors\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Normalizer/StepExecutionNormalizer.php
 
 		-
-			message: "#^Cannot call method getWarnings\\(\\) on mixed\\.$#"
+			message: '#^Cannot call method getFailureExceptions\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../Normalizer/StepExecutionNormalizer.php
+
+		-
+			message: '#^Cannot call method getItem\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../Normalizer/StepExecutionNormalizer.php
+
+		-
+			message: '#^Cannot call method getJobExecution\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../Normalizer/StepExecutionNormalizer.php
+
+		-
+			message: '#^Cannot call method getJobInstance\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../Normalizer/StepExecutionNormalizer.php
+
+		-
+			message: '#^Cannot call method getJobName\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../Normalizer/StepExecutionNormalizer.php
+
+		-
+			message: '#^Cannot call method getReason\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../Normalizer/StepExecutionNormalizer.php
+
+		-
+			message: '#^Cannot call method getReasonParameters\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../Normalizer/StepExecutionNormalizer.php
+
+		-
+			message: '#^Cannot call method getStartTime\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../Normalizer/StepExecutionNormalizer.php
+
+		-
+			message: '#^Cannot call method getStatus\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: ../Normalizer/StepExecutionNormalizer.php
+
+		-
+			message: '#^Cannot call method getStepName\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../Normalizer/StepExecutionNormalizer.php
+
+		-
+			message: '#^Cannot call method getSummary\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../Normalizer/StepExecutionNormalizer.php
+
+		-
+			message: '#^Cannot call method getValue\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: ../Normalizer/StepExecutionNormalizer.php
+
+		-
+			message: '#^Cannot call method getWarnings\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 3
 			path: ../Normalizer/StepExecutionNormalizer.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Normalizer\\\\StepExecutionNormalizer\\:\\:normalize\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
 			count: 1
 			path: ../Normalizer/StepExecutionNormalizer.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Normalizer\\\\StepExecutionNormalizer\\:\\:normalize\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Normalizer\\StepExecutionNormalizer\:\:normalize\(\) has parameter \$context with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Normalizer/StepExecutionNormalizer.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Normalizer\\\\StepExecutionNormalizer\\:\\:normalize\\(\\) return type with generic class ArrayObject does not specify its types\\: TKey, TValue$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Normalizer\\StepExecutionNormalizer\:\:normalize\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Normalizer/StepExecutionNormalizer.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Normalizer\\\\StepExecutionNormalizer\\:\\:normalizeSummary\\(\\) has parameter \\$summary with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Normalizer\\StepExecutionNormalizer\:\:normalize\(\) return type with generic class ArrayObject does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
 			count: 1
 			path: ../Normalizer/StepExecutionNormalizer.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Normalizer\\\\StepExecutionNormalizer\\:\\:normalizeSummary\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Normalizer\\StepExecutionNormalizer\:\:normalizeSummary\(\) has parameter \$summary with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Normalizer/StepExecutionNormalizer.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Normalizer\\\\StepExecutionNormalizer\\:\\:normalizeWarnings\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Normalizer\\StepExecutionNormalizer\:\:normalizeSummary\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Normalizer/StepExecutionNormalizer.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Normalizer\\\\StepExecutionNormalizer\\:\\:normalizeWarnings\\(\\) has parameter \\$warnings with generic interface Doctrine\\\\Common\\\\Collections\\\\Collection but does not specify its types\\: TKey, T$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Normalizer\\StepExecutionNormalizer\:\:normalizeWarnings\(\) has parameter \$context with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Normalizer/StepExecutionNormalizer.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Normalizer\\\\StepExecutionNormalizer\\:\\:normalizeWarnings\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Normalizer\\StepExecutionNormalizer\:\:normalizeWarnings\(\) has parameter \$warnings with generic interface Doctrine\\Common\\Collections\\Collection but does not specify its types\: TKey, T$#'
+			identifier: missingType.generics
 			count: 1
 			path: ../Normalizer/StepExecutionNormalizer.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Normalizer\\\\Versioning\\\\JobInstanceNormalizer\\:\\:normalize\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Normalizer\\StepExecutionNormalizer\:\:normalizeWarnings\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../Normalizer/StepExecutionNormalizer.php
+
+		-
+			message: '#^Parameter \#1 \$id of method Symfony\\Contracts\\Translation\\TranslatorInterface\:\:trans\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: ../Normalizer/StepExecutionNormalizer.php
+
+		-
+			message: '#^Parameter \#1 \$status of method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Normalizer\\StepExecutionNormalizer\:\:normalizeStatus\(\) expects int, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Normalizer/StepExecutionNormalizer.php
+
+		-
+			message: '#^Parameter \#1 \$summary of method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Normalizer\\StepExecutionNormalizer\:\:normalizeSummary\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Normalizer/StepExecutionNormalizer.php
+
+		-
+			message: '#^Parameter \#1 \$warnings of method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Normalizer\\StepExecutionNormalizer\:\:normalizeWarnings\(\) expects Doctrine\\Common\\Collections\\Collection, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Normalizer/StepExecutionNormalizer.php
+
+		-
+			message: '#^Parameter \#2 \$array of function array_map expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Normalizer/StepExecutionNormalizer.php
+
+		-
+			message: '#^Parameter \#2 \$length of method Doctrine\\Common\\Collections\\ReadableCollection\<\(int\|string\),mixed\>\:\:slice\(\) expects int\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Normalizer/StepExecutionNormalizer.php
+
+		-
+			message: '#^Parameter \#2 \$parameters of method Symfony\\Contracts\\Translation\\TranslatorInterface\:\:trans\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: ../Normalizer/StepExecutionNormalizer.php
+
+		-
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Normalizer\\Versioning\\JobInstanceNormalizer\:\:normalize\(\) has parameter \$context with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Normalizer/Versioning/JobInstanceNormalizer.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Normalizer\\\\Versioning\\\\JobInstanceNormalizer\\:\\:normalize\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Normalizer\\Versioning\\JobInstanceNormalizer\:\:normalize\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Normalizer/Versioning/JobInstanceNormalizer.php
 
 		-
-			message: "#^Cannot call method getJobName\\(\\) on mixed\\.$#"
+			message: '#^Parameter \#1 \$data of method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Infrastructure\\Security\\CredentialsEncrypterRegistry\:\:obfuscateCredentials\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Normalizer/Versioning/JobInstanceNormalizer.php
+
+		-
+			message: '#^Cannot call method getJobName\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Provider/Form/JobInstanceFormProvider.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Provider\\\\Form\\\\JobInstanceFormProvider\\:\\:__construct\\(\\) has parameter \\$formConfig with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Provider\\Form\\JobInstanceFormProvider\:\:__construct\(\) has parameter \$formConfig with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Provider/Form/JobInstanceFormProvider.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Purge\\\\PurgeJobExecution\\:\\:all\\(\\) has parameter \\$jobInstanceCodes with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Provider\\Form\\JobInstanceFormProvider\:\:getForm\(\) should return string but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: ../Provider/Form/JobInstanceFormProvider.php
+
+		-
+			message: '#^Possibly invalid array key type mixed\.$#'
+			identifier: offsetAccess.invalidOffset
+			count: 1
+			path: ../Provider/Form/JobInstanceFormProvider.php
+
+		-
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Purge\\PurgeJobExecution\:\:all\(\) has parameter \$jobInstanceCodes with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Purge/PurgeJobExecution.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Purge\\\\PurgeJobExecution\\:\\:olderThanDays\\(\\) has parameter \\$jobInstanceCodes with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Purge\\PurgeJobExecution\:\:olderThanDays\(\) has parameter \$jobInstanceCodes with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Purge/PurgeJobExecution.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Purge\\\\PurgeJobExecution\\:\\:olderThanHours\\(\\) has parameter \\$jobInstanceCodes with no value type specified in iterable type array\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Purge\\PurgeJobExecution\:\:olderThanHours\(\) has parameter \$jobInstanceCodes with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Purge/PurgeJobExecution.php
 
 		-
-			message: "#^Cannot call method getStepName\\(\\) on mixed\\.$#"
+			message: '#^Cannot access property \$isTrackable on mixed\.$#'
+			identifier: property.nonObject
 			count: 1
 			path: ../Query/GetJobExecutionTracking.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Query\\\\GetJobExecutionTracking\\:\\:createStepExecutionTrackingFromStepExecution\\(\\) has no return type specified\\.$#"
+			message: '#^Cannot access property \$processedItems on mixed\.$#'
+			identifier: property.nonObject
 			count: 1
 			path: ../Query/GetJobExecutionTracking.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Query\\\\GetJobExecutionTracking\\:\\:createStepExecutionsTrackingWithJob\\(\\) has parameter \\$stepExecutions with generic interface Doctrine\\\\Common\\\\Collections\\\\Collection but does not specify its types\\: TKey, T$#"
+			message: '#^Cannot access property \$totalItems on mixed\.$#'
+			identifier: property.nonObject
 			count: 1
 			path: ../Query/GetJobExecutionTracking.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Query\\\\GetJobExecutionTracking\\:\\:createStepExecutionsTrackingWithJob\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Cannot call method getStepName\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: ../Query/GetJobExecutionTracking.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Query\\\\GetJobExecutionTracking\\:\\:createStepExecutionsTrackingWithoutJob\\(\\) has no return type specified\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Query\\GetJobExecutionTracking\:\:createAlreadyStartedStepExecutionTracking\(\) should return Akeneo\\Platform\\Bundle\\ImportExportBundle\\Model\\StepExecutionTracking but returns mixed\.$#'
+			identifier: return.type
 			count: 1
 			path: ../Query/GetJobExecutionTracking.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Query\\\\GetJobExecutionTracking\\:\\:createStepExecutionsTrackingWithoutJob\\(\\) has parameter \\$stepExecutions with generic interface Doctrine\\\\Common\\\\Collections\\\\Collection but does not specify its types\\: TKey, T$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Query\\GetJobExecutionTracking\:\:createStepExecutionTrackingFromStepExecution\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: ../Query/GetJobExecutionTracking.php
 
 		-
-			message: "#^Method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Query\\\\GetJobExecutionTracking\\:\\:searchFirstMatchingStepExecutionIndex\\(\\) has parameter \\$stepExecutions with generic interface Doctrine\\\\Common\\\\Collections\\\\Collection but does not specify its types\\: TKey, T$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Query\\GetJobExecutionTracking\:\:createStepExecutionsTrackingWithJob\(\) has parameter \$stepExecutions with generic interface Doctrine\\Common\\Collections\\Collection but does not specify its types\: TKey, T$#'
+			identifier: missingType.generics
 			count: 1
 			path: ../Query/GetJobExecutionTracking.php
 
 		-
-			message: "#^Parameter \\#1 \\$stepExecutions of method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Query\\\\GetJobExecutionTracking\\:\\:createStepExecutionsTrackingWithoutJob\\(\\) expects Doctrine\\\\Common\\\\Collections\\\\Collection, array\\|\\(Doctrine\\\\Common\\\\Collections\\\\ArrayCollection&iterable\\<Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Model\\\\StepExecution\\>\\) given\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Query\\GetJobExecutionTracking\:\:createStepExecutionsTrackingWithJob\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: ../Query/GetJobExecutionTracking.php
 
 		-
-			message: "#^Parameter \\#2 \\$stepExecution of method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Query\\\\GetJobExecutionTracking\\:\\:createAlreadyStartedStepExecutionTracking\\(\\) expects Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Model\\\\StepExecution, mixed given\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Query\\GetJobExecutionTracking\:\:createStepExecutionsTrackingWithoutJob\(\) has no return type specified\.$#'
+			identifier: missingType.return
 			count: 1
 			path: ../Query/GetJobExecutionTracking.php
 
 		-
-			message: "#^Parameter \\#2 \\$stepExecutions of method Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Query\\\\GetJobExecutionTracking\\:\\:createStepExecutionsTrackingWithJob\\(\\) expects Doctrine\\\\Common\\\\Collections\\\\Collection, array\\|\\(Doctrine\\\\Common\\\\Collections\\\\ArrayCollection&iterable\\<Akeneo\\\\Tool\\\\Component\\\\Batch\\\\Model\\\\StepExecution\\>\\) given\\.$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Query\\GetJobExecutionTracking\:\:createStepExecutionsTrackingWithoutJob\(\) has parameter \$stepExecutions with generic interface Doctrine\\Common\\Collections\\Collection but does not specify its types\: TKey, T$#'
+			identifier: missingType.generics
 			count: 1
 			path: ../Query/GetJobExecutionTracking.php
 
 		-
-			message: "#^Class Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Repository\\\\InternalApi\\\\JobExecutionRepository extends generic class Doctrine\\\\ORM\\\\EntityRepository but does not specify its types\\: T$#"
+			message: '#^Method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Query\\GetJobExecutionTracking\:\:searchFirstMatchingStepExecutionIndex\(\) has parameter \$stepExecutions with generic interface Doctrine\\Common\\Collections\\Collection but does not specify its types\: TKey, T$#'
+			identifier: missingType.generics
+			count: 1
+			path: ../Query/GetJobExecutionTracking.php
+
+		-
+			message: '#^Parameter \#1 \$stepExecutions of method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Query\\GetJobExecutionTracking\:\:createStepExecutionsTrackingWithoutJob\(\) expects Doctrine\\Common\\Collections\\Collection, array\|\(Doctrine\\Common\\Collections\\ArrayCollection&iterable\<Akeneo\\Tool\\Component\\Batch\\Model\\StepExecution\>\) given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Query/GetJobExecutionTracking.php
+
+		-
+			message: '#^Parameter \#2 \$stepExecution of method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Query\\GetJobExecutionTracking\:\:createAlreadyStartedStepExecutionTracking\(\) expects Akeneo\\Tool\\Component\\Batch\\Model\\StepExecution, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Query/GetJobExecutionTracking.php
+
+		-
+			message: '#^Parameter \#2 \$stepExecutions of method Akeneo\\Platform\\Bundle\\ImportExportBundle\\Query\\GetJobExecutionTracking\:\:createStepExecutionsTrackingWithJob\(\) expects Doctrine\\Common\\Collections\\Collection, array\|\(Doctrine\\Common\\Collections\\ArrayCollection&iterable\<Akeneo\\Tool\\Component\\Batch\\Model\\StepExecution\>\) given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Query/GetJobExecutionTracking.php
+
+		-
+			message: '#^Property Akeneo\\Platform\\Bundle\\ImportExportBundle\\Model\\JobExecutionTracking\:\:\$steps \(array\<Akeneo\\Platform\\Bundle\\ImportExportBundle\\Model\\StepExecutionTracking\>\) does not accept array\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: ../Query/GetJobExecutionTracking.php
+
+		-
+			message: '#^Property Akeneo\\Platform\\Bundle\\ImportExportBundle\\Model\\JobExecutionTracking\:\:\$steps \(array\<Akeneo\\Platform\\Bundle\\ImportExportBundle\\Model\\StepExecutionTracking\>\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: ../Query/GetJobExecutionTracking.php
+
+		-
+			message: '#^Class Akeneo\\Platform\\Bundle\\ImportExportBundle\\Repository\\InternalApi\\JobExecutionRepository extends generic class Doctrine\\ORM\\EntityRepository but does not specify its types\: T$#'
+			identifier: missingType.generics
 			count: 1
 			path: ../Repository/InternalApi/JobExecutionRepository.php
 
 		-
-			message: "#^Class Akeneo\\\\Platform\\\\Bundle\\\\ImportExportBundle\\\\Repository\\\\InternalApi\\\\JobInstanceRepository extends generic class Doctrine\\\\ORM\\\\EntityRepository but does not specify its types\\: T$#"
+			message: '#^Class Akeneo\\Platform\\Bundle\\ImportExportBundle\\Repository\\InternalApi\\JobInstanceRepository extends generic class Doctrine\\ORM\\EntityRepository but does not specify its types\: T$#'
+			identifier: missingType.generics
 			count: 1
 			path: ../Repository/InternalApi/JobInstanceRepository.php

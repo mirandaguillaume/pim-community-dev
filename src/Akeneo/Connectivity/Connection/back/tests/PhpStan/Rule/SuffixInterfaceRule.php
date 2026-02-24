@@ -9,6 +9,7 @@ use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Interface_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleErrorBuilder;
 
 final class SuffixInterfaceRule implements Rule
 {
@@ -27,14 +28,14 @@ final class SuffixInterfaceRule implements Rule
 
         if (\str_ends_with((string) $node->name, 'Interface')) {
             if (!$node instanceof Interface_) {
-                return [self::ERROR_MESSAGE];
+                return [RuleErrorBuilder::message(self::ERROR_MESSAGE)->build()];
             }
 
             return [];
         }
 
         if ($node instanceof Interface_) {
-            return [self::ERROR_MESSAGE];
+            return [RuleErrorBuilder::message(self::ERROR_MESSAGE)->build()];
         }
 
         return [];

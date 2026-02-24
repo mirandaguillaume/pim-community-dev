@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleErrorBuilder;
 
 final class SuffixExceptionRule implements Rule
 {
@@ -31,11 +32,11 @@ final class SuffixExceptionRule implements Rule
         $doesNameEndWithException = \str_ends_with($className, 'Exception');
 
         if ($doesNameEndWithException && !$isAnExceptionSubclass) {
-            return [self::ERROR_MESSAGE];
+            return [RuleErrorBuilder::message(self::ERROR_MESSAGE)->build()];
         }
 
         if (!$doesNameEndWithException && $isAnExceptionSubclass) {
-            return [self::ERROR_MESSAGE];
+            return [RuleErrorBuilder::message(self::ERROR_MESSAGE)->build()];
         }
 
         return [];
