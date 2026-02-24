@@ -71,7 +71,7 @@ runs:
       run: |
         docker pull mysql:8.0.30 &
         docker pull selenium/standalone-chrome-debug:3.141.59 &
-        docker pull akeneo/node:20 &
+        docker pull node:20 &
         wait
 
     - name: Restore composer dependencies

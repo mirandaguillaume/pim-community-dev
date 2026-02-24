@@ -80,7 +80,7 @@ docker pull selenium/standalone-chrome-debug:3.141.59 &
 docker pull minio/minio:RELEASE.2025-01-20T14-49-07Z &
 docker pull google/cloud-sdk:506.0.0-emulators &
 docker pull fsouza/fake-gcs-server:1.45 &
-docker pull akeneo/node:18 &
+docker pull node:20 &
 wait
 
 echo "=== Install GitHub Actions Runner ==="
@@ -204,7 +204,7 @@ sudo ./svc.sh start
 |  - elasticsearch:8.11.3                      |
 |  - selenium/standalone-chrome-debug:3.141.59 |
 |  - minio, pubsub-emulator, gcs-emulator     |
-|  - akeneo/node:18                            |
+|  - node:20                                   |
 |  - akeneo/pim-php-dev:8.2 (built by CI)     |
 |                                              |
 |  Persistent caches (NVMe):                   |
