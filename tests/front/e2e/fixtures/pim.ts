@@ -15,28 +15,31 @@ export async function login(page: Page, username: string, password: string) {
 
 export async function goToProductsGrid(page: Page) {
   await page.getByRole('menuitem', {name: 'Activity'}).first().waitFor();
+
+  // Start listening BEFORE clicking to avoid race conditions
+  const gridViewPromise = page.waitForResponse(resp => resp.url().includes('/datagrid_view/rest/product-grid/default'));
+  const gridDataPromise = page.waitForResponse(resp => resp.url().includes('/datagrid/product-grid'));
   await page.getByText('Products').first().click();
+  await Promise.all([gridViewPromise, gridDataPromise]);
 
-  await page.waitForResponse(resp => resp.url().includes('/datagrid_view/rest/product-grid/default'));
-  await page.waitForResponse(resp => resp.url().includes('/datagrid/product-grid'));
-
-  // Switch to ungrouped (products only) view if the selector exists (Enterprise feature)
+  // Switch to ungrouped (products only) view if the selector is rendered
   const groupedVariant = page.locator('.search-zone [data-type="grouped-variant"]');
   if (await groupedVariant.isVisible({timeout: 15_000}).catch(() => false)) {
+    const filterPromise = page.waitForResponse(resp => resp.url().includes('/datagrid/product-grid'));
     await groupedVariant.click();
     await page.locator('.search-zone [data-value="product"]').click();
-
-    await expect(page.locator('.AknLoadingMask')).toBeVisible();
-    await page.waitForResponse(resp => resp.url().includes('/datagrid/product-grid'));
-    await expect(page.locator('.AknLoadingMask')).toBeHidden();
+    await filterPromise;
+    await expect(page.locator('.AknLoadingMask')).toBeHidden({timeout: 30_000});
     await expect(page.locator('.AknTitleContainer-title div')).not.toContainText('product models');
   }
 }
 
 export async function selectFirstProduct(page: Page) {
+  // Listen for both responses before clicking to avoid race conditions
+  const productPromise = page.waitForResponse(resp => /\/enrich\/product\/rest\//.test(resp.url()));
+  const configPromise = page.waitForResponse(resp => /\/configuration\/rest\//.test(resp.url()));
   await page.locator('tr').nth(1).click();
-  await page.waitForResponse(resp => /\/enrich\/product\/rest\//.test(resp.url()));
-  await page.waitForResponse(resp => /\/configuration\/rest\//.test(resp.url()));
+  await Promise.all([productPromise, configPromise]);
 }
 
 export async function saveProduct(page: Page) {
@@ -48,9 +51,10 @@ export async function saveProduct(page: Page) {
 }
 
 export async function reloadProduct(page: Page) {
+  const productPromise = page.waitForResponse(resp => /\/enrich\/product\/rest\//.test(resp.url()));
+  const configPromise = page.waitForResponse(resp => /\/configuration\/rest\//.test(resp.url()));
   await page.reload();
-  await page.waitForResponse(resp => /\/enrich\/product\/rest\//.test(resp.url()));
-  await page.waitForResponse(resp => /\/configuration\/rest\//.test(resp.url()));
+  await Promise.all([productPromise, configPromise]);
 }
 
 export function firstTextField(page: Page) {
