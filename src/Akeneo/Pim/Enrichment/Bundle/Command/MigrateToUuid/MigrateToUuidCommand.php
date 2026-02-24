@@ -15,11 +15,10 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:product:migrate-to-uuid', description: 'Migrate databases to product uuids')]
 class MigrateToUuidCommand extends Command
 {
     use MigrateToUuidTrait;
-
-    protected static $defaultName = 'pim:product:migrate-to-uuid';
 
     private const DQI_JOB_NAME = 'data_quality_insights_evaluations';
     private const WAIT_TIME_IN_SECONDS = 30;
@@ -58,7 +57,6 @@ class MigrateToUuidCommand extends Command
 
     protected function configure()
     {
-        $this->setDescription('Migrate databases to product uuids');
         $this->addOption('dry-run', 'd', InputOption::VALUE_NEGATABLE, 'dry run', false);
         $this->addOption('with-stats', 's', InputOption::VALUE_NEGATABLE, 'Display stats (be careful the command is way too slow)', false);
         $this->addOption('wait-for-dqi', 'w', InputOption::VALUE_NEGATABLE, 'Wait for DQI job before starting', true);
@@ -162,7 +160,7 @@ class MigrateToUuidCommand extends Command
             VALUES (:code, :status, NOW(), :values)
             ON DUPLICATE KEY UPDATE status='started', start_time=NOW();
         SQL, [
-            'code' => self::$defaultName,
+            'code' => $this->getName(),
             'status' => 'started',
             'values' => \json_encode((object) [], JSON_THROW_ON_ERROR),
         ]);
@@ -175,7 +173,7 @@ class MigrateToUuidCommand extends Command
             SET status=:status, end_time=NOW()
             WHERE code=:code
         SQL, [
-            'code' => self::$defaultName,
+            'code' => $this->getName(),
             'status' => 'finished',
         ]);
     }
@@ -185,7 +183,7 @@ class MigrateToUuidCommand extends Command
         $this->connection->executeQuery(<<<SQL
             DELETE FROM `pim_one_time_task` WHERE code=:code
         SQL, [
-            'code' => self::$defaultName
+            'code' => $this->getName()
         ]);
     }
 
@@ -229,7 +227,7 @@ class MigrateToUuidCommand extends Command
         SQL;
 
         return (bool) $this->connection->fetchOne($sql, [
-            'code' => self::$defaultName,
+            'code' => $this->getName(),
             'status' => 'finished',
         ]);
     }

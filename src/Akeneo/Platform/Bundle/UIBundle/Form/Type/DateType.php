@@ -36,7 +36,7 @@ class DateType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $placeholderDefault = fn (Options $options) => $options['required'] ? null : '';
 

@@ -11,10 +11,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Routing\RouterInterface;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'oro:translation:dump', description: 'Dumps oro js-translations')]
 class OroTranslationDumpCommand extends Command
 {
-    protected static $defaultName = 'oro:translation:dump';
-
     public function __construct(
         private readonly Controller $controller,
         private readonly Filesystem $filesystem,
@@ -32,7 +31,6 @@ class OroTranslationDumpCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Dumps oro js-translations')
             ->addArgument(
                 'locale',
                 InputArgument::OPTIONAL,

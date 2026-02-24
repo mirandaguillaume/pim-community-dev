@@ -31,7 +31,7 @@ class AttributeGroupNormalizer implements NormalizerInterface, CacheableSupports
     /**
      * {@inheritdoc}
      */
-    public function normalize($attributeGroup, $format = null, array $context = [])
+    public function normalize($attributeGroup, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         return [
             'code'       => $attributeGroup->getCode(),

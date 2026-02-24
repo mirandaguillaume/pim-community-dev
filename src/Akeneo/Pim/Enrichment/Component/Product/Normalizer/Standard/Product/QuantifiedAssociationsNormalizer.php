@@ -25,7 +25,7 @@ class QuantifiedAssociationsNormalizer implements NormalizerInterface, Cacheable
      *
      * @param EntityWithQuantifiedAssociationsInterface $entity
      */
-    public function normalize($entity, $format = null, array $context = [])
+    public function normalize($entity, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         return $this->normalizeWithParentsAssociations($entity, $format, $context);
     }

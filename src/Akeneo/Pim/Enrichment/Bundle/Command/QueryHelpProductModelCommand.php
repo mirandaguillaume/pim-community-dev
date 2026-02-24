@@ -13,10 +13,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:product-model:query-help', description: 'Display useable product model query filters')]
 class QueryHelpProductModelCommand extends Command
 {
-    protected static $defaultName = 'pim:product-model:query-help';
-
     public function __construct(
         private readonly DumperInterface $fieldDumper,
         private readonly DumperInterface $attributeDumper
@@ -29,8 +28,6 @@ class QueryHelpProductModelCommand extends Command
      */
     protected function configure()
     {
-        $this
-            ->setDescription('Display useable product model query filters');
     }
 
     /**

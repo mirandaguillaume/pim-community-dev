@@ -20,7 +20,7 @@ class UserManager implements UserProviderInterface
     public function __construct(
         protected string $class,
         protected ObjectManager $om,
-        protected PasswordHasherFactoryInterface $encoderFactory,
+        protected PasswordHasherFactoryInterface $passwordHasherFactory,
         private readonly SaverInterface $saver
     ) {
     }
@@ -55,8 +55,8 @@ class UserManager implements UserProviderInterface
     public function updatePassword(UserInterface $user)
     {
         if (0 !== strlen((string) ($password = $user->getPlainPassword()))) {
-            $encoder = $this->getEncoder($user);
-            $user->setPassword($encoder->hash($password, $user->getSalt()));
+            $hasher = $this->getPasswordHasher($user);
+            $user->setPassword($hasher->hash($password, $user->getSalt()));
         }
     }
 
@@ -181,9 +181,9 @@ class UserManager implements UserProviderInterface
     }
 
     /**
-     * @TODO: Remove this function when symfony will be in 6.0
+     * @deprecated since Symfony 5.3, use loadUserByIdentifier() instead
      */
-    public function loadUserByUsername(string $username)
+    public function loadUserByUsername(string $username): SecurityUserInterface
     {
         return $this->loadUserByIdentifier($username);
     }
@@ -224,9 +224,9 @@ class UserManager implements UserProviderInterface
         return $class === $this->getClass();
     }
 
-    protected function getEncoder(UserInterface $user)
+    protected function getPasswordHasher(UserInterface $user)
     {
-        return $this->encoderFactory->getPasswordHasher($user);
+        return $this->passwordHasherFactory->getPasswordHasher($user);
     }
 
     /**

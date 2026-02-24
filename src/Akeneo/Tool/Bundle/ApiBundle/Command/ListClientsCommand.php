@@ -15,11 +15,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:oauth-server:list-clients', description: 'Lists all existing pairs of client id / secret for the web API')]
 class ListClientsCommand extends Command
 {
-    protected static $defaultName = 'pim:oauth-server:list-clients';
-    protected static $defaultDescription = 'Lists all existing pairs of client id / secret for the web API';
-
     public function __construct(private readonly EntityRepository $clientRepository)
     {
         parent::__construct();

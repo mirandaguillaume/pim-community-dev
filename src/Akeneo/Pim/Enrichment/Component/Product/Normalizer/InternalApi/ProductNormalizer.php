@@ -43,7 +43,7 @@ class ProductNormalizer implements NormalizerInterface, CacheableSupportsMethodI
      *
      * @param ProductInterface $product
      */
-    public function normalize($product, $format = null, array $context = [])
+    public function normalize($product, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $this->missingAssociationAdder->addMissingAssociations($product);
         $normalizedProduct = $this->normalizer->normalize($product, 'standard', $context);

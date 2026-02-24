@@ -16,11 +16,9 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
  * Command to launch manually a purge of the outdated data persisted for Data-Quality-Insights
  * It aims to be used as a replacement of the purge job. So the option date should be the date the job should have run.
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:data-quality-insights:purge-outdated-data', description: 'Purge the outdated data persisted for Data-Quality-Insights.')]
 final class PurgeOutdatedDataCommand extends Command
 {
-    protected static $defaultName = 'pim:data-quality-insights:purge-outdated-data';
-    protected static $defaultDescription = 'Purge the outdated data persisted for Data-Quality-Insights.';
-
     public function __construct(private readonly PurgeOutdatedData $purgeOutdatedData)
     {
         parent::__construct();

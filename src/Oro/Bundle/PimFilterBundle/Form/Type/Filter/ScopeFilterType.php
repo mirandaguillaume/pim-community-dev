@@ -44,7 +44,7 @@ class ScopeFilterType extends ChoiceFilterType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $scopeChoices = $this->userContext->getChannelChoicesWithUserChannel();
 

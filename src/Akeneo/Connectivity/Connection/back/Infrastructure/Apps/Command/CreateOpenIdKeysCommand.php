@@ -14,11 +14,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:connectivity-connection:openid-keys:create', description: 'Create or update a public/private key couple to be used to sign openid token and store it into database')]
 class CreateOpenIdKeysCommand extends Command
 {
-    protected static $defaultName = 'akeneo:connectivity-connection:openid-keys:create';
-    protected static $defaultDescription = 'Create or update a public/private key couple to be used to sign openid token and store it into database';
-
     public function __construct(private readonly GenerateAsymmetricKeysHandler $generateAsymmetricKeysHandler)
     {
         parent::__construct();

@@ -35,7 +35,7 @@ class QueueJobLauncherIntegration extends TestCase
             ->getRepository($jobInstanceClass)
             ->findOneBy(['code' => 'csv_product_export']);
 
-        $user = $this->get('pim_user.provider.user')->loadUserByUsername('mary');
+        $user = $this->get('pim_user.provider.user')->loadUserByIdentifier('mary');
 
         $this->getJobLauncher()->launch($jobInstance, $user, ['send_email' => true]);
 

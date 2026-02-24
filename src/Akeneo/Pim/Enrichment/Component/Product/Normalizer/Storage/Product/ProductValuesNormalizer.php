@@ -22,7 +22,7 @@ class ProductValuesNormalizer implements NormalizerInterface, CacheableSupportsM
     /**
      * {@inheritdoc}
      */
-    public function normalize($values, $format = null, array $context = [])
+    public function normalize($values, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $normalizedValues = [];
         foreach ($values as $value) {

@@ -19,10 +19,9 @@ use Symfony\Component\Filesystem\Filesystem;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:installer:assets', description: 'Install assets for Akeneo PIM')]
 class AssetsCommand extends Command
 {
-    protected static $defaultName = 'pim:installer:assets';
-
     protected CommandExecutor $commandExecutor;
 
     /**
@@ -40,7 +39,6 @@ class AssetsCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Install assets for Akeneo PIM')
             ->addOption('symlink', null, InputOption::VALUE_NONE, 'Install assets as symlinks')
             ->addOption('clean', null, InputOption::VALUE_NONE, 'Clean previous assets');
     }

@@ -33,7 +33,7 @@ class ReferenceDataNormalizer implements NormalizerInterface, CacheableSupportsM
     /**
      * {@inheritdoc}
      */
-    public function normalize($referenceDataValue, $format = null, array $context = [])
+    public function normalize($referenceDataValue, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $attribute = $this->attributeRepository->findOneByIdentifier($referenceDataValue->getAttributeCode());
 

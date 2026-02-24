@@ -41,7 +41,7 @@ class UserNormalizer implements NormalizerInterface, CacheableSupportsMethodInte
      *
      * @var UserInterface $user
      */
-    public function normalize($user, $format = null, array $context = [])
+    public function normalize($user, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $result = [
             'code'                      => $user->getUserIdentifier(), # Every Form Extension requires 'code' field.

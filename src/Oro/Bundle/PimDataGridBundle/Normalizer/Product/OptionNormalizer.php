@@ -26,7 +26,7 @@ class OptionNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
     /**
      * {@inheritdoc}
      */
-    public function normalize($optionValue, $format = null, array $context = [])
+    public function normalize($optionValue, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $optionCode = $optionValue->getData();
         $attributeCode = $optionValue->getAttributeCode();

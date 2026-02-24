@@ -16,7 +16,7 @@ abstract class AbstractValueDataNormalizer implements NormalizerInterface
     /**
      * {@inheritdoc}
      */
-    public function normalize($object, $format = null, array $context = [])
+    public function normalize($object, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         return [
             $this->getFieldName($object, $context) => $this->doNormalize($object, $format, $context),

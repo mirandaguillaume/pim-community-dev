@@ -29,7 +29,7 @@ class AssociationTypeNormalizer implements NormalizerInterface, CacheableSupport
      * @param AssociationTypeInterface $object
      * {@inheritdoc}
      */
-    public function normalize($object, $format = null, array $context = [])
+    public function normalize($object, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $result = $this->normalizer->normalize($object, 'standard', $context);
 

@@ -41,7 +41,7 @@ class CollectionNormalizer implements NormalizerInterface, NormalizerAwareInterf
     /**
      * {@inheritdoc}
      */
-    public function normalize($object, $format = null, array $context = [])
+    public function normalize($object, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $result = [];
         foreach ($object as $item) {

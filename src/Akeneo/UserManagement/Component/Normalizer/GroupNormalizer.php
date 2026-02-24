@@ -21,7 +21,7 @@ final class GroupNormalizer implements NormalizerInterface, CacheableSupportsMet
     /**
      * {@inheritdoc}
      */
-    public function normalize($group, $format = null, array $context = [])
+    public function normalize($group, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         Assert::isInstanceOf($group, GroupInterface::class);
 

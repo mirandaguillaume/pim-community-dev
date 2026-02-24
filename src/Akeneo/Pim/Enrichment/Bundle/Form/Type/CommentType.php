@@ -39,7 +39,7 @@ class CommentType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $placeholder = (true === $options['is_reply']) ? 'pim_enrich.entity.product.module.comment.reply' : 'pim_enrich.entity.product.module.comment.post';
         $placeholder = $this->translator->trans($placeholder);
@@ -68,7 +68,7 @@ class CommentType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             [

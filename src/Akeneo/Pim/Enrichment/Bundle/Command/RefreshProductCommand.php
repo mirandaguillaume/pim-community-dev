@@ -22,10 +22,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:product:refresh', description: 'Refresh the values of the given products', hidden: true)]
 class RefreshProductCommand extends Command
 {
-    protected static $defaultName = 'pim:product:refresh';
-
     public function __construct(
         private readonly BulkSaverInterface $productSaver,
         private readonly BulkSaverInterface $productModelSaver,
@@ -44,9 +43,7 @@ class RefreshProductCommand extends Command
                 'identifiers',
                 InputArgument::REQUIRED,
                 'The product identifiers to clean (comma separated values)'
-            )
-            ->setHidden(true)
-            ->setDescription('Refresh the values of the given products');
+            );
     }
 
     /**

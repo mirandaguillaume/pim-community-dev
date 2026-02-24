@@ -36,7 +36,7 @@ class ProductValuesNormalizer implements NormalizerInterface, SerializerAwareInt
     /**
      * {@inheritdoc}
      */
-    public function normalize($data, $format = null, array $context = [])
+    public function normalize($data, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $result = [];
 

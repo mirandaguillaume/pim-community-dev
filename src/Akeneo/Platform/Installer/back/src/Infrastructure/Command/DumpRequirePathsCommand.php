@@ -13,10 +13,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:installer:dump-require-paths', description: 'Dump the paths for all the requirejs.yml files for each bundle')]
 class DumpRequirePathsCommand extends Command
 {
-    protected static $defaultName = 'pim:installer:dump-require-paths';
-
     final public const MAIN_CONFIG_FILE_NAME = 'js/require-paths.js';
 
     /**
@@ -31,7 +30,6 @@ class DumpRequirePathsCommand extends Command
 
     protected function configure(): void
     {
-        $this->setDescription('Dump the paths for all the requirejs.yml files for each bundle');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

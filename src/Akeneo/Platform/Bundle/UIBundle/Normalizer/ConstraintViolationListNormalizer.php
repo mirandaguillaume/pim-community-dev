@@ -20,7 +20,7 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
  */
 class ConstraintViolationListNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    public function normalize($constraintList, $format = null, array $context = [])
+    public function normalize($constraintList, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $result = [];
 

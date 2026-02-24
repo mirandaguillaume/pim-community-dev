@@ -21,10 +21,9 @@ use Symfony\Component\Serializer\SerializerInterface;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:process-message')]
 final class ProcessMessageCommand extends Command
 {
-    protected static $defaultName = 'akeneo:process-message';
-
     public function __construct(
         private readonly SerializerInterface $serializer,
         private readonly ProcessMessageHandlerRegistry $ucsMessageHandlerRegistry,

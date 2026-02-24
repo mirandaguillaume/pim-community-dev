@@ -27,7 +27,7 @@ class GroupNormalizer implements NormalizerInterface, CacheableSupportsMethodInt
     /**
      * {@inheritdoc}
      */
-    public function normalize($group, $format = null, array $context = [])
+    public function normalize($group, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $normalizedGroup = $this->groupNormalizer->normalize($group, 'standard', $context);
         $normalizedGroup['products'] = $this->findProductUuids->forGroupId($group->getId());

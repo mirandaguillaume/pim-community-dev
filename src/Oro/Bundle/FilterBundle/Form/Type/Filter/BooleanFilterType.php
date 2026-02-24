@@ -29,7 +29,7 @@ class BooleanFilterType extends AbstractChoiceType
     /**
      * {@inheritDoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $fieldChoices = [
             $this->translator->trans('oro.filter.form.label_type_yes') => self::TYPE_YES,

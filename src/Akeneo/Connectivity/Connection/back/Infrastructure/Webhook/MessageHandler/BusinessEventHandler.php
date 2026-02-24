@@ -11,6 +11,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
 use Symfony\Component\Process\Process;
 
+#[\Symfony\Component\Messenger\Attribute\AsMessageHandler]
 class BusinessEventHandler implements MessageSubscriberInterface
 {
     public function __construct(
@@ -61,7 +62,7 @@ class BusinessEventHandler implements MessageSubscriberInterface
         $message = \json_encode($this->normalizer->normalize($event), JSON_THROW_ON_ERROR);
         return [
             \sprintf('%s/bin/console', $this->projectDir),
-            SendBusinessEventToWebhooks::getDefaultName(),
+            'akeneo:connectivity:send-business-event',
             $message,
         ];
     }

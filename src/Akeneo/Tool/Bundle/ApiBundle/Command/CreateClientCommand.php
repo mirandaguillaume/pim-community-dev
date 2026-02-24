@@ -19,10 +19,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:oauth-server:create-client', description: 'Creates a new pair of client id / secret for the web API')]
 class CreateClientCommand extends Command
 {
-    protected static $defaultName = 'pim:oauth-server:create-client';
-
     public function __construct(private readonly ClientManagerInterface $clientManager)
     {
         parent::__construct();
@@ -34,7 +33,6 @@ class CreateClientCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Creates a new pair of client id / secret for the web API')
             ->addOption(
                 'redirect_uri',
                 null,

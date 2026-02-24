@@ -19,19 +19,19 @@ final class LaunchProductAndProductModelEvaluationsMessageNormalizer implements 
         return LaunchProductAndProductModelEvaluationsMessage::denormalize($data);
     }
 
-    public function supportsDenormalization($data, string $type, string $format = null)
+    public function supportsDenormalization($data, string $type, string $format = null): bool
     {
         return $type === LaunchProductAndProductModelEvaluationsMessage::class;
     }
 
-    public function normalize($object, string $format = null, array $context = [])
+    public function normalize($object, string $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         Assert::isInstanceOf($object, LaunchProductAndProductModelEvaluationsMessage::class);
 
         return $object->normalize();
     }
 
-    public function supportsNormalization($data, string $format = null)
+    public function supportsNormalization($data, string $format = null): bool
     {
         return $data instanceof LaunchProductAndProductModelEvaluationsMessage;
     }
