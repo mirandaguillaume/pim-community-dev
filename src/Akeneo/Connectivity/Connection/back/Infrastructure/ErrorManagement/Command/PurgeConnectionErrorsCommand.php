@@ -9,6 +9,7 @@ use Akeneo\Connectivity\Connection\Infrastructure\ErrorManagement\Persistence\Se
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use Elasticsearch\Common\Exceptions\Missing404Exception;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -18,7 +19,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:connectivity-connection:purge-error', description: 'Purge connection errors over 100 and older than a week')]
+#[AsCommand(name: 'akeneo:connectivity-connection:purge-error', description: 'Purge connection errors over 100 and older than a week')]
+
 class PurgeConnectionErrorsCommand extends Command
 {
     private const TABLE_NOT_FOUND_ERROR_CODE = '42S02';

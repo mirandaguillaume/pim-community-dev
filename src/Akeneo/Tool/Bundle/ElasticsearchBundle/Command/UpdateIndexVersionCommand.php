@@ -20,12 +20,14 @@ use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:elasticsearch:update-index-version')]
+#[AsCommand(name: 'akeneo:elasticsearch:update-index-version')]
+
 class UpdateIndexVersionCommand extends Command
 {
     public function __construct(private readonly IndexUpdaterClient $indexUpdaterClient)

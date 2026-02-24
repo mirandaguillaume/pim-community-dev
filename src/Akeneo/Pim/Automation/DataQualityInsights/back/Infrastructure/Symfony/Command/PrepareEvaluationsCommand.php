@@ -12,12 +12,14 @@ use Akeneo\Tool\Component\Batch\Model\JobExecution;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:data-quality-insights:prepare-evaluations', description: 'Prepare the evaluations of products and structure')]
+#[AsCommand(name: 'pim:data-quality-insights:prepare-evaluations', description: 'Prepare the evaluations of products and structure')]
+
 class PrepareEvaluationsCommand extends Command
 {
     public function __construct(

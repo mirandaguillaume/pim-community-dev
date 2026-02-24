@@ -9,6 +9,7 @@ use Akeneo\Connectivity\Connection\Infrastructure\Webhook\EventsApiDebug\Persist
 use Elasticsearch\Common\Exceptions\Missing404Exception;
 use Elasticsearch\Common\Exceptions\NoNodesAvailableException;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -18,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:connectivity-connection:purge-events-api-logs')]
+#[AsCommand(name: 'akeneo:connectivity-connection:purge-events-api-logs')]
 class PurgeEventsApiLogsCommand extends Command
 {
     public function __construct(

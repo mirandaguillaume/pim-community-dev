@@ -8,6 +8,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Store a raw file in a storage filesystem
@@ -16,7 +17,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:file-storage:store')]
+#[AsCommand(name: 'akeneo:file-storage:store')]
+
 class StoreFileCommand extends Command
 {
     public function __construct(

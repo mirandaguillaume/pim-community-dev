@@ -8,6 +8,7 @@ use Akeneo\Category\Domain\Query\PurgeOrphanCategories;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Delete all orphan categories with their children, those without parents and which aren't tree (id = root).
@@ -15,7 +16,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @copyright 2023 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:categories:remove-orphans', description: 'Remove categories that have no parent and aren\'t category trees')]
+#[AsCommand(name: 'akeneo:categories:remove-orphans', description: 'Remove categories that have no parent and aren\'t category trees')]
+
 final class RemoveOrphanCategoriesCommand extends Command
 {
     public function __construct(

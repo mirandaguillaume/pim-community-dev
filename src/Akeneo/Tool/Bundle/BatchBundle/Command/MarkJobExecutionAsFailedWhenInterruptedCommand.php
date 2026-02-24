@@ -9,8 +9,10 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:batch:clean-job-executions', description: 'Mark as failed the job executions that are stuck in status STARTED or STOPPING.')]
+#[AsCommand(name: 'akeneo:batch:clean-job-executions', description: 'Mark as failed the job executions that are stuck in status STARTED or STOPPING.')]
+
 class MarkJobExecutionAsFailedWhenInterruptedCommand extends Command
 {
     public function __construct(

@@ -13,12 +13,14 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:data-quality-insights:initialize-products-evaluations', description: 'Initialize the evaluations of all the products and product models.', hidden: true)]
+#[AsCommand(name: 'pim:data-quality-insights:initialize-products-evaluations', description: 'Initialize the evaluations of all the products and product models.', hidden: true)]
+
 final class InitializeProductsEvaluationsCommand extends Command
 {
     private const BATCH_SIZE = 100;

@@ -15,12 +15,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Webmozart\Assert\Assert;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:data-quality-insights:clean-completeness-evaluation-results', description: 'Clean the results of the products completeness criteria to replace the list of attributes codes by their number.')]
+#[AsCommand(name: 'pim:data-quality-insights:clean-completeness-evaluation-results', description: 'Clean the results of the products completeness criteria to replace the list of attributes codes by their number.')]
 final class CleanCompletenessEvaluationResultsCommand extends Command
 {
     use OneTimeTaskCommandTrait;

@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * This command should be executed by the TraceableMessageBridgeHandler. On contrary of the handler, this
@@ -21,7 +22,8 @@ use Symfony\Component\Serializer\SerializerInterface;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:process-message')]
+#[AsCommand(name: 'akeneo:process-message')]
+
 final class ProcessMessageCommand extends Command
 {
     public function __construct(

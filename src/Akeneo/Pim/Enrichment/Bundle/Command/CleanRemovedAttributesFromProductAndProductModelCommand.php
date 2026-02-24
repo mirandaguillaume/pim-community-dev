@@ -29,6 +29,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Security\Core\User\InMemoryUser;
 
 /**
@@ -38,7 +39,8 @@ use Symfony\Component\Security\Core\User\InMemoryUser;
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:product:clean-removed-attributes', description: 'Removes all values of deleted attributes on all products and product models')]
+#[AsCommand(name: 'pim:product:clean-removed-attributes', description: 'Removes all values of deleted attributes on all products and product models')]
+
 class CleanRemovedAttributesFromProductAndProductModelCommand extends Command
 {
     private const JOB_NAME = 'clean_removed_attribute_job';

@@ -10,6 +10,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Create a JobInstance
@@ -18,7 +19,8 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:batch:create-job', description: 'Create a job instance')]
+#[AsCommand(name: 'akeneo:batch:create-job', description: 'Create a job instance')]
+
 class CreateJobInstanceCommand extends Command
 {
     final public const EXIT_SUCCESS_CODE = 0;

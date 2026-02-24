@@ -63,8 +63,6 @@ parameters:
         - '#Class Behat\\ChainedStepsExtension\\Step\\SubStep extends @final class Behat\\Gherkin\\Node\\StepNode#'
         # PHPUnit
         - '#Call to deprecated method withConsecutive\(\) of class PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker#'
-        # Symfony Console $defaultName/$defaultDescription deprecated in 5.4 patch (use AsCommand attribute)
-        - '#Access to deprecated static property \$default(Name|Description) of class .+Command#'
         # To revalidate
         - '#Cannot import type alias StandardInternalApi: type alias does not exist in Akeneo\\Category\\Infrastructure\\Converter\\InternalApi\\InternalApiToStd.#'
         - '#Class PHP_CodeSniffer\\Standards\\Generic\\Sniffs\\Formatting\\SpaceAfterNotSniff not found.#'

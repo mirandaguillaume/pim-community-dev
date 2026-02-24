@@ -9,12 +9,14 @@ use Akeneo\Category\Infrastructure\Bus\CommandBus;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @copyright 2023 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:categories:purge-orphan-category-image-files', description: 'Purge orphan category image files')]
+#[AsCommand(name: 'akeneo:categories:purge-orphan-category-image-files', description: 'Purge orphan category image files')]
+
 class PurgeOrphanCategoryImageFiles extends Command
 {
     public function __construct(

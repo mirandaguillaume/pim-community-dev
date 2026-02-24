@@ -16,6 +16,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Push a registered job instance to execute into the job execution queue.
@@ -24,7 +25,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:batch:publish-job-to-queue', description: 'Publish a registered job instance to execute into the job execution queue')]
+#[AsCommand(name: 'akeneo:batch:publish-job-to-queue', description: 'Publish a registered job instance to execute into the job execution queue')]
+
 class PublishJobToQueueCommand extends Command
 {
     final public const EXIT_SUCCESS_CODE = 0;

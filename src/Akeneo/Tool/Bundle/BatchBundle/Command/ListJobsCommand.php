@@ -10,6 +10,7 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Lists active batch jobs
@@ -18,7 +19,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-#[\Symfony\Component\Console\Attribute\AsCommand(name: 'akeneo:batch:list-jobs', description: 'List the existing job instances')]
+#[AsCommand(name: 'akeneo:batch:list-jobs', description: 'List the existing job instances')]
+
 class ListJobsCommand extends Command
 {
     /**
