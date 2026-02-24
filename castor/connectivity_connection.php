@@ -33,18 +33,7 @@ function lintBack(): void
         run('APP_ENV=dev docker-compose run -e APP_DEBUG=1 --rm php bin/console cache:warmup');
     }
     \csFixer('src/Akeneo/Connectivity/Connection/back/tests/.php_cs.php');
-    \phpstanLevel(
-        'src/Akeneo/Connectivity/Connection/back/tests/phpstan.neon',
-        'github',
-        '8',
-        'src/Akeneo/Connectivity/Connection/back/Application src/Akeneo/Connectivity/Connection/back/Domain'
-    );
-    \phpstanLevel(
-        'src/Akeneo/Connectivity/Connection/back/tests/phpstan.neon',
-        'github',
-        '5',
-        'src/Akeneo/Connectivity/Connection/back/Infrastructure'
-    );
+    \phpstan('src/Akeneo/Connectivity/Connection/back/tests/phpstan.neon');
     \phpstanLevel(
         'src/Akeneo/Connectivity/Connection/back/tests/phpstan-deprecations.neon',
         'github',

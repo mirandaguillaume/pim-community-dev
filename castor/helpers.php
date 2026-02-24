@@ -5,6 +5,7 @@
  * Replaces Makefile variables: DOCKER_COMPOSE, PHP_RUN, PHP_EXEC, YARN_RUN, NODE_RUN.
  */
 
+use function Castor\context;
 use function Castor\run;
 
 function dockerCompose(string $args): void
@@ -14,7 +15,8 @@ function dockerCompose(string $args): void
 
 function phpRun(string $cmd, ?float $timeout = null): void
 {
-    run('docker-compose run --rm php php ' . $cmd, timeout: $timeout);
+    $ctx = $timeout !== null ? context()->withTimeout($timeout) : null;
+    run('docker-compose run --rm php php ' . $cmd, context: $ctx);
 }
 
 function phpExec(string $cmd): void
