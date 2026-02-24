@@ -202,13 +202,9 @@ class MutableAclProvider extends BaseMutableAclProvider
 
         $aclReflection = new \ReflectionClass(Acl::class);
         $aclClassAcesProperty = $aclReflection->getProperty('classAces');
-        $aclClassAcesProperty->setAccessible(true);
         $aclClassFieldAcesProperty = $aclReflection->getProperty('classFieldAces');
-        $aclClassFieldAcesProperty->setAccessible(true);
         $aclObjectAcesProperty = $aclReflection->getProperty('objectAces');
-        $aclObjectAcesProperty->setAccessible(true);
         $aclObjectFieldAcesProperty = $aclReflection->getProperty('objectFieldAces');
-        $aclObjectFieldAcesProperty->setAccessible(true);
 
         foreach ($oids as $oid) {
             /** @var Acl|null $acl */
@@ -228,11 +224,6 @@ class MutableAclProvider extends BaseMutableAclProvider
                 $this->orderFieldAces($aclObjectFieldAcesProperty->getValue($acl))
             );
         }
-
-        $aclClassAcesProperty->setAccessible(false);
-        $aclClassFieldAcesProperty->setAccessible(false);
-        $aclObjectAcesProperty->setAccessible(false);
-        $aclObjectFieldAcesProperty->setAccessible(false);
 
         return $acls;
     }

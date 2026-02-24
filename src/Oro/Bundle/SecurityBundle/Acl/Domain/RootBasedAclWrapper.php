@@ -176,9 +176,9 @@ class RootBasedAclWrapper implements AclInterface
         if ($this->permissionGrantingStrategy === null) {
             // Unfortunately permissionGrantingStrategy property is private, so the only way
             // to get it is to use the reflection
+            // In PHP 8.1+, setAccessible() is no longer needed for private properties
             $r = new \ReflectionClass($this->acl::class);
             $p = $r->getProperty('permissionGrantingStrategy');
-            $p->setAccessible(true);
             $this->permissionGrantingStrategy = $p->getValue($this->acl);
         }
 
