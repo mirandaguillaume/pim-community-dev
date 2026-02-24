@@ -8,6 +8,7 @@ on:
 
 jobs:
   master:
+    if: github.repository == 'akeneo/pim-community-dev'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout current branch

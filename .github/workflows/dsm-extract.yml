@@ -7,6 +7,7 @@ on:
       - 'front-packages/akeneo-design-system/**'
 jobs:
   build:
+    if: github.repository == 'akeneo/pim-community-dev'
     name: Create a lib build
     runs-on: ubuntu-latest
     steps:
@@ -31,6 +32,7 @@ jobs:
           path: front-packages/akeneo-design-system/lib
 
   bump:
+    if: github.repository == 'akeneo/pim-community-dev'
     name: Bump package version of the lib
     runs-on: ubuntu-latest
     steps:
