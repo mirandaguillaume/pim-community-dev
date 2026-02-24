@@ -11,15 +11,15 @@ jobs:
 
     steps:
       - name: Checkout the current branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Install node 18 for the rest of the workflow
-        uses: actions/setup-node@v2
+      - name: Install node 20 for the rest of the workflow
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
 
       - name: Cache node modules
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         env:
           cache-name: cache-node-modules
         with:
@@ -37,7 +37,7 @@ jobs:
         run: cd front-packages/akeneo-design-system && ./bin/dsm generate Dummy
 
       - name: Cache TypeScript build
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         env:
           cache-name: cache-typescript-build
         with:
@@ -45,7 +45,7 @@ jobs:
           key: ${{ runner.os }}-typescript-${{ hashFiles('**/front-packages/akeneo-design-system/src') }}
 
       - name: Cache lib build
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         env:
           cache-name: cache-lib-build
         with:
@@ -58,7 +58,7 @@ jobs:
       - name: Launch lint checks
         run: cd front-packages/akeneo-design-system && yarn lint:check
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         name: Cache jest cache
         env:
           cache-name: cache-jest-cache
@@ -78,7 +78,7 @@ jobs:
         id: visual_test_execution
 
       - name: Cache example node modules
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         env:
           cache-name: cache-example-node-modules
         with:
@@ -94,7 +94,7 @@ jobs:
         run: cd front-packages/akeneo-design-system/example && yarn test
 
       - name: Upload the src folder on failure for debugging purposes
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: src-folder

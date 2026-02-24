@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout current branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Create tag
         run: |
           git config --global user.email "contact@akeneo.com" && \
@@ -19,9 +19,9 @@ jobs:
       - name: Push tag
         run: git push origin v$(node .github/workflows/get-version.js)
       - name: Prepare node to Publish
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
           registry-url: 'https://registry.npmjs.org'
       - name: Install node modules
         run: yarn install

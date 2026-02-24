@@ -8,12 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the current branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Install node 14 for the rest of the workflow
-        uses: actions/setup-node@v2
+      - name: Install node 20 for the rest of the workflow
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
 
       - name: Install peer dependencies
         # TODO RAC-594 Do not used fixed peer dependencies
