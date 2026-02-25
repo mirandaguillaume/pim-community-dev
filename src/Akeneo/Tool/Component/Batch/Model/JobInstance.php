@@ -74,18 +74,23 @@ class JobInstance
     #[ORM\Column(name: 'is_visible', type: Types::BOOLEAN, options: ['default' => true])]
     protected bool $isVisible = true;
 
-    /**
-     * Constructor.
-     *
-     * @param string $connector
-     * @param string $type
-     * @param string $jobName
-     */
+    /** @var string|null */
     #[ORM\Column(type: Types::STRING, length: 255)]
+    protected $connector;
+
+    /** @var string|null */
     #[ORM\Column(type: Types::STRING, length: 255)]
+    protected $type;
+
+    /** @var string|null */
     #[ORM\Column(name: 'job_name', type: Types::STRING, length: 50)]
-    public function __construct(protected $connector = null, protected $type = null, protected $jobName = null)
+    protected $jobName;
+
+    public function __construct($connector = null, $type = null, $jobName = null)
     {
+        $this->connector = $connector;
+        $this->type = $type;
+        $this->jobName = $jobName;
         $this->jobExecutions = new ArrayCollection();
     }
 
