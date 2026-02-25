@@ -18,7 +18,7 @@ class UserRoleField extends BaseSelect {
    */
   configure() {
     return $.when(
-      BaseSelect.prototype.configure.apply(this, arguments),
+      BaseSelect.prototype.configure.apply(this, []),
       FetcherRegistry.getFetcher('user-role')
         .fetchAll()
         .then((userRoles: InterfaceNormalizedUserRole[]) => {

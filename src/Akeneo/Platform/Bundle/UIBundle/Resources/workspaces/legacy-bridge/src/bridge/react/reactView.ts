@@ -10,13 +10,13 @@ abstract class ReactView extends BaseView {
   render(): BaseView {
     this.$el.append(mountReactElementRef(this.reactElementToMount(), this.$el.get(0) as any));
 
-    return BaseView.prototype.render.apply(this, arguments);
+    return BaseView.prototype.render.apply(this, []);
   }
 
   remove(): BaseView {
     unmountReactElementRef(this.$el.get(0) as any);
 
-    return BaseView.prototype.remove.apply(this, arguments);
+    return BaseView.prototype.remove.apply(this, []);
   }
 }
 

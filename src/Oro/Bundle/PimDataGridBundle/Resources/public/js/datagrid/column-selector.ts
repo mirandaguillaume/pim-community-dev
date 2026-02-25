@@ -35,16 +35,16 @@ interface DatagridCollection extends Backbone.Collection<any> {
 class ColumnSelector extends BaseView {
   public attributeGroupSelector: string;
   public config: any;
-  public datagridCollection: DatagridCollection;
+  public datagridCollection!: DatagridCollection;
   public datagridElement: any;
   public debounceSearchTimer: any;
-  public loadedAttributeGroups: AttributeGroup[];
-  public loadedColumns: {[name: string]: Column};
-  public locale: string;
+  public loadedAttributeGroups!: AttributeGroup[];
+  public loadedColumns!: {[name: string]: Column};
+  public locale!: string;
   public modal: any;
   public page: number = 1;
-  public searchInputSelector: string;
-  public hideButton: boolean;
+  public searchInputSelector!: string;
+  public hideButton!: boolean;
 
   private buttonTemplate: (...data: any[]) => string = _.template(buttonTemplate);
   private innerModalTemplate: (...data: any[]) => string = _.template(innerModalTemplate);
@@ -80,7 +80,7 @@ class ColumnSelector extends BaseView {
       this.renderColumnSelector();
     });
 
-    return BaseView.prototype.configure.apply(this, arguments);
+    return BaseView.prototype.configure.apply(this, []);
   }
 
   /**

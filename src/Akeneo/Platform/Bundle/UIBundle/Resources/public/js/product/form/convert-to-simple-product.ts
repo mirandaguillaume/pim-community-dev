@@ -35,7 +35,7 @@ class ConvertToSimpleProduct extends BaseView {
       this.$el.html(__('pim_enrich.entity.product.module.convert_variant_to_simple.label'));
     }
 
-    return BaseView.prototype.render.apply(this, arguments);
+    return BaseView.prototype.render.apply(this, []);
   }
 
   protected isAuthorized(): boolean {

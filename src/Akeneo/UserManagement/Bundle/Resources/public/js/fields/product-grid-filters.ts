@@ -28,7 +28,7 @@ class ProductGridFilters extends BaseMultiSelectAsync {
     };
 
     return $.when(
-      BaseMultiSelectAsync.prototype.configure.apply(this, arguments),
+      BaseMultiSelectAsync.prototype.configure.apply(this, []),
       FetcherRegistry.getFetcher('attribute-group')
         .fetchAll()
         .then((attributeGroups: {[key: string]: NormalizedAttributeGroup}) => {
@@ -41,7 +41,7 @@ class ProductGridFilters extends BaseMultiSelectAsync {
    * {@inheritdoc}
    */
   public getSelect2Options(): any {
-    const parent = BaseMultiSelectAsync.prototype.getSelect2Options.apply(this, arguments);
+    const parent = BaseMultiSelectAsync.prototype.getSelect2Options.apply(this, []);
     parent.formatResult = this.onGetResult.bind(this);
     parent.dropdownCssClass = 'select2--annotedLabels ' + parent.dropdownCssClass;
 
