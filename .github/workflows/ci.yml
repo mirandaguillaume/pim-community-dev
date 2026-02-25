@@ -245,17 +245,48 @@ jobs:
             sleep 1
           done
           echo "MySQL is ready"
-          docker-compose run --rm php sh -c "mkdir -p public/js public/bundles"
-          docker-compose run --rm php php bin/console pim:installer:assets --clean --env=prod
+
+          # Split pim:installer:assets into individual commands for better
+          # isolation (each runs in its own container with fresh memory) and
+          # granular error handling.
+          docker-compose run --rm php sh -c "rm -rf public/bundles public/css public/js && mkdir -p public/bundles public/css public/js"
           docker-compose run --rm php php bin/console fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json --env=prod
-          docker-compose run --rm php php bin/console pim:installer:dump-require-paths --env=prod -vvv 2>&1 || {
-            rc=$?
-            echo "::warning::dump-require-paths failed with exit code $rc"
-            echo "Container logs:"
-            docker-compose logs --tail=10 php 2>/dev/null || true
-            # Non-critical for CI — generate a stub file instead
-            docker-compose run --rm php sh -c "mkdir -p public/js && echo 'module.exports = []' > public/js/require-paths.js"
+          docker-compose run --rm php php bin/console assets:install --env=prod
+
+          # dump-require-paths: generate public/js/require-paths.js
+          # May crash with exit 255 (PHP fatal/segfault) inside the Symfony command,
+          # so we use set +e and a fallback that generates the file directly.
+          set +e
+          docker-compose run --rm php php -d memory_limit=1G bin/console pim:installer:dump-require-paths --env=prod 2>&1
+          dump_rc=$?
+          set -e
+          if [ $dump_rc -ne 0 ]; then
+            echo "::warning::dump-require-paths exited with $dump_rc — generating from config/bundles.php"
+            cat > var/ci-dump-require-paths.php <<'ENDPHP'
+          <?php
+          require "vendor/autoload.php";
+          $bundles = require "config/bundles.php";
+          $rootDir = realpath(".") . "/";
+          $paths = [];
+          foreach (array_keys($bundles) as $class) {
+              try {
+                  $ref = new ReflectionClass($class);
+                  $paths[] = str_replace($rootDir, "", dirname($ref->getFileName()));
+              } catch (Throwable $e) {
+                  fwrite(STDERR, "WARN: $class: " . $e->getMessage() . "\n");
+              }
           }
+          @mkdir("public/js", 0777, true);
+          file_put_contents("public/js/require-paths.js",
+              "module.exports = " . str_replace(",", ",\n", json_encode($paths, JSON_UNESCAPED_SLASHES)));
+          echo "Generated require-paths.js with " . count($paths) . " entries\n";
+          ENDPHP
+            docker-compose run --rm php php var/ci-dump-require-paths.php
+            rm -f var/ci-dump-require-paths.php
+          fi
+
+          # Dump JS translations (non-critical for most CI jobs)
+          docker-compose run --rm php php bin/console oro:translation:dump en_US --env=prod || echo "::warning::oro:translation:dump failed (non-critical)"
 
       - name: Upload pre-generated front assets
         uses: actions/upload-artifact@v4
