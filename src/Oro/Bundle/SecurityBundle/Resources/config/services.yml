@@ -67,7 +67,11 @@ services:
         tags:
             - { name: oro_service_link,  service: oro_security.acl.sid_manager }
 
-    # security.acl.cache.doctrine.cache_impl removed (doctrine/cache 2.x dropped FilesystemCache)
+    security.acl.cache.doctrine.cache_impl:
+        public: false
+        class: '%oro_security.acl.cache.class%'
+        arguments:
+            - '%kernel.cache_dir%/oro_acl'
 
     oro_security.acl.ace_provider:
         public: false
