@@ -23,7 +23,7 @@ class DefaultGridView extends BaseView {
    */
   configure() {
     return $.when(
-      BaseView.prototype.configure.apply(this, arguments),
+      BaseView.prototype.configure.apply(this, []),
       $.get(Routing.generate('pim_datagrid_view_rest_types')).then((datagridViewTypes: string[]) => {
         this.datagridAliases = datagridViewTypes;
       })

@@ -67,11 +67,20 @@ services:
         tags:
             - { name: oro_service_link,  service: oro_security.acl.sid_manager }
 
+    security.acl.cache.doctrine.cache_impl.pool:
+        public: false
+        class: Symfony\Component\Cache\Adapter\FilesystemAdapter
+        arguments:
+            - 'oro_acl'
+            - 0
+            - '%kernel.cache_dir%'
+
     security.acl.cache.doctrine.cache_impl:
         public: false
-        class: '%oro_security.acl.cache.class%'
+        class: Doctrine\Common\Cache\Psr6\DoctrineProvider
+        factory: ['Doctrine\Common\Cache\Psr6\DoctrineProvider', 'wrap']
         arguments:
-            - '%kernel.cache_dir%/oro_acl'
+            - '@security.acl.cache.doctrine.cache_impl.pool'
 
     oro_security.acl.ace_provider:
         public: false

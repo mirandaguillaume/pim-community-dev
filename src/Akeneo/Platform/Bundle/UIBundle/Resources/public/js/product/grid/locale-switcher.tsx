@@ -19,11 +19,11 @@ class LocaleSwitcher extends BaseView {
   initialize(config: any): void {
     this.config = config.config;
 
-    BaseView.prototype.initialize.apply(this, arguments);
+    BaseView.prototype.initialize.apply(this, []);
   }
 
   configure(): JQueryPromise<any> {
-    BaseForm.prototype.configure.apply(this, arguments);
+    BaseForm.prototype.configure.apply(this, []);
     return super.configure();
   }
 

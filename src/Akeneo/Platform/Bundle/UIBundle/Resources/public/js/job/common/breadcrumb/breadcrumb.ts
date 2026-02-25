@@ -21,7 +21,7 @@ class Breadcrumb extends BaseForm {
   public configure() {
     mediator.trigger('pim_menu:highlight:tab', {extension: `pim-menu-${this.getFormData().type}s`});
 
-    return BaseForm.prototype.configure.apply(this, arguments);
+    return BaseForm.prototype.configure.apply(this, []);
   }
 
   public render(): BaseForm {
