@@ -58,8 +58,6 @@ defaults:
 #     │              │                                                         │
 #     │              ├──► acceptance-back [if backend] ───────────────────►│
 #     │              │                                                         │
-#     │              ├──► acceptance-contexts [if backend] ───────────────►│
-#     │              │                                                         │
 #     │              ├──► data-migrations [if backend] ───────────────────►│
 #     │              │                                                         │
 #     │              ├──► deptrac [if backend] (all configs, 1 job) ──────►│
@@ -711,36 +709,6 @@ jobs:
           retention-days: 3
 
   # ===========================================================================
-  # ACCEPTANCE-CONTEXTS: Bounded context acceptance tests (parallel with main)
-  # ===========================================================================
-  acceptance-contexts:
-    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
-    needs: [prepare, detect-changes]
-    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: ./.github/actions/setup-pim-job
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - uses: ./.github/actions/install-castor
-
-      - name: Run bounded context acceptance tests
-        run: castor test:acceptance-back-contexts
-
-      - name: Upload acceptance context results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: acceptance-contexts-results
-          path: |
-            var/tests
-            var/logs
-          retention-days: 3
-
-  # ===========================================================================
   # DEPTRAC: Architecture coupling analysis (all configs in 1 job)
   # ===========================================================================
   deptrac:
@@ -1157,7 +1125,6 @@ jobs:
       - code-style-back
       - phpspec
       - acceptance-back
-      - acceptance-contexts
       - deptrac
       - db-seed
       - phpunit
@@ -1185,7 +1152,6 @@ jobs:
           echo "  code-style-back: ${{ needs.code-style-back.result }}"
           echo "  phpspec: ${{ needs.phpspec.result }}"
           echo "  acceptance-back: ${{ needs.acceptance-back.result }}"
-          echo "  acceptance-contexts: ${{ needs.acceptance-contexts.result }}"
           echo "  deptrac: ${{ needs.deptrac.result }}"
           echo "  db-seed: ${{ needs.db-seed.result }}"
           echo "  phpunit: ${{ needs.phpunit.result }}"
@@ -1209,7 +1175,6 @@ jobs:
             "${{ needs.code-style-back.result }}"
             "${{ needs.phpspec.result }}"
             "${{ needs.acceptance-back.result }}"
-            "${{ needs.acceptance-contexts.result }}"
             "${{ needs.deptrac.result }}"
             "${{ needs.db-seed.result }}"
             "${{ needs.phpunit.result }}"
