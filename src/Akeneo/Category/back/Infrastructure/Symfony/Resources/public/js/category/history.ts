@@ -4,7 +4,7 @@ const requireContext = require('require-context');
 const datagridBuilder = require('oro/datagrid-builder');
 
 class CategoryHistory extends BaseView {
-  identifier: number;
+  identifier!: number;
 
   render(): any {
 
