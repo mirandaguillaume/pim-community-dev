@@ -55,7 +55,7 @@ services:
       - 'pim'
 
   selenium:
-    image: 'selenium/standalone-chrome:4.27.0'
+    image: 'selenium/standalone-chrome:4.8.3'
     environment:
       SE_NODE_MAX_SESSIONS: '1'
       SE_START_VNC: 'true'
