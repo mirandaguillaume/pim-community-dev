@@ -67,6 +67,13 @@ class Comment implements CommentInterface
     #[ORM\OrderBy(['createdAt' => 'ASC'])]
     protected $children;
 
+    public function __construct()
+    {
+        $this->children = new ArrayCollection();
+        $this->createdAt = new \DateTime('now', new \DateTimeZone('UTC'));
+        $this->repliedAt = new \DateTime('now', new \DateTimeZone('UTC'));
+    }
+
     /**
      * {@inheritdoc}
      */
