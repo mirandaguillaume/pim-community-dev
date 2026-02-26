@@ -35,7 +35,7 @@ abstract class AbstractProduct implements ProductInterface, \Stringable
     protected $id;
 
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\GeneratedValue(strategy: 'NONE')]
     #[ORM\Column(type: 'uuid_binary')]
     protected UuidInterface $uuid;
 
