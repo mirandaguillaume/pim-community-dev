@@ -51,6 +51,11 @@
           },
           {
             "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/no-debug-statements.sh",
+            "statusMessage": "Checking for debug statements..."
+          },
+          {
+            "type": "command",
             "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/coupling-pre-push.sh",
             "statusMessage": "Checking architecture coupling...",
             "timeout": 180
@@ -60,6 +65,49 @@
             "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/yarn-lint-pre-push.sh",
             "statusMessage": "Running ESLint on changed front files...",
             "timeout": 60
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write|mcp__serena__replace_symbol_body|mcp__serena__insert_after_symbol|mcp__serena__insert_before_symbol",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/block-sensitive-files.sh",
+            "statusMessage": "Checking for protected files..."
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/large-file-warning.sh",
+            "statusMessage": "Checking file size..."
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|mcp__serena__replace_symbol_body|mcp__serena__insert_after_symbol|mcp__serena__insert_before_symbol",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/prettier-on-edit.sh",
+            "statusMessage": "Prettier auto-format..."
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "idle_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "printf '\\a'"
           }
         ]
       }
