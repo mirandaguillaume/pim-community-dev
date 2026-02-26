@@ -16,7 +16,10 @@
       "react-app",
       "react-app/jest"
     ],
-    "parser": "@babel/eslint-parser"
+    "parser": "@babel/eslint-parser",
+    "parserOptions": {
+      "requireConfigFile": false
+    }
   },
   "browserslist": {
     "production": [
