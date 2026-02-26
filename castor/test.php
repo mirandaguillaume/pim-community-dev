@@ -196,10 +196,10 @@ function endToEndBack(): void
     }
 }
 
-#[AsTask(namespace: 'test', name: 'end-to-end-front', description: 'Run front-end end-to-end tests (Cypress)')]
+#[AsTask(namespace: 'test', name: 'end-to-end-front', description: 'Run front-end end-to-end tests (Playwright)')]
 function endToEndFront(): void
 {
-    \dockerCompose('-f docker-compose-cypress.yml run --rm cypress');
+    run('npx playwright test');
 }
 
 #[AsTask(namespace: 'test', name: 'end-to-end-legacy', description: 'Run legacy behat end-to-end tests')]
