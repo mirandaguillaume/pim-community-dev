@@ -48,11 +48,7 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ],
-    "parser": "@babel/eslint-parser",
-    "parserOptions": {
-      "requireConfigFile": false
-    }
+    ]
   },
   "main": "lib/index.js",
   "browserslist": {

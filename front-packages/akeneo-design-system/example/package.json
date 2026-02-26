@@ -25,11 +25,7 @@
     }
   },
   "eslintConfig": {
-    "extends": "react-app",
-    "parser": "@babel/eslint-parser",
-    "parserOptions": {
-      "requireConfigFile": false
-    }
+    "extends": "react-app"
   },
   "browserslist": {
     "production": [

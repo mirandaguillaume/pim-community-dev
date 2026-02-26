@@ -66,6 +66,8 @@ $rules = [
         'Symfony\Contracts',
         'Doctrine\Common',
         'Doctrine\Persistence',
+        'Doctrine\ORM\Mapping',
+        'Doctrine\DBAL\Types\Types',
         'Webmozart\Assert\Assert',
         'Akeneo\Tool\Component',
 
