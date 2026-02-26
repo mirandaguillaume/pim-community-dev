@@ -53,9 +53,11 @@ class Category extends BaseCategory implements CategoryInterface, \Stringable
     protected $channels;
 
     /** @var \DateTimeInterface */
+    #[Gedmo\Timestampable(on: 'create')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     protected $created;
 
+    #[Gedmo\Timestampable(on: 'change', field: ['parent'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private \DateTime $updated;
 
@@ -67,6 +69,7 @@ class Category extends BaseCategory implements CategoryInterface, \Stringable
         $this->productModels = new ArrayCollection();
         $this->translations = new ArrayCollection();
         $this->channels = new ArrayCollection();
+        $this->created = new \DateTime('now', new \DateTimeZone('UTC'));
         $this->updated = new \DateTime('now', new \DateTimeZone('UTC'));
     }
 

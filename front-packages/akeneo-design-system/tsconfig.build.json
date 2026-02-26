@@ -7,7 +7,9 @@
     "src/**/*.stories.tsx",
     "src/**/*.stories.ts",
     "src/**/*.mdx",
-    "src/storybook/**",
+    "src/storybook/**/*.stories.tsx",
+    "src/storybook/**/*.stories.ts",
+    "src/storybook/**/*.mdx",
     "**/__mocks__/*"
   ]
 }
