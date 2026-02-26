@@ -42,8 +42,10 @@ abstract class AbstractProduct implements ProductInterface, \Stringable
     #[ORM\Column(name: 'raw_values', type: Types::JSON)]
     protected array $rawValues;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     protected ?\DateTime $created = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     protected ?\DateTime $updated = null;
 
     /**

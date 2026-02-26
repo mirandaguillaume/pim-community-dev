@@ -6,10 +6,10 @@ namespace Akeneo\Category\Infrastructure\Cli;
 
 use Akeneo\Category\Application\Command\PurgeOrphanCategoryImageFiles\PurgeOrphanCategoryImageFilesCommand;
 use Akeneo\Category\Infrastructure\Bus\CommandBus;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @copyright 2023 Akeneo SAS (http://www.akeneo.com)

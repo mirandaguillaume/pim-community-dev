@@ -2,8 +2,9 @@
 
 namespace Akeneo\UserManagement\Component\Model;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * @author    Arnaud Langlade <arnaud.langlade@akeneo.com>
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)

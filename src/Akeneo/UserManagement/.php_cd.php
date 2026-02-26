@@ -14,6 +14,8 @@ $rules = [
         'Doctrine\Common',
         'Doctrine\Inflector',
         'Doctrine\Persistence',
+        'Doctrine\ORM\Mapping',
+        'Doctrine\DBAL\Types\Types',
         'Akeneo\Tool',
         'Webmozart\Assert\Assert',
         // TODO: The feature uses the datagrid

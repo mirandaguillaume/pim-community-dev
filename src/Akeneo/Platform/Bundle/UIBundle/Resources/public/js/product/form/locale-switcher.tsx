@@ -75,7 +75,7 @@ class LocaleSwitcher extends BaseView {
           return locale.code === params.localeCode;
         });
 
-      if (undefined === currentLocale || '' === currentLocale) {
+      if (!currentLocale) {
         currentLocale = _.first(locales);
       }
 

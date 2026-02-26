@@ -2,8 +2,9 @@
 
 namespace Akeneo\Tool\Component\Batch\Model;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Represents a Warning raised during step execution
  *
