@@ -2,8 +2,15 @@ const baseConfig = require(`${__dirname}/../../common/base.jest.json`);
 
 const unitConfig = {
   rootDir: process.cwd(),
+  testEnvironment: 'jsdom',
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.tsx?$': [
+      'ts-jest',
+      {
+        tsconfig: `${__dirname}/../../../../tsconfig.json`,
+        isolatedModules: true,
+      },
+    ],
   },
   coveragePathIgnorePatterns: [
     'front-packages',
@@ -40,10 +47,6 @@ const unitConfig = {
   moduleDirectories: ['node_modules', '<rootDir>/public/bundles/'],
   globals: {
     __moduleConfig: {},
-    'ts-jest': {
-      tsconfig: `${__dirname}/../../../../tsconfig.json`,
-      isolatedModules: true,
-    },
     fos: {Router: {setData: () => {}}},
   },
   coverageReporters: ['text-summary', 'html'],

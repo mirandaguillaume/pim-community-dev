@@ -45,7 +45,7 @@ docker pull selenium/standalone-chrome-debug:3.141.59 &
 docker pull minio/minio:RELEASE.2025-01-20T14-49-07Z &
 docker pull google/cloud-sdk:506.0.0-emulators &
 docker pull fsouza/fake-gcs-server:1.45 &
-docker pull node:20 &
+docker pull node:22 &
 wait
 
 echo "=== Install GitHub Actions Runner ==="

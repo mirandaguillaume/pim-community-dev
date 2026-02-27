@@ -1,9 +1,10 @@
 module.exports = {
     preset: 'ts-jest',
-    globals: {
-        'ts-jest': {
+    testEnvironment: 'jsdom',
+    transform: {
+        '^.+\\.tsx?$': ['ts-jest', {
             tsconfig: './tsconfig.json',
-        },
+        }],
     },
     moduleDirectories: [
         '<rootDir>/../../../../../../node_modules/',
