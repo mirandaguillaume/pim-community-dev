@@ -9,10 +9,10 @@ use Akeneo\Tool\Bundle\ElasticsearchBundle\ClientRegistry;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\GetTotalFieldsLimit;
 use Elasticsearch\ClientBuilder;
 use Elasticsearch\Namespaces\IndicesNamespace;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'akeneo:elasticsearch:update-total-fields-limit')]
 
@@ -75,9 +75,9 @@ class UpdateTotalFieldsLimitCommand extends Command
                     'mapping' => [
                         'total_fields' => [
                             'limit' => $newLimit,
-                        ]
-                    ]
-                ]
+                        ],
+                    ],
+                ],
             ],
         ]);
     }
@@ -90,7 +90,7 @@ class UpdateTotalFieldsLimitCommand extends Command
 
         return [
             'client' => $nativeClient,
-            'indexName' => $client->getIndexName()
+            'indexName' => $client->getIndexName(),
         ];
     }
 

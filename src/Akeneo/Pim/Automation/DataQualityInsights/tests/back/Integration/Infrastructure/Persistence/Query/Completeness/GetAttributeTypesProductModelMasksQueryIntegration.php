@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Akeneo\Test\Pim\Automation\DataQualityInsights\Integration\Infrastructure\Persistence\Query\Completeness;
 
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductUuid;
@@ -9,7 +8,6 @@ use Akeneo\Pim\Structure\Component\AttributeTypes;
 
 class GetAttributeTypesProductModelMasksQueryIntegration extends CompletenessTestCase
 {
-
     public function test_it_retrieves_image_attributes_for_a_product_model_with_one_level_of_variation()
     {
         $this->givenCurrencyForChannel([['code' => 'ecommerce', 'currencies' => ['USD']]]);
@@ -56,7 +54,7 @@ class GetAttributeTypesProductModelMasksQueryIntegration extends CompletenessTes
                         'a_second_image',
                         'a_variation_axis_level_1',
                     ],
-                ]
+                ],
             ],
         ]);
 
@@ -138,7 +136,7 @@ class GetAttributeTypesProductModelMasksQueryIntegration extends CompletenessTes
                         'a_variation_axis_level_1',
                         'a_variation_axis_level_2',
                     ],
-                ]
+                ],
             ],
         ]);
 

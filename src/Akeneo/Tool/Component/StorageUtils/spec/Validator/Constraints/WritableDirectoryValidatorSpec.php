@@ -9,23 +9,23 @@ use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 
 class WritableDirectoryValidatorSpec extends ObjectBehavior
 {
-    function let(ExecutionContextInterface $context, WritableDirectory $constraint)
+    public function let(ExecutionContextInterface $context, WritableDirectory $constraint)
     {
         $this->initialize($context);
     }
 
-    function it_is_a_constraint_validator()
+    public function it_is_a_constraint_validator()
     {
         $this->shouldHaveType(\Symfony\Component\Validator\ConstraintValidator::class);
     }
 
-    function it_does_not_validate_a_null_value($context, $constraint)
+    public function it_does_not_validate_a_null_value($context, $constraint)
     {
         $context->buildViolation()->shouldNotBeCalled();
         $this->validate(null, $constraint);
     }
 
-    function it_invalidates_an_invalid_directory(
+    public function it_invalidates_an_invalid_directory(
         $context,
         $constraint,
         ConstraintViolationBuilderInterface $violation
@@ -38,14 +38,14 @@ class WritableDirectoryValidatorSpec extends ObjectBehavior
         $this->validate('foo', $constraint);
     }
 
-    function it_validates_a_writable_directory($context, $constraint)
+    public function it_validates_a_writable_directory($context, $constraint)
     {
         $context->buildViolation()->shouldNotBeCalled();
         $this->validate(sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'foo', $constraint);
         $this->validate(sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'foo/bar/baz/qux.txt', $constraint);
     }
 
-    function it_invalidates_a_non_writable_directory(
+    public function it_invalidates_a_non_writable_directory(
         $context,
         $constraint,
         ConstraintViolationBuilderInterface $violation

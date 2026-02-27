@@ -114,7 +114,7 @@ class ColumnsConfigurator implements ConfiguratorInterface
                     'label'      => $attribute['label'],
                     'order'      => $attribute['sortOrder'],
                     'group'      => $attribute['group'],
-                    'groupOrder' => $attribute['groupOrder']
+                    'groupOrder' => $attribute['groupOrder'],
                 ];
 
                 $this->attributesColumns[$attributeCode] = $columnConfig;
@@ -136,8 +136,8 @@ class ColumnsConfigurator implements ConfiguratorInterface
             sprintf(self::SOURCE_PATH, self::DISPLAYED_COLUMNS_KEY)
         );
 
-        $this->availableColumns = $this->editableColumns + $this->primaryColumns + $this->propertiesColumns +
-            $this->attributesColumns;
+        $this->availableColumns = $this->editableColumns + $this->primaryColumns + $this->propertiesColumns
+            + $this->attributesColumns;
 
         if (!empty($userColumns)) {
             $this->displayedColumns = $this->editableColumns  + $this->primaryColumns;

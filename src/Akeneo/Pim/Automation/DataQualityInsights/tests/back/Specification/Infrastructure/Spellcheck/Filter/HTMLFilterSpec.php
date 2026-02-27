@@ -29,16 +29,16 @@ class HTMLFilterSpec extends ObjectBehavior
      */
     public function it_tests_meta_content(): void
     {
-        $html =
-            '<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html" />' . "\n" .
-            '<meta name="Keywords" content="Foo">' . "\n" .
-            '<meta name="foo" content="Foobar">' . "\n" .
-            '<meta name="description" content="Bar">';
-        $text =
-            "                                                      \n" .
-            "                               Foo  \n" .
-            "                                  \n" .
-            '                                  Bar  ';
+        $html
+            = '<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html" />' . "\n"
+            . '<meta name="Keywords" content="Foo">' . "\n"
+            . '<meta name="foo" content="Foobar">' . "\n"
+            . '<meta name="description" content="Bar">';
+        $text
+            = "                                                      \n"
+            . "                               Foo  \n"
+            . "                                  \n"
+            . '                                  Bar  ';
         $this->beConstructedWith($html);
         $this->filter($html)->shouldEqual($text);
     }

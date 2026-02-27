@@ -60,9 +60,9 @@ class GetCustomAppSecretQueryIntegration extends TestCase
     private function createCustomApp(string $clientId, string $clientSecret): void
     {
         $sql = <<<SQL
-        INSERT INTO akeneo_connectivity_test_app (name, activate_url, callback_url, client_secret, client_id, user_id)
-        VALUES ('Any custom app name', 'http://activate-url.test', 'http://callback-url.test', :clientSecret, :clientId, :userId)
-        SQL;
+            INSERT INTO akeneo_connectivity_test_app (name, activate_url, callback_url, client_secret, client_id, user_id)
+            VALUES ('Any custom app name', 'http://activate-url.test', 'http://callback-url.test', :clientSecret, :clientId, :userId)
+            SQL;
 
         $this->connection->executeStatement(
             $sql,

@@ -60,8 +60,8 @@ class AppRoleWithScopesFactoryIntegration extends TestCase
     private function assertRoleIsPersisted(RoleInterface $role): void
     {
         $query = <<<SQL
-SELECT * FROM oro_access_role WHERE label = :label
-SQL;
+            SELECT * FROM oro_access_role WHERE label = :label
+            SQL;
         $stmt = $this->connection->executeQuery($query, [
             'label' => $role->getLabel(),
         ]);

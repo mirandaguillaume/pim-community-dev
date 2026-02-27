@@ -47,11 +47,11 @@ class IdFilter extends AbstractFieldFilter
 
         if (is_array($value)) {
             $value = array_map(
-                fn ($value) => (string) $this->prefix.$value,
+                fn ($value) => (string) $this->prefix . $value,
                 $value
             );
         } else {
-            $value = [(string)$this->prefix.$value];
+            $value = [(string) $this->prefix . $value];
         }
 
         $value = $this->addProductUuidsInValues($value);
@@ -60,8 +60,8 @@ class IdFilter extends AbstractFieldFilter
             case Operators::EQUALS:
                 $clause = [
                     'terms' => [
-                        'id' => $value
-                    ]
+                        'id' => $value,
+                    ],
                 ];
                 $this->searchQueryBuilder->addFilter($clause);
                 break;

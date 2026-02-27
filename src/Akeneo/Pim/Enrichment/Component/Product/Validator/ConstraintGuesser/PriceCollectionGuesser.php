@@ -54,9 +54,9 @@ class PriceCollectionGuesser implements ConstraintGuesserInterface
                         $notDecimalGuesser->guessConstraints($attribute),
                         $rangeGuesser->guessConstraints($attribute),
                         $currencyGuesser->guessConstraints($attribute)
-                    )
+                    ),
                 ]
-            )
+            ),
         ];
     }
 }

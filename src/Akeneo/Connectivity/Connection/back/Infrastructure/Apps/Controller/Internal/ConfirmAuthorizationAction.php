@@ -93,7 +93,7 @@ final readonly class ConfirmAuthorizationAction
             }
 
             $this->consentAppAuthenticationHandler->handle(new ConsentAppAuthenticationCommand($clientId, $connectedPimUserId));
-        } catch (InvalidAppAuthorizationRequestException | InvalidAppAuthenticationException $exception) {
+        } catch (InvalidAppAuthorizationRequestException|InvalidAppAuthenticationException $exception) {
             $this->logger->warning(
                 \sprintf('App activation failed with validation error "%s"', $exception->getMessage())
             );

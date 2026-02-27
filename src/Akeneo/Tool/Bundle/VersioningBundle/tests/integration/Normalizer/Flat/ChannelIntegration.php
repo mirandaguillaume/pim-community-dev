@@ -17,7 +17,7 @@ class ChannelIntegration extends AbstractFlatNormalizerTestCase
             'locales'     => 'de_DE,en_US,fr_FR',
             'label-en_US' => 'Tablet',
             'label-fr_FR' => 'Tablette',
-            'category'    => 'master'
+            'category'    => 'master',
         ];
 
         $channel = $this->get('pim_catalog.repository.channel')->findOneByIdentifier('tablet');

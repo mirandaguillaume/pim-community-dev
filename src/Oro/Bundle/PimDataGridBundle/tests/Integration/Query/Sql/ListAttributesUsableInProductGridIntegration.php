@@ -22,27 +22,25 @@ class ListAttributesUsableInProductGridIntegration extends TestCase
     {
         $attributes = [];
         // Index decremented to check that the creation order has no impact on the result order
-        for($i = ListAttributesUseableInProductGrid::ATTRIBUTES_PER_PAGE - 1; $i >= 1; $i--)
-        {
+        for ($i = ListAttributesUseableInProductGrid::ATTRIBUTES_PER_PAGE - 1; $i >= 1; $i--) {
             $attributes[] = $this->createAttribute([
                 'code' => "att_groupA_$i",
                 'type' => 'pim_catalog_text',
                 'group' => 'attributeGroupA',
                 'useable_as_grid_filter' => true,
                 'sort_order' => $i,
-                'labels' => ['en_US' => "Attribute group A $i"]
+                'labels' => ['en_US' => "Attribute group A $i"],
             ]);
         }
 
-        for($i = 2; $i >= 1; $i--)
-        {
+        for ($i = 2; $i >= 1; $i--) {
             $attributes[] = $this->createAttribute([
                 'code' => "att_other_$i",
                 'type' => 'pim_catalog_text',
                 'group' => 'other',
                 'useable_as_grid_filter' => true,
                 'sort_order' => $i,
-                'labels' => ['en_US' => "Attribute other $i"]
+                'labels' => ['en_US' => "Attribute other $i"],
             ]);
         }
 
@@ -60,8 +58,7 @@ class ListAttributesUsableInProductGridIntegration extends TestCase
             'group'        => 'Attribute group A',
         ]];
 
-        for($i = 1; $i <= ListAttributesUseableInProductGrid::ATTRIBUTES_PER_PAGE - 1; $i++)
-        {
+        for ($i = 1; $i <= ListAttributesUseableInProductGrid::ATTRIBUTES_PER_PAGE - 1; $i++) {
             $expectedAttributes[] = [
                 'code'         => "att_groupA_$i",
                 'type'         => "pim_catalog_text",
@@ -73,7 +70,7 @@ class ListAttributesUsableInProductGridIntegration extends TestCase
             ];
         }
 
-        $this->assertSameAttributes($expectedAttributes , $firstPageAttributes);
+        $this->assertSameAttributes($expectedAttributes, $firstPageAttributes);
 
         $secondPageAttributes = $this->get('pim_datagrid.product_grid.query.list_attributes')->fetch('en_US', 2, '', 3);
 
@@ -108,7 +105,7 @@ class ListAttributesUsableInProductGridIntegration extends TestCase
             'group' => 'other',
             'useable_as_grid_filter' => true,
             'sort_order' => 2,
-            'labels' => ['en_US' => "Attribute that matches the search"]
+            'labels' => ['en_US' => "Attribute that matches the search"],
         ]);
 
         $attributes[] = $this->createAttribute([
@@ -125,7 +122,7 @@ class ListAttributesUsableInProductGridIntegration extends TestCase
             'group' => 'other',
             'useable_as_grid_filter' => false,
             'sort_order' => 2,
-            'labels' => ['en_US' => "Attribute that matches the search but is not useable in grid"]
+            'labels' => ['en_US' => "Attribute that matches the search but is not useable in grid"],
         ]);
 
         $this->get('pim_catalog.saver.attribute')->saveAll($attributes);
@@ -169,12 +166,12 @@ class ListAttributesUsableInProductGridIntegration extends TestCase
      */
     private function assertSameAttributes(array $expectedAttributes, array $currentAttributes): void
     {
-        $expectedAttributes = array_map(function($attributeData) {
+        $expectedAttributes = array_map(function ($attributeData) {
             ksort($attributeData);
             return $attributeData;
         }, $expectedAttributes);
 
-        $currentAttributes = array_map(function($attributeData) {
+        $currentAttributes = array_map(function ($attributeData) {
             ksort($attributeData);
             return $attributeData;
         }, $currentAttributes);

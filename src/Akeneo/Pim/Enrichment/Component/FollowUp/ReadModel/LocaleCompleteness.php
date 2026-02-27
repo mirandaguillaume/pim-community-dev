@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Component\FollowUp\ReadModel;
@@ -29,7 +30,7 @@ class LocaleCompleteness
     public function toArray(): array
     {
         return [
-          $this->locale => $this->numberOfCompleteProducts
+            $this->locale => $this->numberOfCompleteProducts,
         ];
     }
 }

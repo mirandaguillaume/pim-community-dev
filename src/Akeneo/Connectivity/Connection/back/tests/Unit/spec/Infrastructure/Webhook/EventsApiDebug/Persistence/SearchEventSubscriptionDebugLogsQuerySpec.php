@@ -37,7 +37,7 @@ class SearchEventSubscriptionDebugLogsQuerySpec extends ObjectBehavior
             ->during('execute', [
                 'erp',
                 null,
-                ['levels' => 'red']
+                ['levels' => 'red'],
             ]);
     }
 
@@ -48,7 +48,7 @@ class SearchEventSubscriptionDebugLogsQuerySpec extends ObjectBehavior
             ->during('execute', [
                 'erp',
                 null,
-                ['timestamp_from' => 'not_a_correct_timestamp_from']
+                ['timestamp_from' => 'not_a_correct_timestamp_from'],
             ]);
     }
 
@@ -59,7 +59,7 @@ class SearchEventSubscriptionDebugLogsQuerySpec extends ObjectBehavior
             ->during('execute', [
                 'erp',
                 null,
-                ['timestamp_to' => 'not_a_correct_timestamp_to']
+                ['timestamp_to' => 'not_a_correct_timestamp_to'],
             ]);
     }
 
@@ -70,7 +70,7 @@ class SearchEventSubscriptionDebugLogsQuerySpec extends ObjectBehavior
             ->during('execute', [
                 'erp',
                 null,
-                ['text' => []]
+                ['text' => []],
             ]);
     }
 }

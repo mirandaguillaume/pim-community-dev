@@ -25,7 +25,7 @@ class ResolveTargetRepositorySubscriber implements EventSubscriber
     public function getSubscribedEvents()
     {
         return [
-            'loadClassMetadata'
+            'loadClassMetadata',
         ];
     }
 

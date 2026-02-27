@@ -14,7 +14,7 @@ class LocaleIntegration extends AbstractFlatNormalizerTestCase
     public function testLocale()
     {
         $expected = [
-            'code' => 'en_US'
+            'code' => 'en_US',
         ];
 
         $locale = $this->get('pim_catalog.repository.locale')->findOneByIdentifier('en_US');

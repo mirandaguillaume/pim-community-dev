@@ -41,24 +41,26 @@ final class Version_8_0_20230511113912_fix_oro_access_tables_columns_length_Inte
         Assert::assertEquals(255, $this->countColumnLength('oro_access_group', 'name'));
 
         $this->connection->executeStatement(<<<SQL
-            ALTER TABLE oro_access_role 
-                MODIFY label VARCHAR(30) NOT NULL,
-                MODIFY role VARCHAR(30) NOT NULL
-            ;
-        SQL);
-        $this->connection->executeStatement(<<<SQL
-            ALTER TABLE akeneo_connectivity_connected_app 
-                DROP CONSTRAINT FK_CONNECTIVITY_CONNECTED_APP_user_group_name
-            ;
-            SQL
+                ALTER TABLE oro_access_role 
+                    MODIFY label VARCHAR(30) NOT NULL,
+                    MODIFY role VARCHAR(30) NOT NULL
+                ;
+            SQL);
+        $this->connection->executeStatement(
+            <<<SQL
+                ALTER TABLE akeneo_connectivity_connected_app 
+                    DROP CONSTRAINT FK_CONNECTIVITY_CONNECTED_APP_user_group_name
+                ;
+                SQL
         );
         $this->connection->executeStatement(<<<SQL
-            ALTER TABLE oro_access_group MODIFY name VARCHAR(30) NOT NULL;
-        SQL);
-        $this->connection->executeStatement(<<<SQL
-            ALTER TABLE akeneo_connectivity_connected_app 
-                ADD CONSTRAINT FK_CONNECTIVITY_CONNECTED_APP_user_group_name FOREIGN KEY (user_group_name) REFERENCES oro_access_group (name);
-            SQL
+                ALTER TABLE oro_access_group MODIFY name VARCHAR(30) NOT NULL;
+            SQL);
+        $this->connection->executeStatement(
+            <<<SQL
+                ALTER TABLE akeneo_connectivity_connected_app 
+                    ADD CONSTRAINT FK_CONNECTIVITY_CONNECTED_APP_user_group_name FOREIGN KEY (user_group_name) REFERENCES oro_access_group (name);
+                SQL
         );
         Assert::assertEquals(30, $this->countColumnLength('oro_access_role', 'label'));
         Assert::assertEquals(30, $this->countColumnLength('oro_access_role', 'role'));
@@ -85,18 +87,18 @@ final class Version_8_0_20230511113912_fix_oro_access_tables_columns_length_Inte
     {
         $maxLength = $this->connection->executeQuery(
             <<<SQL
-                SELECT CHARACTER_MAXIMUM_LENGTH 
-                FROM INFORMATION_SCHEMA.COLUMNS 
-                WHERE TABLE_SCHEMA ='akeneo_pim_test' 
-                AND TABLE_NAME = :tableName
-                AND COLUMN_NAME = :columnName
-                LIMIT 1;
-            SQL,
+                    SELECT CHARACTER_MAXIMUM_LENGTH 
+                    FROM INFORMATION_SCHEMA.COLUMNS 
+                    WHERE TABLE_SCHEMA ='akeneo_pim_test' 
+                    AND TABLE_NAME = :tableName
+                    AND COLUMN_NAME = :columnName
+                    LIMIT 1;
+                SQL,
             [
                 'tableName' => $tableName,
                 'columnName' => $columnName,
             ]
-            )->fetchOne();
+        )->fetchOne();
 
         return (int) $maxLength;
     }

@@ -26,19 +26,19 @@ class DbalViewedAnnouncementRepository implements ViewedAnnouncementRepositoryIn
         $values = $parameters = [];
         foreach ($viewedAnnouncements as $index => $viewedAnnouncement) {
             $values[] = <<<SQL
-                (:announcement_id_$index, :user_id_$index)
-            SQL;
+                    (:announcement_id_$index, :user_id_$index)
+                SQL;
             $parameters['announcement_id_' . $index] = $viewedAnnouncement->announcementId();
             $parameters['user_id_' . $index] = $viewedAnnouncement->userId();
         }
 
         $valuesQuery = implode(',', $values);
         $insertQuery = <<<SQL
-            INSERT INTO akeneo_communication_channel_viewed_announcements
-                (announcement_id, user_id)
-            VALUES $valuesQuery
-            ON DUPLICATE KEY UPDATE announcement_id=announcement_id;
-        SQL;
+                INSERT INTO akeneo_communication_channel_viewed_announcements
+                    (announcement_id, user_id)
+                VALUES $valuesQuery
+                ON DUPLICATE KEY UPDATE announcement_id=announcement_id;
+            SQL;
 
 
         $this->dbalConnection->executeQuery(

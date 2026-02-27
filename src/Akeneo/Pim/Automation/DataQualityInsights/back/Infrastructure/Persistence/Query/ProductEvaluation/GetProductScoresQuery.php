@@ -29,10 +29,10 @@ final readonly class GetProductScoresQuery implements GetProductScoresQueryInter
 
     public function byProductUuid(ProductEntityIdInterface $productUuid): Read\Scores
     {
-        $productIdCollection = $this->idFactory->createCollection([(string)$productUuid]);
+        $productIdCollection = $this->idFactory->createCollection([(string) $productUuid]);
         $productScores = $this->byProductUuidCollection($productIdCollection);
 
-        return $productScores[(string)$productUuid] ?? new Read\Scores(
+        return $productScores[(string) $productUuid] ?? new Read\Scores(
             new ChannelLocaleRateCollection(),
             new ChannelLocaleRateCollection()
         );
@@ -47,10 +47,10 @@ final readonly class GetProductScoresQuery implements GetProductScoresQueryInter
         Assert::isInstanceOf($productUuidCollection, ProductUuidCollection::class);
 
         $query = <<<SQL
-SELECT BIN_TO_UUID(product_uuid) AS product_uuid, scores, scores_partial_criteria
-FROM pim_data_quality_insights_product_score
-WHERE product_uuid IN(:product_uuids)
-SQL;
+            SELECT BIN_TO_UUID(product_uuid) AS product_uuid, scores, scores_partial_criteria
+            FROM pim_data_quality_insights_product_score
+            WHERE product_uuid IN(:product_uuids)
+            SQL;
 
         $stmt = $this->dbConnection->executeQuery(
             $query,

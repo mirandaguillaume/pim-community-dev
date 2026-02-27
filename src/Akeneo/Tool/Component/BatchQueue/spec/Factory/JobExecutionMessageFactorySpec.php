@@ -16,7 +16,7 @@ use Ramsey\Uuid\Uuid;
 
 class JobExecutionMessageFactorySpec extends ObjectBehavior
 {
-    function let()
+    public function let()
     {
         $this->beConstructedWith(
             [
@@ -28,12 +28,12 @@ class JobExecutionMessageFactorySpec extends ObjectBehavior
         );
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldBeAnInstanceOf(JobExecutionMessageFactory::class);
     }
 
-    function it_builds_an_ui_job_execution_message(JobInstance $jobInstance)
+    public function it_builds_an_ui_job_execution_message(JobInstance $jobInstance)
     {
         $jobInstance->getType()->willReturn('mass_delete');
 
@@ -43,7 +43,7 @@ class JobExecutionMessageFactorySpec extends ObjectBehavior
         $jobExecutionMessage->getTenantId()->shouldBe(null);
     }
 
-    function it_builds_an_export_job_execution_message(JobInstance $jobInstance)
+    public function it_builds_an_export_job_execution_message(JobInstance $jobInstance)
     {
         $jobInstance->getType()->willReturn('quick_export');
 
@@ -52,7 +52,7 @@ class JobExecutionMessageFactorySpec extends ObjectBehavior
         $jobExecutionMessage->getJobExecutionId()->shouldBe(2);
     }
 
-    function it_builds_a_backend_job_execution_message(JobInstance $jobInstance)
+    public function it_builds_a_backend_job_execution_message(JobInstance $jobInstance)
     {
         $jobInstance->getType()->willReturn('other');
 
@@ -61,7 +61,7 @@ class JobExecutionMessageFactorySpec extends ObjectBehavior
         $jobExecutionMessage->getJobExecutionId()->shouldBe(3);
     }
 
-    function it_builds_an_ui_job_execution_message_from_normalized()
+    public function it_builds_an_ui_job_execution_message_from_normalized()
     {
         $jobExecutionMessage = $this->buildFromNormalized(
             [
@@ -81,7 +81,7 @@ class JobExecutionMessageFactorySpec extends ObjectBehavior
         $jobExecutionMessage->getOptions()->shouldBe(['option1' => 'value1']);
     }
 
-    function it_builds_an_import_job_execution_message_from_normalized()
+    public function it_builds_an_import_job_execution_message_from_normalized()
     {
         $jobExecutionMessage = $this->buildFromNormalized(
             [
@@ -101,7 +101,7 @@ class JobExecutionMessageFactorySpec extends ObjectBehavior
         $jobExecutionMessage->getOptions()->shouldBe(['option1' => 'value1']);
     }
 
-    function it_builds_a_backend_job_execution_message_from_normalized(
+    public function it_builds_a_backend_job_execution_message_from_normalized(
         JobExecution $jobExecution,
         JobInstance $jobInstance
     ) {

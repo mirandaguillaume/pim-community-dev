@@ -56,14 +56,14 @@ final readonly class AssociationUserIntentCollectionApplier implements UserInten
             $entityAssociations = $this->userIntentEntityAssociations($associationUserIntent, $entityType);
 
             $values = match ($associationUserIntent::class) {
-                AssociateProducts::class, AssociateProductModels::class, AssociateGroups::class =>
-                    $this->associateEntities($formerAssociations, $entityAssociations),
-                DissociateProducts::class, DissociateProductModels::class, DissociateGroups::class =>
-                    $this->dissociateEntities($formerAssociations, $entityAssociations),
-                ReplaceAssociatedProducts::class, ReplaceAssociatedProductModels::class, ReplaceAssociatedGroups::class =>
-                    $this->replaceAssociatedEntities($formerAssociations, $entityAssociations, $entityType, $userId),
-                ReplaceAssociatedProductUuids::class =>
-                    $this->replaceAssociatedProductsByUuid($formerAssociations, $entityAssociations, $userId),
+                AssociateProducts::class, AssociateProductModels::class, AssociateGroups::class
+                    => $this->associateEntities($formerAssociations, $entityAssociations),
+                DissociateProducts::class, DissociateProductModels::class, DissociateGroups::class
+                    => $this->dissociateEntities($formerAssociations, $entityAssociations),
+                ReplaceAssociatedProducts::class, ReplaceAssociatedProductModels::class, ReplaceAssociatedGroups::class
+                    => $this->replaceAssociatedEntities($formerAssociations, $entityAssociations, $entityType, $userId),
+                ReplaceAssociatedProductUuids::class
+                    => $this->replaceAssociatedProductsByUuid($formerAssociations, $entityAssociations, $userId),
                 default => throw new \InvalidArgumentException('Unsupported association userIntent')
             };
             if (\is_null($values)) {

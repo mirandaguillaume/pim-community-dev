@@ -239,9 +239,9 @@ class FlatItemBufferFlusher implements StepExecutionAwareInterface
             $extensionSuffix = '.' . $fileInfo->getExtension();
         }
 
-        return $fileInfo->getPath() . DIRECTORY_SEPARATOR .
-            $fileInfo->getBasename($extensionSuffix) .
-            '%fileNb%' . $extensionSuffix
+        return $fileInfo->getPath() . DIRECTORY_SEPARATOR
+            . $fileInfo->getBasename($extensionSuffix)
+            . '%fileNb%' . $extensionSuffix
         ;
     }
 

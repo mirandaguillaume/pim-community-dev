@@ -67,7 +67,7 @@ class UserContext
         $this->tokenStorage = $tokenStorage;
         $this->localeRepository = $localeRepository;
         $this->channelRepository = $channelRepository;
-        $this->categoryRepository= $categoryRepository;
+        $this->categoryRepository = $categoryRepository;
         $this->requestStack = $requestStack;
     }
 
@@ -305,7 +305,7 @@ class UserContext
             'locales'  => $locales,
             'channels' => $channels,
             'locale'   => $this->getUiLocale()->getCode(),
-            'channel'  => $this->getUserChannelCode()
+            'channel'  => $this->getUserChannelCode(),
         ];
     }
 

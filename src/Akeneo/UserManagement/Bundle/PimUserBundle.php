@@ -23,7 +23,7 @@ class PimUserBundle extends Bundle
         $container->addCompilerPass(new ResolveDoctrineTargetModelPass());
 
         $productMappings = [
-            'Akeneo\UserManagement\Component\Model' => dirname(__DIR__) . '/Component/Model'
+            'Akeneo\UserManagement\Component\Model' => dirname(__DIR__) . '/Component/Model',
         ];
 
         $container->addCompilerPass(

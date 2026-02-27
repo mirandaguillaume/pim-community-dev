@@ -68,7 +68,7 @@ class Documentation
         return [
             'message' => $this->message,
             'parameters' => $normalizedParams,
-            'style' => $this->style
+            'style' => $this->style,
         ];
     }
 }

@@ -68,9 +68,9 @@ class CollectDomainErrorFromProductEndpointEndToEnd extends ApiTestCase
                         'locale' => null,
                         'scope' => null,
                         'data' => 'High-Top Sneakers',
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ]);
 
         $client->request('POST', '/api/rest/v1/products', [], [], [], $content);
@@ -113,9 +113,9 @@ class CollectDomainErrorFromProductEndpointEndToEnd extends ApiTestCase
                         'locale' => null,
                         'scope' => null,
                         'data' => 'High-Top Sneakers',
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ]);
 
         $client->request('PATCH', '/api/rest/v1/products/high-top_sneakers', [], [], [], $content);
@@ -157,9 +157,9 @@ class CollectDomainErrorFromProductEndpointEndToEnd extends ApiTestCase
                         'locale' => null,
                         'scope' => null,
                         'data' => 'High-Top Sneakers',
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ]);
 
         $streamedContent = '';

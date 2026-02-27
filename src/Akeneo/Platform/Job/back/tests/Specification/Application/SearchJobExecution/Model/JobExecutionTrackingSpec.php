@@ -68,7 +68,7 @@ class JobExecutionTrackingSpec extends ObjectBehavior
                     'processed_items' => 100,
                     'is_trackable' => true,
                     'status' => 'COMPLETED',
-                ]
+                ],
             ],
         ]);
     }

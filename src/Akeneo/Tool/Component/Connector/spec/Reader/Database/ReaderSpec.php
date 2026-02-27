@@ -11,18 +11,18 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface;
 
 class ReaderSpec extends ObjectBehavior
 {
-    function let(ObjectRepository $repository)
+    public function let(ObjectRepository $repository)
     {
         $this->beConstructedWith($repository);
     }
 
-    function it_is_a_reader()
+    public function it_is_a_reader()
     {
         $this->shouldImplement(ItemReaderInterface::class);
         $this->shouldImplement(StepExecutionAwareInterface::class);
     }
 
-    function it_returns_a_variation(
+    public function it_returns_a_variation(
         $repository,
         ProductInterface $product,
         StepExecution $stepExecution
@@ -36,7 +36,7 @@ class ReaderSpec extends ObjectBehavior
         $this->read()->shouldReturn(null);
     }
 
-    function it_returns_the_total_of_items_to_read(
+    public function it_returns_the_total_of_items_to_read(
         $repository,
         ProductInterface $product
     ) {

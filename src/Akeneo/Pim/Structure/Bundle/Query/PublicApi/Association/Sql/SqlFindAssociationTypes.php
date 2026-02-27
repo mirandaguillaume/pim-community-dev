@@ -28,15 +28,15 @@ final readonly class SqlFindAssociationTypes implements FindAssociationTypesInte
         }
 
         $query = <<<SQL
-SELECT association_type.code AS code, is_quantified, is_two_way, COALESCE(translation.label, CONCAT('[', association_type.code, ']')) AS label
-FROM pim_catalog_association_type association_type
-LEFT JOIN pim_catalog_association_type_translation translation
-  ON association_type.id = translation.foreign_key
-  AND translation.locale = :localeCode
-WHERE {searchFilters}
-ORDER BY association_type.code
-LIMIT :limit OFFSET :offset
-SQL;
+            SELECT association_type.code AS code, is_quantified, is_two_way, COALESCE(translation.label, CONCAT('[', association_type.code, ']')) AS label
+            FROM pim_catalog_association_type association_type
+            LEFT JOIN pim_catalog_association_type_translation translation
+              ON association_type.id = translation.foreign_key
+              AND translation.locale = :localeCode
+            WHERE {searchFilters}
+            ORDER BY association_type.code
+            LIMIT :limit OFFSET :offset
+            SQL;
 
         $searchFilters = [];
         if (null !== $search) {

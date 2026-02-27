@@ -41,11 +41,11 @@ final class EvaluateProductsAndProductModelsCriteriaTasklet implements TaskletIn
         $startTime = time();
         $evaluationTime['products'] = [
             'count' => 0,
-            'time' => 0
+            'time' => 0,
         ];
         $evaluationTime['product_models'] = [
             'count' => 0,
-            'time' => 0
+            'time' => 0,
         ];
 
         do {

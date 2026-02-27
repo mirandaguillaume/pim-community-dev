@@ -12,7 +12,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 
 class InGroupFilterSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         FormFactoryInterface $factory,
         ProductFilterUtility $utility,
         RequestParametersExtractorInterface $extractor,
@@ -21,12 +21,12 @@ class InGroupFilterSpec extends ObjectBehavior
         $this->beConstructedWith($factory, $utility, $extractor, $codeResolver);
     }
 
-    function it_is_an_oro_choice_filter()
+    public function it_is_an_oro_choice_filter()
     {
         $this->shouldBeAnInstanceOf(BooleanFilter::class);
     }
 
-    function it_applies_a_filter_on_product_when_its_in_an_expected_group(
+    public function it_applies_a_filter_on_product_when_its_in_an_expected_group(
         $utility,
         $codeResolver,
         FilterDatasourceAdapterInterface $datasource,

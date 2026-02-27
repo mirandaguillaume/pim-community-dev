@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class PublishJobToQueueCommandSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         PublishJobToQueue $publishJobToQueue,
         DoctrineJobRepository $jobRepository,
         JobRegistry $jobRegistry,
@@ -43,12 +43,12 @@ class PublishJobToQueueCommandSpec extends ObjectBehavior
         );
     }
 
-    function it_has_a_name()
+    public function it_has_a_name()
     {
         $this->getName()->shouldReturn('akeneo:batch:publish-job-to-queue');
     }
 
-    function it_is_a_command()
+    public function it_is_a_command()
     {
         $this->shouldBeAnInstanceOf(Command::class);
     }
@@ -138,7 +138,8 @@ class PublishJobToQueueCommandSpec extends ObjectBehavior
         $input->getOption('email')->willReturn($inputEmail);
 
         $this->shouldThrow(\InvalidArgumentException::class)->during(
-            'run', [$input, $output]
+            'run',
+            [$input, $output]
         );
     }
 }

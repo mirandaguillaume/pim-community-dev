@@ -31,7 +31,7 @@ class AddLocaleListener implements EventSubscriber
     public function getSubscribedEvents()
     {
         return [
-            'postLoad'
+            'postLoad',
         ];
     }
 

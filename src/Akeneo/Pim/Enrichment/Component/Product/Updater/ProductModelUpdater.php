@@ -163,8 +163,8 @@ class ProductModelUpdater implements ObjectUpdaterInterface
     {
         $this->updateParent($productModel, $data['parent']);
 
-        if (null === $productModel->getFamilyVariant() &&
-            (!isset($data['family_variant']) || '' === $data['family_variant'])
+        if (null === $productModel->getFamilyVariant()
+            && (!isset($data['family_variant']) || '' === $data['family_variant'])
         ) {
             $parent = $productModel->getParent();
             if (null !== $parent) {
@@ -217,8 +217,8 @@ class ProductModelUpdater implements ObjectUpdaterInterface
             );
         }
 
-        if ($productModel->getFamilyVariant() !== null &&
-            $productModel->getFamilyVariant()->getCode() !== $newParentModel->getFamilyVariant()->getCode()
+        if ($productModel->getFamilyVariant() !== null
+            && $productModel->getFamilyVariant()->getCode() !== $newParentModel->getFamilyVariant()->getCode()
         ) {
             throw InvalidPropertyException::validEntityCodeExpected(
                 'parent',
@@ -245,8 +245,8 @@ class ProductModelUpdater implements ObjectUpdaterInterface
             return;
         }
 
-        if (null !== $productModel->getFamilyVariant() &&
-            strtolower($familyVariantCode) !== strtolower($productModel->getFamilyVariant()->getCode())
+        if (null !== $productModel->getFamilyVariant()
+            && strtolower($familyVariantCode) !== strtolower($productModel->getFamilyVariant()->getCode())
         ) {
             throw ImmutablePropertyException::immutableProperty(
                 'family_variant',

@@ -28,19 +28,19 @@ final class Version_7_0_20220726143600_add_scheduled_jobs extends AbstractMigrat
     {
         if (!$this->jobInstanceExists($jobCode)) {
             $sql = <<<SQL
-            INSERT INTO akeneo_batch_job_instance 
-                (`code`, `label`, `job_name`, `status`, `connector`, `raw_parameters`, `type`)
-            VALUES
-            (
-                :code,
-                :label,
-                :code,
-                0,
-                'internal',
-                :raw_parameters,
-                'scheduled_job'
-            );
-        SQL;
+                    INSERT INTO akeneo_batch_job_instance 
+                        (`code`, `label`, `job_name`, `status`, `connector`, `raw_parameters`, `type`)
+                    VALUES
+                    (
+                        :code,
+                        :label,
+                        :code,
+                        0,
+                        'internal',
+                        :raw_parameters,
+                        'scheduled_job'
+                    );
+                SQL;
 
             $this->addSql(
                 $sql,

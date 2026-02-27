@@ -48,7 +48,7 @@ class FindAllUsernamesWithAclQueryIntegration extends TestCase
         $this->aclLoader->addAclToRoles('akeneo_connectivity_connection_manage_apps', [
             'ROLE_APP_A',
             'ROLE_APP_B',
-            'ROLE_ADMINISTRATOR'
+            'ROLE_ADMINISTRATOR',
         ]);
 
         $foundUsernames = $this->query->execute('akeneo_connectivity_connection_manage_apps');

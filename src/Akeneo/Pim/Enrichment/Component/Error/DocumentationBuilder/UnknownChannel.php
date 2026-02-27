@@ -45,7 +45,7 @@ final class UnknownChannel implements DocumentationBuilderInterface
                     'channels_settings' => new RouteMessageParameter(
                         'Channel settings',
                         'pim_enrich_channel_index'
-                    )
+                    ),
                 ],
                 Documentation::STYLE_TEXT
             ),

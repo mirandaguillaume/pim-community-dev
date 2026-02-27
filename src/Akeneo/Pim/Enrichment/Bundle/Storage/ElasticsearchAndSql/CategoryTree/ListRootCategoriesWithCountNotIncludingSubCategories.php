@@ -44,23 +44,23 @@ class ListRootCategoriesWithCountNotIncludingSubCategories implements Query\List
     private function getRootCategories(string $translationLocaleCode): array
     {
         $sql = <<<SQL
-            SELECT 
-                root.id as root_id,
-                root.code as root_code,
-                COALESCE(ct.label, CONCAT('[', root.code, ']')) as label
-            FROM 
-                pim_catalog_category root
-                LEFT JOIN pim_catalog_category_translation ct ON ct.foreign_key = root.id AND ct.locale = :locale
-            WHERE 
-                root.parent_id IS NULL
-            ORDER BY 
-                label, root.code
-SQL;
+                        SELECT 
+                            root.id as root_id,
+                            root.code as root_code,
+                            COALESCE(ct.label, CONCAT('[', root.code, ']')) as label
+                        FROM 
+                            pim_catalog_category root
+                            LEFT JOIN pim_catalog_category_translation ct ON ct.foreign_key = root.id AND ct.locale = :locale
+                        WHERE 
+                            root.parent_id IS NULL
+                        ORDER BY 
+                            label, root.code
+            SQL;
 
         $categories = $this->connection->executeQuery(
             $sql,
             [
-                'locale' => $translationLocaleCode
+                'locale' => $translationLocaleCode,
             ]
         )->fetchAllAssociative();
 
@@ -86,10 +86,10 @@ SQL;
                     'constant_score' => [
                         'filter' => [
                             'terms' => [
-                                'categories' => [$category['root_code']]
-                            ]
-                        ]
-                    ]
+                                'categories' => [$category['root_code']],
+                            ],
+                        ],
+                    ],
                 ],
                 'track_total_hits' => true,
             ];

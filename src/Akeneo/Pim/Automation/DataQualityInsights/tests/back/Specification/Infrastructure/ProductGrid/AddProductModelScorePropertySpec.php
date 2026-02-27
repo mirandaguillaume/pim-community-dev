@@ -23,8 +23,7 @@ class AddProductModelScorePropertySpec extends ObjectBehavior
     public function it_returns_row_with_additional_property_DQI_score(
         $addScoresToProductAndProductModelRows,
         ProductQueryBuilderInterface $productQueryBuilder
-    )
-    {
+    ) {
         $queryParameters = new FetchProductAndProductModelRowsParameters(
             $productQueryBuilder->getWrappedObject(),
             [],
@@ -51,7 +50,7 @@ class AddProductModelScorePropertySpec extends ObjectBehavior
                     }
                 }
                 return true;
-            }
+            },
         ];
     }
 

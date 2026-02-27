@@ -17,8 +17,7 @@ final readonly class GetGeneratorHandler
 {
     public function __construct(
         private IdentifierGeneratorRepository $identifierGeneratorRepository,
-    ) {
-    }
+    ) {}
 
     /**
      * @return NormalizedIdentifierGenerator

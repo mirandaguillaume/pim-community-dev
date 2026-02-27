@@ -165,8 +165,8 @@ class FamilyController
             return new RedirectResponse('/');
         }
 
-        if (!$this->securityFacade->isGranted('pim_enrich_family_edit_properties') &&
-            !$this->securityFacade->isGranted('pim_enrich_family_edit_attributes')
+        if (!$this->securityFacade->isGranted('pim_enrich_family_edit_properties')
+            && !$this->securityFacade->isGranted('pim_enrich_family_edit_attributes')
         ) {
             throw new AccessDeniedException();
         }
@@ -273,7 +273,7 @@ class FamilyController
             $errors = [];
             foreach ($violations as $violation) {
                 $errors[$violation->getPropertyPath()] = [
-                    'message' => $violation->getMessage()
+                    'message' => $violation->getMessage(),
                 ];
             }
 

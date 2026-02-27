@@ -32,7 +32,7 @@ class GetAllEventSubscriptionDebugLogsQuery implements GetAllEventSubscriptionDe
             'size' => 1000,
             'sort' => [
                 'timestamp' => 'ASC',
-                'id' => 'ASC'
+                'id' => 'ASC',
             ],
             'query' => [
                 'bool' => [

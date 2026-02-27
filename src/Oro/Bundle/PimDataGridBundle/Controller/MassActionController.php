@@ -50,7 +50,7 @@ class MassActionController
         $response = $this->massActionDispatcher->dispatch($parameters);
         $data = [
             'successful' => $response->isSuccessful(),
-            'message'    => $response->getMessage()
+            'message'    => $response->getMessage(),
         ];
 
         return new JsonResponse(array_merge($data, $response->getOptions()));

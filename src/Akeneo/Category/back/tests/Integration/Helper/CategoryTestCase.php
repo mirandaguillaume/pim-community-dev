@@ -395,8 +395,8 @@ class CategoryTestCase extends TestCase
     protected function updateCategoryWithValues(string $code, string $channel = 'ecommerce'): void
     {
         $query = <<<SQL
-UPDATE pim_catalog_category SET value_collection = :value_collection WHERE code = :code;
-SQL;
+            UPDATE pim_catalog_category SET value_collection = :value_collection WHERE code = :code;
+            SQL;
 
         $this->get('database_connection')->executeQuery($query, [
             'value_collection' => json_encode([
@@ -475,8 +475,8 @@ SQL;
     protected function deactivateAttribute(string $uuid): void
     {
         $query = <<<SQL
-            UPDATE pim_catalog_category_attribute SET is_deactivated = 1 WHERE uuid = :uuid;
-        SQL;
+                UPDATE pim_catalog_category_attribute SET is_deactivated = 1 WHERE uuid = :uuid;
+            SQL;
 
         $this->get('database_connection')->executeQuery($query, [
             'uuid' => Uuid::fromString($uuid)->getBytes(),
@@ -541,9 +541,9 @@ SQL;
     protected function insertFileStorage(string $fileKey, string $originalFileName): void
     {
         $sql = <<<SQL
-            INSERT INTO akeneo_file_storage_file_info (file_key, original_filename, mime_type, extension, storage)
-            VALUES (:file_key, :original_filename, :mime_type, :extension, :storage);
-        SQL;
+                INSERT INTO akeneo_file_storage_file_info (file_key, original_filename, mime_type, extension, storage)
+                VALUES (:file_key, :original_filename, :mime_type, :extension, :storage);
+            SQL;
 
         $this->get('database_connection')->executeQuery($sql, [
             'file_key' => $fileKey,
@@ -557,10 +557,10 @@ SQL;
     protected function fileStorageExists(string $fileKey): bool
     {
         $sql = <<<SQL
-            SELECT file_key
-            FROM akeneo_file_storage_file_info
-            WHERE file_key = :file_key;
-        SQL;
+                SELECT file_key
+                FROM akeneo_file_storage_file_info
+                WHERE file_key = :file_key;
+            SQL;
 
         $result = $this->get('database_connection')->executeQuery($sql, [
             'file_key' => $fileKey,

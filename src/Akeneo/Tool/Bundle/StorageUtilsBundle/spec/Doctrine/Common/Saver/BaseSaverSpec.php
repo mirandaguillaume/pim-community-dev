@@ -113,18 +113,20 @@ class BaseSaverSpec extends ObjectBehavior
     }
 }
 
-class ModelToSave {
-    public function __construct(private readonly ?int $id = null)
-    {
-    }
+class ModelToSave
+{
+    public function __construct(private readonly ?int $id = null) {}
 
-    public function getId(): ?int {
+    public function getId(): ?int
+    {
         return $this->id;
     }
 }
 
-class ModelNotToSave {
-    public function getId() {
+class ModelNotToSave
+{
+    public function getId()
+    {
         return 42;
     }
 }

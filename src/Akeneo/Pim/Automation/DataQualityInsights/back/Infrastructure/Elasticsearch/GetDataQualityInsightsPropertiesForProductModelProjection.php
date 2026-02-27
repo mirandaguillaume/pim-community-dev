@@ -43,12 +43,12 @@ final readonly class GetDataQualityInsightsPropertiesForProductModelProjection i
 
         $additionalProperties = [];
         foreach ($productModelCodesIds as $productModelCode => $productId) {
-            $index = (string)$productId;
+            $index = (string) $productId;
             $additionalProperties[$productModelCode] = [
                 'data_quality_insights' => [
                     'scores' => isset($productModelScores[$index]) ? $productModelScores[$index]->allCriteria()->toArrayIntRank() : [],
                     'scores_partial_criteria' => isset($productModelScores[$index]) ? $productModelScores[$index]->partialCriteria()->toArrayIntRank() : [],
-                    'key_indicators' => $productModelKeyIndicators[$index] ?? []
+                    'key_indicators' => $productModelKeyIndicators[$index] ?? [],
                 ],
             ];
         }

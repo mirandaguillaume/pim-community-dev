@@ -53,7 +53,7 @@ class DateRangeFilterType extends AbstractType
             'between'    => self::TYPE_BETWEEN,
             'notBetween' => self::TYPE_NOT_BETWEEN,
             'moreThan'   => self::TYPE_MORE_THAN,
-            'lessThan'   => self::TYPE_LESS_THAN
+            'lessThan'   => self::TYPE_LESS_THAN,
         ];
 
         $resolver->setDefaults(
@@ -61,7 +61,7 @@ class DateRangeFilterType extends AbstractType
                 'field_type'       => DateRangeType::class,
                 'operator_choices' => $operatorChoices,
                 'widget_options'   => [],
-                'type_values'      => $typeValues
+                'type_values'      => $typeValues,
             ]
         );
     }

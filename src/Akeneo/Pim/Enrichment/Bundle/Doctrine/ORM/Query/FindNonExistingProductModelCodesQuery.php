@@ -21,8 +21,8 @@ class FindNonExistingProductModelCodesQuery implements FindNonExistingProductMod
         }
 
         $query = <<<SQL
-        SELECT code FROM pim_catalog_product_model WHERE code IN (:product_model_codes)
-SQL;
+                    SELECT code FROM pim_catalog_product_model WHERE code IN (:product_model_codes)
+            SQL;
 
         $results = $this->connection->executeQuery(
             $query,

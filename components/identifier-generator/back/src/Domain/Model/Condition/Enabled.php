@@ -16,8 +16,7 @@ final readonly class Enabled implements ConditionInterface
 {
     public function __construct(
         private bool $value
-    ) {
-    }
+    ) {}
 
     /**
      * @return 'enabled'

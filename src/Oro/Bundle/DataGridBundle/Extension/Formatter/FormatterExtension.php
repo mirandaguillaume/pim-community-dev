@@ -54,7 +54,7 @@ class FormatterExtension extends AbstractExtension
      */
     public function visitResult(DatagridConfiguration $config, ResultsIterableObject $result)
     {
-        $rows = (array)$result->offsetGetOr('data', []);
+        $rows = (array) $result->offsetGetOr('data', []);
 
         $options = $config->offsetGetOr('options', []);
         $extraKeys = $options['extraKeys'] ?? [];

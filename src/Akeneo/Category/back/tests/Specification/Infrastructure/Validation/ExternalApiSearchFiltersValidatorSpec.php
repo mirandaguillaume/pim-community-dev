@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class ExternalApiSearchFiltersValidatorSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         ValidatorInterface $validator
     ) {
         $this->beConstructedWith(
@@ -24,101 +24,100 @@ class ExternalApiSearchFiltersValidatorSpec extends ObjectBehavior
         );
     }
 
-    function it_validate_empty_array()
+    public function it_validate_empty_array()
     {
         $searchFilters = [];
         $this->validate($searchFilters);
     }
 
-    function it_validates_code_filters(ValidatorInterface $validator)
+    public function it_validates_code_filters(ValidatorInterface $validator)
     {
         $searchFilters = [
             "code" => [
                 [
                     "operator" => "IN",
-                    "value" => ["master"]
-                ]
+                    "value" => ["master"],
+                ],
             ],
             "is_root" => [
                 [
                     "operator" => "=",
-                    "value" => true
-                ]
+                    "value" => true,
+                ],
             ],
         ];
         $validator->validate(Argument::any(), Argument::any())->shouldBeCalled()->willReturn(new ConstraintViolationList());
         $this->validate($searchFilters);
     }
 
-    function it_validates_parent_filters(ValidatorInterface $validator)
+    public function it_validates_parent_filters(ValidatorInterface $validator)
     {
         $searchFilters = [
             "parent" => [
                 [
                     "operator" => "=",
                     "value" => "master",
-                ]
+                ],
             ],
             "is_root" => [
                 [
                     "operator" => "=",
                     "value" => true,
-                ]
+                ],
             ],
         ];
         $validator->validate(Argument::any(), Argument::any())->shouldBeCalled()->willReturn(new ConstraintViolationList());
         $this->validate($searchFilters);
     }
 
-    function it_validates_updated_filters(ValidatorInterface $validator)
+    public function it_validates_updated_filters(ValidatorInterface $validator)
     {
         $searchFilters = [
             "is_root" => [
                 [
                     "operator" => "=",
                     "value" => true,
-                ]
+                ],
             ],
             "updated" => [
                 [
                     "operator" => ">",
                     "value" => '2019-06-09T12:00:00+00:00',
-                ]
-            ]
+                ],
+            ],
         ];
         $validator->validate(Argument::any(), Argument::any())->shouldBeCalled()->willReturn(new ConstraintViolationList());
         $this->validate($searchFilters);
     }
 
-    function it_throws_exception_on_wrong_filter(ValidatorInterface $validator)
+    public function it_throws_exception_on_wrong_filter(ValidatorInterface $validator)
     {
         $searchFilters = [
             "test" => [
                 [
                     "operator" => "IN",
                     "value" => ["master"],
-                ]
+                ],
             ],
         ];
         $this->shouldThrow(\InvalidArgumentException::class)->duringValidate($searchFilters);
     }
 
-    function it_throws_exception_on_validation_filter(
+    public function it_throws_exception_on_validation_filter(
         ValidatorInterface $validator,
         ConstraintViolationInterface $violation,
-    )
-    {
+    ) {
         $searchFilters = [
             "code" => [
                 [
                     "operator" => "IN",
                     "value" => ["master"],
-                ]
+                ],
             ],
         ];
 
         $violations = [
-            $violation->getWrappedObject()
+            $violation->getWrappedObject(),
         ];
         $validator->validate(Argument::any(), Argument::any())->shouldBeCalled()->willReturn(new ConstraintViolationList($violations));
         $this->shouldThrow(\InvalidArgumentException::class)->duringValidate($searchFilters);

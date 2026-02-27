@@ -142,7 +142,7 @@ class CreateMeasurementFamilyActionEndToEnd extends WebTestCase
                     LabelCollection::fromArray(['en_US' => 'Custom unit 2_1', 'fr_FR' => 'Unité personalisée 2_1']),
                     [Operation::create('mul', '0.1')],
                     'cm²'
-                )
+                ),
             ]
         );
     }

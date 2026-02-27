@@ -4,12 +4,12 @@ namespace Akeneo\Platform\Bundle\AnalyticsBundle\Command;
 
 use Akeneo\Platform\Bundle\AnalyticsBundle\Command\Style\SystemInfoStyle;
 use Akeneo\Tool\Component\Analytics\ChainedDataCollector;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Displays system information provided by the data collectors through command line.
@@ -74,7 +74,7 @@ class SystemInfoCommand extends Command
             if (!empty($formattedData)) {
                 $formattedData[] = new TableSeparator();
             }
-            $formattedData[] = [$this->translator->trans('pim_analytics.info_type.'.$key), $data];
+            $formattedData[] = [$this->translator->trans('pim_analytics.info_type.' . $key), $data];
         }
 
         return $formattedData;

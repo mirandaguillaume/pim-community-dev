@@ -21,19 +21,19 @@ class SqlGetFamilyVariantTranslations implements GetFamilyVariantTranslations
         }
 
         $sql = <<<SQL
-SELECT
-   fv.code AS code,
-   trans.label AS label
-FROM pim_catalog_family_variant fv
-INNER JOIN pim_catalog_family_variant_translation trans ON fv.id = trans.foreign_key
-WHERE fv.code IN (:familyVariantCodes)
-AND locale = :locale
-SQL;
+            SELECT
+               fv.code AS code,
+               trans.label AS label
+            FROM pim_catalog_family_variant fv
+            INNER JOIN pim_catalog_family_variant_translation trans ON fv.id = trans.foreign_key
+            WHERE fv.code IN (:familyVariantCodes)
+            AND locale = :locale
+            SQL;
         $rows = $this->connection->executeQuery(
             $sql,
             [
                 'familyVariantCodes' => $familyVariantCodes,
-                'locale' => $locale
+                'locale' => $locale,
             ],
             ['familyVariantCodes' => ArrayParameterType::STRING]
         )->fetchAllAssociative();

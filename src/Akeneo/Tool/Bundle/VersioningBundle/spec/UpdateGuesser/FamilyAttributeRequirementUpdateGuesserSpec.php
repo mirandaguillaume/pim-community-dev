@@ -11,29 +11,28 @@ use Akeneo\Tool\Bundle\VersioningBundle\UpdateGuesser\UpdateGuesserInterface;
 
 class FamilyAttributeRequirementUpdateGuesserSpec extends ObjectBehavior
 {
-    function it_is_an_update_guesser()
+    public function it_is_an_update_guesser()
     {
         $this->shouldImplement(UpdateGuesserInterface::class);
     }
 
-    function it_supports_update_action()
+    public function it_supports_update_action()
     {
         $this->supportAction(UpdateGuesserInterface::ACTION_UPDATE_ENTITY)->shouldReturn(true);
         $this->supportAction('foo')->shouldReturn(false);
     }
 
-    function it_supports_delete_action()
+    public function it_supports_delete_action()
     {
         $this->supportAction(UpdateGuesserInterface::ACTION_DELETE)->shouldReturn(true);
     }
 
-    function it_guesses_family_update_when_an_attribute_requirement_is_added(
+    public function it_guesses_family_update_when_an_attribute_requirement_is_added(
         EntityManager $em,
         UnitOfWork $uo,
         AttributeRequirement $attributeRequirement,
         Family $family
-    )
-    {
+    ) {
         $em->getUnitOfWork()->willReturn($uo);
         $uo->getEntityState($family)->willReturn(UnitOfWork::STATE_MANAGED);
 
@@ -43,13 +42,12 @@ class FamilyAttributeRequirementUpdateGuesserSpec extends ObjectBehavior
             ->shouldReturn([$family]);
     }
 
-    function it_guesses_family_update_when_an_attribute_requirement_is_removed(
+    public function it_guesses_family_update_when_an_attribute_requirement_is_removed(
         EntityManager $em,
         UnitOfWork $uo,
         AttributeRequirement $attributeRequirement,
         Family $family
-    )
-    {
+    ) {
         $em->getUnitOfWork()->willReturn($uo);
         $uo->getEntityState($family)->willReturn(UnitOfWork::STATE_MANAGED);
 
@@ -59,13 +57,12 @@ class FamilyAttributeRequirementUpdateGuesserSpec extends ObjectBehavior
             ->shouldReturn([$family]);
     }
 
-    function it_returns_no_pending_update_if_family_is_deleted_too(
+    public function it_returns_no_pending_update_if_family_is_deleted_too(
         EntityManager $em,
         UnitOfWork $uo,
         AttributeRequirement $attributeRequirement,
         Family $family
-    )
-    {
+    ) {
         $em->getUnitOfWork()->willReturn($uo);
         $uo->getEntityState($family)->willReturn(UnitOfWork::STATE_REMOVED);
         $attributeRequirement->getFamily()->willReturn($family);
@@ -74,7 +71,7 @@ class FamilyAttributeRequirementUpdateGuesserSpec extends ObjectBehavior
             ->shouldReturn([]);
     }
 
-    function it_returns_no_pending_updates_if_not_given_an_attribute_requirement(EntityManager $em)
+    public function it_returns_no_pending_updates_if_not_given_an_attribute_requirement(EntityManager $em)
     {
         $this->guessUpdates($em, new Family(), UpdateGuesserInterface::ACTION_UPDATE_ENTITY)
             ->shouldReturn([]);

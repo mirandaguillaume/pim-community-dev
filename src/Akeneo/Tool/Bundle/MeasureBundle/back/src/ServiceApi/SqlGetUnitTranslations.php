@@ -15,21 +15,21 @@ class SqlGetUnitTranslations implements GetUnitTranslations
     public function byMeasurementFamilyCodeAndLocale(string $measurementFamilyCode, string $localeCode): array
     {
         $sql = <<<SQL
-SELECT unit_labels.*
-FROM akeneo_measurement am, JSON_TABLE(am.units,
-    '$[*]' COLUMNS(
-        code VARCHAR(100) PATH '$.code',
-        label VARCHAR(100) PATH :labelPath
-    )
-) AS unit_labels
-WHERE am.code = :measurementFamilyCode;
-SQL;
+            SELECT unit_labels.*
+            FROM akeneo_measurement am, JSON_TABLE(am.units,
+                '$[*]' COLUMNS(
+                    code VARCHAR(100) PATH '$.code',
+                    label VARCHAR(100) PATH :labelPath
+                )
+            ) AS unit_labels
+            WHERE am.code = :measurementFamilyCode;
+            SQL;
 
         return $this->connection->executeQuery(
             $sql,
             [
                 'labelPath' => sprintf('$.labels.%s', $localeCode),
-                'measurementFamilyCode' => $measurementFamilyCode
+                'measurementFamilyCode' => $measurementFamilyCode,
             ]
         )->fetchAllKeyValue();
     }

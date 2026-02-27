@@ -42,8 +42,8 @@ class ControllerListener
                 )
             );
 
-            if (!$this->securityFacade->isClassMethodGranted($controllerClass, $method) &&
-                $event->getRequestType() === HttpKernelInterface::MAIN_REQUEST
+            if (!$this->securityFacade->isClassMethodGranted($controllerClass, $method)
+                && $event->getRequestType() === HttpKernelInterface::MAIN_REQUEST
             ) {
                 throw AccessDeniedException::create($controllerClass, $method);
             }

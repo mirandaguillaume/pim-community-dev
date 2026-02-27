@@ -32,8 +32,8 @@ class CategoryTreeTemplate
     {
         $templateUuid = $result['template_uuid'] ? TemplateUuid::fromString($result['template_uuid']) : null;
         $templateCode = $result['template_code'] ? TemplateCode::fromString($result['template_code']) : null;
-        $templateLabels = $result['template_labels'] ?
-            LabelCollection::fromArray(
+        $templateLabels = $result['template_labels']
+            ? LabelCollection::fromArray(
                 json_decode($result['template_labels'], true, 512, JSON_THROW_ON_ERROR),
             ) : null;
 

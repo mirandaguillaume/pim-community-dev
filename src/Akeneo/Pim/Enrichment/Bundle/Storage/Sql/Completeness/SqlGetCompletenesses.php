@@ -34,19 +34,19 @@ final readonly class SqlGetCompletenesses implements GetProductCompletenesses
     {
         $uuidsAsBytes = \array_map(fn ($productUuid) => $productUuid->getBytes(), \array_values($productUuids));
 
-        $sql =
-            <<<SQL
-SELECT BIN_TO_UUID(product_uuid) AS uuid, completeness 
-FROM pim_catalog_product_completeness
-WHERE product_uuid IN (:productUuids) 
-SQL;
+        $sql
+            = <<<SQL
+                SELECT BIN_TO_UUID(product_uuid) AS uuid, completeness 
+                FROM pim_catalog_product_completeness
+                WHERE product_uuid IN (:productUuids) 
+                SQL;
         $rows = $this->connection->executeQuery(
             $sql,
             [
                 'productUuids' => $uuidsAsBytes,
             ],
             [
-                'productUuids' => ArrayParameterType::STRING
+                'productUuids' => ArrayParameterType::STRING,
             ]
         )->fetchAllAssociative();
 

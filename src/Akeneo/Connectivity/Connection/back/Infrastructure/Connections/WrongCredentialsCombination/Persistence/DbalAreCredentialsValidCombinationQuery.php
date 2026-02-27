@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Infrastructure\Connections\WrongCredentialsCombination\Persistence;
@@ -20,12 +21,12 @@ class DbalAreCredentialsValidCombinationQuery implements AreCredentialsValidComb
     public function execute(string $clientId, string $username): bool
     {
         $sqlQuery = <<<SQL
-SELECT COUNT(c.code)
-FROM akeneo_connectivity_connection as c
-INNER JOIN oro_user AS u ON c.user_id = u.id
-    AND c.client_id = :client_id
-    AND u.username = :username
-SQL;
+            SELECT COUNT(c.code)
+            FROM akeneo_connectivity_connection as c
+            INNER JOIN oro_user AS u ON c.user_id = u.id
+                AND c.client_id = :client_id
+                AND u.username = :username
+            SQL;
         $sqlParams = [
             'client_id' => $clientId,
             'username' => $username,

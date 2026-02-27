@@ -26,34 +26,34 @@ final readonly class DbalSelectConnectionWithCredentialsByCodeQuery implements S
     public function execute(string $code): ?ConnectionWithCredentials
     {
         $selectSQL = <<<SQL
-SELECT
-    c.code,
-    c.label,
-    c.flow_type,
-    c.image,
-    c.client_id,
-    client.random_id,
-    client.secret,
-    u.username,
-    urole.role_id,
-    g.id as group_id,
-    c.auditable,
-    c.type
-FROM akeneo_connectivity_connection c
-INNER JOIN pim_api_client client ON c.client_id = client.id
-INNER JOIN oro_user u ON c.user_id = u.id
-INNER JOIN oro_user_access_role urole ON u.id = urole.user_id
-INNER JOIN oro_user_access_group ugroup ON u.id = ugroup.user_id
-LEFT JOIN oro_access_group g ON ugroup.group_id = g.id
-    AND g.name <> :default_group
-WHERE c.code = :code
-SQL;
+            SELECT
+                c.code,
+                c.label,
+                c.flow_type,
+                c.image,
+                c.client_id,
+                client.random_id,
+                client.secret,
+                u.username,
+                urole.role_id,
+                g.id as group_id,
+                c.auditable,
+                c.type
+            FROM akeneo_connectivity_connection c
+            INNER JOIN pim_api_client client ON c.client_id = client.id
+            INNER JOIN oro_user u ON c.user_id = u.id
+            INNER JOIN oro_user_access_role urole ON u.id = urole.user_id
+            INNER JOIN oro_user_access_group ugroup ON u.id = ugroup.user_id
+            LEFT JOIN oro_access_group g ON ugroup.group_id = g.id
+                AND g.name <> :default_group
+            WHERE c.code = :code
+            SQL;
 
         $data = $this->dbalConnection->executeQuery(
             $selectSQL,
             [
                 'code' => $code,
-                'default_group' => User::GROUP_DEFAULT
+                'default_group' => User::GROUP_DEFAULT,
             ]
         )->fetchAllAssociative();
 

@@ -231,7 +231,7 @@ class AppSpec extends ObjectBehavior
                 'connected' => false,
                 'isPending' => true,
                 'isCustomApp' => false,
-        ]);
+            ]);
     }
 
     public function it_turns_a_connected_app_into_a_pending_app(): void

@@ -21,8 +21,8 @@ final readonly class SqlAssignAllUsersToOneCategory implements AssignAllUsersToO
     public function execute(int $categoryId): int
     {
         $sql = <<<SQL
-            UPDATE oro_user SET defaultTree_id = :id;
-        SQL;
+                UPDATE oro_user SET defaultTree_id = :id;
+            SQL;
         return $this->connection->executeQuery(
             $sql,
             ['id' => $categoryId],

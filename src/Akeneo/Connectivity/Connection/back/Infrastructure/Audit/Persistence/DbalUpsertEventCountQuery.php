@@ -22,10 +22,10 @@ class DbalUpsertEventCountQuery implements UpsertEventCountQueryInterface
     public function execute(HourlyEventCount $hourlyEventCount): void
     {
         $upsertQuery = <<<SQL
-INSERT INTO akeneo_connectivity_connection_audit_product (connection_code, event_datetime, event_count, event_type, updated)
-VALUES(:connection_code, :event_datetime, :event_count, :event_type, UTC_TIMESTAMP())
-ON DUPLICATE KEY UPDATE event_count = event_count + :event_count, updated = UTC_TIMESTAMP()
-SQL;
+            INSERT INTO akeneo_connectivity_connection_audit_product (connection_code, event_datetime, event_count, event_type, updated)
+            VALUES(:connection_code, :event_datetime, :event_count, :event_type, UTC_TIMESTAMP())
+            ON DUPLICATE KEY UPDATE event_count = event_count + :event_count, updated = UTC_TIMESTAMP()
+            SQL;
 
         $this->dbalConnection->executeStatement(
             $upsertQuery,

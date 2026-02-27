@@ -44,7 +44,7 @@ class ChoiceFilterType extends AbstractChoiceType
                 'field_type'       => ChoiceType::class,
                 'field_options'    => ['choices' => []],
                 'operator_choices' => $choices,
-                'populate_default' => true
+                'populate_default' => true,
             ]
         );
     }

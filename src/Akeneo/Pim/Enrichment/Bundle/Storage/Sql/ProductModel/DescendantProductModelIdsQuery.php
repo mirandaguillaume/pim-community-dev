@@ -21,9 +21,9 @@ final readonly class DescendantProductModelIdsQuery implements DescendantProduct
     public function fetchFromParentProductModelId(int $parentProductModelId): array
     {
         $sql = <<<SQL
-SELECT id FROM pim_catalog_product_model
-WHERE parent_id = :parentId
-SQL;
+            SELECT id FROM pim_catalog_product_model
+            WHERE parent_id = :parentId
+            SQL;
 
         $resultRows = $this->connection->executeQuery(
             $sql,

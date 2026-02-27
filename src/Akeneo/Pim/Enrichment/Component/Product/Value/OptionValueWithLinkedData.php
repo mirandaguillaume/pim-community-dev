@@ -46,7 +46,7 @@ class OptionValueWithLinkedData extends AbstractValue implements OptionValueInte
      */
     public function __toString(): string
     {
-        return null !== $this->data ? '['.$this->data.']' : '';
+        return null !== $this->data ? '[' . $this->data . ']' : '';
     }
 
     /**
@@ -54,9 +54,9 @@ class OptionValueWithLinkedData extends AbstractValue implements OptionValueInte
      */
     public function isEqual(ValueInterface $value): bool
     {
-        if (!$value instanceof OptionValueInterface ||
-            $this->getScopeCode() !== $value->getScopeCode() ||
-            $this->getLocaleCode() !== $value->getLocaleCode()
+        if (!$value instanceof OptionValueInterface
+            || $this->getScopeCode() !== $value->getScopeCode()
+            || $this->getLocaleCode() !== $value->getLocaleCode()
         ) {
             return false;
         }

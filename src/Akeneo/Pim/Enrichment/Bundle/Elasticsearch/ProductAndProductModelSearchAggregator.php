@@ -78,9 +78,9 @@ class ProductAndProductModelSearchAggregator
     {
         $categoriesFilter = array_filter(
             $rawFilters,
-            fn ($filter) => 'field' === $filter['type'] &&
-                'categories' === $filter['field'] &&
-                (Operators::IN_LIST === $filter['operator'] || Operators::IN_CHILDREN_LIST === $filter['operator'])
+            fn ($filter) => 'field' === $filter['type']
+                && 'categories' === $filter['field']
+                && (Operators::IN_LIST === $filter['operator'] || Operators::IN_CHILDREN_LIST === $filter['operator'])
         );
         $categoryCodes = [];
         foreach ($categoriesFilter as $categoryFilter) {

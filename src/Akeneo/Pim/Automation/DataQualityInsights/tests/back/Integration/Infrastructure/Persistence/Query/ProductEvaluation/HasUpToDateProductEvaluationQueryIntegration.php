@@ -101,12 +101,13 @@ final class HasUpToDateProductEvaluationQueryIntegration extends TestCase
     {
         $today = new \DateTimeImmutable('2020-03-02 11:34:27');
         $outdatedProductId = $this->givenAnUpdatedProductWithAnOutdatedEvaluation($today);
-        $productIdCollection = $this->get(ProductUuidFactory::class)->createCollection([(string)$outdatedProductId]);
+        $productIdCollection = $this->get(ProductUuidFactory::class)->createCollection([(string) $outdatedProductId]);
 
         $this->assertNull($this->query->forEntityIdCollection($productIdCollection));
     }
 
-    private function createOrUpdateProduct(string $identifier, array $userIntents = []): ProductInterface {
+    private function createOrUpdateProduct(string $identifier, array $userIntents = []): ProductInterface
+    {
         $this->getContainer()->get('pim_catalog.validator.unique_value_set')->reset(); // Needed to update the product afterwards
 
         $this->get('pim_enrich.product.message_bus')->dispatch(UpsertProductCommand::createWithIdentifierSystemUser(
@@ -121,7 +122,7 @@ final class HasUpToDateProductEvaluationQueryIntegration extends TestCase
     {
         $product = $this->createOrUpdateProduct(strval(Uuid::uuid4()));
 
-        return $this->get(ProductUuidFactory::class)->create((string)$product->getUuid());
+        return $this->get(ProductUuidFactory::class)->create((string) $product->getUuid());
     }
 
     private function createVariantProduct(string $parentCode, array $userIntents = []): ProductUuid
@@ -129,10 +130,10 @@ final class HasUpToDateProductEvaluationQueryIntegration extends TestCase
         $product = $this->createOrUpdateProduct(strval(Uuid::uuid4()), [
             new SetFamily('familyA'),
             new ChangeParent($parentCode),
-            ...$userIntents
+            ...$userIntents,
         ]);
 
-        return $this->get(ProductUuidFactory::class)->create((string)$product->getUuid());
+        return $this->get(ProductUuidFactory::class)->create((string) $product->getUuid());
     }
 
     private function givenAProductWithAnUpToDateEvaluation(\DateTimeImmutable $today): ProductUuid
@@ -220,8 +221,8 @@ final class HasUpToDateProductEvaluationQueryIntegration extends TestCase
     private function updateProductAt(ProductUuid $productUuid, \DateTimeImmutable $updatedAt): void
     {
         $query = <<<SQL
-UPDATE pim_catalog_product SET updated = :updated WHERE uuid = :product_uuid;
-SQL;
+            UPDATE pim_catalog_product SET updated = :updated WHERE uuid = :product_uuid;
+            SQL;
 
         $this->db->executeQuery($query, [
             'updated' => $updatedAt->format('Y-m-d H:i:s'),
@@ -232,8 +233,8 @@ SQL;
     private function updateProductModelAt(string $productModelCode, \DateTimeImmutable $updatedAt)
     {
         $query = <<<SQL
-UPDATE pim_catalog_product_model SET updated = :updated WHERE code = :code;
-SQL;
+            UPDATE pim_catalog_product_model SET updated = :updated WHERE code = :code;
+            SQL;
 
         $this->db->executeQuery($query, [
             'updated' => $updatedAt->format('Y-m-d H:i:s'),
@@ -244,10 +245,10 @@ SQL;
     private function updateProductEvaluationsAt(ProductUuid $productUuid, \DateTimeImmutable $evaluatedAt): void
     {
         $query = <<<SQL
-UPDATE pim_data_quality_insights_product_criteria_evaluation e, pim_catalog_product p
-SET e.evaluated_at = :evaluated_at 
-WHERE p.uuid = :product_uuid AND p.uuid = e.product_uuid;
-SQL;
+            UPDATE pim_data_quality_insights_product_criteria_evaluation e, pim_catalog_product p
+            SET e.evaluated_at = :evaluated_at 
+            WHERE p.uuid = :product_uuid AND p.uuid = e.product_uuid;
+            SQL;
 
         $this->db->executeQuery($query, [
             'evaluated_at' => $evaluatedAt->format(Clock::TIME_FORMAT),

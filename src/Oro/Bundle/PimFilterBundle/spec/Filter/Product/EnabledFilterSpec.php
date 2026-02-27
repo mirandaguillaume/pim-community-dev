@@ -10,17 +10,17 @@ use Symfony\Component\Form\FormFactoryInterface;
 
 class EnabledFilterSpec extends ObjectBehavior
 {
-    function let(FormFactoryInterface $factory, ProductFilterUtility $utility)
+    public function let(FormFactoryInterface $factory, ProductFilterUtility $utility)
     {
         $this->beConstructedWith($factory, $utility);
     }
 
-    function it_is_an_oro_choice_filter()
+    public function it_is_an_oro_choice_filter()
     {
         $this->shouldBeAnInstanceOf(ChoiceFilter::class);
     }
 
-    function it_applies_a_filter_on_enabled_field_value(
+    public function it_applies_a_filter_on_enabled_field_value(
         FilterDatasourceAdapterInterface $datasource,
         $utility
     ) {

@@ -50,8 +50,8 @@ class CategoryFilter extends AbstractFieldFilter implements FieldFilterInterface
             case Operators::IN_LIST:
                 $clause = [
                     'terms' => [
-                        'categories' => $value
-                    ]
+                        'categories' => $value,
+                    ],
                 ];
 
                 $this->searchQueryBuilder->addFilter($clause);
@@ -60,8 +60,8 @@ class CategoryFilter extends AbstractFieldFilter implements FieldFilterInterface
             case Operators::NOT_IN_LIST:
                 $clause = [
                     'terms' => [
-                        'categories' => $value
-                    ]
+                        'categories' => $value,
+                    ],
                 ];
 
                 $this->searchQueryBuilder->addMustNot($clause);
@@ -71,8 +71,8 @@ class CategoryFilter extends AbstractFieldFilter implements FieldFilterInterface
                 $childrenCategoryCodes = $this->getAllChildrenCodes($value);
                 $clause = [
                     'terms' => [
-                        'categories' => $childrenCategoryCodes
-                    ]
+                        'categories' => $childrenCategoryCodes,
+                    ],
                 ];
 
                 $this->searchQueryBuilder->addFilter($clause);
@@ -82,8 +82,8 @@ class CategoryFilter extends AbstractFieldFilter implements FieldFilterInterface
                 $childrenCategoryCodes = $this->getAllChildrenCodes($value);
                 $clause = [
                     'terms' => [
-                        'categories' => $childrenCategoryCodes
-                    ]
+                        'categories' => $childrenCategoryCodes,
+                    ],
                 ];
 
                 $this->searchQueryBuilder->addMustNot($clause);
@@ -91,7 +91,7 @@ class CategoryFilter extends AbstractFieldFilter implements FieldFilterInterface
 
             case Operators::UNCLASSIFIED:
                 $clause = [
-                    'exists' => ['field' => 'categories']
+                    'exists' => ['field' => 'categories'],
                 ];
                 $this->searchQueryBuilder->addMustNot($clause);
                 break;
@@ -110,19 +110,19 @@ class CategoryFilter extends AbstractFieldFilter implements FieldFilterInterface
                         'should' => [
                             [
                                 'terms' => [
-                                    'categories' => $value
-                                ]
+                                    'categories' => $value,
+                                ],
                             ],
                             [
                                 'bool' => [
                                     'must_not' => [
-                                        'exists' => ['field' => 'categories']
-                                    ]
-                                ]
-                            ]
+                                        'exists' => ['field' => 'categories'],
+                                    ],
+                                ],
+                            ],
                         ],
                         'minimum_should_match' => 1,
-                    ]
+                    ],
                 ];
 
                 $this->searchQueryBuilder->addFilter($clause);

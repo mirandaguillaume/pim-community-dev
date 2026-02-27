@@ -64,7 +64,7 @@ class InGroupSorter extends BaseFieldSorter implements FieldSorterInterface
                     $field => [
                         'order'   => 'ASC',
                         'missing' => '_first',
-                        'unmapped_type'=> 'boolean',
+                        'unmapped_type' => 'boolean',
                     ],
                 ];
                 $this->searchQueryBuilder->addSort($sortClause);
@@ -75,7 +75,7 @@ class InGroupSorter extends BaseFieldSorter implements FieldSorterInterface
                     $field => [
                         'order'   => 'DESC',
                         'missing' => '_last',
-                        'unmapped_type'=> 'boolean',
+                        'unmapped_type' => 'boolean',
                     ],
                 ];
                 $this->searchQueryBuilder->addSort($sortClause);

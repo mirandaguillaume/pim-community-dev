@@ -51,8 +51,8 @@ final class GetDashboardScoresQueryIntegration extends TestCase
 
         $expectedDashboardRates = new DashboardRates([
             TimePeriod::DAILY => [
-                $consolidationDate->format() => $ranksDistributionCollection->toArray()
-            ]
+                $consolidationDate->format() => $ranksDistributionCollection->toArray(),
+            ],
         ], new ChannelCode('ecommerce'), new LocaleCode('en_US'), new TimePeriod('daily'));
 
         $this->assertEquals($expectedDashboardRates->toArray(), $result->toArray());
@@ -70,8 +70,8 @@ final class GetDashboardScoresQueryIntegration extends TestCase
 
         $expectedDashboardRates = new DashboardRates([
             TimePeriod::DAILY => [
-                $consolidationDate->format() => $ranksDistributionCollection->toArray()
-            ]
+                $consolidationDate->format() => $ranksDistributionCollection->toArray(),
+            ],
         ], new ChannelCode('ecommerce'), new LocaleCode('en_US'), new TimePeriod('daily'));
 
         $this->assertEquals($expectedDashboardRates->toArray(), $result->toArray());
@@ -89,8 +89,8 @@ final class GetDashboardScoresQueryIntegration extends TestCase
 
         $expectedDashboardRates = new DashboardRates([
             TimePeriod::DAILY => [
-                $consolidationDate->format() => $ranksDistributionCollection->toArray()
-            ]
+                $consolidationDate->format() => $ranksDistributionCollection->toArray(),
+            ],
         ], new ChannelCode('ecommerce'), new LocaleCode('en_US'), new TimePeriod('daily'));
 
         $this->assertEquals($expectedDashboardRates->toArray(), $result->toArray());
@@ -105,14 +105,14 @@ final class GetDashboardScoresQueryIntegration extends TestCase
                     "rank_2" => 28,
                     "rank_3" => 10,
                     "rank_4" => 50,
-                    "rank_5" => 10
+                    "rank_5" => 10,
                 ],
                 "fr_FR" => [
                     "rank_1" => 30,
                     "rank_2" => 10,
                     "rank_3" => 20,
                     "rank_4" => 20,
-                    "rank_5" => 20
+                    "rank_5" => 20,
                 ],
             ],
         ]);

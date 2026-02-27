@@ -189,7 +189,7 @@ class ChannelController
             $errors = [];
             foreach ($violations as $violation) {
                 $errors[$violation->getPropertyPath()] = [
-                    'message' => $violation->getMessage()
+                    'message' => $violation->getMessage(),
                 ];
             }
 

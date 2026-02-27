@@ -14,7 +14,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class JobInstanceRemoverSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         RemovableObjectRepositoryInterface $jobInstanceRepository,
         EventDispatcherInterface $eventDispatcher,
         DeleteRunningUser $deleteRunningUser,
@@ -29,13 +29,13 @@ class JobInstanceRemoverSpec extends ObjectBehavior
         );
     }
 
-    function it_is_a_remover(): void
+    public function it_is_a_remover(): void
     {
         $this->shouldHaveType(RemoverInterface::class);
         $this->shouldHaveType(BulkRemoverInterface::class);
     }
 
-    function it_removes_the_job_instance(RemovableObjectRepositoryInterface $jobInstanceRepository, JobInstance $jobInstance): void
+    public function it_removes_the_job_instance(RemovableObjectRepositoryInterface $jobInstanceRepository, JobInstance $jobInstance): void
     {
         $jobInstance->getId()->willReturn(1);
         $jobInstance->isScheduled()->willReturn(false);
@@ -46,7 +46,7 @@ class JobInstanceRemoverSpec extends ObjectBehavior
         $this->remove($jobInstance);
     }
 
-    function it_removes_the_objects(RemovableObjectRepositoryInterface $jobInstanceRepository, JobInstance $jobInstance1, JobInstance $jobInstance2): void
+    public function it_removes_the_objects(RemovableObjectRepositoryInterface $jobInstanceRepository, JobInstance $jobInstance1, JobInstance $jobInstance2): void
     {
         $jobInstance1->getId()->willReturn(1);
         $jobInstanceCode1 = 'my_job1';
@@ -62,11 +62,10 @@ class JobInstanceRemoverSpec extends ObjectBehavior
         $this->removeAll([$jobInstance1, $jobInstance2]);
     }
 
-    function it_removes_the_running_user(
+    public function it_removes_the_running_user(
         JobInstance $jobInstance,
         DeleteRunningUser $deleteRunningUser,
-    ): void
-    {
+    ): void {
         $jobInstance->getId()->willReturn(1);
         $jobInstance->isScheduled()->willReturn(true);
         $jobInstanceCode = 'my_job';
@@ -76,7 +75,7 @@ class JobInstanceRemoverSpec extends ObjectBehavior
         $this->remove($jobInstance);
     }
 
-    function it_throws_exception_when_remove_anything_else_than_a_job_instance(): void
+    public function it_throws_exception_when_remove_anything_else_than_a_job_instance(): void
     {
         $anythingElse = new \stdClass();
         $exception = new \InvalidArgumentException(

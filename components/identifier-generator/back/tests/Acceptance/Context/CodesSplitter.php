@@ -15,7 +15,7 @@ final class CodesSplitter
         $codesWithQuotes = \preg_split('/(, )|( and )/', $codesList);
 
         return \array_map(
-            static fn (string $codeWithQuotes): string => \substr($codeWithQuotes, 1, -1),
+            static fn(string $codeWithQuotes): string => \substr($codeWithQuotes, 1, -1),
             $codesWithQuotes
         );
     }

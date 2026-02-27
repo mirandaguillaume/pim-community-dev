@@ -94,7 +94,7 @@ class GroupController extends AbstractController
             return new JsonResponse(
                 [
                     'route' => 'pim_user_group_update',
-                    'params' => ['id' => $group->getId()]
+                    'params' => ['id' => $group->getId()],
                 ]
             );
         }

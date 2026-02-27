@@ -92,7 +92,7 @@ final readonly class LightEntityWithFamilyVariantNormalizer implements Normalize
                     $axisAttribute->getCode()
                 )
             );
-            $normalizedValue = (string)$value;
+            $normalizedValue = (string) $value;
 
             $attributeNormalizer = $this->getAttributeLabelsNormalizer($axisAttribute);
             if ($attributeNormalizer instanceof AxisValueLabelsNormalizer) {
@@ -147,7 +147,7 @@ final readonly class LightEntityWithFamilyVariantNormalizer implements Normalize
             } elseif (AttributeTypes::BOOLEAN === $axisAttribute->getType()) {
                 $orderArray[] = (true === $value->getData() ? '1' : '0');
             } else {
-                $orderArray[] = (string)$value;
+                $orderArray[] = (string) $value;
             }
         }
 

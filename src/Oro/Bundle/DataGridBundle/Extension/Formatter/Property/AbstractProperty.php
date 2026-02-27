@@ -15,7 +15,7 @@ abstract class AbstractProperty implements PropertyInterface
      * @var array
      */
     protected $paramMap = [
-        self::FRONTEND_TYPE_KEY => self::METADATA_TYPE_KEY
+        self::FRONTEND_TYPE_KEY => self::METADATA_TYPE_KEY,
     ];
 
     /** @var array */
@@ -69,10 +69,10 @@ abstract class AbstractProperty implements PropertyInterface
                 if ($value instanceof \DateTime) {
                     $value = $value->format(\DateTime::ISO8601);
                 }
-                $result = (string)$value;
+                $result = (string) $value;
                 break;
             case self::TYPE_STRING:
-                $result = (string)$value;
+                $result = (string) $value;
                 break;
             case self::TYPE_DECIMAL:
                 $result = floatval($value);
@@ -81,7 +81,7 @@ abstract class AbstractProperty implements PropertyInterface
                 $result = intval($value);
                 break;
             case self::TYPE_BOOLEAN:
-                $result = (bool)$value;
+                $result = (bool) $value;
                 break;
             default:
                 $result = $value;
@@ -106,7 +106,7 @@ abstract class AbstractProperty implements PropertyInterface
         $result = $this->convertValue($value);
 
         if (is_object($result) && is_callable([$result, '__toString'])) {
-            $result = (string)$result;
+            $result = (string) $result;
         }
 
         return $result;

@@ -34,8 +34,8 @@ class GroupTranslator implements FlatPropertyValueTranslatorInterface
             $groupsLabelized = [];
 
             foreach ($groupCodes as $groupCode) {
-                $groupsLabelized[] = $groupTranslations[$groupCode] ??
-                    sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $groupCode);
+                $groupsLabelized[] = $groupTranslations[$groupCode]
+                    ?? sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $groupCode);
             }
 
             $result[$valueIndex] = implode(',', $groupsLabelized);

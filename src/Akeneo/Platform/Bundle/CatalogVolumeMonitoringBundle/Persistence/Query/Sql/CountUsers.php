@@ -28,10 +28,10 @@ class CountUsers implements CountQuery
     public function fetch(): CountVolume
     {
         $sql = <<<SQL
-SELECT COUNT(*) as count
-FROM oro_user
-WHERE oro_user.user_type = :type
-SQL;
+            SELECT COUNT(*) as count
+            FROM oro_user
+            WHERE oro_user.user_type = :type
+            SQL;
 
         $result = $this->connection->executeQuery($sql, ['type' => User::TYPE_USER])->fetchAssociative();
         $volume = new CountVolume((int) $result['count'], self::VOLUME_NAME);

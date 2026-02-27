@@ -32,9 +32,9 @@ final readonly class AddMultipleValuesApplier implements UserIntentApplier
             $userIntent->channelCode()
         );
 
-        $values = null !== $formerValue ?
-            \array_unique(\array_merge($formerValue->getData(), $userIntent->optionCodes())) :
-            $userIntent->optionCodes();
+        $values = null !== $formerValue
+            ? \array_unique(\array_merge($formerValue->getData(), $userIntent->optionCodes()))
+            : $userIntent->optionCodes();
         $this->productUpdater->update($product, [
             'values' => [
                 $userIntent->attributeCode() => [

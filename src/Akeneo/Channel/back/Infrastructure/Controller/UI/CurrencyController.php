@@ -45,13 +45,13 @@ class CurrencyController
         } catch (LinkedChannelException) {
             return new JsonResponse([
                 'successful' => false,
-                'message' => 'flash.currency.error.linked_to_channel'
+                'message' => 'flash.currency.error.linked_to_channel',
             ]);
         }
 
         return new JsonResponse([
             'successful' => true,
-            'message' => 'flash.currency.updated'
+            'message' => 'flash.currency.updated',
         ]);
     }
 }

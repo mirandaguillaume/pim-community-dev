@@ -29,19 +29,18 @@ class ListProductGridAvailableColumnsIntegration extends TestCase
             'group'                  => 'attributeGroupA',
             'useable_as_grid_filter' => false,
             'sort_order'             => 1,
-            'labels'                 => ['en_US' => "Attribute not useable in datagrid"]
+            'labels'                 => ['en_US' => "Attribute not useable in datagrid"],
         ]);
 
         // Index decremented to check that the creation order has no impact on the result order
-        for($i = 15; $i >= 1; $i--)
-        {
+        for ($i = 15; $i >= 1; $i--) {
             $attributes[] = $this->createAttribute([
                 'code'                   => "att_$i",
                 'type'                   => 'pim_catalog_text',
                 'group'                  => 'other',
                 'useable_as_grid_filter' => true,
                 'sort_order'             => $i,
-                'labels'                 => ['en_US' => "Attribute $i"]
+                'labels'                 => ['en_US' => "Attribute $i"],
             ]);
         }
 
@@ -50,7 +49,7 @@ class ListProductGridAvailableColumnsIntegration extends TestCase
         $expectedColumns = $this->getSystemColumns();
         $expectedColumns ['sku'] = [
             'code' => 'sku',
-            'label' => '[sku]'
+            'label' => '[sku]',
         ];
 
         for ($i = 1; $i < 13; $i++) {
@@ -78,7 +77,7 @@ class ListProductGridAvailableColumnsIntegration extends TestCase
             'att_15' => [
                 'code' => 'att_15',
                 'label' => "Attribute 15",
-            ]
+            ],
         ];
 
         $availableColumnsPage2 = $listAvailableColumnsQuery->fetch('en_US', 2, '', '', 2);
@@ -94,7 +93,7 @@ class ListProductGridAvailableColumnsIntegration extends TestCase
             'group' => 'other',
             'useable_as_grid_filter' => true,
             'sort_order' => 2,
-            'labels' => ['en_US' => "Attribute that matches the search label"]
+            'labels' => ['en_US' => "Attribute that matches the search label"],
         ]);
 
         $attributes[] = $this->createAttribute([
@@ -111,7 +110,7 @@ class ListProductGridAvailableColumnsIntegration extends TestCase
             'group' => 'other',
             'useable_as_grid_filter' => false,
             'sort_order' => 2,
-            'labels' => ['en_US' => "Attribute that matches the search label but is not useable in grid"]
+            'labels' => ['en_US' => "Attribute that matches the search label but is not useable in grid"],
         ]);
 
         $this->get('pim_catalog.saver.attribute')->saveAll($attributes);
@@ -119,7 +118,7 @@ class ListProductGridAvailableColumnsIntegration extends TestCase
         $expectedColumns = [
             'label' => [
                 'code' => 'label',
-                'label' => 'Label'
+                'label' => 'Label',
             ],
             'att_ok_matches_without_label' => [
                 'code' => 'att_ok_matches_without_label',
@@ -128,7 +127,7 @@ class ListProductGridAvailableColumnsIntegration extends TestCase
             1234 => [
                 'code' => '1234',
                 'label' => 'Attribute that matches the search label',
-            ]
+            ],
         ];
 
         $availableColumns = $this->get('pim_datagrid.product_grid.query.list_available_columns')->fetch('en_US', 1, '', 'label', 2);
@@ -136,7 +135,7 @@ class ListProductGridAvailableColumnsIntegration extends TestCase
         $this->assertSame($expectedColumns, $availableColumns);
     }
 
-    public function  test_fetch_available_columns_filtered_by_group(): void
+    public function test_fetch_available_columns_filtered_by_group(): void
     {
         $attributes = [];
         $attributes[] = $this->createAttribute([
@@ -145,7 +144,7 @@ class ListProductGridAvailableColumnsIntegration extends TestCase
             'group'                  => 'attributeGroupA',
             'useable_as_grid_filter' => true,
             'sort_order'             => 1,
-            'labels'                 => ['en_US' => "Attribute of group A"]
+            'labels'                 => ['en_US' => "Attribute of group A"],
         ]);
         $attributes[] = $this->createAttribute([
             'code'                   => "att_ok_1",
@@ -153,7 +152,7 @@ class ListProductGridAvailableColumnsIntegration extends TestCase
             'group'                  => 'other',
             'useable_as_grid_filter' => true,
             'sort_order'             => 2,
-            'labels'                 => ['en_US' => "Expected attribute 1"]
+            'labels'                 => ['en_US' => "Expected attribute 1"],
         ]);
         $attributes[] = $this->createAttribute([
             'code'                   => "att_ok_2",
@@ -161,7 +160,7 @@ class ListProductGridAvailableColumnsIntegration extends TestCase
             'group'                  => 'other',
             'useable_as_grid_filter' => true,
             'sort_order'             => 3,
-            'labels'                 => ['en_US' => "Expected attribute 2"]
+            'labels'                 => ['en_US' => "Expected attribute 2"],
         ]);
 
         $this->get('pim_catalog.saver.attribute')->saveAll($attributes);
@@ -174,7 +173,7 @@ class ListProductGridAvailableColumnsIntegration extends TestCase
             'att_ok_2' => [
                 'code' => 'att_ok_2',
                 'label' => 'Expected attribute 2',
-            ]
+            ],
         ];
 
         $availableColumns = $this->get('pim_datagrid.product_grid.query.list_available_columns')->fetch('en_US', 1, 'other', '', 2);
@@ -193,48 +192,48 @@ class ListProductGridAvailableColumnsIntegration extends TestCase
     private function getSystemColumns(): array
     {
         return [
-            'identifier' =>
-                [
+            'identifier'
+                => [
                     'code' => 'identifier',
                     'label' => 'ID',
                 ],
-            'image' =>
-                [
+            'image'
+                => [
                     'code' => 'image',
                     'label' => 'Image',
                 ],
-            'label' =>
-                [
+            'label'
+                => [
                     'code' => 'label',
                     'label' => 'Label',
                 ],
-            'family' =>
-                [
+            'family'
+                => [
                     'code' => 'family',
                     'label' => 'Family',
                 ],
-            'enabled' =>
-                [
+            'enabled'
+                => [
                     'code' => 'enabled',
                     'label' => 'Status',
                 ],
-            'completeness' =>
-                [
+            'completeness'
+                => [
                     'code' => 'completeness',
                     'label' => 'Complete',
                 ],
-            'created' =>
-                [
+            'created'
+                => [
                     'code' => 'created',
                     'label' => 'Created',
                 ],
-            'updated' =>
-                [
+            'updated'
+                => [
                     'code' => 'updated',
                     'label' => 'Updated',
                 ],
-            'complete_variant_products' =>
-                [
+            'complete_variant_products'
+                => [
                     'code' => 'complete_variant_products',
                     'label' => 'Variant products',
                 ],
@@ -242,13 +241,13 @@ class ListProductGridAvailableColumnsIntegration extends TestCase
                 'code' => 'data_quality_insights_score',
                 'label' => 'Quality score',
             ],
-            'groups' =>
-                [
+            'groups'
+                => [
                     'code' => 'groups',
                     'label' => 'Groups',
                 ],
-            'parent' =>
-                [
+            'parent'
+                => [
                     'code' => 'parent',
                     'label' => 'Parent',
                 ],

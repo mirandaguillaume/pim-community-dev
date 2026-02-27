@@ -23,10 +23,10 @@ class EmailDomains implements EmailDomainsQuery
         $results = [];
 
         $sql = <<<SQL
-            SELECT DISTINCT(SUBSTRING_INDEX(email, '@', -1)) AS email_domain
-                FROM oro_user
-                ORDER by email_domain
-SQL;
+                        SELECT DISTINCT(SUBSTRING_INDEX(email, '@', -1)) AS email_domain
+                            FROM oro_user
+                            ORDER by email_domain
+            SQL;
 
         $rows = $this->connection->fetchAllAssociative($sql);
 

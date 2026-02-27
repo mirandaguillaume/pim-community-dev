@@ -8,22 +8,22 @@ use PhpSpec\ObjectBehavior;
 
 class BaseCachedObjectRepositorySpec extends ObjectBehavior
 {
-    function let(IdentifiableObjectRepositoryInterface $repository)
+    public function let(IdentifiableObjectRepositoryInterface $repository)
     {
         $this->beConstructedWith($repository);
     }
 
-    function it_is_a_cache_clearer()
+    public function it_is_a_cache_clearer()
     {
         $this->shouldImplement(EntityManagerClearerInterface::class);
     }
 
-    function it_is_an_identifiable_object_repository()
+    public function it_is_an_identifiable_object_repository()
     {
         $this->shouldImplement(IdentifiableObjectRepositoryInterface::class);
     }
 
-    function it_cached_objects($repository)
+    public function it_cached_objects($repository)
     {
         $object1 = new \stdClass();
         $object2 = new \stdClass();
@@ -42,7 +42,7 @@ class BaseCachedObjectRepositorySpec extends ObjectBehavior
         $this->findOneByIdentifier('objectidentifier2')->shouldReturn($object2);
     }
 
-    function it_clears_internal_cache($repository)
+    public function it_clears_internal_cache($repository)
     {
         $object1 = new \stdClass();
 
@@ -55,7 +55,7 @@ class BaseCachedObjectRepositorySpec extends ObjectBehavior
         $this->findOneByIdentifier('objectidentifier1')->shouldReturn($object1);
     }
 
-    function it_returns_null_on_non_existing_object($repository)
+    public function it_returns_null_on_non_existing_object($repository)
     {
         $repository->findOneByIdentifier('objectidentifier1')
             ->willReturn(null);

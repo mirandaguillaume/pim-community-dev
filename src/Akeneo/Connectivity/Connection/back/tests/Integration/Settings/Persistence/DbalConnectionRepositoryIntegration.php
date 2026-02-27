@@ -108,10 +108,10 @@ class DbalConnectionRepositoryIntegration extends TestCase
     private function selectConnectionFromDb(string $code): array
     {
         $query = <<<SQL
-    SELECT code, label, flow_type, client_id, user_id, image, auditable, type
-    FROM akeneo_connectivity_connection
-    WHERE code = :code
-SQL;
+                SELECT code, label, flow_type, client_id, user_id, image, auditable, type
+                FROM akeneo_connectivity_connection
+                WHERE code = :code
+            SQL;
         $statement = $this->dbalConnection->executeQuery($query, ['code' => $code]);
 
         return $statement->fetchAssociative();
@@ -130,7 +130,7 @@ SQL;
             ],
             [
                 'allowed_grant_types' => 'array',
-                'redirect_uris' => 'array'
+                'redirect_uris' => 'array',
             ]
         );
 

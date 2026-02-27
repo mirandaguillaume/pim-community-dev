@@ -12,19 +12,19 @@ use Symfony\Component\Form\FormFactoryInterface;
 
 class EntityTypeFilterSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         FormFactoryInterface $factory,
         ProductFilterUtility $utility
     ) {
         $this->beConstructedWith($factory, $utility);
     }
 
-    function it_is_a_product_typology_filter()
+    public function it_is_a_product_typology_filter()
     {
         $this->shouldBeAnInstanceOf(EntityTypeFilter::class);
     }
 
-    function it_does_not_apply_filter_on_unexpected_value(
+    public function it_does_not_apply_filter_on_unexpected_value(
         ProductFilterUtility $utility,
         FilterDatasourceAdapterInterface $datasource
     ) {
@@ -33,7 +33,7 @@ class EntityTypeFilterSpec extends ObjectBehavior
         $this->apply($datasource, ['type' => null, 'value' => 'toto']);
     }
 
-    function it_applies_filter_for_products(
+    public function it_applies_filter_for_products(
         ProductFilterUtility $utility,
         FilterDatasourceAdapterInterface $datasource
     ) {

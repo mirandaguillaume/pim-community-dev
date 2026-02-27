@@ -37,8 +37,8 @@ class ResetType extends AbstractType
                 'constraints'    => [
                     new Length([
                         'min' => self::PASSWORD_MINIMUM_LENGTH,
-                        'max' => self::PASSWORD_MAXIMUM_LENGTH
-                    ])
+                        'max' => self::PASSWORD_MAXIMUM_LENGTH,
+                    ]),
                 ],
             ]
         );

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Tests\EndToEnd\Context\Page\Connections;
@@ -31,7 +32,7 @@ class Index extends Base
                 'Other connections list' => ['css' => '[data-testid="data_other"]'],
                 'Edit form' => [
                     'css'        => '.AknConnectivityConnection-view',
-                    'decorators' => [EditForm::class]
+                    'decorators' => [EditForm::class],
                 ],
             ]
         );

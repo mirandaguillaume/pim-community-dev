@@ -88,7 +88,7 @@ class SelfAndAncestorFilter extends AbstractFieldFilter
                 $selfClause = [
                     'terms' => [
                         'id' => $values,
-                    ]
+                    ],
                 ];
                 $ancestorsClause = [
                     'terms' => [

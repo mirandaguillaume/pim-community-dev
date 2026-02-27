@@ -4,8 +4,8 @@ namespace Akeneo\UserManagement\Component\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @author    Arnaud Langlade <arnaud.langlade@akeneo.com>
@@ -40,9 +40,10 @@ class Group implements GroupInterface, \Stringable
     /**
      * @param string $name [optional] Group name
      */
-    #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
-    public function __construct(protected $name = '')
-    {
+    public function __construct(
+        #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
+        protected $name = '',
+    ) {
         $this->roles = new ArrayCollection();
     }
 
@@ -122,7 +123,7 @@ class Group implements GroupInterface, \Stringable
             );
         }
 
-        return (bool)$this->getRole($roleName);
+        return (bool) $this->getRole($roleName);
     }
 
     /**

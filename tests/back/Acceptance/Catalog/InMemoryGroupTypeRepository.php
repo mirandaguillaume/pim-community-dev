@@ -31,7 +31,7 @@ class InMemoryGroupTypeRepository implements SaverInterface, GroupTypeRepository
         if (!$group instanceof GroupTypeInterface) {
             throw new \InvalidArgumentException('Only group type objects are supported.');
         }
-        $this->groupTypes->set($group->getCode(), $group);
+        $this->groupTypes->set($group->getCode() ?? spl_object_hash($group), $group);
     }
 
     /**

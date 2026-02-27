@@ -32,24 +32,24 @@ final readonly class GetValuesAndPropertiesFromProductModelCodes
         $productModelCodes = (fn (string ...$productModelCodes) => $productModelCodes)(...$productModelCodes);
 
         $query = <<<SQL
-SELECT
-       product_model.id as id,
-       product_model.code as 'code',
-       family.code as 'family',
-       family_variant.code as 'family_variant',
-       parent_product_model.code as 'parent',
-       JSON_MERGE(
-           COALESCE(parent_product_model.raw_values, '{}'),
-           product_model.raw_values
-       ) as raw_values,
-       product_model.created as 'created',
-       product_model.updated as 'updated'
-FROM pim_catalog_product_model as product_model
-INNER JOIN pim_catalog_family_variant family_variant ON product_model.family_variant_id = family_variant.id
-INNER JOIN pim_catalog_family family ON family_variant.family_id = family.id 
-LEFT JOIN pim_catalog_product_model parent_product_model ON parent_product_model.id = product_model.parent_id
-WHERE product_model.code IN (:productModelCodes)
-SQL;
+            SELECT
+                   product_model.id as id,
+                   product_model.code as 'code',
+                   family.code as 'family',
+                   family_variant.code as 'family_variant',
+                   parent_product_model.code as 'parent',
+                   JSON_MERGE(
+                       COALESCE(parent_product_model.raw_values, '{}'),
+                       product_model.raw_values
+                   ) as raw_values,
+                   product_model.created as 'created',
+                   product_model.updated as 'updated'
+            FROM pim_catalog_product_model as product_model
+            INNER JOIN pim_catalog_family_variant family_variant ON product_model.family_variant_id = family_variant.id
+            INNER JOIN pim_catalog_family family ON family_variant.family_id = family.id 
+            LEFT JOIN pim_catalog_product_model parent_product_model ON parent_product_model.id = product_model.parent_id
+            WHERE product_model.code IN (:productModelCodes)
+            SQL;
 
         $rows = $this->connection->fetchAllAssociative(
             $query,

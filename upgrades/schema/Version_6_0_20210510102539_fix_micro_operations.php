@@ -35,19 +35,19 @@ final class Version_6_0_20210510102539_fix_micro_operations extends AbstractMigr
     private function fixMeasurementFamilyUnits(string $measurementFamilyCode): bool
     {
         $selectUnitsSql = <<<SQL
-SELECT m.units
-FROM `akeneo_measurement` m
-WHERE m.code = :measurement_family_code;
-SQL;
+            SELECT m.units
+            FROM `akeneo_measurement` m
+            WHERE m.code = :measurement_family_code;
+            SQL;
 
         $updateUnitsSql = <<<SQL
-UPDATE `akeneo_measurement` m
-SET m.units = :units
-WHERE m.code = :measurement_family_code;
-SQL;
+            UPDATE `akeneo_measurement` m
+            SET m.units = :units
+            WHERE m.code = :measurement_family_code;
+            SQL;
 
         $existingUnits = $this->connection->executeQuery($selectUnitsSql, [
-            'measurement_family_code' => $measurementFamilyCode
+            'measurement_family_code' => $measurementFamilyCode,
         ])->fetchOne();
 
         if (false === $existingUnits) {
@@ -60,7 +60,7 @@ SQL;
 
         $this->addSql($updateUnitsSql, [
             'measurement_family_code' => $measurementFamilyCode,
-            'units' => json_encode($units)
+            'units' => json_encode($units),
         ]);
 
         return true;

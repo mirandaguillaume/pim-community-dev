@@ -28,9 +28,9 @@ class SqlGetAllViewableLocalesForUser implements GetAllViewableLocalesForUserInt
     {
         if (null === $this->cache) {
             $query = <<<SQL
-                SELECT locale.code
-                FROM pim_catalog_locale locale
-            SQL;
+                    SELECT locale.code
+                    FROM pim_catalog_locale locale
+                SQL;
 
             $this->cache = $this->sqlConnection->executeQuery($query)->fetchFirstColumn();
         }

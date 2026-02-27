@@ -15,10 +15,10 @@ class UpdateCustomAppSecretQuery implements UpdateCustomAppSecretQueryInterface
     public function execute($clientId, $clientSecret): void
     {
         $query = <<<SQL
-        UPDATE akeneo_connectivity_test_app 
-        SET client_secret = :clientSecret
-        WHERE client_id = :clientId
-        SQL;
+            UPDATE akeneo_connectivity_test_app 
+            SET client_secret = :clientSecret
+            WHERE client_id = :clientId
+            SQL;
 
         $this->connection->executeQuery($query, [
             'clientSecret' => $clientSecret,

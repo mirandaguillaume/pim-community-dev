@@ -124,8 +124,8 @@ abstract class ApiCategoryTestCase extends ApiTestCase
     protected function updateCategoryWithValues(string $code): void
     {
         $query = <<<SQL
-UPDATE pim_catalog_category SET value_collection = :value_collection WHERE code = :code;
-SQL;
+            UPDATE pim_catalog_category SET value_collection = :value_collection WHERE code = :code;
+            SQL;
 
         $this->get('database_connection')->executeQuery($query, [
             'value_collection' => json_encode([
@@ -164,8 +164,8 @@ SQL;
     protected function deactivateTemplate(string $uuid): void
     {
         $query = <<<SQL
-UPDATE pim_catalog_category_template SET is_deactivated = 1 WHERE uuid = :uuid;
-SQL;
+            UPDATE pim_catalog_category_template SET is_deactivated = 1 WHERE uuid = :uuid;
+            SQL;
 
         $this->get('database_connection')->executeQuery($query, [
             'uuid' => Uuid::fromString($uuid)->getBytes(),
@@ -175,8 +175,8 @@ SQL;
     protected function deactivateAttribute(string $uuid): void
     {
         $query = <<<SQL
-            UPDATE pim_catalog_category_attribute SET is_deactivated = 1 WHERE uuid = :uuid;
-        SQL;
+                UPDATE pim_catalog_category_attribute SET is_deactivated = 1 WHERE uuid = :uuid;
+            SQL;
 
         $this->get('database_connection')->executeQuery($query, [
             'uuid' => Uuid::fromString($uuid)->getBytes(),

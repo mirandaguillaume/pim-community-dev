@@ -39,7 +39,7 @@ class ProductNormalizer implements NormalizerInterface, CacheableSupportsMethodI
     /**
      * {@inheritdoc}
      */
-    public function normalize($product, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($product, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $productStandard = $this->productNormalizer->normalize($product, 'standard', $context);
         $identifier = $this->attributeRepository->getIdentifierCode();

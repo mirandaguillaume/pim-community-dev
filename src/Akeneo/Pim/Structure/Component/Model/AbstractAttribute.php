@@ -6,8 +6,8 @@ use Akeneo\Channel\Infrastructure\Component\Model\LocaleInterface;
 use Akeneo\Pim\Structure\Component\AttributeTypes;
 use Akeneo\Tool\Component\Localization\Model\TranslationInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Abstract product attribute
@@ -941,7 +941,7 @@ abstract class AbstractAttribute implements AttributeInterface, \Stringable
     public function setParameters($parameters)
     {
         foreach ($parameters as $code => $value) {
-            $method = 'set'.ucfirst($code);
+            $method = 'set' . ucfirst($code);
             if (!method_exists($this, $method)) {
                 throw new \Exception(sprintf('The parameter "%s" does not exist.', $code));
             }
@@ -1030,7 +1030,7 @@ abstract class AbstractAttribute implements AttributeInterface, \Stringable
     {
         $translated = ($this->getTranslation()) ? $this->getTranslation()->getLabel() : null;
 
-        return ($translated !== '' && $translated !== null) ? $translated : '['.$this->getCode().']';
+        return ($translated !== '' && $translated !== null) ? $translated : '[' . $this->getCode() . ']';
     }
 
     /**
@@ -1113,7 +1113,7 @@ abstract class AbstractAttribute implements AttributeInterface, \Stringable
     {
         return in_array($this->getBackendType(), [
             AttributeTypes::BACKEND_TYPE_REF_DATA_OPTION,
-            AttributeTypes::BACKEND_TYPE_REF_DATA_OPTIONS
+            AttributeTypes::BACKEND_TYPE_REF_DATA_OPTIONS,
         ]);
     }
 

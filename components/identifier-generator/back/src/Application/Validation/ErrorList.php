@@ -13,9 +13,7 @@ final readonly class ErrorList implements \Countable, \Stringable
     /**
      * @param Error[] $errors
      */
-    public function __construct(private array $errors = [])
-    {
-    }
+    public function __construct(private array $errors = []) {}
 
     public function count(): int
     {
@@ -27,12 +25,12 @@ final readonly class ErrorList implements \Countable, \Stringable
      */
     public function normalize(): array
     {
-        return \array_map(fn (Error $error): array => $error->normalize(), $this->errors);
+        return \array_map(fn(Error $error): array => $error->normalize(), $this->errors);
     }
 
     public function __toString(): string
     {
-        return \implode("\n", \array_map(fn (Error $error): string => $error->__toString(), $this->errors));
+        return \implode("\n", \array_map(fn(Error $error): string => $error->__toString(), $this->errors));
     }
 
     /**

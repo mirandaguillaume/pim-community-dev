@@ -39,9 +39,9 @@ class NotNullPropertiesValidator extends ConstraintValidator
         $values = $attribute->getProperties();
 
         foreach ($constraint->properties as $propertyCode) {
-            if (!array_key_exists($propertyCode, $values) ||
-                null === $values[$propertyCode] ||
-                '' === $values[$propertyCode]
+            if (!array_key_exists($propertyCode, $values)
+                || null === $values[$propertyCode]
+                || '' === $values[$propertyCode]
             ) {
                 $this->context->buildViolation($constraint->message)
                     ->atPath($propertyCode)

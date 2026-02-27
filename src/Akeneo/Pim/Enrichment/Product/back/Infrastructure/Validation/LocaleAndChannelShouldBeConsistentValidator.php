@@ -135,9 +135,9 @@ final class LocaleAndChannelShouldBeConsistentValidator extends ConstraintValida
             return;
         }
 
-        if ($attribute->isScopable() && null !== $channelCode &&
-            $this->channelExistsWithLocale->doesChannelExist($channelCode) &&
-            !$this->channelExistsWithLocale->isLocaleBoundToChannel($localeCode, $channelCode)
+        if ($attribute->isScopable() && null !== $channelCode
+            && $this->channelExistsWithLocale->doesChannelExist($channelCode)
+            && !$this->channelExistsWithLocale->isLocaleBoundToChannel($localeCode, $channelCode)
         ) {
             $this->addViolation(
                 LocaleAndChannelShouldBeConsistent::LOCALE_NOT_ACTIVATED_FOR_CHANNEL,

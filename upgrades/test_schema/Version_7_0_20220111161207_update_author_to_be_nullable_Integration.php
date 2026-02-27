@@ -18,9 +18,9 @@ class Version_7_0_20220111161207_update_author_to_be_nullable_Integration extend
     public function test_it_modify_columns_and_keep_the_data(): void
     {
         $query = <<<SQL
-        ALTER TABLE akeneo_connectivity_connected_app
-        MODIFY author varchar(255) NOT NULL;
-SQL;
+                    ALTER TABLE akeneo_connectivity_connected_app
+                    MODIFY author varchar(255) NOT NULL;
+            SQL;
 
         $this->getConnection()->executeQuery($query);
         $this->assertAuthorColumnIsNullable(false);

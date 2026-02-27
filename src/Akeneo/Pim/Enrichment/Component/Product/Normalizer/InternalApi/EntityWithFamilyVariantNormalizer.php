@@ -94,7 +94,7 @@ class EntityWithFamilyVariantNormalizer implements NormalizerInterface, Cacheabl
             'order'              => $this->getOrder($entity),
             'image'              => $this->normalizeImage($image, $this->catalogContext->getScopeCode(), $this->catalogContext->getLocaleCode()),
             'model_type'         => $entity instanceof ProductModelInterface ? 'product_model' : 'product',
-            'completeness'       => $this->getCompletenessDependingOnEntity($entity)
+            'completeness'       => $this->getCompletenessDependingOnEntity($entity),
         ];
     }
 
@@ -218,7 +218,7 @@ class EntityWithFamilyVariantNormalizer implements NormalizerInterface, Cacheabl
 
             if (AttributeTypes::OPTION_SIMPLE_SELECT === $axisAttribute->getType()) {
                 $optionCode = $value->getData();
-                $option = $this->attributeOptionRepository->findOneByIdentifier($value->getAttributeCode().'.'.$optionCode);
+                $option = $this->attributeOptionRepository->findOneByIdentifier($value->getAttributeCode() . '.' . $optionCode);
                 $orderArray[] = $option->getSortOrder();
                 $orderArray[] = $option->getCode();
             } elseif (AttributeTypes::METRIC === $axisAttribute->getType()) {

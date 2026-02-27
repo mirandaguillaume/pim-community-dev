@@ -7,19 +7,19 @@ use PhpSpec\ObjectBehavior;
 
 class ExitStatusSpec extends ObjectBehavior
 {
-    function it_has_no_description()
+    public function it_has_no_description()
     {
         $this->beConstructedWith("10");
         $this->getExitDescription()->shouldReturn('');
     }
 
-    function it_sets_executing_exit_status()
+    public function it_sets_executing_exit_status()
     {
         $this->beConstructedWith(ExitStatus::EXECUTING);
         $this->getExitCode()->shouldReturn('EXECUTING');
     }
 
-    function it_compares_to_an_equal_status()
+    public function it_compares_to_an_equal_status()
     {
         $this->beConstructedWith(ExitStatus::EXECUTING);
         $otherStatus = new ExitStatus(ExitStatus::EXECUTING);
@@ -27,7 +27,7 @@ class ExitStatusSpec extends ObjectBehavior
         $this->compareTo($otherStatus)->shouldReturn(0);
     }
 
-    function it_compares_with_a_more_severe_status()
+    public function it_compares_with_a_more_severe_status()
     {
         $this->beConstructedWith(ExitStatus::EXECUTING);
         $otherStatus = new ExitStatus(ExitStatus::FAILED);
@@ -35,7 +35,7 @@ class ExitStatusSpec extends ObjectBehavior
         $this->compareTo($otherStatus)->shouldReturn(-1);
     }
 
-    function it_compares_with_a_less_severe_status()
+    public function it_compares_with_a_less_severe_status()
     {
         $this->beConstructedWith(ExitStatus::COMPLETED);
         $otherStatus = new ExitStatus(ExitStatus::EXECUTING);
@@ -43,7 +43,7 @@ class ExitStatusSpec extends ObjectBehavior
         $this->compareTo($otherStatus)->shouldReturn(1);
     }
 
-    function it_does_logical_and_between_statuses_by_setting_bigger_severity_from_other_status()
+    public function it_does_logical_and_between_statuses_by_setting_bigger_severity_from_other_status()
     {
         $this->beConstructedWith(ExitStatus::COMPLETED);
         $otherStatus = new ExitStatus(ExitStatus::NOOP, 'my other desc');
@@ -52,7 +52,7 @@ class ExitStatusSpec extends ObjectBehavior
         $this->getExitDescription()->shouldReturn('my other desc');
     }
 
-    function it_does_logical_and_between_statuses_by_setting_bigger_severity_from_main_status()
+    public function it_does_logical_and_between_statuses_by_setting_bigger_severity_from_main_status()
     {
         $this->beConstructedWith(ExitStatus::NOOP);
         $otherStatus = new ExitStatus(ExitStatus::COMPLETED, 'my other desc');
@@ -61,7 +61,7 @@ class ExitStatusSpec extends ObjectBehavior
         $this->getExitDescription()->shouldReturn('my other desc');
     }
 
-    function it_adds_exit_description_with_stacktrace()
+    public function it_adds_exit_description_with_stacktrace()
     {
         $this->beConstructedWith(ExitStatus::EXECUTING);
         $exception = new \Exception("Foo");
@@ -69,21 +69,21 @@ class ExitStatusSpec extends ObjectBehavior
         $this->getExitDescription()->shouldReturn($exception->getTraceAsString());
     }
 
-    function it_does_not_duplicates_descriptions()
+    public function it_does_not_duplicates_descriptions()
     {
         $this->beConstructedWith(ExitStatus::EXECUTING);
         $this->addExitDescription('Foo')->addExitDescription('Foo');
         $this->getExitDescription()->shouldReturn('Foo');
     }
 
-    function it_adds_empty_description_to_existing_description()
+    public function it_adds_empty_description_to_existing_description()
     {
         $this->beConstructedWith(ExitStatus::EXECUTING);
         $this->addExitDescription('Foo')->addExitDescription(null);
         $this->getExitDescription()->shouldReturn('Foo');
     }
 
-    function it_adds_an_exit_description_to_an_existing_description()
+    public function it_adds_an_exit_description_to_an_existing_description()
     {
         $this->beConstructedWith(ExitStatus::EXECUTING);
         $this->addExitDescription('Foo');
@@ -92,19 +92,19 @@ class ExitStatusSpec extends ObjectBehavior
         $this->getExitDescription()->shouldReturn('Foo;Bar');
     }
 
-    function it_is_running_when_status_is_unknown()
+    public function it_is_running_when_status_is_unknown()
     {
         $this->beConstructedWith(ExitStatus::UNKNOWN);
         $this->isRunning()->shouldReturn(true);
     }
 
-    function it_is_running_when_status_is_execution()
+    public function it_is_running_when_status_is_execution()
     {
         $this->beConstructedWith(ExitStatus::EXECUTING);
         $this->isRunning()->shouldReturn(true);
     }
 
-    function it_is_displayable()
+    public function it_is_displayable()
     {
         $this->beConstructedWith(ExitStatus::COMPLETED, 'My test description for completed status');
         $this->__toString()->shouldReturn('[COMPLETED] My test description for completed status');

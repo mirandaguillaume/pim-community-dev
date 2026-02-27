@@ -9,19 +9,19 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class RequestParametersExtractorSpec extends ObjectBehavior
 {
-    function let(RequestParameters $requestParams, RequestStack $requestStack)
+    public function let(RequestParameters $requestParams, RequestStack $requestStack)
     {
         $this->beConstructedWith($requestParams, $requestStack);
     }
 
-    function it_extracts_the_parameter_from_the_datagrid_request(Request $request, $requestParams, $requestStack)
+    public function it_extracts_the_parameter_from_the_datagrid_request(Request $request, $requestParams, $requestStack)
     {
         $requestStack->getCurrentRequest()->willReturn($request);
         $requestParams->get('dataLocale', null)->shouldBeCalled()->willReturn('en_US');
         $this->getParameter('dataLocale');
     }
 
-    function it_extracts_the_parameter_from_the_symfony_request(Request $request, $requestParams, $requestStack)
+    public function it_extracts_the_parameter_from_the_symfony_request(Request $request, $requestParams, $requestStack)
     {
         $requestStack->getCurrentRequest()->willReturn($request);
         $requestParams->get('dataLocale', null)->shouldBeCalled();
@@ -29,7 +29,7 @@ class RequestParametersExtractorSpec extends ObjectBehavior
         $this->getParameter('dataLocale');
     }
 
-    function it_trows_a_logic_exception_when_the_parameter_is_not_present(Request $request, $requestParams, $requestStack)
+    public function it_trows_a_logic_exception_when_the_parameter_is_not_present(Request $request, $requestParams, $requestStack)
     {
         $requestStack->getCurrentRequest()->willReturn($request);
         $requestParams->get('dataLocale', null)->shouldBeCalled();

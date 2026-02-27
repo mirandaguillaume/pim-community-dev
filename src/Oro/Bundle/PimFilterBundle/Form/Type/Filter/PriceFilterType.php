@@ -89,7 +89,7 @@ class PriceFilterType extends AbstractType
             [
                 'data_type'        => NumberFilterType::DATA_DECIMAL,
                 'currency_choices' => array_combine($currencyChoices, $currencyChoices),
-                'currency_options' => []
+                'currency_options' => [],
             ]
         );
     }

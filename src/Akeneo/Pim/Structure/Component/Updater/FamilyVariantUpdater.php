@@ -97,8 +97,8 @@ class FamilyVariantUpdater implements ObjectUpdaterInterface
                     throw InvalidPropertyTypeException::arrayOfObjectsExpected($field, static::class, $value);
                 }
 
-                if (!$isNew &&
-                    $familyVariant->getNumberOfLevel() < $this->getNumberOfLevel($value)
+                if (!$isNew
+                    && $familyVariant->getNumberOfLevel() < $this->getNumberOfLevel($value)
                 ) {
                     throw new ImmutablePropertyException(
                         'variant_attribute_sets',

@@ -26,7 +26,7 @@ final readonly class BusinessError
         return [
             'connection_code' => $this->connectionCode,
             'date_time' => $this->dateTime->format(\DateTimeInterface::ATOM),
-            'content' => \json_decode($this->content, true, 512, JSON_THROW_ON_ERROR)
+            'content' => \json_decode($this->content, true, 512, JSON_THROW_ON_ERROR),
         ];
     }
 }

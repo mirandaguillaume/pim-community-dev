@@ -11,21 +11,21 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ResetProcessedItemsBatchSubscriberSpec extends ObjectBehavior
 {
-    function it_is_an_event_subscriber()
+    public function it_is_an_event_subscriber()
     {
         $this->shouldHaveType(EventSubscriberInterface::class);
     }
 
-    function it_returns_subscribed_events()
+    public function it_returns_subscribed_events()
     {
         $this->getSubscribedEvents()->shouldReturn(
             [
-                EventInterface::ITEM_STEP_AFTER_BATCH => 'resetProcessedItemsBatch'
+                EventInterface::ITEM_STEP_AFTER_BATCH => 'resetProcessedItemsBatch',
             ]
         );
     }
 
-    function it_resets_processed_items_batch_saved_in_the_execution_context(
+    public function it_resets_processed_items_batch_saved_in_the_execution_context(
         StepExecutionEvent $event,
         StepExecution $stepExecution,
         ExecutionContext $executionContext

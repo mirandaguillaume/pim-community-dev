@@ -9,12 +9,12 @@ use Prophecy\Argument;
 
 class OroToPimGridFilterAdapterSpec extends ObjectBehavior
 {
-    function let(MassActionDispatcher $massActionDispatcher)
+    public function let(MassActionDispatcher $massActionDispatcher)
     {
         $this->beConstructedWith($massActionDispatcher);
     }
 
-    function it_returns_raw_filters($massActionDispatcher)
+    public function it_returns_raw_filters($massActionDispatcher)
     {
         $massActionDispatcher->getRawFilters(['gridName' => 'product-grid'])->willReturn([
             [
@@ -26,7 +26,7 @@ class OroToPimGridFilterAdapterSpec extends ObjectBehavior
                 'field'    => 'categories',
                 'operator' => 'IN',
                 'value'    => [12, 13, 14],
-            ]
+            ],
         ]);
 
         $this->adapt(['gridName' => 'product-grid'])->shouldReturn([
@@ -39,11 +39,11 @@ class OroToPimGridFilterAdapterSpec extends ObjectBehavior
                 'field'    => 'categories',
                 'operator' => 'IN',
                 'value'    => [12, 13, 14],
-            ]
+            ],
         ]);
     }
 
-    function it_returns_filters_on_family_grid(
+    public function it_returns_filters_on_family_grid(
         $massActionDispatcher,
         FamilyInterface $family1,
         FamilyInterface $family2

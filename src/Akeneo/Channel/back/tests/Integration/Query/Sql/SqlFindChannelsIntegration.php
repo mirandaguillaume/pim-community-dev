@@ -34,7 +34,7 @@ final class SqlFindChannelsIntegration extends TestCase
         $this->assertCount(3, $results);
         $this->assertContainsOnlyInstancesOf(Channel::class, $results);
 
-        $printChannel = current(array_filter($results, fn (Channel $channel) => $channel->getCode() === 'print'));
+        $printChannel = current(array_filter($results, fn(Channel $channel) => $channel->getCode() === 'print'));
 
         $this->assertContains('de_DE', $printChannel->getLocaleCodes());
         $this->assertContains('en_US', $printChannel->getLocaleCodes());
@@ -62,8 +62,8 @@ final class SqlFindChannelsIntegration extends TestCase
     private function saveConversionUnitsForChannel(array $conversionUnits, string $channelCode): void
     {
         $sql = <<<SQL
-UPDATE pim_catalog_channel SET conversionUnits = :conversion_units WHERE code = :code
-SQL;
+            UPDATE pim_catalog_channel SET conversionUnits = :conversion_units WHERE code = :code
+            SQL;
         $this->connection->executeQuery($sql, ['conversion_units' => serialize($conversionUnits), 'code' => $channelCode]);
     }
 }

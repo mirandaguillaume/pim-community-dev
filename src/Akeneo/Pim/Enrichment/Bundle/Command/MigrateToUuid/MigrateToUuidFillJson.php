@@ -28,7 +28,7 @@ class MigrateToUuidFillJson implements MigrateToUuidStep
     private const BATCH_SIZE = 1000;
     private const TABLE_NAMES = [
         'pim_catalog_product',
-        'pim_catalog_product_model'
+        'pim_catalog_product_model',
     ];
 
     private LogContext $logContext;
@@ -52,12 +52,12 @@ class MigrateToUuidFillJson implements MigrateToUuidStep
     public function shouldBeExecuted(): bool
     {
         $sqlQuantified = <<<SQL
-            SELECT EXISTS(
-               SELECT 1
-               FROM pim_catalog_association_type
-               WHERE is_quantified = 1
-            ) as quantified_association
-        SQL;
+                SELECT EXISTS(
+                   SELECT 1
+                   FROM pim_catalog_association_type
+                   WHERE is_quantified = 1
+                ) as quantified_association
+            SQL;
 
         $hasQuantifiedAssociationsType = $this->connection->executeQuery($sqlQuantified)->fetchOne();
         if (!(bool) $hasQuantifiedAssociationsType) {
@@ -65,14 +65,14 @@ class MigrateToUuidFillJson implements MigrateToUuidStep
         }
 
         $sql = <<<SQL
-            SELECT EXISTS(
-                SELECT 1
-                FROM {table_name}
-                WHERE JSON_CONTAINS_PATH(quantified_associations, 'one', '$.*.products[*].id')
-                    AND NOT JSON_CONTAINS_PATH(quantified_associations, 'one', '$.*.products[*].uuid')
-                LIMIT 1
-            ) as missing
-        SQL;
+                SELECT EXISTS(
+                    SELECT 1
+                    FROM {table_name}
+                    WHERE JSON_CONTAINS_PATH(quantified_associations, 'one', '$.*.products[*].id')
+                        AND NOT JSON_CONTAINS_PATH(quantified_associations, 'one', '$.*.products[*].uuid')
+                    LIMIT 1
+                ) as missing
+            SQL;
 
         foreach (self::TABLE_NAMES as $tableName) {
             if ((bool) $this->connection->executeQuery(\strtr($sql, ['{table_name}' => $tableName]))->fetchOne()) {
@@ -86,11 +86,11 @@ class MigrateToUuidFillJson implements MigrateToUuidStep
     public function getMissingCount(): int
     {
         $sql = <<<SQL
-            SELECT COUNT(1)
-            FROM {table_name}
-            WHERE JSON_CONTAINS_PATH(quantified_associations, 'one', '$.*.products[*].id')
-                AND NOT JSON_CONTAINS_PATH(quantified_associations, 'one', '$.*.products[*].uuid');
-        SQL;
+                SELECT COUNT(1)
+                FROM {table_name}
+                WHERE JSON_CONTAINS_PATH(quantified_associations, 'one', '$.*.products[*].id')
+                    AND NOT JSON_CONTAINS_PATH(quantified_associations, 'one', '$.*.products[*].uuid');
+            SQL;
 
         $count = 0;
         foreach (self::TABLE_NAMES as $tableName) {
@@ -125,14 +125,14 @@ class MigrateToUuidFillJson implements MigrateToUuidStep
         );
 
         $sql = <<<SQL
-        WITH
-        new_quantified_associations AS (
-            SELECT * FROM (VALUES {rows}) as t(id, quantified_associations)
-        )
-        UPDATE {tableName} p, new_quantified_associations nqa
-        SET p.quantified_associations = nqa.quantified_associations
-        WHERE p.id = nqa.id
-        SQL;
+            WITH
+            new_quantified_associations AS (
+                SELECT * FROM (VALUES {rows}) as t(id, quantified_associations)
+            )
+            UPDATE {tableName} p, new_quantified_associations nqa
+            SET p.quantified_associations = nqa.quantified_associations
+            WHERE p.id = nqa.id
+            SQL;
 
         $this->connection->executeQuery(\strtr($sql, [
             '{rows}' => implode(',', $rows),
@@ -143,18 +143,18 @@ class MigrateToUuidFillJson implements MigrateToUuidStep
     private function getFormerAssociations(string $tableName, $previousProductId = -1): array
     {
         $sql = <<<SQL
-            SELECT id, quantified_associations
-            FROM {table_name}
-            WHERE JSON_CONTAINS_PATH(quantified_associations, 'one', '$.*.products[*].id')
-                AND NOT JSON_CONTAINS_PATH(quantified_associations, 'one', '$.*.products[*].uuid')
-                AND id > :previousProductId
-            ORDER BY id
-            LIMIT :limit
-        SQL;
+                SELECT id, quantified_associations
+                FROM {table_name}
+                WHERE JSON_CONTAINS_PATH(quantified_associations, 'one', '$.*.products[*].id')
+                    AND NOT JSON_CONTAINS_PATH(quantified_associations, 'one', '$.*.products[*].uuid')
+                    AND id > :previousProductId
+                ORDER BY id
+                LIMIT :limit
+            SQL;
 
         $associations = $this->connection->fetchAllAssociative(\strtr($sql, ['{table_name}' => $tableName]), [
             'previousProductId' => $previousProductId,
-            'limit' => self::BATCH_SIZE
+            'limit' => self::BATCH_SIZE,
         ], [
             'previousProductId' => \PDO::PARAM_INT,
             'limit' => \PDO::PARAM_INT,
@@ -180,21 +180,21 @@ class MigrateToUuidFillJson implements MigrateToUuidStep
         }
 
         $sql = <<<SQL
-            SELECT id, BIN_TO_UUID(uuid) as uuid 
-            FROM pim_catalog_product 
-            WHERE id IN (:productIds)
-        SQL;
+                SELECT id, BIN_TO_UUID(uuid) as uuid 
+                FROM pim_catalog_product 
+                WHERE id IN (:productIds)
+            SQL;
         if ($dryRun) {
             $sql = <<<SQL
-            SELECT id, NULL as uuid 
-            FROM pim_catalog_product 
-            WHERE id IN (:productIds)
-        SQL;
+                    SELECT id, NULL as uuid 
+                    FROM pim_catalog_product 
+                    WHERE id IN (:productIds)
+                SQL;
         }
         $products = $this->connection->fetchAllAssociative($sql, [
             'productIds' => $productIds,
         ], [
-            'productIds' => ArrayParameterType::INTEGER
+            'productIds' => ArrayParameterType::INTEGER,
         ]);
 
         $result = [];
@@ -253,7 +253,7 @@ class MigrateToUuidFillJson implements MigrateToUuidStep
      *     ]
      * ]
      */
-    private function getNewAssociationsAndIds(array $formerAssociationsAndIds, array $productIdToUuidMap) : array
+    private function getNewAssociationsAndIds(array $formerAssociationsAndIds, array $productIdToUuidMap): array
     {
         $newAssociationsAndIds = [];
 
@@ -263,7 +263,7 @@ class MigrateToUuidFillJson implements MigrateToUuidStep
             try {
                 $newAssociationsAndIds[] = [
                     'quantified_associations' => $this->getNewAssociations($formerAssociations, $productIdToUuidMap),
-                    'id' => $productId
+                    'id' => $productId,
                 ];
             } catch (UuidNotFoundException) {
                 $this->logger->warning('Missing product uuid', $this->logContext->toArray(['product_id' => $productId]));
@@ -313,7 +313,7 @@ class MigrateToUuidFillJson implements MigrateToUuidStep
                 $newProductAssociations[] = [
                     'id' => $associatedProductId,
                     'uuid' => $associatedProductUuid,
-                    'quantity' => $formerProductAssociation['quantity']
+                    'quantity' => $formerProductAssociation['quantity'],
                 ];
             }
         }

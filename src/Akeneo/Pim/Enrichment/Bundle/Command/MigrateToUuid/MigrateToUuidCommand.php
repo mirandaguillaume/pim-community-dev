@@ -6,11 +6,11 @@ use Akeneo\Pim\Enrichment\Bundle\Command\MigrateToUuid\Utils\LogContext;
 use Akeneo\Platform\Job\Domain\Model\Status;
 use Doctrine\DBAL\Connection;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
@@ -157,10 +157,10 @@ class MigrateToUuidCommand extends Command
     private function start()
     {
         $this->connection->executeQuery(<<<SQL
-            INSERT INTO `pim_one_time_task` (`code`, `status`, `start_time`, `values`) 
-            VALUES (:code, :status, NOW(), :values)
-            ON DUPLICATE KEY UPDATE status='started', start_time=NOW();
-        SQL, [
+                INSERT INTO `pim_one_time_task` (`code`, `status`, `start_time`, `values`) 
+                VALUES (:code, :status, NOW(), :values)
+                ON DUPLICATE KEY UPDATE status='started', start_time=NOW();
+            SQL, [
             'code' => $this->getName(),
             'status' => 'started',
             'values' => \json_encode((object) [], JSON_THROW_ON_ERROR),
@@ -170,10 +170,10 @@ class MigrateToUuidCommand extends Command
     private function success(): void
     {
         $this->connection->executeQuery(<<<SQL
-            UPDATE `pim_one_time_task`
-            SET status=:status, end_time=NOW()
-            WHERE code=:code
-        SQL, [
+                UPDATE `pim_one_time_task`
+                SET status=:status, end_time=NOW()
+                WHERE code=:code
+            SQL, [
             'code' => $this->getName(),
             'status' => 'finished',
         ]);
@@ -182,32 +182,32 @@ class MigrateToUuidCommand extends Command
     private function fail(): void
     {
         $this->connection->executeQuery(<<<SQL
-            DELETE FROM `pim_one_time_task` WHERE code=:code
-        SQL, [
-            'code' => $this->getName()
+                DELETE FROM `pim_one_time_task` WHERE code=:code
+            SQL, [
+            'code' => $this->getName(),
         ]);
     }
 
     private function hasDQIJobStarted(): bool
     {
         $sql = <<<SQL
-            SELECT EXISTS (
-                WITH
-                last_job_execution AS (
-                    SELECT abje.id, abje.updated_time, abje.create_time
-                    FROM akeneo_batch_job_execution abje
-                             INNER JOIN akeneo_batch_job_instance abji
-                                        ON abje.job_instance_id = abji.id
-                    WHERE abji.code=:code
-                      AND abje.status=:status
-                    ORDER BY create_time DESC
-                    LIMIT 1
-                )
-                SELECT * FROM last_job_execution WHERE
-                  (updated_time IS NOT NULL AND updated_time > SUBTIME(NOW(),"0:0:30"))
-                    OR (updated_time IS NULL AND create_time > SUBTIME(NOW(), "24:0:0"))
-            ) AS running
-        SQL;
+                SELECT EXISTS (
+                    WITH
+                    last_job_execution AS (
+                        SELECT abje.id, abje.updated_time, abje.create_time
+                        FROM akeneo_batch_job_execution abje
+                                 INNER JOIN akeneo_batch_job_instance abji
+                                            ON abje.job_instance_id = abji.id
+                        WHERE abji.code=:code
+                          AND abje.status=:status
+                        ORDER BY create_time DESC
+                        LIMIT 1
+                    )
+                    SELECT * FROM last_job_execution WHERE
+                      (updated_time IS NOT NULL AND updated_time > SUBTIME(NOW(),"0:0:30"))
+                        OR (updated_time IS NULL AND create_time > SUBTIME(NOW(), "24:0:0"))
+                ) AS running
+            SQL;
 
         return (bool) $this->connection->fetchOne($sql, [
             'code' => self::DQI_JOB_NAME,
@@ -218,14 +218,14 @@ class MigrateToUuidCommand extends Command
     private function isAlreadySuccessfull(): bool
     {
         $sql = <<<SQL
-            SELECT EXISTS (
-                SELECT 1
-                FROM pim_one_time_task
-                WHERE code=:code
-                  AND status=:status
-                LIMIT 1
-            ) AS missing
-        SQL;
+                SELECT EXISTS (
+                    SELECT 1
+                    FROM pim_one_time_task
+                    WHERE code=:code
+                      AND status=:status
+                    LIMIT 1
+                ) AS missing
+            SQL;
 
         return (bool) $this->connection->fetchOne($sql, [
             'code' => $this->getName(),
@@ -237,8 +237,8 @@ class MigrateToUuidCommand extends Command
     {
         $rows = $this->connection->fetchAllAssociative(
             <<<SQL
-                SHOW TABLES LIKE :tableName
-            SQL,
+                    SHOW TABLES LIKE :tableName
+                SQL,
             ['tableName' => $tableName]
         );
 
@@ -247,8 +247,8 @@ class MigrateToUuidCommand extends Command
 
     private function isDatabaseReady(): bool
     {
-        return $this->tableExists('pim_one_time_task') &&
-            $this->tableExists('akeneo_batch_job_execution') &&
-            $this->tableExists('akeneo_batch_job_instance');
+        return $this->tableExists('pim_one_time_task')
+            && $this->tableExists('akeneo_batch_job_execution')
+            && $this->tableExists('akeneo_batch_job_instance');
     }
 }

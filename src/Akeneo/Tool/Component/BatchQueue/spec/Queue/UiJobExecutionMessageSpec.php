@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace spec\Akeneo\Tool\Component\BatchQueue\Queue;
@@ -8,7 +9,7 @@ use PhpSpec\ObjectBehavior;
 
 class UiJobExecutionMessageSpec extends ObjectBehavior
 {
-    function let()
+    public function let()
     {
         $this->beConstructedThrough('createJobExecutionMessage', [
             1,
@@ -16,7 +17,7 @@ class UiJobExecutionMessageSpec extends ObjectBehavior
         ]);
     }
 
-    function it_is_a_job_message()
+    public function it_is_a_job_message()
     {
         $this->shouldImplement(JobExecutionMessageInterface::class);
     }

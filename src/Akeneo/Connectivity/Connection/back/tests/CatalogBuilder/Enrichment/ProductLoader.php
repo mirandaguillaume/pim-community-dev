@@ -27,7 +27,7 @@ class ProductLoader
     /**
      * @param UserIntent[] $userIntents
      */
-    public function create(string $identifier, array $userIntents = []) : ProductInterface
+    public function create(string $identifier, array $userIntents = []): ProductInterface
     {
         return $this->createOrUpdate($identifier, $userIntents);
     }
@@ -35,7 +35,7 @@ class ProductLoader
     /**
      * @param UserIntent[] $userIntents
      */
-    public function update(string $identifier, array $userIntents = []) : ProductInterface
+    public function update(string $identifier, array $userIntents = []): ProductInterface
     {
         return $this->createOrUpdate($identifier, $userIntents);
     }
@@ -43,7 +43,7 @@ class ProductLoader
     /**
      * @param UserIntent[] $userIntents
      */
-    public function createOrUpdate(string $identifier, array $userIntents = []) : ProductInterface
+    public function createOrUpdate(string $identifier, array $userIntents = []): ProductInterface
     {
         $this->uniqueValuesSet->reset();
 

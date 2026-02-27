@@ -56,25 +56,25 @@ class EventsApiDebugLoggerSpec extends ObjectBehavior
                 }
                 unset($actual['id']);
                 return $actual === [
-                        'timestamp' => 1_609_459_200,
-                        'level' => 'info',
-                        'message' => 'The API event request was sent.',
-                        'connection_code' => 'erp_000',
-                        'context' => [
-                            'event_subscription_url' => 'http://my-url.com',
-                            'status_code' => 200,
-                            'headers' => [],
-                            'events' => [
-                                [
-                                    "action" => "my_event",
-                                    "event_id" => "9979c367-595d-42ad-9070-05f62f31f49b",
-                                    "event_datetime" => "1970-01-01T00:00:00+00:00",
-                                    "author" => "julia",
-                                    "author_type" => "ui",
-                                ],
+                    'timestamp' => 1_609_459_200,
+                    'level' => 'info',
+                    'message' => 'The API event request was sent.',
+                    'connection_code' => 'erp_000',
+                    'context' => [
+                        'event_subscription_url' => 'http://my-url.com',
+                        'status_code' => 200,
+                        'headers' => [],
+                        'events' => [
+                            [
+                                "action" => "my_event",
+                                "event_id" => "9979c367-595d-42ad-9070-05f62f31f49b",
+                                "event_datetime" => "1970-01-01T00:00:00+00:00",
+                                "author" => "julia",
+                                "author_type" => "ui",
                             ],
                         ],
-                    ];
+                    ],
+                ];
             })
         )->shouldBeCalled();
 
@@ -105,20 +105,20 @@ class EventsApiDebugLoggerSpec extends ObjectBehavior
                 }
                 unset($actual['id']);
                 return $actual === [
-                        'timestamp' => 1_609_459_200,
-                        'level' => 'notice',
-                        'message' => 'The event was not sent because it was raised by the same connection.',
-                        'connection_code' => 'erp_000',
-                        'context' => [
-                            'event' => [
-                                'action' => 'my_event',
-                                'event_id' => '9979c367-595d-42ad-9070-05f62f31f49b',
-                                'event_datetime' => '1970-01-01T00:00:00+00:00',
-                                'author' => 'julia',
-                                'author_type' => 'ui',
-                            ],
+                    'timestamp' => 1_609_459_200,
+                    'level' => 'notice',
+                    'message' => 'The event was not sent because it was raised by the same connection.',
+                    'connection_code' => 'erp_000',
+                    'context' => [
+                        'event' => [
+                            'action' => 'my_event',
+                            'event_id' => '9979c367-595d-42ad-9070-05f62f31f49b',
+                            'event_datetime' => '1970-01-01T00:00:00+00:00',
+                            'author' => 'julia',
+                            'author_type' => 'ui',
                         ],
-                    ];
+                    ],
+                ];
             })
         )->shouldBeCalled();
 
@@ -143,12 +143,12 @@ class EventsApiDebugLoggerSpec extends ObjectBehavior
                 }
                 unset($actual['id']);
                 return $actual === [
-                        'timestamp' => 1_609_459_200,
-                        'level' => 'warning',
-                        'message' => 'The maximum number of events sent per hour has been reached.',
-                        'connection_code' => null,
-                        'context' => [],
-                    ];
+                    'timestamp' => 1_609_459_200,
+                    'level' => 'warning',
+                    'message' => 'The maximum number of events sent per hour has been reached.',
+                    'connection_code' => null,
+                    'context' => [],
+                ];
             })
         )->shouldBeCalled();
 
@@ -172,20 +172,20 @@ class EventsApiDebugLoggerSpec extends ObjectBehavior
                 }
                 unset($actual['id']);
                 return $actual === [
-                        'timestamp' => 1_609_459_200,
-                        'level' => 'notice',
-                        'message' => 'The event was not sent because the product does not exists or the connection does not have the required permissions.',
-                        'connection_code' => 'erp_000',
-                        'context' => [
-                            'event' => [
-                                'action' => 'my_event',
-                                'event_id' => '9979c367-595d-42ad-9070-05f62f31f49b',
-                                'event_datetime' => '1970-01-01T00:00:00+00:00',
-                                'author' => 'julia',
-                                'author_type' => 'ui',
-                            ],
+                    'timestamp' => 1_609_459_200,
+                    'level' => 'notice',
+                    'message' => 'The event was not sent because the product does not exists or the connection does not have the required permissions.',
+                    'connection_code' => 'erp_000',
+                    'context' => [
+                        'event' => [
+                            'action' => 'my_event',
+                            'event_id' => '9979c367-595d-42ad-9070-05f62f31f49b',
+                            'event_datetime' => '1970-01-01T00:00:00+00:00',
+                            'author' => 'julia',
+                            'author_type' => 'ui',
                         ],
-                    ];
+                    ],
+                ];
             })
         )->shouldBeCalled();
 

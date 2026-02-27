@@ -7,26 +7,26 @@ use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 
 class FlatFileIteratorSpec extends ObjectBehavior
 {
-    function let()
+    public function let()
     {
-        $this->beConstructedWith('csv', $this->getPath() . DIRECTORY_SEPARATOR  . 'with_media.csv', [
+        $this->beConstructedWith('csv', $this->getPath() . DIRECTORY_SEPARATOR . 'with_media.csv', [
             'reader_options' => [
-                'fieldDelimiter' => ';'
-            ]
+                'fieldDelimiter' => ';',
+            ],
         ]);
     }
 
-    function it_throws_exception_with_invalid_filename()
+    public function it_throws_exception_with_invalid_filename()
     {
-        $this->beConstructedWith('csv', $this->getPath() . DIRECTORY_SEPARATOR  . 'unknown_file.csv', [
+        $this->beConstructedWith('csv', $this->getPath() . DIRECTORY_SEPARATOR . 'unknown_file.csv', [
             'reader_options' => [
-                'fieldDelimiter' => ';'
-            ]
+                'fieldDelimiter' => ';',
+            ],
         ]);
         $this->shouldThrow(FileNotFoundException::class)->duringInstantiation();
     }
 
-    function it_gets_current_row()
+    public function it_gets_current_row()
     {
         $this->rewind();
         $this->next();
@@ -35,14 +35,14 @@ class FlatFileIteratorSpec extends ObjectBehavior
                 'SKU-001',
                 'door',
                 'sku-001.jpg',
-                'sku-001.txt'
+                'sku-001.txt',
             ]
         );
     }
 
-    function it_gets_current_row_from_xlsx()
+    public function it_gets_current_row_from_xlsx()
     {
-        $this->beConstructedWith('xlsx', $this->getPath() . DIRECTORY_SEPARATOR  . 'product_with_carriage_return.xlsx');
+        $this->beConstructedWith('xlsx', $this->getPath() . DIRECTORY_SEPARATOR . 'product_with_carriage_return.xlsx');
 
         $this->rewind();
         $this->next();
@@ -56,16 +56,16 @@ class FlatFileIteratorSpec extends ObjectBehavior
                 'dictum magna.
 
 Lorem ispum
-Est'
+Est',
             ]
         );
     }
-    function it_gets_current_row_from_an_archive()
+    public function it_gets_current_row_from_an_archive()
     {
-        $this->beConstructedWith('csv', $this->getPath() . DIRECTORY_SEPARATOR  . 'caterpillar_import.zip', [
+        $this->beConstructedWith('csv', $this->getPath() . DIRECTORY_SEPARATOR . 'caterpillar_import.zip', [
             'reader_options' => [
-                'fieldDelimiter' => ';'
-            ]
+                'fieldDelimiter' => ';',
+            ],
         ]);
 
         $this->rewind();
@@ -84,7 +84,7 @@ Est'
         );
     }
 
-    function it_returns_null_at_the_end_of_file()
+    public function it_returns_null_at_the_end_of_file()
     {
         $this->rewind();
         $this->next();
@@ -92,35 +92,35 @@ Est'
         $this->current()->shouldReturn(null);
     }
 
-    function it_returns_directory_from_filepath()
+    public function it_returns_directory_from_filepath()
     {
         $this->rewind();
         $this->getDirectoryPath()->shouldReturn($this->getPath());
     }
 
-    function it_returns_directory_created_for_archive()
+    public function it_returns_directory_created_for_archive()
     {
-        $this->beConstructedWith('csv', $this->getPath() . DIRECTORY_SEPARATOR  . 'caterpillar_import.zip');
+        $this->beConstructedWith('csv', $this->getPath() . DIRECTORY_SEPARATOR . 'caterpillar_import.zip');
 
         $this->rewind();
-        $this->getDirectoryPath()->shouldReturn($this->getPath() . DIRECTORY_SEPARATOR  . 'caterpillar_import');
+        $this->getDirectoryPath()->shouldReturn($this->getPath() . DIRECTORY_SEPARATOR . 'caterpillar_import');
     }
 
-    function it_returns_key()
+    public function it_returns_key()
     {
         $this->rewind();
         $this->next();
         $this->key()->shouldReturn(2);
     }
 
-    function it_returns_true_if_current_position_is_valid()
+    public function it_returns_true_if_current_position_is_valid()
     {
         $this->rewind();
         $this->next();
         $this->valid()->shouldReturn(true);
     }
 
-    function it_returns_false_if_current_position_is_not_valid()
+    public function it_returns_false_if_current_position_is_not_valid()
     {
         $this->rewind();
         $this->next();
@@ -130,19 +130,19 @@ Est'
 
     private function getPath()
     {
-        return __DIR__ .
-               DIRECTORY_SEPARATOR  . '..' .
-               DIRECTORY_SEPARATOR  . '..' .
-               DIRECTORY_SEPARATOR  . '..'.
-               DIRECTORY_SEPARATOR  . '..'.
-               DIRECTORY_SEPARATOR  . '..'.
-               DIRECTORY_SEPARATOR  . '..' .
-               DIRECTORY_SEPARATOR  . '..' .
-               DIRECTORY_SEPARATOR  . '..' .
-               DIRECTORY_SEPARATOR  . 'tests' .
-               DIRECTORY_SEPARATOR  . 'legacy' .
-               DIRECTORY_SEPARATOR  . 'features' .
-               DIRECTORY_SEPARATOR  . 'Context' .
-               DIRECTORY_SEPARATOR  . 'fixtures';
+        return __DIR__
+               . DIRECTORY_SEPARATOR . '..'
+               . DIRECTORY_SEPARATOR . '..'
+               . DIRECTORY_SEPARATOR . '..'
+               . DIRECTORY_SEPARATOR . '..'
+               . DIRECTORY_SEPARATOR . '..'
+               . DIRECTORY_SEPARATOR . '..'
+               . DIRECTORY_SEPARATOR . '..'
+               . DIRECTORY_SEPARATOR . '..'
+               . DIRECTORY_SEPARATOR . 'tests'
+               . DIRECTORY_SEPARATOR . 'legacy'
+               . DIRECTORY_SEPARATOR . 'features'
+               . DIRECTORY_SEPARATOR . 'Context'
+               . DIRECTORY_SEPARATOR . 'fixtures';
     }
 }

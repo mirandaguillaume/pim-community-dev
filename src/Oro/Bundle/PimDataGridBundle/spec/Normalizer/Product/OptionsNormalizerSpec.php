@@ -11,22 +11,22 @@ use Akeneo\Pim\Enrichment\Component\Product\Value\OptionsValueInterface;
 
 class OptionsNormalizerSpec extends ObjectBehavior
 {
-    function let(IdentifiableObjectRepositoryInterface $attributeOptionRepository)
+    public function let(IdentifiableObjectRepositoryInterface $attributeOptionRepository)
     {
         $this->beConstructedWith($attributeOptionRepository);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(OptionsNormalizer::class);
     }
 
-    function it_is_a_normalizer()
+    public function it_is_a_normalizer()
     {
         $this->shouldImplement(\Symfony\Component\Serializer\Normalizer\NormalizerInterface::class);
     }
 
-    function it_supports_datagrid_format_and_product_value(OptionsValueInterface $value)
+    public function it_supports_datagrid_format_and_product_value(OptionsValueInterface $value)
     {
         $this->supportsNormalization($value, 'datagrid')->shouldReturn(true);
         $this->supportsNormalization($value, 'other_format')->shouldReturn(false);
@@ -34,7 +34,7 @@ class OptionsNormalizerSpec extends ObjectBehavior
         $this->supportsNormalization(new \stdClass(), 'datagrid')->shouldReturn(false);
     }
 
-    function it_normalizes_a_multi_select_product_value(
+    public function it_normalizes_a_multi_select_product_value(
         OptionsValueInterface $value,
         AttributeOptionInterface $colorBlue,
         AttributeOptionInterface $colorRed,

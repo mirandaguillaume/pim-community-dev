@@ -56,9 +56,9 @@ class PurgeConnectionErrorsQuery
         return [
             'query' => [
                 'bool' => [
-                    'must_not' => ['terms' => ['id' => $idsToKeep]]
-                ]
-            ]
+                    'must_not' => ['terms' => ['id' => $idsToKeep]],
+                ],
+            ],
         ];
     }
 
@@ -90,12 +90,12 @@ class PurgeConnectionErrorsQuery
                                 ['term' => ['connection_code' => $code]],
                             ],
                             'must_not' => [
-                                'range' => ['error_datetime' => ['lt' => $daysToKeepQuery]]
+                                'range' => ['error_datetime' => ['lt' => $daysToKeepQuery]],
                             ],
-                        ]
-                    ]
-                ]
-            ]
+                        ],
+                    ],
+                ],
+            ],
         ];
     }
 }

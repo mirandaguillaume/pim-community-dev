@@ -27,43 +27,43 @@ class SqlGetAllButLastVersionIdsByIdsQueryIntegration extends TestCase
                 'resource_name' => Product::class,
                 'resource_id' => 42,
                 'resource_uuid' => Uuid::fromString('dc9ac794-fdfb-49e6-8a24-f01e0f68907d'),
-                'version' => 1
+                'version' => 1,
             ],
             'product_42_second_version' => [
                 'resource_name' => Product::class,
                 'resource_id' => 42,
                 'resource_uuid' => Uuid::fromString('dc9ac794-fdfb-49e6-8a24-f01e0f68907d'),
-                'version' => 2
+                'version' => 2,
             ],
             'product_42_last_version' => [
                 'resource_name' => Product::class,
                 'resource_id' => 42,
                 'resource_uuid' => Uuid::fromString('dc9ac794-fdfb-49e6-8a24-f01e0f68907d'),
-                'version' => 3
+                'version' => 3,
             ],
             'product_123_unique_version' => [
                 'resource_name' => Product::class,
                 'resource_id' => 123,
                 'resource_uuid' => Uuid::fromString('b63ca147-c9ff-49e9-9241-ad7ac84ef5b2'),
-                'version' => 1
+                'version' => 1,
             ],
             'product_456_not_requested_last_version' => [
                 'resource_name' => Attribute::class,
                 'resource_id' => 456,
                 'resource_uuid' => Uuid::fromString('d0982073-a5aa-4ace-935b-52e4af7d6ebd'),
-                'version' => 2
+                'version' => 2,
             ],
             'attribute_25_first_version' => [
                 'resource_name' => Attribute::class,
                 'resource_id' => 25,
                 'resource_uuid' => Uuid::fromString('223f8f74-6e2b-4489-8d28-3a82fd235285'),
-                'version' => 1
+                'version' => 1,
             ],
             'attribute_25_last_version' => [
                 'resource_name' => Attribute::class,
                 'resource_id' => 25,
                 'resource_uuid' => Uuid::fromString('223f8f74-6e2b-4489-8d28-3a82fd235285'),
-                'version' => 2
+                'version' => 2,
             ],
         ]);
 

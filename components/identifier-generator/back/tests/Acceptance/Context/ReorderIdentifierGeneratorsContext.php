@@ -16,8 +16,7 @@ final readonly class ReorderIdentifierGeneratorsContext implements Context
 {
     public function __construct(
         private ReorderGeneratorsHandler $reorderGeneratorsHandler
-    ) {
-    }
+    ) {}
 
     /**
      * @When /^I reorder the identifier generators as (?P<codes>(('.*')(, | and )?)+)$/

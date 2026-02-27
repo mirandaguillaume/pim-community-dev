@@ -74,17 +74,17 @@ class CreateConnectedAppQueryIntegration extends TestCase
             'connection_code' => 'bynder',
             'scopes' => '["foo", "bar"]',
             'user_group_name' => 'app_123456abcdef',
-            'has_outdated_scopes' => '0'
+            'has_outdated_scopes' => '0',
         ], $row);
     }
 
     private function fetchApp(string $id): ?array
     {
         $query = <<<SQL
-SELECT id, name, logo, author, partner, categories, certified, connection_code, scopes, user_group_name, has_outdated_scopes
-FROM akeneo_connectivity_connected_app
-WHERE id = :id
-SQL;
+            SELECT id, name, logo, author, partner, categories, certified, connection_code, scopes, user_group_name, has_outdated_scopes
+            FROM akeneo_connectivity_connected_app
+            WHERE id = :id
+            SQL;
 
         $row = $this->connection->fetchAssociative($query, [
             'id' => $id,

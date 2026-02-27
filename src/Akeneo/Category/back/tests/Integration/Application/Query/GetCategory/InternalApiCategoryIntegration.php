@@ -107,7 +107,7 @@ class InternalApiCategoryIntegration extends CategoryTestCase
             'attributes' => null,
             'permissions' => null,
             'isRoot' => true,
-            'root' => null
+            'root' => null,
         ];
 
         $internalApiCategory = InternalApiCategory::fromCategory($category, null);

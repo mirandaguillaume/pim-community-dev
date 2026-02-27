@@ -49,7 +49,7 @@ final class ProductCriterionEvaluationRepositoryIntegration extends DataQualityI
         $productUuid = ProductUuid::fromUuid($product->getUuid());
         $this->deleteAllProductCriterionEvaluations();
 
-        $criteria = (new CriterionEvaluationCollection)
+        $criteria = (new CriterionEvaluationCollection())
             ->add(new CriterionEvaluation(
                 new CriterionCode('completeness'),
                 $productUuid,
@@ -87,7 +87,7 @@ final class ProductCriterionEvaluationRepositoryIntegration extends DataQualityI
 
         $existingEvaluation = $this->givenAnExistingCriterionEvaluation($criterionCode, $productUuidWithExistingEvaluation);
 
-        $this->productCriterionEvaluationRepository->create((new CriterionEvaluationCollection)
+        $this->productCriterionEvaluationRepository->create((new CriterionEvaluationCollection())
             ->add(new CriterionEvaluation(
                 $criterionCode,
                 $productUuidWithExistingEvaluation,
@@ -159,7 +159,7 @@ final class ProductCriterionEvaluationRepositoryIntegration extends DataQualityI
 
     private function buildCollection(): CriterionEvaluationCollection
     {
-        return (new CriterionEvaluationCollection)
+        return (new CriterionEvaluationCollection())
             ->add(new CriterionEvaluation(
                 new CriterionCode('completeness'),
                 ProductUuid::fromUuid($this->createProduct('a_product')->getUuid()),
@@ -239,7 +239,7 @@ final class ProductCriterionEvaluationRepositoryIntegration extends DataQualityI
         if (null === $expectedDate) {
             $this->assertNull($date);
         } else {
-           $this->assertEquals($expectedDate->format(Clock::TIME_FORMAT), $date->format(Clock::TIME_FORMAT));
+            $this->assertEquals($expectedDate->format(Clock::TIME_FORMAT), $date->format(Clock::TIME_FORMAT));
         }
     }
 }

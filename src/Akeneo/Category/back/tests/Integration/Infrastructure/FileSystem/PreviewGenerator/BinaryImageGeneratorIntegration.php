@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
 namespace Akeneo\Test\Category\Integration\Infrastructure\FileSystem\PreviewGenerator;
 
 use Akeneo\Category\Domain\ImageFile\Storage;
@@ -112,7 +113,7 @@ class BinaryImageGeneratorIntegration extends TestCase
     public function it_gets_a_preview_for_an_image_attribute_from_the_cache_removed(): void
     {
         $data = $this->generateJpegImage(10, 1);
-        
+
         $this->binaryImageGenerator->supports(base64_encode($this->fileInfo->getOriginalFilename()), $this->attributeImage, PreviewGeneratorRegistry::THUMBNAIL_TYPE);
         $previewImage = $this->binaryImageGenerator->generate($data, $this->attributeImage, PreviewGeneratorRegistry::THUMBNAIL_TYPE);
 
@@ -149,7 +150,7 @@ class BinaryImageGeneratorIntegration extends TestCase
     {
         $data = $this->generatePngImage(22000, 0);
 
-        $defaultPreview = $this->binaryImageGenerator->generate($data, $this->attributeImage, PreviewGeneratorRegistry::THUMBNAIL_TYPE,);
+        $defaultPreview = $this->binaryImageGenerator->generate($data, $this->attributeImage, PreviewGeneratorRegistry::THUMBNAIL_TYPE, );
         $this->assertSame('__root__/thumbnail/category/am_binary_image_thumbnail_category/pim_category.default_image.image', $defaultPreview);
     }
 
@@ -169,7 +170,7 @@ class BinaryImageGeneratorIntegration extends TestCase
     {
         $data = $this->uploadPdfFile();
 
-        $previewImage = $this->binaryImageGenerator->generate($data, $this->attributeImage, PreviewGeneratorRegistry::THUMBNAIL_TYPE,);
+        $previewImage = $this->binaryImageGenerator->generate($data, $this->attributeImage, PreviewGeneratorRegistry::THUMBNAIL_TYPE, );
 
         $this->assertStringContainsString(
             sprintf('__root__/thumbnail/category/%s/pim_category.default_image.image', BinaryImageGenerator::SUPPORTED_TYPES[PreviewGeneratorRegistry::THUMBNAIL_TYPE]),

@@ -21,8 +21,7 @@ class ChannelSpec extends ObjectBehavior
 
     public function it_gets_a_translation_even_if_the_locale_case_is_wrong(
         ChannelTranslation $translationEn,
-    )
-    {
+    ) {
         $translationEn->getLocale()->willReturn('EN_US');
         $this->addTranslation($translationEn);
 

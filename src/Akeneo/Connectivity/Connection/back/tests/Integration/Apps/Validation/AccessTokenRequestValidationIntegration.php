@@ -248,10 +248,10 @@ class AccessTokenRequestValidationIntegration extends WebTestCase
         $expirationTimestamp = \time() - 1;
 
         $query = <<<SQL
-        UPDATE pim_api_auth_code
-        SET expires_at = :expiration_timestamp
-        WHERE token = :auth_code
-        SQL;
+            UPDATE pim_api_auth_code
+            SET expires_at = :expiration_timestamp
+            WHERE token = :auth_code
+            SQL;
 
         $this->get('database_connection')->executeQuery(
             $query,

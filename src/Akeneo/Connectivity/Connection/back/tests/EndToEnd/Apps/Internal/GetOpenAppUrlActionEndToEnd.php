@@ -69,7 +69,7 @@ class GetOpenAppUrlActionEndToEnd extends WebTestCase
         $response = $this->client->getResponse();
 
         $expectedContent = [
-            'url' => 'http://app.example.com/activate?pim_url=http%3A%2F%2Flocalhost%3A8080'
+            'url' => 'http://app.example.com/activate?pim_url=http%3A%2F%2Flocalhost%3A8080',
         ];
 
         self::assertEquals(Response::HTTP_OK, $response->getStatusCode());

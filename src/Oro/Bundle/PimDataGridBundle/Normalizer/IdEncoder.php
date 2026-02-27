@@ -33,9 +33,9 @@ class IdEncoder
      */
     public static function decode(string $encodedId): array
     {
-        $type = 1 !== preg_match(sprintf('/^%s_/', self::PRODUCT_MODEL_TYPE), $encodedId) ?
-            self::PRODUCT_TYPE :
-            self::PRODUCT_MODEL_TYPE;
+        $type = 1 !== preg_match(sprintf('/^%s_/', self::PRODUCT_MODEL_TYPE), $encodedId)
+            ? self::PRODUCT_TYPE
+            : self::PRODUCT_MODEL_TYPE;
 
         return [
             'id'   => str_replace($type . '_', '', $encodedId),

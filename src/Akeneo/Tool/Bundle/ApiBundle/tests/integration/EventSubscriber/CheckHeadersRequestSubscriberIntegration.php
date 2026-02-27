@@ -81,11 +81,11 @@ class CheckHeadersRequestSubscriberIntegration extends ApiTestCase
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_UNSUPPORTED_MEDIA_TYPE);
         $expected = <<<JSON
-{
-    "code": 415,
-    "message": "\"application/json\" in \"Content-Type\" header is not valid. Only \"application/vnd.akeneo.collection+json\" is allowed."
-}
-JSON;
+            {
+                "code": 415,
+                "message": "\"application/json\" in \"Content-Type\" header is not valid. Only \"application/vnd.akeneo.collection+json\" is allowed."
+            }
+            JSON;
 
         $this->assertJsonStringEqualsJsonString($expected, $response->getContent());
     }

@@ -7,12 +7,12 @@ use PhpSpec\ObjectBehavior;
 
 class JobExecutionEventSpec extends ObjectBehavior
 {
-    function let(JobExecution $jobExecution)
+    public function let(JobExecution $jobExecution)
     {
         $this->beConstructedWith($jobExecution);
     }
 
-    function it_provides_the_job_execution($jobExecution)
+    public function it_provides_the_job_execution($jobExecution)
     {
         $this->getJobExecution()->shouldReturn($jobExecution);
     }

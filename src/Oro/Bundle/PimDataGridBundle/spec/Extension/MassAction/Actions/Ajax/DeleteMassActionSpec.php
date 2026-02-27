@@ -10,13 +10,13 @@ use Prophecy\Argument;
 
 class DeleteMassActionSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(DeleteMassAction::class);
         $this->shouldImplement(MassActionInterface::class);
     }
 
-    function it_overwrites_default_values()
+    public function it_overwrites_default_values()
     {
         $routeParams = ['foo' => 'bar'];
         $params = [
@@ -24,7 +24,7 @@ class DeleteMassActionSpec extends ObjectBehavior
             'route_parameters' => $routeParams,
             'handler'          => 'my_handler',
             'confirmation'     => false,
-            'entity_name'      => 'qux'
+            'entity_name'      => 'qux',
         ];
         $options = ActionConfiguration::createNamed('export', $params);
 

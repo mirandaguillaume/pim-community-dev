@@ -158,7 +158,7 @@ final class UpsertProductWithPermissionIntegration extends EnrichmentProductTest
             productUuid: ProductUuid::fromUuid($uuid),
             userIntents: [
                 new SetIdentifierValue('sku', 'my_new_product'),
-                new SetCategories(['sales'])
+                new SetCategories(['sales']),
             ]
         );
         $this->commandMessageBus->dispatch($command);
@@ -267,7 +267,7 @@ final class UpsertProductWithPermissionIntegration extends EnrichmentProductTest
             $this->getUserId('betty'),
             ProductIdentifier::fromIdentifier('my_product'),
             [
-                new ReplaceAssociatedProducts('X_SELL', ['product_viewable_by_manager'])
+                new ReplaceAssociatedProducts('X_SELL', ['product_viewable_by_manager']),
             ]
         );
         $this->commandMessageBus->dispatch($command);
@@ -297,7 +297,7 @@ final class UpsertProductWithPermissionIntegration extends EnrichmentProductTest
         ]);
         $this->createProduct('my_product', [
             new SetCategories(['print', 'sales']),
-            new AssociateProductModels('X_SELL', ['product_model_non_viewable_by_manager'])
+            new AssociateProductModels('X_SELL', ['product_model_non_viewable_by_manager']),
         ]);
 
         $this->get('akeneo_integration_tests.helper.authenticator')->logIn('betty');
@@ -305,7 +305,7 @@ final class UpsertProductWithPermissionIntegration extends EnrichmentProductTest
             $this->getUserId('betty'),
             ProductIdentifier::fromIdentifier('my_product'),
             [
-                new ReplaceAssociatedProductModels('X_SELL', ['product_model_viewable_by_manager'])
+                new ReplaceAssociatedProductModels('X_SELL', ['product_model_viewable_by_manager']),
             ]
         );
         $this->commandMessageBus->dispatch($command);

@@ -20,9 +20,10 @@ final class Version_8_0_20230615085833_drop_product_identifiers_table extends Ab
 
     public function up(Schema $schema): void
     {
-        $this->connection->executeStatement(<<<SQL
-            DROP TABLE IF EXISTS `pim_catalog_product_identifiers`
-        SQL
+        $this->connection->executeStatement(
+            <<<SQL
+                    DROP TABLE IF EXISTS `pim_catalog_product_identifiers`
+                SQL
         );
     }
 

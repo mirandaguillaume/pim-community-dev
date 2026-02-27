@@ -30,7 +30,7 @@ class AggregateAuditDataSpec extends ObjectBehavior
                     new Read\HourlyEventCount(
                         new \DateTimeImmutable('2020-01-01 00:00:00', new \DateTimeZone('UTC')),
                         10
-                    )
+                    ),
                 ]
             ),
             new Read\PeriodEventCount(
@@ -41,9 +41,9 @@ class AggregateAuditDataSpec extends ObjectBehavior
                     new Read\HourlyEventCount(
                         new \DateTimeImmutable('2020-01-04 23:00:00', new \DateTimeZone('UTC')),
                         100
-                    )
+                    ),
                 ]
-            )
+            ),
         ];
         $dateTimeZone = new \DateTimeZone('UTC');
 
@@ -55,7 +55,7 @@ class AggregateAuditDataSpec extends ObjectBehavior
                 'current_week' => [
                     '2020-01-02' => 0,
                 ],
-                'current_week_total' => 0
+                'current_week_total' => 0,
             ],
             'magento' => [
                 'previous_week' => [
@@ -65,8 +65,8 @@ class AggregateAuditDataSpec extends ObjectBehavior
                     '2020-01-03' => 0,
                     '2020-01-04' => 100,
                 ],
-                'current_week_total' => 100
-            ]
+                'current_week_total' => 100,
+            ],
         ]);
     }
 
@@ -93,7 +93,7 @@ class AggregateAuditDataSpec extends ObjectBehavior
                     new Read\HourlyEventCount(
                         new \DateTimeImmutable('2020-01-02 15:00:00', new \DateTimeZone('UTC')),
                         10000
-                    )
+                    ),
                 ]
             ),
         ];
@@ -108,7 +108,7 @@ class AggregateAuditDataSpec extends ObjectBehavior
                     '2020-01-02' => 1100,
                     '2020-01-03' => 10000,
                 ],
-                'current_week_total' => 11100
+                'current_week_total' => 11100,
             ],
         ]);
     }

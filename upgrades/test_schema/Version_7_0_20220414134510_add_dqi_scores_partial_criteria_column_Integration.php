@@ -34,8 +34,8 @@ final class Version_7_0_20220414134510_add_dqi_scores_partial_criteria_column_In
     {
         $rows = $this->get('database_connection')->fetchAllAssociative(
             <<<SQL
-                SHOW COLUMNS FROM $tableName LIKE 'scores_partial_criteria'
-            SQL,
+                    SHOW COLUMNS FROM $tableName LIKE 'scores_partial_criteria'
+                SQL,
         );
 
         return count($rows) >= 1;
@@ -49,8 +49,8 @@ final class Version_7_0_20220414134510_add_dqi_scores_partial_criteria_column_In
 
         $this->get('database_connection')->executeQuery(
             <<<SQL
-                ALTER TABLE $tableName DROP COLUMN scores_partial_criteria;
-            SQL
+                    ALTER TABLE $tableName DROP COLUMN scores_partial_criteria;
+                SQL
         );
     }
 }

@@ -16,12 +16,12 @@ class Version_7_0_20220513000000_increase_scope_length_Integration extends TestC
 
     // 300 bytes, it's more than the 255 default limit
     private const SCOPE_TOO_LONG = <<<TXT
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-Sed elementum lectus eget ante auctor tincidunt eget id risus.
-Nullam metus dui, fringilla at lorem eget, aliquet mollis tortor.
-Donec ac egestas quam. In hac habitasse platea dictumst. 
-Cras sit amet turpis consequat, pulvinar erat sed lectus.
-TXT;
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Sed elementum lectus eget ante auctor tincidunt eget id risus.
+        Nullam metus dui, fringilla at lorem eget, aliquet mollis tortor.
+        Donec ac egestas quam. In hac habitasse platea dictumst. 
+        Cras sit amet turpis consequat, pulvinar erat sed lectus.
+        TXT;
 
     protected function getConfiguration()
     {

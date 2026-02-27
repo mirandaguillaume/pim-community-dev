@@ -41,7 +41,7 @@ class GetConnectedAppAuthenticationScopesActionSpec extends ObjectBehavior
         $getUserConsentedAuthenticationScopesQuery->execute(42, 'app_identifier')->willReturn([
             'auth_scope_a',
             'auth_scope_b',
-            'auth_scope_c'
+            'auth_scope_c',
         ]);
 
         $this->beConstructedWith(
@@ -56,7 +56,7 @@ class GetConnectedAppAuthenticationScopesActionSpec extends ObjectBehavior
         $this->__invoke('app_connection_code')->shouldBeLike(new JsonResponse([
             'auth_scope_a',
             'auth_scope_b',
-            'auth_scope_c'
+            'auth_scope_c',
         ]));
     }
 

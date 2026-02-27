@@ -15,9 +15,9 @@ class DuplicateValueCheckerSpec extends ObjectBehavior
             'values' => [
                 'a_simple_select' => [
                     ['locale' => null, 'scope' => null, 'data' => 'optionB'],
-                    ['locale' => null, 'scope' => null, 'data' => 'optionA']
-                ]
-            ]
+                    ['locale' => null, 'scope' => null, 'data' => 'optionA'],
+                ],
+            ],
         ]]);
     }
 
@@ -27,9 +27,9 @@ class DuplicateValueCheckerSpec extends ObjectBehavior
             'values' => [
                 'a_simple_select' => [
                     ['locale' => null, 'scope' => null, 'data' => 'optionB'],
-                    ['locale' => null, 'scope' => 'ecommerce', 'data' => 'optionA']
-                ]
-            ]
+                    ['locale' => null, 'scope' => 'ecommerce', 'data' => 'optionA'],
+                ],
+            ],
         ]]);
     }
 }

@@ -20,10 +20,10 @@ class UpdateCategoryUpdatedDateSql implements UpdateCategoryUpdatedDate
     public function execute(string $categoryCode): void
     {
         $sql = <<<SQL
-            UPDATE pim_catalog_category
-            SET updated = NOW()
-            WHERE code = :code
-        SQL;
+                UPDATE pim_catalog_category
+                SET updated = NOW()
+                WHERE code = :code
+            SQL;
 
         $this->connection->executeQuery(
             $sql,

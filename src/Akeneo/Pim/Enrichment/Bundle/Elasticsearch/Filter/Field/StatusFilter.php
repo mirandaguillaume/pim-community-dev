@@ -39,8 +39,8 @@ class StatusFilter extends AbstractFieldFilter implements FieldFilterInterface
             case Operators::EQUALS:
                 $clause = [
                     'term' => [
-                        $field => $value
-                    ]
+                        $field => $value,
+                    ],
                 ];
                 $this->searchQueryBuilder->addFilter($clause);
                 break;

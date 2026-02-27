@@ -16,23 +16,23 @@ use Symfony\Component\Form\FormFactoryInterface;
 
 class StringFilterSpec extends ObjectBehavior
 {
-    function let(FormFactoryInterface $factory, FilterUtility $util)
+    public function let(FormFactoryInterface $factory, FilterUtility $util)
     {
         $this->beConstructedWith($factory, $util);
         $this->init('teststring', ['data_name' => 'some_data_name']);
     }
 
-    function it_is_a_filter()
+    public function it_is_a_filter()
     {
         $this->shouldImplement(FilterInterface::class);
     }
 
-    function it_is_a_string_filter()
+    public function it_is_a_string_filter()
     {
         $this->shouldHaveType(StringFilter::class);
     }
 
-    function it_applies_empty_filter(
+    public function it_applies_empty_filter(
         FilterDatasourceAdapterInterface $ds,
         ExpressionBuilderInterface $builder
     ) {
@@ -53,10 +53,10 @@ class StringFilterSpec extends ObjectBehavior
         $this->apply($ds, ['type' => 'empty', 'value' => ''])->shouldReturn(true);
     }
 
-    function it_escapes_special_characters_with_like_operator(
+    public function it_escapes_special_characters_with_like_operator(
         FilterDatasourceAdapterInterface $ds,
-        ExpressionBuilderInterface $builder)
-    {
+        ExpressionBuilderInterface $builder
+    ) {
         $this->init('code', ['data_name' => 'a.code']);
         $ds->generateParameterName('code')->willReturn('code1877008211');
         $comparisonExpr = new Expr\Comparison('a.code', 'LIKE', ':code1877008211');
@@ -70,10 +70,10 @@ class StringFilterSpec extends ObjectBehavior
         $this->apply($ds, ['type' => 1, 'value' => 'fabric_'])->shouldReturn(true);
     }
 
-    function it_does_not_escape_special_characters_with_equal_operator(
+    public function it_does_not_escape_special_characters_with_equal_operator(
         FilterDatasourceAdapterInterface $ds,
-        ExpressionBuilderInterface $builder)
-    {
+        ExpressionBuilderInterface $builder
+    ) {
         $this->init('code', ['data_name' => 'a.code']);
         $ds->generateParameterName('code')->willReturn('code1877008211');
         $comparisonExpr = new Expr\Comparison('a.code', '=', ':code1877008211');

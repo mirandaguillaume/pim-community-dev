@@ -33,8 +33,8 @@ class ProductColumnSorter extends DefaultColumnSorter implements ColumnSorterInt
      */
     public function sort(array $columns, array $context = [])
     {
-        if (isset($context['filters']['structure']['attributes']) &&
-            !empty($context['filters']['structure']['attributes'])
+        if (isset($context['filters']['structure']['attributes'])
+            && !empty($context['filters']['structure']['attributes'])
         ) {
             $rawColumns = array_merge(
                 ['uuid'],

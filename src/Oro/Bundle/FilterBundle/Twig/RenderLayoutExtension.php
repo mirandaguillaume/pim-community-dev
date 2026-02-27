@@ -67,7 +67,7 @@ class RenderLayoutExtension extends AbstractExtension
             new TwigFilter(
                 'oro_filter_choices',
                 $this->getChoices(...)
-            )
+            ),
         ];
     }
 
@@ -81,7 +81,7 @@ class RenderLayoutExtension extends AbstractExtension
             if ($choice instanceof ChoiceView) {
                 $result[] = [
                     'value' => $choice->value,
-                    'label' => $choice->label
+                    'label' => $choice->label,
                 ];
             }
         }

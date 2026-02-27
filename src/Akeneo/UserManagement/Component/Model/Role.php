@@ -2,8 +2,9 @@
 
 namespace Akeneo\UserManagement\Component\Model;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * @author    Arnaud Langlade <arnaud.langlade@akeneo.com>
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)
@@ -25,9 +26,10 @@ class Role implements RoleInterface, \Stringable
     #[ORM\Column(type: Types::STRING, length: 30, options: ['default' => 'default'])]
     protected string $type = self::TYPE_DEFAULT;
 
-    #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
-    public function __construct(protected ?string $role = null)
-    {
+    public function __construct(
+        #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
+        protected ?string $role = null,
+    ) {
     }
 
     /**

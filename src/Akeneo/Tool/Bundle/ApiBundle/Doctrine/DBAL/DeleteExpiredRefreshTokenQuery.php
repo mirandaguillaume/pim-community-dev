@@ -28,10 +28,10 @@ class DeleteExpiredRefreshTokenQuery
         $batchSize = self::DEFAULT_BATCH_SIZE;
 
         $statement = $this->connection->prepare(<<<SQL
-            DELETE FROM pim_api_refresh_token
-            WHERE expires_at < :now_timestamp
-            LIMIT :row_count;
-        SQL);
+                DELETE FROM pim_api_refresh_token
+                WHERE expires_at < :now_timestamp
+                LIMIT :row_count;
+            SQL);
 
         $statement->bindValue('row_count', $batchSize, ParameterType::INTEGER);
         $statement->bindValue('now_timestamp', $nowTimestamp, ParameterType::INTEGER);

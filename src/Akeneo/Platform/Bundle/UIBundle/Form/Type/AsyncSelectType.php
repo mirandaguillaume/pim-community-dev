@@ -125,7 +125,7 @@ class AsyncSelectType extends AbstractType
     protected function createDataTransformer(IdentifiableObjectRepositoryInterface $repository, $options)
     {
         $transformerOptions = [
-            'multiple' => $options['multiple']
+            'multiple' => $options['multiple'],
         ];
         return $this->transformerFactory->create($repository, $transformerOptions);
     }

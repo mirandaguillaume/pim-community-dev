@@ -39,13 +39,13 @@ class SaveMeasurementFamilyAction
             );
         }
         if (!(
-            $this->securityFacade->isGranted('akeneo_measurements_manage_settings') &&
-                (
-                    $this->securityFacade->isGranted('akeneo_measurements_measurement_family_edit_properties') ||
-                    $this->securityFacade->isGranted('akeneo_measurements_measurement_family_delete') ||
-                    $this->securityFacade->isGranted('akeneo_measurements_measurement_unit_add') ||
-                    $this->securityFacade->isGranted('akeneo_measurements_measurement_unit_edit') ||
-                    $this->securityFacade->isGranted('akeneo_measurements_measurement_unit_delete')
+            $this->securityFacade->isGranted('akeneo_measurements_manage_settings')
+                && (
+                    $this->securityFacade->isGranted('akeneo_measurements_measurement_family_edit_properties')
+                    || $this->securityFacade->isGranted('akeneo_measurements_measurement_family_delete')
+                    || $this->securityFacade->isGranted('akeneo_measurements_measurement_unit_add')
+                    || $this->securityFacade->isGranted('akeneo_measurements_measurement_unit_edit')
+                    || $this->securityFacade->isGranted('akeneo_measurements_measurement_unit_delete')
                 )
         )
         ) {

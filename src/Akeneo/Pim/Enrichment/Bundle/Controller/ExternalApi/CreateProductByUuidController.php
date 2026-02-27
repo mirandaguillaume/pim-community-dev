@@ -125,7 +125,7 @@ class CreateProductByUuidController
                 TwoWayAssociationWithTheSameProductException::TWO_WAY_ASSOCIATIONS_ERROR_MESSAGE,
                 $exception
             );
-        } catch (InvalidArgumentException | ProductInvalidArgumentException $exception) {
+        } catch (InvalidArgumentException|ProductInvalidArgumentException $exception) {
             $this->eventDispatcher->dispatch(new TechnicalErrorEvent($exception));
             throw new AccessDeniedHttpException($exception->getMessage(), $exception);
         } catch (DomainErrorInterface $exception) {

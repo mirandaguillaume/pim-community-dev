@@ -26,7 +26,7 @@ class JobExecutionNormalizer implements NormalizerInterface, NormalizerAwareInte
     {
     }
 
-    public function normalize($jobExecution, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($jobExecution, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $jobInstance = $jobExecution->getJobInstance();
         $job = $this->jobRegistry->get($jobInstance->getJobName());

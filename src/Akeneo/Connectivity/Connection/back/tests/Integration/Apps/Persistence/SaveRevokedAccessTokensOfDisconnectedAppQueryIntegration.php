@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Tests\Integration\Apps\Persistence;
@@ -56,9 +57,9 @@ class SaveRevokedAccessTokensOfDisconnectedAppQueryIntegration extends TestCase
     private function assertNoAccessTokensAreRevoked(): void
     {
         $query = <<<SQL
-SELECT COUNT(*)
-FROM akeneo_connectivity_revoked_app_token
-SQL;
+            SELECT COUNT(*)
+            FROM akeneo_connectivity_revoked_app_token
+            SQL;
 
         Assert::assertSame(0, (int) $this->connection->fetchOne($query));
     }
@@ -66,10 +67,10 @@ SQL;
     private function assertAccessTokensAreSavedInTheRevokedTable(array $tokens): void
     {
         $query = <<<SQL
-SELECT token
-FROM akeneo_connectivity_revoked_app_token
-ORDER BY token
-SQL;
+            SELECT token
+            FROM akeneo_connectivity_revoked_app_token
+            ORDER BY token
+            SQL;
 
         Assert::assertSame($tokens, $this->connection->fetchFirstColumn($query));
     }

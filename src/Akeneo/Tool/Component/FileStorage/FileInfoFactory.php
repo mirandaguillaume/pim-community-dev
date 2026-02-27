@@ -38,7 +38,7 @@ class FileInfoFactory implements FileInfoFactoryInterface
         $mimeType = (new MimeTypes())->guessMimeType($rawFile->getPathname());
 
         $file = new $this->fileClass();
-        $file->setKey($pathInfo['path'].$pathInfo['file_name']);
+        $file->setKey($pathInfo['path'] . $pathInfo['file_name']);
         $file->setMimeType($mimeType);
         $file->setOriginalFilename($originalFilename);
         $file->setSize($size);

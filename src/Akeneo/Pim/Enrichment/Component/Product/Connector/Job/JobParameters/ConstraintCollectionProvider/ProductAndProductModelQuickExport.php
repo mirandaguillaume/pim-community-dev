@@ -48,8 +48,8 @@ class ProductAndProductModelQuickExport implements ConstraintCollectionProviderI
             new WritableDirectory(['groups' => ['Execution', 'FileConfiguration']]),
             new Regex([
                 'pattern' => sprintf('/.\.%s$/', $this->filePathExtension),
-                'message' => sprintf('The extension file must be ".%s"', $this->filePathExtension)
-            ])
+                'message' => sprintf('The extension file must be ".%s"', $this->filePathExtension),
+            ]),
         ];
         $constraintFields['filePathProduct'] = $constraintFilePath;
         $constraintFields['filePathProductModel'] = $constraintFilePath;
@@ -80,7 +80,7 @@ class ProductAndProductModelQuickExport implements ConstraintCollectionProviderI
                         ->buildViolation('The locale cannot be empty.')
                         ->addViolation();
                 }
-            })
+            }),
         ];
 
         return new Collection(['fields' => $constraintFields]);

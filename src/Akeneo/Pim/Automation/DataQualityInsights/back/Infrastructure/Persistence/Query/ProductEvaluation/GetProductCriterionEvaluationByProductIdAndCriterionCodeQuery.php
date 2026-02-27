@@ -33,10 +33,10 @@ final readonly class GetProductCriterionEvaluationByProductIdAndCriterionCodeQue
         Assert::isInstanceOf($productUuid, ProductUuid::class);
 
         $query = <<<SQL
-SELECT evaluated_at, status, result 
-FROM pim_data_quality_insights_product_criteria_evaluation
-WHERE product_uuid = :productUuid AND criterion_code = :criterionCode;
-SQL;
+            SELECT evaluated_at, status, result 
+            FROM pim_data_quality_insights_product_criteria_evaluation
+            WHERE product_uuid = :productUuid AND criterion_code = :criterionCode;
+            SQL;
         $rawEvaluation = $this->dbConnection->executeQuery(
             $query,
             ['productUuid' => $productUuid->toBytes(), 'criterionCode' => $criterionCode],

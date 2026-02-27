@@ -70,13 +70,13 @@ class ConsumeProductEventEndToEnd extends ApiTestCase
             new SetFamily('tshirt'),
             new SetEnabled(true),
             new SetCategories(['sea']),
-            new SetTextValue('another_text_attribute', null, null, 'text attribute')
+            new SetTextValue('another_text_attribute', null, null, 'text attribute'),
         ]);
         $this->pantProduct = $this->productLoader->create('red-pant', [
             new SetFamily('pant'),
             new SetEnabled(true),
             new SetCategories(['fiesta']),
-            new SetTextValue('another_text_attribute', null, null, 'text attribute')
+            new SetTextValue('another_text_attribute', null, null, 'text attribute'),
         ]);
 
         $connection = $this->loadConnection();
@@ -121,7 +121,7 @@ class ConsumeProductEventEndToEnd extends ApiTestCase
         $requestContent = \json_decode($requestObject->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR)['events'][0];
         $requestContent = $this->cleanRequestContent($requestContent);
 
-        Assert::assertEquals(2, (int)$this->getEventCount('ecommerce'));
+        Assert::assertEquals(2, (int) $this->getEventCount('ecommerce'));
         $this->assertEquals($this->expectedProductCreatedPayload($this->tshirtProduct), $requestContent);
     }
 
@@ -152,7 +152,7 @@ class ConsumeProductEventEndToEnd extends ApiTestCase
         $requestContent = \json_decode($requestObject->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR)['events'][0];
         $requestContent = $this->cleanRequestContent($requestContent);
 
-        Assert::assertEquals(1, (int)$this->getEventCount('ecommerce'));
+        Assert::assertEquals(1, (int) $this->getEventCount('ecommerce'));
         $this->assertEquals($this->expectedProductUpdatedPayload($this->tshirtProduct), $requestContent);
     }
 
@@ -182,7 +182,7 @@ class ConsumeProductEventEndToEnd extends ApiTestCase
         $request = Message::parseRequest($this->historyContainer[0]['request']);
         $requestContent = \json_decode($request->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR)['events'][0];
 
-        Assert::assertEquals(1, (int)$this->getEventCount('ecommerce'));
+        Assert::assertEquals(1, (int) $this->getEventCount('ecommerce'));
         $this->assertEquals($this->expectedProductRemovedPayload($this->tshirtProduct), $requestContent);
     }
 
@@ -201,7 +201,7 @@ class ConsumeProductEventEndToEnd extends ApiTestCase
             $connection->flowType(),
             $connection->image(),
             $connection->userRoleId(),
-            (string)$this->get('pim_user.repository.group')->findOneByIdentifier('IT support')->getId(),
+            (string) $this->get('pim_user.repository.group')->findOneByIdentifier('IT support')->getId(),
             $connection->auditable(),
         );
 
@@ -323,11 +323,11 @@ class ConsumeProductEventEndToEnd extends ApiTestCase
     private function getEventCount(string $connectionCode)
     {
         $sql = <<<SQL
-        SELECT event_count
-        FROM akeneo_connectivity_connection_audit_product
-        WHERE connection_code = :connection_code
-        AND event_type = 'product_read'
-        SQL;
+            SELECT event_count
+            FROM akeneo_connectivity_connection_audit_product
+            WHERE connection_code = :connection_code
+            AND event_type = 'product_read'
+            SQL;
 
         return $this->dbalConnection->fetchOne($sql, [
             'connection_code' => $connectionCode,

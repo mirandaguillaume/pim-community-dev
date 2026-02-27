@@ -10,28 +10,28 @@ use PhpSpec\ObjectBehavior;
 
 class KeepLastVersionPurgerAdvisorSpec extends ObjectBehavior
 {
-    function let(SqlGetAllButLastVersionIdsByIdsQuery $sqlGetAllButLastVersionIdsByIdsQuery)
+    public function let(SqlGetAllButLastVersionIdsByIdsQuery $sqlGetAllButLastVersionIdsByIdsQuery)
     {
         $this->beConstructedWith($sqlGetAllButLastVersionIdsByIdsQuery);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(KeepLastVersionPurgerAdvisor::class);
     }
 
-    function it_implements_purger_interface()
+    public function it_implements_purger_interface()
     {
         $this->shouldImplement(VersionPurgerAdvisorInterface::class);
     }
 
-    function it_supports_versions_types_only()
+    public function it_supports_versions_types_only()
     {
         $versionList = new PurgeableVersionList('resource_name', [111, 666]);
         $this->supports($versionList)->shouldReturn(true);
     }
 
-    function it_advises_to_not_purge_the_last_version(
+    public function it_advises_to_not_purge_the_last_version(
         SqlGetAllButLastVersionIdsByIdsQuery $sqlGetAllButLastVersionIdsByIdsQuery
     ) {
         $versionList = new PurgeableVersionList('resource_name', [1, 2, 3, 4]);
@@ -40,7 +40,7 @@ class KeepLastVersionPurgerAdvisorSpec extends ObjectBehavior
         $this->isPurgeable($versionList)->shouldBeLike(new PurgeableVersionList('resource_name', [1, 2, 3]));
     }
 
-    function it_returns_no_version_when_all_are_last_version(
+    public function it_returns_no_version_when_all_are_last_version(
         SqlGetAllButLastVersionIdsByIdsQuery $sqlGetAllButLastVersionIdsByIdsQuery
     ) {
         $versionList = new PurgeableVersionList('resource_name', [1, 2, 3, 4]);

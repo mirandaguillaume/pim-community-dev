@@ -30,7 +30,7 @@ class RegisterFamilyFilter
                         'choices' => array_flip($this->familyRepository->execute($this->userContext->getCurrentLocaleCode())),
                     ],
                 ],
-            ]
+            ],
         ];
 
         $config = $event->getConfig();

@@ -96,7 +96,7 @@ class ProductGridFilterController
                 $formattedSystemFilters[] = [
                     'code' => $code,
                     'labels' => [$locale => $label],
-                    'group' => 'system'
+                    'group' => 'system',
                 ];
             }
         }

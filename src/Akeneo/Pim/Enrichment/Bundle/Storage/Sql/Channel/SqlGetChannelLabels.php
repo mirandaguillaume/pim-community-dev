@@ -33,14 +33,14 @@ final readonly class SqlGetChannelLabels implements GetChannelLabelsInterface
     public function forChannelCodes(array $channelCodes): array
     {
         $sql = <<<SQL
-SELECT
-   channel.code AS code,
-   trans.label AS label,
-   trans.locale AS locale
-FROM pim_catalog_channel channel
-INNER JOIN pim_catalog_channel_translation trans ON channel.id=trans.foreign_key
-WHERE channel.code IN (:channelCodes)
-SQL;
+            SELECT
+               channel.code AS code,
+               trans.label AS label,
+               trans.locale AS locale
+            FROM pim_catalog_channel channel
+            INNER JOIN pim_catalog_channel_translation trans ON channel.id=trans.foreign_key
+            WHERE channel.code IN (:channelCodes)
+            SQL;
         $rows = $this->connection->executeQuery(
             $sql,
             ['channelCodes' => $channelCodes],

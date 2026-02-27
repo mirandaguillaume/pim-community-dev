@@ -79,8 +79,8 @@ class AttributeRepository extends EntityRepository implements
             ->addSelect('attributeGroup.code');
 
         $qb
-            ->leftJoin($rootAlias .'.translations', 'translation', 'WITH', 'translation.locale = :localeCode')
-            ->leftJoin($rootAlias .'.group', 'attributeGroup')
+            ->leftJoin($rootAlias . '.translations', 'translation', 'WITH', 'translation.locale = :localeCode')
+            ->leftJoin($rootAlias . '.group', 'attributeGroup')
             ->leftJoin('attributeGroup.translations', 'gt', 'WITH', 'gt.locale = :localeCode');
 
         return $qb;

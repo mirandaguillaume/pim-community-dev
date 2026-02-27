@@ -36,8 +36,8 @@ class CategoryTree
     {
         $id = new CategoryId((int) $result['id']);
         $code = new Code($result['code']);
-        $labelCollection = $result['translations'] ?
-            LabelCollection::fromArray(
+        $labelCollection = $result['translations']
+            ? LabelCollection::fromArray(
                 json_decode($result['translations'], true, 512, JSON_THROW_ON_ERROR),
             ) : null;
 

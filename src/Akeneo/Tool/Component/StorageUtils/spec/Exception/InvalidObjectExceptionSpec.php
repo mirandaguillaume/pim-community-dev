@@ -7,7 +7,7 @@ use PhpSpec\ObjectBehavior;
 
 class InvalidObjectExceptionSpec extends ObjectBehavior
 {
-    function it_creates_an_immutable_property_exception()
+    public function it_creates_an_immutable_property_exception()
     {
         $exception = InvalidObjectException::objectExpected('stdClass', 'ProductInterface');
 

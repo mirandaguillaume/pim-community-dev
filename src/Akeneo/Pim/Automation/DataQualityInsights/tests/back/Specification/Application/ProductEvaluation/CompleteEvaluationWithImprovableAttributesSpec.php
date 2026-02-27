@@ -66,7 +66,8 @@ class CompleteEvaluationWithImprovableAttributesSpec extends ObjectBehavior
             ->addRate($channelCodeEcommerce, $localeCodeEn, new Rate(75))
             ->addMissingAttributes($channelCodeEcommerce, $localeCodeEn, ['title', 'meta_title'])
             ->addRate($channelCodeMobile, $localeCodeEn, new Rate(100))
-            ->addMissingAttributes($channelCodeMobile, $localeCodeEn, []);;
+            ->addMissingAttributes($channelCodeMobile, $localeCodeEn, []);
+        ;
 
         $calculateRequiredAttributesCompleteness->calculate($productUuid)->willReturn($requiredAttributesCompletenessResult);
         $calculateNonRequiredAttributesCompleteness->calculate($productUuid)->willReturn($nonRequiredAttributesCompletenessResult);
@@ -84,18 +85,18 @@ class CompleteEvaluationWithImprovableAttributesSpec extends ObjectBehavior
             'total_number_of_attributes' => 12,
             'attributes_with_rates' => [
                 'ecommerce' => [
-                    'en_US' => ['description' => 0, 'name' => 0]
+                    'en_US' => ['description' => 0, 'name' => 0],
                 ],
                 'mobile' => ['en_US' => []],
-            ]
+            ],
         ]);
 
         $completedRequiredCompletenessEvaluation->getResult()->getRates()->toArrayInt()->shouldBe([
             'ecommerce' => [
-                'en_US' => 80
+                'en_US' => 80,
             ],
             'mobile' => [
-                'en_US' =>100
+                'en_US' => 100,
             ],
         ]);
 
@@ -113,17 +114,17 @@ class CompleteEvaluationWithImprovableAttributesSpec extends ObjectBehavior
             'total_number_of_attributes' => 7,
             'attributes_with_rates' => [
                 'ecommerce' => [
-                    'en_US' => ['title' => 0, 'meta_title' => 0]
+                    'en_US' => ['title' => 0, 'meta_title' => 0],
                 ],
                 'mobile' => ['en_US' => []],
-            ]
+            ],
         ]);
         $completedNonRequiredCompletenessEvaluation->getResult()->getRates()->toArrayInt()->shouldBe([
             'ecommerce' => [
-                'en_US' => 75
+                'en_US' => 75,
             ],
             'mobile' => [
-                'en_US' =>100
+                'en_US' => 100,
             ],
         ]);
 
@@ -181,8 +182,8 @@ class CompleteEvaluationWithImprovableAttributesSpec extends ObjectBehavior
                 ],
                 "mobile" => [
                     "en_US" => [],
-                ]
-            ]
+                ],
+            ],
         ];
 
         return (new CriterionEvaluationCollection())
@@ -202,15 +203,16 @@ class CompleteEvaluationWithImprovableAttributesSpec extends ObjectBehavior
                 $completenessOfNonRequiredAttributesStatus,
                 ['total_number_of_attributes' => 7]
             ))
-            ->add($this->generateCriterionEvaluation(
-                $productId,
-                'consistency_spelling',
-                CriterionEvaluationStatus::DONE,
-                $evaluateSpellingRates,
-                $evaluateSpellingStatus,
-                $evaluateSpellingData
-            )
-        );
+            ->add(
+                $this->generateCriterionEvaluation(
+                    $productId,
+                    'consistency_spelling',
+                    CriterionEvaluationStatus::DONE,
+                    $evaluateSpellingRates,
+                    $evaluateSpellingStatus,
+                    $evaluateSpellingData
+                )
+            );
     }
 
     private function givenProductCriteriaEvaluationsWithoutCompleteness(ProductUuid $productId): CriterionEvaluationCollection
@@ -234,20 +236,21 @@ class CompleteEvaluationWithImprovableAttributesSpec extends ObjectBehavior
                 ],
                 "mobile" => [
                     "en_US" => [],
-                ]
-            ]
+                ],
+            ],
         ];
 
         return (new CriterionEvaluationCollection())
-            ->add($this->generateCriterionEvaluation(
-                $productId,
-                'consistency_spelling',
-                CriterionEvaluationStatus::DONE,
-                $evaluateSpellingRates,
-                $evaluateSpellingStatus,
-                $evaluateSpellingData
-            )
-        );
+            ->add(
+                $this->generateCriterionEvaluation(
+                    $productId,
+                    'consistency_spelling',
+                    CriterionEvaluationStatus::DONE,
+                    $evaluateSpellingRates,
+                    $evaluateSpellingStatus,
+                    $evaluateSpellingData
+                )
+            );
     }
 
     private function generateCriterionEvaluation(ProductUuid $productId, string $code, string $status, ChannelLocaleRateCollection $resultRates, CriterionEvaluationResultStatusCollection $resultStatusCollection, array $resultData)

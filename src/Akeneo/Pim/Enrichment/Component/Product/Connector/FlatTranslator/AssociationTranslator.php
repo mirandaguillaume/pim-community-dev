@@ -83,8 +83,8 @@ class AssociationTranslator
             $labelized = [];
 
             foreach ($codes as $code) {
-                $labelized[] = $translations[$code] ??
-                    sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $code);
+                $labelized[] = $translations[$code]
+                    ?? sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $code);
             }
 
             $result[$valueIndex] = implode(',', $labelized);

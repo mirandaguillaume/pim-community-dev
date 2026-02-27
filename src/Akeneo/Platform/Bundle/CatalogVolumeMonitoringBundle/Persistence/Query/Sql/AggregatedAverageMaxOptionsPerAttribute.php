@@ -29,9 +29,9 @@ class AggregatedAverageMaxOptionsPerAttribute implements AverageMaxQuery
     public function fetch(): AverageMaxVolumes
     {
         $sql = <<<SQL
-SELECT JSON_EXTRACT(volume, '$.value.max') AS max, JSON_EXTRACT(volume, '$.value.average') AS average
-FROM pim_aggregated_volume WHERE volume_name = :volumeName;
-SQL;
+            SELECT JSON_EXTRACT(volume, '$.value.max') AS max, JSON_EXTRACT(volume, '$.value.average') AS average
+            FROM pim_aggregated_volume WHERE volume_name = :volumeName;
+            SQL;
         $stmt = $this->connection->prepare($sql);
         $stmt->bindValue('volumeName', self::VOLUME_NAME, Types::STRING);
         $sqlResult = $stmt->executeQuery()->fetchAssociative();

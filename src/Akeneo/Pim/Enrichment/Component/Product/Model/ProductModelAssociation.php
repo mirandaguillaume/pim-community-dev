@@ -1,10 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Component\Product\Model;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * @author    Adrien Pétremann <adrien.petremann@akeneo.com>
  * @copyright 2018 Akeneo SAS (https://www.akeneo.com)
@@ -16,7 +18,6 @@ use Doctrine\DBAL\Types\Types;
 #[ORM\UniqueConstraint(name: 'locale_foreign_key_idx', columns: ['owner_id', 'association_type_id'])]
 class ProductModelAssociation extends AbstractAssociation implements ProductModelAssociationInterface
 {
-
     #[ORM\ManyToOne(targetEntity: \Akeneo\Pim\Structure\Component\Model\AssociationTypeInterface::class)]
     #[ORM\JoinColumn(name: 'association_type_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     protected $associationType;

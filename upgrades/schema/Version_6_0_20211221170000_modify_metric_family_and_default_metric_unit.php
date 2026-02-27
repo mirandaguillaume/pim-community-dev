@@ -27,13 +27,13 @@ final class Version_6_0_20211221170000_modify_metric_family_and_default_metric_u
     private function columnsAreModified(Schema $schema): bool
     {
         $sql = <<<SQL
-            SELECT DISTINCT COLUMN_NAME, CHARACTER_MAXIMUM_LENGTH
-            FROM information_schema.columns
-            WHERE TABLE_SCHEMA = :table_schema AND TABLE_NAME = 'pim_catalog_attribute' AND COLUMN_NAME IN ('metric_family', 'default_metric_unit')
-        SQL;
+                SELECT DISTINCT COLUMN_NAME, CHARACTER_MAXIMUM_LENGTH
+                FROM information_schema.columns
+                WHERE TABLE_SCHEMA = :table_schema AND TABLE_NAME = 'pim_catalog_attribute' AND COLUMN_NAME IN ('metric_family', 'default_metric_unit')
+            SQL;
 
         $result = $this->connection->executeQuery($sql, [
-            'table_schema' => $schema->getName()
+            'table_schema' => $schema->getName(),
         ])->fetchAllAssociative();
 
         return 100 === (int) $result[0]['CHARACTER_MAXIMUM_LENGTH'] && 100 === (int) $result[1]['CHARACTER_MAXIMUM_LENGTH'];

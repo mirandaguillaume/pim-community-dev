@@ -2,9 +2,9 @@
 
 namespace Akeneo\Pim\Structure\Component\Model;
 
-use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Product attribute, business code is in AttributeInterface, this class can be overriden in projects

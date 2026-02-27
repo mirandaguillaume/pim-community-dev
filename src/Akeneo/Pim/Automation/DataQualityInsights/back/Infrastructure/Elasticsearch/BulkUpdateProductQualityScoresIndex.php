@@ -66,9 +66,9 @@ class BulkUpdateProductQualityScoresIndex implements BulkUpdateProductQualitySco
                     'params' => [
                         'scores' => $qualityScores->allCriteria()->toArrayIntRank(),
                         'scores_partial_criteria' => $qualityScores->partialCriteria()->toArrayIntRank(),
-                        'key_indicators' => $keyIndicators
+                        'key_indicators' => $keyIndicators,
                     ],
-                ]
+                ],
             ];
         }
 

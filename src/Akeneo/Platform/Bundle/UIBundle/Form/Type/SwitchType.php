@@ -38,7 +38,7 @@ class SwitchType extends AbstractType
                     'size'           => 'small',
                     'data-on-label'  => 'switch_on',
                     'data-off-label' => 'switch_off',
-                ]
+                ],
             ]
         );
     }

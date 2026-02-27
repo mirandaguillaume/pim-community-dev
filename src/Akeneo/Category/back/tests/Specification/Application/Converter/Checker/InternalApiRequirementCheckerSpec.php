@@ -24,7 +24,7 @@ class InternalApiRequirementCheckerSpec extends ObjectBehavior
         $this->beConstructedWith($fieldsChecker, $attributeChecker);
     }
 
-    function it_is_initializable(): void
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(InternalApiRequirementChecker::class);
         $this->shouldImplement(RequirementChecker::class);
@@ -33,7 +33,7 @@ class InternalApiRequirementCheckerSpec extends ObjectBehavior
     public function it_should_throw_an_exception_when_key_properties_is_missing(): void
     {
         $data = [
-            'attributes' => []
+            'attributes' => [],
         ];
 
         $this
@@ -52,10 +52,11 @@ class InternalApiRequirementCheckerSpec extends ObjectBehavior
             ->duringCheck($data);
     }
 
-    public function it_should_call_all_checker($fieldsChecker, $attributeChecker): void {
+    public function it_should_call_all_checker($fieldsChecker, $attributeChecker): void
+    {
         $data = [
             'properties' => [],
-            'attributes' => []
+            'attributes' => [],
         ];
         $fieldsChecker->check($data['properties'])->shouldBeCalled();
         $attributeChecker->check($data['attributes'])->shouldBeCalled();

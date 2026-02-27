@@ -11,14 +11,14 @@ use Prophecy\Argument;
 
 class MappingsOverrideConfiguratorSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         EntityManagerInterface $em,
         Configuration $configuration
     ) {
         $em->getConfiguration()->willReturn($configuration);
     }
 
-    function it_configures_the_mappings_of_an_original_model_that_is_override($configuration)
+    public function it_configures_the_mappings_of_an_original_model_that_is_override($configuration)
     {
         $metadataInfo = new ClassMetadataInfo('Foo\Bar\OriginalQux');
         $metadataInfo->mapManyToMany(['fieldName' => 'relation1', 'targetEntity' => 'Foo']);
@@ -34,7 +34,7 @@ class MappingsOverrideConfiguratorSpec extends ObjectBehavior
         $this->configure($metadataInfo, $overrides, $configuration)->shouldBeAnOverrideModel();
     }
 
-    function it_configures_the_mappings_of_a_model_that_overrides_an_original_model(
+    public function it_configures_the_mappings_of_a_model_that_overrides_an_original_model(
         $configuration,
         ClassMetadataInfo $metadataInfo,
         MappingDriver $mappingDriver
@@ -70,15 +70,7 @@ class MappingsOverrideConfiguratorSpec extends ObjectBehavior
     }
 }
 
-class OriginalQux1
-{
-}
-class OriginalQux2
-{
-}
-class OverrideQux1 extends OriginalQux1
-{
-}
-class OverrideQux2 extends OriginalQux2
-{
-}
+class OriginalQux1 {}
+class OriginalQux2 {}
+class OverrideQux1 extends OriginalQux1 {}
+class OverrideQux2 extends OriginalQux2 {}

@@ -24,8 +24,7 @@ class EvaluateProductModelsSpec extends ObjectBehavior
         ConsolidateProductModelScores $consolidateProductScores,
         EventDispatcherInterface $eventDispatcher,
         LoggerInterface $logger
-    ): void
-    {
+    ): void {
         $this->beConstructedWith($evaluatePendingProductModelCriteria, $consolidateProductScores, $eventDispatcher, $logger);
     }
 

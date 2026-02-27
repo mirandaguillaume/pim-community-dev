@@ -19,7 +19,7 @@ class ValueConverterRegistry
      */
     public function register(ValueConverterInterface $converter, $priority)
     {
-        $priority = (int)$priority;
+        $priority = (int) $priority;
         if (!isset($this->converters[$priority])) {
             $this->converters[$priority] = $converter;
         } else {

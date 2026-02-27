@@ -21,7 +21,7 @@ class AkeneoVersioningExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('builders.yml');
         $loader->load('entities.yml');
         $loader->load('event_subscribers.yml');
@@ -36,7 +36,7 @@ class AkeneoVersioningExtension extends Extension
         $loader->load('jobs.yml');
         $loader->load('service_api.yml');
 
-        $file = __DIR__.'/../Resources/config/pim_versioning_entities.yml';
+        $file = __DIR__ . '/../Resources/config/pim_versioning_entities.yml';
         $entities = Yaml::parse(file_get_contents(realpath($file)));
         $container->setParameter('pim_versioning.versionable_entities', $entities['versionable']);
 
@@ -48,7 +48,7 @@ class AkeneoVersioningExtension extends Extension
      */
     protected function loadSerializerConfig(array $configs, ContainerBuilder $container)
     {
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/serializer'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config/serializer'));
         $loader->load('serializer.yml');
     }
 }

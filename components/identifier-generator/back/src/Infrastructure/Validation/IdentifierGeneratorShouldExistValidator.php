@@ -17,9 +17,7 @@ use Webmozart\Assert\Assert;
  */
 final class IdentifierGeneratorShouldExistValidator extends ConstraintValidator
 {
-    public function __construct(private readonly IdentifierGeneratorRepository $identifierGeneratorRepository)
-    {
-    }
+    public function __construct(private readonly IdentifierGeneratorRepository $identifierGeneratorRepository) {}
 
     public function validate($updateGeneratorCommand, Constraint $constraint): void
     {

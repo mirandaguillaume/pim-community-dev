@@ -11,13 +11,13 @@ use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 
 class DateFormatValidatorSpec extends ObjectBehavior
 {
-    function let(ExecutionContextInterface $context)
+    public function let(ExecutionContextInterface $context)
     {
         $this->beConstructedWith(new DateFactory([]));
         $this->initialize($context);
     }
 
-    function it_does_not_add_violation_null_value(
+    public function it_does_not_add_violation_null_value(
         $context,
         DateFormat $constraint,
     ) {
@@ -32,7 +32,7 @@ class DateFormatValidatorSpec extends ObjectBehavior
         $this->validate(null, $constraint)->shouldReturn(null);
     }
 
-    function it_does_not_add_violation_when_format_is_respected(
+    public function it_does_not_add_violation_when_format_is_respected(
         $context,
         DateFormat $constraint,
     ) {
@@ -55,7 +55,7 @@ class DateFormatValidatorSpec extends ObjectBehavior
         $this->validate($date, $constraint)->shouldReturn(null);
     }
 
-    function it_adds_violation_when_validating_format_is_not_respected(
+    public function it_adds_violation_when_validating_format_is_not_respected(
         $context,
         DateFormat $constraint,
         ConstraintViolationBuilderInterface $violation,
@@ -73,7 +73,7 @@ class DateFormatValidatorSpec extends ObjectBehavior
         $this->validate($date, $constraint);
     }
 
-    function it_adds_violation_when_separators_are_not_respected(
+    public function it_adds_violation_when_separators_are_not_respected(
         $context,
         DateFormat $constraint,
         ConstraintViolationBuilderInterface $violation,
@@ -91,7 +91,7 @@ class DateFormatValidatorSpec extends ObjectBehavior
         $this->validate($date, $constraint);
     }
 
-    function it_adds_violation_when_separators_with_letter_are_not_respected(
+    public function it_adds_violation_when_separators_with_letter_are_not_respected(
         $context,
         DateFormat $constraint,
         ConstraintViolationBuilderInterface $violation,

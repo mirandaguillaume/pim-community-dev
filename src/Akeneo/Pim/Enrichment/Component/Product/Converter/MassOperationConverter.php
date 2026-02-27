@@ -68,7 +68,7 @@ class MassOperationConverter implements ConverterInterface
             $values = $this->localizedConverter->convertToDefaultFormats(
                 $values,
                 [
-                    'locale' => $this->userContext->getUiLocale()->getCode()
+                    'locale' => $this->userContext->getUiLocale()->getCode(),
                 ]
             );
 

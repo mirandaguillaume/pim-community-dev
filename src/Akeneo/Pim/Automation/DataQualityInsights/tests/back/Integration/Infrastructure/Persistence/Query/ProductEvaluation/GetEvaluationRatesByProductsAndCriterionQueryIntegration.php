@@ -69,7 +69,7 @@ final class GetEvaluationRatesByProductsAndCriterionQueryIntegration extends Dat
             ],
             'mobile' => [
                 'en_US' => 76,
-            ]
+            ],
         ];
         $evaluationResults['spelling'] = $this->buildEvaluationResult($expectedRates);
         $evaluationResults['whatever'] = $this->buildEvaluationResult([
@@ -79,7 +79,7 @@ final class GetEvaluationRatesByProductsAndCriterionQueryIntegration extends Dat
             ],
             'mobile' => [
                 'en_US' => 42,
-            ]
+            ],
         ]);
 
         $this->saveEvaluationResults($product->getUuid(), $evaluationResults);
@@ -99,7 +99,7 @@ final class GetEvaluationRatesByProductsAndCriterionQueryIntegration extends Dat
             ],
             'mobile' => [
                 'en_US' => 0,
-            ]
+            ],
         ];
         $evaluationResults['spelling'] = $this->buildEvaluationResult($expectedRates);
 
@@ -120,7 +120,7 @@ final class GetEvaluationRatesByProductsAndCriterionQueryIntegration extends Dat
             ],
             'mobile' => [
                 'en_US' => 47,
-            ]
+            ],
         ]);
 
         $this->saveEvaluationResults($product->getUuid(), $evaluationResults);
@@ -130,10 +130,11 @@ final class GetEvaluationRatesByProductsAndCriterionQueryIntegration extends Dat
     {
         $product = $this->createProduct('not_evaluated_product');
 
-        $this->get('database_connection')->executeQuery(<<<SQL
-REPLACE INTO pim_data_quality_insights_product_criteria_evaluation (product_uuid, criterion_code, evaluated_at, status, result) 
-VALUES (:productUuid, :criterionCode, null, 'pending', null);
-SQL,
+        $this->get('database_connection')->executeQuery(
+            <<<SQL
+                REPLACE INTO pim_data_quality_insights_product_criteria_evaluation (product_uuid, criterion_code, evaluated_at, status, result) 
+                VALUES (:productUuid, :criterionCode, null, 'pending', null);
+                SQL,
             [
                 'productUuid' => $product->getUuid()->getBytes(),
                 'criterionCode' => $criterionCode,

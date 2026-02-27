@@ -12,13 +12,13 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\Audit\Install;
 final class CreateConnectionAuditTableQuery
 {
     public const QUERY = <<<SQL
-CREATE TABLE IF NOT EXISTS akeneo_connectivity_connection_audit_product(
-    connection_code VARCHAR(100) NOT NULL,
-    event_datetime DATETIME NOT NULL,
-    event_count INT NOT NULL,
-    event_type VARCHAR(100) NOT NULL,
-    updated DATETIME NOT NULL,
-    PRIMARY KEY (event_datetime, connection_code, event_type)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB ROW_FORMAT = DYNAMIC
-SQL;
+        CREATE TABLE IF NOT EXISTS akeneo_connectivity_connection_audit_product(
+            connection_code VARCHAR(100) NOT NULL,
+            event_datetime DATETIME NOT NULL,
+            event_count INT NOT NULL,
+            event_type VARCHAR(100) NOT NULL,
+            updated DATETIME NOT NULL,
+            PRIMARY KEY (event_datetime, connection_code, event_type)
+        ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB ROW_FORMAT = DYNAMIC
+        SQL;
 }

@@ -16,9 +16,9 @@ final readonly class GetAllBlacklistedAttributeCodes implements GetAllBlackliste
     public function execute(): array
     {
         $sql = <<<SQL
-SELECT attribute_code
-FROM `pim_catalog_attribute_blacklist`
-SQL;
+            SELECT attribute_code
+            FROM `pim_catalog_attribute_blacklist`
+            SQL;
 
         return $this->connection
             ->executeQuery($sql)

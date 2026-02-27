@@ -153,13 +153,13 @@ class AttributeRepository extends EntityRepository implements AttributeRepositor
                     'value' => [
                         new Type([
                             'type' => 'array',
-                            'message' => 'In order to search on attribute codes you must send an array of attribute codes as value, {{ givenType }} given.'
+                            'message' => 'In order to search on attribute codes you must send an array of attribute codes as value, {{ givenType }} given.',
                         ]),
                         new Assert\All([
-                            new Assert\Type('string')
-                        ])
+                            new Assert\Type('string'),
+                        ]),
                     ],
-                ])
+                ]),
             ]),
             'updated' => new Assert\All([
                 new Assert\Collection([
@@ -168,7 +168,7 @@ class AttributeRepository extends EntityRepository implements AttributeRepositor
                         'message' => 'Searching on the "updated" property require the ">" (greater than) operator, {{ compared_value }} given.',
                     ]),
                     'value' => new Assert\DateTime(['format' => \DateTime::ATOM]),
-                ])
+                ]),
             ]),
             'type' => new Assert\All(
                 new Assert\Collection([
@@ -179,11 +179,11 @@ class AttributeRepository extends EntityRepository implements AttributeRepositor
                     'value' => [
                         new Assert\Type([
                             'type' => 'array',
-                            'message' => 'In order to search on attribute types you must send an array of attribute types as value, {{ type }} given.'
+                            'message' => 'In order to search on attribute types you must send an array of attribute types as value, {{ type }} given.',
                         ]),
                         new Assert\All([
-                            new Assert\Type('string')
-                        ])
+                            new Assert\Type('string'),
+                        ]),
                     ],
                 ])
             ),

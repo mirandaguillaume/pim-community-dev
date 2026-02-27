@@ -53,7 +53,7 @@ class CompletenessFilter extends AbstractFieldFilter implements FieldFilterInter
 
         if (Operators::IS_EMPTY === $operator) {
             $clause = [
-                'exists' => ['field' => 'completeness']
+                'exists' => ['field' => 'completeness'],
             ];
             $this->searchQueryBuilder->addMustNot($clause);
 
@@ -134,8 +134,8 @@ class CompletenessFilter extends AbstractFieldFilter implements FieldFilterInter
                 case Operators::EQUALS_ON_AT_LEAST_ONE_LOCALE:
                     $clause = [
                         'term' => [
-                            $field => $value
-                        ]
+                            $field => $value,
+                        ],
                     ];
 
                     $shouldClauses[] = $clause;
@@ -145,9 +145,9 @@ class CompletenessFilter extends AbstractFieldFilter implements FieldFilterInter
                     $clause = [
                         'range' => [
                             $field => [
-                                'lt' => $value
-                            ]
-                        ]
+                                'lt' => $value,
+                            ],
+                        ],
                     ];
 
                     $shouldClauses[] = $clause;
@@ -156,9 +156,9 @@ class CompletenessFilter extends AbstractFieldFilter implements FieldFilterInter
                     $clause = [
                         'range' => [
                             $field => [
-                                'lt' => $value
-                            ]
-                        ]
+                                'lt' => $value,
+                            ],
+                        ],
                     ];
                     $this->searchQueryBuilder->addFilter($clause);
                     break;
@@ -167,9 +167,9 @@ class CompletenessFilter extends AbstractFieldFilter implements FieldFilterInter
                     $clause = [
                         'range' => [
                             $field => [
-                                'gt' => $value
-                            ]
-                        ]
+                                'gt' => $value,
+                            ],
+                        ],
                     ];
 
                     $shouldClauses[] = $clause;
@@ -178,9 +178,9 @@ class CompletenessFilter extends AbstractFieldFilter implements FieldFilterInter
                     $clause = [
                         'range' => [
                             $field => [
-                                'gt' => $value
-                            ]
-                        ]
+                                'gt' => $value,
+                            ],
+                        ],
                     ];
                     $this->searchQueryBuilder->addFilter($clause);
                     break;
@@ -189,9 +189,9 @@ class CompletenessFilter extends AbstractFieldFilter implements FieldFilterInter
                     $clause = [
                         'range' => [
                             $field => [
-                                'lte' => $value
-                            ]
-                        ]
+                                'lte' => $value,
+                            ],
+                        ],
                     ];
 
                     $shouldClauses[] = $clause;
@@ -200,9 +200,9 @@ class CompletenessFilter extends AbstractFieldFilter implements FieldFilterInter
                     $clause = [
                         'range' => [
                             $field => [
-                                'lte' => $value
-                            ]
-                        ]
+                                'lte' => $value,
+                            ],
+                        ],
                     ];
                     $this->searchQueryBuilder->addFilter($clause);
                     break;
@@ -211,9 +211,9 @@ class CompletenessFilter extends AbstractFieldFilter implements FieldFilterInter
                     $clause = [
                         'range' => [
                             $field => [
-                                'gte' => $value
-                            ]
-                        ]
+                                'gte' => $value,
+                            ],
+                        ],
                     ];
 
                     $shouldClauses[] = $clause;
@@ -222,9 +222,9 @@ class CompletenessFilter extends AbstractFieldFilter implements FieldFilterInter
                     $clause = [
                         'range' => [
                             $field => [
-                                'gte' => $value
-                            ]
-                        ]
+                                'gte' => $value,
+                            ],
+                        ],
                     ];
                     $this->searchQueryBuilder->addFilter($clause);
                     break;

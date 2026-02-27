@@ -28,7 +28,7 @@ class ReachRequestLimitLoggerSpec extends ObjectBehavior
             'message' => 'event subscription requests limit has been reached',
             'limit' => 666,
             'retry_after_seconds' => 90,
-            'limit_reset' => '2021-01-01T00:01:30+00:00'
+            'limit_reset' => '2021-01-01T00:01:30+00:00',
         ];
 
         $logger->info(\json_encode($expectedLog, JSON_THROW_ON_ERROR))->shouldBeCalled();

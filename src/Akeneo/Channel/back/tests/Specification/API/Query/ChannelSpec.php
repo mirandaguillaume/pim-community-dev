@@ -8,7 +8,7 @@ use PhpSpec\ObjectBehavior;
 
 class ChannelSpec extends ObjectBehavior
 {
-    function let()
+    public function let()
     {
         $this->beConstructedWith(
             'mobile',

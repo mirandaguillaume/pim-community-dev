@@ -35,19 +35,19 @@ class SqlGetProductUuids implements GetProductUuids
 
         $result = $this->connection->fetchAllAssociative(
             <<<SQL
-WITH main_identifier AS (
-    SELECT id
-    FROM pim_catalog_attribute
-    WHERE main_identifier = 1
-    LIMIT 1
-)
-SELECT BIN_TO_UUID(uuid) AS uuid, pim_catalog_product_unique_data.raw_data AS identifier
-FROM pim_catalog_product
-LEFT JOIN pim_catalog_product_unique_data
-    ON pim_catalog_product.uuid = pim_catalog_product_unique_data.product_uuid
-    AND pim_catalog_product_unique_data.attribute_id = (SELECT id FROM main_identifier)
-WHERE raw_data in (:identifiers)
-SQL,
+                WITH main_identifier AS (
+                    SELECT id
+                    FROM pim_catalog_attribute
+                    WHERE main_identifier = 1
+                    LIMIT 1
+                )
+                SELECT BIN_TO_UUID(uuid) AS uuid, pim_catalog_product_unique_data.raw_data AS identifier
+                FROM pim_catalog_product
+                LEFT JOIN pim_catalog_product_unique_data
+                    ON pim_catalog_product.uuid = pim_catalog_product_unique_data.product_uuid
+                    AND pim_catalog_product_unique_data.attribute_id = (SELECT id FROM main_identifier)
+                WHERE raw_data in (:identifiers)
+                SQL,
             ['identifiers' => $identifiers],
             ['identifiers' => ArrayParameterType::STRING]
         );

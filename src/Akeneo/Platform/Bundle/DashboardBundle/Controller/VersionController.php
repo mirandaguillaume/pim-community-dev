@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Platform\Bundle\DashboardBundle\Controller;
@@ -21,7 +22,7 @@ class VersionController
             'version' => $this->versionProvider->getFullVersion(),
             'is_last_patch_displayed' => $this->isLastPatchDisplayed(),
             'analytics_url' => $this->getAnalyticsUrl(),
-            'is_analytics_wanted' => ($this->versionProvider->getVersion() !== 'master')
+            'is_analytics_wanted' => ($this->versionProvider->getVersion() !== 'master'),
         ];
 
         return new JsonResponse($dashboardData);
@@ -39,7 +40,7 @@ class VersionController
 
     private function isLastPatchDisplayed(): bool
     {
-        return boolval($this->configManager->get('pim_analytics.version_update')) &&
-            1 === preg_match(self::GENERAL_AVAILABILITY_TAG_PATTERN, $this->versionProvider->getVersion());
+        return boolval($this->configManager->get('pim_analytics.version_update'))
+            && 1 === preg_match(self::GENERAL_AVAILABILITY_TAG_PATTERN, $this->versionProvider->getVersion());
     }
 }

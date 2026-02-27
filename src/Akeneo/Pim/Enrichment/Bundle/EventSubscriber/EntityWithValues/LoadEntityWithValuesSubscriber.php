@@ -33,7 +33,7 @@ final readonly class LoadEntityWithValuesSubscriber implements EventSubscriber
     public function getSubscribedEvents()
     {
         return [
-            Events::postLoad
+            Events::postLoad,
         ];
     }
 

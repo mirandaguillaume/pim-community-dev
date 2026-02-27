@@ -39,16 +39,16 @@ final class Version_7_0_20220722090828_remove_old_file_path_on_product_and_produ
     {
         $connection = $this->container->get('database_connection');
         $sql = <<<SQL
-SELECT id, raw_parameters
-FROM akeneo_batch_job_instance
-WHERE job_name IN (
-    'csv_product_quick_export',
-    'xlsx_product_grid_context_quick_export',
-    'xlsx_product_quick_export',
-    'csv_product_grid_context_quick_export'
-)
-AND type = 'quick_export'
-SQL;
+            SELECT id, raw_parameters
+            FROM akeneo_batch_job_instance
+            WHERE job_name IN (
+                'csv_product_quick_export',
+                'xlsx_product_grid_context_quick_export',
+                'xlsx_product_quick_export',
+                'csv_product_grid_context_quick_export'
+            )
+            AND type = 'quick_export'
+            SQL;
 
         $stmt = $connection->executeQuery($sql);
 
@@ -69,10 +69,10 @@ SQL;
     private function updateJobInstance(string $jobInstanceId, string $serializedRawParameters)
     {
         $sql = <<<SQL
-UPDATE akeneo_batch_job_instance
-SET raw_parameters = :raw_parameters
-WHERE id = :job_instance_id
-SQL;
+            UPDATE akeneo_batch_job_instance
+            SET raw_parameters = :raw_parameters
+            WHERE id = :job_instance_id
+            SQL;
 
         $this->addSql($sql, ['job_instance_id' => $jobInstanceId, 'raw_parameters' => $serializedRawParameters]);
     }

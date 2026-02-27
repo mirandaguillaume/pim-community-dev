@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Tests\Integration\Webhook;
@@ -30,11 +31,11 @@ class ProduceEventOnSingleProductUpdateIntegration extends TestCase
     public function test_the_single_product_update_event(): void
     {
         $this->productLoader->create('t-shirt', [
-            new SetEnabled(true)
+            new SetEnabled(true),
         ]);
 
         $this->productLoader->update('t-shirt', [
-            new SetEnabled(false)
+            new SetEnabled(false),
         ]);
 
         $this->assertEventCount(1, ProductUpdated::class);

@@ -34,7 +34,7 @@ class CalculateProductCompletenessSpec extends ObjectBehavior
     public function it_throws_exception_when_product_uuid_is_invalid()
     {
         $this->shouldThrow(\InvalidArgumentException::class)->during('calculate', [
-            new ProductModelId(42)
+            new ProductModelId(42),
         ]);
     }
 
@@ -45,25 +45,38 @@ class CalculateProductCompletenessSpec extends ObjectBehavior
         $productUuid = ProductUuid::fromString($uuid);
 
         $completenessCalculator->fromProductUuid(Uuid::fromString($uuid))->willReturn(new ProductCompletenessWithMissingAttributeCodesCollection(
-            $uuid, [
+            $uuid,
+            [
                 new ProductCompletenessWithMissingAttributeCodes(
-                    'ecommerce', 'en_US', 10, [
-                        'name', 'description', 'weight', 'height'
+                    'ecommerce',
+                    'en_US',
+                    10,
+                    [
+                        'name', 'description', 'weight', 'height',
                     ]
                 ),
                 new ProductCompletenessWithMissingAttributeCodes(
-                    'ecommerce', 'fr_FR', 10, [
-                        'name', 'description', 'weight', 'height', 'width', 'brand'
+                    'ecommerce',
+                    'fr_FR',
+                    10,
+                    [
+                        'name', 'description', 'weight', 'height', 'width', 'brand',
                     ]
                 ),
                 new ProductCompletenessWithMissingAttributeCodes(
-                    'print', 'en_US', 12, [
-                        'name', 'description', 'weight', 'height'
+                    'print',
+                    'en_US',
+                    12,
+                    [
+                        'name', 'description', 'weight', 'height',
                     ]
                 ),
                 new ProductCompletenessWithMissingAttributeCodes(
-                    'print', 'fr_FR', 10, [
-                        'name', 'description', 'weight', 'height', 'width', 'brand', 'color'
+                    'print',
+                    'fr_FR',
+                    10,
+                    [
+                        'name', 'description', 'weight', 'height', 'width', 'brand', 'color',
                     ]
                 ),
             ]

@@ -15,10 +15,9 @@ use PHPUnit\Framework\Assert;
  */
 final class Version_8_0_20230615085833_drop_product_identifiers_table_Integration extends TestCase
 {
+    use ExecuteMigrationTrait;
     private const MIGRATION_NAME = '_8_0_20230615085833_drop_product_identifiers_table';
     private const TABLE_NAME = 'pim_catalog_product_identifiers';
-
-    use ExecuteMigrationTrait;
 
     private Connection $connection;
 
@@ -33,7 +32,7 @@ final class Version_8_0_20230615085833_drop_product_identifiers_table_Integratio
      */
     public function it_removes_the_table(): void
     {
-        if(!$this->tableExists()) {
+        if (!$this->tableExists()) {
             $this->createTable();
         }
 
@@ -46,7 +45,7 @@ final class Version_8_0_20230615085833_drop_product_identifiers_table_Integratio
      */
     public function it_does_nothing_if_table_does_not_exist(): void
     {
-        if($this->tableExists()) {
+        if ($this->tableExists()) {
             $this->dropTable();
         }
 
@@ -62,34 +61,35 @@ final class Version_8_0_20230615085833_drop_product_identifiers_table_Integratio
     private function tableExists(): bool
     {
         return $this->connection->executeQuery(
-                'SHOW TABLES LIKE :tableName',
-                [
-                    'tableName' => self::TABLE_NAME,
-                ]
-            )->rowCount() >= 1;
+            'SHOW TABLES LIKE :tableName',
+            [
+                'tableName' => self::TABLE_NAME,
+            ]
+        )->rowCount() >= 1;
     }
 
     private function createTable(): void
     {
         $this->connection->executeStatement(
             <<<SQL
-            CREATE TABLE IF NOT EXISTS pim_catalog_product_identifiers(
-                product_uuid BINARY(16) NOT NULL PRIMARY KEY,
-                identifiers JSON NOT NULL DEFAULT (JSON_ARRAY()),
-                CONSTRAINT pim_catalog_product_identifiers_pim_catalog_product_uuid_fk
-                    FOREIGN KEY (product_uuid) REFERENCES `pim_catalog_product` (uuid)
-                        ON DELETE CASCADE,
-                INDEX idx_identifiers ( (CAST(identifiers AS CHAR(511) ARRAY)) )
-            )
-        SQL
+                    CREATE TABLE IF NOT EXISTS pim_catalog_product_identifiers(
+                        product_uuid BINARY(16) NOT NULL PRIMARY KEY,
+                        identifiers JSON NOT NULL DEFAULT (JSON_ARRAY()),
+                        CONSTRAINT pim_catalog_product_identifiers_pim_catalog_product_uuid_fk
+                            FOREIGN KEY (product_uuid) REFERENCES `pim_catalog_product` (uuid)
+                                ON DELETE CASCADE,
+                        INDEX idx_identifiers ( (CAST(identifiers AS CHAR(511) ARRAY)) )
+                    )
+                SQL
         );
     }
 
     private function dropTable(): void
     {
-        $this->connection->executeStatement(<<<SQL
-                DROP TABLE IF EXISTS :tableName
-            SQL,
+        $this->connection->executeStatement(
+            <<<SQL
+                    DROP TABLE IF EXISTS :tableName
+                SQL,
             ['tableName' => self::TABLE_NAME]
         );
     }

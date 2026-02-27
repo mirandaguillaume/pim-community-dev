@@ -38,11 +38,11 @@ class CategoryAuthorizationEndToEnd extends ApiTestCase
         $client->request('GET', '/api/rest/v1/categories');
 
         $expectedResponse = <<<JSON
-        {
-            "code": 403,
-            "message": "You are not allowed to access the web API."
-        }
-        JSON;
+            {
+                "code": 403,
+                "message": "You are not allowed to access the web API."
+            }
+            JSON;
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
@@ -68,11 +68,11 @@ class CategoryAuthorizationEndToEnd extends ApiTestCase
         $client->request('GET', '/api/rest/v1/categories');
 
         $expectedResponse = <<<JSON
-        {
-            "code": 403,
-            "message": "You are not allowed to access the web API."
-        }
-        JSON;
+            {
+                "code": 403,
+                "message": "You are not allowed to access the web API."
+            }
+            JSON;
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
@@ -98,11 +98,11 @@ class CategoryAuthorizationEndToEnd extends ApiTestCase
         $client->request('GET', '/api/rest/v1/categories/master');
 
         $expectedResponse = <<<JSON
-        {
-            "code": 403,
-            "message": "You are not allowed to access the web API."
-        }
-        JSON;
+            {
+                "code": 403,
+                "message": "You are not allowed to access the web API."
+            }
+            JSON;
 
         $response = $client->getResponse();
         $this->assertJsonStringEqualsJsonString($expectedResponse, $response->getContent());
@@ -115,10 +115,10 @@ class CategoryAuthorizationEndToEnd extends ApiTestCase
         $this->addRoleToUser('julia', self::$PIM_API_CATEGORY_EDIT_ROLE);
 
         $data = <<<JSON
-        {
-            "code": "new_category"
-        }
-        JSON;
+            {
+                "code": "new_category"
+            }
+            JSON;
 
         $client->request('POST', '/api/rest/v1/categories', [], [], [], $data);
 
@@ -131,19 +131,19 @@ class CategoryAuthorizationEndToEnd extends ApiTestCase
         $client = $this->createAuthenticatedClient(username: 'julia', password: 'julia');
 
         $data = <<<JSON
-        {
-            "code": "super_new_category"
-        }
-        JSON;
+            {
+                "code": "super_new_category"
+            }
+            JSON;
 
         $client->request('POST', '/api/rest/v1/categories', [], [], [], $data);
 
         $expectedResponse = <<<JSON
-        {
-            "code": 403,
-            "message": "You are not allowed to access the web API."
-        }
-        JSON;
+            {
+                "code": 403,
+                "message": "You are not allowed to access the web API."
+            }
+            JSON;
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
@@ -174,11 +174,11 @@ class CategoryAuthorizationEndToEnd extends ApiTestCase
         $client->request('PATCH', '/api/rest/v1/categories/master', [], [], [], $data);
 
         $expectedResponse = <<<JSON
-        {
-            "code": 403,
-            "message": "You are not allowed to access the web API."
-        }
-        JSON;
+            {
+                "code": 403,
+                "message": "You are not allowed to access the web API."
+            }
+            JSON;
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
@@ -191,8 +191,8 @@ class CategoryAuthorizationEndToEnd extends ApiTestCase
         $client->setServerParameter('CONTENT_TYPE', StreamResourceResponse::CONTENT_TYPE);
 
         $data = <<<JSON
-        {"code": "a_category"}
-        JSON;
+            {"code": "a_category"}
+            JSON;
 
         ob_start(fn () => '');
         $client->request('PATCH', '/api/rest/v1/categories', [], [], [], $data);
@@ -208,18 +208,18 @@ class CategoryAuthorizationEndToEnd extends ApiTestCase
         $client->setServerParameter('CONTENT_TYPE', StreamResourceResponse::CONTENT_TYPE);
 
         $data = <<<JSON
-        {"code": "a_category"}
-        JSON;
+            {"code": "a_category"}
+            JSON;
         ob_start(fn () => '');
         $client->request('PATCH', '/api/rest/v1/categories', [], [], [], $data);
         ob_end_flush();
 
         $expectedResponse = <<<JSON
-        {
-            "code": 403,
-            "message": "You are not allowed to access the web API."
-        }
-        JSON;
+            {
+                "code": 403,
+                "message": "You are not allowed to access the web API."
+            }
+            JSON;
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);

@@ -115,8 +115,8 @@ final class MigrateToUuidReindexElasticsearch implements MigrateToUuidStep
         return $this->esClient->search([
             'query' => [
                 'regexp' => [
-                    'id' => ['value' => 'product_[0-9]+']
-                ]
+                    'id' => ['value' => 'product_[0-9]+'],
+                ],
             ],
             'fields' => ['id', 'identifier'],
             '_source' => false,

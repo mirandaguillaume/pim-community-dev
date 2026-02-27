@@ -111,7 +111,7 @@ class MeasurementFamilyRepositoryIntegration extends SqlIntegrationTestCase
         $measurementFamilies = $this->repository->all();
         $this->assertEquals(
             ['Area', 'Binary'],
-            array_map(static fn (MeasurementFamily $measurementFamily) => $measurementFamily->normalize()['code'], $measurementFamilies)
+            array_map(static fn(MeasurementFamily $measurementFamily) => $measurementFamily->normalize()['code'], $measurementFamilies)
         );
 
         $this->repository->deleteByCode(MeasurementFamilyCode::fromString('Area'));
@@ -119,7 +119,7 @@ class MeasurementFamilyRepositoryIntegration extends SqlIntegrationTestCase
         $measurementFamilies = $this->repository->all();
         $this->assertEquals(
             ['Binary'],
-            array_map(static fn (MeasurementFamily $measurementFamily) => $measurementFamily->normalize()['code'], $measurementFamilies)
+            array_map(static fn(MeasurementFamily $measurementFamily) => $measurementFamily->normalize()['code'], $measurementFamilies)
         );
     }
 
@@ -166,7 +166,7 @@ class MeasurementFamilyRepositoryIntegration extends SqlIntegrationTestCase
                     LabelCollection::fromArray(["en_US" => "Square centimeter", "fr_FR" => "Centimètre carré"]),
                     [Operation::create("mul", "0.0001")],
                     "cm²",
-                )
+                ),
             ]
         );
     }
@@ -174,12 +174,12 @@ class MeasurementFamilyRepositoryIntegration extends SqlIntegrationTestCase
     private function loadSomeMeasurements(): void
     {
         $sql = <<<SQL
-TRUNCATE TABLE `akeneo_measurement`;
-INSERT INTO `akeneo_measurement` (`code`, `labels`, `standard_unit`, `units`)
-VALUES
-	('Area', '{\"en_US\": \"Area\", \"fr_FR\": \"Surface\"}', 'SQUARE_MILLIMETER', '[{\"code\": \"SQUARE_MILLIMETER\", \"labels\": {\"en_US\": \"Square millimeter\", \"fr_FR\": \"Millimètre carré\"}, \"symbol\": \"mm²\", \"convert_from_standard\": [{\"value\": \"1\", \"operator\": \"mul\"}]}, {\"code\": \"SQUARE_CENTIMETER\", \"labels\": {\"en_US\": \"Square centimeter\", \"fr_FR\": \"Centimètre carré\"}, \"symbol\": \"cm²\", \"convert_from_standard\": [{\"value\": \"0.0001\", \"operator\": \"mul\"}]}]'),
-	('Binary', '{\"en_US\": \"Binary\", \"fr_FR\": \"Binaire\"}', 'BYTE', '[{\"code\": \"BIT\", \"labels\": {\"en_US\": \"Bit\", \"fr_FR\": \"Bit\"}, \"symbol\": \"b\", \"convert_from_standard\": [{\"value\": \"1\", \"operator\": \"mul\"}]}, {\"code\": \"BYTE\", \"labels\": {\"en_US\": \"Byte\", \"fr_FR\": \"Octet\"}, \"symbol\": \"B\", \"convert_from_standard\": [{\"value\": \"1\", \"operator\": \"mul\"}]}]');
-SQL;
+            TRUNCATE TABLE `akeneo_measurement`;
+            INSERT INTO `akeneo_measurement` (`code`, `labels`, `standard_unit`, `units`)
+            VALUES
+            	('Area', '{\"en_US\": \"Area\", \"fr_FR\": \"Surface\"}', 'SQUARE_MILLIMETER', '[{\"code\": \"SQUARE_MILLIMETER\", \"labels\": {\"en_US\": \"Square millimeter\", \"fr_FR\": \"Millimètre carré\"}, \"symbol\": \"mm²\", \"convert_from_standard\": [{\"value\": \"1\", \"operator\": \"mul\"}]}, {\"code\": \"SQUARE_CENTIMETER\", \"labels\": {\"en_US\": \"Square centimeter\", \"fr_FR\": \"Centimètre carré\"}, \"symbol\": \"cm²\", \"convert_from_standard\": [{\"value\": \"0.0001\", \"operator\": \"mul\"}]}]'),
+            	('Binary', '{\"en_US\": \"Binary\", \"fr_FR\": \"Binaire\"}', 'BYTE', '[{\"code\": \"BIT\", \"labels\": {\"en_US\": \"Bit\", \"fr_FR\": \"Bit\"}, \"symbol\": \"b\", \"convert_from_standard\": [{\"value\": \"1\", \"operator\": \"mul\"}]}, {\"code\": \"BYTE\", \"labels\": {\"en_US\": \"Byte\", \"fr_FR\": \"Octet\"}, \"symbol\": \"B\", \"convert_from_standard\": [{\"value\": \"1\", \"operator\": \"mul\"}]}]');
+            SQL;
         $this->connection->executeQuery($sql);
     }
 }

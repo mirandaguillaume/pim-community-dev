@@ -54,9 +54,9 @@ class Version_6_0_20210101000000_fix_json_columns_Integration extends TestCase
         $isNullable = ('YES' === $definition['IS_NULLABLE']);
 
         $sql = <<<SQL
-        ALTER TABLE %s
-        MODIFY %s json %s COMMENT "(DC2Type:json_array)"
-SQL;
+                    ALTER TABLE %s
+                    MODIFY %s json %s COMMENT "(DC2Type:json_array)"
+            SQL;
 
         $this->getConnection()->executeStatement(sprintf(
             $sql,
@@ -88,17 +88,17 @@ SQL;
 
     private function getAffectedColumnDefinitions(): array
     {
-        return array_map(fn ($col) => $this->getColumnDefinition(...$col), self::AFFECTED_COLUMNS);
+        return array_map(fn($col) => $this->getColumnDefinition(...$col), self::AFFECTED_COLUMNS);
     }
 
     private function getColumnDefinition(string $table, string $column): array
     {
         $sql = <<<SQL
-        SELECT * FROM information_schema.COLUMNS
-        WHERE TABLE_SCHEMA=DATABASE()
-        AND TABLE_NAME=:table_name
-        AND COLUMN_NAME=:column_name;
-SQL;
+                    SELECT * FROM information_schema.COLUMNS
+                    WHERE TABLE_SCHEMA=DATABASE()
+                    AND TABLE_NAME=:table_name
+                    AND COLUMN_NAME=:column_name;
+            SQL;
         return $this->getConnection()
             ->executeQuery($sql, [
                 'table_name' => $table,

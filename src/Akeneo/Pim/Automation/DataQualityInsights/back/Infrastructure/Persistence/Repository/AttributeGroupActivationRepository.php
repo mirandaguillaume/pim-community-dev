@@ -22,10 +22,10 @@ final class AttributeGroupActivationRepository implements AttributeGroupActivati
     public function save(AttributeGroupActivation $attributeGroupActivation): void
     {
         $query = <<<SQL
-INSERT INTO pim_data_quality_insights_attribute_group_activation (attribute_group_code, activated, updated_at) 
-VALUES (:attributeGroupCode, :activated, NOW())
-ON DUPLICATE KEY UPDATE activated = :activated, updated_at = NOW();
-SQL;
+            INSERT INTO pim_data_quality_insights_attribute_group_activation (attribute_group_code, activated, updated_at) 
+            VALUES (:attributeGroupCode, :activated, NOW())
+            ON DUPLICATE KEY UPDATE activated = :activated, updated_at = NOW();
+            SQL;
 
         $this->dbConnection->executeQuery(
             $query,
@@ -43,8 +43,8 @@ SQL;
     public function remove(AttributeGroupCode $attributeGroupCode): void
     {
         $query = <<<SQL
-DELETE FROM pim_data_quality_insights_attribute_group_activation WHERE attribute_group_code = :attributeGroupCode;
-SQL;
+            DELETE FROM pim_data_quality_insights_attribute_group_activation WHERE attribute_group_code = :attributeGroupCode;
+            SQL;
 
         $this->dbConnection->executeQuery($query, ['attributeGroupCode' => $attributeGroupCode]);
     }
@@ -52,10 +52,10 @@ SQL;
     public function getForAttributeGroupCode(AttributeGroupCode $attributeGroupCode): ?AttributeGroupActivation
     {
         $query = <<<SQL
-SELECT attribute_group_code, activated
-FROM pim_data_quality_insights_attribute_group_activation
-WHERE attribute_group_code = :attribute_group_code
-SQL;
+            SELECT attribute_group_code, activated
+            FROM pim_data_quality_insights_attribute_group_activation
+            WHERE attribute_group_code = :attribute_group_code
+            SQL;
 
         $row = $this->dbConnection
             ->executeQuery($query, ['attribute_group_code' => (string) $attributeGroupCode])

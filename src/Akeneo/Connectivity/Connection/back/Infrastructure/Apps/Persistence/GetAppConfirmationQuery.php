@@ -24,15 +24,15 @@ final readonly class GetAppConfirmationQuery implements GetAppConfirmationQueryI
     public function execute(string $marketplaceAppId): ?AppConfirmation
     {
         $query = <<<SQL
-SELECT akeneo_connectivity_connected_app.id as app_id,
-       akeneo_connectivity_connection.user_id as user_id,
-       akeneo_connectivity_connected_app.user_group_name as user_group,
-       pim_api_client.id as fos_client_id
-FROM pim_api_client
-JOIN akeneo_connectivity_connection on pim_api_client.id = akeneo_connectivity_connection.client_id
-JOIN akeneo_connectivity_connected_app on akeneo_connectivity_connection.code = akeneo_connectivity_connected_app.connection_code
-WHERE pim_api_client.marketplace_public_app_id = :marketplace_public_app_id
-SQL;
+            SELECT akeneo_connectivity_connected_app.id as app_id,
+                   akeneo_connectivity_connection.user_id as user_id,
+                   akeneo_connectivity_connected_app.user_group_name as user_group,
+                   pim_api_client.id as fos_client_id
+            FROM pim_api_client
+            JOIN akeneo_connectivity_connection on pim_api_client.id = akeneo_connectivity_connection.client_id
+            JOIN akeneo_connectivity_connected_app on akeneo_connectivity_connection.code = akeneo_connectivity_connected_app.connection_code
+            WHERE pim_api_client.marketplace_public_app_id = :marketplace_public_app_id
+            SQL;
 
         $rows = $this->connection->fetchAllAssociative($query, [
             'marketplace_public_app_id' => $marketplaceAppId,

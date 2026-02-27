@@ -21,11 +21,11 @@ final readonly class GetAccessTokenQuery implements GetAccessTokenQueryInterface
     public function execute(string $appId, string $scopes): ?string
     {
         $query = <<<SQL
-        SELECT token.token
-        FROM pim_api_access_token as token
-        JOIN pim_api_client as client ON token.client = client.id AND client.marketplace_public_app_id = :app_id
-        WHERE token.scope = :scopes
-        SQL;
+            SELECT token.token
+            FROM pim_api_access_token as token
+            JOIN pim_api_client as client ON token.client = client.id AND client.marketplace_public_app_id = :app_id
+            WHERE token.scope = :scopes
+            SQL;
 
         $token = $this->connection->fetchOne(
             $query,

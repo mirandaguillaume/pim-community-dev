@@ -11,10 +11,10 @@ class CommandResultSpec extends ObjectBehavior
     /** @var array */
     protected $ouput = [
         'foo' => 'bar',
-        'baz' => 'snafu'
+        'baz' => 'snafu',
     ];
 
-    function let()
+    public function let()
     {
         $this->beConstructedWith($this->ouput, 0);
     }

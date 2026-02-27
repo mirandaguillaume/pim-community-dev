@@ -21,10 +21,10 @@ class DeactivateTemplateSql implements DeactivateTemplate
     public function execute(TemplateUuid $uuid): void
     {
         $query = <<< SQL
-            UPDATE pim_catalog_category_template 
-            SET is_deactivated = true
-            WHERE uuid = :template_uuid
-        SQL;
+                UPDATE pim_catalog_category_template 
+                SET is_deactivated = true
+                WHERE uuid = :template_uuid
+            SQL;
 
         $this->connection->executeQuery(
             $query,

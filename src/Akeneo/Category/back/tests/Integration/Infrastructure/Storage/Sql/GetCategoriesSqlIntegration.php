@@ -32,23 +32,23 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
             'code' => 'socks',
             'labels' => [
                 'fr_FR' => 'Chaussettes',
-                'en_US' => 'Socks'
-            ]
+                'en_US' => 'Socks',
+            ],
         ]);
 
         $this->categoryShoes = $this->createCategory([
             'code' => 'shoes',
             'labels' => [
                 'fr_FR' => 'Chaussures',
-                'en_US' => 'Shoes'
-            ]
+                'en_US' => 'Shoes',
+            ],
         ]);
 
         $this->createCategory([
             'code' => 'boots',
             'labels' => [
                 'fr_FR' => 'Bottes',
-                'en_US' => 'Boots'
+                'en_US' => 'Boots',
             ],
             'parent' => $this->categoryShoes->getCode(),
         ]);
@@ -57,7 +57,7 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
             'code' => 'sandals',
             'labels' => [
                 'fr_FR' => 'Sandales',
-                'en_US' => 'Sandals'
+                'en_US' => 'Sandals',
             ],
             'parent' => $this->categoryShoes->getCode(),
         ]);
@@ -66,7 +66,7 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
             'code' => 'slippers',
             'labels' => [
                 'fr_FR' => 'Pantoufles',
-                'en_US' => 'Slippers'
+                'en_US' => 'Slippers',
             ],
             'parent' => $this->categoryShoes->getCode(),
         ]);
@@ -75,8 +75,8 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
             'code' => 'pants',
             'labels' => [
                 'fr_FR' => 'Pantalons',
-                'en_US' => 'Pants'
-            ]
+                'en_US' => 'Pants',
+            ],
         ]);
     }
 
@@ -164,14 +164,14 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
         $this->assertEqualsCanonicalizing(
             [
                 'fr_FR' => 'Chaussures',
-                'en_US' => 'Shoes'
+                'en_US' => 'Shoes',
             ],
             $shoesCategory->getLabels()
         );
         $this->assertEqualsCanonicalizing(
             [
                 'fr_FR' => 'Chaussettes',
-                'en_US' => 'Socks'
+                'en_US' => 'Socks',
             ],
             $socksCategory->getLabels()
         );
@@ -289,7 +289,7 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
             code: "myChildCategory",
             labels: [
                 'fr_FR' => 'Ma categorie enfant',
-                'en_US' => 'My child category'
+                'en_US' => 'My child category',
             ],
             parentId: $parentCategory->getId()?->getValue(),
             rootId: $parentCategory->getId()?->getValue(),
@@ -336,7 +336,7 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
             code: "myChildCategory",
             labels: [
                 'fr_FR' => 'Ma categorie enfant',
-                'en_US' => 'My child category'
+                'en_US' => 'My child category',
             ],
             parentId: $parentCategory->getId()?->getValue(),
             rootId: $parentCategory->getId()?->getValue(),
@@ -348,7 +348,7 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
             code: "mySecondChildCategory",
             labels: [
                 'fr_FR' => 'Ma seconde categorie enfant',
-                'en_US' => 'My second child category'
+                'en_US' => 'My second child category',
             ],
             parentId: $parentCategory->getId()?->getValue(),
             rootId: $parentCategory->getId()?->getValue(),
@@ -467,7 +467,7 @@ class GetCategoriesSqlIntegration extends CategoryTestCase
         $this->assertEqualsCanonicalizing(
             [
                 'fr_FR' => 'Chaussures',
-                'en_US' => 'Shoes'
+                'en_US' => 'Shoes',
             ],
             $shoesCategory->getLabels()
         );

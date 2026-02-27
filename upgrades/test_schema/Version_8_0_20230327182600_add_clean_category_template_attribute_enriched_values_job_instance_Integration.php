@@ -15,9 +15,8 @@ use PHPUnit\Framework\Assert;
  */
 final class Version_8_0_20230327182600_add_clean_category_template_attribute_enriched_values_job_instance_Integration extends TestCase
 {
-    private const MIGRATION_NAME = '_8_0_20230327182600_add_clean_category_template_attribute_enriched_values_job_instance';
-
     use ExecuteMigrationTrait;
+    private const MIGRATION_NAME = '_8_0_20230327182600_add_clean_category_template_attribute_enriched_values_job_instance';
 
     private Connection $connection;
 
@@ -38,8 +37,8 @@ final class Version_8_0_20230327182600_add_clean_category_template_attribute_enr
     {
         $this->connection->executeStatement(
             <<<SQL
-            DELETE FROM akeneo_batch_job_instance WHERE code = 'clean_category_attribute_and_enriched_values';
-            SQL
+                DELETE FROM akeneo_batch_job_instance WHERE code = 'clean_category_attribute_and_enriched_values';
+                SQL
         );
         Assert::assertFalse($this->jobInstanceExists());
         $this->reExecuteMigration(self::MIGRATION_NAME);
@@ -55,10 +54,10 @@ final class Version_8_0_20230327182600_add_clean_category_template_attribute_enr
     {
         return (bool) $this->connection->fetchOne(
             <<<SQL
-            SELECT EXISTS(
-                SELECT * FROM akeneo_batch_job_instance WHERE code = 'clean_category_attribute_and_enriched_values'
-            );
-            SQL
+                SELECT EXISTS(
+                    SELECT * FROM akeneo_batch_job_instance WHERE code = 'clean_category_attribute_and_enriched_values'
+                );
+                SQL
         );
     }
 }

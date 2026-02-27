@@ -30,7 +30,7 @@ final readonly class ValidatePagination
             'pagination_type' => $paginationType,
             'limit' => $limit,
             'page' => $page,
-            'with_count' => $withCount
+            'with_count' => $withCount,
         ];
 
         try {

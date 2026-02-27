@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Connector\JobLauncher;
 
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Exception\AnotherJobStillRunningException;
@@ -61,7 +60,7 @@ final readonly class RunUniqueProcessJob
                 'message' => 'job_execution_failed',
                 'job_id' => $jobExecutionMessage->getJobExecutionId(),
                 'error_message' => $e->getMessage(),
-                'error_trace' => $e->getTraceAsString()
+                'error_trace' => $e->getTraceAsString(),
             ]);
         } finally {
             // update status if the job execution failed due to an uncaught error as a fatal error
@@ -84,7 +83,7 @@ final readonly class RunUniqueProcessJob
             $console,
             'akeneo:batch:job',
             $jobInstance->getCode(),
-            $jobExecution->getId()
+            $jobExecution->getId(),
         ]);
         $process->setTimeout(null);
 
@@ -107,7 +106,7 @@ final readonly class RunUniqueProcessJob
             ->getRepository(JobExecution::class)
             ->findOneBy([
                 'jobInstance' => $jobInstance->getId(),
-                'exitCode' => [ExitStatus::EXECUTING, ExitStatus::UNKNOWN]
+                'exitCode' => [ExitStatus::EXECUTING, ExitStatus::UNKNOWN],
             ]);
 
         if (null === $jobExecutionRunning) {

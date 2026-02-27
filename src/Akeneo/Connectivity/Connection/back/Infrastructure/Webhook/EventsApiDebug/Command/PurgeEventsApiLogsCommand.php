@@ -36,7 +36,7 @@ class PurgeEventsApiLogsCommand extends Command
             $this->purgeSuccessLogsQuery->execute();
             $this->purgeErrorLogsQuery->execute((new \DateTimeImmutable('now', new \DateTimeZone('UTC')))
                 ->sub(new \DateInterval('PT72H')));
-        } catch (Missing404Exception | NoNodesAvailableException $ex) {
+        } catch (Missing404Exception|NoNodesAvailableException $ex) {
             $this->logger->warning('Elasticsearch is unavailable', ['exception' => $ex]);
 
             return Command::FAILURE;

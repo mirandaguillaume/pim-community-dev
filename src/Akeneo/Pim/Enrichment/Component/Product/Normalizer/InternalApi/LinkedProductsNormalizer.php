@@ -43,7 +43,7 @@ class LinkedProductsNormalizer
         $childrenCompleteness = $row->childrenCompleteness();
         return [
             'completeChildren' => $childrenCompleteness['complete'],
-            'totalChildren'    => $childrenCompleteness['total']
+            'totalChildren'    => $childrenCompleteness['total'],
         ];
     }
 }

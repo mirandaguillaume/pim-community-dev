@@ -22,7 +22,7 @@ class QueryBuilderUtility
         $parameters = $qb->getParameters();
         $dql = $qb->getDQL();
         foreach ($parameters as $parameter) {
-            if (!str_contains($dql, ':'.$parameter->getName())) {
+            if (!str_contains($dql, ':' . $parameter->getName())) {
                 $parameters->removeElement($parameter);
             }
         }

@@ -32,9 +32,9 @@ class CountImpactedProducts
         // ALL minus SOME
         if ($this->areSomeRowsUnselected($filters)) {
             return
-                $this->countAllProducts($filters) -
-                $this->countUnSelectedProducts($filters) -
-                $this->countProductsInsideUnSelectedProductModels($filters);
+                $this->countAllProducts($filters)
+                - $this->countUnSelectedProducts($filters)
+                - $this->countProductsInsideUnSelectedProductModels($filters);
         }
 
         // SOME
@@ -136,12 +136,12 @@ class CountImpactedProducts
                     'should' => [
                         [
                             'terms' => [
-                                'attributes_for_this_level' => $attributeCodesWithIsEmptyOperator
+                                'attributes_for_this_level' => $attributeCodesWithIsEmptyOperator,
                             ],
                         ],
                         [
                             'terms' => [
-                                'attributes_of_ancestors' => $attributeCodesWithIsEmptyOperator
+                                'attributes_of_ancestors' => $attributeCodesWithIsEmptyOperator,
                             ],
                         ],
                     ],
@@ -259,11 +259,11 @@ class CountImpactedProducts
                 $operator = $filter['operator'];
 
                 return
-                    'attribute' === $filter['type'] &&
-                    (
-                        Operators::IS_EMPTY === $operator ||
-                        Operators::IS_EMPTY_FOR_CURRENCY === $operator ||
-                        Operators::IS_EMPTY_ON_ALL_CURRENCIES === $operator
+                    'attribute' === $filter['type']
+                    && (
+                        Operators::IS_EMPTY === $operator
+                        || Operators::IS_EMPTY_FOR_CURRENCY === $operator
+                        || Operators::IS_EMPTY_ON_ALL_CURRENCIES === $operator
                     );
             }
         );

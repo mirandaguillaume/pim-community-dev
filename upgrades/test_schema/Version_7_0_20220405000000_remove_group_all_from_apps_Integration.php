@@ -52,12 +52,12 @@ class Version_7_0_20220405000000_remove_group_all_from_apps_Integration extends 
     private function assertUserHasGroups(string $username, array $expectedGroups): void
     {
         $query = <<<SQL
-SELECT oro_access_group.name
-FROM oro_access_group
-JOIN oro_user_access_group on oro_access_group.id = oro_user_access_group.group_id
-JOIN oro_user on oro_user_access_group.user_id = oro_user.id
-WHERE oro_user.username = :username
-SQL;
+            SELECT oro_access_group.name
+            FROM oro_access_group
+            JOIN oro_user_access_group on oro_access_group.id = oro_user_access_group.group_id
+            JOIN oro_user on oro_user_access_group.user_id = oro_user.id
+            WHERE oro_user.username = :username
+            SQL;
         $groups = $this->connection->fetchFirstColumn($query, [
             'username' => $username,
         ]);
@@ -74,9 +74,9 @@ SQL;
         $userId = $this->insertUser($code);
 
         $query = <<<SQL
-INSERT INTO akeneo_connectivity_connection (client_id, user_id, code, type, label)
-VALUES (:client, :user, :code, :type, '')
-SQL;
+            INSERT INTO akeneo_connectivity_connection (client_id, user_id, code, type, label)
+            VALUES (:client, :user, :code, :type, '')
+            SQL;
 
         $this->connection->executeQuery($query, [
             'client' => $oauthClientId,
@@ -89,9 +89,9 @@ SQL;
     private function insertUser(string $username): int
     {
         $query = <<<SQL
-INSERT INTO oro_user (ui_locale_id, username, email, salt, password, createdAt, updatedAt, timezone, properties)
-VALUES ((SELECT id FROM pim_catalog_locale WHERE code = 'en_US'), :username, :username, '', '', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'UTC', '{}')
-SQL;
+            INSERT INTO oro_user (ui_locale_id, username, email, salt, password, createdAt, updatedAt, timezone, properties)
+            VALUES ((SELECT id FROM pim_catalog_locale WHERE code = 'en_US'), :username, :username, '', '', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'UTC', '{}')
+            SQL;
 
         $this->connection->executeQuery($query, [
             'username' => $username,
@@ -107,9 +107,9 @@ SQL;
     private function addUserToGroups(int $uid, array $groups): void
     {
         $query = <<<SQL
-INSERT INTO oro_user_access_group (user_id, group_id)
-VALUES (:user, (SELECT id FROM oro_access_group WHERE name = :group))
-SQL;
+            INSERT INTO oro_user_access_group (user_id, group_id)
+            VALUES (:user, (SELECT id FROM oro_access_group WHERE name = :group))
+            SQL;
 
         foreach ($groups as $group) {
             $this->connection->executeQuery($query, [
@@ -122,9 +122,9 @@ SQL;
     private function insertOAuthClient(): int
     {
         $query = <<<SQL
-INSERT INTO pim_api_client (random_id, redirect_uris, secret, allowed_grant_types)
-VALUES (:random, 'a:0:{}', :random, 'a:0:{}')
-SQL;
+            INSERT INTO pim_api_client (random_id, redirect_uris, secret, allowed_grant_types)
+            VALUES (:random, 'a:0:{}', :random, 'a:0:{}')
+            SQL;
 
         $this->connection->executeQuery($query, [
             'random' => $this->random(),

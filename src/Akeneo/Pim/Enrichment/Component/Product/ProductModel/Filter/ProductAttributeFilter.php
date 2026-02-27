@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Component\Product\ProductModel\Filter;
@@ -63,8 +64,8 @@ class ProductAttributeFilter implements AttributeFilterInterface
             }
         }
 
-        if (isset($standardProduct['parent']) &&
-            null !== $parentProductModel = $this->productModelRepository->findOneByIdentifier($standardProduct['parent'])
+        if (isset($standardProduct['parent'])
+            && null !== $parentProductModel = $this->productModelRepository->findOneByIdentifier($standardProduct['parent'])
         ) {
             $attributeSet = $parentProductModel
                 ->getFamilyVariant()

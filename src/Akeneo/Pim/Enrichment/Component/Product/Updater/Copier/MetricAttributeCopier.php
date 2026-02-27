@@ -92,9 +92,9 @@ class MetricAttributeCopier extends AbstractAttributeCopier
         $toScope
     ) {
         $fromValue = $fromEntityWithValues->getValue($fromAttribute->getCode(), $fromLocale, $fromScope);
-        $fromData = (null !== $fromValue) ?
-            $this->normalizer->normalize($fromValue, 'standard')['data'] :
-            $fromValue;
+        $fromData = (null !== $fromValue)
+            ? $this->normalizer->normalize($fromValue, 'standard')['data']
+            : $fromValue;
         $this->entityWithValuesBuilder->addOrReplaceValue(
             $toEntityWithValues,
             $toAttribute,

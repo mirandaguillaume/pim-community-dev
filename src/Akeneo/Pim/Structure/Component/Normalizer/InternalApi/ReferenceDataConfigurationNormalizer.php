@@ -21,12 +21,12 @@ class ReferenceDataConfigurationNormalizer implements NormalizerInterface, Cache
     /**
      * {@inheritdoc}
      */
-    public function normalize($config, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($config, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         return [
             'name'  => $config->getName(),
             'type'  => $config->getType(),
-            'class' => $config->getClass()
+            'class' => $config->getClass(),
         ];
     }
 

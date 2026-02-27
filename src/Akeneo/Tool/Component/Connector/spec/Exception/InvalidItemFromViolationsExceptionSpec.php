@@ -10,7 +10,7 @@ use Symfony\Component\Validator\ConstraintViolationList;
 
 class InvalidItemFromViolationsExceptionSpec extends ObjectBehavior
 {
-    function it_formats_a_violation_message_for_an_invalid_scalar(
+    public function it_formats_a_violation_message_for_an_invalid_scalar(
         ConstraintViolationInterface $violation
     ) {
         $violation->getInvalidValue()->willReturn('my bad value');
@@ -25,7 +25,7 @@ class InvalidItemFromViolationsExceptionSpec extends ObjectBehavior
         $this->getMessage()->shouldReturn('foo.bar.baz: invalid value: my bad value' . PHP_EOL);
     }
 
-    function it_formats_violation_message_for_an_invalid_stringifiable_object(
+    public function it_formats_violation_message_for_an_invalid_stringifiable_object(
         ConstraintViolationInterface $violation
     ) {
         $class = new class {
@@ -46,7 +46,7 @@ class InvalidItemFromViolationsExceptionSpec extends ObjectBehavior
         $this->getMessage()->shouldReturn('foo.bar.baz: invalid value: my object' . PHP_EOL);
     }
 
-    function it_formats_violation_message_for_an_invalid_non_stringifiable_object(
+    public function it_formats_violation_message_for_an_invalid_non_stringifiable_object(
         ConstraintViolationInterface $violation
     ) {
         $violation->getInvalidValue()->willReturn(new \stdClass());
@@ -61,7 +61,7 @@ class InvalidItemFromViolationsExceptionSpec extends ObjectBehavior
         $this->getMessage()->shouldReturn('foo.bar.baz: Unexpected value' . PHP_EOL);
     }
 
-    function it_formats_violation_message_for_an_invalid_product_price(
+    public function it_formats_violation_message_for_an_invalid_product_price(
         ConstraintViolationInterface $violation
     ) {
         $violation->getInvalidValue()->willReturn(new ProductPrice(3299.99, 'EUR'));
@@ -76,7 +76,7 @@ class InvalidItemFromViolationsExceptionSpec extends ObjectBehavior
         $this->getMessage()->shouldReturn('foo.bar.baz: This value should be lower than 3000: 3299.99 EUR' . PHP_EOL);
     }
 
-    function it_formats_violation_message_for_an_invalid_array_of_strings(
+    public function it_formats_violation_message_for_an_invalid_array_of_strings(
         ConstraintViolationInterface $violation
     ) {
         $violation->getInvalidValue()->willReturn(['foo', 'bar', 'baz']);
@@ -91,13 +91,11 @@ class InvalidItemFromViolationsExceptionSpec extends ObjectBehavior
         $this->getMessage()->shouldReturn('foo.bar.baz: unknown codes: [foo, bar, baz]' . PHP_EOL);
     }
 
-    function it_formats_violation_message_for_an_invalid_array_of_objects(
+    public function it_formats_violation_message_for_an_invalid_array_of_objects(
         ConstraintViolationInterface $violation
     ) {
         $class = new class {
-            public function __construct(private readonly string $data = 'foo')
-            {
-            }
+            public function __construct(private readonly string $data = 'foo') {}
             public function __toString()
             {
                 return $this->data;
@@ -116,7 +114,7 @@ class InvalidItemFromViolationsExceptionSpec extends ObjectBehavior
         $this->getMessage()->shouldReturn('foo.bar.baz: unknown codes: [foo, bar]' . PHP_EOL);
     }
 
-    function it_formats_multiple_violations(
+    public function it_formats_multiple_violations(
         ConstraintViolationInterface $firstViolation,
         ConstraintViolationInterface $secondViolation,
         ConstraintViolationInterface $thirdViolation
@@ -142,14 +140,15 @@ class InvalidItemFromViolationsExceptionSpec extends ObjectBehavior
             new DataInvalidItem(['foo' => 'bar'])
         );
 
-        $this->getMessage()->shouldReturn(<<<EOL
-            values.conditions: Unknown conditions: [foo, bar]
+        $this->getMessage()->shouldReturn(
+            <<<EOL
+                values.conditions: Unknown conditions: [foo, bar]
             
-            values.price: Invalid price data: 20.5646 USD
+                values.price: Invalid price data: 20.5646 USD
             
-            values.collection: This collection should contain at least 2 elements
+                values.collection: This collection should contain at least 2 elements
             
-            EOL
+                EOL
         );
     }
 }

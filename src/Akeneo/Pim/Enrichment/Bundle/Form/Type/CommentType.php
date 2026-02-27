@@ -59,7 +59,7 @@ class CommentType extends AbstractType
                 ObjectIdentifierType::class,
                 [
                     'multiple' => false,
-                    'repository' => $this->repository
+                    'repository' => $this->repository,
                 ]
             );
         }
@@ -73,7 +73,7 @@ class CommentType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => $this->dataClass,
-                'is_reply'   => false
+                'is_reply'   => false,
             ]
         );
     }

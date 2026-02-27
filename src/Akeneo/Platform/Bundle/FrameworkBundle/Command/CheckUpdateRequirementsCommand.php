@@ -5,13 +5,13 @@ namespace Akeneo\Platform\Bundle\FrameworkBundle\Command;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\ClientRegistry;
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Requirements\Requirement;
 use Symfony\Requirements\RequirementCollection;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'pim:update:check-requirements')]
 
@@ -66,8 +66,8 @@ class CheckUpdateRequirementsCommand extends Command
                 new Requirement(
                     str_starts_with((string) $versionCreated, '7') || str_starts_with((string) $versionCreated, '8'),
                     "Index $indexName creation version",
-                    !in_array($aliasName, $registeredAlias) ?
-                        "The index $indexName seems to not be used by the PIM, please check if you use it. If you didn't use it delete it: curl --location --request DELETE 'http://$firstElasticsearchHost/$indexName'. If you want to keep it, reindex it with ElasticSearch 7: bin/console akeneo:elasticsearch:update-index-version $aliasName"
+                    !in_array($aliasName, $registeredAlias)
+                        ? "The index $indexName seems to not be used by the PIM, please check if you use it. If you didn't use it delete it: curl --location --request DELETE 'http://$firstElasticsearchHost/$indexName'. If you want to keep it, reindex it with ElasticSearch 7: bin/console akeneo:elasticsearch:update-index-version $aliasName"
                         : "The index $indexName should be re-indexed in order to be created with Elasticsearch 7, run: bin/console akeneo:elasticsearch:update-index-version $aliasName"
                 )
             );

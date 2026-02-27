@@ -55,7 +55,7 @@ class MetadataParser
 
         $params = [
             $name      => array_merge($params, $additional),
-            'gridName' => $name
+            'gridName' => $name,
         ];
 
         return $this->router->generate(self::ROUTE, $params);

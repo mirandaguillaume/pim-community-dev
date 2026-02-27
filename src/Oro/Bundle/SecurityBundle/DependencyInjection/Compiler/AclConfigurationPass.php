@@ -157,7 +157,7 @@ class AclConfigurationPass implements CompilerPassInterface
 
         foreach ($container->getParameter('kernel.bundles') as $bundle) {
             $reflection = new \ReflectionClass($bundle);
-            $file = dirname($reflection->getFilename()) .'/Resources/config/acl.yml';
+            $file = dirname($reflection->getFilename()) . '/Resources/config/acl.yml';
 
             if (!is_file($file)) {
                 continue;

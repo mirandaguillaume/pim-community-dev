@@ -13,7 +13,7 @@ class LocaleNormalizerIntegration extends AbstractNormalizerTestCase
     {
         $expected = [
             'code'    => 'en_US',
-            'enabled' => true
+            'enabled' => true,
         ];
 
         $this->assert('en_US', $expected);

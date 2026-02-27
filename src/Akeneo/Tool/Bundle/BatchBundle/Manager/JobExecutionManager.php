@@ -33,8 +33,8 @@ class JobExecutionManager
      */
     public function checkRunningStatus(JobExecution $jobExecution)
     {
-        if (BatchStatus::STARTING !== $jobExecution->getStatus()->getValue() &&
-            $jobExecution->getExitStatus()->isRunning()
+        if (BatchStatus::STARTING !== $jobExecution->getStatus()->getValue()
+            && $jobExecution->getExitStatus()->isRunning()
         ) {
             return $this->processIsRunning($jobExecution);
         }

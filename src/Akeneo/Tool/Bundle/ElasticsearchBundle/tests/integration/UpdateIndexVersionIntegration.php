@@ -71,7 +71,7 @@ class UpdateIndexVersionIntegration extends TestCase
 
         $commandTester->execute([
             'command' => $command->getName(),
-            'indices' => [$indexName]
+            'indices' => [$indexName],
         ], ['capture_stderr_separately' => true]);
 
         return $commandTester;

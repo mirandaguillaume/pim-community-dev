@@ -40,7 +40,7 @@ class SqlGetAllResourceNamesQueryIntegration extends TestCase
         return $this->catalog->useMinimalCatalog();
     }
 
-    protected function setUp():void
+    protected function setUp(): void
     {
         parent::setUp();
 

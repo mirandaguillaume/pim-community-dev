@@ -31,7 +31,7 @@ class Version_7_0_20220330095652_ensure_locale_codes_for_labels_in_channels_have
         $result = $cnx->insert('pim_catalog_channel', [
             'category_id' => $master_category_id,
             'code' => 'test channel',
-            'conversionUnits' => 'a:0:{}'
+            'conversionUnits' => 'a:0:{}',
         ]);
         $this->assertTrue($result === 1);
         $channel_id = $cnx->lastInsertId();
@@ -40,21 +40,21 @@ class Version_7_0_20220330095652_ensure_locale_codes_for_labels_in_channels_have
         $result = $cnx->insert('pim_catalog_channel_translation', [
             'foreign_key' => $channel_id,
             'label' => 'test channel fr_FR',
-            'locale' => 'fr_FR' // correspond to some locale in pim_catalog_locale, with same case
+            'locale' => 'fr_FR', // correspond to some locale in pim_catalog_locale, with same case
         ]);
         $this->assertTrue($result === 1);
 
         $result = $cnx->insert('pim_catalog_channel_translation', [
             'foreign_key' => $channel_id,
             'label' => 'test channel en_US',
-            'locale' => 'EN_US' // correspond to some locale in pim_catalog_locale, but wrong case
+            'locale' => 'EN_US', // correspond to some locale in pim_catalog_locale, but wrong case
         ]);
         $this->assertTrue($result === 1);
 
         $result = $cnx->insert('pim_catalog_channel_translation', [
             'foreign_key' => $channel_id,
             'label' => 'test channel foo_bar',
-            'locale' => 'foo_bar' // does not correspond to some locale in pim_catalog_locale
+            'locale' => 'foo_bar', // does not correspond to some locale in pim_catalog_locale
         ]);
         $this->assertTrue($result === 1);
 

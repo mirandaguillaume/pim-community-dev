@@ -22,10 +22,10 @@ class UpdateConnectionWebhookQuery implements UpdateConnectionWebhookQueryInterf
     public function execute(ConnectionWebhook $connectionWebhook): int
     {
         $query = <<<SQL
-        UPDATE akeneo_connectivity_connection
-        SET webhook_url = :url, webhook_enabled = :enabled, webhook_is_using_uuid = :is_using_uuid
-        WHERE code = :code
-        SQL;
+            UPDATE akeneo_connectivity_connection
+            SET webhook_url = :url, webhook_enabled = :enabled, webhook_is_using_uuid = :is_using_uuid
+            WHERE code = :code
+            SQL;
 
         return $this->connection->executeStatement(
             $query,

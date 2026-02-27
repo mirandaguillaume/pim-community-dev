@@ -15,24 +15,24 @@ class GetEnrichedValuesPerCategoryCodeSqlIntegration extends CategoryTestCase
             'code' => 'socks',
             'labels' => [
                 'fr_FR' => 'Chaussettes',
-                'en_US' => 'Socks'
-            ]
+                'en_US' => 'Socks',
+            ],
         ]);
 
         $categoryShoes = $this->createCategory([
             'code' => 'shoes',
             'labels' => [
                 'fr_FR' => 'Chaussures',
-                'en_US' => 'Shoes'
-            ]
+                'en_US' => 'Shoes',
+            ],
         ]);
 
         $this->createCategory([
             'code' => 'pants',
             'labels' => [
                 'fr_FR' => 'Pantalons',
-                'en_US' => 'Pants'
-            ]
+                'en_US' => 'Pants',
+            ],
         ]);
 
         $this->updateCategoryWithValues($categorySocks->getCode());
@@ -43,7 +43,7 @@ class GetEnrichedValuesPerCategoryCodeSqlIntegration extends CategoryTestCase
     {
         $fetchedCategories = [];
 
-        foreach ($this->get(GetEnrichedValuesPerCategoryCode::class)->byBatchesOf(1) as $valuesByCategoryCode){
+        foreach ($this->get(GetEnrichedValuesPerCategoryCode::class)->byBatchesOf(1) as $valuesByCategoryCode) {
             $fetchedCategories[] = $valuesByCategoryCode;
         }
 

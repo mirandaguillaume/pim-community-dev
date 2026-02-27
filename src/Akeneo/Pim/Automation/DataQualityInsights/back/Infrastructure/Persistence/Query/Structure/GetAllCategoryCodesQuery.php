@@ -21,8 +21,8 @@ final readonly class GetAllCategoryCodesQuery implements GetAllCategoryCodesQuer
     public function execute(): array
     {
         $query = <<<SQL
-SELECT code FROM pim_catalog_category;
-SQL;
+            SELECT code FROM pim_catalog_category;
+            SQL;
 
         $statement = $this->connection->executeQuery($query);
 

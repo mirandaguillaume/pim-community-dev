@@ -80,8 +80,8 @@ class LocaleSubscriber implements EventSubscriberInterface
             return 'en_US';
         }
 
-        return $request->hasSession() && null !== $request->getSession()->get('_locale') ?
-            $request->getSession()->get('_locale') : $this->getLocaleFromOroConfigValue();
+        return $request->hasSession() && null !== $request->getSession()->get('_locale')
+            ? $request->getSession()->get('_locale') : $this->getLocaleFromOroConfigValue();
     }
 
     protected function getLocaleFromOroConfigValue(): ?string

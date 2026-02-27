@@ -25,7 +25,7 @@ final readonly class RecoverImportFileOnResumeSubscriber implements EventSubscri
     public static function getSubscribedEvents(): array
     {
         return [
-            EventInterface::BEFORE_STEP_EXECUTION_RESUME => 'recoverImportFile'
+            EventInterface::BEFORE_STEP_EXECUTION_RESUME => 'recoverImportFile',
         ];
     }
 

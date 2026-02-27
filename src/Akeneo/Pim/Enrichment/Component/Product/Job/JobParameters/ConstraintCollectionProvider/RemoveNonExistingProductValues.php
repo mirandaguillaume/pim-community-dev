@@ -35,7 +35,7 @@ final readonly class RemoveNonExistingProductValues implements ConstraintCollect
                     new Type('array'),
                     new All([
                         new Type('string'),
-                    ])
+                    ]),
                 ],
             ],
         ]);

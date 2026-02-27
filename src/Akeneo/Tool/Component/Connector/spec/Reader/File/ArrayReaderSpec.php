@@ -9,31 +9,31 @@ use Akeneo\Tool\Component\Connector\Reader\File\FileReaderInterface;
 
 class ArrayReaderSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         FileReaderInterface $reader,
         ArrayConverterInterface $converter
     ) {
         $this->beConstructedWith($reader, $converter);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(ArrayReader::class);
     }
 
-    function it_is_a_file_reader()
+    public function it_is_a_file_reader()
     {
         $this->shouldHaveType(FileReaderInterface::class);
     }
 
-    function it_returns_null_with_no_elements(
+    public function it_returns_null_with_no_elements(
         $reader
     ) {
         $reader->read()->willReturn(null);
         $this->read()->shouldBeNull();
     }
 
-    function it_returns_element_one_by_one(
+    public function it_returns_element_one_by_one(
         $reader,
         $converter
     ) {

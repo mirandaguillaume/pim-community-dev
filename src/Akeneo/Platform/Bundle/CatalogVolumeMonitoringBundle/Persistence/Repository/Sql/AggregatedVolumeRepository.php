@@ -26,9 +26,9 @@ class AggregatedVolumeRepository implements AggregatedVolumeRepositoryInterface
     public function add(AggregatedVolume $aggregatedVolume): void
     {
         $sql = <<<SQL
-REPLACE INTO pim_aggregated_volume (volume_name, volume, aggregated_at)
-VALUES (:volumeName, :volume, :aggregatedAt) 
-SQL;
+            REPLACE INTO pim_aggregated_volume (volume_name, volume, aggregated_at)
+            VALUES (:volumeName, :volume, :aggregatedAt) 
+            SQL;
 
         $stmt = $this->connection->prepare($sql);
         $stmt->bindValue('volumeName', $aggregatedVolume->getVolumeName(), Types::STRING);

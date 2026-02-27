@@ -49,7 +49,7 @@ final readonly class Row
         string $technicalId,
         ?string $parentCode,
         WriteValueCollection $values
-    ):self {
+    ): self {
         return new self(
             $identifier,
             $familyCode,
@@ -82,7 +82,7 @@ final readonly class Row
         array $childrenCompleteness,
         ?string $parentCode,
         WriteValueCollection $values
-    ):self {
+    ): self {
         return new self(
             $code,
             $familyCode,

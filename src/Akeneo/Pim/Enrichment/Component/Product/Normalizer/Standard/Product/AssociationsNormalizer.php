@@ -32,7 +32,7 @@ class AssociationsNormalizer implements NormalizerInterface, CacheableSupportsMe
      *
      * @param EntityWithAssociationsInterface $associationAwareEntity
      */
-    public function normalize($associationAwareEntity, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($associationAwareEntity, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $ancestorProducts = $this->getAncestorProducts($associationAwareEntity);
         $withUuid = $context['with_association_uuids'] ?? true;

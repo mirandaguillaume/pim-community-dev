@@ -33,7 +33,7 @@ class RefreshVersioning implements TaskletInterface
     {
         $batchSize = $this->stepExecution->getJobParameters()->get('batch_size');
 
-        $totalPendings = (int)$this->versionManager
+        $totalPendings = (int) $this->versionManager
             ->getVersionRepository()
             ->getPendingVersionsCount();
 

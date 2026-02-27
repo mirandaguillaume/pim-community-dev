@@ -23,12 +23,12 @@ class ProductUniqueDataRepository extends EntityRepository implements ProductUni
     public function uniqueDataExistsInAnotherProduct(ValueInterface $value, ProductInterface $product): bool
     {
         $sql = <<<SQL
-        SELECT count(ud.id) as count
-        FROM pim_catalog_product_unique_data ud
-            JOIN pim_catalog_attribute a ON a.id = ud.attribute_id
-        WHERE a.code = :attribute_code AND ud.raw_data = :data AND ud.product_uuid != :product_uuid
-        GROUP BY ud.id
-        SQL;
+            SELECT count(ud.id) as count
+            FROM pim_catalog_product_unique_data ud
+                JOIN pim_catalog_attribute a ON a.id = ud.attribute_id
+            WHERE a.code = :attribute_code AND ud.raw_data = :data AND ud.product_uuid != :product_uuid
+            GROUP BY ud.id
+            SQL;
 
         $count = (int) $this->getEntityManager()->getConnection()->executeQuery($sql, [
             'attribute_code' => $value->getAttributeCode(),

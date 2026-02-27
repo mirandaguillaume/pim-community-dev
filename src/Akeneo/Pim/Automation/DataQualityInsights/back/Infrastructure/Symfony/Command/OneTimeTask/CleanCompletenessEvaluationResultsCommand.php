@@ -10,12 +10,12 @@ use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Transfo
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Webmozart\Assert\Assert;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)
@@ -90,18 +90,18 @@ final class CleanCompletenessEvaluationResultsCommand extends Command
         $limit = $this->bulkSize;
 
         $query = <<<SQL
-SELECT 
-    /*+ SET_VAR(sort_buffer_size = 1000000) */
-    BIN_TO_UUID(product_uuid) AS product_uuid, 
-    criterion_code, 
-    status, 
-    result
-FROM pim_data_quality_insights_product_criteria_evaluation
-WHERE product_uuid > :lastProductUuidAsBytes
-    AND criterion_code IN (:criterionCodes)
-ORDER BY product_uuid ASC
-LIMIT $limit;
-SQL;
+            SELECT 
+                /*+ SET_VAR(sort_buffer_size = 1000000) */
+                BIN_TO_UUID(product_uuid) AS product_uuid, 
+                criterion_code, 
+                status, 
+                result
+            FROM pim_data_quality_insights_product_criteria_evaluation
+            WHERE product_uuid > :lastProductUuidAsBytes
+                AND criterion_code IN (:criterionCodes)
+            ORDER BY product_uuid ASC
+            LIMIT $limit;
+            SQL;
 
         $lastProductUuidAsBytes = '';
 
@@ -113,7 +113,7 @@ SQL;
                     'criterionCodes' => [
                         EvaluateCompletenessOfRequiredAttributes::CRITERION_CODE,
                         EvaluateCompletenessOfNonRequiredAttributes::CRITERION_CODE,
-                    ]
+                    ],
                 ],
                 [
                     'lastProductUuidAsBytes' => \PDO::PARAM_STR,
@@ -136,13 +136,13 @@ SQL;
         $limit = $this->bulkSize;
 
         $query = <<<SQL
-SELECT product_id, criterion_code, status, result
-FROM pim_data_quality_insights_product_model_criteria_evaluation
-WHERE product_id > :lastProductModelId
-    AND criterion_code IN (:criterionCodes)
-ORDER BY product_id ASC
-LIMIT $limit;
-SQL;
+            SELECT product_id, criterion_code, status, result
+            FROM pim_data_quality_insights_product_model_criteria_evaluation
+            WHERE product_id > :lastProductModelId
+                AND criterion_code IN (:criterionCodes)
+            ORDER BY product_id ASC
+            LIMIT $limit;
+            SQL;
 
         $lastProductModelId = 0;
 
@@ -154,7 +154,7 @@ SQL;
                     'criterionCodes' => [
                         EvaluateCompletenessOfRequiredAttributes::CRITERION_CODE,
                         EvaluateCompletenessOfNonRequiredAttributes::CRITERION_CODE,
-                    ]
+                    ],
                 ],
                 [
                     'lastProductModelId' => \PDO::PARAM_INT,
@@ -217,10 +217,10 @@ SQL;
 
         // To update data by bulk in a single query, it's easiest to do it with "INSERT INTO... ON DUPLICATE KEY UPDATE..."
         $query = <<<SQL
-INSERT INTO pim_data_quality_insights_product_criteria_evaluation (product_uuid, criterion_code, status, result) 
-VALUES $values AS cleaned_values
-ON DUPLICATE KEY UPDATE result = cleaned_values.result;
-SQL;
+            INSERT INTO pim_data_quality_insights_product_criteria_evaluation (product_uuid, criterion_code, status, result) 
+            VALUES $values AS cleaned_values
+            ON DUPLICATE KEY UPDATE result = cleaned_values.result;
+            SQL;
 
         $this->dbConnection->executeQuery($query);
     }
@@ -241,10 +241,10 @@ SQL;
 
         // To update data by bulk in a single query, it's easiest to do it with "INSERT INTO... ON DUPLICATE KEY UPDATE..."
         $query = <<<SQL
-INSERT INTO pim_data_quality_insights_product_model_criteria_evaluation (product_id, criterion_code, status, result) 
-VALUES $values AS cleaned_values
-ON DUPLICATE KEY UPDATE result = cleaned_values.result;
-SQL;
+            INSERT INTO pim_data_quality_insights_product_model_criteria_evaluation (product_id, criterion_code, status, result) 
+            VALUES $values AS cleaned_values
+            ON DUPLICATE KEY UPDATE result = cleaned_values.result;
+            SQL;
 
         $this->dbConnection->executeQuery($query);
     }

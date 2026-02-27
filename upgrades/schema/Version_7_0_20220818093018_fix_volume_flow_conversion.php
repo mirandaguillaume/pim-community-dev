@@ -9,7 +9,7 @@ use Doctrine\Migrations\AbstractMigration;
 
 final class Version_7_0_20220818093018_fix_volume_flow_conversion extends AbstractMigration
 {
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         $query = "SELECT standard_unit, units FROM akeneo_measurement WHERE code = 'VolumeFlow';";
         $volumeFlow = $this->connection->executeQuery($query)->fetchAssociative();
@@ -45,7 +45,7 @@ final class Version_7_0_20220818093018_fix_volume_flow_conversion extends Abstra
         $this->addSql($updateQuery, ['units' => \json_encode($fixedUnits)]);
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         $this->throwIrreversibleMigrationException();
     }
@@ -93,7 +93,7 @@ final class Version_7_0_20220818093018_fix_volume_flow_conversion extends Abstra
             'MILLILITER_PER_DAY' => [
                 ['value' => '0.000001', 'operator' => 'mul'],
                 ['value' => '86400', 'operator' => 'mul'],
-            ]
+            ],
         ];
 
         if (isset($wrongUnits[$unitCode])) {
@@ -129,7 +129,7 @@ final class Version_7_0_20220818093018_fix_volume_flow_conversion extends Abstra
             'MILLILITER_PER_DAY' => [
                 ['value' => '0.000001', 'operator' => 'mul'],
                 ['value' => '86400', 'operator' => 'div'], // We fix time conversion here (per day)
-            ]
+            ],
         ];
 
         return $fixedUnits[$unitCode];

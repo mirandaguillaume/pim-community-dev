@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\UserManagement\Component\Normalizer;
@@ -21,7 +22,7 @@ final class GroupNormalizer implements NormalizerInterface, CacheableSupportsMet
     /**
      * {@inheritdoc}
      */
-    public function normalize($group, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($group, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         Assert::isInstanceOf($group, GroupInterface::class);
 

@@ -29,25 +29,25 @@ class AggregatedAverageMaxProductAndProductModelValues implements AverageMaxQuer
     public function fetch(): AverageMaxVolumes
     {
         $sql = <<<SQL
-SELECT 
-(
-    SELECT MAX(JSON_EXTRACT(volume, '$.value.max'))
-    FROM pim_aggregated_volume
-    WHERE volume_name IN ('average_max_product_values', 'average_max_product_model_values')
-) AS max,
-CEIL(
-    (
-        SELECT SUM(JSON_EXTRACT(volume, '$.value'))
-        FROM pim_aggregated_volume
-        WHERE volume_name IN ('count_product_values', 'count_product_model_values')
-    ) /
-    (
-        SELECT SUM(JSON_EXTRACT(volume, '$.value'))
-        FROM pim_aggregated_volume
-        WHERE volume_name IN ('count_products', 'count_product_models')
-    )
-) AS average
-SQL;
+            SELECT 
+            (
+                SELECT MAX(JSON_EXTRACT(volume, '$.value.max'))
+                FROM pim_aggregated_volume
+                WHERE volume_name IN ('average_max_product_values', 'average_max_product_model_values')
+            ) AS max,
+            CEIL(
+                (
+                    SELECT SUM(JSON_EXTRACT(volume, '$.value'))
+                    FROM pim_aggregated_volume
+                    WHERE volume_name IN ('count_product_values', 'count_product_model_values')
+                ) /
+                (
+                    SELECT SUM(JSON_EXTRACT(volume, '$.value'))
+                    FROM pim_aggregated_volume
+                    WHERE volume_name IN ('count_products', 'count_product_models')
+                )
+            ) AS average
+            SQL;
         $sqlResult = $this->connection->executeQuery($sql)->fetchAssociative();
         $maxValue = isset($sqlResult['max']) ? (int) $sqlResult['max'] : 0;
         $averageValue = isset($sqlResult['average']) ? (int) $sqlResult['average'] : 0;

@@ -20,10 +20,10 @@ final class GetAllAttributeGroupsActivationQuery implements GetAllAttributeGroup
     public function execute(): array
     {
         $query = <<<SQL
-SELECT attribute_group_code, activated 
-FROM pim_catalog_attribute_group
-INNER JOIN pim_data_quality_insights_attribute_group_activation ON(pim_catalog_attribute_group.code = pim_data_quality_insights_attribute_group_activation.attribute_group_code);
-SQL;
+            SELECT attribute_group_code, activated 
+            FROM pim_catalog_attribute_group
+            INNER JOIN pim_data_quality_insights_attribute_group_activation ON(pim_catalog_attribute_group.code = pim_data_quality_insights_attribute_group_activation.attribute_group_code);
+            SQL;
 
         $result = $this->dbConnection->executeQuery($query)->fetchAllAssociative();
 

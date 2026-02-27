@@ -26,15 +26,13 @@ class CalculateProductModelCompletenessSpec extends ObjectBehavior
         GetCompletenessProductMasks                 $getCompletenessProductMasks,
         GetProductModelAttributesMaskQueryInterface $getProductModelAttributesMaskQuery,
         ProductModelRepositoryInterface             $productModelRepository
-    )
-    {
+    ) {
         $this->beConstructedWith($getCompletenessProductMasks, $getProductModelAttributesMaskQuery, $productModelRepository);
     }
 
     public function it_returns_an_empty_result_when_there_is_no_product_mask_to_apply(
         ProductModelRepositoryInterface $productModelRepository
-    )
-    {
+    ) {
         $productModelRepository->find(42)->willReturn(null);
 
         $this->calculate(new ProductModelId(42))->shouldBeLike(new CompletenessCalculationResult());
@@ -43,7 +41,7 @@ class CalculateProductModelCompletenessSpec extends ObjectBehavior
     public function it_throws_exception_when_product_model_id_is_invalid()
     {
         $this->shouldThrow(\InvalidArgumentException::class)->during('calculate', [
-            ProductUuid::fromString('df470d52-7723-4890-85a0-e79be625e2ed')
+            ProductUuid::fromString('df470d52-7723-4890-85a0-e79be625e2ed'),
         ]);
     }
 
@@ -55,8 +53,7 @@ class CalculateProductModelCompletenessSpec extends ObjectBehavior
         FamilyInterface                             $family,
         WriteValueCollection                        $values,
         CompletenessProductMask                     $productMask
-    )
-    {
+    ) {
         $productModelId = new ProductModelId(42);
 
         $productModelRepository->find(42)->willReturn($productModel);

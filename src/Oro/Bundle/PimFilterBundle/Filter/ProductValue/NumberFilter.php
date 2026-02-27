@@ -99,8 +99,8 @@ class NumberFilter extends OroNumberFilter
             || !array_key_exists('value', $data)
             || !array_key_exists('type', $data)
             || (
-                !is_numeric($data['value']) &&
-                !in_array($data['type'], [FilterType::TYPE_EMPTY, FilterType::TYPE_NOT_EMPTY])
+                !is_numeric($data['value'])
+                && !in_array($data['type'], [FilterType::TYPE_EMPTY, FilterType::TYPE_NOT_EMPTY])
             )) {
             return false;
         }

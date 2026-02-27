@@ -68,9 +68,10 @@ final class ProductScoreRepositoryIntegration extends DataQualityInsightsTestCas
 
     private function assertCountProductsScores(int $expectedCount): void
     {
-        $countProductsScores = $this->get('database_connection')->executeQuery(<<<SQL
-SELECT COUNT(*) FROM pim_data_quality_insights_product_score;
-SQL
+        $countProductsScores = $this->get('database_connection')->executeQuery(
+            <<<SQL
+                SELECT COUNT(*) FROM pim_data_quality_insights_product_score;
+                SQL
         )->fetchOne();
 
         $this->assertSame($expectedCount, intval($countProductsScores));
@@ -78,11 +79,12 @@ SQL
 
     private function assertProductScoreExists(ProductScores $expectedProductScore): void
     {
-        $productScore = $this->get('database_connection')->executeQuery(<<<SQL
-SELECT * FROM pim_data_quality_insights_product_score score
-    JOIN pim_catalog_product product ON product.uuid = score.product_uuid
-WHERE product.uuid = :productUuid AND evaluated_at = :evaluatedAt;
-SQL,
+        $productScore = $this->get('database_connection')->executeQuery(
+            <<<SQL
+                SELECT * FROM pim_data_quality_insights_product_score score
+                    JOIN pim_catalog_product product ON product.uuid = score.product_uuid
+                WHERE product.uuid = :productUuid AND evaluated_at = :evaluatedAt;
+                SQL,
             [
                 'productUuid' => $expectedProductScore->getEntityId()->toBytes(),
                 'evaluatedAt' => $expectedProductScore->getEvaluatedAt()->format('Y-m-d'),

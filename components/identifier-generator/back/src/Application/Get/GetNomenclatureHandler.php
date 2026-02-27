@@ -26,8 +26,7 @@ final readonly class GetNomenclatureHandler
         private SimpleSelectNomenclatureRepository $simpleSelectNomenclatureRepository,
         private GetAttributes $getAttributes,
         private ReferenceEntityNomenclatureRepository $referenceEntityNomenclatureRepository,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array{

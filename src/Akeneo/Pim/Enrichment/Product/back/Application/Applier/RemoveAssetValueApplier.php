@@ -33,11 +33,11 @@ final readonly class RemoveAssetValueApplier implements UserIntentApplier
             $userIntent->localeCode(),
             $userIntent->channelCode(),
         );
-        $formerValueAsString = $formerValue ?
-            array_map(fn ($value) => $value->normalize(), $formerValue->getData())
+        $formerValueAsString = $formerValue
+            ? array_map(fn ($value) => $value->normalize(), $formerValue->getData())
             : null;
-        $values = $formerValueAsString !== null ?
-            \array_diff($formerValueAsString, $userIntent->assetCodes())
+        $values = $formerValueAsString !== null
+            ? \array_diff($formerValueAsString, $userIntent->assetCodes())
             : $userIntent->assetCodes();
 
         $this->productUpdater->update(
@@ -49,9 +49,9 @@ final readonly class RemoveAssetValueApplier implements UserIntentApplier
                             'locale' => $userIntent->localeCode(),
                             'scope' => $userIntent->channelCode(),
                             'data' => $values,
-                        ]
-                    ]
-                ]
+                        ],
+                    ],
+                ],
             ]
         );
     }

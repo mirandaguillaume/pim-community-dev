@@ -29,8 +29,8 @@ final readonly class DeleteJobInstance implements DeleteJobInstanceInterface
         $this->checkJobsExist($codes);
 
         $sql = <<<SQL
-            DELETE FROM akeneo_batch_job_instance WHERE code IN (:codes)
-        SQL;
+                DELETE FROM akeneo_batch_job_instance WHERE code IN (:codes)
+            SQL;
 
         $this->connection->executeStatement($sql, ['codes' => $codes], ['codes' => ArrayParameterType::STRING]);
     }
@@ -38,8 +38,8 @@ final readonly class DeleteJobInstance implements DeleteJobInstanceInterface
     public function checkJobsExist(array $codes): void
     {
         $sql = <<<SQL
-            SELECT code FROM akeneo_batch_job_instance WHERE code IN (:codes)
-        SQL;
+                SELECT code FROM akeneo_batch_job_instance WHERE code IN (:codes)
+            SQL;
 
         $existingJobCodes = $this->connection->executeQuery(
             $sql,

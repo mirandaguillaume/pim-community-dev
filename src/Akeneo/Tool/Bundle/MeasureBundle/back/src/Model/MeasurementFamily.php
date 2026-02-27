@@ -45,7 +45,7 @@ class MeasurementFamily
             'units' => array_map(
                 static fn (Unit $unit) => $unit->normalize(),
                 $this->units
-            )
+            ),
         ];
     }
 

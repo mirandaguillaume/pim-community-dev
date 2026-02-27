@@ -42,9 +42,9 @@ final class Version_7_0_20221114112755_clean_family_codes_from_export_job_filter
     private function fetchFamilyCodes(): array
     {
         $sql = <<<SQL
-SELECT code
-FROM pim_catalog_family
-SQL;
+            SELECT code
+            FROM pim_catalog_family
+            SQL;
 
         $stmt = $this->getConnection()->executeQuery($sql);
 
@@ -54,10 +54,10 @@ SQL;
     private function fetchJobInstances(): array
     {
         $sql = <<<SQL
-SELECT code, raw_parameters
-FROM akeneo_batch_job_instance
-WHERE type = 'export'
-SQL;
+            SELECT code, raw_parameters
+            FROM akeneo_batch_job_instance
+            WHERE type = 'export'
+            SQL;
 
         $stmt = $this->getConnection()->executeQuery($sql);
         $rawJobInstances = $stmt->fetchAllAssociative();
@@ -72,7 +72,7 @@ SQL;
     {
         return array_filter($jobInstances, static function (array $jobInstance) use ($familyCodes) {
             $filters = $jobInstance['raw_parameters']['filters']['data'] ?? [];
-            $filters = array_values(array_filter($filters, static fn (array $filter) => 'family' === $filter['field']));
+            $filters = array_values(array_filter($filters, static fn(array $filter) => 'family' === $filter['field']));
 
             if (empty($filters)) {
                 return false;
@@ -103,10 +103,10 @@ SQL;
     private function updateJobInstanceRawParameters(string $jobCode, array $rawParameters): void
     {
         $sql = <<<SQL
-UPDATE akeneo_batch_job_instance
-SET raw_parameters = :raw_parameters
-WHERE code = :code
-SQL;
+            UPDATE akeneo_batch_job_instance
+            SET raw_parameters = :raw_parameters
+            WHERE code = :code
+            SQL;
 
         $this->addSql($sql, ['code' => $jobCode, 'raw_parameters' => serialize($rawParameters)]);
     }

@@ -21,12 +21,12 @@ class SaveConnectedAppOutdatedScopesFlagQuery implements SaveConnectedAppOutdate
     public function execute(string $connectedAppId, bool $hasOutdatedScopes): void
     {
         $query = <<<SQL
-        UPDATE akeneo_connectivity_connected_app
-        SET
-            has_outdated_scopes = :has_outdated_scopes,
-            updated = NOW()
-        WHERE id = :id
-        SQL;
+            UPDATE akeneo_connectivity_connected_app
+            SET
+                has_outdated_scopes = :has_outdated_scopes,
+                updated = NOW()
+            WHERE id = :id
+            SQL;
 
         $this->connection->executeQuery(
             $query,

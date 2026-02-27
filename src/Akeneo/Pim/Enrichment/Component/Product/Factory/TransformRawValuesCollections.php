@@ -35,7 +35,7 @@ final readonly class TransformRawValuesCollections
                     $typesToValues[$type][$attributeCode][] = [
                         'identifier' => $productIdentifier,
                         'values' => $values,
-                        'properties' => $properties
+                        'properties' => $properties,
                     ];
                 }
             }

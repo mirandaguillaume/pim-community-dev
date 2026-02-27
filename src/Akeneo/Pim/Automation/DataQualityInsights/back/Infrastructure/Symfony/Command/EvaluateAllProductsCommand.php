@@ -10,13 +10,13 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\Query\ProductEvaluation\Get
 use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Query\ProductEvaluation\GetProductModelIdsToEvaluateQuery;
 use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Query\ProductEvaluation\GetProductUuidsToEvaluateQuery;
 use Doctrine\DBAL\Connection;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
@@ -91,7 +91,7 @@ final class EvaluateAllProductsCommand extends Command
                 $countProductIds = count($productIds);
                 $progressBar->advance($countProductIds);
                 $evaluationCount += $countProductIds;
-                $totalEvaluations+= $countProductIds;
+                $totalEvaluations += $countProductIds;
             }
         } while ($evaluationCount > 0);
 
@@ -121,7 +121,7 @@ final class EvaluateAllProductsCommand extends Command
                 $countProductIds = count($productModelIds);
                 $progressBar->advance($countProductIds);
                 $evaluationCount += $countProductIds;
-                $totalEvaluations+= $countProductIds;
+                $totalEvaluations += $countProductIds;
             }
         } while ($evaluationCount > 0);
 
@@ -132,10 +132,10 @@ final class EvaluateAllProductsCommand extends Command
     private function countProductsToEvaluate(): int
     {
         $query = <<<SQL
-SELECT COUNT(DISTINCT product_uuid) 
-FROM pim_data_quality_insights_product_criteria_evaluation
-WHERE status = 'pending';
-SQL;
+            SELECT COUNT(DISTINCT product_uuid) 
+            FROM pim_data_quality_insights_product_criteria_evaluation
+            WHERE status = 'pending';
+            SQL;
 
         return intval($this->dbConnection->executeQuery($query)->fetchOne());
     }
@@ -143,10 +143,10 @@ SQL;
     private function countProductModelsToEvaluate(): int
     {
         $query = <<<SQL
-SELECT COUNT(DISTINCT product_id) 
-FROM pim_data_quality_insights_product_model_criteria_evaluation
-WHERE status = 'pending';
-SQL;
+            SELECT COUNT(DISTINCT product_id) 
+            FROM pim_data_quality_insights_product_model_criteria_evaluation
+            WHERE status = 'pending';
+            SQL;
 
         return intval($this->dbConnection->executeQuery($query)->fetchOne());
     }

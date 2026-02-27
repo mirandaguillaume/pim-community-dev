@@ -153,7 +153,7 @@ final class EventQueuesAndConsumersIntegration extends TestCase
             '-vvv',
             \sprintf('--time-limit=%d', 5),
             $consumerName,
-            '--bus=pim_event.handle.bus'
+            '--bus=pim_event.handle.bus',
         ];
 
         $process = new Process($command);

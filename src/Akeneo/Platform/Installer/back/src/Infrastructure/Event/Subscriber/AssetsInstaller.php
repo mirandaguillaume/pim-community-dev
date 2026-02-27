@@ -79,7 +79,7 @@ class AssetsInstaller
      */
     private function hardCopy(): void
     {
-        $this->filesystem->mkdir($this->targetDir, 0777);
+        $this->filesystem->mkdir($this->targetDir, 0o777);
         // We use a custom iterator to ignore VCS files
         $this->filesystem->mirror($this->originDir, $this->targetDir, Finder::create()->ignoreDotFiles(false)->in($this->originDir));
     }

@@ -69,10 +69,10 @@ final class RecomputeProductScoresTasklet implements TaskletInterface
     private function getNextProductUuids(string $lastProductUuid): array
     {
         $query = <<<SQL
-            SELECT BIN_TO_UUID(uuid) as uuid 
-            FROM pim_catalog_product 
-            WHERE uuid > :lastUuid ORDER BY uuid ASC LIMIT :limit
-        SQL;
+                SELECT BIN_TO_UUID(uuid) as uuid 
+                FROM pim_catalog_product 
+                WHERE uuid > :lastUuid ORDER BY uuid ASC LIMIT :limit
+            SQL;
 
         return $this->connection->executeQuery(
             $query,

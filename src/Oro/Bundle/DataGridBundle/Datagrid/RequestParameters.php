@@ -51,7 +51,7 @@ class RequestParameters
             $parameters[$type] = $value;
         }
 
-        $this->getRequest()->query->set($this->rootParam ? : self::DEFAULT_ROOT_PARAM, $parameters);
+        $this->getRequest()->query->set($this->rootParam ?: self::DEFAULT_ROOT_PARAM, $parameters);
     }
 
     /**
@@ -79,7 +79,7 @@ class RequestParameters
      */
     public function getRootParameterValue()
     {
-        return $this->getRequest()->get($this->rootParam ? : self::DEFAULT_ROOT_PARAM, []);
+        return $this->getRequest()->get($this->rootParam ?: self::DEFAULT_ROOT_PARAM, []);
     }
 
     protected function getRequest(): ?Request

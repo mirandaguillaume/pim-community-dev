@@ -37,7 +37,7 @@ class HasNewAnnouncementsAction
         $hasNewAnnouncements = $this->hasNewAnnouncementsHandler->execute($query);
 
         return new JsonResponse([
-            'status' => $hasNewAnnouncements
+            'status' => $hasNewAnnouncements,
         ]);
     }
 }

@@ -55,8 +55,8 @@ class ProductModelIndexer implements ProductModelIndexerInterface
 
         $chunks = array_chunk($productModelCodes, self::BATCH_SIZE);
         foreach ($chunks as $productModelCodesChunk) {
-            $elasticsearchProductModelProjections =
-                $this->getElasticsearchProductModelProjection->fromProductModelCodes($productModelCodesChunk);
+            $elasticsearchProductModelProjections
+                = $this->getElasticsearchProductModelProjection->fromProductModelCodes($productModelCodesChunk);
 
             $normalizedProductModelProjections = (
                 static function (iterable $projections): iterable {

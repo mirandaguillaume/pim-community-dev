@@ -47,8 +47,8 @@ class CreateClientIntegration extends TestCase
     private function fetchApiClients(): array
     {
         $sqlQuery = <<<SQL
-SELECT id, random_id, secret, label, allowed_grant_types FROM pim_api_client
-SQL;
+            SELECT id, random_id, secret, label, allowed_grant_types FROM pim_api_client
+            SQL;
 
         return $this->getDatabaseConnection()->fetchAllAssociative($sqlQuery);
     }

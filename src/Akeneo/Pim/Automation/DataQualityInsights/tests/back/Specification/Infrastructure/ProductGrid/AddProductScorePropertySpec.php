@@ -16,15 +16,14 @@ class AddProductScorePropertySpec extends ObjectBehavior
 {
     public function let(
         AddScoresToProductAndProductModelRows $addScoresToProductAndProductModelRows
-    ){
+    ) {
         $this->beConstructedWith($addScoresToProductAndProductModelRows);
     }
 
     public function it_returns_row_with_additional_property_DQI_score(
         $addScoresToProductAndProductModelRows,
         ProductQueryBuilderInterface $productQueryBuilder
-    )
-    {
+    ) {
         $queryParameters = new FetchProductAndProductModelRowsParameters(
             $productQueryBuilder->getWrappedObject(),
             [],
@@ -71,7 +70,7 @@ class AddProductScorePropertySpec extends ObjectBehavior
                     }
                 }
                 return true;
-            }
+            },
         ];
     }
 }

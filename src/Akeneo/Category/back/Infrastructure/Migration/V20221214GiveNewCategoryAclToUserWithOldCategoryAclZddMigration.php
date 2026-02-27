@@ -100,9 +100,9 @@ class V20221214GiveNewCategoryAclToUserWithOldCategoryAclZddMigration implements
     private function getRoles(): array
     {
         return $this->connection->fetchFirstColumn(<<<SQL
-            SELECT identifier
-            FROM acl_security_identities
-        SQL);
+                SELECT identifier
+                FROM acl_security_identities
+            SQL);
 
         return $data;
     }

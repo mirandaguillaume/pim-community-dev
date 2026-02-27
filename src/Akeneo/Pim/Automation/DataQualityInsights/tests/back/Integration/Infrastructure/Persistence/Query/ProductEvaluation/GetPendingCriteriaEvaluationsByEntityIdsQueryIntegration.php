@@ -39,17 +39,17 @@ final class GetPendingCriteriaEvaluationsByEntityIdsQueryIntegration extends Dat
         $this->givenAProductWithOnePendingEvaluation('not_involved_product');
 
         $productIdCollection = $this->get(ProductUuidFactory::class)->createCollection([
-            (string)$productIdA, (string)$productIdB, (string)$productIdC
+            (string) $productIdA, (string) $productIdB, (string) $productIdC,
         ]);
 
         $evaluations = $this->get('akeneo.pim.automation.data_quality_insights.query.get_product_pending_criteria_evaluations')
             ->execute($productIdCollection);
 
         $this->assertCount(2, $evaluations);
-        $this->assertArrayHasKey((string)$productIdA, $evaluations);
-        $this->assertArrayHasKey((string)$productIdB, $evaluations);
-        $this->assertCount(2, $evaluations[(string)$productIdA]);
-        $this->assertCount(1, $evaluations[(string)$productIdB]);
+        $this->assertArrayHasKey((string) $productIdA, $evaluations);
+        $this->assertArrayHasKey((string) $productIdB, $evaluations);
+        $this->assertCount(2, $evaluations[(string) $productIdA]);
+        $this->assertCount(1, $evaluations[(string) $productIdB]);
     }
 
     public function test_it_finds_product_models_pending_criteria_evaluations()
@@ -63,17 +63,17 @@ final class GetPendingCriteriaEvaluationsByEntityIdsQueryIntegration extends Dat
         $this->givenAProductModelWithOnePendingEvaluation('not_involved_product_model');
 
         $productModelIdCollection = $this->get(ProductModelIdFactory::class)->createCollection([
-            (string)$productModelIdA, (string)$productModelIdB, (string)$productModelIdC
+            (string) $productModelIdA, (string) $productModelIdB, (string) $productModelIdC,
         ]);
 
         $evaluations = $this->get('akeneo.pim.automation.data_quality_insights.query.get_product_model_pending_criteria_evaluations')
             ->execute($productModelIdCollection);
 
         $this->assertCount(2, $evaluations);
-        $this->assertArrayHasKey((string)$productModelIdA, $evaluations);
-        $this->assertArrayHasKey((string)$productModelIdB, $evaluations);
-        $this->assertCount(2, $evaluations[(string)$productModelIdA]);
-        $this->assertCount(1, $evaluations[(string)$productModelIdB]);
+        $this->assertArrayHasKey((string) $productModelIdA, $evaluations);
+        $this->assertArrayHasKey((string) $productModelIdB, $evaluations);
+        $this->assertCount(2, $evaluations[(string) $productModelIdA]);
+        $this->assertCount(1, $evaluations[(string) $productModelIdB]);
     }
 
     public function test_it_returns_an_empty_array_if_there_is_no_pending_criteria_evaluations()
@@ -86,7 +86,7 @@ final class GetPendingCriteriaEvaluationsByEntityIdsQueryIntegration extends Dat
     private function givenAProductWithTwoPendingAndOneDoneEvaluations(string $productCode): ProductUuid
     {
         $product = $this->createProductWithoutEvaluations($productCode);
-        $productUuid = $this->get(ProductUuidFactory::class)->create((string)$product->getUuid());
+        $productUuid = $this->get(ProductUuidFactory::class)->create((string) $product->getUuid());
 
         $criterionEvaluationCollection = $this->createTwoPendingAndOneDoneEvaluations($productUuid);
         $this->productCriterionEvaluationRepository->create($criterionEvaluationCollection);
@@ -97,7 +97,7 @@ final class GetPendingCriteriaEvaluationsByEntityIdsQueryIntegration extends Dat
     private function givenAProductModelWithTwoPendingAndOneDoneEvaluations(string $productModelCode): ProductModelId
     {
         $productModel = $this->createProductModelWithoutEvaluations($productModelCode, 'a_family_variant');
-        $productModelId = $this->get(ProductModelIdFactory::class)->create((string)$productModel->getId());
+        $productModelId = $this->get(ProductModelIdFactory::class)->create((string) $productModel->getId());
 
         $criterionEvaluationCollection = $this->createTwoPendingAndOneDoneEvaluations($productModelId);
         $this->productModelCriterionEvaluationRepository->create($criterionEvaluationCollection);
@@ -128,7 +128,7 @@ final class GetPendingCriteriaEvaluationsByEntityIdsQueryIntegration extends Dat
     private function givenAProductWithOnePendingEvaluation(string $productCode): ProductUuid
     {
         $product = $this->createProductWithoutEvaluations($productCode);
-        $productUuid = $this->get(ProductUuidFactory::class)->create((string)$product->getUuid());
+        $productUuid = $this->get(ProductUuidFactory::class)->create((string) $product->getUuid());
 
         $criterionEvaluationCollection = (new Write\CriterionEvaluationCollection())
             ->add(new Write\CriterionEvaluation(
@@ -145,7 +145,7 @@ final class GetPendingCriteriaEvaluationsByEntityIdsQueryIntegration extends Dat
     private function givenAProductModelWithOnePendingEvaluation(string $productModelCode): ProductModelId
     {
         $productModel = $this->createProductModelWithoutEvaluations($productModelCode, 'a_family_variant');
-        $productModelId = $this->get(ProductModelIdFactory::class)->create((string)$productModel->getId());
+        $productModelId = $this->get(ProductModelIdFactory::class)->create((string) $productModel->getId());
 
         $criterionEvaluationCollection = (new Write\CriterionEvaluationCollection())
             ->add(new Write\CriterionEvaluation(
@@ -162,7 +162,7 @@ final class GetPendingCriteriaEvaluationsByEntityIdsQueryIntegration extends Dat
     private function givenAProductWithOnlyDoneEvaluations(string $productCode): ProductUuid
     {
         $product = $this->createProductWithoutEvaluations($productCode);
-        $productUuid = $this->get(ProductUuidFactory::class)->create((string)$product->getUuid());
+        $productUuid = $this->get(ProductUuidFactory::class)->create((string) $product->getUuid());
 
         $evaluation = new Write\CriterionEvaluation(
             new CriterionCode('spelling'),
@@ -182,7 +182,7 @@ final class GetPendingCriteriaEvaluationsByEntityIdsQueryIntegration extends Dat
     private function givenAProductModelWithOnlyDoneEvaluations(string $productModelCode): ProductModelId
     {
         $productModel = $this->createProductModelWithoutEvaluations($productModelCode, 'a_family_variant');
-        $productModelId = $this->get(ProductModelIdFactory::class)->create((string)$productModel->getId());
+        $productModelId = $this->get(ProductModelIdFactory::class)->create((string) $productModel->getId());
 
         $evaluation = new Write\CriterionEvaluation(
             new CriterionCode('spelling'),

@@ -8,12 +8,12 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class LoaderSpec extends ObjectBehavior
 {
-    function let(ParameterBagInterface $parameterBag)
+    public function let(ParameterBagInterface $parameterBag)
     {
         $parameterBag->resolveValue(Argument::any())->willReturnArgument();
     }
 
-    function it_loads_the_configuration_from_a_single_file(ParameterBagInterface $parameterBag)
+    public function it_loads_the_configuration_from_a_single_file(ParameterBagInterface $parameterBag)
     {
         $this->beConstructedWith([__DIR__ . '/conf1.yml'], $parameterBag);
 
@@ -51,8 +51,8 @@ class LoaderSpec extends ObjectBehavior
                         'my_dynamic_template_1' => [
                             'path_match' => '*foo*',
                             'match_mapping_type' => 'object',
-                            'mapping' =>
-                                [
+                            'mapping'
+                                => [
                                     'type' => 'object',
                                 ],
                         ],
@@ -60,8 +60,8 @@ class LoaderSpec extends ObjectBehavior
                     [
                         'my_dynamic_template_2' => [
                             'path_match' => '*bar*',
-                            'mapping' =>
-                                [
+                            'mapping'
+                                => [
                                     'type' => 'keyword',
                                     'index' => 'not_analyzed',
                                 ],
@@ -74,7 +74,7 @@ class LoaderSpec extends ObjectBehavior
         $indexConfiguration->getHash()->shouldReturn('ba2c495be83ae33df74fe96f9df1cfc305fe983e');
     }
 
-    function it_loads_the_configuration_from_multiple_files(ParameterBagInterface $parameterBag)
+    public function it_loads_the_configuration_from_multiple_files(ParameterBagInterface $parameterBag)
     {
         $this->beConstructedWith(
             [
@@ -167,7 +167,7 @@ class LoaderSpec extends ObjectBehavior
         $indexConfiguration->getHash()->shouldReturn('774d394edb20f41c507d91792744036301532946');
     }
 
-    function it_loads_the_compiled_configuration_from_multiple_files(ParameterBagInterface $parameterBag)
+    public function it_loads_the_compiled_configuration_from_multiple_files(ParameterBagInterface $parameterBag)
     {
         $this->beConstructedWith(
             [
@@ -180,8 +180,8 @@ class LoaderSpec extends ObjectBehavior
 
         $indexConfiguration = $this->load();
         $indexConfiguration->buildAggregated()->shouldReturn([
-            'settings' =>
-                [
+            'settings'
+                => [
                     'analysis' => [
                         'char_filter' => [
                             'newline_pattern' => [
@@ -196,8 +196,8 @@ class LoaderSpec extends ObjectBehavior
                         'number_of_replicas' => 2,
                     ],
                 ],
-            'mappings' =>
-                [
+            'mappings'
+                => [
                     'properties' => [
                         'name' => [
                             'properties' => [
@@ -217,8 +217,8 @@ class LoaderSpec extends ObjectBehavior
                             'my_dynamic_template_1' => [
                                 'path_match' => '*foo*',
                                 'match_mapping_type' => 'object',
-                                'mapping' =>
-                                    [
+                                'mapping'
+                                    => [
                                         'type' => 'object',
                                     ],
                             ],
@@ -226,8 +226,8 @@ class LoaderSpec extends ObjectBehavior
                         [
                             'my_dynamic_template_2' => [
                                 'path_match' => '*bar*',
-                                'mapping' =>
-                                    [
+                                'mapping'
+                                    => [
                                         'type' => 'keyword',
                                         'index' => 'not_analyzed',
                                     ],
@@ -245,8 +245,8 @@ class LoaderSpec extends ObjectBehavior
                     ],
                     'just_another_mapping' => null,
                 ],
-            'aliases' =>
-                [
+            'aliases'
+                => [
                     'alias_1' => [],
                     'alias_2' => [
                         'filter' => [
@@ -260,7 +260,7 @@ class LoaderSpec extends ObjectBehavior
         ]);
     }
 
-    function it_replaces_parameters_in_the_configuration(ParameterBagInterface $parameterBag)
+    public function it_replaces_parameters_in_the_configuration(ParameterBagInterface $parameterBag)
     {
         $this->beConstructedWith(
             [
@@ -284,14 +284,14 @@ class LoaderSpec extends ObjectBehavior
                 ],
                 'mapping' => [
                     'total_fields' => [
-                        'limit' => 10000
-                    ]
-                ]
+                        'limit' => 10000,
+                    ],
+                ],
             ]
         );
     }
 
-    function it_throws_an_exception_when_a_file_is_not_readable(ParameterBagInterface $parameterBag)
+    public function it_throws_an_exception_when_a_file_is_not_readable(ParameterBagInterface $parameterBag)
     {
         $this->beConstructedWith(
             [

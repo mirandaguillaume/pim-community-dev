@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Specification\Akeneo\Pim\Automation\DataQualityInsights\Domain\Event;
@@ -12,7 +13,7 @@ use PhpSpec\ObjectBehavior;
  */
 final class AttributeGroupActivationHasChangedSpec extends ObjectBehavior
 {
-    function it_can_be_normalized()
+    public function it_can_be_normalized()
     {
         $date = new \DateTimeImmutable('2020-11-24T22:02:12+00:00');
         $this->beConstructedWith('the_code', false, $date);
@@ -24,7 +25,7 @@ final class AttributeGroupActivationHasChangedSpec extends ObjectBehavior
         ]);
     }
 
-    function it_can_be_denormalized()
+    public function it_can_be_denormalized()
     {
         $this->beConstructedWith('the_code', false, new \DateTimeImmutable());
 
@@ -38,7 +39,7 @@ final class AttributeGroupActivationHasChangedSpec extends ObjectBehavior
         $this->denormalize($normalized)->shouldBeLike(new AttributeGroupActivationHasChanged('the_code', true, $date));
     }
 
-    function it_cannot_be_denormalized_with_wrong_code()
+    public function it_cannot_be_denormalized_with_wrong_code()
     {
         $this->beConstructedWith('the_code', false, new \DateTimeImmutable());
 
@@ -52,7 +53,7 @@ final class AttributeGroupActivationHasChangedSpec extends ObjectBehavior
         $this->shouldThrow(\InvalidArgumentException::class)->during('denormalize', [$normalized]);
     }
 
-    function it_cannot_be_denormalized_with_wrong_value()
+    public function it_cannot_be_denormalized_with_wrong_value()
     {
         $this->beConstructedWith('the_code', false, new \DateTimeImmutable());
 
@@ -66,7 +67,7 @@ final class AttributeGroupActivationHasChangedSpec extends ObjectBehavior
         $this->shouldThrow(\InvalidArgumentException::class)->during('denormalize', [$normalized]);
     }
 
-    function it_cannot_be_denormalized_with_wrong_date()
+    public function it_cannot_be_denormalized_with_wrong_date()
     {
         $this->beConstructedWith('the_code', false, new \DateTimeImmutable());
 

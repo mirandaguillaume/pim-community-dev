@@ -32,7 +32,7 @@ class AttributeGroupNormalizer implements NormalizerInterface, CacheableSupports
     /**
      * {@inheritdoc}
      */
-    public function normalize($attributeGroup, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($attributeGroup, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $standardAttributeGroup = $this->normalizer->normalize($attributeGroup, 'standard', $context);
 
@@ -45,7 +45,7 @@ class AttributeGroupNormalizer implements NormalizerInterface, CacheableSupports
         }
         $standardAttributeGroup['attributes_sort_order'] = $sortOrder;
         $standardAttributeGroup['meta'] = [
-            'id' => $attributeGroup->getId()
+            'id' => $attributeGroup->getId(),
         ];
 
         return $standardAttributeGroup;

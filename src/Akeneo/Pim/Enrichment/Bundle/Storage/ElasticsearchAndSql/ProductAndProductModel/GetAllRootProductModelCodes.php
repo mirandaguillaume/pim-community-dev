@@ -21,13 +21,13 @@ final readonly class GetAllRootProductModelCodes
     {
         $formerId = 0;
         $sql = <<< SQL
-SELECT id, code
-FROM pim_catalog_product_model
-WHERE id > :formerId
-AND parent_id IS NULL
-ORDER BY id ASC
-LIMIT :limit
-SQL;
+            SELECT id, code
+            FROM pim_catalog_product_model
+            WHERE id > :formerId
+            AND parent_id IS NULL
+            ORDER BY id ASC
+            LIMIT :limit
+            SQL;
         while (true) {
             $rows = $this->connection->executeQuery(
                 $sql,
@@ -45,7 +45,7 @@ SQL;
                 return;
             }
 
-            $formerId = (int)end($rows)['id'];
+            $formerId = (int) end($rows)['id'];
             yield array_column($rows, 'code');
         }
     }

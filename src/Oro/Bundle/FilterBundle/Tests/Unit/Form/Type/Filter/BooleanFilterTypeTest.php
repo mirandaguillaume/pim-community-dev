@@ -26,7 +26,7 @@ class BooleanFilterTypeTest extends AbstractTypeTestCase
 
         $types = [
             new FilterType($translator),
-            new ChoiceFilterType($translator)
+            new ChoiceFilterType($translator),
         ];
 
         $this->formExtensions[] = new CustomFormExtension($types);
@@ -56,9 +56,9 @@ class BooleanFilterTypeTest extends AbstractTypeTestCase
         return [
             [
                 'defaultOptions' => [
-                    'field_options' => ['choices' => $this->booleanChoices]
-                ]
-            ]
+                    'field_options' => ['choices' => $this->booleanChoices],
+                ],
+            ],
         ];
     }
 
@@ -73,7 +73,7 @@ class BooleanFilterTypeTest extends AbstractTypeTestCase
                 'formData' => ['type' => null, 'value' => null],
                 'viewData' => [
                     'value' => ['type' => null, 'value' => null],
-                ]
+                ],
             ],
             'predefined value choice' => [
                 'bindData' => ['value' => BooleanFilterType::TYPE_YES],
@@ -83,9 +83,9 @@ class BooleanFilterTypeTest extends AbstractTypeTestCase
                 ],
                 'customOptions' => [
                     'field_options' => [
-                        'choices' => $this->booleanChoices
+                        'choices' => $this->booleanChoices,
                     ],
-                ]
+                ],
             ],
             'invalid value choice' => [
                 'bindData' => ['value' => 'incorrect_value'],
@@ -95,9 +95,9 @@ class BooleanFilterTypeTest extends AbstractTypeTestCase
                 ],
                 'customOptions' => [
                     'field_options' => [
-                        'choices' => $this->booleanChoices
+                        'choices' => $this->booleanChoices,
                     ],
-                ]
+                ],
             ],
         ];
     }

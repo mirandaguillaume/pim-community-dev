@@ -62,7 +62,7 @@ class PurgeOrphanCategoriesSqlIntegration extends CategoryTestCase
         $this->assertEquals(3, $affectedRows);
 
         $nonOrphanCategoriesGenerator = $this->get(GetCategoryInterface::class)->byCodes(['parent', 'child1', 'child2', 'child3', 'child4', 'child5']);
-        $nonOrphanCategories= [];
+        $nonOrphanCategories = [];
         foreach ($nonOrphanCategoriesGenerator as $category) {
             $nonOrphanCategories[] = $category;
         }
@@ -72,17 +72,17 @@ class PurgeOrphanCategoriesSqlIntegration extends CategoryTestCase
             $child2,
         ];
 
-        $this->assertCount( 3, $nonOrphanCategories);
+        $this->assertCount(3, $nonOrphanCategories);
         $this->assertEqualsCanonicalizing($expectedCategories, $nonOrphanCategories);
     }
 
     private function setCategoryParentIdToNull(string $code): void
     {
         $sql = <<< SQL
-            UPDATE pim_catalog_category
-            SET parent_id = NULL
-            WHERE code = :code;
-        SQL;
+                UPDATE pim_catalog_category
+                SET parent_id = NULL
+                WHERE code = :code;
+            SQL;
         $this->get('database_connection')->executeQuery($sql, ['code' => $code]);
     }
 }

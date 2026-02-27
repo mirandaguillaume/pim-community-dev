@@ -31,17 +31,17 @@ class AverageMaxOptionsPerAttribute implements AverageMaxQuery
         $multipleSelect = AttributeTypes::OPTION_MULTI_SELECT;
 
         $sql = <<<SQL
-            SELECT 
-                CEIL(AVG(opa.count_options_per_attribute)) average,
-                MAX(opa.count_options_per_attribute) max
-            FROM (
-                SELECT ao.attribute_id, COUNT(ao.id) as count_options_per_attribute
-                FROM pim_catalog_attribute_option ao
-                JOIN pim_catalog_attribute AS a ON ao.attribute_id = a.id
-		        WHERE a.attribute_type IN ('$simpleSelect', '$multipleSelect')
-                GROUP BY ao.attribute_id
-            ) as opa
-SQL;
+                        SELECT 
+                            CEIL(AVG(opa.count_options_per_attribute)) average,
+                            MAX(opa.count_options_per_attribute) max
+                        FROM (
+                            SELECT ao.attribute_id, COUNT(ao.id) as count_options_per_attribute
+                            FROM pim_catalog_attribute_option ao
+                            JOIN pim_catalog_attribute AS a ON ao.attribute_id = a.id
+            		        WHERE a.attribute_type IN ('$simpleSelect', '$multipleSelect')
+                            GROUP BY ao.attribute_id
+                        ) as opa
+            SQL;
         $result = $this->connection->executeQuery($sql)->fetchAssociative();
         $volume = new AverageMaxVolumes((int) $result['max'], (int) $result['average'], self::VOLUME_NAME);
 

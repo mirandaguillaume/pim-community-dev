@@ -17,9 +17,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 final readonly class UpdateGeneratorCommandValidator implements CommandValidatorInterface
 {
-    public function __construct(private ValidatorInterface $validator)
-    {
-    }
+    public function __construct(private ValidatorInterface $validator) {}
 
     public function validate(CommandInterface $command): void
     {
@@ -27,7 +25,7 @@ final readonly class UpdateGeneratorCommandValidator implements CommandValidator
         if (0 < $violations->count()) {
             throw new ViolationsException(new ErrorList(
                 \array_map(
-                    static fn ($violation) => new Error((string) $violation->getMessage(), $violation->getParameters(), $violation->getPropertyPath()),
+                    static fn($violation) => new Error((string) $violation->getMessage(), $violation->getParameters(), $violation->getPropertyPath()),
                     \iterator_to_array($violations)
                 )
             ));

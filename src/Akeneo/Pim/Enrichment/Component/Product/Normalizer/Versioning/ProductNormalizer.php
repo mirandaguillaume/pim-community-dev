@@ -140,7 +140,7 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
                 $filterType,
                 [
                     'channels' => [$context['scopeCode']],
-                    'locales'  => $context['localeCodes']
+                    'locales'  => $context['localeCodes'],
                 ]
             );
         }
@@ -164,7 +164,7 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
             $suffix .= sprintf('-%s', $value->getScopeCode());
         }
 
-        return $value->getAttributeCode().$suffix;
+        return $value->getAttributeCode() . $suffix;
     }
 
     /**
@@ -253,7 +253,7 @@ class ProductNormalizer implements NormalizerInterface, NormalizerAwareInterface
                 'scopeCode'     => null,
                 'localeCodes'   => [],
                 'metric_format' => 'multiple_fields',
-                'filter_types'  => ['pim.transform.product_value.flat']
+                'filter_types'  => ['pim.transform.product_value.flat'],
             ],
             $context
         );

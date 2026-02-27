@@ -84,38 +84,38 @@ class GetCategorySql implements GetCategoryInterface
         $sqlWhere = $condition['sqlWhere'];
 
         return <<<SQL
-            WITH translation as (
-                SELECT category.code, JSON_OBJECTAGG(translation.locale, translation.label) as translations
-                FROM pim_catalog_category category
-                JOIN pim_catalog_category_translation translation ON translation.foreign_key = category.id
+                WITH translation as (
+                    SELECT category.code, JSON_OBJECTAGG(translation.locale, translation.label) as translations
+                    FROM pim_catalog_category category
+                    JOIN pim_catalog_category_translation translation ON translation.foreign_key = category.id
+                    WHERE $sqlWhere
+                    GROUP BY category.code
+                ),
+                template as (
+                    SELECT category.code as category_code, BIN_TO_UUID(category_template_uuid) as template_uuid
+                    FROM pim_catalog_category_tree_template template_category
+                    JOIN pim_catalog_category category ON category.root = template_category.category_tree_id
+                    JOIN pim_catalog_category_template category_template ON category_template.uuid = template_category.category_template_uuid AND (category_template.is_deactivated IS NULL OR category_template.is_deactivated = 0)
+                    WHERE $sqlWhere
+                )
+                SELECT
+                    category.id,
+                    category.code,
+                    category.parent_id,
+                    category.root as root_id,
+                    category.lft,
+                    category.rgt,
+                    category.lvl,
+                    category.updated,
+                    translation.translations,
+                    category.value_collection,
+                    template.template_uuid
+                FROM 
+                    pim_catalog_category category
+                    LEFT JOIN translation ON translation.code = category.code
+                    LEFT JOIN template ON category.code = template.category_code
                 WHERE $sqlWhere
-                GROUP BY category.code
-            ),
-            template as (
-                SELECT category.code as category_code, BIN_TO_UUID(category_template_uuid) as template_uuid
-                FROM pim_catalog_category_tree_template template_category
-                JOIN pim_catalog_category category ON category.root = template_category.category_tree_id
-                JOIN pim_catalog_category_template category_template ON category_template.uuid = template_category.category_template_uuid AND (category_template.is_deactivated IS NULL OR category_template.is_deactivated = 0)
-                WHERE $sqlWhere
-            )
-            SELECT
-                category.id,
-                category.code,
-                category.parent_id,
-                category.root as root_id,
-                category.lft,
-                category.rgt,
-                category.lvl,
-                category.updated,
-                translation.translations,
-                category.value_collection,
-                template.template_uuid
-            FROM 
-                pim_catalog_category category
-                LEFT JOIN translation ON translation.code = category.code
-                LEFT JOIN template ON category.code = template.category_code
-            WHERE $sqlWhere
-        SQL;
+            SQL;
     }
 
     /**

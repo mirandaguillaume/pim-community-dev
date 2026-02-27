@@ -15,25 +15,25 @@ use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 
 class JobInstanceValidatorSpec extends ObjectBehavior
 {
-    function let(JobRegistry $jobRegistry, ExecutionContextInterface $context)
+    public function let(JobRegistry $jobRegistry, ExecutionContextInterface $context)
     {
         $this->beConstructedWith($jobRegistry);
         $this->initialize($context);
     }
 
-    function it_is_a_constraint_validator()
+    public function it_is_a_constraint_validator()
     {
         $this->shouldHaveType('\\' . \Symfony\Component\Validator\ConstraintValidator::class);
     }
 
-    function it_validates_only_job_instance($context, $object, Constraint $constraint)
+    public function it_validates_only_job_instance($context, $object, Constraint $constraint)
     {
         $context->buildViolation(Argument::cetera())->shouldNotBeCalled();
 
         $this->validate($object, $constraint);
     }
 
-    function it_validates_that_a_job_instance_has_a_known_type(
+    public function it_validates_that_a_job_instance_has_a_known_type(
         $jobRegistry,
         $context,
         Constraint $constraint,
@@ -47,7 +47,7 @@ class JobInstanceValidatorSpec extends ObjectBehavior
         $this->validate($jobInstance, $constraint);
     }
 
-    function it_adds_a_violation_if_job_instance_has_an_unknown_type(
+    public function it_adds_a_violation_if_job_instance_has_an_unknown_type(
         $jobRegistry,
         $context,
         JobInstanceConstraint $constraint,

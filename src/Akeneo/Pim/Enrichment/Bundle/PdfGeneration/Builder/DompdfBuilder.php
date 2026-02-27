@@ -52,7 +52,7 @@ class DompdfBuilder implements PdfBuilderInterface
         $options = new Options([
             'fontDir' => $this->rootDir . '/Akeneo/Pim/Enrichment/Bundle/Resources/fonts',
             'isRemoteEnabled' => true,
-            'chroot' => $this->publicDir
+            'chroot' => $this->publicDir,
         ]);
         $this->dompdf = new Dompdf($options);
         $html = $this->arabicHtmlFormatter->formatHtml($html);

@@ -35,10 +35,10 @@ final class SqlUpdateIdentifierValuesQuery implements UpdateIdentifierValuesQuer
         $statement = $this->connection->prepare(
             \sprintf(
                 <<<SQL
-                INSERT INTO pim_catalog_product_identifiers(product_uuid, identifiers)
-                VALUES %s
-                ON DUPLICATE KEY UPDATE identifiers = VALUES(identifiers);
-                SQL,
+                    INSERT INTO pim_catalog_product_identifiers(product_uuid, identifiers)
+                    VALUES %s
+                    ON DUPLICATE KEY UPDATE identifiers = VALUES(identifiers);
+                    SQL,
                 $parameters
             )
         );
@@ -68,8 +68,8 @@ final class SqlUpdateIdentifierValuesQuery implements UpdateIdentifierValuesQuer
         if (null === $this->doesTableExist) {
             $this->doesTableExist = $this->connection->executeQuery(
                 <<<SQL
-                SHOW TABLES LIKE :tableName
-                SQL,
+                    SHOW TABLES LIKE :tableName
+                    SQL,
                 ['tableName' => $tableName]
             )->rowCount() >= 1;
         }

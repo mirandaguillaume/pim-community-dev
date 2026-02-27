@@ -34,15 +34,15 @@ class SearchJobUser implements SearchJobUserInterface
         $username = $query->search;
 
         $sql = <<<SQL
-            SELECT DISTINCT job_execution.user
-            FROM akeneo_batch_job_execution job_execution
-            INNER JOIN oro_user ON job_execution.user = oro_user.username
-            WHERE job_execution.is_visible = 1
-            AND job_execution.user IS NOT NULL
-            AND oro_user.user_type = :user_type
-            %s
-            ORDER BY job_execution.user
-        SQL;
+                SELECT DISTINCT job_execution.user
+                FROM akeneo_batch_job_execution job_execution
+                INNER JOIN oro_user ON job_execution.user = oro_user.username
+                WHERE job_execution.is_visible = 1
+                AND job_execution.user IS NOT NULL
+                AND oro_user.user_type = :user_type
+                %s
+                ORDER BY job_execution.user
+            SQL;
 
         $wherePart = '';
 

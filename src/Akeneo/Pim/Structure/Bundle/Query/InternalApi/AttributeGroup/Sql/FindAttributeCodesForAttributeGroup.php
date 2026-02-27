@@ -20,13 +20,13 @@ class FindAttributeCodesForAttributeGroup
     public function execute(string $attributeGroupCode): array
     {
         $query = <<<SQL
-SELECT a.code
-FROM pim_catalog_attribute_group g INNER JOIN pim_catalog_attribute a ON g.id = a.group_id WHERE g.code=:group_code;
-SQL;
+            SELECT a.code
+            FROM pim_catalog_attribute_group g INNER JOIN pim_catalog_attribute a ON g.id = a.group_id WHERE g.code=:group_code;
+            SQL;
 
         return $this->connection
             ->executeQuery($query, [
-                'group_code' => $attributeGroupCode
+                'group_code' => $attributeGroupCode,
             ])
             ->fetchFirstColumn();
     }

@@ -78,11 +78,11 @@ class ReadValueCollectionFactory
                                 $localeCode,
                                 $data
                             );
-                        } catch (\TypeError | InvalidPropertyTypeException | InvalidPropertyException) {
+                        } catch (\TypeError|InvalidPropertyTypeException|InvalidPropertyException) {
                             $this->logger->notice(
                                 sprintf(
-                                    'Tried to load a product value for attribute "%s" that does not have the '.
-                                    'expected type in database.',
+                                    'Tried to load a product value for attribute "%s" that does not have the '
+                                    . 'expected type in database.',
                                     $attribute->code()
                                 )
                             );

@@ -129,10 +129,10 @@ class DeleteAppHandlerIntegration extends TestCase
     private function findNameOfConnectedApps(): array
     {
         $query = <<<SQL
-SELECT name
-FROM akeneo_connectivity_connected_app
-ORDER BY name
-SQL;
+            SELECT name
+            FROM akeneo_connectivity_connected_app
+            ORDER BY name
+            SQL;
 
         return $this->connection->fetchFirstColumn($query);
     }
@@ -140,10 +140,10 @@ SQL;
     private function findNameOfConnections(): array
     {
         $query = <<<SQL
-SELECT label
-FROM akeneo_connectivity_connection
-ORDER BY label
-SQL;
+            SELECT label
+            FROM akeneo_connectivity_connection
+            ORDER BY label
+            SQL;
 
         return $this->connection->fetchFirstColumn($query);
     }
@@ -151,11 +151,11 @@ SQL;
     private function findNameOfUsers(): array
     {
         $query = <<<SQL
-SELECT first_name
-FROM oro_user
-WHERE user_type = 'api'
-ORDER BY first_name
-SQL;
+            SELECT first_name
+            FROM oro_user
+            WHERE user_type = 'api'
+            ORDER BY first_name
+            SQL;
 
         return $this->connection->fetchFirstColumn($query);
     }
@@ -163,10 +163,10 @@ SQL;
     private function findNameOfUserGroups(): array
     {
         $query = <<<SQL
-SELECT name
-FROM oro_access_group
-ORDER BY name
-SQL;
+            SELECT name
+            FROM oro_access_group
+            ORDER BY name
+            SQL;
 
         return $this->connection->fetchFirstColumn($query);
     }
@@ -174,11 +174,11 @@ SQL;
     private function findNameOfUserRoles(): array
     {
         $query = <<<SQL
-SELECT role
-FROM oro_access_role
-WHERE type = 'app'
-ORDER BY role
-SQL;
+            SELECT role
+            FROM oro_access_role
+            WHERE type = 'app'
+            ORDER BY role
+            SQL;
 
         return $this->connection->fetchFirstColumn($query);
     }
@@ -186,11 +186,11 @@ SQL;
     private function findIdOfOAuthClients(): array
     {
         $query = <<<SQL
-SELECT marketplace_public_app_id
-FROM pim_api_client
-WHERE marketplace_public_app_id IS NOT NULL
-ORDER BY marketplace_public_app_id
-SQL;
+            SELECT marketplace_public_app_id
+            FROM pim_api_client
+            WHERE marketplace_public_app_id IS NOT NULL
+            ORDER BY marketplace_public_app_id
+            SQL;
 
         return $this->connection->fetchFirstColumn($query);
     }
@@ -198,10 +198,10 @@ SQL;
     private function findNameOfOAuthGrandCode(): array
     {
         $query = <<<SQL
-SELECT token
-FROM pim_api_auth_code
-ORDER BY token
-SQL;
+            SELECT token
+            FROM pim_api_auth_code
+            ORDER BY token
+            SQL;
 
         return $this->connection->fetchFirstColumn($query);
     }
@@ -209,10 +209,10 @@ SQL;
     private function findNameOfOAuthAccessToken(): array
     {
         $query = <<<SQL
-SELECT token
-FROM pim_api_access_token
-ORDER BY token
-SQL;
+            SELECT token
+            FROM pim_api_access_token
+            ORDER BY token
+            SQL;
 
         return $this->connection->fetchFirstColumn($query);
     }
@@ -220,10 +220,10 @@ SQL;
     private function findNameOfOAuthRefreshToken(): array
     {
         $query = <<<SQL
-SELECT token
-FROM pim_api_refresh_token
-ORDER BY token
-SQL;
+            SELECT token
+            FROM pim_api_refresh_token
+            ORDER BY token
+            SQL;
 
         return $this->connection->fetchFirstColumn($query);
     }
@@ -231,10 +231,10 @@ SQL;
     private function findRevokedAccessTokens(): array
     {
         $query = <<<SQL
-SELECT token
-FROM akeneo_connectivity_revoked_app_token
-ORDER BY token
-SQL;
+            SELECT token
+            FROM akeneo_connectivity_revoked_app_token
+            ORDER BY token
+            SQL;
 
         return $this->connection->fetchFirstColumn($query);
     }

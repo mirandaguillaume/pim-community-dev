@@ -75,7 +75,7 @@ class SendBusinessEventToWebhooksHandlerSpec extends ObjectBehavior
 
         $author = Author::fromUser($juliaUser);
         $pimEventBulk = new BulkEvent([
-            $this->createEvent($author, ['data'])
+            $this->createEvent($author, ['data']),
         ]);
         $command = new SendBusinessEventToWebhooksCommand($pimEventBulk);
         $webhook = new ActiveWebhook('ecommerce', 42, 'a_secret', 'http://localhost/', true);
@@ -165,7 +165,7 @@ class SendBusinessEventToWebhooksHandlerSpec extends ObjectBehavior
 
         $erpAuthor = Author::fromUser($erpUser);
         $pimEventBulk = new BulkEvent([
-            $this->createEvent($erpAuthor, ['data'])
+            $this->createEvent($erpAuthor, ['data']),
         ]);
         $command = new SendBusinessEventToWebhooksCommand($pimEventBulk);
         $erpWebhook = new ActiveWebhook('erp_source', 42, 'a_secret', 'http://localhost/', true);
@@ -251,7 +251,7 @@ class SendBusinessEventToWebhooksHandlerSpec extends ObjectBehavior
 
         $author = Author::fromUser($user);
         $pimEventBulk = new BulkEvent([
-            $this->createEvent($author, ['data'])
+            $this->createEvent($author, ['data']),
         ]);
         $command = new SendBusinessEventToWebhooksCommand($pimEventBulk);
         $webhook = new ActiveWebhook('ecommerce', 0, 'a_secret', 'http://localhost/', false);

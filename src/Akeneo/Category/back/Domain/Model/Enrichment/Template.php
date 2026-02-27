@@ -97,8 +97,8 @@ class Template
     {
         $id = TemplateUuid::fromString($result['uuid']);
         $code = new TemplateCode($result['code']);
-        $labelCollection = $result['labels'] ?
-            LabelCollection::fromArray(
+        $labelCollection = $result['labels']
+            ? LabelCollection::fromArray(
                 json_decode($result['labels'], true, 512, JSON_THROW_ON_ERROR),
             ) : LabelCollection::fromArray([]);
         $categoryId = new CategoryId((int) $result['category_id']);

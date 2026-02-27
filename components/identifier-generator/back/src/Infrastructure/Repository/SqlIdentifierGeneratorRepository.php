@@ -33,8 +33,7 @@ class SqlIdentifierGeneratorRepository implements IdentifierGeneratorRepository
 {
     public function __construct(
         private readonly Connection $connection,
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -165,7 +164,7 @@ SQL;
             throw new UnableToFetchIdentifierGeneratorException('Cannot fetch identifiers generators');
         }
 
-        return \array_map(fn ($data) => $this->fromDatabaseToModel($data), $result);
+        return \array_map(fn($data) => $this->fromDatabaseToModel($data), $result);
     }
 
     /**

@@ -18,7 +18,7 @@ class MetadataExtension extends \Twig\Extension\AbstractExtension
     {
         return [
             new TwigFunction('oro_datagrid_data', $this->metadataParser->getGridData(...)),
-            new TwigFunction('oro_datagrid_metadata', $this->metadataParser->getGridMetadata(...))
+            new TwigFunction('oro_datagrid_metadata', $this->metadataParser->getGridMetadata(...)),
         ];
     }
 }

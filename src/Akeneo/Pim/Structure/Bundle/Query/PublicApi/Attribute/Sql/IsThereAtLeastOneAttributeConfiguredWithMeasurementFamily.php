@@ -21,11 +21,11 @@ class IsThereAtLeastOneAttributeConfiguredWithMeasurementFamily
     public function execute(string $metricFamilyCode): bool
     {
         $query = <<<SQL
-SELECT 1
-FROM pim_catalog_attribute
-WHERE metric_family = :metric_family
-AND attribute_type = 'pim_catalog_metric';
-SQL;
+            SELECT 1
+            FROM pim_catalog_attribute
+            WHERE metric_family = :metric_family
+            AND attribute_type = 'pim_catalog_metric';
+            SQL;
         $stmt = $this->connection->executeQuery($query, ['metric_family' => $metricFamilyCode]);
         return $this->connection->convertToPHPValue($stmt->fetchOne(), Types::BOOLEAN);
     }

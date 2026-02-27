@@ -148,7 +148,7 @@ class Version_7_0_20220701154545_add_app_id_to_user_properties_Integration exten
             ],
             [
                 'allowed_grant_types' => Types::ARRAY,
-                'redirect_uris' => Types::ARRAY
+                'redirect_uris' => Types::ARRAY,
             ]
         );
 
@@ -158,10 +158,10 @@ class Version_7_0_20220701154545_add_app_id_to_user_properties_Integration exten
     private function assertUserPropertiesContainsAppId(string $username, string $appId): void
     {
         $sql = <<<SQL
-            SELECT JSON_VALUE(oro_user.properties, "$.app_id") AS contains_app_id
-            FROM oro_user 
-            WHERE username = :username
-        SQL;
+                SELECT JSON_VALUE(oro_user.properties, "$.app_id") AS contains_app_id
+                FROM oro_user 
+                WHERE username = :username
+            SQL;
 
         $containsAppId = $this->connection->fetchOne($sql, [
             'username' => $username,
@@ -173,10 +173,10 @@ class Version_7_0_20220701154545_add_app_id_to_user_properties_Integration exten
     private function assertUserPropertiesNotContainsAppId(string $username): void
     {
         $sql = <<<SQL
-            SELECT JSON_CONTAINS_PATH(oro_user.properties, 'one', "$.app_id") AS contains_app_id
-            FROM oro_user 
-            WHERE username = :username
-        SQL;
+                SELECT JSON_CONTAINS_PATH(oro_user.properties, 'one', "$.app_id") AS contains_app_id
+                FROM oro_user 
+                WHERE username = :username
+            SQL;
 
         $containsAppId = $this->connection->fetchOne($sql, [
             'username' => $username,

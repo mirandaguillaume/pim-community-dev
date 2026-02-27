@@ -56,9 +56,9 @@ class UserNormalizer implements NormalizerInterface, CacheableSupportsMethodInte
                 fn (RoleInterface $role): string => $role->getRole()
             )->getValues(),
             'product_grid_filters' => $user->getProductGridFilters(),
-            'default_product_grid_view' => $user->getDefaultGridView('product-grid') ?
-                $user->getDefaultGridView('product-grid')->getLabel() :
-                null,
+            'default_product_grid_view' => $user->getDefaultGridView('product-grid')
+                ? $user->getDefaultGridView('product-grid')->getLabel()
+                : null,
             'date_account_created' => $this->dateTimeNormalizer->normalize($user->getCreatedAt(), $format, $context),
             'date_account_last_updated' => $this->dateTimeNormalizer->normalize($user->getUpdatedAt(), $format, $context),
             'last_logged_in' => $this->dateTimeNormalizer->normalize($user->getLastLogin(), $format, $context),

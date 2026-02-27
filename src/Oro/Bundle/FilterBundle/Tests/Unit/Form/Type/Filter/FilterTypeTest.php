@@ -45,7 +45,7 @@ class FilterTypeTest extends AbstractTypeTestCase
                     'operator_choices' => [],
                     'operator_type'    => 'choice',
                     'operator_options' => [],
-                    'show_filter'      => false
+                    'show_filter'      => false,
                 ],
                 'requiredOptions' => [
                     'field_type',
@@ -53,9 +53,9 @@ class FilterTypeTest extends AbstractTypeTestCase
                     'operator_choices',
                     'operator_type',
                     'operator_options',
-                    'show_filter'
-                ]
-            ]
+                    'show_filter',
+                ],
+            ],
         ];
     }
 
@@ -72,7 +72,7 @@ class FilterTypeTest extends AbstractTypeTestCase
                     'value' => ['type' => '', 'value' => ''],
                 ],
                 'customOptions' => [
-                    'operator_choices' => []
+                    'operator_choices' => [],
                 ],
             ],
             'empty choice' => [
@@ -82,7 +82,7 @@ class FilterTypeTest extends AbstractTypeTestCase
                     'value' => ['type' => '1', 'value' => ''],
                 ],
                 'customOptions' => [
-                    'operator_choices' => []
+                    'operator_choices' => [],
                 ],
             ],
             'invalid choice' => [
@@ -93,8 +93,8 @@ class FilterTypeTest extends AbstractTypeTestCase
                 ],
                 'customOptions' => [
                     'operator_choices' => [
-                        1 => 'Choice 1'
-                    ]
+                        1 => 'Choice 1',
+                    ],
                 ],
             ],
             'without choice' => [
@@ -105,8 +105,8 @@ class FilterTypeTest extends AbstractTypeTestCase
                 ],
                 'customOptions' => [
                     'operator_choices' => [
-                        1 => 'Choice 1'
-                    ]
+                        1 => 'Choice 1',
+                    ],
                 ],
             ],
         ];

@@ -59,18 +59,18 @@ final class ComputeProductModelsEnrichmentStatusQueryIntegration extends DataQua
                     ['scope' => 'ecommerce', 'locale' => 'en_US', 'data' => 'Whatever the description'],
                     ['scope' => 'mobile', 'locale' => 'en_US', 'data' => 'Whatever'],
                 ],
-            ]
+            ],
         ])->getId();
 
         $subProductModelId = $this->createSubProductModel('a_sub_product_model', 'a_family_variant', 'a_product_model', [
             'values' => [
                 'color' => [
-                    ['scope' => null, 'locale' => null, 'data' => 'red']
+                    ['scope' => null, 'locale' => null, 'data' => 'red'],
                 ],
                 'image' => [
-                    ['scope' => 'mobile', 'locale' => null, 'data' => 'red-ziggy.png']
-                ]
-            ]
+                    ['scope' => 'mobile', 'locale' => null, 'data' => 'red-ziggy.png'],
+                ],
+            ],
         ])->getId();
 
         $expectedEnrichmentStatus = [
@@ -81,7 +81,7 @@ final class ComputeProductModelsEnrichmentStatusQueryIntegration extends DataQua
                 ],
                 'mobile' => [
                     'en_US' => true,
-                ]
+                ],
             ],
             $subProductModelId => [
                 'ecommerce' => [
@@ -90,11 +90,11 @@ final class ComputeProductModelsEnrichmentStatusQueryIntegration extends DataQua
                 ],
                 'mobile' => [
                     'en_US' => true,
-                ]
-            ]
+                ],
+            ],
         ];
 
-        $productModelIds = $this->get(ProductModelIdFactory::class)->createCollection([(string)$productModelId, (string)$subProductModelId]);
+        $productModelIds = $this->get(ProductModelIdFactory::class)->createCollection([(string) $productModelId, (string) $subProductModelId]);
         ($this->get(EvaluateProductModels::class))($productModelIds);
 
         $productModelsEnrichmentStatus = $this->get('akeneo.pim.automation.data_quality_insights.query.compute_product_models_enrichment_status_query')

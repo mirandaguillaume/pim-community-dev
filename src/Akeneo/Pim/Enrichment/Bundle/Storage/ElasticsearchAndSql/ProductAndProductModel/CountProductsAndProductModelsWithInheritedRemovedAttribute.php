@@ -54,6 +54,6 @@ final readonly class CountProductsAndProductModelsWithInheritedRemovedAttribute 
 
         $result = $this->elasticsearchClient->count($body);
 
-        return (int)$result['count'];
+        return (int) $result['count'];
     }
 }

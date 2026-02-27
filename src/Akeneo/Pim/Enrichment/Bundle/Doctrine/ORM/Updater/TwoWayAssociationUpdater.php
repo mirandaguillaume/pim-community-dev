@@ -31,12 +31,12 @@ class TwoWayAssociationUpdater implements TwoWayAssociationUpdaterInterface
         string $associationTypeCode,
         EntityWithAssociationsInterface $associatedEntity
     ): void {
-        if ($owner instanceof ProductInterface && $associatedEntity instanceof ProductInterface &&
-            $this->hasSameProductUuid($owner, $associatedEntity)
+        if ($owner instanceof ProductInterface && $associatedEntity instanceof ProductInterface
+            && $this->hasSameProductUuid($owner, $associatedEntity)
         ) {
             throw new TwoWayAssociationWithTheSameProductException();
-        } elseif ($owner instanceof ProductModelInterface && $associatedEntity instanceof ProductModelInterface &&
-            $owner->getCode() === $associatedEntity->getCode()
+        } elseif ($owner instanceof ProductModelInterface && $associatedEntity instanceof ProductModelInterface
+            && $owner->getCode() === $associatedEntity->getCode()
         ) {
             throw new TwoWayAssociationWithTheSameProductException();
         }

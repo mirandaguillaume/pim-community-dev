@@ -45,7 +45,7 @@ class CreateCustomAppActionEndToEnd extends WebTestCase
             [],
             [
                 'HTTP_X-Requested-With' => 'XMLHttpRequest',
-                'CONTENT_TYPE' => 'application/json'
+                'CONTENT_TYPE' => 'application/json',
             ],
             \json_encode($data)
         );

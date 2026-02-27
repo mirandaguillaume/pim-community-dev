@@ -56,11 +56,11 @@ class UserDefaultCategoryTreeResetterTest extends TestCase
     private function assertUserDefaultCategoryTree(string $expectedCatalogLocale): void
     {
         $sql = <<<SQL
-            SELECT pim_catalog_category.code 
-            FROM oro_user
-            JOIN pim_catalog_category ON oro_user.defaultTree_id = pim_catalog_category.id
-            WHERE username = 'admin'
-        SQL;
+                SELECT pim_catalog_category.code 
+                FROM oro_user
+                JOIN pim_catalog_category ON oro_user.defaultTree_id = pim_catalog_category.id
+                WHERE username = 'admin'
+            SQL;
 
         $actualCatalogLocale = $this->getConnection()->executeQuery($sql)->fetchOne();
 
@@ -70,13 +70,13 @@ class UserDefaultCategoryTreeResetterTest extends TestCase
     private function changeDefaultCategoryTree(string $categoryTreeCode)
     {
         $sql = <<<SQL
-            UPDATE oro_user
-            SET defaultTree_id = (
-                SELECT id 
-                FROM pim_catalog_category
-                WHERE code = :categoryTreeCode
-            )
-        SQL;
+                UPDATE oro_user
+                SET defaultTree_id = (
+                    SELECT id 
+                    FROM pim_catalog_category
+                    WHERE code = :categoryTreeCode
+                )
+            SQL;
 
         $this->getConnection()->executeStatement($sql, ['categoryTreeCode' => $categoryTreeCode]);
     }

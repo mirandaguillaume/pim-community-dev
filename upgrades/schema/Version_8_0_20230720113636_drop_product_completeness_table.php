@@ -20,9 +20,10 @@ final class Version_8_0_20230720113636_drop_product_completeness_table extends A
 
     public function up(Schema $schema): void
     {
-        $this->connection->executeStatement(<<<SQL
-            DROP TABLE IF EXISTS `pim_catalog_completeness`
-        SQL
+        $this->connection->executeStatement(
+            <<<SQL
+                    DROP TABLE IF EXISTS `pim_catalog_completeness`
+                SQL
         );
     }
 

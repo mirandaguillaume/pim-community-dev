@@ -22,13 +22,13 @@ class Version_6_0_20211025161901_set_default_role_type_Integration extends TestC
         $connection->executeQuery('ALTER TABLE oro_access_role MODIFY type VARCHAR(30) DEFAULT NULL;');
         $connection->executeQuery('UPDATE oro_access_role SET type = NULL;');
 
-        foreach($this->getAllRoleTypes() as $type) {
+        foreach ($this->getAllRoleTypes() as $type) {
             Assert::assertNull($type);
         }
 
         $this->reExecuteMigration(self::MIGRATION_LABEL);
 
-        foreach($this->getAllRoleTypes() as $type) {
+        foreach ($this->getAllRoleTypes() as $type) {
             Assert::assertEquals('default', $type);
         }
 
@@ -56,9 +56,9 @@ class Version_6_0_20211025161901_set_default_role_type_Integration extends TestC
     private function getAllRoleTypes(): array
     {
         $query = <<<SQL
-SELECT type
-FROM oro_access_role
-SQL;
+            SELECT type
+            FROM oro_access_role
+            SQL;
 
         return array_column($this->getConnection()->fetchAllAssociative($query), 'type');
     }

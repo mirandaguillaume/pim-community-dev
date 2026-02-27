@@ -15,7 +15,7 @@ class ListRootCategoriesWithCount
         private readonly bool $countIncludingSubCategories,
         private readonly int $userId,
         private readonly string $translationLocaleCode,
-        private readonly int|null $categoryTreeIdSelectedAsFilter = null,
+        private readonly ?int $categoryTreeIdSelectedAsFilter = null,
     ) {
     }
 

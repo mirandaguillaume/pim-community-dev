@@ -217,7 +217,7 @@ class ProductModelRepository extends EntityRepository implements ProductModelRep
             ->where('pm.familyVariant = :familyVariant')
             ->setParameter('familyVariant', $familyVariant->getId())
             ->addOrderBy('pm.parent', 'ASC')
-            ->setFirstResult(($page -1) * $limit)
+            ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit)
         ;
 
@@ -247,9 +247,9 @@ class ProductModelRepository extends EntityRepository implements ProductModelRep
             ->setFirstResult($page * $limit)
             ->setMaxResults($limit);
 
-        $qb = ($familyVariant->getNumberOfLevel() <= 1) ?
-            $qb->andWhere('pm.parent IS NULL')->andWhere('pm.familyVariant = :familyVariant') :
-            $qb->innerJoin('pm.parent', 'ppm')->andWhere('ppm.familyVariant = :familyVariant');
+        $qb = ($familyVariant->getNumberOfLevel() <= 1)
+            ? $qb->andWhere('pm.parent IS NULL')->andWhere('pm.familyVariant = :familyVariant')
+            : $qb->innerJoin('pm.parent', 'ppm')->andWhere('ppm.familyVariant = :familyVariant');
 
         return $qb->getQuery()->execute();
     }

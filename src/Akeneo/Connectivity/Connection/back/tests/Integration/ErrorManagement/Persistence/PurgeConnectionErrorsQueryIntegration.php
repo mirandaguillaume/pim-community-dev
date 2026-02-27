@@ -66,9 +66,9 @@ class PurgeConnectionErrorsQueryIntegration extends TestCase
             'size' => 20,
             'query' => [
                 'bool' => [
-                    'filter' => ['term' => ['connection_code' => $code]]
-                ]
-            ]
+                    'filter' => ['term' => ['connection_code' => $code]],
+                ],
+            ],
         ]);
     }
     protected function setUp(): void
@@ -90,10 +90,10 @@ class PurgeConnectionErrorsQueryIntegration extends TestCase
             'code' => 422,
             '_links' => [
                 'documentation' => [
-                    'href' => 'http://api.akeneo.com/api-reference.html#post_products'
-                ]
+                    'href' => 'http://api.akeneo.com/api-reference.html#post_products',
+                ],
             ],
-            'message' => 'Property "description" does not exist. Check the expected format on the API documentation.'
+            'message' => 'Property "description" does not exist. Check the expected format on the API documentation.',
         ];
         $documents = [];
         foreach ($connectionCodes as $connectionCode) {

@@ -23,9 +23,9 @@ class DeleteCategoryTreeTemplateByTemplateUuidSql implements DeleteCategoryTreeT
         $this->connection->transactional(function (Connection $connection) use ($templateUuid) {
             $connection->executeQuery(
                 <<<SQL
-                    DELETE FROM pim_catalog_category_tree_template
-                    WHERE category_template_uuid = :template_uuid
-                SQL,
+                        DELETE FROM pim_catalog_category_tree_template
+                        WHERE category_template_uuid = :template_uuid
+                    SQL,
                 [
                     'template_uuid' => $templateUuid->toBytes(),
                 ],
@@ -36,9 +36,9 @@ class DeleteCategoryTreeTemplateByTemplateUuidSql implements DeleteCategoryTreeT
 
             $connection->executeQuery(
                 <<<SQL
-                    DELETE FROM pim_catalog_category_attribute
-                    WHERE category_template_uuid = :template_uuid
-                SQL,
+                        DELETE FROM pim_catalog_category_attribute
+                        WHERE category_template_uuid = :template_uuid
+                    SQL,
                 [
                     'template_uuid' => $templateUuid->toBytes(),
                 ],
@@ -49,9 +49,9 @@ class DeleteCategoryTreeTemplateByTemplateUuidSql implements DeleteCategoryTreeT
 
             $connection->executeQuery(
                 <<<SQL
-                    DELETE FROM pim_catalog_category_template
-                    WHERE uuid = :template_uuid
-                SQL,
+                        DELETE FROM pim_catalog_category_template
+                        WHERE uuid = :template_uuid
+                    SQL,
                 [
                     'template_uuid' => $templateUuid->toBytes(),
                 ],

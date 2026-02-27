@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Component\Product\ProductModel\Query;
@@ -40,13 +41,13 @@ class CompleteVariantProducts
         if (!isset($completenesses[$channel][$locale])) {
             return [
                 'complete' => 0,
-                'total' => $this->numberOfProducts()
+                'total' => $this->numberOfProducts(),
             ];
         }
 
         return [
             'complete' => $completenesses[$channel][$locale],
-            'total' => $this->numberOfProducts()
+            'total' => $this->numberOfProducts(),
         ];
     }
 

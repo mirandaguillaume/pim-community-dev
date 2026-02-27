@@ -166,7 +166,7 @@ class LocaleController
         }
 
         return [
-            'activated' => $searchParameters['enabled'][0]['value']
+            'activated' => $searchParameters['enabled'][0]['value'],
         ];
     }
 }

@@ -17,7 +17,7 @@ class UiExtension extends AbstractExtension
     public function getTokenParsers()
     {
         return [
-            new PlaceholderTokenParser($this->placeholders, $this->wrapClassName)
+            new PlaceholderTokenParser($this->placeholders, $this->wrapClassName),
         ];
     }
 }

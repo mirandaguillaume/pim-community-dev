@@ -40,7 +40,7 @@ class ResolveDoctrineTargetRepositoryPass implements CompilerPassInterface
                 'addResolveTargetRepository',
                 [
                     $objectClass,
-                    $repositoryClass
+                    $repositoryClass,
                 ]
             );
         }

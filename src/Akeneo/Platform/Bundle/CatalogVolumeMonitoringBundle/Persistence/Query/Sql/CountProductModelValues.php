@@ -29,9 +29,9 @@ class CountProductModelValues implements CountQuery
     public function fetch(): CountVolume
     {
         $sql = <<<SQL
-           SELECT SUM(JSON_LENGTH(JSON_EXTRACT(raw_values, '$.*.*.*'))) as sum_product_model_values
-           FROM pim_catalog_product_model
-SQL;
+                       SELECT SUM(JSON_LENGTH(JSON_EXTRACT(raw_values, '$.*.*.*'))) as sum_product_model_values
+                       FROM pim_catalog_product_model
+            SQL;
         $result = $this->connection->executeQuery($sql)->fetchAssociative();
 
         $volume = new CountVolume((int) $result['sum_product_model_values'], self::VOLUME_NAME);

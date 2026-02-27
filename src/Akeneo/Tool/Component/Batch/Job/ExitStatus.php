@@ -60,7 +60,7 @@ class ExitStatus implements \Stringable
         self::NOOP      => 3,
         self::STOPPED   => 4,
         self::FAILED    => 5,
-        self::UNKNOWN   => 6
+        self::UNKNOWN   => 6,
     ];
 
     public function __construct(private string $exitCode = self::UNKNOWN, private string $exitDescription = "")

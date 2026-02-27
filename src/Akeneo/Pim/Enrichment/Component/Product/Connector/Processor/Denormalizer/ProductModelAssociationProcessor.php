@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Component\Product\Connector\Processor\Denormalizer;
@@ -113,7 +114,7 @@ class ProductModelAssociationProcessor extends AbstractProcessor implements
 
         try {
             $this->update($entity, $item);
-        } catch (PropertyException | InvalidArgumentException | AccessDeniedException $exception) {
+        } catch (PropertyException|InvalidArgumentException|AccessDeniedException $exception) {
             $this->detach($entity);
             $this->skipItemWithMessage($item, $exception->getMessage(), $exception);
         }

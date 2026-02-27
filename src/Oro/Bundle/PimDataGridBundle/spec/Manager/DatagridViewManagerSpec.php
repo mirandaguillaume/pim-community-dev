@@ -9,7 +9,7 @@ use PhpSpec\ObjectBehavior;
 
 class DatagridViewManagerSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         EntityRepository $repository,
         DatagridManager $manager
     ) {

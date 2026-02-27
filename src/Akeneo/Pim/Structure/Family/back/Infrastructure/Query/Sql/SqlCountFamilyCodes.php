@@ -27,14 +27,14 @@ class SqlCountFamilyCodes implements CountFamilyCodes
         $excludeCondition = !empty($query->excludeCodes) ? 'AND code NOT IN (:exclude_codes)' : '';
 
         $sql = <<<SQL
-            SELECT count(DISTINCT family.code)
-            FROM pim_catalog_family family
-            LEFT JOIN pim_catalog_family_translation translation ON family.id = translation.foreign_key $searchLocaleCondition
-            WHERE (family.code LIKE :search OR translation.label LIKE :search)
-                $includeCondition
-                $excludeCondition
-            ORDER BY family.code
-        SQL;
+                SELECT count(DISTINCT family.code)
+                FROM pim_catalog_family family
+                LEFT JOIN pim_catalog_family_translation translation ON family.id = translation.foreign_key $searchLocaleCondition
+                WHERE (family.code LIKE :search OR translation.label LIKE :search)
+                    $includeCondition
+                    $excludeCondition
+                ORDER BY family.code
+            SQL;
 
         $params = [
             'search' => sprintf('%%%s%%', $query->search?->value),

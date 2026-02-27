@@ -25,22 +25,22 @@ final readonly class CountProductModelsAndChildrenProductModels implements Count
         }
 
         $sql = <<<'SQL'
-            select count(distinct product_model.id)
-            from (
-                (
-                    select level_1.id
-                    from pim_catalog_product_model level_1
-                    where level_1.code in (:productModelCodes)
-                )
-                union
-                (
-                    select level_2.id
-                    from pim_catalog_product_model level_1
-                        inner join pim_catalog_product_model level_2 on level_2.parent_id = level_1.id
-                    where level_1.code in (:productModelCodes)
-                )
-            ) product_model
-SQL;
+                        select count(distinct product_model.id)
+                        from (
+                            (
+                                select level_1.id
+                                from pim_catalog_product_model level_1
+                                where level_1.code in (:productModelCodes)
+                            )
+                            union
+                            (
+                                select level_2.id
+                                from pim_catalog_product_model level_1
+                                    inner join pim_catalog_product_model level_2 on level_2.parent_id = level_1.id
+                                where level_1.code in (:productModelCodes)
+                            )
+                        ) product_model
+            SQL;
 
         $stmt = $this->connection->executeQuery(
             $sql,
@@ -48,6 +48,6 @@ SQL;
             ['productModelCodes' => ArrayParameterType::STRING]
         );
 
-        return (int)$stmt->fetchOne();
+        return (int) $stmt->fetchOne();
     }
 }

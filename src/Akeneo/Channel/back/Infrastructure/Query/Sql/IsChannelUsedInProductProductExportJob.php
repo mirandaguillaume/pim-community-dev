@@ -23,11 +23,11 @@ final readonly class IsChannelUsedInProductProductExportJob implements IsChannel
         $isChannelUsedRegex = sprintf('scope[{";:as0-9]+\\\b%s\\\b.+', $channelCode);
 
         $query = <<<SQL
-SELECT 1 
-FROM akeneo_batch_job_instance
-WHERE job_name IN (:jobNames)
-    AND raw_parameters REGEXP '$isChannelUsedRegex';
-SQL;
+            SELECT 1 
+            FROM akeneo_batch_job_instance
+            WHERE job_name IN (:jobNames)
+                AND raw_parameters REGEXP '$isChannelUsedRegex';
+            SQL;
 
         $result = $this->dbConnection->executeQuery(
             $query,

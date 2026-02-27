@@ -61,7 +61,7 @@ class ObjectIdentifierType extends AbstractType
             ->setDefined([
                 'repository_options',
                 'identifier',
-                'multiple'
+                'multiple',
             ])
             ->setRequired(['repository'])
             ->setDefaults([

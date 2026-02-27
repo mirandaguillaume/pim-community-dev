@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Component\Product\Factory\NonExistentValuesFilter;
@@ -61,7 +62,7 @@ class NonExistentReferenceDataMultiSelectValuesFilter implements NonExistentValu
                     $filteredValues[$type][$attributeCode][] = [
                         'identifier' => $productData['identifier'],
                         'values' => $multiSelectValues,
-                        'properties' => $productData['properties']
+                        'properties' => $productData['properties'],
                     ];
                 }
             }

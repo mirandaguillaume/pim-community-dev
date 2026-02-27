@@ -11,12 +11,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AuthorPropertySpec extends ObjectBehavior
 {
-    function let(TranslatorInterface $translator, UserManager $userManager)
+    public function let(TranslatorInterface $translator, UserManager $userManager)
     {
         $this->beConstructedWith($translator, $userManager);
     }
 
-    function it_prepares_an_author_value($userManager, ResultRecordInterface $record, User $user)
+    public function it_prepares_an_author_value($userManager, ResultRecordInterface $record, User $user)
     {
         $record->getValue('author')->willReturn('julia');
         $record->getValue('context')->willReturn(null);
@@ -28,7 +28,7 @@ class AuthorPropertySpec extends ObjectBehavior
         $this->getValue($record)->shouldReturn('Julia Doe - julia@zaro.com');
     }
 
-    function it_prepares_a_removed_author_value($userManager, ResultRecordInterface $record, TranslatorInterface $translator)
+    public function it_prepares_a_removed_author_value($userManager, ResultRecordInterface $record, TranslatorInterface $translator)
     {
         $record->getValue('author')->willReturn('julia');
         $record->getValue('context')->willReturn(null);
@@ -38,7 +38,7 @@ class AuthorPropertySpec extends ObjectBehavior
         $this->getValue($record)->shouldReturn(' - Removed user');
     }
 
-    function it_prepares_an_author_value_with_context($userManager, ResultRecordInterface $record, User $user)
+    public function it_prepares_an_author_value_with_context($userManager, ResultRecordInterface $record, User $user)
     {
         $record->getValue('author')->willReturn('julia');
         $record->getValue('context')->willReturn('my context');

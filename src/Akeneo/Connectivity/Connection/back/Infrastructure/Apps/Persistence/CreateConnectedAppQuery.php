@@ -22,9 +22,9 @@ final readonly class CreateConnectedAppQuery implements CreateConnectedAppQueryI
     public function execute(ConnectedApp $app): void
     {
         $insertQuery = <<<SQL
-        INSERT INTO akeneo_connectivity_connected_app (id, name, logo, author, partner, categories, scopes, certified, connection_code, user_group_name)
-        VALUES (:id, :name, :logo, :author, :partner, :categories, :scopes, :certified, :connection_code, :user_group_name)
-        SQL;
+            INSERT INTO akeneo_connectivity_connected_app (id, name, logo, author, partner, categories, scopes, certified, connection_code, user_group_name)
+            VALUES (:id, :name, :logo, :author, :partner, :categories, :scopes, :certified, :connection_code, :user_group_name)
+            SQL;
 
         $this->connection->executeQuery(
             $insertQuery,

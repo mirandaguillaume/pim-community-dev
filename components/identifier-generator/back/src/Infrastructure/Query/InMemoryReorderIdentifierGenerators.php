@@ -16,9 +16,7 @@ use Webmozart\Assert\Assert;
  */
 final readonly class InMemoryReorderIdentifierGenerators implements ReorderIdentifierGenerators
 {
-    public function __construct(private IdentifierGeneratorRepository $repository)
-    {
-    }
+    public function __construct(private IdentifierGeneratorRepository $repository) {}
 
     /**
      * {@inheritdoc}
@@ -27,7 +25,7 @@ final readonly class InMemoryReorderIdentifierGenerators implements ReorderIdent
     {
         Assert::isInstanceOf($this->repository, InMemoryIdentifierGeneratorRepository::class);
         $this->repository->reorder(\array_map(
-            static fn (IdentifierGeneratorCode $code): string => $code->asString(),
+            static fn(IdentifierGeneratorCode $code): string => $code->asString(),
             $codes
         ));
     }

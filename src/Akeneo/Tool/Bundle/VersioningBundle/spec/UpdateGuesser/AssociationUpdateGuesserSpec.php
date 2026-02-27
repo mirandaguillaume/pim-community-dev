@@ -10,12 +10,12 @@ use Akeneo\Tool\Bundle\VersioningBundle\UpdateGuesser\UpdateGuesserInterface;
 
 class AssociationUpdateGuesserSpec extends ObjectBehavior
 {
-    function it_is_an_update_guesser()
+    public function it_is_an_update_guesser()
     {
         $this->shouldImplement(UpdateGuesserInterface::class);
     }
 
-    function it_supports_entity_updates_and_deletion()
+    public function it_supports_entity_updates_and_deletion()
     {
         $this->supportAction(UpdateGuesserInterface::ACTION_UPDATE_ENTITY)->shouldReturn(true);
         $this->supportAction(UpdateGuesserInterface::ACTION_DELETE)->shouldReturn(true);
@@ -23,7 +23,7 @@ class AssociationUpdateGuesserSpec extends ObjectBehavior
         $this->supportAction('foo')->shouldReturn(false);
     }
 
-    function it_marks_products_as_updated_when_an_association_is_updated_or_removed(
+    public function it_marks_products_as_updated_when_an_association_is_updated_or_removed(
         EntityManager $em,
         ProductInterface $foo,
         AssociationInterface $association

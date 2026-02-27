@@ -36,37 +36,37 @@ final readonly class SqlGetCategoryCodes implements GetCategoryCodes
         );
 
         $sql = <<<SQL
-        WITH
-        existing_product AS (
-            SELECT uuid, product_model_id FROM pim_catalog_product WHERE uuid IN (:product_uuids)
-        )
-        SELECT BIN_TO_UUID(p.uuid) AS uuid, IF(COUNT(mc.category_code) = 0, JSON_ARRAY(), JSON_ARRAYAGG(mc.category_code)) as category_codes
-        FROM 
-            existing_product p
-            LEFT JOIN (
-                SELECT
-                    p.uuid, c.code AS category_code
-                FROM existing_product p
-                    INNER JOIN pim_catalog_category_product cp ON cp.product_uuid = p.uuid
-                    INNER JOIN pim_catalog_category c ON c.id = cp.category_id
-                UNION ALL
-                SELECT
-                    p.uuid, c.code AS category_code
-                FROM existing_product p
-                    INNER JOIN pim_catalog_product_model sub ON sub.id = p.product_model_id
-                    INNER JOIN pim_catalog_category_product_model cpm ON cpm.product_model_id = sub.id
-                    INNER JOIN pim_catalog_category c ON c.id = cpm.category_id
-                UNION ALL
-                SELECT
-                    p.uuid, c.code AS category_code
-                FROM existing_product p
-                    INNER JOIN pim_catalog_product_model sub ON sub.id = p.product_model_id
-                    INNER JOIN pim_catalog_product_model root ON root.id = sub.parent_id
-                    INNER JOIN pim_catalog_category_product_model cpm ON cpm.product_model_id = root.id
-                    INNER JOIN pim_catalog_category c ON c.id = cpm.category_id
-            ) AS mc ON mc.uuid = p.uuid
-        GROUP BY p.uuid
-        SQL;
+            WITH
+            existing_product AS (
+                SELECT uuid, product_model_id FROM pim_catalog_product WHERE uuid IN (:product_uuids)
+            )
+            SELECT BIN_TO_UUID(p.uuid) AS uuid, IF(COUNT(mc.category_code) = 0, JSON_ARRAY(), JSON_ARRAYAGG(mc.category_code)) as category_codes
+            FROM 
+                existing_product p
+                LEFT JOIN (
+                    SELECT
+                        p.uuid, c.code AS category_code
+                    FROM existing_product p
+                        INNER JOIN pim_catalog_category_product cp ON cp.product_uuid = p.uuid
+                        INNER JOIN pim_catalog_category c ON c.id = cp.category_id
+                    UNION ALL
+                    SELECT
+                        p.uuid, c.code AS category_code
+                    FROM existing_product p
+                        INNER JOIN pim_catalog_product_model sub ON sub.id = p.product_model_id
+                        INNER JOIN pim_catalog_category_product_model cpm ON cpm.product_model_id = sub.id
+                        INNER JOIN pim_catalog_category c ON c.id = cpm.category_id
+                    UNION ALL
+                    SELECT
+                        p.uuid, c.code AS category_code
+                    FROM existing_product p
+                        INNER JOIN pim_catalog_product_model sub ON sub.id = p.product_model_id
+                        INNER JOIN pim_catalog_product_model root ON root.id = sub.parent_id
+                        INNER JOIN pim_catalog_category_product_model cpm ON cpm.product_model_id = root.id
+                        INNER JOIN pim_catalog_category c ON c.id = cpm.category_id
+                ) AS mc ON mc.uuid = p.uuid
+            GROUP BY p.uuid
+            SQL;
 
         $results = $this->connection->executeQuery(
             $sql,

@@ -37,9 +37,9 @@ class DoesImageExistIntegration extends TestCase
     private function addFileInfo(): void
     {
         $query = <<<SQL
-    INSERT INTO akeneo_file_storage_file_info (file_key, original_filename, mime_type, size, extension)
-    VALUES ('a/b/c/image.jpg', 'image.jpg', 'image/jpg', 42, 'jpg')
-SQL;
+                INSERT INTO akeneo_file_storage_file_info (file_key, original_filename, mime_type, size, extension)
+                VALUES ('a/b/c/image.jpg', 'image.jpg', 'image/jpg', 42, 'jpg')
+            SQL;
         $this->get('database_connection')->executeQuery($query);
     }
 }

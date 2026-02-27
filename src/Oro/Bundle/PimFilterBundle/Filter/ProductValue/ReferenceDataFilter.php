@@ -88,7 +88,7 @@ class ReferenceDataFilter extends ChoiceFilter
                     'options'      => [
                         'type' => 'code',
                     ],
-                ]
+                ],
             ]
         );
     }

@@ -27,11 +27,11 @@ class AverageMaxCategoryLevels implements AverageMaxQuery
     public function fetch(): AverageMaxVolumes
     {
         $sql = <<<SQL
-        SELECT 	
-          MAX(lvl) as max,
-    	  CEIL(AVG(lvl)) as average 
-        FROM pim_catalog_category;
-SQL;
+                    SELECT 	
+                      MAX(lvl) as max,
+                	  CEIL(AVG(lvl)) as average 
+                    FROM pim_catalog_category;
+            SQL;
         $result = $this->connection->executeQuery($sql)->fetchAssociative();
 
         $volume = new AverageMaxVolumes((int) $result['max'], (int) $result['average'], self::VOLUME_NAME);

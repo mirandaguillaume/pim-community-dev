@@ -14,26 +14,26 @@ use Prophecy\Argument;
 
 class StepExecutionArchivistSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(StepExecutionArchivist::class);
     }
 
-    function it_is_an_event_subscriber()
+    public function it_is_an_event_subscriber()
     {
         $this->shouldHaveType(\Symfony\Component\EventDispatcher\EventSubscriberInterface::class);
     }
 
-    function it_returns_subscribed_events()
+    public function it_returns_subscribed_events()
     {
         $this->getSubscribedEvents()->shouldReturn(
             [
-                EventInterface::STEP_EXECUTION_COMPLETED => 'onStepExecutionCompleted'
+                EventInterface::STEP_EXECUTION_COMPLETED => 'onStepExecutionCompleted',
             ]
         );
     }
 
-    function it_throws_an_exception_if_there_is_already_a_registered_archiver(ArchiverInterface $archiver)
+    public function it_throws_an_exception_if_there_is_already_a_registered_archiver(ArchiverInterface $archiver)
     {
         $archiver->getName()->willReturn('output');
 
@@ -41,7 +41,7 @@ class StepExecutionArchivistSpec extends ObjectBehavior
         $this->shouldThrow('\InvalidArgumentException')->during('registerArchiver', [$archiver]);
     }
 
-    function it_returns_generated_archives(
+    public function it_returns_generated_archives(
         JobExecution $jobExecution,
         ArchiverInterface $archiver,
         ArchiverInterface $archiver2,
@@ -76,7 +76,7 @@ class StepExecutionArchivistSpec extends ObjectBehavior
         $archives['invalid_items']->shouldYield([]);
     }
 
-    function it_does_not_return_archives_if_the_job_is_still_running(
+    public function it_does_not_return_archives_if_the_job_is_still_running(
         JobExecution $jobExecution,
         ArchiverInterface $archiver
     ) {
@@ -88,7 +88,7 @@ class StepExecutionArchivistSpec extends ObjectBehavior
         $this->getArchives($jobExecution)->shouldReturn([]);
     }
 
-    function it_throws_an_exception_if_no_archiver_is_defined(
+    public function it_throws_an_exception_if_no_archiver_is_defined(
         JobExecution $jobExecution,
         ArchiverInterface $archiver
     ) {
@@ -101,7 +101,7 @@ class StepExecutionArchivistSpec extends ObjectBehavior
             ->during('getArchive', [$jobExecution, 'archiver_name', 'key']);
     }
 
-    function it_returns_the_corresponding_archiver(JobExecution $jobExecution, ArchiverInterface $archiver)
+    public function it_returns_the_corresponding_archiver(JobExecution $jobExecution, ArchiverInterface $archiver)
     {
         $archiver->getName()->willReturn('output');
         $archiver->getArchive($jobExecution, 'key')->shouldBeCalled();
@@ -110,7 +110,7 @@ class StepExecutionArchivistSpec extends ObjectBehavior
         $this->getArchive($jobExecution, 'output', 'key');
     }
 
-    function it_register_an_event_and_verify_if_job_is_supported(
+    public function it_register_an_event_and_verify_if_job_is_supported(
         StepExecutionEvent $event,
         StepExecution $stepExecution,
         ArchiverInterface $archiver1,
@@ -133,7 +133,7 @@ class StepExecutionArchivistSpec extends ObjectBehavior
         $this->onStepExecutionCompleted($event);
     }
 
-    function it_tells_if_there_are_at_least_two_archives_for_a_job_execution(
+    public function it_tells_if_there_are_at_least_two_archives_for_a_job_execution(
         JobExecution $jobExecution,
         JobExecution $otherJobExecution,
         ArchiverInterface $archiver1,

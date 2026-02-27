@@ -21,7 +21,7 @@ class FileNormalizer implements NormalizerInterface, CacheableSupportsMethodInte
     /**
      * {@inheritdoc}
      */
-    public function normalize($file, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($file, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         return [
             'filePath'         => $file->getKey(),

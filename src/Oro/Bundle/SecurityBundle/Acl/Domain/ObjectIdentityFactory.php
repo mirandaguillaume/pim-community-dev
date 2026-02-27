@@ -92,7 +92,7 @@ class ObjectIdentityFactory
             if ($result === null) {
                 $objInfo = is_object($val)
                     ? $val::class
-                    : (string)$val;
+                    : (string) $val;
                 throw new \InvalidArgumentException(sprintf('Cannot create ObjectIdentity for: %s.', $objInfo));
             }
         } catch (\InvalidArgumentException $ex) {

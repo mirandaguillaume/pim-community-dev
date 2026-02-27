@@ -38,6 +38,6 @@ class CountProductModels implements CountQuery
         ];
         $result = $this->client->count($query);
 
-        return new CountVolume((int)$result['count'], self::VOLUME_NAME);
+        return new CountVolume((int) $result['count'], self::VOLUME_NAME);
     }
 }

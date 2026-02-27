@@ -51,7 +51,7 @@ class ScopeFilterType extends ChoiceFilterType
         $resolver->setDefaults(
             [
                 'field_type'    => ChoiceType::class,
-                'field_options' => ['choices' => $scopeChoices]
+                'field_options' => ['choices' => $scopeChoices],
             ]
         );
     }

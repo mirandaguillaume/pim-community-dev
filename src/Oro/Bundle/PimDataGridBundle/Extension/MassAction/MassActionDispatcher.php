@@ -104,7 +104,7 @@ class MassActionDispatcher
         if (is_array($datasourceParams)) {
             $contextParams = [
                 'locale' => $datasourceParams['dataLocale'],
-                'scope'  => $datasourceParams['scopeCode']
+                'scope'  => $datasourceParams['scopeCode'],
             ];
         }
 

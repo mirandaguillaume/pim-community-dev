@@ -38,7 +38,7 @@ class PurgeEventsApiErrorLogsQuery
                             'terms' => [
                                 'level' => [
                                     EventsApiDebugLogLevels::ERROR,
-                                    EventsApiDebugLogLevels::WARNING
+                                    EventsApiDebugLogLevels::WARNING,
                                 ],
                             ],
                         ],

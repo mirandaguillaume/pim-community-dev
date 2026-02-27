@@ -134,7 +134,7 @@ class IterableObject implements \ArrayAccess, \IteratorAggregate
      */
     public function offsetGetByPath($path, $default = null)
     {
-        return $this->accessor->getValue($this, $path) ? : $default;
+        return $this->accessor->getValue($this, $path) ?: $default;
     }
 
     /**

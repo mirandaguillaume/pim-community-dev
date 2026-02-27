@@ -12,9 +12,7 @@ use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Query\ReorderIdentifierGene
  */
 final readonly class ReorderGeneratorsHandler
 {
-    public function __construct(private ReorderIdentifierGenerators $reorderIdentifierGenerators)
-    {
-    }
+    public function __construct(private ReorderIdentifierGenerators $reorderIdentifierGenerators) {}
 
     public function __invoke(ReorderGeneratorsCommand $command): void
     {

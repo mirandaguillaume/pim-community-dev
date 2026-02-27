@@ -49,7 +49,7 @@ class OptionsValueWithLinkedData extends AbstractValue implements OptionsValueIn
         $optionStrings = [];
 
         foreach ($this->data as $optionCode) {
-            $optionStrings[] = '['.$optionCode.']';
+            $optionStrings[] = '[' . $optionCode . ']';
         }
 
         return implode(', ', $optionStrings);
@@ -76,9 +76,9 @@ class OptionsValueWithLinkedData extends AbstractValue implements OptionsValueIn
      */
     public function isEqual(ValueInterface $value): bool
     {
-        if (!$value instanceof OptionsValueInterface ||
-            $this->getScopeCode() !== $value->getScopeCode() ||
-            $this->getLocaleCode() !== $value->getLocaleCode()
+        if (!$value instanceof OptionsValueInterface
+            || $this->getScopeCode() !== $value->getScopeCode()
+            || $this->getLocaleCode() !== $value->getLocaleCode()
         ) {
             return false;
         }
@@ -86,13 +86,13 @@ class OptionsValueWithLinkedData extends AbstractValue implements OptionsValueIn
         $comparedAttributeOptions = $value->getData();
         $thisAttributeOptions = $this->getData();
 
-        if ($value instanceof OptionsValueWithLinkedData &&
-            strcmp(json_encode($value->getLinkedData(), JSON_THROW_ON_ERROR), json_encode($this->getLinkedData(), JSON_THROW_ON_ERROR))
+        if ($value instanceof OptionsValueWithLinkedData
+            && strcmp(json_encode($value->getLinkedData(), JSON_THROW_ON_ERROR), json_encode($this->getLinkedData(), JSON_THROW_ON_ERROR))
         ) {
             return false;
         }
 
-        return count(array_diff($thisAttributeOptions, $comparedAttributeOptions)) === 0 &&
-            count(array_diff($comparedAttributeOptions, $thisAttributeOptions)) === 0;
+        return count(array_diff($thisAttributeOptions, $comparedAttributeOptions)) === 0
+            && count(array_diff($comparedAttributeOptions, $thisAttributeOptions)) === 0;
     }
 }

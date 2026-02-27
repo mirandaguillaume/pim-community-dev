@@ -28,7 +28,7 @@ class ReachRequestLimitLogger
             'retry_after_seconds' => $delayUntilNextRequest,
             'limit_reset' => $reachedLimitDateTime
                 ->add(new \DateInterval('PT' . $delayUntilNextRequest . 'S'))
-                ->format(\DateTimeInterface::ATOM)
+                ->format(\DateTimeInterface::ATOM),
         ];
 
         $this->logger->info(\json_encode($log, JSON_THROW_ON_ERROR));

@@ -20,8 +20,7 @@ final readonly class NomenclatureDefinition
         private ?int $value = null,
         private ?bool $generateIfEmpty = null,
         private ?array $values = [],
-    ) {
-    }
+    ) {}
 
     public function generateIfEmpty(): ?bool
     {

@@ -19,13 +19,13 @@ final readonly class SqlMarkJobExecutionAsFailedWhenInterrupted implements MarkJ
     public function execute(array $jobCodes): int
     {
         $sql = <<<SQL
-UPDATE akeneo_batch_job_execution job_execution
-INNER JOIN akeneo_batch_job_instance job_instance ON job_execution.job_instance_id = job_instance.id
-SET job_execution.status = :failedStatus, job_execution.exit_code = :failedExitCode
-WHERE job_instance.code IN (:jobCodes)
-AND job_execution.health_check_time IS NULL
-AND job_execution.status IN (:runningStatuses);
-SQL;
+            UPDATE akeneo_batch_job_execution job_execution
+            INNER JOIN akeneo_batch_job_instance job_instance ON job_execution.job_instance_id = job_instance.id
+            SET job_execution.status = :failedStatus, job_execution.exit_code = :failedExitCode
+            WHERE job_instance.code IN (:jobCodes)
+            AND job_execution.health_check_time IS NULL
+            AND job_execution.status IN (:runningStatuses);
+            SQL;
 
         return $this->connection->executeStatement(
             $sql,

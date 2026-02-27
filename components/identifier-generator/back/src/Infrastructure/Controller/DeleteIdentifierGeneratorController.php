@@ -23,8 +23,7 @@ final readonly class DeleteIdentifierGeneratorController
     public function __construct(
         private DeleteGeneratorHandler $deleteGeneratorHandler,
         private SecurityFacadeInterface $security,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, string $code): Response
     {

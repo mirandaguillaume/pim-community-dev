@@ -39,7 +39,7 @@ class HTMLFilter
      * Ignore content of these tags.
      */
     private static array $ignoreTags = [
-        'script'
+        'script',
     ];
 
     /**
@@ -51,7 +51,7 @@ class HTMLFilter
         'content',
         'label',
         'placeholder',
-        'title'
+        'title',
     ];
 
     /**
@@ -59,7 +59,7 @@ class HTMLFilter
      */
     private static array $textMetaTags = [
         'description',
-        'keywords'
+        'keywords',
     ];
 
     public function __construct()

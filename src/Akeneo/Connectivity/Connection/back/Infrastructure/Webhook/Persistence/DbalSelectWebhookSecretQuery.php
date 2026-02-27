@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Infrastructure\Webhook\Persistence;
@@ -20,10 +21,10 @@ class DbalSelectWebhookSecretQuery implements SelectWebhookSecretQueryInterface
     public function execute(string $code): ?string
     {
         $query = <<<SQL
-        SELECT webhook_secret
-        FROM akeneo_connectivity_connection
-        WHERE code = :code
-SQL;
+                    SELECT webhook_secret
+                    FROM akeneo_connectivity_connection
+                    WHERE code = :code
+            SQL;
 
         $result = $this->dbalConnection->executeQuery($query, ['code' => $code])->fetchOne();
 

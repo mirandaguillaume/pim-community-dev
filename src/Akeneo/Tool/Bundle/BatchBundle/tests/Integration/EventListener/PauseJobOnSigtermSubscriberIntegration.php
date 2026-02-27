@@ -109,10 +109,10 @@ class PauseJobOnSigtermSubscriberIntegration extends TestCase
     private function assertJobExecutionHasStatus(JobExecution $jobExecution, int $status): void
     {
         $sql = <<<SQL
-SELECT id
-FROM akeneo_batch_job_execution
-WHERE id = :job_execution_id AND status = :status
-SQL;
+            SELECT id
+            FROM akeneo_batch_job_execution
+            WHERE id = :job_execution_id AND status = :status
+            SQL;
 
         $result = $this->connection->executeQuery($sql, ['job_execution_id' => $jobExecution->getId(), 'status' => $status]);
 
@@ -140,23 +140,23 @@ SQL;
     private function createJobExecutions(): void
     {
         $insertJobInstanceQuery = <<<SQL
-            INSERT INTO akeneo_batch_job_instance (id, code, job_name, status, connector, raw_parameters, type)
-            VALUES 
-            (1, 'pausable_job', 'csv_attribute_export', 0, '', '', ''),
-            (2, 'unpausable_job', 'unpausable_job', 0, '', '', ''),
-            (3, 'pausable_job_not_allowed_to_pause', 'csv_product_export', 0, '', '', '')
-SQL;
+                        INSERT INTO akeneo_batch_job_instance (id, code, job_name, status, connector, raw_parameters, type)
+                        VALUES 
+                        (1, 'pausable_job', 'csv_attribute_export', 0, '', '', ''),
+                        (2, 'unpausable_job', 'unpausable_job', 0, '', '', ''),
+                        (3, 'pausable_job_not_allowed_to_pause', 'csv_product_export', 0, '', '', '')
+            SQL;
 
         $this->connection->executeQuery($insertJobInstanceQuery);
 
         $insertJobExecutionQuery = <<<SQL
-            INSERT INTO akeneo_batch_job_execution (id, job_instance_id, status, raw_parameters) 
-            VALUES 
-            (:paused_job_execution_id, 1, :paused_status, '{}'), 
-            (:started_job_execution_id, 1, :started_status, '{}'),
-            (:started_unpausable_job_execution_id, 2, :started_status, '{}'),
-            (:started_not_allowed_to_pause_job_execution_id, 3, :started_status, '{}')
-SQL;
+                        INSERT INTO akeneo_batch_job_execution (id, job_instance_id, status, raw_parameters) 
+                        VALUES 
+                        (:paused_job_execution_id, 1, :paused_status, '{}'), 
+                        (:started_job_execution_id, 1, :started_status, '{}'),
+                        (:started_unpausable_job_execution_id, 2, :started_status, '{}'),
+                        (:started_not_allowed_to_pause_job_execution_id, 3, :started_status, '{}')
+            SQL;
 
         $this->connection->executeQuery($insertJobExecutionQuery, [
             'paused_job_execution_id' => self::PAUSED_JOB_EXECUTION_ID,

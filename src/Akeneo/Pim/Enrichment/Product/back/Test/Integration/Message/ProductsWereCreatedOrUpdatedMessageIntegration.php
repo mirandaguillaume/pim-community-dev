@@ -83,10 +83,10 @@ final class ProductsWereCreatedOrUpdatedMessageIntegration extends EnrichmentPro
 
         self::assertCount(2, $productsWereCreatedOrUpdated->events);
 
-        $productWasCreatedList = \array_filter($productsWereCreatedOrUpdated->events, fn ($object) => $object instanceof ProductWasCreated);
+        $productWasCreatedList = \array_filter($productsWereCreatedOrUpdated->events, fn($object) => $object instanceof ProductWasCreated);
         self::assertCount(1, $productWasCreatedList);
 
-        $productWasUpdatedList = \array_filter($productsWereCreatedOrUpdated->events, fn ($object) => $object instanceof ProductWasUpdated);
+        $productWasUpdatedList = \array_filter($productsWereCreatedOrUpdated->events, fn($object) => $object instanceof ProductWasUpdated);
         self::assertCount(1, $productWasUpdatedList);
     }
 }

@@ -36,8 +36,8 @@ final class FlatFileHeader
     ) {
         if ($isLocaleSpecific && empty($specificToLocales)) {
             throw new \InvalidArgumentException(
-                'A list of locales to which the header is specific to must be provided '.
-                'when the header is defined as locale specific'
+                'A list of locales to which the header is specific to must be provided '
+                . 'when the header is defined as locale specific'
             );
         }
 
@@ -69,7 +69,7 @@ final class FlatFileHeader
     ): FlatFileHeader {
         $mediaAttributeTypes = [
             AttributeTypes::IMAGE,
-            AttributeTypes::FILE
+            AttributeTypes::FILE,
         ];
 
         return new FlatFileHeader(
@@ -108,15 +108,15 @@ final class FlatFileHeader
 
         if ($this->isLocalizable && $this->isScopable) {
             foreach ($this->localeCodes as $localeCode) {
-                if (!$this->isLocaleSpecific ||
-                    ($this->isLocaleSpecific && in_array($localeCode, $this->specificToLocales))) {
+                if (!$this->isLocaleSpecific
+                    || ($this->isLocaleSpecific && in_array($localeCode, $this->specificToLocales))) {
                     $prefixes[] = sprintf('%s-%s-%s', $this->code, $localeCode, $this->channelCode);
                 }
             }
         } elseif ($this->isLocalizable) {
             foreach ($this->localeCodes as $localeCode) {
-                if (!$this->isLocaleSpecific ||
-                    ($this->isLocaleSpecific && in_array($localeCode, $this->specificToLocales))) {
+                if (!$this->isLocaleSpecific
+                    || ($this->isLocaleSpecific && in_array($localeCode, $this->specificToLocales))) {
                     $prefixes[] = sprintf('%s-%s', $this->code, $localeCode);
                 }
             }

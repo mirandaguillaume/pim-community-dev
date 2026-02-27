@@ -44,8 +44,8 @@ final readonly class ApplyProductSearchQueryParametersToPQB
                 $searchParameters['categories'] = [
                     [
                         'operator' => Operators::IN_CHILDREN_LIST,
-                        'value'    => [$channel->getCategory()->getCode()]
-                    ]
+                        'value'    => [$channel->getCategory()->getCode()],
+                    ],
                 ];
             }
         }

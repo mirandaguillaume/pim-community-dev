@@ -35,8 +35,7 @@ final readonly class GetAvailableConditionsController
         private UserContext $userContext,
         private TranslatorInterface $translator,
         private SecurityFacadeInterface $security,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): Response
     {
@@ -93,7 +92,7 @@ final readonly class GetAvailableConditionsController
 
         return \array_filter(
             $fields,
-            fn (string $field): bool =>
+            fn(string $field): bool =>
                 \str_contains(\strtolower($field), \strtolower($search))
                 || \str_contains(
                     \strtolower(
@@ -121,7 +120,7 @@ final readonly class GetAvailableConditionsController
         }
 
         $children = \array_map(
-            fn (string $field): array => [
+            fn(string $field): array => [
                 'id' => $field,
                 'text' => $this->translator->trans(
                     \sprintf('%s%s', static::FIELD_TRANSLATION_BASE, $field),

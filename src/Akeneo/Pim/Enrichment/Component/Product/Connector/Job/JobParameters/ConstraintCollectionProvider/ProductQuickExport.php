@@ -69,7 +69,7 @@ class ProductQuickExport implements ConstraintCollectionProviderInterface
                         ->buildViolation('The locale cannot be empty.')
                         ->addViolation();
                 }
-            })
+            }),
         ];
 
         return new Collection(['fields' => $constraintFields]);

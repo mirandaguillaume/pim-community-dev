@@ -35,7 +35,7 @@ class RegisterComparatorsPass implements CompilerPassInterface
                 'addAttributeComparator',
                 [
                     new Reference($id),
-                    $attribute[0]['priority'] ?? 0
+                    $attribute[0]['priority'] ?? 0,
                 ]
             );
         }
@@ -49,7 +49,7 @@ class RegisterComparatorsPass implements CompilerPassInterface
                 'addFieldComparator',
                 [
                     new Reference($id),
-                    $attribute[0]['priority'] ?? 0
+                    $attribute[0]['priority'] ?? 0,
                 ]
             );
         }

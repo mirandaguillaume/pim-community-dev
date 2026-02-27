@@ -16,7 +16,7 @@ use PhpSpec\ObjectBehavior;
  */
 class AttributeApiRequirementCheckerSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(AttributeApiRequirementChecker::class);
         $this->shouldImplement(RequirementChecker::class);
@@ -33,7 +33,7 @@ class AttributeApiRequirementCheckerSpec extends ObjectBehavior
                         "data" => "",
                         "channel" => "ecommerce",
                         "locale" => "fr_FR",
-                        "attribute_code" => $compositeKey
+                        "attribute_code" => $compositeKey,
                     ],
                 ]
             );
@@ -51,7 +51,7 @@ class AttributeApiRequirementCheckerSpec extends ObjectBehavior
                         "data" => "",
                         "channel" => "ecommerce",
                         "locale" => "fr_FR",
-                        "attribute_code" => $compositeKey
+                        "attribute_code" => $compositeKey,
                     ],
                 ]
             );
@@ -68,7 +68,7 @@ class AttributeApiRequirementCheckerSpec extends ObjectBehavior
                     $localeCompositeKey => [
                         "channel" => "ecommerce",
                         "locale" => "fr_FR",
-                        "attribute_code" => $compositeKey
+                        "attribute_code" => $compositeKey,
                     ],
                 ]
             );
@@ -86,7 +86,7 @@ class AttributeApiRequirementCheckerSpec extends ObjectBehavior
                         "data" => "",
                         "channel" => "ecommerce",
                         "locale" => "fr_FR",
-                        "attribute_code" => $compositeKey
+                        "attribute_code" => $compositeKey,
                     ],
                 ]
             );
@@ -102,7 +102,7 @@ class AttributeApiRequirementCheckerSpec extends ObjectBehavior
                 [
                     $localeCompositeKey => [
                         "data" => "Shoes",
-                        "attribute_code" => $compositeKey
+                        "attribute_code" => $compositeKey,
                     ],
                 ]
             );
@@ -119,7 +119,7 @@ class AttributeApiRequirementCheckerSpec extends ObjectBehavior
                     $localeCompositeKey => [
                         "data" => "Shoes",
                         "channel" => "",
-                        "attribute_code" => $compositeKey
+                        "attribute_code" => $compositeKey,
                     ],
                 ]
             );
@@ -135,7 +135,7 @@ class AttributeApiRequirementCheckerSpec extends ObjectBehavior
                 [
                     $localeCompositeKey => [
                         "data" => "Shoes",
-                        "attribute_code" => $compositeKey
+                        "attribute_code" => $compositeKey,
                     ],
                 ]
             );
@@ -152,7 +152,7 @@ class AttributeApiRequirementCheckerSpec extends ObjectBehavior
                     $localeCompositeKey => [
                         "data" => "Shoes",
                         "locale" => "",
-                        "attribute_code" => $compositeKey
+                        "attribute_code" => $compositeKey,
                     ],
                 ]
             );
@@ -168,7 +168,7 @@ class AttributeApiRequirementCheckerSpec extends ObjectBehavior
                 [
                     $localeCompositeKey => [
                         "data" => "Shoes",
-                        "locale" => "fr_FR"
+                        "locale" => "fr_FR",
                     ],
                 ]
             );
@@ -187,7 +187,7 @@ class AttributeApiRequirementCheckerSpec extends ObjectBehavior
                     $localeCompositeKey => [
                         "data" => "Shoes",
                         "locale" => "fr_FR",
-                        "attribute_code" => ""
+                        "attribute_code" => "",
                     ],
                 ]
             );

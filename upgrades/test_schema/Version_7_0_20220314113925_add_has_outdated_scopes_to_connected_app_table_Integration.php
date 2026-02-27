@@ -133,7 +133,7 @@ class Version_7_0_20220314113925_add_has_outdated_scopes_to_connected_app_table_
             ],
             [
                 'allowed_grant_types' => Types::ARRAY,
-                'redirect_uris' => Types::ARRAY
+                'redirect_uris' => Types::ARRAY,
             ]
         );
 

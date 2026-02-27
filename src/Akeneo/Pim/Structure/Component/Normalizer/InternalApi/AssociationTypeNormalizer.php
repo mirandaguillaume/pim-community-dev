@@ -29,20 +29,20 @@ class AssociationTypeNormalizer implements NormalizerInterface, CacheableSupport
      * @param AssociationTypeInterface $object
      * {@inheritdoc}
      */
-    public function normalize($object, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($object, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $result = $this->normalizer->normalize($object, 'standard', $context);
 
         $firstVersion = $this->versionManager->getOldestLogEntry($object);
         $lastVersion = $this->versionManager->getNewestLogEntry($object);
 
-        $firstVersion = null !== $firstVersion ?
-            $this->versionNormalizer->normalize($firstVersion, 'internal_api') :
-            null;
+        $firstVersion = null !== $firstVersion
+            ? $this->versionNormalizer->normalize($firstVersion, 'internal_api')
+            : null;
 
-        $lastVersion = null !== $lastVersion ?
-            $this->versionNormalizer->normalize($lastVersion, 'internal_api') :
-            null;
+        $lastVersion = null !== $lastVersion
+            ? $this->versionNormalizer->normalize($lastVersion, 'internal_api')
+            : null;
 
         $result['meta'] = [
             'id'                => $object->getId(),

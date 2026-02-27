@@ -28,7 +28,7 @@ final class CheckChannelsOnDeletionSubscriber implements EventSubscriberInterfac
     public static function getSubscribedEvents(): array
     {
         return [
-            StorageEvents::PRE_REMOVE => 'checkChannels'
+            StorageEvents::PRE_REMOVE => 'checkChannels',
         ];
     }
 

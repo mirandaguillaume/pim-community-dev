@@ -26,11 +26,11 @@ class SqlFindAllEditableLocalesForUser implements FindAllEditableLocalesForUser
     public function findAll(int $userId): array
     {
         $sql = <<<SQL
-            SELECT
-                locale.code as localeCode,
-                locale.is_activated AS isActivated
-            FROM pim_catalog_locale locale
-        SQL;
+                SELECT
+                    locale.code as localeCode,
+                    locale.is_activated AS isActivated
+                FROM pim_catalog_locale locale
+            SQL;
 
         $results = $this->connection->executeQuery($sql)->fetchAllAssociative();
         $locales = [];

@@ -21,9 +21,9 @@ final class Version_7_0_20221130130031_update_identifier_generator_prefix_number
     public function up(Schema $schema): void
     {
         $this->addSql(<<<SQL
-ALTER TABLE pim_catalog_identifier_generator_prefixes 
-    MODIFY `number` BIGINT UNSIGNED NOT NULL;
-SQL);
+            ALTER TABLE pim_catalog_identifier_generator_prefixes 
+                MODIFY `number` BIGINT UNSIGNED NOT NULL;
+            SQL);
     }
 
     public function down(Schema $schema): void

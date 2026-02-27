@@ -68,10 +68,10 @@ class DeleteCustomAppActionEndToEnd extends ApiTestCase
     private function getUserIdByUsername(string $username): int
     {
         $sql = <<<SQL
-        SELECT id
-        FROM oro_user
-        WHERE username = :username
-        SQL;
+            SELECT id
+            FROM oro_user
+            WHERE username = :username
+            SQL;
 
         $userId = $this->connection->fetchOne($sql, ['username' => $username]);
 
@@ -85,10 +85,10 @@ class DeleteCustomAppActionEndToEnd extends ApiTestCase
     private function customAppExists(string $clientId): bool
     {
         $sql = <<<SQL
-        SELECT 1
-        FROM akeneo_connectivity_test_app
-        WHERE client_id = :client_id
-        SQL;
+            SELECT 1
+            FROM akeneo_connectivity_test_app
+            WHERE client_id = :client_id
+            SQL;
 
         return (bool) $this->connection->fetchOne($sql, ['client_id' => $clientId]);
     }

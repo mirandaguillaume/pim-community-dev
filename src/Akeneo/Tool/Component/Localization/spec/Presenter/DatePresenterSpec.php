@@ -7,18 +7,18 @@ use PhpSpec\ObjectBehavior;
 
 class DatePresenterSpec extends ObjectBehavior
 {
-    function let(DateFactory $dateFactory)
+    public function let(DateFactory $dateFactory)
     {
         $this->beConstructedWith($dateFactory, ['pim_catalog_date']);
     }
 
-    function it_supports_metric()
+    public function it_supports_metric()
     {
         $this->supports('pim_catalog_date')->shouldReturn(true);
         $this->supports('foobar')->shouldReturn(false);
     }
 
-    function it_presents_an_english_date(
+    public function it_presents_an_english_date(
         $dateFactory,
         \IntlDateFormatter $dateFormatter
     ) {
@@ -31,7 +31,7 @@ class DatePresenterSpec extends ObjectBehavior
         $this->present($date, $options)->shouldReturn('01/31/2015');
     }
 
-    function it_presents_a_french_date(
+    public function it_presents_a_french_date(
         $dateFactory,
         \IntlDateFormatter $dateFormatter
     ) {
@@ -44,7 +44,7 @@ class DatePresenterSpec extends ObjectBehavior
         $this->present($date, $options)->shouldReturn('31/01/2015');
     }
 
-    function it_does_not_present_a_date_if_the_date_can_not_be_formatted()
+    public function it_does_not_present_a_date_if_the_date_can_not_be_formatted()
     {
         $date = '-001-11-30T00:00:00+00:00';
         $options = [

@@ -55,7 +55,7 @@ final class DispatchProductModelCreatedAndUpdatedEventSubscriber implements Disp
 
         $author = Author::fromUser($user);
         $data = [
-            'code' => $productModel->getCode()
+            'code' => $productModel->getCode(),
         ];
 
         if ($postSaveEvent->hasArgument('is_new') && true === $postSaveEvent->getArgument('is_new')) {
@@ -90,7 +90,7 @@ final class DispatchProductModelCreatedAndUpdatedEventSubscriber implements Disp
                             'author' => $event->getAuthor()->name(),
                             'author_type' => $event->getAuthor()->type(),
                             'timestamp' => $event->getTimestamp(),
-                        ], $this->events)
+                        ], $this->events),
                     ],
                     JSON_THROW_ON_ERROR
                 )

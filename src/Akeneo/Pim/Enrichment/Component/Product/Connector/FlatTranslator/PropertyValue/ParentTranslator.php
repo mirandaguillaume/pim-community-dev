@@ -29,8 +29,8 @@ class ParentTranslator implements FlatPropertyValueTranslatorInterface
                 continue;
             }
 
-            $result[$valueIndex] = $productModelLabels[$parentCode] ??
-                sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $parentCode);
+            $result[$valueIndex] = $productModelLabels[$parentCode]
+                ?? sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $parentCode);
         }
 
         return $result;

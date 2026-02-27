@@ -9,12 +9,12 @@ use PhpSpec\ObjectBehavior;
 
 class ObjectDetacherSpec extends ObjectBehavior
 {
-    function let(EntityManagerInterface $manager)
+    public function let(EntityManagerInterface $manager)
     {
         $this->beConstructedWith($manager);
     }
 
-    function it_detaches_an_object_from_entity_manager(
+    public function it_detaches_an_object_from_entity_manager(
         $manager,
         UnitOfWork $uow,
         ClassMetadata $classMetadata
@@ -29,7 +29,7 @@ class ObjectDetacherSpec extends ObjectBehavior
         $this->detach($object);
     }
 
-    function it_detaches_many_objects_from_entity_manager(
+    public function it_detaches_many_objects_from_entity_manager(
         $manager,
         UnitOfWork $uow,
         ClassMetadata $classMetadata

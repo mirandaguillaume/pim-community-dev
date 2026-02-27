@@ -7,7 +7,7 @@ use PhpSpec\ObjectBehavior;
 
 class ImmutablePropertyExceptionSpec extends ObjectBehavior
 {
-    function it_creates_an_immutable_property_exception()
+    public function it_creates_an_immutable_property_exception()
     {
         $exception = ImmutablePropertyException::immutableProperty(
             'property',

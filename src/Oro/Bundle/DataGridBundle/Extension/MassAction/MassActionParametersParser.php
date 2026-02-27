@@ -46,7 +46,7 @@ class MassActionParametersParser
             'gridName'   => $gridName,
             'dataLocale' => $dataLocale,
             'dataScope'  => $dataScope,
-            'sort'       => $sort
+            'sort'       => $sort,
         ];
     }
 }

@@ -50,7 +50,7 @@ final class DefaultAttributeValidation implements DocumentationBuilderInterface
         UniqueValue::UNIQUE_VALUE,
         Url::INVALID_URL_ERROR,
         File::TOO_LARGE_ERROR,
-        Email::INVALID_FORMAT_ERROR
+        Email::INVALID_FORMAT_ERROR,
     ];
 
     public function support($object): bool
@@ -85,7 +85,7 @@ final class DefaultAttributeValidation implements DocumentationBuilderInterface
                     'manage_validation_parameters' => new HrefMessageParameter(
                         'Manage your validation parameters',
                         'https://help.akeneo.com/pim/serenity/articles/manage-your-attributes.html#add-attributes-validation-parameters'
-                    )
+                    ),
                 ],
                 Documentation::STYLE_INFORMATION
             ),
@@ -95,10 +95,10 @@ final class DefaultAttributeValidation implements DocumentationBuilderInterface
                     'attribute_settings' => new RouteMessageParameter(
                         'Attributes settings',
                         'pim_enrich_attribute_index'
-                    )
+                    ),
                 ],
                 Documentation::STYLE_TEXT
-            )
+            ),
         ]);
     }
 }

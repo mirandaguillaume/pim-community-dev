@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Akeneo\Tool\Bundle\BatchBundle\Command;
 
 use Akeneo\Tool\Component\Batch\Query\MarkJobExecutionAsFailedWhenInterrupted;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'akeneo:batch:clean-job-executions', description: 'Mark as failed the job executions that are stuck in status STARTED or STOPPING.')]
 

@@ -61,14 +61,14 @@ class ProductModelNormalizer implements NormalizerInterface, CacheableSupportsMe
         $oldestLog = $this->versionManager->getOldestLogEntry($productModel);
         $newestLog = $this->versionManager->getNewestLogEntry($productModel);
 
-        $created = null !== $oldestLog ?
-            $this->versionNormalizer->normalize(
+        $created = null !== $oldestLog
+            ? $this->versionNormalizer->normalize(
                 $oldestLog,
                 'internal_api',
                 ['timezone' => $this->userContext->getUserTimezone()]
             ) : null;
-        $updated = null !== $newestLog ?
-            $this->versionNormalizer->normalize(
+        $updated = null !== $newestLog
+            ? $this->versionNormalizer->normalize(
                 $newestLog,
                 'internal_api',
                 ['timezone' => $this->userContext->getUserTimezone()]
@@ -98,23 +98,23 @@ class ProductModelNormalizer implements NormalizerInterface, CacheableSupportsMe
         );
 
         $normalizedProductModel['meta'] = [
-                'variant_product_completenesses' => $variantProductCompletenesses->values(),
-                'family_variant'            => $normalizedFamilyVariant,
-                'form'                      => $this->formProvider->getForm($productModel),
-                'id'                        => $productModel->getId(),
-                'created'                   => $created,
-                'updated'                   => $updated,
-                'model_type'                => 'product_model',
-                'attributes_for_this_level' => $levelAttributes,
-                'attributes_axes'           => $axesAttributes,
-                'image'                     => $this->normalizeImage($closestImage, $this->catalogContext->getScopeCode(), $this->catalogContext->getLocaleCode()),
-                'variant_navigation'        => $this->navigationNormalizer->normalize($productModel, $format, $context),
-                'ascendant_category_ids'    => $this->ascendantCategoriesQuery->getCategoryIds($productModel),
-                'required_missing_attributes' => $requiredMissingAttributes,
-                'level'                     => $productModel->getVariationLevel(),
-                'quantified_associations_for_this_level' => $this->formatQuantifiedAssociations($this->quantifiedAssociationsNormalizer->normalizeWithoutParentsAssociations($productModel, 'standard', $context)),
-                'parent_quantified_associations' => $this->formatQuantifiedAssociations($this->quantifiedAssociationsNormalizer->normalizeOnlyParentsAssociations($productModel, 'standard', $context)),
-            ] + $this->getLabels($productModel, $scopeCode) + $this->getAssociationMeta($productModel);
+            'variant_product_completenesses' => $variantProductCompletenesses->values(),
+            'family_variant'            => $normalizedFamilyVariant,
+            'form'                      => $this->formProvider->getForm($productModel),
+            'id'                        => $productModel->getId(),
+            'created'                   => $created,
+            'updated'                   => $updated,
+            'model_type'                => 'product_model',
+            'attributes_for_this_level' => $levelAttributes,
+            'attributes_axes'           => $axesAttributes,
+            'image'                     => $this->normalizeImage($closestImage, $this->catalogContext->getScopeCode(), $this->catalogContext->getLocaleCode()),
+            'variant_navigation'        => $this->navigationNormalizer->normalize($productModel, $format, $context),
+            'ascendant_category_ids'    => $this->ascendantCategoriesQuery->getCategoryIds($productModel),
+            'required_missing_attributes' => $requiredMissingAttributes,
+            'level'                     => $productModel->getVariationLevel(),
+            'quantified_associations_for_this_level' => $this->formatQuantifiedAssociations($this->quantifiedAssociationsNormalizer->normalizeWithoutParentsAssociations($productModel, 'standard', $context)),
+            'parent_quantified_associations' => $this->formatQuantifiedAssociations($this->quantifiedAssociationsNormalizer->normalizeOnlyParentsAssociations($productModel, 'standard', $context)),
+        ] + $this->getLabels($productModel, $scopeCode) + $this->getAssociationMeta($productModel);
 
         return $normalizedProductModel;
     }

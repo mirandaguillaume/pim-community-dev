@@ -22,9 +22,9 @@ final readonly class GetAsymmetricKeysQuery implements GetAsymmetricKeysQueryInt
     public function execute(): AsymmetricKeys
     {
         $query = <<<SQL
-        SELECT `values` FROM pim_configuration
-        WHERE code = :code
-        SQL;
+            SELECT `values` FROM pim_configuration
+            WHERE code = :code
+            SQL;
 
         $result = $this->connection->fetchOne($query, ['code' => SaveAsymmetricKeysQuery::OPTION_CODE]);
 

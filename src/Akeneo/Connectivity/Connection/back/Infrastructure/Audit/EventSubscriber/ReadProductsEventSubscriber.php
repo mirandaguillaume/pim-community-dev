@@ -58,13 +58,13 @@ final readonly class ReadProductsEventSubscriber implements EventSubscriberInter
             return;
         }
 
-        if (FlowType::DATA_DESTINATION !== (string)$connection->flowType()) {
+        if (FlowType::DATA_DESTINATION !== (string) $connection->flowType()) {
             return;
         }
 
         $this->updateDataDestinationProductEventCountHandler->handle(
             new UpdateDataDestinationProductEventCountCommand(
-                (string)$connection->code(),
+                (string) $connection->code(),
                 HourlyInterval::createFromDateTime(new \DateTimeImmutable('now', new \DateTimeZone('UTC'))),
                 $event->getCount()
             )

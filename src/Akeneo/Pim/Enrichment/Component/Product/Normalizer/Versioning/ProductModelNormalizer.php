@@ -115,7 +115,7 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
                 'scopeCode'     => null,
                 'localeCodes'   => [],
                 'metric_format' => 'multiple_fields',
-                'filter_types'  => ['pim.transform.product_value.flat']
+                'filter_types'  => ['pim.transform.product_value.flat'],
             ],
             $context
         );

@@ -60,11 +60,11 @@ class DatagridViewController
 
         $viewsInPage = array_slice(
             $filteredViews,
-            ($options['page']-1)*$options['limit'],
+            ($options['page'] - 1) * $options['limit'],
             $options['limit']
         );
 
-        $moreResults = (is_countable($filteredViews) ? count($filteredViews) : 0) > $options['page']*$options['limit'];
+        $moreResults = (is_countable($filteredViews) ? count($filteredViews) : 0) > $options['page'] * $options['limit'];
 
         return new JsonResponse([
             'results' => $this->normalizer->normalize($viewsInPage, 'internal_api'),

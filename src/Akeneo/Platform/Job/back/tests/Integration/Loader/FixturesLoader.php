@@ -25,17 +25,17 @@ final class FixturesLoader
     public function resetFixtures(): void
     {
         $resetQuery = <<<SQL
-            SET foreign_key_checks = 0;
+                        SET foreign_key_checks = 0;
 
-            DELETE FROM akeneo_batch_job_instance;
-            DELETE FROM akeneo_batch_job_execution;
-            DELETE FROM akeneo_batch_step_execution;
-            DELETE FROM oro_user;
-            DELETE FROM oro_user_access_role;
-            DELETE FROM oro_access_role;
+                        DELETE FROM akeneo_batch_job_instance;
+                        DELETE FROM akeneo_batch_job_execution;
+                        DELETE FROM akeneo_batch_step_execution;
+                        DELETE FROM oro_user;
+                        DELETE FROM oro_user_access_role;
+                        DELETE FROM oro_access_role;
 
-            SET foreign_key_checks = 1;
-SQL;
+                        SET foreign_key_checks = 1;
+            SQL;
         $this->dbalConnection->executeQuery($resetQuery);
     }
 
@@ -52,11 +52,11 @@ SQL;
         $this->fixturesUserHelper->createRole('ROLE_ADMINISTRATOR', [
             'pim_enrich_job_tracker_view_all_jobs',
             'pim_enrich_job_tracker_index',
-            'pim_importexport_stop_job'
+            'pim_importexport_stop_job',
         ]);
 
         $this->fixturesUserHelper->createRole('ROLE_IMPORT_EXPORT_VIEWER', [
-            'pim_importexport_import_execution_show'
+            'pim_importexport_import_execution_show',
         ]);
 
         $this->fixturesUserHelper->createRole('PROCESS_TRACKER_VIEWER', [

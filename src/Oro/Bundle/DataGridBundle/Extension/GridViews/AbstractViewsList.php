@@ -87,7 +87,7 @@ abstract class AbstractViewsList
 
         return [
             'choices' => $this->toChoiceList(),
-            'views'   => $result->toArray()
+            'views'   => $result->toArray(),
         ];
     }
 

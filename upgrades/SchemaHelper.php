@@ -45,7 +45,7 @@ class SchemaHelper
             'product',
             'product_media',
             'product_value',
-            'version'
+            'version',
         ];
     }
 
@@ -60,8 +60,11 @@ class SchemaHelper
     {
         if (!array_key_exists($resource, $this->classMapping)) {
             $error = 'Can not get the table for the object "%s". Only the following types %s are known.';
-            throw new \InvalidArgumentException(sprintf($error,
-                $resource, implode(', ', array_keys($this->classMapping))));
+            throw new \InvalidArgumentException(sprintf(
+                $error,
+                $resource,
+                implode(', ', array_keys($this->classMapping))
+            ));
         }
 
         return $this->getTableOrCollectionForOrm($resource);

@@ -117,11 +117,11 @@ final class LaunchProductAndProductModelEvaluationsHandlerIntegration extends Da
     private function assertProductsAreNotEvaluated(ProductUuidCollection $productUuids): void
     {
         $query = <<<SQL
-SELECT 1
-FROM pim_data_quality_insights_product_criteria_evaluation
-WHERE product_uuid IN (:product_uuids) AND evaluated_at IS NOT NULL
-LIMIT 1;
-SQL;
+            SELECT 1
+            FROM pim_data_quality_insights_product_criteria_evaluation
+            WHERE product_uuid IN (:product_uuids) AND evaluated_at IS NOT NULL
+            LIMIT 1;
+            SQL;
 
         $result = $this->dbConnection->executeQuery(
             $query,
@@ -135,11 +135,11 @@ SQL;
     private function assertProductModelsAreNotEvaluated(ProductModelIdCollection $productModelIds): void
     {
         $query = <<<SQL
-SELECT 1
-FROM pim_data_quality_insights_product_model_criteria_evaluation
-WHERE product_id IN (:product_model_ids) AND evaluated_at IS NOT NULL
-LIMIT 1;
-SQL;
+            SELECT 1
+            FROM pim_data_quality_insights_product_model_criteria_evaluation
+            WHERE product_id IN (:product_model_ids) AND evaluated_at IS NOT NULL
+            LIMIT 1;
+            SQL;
 
         $result = $this->dbConnection->executeQuery(
             $query,
@@ -153,11 +153,11 @@ SQL;
     private function assertProductsAreEvaluated(ProductUuidCollection $productUuids): void
     {
         $query = <<<SQL
-SELECT BIN_TO_UUID(product_uuid) AS product_uuid, COUNT(*) AS nb_evaluated_criteria
-FROM pim_data_quality_insights_product_criteria_evaluation
-WHERE product_uuid IN (:product_uuids) AND evaluated_at IS NOT NULL
-GROUP BY product_uuid;
-SQL;
+            SELECT BIN_TO_UUID(product_uuid) AS product_uuid, COUNT(*) AS nb_evaluated_criteria
+            FROM pim_data_quality_insights_product_criteria_evaluation
+            WHERE product_uuid IN (:product_uuids) AND evaluated_at IS NOT NULL
+            GROUP BY product_uuid;
+            SQL;
 
         $stmt = $this->dbConnection->executeQuery(
             $query,
@@ -182,11 +182,11 @@ SQL;
     private function assertProductModelsAreEvaluated(ProductModelIdCollection $productModelIds): void
     {
         $query = <<<SQL
-SELECT product_id, COUNT(*) AS nb_evaluated_criteria
-FROM pim_data_quality_insights_product_model_criteria_evaluation
-WHERE product_id IN (:product_model_ids) AND evaluated_at IS NOT NULL
-GROUP BY product_id;
-SQL;
+            SELECT product_id, COUNT(*) AS nb_evaluated_criteria
+            FROM pim_data_quality_insights_product_model_criteria_evaluation
+            WHERE product_id IN (:product_model_ids) AND evaluated_at IS NOT NULL
+            GROUP BY product_id;
+            SQL;
 
         $stmt = $this->dbConnection->executeQuery(
             $query,

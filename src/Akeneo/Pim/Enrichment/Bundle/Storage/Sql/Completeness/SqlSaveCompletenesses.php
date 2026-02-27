@@ -37,10 +37,10 @@ final readonly class SqlSaveCompletenesses implements SaveProductCompletenesses
         $params = \implode(', ', \array_fill(0, count($productCompletenessCollections), '(?, ?)'));
         $query = \sprintf(
             <<<SQL
-            INSERT INTO pim_catalog_product_completeness (product_uuid, completeness) 
-                  VALUES %s
-                  ON DUPLICATE KEY UPDATE completeness = VALUES(completeness)
-            SQL,
+                INSERT INTO pim_catalog_product_completeness (product_uuid, completeness) 
+                      VALUES %s
+                      ON DUPLICATE KEY UPDATE completeness = VALUES(completeness)
+                SQL,
             $params
         );
 

@@ -46,8 +46,8 @@ class GetActivatedLocalesControllerEndToEnd extends ControllerIntegrationTestCas
     private function addLocale(string $code, bool $isActivated): void
     {
         $sql = <<<SQL
-            INSERT INTO pim_catalog_locale (code, is_activated) VALUES (:code, :isActivated);
-        SQL;
+                INSERT INTO pim_catalog_locale (code, is_activated) VALUES (:code, :isActivated);
+            SQL;
 
         $this->get('database_connection')->executeQuery(
             $sql,

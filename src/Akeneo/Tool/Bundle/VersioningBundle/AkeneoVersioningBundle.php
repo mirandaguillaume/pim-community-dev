@@ -29,7 +29,7 @@ class AkeneoVersioningBundle extends Bundle
             ->addCompilerPass(new RegisterVersionPurgerAdvisorPass());
 
         $versionMappings = [
-            'Akeneo\Tool\Component\Versioning\Model' => dirname(__DIR__, 2).'/Component/Versioning/Model',
+            'Akeneo\Tool\Component\Versioning\Model' => dirname(__DIR__, 2) . '/Component/Versioning/Model',
         ];
 
         $container->addCompilerPass(

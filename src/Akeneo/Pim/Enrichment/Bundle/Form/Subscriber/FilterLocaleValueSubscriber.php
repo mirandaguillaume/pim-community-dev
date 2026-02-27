@@ -59,8 +59,8 @@ class FilterLocaleValueSubscriber implements EventSubscriberInterface
                     [
                         'disabled'     => true,
                         'block_config' => [
-                            'mode' => 'comparison'
-                        ]
+                            'mode' => 'comparison',
+                        ],
                     ]
                 );
             }

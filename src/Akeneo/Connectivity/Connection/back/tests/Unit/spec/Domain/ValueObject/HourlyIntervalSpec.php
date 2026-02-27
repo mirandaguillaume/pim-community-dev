@@ -16,14 +16,14 @@ class HourlyIntervalSpec extends ObjectBehavior
     public function let(): void
     {
         $this->beConstructedThrough('createFromDateTime', [
-            new \DateTimeImmutable('2020-01-01 10:00:00', new \DateTimeZone('UTC'))
+            new \DateTimeImmutable('2020-01-01 10:00:00', new \DateTimeZone('UTC')),
         ]);
     }
 
     public function it_returns_from_datetime(): void
     {
         $this->beConstructedThrough('createFromDateTime', [
-            new \DateTimeImmutable('2020-01-01 10:00:00', new \DateTimeZone('UTC'))
+            new \DateTimeImmutable('2020-01-01 10:00:00', new \DateTimeZone('UTC')),
         ]);
 
         $this->fromDateTime()->shouldBeLike(
@@ -34,7 +34,7 @@ class HourlyIntervalSpec extends ObjectBehavior
     public function it_returns_up_to_datetime(): void
     {
         $this->beConstructedThrough('createFromDateTime', [
-            new \DateTimeImmutable('2020-01-01 10:00:00', new \DateTimeZone('UTC'))
+            new \DateTimeImmutable('2020-01-01 10:00:00', new \DateTimeZone('UTC')),
         ]);
 
         $this->upToDateTime()->shouldBeLike(
@@ -50,7 +50,7 @@ class HourlyIntervalSpec extends ObjectBehavior
     public function it_throws_when_the_timezone_is_not_utc(): void
     {
         $this->beConstructedThrough('createFromDateTime', [
-            new \DateTimeImmutable('2020-01-01 10:00:00', new \DateTimeZone('europe/paris'))
+            new \DateTimeImmutable('2020-01-01 10:00:00', new \DateTimeZone('europe/paris')),
         ]);
 
         $this->shouldThrow('\InvalidArgumentException')->duringInstantiation();
@@ -59,7 +59,7 @@ class HourlyIntervalSpec extends ObjectBehavior
     public function it_compares_two_equals_hourly_intervals_created_with_the_same_hours(): void
     {
         $this->beConstructedThrough('createFromDateTime', [
-            new \DateTimeImmutable('2020-01-01 10:00:00', new \DateTimeZone('UTC'))
+            new \DateTimeImmutable('2020-01-01 10:00:00', new \DateTimeZone('UTC')),
         ]);
 
         $hourlyInterval = HourlyInterval::createFromDateTime(
@@ -72,7 +72,7 @@ class HourlyIntervalSpec extends ObjectBehavior
     public function it_compares_two_equals_hourly_intervals_created_with_differents_hours(): void
     {
         $this->beConstructedThrough('createFromDateTime', [
-            new \DateTimeImmutable('2020-01-01 10:00:00', new \DateTimeZone('UTC'))
+            new \DateTimeImmutable('2020-01-01 10:00:00', new \DateTimeZone('UTC')),
         ]);
 
         $hourlyInterval = HourlyInterval::createFromDateTime(
@@ -85,7 +85,7 @@ class HourlyIntervalSpec extends ObjectBehavior
     public function it_compares_two_differents_hourly_intervals(): void
     {
         $this->beConstructedThrough('createFromDateTime', [
-            new \DateTimeImmutable('2020-01-01 10:00:00', new \DateTimeZone('UTC'))
+            new \DateTimeImmutable('2020-01-01 10:00:00', new \DateTimeZone('UTC')),
         ]);
 
         $hourlyInterval = HourlyInterval::createFromDateTime(

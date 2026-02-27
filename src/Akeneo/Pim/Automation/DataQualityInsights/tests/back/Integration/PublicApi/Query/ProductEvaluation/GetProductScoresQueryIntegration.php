@@ -61,10 +61,10 @@ final class getProductScoresQueryIntegration extends DataQualityInsightsTestCase
         [$productA] = $this->loadProductScores();
 
         $expectedQualityScoreCollection = new QualityScoreCollection([
-                'mobile' => [
-                    'en_US' => new QualityScore('A', 96),
-                    'fr_FR' => new QualityScore('E', 36),
-                ],
+            'mobile' => [
+                'en_US' => new QualityScore('A', 96),
+                'fr_FR' => new QualityScore('E', 36),
+            ],
         ]);
 
         $qualityScoreCollection = $this->get(GetProductScoresQuery::class)->byProductUuid($productA->getUuid());
@@ -72,7 +72,8 @@ final class getProductScoresQueryIntegration extends DataQualityInsightsTestCase
         $this->assertEqualsCanonicalizing($expectedQualityScoreCollection, $qualityScoreCollection);
     }
 
-    private function loadProductScores() {
+    private function loadProductScores()
+    {
         $channelMobile = new ChannelCode('mobile');
         $localeEn = new LocaleCode('en_US');
         $localeFr = new LocaleCode('fr_FR');

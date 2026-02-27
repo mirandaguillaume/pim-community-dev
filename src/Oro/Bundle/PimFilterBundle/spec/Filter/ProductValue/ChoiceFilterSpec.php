@@ -18,14 +18,13 @@ use Symfony\Component\Form\FormFactoryInterface;
 
 class ChoiceFilterSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         FormFactoryInterface $factory,
         ProductFilterUtility $utility,
         UserContext $userContext,
         CustomAttributeRepository $attributeRepository,
         CustomAttributeOptionRepository $attributeOptionRepository
-    )
-    {
+    ) {
         $this->beConstructedWith($factory, $utility, $userContext, $attributeRepository, $attributeOptionRepository);
 
         $this->init(
@@ -36,17 +35,17 @@ class ChoiceFilterSpec extends ObjectBehavior
         );
     }
 
-    function it_is_an_oro_choice_filter()
+    public function it_is_an_oro_choice_filter()
     {
         $this->shouldBeAnInstanceOf(ChoiceFilter::class);
     }
 
-    function it_initializes_filter_with_name()
+    public function it_initializes_filter_with_name()
     {
         $this->getName()->shouldReturn('foo');
     }
 
-    function it_applies_choice_filter_on_datasource_for_array_value(
+    public function it_applies_choice_filter_on_datasource_for_array_value(
         FilterDatasourceAdapterInterface $datasource,
         AttributeInterface $attribute,
         $utility,
@@ -66,7 +65,7 @@ class ChoiceFilterSpec extends ObjectBehavior
         );
     }
 
-    function it_applies_choice_filter_on_datasource_for_collection_value(
+    public function it_applies_choice_filter_on_datasource_for_collection_value(
         FilterDatasourceAdapterInterface $datasource,
         AttributeInterface $attribute,
         Collection $collection,
@@ -92,7 +91,7 @@ class ChoiceFilterSpec extends ObjectBehavior
         );
     }
 
-    function it_applies_choice_filter_on_datasource_for_array_value_with_not_contains_type(
+    public function it_applies_choice_filter_on_datasource_for_array_value_with_not_contains_type(
         FilterDatasourceAdapterInterface $datasource,
         AttributeInterface $attribute,
         $utility,
@@ -113,7 +112,7 @@ class ChoiceFilterSpec extends ObjectBehavior
         );
     }
 
-    function it_falbacks_on_contains_type_if_type_is_unknown(
+    public function it_falbacks_on_contains_type_if_type_is_unknown(
         FilterDatasourceAdapterInterface $datasource,
         AttributeInterface $attribute,
         $utility,
@@ -137,7 +136,7 @@ class ChoiceFilterSpec extends ObjectBehavior
     /**
      * TODO The getForm method is obviously too smart here
      */
-    function it_provides_a_choice_filter_form(
+    public function it_provides_a_choice_filter_form(
         Form $form,
         AttributeInterface $attribute,
         $factory,
@@ -159,7 +158,7 @@ class ChoiceFilterSpec extends ObjectBehavior
                 'options'      => [
                     'type' => 'code',
                 ],
-            ]
+            ],
         ])->willReturn($form);
 
         $this->getForm()->shouldReturn($form);
@@ -168,7 +167,7 @@ class ChoiceFilterSpec extends ObjectBehavior
 
 class CustomAttributeRepository extends AttributeRepository
 {
-    function findOneByCode()
+    public function findOneByCode()
     {
         return null;
     }
@@ -176,7 +175,7 @@ class CustomAttributeRepository extends AttributeRepository
 
 class CustomAttributeOptionRepository extends AttributeOptionRepository
 {
-    function findCodesByIdentifiers($code, array $optionCodes)
+    public function findCodesByIdentifiers($code, array $optionCodes)
     {
         return null;
     }

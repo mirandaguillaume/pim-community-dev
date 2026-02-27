@@ -35,15 +35,17 @@ abstract class AbstractProduct implements ProductInterface, \Stringable
     protected $id;
 
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\GeneratedValue(strategy: 'NONE')]
     #[ORM\Column(type: 'uuid_binary')]
     protected UuidInterface $uuid;
 
     #[ORM\Column(name: 'raw_values', type: Types::JSON)]
     protected array $rawValues;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     protected ?\DateTime $created = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     protected ?\DateTime $updated = null;
 
     /**
@@ -714,9 +716,9 @@ abstract class AbstractProduct implements ProductInterface, \Stringable
         $newAssociation->setOwner($this);
         $this->associations->add($newAssociation);
         if (
-            $newAssociation->getProducts()->count() > 0 ||
-            $newAssociation->getProductModels()->count() > 0 ||
-            $newAssociation->getGroups()->count() > 0
+            $newAssociation->getProducts()->count() > 0
+            || $newAssociation->getProductModels()->count() > 0
+            || $newAssociation->getGroups()->count() > 0
         ) {
             $this->dirty = true;
         }
@@ -731,12 +733,12 @@ abstract class AbstractProduct implements ProductInterface, \Stringable
     {
         $similarAssociation = $this->getAssociationForTypeCode($association->getAssociationType()->getCode());
         if (
-            null !== $similarAssociation &&
-            true === $this->associations->removeElement($similarAssociation) &&
-            (
-                $similarAssociation->getProducts()->count() > 0 ||
-                $similarAssociation->getProductModels()->count() > 0 ||
-                $similarAssociation->getGroups()->count() > 0
+            null !== $similarAssociation
+            && true === $this->associations->removeElement($similarAssociation)
+            && (
+                $similarAssociation->getProducts()->count() > 0
+                || $similarAssociation->getProductModels()->count() > 0
+                || $similarAssociation->getGroups()->count() > 0
             )
         ) {
             $this->dirty = true;

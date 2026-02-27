@@ -28,7 +28,7 @@ final readonly class CleanRemovedAttribute implements ConstraintCollectionProvid
                 'attribute_codes' => [
                     new NotNull(),
                     new Type('array'),
-                    new All([new Type(['type' => 'string']), new NotBlank()])
+                    new All([new Type(['type' => 'string']), new NotBlank()]),
                 ],
             ],
         ]);

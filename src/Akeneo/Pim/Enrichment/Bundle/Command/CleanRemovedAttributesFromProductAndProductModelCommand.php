@@ -18,6 +18,7 @@ use Akeneo\Tool\Component\StorageUtils\Cursor\CursorInterface;
 use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface;
 use Akeneo\UserManagement\Component\Model\UserInterface;
 use Oro\Bundle\PimDataGridBundle\Normalizer\IdEncoder;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
@@ -29,7 +30,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Security\Core\User\InMemoryUser;
 
 /**
@@ -126,8 +126,8 @@ class CleanRemovedAttributesFromProductAndProductModelCommand extends Command
         }
 
         $answer = $io->confirm(
-            'This command will remove all values of deleted attributes on all products and product models' . "\n" .
-                'Do you want to proceed?',
+            'This command will remove all values of deleted attributes on all products and product models' . "\n"
+                . 'Do you want to proceed?',
             true
         );
 
@@ -225,12 +225,12 @@ class CleanRemovedAttributesFromProductAndProductModelCommand extends Command
         );
 
         $confirmMessage = sprintf(
-            "This command will launch a job to remove the values of the attributes:\n" .
-                "%s\n" .
-                " This will update:\n" .
-                " - %d product model(s) (and %d product variant(s))\n" .
-                " - %d product(s)\n" .
-                " Do you want to proceed?",
+            "This command will launch a job to remove the values of the attributes:\n"
+                . "%s\n"
+                . " This will update:\n"
+                . " - %d product model(s) (and %d product variant(s))\n"
+                . " - %d product(s)\n"
+                . " Do you want to proceed?",
             implode(
                 array_map(fn (string $attributeCode) => sprintf(" - %s\n", $attributeCode), $attributeCodes)
             ),

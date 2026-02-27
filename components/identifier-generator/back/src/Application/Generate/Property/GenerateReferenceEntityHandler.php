@@ -18,8 +18,7 @@ final readonly class GenerateReferenceEntityHandler implements GeneratePropertyH
 {
     public function __construct(
         private PropertyProcessApplier $propertyProcessApplier
-    ) {
-    }
+    ) {}
 
     public function getPropertyClass(): string
     {

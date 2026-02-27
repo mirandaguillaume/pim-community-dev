@@ -158,7 +158,7 @@ class ProductProcessor extends AbstractProcessor implements ItemProcessorInterfa
             $this->detachProduct($product);
             $message = sprintf('%s: %s', $exception->getPropertyName(), $exception->getMessage());
             $this->skipItemWithMessage($item, $message, $exception);
-        } catch (InvalidArgumentException | AccessDeniedException $exception) {
+        } catch (InvalidArgumentException|AccessDeniedException $exception) {
             $this->detachProduct($product);
             $this->skipItemWithMessage($item, $exception->getMessage(), $exception);
         }

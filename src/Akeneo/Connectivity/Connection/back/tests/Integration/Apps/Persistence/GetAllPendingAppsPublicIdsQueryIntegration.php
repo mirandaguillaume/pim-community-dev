@@ -73,12 +73,12 @@ class GetAllPendingAppsPublicIdsQueryIntegration extends TestCase
     private function makeAppsPending(array $ids): void
     {
         $sql = <<<SQL
-DELETE FROM pim_api_access_token WHERE client IN (
-    SELECT id
-    FROM pim_api_client
-    WHERE marketplace_public_app_id IN (:ids)
-)
-SQL;
+            DELETE FROM pim_api_access_token WHERE client IN (
+                SELECT id
+                FROM pim_api_client
+                WHERE marketplace_public_app_id IN (:ids)
+            )
+            SQL;
 
         $this->connection->executeQuery($sql, ['ids' => $ids], ['ids' => ArrayParameterType::STRING]);
     }

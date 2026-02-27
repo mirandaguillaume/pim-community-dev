@@ -22,7 +22,7 @@ class CurrencyGuesser implements ConstraintGuesserInterface
     public function guessConstraints(AttributeInterface $attribute)
     {
         return [
-            new Currency()
+            new Currency(),
         ];
     }
 

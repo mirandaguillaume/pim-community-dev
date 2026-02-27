@@ -55,10 +55,10 @@ class IsMaintenanceModeEnabledTest extends TestCase
     private function enableMaintenanceMode(): void
     {
         $query = <<<SQL
-            INSERT INTO pim_configuration (`code`,`values`)
-            VALUES (:code, :values)
-            ON DUPLICATE KEY UPDATE `values`= :values
-        SQL;
+                INSERT INTO pim_configuration (`code`,`values`)
+                VALUES (:code, :values)
+                ON DUPLICATE KEY UPDATE `values`= :values
+            SQL;
 
         $this->getConnection()->executeQuery($query, [
             'code' => 'maintenance_mode',

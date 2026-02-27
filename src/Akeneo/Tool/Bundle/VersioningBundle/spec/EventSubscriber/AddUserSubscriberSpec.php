@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class AddUserSubscriberSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         TokenStorageInterface $tokenStorage,
         TokenInterface $token,
         AuthorizationCheckerInterface $authorizationChecker
@@ -23,17 +23,17 @@ class AddUserSubscriberSpec extends ObjectBehavior
         $authorizationChecker->isGranted(Argument::any())->willReturn(true);
     }
 
-    function it_is_an_event_listener()
+    public function it_is_an_event_listener()
     {
         $this->shouldImplement(\Symfony\Component\EventDispatcher\EventSubscriberInterface::class);
     }
 
-    function it_subscribes_to_the_kernel_request_event()
+    public function it_subscribes_to_the_kernel_request_event()
     {
         $this->getSubscribedEvents()->shouldReturn([BuildVersionEvents::PRE_BUILD => 'preBuild']);
     }
 
-    function it_injects_current_username_into_the_version_manager(
+    public function it_injects_current_username_into_the_version_manager(
         BuildVersionEvent $event,
         $tokenStorage,
         $token,
@@ -46,7 +46,7 @@ class AddUserSubscriberSpec extends ObjectBehavior
         $this->preBuild($event);
     }
 
-    function it_does_nothing_if_a_token_is_not_present_in_the_security_context(BuildVersionEvent $event, $tokenStorage)
+    public function it_does_nothing_if_a_token_is_not_present_in_the_security_context(BuildVersionEvent $event, $tokenStorage)
     {
         $tokenStorage->getToken()->willReturn(null);
 

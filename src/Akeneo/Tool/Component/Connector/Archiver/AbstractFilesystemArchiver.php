@@ -79,10 +79,10 @@ abstract class AbstractFilesystemArchiver implements ArchiverInterface
         $jobInstance = $jobExecution->getJobInstance();
 
         return
-            $jobInstance->getType() . DIRECTORY_SEPARATOR .
-            $jobInstance->getJobName() . DIRECTORY_SEPARATOR .
-            $jobExecution->getId() . DIRECTORY_SEPARATOR .
-            $this->getName();
+            $jobInstance->getType() . DIRECTORY_SEPARATOR
+            . $jobInstance->getJobName() . DIRECTORY_SEPARATOR
+            . $jobExecution->getId() . DIRECTORY_SEPARATOR
+            . $this->getName();
     }
 
     private function supportsJobExecution(JobExecution $jobExecution): bool

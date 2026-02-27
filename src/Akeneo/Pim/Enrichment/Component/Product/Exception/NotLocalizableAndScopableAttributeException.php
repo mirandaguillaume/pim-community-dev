@@ -35,8 +35,8 @@ class NotLocalizableAndScopableAttributeException extends InvalidAttributeExcept
     ): self {
         return new self(
             new TemplatedErrorMessage(
-                'The {attribute_code} attribute requires a value per channel ({channel_code} was detected)' .
-                ' but does not require a value per locale ({locale_code} was detected).',
+                'The {attribute_code} attribute requires a value per channel ({channel_code} was detected)'
+                . ' but does not require a value per locale ({locale_code} was detected).',
                 [
                     'attribute_code' => $attributeCode,
                     'channel_code' => $channelCode ?? 'nothing',

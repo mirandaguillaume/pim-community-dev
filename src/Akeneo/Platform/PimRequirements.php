@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Platform;
 
-use \PDO;
+use PDO;
 use Symfony\Component\Intl\Intl;
 use Symfony\Requirements\Requirement;
 
@@ -122,8 +122,8 @@ class PimRequirements
 
         $currentMySQLVersion = $this->getMySQLVersion();
         $requirements[] = new Requirement(
-            version_compare($currentMySQLVersion, self::LOWEST_REQUIRED_MYSQL_VERSION, '>=')  &&
-            version_compare($currentMySQLVersion, self::GREATEST_REQUIRED_MYSQL_VERSION, '<'),
+            version_compare($currentMySQLVersion, self::LOWEST_REQUIRED_MYSQL_VERSION, '>=')
+            && version_compare($currentMySQLVersion, self::GREATEST_REQUIRED_MYSQL_VERSION, '<'),
             sprintf(
                 'MySQL version must be greater or equal to %s and lower than %s',
                 self::LOWEST_REQUIRED_MYSQL_VERSION,
@@ -142,11 +142,11 @@ class PimRequirements
             $innodbPageSize >= 8192,
             'Check support for correct innodb_page_size for utf8mb4 support',
             sprintf(
-                'In order for the PIM to implement full UTF8 support via MySQL utf8mb4 charset,'.
-                ' MySQL must have innodb_page_size >= 8KB.'.
-                ' Current innodb_page_size is at "%s".'.
-                ' Please change your MySQL server configuration to use the correct settings'.
-                ' (innodb_page_size is at 16KB by default on MySQL 5.7)',
+                'In order for the PIM to implement full UTF8 support via MySQL utf8mb4 charset,'
+                . ' MySQL must have innodb_page_size >= 8KB.'
+                . ' Current innodb_page_size is at "%s".'
+                . ' Please change your MySQL server configuration to use the correct settings'
+                . ' (innodb_page_size is at 16KB by default on MySQL 5.7)',
                 $innodbPageSize
             )
         );
@@ -171,7 +171,7 @@ class PimRequirements
     /**
      * Returns a global MySQL configuration variable value
      */
-    protected function getMySQLVariableValue(string $variableName) : string|int|null
+    protected function getMySQLVariableValue(string $variableName): string|int|null
     {
         $stmt = $this->getConnection()->query(
             sprintf("SELECT @@GLOBAL.%s", $variableName)

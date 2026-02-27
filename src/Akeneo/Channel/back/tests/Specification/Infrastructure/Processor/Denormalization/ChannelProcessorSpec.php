@@ -168,7 +168,7 @@ class ChannelProcessorSpec extends ObjectBehavior
         $executionContext
             ->put('processed_items_batch', ['mycode' => $channel])
             ->shouldBeCalled()
-            ->will(function() use ($executionContext, $channel) {
+            ->will(function () use ($executionContext, $channel) {
                 $executionContext->get('processed_items_batch')->willReturn(['mycode' => $channel]);
             });
 
@@ -259,7 +259,7 @@ class ChannelProcessorSpec extends ObjectBehavior
             'locales'    => ['en_US', 'fr_FR'],
             'currencies' => ['EUR', 'USD'],
             'tree'       => 'master_catalog',
-            'color'      => 'orange'
+            'color'      => 'orange',
         ];
     }
 }

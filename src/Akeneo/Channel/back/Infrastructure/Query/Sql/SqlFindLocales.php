@@ -22,12 +22,12 @@ final readonly class SqlFindLocales implements FindLocales
     public function find(string $localeCode): ?Locale
     {
         $sql = <<<SQL
-            SELECT 
-                l.code AS localeCode, 
-                l.is_activated AS isActivated
-            FROM pim_catalog_locale l
-            WHERE l.code = :localeCode
-        SQL;
+                SELECT 
+                    l.code AS localeCode, 
+                    l.is_activated AS isActivated
+                FROM pim_catalog_locale l
+                WHERE l.code = :localeCode
+            SQL;
 
         $result = $this->connection->executeQuery($sql, ['localeCode' => $localeCode])->fetchAssociative();
 
@@ -47,12 +47,12 @@ final readonly class SqlFindLocales implements FindLocales
     public function findAllActivated(): array
     {
         $sql = <<<SQL
-            SELECT 
-                l.code AS localeCode, 
-                l.is_activated AS isActivated
-            FROM pim_catalog_locale l
-            WHERE l.is_activated = 1
-        SQL;
+                SELECT 
+                    l.code AS localeCode, 
+                    l.is_activated AS isActivated
+                FROM pim_catalog_locale l
+                WHERE l.is_activated = 1
+            SQL;
 
         $results = $this->connection->executeQuery($sql)->fetchAllAssociative();
         $locales = [];

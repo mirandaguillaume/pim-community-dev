@@ -103,7 +103,7 @@ class AclGroupsExtension extends AbstractExtension
 
             $groups[$permissionGroup][] = [
                 'name'  => $groupName,
-                'order' => $groupConfig['order'] ?? -1
+                'order' => $groupConfig['order'] ?? -1,
             ];
         }
 

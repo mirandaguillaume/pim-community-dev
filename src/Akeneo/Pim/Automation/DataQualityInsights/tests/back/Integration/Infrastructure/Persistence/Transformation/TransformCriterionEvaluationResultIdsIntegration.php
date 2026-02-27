@@ -83,7 +83,7 @@ final class TransformCriterionEvaluationResultIdsIntegration extends DataQuality
                     $enUsId => TransformCriterionEvaluationResultCodes::STATUS_ID[CriterionEvaluationResultStatus::ERROR],
                     $deDeId => TransformCriterionEvaluationResultCodes::STATUS_ID[CriterionEvaluationResultStatus::NOT_APPLICABLE],
                 ],
-            ]
+            ],
         ];
 
         $expectedEvaluationResult = [
@@ -143,7 +143,7 @@ final class TransformCriterionEvaluationResultIdsIntegration extends DataQuality
                     'en_US' => CriterionEvaluationResultStatus::ERROR,
                     'de_DE' => CriterionEvaluationResultStatus::NOT_APPLICABLE,
                 ],
-            ]
+            ],
         ];
 
         $convertedEvaluationResult = $this->get(TransformCriterionEvaluationResultIds::class)->transformToCodes(new CriterionCode('enrichment_image'), $evaluationResult);

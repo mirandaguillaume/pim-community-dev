@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DocumentedHttpExceptionSpec extends ObjectBehavior
 {
-    function it_creates_an_object_updater_http_exception()
+    public function it_creates_an_object_updater_http_exception()
     {
         $previous = new \Exception();
 

@@ -9,17 +9,17 @@ use Prophecy\Argument;
 
 class MeasureFamilyConverterSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(MeasureFamilyConverter::class);
     }
 
-    function it_is_a_converter()
+    public function it_is_a_converter()
     {
         $this->shouldImplement(ArrayConverterInterface::class);
     }
 
-    function it_converts_a_measure_family()
+    public function it_converts_a_measure_family()
     {
         $item = [
             'family_code' => 'area',
@@ -27,11 +27,11 @@ class MeasureFamilyConverterSpec extends ObjectBehavior
                 'standard' => 'SQUARE_METER',
                 'units' => [
                     'SQUARE_MILLIMETER' => [
-                        'convert' => [['mul'=> '0.000001']],
+                        'convert' => [['mul' => '0.000001']],
                         'symbol' => 'cm²',
                     ],
-                ]
-            ]
+                ],
+            ],
         ];
 
         $convertedItem = [
@@ -40,10 +40,10 @@ class MeasureFamilyConverterSpec extends ObjectBehavior
             "units" => [
                 [
                     'code' => 'SQUARE_MILLIMETER',
-                    'convert' => ['mul'=> '0.000001'],
+                    'convert' => ['mul' => '0.000001'],
                     'symbol' => 'cm²',
                 ],
-            ]
+            ],
         ];
 
         $this->convert($item)->shouldReturn($convertedItem);

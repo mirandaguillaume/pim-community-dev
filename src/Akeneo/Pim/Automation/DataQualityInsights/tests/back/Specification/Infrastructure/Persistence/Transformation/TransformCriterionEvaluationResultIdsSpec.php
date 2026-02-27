@@ -106,7 +106,7 @@ final class TransformCriterionEvaluationResultIdsSpec extends ObjectBehavior
                     58 => TransformCriterionEvaluationResultCodes::STATUS_ID[CriterionEvaluationResultStatus::DONE],
                     90 => 123456,
                 ],
-            ]
+            ],
         ];
 
         $this->shouldThrow(CriterionEvaluationResultTransformationFailedException::class)->during('transformToCodes', [new CriterionCode('enrichment_image'), $invalidEvaluationResult]);
@@ -145,7 +145,7 @@ final class TransformCriterionEvaluationResultIdsSpec extends ObjectBehavior
                     58 => TransformCriterionEvaluationResultCodes::STATUS_ID[CriterionEvaluationResultStatus::DONE],
                     90 => TransformCriterionEvaluationResultCodes::STATUS_ID[CriterionEvaluationResultStatus::IN_PROGRESS],
                 ],
-            ]
+            ],
         ];
     }
 
@@ -182,7 +182,7 @@ final class TransformCriterionEvaluationResultIdsSpec extends ObjectBehavior
                     'en_US' => CriterionEvaluationResultStatus::DONE,
                     'fr_FR' => CriterionEvaluationResultStatus::IN_PROGRESS,
                 ],
-            ]
+            ],
         ];
     }
 
@@ -214,7 +214,7 @@ final class TransformCriterionEvaluationResultIdsSpec extends ObjectBehavior
                     58 => TransformCriterionEvaluationResultCodes::STATUS_ID[CriterionEvaluationResultStatus::DONE],
                     90 => TransformCriterionEvaluationResultCodes::STATUS_ID[CriterionEvaluationResultStatus::NOT_APPLICABLE],
                 ],
-            ]
+            ],
         ];
     }
 
@@ -246,7 +246,7 @@ final class TransformCriterionEvaluationResultIdsSpec extends ObjectBehavior
                     'en_US' => CriterionEvaluationResultStatus::DONE,
                     'fr_FR' => CriterionEvaluationResultStatus::NOT_APPLICABLE,
                 ],
-            ]
+            ],
         ];
     }
 
@@ -283,7 +283,7 @@ final class TransformCriterionEvaluationResultIdsSpec extends ObjectBehavior
                     58 => TransformCriterionEvaluationResultCodes::STATUS_ID[CriterionEvaluationResultStatus::DONE],
                     90 => TransformCriterionEvaluationResultCodes::STATUS_ID[CriterionEvaluationResultStatus::NOT_APPLICABLE],
                 ],
-            ]
+            ],
         ];
     }
 }

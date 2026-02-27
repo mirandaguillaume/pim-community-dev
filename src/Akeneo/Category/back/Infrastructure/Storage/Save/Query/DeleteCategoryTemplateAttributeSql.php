@@ -29,10 +29,10 @@ class DeleteCategoryTemplateAttributeSql implements DeleteTemplateAttribute
         }
 
         $query = <<< SQL
-            DELETE FROM pim_catalog_category_attribute
-            WHERE category_template_uuid = :template_uuid 
-            AND uuid = :attribute_uuid;
-        SQL;
+                DELETE FROM pim_catalog_category_attribute
+                WHERE category_template_uuid = :template_uuid 
+                AND uuid = :attribute_uuid;
+            SQL;
 
         $this->connection->executeQuery(
             $query,

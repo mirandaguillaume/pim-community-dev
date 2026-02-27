@@ -22,9 +22,9 @@ final class GetAttributeGroupActivationQuery implements GetAttributeGroupActivat
     public function byCode(AttributeGroupCode $attributeGroupCode): ?AttributeGroupActivation
     {
         $query = <<<SQL
-SELECT activated FROM pim_data_quality_insights_attribute_group_activation
-WHERE attribute_group_code = :attributeGroupCode;
-SQL;
+            SELECT activated FROM pim_data_quality_insights_attribute_group_activation
+            WHERE attribute_group_code = :attributeGroupCode;
+            SQL;
 
         $result = $this->dbConnection->executeQuery($query, ['attributeGroupCode' => $attributeGroupCode])
             ->fetchOne();

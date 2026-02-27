@@ -18,7 +18,7 @@ class GroupsAndRolesVisibilityChecker extends NonEmptyPropertyVisibilityChecker
      */
     public function isVisible(array $config = [], array $context = [])
     {
-        return parent::isVisible(['property' => '[form][groups]'], $context) ||
-            parent::isVisible(['property'    => '[form][rolesCollection]'], $context);
+        return parent::isVisible(['property' => '[form][groups]'], $context)
+            || parent::isVisible(['property'    => '[form][rolesCollection]'], $context);
     }
 }

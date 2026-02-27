@@ -46,9 +46,9 @@ class MediaValue extends AbstractValue implements MediaValueInterface, \Stringab
      */
     public function isEqual(ValueInterface $value): bool
     {
-        if (!$value instanceof MediaValueInterface ||
-            $this->getScopeCode() !== $value->getScopeCode() ||
-            $this->getLocaleCode() !== $value->getLocaleCode()) {
+        if (!$value instanceof MediaValueInterface
+            || $this->getScopeCode() !== $value->getScopeCode()
+            || $this->getLocaleCode() !== $value->getLocaleCode()) {
             return false;
         }
 
@@ -62,12 +62,12 @@ class MediaValue extends AbstractValue implements MediaValueInterface, \Stringab
             return false;
         }
 
-        return $comparedMedia->getOriginalFilename() === $thisMedia->getOriginalFilename() &&
-            $comparedMedia->getMimeType() === $thisMedia->getMimeType() &&
-            $comparedMedia->getSize() === $thisMedia->getSize() &&
-            $comparedMedia->getExtension() === $thisMedia->getExtension() &&
-            $comparedMedia->getHash() === $thisMedia->getHash() &&
-            $comparedMedia->getKey() === $thisMedia->getKey() &&
-            $comparedMedia->getStorage() === $thisMedia->getStorage();
+        return $comparedMedia->getOriginalFilename() === $thisMedia->getOriginalFilename()
+            && $comparedMedia->getMimeType() === $thisMedia->getMimeType()
+            && $comparedMedia->getSize() === $thisMedia->getSize()
+            && $comparedMedia->getExtension() === $thisMedia->getExtension()
+            && $comparedMedia->getHash() === $thisMedia->getHash()
+            && $comparedMedia->getKey() === $thisMedia->getKey()
+            && $comparedMedia->getStorage() === $thisMedia->getStorage();
     }
 }

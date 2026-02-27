@@ -17,7 +17,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class VersionManagerSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         VersionBuilder $builder,
         ObjectManager $om,
         VersionRepositoryInterface $versionRepository,
@@ -33,19 +33,18 @@ class VersionManagerSpec extends ObjectBehavior
         $versionRepository->getNewestLogEntry(Argument::cetera())->willReturn(null);
     }
 
-    function it_is_aware_of_the_versioning_mode()
+    public function it_is_aware_of_the_versioning_mode()
     {
         $this->isRealTimeVersioning()->shouldReturn(true);
         $this->setRealTimeVersioning(false);
         $this->isRealTimeVersioning()->shouldReturn(false);
     }
 
-    function it_uses_version_builder_to_build_versions(
+    public function it_uses_version_builder_to_build_versions(
         $builder,
         ProductInterface $product,
         EventDispatcherInterface $eventDispatcher
-    )
-    {
+    ) {
         $product->getUuid()->willReturn(Uuid::fromString('dc9ac794-fdfb-49e6-8a24-f01e0f68907d'));
         $this->setUsername('julia');
         $this->buildVersion($product);
@@ -55,7 +54,7 @@ class VersionManagerSpec extends ObjectBehavior
         $builder->buildVersion($product, 'julia', null, null)->shouldHaveBeenCalled();
     }
 
-    function it_builds_versions_for_versionable_entities($om, ProductInterface $product, $builder)
+    public function it_builds_versions_for_versionable_entities($om, ProductInterface $product, $builder)
     {
         $product->getUuid()->willReturn(Uuid::fromString('dc9ac794-fdfb-49e6-8a24-f01e0f68907d'));
         $builder->buildVersion(Argument::cetera())->willReturn(new Version('foo', 1, null, 'bar'));
@@ -65,7 +64,7 @@ class VersionManagerSpec extends ObjectBehavior
         $versions[0]->shouldBeAnInstanceOf(Version::class);
     }
 
-    function it_creates_pending_versions_when_real_time_versioning_is_disabled(ProductInterface $product, $builder)
+    public function it_creates_pending_versions_when_real_time_versioning_is_disabled(ProductInterface $product, $builder)
     {
         $this->setRealTimeVersioning(false);
         $builder->createPendingVersion(Argument::cetera())->willReturn(new Version('foo', 1, null, 'bar'));
@@ -77,7 +76,7 @@ class VersionManagerSpec extends ObjectBehavior
         $version->isPending()->shouldReturn(true);
     }
 
-    function it_builds_pending_versions_and_last_version_when_versioning_an_entity(
+    public function it_builds_pending_versions_and_last_version_when_versioning_an_entity(
         $om,
         ProductInterface $product,
         $builder,
@@ -101,7 +100,7 @@ class VersionManagerSpec extends ObjectBehavior
         $versions->shouldHaveCount(3);
     }
 
-    function it_builds_pending_versions_for_a_given_entity(ProductInterface $product, $builder, $versionRepository)
+    public function it_builds_pending_versions_for_a_given_entity(ProductInterface $product, $builder, $versionRepository)
     {
         $product->getUuid()->willReturn(Uuid::fromString('dc9ac794-fdfb-49e6-8a24-f01e0f68907d'));
 

@@ -13,7 +13,7 @@ use Prophecy\Argument;
 
 class SortersConfiguratorSpec extends ObjectBehavior
 {
-    function let(DatagridConfiguration $configuration, ConfigurationRegistry $registry)
+    public function let(DatagridConfiguration $configuration, ConfigurationRegistry $registry)
     {
         $attributes = [
             'sku' => [
@@ -23,7 +23,7 @@ class SortersConfiguratorSpec extends ObjectBehavior
             'name' => [
                 'code' => 'name',
                 'type' => 'pim_catalog_text',
-            ]
+            ],
         ];
 
         $configuration
@@ -41,12 +41,12 @@ class SortersConfiguratorSpec extends ObjectBehavior
         $this->beConstructedWith($registry);
     }
 
-    function it_is_a_configurator()
+    public function it_is_a_configurator()
     {
         $this->shouldImplement(ConfiguratorInterface::class);
     }
 
-    function it_configures_datagrid_sorters($configuration, $registry)
+    public function it_configures_datagrid_sorters($configuration, $registry)
     {
         $registry
             ->getConfiguration('pim_catalog_text')
@@ -64,7 +64,7 @@ class SortersConfiguratorSpec extends ObjectBehavior
         $this->configure($configuration);
     }
 
-    function it_cannot_handle_misconfigured_attribute_type($configuration, $registry)
+    public function it_cannot_handle_misconfigured_attribute_type($configuration, $registry)
     {
         $registry->getConfiguration('pim_catalog_text')->willReturn([]);
 

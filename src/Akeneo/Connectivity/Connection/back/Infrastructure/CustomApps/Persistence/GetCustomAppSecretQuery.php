@@ -21,10 +21,10 @@ final readonly class GetCustomAppSecretQuery implements GetCustomAppSecretQueryI
     public function execute(string $clientId): ?string
     {
         $sql = <<<SQL
-        SELECT client_secret
-        FROM akeneo_connectivity_test_app
-        WHERE client_id = :clientId
-        SQL;
+            SELECT client_secret
+            FROM akeneo_connectivity_test_app
+            WHERE client_id = :clientId
+            SQL;
 
         $secret = $this->connection->fetchOne($sql, ['clientId' => $clientId]);
 

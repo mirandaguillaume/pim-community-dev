@@ -51,7 +51,7 @@ class FlysystemLoader implements LoaderInterface
      *
      * @throws NotLoadableException
      */
-    protected function retrieveContentFileFromVfs($path): \Liip\ImagineBundle\Model\Binary|null|string
+    protected function retrieveContentFileFromVfs($path): \Liip\ImagineBundle\Model\Binary|string|null
     {
         $content = null;
         $mimeType = null;

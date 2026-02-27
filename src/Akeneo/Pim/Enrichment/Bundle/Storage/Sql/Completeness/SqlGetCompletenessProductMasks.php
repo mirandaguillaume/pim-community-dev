@@ -37,24 +37,24 @@ final readonly class SqlGetCompletenessProductMasks implements GetCompletenessPr
         // was some performance issues with a big number of productIdentifier. The CTE allows to fix it (please check
         // the issue for further information).
         $sql = <<<SQL
-WITH
-filtered_product AS (
-    SELECT uuid FROM pim_catalog_product WHERE uuid IN (:productUuids)
-)
-SELECT
-    BIN_TO_UUID(product.uuid) AS uuid,
-    family.code AS familyCode,
-    JSON_MERGE(
-           COALESCE(pm1.raw_values, '{}'),
-           COALESCE(pm2.raw_values, '{}'),
-           product.raw_values
-    ) AS rawValues
-FROM filtered_product
-    INNER JOIN pim_catalog_product product ON filtered_product.uuid = product.uuid
-    LEFT JOIN pim_catalog_family family ON product.family_id = family.id
-    LEFT JOIN pim_catalog_product_model pm1 ON product.product_model_id = pm1.id
-    LEFT JOIN pim_catalog_product_model pm2 ON pm1.parent_id = pm2.id
-SQL;
+            WITH
+            filtered_product AS (
+                SELECT uuid FROM pim_catalog_product WHERE uuid IN (:productUuids)
+            )
+            SELECT
+                BIN_TO_UUID(product.uuid) AS uuid,
+                family.code AS familyCode,
+                JSON_MERGE(
+                       COALESCE(pm1.raw_values, '{}'),
+                       COALESCE(pm2.raw_values, '{}'),
+                       product.raw_values
+                ) AS rawValues
+            FROM filtered_product
+                INNER JOIN pim_catalog_product product ON filtered_product.uuid = product.uuid
+                LEFT JOIN pim_catalog_family family ON product.family_id = family.id
+                LEFT JOIN pim_catalog_product_model pm1 ON product.product_model_id = pm1.id
+                LEFT JOIN pim_catalog_product_model pm2 ON pm1.parent_id = pm2.id
+            SQL;
 
         $productUuidsAsBytes = \array_map(static fn (UuidInterface $uuid): string => $uuid->getBytes(), $productUuids);
 

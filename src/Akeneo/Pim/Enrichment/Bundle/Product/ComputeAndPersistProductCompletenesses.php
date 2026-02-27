@@ -83,7 +83,7 @@ class ComputeAndPersistProductCompletenesses
                     $now,
                     $previousProductCompletenessCollection,
                     $authorId
-                )
+                ),
             ];
         }
 

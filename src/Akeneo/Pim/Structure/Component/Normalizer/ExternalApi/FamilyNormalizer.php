@@ -24,7 +24,7 @@ class FamilyNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
     /**
      * {@inheritdoc}
      */
-    public function normalize($family, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($family, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $normalizedFamily = $this->stdNormalizer->normalize($family, 'standard', $context);
 

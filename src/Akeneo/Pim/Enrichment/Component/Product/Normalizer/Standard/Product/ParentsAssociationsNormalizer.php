@@ -20,7 +20,7 @@ class ParentsAssociationsNormalizer implements NormalizerInterface, CacheableSup
     /**
      * {@inheritdoc}
      */
-    public function normalize($associationAwareEntity, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($associationAwareEntity, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $parentAssociations = $this->getParentAssociations($associationAwareEntity);
         $data = [];

@@ -100,7 +100,7 @@ class CategoryTreeController extends AbstractController
             'templateUuid' => (string) $tree->getCategoryTreeTemplate()?->getTemplateUuid(),
             'templateLabel' => $tree->getCategoryTreeTemplate()?->getTemplateLabel($this->userContext->getCurrentLocaleCode()),
             'templateCode' => (string) $tree->getCategoryTreeTemplate()?->getTemplateCode(),
-            'selected' => $tree->getId()?->getValue() === $selectedTreeId ? 'true' : 'false'
+            'selected' => $tree->getId()?->getValue() === $selectedTreeId ? 'true' : 'false',
         ], $trees);
 
         return new JsonResponse($formatedTrees);
@@ -192,9 +192,9 @@ class CategoryTreeController extends AbstractController
             $view = '@AkeneoPimEnrichment/CategoryTree/children-tree.json.twig';
         }
 
-        $withItemsCount = (bool)$request->get('with_items_count', false);
-        $includeParent = (bool)$request->get('include_parent', false);
-        $includeSub = (bool)$request->get('include_sub', false);
+        $withItemsCount = (bool) $request->get('with_items_count', false);
+        $includeParent = (bool) $request->get('include_parent', false);
+        $includeSub = (bool) $request->get('include_sub', false);
 
         return $this->render(
             $view,
@@ -204,7 +204,7 @@ class CategoryTreeController extends AbstractController
                 'include_sub' => $includeSub,
                 'item_count' => $withItemsCount,
                 'select_node' => $selectNode,
-                'related_entity' => $this->rawConfiguration['related_entity']
+                'related_entity' => $this->rawConfiguration['related_entity'],
             ],
             new JsonResponse()
         );
@@ -283,7 +283,7 @@ class CategoryTreeController extends AbstractController
 
         $normalizedCategory = $this->normalizer->normalize($category, 'internal_api');
         $normalizedCategory = array_merge($normalizedCategory, [
-            'root' => $rootCategory === null ? null : $this->normalizer->normalize($rootCategory, 'internal_api')
+            'root' => $rootCategory === null ? null : $this->normalizer->normalize($rootCategory, 'internal_api'),
         ]);
         $formData = $this->categoryFormViewNormalizer->normalizeFormView($form->createView());
 
@@ -314,7 +314,7 @@ class CategoryTreeController extends AbstractController
         } catch (ConflictHttpException $exception) {
             return new JsonResponse(
                 [
-                    'message' => $exception->getMessage()
+                    'message' => $exception->getMessage(),
                 ],
                 $exception->getStatusCode(),
             );

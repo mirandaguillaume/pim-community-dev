@@ -87,7 +87,7 @@ class BatchLogHandler extends StreamHandler
         }
 
         if (!is_dir(dirname($this->url))) {
-            mkdir(dirname($this->url), 0755, true);
+            mkdir(dirname($this->url), 0o755, true);
         }
 
         parent::write($record);

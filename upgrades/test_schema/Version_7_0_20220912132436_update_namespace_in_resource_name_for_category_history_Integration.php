@@ -16,8 +16,8 @@ use PHPUnit\Framework\Assert;
  */
 final class Version_7_0_20220912132436_update_namespace_in_resource_name_for_category_history_integration extends TestCase
 {
-    private const MIGRATION_NAME = '_7_0_20220912132436_update_namespace_in_resource_name_for_category_history';
     use ExecuteMigrationTrait;
+    private const MIGRATION_NAME = '_7_0_20220912132436_update_namespace_in_resource_name_for_category_history';
     private Connection $connection;
 
     protected function setUp(): void
@@ -45,9 +45,9 @@ final class Version_7_0_20220912132436_update_namespace_in_resource_name_for_cat
     {
         $this->connection->executeStatement(
             <<<SQL
-INSERT INTO pim_versioning_version (author, resource_name, resource_id, snapshot, changeset, version, logged_at, pending) 
-VALUES ('system', 'Akeneo\\\Pim\\\Enrichment\\\Component\\\Category\\\Model\\\Category', 1, '', '', 1, NOW(), 0)
-SQL
+                INSERT INTO pim_versioning_version (author, resource_name, resource_id, snapshot, changeset, version, logged_at, pending) 
+                VALUES ('system', 'Akeneo\\\Pim\\\Enrichment\\\Component\\\Category\\\Model\\\Category', 1, '', '', 1, NOW(), 0)
+                SQL
         );
     }
 
@@ -55,11 +55,11 @@ SQL
     {
         return
             (int) $this->connection->executeQuery(
-            <<<SQL
-SELECT COUNT(*) FROM pim_versioning_version
-WHERE resource_name='Akeneo\\\Category\\\Infrastructure\\\Component\\\Model\\\Category'
-SQL
-        )->fetchOne();
+                <<<SQL
+                    SELECT COUNT(*) FROM pim_versioning_version
+                    WHERE resource_name='Akeneo\\\Category\\\Infrastructure\\\Component\\\Model\\\Category'
+                    SQL
+            )->fetchOne();
     }
 
     private function wrongNamespaceCount(): int
@@ -67,9 +67,9 @@ SQL
         return
             (int) $this->connection->executeQuery(
                 <<<SQL
-SELECT COUNT(*) FROM pim_versioning_version
-WHERE resource_name='Akeneo\\\Pim\\\Enrichment\\\Component\\\Category\\\Model\\\Category'
-SQL
+                    SELECT COUNT(*) FROM pim_versioning_version
+                    WHERE resource_name='Akeneo\\\Pim\\\Enrichment\\\Component\\\Category\\\Model\\\Category'
+                    SQL
             )->fetchOne();
     }
 }

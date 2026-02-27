@@ -83,7 +83,7 @@ class GetNonRequiredProductModelAttributesMaskQueryIntegration extends Completen
                         'a_variation_axis',
                         'a_required_variant_text',
                     ],
-                ]
+                ],
             ],
         ]);
 
@@ -139,7 +139,7 @@ class GetNonRequiredProductModelAttributesMaskQueryIntegration extends Completen
             'a_localizable_scopable_text-tablet-fr_FR',
             'a_non_localizable_non_scopable_locale_specific_fr-<all_channels>-<all_locales>',
             'a_non_localizable_scopable_locale_specific_fr_us-tablet-<all_locales>',
-            'a_localizable_scopable_locale_specific_fr-tablet-fr_FR'
+            'a_localizable_scopable_locale_specific_fr-tablet-fr_FR',
         ], $tabletFrFr->mask());
 
         $unknownProductId = $this->get(ProductModelIdFactory::class)->create('42');
@@ -176,7 +176,7 @@ class GetNonRequiredProductModelAttributesMaskQueryIntegration extends Completen
                         'a_variation_axis_level_1',
                         'a_variation_axis_level_2',
                     ],
-                ]
+                ],
             ],
         ]);
 
@@ -209,7 +209,7 @@ class GetNonRequiredProductModelAttributesMaskQueryIntegration extends Completen
 
         $this->assertEqualsCanonicalizing([
             'a_product_model_text-ecommerce-en_US',
-            'a_sub_product_model_text-<all_channels>-<all_locales>'
+            'a_sub_product_model_text-<all_channels>-<all_locales>',
         ], $attributesMask->requiredAttributesMaskForChannelAndLocale('ecommerce', 'en_US')->mask());
     }
 }

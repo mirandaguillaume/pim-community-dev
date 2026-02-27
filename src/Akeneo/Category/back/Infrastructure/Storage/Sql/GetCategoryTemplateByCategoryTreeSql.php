@@ -28,17 +28,17 @@ class GetCategoryTemplateByCategoryTreeSql implements GetCategoryTemplateByCateg
     public function __invoke(CategoryId $categoryTreeId): ?Template
     {
         $query = <<<SQL
-            SELECT 
-                BIN_TO_UUID(category_template.uuid) as uuid,
-                category_template.code,
-                category_template.labels,
-                category_tree_template.category_tree_id as category_id
-            FROM pim_catalog_category_template category_template
-            JOIN pim_catalog_category_tree_template category_tree_template 
-                ON category_tree_template.category_template_uuid = category_template.uuid
-            WHERE category_tree_template.category_tree_id = :category_id
-            AND (category_template.is_deactivated IS NULL OR category_template.is_deactivated = 0)
-        SQL;
+                SELECT 
+                    BIN_TO_UUID(category_template.uuid) as uuid,
+                    category_template.code,
+                    category_template.labels,
+                    category_tree_template.category_tree_id as category_id
+                FROM pim_catalog_category_template category_template
+                JOIN pim_catalog_category_tree_template category_tree_template 
+                    ON category_tree_template.category_template_uuid = category_template.uuid
+                WHERE category_tree_template.category_tree_id = :category_id
+                AND (category_template.is_deactivated IS NULL OR category_template.is_deactivated = 0)
+            SQL;
 
         $result = $this->connection->executeQuery(
             $query,

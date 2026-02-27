@@ -24,15 +24,15 @@ class DbalFindViewedAnnouncementIds implements FindViewedAnnouncementIdsInterfac
     public function byUserId(int $userId): array
     {
         $query = <<<SQL
-            SELECT announcement_id
-            FROM akeneo_communication_channel_viewed_announcements
-            WHERE user_id = :user_id
-        SQL;
+                SELECT announcement_id
+                FROM akeneo_communication_channel_viewed_announcements
+                WHERE user_id = :user_id
+            SQL;
 
         $statement = $this->dbalConnection->executeQuery(
             $query,
             [
-                'user_id' => $userId
+                'user_id' => $userId,
             ]
         );
         $results = $statement->fetchFirstColumn();

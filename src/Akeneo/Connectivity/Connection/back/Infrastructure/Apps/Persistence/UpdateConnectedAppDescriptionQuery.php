@@ -22,17 +22,17 @@ final readonly class UpdateConnectedAppDescriptionQuery implements UpdateConnect
     public function execute(ConnectedApp $app): void
     {
         $query = <<<SQL
-        UPDATE akeneo_connectivity_connected_app
-        SET
-            name = :name,
-            logo = :logo,
-            author = :author,
-            categories = :categories,
-            certified = :certified,
-            partner = :partner,
-            updated = NOW()
-        WHERE id = :id
-        SQL;
+            UPDATE akeneo_connectivity_connected_app
+            SET
+                name = :name,
+                logo = :logo,
+                author = :author,
+                categories = :categories,
+                certified = :certified,
+                partner = :partner,
+                updated = NOW()
+            WHERE id = :id
+            SQL;
 
         $this->connection->executeQuery(
             $query,

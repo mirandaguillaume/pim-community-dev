@@ -8,11 +8,11 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Query\Filter\Operators;
 use Akeneo\Pim\Enrichment\Component\Product\Query\ProductQueryBuilderFactoryInterface;
 use Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * This command iterate over the given products and product models and save them.
@@ -61,7 +61,7 @@ class RefreshProductCommand extends Command
 
         $productsToSave = [
             'product_models' => [],
-            'products' => []
+            'products' => [],
         ];
         foreach ($products as $product) {
             $productsToSave[$product instanceof ProductModelInterface ? 'product_models' : 'products'][] = $product;

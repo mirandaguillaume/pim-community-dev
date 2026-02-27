@@ -69,14 +69,14 @@ class PriceFilter extends AbstractAttributeFilter implements AttributeFilterInte
 
         $this->checkLocaleAndChannel($attribute, $locale, $channel);
 
-        if (Operators::IS_EMPTY_FOR_CURRENCY === $operator ||
-            Operators::IS_NOT_EMPTY_FOR_CURRENCY === $operator
+        if (Operators::IS_EMPTY_FOR_CURRENCY === $operator
+            || Operators::IS_NOT_EMPTY_FOR_CURRENCY === $operator
         ) {
             $this->checkCurrency($attribute, $value);
-        } elseif (Operators::IS_EMPTY_ON_ALL_CURRENCIES !== $operator &&
-            Operators::IS_EMPTY !== $operator &&
-            Operators::IS_NOT_EMPTY_ON_AT_LEAST_ONE_CURRENCY !== $operator &&
-            Operators::IS_NOT_EMPTY !== $operator
+        } elseif (Operators::IS_EMPTY_ON_ALL_CURRENCIES !== $operator
+            && Operators::IS_EMPTY !== $operator
+            && Operators::IS_NOT_EMPTY_ON_AT_LEAST_ONE_CURRENCY !== $operator
+            && Operators::IS_NOT_EMPTY !== $operator
         ) {
             $this->checkAmount($attribute, $value);
             $this->checkCurrency($attribute, $value);
@@ -170,7 +170,7 @@ class PriceFilter extends AbstractAttributeFilter implements AttributeFilterInte
                         'terms' => [
                             self::ATTRIBUTES_OF_ANCESTORS_ES_ID => [$attribute->getCode()],
                         ],
-                    ]
+                    ],
                 ];
                 $this->searchQueryBuilder->addFilter(
                     [
@@ -201,7 +201,7 @@ class PriceFilter extends AbstractAttributeFilter implements AttributeFilterInte
                         'terms' => [
                             self::ATTRIBUTES_OF_ANCESTORS_ES_ID => [$attribute->getCode()],
                         ],
-                    ]
+                    ],
                 ];
                 $this->searchQueryBuilder->addFilter(
                     [
@@ -290,9 +290,9 @@ class PriceFilter extends AbstractAttributeFilter implements AttributeFilterInte
             );
         }
 
-        if ('' === $data['currency'] ||
-            !is_string($data['currency']) ||
-            !in_array($data['currency'], $this->findActivatedCurrencies->forAllChannels())
+        if ('' === $data['currency']
+            || !is_string($data['currency'])
+            || !in_array($data['currency'], $this->findActivatedCurrencies->forAllChannels())
         ) {
             throw InvalidPropertyException::validEntityCodeExpected(
                 $attribute->getCode(),

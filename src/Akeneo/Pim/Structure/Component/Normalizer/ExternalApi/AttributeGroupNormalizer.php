@@ -24,7 +24,7 @@ class AttributeGroupNormalizer implements NormalizerInterface, CacheableSupports
     /**
      * {@inheritdoc}
      */
-    public function normalize($group, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($group, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $normalizedGroup = $this->stdNormalizer->normalize($group, 'standard', $context);
 

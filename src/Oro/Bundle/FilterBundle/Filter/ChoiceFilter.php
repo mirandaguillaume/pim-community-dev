@@ -58,14 +58,14 @@ class ChoiceFilter extends AbstractFilter
                 if ($choice instanceof ChoiceView) {
                     return [
                         'label' => $choice->label,
-                        'value' => $choice->value
+                        'value' => $choice->value,
                     ];
                 }
 
                 if ($choice instanceof ChoiceGroupView) {
                     return [
                         'label' => $choice->label,
-                        'value' => $choice->choices
+                        'value' => $choice->choices,
                     ];
                 }
 

@@ -30,7 +30,7 @@ class AccessDeniedHandler implements AccessDeniedHandlerInterface
         return new JsonResponse(
             [
                 'code'    => Response::HTTP_FORBIDDEN,
-                'message' => $this->getMessage($request, $exception)
+                'message' => $this->getMessage($request, $exception),
             ],
             Response::HTTP_FORBIDDEN
         );

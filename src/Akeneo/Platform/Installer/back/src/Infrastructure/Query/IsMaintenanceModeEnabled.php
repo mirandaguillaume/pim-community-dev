@@ -21,10 +21,10 @@ class IsMaintenanceModeEnabled implements IsMaintenanceModeEnabledInterface
     public function execute(): bool
     {
         $query = <<<SQL
-SELECT `values`
-FROM pim_configuration
-WHERE code = 'maintenance_mode'
-SQL;
+            SELECT `values`
+            FROM pim_configuration
+            WHERE code = 'maintenance_mode'
+            SQL;
         $result = $this->connection->fetchOne($query);
 
         if (false === $result) {

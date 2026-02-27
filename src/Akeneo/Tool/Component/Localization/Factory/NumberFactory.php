@@ -50,7 +50,7 @@ class NumberFactory
             [
                 'locale'        => 'en',
                 'type'          => \NumberFormatter::DECIMAL,
-                'number_format' => null
+                'number_format' => null,
             ],
             $options
         );

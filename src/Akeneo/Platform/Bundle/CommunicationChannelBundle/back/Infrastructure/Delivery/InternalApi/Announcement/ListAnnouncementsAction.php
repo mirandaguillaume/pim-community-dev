@@ -42,7 +42,7 @@ class ListAnnouncementsAction
         $normalizedAnnouncementItems = $this->normalizeAnnouncementItems($announcementItems);
 
         return new JsonResponse([
-            'items' => $normalizedAnnouncementItems
+            'items' => $normalizedAnnouncementItems,
         ]);
     }
 

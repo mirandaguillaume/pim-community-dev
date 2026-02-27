@@ -28,7 +28,7 @@ class GetCategoryByIdsSqlIntegration extends CategoryTestCase
         /** @var Category[] $expectedCategories */
         $expectedCategories = [$categoryPrint, $categoryAccessories, $categoryClothes];
 
-        $givenIds = array_map(fn ($category) => $category->getId()->getValue(), $expectedCategories);
+        $givenIds = array_map(fn($category) => $category->getId()->getValue(), $expectedCategories);
 
         /** @var Category[] $categories */
         $categories = ($this->get(GetCategoryByIds::class))($givenIds);
@@ -36,9 +36,9 @@ class GetCategoryByIdsSqlIntegration extends CategoryTestCase
         $this->assertIsArray($categories);
         $this->assertContainsOnlyInstancesOf(Category::class, $categories);
         $this->assertCount(3, $categories);
-        $this->assertEquals((string)$expectedCategories[0]->getCode(), (string)$categories[0]->getCode());
-        $this->assertEquals((string)$expectedCategories[1]->getCode(), (string)$categories[1]->getCode());
-        $this->assertEquals((string)$expectedCategories[2]->getCode(), (string)$categories[2]->getCode());
+        $this->assertEquals((string) $expectedCategories[0]->getCode(), (string) $categories[0]->getCode());
+        $this->assertEquals((string) $expectedCategories[1]->getCode(), (string) $categories[1]->getCode());
+        $this->assertEquals((string) $expectedCategories[2]->getCode(), (string) $categories[2]->getCode());
     }
 
     public function testItNotRetrievesCategoryByIds(): void

@@ -48,7 +48,7 @@ class WrongCredentialsCombination
 
         return [
             'code' => $this->connectionCode,
-            'users' => $users
+            'users' => $users,
         ];
     }
 }

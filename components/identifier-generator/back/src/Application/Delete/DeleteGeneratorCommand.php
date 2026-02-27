@@ -14,8 +14,7 @@ final readonly class DeleteGeneratorCommand implements CommandInterface
 {
     private function __construct(
         private string $code,
-    ) {
-    }
+    ) {}
 
     public static function fromCode(string $code): self
     {

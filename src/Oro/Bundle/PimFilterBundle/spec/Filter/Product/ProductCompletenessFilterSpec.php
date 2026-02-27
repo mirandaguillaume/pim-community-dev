@@ -12,17 +12,17 @@ use Symfony\Component\Form\FormFactoryInterface;
 
 class ProductCompletenessFilterSpec extends ObjectBehavior
 {
-    function let(FormFactoryInterface $factory, ProductFilterUtility $utility)
+    public function let(FormFactoryInterface $factory, ProductFilterUtility $utility)
     {
         $this->beConstructedWith($factory, $utility);
     }
 
-    function it_is_an_oro_choice_filter()
+    public function it_is_an_oro_choice_filter()
     {
         $this->shouldBeAnInstanceOf(ChoiceFilter::class);
     }
 
-    function it_applies_a_filter_on_complete_products(
+    public function it_applies_a_filter_on_complete_products(
         FilterDatasourceAdapterInterface $datasource,
         $utility
     ) {
@@ -32,7 +32,7 @@ class ProductCompletenessFilterSpec extends ObjectBehavior
         $this->apply($datasource, ['type' => null, 'value' => BooleanFilterType::TYPE_YES]);
     }
 
-    function it_applies_a_filter_on_not_complete_products(
+    public function it_applies_a_filter_on_not_complete_products(
         FilterDatasourceAdapterInterface $datasource,
         $utility
     ) {

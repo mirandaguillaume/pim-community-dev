@@ -76,7 +76,7 @@ class DeleteExpiredTokensHandlerIntegration extends ApiTestCase
 
         $sqlQuery = "SELECT id FROM pim_api_client WHERE label = 'test_client'";
 
-        return (int)$this->connection->executeQuery($sqlQuery)->fetchOne();
+        return (int) $this->connection->executeQuery($sqlQuery)->fetchOne();
     }
 
     private function createUser(string $username): int

@@ -80,16 +80,16 @@ class Version_6_0_20220518130906_drop_table_akeneo_batch_job_execution_queue_Int
         }
 
         $this->get('database_connection')->executeQuery(<<<SQL
-        CREATE TABLE akeneo_batch_job_execution_queue
-        (
-            id               INT auto_increment PRIMARY KEY,
-            job_execution_id INT          NULL,
-            options          JSON         NULL,
-            consumer         VARCHAR(255) NULL,
-            create_time      DATETIME     NULL,
-            updated_time     DATETIME     NULL
-        ) COLLATE = utf8mb4_unicode_ci;
-        SQL);
+            CREATE TABLE akeneo_batch_job_execution_queue
+            (
+                id               INT auto_increment PRIMARY KEY,
+                job_execution_id INT          NULL,
+                options          JSON         NULL,
+                consumer         VARCHAR(255) NULL,
+                create_time      DATETIME     NULL,
+                updated_time     DATETIME     NULL
+            ) COLLATE = utf8mb4_unicode_ci;
+            SQL);
     }
 
     private function jobQueueTableExists(): bool
@@ -103,17 +103,17 @@ class Version_6_0_20220518130906_drop_table_akeneo_batch_job_execution_queue_Int
     private function insertJobInQueue(): void
     {
         $this->connection->executeQuery(<<<SQL
-            INSERT INTO akeneo_batch_job_execution_queue (job_execution_id, consumer, create_time, updated_time, options) VALUES 
-            (2, NULL, DATE_SUB(NOW(), INTERVAL 10 day), NULL, '{}')
-        SQL);
+                INSERT INTO akeneo_batch_job_execution_queue (job_execution_id, consumer, create_time, updated_time, options) VALUES 
+                (2, NULL, DATE_SUB(NOW(), INTERVAL 10 day), NULL, '{}')
+            SQL);
     }
 
     private function insertJobAlreadyFinished(): void
     {
         $this->connection->executeQuery(<<<SQL
-            INSERT INTO akeneo_batch_job_execution_queue (job_execution_id, consumer, create_time, updated_time, options) VALUES 
-            (1, 'consumer1', DATE_SUB(NOW(), INTERVAL 10 day), DATE_SUB(NOW(), INTERVAL 9 day), '{}')
-        SQL);
+                INSERT INTO akeneo_batch_job_execution_queue (job_execution_id, consumer, create_time, updated_time, options) VALUES 
+                (1, 'consumer1', DATE_SUB(NOW(), INTERVAL 10 day), DATE_SUB(NOW(), INTERVAL 9 day), '{}')
+            SQL);
     }
 
     private function reExecuteMigrationWithExpectedError(string $migrationLabel): void

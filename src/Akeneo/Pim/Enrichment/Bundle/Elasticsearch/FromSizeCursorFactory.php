@@ -57,7 +57,7 @@ class FromSizeCursorFactory implements CursorFactoryInterface
         $resolver->setDefaults(
             [
                 'page_size' => $this->pageSize,
-                'from' => 0
+                'from' => 0,
             ]
         );
         $resolver->setAllowedTypes('page_size', 'int');

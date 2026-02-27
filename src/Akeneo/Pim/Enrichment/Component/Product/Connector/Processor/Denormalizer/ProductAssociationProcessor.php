@@ -94,9 +94,9 @@ class ProductAssociationProcessor extends AbstractProcessor implements ItemProce
         try {
             $this->updateProduct($product, $item);
         } catch (PropertyException
-        | InvalidArgumentException
-        | AccessDeniedException
-        | TwoWayAssociationWithTheSameProductException $exception) {
+        |InvalidArgumentException
+        |AccessDeniedException
+        |TwoWayAssociationWithTheSameProductException $exception) {
             $this->detachProduct($product);
             $this->skipItemWithMessage($item, $exception->getMessage(), $exception);
         }

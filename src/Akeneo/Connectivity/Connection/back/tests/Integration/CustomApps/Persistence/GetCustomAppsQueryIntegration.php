@@ -94,7 +94,7 @@ class GetCustomAppsQueryIntegration extends TestCase
                     'name' => 'My test app 3',
                     'activate_url' => 'http://shopware.example3.com/activate',
                     'callback_url' => 'http://shopware.example3.com/callback',
-                ]
+                ],
             ],
             $results
         );

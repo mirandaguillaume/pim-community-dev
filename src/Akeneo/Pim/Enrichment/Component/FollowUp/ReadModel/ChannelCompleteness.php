@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Component\FollowUp\ReadModel;
@@ -50,7 +51,7 @@ class ChannelCompleteness
             'labels' => $this->channelLabels,
             'total' => $this->numberTotalOfProducts,
             'complete' => $this->numberOfCompleteProducts,
-            'locales' => $locales
+            'locales' => $locales,
         ];
     }
 }

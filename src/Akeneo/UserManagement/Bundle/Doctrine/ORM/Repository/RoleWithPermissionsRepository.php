@@ -56,14 +56,14 @@ class RoleWithPermissionsRepository implements IdentifiableObjectRepositoryInter
         );
 
         foreach ($privileges as $privilege) {
-            if (self::ACL_EXTENSION_KEY !== $privilege->getExtensionKey() ||
-                AclPrivilegeRepository::ROOT_PRIVILEGE_NAME === $privilege->getIdentity()->getName()) {
+            if (self::ACL_EXTENSION_KEY !== $privilege->getExtensionKey()
+                || AclPrivilegeRepository::ROOT_PRIVILEGE_NAME === $privilege->getIdentity()->getName()) {
                 continue;
             }
             $isGranted = false;
             foreach ($privilege->getPermissions() as $permission) {
-                if (self::ACL_PERMISSION === $permission->getName() &&
-                    AccessLevel::NONE_LEVEL !== $permission->getAccessLevel()) {
+                if (self::ACL_PERMISSION === $permission->getName()
+                    && AccessLevel::NONE_LEVEL !== $permission->getAccessLevel()) {
                     $isGranted = true;
                     break;
                 }

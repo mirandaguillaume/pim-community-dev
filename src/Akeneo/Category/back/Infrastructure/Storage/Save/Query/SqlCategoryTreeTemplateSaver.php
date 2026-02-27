@@ -32,11 +32,11 @@ class SqlCategoryTreeTemplateSaver implements CategoryTreeTemplateSaver
         }
 
         $query = <<< SQL
-            INSERT INTO pim_catalog_category_tree_template
-                (category_template_uuid, category_tree_id)
-            VALUES
-                (UUID_TO_BIN(:template_uuid), :category_tree_id);
-        SQL;
+                INSERT INTO pim_catalog_category_tree_template
+                    (category_template_uuid, category_tree_id)
+                VALUES
+                    (UUID_TO_BIN(:template_uuid), :category_tree_id);
+            SQL;
 
         $this->connection->executeQuery(
             $query,

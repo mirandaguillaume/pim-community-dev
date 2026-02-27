@@ -15,23 +15,23 @@ use Prophecy\Argument;
 
 class FilterEntityWithValuesSubscriberSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(FilterEntityWithValuesSubscriber::class);
     }
 
-    function it_subscribes_to_post_load_event()
+    public function it_subscribes_to_post_load_event()
     {
         $this->getSubscribedEvents()->shouldReturn([Events::postLoad]);
     }
 
-    function it_does_not_filter_non_entity_with_values_object(\StdClass $entity, LifecycleEventArgs $event)
+    public function it_does_not_filter_non_entity_with_values_object(\StdClass $entity, LifecycleEventArgs $event)
     {
         $event->getObject()->willReturn($entity);
         $this->postLoad($event);
     }
 
-    function it_does_not_filter_entity_with_values_by_default(
+    public function it_does_not_filter_entity_with_values_by_default(
         EntityWithValuesInterface $entity,
         LifecycleEventArgs $event
     ) {
@@ -40,7 +40,7 @@ class FilterEntityWithValuesSubscriberSpec extends ObjectBehavior
         $this->postLoad($event);
     }
 
-    function it_does_not_filter_entity_with_values_when_filtering_not_activated(
+    public function it_does_not_filter_entity_with_values_when_filtering_not_activated(
         EntityWithValuesInterface $entity,
         LifecycleEventArgs $event
     ) {
@@ -50,7 +50,7 @@ class FilterEntityWithValuesSubscriberSpec extends ObjectBehavior
         $this->postLoad($event);
     }
 
-    function it_filters_raw_values_when_filtering_activated(
+    public function it_filters_raw_values_when_filtering_activated(
         EntityWithValuesInterface $entity,
         LifecycleEventArgs $event
     ) {
@@ -58,38 +58,38 @@ class FilterEntityWithValuesSubscriberSpec extends ObjectBehavior
         $entity->getRawValues()->willReturn([
             'attribute_1' => [
                 '<all_channels>' => [
-                    '<all_locales>' => 'foo'
-                ]
+                    '<all_locales>' => 'foo',
+                ],
             ],
             'attribute_2' => [
                 '<all_channels>' => [
-                    '<all_locales>' => 'foo'
-                ]
+                    '<all_locales>' => 'foo',
+                ],
             ],
             'attribute_3' => [
                 '<all_channels>' => [
-                    '<all_locales>' => 'foo'
-                ]
+                    '<all_locales>' => 'foo',
+                ],
             ],
         ]);
 
         $entity->setRawValues([
             'attribute_1' => [
                 '<all_channels>' => [
-                    '<all_locales>' => 'foo'
-                ]
+                    '<all_locales>' => 'foo',
+                ],
             ],
             'attribute_3' => [
                 '<all_channels>' => [
-                    '<all_locales>' => 'foo'
-                ]
+                    '<all_locales>' => 'foo',
+                ],
             ],
         ])->shouldBeCalled();
         $event->getObject()->willReturn($entity);
         $this->postLoad($event);
     }
 
-    function it_filters_by_keeping_keeps_attribute_as_label_and_image_for_family_entity(
+    public function it_filters_by_keeping_keeps_attribute_as_label_and_image_for_family_entity(
         EntityWithFamilyInterface $entity,
         LifecycleEventArgs $event,
         FamilyInterface $family,
@@ -100,51 +100,51 @@ class FilterEntityWithValuesSubscriberSpec extends ObjectBehavior
         $entity->getRawValues()->willReturn([
             'attribute_1' => [
                 '<all_channels>' => [
-                    '<all_locales>' => 'foo'
-                ]
+                    '<all_locales>' => 'foo',
+                ],
             ],
             'attribute_2' => [
                 '<all_channels>' => [
-                    '<all_locales>' => 'foo'
-                ]
+                    '<all_locales>' => 'foo',
+                ],
             ],
             'attribute_3' => [
                 '<all_channels>' => [
-                    '<all_locales>' => 'foo'
-                ]
+                    '<all_locales>' => 'foo',
+                ],
             ],
             'attribute_as_label' => [
                 '<all_channels>' => [
-                    '<all_locales>' => 'foo'
-                ]
+                    '<all_locales>' => 'foo',
+                ],
             ],
             'attribute_as_image' => [
                 '<all_channels>' => [
-                    '<all_locales>' => 'foo'
-                ]
+                    '<all_locales>' => 'foo',
+                ],
             ],
         ]);
 
         $entity->setRawValues([
             'attribute_1' => [
                 '<all_channels>' => [
-                    '<all_locales>' => 'foo'
-                ]
+                    '<all_locales>' => 'foo',
+                ],
             ],
             'attribute_3' => [
                 '<all_channels>' => [
-                    '<all_locales>' => 'foo'
-                ]
+                    '<all_locales>' => 'foo',
+                ],
             ],
             'attribute_as_label' => [
                 '<all_channels>' => [
-                    '<all_locales>' => 'foo'
-                ]
+                    '<all_locales>' => 'foo',
+                ],
             ],
             'attribute_as_image' => [
                 '<all_channels>' => [
-                    '<all_locales>' => 'foo'
-                ]
+                    '<all_locales>' => 'foo',
+                ],
             ],
         ])->shouldBeCalled();
 

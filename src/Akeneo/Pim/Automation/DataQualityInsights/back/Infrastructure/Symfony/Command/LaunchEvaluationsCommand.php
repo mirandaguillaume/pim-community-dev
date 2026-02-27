@@ -9,10 +9,10 @@ use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Connector\JobLaunch
 use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag;
 use Akeneo\Tool\Component\Batch\Model\JobExecution;
 use Doctrine\DBAL\Connection;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
@@ -54,14 +54,14 @@ class LaunchEvaluationsCommand extends Command
     private function hasStartedMigration(): bool
     {
         $sql = <<<SQL
-            SELECT EXISTS (
-                SELECT 1
-                FROM pim_one_time_task
-                WHERE code=:code
-                AND status=:status
-                LIMIT 1
-            ) AS missing
-        SQL;
+                SELECT EXISTS (
+                    SELECT 1
+                    FROM pim_one_time_task
+                    WHERE code=:code
+                    AND status=:status
+                    LIMIT 1
+                ) AS missing
+            SQL;
 
         return (bool) $this->connection->fetchOne($sql, [
             ':code' => 'pim:product:migrate-to-uuid',

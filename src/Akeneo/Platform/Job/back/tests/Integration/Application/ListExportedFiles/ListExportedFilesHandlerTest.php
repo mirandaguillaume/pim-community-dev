@@ -69,7 +69,7 @@ class ListExportedFilesHandlerTest extends TestCase
         $result = $this->handler->handle($listQuery);
 
         foreach ($result as $filepath) {
-            $this->assertMatchesRegularExpression('/export\/'.self::JOB_INSTANCE_CODE.'\/[0-9]+\/output\/products\.csv/', $filepath);
+            $this->assertMatchesRegularExpression('/export\/' . self::JOB_INSTANCE_CODE . '\/[0-9]+\/output\/products\.csv/', $filepath);
         }
     }
 
@@ -89,9 +89,9 @@ class ListExportedFilesHandlerTest extends TestCase
         $result = $this->handler->handle($listQuery);
 
         $expectedFilepaths = [
-            '/export\/'.self::JOB_INSTANCE_CODE.'\/[0-9]+\/output\/files\/([0-9a-z]+(-)*){5}\/an_image\/akeneo\.jpg/',
-            '/export\/'.self::JOB_INSTANCE_CODE.'\/[0-9]+\/output\/files\/([0-9a-z]+(-)*){5}\/a_file\/akeneo\.pdf/',
-            '/export\/'.self::JOB_INSTANCE_CODE.'\/[0-9]+\/output\/products\.csv/',
+            '/export\/' . self::JOB_INSTANCE_CODE . '\/[0-9]+\/output\/files\/([0-9a-z]+(-)*){5}\/an_image\/akeneo\.jpg/',
+            '/export\/' . self::JOB_INSTANCE_CODE . '\/[0-9]+\/output\/files\/([0-9a-z]+(-)*){5}\/a_file\/akeneo\.pdf/',
+            '/export\/' . self::JOB_INSTANCE_CODE . '\/[0-9]+\/output\/products\.csv/',
         ];
 
         foreach ($result as $index => $filepath) {

@@ -161,7 +161,7 @@ class UniqueVariantAxisValidator extends ConstraintValidator
         foreach ($axes as $axis) {
             $value = $values->getByCodes($axis->getCode());
 
-            $combination[] = (string)$value;
+            $combination[] = (string) $value;
         }
 
         return implode(',', $combination);

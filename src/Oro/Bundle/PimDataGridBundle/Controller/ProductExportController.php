@@ -89,7 +89,7 @@ class ProductExportController
             $dynamicConfiguration = array_merge(
                 $dynamicConfiguration,
                 [
-                    'selected_properties' => $columns
+                    'selected_properties' => $columns,
                 ]
             );
         }
@@ -100,7 +100,7 @@ class ProductExportController
                 [
                     'with_label' => true,
                     'header_with_label' => true,
-                    'file_locale' => $fileLocale
+                    'file_locale' => $fileLocale,
                 ]
             );
         }
@@ -152,9 +152,9 @@ class ProductExportController
             $contextParams = [
                 'locale'    => $dataSourceParams['dataLocale'],
                 'scope'     => $dataSourceParams['scopeCode'],
-                'ui_locale' => null !== $user ?
-                    $user->getUiLocale()->getCode() :
-                    $this->requestStack->getCurrentRequest()->getDefaultLocale()
+                'ui_locale' => null !== $user
+                    ? $user->getUiLocale()->getCode()
+                    : $this->requestStack->getCurrentRequest()->getDefaultLocale(),
             ];
         }
 

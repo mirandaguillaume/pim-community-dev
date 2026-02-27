@@ -29,7 +29,7 @@ class PurgeVersioningWatchdogIntegration extends TestCase
 
         Assert::assertMatchesRegularExpression('/Launching job execution "\d+"/', $result);
         \preg_match('/Launching job execution "(\d+)"/', $result, $matches);
-        $jobExecutionId = (int)$matches[1];
+        $jobExecutionId = (int) $matches[1];
 
         Assert::assertStringContainsString(
             sprintf(
@@ -62,7 +62,7 @@ class PurgeVersioningWatchdogIntegration extends TestCase
 
         Assert::assertMatchesRegularExpression('/Launching job execution "\d+"/', $result);
         \preg_match('/Launching job execution "(\d+)"/', $result, $matches);
-        $jobExecutionId = (int)$matches[1];
+        $jobExecutionId = (int) $matches[1];
 
         Assert::assertStringContainsString(
             sprintf(

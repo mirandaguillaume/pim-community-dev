@@ -31,7 +31,7 @@ final readonly class VariantProductCompletenessRatio implements VariantProductRa
                         'product_uuid' => $productUuid,
                         'locale_code' => $localeCode,
                         'channel_code' => $channelCode,
-                        'complete' => $value['missing'] === 0 ? 1 : 0
+                        'complete' => $value['missing'] === 0 ? 1 : 0,
                     ];
                 }
             }
@@ -43,20 +43,20 @@ final readonly class VariantProductCompletenessRatio implements VariantProductRa
     private function getCompletenessesFor(ProductModelInterface $productModel): array
     {
         $sql = <<<SQL
-WITH descendant_product_uuids as ( 
-    SELECT uuid
-        FROM pim_catalog_product product
-        WHERE product.product_model_id = :product_model_id
-    UNION ALL 
-    SELECT uuid
-        FROM pim_catalog_product product
-        INNER JOIN pim_catalog_product_model product_model ON product_model.id = product.product_model_id
-        WHERE product_model.parent_id = :product_model_id
-)          
-    SELECT BIN_TO_UUID(product_uuid) AS product_uuid, completeness 
-    FROM pim_catalog_product_completeness completeness
-    JOIN descendant_product_uuids ON descendant_product_uuids.uuid = completeness.product_uuid
-SQL;
+            WITH descendant_product_uuids as ( 
+                SELECT uuid
+                    FROM pim_catalog_product product
+                    WHERE product.product_model_id = :product_model_id
+                UNION ALL 
+                SELECT uuid
+                    FROM pim_catalog_product product
+                    INNER JOIN pim_catalog_product_model product_model ON product_model.id = product.product_model_id
+                    WHERE product_model.parent_id = :product_model_id
+            )          
+                SELECT BIN_TO_UUID(product_uuid) AS product_uuid, completeness 
+                FROM pim_catalog_product_completeness completeness
+                JOIN descendant_product_uuids ON descendant_product_uuids.uuid = completeness.product_uuid
+            SQL;
 
         return \array_map(
             static fn (string $json): array => \json_decode($json, true, 512, JSON_THROW_ON_ERROR),

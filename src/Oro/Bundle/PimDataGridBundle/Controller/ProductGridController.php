@@ -110,7 +110,7 @@ class ProductGridController
 
         $productGridConfiguration = DatagridConfiguration::createNamed('product-grid', [
             ConfiguratorInterface::SOURCE_KEY => [
-                ConfiguratorInterface::USEABLE_ATTRIBUTES_KEY => $configurationAttributes
+                ConfiguratorInterface::USEABLE_ATTRIBUTES_KEY => $configurationAttributes,
             ],
             FilterConfiguration::FILTERS_KEY => [],
         ]);

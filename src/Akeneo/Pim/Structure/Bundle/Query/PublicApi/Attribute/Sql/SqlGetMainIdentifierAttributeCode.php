@@ -21,7 +21,7 @@ final readonly class SqlGetMainIdentifierAttributeCode implements GetMainIdentif
     public function __invoke(): string
     {
         return $this->connection->executeQuery(<<<SQL
-            SELECT code FROM pim_catalog_attribute WHERE main_identifier = TRUE LIMIT 1
-        SQL)->fetchOne();
+                SELECT code FROM pim_catalog_attribute WHERE main_identifier = TRUE LIMIT 1
+            SQL)->fetchOne();
     }
 }

@@ -24,7 +24,7 @@ class LogOnJobResumeSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            EventInterface::BEFORE_STEP_EXECUTION_RESUME => 'log'
+            EventInterface::BEFORE_STEP_EXECUTION_RESUME => 'log',
         ];
     }
 

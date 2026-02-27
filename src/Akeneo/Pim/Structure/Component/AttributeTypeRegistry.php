@@ -30,7 +30,7 @@ class AttributeTypeRegistry
     {
         $this->types[$alias] = [
             'attribute_type' => $type,
-            'feature' => $feature
+            'feature' => $feature,
         ];
 
         return $this;
@@ -48,8 +48,8 @@ class AttributeTypeRegistry
     public function get($alias)
     {
         if (
-            !isset($this->types[$alias]) ||
-            (null !== $this->types[$alias]['feature'] && !$this->featureFlags->isEnabled($this->types[$alias]['feature']))
+            !isset($this->types[$alias])
+            || (null !== $this->types[$alias]['feature'] && !$this->featureFlags->isEnabled($this->types[$alias]['feature']))
         ) {
             throw new \LogicException(sprintf('Attribute type "%s" is not registered', $alias));
         }

@@ -22,7 +22,7 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 class SimpleJobLauncherSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         JobRepositoryInterface $jobRepository,
         JobParametersFactory $jobParametersFactory,
         JobRegistry $jobRegistry,
@@ -32,12 +32,12 @@ class SimpleJobLauncherSpec extends ObjectBehavior
         $this->beConstructedWith($jobRepository, $jobParametersFactory, $jobRegistry, $jobParametersValidator, $eventDispatcher, '/', 'prod', 'var/logs');
     }
 
-    function it_is_a_job_launcher()
+    public function it_is_a_job_launcher()
     {
         $this->shouldHaveType(JobLauncherInterface::class);
     }
 
-    function it_launches_a_job(
+    public function it_launches_a_job(
         $jobRegistry,
         $jobParametersFactory,
         $jobParametersValidator,
@@ -69,7 +69,7 @@ class SimpleJobLauncherSpec extends ObjectBehavior
         $this->launch($jobInstance, $user, ['baz' => 'foz'])->shouldReturn($jobExecution);
     }
 
-    function it_throws_an_exception_if_job_parameters_are_invalid(
+    public function it_throws_an_exception_if_job_parameters_are_invalid(
         $jobRegistry,
         $jobParametersFactory,
         $jobParametersValidator,
@@ -105,7 +105,7 @@ class SimpleJobLauncherSpec extends ObjectBehavior
         $eventDispatcher->dispatch(Argument::type(JobExecutionEvent::class), EventInterface::JOB_EXECUTION_CREATED)->shouldNotBeCalled();
 
         $this
-            ->shouldThrow(new \RuntimeException('Job instance "job_instance_code" running the job "job_name" with parameters "[]" is invalid because of "' . PHP_EOL .'  - error"'))
+            ->shouldThrow(new \RuntimeException('Job instance "job_instance_code" running the job "job_name" with parameters "[]" is invalid because of "' . PHP_EOL . '  - error"'))
             ->during('launch', [$jobInstance, $user, []]);
     }
 }

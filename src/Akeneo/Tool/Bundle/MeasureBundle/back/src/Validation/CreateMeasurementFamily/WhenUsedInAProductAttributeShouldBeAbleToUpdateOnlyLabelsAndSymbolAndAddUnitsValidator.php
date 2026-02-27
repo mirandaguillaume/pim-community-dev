@@ -51,7 +51,7 @@ class WhenUsedInAProductAttributeShouldBeAbleToUpdateOnlyLabelsAndSymbolAndAddUn
                 WhenUsedInAProductAttributeShouldBeAbleToUpdateOnlyLabelsAndSymbolAndAddUnits::MEASUREMENT_FAMILY_UNIT_REMOVAL_NOT_ALLOWED,
                 [
                     '%unit_code%'               => implode(',', $removedUnits),
-                    '%measurement_family_code%' => $saveMeasurementFamily->code
+                    '%measurement_family_code%' => $saveMeasurementFamily->code,
                 ]
             )
                 ->atPath('units')
@@ -67,7 +67,7 @@ class WhenUsedInAProductAttributeShouldBeAbleToUpdateOnlyLabelsAndSymbolAndAddUn
                 WhenUsedInAProductAttributeShouldBeAbleToUpdateOnlyLabelsAndSymbolAndAddUnits::MEASUREMENT_FAMILY_OPERATION_UPDATE_NOT_ALLOWED,
                 [
                     '%unit_code%'               => implode(',', $unitsBeingUpdated),
-                    '%measurement_family_code%' => $saveMeasurementFamily->code
+                    '%measurement_family_code%' => $saveMeasurementFamily->code,
                 ]
             )
                 ->addViolation();

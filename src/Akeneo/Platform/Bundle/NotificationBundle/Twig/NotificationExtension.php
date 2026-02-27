@@ -37,7 +37,7 @@ class NotificationExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('notification_count', $this->countNotifications(...))
+            new TwigFunction('notification_count', $this->countNotifications(...)),
         ];
     }
 

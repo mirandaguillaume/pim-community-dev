@@ -50,13 +50,13 @@ final readonly class GetOutdatedProductModelIdsByDateAndCriteriaQuery implements
         }
 
         $query = <<<SQL
-SELECT DISTINCT pm.id
-FROM pim_catalog_product_model AS pm
-    LEFT JOIN pim_data_quality_insights_product_model_criteria_evaluation AS pme 
-        ON pme.product_id = pm.id $criteriaSubQuery
-WHERE pm.id IN (:product_model_ids)
-    AND (pme.evaluated_at IS NULL OR  pme.evaluated_at < :evaluation_date)
-SQL;
+            SELECT DISTINCT pm.id
+            FROM pim_catalog_product_model AS pm
+                LEFT JOIN pim_data_quality_insights_product_model_criteria_evaluation AS pme 
+                    ON pme.product_id = pm.id $criteriaSubQuery
+            WHERE pm.id IN (:product_model_ids)
+                AND (pme.evaluated_at IS NULL OR  pme.evaluated_at < :evaluation_date)
+            SQL;
 
         $stmt = $this->dbConnection->executeQuery($query, $queryParameters, $queryTypes);
 

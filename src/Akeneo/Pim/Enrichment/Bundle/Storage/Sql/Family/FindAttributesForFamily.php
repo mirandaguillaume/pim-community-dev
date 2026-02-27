@@ -27,12 +27,12 @@ class FindAttributesForFamily
     public function execute(FamilyInterface $family): array
     {
         $sql = <<<SQL
-        SELECT a.code
-        FROM pim_catalog_family f
-          INNER JOIN pim_catalog_family_attribute fa ON f.id = fa.family_id
-          INNER JOIN pim_catalog_attribute a ON fa.attribute_id = a.id
-        WHERE (f.code = :family_code)
-SQL;
+                    SELECT a.code
+                    FROM pim_catalog_family f
+                      INNER JOIN pim_catalog_family_attribute fa ON f.id = fa.family_id
+                      INNER JOIN pim_catalog_attribute a ON fa.attribute_id = a.id
+                    WHERE (f.code = :family_code)
+            SQL;
 
         return $this->getAttributeCodes($this->connection->executeQuery($sql, ['family_code' => $family->getCode()]));
     }

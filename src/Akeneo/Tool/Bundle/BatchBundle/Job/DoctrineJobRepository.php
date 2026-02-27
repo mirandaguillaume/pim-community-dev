@@ -189,9 +189,9 @@ class DoctrineJobRepository implements JobRepositoryInterface
     public function addWarning(Warning $warning): void
     {
         $sqlQuery = <<<SQL
-INSERT INTO akeneo_batch_warning (step_execution_id, reason, reason_parameters, item)
-VALUES (:step_execution_id, :reason, :reason_parameters, :item)
-SQL;
+            INSERT INTO akeneo_batch_warning (step_execution_id, reason, reason_parameters, item)
+            VALUES (:step_execution_id, :reason, :reason_parameters, :item)
+            SQL;
 
         $connection = $this->jobManager->getConnection();
         $stepExecution = $warning->getStepExecution();
@@ -217,8 +217,8 @@ SQL;
         }
 
         $sql = <<<SQL
-INSERT INTO akeneo_batch_warning (step_execution_id, reason, reason_parameters, item) VALUES %s
-SQL;
+            INSERT INTO akeneo_batch_warning (step_execution_id, reason, reason_parameters, item) VALUES %s
+            SQL;
 
         $valuePlaceholders = [];
         $values = [];
@@ -242,10 +242,10 @@ SQL;
     private function incrementWarningCount(int $stepExecutionId, int $step = 1): void
     {
         $sqlQuery = <<<SQL
-    UPDATE akeneo_batch_step_execution
-    SET warning_count = warning_count + :step
-    WHERE id = :step_execution_id
-SQL;
+                UPDATE akeneo_batch_step_execution
+                SET warning_count = warning_count + :step
+                WHERE id = :step_execution_id
+            SQL;
         $this->jobManager->getConnection()->executeQuery($sqlQuery, ['step_execution_id' => $stepExecutionId, 'step' => $step]);
     }
 }

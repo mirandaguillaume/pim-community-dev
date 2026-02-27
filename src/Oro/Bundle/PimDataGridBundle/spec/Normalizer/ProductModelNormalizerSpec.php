@@ -23,7 +23,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class ProductModelNormalizerSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         NormalizerInterface $normalizer,
         CollectionFilterInterface $filter,
         VariantProductRatioInterface $findVariantProductCompletenessQuery,
@@ -36,18 +36,18 @@ class ProductModelNormalizerSpec extends ObjectBehavior
         $this->setNormalizer($normalizer);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(ProductModelNormalizer::class);
         $this->shouldBeAnInstanceOf(NormalizerAwareInterface::class);
     }
 
-    function it_is_a_normalizer()
+    public function it_is_a_normalizer()
     {
         $this->shouldImplement(NormalizerInterface::class);
     }
 
-    function it_supports_datagrid_format_and_product_value(ProductModelInterface $product)
+    public function it_supports_datagrid_format_and_product_value(ProductModelInterface $product)
     {
         $this->supportsNormalization($product, 'datagrid')->shouldReturn(true);
         $this->supportsNormalization($product, 'other_format')->shouldReturn(false);
@@ -55,7 +55,7 @@ class ProductModelNormalizerSpec extends ObjectBehavior
         $this->supportsNormalization(new \stdClass(), 'datagrid')->shouldReturn(false);
     }
 
-    function it_normalizes_a_product_model_with_label(
+    public function it_normalizes_a_product_model_with_label(
         $normalizer,
         $filter,
         $findVariantProductCompletenessQuery,
@@ -83,7 +83,7 @@ class ProductModelNormalizerSpec extends ObjectBehavior
         $findVariantProductCompletenessQuery->findComplete($productModel)->willReturn($completeness);
         $completeness->value('ecommerce', 'en_US')->willReturn([
             'complete' => 3,
-            'total' => 12
+            'total' => 12,
         ]);
 
         $productModel->getId()->willReturn(78);
@@ -155,7 +155,7 @@ class ProductModelNormalizerSpec extends ObjectBehavior
             'search_id' => 'product_model_78',
             'complete_variant_product' => [
                 'complete' => 3,
-                'total' => 12
+                'total' => 12,
             ],
             'is_checked' => false,
             'parent' => null,
@@ -164,7 +164,7 @@ class ProductModelNormalizerSpec extends ObjectBehavior
         $this->normalize($productModel, 'datagrid', $context)->shouldReturn($data);
     }
 
-    function it_normalizes_a_product_model_without_label(
+    public function it_normalizes_a_product_model_without_label(
         $normalizer,
         $filter,
         $findVariantProductCompletenessQuery,
@@ -193,7 +193,7 @@ class ProductModelNormalizerSpec extends ObjectBehavior
         $findVariantProductCompletenessQuery->findComplete($productModel)->willReturn($completeness);
         $completeness->value('ecommerce', 'en_US')->willReturn([
             'complete' => 3,
-            'total' => 12
+            'total' => 12,
         ]);
 
         $filter->filterCollection($values, 'pim.transform.product_value.structured', $context)
@@ -265,7 +265,7 @@ class ProductModelNormalizerSpec extends ObjectBehavior
             'search_id' => 'product_model_78',
             'complete_variant_product' => [
                 'complete' => 3,
-                'total' => 12
+                'total' => 12,
             ],
             'is_checked' => false,
             'parent' => null,
@@ -274,7 +274,7 @@ class ProductModelNormalizerSpec extends ObjectBehavior
         $this->normalize($productModel, 'datagrid', $context)->shouldReturn($data);
     }
 
-    function it_normalizes_a_product_model_with_parent_code(
+    public function it_normalizes_a_product_model_with_parent_code(
         $normalizer,
         $filter,
         $findVariantProductCompletenessQuery,
@@ -305,7 +305,7 @@ class ProductModelNormalizerSpec extends ObjectBehavior
         $findVariantProductCompletenessQuery->findComplete($productModel)->willReturn($completeness);
         $completeness->value('ecommerce', 'en_US')->willReturn([
             'complete' => 3,
-            'total' => 12
+            'total' => 12,
         ]);
 
         $filter->filterCollection($values, 'pim.transform.product_value.structured', $context)
@@ -377,7 +377,7 @@ class ProductModelNormalizerSpec extends ObjectBehavior
             'search_id' => 'product_model_78',
             'complete_variant_product' => [
                 'complete' => 3,
-                'total' => 12
+                'total' => 12,
             ],
             'is_checked' => false,
             'parent' => 'parent_code',

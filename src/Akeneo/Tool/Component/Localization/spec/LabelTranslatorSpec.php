@@ -9,17 +9,17 @@ use Symfony\Component\Translation\Translator;
 
 class LabelTranslatorSpec extends ObjectBehavior
 {
-    function let(Translator $translator)
+    public function let(Translator $translator)
     {
         $this->beConstructedWith($translator);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(LabelTranslator::class);
     }
 
-    function it_translates_labels_and_returns_fallback_if_not_found(Translator $translator, MessageCatalogueInterface $catalogue)
+    public function it_translates_labels_and_returns_fallback_if_not_found(Translator $translator, MessageCatalogueInterface $catalogue)
     {
         $translator->getCatalogue('fr_FR')->willReturn($catalogue);
         $catalogue->defines('some.key')->willReturn(true);

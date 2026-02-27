@@ -59,12 +59,12 @@ final class GetUpdatedEntityIdsQueryIntegration extends TestCase
         $this->givenAnUpdatedProductVariant('product_variant_2', 'a_product_model_not_recently_updated', $today->modify('-2 MINUTE'), 'optionB');
 
         $this->givenAProductModel('a_product_model_recently_updated', 'familyVariantA2', $today->modify('+2 MINUTE'));
-        $expectedProductVariant2 = $this->givenAnUpdatedProductVariant('product_variant_3','a_product_model_recently_updated', $today->modify('-1 MINUTE'), 'optionC');
+        $expectedProductVariant2 = $this->givenAnUpdatedProductVariant('product_variant_3', 'a_product_model_recently_updated', $today->modify('-1 MINUTE'), 'optionC');
 
         $this->get('akeneo_elasticsearch.client.product_and_product_model')->refreshIndex();
 
         $productUuids = iterator_to_array($getUpdatedProductIdsQuery->since($today->modify('+1 HOUR'), 3));
-        $productUuids = array_map(fn (ProductUuidCollection $collection) => $collection->toArray(), $productUuids);
+        $productUuids = array_map(fn(ProductUuidCollection $collection) => $collection->toArray(), $productUuids);
 
         $this->assertCount(2, $productUuids);
         $this->assertCount(3, $productUuids[0]);
@@ -99,7 +99,7 @@ final class GetUpdatedEntityIdsQueryIntegration extends TestCase
         $this->get('akeneo_elasticsearch.client.product_and_product_model')->refreshIndex();
 
         $productIds = iterator_to_array($getUpdatedProductModelIdsQuery->since($today->modify('+1 HOUR'), 3));
-        $productIds = array_map(fn (ProductModelIdCollection $collection) => $collection->toArray(), $productIds);
+        $productIds = array_map(fn(ProductModelIdCollection $collection) => $collection->toArray(), $productIds);
 
         $this->assertCount(2, $productIds);
         $this->assertCount(3, $productIds[0]);
@@ -115,7 +115,7 @@ final class GetUpdatedEntityIdsQueryIntegration extends TestCase
     private function createProduct(string $identifier = null, array $userIntents = []): ProductInterface
     {
         $this->getContainer()->get('pim_catalog.validator.unique_value_set')->reset(); // Needed to update the product afterwards
-        $identifier = $identifier?: strval(Uuid::uuid4());
+        $identifier = $identifier ?: strval(Uuid::uuid4());
 
         $this->get('pim_enrich.product.message_bus')->dispatch(UpsertProductCommand::createWithIdentifierSystemUser(
             $identifier,
@@ -125,20 +125,21 @@ final class GetUpdatedEntityIdsQueryIntegration extends TestCase
         return $this->get('pim_catalog.repository.product')->findOneByIdentifier($identifier);
     }
 
-    private function createProductVariant(string $identifier, string $parentCode, string $variantOptionValue): ProductInterface {
+    private function createProductVariant(string $identifier, string $parentCode, string $variantOptionValue): ProductInterface
+    {
         return $this->createProduct($identifier, [
             new SetFamily('familyA'),
             new ChangeParent($parentCode),
             new SetSimpleSelectValue('a_simple_select', null, null, $variantOptionValue),
-            new SetBooleanValue('a_yes_no', null, null, true)
+            new SetBooleanValue('a_yes_no', null, null, true),
         ]);
     }
 
     private function updateProductAt(ProductInterface $product, \DateTimeImmutable $updatedAt)
     {
         $query = <<<SQL
-UPDATE pim_catalog_product SET updated = :updated WHERE uuid = :product_uuid;
-SQL;
+            UPDATE pim_catalog_product SET updated = :updated WHERE uuid = :product_uuid;
+            SQL;
 
         $this->db->executeQuery($query, [
             'updated' => $updatedAt->format('Y-m-d H:i:s'),
@@ -151,8 +152,8 @@ SQL;
     private function updateProductModelAt(string $productModelCode, \DateTimeImmutable $updatedAt)
     {
         $query = <<<SQL
-UPDATE pim_catalog_product_model SET updated = :updated WHERE code = :code;
-SQL;
+            UPDATE pim_catalog_product_model SET updated = :updated WHERE code = :code;
+            SQL;
 
         $this->db->executeQuery($query, [
             'updated' => $updatedAt->format('Y-m-d H:i:s'),

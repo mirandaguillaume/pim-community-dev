@@ -59,8 +59,8 @@ class TranslationsUpdateGuesser implements UpdateGuesserInterface
                 return [];
             }
 
-            if ($translatedEntity instanceof VersionableInterface ||
-                in_array(ClassUtils::getClass($translatedEntity), $this->versionableEntities)) {
+            if ($translatedEntity instanceof VersionableInterface
+                || in_array(ClassUtils::getClass($translatedEntity), $this->versionableEntities)) {
                 $pendings[] = $translatedEntity;
             }
         }

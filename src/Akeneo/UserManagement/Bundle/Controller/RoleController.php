@@ -69,7 +69,7 @@ class RoleController extends AbstractController
 
         if ($this->editRolePermissionsRoleQuery->isLastRoleWithEditRolePermissions($role)) {
             return new JsonResponse([
-                'message' => $this->translator->trans('pim_user.controller.role.message.cannot_delete_last_edit_role_permission')
+                'message' => $this->translator->trans('pim_user.controller.role.message.cannot_delete_last_edit_role_permission'),
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 

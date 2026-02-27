@@ -25,7 +25,7 @@ class AssociationTypeNormalizer implements NormalizerInterface, CacheableSupport
      * {@inheritdoc}
      * @param AssociationTypeInterface $associationType
      */
-    public function normalize($associationType, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($associationType, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         return [
             'code'   => $associationType->getCode(),

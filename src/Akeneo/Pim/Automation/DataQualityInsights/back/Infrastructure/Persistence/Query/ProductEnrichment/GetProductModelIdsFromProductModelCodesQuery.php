@@ -27,9 +27,9 @@ final readonly class GetProductModelIdsFromProductModelCodesQuery implements Get
     public function execute(array $productModelCodes): array
     {
         $query = <<<SQL
-SELECT code, id FROM pim_catalog_product_model
-WHERE code IN (:productModelCodes)
-SQL;
+            SELECT code, id FROM pim_catalog_product_model
+            WHERE code IN (:productModelCodes)
+            SQL;
 
         $stmt = $this->dbConnection->executeQuery(
             $query,
@@ -39,7 +39,7 @@ SQL;
 
         $productModelIds = [];
         while ($productModel = $stmt->fetchAssociative()) {
-            $productModelIds[$productModel['code']] = $this->idFactory->create((string)$productModel['id']);
+            $productModelIds[$productModel['code']] = $this->idFactory->create((string) $productModel['id']);
         }
 
         return $productModelIds;

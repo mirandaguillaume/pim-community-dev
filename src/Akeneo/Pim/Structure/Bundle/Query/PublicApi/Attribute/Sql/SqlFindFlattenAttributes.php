@@ -31,31 +31,31 @@ final readonly class SqlFindFlattenAttributes implements FindFlattenAttributesIn
         }
 
         $query = <<<SQL
-WITH
-attribute_group AS (
-    SELECT
-        attribute_group.id,
-        attribute_group.code,
-        attribute_group.sort_order,
-        COALESCE(translation.label, CONCAT('[', attribute_group.code, ']')) AS label
-    FROM pim_catalog_attribute_group attribute_group
-        LEFT JOIN pim_catalog_attribute_group_translation translation ON attribute_group.id = translation.foreign_key
-                                                                     AND locale = :localeCode
-)
-SELECT
-    attribute.code,
-    COALESCE(translation.label, CONCAT('[', attribute.code, ']')) AS label,
-    attribute_group.code AS group_code,
-    attribute_group.label AS group_label
-FROM pim_catalog_attribute attribute
-    LEFT JOIN pim_catalog_attribute_translation translation
-      ON attribute.id = translation.foreign_key
-      AND locale = :localeCode
-    LEFT JOIN attribute_group ON attribute_group.id = attribute.group_id
-WHERE {searchFilters}
-ORDER BY attribute_group.sort_order, attribute.sort_order
-LIMIT :limit OFFSET :offset
-SQL;
+            WITH
+            attribute_group AS (
+                SELECT
+                    attribute_group.id,
+                    attribute_group.code,
+                    attribute_group.sort_order,
+                    COALESCE(translation.label, CONCAT('[', attribute_group.code, ']')) AS label
+                FROM pim_catalog_attribute_group attribute_group
+                    LEFT JOIN pim_catalog_attribute_group_translation translation ON attribute_group.id = translation.foreign_key
+                                                                                 AND locale = :localeCode
+            )
+            SELECT
+                attribute.code,
+                COALESCE(translation.label, CONCAT('[', attribute.code, ']')) AS label,
+                attribute_group.code AS group_code,
+                attribute_group.label AS group_label
+            FROM pim_catalog_attribute attribute
+                LEFT JOIN pim_catalog_attribute_translation translation
+                  ON attribute.id = translation.foreign_key
+                  AND locale = :localeCode
+                LEFT JOIN attribute_group ON attribute_group.id = attribute.group_id
+            WHERE {searchFilters}
+            ORDER BY attribute_group.sort_order, attribute.sort_order
+            LIMIT :limit OFFSET :offset
+            SQL;
 
         $searchFilters = [];
         if (null !== $attributeTypes) {

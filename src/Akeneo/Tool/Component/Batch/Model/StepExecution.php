@@ -10,8 +10,8 @@ use Akeneo\Tool\Component\Batch\Job\JobParameters;
 use Akeneo\Tool\Component\Batch\Job\RuntimeErrorException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Util\ClassUtils;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Batch domain object representation the execution of a step. Unlike JobExecution, there are additional properties
@@ -103,11 +103,13 @@ class StepExecution implements \Stringable
      * @param string       $stepName     the step to which this execution belongs
      * @param JobExecution $jobExecution the current job execution
      */
-    #[ORM\ManyToOne(targetEntity: \Akeneo\Tool\Component\Batch\Model\JobExecution::class, inversedBy: 'stepExecutions')]
-    #[ORM\JoinColumn(name: 'job_execution_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-    #[ORM\Column(name: 'step_name', type: Types::STRING, length: 100, nullable: true)]
-    public function __construct(private $stepName, private JobExecution $jobExecution)
-    {
+    public function __construct(
+        #[ORM\Column(name: 'step_name', type: Types::STRING, length: 100, nullable: true)]
+        private $stepName,
+        #[ORM\ManyToOne(targetEntity: \Akeneo\Tool\Component\Batch\Model\JobExecution::class, inversedBy: 'stepExecutions')]
+        #[ORM\JoinColumn(name: 'job_execution_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+        private JobExecution $jobExecution,
+    ) {
         $jobExecution->addStepExecution($this);
         $this->warnings = new ArrayCollection();
         $this->executionContext = new ExecutionContext();
@@ -418,7 +420,7 @@ class StepExecution implements \Stringable
             'message'           => $e->getMessage(),
             'messageParameters' => $e instanceof RuntimeErrorException ? $e->getMessageParameters() : [],
             'code'              => $e->getCode(),
-            'trace'             => $e->getTraceAsString()
+            'trace'             => $e->getTraceAsString(),
         ];
 
         return $this;

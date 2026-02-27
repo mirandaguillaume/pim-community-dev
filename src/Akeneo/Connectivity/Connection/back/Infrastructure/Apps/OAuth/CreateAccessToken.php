@@ -74,7 +74,7 @@ class CreateAccessToken implements CreateAccessTokenInterface
         $accessToken = [
             'access_token' => $token,
             'token_type' => 'bearer',
-            'scope' => $scopeString
+            'scope' => $scopeString,
         ];
 
         return $this->appendOpenIdData($authCode, $appId, $accessToken);

@@ -11,12 +11,12 @@ use Akeneo\Tool\Component\Batch\Job\JobRepositoryInterface;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
 use Akeneo\Tool\Component\BatchQueue\Queue\PublishJobToQueueInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Push a registered job instance to execute into the job execution queue.
@@ -52,8 +52,8 @@ class PublishJobToQueueCommand extends Command
                 'config',
                 'c',
                 InputOption::VALUE_REQUIRED,
-                'Override job configuration (formatted as json. ie: ' .
-                'php bin/console publish-job-to-queue -c "{\"filePath\":\"/tmp/foo.csv\"}" acme_product_import)'
+                'Override job configuration (formatted as json. ie: '
+                . 'php bin/console publish-job-to-queue -c "{\"filePath\":\"/tmp/foo.csv\"}" acme_product_import)'
             )
             ->addOption(
                 'username',

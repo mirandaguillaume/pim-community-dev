@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 final class ExternalMeasurementFamilyNormalizer implements NormalizerInterface
 {
-    public function normalize($object, string $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($object, string $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         /** @var MeasurementFamily $object */
         $normalizedMeasurementFamily = $object->normalizeWithIndexedUnits();

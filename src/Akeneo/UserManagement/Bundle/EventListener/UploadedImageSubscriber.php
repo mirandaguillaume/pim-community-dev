@@ -37,7 +37,7 @@ class UploadedImageSubscriber implements EventSubscriber
             'prePersist',
             'postPersist',
             'postUpdate',
-            'postRemove'
+            'postRemove',
         ];
     }
 
@@ -109,7 +109,7 @@ class UploadedImageSubscriber implements EventSubscriber
 
             $dir = $this->getUploadRootDir($entity);
             if (!file_exists($dir)) {
-                mkdir($dir, 0755, true);
+                mkdir($dir, 0o755, true);
             }
 
             $entity->getImageFile()->move($dir, $entity->getImage());
