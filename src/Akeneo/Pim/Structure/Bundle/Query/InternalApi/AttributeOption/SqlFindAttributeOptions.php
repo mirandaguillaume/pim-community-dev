@@ -17,8 +17,7 @@ final readonly class SqlFindAttributeOptions implements FindAttributeOptions
     public function __construct(
         private Connection $connection,
         private UserContext $userContext,
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -80,7 +79,7 @@ final readonly class SqlFindAttributeOptions implements FindAttributeOptions
             $types
         );
 
-        return array_map(fn ($line) => [
+        return array_map(fn($line) => [
             'code' => $line['option_code'],
             'labels' => [$uiLocaleCode => $line['option_label'] ?? \sprintf('[%s]', $line['option_code'])],
         ], $results);

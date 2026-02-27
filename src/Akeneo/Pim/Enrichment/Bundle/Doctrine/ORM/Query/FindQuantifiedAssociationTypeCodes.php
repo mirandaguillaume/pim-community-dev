@@ -10,9 +10,7 @@ class FindQuantifiedAssociationTypeCodes implements FindQuantifiedAssociationTyp
 {
     private ?array $cachedResult = null;
 
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function execute(): array
     {

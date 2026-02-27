@@ -12,9 +12,7 @@ class MetricTranslator implements FlatAttributeValueTranslatorInterface
 {
     private const UNIT_SUFFIX = '-unit';
 
-    public function __construct(private readonly GetUnitTranslations $getUnitTranslations)
-    {
-    }
+    public function __construct(private readonly GetUnitTranslations $getUnitTranslations) {}
 
     public function supports(string $attributeType, string $columnName): bool
     {

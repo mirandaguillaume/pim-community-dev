@@ -14,9 +14,7 @@ use Webmozart\Assert\Assert;
  */
 class RemoveProductModelHandler
 {
-    public function __construct(private readonly ProductModelRepositoryInterface $productModelRepository, private readonly RemoverInterface $productModelRemover)
-    {
-    }
+    public function __construct(private readonly ProductModelRepositoryInterface $productModelRepository, private readonly RemoverInterface $productModelRemover) {}
 
     public function __invoke(RemoveProductModelCommand $command): void
     {

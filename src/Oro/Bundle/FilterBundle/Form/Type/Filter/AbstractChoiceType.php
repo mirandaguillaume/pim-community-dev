@@ -9,9 +9,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class AbstractChoiceType extends AbstractType
 {
-    public function __construct(protected TranslatorInterface $translator)
-    {
-    }
+    public function __construct(protected TranslatorInterface $translator) {}
 
     public function finishView(FormView $view, FormInterface $form, array $options)
     {

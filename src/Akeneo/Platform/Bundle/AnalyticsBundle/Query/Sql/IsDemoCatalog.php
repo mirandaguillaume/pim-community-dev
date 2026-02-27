@@ -13,9 +13,7 @@ use Doctrine\DBAL\Connection;
  */
 class IsDemoCatalog implements IsDemoCatalogQuery
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     /**
      * By requiring only one of the user email of the demo catalog, it's robust to some changes such as email modification

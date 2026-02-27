@@ -17,8 +17,7 @@ class CreateCustomAppCommandHandler
     public function __construct(
         private readonly RandomCodeGeneratorInterface $randomCodeGenerator,
         private readonly CreateCustomAppQueryInterface $createCustomAppQuery,
-    ) {
-    }
+    ) {}
 
     public function handle(CreateCustomAppCommand $command): void
     {

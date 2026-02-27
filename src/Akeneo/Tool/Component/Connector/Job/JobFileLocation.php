@@ -21,9 +21,7 @@ final readonly class JobFileLocation
 
     private const LOCAL_TEMP_PREFIX = 'from_remote_';
 
-    public function __construct(private string $path, private bool $remote)
-    {
-    }
+    public function __construct(private string $path, private bool $remote) {}
 
     /**
      * Generate a JobFileLocation object from an JobFileLocation URL

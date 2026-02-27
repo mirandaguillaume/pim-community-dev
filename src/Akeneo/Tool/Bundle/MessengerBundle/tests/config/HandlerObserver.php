@@ -19,9 +19,7 @@ final class HandlerObserver
 
     private array $executedHandlers = [];
 
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function handlerWasExecuted(string $class, object $message): void
     {
@@ -39,7 +37,7 @@ final class HandlerObserver
 
         return \count(\array_filter(
             $this->executedHandlers,
-            static fn ($execution): bool => $execution['class'] === $handlerClass
+            static fn($execution): bool => $execution['class'] === $handlerClass
         ));
     }
 

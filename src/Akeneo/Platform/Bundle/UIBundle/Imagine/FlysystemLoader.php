@@ -21,9 +21,7 @@ class FlysystemLoader implements LoaderInterface
     /**
      * @param string[] $filesystemAliases
      */
-    public function __construct(protected FilesystemProvider $filesystemProvider, protected array $filesystemAliases, protected FileInfoRepositoryInterface $fileInfoRepository)
-    {
-    }
+    public function __construct(protected FilesystemProvider $filesystemProvider, protected array $filesystemAliases, protected FileInfoRepositoryInterface $fileInfoRepository) {}
 
     /**
      * {@inheritDoc}

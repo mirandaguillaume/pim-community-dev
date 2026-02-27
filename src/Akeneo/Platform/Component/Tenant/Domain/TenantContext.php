@@ -30,8 +30,7 @@ final readonly class TenantContext
         private ?EncryptedValues $v1Values = null,
         private ?array $plainValues = null,
         private ?EncryptedValues $secretValues = null,
-    ) {
-    }
+    ) {}
 
     public function parseContextValues(): array
     {

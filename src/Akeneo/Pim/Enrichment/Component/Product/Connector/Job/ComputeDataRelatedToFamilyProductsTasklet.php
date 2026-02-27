@@ -42,9 +42,7 @@ class ComputeDataRelatedToFamilyProductsTasklet implements TaskletInterface, Ini
 {
     private ?StepExecution $stepExecution = null;
 
-    public function __construct(private readonly IdentifiableObjectRepositoryInterface $familyRepository, private readonly ProductQueryBuilderFactoryInterface $productQueryBuilderFactory, private readonly ItemReaderInterface $familyReader, private readonly BulkSaverInterface $productSaver, private readonly EntityManagerClearerInterface $cacheClearer, private readonly JobRepositoryInterface $jobRepository, private readonly KeepOnlyValuesForVariation $keepOnlyValuesForVariation, private readonly ValidatorInterface $validator, private readonly ProductRepositoryInterface $productRepository, private readonly int $batchSize)
-    {
-    }
+    public function __construct(private readonly IdentifiableObjectRepositoryInterface $familyRepository, private readonly ProductQueryBuilderFactoryInterface $productQueryBuilderFactory, private readonly ItemReaderInterface $familyReader, private readonly BulkSaverInterface $productSaver, private readonly EntityManagerClearerInterface $cacheClearer, private readonly JobRepositoryInterface $jobRepository, private readonly KeepOnlyValuesForVariation $keepOnlyValuesForVariation, private readonly ValidatorInterface $validator, private readonly ProductRepositoryInterface $productRepository, private readonly int $batchSize) {}
 
     /**
      * {@inheritdoc}

@@ -10,9 +10,7 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\Write;
  */
 final readonly class CriterionApplicability
 {
-    public function __construct(private CriterionEvaluationResult $evaluationResult, private bool $isApplicable)
-    {
-    }
+    public function __construct(private CriterionEvaluationResult $evaluationResult, private bool $isApplicable) {}
 
     public function getEvaluationResult(): CriterionEvaluationResult
     {

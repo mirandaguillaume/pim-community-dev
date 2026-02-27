@@ -30,8 +30,7 @@ class Category
         private ?ValueCollection $attributes = null,
         private readonly ?PermissionCollection $permissions = null,
         private readonly ?Position $position = null,
-    ) {
-    }
+    ) {}
 
     /**
      * @param array{

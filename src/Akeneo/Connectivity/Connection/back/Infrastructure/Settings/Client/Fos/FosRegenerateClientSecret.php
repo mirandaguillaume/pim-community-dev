@@ -18,9 +18,7 @@ use Doctrine\DBAL\Connection as DbalConnection;
  */
 class FosRegenerateClientSecret implements RegenerateClientSecretInterface
 {
-    public function __construct(private readonly ClientManagerInterface $clientManager, private readonly DbalConnection $dbalConnection)
-    {
-    }
+    public function __construct(private readonly ClientManagerInterface $clientManager, private readonly DbalConnection $dbalConnection) {}
 
     public function execute(ClientId $clientId): void
     {

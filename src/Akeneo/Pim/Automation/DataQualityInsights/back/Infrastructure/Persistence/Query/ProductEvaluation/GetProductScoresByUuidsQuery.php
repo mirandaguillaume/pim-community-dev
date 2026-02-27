@@ -17,9 +17,7 @@ use Ramsey\Uuid\UuidInterface;
  */
 final readonly class GetProductScoresByUuidsQuery implements GetProductScoresByUuidsQueryInterface
 {
-    public function __construct(private Connection $dbConnection)
-    {
-    }
+    public function __construct(private Connection $dbConnection) {}
 
     public function byProductUuid(UuidInterface $uuid): Read\Scores
     {
@@ -45,7 +43,7 @@ final readonly class GetProductScoresByUuidsQuery implements GetProductScoresByU
             WHERE product.uuid IN(:productUuids);
             SQL;
 
-        $uuidsAsBytes = array_map(fn (UuidInterface $uuid): string => $uuid->getBytes(), $productUuids);
+        $uuidsAsBytes = array_map(fn(UuidInterface $uuid): string => $uuid->getBytes(), $productUuids);
 
         $stmt = $this->dbConnection->executeQuery(
             $query,

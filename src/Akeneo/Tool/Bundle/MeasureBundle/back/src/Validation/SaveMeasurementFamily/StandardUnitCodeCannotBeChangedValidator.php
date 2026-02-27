@@ -19,9 +19,7 @@ use Symfony\Component\Validator\ConstraintValidator;
  */
 class StandardUnitCodeCannotBeChangedValidator extends ConstraintValidator
 {
-    public function __construct(private readonly MeasurementFamilyRepositoryInterface $measurementFamilyRepository)
-    {
-    }
+    public function __construct(private readonly MeasurementFamilyRepositoryInterface $measurementFamilyRepository) {}
 
     /**
      * @param SaveMeasurementFamilyCommand $saveMeasurementFamilyCommand

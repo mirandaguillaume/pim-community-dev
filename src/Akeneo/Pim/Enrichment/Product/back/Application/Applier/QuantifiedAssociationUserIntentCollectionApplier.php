@@ -37,8 +37,7 @@ final readonly class QuantifiedAssociationUserIntentCollectionApplier implements
         private ObjectUpdaterInterface $productUpdater,
         private GetViewableProducts $getViewableProducts,
         private GetViewableProductModels $getViewableProductModels
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritDoc}
@@ -204,7 +203,7 @@ final readonly class QuantifiedAssociationUserIntentCollectionApplier implements
         $entityIdentifiers = $quantifiedAssociationUserIntent->productIdentifiers();
         $newAssociations = \array_filter(
             $formerAssociations,
-            static fn (array $association): bool => !\in_array($association['identifier'], $entityIdentifiers)
+            static fn(array $association): bool => !\in_array($association['identifier'], $entityIdentifiers)
         );
 
         return \count($newAssociations) === \count($formerAssociations) ? null : \array_values($newAssociations);
@@ -222,7 +221,7 @@ final readonly class QuantifiedAssociationUserIntentCollectionApplier implements
 
         $newAssociations = \array_filter(
             $formerAssociations,
-            static fn (array $association): bool => !\in_array($association['identifier'], $entityIdentifiers)
+            static fn(array $association): bool => !\in_array($association['identifier'], $entityIdentifiers)
         );
 
         return \count($newAssociations) === \count($formerAssociations) ? null : \array_values($newAssociations);
@@ -239,13 +238,13 @@ final readonly class QuantifiedAssociationUserIntentCollectionApplier implements
     ): ?array {
         $quantifiedEntities = $quantifiedAssociationUserIntent->quantifiedProducts();
 
-        $newAssociations = array_map(static fn (QuantifiedEntity $quantifiedEntity) => [
+        $newAssociations = array_map(static fn(QuantifiedEntity $quantifiedEntity) => [
             'identifier' => $quantifiedEntity->entityIdentifier(),
             'uuid' => null,
             'quantity' => $quantifiedEntity->quantity(),
         ], $quantifiedEntities);
 
-        $sortFunction = fn (array $a, array $b): int => \strcmp((string) $a['identifier'], (string) $b['identifier']);
+        $sortFunction = fn(array $a, array $b): int => \strcmp((string) $a['identifier'], (string) $b['identifier']);
         \usort($newAssociations, $sortFunction);
         \usort($formerAssociations, $sortFunction);
         if ($newAssociations === $formerAssociations) {
@@ -262,12 +261,12 @@ final readonly class QuantifiedAssociationUserIntentCollectionApplier implements
         $formerAssociatedIdentifiers = \array_column($formerAssociations, 'identifier');
         $formerAssociatedIdentifiers = array_filter(
             $formerAssociatedIdentifiers,
-            static fn ($formerAssociatedIdentifier) => $formerAssociatedIdentifier !== null
+            static fn($formerAssociatedIdentifier) => $formerAssociatedIdentifier !== null
         );
         $viewableIdentifiers = $this->getViewableProducts->fromProductIdentifiers($formerAssociatedIdentifiers, $userId);
         $nonViewableFormerAssociations = \array_values(\array_filter(
             $formerAssociations,
-            static fn (array $association): bool => !\in_array($association['identifier'], $viewableIdentifiers)
+            static fn(array $association): bool => !\in_array($association['identifier'], $viewableIdentifiers)
         ));
 
         return \array_values(\array_merge($newAssociations, $nonViewableFormerAssociations));
@@ -284,12 +283,12 @@ final readonly class QuantifiedAssociationUserIntentCollectionApplier implements
     ): ?array {
         $quantifiedEntities = $quantifiedAssociationUserIntent->quantifiedProductModels();
 
-        $newAssociations = array_map(static fn (QuantifiedEntity $quantifiedEntity) => [
+        $newAssociations = array_map(static fn(QuantifiedEntity $quantifiedEntity) => [
             'identifier' => $quantifiedEntity->entityIdentifier(),
             'quantity' => $quantifiedEntity->quantity(),
         ], $quantifiedEntities);
 
-        $sortFunction = fn (array $a, array $b): int => \strcmp((string) $a['identifier'], (string) $b['identifier']);
+        $sortFunction = fn(array $a, array $b): int => \strcmp((string) $a['identifier'], (string) $b['identifier']);
         \usort($newAssociations, $sortFunction);
         \usort($formerAssociations, $sortFunction);
         if ($newAssociations === $formerAssociations) {
@@ -300,7 +299,7 @@ final readonly class QuantifiedAssociationUserIntentCollectionApplier implements
         $viewableIdentifiers = $this->getViewableProductModels->fromProductModelCodes($formerAssociatedIdentifiers, $userId);
         $nonViewableFormerAssociations = \array_values(\array_filter(
             $formerAssociations,
-            static fn (array $association): bool => !\in_array($association['identifier'], $viewableIdentifiers)
+            static fn(array $association): bool => !\in_array($association['identifier'], $viewableIdentifiers)
         ));
 
         return \array_values(\array_merge($newAssociations, $nonViewableFormerAssociations));
@@ -328,7 +327,7 @@ final readonly class QuantifiedAssociationUserIntentCollectionApplier implements
             ];
         }
 
-        $sortFunction = fn (array $a, array $b): int => \strcmp((string) $a['uuid'], (string) $b['uuid']);
+        $sortFunction = fn(array $a, array $b): int => \strcmp((string) $a['uuid'], (string) $b['uuid']);
         \usort($newAssociations, $sortFunction);
         \usort($formerAssociations, $sortFunction);
         if ($newAssociations === $formerAssociations) {
@@ -338,18 +337,18 @@ final readonly class QuantifiedAssociationUserIntentCollectionApplier implements
         $formerAssociatedUuids = \array_column($formerAssociations, 'uuid');
         $formerAssociatedUuids = array_filter(
             $formerAssociatedUuids,
-            static fn ($formerAssociatedUuid) => $formerAssociatedUuid !== null
+            static fn($formerAssociatedUuid) => $formerAssociatedUuid !== null
         ) ?: [];
 
         $formerAssociatedUuids = \array_map(
-            static fn (string $formerAssociatedUuid) => Uuid::fromString($formerAssociatedUuid),
+            static fn(string $formerAssociatedUuid) => Uuid::fromString($formerAssociatedUuid),
             $formerAssociatedUuids
         );
 
         $viewableUuids = $this->getViewableProducts->fromProductUuids($formerAssociatedUuids, $userId);
         $nonViewableFormerAssociations = \array_values(\array_filter(
             $formerAssociations,
-            static fn (array $association): bool => !\in_array($association['uuid'], $viewableUuids)
+            static fn(array $association): bool => !\in_array($association['uuid'], $viewableUuids)
         ));
 
         return \array_values([...$newAssociations, ...$nonViewableFormerAssociations]);

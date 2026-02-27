@@ -20,8 +20,7 @@ class CursorFactory implements CursorFactoryInterface
         private readonly ProductRepositoryInterface $productRepository,
         private readonly ProductModelRepositoryInterface $productModelRepository,
         protected int $pageSize
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

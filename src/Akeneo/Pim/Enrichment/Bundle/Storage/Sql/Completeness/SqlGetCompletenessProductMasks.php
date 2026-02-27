@@ -23,9 +23,7 @@ use Webmozart\Assert\Assert;
  */
 final readonly class SqlGetCompletenessProductMasks implements GetCompletenessProductMasks
 {
-    public function __construct(private Connection $connection, private MaskItemGenerator $maskItemGenerator, private GetAttributes $getAttributes, private NormalizerInterface $valuesNormalizer)
-    {
-    }
+    public function __construct(private Connection $connection, private MaskItemGenerator $maskItemGenerator, private GetAttributes $getAttributes, private NormalizerInterface $valuesNormalizer) {}
 
     /**
      * {@inheritdoc}
@@ -56,10 +54,10 @@ final readonly class SqlGetCompletenessProductMasks implements GetCompletenessPr
                 LEFT JOIN pim_catalog_product_model pm2 ON pm1.parent_id = pm2.id
             SQL;
 
-        $productUuidsAsBytes = \array_map(static fn (UuidInterface $uuid): string => $uuid->getBytes(), $productUuids);
+        $productUuidsAsBytes = \array_map(static fn(UuidInterface $uuid): string => $uuid->getBytes(), $productUuids);
 
         $rows = array_map(
-            fn (array $row): array => [
+            fn(array $row): array => [
                 'id' => $row['uuid'],
                 'familyCode' => $row['familyCode'],
                 'cleanedRawValues' => json_decode((string) $row['rawValues'], true, 512, JSON_THROW_ON_ERROR),

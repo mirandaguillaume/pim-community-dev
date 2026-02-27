@@ -26,8 +26,7 @@ final class SearchFiltersValidator extends ConstraintValidator
         private readonly ValidateProperties $validateProperties,
         private readonly ValidateGrantedCategoriesInterface $validateGrantedCategories,
         private readonly ValidateGrantedPropertiesInterface $validateGrantedProperties
-    ) {
-    }
+    ) {}
 
     /**
      * @inheritDoc

@@ -17,8 +17,7 @@ final class CachedFindLocales implements FindLocales, CachedQueryInterface
 
     public function __construct(
         private readonly FindLocales $findLocales
-    ) {
-    }
+    ) {}
 
     public function find(string $localeCode): ?Locale
     {

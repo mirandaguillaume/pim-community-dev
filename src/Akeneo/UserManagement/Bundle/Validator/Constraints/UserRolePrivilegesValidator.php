@@ -15,9 +15,7 @@ use Webmozart\Assert\Assert;
  */
 class UserRolePrivilegesValidator extends ConstraintValidator
 {
-    public function __construct(private readonly AclManager $aclManager)
-    {
-    }
+    public function __construct(private readonly AclManager $aclManager) {}
 
     /**
      * {@inheritdoc}

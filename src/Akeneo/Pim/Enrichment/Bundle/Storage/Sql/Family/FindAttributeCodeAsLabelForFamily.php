@@ -13,9 +13,7 @@ use Doctrine\DBAL\Connection;
  */
 class FindAttributeCodeAsLabelForFamily implements FindAttributeCodeAsLabelForFamilyInterface
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function execute(string $code): ?string
     {

@@ -20,9 +20,7 @@ use Akeneo\Tool\Component\Localization\Localizer\LocalizerInterface;
  */
 class ProductModelCsvExport implements DefaultValuesProviderInterface
 {
-    public function __construct(private readonly DefaultValuesProviderInterface $simpleProvider, private readonly ChannelRepositoryInterface $channelRepository, private readonly LocaleRepositoryInterface $localeRepository, private readonly array $supportedJobNames)
-    {
-    }
+    public function __construct(private readonly DefaultValuesProviderInterface $simpleProvider, private readonly ChannelRepositoryInterface $channelRepository, private readonly LocaleRepositoryInterface $localeRepository, private readonly array $supportedJobNames) {}
 
     /**
      * {@inheritdoc}

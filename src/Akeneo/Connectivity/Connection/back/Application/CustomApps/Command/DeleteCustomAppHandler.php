@@ -16,8 +16,7 @@ class DeleteCustomAppHandler
     public function __construct(
         private readonly GetCustomAppQueryInterface $getCustomAppQuery,
         private readonly DeleteCustomAppQueryInterface $deleteCustomAppQuery,
-    ) {
-    }
+    ) {}
 
     public function handle(DeleteCustomAppCommand $customAppCommand): void
     {

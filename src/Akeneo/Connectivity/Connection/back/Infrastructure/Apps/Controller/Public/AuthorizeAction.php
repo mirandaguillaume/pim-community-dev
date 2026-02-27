@@ -51,8 +51,7 @@ final readonly class AuthorizeAction
         private ScopeListComparatorInterface $scopeListComparator,
         private UpdateConnectedAppScopesWithAuthorizationHandler $updateConnectedAppScopesWithAuthorizationHandler,
         private ClientProviderInterface $clientProvider,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): Response
     {

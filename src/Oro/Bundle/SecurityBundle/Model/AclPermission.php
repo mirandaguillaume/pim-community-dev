@@ -10,9 +10,7 @@ class AclPermission
      * @param string|null $name
      * @param int|null    $accessLevel Can be any AccessLevel::*_LEVEL
      */
-    public function __construct(private $name = null, private $accessLevel = null)
-    {
-    }
+    public function __construct(private $name = null, private $accessLevel = null) {}
 
     /**
      * @return string

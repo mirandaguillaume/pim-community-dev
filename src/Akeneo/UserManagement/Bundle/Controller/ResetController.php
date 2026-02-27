@@ -21,8 +21,7 @@ class ResetController extends AbstractController
         private readonly TokenStorageInterface $tokenStorage,
         private readonly FormInterface $form,
         private readonly MailResetNotifier $mailer,
-    ) {
-    }
+    ) {}
 
     public function request(): Response
     {

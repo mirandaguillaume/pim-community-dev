@@ -14,9 +14,7 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class SqlGetGroupedAttributes implements GetGroupedAttributes
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function findAttributes(
         string $localeCode,

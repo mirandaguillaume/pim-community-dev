@@ -20,8 +20,7 @@ class UcsMiddleware implements MiddlewareInterface
 {
     public function __construct(
         private readonly ?string $pimTenantId,
-    ) {
-    }
+    ) {}
 
     public function handle(Envelope $envelope, StackInterface $stack): Envelope
     {

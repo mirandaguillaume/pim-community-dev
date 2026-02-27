@@ -23,9 +23,7 @@ class RegisterSerializerPass implements CompilerPassInterface
     /**
      * @param string $serializerServiceId
      */
-    public function __construct(protected $serializerServiceId)
-    {
-    }
+    public function __construct(protected $serializerServiceId) {}
 
     /**
      * {@inheritdoc}

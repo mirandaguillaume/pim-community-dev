@@ -13,9 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 final readonly class SystemController
 {
-    public function __construct(private CountSystemEntitiesQueryInterface $countSystemEntitiesQuery)
-    {
-    }
+    public function __construct(private CountSystemEntitiesQueryInterface $countSystemEntitiesQuery) {}
 
     public function countEntitiesAction(): JsonResponse
     {

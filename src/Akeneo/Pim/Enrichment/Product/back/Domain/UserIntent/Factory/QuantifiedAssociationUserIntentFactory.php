@@ -20,8 +20,7 @@ class QuantifiedAssociationUserIntentFactory implements UserIntentFactory
 
     public function __construct(
         private readonly QuantifiedAssociationsStructureValidator $quantifiedAssociationsStructureValidator
-    ) {
-    }
+    ) {}
 
     public function getSupportedFieldNames(): array
     {
@@ -38,21 +37,21 @@ class QuantifiedAssociationUserIntentFactory implements UserIntentFactory
         foreach ($data as $associationType => $associations) {
             if (\array_key_exists('product_uuids', $associations)) {
                 $productQuantityValues = \array_map(
-                    fn ($association) => new QuantifiedEntity($association['uuid'], $association['quantity']),
+                    fn($association) => new QuantifiedEntity($association['uuid'], $association['quantity']),
                     $associations['product_uuids']
                 );
                 $userIntents[] = new ReplaceAssociatedQuantifiedProductUuids((string) $associationType, $productQuantityValues);
             }
             if (\array_key_exists('products', $associations)) {
                 $productQuantityValues = \array_map(
-                    fn ($association) => new QuantifiedEntity($association['identifier'], $association['quantity']),
+                    fn($association) => new QuantifiedEntity($association['identifier'], $association['quantity']),
                     $associations['products']
                 );
                 $userIntents[] = new ReplaceAssociatedQuantifiedProducts((string) $associationType, $productQuantityValues);
             }
             if (\array_key_exists('product_models', $associations)) {
                 $productModelQuantityValues = \array_map(
-                    fn ($association) => new QuantifiedEntity($association['identifier'], $association['quantity']),
+                    fn($association) => new QuantifiedEntity($association['identifier'], $association['quantity']),
                     $associations['product_models']
                 );
                 $userIntents[] = new ReplaceAssociatedQuantifiedProductModels((string) $associationType, $productModelQuantityValues);

@@ -14,9 +14,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 
 class RemoveValuesFromProductModels
 {
-    public function __construct(private readonly ProductModelRepositoryInterface $productModelRepository, private readonly Connection $connection, private readonly EventDispatcherInterface $eventDispatcher, private readonly UnitOfWorkAndRepositoriesClearer $clearer)
-    {
-    }
+    public function __construct(private readonly ProductModelRepositoryInterface $productModelRepository, private readonly Connection $connection, private readonly EventDispatcherInterface $eventDispatcher, private readonly UnitOfWorkAndRepositoriesClearer $clearer) {}
 
     public function forAttributeCodes(array $attributeCodes, array $productModelIdentifiers): void
     {
@@ -31,7 +29,7 @@ class RemoveValuesFromProductModels
     {
         $paths = implode(
             ',',
-            array_map(fn ($attributeCode) => $this->connection->quote(sprintf('$."%s"', $attributeCode)), $attributeCodes)
+            array_map(fn($attributeCode) => $this->connection->quote(sprintf('$."%s"', $attributeCode)), $attributeCodes)
         );
 
         $this->connection->executeQuery(

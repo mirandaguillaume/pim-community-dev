@@ -74,8 +74,7 @@ class JobInstanceController
         private readonly FilesystemOperator $filesystem,
         private readonly SecurityFacade $securityFacade,
         private readonly CredentialsEncrypterRegistry $credentialsEncrypterRegistry,
-    ) {
-    }
+    ) {}
 
     /**
      * @AclAncestor("pim_importexport_import_profile_show")

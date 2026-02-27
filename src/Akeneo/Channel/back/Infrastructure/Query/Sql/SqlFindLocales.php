@@ -16,8 +16,7 @@ final readonly class SqlFindLocales implements FindLocales
 {
     public function __construct(
         private Connection $connection
-    ) {
-    }
+    ) {}
 
     public function find(string $localeCode): ?Locale
     {

@@ -18,8 +18,7 @@ final readonly class GetUpToDateCriteriaEvaluationsByEntityIdQuery implements Ge
     public function __construct(
         private GetCriteriaEvaluationsByEntityIdQueryInterface $getLatestCriteriaEvaluationsByEntityIdQuery,
         private HasUpToDateEvaluationQueryInterface            $hasUpToDateEvaluationQuery
-    ) {
-    }
+    ) {}
 
     public function execute(ProductEntityIdInterface $entityId): Read\CriterionEvaluationCollection
     {

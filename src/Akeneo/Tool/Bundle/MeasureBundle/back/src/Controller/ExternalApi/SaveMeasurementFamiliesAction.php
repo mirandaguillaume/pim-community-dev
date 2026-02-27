@@ -32,9 +32,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class SaveMeasurementFamiliesAction
 {
-    public function __construct(private readonly MeasurementFamilyListValidator $measurementFamilyListValidator, private readonly MeasurementFamilyCommonStructureValidator $measurementFamilyCommonStructureValidator, private readonly MeasurementFamilyValidator $measurementFamilyStructureValidator, private readonly ValidatorInterface $validator, private readonly ViolationNormalizer $violationNormalizer, private readonly SaveMeasurementFamilyHandler $saveMeasurementFamilyHandler, private readonly CreateMeasurementFamilyHandler $createMeasurementFamilyHandler, private readonly MeasurementFamilyRepositoryInterface $measurementFamilyRepository)
-    {
-    }
+    public function __construct(private readonly MeasurementFamilyListValidator $measurementFamilyListValidator, private readonly MeasurementFamilyCommonStructureValidator $measurementFamilyCommonStructureValidator, private readonly MeasurementFamilyValidator $measurementFamilyStructureValidator, private readonly ValidatorInterface $validator, private readonly ViolationNormalizer $violationNormalizer, private readonly SaveMeasurementFamilyHandler $saveMeasurementFamilyHandler, private readonly CreateMeasurementFamilyHandler $createMeasurementFamilyHandler, private readonly MeasurementFamilyRepositoryInterface $measurementFamilyRepository) {}
 
     public function __invoke(Request $request): Response
     {
@@ -251,7 +249,7 @@ class SaveMeasurementFamiliesAction
      */
     private function getNormalizedUnitsFromNormalizedMeasurementFamily(array $normalizedMeasurementFamily): array
     {
-        return array_map(static fn (array $unit) => [
+        return array_map(static fn(array $unit) => [
             'code' => $unit['code'],
             'convert_from_standard' => $unit['convert_from_standard'],
             'labels' => $unit['labels'] ?? [],

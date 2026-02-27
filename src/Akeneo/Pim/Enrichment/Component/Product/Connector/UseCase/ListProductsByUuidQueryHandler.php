@@ -36,8 +36,7 @@ final readonly class ListProductsByUuidQueryHandler
         private EventDispatcherInterface $eventDispatcher,
         private GetProductsWithQualityScoresInterface $getProductsWithQualityScores,
         private GetProductsWithCompletenessesInterface $getProductsWithCompletenesses,
-    ) {
-    }
+    ) {}
 
     public function handle(ListProductsQuery $query): ConnectorProductList
     {

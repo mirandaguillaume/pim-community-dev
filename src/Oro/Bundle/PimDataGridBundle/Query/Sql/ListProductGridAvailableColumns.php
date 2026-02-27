@@ -18,9 +18,7 @@ use Oro\Bundle\PimDataGridBundle\Query\ListProductGridAvailableColumns as ListPr
  */
 class ListProductGridAvailableColumns implements ListProductGridAvailableColumnsQuery
 {
-    public function __construct(private readonly Connection $connection, private readonly ConfigurationProviderInterface $configurationProvider)
-    {
-    }
+    public function __construct(private readonly Connection $connection, private readonly ConfigurationProviderInterface $configurationProvider) {}
 
     /**
      * {@inheritdoc}
@@ -78,7 +76,7 @@ class ListProductGridAvailableColumns implements ListProductGridAvailableColumns
         }
 
         if ('' !== $searchOnLabel) {
-            $systemColumns = array_filter($systemColumns, fn ($property) => false !== stripos((string) $property['label'], $searchOnLabel));
+            $systemColumns = array_filter($systemColumns, fn($property) => false !== stripos((string) $property['label'], $searchOnLabel));
         }
 
         return $systemColumns;

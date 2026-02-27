@@ -24,8 +24,7 @@ class CreateUserGroup implements CreateUserGroupInterface
         private readonly ObjectUpdaterInterface $userGroupUpdater,
         private readonly SaverInterface $userGroupSaver,
         private readonly ValidatorInterface $validator
-    ) {
-    }
+    ) {}
 
     public function execute(string $groupName): GroupInterface
     {

@@ -18,8 +18,7 @@ class SqlFindFamilyCodes implements FindFamilyCodes
 {
     public function __construct(
         private readonly Connection $connection,
-    ) {
-    }
+    ) {}
 
     public function fromQuery(FamilyQuery $query): array
     {

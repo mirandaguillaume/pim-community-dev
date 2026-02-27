@@ -34,8 +34,7 @@ class LocaleController
         private readonly QueryParametersCheckerInterface $queryParametersChecker,
         private readonly array $apiConfiguration,
         private readonly SecurityFacadeInterface $securityFacade,
-    ) {
-    }
+    ) {}
 
     public function getAction(Request $request, string $code): JsonResponse
     {

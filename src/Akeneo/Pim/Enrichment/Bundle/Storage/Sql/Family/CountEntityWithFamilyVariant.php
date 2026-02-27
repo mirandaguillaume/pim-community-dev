@@ -18,9 +18,7 @@ use Doctrine\DBAL\Exception;
  */
 final readonly class CountEntityWithFamilyVariant implements CountEntityWithFamilyVariantInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function belongingToFamilyVariant(FamilyVariantInterface $familyVariant): int
     {

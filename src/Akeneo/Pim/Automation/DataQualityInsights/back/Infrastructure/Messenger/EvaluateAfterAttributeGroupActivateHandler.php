@@ -22,8 +22,7 @@ final readonly class EvaluateAfterAttributeGroupActivateHandler
         private GetEntityIdsImpactedByAttributeGroupActivationQueryInterface $getProductModelIdsImpactedByAttributeGroupActivationQuery,
         private MessageBusInterface $messageBus,
         private int $batchSize = 50
-    ) {
-    }
+    ) {}
 
     public function __invoke(AttributeGroupActivationHasChanged $event): void
     {

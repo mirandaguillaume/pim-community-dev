@@ -20,8 +20,7 @@ class AttributeOption implements ArrayConverterInterface
     public function __construct(
         protected FindLocales $findLocales,
         protected FieldsRequirementChecker $fieldChecker
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -84,7 +83,7 @@ class AttributeOption implements ArrayConverterInterface
         $authorizedFields = \array_merge(
             $authorizedFields,
             \array_map(
-                static fn (Locale $locale): string => \sprintf('label-%s', $locale->getCode()),
+                static fn(Locale $locale): string => \sprintf('label-%s', $locale->getCode()),
                 $this->findLocales->findAllActivated()
             )
         );

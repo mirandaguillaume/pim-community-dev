@@ -14,9 +14,7 @@ use Doctrine\DBAL\Connection;
  */
 class DeactivateTemplateSql implements DeactivateTemplate
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function execute(TemplateUuid $uuid): void
     {

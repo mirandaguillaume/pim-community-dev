@@ -22,8 +22,7 @@ final class CriterionEvaluation
         private readonly CriterionCode             $criterionCode,
         private readonly ProductEntityIdInterface  $entityId,
         private CriterionEvaluationStatus $status
-    ) {
-    }
+    ) {}
 
     public function start(): self
     {

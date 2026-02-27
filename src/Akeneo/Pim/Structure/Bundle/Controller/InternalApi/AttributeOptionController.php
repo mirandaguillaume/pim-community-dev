@@ -42,8 +42,7 @@ class AttributeOptionController
         private readonly AttributeOptionRepositoryInterface $optionRepository,
         private readonly AttributeOptionSearchableRepository $attributeOptionRepository,
         private readonly NormalizerInterface $structureNormalizer
-    ) {
-    }
+    ) {}
 
     /**
      * Return the attribute option array

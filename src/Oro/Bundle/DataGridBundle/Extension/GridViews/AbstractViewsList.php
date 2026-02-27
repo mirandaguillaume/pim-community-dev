@@ -9,9 +9,7 @@ abstract class AbstractViewsList
 {
     protected ?ArrayCollection $views = null;
 
-    public function __construct(protected TranslatorInterface $translator)
-    {
-    }
+    public function __construct(protected TranslatorInterface $translator) {}
 
     /**
      * Returns an array of available views
@@ -51,7 +49,7 @@ abstract class AbstractViewsList
         }
 
         $filtered = $this->getList()->filter(
-            fn (View $view) => $view->getName() === $name
+            fn(View $view) => $view->getName() === $name
         );
 
         return $filtered->first();
@@ -82,7 +80,7 @@ abstract class AbstractViewsList
     public function getMetadata()
     {
         $result = $this->getList()->map(
-            fn (View $view) => $view->getMetadata()
+            fn(View $view) => $view->getMetadata()
         );
 
         return [

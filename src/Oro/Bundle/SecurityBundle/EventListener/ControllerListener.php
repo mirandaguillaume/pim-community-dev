@@ -11,9 +11,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class ControllerListener
 {
-    public function __construct(private readonly SecurityFacade $securityFacade, private readonly LoggerInterface $logger)
-    {
-    }
+    public function __construct(private readonly SecurityFacade $securityFacade, private readonly LoggerInterface $logger) {}
 
     /**
      * Checks if an access to a controller action is granted or not.

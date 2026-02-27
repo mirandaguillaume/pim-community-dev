@@ -15,8 +15,7 @@ final readonly class SaveRevokedAccessTokensOfDisconnectedAppQuery implements Sa
 {
     public function __construct(
         private Connection $connection,
-    ) {
-    }
+    ) {}
 
     public function execute(string $appId): void
     {

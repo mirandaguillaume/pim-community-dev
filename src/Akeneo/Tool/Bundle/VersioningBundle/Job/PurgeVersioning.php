@@ -21,8 +21,7 @@ final class PurgeVersioning implements TaskletInterface
 
     public function __construct(
         private readonly VersionPurgerInterface $versionPurger,
-    ) {
-    }
+    ) {}
 
     public function setStepExecution(StepExecution $stepExecution): void
     {

@@ -18,8 +18,7 @@ final readonly class GetProductModelScoresByCodesQuery implements GetProductMode
 {
     public function __construct(
         private Connection $dbConnection
-    ) {
-    }
+    ) {}
 
     public function byProductModelCode(string $productModelCode): Read\Scores
     {

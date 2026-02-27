@@ -173,7 +173,7 @@ class FamilyNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
                 );
             }
 
-            $result[$channel] = array_map(fn ($attribute) => $attribute->getCode(), $attributes);
+            $result[$channel] = array_map(fn($attribute) => $attribute->getCode(), $attributes);
         }
 
         return $result;
@@ -204,7 +204,7 @@ class FamilyNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
      */
     private function getAttributeAxisCodesForFamilyVariant(FamilyVariantInterface $familyVariant): array
     {
-        $attributesAxisCodes = array_map(fn ($attribute) => $attribute->getCode(), $familyVariant->getAxes()->toArray());
+        $attributesAxisCodes = array_map(fn($attribute) => $attribute->getCode(), $familyVariant->getAxes()->toArray());
 
         return $attributesAxisCodes;
     }

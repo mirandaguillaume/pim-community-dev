@@ -25,8 +25,7 @@ final readonly class User
         private ?string $middleName,
         private ?string $nameSuffix,
         private ?string $image
-    ) {
-    }
+    ) {}
 
     public function getId(): int
     {

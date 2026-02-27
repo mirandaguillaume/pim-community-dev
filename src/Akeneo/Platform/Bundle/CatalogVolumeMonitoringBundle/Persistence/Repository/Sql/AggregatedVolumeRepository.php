@@ -16,9 +16,7 @@ use Doctrine\DBAL\Types\Types;
  */
 class AggregatedVolumeRepository implements AggregatedVolumeRepositoryInterface
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     /**
      * {@inheritdoc}

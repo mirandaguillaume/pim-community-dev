@@ -48,9 +48,7 @@ class SearchEventSubscriptionDebugLogsQuery implements SearchEventSubscriptionDe
     final public const MAX_NUMBER_OF_NOTICE_AND_INFO_LOGS = 100;
     final public const MAX_LIFETIME_OF_WARNING_AND_ERROR_LOGS = 72 * 60 * 60;
 
-    public function __construct(private readonly Client $elasticsearchClient, private readonly ClockInterface $clock, private readonly Encrypter $encrypter)
-    {
-    }
+    public function __construct(private readonly Client $elasticsearchClient, private readonly ClockInterface $clock, private readonly Encrypter $encrypter) {}
 
     public function execute(string $connectionCode, ?string $encryptedSearchAfter = null, array $filters = []): array
     {
@@ -75,7 +73,7 @@ class SearchEventSubscriptionDebugLogsQuery implements SearchEventSubscriptionDe
 
         return [
             'results' => \array_map(
-                fn ($hit) => $hit['_source'],
+                fn($hit) => $hit['_source'],
                 $result['hits']['hits']
             ),
             'search_after' => $this->encrypter->encrypt(
@@ -311,7 +309,7 @@ class SearchEventSubscriptionDebugLogsQuery implements SearchEventSubscriptionDe
             'first_id' => $result['hits']['hits'][0]['_source']['id'] ?? null,
             'first_search_after' => $result['hits']['hits'][0]['sort'] ?? null,
             'ids' => \array_map(
-                fn ($hit) => $hit['_source']['id'],
+                fn($hit) => $hit['_source']['id'],
                 $result['hits']['hits']
             ),
         ];
@@ -349,7 +347,7 @@ class SearchEventSubscriptionDebugLogsQuery implements SearchEventSubscriptionDe
             'ids' => \array_merge(
                 [$firstId],
                 \array_map(
-                    fn ($hit) => $hit['_source']['id'],
+                    fn($hit) => $hit['_source']['id'],
                     $result['hits']['hits']
                 )
             ),

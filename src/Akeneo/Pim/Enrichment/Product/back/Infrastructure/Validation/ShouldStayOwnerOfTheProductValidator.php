@@ -34,8 +34,7 @@ final class ShouldStayOwnerOfTheProductValidator extends ConstraintValidator
         private readonly GetNonViewableCategoryCodes $getNonViewableCategoryCodes,
         private readonly GetCategoryCodes $getCategoryCodes,
         private readonly GetProductUuids $getProductUuids,
-    ) {
-    }
+    ) {}
 
     public function validate($categoryUserIntent, Constraint $constraint): void
     {

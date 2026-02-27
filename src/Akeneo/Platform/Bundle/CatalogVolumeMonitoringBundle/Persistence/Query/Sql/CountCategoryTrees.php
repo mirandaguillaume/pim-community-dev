@@ -17,9 +17,7 @@ class CountCategoryTrees implements CountQuery
 {
     private const VOLUME_NAME = 'count_category_trees';
 
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     /**
      * {@inheritdoc}

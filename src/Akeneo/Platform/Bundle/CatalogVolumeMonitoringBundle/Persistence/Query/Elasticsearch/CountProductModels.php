@@ -17,9 +17,7 @@ class CountProductModels implements CountQuery
 {
     private const VOLUME_NAME = 'count_product_models';
 
-    public function __construct(private readonly Client $client)
-    {
-    }
+    public function __construct(private readonly Client $client) {}
 
     public function fetch(): CountVolume
     {

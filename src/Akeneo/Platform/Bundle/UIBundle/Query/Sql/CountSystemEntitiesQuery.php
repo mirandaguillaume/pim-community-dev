@@ -14,9 +14,7 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class CountSystemEntitiesQuery implements CountSystemEntitiesQueryInterface
 {
-    public function __construct(private Connection $dbConnection)
-    {
-    }
+    public function __construct(private Connection $dbConnection) {}
 
     public function execute(): array
     {
@@ -35,6 +33,6 @@ final readonly class CountSystemEntitiesQuery implements CountSystemEntitiesQuer
 
         $result = $this->dbConnection->executeQuery($query)->fetchAssociative();
 
-        return array_map(fn ($rawCount) => intval($rawCount), $result);
+        return array_map(fn($rawCount) => intval($rawCount), $result);
     }
 }

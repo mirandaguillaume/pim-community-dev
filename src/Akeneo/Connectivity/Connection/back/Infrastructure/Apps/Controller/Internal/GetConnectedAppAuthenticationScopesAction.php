@@ -21,8 +21,7 @@ final readonly class GetConnectedAppAuthenticationScopesAction
         private GetUserConsentedAuthenticationScopesQueryInterface $getUserConsentedAuthenticationScopesQuery,
         private FindOneConnectedAppByConnectionCodeQueryInterface $findOneConnectedAppByConnectionCodeQuery,
         private ConnectedPimUserProviderInterface $connectedPimUserProvider,
-    ) {
-    }
+    ) {}
 
     public function __invoke(string $connectionCode): Response
     {

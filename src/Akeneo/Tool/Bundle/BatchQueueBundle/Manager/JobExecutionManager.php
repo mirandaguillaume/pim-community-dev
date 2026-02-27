@@ -24,9 +24,7 @@ class JobExecutionManager
 {
     private const MAX_TIME_TO_UPDATE_HEALTH_CHECK = 5;
 
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     /**
      * Resolve the status of the job execution in case of crash of the daemon that launched the job.

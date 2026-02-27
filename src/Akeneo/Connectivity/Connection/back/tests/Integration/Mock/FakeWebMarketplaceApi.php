@@ -76,7 +76,7 @@ class FakeWebMarketplaceApi implements WebMarketplaceApiInterface
 
     public function getApp(string $id): ?array
     {
-        return \array_filter($this->apps, fn (array $app): bool => $app['id'] === $id)[0] ?? null;
+        return \array_filter($this->apps, fn(array $app): bool => $app['id'] === $id)[0] ?? null;
     }
 
     public function validateCodeChallenge(string $appId, string $codeIdentifier, string $codeChallenge): bool

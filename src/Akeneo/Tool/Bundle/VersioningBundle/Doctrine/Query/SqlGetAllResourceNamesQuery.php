@@ -12,9 +12,7 @@ use Doctrine\DBAL\Connection;
  */
 class SqlGetAllResourceNamesQuery
 {
-    public function __construct(private readonly Connection $dbConnection)
-    {
-    }
+    public function __construct(private readonly Connection $dbConnection) {}
 
     public function execute(): array
     {

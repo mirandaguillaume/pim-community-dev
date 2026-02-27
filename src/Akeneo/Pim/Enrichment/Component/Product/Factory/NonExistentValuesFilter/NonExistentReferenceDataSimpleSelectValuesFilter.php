@@ -14,9 +14,7 @@ use Akeneo\Pim\Structure\Component\AttributeTypes;
  */
 class NonExistentReferenceDataSimpleSelectValuesFilter implements NonExistentValuesFilter
 {
-    public function __construct(private readonly GetExistingReferenceDataCodes $getExistingReferenceDataCodes)
-    {
-    }
+    public function __construct(private readonly GetExistingReferenceDataCodes $getExistingReferenceDataCodes) {}
 
     public function filter(OnGoingFilteredRawValues $onGoingFilteredRawValues): OnGoingFilteredRawValues
     {

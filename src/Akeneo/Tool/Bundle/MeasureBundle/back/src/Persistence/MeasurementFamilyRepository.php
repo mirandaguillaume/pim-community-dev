@@ -28,9 +28,7 @@ class MeasurementFamilyRepository implements MeasurementFamilyRepositoryInterfac
     /** @var MeasurementFamily[] */
     private array $measurementFamilyCache = [];
 
-    public function __construct(private readonly Connection $sqlConnection)
-    {
-    }
+    public function __construct(private readonly Connection $sqlConnection) {}
 
     public function all(): array
     {
@@ -145,7 +143,7 @@ class MeasurementFamilyRepository implements MeasurementFamilyRepositoryInterfac
         $labels = json_decode($normalizedLabels, true, 512, JSON_THROW_ON_ERROR);
         $standardUnit = Type::getType(Types::STRING)->convertToPhpValue($standardUnit, $platform);
         //TODO check Type:JSON
-        $units = array_map(fn (array $normalizedUnit) => $this->hydrateUnit(
+        $units = array_map(fn(array $normalizedUnit) => $this->hydrateUnit(
             $normalizedUnit['code'],
             $normalizedUnit['labels'],
             $normalizedUnit['convert_from_standard'],

@@ -20,8 +20,7 @@ class CreateConnection implements CreateConnectionInterface
     public function __construct(
         private readonly ConnectionRepositoryInterface $repository,
         private readonly SelectConnectionWithCredentialsByCodeQueryInterface $selectConnectionWithCredentialsByCodeQuery
-    ) {
-    }
+    ) {}
 
     public function execute(
         string $code,

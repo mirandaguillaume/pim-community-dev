@@ -18,8 +18,7 @@ class BooleanNormalizer implements AxisValueLabelsNormalizer
 {
     public function __construct(
         private readonly LabelTranslatorInterface $labelTranslator
-    ) {
-    }
+    ) {}
 
     public function normalize(ValueInterface $value, string $locale): string
     {

@@ -31,9 +31,7 @@ class ProductModelNormalizer implements NormalizerInterface, CacheableSupportsMe
     /**
      * @param CollectionFilterInterface $filter The collection filter
      */
-    public function __construct(private readonly CollectionFilterInterface $filter, private readonly NormalizerInterface $associationsNormalizer, private readonly NormalizerInterface $standardNormalizer, private readonly NormalizerInterface $quantifiedAssociationsNormalizer)
-    {
-    }
+    public function __construct(private readonly CollectionFilterInterface $filter, private readonly NormalizerInterface $associationsNormalizer, private readonly NormalizerInterface $standardNormalizer, private readonly NormalizerInterface $quantifiedAssociationsNormalizer) {}
 
     /**
      * {@inheritdoc}

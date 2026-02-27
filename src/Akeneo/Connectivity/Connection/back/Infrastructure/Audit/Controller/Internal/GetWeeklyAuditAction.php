@@ -22,8 +22,7 @@ final class GetWeeklyAuditAction extends AbstractAuditAction
     public function __construct(
         private readonly UserContext $userContext,
         private readonly GetPeriodEventCountPerConnectionHandler $getPeriodEventCountPerConnectionHandler,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): JsonResponse
     {

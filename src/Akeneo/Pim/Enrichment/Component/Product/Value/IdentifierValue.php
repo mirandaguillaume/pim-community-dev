@@ -17,8 +17,7 @@ final readonly class IdentifierValue implements IdentifierValueInterface, \Strin
         private string $attributeCode,
         private bool $isMainIdentifier,
         private ?string $data
-    ) {
-    }
+    ) {}
 
     public static function value(string $attributeCode, bool $isMainIdentifier, $data): self
     {

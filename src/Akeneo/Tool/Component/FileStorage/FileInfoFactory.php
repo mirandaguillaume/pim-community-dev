@@ -14,9 +14,7 @@ use Symfony\Component\Mime\MimeTypes;
  */
 class FileInfoFactory implements FileInfoFactoryInterface
 {
-    public function __construct(protected PathGeneratorInterface $pathGenerator, protected string $fileClass)
-    {
-    }
+    public function __construct(protected PathGeneratorInterface $pathGenerator, protected string $fileClass) {}
 
     /**
      * {@inheritdoc}

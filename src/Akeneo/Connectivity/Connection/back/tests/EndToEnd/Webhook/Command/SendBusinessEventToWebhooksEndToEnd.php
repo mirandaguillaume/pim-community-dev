@@ -66,7 +66,7 @@ class SendBusinessEventToWebhooksEndToEnd extends CommandTestCase
     {
         $author = Author::fromNameAndType('julia', Author::TYPE_UI);
 
-        $event = new class($author, ['data'], 0, 'e0e4c95d-9646-40d7-be2b-d9b14fc0c6ba') extends Event {
+        $event = new class ($author, ['data'], 0, 'e0e4c95d-9646-40d7-be2b-d9b14fc0c6ba') extends Event {
             public function getName(): string
             {
                 return 'event_name';

@@ -28,7 +28,7 @@ final class ValidateIdentifiersLimit
             return;
         }
 
-        $inQuery = current(array_filter($identifiersQuery, static fn ($query) => $query['operator'] === Operators::IN_LIST));
+        $inQuery = current(array_filter($identifiersQuery, static fn($query) => $query['operator'] === Operators::IN_LIST));
 
         if (!$inQuery) {
             return;

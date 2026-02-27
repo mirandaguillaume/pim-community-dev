@@ -14,9 +14,7 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetAllCategoryCodesQuery implements GetAllCategoryCodesQueryInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function execute(): array
     {
@@ -26,6 +24,6 @@ final readonly class GetAllCategoryCodesQuery implements GetAllCategoryCodesQuer
 
         $statement = $this->connection->executeQuery($query);
 
-        return array_map(fn ($row) => new CategoryCode($row['code']), $statement->fetchAllAssociative());
+        return array_map(fn($row) => new CategoryCode($row['code']), $statement->fetchAllAssociative());
     }
 }

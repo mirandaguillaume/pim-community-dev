@@ -13,9 +13,7 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class SqlGetPausedJobExecutionIds implements GetPausedJobExecutionIdsInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     /**
      * @return array<int>
@@ -33,6 +31,6 @@ final readonly class SqlGetPausedJobExecutionIds implements GetPausedJobExecutio
             ['paused_status' => BatchStatus::PAUSED],
         )->fetchFirstColumn();
 
-        return array_map(static fn (string $id) => (int) $id, $result);
+        return array_map(static fn(string $id) => (int) $id, $result);
     }
 }

@@ -14,8 +14,7 @@ class FilterPartialCriteriaEvaluations
 {
     public function __construct(
         private readonly CriteriaByFeatureRegistry $criteriaRegistry,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Read\CriterionEvaluationCollection $criteriaEvaluations): Read\CriterionEvaluationCollection
     {

@@ -497,7 +497,7 @@ class SaveMeasurementFamilyTest extends AcceptanceTestCase
         $saveFamilyCommand->code = 'WEIGHT';
         $saveFamilyCommand->labels = [];
         $saveFamilyCommand->standardUnitCode = 0 === $numberOfUnits ? '' : 'unit_0';
-        $saveFamilyCommand->units = 0 === $numberOfUnits ? [] : array_map(static fn (int $i) => [
+        $saveFamilyCommand->units = 0 === $numberOfUnits ? [] : array_map(static fn(int $i) => [
             'code' => sprintf('unit_%d', $i),
             'labels' => [],
             'convert_from_standard' => [['operator' => 'mul', 'value' => '1']],
@@ -709,7 +709,7 @@ class SaveMeasurementFamilyTest extends AcceptanceTestCase
                 MeasurementFamilyCode::fromString($measurementFamilyCode),
                 LabelCollection::fromArray([]),
                 UnitCode::fromString($standardUnitCode),
-                array_map(static fn (string $unitCode) => Unit::create(
+                array_map(static fn(string $unitCode) => Unit::create(
                     UnitCode::fromString($unitCode),
                     LabelCollection::fromArray([]),
                     [

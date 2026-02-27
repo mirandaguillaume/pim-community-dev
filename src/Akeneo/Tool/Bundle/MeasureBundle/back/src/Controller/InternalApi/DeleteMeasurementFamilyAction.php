@@ -22,9 +22,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class DeleteMeasurementFamilyAction
 {
-    public function __construct(private readonly ValidatorInterface $validator, private readonly DeleteMeasurementFamilyHandler $deleteMeasurementFamilyHandler, private readonly SecurityFacade $securityFacade)
-    {
-    }
+    public function __construct(private readonly ValidatorInterface $validator, private readonly DeleteMeasurementFamilyHandler $deleteMeasurementFamilyHandler, private readonly SecurityFacade $securityFacade) {}
 
     public function __invoke(Request $request, string $code): Response
     {

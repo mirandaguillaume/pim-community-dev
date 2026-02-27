@@ -133,7 +133,7 @@ class ProductUniqueDataSynchronizer
     private function getAttributeCodes(array $uniqueDataCollectionToUpdate)
     {
         return array_values(array_map(
-            fn ($uniqueData) => $uniqueData->getAttribute()->getCode(),
+            fn($uniqueData) => $uniqueData->getAttribute()->getCode(),
             $uniqueDataCollectionToUpdate
         ));
     }
@@ -142,7 +142,7 @@ class ProductUniqueDataSynchronizer
     {
         return array_filter(
             $uniqueDataCollection,
-            fn (ProductUniqueDataInterface $uniqueData) => in_array($uniqueData->getAttribute()->getCode(), $attributeCodes)
+            fn(ProductUniqueDataInterface $uniqueData) => in_array($uniqueData->getAttribute()->getCode(), $attributeCodes)
         );
     }
 

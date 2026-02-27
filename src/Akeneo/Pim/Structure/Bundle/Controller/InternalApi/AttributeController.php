@@ -174,7 +174,7 @@ class AttributeController
             $options
         );
 
-        $normalizedAttributes = array_map(fn ($attribute) => $this->lightAttributeNormalizer->normalize(
+        $normalizedAttributes = array_map(fn($attribute) => $this->lightAttributeNormalizer->normalize(
             $attribute,
             'internal_api',
             ['locale' => $this->userContext->getUiLocale()->getCode()]

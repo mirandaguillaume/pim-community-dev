@@ -20,9 +20,7 @@ final class RoleWithPermissionsWriter implements ItemWriterInterface, StepExecut
 {
     private ?StepExecution $stepExecution = null;
 
-    public function __construct(private readonly BulkSaverInterface $roleWithPermissionsSaver)
-    {
-    }
+    public function __construct(private readonly BulkSaverInterface $roleWithPermissionsSaver) {}
 
     /**
      * {@inheritdoc}

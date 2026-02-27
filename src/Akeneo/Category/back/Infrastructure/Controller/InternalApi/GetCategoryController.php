@@ -23,8 +23,7 @@ class GetCategoryController
         private readonly SecurityFacade $securityFacade,
         private readonly GetCategoryInterface $getCategory,
         private readonly FindCategoryAdditionalPropertiesRegistry $findCategoryAdditionalPropertiesRegistry,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, int $id): Response
     {

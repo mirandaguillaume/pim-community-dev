@@ -25,9 +25,7 @@ use Doctrine\Common\Util\ClassUtils;
  */
 class ProductModelUpdater implements ObjectUpdaterInterface
 {
-    public function __construct(private readonly PropertySetterInterface $propertySetter, private readonly ObjectUpdaterInterface $valuesUpdater, private readonly IdentifiableObjectRepositoryInterface $familyVariantRepository, private readonly IdentifiableObjectRepositoryInterface $productModelRepository, private readonly ParentAssociationsFilter $parentAssociationsFilter, private readonly QuantifiedAssociationsFromAncestorsFilter $quantifiedAssociationsFromAncestorsFilter, private readonly QuantifiedAssociationsStructureValidatorInterface $quantifiedAssociationsStructureValidator, private readonly array $ignoredFields)
-    {
-    }
+    public function __construct(private readonly PropertySetterInterface $propertySetter, private readonly ObjectUpdaterInterface $valuesUpdater, private readonly IdentifiableObjectRepositoryInterface $familyVariantRepository, private readonly IdentifiableObjectRepositoryInterface $productModelRepository, private readonly ParentAssociationsFilter $parentAssociationsFilter, private readonly QuantifiedAssociationsFromAncestorsFilter $quantifiedAssociationsFromAncestorsFilter, private readonly QuantifiedAssociationsStructureValidatorInterface $quantifiedAssociationsStructureValidator, private readonly array $ignoredFields) {}
 
     /**
      * {@inheritdoc}

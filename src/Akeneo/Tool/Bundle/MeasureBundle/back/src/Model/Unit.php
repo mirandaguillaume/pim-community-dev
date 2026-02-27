@@ -33,7 +33,7 @@ final class Unit
             'code' => $this->code->normalize(),
             'labels' => $this->labels->normalize(),
             'convert_from_standard' => array_map(
-                static fn (Operation $operation) => $operation->normalize(),
+                static fn(Operation $operation) => $operation->normalize(),
                 $this->convertFromStandard
             ),
             'symbol' => $this->symbol,

@@ -26,8 +26,7 @@ class JobInstanceUpdater implements ObjectUpdaterInterface
         private readonly JobRegistry $jobRegistry,
         private readonly UpsertRunningUser $upsertRunningUser,
         private readonly ClockInterface $clock,
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

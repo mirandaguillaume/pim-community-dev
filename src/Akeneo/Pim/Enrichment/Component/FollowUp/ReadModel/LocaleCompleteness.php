@@ -13,9 +13,7 @@ namespace Akeneo\Pim\Enrichment\Component\FollowUp\ReadModel;
  */
 class LocaleCompleteness
 {
-    public function __construct(private readonly string $locale, private readonly int $numberOfCompleteProducts)
-    {
-    }
+    public function __construct(private readonly string $locale, private readonly int $numberOfCompleteProducts) {}
 
     public function locale(): string
     {

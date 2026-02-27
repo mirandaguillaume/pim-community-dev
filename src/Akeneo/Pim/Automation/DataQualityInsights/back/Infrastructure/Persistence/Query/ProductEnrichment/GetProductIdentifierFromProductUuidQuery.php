@@ -15,9 +15,7 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetProductIdentifierFromProductUuidQuery implements GetProductIdentifierFromProductUuidQueryInterface
 {
-    public function __construct(private Connection $db)
-    {
-    }
+    public function __construct(private Connection $db) {}
 
     public function execute(ProductUuid $productUuid): ProductIdentifier
     {

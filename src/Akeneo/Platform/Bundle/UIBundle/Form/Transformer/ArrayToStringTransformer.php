@@ -11,9 +11,7 @@ class ArrayToStringTransformer implements DataTransformerInterface
      * @param string $delimiter
      * @param string $filterUniqueValues
      */
-    public function __construct(private $delimiter, private $filterUniqueValues)
-    {
-    }
+    public function __construct(private $delimiter, private $filterUniqueValues) {}
 
     /**
      * {@inheritdoc}

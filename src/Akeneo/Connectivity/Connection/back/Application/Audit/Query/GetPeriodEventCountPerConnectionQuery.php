@@ -13,9 +13,7 @@ use Akeneo\Connectivity\Connection\Domain\ValueObject\DateTimePeriod;
  */
 class GetPeriodEventCountPerConnectionQuery
 {
-    public function __construct(private readonly string $eventType, private readonly DateTimePeriod $period)
-    {
-    }
+    public function __construct(private readonly string $eventType, private readonly DateTimePeriod $period) {}
 
     public function eventType(): string
     {

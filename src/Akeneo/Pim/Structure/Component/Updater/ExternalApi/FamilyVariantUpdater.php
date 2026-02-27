@@ -19,9 +19,7 @@ use Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface;
  */
 class FamilyVariantUpdater implements ObjectUpdaterInterface
 {
-    public function __construct(private readonly ObjectUpdaterInterface $familyUpdater)
-    {
-    }
+    public function __construct(private readonly ObjectUpdaterInterface $familyUpdater) {}
 
     /**
      * {@inheritdoc}

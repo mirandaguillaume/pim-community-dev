@@ -36,8 +36,7 @@ final class RemoveNonExistingProductValuesTasklet implements TaskletInterface
         private readonly BulkSaverInterface $productModelSaver,
         private readonly EntityManagerClearerInterface $entityManagerClearer,
         private readonly int $batchSize
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

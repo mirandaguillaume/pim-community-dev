@@ -22,9 +22,7 @@ class AttributeOptionType extends AbstractType
     /**
      * @param string $dataClass
      */
-    public function __construct(protected $dataClass)
-    {
-    }
+    public function __construct(protected $dataClass) {}
 
     /**
      * {@inheritdoc}
@@ -68,7 +66,7 @@ class AttributeOptionType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
                 'delete_empty'
-                    => static fn (AttributeOptionValueInterface $optionValue = null) => null === $optionValue?->getValue(),
+                    => static fn(AttributeOptionValueInterface $optionValue = null) => null === $optionValue?->getValue(),
             ]
         );
     }

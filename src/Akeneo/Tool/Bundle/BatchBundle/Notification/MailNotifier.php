@@ -29,8 +29,7 @@ class MailNotifier implements Notifier
         private readonly TokenStorageInterface $tokenStorage,
         private readonly Environment $twig,
         private readonly MailNotification $mailer,
-    ) {
-    }
+    ) {}
 
     public function notify(JobExecution $jobExecution): void
     {

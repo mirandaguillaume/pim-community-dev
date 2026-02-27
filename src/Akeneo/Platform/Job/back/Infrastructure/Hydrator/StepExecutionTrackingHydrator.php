@@ -17,8 +17,7 @@ class StepExecutionTrackingHydrator
 {
     public function __construct(
         private readonly ClockInterface $clock,
-    ) {
-    }
+    ) {}
 
     public function hydrate(array $stepExecution): StepExecutionTracking
     {

@@ -26,8 +26,7 @@ final readonly class InitializeEvaluationOfAProductSubscriber implements EventSu
         private CreateCriteriaEvaluations       $createProductsCriteriaEvaluations,
         private LoggerInterface                 $logger,
         private ProductEntityIdFactoryInterface $idFactory
-    ) {
-    }
+    ) {}
 
     public static function getSubscribedEvents(): array
     {

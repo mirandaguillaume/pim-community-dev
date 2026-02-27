@@ -72,9 +72,7 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class DashboardScoresProjectionRepository implements DashboardScoresProjectionRepositoryInterface
 {
-    public function __construct(private Connection $db)
-    {
-    }
+    public function __construct(private Connection $db) {}
 
     public function save(DashboardRatesProjection $ratesProjection): void
     {

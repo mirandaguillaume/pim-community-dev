@@ -11,8 +11,7 @@ class SqlFindUserGroups implements FindUserGroups
 {
     public function __construct(
         private readonly Connection $connection,
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritDoc}
@@ -35,7 +34,7 @@ class SqlFindUserGroups implements FindUserGroups
             ]
         )->fetchAllAssociative();
 
-        return array_map(static fn ($data) => Group::createFromDatabase($data), $results);
+        return array_map(static fn($data) => Group::createFromDatabase($data), $results);
     }
 
     private function buildQuery(

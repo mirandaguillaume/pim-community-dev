@@ -13,9 +13,7 @@ use Doctrine\DBAL\Connection;
  */
 class GetCustomAppQuery implements GetCustomAppQueryInterface
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     /**
      * @return array{

@@ -17,9 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class AttributeIsAFamilyVariantAxis implements AttributeIsAFamilyVariantAxisInterface
 {
-    public function __construct(private readonly EntityManagerInterface $entityManager)
-    {
-    }
+    public function __construct(private readonly EntityManagerInterface $entityManager) {}
 
     public function execute(string $attributeCode): bool
     {

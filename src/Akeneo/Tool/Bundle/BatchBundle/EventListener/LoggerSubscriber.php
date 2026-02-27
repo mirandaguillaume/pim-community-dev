@@ -181,7 +181,7 @@ class LoggerSubscriber implements EventSubscriberInterface
                 implode(
                     ', ',
                     array_map(
-                        fn ($exception) => $this->translator->trans(
+                        fn($exception) => $this->translator->trans(
                             $exception['message'],
                             $exception['messageParameters'],
                             $this->translationDomain,

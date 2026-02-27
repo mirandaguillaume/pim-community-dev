@@ -14,9 +14,7 @@ use Doctrine\DBAL\Connection;
  */
 class DbalAreCredentialsValidCombinationQuery implements AreCredentialsValidCombinationQueryInterface
 {
-    public function __construct(private readonly Connection $dbalConnection)
-    {
-    }
+    public function __construct(private readonly Connection $dbalConnection) {}
 
     public function execute(string $clientId, string $username): bool
     {

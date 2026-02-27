@@ -27,8 +27,7 @@ final readonly class GetAllConnectedAppScopeMessagesAction
         private SecurityFacade $security,
         private FindOneConnectedAppByConnectionCodeQueryInterface $findOneConnectedAppByConnectionCodeQuery,
         private ScopeMapperRegistry $scopeMapperRegistry,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, string $connectionCode): Response
     {

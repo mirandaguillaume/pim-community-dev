@@ -17,13 +17,12 @@ final readonly class GetActivatedLocalesController
 {
     public function __construct(
         private FindLocales $findLocales,
-    ) {
-    }
+    ) {}
 
     public function __invoke(): JsonResponse
     {
         $locales = $this->findLocales->findAllActivated();
-        $localeCodes = array_map(fn (Locale $locale) => $locale->getCode(), $locales);
+        $localeCodes = array_map(fn(Locale $locale) => $locale->getCode(), $locales);
 
         return new JsonResponse($localeCodes, Response::HTTP_OK);
     }

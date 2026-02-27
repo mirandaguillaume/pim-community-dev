@@ -40,8 +40,7 @@ class ComputeFamilyVariantStructureChangesSubscriber implements EventSubscriberI
         private readonly Connection $connection,
         private readonly LoggerInterface $logger,
         private readonly string $jobName
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -101,10 +100,10 @@ class ComputeFamilyVariantStructureChangesSubscriber implements EventSubscriberI
 
         $jobInstance = $this->jobInstanceRepository->findOneByIdentifier($this->jobName);
         $familyVariantCodesToCompute = \array_values(\array_map(
-            static fn (FamilyVariantInterface $familyVariant): string => $familyVariant->getCode(),
+            static fn(FamilyVariantInterface $familyVariant): string => $familyVariant->getCode(),
             \array_filter(
                 $familyVariants,
-                fn (FamilyVariantInterface $familyVariant): bool
+                fn(FamilyVariantInterface $familyVariant): bool
                     => !($this->isFamilyVariantNew[$familyVariant->getCode()] ?? false)
                     && ($this->variantAttributeSetOfFamilyVariantIsUpdated($familyVariant))
                     && $this->noOtherJobExecutionIsPending($jobInstance->getId(), $familyVariant->getCode())

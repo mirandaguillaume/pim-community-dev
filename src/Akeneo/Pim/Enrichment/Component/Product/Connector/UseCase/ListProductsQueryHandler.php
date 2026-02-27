@@ -30,9 +30,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 final readonly class ListProductsQueryHandler
 {
-    public function __construct(private IdentifiableObjectRepositoryInterface $channelRepository, private ApplyProductSearchQueryParametersToPQB $applyProductSearchQueryParametersToPQB, private ProductQueryBuilderFactoryInterface $fromSizePqbFactory, private ProductQueryBuilderFactoryInterface $searchAfterPqbFactory, private GetConnectorProducts $getConnectorProductsQuery, private GetConnectorProducts $getConnectorProductsQuerywithOptions, private EventDispatcherInterface $eventDispatcher, private GetProductsWithQualityScoresInterface $getProductsWithQualityScores, private GetProductsWithCompletenessesInterface $getProductsWithCompletenesses)
-    {
-    }
+    public function __construct(private IdentifiableObjectRepositoryInterface $channelRepository, private ApplyProductSearchQueryParametersToPQB $applyProductSearchQueryParametersToPQB, private ProductQueryBuilderFactoryInterface $fromSizePqbFactory, private ProductQueryBuilderFactoryInterface $searchAfterPqbFactory, private GetConnectorProducts $getConnectorProductsQuery, private GetConnectorProducts $getConnectorProductsQuerywithOptions, private EventDispatcherInterface $eventDispatcher, private GetProductsWithQualityScoresInterface $getProductsWithQualityScores, private GetProductsWithCompletenessesInterface $getProductsWithCompletenesses) {}
 
     public function handle(ListProductsQuery $query): ConnectorProductList
     {

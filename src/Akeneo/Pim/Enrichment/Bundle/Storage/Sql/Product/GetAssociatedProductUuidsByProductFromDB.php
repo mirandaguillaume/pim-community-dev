@@ -9,9 +9,7 @@ use Ramsey\Uuid\UuidInterface;
 
 final readonly class GetAssociatedProductUuidsByProductFromDB implements GetAssociatedProductUuidsByProduct
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     /**
      * {@inheritdoc}

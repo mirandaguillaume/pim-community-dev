@@ -22,8 +22,7 @@ class UpdateAttributeController
     public function __construct(
         private readonly SecurityFacade $securityFacade,
         private readonly CommandBus $commandBus,
-    ) {
-    }
+    ) {}
 
     /**
      * @param string $attributeUuid We don't use the $templateUuid in the code, but we keep it for interface convention. It maintains explicit link between the attribute UUID with its template.

@@ -23,8 +23,7 @@ final readonly class GetCustomAppSecretAction
     public function __construct(
         private GetCustomAppQueryInterface $getCustomAppQuery,
         private GetCustomAppSecretQueryInterface $getCustomAppSecretQuery,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, string $customAppId): Response
     {

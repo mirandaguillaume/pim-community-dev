@@ -49,8 +49,7 @@ class GroupController
         protected GroupFactory $groupFactory,
         protected NormalizerInterface $constraintViolationNormalizer,
         protected GroupProductsHandler $groupProductsHandler
-    ) {
-    }
+    ) {}
 
     public function searchAction(Request $request): JsonResponse
     {

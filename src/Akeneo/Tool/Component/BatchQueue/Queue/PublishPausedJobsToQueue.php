@@ -17,8 +17,7 @@ final readonly class PublishPausedJobsToQueue
         private JobExecutionQueueInterface $jobExecutionQueue,
         private GetPausedJobExecutionIdsInterface $getPausedJobExecutionIds,
         private LoggerInterface $logger,
-    ) {
-    }
+    ) {}
 
     public function publish(): void
     {

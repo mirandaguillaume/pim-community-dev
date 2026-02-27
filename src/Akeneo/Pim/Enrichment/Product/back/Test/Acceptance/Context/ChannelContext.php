@@ -26,8 +26,7 @@ final readonly class ChannelContext implements Context
         private InMemoryCategoryRepository $categoryRepository,
         private InMemoryChannelRepository $channelRepository,
         private InMemoryCurrencyRepository $currencyRepository
-    ) {
-    }
+    ) {}
 
     /**
      * @Given the following :channelCode channel with locales :localeCodes

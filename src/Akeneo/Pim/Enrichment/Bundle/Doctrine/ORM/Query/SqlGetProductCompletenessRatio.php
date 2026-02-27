@@ -16,8 +16,7 @@ class SqlGetProductCompletenessRatio implements GetProductCompletenessRatio
 {
     public function __construct(
         private readonly GetProductCompletenesses $getProductCompletenesses
-    ) {
-    }
+    ) {}
 
     public function forChannelCodeAndLocaleCode(UuidInterface $productUuid, string $channelCode, string $localeCode): ?int
     {

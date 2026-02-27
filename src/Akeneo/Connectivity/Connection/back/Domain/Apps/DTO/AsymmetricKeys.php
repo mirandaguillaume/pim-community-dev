@@ -13,9 +13,7 @@ class AsymmetricKeys
     final public const PUBLIC_KEY = 'public_key';
     final public const PRIVATE_KEY = 'private_key';
 
-    private function __construct(private readonly string $publicKey, private readonly string $privateKey)
-    {
-    }
+    private function __construct(private readonly string $publicKey, private readonly string $privateKey) {}
 
     public static function create(string $publicKey, string $privateKey): self
     {

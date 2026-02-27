@@ -21,8 +21,7 @@ final readonly class StepExecutionTracking
         private int $processedItems,
         private bool $isTrackable,
         private Status $status,
-    ) {
-    }
+    ) {}
 
     public function getId(): int
     {

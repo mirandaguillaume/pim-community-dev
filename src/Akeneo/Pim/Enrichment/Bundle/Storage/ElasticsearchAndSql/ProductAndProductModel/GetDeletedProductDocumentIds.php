@@ -24,8 +24,7 @@ final readonly class GetDeletedProductDocumentIds
     public function __construct(
         private Client $client,
         private GetProductUuids $getProductUuids,
-    ) {
-    }
+    ) {}
 
     /**
      * @return iterable<string>
@@ -94,12 +93,12 @@ final readonly class GetDeletedProductDocumentIds
 
         $uuids = \array_filter(
             \array_values($productDocumentIds),
-            static fn (string $uuid): bool => Uuid::isValid($uuid),
+            static fn(string $uuid): bool => Uuid::isValid($uuid),
         );
 
         $existingUuids = \array_keys(
             $this->getProductUuids->fromUuids(
-                \array_map(static fn (string $uuid): UuidInterface => Uuid::fromString($uuid), $uuids)
+                \array_map(static fn(string $uuid): UuidInterface => Uuid::fromString($uuid), $uuids)
             )
         );
 

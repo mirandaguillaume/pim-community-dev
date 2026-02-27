@@ -479,7 +479,7 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
             ),
         ];
 
-        $response = $this->request(array_map(static fn (MeasurementFamily $measurementFamily) => $measurementFamily->normalizeWithIndexedUnits(), $measurementFamilies));
+        $response = $this->request(array_map(static fn(MeasurementFamily $measurementFamily) => $measurementFamily->normalizeWithIndexedUnits(), $measurementFamilies));
 
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
         $this->assertSame([

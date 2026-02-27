@@ -21,8 +21,7 @@ final readonly class DeleteCategoryImageFileSql implements DeleteCategoryImageFi
         private Connection $connection,
         private FilesystemProvider $filesystemProvider,
         private PreviewGeneratorInterface $previewGenerator,
-    ) {
-    }
+    ) {}
 
     public function __invoke(string $filePath): void
     {

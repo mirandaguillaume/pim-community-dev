@@ -13,8 +13,7 @@ final readonly class SwitchMainIdentifierHandler
 {
     public function __construct(
         private Connection $connection
-    ) {
-    }
+    ) {}
 
     public function __invoke(SwitchMainIdentifierCommand $command): void
     {

@@ -11,9 +11,7 @@ class FixArrayToStringListener implements EventSubscriberInterface
     /**
      * @param string $delimiter
      */
-    public function __construct(private $delimiter)
-    {
-    }
+    public function __construct(private $delimiter) {}
 
     public function preBind(FormEvent $event)
     {

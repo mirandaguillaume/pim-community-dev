@@ -32,8 +32,7 @@ class ProductProcessor implements ItemProcessorInterface, StepExecutionAwareInte
         protected FillMissingValuesInterface $fillMissingProductModelValues,
         private readonly GetAttributes $getAttributes,
         private readonly GetNormalizedQualityScoresInterface $getNormalizedQualityScores
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

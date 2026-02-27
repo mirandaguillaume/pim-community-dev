@@ -16,9 +16,7 @@ use Ramsey\Uuid\UuidInterface;
  */
 class SqlGetProductUuids implements GetProductUuids
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function fromIdentifier(string $identifier): ?UuidInterface
     {
@@ -74,10 +72,10 @@ class SqlGetProductUuids implements GetProductUuids
         return \array_reduce(
             $this->connection->fetchFirstColumn(
                 'SELECT BIN_TO_UUID(uuid) FROM pim_catalog_product WHERE uuid IN (:uuids)',
-                ['uuids' => \array_map(static fn (UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],
+                ['uuids' => \array_map(static fn(UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],
                 ['uuids' => ArrayParameterType::STRING],
             ),
-            static fn (array $carry, string $uuid): array => $carry + [$uuid => Uuid::fromString($uuid)],
+            static fn(array $carry, string $uuid): array => $carry + [$uuid => Uuid::fromString($uuid)],
             []
         );
     }

@@ -14,9 +14,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  */
 class ConnectedPimUserProvider implements ConnectedPimUserProviderInterface
 {
-    public function __construct(private readonly TokenStorageInterface $tokenStorage)
-    {
-    }
+    public function __construct(private readonly TokenStorageInterface $tokenStorage) {}
 
     public function getCurrentUserId(): int
     {

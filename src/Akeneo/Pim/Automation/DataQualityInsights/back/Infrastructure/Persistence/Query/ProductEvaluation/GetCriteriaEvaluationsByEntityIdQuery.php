@@ -21,9 +21,7 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetCriteriaEvaluationsByEntityIdQuery implements GetCriteriaEvaluationsByEntityIdQueryInterface
 {
-    public function __construct(private Connection                            $db, private Clock                                 $clock, private TransformCriterionEvaluationResultIds $transformCriterionEvaluationResultIds, private string                                $tableName)
-    {
-    }
+    public function __construct(private Connection                            $db, private Clock                                 $clock, private TransformCriterionEvaluationResultIds $transformCriterionEvaluationResultIds, private string                                $tableName) {}
 
     public function execute(ProductEntityIdInterface $entityId): Read\CriterionEvaluationCollection
     {

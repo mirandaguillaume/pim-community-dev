@@ -22,8 +22,7 @@ class AttributeSearchableRepository implements SearchableRepositoryInterface
     public function __construct(
         protected EntityManagerInterface $entityManager,
         protected string $entityName,
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

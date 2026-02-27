@@ -15,9 +15,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class WebhookUserAuthenticator
 {
-    public function __construct(private readonly UserRepositoryInterface $userRepository, private readonly TokenStorageInterface $tokenStorage)
-    {
-    }
+    public function __construct(private readonly UserRepositoryInterface $userRepository, private readonly TokenStorageInterface $tokenStorage) {}
 
     public function authenticate(int $userId): UserInterface
     {

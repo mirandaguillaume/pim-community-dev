@@ -17,9 +17,7 @@ class GetAllExtensionsQuery implements GetAllExtensionsQueryInterface
 {
     private const MAX_REQUESTS = 10;
 
-    public function __construct(private readonly WebMarketplaceApiInterface $webMarketplaceApi, private readonly int $pagination)
-    {
-    }
+    public function __construct(private readonly WebMarketplaceApiInterface $webMarketplaceApi, private readonly int $pagination) {}
 
     public function execute(): GetAllExtensionsResult
     {

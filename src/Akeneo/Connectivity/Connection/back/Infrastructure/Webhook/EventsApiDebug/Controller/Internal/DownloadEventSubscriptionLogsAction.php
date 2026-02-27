@@ -21,8 +21,7 @@ final readonly class DownloadEventSubscriptionLogsAction
     public function __construct(
         private GetAllEventSubscriptionDebugLogsQueryInterface $getAllEventSubscriptionDebugLogsQuery,
         private SecurityFacade $securityFacade,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): Response
     {

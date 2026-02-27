@@ -22,8 +22,7 @@ class CurrencyController
         private readonly SaverInterface $currencySaver,
         private readonly SecurityFacadeInterface $securityFacade,
         private readonly CurrencyRepositoryInterface $currencyRepository,
-    ) {
-    }
+    ) {}
 
     /**
      * Activate/Deactivate a currency

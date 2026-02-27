@@ -23,8 +23,7 @@ class ConsolidateProductModelScores
         private readonly ProductModelScoreRepositoryInterface           $productModelScoreRepository,
         private readonly Clock                                          $clock,
         private readonly FilterPartialCriteriaEvaluations               $filterPartialCriteriaEvaluations,
-    ) {
-    }
+    ) {}
 
     public function consolidate(ProductEntityIdCollection $productModelIdCollection): void
     {

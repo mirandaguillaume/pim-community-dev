@@ -14,9 +14,7 @@ use Akeneo\Connectivity\Connection\Domain\Audit\Persistence\SelectPeriodEventCou
  */
 class GetPeriodEventCountPerConnectionHandler
 {
-    public function __construct(private readonly SelectPeriodEventCountPerConnectionQueryInterface $selectPeriodEventCountPerConnectionQuery)
-    {
-    }
+    public function __construct(private readonly SelectPeriodEventCountPerConnectionQueryInterface $selectPeriodEventCountPerConnectionQuery) {}
 
     /**
      * @return PeriodEventCount[]

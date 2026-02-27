@@ -19,8 +19,7 @@ class DeleteConnectionHandler
         private readonly ConnectionRepositoryInterface $repository,
         private readonly DeleteClientInterface $deleteClient,
         private readonly DeleteUserInterface $deleteUser
-    ) {
-    }
+    ) {}
 
     public function handle(DeleteConnectionCommand $command): void
     {

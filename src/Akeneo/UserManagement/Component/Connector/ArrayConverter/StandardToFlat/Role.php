@@ -16,9 +16,7 @@ final readonly class Role implements ArrayConverterInterface
 {
     private const FIELDS_PRESENCE = ['role', 'label'];
 
-    public function __construct(private FieldsRequirementChecker $fieldsRequirementChecker)
-    {
-    }
+    public function __construct(private FieldsRequirementChecker $fieldsRequirementChecker) {}
 
     /**
      * {@inheritdoc}
@@ -70,7 +68,7 @@ final readonly class Role implements ArrayConverterInterface
         foreach ($item as $property => $data) {
             $convertedItem[$property] = match ($property) {
                 'permissions' => implode(',', array_map(
-                    fn (array $privilege) => $privilege['id'],
+                    fn(array $privilege) => $privilege['id'],
                     $data
                 )),
                 default => (string) $data,

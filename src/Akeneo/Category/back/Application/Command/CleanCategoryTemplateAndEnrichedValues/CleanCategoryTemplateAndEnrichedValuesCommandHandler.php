@@ -23,8 +23,7 @@ class CleanCategoryTemplateAndEnrichedValuesCommandHandler
         private readonly CategoryAttributeValuesCleaner $categoryDataCleaner,
         private readonly GetAttribute $getCategoryTemplateAttributes,
         private readonly DeleteCategoryTreeTemplateByTemplateUuid $deleteCategoryTreeTemplateByTemplateUuid,
-    ) {
-    }
+    ) {}
 
     public function __invoke(CleanCategoryTemplateAndEnrichedValuesCommand $command): void
     {

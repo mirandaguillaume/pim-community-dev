@@ -16,9 +16,7 @@ final readonly class UpdateConnectionErrorCountCommand
     /**
      * @param HourlyErrorCount[] $errorCounts
      */
-    public function __construct(private array $errorCounts)
-    {
-    }
+    public function __construct(private array $errorCounts) {}
 
     /**
      * @return HourlyErrorCount[]

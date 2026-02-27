@@ -18,8 +18,7 @@ final readonly class GetProductModelIdsFromProductModelCodesQuery implements Get
     public function __construct(
         private Connection $dbConnection,
         private ProductEntityIdFactoryInterface $idFactory
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

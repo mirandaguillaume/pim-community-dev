@@ -14,9 +14,7 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetAccessTokenQuery implements GetAccessTokenQueryInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function execute(string $appId, string $scopes): ?string
     {

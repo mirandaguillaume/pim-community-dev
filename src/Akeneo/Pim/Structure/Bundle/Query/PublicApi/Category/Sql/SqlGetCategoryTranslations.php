@@ -10,9 +10,7 @@ use Doctrine\DBAL\Connection;
 
 class SqlGetCategoryTranslations implements GetCategoryTranslations
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function byCategoryCodesAndLocale(array $categoryCodes, string $locale): array
     {

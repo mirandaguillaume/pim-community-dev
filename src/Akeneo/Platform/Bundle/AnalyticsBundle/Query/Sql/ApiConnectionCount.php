@@ -15,9 +15,7 @@ use Doctrine\DBAL\Connection;
  */
 class ApiConnectionCount implements ApiConnectionCountQuery
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function fetch(): array
     {

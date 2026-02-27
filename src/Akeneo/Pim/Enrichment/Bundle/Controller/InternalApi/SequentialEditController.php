@@ -29,8 +29,7 @@ class SequentialEditController
         protected GridFilterAdapterInterface $filterAdapter,
         protected ProductQueryBuilderFactoryInterface $pqbFactory,
         protected UserContext $userContext
-    ) {
-    }
+    ) {}
 
     /**
      * Get ids from datagrid request

@@ -16,8 +16,7 @@ final readonly class GetExistingProductModelCodes
 {
     public function __construct(
         private Connection $connection,
-    ) {
-    }
+    ) {}
 
     /**
      * @param string[] $productModelCodes

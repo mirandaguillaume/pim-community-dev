@@ -15,8 +15,7 @@ class GetAttributeGroupsActivationQuery implements GetAttributeGroupsActivationQ
 {
     public function __construct(
         private readonly GetAllAttributeGroupsActivationQueryInterface $getAllAttributeGroupsActivationQuery,
-    ) {
-    }
+    ) {}
 
     public function all(): AttributeGroupsActivation
     {

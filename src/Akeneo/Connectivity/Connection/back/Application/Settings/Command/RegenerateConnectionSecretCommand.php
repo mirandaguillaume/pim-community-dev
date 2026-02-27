@@ -11,9 +11,7 @@ namespace Akeneo\Connectivity\Connection\Application\Settings\Command;
  */
 class RegenerateConnectionSecretCommand
 {
-    public function __construct(private readonly string $code)
-    {
-    }
+    public function __construct(private readonly string $code) {}
 
     public function code(): string
     {

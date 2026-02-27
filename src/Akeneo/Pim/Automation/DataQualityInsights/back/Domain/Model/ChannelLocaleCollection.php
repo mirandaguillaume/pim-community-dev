@@ -26,7 +26,7 @@ final class ChannelLocaleCollection implements \Iterator
     {
         foreach ($localesByChannel as $channel => $locales) {
             $this->channelCodes[$channel] = new ChannelCode($channel);
-            $this->localeCollections[$channel] = new LocaleCollection(array_map(fn ($locale) => new LocaleCode($locale), $locales));
+            $this->localeCollections[$channel] = new LocaleCollection(array_map(fn($locale) => new LocaleCode($locale), $locales));
         }
 
         $this->iterator = new \ArrayIterator($this->localeCollections);

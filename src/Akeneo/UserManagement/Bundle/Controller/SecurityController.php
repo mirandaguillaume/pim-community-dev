@@ -18,8 +18,7 @@ class SecurityController
         private readonly Environment $twig,
         private readonly string $actionRoute,
         private readonly array $additionalHiddenFields
-    ) {
-    }
+    ) {}
 
     public function login(): Response
     {

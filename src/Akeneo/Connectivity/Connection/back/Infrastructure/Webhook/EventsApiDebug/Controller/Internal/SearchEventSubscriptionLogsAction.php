@@ -20,8 +20,7 @@ final readonly class SearchEventSubscriptionLogsAction
     public function __construct(
         private SearchEventSubscriptionDebugLogsQueryInterface $searchEventSubscriptionDebugLogsQuery,
         private SecurityFacade $securityFacade,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): Response
     {

@@ -18,8 +18,7 @@ class DeleteRunningUser
     public function __construct(
         private readonly DeleteUserHandlerInterface $deleteUserHandler,
         private readonly ResolveScheduledJobRunningUsername $resolveScheduledJobRunningUsername,
-    ) {
-    }
+    ) {}
 
     public function execute(string $jobCode): void
     {

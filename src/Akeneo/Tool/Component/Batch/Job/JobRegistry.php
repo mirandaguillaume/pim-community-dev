@@ -16,9 +16,7 @@ class JobRegistry
     /** @var JobInterface[] */
     protected $jobs = [];
 
-    public function __construct(private readonly FeatureFlags $featureFlags)
-    {
-    }
+    public function __construct(private readonly FeatureFlags $featureFlags) {}
 
     /**
      * @param string       $jobType
@@ -84,7 +82,7 @@ class JobRegistry
      */
     public function all()
     {
-        return array_map(static fn (array $job) => $job['job'], $this->getAllEnabledJobs());
+        return array_map(static fn(array $job) => $job['job'], $this->getAllEnabledJobs());
     }
 
     /**
@@ -98,7 +96,7 @@ class JobRegistry
     {
         $jobs = array_filter(
             $this->getAllEnabledJobs(),
-            fn ($job) => $job['type'] === $jobType
+            fn($job) => $job['type'] === $jobType
         );
 
         if (empty($jobs)) {
@@ -107,7 +105,7 @@ class JobRegistry
             );
         }
 
-        return array_map(static fn (array $job) => $job['job'], $jobs);
+        return array_map(static fn(array $job) => $job['job'], $jobs);
     }
 
     /**
@@ -119,7 +117,7 @@ class JobRegistry
      */
     public function allByTypeGroupByConnector($jobType)
     {
-        $jobs = array_filter($this->getAllEnabledJobs(), fn ($job) => $job['type'] === $jobType);
+        $jobs = array_filter($this->getAllEnabledJobs(), fn($job) => $job['type'] === $jobType);
 
         if (empty($jobs)) {
             throw new UndefinedJobException(
@@ -143,14 +141,14 @@ class JobRegistry
      */
     public function getConnectors()
     {
-        return array_unique(array_map(static fn (array $job) => $job['connector'], $this->getAllEnabledJobs()));
+        return array_unique(array_map(static fn(array $job) => $job['connector'], $this->getAllEnabledJobs()));
     }
 
     private function getAllEnabledJobs()
     {
         return array_filter(
             $this->jobs,
-            fn (array $job) => null === $job['feature'] || $this->featureFlags->isEnabled($job['feature'])
+            fn(array $job) => null === $job['feature'] || $this->featureFlags->isEnabled($job['feature'])
         );
     }
 }

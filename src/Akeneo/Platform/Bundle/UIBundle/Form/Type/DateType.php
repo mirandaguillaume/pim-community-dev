@@ -38,7 +38,7 @@ class DateType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $placeholderDefault = fn (Options $options) => $options['required'] ? null : '';
+        $placeholderDefault = fn(Options $options) => $options['required'] ? null : '';
 
         $constraint = new DateFormat();
         $dateFormat = $this->dateFactory->create(['locale' => $this->localeResolver->getCurrentLocale()])->getPattern();

@@ -34,9 +34,7 @@ class ProductModelNormalizer implements NormalizerInterface, CacheableSupportsMe
     /** @var string[] */
     private array $supportedFormat = ['internal_api'];
 
-    public function __construct(private readonly NormalizerInterface $normalizer, private readonly NormalizerInterface $versionNormalizer, private readonly VersionManager $versionManager, private readonly ImageNormalizer $imageNormalizer, private readonly AttributeConverterInterface $localizedConverter, private readonly ConverterInterface $productValueConverter, private readonly FormProviderInterface $formProvider, private readonly LocaleRepositoryInterface $localeRepository, private readonly FillMissingValuesInterface $fillMissingProductModelValues, private readonly EntityWithFamilyVariantAttributesProvider $attributesProvider, private readonly VariantNavigationNormalizer $navigationNormalizer, private readonly VariantProductRatioInterface $variantProductRatioQuery, private readonly ImageAsLabel $imageAsLabel, private readonly AscendantCategoriesInterface $ascendantCategoriesQuery, private readonly UserContext $userContext, private readonly MissingAssociationAdder $missingAssociationAdder, private readonly NormalizerInterface $parentAssociationsNormalizer, private readonly CatalogContext $catalogContext, private readonly MissingRequiredAttributesCalculatorInterface $missingRequiredAttributesCalculator, private readonly MissingRequiredAttributesNormalizerInterface $missingRequiredAttributesNormalizer, private readonly QuantifiedAssociationsNormalizer $quantifiedAssociationsNormalizer)
-    {
-    }
+    public function __construct(private readonly NormalizerInterface $normalizer, private readonly NormalizerInterface $versionNormalizer, private readonly VersionManager $versionManager, private readonly ImageNormalizer $imageNormalizer, private readonly AttributeConverterInterface $localizedConverter, private readonly ConverterInterface $productValueConverter, private readonly FormProviderInterface $formProvider, private readonly LocaleRepositoryInterface $localeRepository, private readonly FillMissingValuesInterface $fillMissingProductModelValues, private readonly EntityWithFamilyVariantAttributesProvider $attributesProvider, private readonly VariantNavigationNormalizer $navigationNormalizer, private readonly VariantProductRatioInterface $variantProductRatioQuery, private readonly ImageAsLabel $imageAsLabel, private readonly AscendantCategoriesInterface $ascendantCategoriesQuery, private readonly UserContext $userContext, private readonly MissingAssociationAdder $missingAssociationAdder, private readonly NormalizerInterface $parentAssociationsNormalizer, private readonly CatalogContext $catalogContext, private readonly MissingRequiredAttributesCalculatorInterface $missingRequiredAttributesCalculator, private readonly MissingRequiredAttributesNormalizerInterface $missingRequiredAttributesNormalizer, private readonly QuantifiedAssociationsNormalizer $quantifiedAssociationsNormalizer) {}
 
     /**
      * {@inheritdoc}
@@ -158,7 +156,7 @@ class ProductModelNormalizer implements NormalizerInterface, CacheableSupportsMe
         foreach ($associations as $association) {
             $associationType = $association->getAssociationType();
             $meta[$associationType->getCode()]['groupIds'] = array_map(
-                fn ($group) => $group->getId(),
+                fn($group) => $group->getId(),
                 $association->getGroups()->toArray()
             );
         }
@@ -179,9 +177,9 @@ class ProductModelNormalizer implements NormalizerInterface, CacheableSupportsMe
     private function formatQuantifiedAssociations(array $quantifiedAssociations): array
     {
         return array_map(static function (array $quantifiedAssociation) {
-            $quantifiedAssociation['products'] = array_map(static fn (array $productLink) => array_filter(
+            $quantifiedAssociation['products'] = array_map(static fn(array $productLink) => array_filter(
                 $productLink,
-                fn (string $key): bool => in_array($key, ['uuid', 'quantity']),
+                fn(string $key): bool => in_array($key, ['uuid', 'quantity']),
                 ARRAY_FILTER_USE_KEY
             ), $quantifiedAssociation['products']);
 

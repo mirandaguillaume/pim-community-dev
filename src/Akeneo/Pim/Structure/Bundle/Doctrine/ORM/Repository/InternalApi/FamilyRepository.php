@@ -101,7 +101,7 @@ class FamilyRepository extends EntityRepository implements
 
         $qb->setParameters(
             $qb->getParameters()->filter(
-                fn ($parameter) => $parameter->getName() !== 'entityIds'
+                fn($parameter) => $parameter->getName() !== 'entityIds'
             )
         );
 

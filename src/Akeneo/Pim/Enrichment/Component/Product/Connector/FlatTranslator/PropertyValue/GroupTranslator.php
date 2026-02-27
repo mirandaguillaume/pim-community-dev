@@ -9,9 +9,7 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\Group\GetGroupTranslations;
 
 class GroupTranslator implements FlatPropertyValueTranslatorInterface
 {
-    public function __construct(private readonly GetGroupTranslations $getGroupTranslations)
-    {
-    }
+    public function __construct(private readonly GetGroupTranslations $getGroupTranslations) {}
 
     public function supports(string $columnName): bool
     {

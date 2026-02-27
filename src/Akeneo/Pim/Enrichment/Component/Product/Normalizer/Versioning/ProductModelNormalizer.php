@@ -37,9 +37,7 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
     /** @staticvar string */
     private const ITEM_SEPARATOR = ',';
 
-    public function __construct(private readonly QuantifiedAssociationsNormalizer $quantifiedAssociationsNormalizer)
-    {
-    }
+    public function __construct(private readonly QuantifiedAssociationsNormalizer $quantifiedAssociationsNormalizer) {}
 
     /**
      * {@inheritdoc}

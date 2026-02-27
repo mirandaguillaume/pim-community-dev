@@ -17,9 +17,7 @@ class RootBasedAclWrapper implements AclInterface
     /**
      * Constructor
      */
-    public function __construct(private readonly Acl $acl, private readonly Acl $rootAcl)
-    {
-    }
+    public function __construct(private readonly Acl $acl, private readonly Acl $rootAcl) {}
 
     /**
      * {@inheritdoc}

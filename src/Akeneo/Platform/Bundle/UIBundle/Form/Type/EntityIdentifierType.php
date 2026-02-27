@@ -19,9 +19,7 @@ class EntityIdentifierType extends AbstractType
 {
     final public const NAME = 'pim_enrich_entity_identifier';
 
-    public function __construct(protected ManagerRegistry $registry)
-    {
-    }
+    public function __construct(protected ManagerRegistry $registry) {}
 
     /**
      * {@inheritdoc}

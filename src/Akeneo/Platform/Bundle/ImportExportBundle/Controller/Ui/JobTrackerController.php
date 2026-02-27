@@ -35,9 +35,7 @@ use ZipStream\ZipStream;
  */
 class JobTrackerController
 {
-    public function __construct(protected EventDispatcherInterface $eventDispatcher, protected JobExecutionRepository $jobExecutionRepo, protected StepExecutionArchivist $archivist, protected SecurityFacade $securityFacade, protected array $jobSecurityMapping, private readonly SqlUpdateJobExecutionStatus $updateJobExecutionStatus, private readonly JobRegistry $jobRegistry, private readonly LoggerInterface $logger, private readonly FilesystemReader $archivistFilesystem)
-    {
-    }
+    public function __construct(protected EventDispatcherInterface $eventDispatcher, protected JobExecutionRepository $jobExecutionRepo, protected StepExecutionArchivist $archivist, protected SecurityFacade $securityFacade, protected array $jobSecurityMapping, private readonly SqlUpdateJobExecutionStatus $updateJobExecutionStatus, private readonly JobRegistry $jobRegistry, private readonly LoggerInterface $logger, private readonly FilesystemReader $archivistFilesystem) {}
 
     /**
      * Download an archived file.

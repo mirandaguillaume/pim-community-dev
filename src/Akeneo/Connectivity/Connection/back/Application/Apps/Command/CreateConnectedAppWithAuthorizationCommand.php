@@ -10,9 +10,7 @@ namespace Akeneo\Connectivity\Connection\Application\Apps\Command;
  */
 final readonly class CreateConnectedAppWithAuthorizationCommand
 {
-    public function __construct(private string $clientId)
-    {
-    }
+    public function __construct(private string $clientId) {}
 
     public function getClientId(): string
     {

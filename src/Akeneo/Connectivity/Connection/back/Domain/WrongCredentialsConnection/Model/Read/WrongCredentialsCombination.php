@@ -14,9 +14,7 @@ class WrongCredentialsCombination
     /** @var array<string, \DateTime> */
     private array $users = [];
 
-    public function __construct(private readonly string $connectionCode)
-    {
-    }
+    public function __construct(private readonly string $connectionCode) {}
 
     /**
      * @return array<string, \DateTime>

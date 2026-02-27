@@ -19,8 +19,7 @@ final readonly class LocaleContext implements Context
     public function __construct(
         private InMemoryLocaleRepository $localeRepository,
         private InMemoryIsLocaleEditable $isLocaleEditable
-    ) {
-    }
+    ) {}
 
     /**
      * @Given the following locales :localeCodes

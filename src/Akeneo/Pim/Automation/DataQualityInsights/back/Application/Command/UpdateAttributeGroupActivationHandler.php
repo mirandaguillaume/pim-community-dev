@@ -24,8 +24,7 @@ final readonly class UpdateAttributeGroupActivationHandler
         private MessageBusInterface $messageBus,
         private Clock $clock,
         private FeatureFlag $dqiUcsEventFeatureFlag,
-    ) {
-    }
+    ) {}
 
     public function __invoke(UpdateAttributeGroupActivationCommand $command): void
     {

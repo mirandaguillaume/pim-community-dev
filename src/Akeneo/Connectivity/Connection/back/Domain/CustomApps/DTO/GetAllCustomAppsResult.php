@@ -45,7 +45,7 @@ final readonly class GetAllCustomAppsResult
     {
         return self::create(
             $this->total,
-            \array_map(fn (App $app): \Akeneo\Connectivity\Connection\Domain\Marketplace\Model\App => $app->withPimUrlSource($queryParameters), $this->apps),
+            \array_map(fn(App $app): \Akeneo\Connectivity\Connection\Domain\Marketplace\Model\App => $app->withPimUrlSource($queryParameters), $this->apps),
         );
     }
 

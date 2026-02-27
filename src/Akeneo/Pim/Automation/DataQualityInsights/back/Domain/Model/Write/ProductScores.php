@@ -20,8 +20,7 @@ final readonly class ProductScores
         private \DateTimeImmutable $evaluatedAt,
         private ChannelLocaleRateCollection $scores,
         private ChannelLocaleRateCollection $scoresPartialCriteria,
-    ) {
-    }
+    ) {}
 
     public function getEntityId(): ProductEntityIdInterface
     {

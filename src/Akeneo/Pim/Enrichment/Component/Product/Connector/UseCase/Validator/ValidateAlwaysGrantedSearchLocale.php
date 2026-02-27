@@ -16,7 +16,5 @@ final class ValidateAlwaysGrantedSearchLocale implements ValidateGrantedSearchLo
     /**
      * {@inheritdoc}
      */
-    public function validate(array $search, ?string $searchLocaleCode): void
-    {
-    }
+    public function validate(array $search, ?string $searchLocaleCode): void {}
 }

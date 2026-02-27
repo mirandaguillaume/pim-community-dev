@@ -6,9 +6,9 @@ use Akeneo\Pim\Structure\Component\AttributeTypes;
 use Akeneo\Tool\Component\Localization\Model\TranslationInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * A variant in a family defines the structure for the products with variants:
@@ -177,12 +177,12 @@ class FamilyVariant implements FamilyVariantInterface
             $formerAxeIds = [];
         } else {
             $formerAxeIds = $attributeSet->getAxes()->map(
-                static fn (AttributeInterface $attribute): int => $attribute->getId() ?? 0
+                static fn(AttributeInterface $attribute): int => $attribute->getId() ?? 0
             )->toArray();
         }
 
         $newAxeIds = \array_map(
-            static fn (AttributeInterface $attribute): int => $attribute->getId() ?? 0,
+            static fn(AttributeInterface $attribute): int => $attribute->getId() ?? 0,
             $axes
         );
         sort($formerAxeIds);
@@ -207,12 +207,12 @@ class FamilyVariant implements FamilyVariantInterface
             $formerAttributeIds = [];
         } else {
             $formerAttributeIds = $attributeSet->getAttributes()->map(
-                static fn (AttributeInterface $attribute): int => $attribute->getId() ?? 0
+                static fn(AttributeInterface $attribute): int => $attribute->getId() ?? 0
             )->toArray();
         }
 
         $newAttributeIds = \array_map(
-            static fn (AttributeInterface $attribute): int => $attribute->getId() ?? 0,
+            static fn(AttributeInterface $attribute): int => $attribute->getId() ?? 0,
             $attributes
         );
         sort($formerAttributeIds);

@@ -18,8 +18,7 @@ class DeleteExpiredTokensHandler
         private readonly DeleteExpiredAccessTokenQuery $deleteExpiredAccessTokenQuery,
         private readonly DeleteExpiredRefreshTokenQuery $deleteExpiredRefreshTokenQuery,
         private readonly LoggerInterface $logger,
-    ) {
-    }
+    ) {}
 
     public function handle(): void
     {

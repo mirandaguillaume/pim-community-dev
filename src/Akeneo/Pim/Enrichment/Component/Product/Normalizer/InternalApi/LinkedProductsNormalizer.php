@@ -14,14 +14,12 @@ use Akeneo\Pim\Enrichment\Component\Product\Normalizer\InternalApi\ImageNormaliz
  */
 class LinkedProductsNormalizer
 {
-    public function __construct(private readonly ImageNormalizer $imageNormalizer)
-    {
-    }
+    public function __construct(private readonly ImageNormalizer $imageNormalizer) {}
 
     public function normalize(Rows $rows, string $channelCode, string $localeCode): array
     {
         return array_map(
-            fn (Row $row) => [
+            fn(Row $row) => [
                 'id'                             => $row->technicalId(),
                 'identifier'                     => $row->identifier(),
                 'label'                          => $row->label(),

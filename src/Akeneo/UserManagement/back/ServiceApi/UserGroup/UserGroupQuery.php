@@ -8,8 +8,7 @@ class UserGroupQuery
         private readonly ?string $searchName = null,
         private readonly ?int $searchAfterId = null,
         private readonly ?int $limit = null,
-    ) {
-    }
+    ) {}
 
     public function getSearchName(): ?string
     {

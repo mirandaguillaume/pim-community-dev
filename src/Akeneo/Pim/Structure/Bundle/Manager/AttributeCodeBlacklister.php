@@ -9,9 +9,7 @@ use Doctrine\DBAL\Connection;
 
 final readonly class AttributeCodeBlacklister
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function blacklist(array $attributeCodes): void
     {

@@ -16,8 +16,7 @@ class FindCurrentAppId implements FindCurrentAppIdInterface
 {
     public function __construct(
         private readonly TokenStorageInterface $tokenStorage,
-    ) {
-    }
+    ) {}
 
     /**
      * @inheritdoc

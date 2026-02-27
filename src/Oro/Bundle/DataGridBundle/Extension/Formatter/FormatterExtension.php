@@ -15,9 +15,7 @@ class FormatterExtension extends AbstractExtension
     /** @var PropertyInterface[] */
     protected $properties = [];
 
-    public function __construct(protected TranslatorInterface $translator)
-    {
-    }
+    public function __construct(protected TranslatorInterface $translator) {}
 
     /**
      * {@inheritDoc}

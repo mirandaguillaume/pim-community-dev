@@ -16,9 +16,7 @@ use Webmozart\Assert\Assert;
  */
 final readonly class DeleteJobExecution
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function olderThanDays(int $days, array $jobInstanceCodes, ?BatchStatus $status): int
     {

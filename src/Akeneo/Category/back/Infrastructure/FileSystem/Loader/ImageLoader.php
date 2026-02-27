@@ -21,8 +21,7 @@ class ImageLoader implements LoaderInterface
     public function __construct(
         protected MimeTypesInterface $extensionGuesser,
         protected FilesystemReader $filesystem,
-    ) {
-    }
+    ) {}
 
     public function find($path)
     {

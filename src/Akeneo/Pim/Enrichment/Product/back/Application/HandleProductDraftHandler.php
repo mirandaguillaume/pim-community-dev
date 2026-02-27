@@ -24,8 +24,7 @@ final readonly class HandleProductDraftHandler
         private ValidatorInterface $validator,
         private ObjectUpdaterInterface $productUpdater,
         private SaverInterface $productSaver,
-    ) {
-    }
+    ) {}
 
     /**
      * @throws ViolationsException

@@ -19,9 +19,7 @@ class FileInfoType extends AbstractType
     /**
      * @param string $dataClass
      */
-    public function __construct(protected $dataClass)
-    {
-    }
+    public function __construct(protected $dataClass) {}
 
     /**
      * {@inheritdoc}

@@ -18,8 +18,7 @@ final readonly class ProductWasCompletedOnChannelLocale
         private string $channelCode,
         private string $localeCode,
         private ?string $authorId
-    ) {
-    }
+    ) {}
 
     public function productUuid(): ProductUuid
     {

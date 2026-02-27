@@ -18,8 +18,7 @@ class DeleteExpiredTokens implements TaskletInterface
 
     public function __construct(
         private readonly DeleteExpiredTokensHandler $deleteExpiredTokensHandler,
-    ) {
-    }
+    ) {}
 
     public function setStepExecution(StepExecution $stepExecution)
     {

@@ -28,8 +28,7 @@ class CurrencyController
         private readonly PaginatorInterface $paginator,
         private readonly array $apiConfiguration,
         private readonly SecurityFacadeInterface $securityFacade,
-    ) {
-    }
+    ) {}
 
     public function getAction(Request $request, string $code): JsonResponse
     {

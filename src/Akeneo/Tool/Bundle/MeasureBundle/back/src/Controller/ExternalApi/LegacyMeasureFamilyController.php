@@ -21,9 +21,7 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
  */
 class LegacyMeasureFamilyController
 {
-    public function __construct(protected ArrayConverterInterface $measureFamilyConverter, protected ParameterValidatorInterface $parameterValidator, protected PaginatorInterface $paginator, private readonly LegacyMeasurementProvider $legacyMeasurementProvider, protected array $apiConfiguration)
-    {
-    }
+    public function __construct(protected ArrayConverterInterface $measureFamilyConverter, protected ParameterValidatorInterface $parameterValidator, protected PaginatorInterface $paginator, private readonly LegacyMeasurementProvider $legacyMeasurementProvider, protected array $apiConfiguration) {}
 
     /**
      * @param string  $code

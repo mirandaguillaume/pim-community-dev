@@ -14,9 +14,7 @@ use Doctrine\DBAL\Connection as DbalConnection;
  */
 class DbalSaveWebhookSecretQuery implements SaveWebhookSecretQueryInterface
 {
-    public function __construct(private readonly DbalConnection $dbalConnection)
-    {
-    }
+    public function __construct(private readonly DbalConnection $dbalConnection) {}
 
     public function execute(string $code, string $secret): bool
     {

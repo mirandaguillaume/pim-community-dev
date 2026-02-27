@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Akeneo\Tool\Bundle\BatchQueueBundle\Command;
 
 use Akeneo\Tool\Component\BatchQueue\Queue\PublishPausedJobsToQueue;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)

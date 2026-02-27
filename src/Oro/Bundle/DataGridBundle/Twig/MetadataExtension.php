@@ -7,9 +7,7 @@ use Twig\TwigFunction;
 
 class MetadataExtension extends \Twig\Extension\AbstractExtension
 {
-    public function __construct(private readonly MetadataParser $metadataParser)
-    {
-    }
+    public function __construct(private readonly MetadataParser $metadataParser) {}
 
     /**
      * {@inheritDoc}

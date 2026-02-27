@@ -14,9 +14,7 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class SqlGetExistingAttributeOptionsWithValues implements GetExistingAttributeOptionsWithValues
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     /**
      * {@inheritDoc}

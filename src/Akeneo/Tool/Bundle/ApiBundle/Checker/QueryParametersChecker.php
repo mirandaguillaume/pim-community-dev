@@ -14,9 +14,7 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
  */
 class QueryParametersChecker implements QueryParametersCheckerInterface
 {
-    public function __construct(private readonly IdentifiableObjectRepositoryInterface $localeRepository, private readonly IdentifiableObjectRepositoryInterface $attributeRepository, private readonly IdentifiableObjectRepositoryInterface $categoryRepository, private readonly array $productFields)
-    {
-    }
+    public function __construct(private readonly IdentifiableObjectRepositoryInterface $localeRepository, private readonly IdentifiableObjectRepositoryInterface $attributeRepository, private readonly IdentifiableObjectRepositoryInterface $categoryRepository, private readonly array $productFields) {}
 
     /**
      * {@inheritdoc}

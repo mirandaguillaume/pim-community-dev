@@ -18,8 +18,7 @@ final readonly class GetExistingProductUuids
 {
     public function __construct(
         private Connection $connection,
-    ) {
-    }
+    ) {}
 
     /**
      * @param string[] $identifiers
@@ -41,6 +40,6 @@ final readonly class GetExistingProductUuids
             ['identifiers' => ArrayParameterType::STRING]
         )->fetchFirstColumn();
 
-        return array_map(static fn (string $uuid): UuidInterface => Uuid::fromBytes($uuid), $uuids);
+        return array_map(static fn(string $uuid): UuidInterface => Uuid::fromBytes($uuid), $uuids);
     }
 }

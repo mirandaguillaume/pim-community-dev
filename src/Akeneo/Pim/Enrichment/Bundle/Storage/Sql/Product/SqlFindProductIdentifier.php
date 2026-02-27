@@ -16,9 +16,7 @@ use Webmozart\Assert\Assert;
  */
 final readonly class SqlFindProductIdentifier implements FindIdentifier
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function fromUuid(string $uuid): ?string
     {

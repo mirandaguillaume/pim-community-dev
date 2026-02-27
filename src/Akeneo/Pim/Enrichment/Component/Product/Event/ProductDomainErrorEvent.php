@@ -13,9 +13,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface;
  */
 final readonly class ProductDomainErrorEvent
 {
-    public function __construct(private DomainErrorInterface $error, private ?\Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface $product)
-    {
-    }
+    public function __construct(private DomainErrorInterface $error, private ?\Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface $product) {}
 
     public function getError(): DomainErrorInterface
     {

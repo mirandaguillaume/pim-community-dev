@@ -26,8 +26,7 @@ class RefreshVersioning implements TaskletInterface
         private readonly VersionManager $versionManager,
         private readonly BulkObjectDetacherInterface $bulkObjectDetacher,
         private readonly EntityManagerInterface $entityManager
-    ) {
-    }
+    ) {}
 
     public function execute(): void
     {

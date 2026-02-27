@@ -9,8 +9,7 @@ final readonly class FamilyWithLabels
     public function __construct(
         private string $code,
         private array $labels,
-    ) {
-    }
+    ) {}
 
     public function getCode(): string
     {

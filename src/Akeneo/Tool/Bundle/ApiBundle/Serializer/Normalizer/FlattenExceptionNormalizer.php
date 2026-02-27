@@ -22,9 +22,7 @@ final class FlattenExceptionNormalizer implements NormalizerInterface
 {
     private NormalizerInterface $normalizer;
 
-    public function __construct(private readonly FosRestNormalizer $fosRestNormalizer)
-    {
-    }
+    public function __construct(private readonly FosRestNormalizer $fosRestNormalizer) {}
 
     /**
      * The normalizer has to be injected via a setter

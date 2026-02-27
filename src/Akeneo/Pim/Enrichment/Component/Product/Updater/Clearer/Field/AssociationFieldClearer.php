@@ -21,9 +21,7 @@ final readonly class AssociationFieldClearer implements ClearerInterface
 {
     private const SUPPORTED_FIELD = 'associations';
 
-    public function __construct(private TwoWayAssociationUpdaterInterface $twoWayAssociationUpdater)
-    {
-    }
+    public function __construct(private TwoWayAssociationUpdaterInterface $twoWayAssociationUpdater) {}
 
     /**
      * {@inheritDoc}

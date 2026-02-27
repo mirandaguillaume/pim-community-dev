@@ -23,7 +23,7 @@ class TranslatedColumnPresenter implements ColumnPresenterInterface
 
     private function findDuplicatedTranslations(array $columns): array
     {
-        $columnTranslations = array_map(fn (string $column) => $this->extractColumnTranslation($column), $columns);
+        $columnTranslations = array_map(fn(string $column) => $this->extractColumnTranslation($column), $columns);
 
         return array_unique(array_diff_assoc($columnTranslations, array_unique($columnTranslations)));
     }

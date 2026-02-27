@@ -26,8 +26,7 @@ class UniqueProductEntityValidator extends ConstraintValidator
         private readonly FindId $findId,
         private readonly UniqueValuesSet $uniqueValuesSet,
         private readonly AttributeRepositoryInterface $attributeRepository
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

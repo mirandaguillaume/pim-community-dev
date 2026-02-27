@@ -35,8 +35,7 @@ class PauseJobOnSigtermSubscriber implements EventSubscriberInterface
         private readonly SqlUpdateJobExecutionStatus $updateJobExecutionStatus,
         private readonly JobRegistry $jobRegistry,
         private readonly array $jobsAllowedToPause,
-    ) {
-    }
+    ) {}
 
     public static function getSubscribedEvents(): array
     {

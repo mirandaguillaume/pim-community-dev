@@ -25,9 +25,7 @@ use Symfony\Contracts\Translation\LocaleAwareInterface;
  */
 class LocaleSubscriber implements EventSubscriberInterface
 {
-    public function __construct(protected RequestStack $requestStack, protected LocaleAwareInterface $localeAware, protected EntityManager $em, protected FirewallMapInterface $firewall)
-    {
-    }
+    public function __construct(protected RequestStack $requestStack, protected LocaleAwareInterface $localeAware, protected EntityManager $em, protected FirewallMapInterface $firewall) {}
 
     public function onPostUpdate(GenericEvent $event)
     {

@@ -4,9 +4,9 @@ namespace Akeneo\Pim\Enrichment\Component\Comment\Model;
 
 use Akeneo\UserManagement\Component\Model\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * Comment model

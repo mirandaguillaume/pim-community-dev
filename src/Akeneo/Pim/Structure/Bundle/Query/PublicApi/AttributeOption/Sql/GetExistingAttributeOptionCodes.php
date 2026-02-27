@@ -14,9 +14,7 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetExistingAttributeOptionCodes implements GetExistingAttributeOptionCodesInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function fromOptionCodesByAttributeCode(array $optionCodesIndexedByAttributeCodes): array
     {

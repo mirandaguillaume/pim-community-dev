@@ -40,8 +40,7 @@ class ComputeFamilyVariantStructureChangesTasklet implements TaskletInterface
         private readonly ValidatorInterface $validator,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly int $batchSize = 100
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

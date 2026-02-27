@@ -19,8 +19,7 @@ class ProductModel extends AbstractSimpleArrayConverter implements ArrayConverte
     public function __construct(
         protected ProductValueConverter $valueConverter,
         private readonly QualityScoreConverter $qualityScoreConverter
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

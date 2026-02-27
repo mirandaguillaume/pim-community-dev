@@ -16,9 +16,7 @@ use Ramsey\Uuid\UuidInterface;
  */
 class GetUuidMappingQuery implements GetUuidMappingQueryInterface
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function fromProductIdentifiers(array $productIdentifiers, array $productUuids): UuidMapping
     {
@@ -41,7 +39,7 @@ class GetUuidMappingQuery implements GetUuidMappingQueryInterface
             WHERE raw_data IN (:product_identifiers) OR uuid IN (:product_uuids)
             SQL;
 
-        $productUuidsAsBytes = \array_map(static fn (UuidInterface $uuid): string => $uuid->getBytes(), $productUuids);
+        $productUuidsAsBytes = \array_map(static fn(UuidInterface $uuid): string => $uuid->getBytes(), $productUuids);
 
         $mapping = $this->connection->executeQuery(
             $query,
@@ -73,7 +71,7 @@ class GetUuidMappingQuery implements GetUuidMappingQueryInterface
             WHERE pim_catalog_product.id IN (:product_ids) OR uuid IN (:product_uuids)
             SQL;
 
-        $productUuidsAsBytes = \array_map(static fn (UuidInterface $uuid): string => $uuid->getBytes(), $productUuids);
+        $productUuidsAsBytes = \array_map(static fn(UuidInterface $uuid): string => $uuid->getBytes(), $productUuids);
 
         $mapping = $this->connection->executeQuery(
             $query,

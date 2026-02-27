@@ -20,8 +20,7 @@ final readonly class AuthorizationRequestNotifier implements AuthorizationReques
     public function __construct(
         private FindAllUsernamesWithAclQueryInterface $findAllUsernamesWithAclQuery,
         private NotifierInterface $notifier,
-    ) {
-    }
+    ) {}
 
     public function notify(ConnectedApp $connectedApp): void
     {

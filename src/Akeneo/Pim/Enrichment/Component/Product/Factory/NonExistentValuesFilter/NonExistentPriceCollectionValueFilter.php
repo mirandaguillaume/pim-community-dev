@@ -15,9 +15,7 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  */
 final readonly class NonExistentPriceCollectionValueFilter implements NonExistentValuesFilter
 {
-    public function __construct(private FindActivatedCurrenciesInterface $findActivatedCurrencies)
-    {
-    }
+    public function __construct(private FindActivatedCurrenciesInterface $findActivatedCurrencies) {}
 
     public function filter(OnGoingFilteredRawValues $onGoingFilteredRawValues): OnGoingFilteredRawValues
     {

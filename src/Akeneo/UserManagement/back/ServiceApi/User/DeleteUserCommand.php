@@ -13,6 +13,5 @@ final class DeleteUserCommand
 {
     public function __construct(
         public string $username,
-    ) {
-    }
+    ) {}
 }

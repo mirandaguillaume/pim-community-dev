@@ -21,9 +21,7 @@ class NumberFilterType extends AbstractType
     public const DATA_INTEGER = 'data_integer';
     public const DATA_DECIMAL = 'data_decimal';
 
-    public function __construct(protected TranslatorInterface $translator)
-    {
-    }
+    public function __construct(protected TranslatorInterface $translator) {}
 
     /**
      * {@inheritDoc}

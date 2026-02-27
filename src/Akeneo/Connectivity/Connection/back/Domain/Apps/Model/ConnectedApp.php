@@ -29,8 +29,7 @@ final readonly class ConnectedApp
         private bool $isCustomApp = false,
         private bool $isPending = false,
         private bool $hasOutdatedScopes = false,
-    ) {
-    }
+    ) {}
 
     public function getId(): string
     {

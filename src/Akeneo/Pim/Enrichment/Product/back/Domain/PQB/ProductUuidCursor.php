@@ -19,9 +19,7 @@ final class ProductUuidCursor implements ProductUuidCursorInterface
     protected ?array $uuids = null;
     protected int $count;
 
-    private function __construct(private readonly ProductUuidQueryFetcher $fetcher)
-    {
-    }
+    private function __construct(private readonly ProductUuidQueryFetcher $fetcher) {}
 
     public static function createFromFetcher(ProductUuidQueryFetcher $fetcher): ProductUuidCursor
     {

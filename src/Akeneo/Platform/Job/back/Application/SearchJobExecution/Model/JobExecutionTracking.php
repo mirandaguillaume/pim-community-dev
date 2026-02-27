@@ -25,7 +25,7 @@ final readonly class JobExecutionTracking
     {
         return [] !== array_filter(
             $this->steps,
-            static fn (StepExecutionTracking $step) => $step->hasError()
+            static fn(StepExecutionTracking $step) => $step->hasError()
         );
     }
 
@@ -33,7 +33,7 @@ final readonly class JobExecutionTracking
     {
         return array_reduce(
             $this->steps,
-            static fn (int $count, StepExecutionTracking $step) => $count + $step->getWarningCount(),
+            static fn(int $count, StepExecutionTracking $step) => $count + $step->getWarningCount(),
             0,
         );
     }
@@ -43,7 +43,7 @@ final readonly class JobExecutionTracking
         return [
             'current_step' => $this->currentStep,
             'total_step' => $this->totalStep,
-            'steps' => array_map(static fn (StepExecutionTracking $step) => $step->normalize(), $this->steps),
+            'steps' => array_map(static fn(StepExecutionTracking $step) => $step->normalize(), $this->steps),
         ];
     }
 }

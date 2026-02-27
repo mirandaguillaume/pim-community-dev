@@ -10,12 +10,12 @@ use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Transfo
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\Uuid;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Webmozart\Assert\Assert;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)
@@ -193,8 +193,8 @@ final class CleanCompletenessEvaluationResultsCommand extends Command
     private function countAttributesByChannelAndLocales(array $attributesList): array
     {
         return array_map(
-            fn ($attributesByLocale) => array_map(
-                fn ($attributes) => is_countable($attributes) ? count($attributes) : 0,
+            fn($attributesByLocale) => array_map(
+                fn($attributes) => is_countable($attributes) ? count($attributes) : 0,
                 $attributesByLocale
             ),
             $attributesList
@@ -207,7 +207,7 @@ final class CleanCompletenessEvaluationResultsCommand extends Command
             return;
         }
 
-        $values = implode(', ', array_map(fn (array $result) => sprintf(
+        $values = implode(', ', array_map(fn(array $result) => sprintf(
             "(UUID_TO_BIN('%s'), '%s', '%s', '%s')",
             $result['product_uuid'],
             $result['criterion_code'],
@@ -231,7 +231,7 @@ final class CleanCompletenessEvaluationResultsCommand extends Command
             return;
         }
 
-        $values = implode(', ', array_map(fn (array $result) => sprintf(
+        $values = implode(', ', array_map(fn(array $result) => sprintf(
             "(%d, '%s', '%s', '%s')",
             $result['product_id'],
             $result['criterion_code'],

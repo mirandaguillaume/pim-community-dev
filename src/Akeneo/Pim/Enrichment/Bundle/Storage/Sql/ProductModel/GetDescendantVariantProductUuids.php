@@ -19,8 +19,7 @@ class GetDescendantVariantProductUuids
 {
     public function __construct(
         private readonly Connection $connection
-    ) {
-    }
+    ) {}
 
     /**
      * @param string[] $productModelCodes
@@ -59,6 +58,6 @@ class GetDescendantVariantProductUuids
             ['codes' => ArrayParameterType::STRING]
         )->fetchFirstColumn();
 
-        return array_map(fn (string $uuid): UuidInterface => Uuid::fromString($uuid), $result);
+        return array_map(fn(string $uuid): UuidInterface => Uuid::fromString($uuid), $result);
     }
 }

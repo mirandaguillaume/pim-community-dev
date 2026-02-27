@@ -11,9 +11,7 @@ use Ramsey\Uuid\Uuid;
 
 class FindNonExistingProductsQuery implements FindNonExistingProductsQueryInterface
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function byProductIdentifiers(array $productIdentifiers): array
     {
@@ -49,7 +47,7 @@ class FindNonExistingProductsQuery implements FindNonExistingProductsQueryInterf
             return [];
         }
 
-        $productUuidsAsBytes = \array_map(fn (string $uuid): string => Uuid::fromString($uuid)->getBytes(), $productUuids);
+        $productUuidsAsBytes = \array_map(fn(string $uuid): string => Uuid::fromString($uuid)->getBytes(), $productUuids);
 
         $query = <<<SQL
                     SELECT BIN_TO_UUID(uuid) FROM pim_catalog_product WHERE uuid IN (:product_uuids)

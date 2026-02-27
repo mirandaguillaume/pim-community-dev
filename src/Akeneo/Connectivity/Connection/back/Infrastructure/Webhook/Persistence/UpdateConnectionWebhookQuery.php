@@ -15,9 +15,7 @@ use Doctrine\DBAL\Types\Types;
  */
 class UpdateConnectionWebhookQuery implements UpdateConnectionWebhookQueryInterface
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function execute(ConnectionWebhook $connectionWebhook): int
     {

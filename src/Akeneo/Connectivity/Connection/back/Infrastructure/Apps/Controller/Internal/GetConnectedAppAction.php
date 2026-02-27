@@ -25,8 +25,7 @@ final readonly class GetConnectedAppAction
         private FeatureFlag $marketplaceActivateFeatureFlag,
         private SecurityFacade $security,
         private FindOneConnectedAppByConnectionCodeQueryInterface $findOneConnectedAppByConnectionCodeQuery,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, string $connectionCode): Response
     {

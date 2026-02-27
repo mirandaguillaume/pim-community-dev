@@ -19,8 +19,7 @@ class AddToGroupsApplier implements UserIntentApplier
 {
     public function __construct(
         private readonly ObjectUpdaterInterface $productUpdater
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritDoc}

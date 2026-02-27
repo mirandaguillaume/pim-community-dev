@@ -14,9 +14,7 @@ use Doctrine\DBAL\Types\Types;
  */
 class DbalUpdateEventsApiRequestCountQuery implements UpdateEventsApiRequestCountQueryInterface
 {
-    public function __construct(private readonly Connection $dbalConnection)
-    {
-    }
+    public function __construct(private readonly Connection $dbalConnection) {}
 
     /**
      * Update the number of Events API requests for the current hour & minute.

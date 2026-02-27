@@ -23,8 +23,7 @@ class UpdateConnectionHandler
         private readonly ValidatorInterface $validator,
         private readonly ConnectionRepositoryInterface $repository,
         private readonly UpdateUserPermissionsInterface $updateUserPermissions
-    ) {
-    }
+    ) {}
 
     public function handle(UpdateConnectionCommand $command): void
     {

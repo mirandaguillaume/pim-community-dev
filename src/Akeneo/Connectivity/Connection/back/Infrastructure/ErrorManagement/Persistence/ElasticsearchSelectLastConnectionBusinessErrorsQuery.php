@@ -15,9 +15,7 @@ use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
  */
 class ElasticsearchSelectLastConnectionBusinessErrorsQuery implements SelectLastConnectionBusinessErrorsQueryInterface
 {
-    public function __construct(private readonly Client $esClient)
-    {
-    }
+    public function __construct(private readonly Client $esClient) {}
 
     public function execute(string $connectionCode, string $endDate = null, int $limit = 100): array
     {

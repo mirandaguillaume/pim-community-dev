@@ -23,8 +23,7 @@ final readonly class RedirectToEditConnectedAppAction
         private RouterInterface $router,
         private SecurityFacade $security,
         private FindOneConnectedAppByIdQueryInterface $findOneConnectedAppByIdQuery,
-    ) {
-    }
+    ) {}
 
     public function __invoke(string $id): Response
     {

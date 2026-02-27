@@ -28,8 +28,7 @@ class RegisterIdentifierFilters
         private readonly UserContext $userContext,
         private readonly RequestParameters $requestParams,
         private readonly RequestStack $requestStack,
-    ) {
-    }
+    ) {}
 
     public function buildBefore(BuildBefore $event): void
     {

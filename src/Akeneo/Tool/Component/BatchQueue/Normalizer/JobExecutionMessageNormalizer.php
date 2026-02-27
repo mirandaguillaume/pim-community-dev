@@ -17,9 +17,7 @@ use Webmozart\Assert\Assert;
  */
 final readonly class JobExecutionMessageNormalizer implements NormalizerInterface, DenormalizerInterface
 {
-    public function __construct(private JobExecutionMessageFactory $jobExecutionMessageFactory)
-    {
-    }
+    public function __construct(private JobExecutionMessageFactory $jobExecutionMessageFactory) {}
 
     public function supportsNormalization($data, $format = null): bool
     {

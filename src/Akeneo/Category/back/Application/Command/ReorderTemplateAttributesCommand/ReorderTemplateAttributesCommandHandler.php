@@ -19,8 +19,7 @@ class ReorderTemplateAttributesCommandHandler
         private readonly GetTemplate $getTemplate,
         private readonly GetAttribute $getAttribute,
         private readonly UpdateCategoryTemplateAttributesOrder $updateCategoryTemplateAttributesOrder,
-    ) {
-    }
+    ) {}
 
     public function __invoke(ReorderTemplateAttributesCommand $command): void
     {

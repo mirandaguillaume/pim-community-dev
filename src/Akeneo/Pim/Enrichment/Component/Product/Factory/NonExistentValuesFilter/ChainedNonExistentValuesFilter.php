@@ -25,8 +25,7 @@ class ChainedNonExistentValuesFilter implements ChainedNonExistentValuesFilterIn
         private readonly NonExistentChannelLocaleValuesFilter $nonExistentChannelLocaleValuesFilter,
         private readonly EmptyValuesCleaner $emptyValuesCleaner,
         private readonly TransformRawValuesCollections $transformRawValuesCollections
-    ) {
-    }
+    ) {}
 
     public function filterAll(array $rawValuesCollection): array
     {

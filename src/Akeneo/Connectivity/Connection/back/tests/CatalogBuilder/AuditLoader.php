@@ -20,8 +20,7 @@ class AuditLoader
     public function __construct(
         private readonly DbalConnection $dbalConnection,
         private readonly BulkInsertEventCountsQueryInterface $bulkInsertEventCountsQuery,
-    ) {
-    }
+    ) {}
 
     public function insert(
         HourlyEventCount $hourlyEventCount,

@@ -21,9 +21,7 @@ class VariantNavigationNormalizer implements NormalizerInterface, CacheableSuppo
     /** @var string[] */
     private array $supportedFormat = ['internal_api'];
 
-    public function __construct(private readonly LocaleRepositoryInterface $localeRepository, private readonly NormalizerInterface $entityWithFamilyVariantNormalizer)
-    {
-    }
+    public function __construct(private readonly LocaleRepositoryInterface $localeRepository, private readonly NormalizerInterface $entityWithFamilyVariantNormalizer) {}
 
     /**
      * {@inheritdoc}

@@ -18,9 +18,7 @@ class Link
      * @param string $rel
      * @param string $url
      */
-    public function __construct(protected $rel, protected $url)
-    {
-    }
+    public function __construct(protected $rel, protected $url) {}
 
     /**
      * @return string

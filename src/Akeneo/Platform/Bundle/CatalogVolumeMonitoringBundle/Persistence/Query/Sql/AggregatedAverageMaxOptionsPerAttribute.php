@@ -19,9 +19,7 @@ class AggregatedAverageMaxOptionsPerAttribute implements AverageMaxQuery
 {
     private const VOLUME_NAME = 'average_max_options_per_attribute';
 
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     /**
      * {@inheritdoc}

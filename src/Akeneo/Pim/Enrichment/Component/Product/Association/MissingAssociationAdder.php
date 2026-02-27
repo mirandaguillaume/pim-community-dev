@@ -18,9 +18,7 @@ use Akeneo\Pim\Structure\Component\Repository\AssociationTypeRepositoryInterface
  */
 class MissingAssociationAdder
 {
-    public function __construct(private readonly AssociationTypeRepositoryInterface $associationTypeRepository, private readonly AssociationClassResolver $associationClassResolver)
-    {
-    }
+    public function __construct(private readonly AssociationTypeRepositoryInterface $associationTypeRepository, private readonly AssociationClassResolver $associationClassResolver) {}
 
     public function addMissingAssociations(EntityWithAssociationsInterface $entity): void
     {

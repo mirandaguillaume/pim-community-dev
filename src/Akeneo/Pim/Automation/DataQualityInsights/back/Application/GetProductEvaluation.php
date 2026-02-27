@@ -45,8 +45,7 @@ class GetProductEvaluation
         private readonly GetLocalesByChannelQueryInterface $getLocalesByChannelQuery,
         private readonly CriteriaByFeatureRegistry $criteriaRegistry,
         private readonly CompleteEvaluationWithImprovableAttributes $completeEvaluationWithImprovableAttributes
-    ) {
-    }
+    ) {}
 
     public function get(ProductEntityIdInterface $productId): array
     {

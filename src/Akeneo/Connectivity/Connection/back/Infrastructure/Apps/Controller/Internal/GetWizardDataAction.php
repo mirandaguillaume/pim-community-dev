@@ -35,8 +35,7 @@ final readonly class GetWizardDataAction
         private ConnectedPimUserProvider $connectedPimUserProvider,
         private GetUserConsentedAuthenticationScopesQueryInterface $getUserConsentedAuthenticationScopesQuery,
         private HasUserConsentForAppQueryInterface $hasUserConsentForAppQuery,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, string $clientId): Response
     {
@@ -119,7 +118,7 @@ final readonly class GetWizardDataAction
     {
         return \array_values(\array_filter(
             $scopes,
-            fn (string $scope): bool => $scope !== AuthenticationScope::SCOPE_OPENID
+            fn(string $scope): bool => $scope !== AuthenticationScope::SCOPE_OPENID
         ));
     }
 }

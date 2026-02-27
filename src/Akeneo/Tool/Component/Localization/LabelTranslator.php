@@ -6,9 +6,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LabelTranslator implements LabelTranslatorInterface
 {
-    public function __construct(private readonly TranslatorInterface $translator)
-    {
-    }
+    public function __construct(private readonly TranslatorInterface $translator) {}
 
     public function translate(string $id, string $locale, string $fallback): string
     {

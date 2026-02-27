@@ -55,7 +55,7 @@ class EntityToIdentifierTransformer implements DataTransformerInterface
                 throw new UnexpectedTypeException($value, 'array');
             }
 
-            $identifiers = array_map(fn ($value) => $this->propertyAccessor->getValue($value, $this->identifierProperty), $value);
+            $identifiers = array_map(fn($value) => $this->propertyAccessor->getValue($value, $this->identifierProperty), $value);
 
             if (null !== $this->delimiter) {
                 $identifiers = implode($this->delimiter, $identifiers);

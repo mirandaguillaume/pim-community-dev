@@ -11,9 +11,7 @@ namespace Akeneo\Connectivity\Connection\Application\Webhook\Command;
  */
 class CheckWebhookReachabilityCommand
 {
-    public function __construct(private readonly string $webhookUrl, private readonly string $secret)
-    {
-    }
+    public function __construct(private readonly string $webhookUrl, private readonly string $secret) {}
 
     public function webhookUrl(): string
     {

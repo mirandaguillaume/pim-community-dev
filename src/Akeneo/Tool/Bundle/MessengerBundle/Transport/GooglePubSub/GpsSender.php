@@ -23,8 +23,7 @@ final readonly class GpsSender implements SenderInterface
         private Topic $topic,
         private SerializerInterface $serializer,
         private OrderingKeySolver $orderingKeySolver
-    ) {
-    }
+    ) {}
 
     public function send(Envelope $envelope): Envelope
     {

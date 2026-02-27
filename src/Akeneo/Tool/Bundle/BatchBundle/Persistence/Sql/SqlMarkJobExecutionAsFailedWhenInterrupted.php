@@ -12,9 +12,7 @@ use Doctrine\DBAL\Connection;
 
 final readonly class SqlMarkJobExecutionAsFailedWhenInterrupted implements MarkJobExecutionAsFailedWhenInterrupted
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function execute(array $jobCodes): int
     {

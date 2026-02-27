@@ -35,8 +35,7 @@ class Reader implements FileReaderInterface, TrackableItemReaderInterface, Initi
         private readonly string $rootLevel,
         private readonly bool $multiple = false,
         private string $codeField = 'code'
-    ) {
-    }
+    ) {}
 
     /**
      * Set the code field

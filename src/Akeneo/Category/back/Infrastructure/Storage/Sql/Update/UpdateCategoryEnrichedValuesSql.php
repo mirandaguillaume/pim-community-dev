@@ -11,8 +11,7 @@ final readonly class UpdateCategoryEnrichedValuesSql implements UpdateCategoryEn
 {
     public function __construct(
         private Connection $connection,
-    ) {
-    }
+    ) {}
 
     /**
      * ex of value for $enrichedValuesByCode.

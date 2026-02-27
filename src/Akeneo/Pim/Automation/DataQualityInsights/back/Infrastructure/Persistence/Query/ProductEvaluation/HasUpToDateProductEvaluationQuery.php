@@ -23,8 +23,7 @@ final readonly class HasUpToDateProductEvaluationQuery implements HasUpToDateEva
     public function __construct(
         private Connection $dbConnection,
         private ProductUuidFactory $idFactory
-    ) {
-    }
+    ) {}
 
     public function forEntityId(ProductEntityIdInterface $productUuid): bool
     {
@@ -72,7 +71,7 @@ final readonly class HasUpToDateProductEvaluationQuery implements HasUpToDateEva
             return null;
         }
 
-        $uuids = array_map(fn ($resultRow) => $resultRow['uuid'], $result);
+        $uuids = array_map(fn($resultRow) => $resultRow['uuid'], $result);
 
         if (empty($uuids)) {
             return null;

@@ -17,9 +17,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class ClearBatchCacheSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly EntityManagerClearerInterface $cacheClearer)
-    {
-    }
+    public function __construct(private readonly EntityManagerClearerInterface $cacheClearer) {}
 
     /**
      * {@inheritdoc}

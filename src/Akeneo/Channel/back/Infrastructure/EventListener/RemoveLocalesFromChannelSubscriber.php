@@ -19,8 +19,7 @@ final class RemoveLocalesFromChannelSubscriber implements EventSubscriberInterfa
     public function __construct(
         private readonly BulkSaverInterface $localeSaver,
         private array $localesToSave = []
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

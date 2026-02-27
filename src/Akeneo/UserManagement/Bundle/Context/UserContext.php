@@ -165,7 +165,7 @@ class UserContext
     public function getUserLocaleCodes(): array
     {
         return array_map(
-            fn ($locale) => $locale->getCode(),
+            fn($locale) => $locale->getCode(),
             $this->getUserLocales()
         );
     }

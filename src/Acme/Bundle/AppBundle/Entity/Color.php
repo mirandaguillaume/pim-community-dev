@@ -4,8 +4,8 @@ namespace Acme\Bundle\AppBundle\Entity;
 
 use Akeneo\Pim\Enrichment\Component\Product\Model\AbstractReferenceData;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ReferenceDataInterface;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * Acme Color entity (used as simple reference data)

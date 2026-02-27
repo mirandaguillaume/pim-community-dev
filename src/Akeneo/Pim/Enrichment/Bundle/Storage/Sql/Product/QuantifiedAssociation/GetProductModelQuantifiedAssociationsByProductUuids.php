@@ -16,8 +16,7 @@ final readonly class GetProductModelQuantifiedAssociationsByProductUuids
         private Connection $connection,
         private GetIdMappingFromProductModelIdsQuery $getIdMappingFromProductModelIdsQuery,
         private FindQuantifiedAssociationTypeCodesInterface $findQuantifiedAssociationTypeCodes
-    ) {
-    }
+    ) {}
 
     /**
      * Executes SQL query to get product model quantified associations from a set of product identifiers.
@@ -56,7 +55,7 @@ final readonly class GetProductModelQuantifiedAssociationsByProductUuids
             ;
             SQL;
 
-        $uuidsAsBytes = array_map(fn (UuidInterface $uuid): string => $uuid->getBytes(), $productUuids);
+        $uuidsAsBytes = array_map(fn(UuidInterface $uuid): string => $uuid->getBytes(), $productUuids);
 
         $rows = $this->connection->executeQuery(
             $query,
@@ -141,7 +140,7 @@ final readonly class GetProductModelQuantifiedAssociationsByProductUuids
     private function productIds(array $quantifiedAssociationWithProductId): array
     {
         return array_map(
-            fn (array $quantifiedAssociations) => $quantifiedAssociations['id'],
+            fn(array $quantifiedAssociations) => $quantifiedAssociations['id'],
             $quantifiedAssociationWithProductId['product_models'] ?? []
         );
     }

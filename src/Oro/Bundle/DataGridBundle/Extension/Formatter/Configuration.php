@@ -21,9 +21,7 @@ class Configuration implements ConfigurationInterface
      * @param string $root
      * @param mixed[] $types
      */
-    public function __construct(protected $types, protected $root)
-    {
-    }
+    public function __construct(protected $types, protected $root) {}
 
     /**
      * {@inheritDoc}

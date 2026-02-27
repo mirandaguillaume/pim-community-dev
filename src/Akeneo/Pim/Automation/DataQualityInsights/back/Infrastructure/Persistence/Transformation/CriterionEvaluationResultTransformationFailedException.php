@@ -8,6 +8,4 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\T
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class CriterionEvaluationResultTransformationFailedException extends \Exception
-{
-}
+final class CriterionEvaluationResultTransformationFailedException extends \Exception {}

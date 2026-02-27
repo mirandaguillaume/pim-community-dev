@@ -49,8 +49,7 @@ class FamilyVariantController
         private readonly RouterInterface $router,
         private readonly StreamResourceResponse $partialUpdateStreamResource,
         private readonly array $apiConfiguration
-    ) {
-    }
+    ) {}
 
     /**
      *

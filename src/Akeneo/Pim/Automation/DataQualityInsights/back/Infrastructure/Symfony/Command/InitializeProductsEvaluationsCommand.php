@@ -8,12 +8,12 @@ use Akeneo\Pim\Automation\DataQualityInsights\Application\ProductEvaluation\Crit
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\CriterionEvaluationStatus;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\Uuid;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
@@ -33,9 +33,7 @@ final class InitializeProductsEvaluationsCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
-    {
-    }
+    protected function configure() {}
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -81,7 +79,7 @@ final class InitializeProductsEvaluationsCommand extends Command
         $progressBar = new ProgressBar($io, $productCount);
         $progressBar->start();
 
-        $criteria = array_map(fn ($criterionCode) => strval($criterionCode), $this->productCriteriaRegistry->getAllCriterionCodes());
+        $criteria = array_map(fn($criterionCode) => strval($criterionCode), $this->productCriteriaRegistry->getAllCriterionCodes());
 
         $lastProductUuidAsBytes = '';
         while ($productUuids = $this->getProductUuidsFrom($lastProductUuidAsBytes)) {
@@ -122,7 +120,7 @@ final class InitializeProductsEvaluationsCommand extends Command
         $progressBar = new ProgressBar($io, $productModelCount);
         $progressBar->start();
 
-        $criteria = array_map(fn ($criterionCode) => strval($criterionCode), $this->productModelCriteriaRegistry->getAllCriterionCodes());
+        $criteria = array_map(fn($criterionCode) => strval($criterionCode), $this->productModelCriteriaRegistry->getAllCriterionCodes());
         $statusPending = CriterionEvaluationStatus::PENDING;
 
         $lastProductModelId = 0;

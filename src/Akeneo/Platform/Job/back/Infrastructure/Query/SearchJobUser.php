@@ -19,8 +19,7 @@ class SearchJobUser implements SearchJobUserInterface
 
     public function __construct(
         private readonly Connection $connection,
-    ) {
-    }
+    ) {}
 
     public function search(SearchJobUserQuery $query): array
     {

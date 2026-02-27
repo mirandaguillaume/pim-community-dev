@@ -18,9 +18,7 @@ final readonly class ValidateSearchLocale
 {
     private const COMPLETENESS_PROPERTY = 'completeness';
 
-    public function __construct(private IdentifiableObjectRepositoryInterface $localeRepository)
-    {
-    }
+    public function __construct(private IdentifiableObjectRepositoryInterface $localeRepository) {}
 
     /**
      * @throws InvalidQueryException

@@ -13,9 +13,7 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class ParentHasBeenRemovedFromVariantProduct extends Event
 {
-    public function __construct(private readonly ProductInterface $product, private readonly string $formerParentProductModelCode)
-    {
-    }
+    public function __construct(private readonly ProductInterface $product, private readonly string $formerParentProductModelCode) {}
 
     public function getProduct(): ProductInterface
     {

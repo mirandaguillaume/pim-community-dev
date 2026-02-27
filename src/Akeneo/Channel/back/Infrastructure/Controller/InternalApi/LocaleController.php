@@ -21,8 +21,7 @@ class LocaleController
         private readonly LocaleRepositoryInterface $localeRepository,
         private readonly NormalizerInterface $normalizer,
         private readonly CollectionFilterInterface $collectionFilter
-    ) {
-    }
+    ) {}
 
     /**
      * Get the list of all locales

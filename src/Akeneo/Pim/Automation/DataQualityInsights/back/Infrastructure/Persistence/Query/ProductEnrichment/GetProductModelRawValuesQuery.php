@@ -19,8 +19,7 @@ class GetProductModelRawValuesQuery implements GetProductRawValuesQueryInterface
     public function __construct(
         /** * @var Connection */
         private readonly Connection $dbConnection
-    ) {
-    }
+    ) {}
 
     public function execute(ProductEntityIdInterface $productModelId): array
     {

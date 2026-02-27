@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Akeneo\Tool\Bundle\BatchBundle\Command;
 
 use Doctrine\DBAL\Connection;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
@@ -29,9 +29,7 @@ class AddMissingJobInstanceRemoveCompletenessChannelLocale extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
-    {
-    }
+    protected function configure() {}
 
     /**
      * {@inheritdoc}

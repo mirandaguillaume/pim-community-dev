@@ -23,9 +23,7 @@ final class RoleNormalizer implements NormalizerInterface, CacheableSupportsMeth
     private array $supportedFormats = ['array', 'standard'];
     private ?array $cacheIndexedAclIds = null;
 
-    public function __construct(private readonly AclManager $aclManager, private readonly NormalizerInterface $aclPrivilegeNormalizer)
-    {
-    }
+    public function __construct(private readonly AclManager $aclManager, private readonly NormalizerInterface $aclPrivilegeNormalizer) {}
 
     /**
      * {@inheritdoc}

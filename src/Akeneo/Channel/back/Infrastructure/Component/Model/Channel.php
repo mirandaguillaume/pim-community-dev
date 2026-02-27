@@ -6,8 +6,8 @@ use Akeneo\Category\Infrastructure\Component\Model\CategoryInterface;
 use Akeneo\Channel\Infrastructure\Component\Event\ChannelCategoryHasBeenUpdated;
 use Akeneo\Tool\Component\Localization\Model\TranslationInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * Channel entity
@@ -296,7 +296,7 @@ class Channel implements ChannelInterface, \Stringable
     public function getLocaleCodes()
     {
         return $this->locales->map(
-            fn ($locale) => $locale->getCode()
+            fn($locale) => $locale->getCode()
         )->toArray();
     }
 

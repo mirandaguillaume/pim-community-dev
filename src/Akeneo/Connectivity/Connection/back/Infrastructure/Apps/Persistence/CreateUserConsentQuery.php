@@ -15,9 +15,7 @@ use Ramsey\Uuid\Uuid;
  */
 final readonly class CreateUserConsentQuery implements CreateUserConsentQueryInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function execute(int $userId, string $appId, array $authenticationScopes, \DateTimeImmutable $consentDate): void
     {

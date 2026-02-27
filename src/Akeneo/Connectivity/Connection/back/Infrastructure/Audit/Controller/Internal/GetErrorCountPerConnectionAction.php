@@ -20,8 +20,7 @@ final class GetErrorCountPerConnectionAction extends AbstractAuditAction
     public function __construct(
         private readonly UserContext $userContext,
         private readonly GetErrorCountPerConnectionHandler $getErrorCountPerConnectionHandler,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): JsonResponse
     {

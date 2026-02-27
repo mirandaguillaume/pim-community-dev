@@ -23,8 +23,7 @@ final readonly class ComputeProductsAndAncestorsSubscriber implements EventSubsc
     public function __construct(
         private ProductAndAncestorsIndexer $productAndAncestorsIndexer,
         private Client $esClient
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -67,7 +66,7 @@ final readonly class ComputeProductsAndAncestorsSubscriber implements EventSubsc
         if (!is_array($products) || !is_array($event->getSubjectId())) {
             return;
         }
-        $products = array_filter($products, fn ($product) => $product instanceof ProductInterface
+        $products = array_filter($products, fn($product) => $product instanceof ProductInterface
             // TODO TIP-987 Remove this when decoupling PublishedProduct from Enrichment
             && $product::class !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct');
 

@@ -22,8 +22,7 @@ final readonly class DeleteConnectionAction
     public function __construct(
         private DeleteConnectionHandler $deleteConnectionHandler,
         private SecurityFacade $securityFacade,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): JsonResponse
     {

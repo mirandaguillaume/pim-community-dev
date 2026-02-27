@@ -27,9 +27,7 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
 {
     use NormalizerAwareTrait;
 
-    public function __construct(private readonly CollectionFilterInterface $filter, private readonly VariantProductRatioInterface $variantProductRatioQuery, private readonly ImageAsLabel $imageAsLabel, private readonly ImageNormalizer $imageNormalizer)
-    {
-    }
+    public function __construct(private readonly CollectionFilterInterface $filter, private readonly VariantProductRatioInterface $variantProductRatioQuery, private readonly ImageAsLabel $imageAsLabel, private readonly ImageNormalizer $imageNormalizer) {}
 
     /**
      * {@inheritdoc}

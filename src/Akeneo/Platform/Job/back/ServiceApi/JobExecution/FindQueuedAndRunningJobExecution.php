@@ -17,8 +17,7 @@ class FindQueuedAndRunningJobExecution implements FindQueuedAndRunningJobExecuti
 
     public function __construct(
         private readonly SearchJobExecutionInterface $searchJobExecution,
-    ) {
-    }
+    ) {}
 
     public function count(int $size = 25): int
     {

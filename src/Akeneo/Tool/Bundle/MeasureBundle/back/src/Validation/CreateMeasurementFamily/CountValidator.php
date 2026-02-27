@@ -13,9 +13,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class CountValidator extends ConstraintValidator
 {
-    public function __construct(private readonly MeasurementFamilyRepositoryInterface $measurementFamilyRepository, private readonly int $max)
-    {
-    }
+    public function __construct(private readonly MeasurementFamilyRepositoryInterface $measurementFamilyRepository, private readonly int $max) {}
 
     /**
      * {@inheritdoc}

@@ -9,8 +9,7 @@ class UserGroup
     public function __construct(
         private readonly int $id,
         private readonly string $label,
-    ) {
-    }
+    ) {}
 
     public function getId(): int
     {

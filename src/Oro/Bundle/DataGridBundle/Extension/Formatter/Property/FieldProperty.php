@@ -7,9 +7,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class FieldProperty extends AbstractProperty
 {
-    public function __construct(protected TranslatorInterface $translator)
-    {
-    }
+    public function __construct(protected TranslatorInterface $translator) {}
 
     /**
      * {@inheritdoc}
@@ -21,7 +19,7 @@ class FieldProperty extends AbstractProperty
 
             $choices = $this->getOr('choices', []);
             $translated = array_map(
-                fn ($item) => $translator->trans($item),
+                fn($item) => $translator->trans($item),
                 $choices
             );
 

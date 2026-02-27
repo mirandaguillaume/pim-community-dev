@@ -16,9 +16,7 @@ class AttributeTypeRegistry
     /** @var array<string,string> */
     private array $types = [];
 
-    public function __construct(private readonly FeatureFlags $featureFlags)
-    {
-    }
+    public function __construct(private readonly FeatureFlags $featureFlags) {}
 
     /**
      * Register an attribute type
@@ -68,7 +66,7 @@ class AttributeTypeRegistry
 
         return array_filter(
             $aliases,
-            fn ($alias) => null === $this->types[$alias]['feature'] || $this->featureFlags->isEnabled($this->types[$alias]['feature'])
+            fn($alias) => null === $this->types[$alias]['feature'] || $this->featureFlags->isEnabled($this->types[$alias]['feature'])
         );
     }
 

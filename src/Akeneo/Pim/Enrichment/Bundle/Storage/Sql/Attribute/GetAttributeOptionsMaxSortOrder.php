@@ -14,9 +14,7 @@ use Doctrine\DBAL\Connection;
  */
 class GetAttributeOptionsMaxSortOrder
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function forAttributeCodes(array $attributeCodes): array
     {

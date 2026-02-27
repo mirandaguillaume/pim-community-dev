@@ -3,8 +3,8 @@
 namespace Akeneo\Category\Infrastructure\Component\Model;
 
 use Akeneo\Tool\Component\Localization\Model\AbstractTranslation;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * Category translation entity.

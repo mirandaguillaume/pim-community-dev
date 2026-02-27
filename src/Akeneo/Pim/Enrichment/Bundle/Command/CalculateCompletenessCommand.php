@@ -7,13 +7,13 @@ use Akeneo\Pim\Enrichment\Bundle\Product\ComputeAndPersistProductCompletenesses;
 use Doctrine\DBAL\Connection;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Calculate the completeness of the products
@@ -117,7 +117,7 @@ class CalculateCompletenessCommand extends Command
 
             $lastUuidAsBytes = end($rows);
 
-            yield array_map(fn (string $uuidAsBytes): UuidInterface => Uuid::fromBytes($uuidAsBytes), $rows);
+            yield array_map(fn(string $uuidAsBytes): UuidInterface => Uuid::fromBytes($uuidAsBytes), $rows);
         }
     }
 }

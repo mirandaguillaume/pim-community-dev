@@ -13,9 +13,7 @@ namespace Akeneo\Platform\Component\CatalogVolumeMonitoring\Volume\Model;
  */
 class AggregatedVolume
 {
-    public function __construct(private readonly string $volumeName, private readonly array $volume, private readonly \DateTime $aggregatedAt)
-    {
-    }
+    public function __construct(private readonly string $volumeName, private readonly array $volume, private readonly \DateTime $aggregatedAt) {}
 
     public function getVolumeName(): string
     {

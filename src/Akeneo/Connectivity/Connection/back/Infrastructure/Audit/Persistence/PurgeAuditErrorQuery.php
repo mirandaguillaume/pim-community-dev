@@ -14,9 +14,7 @@ use Doctrine\DBAL\Types\Types;
  */
 class PurgeAuditErrorQuery
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function execute(\DateTimeImmutable $before): int
     {

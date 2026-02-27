@@ -18,8 +18,7 @@ final readonly class ListWrongCredentialsCombinationsAction
 {
     public function __construct(
         private WrongCredentialsCombinationRepositoryInterface $repository,
-    ) {
-    }
+    ) {}
 
     public function __invoke(): JsonResponse
     {

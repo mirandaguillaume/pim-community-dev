@@ -15,9 +15,7 @@ use Doctrine\DBAL\Driver\Exception;
  */
 final readonly class GetDeactivatedTemplateAttributesSql implements GetDeactivatedTemplateAttributes
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     /**
      * @return array<DeactivatedTemplateAttributeIdentifier>

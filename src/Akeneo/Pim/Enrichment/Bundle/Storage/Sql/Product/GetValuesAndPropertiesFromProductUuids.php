@@ -21,9 +21,7 @@ use Ramsey\Uuid\UuidInterface;
  */
 final readonly class GetValuesAndPropertiesFromProductUuids
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     /**
      * @param array<UuidInterface> $productUuids
@@ -67,7 +65,7 @@ final readonly class GetValuesAndPropertiesFromProductUuids
             GROUP BY p.uuid, raw_data
             SQL;
 
-        $uuidsAsBytes = array_map(fn (UuidInterface $uuid): string => $uuid->getBytes(), $productUuids);
+        $uuidsAsBytes = array_map(fn(UuidInterface $uuid): string => $uuid->getBytes(), $productUuids);
 
         $rows = $this->connection->fetchAllAssociative(
             $query,

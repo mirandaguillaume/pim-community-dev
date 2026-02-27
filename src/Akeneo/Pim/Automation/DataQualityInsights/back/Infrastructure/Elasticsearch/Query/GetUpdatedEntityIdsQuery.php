@@ -24,8 +24,7 @@ class GetUpdatedEntityIdsQuery implements GetUpdatedEntityIdsQueryInterface
         private readonly Client                          $esClient,
         private readonly string                          $documentType,
         private readonly ProductEntityIdFactoryInterface $idFactory
-    ) {
-    }
+    ) {}
 
     /**
      * @return \Generator<int, ProductEntityIdCollection>

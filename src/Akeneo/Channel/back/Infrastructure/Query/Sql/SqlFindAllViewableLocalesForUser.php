@@ -17,8 +17,7 @@ class SqlFindAllViewableLocalesForUser implements FindAllViewableLocalesForUser
 {
     public function __construct(
         private readonly Connection $connection
-    ) {
-    }
+    ) {}
 
     /**
      * @return Locale[]

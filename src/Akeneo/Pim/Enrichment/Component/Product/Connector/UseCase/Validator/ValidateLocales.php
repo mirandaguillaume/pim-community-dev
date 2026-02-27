@@ -16,9 +16,7 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
  */
 final readonly class ValidateLocales
 {
-    public function __construct(private IdentifiableObjectRepositoryInterface $channelRepository, private IdentifiableObjectRepositoryInterface $localeRepository)
-    {
-    }
+    public function __construct(private IdentifiableObjectRepositoryInterface $channelRepository, private IdentifiableObjectRepositoryInterface $localeRepository) {}
 
     /**
      * @throws InvalidQueryException

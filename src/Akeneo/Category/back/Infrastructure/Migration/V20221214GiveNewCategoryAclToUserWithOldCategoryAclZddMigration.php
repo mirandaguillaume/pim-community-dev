@@ -33,8 +33,7 @@ class V20221214GiveNewCategoryAclToUserWithOldCategoryAclZddMigration implements
         private readonly RoleWithPermissionsSaver $roleWithPermissionsSaver,
         private readonly Connection $connection,
         private readonly LoggerInterface $logger,
-    ) {
-    }
+    ) {}
 
     /**
      * @throws Exception

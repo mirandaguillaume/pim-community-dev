@@ -13,9 +13,7 @@ use Akeneo\Tool\Bundle\VersioningBundle\Doctrine\Query\SqlGetAllButLastVersionId
  */
 class KeepLastVersionPurgerAdvisor implements VersionPurgerAdvisorInterface
 {
-    public function __construct(private readonly SqlGetAllButLastVersionIdsByIdsQuery $sqlGetAllButLastVersionsByIdsQuery)
-    {
-    }
+    public function __construct(private readonly SqlGetAllButLastVersionIdsByIdsQuery $sqlGetAllButLastVersionsByIdsQuery) {}
 
     /**
      * {@inheritdoc}

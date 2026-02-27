@@ -21,8 +21,7 @@ final class LocaleAndChannelShouldBeConsistentValidator extends ConstraintValida
     public function __construct(
         private readonly GetAttributes $getAttributes,
         private readonly ChannelExistsWithLocaleInterface $channelExistsWithLocale
-    ) {
-    }
+    ) {}
 
     /**
      * @param ValueUserIntent[] $valueUserIntents
@@ -40,7 +39,7 @@ final class LocaleAndChannelShouldBeConsistentValidator extends ConstraintValida
         Assert::allImplementsInterface($valueUserIntents, ValueUserIntent::class);
 
         $attributes = $this->getAttributes->forCodes(\array_map(
-            static fn (ValueUserIntent $valueUserIntent): string => $valueUserIntent->attributeCode(),
+            static fn(ValueUserIntent $valueUserIntent): string => $valueUserIntent->attributeCode(),
             $valueUserIntents
         ));
 

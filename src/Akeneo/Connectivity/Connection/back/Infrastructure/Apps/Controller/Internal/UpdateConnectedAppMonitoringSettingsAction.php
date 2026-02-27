@@ -34,8 +34,7 @@ final readonly class UpdateConnectedAppMonitoringSettingsAction
         private FindAConnectionHandler $findAConnectionHandler,
         private UpdateConnectionHandler $updateConnectionHandler,
         private FindOneConnectedAppByConnectionCodeQueryInterface $findOneConnectedAppByConnectionCodeQuery,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, string $connectionCode): Response
     {

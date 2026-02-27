@@ -16,9 +16,7 @@ namespace Akeneo\Platform\Component\CatalogVolumeMonitoring\Volume\ReadModel;
  */
 class AverageMaxVolumes
 {
-    public function __construct(private readonly int $maxVolume, private readonly int $averageVolume, private readonly string $volumeName)
-    {
-    }
+    public function __construct(private readonly int $maxVolume, private readonly int $averageVolume, private readonly string $volumeName) {}
 
     public function getMaxVolume(): int
     {

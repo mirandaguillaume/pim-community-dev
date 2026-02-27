@@ -14,9 +14,7 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class SqlCreateJobInstance implements CreateJobInstanceInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function createJobInstance(array $params): int
     {

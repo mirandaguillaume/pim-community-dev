@@ -22,8 +22,7 @@ class RunMessageProcess
     public function __construct(
         private readonly SerializerInterface $serializer,
         private readonly LoggerInterface $logger,
-    ) {
-    }
+    ) {}
 
     public function __invoke(
         object $message,

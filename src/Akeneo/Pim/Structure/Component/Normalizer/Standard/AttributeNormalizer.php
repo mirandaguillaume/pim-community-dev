@@ -20,8 +20,7 @@ class AttributeNormalizer implements NormalizerInterface, CacheableSupportsMetho
         private readonly NormalizerInterface $translationNormalizer,
         private readonly NormalizerInterface $dateTimeNormalizer,
         private readonly FeatureFlags $featureFlags
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

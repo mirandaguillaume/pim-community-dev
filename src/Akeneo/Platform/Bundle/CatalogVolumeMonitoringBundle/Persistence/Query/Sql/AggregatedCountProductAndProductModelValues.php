@@ -19,9 +19,7 @@ class AggregatedCountProductAndProductModelValues implements CountQuery
 {
     private const VOLUME_NAME = 'count_product_and_product_model_values';
 
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function fetch(): CountVolume
     {

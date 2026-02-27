@@ -13,9 +13,7 @@ use Akeneo\Pim\Enrichment\Product\Domain\Query\GetCategoryCodes;
  */
 final readonly class GetProductCategoryCodesHandler
 {
-    public function __construct(private GetCategoryCodes $getCategoryCodes)
-    {
-    }
+    public function __construct(private GetCategoryCodes $getCategoryCodes) {}
 
     /**
      * @return array<string, string[]>

@@ -12,9 +12,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\AttributeGroupC
  */
 final readonly class AttributeGroupActivation
 {
-    public function __construct(private AttributeGroupCode $attributeGroupCode, private bool $activated)
-    {
-    }
+    public function __construct(private AttributeGroupCode $attributeGroupCode, private bool $activated) {}
 
     public function getAttributeGroupCode(): AttributeGroupCode
     {

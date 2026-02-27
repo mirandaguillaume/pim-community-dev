@@ -15,9 +15,7 @@ use Doctrine\DBAL\Connection;
  */
 class GetCategoryTreeTemplatesSql implements GetCategoryTreeTemplates
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function __invoke(CategoryId $categoryTreeId): array
     {
@@ -36,7 +34,7 @@ class GetCategoryTreeTemplatesSql implements GetCategoryTreeTemplates
         );
 
         return array_map(
-            fn (string $uuid) => TemplateUuid::fromString($uuid),
+            fn(string $uuid) => TemplateUuid::fromString($uuid),
             $result->fetchFirstColumn(),
         );
     }

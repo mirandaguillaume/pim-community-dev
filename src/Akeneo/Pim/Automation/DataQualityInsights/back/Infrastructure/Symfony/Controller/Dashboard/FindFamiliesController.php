@@ -13,8 +13,7 @@ class FindFamiliesController
     public function __construct(
         private readonly SearchableRepositoryInterface $familySearchableRepository,
         private readonly NormalizerInterface $normalizer,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): Response
     {

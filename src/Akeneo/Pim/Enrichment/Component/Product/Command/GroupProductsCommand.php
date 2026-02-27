@@ -13,8 +13,7 @@ class GroupProductsCommand
     public function __construct(
         private readonly int $groupId,
         private readonly array $productUuids,
-    ) {
-    }
+    ) {}
 
     public function groupId(): int
     {

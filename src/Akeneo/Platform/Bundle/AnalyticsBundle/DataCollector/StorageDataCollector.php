@@ -14,9 +14,7 @@ use Doctrine\DBAL\Connection;
  */
 class StorageDataCollector implements DataCollectorInterface
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     /**
      * {@inheritdoc}

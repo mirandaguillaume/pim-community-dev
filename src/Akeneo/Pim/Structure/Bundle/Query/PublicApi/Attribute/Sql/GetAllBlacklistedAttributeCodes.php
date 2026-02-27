@@ -9,9 +9,7 @@ use Doctrine\DBAL\Connection;
 
 final readonly class GetAllBlacklistedAttributeCodes implements GetAllBlacklistedAttributeCodesInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function execute(): array
     {

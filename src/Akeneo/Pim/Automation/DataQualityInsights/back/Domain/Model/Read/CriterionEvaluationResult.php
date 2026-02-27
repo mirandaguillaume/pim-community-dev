@@ -14,9 +14,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\Model\CriterionEvaluationRe
  */
 final readonly class CriterionEvaluationResult
 {
-    public function __construct(private ChannelLocaleRateCollection $rates, private CriterionEvaluationResultStatusCollection $statusCollection, private array $data)
-    {
-    }
+    public function __construct(private ChannelLocaleRateCollection $rates, private CriterionEvaluationResultStatusCollection $statusCollection, private array $data) {}
 
     public static function fromArray(array $rawResult): self
     {
@@ -46,7 +44,7 @@ final readonly class CriterionEvaluationResult
                     return [];
                 }
 
-                $attributes = array_keys(array_filter($attributes, fn ($rate) => $rate < 100));
+                $attributes = array_keys(array_filter($attributes, fn($rate) => $rate < 100));
 
                 return $attributes;
             });
@@ -55,7 +53,7 @@ final readonly class CriterionEvaluationResult
         // The 'attributes' array key is deprecated but kept here to allow backward compatibility
         $attributes = $this->data['attributes'] ?? [];
 
-        return ChannelLocaleDataCollection::fromNormalizedChannelLocaleData($attributes, fn ($attributeCodes) => is_array($attributeCodes) ? $attributeCodes : []);
+        return ChannelLocaleDataCollection::fromNormalizedChannelLocaleData($attributes, fn($attributeCodes) => is_array($attributeCodes) ? $attributeCodes : []);
     }
 
     public function getStatus(): CriterionEvaluationResultStatusCollection

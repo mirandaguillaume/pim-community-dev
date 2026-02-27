@@ -19,8 +19,7 @@ class CategoryTree
         private readonly Code $code,
         private readonly ?LabelCollection $labels = null,
         private readonly ?CategoryTreeTemplate $categoryTreeTemplate = null,
-    ) {
-    }
+    ) {}
 
     /**
      * @param array{

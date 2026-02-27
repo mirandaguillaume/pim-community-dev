@@ -23,9 +23,7 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
  */
 final readonly class LoadEntityWithValuesSubscriber implements EventSubscriber
 {
-    public function __construct(private WriteValueCollectionFactory $valueCollectionFactory)
-    {
-    }
+    public function __construct(private WriteValueCollectionFactory $valueCollectionFactory) {}
 
     /**
      * {@inheritdoc}

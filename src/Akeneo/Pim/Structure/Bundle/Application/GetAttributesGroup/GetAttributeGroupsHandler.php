@@ -15,8 +15,7 @@ final readonly class GetAttributeGroupsHandler
 {
     public function __construct(
         private GetAttributeGroupsInterface $getAttributeGroups
-    ) {
-    }
+    ) {}
 
     public function handle(): iterable
     {

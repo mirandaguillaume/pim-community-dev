@@ -18,8 +18,7 @@ class LogOnJobResumeSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private readonly LoggerInterface $logger,
-    ) {
-    }
+    ) {}
 
     public static function getSubscribedEvents(): array
     {

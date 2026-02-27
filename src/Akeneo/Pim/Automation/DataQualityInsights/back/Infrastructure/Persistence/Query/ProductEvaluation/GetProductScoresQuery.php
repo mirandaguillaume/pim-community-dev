@@ -24,8 +24,7 @@ final readonly class GetProductScoresQuery implements GetProductScoresQueryInter
     public function __construct(
         private Connection                      $dbConnection,
         private ProductEntityIdFactoryInterface $idFactory
-    ) {
-    }
+    ) {}
 
     public function byProductUuid(ProductEntityIdInterface $productUuid): Read\Scores
     {

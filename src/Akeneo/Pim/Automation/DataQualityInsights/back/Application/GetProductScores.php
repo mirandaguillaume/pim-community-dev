@@ -18,8 +18,7 @@ final readonly class GetProductScores
         private GetProductScoresQueryInterface    $getProductScoresQuery,
         private GetLocalesByChannelQueryInterface $getLocalesByChannelQuery,
         private GetScoresByCriteriaStrategy       $getScoresByCriteria,
-    ) {
-    }
+    ) {}
 
     /**
      * Eventually returns all quality scores by channel and locale.

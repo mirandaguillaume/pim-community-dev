@@ -12,6 +12,5 @@ final readonly class LoadAttributeSetCommand
 {
     public function __construct(
         public string $templateUuid,
-    ) {
-    }
+    ) {}
 }

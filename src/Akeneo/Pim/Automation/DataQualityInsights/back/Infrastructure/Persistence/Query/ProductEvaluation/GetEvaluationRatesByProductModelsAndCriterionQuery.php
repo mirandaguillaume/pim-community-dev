@@ -21,8 +21,7 @@ final readonly class GetEvaluationRatesByProductModelsAndCriterionQuery implemen
     public function __construct(
         private Connection                            $dbConnection,
         private TransformCriterionEvaluationResultIds $transformCriterionEvaluationResultIds
-    ) {
-    }
+    ) {}
 
     public function execute(ProductEntityIdCollection $productIdCollection, CriterionCode $criterionCode): array
     {

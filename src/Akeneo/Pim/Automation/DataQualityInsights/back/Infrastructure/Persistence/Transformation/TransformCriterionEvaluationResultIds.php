@@ -19,8 +19,7 @@ final readonly class TransformCriterionEvaluationResultIds
         private TransformChannelLocaleDataIds   $transformChannelLocaleDataIds,
         private TransformResultDataIdsInterface $transformCommonCriterionResultData,
         private TransformResultDataIdsInterface $transformCompletenessResultData,
-    ) {
-    }
+    ) {}
 
     /**
      * Example of array returned (with one channel and one locale)
@@ -78,7 +77,7 @@ final readonly class TransformCriterionEvaluationResultIds
 
     private function transformRatesIdsToCodes(array $ratesIds): array
     {
-        return $this->transformChannelLocaleDataIds->transformToCodes($ratesIds, fn ($rate) => $rate);
+        return $this->transformChannelLocaleDataIds->transformToCodes($ratesIds, fn($rate) => $rate);
     }
 
     private function transformStatusIdsToCodes(array $statusIds): array

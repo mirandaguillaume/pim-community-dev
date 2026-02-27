@@ -5,8 +5,8 @@ namespace Akeneo\Tool\Component\Batch\Model;
 use Akeneo\Tool\Component\Batch\Job\Job;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * Batch domain object representing a uniquely identifiable configured job.

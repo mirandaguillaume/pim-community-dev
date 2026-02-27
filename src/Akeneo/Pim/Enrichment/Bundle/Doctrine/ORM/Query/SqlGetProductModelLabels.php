@@ -10,9 +10,7 @@ use Doctrine\DBAL\Connection;
 
 class SqlGetProductModelLabels implements GetProductModelLabelsInterface
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function byCodesAndLocaleAndScope(array $codes, string $locale, string $scope): array
     {

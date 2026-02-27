@@ -226,7 +226,7 @@ class ColumnsMerger
         }
 
         $values = explode(ProductAssociation::IDENTIFIER_SEPARATOR, (string) $fieldValue);
-        $isUuids = \count(\array_filter($values, fn ($value) => !Uuid::isValid($value))) === 0;
+        $isUuids = \count(\array_filter($values, fn($value) => !Uuid::isValid($value))) === 0;
 
         if ($isUuids) {
             $newQuantifiedAssociations = ['uuids' => $values];

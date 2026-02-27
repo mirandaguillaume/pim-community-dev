@@ -20,8 +20,7 @@ class ApiAuthenticationEventSubscriber implements EventSubscriberInterface
     public function __construct(
         private readonly ConnectionContextInterface $connectionContext,
         private readonly WrongCredentialsCombinationRepositoryInterface $repository,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<class-string<ApiAuthenticationEvent>, string>

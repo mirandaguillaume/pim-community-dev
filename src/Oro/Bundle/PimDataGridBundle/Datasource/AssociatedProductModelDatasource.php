@@ -92,7 +92,7 @@ class AssociatedProductModelDatasource extends ProductDatasource
         $parentAssociation = $this->getParentAssociation($sourceProduct, $this->getConfiguration('association_type_id'));
         if (null !== $parentAssociation) {
             $associatedProductsUuidsFromParent = array_map(
-                fn (UuidInterface $uuid): string => $uuid->toString(),
+                fn(UuidInterface $uuid): string => $uuid->toString(),
                 $this->getAssociatedProductUuids($parentAssociation)
             );
             $associatedProductModelsIdentifiersFromParent = $this->getAssociatedProductModelIdentifiers($parentAssociation);
@@ -214,7 +214,7 @@ class AssociatedProductModelDatasource extends ProductDatasource
         $scope
     ) {
         $ids = array_map(
-            fn (UuidInterface $uuid): string => \sprintf('product_%s', $uuid->toString()),
+            fn(UuidInterface $uuid): string => \sprintf('product_%s', $uuid->toString()),
             $associatedProductUuids
         );
         $pqb = $this->createQueryBuilder($limit, $from, $locale, $scope);

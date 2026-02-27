@@ -17,9 +17,7 @@ class TextFilterType extends AbstractType
     final public const TYPE_EMPTY = 'empty';
     final public const NAME = 'oro_type_text_filter';
 
-    public function __construct(protected TranslatorInterface $translator)
-    {
-    }
+    public function __construct(protected TranslatorInterface $translator) {}
 
     /**
      * {@inheritDoc}

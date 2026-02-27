@@ -13,9 +13,7 @@ use Ramsey\Uuid\UuidInterface;
  */
 class AttributeUuid implements \Stringable
 {
-    private function __construct(private readonly UuidInterface $uuid)
-    {
-    }
+    private function __construct(private readonly UuidInterface $uuid) {}
 
     public static function fromUuid(UuidInterface $uuid): self
     {

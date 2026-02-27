@@ -23,8 +23,7 @@ class CreateUser implements CreateUserInterface
         private readonly ObjectUpdaterInterface $userUpdater,
         private readonly ValidatorInterface $validator,
         private readonly SaverInterface $userSaver
-    ) {
-    }
+    ) {}
 
     /**
      * @inheritdoc

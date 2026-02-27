@@ -20,7 +20,7 @@ class GroupProductNormalizer extends ProductNormalizer
     {
         $data = parent::normalize($product, $format, $context);
 
-        $groupIds = array_map(fn (GroupInterface $group) => $group->getId(), $product->getGroups()->toArray());
+        $groupIds = array_map(fn(GroupInterface $group) => $group->getId(), $product->getGroups()->toArray());
 
         $data['in_group'] = in_array($context['current_group_id'], $groupIds);
         $data['is_checked'] = in_array($context['current_group_id'], $groupIds);

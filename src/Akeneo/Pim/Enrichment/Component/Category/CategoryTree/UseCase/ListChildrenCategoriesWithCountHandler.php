@@ -16,9 +16,7 @@ use Akeneo\UserManagement\Bundle\Context\UserContext;
  */
 class ListChildrenCategoriesWithCountHandler
 {
-    public function __construct(private readonly CategoryRepositoryInterface $categoryRepository, private readonly UserContext $userContext, private readonly ListChildrenCategoriesWithCountIncludingSubCategories $listAndCountIncludingSubCategories, private readonly ListChildrenCategoriesWithCountNotIncludingSubCategories $listAndCountNotIncludingSubCategories)
-    {
-    }
+    public function __construct(private readonly CategoryRepositoryInterface $categoryRepository, private readonly UserContext $userContext, private readonly ListChildrenCategoriesWithCountIncludingSubCategories $listAndCountIncludingSubCategories, private readonly ListChildrenCategoriesWithCountNotIncludingSubCategories $listAndCountNotIncludingSubCategories) {}
 
     /**
      * @return ChildCategory[]

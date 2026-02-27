@@ -34,8 +34,7 @@ class MigrateToUuidSetNotNullableUuidColumns implements MigrateToUuidStep
     public function __construct(
         private readonly Connection $connection,
         private readonly LoggerInterface $logger
-    ) {
-    }
+    ) {}
 
     public function getDescription(): string
     {
@@ -157,7 +156,7 @@ class MigrateToUuidSetNotNullableUuidColumns implements MigrateToUuidStep
     {
         return \array_filter(
             self::TABLES,
-            fn (string $tableName): bool => !\in_array($tableName, $this->ignoredTables) && $this->tableExists($tableName),
+            fn(string $tableName): bool => !\in_array($tableName, $this->ignoredTables) && $this->tableExists($tableName),
             ARRAY_FILTER_USE_KEY
         );
     }

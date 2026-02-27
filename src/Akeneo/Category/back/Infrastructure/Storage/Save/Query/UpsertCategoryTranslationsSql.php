@@ -21,8 +21,7 @@ class UpsertCategoryTranslationsSql implements UpsertCategoryTranslations
     public function __construct(
         private readonly Connection $connection,
         private readonly GetCategoryInterface $getCategory,
-    ) {
-    }
+    ) {}
 
     public function execute(Category $categoryModel): void
     {

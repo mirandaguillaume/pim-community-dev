@@ -12,9 +12,7 @@ use Doctrine\DBAL\Connection;
 
 final readonly class GetProductQuantifiedAssociationsByProductModelCodes
 {
-    public function __construct(private Connection $connection, private GetIdMappingFromProductIdsQuery $getIdMappingFromProductIdsQuery, private FindQuantifiedAssociationTypeCodesInterface $findQuantifiedAssociationTypeCodes)
-    {
-    }
+    public function __construct(private Connection $connection, private GetIdMappingFromProductIdsQuery $getIdMappingFromProductIdsQuery, private FindQuantifiedAssociationTypeCodesInterface $findQuantifiedAssociationTypeCodes) {}
 
     /**
      * Executes SQL query to get product quantified associations from a set of product model codes.
@@ -123,7 +121,7 @@ final readonly class GetProductQuantifiedAssociationsByProductModelCodes
     private function productModelCodes(array $quantifiedAssociationWithProductModelId): array
     {
         return array_map(
-            fn (array $quantifiedAssociations) => $quantifiedAssociations['id'],
+            fn(array $quantifiedAssociations) => $quantifiedAssociations['id'],
             $quantifiedAssociationWithProductModelId['products'] ?? []
         );
     }

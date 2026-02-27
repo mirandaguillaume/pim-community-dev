@@ -26,8 +26,7 @@ final class UploadImageAction
         protected PathGeneratorInterface $pathGenerator,
         private readonly FileStorer $fileStorer,
         private readonly array $supportedTypes = [],
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request)
     {

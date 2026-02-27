@@ -17,9 +17,7 @@ use Webmozart\Assert\Assert;
  */
 class ConvertToSimpleProductProcessor extends AbstractProcessor
 {
-    public function __construct(private readonly RemoveParentInterface $removeParent, private readonly ValidatorInterface $validator)
-    {
-    }
+    public function __construct(private readonly RemoveParentInterface $removeParent, private readonly ValidatorInterface $validator) {}
 
     public function process($product)
     {

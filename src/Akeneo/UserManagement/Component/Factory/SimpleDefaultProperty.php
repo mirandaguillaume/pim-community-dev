@@ -13,9 +13,7 @@ use Akeneo\UserManagement\Component\Model\UserInterface;
  */
 class SimpleDefaultProperty implements DefaultProperty
 {
-    public function __construct(private readonly string $propertyName, private readonly mixed $defaultPropertyValue)
-    {
-    }
+    public function __construct(private readonly string $propertyName, private readonly mixed $defaultPropertyValue) {}
 
     /**
      * {@inheritdoc}

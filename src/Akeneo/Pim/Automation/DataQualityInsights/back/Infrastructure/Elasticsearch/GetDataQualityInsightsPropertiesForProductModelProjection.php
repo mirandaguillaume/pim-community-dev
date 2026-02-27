@@ -23,8 +23,7 @@ final readonly class GetDataQualityInsightsPropertiesForProductModelProjection i
         private GetProductModelIdsFromProductModelCodesQueryInterface $getProductModelIdsFromProductModelCodesQuery,
         private ComputeProductsKeyIndicators $getProductsKeyIndicators,
         private ProductEntityIdFactoryInterface $idFactory
-    ) {
-    }
+    ) {}
 
     /**
      * @param array<string> $productModelCodes
@@ -36,7 +35,7 @@ final readonly class GetDataQualityInsightsPropertiesForProductModelProjection i
     {
         $productModelCodesIds = $this->getProductModelIdsFromProductModelCodesQuery->execute($productModelCodes);
 
-        $productModelIdCollection = $this->idFactory->createCollection(array_map(fn ($id) => (string) $id, array_values($productModelCodesIds)));
+        $productModelIdCollection = $this->idFactory->createCollection(array_map(fn($id) => (string) $id, array_values($productModelCodesIds)));
         Assert::isInstanceOf($productModelIdCollection, ProductModelIdCollection::class);
         $productModelScores = $this->getProductModelScoresQuery->byProductModelIdCollection($productModelIdCollection);
         $productModelKeyIndicators = $this->getProductsKeyIndicators->compute($productModelIdCollection);

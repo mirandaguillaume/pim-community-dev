@@ -13,9 +13,7 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetConnectedAppRoleIdentifierQuery implements GetConnectedAppRoleIdentifierQueryInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function execute(string $appId): ?string
     {

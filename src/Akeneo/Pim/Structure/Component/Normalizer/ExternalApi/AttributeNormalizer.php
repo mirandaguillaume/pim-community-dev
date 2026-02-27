@@ -19,8 +19,7 @@ class AttributeNormalizer implements NormalizerInterface, CacheableSupportsMetho
     public function __construct(
         protected NormalizerInterface $stdNormalizer,
         private readonly NormalizerInterface $translationNormalizer
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

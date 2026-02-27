@@ -9,9 +9,7 @@ final readonly class PurgeableVersionList implements \Countable
     /**
      * @param int[] $versionIds
      */
-    public function __construct(private string $resourceName, private array $versionIds)
-    {
-    }
+    public function __construct(private string $resourceName, private array $versionIds) {}
 
     public function getVersionIds(): array
     {

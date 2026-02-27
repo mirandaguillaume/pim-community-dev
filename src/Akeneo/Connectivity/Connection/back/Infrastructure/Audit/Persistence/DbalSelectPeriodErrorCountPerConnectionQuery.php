@@ -22,9 +22,7 @@ class DbalSelectPeriodErrorCountPerConnectionQuery implements SelectPeriodErrorC
 {
     use PeriodEventCountTrait;
 
-    public function __construct(private readonly Connection $dbalConnection)
-    {
-    }
+    public function __construct(private readonly Connection $dbalConnection) {}
 
     /**
      * @return PeriodEventCount[]

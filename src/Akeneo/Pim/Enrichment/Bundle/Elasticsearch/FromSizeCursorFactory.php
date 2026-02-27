@@ -21,8 +21,7 @@ class FromSizeCursorFactory implements CursorFactoryInterface
         private readonly ProductRepositoryInterface $productRepository,
         private readonly ProductModelRepositoryInterface $productModelRepository,
         private readonly int $pageSize
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

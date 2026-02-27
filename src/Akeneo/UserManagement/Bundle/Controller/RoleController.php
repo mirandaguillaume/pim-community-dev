@@ -26,8 +26,7 @@ class RoleController extends AbstractController
         private readonly AclRoleHandler $aclRoleHandler,
         private readonly TranslatorInterface $translator,
         private readonly EditRolePermissionsRoleQuery $editRolePermissionsRoleQuery,
-    ) {
-    }
+    ) {}
 
     /**
      * @AclAncestor("pim_user_role_create")

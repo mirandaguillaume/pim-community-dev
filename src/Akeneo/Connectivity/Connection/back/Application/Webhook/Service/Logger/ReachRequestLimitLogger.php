@@ -15,9 +15,7 @@ class ReachRequestLimitLogger
 {
     final public const TYPE = 'event_api.reach_requests_limit';
 
-    public function __construct(private readonly LoggerInterface $logger)
-    {
-    }
+    public function __construct(private readonly LoggerInterface $logger) {}
 
     public function log(int $limit, \DateTimeImmutable $reachedLimitDateTime, int $delayUntilNextRequest): void
     {

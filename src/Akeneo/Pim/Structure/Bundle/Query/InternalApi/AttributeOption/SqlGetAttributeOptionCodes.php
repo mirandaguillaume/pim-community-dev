@@ -15,9 +15,7 @@ final readonly class SqlGetAttributeOptionCodes implements GetAttributeOptionCod
 {
     private const BATCH_QUERY_SIZE = 1000;
 
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function forAttributeCode(string $attributeCode): \Iterator
     {

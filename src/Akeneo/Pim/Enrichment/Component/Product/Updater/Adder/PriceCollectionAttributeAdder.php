@@ -107,7 +107,7 @@ class PriceCollectionAttributeAdder extends AbstractAttributeAdder
      */
     protected function addNewPrices(PriceCollectionInterface $previousPrices, array $newPrices)
     {
-        $newCurrencies = array_filter(array_map(fn (array $price): ?string => $price['currency'] ?? null, $newPrices));
+        $newCurrencies = array_filter(array_map(fn(array $price): ?string => $price['currency'] ?? null, $newPrices));
 
         $standardizedPreviousPrices = [];
         foreach ($previousPrices as $previousPrice) {

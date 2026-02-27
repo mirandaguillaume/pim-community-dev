@@ -16,9 +16,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class ConnectionMustExistValidator extends ConstraintValidator
 {
-    public function __construct(private readonly ConnectionRepositoryInterface $repository)
-    {
-    }
+    public function __construct(private readonly ConnectionRepositoryInterface $repository) {}
 
     public function validate($value, Constraint $constraint): void
     {

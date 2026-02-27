@@ -19,8 +19,7 @@ class GetAConnectionWebhookHandler
         private readonly GetAConnectionWebhookQueryInterface $getAConnectionWebhookQuery,
         private readonly int $activeEventSubscriptionsLimit,
         private readonly CountActiveEventSubscriptionsQueryInterface $countActiveEventSubscriptionsQuery
-    ) {
-    }
+    ) {}
 
     public function handle(GetAConnectionWebhookQuery $query): ?EventSubscriptionFormData
     {

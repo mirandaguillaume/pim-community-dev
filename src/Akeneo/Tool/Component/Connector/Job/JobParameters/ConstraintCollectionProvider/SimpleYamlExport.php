@@ -23,8 +23,7 @@ class SimpleYamlExport implements ConstraintCollectionProviderInterface
      */
     public function __construct(
         private readonly array $supportedJobNames,
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

@@ -18,8 +18,7 @@ class RestoreAdminRolePermissions
         private readonly RoleWithPermissionsFactory $roleWithPermissionsFactory,
         private readonly RoleWithPermissionsRepository $roleWithPermissionsRepository,
         private readonly RoleWithPermissionsSaver $roleWithPermissionsSaver,
-    ) {
-    }
+    ) {}
 
     public function __invoke(bool $forceCreation): void
     {

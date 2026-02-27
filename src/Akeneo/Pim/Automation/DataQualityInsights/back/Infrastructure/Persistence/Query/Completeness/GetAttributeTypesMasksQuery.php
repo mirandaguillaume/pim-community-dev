@@ -15,7 +15,7 @@ class GetAttributeTypesMasksQuery implements GetRequiredAttributesMasks
 
     public function __construct(private readonly Connection $connection, array $attributeTypes)
     {
-        $this->attributeTypes = array_map(fn ($code) => (string) $code, $attributeTypes);
+        $this->attributeTypes = array_map(fn($code) => (string) $code, $attributeTypes);
     }
 
     /**

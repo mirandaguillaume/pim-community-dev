@@ -22,8 +22,7 @@ class UserManager implements UserProviderInterface
         protected ObjectManager $om,
         protected PasswordHasherFactoryInterface $passwordHasherFactory,
         private readonly SaverInterface $saver
-    ) {
-    }
+    ) {}
 
     /**
      * Updates a user

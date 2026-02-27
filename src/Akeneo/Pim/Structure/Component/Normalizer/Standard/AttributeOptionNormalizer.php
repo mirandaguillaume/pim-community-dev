@@ -14,9 +14,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class AttributeOptionNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    public function __construct(private readonly IdentifiableObjectRepositoryInterface $localeRepository)
-    {
-    }
+    public function __construct(private readonly IdentifiableObjectRepositoryInterface $localeRepository) {}
 
     /**
      * {@inheritdoc}

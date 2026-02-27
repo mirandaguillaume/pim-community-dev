@@ -38,8 +38,7 @@ class CreateAccessToken implements CreateAccessTokenInterface
         private readonly GetUserConsentedAuthenticationScopesQueryInterface $getUserConsentedAuthenticationScopesQuery,
         private readonly GetAccessTokenQueryInterface $getAccessTokenQuery,
         private readonly DeleteAccessTokensQueryInterface $deleteAccessTokensQuery,
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

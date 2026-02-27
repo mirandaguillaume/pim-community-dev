@@ -14,9 +14,7 @@ final readonly class DashboardProjectionType implements \Stringable
     public const CATEGORY = 'category';
     public const FAMILY = 'family';
 
-    private function __construct(private string $type)
-    {
-    }
+    private function __construct(private string $type) {}
 
     public function __toString(): string
     {

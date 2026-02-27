@@ -13,9 +13,7 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetAllFamiliesLabelByLocaleQuery implements GetAllFamiliesLabelByLocaleQueryInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function execute(string $localeCode): array
     {

@@ -17,9 +17,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class NotEmptyVariantAxesValidator extends ConstraintValidator
 {
-    public function __construct(private readonly EntityWithFamilyVariantAttributesProvider $axesProvider)
-    {
-    }
+    public function __construct(private readonly EntityWithFamilyVariantAttributesProvider $axesProvider) {}
 
     /**
      * {@inheritdoc}

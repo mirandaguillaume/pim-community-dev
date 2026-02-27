@@ -13,9 +13,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\Repository\CriterionEvaluat
  */
 final readonly class ProductCriterionEvaluationRepository implements CriterionEvaluationRepositoryInterface
 {
-    public function __construct(private CriterionEvaluationRepository $repository)
-    {
-    }
+    public function __construct(private CriterionEvaluationRepository $repository) {}
 
     public function create(Write\CriterionEvaluationCollection $criteriaEvaluations): void
     {

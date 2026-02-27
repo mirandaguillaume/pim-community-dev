@@ -33,9 +33,7 @@ use Webmozart\Assert\Assert;
  */
 class DatagridViewController
 {
-    public function __construct(protected NormalizerInterface $normalizer, protected DatagridViewRepositoryInterface $datagridViewRepo, protected TokenStorageInterface $tokenStorage, protected DatagridViewManager $datagridViewManager, protected SaverInterface $saver, protected RemoverInterface $remover, protected ValidatorInterface $validator, protected TranslatorInterface $translator, protected CollectionFilterInterface $datagridViewFilter, protected ObjectUpdaterInterface $updater, protected SimpleFactoryInterface $factory)
-    {
-    }
+    public function __construct(protected NormalizerInterface $normalizer, protected DatagridViewRepositoryInterface $datagridViewRepo, protected TokenStorageInterface $tokenStorage, protected DatagridViewManager $datagridViewManager, protected SaverInterface $saver, protected RemoverInterface $remover, protected ValidatorInterface $validator, protected TranslatorInterface $translator, protected CollectionFilterInterface $datagridViewFilter, protected ObjectUpdaterInterface $updater, protected SimpleFactoryInterface $factory) {}
 
     /**
      * Return the list of all Datagrid Views that belong to the current user for the given $alias grid.

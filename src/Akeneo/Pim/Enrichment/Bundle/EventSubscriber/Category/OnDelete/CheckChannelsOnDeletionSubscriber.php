@@ -18,9 +18,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 final class CheckChannelsOnDeletionSubscriber implements EventSubscriberInterface
 {
-    public function __construct(protected TranslatorInterface $translator)
-    {
-    }
+    public function __construct(protected TranslatorInterface $translator) {}
 
     /**
      * {@inheritdoc}

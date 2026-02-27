@@ -22,8 +22,7 @@ final readonly class GetProductModelIdsToEvaluateQuery implements GetEntityIdsTo
     public function __construct(
         private Connection $db,
         private ProductModelIdFactory $idFactory
-    ) {
-    }
+    ) {}
 
     /**
      * @return \Generator<int, ProductModelIdCollection>

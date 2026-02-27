@@ -35,8 +35,7 @@ class CategoryVersion
     private function __construct(
         private readonly ?string $resourceId,
         private readonly array $snapshot,
-    ) {
-    }
+    ) {}
 
     /**
      * @param string|null $resourceId The category id

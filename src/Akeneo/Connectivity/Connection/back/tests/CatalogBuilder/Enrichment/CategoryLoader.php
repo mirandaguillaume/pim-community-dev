@@ -22,8 +22,7 @@ class CategoryLoader
         private readonly ObjectUpdaterInterface $updater,
         private readonly ValidatorInterface $validator,
         private readonly SaverInterface $saver,
-    ) {
-    }
+    ) {}
 
     public function create(array $data = []): void
     {

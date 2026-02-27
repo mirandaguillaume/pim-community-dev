@@ -22,9 +22,7 @@ class ReferenceDataInterfaceChecker implements CheckerInterface
     /**
      * @param string $interface
      */
-    public function __construct(protected $interface)
-    {
-    }
+    public function __construct(protected $interface) {}
 
     /**
      * {@inheritdoc}

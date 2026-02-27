@@ -19,8 +19,7 @@ class AuthenticateCommandAsAdminUserListener
     public function __construct(
         private readonly AuthenticateAdminUser $authenticateAdminUser,
         private readonly AuthenticatedAsAdminCommandRegistry $commandRegistry,
-    ) {
-    }
+    ) {}
 
     public function createUserSystem(ConsoleCommandEvent $event): void
     {

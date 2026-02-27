@@ -28,8 +28,7 @@ final readonly class GetConnectedAppMonitoringSettingsAction
         private SecurityFacade $security,
         private FindAConnectionHandler $findAConnectionHandler,
         private FindOneConnectedAppByConnectionCodeQueryInterface $findOneConnectedAppByConnectionCodeQuery,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, string $connectionCode): Response
     {

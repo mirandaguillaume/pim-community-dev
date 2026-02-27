@@ -17,9 +17,7 @@ use Doctrine\DBAL\Connection;
  */
 class DbalSelectHourlyIntervalsToRefreshQuery
 {
-    public function __construct(private readonly Connection $dbalConnection)
-    {
-    }
+    public function __construct(private readonly Connection $dbalConnection) {}
 
     /**
      * @return HourlyInterval[]
@@ -32,7 +30,7 @@ class DbalSelectHourlyIntervalsToRefreshQuery
             SQL;
         $dateTimes = $this->dbalConnection->executeQuery($selectSQL)->fetchFirstColumn();
 
-        return \array_map(fn (string $dateTime): HourlyInterval => HourlyInterval::createFromDateTime(
+        return \array_map(fn(string $dateTime): HourlyInterval => HourlyInterval::createFromDateTime(
             \DateTimeImmutable::createFromFormat(
                 $this->dbalConnection->getDatabasePlatform()->getDateTimeFormatString(),
                 $dateTime,

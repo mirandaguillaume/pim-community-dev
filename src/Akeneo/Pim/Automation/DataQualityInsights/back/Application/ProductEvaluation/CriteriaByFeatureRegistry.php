@@ -25,8 +25,7 @@ class CriteriaByFeatureRegistry
 
     public function __construct(
         private readonly FeatureFlag $allCriteriaFeature,
-    ) {
-    }
+    ) {}
 
     public function register(EvaluateCriterionInterface $criterionEvaluationService, ?string $feature): void
     {

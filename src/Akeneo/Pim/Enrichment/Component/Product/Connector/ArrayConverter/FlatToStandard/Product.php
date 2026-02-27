@@ -363,6 +363,6 @@ class Product implements ArrayConverterInterface
 
     private function filterQualityScoreFields(array $mappedItem): array
     {
-        return array_filter($mappedItem, fn ($field) => !str_starts_with((string) $field, sprintf('%s-', GetProductsWithQualityScoresInterface::FLAT_FIELD_PREFIX)), ARRAY_FILTER_USE_KEY);
+        return array_filter($mappedItem, fn($field) => !str_starts_with((string) $field, sprintf('%s-', GetProductsWithQualityScoresInterface::FLAT_FIELD_PREFIX)), ARRAY_FILTER_USE_KEY);
     }
 }

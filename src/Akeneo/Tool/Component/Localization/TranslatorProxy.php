@@ -13,9 +13,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class TranslatorProxy
 {
-    public function __construct(protected TranslatorInterface $translator)
-    {
-    }
+    public function __construct(protected TranslatorInterface $translator) {}
 
     /**
      * {@inheritdoc}

@@ -15,8 +15,7 @@ final readonly class IsAccessTokenRevokedQuery implements IsAccessTokenRevokedQu
 {
     public function __construct(
         private Connection $connection,
-    ) {
-    }
+    ) {}
 
     public function execute(string $token): bool
     {

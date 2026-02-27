@@ -27,9 +27,7 @@ class AttributeNormalizer implements NormalizerInterface, CacheableSupportsMetho
     /** @var string[] */
     protected array $supportedFormats = ['flat'];
 
-    public function __construct(protected NormalizerInterface $standardNormalizer, protected NormalizerInterface $translationNormalizer, protected GetAttributeOptionCodes $getAttributeOptionCodes)
-    {
-    }
+    public function __construct(protected NormalizerInterface $standardNormalizer, protected NormalizerInterface $translationNormalizer, protected GetAttributeOptionCodes $getAttributeOptionCodes) {}
 
     /**
      * {@inheritdoc}

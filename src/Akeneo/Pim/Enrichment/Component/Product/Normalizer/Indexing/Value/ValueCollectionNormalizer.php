@@ -19,9 +19,7 @@ class ValueCollectionNormalizer implements NormalizerInterface, CacheableSupport
 {
     final public const INDEXING_FORMAT_PRODUCT_AND_MODEL_INDEX = 'indexing_product_and_product_model';
 
-    public function __construct(private readonly NormalizerInterface $normalizer)
-    {
-    }
+    public function __construct(private readonly NormalizerInterface $normalizer) {}
 
     /**
      * {@inheritdoc}

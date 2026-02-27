@@ -35,8 +35,7 @@ final readonly class ConnectedAppFactory
         private CreateConnectedAppInterface $createApp,
         private DbalConnection $dbalConnection,
         private UserRepositoryInterface $userRepository,
-    ) {
-    }
+    ) {}
 
     public function createFakeConnectedAppWithValidToken(
         string $id,

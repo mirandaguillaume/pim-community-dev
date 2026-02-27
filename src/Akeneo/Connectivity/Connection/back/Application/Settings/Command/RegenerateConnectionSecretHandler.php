@@ -17,8 +17,7 @@ class RegenerateConnectionSecretHandler
     public function __construct(
         private readonly ConnectionRepositoryInterface $repository,
         private readonly RegenerateClientSecretInterface $regenerateClientSecret
-    ) {
-    }
+    ) {}
 
     public function handle(RegenerateConnectionSecretCommand $command): void
     {

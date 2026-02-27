@@ -26,8 +26,7 @@ final readonly class FetchProductAndProductModelRows implements Query\FetchProdu
         private Query\AddAdditionalProductPropertiesRegistry $addAdditionalProductPropertiesRegistry,
         private Query\AddAdditionalProductModelPropertiesRegistry $addAdditionalProductModelPropertiesRegistry,
         private ProductAndProductsModelDocumentTypeFacetFactory $productAndProductsModelDocumentTypeFacetFactory
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

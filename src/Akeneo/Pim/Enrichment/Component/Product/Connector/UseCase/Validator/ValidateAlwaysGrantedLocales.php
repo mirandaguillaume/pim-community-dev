@@ -16,7 +16,5 @@ final class ValidateAlwaysGrantedLocales implements ValidateGrantedLocalesInterf
     /**
      * {@inheritdoc}
      */
-    public function validateForLocaleCodes(?array $locales): void
-    {
-    }
+    public function validateForLocaleCodes(?array $locales): void {}
 }

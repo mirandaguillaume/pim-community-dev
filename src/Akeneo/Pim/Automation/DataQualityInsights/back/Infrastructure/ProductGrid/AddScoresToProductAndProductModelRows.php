@@ -23,8 +23,7 @@ class AddScoresToProductAndProductModelRows
     public function __construct(
         private readonly GetQualityScoresFactory         $getQualityScoresFactory,
         private readonly ProductEntityIdFactoryInterface $idFactory
-    ) {
-    }
+    ) {}
 
     /**
      * @param Row[] $rows

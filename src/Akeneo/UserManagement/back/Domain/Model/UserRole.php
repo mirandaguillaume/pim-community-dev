@@ -15,8 +15,7 @@ class UserRole
         private readonly string $role,
         private readonly string $label,
         private readonly string $type,
-    ) {
-    }
+    ) {}
 
     public function getId(): int
     {

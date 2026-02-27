@@ -9,8 +9,7 @@ class V20230324153137AddIndexOnFileInfoZddMigration implements ZddMigration
 {
     public function __construct(
         private readonly Connection $connection,
-    ) {
-    }
+    ) {}
 
     public function migrate(): void
     {

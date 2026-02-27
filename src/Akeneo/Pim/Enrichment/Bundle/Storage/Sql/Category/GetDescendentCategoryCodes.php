@@ -16,9 +16,7 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetDescendentCategoryCodes
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function __invoke(CategoryInterface $parentCategory): array
     {

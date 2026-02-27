@@ -28,8 +28,7 @@ class NotificationController
         protected UserNotificationRepositoryInterface $userNotifRepository,
         protected RemoverInterface $userNotifRemover,
         private readonly Connection $connection
-    ) {
-    }
+    ) {}
 
     /**
      * List user notifications for the current user

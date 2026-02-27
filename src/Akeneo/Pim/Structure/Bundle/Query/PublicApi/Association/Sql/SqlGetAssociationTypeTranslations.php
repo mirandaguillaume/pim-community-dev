@@ -10,9 +10,7 @@ use Doctrine\DBAL\Connection;
 
 class SqlGetAssociationTypeTranslations implements GetAssociationTypeTranslations
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function byAssociationTypeCodeAndLocale(array $associationTypeCodes, string $locale): array
     {

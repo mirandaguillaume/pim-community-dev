@@ -20,9 +20,7 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\GetRequiredAttributesM
  */
 class MissingRequiredAttributesCalculator implements MissingRequiredAttributesCalculatorInterface
 {
-    public function __construct(private readonly GetCompletenessProductMasks $getCompletenessProductMasks, private readonly GetRequiredAttributesMasks $getRequiredAttributesMasks)
-    {
-    }
+    public function __construct(private readonly GetCompletenessProductMasks $getCompletenessProductMasks, private readonly GetRequiredAttributesMasks $getRequiredAttributesMasks) {}
 
     /**
      * Calculates the completeness of an entity with family. It is only useful to calculate missing required attributes

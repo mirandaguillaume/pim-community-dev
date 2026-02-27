@@ -22,8 +22,7 @@ class AssociationTypeNormalizer implements NormalizerInterface, CacheableSupport
         protected NormalizerInterface $normalizer,
         protected VersionManager $versionManager,
         protected NormalizerInterface $versionNormalizer
-    ) {
-    }
+    ) {}
 
     /**
      * @param AssociationTypeInterface $object

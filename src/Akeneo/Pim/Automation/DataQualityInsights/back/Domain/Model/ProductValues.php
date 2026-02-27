@@ -13,9 +13,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\LocaleCode;
  */
 final readonly class ProductValues
 {
-    public function __construct(private Attribute $attribute, private ChannelLocaleDataCollection $values)
-    {
-    }
+    public function __construct(private Attribute $attribute, private ChannelLocaleDataCollection $values) {}
 
     public function getAttribute(): Attribute
     {

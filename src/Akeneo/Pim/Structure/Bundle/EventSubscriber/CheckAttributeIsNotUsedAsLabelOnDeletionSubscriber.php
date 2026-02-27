@@ -15,8 +15,7 @@ class CheckAttributeIsNotUsedAsLabelOnDeletionSubscriber implements EventSubscri
 {
     public function __construct(
         private readonly Connection $connection,
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

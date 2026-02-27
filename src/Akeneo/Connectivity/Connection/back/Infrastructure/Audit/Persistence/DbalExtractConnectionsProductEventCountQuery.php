@@ -20,9 +20,7 @@ use Doctrine\DBAL\Types\Types;
  */
 class DbalExtractConnectionsProductEventCountQuery implements ExtractConnectionsProductEventCountQueryInterface
 {
-    public function __construct(private readonly DbalConnection $dbalConnection, private readonly string $productClass)
-    {
-    }
+    public function __construct(private readonly DbalConnection $dbalConnection, private readonly string $productClass) {}
 
     /**
      * @return HourlyEventCount[]

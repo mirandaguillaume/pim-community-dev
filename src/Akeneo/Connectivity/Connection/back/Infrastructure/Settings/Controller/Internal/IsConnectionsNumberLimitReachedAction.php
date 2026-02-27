@@ -16,9 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final readonly class IsConnectionsNumberLimitReachedAction
 {
-    public function __construct(private IsConnectionsNumberLimitReachedQueryInterface $isConnectionsNumberLimitReachedQuery)
-    {
-    }
+    public function __construct(private IsConnectionsNumberLimitReachedQueryInterface $isConnectionsNumberLimitReachedQuery) {}
 
     public function __invoke(Request $request): Response
     {

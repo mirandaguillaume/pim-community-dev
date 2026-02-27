@@ -20,8 +20,7 @@ class ConnectionLoader
     public function __construct(
         private readonly CreateConnectionHandler $createConnectionHandler,
         private readonly UpdateConnectionHandler $updateConnectionHandler,
-    ) {
-    }
+    ) {}
 
     public function createConnection(
         string $code,

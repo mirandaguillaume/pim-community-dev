@@ -24,7 +24,7 @@ class AddUniqueAttributes
         $familyUniqueAttributes = $this->getFamilyUniqueAttributes($familyVariant->getFamily());
 
         $familyVariantAttributeCodes = $familyVariant->getAttributes()->map(
-            fn (AttributeInterface $attribute) => $attribute->getCode()
+            fn(AttributeInterface $attribute) => $attribute->getCode()
         )->toArray();
 
         $bottomAttributeSet = $familyVariant->getVariantAttributeSet($familyVariant->getNumberOfLevel());

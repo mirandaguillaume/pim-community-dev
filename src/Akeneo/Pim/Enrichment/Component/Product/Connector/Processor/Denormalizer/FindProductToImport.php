@@ -22,8 +22,7 @@ class FindProductToImport
     public function __construct(
         private readonly IdentifiableObjectRepositoryInterface $productRepository,
         private readonly ProductBuilderInterface $productBuilder
-    ) {
-    }
+    ) {}
 
     /**
      * Find the product to import

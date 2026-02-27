@@ -17,9 +17,7 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetOrphanCategoryImageFilePathsSql implements GetOrphanCategoryImageFilePaths
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function __invoke(): iterable
     {

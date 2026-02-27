@@ -17,9 +17,7 @@ class CountScopableAttributes implements CountQuery
 {
     private const VOLUME_NAME = 'count_scopable_attributes';
 
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     /**
      * {@inheritdoc}

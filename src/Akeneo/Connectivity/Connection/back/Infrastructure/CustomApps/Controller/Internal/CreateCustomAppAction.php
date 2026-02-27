@@ -34,8 +34,7 @@ final readonly class CreateCustomAppAction
         private CreateCustomAppCommandHandler $createCustomAppCommandHandler,
         private GetCustomAppSecretQueryInterface $getCustomAppSecretQuery,
         private SecurityFacade $security,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): Response
     {

@@ -26,8 +26,7 @@ final readonly class ComputeProductAndAncestorsSubscriber implements EventSubscr
     public function __construct(
         private ProductModelDescendantsAndAncestorsIndexer $productModelDescendantsAndAncestorsIndexer,
         private Client $esClient
-    ) {
-    }
+    ) {}
 
     public static function getSubscribedEvents(): array
     {

@@ -26,9 +26,7 @@ class BatchItem
      *
      * @param int $state
      */
-    public function __construct(private readonly OID $oid, private $state, private readonly ?ACL $acl = null)
-    {
-    }
+    public function __construct(private readonly OID $oid, private $state, private readonly ?ACL $acl = null) {}
 
     /**
      * Gets ObjectIdentity of this item

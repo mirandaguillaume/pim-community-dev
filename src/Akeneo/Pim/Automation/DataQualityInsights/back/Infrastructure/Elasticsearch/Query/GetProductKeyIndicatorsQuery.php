@@ -27,8 +27,7 @@ final readonly class GetProductKeyIndicatorsQuery implements GetProductKeyIndica
         private Client $esClient,
         private CategoryRepositoryInterface $categoryRepository,
         private string $documentType
-    ) {
-    }
+    ) {}
 
     public function all(ChannelCode $channelCode, LocaleCode $localeCode, KeyIndicatorCode ...$keyIndicatorCodes): array
     {

@@ -40,8 +40,7 @@ class ChannelController
         private readonly ValidatorInterface $validator,
         private readonly SecurityFacadeInterface $securityFacade,
         private readonly FindCategoryTrees $findCategoryTrees
-    ) {
-    }
+    ) {}
 
     /**
      * Lists all channels
@@ -83,7 +82,7 @@ class ChannelController
     public function listCategoryTreeAction(): JsonResponse
     {
         $categoryTrees = $this->findCategoryTrees->execute();
-        $normalizeCategoryTrees = array_map(fn (CategoryTree $categoryTree) => $categoryTree->normalize(), $categoryTrees);
+        $normalizeCategoryTrees = array_map(fn(CategoryTree $categoryTree) => $categoryTree->normalize(), $categoryTrees);
 
         return new JsonResponse($normalizeCategoryTrees);
     }

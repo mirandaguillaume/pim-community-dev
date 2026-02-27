@@ -22,8 +22,7 @@ final class UpsertUserCommand
         public string $lastName,
         public array $roleCodes,
         public array $groupIds = [],
-    ) {
-    }
+    ) {}
 
     /**
      * @param string[] $roleCodes

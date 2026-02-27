@@ -37,8 +37,7 @@ class RemoveCompletenessForChannelAndLocaleTasklet implements TaskletInterface
         private readonly ChannelRepositoryInterface $channelRepository,
         private readonly BulkSaverInterface $productBulkSaver,
         private readonly int $productBatchSize
-    ) {
-    }
+    ) {}
 
     public function setStepExecution(StepExecution $stepExecution)
     {
@@ -118,7 +117,7 @@ class RemoveCompletenessForChannelAndLocaleTasklet implements TaskletInterface
 
         $localeCodes = $jobParameters->get('locales_identifier');
         $currentLocaleCodes = $channel->getLocales()->map(
-            static fn (LocaleInterface $locale): string => $locale->getCode()
+            static fn(LocaleInterface $locale): string => $locale->getCode()
         );
         foreach ($localeCodes as $localeCode) {
             if (!$currentLocaleCodes->contains($localeCode)) {

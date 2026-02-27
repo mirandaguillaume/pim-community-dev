@@ -11,9 +11,7 @@ use Doctrine\DBAL\Types\Types;
 
 final readonly class IsAttributeCodeBlacklisted implements IsAttributeCodeBlacklistedInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function execute(string $attributeCode): bool
     {

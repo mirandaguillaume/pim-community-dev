@@ -9,9 +9,7 @@ use Doctrine\DBAL\Types\Types;
 
 class WebhookLoader
 {
-    public function __construct(private readonly DbalConnection $dbalConnection)
-    {
-    }
+    public function __construct(private readonly DbalConnection $dbalConnection) {}
 
     public function initWebhook(string $code, bool $isUsingUuid = false): void
     {

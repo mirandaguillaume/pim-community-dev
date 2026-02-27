@@ -15,9 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class GetProductModelEvaluationController
 {
-    public function __construct(private readonly GetProductEvaluation $getEntityEvaluation)
-    {
-    }
+    public function __construct(private readonly GetProductEvaluation $getEntityEvaluation) {}
 
     public function __invoke(string $productModelId): Response
     {

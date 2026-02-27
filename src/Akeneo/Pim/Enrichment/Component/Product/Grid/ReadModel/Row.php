@@ -33,8 +33,7 @@ final readonly class Row
         private ?string $parentCode,
         private WriteValueCollection $values,
         private AdditionalProperties $additionalProperties
-    ) {
-    }
+    ) {}
 
     public static function fromProduct(
         ?string $identifier,

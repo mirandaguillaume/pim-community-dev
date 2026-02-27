@@ -16,9 +16,7 @@ use Doctrine\DBAL\Connection;
  */
 class ListChildrenCategoriesWithCountIncludingSubCategories implements Query\ListChildrenCategoriesWithCountIncludingSubCategories
 {
-    public function __construct(private readonly Connection $connection, private readonly Client $client)
-    {
-    }
+    public function __construct(private readonly Connection $connection, private readonly Client $client) {}
 
     /**
      * {@inheritdoc}
@@ -270,7 +268,7 @@ class ListChildrenCategoriesWithCountIncludingSubCategories implements Query\Lis
             ]
         )->fetchAllAssociative();
 
-        $ids = array_map(fn ($row) => (int) $row['id'], $rows);
+        $ids = array_map(fn($row) => (int) $row['id'], $rows);
 
         return $ids;
     }

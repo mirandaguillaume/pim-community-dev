@@ -19,8 +19,7 @@ final readonly class BackupImportFileOnPauseSubscriber implements EventSubscribe
 {
     public function __construct(
         private JobFileBackuper $jobFileBackuper,
-    ) {
-    }
+    ) {}
 
     public static function getSubscribedEvents(): array
     {

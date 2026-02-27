@@ -123,7 +123,7 @@ class ColumnsConfigurator implements ConfiguratorInterface
 
         uasort(
             $this->attributesColumns,
-            fn ($col1, $col2) => strcmp((string) $col1['label'], (string) $col2['label'])
+            fn($col1, $col2) => strcmp((string) $col1['label'], (string) $col2['label'])
         );
     }
 

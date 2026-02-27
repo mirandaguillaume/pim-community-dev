@@ -40,8 +40,7 @@ final readonly class ElasticsearchProductProjection implements ElasticsearchProj
         private array $attributeCodesForAncestor,
         private array $attributeCodesForThisLevel,
         private array $additionalData = []
-    ) {
-    }
+    ) {}
 
     public function addAdditionalData(array $additionalData): ElasticsearchProductProjection
     {

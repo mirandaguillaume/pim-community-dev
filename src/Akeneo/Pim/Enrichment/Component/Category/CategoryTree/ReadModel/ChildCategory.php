@@ -17,9 +17,7 @@ class ChildCategory
     /**
      * @param ChildCategory[] $childrenCategoriesToExpand
      */
-    public function __construct(private readonly int $id, private readonly string $code, private readonly string $label, private readonly bool $selectedAsFilter, private readonly bool $isLeaf, private readonly int $numberProductsInCategory, private readonly array $childrenCategoriesToExpand)
-    {
-    }
+    public function __construct(private readonly int $id, private readonly string $code, private readonly string $label, private readonly bool $selectedAsFilter, private readonly bool $isLeaf, private readonly int $numberProductsInCategory, private readonly array $childrenCategoriesToExpand) {}
 
     public function id(): int
     {

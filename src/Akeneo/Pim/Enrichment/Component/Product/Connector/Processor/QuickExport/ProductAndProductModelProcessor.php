@@ -137,7 +137,7 @@ class ProductAndProductModelProcessor extends AbstractProcessor
             if ('values' === $codeProperty) {
                 $propertiesToExport['values'] = array_filter(
                     $property,
-                    fn ($attributeCode) => in_array($attributeCode, $selectedProperties),
+                    fn($attributeCode) => in_array($attributeCode, $selectedProperties),
                     ARRAY_FILTER_USE_KEY
                 );
             } elseif (in_array($codeProperty, $selectedProperties) || 'identifier' === $codeProperty || 'uuid' === $codeProperty) {

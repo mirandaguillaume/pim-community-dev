@@ -14,9 +14,7 @@ use Doctrine\DBAL\Connection;
  */
 class EmailDomains implements EmailDomainsQuery
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function fetch(): string
     {

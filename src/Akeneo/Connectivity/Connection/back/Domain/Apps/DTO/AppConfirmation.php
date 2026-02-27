@@ -15,9 +15,7 @@ class AppConfirmation
     private string $userGroup;
     private int $fosClientId;
 
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
     public static function create(
         string $appId,

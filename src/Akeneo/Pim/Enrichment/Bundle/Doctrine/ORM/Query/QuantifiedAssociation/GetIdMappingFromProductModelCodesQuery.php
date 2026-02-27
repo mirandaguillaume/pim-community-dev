@@ -15,9 +15,7 @@ use Doctrine\DBAL\Connection;
  */
 class GetIdMappingFromProductModelCodesQuery implements GetIdMappingFromProductModelCodesQueryInterface
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function execute(array $productModelCodes): IdMapping
     {

@@ -14,9 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class TwoWayAssociationUpdater implements TwoWayAssociationUpdaterInterface
 {
-    public function __construct(private readonly ManagerRegistry $registry, private readonly MissingAssociationAdder $missingAssociationAdder)
-    {
-    }
+    public function __construct(private readonly ManagerRegistry $registry, private readonly MissingAssociationAdder $missingAssociationAdder) {}
 
     /**
      * In EE, products & associations are cloned for the Permission feature.

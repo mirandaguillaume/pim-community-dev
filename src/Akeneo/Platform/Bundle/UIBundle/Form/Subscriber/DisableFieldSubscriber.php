@@ -22,9 +22,7 @@ class DisableFieldSubscriber implements EventSubscriberInterface
      * @param string $fieldName
      * @param string $determinator
      */
-    public function __construct(protected $fieldName, protected $determinator = 'getId')
-    {
-    }
+    public function __construct(protected $fieldName, protected $determinator = 'getId') {}
 
     /**
      * {@inheritdoc}

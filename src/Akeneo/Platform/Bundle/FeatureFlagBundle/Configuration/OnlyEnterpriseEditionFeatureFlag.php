@@ -20,8 +20,7 @@ final readonly class OnlyEnterpriseEditionFeatureFlag implements FeatureFlag
 
     public function __construct(
         private string $edition
-    ) {
-    }
+    ) {}
 
     public function isEnabled(?string $feature = null): bool
     {

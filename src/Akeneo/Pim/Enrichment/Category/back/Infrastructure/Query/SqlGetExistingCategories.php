@@ -17,9 +17,7 @@ use Webmozart\Assert\Assert;
  */
 final readonly class SqlGetExistingCategories implements GetViewableCategories
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     /**
      * @inheritDoc

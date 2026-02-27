@@ -21,8 +21,7 @@ class ProductLoader
         private readonly ProductRepositoryInterface $productRepository,
         private readonly MessageBusInterface $productMessageBus,
         private readonly UniqueValuesSet $uniqueValuesSet
-    ) {
-    }
+    ) {}
 
     /**
      * @param UserIntent[] $userIntents

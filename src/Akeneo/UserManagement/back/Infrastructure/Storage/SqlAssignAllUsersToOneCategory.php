@@ -14,9 +14,7 @@ use PDO;
  */
 final readonly class SqlAssignAllUsersToOneCategory implements AssignAllUsersToOneCategory
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function execute(int $categoryId): int
     {

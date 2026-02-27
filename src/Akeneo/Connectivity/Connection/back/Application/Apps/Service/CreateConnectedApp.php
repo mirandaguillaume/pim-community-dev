@@ -16,8 +16,7 @@ final readonly class CreateConnectedApp implements CreateConnectedAppInterface
 {
     public function __construct(
         private CreateConnectedAppQueryInterface $createConnectedAppQuery,
-    ) {
-    }
+    ) {}
 
     public function execute(
         MarketplaceApp $marketplaceApp,

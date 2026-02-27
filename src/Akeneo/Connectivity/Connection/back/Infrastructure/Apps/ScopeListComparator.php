@@ -11,8 +11,7 @@ class ScopeListComparator implements ScopeListComparatorInterface
 {
     public function __construct(
         private readonly ScopeMapperRegistryInterface $scopeMapperRegistry,
-    ) {
-    }
+    ) {}
 
     /**
      * @inheritDoc

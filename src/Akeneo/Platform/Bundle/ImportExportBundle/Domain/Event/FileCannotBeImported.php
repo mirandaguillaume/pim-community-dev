@@ -11,9 +11,7 @@ namespace Akeneo\Platform\Bundle\ImportExportBundle\Domain\Event;
 
 final readonly class FileCannotBeImported
 {
-    public function __construct(private string $reason)
-    {
-    }
+    public function __construct(private string $reason) {}
 
     public function getReason(): string
     {

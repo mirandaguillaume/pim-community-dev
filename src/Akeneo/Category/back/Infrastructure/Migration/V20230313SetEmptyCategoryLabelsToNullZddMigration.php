@@ -16,8 +16,7 @@ class V20230313SetEmptyCategoryLabelsToNullZddMigration implements ZddMigration
 {
     public function __construct(
         private readonly Connection $connection,
-    ) {
-    }
+    ) {}
 
     /**
      * @throws Exception

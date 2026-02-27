@@ -16,9 +16,7 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetProductModelsAssociationsByProductModelCodes
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     /**
      * It generates product models associations with every association types, even if there is no product model associated for this association type.
@@ -32,7 +30,7 @@ final readonly class GetProductModelsAssociationsByProductModelCodes
             return [];
         }
 
-        $productModelCodes = (fn (string ...$codes) => $codes)(... $productModelCodes);
+        $productModelCodes = (fn(string ...$codes) => $codes)(... $productModelCodes);
 
         $query = <<<SQL
             SELECT

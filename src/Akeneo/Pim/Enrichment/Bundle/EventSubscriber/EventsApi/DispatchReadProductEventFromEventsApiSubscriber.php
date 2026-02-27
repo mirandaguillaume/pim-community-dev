@@ -16,9 +16,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class DispatchReadProductEventFromEventsApiSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly EventDispatcherInterface $eventDispatcher)
-    {
-    }
+    public function __construct(private readonly EventDispatcherInterface $eventDispatcher) {}
 
     public static function getSubscribedEvents(): array
     {

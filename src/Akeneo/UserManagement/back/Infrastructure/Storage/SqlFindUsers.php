@@ -25,8 +25,7 @@ final readonly class SqlFindUsers implements FindUsers
 {
     public function __construct(
         private Connection $connection
-    ) {
-    }
+    ) {}
 
     /**
      * @throws DriverException
@@ -56,7 +55,7 @@ final readonly class SqlFindUsers implements FindUsers
         )->fetchAllAssociative();
 
         return array_map(
-            static fn ($data) => ServiceApiUser::createFromDatabase($data),
+            static fn($data) => ServiceApiUser::createFromDatabase($data),
             $results
         );
     }

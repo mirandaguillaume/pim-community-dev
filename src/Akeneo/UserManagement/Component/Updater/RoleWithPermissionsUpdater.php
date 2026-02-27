@@ -20,9 +20,7 @@ final readonly class RoleWithPermissionsUpdater implements ObjectUpdaterInterfac
 {
     private const ACL_DEFAULT_EXTENSION = 'action';
 
-    public function __construct(private ObjectUpdaterInterface $roleUpdater, private AclManager $aclManager)
-    {
-    }
+    public function __construct(private ObjectUpdaterInterface $roleUpdater, private AclManager $aclManager) {}
 
     public function update($roleWithPermissions, array $data, array $options = []): self
     {

@@ -16,8 +16,7 @@ class ListRootCategoriesWithCount
         private readonly int $userId,
         private readonly string $translationLocaleCode,
         private readonly ?int $categoryTreeIdSelectedAsFilter = null,
-    ) {
-    }
+    ) {}
 
     /**
      * The category node selected by the user in a category tree to filter products on the grid.

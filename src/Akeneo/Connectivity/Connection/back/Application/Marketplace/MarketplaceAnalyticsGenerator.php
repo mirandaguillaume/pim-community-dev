@@ -17,8 +17,7 @@ class MarketplaceAnalyticsGenerator
         private readonly GetUserProfileQueryInterface $getUserProfileQuery,
         private readonly WebMarketplaceAliasesInterface $webMarketplaceAliases,
         private readonly PimUrl $pimUrl
-    ) {
-    }
+    ) {}
 
     /**
      * @return array{utm_medium: string, utm_content: string, utm_source: string, utm_term?: string, utm_campaign?: string}

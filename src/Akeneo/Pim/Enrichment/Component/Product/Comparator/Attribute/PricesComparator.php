@@ -60,7 +60,7 @@ class PricesComparator implements ComparatorInterface
         }
 
         if ($dataPrices !== $originalPrices) {
-            $data['data'] = array_filter($data['data'], fn (array $price) => null !== $price['amount']);
+            $data['data'] = array_filter($data['data'], fn(array $price) => null !== $price['amount']);
             return $data;
         }
 

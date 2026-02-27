@@ -11,9 +11,7 @@ use Ramsey\Uuid\Uuid;
 
 class SqlGetProductLabels implements GetProductLabelsInterface
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function byIdentifiersAndLocaleAndScope(array $identifiers, string $locale, string $channel): array
     {
@@ -80,7 +78,7 @@ class SqlGetProductLabels implements GetProductLabelsInterface
             SQL;
 
         $uuidAsBytes = \array_map(
-            static fn (string $uuid): ?string => Uuid::isValid($uuid) ? Uuid::fromString($uuid)->getBytes() : null,
+            static fn(string $uuid): ?string => Uuid::isValid($uuid) ? Uuid::fromString($uuid)->getBytes() : null,
             $uuids
         );
 

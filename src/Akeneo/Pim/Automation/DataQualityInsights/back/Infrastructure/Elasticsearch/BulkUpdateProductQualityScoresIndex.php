@@ -30,8 +30,7 @@ class BulkUpdateProductQualityScoresIndex implements BulkUpdateProductQualitySco
         private readonly GetProductModelScoresQueryInterface $getProductModelScoresQuery,
         private readonly ComputeProductsKeyIndicators $computeProductsKeyIndicators,
         private readonly string $documentType
-    ) {
-    }
+    ) {}
 
     public function __invoke(ProductEntityIdCollection $entityIdCollection): void
     {
@@ -74,7 +73,7 @@ class BulkUpdateProductQualityScoresIndex implements BulkUpdateProductQualitySco
 
         $this->esClient->bulkUpdate(
             array_map(
-                fn ($productId) => $identifierPrefix . $productId,
+                fn($productId) => $identifierPrefix . $productId,
                 $entityIdCollection->toArrayString()
             ),
             $params

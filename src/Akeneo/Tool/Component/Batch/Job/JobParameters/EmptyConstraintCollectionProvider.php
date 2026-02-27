@@ -14,9 +14,7 @@ use Symfony\Component\Validator\Constraints\Collection;
  */
 class EmptyConstraintCollectionProvider implements ConstraintCollectionProviderInterface
 {
-    public function __construct(protected array $supportedJobNames)
-    {
-    }
+    public function __construct(protected array $supportedJobNames) {}
 
     /**
      * {@inheritdoc}

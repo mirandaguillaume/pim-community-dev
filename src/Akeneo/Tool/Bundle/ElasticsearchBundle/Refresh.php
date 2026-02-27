@@ -20,9 +20,7 @@ final class Refresh
     /**
      * @param string $type
      */
-    private function __construct(private $type)
-    {
-    }
+    private function __construct(private $type) {}
 
     /**
      * @return Refresh

@@ -17,8 +17,7 @@ class IsConnectionsNumberLimitReachedQuery implements IsConnectionsNumberLimitRe
     public function __construct(
         private readonly Connection $connection,
         private readonly GetConnectionsNumberLimit $getConnectionsNumberLimit
-    ) {
-    }
+    ) {}
 
     public function execute(): bool
     {

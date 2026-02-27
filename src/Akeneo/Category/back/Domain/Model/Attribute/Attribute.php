@@ -36,8 +36,7 @@ abstract class Attribute
         protected LabelCollection $labelCollection,
         protected TemplateUuid $templateUuid,
         protected AttributeAdditionalProperties $additionalProperties,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array{

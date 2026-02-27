@@ -10,7 +10,5 @@ namespace Akeneo\Connectivity\Connection\Application\CustomApps\Command;
  */
 class DeleteCustomAppCommand
 {
-    public function __construct(public readonly string $customAppId)
-    {
-    }
+    public function __construct(public readonly string $customAppId) {}
 }

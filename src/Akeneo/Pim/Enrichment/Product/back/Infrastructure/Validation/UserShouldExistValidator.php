@@ -16,9 +16,7 @@ use Webmozart\Assert\Assert;
  */
 final class UserShouldExistValidator extends ConstraintValidator
 {
-    public function __construct(private readonly UserRepositoryInterface $userRepository)
-    {
-    }
+    public function __construct(private readonly UserRepositoryInterface $userRepository) {}
 
     public function validate($userId, Constraint $constraint): void
     {

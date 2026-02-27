@@ -23,8 +23,7 @@ final readonly class AllCriteriaFeature implements FeatureFlag
     public function __construct(
         private FeatureFlag $onlySerenityFeature,
         private FeatureFlags $featureFlags,
-    ) {
-    }
+    ) {}
 
     public function isEnabled(?string $feature = null): bool
     {

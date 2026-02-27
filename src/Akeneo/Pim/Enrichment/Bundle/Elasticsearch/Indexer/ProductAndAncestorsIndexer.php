@@ -26,8 +26,7 @@ class ProductAndAncestorsIndexer
         private readonly ProductIndexerInterface $productIndexer,
         private readonly ProductModelIndexerInterface $productModelIndexer,
         private readonly GetAncestorProductModelCodes $getAncestorProductModelCodes
-    ) {
-    }
+    ) {}
 
     public function indexFromProductUuids(array $uuids, array $options = []): void
     {

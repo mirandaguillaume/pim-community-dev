@@ -14,9 +14,7 @@ use Doctrine\DBAL\Types\Types;
  */
 class EventsApiRequestCountLoader
 {
-    public function __construct(private readonly DbalConnection $dbalConnection)
-    {
-    }
+    public function __construct(private readonly DbalConnection $dbalConnection) {}
 
     public function createEventsApiRequestCount(\DateTimeImmutable $eventDateTime, int $eventCount): void
     {

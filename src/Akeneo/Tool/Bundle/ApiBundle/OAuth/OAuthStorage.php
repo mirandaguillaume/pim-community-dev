@@ -27,8 +27,7 @@ class OAuthStorage implements IOAuth2GrantCode
         private readonly string $accessTokenClass = AccessToken::class,
         private readonly string $refreshTokenClass = RefreshToken::class,
         private readonly string $authCodeClass = AuthCode::class,
-    ) {
-    }
+    ) {}
 
     public function getClient(string $clientId): ?ClientInterface
     {

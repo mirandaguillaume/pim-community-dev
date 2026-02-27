@@ -17,9 +17,7 @@ final class MigrateToUuidAddTriggers implements MigrateToUuidStep
     use MigrateToUuidTrait;
     use StatusAwareTrait;
 
-    public function __construct(private readonly Connection $connection, private readonly LoggerInterface $logger)
-    {
-    }
+    public function __construct(private readonly Connection $connection, private readonly LoggerInterface $logger) {}
 
     public function getName(): string
     {
@@ -115,7 +113,7 @@ final class MigrateToUuidAddTriggers implements MigrateToUuidStep
     {
         return \array_filter(
             self::TABLES,
-            fn (string $tableName): bool => 'pim_catalog_product' !== $tableName && $this->tableExists($tableName),
+            fn(string $tableName): bool => 'pim_catalog_product' !== $tableName && $this->tableExists($tableName),
             ARRAY_FILTER_USE_KEY
         );
     }

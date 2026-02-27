@@ -14,9 +14,7 @@ use Doctrine\DBAL\Types\Types;
  */
 class GetCustomAppsQuery implements GetCustomAppsQueryInterface
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     /**
      * @inheritDoc

@@ -33,8 +33,7 @@ class ProductModelWasCreatedOrUpdatedSubscriber implements EventSubscriberInterf
         private readonly string $env,
         private readonly FeatureFlag $featureFlag,
         private readonly int $batchSize = 100,
-    ) {
-    }
+    ) {}
 
     public static function getSubscribedEvents(): array
     {

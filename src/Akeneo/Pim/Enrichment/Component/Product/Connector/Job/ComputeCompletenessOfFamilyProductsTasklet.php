@@ -43,8 +43,7 @@ class ComputeCompletenessOfFamilyProductsTasklet implements TaskletInterface, Tr
         private readonly CompletenessCalculator $completenessCalculator,
         private readonly SaveProductCompletenesses $saveProductCompletenesses,
         private readonly MessageBusInterface $messageBus
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

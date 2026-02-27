@@ -9,9 +9,7 @@ use Doctrine\DBAL\Exception;
 
 final readonly class GetEnrichedValuesPerCategoryCodeSql implements GetEnrichedValuesPerCategoryCode
 {
-    public function __construct(private Connection $dbalConnection)
-    {
-    }
+    public function __construct(private Connection $dbalConnection) {}
 
     /**
      * @throws Exception

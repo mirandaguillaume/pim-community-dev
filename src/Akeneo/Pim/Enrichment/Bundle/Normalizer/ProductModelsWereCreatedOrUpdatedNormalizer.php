@@ -67,7 +67,7 @@ final class ProductModelsWereCreatedOrUpdatedNormalizer implements NormalizerInt
 
         return ['events'
             => \array_map(
-                fn (ProductModelWasCreated|ProductModelWasUpdated $event) => $event instanceof ProductModelWasCreated ? [
+                fn(ProductModelWasCreated|ProductModelWasUpdated $event) => $event instanceof ProductModelWasCreated ? [
                     'product_model_id' => $event->id,
                     'created_at' => $event->createdAt->format(\DateTimeInterface::ATOM),
                 ] : [

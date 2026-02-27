@@ -18,8 +18,7 @@ final readonly class CategoriesHaveAtLeastOneChild implements BaseCategoriesHave
 {
     public function __construct(
         private Connection $connection,
-    ) {
-    }
+    ) {}
 
     public function among(array $parentCategoryCodes, array $childrenCategoryCodes): bool
     {
@@ -30,10 +29,10 @@ final readonly class CategoriesHaveAtLeastOneChild implements BaseCategoriesHave
         $categoryInfos = $this->getCategoryInfos(\array_merge($parentCategoryCodes, $childrenCategoryCodes));
 
         $parentsCategoryInfos = \array_filter(
-            \array_map(static fn (string $code): ?array => $categoryInfos[$code] ?? null, $parentCategoryCodes),
+            \array_map(static fn(string $code): ?array => $categoryInfos[$code] ?? null, $parentCategoryCodes),
         );
         $childrenCategoryInfos = \array_filter(
-            \array_map(static fn (string $code): ?array => $categoryInfos[$code] ?? null, $childrenCategoryCodes),
+            \array_map(static fn(string $code): ?array => $categoryInfos[$code] ?? null, $childrenCategoryCodes),
         );
 
         foreach ($parentsCategoryInfos as $parentCategoryInfo) {

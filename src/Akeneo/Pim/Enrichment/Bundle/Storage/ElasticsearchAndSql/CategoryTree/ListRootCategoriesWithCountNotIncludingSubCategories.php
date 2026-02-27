@@ -15,9 +15,7 @@ use Doctrine\DBAL\Connection;
  */
 class ListRootCategoriesWithCountNotIncludingSubCategories implements Query\ListRootCategoriesWithCountNotIncludingSubCategories
 {
-    public function __construct(private readonly Connection $connection, private readonly Client $client)
-    {
-    }
+    public function __construct(private readonly Connection $connection, private readonly Client $client) {}
 
     /**
      * {@inheritdoc}

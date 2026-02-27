@@ -24,8 +24,7 @@ final readonly class LoginRateLimitListener implements EventSubscriberInterface
         private UserManager $userManager,
         private int $accountLockDuration,
         private int $accountMaxConsecutiveFailure,
-    ) {
-    }
+    ) {}
 
     public static function getSubscribedEvents(): array
     {

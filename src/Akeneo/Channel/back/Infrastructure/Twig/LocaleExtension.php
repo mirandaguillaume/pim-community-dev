@@ -20,9 +20,7 @@ use Twig\TwigFunction;
  */
 class LocaleExtension extends AbstractExtension
 {
-    public function __construct(protected UserContext $userContext)
-    {
-    }
+    public function __construct(protected UserContext $userContext) {}
 
     /**
      * {@inheritdoc}

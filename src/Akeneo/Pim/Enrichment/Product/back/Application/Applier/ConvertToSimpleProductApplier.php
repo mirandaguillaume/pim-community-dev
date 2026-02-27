@@ -19,8 +19,7 @@ final readonly class ConvertToSimpleProductApplier implements UserIntentApplier
 {
     public function __construct(
         private RemoveParentInterface $removeParent
-    ) {
-    }
+    ) {}
 
     public function apply(UserIntent $userIntent, ProductInterface $product, int $userId): void
     {

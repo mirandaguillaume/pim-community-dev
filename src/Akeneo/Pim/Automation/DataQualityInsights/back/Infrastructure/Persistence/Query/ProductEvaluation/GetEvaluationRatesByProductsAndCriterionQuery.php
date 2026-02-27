@@ -24,8 +24,7 @@ final readonly class GetEvaluationRatesByProductsAndCriterionQuery implements Ge
     public function __construct(
         private Connection $dbConnection,
         private TransformCriterionEvaluationResultIds $transformCriterionEvaluationResultIds
-    ) {
-    }
+    ) {}
 
     public function execute(ProductEntityIdCollection $productUuidCollection, CriterionCode $criterionCode): array
     {

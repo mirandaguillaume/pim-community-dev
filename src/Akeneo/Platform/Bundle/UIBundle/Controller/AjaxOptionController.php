@@ -18,9 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class AjaxOptionController
 {
-    public function __construct(protected ManagerRegistry $doctrine, protected ConfigurationRegistryInterface $registry)
-    {
-    }
+    public function __construct(protected ManagerRegistry $doctrine, protected ConfigurationRegistryInterface $registry) {}
 
     /**
      * Returns a JSON response containing options

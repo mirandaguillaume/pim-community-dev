@@ -17,9 +17,7 @@ class MetadataParser
 {
     final public const ROUTE = 'oro_datagrid_index';
 
-    public function __construct(private readonly FragmentHandler $fragmentHandler, private readonly Manager $manager, private readonly RequestParameters $requestParams, private readonly RouterInterface $router)
-    {
-    }
+    public function __construct(private readonly FragmentHandler $fragmentHandler, private readonly Manager $manager, private readonly RequestParameters $requestParams, private readonly RouterInterface $router) {}
 
     /**
      * Returns grid metadata array

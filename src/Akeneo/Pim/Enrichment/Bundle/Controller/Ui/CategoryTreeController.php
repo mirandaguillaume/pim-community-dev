@@ -93,7 +93,7 @@ class CategoryTreeController extends AbstractController
             $selectedTreeId = $selectNode->isRoot() ? $selectNode->getId() : $selectNode->getRoot();
         }
 
-        $formatedTrees = array_map(fn (CategoryTree $tree) => [
+        $formatedTrees = array_map(fn(CategoryTree $tree) => [
             'id' => $tree->getId()->getValue(),
             'code' => (string) $tree->getCode(),
             'label' => $tree->getLabel($this->userContext->getCurrentLocaleCode()),
@@ -329,7 +329,7 @@ class CategoryTreeController extends AbstractController
         $trees = $this->categoryRepository->getTrees();
 
         $productsCountByCategories = array_fill_keys(
-            array_map(fn (CategoryInterface $category) => $category->getId(), $trees),
+            array_map(fn(CategoryInterface $category) => $category->getId(), $trees),
             0
         );
 

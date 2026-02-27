@@ -16,9 +16,7 @@ use Ramsey\Uuid\Uuid;
  */
 final readonly class DescendantProductUuidsQuery implements DescendantProductUuidsQueryInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     /**
      * {@inheritDoc}
@@ -39,6 +37,6 @@ final readonly class DescendantProductUuidsQuery implements DescendantProductUui
             ['productModelIds' => ArrayParameterType::INTEGER]
         )->fetchAllAssociative();
 
-        return array_map(fn ($rowData) => Uuid::fromString($rowData['uuid']), $resultRows);
+        return array_map(fn($rowData) => Uuid::fromString($rowData['uuid']), $resultRows);
     }
 }

@@ -16,9 +16,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class AddContentSecurityPolicyListener implements EventSubscriberInterface
 {
-    public function __construct(private readonly ContentSecurityPolicyProvider $contentSecurityPolicyProvider)
-    {
-    }
+    public function __construct(private readonly ContentSecurityPolicyProvider $contentSecurityPolicyProvider) {}
 
     public static function getSubscribedEvents(): array
     {

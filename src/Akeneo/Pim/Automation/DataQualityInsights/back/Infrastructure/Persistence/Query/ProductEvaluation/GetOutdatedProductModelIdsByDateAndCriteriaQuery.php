@@ -19,8 +19,7 @@ final readonly class GetOutdatedProductModelIdsByDateAndCriteriaQuery implements
 {
     public function __construct(
         private Connection $dbConnection,
-    ) {
-    }
+    ) {}
 
     /**
      * Retrieves the product-models that have at least one criterion from a given list that has not been evaluated since a given date

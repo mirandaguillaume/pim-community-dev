@@ -18,9 +18,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 final readonly class ChannelSaver implements ChannelSaverInterface
 {
-    public function __construct(private ObjectManager $objectManager, private EventDispatcherInterface $eventDispatcher)
-    {
-    }
+    public function __construct(private ObjectManager $objectManager, private EventDispatcherInterface $eventDispatcher) {}
 
     /**
      * @param ChannelInterface $channel
@@ -63,7 +61,7 @@ final readonly class ChannelSaver implements ChannelSaverInterface
     private function formatDataOptionsAndEvents(array $channels, array $commonOptions): array
     {
         return array_map(
-            fn (ChannelInterface $channel) => [
+            fn(ChannelInterface $channel) => [
                 $channel,
                 array_merge($commonOptions, ['is_new' => null === $channel->getId()]),
                 $channel->popEvents(),

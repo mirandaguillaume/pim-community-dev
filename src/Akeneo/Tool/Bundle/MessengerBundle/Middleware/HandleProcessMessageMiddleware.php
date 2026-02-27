@@ -27,8 +27,7 @@ final readonly class HandleProcessMessageMiddleware implements MiddlewareInterfa
     public function __construct(
         private RunMessageProcess $runMessageProcess,
         private LoggerInterface $logger
-    ) {
-    }
+    ) {}
 
     public function handle(Envelope $envelope, StackInterface $stack): Envelope
     {

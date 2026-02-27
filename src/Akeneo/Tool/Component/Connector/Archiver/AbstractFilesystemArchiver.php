@@ -24,8 +24,7 @@ abstract class AbstractFilesystemArchiver implements ArchiverInterface
     public function __construct(
         protected readonly FilesystemOperator $archivistFilesystem,
         protected readonly JobRegistry $jobRegistry,
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -38,8 +37,8 @@ abstract class AbstractFilesystemArchiver implements ArchiverInterface
 
         $directory = dirname($this->getRelativeArchivePath($jobExecution));
         $listing = $this->archivistFilesystem->listContents($directory, $deep)
-            ->filter(fn (StorageAttributes $attributes): bool => $attributes->isFile())
-            ->map(fn (StorageAttributes $attributes): string => $attributes->path());
+            ->filter(fn(StorageAttributes $attributes): bool => $attributes->isFile())
+            ->map(fn(StorageAttributes $attributes): string => $attributes->path());
 
         foreach ($listing as $path) {
             yield \ltrim(\substr($path, \strlen($directory)), '\\/') => $path;
@@ -100,7 +99,7 @@ abstract class AbstractFilesystemArchiver implements ArchiverInterface
     {
         $job = $this->getJob($stepExecution);
 
-        $filteredSteps = array_values(array_filter($job->getSteps(), static fn (StepInterface $step) => $step->getName() === $stepExecution->getStepName()));
+        $filteredSteps = array_values(array_filter($job->getSteps(), static fn(StepInterface $step) => $step->getName() === $stepExecution->getStepName()));
 
         if (0 === count($filteredSteps)) {
             throw new \RuntimeException('No step found corresponding to step execution.');

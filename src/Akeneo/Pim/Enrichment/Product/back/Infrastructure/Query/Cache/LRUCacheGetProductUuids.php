@@ -29,7 +29,7 @@ class LRUCacheGetProductUuids implements GetProductUuids, CachedQueryInterface
     {
         return $this->cacheByIdentifiers->getForKey(
             $identifier,
-            fn (string $identifier): ?UuidInterface => $this->getProductUuids->fromIdentifier($identifier)
+            fn(string $identifier): ?UuidInterface => $this->getProductUuids->fromIdentifier($identifier)
         );
     }
 
@@ -37,7 +37,7 @@ class LRUCacheGetProductUuids implements GetProductUuids, CachedQueryInterface
     {
         return $this->cacheByIdentifiers->getForKeys(
             $identifiers,
-            fn (array $identifiersNotFound): array => $this->getProductUuids->fromIdentifiers($identifiersNotFound)
+            fn(array $identifiersNotFound): array => $this->getProductUuids->fromIdentifiers($identifiersNotFound)
         );
     }
 
@@ -45,17 +45,17 @@ class LRUCacheGetProductUuids implements GetProductUuids, CachedQueryInterface
     {
         return $this->cacheByUuids->getForKey(
             $uuid->toString(),
-            fn (string $notCachedUuid): ?UuidInterface => $this->getProductUuids->fromUuid(Uuid::fromString($notCachedUuid))
+            fn(string $notCachedUuid): ?UuidInterface => $this->getProductUuids->fromUuid(Uuid::fromString($notCachedUuid))
         );
     }
 
     public function fromUuids(array $uuids): array
     {
         return $this->cacheByUuids->getForKeys(
-            \array_map(static fn (UuidInterface $uuid): string => $uuid->toString(), $uuids),
-            fn (array $notCachedUuids): array => $this->getProductUuids->fromUuids(
+            \array_map(static fn(UuidInterface $uuid): string => $uuid->toString(), $uuids),
+            fn(array $notCachedUuids): array => $this->getProductUuids->fromUuids(
                 \array_map(
-                    static fn (string $notCacheUuid): UuidInterface => Uuid::fromString($notCacheUuid),
+                    static fn(string $notCacheUuid): UuidInterface => Uuid::fromString($notCacheUuid),
                     $notCachedUuids
                 )
             )

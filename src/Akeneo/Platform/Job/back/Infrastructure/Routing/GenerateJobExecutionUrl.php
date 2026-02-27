@@ -11,8 +11,7 @@ class GenerateJobExecutionUrl implements GenerateJobExecutionUrlInterface
 
     public function __construct(
         private readonly RouterInterface $router,
-    ) {
-    }
+    ) {}
 
     public function fromJobExecutionId(int $jobExecutionId): string
     {

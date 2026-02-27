@@ -16,9 +16,7 @@ final readonly class FindOneConnectedAppByUserIdentifierQuery implements FindOne
 {
     use DenormalizeConnectedAppTrait;
 
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function execute(string $userIdentifier): ?ConnectedApp
     {

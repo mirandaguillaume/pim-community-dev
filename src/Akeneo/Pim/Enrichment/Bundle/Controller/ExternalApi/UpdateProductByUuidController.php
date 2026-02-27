@@ -57,8 +57,7 @@ class UpdateProductByUuidController
         private readonly AttributeFilterInterface $productAttributeFilter,
         private readonly ValidatorInterface $productValidator,
         private readonly RemoveParentInterface $removeParent,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, string $uuid): Response
     {

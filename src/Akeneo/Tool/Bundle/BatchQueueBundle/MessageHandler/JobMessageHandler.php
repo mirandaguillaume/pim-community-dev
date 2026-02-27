@@ -23,8 +23,7 @@ final readonly class JobMessageHandler implements MessageSubscriberInterface
         private LoggerInterface $logger,
         private string $projectDir,
         private FeatureFlags $featureFlags,
-    ) {
-    }
+    ) {}
 
     public static function getHandledMessages(): iterable
     {

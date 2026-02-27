@@ -25,9 +25,7 @@ class ProductNormalizer implements NormalizerInterface, CacheableSupportsMethodI
     private const FIELD_DOCUMENT_TYPE = 'document_type';
     private const FIELD_ATTRIBUTES_IN_LEVEL = 'attributes_for_this_level';
 
-    public function __construct(private readonly NormalizerInterface $propertiesNormalizer, private readonly EntityWithFamilyVariantAttributesProvider $attributesProvider)
-    {
-    }
+    public function __construct(private readonly NormalizerInterface $propertiesNormalizer, private readonly EntityWithFamilyVariantAttributesProvider $attributesProvider) {}
 
     /**
      * {@inheritdoc}
@@ -80,7 +78,7 @@ class ProductNormalizer implements NormalizerInterface, CacheableSupportsMethodI
 
             $attributes = $this->attributesProvider->getAttributes($parent);
             $attributeCodes = array_map(
-                fn (AttributeInterface $attribute) => $attribute->getCode(),
+                fn(AttributeInterface $attribute) => $attribute->getCode(),
                 $attributes
             );
             $ancestorsAttributesCodes = array_merge($ancestorsAttributesCodes, $attributeCodes);
@@ -113,7 +111,7 @@ class ProductNormalizer implements NormalizerInterface, CacheableSupportsMethodI
         $familyAttributesCodes = [];
         if ($product->isVariant()) {
             $familyAttributes = $this->attributesProvider->getAttributes($product);
-            $familyAttributesCodes = array_map(fn (AttributeInterface $attribute) => $attribute->getCode(), $familyAttributes);
+            $familyAttributesCodes = array_map(fn(AttributeInterface $attribute) => $attribute->getCode(), $familyAttributes);
         } elseif (null !== $product->getFamily()) {
             $familyAttributesCodes = $product->getFamily()->getAttributeCodes();
         }

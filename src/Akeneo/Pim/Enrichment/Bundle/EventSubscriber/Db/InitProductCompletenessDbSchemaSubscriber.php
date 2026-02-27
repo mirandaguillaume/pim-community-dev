@@ -13,8 +13,7 @@ class InitProductCompletenessDbSchemaSubscriber implements EventSubscriberInterf
 {
     public function __construct(
         private readonly Connection $connection,
-    ) {
-    }
+    ) {}
 
     public static function getSubscribedEvents(): array
     {

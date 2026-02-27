@@ -13,9 +13,7 @@ use Doctrine\DBAL\Connection;
  */
 class SqlFindUnit implements FindUnit
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function byMeasurementFamilyCodeAndUnitCode(string $measurementFamilyCode, string $unitCode): ?Unit
     {

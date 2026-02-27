@@ -11,10 +11,10 @@ use Akeneo\Pim\Automation\DataQualityInsights\Application\ProductEvaluation\Enri
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\CriterionCode;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
@@ -33,9 +33,7 @@ class PopulateProductModelScoresAndKeyIndicatorsCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-    }
+    protected function configure(): void {}
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -62,7 +60,7 @@ class PopulateProductModelScoresAndKeyIndicatorsCommand extends Command
 
         while ($productModelIds = $this->getNextProductModelIds($lastProductModelId)) {
             try {
-                $productModelIdsCollection = $this->idFactory->createCollection(array_map(fn ($productModelId) => (string) $productModelId, $productModelIds));
+                $productModelIdsCollection = $this->idFactory->createCollection(array_map(fn($productModelId) => (string) $productModelId, $productModelIds));
                 $this->createCriteriaEvaluations->create($completenessCriteria, $productModelIdsCollection);
                 $lastProductModelId = end($productModelIds);
             } catch (\Throwable $e) {
@@ -146,6 +144,6 @@ class PopulateProductModelScoresAndKeyIndicatorsCommand extends Command
             ]
         );
 
-        return array_map(static fn ($resultRow) => (int) $resultRow['id'], $bulkResult->fetchAllAssociative());
+        return array_map(static fn($resultRow) => (int) $resultRow['id'], $bulkResult->fetchAllAssociative());
     }
 }

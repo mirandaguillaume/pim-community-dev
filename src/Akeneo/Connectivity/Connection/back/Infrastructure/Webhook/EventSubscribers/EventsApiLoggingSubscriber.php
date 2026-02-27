@@ -16,9 +16,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 final readonly class EventsApiLoggingSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private EventsApiDebugRepositoryInterface $eventsApiDebugRepository)
-    {
-    }
+    public function __construct(private EventsApiDebugRepositoryInterface $eventsApiDebugRepository) {}
 
     public static function getSubscribedEvents(): array
     {

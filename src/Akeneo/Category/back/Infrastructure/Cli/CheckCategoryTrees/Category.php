@@ -133,7 +133,7 @@ class Category
 
         // make sure that children are sorted by the lft property
         // this will make the ordering basis for (lft,rgt) reordering in ::reorder()
-        usort($unlinkedChildren, fn (Category $c1, Category $c2) => $c1->getLeft() - $c2->getLeft());
+        usort($unlinkedChildren, fn(Category $c1, Category $c2) => $c1->getLeft() - $c2->getLeft());
 
         /** @var Category $child */
         foreach ($unlinkedChildren as $child) {
@@ -196,7 +196,7 @@ class Category
                 $childrenDiffErrors = $this->children[$i]->diff($category->getChildAt($i));
 
                 $childrenDiffErrorsWithContext = array_map(
-                    fn ($childDiff) => "Child at index $i: $childDiff",
+                    fn($childDiff) => "Child at index $i: $childDiff",
                     $childrenDiffErrors,
                 );
 

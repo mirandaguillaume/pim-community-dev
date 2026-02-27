@@ -17,9 +17,7 @@ use Akeneo\Tool\Bundle\ApiBundle\OAuth\OAuth2;
  */
 class CreateClient implements CreateClientInterface
 {
-    public function __construct(private readonly ClientManagerInterface $clientManager)
-    {
-    }
+    public function __construct(private readonly ClientManagerInterface $clientManager) {}
 
     public function execute(string $label): Client
     {

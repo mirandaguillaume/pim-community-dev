@@ -18,8 +18,7 @@ class CreateConnectionCommand
         private readonly bool $auditable = false,
         private readonly ?string $type = null,
         private readonly ?string $userGroup = null,
-    ) {
-    }
+    ) {}
 
     public function code(): string
     {

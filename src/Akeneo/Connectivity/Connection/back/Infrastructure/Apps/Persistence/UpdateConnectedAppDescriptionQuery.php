@@ -15,9 +15,7 @@ use Doctrine\DBAL\Types\Types;
  */
 final readonly class UpdateConnectedAppDescriptionQuery implements UpdateConnectedAppDescriptionQueryInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function execute(ConnectedApp $app): void
     {

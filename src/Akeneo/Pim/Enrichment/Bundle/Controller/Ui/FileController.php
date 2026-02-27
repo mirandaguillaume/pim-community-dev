@@ -39,8 +39,7 @@ class FileController
         protected DefaultImageProviderInterface $defaultImageProvider,
         protected array $filesystemAliases,
         protected array $supportedImageTypes,
-    ) {
-    }
+    ) {}
 
     public function showAction(Request $request, string $filename, ?string $filter = null): Response
     {
