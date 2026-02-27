@@ -40,9 +40,10 @@ class Group implements GroupInterface, \Stringable
     /**
      * @param string $name [optional] Group name
      */
-    #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
-    public function __construct(protected $name = '')
-    {
+    public function __construct(
+        #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
+        protected $name = '',
+    ) {
         $this->roles = new ArrayCollection();
     }
 
