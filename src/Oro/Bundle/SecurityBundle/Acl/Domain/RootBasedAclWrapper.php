@@ -152,6 +152,9 @@ class RootBasedAclWrapper implements AclInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @deprecated Keep for AclInterface (extends \Serializable) backward compat.
+     *             PHP will prefer __serialize()/__unserialize() when available.
      */
     public function serialize()
     {
@@ -160,8 +163,21 @@ class RootBasedAclWrapper implements AclInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @deprecated Keep for AclInterface (extends \Serializable) backward compat.
+     *             PHP will prefer __serialize()/__unserialize() when available.
      */
     public function unserialize($serialized)
+    {
+        throw new \LogicException('Not supported.');
+    }
+
+    public function __serialize(): array
+    {
+        throw new \LogicException('Not supported.');
+    }
+
+    public function __unserialize(array $data): void
     {
         throw new \LogicException('Not supported.');
     }
