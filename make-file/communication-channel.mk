@@ -84,7 +84,7 @@ communication-channel-unit-front:
 communication-channel-back:
 	$(DOCKER_COMPOSE) run --rm php rm -rf var/cache/dev
 	APP_ENV=dev $(DOCKER_COMPOSE) run -e APP_DEBUG=1 --rm php bin/console cache:warmup
-	${PHP_RUN} vendor/bin/php-cs-fixer fix --config=.php_cs.php src/Akeneo/Platform/Bundle/CommunicationChannelBundle/back
+	${PHP_RUN} tools/php-cs-fixer fix --config=.php_cs.php src/Akeneo/Platform/Bundle/CommunicationChannelBundle/back
 	$(MAKE) communication-channel-lint-back
 	$(MAKE) communication-channel-coupling-back
 	$(MAKE) communication-channel-unit-back
