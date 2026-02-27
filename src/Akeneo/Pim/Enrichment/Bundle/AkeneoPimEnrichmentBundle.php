@@ -69,7 +69,7 @@ class AkeneoPimEnrichmentBundle extends Bundle
 
         $container->addCompilerPass(
             DoctrineOrmMappingsPass::createAttributeMappingDriver(
-                $mappings,
+                array_keys($mappings),
                 array_values($mappings),
                 ['doctrine.orm.entity_manager'],
                 false

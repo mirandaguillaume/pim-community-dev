@@ -32,7 +32,7 @@ class AkeneoBatchBundle extends Bundle
             ->addCompilerPass(new Compiler\RegisterJobParametersPass('constraint_collection_provider'))
             ->addCompilerPass(
                 DoctrineOrmMappingsPass::createAttributeMappingDriver(
-                    $mappings,
+                    array_keys($mappings),
                     array_values($mappings),
                     ['doctrine.orm.entity_manager'],
                     false

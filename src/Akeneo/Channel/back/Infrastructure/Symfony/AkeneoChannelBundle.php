@@ -33,7 +33,7 @@ class AkeneoChannelBundle extends Bundle
 
         $container->addCompilerPass(
             DoctrineOrmMappingsPass::createAttributeMappingDriver(
-                $channelMappings,
+                array_keys($channelMappings),
                 array_values($channelMappings),
                 ['doctrine.orm.entity_manager'],
                 false

@@ -28,7 +28,7 @@ class PimUserBundle extends Bundle
 
         $container->addCompilerPass(
             DoctrineOrmMappingsPass::createAttributeMappingDriver(
-                $productMappings,
+                array_keys($productMappings),
                 array_values($productMappings),
                 ['doctrine.orm.entity_manager'],
                 false
