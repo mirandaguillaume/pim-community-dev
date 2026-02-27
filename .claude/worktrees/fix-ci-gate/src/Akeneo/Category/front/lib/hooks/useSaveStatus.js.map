@@ -1,0 +1,1 @@
+{"version":3,"file":"useSaveStatus.js","sourceRoot":"","sources":["../../src/feature/hooks/useSaveStatus.ts"],"names":[],"mappings":";;;AAAA,+BAAiC;AACjC,iFAA6E;AAEtE,IAAM,aAAa,GAAG;IAC3B,IAAM,OAAO,GAAG,IAAA,kBAAU,EAAC,sCAAiB,CAAC,CAAC;IAC9C,IAAI,IAAI,KAAK,OAAO,EAAE;QACpB,MAAM,IAAI,KAAK,CAAC,wDAAwD,CAAC,CAAC;KAC3E;IAED,OAAO,OAAO,CAAC;AACjB,CAAC,CAAC;AAPW,QAAA,aAAa,iBAOxB"}

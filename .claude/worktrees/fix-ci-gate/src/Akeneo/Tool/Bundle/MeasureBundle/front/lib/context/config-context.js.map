@@ -1,0 +1,1 @@
+{"version":3,"file":"config-context.js","sourceRoot":"","sources":["../../src/feature/context/config-context.ts"],"names":[],"mappings":";;;AAAA,+BAAoC;AAQpC,IAAM,yBAAyB,GAAG;IAChC,cAAc,EAAE,CAAC;IACjB,SAAS,EAAE,EAAE;IACb,YAAY,EAAE,GAAG;CAClB,CAAC;AAEF,IAAM,aAAa,GAAG,IAAA,qBAAa,EAAqB,yBAAyB,CAAC,CAAC;AAE3E,sCAAa"}
