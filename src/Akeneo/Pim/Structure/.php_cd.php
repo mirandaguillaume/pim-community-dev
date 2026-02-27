@@ -66,6 +66,10 @@ $rules = [
         'Symfony\Contracts',
         'Doctrine\Common',
         'Doctrine\Persistence',
+        // PR #26: ORM mappings migrated from YAML to PHP 8 attributes on entity classes
+        'Doctrine\ORM\Mapping',
+        'Doctrine\DBAL\Types\Types',
+        'Gedmo\Mapping\Annotation',
         'Webmozart\Assert\Assert',
         'Akeneo\Tool\Component',
 

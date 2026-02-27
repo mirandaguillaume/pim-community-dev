@@ -150,6 +150,9 @@ $rules = [
         'Doctrine\Common',
         'Doctrine\Persistence',
         'Doctrine\Inflector',
+        // PR #26: ORM mappings migrated from YAML to PHP 8 attributes on entity classes
+        'Doctrine\ORM\Mapping',
+        'Doctrine\DBAL\Types\Types',
         'Webmozart\Assert\Assert',
         'Akeneo\Pim\Structure\Component\Query\PublicApi',
         'Psr\Log\LoggerInterface',
