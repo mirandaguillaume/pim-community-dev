@@ -19,7 +19,6 @@ use Doctrine\DBAL\Types\Types;
 #[ORM\UniqueConstraint(name: 'locale_foreign_key_idx', columns: ['locale', 'foreign_key'])]
 class CategoryTranslation extends AbstractTranslation implements CategoryTranslationInterface
 {
-
     #[ORM\ManyToOne(targetEntity: \Akeneo\Category\Infrastructure\Component\Model\CategoryInterface::class, inversedBy: 'translations')]
     #[ORM\JoinColumn(name: 'foreign_key', referencedColumnName: 'id', onDelete: 'CASCADE')]
     protected $foreignKey;
