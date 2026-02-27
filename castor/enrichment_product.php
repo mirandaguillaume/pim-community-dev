@@ -34,7 +34,7 @@ function unitBack(
 function lintBack(): void
 {
     \phpRun(
-        'vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle --config=.php_cs.php'
+        'tools/php-cs-fixer fix --dry-run --format=checkstyle --config=.php_cs.php'
         . ' src/Akeneo/Pim/Enrichment/Product/back/API'
         . ' src/Akeneo/Pim/Enrichment/Product/back/Application'
         . ' src/Akeneo/Pim/Enrichment/Product/back/Domain'

@@ -74,6 +74,12 @@ runs:
         docker pull node:20 &
         wait
 
+    - name: Install PHIVE tools
+      run: |
+        wget -O phive.phar https://phar.io/releases/phive.phar
+        php phive.phar install --trust-gpg-keys --force-accept-unsigned
+      shell: bash
+
     - name: Restore composer dependencies
       if: inputs.composer-cache == 'true'
       uses: actions/cache/restore@v4

@@ -67,7 +67,7 @@ function ensureDir(string $path): void
 
 function csFixer(string $config, bool $dryRun = true, string $path = ''): void
 {
-    $cmd = 'vendor/bin/php-cs-fixer fix'
+    $cmd = 'tools/php-cs-fixer fix'
         . ($dryRun ? ' --dry-run --format=checkstyle --using-cache=no' : ' --diff')
         . ' --config=' . $config;
 
