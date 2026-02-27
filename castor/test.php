@@ -140,6 +140,19 @@ function acceptanceBack(): void
     \installer\acceptanceBack();
 }
 
+#[AsTask(namespace: 'test', name: 'acceptance-back-contexts', description: 'Run bounded context acceptance tests (PHPUnit)')]
+function acceptanceBackContexts(): void
+{
+    \category\acceptanceBack();
+    \import_export\acceptanceBack();
+    \job\acceptanceBack();
+    \channel\acceptanceBack();
+    \measurement\acceptanceBack();
+    \identifier_generator\acceptanceBack();
+    \installer\acceptanceBack();
+    \enrichment_product\acceptanceBack();
+}
+
 #[AsTask(namespace: 'test', name: 'acceptance-front', description: 'Run front-end acceptance tests')]
 function acceptanceFront(): void
 {
