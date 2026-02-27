@@ -76,7 +76,7 @@
     "@types/jquery": "^3.3.31",
     "@types/lodash": "^4.14.145",
     "@types/luxon": "^1.26.2",
-    "@types/node": "^22.0.0",
+    "@types/node": "^18.19.0",
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.2",
     "@types/react-redux": "^7.1.0",
