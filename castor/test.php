@@ -140,9 +140,12 @@ function acceptanceBack(): void
     \installer\acceptanceBack();
 }
 
-#[AsTask(namespace: 'test', name: 'acceptance-back-contexts', description: 'Run bounded context acceptance tests (PHPUnit)')]
+#[AsTask(namespace: 'test', name: 'acceptance-back-contexts', description: 'Run bounded context acceptance tests')]
 function acceptanceBackContexts(): void
 {
+    // Ensure Docker services (MySQL, etc.) are started before running tests
+    \dockerCompose('up -d mysql elasticsearch');
+
     \category\acceptanceBack();
     \import_export\acceptanceBack();
     \job\acceptanceBack();
