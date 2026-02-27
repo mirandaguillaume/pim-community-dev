@@ -22,7 +22,8 @@ final readonly class CalculateProductCompleteness implements CalculateProductCom
 {
     public function __construct(
         private CompletenessCalculator $completenessCalculator
-    ) {}
+    ) {
+    }
 
     public function calculate(ProductEntityIdInterface $productUuid): CompletenessCalculationResult
     {

@@ -20,7 +20,8 @@ final readonly class ComputeProductsWithImageQuery implements ComputeProductsKey
 {
     public function __construct(
         private GetEvaluationRatesByProductsAndCriterionQueryInterface $getEvaluationRatesByProductAndCriterionQuery
-    ) {}
+    ) {
+    }
 
     public function getCode(): KeyIndicatorCode
     {

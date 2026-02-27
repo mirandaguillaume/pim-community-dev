@@ -12,7 +12,9 @@ use Akeneo\Pim\Automation\DataQualityInsights\Application\FeatureFlag;
  */
 final readonly class DataQualityInsightsFeature implements FeatureFlag
 {
-    public function __construct(private bool $activationFlag) {}
+    public function __construct(private bool $activationFlag)
+    {
+    }
 
     public function isEnabled(?string $feature = null): bool
     {

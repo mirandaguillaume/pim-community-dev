@@ -26,7 +26,9 @@ use Akeneo\Pim\Enrichment\Component\Product\Query\ProductQueryBuilderInterface;
  */
 final readonly class SqlGetConnectorProductModels implements Query\GetConnectorProductModels
 {
-    public function __construct(private GetValuesAndPropertiesFromProductModelCodes $getValuesAndPropertiesFromProductModelCodes, private GetCategoryCodesByProductModelCodes $getCategoryCodesByProductModelCodes, private GetProductAssociationsByProductModelCodes $getProductAssociationsByProductModelCodes, private GetProductModelsAssociationsByProductModelCodes $getProductModelAssociationsByProductModelCodes, private GetGroupAssociationsByProductModelCodes $getGroupAssociationsByProductModelCodes, private GetProductQuantifiedAssociationsByProductModelCodes $getProductQuantifiedAssociationsByProductModelCodes, private GetProductModelQuantifiedAssociationsByProductModelCodes $getProductModelQuantifiedAssociationsByProductModelCodes, private ReadValueCollectionFactory $readValueCollectionFactory) {}
+    public function __construct(private GetValuesAndPropertiesFromProductModelCodes $getValuesAndPropertiesFromProductModelCodes, private GetCategoryCodesByProductModelCodes $getCategoryCodesByProductModelCodes, private GetProductAssociationsByProductModelCodes $getProductAssociationsByProductModelCodes, private GetProductModelsAssociationsByProductModelCodes $getProductModelAssociationsByProductModelCodes, private GetGroupAssociationsByProductModelCodes $getGroupAssociationsByProductModelCodes, private GetProductQuantifiedAssociationsByProductModelCodes $getProductQuantifiedAssociationsByProductModelCodes, private GetProductModelQuantifiedAssociationsByProductModelCodes $getProductModelQuantifiedAssociationsByProductModelCodes, private ReadValueCollectionFactory $readValueCollectionFactory)
+    {
+    }
 
     /**
      * {@inheritdoc}
@@ -40,7 +42,7 @@ final readonly class SqlGetConnectorProductModels implements Query\GetConnectorP
     ): ConnectorProductModelList {
         $result = $productQueryBuilder->execute();
         $productModelCodes = array_map(
-            fn(IdentifierResult $identifier) => $identifier->getIdentifier(),
+            fn (IdentifierResult $identifier) => $identifier->getIdentifier(),
             iterator_to_array($result)
         );
 

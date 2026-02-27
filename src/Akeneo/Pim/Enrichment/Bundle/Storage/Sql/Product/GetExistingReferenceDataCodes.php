@@ -19,7 +19,9 @@ use Doctrine\ORM\EntityManager;
  */
 final readonly class GetExistingReferenceDataCodes implements GetExistingReferenceDataCodesInterface
 {
-    public function __construct(private EntityManager $entityManager, private ReferenceDataRepositoryResolverInterface $repositoryResolver) {}
+    public function __construct(private EntityManager $entityManager, private ReferenceDataRepositoryResolverInterface $repositoryResolver)
+    {
+    }
 
     public function fromReferenceDataNameAndCodes(string $referenceDataName, array $codes): array
     {

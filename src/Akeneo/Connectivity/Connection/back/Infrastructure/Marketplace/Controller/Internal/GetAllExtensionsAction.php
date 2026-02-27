@@ -25,7 +25,8 @@ final readonly class GetAllExtensionsAction
         private MarketplaceAnalyticsGenerator $marketplaceAnalyticsGenerator,
         private UserContext $userContext,
         private LoggerInterface $logger,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request): Response
     {

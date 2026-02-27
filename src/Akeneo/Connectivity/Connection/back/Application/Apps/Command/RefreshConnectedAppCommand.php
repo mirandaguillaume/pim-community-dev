@@ -10,7 +10,9 @@ namespace Akeneo\Connectivity\Connection\Application\Apps\Command;
  */
 final readonly class RefreshConnectedAppCommand
 {
-    public function __construct(private string $appId) {}
+    public function __construct(private string $appId)
+    {
+    }
 
     public function getAppId(): string
     {

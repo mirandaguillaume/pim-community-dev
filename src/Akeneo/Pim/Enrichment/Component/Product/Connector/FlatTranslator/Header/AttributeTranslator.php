@@ -18,7 +18,9 @@ class AttributeTranslator implements FlatHeaderTranslatorInterface
 
     private array $attributeTranslations = [];
 
-    public function __construct(private readonly LabelTranslatorInterface $labelTranslator, private readonly AttributeColumnsResolver $attributeColumnsResolver, private readonly AttributeColumnInfoExtractor $attributeColumnInfoExtractor, private readonly GetChannelTranslations $getChannelTranslations, private readonly LanguageTranslator $languageTranslator, private readonly CurrencyTranslator $currencyTranslator, private readonly GetAttributeTranslations $getAttributeTranslations) {}
+    public function __construct(private readonly LabelTranslatorInterface $labelTranslator, private readonly AttributeColumnsResolver $attributeColumnsResolver, private readonly AttributeColumnInfoExtractor $attributeColumnInfoExtractor, private readonly GetChannelTranslations $getChannelTranslations, private readonly LanguageTranslator $languageTranslator, private readonly CurrencyTranslator $currencyTranslator, private readonly GetAttributeTranslations $getAttributeTranslations)
+    {
+    }
 
     public function supports(string $columnName): bool
     {

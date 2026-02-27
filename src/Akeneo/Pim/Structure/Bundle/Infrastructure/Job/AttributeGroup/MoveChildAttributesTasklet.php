@@ -33,7 +33,8 @@ final class MoveChildAttributesTasklet implements TaskletInterface, TrackableTas
         private readonly JobRepositoryInterface $jobRepository,
         private readonly JobStopper $jobStopper,
         private readonly int $batchSize = 1000,
-    ) {}
+    ) {
+    }
 
     public function setStepExecution(StepExecution $stepExecution)
     {

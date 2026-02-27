@@ -11,7 +11,9 @@ final class CatalogQualityScoreEvolution
 {
     private const NUMBER_OF_PAST_MONTHS_TO_RETURN = 5;
 
-    public function __construct(private readonly \DateTimeImmutable $referenceDate, private array $scores, private readonly string $channel, private readonly string $locale) {}
+    public function __construct(private readonly \DateTimeImmutable $referenceDate, private array $scores, private readonly string $channel, private readonly string $locale)
+    {
+    }
 
     public function toArray(): array
     {

@@ -16,7 +16,9 @@ use Doctrine\DBAL\Types\Types;
  */
 class DbalConnectionRepository implements ConnectionRepositoryInterface
 {
-    public function __construct(private readonly DbalConnection $dbalConnection) {}
+    public function __construct(private readonly DbalConnection $dbalConnection)
+    {
+    }
 
     public function create(Connection $connection): void
     {

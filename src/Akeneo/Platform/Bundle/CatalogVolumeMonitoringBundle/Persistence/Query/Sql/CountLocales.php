@@ -17,7 +17,9 @@ class CountLocales implements CountQuery
 {
     private const VOLUME_NAME = 'count_locales';
 
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     /**
      * {@inheritdoc}

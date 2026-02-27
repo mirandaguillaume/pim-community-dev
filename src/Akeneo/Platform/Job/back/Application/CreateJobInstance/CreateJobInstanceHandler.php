@@ -38,7 +38,8 @@ final readonly class CreateJobInstanceHandler implements CreateJobInstanceHandle
         private ValidatorInterface $validator,
         private SaverInterface $jobInstanceSaver,
         private SecurityFacadeInterface $securityFacade,
-    ) {}
+    ) {
+    }
 
     public function handle(CreateJobInstanceCommand $command): void
     {

@@ -14,7 +14,8 @@ final readonly class Context
         private string $username,
         private int $userId,
         private bool $isUsingUuid = false,
-    ) {}
+    ) {
+    }
 
     public function getUsername(): string
     {

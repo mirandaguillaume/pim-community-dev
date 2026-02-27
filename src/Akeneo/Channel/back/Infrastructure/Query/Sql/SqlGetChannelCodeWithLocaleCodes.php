@@ -17,7 +17,9 @@ final class SqlGetChannelCodeWithLocaleCodes implements GetChannelCodeWithLocale
     /**
      * @param Connection $connection
      */
-    public function __construct(private $connection) {}
+    public function __construct(private $connection)
+    {
+    }
 
     public function findAll(): array
     {

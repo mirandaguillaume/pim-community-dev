@@ -16,7 +16,9 @@ use Ramsey\Uuid\UuidInterface;
  */
 final readonly class SqlFindProductUuids
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     /**
      * Returns an array uuid as Uuid => identifier
@@ -45,6 +47,6 @@ final readonly class SqlFindProductUuids
             ['identifiers' => ArrayParameterType::STRING]
         );
 
-        return array_map(fn(string $uuid): UuidInterface => Uuid::fromString($uuid), $result);
+        return array_map(fn (string $uuid): UuidInterface => Uuid::fromString($uuid), $result);
     }
 }

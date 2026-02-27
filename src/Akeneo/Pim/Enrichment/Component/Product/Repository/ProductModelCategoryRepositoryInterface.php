@@ -14,4 +14,6 @@ use Akeneo\Category\Infrastructure\Component\Classification\Repository\ItemCateg
  */
 interface ProductModelCategoryRepositoryInterface extends
     ItemCategoryRepositoryInterface,
-    CategoryFilterableRepositoryInterface {}
+    CategoryFilterableRepositoryInterface
+{
+}

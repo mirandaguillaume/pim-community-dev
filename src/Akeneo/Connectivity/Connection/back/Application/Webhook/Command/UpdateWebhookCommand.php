@@ -16,7 +16,8 @@ class UpdateWebhookCommand
         private readonly bool $enabled,
         private readonly ?string $url = null,
         private readonly bool $isUsingUuid = false,
-    ) {}
+    ) {
+    }
 
     public function code(): string
     {

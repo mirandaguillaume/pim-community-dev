@@ -11,7 +11,9 @@ namespace Akeneo\Connectivity\Connection\Domain\Settings\Model\Read;
  */
 class User
 {
-    public function __construct(private readonly int $id, private readonly string $username, private readonly string $password) {}
+    public function __construct(private readonly int $id, private readonly string $username, private readonly string $password)
+    {
+    }
 
     public function id(): int
     {

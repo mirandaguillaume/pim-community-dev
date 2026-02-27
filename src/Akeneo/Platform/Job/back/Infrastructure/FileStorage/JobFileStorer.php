@@ -10,7 +10,8 @@ class JobFileStorer implements JobFileStorerInterface
 {
     public function __construct(
         private readonly FilesystemOperator $filesystem,
-    ) {}
+    ) {
+    }
 
     public function store(string $jobCode, string $fileName, $fileStream): string
     {

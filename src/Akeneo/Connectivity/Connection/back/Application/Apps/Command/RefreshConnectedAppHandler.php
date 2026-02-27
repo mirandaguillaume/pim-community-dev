@@ -25,7 +25,8 @@ final readonly class RefreshConnectedAppHandler
         private UserRepositoryInterface $userRepository,
         private ObjectUpdaterInterface $userUpdater,
         private SaverInterface $userSaver,
-    ) {}
+    ) {
+    }
 
     public function handle(RefreshConnectedAppCommand $command): void
     {

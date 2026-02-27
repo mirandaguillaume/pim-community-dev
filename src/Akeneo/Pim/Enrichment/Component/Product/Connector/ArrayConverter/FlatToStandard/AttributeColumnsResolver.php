@@ -19,7 +19,9 @@ class AttributeColumnsResolver
     protected array $attributesFields = [];
     protected string $identifierField = '';
 
-    public function __construct(protected AttributeRepositoryInterface $attributeRepository, protected FindActivatedCurrenciesInterface $findActivatedCurrenciesInterface, protected AttributeValuesResolverInterface $valuesResolver) {}
+    public function __construct(protected AttributeRepositoryInterface $attributeRepository, protected FindActivatedCurrenciesInterface $findActivatedCurrenciesInterface, protected AttributeValuesResolverInterface $valuesResolver)
+    {
+    }
 
     public function resolveIdentifierField(): string
     {

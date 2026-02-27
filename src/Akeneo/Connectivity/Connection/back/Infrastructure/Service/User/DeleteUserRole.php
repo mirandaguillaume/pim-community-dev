@@ -14,7 +14,9 @@ use Akeneo\UserManagement\Bundle\Doctrine\ORM\Repository\RoleRepository;
  */
 class DeleteUserRole implements DeleteUserRoleInterface
 {
-    public function __construct(private readonly RoleRepository $repository, private readonly RemoverInterface $remover) {}
+    public function __construct(private readonly RoleRepository $repository, private readonly RemoverInterface $remover)
+    {
+    }
 
     public function execute(string $role): void
     {

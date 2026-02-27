@@ -26,7 +26,9 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ProductGridController
 {
-    public function __construct(private readonly ListAttributesUseableInProductGrid $listAttributesQuery, private readonly ConfiguratorInterface $filtersConfigurator, private readonly FilterExtension $filterExtension, private readonly UserContext $userContext, private readonly DatagridViewManager $datagridViewManager, private readonly ListProductGridAvailableColumns $listAvailableColumnsQuery, private readonly ListProductGridAvailableColumnGroups $listAvailableColumnGroupsQuery) {}
+    public function __construct(private readonly ListAttributesUseableInProductGrid $listAttributesQuery, private readonly ConfiguratorInterface $filtersConfigurator, private readonly FilterExtension $filterExtension, private readonly UserContext $userContext, private readonly DatagridViewManager $datagridViewManager, private readonly ListProductGridAvailableColumns $listAvailableColumnsQuery, private readonly ListProductGridAvailableColumnGroups $listAvailableColumnGroupsQuery)
+    {
+    }
 
     /**
      * Get a paginated list of the attributes usable as filters for the product grid.

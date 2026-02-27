@@ -10,7 +10,9 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject;
  */
 final readonly class ConsolidationDate
 {
-    public function __construct(private \DateTimeImmutable $dateTime) {}
+    public function __construct(private \DateTimeImmutable $dateTime)
+    {
+    }
 
     public function getDateTime(): \DateTimeImmutable
     {

@@ -18,7 +18,9 @@ use Twig\Environment;
  */
 class SystemInfoController
 {
-    public function __construct(private readonly Environment $templating, private readonly ChainedDataCollector $dataCollector) {}
+    public function __construct(private readonly Environment $templating, private readonly ChainedDataCollector $dataCollector)
+    {
+    }
 
     /**
      * @param string $_format

@@ -12,7 +12,9 @@ use Symfony\Component\Messenger\Stamp\StampInterface;
  */
 final readonly class NativeMessageStamp implements StampInterface
 {
-    public function __construct(private mixed $nativeMessage) {}
+    public function __construct(private mixed $nativeMessage)
+    {
+    }
 
     public function getNativeMessage(): mixed
     {

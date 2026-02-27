@@ -16,7 +16,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 final readonly class DashboardOverviewController
 {
-    public function __construct(private GetDashboardScoresQueryInterface $getDashboardScoresQuery) {}
+    public function __construct(private GetDashboardScoresQueryInterface $getDashboardScoresQuery)
+    {
+    }
 
     public function __invoke(Request $request, string $channel, string $locale, string $timePeriod)
     {

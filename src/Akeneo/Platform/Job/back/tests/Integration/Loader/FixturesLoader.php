@@ -19,7 +19,8 @@ final class FixturesLoader
         private readonly Connection $dbalConnection,
         private readonly FixturesJobHelper $fixturesJobHelper,
         private readonly FixturesUserHelper $fixturesUserHelper
-    ) {}
+    ) {
+    }
 
     public function resetFixtures(): void
     {

@@ -13,7 +13,9 @@ use Akeneo\Connectivity\Connection\Domain\ValueObject\HourlyInterval;
  */
 class HourlyEventCount
 {
-    public function __construct(private readonly string $connectionCode, private readonly HourlyInterval $hourlyInterval, private readonly int $eventCount, private readonly string $eventType) {}
+    public function __construct(private readonly string $connectionCode, private readonly HourlyInterval $hourlyInterval, private readonly int $eventCount, private readonly string $eventType)
+    {
+    }
 
     public function connectionCode(): string
     {

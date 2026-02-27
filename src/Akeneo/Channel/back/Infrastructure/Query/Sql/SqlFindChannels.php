@@ -16,7 +16,8 @@ final readonly class SqlFindChannels implements FindChannels
 {
     public function __construct(
         private Connection $connection
-    ) {}
+    ) {
+    }
 
     /**
      * @return Channel[]

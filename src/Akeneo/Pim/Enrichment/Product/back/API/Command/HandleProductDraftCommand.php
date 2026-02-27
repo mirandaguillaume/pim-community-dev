@@ -18,7 +18,8 @@ final readonly class HandleProductDraftCommand
     public function __construct(
         private UuidInterface $uuid,
         private array $data
-    ) {}
+    ) {
+    }
 
     public function getUuid(): UuidInterface
     {

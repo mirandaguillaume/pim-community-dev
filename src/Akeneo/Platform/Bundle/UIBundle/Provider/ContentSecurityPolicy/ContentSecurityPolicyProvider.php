@@ -11,7 +11,9 @@ final readonly class ContentSecurityPolicyProvider
     /**
      * @param \Akeneo\Platform\Bundle\UIBundle\Provider\ContentSecurityPolicy\ContentSecurityPolicyProviderInterface[] $contentSecurityPolicyProviders
      */
-    public function __construct(private iterable $contentSecurityPolicyProviders) {}
+    public function __construct(private iterable $contentSecurityPolicyProviders)
+    {
+    }
 
     public function getPolicy(): string
     {

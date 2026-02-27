@@ -19,7 +19,9 @@ use Webmozart\Assert\Assert;
  */
 class TranslatorDecorator implements TranslatorInterface, LocaleAwareInterface, TranslatorBagInterface
 {
-    public function __construct(private readonly TranslatorInterface $symfonyTranslator) {}
+    public function __construct(private readonly TranslatorInterface $symfonyTranslator)
+    {
+    }
 
     /**
      * {@inheritdoc}

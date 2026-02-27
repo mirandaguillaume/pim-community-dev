@@ -21,7 +21,8 @@ final readonly class GetWebMarketplaceUrlAction
     public function __construct(
         private MarketplaceUrlGeneratorInterface $marketplaceUrlGenerator,
         private UserContext $userContext,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request): Response
     {

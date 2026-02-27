@@ -24,7 +24,8 @@ class GetEvaluableAttributesByProductQuery implements GetEvaluableAttributesByPr
     public function __construct(
         /** * @var Connection */
         private readonly Connection $dbConnection
-    ) {}
+    ) {
+    }
 
     public function execute(ProductEntityIdInterface $productUuid): array
     {

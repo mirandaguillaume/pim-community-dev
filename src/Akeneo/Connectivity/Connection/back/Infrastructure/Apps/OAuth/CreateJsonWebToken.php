@@ -24,7 +24,8 @@ class CreateJsonWebToken
         private readonly ClockInterface $clock,
         private readonly PimUrl $pimUrl,
         private readonly GetAsymmetricKeysQueryInterface $getAsymmetricKeysQuery
-    ) {}
+    ) {
+    }
 
     public function create(
         string $clientId,

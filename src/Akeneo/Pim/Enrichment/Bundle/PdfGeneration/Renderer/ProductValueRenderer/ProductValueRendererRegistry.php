@@ -7,7 +7,9 @@ class ProductValueRendererRegistry
     /**
      * @param ProductValueRenderer[] $renderers
      */
-    public function __construct(private readonly iterable $renderers, private readonly ProductValueRenderer $defaultRenderer) {}
+    public function __construct(private readonly iterable $renderers, private readonly ProductValueRenderer $defaultRenderer)
+    {
+    }
 
     public function getProductValueRenderer($attributeType): ProductValueRenderer
     {

@@ -20,7 +20,9 @@ class FilterLocaleValueSubscriber implements EventSubscriberInterface
      * @param string $currentLocale
      * @param string $comparisonLocale
      */
-    public function __construct(protected $currentLocale, protected $comparisonLocale) {}
+    public function __construct(protected $currentLocale, protected $comparisonLocale)
+    {
+    }
 
     /**
      * @return array

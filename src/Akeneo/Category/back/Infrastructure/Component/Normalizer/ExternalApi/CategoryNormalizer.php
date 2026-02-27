@@ -14,7 +14,9 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class CategoryNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    public function __construct(protected NormalizerInterface $stdNormalizer, protected PositionResolverInterface $positionResolver) {}
+    public function __construct(protected NormalizerInterface $stdNormalizer, protected PositionResolverInterface $positionResolver)
+    {
+    }
 
     public function normalize($category, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {

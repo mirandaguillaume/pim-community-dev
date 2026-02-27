@@ -12,7 +12,9 @@ class RemoveAttributeCodesFromBlacklistTasklet implements TaskletInterface
 {
     private StepExecution $stepExecution;
 
-    public function __construct(private readonly AttributeCodeBlacklister $attributeCodeBlacklister) {}
+    public function __construct(private readonly AttributeCodeBlacklister $attributeCodeBlacklister)
+    {
+    }
 
     public function setStepExecution(StepExecution $stepExecution)
     {

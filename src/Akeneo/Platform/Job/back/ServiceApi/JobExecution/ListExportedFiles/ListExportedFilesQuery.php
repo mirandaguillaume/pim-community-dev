@@ -13,5 +13,6 @@ class ListExportedFilesQuery
     public function __construct(
         public int $jobExecutionId,
         public bool $withMedia = false,
-    ) {}
+    ) {
+    }
 }

@@ -26,7 +26,8 @@ class RequiredAttributesMaskForChannelAndLocale
          * ['name-ecommerce-en_US', 'sku-<all_channel>-<all_locales>', ...]
          */
         private readonly array $mask
-    ) {}
+    ) {
+    }
 
     public function channelCode(): string
     {

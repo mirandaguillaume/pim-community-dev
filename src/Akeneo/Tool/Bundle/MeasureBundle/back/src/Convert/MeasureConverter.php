@@ -20,7 +20,9 @@ class MeasureConverter
 
     private ?string $family = null;
 
-    public function __construct(private readonly LegacyMeasurementProvider $legacyMeasurementProvider) {}
+    public function __construct(private readonly LegacyMeasurementProvider $legacyMeasurementProvider)
+    {
+    }
 
     /**
      * Set a family for the converter

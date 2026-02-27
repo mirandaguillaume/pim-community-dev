@@ -24,7 +24,8 @@ class RegisterKeyIndicatorFilter
         private string $filterName,
         private readonly string $filterLabel,
         private readonly ?string $featureName,
-    ) {}
+    ) {
+    }
 
     // TIP-1555: to remove later on with AddDraftStatusFilterToProductGridListener also
     public function buildBefore(BuildBefore $event): void

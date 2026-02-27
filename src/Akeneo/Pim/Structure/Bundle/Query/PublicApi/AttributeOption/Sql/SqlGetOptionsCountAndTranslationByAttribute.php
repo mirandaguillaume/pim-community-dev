@@ -19,7 +19,9 @@ final readonly class SqlGetOptionsCountAndTranslationByAttribute implements GetO
 {
     private const MAX_PAGE_SIZE = 20;
 
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     /**
      * @return array example:
@@ -64,7 +66,7 @@ final readonly class SqlGetOptionsCountAndTranslationByAttribute implements GetO
         )->fetchAllAssociative();
 
         return array_map(
-            fn(array $result): array => [
+            fn (array $result): array => [
                 'code' => $result['code'],
                 'label' => $result['label'],
                 'options_count' => (int) $result['options_count'],

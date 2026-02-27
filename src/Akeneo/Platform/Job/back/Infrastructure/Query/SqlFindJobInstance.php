@@ -19,7 +19,8 @@ class SqlFindJobInstance implements FindJobInstanceInterface
 {
     public function __construct(
         private readonly Connection $connection,
-    ) {}
+    ) {
+    }
 
     public function fromQuery(JobInstanceQuery $query): array
     {
@@ -95,7 +96,7 @@ class SqlFindJobInstance implements FindJobInstanceInterface
         )->fetchAllAssociative();
 
         return array_map(
-            static fn(array $jobInstance) => new JobInstance(
+            static fn (array $jobInstance) => new JobInstance(
                 $jobInstance['code'],
                 $jobInstance['label'],
                 unserialize($jobInstance['raw_parameters']),

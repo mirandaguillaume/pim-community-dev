@@ -25,7 +25,8 @@ class GetJobUserAction
         private readonly Security $security,
         private readonly SecurityFacade $securityFacade,
         private readonly SearchJobUserHandler $searchJobUserHandler,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request): Response
     {

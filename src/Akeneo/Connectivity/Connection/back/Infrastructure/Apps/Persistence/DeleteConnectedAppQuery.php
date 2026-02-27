@@ -13,7 +13,9 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class DeleteConnectedAppQuery implements DeleteConnectedAppQueryInterface
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     public function execute(string $appId): void
     {

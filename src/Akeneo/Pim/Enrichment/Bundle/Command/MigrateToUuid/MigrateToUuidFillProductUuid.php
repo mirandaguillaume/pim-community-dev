@@ -21,7 +21,8 @@ class MigrateToUuidFillProductUuid implements MigrateToUuidStep
     public function __construct(
         private readonly Connection $connection,
         private readonly LoggerInterface $logger
-    ) {}
+    ) {
+    }
 
     public function getDescription(): string
     {

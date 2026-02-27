@@ -17,7 +17,8 @@ class MaxAttributeGroupCountValidator extends ConstraintValidator
     public function __construct(
         private readonly AttributeGroupRepositoryInterface $attributeGroupRepository,
         private readonly int $maxAttributeGroupCount,
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}

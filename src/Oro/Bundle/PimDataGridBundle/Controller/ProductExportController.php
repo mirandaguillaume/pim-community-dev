@@ -39,7 +39,8 @@ class ProductExportController
         private readonly DataGridManager $datagridManager,
         private readonly MassActionParametersParser $parameterParser,
         private readonly VersionProviderInterface $versionProvider
-    ) {}
+    ) {
+    }
 
     /**
      * Launch the quick export

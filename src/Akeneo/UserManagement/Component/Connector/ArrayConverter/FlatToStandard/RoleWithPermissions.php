@@ -16,7 +16,9 @@ final readonly class RoleWithPermissions implements ArrayConverterInterface
 {
     private const FIELDS_PRESENCE = ['role'];
 
-    public function __construct(private FieldsRequirementChecker $fieldsRequirementChecker) {}
+    public function __construct(private FieldsRequirementChecker $fieldsRequirementChecker)
+    {
+    }
 
     /**
      * {@inheritdoc}

@@ -25,7 +25,8 @@ class WebhookEvent
         private readonly string $pimSource,
         private readonly array $data,
         private readonly EventInterface $pimEvent
-    ) {}
+    ) {
+    }
 
     public function action(): string
     {

@@ -17,7 +17,9 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class AuthorizationCodeMustBeValidValidator extends ConstraintValidator
 {
-    public function __construct(private readonly IOAuth2GrantCode $storage) {}
+    public function __construct(private readonly IOAuth2GrantCode $storage)
+    {
+    }
 
     public function validate($value, Constraint $constraint)
     {

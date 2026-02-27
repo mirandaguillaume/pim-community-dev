@@ -21,7 +21,8 @@ class FamilyLoader
         private readonly ObjectUpdaterInterface $updater,
         private readonly SaverInterface $saver,
         private readonly ValidatorInterface $validator
-    ) {}
+    ) {
+    }
 
     public function create(array $data): void
     {

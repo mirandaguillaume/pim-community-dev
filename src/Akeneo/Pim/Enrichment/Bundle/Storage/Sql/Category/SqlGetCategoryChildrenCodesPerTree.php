@@ -17,7 +17,9 @@ use Webmozart\Assert\Assert;
  */
 class SqlGetCategoryChildrenCodesPerTree implements GetCategoryChildrenCodesPerTreeInterface
 {
-    public function __construct(private readonly Connection $connection, private readonly CategoryCodeFilterInterface $categoryCodeFilter) {}
+    public function __construct(private readonly Connection $connection, private readonly CategoryCodeFilterInterface $categoryCodeFilter)
+    {
+    }
 
     public function executeWithChildren(array $categoryCodes): array
     {

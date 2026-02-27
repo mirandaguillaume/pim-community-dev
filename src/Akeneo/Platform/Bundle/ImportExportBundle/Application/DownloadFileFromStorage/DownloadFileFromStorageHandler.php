@@ -21,7 +21,8 @@ final readonly class DownloadFileFromStorageHandler
         private StorageHydratorInterface $storageHydrator,
         private DownloadFileFromStorageInterface $downloadFileFromStorage,
         private FeatureFlags $featureFlags,
-    ) {}
+    ) {
+    }
 
     public function handle(DownloadFileFromStorageCommand $command): string
     {

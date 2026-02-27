@@ -16,7 +16,9 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final readonly class IsCustomAppsNumberLimitReachedAction
 {
-    public function __construct(private IsCustomAppsNumberLimitReachedQueryInterface $isCustomAppsNumberLimitReachedQuery) {}
+    public function __construct(private IsCustomAppsNumberLimitReachedQueryInterface $isCustomAppsNumberLimitReachedQuery)
+    {
+    }
 
     public function __invoke(Request $request): Response
     {

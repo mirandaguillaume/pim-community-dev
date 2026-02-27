@@ -16,7 +16,9 @@ use Akeneo\Tool\Bundle\MeasureBundle\Persistence\MeasurementFamilyRepositoryInte
  */
 class FindMeasurementFamilies
 {
-    public function __construct(private readonly MeasurementFamilyRepositoryInterface $measurementFamilyRepository) {}
+    public function __construct(private readonly MeasurementFamilyRepositoryInterface $measurementFamilyRepository)
+    {
+    }
 
     /**
      * @return MeasurementFamily[]
@@ -26,7 +28,7 @@ class FindMeasurementFamilies
         $allMeasurementFamilies = $this->measurementFamilyRepository->all();
 
         return array_map(
-            static fn(MeasurementFamilyAggregate $measurementFamily) => MeasurementFamily::fromAggregate($measurementFamily),
+            static fn (MeasurementFamilyAggregate $measurementFamily) => MeasurementFamily::fromAggregate($measurementFamily),
             $allMeasurementFamilies
         );
     }

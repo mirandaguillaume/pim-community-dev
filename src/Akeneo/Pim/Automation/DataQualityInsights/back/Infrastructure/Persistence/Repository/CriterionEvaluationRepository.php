@@ -21,7 +21,8 @@ class CriterionEvaluationRepository
     public function __construct(
         private readonly Connection $dbConnection,
         private readonly TransformCriterionEvaluationResultCodes $transformCriterionEvaluationResult
-    ) {}
+    ) {
+    }
 
     public function createCriterionEvaluationsForProducts(Write\CriterionEvaluationCollection $criteriaEvaluations): void
     {

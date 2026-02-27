@@ -19,7 +19,8 @@ class InstallSubscriber implements EventSubscriberInterface
     public function __construct(
         private readonly DbalConnection $dbalConnection,
         private readonly AddAclToRoles $addAclToRoles,
-    ) {}
+    ) {
+    }
 
     public static function getSubscribedEvents(): array
     {

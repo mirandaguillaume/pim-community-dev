@@ -12,7 +12,9 @@ use Doctrine\DBAL\Connection;
 
 final readonly class SqlGetAssociationTypes implements GetAssociationTypesInterface
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     /**
      * @inheritDoc

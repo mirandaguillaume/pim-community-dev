@@ -19,7 +19,8 @@ final readonly class GetOutdatedProductUuidsByDateAndCriteriaQuery implements Ge
 {
     public function __construct(
         private Connection $dbConnection,
-    ) {}
+    ) {
+    }
 
     /**
      * Retrieves the products that have at least one criterion from a given list that has not been evaluated since a given date

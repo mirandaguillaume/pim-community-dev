@@ -21,7 +21,9 @@ class DateTimeNormalizer extends AbstractValueDataNormalizer implements Cacheabl
     /**
      * @param string $format see http://www.php.net/date
      */
-    public function __construct(protected $format = 'c') {}
+    public function __construct(protected $format = 'c')
+    {
+    }
 
     /**
      * {@inheritdoc}

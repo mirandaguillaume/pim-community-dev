@@ -25,7 +25,9 @@ use Doctrine\Common\Collections\Collection;
  */
 class ProductModelAttributeFilter implements AttributeFilterInterface
 {
-    public function __construct(private readonly IdentifiableObjectRepositoryInterface $familyVariantRepository, private readonly IdentifiableObjectRepositoryInterface $productModelRepository, private readonly IdentifiableObjectRepositoryInterface $attributeRepository) {}
+    public function __construct(private readonly IdentifiableObjectRepositoryInterface $familyVariantRepository, private readonly IdentifiableObjectRepositoryInterface $productModelRepository, private readonly IdentifiableObjectRepositoryInterface $attributeRepository)
+    {
+    }
 
     /**
      * {@inheritdoc}
@@ -89,7 +91,7 @@ class ProductModelAttributeFilter implements AttributeFilterInterface
             $shortAttributeName = $shortAttributeName[0];
 
             $keepedAttributeCodes = $attributesToKeep->exists(
-                fn($key, AttributeInterface $attribute) => $attribute->getCode() === $shortAttributeName
+                fn ($key, AttributeInterface $attribute) => $attribute->getCode() === $shortAttributeName
             );
 
             if (!$keepedAttributeCodes) {

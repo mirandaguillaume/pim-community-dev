@@ -16,5 +16,6 @@ final readonly class DeleteJobInstanceCommand
      */
     public function __construct(
         public array $codes,
-    ) {}
+    ) {
+    }
 }

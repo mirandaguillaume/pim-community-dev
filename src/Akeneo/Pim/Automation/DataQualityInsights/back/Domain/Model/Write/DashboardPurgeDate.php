@@ -13,7 +13,9 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\TimePeriod;
  */
 class DashboardPurgeDate
 {
-    public function __construct(private readonly TimePeriod $period, private readonly ConsolidationDate $date) {}
+    public function __construct(private readonly TimePeriod $period, private readonly ConsolidationDate $date)
+    {
+    }
 
     public function getPeriod(): TimePeriod
     {

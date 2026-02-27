@@ -58,11 +58,11 @@ final readonly class GetElasticsearchProductProjection implements GetElasticsear
         $rows = $this->calculateAttributeCodeForOwnLevel($rows);
 
         $rowUuids = \array_map(
-            static fn(array $row): string => (string) $row['uuid'],
+            static fn (array $row): string => (string) $row['uuid'],
             $rows
         );
         $notFetchedUuids = \array_diff(
-            array_map(fn(UuidInterface $uuid): string => $uuid->toString(), $productUuids),
+            array_map(fn (UuidInterface $uuid): string => $uuid->toString(), $productUuids),
             $rowUuids
         );
 
@@ -73,7 +73,7 @@ final readonly class GetElasticsearchProductProjection implements GetElasticsear
         $rows = $this->createValueCollectionInBatchFromRows($rows);
 
         $context = ['value_collections' => \array_map(
-            static fn(array $row) => $row['values'],
+            static fn (array $row) => $row['values'],
             $rows
         )];
         $additionalData = [];
@@ -280,7 +280,7 @@ final readonly class GetElasticsearchProductProjection implements GetElasticsear
                     LEFT JOIN variant_product_attributes ON variant_product_attributes.family_variant_id = product.family_variant_id
             SQL;
 
-        $productUuidsAsBytes = \array_map(static fn(UuidInterface $uuid): string => $uuid->getBytes(), $productUuids);
+        $productUuidsAsBytes = \array_map(static fn (UuidInterface $uuid): string => $uuid->getBytes(), $productUuids);
 
         $rows =  $this
             ->connection
@@ -373,7 +373,7 @@ final readonly class GetElasticsearchProductProjection implements GetElasticsear
 
         $valueCollections = $this->readValueCollectionFactory->createMultipleFromStorageFormat(
             \array_map(
-                static fn(array $row): array => $row['raw_values'],
+                static fn (array $row): array => $row['raw_values'],
                 $rowsIndexedByProductUuid
             )
         );
@@ -395,7 +395,7 @@ final readonly class GetElasticsearchProductProjection implements GetElasticsear
         $results = $this->connection->fetchAllKeyValue(
             $query,
             [
-                'uuids' => \array_map(static fn(string $uuid): string => Uuid::fromString($uuid)->getBytes(), \array_keys($rows)),
+                'uuids' => \array_map(static fn (string $uuid): string => Uuid::fromString($uuid)->getBytes(), \array_keys($rows)),
             ],
             [
                 'uuids' => ArrayParameterType::STRING,

@@ -13,7 +13,9 @@ use Ramsey\Uuid\UuidInterface;
  */
 final readonly class ProductUuid
 {
-    private function __construct(private UuidInterface $uuid) {}
+    private function __construct(private UuidInterface $uuid)
+    {
+    }
 
     public static function fromUuid(UuidInterface $uuid): self
     {

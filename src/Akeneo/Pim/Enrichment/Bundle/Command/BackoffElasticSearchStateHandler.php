@@ -19,7 +19,9 @@ class BackoffElasticSearchStateHandler
     final public const MAX_RETRY_COUNTER = 10;
     final public const BACKOFF_LOGARITHMIC_INCREMENT = 2;
 
-    public function __construct(private readonly int $maxNumberRetry = self::MAX_RETRY_COUNTER, private readonly int $backoffLogarithmicIncrement = self::BACKOFF_LOGARITHMIC_INCREMENT) {}
+    public function __construct(private readonly int $maxNumberRetry = self::MAX_RETRY_COUNTER, private readonly int $backoffLogarithmicIncrement = self::BACKOFF_LOGARITHMIC_INCREMENT)
+    {
+    }
 
     public function bulkExecute(array $codes, BulkEsHandlerInterface $codesEsHandler): int
     {

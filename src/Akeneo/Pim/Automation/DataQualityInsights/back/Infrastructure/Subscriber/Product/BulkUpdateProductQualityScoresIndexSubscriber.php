@@ -14,7 +14,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 final readonly class BulkUpdateProductQualityScoresIndexSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private BulkUpdateProductQualityScoresInterface $bulkUpdateProductQualityScores) {}
+    public function __construct(private BulkUpdateProductQualityScoresInterface $bulkUpdateProductQualityScores)
+    {
+    }
 
     public static function getSubscribedEvents(): array
     {

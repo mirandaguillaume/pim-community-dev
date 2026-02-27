@@ -43,7 +43,9 @@ class ProductModelController
 {
     private const PRODUCT_MODELS_LIMIT = 20;
 
-    public function __construct(private readonly ProductModelRepositoryInterface $productModelRepository, private readonly NormalizerInterface $normalizer, private readonly UserContext $userContext, private readonly ObjectFilterInterface $objectFilter, private readonly AttributeConverterInterface $localizedConverter, private readonly EntityWithValuesFilter $emptyValuesFilter, private readonly ConverterInterface $productValueConverter, private readonly ObjectUpdaterInterface $productModelUpdater, private readonly ValidatorInterface $productModelValidator, private readonly SaverInterface $productModelSaver, private readonly NormalizerInterface $constraintViolationNormalizer, private readonly NormalizerInterface $entityWithFamilyVariantNormalizer, private readonly SimpleFactoryInterface $productModelFactory, private readonly NormalizerInterface $violationNormalizer, private readonly FamilyVariantRepositoryInterface $familyVariantRepository, private readonly AttributeFilterInterface $productModelAttributeFilter, private readonly Client $productAndProductModelClient, private readonly CollectionFilterInterface $productEditDataFilter, private readonly RemoveProductModelHandler $removeProductModelHandler, private readonly ValidatorInterface $validator) {}
+    public function __construct(private readonly ProductModelRepositoryInterface $productModelRepository, private readonly NormalizerInterface $normalizer, private readonly UserContext $userContext, private readonly ObjectFilterInterface $objectFilter, private readonly AttributeConverterInterface $localizedConverter, private readonly EntityWithValuesFilter $emptyValuesFilter, private readonly ConverterInterface $productValueConverter, private readonly ObjectUpdaterInterface $productModelUpdater, private readonly ValidatorInterface $productModelValidator, private readonly SaverInterface $productModelSaver, private readonly NormalizerInterface $constraintViolationNormalizer, private readonly NormalizerInterface $entityWithFamilyVariantNormalizer, private readonly SimpleFactoryInterface $productModelFactory, private readonly NormalizerInterface $violationNormalizer, private readonly FamilyVariantRepositoryInterface $familyVariantRepository, private readonly AttributeFilterInterface $productModelAttributeFilter, private readonly Client $productAndProductModelClient, private readonly CollectionFilterInterface $productEditDataFilter, private readonly RemoveProductModelHandler $removeProductModelHandler, private readonly ValidatorInterface $validator)
+    {
+    }
 
     /**
      * @param int $id Product model id
@@ -89,7 +91,7 @@ class ProductModelController
         $productModelIdentifiers = explode(',', (string) $request->get('identifiers'));
         $productModels = $this->productModelRepository->findByIdentifiers($productModelIdentifiers);
 
-        $normalizedProductModels = array_map(fn($productModel) => $this->normalizeProductModel($productModel), $productModels);
+        $normalizedProductModels = array_map(fn ($productModel) => $this->normalizeProductModel($productModel), $productModels);
 
         return new JsonResponse($normalizedProductModels);
     }

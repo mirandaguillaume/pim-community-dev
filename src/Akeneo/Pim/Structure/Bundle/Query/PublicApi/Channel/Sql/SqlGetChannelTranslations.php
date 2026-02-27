@@ -9,7 +9,9 @@ use Doctrine\DBAL\Connection;
 
 class SqlGetChannelTranslations implements GetChannelTranslations
 {
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     public function byLocale(string $locale): array
     {

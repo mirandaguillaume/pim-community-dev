@@ -14,7 +14,9 @@ use Doctrine\DBAL\Types\Types;
  */
 class PurgeDoctrineQueueQuery
 {
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     public function execute(string $tableName, string $queueName, \DateTimeImmutable $olderThan): int
     {

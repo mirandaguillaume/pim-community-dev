@@ -16,7 +16,8 @@ class GetAncestorProductModelCodes
 {
     public function __construct(
         private readonly Connection $connection
-    ) {}
+    ) {
+    }
 
     /**
      * @param UuidInterface[] $productUuids
@@ -44,7 +45,7 @@ class GetAncestorProductModelCodes
             INNER JOIN pim_catalog_product_model root ON root.id = sub_product_model.parent_id;
             SQL;
 
-        $productUuidsAsBytes = \array_map(static fn(UuidInterface $uuid): string => $uuid->getBytes(), $productUuids);
+        $productUuidsAsBytes = \array_map(static fn (UuidInterface $uuid): string => $uuid->getBytes(), $productUuids);
 
         return $this->connection->executeQuery(
             $sql,

@@ -23,7 +23,9 @@ final readonly class ContextValueDecrypter implements ContextValueDecrypterInter
 {
     private const OPEN_SSL_CIPHER_METHOD = 'aes-256-cbc';
 
-    public function __construct(private string $encodedEncryptionKey) {}
+    public function __construct(private string $encodedEncryptionKey)
+    {
+    }
 
     /**
      * A lots of try/catch blocks to not propagate exceptions with potential security leaks in the messages.

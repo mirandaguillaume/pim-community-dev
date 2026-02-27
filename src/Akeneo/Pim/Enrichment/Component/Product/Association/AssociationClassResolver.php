@@ -19,7 +19,9 @@ class AssociationClassResolver
     /**
      * @param string[] $associationClassMap
      */
-    public function __construct(private readonly array $associationClassMap) {}
+    public function __construct(private readonly array $associationClassMap)
+    {
+    }
 
     public function resolveAssociationClass(EntityWithAssociationsInterface $entity): string
     {

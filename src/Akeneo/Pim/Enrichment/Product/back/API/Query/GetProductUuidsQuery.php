@@ -29,7 +29,8 @@ final readonly class GetProductUuidsQuery
         private array $searchFilters,
         private ?int $userId,
         private ?UuidInterface $searchAfterUuid = null
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, mixed>

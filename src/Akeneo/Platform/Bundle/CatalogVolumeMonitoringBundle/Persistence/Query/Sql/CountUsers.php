@@ -18,7 +18,9 @@ class CountUsers implements CountQuery
 {
     private const VOLUME_NAME = 'count_users';
 
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     /**
      * {@inheritdoc}

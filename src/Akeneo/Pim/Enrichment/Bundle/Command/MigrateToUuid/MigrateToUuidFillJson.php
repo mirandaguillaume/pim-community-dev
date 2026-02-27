@@ -36,7 +36,8 @@ class MigrateToUuidFillJson implements MigrateToUuidStep
     public function __construct(
         private readonly Connection $connection,
         private readonly LoggerInterface $logger
-    ) {}
+    ) {
+    }
 
     public function getDescription(): string
     {
@@ -115,7 +116,7 @@ class MigrateToUuidFillJson implements MigrateToUuidStep
     private function updateAssociations(string $tableName, array $productAssociations): void
     {
         $rows = \array_map(
-            fn(array $productAssociation): string => \sprintf(
+            fn (array $productAssociation): string => \sprintf(
                 "ROW(%d, '%s')",
                 $productAssociation['id'],
                 \json_encode($productAssociation['quantified_associations'], JSON_THROW_ON_ERROR)

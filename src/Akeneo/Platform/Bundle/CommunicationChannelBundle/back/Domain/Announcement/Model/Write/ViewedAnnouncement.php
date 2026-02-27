@@ -11,7 +11,9 @@ namespace Akeneo\Platform\CommunicationChannel\Domain\Announcement\Model\Write;
  */
 final readonly class ViewedAnnouncement
 {
-    private function __construct(private string $announcementId, private int $userId) {}
+    private function __construct(private string $announcementId, private int $userId)
+    {
+    }
 
     public static function create(string $announcementId, int $userId): self
     {

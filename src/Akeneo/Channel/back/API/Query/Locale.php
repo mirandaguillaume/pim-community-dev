@@ -11,7 +11,8 @@ final readonly class Locale
     public function __construct(
         private string $code,
         private bool $isActivated,
-    ) {}
+    ) {
+    }
 
     public function getCode(): string
     {

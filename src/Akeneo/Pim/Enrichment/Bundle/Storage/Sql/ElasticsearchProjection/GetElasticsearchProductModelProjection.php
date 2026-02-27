@@ -32,7 +32,8 @@ class GetElasticsearchProductModelProjection implements GetElasticsearchProductM
         private readonly NormalizerInterface $valueCollectionNormalizer,
         private readonly LoggerInterface $logger,
         private readonly iterable $additionalDataProviders = []
-    ) {}
+    ) {
+    }
 
     public function fromProductModelCodes(array $productModelCodes): iterable
     {
@@ -42,7 +43,7 @@ class GetElasticsearchProductModelProjection implements GetElasticsearchProductM
         $attributes = $this->getAttributesFromProductModelCodes($productModelCodes);
 
         $rowCodes = \array_map(
-            static fn(array $row): string => (string) $row['code'],
+            static fn (array $row): string => (string) $row['code'],
             $valuesAndProperties
         );
 
@@ -52,7 +53,7 @@ class GetElasticsearchProductModelProjection implements GetElasticsearchProductM
         }
 
         $context = ['value_collections' => \array_map(
-            static fn(array $row) => $row['value_collection'],
+            static fn (array $row) => $row['value_collection'],
             $valuesAndProperties
         )];
         $additionalDataPerProductModel = [];

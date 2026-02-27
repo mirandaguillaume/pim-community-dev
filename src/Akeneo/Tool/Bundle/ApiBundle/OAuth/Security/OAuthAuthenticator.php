@@ -27,7 +27,8 @@ class OAuthAuthenticator extends AbstractAuthenticator
     public function __construct(
         private readonly OAuth2 $oauthServer,
         private readonly UserProviderInterface $userProvider,
-    ) {}
+    ) {
+    }
 
     public function supports(Request $request): ?bool
     {

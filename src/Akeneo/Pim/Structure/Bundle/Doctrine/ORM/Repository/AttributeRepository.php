@@ -79,7 +79,7 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
             ->getArrayResult();
 
         return array_map(
-            fn($data) => $data['code'],
+            fn ($data) => $data['code'],
             $codes
         );
     }
@@ -103,7 +103,7 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
             ->getArrayResult();
 
         return array_map(
-            fn($data) => $data['code'],
+            fn ($data) => $data['code'],
             $codes
         );
     }

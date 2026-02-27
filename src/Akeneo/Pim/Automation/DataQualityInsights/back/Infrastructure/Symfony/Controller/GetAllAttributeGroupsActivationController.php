@@ -13,7 +13,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 final readonly class GetAllAttributeGroupsActivationController
 {
-    public function __construct(private GetAllAttributeGroupsActivationQueryInterface $getAllAttributeGroupsActivationQuery) {}
+    public function __construct(private GetAllAttributeGroupsActivationQueryInterface $getAllAttributeGroupsActivationQuery)
+    {
+    }
 
     public function __invoke(): JsonResponse
     {

@@ -10,7 +10,9 @@ namespace Akeneo\Connectivity\Connection\Domain\ValueObject;
  */
 final readonly class HourlyInterval
 {
-    private function __construct(private \DateTimeInterface $fromDateTime, private \DateTimeInterface $upToDateTime) {}
+    private function __construct(private \DateTimeInterface $fromDateTime, private \DateTimeInterface $upToDateTime)
+    {
+    }
 
     public function fromDateTime(): \DateTimeInterface
     {

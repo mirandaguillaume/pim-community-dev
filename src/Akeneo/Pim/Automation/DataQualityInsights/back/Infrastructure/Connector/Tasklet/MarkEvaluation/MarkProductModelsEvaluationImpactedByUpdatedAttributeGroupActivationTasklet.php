@@ -17,7 +17,8 @@ class MarkProductModelsEvaluationImpactedByUpdatedAttributeGroupActivationTaskle
         private readonly GetEntityIdsImpactedByAttributeGroupActivationQueryInterface $getProductModelIdsImpactedByAttributeGroupActivationQuery,
         private readonly LoggerInterface $logger,
         private readonly int $bulkSize
-    ) {}
+    ) {
+    }
 
     public function execute(): void
     {

@@ -20,7 +20,8 @@ class NonExistentChannelLocaleValuesFilter implements NonExistentValuesFilter
         private readonly GetCaseSensitiveLocaleCodeInterface $getCaseSensitiveLocaleCode,
         private readonly GetCaseSensitiveChannelCodeInterface $getCaseSensitiveChannelCode,
         private readonly GetAttributes $getAttributes
-    ) {}
+    ) {
+    }
 
     public function filter(OnGoingFilteredRawValues $onGoingFilteredRawValues): OnGoingFilteredRawValues
     {

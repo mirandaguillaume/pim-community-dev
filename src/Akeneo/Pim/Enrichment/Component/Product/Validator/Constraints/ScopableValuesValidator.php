@@ -19,7 +19,9 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class ScopableValuesValidator extends ConstraintValidator
 {
-    public function __construct(private readonly IdentifiableObjectRepositoryInterface $channelRepository) {}
+    public function __construct(private readonly IdentifiableObjectRepositoryInterface $channelRepository)
+    {
+    }
 
     public function validate($values, Constraint $constraint)
     {

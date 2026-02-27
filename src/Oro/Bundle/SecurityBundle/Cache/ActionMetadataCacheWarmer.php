@@ -10,7 +10,9 @@ class ActionMetadataCacheWarmer implements CacheWarmerInterface
     /**
      * Constructor
      */
-    public function __construct(private readonly ActionMetadataProvider $provider) {}
+    public function __construct(private readonly ActionMetadataProvider $provider)
+    {
+    }
 
     /**
      * {inheritdoc}

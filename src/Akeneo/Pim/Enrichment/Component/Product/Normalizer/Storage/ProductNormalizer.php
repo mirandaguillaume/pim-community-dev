@@ -17,7 +17,9 @@ class ProductNormalizer implements NormalizerInterface, CacheableSupportsMethodI
 {
     final public const FIELD_ASSOCIATIONS = 'associations';
 
-    public function __construct(private readonly NormalizerInterface $propertiesNormalizer, private readonly NormalizerInterface $associationsNormalizer) {}
+    public function __construct(private readonly NormalizerInterface $propertiesNormalizer, private readonly NormalizerInterface $associationsNormalizer)
+    {
+    }
 
     /**
      * {@inheritdoc}

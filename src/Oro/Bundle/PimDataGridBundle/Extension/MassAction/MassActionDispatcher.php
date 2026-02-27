@@ -223,7 +223,7 @@ class MassActionDispatcher
         $massAction = null;
         $extensions = array_filter(
             $datagrid->getAcceptor()->getExtensions(),
-            fn(ExtensionVisitorInterface $extension) => $extension instanceof MassActionExtension
+            fn (ExtensionVisitorInterface $extension) => $extension instanceof MassActionExtension
         );
 
         /** @var MassActionExtension|bool $extension */

@@ -20,7 +20,8 @@ class MigrateToUuidFillForeignUuid implements MigrateToUuidStep
     public function __construct(
         private readonly Connection $connection,
         private readonly LoggerInterface $logger
-    ) {}
+    ) {
+    }
 
     public function getDescription(): string
     {
@@ -195,7 +196,7 @@ class MigrateToUuidFillForeignUuid implements MigrateToUuidStep
     {
         return array_filter(
             self::TABLES,
-            fn(string $tableName): bool => $tableName !== 'pim_catalog_product',
+            fn (string $tableName): bool => $tableName !== 'pim_catalog_product',
             ARRAY_FILTER_USE_KEY
         );
     }

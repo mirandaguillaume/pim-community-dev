@@ -31,7 +31,8 @@ class GetJobExecutionTracking
         private readonly JobExecutionRepository $jobExecutionRepository,
         private readonly JobExecutionManager $jobExecutionManager,
         private readonly ClockInterface $clock,
-    ) {}
+    ) {
+    }
 
     public function execute(int $jobExecutionId): JobExecutionTracking
     {

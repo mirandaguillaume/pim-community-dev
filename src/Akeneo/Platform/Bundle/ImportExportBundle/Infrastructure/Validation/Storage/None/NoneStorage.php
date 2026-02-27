@@ -4,4 +4,6 @@ namespace Akeneo\Platform\Bundle\ImportExportBundle\Infrastructure\Validation\St
 
 use Akeneo\Platform\Bundle\ImportExportBundle\Infrastructure\Validation\StorageConstraint;
 
-class NoneStorage extends StorageConstraint {}
+class NoneStorage extends StorageConstraint
+{
+}

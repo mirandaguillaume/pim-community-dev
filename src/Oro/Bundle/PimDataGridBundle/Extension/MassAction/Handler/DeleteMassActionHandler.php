@@ -22,7 +22,9 @@ class DeleteMassActionHandler implements MassActionHandlerInterface
 {
     protected string $responseMessage = 'pim_datagrid.mass_action.delete.success_message';
 
-    public function __construct(protected HydratorInterface $hydrator, protected TranslatorInterface $translator, protected EventDispatcherInterface $eventDispatcher) {}
+    public function __construct(protected HydratorInterface $hydrator, protected TranslatorInterface $translator, protected EventDispatcherInterface $eventDispatcher)
+    {
+    }
 
     /**
      * {@inheritdoc}

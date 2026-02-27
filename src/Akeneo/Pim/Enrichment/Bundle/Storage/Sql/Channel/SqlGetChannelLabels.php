@@ -26,7 +26,9 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class SqlGetChannelLabels implements GetChannelLabelsInterface
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     public function forChannelCodes(array $channelCodes): array
     {

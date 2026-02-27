@@ -35,7 +35,7 @@ final class CriterionEvaluationResultStatusCollection implements \IteratorAggreg
 
     public function toArrayString(): array
     {
-        return $this->resultsStatus->mapWith(fn(CriterionEvaluationResultStatus $resultStatus) => strval($resultStatus));
+        return $this->resultsStatus->mapWith(fn (CriterionEvaluationResultStatus $resultStatus) => strval($resultStatus));
     }
 
     public function getIterator(): \Iterator
@@ -46,7 +46,7 @@ final class CriterionEvaluationResultStatusCollection implements \IteratorAggreg
     public static function fromArrayString(array $rawStatusCollection): self
     {
         $statusCollection = new self();
-        $statusCollection->resultsStatus = ChannelLocaleDataCollection::fromNormalizedChannelLocaleData($rawStatusCollection, fn($status) => new CriterionEvaluationResultStatus($status));
+        $statusCollection->resultsStatus = ChannelLocaleDataCollection::fromNormalizedChannelLocaleData($rawStatusCollection, fn ($status) => new CriterionEvaluationResultStatus($status));
 
         return $statusCollection;
     }

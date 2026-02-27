@@ -26,7 +26,8 @@ class VersionPurger implements VersionPurgerInterface
         private readonly SqlGetAllResourceNamesQuery $getAllResourceNamesQuery,
         private readonly SqlGetPurgeableVersionListQuery $getPurgeableVersionListQuery,
         private readonly LoggerInterface $logger,
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}
@@ -123,7 +124,7 @@ class VersionPurger implements VersionPurgerInterface
             ->setAllowedTypes('batch_size', 'int')
             ->setAllowedValues('date_operator', ['<', '>']);
 
-        $optionResolver->setNormalizer('limit_date', fn(Options $options, $value) => new \DateTime(
+        $optionResolver->setNormalizer('limit_date', fn (Options $options, $value) => new \DateTime(
             sprintf('%d days ago', $options['days_number']),
             new \DateTimeZone('UTC')
         ));

@@ -6,10 +6,10 @@ use Akeneo\Pim\Structure\Component\AttributeTypes;
 use Akeneo\Tool\Component\Localization\Model\TranslationInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Webmozart\Assert\Assert;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Webmozart\Assert\Assert;
 
 /**
  * Family entity
@@ -291,7 +291,7 @@ class Family implements FamilyInterface, \Stringable
     public function getAttributeAsLabelChoices()
     {
         return $this->attributes->filter(
-            fn($attribute) => in_array(
+            fn ($attribute) => in_array(
                 $attribute->getType(),
                 [AttributeTypes::TEXT, AttributeTypes::IDENTIFIER]
             )
@@ -492,7 +492,7 @@ class Family implements FamilyInterface, \Stringable
 
         $formerAttributeCodes = $this->getAttributeCodes();
         $newAttributeCodes = \array_map(
-            fn(AttributeInterface $attribute): string => $attribute->getCode(),
+            fn (AttributeInterface $attribute): string => $attribute->getCode(),
             $attributes
         );
 

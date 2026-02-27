@@ -17,7 +17,9 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\LocaleCode;
  */
 final readonly class EvaluateCompleteness
 {
-    public function __construct(private GetLocalesByChannelQueryInterface $localesByChannelQuery) {}
+    public function __construct(private GetLocalesByChannelQueryInterface $localesByChannelQuery)
+    {
+    }
 
     public function evaluate(CalculateProductCompletenessInterface $completenessCalculator, Write\CriterionEvaluation $criterionEvaluation): Write\CriterionEvaluationResult
     {

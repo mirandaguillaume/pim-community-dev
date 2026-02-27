@@ -25,7 +25,8 @@ final readonly class UpdateUserPermissions implements UpdateUserPermissionsInter
         private RoleRepository $roleRepository,
         private GroupRepository $groupRepository,
         private ObjectUpdaterInterface $userUpdater
-    ) {}
+    ) {
+    }
 
     public function execute(UserId $userId, int $userRoleId, ?int $userGroupId): void
     {

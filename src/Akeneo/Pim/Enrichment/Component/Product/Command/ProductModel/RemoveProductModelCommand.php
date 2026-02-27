@@ -10,7 +10,9 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Command\ProductModel;
  */
 final readonly class RemoveProductModelCommand
 {
-    public function __construct(private string $productModelCode) {}
+    public function __construct(private string $productModelCode)
+    {
+    }
 
     public function productModelCode(): string
     {

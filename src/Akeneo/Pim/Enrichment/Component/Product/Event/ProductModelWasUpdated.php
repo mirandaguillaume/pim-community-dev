@@ -14,5 +14,6 @@ class ProductModelWasUpdated
     public function __construct(
         public readonly ?int $id,
         public readonly ?\DateTimeImmutable $updatedAt,
-    ) {}
+    ) {
+    }
 }

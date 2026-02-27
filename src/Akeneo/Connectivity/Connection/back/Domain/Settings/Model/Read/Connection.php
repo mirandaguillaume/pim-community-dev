@@ -20,7 +20,8 @@ class Connection
         private readonly ?string $image = null,
         private readonly bool $auditable = false,
         private readonly string $type = ConnectionType::DEFAULT_TYPE
-    ) {}
+    ) {
+    }
 
     public function code(): string
     {

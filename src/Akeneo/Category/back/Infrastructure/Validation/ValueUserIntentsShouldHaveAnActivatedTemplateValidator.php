@@ -25,7 +25,8 @@ final class ValueUserIntentsShouldHaveAnActivatedTemplateValidator extends Const
     public function __construct(
         private readonly GetAttribute $getAttribute,
         private readonly IsTemplateDeactivated $isTemplateDeactivated,
-    ) {}
+    ) {
+    }
 
     /**
      * @param array<UserIntent> $value
@@ -45,7 +46,7 @@ final class ValueUserIntentsShouldHaveAnActivatedTemplateValidator extends Const
     private function validateAttributesLinkedToActivatedTemplate(array $valueUserIntents, Constraint $constraint): void
     {
         /** @var ValueUserIntent[] $valueUserIntents */
-        $valueUserIntents = array_values(array_filter($valueUserIntents, fn($userIntent) => is_subclass_of($userIntent, ValueUserIntent::class)));
+        $valueUserIntents = array_values(array_filter($valueUserIntents, fn ($userIntent) => is_subclass_of($userIntent, ValueUserIntent::class)));
 
         if (empty($valueUserIntents)) {
             return;

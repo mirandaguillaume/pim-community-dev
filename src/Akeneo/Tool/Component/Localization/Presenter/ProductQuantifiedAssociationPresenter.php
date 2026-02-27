@@ -18,7 +18,8 @@ class ProductQuantifiedAssociationPresenter implements PresenterInterface
     public function __construct(
         private readonly FindIdentifier $findIdentifier,
         private readonly AssociationColumnsResolver $associationColumnsResolver
-    ) {}
+    ) {
+    }
 
     /**
      * @param string $value
@@ -31,7 +32,7 @@ class ProductQuantifiedAssociationPresenter implements PresenterInterface
         }
         $values = explode(',', $value);
         $formattedValues = [];
-        $validUuids = \array_filter($values, static fn(string $uuid): bool => Uuid::isValid($uuid));
+        $validUuids = \array_filter($values, static fn (string $uuid): bool => Uuid::isValid($uuid));
         $identifiersFromUuids = $this->findIdentifier->fromUuids($validUuids);
         foreach ($values as $key) {
             $formattedValues[] = $identifiersFromUuids[$key]

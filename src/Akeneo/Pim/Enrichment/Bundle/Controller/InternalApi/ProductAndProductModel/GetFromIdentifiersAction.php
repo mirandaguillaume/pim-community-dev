@@ -31,7 +31,8 @@ class GetFromIdentifiersAction
         private readonly LinkedProductsNormalizer $linkedProductsNormalizer,
         private readonly FetchProductAndProductModelRows $fetchProductAndProductModelRows,
         private readonly ValidatorInterface $validator
-    ) {}
+    ) {
+    }
 
     public function __invoke(
         Request $request
@@ -73,7 +74,7 @@ class GetFromIdentifiersAction
         );
 
         $productUuids = array_map(
-            static fn(string $productUuid) => sprintf('product_%s', $productUuid),
+            static fn (string $productUuid) => sprintf('product_%s', $productUuid),
             $productUuids
         );
 

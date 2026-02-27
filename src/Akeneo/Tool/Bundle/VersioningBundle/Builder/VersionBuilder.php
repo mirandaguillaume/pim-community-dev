@@ -126,19 +126,19 @@ class VersionBuilder
     protected function mergeSnapshots(array $oldSnapshot, array $newSnapshot)
     {
         $localNewSnapshot = array_map(
-            fn($newItem) => ['new' => $newItem],
+            fn ($newItem) => ['new' => $newItem],
             $newSnapshot
         );
 
         $localOldSnapshot = array_map(
-            fn($oldItem) => ['old' => $oldItem],
+            fn ($oldItem) => ['old' => $oldItem],
             $oldSnapshot
         );
 
         $mergedSnapshot = array_replace_recursive($localNewSnapshot, $localOldSnapshot);
 
         return array_map(
-            fn($mergedItem) => [
+            fn ($mergedItem) => [
                 'old' => array_key_exists('old', $mergedItem) ? $mergedItem['old'] : '',
                 'new' => array_key_exists('new', $mergedItem) ? $mergedItem['new'] : '',
             ],
@@ -156,7 +156,7 @@ class VersionBuilder
     {
         return array_filter(
             $changeset,
-            fn($item) => $this->hasValueChanged($item['old'], $item['new'])
+            fn ($item) => $this->hasValueChanged($item['old'], $item['new'])
         );
     }
 

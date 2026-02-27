@@ -10,7 +10,9 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Spellcheck\Di
  */
 class SpellerDictionary
 {
-    public function __construct(private readonly string $dictionaryPath) {}
+    public function __construct(private readonly string $dictionaryPath)
+    {
+    }
 
     public function getPath(): string
     {

@@ -32,12 +32,16 @@ class ChainedStepsExtension implements ExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function initialize(ExtensionManager $extensionManager) {}
+    public function initialize(ExtensionManager $extensionManager)
+    {
+    }
 
     /**
      * {@inheritdoc}
      */
-    public function configure(ArrayNodeDefinition $builder) {}
+    public function configure(ArrayNodeDefinition $builder)
+    {
+    }
 
     /**
      * {@inheritdoc}
@@ -52,5 +56,7 @@ class ChainedStepsExtension implements ExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container) {}
+    public function process(ContainerBuilder $container)
+    {
+    }
 }

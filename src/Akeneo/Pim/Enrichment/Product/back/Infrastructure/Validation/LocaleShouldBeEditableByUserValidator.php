@@ -18,7 +18,9 @@ use Webmozart\Assert\Assert;
  */
 final class LocaleShouldBeEditableByUserValidator extends ConstraintValidator
 {
-    public function __construct(private readonly IsLocaleEditable $isLocaleEditable) {}
+    public function __construct(private readonly IsLocaleEditable $isLocaleEditable)
+    {
+    }
 
     public function validate($valueUserIntent, Constraint $constraint): void
     {

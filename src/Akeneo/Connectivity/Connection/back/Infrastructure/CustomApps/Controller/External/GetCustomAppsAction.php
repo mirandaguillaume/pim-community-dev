@@ -23,7 +23,8 @@ final readonly class GetCustomAppsAction
     public function __construct(
         private TokenStorageInterface $tokenStorage,
         private GetCustomAppsQueryInterface $getCustomAppsQuery,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request): Response
     {

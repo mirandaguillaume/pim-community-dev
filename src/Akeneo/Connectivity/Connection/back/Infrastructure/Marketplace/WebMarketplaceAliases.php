@@ -18,7 +18,8 @@ class WebMarketplaceAliases implements WebMarketplaceAliasesInterface
         private readonly VersionProviderInterface $versionProvider,
         private readonly PimVersion $growthVersion,
         private readonly PimVersion $freeTrialVersion,
-    ) {}
+    ) {
+    }
 
     public function getUtmCampaign(): ?string
     {

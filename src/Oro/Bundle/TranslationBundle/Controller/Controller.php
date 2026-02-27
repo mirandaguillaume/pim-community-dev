@@ -61,7 +61,7 @@ class Controller
         foreach ($domainsTranslations as $domain => $translations) {
             $result['messages'] += array_combine(
                 array_map(
-                    fn($id) => sprintf('%s:%s', $domain, $id),
+                    fn ($id) => sprintf('%s:%s', $domain, $id),
                     array_keys($translations)
                 ),
                 array_values($translations)

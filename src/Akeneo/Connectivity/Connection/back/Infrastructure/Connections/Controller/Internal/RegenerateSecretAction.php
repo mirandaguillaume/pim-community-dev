@@ -22,7 +22,8 @@ final readonly class RegenerateSecretAction
     public function __construct(
         private RegenerateConnectionSecretHandler $regenerateConnectionSecretHandler,
         private SecurityFacade $securityFacade,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request): JsonResponse
     {

@@ -15,7 +15,9 @@ use Akeneo\Connectivity\Connection\Domain\Audit\Persistence\UpsertEventCountQuer
  */
 class UpdateDataDestinationProductEventCountHandler
 {
-    public function __construct(private readonly UpsertEventCountQueryInterface $upsertEventCountQuery) {}
+    public function __construct(private readonly UpsertEventCountQueryInterface $upsertEventCountQuery)
+    {
+    }
 
     public function handle(UpdateDataDestinationProductEventCountCommand $command): void
     {

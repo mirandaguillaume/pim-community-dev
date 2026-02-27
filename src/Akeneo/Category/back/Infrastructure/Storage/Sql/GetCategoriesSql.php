@@ -23,7 +23,8 @@ final readonly class GetCategoriesSql implements GetCategoriesInterface
         private Connection $connection,
         private GetDeactivatedTemplateAttributes $getDeactivatedTemplateAttributes,
         private DeactivatedTemplateAttributesInValueCollectionFilter $deactivatedAttributesInValueCollectionFilter,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<ExternalApiCategory>

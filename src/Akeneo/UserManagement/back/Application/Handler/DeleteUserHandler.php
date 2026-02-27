@@ -21,7 +21,8 @@ final readonly class DeleteUserHandler implements DeleteUserHandlerInterface
     public function __construct(
         private UserRepositoryInterface $userRepository,
         private UserManager $userManager,
-    ) {}
+    ) {
+    }
 
     public function handle(DeleteUserCommand $deleteUserCommand): void
     {

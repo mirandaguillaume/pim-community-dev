@@ -23,7 +23,8 @@ class QuantifiedLink
         private readonly int $quantity,
         private readonly ?string $identifier = null,
         private readonly ?UuidInterface $uuid = null,
-    ) {}
+    ) {
+    }
 
     public static function fromIdentifier(string $identifier, int $quantity)
     {

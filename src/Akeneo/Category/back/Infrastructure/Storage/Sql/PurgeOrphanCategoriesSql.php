@@ -17,7 +17,8 @@ final readonly class PurgeOrphanCategoriesSql implements PurgeOrphanCategories
 {
     public function __construct(
         private Connection $connection,
-    ) {}
+    ) {
+    }
 
     public function execute(): int
     {

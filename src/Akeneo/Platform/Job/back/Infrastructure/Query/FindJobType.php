@@ -16,7 +16,8 @@ class FindJobType implements FindJobTypeInterface
 {
     public function __construct(
         private readonly Connection $connection,
-    ) {}
+    ) {
+    }
 
     public function visible(): array
     {

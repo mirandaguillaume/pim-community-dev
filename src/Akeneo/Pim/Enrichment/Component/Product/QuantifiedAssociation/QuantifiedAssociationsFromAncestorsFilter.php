@@ -24,7 +24,9 @@ class QuantifiedAssociationsFromAncestorsFilter
     private const PRODUCTS_QUANTIFIED_LINKS_KEY = 'products';
     private const PRODUCT_MODELS_QUANTIFIED_LINKS_KEY = 'product_models';
 
-    public function __construct(private readonly QuantifiedAssociationsMerger $quantifiedAssociationsMerger) {}
+    public function __construct(private readonly QuantifiedAssociationsMerger $quantifiedAssociationsMerger)
+    {
+    }
 
     public function filter(array $data, EntityWithQuantifiedAssociationsInterface $entity)
     {

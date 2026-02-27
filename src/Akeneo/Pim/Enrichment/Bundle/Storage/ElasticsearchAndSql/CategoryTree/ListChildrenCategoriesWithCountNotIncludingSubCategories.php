@@ -17,7 +17,9 @@ use Doctrine\DBAL\Exception;
  */
 class ListChildrenCategoriesWithCountNotIncludingSubCategories implements Query\ListChildrenCategoriesWithCountNotIncludingSubCategories
 {
-    public function __construct(private readonly Connection $connection, private readonly Client $client) {}
+    public function __construct(private readonly Connection $connection, private readonly Client $client)
+    {
+    }
 
     /**
      * {@inheritdoc}
@@ -259,7 +261,7 @@ class ListChildrenCategoriesWithCountNotIncludingSubCategories implements Query\
             ]
         )->fetchAllAssociative();
 
-        $ids = array_map(fn($row) => (int) $row['id'], $rows);
+        $ids = array_map(fn ($row) => (int) $row['id'], $rows);
 
         return $ids;
     }

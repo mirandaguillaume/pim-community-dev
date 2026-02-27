@@ -19,7 +19,8 @@ class CountImpactedProducts
 {
     public function __construct(
         private readonly ProductQueryBuilderFactoryInterface $productAndProductModelQueryBuilderFactory
-    ) {}
+    ) {
+    }
 
     public function count(array $filters): int
     {

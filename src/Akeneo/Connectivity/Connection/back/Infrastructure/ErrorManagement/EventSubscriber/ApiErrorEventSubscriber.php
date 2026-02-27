@@ -19,7 +19,9 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 final readonly class ApiErrorEventSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private CollectApiError $collectApiError) {}
+    public function __construct(private CollectApiError $collectApiError)
+    {
+    }
 
     /**
      * @return string[]

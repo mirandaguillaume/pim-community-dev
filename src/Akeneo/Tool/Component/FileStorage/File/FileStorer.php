@@ -31,7 +31,8 @@ class FileStorer implements FileStorerInterface
         private readonly FilesystemProvider $filesystemProvider,
         private readonly SaverInterface $saver,
         private readonly FileInfoFactoryInterface $factory
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}

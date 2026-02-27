@@ -18,7 +18,9 @@ use Webmozart\Assert\Assert;
  */
 final readonly class GetGroupAssociationsByProductUuids
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     /**
      * It generates product associations with every association type, even if there is no group associated for this association type.
@@ -34,7 +36,7 @@ final readonly class GetGroupAssociationsByProductUuids
 
         Assert::allIsInstanceOf($productUuids, UuidInterface::class);
 
-        $uuidsAsBytes = array_map(fn(UuidInterface $uuid): string => $uuid->getBytes(), $productUuids);
+        $uuidsAsBytes = array_map(fn (UuidInterface $uuid): string => $uuid->getBytes(), $productUuids);
 
         $query = <<<SQL
             SELECT

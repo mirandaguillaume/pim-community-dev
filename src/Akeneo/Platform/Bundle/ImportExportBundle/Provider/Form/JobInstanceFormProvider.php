@@ -17,7 +17,9 @@ class JobInstanceFormProvider implements FormProviderInterface
     /**
      * @param array $formConfig
      */
-    public function __construct(protected $formConfig) {}
+    public function __construct(protected $formConfig)
+    {
+    }
 
     public function getForm($jobInstance): string
     {

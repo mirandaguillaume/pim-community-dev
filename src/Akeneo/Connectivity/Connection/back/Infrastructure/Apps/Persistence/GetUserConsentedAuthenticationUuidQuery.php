@@ -13,7 +13,9 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetUserConsentedAuthenticationUuidQuery implements GetUserConsentedAuthenticationUuidQueryInterface
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     public function execute(int $userId, string $appId): string
     {

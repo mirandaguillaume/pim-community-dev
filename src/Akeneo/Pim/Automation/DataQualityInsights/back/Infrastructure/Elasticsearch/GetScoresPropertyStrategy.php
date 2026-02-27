@@ -14,7 +14,8 @@ class GetScoresPropertyStrategy
 {
     public function __construct(
         private readonly FeatureFlag $allCriteriaFeature
-    ) {}
+    ) {
+    }
 
     public function __invoke(): string
     {

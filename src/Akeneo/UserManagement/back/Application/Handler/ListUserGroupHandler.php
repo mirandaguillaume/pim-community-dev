@@ -18,7 +18,8 @@ class ListUserGroupHandler implements ListUserGroupInterface
 {
     public function __construct(
         private readonly FindUserGroups $findUserGroups,
-    ) {}
+    ) {
+    }
 
     /**
      * @return UserGroup[]     */
@@ -30,7 +31,7 @@ class ListUserGroupHandler implements ListUserGroupInterface
             $query->getLimit(),
         );
 
-        return array_map(static fn(DomainGroup $group) => new UserGroup(
+        return array_map(static fn (DomainGroup $group) => new UserGroup(
             $group->getId(),
             $group->getName(),
         ), $result);

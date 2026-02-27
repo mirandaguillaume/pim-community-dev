@@ -16,7 +16,9 @@ class GroupTypeFactory implements SimpleFactoryInterface
     /**
      * @param string $groupTypeClass
      */
-    public function __construct(protected $groupTypeClass) {}
+    public function __construct(protected $groupTypeClass)
+    {
+    }
 
     /**
      * {@inheritdoc}

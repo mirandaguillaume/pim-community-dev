@@ -13,4 +13,6 @@ declare(strict_types=1);
 
 namespace Akeneo\Platform\Component\Tenant\Domain\Exception;
 
-final class TenantContextDecoderException extends \RuntimeException {}
+final class TenantContextDecoderException extends \RuntimeException
+{
+}

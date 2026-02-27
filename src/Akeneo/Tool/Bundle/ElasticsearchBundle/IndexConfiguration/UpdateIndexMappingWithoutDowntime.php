@@ -19,7 +19,8 @@ final readonly class UpdateIndexMappingWithoutDowntime
     public function __construct(
         private ClockInterface $clock,
         private ClientMigrationInterface $migrationClient
-    ) {}
+    ) {
+    }
 
     public function execute(
         string $sourceIndexAlias,

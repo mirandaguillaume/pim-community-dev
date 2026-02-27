@@ -24,7 +24,8 @@ final readonly class FlagConnectedAppWithOutdatedScopesAction
         private TokenStorageInterface $tokenStorage,
         private FindOneConnectedAppByUserIdentifierQueryInterface $findOneConnectedAppByUserIdentifierQuery,
         private FlagAppContainingOutdatedScopesHandler $flagAppContainingOutdatedScopesHandler,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request): Response
     {

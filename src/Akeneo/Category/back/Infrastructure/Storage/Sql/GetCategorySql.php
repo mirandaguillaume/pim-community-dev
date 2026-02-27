@@ -23,7 +23,8 @@ class GetCategorySql implements GetCategoryInterface
         private readonly Connection $connection,
         private readonly GetDeactivatedTemplateAttributes $getDeactivatedTemplateAttributes,
         private readonly DeactivatedTemplateAttributesInValueCollectionFilter $deactivatedAttributesInValueCollectionFilter,
-    ) {}
+    ) {
+    }
 
     public function byId(int $categoryId): ?Category
     {

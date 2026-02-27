@@ -58,7 +58,8 @@ class AttributeGroupController
         private readonly TokenStorageInterface $tokenStorage,
         private readonly JobLauncherInterface $jobLauncher,
         private readonly IdentifiableObjectRepositoryInterface $jobInstanceRepository,
-    ) {}
+    ) {
+    }
 
     /**
      * Search attribute group collection

@@ -21,7 +21,9 @@ class FilterRoutesSubscriber implements EventSubscriberInterface
 {
     final public const FEATURE_KEY = '_feature';
 
-    public function __construct(private readonly FeatureFlags $featureFlags) {}
+    public function __construct(private readonly FeatureFlags $featureFlags)
+    {
+    }
 
     public function filterRoutesFromDisabledFeatureFlags(ControllerEvent $event)
     {

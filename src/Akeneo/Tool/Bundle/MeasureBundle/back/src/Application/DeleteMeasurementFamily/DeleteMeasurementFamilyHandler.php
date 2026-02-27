@@ -16,7 +16,9 @@ use Psr\EventDispatcher\EventDispatcherInterface;
  */
 class DeleteMeasurementFamilyHandler
 {
-    public function __construct(private readonly MeasurementFamilyRepositoryInterface $measurementFamilyRepository, private readonly ?\Psr\EventDispatcher\EventDispatcherInterface $eventDispatcher) {}
+    public function __construct(private readonly MeasurementFamilyRepositoryInterface $measurementFamilyRepository, private readonly ?\Psr\EventDispatcher\EventDispatcherInterface $eventDispatcher)
+    {
+    }
 
     /**
      * @throws MeasurementFamilyNotFoundException

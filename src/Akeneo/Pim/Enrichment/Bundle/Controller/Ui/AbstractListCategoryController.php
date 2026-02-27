@@ -21,7 +21,9 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 abstract class AbstractListCategoryController extends AbstractController
 {
-    public function __construct(protected CategoryRepositoryInterface $categoryRepository, protected SecurityFacade $securityFacade, protected string $categoryClass, protected string $acl, protected string $template) {}
+    public function __construct(protected CategoryRepositoryInterface $categoryRepository, protected SecurityFacade $securityFacade, protected string $categoryClass, protected string $acl, protected string $template)
+    {
+    }
 
     protected function doListCategoriesAction(Request $request, string $id, string $categoryId): Response
     {

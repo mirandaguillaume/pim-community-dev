@@ -22,7 +22,8 @@ class VolumeAggregation
         private readonly iterable $countQueries,
         private readonly iterable $averageMaxQueries,
         private readonly LoggerInterface $logger,
-    ) {}
+    ) {
+    }
 
     /**
      * Aggregate all the volumes whose queries should not be executed live.

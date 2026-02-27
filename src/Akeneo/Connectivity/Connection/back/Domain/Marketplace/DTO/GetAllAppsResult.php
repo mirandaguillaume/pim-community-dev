@@ -47,7 +47,7 @@ final class GetAllAppsResult
     {
         return self::create(
             $this->total,
-            \array_map(fn(App $app): \Akeneo\Connectivity\Connection\Domain\Marketplace\Model\App => $app->withAnalytics($queryParameters), $this->apps),
+            \array_map(fn (App $app): \Akeneo\Connectivity\Connection\Domain\Marketplace\Model\App => $app->withAnalytics($queryParameters), $this->apps),
         );
     }
 
@@ -58,7 +58,7 @@ final class GetAllAppsResult
     {
         return self::create(
             $this->total,
-            \array_map(fn(App $app): \Akeneo\Connectivity\Connection\Domain\Marketplace\Model\App => $app->withPimUrlSource($queryParameters), $this->apps),
+            \array_map(fn (App $app): \Akeneo\Connectivity\Connection\Domain\Marketplace\Model\App => $app->withPimUrlSource($queryParameters), $this->apps),
         );
     }
 

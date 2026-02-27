@@ -17,7 +17,8 @@ class ConnectionWebhook
         private readonly ?string $secret = null,
         private readonly ?string $url = null,
         private readonly bool $isUsingUuid = false,
-    ) {}
+    ) {
+    }
 
     public function connectionCode(): string
     {

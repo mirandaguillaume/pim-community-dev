@@ -15,14 +15,16 @@ use Doctrine\Persistence\ObjectRepository;
  */
 class UserRole extends AbstractReader
 {
-    public function __construct(private readonly ObjectRepository $userRoleRepository) {}
+    public function __construct(private readonly ObjectRepository $userRoleRepository)
+    {
+    }
 
     protected function getResults(): \ArrayIterator
     {
         return new \ArrayIterator(
             \array_filter(
                 $this->userRoleRepository->findAll(),
-                fn(RoleInterface $role): bool => User::ROLE_ANONYMOUS !== $role->getRole()
+                fn (RoleInterface $role): bool => User::ROLE_ANONYMOUS !== $role->getRole()
             )
         );
     }

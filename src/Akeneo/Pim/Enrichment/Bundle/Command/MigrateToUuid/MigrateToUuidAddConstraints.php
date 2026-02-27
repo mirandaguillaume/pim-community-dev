@@ -17,7 +17,9 @@ final class MigrateToUuidAddConstraints implements MigrateToUuidStep
     use MigrateToUuidTrait;
     use StatusAwareTrait;
 
-    public function __construct(private readonly Connection $connection, private readonly LoggerInterface $logger) {}
+    public function __construct(private readonly Connection $connection, private readonly LoggerInterface $logger)
+    {
+    }
 
     public function getDescription(): string
     {
@@ -137,8 +139,8 @@ final class MigrateToUuidAddConstraints implements MigrateToUuidStep
 
         $query = \strtr($sql, [
             '{tableName}' => $tableName,
-            '{formerColumnNames}' => \implode(', ', array_map(fn(string $columnName): string => sprintf('`%s`', $columnName), $formerColumnNames)),
-            '{newColumnNames}' => \implode(', ', array_map(fn(string $columnName): string => sprintf('`%s`', $columnName), $newColumnNames)),
+            '{formerColumnNames}' => \implode(', ', array_map(fn (string $columnName): string => sprintf('`%s`', $columnName), $formerColumnNames)),
+            '{newColumnNames}' => \implode(', ', array_map(fn (string $columnName): string => sprintf('`%s`', $columnName), $newColumnNames)),
             '{algorithmInplace}' => $lockTables ? '' : ', ALGORITHM=INPLACE, LOCK=NONE',
         ]);
 
@@ -179,7 +181,7 @@ final class MigrateToUuidAddConstraints implements MigrateToUuidStep
         $query = \strtr($sql, [
             '{tableName}' => $tableName,
             '{constraintName}' => $constraintName,
-            '{columnNames}' => \implode(', ', array_map(fn(string $columnName): string => sprintf('`%s`', $columnName), $columnNames)),
+            '{columnNames}' => \implode(', ', array_map(fn (string $columnName): string => sprintf('`%s`', $columnName), $columnNames)),
             '{algorithmInplace}' => $lockTables ? '' : ', ALGORITHM=INPLACE, LOCK=NONE',
         ]);
 
@@ -200,7 +202,7 @@ final class MigrateToUuidAddConstraints implements MigrateToUuidStep
         $query = \strtr($sql, [
             '{tableName}' => $tableName,
             '{indexName}' => $indexName,
-            '{columnNames}' => \implode(', ', array_map(fn(string $columnName): string => sprintf('`%s`', $columnName), $columnNames)),
+            '{columnNames}' => \implode(', ', array_map(fn (string $columnName): string => sprintf('`%s`', $columnName), $columnNames)),
             '{algorithmInplace}' => $lockTables ? '' : ', ALGORITHM=INPLACE, LOCK=NONE',
         ]);
 

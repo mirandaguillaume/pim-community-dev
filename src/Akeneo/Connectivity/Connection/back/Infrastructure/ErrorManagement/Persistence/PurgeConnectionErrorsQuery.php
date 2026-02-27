@@ -13,7 +13,9 @@ use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
  */
 class PurgeConnectionErrorsQuery
 {
-    public function __construct(private readonly Client $esClient) {}
+    public function __construct(private readonly Client $esClient)
+    {
+    }
 
     /**
      * @param array $connectionCodes Connection codes for which we want to keep errors

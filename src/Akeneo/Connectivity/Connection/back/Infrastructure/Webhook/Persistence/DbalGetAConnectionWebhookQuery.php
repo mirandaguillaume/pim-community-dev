@@ -15,7 +15,9 @@ use Doctrine\DBAL\Connection as DbalConnection;
  */
 class DbalGetAConnectionWebhookQuery implements GetAConnectionWebhookQueryInterface
 {
-    public function __construct(private readonly DbalConnection $dbalConnection) {}
+    public function __construct(private readonly DbalConnection $dbalConnection)
+    {
+    }
 
     public function execute(string $code): ?ConnectionWebhook
     {

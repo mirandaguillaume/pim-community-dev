@@ -20,7 +20,8 @@ class InstallSubscriber implements EventSubscriberInterface
     public function __construct(
         private readonly DbalConnection $dbalConnection,
         private readonly GenerateAsymmetricKeysHandler $generateAsymmetricKeysHandler,
-    ) {}
+    ) {
+    }
 
     public static function getSubscribedEvents(): array
     {

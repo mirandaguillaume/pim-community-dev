@@ -16,7 +16,9 @@ final readonly class SqlGetAttributeOptions implements GetAttributeOptions
 {
     private const BATCH_QUERY_SIZE = 1000;
 
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     public function forAttributeCode(string $attributeCode): iterable
     {
@@ -50,7 +52,7 @@ final readonly class SqlGetAttributeOptions implements GetAttributeOptions
             foreach ($results as $result) {
                 yield new AttributeOption(
                     $result['attributeOptionCode'],
-                    \array_filter(\json_decode((string) $result['labels'], true, 512, JSON_THROW_ON_ERROR), fn($label): bool => null !== $label)
+                    \array_filter(\json_decode((string) $result['labels'], true, 512, JSON_THROW_ON_ERROR), fn ($label): bool => null !== $label)
                 );
                 $searchAfterId = $result['attributeOptionId'];
             }

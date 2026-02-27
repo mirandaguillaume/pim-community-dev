@@ -13,7 +13,9 @@ namespace Akeneo\Platform\Component\CatalogVolumeMonitoring\Volume\ReadModel;
  */
 class CountVolume
 {
-    public function __construct(private readonly int $volume, private readonly string $volumeName) {}
+    public function __construct(private readonly int $volume, private readonly string $volumeName)
+    {
+    }
 
     public function getVolume(): int
     {

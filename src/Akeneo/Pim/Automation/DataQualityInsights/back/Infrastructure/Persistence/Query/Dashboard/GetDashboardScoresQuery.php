@@ -17,7 +17,9 @@ use Doctrine\DBAL\Result;
 
 final readonly class GetDashboardScoresQuery implements GetDashboardScoresQueryInterface
 {
-    public function __construct(private Connection $db) {}
+    public function __construct(private Connection $db)
+    {
+    }
 
     public function byCatalog(ChannelCode $channel, LocaleCode $locale, TimePeriod $timePeriod): ?Read\DashboardRates
     {

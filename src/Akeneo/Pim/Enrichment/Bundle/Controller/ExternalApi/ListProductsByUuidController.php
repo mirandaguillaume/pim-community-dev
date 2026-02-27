@@ -41,7 +41,8 @@ class ListProductsByUuidController
         private readonly ConnectorProductWithUuidNormalizer $connectorProductWithUuidNormalizer,
         private readonly TokenStorageInterface $tokenStorage,
         private readonly SecurityFacade $security
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request): JsonResponse
     {

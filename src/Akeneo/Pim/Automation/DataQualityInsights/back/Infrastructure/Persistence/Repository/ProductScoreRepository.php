@@ -36,7 +36,9 @@ use Webmozart\Assert\Assert;
  */
 final readonly class ProductScoreRepository implements ProductScoreRepositoryInterface
 {
-    public function __construct(private Connection $dbConnection) {}
+    public function __construct(private Connection $dbConnection)
+    {
+    }
 
     /**
      * {@inheritdoc}

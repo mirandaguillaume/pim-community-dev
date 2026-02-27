@@ -19,7 +19,9 @@ final class ConsolidateDashboardRatesTasklet implements TaskletInterface
 {
     private ?\Akeneo\Tool\Component\Batch\Model\StepExecution $stepExecution = null;
 
-    public function __construct(private readonly ConsolidateDashboardRates $consolidateDashboardRates, private readonly LoggerInterface $logger) {}
+    public function __construct(private readonly ConsolidateDashboardRates $consolidateDashboardRates, private readonly LoggerInterface $logger)
+    {
+    }
 
     /**
      * @inheritDoc

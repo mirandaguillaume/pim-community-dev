@@ -17,7 +17,9 @@ use Twig\TwigFunction;
  */
 class ContentSecurityPolicyExtension extends AbstractExtension
 {
-    public function __construct(private readonly ScriptNonceGenerator $scriptNonceGenerator) {}
+    public function __construct(private readonly ScriptNonceGenerator $scriptNonceGenerator)
+    {
+    }
 
     /**
      * {@inheritdoc}

@@ -26,7 +26,8 @@ final readonly class MassDeleteAttributeGroupsController
         private JobLauncherInterface $jobLauncher,
         private IdentifiableObjectRepositoryInterface $jobInstanceRepository,
         private SecurityFacadeInterface $securityFacade,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request): JsonResponse
     {

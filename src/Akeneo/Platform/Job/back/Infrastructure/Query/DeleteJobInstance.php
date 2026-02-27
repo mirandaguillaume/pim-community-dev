@@ -18,7 +18,8 @@ final readonly class DeleteJobInstance implements DeleteJobInstanceInterface
 {
     public function __construct(
         private Connection $connection,
-    ) {}
+    ) {
+    }
 
     /**
      * @param string[] $codes

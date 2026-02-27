@@ -22,7 +22,8 @@ class EvaluateOutdatedProductModel
         private readonly HasUpToDateEvaluationQueryInterface $hasUpToDateEvaluationQuery,
         private readonly EvaluateProductModels $evaluateProductModels,
         private readonly ProductEntityIdFactoryInterface $factory,
-    ) {}
+    ) {
+    }
 
     public function __invoke(ProductModelId $productModelId): void
     {

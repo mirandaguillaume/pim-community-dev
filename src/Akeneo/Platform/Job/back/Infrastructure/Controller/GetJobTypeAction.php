@@ -22,7 +22,8 @@ class GetJobTypeAction
     public function __construct(
         private readonly FindJobTypeHandler $findJobTypeHandler,
         private readonly SecurityFacade $securityFacade,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request): Response
     {

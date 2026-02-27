@@ -16,7 +16,9 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class FamilyVariantNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    public function __construct(private readonly NormalizerInterface $translationNormalizer) {}
+    public function __construct(private readonly NormalizerInterface $translationNormalizer)
+    {
+    }
 
     /**
      * {@inheritdoc}
@@ -66,7 +68,7 @@ class FamilyVariantNormalizer implements NormalizerInterface, CacheableSupportsM
      */
     private function normalizeVariantAttributeSets(Collection $variantAttributeSets): array
     {
-        return $variantAttributeSets->map(fn(VariantAttributeSetInterface $variantAttributeSet) => [
+        return $variantAttributeSets->map(fn (VariantAttributeSetInterface $variantAttributeSet) => [
             'level' => $variantAttributeSet->getLevel(),
             'axes' => $this->normalizeAttributes($variantAttributeSet->getAxes()),
             'attributes' => $this->normalizeAttributes($variantAttributeSet->getAttributes()),
@@ -80,6 +82,6 @@ class FamilyVariantNormalizer implements NormalizerInterface, CacheableSupportsM
      */
     private function normalizeAttributes(Collection $attributes): array
     {
-        return $attributes->map(fn(AttributeInterface $attribute) => $attribute->getCode())->toArray();
+        return $attributes->map(fn (AttributeInterface $attribute) => $attribute->getCode())->toArray();
     }
 }

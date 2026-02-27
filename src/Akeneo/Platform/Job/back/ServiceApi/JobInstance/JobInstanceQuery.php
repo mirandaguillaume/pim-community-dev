@@ -14,5 +14,6 @@ class JobInstanceQuery
         public ?array $jobNames = null,
         public ?string $search = null,
         public ?JobInstanceQueryPagination $pagination = null,
-    ) {}
+    ) {
+    }
 }

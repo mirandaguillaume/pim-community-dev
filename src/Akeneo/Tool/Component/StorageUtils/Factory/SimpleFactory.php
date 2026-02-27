@@ -14,7 +14,9 @@ class SimpleFactory implements SimpleFactoryInterface
     /**
      * @param string $class
      */
-    public function __construct(protected $class) {}
+    public function __construct(protected $class)
+    {
+    }
 
     /**
      * @return mixed

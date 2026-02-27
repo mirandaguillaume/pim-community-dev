@@ -14,7 +14,8 @@ final readonly class ValidateApiRequestQueryParametersSubscriber implements Even
 {
     public function __construct(
         private Firewall $firewall
-    ) {}
+    ) {
+    }
 
     public static function getSubscribedEvents(): array
     {

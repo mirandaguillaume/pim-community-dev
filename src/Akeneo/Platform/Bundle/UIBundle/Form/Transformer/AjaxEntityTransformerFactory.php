@@ -16,7 +16,9 @@ class AjaxEntityTransformerFactory implements TransformerFactoryInterface
     /**
      * @param string            $class
      */
-    public function __construct(protected ManagerRegistry $doctrine, protected $class) {}
+    public function __construct(protected ManagerRegistry $doctrine, protected $class)
+    {
+    }
 
     /**
      * {@inheritdoc}

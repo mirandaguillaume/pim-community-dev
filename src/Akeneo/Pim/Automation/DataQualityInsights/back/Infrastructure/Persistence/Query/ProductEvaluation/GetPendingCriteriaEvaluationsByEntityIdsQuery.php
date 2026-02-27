@@ -27,7 +27,8 @@ final readonly class GetPendingCriteriaEvaluationsByEntityIdsQuery implements Ge
         private Connection                      $dbConnection,
         private string                          $tableName,
         private ProductEntityIdFactoryInterface $idFactory
-    ) {}
+    ) {
+    }
 
     /**
      * @inheritDoc

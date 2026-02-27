@@ -7,7 +7,8 @@ final readonly class CredentialsEncrypterRegistry
     public function __construct(
         /** @var CredentialsEncrypter[] $credentialsEncrypters */
         private iterable $credentialsEncrypters,
-    ) {}
+    ) {
+    }
 
     public function encryptCredentials(array $previousData, array $data): array
     {

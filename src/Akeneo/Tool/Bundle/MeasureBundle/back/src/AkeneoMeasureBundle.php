@@ -11,4 +11,6 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  * @copyright 2012 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/MIT MIT
  */
-class AkeneoMeasureBundle extends Bundle {}
+class AkeneoMeasureBundle extends Bundle
+{
+}

@@ -13,7 +13,9 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class SqlFindProductModelId implements FindId
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     public function fromIdentifier(string $identifier): ?string
     {

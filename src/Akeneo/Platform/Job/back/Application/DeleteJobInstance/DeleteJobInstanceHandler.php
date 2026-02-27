@@ -19,7 +19,8 @@ final readonly class DeleteJobInstanceHandler implements DeleteJobInstanceHandle
     public function __construct(
         private DeleteJobInstanceInterface $deleteJobInstance,
         private SecurityFacadeInterface $securityFacade,
-    ) {}
+    ) {
+    }
 
     public function handle(DeleteJobInstanceCommand $command): void
     {

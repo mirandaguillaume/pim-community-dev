@@ -14,7 +14,8 @@ final readonly class ProductModelsEvaluated
 {
     public function __construct(
         private ProductEntityIdCollection $productModelIdCollection
-    ) {}
+    ) {
+    }
 
     public function getProductModelIds(): ProductEntityIdCollection
     {

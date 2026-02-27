@@ -21,7 +21,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class ValidateUnitAction
 {
-    public function __construct(private readonly ValidatorInterface $validator, private readonly NormalizerInterface $violationNormalizer) {}
+    public function __construct(private readonly ValidatorInterface $validator, private readonly NormalizerInterface $violationNormalizer)
+    {
+    }
 
     public function __invoke(Request $request): Response
     {

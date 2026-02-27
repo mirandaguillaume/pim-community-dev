@@ -12,7 +12,9 @@ use Symfony\Component\Messenger\Stamp\StampInterface;
  */
 final readonly class TenantIdStamp implements StampInterface
 {
-    public function __construct(private string $pimTenantId) {}
+    public function __construct(private string $pimTenantId)
+    {
+    }
 
     public function pimTenantId(): string
     {

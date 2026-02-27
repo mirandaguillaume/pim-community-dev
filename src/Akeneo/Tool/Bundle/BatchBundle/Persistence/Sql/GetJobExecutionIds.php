@@ -19,7 +19,9 @@ use Webmozart\Assert\Assert;
  */
 final readonly class GetJobExecutionIds
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     public function olderThanDays(int $days, array $jobInstanceCodes, ?BatchStatus $status): Result
     {

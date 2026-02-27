@@ -16,7 +16,9 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
  */
 final readonly class ValidateCategories
 {
-    public function __construct(private IdentifiableObjectRepositoryInterface $categoryRepository) {}
+    public function __construct(private IdentifiableObjectRepositoryInterface $categoryRepository)
+    {
+    }
 
     /**
      * @throws InvalidQueryException

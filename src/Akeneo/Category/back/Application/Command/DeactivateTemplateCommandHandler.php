@@ -18,7 +18,8 @@ class DeactivateTemplateCommandHandler
     public function __construct(
         private readonly DeactivateTemplate $deactivateTemplate,
         private readonly EventDispatcherInterface $eventDispatcher,
-    ) {}
+    ) {
+    }
 
     public function __invoke(DeactivateTemplateCommand $command): void
     {

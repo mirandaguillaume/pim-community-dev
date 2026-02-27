@@ -18,7 +18,9 @@ class FindActivatedCurrencies implements FindActivatedCurrenciesInterface, Cache
 {
     private array $activatedCurrenciesForChannels = [];
 
-    public function __construct(private readonly EntityManagerInterface $entityManager) {}
+    public function __construct(private readonly EntityManagerInterface $entityManager)
+    {
+    }
 
     /**
      * Method that returns a list of currencies codes activated for the given channel.

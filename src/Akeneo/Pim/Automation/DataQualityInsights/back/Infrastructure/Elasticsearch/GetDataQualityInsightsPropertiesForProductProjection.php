@@ -22,7 +22,8 @@ final readonly class GetDataQualityInsightsPropertiesForProductProjection implem
         private GetProductScoresQueryInterface $getProductScoresQuery,
         private ComputeProductsKeyIndicators $getProductsKeyIndicators,
         private ProductEntityIdFactoryInterface $idFactory
-    ) {}
+    ) {
+    }
 
     /**
      * @param array<UuidInterface> $productUuids
@@ -32,7 +33,7 @@ final readonly class GetDataQualityInsightsPropertiesForProductProjection implem
      */
     public function fromProductUuids(array $productUuids, array $context = []): array
     {
-        $productUuidCollection = $this->idFactory->createCollection(array_map(fn(UuidInterface $productUuid) => $productUuid->toString(), array_values($productUuids)));
+        $productUuidCollection = $this->idFactory->createCollection(array_map(fn (UuidInterface $productUuid) => $productUuid->toString(), array_values($productUuids)));
         Assert::isInstanceOf($productUuidCollection, ProductUuidCollection::class);
         $productScores = $this->getProductScoresQuery->byProductUuidCollection($productUuidCollection);
         $productKeyIndicators = $this->getProductsKeyIndicators->compute($productUuidCollection);

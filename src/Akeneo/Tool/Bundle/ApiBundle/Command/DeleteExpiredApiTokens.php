@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Akeneo\Tool\Bundle\ApiBundle\Command;
 
 use Akeneo\Tool\Bundle\ApiBundle\Handler\DeleteExpiredTokensHandler;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @copyright 2023 Akeneo SAS (http://www.akeneo.com)

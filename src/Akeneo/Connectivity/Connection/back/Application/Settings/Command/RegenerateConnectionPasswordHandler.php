@@ -17,7 +17,8 @@ class RegenerateConnectionPasswordHandler
     public function __construct(
         private readonly ConnectionRepositoryInterface $repository,
         private readonly RegenerateUserPasswordInterface $regenerateUserPassword
-    ) {}
+    ) {
+    }
 
     public function handle(RegenerateConnectionPasswordCommand $command): string
     {

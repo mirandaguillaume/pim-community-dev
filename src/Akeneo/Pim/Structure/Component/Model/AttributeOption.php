@@ -4,8 +4,8 @@ namespace Akeneo\Pim\Structure\Component\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @author    Nicolas Dupont <nicolas@akeneo.com>
@@ -164,7 +164,7 @@ class AttributeOption implements AttributeOptionInterface, \Stringable
     {
         $locale = $this->locale;
         $values = $this->optionValues->filter(
-            fn($value): bool => \strtolower((string) $value->getLocale()) === \strtolower($locale)
+            fn ($value): bool => \strtolower((string) $value->getLocale()) === \strtolower($locale)
         );
 
         if ($values->isEmpty()) {

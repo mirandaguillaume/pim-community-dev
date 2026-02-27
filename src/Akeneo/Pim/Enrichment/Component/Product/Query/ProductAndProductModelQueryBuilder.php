@@ -10,4 +10,6 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Query;
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class ProductAndProductModelQueryBuilder extends AbstractEntityWithValuesQueryBuilder {}
+class ProductAndProductModelQueryBuilder extends AbstractEntityWithValuesQueryBuilder
+{
+}

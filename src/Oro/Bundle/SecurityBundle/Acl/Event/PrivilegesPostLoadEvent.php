@@ -12,7 +12,9 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class PrivilegesPostLoadEvent
 {
-    public function __construct(private ArrayCollection $privileges) {}
+    public function __construct(private ArrayCollection $privileges)
+    {
+    }
 
     public function getPrivileges(): ArrayCollection
     {

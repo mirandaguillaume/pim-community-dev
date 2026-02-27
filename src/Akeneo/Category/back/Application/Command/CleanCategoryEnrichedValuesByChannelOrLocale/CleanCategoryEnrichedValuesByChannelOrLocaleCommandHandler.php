@@ -18,7 +18,8 @@ class CleanCategoryEnrichedValuesByChannelOrLocaleCommandHandler
     public function __construct(
         private readonly GetEnrichedValuesPerCategoryCode $getEnrichedValuesPerCategoryCode,
         private readonly CategoryAttributeValuesCleaner $categoryDataCleaner,
-    ) {}
+    ) {
+    }
 
     public function __invoke(CleanCategoryEnrichedValuesByChannelOrLocaleCommand $command): void
     {

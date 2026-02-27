@@ -17,7 +17,8 @@ class AccessTokenRequest
         private readonly string $grantType,
         private readonly string $codeIdentifier,
         private readonly string $codeChallenge
-    ) {}
+    ) {
+    }
 
     public function getClientId(): string
     {

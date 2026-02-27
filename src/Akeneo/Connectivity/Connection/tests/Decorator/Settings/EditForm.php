@@ -17,13 +17,13 @@ class EditForm extends ElementDecorator
 
     public function setLabel(string $label): void
     {
-        $labelField = $this->spin(fn() => $this->element->find('css', 'input[name="label"]'), 'Cannot find the label field');
+        $labelField = $this->spin(fn () => $this->element->find('css', 'input[name="label"]'), 'Cannot find the label field');
         $labelField->setValue($label);
     }
 
     public function save(): void
     {
-        $button = $this->spin(fn() => $this->element->find('css', '.AknButton--apply:not([disabled])'), 'Cannot click on the save button.');
+        $button = $this->spin(fn () => $this->element->find('css', '.AknButton--apply:not([disabled])'), 'Cannot click on the save button.');
 
         $button->click();
     }

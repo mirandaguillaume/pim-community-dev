@@ -32,7 +32,9 @@ use Webmozart\Assert\Assert;
  */
 final readonly class LightEntityWithFamilyVariantNormalizer implements NormalizerInterface
 {
-    public function __construct(private ImageNormalizer $imageNormalizer, private ImageAsLabel $imageAsLabel, private EntityWithFamilyVariantAttributesProvider $attributesProvider, private IdentifiableObjectRepositoryInterface $attributeOptionRepository, private GetProductCompletenessRatio $getCompletenessRatio, private VariantProductRatioInterface $variantProductRatioQuery, private iterable $axisLabelsNormalizers) {}
+    public function __construct(private ImageNormalizer $imageNormalizer, private ImageAsLabel $imageAsLabel, private EntityWithFamilyVariantAttributesProvider $attributesProvider, private IdentifiableObjectRepositoryInterface $attributeOptionRepository, private GetProductCompletenessRatio $getCompletenessRatio, private VariantProductRatioInterface $variantProductRatioQuery, private iterable $axisLabelsNormalizers)
+    {
+    }
 
     public function normalize($entity, $format = null, array $context = []): array
     {

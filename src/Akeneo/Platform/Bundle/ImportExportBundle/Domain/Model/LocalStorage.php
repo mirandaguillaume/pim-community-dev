@@ -13,7 +13,9 @@ final readonly class LocalStorage implements StorageInterface
 {
     public const TYPE = 'local';
 
-    public function __construct(private string $filePath) {}
+    public function __construct(private string $filePath)
+    {
+    }
 
     public function getFilePath(): string
     {

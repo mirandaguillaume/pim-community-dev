@@ -17,7 +17,8 @@ class BuildSqlMaskField
      */
     public function __construct(
         private readonly iterable $attributeCases,
-    ) {}
+    ) {
+    }
 
     public function __invoke(): string
     {

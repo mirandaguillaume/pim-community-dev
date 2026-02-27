@@ -15,7 +15,9 @@ class UrlProperty extends AbstractProperty
     /** @var array */
     protected $excludeParams = [self::ROUTE_KEY, self::IS_ABSOLUTE_KEY, self::ANCHOR_KEY, self::PARAMS_KEY];
 
-    public function __construct(protected UrlGeneratorInterface $router) {}
+    public function __construct(protected UrlGeneratorInterface $router)
+    {
+    }
 
     /**
      * {@inheritdoc}

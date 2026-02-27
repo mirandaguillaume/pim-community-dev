@@ -24,9 +24,12 @@ class PurgeConnectionErrorsTasklet implements TaskletInterface
         private readonly SelectAllAuditableConnectionCodeQuery $selectAllAuditableConnectionCodes,
         private readonly PurgeConnectionErrorsQuery $purgeErrors,
         private readonly LoggerInterface $logger,
-    ) {}
+    ) {
+    }
 
-    public function setStepExecution(StepExecution $stepExecution): void {}
+    public function setStepExecution(StepExecution $stepExecution): void
+    {
+    }
 
     public function execute(): void
     {

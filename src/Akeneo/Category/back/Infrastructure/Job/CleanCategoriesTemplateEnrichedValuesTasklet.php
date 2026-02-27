@@ -19,7 +19,8 @@ class CleanCategoriesTemplateEnrichedValuesTasklet implements TaskletInterface
 
     public function __construct(
         private readonly CommandBus $commandBus,
-    ) {}
+    ) {
+    }
 
     public function setStepExecution(StepExecution $stepExecution): self
     {

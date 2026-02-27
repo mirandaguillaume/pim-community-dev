@@ -12,7 +12,9 @@ use Ramsey\Uuid\UuidInterface;
 
 final readonly class GetProductQuantifiedAssociationsByProductUuids
 {
-    public function __construct(private Connection $connection, private GetIdMappingFromProductIdsQuery $getIdMappingFromProductIdsQuery, private FindQuantifiedAssociationTypeCodesInterface $findQuantifiedAssociationTypeCodes) {}
+    public function __construct(private Connection $connection, private GetIdMappingFromProductIdsQuery $getIdMappingFromProductIdsQuery, private FindQuantifiedAssociationTypeCodesInterface $findQuantifiedAssociationTypeCodes)
+    {
+    }
 
     /**
      * Executes SQL query to get product quantified associations from a set of product identifiers.
@@ -51,7 +53,7 @@ final readonly class GetProductQuantifiedAssociationsByProductUuids
             ;
             SQL;
 
-        $uuidsAsBytes = array_map(fn(UuidInterface $uuid): string => $uuid->getBytes(), $productUuids);
+        $uuidsAsBytes = array_map(fn (UuidInterface $uuid): string => $uuid->getBytes(), $productUuids);
 
         $rows = $this->connection->executeQuery(
             $query,
@@ -135,7 +137,7 @@ final readonly class GetProductQuantifiedAssociationsByProductUuids
     private function productIds(array $quantifiedAssociationWithProductId): array
     {
         return array_map(
-            fn(array $quantifiedAssociations) => $quantifiedAssociations['id'],
+            fn (array $quantifiedAssociations) => $quantifiedAssociations['id'],
             $quantifiedAssociationWithProductId['products'] ?? []
         );
     }

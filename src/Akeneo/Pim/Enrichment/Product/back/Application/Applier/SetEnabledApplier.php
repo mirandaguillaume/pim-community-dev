@@ -18,7 +18,8 @@ final readonly class SetEnabledApplier implements UserIntentApplier
 {
     public function __construct(
         private ObjectUpdaterInterface $productUpdater,
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritDoc}

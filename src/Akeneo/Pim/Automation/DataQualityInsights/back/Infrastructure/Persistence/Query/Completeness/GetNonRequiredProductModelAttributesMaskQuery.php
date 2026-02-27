@@ -21,7 +21,8 @@ class GetNonRequiredProductModelAttributesMaskQuery implements GetProductModelAt
     public function __construct(
         private readonly Connection        $dbConnection,
         private readonly BuildSqlMaskField $mask,
-    ) {}
+    ) {
+    }
 
     public function execute(ProductModelId $productModelId): ?RequiredAttributesMask
     {
@@ -76,7 +77,7 @@ GROUP BY family.code, channel_code, locale_code;
             return null;
         }
 
-        $masksPerChannelAndLocale = array_map(fn(array $row) => new RequiredAttributesMaskForChannelAndLocale(
+        $masksPerChannelAndLocale = array_map(fn (array $row) => new RequiredAttributesMaskForChannelAndLocale(
             $row['channel_code'],
             $row['locale_code'],
             json_decode((string) $row['mask'], true, 512, JSON_THROW_ON_ERROR)

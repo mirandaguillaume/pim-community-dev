@@ -13,7 +13,9 @@ use Doctrine\DBAL\Connection;
  */
 class GetConnectedAppsIdentifiersQuery implements GetConnectedAppsIdentifiersQueryInterface
 {
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     public function execute(): array
     {

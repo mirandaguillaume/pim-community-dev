@@ -17,7 +17,9 @@ class AverageMaxCategoryLevels implements AverageMaxQuery
 {
     private const VOLUME_NAME = 'average_max_category_levels';
 
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     /**
      * {@inheritdoc}

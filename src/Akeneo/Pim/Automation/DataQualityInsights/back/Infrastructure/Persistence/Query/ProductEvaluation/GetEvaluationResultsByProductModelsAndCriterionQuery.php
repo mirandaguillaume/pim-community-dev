@@ -23,7 +23,8 @@ final readonly class GetEvaluationResultsByProductModelsAndCriterionQuery implem
     public function __construct(
         private Connection $dbConnection,
         private TransformCriterionEvaluationResultIds $transformCriterionEvaluationResultIds
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}
@@ -41,7 +42,7 @@ final readonly class GetEvaluationResultsByProductModelsAndCriterionQuery implem
         $stmt = $this->dbConnection->executeQuery(
             $query,
             [
-                'productModelIds' => array_map(fn(string $productModelId) => (int) $productModelId, $productModelIdCollection->toArrayString()),
+                'productModelIds' => array_map(fn (string $productModelId) => (int) $productModelId, $productModelIdCollection->toArrayString()),
                 'criterionCode' => $criterionCode,
             ],
             [

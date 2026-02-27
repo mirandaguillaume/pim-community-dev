@@ -24,7 +24,8 @@ final class V20230512143522FillNewCompletenessTableZddMigration implements ZddMi
     public function __construct(
         private readonly Connection $connection,
         private readonly LoggerInterface $logger,
-    ) {}
+    ) {
+    }
 
     public function migrate(): void
     {
@@ -90,7 +91,7 @@ final class V20230512143522FillNewCompletenessTableZddMigration implements ZddMi
             SQL;
         return \intval($this->connection->executeStatement(
             $sql,
-            ['uuids' => \array_map(static fn(UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],
+            ['uuids' => \array_map(static fn (UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],
             ['uuids' => ArrayParameterType::STRING]
         ));
     }
@@ -107,7 +108,7 @@ final class V20230512143522FillNewCompletenessTableZddMigration implements ZddMi
                 ['searchAfter' => $searchAfter]
             );
             $uuids = \array_map(
-                static fn(array $row): UuidInterface => Uuid::fromString($row['uuid']),
+                static fn (array $row): UuidInterface => Uuid::fromString($row['uuid']),
                 $rows
             );
             $searchAfter = \end($rows)['id'];

@@ -13,7 +13,9 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class SqlFindProductUuidsInGroup implements FindProductUuidsInGroup
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     /**
      * {@inheritdoc}

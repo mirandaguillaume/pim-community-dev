@@ -16,7 +16,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class FromSizeIdentifierResultCursorFactory implements CursorFactoryInterface
 {
-    public function __construct(private readonly Client $esClient) {}
+    public function __construct(private readonly Client $esClient)
+    {
+    }
 
     /**
      * {@inheritdoc}

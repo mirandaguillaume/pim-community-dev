@@ -16,7 +16,9 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GenerateHeadersFromFamilyCodes implements GenerateFlatHeadersFromFamilyCodesInterface
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     /**
      * Generate all possible headers from the provided family codes

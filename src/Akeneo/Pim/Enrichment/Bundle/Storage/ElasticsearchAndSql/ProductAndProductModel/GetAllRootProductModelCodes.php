@@ -14,7 +14,8 @@ final readonly class GetAllRootProductModelCodes
 {
     public function __construct(
         private Connection $connection,
-    ) {}
+    ) {
+    }
 
     public function byBatchesOf(int $batchSize): iterable
     {

@@ -58,7 +58,7 @@ class RemoveAttributesFromFamilyVariantsOnFamilyUpdateSubscriber implements Even
 
     private function getFamilyVariantsAttributeCodes(FamilyVariantInterface $familyVariant): array
     {
-        $getAttributeCodeFunction = fn(AttributeInterface $attribute) => $attribute->getCode();
+        $getAttributeCodeFunction = fn (AttributeInterface $attribute) => $attribute->getCode();
         $familyVariantAttributesCodes = array_merge(
             $familyVariant->getAttributes()->map($getAttributeCodeFunction)->toArray(),
             $familyVariant->getAxes()->map($getAttributeCodeFunction)->toArray()

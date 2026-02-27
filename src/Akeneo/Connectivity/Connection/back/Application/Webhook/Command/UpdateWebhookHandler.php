@@ -22,7 +22,8 @@ class UpdateWebhookHandler
         private readonly ValidatorInterface $validator,
         private readonly SelectWebhookSecretQueryInterface $selectWebhookSecretQuery,
         private readonly GenerateWebhookSecretHandler $generateWebhookSecretHandler
-    ) {}
+    ) {
+    }
 
     public function handle(UpdateWebhookCommand $command): void
     {

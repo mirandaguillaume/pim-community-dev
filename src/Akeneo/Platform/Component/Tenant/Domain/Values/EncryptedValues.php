@@ -26,7 +26,8 @@ final readonly class EncryptedValues
     private function __construct(
         private string $data,
         private string $iv,
-    ) {}
+    ) {
+    }
 
     public static function create(array $encryptedPayload): self
     {

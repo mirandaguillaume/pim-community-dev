@@ -11,7 +11,9 @@ use Doctrine\DBAL\Connection;
 
 final readonly class SqlFindAssociationTypes implements FindAssociationTypesInterface
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     /**
      * @inheritDoc

@@ -16,7 +16,9 @@ class CompletenessWidget
     /**
      * @param ChannelCompleteness[] $channelCompletenesses
      */
-    public function __construct(private readonly array $channelCompletenesses) {}
+    public function __construct(private readonly array $channelCompletenesses)
+    {
+    }
 
     public function toArray(): array
     {

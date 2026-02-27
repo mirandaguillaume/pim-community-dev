@@ -18,7 +18,9 @@ class AttributeRequirementFactory
     /**
      * @param string $attrRequirementClass
      */
-    public function __construct(protected $attrRequirementClass) {}
+    public function __construct(protected $attrRequirementClass)
+    {
+    }
 
     /**
      * This method creates an attribute requirement instance.

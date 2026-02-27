@@ -15,7 +15,8 @@ final readonly class Scores
     public function __construct(
         private ChannelLocaleRateCollection $scoresAllCriteria,
         private ChannelLocaleRateCollection $scoresPartialCriteria,
-    ) {}
+    ) {
+    }
 
     public function allCriteria(): ChannelLocaleRateCollection
     {

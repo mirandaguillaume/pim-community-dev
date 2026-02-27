@@ -11,7 +11,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class InitCategoryDbSchemaSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly Connection $dbalConnection) {}
+    public function __construct(private readonly Connection $dbalConnection)
+    {
+    }
 
     public static function getSubscribedEvents(): array
     {

@@ -24,7 +24,7 @@ class AssociationTypeRepository extends EntityRepository implements AssociationT
 
         if ($associations = $entity->getAssociations()) {
             $associationTypeIds = $associations->map(
-                fn($association) => $association->getAssociationType()->getId()
+                fn ($association) => $association->getAssociationType()->getId()
             );
 
             if (!$associationTypeIds->isEmpty()) {

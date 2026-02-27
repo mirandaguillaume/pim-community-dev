@@ -36,7 +36,8 @@ class GetProductByUuidController
         private readonly GetProductsWithQualityScoresInterface $getProductsWithQualityScores,
         private readonly GetProductsWithCompletenessesInterface $getProductsWithCompletenesses,
         private readonly SecurityFacade $security
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request, string $uuid): JsonResponse
     {

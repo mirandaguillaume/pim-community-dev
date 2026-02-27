@@ -19,7 +19,9 @@ class User extends AbstractReader implements
     InitializableInterface,
     StepExecutionAwareInterface
 {
-    public function __construct(protected ObjectRepository $repository) {}
+    public function __construct(protected ObjectRepository $repository)
+    {
+    }
 
     /**
      * {@inheritdoc}

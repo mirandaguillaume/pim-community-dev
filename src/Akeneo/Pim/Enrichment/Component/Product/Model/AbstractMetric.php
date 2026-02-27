@@ -20,7 +20,9 @@ abstract class AbstractMetric implements MetricInterface, \Stringable
      * @param string $baseUnit
      * @param float  $baseData
      */
-    public function __construct(protected $family, protected $unit, protected $data, protected $baseUnit, protected $baseData) {}
+    public function __construct(protected $family, protected $unit, protected $data, protected $baseUnit, protected $baseData)
+    {
+    }
 
     /**
      * {@inheritdoc}

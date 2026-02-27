@@ -17,7 +17,9 @@ class DateRangeFilterType extends AbstractType
     final public const TYPE_LESS_THAN = 4;
     final public const NAME = 'oro_type_date_range_filter';
 
-    public function __construct(protected TranslatorInterface $translator) {}
+    public function __construct(protected TranslatorInterface $translator)
+    {
+    }
 
     /**
      * {@inheritDoc}

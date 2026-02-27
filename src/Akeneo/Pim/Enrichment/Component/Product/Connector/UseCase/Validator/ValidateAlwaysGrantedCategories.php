@@ -16,5 +16,7 @@ final class ValidateAlwaysGrantedCategories implements ValidateGrantedCategories
     /**
      * {@inheritdoc}
      */
-    public function validate(array $search): void {}
+    public function validate(array $search): void
+    {
+    }
 }

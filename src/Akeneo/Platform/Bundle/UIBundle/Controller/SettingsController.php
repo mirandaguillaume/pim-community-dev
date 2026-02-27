@@ -13,7 +13,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 final readonly class SettingsController
 {
-    public function __construct(private CountSettingsEntitiesQueryInterface $countSettingsEntitiesQuery) {}
+    public function __construct(private CountSettingsEntitiesQueryInterface $countSettingsEntitiesQuery)
+    {
+    }
 
     public function countEntitiesAction(): JsonResponse
     {

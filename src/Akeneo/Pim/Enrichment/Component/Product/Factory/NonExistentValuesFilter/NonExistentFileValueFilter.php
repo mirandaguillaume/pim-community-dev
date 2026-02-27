@@ -15,7 +15,9 @@ use Akeneo\Tool\Component\FileStorage\Repository\FileInfoRepositoryInterface;
  */
 final readonly class NonExistentFileValueFilter implements NonExistentValuesFilter
 {
-    public function __construct(private FileInfoRepositoryInterface $fileInfoRepository) {}
+    public function __construct(private FileInfoRepositoryInterface $fileInfoRepository)
+    {
+    }
 
     /**
      * This filter remove all non existing value with file keys that does not exist anymore.

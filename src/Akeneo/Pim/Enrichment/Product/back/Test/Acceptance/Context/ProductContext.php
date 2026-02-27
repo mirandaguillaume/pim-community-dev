@@ -32,7 +32,8 @@ final class ProductContext implements Context
         private readonly ConstraintViolationsContext $constraintViolationsContext,
         private readonly ValidatorInterface $validator,
         private readonly UserRepositoryInterface $userRepository
-    ) {}
+    ) {
+    }
 
     /**
      * @BeforeScenario

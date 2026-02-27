@@ -16,7 +16,8 @@ final readonly class GetProductModelCodesNotSynchronisedBetweenEsAndMysql
     public function __construct(
         private Client $productAndProductModelClient,
         private Connection $connection,
-    ) {}
+    ) {
+    }
 
     public function byBatchesOf(int $batchSize): iterable
     {
@@ -69,7 +70,7 @@ final readonly class GetProductModelCodesNotSynchronisedBetweenEsAndMysql
             }
 
             $diff = \array_map(
-                static fn(array $row): string => $row['code'],
+                static fn (array $row): string => $row['code'],
                 \array_filter(
                     $rows,
                     function (array $row) use ($updatedById): bool {

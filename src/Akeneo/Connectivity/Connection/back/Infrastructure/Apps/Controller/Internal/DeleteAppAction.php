@@ -28,7 +28,8 @@ final readonly class DeleteAppAction
         private SecurityFacade $security,
         private FindOneConnectedAppByConnectionCodeQueryInterface $findOneConnectedAppByConnectionCodeQuery,
         private DeleteAppHandler $deleteAppHandler
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request, string $connectionCode): Response
     {

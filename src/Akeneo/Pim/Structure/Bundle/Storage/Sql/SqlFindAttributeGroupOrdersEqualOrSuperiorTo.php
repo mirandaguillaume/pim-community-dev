@@ -17,7 +17,9 @@ use Doctrine\DBAL\Connection;
  */
 class SqlFindAttributeGroupOrdersEqualOrSuperiorTo implements FindAttributeGroupOrdersEqualOrSuperiorTo
 {
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     public function execute(AttributeGroup $attributeGroup): array
     {

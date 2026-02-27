@@ -14,7 +14,9 @@ use Akeneo\Connectivity\Connection\Domain\Settings\Persistence\Query\SelectConne
  */
 class FetchConnectionsHandler
 {
-    public function __construct(private readonly SelectConnectionsQueryInterface $selectConnectionsQuery) {}
+    public function __construct(private readonly SelectConnectionsQueryInterface $selectConnectionsQuery)
+    {
+    }
 
     /**
      * @return Connection[]

@@ -19,7 +19,9 @@ use Doctrine\DBAL\Types\Types;
  */
 final readonly class GetValuesAndPropertiesFromProductModelCodes
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     public function fromProductModelCodes(array $productModelCodes): array
     {
@@ -27,7 +29,7 @@ final readonly class GetValuesAndPropertiesFromProductModelCodes
             return [];
         }
 
-        $productModelCodes = (fn(string ...$productModelCodes) => $productModelCodes)(...$productModelCodes);
+        $productModelCodes = (fn (string ...$productModelCodes) => $productModelCodes)(...$productModelCodes);
 
         $query = <<<SQL
             SELECT

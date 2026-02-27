@@ -16,7 +16,9 @@ use Doctrine\Persistence\ObjectRepository;
  */
 class ReferenceDataRepositoryResolver implements ReferenceDataRepositoryResolverInterface
 {
-    public function __construct(protected ConfigurationRegistryInterface $configurationRegistry, protected ManagerRegistry $doctrineRegistry) {}
+    public function __construct(protected ConfigurationRegistryInterface $configurationRegistry, protected ManagerRegistry $doctrineRegistry)
+    {
+    }
 
     /**
      * {@inheritdoc}

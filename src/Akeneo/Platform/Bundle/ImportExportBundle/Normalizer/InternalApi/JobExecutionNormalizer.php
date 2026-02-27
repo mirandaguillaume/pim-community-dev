@@ -17,7 +17,9 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class JobExecutionNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    public function __construct(private readonly NormalizerInterface $jobExecutionStandardNormalizer, private readonly UserContext $userContext, private readonly GetJobExecutionTracking $getJobExecutionTracking, private readonly NormalizerInterface $jobExecutionTrackingNormalizer) {}
+    public function __construct(private readonly NormalizerInterface $jobExecutionStandardNormalizer, private readonly UserContext $userContext, private readonly GetJobExecutionTracking $getJobExecutionTracking, private readonly NormalizerInterface $jobExecutionTrackingNormalizer)
+    {
+    }
 
     public function normalize($jobExecution, $format = null, array $context = []): array
     {

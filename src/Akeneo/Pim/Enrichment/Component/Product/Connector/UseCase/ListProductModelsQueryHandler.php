@@ -31,7 +31,8 @@ class ListProductModelsQueryHandler
         private readonly IdentifiableObjectRepositoryInterface $channelRepository,
         private readonly FindId $getProductModelId,
         private readonly GetProductModelsWithQualityScoresInterface $getProductModelsWithQualityScores
-    ) {}
+    ) {
+    }
 
     public function handle(ListProductModelsQuery $query): ConnectorProductModelList
     {

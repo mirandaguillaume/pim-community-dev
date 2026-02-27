@@ -12,7 +12,9 @@ use Akeneo\Connectivity\Connection\Domain\ValueObject\DateTimePeriod;
  */
 final readonly class GetPeriodErrorCountPerConnectionQuery
 {
-    public function __construct(private DateTimePeriod $period) {}
+    public function __construct(private DateTimePeriod $period)
+    {
+    }
 
     public function period(): DateTimePeriod
     {

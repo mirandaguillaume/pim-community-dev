@@ -20,7 +20,8 @@ class SqlFindFamiliesWithLabels implements FindFamiliesWithLabels
     public function __construct(
         private readonly Connection $connection,
         private readonly FindFamilyCodes $findFamilyCodes,
-    ) {}
+    ) {
+    }
 
     public function fromQuery(FamilyQuery $query): array
     {

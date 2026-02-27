@@ -35,7 +35,8 @@ class CreateJobExecutionHandler implements CreateJobExecutionHandlerInterface
         private readonly JobParametersFactory $jobParametersFactory,
         private readonly JobParametersValidator $jobParametersValidator,
         private readonly ValidatorInterface $validator,
-    ) {}
+    ) {
+    }
 
     public function createFromBatchCode(
         string $batchCode,

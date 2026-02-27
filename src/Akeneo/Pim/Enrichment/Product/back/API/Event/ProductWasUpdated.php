@@ -15,5 +15,6 @@ class ProductWasUpdated
     public function __construct(
         public readonly UuidInterface $productUuid,
         public readonly \DateTimeImmutable $updatedAt
-    ) {}
+    ) {
+    }
 }

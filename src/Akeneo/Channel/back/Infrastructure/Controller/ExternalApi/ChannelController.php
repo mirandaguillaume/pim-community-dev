@@ -48,7 +48,8 @@ class ChannelController
         private readonly StreamResourceResponse $partialUpdateStreamResource,
         private readonly array $apiConfiguration,
         private readonly SecurityFacadeInterface $securityFacade,
-    ) {}
+    ) {
+    }
 
     public function getAction(Request $request, string $code): JsonResponse
     {
@@ -198,7 +199,7 @@ class ChannelController
     {
         return array_filter(
             array_merge($channel->getConversionUnits(), $data['conversion_units']),
-            fn($value) => null !== $value && '' !== $value
+            fn ($value) => null !== $value && '' !== $value
         );
     }
 

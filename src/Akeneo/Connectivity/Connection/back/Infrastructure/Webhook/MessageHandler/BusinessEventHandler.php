@@ -18,7 +18,8 @@ class BusinessEventHandler implements MessageSubscriberInterface
         private readonly string $projectDir,
         private readonly LoggerInterface $logger,
         private readonly BulkEventNormalizer $normalizer
-    ) {}
+    ) {
+    }
 
     public static function getHandledMessages(): \Iterator
     {

@@ -131,7 +131,9 @@ class V20220729171405DropProductIdColumnsAndCleanVersioningResourceUuidColumns i
 
     private bool $shouldLog = true;
 
-    public function __construct(private readonly Connection $connection, private readonly LoggerInterface $logger) {}
+    public function __construct(private readonly Connection $connection, private readonly LoggerInterface $logger)
+    {
+    }
 
     public function getName(): string
     {
@@ -201,7 +203,7 @@ class V20220729171405DropProductIdColumnsAndCleanVersioningResourceUuidColumns i
     private function columnExists(string $table, string $columnName): bool
     {
         $tableColumnNames = array_map(
-            static fn(Column $column) => $column->getName(),
+            static fn (Column $column) => $column->getName(),
             $this->connection->createSchemaManager()->listTableColumns($table)
         );
 

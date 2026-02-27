@@ -19,7 +19,8 @@ final readonly class CleanImportFileAfterJobExecutionSubscriber implements Event
 {
     public function __construct(
         private JobFileBackuper $jobFileBackuper
-    ) {}
+    ) {
+    }
 
     public static function getSubscribedEvents(): array
     {

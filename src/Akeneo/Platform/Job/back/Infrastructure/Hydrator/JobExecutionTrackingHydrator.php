@@ -16,7 +16,8 @@ class JobExecutionTrackingHydrator
 {
     public function __construct(
         private readonly StepExecutionTrackingHydrator $stepExecutionHydrator,
-    ) {}
+    ) {
+    }
 
     public function hydrate(int $currentStepNumber, int $stepCount, array $steps): JobExecutionTracking
     {
@@ -29,13 +30,13 @@ class JobExecutionTrackingHydrator
         }
 
         $steps = array_map(
-            fn(array $step) => $this->stepExecutionHydrator->hydrate($step),
+            fn (array $step) => $this->stepExecutionHydrator->hydrate($step),
             $steps,
         );
 
         usort(
             $steps,
-            static fn(StepExecutionTracking $step1, StepExecutionTracking $step2) => $step1->getId() <=> $step2->getId(),
+            static fn (StepExecutionTracking $step1, StepExecutionTracking $step2) => $step1->getId() <=> $step2->getId(),
         );
 
         return new JobExecutionTracking(

@@ -26,7 +26,8 @@ final readonly class ConnectorProductWithUuidNormalizer
     public function __construct(
         private ValuesNormalizer $valuesNormalizer,
         private DateTimeNormalizer $dateTimeNormalizer
-    ) {}
+    ) {
+    }
 
     public function normalizeConnectorProductList(ConnectorProductList $connectorProducts): array
     {
@@ -125,7 +126,7 @@ final readonly class ConnectorProductWithUuidNormalizer
             $result[$associationType] = [];
             foreach ($associationsByType as $entityType => $associationsByEntityType) {
                 $result[$associationType][$entityType] = $entityType === 'products'
-                    ? array_map(fn(array $associatedObject): ?string => $associatedObject['uuid'], $associationsByEntityType)
+                    ? array_map(fn (array $associatedObject): ?string => $associatedObject['uuid'], $associationsByEntityType)
                     : $associationsByEntityType;
             }
         }
@@ -155,9 +156,9 @@ final readonly class ConnectorProductWithUuidNormalizer
             foreach ($associationsByType as $entityType => $associationsByEntityType) {
                 $result[$associationType][$entityType] = $entityType === 'products'
                     ? array_map(
-                        fn(array $associatedObject): array => array_filter(
+                        fn (array $associatedObject): array => array_filter(
                             $associatedObject,
-                            fn(string $key): bool => in_array($key, ['uuid', 'quantity']),
+                            fn (string $key): bool => in_array($key, ['uuid', 'quantity']),
                             ARRAY_FILTER_USE_KEY
                         ),
                         $associationsByEntityType

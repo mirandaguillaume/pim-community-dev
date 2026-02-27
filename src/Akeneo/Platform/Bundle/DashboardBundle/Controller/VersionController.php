@@ -12,7 +12,9 @@ class VersionController
 {
     private const GENERAL_AVAILABILITY_TAG_PATTERN = '~^\d\.\d\.\d~';
 
-    public function __construct(private readonly VersionProviderInterface $versionProvider, private readonly ConfigManager $configManager, private readonly string $analyticsUri) {}
+    public function __construct(private readonly VersionProviderInterface $versionProvider, private readonly ConfigManager $configManager, private readonly string $analyticsUri)
+    {
+    }
 
     public function __invoke(): JsonResponse
     {

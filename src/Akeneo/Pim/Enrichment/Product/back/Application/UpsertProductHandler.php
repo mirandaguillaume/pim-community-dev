@@ -42,7 +42,8 @@ final readonly class UpsertProductHandler
         private UserIntentApplierRegistry $applierRegistry,
         private TokenStorageInterface $tokenStorage,
         private Clock $clock
-    ) {}
+    ) {
+    }
 
     public function __invoke(UpsertProductCommand $command): void
     {
@@ -94,14 +95,14 @@ final readonly class UpsertProductHandler
     {
         $indexedValueUserIntents = \array_combine(
             \array_map(
-                fn(mixed $key): string => \sprintf('valueUserIntents[%s]', $key),
+                fn (mixed $key): string => \sprintf('valueUserIntents[%s]', $key),
                 \array_keys($command->valueUserIntents())
             ),
             $command->valueUserIntents()
         );
         $userIntents = \array_filter(
             ['parentUserIntent' => $command->parentUserIntent(), ...$indexedValueUserIntents, 'enabledUserIntent' => $command->enabledUserIntent(), 'familyUserIntent' => $command->familyUserIntent(), 'categoryUserIntent' => $command->categoryUserIntent(), 'groupUserIntent' => $command->groupUserIntent(), 'associationUserIntents' => $command->associationUserIntents(), 'quantifiedAssociationUserIntents' => $command->quantifiedAssociationUserIntents()],
-            fn($userIntent): bool => null !== $userIntent
+            fn ($userIntent): bool => null !== $userIntent
         );
 
         foreach ($userIntents as $propertyPath => $userIntent) {

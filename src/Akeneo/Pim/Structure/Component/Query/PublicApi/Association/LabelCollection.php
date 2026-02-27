@@ -11,7 +11,9 @@ namespace Akeneo\Pim\Structure\Component\Query\PublicApi\Association;
 
 class LabelCollection
 {
-    private function __construct(private readonly array $translatedLabels) {}
+    private function __construct(private readonly array $translatedLabels)
+    {
+    }
 
     public static function fromArray(array $translatedLabels): self
     {

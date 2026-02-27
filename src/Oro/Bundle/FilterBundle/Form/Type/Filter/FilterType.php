@@ -18,7 +18,9 @@ class FilterType extends AbstractType
     final public const TYPE_NOT_EMPTY = 'not empty';
     final public const TYPE_IN_LIST = 'in';
 
-    public function __construct(protected TranslatorInterface $translator) {}
+    public function __construct(protected TranslatorInterface $translator)
+    {
+    }
 
     /**
      * {@inheritDoc}

@@ -26,7 +26,9 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class SqlGetAttributeLabels implements GetAttributeLabelsInterface
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     public function forAttributeCodes(array $attributeCodes): array
     {

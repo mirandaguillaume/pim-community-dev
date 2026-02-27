@@ -16,7 +16,9 @@ use Webmozart\Assert\Assert;
  */
 final readonly class SqlGetCategoryCodes implements GetCategoryCodes
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     /**
      * {@inheritdoc}
@@ -29,7 +31,7 @@ final readonly class SqlGetCategoryCodes implements GetCategoryCodes
 
         Assert::allIsInstanceOf($uuids, UuidInterface::class);
         $productUuidsAsBytes = \array_map(
-            static fn(UuidInterface $uuid): string => $uuid->getBytes(),
+            static fn (UuidInterface $uuid): string => $uuid->getBytes(),
             $uuids
         );
 

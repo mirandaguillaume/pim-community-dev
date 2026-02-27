@@ -17,7 +17,8 @@ final readonly class UpdateDataSourceProductEventCountHandler
     public function __construct(
         private ExtractConnectionsProductEventCountQueryInterface $extractConnectionsEventCountQuery,
         private BulkInsertEventCountsQueryInterface $bulkInsertEventCountsQuery,
-    ) {}
+    ) {
+    }
 
     public function handle(UpdateDataSourceProductEventCountCommand $command): void
     {

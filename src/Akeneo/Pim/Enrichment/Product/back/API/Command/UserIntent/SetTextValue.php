@@ -15,7 +15,8 @@ final readonly class SetTextValue implements ValueUserIntent
         private ?string $channelCode,
         private ?string $localeCode,
         private string $value
-    ) {}
+    ) {
+    }
 
     public function attributeCode(): string
     {

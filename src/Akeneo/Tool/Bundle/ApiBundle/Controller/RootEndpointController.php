@@ -16,7 +16,9 @@ use Symfony\Component\Routing\Router;
  */
 class RootEndpointController
 {
-    public function __construct(private readonly Router $router, private readonly FeatureFlags $featureFlags) {}
+    public function __construct(private readonly Router $router, private readonly FeatureFlags $featureFlags)
+    {
+    }
 
     /**
      * @return JsonResponse

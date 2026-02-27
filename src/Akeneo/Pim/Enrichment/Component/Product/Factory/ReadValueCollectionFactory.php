@@ -17,7 +17,9 @@ use Ramsey\Uuid\Uuid;
  */
 class ReadValueCollectionFactory
 {
-    public function __construct(private readonly ValueFactory $valueFactory, private readonly GetAttributes $getAttributeByCodes, private readonly ChainedNonExistentValuesFilterInterface $chainedNonExistentValuesFilter, private readonly LoggerInterface $logger) {}
+    public function __construct(private readonly ValueFactory $valueFactory, private readonly GetAttributes $getAttributeByCodes, private readonly ChainedNonExistentValuesFilterInterface $chainedNonExistentValuesFilter, private readonly LoggerInterface $logger)
+    {
+    }
 
     public function createFromStorageFormat(array $rawValues): ReadValueCollection
     {

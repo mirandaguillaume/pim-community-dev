@@ -19,7 +19,8 @@ class SearchFiltersSql implements SearchFilters
     public function __construct(
         private readonly ExternalApiSearchFiltersValidator $searchFiltersValidator,
         private readonly GetCategoryInterface $getCategory,
-    ) {}
+    ) {
+    }
 
     public function build(array $searchFilters): ExternalApiSqlParameters
     {

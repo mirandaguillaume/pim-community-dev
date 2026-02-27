@@ -28,7 +28,8 @@ final readonly class DeleteCustomAppAction
         private DeleteCustomAppHandler $deleteCustomAppHandler,
         private GetCustomAppQueryInterface $getCustomAppQuery,
         private DeleteAppHandler $deleteAppHandler,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request, string $customAppId): Response
     {

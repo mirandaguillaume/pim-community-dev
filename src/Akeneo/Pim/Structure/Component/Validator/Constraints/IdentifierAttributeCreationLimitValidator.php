@@ -20,7 +20,8 @@ final class IdentifierAttributeCreationLimitValidator extends ConstraintValidato
     public function __construct(
         private readonly AttributeRepositoryInterface $repository,
         private readonly int $creationLimit
-    ) {}
+    ) {
+    }
 
     public function validate($attribute, Constraint $constraint): void
     {

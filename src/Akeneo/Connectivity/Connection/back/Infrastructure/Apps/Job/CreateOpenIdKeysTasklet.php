@@ -19,9 +19,13 @@ class CreateOpenIdKeysTasklet implements TaskletInterface
 {
     protected const JOB_CODE = 'connectivity_create_openid_keys';
 
-    public function __construct(private readonly GenerateAsymmetricKeysHandler $generateAsymmetricKeysHandler) {}
+    public function __construct(private readonly GenerateAsymmetricKeysHandler $generateAsymmetricKeysHandler)
+    {
+    }
 
-    public function setStepExecution(StepExecution $stepExecution): void {}
+    public function setStepExecution(StepExecution $stepExecution): void
+    {
+    }
 
     public function execute(): void
     {

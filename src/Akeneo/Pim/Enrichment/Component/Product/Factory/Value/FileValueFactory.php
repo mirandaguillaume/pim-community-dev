@@ -20,7 +20,9 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  */
 final readonly class FileValueFactory implements ValueFactory
 {
-    public function __construct(private FileInfoRepositoryInterface $fileInfoRepository) {}
+    public function __construct(private FileInfoRepositoryInterface $fileInfoRepository)
+    {
+    }
 
     public function createWithoutCheckingData(Attribute $attribute, ?string $channelCode, ?string $localeCode, $data): ValueInterface
     {

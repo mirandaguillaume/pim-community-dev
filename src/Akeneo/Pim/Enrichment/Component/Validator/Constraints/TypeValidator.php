@@ -20,7 +20,8 @@ class TypeValidator extends ConstraintValidator
 {
     public function __construct(
         private readonly ValidatorInterface $validator
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}

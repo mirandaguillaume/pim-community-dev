@@ -14,7 +14,8 @@ final readonly class Firewall
     public function __construct(
         private FirewallMapInterface $firewall,
         private RequestStack $requestStack
-    ) {}
+    ) {
+    }
 
     public function isCurrentRequestInsideTheApiFirewall(): bool
     {

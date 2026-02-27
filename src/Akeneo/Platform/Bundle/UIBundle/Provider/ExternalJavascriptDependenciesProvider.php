@@ -6,7 +6,9 @@ namespace Akeneo\Platform\Bundle\UIBundle\Provider;
 
 final readonly class ExternalJavascriptDependenciesProvider
 {
-    public function __construct(private iterable $externalDependenciesProviders) {}
+    public function __construct(private iterable $externalDependenciesProviders)
+    {
+    }
 
     public function getScripts(): array
     {

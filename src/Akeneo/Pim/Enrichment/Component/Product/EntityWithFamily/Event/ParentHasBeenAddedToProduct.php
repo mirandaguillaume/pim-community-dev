@@ -18,7 +18,9 @@ class ParentHasBeenAddedToProduct extends Event
 {
     final public const EVENT_NAME = 'PARENT_HAS_BEEN_ADDED_TO_PRODUCT';
 
-    public function __construct(private readonly ProductInterface $variantProduct, private readonly string $parentCode) {}
+    public function __construct(private readonly ProductInterface $variantProduct, private readonly string $parentCode)
+    {
+    }
 
     public function convertedProduct(): ProductInterface
     {

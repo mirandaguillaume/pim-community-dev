@@ -12,4 +12,6 @@ use Ramsey\Uuid\UuidInterface;
  *
  * @extends \Iterator<UuidInterface|false>
  */
-interface ProductUuidCursorInterface extends \Countable, \Iterator {}
+interface ProductUuidCursorInterface extends \Countable, \Iterator
+{
+}

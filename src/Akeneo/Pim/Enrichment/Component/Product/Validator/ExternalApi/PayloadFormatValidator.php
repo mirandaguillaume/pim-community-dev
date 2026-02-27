@@ -31,7 +31,9 @@ final class PayloadFormatValidator extends ConstraintValidator
     /** @var array<string, string> */
     private array $attributeTypeByCodes = [];
 
-    public function __construct(private readonly AttributeRepositoryInterface $attributeRepository) {}
+    public function __construct(private readonly AttributeRepositoryInterface $attributeRepository)
+    {
+    }
 
     public function validate($data, Constraint $constraint): void
     {

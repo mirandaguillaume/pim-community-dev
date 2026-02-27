@@ -24,7 +24,8 @@ class UserLoader
         private readonly SaverInterface $userSaver,
         private readonly UserGroupLoader $userGroupLoader,
         private readonly UserRoleLoader $userRoleLoader,
-    ) {}
+    ) {
+    }
 
     public function createUser(string $username, array $userGroups, array $userRoles): UserInterface
     {

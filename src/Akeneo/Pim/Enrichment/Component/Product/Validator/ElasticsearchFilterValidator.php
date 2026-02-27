@@ -14,7 +14,9 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
  */
 class ElasticsearchFilterValidator
 {
-    public function __construct(private readonly IdentifiableObjectRepositoryInterface $attributeRepository, private readonly AttributeValidatorHelper $attributeValidator) {}
+    public function __construct(private readonly IdentifiableObjectRepositoryInterface $attributeRepository, private readonly AttributeValidatorHelper $attributeValidator)
+    {
+    }
 
     public function validateLocaleForAttribute(string $attributeCode, ?string $localeCode)
     {

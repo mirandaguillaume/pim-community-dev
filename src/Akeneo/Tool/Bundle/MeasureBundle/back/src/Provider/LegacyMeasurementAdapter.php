@@ -39,7 +39,7 @@ class LegacyMeasurementAdapter
 
     private function adaptOperations(array $unit): array
     {
-        return array_map(static fn(array $operation) => [
+        return array_map(static fn (array $operation) => [
             $operation['operator'] => $operation['value'],
         ], $unit['convert_from_standard']);
     }

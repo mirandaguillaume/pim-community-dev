@@ -22,7 +22,8 @@ class CodeChallengeMustBeValidValidator extends ConstraintValidator
         private readonly WebMarketplaceApiInterface $webMarketplaceApi,
         private readonly GetCustomAppSecretQueryInterface $getCustomAppSecretQuery,
         private readonly FeatureFlag $fakeAppsFeatureFlag
-    ) {}
+    ) {
+    }
 
     public function validate($value, Constraint $constraint)
     {

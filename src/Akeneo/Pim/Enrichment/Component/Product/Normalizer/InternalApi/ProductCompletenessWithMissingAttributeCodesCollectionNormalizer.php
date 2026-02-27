@@ -57,7 +57,9 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class ProductCompletenessWithMissingAttributeCodesCollectionNormalizer
 {
-    public function __construct(private readonly NormalizerInterface $normalizer, private readonly GetChannelLabelsInterface $getChannelLabels, private readonly GetAttributeLabelsInterface $getAttributeLabels) {}
+    public function __construct(private readonly NormalizerInterface $normalizer, private readonly GetChannelLabelsInterface $getChannelLabels, private readonly GetAttributeLabelsInterface $getAttributeLabels)
+    {
+    }
 
     public function normalize(ProductCompletenessWithMissingAttributeCodesCollection $completenesses): array
     {
@@ -204,7 +206,7 @@ class ProductCompletenessWithMissingAttributeCodesCollectionNormalizer
         foreach ($completenesses as $completeness) {
             $normalizedCompletenesses[$completeness->localeCode()] = [
                 'completeness' => $this->normalizer->normalize($completeness, 'internal_api'),
-                'missing' => array_map(fn($attributeCode) => [
+                'missing' => array_map(fn ($attributeCode) => [
                     'code'   => $attributeCode,
                     'labels' => $this->normalizeAttributeLabels($attributeLabels, $attributeCode, $localeCodes),
                 ], $completeness->missingAttributeCodes()),

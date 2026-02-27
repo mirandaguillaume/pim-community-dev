@@ -15,7 +15,9 @@ use phpseclib3\File\X509;
  */
 class AsymmetricKeysGenerator implements AsymmetricKeysGeneratorInterface
 {
-    public function __construct(private readonly string $openSSLConfigPath) {}
+    public function __construct(private readonly string $openSSLConfigPath)
+    {
+    }
 
     public function generate(): AsymmetricKeys
     {

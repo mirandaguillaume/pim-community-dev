@@ -10,7 +10,9 @@ class ActionMetadataCacheClearer implements CacheClearerInterface
     /**
      * Constructor
      */
-    public function __construct(private readonly ActionMetadataProvider $provider) {}
+    public function __construct(private readonly ActionMetadataProvider $provider)
+    {
+    }
 
     /**
      * {inheritdoc}

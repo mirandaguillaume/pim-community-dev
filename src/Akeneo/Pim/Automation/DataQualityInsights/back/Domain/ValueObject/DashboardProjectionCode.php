@@ -12,7 +12,9 @@ final readonly class DashboardProjectionCode implements \Stringable
 {
     public const CATALOG = 'catalog';
 
-    private function __construct(private string $code) {}
+    private function __construct(private string $code)
+    {
+    }
 
     public function __toString(): string
     {

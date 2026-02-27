@@ -22,7 +22,9 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductUuid;
  */
 class GetEvaluableProductValuesQuery implements GetEvaluableProductValuesQueryInterface
 {
-    public function __construct(private readonly GetProductRawValuesQueryInterface $getProductRawValuesQuery, private readonly GetEvaluableAttributesByProductQueryInterface $getEvaluableAttributesByProductQuery, private readonly GetLocalesByChannelQueryInterface $localesByChannelQuery) {}
+    public function __construct(private readonly GetProductRawValuesQueryInterface $getProductRawValuesQuery, private readonly GetEvaluableAttributesByProductQueryInterface $getEvaluableAttributesByProductQuery, private readonly GetLocalesByChannelQueryInterface $localesByChannelQuery)
+    {
+    }
 
     public function byProductId(ProductEntityIdInterface $productId): ProductValuesCollection
     {

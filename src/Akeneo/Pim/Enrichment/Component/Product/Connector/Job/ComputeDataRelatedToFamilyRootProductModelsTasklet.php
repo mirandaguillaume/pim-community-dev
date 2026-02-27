@@ -38,7 +38,9 @@ class ComputeDataRelatedToFamilyRootProductModelsTasklet implements TaskletInter
 {
     private ?\Akeneo\Tool\Component\Batch\Model\StepExecution $stepExecution = null;
 
-    public function __construct(private readonly IdentifiableObjectRepositoryInterface $familyRepository, private readonly ProductQueryBuilderFactoryInterface $queryBuilderFactory, private readonly ItemReaderInterface $familyReader, private readonly KeepOnlyValuesForVariation $keepOnlyValuesForVariation, private readonly ValidatorInterface $validator, private readonly BulkSaverInterface $productModelSaver, private readonly EntityManagerClearerInterface $cacheClearer, private readonly JobRepositoryInterface $jobRepository, private readonly int $batchSize) {}
+    public function __construct(private readonly IdentifiableObjectRepositoryInterface $familyRepository, private readonly ProductQueryBuilderFactoryInterface $queryBuilderFactory, private readonly ItemReaderInterface $familyReader, private readonly KeepOnlyValuesForVariation $keepOnlyValuesForVariation, private readonly ValidatorInterface $validator, private readonly BulkSaverInterface $productModelSaver, private readonly EntityManagerClearerInterface $cacheClearer, private readonly JobRepositoryInterface $jobRepository, private readonly int $batchSize)
+    {
+    }
 
     /**
      * {@inheritdoc}

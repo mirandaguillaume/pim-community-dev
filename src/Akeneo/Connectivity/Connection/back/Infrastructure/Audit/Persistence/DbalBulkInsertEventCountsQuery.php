@@ -15,7 +15,9 @@ use Doctrine\DBAL\Types\Types;
  */
 class DbalBulkInsertEventCountsQuery implements BulkInsertEventCountsQueryInterface
 {
-    public function __construct(private readonly DbalConnection $dbalConnection) {}
+    public function __construct(private readonly DbalConnection $dbalConnection)
+    {
+    }
 
     public function execute(array $hourlyEventCounts): void
     {

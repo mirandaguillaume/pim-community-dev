@@ -18,7 +18,9 @@ class UserNotificationFactory
     /**
      * @param string $className
      */
-    public function __construct(protected $className) {}
+    public function __construct(protected $className)
+    {
+    }
 
     /**
      * Creates a user notification

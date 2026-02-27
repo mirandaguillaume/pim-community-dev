@@ -15,7 +15,8 @@ class AssociationTranslator implements FlatHeaderTranslatorInterface
         private readonly AssociationColumnsResolver $associationColumnsResolver,
         private readonly LabelTranslatorInterface $labelTranslator,
         private readonly GetAssociationTypeTranslations $getAssociationTypeTranslations
-    ) {}
+    ) {
+    }
 
     public function supports(string $columnName): bool
     {

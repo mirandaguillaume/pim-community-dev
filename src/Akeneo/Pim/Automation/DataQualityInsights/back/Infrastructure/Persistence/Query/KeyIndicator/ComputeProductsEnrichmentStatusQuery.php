@@ -26,7 +26,8 @@ final readonly class ComputeProductsEnrichmentStatusQuery implements ComputeProd
     public function __construct(
         private GetLocalesByChannelQueryInterface                        $getLocalesByChannelQuery,
         private GetEvaluationResultsByProductsAndCriterionQueryInterface $getEvaluationResultsByProductsAndCriterionQuery,
-    ) {}
+    ) {
+    }
 
     public function getCode(): KeyIndicatorCode
     {

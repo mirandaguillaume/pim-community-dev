@@ -21,7 +21,8 @@ class JobInstanceRemover implements RemoverInterface, BulkRemoverInterface
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly DeleteRunningUser $deleteRunningUser,
         private readonly LoggerInterface $logger,
-    ) {}
+    ) {
+    }
 
     /**
      * @param JobInstance $object

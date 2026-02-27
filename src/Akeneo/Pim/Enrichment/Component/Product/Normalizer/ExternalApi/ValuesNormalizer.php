@@ -19,7 +19,9 @@ use Symfony\Component\Routing\RouterInterface;
  */
 final readonly class ValuesNormalizer
 {
-    public function __construct(private ProductValueNormalizer $valueNormalizer, private RouterInterface $router) {}
+    public function __construct(private ProductValueNormalizer $valueNormalizer, private RouterInterface $router)
+    {
+    }
 
     public function normalize(ReadValueCollection $values): array
     {

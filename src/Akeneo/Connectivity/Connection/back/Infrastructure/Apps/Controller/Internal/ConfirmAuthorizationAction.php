@@ -50,7 +50,8 @@ final readonly class ConfirmAuthorizationAction
         private GetAppQueryInterface $getAppQuery,
         private FindOneConnectedAppByIdQueryInterface $findOneConnectedAppByIdQuery,
         private UpdateConnectedAppScopesWithAuthorizationHandler $updateConnectedAppScopesWithAuthorizationHandler,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request, string $clientId): Response
     {

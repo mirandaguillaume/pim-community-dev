@@ -15,7 +15,8 @@ final readonly class GetProductsWithQualityScores implements GetProductsWithQual
     public function __construct(
         private GetProductScoresQueryInterface $getProductScoresQuery,
         private FeatureFlag $dataQualityInsightsFeature
-    ) {}
+    ) {
+    }
 
     public function fromConnectorProduct(ConnectorProduct $product): ConnectorProduct
     {
@@ -53,7 +54,7 @@ final readonly class GetProductsWithQualityScores implements GetProductsWithQual
         return new ConnectorProductList(
             $connectorProductList->totalNumberOfProducts(),
             array_map(
-                fn(ConnectorProduct $product) => $product->buildWithQualityScores(new QualityScoreCollection([])),
+                fn (ConnectorProduct $product) => $product->buildWithQualityScores(new QualityScoreCollection([])),
                 $connectorProductList->connectorProducts()
             )
         );
@@ -62,7 +63,7 @@ final readonly class GetProductsWithQualityScores implements GetProductsWithQual
     private function getProductsQualityScores(ConnectorProductList $connectorProductList): array
     {
         $productUuids = array_map(
-            fn(ConnectorProduct $connectorProduct) => $connectorProduct->uuid(),
+            fn (ConnectorProduct $connectorProduct) => $connectorProduct->uuid(),
             $connectorProductList->connectorProducts()
         );
 

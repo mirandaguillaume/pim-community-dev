@@ -18,5 +18,6 @@ class CreateJobInstanceCommand
         public string $jobName,
         public array $rawParameters,
         public bool $isVisible = true,
-    ) {}
+    ) {
+    }
 }

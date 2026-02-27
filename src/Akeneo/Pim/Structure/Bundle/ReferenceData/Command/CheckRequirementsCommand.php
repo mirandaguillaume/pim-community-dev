@@ -9,10 +9,10 @@ use Akeneo\Pim\Structure\Bundle\ReferenceData\RequirementChecker\ReferenceDataNa
 use Akeneo\Pim\Structure\Component\Model\ReferenceDataConfigurationInterface;
 use Akeneo\Pim\Structure\Component\ReferenceData\ConfigurationRegistryInterface;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Checks if a reference data is correctly configured.
@@ -36,7 +36,9 @@ class CheckRequirementsCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure() {}
+    protected function configure()
+    {
+    }
 
     /**
      * {@inheritdoc}

@@ -115,7 +115,8 @@ class ProductController
         private readonly SecurityFacade $security,
         private readonly ValidatorInterface $validator,
         private readonly SqlFindProductUuids $findProductUuids
-    ) {}
+    ) {
+    }
 
     /**
      *

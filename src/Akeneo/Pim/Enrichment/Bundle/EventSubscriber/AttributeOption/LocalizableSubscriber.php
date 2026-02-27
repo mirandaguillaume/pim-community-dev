@@ -16,7 +16,9 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
  */
 final class LocalizableSubscriber implements EventSubscriber
 {
-    public function __construct(protected CatalogContext $context) {}
+    public function __construct(protected CatalogContext $context)
+    {
+    }
 
     /**
      * Specifies the list of events to listen

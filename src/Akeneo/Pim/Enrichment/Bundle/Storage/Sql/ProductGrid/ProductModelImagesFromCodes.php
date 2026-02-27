@@ -32,7 +32,9 @@ use Doctrine\DBAL\Exception;
  */
 final readonly class ProductModelImagesFromCodes
 {
-    public function __construct(private Connection $connection, private WriteValueCollectionFactory $valueCollectionFactory) {}
+    public function __construct(private Connection $connection, private WriteValueCollectionFactory $valueCollectionFactory)
+    {
+    }
 
     /**
      *

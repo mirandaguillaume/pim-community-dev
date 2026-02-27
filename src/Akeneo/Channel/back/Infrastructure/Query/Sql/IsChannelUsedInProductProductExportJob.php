@@ -14,7 +14,9 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class IsChannelUsedInProductProductExportJob implements IsChannelUsedInProductExportJobInterface
 {
-    public function __construct(private Connection $dbConnection, private array $productExportJobNames) {}
+    public function __construct(private Connection $dbConnection, private array $productExportJobNames)
+    {
+    }
 
     public function execute(string $channelCode): bool
     {

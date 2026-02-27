@@ -13,5 +13,6 @@ class LaunchJobInstanceResult
     public function __construct(
         public int $jobExecutionId,
         public string $jobExecutionUrl,
-    ) {}
+    ) {
+    }
 }

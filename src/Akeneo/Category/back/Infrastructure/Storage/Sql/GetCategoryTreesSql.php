@@ -15,7 +15,9 @@ use Doctrine\DBAL\Connection;
  */
 class GetCategoryTreesSql implements GetCategoryTreesInterface
 {
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     public function getAll(): ?array
     {
@@ -87,6 +89,6 @@ class GetCategoryTreesSql implements GetCategoryTreesInterface
             return null;
         }
 
-        return array_map(static fn($result) => CategoryTree::fromDatabase($result), $results);
+        return array_map(static fn ($result) => CategoryTree::fromDatabase($result), $results);
     }
 }

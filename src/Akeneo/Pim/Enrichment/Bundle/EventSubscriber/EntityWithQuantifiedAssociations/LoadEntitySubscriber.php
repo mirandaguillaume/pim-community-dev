@@ -24,7 +24,8 @@ final readonly class LoadEntitySubscriber implements EventSubscriber
         private GetUuidMappingQueryInterface $getUuidMappingQuery,
         private GetIdMappingFromProductModelIdsQueryInterface $getIdMappingFromProductModelIds,
         private FindQuantifiedAssociationTypeCodesInterface $findQuantifiedAssociationTypeCodes
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}

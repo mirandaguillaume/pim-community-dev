@@ -13,7 +13,8 @@ class SetIdentifierValue implements ValueUserIntent
     public function __construct(
         private readonly string $attributeCode,
         private readonly ?string $value
-    ) {}
+    ) {
+    }
 
     public function attributeCode(): string
     {

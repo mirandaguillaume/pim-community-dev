@@ -16,7 +16,9 @@ class Ace
      * @param string|null               $strategy
      * @param bool                      $replace
      */
-    public function __construct(private $type, private $field, private readonly SecurityIdentityInterface $sid, private $granting, private $mask, private $strategy, private $replace) {}
+    public function __construct(private $type, private $field, private readonly SecurityIdentityInterface $sid, private $granting, private $mask, private $strategy, private $replace)
+    {
+    }
 
     /**
      * Gets the security identity associated with this ACE

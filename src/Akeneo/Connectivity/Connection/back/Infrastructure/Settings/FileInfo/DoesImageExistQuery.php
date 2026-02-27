@@ -14,7 +14,9 @@ use Doctrine\DBAL\Connection as DbalConnection;
  */
 class DoesImageExistQuery implements DoesImageExistQueryInterface
 {
-    public function __construct(private readonly DbalConnection $dbalConnection) {}
+    public function __construct(private readonly DbalConnection $dbalConnection)
+    {
+    }
 
     public function execute(string $filePath): bool
     {

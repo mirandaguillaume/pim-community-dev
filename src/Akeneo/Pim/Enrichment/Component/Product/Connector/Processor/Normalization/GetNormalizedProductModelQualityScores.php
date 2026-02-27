@@ -16,7 +16,8 @@ class GetNormalizedProductModelQualityScores implements GetNormalizedQualityScor
     public function __construct(
         private readonly GetProductModelScoresQueryInterface $getProductModelScoresQuery,
         private readonly FeatureFlag $dataQualityInsightsFeature
-    ) {}
+    ) {
+    }
 
     public function __invoke(string|UuidInterface $code, string $channel = null, array $locales = []): array
     {

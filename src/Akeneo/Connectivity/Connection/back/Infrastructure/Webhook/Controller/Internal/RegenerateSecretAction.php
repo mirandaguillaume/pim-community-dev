@@ -15,7 +15,8 @@ final readonly class RegenerateSecretAction
 {
     public function __construct(
         private GenerateWebhookSecretHandler $generateWebhookSecretHandler,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request): JsonResponse
     {

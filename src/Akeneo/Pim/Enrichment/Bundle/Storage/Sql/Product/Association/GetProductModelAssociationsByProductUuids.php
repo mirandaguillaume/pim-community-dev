@@ -16,7 +16,9 @@ use Webmozart\Assert\Assert;
  */
 final readonly class GetProductModelAssociationsByProductUuids
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     /**
      * It generates product models associations with every association types, even if there is no product model associated for this association type.
@@ -32,7 +34,7 @@ final readonly class GetProductModelAssociationsByProductUuids
 
         Assert::allIsInstanceOf($productUuids, UuidInterface::class);
 
-        $uuidsAsBytes = array_map(fn(UuidInterface $uuid): string => $uuid->getBytes(), $productUuids);
+        $uuidsAsBytes = array_map(fn (UuidInterface $uuid): string => $uuid->getBytes(), $productUuids);
 
         $query = <<<SQL
             SELECT

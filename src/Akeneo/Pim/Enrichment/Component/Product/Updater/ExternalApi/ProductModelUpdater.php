@@ -20,7 +20,9 @@ use Doctrine\Common\Util\ClassUtils;
  */
 class ProductModelUpdater implements ObjectUpdaterInterface
 {
-    public function __construct(private readonly ObjectUpdaterInterface $productModelUpdater) {}
+    public function __construct(private readonly ObjectUpdaterInterface $productModelUpdater)
+    {
+    }
 
     /**
      * {@inheritdoc}

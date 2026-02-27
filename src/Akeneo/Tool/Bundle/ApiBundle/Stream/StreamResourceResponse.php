@@ -39,7 +39,8 @@ final class StreamResourceResponse
         private readonly string $controllerName,
         private readonly string $identifierKey,
         private string $uriParamName,
-    ) {}
+    ) {
+    }
 
     /**
      * @param resource $resource      resource containing the whole data to process

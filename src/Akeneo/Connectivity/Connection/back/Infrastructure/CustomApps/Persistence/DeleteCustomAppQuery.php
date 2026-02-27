@@ -9,7 +9,9 @@ use Doctrine\DBAL\Connection;
 
 class DeleteCustomAppQuery implements DeleteCustomAppQueryInterface
 {
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     public function execute(string $clientId): void
     {

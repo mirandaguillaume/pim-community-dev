@@ -26,7 +26,8 @@ class SwitchMainIdentifierController
         private readonly SwitchMainIdentifierHandler $switchMainIdentifierHandler,
         private readonly SwitchMainIdentifierValidator $switchMainIdentifierValidator,
         private readonly SecurityFacade $security,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request, string $attributeCode): Response
     {

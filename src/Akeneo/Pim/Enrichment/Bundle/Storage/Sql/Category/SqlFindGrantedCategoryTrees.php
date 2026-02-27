@@ -22,7 +22,8 @@ class SqlFindGrantedCategoryTrees implements FindGrantedCategoryTrees
         private readonly CategoryRepositoryInterface $categoryRepository,
         private readonly TranslationNormalizer $translationNormalizer,
         private readonly CollectionFilterInterface $collectionFilter
-    ) {}
+    ) {
+    }
 
     /**
      * @return CategoryTree[]

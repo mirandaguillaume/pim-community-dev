@@ -20,7 +20,8 @@ class CommandExecutor
         protected InputInterface $input,
         protected OutputInterface $output,
         protected Application $application
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}

@@ -13,7 +13,9 @@ use Akeneo\Connectivity\Connection\Domain\ErrorManagement\Persistence\Repository
  */
 class UpdateConnectionErrorCountHandler
 {
-    public function __construct(private readonly ErrorCountRepositoryInterface $errorCountRepository) {}
+    public function __construct(private readonly ErrorCountRepositoryInterface $errorCountRepository)
+    {
+    }
 
     public function handle(UpdateConnectionErrorCountCommand $command): void
     {

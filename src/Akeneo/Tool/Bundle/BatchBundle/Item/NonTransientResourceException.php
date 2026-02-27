@@ -11,4 +11,6 @@ namespace Akeneo\Tool\Bundle\BatchBundle\Item;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/MIT MIT
  */
-class NonTransientResourceException extends \Exception {}
+class NonTransientResourceException extends \Exception
+{
+}

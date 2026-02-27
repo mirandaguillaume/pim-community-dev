@@ -25,7 +25,8 @@ class SetImage implements ValueImageUserIntent
         private readonly ?string $channelCode,
         private readonly ?string $localeCode,
         private readonly ?array $value,
-    ) {}
+    ) {
+    }
 
     public function attributeUuid(): string
     {

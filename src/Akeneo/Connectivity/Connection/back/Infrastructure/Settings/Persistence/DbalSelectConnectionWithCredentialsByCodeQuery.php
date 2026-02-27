@@ -19,7 +19,9 @@ use Doctrine\DBAL\Connection as DbalConnection;
  */
 final readonly class DbalSelectConnectionWithCredentialsByCodeQuery implements SelectConnectionWithCredentialsByCodeQueryInterface
 {
-    public function __construct(private DbalConnection $dbalConnection) {}
+    public function __construct(private DbalConnection $dbalConnection)
+    {
+    }
 
     public function execute(string $code): ?ConnectionWithCredentials
     {
@@ -61,7 +63,7 @@ final readonly class DbalSelectConnectionWithCredentialsByCodeQuery implements S
 
         // If there is more than one line, remove the one with the default user group (null).
         if (\count($data) > 1) {
-            $data = \array_filter($data, fn(array $row): bool => null !== $row['group_id']);
+            $data = \array_filter($data, fn (array $row): bool => null !== $row['group_id']);
         }
         $row = \array_pop($data);
 

@@ -29,7 +29,8 @@ class ProductModelDescendantsAndAncestorsIndexer
         private readonly ProductModelIndexerInterface $productModelIndexer,
         private readonly GetDescendantVariantProductUuids $getDescendantVariantProductUuids,
         private readonly GetAncestorAndDescendantProductModelCodes $getAncestorAndDescendantProductModelCodes
-    ) {}
+    ) {
+    }
 
     /**
      * Indexes the given product models with children (subtrees made of product variants and product models).

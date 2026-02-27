@@ -21,7 +21,9 @@ use Doctrine\DBAL\Connection;
 
 final readonly class SqlGetFamilyIds implements GetFamilyIds
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     /**
      * {@inheritDoc}

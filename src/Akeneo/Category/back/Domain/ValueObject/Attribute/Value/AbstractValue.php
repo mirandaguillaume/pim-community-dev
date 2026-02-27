@@ -25,7 +25,8 @@ abstract class AbstractValue implements Value
         protected AttributeCode $code,
         protected ?ChannelValue $channel,
         protected ?LocaleValue $locale,
-    ) {}
+    ) {
+    }
 
     public function getUuid(): AttributeUuid
     {

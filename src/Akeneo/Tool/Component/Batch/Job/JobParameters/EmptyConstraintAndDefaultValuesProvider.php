@@ -16,7 +16,9 @@ class EmptyConstraintAndDefaultValuesProvider implements
     ConstraintCollectionProviderInterface,
     DefaultValuesProviderInterface
 {
-    public function __construct(protected string $supportedJobName) {}
+    public function __construct(protected string $supportedJobName)
+    {
+    }
 
     /**
      * {@inheritdoc}

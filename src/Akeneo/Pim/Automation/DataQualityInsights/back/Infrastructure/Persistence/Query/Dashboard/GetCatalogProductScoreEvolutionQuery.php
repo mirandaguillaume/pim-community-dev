@@ -17,7 +17,9 @@ use Doctrine\DBAL\Result;
 
 final readonly class GetCatalogProductScoreEvolutionQuery implements GetCatalogProductScoreEvolutionQueryInterface
 {
-    public function __construct(private Connection $db, private Clock $clock) {}
+    public function __construct(private Connection $db, private Clock $clock)
+    {
+    }
 
     public function byCatalog(ChannelCode $channel, LocaleCode $locale): array
     {

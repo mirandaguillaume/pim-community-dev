@@ -20,7 +20,8 @@ final readonly class RecoverImportFileOnResumeSubscriber implements EventSubscri
 {
     public function __construct(
         private JobFileBackuper $jobFileBackuper,
-    ) {}
+    ) {
+    }
     public static function getSubscribedEvents(): array
     {
         return [

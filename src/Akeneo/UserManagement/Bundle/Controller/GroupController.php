@@ -27,7 +27,8 @@ class GroupController extends AbstractController
         private readonly TranslatorInterface $translator,
         private readonly FormInterface $form,
         private readonly EventDispatcherInterface $eventDispatcher,
-    ) {}
+    ) {
+    }
 
     /**
      * Create group form

@@ -14,7 +14,8 @@ final readonly class ClearValue implements ValueUserIntent
         private string $attributeCode,
         private ?string $channelCode,
         private ?string $localeCode
-    ) {}
+    ) {
+    }
 
     public function attributeCode(): string
     {

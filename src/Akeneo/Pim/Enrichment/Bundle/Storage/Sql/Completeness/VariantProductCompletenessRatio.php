@@ -17,7 +17,8 @@ final readonly class VariantProductCompletenessRatio implements VariantProductRa
 {
     public function __construct(
         private Connection $connection,
-    ) {}
+    ) {
+    }
 
     public function findComplete(ProductModelInterface $productModel): CompleteVariantProducts
     {
@@ -58,7 +59,7 @@ final readonly class VariantProductCompletenessRatio implements VariantProductRa
             SQL;
 
         return \array_map(
-            static fn(string $json): array => \json_decode($json, true, 512, JSON_THROW_ON_ERROR),
+            static fn (string $json): array => \json_decode($json, true, 512, JSON_THROW_ON_ERROR),
             $this->connection->fetchAllKeyValue($sql, [
                 'product_model_id' => $productModel->getId(),
             ])

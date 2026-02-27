@@ -18,7 +18,9 @@ use Webmozart\Assert\Assert;
  */
 class UserNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    public function __construct(private readonly DateTimeNormalizer $dateTimeNormalizer) {}
+    public function __construct(private readonly DateTimeNormalizer $dateTimeNormalizer)
+    {
+    }
 
     /**
      * {@inheritdoc}
@@ -49,9 +51,9 @@ class UserNormalizer implements NormalizerInterface, CacheableSupportsMethodInte
             'default_category_tree' => $user->getDefaultTree()->getCode(),
             'user_default_locale' => $user->getUiLocale()->getCode(),
             'timezone' => $user->getTimezone(),
-            'groups' => array_filter($user->getGroupNames(), fn(string $groupName) => $groupName !== User::GROUP_DEFAULT),
+            'groups' => array_filter($user->getGroupNames(), fn (string $groupName) => $groupName !== User::GROUP_DEFAULT),
             'roles' => $user->getRolesCollection()->map(
-                fn(RoleInterface $role): string => $role->getRole()
+                fn (RoleInterface $role): string => $role->getRole()
             )->getValues(),
             'product_grid_filters' => $user->getProductGridFilters(),
             'default_product_grid_view' => $user->getDefaultGridView('product-grid')

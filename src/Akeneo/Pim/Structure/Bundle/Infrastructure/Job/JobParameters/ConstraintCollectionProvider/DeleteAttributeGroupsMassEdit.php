@@ -24,7 +24,8 @@ final readonly class DeleteAttributeGroupsMassEdit implements ConstraintCollecti
      */
     public function __construct(
         private array $supportedJobNames,
-    ) {}
+    ) {
+    }
 
     public function getConstraintCollection(): Collection
     {

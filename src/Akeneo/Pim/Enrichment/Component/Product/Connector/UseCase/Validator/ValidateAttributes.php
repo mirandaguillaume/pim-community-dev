@@ -16,7 +16,9 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
  */
 final readonly class ValidateAttributes
 {
-    public function __construct(private IdentifiableObjectRepositoryInterface $attributeRepository) {}
+    public function __construct(private IdentifiableObjectRepositoryInterface $attributeRepository)
+    {
+    }
 
     /**
      * @throws InvalidQueryException

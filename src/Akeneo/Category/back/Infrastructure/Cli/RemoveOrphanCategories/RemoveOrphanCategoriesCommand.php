@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Akeneo\Category\Infrastructure\Cli\RemoveOrphanCategories;
 
 use Akeneo\Category\Domain\Query\PurgeOrphanCategories;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Delete all orphan categories with their children, those without parents and which aren't tree (id = root).
@@ -26,7 +26,9 @@ final class RemoveOrphanCategoriesCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void {}
+    protected function configure(): void
+    {
+    }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {

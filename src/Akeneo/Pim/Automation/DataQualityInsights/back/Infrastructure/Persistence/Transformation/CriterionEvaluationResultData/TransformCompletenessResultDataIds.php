@@ -15,7 +15,8 @@ final readonly class TransformCompletenessResultDataIds implements TransformResu
 {
     public function __construct(
         private TransformChannelLocaleDataIds $transformChannelLocaleDataIds,
-    ) {}
+    ) {
+    }
 
     public function transformToCodes(array $resultData): array
     {
@@ -31,13 +32,13 @@ final readonly class TransformCompletenessResultDataIds implements TransformResu
          * In this case the transformation consists in counting the number of elements in "attributes_with_rates" and putting this number in the key "number_of_improvable_attributes"
          */
         if (null !== $numberOfImprovableAttributes) {
-            $dataByCodes['number_of_improvable_attributes'] = $this->transformChannelLocaleDataIds->transformToCodes($numberOfImprovableAttributes, fn($number) => $number);
+            $dataByCodes['number_of_improvable_attributes'] = $this->transformChannelLocaleDataIds->transformToCodes($numberOfImprovableAttributes, fn ($number) => $number);
         } elseif (null !== $improvableAttributes) {
-            $dataByCodes['number_of_improvable_attributes'] = $this->transformChannelLocaleDataIds->transformToCodes($improvableAttributes, fn(array $attributesList) => count($attributesList));
+            $dataByCodes['number_of_improvable_attributes'] = $this->transformChannelLocaleDataIds->transformToCodes($improvableAttributes, fn (array $attributesList) => count($attributesList));
         }
 
         if (null !== $totalNumberOfAttributes) {
-            $dataByCodes['total_number_of_attributes'] = $this->transformChannelLocaleDataIds->transformToCodes($totalNumberOfAttributes, fn($total) => $total);
+            $dataByCodes['total_number_of_attributes'] = $this->transformChannelLocaleDataIds->transformToCodes($totalNumberOfAttributes, fn ($total) => $total);
         }
 
         return $dataByCodes;

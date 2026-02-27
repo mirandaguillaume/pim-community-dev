@@ -11,7 +11,9 @@ namespace Akeneo\Connectivity\Connection\Application\Webhook\Query;
  */
 class GetAConnectionWebhookQuery
 {
-    public function __construct(private readonly string $code) {}
+    public function __construct(private readonly string $code)
+    {
+    }
 
     public function code(): string
     {

@@ -19,7 +19,9 @@ class BatchStatus implements \Stringable
      * Constructor
      * @param integer $value
      */
-    public function __construct(protected $value = self::UNKNOWN) {}
+    public function __construct(protected $value = self::UNKNOWN)
+    {
+    }
 
     /**
      * The order of the status values is significant because it can be used to

@@ -22,7 +22,8 @@ final readonly class RegeneratePasswordAction
     public function __construct(
         private RegenerateConnectionPasswordHandler $regenerateConnectionPasswordHandler,
         private SecurityFacade $securityFacade,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request): JsonResponse
     {

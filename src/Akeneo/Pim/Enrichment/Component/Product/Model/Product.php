@@ -2,8 +2,8 @@
 
 namespace Akeneo\Pim\Enrichment\Component\Product\Model;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Product. An entity with flexible values, completeness, categories, associations and much more...
@@ -15,4 +15,6 @@ use Doctrine\DBAL\Types\Types;
 #[ORM\Entity(repositoryClass: \Akeneo\Pim\Enrichment\Bundle\Doctrine\ORM\Repository\ProductRepository::class)]
 #[ORM\Table(name: 'pim_catalog_product')]
 #[ORM\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
-class Product extends AbstractProduct implements ProductInterface {}
+class Product extends AbstractProduct implements ProductInterface
+{
+}

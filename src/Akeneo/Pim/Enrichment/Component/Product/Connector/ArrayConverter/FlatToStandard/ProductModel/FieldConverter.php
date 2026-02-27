@@ -18,7 +18,9 @@ class FieldConverter implements FieldConverterInterface
 {
     private const PRODUCT_MODEL_FIELDS = ['parent', 'code', 'family_variant', 'categories'];
 
-    public function __construct(private readonly FieldSplitter $fieldSplitter, private readonly AssociationColumnsResolver $assocFieldResolver) {}
+    public function __construct(private readonly FieldSplitter $fieldSplitter, private readonly AssociationColumnsResolver $assocFieldResolver)
+    {
+    }
 
     /**
      * {@inheritdoc}

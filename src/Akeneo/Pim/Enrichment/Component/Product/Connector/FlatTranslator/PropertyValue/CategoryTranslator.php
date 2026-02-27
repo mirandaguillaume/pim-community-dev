@@ -9,7 +9,9 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\Category\GetCategoryTranslati
 
 class CategoryTranslator implements FlatPropertyValueTranslatorInterface
 {
-    public function __construct(private readonly GetCategoryTranslations $getCategoryTranslations) {}
+    public function __construct(private readonly GetCategoryTranslations $getCategoryTranslations)
+    {
+    }
 
     public function supports(string $columnName): bool
     {

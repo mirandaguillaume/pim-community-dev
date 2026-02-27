@@ -20,7 +20,8 @@ class UpdateAttributeCommandHandler
         private readonly ValidatorInterface $validator,
         private readonly GetAttribute $getAttribute,
         private readonly CategoryTemplateAttributeSaver $categoryTemplateAttributeSaver,
-    ) {}
+    ) {
+    }
 
     public function __invoke(UpdateAttributeCommand $command): void
     {

@@ -11,7 +11,8 @@ class Group
         private readonly string $name,
         private readonly string $type,
         private readonly array $defaultPermissions,
-    ) {}
+    ) {
+    }
 
     public function getId(): int
     {

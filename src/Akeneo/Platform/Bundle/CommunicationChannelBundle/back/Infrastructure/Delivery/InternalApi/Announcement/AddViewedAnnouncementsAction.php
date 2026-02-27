@@ -20,7 +20,9 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
  */
 class AddViewedAnnouncementsAction
 {
-    public function __construct(private readonly UserContext $userContext, private readonly AddViewedAnnouncementsByUserHandler $addViewedAnnouncementsByUserHandler) {}
+    public function __construct(private readonly UserContext $userContext, private readonly AddViewedAnnouncementsByUserHandler $addViewedAnnouncementsByUserHandler)
+    {
+    }
 
     public function __invoke(Request $request)
     {

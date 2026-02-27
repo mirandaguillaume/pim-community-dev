@@ -16,7 +16,9 @@ class AppAuthorizationSession implements AppAuthorizationSessionInterface
 {
     private const SESSION_PREFIX = '_app_auth_';
 
-    public function __construct(private readonly SessionInterface $session) {}
+    public function __construct(private readonly SessionInterface $session)
+    {
+    }
 
     /**
      * The App authorization request, on initialization, is stored in session.

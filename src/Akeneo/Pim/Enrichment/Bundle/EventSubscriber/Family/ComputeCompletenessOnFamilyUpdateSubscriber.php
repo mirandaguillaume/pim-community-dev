@@ -150,7 +150,7 @@ final class ComputeCompletenessOnFamilyUpdateSubscriber implements EventSubscrib
     private function isAttributeListUpdated(FamilyInterface $family): bool
     {
         $oldAttributeList = $this->findAttributesForFamily->execute($family);
-        $newAttributeList = $family->getAttributes()->map(fn(AttributeInterface $attribute) => $attribute->getCode())->toArray();
+        $newAttributeList = $family->getAttributes()->map(fn (AttributeInterface $attribute) => $attribute->getCode())->toArray();
 
         sort($oldAttributeList);
         sort($newAttributeList);

@@ -18,7 +18,8 @@ class CacheClearer implements CacheClearerInterface
     public function __construct(
         private readonly UnitOfWorkAndRepositoriesClearer $unitOfWorkAndRepositoriesClearer,
         private readonly CachedQueriesClearerInterface $cachedQueriesClearer
-    ) {}
+    ) {
+    }
 
     public function clear(): void
     {

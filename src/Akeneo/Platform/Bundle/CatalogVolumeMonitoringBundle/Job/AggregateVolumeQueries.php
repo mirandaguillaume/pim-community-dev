@@ -21,7 +21,9 @@ final class AggregateVolumeQueries implements TaskletInterface
 
     protected StepExecution $stepExecution;
 
-    public function __construct(private readonly VolumeAggregation $volumeAggregation) {}
+    public function __construct(private readonly VolumeAggregation $volumeAggregation)
+    {
+    }
 
     public function setStepExecution(StepExecution $stepExecution): void
     {

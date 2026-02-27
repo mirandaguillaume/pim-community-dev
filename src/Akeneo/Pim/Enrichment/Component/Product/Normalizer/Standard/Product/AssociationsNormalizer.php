@@ -24,7 +24,8 @@ class AssociationsNormalizer implements NormalizerInterface, CacheableSupportsMe
 {
     public function __construct(
         private readonly GetAssociatedProductUuidsByProduct $getAssociatedProductUuidsByProduct
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}

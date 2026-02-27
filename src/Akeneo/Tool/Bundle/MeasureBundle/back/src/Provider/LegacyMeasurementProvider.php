@@ -15,7 +15,9 @@ class LegacyMeasurementProvider
 {
     private array $legacyMeasurementFamily = [];
 
-    public function __construct(private readonly MeasurementFamilyRepositoryInterface $measurementFamilyRepository, private readonly LegacyMeasurementAdapter $adapter) {}
+    public function __construct(private readonly MeasurementFamilyRepositoryInterface $measurementFamilyRepository, private readonly LegacyMeasurementAdapter $adapter)
+    {
+    }
 
     public function getMeasurementFamilies(): array
     {
@@ -29,7 +31,7 @@ class LegacyMeasurementProvider
     private function loadLegacyMeasurementFamilies(): array
     {
         $measurementFamilies = array_map(
-            fn(MeasurementFamily $family) => $this->adapter->adapts($family),
+            fn (MeasurementFamily $family) => $this->adapter->adapts($family),
             $this->measurementFamilyRepository->all()
         );
 

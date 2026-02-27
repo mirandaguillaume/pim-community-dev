@@ -32,7 +32,8 @@ final class DispatchFamilyWasCreatedOrUpdatedSubscriber implements EventSubscrib
         private readonly LoggerInterface $logger,
         private readonly ?string $tenantId,
         private readonly string $env
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}

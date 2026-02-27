@@ -18,7 +18,9 @@ final class EventsApiRequestsLimitIncrementSubscriber implements EventSubscriber
 {
     private int $count = 0;
 
-    public function __construct(private readonly UpdateEventsApiRequestCountQueryInterface $updateEventsApiRequestCountQuery) {}
+    public function __construct(private readonly UpdateEventsApiRequestCountQueryInterface $updateEventsApiRequestCountQuery)
+    {
+    }
 
     public static function getSubscribedEvents(): array
     {

@@ -17,7 +17,9 @@ use Symfony\Component\Form\FormEvents;
  */
 class FilterLocaleSpecificValueSubscriber implements EventSubscriberInterface
 {
-    public function __construct(protected ?string $currentLocale, protected IdentifiableObjectRepositoryInterface $attributeRepository) {}
+    public function __construct(protected ?string $currentLocale, protected IdentifiableObjectRepositoryInterface $attributeRepository)
+    {
+    }
 
     public static function getSubscribedEvents(): array
     {

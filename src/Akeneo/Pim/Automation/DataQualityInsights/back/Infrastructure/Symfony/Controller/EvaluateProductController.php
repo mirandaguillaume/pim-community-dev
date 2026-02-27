@@ -17,7 +17,8 @@ final readonly class EvaluateProductController
 {
     public function __construct(
         private EvaluateOutdatedProduct $evaluateProduct,
-    ) {}
+    ) {
+    }
 
     public function __invoke(string $productId): JsonResponse
     {

@@ -21,7 +21,8 @@ class SqlFindCategoryTrees implements FindCategoryTrees
     public function __construct(
         private readonly CategoryRepositoryInterface $categoryRepository,
         private readonly TranslationNormalizer $translationNormalizer
-    ) {}
+    ) {
+    }
 
     /**
      * @return CategoryTree[]

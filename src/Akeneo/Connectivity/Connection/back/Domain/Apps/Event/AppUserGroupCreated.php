@@ -13,7 +13,8 @@ final readonly class AppUserGroupCreated
 {
     public function __construct(
         private string $userGroupName,
-    ) {}
+    ) {
+    }
 
     public function getUserGroupName(): string
     {

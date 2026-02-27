@@ -13,7 +13,9 @@ use Doctrine\Persistence\ObjectRepository;
  */
 final readonly class InitializeJobs
 {
-    public function __construct(private ObjectRepository $jobInstanceRepository, private Connection $db) {}
+    public function __construct(private ObjectRepository $jobInstanceRepository, private Connection $db)
+    {
+    }
 
     public function initialize(): void
     {

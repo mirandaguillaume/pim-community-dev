@@ -28,7 +28,9 @@ class RegisterJobParametersPass implements CompilerPassInterface
      * @param $type
      * @param string $type
      */
-    public function __construct(protected $type) {}
+    public function __construct(protected $type)
+    {
+    }
 
     /**
      * {@inheritdoc}

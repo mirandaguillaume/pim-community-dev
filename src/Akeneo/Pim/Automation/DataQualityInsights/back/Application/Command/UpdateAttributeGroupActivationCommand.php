@@ -14,5 +14,6 @@ final readonly class UpdateAttributeGroupActivationCommand
     public function __construct(
         public string $attributeGroupCode,
         public bool $isActivated
-    ) {}
+    ) {
+    }
 }

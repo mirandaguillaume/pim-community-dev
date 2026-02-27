@@ -44,7 +44,8 @@ final class IndexFamilyProductsAndProductModelsTasklet implements TaskletInterfa
         private readonly EntityManagerClearerInterface $cacheClearer,
         private readonly MessageBusInterface $messageBus,
         private readonly int $batchSize = self::DEFAULT_BATCH_SIZE
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}

@@ -21,7 +21,8 @@ final readonly class UpdateAuditData
         private UpdateDataSourceProductEventCountHandler $updateDataSourceProductEventCountHandler,
         private PurgeAuditProductQueryInterface $purgeQuery,
         private LoggerInterface $logger,
-    ) {}
+    ) {
+    }
 
     public function execute(): void
     {

@@ -16,7 +16,9 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GenerateHeadersFromAttributeCodes implements GenerateFlatHeadersFromAttributeCodesInterface
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     /**
      * Generate all possible headers from the provided attribute codes

@@ -13,7 +13,9 @@ use Doctrine\DBAL\Connection;
  */
 class DbalCountActiveEventSubscriptionsQuery implements CountActiveEventSubscriptionsQueryInterface
 {
-    public function __construct(private readonly Connection $dbalConnection) {}
+    public function __construct(private readonly Connection $dbalConnection)
+    {
+    }
 
     public function execute(): int
     {

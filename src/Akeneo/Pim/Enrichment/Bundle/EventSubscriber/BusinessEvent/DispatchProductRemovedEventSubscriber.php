@@ -24,7 +24,9 @@ final class DispatchProductRemovedEventSubscriber implements DispatchBufferedPim
     /** @var array<ProductRemoved> */
     private array $events = [];
 
-    public function __construct(private readonly Security $security, private readonly MessageBusInterface $messageBus, private readonly int $maxBulkSize, private readonly LoggerInterface $logger, private readonly LoggerInterface $loggerBusinessEvent) {}
+    public function __construct(private readonly Security $security, private readonly MessageBusInterface $messageBus, private readonly int $maxBulkSize, private readonly LoggerInterface $logger, private readonly LoggerInterface $loggerBusinessEvent)
+    {
+    }
 
     public static function getSubscribedEvents(): array
     {
@@ -75,7 +77,7 @@ final class DispatchProductRemovedEventSubscriber implements DispatchBufferedPim
                     [
                         'type' => 'business_event.dispatch',
                         'event_count' => count($this->events),
-                        'events' => array_map(fn($event) => [
+                        'events' => array_map(fn ($event) => [
                             'name' => $event->getName(),
                             'uuid' => $event->getUuid(),
                             'author' => $event->getAuthor()->name(),

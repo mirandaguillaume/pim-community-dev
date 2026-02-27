@@ -14,7 +14,9 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class CreateCustomAppQuery implements CreateCustomAppQueryInterface
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     public function execute(
         string $clientId,

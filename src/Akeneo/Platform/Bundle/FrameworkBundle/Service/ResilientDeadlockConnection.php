@@ -33,7 +33,8 @@ class ResilientDeadlockConnection
     public function __construct(
         private readonly Connection $connection,
         private readonly LoggerInterface $logger,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws DeadlockException

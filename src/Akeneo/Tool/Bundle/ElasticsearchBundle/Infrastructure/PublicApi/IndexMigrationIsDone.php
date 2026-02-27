@@ -14,7 +14,9 @@ use Doctrine\DBAL\Connection;
 
 class IndexMigrationIsDone implements IndexMigrationIsDoneInterface
 {
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     public function byIndexAliasAndHash(string $indexAlias, string $hash): bool
     {

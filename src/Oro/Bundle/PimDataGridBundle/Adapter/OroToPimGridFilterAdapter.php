@@ -20,7 +20,8 @@ class OroToPimGridFilterAdapter implements GridFilterAdapterInterface
 
     public function __construct(
         protected MassActionDispatcher $massActionDispatcher,
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}

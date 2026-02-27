@@ -14,7 +14,9 @@ use Doctrine\DBAL\Connection;
  */
 class CheckTemplateSql implements CheckTemplate
 {
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     public function codeExists(TemplateCode $templateCode): bool
     {

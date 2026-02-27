@@ -18,7 +18,9 @@ use Webmozart\Assert\Assert;
  */
 final readonly class GetCategoryCodesByProductUuids
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     /**
      * @param array<UuidInterface> $uuids
@@ -28,7 +30,7 @@ final readonly class GetCategoryCodesByProductUuids
     {
         Assert::allIsInstanceOf($uuids, UuidInterface::class);
 
-        $uuidsAsBytes = array_map(fn(UuidInterface $uuid): string => $uuid->getBytes(), $uuids);
+        $uuidsAsBytes = array_map(fn (UuidInterface $uuid): string => $uuid->getBytes(), $uuids);
 
         $results = [];
         foreach ($uuids as $uuid) {

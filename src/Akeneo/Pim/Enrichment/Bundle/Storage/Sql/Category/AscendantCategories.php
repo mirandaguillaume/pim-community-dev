@@ -19,7 +19,9 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 final readonly class AscendantCategories implements AscendantCategoriesInterface
 {
-    public function __construct(private EntityManagerInterface $entityManager) {}
+    public function __construct(private EntityManagerInterface $entityManager)
+    {
+    }
 
     /**
      * {@inheritdoc}
@@ -38,7 +40,7 @@ final readonly class AscendantCategories implements AscendantCategoriesInterface
                 ->where('product_model.id = :id')
                 ->setParameter(':id', $entity->getId());
 
-            $result = array_map(fn($id) => intval($id['id']), $queryBuilder->getQuery()->getResult());
+            $result = array_map(fn ($id) => intval($id['id']), $queryBuilder->getQuery()->getResult());
         } elseif ($entity instanceof ProductInterface && $entity->isVariant()) {
             $queryBuilder
                 ->select('category.id AS id, parent_category.id AS parent_id')

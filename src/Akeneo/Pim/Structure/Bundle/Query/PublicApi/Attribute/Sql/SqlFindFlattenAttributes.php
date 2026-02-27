@@ -11,7 +11,9 @@ use Doctrine\DBAL\Connection;
 
 final readonly class SqlFindFlattenAttributes implements FindFlattenAttributesInterface
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     public function execute(
         string $localeCode,

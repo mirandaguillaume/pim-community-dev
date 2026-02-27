@@ -20,7 +20,9 @@ class Author
     /** @var string */
     final public const TYPE_UI = 'ui';
 
-    private function __construct(private readonly string $name, private readonly string $type) {}
+    private function __construct(private readonly string $name, private readonly string $type)
+    {
+    }
 
     public static function fromUser(UserInterface $user): Author
     {

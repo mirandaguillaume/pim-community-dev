@@ -28,7 +28,9 @@ final class ApiAggregatorForProductPostSaveEventSubscriber implements EventSubsc
     /**
      * BatchOnSaveProductEvent constructor.
      */
-    public function __construct(protected EventDispatcherInterface $eventDispatcher) {}
+    public function __construct(protected EventDispatcherInterface $eventDispatcher)
+    {
+    }
 
     public function getEventProducts(): array
     {

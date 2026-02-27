@@ -11,7 +11,9 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\WriteValueCollection;
  */
 class WriteValueCollectionFactory
 {
-    public function __construct(private readonly ReadValueCollectionFactory $readValueCollectionFactory) {}
+    public function __construct(private readonly ReadValueCollectionFactory $readValueCollectionFactory)
+    {
+    }
 
     public function createFromStorageFormat(array $rawValues): WriteValueCollection
     {

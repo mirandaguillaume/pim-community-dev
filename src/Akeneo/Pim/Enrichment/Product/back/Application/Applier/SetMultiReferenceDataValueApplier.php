@@ -16,7 +16,9 @@ use Webmozart\Assert\Assert;
  */
 final readonly class SetMultiReferenceDataValueApplier implements UserIntentApplier
 {
-    public function __construct(private ObjectUpdaterInterface $productUpdater) {}
+    public function __construct(private ObjectUpdaterInterface $productUpdater)
+    {
+    }
 
     /**
      * {@inheritDoc}

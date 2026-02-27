@@ -17,7 +17,9 @@ class ResetType extends AbstractType
     /**
      * @param string $class User entity class
      */
-    public function __construct(protected $class) {}
+    public function __construct(protected $class)
+    {
+    }
 
     /**
      * {@inheritdoc}

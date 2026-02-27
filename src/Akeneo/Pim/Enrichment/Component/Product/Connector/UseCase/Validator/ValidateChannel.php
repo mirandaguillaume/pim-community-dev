@@ -16,7 +16,9 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
  */
 final readonly class ValidateChannel
 {
-    public function __construct(private IdentifiableObjectRepositoryInterface $channelRepository) {}
+    public function __construct(private IdentifiableObjectRepositoryInterface $channelRepository)
+    {
+    }
 
     /**
      * @throws InvalidQueryException

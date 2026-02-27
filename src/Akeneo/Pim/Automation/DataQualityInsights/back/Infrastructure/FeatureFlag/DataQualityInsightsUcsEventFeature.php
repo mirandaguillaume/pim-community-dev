@@ -12,7 +12,9 @@ use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag;
  */
 final readonly class DataQualityInsightsUcsEventFeature implements FeatureFlag
 {
-    public function __construct(private mixed $envVar) {}
+    public function __construct(private mixed $envVar)
+    {
+    }
 
     public function isEnabled(?string $feature = null): bool
     {

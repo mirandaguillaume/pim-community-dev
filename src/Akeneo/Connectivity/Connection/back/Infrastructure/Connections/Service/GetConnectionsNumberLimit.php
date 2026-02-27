@@ -14,7 +14,9 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\Connections\Service;
  */
 class GetConnectionsNumberLimit
 {
-    public function __construct(private int $connectionsNumberLimit) {}
+    public function __construct(private int $connectionsNumberLimit)
+    {
+    }
 
     public function getLimit(): int
     {

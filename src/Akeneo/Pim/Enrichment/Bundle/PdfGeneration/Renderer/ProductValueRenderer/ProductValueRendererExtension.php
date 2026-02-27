@@ -10,7 +10,9 @@ use Twig\TwigFunction;
 
 class ProductValueRendererExtension extends AbstractExtension
 {
-    public function __construct(private readonly ProductValueRendererRegistry $productValueRendererRegistry) {}
+    public function __construct(private readonly ProductValueRendererRegistry $productValueRendererRegistry)
+    {
+    }
 
     public function getFunctions(): array
     {

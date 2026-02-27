@@ -64,7 +64,7 @@ class Acceptor
          */
         $this->extensions[] = clone $extension;
 
-        $comparisonClosure = fn(ExtensionVisitorInterface $a, ExtensionVisitorInterface $b) => $b->getPriority() <=> $a->getPriority();
+        $comparisonClosure = fn (ExtensionVisitorInterface $a, ExtensionVisitorInterface $b) => $b->getPriority() <=> $a->getPriority();
 
         // https://bugs.php.net/bug.php?id=50688
         @usort($this->extensions, $comparisonClosure);

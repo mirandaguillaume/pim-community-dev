@@ -18,7 +18,8 @@ class ApiRequestLogSubscriber implements EventSubscriberInterface
         private readonly Firewall $firewall,
         private readonly TokenStorageInterface $tokenStorage,
         private readonly LoggerInterface $logger,
-    ) {}
+    ) {
+    }
 
     public static function getSubscribedEvents(): array
     {
