@@ -1,4 +1,5 @@
 security:
+    enable_authenticator_manager: true
     providers:
         chain_provider_api:
             chain:

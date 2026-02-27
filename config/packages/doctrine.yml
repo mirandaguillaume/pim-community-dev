@@ -32,7 +32,7 @@ doctrine:
             placeholder: placeholder
         mappings:
             tree:
-                type: attribute
+                type: annotation
                 alias: Gedmo
                 prefix: Gedmo\Tree\Entity
                 dir: '%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Tree/Entity'
