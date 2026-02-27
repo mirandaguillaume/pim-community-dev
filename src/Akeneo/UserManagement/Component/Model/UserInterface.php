@@ -20,7 +20,7 @@ use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-interface UserInterface extends LegacyPasswordAuthenticatedUserInterface, BaseUserInterface, \Serializable, EntityUploadedImageInterface
+interface UserInterface extends LegacyPasswordAuthenticatedUserInterface, BaseUserInterface, EntityUploadedImageInterface
 {
     public const SYSTEM_USER_NAME = 'system';
 

@@ -4,7 +4,7 @@ namespace Oro\Bundle\SecurityBundle\Metadata;
 
 use Oro\Bundle\SecurityBundle\Acl\Extension\AclClassInfo;
 
-class ActionMetadata implements AclClassInfo, \Serializable
+class ActionMetadata implements AclClassInfo
 {
     /**
      * Defines if the ACL must be enabled/disabled at creation for all roles.
@@ -78,32 +78,27 @@ class ActionMetadata implements AclClassInfo, \Serializable
         return $this->visible;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @deprecated Serializable interface is deprecated since PHP 8.1. Migrate to __serialize()/__unserialize() in a future PR.
-     */
-    public function serialize(): string
+    public function __serialize(): array
     {
-        return serialize(
-            [
-                $this->name,
-                $this->group,
-                $this->label,
-                $this->isEnabledAtCreation,
-                $this->order,
-                $this->visible,
-            ]
-        );
+        return [
+            'name' => $this->name,
+            'group' => $this->group,
+            'label' => $this->label,
+            'isEnabledAtCreation' => $this->isEnabledAtCreation,
+            'order' => $this->order,
+            'visible' => $this->visible,
+        ];
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @deprecated Serializable interface is deprecated since PHP 8.1. Migrate to __serialize()/__unserialize() in a future PR.
-     */
-    public function unserialize($serialized): void
+    public function __unserialize(array $data): void
     {
-        [$this->name, $this->group, $this->label, $this->isEnabledAtCreation, $this->order, $this->visible, ] = unserialize($serialized);
+        [
+            'name' => $this->name,
+            'group' => $this->group,
+            'label' => $this->label,
+            'isEnabledAtCreation' => $this->isEnabledAtCreation,
+            'order' => $this->order,
+            'visible' => $this->visible,
+        ] = $data;
     }
 }

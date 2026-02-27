@@ -229,29 +229,28 @@ class User implements UserInterface, EquatableInterface, \Stringable
         $this->timezone = self::DEFAULT_TIMEZONE;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function serialize()
+    public function __serialize(): array
     {
-        return serialize(
-            [
-                $this->password,
-                $this->salt,
-                $this->username,
-                $this->enabled,
-                $this->confirmationToken,
-                $this->id,
-            ]
-        );
+        return [
+            'password' => $this->password,
+            'salt' => $this->salt,
+            'username' => $this->username,
+            'enabled' => $this->enabled,
+            'confirmationToken' => $this->confirmationToken,
+            'id' => $this->id,
+        ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function unserialize($serialized)
+    public function __unserialize(array $data): void
     {
-        [$this->password, $this->salt, $this->username, $this->enabled, $this->confirmationToken, $this->id] = unserialize($serialized);
+        [
+            'password' => $this->password,
+            'salt' => $this->salt,
+            'username' => $this->username,
+            'enabled' => $this->enabled,
+            'confirmationToken' => $this->confirmationToken,
+            'id' => $this->id,
+        ] = $data;
     }
 
     /**

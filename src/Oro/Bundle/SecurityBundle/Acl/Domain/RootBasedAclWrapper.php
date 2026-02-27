@@ -150,18 +150,12 @@ class RootBasedAclWrapper implements AclInterface
         return $this->acl->isSidLoaded($securityIdentities);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function serialize()
+    public function __serialize(): array
     {
         throw new \LogicException('Not supported.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function unserialize($serialized)
+    public function __unserialize(array $data): void
     {
         throw new \LogicException('Not supported.');
     }
