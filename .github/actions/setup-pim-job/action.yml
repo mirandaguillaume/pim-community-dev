@@ -110,6 +110,12 @@ runs:
         sudo chmod -R a+rwX .
         sudo chmod -R a+rwX node_modules front-packages 2>/dev/null || true
 
+    - name: Install PHIVE tools
+      run: |
+        wget -O phive.phar https://phar.io/releases/phive.phar
+        php phive.phar install --trust-gpg-keys
+      shell: bash
+
     - name: Create var directories with permissions
       if: inputs.create-var-dirs == 'true'
       shell: bash

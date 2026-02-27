@@ -79,7 +79,7 @@ front: assets css front-packages javascript-dev
 
 .PHONY: fix-cs-back
 fix-cs-back:
-	$(PHP_RUN) vendor/bin/php-cs-fixer fix --config=.php_cs.php
+	$(PHP_RUN) tools/php-cs-fixer fix --config=.php_cs.php
 
 var/cache/dev:
 	APP_ENV=dev make cache

@@ -465,7 +465,7 @@ Fix code style for `$ARGUMENTS` (file path, directory, or "all").
 ### If PHP file(s) or directory
 
 ```bash
-docker-compose run --rm php php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php <path>
+docker-compose run --rm php php tools/php-cs-fixer fix --config=.php-cs-fixer.dist.php <path>
 ```
 
 If a specific file: pass `--path-mode=intersection <file>`.
@@ -480,7 +480,7 @@ npx eslint --fix "<path>"
 ### If "all" or no argument
 
 Run both:
-1. `docker-compose run --rm php php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php`
+1. `docker-compose run --rm php php tools/php-cs-fixer fix --config=.php-cs-fixer.dist.php`
 2. `yarn lint-fix`
 
 ### After fixing

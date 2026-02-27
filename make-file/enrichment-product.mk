@@ -15,7 +15,7 @@ enrichment-product-unit-back:
 .PHONY: enrichment-product-lint-back
 enrichment-product-lint-back:
 	# Check all directories except Specification
-	${PHP_RUN} vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle --config=.php_cs.php \
+	${PHP_RUN} tools/php-cs-fixer fix --dry-run --format=checkstyle --config=.php_cs.php \
 		src/Akeneo/Pim/Enrichment/Product/back/API \
 		src/Akeneo/Pim/Enrichment/Product/back/Application \
 		src/Akeneo/Pim/Enrichment/Product/back/Domain \

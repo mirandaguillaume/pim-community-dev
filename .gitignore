@@ -61,3 +61,7 @@ castor.phar
 .claude/agents/
 .claude/skills/
 seed/
+
+# PHIVE tools (managed by phive, downloaded as PHARs)
+/tools/*
+!/tools/.gitkeep
