@@ -10,7 +10,7 @@ category-front-down:
 .PHONY: category-lint-back
 category-lint-back: #Doc: launch PHPStan for category bounded context
 	$(PHP_RUN) vendor/bin/phpstan analyse --configuration src/Akeneo/Category/back/tests/phpstan.neon.dist --error-format=github
-	${PHP_RUN} tools/php-cs-fixer fix --dry-run --format=checkstyle --config=src/Akeneo/Category/back/tests/.php_cs.php | { command -v cs2pr >/dev/null && cs2pr || cat; }
+	${PHP_RUN} vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle --config=src/Akeneo/Category/back/tests/.php_cs.php | { command -v cs2pr >/dev/null && cs2pr || cat; }
 
 .PHONY: category-lint-front
 category-lint-front:
@@ -18,7 +18,7 @@ category-lint-front:
 
 .PHONY: category-lint-fix-back
 category-lint-fix-back: #Doc: launch PHPStan for category bounded context
-	${PHP_RUN} tools/php-cs-fixer fix --diff --config=src/Akeneo/Category/back/tests/.php_cs.php
+	${PHP_RUN} vendor/bin/php-cs-fixer fix --diff --config=src/Akeneo/Category/back/tests/.php_cs.php
 
 .PHONY: category-lint-fix-front
 category-lint-fix-front:

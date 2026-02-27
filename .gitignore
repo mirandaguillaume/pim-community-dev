@@ -43,12 +43,6 @@ test-results/
 # See ".github/actions/extract/entrypoint.sh"
 front-packages/akeneo-design-system/lib
 
-###> phive ###
-/tools/*
-!/tools/.gitkeep
-/.phive/
-###< phive ###
-
 ###> castor ###
 castor.phar
 .castor.stub.php

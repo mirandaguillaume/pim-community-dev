@@ -44,13 +44,13 @@ function unitBack(): void
 #[AsTask(namespace: 'identifier-generator', name: 'fix-lint-back', description: 'Fix code style for identifier generator')]
 function fixLintBack(): void
 {
-    \phpRun('tools/php-cs-fixer fix --config=' . PATH . '/back/tests/.php_cs.php --allow-risky=yes');
+    \phpRun('vendor/bin/php-cs-fixer fix --config=' . PATH . '/back/tests/.php_cs.php --allow-risky=yes');
 }
 
 #[AsTask(namespace: 'identifier-generator', name: 'lint-back', description: 'Run cs-fixer + PHPStan for identifier generator')]
 function lintBack(): void
 {
-    \phpRun('tools/php-cs-fixer fix --config=' . PATH . '/back/tests/.php_cs.php --allow-risky=yes --dry-run --format=checkstyle | { command -v cs2pr >/dev/null && cs2pr || cat; }');
+    \phpRun('vendor/bin/php-cs-fixer fix --config=' . PATH . '/back/tests/.php_cs.php --allow-risky=yes --dry-run --format=checkstyle | { command -v cs2pr >/dev/null && cs2pr || cat; }');
     \phpstanLevel(PATH . '/back/tests/phpstan.neon', 'github', 'max', PATH . '/back/src/Infrastructure');
     \phpstanLevel(PATH . '/back/tests/phpstan.neon', 'github', 'max', PATH . '/back/src/Domain ' . PATH . '/back/src/Application');
     \phpstanLevel(PATH . '/back/tests/phpstan.neon', 'github', '0', PATH . '/back/tests');

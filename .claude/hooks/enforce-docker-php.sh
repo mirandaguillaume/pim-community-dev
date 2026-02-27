@@ -16,7 +16,7 @@ echo "$COMMAND" | grep -qE '^\s*(docker-compose|docker)\s' && exit 0
 echo "$COMMAND" | grep -qE '^\s*(make|APP_ENV=\S+\s+make|PIM_CONTEXT=\S+\s+make)\s' && exit 0
 
 # Block direct PHP execution that should use Docker
-if echo "$COMMAND" | grep -qE '^\s*(php |vendor/bin/phpstan|vendor/bin/phpspec|vendor/bin/phpunit|tools/php-cs-fixer)\b'; then
+if echo "$COMMAND" | grep -qE '^\s*(php |vendor/bin/phpstan|vendor/bin/phpspec|vendor/bin/phpunit|vendor/bin/php-cs-fixer)\b'; then
     echo '{"hookSpecificOutput":{"hookEventName":"PreToolUse","additionalContext":"REMINDER: Use docker-compose run --rm php php <command> instead of running PHP directly. Host has PHP 8.1, project needs 8.2+."}}'
     exit 0
 fi

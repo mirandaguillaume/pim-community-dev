@@ -72,11 +72,11 @@ data-quality-insights-unit-back:
 
 .PHONY: data-quality-insights-lint-back
 data-quality-insights-lint-back:
-	$(PHP_RUN) tools/php-cs-fixer fix --dry-run --format=checkstyle --config=.php_cs.php src/Akeneo/Pim/Automation/DataQualityInsights/back | { command -v cs2pr >/dev/null && cs2pr || cat; }
+	$(PHP_RUN) vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle --config=.php_cs.php src/Akeneo/Pim/Automation/DataQualityInsights/back | { command -v cs2pr >/dev/null && cs2pr || cat; }
 
 .PHONY: data-quality-insights-cs-fix
 data-quality-insights-cs-fix:
-	$(PHP_RUN) tools/php-cs-fixer fix --config=.php_cs.php src/Akeneo/Pim/Automation/DataQualityInsights/back
+	$(PHP_RUN) vendor/bin/php-cs-fixer fix --config=.php_cs.php src/Akeneo/Pim/Automation/DataQualityInsights/back
 
 .PHONY: data-quality-insights-integration-back
 data-quality-insights-integration-back:

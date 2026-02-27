@@ -32,7 +32,7 @@ lint-back:
 	$(DOCKER_COMPOSE) run --rm php rm -rf var/cache/dev
 	APP_ENV=dev $(DOCKER_COMPOSE) run -e APP_DEBUG=1 --rm php bin/console cache:warmup
 	$(DOCKER_COMPOSE) run --rm php php -d memory_limit=4G vendor/bin/phpstan analyse --configuration src/Akeneo/Pim/phpstan.neon --error-format=github
-	${PHP_RUN} tools/php-cs-fixer fix --dry-run --format=checkstyle --config=.php_cs.php | { command -v cs2pr >/dev/null && cs2pr || cat; }
+	${PHP_RUN} vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle --config=.php_cs.php | { command -v cs2pr >/dev/null && cs2pr || cat; }
 	$(MAKE) category-lint-back
 	$(MAKE) channel-lint-back
 	$(MAKE) communication-channel-lint-back

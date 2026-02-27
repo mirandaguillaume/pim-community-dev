@@ -2,11 +2,11 @@
 .PHONY: import-export-lint-back
 import-export-lint-back: #Doc: launch PHPStan for ImportExport bounded context
 	$(DOCKER_COMPOSE) run --rm php php -d memory_limit=1G vendor/bin/phpstan analyse --configuration src/Akeneo/Platform/Bundle/ImportExportBundle/tests/phpstan.neon --error-format=github
-	${PHP_RUN} tools/php-cs-fixer fix --dry-run --format=checkstyle --config=src/Akeneo/Platform/Bundle/ImportExportBundle/Test/.php_cs.php | { command -v cs2pr >/dev/null && cs2pr || cat; }
+	${PHP_RUN} vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle --config=src/Akeneo/Platform/Bundle/ImportExportBundle/Test/.php_cs.php | { command -v cs2pr >/dev/null && cs2pr || cat; }
 
 .PHONY: import-export-lint-fix-back
 import-export-lint-fix-back: #Doc: launch PHPStan for ImportExport bounded context
-	${PHP_RUN} tools/php-cs-fixer fix --diff --config=src/Akeneo/Platform/Bundle/ImportExportBundle/Test/.php_cs.php
+	${PHP_RUN} vendor/bin/php-cs-fixer fix --diff --config=src/Akeneo/Platform/Bundle/ImportExportBundle/Test/.php_cs.php
 
 .PHONY: import-export-coupling-back
 import-export-coupling-back: #Doc: launch coupling detector for ImportExport bounded context

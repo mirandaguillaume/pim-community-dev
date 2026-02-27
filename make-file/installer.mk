@@ -2,14 +2,14 @@
 .PHONY: installer-lint-back
 installer-lint-back: #Doc: launch PHPStan for installer
 	$(PHP_RUN) vendor/bin/phpstan analyse --configuration src/Akeneo/Platform/Installer/back/tests/phpstan.neon --error-format=github
-	${PHP_RUN} tools/php-cs-fixer fix --dry-run --format=checkstyle --config=src/Akeneo/Platform/Installer/back/tests/.php_cs.src.php | { command -v cs2pr >/dev/null && cs2pr || cat; }
-	${PHP_RUN} tools/php-cs-fixer fix --dry-run --format=checkstyle --config=src/Akeneo/Platform/Installer/back/tests/.php_cs.tests.php | { command -v cs2pr >/dev/null && cs2pr || cat; }
+	${PHP_RUN} vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle --config=src/Akeneo/Platform/Installer/back/tests/.php_cs.src.php | { command -v cs2pr >/dev/null && cs2pr || cat; }
+	${PHP_RUN} vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle --config=src/Akeneo/Platform/Installer/back/tests/.php_cs.tests.php | { command -v cs2pr >/dev/null && cs2pr || cat; }
 	${PHP_RUN} vendor/bin/rector process --dry-run --config=src/Akeneo/Platform/Installer/back/tests/rector.php
 
 .PHONY: installer-lint-fix-back
 installer-lint-fix-back: #Doc: launch PHP CS fixer for installer
-	${PHP_RUN} tools/php-cs-fixer fix --diff --config=src/Akeneo/Platform/Installer/back/tests/.php_cs.src.php
-	${PHP_RUN} tools/php-cs-fixer fix --diff --config=src/Akeneo/Platform/Installer/back/tests/.php_cs.tests.php
+	${PHP_RUN} vendor/bin/php-cs-fixer fix --diff --config=src/Akeneo/Platform/Installer/back/tests/.php_cs.src.php
+	${PHP_RUN} vendor/bin/php-cs-fixer fix --diff --config=src/Akeneo/Platform/Installer/back/tests/.php_cs.tests.php
 	${PHP_RUN} vendor/bin/rector process --config=src/Akeneo/Platform/Installer/back/tests/rector.php
 
 .PHONY: installer-coupling-back

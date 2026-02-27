@@ -67,7 +67,7 @@ ifneq ($(CI),true)
 	$(DOCKER_COMPOSE) run --rm php rm -rf var/cache/dev
 	APP_ENV=dev $(DOCKER_COMPOSE) run -e APP_DEBUG=1 --rm php bin/console cache:warmup
 endif
-	$(PHP_RUN) tools/php-cs-fixer fix --dry-run --format=checkstyle --config=src/Akeneo/Connectivity/Connection/back/tests/.php_cs.php | { command -v cs2pr >/dev/null && cs2pr || cat; }
+	$(PHP_RUN) vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle --config=src/Akeneo/Connectivity/Connection/back/tests/.php_cs.php | { command -v cs2pr >/dev/null && cs2pr || cat; }
 	$(PHP_RUN) vendor/bin/phpstan analyse \
 		--configuration src/Akeneo/Connectivity/Connection/back/tests/phpstan.neon \
 		--error-format=github
@@ -79,7 +79,7 @@ endif
 	$(PHP_RUN) bin/console lint:container
 
 connectivity-connection-lint-back_fix:
-	$(PHP_RUN) tools/php-cs-fixer fix --config=src/Akeneo/Connectivity/Connection/back/tests/.php_cs.php
+	$(PHP_RUN) vendor/bin/php-cs-fixer fix --config=src/Akeneo/Connectivity/Connection/back/tests/.php_cs.php
 
 connectivity-connection-unit-back:
 ifeq ($(CI),true)

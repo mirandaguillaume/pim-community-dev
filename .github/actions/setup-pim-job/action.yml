@@ -70,7 +70,7 @@ runs:
       shell: bash
       run: |
         docker pull mysql:8.0.30 &
-        docker pull selenium/standalone-chrome:4.27.0 &
+        docker pull selenium/standalone-chrome-debug:3.141.59 &
         docker pull node:20 &
         wait
 
@@ -109,17 +109,6 @@ runs:
         sudo chmod -R a+rwX ~/.cache ~/.composer
         sudo chmod -R a+rwX .
         sudo chmod -R a+rwX node_modules front-packages 2>/dev/null || true
-
-    - name: Install PHIVE tools
-      shell: bash
-      run: |
-        if [ ! -f /usr/local/bin/phive ]; then
-          wget -O /tmp/phive.phar https://phar.io/releases/phive.phar
-          wget -O /tmp/phive.phar.asc https://phar.io/releases/phive.phar.asc
-          chmod +x /tmp/phive.phar
-          sudo mv /tmp/phive.phar /usr/local/bin/phive
-        fi
-        phive install --trust-gpg-keys --force-accept-unsigned
 
     - name: Create var directories with permissions
       if: inputs.create-var-dirs == 'true'

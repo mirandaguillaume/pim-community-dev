@@ -16,7 +16,7 @@ use function Castor\run;
 #[AsTask(namespace: 'back', name: 'fix-cs-back', description: 'Run php-cs-fixer auto-fix')]
 function fixCsBack(): void
 {
-    \phpRun('tools/php-cs-fixer fix --config=.php_cs.php');
+    \phpRun('vendor/bin/php-cs-fixer fix --config=.php_cs.php');
 }
 
 #[AsTask(namespace: 'back', name: 'cache', description: 'Clear and warm up Symfony cache')]

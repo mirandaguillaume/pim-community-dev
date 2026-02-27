@@ -64,7 +64,7 @@ const webpackConfig = {
     filename: '[name].min.js',
     chunkFilename: '[name].bundle.js',
   },
-  devtool: isProd ? false : 'source-map',
+  devtool: 'source-map',
   resolve: {
     symlinks: false,
     alias: _.mapKeys(aliases, (path, key) => `${key}$`),

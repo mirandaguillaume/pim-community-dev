@@ -1,31 +1,32 @@
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = {
-  stories: [
-    '../src/**/*.stories.@(ts|tsx)',
-    '../src/**/*.mdx',
+  'stories': [
+    '../src/Introduction.stories.mdx',
+    '../src/guidelines/*.stories.mdx',
+    '../src/**/*.stories.mdx',
   ],
-  addons: [
+  'addons': [
+    {
+      name: '@storybook/addon-docs',
+      options: { transcludeMarkdown: true },
+    },
     '@storybook/addon-links',
     '@storybook/addon-essentials',
-    '@storybook/addon-a11y',
-    '@storybook/addon-webpack5-compiler-swc',
+    'themeprovider-storybook/register',
+    '@storybook/addon-a11y'
   ],
-  framework: {
-    name: '@storybook/react-webpack5',
-    options: {},
-  },
-  staticDirs: ['../public'],
-  docs: {
-    autodocs: false,
-  },
   webpackFinal: async (config) => {
-    config.resolve.plugins = [
-      ...(config.resolve.plugins || []),
-      new TsconfigPathsPlugin({
-        baseUrl: './src',
-      }),
-    ];
-    return config;
+    return {
+      ...config,
+      resolve: {
+        ...config.resolve,
+        plugins: [
+          ...config.resolve.plugins,
+          new TsconfigPathsPlugin({
+            baseUrl: './src'
+          })
+        ]
+      }};
   },
-};
+}

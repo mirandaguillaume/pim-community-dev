@@ -54,7 +54,7 @@ function back(): void
 {
     \dockerCompose('run --rm php rm -rf var/cache/dev');
     run('APP_ENV=dev docker-compose run -e APP_DEBUG=1 --rm php bin/console cache:warmup');
-    \phpRun('tools/php-cs-fixer fix --config=.php_cs.php src/Akeneo/Platform/Bundle/CommunicationChannelBundle/back');
+    \phpRun('vendor/bin/php-cs-fixer fix --config=.php_cs.php src/Akeneo/Platform/Bundle/CommunicationChannelBundle/back');
     lintBack();
     couplingBack();
     unitBack();

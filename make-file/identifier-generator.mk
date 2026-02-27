@@ -20,11 +20,11 @@ identifier-generator-unit-back:
 
 .PHONY: identifier-generator-fix-lint-back
 identifier-generator-fix-lint-back:
-	$(PHP_RUN) tools/php-cs-fixer fix --config=$(IDENTIFIER_GENERATOR_PATH)/back/tests/.php_cs.php --allow-risky=yes
+	$(PHP_RUN) vendor/bin/php-cs-fixer fix --config=$(IDENTIFIER_GENERATOR_PATH)/back/tests/.php_cs.php --allow-risky=yes
 
 .PHONY: identifier-generator-lint-back
 identifier-generator-lint-back:
-	$(PHP_RUN) tools/php-cs-fixer fix --config=$(IDENTIFIER_GENERATOR_PATH)/back/tests/.php_cs.php --allow-risky=yes --dry-run --format=checkstyle | { command -v cs2pr >/dev/null && cs2pr || cat; }
+	$(PHP_RUN) vendor/bin/php-cs-fixer fix --config=$(IDENTIFIER_GENERATOR_PATH)/back/tests/.php_cs.php --allow-risky=yes --dry-run --format=checkstyle | { command -v cs2pr >/dev/null && cs2pr || cat; }
 	$(PHP_RUN) vendor/bin/phpstan analyse \
 		--configuration components/identifier-generator/back/tests/phpstan.neon \
 		--error-format=github
