@@ -26,7 +26,8 @@ class AuthenticateAdminUser
         private readonly ObjectRepository $groupRepository,
         private readonly ObjectRepository $roleRepository,
         private readonly SimpleFactoryInterface $userFactory,
-    ) {}
+    ) {
+    }
 
     public function __invoke(): void
     {

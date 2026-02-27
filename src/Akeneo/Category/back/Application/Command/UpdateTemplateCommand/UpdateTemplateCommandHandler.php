@@ -21,7 +21,8 @@ class UpdateTemplateCommandHandler
         private readonly ValidatorInterface $validator,
         private readonly GetTemplate $getTemplate,
         private readonly CategoryTemplateSaver $categoryTemplateSaver,
-    ) {}
+    ) {
+    }
 
     public function __invoke(UpdateTemplateCommand $command): void
     {

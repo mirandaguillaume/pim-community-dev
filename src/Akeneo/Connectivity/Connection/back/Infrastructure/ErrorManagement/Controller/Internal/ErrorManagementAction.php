@@ -18,7 +18,8 @@ final readonly class ErrorManagementAction
 {
     public function __construct(
         private GetConnectionBusinessErrorsHandler $getConnectionBusinessErrorsHandler,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request): JsonResponse
     {
@@ -36,6 +37,6 @@ final readonly class ErrorManagementAction
      */
     public function normalizeBusinessErrors(array $businessErrors): array
     {
-        return \array_map(fn(BusinessError $businessError): array => $businessError->normalize(), $businessErrors);
+        return \array_map(fn (BusinessError $businessError): array => $businessError->normalize(), $businessErrors);
     }
 }

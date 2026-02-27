@@ -29,8 +29,7 @@ final readonly class GetFamiliesController
         private FindFamiliesWithLabels $findFamiliesWithLabels,
         private UserContext $userContext,
         private SecurityFacadeInterface $securityFacade,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): Response
     {
@@ -60,7 +59,7 @@ final readonly class GetFamiliesController
             includeCodes: ($request->query->get('codes') ? (array) $request->query->get('codes') : null)
         ));
 
-        $normalizedFamilies = \array_map(fn ($family) => $family->normalize(), $families);
+        $normalizedFamilies = \array_map(fn($family) => $family->normalize(), $families);
 
         return new JsonResponse($normalizedFamilies);
     }

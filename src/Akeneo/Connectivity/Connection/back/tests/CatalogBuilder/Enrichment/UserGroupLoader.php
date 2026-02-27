@@ -23,7 +23,8 @@ class UserGroupLoader
         private readonly ValidatorInterface $validator,
         private readonly SaverInterface $saver,
         private readonly Connection $connection,
-    ) {}
+    ) {
+    }
 
     public function create(array $data = []): void
     {

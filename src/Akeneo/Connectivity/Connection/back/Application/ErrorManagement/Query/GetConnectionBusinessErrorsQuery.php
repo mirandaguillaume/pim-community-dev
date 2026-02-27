@@ -10,7 +10,9 @@ namespace Akeneo\Connectivity\Connection\Application\ErrorManagement\Query;
  */
 final readonly class GetConnectionBusinessErrorsQuery
 {
-    public function __construct(private string $connectionCode, private ?string $endDate = null) {}
+    public function __construct(private string $connectionCode, private ?string $endDate = null)
+    {
+    }
 
     public function connectionCode(): string
     {

@@ -13,7 +13,9 @@ use Akeneo\Connectivity\Connection\Domain\Audit\Persistence\SelectPeriodErrorCou
  */
 final readonly class GetPeriodErrorCountPerConnectionHandler
 {
-    public function __construct(private SelectPeriodErrorCountPerConnectionQueryInterface $selectPeriodErrorCountPerConnectionQuery) {}
+    public function __construct(private SelectPeriodErrorCountPerConnectionQueryInterface $selectPeriodErrorCountPerConnectionQuery)
+    {
+    }
 
     /**
      * @return PeriodEventCount[]

@@ -14,7 +14,9 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetAllPendingAppsPublicIdsQuery implements GetAllPendingAppsPublicIdsQueryInterface
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     public function execute(): array
     {

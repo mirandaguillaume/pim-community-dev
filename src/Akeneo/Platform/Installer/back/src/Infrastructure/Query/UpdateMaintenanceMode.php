@@ -15,7 +15,9 @@ use Doctrine\DBAL\Types\Types;
 
 class UpdateMaintenanceMode implements UpdateMaintenanceModeInterface
 {
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     public function execute(bool $enabled): void
     {

@@ -23,7 +23,8 @@ class Template
         private readonly LabelCollection $labelCollection,
         private readonly CategoryId $categoryTreeId,
         private ?AttributeCollection $attributeCollection,
-    ) {}
+    ) {
+    }
 
     public function getUuid(): TemplateUuid
     {

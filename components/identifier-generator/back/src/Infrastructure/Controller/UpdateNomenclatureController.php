@@ -25,8 +25,7 @@ final readonly class UpdateNomenclatureController
 {
     public function __construct(
         private UpdateNomenclatureHandler $updateNomenclatureHandler,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, string $propertyCode): Response
     {

@@ -21,7 +21,8 @@ final readonly class TransferFilesToStorageHandler
         private StorageHydratorInterface $storageHydrator,
         private TransferFilesToStorageInterface $transferFilesToStorage,
         private FeatureFlags $featureFlags,
-    ) {}
+    ) {
+    }
 
     public function handle(TransferFilesToStorageCommand $command)
     {

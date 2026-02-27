@@ -4,4 +4,6 @@ namespace Akeneo\Platform\Bundle\ImportExportBundle\Infrastructure\Validation\St
 
 use Akeneo\Platform\Bundle\ImportExportBundle\Infrastructure\Validation\StorageConstraint;
 
-class LocalStorage extends StorageConstraint {}
+class LocalStorage extends StorageConstraint
+{
+}

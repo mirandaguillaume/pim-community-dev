@@ -10,11 +10,12 @@ class JobFileStorer implements JobFileStorerInterface
 {
     public function __construct(
         private readonly FilesystemOperator $filesystem,
-    ) {}
+    ) {
+    }
 
     public function store(string $jobCode, string $fileName, $fileStream): string
     {
-        $jobFileLocation = new JobFileLocation($jobCode . DIRECTORY_SEPARATOR . $fileName, true);
+        $jobFileLocation = new JobFileLocation($jobCode.DIRECTORY_SEPARATOR.$fileName, true);
 
         if ($this->filesystem->fileExists($jobFileLocation->path())) {
             $this->filesystem->delete($jobFileLocation->path());

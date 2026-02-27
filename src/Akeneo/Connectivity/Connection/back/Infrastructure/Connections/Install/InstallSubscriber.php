@@ -21,7 +21,8 @@ class InstallSubscriber implements EventSubscriberInterface
     public function __construct(
         private readonly DbalConnection $dbalConnection,
         private readonly FixturesLoader $fixturesLoader,
-    ) {}
+    ) {
+    }
 
     public static function getSubscribedEvents(): array
     {

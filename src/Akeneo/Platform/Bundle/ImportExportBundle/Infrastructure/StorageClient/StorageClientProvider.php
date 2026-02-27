@@ -24,7 +24,8 @@ final readonly class StorageClientProvider
     public function __construct(
         private FilesystemProvider $filesystemProvider,
         private iterable $storageClientProviders,
-    ) {}
+    ) {
+    }
 
     public function getFromFileToTransfer(FileToTransfer $fileToTransfer): StorageClientInterface
     {

@@ -46,7 +46,7 @@ class SearchEventSubscriptionLogsEndToEnd extends WebTestCase
         $this->authenticateAsAdmin();
 
         $this->generateLogs(
-            fn(): array => [
+            fn (): array => [
                 'id' => Uuid::uuid4()->toString(),
                 'timestamp' => $timestamp,
                 'level' => EventsApiDebugLogLevels::NOTICE,

@@ -15,7 +15,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class ConnectionContextEventSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly ConnectionContext $connectionContext) {}
+    public function __construct(private readonly ConnectionContext $connectionContext)
+    {
+    }
 
     public static function getSubscribedEvents(): array
     {

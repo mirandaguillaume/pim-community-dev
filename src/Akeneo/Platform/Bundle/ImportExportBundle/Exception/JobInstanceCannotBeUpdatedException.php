@@ -7,4 +7,6 @@ use Symfony\Component\Security\Core\Exception\RuntimeException;
 /**
  * @author Pierre Jolly <pierre.jolly@akeneo.com>
  */
-class JobInstanceCannotBeUpdatedException extends RuntimeException {}
+class JobInstanceCannotBeUpdatedException extends RuntimeException
+{
+}

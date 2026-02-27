@@ -22,7 +22,8 @@ final readonly class TransferFilesToStorage implements TransferFilesToStorageInt
         private StorageClientProvider $storageClientProvider,
         private TransferFile $transferFile,
         private EventDispatcherInterface $eventDispatcher,
-    ) {}
+    ) {
+    }
 
     /**
      * @param FileToTransfer[] $filesToTransfer

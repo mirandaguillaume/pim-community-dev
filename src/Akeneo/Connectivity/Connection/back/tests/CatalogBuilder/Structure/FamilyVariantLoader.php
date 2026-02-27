@@ -22,7 +22,8 @@ class FamilyVariantLoader
         private readonly ObjectUpdaterInterface $updater,
         private readonly ValidatorInterface $validator,
         private readonly SaverInterface $saver,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws \Exception

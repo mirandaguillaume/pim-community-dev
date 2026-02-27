@@ -12,9 +12,13 @@ class UpdateAuditDataTasklet implements TaskletInterface
 {
     protected const JOB_CODE = 'update_connectivity_audit_data';
 
-    public function __construct(private readonly UpdateAuditData $updateAuditData) {}
+    public function __construct(private readonly UpdateAuditData $updateAuditData)
+    {
+    }
 
-    public function setStepExecution(StepExecution $stepExecution): void {}
+    public function setStepExecution(StepExecution $stepExecution): void
+    {
+    }
 
     public function execute(): void
     {

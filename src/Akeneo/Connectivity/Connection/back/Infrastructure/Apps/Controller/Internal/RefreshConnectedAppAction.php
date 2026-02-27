@@ -21,7 +21,8 @@ final readonly class RefreshConnectedAppAction
     public function __construct(
         private FindOneConnectedAppByConnectionCodeQueryInterface $findOneConnectedAppByConnectionCodeQuery,
         private RefreshConnectedAppHandler $refreshConnectedAppHandler,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request, string $connectionCode): Response
     {

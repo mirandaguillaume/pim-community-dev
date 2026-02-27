@@ -18,7 +18,8 @@ class CategoryTreeTemplate
         private readonly ?TemplateUuid $templateUuid = null,
         private readonly ?TemplateCode $templateCode = null,
         private readonly ?LabelCollection $templateLabels = null,
-    ) {}
+    ) {
+    }
 
     /**
      * @param array{

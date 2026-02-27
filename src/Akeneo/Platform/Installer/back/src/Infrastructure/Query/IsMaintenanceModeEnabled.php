@@ -14,7 +14,9 @@ use Doctrine\DBAL\Connection;
 
 class IsMaintenanceModeEnabled implements IsMaintenanceModeEnabledInterface
 {
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     public function execute(): bool
     {

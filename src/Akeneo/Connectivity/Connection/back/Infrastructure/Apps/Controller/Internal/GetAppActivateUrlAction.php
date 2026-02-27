@@ -30,7 +30,8 @@ final readonly class GetAppActivateUrlAction
         private SecurityFacade $security,
         private FeatureFlag $marketplaceActivateFeatureFlag,
         private IsConnectionsNumberLimitReachedQueryInterface $isConnectionsNumberLimitReachedQuery,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request, string $id): Response
     {

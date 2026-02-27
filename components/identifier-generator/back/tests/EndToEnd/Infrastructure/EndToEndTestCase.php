@@ -55,7 +55,7 @@ abstract class EndToEndTestCase extends TestCase
         $this->getProductSaver()->saveAll($products);
 
         return \array_map(
-            fn (UuidInterface $uuid): ProductInterface => $this->getProductRepository()->find($uuid),
+            fn(UuidInterface $uuid): ProductInterface => $this->getProductRepository()->find($uuid),
             $uuids
         );
     }

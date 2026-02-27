@@ -52,7 +52,7 @@ class UpdateWebhookHandlerSpec extends ObjectBehavior
         $isUsingUuid = true;
         $secret = 'secret';
         $command = new UpdateWebhookCommand($code, $enabled, $url, $isUsingUuid);
-        $isAValidWriteModel = fn(ConnectionWebhook $webhook): bool => $webhook->code() === $code
+        $isAValidWriteModel = fn (ConnectionWebhook $webhook): bool => $webhook->code() === $code
             && $webhook->enabled() === $enabled
             && $webhook->isUsingUuid() === $isUsingUuid
             && $webhook->url() instanceof Url
@@ -65,7 +65,7 @@ class UpdateWebhookHandlerSpec extends ObjectBehavior
         $selectWebhookSecretQuery->execute($code)->willReturn(null);
         $generateWebhookSecretHandler
             ->handle(
-                Argument::that(fn(GenerateWebhookSecretCommand $command): bool => $command->connectionCode() === $code)
+                Argument::that(fn (GenerateWebhookSecretCommand $command): bool => $command->connectionCode() === $code)
             )
             ->shouldBeCalled()
             ->willReturn($secret);
@@ -86,7 +86,7 @@ class UpdateWebhookHandlerSpec extends ObjectBehavior
         $isUsingUuid = true;
         $secret = 'secret';
         $command = new UpdateWebhookCommand($code, $enabled, $url, $isUsingUuid);
-        $isAValidWriteModel = fn(ConnectionWebhook $webhook): bool => $webhook->code() === $code
+        $isAValidWriteModel = fn (ConnectionWebhook $webhook): bool => $webhook->code() === $code
             && $webhook->enabled() === $enabled
             && $webhook->isUsingUuid() === $isUsingUuid
             && $webhook->url() instanceof Url
@@ -116,7 +116,7 @@ class UpdateWebhookHandlerSpec extends ObjectBehavior
         $isUsingUuid = true;
         $url = null;
         $command = new UpdateWebhookCommand($code, $enabled, $url, $isUsingUuid);
-        $isAValidWriteModel = fn(ConnectionWebhook $webhook): bool => $webhook->code() === $code
+        $isAValidWriteModel = fn (ConnectionWebhook $webhook): bool => $webhook->code() === $code
             && $webhook->enabled() === $enabled
             && $webhook->isUsingUuid() === $isUsingUuid
             && $webhook->url() === null;

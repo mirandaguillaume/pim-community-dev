@@ -21,7 +21,8 @@ class AclLoader
     public function __construct(
         private readonly AclManager $aclManager,
         private readonly RoleRepository $roleRepository,
-    ) {}
+    ) {
+    }
 
     public function addAclToRoles(string $acl, array $roles): void
     {

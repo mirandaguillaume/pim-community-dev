@@ -16,7 +16,9 @@ use Doctrine\DBAL\Types\Types;
  */
 class DbalErrorCountRepository implements ErrorCountRepositoryInterface
 {
-    public function __construct(private readonly DbalConnection $dbalConnection) {}
+    public function __construct(private readonly DbalConnection $dbalConnection)
+    {
+    }
 
     public function upsert(HourlyErrorCount $hourlyErrorCount): void
     {

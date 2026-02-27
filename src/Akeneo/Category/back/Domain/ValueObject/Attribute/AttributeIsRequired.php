@@ -12,7 +12,8 @@ class AttributeIsRequired
 {
     private function __construct(
         private readonly bool $isRequired,
-    ) {}
+    ) {
+    }
 
     public static function fromBoolean(bool $isRequired): self
     {

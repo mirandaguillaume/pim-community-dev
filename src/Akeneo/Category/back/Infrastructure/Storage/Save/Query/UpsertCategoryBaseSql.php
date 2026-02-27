@@ -26,7 +26,8 @@ class UpsertCategoryBaseSql implements UpsertCategoryBase
         private readonly Connection $connection,
         private readonly GetCategoryInterface $getCategory,
         private readonly IsTemplateDeactivated $isTemplateDeactivated,
-    ) {}
+    ) {
+    }
 
     public function execute(Category $categoryModel): void
     {
@@ -142,7 +143,7 @@ class UpsertCategoryBaseSql implements UpsertCategoryBase
 
         $attributeValues = array_filter(
             $valueCollection->normalize(),
-            fn(array $attributeValue) => null !== $attributeValue['data'],
+            fn (array $attributeValue) => null !== $attributeValue['data'],
         );
 
         return $attributeValues;

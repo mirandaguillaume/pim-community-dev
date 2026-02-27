@@ -9,7 +9,8 @@ class UpdateCustomAppSecretQuery implements UpdateCustomAppSecretQueryInterface
 {
     public function __construct(
         private readonly Connection $connection,
-    ) {}
+    ) {
+    }
 
     public function execute($clientId, $clientSecret): void
     {

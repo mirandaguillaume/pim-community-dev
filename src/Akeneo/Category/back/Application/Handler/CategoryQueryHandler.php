@@ -17,7 +17,8 @@ class CategoryQueryHandler implements CategoryQueryInterface
 {
     public function __construct(
         private readonly GetCategoryInterface $getCategory,
-    ) {}
+    ) {
+    }
 
     public function byId(int $categoryId): Category
     {

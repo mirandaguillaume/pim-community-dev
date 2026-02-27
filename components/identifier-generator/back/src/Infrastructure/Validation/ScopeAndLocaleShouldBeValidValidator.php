@@ -19,8 +19,7 @@ final class ScopeAndLocaleShouldBeValidValidator extends ConstraintValidator
     public function __construct(
         private readonly GetAttributes $getAttributes,
         private readonly GetChannelCodeWithLocaleCodesInterface $getChannelCodeWithLocaleCodes,
-    ) {
-    }
+    ) {}
 
     public function validate($condition, Constraint $constraint): void
     {

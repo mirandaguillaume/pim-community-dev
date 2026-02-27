@@ -17,7 +17,9 @@ use Doctrine\DBAL\Connection as DbalConnection;
  */
 class RegenerateUserPassword implements RegenerateUserPasswordInterface
 {
-    public function __construct(private readonly UserManager $userManager, private readonly DbalConnection $dbalConnection) {}
+    public function __construct(private readonly UserManager $userManager, private readonly DbalConnection $dbalConnection)
+    {
+    }
 
     public function execute(UserId $userId): string
     {

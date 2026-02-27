@@ -14,7 +14,9 @@ use Akeneo\UserManagement\Bundle\Doctrine\ORM\Repository\GroupRepository;
  */
 class DeleteUserGroup implements DeleteUserGroupInterface
 {
-    public function __construct(private readonly GroupRepository $repository, private readonly RemoverInterface $remover) {}
+    public function __construct(private readonly GroupRepository $repository, private readonly RemoverInterface $remover)
+    {
+    }
 
     public function execute(string $name): void
     {

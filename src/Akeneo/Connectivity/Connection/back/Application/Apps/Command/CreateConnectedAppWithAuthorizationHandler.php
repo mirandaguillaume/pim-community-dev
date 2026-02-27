@@ -35,7 +35,8 @@ class CreateConnectedAppWithAuthorizationHandler
         private readonly ClientProviderInterface $clientProvider,
         private readonly CreateConnectedAppInterface $createConnectedApp,
         private readonly EventDispatcherInterface $eventDispatcher,
-    ) {}
+    ) {
+    }
 
     public function handle(CreateConnectedAppWithAuthorizationCommand $command): void
     {

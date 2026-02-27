@@ -27,7 +27,8 @@ final readonly class RegenerateCustomAppSecretAction
         private GetCustomAppQueryInterface $getCustomAppQuery,
         private GetCustomAppSecretQueryInterface $getCustomAppSecretQuery,
         private RegenerateCustomAppSecretHandler $regenerateCustomAppSecretHandler,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request, string $customAppId): Response
     {

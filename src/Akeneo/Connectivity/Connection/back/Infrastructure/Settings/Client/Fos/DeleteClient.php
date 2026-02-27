@@ -16,7 +16,9 @@ use Akeneo\Tool\Bundle\ApiBundle\OAuth\Model\ClientManagerInterface;
  */
 class DeleteClient implements DeleteClientInterface
 {
-    public function __construct(private readonly ClientManagerInterface $clientManager) {}
+    public function __construct(private readonly ClientManagerInterface $clientManager)
+    {
+    }
 
     public function execute(ClientId $clientId): void
     {

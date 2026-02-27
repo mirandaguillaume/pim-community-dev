@@ -24,7 +24,8 @@ class PasswordChecker implements PasswordCheckerInterface
     public function __construct(
         private readonly UserPasswordHasherInterface $encoder,
         private readonly TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     public function validatePassword(UserInterface $user, array $data): ConstraintViolationListInterface
     {

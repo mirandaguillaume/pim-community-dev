@@ -34,7 +34,8 @@ class FixturesLoader
         private readonly SimpleFactoryInterface $userGroupFactory,
         private readonly ObjectUpdaterInterface $userGroupUpdater,
         private readonly SaverInterface $userGroupSaver
-    ) {}
+    ) {
+    }
 
     public function loadFixtures(): void
     {

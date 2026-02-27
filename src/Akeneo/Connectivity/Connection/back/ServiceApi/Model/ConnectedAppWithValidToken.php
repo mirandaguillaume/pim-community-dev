@@ -14,7 +14,8 @@ final readonly class ConnectedAppWithValidToken
         private string $id,
         private string $username,
         private string $accessToken,
-    ) {}
+    ) {
+    }
 
     public function getId(): string
     {

@@ -3,8 +3,8 @@
 namespace Akeneo\Category\Infrastructure\Component\Model;
 
 use Akeneo\Tool\Component\Localization\Model\AbstractTranslation;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Category translation entity.
@@ -19,7 +19,7 @@ use Doctrine\DBAL\Types\Types;
 #[ORM\UniqueConstraint(name: 'locale_foreign_key_idx', columns: ['locale', 'foreign_key'])]
 class CategoryTranslation extends AbstractTranslation implements CategoryTranslationInterface
 {
-    #[ORM\ManyToOne(targetEntity: \Akeneo\Category\Infrastructure\Component\Model\CategoryInterface::class, inversedBy: 'translations')]
+    #[ORM\ManyToOne(targetEntity: CategoryInterface::class, inversedBy: 'translations')]
     #[ORM\JoinColumn(name: 'foreign_key', referencedColumnName: 'id', onDelete: 'CASCADE')]
     protected $foreignKey;
     /** @var string */

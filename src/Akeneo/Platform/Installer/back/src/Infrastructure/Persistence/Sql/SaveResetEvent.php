@@ -15,7 +15,8 @@ final readonly class SaveResetEvent
     public function __construct(
         private Connection $connection,
         private GetResetEvents $getResetEvents,
-    ) {}
+    ) {
+    }
 
     public function withDatetime(\DateTimeImmutable $dateTime): void
     {
@@ -23,7 +24,7 @@ final readonly class SaveResetEvent
         $newResetEvents = [...$previousEvents, ['time' => $dateTime]];
 
         $normalizedEvents = array_map(
-            static fn(array $resetEvent) => ['time' => $resetEvent['time']->format('c')],
+            static fn (array $resetEvent) => ['time' => $resetEvent['time']->format('c')],
             $newResetEvents,
         );
 

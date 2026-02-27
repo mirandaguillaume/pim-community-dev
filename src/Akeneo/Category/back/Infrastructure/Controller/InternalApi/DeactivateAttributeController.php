@@ -21,7 +21,8 @@ class DeactivateAttributeController
     public function __construct(
         private readonly SecurityFacade $securityFacade,
         private readonly CommandBus $commandBus,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request, string $templateUuid, string $attributeUuid): Response
     {

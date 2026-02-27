@@ -137,7 +137,7 @@ class SetIdentifiersSubscriberEndToEnd extends EndToEndTestCase
 
         Assert::assertSame(
             ['akn-050-my_family', 'akn-051-my_family', 'akn-052-my_family', 'akn-053-my_family', 'akn-054-my_family'],
-            \array_map(fn (ProductInterface $product): ?string => $product->getIdentifier(), $productsFromDatabase)
+            \array_map(fn(ProductInterface $product): ?string => $product->getIdentifier(), $productsFromDatabase)
         );
     }
 

@@ -17,5 +17,7 @@ use Akeneo\Platform\Installer\Domain\Service\FilesystemsPurgerInterface;
 
 class FakeFilesystemsPurger implements FilesystemsPurgerInterface
 {
-    public function execute(): void {}
+    public function execute(): void
+    {
+    }
 }

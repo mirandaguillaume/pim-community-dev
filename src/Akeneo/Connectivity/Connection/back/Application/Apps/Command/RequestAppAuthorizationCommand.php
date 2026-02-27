@@ -16,7 +16,8 @@ final readonly class RequestAppAuthorizationCommand
         private mixed $scope,
         private string $callbackUrl,
         private ?string $state = null
-    ) {}
+    ) {
+    }
 
     public function getClientId(): string
     {

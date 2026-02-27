@@ -16,7 +16,9 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class UserIdMustBeValidValidator extends ConstraintValidator
 {
-    public function __construct(private readonly UserRepositoryInterface $userRepository) {}
+    public function __construct(private readonly UserRepositoryInterface $userRepository)
+    {
+    }
 
     public function validate($value, Constraint $constraint)
     {

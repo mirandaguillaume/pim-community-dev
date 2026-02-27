@@ -48,7 +48,7 @@ class WebhookReachabilityCheckerSpec extends ObjectBehavior
         $validUrl = 'http://172.17.0.1:8000/webhook';
         $secret = '1234';
 
-        $client->send(Argument::that(fn($object): bool => $object instanceof Request
+        $client->send(Argument::that(fn ($object): bool => $object instanceof Request
             && $object->hasHeader('Content-Type')
             && $object->hasHeader(RequestHeaders::HEADER_REQUEST_SIGNATURE)
             && $object->hasHeader(RequestHeaders::HEADER_REQUEST_TIMESTAMP)
@@ -118,7 +118,7 @@ class WebhookReachabilityCheckerSpec extends ObjectBehavior
         $validUrl = 'http://172.17.0.1:8000/webhook';
         $secret = '1234';
 
-        $client->send(Argument::that(fn($object): bool => $object instanceof Request
+        $client->send(Argument::that(fn ($object): bool => $object instanceof Request
             && $object->hasHeader('Content-Type')
             && $object->hasHeader(RequestHeaders::HEADER_REQUEST_SIGNATURE)
             && $object->hasHeader(RequestHeaders::HEADER_REQUEST_TIMESTAMP)
@@ -146,7 +146,7 @@ class WebhookReachabilityCheckerSpec extends ObjectBehavior
         $response = new Response(451, [], null, '1.1', 'Unavailable For Legal Reasons');
         $requestException = new RequestException('RequestException message', $request, $response);
 
-        $client->send(Argument::that(fn($object): bool => $object instanceof Request
+        $client->send(Argument::that(fn ($object): bool => $object instanceof Request
             && $object->hasHeader('Content-Type')
             && $object->hasHeader(RequestHeaders::HEADER_REQUEST_SIGNATURE)
             && $object->hasHeader(RequestHeaders::HEADER_REQUEST_TIMESTAMP)
@@ -172,7 +172,7 @@ class WebhookReachabilityCheckerSpec extends ObjectBehavior
         $request = new Request($this->getWrappedObject()::POST, $validUrl, []);
         $connectException = new ConnectException('ConnectException message', $request);
 
-        $client->send(Argument::that(fn($object): bool => $object instanceof Request
+        $client->send(Argument::that(fn ($object): bool => $object instanceof Request
             && $object->hasHeader('Content-Type')
             && $object->hasHeader(RequestHeaders::HEADER_REQUEST_SIGNATURE)
             && $object->hasHeader(RequestHeaders::HEADER_REQUEST_TIMESTAMP)
@@ -197,7 +197,7 @@ class WebhookReachabilityCheckerSpec extends ObjectBehavior
         $secret = '1234';
         $transferException = new TransferException('TransferException message');
 
-        $client->send(Argument::that(fn($object): bool => $object instanceof Request
+        $client->send(Argument::that(fn ($object): bool => $object instanceof Request
             && $object->hasHeader('Content-Type')
             && $object->hasHeader(RequestHeaders::HEADER_REQUEST_SIGNATURE)
             && $object->hasHeader(RequestHeaders::HEADER_REQUEST_TIMESTAMP)

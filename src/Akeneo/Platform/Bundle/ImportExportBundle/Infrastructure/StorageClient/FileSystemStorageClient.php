@@ -14,7 +14,9 @@ use League\Flysystem\FilesystemOperator;
 
 class FileSystemStorageClient implements StorageClientInterface
 {
-    public function __construct(private readonly FilesystemOperator $filesystemOperator) {}
+    public function __construct(private readonly FilesystemOperator $filesystemOperator)
+    {
+    }
 
     public function fileExists(string $filePath): bool
     {

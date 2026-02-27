@@ -24,8 +24,7 @@ final readonly class CreateGeneratorHandler
     public function __construct(
         private IdentifierGeneratorRepository $identifierGeneratorRepository,
         private CommandValidatorInterface $validator
-    ) {
-    }
+    ) {}
 
     public function __invoke(CreateGeneratorCommand $command): void
     {

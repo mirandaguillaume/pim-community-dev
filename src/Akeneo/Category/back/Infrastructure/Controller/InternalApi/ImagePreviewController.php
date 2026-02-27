@@ -40,7 +40,8 @@ class ImagePreviewController
         private readonly GetAttribute $getAttribute,
         private readonly PreviewGeneratorInterface $previewGenerator,
         private readonly LoaderInterface $imageLoader,
-    ) {}
+    ) {
+    }
 
     public function __invoke(
         Request $request,

@@ -37,7 +37,8 @@ class WebhookReachabilityChecker implements UrlReachabilityCheckerInterface
         private readonly ValidatorInterface $validator,
         private readonly VersionProviderInterface $versionProvider,
         private readonly ?string $pfid,
-    ) {}
+    ) {
+    }
 
     public function check(string $url, string $secret): UrlReachabilityStatus
     {

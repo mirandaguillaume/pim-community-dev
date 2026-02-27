@@ -25,7 +25,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class JobExecutionController
 {
-    public function __construct(protected EventDispatcherInterface $eventDispatcher, protected StepExecutionArchivist $archivist, protected JobExecutionRepository $jobExecutionRepo, private readonly FilesystemReader $logFileSystem) {}
+    public function __construct(protected EventDispatcherInterface $eventDispatcher, protected StepExecutionArchivist $archivist, protected JobExecutionRepository $jobExecutionRepo, private readonly FilesystemReader $logFileSystem)
+    {
+    }
 
     /**
      * Download the log file of the job execution.

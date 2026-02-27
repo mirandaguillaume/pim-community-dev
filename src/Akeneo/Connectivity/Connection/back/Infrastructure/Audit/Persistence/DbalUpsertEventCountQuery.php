@@ -15,7 +15,9 @@ use Doctrine\DBAL\Types\Types;
  */
 class DbalUpsertEventCountQuery implements UpsertEventCountQueryInterface
 {
-    public function __construct(private readonly DbalConnection $dbalConnection) {}
+    public function __construct(private readonly DbalConnection $dbalConnection)
+    {
+    }
 
     public function execute(HourlyEventCount $hourlyEventCount): void
     {

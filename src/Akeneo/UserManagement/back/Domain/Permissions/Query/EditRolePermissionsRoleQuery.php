@@ -12,7 +12,8 @@ class EditRolePermissionsRoleQuery
     public function __construct(
         private readonly RoleWithPermissionsRepository $roleWithPermissionsRepository,
         private readonly RoleRepositoryInterface $roleRepository,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<RoleInterface>

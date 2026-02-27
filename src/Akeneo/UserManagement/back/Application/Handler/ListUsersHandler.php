@@ -23,7 +23,8 @@ final readonly class ListUsersHandler implements ListUsersHandlerInterface
 {
     public function __construct(
         private FindUsers $findUsers
-    ) {}
+    ) {
+    }
 
     public function fromQuery(UsersQuery $query): array
     {
@@ -36,7 +37,7 @@ final readonly class ListUsersHandler implements ListUsersHandlerInterface
         );
 
         return array_map(
-            static fn(DomainUser $user) => new ServiceApiUser(
+            static fn (DomainUser $user) => new ServiceApiUser(
                 $user->getId(),
                 $user->getEmail(),
                 $user->getUsername(),

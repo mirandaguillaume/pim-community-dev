@@ -24,7 +24,8 @@ class ResetInstanceAction
         private readonly ResetInstanceHandler $resetInstanceHandler,
         private readonly SecurityFacade $securityFacade,
         private readonly EventDispatcherInterface $eventDispatcher,
-    ) {}
+    ) {
+    }
 
     public function __invoke(): JsonResponse
     {

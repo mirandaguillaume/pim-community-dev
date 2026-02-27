@@ -12,8 +12,7 @@ final readonly class MatchIdentifierGeneratorQuery
     public function __construct(
         private IdentifierGenerator $identifierGenerator,
         private ProductProjection $productProjection
-    ) {
-    }
+    ) {}
 
     public function identifierGenerator(): IdentifierGenerator
     {

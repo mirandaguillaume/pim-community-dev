@@ -37,5 +37,6 @@ use Symfony\Component\Validator\Constraints as Assert;
         #[Assert\Url(message: self::MESSAGE_PREFIX . 'callback_url.must_be_url')]
         public string $callbackUrl,
         public int $userId,
-    ) {}
+    ) {
+    }
 }

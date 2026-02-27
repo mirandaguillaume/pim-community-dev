@@ -24,7 +24,8 @@ final readonly class UpdateConnectionAction
     public function __construct(
         private UpdateConnectionHandler $updateConnectionHandler,
         private SecurityFacade $securityFacade,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request): JsonResponse
     {

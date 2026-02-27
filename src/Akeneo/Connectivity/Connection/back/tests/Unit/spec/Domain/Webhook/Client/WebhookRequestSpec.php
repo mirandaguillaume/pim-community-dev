@@ -99,7 +99,7 @@ class WebhookRequestSpec extends ObjectBehavior
         $timestamp = 1_577_836_800;
         $uuid = '5d30d0f6-87a6-45ad-ba6b-3a302b0d328c';
 
-        return new class ($author, $data, $timestamp, $uuid) extends Event {
+        return new class($author, $data, $timestamp, $uuid) extends Event {
             public function getName(): string
             {
                 return 'product.created';

@@ -25,7 +25,8 @@ abstract class AbstractValue implements Value
         protected AttributeCode $code,
         protected ?ChannelValue $channel,
         protected ?LocaleValue $locale,
-    ) {}
+    ) {
+    }
 
     public function getUuid(): AttributeUuid
     {
@@ -50,7 +51,7 @@ abstract class AbstractValue implements Value
     public function getKey(): string
     {
         return sprintf(
-            '%s' . self::SEPARATOR . '%s',
+            '%s'.self::SEPARATOR.'%s',
             $this->code,
             $this->uuid,
         );
@@ -61,8 +62,8 @@ abstract class AbstractValue implements Value
         return sprintf(
             '%s%s%s',
             $this->getKey(),
-            !empty($this->channel) ? self::SEPARATOR . $this->channel : '',
-            !empty($this->locale) ? self::SEPARATOR . $this->locale : '',
+            !empty($this->channel) ? self::SEPARATOR.$this->channel : '',
+            !empty($this->locale) ? self::SEPARATOR.$this->locale : '',
         );
     }
 

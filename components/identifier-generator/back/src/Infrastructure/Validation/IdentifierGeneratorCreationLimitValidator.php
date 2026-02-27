@@ -15,9 +15,7 @@ use Webmozart\Assert\Assert;
  */
 final class IdentifierGeneratorCreationLimitValidator extends ConstraintValidator
 {
-    public function __construct(private readonly IdentifierGeneratorRepository $repository)
-    {
-    }
+    public function __construct(private readonly IdentifierGeneratorRepository $repository) {}
 
     public function validate($value, Constraint $constraint): void
     {

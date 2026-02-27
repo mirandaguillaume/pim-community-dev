@@ -16,7 +16,8 @@ class GetCategoriesParametersBuilderSql implements GetCategoriesParametersBuilde
 {
     public function __construct(
         private readonly SearchFilters $searchFilters,
-    ) {}
+    ) {
+    }
 
     public function build(
         array $searchFilters,

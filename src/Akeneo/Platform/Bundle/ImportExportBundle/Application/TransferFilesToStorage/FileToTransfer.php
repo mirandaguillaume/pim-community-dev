@@ -16,7 +16,8 @@ final readonly class FileToTransfer
         private string $storage,
         private string $outputFileName,
         private bool $isLocal,
-    ) {}
+    ) {
+    }
 
     public function getFileKey(): string
     {

@@ -24,7 +24,7 @@ class FetchFamilyTemplates implements FetchFamilyTemplatesInterface
         $this->client = new Client([
             'base_uri' => $apiUrl,
             'headers' => [
-                'Authorization' => 'Bearer ' . $readToken,
+                'Authorization' => 'Bearer '.$readToken,
                 'Accept' => 'application/vnd.github+json',
             ],
         ]);
@@ -32,7 +32,7 @@ class FetchFamilyTemplates implements FetchFamilyTemplatesInterface
 
     public function all(): array
     {
-        $response = $this->client->request('GET', '/repos/' . $this->githubOrgName . '/' . $this->githubRepoName . '/contents' . self::MINIFIED_DIRECTORY . '/minified.json');
+        $response = $this->client->request('GET', '/repos/'.$this->githubOrgName.'/'.$this->githubRepoName.'/contents'.self::MINIFIED_DIRECTORY.'/minified.json');
 
         $content = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
         if (!isset($content['content'])) {
@@ -44,7 +44,7 @@ class FetchFamilyTemplates implements FetchFamilyTemplatesInterface
 
     public function byName(string $templateName): FamilyTemplate
     {
-        $response = $this->client->request('GET', '/repos/' . $this->githubOrgName . '/' . $this->githubRepoName . '/contents' . self::TEMPLATES_DIRECTORY . '/' . $templateName . '.json');
+        $response = $this->client->request('GET', '/repos/'.$this->githubOrgName.'/'.$this->githubRepoName.'/contents'.self::TEMPLATES_DIRECTORY.'/'.$templateName.'.json');
 
         $responseContent = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
 

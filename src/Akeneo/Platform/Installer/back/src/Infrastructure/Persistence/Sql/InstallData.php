@@ -13,7 +13,9 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class InstallData
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     public function withDatetime(\DateTimeImmutable $installDatetime): void
     {

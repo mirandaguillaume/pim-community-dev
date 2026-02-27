@@ -46,7 +46,7 @@ class AttributeCollection implements \Countable
     {
         $attribute = array_filter(
             $this->attributes,
-            static fn($attribute) => $attribute->getIdentifier() === $identifier,
+            static fn ($attribute) => $attribute->getIdentifier() === $identifier,
         );
         if (empty($attribute) || count($attribute) > 1) {
             return null;
@@ -59,7 +59,7 @@ class AttributeCollection implements \Countable
     {
         $attribute = array_filter(
             $this->attributes,
-            static fn($attribute) => (string) $attribute->getUuid() === $uuid,
+            static fn ($attribute) => (string) $attribute->getUuid() === $uuid,
         );
         if (empty($attribute) || count($attribute) > 1) {
             return null;
@@ -72,7 +72,7 @@ class AttributeCollection implements \Countable
     {
         $attribute = array_filter(
             $this->attributes,
-            static fn($attribute) => (string) $attribute->getCode() === $code,
+            static fn ($attribute) => (string) $attribute->getCode() === $code,
         );
         if (empty($attribute) || count($attribute) > 1) {
             return null;
@@ -94,7 +94,7 @@ class AttributeCollection implements \Countable
     public function normalize(): array
     {
         return array_map(
-            static fn(Attribute $attribute) => $attribute->normalize(),
+            static fn (Attribute $attribute) => $attribute->normalize(),
             $this->attributes,
         );
     }
@@ -114,7 +114,7 @@ class AttributeCollection implements \Countable
 
         usort(
             $attributeList,
-            static fn(Attribute $a, Attribute $b) => $a->getOrder()->intValue() - $b->getOrder()->intValue(),
+            static fn (Attribute $a, Attribute $b) => $a->getOrder()->intValue() - $b->getOrder()->intValue(),
         );
         $reindexedAttributeList = [];
         array_walk(

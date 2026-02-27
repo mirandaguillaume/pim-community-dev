@@ -9,7 +9,8 @@ final readonly class IteratorStatus
     private function __construct(
         public bool $isDone,
         public mixed $value = null,
-    ) {}
+    ) {
+    }
 
     public static function inProgress(): self
     {

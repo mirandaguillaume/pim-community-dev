@@ -118,8 +118,10 @@ class CreateJsonWebTokenSpec extends ObjectBehavior
 
         Assert::assertInstanceOf(UnencryptedToken::class, $token);
 
-        $frozenClock = new class ($this->now) implements \Psr\Clock\ClockInterface {
-            public function __construct(private readonly \DateTimeImmutable $now) {}
+        $frozenClock = new class($this->now) implements \Psr\Clock\ClockInterface {
+            public function __construct(private readonly \DateTimeImmutable $now)
+            {
+            }
 
             public function now(): \DateTimeImmutable
             {

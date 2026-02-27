@@ -17,7 +17,9 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class CategoryTreeController
 {
-    public function __construct(private readonly FindGrantedCategoryTrees $findGrantedCategoryTrees, private readonly GetCategoryChildrenCodesPerTreeInterface $getCategoryChildrenCodesPerTree) {}
+    public function __construct(private readonly FindGrantedCategoryTrees $findGrantedCategoryTrees, private readonly GetCategoryChildrenCodesPerTreeInterface $getCategoryChildrenCodesPerTree)
+    {
+    }
 
     public function __invoke(Request $request): JsonResponse
     {

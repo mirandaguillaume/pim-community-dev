@@ -141,7 +141,7 @@ class ListCategoryEndToEnd extends ApiCategoryTestCase
         $searchEncoded = $this->encodeStringWithSymfonyUrlGeneratorCompatibility($search);
 
         $client = $this->createAuthenticatedClient();
-        $client->request('GET', 'api/rest/v1/categories?with_count=true&search=' . $search);
+        $client->request('GET', 'api/rest/v1/categories?with_count=true&search='.$search);
 
         $expected = [
             '_links' => [
@@ -200,7 +200,7 @@ class ListCategoryEndToEnd extends ApiCategoryTestCase
         $searchEncoded = $this->encodeStringWithSymfonyUrlGeneratorCompatibility($search);
 
         $client = $this->createAuthenticatedClient();
-        $client->request('GET', 'api/rest/v1/categories?with_count=true&search=' . $search);
+        $client->request('GET', 'api/rest/v1/categories?with_count=true&search='.$search);
 
         $expected = [
             '_links' => [
@@ -324,7 +324,7 @@ class ListCategoryEndToEnd extends ApiCategoryTestCase
         $searchEncoded = $this->encodeStringWithSymfonyUrlGeneratorCompatibility($search);
 
         $client = $this->createAuthenticatedClient();
-        $client->request('GET', 'api/rest/v1/categories?limit=5&page=1&with_count=true&search=' . $search);
+        $client->request('GET', 'api/rest/v1/categories?limit=5&page=1&with_count=true&search='.$search);
 
         $expected = [
             '_links' => [
@@ -359,7 +359,7 @@ class ListCategoryEndToEnd extends ApiCategoryTestCase
         $searchEncoded = $this->encodeStringWithSymfonyUrlGeneratorCompatibility($search);
 
         $client = $this->createAuthenticatedClient();
-        $client->request('GET', 'api/rest/v1/categories?limit=5&page=1&with_count=true&search=' . $search);
+        $client->request('GET', 'api/rest/v1/categories?limit=5&page=1&with_count=true&search='.$search);
 
         $expected = [
             '_links' => [

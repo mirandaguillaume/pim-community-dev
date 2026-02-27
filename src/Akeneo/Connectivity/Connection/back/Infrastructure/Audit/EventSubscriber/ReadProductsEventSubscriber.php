@@ -31,7 +31,8 @@ final readonly class ReadProductsEventSubscriber implements EventSubscriberInter
         private ConnectionContextInterface $connectionContext,
         private UpdateDataDestinationProductEventCountHandler $updateDataDestinationProductEventCountHandler,
         private ConnectionRepositoryInterface $connectionRepository,
-    ) {}
+    ) {
+    }
 
     public static function getSubscribedEvents(): array
     {

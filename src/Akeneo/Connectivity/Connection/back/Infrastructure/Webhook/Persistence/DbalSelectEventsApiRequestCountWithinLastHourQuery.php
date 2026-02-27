@@ -15,7 +15,9 @@ use Doctrine\DBAL\Types\Types;
  */
 class DbalSelectEventsApiRequestCountWithinLastHourQuery implements SelectEventsApiRequestCountWithinLastHourQueryInterface
 {
-    public function __construct(private readonly Connection $dbalConnection) {}
+    public function __construct(private readonly Connection $dbalConnection)
+    {
+    }
 
     public function execute(\DateTimeImmutable $eventDateTime): array
     {

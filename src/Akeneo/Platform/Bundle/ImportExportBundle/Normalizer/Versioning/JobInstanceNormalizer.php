@@ -21,7 +21,8 @@ class JobInstanceNormalizer implements NormalizerInterface, CacheableSupportsMet
 
     public function __construct(
         private readonly CredentialsEncrypterRegistry $credentialsEncrypterRegistry,
-    ) {}
+    ) {
+    }
 
     /**
      * @param JobInstance $jobInstance

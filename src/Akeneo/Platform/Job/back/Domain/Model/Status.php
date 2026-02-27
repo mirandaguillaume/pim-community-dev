@@ -65,5 +65,6 @@ class Status
 
     private function __construct(
         private readonly int $status = self::UNKNOWN,
-    ) {}
+    ) {
+    }
 }

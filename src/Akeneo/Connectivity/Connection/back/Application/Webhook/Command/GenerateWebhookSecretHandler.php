@@ -18,7 +18,8 @@ class GenerateWebhookSecretHandler
     public function __construct(
         private readonly GenerateSecretInterface $generateSecret,
         private readonly SaveWebhookSecretQueryInterface $saveQuery
-    ) {}
+    ) {
+    }
 
     public function handle(GenerateWebhookSecretCommand $command): string
     {

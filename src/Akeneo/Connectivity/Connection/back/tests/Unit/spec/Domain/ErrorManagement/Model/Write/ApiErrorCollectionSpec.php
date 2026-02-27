@@ -134,7 +134,7 @@ class ApiErrorCollectionSpec extends ObjectBehavior
     public function getMatchers(): array
     {
         return [
-            'matchErrorTypes' => fn($types): bool => \array_keys($types) === ErrorTypes::getAll(),
+            'matchErrorTypes' => fn ($types): bool => \array_keys($types) === ErrorTypes::getAll(),
         ];
     }
 }

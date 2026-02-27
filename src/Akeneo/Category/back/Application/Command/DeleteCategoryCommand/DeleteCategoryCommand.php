@@ -10,5 +10,7 @@ namespace Akeneo\Category\Application\Command\DeleteCategoryCommand;
  */
 final readonly class DeleteCategoryCommand
 {
-    public function __construct(public int $id) {}
+    public function __construct(public int $id)
+    {
+    }
 }

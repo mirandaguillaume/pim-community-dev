@@ -103,9 +103,9 @@ final class PermissionCollection
     public function getUserGroupIdsPerPermission(): array
     {
         return [
-            self::VIEW => array_map(fn($permission) => $permission['id'], $this->getViewUserGroups()),
-            self::EDIT => array_map(fn($permission) => $permission['id'], $this->getEditUserGroups()),
-            self::OWN => array_map(fn($permission) => $permission['id'], $this->getOwnUserGroups()),
+            self::VIEW => array_map(fn ($permission) => $permission['id'], $this->getViewUserGroups()),
+            self::EDIT => array_map(fn ($permission) => $permission['id'], $this->getEditUserGroups()),
+            self::OWN => array_map(fn ($permission) => $permission['id'], $this->getOwnUserGroups()),
         ];
     }
 

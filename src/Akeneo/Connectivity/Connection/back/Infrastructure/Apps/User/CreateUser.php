@@ -22,7 +22,8 @@ class CreateUser implements CreateUserInterface
         private readonly ObjectUpdaterInterface $userUpdater,
         private readonly ValidatorInterface $validator,
         private readonly SaverInterface $userSaver
-    ) {}
+    ) {
+    }
 
     public function execute(string $username, string $name, array $groups, array $roles, string $appId): int
     {

@@ -18,7 +18,8 @@ class CleanCategoryEnrichedValuesProvider implements ConstraintCollectionProvide
 {
     public function __construct(
         private readonly string $jobName,
-    ) {}
+    ) {
+    }
 
     public function supports(JobInterface $job): bool
     {

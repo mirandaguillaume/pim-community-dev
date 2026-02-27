@@ -15,7 +15,8 @@ final readonly class SearchJobExecutionHandler
 {
     public function __construct(
         private SearchJobExecutionInterface $findJobExecutionRowsForQuery,
-    ) {}
+    ) {
+    }
 
     public function search(SearchJobExecutionQuery $query): JobExecutionTable
     {

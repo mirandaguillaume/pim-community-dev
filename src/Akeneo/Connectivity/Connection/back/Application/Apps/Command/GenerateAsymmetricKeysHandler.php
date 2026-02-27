@@ -16,7 +16,8 @@ class GenerateAsymmetricKeysHandler
     public function __construct(
         private readonly AsymmetricKeysGeneratorInterface $asymmetricKeysGenerator,
         private readonly SaveAsymmetricKeysQueryInterface $saveAsymmetricKeysQuery
-    ) {}
+    ) {
+    }
 
     public function handle(GenerateAsymmetricKeysCommand $command): void
     {

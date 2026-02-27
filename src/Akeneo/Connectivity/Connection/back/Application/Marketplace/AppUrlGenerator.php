@@ -12,7 +12,9 @@ use Akeneo\Platform\Bundle\FrameworkBundle\Service\PimUrl;
  */
 final readonly class AppUrlGenerator
 {
-    public function __construct(private PimUrl $pimUrl) {}
+    public function __construct(private PimUrl $pimUrl)
+    {
+    }
 
     /**
      * @return array{pim_url: string}

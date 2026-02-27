@@ -67,10 +67,10 @@ final class UploadStep extends AbstractStep
         $archiveDirectoryPath = $this->fileWriterArchiver->getArchiveDirectoryPath($jobExecution);
         $destinationDirname = dirname($this->getDestinationPath($jobExecution));
 
-        return array_map(static fn(string $filePath) => new FileToTransfer(
+        return array_map(static fn (string $filePath) => new FileToTransfer(
             $filePath,
             'archivist',
-            $destinationDirname . substr($filePath, strlen($archiveDirectoryPath)),
+            $destinationDirname.substr($filePath, strlen($archiveDirectoryPath)),
             false
         ), iterator_to_array($this->fileWriterArchiver->getArchives($jobExecution, true)));
     }

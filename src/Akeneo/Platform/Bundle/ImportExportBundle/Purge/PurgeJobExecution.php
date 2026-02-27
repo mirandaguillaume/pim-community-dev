@@ -15,7 +15,9 @@ use Akeneo\Tool\Component\Batch\Job\BatchStatus;
  */
 final readonly class PurgeJobExecution
 {
-    public function __construct(private DeleteJobExecution $deleteJobExecution, private DeleteOrphanJobExecutionDirectories $deleteOrphansJobExecutionDirectories, private DeleteJobExecutionLogs $deleteJobExecutionLogs) {}
+    public function __construct(private DeleteJobExecution $deleteJobExecution, private DeleteOrphanJobExecutionDirectories $deleteOrphansJobExecutionDirectories, private DeleteJobExecutionLogs $deleteJobExecutionLogs)
+    {
+    }
 
     public function olderThanDays(int $days, array $jobInstanceCodes, ?BatchStatus $status): int
     {

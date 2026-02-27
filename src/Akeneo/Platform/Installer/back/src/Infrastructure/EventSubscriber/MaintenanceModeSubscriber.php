@@ -27,7 +27,8 @@ class MaintenanceModeSubscriber implements EventSubscriberInterface
         private readonly RouterInterface $router,
         private readonly IsMaintenanceModeEnabledHandler $isMaintenanceModeEnabledHandler,
         private readonly UpdateMaintenanceModeHandler $updateMaintenanceModeHandler,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, string>

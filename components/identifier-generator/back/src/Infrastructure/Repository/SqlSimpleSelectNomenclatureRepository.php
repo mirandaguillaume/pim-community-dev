@@ -19,8 +19,7 @@ class SqlSimpleSelectNomenclatureRepository implements SimpleSelectNomenclatureR
 {
     public function __construct(
         private readonly Connection $connection,
-    ) {
-    }
+    ) {}
 
     public function get(string $attributeCode): ?NomenclatureDefinition
     {

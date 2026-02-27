@@ -4,13 +4,13 @@ namespace Akeneo\UserManagement\Infrastructure\Cli;
 
 use Akeneo\UserManagement\Application\Exception\UnknownUserRole;
 use Akeneo\UserManagement\Application\RestoreAdminRolePermissions;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'pim:user:restore-admin-permissions', description: 'Restore all permissions to the <info>ROLE_ADMINISTRATOR</info> user role')]
 

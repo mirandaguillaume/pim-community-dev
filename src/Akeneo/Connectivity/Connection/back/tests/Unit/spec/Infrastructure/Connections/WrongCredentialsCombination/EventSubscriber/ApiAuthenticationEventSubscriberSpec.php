@@ -37,7 +37,7 @@ class ApiAuthenticationEventSubscriberSpec extends ObjectBehavior
         $connection = new Connection('magento', 'magento', FlowType::DATA_DESTINATION, 42, 10);
         $connectionContext->getConnection()->willReturn($connection);
 
-        $repository->create(Argument::that(fn($arg): bool => $arg instanceof WrongCredentialsCombination
+        $repository->create(Argument::that(fn ($arg): bool => $arg instanceof WrongCredentialsCombination
             && 'magento_0123' === $arg->username()
             && 'magento' === $arg->connectionCode()))->shouldBeCalled();
 

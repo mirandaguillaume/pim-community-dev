@@ -11,5 +11,7 @@ namespace Akeneo\Platform\Installer\Application\ResetInstance;
 
 final class ResetInstanceCommand
 {
-    public function __construct() {}
+    public function __construct()
+    {
+    }
 }

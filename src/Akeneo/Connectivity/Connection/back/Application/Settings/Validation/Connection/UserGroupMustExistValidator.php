@@ -17,7 +17,8 @@ class UserGroupMustExistValidator extends ConstraintValidator
 {
     public function __construct(
         private readonly GroupRepositoryInterface $groupRepository
-    ) {}
+    ) {
+    }
 
     public function validate($value, Constraint $constraint): void
     {

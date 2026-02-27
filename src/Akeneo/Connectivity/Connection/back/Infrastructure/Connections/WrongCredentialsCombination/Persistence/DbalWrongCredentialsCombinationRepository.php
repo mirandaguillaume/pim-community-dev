@@ -16,7 +16,9 @@ use Doctrine\DBAL\Connection;
  */
 class DbalWrongCredentialsCombinationRepository implements WrongCredentialsCombinationRepositoryInterface
 {
-    public function __construct(private readonly Connection $dbalConnection) {}
+    public function __construct(private readonly Connection $dbalConnection)
+    {
+    }
 
     public function create(WrongCredentialsCombination $wrongCredentialsCombination): void
     {

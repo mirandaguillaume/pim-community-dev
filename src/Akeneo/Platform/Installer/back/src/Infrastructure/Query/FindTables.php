@@ -14,7 +14,9 @@ use Doctrine\DBAL\Connection;
 
 class FindTables implements FindTablesInterface
 {
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     public function all(): array
     {

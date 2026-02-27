@@ -23,7 +23,8 @@ final readonly class AppRoleWithScopesFactory implements AppRoleWithScopesFactor
         private ScopeMapperRegistry $scopeMapperRegistry,
         private SimpleFactoryInterface $roleFactory,
         private RoleWithPermissionsSaver $roleWithPermissionsSaver
-    ) {}
+    ) {
+    }
 
     public function createRole(string $label, array $scopes): RoleInterface
     {

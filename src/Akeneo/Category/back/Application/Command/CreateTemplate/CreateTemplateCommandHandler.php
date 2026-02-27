@@ -30,7 +30,8 @@ class CreateTemplateCommandHandler
         private readonly GetCategoryTemplateByCategoryTree $getCategoryTemplateByCategoryTree,
         private readonly CategoryTemplateSaver $categoryTemplateSaver,
         private readonly CategoryTreeTemplateSaver $categoryTreeTemplateSaver,
-    ) {}
+    ) {
+    }
 
     public function __invoke(CreateTemplateCommand $command): TemplateUuid
     {

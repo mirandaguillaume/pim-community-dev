@@ -17,7 +17,8 @@ final readonly class CheckInstanceCanBeResetAction
 {
     public function __construct(
         private FindQueuedAndRunningJobExecutionInterface $findQueuedAndRunningJobExecution,
-    ) {}
+    ) {
+    }
 
     public function __invoke(): JsonResponse
     {

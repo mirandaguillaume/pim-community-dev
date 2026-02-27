@@ -18,8 +18,7 @@ final class CategoryCodesShouldExistValidator extends ConstraintValidator
 {
     public function __construct(
         private readonly CategoryQueryInterface $categoryQuery
-    ) {
-    }
+    ) {}
 
     public function validate($categoryCodes, Constraint $constraint): void
     {
@@ -40,14 +39,14 @@ final class CategoryCodesShouldExistValidator extends ConstraintValidator
         }
 
         $existingCodes = \array_map(
-            fn (Category $category): string => $category->getCode(),
+            fn(Category $category): string => $category->getCode(),
             \iterator_to_array($this->categoryQuery->byCodes($categoryCodes)),
         );
         $nonExistingCodes = \array_diff($categoryCodes, $existingCodes);
         if (\count($nonExistingCodes) > 0) {
             $this->context
                 ->buildViolation($constraint->categoriesDoNotExist, [
-                    '{{ categoryCodes }}' =>  \implode(', ', \array_map(fn (string $value): string => (string) \json_encode($value, JSON_THROW_ON_ERROR), $nonExistingCodes)),
+                    '{{ categoryCodes }}' =>  \implode(', ', \array_map(fn(string $value): string => (string) \json_encode($value, JSON_THROW_ON_ERROR), $nonExistingCodes)),
                 ])
                 ->addViolation();
         }

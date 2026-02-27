@@ -34,7 +34,8 @@ final readonly class CreateCustomAppAction
         private TokenStorageInterface $tokenStorage,
         private CreateCustomAppCommandHandler $createCustomAppCommandHandler,
         private GetCustomAppSecretQueryInterface $getCustomAppSecretQuery,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request): JsonResponse
     {

@@ -19,7 +19,8 @@ final readonly class UpdateConnectionCommand
         private string $userRoleId,
         private ?string $userGroupId,
         private bool $auditable
-    ) {}
+    ) {
+    }
 
     public function code(): string
     {

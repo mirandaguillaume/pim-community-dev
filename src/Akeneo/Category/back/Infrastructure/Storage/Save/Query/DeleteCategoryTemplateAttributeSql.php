@@ -19,7 +19,8 @@ class DeleteCategoryTemplateAttributeSql implements DeleteTemplateAttribute
     public function __construct(
         private readonly Connection $connection,
         private readonly IsTemplateDeactivated $isTemplateDeactivated,
-    ) {}
+    ) {
+    }
 
     public function __invoke(TemplateUuid $templateUuid, AttributeUuid $attributeUuid): void
     {

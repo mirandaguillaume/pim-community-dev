@@ -24,7 +24,9 @@ class DbalSelectPeriodEventCountPerConnectionQuery implements SelectPeriodEventC
 {
     use PeriodEventCountTrait;
 
-    public function __construct(private readonly Connection $dbalConnection) {}
+    public function __construct(private readonly Connection $dbalConnection)
+    {
+    }
 
     /**
      * @return PeriodEventCount[]

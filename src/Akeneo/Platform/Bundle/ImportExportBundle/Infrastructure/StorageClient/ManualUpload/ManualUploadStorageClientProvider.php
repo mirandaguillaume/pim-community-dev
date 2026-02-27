@@ -20,7 +20,8 @@ final readonly class ManualUploadStorageClientProvider implements StorageClientP
 {
     public function __construct(
         private FilesystemOperator $jobFilesystemOperator,
-    ) {}
+    ) {
+    }
 
     public function getFromStorage(StorageInterface $storage): StorageClientInterface
     {

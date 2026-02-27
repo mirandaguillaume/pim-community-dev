@@ -20,7 +20,9 @@ class UserCatalogLocaleResetter implements UserConfigurationResetterInterface
 {
     private const DEFAULT_CATALOG_LOCALE_CODE = 'en_US';
 
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     public function execute(): void
     {

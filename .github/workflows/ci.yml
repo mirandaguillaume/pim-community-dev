@@ -297,7 +297,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: db-seed.sql
-          key: db-seed-${{ hashFiles('upgrades/**/*.php', 'src/**/DataFixtures/**/*.php', 'src/**/DataFixtures/**/*.yaml') }}
+          key: db-seed-${{ env.CACHE_VERSION }}-${{ hashFiles('upgrades/**/*.php', 'src/**/DataFixtures/**/*.php', 'src/**/DataFixtures/**/*.yaml', 'src/**/Model/*.php', 'src/**/Entity/*.php') }}
 
       - name: Skip build if cache hit
         if: steps.db-cache.outputs.cache-hit == 'true'
@@ -334,7 +334,7 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: db-seed.sql
-          key: db-seed-${{ hashFiles('upgrades/**/*.php', 'src/**/DataFixtures/**/*.php', 'src/**/DataFixtures/**/*.yaml') }}
+          key: db-seed-${{ env.CACHE_VERSION }}-${{ hashFiles('upgrades/**/*.php', 'src/**/DataFixtures/**/*.php', 'src/**/DataFixtures/**/*.yaml', 'src/**/Model/*.php', 'src/**/Entity/*.php') }}
 
       - name: Upload DB seed artifact
         uses: actions/upload-artifact@v4

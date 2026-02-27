@@ -179,7 +179,7 @@ class CategoryController
         try {
             $this->updater->update($category, $data);
         } catch (PropertyException $exception) {
-            throw new DocumentedHttpException(Documentation::URL . $anchor, sprintf('%s Check the expected format on the API documentation.', $exception->getMessage()), $exception);
+            throw new DocumentedHttpException(Documentation::URL.$anchor, sprintf('%s Check the expected format on the API documentation.', $exception->getMessage()), $exception);
         }
     }
 

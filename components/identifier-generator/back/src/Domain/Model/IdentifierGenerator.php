@@ -38,8 +38,7 @@ final readonly class IdentifierGenerator
         private Target $target,
         private Delimiter $delimiter,
         private TextTransformation $textTransformation,
-    ) {
-    }
+    ) {}
 
     public function id(): IdentifierGeneratorId
     {

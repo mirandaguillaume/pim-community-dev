@@ -22,7 +22,8 @@ final readonly class GetAllConnectedAppsAction
     public function __construct(
         private FeatureFlag $featureFlag,
         private FindAllConnectedAppsQueryInterface $findAllConnectedAppsQuery,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request): Response
     {
@@ -37,7 +38,7 @@ final readonly class GetAllConnectedAppsAction
         $connectedApps = $this->findAllConnectedAppsQuery->execute();
 
         return new JsonResponse(
-            \array_map(fn(ConnectedApp $connectedApp): array => $connectedApp->normalize(), $connectedApps)
+            \array_map(fn (ConnectedApp $connectedApp): array => $connectedApp->normalize(), $connectedApps)
         );
     }
 }

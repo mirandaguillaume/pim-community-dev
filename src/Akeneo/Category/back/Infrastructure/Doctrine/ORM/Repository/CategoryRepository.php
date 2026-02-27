@@ -110,9 +110,9 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
         $categoryQb = $this->getAllChildrenQueryBuilder($parent, $includeNode);
         $rootAlias = current($categoryQb->getRootAliases());
         $rootEntity = current($categoryQb->getRootEntities());
-        $categoryQb->select($rootAlias . '.id');
+        $categoryQb->select($rootAlias.'.id');
         $categoryQb->resetDQLPart('from');
-        $categoryQb->from($rootEntity, $rootAlias, $rootAlias . '.id');
+        $categoryQb->from($rootEntity, $rootAlias, $rootAlias.'.id');
 
         return array_keys($categoryQb->getQuery()->execute([], AbstractQuery::HYDRATE_ARRAY));
     }
@@ -122,9 +122,9 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
         $categoryQb = $this->getAllChildrenQueryBuilder($parent, $includeNode);
         $rootAlias = current($categoryQb->getRootAliases());
         $rootEntity = current($categoryQb->getRootEntities());
-        $categoryQb->select($rootAlias . '.code');
+        $categoryQb->select($rootAlias.'.code');
         $categoryQb->resetDQLPart('from');
-        $categoryQb->from($rootEntity, $rootAlias, $rootAlias . '.id');
+        $categoryQb->from($rootEntity, $rootAlias, $rootAlias.'.id');
 
         $categories = $categoryQb->getQuery()->execute(null, AbstractQuery::HYDRATE_SCALAR);
         $codes = [];
@@ -213,7 +213,7 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
                 }
 
                 $qb->andWhere(
-                    $qb->expr()->in('node.' . $config['parent'], $ancestorsIds),
+                    $qb->expr()->in('node.'.$config['parent'], $ancestorsIds),
                 );
 
                 if (!empty($grantedCategoryIds)) {

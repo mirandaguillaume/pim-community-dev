@@ -23,7 +23,9 @@ class JobInstancesBuilder
     /**
      * @param string[] $jobsFilePaths
      */
-    public function __construct(protected FileLocator $fileLocator, protected Reader $yamlReader, protected ItemProcessorInterface $jobInstanceProcessor, protected array $jobsFilePaths) {}
+    public function __construct(protected FileLocator $fileLocator, protected Reader $yamlReader, protected ItemProcessorInterface $jobInstanceProcessor, protected array $jobsFilePaths)
+    {
+    }
 
     /**
      * Load the fixture jobs in database.
@@ -46,7 +48,7 @@ class JobInstancesBuilder
         $fileLocator = $this->getFileLocator();
         foreach ($this->jobsFilePaths as $jobsFilePath) {
             $yamlReader = $this->getYamlReader();
-            $realPath = $fileLocator->locate('@' . $jobsFilePath);
+            $realPath = $fileLocator->locate('@'.$jobsFilePath);
             $jobExecution = new JobExecution();
             $jobParameters = new JobParameters(['storage' => ['type' => LocalStorage::TYPE, 'file_path' => $realPath]]);
             $jobExecution->setJobParameters($jobParameters);
@@ -59,7 +61,7 @@ class JobInstancesBuilder
 
             usort(
                 $rawJobs,
-                fn(array $item1, array $item2): int => $item1['order'] <=> $item2['order'],
+                fn (array $item1, array $item2): int => $item1['order'] <=> $item2['order'],
             );
         }
 

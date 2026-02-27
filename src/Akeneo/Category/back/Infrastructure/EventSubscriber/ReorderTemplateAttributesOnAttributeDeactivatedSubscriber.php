@@ -18,7 +18,8 @@ class ReorderTemplateAttributesOnAttributeDeactivatedSubscriber implements Event
     public function __construct(
         private readonly GetAttribute $getAttribute,
         private readonly UpdateCategoryTemplateAttributesOrder $updateCategoryTemplateAttributesOrder,
-    ) {}
+    ) {
+    }
 
     public static function getSubscribedEvents(): array
     {

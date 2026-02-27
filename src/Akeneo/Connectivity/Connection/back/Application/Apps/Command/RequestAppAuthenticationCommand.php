@@ -16,7 +16,8 @@ final readonly class RequestAppAuthenticationCommand
         private string $appId,
         private int $pimUserId,
         private ScopeList $requestedAuthenticationScopes
-    ) {}
+    ) {
+    }
 
     public function getAppId(): string
     {

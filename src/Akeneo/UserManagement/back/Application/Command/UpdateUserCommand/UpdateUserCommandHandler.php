@@ -38,7 +38,8 @@ final readonly class UpdateUserCommandHandler
         private Session $session,
         private ObjectRepository $repository,
         private TokenStorageInterface $tokenStorage,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws ViolationsException

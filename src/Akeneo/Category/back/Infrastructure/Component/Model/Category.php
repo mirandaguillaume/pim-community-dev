@@ -9,8 +9,8 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface;
 use Akeneo\Tool\Component\Localization\Model\TranslationInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
@@ -30,7 +30,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Category extends BaseCategory implements CategoryInterface, \Stringable
 {
     /** @var Collection<int, ProductInterface> */
-    #[ORM\ManyToMany(targetEntity: \Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface::class, mappedBy: 'categories', fetch: 'EXTRA_LAZY')]
+    #[ORM\ManyToMany(targetEntity: ProductInterface::class, mappedBy: 'categories', fetch: 'EXTRA_LAZY')]
     protected Collection $products;
 
     /** @var Collection<int, ProductModelInterface> */
@@ -45,7 +45,7 @@ class Category extends BaseCategory implements CategoryInterface, \Stringable
     protected $locale;
 
     /** @var Collection<int, TranslationInterface> */
-    #[ORM\OneToMany(targetEntity: \Akeneo\Category\Infrastructure\Component\Model\CategoryTranslationInterface::class, mappedBy: 'foreignKey', cascade: ['persist', 'detach'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: CategoryTranslationInterface::class, mappedBy: 'foreignKey', cascade: ['persist', 'detach'], orphanRemoval: true)]
     protected $translations;
 
     /** @var Collection<int, Channel> */
@@ -182,7 +182,7 @@ class Category extends BaseCategory implements CategoryInterface, \Stringable
     {
         $translated = ($this->getTranslation()) ? $this->getTranslation()->getLabel() : null;
 
-        return ($translated !== '' && $translated !== null) ? $translated : '[' . $this->getCode() . ']';
+        return ($translated !== '' && $translated !== null) ? $translated : '['.$this->getCode().']';
     }
 
     /**

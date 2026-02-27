@@ -24,7 +24,8 @@ class SearchJobExecution implements SearchJobExecutionInterface
     public function __construct(
         private readonly Connection $connection,
         private readonly JobExecutionRowHydrator $jobExecutionRowHydrator,
-    ) {}
+    ) {
+    }
 
     public function search(SearchJobExecutionQuery $query): array
     {
@@ -125,7 +126,7 @@ class SearchJobExecution implements SearchJobExecutionInterface
         }
 
         if ([] !== $status) {
-            $sqlWhereParts[] = $this->buildStatusSubQuery() . ' IN (:status)';
+            $sqlWhereParts[] = $this->buildStatusSubQuery().' IN (:status)';
         }
 
         if ([] !== $user) {
@@ -139,7 +140,7 @@ class SearchJobExecution implements SearchJobExecutionInterface
             }
         }
 
-        return [] === $sqlWhereParts ? '' : 'AND ' . implode(' AND ', $sqlWhereParts);
+        return [] === $sqlWhereParts ? '' : 'AND '.implode(' AND ', $sqlWhereParts);
     }
 
     private function buildSqlOrderByPart(SearchJobExecutionQuery $query): string
@@ -193,7 +194,7 @@ class SearchJobExecution implements SearchJobExecutionInterface
         )->fetchAllAssociative();
 
         return array_map(
-            fn($jobExecution): JobExecutionRow => $this->jobExecutionRowHydrator->hydrate($jobExecution),
+            fn ($jobExecution): JobExecutionRow => $this->jobExecutionRowHydrator->hydrate($jobExecution),
             $jobExecutions,
         );
     }
@@ -202,7 +203,7 @@ class SearchJobExecution implements SearchJobExecutionInterface
     {
         $queryParams = [
             'type' => $query->type,
-            'status' => array_map(static fn(string $status) => Status::fromLabel($status)->getStatus(), $query->status),
+            'status' => array_map(static fn (string $status) => Status::fromLabel($status)->getStatus(), $query->status),
             'user' => $query->user,
             'code' => $query->code,
             'starting_status_code' => Status::STARTING,

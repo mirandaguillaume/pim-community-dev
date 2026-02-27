@@ -23,7 +23,8 @@ class PurgeEventsApiLogs implements TaskletInterface
         private readonly LoggerInterface $logger,
         private readonly PurgeEventsApiSuccessLogsQuery $purgeSuccessLogsQuery,
         private readonly PurgeEventsApiErrorLogsQuery $purgeErrorLogsQuery
-    ) {}
+    ) {
+    }
 
     public function setStepExecution(StepExecution $stepExecution): void
     {

@@ -16,7 +16,9 @@ use Doctrine\DBAL\Connection;
  */
 class GetCategoryTemplateSql implements GetTemplate
 {
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     public function byUuid(TemplateUuid $uuid): Template
     {

@@ -27,7 +27,8 @@ final class UsersQuery
         public ?array $includeIds = null,
         public ?array $includeGroupIds = null,
         private readonly int $limit = FindUsers::DEFAULT_LIMIT,
-    ) {}
+    ) {
+    }
 
     public function getSearch(): ?string
     {

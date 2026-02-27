@@ -20,7 +20,8 @@ final readonly class UpdateWebhookAction
     public function __construct(
         private UpdateWebhookHandler $updateConnectionWebhookHandler,
         private SecurityFacade $securityFacade,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request): JsonResponse
     {

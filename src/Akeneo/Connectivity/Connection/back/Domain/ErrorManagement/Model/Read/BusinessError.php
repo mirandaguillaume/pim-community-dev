@@ -10,7 +10,9 @@ namespace Akeneo\Connectivity\Connection\Domain\ErrorManagement\Model\Read;
  */
 final readonly class BusinessError
 {
-    public function __construct(private string $connectionCode, private \DateTimeImmutable $dateTime, private string $content) {}
+    public function __construct(private string $connectionCode, private \DateTimeImmutable $dateTime, private string $content)
+    {
+    }
 
     /**
      * @return array{

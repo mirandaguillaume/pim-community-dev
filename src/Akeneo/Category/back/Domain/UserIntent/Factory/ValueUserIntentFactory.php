@@ -25,7 +25,9 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  */
 final readonly class ValueUserIntentFactory implements UserIntentFactory
 {
-    public function __construct(private GetAttribute $getAttribute) {}
+    public function __construct(private GetAttribute $getAttribute)
+    {
+    }
 
     public function getSupportedFieldNames(): array
     {

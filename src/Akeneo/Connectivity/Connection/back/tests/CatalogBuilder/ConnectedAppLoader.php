@@ -36,7 +36,8 @@ class ConnectedAppLoader
         private readonly CreateConnectedAppInterface $createApp,
         private readonly UserRepositoryInterface $userRepository,
         private readonly UnitOfWorkAndRepositoriesClearer $unitOfWorkAndRepositoriesClearer
-    ) {}
+    ) {
+    }
 
     /**
      * @param string[] $categories

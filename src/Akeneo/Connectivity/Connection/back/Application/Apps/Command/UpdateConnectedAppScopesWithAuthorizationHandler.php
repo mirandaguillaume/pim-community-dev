@@ -21,7 +21,8 @@ class UpdateConnectedAppScopesWithAuthorizationHandler
         private readonly AppAuthorizationSessionInterface $appAuthorizationSession,
         private readonly UpdateConnectedAppScopesQueryInterface $updateConnectedAppScopesQuery,
         private readonly UpdateConnectedAppRoleWithScopesInterface $updateConnectedAppRoleWithScopes,
-    ) {}
+    ) {
+    }
 
     public function handle(UpdateConnectedAppScopesWithAuthorizationCommand $command): void
     {

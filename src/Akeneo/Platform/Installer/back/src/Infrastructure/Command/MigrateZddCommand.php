@@ -7,18 +7,17 @@ namespace Akeneo\Platform\Installer\Infrastructure\Command;
 use Akeneo\Platform\Installer\Infrastructure\Exception\UcsOnlyMigrationException;
 use Doctrine\DBAL\Connection;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Webmozart\Assert\Assert;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 #[AsCommand(name: 'pim:zdd-migration:migrate', description: 'Execute ZDD Migrations')]
-
 final class MigrateZddCommand extends Command
 {
     /** @var ZddMigration[] */
@@ -35,7 +34,7 @@ final class MigrateZddCommand extends Command
         $this->zddMigrations = iterator_to_array($zddMigrations);
 
         Assert::allIsInstanceOf($this->zddMigrations, ZddMigration::class);
-        usort($this->zddMigrations, fn($a, $b) => \strcmp(
+        usort($this->zddMigrations, fn ($a, $b) => \strcmp(
             (new \ReflectionClass($a))->getShortName(),
             (new \ReflectionClass($b))->getShortName(),
         ));
@@ -43,7 +42,9 @@ final class MigrateZddCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void {}
+    protected function configure(): void
+    {
+    }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {

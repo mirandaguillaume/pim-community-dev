@@ -24,7 +24,8 @@ final readonly class DownloadFileFromStorage implements DownloadFileFromStorageI
         private StorageClientProvider $storageClientProvider,
         private TransferFile $transferFile,
         private EventDispatcherInterface $eventDispatcher,
-    ) {}
+    ) {
+    }
 
     public function download(StorageInterface $sourceStorage, string $workingDirectory): string
     {
@@ -32,7 +33,7 @@ final readonly class DownloadFileFromStorage implements DownloadFileFromStorageI
         $destinationStorageClient = $this->storageClientProvider->getLocalStorageClient();
 
         $sourceFilePath = $sourceStorage->getFilePath();
-        $destinationFilePath = $workingDirectory . basename($sourceFilePath);
+        $destinationFilePath = $workingDirectory.basename($sourceFilePath);
 
         try {
             $this->validateFileBeforeDownload($sourceStorage, $sourceStorageClient, $sourceFilePath);

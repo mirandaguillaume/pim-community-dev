@@ -21,7 +21,8 @@ class UpsertCategoryTranslationsSql implements UpsertCategoryTranslations
     public function __construct(
         private readonly Connection $connection,
         private readonly GetCategoryInterface $getCategory,
-    ) {}
+    ) {
+    }
 
     public function execute(Category $categoryModel): void
     {
@@ -38,11 +39,11 @@ class UpsertCategoryTranslationsSql implements UpsertCategoryTranslations
             if (!$this->isIdenticalLabel($categoryModel, $localeCode, $label)) {
                 $queries .= $this->buildUpsertQuery($loopIndex);
 
-                $params['label' . $loopIndex] = $label;
-                $params['locale' . $loopIndex] = $localeCode;
+                $params['label'.$loopIndex] = $label;
+                $params['locale'.$loopIndex] = $localeCode;
 
-                $types['label' . $loopIndex] = \PDO::PARAM_STR;
-                $types['locale' . $loopIndex] = \PDO::PARAM_STR;
+                $types['label'.$loopIndex] = \PDO::PARAM_STR;
+                $types['locale'.$loopIndex] = \PDO::PARAM_STR;
 
                 ++$loopIndex;
             }

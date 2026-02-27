@@ -13,7 +13,8 @@ class FindCategoryAdditionalPropertiesRegistry implements FindCategoryAdditional
      */
     public function __construct(
         private readonly iterable $additionalPropertiesFinder,
-    ) {}
+    ) {
+    }
 
     public function forCategory(Category $category): Category
     {

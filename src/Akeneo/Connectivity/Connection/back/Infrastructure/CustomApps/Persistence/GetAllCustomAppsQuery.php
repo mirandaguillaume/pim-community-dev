@@ -15,7 +15,9 @@ use Doctrine\DBAL\Connection;
  */
 class GetAllCustomAppsQuery implements GetAllCustomAppsQueryInterface
 {
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     public function execute(): GetAllCustomAppsResult
     {

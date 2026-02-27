@@ -24,7 +24,8 @@ class ProductModelLoader
         private readonly ValidatorInterface $validator,
         private readonly SaverInterface $saver,
         private readonly Client $client,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws \Exception

@@ -30,7 +30,8 @@ class UpsertCategoryCommandHandler
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly SaveCategory $saver,
         private readonly FindCategoryAdditionalPropertiesRegistry $findCategoryAdditionalPropertiesRegistry,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws \Exception

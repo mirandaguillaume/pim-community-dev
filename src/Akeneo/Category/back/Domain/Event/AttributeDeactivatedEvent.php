@@ -16,7 +16,8 @@ class AttributeDeactivatedEvent
     public function __construct(
         private readonly TemplateUuid $templateUuid,
         private readonly AttributeUuid $attributeUuid,
-    ) {}
+    ) {
+    }
 
     public function getTemplateUuid(): TemplateUuid
     {

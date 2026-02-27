@@ -200,7 +200,7 @@ class CreateConnectedAppWithAuthorizationHandlerIntegration extends TestCase
         $userGroups = $foundUser->getGroups();
         Assert::assertEquals(1, $userGroups->count(), 'User do not belong to exactly 1 group');
         Assert::assertTrue(
-            $userGroups->exists(fn(int $index, Group $group): bool => $group->getType() === 'app' && $group->getName() !== User::GROUP_DEFAULT),
+            $userGroups->exists(fn (int $index, Group $group): bool => $group->getType() === 'app' && $group->getName() !== User::GROUP_DEFAULT),
             'The user group created is not of type "app"'
         );
 

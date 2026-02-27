@@ -20,7 +20,9 @@ class UserDefaultCategoryTreeResetter implements UserConfigurationResetterInterf
 {
     private const DEFAULT_CATEGORY_CODE = 'master';
 
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     public function execute(): void
     {

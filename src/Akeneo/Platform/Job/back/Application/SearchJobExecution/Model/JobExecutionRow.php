@@ -22,7 +22,8 @@ final readonly class JobExecutionRow
         private Status $status,
         private bool $isStoppable,
         private JobExecutionTracking $tracking,
-    ) {}
+    ) {
+    }
 
     public function normalize(): array
     {

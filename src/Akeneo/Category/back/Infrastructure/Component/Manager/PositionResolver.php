@@ -13,7 +13,9 @@ use Akeneo\Pim\Enrichment\Component\Category\Query\GetDirectChildrenCategoryCode
  */
 class PositionResolver implements PositionResolverInterface
 {
-    public function __construct(private readonly GetDirectChildrenCategoryCodesInterface $getDirectChildrenCategoryCodes) {}
+    public function __construct(private readonly GetDirectChildrenCategoryCodesInterface $getDirectChildrenCategoryCodes)
+    {
+    }
 
     public function getPosition(CategoryInterface $category): int
     {

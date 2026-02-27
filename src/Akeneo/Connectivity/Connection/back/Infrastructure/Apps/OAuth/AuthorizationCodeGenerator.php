@@ -27,7 +27,8 @@ class AuthorizationCodeGenerator implements AuthorizationCodeGeneratorInterface
         private readonly IOAuth2GrantCode $storage,
         private readonly RandomCodeGeneratorInterface $randomCodeGenerator,
         private readonly ClockInterface $clock
-    ) {}
+    ) {
+    }
 
     public function generate(
         AppConfirmation $appConfirmation,

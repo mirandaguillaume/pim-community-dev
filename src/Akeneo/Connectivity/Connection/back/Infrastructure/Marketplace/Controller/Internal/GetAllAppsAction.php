@@ -29,7 +29,8 @@ final readonly class GetAllAppsAction
         private UserContext $userContext,
         private LoggerInterface $logger,
         private FeatureFlag $activateFeatureFlag,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request): Response
     {

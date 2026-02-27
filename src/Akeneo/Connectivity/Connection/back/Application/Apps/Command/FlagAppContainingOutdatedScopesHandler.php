@@ -21,7 +21,8 @@ class FlagAppContainingOutdatedScopesHandler
         private readonly SaveConnectedAppOutdatedScopesFlagQueryInterface $saveConnectedAppOutdatedScopesFlagQuery,
         private readonly AuthorizationRequestNotifierInterface $authorizationRequestNotifier,
         private readonly ScopeListComparatorInterface $scopeListComparator,
-    ) {}
+    ) {
+    }
 
     public function handle(FlagAppContainingOutdatedScopesCommand $command): void
     {

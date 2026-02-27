@@ -17,8 +17,7 @@ final readonly class Error implements \Stringable
         private string $message,
         private array $parameters = [],
         private ?string $path = null
-    ) {
-    }
+    ) {}
 
     public function getMessage(): string
     {

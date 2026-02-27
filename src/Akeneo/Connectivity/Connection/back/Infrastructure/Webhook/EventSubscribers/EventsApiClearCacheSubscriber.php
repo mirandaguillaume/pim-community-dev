@@ -17,7 +17,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 final readonly class EventsApiClearCacheSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private CacheClearerInterface $cacheClearer) {}
+    public function __construct(private CacheClearerInterface $cacheClearer)
+    {
+    }
 
     public static function getSubscribedEvents(): array
     {

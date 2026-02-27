@@ -19,7 +19,9 @@ class CategoryEditAclFilter
         'permissions' => 'pimee_enrich_category_edit_permissions',
     ];
 
-    public function __construct(private readonly SecurityFacade $securityFacade) {}
+    public function __construct(private readonly SecurityFacade $securityFacade)
+    {
+    }
 
     /**
      * @param array{

@@ -31,8 +31,7 @@ final readonly class Process
         private string $type,
         private ?string $operator,
         private ?int $value
-    ) {
-    }
+    ) {}
 
     /**
      * @return ProcessType

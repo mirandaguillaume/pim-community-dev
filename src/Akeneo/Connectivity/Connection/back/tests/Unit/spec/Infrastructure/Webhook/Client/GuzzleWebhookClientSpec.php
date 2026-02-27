@@ -352,7 +352,7 @@ class GuzzleWebhookClientSpec extends ObjectBehavior
 
     private function createEvent(Author $author, array $data, int $timestamp, string $uuid): EventInterface
     {
-        return new class ($author, $data, $timestamp, $uuid) extends Event {
+        return new class($author, $data, $timestamp, $uuid) extends Event {
             public function getName(): string
             {
                 return 'product.created';

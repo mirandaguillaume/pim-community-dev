@@ -14,7 +14,9 @@ class FixturePathProvider
     /**
      * @param class-string[] $bundles
      */
-    public function __construct(protected array $bundles) {}
+    public function __construct(protected array $bundles)
+    {
+    }
 
     /**
      * Get the path of the data used by the installer.
@@ -27,7 +29,7 @@ class FixturePathProvider
 
         if (preg_match('/^(?P<bundle>\w+):(?P<directory>\w+)$/', $catalogPath, $matches)) {
             $reflection = new \ReflectionClass($this->bundles[$matches['bundle']]);
-            $installerDataDir = dirname($reflection->getFilename()) . '/Resources/fixtures/' . $matches['directory'];
+            $installerDataDir = dirname($reflection->getFilename()).'/Resources/fixtures/'.$matches['directory'];
         } else {
             $installerDataDir = $catalogPath;
         }

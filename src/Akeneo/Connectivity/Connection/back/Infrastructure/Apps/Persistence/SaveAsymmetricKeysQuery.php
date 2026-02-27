@@ -21,7 +21,8 @@ final readonly class SaveAsymmetricKeysQuery implements SaveAsymmetricKeysQueryI
     public function __construct(
         private Connection $connection,
         private ClockInterface $clock,
-    ) {}
+    ) {
+    }
 
     public function execute(AsymmetricKeys $asymmetricKeys): void
     {

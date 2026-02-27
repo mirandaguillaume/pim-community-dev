@@ -20,7 +20,9 @@ class UserUiLocaleResetter implements UserConfigurationResetterInterface
 {
     private const DEFAULT_UI_LOCALE_CODE = 'en_US';
 
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     public function execute(): void
     {

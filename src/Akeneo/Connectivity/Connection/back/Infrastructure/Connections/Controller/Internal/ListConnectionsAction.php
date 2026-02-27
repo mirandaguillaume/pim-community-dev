@@ -20,7 +20,8 @@ final readonly class ListConnectionsAction
 {
     public function __construct(
         private FetchConnectionsHandler $fetchConnectionsHandler,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request): JsonResponse
     {
@@ -34,7 +35,7 @@ final readonly class ListConnectionsAction
         $connections = $this->fetchConnectionsHandler->handle($query);
 
         return new JsonResponse(
-            \array_map(fn(Connection $connection): array => $connection->normalize(), $connections)
+            \array_map(fn (Connection $connection): array => $connection->normalize(), $connections)
         );
     }
 }

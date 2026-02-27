@@ -22,7 +22,8 @@ class RequestAppAuthenticationHandler
         private readonly CreateUserConsentQueryInterface $createUserConsentQuery,
         private readonly ClockInterface $clock,
         private readonly ValidatorInterface $validator
-    ) {}
+    ) {
+    }
 
     public function handle(RequestAppAuthenticationCommand $command): void
     {

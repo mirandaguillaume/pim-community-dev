@@ -27,7 +27,8 @@ final readonly class CreateConnectionHandler
         private CreateClientInterface $createClient,
         private CreateUserInterface $createUser,
         private FindAConnectionHandler $findAConnectionHandler,
-    ) {}
+    ) {
+    }
 
     public function handle(CreateConnectionCommand $command): ConnectionWithCredentials
     {

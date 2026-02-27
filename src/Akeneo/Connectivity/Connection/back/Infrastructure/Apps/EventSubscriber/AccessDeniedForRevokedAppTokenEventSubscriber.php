@@ -20,7 +20,8 @@ class AccessDeniedForRevokedAppTokenEventSubscriber implements EventSubscriberIn
 
     public function __construct(
         private readonly IsAccessTokenRevokedQueryInterface $isAccessTokenRevokedQuery,
-    ) {}
+    ) {
+    }
 
     public static function getSubscribedEvents(): array
     {

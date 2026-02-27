@@ -17,7 +17,8 @@ class LaunchJobInstanceHandler implements LaunchJobInstanceHandlerInterface
         private readonly GenerateJobExecutionUrlInterface $generateJobExecutionUrl,
         private readonly TokenStorageInterface $tokenStorage,
         private readonly PublishJobToQueueInterface $publishJobToQueue,
-    ) {}
+    ) {
+    }
 
     public function handle(LaunchJobInstanceCommand $launchJobInstanceCommand): LaunchJobInstanceResult
     {

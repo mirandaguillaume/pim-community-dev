@@ -38,7 +38,7 @@ final class MatchIdentifierGeneratorHandler
 
         return \array_reduce(
             $conditionsWithImplicitOnes->conditions(),
-            fn (bool $prev, $condition): bool => $prev && $this->matchCondition($condition, $productProjection),
+            fn(bool $prev, $condition): bool => $prev && $this->matchCondition($condition, $productProjection),
             true
         );
     }
