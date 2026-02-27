@@ -30,7 +30,9 @@ class AddVersionListener
     /** @var string[] */
     protected $versions = [];
 
-    public function __construct(private readonly VersionManager $versionManager, private readonly NormalizerInterface $versioningNormalizer, private readonly UpdateGuesserInterface $updateGuesser, private readonly VersionContext $versionContext) {}
+    public function __construct(private readonly VersionManager $versionManager, private readonly NormalizerInterface $versioningNormalizer, private readonly UpdateGuesserInterface $updateGuesser, private readonly VersionContext $versionContext)
+    {
+    }
 
     public function onFlush(OnFlushEventArgs $args)
     {

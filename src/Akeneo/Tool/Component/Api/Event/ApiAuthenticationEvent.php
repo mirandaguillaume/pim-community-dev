@@ -13,7 +13,9 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class ApiAuthenticationEvent extends Event
 {
-    public function __construct(private readonly string $username, private readonly string $clientId) {}
+    public function __construct(private readonly string $username, private readonly string $clientId)
+    {
+    }
 
     public function username(): string
     {

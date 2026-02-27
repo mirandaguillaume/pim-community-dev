@@ -13,7 +13,9 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
  */
 final readonly class ProductValidationErrorEvent
 {
-    public function __construct(private ConstraintViolationListInterface $constraintViolationList, private ProductInterface $product) {}
+    public function __construct(private ConstraintViolationListInterface $constraintViolationList, private ProductInterface $product)
+    {
+    }
 
     public function getConstraintViolationList(): ConstraintViolationListInterface
     {

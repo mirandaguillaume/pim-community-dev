@@ -14,7 +14,9 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetProductAssociationsByProductModelCodes
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     public function fetchByProductModelCodes(array $productModelCodes): array
     {
@@ -22,7 +24,7 @@ final readonly class GetProductAssociationsByProductModelCodes
             return [];
         }
 
-        $productModelCodes = (fn(string ...$codes) => $codes)(... $productModelCodes);
+        $productModelCodes = (fn (string ...$codes) => $codes)(... $productModelCodes);
 
         $query = <<<SQL
             WITH main_identifier AS (

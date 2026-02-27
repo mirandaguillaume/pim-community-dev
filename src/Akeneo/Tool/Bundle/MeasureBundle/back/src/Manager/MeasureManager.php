@@ -14,7 +14,9 @@ use Akeneo\Tool\Bundle\MeasureBundle\Provider\LegacyMeasurementProvider;
  */
 class MeasureManager
 {
-    public function __construct(private readonly LegacyMeasurementProvider $legacyMeasurementProvider) {}
+    public function __construct(private readonly LegacyMeasurementProvider $legacyMeasurementProvider)
+    {
+    }
 
     /**
      * Get unit symbols for a measure family
@@ -29,7 +31,7 @@ class MeasureManager
         $unitsConfig = $familyConfig['units'];
 
         return array_map(
-            static fn(array $unit) => $unit['symbol'],
+            static fn (array $unit) => $unit['symbol'],
             $unitsConfig
         );
     }

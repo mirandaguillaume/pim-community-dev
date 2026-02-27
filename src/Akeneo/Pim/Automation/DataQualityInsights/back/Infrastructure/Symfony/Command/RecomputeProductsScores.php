@@ -10,10 +10,10 @@ use Akeneo\Tool\Bundle\BatchBundle\Job\JobInstanceRepository;
 use Akeneo\Tool\Bundle\BatchBundle\Launcher\JobLauncherInterface;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
 use Akeneo\UserManagement\Component\Model\UserInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Security\Core\User\InMemoryUser;
 
 /**
@@ -32,7 +32,9 @@ final class RecomputeProductsScores extends Command
         parent::__construct();
     }
 
-    protected function configure() {}
+    protected function configure()
+    {
+    }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {

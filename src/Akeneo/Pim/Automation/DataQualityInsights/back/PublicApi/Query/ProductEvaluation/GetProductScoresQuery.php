@@ -22,7 +22,8 @@ class GetProductScoresQuery implements GetProductScoresQueryInterface
     public function __construct(
         private readonly GetProductScoresByUuidsQuery $getProductScoresByUuidsQuery,
         private readonly GetScoresByCriteriaStrategy  $getScoresByCriteria,
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}
@@ -32,7 +33,7 @@ class GetProductScoresQuery implements GetProductScoresQueryInterface
         $scoresByUuid = $this->getProductScoresByUuidsQuery->byProductUuids($productUuids);
 
         return array_map(
-            fn(Read\Scores $scores) => $this->qualityScoreCollection(($this->getScoresByCriteria)($scores)),
+            fn (Read\Scores $scores) => $this->qualityScoreCollection(($this->getScoresByCriteria)($scores)),
             $scoresByUuid
         );
     }
@@ -46,7 +47,7 @@ class GetProductScoresQuery implements GetProductScoresQueryInterface
 
     private function qualityScoreCollection(ChannelLocaleRateCollection $channelLocaleRateCollection): QualityScoreCollection
     {
-        $qualityScores = $channelLocaleRateCollection->mapWith(static fn(Rate $rate) => new QualityScore($rate->toLetter(), $rate->toInt()));
+        $qualityScores = $channelLocaleRateCollection->mapWith(static fn (Rate $rate) => new QualityScore($rate->toLetter(), $rate->toInt()));
         return new QualityScoreCollection($qualityScores);
     }
 }

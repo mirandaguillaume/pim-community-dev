@@ -23,7 +23,8 @@ class GetQualityScoresFactory
         private readonly GetProductScoresQueryInterface      $getProductScoresQuery,
         private readonly GetProductModelScoresQueryInterface $getProductModelScoresQuery,
         private readonly GetScoresByCriteriaStrategy         $getScoresByCriteria,
-    ) {}
+    ) {
+    }
 
     public function __invoke(ProductEntityIdCollection $entityIdCollection, string $type): array
     {
@@ -40,6 +41,6 @@ class GetQualityScoresFactory
                 throw new \InvalidArgumentException(sprintf('Invalid type %s', $type));
         }
 
-        return array_map(fn(Read\Scores $scores) => ($this->getScoresByCriteria)($scores), $scoresByIds);
+        return array_map(fn (Read\Scores $scores) => ($this->getScoresByCriteria)($scores), $scoresByIds);
     }
 }

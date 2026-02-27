@@ -18,7 +18,9 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final readonly class DashboardWidgetFamiliesController
 {
-    public function __construct(private GetAverageRanksQueryInterface $getAverageRanks) {}
+    public function __construct(private GetAverageRanksQueryInterface $getAverageRanks)
+    {
+    }
 
     public function __invoke(Request $request, string $channel, string $locale)
     {
@@ -43,6 +45,6 @@ final readonly class DashboardWidgetFamiliesController
             throw new \InvalidArgumentException('The list of families must be an array');
         }
 
-        return array_map(fn($familyCode) => new FamilyCode($familyCode), $requestFamilies);
+        return array_map(fn ($familyCode) => new FamilyCode($familyCode), $requestFamilies);
     }
 }

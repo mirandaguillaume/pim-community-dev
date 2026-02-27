@@ -18,7 +18,9 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetAverageRanksQuery implements GetAverageRanksQueryInterface
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     public function byFamilies(ChannelCode $channelCode, LocaleCode $localeCode, array $familyCodes): array
     {

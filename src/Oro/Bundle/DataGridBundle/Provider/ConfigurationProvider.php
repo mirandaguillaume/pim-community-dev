@@ -9,7 +9,9 @@ class ConfigurationProvider implements ConfigurationProviderInterface
 {
     protected array $processedConfiguration = [];
 
-    public function __construct(protected array $rawConfiguration, protected SystemAwareResolver $resolver) {}
+    public function __construct(protected array $rawConfiguration, protected SystemAwareResolver $resolver)
+    {
+    }
 
     /**
      * {@inheritDoc}

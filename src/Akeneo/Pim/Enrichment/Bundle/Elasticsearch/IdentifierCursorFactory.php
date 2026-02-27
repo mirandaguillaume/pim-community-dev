@@ -14,7 +14,9 @@ use Akeneo\Tool\Component\StorageUtils\Cursor\CursorInterface;
  */
 class IdentifierCursorFactory implements CursorFactoryInterface
 {
-    public function __construct(private readonly Client $searchEngine, private readonly int $pageSize) {}
+    public function __construct(private readonly Client $searchEngine, private readonly int $pageSize)
+    {
+    }
 
     /**
      * {@inheritdoc}

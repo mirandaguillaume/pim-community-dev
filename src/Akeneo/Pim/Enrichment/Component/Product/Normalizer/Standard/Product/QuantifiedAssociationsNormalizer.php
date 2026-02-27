@@ -16,7 +16,9 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class QuantifiedAssociationsNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    public function __construct(private readonly QuantifiedAssociationsMerger $quantifiedAssociationsMerger) {}
+    public function __construct(private readonly QuantifiedAssociationsMerger $quantifiedAssociationsMerger)
+    {
+    }
 
     /**
      * {@inheritdoc}

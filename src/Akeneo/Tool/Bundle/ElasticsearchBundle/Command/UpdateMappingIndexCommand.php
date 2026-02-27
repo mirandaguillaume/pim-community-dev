@@ -8,13 +8,13 @@ use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\ClientRegistry;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\IndexConfiguration\UpdateIndexMapping;
 use Elasticsearch\ClientBuilder;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Update the mapping of an index without needing to reindex everything 1 by 1
@@ -71,7 +71,7 @@ class UpdateMappingIndexCommand extends Command
         }
 
         $clients = $this->esClients($indices);
-        $names = array_map(fn(Client $client): string => $client->getIndexName(), $clients);
+        $names = array_map(fn (Client $client): string => $client->getIndexName(), $clients);
         $io->writeln("You will migrate those indices (if it misses one you gave, it means that you didn't write it correctly) : ");
         $io->listing($names);
 

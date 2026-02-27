@@ -27,7 +27,8 @@ class CompleteEvaluationWithImprovableAttributes
         private readonly GetLocalesByChannelQueryInterface $localesByChannelQuery,
         private readonly CalculateProductCompletenessInterface $calculateRequiredAttributesCompleteness,
         private readonly CalculateProductCompletenessInterface $calculateNonRequiredAttributesCompleteness
-    ) {}
+    ) {
+    }
 
     public function __invoke(Read\CriterionEvaluationCollection $criterionEvaluationCollection): Read\CriterionEvaluationCollection
     {

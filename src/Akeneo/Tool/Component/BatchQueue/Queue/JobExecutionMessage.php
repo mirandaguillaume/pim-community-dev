@@ -24,7 +24,8 @@ abstract class JobExecutionMessage implements JobExecutionMessageInterface
         private readonly \DateTime $createTime,
         private readonly ?\DateTime $updatedTime,
         private readonly array $options
-    ) {}
+    ) {
+    }
 
     /**
      * Create a new JobExecutionMessage that has never been persisted into database.

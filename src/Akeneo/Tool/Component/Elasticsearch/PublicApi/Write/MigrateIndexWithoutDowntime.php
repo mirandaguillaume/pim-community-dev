@@ -8,7 +8,9 @@ use Akeneo\Tool\Bundle\ElasticsearchBundle\IndexConfiguration\IndexConfiguration
 
 class MigrateIndexWithoutDowntime
 {
-    public function __construct(private readonly string $indexAlias, private readonly IndexConfiguration $indexConfiguration, private readonly \Closure $findUpdatedDocumentQuery) {}
+    public function __construct(private readonly string $indexAlias, private readonly IndexConfiguration $indexConfiguration, private readonly \Closure $findUpdatedDocumentQuery)
+    {
+    }
 
     public function getIndexAlias(): string
     {

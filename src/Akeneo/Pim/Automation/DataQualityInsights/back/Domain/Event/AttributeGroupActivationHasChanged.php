@@ -16,7 +16,8 @@ final readonly class AttributeGroupActivationHasChanged
         public string $attributeGroupCode,
         public bool $newIsActivated,
         public \DateTimeImmutable $updatedAt,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, mixed>

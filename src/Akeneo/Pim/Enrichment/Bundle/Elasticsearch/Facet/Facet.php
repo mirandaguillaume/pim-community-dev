@@ -16,7 +16,9 @@ use Webmozart\Assert\Assert;
  */
 final readonly class Facet
 {
-    private function __construct(private string $name, private array $counts) {}
+    private function __construct(private string $name, private array $counts)
+    {
+    }
 
     public static function create(string $name, array $counts): Facet
     {

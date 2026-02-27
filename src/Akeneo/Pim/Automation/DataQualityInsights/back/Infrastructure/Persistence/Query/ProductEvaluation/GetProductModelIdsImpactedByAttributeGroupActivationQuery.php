@@ -22,7 +22,8 @@ final readonly class GetProductModelIdsImpactedByAttributeGroupActivationQuery i
     public function __construct(
         private Connection                      $dbConnection,
         private ProductEntityIdFactoryInterface $idFactory
-    ) {}
+    ) {
+    }
 
     /**
      * @return \Generator<int, ProductEntityIdCollection>

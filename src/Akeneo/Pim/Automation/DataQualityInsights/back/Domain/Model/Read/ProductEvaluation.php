@@ -17,7 +17,8 @@ final readonly class ProductEvaluation
         private ProductUuid                   $productUuid,
         private ChannelLocaleRateCollection   $scores,
         private CriterionEvaluationCollection $criteriaEvaluations
-    ) {}
+    ) {
+    }
 
     public function getProductUuid(): ProductUuid
     {

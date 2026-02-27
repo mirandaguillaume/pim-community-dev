@@ -20,5 +20,7 @@ abstract class AbstractExtension extends \Twig\Extension\AbstractExtension
     /**
      * @param string $templateName
      */
-    public function __construct(protected $templateName) {}
+    public function __construct(protected $templateName)
+    {
+    }
 }

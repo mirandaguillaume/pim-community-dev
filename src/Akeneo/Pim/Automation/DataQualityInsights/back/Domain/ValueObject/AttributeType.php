@@ -19,7 +19,9 @@ final readonly class AttributeType implements \Stringable
         AttributeTypes::OPTION_MULTI_SELECT,
     ];
 
-    public function __construct(private string $type) {}
+    public function __construct(private string $type)
+    {
+    }
 
     public function __toString(): string
     {

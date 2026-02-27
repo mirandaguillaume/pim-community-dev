@@ -25,7 +25,8 @@ class VersioningController
         private readonly VersionRepositoryInterface $versionRepository,
         private readonly FQCNResolver $FQCNResolver,
         private readonly NormalizerInterface $normalizer,
-    ) {}
+    ) {
+    }
 
     /**
      * Get the history of the given entity type with the given entityId

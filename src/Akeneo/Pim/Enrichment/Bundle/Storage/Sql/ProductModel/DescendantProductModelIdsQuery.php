@@ -14,7 +14,9 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class DescendantProductModelIdsQuery implements DescendantProductModelIdsQueryInterface
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     public function fetchFromParentProductModelId(int $parentProductModelId): array
     {
@@ -28,6 +30,6 @@ final readonly class DescendantProductModelIdsQuery implements DescendantProduct
             ['parentId' => $parentProductModelId]
         )->fetchAllAssociative();
 
-        return array_map(fn($rowData) => (int) $rowData['id'], $resultRows);
+        return array_map(fn ($rowData) => (int) $rowData['id'], $resultRows);
     }
 }

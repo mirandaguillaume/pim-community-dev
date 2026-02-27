@@ -27,7 +27,8 @@ final class IsUserOwnerOfTheProductValidator extends ConstraintValidator
         private readonly GetCategoryCodes $getCategoryCodes,
         private readonly GetOwnedCategories $getOwnedCategories,
         private readonly GetProductUuids $getProductUuids,
-    ) {}
+    ) {
+    }
 
     public function validate($command, Constraint $constraint): void
     {

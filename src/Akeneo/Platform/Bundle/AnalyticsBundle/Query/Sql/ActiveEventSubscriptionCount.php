@@ -14,7 +14,9 @@ use Doctrine\DBAL\Connection;
  */
 class ActiveEventSubscriptionCount implements ActiveEventSubscriptionCountQuery
 {
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     public function fetch(): int
     {

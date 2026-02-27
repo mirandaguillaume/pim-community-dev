@@ -19,7 +19,8 @@ final readonly class ClearPriceValueApplier implements UserIntentApplier
 {
     public function __construct(
         private ObjectUpdaterInterface $productUpdater,
-    ) {}
+    ) {
+    }
 
     public function apply(UserIntent $userIntent, ProductInterface $product, int $userId): void
     {
@@ -33,10 +34,10 @@ final readonly class ClearPriceValueApplier implements UserIntentApplier
 
         $newPriceCollection = array_values(array_filter(
             $previousPriceCollection,
-            static fn(ProductPrice $value) => $value->getCurrency() !== $userIntent->currencyCode()
+            static fn (ProductPrice $value) => $value->getCurrency() !== $userIntent->currencyCode()
         ));
 
-        $normalizedPriceCollection = array_map(static fn(ProductPrice $value) => [
+        $normalizedPriceCollection = array_map(static fn (ProductPrice $value) => [
             'amount' => $value->getData(),
             'currency' => $value->getCurrency(),
         ], $newPriceCollection);

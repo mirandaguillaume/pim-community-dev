@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Akeneo\Platform\Bundle\CatalogVolumeMonitoringBundle\Command;
 
 use Akeneo\Platform\Component\CatalogVolumeMonitoring\Volume\Service\VolumeAggregation;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Aggregate the result of all the volume queries that should not be executed live.

@@ -20,7 +20,8 @@ class CheckAttributeIsNotUsedAsChannelConversionUnitOnDeletionSubscriber impleme
 {
     public function __construct(
         private readonly FindChannels $findChannels,
-    ) {}
+    ) {
+    }
 
     public static function getSubscribedEvents(): array
     {
@@ -49,11 +50,11 @@ class CheckAttributeIsNotUsedAsChannelConversionUnitOnDeletionSubscriber impleme
 
         $channelsUsedAsConversionUnit = array_filter(
             $channels,
-            static fn(Channel $channel): bool => $channel->getConversionUnits()->hasConversionUnit($attributeCode)
+            static fn (Channel $channel): bool => $channel->getConversionUnits()->hasConversionUnit($attributeCode)
         );
 
         return array_map(
-            static fn(Channel $channel): string => $channel->getCode(),
+            static fn (Channel $channel): string => $channel->getCode(),
             $channelsUsedAsConversionUnit,
         );
     }

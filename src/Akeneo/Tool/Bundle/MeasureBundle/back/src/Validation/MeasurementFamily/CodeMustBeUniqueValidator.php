@@ -15,7 +15,9 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class CodeMustBeUniqueValidator extends ConstraintValidator
 {
-    public function __construct(private readonly MeasurementFamilyRepositoryInterface $measurementFamilyRepository) {}
+    public function __construct(private readonly MeasurementFamilyRepositoryInterface $measurementFamilyRepository)
+    {
+    }
 
     public function validate($value, Constraint $constraint)
     {

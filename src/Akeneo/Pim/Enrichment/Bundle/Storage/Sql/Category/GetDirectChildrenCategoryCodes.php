@@ -13,7 +13,9 @@ use Doctrine\DBAL\Connection;
  */
 class GetDirectChildrenCategoryCodes implements GetDirectChildrenCategoryCodesInterface
 {
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     /**
      * @return array<string, array{code: string, row_num: int}>

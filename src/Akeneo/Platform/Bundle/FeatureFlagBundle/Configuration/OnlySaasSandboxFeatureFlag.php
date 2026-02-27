@@ -17,7 +17,9 @@ final readonly class OnlySaasSandboxFeatureFlag implements FeatureFlag
         'growth_edition_sandbox',
     ];
 
-    public function __construct(private string $productReferenceCode) {}
+    public function __construct(private string $productReferenceCode)
+    {
+    }
 
     public function isEnabled(?string $feature = null): bool
     {

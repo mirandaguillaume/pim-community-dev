@@ -2,8 +2,8 @@
 
 namespace Akeneo\Tool\Component\Localization\Model;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Abstract translation class

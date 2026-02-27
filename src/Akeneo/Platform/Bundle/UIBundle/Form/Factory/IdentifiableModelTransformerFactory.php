@@ -15,7 +15,9 @@ class IdentifiableModelTransformerFactory
     /**
      * @param string $className Transformer class to create
      */
-    public function __construct(protected $className) {}
+    public function __construct(protected $className)
+    {
+    }
 
     /**
      * Creates a transformer for the given options

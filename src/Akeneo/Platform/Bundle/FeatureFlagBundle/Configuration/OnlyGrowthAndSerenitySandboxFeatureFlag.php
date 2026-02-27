@@ -20,7 +20,8 @@ class OnlyGrowthAndSerenitySandboxFeatureFlag implements FeatureFlag
     public function __construct(
         private readonly bool $isSerenitySandbox,
         private readonly bool $isGrowthEditionSandbox,
-    ) {}
+    ) {
+    }
 
     public function isEnabled(?string $feature = null): bool
     {

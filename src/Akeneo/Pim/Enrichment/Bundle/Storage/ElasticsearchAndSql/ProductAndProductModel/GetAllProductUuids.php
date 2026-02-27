@@ -16,7 +16,8 @@ final readonly class GetAllProductUuids
 {
     public function __construct(
         private Connection $connection,
-    ) {}
+    ) {
+    }
 
     public function byBatchesOf(int $batchSize): iterable
     {
@@ -47,7 +48,7 @@ final readonly class GetAllProductUuids
 
             $lastUuidAsBytes = end($rows);
 
-            yield array_map(fn(string $uuid): UuidInterface => Uuid::fromBytes($uuid), $rows);
+            yield array_map(fn (string $uuid): UuidInterface => Uuid::fromBytes($uuid), $rows);
         }
     }
 }

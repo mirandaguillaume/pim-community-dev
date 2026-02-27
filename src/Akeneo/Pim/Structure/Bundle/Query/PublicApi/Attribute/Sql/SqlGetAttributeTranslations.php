@@ -8,7 +8,9 @@ use Doctrine\DBAL\Connection;
 
 class SqlGetAttributeTranslations implements GetAttributeTranslations
 {
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     /**
      * @inerhitDoc

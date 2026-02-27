@@ -45,7 +45,8 @@ class ProductCommentController
         private readonly PresenterInterface $datetimePresenter,
         private readonly LocaleResolver $localeResolver,
         private readonly UserContext $userContext,
-    ) {}
+    ) {
+    }
 
     /**
      * List comments made on a product

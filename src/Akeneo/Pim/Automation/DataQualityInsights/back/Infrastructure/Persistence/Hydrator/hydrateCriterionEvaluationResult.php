@@ -16,7 +16,8 @@ class hydrateCriterionEvaluationResult
 {
     public function __construct(
         private readonly TransformCriterionEvaluationResultIds $transformCriterionEvaluationResultIds
-    ) {}
+    ) {
+    }
 
     public function __invoke(CriterionCode $criterionCode, string $rawResult): ?Read\CriterionEvaluationResult
     {

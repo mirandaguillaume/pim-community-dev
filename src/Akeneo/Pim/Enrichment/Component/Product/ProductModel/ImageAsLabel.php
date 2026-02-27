@@ -22,7 +22,9 @@ use Akeneo\Pim\Enrichment\Component\Product\Repository\VariantProductRepositoryI
  */
 class ImageAsLabel
 {
-    public function __construct(private readonly ProductModelRepositoryInterface $productModelRepository, private readonly VariantProductRepositoryInterface $productRepository) {}
+    public function __construct(private readonly ProductModelRepositoryInterface $productModelRepository, private readonly VariantProductRepositoryInterface $productRepository)
+    {
+    }
 
     /**
      * Get the closest attribute as image value for the given $productModel. It can be its own value,

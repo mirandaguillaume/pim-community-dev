@@ -9,7 +9,9 @@ use Doctrine\DBAL\Connection;
 
 final readonly class GetBlacklistedAttributeJobExecutionId implements GetBlacklistedAttributeJobExecutionIdInterface
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     public function forAttributeCode(string $attributeCode): ?int
     {

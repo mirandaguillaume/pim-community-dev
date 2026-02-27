@@ -15,7 +15,8 @@ final readonly class AddProductScoreProperty implements AddAdditionalProductProp
 {
     public function __construct(
         private AddScoresToProductAndProductModelRows $addScoresToProductAndProductModelRows
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}

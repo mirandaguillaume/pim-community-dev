@@ -25,7 +25,9 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 final class ComputeEntityRawValuesSubscriber implements EventSubscriberInterface
 {
-    public function __construct(protected NormalizerInterface $normalizer, protected AttributeRepositoryInterface $attributeRepository) {}
+    public function __construct(protected NormalizerInterface $normalizer, protected AttributeRepositoryInterface $attributeRepository)
+    {
+    }
 
     /**
      * {@inheritdoc}

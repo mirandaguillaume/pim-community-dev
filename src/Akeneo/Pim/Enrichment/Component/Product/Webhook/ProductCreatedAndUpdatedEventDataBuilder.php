@@ -28,7 +28,8 @@ class ProductCreatedAndUpdatedEventDataBuilder implements EventDataBuilderInterf
         private readonly GetConnectorProducts $getConnectorProductsQuery,
         private readonly ConnectorProductNormalizer $connectorProductNormalizer,
         private readonly ConnectorProductWithUuidNormalizer $connectorProductWithUuidNormalizer,
-    ) {}
+    ) {
+    }
 
     public function supports(BulkEventInterface $event): bool
     {
@@ -49,7 +50,7 @@ class ProductCreatedAndUpdatedEventDataBuilder implements EventDataBuilderInterf
     {
         $products = $this->getConnectorProducts(
             \array_map(
-                static fn(ProductCreated|ProductUpdated $event): UuidInterface => $event->getProductUuid(),
+                static fn (ProductCreated|ProductUpdated $event): UuidInterface => $event->getProductUuid(),
                 $bulkEvent->getEvents()
             ),
             $context->getUserId()

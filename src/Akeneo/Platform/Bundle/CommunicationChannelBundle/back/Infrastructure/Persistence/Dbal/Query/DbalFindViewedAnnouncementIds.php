@@ -14,7 +14,9 @@ use Doctrine\DBAL\Connection as DbalConnection;
  */
 class DbalFindViewedAnnouncementIds implements FindViewedAnnouncementIdsInterface
 {
-    public function __construct(private readonly DbalConnection $dbalConnection) {}
+    public function __construct(private readonly DbalConnection $dbalConnection)
+    {
+    }
 
     /**
      * {@inheritdoc}

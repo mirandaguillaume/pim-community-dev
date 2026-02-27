@@ -14,7 +14,9 @@ final readonly class AddViewedAnnouncementsByUserCommand
     /**
      * @param string[] $viewedAnnouncementIds
      */
-    public function __construct(private array $viewedAnnouncementIds, private int $userId) {}
+    public function __construct(private array $viewedAnnouncementIds, private int $userId)
+    {
+    }
 
     /**
      * @return string[]

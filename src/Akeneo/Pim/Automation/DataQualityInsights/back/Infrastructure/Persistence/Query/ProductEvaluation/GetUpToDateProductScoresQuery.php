@@ -21,7 +21,8 @@ class GetUpToDateProductScoresQuery implements GetProductScoresQueryInterface
     public function __construct(
         private readonly HasUpToDateEvaluationQueryInterface $hasUpToDateEvaluationQuery,
         private readonly GetProductScoresQueryInterface $getProductScoresQuery
-    ) {}
+    ) {
+    }
 
     public function byProductUuid(ProductUuid $productUuid): Read\Scores
     {

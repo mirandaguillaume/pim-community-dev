@@ -255,7 +255,7 @@ abstract class AbstractItemMediaWriter implements
         $attributeTypes = $this->attributeRepository->getAttributeTypeByCodes(array_keys($item['values']));
         $mediaAttributeTypes = array_filter(
             $attributeTypes,
-            fn(string $attributeCode): bool =>  \in_array($attributeCode, $this->mediaAttributeTypes)
+            fn (string $attributeCode): bool =>  \in_array($attributeCode, $this->mediaAttributeTypes)
         );
         $identifier = $this->getItemIdentifier($item);
 

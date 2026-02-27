@@ -27,7 +27,8 @@ final readonly class FetchProductRowsFromUuids implements FetchProductRowsFromUu
         private Connection $connection,
         private WriteValueCollectionFactory $valueCollectionFactory,
         private GetProductCompletenesses $getProductCompletenesses,
-    ) {}
+    ) {
+    }
 
     /**
      * @param array<string> $uuids
@@ -44,7 +45,7 @@ final readonly class FetchProductRowsFromUuids implements FetchProductRowsFromUu
         }
 
         $uuids = array_map(
-            fn(string $uuid): UuidInterface
+            fn (string $uuid): UuidInterface
                 => Uuid::fromString(preg_replace('/^product_/', '', $uuid)),
             $uuids
         );
@@ -117,7 +118,7 @@ final readonly class FetchProductRowsFromUuids implements FetchProductRowsFromUu
 
         $rows = $this->connection->executeQuery(
             $sql,
-            ['uuids' => array_map(fn(UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],
+            ['uuids' => array_map(fn (UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],
             ['uuids' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
@@ -154,7 +155,7 @@ final readonly class FetchProductRowsFromUuids implements FetchProductRowsFromUu
 
         $rows = $this->connection->executeQuery(
             $sql,
-            ['uuids' => array_map(fn(UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],
+            ['uuids' => array_map(fn (UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],
             ['uuids' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
@@ -179,7 +180,7 @@ final readonly class FetchProductRowsFromUuids implements FetchProductRowsFromUu
 
         foreach ($valueCollections as $productUuid => $valueCollection) {
             $result[$productUuid]['value_collection'] = $valueCollection->filter(
-                fn(ValueInterface $value) => ($value->getScopeCode() === $channelCode || $value->getScopeCode() === null)
+                fn (ValueInterface $value) => ($value->getScopeCode() === $channelCode || $value->getScopeCode() === null)
                     && ($value->getLocaleCode() === $localeCode || $value->getLocaleCode() === null)
             );
         }
@@ -217,7 +218,7 @@ final readonly class FetchProductRowsFromUuids implements FetchProductRowsFromUu
 
         $rows = $this->connection->executeQuery(
             $sql,
-            ['uuids' => array_map(fn(UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],
+            ['uuids' => array_map(fn (UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],
             ['uuids' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
@@ -263,7 +264,7 @@ final readonly class FetchProductRowsFromUuids implements FetchProductRowsFromUu
 
         $rows = $this->connection->executeQuery(
             $sql,
-            ['uuids' => array_map(fn(UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],
+            ['uuids' => array_map(fn (UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],
             ['uuids' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
@@ -311,7 +312,7 @@ final readonly class FetchProductRowsFromUuids implements FetchProductRowsFromUu
         $rows = $this->connection->executeQuery(
             $sql,
             [
-                'uuids' => array_map(fn(UuidInterface $uuid): string => $uuid->getBytes(), $uuids),
+                'uuids' => array_map(fn (UuidInterface $uuid): string => $uuid->getBytes(), $uuids),
                 'locale_code' => $localeCode,
             ],
             ['uuids' => ArrayParameterType::STRING]
@@ -350,7 +351,7 @@ final readonly class FetchProductRowsFromUuids implements FetchProductRowsFromUu
         $rows = $this->connection->executeQuery(
             $sql,
             [
-                'uuids' => array_map(fn(UuidInterface $uuid): string => $uuid->getBytes(), $uuids),
+                'uuids' => array_map(fn (UuidInterface $uuid): string => $uuid->getBytes(), $uuids),
                 'locale_code' => $localeCode,
             ],
             ['uuids' => ArrayParameterType::STRING]

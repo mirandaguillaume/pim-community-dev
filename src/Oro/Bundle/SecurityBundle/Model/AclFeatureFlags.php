@@ -14,7 +14,9 @@ class AclFeatureFlags
 {
     private array $acls = [];
 
-    public function __construct(private readonly FeatureFlags $featureFlags) {}
+    public function __construct(private readonly FeatureFlags $featureFlags)
+    {
+    }
 
     public function add(string $aclName, ?string $feature): void
     {

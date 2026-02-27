@@ -18,7 +18,8 @@ final readonly class DeleteJobExecutionLogs
         private GetJobExecutionIds $getJobExecutionIds,
         private Filesystem $filesystem,
         private string $logDir
-    ) {}
+    ) {
+    }
 
     public function olderThanDays(int $days, array $jobInstanceCodes, ?BatchStatus $jobExecutionStatus): void
     {

@@ -18,7 +18,9 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class SqlGetValuesOfSiblings implements GetValuesOfSiblings
 {
-    public function __construct(private Connection $connection, private WriteValueCollectionFactory $valueCollectionFactory) {}
+    public function __construct(private Connection $connection, private WriteValueCollectionFactory $valueCollectionFactory)
+    {
+    }
 
     public function for(EntityWithFamilyVariantInterface $entity, array $attributeCodesToFilter = []): array
     {
@@ -68,7 +70,7 @@ final readonly class SqlGetValuesOfSiblings implements GetValuesOfSiblings
             $rawValues = json_decode((string) $row['raw_values'], true, 512, JSON_THROW_ON_ERROR) ?? [];
 
             if (!empty($attributeCodesToFilter)) {
-                $rawValues = array_filter($rawValues, fn(string $attributeCode) => in_array($attributeCode, $attributeCodesToFilter), ARRAY_FILTER_USE_KEY);
+                $rawValues = array_filter($rawValues, fn (string $attributeCode) => in_array($attributeCode, $attributeCodesToFilter), ARRAY_FILTER_USE_KEY);
             }
 
             $valuesOfSiblings[$row['identifier'] ?? $row['uuid']] = $this->valueCollectionFactory->createFromStorageFormat(

@@ -30,7 +30,9 @@ final class UpdateIndexesOnCategoryDeletion implements EventSubscriberInterface
     /** @var string[] */
     private array $categoryCodesToRemove = [];
 
-    public function __construct(private readonly GetDescendentCategoryCodes $getDescendentCategoryCodes, private readonly Client $productAndProductModelClient) {}
+    public function __construct(private readonly GetDescendentCategoryCodes $getDescendentCategoryCodes, private readonly Client $productAndProductModelClient)
+    {
+    }
 
     /**
      * {@inheritdoc}

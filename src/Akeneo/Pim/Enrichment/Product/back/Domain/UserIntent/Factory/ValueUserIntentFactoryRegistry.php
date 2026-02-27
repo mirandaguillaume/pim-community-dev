@@ -66,7 +66,7 @@ class ValueUserIntentFactoryRegistry implements UserIntentFactory
      */
     private function getAttributeTypesByCode(mixed $data): array
     {
-        $attributeCodes = \array_map(static fn($attributeCode) => (string) $attributeCode, \array_keys($data));
+        $attributeCodes = \array_map(static fn ($attributeCode) => (string) $attributeCode, \array_keys($data));
         return \array_change_key_case($this->getAttributeTypes->fromAttributeCodes($attributeCodes), \CASE_LOWER);
     }
 }

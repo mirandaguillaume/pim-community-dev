@@ -18,7 +18,8 @@ final readonly class ChangeParentApplier implements UserIntentApplier
 {
     public function __construct(
         private ObjectUpdaterInterface $productUpdater,
-    ) {}
+    ) {
+    }
 
     public function apply(UserIntent $userIntent, ProductInterface $product, int $userId): void
     {

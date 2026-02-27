@@ -94,7 +94,7 @@ class ObjectDetacher implements ObjectDetacherInterface, BulkObjectDetacherInter
 
         $associationMappings = array_filter(
             $class->associationMappings,
-            fn($assoc) => $assoc['isCascadeDetach']
+            fn ($assoc) => $assoc['isCascadeDetach']
         );
 
         foreach ($associationMappings as $assoc) {
@@ -128,7 +128,7 @@ class ObjectDetacher implements ObjectDetacherInterface, BulkObjectDetacherInter
      */
     protected function &getScheduledForDirtyCheck(UnitOfWork $uow)
     {
-        $closure = \Closure::bind(fn&($uow) => $uow->scheduledForDirtyCheck, null, $uow);
+        $closure = \Closure::bind(fn &($uow) => $uow->scheduledForDirtyCheck, null, $uow);
 
         return $closure($uow);
     }

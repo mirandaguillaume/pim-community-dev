@@ -24,7 +24,9 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class AddUniqueAttributesToVariantProductAttributeSetSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly AddUniqueAttributes $addUniqueAttributes) {}
+    public function __construct(private readonly AddUniqueAttributes $addUniqueAttributes)
+    {
+    }
 
     /**
      * {@inheritdoc}

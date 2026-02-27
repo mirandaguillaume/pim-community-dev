@@ -17,7 +17,9 @@ use Webmozart\Assert\Assert;
  */
 final readonly class AttributeClearer implements ClearerInterface
 {
-    public function __construct(private GetAttributes $getAttributes) {}
+    public function __construct(private GetAttributes $getAttributes)
+    {
+    }
 
     /**
      * {@inheritDoc}

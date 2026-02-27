@@ -10,7 +10,9 @@ class AclPrivilegeIdentity
      * @param string|null $id
      * @param string|null $name
      */
-    public function __construct(private $id = null, private $name = null) {}
+    public function __construct(private $id = null, private $name = null)
+    {
+    }
 
     /**
      * @return string

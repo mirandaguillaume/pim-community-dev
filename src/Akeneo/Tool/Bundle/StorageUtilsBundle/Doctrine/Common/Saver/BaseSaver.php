@@ -25,7 +25,8 @@ class BaseSaver implements SaverInterface, BulkSaverInterface
         private readonly ObjectManager $objectManager,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly string $savedClass
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}
@@ -62,7 +63,7 @@ class BaseSaver implements SaverInterface, BulkSaverInterface
 
         $this->eventDispatcher->dispatch(new GenericEvent($objects, $options), StorageEvents::PRE_SAVE_ALL);
 
-        $areObjectsNew = array_map(fn($object) => null === $object->getId(), $objects);
+        $areObjectsNew = array_map(fn ($object) => null === $object->getId(), $objects);
 
         foreach ($objects as $i => $object) {
             $this->validateObject($object);

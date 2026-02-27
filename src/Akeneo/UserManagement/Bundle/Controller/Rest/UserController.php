@@ -12,6 +12,7 @@ use Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface;
 use Akeneo\UserManagement\Application\Command\UpdateUserCommand\UpdateUserCommand;
 use Akeneo\UserManagement\Application\Command\UpdateUserCommand\UpdateUserCommandHandler;
 use Akeneo\UserManagement\Application\Exception\UserNotFoundException;
+use Akeneo\UserManagement\Component\Exception\UserCannotBeDeletedException;
 use Akeneo\UserManagement\Component\Model\UserInterface;
 use Akeneo\UserManagement\Domain\PasswordCheckerInterface;
 use Akeneo\UserManagement\Domain\Permissions\Query\EditRolePermissionsUserQuery;
@@ -19,7 +20,6 @@ use Akeneo\UserManagement\ServiceApi\ViolationsException;
 use Doctrine\Persistence\ObjectRepository;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SecurityBundle\SecurityFacade;
-use Akeneo\UserManagement\Component\Exception\UserCannotBeDeletedException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -60,7 +60,8 @@ final readonly class UserController
         private PasswordCheckerInterface $passwordChecker,
         private UpdateUserCommandHandler $updateUserCommandHandler,
         private EditRolePermissionsUserQuery $editRolePermissionsUserQuery,
-    ) {}
+    ) {
+    }
 
     /**
      * @return JsonResponse

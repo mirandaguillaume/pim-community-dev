@@ -16,7 +16,8 @@ class GetScoresByCriteriaStrategy
 {
     public function __construct(
         private readonly FeatureFlag $allCriteriaFeature,
-    ) {}
+    ) {
+    }
 
     /**
      * Determines the scores to use, according to the current enabled features

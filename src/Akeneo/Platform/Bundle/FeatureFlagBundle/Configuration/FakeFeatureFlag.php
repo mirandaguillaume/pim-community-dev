@@ -17,7 +17,8 @@ final class FakeFeatureFlag implements FeatureFlag
 {
     public function __construct(
         private bool $enabled = false,
-    ) {}
+    ) {
+    }
 
     public function enable(): void
     {

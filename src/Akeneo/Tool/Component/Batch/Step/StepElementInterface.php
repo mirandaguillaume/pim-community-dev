@@ -9,4 +9,6 @@ namespace Akeneo\Tool\Component\Batch\Step;
  * @copyright 2016 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/MIT MIT
  */
-interface StepElementInterface {}
+interface StepElementInterface
+{
+}

@@ -23,7 +23,8 @@ final readonly class GetProductModelScoresQuery implements GetProductModelScores
     public function __construct(
         private Connection $dbConnection,
         private ProductEntityIdFactoryInterface $idFactory
-    ) {}
+    ) {
+    }
 
     public function byProductModelId(ProductModelId $productModelId): Read\Scores
     {

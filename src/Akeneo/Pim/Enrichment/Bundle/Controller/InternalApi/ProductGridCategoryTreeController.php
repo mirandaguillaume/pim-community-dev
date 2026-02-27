@@ -23,7 +23,9 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class ProductGridCategoryTreeController
 {
-    public function __construct(private readonly ListRootCategoriesWithCountHandler $listRootCategoriesWithCount, private readonly ListChildrenCategoriesWithCountHandler $listChildrenCategoriesWithCount, private readonly RootCategory $rootCategoryNormalizer, private readonly ChildCategory $childCategoryNormalizer, private readonly UserContext $userContext, private readonly SecurityFacade $securityFacade) {}
+    public function __construct(private readonly ListRootCategoriesWithCountHandler $listRootCategoriesWithCount, private readonly ListChildrenCategoriesWithCountHandler $listChildrenCategoriesWithCount, private readonly RootCategory $rootCategoryNormalizer, private readonly ChildCategory $childCategoryNormalizer, private readonly UserContext $userContext, private readonly SecurityFacade $securityFacade)
+    {
+    }
 
     /**
      * The select_node_id is the id of the category selected as filter.

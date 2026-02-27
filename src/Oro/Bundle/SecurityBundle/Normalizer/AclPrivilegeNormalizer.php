@@ -35,7 +35,7 @@ final class AclPrivilegeNormalizer implements NormalizerInterface, CacheableSupp
         Assert::isInstanceOf($privilege, AclPrivilege::class);
 
         $permissionsForPrivilege = array_map(
-            fn(AclPermission $aclPermission) => [
+            fn (AclPermission $aclPermission) => [
                 'name' => $aclPermission->getName(),
                 'access_level' => $aclPermission->getAccessLevel(),
             ],

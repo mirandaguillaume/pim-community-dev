@@ -39,7 +39,8 @@ final readonly class TransformCriterionEvaluationResultCodes
         private AttributesInterface $attributes,
         private ChannelsInterface $channels,
         private LocalesInterface $locales
-    ) {}
+    ) {
+    }
 
     public function transformToIds(array $evaluationResult): array
     {
@@ -69,7 +70,7 @@ final readonly class TransformCriterionEvaluationResultCodes
 
             $resultDataByIds[self::DATA_TYPES_ID[$dataType]] = match ($dataType) {
                 'attributes_with_rates', 'hashed_values' => $this->transformChannelLocaleDataByAttributesFromCodesToIds($dataByCodes),
-                'number_of_improvable_attributes', 'total_number_of_attributes' => $this->transformChannelLocaleDataFromCodesToIds($dataByCodes, fn($number) => $number),
+                'number_of_improvable_attributes', 'total_number_of_attributes' => $this->transformChannelLocaleDataFromCodesToIds($dataByCodes, fn ($number) => $number),
             };
         }
 
@@ -118,7 +119,7 @@ final readonly class TransformCriterionEvaluationResultCodes
 
     private function transformRatesCodesToIds(array $ratesCodes): array
     {
-        return $this->transformChannelLocaleDataFromCodesToIds($ratesCodes, fn($rate) => $rate);
+        return $this->transformChannelLocaleDataFromCodesToIds($ratesCodes, fn ($rate) => $rate);
     }
 
     private function transformStatusCodesToIds(array $statusCodes): array

@@ -20,7 +20,9 @@ abstract class AbstractItemCategoryRepository implements
     ItemCategoryRepositoryInterface,
     CategoryFilterableRepositoryInterface
 {
-    public function __construct(protected EntityManager $em, protected string $entityName) {}
+    public function __construct(protected EntityManager $em, protected string $entityName)
+    {
+    }
 
     /**
      * {@inheritdoc}

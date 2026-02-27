@@ -141,7 +141,7 @@ class LabelOrIdentifierFilter extends AbstractFieldFilter
     private function productIdentifierValuesClause(string $value): array
     {
         $identifierAttributeFields = \array_map(
-            static fn(Attribute $attributeFromList): string
+            static fn (Attribute $attributeFromList): string
             => \sprintf(
                 'values.%s-%s.<all_channels>.<all_locales>',
                 $attributeFromList->code(),

@@ -52,7 +52,8 @@ final class UserIntentContext implements Context
     public function __construct(
         private readonly ExceptionContext $exceptionContext,
         private readonly MessageBusInterface $queryMessageBus
-    ) {}
+    ) {
+    }
 
     /**
      * @BeforeScenario

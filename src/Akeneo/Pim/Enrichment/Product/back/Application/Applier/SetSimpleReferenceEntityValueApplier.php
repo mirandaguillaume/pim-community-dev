@@ -18,7 +18,8 @@ final readonly class SetSimpleReferenceEntityValueApplier implements UserIntentA
 {
     public function __construct(
         private ObjectUpdaterInterface $productUpdater,
-    ) {}
+    ) {
+    }
 
     public function apply(UserIntent $userIntent, ProductInterface $product, int $userId): void
     {

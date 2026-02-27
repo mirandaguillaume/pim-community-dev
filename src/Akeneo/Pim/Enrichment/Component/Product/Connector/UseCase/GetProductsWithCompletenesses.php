@@ -16,7 +16,9 @@ use Ramsey\Uuid\UuidInterface;
  */
 class GetProductsWithCompletenesses implements GetProductsWithCompletenessesInterface
 {
-    public function __construct(private readonly GetProductCompletenesses $getProductCompletenesses) {}
+    public function __construct(private readonly GetProductCompletenesses $getProductCompletenesses)
+    {
+    }
 
     public function fromConnectorProduct(ConnectorProduct $product): ConnectorProduct
     {
@@ -29,7 +31,7 @@ class GetProductsWithCompletenesses implements GetProductsWithCompletenessesInte
         array $locales = []
     ): ConnectorProductList {
         $productUuids = array_map(
-            fn(ConnectorProduct $connectorProduct): UuidInterface => $connectorProduct->uuid(),
+            fn (ConnectorProduct $connectorProduct): UuidInterface => $connectorProduct->uuid(),
             $connectorProductList->connectorProducts()
         );
 
@@ -42,7 +44,7 @@ class GetProductsWithCompletenesses implements GetProductsWithCompletenessesInte
         return new ConnectorProductList(
             $connectorProductList->totalNumberOfProducts(),
             array_map(
-                fn(ConnectorProduct $product)
+                fn (ConnectorProduct $product)
                     => $product->buildWithCompletenesses($productCompletenesses[$product->uuid()->toString()]),
                 $connectorProductList->connectorProducts()
             )

@@ -11,7 +11,9 @@ namespace Akeneo\Platform\CommunicationChannel\Application\Announcement\Query;
  */
 final readonly class ListAnnouncementsQuery
 {
-    public function __construct(private string $edition, private string $version, private string $locale, private int $userId, private ?string $searchAfter) {}
+    public function __construct(private string $edition, private string $version, private string $locale, private int $userId, private ?string $searchAfter)
+    {
+    }
 
     public function edition(): string
     {

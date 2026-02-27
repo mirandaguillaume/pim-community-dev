@@ -48,7 +48,8 @@ class AclRoleHandler
         private readonly EditRolePermissionsRoleQuery $editRolePermissionsRoleQuery,
         private readonly TranslatorInterface $translator,
         private readonly ActionAclExtension $aclExtension,
-    ) {}
+    ) {
+    }
 
     public function setAclManager(AclManager $aclManager)
     {
@@ -116,7 +117,7 @@ class AclRoleHandler
                 //  ]
                 return array_filter(
                     $formPrivilege->getPermissions()->toArray(),
-                    fn($permission) => $permission->getName() === $this->aclExtension->getDefaultPermission() && $permission->getAccessLevel() === AccessLevel::SYSTEM_LEVEL
+                    fn ($permission) => $permission->getName() === $this->aclExtension->getDefaultPermission() && $permission->getAccessLevel() === AccessLevel::SYSTEM_LEVEL
                 );
             };
 
@@ -225,7 +226,7 @@ class AclRoleHandler
     protected function filterPrivileges(ArrayCollection $privileges, array $rootIds)
     {
         return $privileges->filter(
-            fn(AclPrivilege $entry) => in_array($entry->getExtensionKey(), $rootIds) && $entry->isVisible()
+            fn (AclPrivilege $entry) => in_array($entry->getExtensionKey(), $rootIds) && $entry->isVisible()
         );
     }
 

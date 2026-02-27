@@ -23,7 +23,8 @@ class GetProductModelCriterionEvaluationByProductIdAndCriterionCodeQuery impleme
     public function __construct(
         private readonly Connection $dbConnection,
         private readonly hydrateCriterionEvaluationResult $hydrateCriterionEvaluationResult
-    ) {}
+    ) {
+    }
 
     public function execute(ProductEntityIdInterface $productId, CriterionCode $criterionCode): ?Read\CriterionEvaluation
     {

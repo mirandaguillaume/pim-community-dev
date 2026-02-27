@@ -24,7 +24,9 @@ class ProductValueNormalizer implements NormalizerInterface, CacheableSupportsMe
 {
     final public const DECIMAL_PRECISION = 4;
 
-    public function __construct(private readonly NormalizerInterface $normalizer, private readonly GetAttributes $getAttributes) {}
+    public function __construct(private readonly NormalizerInterface $normalizer, private readonly GetAttributes $getAttributes)
+    {
+    }
 
     /**
      * {@inheritdoc}

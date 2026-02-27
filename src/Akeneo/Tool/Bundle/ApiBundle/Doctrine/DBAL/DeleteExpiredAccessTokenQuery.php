@@ -18,7 +18,9 @@ class DeleteExpiredAccessTokenQuery
      */
     private const DEFAULT_BATCH_SIZE = 10_000;
     private const NUMBER_OF_LOOP = 5_000;
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     public function execute(): void
     {

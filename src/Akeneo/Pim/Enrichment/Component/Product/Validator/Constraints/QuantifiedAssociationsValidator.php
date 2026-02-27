@@ -31,7 +31,8 @@ class QuantifiedAssociationsValidator extends ConstraintValidator
         private readonly AssociationTypeRepositoryInterface $associationTypeRepository,
         private readonly FindNonExistingProductsQueryInterface $findNonExistingProductsQuery,
         private readonly FindNonExistingProductModelCodesQueryInterface $findNonExistingProductModelCodesQuery
-    ) {}
+    ) {
+    }
 
     public function validate($value, Constraint $constraint)
     {
@@ -158,7 +159,7 @@ class QuantifiedAssociationsValidator extends ConstraintValidator
     private function validateProductModelsExist(array $quantifiedLinks, string $propertyPath): void
     {
         $productModelCodes = array_map(
-            fn($quantifiedLink) => $quantifiedLink['identifier'],
+            fn ($quantifiedLink) => $quantifiedLink['identifier'],
             $quantifiedLinks
         );
 

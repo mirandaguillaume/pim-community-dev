@@ -18,7 +18,8 @@ final readonly class AddMultiReferenceEntityValueApplier implements UserIntentAp
 {
     public function __construct(
         private ObjectUpdaterInterface $productUpdater,
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritDoc}
@@ -33,7 +34,7 @@ final readonly class AddMultiReferenceEntityValueApplier implements UserIntentAp
             $userIntent->channelCode(),
         );
         $formerRecordCodes = \array_map(
-            fn($recordCode): string => (string) $recordCode,
+            fn ($recordCode): string => (string) $recordCode,
             $formerRecordCodeCollection?->getData() ?? []
         );
 

@@ -18,7 +18,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class AddToExistingProductModelProcessor extends AbstractProcessor
 {
-    public function __construct(private readonly AddParent $addParent, private readonly ValidatorInterface $validator) {}
+    public function __construct(private readonly AddParent $addParent, private readonly ValidatorInterface $validator)
+    {
+    }
 
     /**
      * {@inheritdoc}

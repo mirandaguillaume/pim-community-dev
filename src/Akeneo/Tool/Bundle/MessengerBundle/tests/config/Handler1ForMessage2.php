@@ -10,7 +10,9 @@ namespace Akeneo\Tool\Bundle\MessengerBundle\tests\config;
  */
 final readonly class Handler1ForMessage2
 {
-    public function __construct(private HandlerObserver $handlerObserver) {}
+    public function __construct(private HandlerObserver $handlerObserver)
+    {
+    }
 
     public function __invoke(Message2 $message): void
     {

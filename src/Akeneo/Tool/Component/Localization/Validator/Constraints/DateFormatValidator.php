@@ -15,7 +15,9 @@ use Symfony\Component\Validator\ConstraintValidator;
  */
 class DateFormatValidator extends ConstraintValidator
 {
-    public function __construct(protected DateFactory $factory) {}
+    public function __construct(protected DateFactory $factory)
+    {
+    }
 
     /**
      * {@inheritdoc}

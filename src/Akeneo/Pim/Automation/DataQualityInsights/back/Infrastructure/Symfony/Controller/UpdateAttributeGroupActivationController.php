@@ -20,7 +20,8 @@ final readonly class UpdateAttributeGroupActivationController
     public function __construct(
         private SecurityFacade $securityFacade,
         private UpdateAttributeGroupActivationHandler $attributeGroupActivationHandler
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request)
     {

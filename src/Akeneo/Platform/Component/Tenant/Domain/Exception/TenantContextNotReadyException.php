@@ -13,4 +13,6 @@ declare(strict_types=1);
 
 namespace Akeneo\Platform\Component\Tenant\Domain\Exception;
 
-class TenantContextNotReadyException extends \RuntimeException implements TenantContextExceptionInterface {}
+class TenantContextNotReadyException extends \RuntimeException implements TenantContextExceptionInterface
+{
+}

@@ -21,7 +21,9 @@ use Behat\Testwork\Environment\Environment;
 
 class SubStepTester implements StepTester
 {
-    public function __construct(private readonly StepTester $baseTester) {}
+    public function __construct(private readonly StepTester $baseTester)
+    {
+    }
 
     /**
      * {@inheritdoc}

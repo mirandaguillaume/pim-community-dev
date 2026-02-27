@@ -13,7 +13,9 @@ use Akeneo\Tool\Component\Batch\Job\JobInterface;
  */
 class EmptyDefaultValuesProvider implements DefaultValuesProviderInterface
 {
-    public function __construct(protected array $supportedJobNames) {}
+    public function __construct(protected array $supportedJobNames)
+    {
+    }
 
     /**
      * {@inheritdoc}

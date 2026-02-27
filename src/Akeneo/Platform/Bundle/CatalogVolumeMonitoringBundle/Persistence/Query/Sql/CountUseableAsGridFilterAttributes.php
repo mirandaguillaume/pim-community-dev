@@ -17,7 +17,9 @@ class CountUseableAsGridFilterAttributes implements CountQuery
 {
     private const VOLUME_NAME = 'count_useable_as_grid_filter_attributes';
 
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     /**
      * {@inheritdoc}

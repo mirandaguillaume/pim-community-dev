@@ -20,7 +20,8 @@ class MailResetNotifier
         private readonly LoggerInterface  $logger,
         private readonly Environment      $twig,
         private readonly MailNotification $mailer
-    ) {}
+    ) {
+    }
 
     public function notify(UserInterface $user)
     {

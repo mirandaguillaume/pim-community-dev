@@ -13,7 +13,9 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\AttributeType;
  */
 final readonly class Attribute
 {
-    public function __construct(private AttributeCode $code, private AttributeType $type, private bool $isLocalizable) {}
+    public function __construct(private AttributeCode $code, private AttributeType $type, private bool $isLocalizable)
+    {
+    }
 
     public function getCode(): AttributeCode
     {

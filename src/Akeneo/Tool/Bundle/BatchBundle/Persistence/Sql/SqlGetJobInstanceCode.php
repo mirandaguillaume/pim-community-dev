@@ -14,7 +14,9 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class SqlGetJobInstanceCode implements GetJobInstanceCode
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     public function fromJobExecutionId(int $jobExecutionId): ?string
     {

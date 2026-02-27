@@ -15,7 +15,9 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\DashboardProjec
 
 final readonly class ConsolidateDashboardRates
 {
-    public function __construct(private GetRanksDistributionFromProductScoresQueryInterface $getRanksDistributionFromProductScoresQuery, private GetAllCategoryCodesQueryInterface $getAllCategoryCodesQuery, private GetAllFamilyCodesQueryInterface $getAllFamilyCodesQuery, private DashboardScoresProjectionRepositoryInterface $dashboardScoresProjectionRepository) {}
+    public function __construct(private GetRanksDistributionFromProductScoresQueryInterface $getRanksDistributionFromProductScoresQuery, private GetAllCategoryCodesQueryInterface $getAllCategoryCodesQuery, private GetAllFamilyCodesQueryInterface $getAllFamilyCodesQuery, private DashboardScoresProjectionRepositoryInterface $dashboardScoresProjectionRepository)
+    {
+    }
 
     public function consolidate(ConsolidationDate $day): void
     {

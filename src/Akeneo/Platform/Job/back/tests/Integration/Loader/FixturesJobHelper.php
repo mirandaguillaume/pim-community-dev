@@ -15,7 +15,9 @@ use Doctrine\DBAL\Types\Types;
  */
 final readonly class FixturesJobHelper
 {
-    public function __construct(private Connection $dbalConnection) {}
+    public function __construct(private Connection $dbalConnection)
+    {
+    }
 
     public function createJobInstance(array $data): int
     {

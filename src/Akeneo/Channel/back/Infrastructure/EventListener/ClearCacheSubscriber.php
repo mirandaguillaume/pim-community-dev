@@ -20,7 +20,9 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class ClearCacheSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly CachedQueryInterface $cachedChannelExistsWithLocale) {}
+    public function __construct(private readonly CachedQueryInterface $cachedChannelExistsWithLocale)
+    {
+    }
 
     /**
      * {@inheritdoc}

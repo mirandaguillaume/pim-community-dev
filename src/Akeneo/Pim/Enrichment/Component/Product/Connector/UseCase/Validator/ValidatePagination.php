@@ -17,7 +17,9 @@ use Akeneo\Tool\Component\Api\Pagination\PaginationParametersValidator;
  */
 final readonly class ValidatePagination
 {
-    public function __construct(private PaginationParametersValidator $paginationParametersValidator) {}
+    public function __construct(private PaginationParametersValidator $paginationParametersValidator)
+    {
+    }
 
     /**
      * @throws InvalidQueryException

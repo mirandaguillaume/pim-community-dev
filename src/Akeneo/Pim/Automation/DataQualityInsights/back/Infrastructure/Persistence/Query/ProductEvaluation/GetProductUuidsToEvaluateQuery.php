@@ -19,7 +19,8 @@ final readonly class GetProductUuidsToEvaluateQuery implements GetEntityIdsToEva
     public function __construct(
         private Connection $db,
         private ProductUuidFactory $idFactory
-    ) {}
+    ) {
+    }
 
     /**
      * @return \Generator<int, ProductUuidCollection>

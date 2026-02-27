@@ -17,7 +17,9 @@ use Twig\Environment;
  */
 class WidgetController
 {
-    public function __construct(protected Registry $widgetRegistry, protected Environment $templating) {}
+    public function __construct(protected Registry $widgetRegistry, protected Environment $templating)
+    {
+    }
 
     /**
      * Renders dashboard widgets

@@ -10,7 +10,9 @@ use Twig\TwigFunction;
 
 final class ExternalJavascriptDependenciesExtension extends AbstractExtension
 {
-    public function __construct(private readonly ExternalJavascriptDependenciesProvider $dependenciesProvider) {}
+    public function __construct(private readonly ExternalJavascriptDependenciesProvider $dependenciesProvider)
+    {
+    }
 
     /**
      * {@inheritdoc}

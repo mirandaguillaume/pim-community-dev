@@ -35,7 +35,7 @@ final class LRUCachedGetRequiredAttributesMasks implements GetRequiredAttributes
             return [];
         }
 
-        $fetchNonFoundFamilyCodes = fn(array $notFoundFamilyCodes): array => $this->getRequiredAttributesMasks->fromFamilyCodes($notFoundFamilyCodes);
+        $fetchNonFoundFamilyCodes = fn (array $notFoundFamilyCodes): array => $this->getRequiredAttributesMasks->fromFamilyCodes($notFoundFamilyCodes);
 
         return $this->cache->getForKeys($familyCodes, $fetchNonFoundFamilyCodes);
     }

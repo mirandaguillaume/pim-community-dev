@@ -23,7 +23,8 @@ class JobExecutionAuthenticator implements EventSubscriberInterface
         protected UserProviderInterface $jobUserProvider,
         protected UserProviderInterface $uiUserProvider,
         protected TokenStorageInterface $tokenStorage
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}

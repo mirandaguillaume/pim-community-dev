@@ -33,7 +33,9 @@ class VersionNormalizer implements NormalizerInterface, CacheableSupportsMethodI
 
     private const ATTRIBUTE_HEADER_SEPARATOR = '-';
 
-    public function __construct(protected UserManager $userManager, protected TranslatorInterface $translator, protected LocaleAwareInterface $localeAware, protected PresenterInterface $datetimePresenter, protected PresenterRegistryInterface $presenterRegistry, protected AttributeRepositoryInterface $attributeRepository, protected UserContext $userContext) {}
+    public function __construct(protected UserManager $userManager, protected TranslatorInterface $translator, protected LocaleAwareInterface $localeAware, protected PresenterInterface $datetimePresenter, protected PresenterRegistryInterface $presenterRegistry, protected AttributeRepositoryInterface $attributeRepository, protected UserContext $userContext)
+    {
+    }
 
     /**
      * {@inheritdoc}

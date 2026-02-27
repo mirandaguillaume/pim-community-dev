@@ -14,7 +14,9 @@ use Webmozart\Assert\Assert;
  */
 final readonly class ACLGetAttributeTypes implements GetAttributeTypes
 {
-    public function __construct(private AttributeRepositoryInterface $attributeRepository) {}
+    public function __construct(private AttributeRepositoryInterface $attributeRepository)
+    {
+    }
 
     public function fromAttributeCodes(array $attributeCodes): array
     {

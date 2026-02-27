@@ -13,7 +13,9 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class ApiAuthenticationFailedEvent extends Event
 {
-    public function __construct(private readonly OAuth2AuthenticateException $exception, private readonly string $token) {}
+    public function __construct(private readonly OAuth2AuthenticateException $exception, private readonly string $token)
+    {
+    }
 
     public function getException(): OAuth2AuthenticateException
     {

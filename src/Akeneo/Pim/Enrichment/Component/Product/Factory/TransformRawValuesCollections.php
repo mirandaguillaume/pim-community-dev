@@ -12,7 +12,9 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\GetAttributes;
  */
 final readonly class TransformRawValuesCollections
 {
-    public function __construct(private GetAttributes $getAttributes) {}
+    public function __construct(private GetAttributes $getAttributes)
+    {
+    }
 
     public function toValueCollectionsIndexedByType(array $rawValueCollections): array
     {

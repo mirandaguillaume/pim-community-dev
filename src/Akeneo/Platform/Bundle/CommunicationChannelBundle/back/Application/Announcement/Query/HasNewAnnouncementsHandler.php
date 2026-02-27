@@ -14,7 +14,9 @@ use Akeneo\Platform\CommunicationChannel\Domain\Announcement\Query\FindViewedAnn
  */
 final readonly class HasNewAnnouncementsHandler
 {
-    public function __construct(private FindNewAnnouncementIdsInterface $findNewAnnouncementIds, private FindViewedAnnouncementIdsInterface $findViewedAnnouncementIds) {}
+    public function __construct(private FindNewAnnouncementIdsInterface $findNewAnnouncementIds, private FindViewedAnnouncementIdsInterface $findViewedAnnouncementIds)
+    {
+    }
 
     public function execute(HasNewAnnouncementsQuery $query): bool
     {

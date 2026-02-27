@@ -21,7 +21,8 @@ class GroupNormalizer implements NormalizerInterface, CacheableSupportsMethodInt
     public function __construct(
         private readonly NormalizerInterface $groupNormalizer,
         private readonly FindProductUuidsInGroup $findProductUuids
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}

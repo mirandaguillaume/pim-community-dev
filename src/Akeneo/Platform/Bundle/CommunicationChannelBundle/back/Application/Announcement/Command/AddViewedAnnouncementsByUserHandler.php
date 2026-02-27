@@ -14,11 +14,13 @@ use Akeneo\Platform\CommunicationChannel\Domain\Announcement\Repository\ViewedAn
  */
 final readonly class AddViewedAnnouncementsByUserHandler
 {
-    public function __construct(private ViewedAnnouncementRepositoryInterface $viewedAnnouncementRepository) {}
+    public function __construct(private ViewedAnnouncementRepositoryInterface $viewedAnnouncementRepository)
+    {
+    }
 
     public function execute(AddViewedAnnouncementsByUserCommand $command): void
     {
-        $viewedAnnouncements = array_map(fn($viewedAnnouncementId) => ViewedAnnouncement::create(
+        $viewedAnnouncements = array_map(fn ($viewedAnnouncementId) => ViewedAnnouncement::create(
             $viewedAnnouncementId,
             $command->userId()
         ), $command->viewedAnnouncementIds());

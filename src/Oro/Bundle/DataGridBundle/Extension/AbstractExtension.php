@@ -23,22 +23,30 @@ abstract class AbstractExtension implements ExtensionVisitorInterface
     /**
      * {@inheritDoc}
      */
-    public function processConfigs(DatagridConfiguration $config) {}
+    public function processConfigs(DatagridConfiguration $config)
+    {
+    }
 
     /**
      * {@inheritDoc}
      */
-    public function visitDatasource(DatagridConfiguration $config, DatasourceInterface $datasource) {}
+    public function visitDatasource(DatagridConfiguration $config, DatasourceInterface $datasource)
+    {
+    }
 
     /**
      * {@inheritDoc}
      */
-    public function visitMetadata(DatagridConfiguration $config, MetadataIterableObject $data) {}
+    public function visitMetadata(DatagridConfiguration $config, MetadataIterableObject $data)
+    {
+    }
 
     /**
      * {@inheritDoc}
      */
-    public function visitResult(DatagridConfiguration $config, ResultsIterableObject $result) {}
+    public function visitResult(DatagridConfiguration $config, ResultsIterableObject $result)
+    {
+    }
 
     /**
      * {@inheritDoc}

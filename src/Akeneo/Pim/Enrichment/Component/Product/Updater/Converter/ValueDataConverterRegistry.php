@@ -15,7 +15,9 @@ final readonly class ValueDataConverterRegistry
     /**
      * @param \Akeneo\Pim\Enrichment\Component\Product\Updater\Converter\ValueDataConverter[] $converters
      */
-    public function __construct(private iterable $converters) {}
+    public function __construct(private iterable $converters)
+    {
+    }
 
     public function getDataConverter(
         AttributeInterface $sourceAttribute,

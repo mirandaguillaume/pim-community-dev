@@ -20,7 +20,8 @@ class RefreshVersioningSubscriber implements EventSubscriberInterface
     public function __construct(
         private readonly ExecuteJobExecutionHandlerInterface $jobExecutionRunner,
         private readonly CreateJobExecutionHandlerInterface $jobExecutionFactory,
-    ) {}
+    ) {
+    }
 
     public static function getSubscribedEvents(): array
     {

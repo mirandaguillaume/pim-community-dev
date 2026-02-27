@@ -16,7 +16,9 @@ use Ramsey\Uuid\UuidInterface;
  */
 final readonly class InMemoryGetCategoryCodes implements GetCategoryCodes
 {
-    public function __construct(private ProductRepositoryInterface $productRepository) {}
+    public function __construct(private ProductRepositoryInterface $productRepository)
+    {
+    }
 
     /**
      * {@inheritdoc}
@@ -24,7 +26,7 @@ final readonly class InMemoryGetCategoryCodes implements GetCategoryCodes
     public function fromProductUuids(array $productUuids): array
     {
         $results = [];
-        $productUuidsAsString = \array_map(fn(UuidInterface $uuid): string => $uuid->toString(), $productUuids);
+        $productUuidsAsString = \array_map(fn (UuidInterface $uuid): string => $uuid->toString(), $productUuids);
         foreach ($this->productRepository->findAll() as $product) {
             if (\in_array(\strtolower((string) $product->getUuid()->toString()), $productUuidsAsString)) {
                 $results[$product->getUuid()->toString()] = $product->getCategoryCodes();

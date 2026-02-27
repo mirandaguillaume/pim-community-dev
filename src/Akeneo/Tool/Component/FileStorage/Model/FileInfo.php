@@ -2,9 +2,9 @@
 
 namespace Akeneo\Tool\Component\FileStorage\Model;
 
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * File.

@@ -24,7 +24,8 @@ final readonly class FetchProductModelRowsFromCodes implements FetchProductModel
         private Connection $connection,
         private WriteValueCollectionFactory $valueCollectionFactory,
         private ProductModelImagesFromCodes $productModelImagesFromCodes
-    ) {}
+    ) {
+    }
 
     /**
      * @param array  $codes
@@ -282,7 +283,7 @@ final readonly class FetchProductModelRowsFromCodes implements FetchProductModel
 
         foreach ($valueCollections as $productModelCode => $valueCollection) {
             $result[$productModelCode]['value_collection'] = $valueCollection->filter(
-                fn(ValueInterface $value) => ($value->getScopeCode() === $channelCode || $value->getScopeCode() === null)
+                fn (ValueInterface $value) => ($value->getScopeCode() === $channelCode || $value->getScopeCode() === null)
                     && ($value->getLocaleCode() === $localeCode || $value->getLocaleCode() === null)
             );
         }

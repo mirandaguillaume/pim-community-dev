@@ -55,7 +55,8 @@ class CreateProductByUuidController
         private readonly AttributeFilterInterface $productAttributeFilter,
         private readonly ProductRepositoryInterface $productRepository,
         private readonly AttributeRepositoryInterface $attributeRepository,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request): Response
     {

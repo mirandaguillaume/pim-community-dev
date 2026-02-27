@@ -17,7 +17,8 @@ class ProductModelScoreRepository implements ProductModelScoreRepositoryInterfac
 {
     public function __construct(
         private readonly Connection $dbConnection
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}

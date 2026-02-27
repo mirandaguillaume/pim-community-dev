@@ -16,7 +16,8 @@ class TransformChannelLocaleDataIds
     public function __construct(
         private readonly ChannelsInterface $channels,
         private readonly LocalesInterface $locales
-    ) {}
+    ) {
+    }
 
     public function transformToCodes(array $channelLocaleData, \Closure $transformData): array
     {

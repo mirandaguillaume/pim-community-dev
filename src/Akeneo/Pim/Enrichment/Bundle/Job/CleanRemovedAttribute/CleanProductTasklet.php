@@ -23,7 +23,8 @@ class CleanProductTasklet implements TaskletInterface, TrackableTaskletInterface
         private readonly CountProductsWithRemovedAttributeInterface $countProductsWithRemovedAttribute,
         private readonly RemoveValuesFromProducts $removeValuesFromProducts,
         private readonly JobRepositoryInterface $jobRepository
-    ) {}
+    ) {
+    }
 
     public function setStepExecution(StepExecution $stepExecution)
     {

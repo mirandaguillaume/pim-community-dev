@@ -14,7 +14,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 final readonly class CreateIdentifiersTableSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     public static function getSubscribedEvents(): array
     {

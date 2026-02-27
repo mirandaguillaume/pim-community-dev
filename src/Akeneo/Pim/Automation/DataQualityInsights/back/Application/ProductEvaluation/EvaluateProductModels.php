@@ -22,7 +22,8 @@ class EvaluateProductModels
         private readonly ConsolidateProductModelScores $consolidateProductModelScores,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly LoggerInterface $logger
-    ) {}
+    ) {
+    }
 
     public function __invoke(ProductModelIdCollection $productModelIdCollection): void
     {

@@ -16,7 +16,9 @@ use Akeneo\Tool\Component\Api\Exception\InvalidQueryException;
  */
 final readonly class ListProductsQueryValidator
 {
-    public function __construct(private ValidateAttributes $validateAttributes, private ValidateChannel $validateChannel, private ValidateLocales $validateLocales, private ValidatePagination $validatePagination, private ValidateCriterion $validateCriterion, private ValidateCategories $validateCategories, private ValidateProperties $validateProperties, private ValidateSearchLocale $validateSearchLocales, private ValidateGrantedSearchLocaleInterface $validateGrantedSearchLocales, private ValidateGrantedCategoriesInterface $validateGrantedCategories, private ValidateGrantedPropertiesInterface $validateGrantedProperties, private ValidateGrantedAttributesInterface $validateGrantedAttributes, private ValidateGrantedLocalesInterface $validateGrantedLocales, private ValidateIdentifiersLimit $validateIdentifiersLimit) {}
+    public function __construct(private ValidateAttributes $validateAttributes, private ValidateChannel $validateChannel, private ValidateLocales $validateLocales, private ValidatePagination $validatePagination, private ValidateCriterion $validateCriterion, private ValidateCategories $validateCategories, private ValidateProperties $validateProperties, private ValidateSearchLocale $validateSearchLocales, private ValidateGrantedSearchLocaleInterface $validateGrantedSearchLocales, private ValidateGrantedCategoriesInterface $validateGrantedCategories, private ValidateGrantedPropertiesInterface $validateGrantedProperties, private ValidateGrantedAttributesInterface $validateGrantedAttributes, private ValidateGrantedLocalesInterface $validateGrantedLocales, private ValidateIdentifiersLimit $validateIdentifiersLimit)
+    {
+    }
 
     /**
      * @throws InvalidQueryException

@@ -16,7 +16,8 @@ final readonly class SetMeasurementValue implements ValueUserIntent
         private ?string $localeCode,
         private string|float|int $amount,
         private string $unit
-    ) {}
+    ) {
+    }
 
     public function attributeCode(): string
     {

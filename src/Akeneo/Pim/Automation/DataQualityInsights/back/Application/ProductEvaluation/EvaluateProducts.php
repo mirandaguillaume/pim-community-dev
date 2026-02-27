@@ -21,7 +21,8 @@ class EvaluateProducts
         private readonly ConsolidateProductScores $consolidateProductScores,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly LoggerInterface $logger
-    ) {}
+    ) {
+    }
 
     public function __invoke(ProductUuidCollection $productUuidCollection): void
     {

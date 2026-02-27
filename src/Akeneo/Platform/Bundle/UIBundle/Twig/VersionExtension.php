@@ -15,7 +15,9 @@ use Twig\TwigFunction;
  */
 class VersionExtension extends AbstractExtension
 {
-    public function __construct(private readonly VersionProviderInterface $versionProvider) {}
+    public function __construct(private readonly VersionProviderInterface $versionProvider)
+    {
+    }
 
     /**
      * {@inheritdoc}

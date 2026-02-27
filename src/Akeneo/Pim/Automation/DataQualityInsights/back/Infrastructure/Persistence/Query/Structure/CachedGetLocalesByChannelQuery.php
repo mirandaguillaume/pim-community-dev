@@ -21,7 +21,8 @@ class CachedGetLocalesByChannelQuery implements GetLocalesByChannelQueryInterfac
     public function __construct(
         /** * @var Connection */
         private readonly Connection $db
-    ) {}
+    ) {
+    }
 
     public function getArray(): array
     {

@@ -22,7 +22,8 @@ final class PersistTwoWayAssociationSubscriber implements EventSubscriberInterfa
         private readonly ManagerRegistry $registry,
         private readonly ProductIndexerInterface $productIndexer,
         private readonly ProductModelIndexerInterface $productModelIndexer
-    ) {}
+    ) {
+    }
 
     public static function getSubscribedEvents(): array
     {

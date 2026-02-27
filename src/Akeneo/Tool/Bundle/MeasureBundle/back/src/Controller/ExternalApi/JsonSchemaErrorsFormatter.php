@@ -14,7 +14,7 @@ class JsonSchemaErrorsFormatter
 {
     public static function format(array $errors): array
     {
-        return array_map(static fn(array $error) => [
+        return array_map(static fn (array $error) => [
             'property' => isset($error['property']) ? self::convertOpisPropertyPath($error['property']) : '',
             'message'  => $error['message'] ?? '',
         ], $errors);
@@ -28,7 +28,7 @@ class JsonSchemaErrorsFormatter
 
         $explodedOpisPropertyPath = explode('/', ltrim($opisPropertyPath, '/'));
         $explodedAkeneoPropertyPath = array_map(
-            static fn($propertyPath) => sprintf(is_numeric($propertyPath) ? '[%d]' : '.%s', $propertyPath),
+            static fn ($propertyPath) => sprintf(is_numeric($propertyPath) ? '[%d]' : '.%s', $propertyPath),
             $explodedOpisPropertyPath
         );
 

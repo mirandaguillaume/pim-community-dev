@@ -36,7 +36,7 @@ final readonly class AttributesWereCreatedOrUpdated implements \IteratorAggregat
     {
         return [
             'events' => \array_map(
-                static fn(AttributeWasCreated|AttributeWasUpdated $attributeWasCreatedOrUpdated): array => $attributeWasCreatedOrUpdated->normalize(),
+                static fn (AttributeWasCreated|AttributeWasUpdated $attributeWasCreatedOrUpdated): array => $attributeWasCreatedOrUpdated->normalize(),
                 $this->events
             ),
         ];

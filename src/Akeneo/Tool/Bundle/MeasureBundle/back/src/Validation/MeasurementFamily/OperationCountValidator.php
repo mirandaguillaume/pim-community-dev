@@ -13,7 +13,9 @@ class OperationCountValidator extends ConstraintValidator
 {
     private int $min = 1;
 
-    public function __construct(private readonly int $max) {}
+    public function __construct(private readonly int $max)
+    {
+    }
 
     /**
      * {@inheritdoc}

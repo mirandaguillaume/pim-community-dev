@@ -9,4 +9,6 @@ namespace Akeneo\Tool\Bundle\MeasureBundle\Exception;
  * @copyright 2012 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/MIT MIT
  */
-class UnknownOperatorException extends MeasureException {}
+class UnknownOperatorException extends MeasureException
+{
+}

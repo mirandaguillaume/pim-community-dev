@@ -15,7 +15,9 @@ namespace Akeneo\Tool\Component\Batch\Job;
  */
 class JobParameters implements \IteratorAggregate, \Countable
 {
-    public function __construct(private array $parameters) {}
+    public function __construct(private array $parameters)
+    {
+    }
 
     public function has(string $key): bool
     {

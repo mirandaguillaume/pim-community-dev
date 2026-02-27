@@ -17,7 +17,9 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class DefaultSqlGetRequiredAttributesMasks implements GetRequiredAttributesMasksForAttributeType
 {
-    public function __construct(private Connection $connection, private array $supportedTypes) {}
+    public function __construct(private Connection $connection, private array $supportedTypes)
+    {
+    }
 
     /**
      * {@inheritdoc}

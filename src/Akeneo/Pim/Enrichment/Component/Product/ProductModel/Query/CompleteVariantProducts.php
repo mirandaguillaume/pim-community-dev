@@ -13,7 +13,9 @@ namespace Akeneo\Pim\Enrichment\Component\Product\ProductModel\Query;
  */
 class CompleteVariantProducts
 {
-    public function __construct(private readonly array $completenesses) {}
+    public function __construct(private readonly array $completenesses)
+    {
+    }
 
     /**
      * Count the number of complete variant product and the total number of variant product for all channels and locales

@@ -19,7 +19,8 @@ class GetAttributeGroups implements GetAttributeGroupsInterface
         private readonly Connection $connection,
         private readonly FeatureFlags $featureFlags,
         private readonly GetAttributeGroupsActivationQueryInterface $getAttributeGroupsActivationQuery,
-    ) {}
+    ) {
+    }
 
     public function all(): iterable
     {

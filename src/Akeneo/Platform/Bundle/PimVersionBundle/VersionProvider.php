@@ -19,7 +19,8 @@ class VersionProvider implements VersionProviderInterface
         private readonly iterable $versions,
         private readonly string $editionCode,
         private readonly string $projectDir
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}

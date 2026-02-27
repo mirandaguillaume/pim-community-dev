@@ -19,7 +19,8 @@ class ItemsCounter
     public function __construct(
         private readonly CountImpactedProducts $countImpactedProducts,
         private readonly AttributeSearchableRepository $attributeRepository,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws \Exception

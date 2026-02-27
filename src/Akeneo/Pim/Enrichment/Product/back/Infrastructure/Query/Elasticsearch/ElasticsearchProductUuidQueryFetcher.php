@@ -23,7 +23,9 @@ final class ElasticsearchProductUuidQueryFetcher implements ProductUuidQueryFetc
     /** @var mixed[] */
     private array $searchAfter = [];
 
-    public function __construct(private readonly Client $esClient, private readonly int $pageSize) {}
+    public function __construct(private readonly Client $esClient, private readonly int $pageSize)
+    {
+    }
 
     /**
      * {@inheritDoc}

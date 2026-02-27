@@ -29,7 +29,8 @@ final readonly class LaunchProductAndProductModelEvaluationsHandler
         private GetOutdatedProductUuidsByDateAndCriteriaQueryInterface $getOutdatedProductUuids,
         private GetOutdatedProductModelIdsByDateAndCriteriaQueryInterface $getOutdatedProductModelIds,
         private LoggerInterface $logger
-    ) {}
+    ) {
+    }
 
     public function __invoke(LaunchProductAndProductModelEvaluationsMessage $message): void
     {
@@ -61,7 +62,7 @@ final readonly class LaunchProductAndProductModelEvaluationsHandler
         $this->logger->debug(sprintf('DQI - Evaluation of %d products start', $productUuidsToEvaluate->count()));
         $criteriaToEvaluate = empty($message->criteriaToEvaluate)
             ? $this->productCriteriaRegistry->getAllCriterionCodes()
-            : \array_map(fn(string $criterionCode) => new CriterionCode($criterionCode), $message->criteriaToEvaluate);
+            : \array_map(fn (string $criterionCode) => new CriterionCode($criterionCode), $message->criteriaToEvaluate);
 
         $this->createProductCriteriaEvaluations->create($criteriaToEvaluate, $productUuidsToEvaluate);
         ($this->evaluateProducts)($productUuidsToEvaluate);
@@ -81,7 +82,7 @@ final readonly class LaunchProductAndProductModelEvaluationsHandler
         $this->logger->debug(sprintf('DQI - Evaluation of %d product-models start', $productModelIdsToEvaluate->count()));
         $criteriaToEvaluate = empty($message->criteriaToEvaluate)
             ? $this->productModelCriteriaRegistry->getAllCriterionCodes()
-            : \array_map(fn(string $criterionCode) => new CriterionCode($criterionCode), $message->criteriaToEvaluate);
+            : \array_map(fn (string $criterionCode) => new CriterionCode($criterionCode), $message->criteriaToEvaluate);
 
         $this->createProductModelCriteriaEvaluations->create($criteriaToEvaluate, $productModelIdsToEvaluate);
         ($this->evaluateProductModels)($productModelIdsToEvaluate);

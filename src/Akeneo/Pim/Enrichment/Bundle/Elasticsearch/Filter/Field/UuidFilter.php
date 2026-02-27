@@ -41,7 +41,7 @@ final class UuidFilter extends AbstractFieldFilter
                 $clause = [
                     'terms' => [
                         'id' => \array_map(
-                            fn(string $uuid): string => \sprintf('%s%s', $this->prefix, \mb_strtolower($uuid)),
+                            fn (string $uuid): string => \sprintf('%s%s', $this->prefix, \mb_strtolower($uuid)),
                             $value
                         ),
                     ],
@@ -53,7 +53,7 @@ final class UuidFilter extends AbstractFieldFilter
                 $clause = [
                     'terms' => [
                         'id' => \array_map(
-                            fn(string $uuid): string => \sprintf('%s%s', $this->prefix, \mb_strtolower($uuid)),
+                            fn (string $uuid): string => \sprintf('%s%s', $this->prefix, \mb_strtolower($uuid)),
                             $value
                         ),
                     ],

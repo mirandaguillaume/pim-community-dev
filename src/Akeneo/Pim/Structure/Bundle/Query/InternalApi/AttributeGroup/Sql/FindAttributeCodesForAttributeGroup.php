@@ -13,7 +13,9 @@ use Doctrine\DBAL\Connection;
  */
 class FindAttributeCodesForAttributeGroup
 {
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     public function execute(string $attributeGroupCode): array
     {

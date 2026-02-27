@@ -10,7 +10,9 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyException;
 
 class MediaStorer
 {
-    public function __construct(private readonly FileStorerInterface $fileStorer, private readonly AttributeRepositoryInterface $attributeRepository) {}
+    public function __construct(private readonly FileStorerInterface $fileStorer, private readonly AttributeRepositoryInterface $attributeRepository)
+    {
+    }
 
     public function store(array $rawProductValues): array
     {

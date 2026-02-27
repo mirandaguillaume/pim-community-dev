@@ -11,7 +11,9 @@ namespace Akeneo\Tool\Bundle\ElasticsearchBundle\IndexConfiguration;
  */
 class IndexConfiguration
 {
-    public function __construct(protected array $settings, protected array $mappings, protected array $aliases) {}
+    public function __construct(protected array $settings, protected array $mappings, protected array $aliases)
+    {
+    }
 
     /**
      * Get the full aggregated index configuration of Settings, Mappings and Aliases.

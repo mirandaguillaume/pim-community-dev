@@ -20,7 +20,9 @@ use Symfony\Component\Messenger\Event\WorkerMessageReceivedEvent;
  */
 final readonly class AddReceiverStampEventListener implements EventSubscriberInterface
 {
-    public function __construct(private ContainerInterface $receiverLocator) {}
+    public function __construct(private ContainerInterface $receiverLocator)
+    {
+    }
 
     public static function getSubscribedEvents(): array
     {

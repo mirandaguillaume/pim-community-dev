@@ -15,7 +15,8 @@ class SetBooleanValue implements ValueUserIntent
         private readonly ?string $channelCode,
         private readonly ?string $localeCode,
         private readonly bool $value
-    ) {}
+    ) {
+    }
 
     public function value(): bool
     {

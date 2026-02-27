@@ -22,7 +22,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class AddParent
 {
-    public function __construct(private readonly ProductModelRepositoryInterface $productModelRepository, private readonly EventDispatcherInterface $eventDispatcher) {}
+    public function __construct(private readonly ProductModelRepositoryInterface $productModelRepository, private readonly EventDispatcherInterface $eventDispatcher)
+    {
+    }
 
     /**
      * Add a parent to a product during an import, a mass action or an update from API.
@@ -70,7 +72,7 @@ class AddParent
         }
 
         $filteredValues = $product->getValues()->filter(
-            fn(ValueInterface $value) => in_array($value->getAttributeCode(), $attributeCodes)
+            fn (ValueInterface $value) => in_array($value->getAttributeCode(), $attributeCodes)
         );
 
         return $filteredValues;

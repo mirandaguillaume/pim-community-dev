@@ -27,7 +27,8 @@ class ChannelUpdater implements ObjectUpdaterInterface
         protected readonly IdentifiableObjectRepositoryInterface $currencyRepository,
         protected readonly IdentifiableObjectRepositoryInterface $attributeRepository,
         protected readonly TranslatableUpdater $translatableUpdater
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}

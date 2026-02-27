@@ -16,7 +16,8 @@ class ScheduledJobMessage implements ScheduledJobMessageInterface
     private function __construct(
         private readonly string $jobCode,
         private readonly array $options
-    ) {}
+    ) {
+    }
 
     public static function createScheduledJobMessage(
         string $jobCode,

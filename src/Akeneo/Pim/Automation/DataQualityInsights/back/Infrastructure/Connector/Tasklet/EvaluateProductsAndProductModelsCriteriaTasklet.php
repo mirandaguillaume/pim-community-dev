@@ -30,7 +30,8 @@ final class EvaluateProductsAndProductModelsCriteriaTasklet implements TaskletIn
         private readonly int $bulkSize = 100,
         private readonly int $timeBoxInSecondsAllowed = 1700, //~28 minutes
         private readonly int $noEvaluationSleep = 60,
-    ) {}
+    ) {
+    }
 
     public function execute(): void
     {

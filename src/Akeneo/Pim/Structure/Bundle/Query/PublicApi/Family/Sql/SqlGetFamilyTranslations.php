@@ -10,7 +10,9 @@ use Doctrine\DBAL\Connection;
 
 class SqlGetFamilyTranslations implements GetFamilyTranslations
 {
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     public function byFamilyCodesAndLocale(array $familyCodes, string $locale): array
     {

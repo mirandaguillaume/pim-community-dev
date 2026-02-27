@@ -11,7 +11,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 final readonly class GetProductQualityScoreController
 {
-    public function __construct(private GetProductScores $getProductScores) {}
+    public function __construct(private GetProductScores $getProductScores)
+    {
+    }
 
     public function __invoke(string $productUuid): JsonResponse
     {

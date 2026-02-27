@@ -26,7 +26,8 @@ class DeleteAttributesTasklet implements TaskletInterface, TrackableTaskletInter
         private readonly SearchableRepositoryInterface $attributeRepository,
         private readonly RemoverInterface $remover,
         private readonly TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     public function setStepExecution(StepExecution $stepExecution): void
     {

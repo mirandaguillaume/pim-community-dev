@@ -28,7 +28,8 @@ class DeleteProductByUuidController
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly SecurityFacade $security,
         private readonly RemoverInterface $remover
-    ) {}
+    ) {
+    }
 
     public function __invoke(string $uuid): Response
     {

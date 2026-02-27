@@ -38,7 +38,9 @@ abstract class AbstractProperty implements PropertyInterface
     /**
      * Override this method instead "init" in case when we want to customize something
      */
-    protected function initialize() {}
+    protected function initialize()
+    {
+    }
 
     /**
      * @return mixed

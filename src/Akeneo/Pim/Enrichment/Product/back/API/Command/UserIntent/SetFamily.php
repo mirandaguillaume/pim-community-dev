@@ -10,7 +10,9 @@ namespace Akeneo\Pim\Enrichment\Product\API\Command\UserIntent;
  */
 final readonly class SetFamily implements FamilyUserIntent
 {
-    public function __construct(private string $familyCode) {}
+    public function __construct(private string $familyCode)
+    {
+    }
 
     public function familyCode(): string
     {

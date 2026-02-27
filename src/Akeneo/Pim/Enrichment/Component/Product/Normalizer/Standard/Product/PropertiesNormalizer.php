@@ -31,7 +31,9 @@ class PropertiesNormalizer implements NormalizerInterface, CacheableSupportsMeth
     final public const FIELD_CREATED = 'created';
     final public const FIELD_UPDATED = 'updated';
 
-    public function __construct(private readonly CollectionFilterInterface $filter, private readonly NormalizerInterface $normalizer) {}
+    public function __construct(private readonly CollectionFilterInterface $filter, private readonly NormalizerInterface $normalizer)
+    {
+    }
 
     /**
      * {@inheritdoc}

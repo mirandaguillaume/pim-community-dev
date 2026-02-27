@@ -9,13 +9,13 @@ use Akeneo\Pim\Enrichment\Bundle\Storage\ElasticsearchAndSql\ProductAndProductMo
 use Akeneo\Pim\Enrichment\Bundle\Storage\ElasticsearchAndSql\ProductAndProductModel\GetExistingProductModelCodes;
 use Akeneo\Pim\Enrichment\Bundle\Storage\ElasticsearchAndSql\ProductAndProductModel\GetProductModelCodesNotSynchronisedBetweenEsAndMysql;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Index product models into Elasticsearch
@@ -115,8 +115,10 @@ class IndexProductModelCommand extends Command
             return self::ERROR_CODE_USAGE;
         }
 
-        $bulkESHandler = new class ($this->productModelDescendantAndAncestorsIndexer) implements BulkEsHandlerInterface {
-            public function __construct(private readonly ProductModelDescendantsAndAncestorsIndexer $productModelDescendantsAndAncestorsIndexer) {}
+        $bulkESHandler = new class($this->productModelDescendantAndAncestorsIndexer) implements BulkEsHandlerInterface {
+            public function __construct(private readonly ProductModelDescendantsAndAncestorsIndexer $productModelDescendantsAndAncestorsIndexer)
+            {
+            }
             public function bulkExecute(array $codes): int
             {
                 $this->productModelDescendantsAndAncestorsIndexer->indexFromProductModelCodes($codes);

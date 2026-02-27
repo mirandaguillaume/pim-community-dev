@@ -17,7 +17,8 @@ class SqlFindAllEditableLocalesForUser implements FindAllEditableLocalesForUser
 {
     public function __construct(
         private readonly Connection $connection
-    ) {}
+    ) {
+    }
 
     /**
      * @return Locale[]

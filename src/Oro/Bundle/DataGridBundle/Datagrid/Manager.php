@@ -14,7 +14,9 @@ use Oro\Bundle\DataGridBundle\Provider\ConfigurationProviderInterface;
  */
 class Manager implements ManagerInterface
 {
-    public function __construct(private readonly Builder $datagridBuilder, private readonly ConfigurationProviderInterface $configurationProvider, private readonly RequestParameters $requestParameters) {}
+    public function __construct(private readonly Builder $datagridBuilder, private readonly ConfigurationProviderInterface $configurationProvider, private readonly RequestParameters $requestParameters)
+    {
+    }
 
     /**
      * {@inheritDoc}

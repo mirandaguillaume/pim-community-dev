@@ -13,7 +13,9 @@ use Doctrine\DBAL\Connection;
  */
 class SqlGetAllButLastVersionIdsByIdsQuery
 {
-    public function __construct(private readonly Connection $dbConnection) {}
+    public function __construct(private readonly Connection $dbConnection)
+    {
+    }
 
     public function execute(array $versionIds): array
     {

@@ -31,12 +31,12 @@ final class CriterionRateCollection implements \IteratorAggregate
 
     public function toArrayInt(): array
     {
-        return array_map(fn($ratesPerLocale) => array_map(fn($rate) => $rate->toInt(), $ratesPerLocale), $this->rates);
+        return array_map(fn ($ratesPerLocale) => array_map(fn ($rate) => $rate->toInt(), $ratesPerLocale), $this->rates);
     }
 
     public function toArrayString(): array
     {
-        return array_map(fn($ratesPerLocale) => array_map(fn($rate) => strval($rate), $ratesPerLocale), $this->rates);
+        return array_map(fn ($ratesPerLocale) => array_map(fn ($rate) => strval($rate), $ratesPerLocale), $this->rates);
     }
 
     public static function fromArray(array $rawRates): self

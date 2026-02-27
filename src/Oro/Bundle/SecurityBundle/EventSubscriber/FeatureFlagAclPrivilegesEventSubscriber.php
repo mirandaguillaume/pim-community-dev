@@ -18,7 +18,8 @@ class FeatureFlagAclPrivilegesEventSubscriber implements EventSubscriberInterfac
 {
     public function __construct(
         private readonly AclFeatureFlags $aclFeatureFlags
-    ) {}
+    ) {
+    }
 
     public static function getSubscribedEvents(): array
     {

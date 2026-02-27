@@ -22,7 +22,8 @@ final readonly class GetRanksDistributionFromProductScoresQuery implements GetRa
         private GetCategoryChildrenCodesQueryInterface $getCategoryChildrenIdsQuery,
         private GetChannelCodeWithLocaleCodesInterface $getChannelCodeWithLocaleCodes,
         private GetScoresPropertyStrategy              $getScoresProperty,
-    ) {}
+    ) {
+    }
 
     public function forWholeCatalog(\DateTimeImmutable $date): RanksDistributionCollection
     {

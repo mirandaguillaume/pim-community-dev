@@ -25,7 +25,8 @@ class PartialUpdateListProductsByUuidController
         private readonly ApiAggregatorForProductPostSaveEventSubscriber $apiAggregatorForProductPostSave,
         private readonly StreamResourceResponse $partialUpdateStreamResource,
         private readonly LoggerInterface $logger,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request): Response
     {

@@ -48,7 +48,9 @@ use Doctrine\DBAL\Connection;
  */
 class MediaCount implements MediaCountQuery
 {
-    public function __construct(private readonly Connection $connection, private readonly Client $client) {}
+    public function __construct(private readonly Connection $connection, private readonly Client $client)
+    {
+    }
 
     public function countFiles(): int
     {
@@ -101,7 +103,7 @@ class MediaCount implements MediaCountQuery
             return 0;
         }
 
-        $queries = array_map(fn(string $fieldPath) => [
+        $queries = array_map(fn (string $fieldPath) => [
             [], //empty array needed before each query for multisearch in ES
             [
                 'size' => 0,

@@ -26,7 +26,8 @@ class MassDeleteAttributeController
         private readonly JobLauncherInterface $jobLauncher,
         private readonly IdentifiableObjectRepositoryInterface $jobInstanceRepository,
         private readonly SecurityFacadeInterface $securityFacade,
-    ) {}
+    ) {
+    }
 
     public function launchAction(Request $request): Response
     {

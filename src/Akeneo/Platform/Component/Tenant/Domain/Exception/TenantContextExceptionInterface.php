@@ -13,4 +13,6 @@ declare(strict_types=1);
 
 namespace Akeneo\Platform\Component\Tenant\Domain\Exception;
 
-interface TenantContextExceptionInterface extends \Throwable {}
+interface TenantContextExceptionInterface extends \Throwable
+{
+}

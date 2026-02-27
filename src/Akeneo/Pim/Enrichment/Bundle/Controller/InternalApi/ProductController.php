@@ -73,7 +73,8 @@ class ProductController
         private readonly FindIdentifier $findIdentifier,
         private readonly UnableToSetIdentifiersSubscriberInterface $unableToSetIdentifiersSubscriber,
         private readonly UnableToSetIdentifierExceptionPresenterInterface $unableToSetIdentifierExceptionPresenter,
-    ) {}
+    ) {
+    }
 
     /**
      * Returns a set of products from identifiers parameter
@@ -158,7 +159,7 @@ class ProductController
             if (\count($events) > 0) {
                 $normalizedProduct['meta']['identifier_generator_warnings'] = \array_merge(
                     ...\array_map(
-                        fn($event): array => $this->unableToSetIdentifierExceptionPresenter->present($event->getException()),
+                        fn ($event): array => $this->unableToSetIdentifierExceptionPresenter->present($event->getException()),
                         $events
                     )
                 );
@@ -258,7 +259,7 @@ class ProductController
             $hasPermissionException = \count(
                 \array_filter(
                     $e->violations(),
-                    fn(
+                    fn (
                         ConstraintViolationInterface $violation
                     ): bool => $violation->getCode() === (string) ViolationCode::PERMISSION
                 )

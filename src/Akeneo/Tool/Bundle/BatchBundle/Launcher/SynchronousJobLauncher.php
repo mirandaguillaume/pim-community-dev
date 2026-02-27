@@ -34,7 +34,8 @@ class SynchronousJobLauncher implements JobLauncherInterface
         private readonly LoggerInterface $logger,
         private readonly JobRegistry $jobRegistry,
         private readonly string $projectDir
-    ) {}
+    ) {
+    }
 
     public function launch(JobInstance $jobInstance, ?UserInterface $user, array $configuration = []): JobExecution
     {

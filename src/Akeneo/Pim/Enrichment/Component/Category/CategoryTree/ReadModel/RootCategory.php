@@ -13,7 +13,9 @@ namespace Akeneo\Pim\Enrichment\Component\Category\CategoryTree\ReadModel;
  */
 class RootCategory
 {
-    public function __construct(private readonly int $id, private readonly string $code, private readonly string $label, private readonly int $numberProductsInCategory, private readonly bool $selected) {}
+    public function __construct(private readonly int $id, private readonly string $code, private readonly string $label, private readonly int $numberProductsInCategory, private readonly bool $selected)
+    {
+    }
 
     public function id(): int
     {

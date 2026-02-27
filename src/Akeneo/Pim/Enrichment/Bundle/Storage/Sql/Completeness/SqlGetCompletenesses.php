@@ -22,7 +22,8 @@ final readonly class SqlGetCompletenesses implements GetProductCompletenesses
     public function __construct(
         private Connection $connection,
         private ChannelExistsWithLocaleInterface $channelExistsWithLocale,
-    ) {}
+    ) {
+    }
 
     public function fromProductUuid(UuidInterface $productUuid): ProductCompletenessCollection
     {
@@ -31,7 +32,7 @@ final readonly class SqlGetCompletenesses implements GetProductCompletenesses
 
     public function fromProductUuids(array $productUuids, ?string $channel = null, array $locales = []): array
     {
-        $uuidsAsBytes = \array_map(fn($productUuid) => $productUuid->getBytes(), \array_values($productUuids));
+        $uuidsAsBytes = \array_map(fn ($productUuid) => $productUuid->getBytes(), \array_values($productUuids));
 
         $sql
             = <<<SQL
@@ -55,7 +56,7 @@ final readonly class SqlGetCompletenesses implements GetProductCompletenesses
         }
 
         // to fill missing uuids
-        $productUuidsAsStrings = \array_map(fn(UuidInterface $uuid): string => $uuid->toString(), $productUuids);
+        $productUuidsAsStrings = \array_map(fn (UuidInterface $uuid): string => $uuid->toString(), $productUuids);
         $missingUuids = \array_diff($productUuidsAsStrings, \array_keys($results));
         if (!empty($missingUuids)) {
             foreach ($missingUuids as $missingUuid) {

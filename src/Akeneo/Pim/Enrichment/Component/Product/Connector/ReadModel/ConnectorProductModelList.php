@@ -19,7 +19,7 @@ final class ConnectorProductModelList
         private readonly int $totalNumberOfProductModels,
         array $connectorProductModels
     ) {
-        $this->connectorProductModels = (fn(ConnectorProductModel ...$connectorProductModels) => $connectorProductModels)(...$connectorProductModels);
+        $this->connectorProductModels = (fn (ConnectorProductModel ...$connectorProductModels) => $connectorProductModels)(...$connectorProductModels);
     }
 
     public function totalNumberOfProductModels(): int

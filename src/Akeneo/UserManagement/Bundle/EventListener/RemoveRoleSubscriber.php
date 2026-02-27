@@ -15,7 +15,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class RemoveRoleSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly GetUserCountInterface $getUserCount) {}
+    public function __construct(private readonly GetUserCountInterface $getUserCount)
+    {
+    }
 
     public function checkRoleIsRemovable(RemoveEvent $event): void
     {

@@ -8,7 +8,9 @@ use Doctrine\DBAL\Connection;
 
 class SqlGetUnitTranslations implements GetUnitTranslations
 {
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     public function byMeasurementFamilyCodeAndLocale(string $measurementFamilyCode, string $localeCode): array
     {

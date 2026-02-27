@@ -23,7 +23,8 @@ class FamilyRequirementsValidator extends ConstraintValidator
 {
     public function __construct(
         protected AttributeRepositoryInterface $attributeRepository,
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}

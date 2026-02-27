@@ -2,12 +2,12 @@
 
 namespace Akeneo\Platform\Bundle\UIBundle\Twig\Node;
 
+use Twig\Node\Node;
 use Twig_Compiler;
 use Twig_Node_Expression_Constant;
 use Twig_Node_Expression_Function;
 use Twig_Node_Include;
 use Twig_Node_Print;
-use Twig\Node\Node;
 
 class PlaceholderNode extends \Twig_Node
 {

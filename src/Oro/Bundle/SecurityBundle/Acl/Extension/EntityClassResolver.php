@@ -13,7 +13,9 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class EntityClassResolver
 {
-    public function __construct(protected ManagerRegistry $doctrine) {}
+    public function __construct(protected ManagerRegistry $doctrine)
+    {
+    }
 
     /**
      * Gets the full class name for the given entity

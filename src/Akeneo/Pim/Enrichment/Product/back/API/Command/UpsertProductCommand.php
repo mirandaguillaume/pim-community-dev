@@ -197,10 +197,10 @@ final readonly class UpsertProductCommand
         $familyUserIntent = null;
         $parentUserIntent = null;
         $associationUserIntents = \array_values(
-            \array_filter($userIntents, fn($userIntent): bool => $userIntent instanceof AssociationUserIntent)
+            \array_filter($userIntents, fn ($userIntent): bool => $userIntent instanceof AssociationUserIntent)
         );
         $quantifiedAssociationUserIntents = \array_values(
-            \array_filter($userIntents, fn($userIntent): bool => $userIntent instanceof QuantifiedAssociationUserIntent)
+            \array_filter($userIntents, fn ($userIntent): bool => $userIntent instanceof QuantifiedAssociationUserIntent)
         );
         foreach ($userIntents as $userIntent) {
             if ($userIntent instanceof ValueUserIntent) {

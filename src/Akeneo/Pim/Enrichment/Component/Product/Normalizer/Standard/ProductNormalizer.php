@@ -21,7 +21,9 @@ class ProductNormalizer implements NormalizerInterface, CacheableSupportsMethodI
     /**
      * ProductNormalizer constructor.
      */
-    public function __construct(private readonly NormalizerInterface $propertiesNormalizer, private readonly NormalizerInterface $associationsNormalizer, private readonly NormalizerInterface $quantifiedAssociationsNormalizer) {}
+    public function __construct(private readonly NormalizerInterface $propertiesNormalizer, private readonly NormalizerInterface $associationsNormalizer, private readonly NormalizerInterface $quantifiedAssociationsNormalizer)
+    {
+    }
 
     /**
      * {@inheritdoc}

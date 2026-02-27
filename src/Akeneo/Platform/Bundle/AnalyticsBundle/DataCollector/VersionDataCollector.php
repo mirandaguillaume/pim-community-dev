@@ -30,7 +30,8 @@ class VersionDataCollector implements DataCollectorInterface
         protected InstallStatusManager $installStatusManager,
         protected string $environment,
         private readonly FeatureFlags $featureFlags,
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}

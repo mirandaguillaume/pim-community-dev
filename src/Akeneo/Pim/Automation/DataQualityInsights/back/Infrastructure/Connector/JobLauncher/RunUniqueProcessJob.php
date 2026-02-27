@@ -27,7 +27,9 @@ final readonly class RunUniqueProcessJob
     /** Time for which a job execution is considered as outdated. */
     private const OUTDATED_JOB_EXECUTION_TIME = '-3 HOUR';
 
-    public function __construct(private EntityManager $entityManager, private JobExecutionManager $executionManager, private JobRepositoryInterface $jobRepository, private JobExecutionMessageFactory $jobExecutionMessageFactory, private LoggerInterface $logger, private JobRegistry $jobRegistry, private string $projectDir) {}
+    public function __construct(private EntityManager $entityManager, private JobExecutionManager $executionManager, private JobRepositoryInterface $jobRepository, private JobExecutionMessageFactory $jobExecutionMessageFactory, private LoggerInterface $logger, private JobRegistry $jobRegistry, private string $projectDir)
+    {
+    }
 
     public function run(string $jobName, \Closure $buildJobParameters)
     {

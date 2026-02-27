@@ -23,7 +23,8 @@ final readonly class GetEvaluationResultsByProductsAndCriterionQuery implements 
     public function __construct(
         private Connection $dbConnection,
         private TransformCriterionEvaluationResultIds $transformCriterionEvaluationResultIds
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}

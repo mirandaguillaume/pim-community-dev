@@ -17,7 +17,8 @@ final class MarkProductModelsEvaluationImpactedByUpdatedProductModelsTasklet ext
         private readonly GetUpdatedEntityIdsQueryInterface $getUpdatedProductModelIdsQuery,
         private readonly LoggerInterface $logger,
         private readonly int $bulkSize
-    ) {}
+    ) {
+    }
 
     public function execute(): void
     {

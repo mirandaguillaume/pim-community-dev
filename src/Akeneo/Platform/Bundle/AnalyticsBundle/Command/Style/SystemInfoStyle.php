@@ -21,7 +21,7 @@ class SystemInfoStyle extends SymfonyStyle
     public function table(array $headers, array $rows)
     {
         $headers = array_map(
-            fn($value) => sprintf("<info>%s</info>", $value),
+            fn ($value) => sprintf("<info>%s</info>", $value),
             $headers
         );
 

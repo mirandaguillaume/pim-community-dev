@@ -50,7 +50,7 @@ class ProductRepository extends EntityRepository implements
             ]
         );
 
-        $uuids = array_map(fn(string $bytes) => Uuid::fromBytes($bytes), $uuidsAsBytes);
+        $uuids = array_map(fn (string $bytes) => Uuid::fromBytes($bytes), $uuidsAsBytes);
 
         return $this->findBy(['uuid' => $uuids]);
     }

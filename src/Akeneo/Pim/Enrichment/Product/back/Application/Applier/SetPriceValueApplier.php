@@ -19,7 +19,8 @@ final readonly class SetPriceValueApplier implements UserIntentApplier
 {
     public function __construct(
         private ObjectUpdaterInterface $productUpdater,
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritDoc}
@@ -33,7 +34,7 @@ final readonly class SetPriceValueApplier implements UserIntentApplier
             $userIntent->channelCode()
         );
         $formerValueAsArray = array_map(
-            static fn(ProductPrice $price): array => [
+            static fn (ProductPrice $price): array => [
                 'amount' => $price->getData(),
                 'currency' => $price->getCurrency(),
             ],

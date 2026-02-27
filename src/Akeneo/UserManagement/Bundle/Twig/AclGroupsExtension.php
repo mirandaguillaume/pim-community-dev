@@ -19,7 +19,8 @@ class AclGroupsExtension extends AbstractExtension
     public function __construct(
         protected array $bundles,
         private readonly FeatureFlags $featureFlags,
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}

@@ -26,7 +26,8 @@ final readonly class TenantContextFetcher implements TenantContextFetcherInterfa
         private LoggerInterface $logger,
         private ContextValueDecrypterInterface $tenantContextDecoder,
         private int $cacheTtl = 30
-    ) {}
+    ) {
+    }
 
     public function getTenantContext(string $tenantId, ContextStoreInterface $contextStore): array
     {

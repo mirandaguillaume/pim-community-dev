@@ -30,7 +30,8 @@ class FamilyRemover implements RemoverInterface
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly CountProductsWithFamilyInterface $counter,
         private readonly DashboardScoresProjectionRepositoryInterface $dashboardScoresProjectionRepository
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}

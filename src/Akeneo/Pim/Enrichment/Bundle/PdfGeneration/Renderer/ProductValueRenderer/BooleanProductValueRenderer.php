@@ -10,7 +10,9 @@ use Twig\Environment;
 
 class BooleanProductValueRenderer implements ProductValueRenderer
 {
-    public function __construct(private readonly TranslatorInterface $translator) {}
+    public function __construct(private readonly TranslatorInterface $translator)
+    {
+    }
 
     public function render(Environment $environment, AttributeInterface $attribute, ?ValueInterface $value, string $localeCode): ?string
     {

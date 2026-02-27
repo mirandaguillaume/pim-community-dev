@@ -20,7 +20,8 @@ class FamilyAttributeAsLabelChangedSubscriber implements EventSubscriberInterfac
     public function __construct(
         private readonly FindAttributeCodeAsLabelForFamilyInterface $attributeCodeAsLabelForFamily,
         private readonly Client $esClient,
-    ) {}
+    ) {
+    }
 
     public static function getSubscribedEvents(): array
     {

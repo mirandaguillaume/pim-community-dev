@@ -17,7 +17,9 @@ class AverageMaxScopableAttributesPerFamily implements AverageMaxQuery
 {
     private const VOLUME_NAME = 'average_max_scopable_attributes_per_family';
 
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     /**
      * {@inheritdoc}

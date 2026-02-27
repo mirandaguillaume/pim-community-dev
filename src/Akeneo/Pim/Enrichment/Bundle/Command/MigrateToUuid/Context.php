@@ -18,7 +18,8 @@ final class Context
         private readonly bool $dryRun,
         private readonly bool $withStats,
         private readonly bool $lockTables
-    ) {}
+    ) {
+    }
 
     public function dryRun(): bool
     {

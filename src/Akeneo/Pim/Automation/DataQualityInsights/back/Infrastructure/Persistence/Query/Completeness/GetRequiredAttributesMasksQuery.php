@@ -20,7 +20,8 @@ final readonly class GetRequiredAttributesMasksQuery implements GetRequiredAttri
     public function __construct(
         private Connection $connection,
         private BuildSqlMaskField $mask,
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}

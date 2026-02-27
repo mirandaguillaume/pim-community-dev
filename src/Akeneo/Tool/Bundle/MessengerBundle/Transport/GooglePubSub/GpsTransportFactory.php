@@ -15,7 +15,9 @@ use Symfony\Component\Messenger\Transport\TransportInterface;
  */
 final readonly class GpsTransportFactory implements TransportFactoryInterface
 {
-    public function __construct(private PubSubClientFactory $pubSubClientFactory, private OrderingKeySolver $orderingKeySolver) {}
+    public function __construct(private PubSubClientFactory $pubSubClientFactory, private OrderingKeySolver $orderingKeySolver)
+    {
+    }
 
     public function createTransport(string $dsn, array $options, SerializerInterface $serializer): TransportInterface
     {

@@ -13,7 +13,9 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class CountTreesChildren implements CountTreesChildrenInterface
 {
-    public function __construct(private Connection $dbConnection) {}
+    public function __construct(private Connection $dbConnection)
+    {
+    }
 
     public function execute(): array
     {

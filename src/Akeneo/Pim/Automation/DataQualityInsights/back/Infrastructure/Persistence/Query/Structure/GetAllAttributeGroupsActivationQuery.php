@@ -13,7 +13,9 @@ use Doctrine\DBAL\Connection;
  */
 final class GetAllAttributeGroupsActivationQuery implements GetAllAttributeGroupsActivationQueryInterface
 {
-    public function __construct(protected Connection $dbConnection) {}
+    public function __construct(protected Connection $dbConnection)
+    {
+    }
 
     public function execute(): array
     {

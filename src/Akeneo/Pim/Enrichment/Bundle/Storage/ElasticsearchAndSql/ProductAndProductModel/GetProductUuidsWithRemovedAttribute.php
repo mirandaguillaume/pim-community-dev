@@ -39,7 +39,7 @@ final readonly class GetProductUuidsWithRemovedAttribute implements GetProductUu
         $rows = $this->elasticsearchClient->search($body);
 
         while (!empty($rows['hits']['hits'])) {
-            $uuids = array_map(fn(array $product) => \str_replace('product_', '', (string) $product['_source']['id']), $rows['hits']['hits']);
+            $uuids = array_map(fn (array $product) => \str_replace('product_', '', (string) $product['_source']['id']), $rows['hits']['hits']);
             yield $uuids;
             $body['search_after'] = end($rows['hits']['hits'])['sort'];
             $rows = $this->elasticsearchClient->search($body);

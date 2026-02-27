@@ -15,7 +15,8 @@ final readonly class SqlGetMainIdentifierAttributeCode implements GetMainIdentif
 {
     public function __construct(
         private Connection $connection
-    ) {}
+    ) {
+    }
 
     public function __invoke(): string
     {

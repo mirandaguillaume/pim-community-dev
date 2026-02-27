@@ -24,7 +24,8 @@ class JobExecutionNotifier implements EventSubscriberInterface
     public function __construct(
         private readonly NotificationFactoryRegistry $factoryRegistry,
         private readonly NotifierInterface $notifier,
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}

@@ -22,7 +22,9 @@ class DatasourceAdapterResolver implements DatasourceAdapterResolverInterface
      * @param string $ormAdapter
      * @param string $productOrmAdapter
      */
-    public function __construct(protected $ormAdapter, protected $productOrmAdapter) {}
+    public function __construct(protected $ormAdapter, protected $productOrmAdapter)
+    {
+    }
 
     /**
      * @param string $datasourceType

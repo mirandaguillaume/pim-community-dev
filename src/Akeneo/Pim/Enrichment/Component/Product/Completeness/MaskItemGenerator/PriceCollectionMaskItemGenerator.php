@@ -16,7 +16,8 @@ class PriceCollectionMaskItemGenerator implements MaskItemGeneratorForAttributeT
 {
     public function __construct(
         private readonly FindActivatedCurrenciesInterface $findActivatedCurrencies
-    ) {}
+    ) {
+    }
 
     /**
      * In the PIM, a price collection attribute value is complete if every currency of the current channel is filled.

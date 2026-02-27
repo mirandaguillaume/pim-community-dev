@@ -20,7 +20,9 @@ class SqlGetAllViewableLocalesForUser implements GetAllViewableLocalesForUserInt
 {
     private ?array $cache = null;
 
-    public function __construct(private readonly Connection $sqlConnection) {}
+    public function __construct(private readonly Connection $sqlConnection)
+    {
+    }
 
     public function fetchAll(int $userId): array
     {

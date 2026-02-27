@@ -26,7 +26,9 @@ class FileValidator extends ConstraintValidator
         BaseFileValidator::MIB_BYTES => 'MiB',
     ];
 
-    public function __construct(private readonly array $extensionToMimeTypeMapping) {}
+    public function __construct(private readonly array $extensionToMimeTypeMapping)
+    {
+    }
 
     /**
      * {@inheritdoc}

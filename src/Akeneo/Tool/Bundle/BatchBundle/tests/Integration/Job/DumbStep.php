@@ -24,5 +24,7 @@ class DumbStep implements StepInterface
     /**
      * {@inheritdoc}
      */
-    public function execute(StepExecution $stepExecution) {}
+    public function execute(StepExecution $stepExecution)
+    {
+    }
 }

@@ -25,7 +25,9 @@ class ProductPdfRenderer implements RendererInterface
     final public const PDF_FORMAT = 'pdf';
     final public const THUMBNAIL_FILTER = 'pdf_thumbnail';
 
-    public function __construct(protected Environment $templating, protected PdfBuilderInterface $pdfBuilder, protected DataManager $dataManager, protected CacheManager $cacheManager, protected FilterManager $filterManager, protected IdentifiableObjectRepositoryInterface $attributeRepository, protected string $template, protected ?string $customFont = null) {}
+    public function __construct(protected Environment $templating, protected PdfBuilderInterface $pdfBuilder, protected DataManager $dataManager, protected CacheManager $cacheManager, protected FilterManager $filterManager, protected IdentifiableObjectRepositoryInterface $attributeRepository, protected string $template, protected ?string $customFont = null)
+    {
+    }
 
     /**
      * {@inheritdoc}

@@ -11,7 +11,9 @@ use Doctrine\DBAL\Connection;
 
 class SqlGetFamilies implements GetFamilies
 {
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     public function byCodes(array $familyCodes): array
     {

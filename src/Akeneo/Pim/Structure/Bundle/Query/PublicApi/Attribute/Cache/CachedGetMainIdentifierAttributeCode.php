@@ -17,7 +17,8 @@ final class CachedGetMainIdentifierAttributeCode implements GetMainIdentifierAtt
 
     public function __construct(
         private readonly GetMainIdentifierAttributeCode $getMainIdentifierAttributeCode
-    ) {}
+    ) {
+    }
 
     public function __invoke(): string
     {

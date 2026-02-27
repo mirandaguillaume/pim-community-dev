@@ -21,7 +21,8 @@ class ProductAssociationFilter implements FilterInterface
         private readonly NormalizerInterface $associationsNormalizer,
         private readonly NormalizerInterface $quantifiedAssociationsNormalizer,
         private readonly ComparatorRegistry $comparatorRegistry,
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}

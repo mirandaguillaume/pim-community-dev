@@ -29,7 +29,8 @@ class ProductIndexer implements ProductIndexerInterface
     public function __construct(
         private readonly Client $productAndProductModelClient,
         private readonly GetElasticsearchProductProjectionInterface $getElasticsearchProductProjection
-    ) {}
+    ) {
+    }
 
     /**
      * Indexes a list of products in the product_and_product_model index from their uuids.
@@ -67,7 +68,7 @@ class ProductIndexer implements ProductIndexerInterface
         }
 
         $this->productAndProductModelClient->bulkDelete(array_map(
-            fn(UuidInterface $productUuid): string => self::PRODUCT_IDENTIFIER_PREFIX . $productUuid->toString(),
+            fn (UuidInterface $productUuid): string => self::PRODUCT_IDENTIFIER_PREFIX . $productUuid->toString(),
             $productUuids
         ));
     }

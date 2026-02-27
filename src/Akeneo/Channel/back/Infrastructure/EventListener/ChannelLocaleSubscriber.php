@@ -32,7 +32,8 @@ class ChannelLocaleSubscriber implements EventSubscriberInterface
         private readonly string $jobName,
         private array $updatedLocales = [],
         private array $localesRemovedFromChannel = [],
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}

@@ -18,7 +18,8 @@ final readonly class SqlSaveCompletenesses implements SaveProductCompletenesses
 {
     public function __construct(
         private Connection $connection,
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}

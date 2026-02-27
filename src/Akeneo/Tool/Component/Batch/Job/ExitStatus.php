@@ -63,7 +63,9 @@ class ExitStatus implements \Stringable
         self::UNKNOWN   => 6,
     ];
 
-    public function __construct(private string $exitCode = self::UNKNOWN, private string $exitDescription = "") {}
+    public function __construct(private string $exitCode = self::UNKNOWN, private string $exitDescription = "")
+    {
+    }
 
     public function getExitCode(): string
     {

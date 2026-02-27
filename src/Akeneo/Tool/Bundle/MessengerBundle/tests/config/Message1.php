@@ -15,7 +15,9 @@ use Webmozart\Assert\Assert;
  */
 final readonly class Message1
 {
-    public function __construct(public string $text) {}
+    public function __construct(public string $text)
+    {
+    }
 
     /**
      * @return array<string, string>

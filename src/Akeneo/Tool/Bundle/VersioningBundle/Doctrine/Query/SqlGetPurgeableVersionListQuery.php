@@ -13,7 +13,9 @@ use Doctrine\DBAL\Connection;
  */
 class SqlGetPurgeableVersionListQuery
 {
-    public function __construct(private readonly Connection $dbConnection) {}
+    public function __construct(private readonly Connection $dbConnection)
+    {
+    }
 
     /**
      * Returns an object PurgeableVersionList at each iteration
@@ -89,7 +91,7 @@ class SqlGetPurgeableVersionListQuery
                 $loggedAt = $lastResult['logged_at'];
                 yield new PurgeableVersionList(
                     $resourceName,
-                    array_map(fn($row) => intval($row['id']), $results)
+                    array_map(fn ($row) => intval($row['id']), $results)
                 );
             }
         } while (!empty($results));

@@ -23,7 +23,9 @@ use Akeneo\Pim\Enrichment\Component\Product\Query\ProductQueryBuilderInterface;
  */
 class ProductAndProductModelQueryBuilder implements ProductQueryBuilderInterface
 {
-    public function __construct(private readonly ProductQueryBuilderInterface $pqb, private readonly ProductAndProductModelSearchAggregator $searchAggregator) {}
+    public function __construct(private readonly ProductQueryBuilderInterface $pqb, private readonly ProductAndProductModelSearchAggregator $searchAggregator)
+    {
+    }
 
     /**
      * {@inheritdoc}
@@ -141,7 +143,7 @@ class ProductAndProductModelQueryBuilder implements ProductQueryBuilderInterface
     {
         return !empty(array_filter(
             $this->getRawFilters(),
-            fn($filter) => $value === $filter[$filterProperty]
+            fn ($filter) => $value === $filter[$filterProperty]
         ));
     }
 
@@ -154,7 +156,7 @@ class ProductAndProductModelQueryBuilder implements ProductQueryBuilderInterface
     {
         $hasFilter = !empty(array_filter(
             $this->getRawFilters(),
-            fn(array $filter) => 'field' === $filter['type']
+            fn (array $filter) => 'field' === $filter['type']
                 && 'categories' === $filter['field']
                 && (Operators::IN_LIST === $filter['operator'] || Operators::IN_CHILDREN_LIST === $filter['operator'])
         ));

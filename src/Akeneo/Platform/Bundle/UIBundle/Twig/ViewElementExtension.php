@@ -17,7 +17,9 @@ use Twig\TwigFunction;
  */
 class ViewElementExtension extends AbstractExtension
 {
-    public function __construct(protected ViewElementRegistry $registry, protected Environment $templating, protected bool $debug = false) {}
+    public function __construct(protected ViewElementRegistry $registry, protected Environment $templating, protected bool $debug = false)
+    {
+    }
 
     /**
      * {@inheritdoc}

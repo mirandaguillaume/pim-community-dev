@@ -25,7 +25,8 @@ class ProductQuickExport implements ConstraintCollectionProviderInterface
         private readonly ConstraintCollectionProviderInterface $simpleConstraint,
         private readonly array $supportedJobNames,
         private readonly string $filePathExtension
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}

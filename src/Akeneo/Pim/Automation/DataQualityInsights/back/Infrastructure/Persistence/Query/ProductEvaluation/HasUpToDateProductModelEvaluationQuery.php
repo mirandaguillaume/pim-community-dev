@@ -22,7 +22,8 @@ final readonly class HasUpToDateProductModelEvaluationQuery implements HasUpToDa
     public function __construct(
         private Connection $dbConnection,
         private ProductModelIdFactory $factory
-    ) {}
+    ) {
+    }
 
     public function forEntityId(ProductEntityIdInterface $productId): bool
     {
@@ -62,7 +63,7 @@ final readonly class HasUpToDateProductModelEvaluationQuery implements HasUpToDa
             return null;
         }
 
-        $ids = array_map(fn($resultRow) => $resultRow['id'], $result);
+        $ids = array_map(fn ($resultRow) => $resultRow['id'], $result);
 
         if (empty($ids)) {
             return null;

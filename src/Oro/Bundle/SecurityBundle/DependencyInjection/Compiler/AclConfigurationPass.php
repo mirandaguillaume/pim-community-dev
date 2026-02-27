@@ -139,13 +139,13 @@ class AclConfigurationPass implements CompilerPassInterface
         }
         usort(
             $extensions,
-            fn($a, $b) => $a['priority'] == $b['priority']
+            fn ($a, $b) => $a['priority'] == $b['priority']
                 ? 0
                 : (($a['priority'] < $b['priority']) ? -1 : 1)
         );
 
         return array_map(
-            fn($el) => $el['id'],
+            fn ($el) => $el['id'],
             $extensions
         );
     }

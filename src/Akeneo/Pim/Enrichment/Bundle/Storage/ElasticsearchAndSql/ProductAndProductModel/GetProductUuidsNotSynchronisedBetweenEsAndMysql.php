@@ -18,7 +18,8 @@ final readonly class GetProductUuidsNotSynchronisedBetweenEsAndMysql
     public function __construct(
         private Client $productAndProductModelClient,
         private Connection $connection,
-    ) {}
+    ) {
+    }
 
     public function byBatchesOf(int $batchSize): iterable
     {
@@ -71,7 +72,7 @@ final readonly class GetProductUuidsNotSynchronisedBetweenEsAndMysql
             }
 
             $diff = \array_map(
-                static fn(array $row): UuidInterface => Uuid::fromBytes($row['uuid']),
+                static fn (array $row): UuidInterface => Uuid::fromBytes($row['uuid']),
                 \array_filter(
                     $rows,
                     function (array $row) use ($updatedById): bool {

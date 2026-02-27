@@ -26,7 +26,8 @@ class VersionBuilder
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly ObjectManager $objectManager,
         private readonly LegacyVersionBuilder $versionBuilder
-    ) {}
+    ) {
+    }
 
     public function buildVersionWithId(?string $resourceId, string $resourceName, array $snapshot): void
     {
@@ -93,7 +94,7 @@ class VersionBuilder
      */
     private function hasPermission(array $changeset): bool
     {
-        $changesetPermissions = array_filter($changeset, fn($key) => str_ends_with((string) $key, '_permission'), ARRAY_FILTER_USE_KEY);
+        $changesetPermissions = array_filter($changeset, fn ($key) => str_ends_with((string) $key, '_permission'), ARRAY_FILTER_USE_KEY);
 
         return count($changesetPermissions) > 0;
     }

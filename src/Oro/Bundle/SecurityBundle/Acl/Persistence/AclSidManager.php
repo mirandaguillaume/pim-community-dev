@@ -14,7 +14,9 @@ class AclSidManager extends AbstractAclManager
     /**
      * Constructor
      */
-    public function __construct(private readonly ?MutableAclProvider $aclProvider = null) {}
+    public function __construct(private readonly ?MutableAclProvider $aclProvider = null)
+    {
+    }
 
     /**
      * Indicates whether ACL based security is enabled or not

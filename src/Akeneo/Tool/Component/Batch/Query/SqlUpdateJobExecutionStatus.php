@@ -9,7 +9,9 @@ use Doctrine\DBAL\Connection;
 
 class SqlUpdateJobExecutionStatus
 {
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     public function updateByJobExecutionId(int $jobExecutionId, BatchStatus $batchStatus): void
     {

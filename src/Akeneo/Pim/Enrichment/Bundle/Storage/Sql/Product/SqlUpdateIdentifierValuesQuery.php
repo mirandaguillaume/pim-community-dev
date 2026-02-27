@@ -17,7 +17,9 @@ use Doctrine\DBAL\ParameterType;
 final class SqlUpdateIdentifierValuesQuery implements UpdateIdentifierValuesQuery
 {
     private ?bool $doesTableExist = null;
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly Connection $connection)
+    {
+    }
 
     /**
      * {@inheritdoc}
@@ -45,13 +47,13 @@ final class SqlUpdateIdentifierValuesQuery implements UpdateIdentifierValuesQuer
         foreach ($products as $product) {
             $statement->bindValue(++$paramIndex, $product->getUuid()->getBytes(), ParameterType::BINARY);
             $identifierValues = \array_map(
-                static fn(IdentifierValueInterface $value): string => \sprintf(
+                static fn (IdentifierValueInterface $value): string => \sprintf(
                     '%s#%s',
                     $value->getAttributeCode(),
                     $value->getData()
                 ),
                 $product->getValues()->filter(
-                    static fn(ValueInterface $value): bool => $value instanceof IdentifierValueInterface
+                    static fn (ValueInterface $value): bool => $value instanceof IdentifierValueInterface
                 )->getValues()
             );
             $statement->bindValue(++$paramIndex, \json_encode($identifierValues, JSON_THROW_ON_ERROR));

@@ -25,7 +25,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class AclRoleType extends AbstractType
 {
-    public function __construct(private array $privilegeConfig) {}
+    public function __construct(private array $privilegeConfig)
+    {
+    }
 
     /**
      * {@inheritdoc}

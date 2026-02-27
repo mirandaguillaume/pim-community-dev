@@ -20,7 +20,9 @@ use Psr\EventDispatcher\EventDispatcherInterface;
  */
 class CreateMeasurementFamilyHandler
 {
-    public function __construct(private readonly MeasurementFamilyRepositoryInterface $measurementFamilyRepository, private readonly ?\Psr\EventDispatcher\EventDispatcherInterface $eventDispatcher) {}
+    public function __construct(private readonly MeasurementFamilyRepositoryInterface $measurementFamilyRepository, private readonly ?\Psr\EventDispatcher\EventDispatcherInterface $eventDispatcher)
+    {
+    }
 
     public function handle(CreateMeasurementFamilyCommand $saveMeasurementFamilyCommand): void
     {
@@ -42,7 +44,7 @@ class CreateMeasurementFamilyHandler
         return array_map(
             function (array $unit) {
                 $operations = array_map(
-                    static fn(array $operation) => Operation::create(
+                    static fn (array $operation) => Operation::create(
                         $operation['operator'],
                         $operation['value']
                     ),

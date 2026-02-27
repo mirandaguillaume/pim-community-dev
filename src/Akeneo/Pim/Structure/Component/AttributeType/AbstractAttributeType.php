@@ -17,7 +17,9 @@ abstract class AbstractAttributeType implements AttributeTypeInterface
     /**
      * @param string $backendType the backend type
      */
-    public function __construct(protected $backendType) {}
+    public function __construct(protected $backendType)
+    {
+    }
 
     /**
      * {@inheritdoc}

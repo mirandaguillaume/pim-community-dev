@@ -16,14 +16,16 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetCategoryCodesByProductModelCodes
 {
-    public function __construct(private Connection $connection) {}
+    public function __construct(private Connection $connection)
+    {
+    }
 
     /**
      * @return array ['code1' => ['category1'], 'code2' => []]
      */
     public function fromProductModelCodes(array $productModelCodes): array
     {
-        $productModelCodes = (fn(string ...$productModelCodes) => $productModelCodes)(... $productModelCodes);
+        $productModelCodes = (fn (string ...$productModelCodes) => $productModelCodes)(... $productModelCodes);
 
         $results = [];
 

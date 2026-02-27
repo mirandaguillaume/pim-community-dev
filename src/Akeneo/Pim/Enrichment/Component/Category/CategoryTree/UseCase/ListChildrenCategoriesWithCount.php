@@ -10,7 +10,9 @@ namespace Akeneo\Pim\Enrichment\Component\Category\CategoryTree\UseCase;
  */
 class ListChildrenCategoriesWithCount
 {
-    public function __construct(private readonly int $categoryIdToExpand, private readonly int $categoryIdSelectedAsFilter, private readonly bool $countIncludingSubCategories, private readonly int $userId, private readonly string $translationLocaleCode) {}
+    public function __construct(private readonly int $categoryIdToExpand, private readonly int $categoryIdSelectedAsFilter, private readonly bool $countIncludingSubCategories, private readonly int $userId, private readonly string $translationLocaleCode)
+    {
+    }
 
     /**
      * The category to display is the category that is chosen by the user to be expanded.

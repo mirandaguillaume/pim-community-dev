@@ -12,7 +12,9 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\KeyIndicatorCod
  */
 final readonly class KeyIndicator
 {
-    public function __construct(private KeyIndicatorCode $code, private int $totalGood, private int $totalToImprove, private array $extraData = []) {}
+    public function __construct(private KeyIndicatorCode $code, private int $totalGood, private int $totalToImprove, private array $extraData = [])
+    {
+    }
 
     public function getCode(): KeyIndicatorCode
     {

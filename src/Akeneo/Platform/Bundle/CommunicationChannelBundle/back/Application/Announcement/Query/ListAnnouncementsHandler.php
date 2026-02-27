@@ -15,7 +15,9 @@ use Akeneo\Platform\CommunicationChannel\Domain\Announcement\Query\FindViewedAnn
  */
 final readonly class ListAnnouncementsHandler
 {
-    public function __construct(private FindAnnouncementItemsInterface $findAnnouncementItems, private FindViewedAnnouncementIdsInterface $findViewedAnnouncementIds) {}
+    public function __construct(private FindAnnouncementItemsInterface $findAnnouncementItems, private FindViewedAnnouncementIdsInterface $findViewedAnnouncementIds)
+    {
+    }
 
     /**
      * @return AnnouncementItem[]

@@ -10,7 +10,9 @@ class AclAnnotationCacheWarmer implements CacheWarmerInterface
     /**
      * Constructor
      */
-    public function __construct(private readonly AclAnnotationProvider $provider) {}
+    public function __construct(private readonly AclAnnotationProvider $provider)
+    {
+    }
 
     /**
      * {inheritdoc}

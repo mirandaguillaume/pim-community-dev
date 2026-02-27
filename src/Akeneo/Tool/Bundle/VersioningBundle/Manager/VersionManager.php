@@ -118,7 +118,7 @@ class VersionManager
 
             $builtVersions = array_filter(
                 $createdVersions,
-                fn($version) => (is_countable($version->getChangeset()) ? count($version->getChangeset()) : 0) > 0
+                fn ($version) => (is_countable($version->getChangeset()) ? count($version->getChangeset()) : 0) > 0
             );
 
             if (!empty($builtVersions)) {

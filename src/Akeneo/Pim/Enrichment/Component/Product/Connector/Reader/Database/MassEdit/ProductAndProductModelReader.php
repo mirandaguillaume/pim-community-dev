@@ -40,7 +40,9 @@ class ProductAndProductModelReader implements
 
     private array $state = [];
 
-    public function __construct(private readonly ProductQueryBuilderFactoryInterface $pqbFactory, private readonly ChannelRepositoryInterface $channelRepository, private readonly bool $readChildren) {}
+    public function __construct(private readonly ProductQueryBuilderFactoryInterface $pqbFactory, private readonly ChannelRepositoryInterface $channelRepository, private readonly bool $readChildren)
+    {
+    }
 
     /**
      * {@inheritdoc}
@@ -147,7 +149,7 @@ class ProductAndProductModelReader implements
             }, $filters);
         }
 
-        return array_filter($filters, fn($filter) => (is_countable($filter) ? count($filter) : 0) > 0);
+        return array_filter($filters, fn ($filter) => (is_countable($filter) ? count($filter) : 0) > 0);
     }
 
     private function getCursor(array $filters, ChannelInterface $channel = null): CursorInterface

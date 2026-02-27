@@ -40,7 +40,8 @@ class SqlGetConnectorProducts implements Query\GetConnectorProducts
         private readonly GetCategoryCodesByProductUuids $getCategoryCodesByProductUuids,
         private readonly ReadValueCollectionFactory $readValueCollectionFactory,
         private readonly Connection $connection
-    ) {}
+    ) {
+    }
 
     /**
      * {@inheritdoc}
@@ -53,7 +54,7 @@ class SqlGetConnectorProducts implements Query\GetConnectorProducts
         ?array $localesToFilterOn
     ): ConnectorProductList {
         $result = $pqb->execute();
-        $uuids = array_map(fn(IdentifierResult $identifier) => $this->getUuidFromIdentifierResult($identifier->getId()), iterator_to_array($result));
+        $uuids = array_map(fn (IdentifierResult $identifier) => $this->getUuidFromIdentifierResult($identifier->getId()), iterator_to_array($result));
 
         $products = $this->fromProductUuids($uuids, $userId, $attributesToFilterOn, $channelToFilterOn, $localesToFilterOn);
 
@@ -280,7 +281,7 @@ class SqlGetConnectorProducts implements Query\GetConnectorProducts
             SQL;
 
         return array_map(
-            fn(string $uuidStr): UuidInterface => Uuid::fromString($uuidStr),
+            fn (string $uuidStr): UuidInterface => Uuid::fromString($uuidStr),
             $this->connection->fetchFirstColumn(
                 $sql,
                 ['identifiers' => $productIdentifiers],

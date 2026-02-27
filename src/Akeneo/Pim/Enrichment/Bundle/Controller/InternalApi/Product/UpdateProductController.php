@@ -62,7 +62,8 @@ final class UpdateProductController
         private readonly MessageBusInterface $queryMessageBus,
         private readonly UnableToSetIdentifiersSubscriberInterface $unableToSetIdentifiersSubscriber,
         private readonly UnableToSetIdentifierExceptionPresenterInterface $unableToSetIdentifierExceptionPresenter,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request, string $uuid): Response
     {
@@ -89,7 +90,7 @@ final class UpdateProductController
             $isNotOwnerException = \count(
                 \array_filter(
                     \iterator_to_array($e->violations()),
-                    fn(ConstraintViolationInterface $violation): bool => ViolationCode::containsViolationCode((int) $violation->getCode(), ViolationCode::USER_IS_NOT_OWNER)
+                    fn (ConstraintViolationInterface $violation): bool => ViolationCode::containsViolationCode((int) $violation->getCode(), ViolationCode::USER_IS_NOT_OWNER)
                 )
             ) > 0;
             if ($isNotOwnerException) {
@@ -99,7 +100,7 @@ final class UpdateProductController
             $hasPermissionException = \count(
                 \array_filter(
                     \iterator_to_array($e->violations()),
-                    fn(ConstraintViolationInterface $violation): bool => \is_int($violation->getCode()) && ViolationCode::containsViolationCode((int) $violation->getCode(), ViolationCode::PERMISSION)
+                    fn (ConstraintViolationInterface $violation): bool => \is_int($violation->getCode()) && ViolationCode::containsViolationCode((int) $violation->getCode(), ViolationCode::PERMISSION)
                 )
             ) > 0;
             if ($hasPermissionException) {

@@ -17,7 +17,9 @@ class VersionFactory
     /**
      * @param string $versionClass
      */
-    public function __construct(protected $versionClass) {}
+    public function __construct(protected $versionClass)
+    {
+    }
 
     /**
      * Create a version

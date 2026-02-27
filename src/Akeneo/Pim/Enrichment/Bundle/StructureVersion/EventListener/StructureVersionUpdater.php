@@ -19,7 +19,9 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class StructureVersionUpdater implements EventSubscriberInterface
 {
-    public function __construct(protected ManagerRegistry $doctrine) {}
+    public function __construct(protected ManagerRegistry $doctrine)
+    {
+    }
 
     /**
      * {@inheritdoc}

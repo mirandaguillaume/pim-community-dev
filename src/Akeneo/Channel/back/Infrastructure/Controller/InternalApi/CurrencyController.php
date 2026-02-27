@@ -16,7 +16,8 @@ class CurrencyController
 {
     public function __construct(
         private readonly CurrencyRepositoryInterface $currencyRepository,
-    ) {}
+    ) {
+    }
 
     public function indexAction(): JsonResponse
     {

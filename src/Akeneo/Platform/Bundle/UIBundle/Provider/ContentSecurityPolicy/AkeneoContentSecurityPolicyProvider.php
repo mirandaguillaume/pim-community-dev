@@ -8,7 +8,9 @@ use Akeneo\Platform\Bundle\UIBundle\EventListener\ScriptNonceGenerator;
 
 final readonly class AkeneoContentSecurityPolicyProvider implements ContentSecurityPolicyProviderInterface
 {
-    public function __construct(private ScriptNonceGenerator $nonceGenerator) {}
+    public function __construct(private ScriptNonceGenerator $nonceGenerator)
+    {
+    }
 
     public function getContentSecurityPolicy(): array
     {
