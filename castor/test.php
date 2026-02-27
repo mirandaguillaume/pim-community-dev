@@ -140,13 +140,11 @@ function acceptanceBack(): void
     \installer\acceptanceBack();
 }
 
-#[AsTask(namespace: 'test', name: 'acceptance-back-contexts', description: 'Run bounded context acceptance tests')]
+#[AsTask(namespace: 'test', name: 'acceptance-back-contexts', description: 'Run bounded context acceptance tests (PHPUnit + in-memory behat)')]
 function acceptanceBackContexts(): void
 {
-    // Ensure Docker services (MySQL, etc.) are started before running tests
-    \dockerCompose('up -d mysql elasticsearch');
-
-    \category\acceptanceBack();
+    // Note: category acceptance tests are behat-legacy tests requiring MySQL
+    // infrastructure — they run in the behat-legacy CI job instead.
     \import_export\acceptanceBack();
     \job\acceptanceBack();
     \channel\acceptanceBack();
