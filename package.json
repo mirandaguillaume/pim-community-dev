@@ -195,6 +195,7 @@
   ],
   "resolutions": {
     "babel-eslint": "npm:@babel/eslint-parser@^7.25.0",
-    "@types/node": "18.15.0"
+    "@types/node": "18.15.0",
+    "typescript": "4.9.5"
   }
 }

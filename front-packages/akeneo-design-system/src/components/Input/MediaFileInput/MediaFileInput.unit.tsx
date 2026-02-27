@@ -8,7 +8,7 @@ import {IconButton} from '../../IconButton/IconButton';
 
 jest.mock('../../../../static/illustrations/DefaultPicture.svg', () => 'FALLBACK_IMAGE');
 
-const flushPromises = () => new Promise(resolve => setTimeout(resolve, 0));
+const flushPromises = () => new Promise(resolve => process.nextTick(resolve));
 
 const defaultProps = {
   placeholder: 'Upload your file here',
