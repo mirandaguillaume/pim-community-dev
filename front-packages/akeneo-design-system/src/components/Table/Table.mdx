@@ -1,0 +1,63 @@
+import {Meta, Canvas, Story, ArgTypes} from '@storybook/blocks';
+import * as Stories from './Table.stories';
+import {useState} from 'react';
+import {Table} from './Table.tsx';
+import {Badge, Button, Image, IconButton} from '../../components';
+import {DeleteIcon} from '../../icons';
+import {rows, sortRows} from './shared-stories-data';
+import {Scrollable} from '../../storybook/PreviewGallery';
+
+<Meta of={Stories} />
+
+# Table
+
+## Usage
+
+Tables allow users to analyze and manipulate data.
+
+To browse many information at once, for example, view multiple products and their status.
+Quickly select and execute bulk actions, such as deleting multiple products, exporting multiple products ...
+To compare information, for example how many products are completed versus how many are in progress.
+
+## Basic table
+
+<Canvas of={Stories.Standard} />
+
+<ArgTypes of={Stories.Standard} />
+
+## Sortable header
+
+<Canvas of={Stories.SortableHeader} />
+
+## Draggable rows
+
+<Canvas of={Stories.DraggableRows} />
+
+## Selectable lines
+
+<Canvas of={Stories.SelectableLines} />
+
+## Clickable lines
+
+<Canvas of={Stories.ClickableLines} />
+
+## Table with actions
+<Canvas of={Stories.TableWithActions} />
+
+## Complex table
+
+<Canvas of={Stories.ComplexTable} />
+
+## Table with sticky header
+
+If you want your `Table.Header` to stay on top when scrolling in the Table, just set the desired `top` position value in the `sticky` prop.
+
+<Canvas of={Stories.StickyHeader} />
+
+## Table with warning and locked rows
+
+<Canvas of={Stories.WarningAndLockedRows} />
+
+## Table with multiple actions
+
+<Canvas of={Stories.MultipleActions} />

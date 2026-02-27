@@ -1,0 +1,45 @@
+import {Meta, Canvas, Story, ArgTypes} from '@storybook/blocks';
+import * as Stories from './Tree.stories';
+import {Tree} from './Tree.tsx';
+
+<Meta of={Stories} />
+
+# Tree
+
+## Usage
+
+A tree is a hierarchical component that displays the visual representation of the parent-child relationship between nodes (such as categories, families, etc...). There are different variations that allow to select only one and/or multiple node at the same time.
+
+## General guidance
+
+Tree structures are flexible. A default tree provides a structure with named nodes and arrows to expand/collapse child nodes, whereas a selectable tree features checkboxes allowing the user to select nodes and/or children nodes.
+
+## Technical note
+
+The Tree component uses its value to trigger onOpen, onClose and other events. By default, the value is typehinted as a string. You can set a different type by using generic type `<Tree<number> {...}/>` for example.
+
+## Playground
+
+<Canvas of={Stories.Standard} />
+
+<ArgTypes of={Stories.Standard} />
+
+## Variation on selected
+
+<Canvas of={Stories.Selected} />
+
+## Variation on isLoading
+
+<Canvas of={Stories.IsLoading} />
+
+## Variation on isLeaf
+
+<Canvas of={Stories.IsLeaf} />
+
+## Variation on selectable
+
+<Canvas of={Stories.Selectable} />
+
+## Variation on readOnly
+
+<Canvas of={Stories.ReadOnly} />

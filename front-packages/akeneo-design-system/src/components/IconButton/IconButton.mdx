@@ -1,0 +1,40 @@
+import {Meta, Canvas, Story, ArgTypes} from '@storybook/blocks';
+import * as Stories from './IconButton.stories';
+import {IconButton} from './IconButton.tsx';
+import * as Icons from '../../icons';
+
+<Meta of={Stories} />
+
+# Icon button
+
+## Usage
+
+The IconButton component is useful when your only need is to have a clickable Icon.
+
+## Playground
+
+<Canvas of={Stories.Standard} />
+
+<ArgTypes of={Stories.Standard} />
+
+## Variation on level
+
+<Canvas of={Stories.Level} />
+
+## Variation on ghost & border
+
+<Canvas of={Stories.Ghost} />
+
+## Variation on disabled
+
+<Canvas of={Stories.Disabled} />
+
+## Variation on size
+
+<Canvas of={Stories.Size} />
+
+## Usage with `href` prop
+
+If you want your button to act like a <LinkTo kind="Components/Link" story="Standard">Link</LinkTo> (with "open in a new tab" feature of cmd/ctrl + click), use the `href` prop to specify your link.
+
+<Canvas of={Stories.Link} />
