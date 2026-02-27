@@ -1,5 +1,6 @@
 module.exports = {
   preset: 'ts-jest',
+  testEnvironment: 'jsdom',
   moduleNameMapper: {
     '\\.(svg|css)$': '<rootDir>/tests/fileMock.ts',
   },
@@ -14,7 +15,7 @@ module.exports = {
     'src/microfrontend',
     'src/components/PimView.tsx',
     'index.ts',
-    'src/components/CategoryTree'
+    'src/components/CategoryTree',
   ],
   coverageThreshold: {
     global: {

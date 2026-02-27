@@ -1,9 +1,10 @@
 module.exports = {
   clearMocks: true,
+  testEnvironment: 'jsdom',
   moduleFileExtensions: ['js', 'ts', 'tsx'],
   moduleDirectories: ['node_modules', 'src'],
   moduleNameMapper: {
-    "\\.(jpg|ico|jpeg|png|gif|svg|css)$": "<rootDir>/__mocks__/fileMock.js"
+    '\\.(jpg|ico|jpeg|png|gif|svg|css)$': '<rootDir>/__mocks__/fileMock.js',
   },
   roots: ['<rootDir>'],
   setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
@@ -18,12 +19,12 @@ module.exports = {
   collectCoverageFrom: ['src/**/*.ts?(x)', '!**/*.visual.ts?(x)'],
   cacheDirectory: '/tmp/jest',
   coveragePathIgnorePatterns: [
-      'src/illustrations',
-      'src/icons',
-      'src/theme',
-      'src/storybook',
-      'generator',
-      'src/shared/PreviewGallery',
+    'src/illustrations',
+    'src/icons',
+    'src/theme',
+    'src/storybook',
+    'generator',
+    'src/shared/PreviewGallery',
   ],
   coverageReporters: ['text-summary', 'html'],
   coverageDirectory: 'coverage',
