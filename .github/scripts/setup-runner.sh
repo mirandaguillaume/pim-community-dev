@@ -39,7 +39,7 @@ echo "runner ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/runner
 chmod 440 /etc/sudoers.d/runner
 
 echo "=== Pre-pull Docker images (persistent cache) ==="
-docker pull mysql:8.0.30 &
+docker pull mysql:8.4 &
 docker pull elastic/elasticsearch:8.11.3 &
 docker pull selenium/standalone-chrome-debug:3.141.59 &
 docker pull minio/minio:RELEASE.2025-01-20T14-49-07Z &

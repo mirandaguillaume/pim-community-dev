@@ -74,7 +74,7 @@ id runner &>/dev/null || useradd -m -s /bin/bash -G docker runner
 loginctl enable-linger runner
 
 echo "=== Pre-pull Docker images (persistent cache) ==="
-docker pull mysql:8.0.30 &
+docker pull mysql:8.4 &
 docker pull elastic/elasticsearch:8.11.3 &
 docker pull selenium/standalone-chrome-debug:3.141.59 &
 docker pull minio/minio:RELEASE.2025-01-20T14-49-07Z &
@@ -200,7 +200,7 @@ sudo ./svc.sh start
 |  GitHub Actions Runner (systemd service)     |
 |                                              |
 |  Persistent Docker cache:                    |
-|  - mysql:8.0.30                              |
+|  - mysql:8.4                                 |
 |  - elasticsearch:8.11.3                      |
 |  - selenium/standalone-chrome-debug:3.141.59 |
 |  - minio, pubsub-emulator, gcs-emulator     |
