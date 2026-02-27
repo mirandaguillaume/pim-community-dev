@@ -214,8 +214,8 @@ jobs:
 
       - name: Install Castor
         run: |
-          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
-          chmod +x /usr/local/bin/castor
+          sudo curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
+          sudo chmod +x /usr/local/bin/castor
 
       - name: Install PHP dependencies
         run: castor back:vendor
@@ -308,8 +308,8 @@ jobs:
 
       - name: Install Castor
         run: |
-          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
-          chmod +x /usr/local/bin/castor
+          sudo curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
+          sudo chmod +x /usr/local/bin/castor
         if: steps.db-cache.outputs.cache-hit != 'true'
 
       - name: Start services and create database
@@ -378,8 +378,8 @@ jobs:
 
       - name: Install Castor
         run: |
-          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
-          chmod +x /usr/local/bin/castor
+          sudo curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
+          sudo chmod +x /usr/local/bin/castor
 
       - name: Build CSS (LESS compilation)
         run: castor front:css
@@ -432,8 +432,8 @@ jobs:
 
       - name: Install Castor
         run: |
-          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
-          chmod +x /usr/local/bin/castor
+          sudo curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
+          sudo chmod +x /usr/local/bin/castor
 
       - name: Run ESLint and Prettier
         run: castor test:lint-front
@@ -537,8 +537,8 @@ jobs:
 
       - name: Install Castor
         run: |
-          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
-          chmod +x /usr/local/bin/castor
+          sudo curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
+          sudo chmod +x /usr/local/bin/castor
 
       - name: Fix identifier generator CS (auto-fix before dry-run)
         continue-on-error: true
@@ -576,8 +576,8 @@ jobs:
 
       - name: Install Castor
         run: |
-          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
-          chmod +x /usr/local/bin/castor
+          sudo curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
+          sudo chmod +x /usr/local/bin/castor
 
       - name: Run PHPStan deprecation analysis
         run: castor test:deprecation-back
@@ -600,8 +600,8 @@ jobs:
 
       - name: Install Castor
         run: |
-          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
-          chmod +x /usr/local/bin/castor
+          sudo curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
+          sudo chmod +x /usr/local/bin/castor
 
       - name: Run coupling and translation checks
         run: |
@@ -636,8 +636,8 @@ jobs:
 
       - name: Install Castor
         run: |
-          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
-          chmod +x /usr/local/bin/castor
+          sudo curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
+          sudo chmod +x /usr/local/bin/castor
 
       - name: Run PHPSpec unit tests
         run: castor test:unit-back
@@ -677,8 +677,8 @@ jobs:
 
       - name: Install Castor
         run: |
-          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
-          chmod +x /usr/local/bin/castor
+          sudo curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
+          sudo chmod +x /usr/local/bin/castor
 
       - name: Run main Behat acceptance tests
         run: castor test:acceptance-back
@@ -710,8 +710,8 @@ jobs:
 
       - name: Install Castor
         run: |
-          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
-          chmod +x /usr/local/bin/castor
+          sudo curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
+          sudo chmod +x /usr/local/bin/castor
 
       - name: Run bounded context acceptance tests
         run: castor test:acceptance-back-contexts
@@ -784,8 +784,8 @@ jobs:
 
       - name: Install Castor
         run: |
-          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
-          chmod +x /usr/local/bin/castor
+          sudo curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
+          sudo chmod +x /usr/local/bin/castor
 
       - name: Run data migrations tests
         run: |
@@ -830,8 +830,8 @@ jobs:
 
       - name: Install Castor
         run: |
-          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
-          chmod +x /usr/local/bin/castor
+          sudo curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
+          sudo chmod +x /usr/local/bin/castor
 
       - name: Cleanup stale containers
         run: docker-compose down --remove-orphans 2>/dev/null || true
@@ -940,8 +940,8 @@ jobs:
 
       - name: Install Castor
         run: |
-          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
-          chmod +x /usr/local/bin/castor
+          sudo curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
+          sudo chmod +x /usr/local/bin/castor
 
       - name: Cleanup stale containers
         run: docker-compose down --remove-orphans 2>/dev/null || true
@@ -1032,8 +1032,8 @@ jobs:
 
       - name: Install Castor
         run: |
-          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
-          chmod +x /usr/local/bin/castor
+          sudo curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar -o /usr/local/bin/castor
+          sudo chmod +x /usr/local/bin/castor
 
       - name: Setup and run Playwright
         run: |
