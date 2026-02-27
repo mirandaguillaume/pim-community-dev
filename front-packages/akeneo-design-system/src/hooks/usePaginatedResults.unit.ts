@@ -11,7 +11,7 @@ const fetcher = jest.fn(
 
 jest.useFakeTimers();
 
-const flushPromises = () => new Promise(resolve => setTimeout(resolve, 0));
+const flushPromises = () => new Promise(resolve => process.nextTick(resolve));
 
 test('It can fetch paginated results', async () => {
   const {result} = renderHook(() => usePaginatedResults<string>(fetcher, []));
