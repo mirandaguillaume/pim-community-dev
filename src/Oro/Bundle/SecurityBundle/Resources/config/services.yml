@@ -2,7 +2,7 @@ parameters:
     oro_security.security_facade.class:                        Oro\Bundle\SecurityBundle\SecurityFacade
     oro_security.acl.manager.class:                            Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager
     oro_security.acl.sid_manager.class:                        Oro\Bundle\SecurityBundle\Acl\Persistence\AclSidManager
-    oro_security.acl.cache.class:                              Oro\Bundle\SecurityBundle\Acl\Cache\FilesystemCache
+    # oro_security.acl.cache.class removed (doctrine/cache 2.x dropped FilesystemCache)
     oro_security.acl.ace_provider.class:                       Oro\Bundle\SecurityBundle\Acl\Persistence\AceManipulationHelper
     oro_security.acl.privilege_repository.class:               Oro\Bundle\SecurityBundle\Acl\Persistence\AclPrivilegeRepository
     oro_security.acl.extension_selector.class:                 Oro\Bundle\SecurityBundle\Acl\Extension\AclExtensionSelector
@@ -23,7 +23,7 @@ parameters:
     oro_security.action_metadata_provider.class:               Oro\Bundle\SecurityBundle\Metadata\ActionMetadataProvider
 
     oro_security.acl.annotation_provider.class:                Oro\Bundle\SecurityBundle\Metadata\AclAnnotationProvider
-    oro_security.acl.annotation_provider.cache.class:          Doctrine\Common\Cache\FilesystemCache
+    # oro_security.acl.annotation_provider.cache.class removed (doctrine/cache 2.x dropped FilesystemCache)
     oro_security.acl.annotation_loader.class:                  Oro\Bundle\SecurityBundle\Annotation\Loader\AclAnnotationLoader
     oro_security.acl.yaml_config_loader.class:                 Oro\Bundle\SecurityBundle\Annotation\Loader\AclYamlConfigLoader
 
@@ -67,11 +67,20 @@ services:
         tags:
             - { name: oro_service_link,  service: oro_security.acl.sid_manager }
 
+    security.acl.cache.doctrine.cache_impl.pool:
+        public: false
+        class: Symfony\Component\Cache\Adapter\FilesystemAdapter
+        arguments:
+            - 'oro_acl'
+            - 0
+            - '%kernel.cache_dir%'
+
     security.acl.cache.doctrine.cache_impl:
         public: false
-        class: '%oro_security.acl.cache.class%'
+        class: Doctrine\Common\Cache\Psr6\DoctrineProvider
+        factory: ['Doctrine\Common\Cache\Psr6\DoctrineProvider', 'wrap']
         arguments:
-            - '%kernel.cache_dir%/oro_acl'
+            - '@security.acl.cache.doctrine.cache_impl.pool'
 
     oro_security.acl.ace_provider:
         public: false
@@ -159,11 +168,20 @@ services:
           - '@oro_security.acl.annotation_provider.cache'
           - '@oro_security.acl.acl_feature_flags'
 
+    oro_security.acl.annotation_provider.cache.pool:
+        public: false
+        class: Symfony\Component\Cache\Adapter\FilesystemAdapter
+        arguments:
+            - 'oro_acl_annotations'
+            - 0
+            - '%kernel.cache_dir%'
+
     oro_security.acl.annotation_provider.cache:
         public: false
-        class: '%oro_security.acl.annotation_provider.cache.class%'
+        class: Doctrine\Common\Cache\Psr6\DoctrineProvider
+        factory: ['Doctrine\Common\Cache\Psr6\DoctrineProvider', 'wrap']
         arguments:
-            - '%kernel.cache_dir%/oro_acl_annotations'
+            - '@oro_security.acl.annotation_provider.cache.pool'
 
     oro_security.acl.annotation_loader:
         public: false
