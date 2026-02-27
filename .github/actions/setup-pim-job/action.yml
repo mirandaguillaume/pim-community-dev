@@ -69,7 +69,7 @@ runs:
       if: inputs.pull-base-images == 'true'
       shell: bash
       run: |
-        docker pull mysql:8.0.30 &
+        docker pull mysql:8.4 &
         docker pull selenium/standalone-chrome:4.27.0 &
         docker pull node:20 &
         wait
