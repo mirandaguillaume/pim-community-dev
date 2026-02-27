@@ -58,6 +58,10 @@ parameters:
         # Doctrine DBAL migration (RAB-1192)
         - '#Call to deprecated method getAliasNamespace\(\) of (class|interface) Doctrine\\Persistence\\ManagerRegistry#'
         - '#Class Oro\\Bundle\\SecurityBundle\\Acl\\Cache\\FilesystemCache extends deprecated class Doctrine\\Common\\Cache\\FilesystemCache#'
+        # Doctrine DBAL Types::ARRAY deprecation (PR #26 YAML→attribute migration)
+        - '#Fetching deprecated class constant ARRAY of class Doctrine\\DBAL\\Types\\Types#'
+        # Doctrine Collections Criteria::ASC deprecation
+        - '#Fetching deprecated class constant ASC of class Doctrine\\Common\\Collections\\Criteria#'
         # Behat
         - '#Call to deprecated method getSession\(\) of class Behat\\Mink\\Element\\Element:#'
         - '#Class Behat\\ChainedStepsExtension\\Step\\SubStep extends @final class Behat\\Gherkin\\Node\\StepNode#'

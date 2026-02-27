@@ -9,8 +9,9 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface;
 use Akeneo\Tool\Component\Localization\Model\TranslationInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Category class allowing to organize a flexible product class into trees.
@@ -19,6 +20,7 @@ use Doctrine\DBAL\Types\Types;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[Gedmo\Tree(type: 'nested')]
 #[ORM\Entity(repositoryClass: \Akeneo\Category\Infrastructure\Doctrine\ORM\Repository\CategoryRepository::class)]
 #[ORM\Table(name: 'pim_catalog_category')]
 #[ORM\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
@@ -51,9 +53,11 @@ class Category extends BaseCategory implements CategoryInterface, \Stringable
     protected $channels;
 
     /** @var \DateTimeInterface */
+    #[Gedmo\Timestampable(on: 'create')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     protected $created;
 
+    #[Gedmo\Timestampable(on: 'change', field: ['parent'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private \DateTime $updated;
 
@@ -65,6 +69,7 @@ class Category extends BaseCategory implements CategoryInterface, \Stringable
         $this->productModels = new ArrayCollection();
         $this->translations = new ArrayCollection();
         $this->channels = new ArrayCollection();
+        $this->created = new \DateTime('now', new \DateTimeZone('UTC'));
         $this->updated = new \DateTime('now', new \DateTimeZone('UTC'));
     }
 
@@ -178,7 +183,7 @@ class Category extends BaseCategory implements CategoryInterface, \Stringable
     {
         $translated = ($this->getTranslation()) ? $this->getTranslation()->getLabel() : null;
 
-        return ($translated !== '' && $translated !== null) ? $translated : '['.$this->getCode().']';
+        return ($translated !== '' && $translated !== null) ? $translated : '[' . $this->getCode() . ']';
     }
 
     /**

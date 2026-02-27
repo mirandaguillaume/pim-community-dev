@@ -19,7 +19,7 @@ class SelectProfile extends BaseSelect {
    */
   configure() {
     return $.when(
-      BaseSelect.prototype.configure.apply(this, arguments),
+      BaseSelect.prototype.configure.apply(this, []),
 
       FetcherRegistry.getFetcher('user-profiles')
         .fetchAll()

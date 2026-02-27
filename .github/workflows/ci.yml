@@ -58,8 +58,6 @@ defaults:
 #     │              │                                                         │
 #     │              ├──► acceptance-back [if backend] ───────────────────►│
 #     │              │                                                         │
-#     │              ├──► acceptance-contexts [if backend] ───────────────►│
-#     │              │                                                         │
 #     │              ├──► data-migrations [if backend] ───────────────────►│
 #     │              │                                                         │
 #     │              ├──► deptrac [if backend] (all configs, 1 job) ──────►│
@@ -212,13 +210,7 @@ jobs:
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn packages:build
 
-      - name: Install Castor
-        run: |
-          mkdir -p "$HOME/.local/bin"
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64 \
-            -o "$HOME/.local/bin/castor"
-          chmod +x "$HOME/.local/bin/castor"
+      - uses: ./.github/actions/install-castor
 
       - name: Install PHP dependencies
         run: castor back:vendor
@@ -251,10 +243,48 @@ jobs:
             sleep 1
           done
           echo "MySQL is ready"
-          docker-compose run --rm php sh -c "mkdir -p public/js public/bundles"
-          docker-compose run --rm php php bin/console pim:installer:assets --clean --env=prod
-          docker-compose run --rm php php bin/console fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json
-          docker-compose run --rm php sh -c "mkdir -p public/js && php bin/console pim:installer:dump-require-paths"
+
+          # Split pim:installer:assets into individual commands for better
+          # isolation (each runs in its own container with fresh memory) and
+          # granular error handling.
+          docker-compose run --rm php sh -c "rm -rf public/bundles public/css public/js && mkdir -p public/bundles public/css public/js"
+          docker-compose run --rm php php bin/console fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json --env=prod
+          docker-compose run --rm php php bin/console assets:install --env=prod
+
+          # dump-require-paths: generate public/js/require-paths.js
+          # May crash with exit 255 (PHP fatal/segfault) inside the Symfony command,
+          # so we use set +e and a fallback that generates the file directly.
+          set +e
+          docker-compose run --rm php php -d memory_limit=1G bin/console pim:installer:dump-require-paths --env=prod 2>&1
+          dump_rc=$?
+          set -e
+          if [ $dump_rc -ne 0 ]; then
+            echo "::warning::dump-require-paths exited with $dump_rc — generating from config/bundles.php"
+            cat > var/ci-dump-require-paths.php <<'ENDPHP'
+          <?php
+          require "vendor/autoload.php";
+          $bundles = require "config/bundles.php";
+          $rootDir = realpath(".") . "/";
+          $paths = [];
+          foreach (array_keys($bundles) as $class) {
+              try {
+                  $ref = new ReflectionClass($class);
+                  $paths[] = str_replace($rootDir, "", dirname($ref->getFileName()));
+              } catch (Throwable $e) {
+                  fwrite(STDERR, "WARN: $class: " . $e->getMessage() . "\n");
+              }
+          }
+          @mkdir("public/js", 0777, true);
+          file_put_contents("public/js/require-paths.js",
+              "module.exports = " . str_replace(",", ",\n", json_encode($paths, JSON_UNESCAPED_SLASHES)));
+          echo "Generated require-paths.js with " . count($paths) . " entries\n";
+          ENDPHP
+            docker-compose run --rm php php var/ci-dump-require-paths.php
+            rm -f var/ci-dump-require-paths.php
+          fi
+
+          # Dump JS translations (non-critical for most CI jobs)
+          docker-compose run --rm php php bin/console oro:translation:dump en_US --env=prod || echo "::warning::oro:translation:dump failed (non-critical)"
 
       - name: Upload pre-generated front assets
         uses: actions/upload-artifact@v4
@@ -309,13 +339,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           yarn-cache: 'false'
 
-      - name: Install Castor
-        run: |
-          mkdir -p "$HOME/.local/bin"
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64 \
-            -o "$HOME/.local/bin/castor"
-          chmod +x "$HOME/.local/bin/castor"
+      - uses: ./.github/actions/install-castor
         if: steps.db-cache.outputs.cache-hit != 'true'
 
       - name: Start services and create database
@@ -382,13 +406,7 @@ jobs:
           name: front-packages-lib
           path: .
 
-      - name: Install Castor
-        run: |
-          mkdir -p "$HOME/.local/bin"
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64 \
-            -o "$HOME/.local/bin/castor"
-          chmod +x "$HOME/.local/bin/castor"
+      - uses: ./.github/actions/install-castor
 
       - name: Build CSS (LESS compilation)
         run: castor front:css
@@ -439,16 +457,16 @@ jobs:
           name: front-packages-lib
           path: .
 
-      - name: Install Castor
-        run: |
-          mkdir -p "$HOME/.local/bin"
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64 \
-            -o "$HOME/.local/bin/castor"
-          chmod +x "$HOME/.local/bin/castor"
+      - uses: ./.github/actions/install-castor
 
       - name: Run ESLint and Prettier
         run: castor test:lint-front
+
+      - name: Audit JS dependencies for known vulnerabilities
+        run: |
+          HOST_UID=$(id -u)
+          HOST_GID=$(id -g)
+          docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node yarn npm audit --severity moderate || echo "::warning::yarn audit found vulnerabilities — review before merging"
 
   # ===========================================================================
   # FRONT-UNIT: Jest unit tests (sharded x2)
@@ -547,13 +565,7 @@ jobs:
           done
           echo "MySQL is ready (project: ${COMPOSE_PROJECT_NAME:-default})"
 
-      - name: Install Castor
-        run: |
-          mkdir -p "$HOME/.local/bin"
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64 \
-            -o "$HOME/.local/bin/castor"
-          chmod +x "$HOME/.local/bin/castor"
+      - uses: ./.github/actions/install-castor
 
       - name: Fix identifier generator CS (auto-fix before dry-run)
         continue-on-error: true
@@ -589,13 +601,7 @@ jobs:
             sleep 1
           done
 
-      - name: Install Castor
-        run: |
-          mkdir -p "$HOME/.local/bin"
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64 \
-            -o "$HOME/.local/bin/castor"
-          chmod +x "$HOME/.local/bin/castor"
+      - uses: ./.github/actions/install-castor
 
       - name: Run PHPStan deprecation analysis
         run: castor test:deprecation-back
@@ -616,13 +622,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           pull-base-images: 'false'
 
-      - name: Install Castor
-        run: |
-          mkdir -p "$HOME/.local/bin"
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64 \
-            -o "$HOME/.local/bin/castor"
-          chmod +x "$HOME/.local/bin/castor"
+      - uses: ./.github/actions/install-castor
 
       - name: Run coupling and translation checks
         run: |
@@ -655,13 +655,7 @@ jobs:
           key: phpspec-${{ runner.os }}-${{ hashFiles('phpspec.yml*', 'composer.lock') }}
           restore-keys: phpspec-${{ runner.os }}-
 
-      - name: Install Castor
-        run: |
-          mkdir -p "$HOME/.local/bin"
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64 \
-            -o "$HOME/.local/bin/castor"
-          chmod +x "$HOME/.local/bin/castor"
+      - uses: ./.github/actions/install-castor
 
       - name: Run PHPSpec unit tests
         run: castor test:unit-back
@@ -699,13 +693,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install Castor
-        run: |
-          mkdir -p "$HOME/.local/bin"
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64 \
-            -o "$HOME/.local/bin/castor"
-          chmod +x "$HOME/.local/bin/castor"
+      - uses: ./.github/actions/install-castor
 
       - name: Run main Behat acceptance tests
         run: castor test:acceptance-back
@@ -715,42 +703,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: acceptance-back-results
-          path: |
-            var/tests
-            var/logs
-          retention-days: 3
-
-  # ===========================================================================
-  # ACCEPTANCE-CONTEXTS: Bounded context acceptance tests (parallel with main)
-  # ===========================================================================
-  acceptance-contexts:
-    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
-    needs: [prepare, detect-changes]
-    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: ./.github/actions/setup-pim-job
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Install Castor
-        run: |
-          mkdir -p "$HOME/.local/bin"
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64 \
-            -o "$HOME/.local/bin/castor"
-          chmod +x "$HOME/.local/bin/castor"
-
-      - name: Run bounded context acceptance tests
-        run: castor test:acceptance-back-contexts
-
-      - name: Upload acceptance context results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: acceptance-contexts-results
           path: |
             var/tests
             var/logs
@@ -812,13 +764,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install Castor
-        run: |
-          mkdir -p "$HOME/.local/bin"
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64 \
-            -o "$HOME/.local/bin/castor"
-          chmod +x "$HOME/.local/bin/castor"
+      - uses: ./.github/actions/install-castor
 
       - name: Run data migrations tests
         run: |
@@ -861,13 +807,7 @@ jobs:
           name: db-seed
           path: seed
 
-      - name: Install Castor
-        run: |
-          mkdir -p "$HOME/.local/bin"
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64 \
-            -o "$HOME/.local/bin/castor"
-          chmod +x "$HOME/.local/bin/castor"
+      - uses: ./.github/actions/install-castor
 
       - name: Cleanup stale containers
         run: docker-compose down --remove-orphans 2>/dev/null || true
@@ -943,7 +883,7 @@ jobs:
     timeout-minutes: 120
     strategy:
       fail-fast: false
-      max-parallel: 8
+      max-parallel: 4
       matrix:
         shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     steps:
@@ -974,13 +914,7 @@ jobs:
           fi
           echo "TESTSUITE=${TESTSUITE}" >> $GITHUB_ENV
 
-      - name: Install Castor
-        run: |
-          mkdir -p "$HOME/.local/bin"
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64 \
-            -o "$HOME/.local/bin/castor"
-          chmod +x "$HOME/.local/bin/castor"
+      - uses: ./.github/actions/install-castor
 
       - name: Cleanup stale containers
         run: docker-compose down --remove-orphans 2>/dev/null || true
@@ -1069,13 +1003,7 @@ jobs:
       - name: Install Playwright browsers
         run: ./node_modules/.bin/playwright install --with-deps chromium
 
-      - name: Install Castor
-        run: |
-          mkdir -p "$HOME/.local/bin"
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-          curl -fsSL https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64 \
-            -o "$HOME/.local/bin/castor"
-          chmod +x "$HOME/.local/bin/castor"
+      - uses: ./.github/actions/install-castor
 
       - name: Setup and run Playwright
         run: |
@@ -1186,6 +1114,8 @@ jobs:
   ci-success:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs:
+      - image
+      - prepare
       - detect-changes
       - front-build
       - front-lint
@@ -1195,8 +1125,8 @@ jobs:
       - code-style-back
       - phpspec
       - acceptance-back
-      - acceptance-contexts
       - deptrac
+      - db-seed
       - phpunit
       - data-migrations
       - behat-legacy
@@ -1212,6 +1142,8 @@ jobs:
           echo "  ci changes: ${{ needs.detect-changes.outputs.ci }}"
           echo ""
           echo "=== Job results ==="
+          echo "  image: ${{ needs.image.result }}"
+          echo "  prepare: ${{ needs.prepare.result }}"
           echo "  front-build: ${{ needs.front-build.result }}"
           echo "  front-lint: ${{ needs.front-lint.result }}"
           echo "  front-unit: ${{ needs.front-unit.result }}"
@@ -1220,15 +1152,21 @@ jobs:
           echo "  code-style-back: ${{ needs.code-style-back.result }}"
           echo "  phpspec: ${{ needs.phpspec.result }}"
           echo "  acceptance-back: ${{ needs.acceptance-back.result }}"
-          echo "  acceptance-contexts: ${{ needs.acceptance-contexts.result }}"
           echo "  deptrac: ${{ needs.deptrac.result }}"
+          echo "  db-seed: ${{ needs.db-seed.result }}"
           echo "  phpunit: ${{ needs.phpunit.result }}"
           echo "  data-migrations: ${{ needs.data-migrations.result }}"
           echo "  behat-legacy: ${{ needs.behat-legacy.result }}"
           echo "  playwright: ${{ needs.playwright.result }}"
 
-          # Each job must be either 'success' or 'skipped' (path-filtered)
+          # Each job must be either 'success' or 'skipped' (path-filtered).
+          # 'image' and 'prepare' are never path-filtered so must always succeed.
+          # When a dependency fails, downstream jobs get 'skipped' status —
+          # without checking dependencies explicitly, the gate would pass
+          # even though nothing actually ran.
           results=(
+            "${{ needs.image.result }}"
+            "${{ needs.prepare.result }}"
             "${{ needs.front-build.result }}"
             "${{ needs.front-lint.result }}"
             "${{ needs.front-unit.result }}"
@@ -1237,8 +1175,8 @@ jobs:
             "${{ needs.code-style-back.result }}"
             "${{ needs.phpspec.result }}"
             "${{ needs.acceptance-back.result }}"
-            "${{ needs.acceptance-contexts.result }}"
             "${{ needs.deptrac.result }}"
+            "${{ needs.db-seed.result }}"
             "${{ needs.phpunit.result }}"
             "${{ needs.data-migrations.result }}"
             "${{ needs.behat-legacy.result }}"

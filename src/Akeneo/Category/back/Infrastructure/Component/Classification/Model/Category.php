@@ -4,8 +4,9 @@ namespace Akeneo\Category\Infrastructure\Component\Classification\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Implementation of CategoryInterface.
@@ -14,6 +15,7 @@ use Doctrine\DBAL\Types\Types;
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[Gedmo\Tree(type: 'nested')]
 #[ORM\MappedSuperclass]
 class Category implements CategoryInterface
 {
@@ -28,22 +30,27 @@ class Category implements CategoryInterface
     protected $code;
 
     /** @var int */
+    #[Gedmo\TreeLeft]
     #[ORM\Column(name: 'lft', type: Types::INTEGER)]
     protected $left;
 
     /** @var int */
+    #[Gedmo\TreeLevel]
     #[ORM\Column(name: 'lvl', type: Types::INTEGER)]
     protected $level;
 
     /** @var int */
+    #[Gedmo\TreeRight]
     #[ORM\Column(name: 'rgt', type: Types::INTEGER)]
     protected $right;
 
     /** @var int */
+    #[Gedmo\TreeRoot]
     #[ORM\Column(type: Types::INTEGER)]
     protected $root;
 
     /** @var CategoryInterface */
+    #[Gedmo\TreeParent]
     #[ORM\ManyToOne(targetEntity: \Akeneo\Category\Infrastructure\Component\Model\CategoryInterface::class, inversedBy: 'children')]
     #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
     protected $parent;

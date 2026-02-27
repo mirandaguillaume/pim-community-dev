@@ -9,10 +9,10 @@ use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Connector\JobLaunch
 use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag;
 use Akeneo\Tool\Component\Batch\Model\JobExecution;
 use Doctrine\DBAL\Connection;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)

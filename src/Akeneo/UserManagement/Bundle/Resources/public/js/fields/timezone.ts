@@ -6,7 +6,7 @@ class TimezoneField extends BaseSelect {
    * {@inheritdoc}
    */
   configure() {
-    BaseSelect.prototype.configure.apply(this, arguments);
+    BaseSelect.prototype.configure.apply(this, []);
     this.config.choices = {
       Africa: {
         'Africa/Abidjan': 'Abidjan',

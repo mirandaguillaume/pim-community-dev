@@ -22,7 +22,7 @@ class LocaleSwitcher extends BaseView {
 
   initialize(config: any): void {
     this.config = config.config;
-    BaseView.prototype.initialize.apply(this, arguments);
+    BaseView.prototype.initialize.apply(this, []);
   }
 
   configure(): JQueryPromise<any> {
@@ -75,7 +75,7 @@ class LocaleSwitcher extends BaseView {
           return locale.code === params.localeCode;
         });
 
-      if (undefined === currentLocale || '' === currentLocale) {
+      if (!currentLocale) {
         currentLocale = _.first(locales);
       }
 

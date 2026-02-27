@@ -30,7 +30,7 @@ class Help extends BaseView {
       );
     });
 
-    return BaseView.prototype.render.apply(this, arguments);
+    return BaseView.prototype.render.apply(this, []);
   }
 
   private getUrl(): Promise<string> {

@@ -31,7 +31,7 @@ class LocaleSwitcher extends BaseForm {
 
   configure() {
     return $.when(
-      BaseForm.prototype.configure.apply(this, arguments),
+      BaseForm.prototype.configure.apply(this, []),
       this.fetchLocales().then((locales: Locale[]) => {
         this.locales = locales;
         const currentLocaleCode = UserContext.get('catalogLocale');

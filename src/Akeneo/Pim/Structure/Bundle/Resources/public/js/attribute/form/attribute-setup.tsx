@@ -10,7 +10,7 @@ import {Attribute} from '../models/Attribute';
 const FetcherRegistry = require('pim/fetcher-registry');
 
 class AttributeSetup extends BaseView {
-  mainIdentifierAttribute: Attribute;
+  mainIdentifierAttribute!: Attribute;
 
   configure(): JQueryPromise<any> {
     return FetcherRegistry.getFetcher('attribute')

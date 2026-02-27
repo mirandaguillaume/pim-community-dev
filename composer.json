@@ -77,7 +77,7 @@
         "ass/xmlsecurity": "1.1.1",
         "aws/aws-sdk-php": "^3.368.0",
         "doctrine/annotations": "^1.14|^2.0",
-        "doctrine/cache": "^1.12.1|^2.0",
+        "doctrine/cache": "^1.12.1",
         "doctrine/collections": "^1.8|^2.0",
         "doctrine/common": "^3.4",
         "doctrine/data-fixtures": "^1.6",

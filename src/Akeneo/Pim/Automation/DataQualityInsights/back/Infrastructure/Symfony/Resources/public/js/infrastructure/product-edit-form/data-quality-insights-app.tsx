@@ -81,21 +81,19 @@ class DataQualityInsightsApp extends BaseView {
       this.redirectToAttributesTab();
     }) as EventListener);
 
-    window.addEventListener(
-      DATA_QUALITY_INSIGHTS_FILTER_ALL_MISSING_ATTRIBUTES,
-      (_: CustomEvent<FilterAttributesEvent>) => {
-        this.getRoot().trigger('pim_enrich:form:switch_values_filter', 'all_missing_attributes');
-        this.redirectToAttributesTab();
-      }
-    );
+    window.addEventListener(DATA_QUALITY_INSIGHTS_FILTER_ALL_MISSING_ATTRIBUTES, ((
+      _: CustomEvent<FilterAttributesEvent>
+    ) => {
+      this.getRoot().trigger('pim_enrich:form:switch_values_filter', 'all_missing_attributes');
+      this.redirectToAttributesTab();
+    }) as EventListener);
 
-    window.addEventListener(
-      DATA_QUALITY_INSIGHTS_FILTER_ALL_IMPROVABLE_ATTRIBUTES,
-      (_: CustomEvent<FilterAttributesEvent>) => {
-        this.getRoot().trigger('pim_enrich:form:switch_values_filter', 'all_improvable_attributes');
-        this.redirectToAttributesTab();
-      }
-    );
+    window.addEventListener(DATA_QUALITY_INSIGHTS_FILTER_ALL_IMPROVABLE_ATTRIBUTES, ((
+      _: CustomEvent<FilterAttributesEvent>
+    ) => {
+      this.getRoot().trigger('pim_enrich:form:switch_values_filter', 'all_improvable_attributes');
+      this.redirectToAttributesTab();
+    }) as EventListener);
 
     window.addEventListener(DATA_QUALITY_INSIGHTS_REDIRECT_TO_DQI_TAB, () => {
       this.redirectToDQITab();

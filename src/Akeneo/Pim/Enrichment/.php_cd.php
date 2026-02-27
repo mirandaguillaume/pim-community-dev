@@ -150,6 +150,8 @@ $rules = [
         'Doctrine\Common',
         'Doctrine\Persistence',
         'Doctrine\Inflector',
+        'Doctrine\ORM\Mapping',
+        'Doctrine\DBAL\Types\Types',
         'Webmozart\Assert\Assert',
         'Akeneo\Pim\Structure\Component\Query\PublicApi',
         'Psr\Log\LoggerInterface',

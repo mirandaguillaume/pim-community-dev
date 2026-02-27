@@ -17,7 +17,6 @@ framework:
         cookie_samesite: 'lax' # needed to not be strict for SSO and Apps oAuth2 workflows
     serializer:
         enabled: true
-    http_method_override: true
     assets:
         packages:
             frontend:

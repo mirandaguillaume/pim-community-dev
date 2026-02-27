@@ -35,15 +35,17 @@ abstract class AbstractProduct implements ProductInterface, \Stringable
     protected $id;
 
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\GeneratedValue(strategy: 'NONE')]
     #[ORM\Column(type: 'uuid_binary')]
     protected UuidInterface $uuid;
 
     #[ORM\Column(name: 'raw_values', type: Types::JSON)]
     protected array $rawValues;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     protected ?\DateTime $created = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     protected ?\DateTime $updated = null;
 
     /**

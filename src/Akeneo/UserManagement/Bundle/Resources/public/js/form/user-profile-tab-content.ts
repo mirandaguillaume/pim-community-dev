@@ -9,7 +9,7 @@ class UserProfileTabContent extends BaseView {
       });
     }
 
-    BaseView.prototype.configure.apply(this, arguments);
+    BaseView.prototype.configure.apply(this, []);
   }
 }
 

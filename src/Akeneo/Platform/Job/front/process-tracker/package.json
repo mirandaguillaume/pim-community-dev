@@ -15,7 +15,10 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "parserOptions": {
+      "requireConfigFile": false
+    }
   },
   "browserslist": {
     "production": [

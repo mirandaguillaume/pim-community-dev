@@ -7,7 +7,7 @@ const propertyAccessor = require('pim/common/property');
 
 class Guidelines extends BaseView {
   initialize(): void {
-    BaseView.prototype.initialize.apply(this, arguments);
+    BaseView.prototype.initialize.apply(this, []);
   }
 
   render(): any {
