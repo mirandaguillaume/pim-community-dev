@@ -61,12 +61,14 @@ function ensureDir(string $path): void
     if (!is_dir($path)) {
         mkdir($path, 0777, true);
     }
+    // chmod bypasses umask, ensuring Docker containers (different UID) can write
+    chmod($path, 0777);
 }
 
 function csFixer(string $config, bool $dryRun = true, string $path = ''): void
 {
     $cmd = 'vendor/bin/php-cs-fixer fix'
-        . ($dryRun ? ' --dry-run --format=checkstyle' : ' --diff')
+        . ($dryRun ? ' --dry-run --format=checkstyle --using-cache=no' : ' --diff')
         . ' --config=' . $config;
 
     if ('' !== $path) {

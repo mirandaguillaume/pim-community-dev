@@ -555,6 +555,9 @@ jobs:
             -o "$HOME/.local/bin/castor"
           chmod +x "$HOME/.local/bin/castor"
 
+      - name: Clean stale CS-fixer cache (self-hosted runners persist var/)
+        run: rm -f var/php_cs.cache .php-cs-fixer.cache
+
       - name: Fix identifier generator CS (auto-fix before dry-run)
         continue-on-error: true
         run: docker-compose run --rm php php vendor/bin/php-cs-fixer fix --config=components/identifier-generator/back/tests/.php_cs.php --allow-risky=yes
