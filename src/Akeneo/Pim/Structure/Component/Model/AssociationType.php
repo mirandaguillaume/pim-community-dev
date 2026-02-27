@@ -6,6 +6,7 @@ use Akeneo\Tool\Component\Localization\Model\TranslationInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Association type entity
@@ -42,10 +43,12 @@ class AssociationType implements AssociationTypeInterface, \Stringable
     protected $translations;
 
     /** @var \DateTime */
+    #[Gedmo\Timestampable(on: 'create')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     protected $created;
 
     /** @var \DateTime */
+    #[Gedmo\Timestampable(on: 'update')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     protected $updated;
 
@@ -215,7 +218,7 @@ class AssociationType implements AssociationTypeInterface, \Stringable
     {
         $translated = $this->getTranslation() ? $this->getTranslation()->getLabel() : null;
 
-        return ($translated !== '' && $translated !== null) ? $translated : '['.$this->getCode().']';
+        return ($translated !== '' && $translated !== null) ? $translated : '[' . $this->getCode() . ']';
     }
 
     /**

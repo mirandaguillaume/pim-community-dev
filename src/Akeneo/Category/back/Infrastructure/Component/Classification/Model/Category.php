@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Implementation of CategoryInterface.
@@ -28,22 +29,27 @@ class Category implements CategoryInterface
     protected $code;
 
     /** @var int */
+    #[Gedmo\TreeLeft]
     #[ORM\Column(name: 'lft', type: Types::INTEGER)]
     protected $left;
 
     /** @var int */
+    #[Gedmo\TreeLevel]
     #[ORM\Column(name: 'lvl', type: Types::INTEGER)]
     protected $level;
 
     /** @var int */
+    #[Gedmo\TreeRight]
     #[ORM\Column(name: 'rgt', type: Types::INTEGER)]
     protected $right;
 
     /** @var int */
+    #[Gedmo\TreeRoot]
     #[ORM\Column(type: Types::INTEGER)]
     protected $root;
 
     /** @var CategoryInterface */
+    #[Gedmo\TreeParent]
     #[ORM\ManyToOne(targetEntity: \Akeneo\Category\Infrastructure\Component\Model\CategoryInterface::class, inversedBy: 'children')]
     #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
     protected $parent;

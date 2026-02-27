@@ -6,6 +6,7 @@ use Akeneo\Tool\Component\Localization\Model\TranslationInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Attribute Group entity
@@ -42,12 +43,14 @@ class AttributeGroup implements AttributeGroupInterface, \Stringable
     /**
      * @var \DateTime
      */
+    #[Gedmo\Timestampable(on: 'create')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     protected $created;
 
     /**
      * @var \DateTime
      */
+    #[Gedmo\Timestampable(on: 'update')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     protected $updated;
 
@@ -310,7 +313,7 @@ class AttributeGroup implements AttributeGroupInterface, \Stringable
     {
         $translated = $this->getTranslation() ? $this->getTranslation()->getLabel() : null;
 
-        return ($translated !== '' && $translated !== null) ? $translated : '['. $this->getCode() .']';
+        return ($translated !== '' && $translated !== null) ? $translated : '[' . $this->getCode() . ']';
     }
 
     /**

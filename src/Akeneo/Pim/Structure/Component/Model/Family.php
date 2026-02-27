@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Webmozart\Assert\Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Family entity
@@ -66,10 +67,12 @@ class Family implements FamilyInterface, \Stringable
     protected $requirements;
 
     /** @var \DateTime */
+    #[Gedmo\Timestampable(on: 'create')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     protected $created;
 
     /** @var \DateTime */
+    #[Gedmo\Timestampable(on: 'update')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     protected $updated;
 
@@ -288,7 +291,7 @@ class Family implements FamilyInterface, \Stringable
     public function getAttributeAsLabelChoices()
     {
         return $this->attributes->filter(
-            fn ($attribute) => in_array(
+            fn($attribute) => in_array(
                 $attribute->getType(),
                 [AttributeTypes::TEXT, AttributeTypes::IDENTIFIER]
             )
@@ -374,7 +377,7 @@ class Family implements FamilyInterface, \Stringable
     {
         $translated = $this->getTranslation() ? $this->getTranslation()->getLabel() : null;
 
-        return ($translated !== '' && $translated !== null) ? $translated : '['.$this->getCode().']';
+        return ($translated !== '' && $translated !== null) ? $translated : '[' . $this->getCode() . ']';
     }
 
     /**
@@ -489,7 +492,7 @@ class Family implements FamilyInterface, \Stringable
 
         $formerAttributeCodes = $this->getAttributeCodes();
         $newAttributeCodes = \array_map(
-            fn (AttributeInterface $attribute): string => $attribute->getCode(),
+            fn(AttributeInterface $attribute): string => $attribute->getCode(),
             $attributes
         );
 
