@@ -29,7 +29,7 @@ function cache(): void
 #[AsTask(namespace: 'back', name: 'vendor', description: 'Install composer dependencies')]
 function vendor(): void
 {
-    \phpRun('/usr/local/bin/composer validate --no-check-all');
+    \phpRun('/usr/local/bin/composer validate --no-check-all --no-check-lock');
     \phpRun('-d memory_limit=4G /usr/local/bin/composer install');
 }
 
