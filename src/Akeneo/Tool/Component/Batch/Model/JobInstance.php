@@ -81,11 +81,14 @@ class JobInstance
      * @param string $type
      * @param string $jobName
      */
-    #[ORM\Column(type: Types::STRING, length: 255)]
-    #[ORM\Column(type: Types::STRING, length: 255)]
-    #[ORM\Column(name: 'job_name', type: Types::STRING, length: 50)]
-    public function __construct(protected $connector = null, protected $type = null, protected $jobName = null)
-    {
+    public function __construct(
+        #[ORM\Column(type: Types::STRING, length: 255)]
+        protected $connector = null,
+        #[ORM\Column(type: Types::STRING, length: 255)]
+        protected $type = null,
+        #[ORM\Column(name: 'job_name', type: Types::STRING, length: 50)]
+        protected $jobName = null,
+    ) {
         $this->jobExecutions = new ArrayCollection();
     }
 
