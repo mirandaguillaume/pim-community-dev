@@ -42,10 +42,10 @@ final class Version_7_0_20220818143128_remove_zdd_setidentifiernullable_from_pim
     private function givenZddMigrationHasBeenPlayed(): void
     {
         $zddMigration = <<<SQL
-REPLACE INTO `pim_one_time_task` (`code`, `status`, `start_time`, `end_time`, `values`)
-VALUES
-	('zdd_SetProductIdentifierNullable', 'finished', '2022-08-17 17:19:48', NULL, '{}');
-SQL;
+            REPLACE INTO `pim_one_time_task` (`code`, `status`, `start_time`, `end_time`, `values`)
+            VALUES
+            	('zdd_SetProductIdentifierNullable', 'finished', '2022-08-17 17:19:48', NULL, '{}');
+            SQL;
         $this->connection->executeStatement($zddMigration);
     }
 

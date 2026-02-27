@@ -21,15 +21,14 @@ class JobInstanceNormalizer implements NormalizerInterface, CacheableSupportsMet
 
     public function __construct(
         private readonly CredentialsEncrypterRegistry $credentialsEncrypterRegistry,
-    ) {
-    }
+    ) {}
 
     /**
      * @param JobInstance $jobInstance
      *
      * @return array
      */
-    public function normalize($jobInstance, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($jobInstance, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $parameters = $jobInstance->getRawParameters();
         if (isset($parameters['storage'])) {

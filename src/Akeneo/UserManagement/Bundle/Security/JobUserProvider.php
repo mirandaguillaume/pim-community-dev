@@ -15,8 +15,7 @@ class JobUserProvider implements UserProviderInterface
 {
     public function __construct(
         private readonly UserRepositoryInterface $userRepository,
-    ) {
-    }
+    ) {}
 
     /**
      * @deprecated since Symfony 5.3, use loadUserByIdentifier() instead

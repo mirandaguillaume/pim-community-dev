@@ -60,7 +60,7 @@ class GetAllConnectedAppsPublicIdsQueryIntegration extends TestCase
         $this->assertEqualsCanonicalizing([
             '2677e764-f852-4956-bf9b-1a1ec1b0d145',
             '2777e764-f852-4956-bf9b-1a1ec1b0d146',
-            '2877e764-f852-4956-bf9b-1a1ec1b0d147'
+            '2877e764-f852-4956-bf9b-1a1ec1b0d147',
         ], $result);
     }
 }

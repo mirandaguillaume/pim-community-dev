@@ -18,9 +18,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class HasNewAnnouncementsAction
 {
-    public function __construct(private readonly VersionProviderInterface $versionProvider, private readonly UserContext $userContext, private readonly HasNewAnnouncementsHandler $hasNewAnnouncementsHandler)
-    {
-    }
+    public function __construct(private readonly VersionProviderInterface $versionProvider, private readonly UserContext $userContext, private readonly HasNewAnnouncementsHandler $hasNewAnnouncementsHandler) {}
 
     public function __invoke()
     {
@@ -37,7 +35,7 @@ class HasNewAnnouncementsAction
         $hasNewAnnouncements = $this->hasNewAnnouncementsHandler->execute($query);
 
         return new JsonResponse([
-            'status' => $hasNewAnnouncements
+            'status' => $hasNewAnnouncements,
         ]);
     }
 }

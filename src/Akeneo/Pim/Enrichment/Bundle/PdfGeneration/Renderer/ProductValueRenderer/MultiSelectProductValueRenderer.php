@@ -11,9 +11,7 @@ use Twig\Environment;
 
 class MultiSelectProductValueRenderer implements ProductValueRenderer
 {
-    public function __construct(private readonly IdentifiableObjectRepositoryInterface $attributeOptionRepository)
-    {
-    }
+    public function __construct(private readonly IdentifiableObjectRepositoryInterface $attributeOptionRepository) {}
 
     public function render(Environment $environment, AttributeInterface $attribute, ?ValueInterface $value, string $localeCode): ?string
     {
@@ -23,7 +21,7 @@ class MultiSelectProductValueRenderer implements ProductValueRenderer
 
         $optionCodes = $value->getData();
 
-        return join(', ', array_map(fn ($optionCode): string => $this->getOptionLabel($attribute, $optionCode, $localeCode), $optionCodes));
+        return join(', ', array_map(fn($optionCode): string => $this->getOptionLabel($attribute, $optionCode, $localeCode), $optionCodes));
     }
 
     public function supportsAttributeType(string $attributeType): bool

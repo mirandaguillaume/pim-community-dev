@@ -89,16 +89,16 @@ class ProduceProductModelEventEndToEnd extends ApiTestCase
             $apiConnectionEcommerce->password()
         );
 
-        $data =
-            <<<JSON
-    {
-        "code": "product_model",
-        "family": "family",
-        "family_variant": "family_variant",
-        "values": {
-        }
-    }
-JSON;
+        $data
+            = <<<JSON
+                    {
+                        "code": "product_model",
+                        "family": "family",
+                        "family_variant": "family_variant",
+                        "values": {
+                        }
+                    }
+                JSON;
 
         $apiClient->request('POST', 'api/rest/v1/product-models', [], [], [], $data);
 
@@ -156,19 +156,19 @@ JSON;
             $apiConnectionEcommerce->password()
         );
 
-        $data =
-            <<<JSON
-    {
-        "code": "product_model",
-        "family": "family",
-        "family_variant": "family_variant",
-        "values": {
-            "text": [
-                {"locale": null, "scope": null, "data": "Lorem ipsum"}
-            ]
-        }
-    }
-JSON;
+        $data
+            = <<<JSON
+                    {
+                        "code": "product_model",
+                        "family": "family",
+                        "family_variant": "family_variant",
+                        "values": {
+                            "text": [
+                                {"locale": null, "scope": null, "data": "Lorem ipsum"}
+                            ]
+                        }
+                    }
+                JSON;
         $apiClient->request('PATCH', 'api/rest/v1/product-models/product_model', [], [], [], $data);
 
         $this->assertEventCount(1, ProductModelUpdated::class);

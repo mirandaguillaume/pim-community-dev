@@ -15,12 +15,12 @@ use Prophecy\Argument;
 
 class AddLocaleCodeToGridListenerSpec extends ObjectBehavior
 {
-    function let(RequestParameters $requestParams)
+    public function let(RequestParameters $requestParams)
     {
         $this->beConstructedWith($requestParams);
     }
 
-    function it_adds_locale_parameter_to_query_builder(
+    public function it_adds_locale_parameter_to_query_builder(
         BuildAfter $event,
         DatagridInterface $datagrid,
         Acceptor $acceptor,
@@ -42,7 +42,7 @@ class AddLocaleCodeToGridListenerSpec extends ObjectBehavior
         $this->onBuildAfter($event);
     }
 
-    function it_does_nothing_when_locale_parameter_is_not_set(
+    public function it_does_nothing_when_locale_parameter_is_not_set(
         BuildAfter $event,
         DatagridInterface $datagrid,
         Acceptor $acceptor,
@@ -61,7 +61,7 @@ class AddLocaleCodeToGridListenerSpec extends ObjectBehavior
         $this->onBuildAfter($event);
     }
 
-    function it_does_nothing_when_datasource_is_not_an_orm_datasource(
+    public function it_does_nothing_when_datasource_is_not_an_orm_datasource(
         BuildAfter $event,
         DatagridInterface $datagrid,
         Acceptor $acceptor,

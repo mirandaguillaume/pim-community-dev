@@ -19,8 +19,7 @@ class SimpleYamlExport implements DefaultValuesProviderInterface
      */
     public function __construct(
         private readonly array $supportedJobNames,
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -30,7 +29,7 @@ class SimpleYamlExport implements DefaultValuesProviderInterface
         return [
             'storage' => [
                 'type' => 'none',
-                'file_path' => sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'export_%job_label%_%datetime%.yml'
+                'file_path' => sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'export_%job_label%_%datetime%.yml',
             ],
             'users_to_notify' => [],
             'is_user_authenticated' => false,

@@ -69,9 +69,9 @@ class Version_6_0_20211115143942_add_user_group_type_column_Integration extends 
     private function getAllUserGroupTypes(): array
     {
         $query = <<<SQL
-SELECT name, type
-FROM oro_access_group
-SQL;
+            SELECT name, type
+            FROM oro_access_group
+            SQL;
         $data = $this->connection->executeQuery($query)->fetchAllAssociative();
 
         return array_column($data, 'type', 'name');

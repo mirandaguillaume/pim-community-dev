@@ -77,7 +77,7 @@ class AddTranslatableFieldSubscriber implements EventSubscriberInterface
         return [
             FormEvents::PRE_SET_DATA => 'preSetData',
             FormEvents::POST_SUBMIT  => 'postSubmit',
-            FormEvents::SUBMIT       => 'submit'
+            FormEvents::SUBMIT       => 'submit',
         ];
     }
 
@@ -95,7 +95,7 @@ class AddTranslatableFieldSubscriber implements EventSubscriberInterface
         }
         $translations = $this->bindTranslations($data);
         foreach ($translations as $binded) {
-            $method = 'get'.$this->getInflector()->camelize($this->getOption('field'));
+            $method = 'get' . $this->getInflector()->camelize($this->getOption('field'));
             $content = $binded['translation']->$method();
             $form->add(
                 $this->formFactory->createNamed(
@@ -106,7 +106,7 @@ class AddTranslatableFieldSubscriber implements EventSubscriberInterface
                         'label'           => $this->getLocaleLabel($binded['locale']),
                         'required'        => in_array($binded['locale'], $this->getOption('required_locale')),
                         'mapped'          => false,
-                        'auto_initialize' => false
+                        'auto_initialize' => false,
                     ]
                 )
             );
@@ -132,7 +132,7 @@ class AddTranslatableFieldSubscriber implements EventSubscriberInterface
             }
 
             $translation = $this->translationFactory->createTranslation($locale);
-            $method = 'set'.$this->getInflector()->camelize($this->getOption('field'));
+            $method = 'set' . $this->getInflector()->camelize($this->getOption('field'));
             $translation->$method($content);
 
             $errors = $this->validator->validate(
@@ -163,7 +163,7 @@ class AddTranslatableFieldSubscriber implements EventSubscriberInterface
             $content = $form->get($binded['fieldName'])->getData();
             $translation = $binded['translation'];
 
-            $method = 'set'.$this->getInflector()->camelize($this->getOption('field'));
+            $method = 'set' . $this->getInflector()->camelize($this->getOption('field'));
             $translation->$method($content);
             $translation->setForeignKey($entity);
             $entity->addTranslation($translation);

@@ -23,8 +23,7 @@ class PurgeOrphanCategoryImageFilesTasklet implements TaskletInterface
     public function __construct(
         private readonly JobStopper $jobStopper,
         private readonly CommandBus $commandBus,
-    ) {
-    }
+    ) {}
 
     public function setStepExecution(StepExecution $stepExecution): void
     {

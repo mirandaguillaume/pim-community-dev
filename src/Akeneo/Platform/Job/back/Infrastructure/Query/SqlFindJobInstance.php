@@ -19,8 +19,7 @@ class SqlFindJobInstance implements FindJobInstanceInterface
 {
     public function __construct(
         private readonly Connection $connection,
-    ) {
-    }
+    ) {}
 
     public function fromQuery(JobInstanceQuery $query): array
     {
@@ -36,14 +35,14 @@ class SqlFindJobInstance implements FindJobInstanceInterface
         $pagination = $query->pagination;
 
         $sql = <<<SQL
-        SELECT
-            job_instance.code,
-            job_instance.label,
-            job_instance.raw_parameters
-        FROM akeneo_batch_job_instance job_instance
-        %s
-        %s
-SQL;
+                    SELECT
+                        job_instance.code,
+                        job_instance.label,
+                        job_instance.raw_parameters
+                    FROM akeneo_batch_job_instance job_instance
+                    %s
+                    %s
+            SQL;
 
         $sqlWherePart = $this->buildWherePart($jobNames, $search);
         $sqlPaginationPart = $pagination instanceof JobInstanceQueryPagination ? $this->buildPaginationPart($pagination) : '';
@@ -63,7 +62,7 @@ SQL;
             $sqlWhereParts[] = 'job_instance.code = :search';
         }
 
-        return [] === $sqlWhereParts ? '' : 'WHERE '.implode(' AND ', $sqlWhereParts);
+        return [] === $sqlWhereParts ? '' : 'WHERE ' . implode(' AND ', $sqlWhereParts);
     }
 
     private function buildPaginationPart(JobInstanceQueryPagination $queryPagination): string
@@ -80,7 +79,7 @@ SQL;
             $sqlPaginationParts[] = ':limit';
         }
 
-        return [] === $sqlPaginationParts ? '' : 'LIMIT '.implode(' ', $sqlPaginationParts);
+        return [] === $sqlPaginationParts ? '' : 'LIMIT ' . implode(' ', $sqlPaginationParts);
     }
 
     private function fetchJobInstances(string $sql, JobInstanceQuery $query): array
@@ -96,7 +95,7 @@ SQL;
         )->fetchAllAssociative();
 
         return array_map(
-            static fn (array $jobInstance) => new JobInstance(
+            static fn(array $jobInstance) => new JobInstance(
                 $jobInstance['code'],
                 $jobInstance['label'],
                 unserialize($jobInstance['raw_parameters']),

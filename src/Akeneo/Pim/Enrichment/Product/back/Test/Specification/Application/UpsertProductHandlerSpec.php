@@ -38,7 +38,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UpsertProductHandlerSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         ValidatorInterface $validator,
         ProductRepositoryInterface $productRepository,
         ProductBuilderInterface $productBuilder,
@@ -63,12 +63,12 @@ class UpsertProductHandlerSpec extends ObjectBehavior
         $clock->now()->willReturn(\DateTimeImmutable::createFromFormat('Y-m-d H:i:s', '2022-02-12 10:05:24'));
     }
 
-    function it_is_intializable()
+    public function it_is_intializable()
     {
         $this->shouldHaveType(UpsertProductHandler::class);
     }
 
-    function it_creates_updates_and_saves_a_product(
+    public function it_creates_updates_and_saves_a_product(
         ValidatorInterface $validator,
         ProductRepositoryInterface $productRepository,
         ProductBuilderInterface $productBuilder,
@@ -97,7 +97,7 @@ class UpsertProductHandlerSpec extends ObjectBehavior
         $this->__invoke($command);
     }
 
-    function it_fetches_updates_and_saves_a_product(
+    public function it_fetches_updates_and_saves_a_product(
         ValidatorInterface $validator,
         ProductRepositoryInterface $productRepository,
         ProductBuilderInterface $productBuilder,
@@ -128,7 +128,7 @@ class UpsertProductHandlerSpec extends ObjectBehavior
         $this->__invoke($command);
     }
 
-    function it_does_not_dispatch_event_when_product_was_not_updated(
+    public function it_does_not_dispatch_event_when_product_was_not_updated(
         ValidatorInterface $validator,
         ProductRepositoryInterface $productRepository,
         ProductBuilderInterface $productBuilder,
@@ -160,7 +160,7 @@ class UpsertProductHandlerSpec extends ObjectBehavior
         $this->__invoke($command);
     }
 
-    function it_throws_an_exception_when_command_is_not_valid(
+    public function it_throws_an_exception_when_command_is_not_valid(
         ValidatorInterface $validator,
         SaverInterface $productSaver,
         TokenStorageInterface $tokenStorage,
@@ -183,7 +183,7 @@ class UpsertProductHandlerSpec extends ObjectBehavior
         $this->shouldThrow(new ViolationsException($violations))->during('__invoke', [$command]);
     }
 
-    function it_throws_an_exception_when_product_is_not_valid(
+    public function it_throws_an_exception_when_product_is_not_valid(
         ValidatorInterface $validator,
         ProductRepositoryInterface $productRepository,
         SaverInterface $productSaver,
@@ -210,7 +210,7 @@ class UpsertProductHandlerSpec extends ObjectBehavior
         $this->shouldThrow(new LegacyViolationsException($violations))->during('__invoke', [$command]);
     }
 
-    function it_throws_an_exception_when_updater_throws_an_exception(
+    public function it_throws_an_exception_when_updater_throws_an_exception(
         ValidatorInterface $validator,
         ProductRepositoryInterface $productRepository,
         SaverInterface $productSaver,
@@ -241,7 +241,7 @@ class UpsertProductHandlerSpec extends ObjectBehavior
         $this->shouldThrow(ViolationsException::class)->during('__invoke', [$command]);
     }
 
-    function it_updates_a_product_with_user_intents(
+    public function it_updates_a_product_with_user_intents(
         ValidatorInterface $validator,
         ProductRepositoryInterface $productRepository,
         SaverInterface $productSaver,
@@ -281,7 +281,7 @@ class UpsertProductHandlerSpec extends ObjectBehavior
         $this->__invoke($command);
     }
 
-    function it_throws_an_error_when_user_intent_cannot_be_handled(
+    public function it_throws_an_error_when_user_intent_cannot_be_handled(
         ValidatorInterface $validator,
         ProductRepositoryInterface $productRepository,
         SaverInterface $productSaver,
@@ -310,7 +310,7 @@ class UpsertProductHandlerSpec extends ObjectBehavior
             }
         };
         $command = UpsertProductCommand::createWithIdentifier(userId: 1, productIdentifier: ProductIdentifier::fromIdentifier('identifier'), userIntents: [
-            $unknownUserIntent
+            $unknownUserIntent,
         ]);
 
         $product = new Product();
@@ -329,7 +329,7 @@ class UpsertProductHandlerSpec extends ObjectBehavior
         $this->shouldThrow(\InvalidArgumentException::class)->during('__invoke', [$command]);
     }
 
-    function it_throws_an_error_when_connected_user_is_different_from_user_id(
+    public function it_throws_an_error_when_connected_user_is_different_from_user_id(
         ValidatorInterface $validator,
         SaverInterface $productSaver,
         ObjectUpdaterInterface $productUpdater,
@@ -355,7 +355,7 @@ class UpsertProductHandlerSpec extends ObjectBehavior
         $this->shouldThrow(\LogicException::class)->during('__invoke', [$command]);
     }
 
-    function it_updates_a_product_without_checking_user(
+    public function it_updates_a_product_without_checking_user(
         ValidatorInterface $validator,
         TokenStorageInterface $tokenStorage,
         ProductRepositoryInterface $productRepository,

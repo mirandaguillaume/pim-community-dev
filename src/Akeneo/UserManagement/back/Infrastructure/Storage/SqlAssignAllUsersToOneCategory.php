@@ -14,15 +14,13 @@ use PDO;
  */
 final readonly class SqlAssignAllUsersToOneCategory implements AssignAllUsersToOneCategory
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function execute(int $categoryId): int
     {
         $sql = <<<SQL
-            UPDATE oro_user SET defaultTree_id = :id;
-        SQL;
+                UPDATE oro_user SET defaultTree_id = :id;
+            SQL;
         return $this->connection->executeQuery(
             $sql,
             ['id' => $categoryId],

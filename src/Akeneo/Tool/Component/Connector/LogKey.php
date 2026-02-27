@@ -25,11 +25,11 @@ final readonly class LogKey implements \Stringable
         $jobInstance = $this->jobExecution->getJobInstance();
 
         return
-            $jobInstance->getType() . DIRECTORY_SEPARATOR .
-            $jobInstance->getJobName() . DIRECTORY_SEPARATOR .
-            $this->jobExecution->getId() . DIRECTORY_SEPARATOR .
-            'log' . DIRECTORY_SEPARATOR .
-            basename($this->jobExecution->getLogFile())
+            $jobInstance->getType() . DIRECTORY_SEPARATOR
+            . $jobInstance->getJobName() . DIRECTORY_SEPARATOR
+            . $this->jobExecution->getId() . DIRECTORY_SEPARATOR
+            . 'log' . DIRECTORY_SEPARATOR
+            . basename($this->jobExecution->getLogFile())
         ;
     }
 }

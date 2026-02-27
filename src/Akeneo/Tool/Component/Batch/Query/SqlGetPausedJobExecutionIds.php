@@ -13,9 +13,7 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class SqlGetPausedJobExecutionIds implements GetPausedJobExecutionIdsInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     /**
      * @return array<int>
@@ -23,16 +21,16 @@ final readonly class SqlGetPausedJobExecutionIds implements GetPausedJobExecutio
     public function all(): array
     {
         $sql = <<<SQL
-SELECT id
-FROM akeneo_batch_job_execution
-WHERE status = :paused_status
-SQL;
+            SELECT id
+            FROM akeneo_batch_job_execution
+            WHERE status = :paused_status
+            SQL;
 
         $result = $this->connection->executeQuery(
             $sql,
             ['paused_status' => BatchStatus::PAUSED],
         )->fetchFirstColumn();
 
-        return array_map(static fn (string $id) => (int) $id, $result);
+        return array_map(static fn(string $id) => (int) $id, $result);
     }
 }

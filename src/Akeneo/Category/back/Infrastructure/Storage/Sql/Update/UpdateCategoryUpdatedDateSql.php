@@ -13,17 +13,15 @@ use Doctrine\DBAL\Connection;
  */
 class UpdateCategoryUpdatedDateSql implements UpdateCategoryUpdatedDate
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function execute(string $categoryCode): void
     {
         $sql = <<<SQL
-            UPDATE pim_catalog_category
-            SET updated = NOW()
-            WHERE code = :code
-        SQL;
+                UPDATE pim_catalog_category
+                SET updated = NOW()
+                WHERE code = :code
+            SQL;
 
         $this->connection->executeQuery(
             $sql,

@@ -34,7 +34,7 @@ class ProductAssociationNormalizer implements NormalizerInterface, SerializerAwa
     /**
      * {@inheritdoc}
      */
-    public function normalize($product, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($product, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         if (!$this->serializer instanceof NormalizerInterface) {
             throw new \LogicException('Serializer must be a normalizer');

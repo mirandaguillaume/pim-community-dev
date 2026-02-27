@@ -9,9 +9,7 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\GetFamilyTranslations;
 
 class FamilyTranslator implements FlatPropertyValueTranslatorInterface
 {
-    public function __construct(private readonly GetFamilyTranslations $getFamilyTranslations)
-    {
-    }
+    public function __construct(private readonly GetFamilyTranslations $getFamilyTranslations) {}
 
     public function supports(string $columnName): bool
     {
@@ -24,8 +22,8 @@ class FamilyTranslator implements FlatPropertyValueTranslatorInterface
 
         $familyLabelized = [];
         foreach ($values as $valueIndex => $value) {
-            $familyLabelized[$valueIndex] = $familyTranslations[$value] ??
-                sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $value);
+            $familyLabelized[$valueIndex] = $familyTranslations[$value]
+                ?? sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $value);
         }
 
         return $familyLabelized;

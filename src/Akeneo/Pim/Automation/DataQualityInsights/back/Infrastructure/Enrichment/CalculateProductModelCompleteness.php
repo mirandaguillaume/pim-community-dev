@@ -21,14 +21,12 @@ use Akeneo\Pim\Enrichment\Component\Product\Repository\ProductModelRepositoryInt
  */
 class CalculateProductModelCompleteness implements CalculateProductCompletenessInterface
 {
-    public function __construct(private readonly GetCompletenessProductMasks                 $getCompletenessProductMasks, private readonly GetProductModelAttributesMaskQueryInterface $getProductModelAttributesMaskQuery, private readonly ProductModelRepositoryInterface             $productModelRepository)
-    {
-    }
+    public function __construct(private readonly GetCompletenessProductMasks                 $getCompletenessProductMasks, private readonly GetProductModelAttributesMaskQueryInterface $getProductModelAttributesMaskQuery, private readonly ProductModelRepositoryInterface             $productModelRepository) {}
 
     public function calculate(ProductEntityIdInterface $productModelId): CompletenessCalculationResult
     {
         if (!$productModelId instanceof ProductModelId) {
-            throw new \InvalidArgumentException(sprintf('Invalid product model id: %s', (string)$productModelId));
+            throw new \InvalidArgumentException(sprintf('Invalid product model id: %s', (string) $productModelId));
         }
 
         $result = new CompletenessCalculationResult();

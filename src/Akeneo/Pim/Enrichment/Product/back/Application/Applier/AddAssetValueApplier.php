@@ -18,8 +18,7 @@ final readonly class AddAssetValueApplier implements UserIntentApplier
 {
     public function __construct(
         private ObjectUpdaterInterface $productUpdater,
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritDoc}
@@ -32,12 +31,12 @@ final readonly class AddAssetValueApplier implements UserIntentApplier
             $userIntent->localeCode(),
             $userIntent->channelCode()
         );
-        $formerValueAsString = $formerValue ?
-            array_map(fn ($value) => $value->normalize(), $formerValue->getData())
+        $formerValueAsString = $formerValue
+            ? array_map(fn($value) => $value->normalize(), $formerValue->getData())
             : null;
-        $values = null !== $formerValueAsString ?
-            \array_unique(\array_merge($formerValueAsString, $userIntent->assetCodes())) :
-            $userIntent->assetCodes();
+        $values = null !== $formerValueAsString
+            ? \array_unique(\array_merge($formerValueAsString, $userIntent->assetCodes()))
+            : $userIntent->assetCodes();
 
         $this->productUpdater->update(
             $product,

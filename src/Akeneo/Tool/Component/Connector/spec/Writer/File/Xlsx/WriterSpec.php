@@ -19,7 +19,7 @@ use PhpSpec\ObjectBehavior;
 
 class WriterSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         ArrayConverterInterface $arrayConverter,
         BufferFactory $bufferFactory,
         FlatItemBufferFlusher $flusher,
@@ -28,22 +28,22 @@ class WriterSpec extends ObjectBehavior
         $this->beConstructedWith($arrayConverter, $bufferFactory, $flusher, $jobFileBackuper);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(Writer::class);
     }
 
-    function it_is_step_execution_aware()
+    public function it_is_step_execution_aware()
     {
         $this->shouldImplement(StepExecutionAwareInterface::class);
     }
 
-    function it_is_a_writer()
+    public function it_is_a_writer()
     {
         $this->shouldImplement(ItemWriterInterface::class);
     }
 
-    function it_prepares_items_to_write(
+    public function it_prepares_items_to_write(
         $arrayConverter,
         $bufferFactory,
         FlatItemBuffer $flatRowBuffer,
@@ -67,35 +67,35 @@ class WriterSpec extends ObjectBehavior
             [
                 'code'   => 'promotion',
                 'type'   => 'RELATED',
-                'labels' => ['en_US' => 'Promotion', 'de_DE' => 'Förderung']
+                'labels' => ['en_US' => 'Promotion', 'de_DE' => 'Förderung'],
             ],
             [
                 'code'   => 'related',
                 'type'   => 'RELATED',
-                'labels' => ['en_US' => 'Related', 'de_DE' => 'Verbunden']
-            ]
+                'labels' => ['en_US' => 'Related', 'de_DE' => 'Verbunden'],
+            ],
         ];
 
         $arrayConverter->convert([
             'code'   => 'promotion',
             'type'   => 'RELATED',
-            'labels' => ['en_US' => 'Promotion', 'de_DE' => 'Förderung']
+            'labels' => ['en_US' => 'Promotion', 'de_DE' => 'Förderung'],
         ])->willReturn([
             'code'        => 'promotion',
             'type'        => 'RELATED',
             'label-en_US' => 'Promotion',
-            'label-de_DE' => 'Förderung'
+            'label-de_DE' => 'Förderung',
         ]);
 
         $arrayConverter->convert([
             'code'   => 'related',
             'type'   => 'RELATED',
-            'labels' => ['en_US' => 'Related', 'de_DE' => 'Verbunden']
+            'labels' => ['en_US' => 'Related', 'de_DE' => 'Verbunden'],
         ])->willReturn([
             'code'        => 'related',
             'type'        => 'RELATED',
             'label-en_US' => 'Related',
-            'label-de_DE' => 'Verbunden'
+            'label-de_DE' => 'Verbunden',
         ]);
 
         $bufferFactory->create(null)->willReturn($flatRowBuffer);
@@ -105,14 +105,14 @@ class WriterSpec extends ObjectBehavior
                     'code'        => 'promotion',
                     'type'        => 'RELATED',
                     'label-en_US' => 'Promotion',
-                    'label-de_DE' => 'Förderung'
+                    'label-de_DE' => 'Förderung',
                 ],
                 [
                     'code'        => 'related',
                     'type'        => 'RELATED',
                     'label-en_US' => 'Related',
-                    'label-de_DE' => 'Verbunden'
-                ]
+                    'label-de_DE' => 'Verbunden',
+                ],
             ],
             ['withHeader' => true]
         )->shouldBeCalled();
@@ -121,7 +121,7 @@ class WriterSpec extends ObjectBehavior
         $this->write($groups);
     }
 
-    function it_writes_the_xlsx_file(
+    public function it_writes_the_xlsx_file(
         $bufferFactory,
         $flusher,
         FlatItemBuffer $flatRowBuffer,

@@ -25,8 +25,7 @@ final readonly class AttributeContext implements Context
         private ObjectUpdaterInterface $attributeUpdater,
         private InMemoryAttributeGroupRepository $attributeGroupRepository,
         private InMemoryGetAttributeTypes $getAttributeTypes
-    ) {
-    }
+    ) {}
 
     /**
      * @Given /the following attributes?:/

@@ -94,7 +94,7 @@ abstract class AbstractProductUniqueData implements ProductUniqueDataInterface
      */
     public function isEqual(ProductUniqueDataInterface $uniqueValue): bool
     {
-        return $this->getAttribute() === $uniqueValue->getAttribute() &&
-            $this->getRawData() === $uniqueValue->getRawData();
+        return $this->getAttribute() === $uniqueValue->getAttribute()
+            && $this->getRawData() === $uniqueValue->getRawData();
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Tool\Bundle\MeasureBundle\Validation\SaveMeasurementFamily;
@@ -52,7 +53,7 @@ class StandardUnitCodeShouldExistValidator extends ConstraintValidator
                             ['%standard_unit_code%' => $standardUnitCode, '%measurement_family_code%' => $measurementFamilyCode]
                         )->addViolation();
                     }
-                )
+                ),
             ]
         );
 

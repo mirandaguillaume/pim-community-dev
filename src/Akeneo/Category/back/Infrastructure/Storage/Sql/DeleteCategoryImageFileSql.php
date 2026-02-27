@@ -21,8 +21,7 @@ final readonly class DeleteCategoryImageFileSql implements DeleteCategoryImageFi
         private Connection $connection,
         private FilesystemProvider $filesystemProvider,
         private PreviewGeneratorInterface $previewGenerator,
-    ) {
-    }
+    ) {}
 
     public function __invoke(string $filePath): void
     {
@@ -42,9 +41,9 @@ final readonly class DeleteCategoryImageFileSql implements DeleteCategoryImageFi
     {
         $this->connection->executeStatement(
             <<<SQL
-                DELETE FROM `akeneo_file_storage_file_info`
-                WHERE file_key = :file_key
-            SQL,
+                    DELETE FROM `akeneo_file_storage_file_info`
+                    WHERE file_key = :file_key
+                SQL,
             [
                 'file_key' => $filePath,
             ],

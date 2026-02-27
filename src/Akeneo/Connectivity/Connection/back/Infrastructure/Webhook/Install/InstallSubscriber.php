@@ -15,9 +15,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class InstallSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly DbalConnection $dbalConnection)
-    {
-    }
+    public function __construct(private readonly DbalConnection $dbalConnection) {}
 
     public static function getSubscribedEvents(): array
     {

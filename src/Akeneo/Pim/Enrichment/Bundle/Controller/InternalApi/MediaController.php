@@ -55,7 +55,7 @@ class MediaController
             foreach ($violations as $violation) {
                 $errors[$violation->getPropertyPath()] = [
                     'message'       => $violation->getMessage(),
-                    'invalid_value' => $violation->getInvalidValue()
+                    'invalid_value' => $violation->getInvalidValue(),
                 ];
             }
 
@@ -67,7 +67,7 @@ class MediaController
         return new JsonResponse(
             [
                 'originalFilename' => $uploadedFile->getClientOriginalName(),
-                'filePath'         => $file->getKey()
+                'filePath'         => $file->getKey(),
             ]
         );
     }

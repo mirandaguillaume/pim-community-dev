@@ -11,9 +11,7 @@ use Ramsey\Uuid\Uuid;
 
 class FindNonExistingProductsQuery implements FindNonExistingProductsQueryInterface
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function byProductIdentifiers(array $productIdentifiers): array
     {
@@ -22,17 +20,17 @@ class FindNonExistingProductsQuery implements FindNonExistingProductsQueryInterf
         }
 
         $query = <<<SQL
-WITH main_identifier AS (
-    SELECT id
-    FROM pim_catalog_attribute
-    WHERE main_identifier = 1
-    LIMIT 1
-)
-SELECT raw_data AS identifier
-FROM pim_catalog_product_unique_data
-WHERE raw_data IN (:product_identifiers)
-AND attribute_id = (SELECT id FROM main_identifier)
-SQL;
+            WITH main_identifier AS (
+                SELECT id
+                FROM pim_catalog_attribute
+                WHERE main_identifier = 1
+                LIMIT 1
+            )
+            SELECT raw_data AS identifier
+            FROM pim_catalog_product_unique_data
+            WHERE raw_data IN (:product_identifiers)
+            AND attribute_id = (SELECT id FROM main_identifier)
+            SQL;
 
         $results = $this->connection->executeQuery(
             $query,
@@ -49,11 +47,11 @@ SQL;
             return [];
         }
 
-        $productUuidsAsBytes = \array_map(fn (string $uuid): string => Uuid::fromString($uuid)->getBytes(), $productUuids);
+        $productUuidsAsBytes = \array_map(fn(string $uuid): string => Uuid::fromString($uuid)->getBytes(), $productUuids);
 
         $query = <<<SQL
-        SELECT BIN_TO_UUID(uuid) FROM pim_catalog_product WHERE uuid IN (:product_uuids)
-SQL;
+                    SELECT BIN_TO_UUID(uuid) FROM pim_catalog_product WHERE uuid IN (:product_uuids)
+            SQL;
 
         $results = $this->connection->executeQuery(
             $query,

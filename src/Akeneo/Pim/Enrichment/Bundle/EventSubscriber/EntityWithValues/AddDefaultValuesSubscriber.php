@@ -26,9 +26,7 @@ class AddDefaultValuesSubscriber implements EventSubscriberInterface
 {
     private ?array $cachedChannelsAndLocales = null;
 
-    public function __construct(private readonly GetAttributes $getAttributes, private readonly ValueFactory $valueFactory, private readonly GetChannelCodeWithLocaleCodesInterface $getChannelWithLocales)
-    {
-    }
+    public function __construct(private readonly GetAttributes $getAttributes, private readonly ValueFactory $valueFactory, private readonly GetChannelCodeWithLocaleCodesInterface $getChannelWithLocales) {}
 
     public static function getSubscribedEvents(): array
     {
@@ -70,17 +68,17 @@ class AddDefaultValuesSubscriber implements EventSubscriberInterface
         $attributes = new ArrayCollection();
         if (null !== $entity->getFamilyVariant()) {
             $level = $entity->getVariationLevel();
-            $attributes = 0 === $level ?
-                $entity->getFamilyVariant()->getCommonAttributes() :
-                $entity->getFamilyVariant()->getVariantAttributeSet($level)->getAttributes();
+            $attributes = 0 === $level
+                ? $entity->getFamilyVariant()->getCommonAttributes()
+                : $entity->getFamilyVariant()->getVariantAttributeSet($level)->getAttributes();
         } elseif (null !== $entity->getFamily()) {
             $attributes = $entity->getFamily()->getAttributes();
         }
 
         $attributeCodesWithDefaultValues = $attributes->filter(
-            fn (AttributeInterface $attribute): bool => null !== $attribute->getProperty('default_value')
+            fn(AttributeInterface $attribute): bool => null !== $attribute->getProperty('default_value')
         )->map(
-            fn (AttributeInterface $attribute): string => $attribute->getCode()
+            fn(AttributeInterface $attribute): string => $attribute->getCode()
         )->toArray();
 
         return $this->getAttributes->forCodes($attributeCodesWithDefaultValues);

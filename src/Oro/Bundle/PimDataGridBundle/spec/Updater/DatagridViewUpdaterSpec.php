@@ -12,22 +12,22 @@ use Akeneo\UserManagement\Component\Model\UserInterface;
 
 class DatagridViewUpdaterSpec extends ObjectBehavior
 {
-    function let(IdentifiableObjectRepositoryInterface $userRepository)
+    public function let(IdentifiableObjectRepositoryInterface $userRepository)
     {
         $this->beConstructedWith($userRepository);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(DatagridViewUpdater::class);
     }
 
-    function it_is_a_object_updater()
+    public function it_is_a_object_updater()
     {
         $this->shouldImplement(ObjectUpdaterInterface::class);
     }
 
-    function it_throws_an_exception_if_the_given_object_is_not_a_datagrid()
+    public function it_throws_an_exception_if_the_given_object_is_not_a_datagrid()
     {
         $this->shouldThrow(
             InvalidObjectException::objectExpected(
@@ -37,7 +37,7 @@ class DatagridViewUpdaterSpec extends ObjectBehavior
         )->during('update', [new \stdClass(), []]);
     }
 
-    function it_updates_the_data_grid_property($userRepository, DatagridView $datagridView, UserInterface $user)
+    public function it_updates_the_data_grid_property($userRepository, DatagridView $datagridView, UserInterface $user)
     {
         $userRepository->findOneByIdentifier('julia')->willreturn($user);
 

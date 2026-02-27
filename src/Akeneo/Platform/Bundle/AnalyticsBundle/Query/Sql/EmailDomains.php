@@ -14,17 +14,15 @@ use Doctrine\DBAL\Connection;
  */
 class EmailDomains implements EmailDomainsQuery
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function fetch(): string
     {
         $query = <<<SQL
-            SELECT DISTINCT(SUBSTRING_INDEX(email, '@', -1)) AS email_domain
-                FROM oro_user
-                ORDER by email_domain
-SQL;
+                        SELECT DISTINCT(SUBSTRING_INDEX(email, '@', -1)) AS email_domain
+                            FROM oro_user
+                            ORDER by email_domain
+            SQL;
 
         $domains = $this->connection->executeQuery($query)->fetchFirstColumn();
 

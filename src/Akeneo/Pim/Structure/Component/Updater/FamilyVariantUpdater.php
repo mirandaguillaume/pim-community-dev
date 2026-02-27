@@ -26,9 +26,7 @@ use Doctrine\Common\Util\ClassUtils;
  */
 class FamilyVariantUpdater implements ObjectUpdaterInterface
 {
-    public function __construct(private readonly SimpleFactoryInterface $attributeSetFactory, private readonly TranslatableUpdater $translationUpdater, private readonly IdentifiableObjectRepositoryInterface $familyRepository, private readonly IdentifiableObjectRepositoryInterface $attributeRepository)
-    {
-    }
+    public function __construct(private readonly SimpleFactoryInterface $attributeSetFactory, private readonly TranslatableUpdater $translationUpdater, private readonly IdentifiableObjectRepositoryInterface $familyRepository, private readonly IdentifiableObjectRepositoryInterface $attributeRepository) {}
 
     /**
      * {@inheritdoc}
@@ -97,8 +95,8 @@ class FamilyVariantUpdater implements ObjectUpdaterInterface
                     throw InvalidPropertyTypeException::arrayOfObjectsExpected($field, static::class, $value);
                 }
 
-                if (!$isNew &&
-                    $familyVariant->getNumberOfLevel() < $this->getNumberOfLevel($value)
+                if (!$isNew
+                    && $familyVariant->getNumberOfLevel() < $this->getNumberOfLevel($value)
                 ) {
                     throw new ImmutablePropertyException(
                         'variant_attribute_sets',

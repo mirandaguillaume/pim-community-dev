@@ -17,8 +17,7 @@ class SecurityFacade implements SecurityFacadeInterface
         protected AclAnnotationProvider $annotationProvider,
         protected ObjectIdentityFactory $objectIdentityFactory,
         private readonly LoggerInterface $logger
-    ) {
-    }
+    ) {}
 
     /**
      * Checks if an access to the given method of the given class is granted to the caller

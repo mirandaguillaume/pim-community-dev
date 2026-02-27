@@ -132,7 +132,7 @@ class ScopeMapperRegistrySpec extends ObjectBehavior
                     'icon' => 'write_products_icon',
                     'type' => 'write',
                     'entities' => 'products',
-                ]
+                ],
             ]);
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Component\Product\Factory\NonExistentValuesFilter;
@@ -13,9 +14,7 @@ use Akeneo\Pim\Structure\Component\AttributeTypes;
  */
 class NonExistentReferenceDataSimpleSelectValuesFilter implements NonExistentValuesFilter
 {
-    public function __construct(private readonly GetExistingReferenceDataCodes $getExistingReferenceDataCodes)
-    {
-    }
+    public function __construct(private readonly GetExistingReferenceDataCodes $getExistingReferenceDataCodes) {}
 
     public function filter(OnGoingFilteredRawValues $onGoingFilteredRawValues): OnGoingFilteredRawValues
     {
@@ -45,7 +44,7 @@ class NonExistentReferenceDataSimpleSelectValuesFilter implements NonExistentVal
                     $filteredValues[AttributeTypes::REFERENCE_DATA_SIMPLE_SELECT][$attributeCode][] = [
                         'identifier' => $productValues['identifier'],
                         'values' => $simpleSelectValues,
-                        'properties' => $productValues['properties']
+                        'properties' => $productValues['properties'],
                     ];
                 }
             }

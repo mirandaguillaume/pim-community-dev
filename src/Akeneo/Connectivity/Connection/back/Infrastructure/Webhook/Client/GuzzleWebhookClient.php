@@ -42,9 +42,8 @@ class GuzzleWebhookClient implements WebhookClientInterface
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly array $config,
         private readonly VersionProviderInterface $versionProvider,
-        private readonly string | null $pfid,
-    ) {
-    }
+        private readonly ?string $pfid,
+    ) {}
 
     public function bulkSend(iterable $webhookRequests): void
     {
@@ -59,7 +58,7 @@ class GuzzleWebhookClient implements WebhookClientInterface
 
                 $userAgent = 'AkeneoPIM/' . $this->versionProvider->getVersion();
                 if (null !== $this->pfid) {
-                    $userAgent .= ' '.$this->pfid;
+                    $userAgent .= ' ' . $this->pfid;
                 }
 
                 $headers = [
@@ -94,7 +93,7 @@ class GuzzleWebhookClient implements WebhookClientInterface
                     $webhookRequestLog->setResponse($response);
 
                     $pimEvents = \array_map(
-                        static fn (WebhookEvent $apiEvent): EventInterface => $apiEvent->getPimEvent(),
+                        static fn(WebhookEvent $apiEvent): EventInterface => $apiEvent->getPimEvent(),
                         $webhookRequestLog->getWebhookRequest()->apiEvents()
                     );
 

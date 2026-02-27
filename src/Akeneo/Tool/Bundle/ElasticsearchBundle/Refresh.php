@@ -20,9 +20,7 @@ final class Refresh
     /**
      * @param string $type
      */
-    private function __construct(private $type)
-    {
-    }
+    private function __construct(private $type) {}
 
     /**
      * @return Refresh
@@ -37,7 +35,7 @@ final class Refresh
      */
     public static function disabled()
     {
-        @trigger_error('The '.__FUNCTION__.' function is deprecated and will be removed in a future version.', E_USER_DEPRECATED);
+        @trigger_error('The ' . __FUNCTION__ . ' function is deprecated and will be removed in a future version.', E_USER_DEPRECATED);
 
         return self::disable();
     }

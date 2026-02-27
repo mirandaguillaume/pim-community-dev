@@ -26,12 +26,12 @@ class OptionNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
     /**
      * {@inheritdoc}
      */
-    public function normalize($optionValue, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($optionValue, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $optionCode = $optionValue->getData();
         $attributeCode = $optionValue->getAttributeCode();
 
-        $option = $this->attributeOptionRepository->findOneByIdentifier($attributeCode.'.'.$optionCode);
+        $option = $this->attributeOptionRepository->findOneByIdentifier($attributeCode . '.' . $optionCode);
 
         $label = '';
         if ($option instanceof AttributeOptionInterface) {
@@ -46,7 +46,7 @@ class OptionNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
         return [
             'locale' => $optionValue->getLocaleCode(),
             'scope'  => $optionValue->getScopeCode(),
-            'data'   => $label
+            'data'   => $label,
         ];
     }
 

@@ -81,8 +81,8 @@ class FamilyRepository extends EntityRepository implements
     {
         if ($values) {
             $rootAlias = $qb->getRootAliases()[0];
-            $valueWhereCondition =
-                $inset
+            $valueWhereCondition
+                = $inset
                     ? $qb->expr()->in($rootAlias, $values)
                     : $qb->expr()->notIn($rootAlias, $values);
             $qb->andWhere($valueWhereCondition);
@@ -101,7 +101,7 @@ class FamilyRepository extends EntityRepository implements
 
         $qb->setParameters(
             $qb->getParameters()->filter(
-                fn ($parameter) => $parameter->getName() !== 'entityIds'
+                fn($parameter) => $parameter->getName() !== 'entityIds'
             )
         );
 

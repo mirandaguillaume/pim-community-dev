@@ -16,9 +16,7 @@ class TwigProperty extends FieldProperty
     /** @staticvar string */
     final public const TEMPLATE_KEY = 'template';
 
-    public function __construct(protected Environment $environment)
-    {
-    }
+    public function __construct(protected Environment $environment) {}
 
     /**
      * {@inheritdoc}

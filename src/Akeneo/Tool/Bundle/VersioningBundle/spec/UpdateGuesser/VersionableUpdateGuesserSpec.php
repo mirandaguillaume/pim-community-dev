@@ -11,28 +11,28 @@ use Akeneo\Channel\Infrastructure\Component\Model\LocaleInterface;
 
 class VersionableUpdateGuesserSpec extends ObjectBehavior
 {
-    function let(EntityManager $em)
+    public function let(EntityManager $em)
     {
         $this->beConstructedWith(['stdClass']);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(VersionableUpdateGuesser::class);
     }
 
-    function it_is_an_update_guesser()
+    public function it_is_an_update_guesser()
     {
         $this->shouldImplement(UpdateGuesserInterface::class);
     }
 
-    function it_supports_update_action()
+    public function it_supports_update_action()
     {
         $this->supportAction(UpdateGuesserInterface::ACTION_UPDATE_ENTITY)->shouldReturn(true);
         $this->supportAction('foo')->shouldReturn(false);
     }
 
-    function it_guesses_versionable_entity_updates(
+    public function it_guesses_versionable_entity_updates(
         AttributeInterface $attribute,
         $em
     ) {
@@ -44,7 +44,7 @@ class VersionableUpdateGuesserSpec extends ObjectBehavior
             ->shouldReturn([$object]);
     }
 
-    function it_returns_no_pending_updates_if_not_given_versionable_class(
+    public function it_returns_no_pending_updates_if_not_given_versionable_class(
         $em,
         LocaleInterface $locale
     ) {

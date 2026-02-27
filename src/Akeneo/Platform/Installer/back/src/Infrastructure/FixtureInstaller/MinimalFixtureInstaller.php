@@ -15,9 +15,7 @@ use Symfony\Component\Process\Process;
 
 class MinimalFixtureInstaller implements FixtureInstallerInterface
 {
-    public function __construct(private readonly string $projectDir)
-    {
-    }
+    public function __construct(private readonly string $projectDir) {}
 
     public function installWithoutUsersUserGroupsAndUserRoles(): void
     {
@@ -44,7 +42,7 @@ class MinimalFixtureInstaller implements FixtureInstallerInterface
         $process->run();
 
         if (!$process->isSuccessful()) {
-            throw new \Exception(sprintf('Install failed, "%s".', $process->getOutput().PHP_EOL.$process->getErrorOutput()));
+            throw new \Exception(sprintf('Install failed, "%s".', $process->getOutput() . PHP_EOL . $process->getErrorOutput()));
         }
     }
 }

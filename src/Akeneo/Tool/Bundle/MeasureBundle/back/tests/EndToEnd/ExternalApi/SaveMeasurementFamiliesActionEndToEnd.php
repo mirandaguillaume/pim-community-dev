@@ -44,7 +44,7 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
                     LabelCollection::fromArray(['en_US' => 'Custom unit 2_1', 'fr_FR' => 'Unité personalisée 2_1']),
                     [Operation::create('mul', '0.0001')],
                     'cm²'
-                )
+                ),
             ]
         );
 
@@ -69,7 +69,7 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
                     'fi_FI' => 'Pakkaus',
                     'fr_FR' => 'Emballage',
                 ],
-            ]
+            ],
         ]);
 
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
@@ -82,9 +82,9 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
                     [
                         'property' => '',
                         'message' => 'The required properties (code) are missing',
-                    ]
+                    ],
                 ],
-            ]
+            ],
         ], json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
     }
 
@@ -109,7 +109,7 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
                     LabelCollection::fromArray(['en_US' => 'Custom unit 2_1', 'fr_FR' => 'Unité personalisée 2_1']),
                     [Operation::create('mul', '0.0001')],
                     'cm²'
-                )
+                ),
             ]
         );
 
@@ -144,9 +144,9 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
                     [
                         'property' => '[units][CUSTOM_UNIT_2_1]',
                         'message' => 'The index does not match the unit code.',
-                    ]
+                    ],
                 ],
-            ]
+            ],
         ], json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
     }
 
@@ -171,7 +171,7 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
                     LabelCollection::fromArray(['en_US' => 'Custom unit 2_1', 'fr_FR' => 'Unité personalisée 2_1']),
                     [Operation::create('mul', '0.0001')],
                     'cm²'
-                )
+                ),
             ]
         );
 
@@ -207,7 +207,7 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
                     LabelCollection::fromArray(['en_US' => 'Custom unit 2_1', 'fr_FR' => 'Unité personalisée 2_1']),
                     [Operation::create('mul', '0.0001')],
                     'cm²'
-                )
+                ),
             ]
         );
 
@@ -220,18 +220,18 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
                     'CUSTOM_UNIT_3_1' => [
                         'code' => 'CUSTOM_UNIT_3_1',
                         'labels' => [
-                            'ca_ES' => 'Centímetre quadrat'
+                            'ca_ES' => 'Centímetre quadrat',
                         ],
                         'convert_from_standard' => [
                             [
                                 'operator' => 'mul',
-                                'value' => '0.00001'
-                            ]
+                                'value' => '0.00001',
+                            ],
                         ],
-                        'symbol' => 'km²'
+                        'symbol' => 'km²',
                     ],
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
@@ -260,7 +260,7 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
                     LabelCollection::fromArray(['ca_ES' => 'Centímetre quadrat']),
                     [Operation::create('mul', '0.00001')],
                     'km²'
-                )
+                ),
             ]
         ));
     }
@@ -289,7 +289,7 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
             [
                 'code' => 'custom_metric_1',
                 'labels' => ['fr_FR' => 'Mesure personalisée 1'],
-            ]
+            ],
         ]);
 
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
@@ -335,7 +335,7 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
             [
                 'code' => 'custom_metric_1',
                 'labels' => ['en_US' => 'Custom measurement 2'],
-            ]
+            ],
         ]);
 
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
@@ -392,16 +392,16 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
                         'convert_from_standard' => [
                             [
                                 'operator' => 'mul',
-                                'value' => '0.1'
+                                'value' => '0.1',
                             ],
                             [
                                 'operator' => 'add',
-                                'value' => '10'
+                                'value' => '10',
                             ],
                         ],
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ]);
 
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
@@ -455,7 +455,7 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
                         LabelCollection::fromArray(['en_US' => 'Custom unit 2_1', 'fr_FR' => 'Unité personalisée 2_1']),
                         [Operation::create('mul', '0.0001')],
                         'cm²'
-                    )
+                    ),
                 ]
             ),
             MeasurementFamily::create(
@@ -474,12 +474,12 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
                         LabelCollection::fromArray(['en_US' => 'Custom unit 2_1', 'fr_FR' => 'Unité personalisée 2_1']),
                         [Operation::create('mul', '0.0001')],
                         'cm²'
-                    )
+                    ),
                 ]
-            )
+            ),
         ];
 
-        $response = $this->request(array_map(static fn (MeasurementFamily $measurementFamily) => $measurementFamily->normalizeWithIndexedUnits(), $measurementFamilies));
+        $response = $this->request(array_map(static fn(MeasurementFamily $measurementFamily) => $measurementFamily->normalizeWithIndexedUnits(), $measurementFamilies));
 
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
         $this->assertSame([
@@ -509,7 +509,7 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
                         'property' => '',
                         'message' => 'The data (object) must match the type: array',
                     ],
-                ]
+                ],
             ],
             json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR)
         );
@@ -523,7 +523,7 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
         $response = $this->request([
             [
                 'code' => 'custom_metric_1',
-            ]
+            ],
         ]);
 
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
@@ -532,14 +532,14 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
                 'code' => 'custom_metric_1',
                 'status_code' => 422,
                 'message' => 'The measurement family has an invalid format.',
-                'errors' =>
-                    [
+                'errors'
+                    => [
                         [
                             'property' => '',
-                            'message' => 'The required properties (units, standard_unit_code) are missing'
-                        ]
+                            'message' => 'The required properties (units, standard_unit_code) are missing',
+                        ],
                     ],
-            ]
+            ],
         ], json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
     }
 
@@ -564,7 +564,7 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
                     LabelCollection::fromArray(['en_US' => 'Custom unit 2_1', 'fr_FR' => 'Unité personalisée 2_1']),
                     [Operation::create('mul', '0.0001')],
                     'cm²'
-                )
+                ),
             ]
         );
 
@@ -573,8 +573,8 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
         $response = $this->request([
             [
                 'code' => 'custom_metric_1',
-                'foo' => 'bar'
-            ]
+                'foo' => 'bar',
+            ],
         ]);
 
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
@@ -583,14 +583,14 @@ class SaveMeasurementFamiliesActionEndToEnd extends ApiTestCase
                 'code' => 'custom_metric_1',
                 'status_code' => 422,
                 'message' => 'The measurement family has an invalid format.',
-                'errors' =>
-                    [
+                'errors'
+                    => [
                         [
                             'property' => '',
                             'message' => 'Additional object properties are not allowed: foo',
                         ],
                     ],
-            ]
+            ],
         ], json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR));
     }
 

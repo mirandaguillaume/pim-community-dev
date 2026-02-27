@@ -14,9 +14,7 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class CreateCustomAppQuery implements CreateCustomAppQueryInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function execute(
         string $clientId,
@@ -27,9 +25,9 @@ final readonly class CreateCustomAppQuery implements CreateCustomAppQueryInterfa
         int $userId,
     ): void {
         $sql = <<<SQL
-        INSERT INTO akeneo_connectivity_test_app (name, activate_url, callback_url, client_secret, client_id, user_id)
-        VALUES (:name, :activateUrl, :callbackUrl, :clientSecret, :clientId, :userId)
-        SQL;
+            INSERT INTO akeneo_connectivity_test_app (name, activate_url, callback_url, client_secret, client_id, user_id)
+            VALUES (:name, :activateUrl, :callbackUrl, :clientSecret, :clientId, :userId)
+            SQL;
 
         $this->connection->executeStatement(
             $sql,

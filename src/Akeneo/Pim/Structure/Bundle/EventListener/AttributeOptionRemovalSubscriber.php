@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Structure\Bundle\EventListener;
@@ -39,7 +40,7 @@ class AttributeOptionRemovalSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            StorageEvents::PRE_REMOVE => 'disallowRemovalIfOptionIsUsedAsAttributeAxes'
+            StorageEvents::PRE_REMOVE => 'disallowRemovalIfOptionIsUsedAsAttributeAxes',
         ];
     }
 
@@ -80,8 +81,8 @@ class AttributeOptionRemovalSubscriber implements EventSubscriberInterface
                     'field' => $attributeOption->getAttribute()->getCode(),
                     'operator' => 'IN',
                     'value' => [$attributeOption->getCode()],
-                ]
-            ]
+                ],
+            ],
         ]);
 
         return 0 !== $pqb->execute()->count();

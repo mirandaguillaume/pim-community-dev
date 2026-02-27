@@ -23,9 +23,7 @@ final class MigrateProductCriterionEvaluationCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
-    {
-    }
+    protected function configure() {}
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -39,13 +37,13 @@ final class MigrateProductCriterionEvaluationCommand extends Command
 
         $this->dbConnection->executeQuery(
             <<<SQL
-INSERT IGNORE INTO pim_data_quality_insights_product_criteria_evaluation (product_id, criterion_code, evaluated_at, status)
-SELECT evaluation_depr.product_id, evaluation_depr.criterion_code, evaluation_depr.evaluated_at, 'pending'
-FROM pim_data_quality_insights_product_criteria_evaluation_depr AS evaluation_depr
-WHERE evaluation_depr.criterion_code != 'consistency_text_title_formatting';
+                INSERT IGNORE INTO pim_data_quality_insights_product_criteria_evaluation (product_id, criterion_code, evaluated_at, status)
+                SELECT evaluation_depr.product_id, evaluation_depr.criterion_code, evaluation_depr.evaluated_at, 'pending'
+                FROM pim_data_quality_insights_product_criteria_evaluation_depr AS evaluation_depr
+                WHERE evaluation_depr.criterion_code != 'consistency_text_title_formatting';
 
-DROP TABLE pim_data_quality_insights_product_criteria_evaluation_depr;
-SQL
+                DROP TABLE pim_data_quality_insights_product_criteria_evaluation_depr;
+                SQL
         );
 
         $output->writeln('Start migration of product models...');
@@ -53,13 +51,13 @@ SQL
         $this->dbConnection->executeQuery(
             <<<SQL
 
-INSERT IGNORE INTO pim_data_quality_insights_product_model_criteria_evaluation (product_id, criterion_code, evaluated_at, status)
-SELECT evaluation_depr.product_id, evaluation_depr.criterion_code, evaluation_depr.evaluated_at, 'pending'
-FROM pim_data_quality_insights_product_model_criteria_evaluation_depr AS evaluation_depr
-WHERE evaluation_depr.criterion_code != 'consistency_text_title_formatting';
+                INSERT IGNORE INTO pim_data_quality_insights_product_model_criteria_evaluation (product_id, criterion_code, evaluated_at, status)
+                SELECT evaluation_depr.product_id, evaluation_depr.criterion_code, evaluation_depr.evaluated_at, 'pending'
+                FROM pim_data_quality_insights_product_model_criteria_evaluation_depr AS evaluation_depr
+                WHERE evaluation_depr.criterion_code != 'consistency_text_title_formatting';
 
-DROP TABLE pim_data_quality_insights_product_model_criteria_evaluation_depr;
-SQL
+                DROP TABLE pim_data_quality_insights_product_model_criteria_evaluation_depr;
+                SQL
         );
 
         $output->writeln('Migration done.');
@@ -70,8 +68,8 @@ SQL
     private function isMigrationDone(): bool
     {
         $query = <<<SQL
-SHOW TABLES LIKE 'pim_data_quality_insights_product_%_depr';
-SQL;
+            SHOW TABLES LIKE 'pim_data_quality_insights_product_%_depr';
+            SQL;
         $tablesToMigrate = $this->dbConnection->executeQuery($query)->fetchAllAssociative();
 
         return empty($tablesToMigrate);

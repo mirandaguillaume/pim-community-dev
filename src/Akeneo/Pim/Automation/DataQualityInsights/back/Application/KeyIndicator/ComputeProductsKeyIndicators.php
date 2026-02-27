@@ -17,9 +17,7 @@ class ComputeProductsKeyIndicators
     /**
      * @param \Akeneo\Pim\Automation\DataQualityInsights\Domain\Query\Dashboard\ComputeProductsKeyIndicator[] $keyIndicatorQueries
      */
-    public function __construct(private readonly GetLocalesByChannelQueryInterface $getLocalesByChannelQuery, private readonly iterable $keyIndicatorQueries)
-    {
-    }
+    public function __construct(private readonly GetLocalesByChannelQueryInterface $getLocalesByChannelQuery, private readonly iterable $keyIndicatorQueries) {}
 
     public function compute(ProductEntityIdCollection $productIdCollection): array
     {
@@ -47,7 +45,7 @@ class ComputeProductsKeyIndicators
         foreach ($this->keyIndicatorQueries as $keyIndicatorQuery) {
             $keyIndicatorResult = $keyIndicatorQuery->compute($productIdCollection);
             if (!empty($keyIndicatorResult)) {
-                $keyIndicatorsResults[(string)$keyIndicatorQuery->getCode()] = $keyIndicatorResult;
+                $keyIndicatorsResults[(string) $keyIndicatorQuery->getCode()] = $keyIndicatorResult;
             }
         }
 

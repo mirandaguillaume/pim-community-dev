@@ -19,8 +19,7 @@ final readonly class GetProductUuidsToEvaluateQuery implements GetEntityIdsToEva
     public function __construct(
         private Connection $db,
         private ProductUuidFactory $idFactory
-    ) {
-    }
+    ) {}
 
     /**
      * @return \Generator<int, ProductUuidCollection>
@@ -30,12 +29,12 @@ final readonly class GetProductUuidsToEvaluateQuery implements GetEntityIdsToEva
         $limitSql = null === $limit ? '' : sprintf('LIMIT %d', $limit);
 
         $sql = <<<SQL
-SELECT DISTINCT BIN_TO_UUID(p.uuid) AS uuid
-FROM pim_data_quality_insights_product_criteria_evaluation e
-    JOIN pim_catalog_product p ON p.uuid = e.product_uuid
-WHERE e.status = :status
-$limitSql
-SQL;
+            SELECT DISTINCT BIN_TO_UUID(p.uuid) AS uuid
+            FROM pim_data_quality_insights_product_criteria_evaluation e
+                JOIN pim_catalog_product p ON p.uuid = e.product_uuid
+            WHERE e.status = :status
+            $limitSql
+            SQL;
 
         $stmt = $this->db->executeQuery($sql, ['status' => CriterionEvaluationStatus::PENDING], ['status' => \PDO::PARAM_STR]);
 

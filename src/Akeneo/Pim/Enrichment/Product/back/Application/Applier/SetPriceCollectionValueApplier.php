@@ -19,8 +19,7 @@ final readonly class SetPriceCollectionValueApplier implements UserIntentApplier
 {
     public function __construct(
         private ObjectUpdaterInterface $productUpdater,
-    ) {
-    }
+    ) {}
 
     public function apply(UserIntent $userIntent, ProductInterface $product, int $userId): void
     {
@@ -33,7 +32,7 @@ final readonly class SetPriceCollectionValueApplier implements UserIntentApplier
                         'locale' => $userIntent->localeCode(),
                         'scope' => $userIntent->channelCode(),
                         'data' => \array_map(
-                            fn (PriceValue $priceValue) => [
+                            fn(PriceValue $priceValue) => [
                                 'amount' => $priceValue->amount(),
                                 'currency' => $priceValue->currency(),
                             ],

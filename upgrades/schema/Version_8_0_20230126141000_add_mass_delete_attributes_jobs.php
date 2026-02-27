@@ -12,20 +12,20 @@ final class Version_8_0_20230126141000_add_mass_delete_attributes_jobs extends A
     public function up(Schema $schema): void
     {
         $sql = <<<SQL
-            INSERT INTO akeneo_batch_job_instance 
-                (`code`, `label`, `job_name`, `status`, `connector`, `raw_parameters`, `type`)
-            VALUES
-            (
-                :code,
-                :label,
-                :job_name,
-                :status,
-                :connector,
-                :raw_parameters,
-                :type
-            )
-            ON DUPLICATE KEY UPDATE code = code;
-        SQL;
+                INSERT INTO akeneo_batch_job_instance 
+                    (`code`, `label`, `job_name`, `status`, `connector`, `raw_parameters`, `type`)
+                VALUES
+                (
+                    :code,
+                    :label,
+                    :job_name,
+                    :status,
+                    :connector,
+                    :raw_parameters,
+                    :type
+                )
+                ON DUPLICATE KEY UPDATE code = code;
+            SQL;
 
         $this->addSql(
             $sql,

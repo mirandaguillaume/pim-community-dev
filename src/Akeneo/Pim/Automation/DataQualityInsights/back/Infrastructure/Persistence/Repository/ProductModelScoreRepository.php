@@ -17,8 +17,7 @@ class ProductModelScoreRepository implements ProductModelScoreRepositoryInterfac
 {
     public function __construct(
         private readonly Connection $dbConnection
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -42,11 +41,11 @@ class ProductModelScoreRepository implements ProductModelScoreRepositoryInterfac
             $scoresPartialCriteria = sprintf('scores_partial_criteria_%d', $index);
 
             $queries .= <<<SQL
-INSERT IGNORE INTO pim_data_quality_insights_product_model_score (product_model_id, evaluated_at, scores, scores_partial_criteria)
-VALUES (:$productModelId, :$evaluatedAt, :$scores, :$scoresPartialCriteria)
-ON DUPLICATE KEY UPDATE evaluated_at = :$evaluatedAt, scores = :$scores, scores_partial_criteria = :$scoresPartialCriteria;
-SQL;
-            $queriesParameters[$productModelId] = (string)$productModelScore->getEntityId();
+                INSERT IGNORE INTO pim_data_quality_insights_product_model_score (product_model_id, evaluated_at, scores, scores_partial_criteria)
+                VALUES (:$productModelId, :$evaluatedAt, :$scores, :$scoresPartialCriteria)
+                ON DUPLICATE KEY UPDATE evaluated_at = :$evaluatedAt, scores = :$scores, scores_partial_criteria = :$scoresPartialCriteria;
+                SQL;
+            $queriesParameters[$productModelId] = (string) $productModelScore->getEntityId();
             $queriesParametersTypes[$productModelId] = \PDO::PARAM_INT;
             $queriesParameters[$evaluatedAt] = $productModelScore->getEvaluatedAt()->format('Y-m-d');
             $queriesParameters[$scores] = \json_encode($productModelScore->getScores()->toNormalizedRates(), JSON_THROW_ON_ERROR);

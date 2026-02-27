@@ -31,12 +31,12 @@ class UserGroupController
      */
     public function indexAction()
     {
-        $userGroups = array_map(fn (GroupInterface $group) => [
+        $userGroups = array_map(fn(GroupInterface $group) => [
             'name' => $group->getName(),
             'meta' => [
                 'id'      => $group->getId(),
-                'default' => 'All' === $group->getName()
-            ]
+                'default' => 'All' === $group->getName(),
+            ],
         ], $this->groupRepository->findBy(['type' => Group::TYPE_DEFAULT]));
 
         return new JsonResponse($userGroups);

@@ -17,9 +17,7 @@ final class MigrateToUuidAddConstraints implements MigrateToUuidStep
     use MigrateToUuidTrait;
     use StatusAwareTrait;
 
-    public function __construct(private readonly Connection $connection, private readonly LoggerInterface $logger)
-    {
-    }
+    public function __construct(private readonly Connection $connection, private readonly LoggerInterface $logger) {}
 
     public function getDescription(): string
     {
@@ -76,14 +74,14 @@ final class MigrateToUuidAddConstraints implements MigrateToUuidStep
                     $this->logger->notice(sprintf('Will add %s primary key', $tableName), $logContext->toArray());
                     if (!$context->dryRun()) {
                         $this->setPrimaryKey($tableName, $tableProperties, $lockTables);
-                        $this->logger->notice('Substep done', $logContext->toArray(['updated_items_count' => $updatedItems+=1]));
+                        $this->logger->notice('Substep done', $logContext->toArray(['updated_items_count' => $updatedItems += 1]));
                     }
                 }
                 if (null !== $tableProperties[MigrateToUuidStep::FOREIGN_KEY_INDEX] && !$this->constraintExists($tableName, $tableProperties[MigrateToUuidStep::FOREIGN_KEY_INDEX])) {
                     $this->logger->notice(sprintf('Will add %s foreign key', $tableName), $logContext->toArray());
                     if (!$context->dryRun()) {
                         $this->addForeignKey($tableName, $tableProperties, $lockTables);
-                        $this->logger->notice('Substep done', $logContext->toArray(['updated_items_count' => $updatedItems+=1]));
+                        $this->logger->notice('Substep done', $logContext->toArray(['updated_items_count' => $updatedItems += 1]));
                     }
                 }
                 foreach ($tableProperties[MigrateToUuidStep::UNIQUE_CONSTRAINTS_INDEX] as $constraintName => $constraintColumns) {
@@ -91,7 +89,7 @@ final class MigrateToUuidAddConstraints implements MigrateToUuidStep
                         $this->logger->notice(sprintf('Will add %s constraint %s', $tableName, $constraintName), $logContext->toArray());
                         if (!$context->dryRun()) {
                             $this->addUniqueConstraint($tableName, $constraintName, $constraintColumns, $lockTables);
-                            $this->logger->notice('Substep done', $logContext->toArray(['updated_items_count' => $updatedItems+=1]));
+                            $this->logger->notice('Substep done', $logContext->toArray(['updated_items_count' => $updatedItems += 1]));
                         }
                     }
                 }
@@ -100,7 +98,7 @@ final class MigrateToUuidAddConstraints implements MigrateToUuidStep
                         $this->logger->notice(sprintf('Will add %s constraint %s', $tableName, $indexName), $logContext->toArray());
                         if (!$context->dryRun()) {
                             $this->addIndex($tableName, $indexName, $indexColumns, $lockTables);
-                            $this->logger->notice('Substep done', $logContext->toArray(['updated_items_count' => $updatedItems+=1]));
+                            $this->logger->notice('Substep done', $logContext->toArray(['updated_items_count' => $updatedItems += 1]));
                         }
                     }
                 }
@@ -126,11 +124,11 @@ final class MigrateToUuidAddConstraints implements MigrateToUuidStep
     private function setPrimaryKey(string $tableName, array $tableProperties, bool $lockTables): void
     {
         $sql = <<<SQL
-            ALTER TABLE {tableName}
-                ADD CONSTRAINT migrate_to_uuid_temp_index_to_delete UNIQUE ({formerColumnNames}),
-                DROP PRIMARY KEY,
-                ADD PRIMARY KEY ({newColumnNames}){algorithmInplace};
-        SQL;
+                ALTER TABLE {tableName}
+                    ADD CONSTRAINT migrate_to_uuid_temp_index_to_delete UNIQUE ({formerColumnNames}),
+                    DROP PRIMARY KEY,
+                    ADD PRIMARY KEY ({newColumnNames}){algorithmInplace};
+            SQL;
 
         $newColumnNames = $tableProperties[MigrateToUuidStep::PRIMARY_KEY_UUID_INDEX];
         $formerColumnNames = $tableProperties[MigrateToUuidStep::PRIMARY_KEY_UUID_INDEX];
@@ -139,8 +137,8 @@ final class MigrateToUuidAddConstraints implements MigrateToUuidStep
 
         $query = \strtr($sql, [
             '{tableName}' => $tableName,
-            '{formerColumnNames}' => \implode(', ', array_map(fn (string $columnName): string => sprintf('`%s`', $columnName), $formerColumnNames)),
-            '{newColumnNames}' => \implode(', ', array_map(fn (string $columnName): string => sprintf('`%s`', $columnName), $newColumnNames)),
+            '{formerColumnNames}' => \implode(', ', array_map(fn(string $columnName): string => sprintf('`%s`', $columnName), $formerColumnNames)),
+            '{newColumnNames}' => \implode(', ', array_map(fn(string $columnName): string => sprintf('`%s`', $columnName), $newColumnNames)),
             '{algorithmInplace}' => $lockTables ? '' : ', ALGORITHM=INPLACE, LOCK=NONE',
         ]);
 
@@ -150,8 +148,8 @@ final class MigrateToUuidAddConstraints implements MigrateToUuidStep
     private function addForeignKey(string $tableName, array $tableProperties, bool $lockTables): void
     {
         $sql = <<<SQL
-            ALTER TABLE {tableName} ADD CONSTRAINT {constraintName} FOREIGN KEY ({uuidColumnName}) REFERENCES `pim_catalog_product` (`uuid`) ON DELETE CASCADE{algorithmInplace};
-        SQL;
+                ALTER TABLE {tableName} ADD CONSTRAINT {constraintName} FOREIGN KEY ({uuidColumnName}) REFERENCES `pim_catalog_product` (`uuid`) ON DELETE CASCADE{algorithmInplace};
+            SQL;
 
         $query = \strtr($sql, [
             '{tableName}' => $tableName,
@@ -175,13 +173,13 @@ final class MigrateToUuidAddConstraints implements MigrateToUuidStep
         bool $lockTables
     ): void {
         $sql = <<<SQL
-            ALTER TABLE {tableName} ADD CONSTRAINT {constraintName} UNIQUE ({columnNames}){algorithmInplace}
-        SQL;
+                ALTER TABLE {tableName} ADD CONSTRAINT {constraintName} UNIQUE ({columnNames}){algorithmInplace}
+            SQL;
 
         $query = \strtr($sql, [
             '{tableName}' => $tableName,
             '{constraintName}' => $constraintName,
-            '{columnNames}' => \implode(', ', array_map(fn (string $columnName): string => sprintf('`%s`', $columnName), $columnNames)),
+            '{columnNames}' => \implode(', ', array_map(fn(string $columnName): string => sprintf('`%s`', $columnName), $columnNames)),
             '{algorithmInplace}' => $lockTables ? '' : ', ALGORITHM=INPLACE, LOCK=NONE',
         ]);
 
@@ -195,14 +193,14 @@ final class MigrateToUuidAddConstraints implements MigrateToUuidStep
         bool $lockTables
     ): void {
         $sql = <<<SQL
-            ALTER TABLE {tableName}
-                ADD INDEX {indexName} ({columnNames}){algorithmInplace}
-        SQL;
+                ALTER TABLE {tableName}
+                    ADD INDEX {indexName} ({columnNames}){algorithmInplace}
+            SQL;
 
         $query = \strtr($sql, [
             '{tableName}' => $tableName,
             '{indexName}' => $indexName,
-            '{columnNames}' => \implode(', ', array_map(fn (string $columnName): string => sprintf('`%s`', $columnName), $columnNames)),
+            '{columnNames}' => \implode(', ', array_map(fn(string $columnName): string => sprintf('`%s`', $columnName), $columnNames)),
             '{algorithmInplace}' => $lockTables ? '' : ', ALGORITHM=INPLACE, LOCK=NONE',
         ]);
 

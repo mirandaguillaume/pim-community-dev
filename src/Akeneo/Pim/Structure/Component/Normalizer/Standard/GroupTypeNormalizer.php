@@ -24,7 +24,7 @@ class GroupTypeNormalizer implements NormalizerInterface, CacheableSupportsMetho
     /**
      * {@inheritdoc}
      */
-    public function normalize($groupType, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($groupType, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         return [
             'code'       => $groupType->getCode(),

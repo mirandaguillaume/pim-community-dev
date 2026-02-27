@@ -13,12 +13,12 @@ use Prophecy\Argument;
 
 class ConfigureProductFiltersListenerSpec extends ObjectBehavior
 {
-    function let(UserContext $context)
+    public function let(UserContext $context)
     {
         $this->beConstructedWith($context);
     }
 
-    function it_does_not_apply_when_user_preference_is_null($context, UserInterface $user, BuildAfter $event)
+    public function it_does_not_apply_when_user_preference_is_null($context, UserInterface $user, BuildAfter $event)
     {
         $user->getProductGridFilters()->willReturn(null);
         $context->getUser()->willReturn($user);
@@ -27,7 +27,7 @@ class ConfigureProductFiltersListenerSpec extends ObjectBehavior
         $this->onBuildAfter($event);
     }
 
-    function it_does_not_apply_when_user_preference_is_empty($context, UserInterface $user, BuildAfter $event)
+    public function it_does_not_apply_when_user_preference_is_empty($context, UserInterface $user, BuildAfter $event)
     {
         $user->getProductGridFilters()->willReturn([]);
         $context->getUser()->willReturn($user);
@@ -36,7 +36,7 @@ class ConfigureProductFiltersListenerSpec extends ObjectBehavior
         $this->onBuildAfter($event);
     }
 
-    function it_applies_when_user_preference_is_filled_and_skip_disallowed(
+    public function it_applies_when_user_preference_is_filled_and_skip_disallowed(
         $context,
         UserInterface $user,
         DatagridInterface $datagrid,

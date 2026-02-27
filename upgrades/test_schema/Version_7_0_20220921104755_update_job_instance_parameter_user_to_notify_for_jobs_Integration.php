@@ -27,7 +27,8 @@ final class Version_7_0_20220921104755_update_job_instance_parameter_user_to_not
         $this->jobInstanceRepository = $this->get('akeneo_batch.job.job_instance_repository');
     }
 
-    public function test_it_is_idempotent(): void {
+    public function test_it_is_idempotent(): void
+    {
         $this->createJob('a_mass_edit', 'mass_edit', 'admin');
         $this->createJob('a_mass_edit_rule', 'mass_edit_rule', 'greg');
         $this->createJob('a_mass_upload', 'mass_upload', null);
@@ -98,10 +99,10 @@ final class Version_7_0_20220921104755_update_job_instance_parameter_user_to_not
         );
 
         $sql = <<<SQL
-INSERT INTO `akeneo_batch_job_instance` (`code`, `label`, `job_name`, `status`, `connector`, `raw_parameters`, `type`)
-VALUES
-	(:job_code, :job_code, :job_code, 0, 'Akeneo CSV Connector', :raw_parameters, :type);
-SQL;
+            INSERT INTO `akeneo_batch_job_instance` (`code`, `label`, `job_name`, `status`, `connector`, `raw_parameters`, `type`)
+            VALUES
+            	(:job_code, :job_code, :job_code, 0, 'Akeneo CSV Connector', :raw_parameters, :type);
+            SQL;
 
         $this->connection->executeStatement($sql, [
             'job_code' => $jobCode,

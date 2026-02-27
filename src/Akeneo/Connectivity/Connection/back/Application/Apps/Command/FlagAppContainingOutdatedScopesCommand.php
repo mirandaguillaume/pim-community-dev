@@ -12,9 +12,7 @@ use Akeneo\Connectivity\Connection\Domain\Apps\Model\ConnectedApp;
  */
 class FlagAppContainingOutdatedScopesCommand
 {
-    public function __construct(private readonly ConnectedApp $connectedApp, private readonly string $requestedScopes)
-    {
-    }
+    public function __construct(private readonly ConnectedApp $connectedApp, private readonly string $requestedScopes) {}
 
     public function getConnectedApp(): ConnectedApp
     {

@@ -33,9 +33,7 @@ final class InitializeProductsEvaluationsCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
-    {
-    }
+    protected function configure() {}
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -43,7 +41,7 @@ final class InitializeProductsEvaluationsCommand extends Command
         $io->title('Products evaluations initialization.');
         $io->caution([
             'All the products and product models will be marked to be (re)evaluated.',
-            'This operation can take a lot of time depending on the number of products.'
+            'This operation can take a lot of time depending on the number of products.',
         ]);
 
         if ($input->isInteractive()) {
@@ -67,8 +65,8 @@ final class InitializeProductsEvaluationsCommand extends Command
 
         $productCount = intval($this->dbConnection->executeQuery(
             <<<SQL
-SELECT COUNT(*) FROM pim_catalog_product;
-SQL
+                SELECT COUNT(*) FROM pim_catalog_product;
+                SQL
         )->fetchOne());
 
         if ($productCount === 0) {
@@ -81,16 +79,16 @@ SQL
         $progressBar = new ProgressBar($io, $productCount);
         $progressBar->start();
 
-        $criteria = array_map(fn ($criterionCode) => strval($criterionCode), $this->productCriteriaRegistry->getAllCriterionCodes());
+        $criteria = array_map(fn($criterionCode) => strval($criterionCode), $this->productCriteriaRegistry->getAllCriterionCodes());
 
         $lastProductUuidAsBytes = '';
         while ($productUuids = $this->getProductUuidsFrom($lastProductUuidAsBytes)) {
             $values = implode(', ', $this->buildProductCriteriaEvaluationsValues($productUuids, $criteria));
             $query = <<<SQL
-INSERT INTO pim_data_quality_insights_product_criteria_evaluation (product_uuid, criterion_code, status) 
-VALUES $values
-ON DUPLICATE KEY UPDATE status = :statusPending;
-SQL;
+                INSERT INTO pim_data_quality_insights_product_criteria_evaluation (product_uuid, criterion_code, status) 
+                VALUES $values
+                ON DUPLICATE KEY UPDATE status = :statusPending;
+                SQL;
             $this->dbConnection->executeQuery($query, ['statusPending' => CriterionEvaluationStatus::PENDING]);
 
             $progressBar->advance(count($productUuids));
@@ -108,8 +106,8 @@ SQL;
 
         $productModelCount = intval($this->dbConnection->executeQuery(
             <<<SQL
-SELECT COUNT(*) FROM pim_catalog_product_model;
-SQL
+                SELECT COUNT(*) FROM pim_catalog_product_model;
+                SQL
         )->fetchOne());
 
         if ($productModelCount === 0) {
@@ -122,17 +120,17 @@ SQL
         $progressBar = new ProgressBar($io, $productModelCount);
         $progressBar->start();
 
-        $criteria = array_map(fn ($criterionCode) => strval($criterionCode), $this->productModelCriteriaRegistry->getAllCriterionCodes());
+        $criteria = array_map(fn($criterionCode) => strval($criterionCode), $this->productModelCriteriaRegistry->getAllCriterionCodes());
         $statusPending = CriterionEvaluationStatus::PENDING;
 
         $lastProductModelId = 0;
         while ($productModelIds = $this->getProductModelIdsFrom($lastProductModelId)) {
             $values = implode(', ', $this->buildProductModelCriteriaEvaluationsValues($productModelIds, $criteria));
             $query = <<<SQL
-INSERT INTO pim_data_quality_insights_product_model_criteria_evaluation (product_id, criterion_code, status) 
-VALUES $values
-ON DUPLICATE KEY UPDATE status = :statusPending;
-SQL;
+                INSERT INTO pim_data_quality_insights_product_model_criteria_evaluation (product_id, criterion_code, status) 
+                VALUES $values
+                ON DUPLICATE KEY UPDATE status = :statusPending;
+                SQL;
             $this->dbConnection->executeQuery($query, ['statusPending' => CriterionEvaluationStatus::PENDING]);
 
             $progressBar->advance(count($productModelIds));
@@ -171,8 +169,8 @@ SQL;
     private function getProductUuidsFrom(string $productUuidAsByes): array
     {
         $query = <<<SQL
-SELECT BIN_TO_UUID(uuid) FROM pim_catalog_product WHERE uuid > :lastUuid ORDER BY uuid ASC LIMIT :limit;
-SQL;
+            SELECT BIN_TO_UUID(uuid) FROM pim_catalog_product WHERE uuid > :lastUuid ORDER BY uuid ASC LIMIT :limit;
+            SQL;
 
         return $this->dbConnection->executeQuery(
             $query,
@@ -184,8 +182,8 @@ SQL;
     private function getProductModelIdsFrom(int $productModelId): array
     {
         $query = <<<SQL
-SELECT id FROM pim_catalog_product_model WHERE id > :lastId ORDER BY id ASC LIMIT :limit;
-SQL;
+            SELECT id FROM pim_catalog_product_model WHERE id > :lastId ORDER BY id ASC LIMIT :limit;
+            SQL;
 
         return $this->dbConnection->executeQuery(
             $query,

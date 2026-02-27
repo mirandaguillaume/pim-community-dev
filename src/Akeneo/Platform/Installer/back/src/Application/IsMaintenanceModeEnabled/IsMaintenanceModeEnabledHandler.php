@@ -17,8 +17,7 @@ final readonly class IsMaintenanceModeEnabledHandler
     public function __construct(
         private FeatureFlag $pimResetFeatureFlag,
         private IsMaintenanceModeEnabledInterface $isMaintenanceModeEnabled,
-    ) {
-    }
+    ) {}
 
     public function handle(): bool
     {

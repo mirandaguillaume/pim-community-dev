@@ -19,8 +19,7 @@ class CategoryEditedEvent
     public function __construct(
         private readonly Category $category,
         private readonly array $userIntents,
-    ) {
-    }
+    ) {}
 
     public function getCategory(): Category
     {

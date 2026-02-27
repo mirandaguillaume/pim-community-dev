@@ -16,9 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class FromSizeIdentifierResultCursorFactory implements CursorFactoryInterface
 {
-    public function __construct(private readonly Client $esClient)
-    {
-    }
+    public function __construct(private readonly Client $esClient) {}
 
     /**
      * {@inheritdoc}
@@ -61,7 +59,7 @@ class FromSizeIdentifierResultCursorFactory implements CursorFactoryInterface
         );
         $resolver->setDefaults(
             [
-                'from' => 0
+                'from' => 0,
             ]
         );
         $resolver->setAllowedTypes('limit', 'int');

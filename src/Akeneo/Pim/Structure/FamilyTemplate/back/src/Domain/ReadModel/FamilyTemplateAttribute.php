@@ -11,6 +11,5 @@ class FamilyTemplateAttribute
         public string $type,
         public bool $scopable,
         public bool $localizable,
-    ) {
-    }
+    ) {}
 }

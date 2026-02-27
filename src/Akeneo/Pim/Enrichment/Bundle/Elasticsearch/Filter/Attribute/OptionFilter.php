@@ -86,7 +86,7 @@ class OptionFilter extends AbstractAttributeFilter implements AttributeFilterInt
                         'terms' => [
                             self::ATTRIBUTES_OF_ANCESTORS_ES_ID => [$attribute->getCode()],
                         ],
-                    ]
+                    ],
                 ];
                 $this->searchQueryBuilder->addFilter(
                     [
@@ -139,7 +139,7 @@ class OptionFilter extends AbstractAttributeFilter implements AttributeFilterInt
 
         $attributeOptions = $this->attributeOptionRepository->findCodesByIdentifiers($attribute->getCode(), $values);
         $optionCodes = array_map(
-            fn ($attributeOptions) => $attributeOptions['code'],
+            fn($attributeOptions) => $attributeOptions['code'],
             $attributeOptions
         );
 

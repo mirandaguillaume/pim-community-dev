@@ -11,9 +11,7 @@ namespace Akeneo\Tool\Bundle\ElasticsearchBundle;
  */
 final readonly class GetTotalFieldsLimit
 {
-    public function __construct(private int $configurationLimit)
-    {
-    }
+    public function __construct(private int $configurationLimit) {}
 
     public function getLimit(): int
     {

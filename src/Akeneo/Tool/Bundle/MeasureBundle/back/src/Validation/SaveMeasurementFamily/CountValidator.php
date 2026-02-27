@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Tool\Bundle\MeasureBundle\Validation\SaveMeasurementFamily;
@@ -12,9 +13,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class CountValidator extends ConstraintValidator
 {
-    public function __construct(private readonly MeasurementFamilyRepositoryInterface $measurementFamilyRepository, private readonly int $max)
-    {
-    }
+    public function __construct(private readonly MeasurementFamilyRepositoryInterface $measurementFamilyRepository, private readonly int $max) {}
 
     /**
      * {@inheritdoc}
@@ -37,7 +36,7 @@ class CountValidator extends ConstraintValidator
             $this->context->buildViolation(Count::MAX_MESSAGE)
                 ->setParameter('%limit%', $this->max)
                 ->setInvalidValue($saveMeasurementFamilyCommand)
-                ->setPlural((int)$this->max)
+                ->setPlural((int) $this->max)
                 ->addViolation();
         }
     }

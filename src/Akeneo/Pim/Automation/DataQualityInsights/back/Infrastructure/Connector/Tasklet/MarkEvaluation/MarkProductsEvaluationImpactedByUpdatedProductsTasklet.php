@@ -17,8 +17,7 @@ final class MarkProductsEvaluationImpactedByUpdatedProductsTasklet extends Abstr
         private readonly GetUpdatedEntityIdsQueryInterface $getUpdatedProductIdsQuery,
         private readonly LoggerInterface $logger,
         private readonly int $bulkSize
-    ) {
-    }
+    ) {}
 
     public function execute(): void
     {

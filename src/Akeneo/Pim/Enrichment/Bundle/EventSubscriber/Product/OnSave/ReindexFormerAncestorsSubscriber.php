@@ -22,9 +22,7 @@ class ReindexFormerAncestorsSubscriber implements EventSubscriberInterface
 {
     private array $formerParentCodes = [];
 
-    public function __construct(private readonly GetAncestorAndDescendantProductModelCodes $getAncestorProductModelCodes, private readonly ProductModelIndexerInterface $productModelIndexer)
-    {
-    }
+    public function __construct(private readonly GetAncestorAndDescendantProductModelCodes $getAncestorProductModelCodes, private readonly ProductModelIndexerInterface $productModelIndexer) {}
 
     public static function getSubscribedEvents(): array
     {

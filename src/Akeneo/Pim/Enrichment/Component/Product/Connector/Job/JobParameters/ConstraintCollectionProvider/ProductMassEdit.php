@@ -23,8 +23,7 @@ class ProductMassEdit implements ConstraintCollectionProviderInterface
      */
     public function __construct(
         private readonly array $supportedJobNames,
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -41,8 +40,8 @@ class ProductMassEdit implements ConstraintCollectionProviderInterface
                         new Type('array'),
                         new All(new Type('string')),
                     ],
-                    'is_user_authenticated' => new Type('bool')
-                ]
+                    'is_user_authenticated' => new Type('bool'),
+                ],
             ]
         );
     }

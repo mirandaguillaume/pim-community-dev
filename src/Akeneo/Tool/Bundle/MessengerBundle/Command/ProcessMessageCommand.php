@@ -61,7 +61,7 @@ final class ProcessMessageCommand extends Command
             $context = [
                 'trace' => $t->getTraceAsString(),
                 'message_class' => $input->getArgument('message_class'),
-                'correlation_id' => $input->getArgument('correlation_id')
+                'correlation_id' => $input->getArgument('correlation_id'),
             ];
 
             $this->logger->error(sprintf('An error occurred: %s', $t->getMessage()), $context);

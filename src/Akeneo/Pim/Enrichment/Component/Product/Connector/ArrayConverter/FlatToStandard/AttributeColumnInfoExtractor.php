@@ -49,8 +49,8 @@ class AttributeColumnInfoExtractor
     public function extractColumnInfo($fieldName): ?array
     {
         if (
-            in_array($fieldName, $this->assoColumnResolver->resolveAssociationColumns()) ||
-            in_array($fieldName, $this->assoColumnResolver->resolveQuantifiedAssociationColumns())
+            in_array($fieldName, $this->assoColumnResolver->resolveAssociationColumns())
+            || in_array($fieldName, $this->assoColumnResolver->resolveQuantifiedAssociationColumns())
         ) {
             $this->excludedFieldNames[] = $fieldName;
         }
@@ -170,10 +170,10 @@ class AttributeColumnInfoExtractor
      */
     protected function checkFieldNameLocaleByChannel(AttributeInterface $attribute, string $fieldName, array $attributeInfo)
     {
-        if ($attribute->isScopable() &&
-            $attribute->isLocalizable() &&
-            isset($attributeInfo['scope_code']) &&
-            isset($attributeInfo['locale_code'])
+        if ($attribute->isScopable()
+            && $attribute->isLocalizable()
+            && isset($attributeInfo['scope_code'])
+            && isset($attributeInfo['locale_code'])
         ) {
             $channel = $this->channelRepository->findOneByIdentifier($attributeInfo['scope_code']);
             $locale = $this->localeRepository->findOneByIdentifier($attributeInfo['locale_code']);

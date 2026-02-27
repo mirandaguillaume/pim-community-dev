@@ -17,8 +17,7 @@ class GetMainIdentifierAttributeController
         private readonly AttributeRepositoryInterface $attributeRepository,
         private readonly NormalizerInterface $normalizer,
         private readonly UserContext $userContext,
-    ) {
-    }
+    ) {}
 
     public function __invoke(): JsonResponse
     {

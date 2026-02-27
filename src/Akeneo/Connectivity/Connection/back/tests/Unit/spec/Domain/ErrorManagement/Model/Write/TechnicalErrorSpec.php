@@ -78,15 +78,15 @@ class TechnicalErrorSpec extends ObjectBehavior
     private function getWellStructuredContent(): string
     {
         return <<<JSON
-{
-    "code": 422,
-    "_links": {
-        "documentation": {
-            "href": "http://api.akeneo.com/api-reference.html#post_products"
-        }
-    },
-    "message": "Property \"description\" does not exist. Check the expected format on the API documentation."
-}
-JSON;
+            {
+                "code": 422,
+                "_links": {
+                    "documentation": {
+                        "href": "http://api.akeneo.com/api-reference.html#post_products"
+                    }
+                },
+                "message": "Property \"description\" does not exist. Check the expected format on the API documentation."
+            }
+            JSON;
     }
 }

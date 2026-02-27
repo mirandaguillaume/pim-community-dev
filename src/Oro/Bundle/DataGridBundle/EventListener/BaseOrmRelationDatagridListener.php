@@ -26,9 +26,7 @@ class BaseOrmRelationDatagridListener
      * @param string            $paramName  Parameter name that should be taken from request and binded to query
      * @param bool              $isEditMode whether or not to add data_in, data_not_in params to query
      */
-    public function __construct(protected $paramName, private readonly RequestParameters $requestParams, protected $isEditMode = true)
-    {
-    }
+    public function __construct(protected $paramName, private readonly RequestParameters $requestParams, protected $isEditMode = true) {}
 
     /**
      * Add filters to where clause

@@ -36,9 +36,7 @@ use Webmozart\Assert\Assert;
  */
 final readonly class ProductScoreRepository implements ProductScoreRepositoryInterface
 {
-    public function __construct(private Connection $dbConnection)
-    {
-    }
+    public function __construct(private Connection $dbConnection) {}
 
     /**
      * {@inheritdoc}
@@ -64,13 +62,13 @@ final readonly class ProductScoreRepository implements ProductScoreRepositoryInt
 
         $this->dbConnection->executeQuery(
             <<<SQL
-INSERT IGNORE INTO pim_data_quality_insights_product_score (product_uuid, evaluated_at, scores, scores_partial_criteria) 
-VALUES $insertValues AS product_score_values
-ON DUPLICATE KEY UPDATE 
-    evaluated_at = product_score_values.evaluated_at, 
-    scores = product_score_values.scores, 
-    scores_partial_criteria = product_score_values.scores_partial_criteria;
-SQL
+                INSERT IGNORE INTO pim_data_quality_insights_product_score (product_uuid, evaluated_at, scores, scores_partial_criteria) 
+                VALUES $insertValues AS product_score_values
+                ON DUPLICATE KEY UPDATE 
+                    evaluated_at = product_score_values.evaluated_at, 
+                    scores = product_score_values.scores, 
+                    scores_partial_criteria = product_score_values.scores_partial_criteria;
+                SQL
         );
     }
 }

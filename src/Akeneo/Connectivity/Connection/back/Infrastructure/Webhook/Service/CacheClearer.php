@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Infrastructure\Webhook\Service;
@@ -17,8 +18,7 @@ class CacheClearer implements CacheClearerInterface
     public function __construct(
         private readonly UnitOfWorkAndRepositoriesClearer $unitOfWorkAndRepositoriesClearer,
         private readonly CachedQueriesClearerInterface $cachedQueriesClearer
-    ) {
-    }
+    ) {}
 
     public function clear(): void
     {

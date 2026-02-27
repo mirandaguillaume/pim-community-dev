@@ -18,9 +18,7 @@ use Akeneo\Tool\Component\StorageUtils\Updater\PropertyClearerInterface;
  */
 final readonly class PropertyClearer implements PropertyClearerInterface
 {
-    public function __construct(private ClearerRegistryInterface $clearerRegistry)
-    {
-    }
+    public function __construct(private ClearerRegistryInterface $clearerRegistry) {}
 
     /**
      * {@inheritDoc}

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Component\Product\Factory\NonExistentValuesFilter;
@@ -16,9 +17,7 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  */
 class NonExistentReferenceDataMultiSelectValuesFilter implements NonExistentValuesFilter
 {
-    public function __construct(private readonly GetExistingReferenceDataCodes $getExistingReferenceDataCodes)
-    {
-    }
+    public function __construct(private readonly GetExistingReferenceDataCodes $getExistingReferenceDataCodes) {}
 
     public function filter(OnGoingFilteredRawValues $onGoingFilteredRawValues): OnGoingFilteredRawValues
     {
@@ -61,7 +60,7 @@ class NonExistentReferenceDataMultiSelectValuesFilter implements NonExistentValu
                     $filteredValues[$type][$attributeCode][] = [
                         'identifier' => $productData['identifier'],
                         'values' => $multiSelectValues,
-                        'properties' => $productData['properties']
+                        'properties' => $productData['properties'],
                     ];
                 }
             }

@@ -12,9 +12,7 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\GetAttributes;
  */
 final readonly class TransformRawValuesCollections
 {
-    public function __construct(private GetAttributes $getAttributes)
-    {
-    }
+    public function __construct(private GetAttributes $getAttributes) {}
 
     public function toValueCollectionsIndexedByType(array $rawValueCollections): array
     {
@@ -35,7 +33,7 @@ final readonly class TransformRawValuesCollections
                     $typesToValues[$type][$attributeCode][] = [
                         'identifier' => $productIdentifier,
                         'values' => $values,
-                        'properties' => $properties
+                        'properties' => $properties,
                     ];
                 }
             }

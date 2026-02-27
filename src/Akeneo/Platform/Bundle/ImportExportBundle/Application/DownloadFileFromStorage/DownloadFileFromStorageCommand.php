@@ -14,6 +14,5 @@ final class DownloadFileFromStorageCommand
     public function __construct(
         public array $normalizedStorage,
         public string $workingDirectory,
-    ) {
-    }
+    ) {}
 }

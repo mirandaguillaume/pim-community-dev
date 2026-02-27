@@ -25,8 +25,7 @@ class ConnectionWithCredentials
         private readonly ?string $userGroupId,
         private readonly bool $auditable,
         private readonly string $type
-    ) {
-    }
+    ) {}
 
     public function code(): string
     {

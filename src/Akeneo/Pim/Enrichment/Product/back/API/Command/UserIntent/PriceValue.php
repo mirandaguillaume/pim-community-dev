@@ -13,8 +13,7 @@ final readonly class PriceValue
     public function __construct(
         private string|float|int $amount,
         private string $currency
-    ) {
-    }
+    ) {}
 
     public function amount(): string
     {

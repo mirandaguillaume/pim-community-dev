@@ -38,8 +38,7 @@ final class FillMissingProductValues implements FillMissingValuesInterface
         private readonly ChannelRepositoryInterface $channelRepository,
         private readonly LocaleRepositoryInterface $localeRepository,
         private readonly GetAttributes $getAttributes
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -80,7 +79,7 @@ final class FillMissingProductValues implements FillMissingValuesInterface
         $nullValues = [];
 
         $attributesInFamily = $this->getAttributesInFamilyIndexedByCode($familyCode);
-        $nonPriceAttributes = array_filter($attributesInFamily, fn (AttributeInterface $attribute): bool => AttributeTypes::PRICE_COLLECTION !== $attribute->getType());
+        $nonPriceAttributes = array_filter($attributesInFamily, fn(AttributeInterface $attribute): bool => AttributeTypes::PRICE_COLLECTION !== $attribute->getType());
 
         foreach ($nonPriceAttributes as $attribute) {
             $nullValue = match ($attribute->getType()) {
@@ -127,9 +126,9 @@ final class FillMissingProductValues implements FillMissingValuesInterface
      */
     private function createProductValuesInPivotFormat(array $productStandardFormat): array
     {
-        $attributeCodes = array_map(fn ($key) => (string) $key, array_keys($productStandardFormat['values']));
+        $attributeCodes = array_map(fn($key) => (string) $key, array_keys($productStandardFormat['values']));
         $attributes = $this->getAttributes->forCodes($attributeCodes);
-        $nonPriceAttributes = array_filter($attributes, fn (Attribute $attribute): bool => AttributeTypes::PRICE_COLLECTION !== $attribute->type());
+        $nonPriceAttributes = array_filter($attributes, fn(Attribute $attribute): bool => AttributeTypes::PRICE_COLLECTION !== $attribute->type());
 
         $valuesInPivotFormat = [];
         foreach ($productStandardFormat['values'] as $attributeCode => $values) {
@@ -179,7 +178,7 @@ final class FillMissingProductValues implements FillMissingValuesInterface
         $nullValues = [];
         $attributesInFamily = $this->getAttributesInFamilyIndexedByCode($familyCode);
 
-        $priceAttributes = array_filter($attributesInFamily, fn (AttributeInterface $attribute): bool => AttributeTypes::PRICE_COLLECTION === $attribute->getType());
+        $priceAttributes = array_filter($attributesInFamily, fn(AttributeInterface $attribute): bool => AttributeTypes::PRICE_COLLECTION === $attribute->getType());
 
         foreach ($priceAttributes as $attribute) {
             if (!$attribute->isScopable() && !$attribute->isLocalizable()) {
@@ -228,9 +227,9 @@ final class FillMissingProductValues implements FillMissingValuesInterface
      */
     private function createPriceProductValuesInPivotFormat(array $productStandardFormat): array
     {
-        $attributeCodes = array_map(fn ($key) => (string) $key, array_keys($productStandardFormat['values']));
+        $attributeCodes = array_map(fn($key) => (string) $key, array_keys($productStandardFormat['values']));
         $attributes = $this->getAttributes->forCodes($attributeCodes);
-        $priceAttributes = array_filter($attributes, fn (Attribute $attribute): bool => AttributeTypes::PRICE_COLLECTION === $attribute->type());
+        $priceAttributes = array_filter($attributes, fn(Attribute $attribute): bool => AttributeTypes::PRICE_COLLECTION === $attribute->type());
 
         $valuesInPivotFormat = [];
         foreach ($productStandardFormat['values'] as $attributeCode => $values) {
@@ -274,7 +273,7 @@ final class FillMissingProductValues implements FillMissingValuesInterface
         return $valuesInStandardFormat;
     }
 
-    private function getChannels() : array
+    private function getChannels(): array
     {
         if (null === $this->channels) {
             $this->channels = $this->channelRepository->findAll();
@@ -283,7 +282,7 @@ final class FillMissingProductValues implements FillMissingValuesInterface
         return $this->channels;
     }
 
-    private function getLocales() : array
+    private function getLocales(): array
     {
         if (null === $this->locales) {
             $this->locales = $this->localeRepository->getActivatedLocales();
@@ -292,7 +291,7 @@ final class FillMissingProductValues implements FillMissingValuesInterface
         return $this->locales;
     }
 
-    private function getCurrencies() : array
+    private function getCurrencies(): array
     {
         $currencies = [];
         foreach ($this->getChannels() as $channel) {
@@ -327,7 +326,7 @@ final class FillMissingProductValues implements FillMissingValuesInterface
     {
         usort(
             $currencies,
-            fn (CurrencyInterface $a, CurrencyInterface $b) => $a->getCode() <=> $b->getCode()
+            fn(CurrencyInterface $a, CurrencyInterface $b) => $a->getCode() <=> $b->getCode()
         );
 
         return $currencies;

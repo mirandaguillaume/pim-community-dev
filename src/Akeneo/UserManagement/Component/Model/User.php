@@ -352,7 +352,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
             $this->firstName,
             $this->middleName,
             $this->lastName,
-            $this->nameSuffix
+            $this->nameSuffix,
         ])));
     }
 
@@ -489,8 +489,8 @@ class User implements UserInterface, EquatableInterface, \Stringable
      */
     public function isPasswordRequestNonExpired($ttl)
     {
-        return $this->getPasswordRequestedAt() instanceof \DateTime &&
-            $this->getPasswordRequestedAt()->getTimestamp() + $ttl > time();
+        return $this->getPasswordRequestedAt() instanceof \DateTime
+            && $this->getPasswordRequestedAt()->getTimestamp() + $ttl > time();
     }
 
     /**
@@ -704,7 +704,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
      */
     public function getRoles(): array
     {
-        return $this->roles->map(fn (RoleInterface $role): string => $role->getRole())->getValues();
+        return $this->roles->map(fn(RoleInterface $role): string => $role->getRole())->getValues();
     }
 
     /**
@@ -965,7 +965,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
 
         $suffix = $this->getCreatedAt() ? $this->getCreatedAt()->format('Y-m') : date('Y-m');
 
-        return ($forWeb ? $ds : '').'uploads'.$ds.'users'.$ds.$suffix;
+        return ($forWeb ? $ds : '') . 'uploads' . $ds . 'users' . $ds . $suffix;
     }
 
     /**

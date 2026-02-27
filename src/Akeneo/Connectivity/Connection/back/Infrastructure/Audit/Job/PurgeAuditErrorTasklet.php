@@ -18,13 +18,9 @@ class PurgeAuditErrorTasklet implements TaskletInterface
 {
     protected const JOB_CODE = 'connectivity_audit_purge_error';
 
-    public function __construct(private readonly PurgeAuditErrorQuery $purgeAuditErrorsQuery)
-    {
-    }
+    public function __construct(private readonly PurgeAuditErrorQuery $purgeAuditErrorsQuery) {}
 
-    public function setStepExecution(StepExecution $stepExecution): void
-    {
-    }
+    public function setStepExecution(StepExecution $stepExecution): void {}
 
     public function execute(): void
     {

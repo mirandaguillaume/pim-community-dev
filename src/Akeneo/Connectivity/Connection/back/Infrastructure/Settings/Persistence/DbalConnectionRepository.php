@@ -16,16 +16,14 @@ use Doctrine\DBAL\Types\Types;
  */
 class DbalConnectionRepository implements ConnectionRepositoryInterface
 {
-    public function __construct(private readonly DbalConnection $dbalConnection)
-    {
-    }
+    public function __construct(private readonly DbalConnection $dbalConnection) {}
 
     public function create(Connection $connection): void
     {
         $insertQuery = <<<SQL
-INSERT INTO akeneo_connectivity_connection (client_id, user_id, code, label, flow_type, auditable, type)
-VALUES (:client_id, :user_id, :code, :label, :flow_type, :auditable, :type)
-SQL;
+            INSERT INTO akeneo_connectivity_connection (client_id, user_id, code, label, flow_type, auditable, type)
+            VALUES (:client_id, :user_id, :code, :label, :flow_type, :auditable, :type)
+            SQL;
 
         $this->dbalConnection->executeQuery(
             $insertQuery,
@@ -47,15 +45,15 @@ SQL;
     public function findOneByCode(string $code): ?Connection
     {
         $selectQuery = <<<SQL
-SELECT code, label, flow_type, image, client_id, user_id, auditable, type
-FROM akeneo_connectivity_connection
-WHERE code = :code
-SQL;
+            SELECT code, label, flow_type, image, client_id, user_id, auditable, type
+            FROM akeneo_connectivity_connection
+            WHERE code = :code
+            SQL;
 
         $dataRow = $this->dbalConnection->executeQuery($selectQuery, ['code' => $code])->fetchAssociative();
 
-        return $dataRow ?
-            new Connection(
+        return $dataRow
+            ? new Connection(
                 $dataRow['code'],
                 $dataRow['label'],
                 $dataRow['flow_type'],
@@ -70,10 +68,10 @@ SQL;
     public function update(Connection $connection): void
     {
         $updateQuery = <<<SQL
-UPDATE akeneo_connectivity_connection
-SET label = :label, flow_type = :flow_type, image = :image, auditable = :auditable
-WHERE code = :code
-SQL;
+            UPDATE akeneo_connectivity_connection
+            SET label = :label, flow_type = :flow_type, image = :image, auditable = :auditable
+            WHERE code = :code
+            SQL;
 
         $this->dbalConnection->executeQuery(
             $updateQuery,
@@ -93,9 +91,9 @@ SQL;
     public function delete(Connection $connection): void
     {
         $deleteQuery = <<<SQL
-DELETE FROM akeneo_connectivity_connection
-WHERE code = :code
-SQL;
+            DELETE FROM akeneo_connectivity_connection
+            WHERE code = :code
+            SQL;
 
         $this->dbalConnection->executeQuery(
             $deleteQuery,

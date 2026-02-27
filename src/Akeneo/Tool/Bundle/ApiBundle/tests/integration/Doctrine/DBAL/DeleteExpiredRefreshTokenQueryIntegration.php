@@ -59,13 +59,13 @@ class DeleteExpiredRefreshTokenQueryIntegration extends ApiTestCase
         $expiredTimestamp = \time() - 100;
 
         $this->connection->executeStatement(<<<SQL
-            INSERT INTO pim_api_refresh_token (`client`, `user`, `token`, `expires_at`) VALUES
-                ($clientId, $userId, 'invalid_token_1', $expiredTimestamp),
-                ($clientId, $userId, 'invalid_token_2', $expiredTimestamp),
-                ($clientId, $userId, 'invalid_token_3', $expiredTimestamp),
-                ($clientId, $userId, 'invalid_token_4', $expiredTimestamp),
-                ($clientId, $userId, 'invalid_token_5', $expiredTimestamp)
-        SQL);
+                INSERT INTO pim_api_refresh_token (`client`, `user`, `token`, `expires_at`) VALUES
+                    ($clientId, $userId, 'invalid_token_1', $expiredTimestamp),
+                    ($clientId, $userId, 'invalid_token_2', $expiredTimestamp),
+                    ($clientId, $userId, 'invalid_token_3', $expiredTimestamp),
+                    ($clientId, $userId, 'invalid_token_4', $expiredTimestamp),
+                    ($clientId, $userId, 'invalid_token_5', $expiredTimestamp)
+            SQL);
     }
 
     private function create5ValidRefreshTokens(): void
@@ -75,13 +75,13 @@ class DeleteExpiredRefreshTokenQueryIntegration extends ApiTestCase
         $validTimestamp = \time() + 100;
 
         $this->connection->executeStatement(<<<SQL
-            INSERT INTO pim_api_refresh_token (`client`, `user`, `token`, `expires_at`) VALUES
-                ($clientId, $userId, 'valid_token_1', $validTimestamp),
-                ($clientId, $userId, 'valid_token_2', $validTimestamp),
-                ($clientId, $userId, 'valid_token_3', $validTimestamp),
-                ($clientId, $userId, 'valid_token_4', $validTimestamp),
-                ($clientId, $userId, 'valid_token_5', $validTimestamp)
-        SQL);
+                INSERT INTO pim_api_refresh_token (`client`, `user`, `token`, `expires_at`) VALUES
+                    ($clientId, $userId, 'valid_token_1', $validTimestamp),
+                    ($clientId, $userId, 'valid_token_2', $validTimestamp),
+                    ($clientId, $userId, 'valid_token_3', $validTimestamp),
+                    ($clientId, $userId, 'valid_token_4', $validTimestamp),
+                    ($clientId, $userId, 'valid_token_5', $validTimestamp)
+            SQL);
     }
 
     private function createFosAuthClient(): int
@@ -104,7 +104,7 @@ class DeleteExpiredRefreshTokenQueryIntegration extends ApiTestCase
         $user->setFirstName($username);
         $user->setLastName($username);
         $user->setPassword('password');
-        $user->setEmail($username.'@example.com');
+        $user->setEmail($username . '@example.com');
 
         $this->get('validator')->validate($user);
         $this->get('pim_user.saver.user')->save($user);

@@ -17,9 +17,7 @@ use Akeneo\Tool\Component\Api\Pagination\PaginationParametersValidator;
  */
 final readonly class ValidatePagination
 {
-    public function __construct(private PaginationParametersValidator $paginationParametersValidator)
-    {
-    }
+    public function __construct(private PaginationParametersValidator $paginationParametersValidator) {}
 
     /**
      * @throws InvalidQueryException
@@ -30,7 +28,7 @@ final readonly class ValidatePagination
             'pagination_type' => $paginationType,
             'limit' => $limit,
             'page' => $page,
-            'with_count' => $withCount
+            'with_count' => $withCount,
         ];
 
         try {

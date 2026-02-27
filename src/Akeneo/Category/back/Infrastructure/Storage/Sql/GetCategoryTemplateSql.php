@@ -16,23 +16,21 @@ use Doctrine\DBAL\Connection;
  */
 class GetCategoryTemplateSql implements GetTemplate
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function byUuid(TemplateUuid $uuid): Template
     {
         $query = <<<SQL
-            SELECT
-                BIN_TO_UUID(uuid) as uuid,
-                code,
-                labels,
-                category_tree_template.category_tree_id as category_id
-            FROM pim_catalog_category_template category_template
-            LEFT JOIN pim_catalog_category_tree_template category_tree_template ON category_tree_template.category_template_uuid = category_template.uuid
-            WHERE uuid=:template_uuid
-            AND (category_template.is_deactivated IS NULL OR category_template.is_deactivated = 0);
-        SQL;
+                SELECT
+                    BIN_TO_UUID(uuid) as uuid,
+                    code,
+                    labels,
+                    category_tree_template.category_tree_id as category_id
+                FROM pim_catalog_category_template category_template
+                LEFT JOIN pim_catalog_category_tree_template category_tree_template ON category_tree_template.category_template_uuid = category_template.uuid
+                WHERE uuid=:template_uuid
+                AND (category_template.is_deactivated IS NULL OR category_template.is_deactivated = 0);
+            SQL;
 
         $result = $this->connection->executeQuery(
             $query,

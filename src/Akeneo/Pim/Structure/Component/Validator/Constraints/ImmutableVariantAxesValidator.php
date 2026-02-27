@@ -20,9 +20,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class ImmutableVariantAxesValidator extends ConstraintValidator
 {
-    public function __construct(private readonly EntityManagerInterface $entityManager)
-    {
-    }
+    public function __construct(private readonly EntityManagerInterface $entityManager) {}
 
     /**
      * {@inheritdoc}
@@ -42,9 +40,9 @@ class ImmutableVariantAxesValidator extends ConstraintValidator
             return;
         }
 
-        $axisCodes = array_map(fn (AttributeInterface $axis) => $axis->getCode(), $entity->getAxes()->toArray());
+        $axisCodes = array_map(fn(AttributeInterface $axis) => $axis->getCode(), $entity->getAxes()->toArray());
 
-        $originalAxisCodes = array_map(fn (AttributeInterface $axis) => $axis->getCode(), $originalData['axes']->toArray());
+        $originalAxisCodes = array_map(fn(AttributeInterface $axis) => $axis->getCode(), $originalData['axes']->toArray());
 
         if (0 < count($this->getModifiedCodes($axisCodes, $originalAxisCodes))) {
             $this->context->buildViolation(

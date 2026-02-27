@@ -62,10 +62,10 @@ class UpdateConnectionWebhookQueryIntegration extends TestCase
         bool $isUsingUuid = false,
     ): void {
         $selectQuery = <<<SQL
-        SELECT webhook_enabled, webhook_url, webhook_is_using_uuid
-        FROM akeneo_connectivity_connection
-        WHERE code = :code
-        SQL;
+            SELECT webhook_enabled, webhook_url, webhook_is_using_uuid
+            FROM akeneo_connectivity_connection
+            WHERE code = :code
+            SQL;
         $webhook = $this->connection->executeQuery($selectQuery, ['code' => $code])->fetchAssociative();
 
         Assert::assertEquals($enabled, (bool) $webhook['webhook_enabled']);

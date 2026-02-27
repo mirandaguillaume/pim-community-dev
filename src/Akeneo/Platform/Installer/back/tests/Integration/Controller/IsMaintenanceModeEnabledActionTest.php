@@ -40,10 +40,10 @@ class IsMaintenanceModeEnabledActionTest extends ControllerIntegrationTestCase
     private function given_maintenance_mode_is_enabled(): void
     {
         $insertJobExecution = <<<SQL
-INSERT INTO pim_configuration (`code`,`values`)
-VALUES (:code, :values)
-ON DUPLICATE KEY UPDATE `values`= :values
-SQL;
+            INSERT INTO pim_configuration (`code`,`values`)
+            VALUES (:code, :values)
+            ON DUPLICATE KEY UPDATE `values`= :values
+            SQL;
 
         $this->connection->executeStatement(
             $insertJobExecution,

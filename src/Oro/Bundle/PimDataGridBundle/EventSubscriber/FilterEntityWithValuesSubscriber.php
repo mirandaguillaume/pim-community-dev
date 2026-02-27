@@ -45,7 +45,7 @@ class FilterEntityWithValuesSubscriber implements EventSubscriber
     public function getSubscribedEvents(): array
     {
         return [
-            Events::postLoad
+            Events::postLoad,
         ];
     }
 

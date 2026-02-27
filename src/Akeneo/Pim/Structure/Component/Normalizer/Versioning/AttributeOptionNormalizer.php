@@ -28,7 +28,7 @@ class AttributeOptionNormalizer extends BaseNormalizer
     /**
      * {@inheritdoc}
      */
-    public function normalize($object, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($object, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         if (array_key_exists('field_name', $context)) {
             return [

@@ -14,6 +14,4 @@ use Doctrine\Persistence\ObjectRepository;
  */
 interface TagRepositoryInterface extends
     ObjectRepository,
-    IdentifiableObjectRepositoryInterface
-{
-}
+    IdentifiableObjectRepositoryInterface {}

@@ -20,12 +20,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class CleanCategoryDataAfterChannelChangeSubscriberSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         JobInstanceRepository $jobInstanceRepository,
         JobLauncherInterface $jobLauncher,
         TokenStorageInterface $tokenStorage,
-    )
-    {
+    ) {
         $this->beConstructedWith(
             $jobInstanceRepository,
             $jobLauncher,
@@ -33,13 +32,13 @@ class CleanCategoryDataAfterChannelChangeSubscriberSpec extends ObjectBehavior
         );
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldImplement(EventSubscriberInterface::class);
         $this->shouldHaveType(CleanCategoryDataAfterChannelChangeSubscriber::class);
     }
 
-    function it_puts_in_queue_the_job_cleaning_category_after_channel_removal(
+    public function it_puts_in_queue_the_job_cleaning_category_after_channel_removal(
         GenericEvent $event,
         Channel $channel,
         JobInstanceRepository $jobInstanceRepository,
@@ -48,8 +47,7 @@ class CleanCategoryDataAfterChannelChangeSubscriberSpec extends ObjectBehavior
         TokenStorageInterface $tokenStorage,
         TokenInterface $token,
         UserInterface $user,
-    )
-    {
+    ) {
         $event->getSubject()->willReturn($channel);
         $channel->getCode()->willReturn('deleted_channel_code');
         $channel->getLocales()->willReturn(new ArrayCollection([]));
@@ -63,13 +61,12 @@ class CleanCategoryDataAfterChannelChangeSubscriberSpec extends ObjectBehavior
                 'channel_code' => 'deleted_channel_code',
                 'locales_codes' => [],
             ]
-
         )->shouldBeCalled();
 
         $this->cleanCategoryDataForChannelLocale($event);
     }
 
-    function it_puts_in_queue_the_job_cleaning_category_after_channel_update(
+    public function it_puts_in_queue_the_job_cleaning_category_after_channel_update(
         GenericEvent $event,
         Channel $channel,
         JobInstanceRepository $jobInstanceRepository,
@@ -80,8 +77,7 @@ class CleanCategoryDataAfterChannelChangeSubscriberSpec extends ObjectBehavior
         UserInterface $user,
         Locale $locale,
         ArrayCollection $localesCollection,
-    )
-    {
+    ) {
         $event->getSubject()->willReturn($channel);
         $channel->getCode()->willReturn('deleted_channel_code');
         $locale->getCode()->willReturn('en_US');
@@ -97,29 +93,26 @@ class CleanCategoryDataAfterChannelChangeSubscriberSpec extends ObjectBehavior
                 'channel_code' => 'deleted_channel_code',
                 'locales_codes' => ['en_US'],
             ]
-
         )->shouldBeCalled();
 
         $this->cleanCategoryDataForChannelLocale($event);
     }
 
-    function it_does_not_puts_in_queue_the_job_cleaning_category_if_subject_is_not_a_channel(
+    public function it_does_not_puts_in_queue_the_job_cleaning_category_if_subject_is_not_a_channel(
         GenericEvent $event,
         Category $eventSubject,
         JobInstanceRepository $jobInstanceRepository,
-    )
-    {
+    ) {
         $event->getSubject()->willReturn($eventSubject);
 
         $jobInstanceRepository->findOneByIdentifier('clean_categories_enriched_values')->shouldNotBeCalled();
     }
 
-    function it_does_not_puts_in_queue_the_job_cleaning_category_if_feature_flag_is_deactivated(
+    public function it_does_not_puts_in_queue_the_job_cleaning_category_if_feature_flag_is_deactivated(
         GenericEvent $event,
         Channel $eventSubject,
         JobInstanceRepository $jobInstanceRepository,
-    )
-    {
+    ) {
         $event->getSubject()->willReturn($eventSubject);
 
         $jobInstanceRepository->findOneByIdentifier('clean_categories_enriched_values')->shouldNotBeCalled();

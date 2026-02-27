@@ -18,9 +18,9 @@ final class Version_7_0_20220907143028_add_connection_webhook_is_using_uuid_flag
 
         $this->addSql(
             <<<SQL
-            ALTER TABLE akeneo_connectivity_connection
-            ADD webhook_is_using_uuid TINYINT(1) DEFAULT 0 NOT NULL AFTER webhook_enabled
-            SQL
+                ALTER TABLE akeneo_connectivity_connection
+                ADD webhook_is_using_uuid TINYINT(1) DEFAULT 0 NOT NULL AFTER webhook_enabled
+                SQL
         );
     }
 

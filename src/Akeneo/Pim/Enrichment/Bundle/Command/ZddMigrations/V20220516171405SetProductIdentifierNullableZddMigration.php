@@ -13,9 +13,7 @@ use Doctrine\DBAL\Connection;
  */
 class V20220516171405SetProductIdentifierNullableZddMigration implements ZddMigration
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function migrate(): void
     {
@@ -24,11 +22,11 @@ class V20220516171405SetProductIdentifierNullableZddMigration implements ZddMigr
         }
 
         $this->connection->executeQuery(<<<SQL
-            ALTER TABLE pim_catalog_product 
-            MODIFY COLUMN identifier varchar(255) COLLATE utf8mb4_unicode_ci NULL,
-            ALGORITHM=INPLACE,
-            LOCK=NONE;
-        SQL);
+                ALTER TABLE pim_catalog_product 
+                MODIFY COLUMN identifier varchar(255) COLLATE utf8mb4_unicode_ci NULL,
+                ALGORITHM=INPLACE,
+                LOCK=NONE;
+            SQL);
     }
 
     public function migrateNotZdd(): void
@@ -38,9 +36,9 @@ class V20220516171405SetProductIdentifierNullableZddMigration implements ZddMigr
         }
 
         $this->connection->executeQuery(<<<SQL
-            ALTER TABLE pim_catalog_product 
-            MODIFY COLUMN identifier varchar(255) COLLATE utf8mb4_unicode_ci NULL;
-        SQL);
+                ALTER TABLE pim_catalog_product 
+                MODIFY COLUMN identifier varchar(255) COLLATE utf8mb4_unicode_ci NULL;
+            SQL);
     }
 
     public function getName(): string
@@ -52,17 +50,17 @@ class V20220516171405SetProductIdentifierNullableZddMigration implements ZddMigr
     {
         $schema = $this->connection->getDatabase();
         $sql = <<<SQL
-            SELECT IS_NULLABLE 
-            FROM information_schema.columns 
-            WHERE table_schema=:schema 
-              AND table_name=:tableName
-              AND column_name=:columnName;
-        SQL;
+                SELECT IS_NULLABLE 
+                FROM information_schema.columns 
+                WHERE table_schema=:schema 
+                  AND table_name=:tableName
+                  AND column_name=:columnName;
+            SQL;
 
         $result = $this->connection->fetchOne($sql, [
             'schema' => $schema,
             'tableName' => $tableName,
-            'columnName' => $columnName
+            'columnName' => $columnName,
         ]);
 
         return $result === 'YES';

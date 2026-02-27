@@ -18,8 +18,7 @@ final readonly class GetProductScores
         private GetProductScoresQueryInterface    $getProductScoresQuery,
         private GetLocalesByChannelQueryInterface $getLocalesByChannelQuery,
         private GetScoresByCriteriaStrategy       $getScoresByCriteria,
-    ) {
-    }
+    ) {}
 
     /**
      * Eventually returns all quality scores by channel and locale.
@@ -37,8 +36,8 @@ final readonly class GetProductScores
         foreach ($this->getLocalesByChannelQuery->getChannelLocaleCollection() as $channelCode => $locales) {
             foreach ($locales as $localeCode) {
                 $score = $productScores->getByChannelAndLocale($channelCode, $localeCode);
-                $formattedProductScores[strval($channelCode)][strval($localeCode)] =
-                    $score !== null ? $score->toLetter() : null;
+                $formattedProductScores[strval($channelCode)][strval($localeCode)]
+                    = $score !== null ? $score->toLetter() : null;
             }
         }
 

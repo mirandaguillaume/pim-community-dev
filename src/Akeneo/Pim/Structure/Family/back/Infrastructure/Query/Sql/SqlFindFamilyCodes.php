@@ -18,8 +18,7 @@ class SqlFindFamilyCodes implements FindFamilyCodes
 {
     public function __construct(
         private readonly Connection $connection,
-    ) {
-    }
+    ) {}
 
     public function fromQuery(FamilyQuery $query): array
     {
@@ -30,16 +29,16 @@ class SqlFindFamilyCodes implements FindFamilyCodes
         $offsetClause = null !== $this->getOffset($query->pagination) ? 'OFFSET :offset' : '';
 
         $sql = <<<SQL
-            SELECT DISTINCT family.code
-            FROM pim_catalog_family family
-            LEFT JOIN pim_catalog_family_translation translation ON family.id = translation.foreign_key $searchLocaleCondition
-            WHERE (family.code LIKE :search OR translation.label LIKE :search)
-                $includeCondition
-                $excludeCondition
-            ORDER BY family.code
-            $limitClause
-            $offsetClause
-        SQL;
+                SELECT DISTINCT family.code
+                FROM pim_catalog_family family
+                LEFT JOIN pim_catalog_family_translation translation ON family.id = translation.foreign_key $searchLocaleCondition
+                WHERE (family.code LIKE :search OR translation.label LIKE :search)
+                    $includeCondition
+                    $excludeCondition
+                ORDER BY family.code
+                $limitClause
+                $offsetClause
+            SQL;
 
         $statement = $this->connection->executeQuery(
             $sql,

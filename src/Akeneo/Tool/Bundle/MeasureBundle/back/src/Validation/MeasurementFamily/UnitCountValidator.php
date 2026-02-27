@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Tool\Bundle\MeasureBundle\Validation\MeasurementFamily;
@@ -11,9 +12,7 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
 class UnitCountValidator extends ConstraintValidator
 {
-    public function __construct(private readonly int $max)
-    {
-    }
+    public function __construct(private readonly int $max) {}
 
     /**
      * {@inheritdoc}
@@ -36,15 +35,15 @@ class UnitCountValidator extends ConstraintValidator
 
         if ($count > $this->max) {
             $this->context->buildViolation(UnitCount::MAX_MESSAGE)
-                ->setParameter('%limit%', (string)$this->max)
+                ->setParameter('%limit%', (string) $this->max)
                 ->setInvalidValue($value)
-                ->setPlural((int)$this->max)
+                ->setPlural((int) $this->max)
                 ->addViolation();
         }
 
         if ($count < MeasurementFamily::MIN_UNIT_COUNT) {
             $this->context->buildViolation(UnitCount::MIN_MESSAGE)
-                ->setParameter('%limit%', (string)MeasurementFamily::MIN_UNIT_COUNT)
+                ->setParameter('%limit%', (string) MeasurementFamily::MIN_UNIT_COUNT)
                 ->setInvalidValue($value)
                 ->addViolation();
         }

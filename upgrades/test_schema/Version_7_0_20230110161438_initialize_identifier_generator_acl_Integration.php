@@ -15,11 +15,10 @@ use PHPUnit\Framework\Assert;
  */
 final class Version_7_0_20230110161438_initialize_identifier_generator_acl_Integration extends TestCase
 {
+    use ExecuteMigrationTrait;
     private const MIGRATION_NAME = '_7_0_20230110161438_initialize_identifier_generator_acl';
     private const PERMISSION_IDENTIFIER_GENERATOR_VIEW = 'action:pim_identifier_generator_view';
     private const PERMISSION_IDENTIFIER_GENERATOR_MANAGE = 'action:pim_identifier_generator_manage';
-
-    use ExecuteMigrationTrait;
 
     private Connection $connection;
 

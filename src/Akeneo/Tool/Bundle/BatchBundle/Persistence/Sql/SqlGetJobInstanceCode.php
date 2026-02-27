@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Tool\Bundle\BatchBundle\Persistence\Sql;
@@ -13,18 +14,16 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class SqlGetJobInstanceCode implements GetJobInstanceCode
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function fromJobExecutionId(int $jobExecutionId): ?string
     {
         $sql = <<<SQL
-        SELECT instance.code
-        FROM akeneo_batch_job_execution execution
-            JOIN akeneo_batch_job_instance instance ON instance.id = execution.job_instance_id
-        WHERE execution.id = :id
-        SQL;
+            SELECT instance.code
+            FROM akeneo_batch_job_execution execution
+                JOIN akeneo_batch_job_instance instance ON instance.id = execution.job_instance_id
+            WHERE execution.id = :id
+            SQL;
 
         $code = $this->connection->executeQuery($sql, ['id' => $jobExecutionId])->fetchOne();
 

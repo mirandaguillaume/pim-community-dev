@@ -57,7 +57,7 @@ class ContentTypeNegotiatorPass implements CompilerPassInterface
     {
         $arguments = [$path, $host, $methods];
         $serialized = serialize($arguments);
-        $id = 'pim_api.content_type_negotiator.request_matcher.'.md5($serialized).sha1($serialized);
+        $id = 'pim_api.content_type_negotiator.request_matcher.' . md5($serialized) . sha1($serialized);
 
         if (!$container->hasDefinition($id)) {
             $container->setDefinition($id, new Definition(RequestMatcher::class, $arguments));

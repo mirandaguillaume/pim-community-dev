@@ -22,9 +22,7 @@ class CommentBuilder
     /**
      * @param string $className
      */
-    public function __construct(protected $className)
-    {
-    }
+    public function __construct(protected $className) {}
 
     /**
      * @return CommentInterface

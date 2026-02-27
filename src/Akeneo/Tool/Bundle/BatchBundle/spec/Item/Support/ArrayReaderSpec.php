@@ -6,7 +6,7 @@ use PhpSpec\ObjectBehavior;
 
 class ArrayReaderSpec extends ObjectBehavior
 {
-    function it_reads()
+    public function it_reads()
     {
         $this->setItems(['item1', 'item2', 'item3']);
         $this->read()->shouldReturn('item1');

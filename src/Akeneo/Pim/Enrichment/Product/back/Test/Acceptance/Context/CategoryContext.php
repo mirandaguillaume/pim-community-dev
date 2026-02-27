@@ -18,8 +18,7 @@ final readonly class CategoryContext implements Context
     public function __construct(
         private InMemoryCategoryRepository $categoryRepository,
         private InMemoryGetOwnedCategories $getOwnedCategories
-    ) {
-    }
+    ) {}
 
     /**
      * @Given the :categoryCode category

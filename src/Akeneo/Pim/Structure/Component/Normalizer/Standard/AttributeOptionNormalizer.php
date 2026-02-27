@@ -14,19 +14,17 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class AttributeOptionNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    public function __construct(private readonly IdentifiableObjectRepositoryInterface $localeRepository)
-    {
-    }
+    public function __construct(private readonly IdentifiableObjectRepositoryInterface $localeRepository) {}
 
     /**
      * {@inheritdoc}
      */
-    public function normalize($attributeOption, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($attributeOption, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         return [
             'code'       => $attributeOption->getCode(),
-            'attribute'  => null === $attributeOption->getAttribute() ?
-                null : $attributeOption->getAttribute()->getCode(),
+            'attribute'  => null === $attributeOption->getAttribute()
+                ? null : $attributeOption->getAttribute()->getCode(),
             'sort_order' => (int) $attributeOption->getSortOrder(),
             'labels'     => $this->normalizeLabels($attributeOption, $context),
         ];

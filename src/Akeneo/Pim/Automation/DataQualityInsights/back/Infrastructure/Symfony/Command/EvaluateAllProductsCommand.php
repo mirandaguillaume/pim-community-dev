@@ -91,7 +91,7 @@ final class EvaluateAllProductsCommand extends Command
                 $countProductIds = count($productIds);
                 $progressBar->advance($countProductIds);
                 $evaluationCount += $countProductIds;
-                $totalEvaluations+= $countProductIds;
+                $totalEvaluations += $countProductIds;
             }
         } while ($evaluationCount > 0);
 
@@ -121,7 +121,7 @@ final class EvaluateAllProductsCommand extends Command
                 $countProductIds = count($productModelIds);
                 $progressBar->advance($countProductIds);
                 $evaluationCount += $countProductIds;
-                $totalEvaluations+= $countProductIds;
+                $totalEvaluations += $countProductIds;
             }
         } while ($evaluationCount > 0);
 
@@ -132,10 +132,10 @@ final class EvaluateAllProductsCommand extends Command
     private function countProductsToEvaluate(): int
     {
         $query = <<<SQL
-SELECT COUNT(DISTINCT product_uuid) 
-FROM pim_data_quality_insights_product_criteria_evaluation
-WHERE status = 'pending';
-SQL;
+            SELECT COUNT(DISTINCT product_uuid) 
+            FROM pim_data_quality_insights_product_criteria_evaluation
+            WHERE status = 'pending';
+            SQL;
 
         return intval($this->dbConnection->executeQuery($query)->fetchOne());
     }
@@ -143,10 +143,10 @@ SQL;
     private function countProductModelsToEvaluate(): int
     {
         $query = <<<SQL
-SELECT COUNT(DISTINCT product_id) 
-FROM pim_data_quality_insights_product_model_criteria_evaluation
-WHERE status = 'pending';
-SQL;
+            SELECT COUNT(DISTINCT product_id) 
+            FROM pim_data_quality_insights_product_model_criteria_evaluation
+            WHERE status = 'pending';
+            SQL;
 
         return intval($this->dbConnection->executeQuery($query)->fetchOne());
     }

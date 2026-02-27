@@ -48,10 +48,10 @@ class MarkZddMigrationsAsMigratedSubscriber implements EventSubscriberInterface
     {
         foreach ($this->zddMigrations as $zddMigration) {
             $this->connection->executeQuery(<<<SQL
-            INSERT INTO `pim_one_time_task` (`code`, `status`, `start_time`, `values`) 
-            VALUES (:code, :status, NOW(), :values)
-            ON DUPLICATE KEY UPDATE status=VALUES(status), start_time=NOW();
-        SQL, [
+                    INSERT INTO `pim_one_time_task` (`code`, `status`, `start_time`, `values`) 
+                    VALUES (:code, :status, NOW(), :values)
+                    ON DUPLICATE KEY UPDATE status=VALUES(status), start_time=NOW();
+                SQL, [
                 'code' => $this->getZddMigrationCode($zddMigration),
                 'status' => 'finished',
                 'values' => \json_encode((object) [], JSON_THROW_ON_ERROR),

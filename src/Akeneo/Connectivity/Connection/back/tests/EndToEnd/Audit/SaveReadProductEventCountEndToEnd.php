@@ -89,7 +89,7 @@ class SaveReadProductEventCountEndToEnd extends ApiTestCase
         return $this->catalog->useMinimalCatalog();
     }
 
-    private function createProduct(string $identifier) : void
+    private function createProduct(string $identifier): void
     {
         $this->get('pim_enrich.product.message_bus')->dispatch(UpsertProductCommand::createWithIdentifierSystemUser(
             productIdentifier: $identifier,
@@ -100,11 +100,11 @@ class SaveReadProductEventCountEndToEnd extends ApiTestCase
     private function getEventCount(string $connectionCode)
     {
         $sql = <<<SQL
-SELECT event_count
-FROM akeneo_connectivity_connection_audit_product
-WHERE connection_code = :connection_code
-AND event_type = 'product_read'
-SQL;
+            SELECT event_count
+            FROM akeneo_connectivity_connection_audit_product
+            WHERE connection_code = :connection_code
+            AND event_type = 'product_read'
+            SQL;
 
         return $this->dbalConnection->fetchOne($sql, [
             'connection_code' => $connectionCode,

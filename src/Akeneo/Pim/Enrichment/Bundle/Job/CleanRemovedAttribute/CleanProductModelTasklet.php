@@ -18,9 +18,7 @@ class CleanProductModelTasklet implements TaskletInterface, TrackableTaskletInte
 
     private StepExecution $stepExecution;
 
-    public function __construct(private readonly GetProductModelIdentifiersWithRemovedAttributeInterface $getProductModelsIdentifiersWithRemovedAttribute, private readonly CountProductModelsWithRemovedAttributeInterface $countProductModelsWithRemovedAttribute, private readonly RemoveValuesFromProductModels $removeValuesFromProductModels, private readonly JobRepositoryInterface $jobRepository)
-    {
-    }
+    public function __construct(private readonly GetProductModelIdentifiersWithRemovedAttributeInterface $getProductModelsIdentifiersWithRemovedAttribute, private readonly CountProductModelsWithRemovedAttributeInterface $countProductModelsWithRemovedAttribute, private readonly RemoveValuesFromProductModels $removeValuesFromProductModels, private readonly JobRepositoryInterface $jobRepository) {}
 
     public function setStepExecution(StepExecution $stepExecution)
     {

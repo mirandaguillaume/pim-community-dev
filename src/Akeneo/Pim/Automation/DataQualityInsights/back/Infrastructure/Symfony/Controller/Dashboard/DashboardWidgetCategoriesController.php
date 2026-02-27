@@ -18,9 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final readonly class DashboardWidgetCategoriesController
 {
-    public function __construct(private GetAverageRanksQueryInterface $getAverageRanks)
-    {
-    }
+    public function __construct(private GetAverageRanksQueryInterface $getAverageRanks) {}
 
     public function __invoke(Request $request, string $channel, string $locale)
     {
@@ -45,6 +43,6 @@ final readonly class DashboardWidgetCategoriesController
             throw new \InvalidArgumentException('The list of categories must be an array');
         }
 
-        return array_map(fn ($categoryCode) => new CategoryCode($categoryCode), $requestCategories);
+        return array_map(fn($categoryCode) => new CategoryCode($categoryCode), $requestCategories);
     }
 }

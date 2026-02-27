@@ -16,23 +16,23 @@ use Symfony\Component\Form\FormView;
 
 class BooleanFilterSpec extends ObjectBehavior
 {
-    function let(FormFactoryInterface $factory, ProductFilterUtility $utility)
+    public function let(FormFactoryInterface $factory, ProductFilterUtility $utility)
     {
         $this->beConstructedWith($factory, $utility);
         $this->init('foo', [ProductFilterUtility::DATA_NAME_KEY => 'bar']);
     }
 
-    function it_is_an_oro_boolean_filter()
+    public function it_is_an_oro_boolean_filter()
     {
         $this->shouldBeAnInstanceOf(BooleanFilter::class);
     }
 
-    function it_initializes_filter_with_name()
+    public function it_initializes_filter_with_name()
     {
         $this->getName()->shouldReturn('foo');
     }
 
-    function it_parses_data()
+    public function it_parses_data()
     {
         $this->parseData(['value' => 0])->shouldReturn(['value' => 0]);
         $this->parseData(['value' => 1])->shouldReturn(['value' => 1]);
@@ -46,7 +46,7 @@ class BooleanFilterSpec extends ObjectBehavior
         $this->parseData(0)->shouldReturn(false);
     }
 
-    function it_applies_boolean_flexible_filter_on_the_datasource(
+    public function it_applies_boolean_flexible_filter_on_the_datasource(
         FilterDatasourceAdapterInterface $datasource,
         $utility
     ) {
@@ -55,7 +55,7 @@ class BooleanFilterSpec extends ObjectBehavior
         $this->apply($datasource, ['value' => BooleanFilterType::TYPE_YES])->shouldReturn(true);
     }
 
-    function it_applies_empty_filter_on_the_datasource(
+    public function it_applies_empty_filter_on_the_datasource(
         FilterDatasourceAdapterInterface $datasource,
         $utility
     ) {
@@ -64,7 +64,7 @@ class BooleanFilterSpec extends ObjectBehavior
         $this->apply($datasource, ['value' => BooleanFilterType::TYPE_EMPTY])->shouldReturn(true);
     }
 
-    function it_applies_not_empty_filter_on_the_datasource(
+    public function it_applies_not_empty_filter_on_the_datasource(
         FilterDatasourceAdapterInterface $datasource,
         $utility
     ) {
@@ -73,7 +73,7 @@ class BooleanFilterSpec extends ObjectBehavior
         $this->apply($datasource, ['value' => BooleanFilterType::TYPE_NOT_EMPTY])->shouldReturn(true);
     }
 
-    function it_does_not_apply_boolean_flexible_filter_on_unparsable_data(
+    public function it_does_not_apply_boolean_flexible_filter_on_unparsable_data(
         FilterDatasourceAdapterInterface $datasource,
         $utility
     ) {
@@ -85,14 +85,14 @@ class BooleanFilterSpec extends ObjectBehavior
         $this->apply($datasource, BooleanFilterType::TYPE_NO)->shouldReturn(false);
     }
 
-    function it_uses_the_boolean_filter_form_type(FormInterface $form, $factory)
+    public function it_uses_the_boolean_filter_form_type(FormInterface $form, $factory)
     {
         $factory->create(BooleanFilterType::class, [], ['csrf_protection' => false])->willReturn($form);
 
         $this->getForm()->shouldReturn($form);
     }
 
-    function it_generates_choices_metadata(
+    public function it_generates_choices_metadata(
         FormBuilderInterface $formBuilder,
         FormBuilderInterface $typeFormBuilder,
         FormInterface $form,
@@ -146,7 +146,7 @@ class BooleanFilterSpec extends ObjectBehavior
                     ], [
                         'label' => 'Not empty',
                         'value' => 3,
-                    ]
+                    ],
                 ],
                 'enabled'              => true,
                 'data_name'            => 'bar',

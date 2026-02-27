@@ -16,9 +16,7 @@ class MassEditOperation implements BatchableOperationInterface
      * @param array  $filters
      * @param array  $actions
      */
-    public function __construct(protected $jobInstanceCode, protected $filters, protected $actions)
-    {
-    }
+    public function __construct(protected $jobInstanceCode, protected $filters, protected $actions) {}
 
     /**
      * {@inheritdoc}

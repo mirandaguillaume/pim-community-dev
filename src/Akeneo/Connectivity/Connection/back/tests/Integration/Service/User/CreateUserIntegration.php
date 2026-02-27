@@ -26,8 +26,8 @@ class CreateUserIntegration extends TestCase
         Assert::assertMatchesRegularExpression('/^pimgento_[0-9]{4}$/', $user->username());
 
         $sqlQuery = <<<SQL
-SELECT username, first_name, last_name, email, user_type, enabled FROM oro_user
-SQL;
+            SELECT username, first_name, last_name, email, user_type, enabled FROM oro_user
+            SQL;
         $results = $this->getDatabaseConnection()->fetchAllAssociative($sqlQuery);
         Assert::assertCount(1, $results);
 
@@ -46,8 +46,8 @@ SQL;
         Assert::assertInstanceOf(\Akeneo\Connectivity\Connection\Domain\Settings\Model\Read\User::class, $user);
 
         $sqlQuery = <<<SQL
-SELECT username, first_name, last_name, email, user_type, enabled FROM oro_user
-SQL;
+            SELECT username, first_name, last_name, email, user_type, enabled FROM oro_user
+            SQL;
         $results = $this->getDatabaseConnection()->fetchAllAssociative($sqlQuery);
         Assert::assertCount(1, $results);
 

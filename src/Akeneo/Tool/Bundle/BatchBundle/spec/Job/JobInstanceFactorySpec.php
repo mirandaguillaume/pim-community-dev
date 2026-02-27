@@ -9,17 +9,17 @@ class JobInstanceFactorySpec extends ObjectBehavior
 {
     final public const TESTED_CLASS = JobInstance::class;
 
-    function let()
+    public function let()
     {
         $this->beConstructedWith(self::TESTED_CLASS);
     }
 
-    function it_creates_job_instances()
+    public function it_creates_job_instances()
     {
         $this->createJobInstance()->shouldReturnAnInstanceOf(self::TESTED_CLASS);
     }
 
-    function it_creates_job_instances_with_defined_type()
+    public function it_creates_job_instances_with_defined_type()
     {
         $jobInstance = $this->createJobInstance('foo');
         $jobInstance->shouldBeAnInstanceOf(self::TESTED_CLASS);

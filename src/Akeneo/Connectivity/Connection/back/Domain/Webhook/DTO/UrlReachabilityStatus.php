@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Domain\Webhook\DTO;
@@ -10,9 +11,7 @@ namespace Akeneo\Connectivity\Connection\Domain\Webhook\DTO;
  */
 class UrlReachabilityStatus
 {
-    public function __construct(private readonly bool $success, private readonly string $message)
-    {
-    }
+    public function __construct(private readonly bool $success, private readonly string $message) {}
 
     public function success(): bool
     {

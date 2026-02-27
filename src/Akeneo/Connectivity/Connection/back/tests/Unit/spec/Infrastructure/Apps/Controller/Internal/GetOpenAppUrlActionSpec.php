@@ -241,7 +241,7 @@ class GetOpenAppUrlActionSpec extends ObjectBehavior
         $security->isGranted('akeneo_connectivity_connection_manage_apps')->willReturn(false);
 
         $this->__invoke($request, 'connection_code')->shouldBeLike(new JsonResponse([
-            'url' => 'http://app.example.com/activate?pim_url=https%3A%2F%2Fsome_pim_url'
+            'url' => 'http://app.example.com/activate?pim_url=https%3A%2F%2Fsome_pim_url',
         ]));
     }
 }

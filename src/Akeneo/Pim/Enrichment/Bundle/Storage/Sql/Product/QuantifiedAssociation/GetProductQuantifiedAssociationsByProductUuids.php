@@ -12,9 +12,7 @@ use Ramsey\Uuid\UuidInterface;
 
 final readonly class GetProductQuantifiedAssociationsByProductUuids
 {
-    public function __construct(private Connection $connection, private GetIdMappingFromProductIdsQuery $getIdMappingFromProductIdsQuery, private FindQuantifiedAssociationTypeCodesInterface $findQuantifiedAssociationTypeCodes)
-    {
-    }
+    public function __construct(private Connection $connection, private GetIdMappingFromProductIdsQuery $getIdMappingFromProductIdsQuery, private FindQuantifiedAssociationTypeCodesInterface $findQuantifiedAssociationTypeCodes) {}
 
     /**
      * Executes SQL query to get product quantified associations from a set of product identifiers.
@@ -43,17 +41,17 @@ final readonly class GetProductQuantifiedAssociationsByProductUuids
     private function fetchQuantifiedAssociations(array $productUuids): array
     {
         $query = <<<SQL
-SELECT
-    BIN_TO_UUID(p.uuid) AS uuid,
-    JSON_MERGE_PRESERVE(COALESCE(pm2.quantified_associations, '{}'), COALESCE(pm1.quantified_associations, '{}'), COALESCE(p.quantified_associations, '{}')) AS all_quantified_associations
-FROM pim_catalog_product p
-LEFT JOIN pim_catalog_product_model pm1 ON p.product_model_id = pm1.id
-LEFT JOIN pim_catalog_product_model pm2 ON pm1.parent_id = pm2.id
-WHERE p.uuid IN (:productUuids)
-;
-SQL;
+            SELECT
+                BIN_TO_UUID(p.uuid) AS uuid,
+                JSON_MERGE_PRESERVE(COALESCE(pm2.quantified_associations, '{}'), COALESCE(pm1.quantified_associations, '{}'), COALESCE(p.quantified_associations, '{}')) AS all_quantified_associations
+            FROM pim_catalog_product p
+            LEFT JOIN pim_catalog_product_model pm1 ON p.product_model_id = pm1.id
+            LEFT JOIN pim_catalog_product_model pm2 ON pm1.parent_id = pm2.id
+            WHERE p.uuid IN (:productUuids)
+            ;
+            SQL;
 
-        $uuidsAsBytes = array_map(fn (UuidInterface $uuid): string => $uuid->getBytes(), $productUuids);
+        $uuidsAsBytes = array_map(fn(UuidInterface $uuid): string => $uuid->getBytes(), $productUuids);
 
         $rows = $this->connection->executeQuery(
             $query,
@@ -122,7 +120,7 @@ SQL;
                 }
                 $uniqueQuantifiedAssociations[$identifier] = [
                     'identifier' => $identifier,
-                    'quantity' => (int)$associationWithProductId['quantity'],
+                    'quantity' => (int) $associationWithProductId['quantity'],
                     'uuid' => $associationWithProductId['uuid'],
                 ];
             }
@@ -137,7 +135,7 @@ SQL;
     private function productIds(array $quantifiedAssociationWithProductId): array
     {
         return array_map(
-            fn (array $quantifiedAssociations) => $quantifiedAssociations['id'],
+            fn(array $quantifiedAssociations) => $quantifiedAssociations['id'],
             $quantifiedAssociationWithProductId['products'] ?? []
         );
     }

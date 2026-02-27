@@ -19,8 +19,7 @@ class RemoveFromGroupsApplier implements UserIntentApplier
 {
     public function __construct(
         private readonly ObjectUpdaterInterface $productUpdater
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritDoc}

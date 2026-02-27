@@ -18,7 +18,7 @@ use Prophecy\Argument;
 
 class CategoryRepositorySpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         EntityManager $em,
         Connection $connection,
         Statement $statement,
@@ -45,7 +45,7 @@ class CategoryRepositorySpec extends ObjectBehavior
 
         $configuration = [
             'parent' => 'parent',
-            'left'   => 'left'
+            'left'   => 'left',
         ];
         $treeListener->getConfiguration(Argument::cetera())->willReturn($configuration);
 
@@ -54,17 +54,17 @@ class CategoryRepositorySpec extends ObjectBehavior
         $this->beConstructedWith($em, $classMetadata);
     }
 
-    function it_is_a_nested_repository()
+    public function it_is_a_nested_repository()
     {
         $this->shouldHaveType(NestedTreeRepository::class);
     }
 
-    function it_is_a_category_repository()
+    public function it_is_a_category_repository()
     {
         $this->shouldImplement(CategoryRepositoryInterface::class);
     }
 
-    function it_is_an_identifiable_object_repository()
+    public function it_is_an_identifiable_object_repository()
     {
         $this->shouldImplement(IdentifiableObjectRepositoryInterface::class);
     }

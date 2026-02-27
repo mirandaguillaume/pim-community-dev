@@ -19,8 +19,7 @@ class ProductKeyIndicatorsByFeatureRegistry
 
     public function __construct(
         private readonly FeatureFlag $allCriteriaFeature,
-    ) {
-    }
+    ) {}
 
     public function register(ComputeProductsKeyIndicator $computeKeyIndicator, ?string $feature): void
     {

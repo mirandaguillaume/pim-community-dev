@@ -15,17 +15,17 @@ class PartialUpdateListCategoryEndToEnd extends ApiTestCase
      */
     public function testCreateAndUpdateAListOfCategories(): void
     {
-        $data =
-<<<JSON
-    {"code": "categoryA2","labels":{"en_US":"category A2"}}
-    {"code": "categoryD","parent":"master"}
-JSON;
+        $data
+= <<<JSON
+        {"code": "categoryA2","labels":{"en_US":"category A2"}}
+        {"code": "categoryD","parent":"master"}
+    JSON;
 
-        $expectedContent =
-<<<JSON
-{"line":1,"code":"categoryA2","status_code":204}
-{"line":2,"code":"categoryD","status_code":201}
-JSON;
+        $expectedContent
+= <<<JSON
+    {"line":1,"code":"categoryA2","status_code":204}
+    {"line":2,"code":"categoryD","status_code":201}
+    JSON;
 
         $response = $this->executeStreamRequest('PATCH', 'api/rest/v1/categories', [], [], [], $data);
         $httpResponse = $response['http_response'];
@@ -58,17 +58,17 @@ JSON;
 
     public function testCreateAndUpdateSameCategory(): void
     {
-        $data =
-<<<JSON
-    {"code": "categoryD"}
-    {"code": "categoryD"}
-JSON;
+        $data
+= <<<JSON
+        {"code": "categoryD"}
+        {"code": "categoryD"}
+    JSON;
 
-        $expectedContent =
-<<<JSON
-{"line":1,"code":"categoryD","status_code":201}
-{"line":2,"code":"categoryD","status_code":204}
-JSON;
+        $expectedContent
+= <<<JSON
+    {"line":1,"code":"categoryD","status_code":201}
+    {"line":2,"code":"categoryD","status_code":204}
+    JSON;
 
         $response = $this->executeStreamRequest('PATCH', 'api/rest/v1/categories', [], [], [], $data);
         $httpResponse = $response['http_response'];
@@ -112,13 +112,13 @@ JSON;
         }
         $data = implode(PHP_EOL, $dataRows);
 
-        $expectedContent =
-<<<JSON
-    {
-        "code": 413,
-        "message": "Too many resources to process, $maxNumberResources is the maximum allowed."
-    }
-JSON;
+        $expectedContent
+= <<<JSON
+        {
+            "code": 413,
+            "message": "Too many resources to process, $maxNumberResources is the maximum allowed."
+        }
+    JSON;
 
         $client->request('PATCH', 'api/rest/v1/categories', [], [], [], $data);
 
@@ -133,8 +133,8 @@ JSON;
             'invalid_json_1' => str_repeat('a', $this->getBufferSize() - 1),
             'invalid_json_2' => str_repeat('a', $this->getBufferSize()),
             'invalid_json_3' => '',
-            'line_too_long_1' => '{"code":"foo"}'.str_repeat('a', $this->getBufferSize()),
-            'line_too_long_2' => '{"code":"foo"}'.str_repeat(' ', $this->getBufferSize()),
+            'line_too_long_1' => '{"code":"foo"}' . str_repeat('a', $this->getBufferSize()),
+            'line_too_long_2' => '{"code":"foo"}' . str_repeat(' ', $this->getBufferSize()),
             'line_too_long_3' => str_repeat('a', $this->getBufferSize() + 1),
             'line_too_long_4' => str_repeat('a', $this->getBufferSize() + 2),
             'line_too_long_5' => str_repeat('a', $this->getBufferSize() * 2),
@@ -142,33 +142,33 @@ JSON;
             'invalid_json_4' => str_repeat('a', $this->getBufferSize()),
         ];
 
-        $data =
-<<<JSON
-{$line['invalid_json_1']}
-{$line['invalid_json_2']}
-{$line['invalid_json_3']}
-{$line['line_too_long_1']}
-{$line['line_too_long_2']}
-{$line['line_too_long_3']}
-{$line['line_too_long_4']}
-{$line['line_too_long_5']}
-{$line['line_too_long_6']}
-{$line['invalid_json_4']}
-JSON;
+        $data
+= <<<JSON
+    {$line['invalid_json_1']}
+    {$line['invalid_json_2']}
+    {$line['invalid_json_3']}
+    {$line['line_too_long_1']}
+    {$line['line_too_long_2']}
+    {$line['line_too_long_3']}
+    {$line['line_too_long_4']}
+    {$line['line_too_long_5']}
+    {$line['line_too_long_6']}
+    {$line['invalid_json_4']}
+    JSON;
 
-        $expectedContent =
-<<<JSON
-{"line":1,"status_code":400,"message":"Invalid json message received"}
-{"line":2,"status_code":400,"message":"Invalid json message received"}
-{"line":3,"status_code":400,"message":"Invalid json message received"}
-{"line":4,"status_code":413,"message":"Line is too long."}
-{"line":5,"status_code":413,"message":"Line is too long."}
-{"line":6,"status_code":413,"message":"Line is too long."}
-{"line":7,"status_code":413,"message":"Line is too long."}
-{"line":8,"status_code":413,"message":"Line is too long."}
-{"line":9,"status_code":413,"message":"Line is too long."}
-{"line":10,"status_code":400,"message":"Invalid json message received"}
-JSON;
+        $expectedContent
+= <<<JSON
+    {"line":1,"status_code":400,"message":"Invalid json message received"}
+    {"line":2,"status_code":400,"message":"Invalid json message received"}
+    {"line":3,"status_code":400,"message":"Invalid json message received"}
+    {"line":4,"status_code":413,"message":"Line is too long."}
+    {"line":5,"status_code":413,"message":"Line is too long."}
+    {"line":6,"status_code":413,"message":"Line is too long."}
+    {"line":7,"status_code":413,"message":"Line is too long."}
+    {"line":8,"status_code":413,"message":"Line is too long."}
+    {"line":9,"status_code":413,"message":"Line is too long."}
+    {"line":10,"status_code":400,"message":"Invalid json message received"}
+    JSON;
 
         $response = $this->executeStreamRequest('PATCH', 'api/rest/v1/categories', [], [], [], $data);
         $httpResponse = $response['http_response'];
@@ -179,23 +179,23 @@ JSON;
 
     public function testErrorWhenIdentifierIsMissing(): void
     {
-        $data =
-<<<JSON
-    {"identifier": "my_identifier"}
-    {"code": null}
-    {"code": ""}
-    {"code": " "}
-    {}
-JSON;
+        $data
+= <<<JSON
+        {"identifier": "my_identifier"}
+        {"code": null}
+        {"code": ""}
+        {"code": " "}
+        {}
+    JSON;
 
-        $expectedContent =
-<<<JSON
-{"line":1,"status_code":422,"message":"Code is missing."}
-{"line":2,"status_code":422,"message":"Code is missing."}
-{"line":3,"status_code":422,"message":"Code is missing."}
-{"line":4,"status_code":422,"message":"Code is missing."}
-{"line":5,"status_code":422,"message":"Code is missing."}
-JSON;
+        $expectedContent
+= <<<JSON
+    {"line":1,"status_code":422,"message":"Code is missing."}
+    {"line":2,"status_code":422,"message":"Code is missing."}
+    {"line":3,"status_code":422,"message":"Code is missing."}
+    {"line":4,"status_code":422,"message":"Code is missing."}
+    {"line":5,"status_code":422,"message":"Code is missing."}
+    JSON;
 
         $response = $this->executeStreamRequest('PATCH', 'api/rest/v1/categories', [], [], [], $data);
         $httpResponse = $response['http_response'];
@@ -206,15 +206,15 @@ JSON;
 
     public function testUpdateCategoryWhenUpdaterFailed(): void
     {
-        $data =
-<<<JSON
-    {"code": "foo", "parent":"bar"}
-JSON;
+        $data
+= <<<JSON
+        {"code": "foo", "parent":"bar"}
+    JSON;
 
-        $expectedContent =
-<<<JSON
-{"line":1,"code":"foo","status_code":422,"message":"Property \"parent\" expects a valid category code. The category does not exist, \"bar\" given. Check the expected format on the API documentation.","_links":{"documentation":{"href":"http:\/\/api.akeneo.com\/api-reference.html#patch_categories__code_"}}}
-JSON;
+        $expectedContent
+= <<<JSON
+    {"line":1,"code":"foo","status_code":422,"message":"Property \"parent\" expects a valid category code. The category does not exist, \"bar\" given. Check the expected format on the API documentation.","_links":{"documentation":{"href":"http:\/\/api.akeneo.com\/api-reference.html#patch_categories__code_"}}}
+    JSON;
 
         $response = $this->executeStreamRequest('PATCH', 'api/rest/v1/categories', [], [], [], $data);
         $httpResponse = $response['http_response'];
@@ -225,15 +225,15 @@ JSON;
 
     public function testUpdateCategoryWhenValidationFailed(): void
     {
-        $data =
-<<<JSON
-    {"code": "foo,"}
-JSON;
+        $data
+= <<<JSON
+        {"code": "foo,"}
+    JSON;
 
-        $expectedContent =
-<<<JSON
-{"line":1,"code":"foo,","status_code":422,"message":"Validation failed.","errors":[{"property":"code","message":"Category code may contain only letters, numbers and underscores"}]}
-JSON;
+        $expectedContent
+= <<<JSON
+    {"line":1,"code":"foo,","status_code":422,"message":"Validation failed.","errors":[{"property":"code","message":"Category code may contain only letters, numbers and underscores"}]}
+    JSON;
 
         $response = $this->executeStreamRequest('PATCH', 'api/rest/v1/categories', [], [], [], $data);
         $httpResponse = $response['http_response'];
@@ -244,18 +244,18 @@ JSON;
 
     public function testPartialUpdateListWithBadContentType(): void
     {
-        $data =
-<<<JSON
-    {"code": "my_code"}
-JSON;
+        $data
+= <<<JSON
+        {"code": "my_code"}
+    JSON;
 
-        $expectedContent =
-<<<JSON
-    {
-        "code": 415,
-        "message": "\"application\/json\" in \"Content-Type\" header is not valid. Only \"application\/vnd.akeneo.collection+json\" is allowed."
-    }
-JSON;
+        $expectedContent
+= <<<JSON
+        {
+            "code": 415,
+            "message": "\"application\/json\" in \"Content-Type\" header is not valid. Only \"application\/vnd.akeneo.collection+json\" is allowed."
+        }
+    JSON;
 
         $client = $this->createAuthenticatedClient();
         $client->setServerParameter('CONTENT_TYPE', 'application/json');

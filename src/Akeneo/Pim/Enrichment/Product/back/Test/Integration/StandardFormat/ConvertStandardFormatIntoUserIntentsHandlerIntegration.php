@@ -55,12 +55,12 @@ class ConvertStandardFormatIntoUserIntentsHandlerIntegration extends EnrichmentP
                 'bundle' => [
                     'products' => [['identifier' => 'associated_product', 'quantity' => 12]],
                     'product_models' => [['identifier' => 'associated_product_model', 'quantity' => 21]],
-                ]
+                ],
             ],
             'values' => [
                 'name' => [['data' => 'Bonjour', 'scope' => null, 'locale' => null]],
-                'measurement' => [['data' => ['amount' => 10, 'unit' => 'KILOGRAM'], 'scope' => 'e-commerce', 'locale' => 'fr_FR']]
-            ]
+                'measurement' => [['data' => ['amount' => 10, 'unit' => 'KILOGRAM'], 'scope' => 'e-commerce', 'locale' => 'fr_FR']],
+            ],
         ]));
 
         // get the value that was returned by the last message handler
@@ -75,10 +75,10 @@ class ConvertStandardFormatIntoUserIntentsHandlerIntegration extends EnrichmentP
             new ReplaceAssociatedProductModels('SUBSTITUTION', ['associated_product_model']),
             new ReplaceAssociatedGroups('SUBSTITUTION', []),
             new ReplaceAssociatedQuantifiedProducts('bundle', [
-                new QuantifiedEntity('associated_product', 12)
+                new QuantifiedEntity('associated_product', 12),
             ]),
             new ReplaceAssociatedQuantifiedProductModels('bundle', [
-                new QuantifiedEntity('associated_product_model', 21)
+                new QuantifiedEntity('associated_product_model', 21),
             ]),
             new SetTextValue('name', null, null, 'Bonjour'),
             new SetMeasurementValue('measurement', 'e-commerce', 'fr_FR', 10, 'KILOGRAM'),
@@ -91,8 +91,8 @@ class ConvertStandardFormatIntoUserIntentsHandlerIntegration extends EnrichmentP
         $envelope = $this->get('pim_enrich.product.query_message_bus')->dispatch(new GetUserIntentsFromStandardFormat([
             'values' => [
                 'name' => [['data' => null, 'scope' => null, 'locale' => null]],
-                'measurement' => [['data' => ['amount' => null, 'unit' => 'KILOGRAM'], 'scope' => null, 'locale' => null]]
-            ]
+                'measurement' => [['data' => ['amount' => null, 'unit' => 'KILOGRAM'], 'scope' => null, 'locale' => null]],
+            ],
         ]));
 
         // get the value that was returned by the last message handler
@@ -121,13 +121,13 @@ class ConvertStandardFormatIntoUserIntentsHandlerIntegration extends EnrichmentP
                         LabelCollection::fromArray([]),
                         [Operation::create("mul", "1")],
                         "km",
-                    )
+                    ),
                 ]
             )
         );
         $this->createAttribute('measurement', [
             'type' => AttributeTypes::METRIC,
-            'metric_family' =>'weight',
+            'metric_family' => 'weight',
             'default_metric_unit' => 'KILOGRAM',
             'decimals_allowed'    => true,
             'negative_allowed'    => true,

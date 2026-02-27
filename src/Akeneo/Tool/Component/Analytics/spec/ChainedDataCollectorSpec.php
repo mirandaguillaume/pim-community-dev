@@ -8,12 +8,12 @@ use PhpSpec\ObjectBehavior;
 
 class ChainedDataCollectorSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(ChainedDataCollector::class);
     }
 
-    function it_aggregates_data_from_registered_collectors(
+    public function it_aggregates_data_from_registered_collectors(
         DataCollectorInterface $collectorOne,
         DataCollectorInterface $collectorTwo,
         DataCollectorInterface $collectorThree,

@@ -14,28 +14,26 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetAppDeletionQuery implements GetAppDeletionQueryInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function execute(string $appId): AppDeletion
     {
         $query = <<<SQL
-SELECT
-    id,
-    connection_code,
-    user_group_name,
-    (
-        SELECT oro_access_role.role
-        FROM oro_access_role
-        JOIN oro_user_access_role ON oro_user_access_role.role_id = oro_access_role.id
-        WHERE oro_user_access_role.user_id = akeneo_connectivity_connection.user_id
-        LIMIT 1
-    ) AS role
-FROM akeneo_connectivity_connected_app
-JOIN akeneo_connectivity_connection ON akeneo_connectivity_connection.code = akeneo_connectivity_connected_app.connection_code
-WHERE id = :id
-SQL;
+            SELECT
+                id,
+                connection_code,
+                user_group_name,
+                (
+                    SELECT oro_access_role.role
+                    FROM oro_access_role
+                    JOIN oro_user_access_role ON oro_user_access_role.role_id = oro_access_role.id
+                    WHERE oro_user_access_role.user_id = akeneo_connectivity_connection.user_id
+                    LIMIT 1
+                ) AS role
+            FROM akeneo_connectivity_connected_app
+            JOIN akeneo_connectivity_connection ON akeneo_connectivity_connection.code = akeneo_connectivity_connected_app.connection_code
+            WHERE id = :id
+            SQL;
 
         $row = $this->connection->fetchAssociative($query, [
             'id' => $appId,

@@ -28,8 +28,7 @@ final readonly class ComputeProductAndAncestorsSubscriber implements EventSubscr
         private ComputeAndPersistProductCompletenesses $computeAndPersistProductCompletenesses,
         private ProductModelDescendantsAndAncestorsIndexer $productModelDescendantsAndAncestorsIndexer,
         private GetDescendantVariantProductUuids $getDescendantVariantProductUuids
-    ) {
-    }
+    ) {}
 
     public static function getSubscribedEvents(): array
     {
@@ -65,7 +64,7 @@ final readonly class ComputeProductAndAncestorsSubscriber implements EventSubscr
         }
 
         $this->computeAndIndexFromProductModelCodes(array_map(
-            fn (ProductModelInterface $productModel) => $productModel->getCode(),
+            fn(ProductModelInterface $productModel) => $productModel->getCode(),
             $productModels
         ));
     }

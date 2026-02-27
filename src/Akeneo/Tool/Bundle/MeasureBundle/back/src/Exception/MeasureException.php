@@ -11,6 +11,4 @@ namespace Akeneo\Tool\Bundle\MeasureBundle\Exception;
  *
  * @abstract
  */
-abstract class MeasureException extends \Exception
-{
-}
+abstract class MeasureException extends \Exception {}

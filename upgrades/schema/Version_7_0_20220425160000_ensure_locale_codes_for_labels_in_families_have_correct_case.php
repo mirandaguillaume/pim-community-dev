@@ -7,7 +7,6 @@ namespace Pim\Upgrade\Schema;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-
 final class Version_7_0_20220425160000_ensure_locale_codes_for_labels_in_families_have_correct_case extends AbstractMigration
 {
     public function getDescription(): string
@@ -22,14 +21,14 @@ final class Version_7_0_20220425160000_ensure_locale_codes_for_labels_in_familie
         // for spelling if found, leave untouched if not found
         $this->addSql(
             <<<SQL
-UPDATE pim_catalog_family_translation as TRANSLATION
-    INNER JOIN (
-        SELECT code 
-        FROM pim_catalog_locale as p    
-    ) as LOCALE
-    ON TRANSLATION.locale = LOCALE.code
-SET TRANSLATION.locale = COALESCE (LOCALE.code, TRANSLATION.locale);
-SQL
+                UPDATE pim_catalog_family_translation as TRANSLATION
+                    INNER JOIN (
+                        SELECT code 
+                        FROM pim_catalog_locale as p    
+                    ) as LOCALE
+                    ON TRANSLATION.locale = LOCALE.code
+                SET TRANSLATION.locale = COALESCE (LOCALE.code, TRANSLATION.locale);
+                SQL
         );
     }
 

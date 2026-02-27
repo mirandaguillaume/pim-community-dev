@@ -15,8 +15,7 @@ final readonly class UpdateMaintenanceModeHandler
 {
     public function __construct(
         private UpdateMaintenanceModeInterface $updateMaintenanceMode,
-    ) {
-    }
+    ) {}
 
     public function handle(UpdateMaintenanceModeCommand $command): void
     {

@@ -18,7 +18,7 @@ class FileNormalizer extends AbstractValueDataNormalizer implements CacheableSup
     /**
      * {@inheritdoc}
      */
-    public function normalize($file, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($file, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         return $this->doNormalize($file, $format, $context);
     }

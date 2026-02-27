@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Infrastructure\Webhook\Service;
@@ -35,9 +36,8 @@ class WebhookReachabilityChecker implements UrlReachabilityCheckerInterface
         private readonly ClientInterface $client,
         private readonly ValidatorInterface $validator,
         private readonly VersionProviderInterface $versionProvider,
-        private readonly string | null $pfid,
-    ) {
-    }
+        private readonly ?string $pfid,
+    ) {}
 
     public function check(string $url, string $secret): UrlReachabilityStatus
     {
@@ -58,7 +58,7 @@ class WebhookReachabilityChecker implements UrlReachabilityCheckerInterface
         $signature = Signature::createSignature($secret, $timestamp);
         $userAgent = 'AkeneoPIM/' . $this->versionProvider->getVersion();
         if (null !== $this->pfid) {
-            $userAgent .= ' '.$this->pfid;
+            $userAgent .= ' ' . $this->pfid;
         }
 
         $headers = [

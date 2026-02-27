@@ -15,9 +15,7 @@ use Doctrine\DBAL\Connection;
  */
 class GetIdMappingFromProductModelIdsQuery implements GetIdMappingFromProductModelIdsQueryInterface
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function execute(array $productModelIds): IdMapping
     {
@@ -26,8 +24,8 @@ class GetIdMappingFromProductModelIdsQuery implements GetIdMappingFromProductMod
         }
 
         $query = <<<SQL
-        SELECT id, code from pim_catalog_product_model WHERE id IN (:product_model_ids)
-SQL;
+                    SELECT id, code from pim_catalog_product_model WHERE id IN (:product_model_ids)
+            SQL;
 
         $mapping = array_column($this->connection->executeQuery(
             $query,

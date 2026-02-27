@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Component\Product\Connector\Processor;
@@ -14,9 +15,7 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\GetAttributes;
  */
 class CleanLineBreaksInTextAttributes
 {
-    public function __construct(private readonly GetAttributes $getAttributes)
-    {
-    }
+    public function __construct(private readonly GetAttributes $getAttributes) {}
 
     public function cleanStandardFormat(array $item): array
     {
@@ -81,7 +80,7 @@ class CleanLineBreaksInTextAttributes
 
         return array_keys(array_filter(
             $attributes,
-            fn (Attribute $attribute): bool => AttributeTypes::TEXT === $attribute->type()
+            fn(Attribute $attribute): bool => AttributeTypes::TEXT === $attribute->type()
         ));
     }
 }

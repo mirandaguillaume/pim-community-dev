@@ -16,6 +16,4 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
 interface ProductCategoryRepositoryInterface extends
     IdentifiableObjectRepositoryInterface,
     ItemCategoryRepositoryInterface,
-    CategoryFilterableRepositoryInterface
-{
-}
+    CategoryFilterableRepositoryInterface {}

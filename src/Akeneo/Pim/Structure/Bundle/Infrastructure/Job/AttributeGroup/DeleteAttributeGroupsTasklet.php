@@ -32,8 +32,7 @@ final class DeleteAttributeGroupsTasklet implements TaskletInterface, TrackableT
         private readonly JobRepositoryInterface $jobRepository,
         private readonly JobStopper $jobStopper,
         private readonly int $batchSize = 100,
-    ) {
-    }
+    ) {}
 
     public function setStepExecution(StepExecution $stepExecution)
     {
@@ -92,7 +91,7 @@ final class DeleteAttributeGroupsTasklet implements TaskletInterface, TrackableT
         } catch (UserFacingError $e) {
             $this->stepExecution->incrementSummaryInfo('skipped_attribute_groups');
             $this->stepExecution->addWarning($e->translationKey(), $e->translationParameters(), new DataInvalidItem([
-                'code' => $attributeGroup->getCode()
+                'code' => $attributeGroup->getCode(),
             ]));
         }
 

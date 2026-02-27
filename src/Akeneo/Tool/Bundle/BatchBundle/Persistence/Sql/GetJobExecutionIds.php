@@ -19,9 +19,7 @@ use Webmozart\Assert\Assert;
  */
 final readonly class GetJobExecutionIds
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function olderThanDays(int $days, array $jobInstanceCodes, ?BatchStatus $status): Result
     {
@@ -54,9 +52,9 @@ final readonly class GetJobExecutionIds
     public function all(array $jobInstanceCodes, ?BatchStatus $status): Result
     {
         $query = <<<SQL
-            SELECT id
-            FROM akeneo_batch_job_execution
-        SQL;
+                SELECT id
+                FROM akeneo_batch_job_execution
+            SQL;
 
 
         $conditions = [];
@@ -84,16 +82,16 @@ final readonly class GetJobExecutionIds
     private function fetchOlderThanTime(DateTime $timeLimit, array $jobInstanceCodes, ?BatchStatus $status): Result
     {
         $query = <<<SQL
-            SELECT id
-            FROM akeneo_batch_job_execution
-            WHERE akeneo_batch_job_execution.create_time < :create_time AND akeneo_batch_job_execution.id NOT IN (
-                SELECT MAX(last_job_execution.id) 
-                FROM akeneo_batch_job_execution last_job_execution 
-                WHERE last_job_execution.status = :status 
-                GROUP BY last_job_execution.job_instance_id
-            )
-            %s
-        SQL;
+                SELECT id
+                FROM akeneo_batch_job_execution
+                WHERE akeneo_batch_job_execution.create_time < :create_time AND akeneo_batch_job_execution.id NOT IN (
+                    SELECT MAX(last_job_execution.id) 
+                    FROM akeneo_batch_job_execution last_job_execution 
+                    WHERE last_job_execution.status = :status 
+                    GROUP BY last_job_execution.job_instance_id
+                )
+                %s
+            SQL;
 
         $conditions = [];
         if (!empty($jobInstanceCodes)) {
@@ -120,7 +118,7 @@ final readonly class GetJobExecutionIds
             ],
             [
                 'create_time' => Types::DATETIME_MUTABLE,
-                'job_instance_codes' => ArrayParameterType::STRING
+                'job_instance_codes' => ArrayParameterType::STRING,
             ]
         );
     }

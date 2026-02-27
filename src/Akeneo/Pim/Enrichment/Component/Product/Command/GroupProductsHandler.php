@@ -25,8 +25,7 @@ class GroupProductsHandler
         private readonly BulkSaverInterface $productSaver,
         private readonly ProductRepositoryInterface $productRepository,
         private readonly int $batchSize
-    ) {
-    }
+    ) {}
 
     public function handle(GroupProductsCommand $updateProductsToGroupCommand): void
     {

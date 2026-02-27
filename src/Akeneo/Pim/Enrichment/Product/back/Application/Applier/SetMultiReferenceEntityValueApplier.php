@@ -18,8 +18,7 @@ final readonly class SetMultiReferenceEntityValueApplier implements UserIntentAp
 {
     public function __construct(
         private ObjectUpdaterInterface $productUpdater,
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritDoc}

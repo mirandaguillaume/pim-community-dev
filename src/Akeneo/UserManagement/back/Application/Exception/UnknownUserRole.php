@@ -2,6 +2,4 @@
 
 namespace Akeneo\UserManagement\Application\Exception;
 
-class UnknownUserRole extends \RuntimeException
-{
-}
+class UnknownUserRole extends \RuntimeException {}

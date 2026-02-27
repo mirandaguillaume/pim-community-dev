@@ -14,6 +14,5 @@ final readonly class Family
         public string $code,
         public array $labels,
         public array $attributeCodes,
-    ) {
-    }
+    ) {}
 }

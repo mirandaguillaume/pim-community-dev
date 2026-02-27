@@ -34,7 +34,7 @@ class GetOrphanCategoryImageFilePathsSqlIntegration extends CategoryTestCase
 
         $expected = [
             IteratorStatus::inProgress(),
-            IteratorStatus::done([$orphanFilePath])
+            IteratorStatus::done([$orphanFilePath]),
         ];
         $this->assertEquals($expected, $results);
     }

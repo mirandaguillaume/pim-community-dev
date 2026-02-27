@@ -23,9 +23,7 @@ class AttributeSaver implements SaverInterface, BulkSaverInterface
     /**
      * @param \Akeneo\Tool\Component\StorageUtils\Saver\SaverInterface[] $additionalSavers
      */
-    public function __construct(protected EntityManagerInterface $entityManager, protected EventDispatcherInterface $eventDispatcher, protected array $additionalSavers = [])
-    {
-    }
+    public function __construct(protected EntityManagerInterface $entityManager, protected EventDispatcherInterface $eventDispatcher, protected array $additionalSavers = []) {}
 
     /**
      * {@inheritdoc}

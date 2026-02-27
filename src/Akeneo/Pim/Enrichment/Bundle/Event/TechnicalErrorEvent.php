@@ -10,9 +10,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\Event;
  */
 final readonly class TechnicalErrorEvent
 {
-    public function __construct(private \Exception $error)
-    {
-    }
+    public function __construct(private \Exception $error) {}
 
     public function getError(): \Exception
     {

@@ -16,19 +16,18 @@ final readonly class GetAllProductUuids
 {
     public function __construct(
         private Connection $connection,
-    ) {
-    }
+    ) {}
 
     public function byBatchesOf(int $batchSize): iterable
     {
         $lastUuidAsBytes = '';
         $sql = <<<SQL
-SELECT uuid
-FROM pim_catalog_product
-WHERE uuid > :lastUuid
-ORDER BY uuid ASC
-LIMIT :limit
-SQL;
+            SELECT uuid
+            FROM pim_catalog_product
+            WHERE uuid > :lastUuid
+            ORDER BY uuid ASC
+            LIMIT :limit
+            SQL;
         while (true) {
             $rows = $this->connection->fetchFirstColumn(
                 $sql,
@@ -48,7 +47,7 @@ SQL;
 
             $lastUuidAsBytes = end($rows);
 
-            yield array_map(fn (string $uuid): UuidInterface => Uuid::fromBytes($uuid), $rows);
+            yield array_map(fn(string $uuid): UuidInterface => Uuid::fromBytes($uuid), $rows);
         }
     }
 }

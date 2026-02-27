@@ -36,8 +36,7 @@ class GetProductByUuidController
         private readonly GetProductsWithQualityScoresInterface $getProductsWithQualityScores,
         private readonly GetProductsWithCompletenessesInterface $getProductsWithCompletenesses,
         private readonly SecurityFacade $security
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, string $uuid): JsonResponse
     {
@@ -45,9 +44,9 @@ class GetProductByUuidController
             throw new AccessDeniedHttpException('Access forbidden. You are not allowed to list products.');
         }
 
-        $connectorProductsQuery = 'true' === $request->query->get('with_attribute_options', 'false') ?
-            $this->getConnectorProductsWithOptions :
-            $this->getConnectorProducts;
+        $connectorProductsQuery = 'true' === $request->query->get('with_attribute_options', 'false')
+            ? $this->getConnectorProductsWithOptions
+            : $this->getConnectorProducts;
 
         try {
             $user = $this->tokenStorage->getToken()->getUser();

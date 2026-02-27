@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -23,8 +24,7 @@ final readonly class UpdateAttributeGroupActivationHandler
         private MessageBusInterface $messageBus,
         private Clock $clock,
         private FeatureFlag $dqiUcsEventFeatureFlag,
-    ) {
-    }
+    ) {}
 
     public function __invoke(UpdateAttributeGroupActivationCommand $command): void
     {

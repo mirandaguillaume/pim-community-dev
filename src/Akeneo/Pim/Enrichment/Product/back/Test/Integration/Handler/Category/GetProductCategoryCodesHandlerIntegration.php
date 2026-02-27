@@ -58,7 +58,7 @@ final class GetProductCategoryCodesHandlerIntegration extends EnrichmentProductT
             new ChangeParent('root_pm'),
             new SetIdentifierValue('sku', 'foo'),
             new SetCategories(['sales']),
-            new SetSimpleSelectValue('main_color', null, null, 'red')
+            new SetSimpleSelectValue('main_color', null, null, 'red'),
         ]);
         $this->createProductWithUuid(self::UUID_BAR, [
             new SetIdentifierValue('sku', 'bar'),

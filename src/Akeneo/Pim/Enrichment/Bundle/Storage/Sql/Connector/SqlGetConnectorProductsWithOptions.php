@@ -22,8 +22,7 @@ class SqlGetConnectorProductsWithOptions implements Query\GetConnectorProducts
     public function __construct(
         private readonly Query\GetConnectorProducts $getConnectorProducts,
         private readonly Connection $connection
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -78,7 +77,7 @@ class SqlGetConnectorProductsWithOptions implements Query\GetConnectorProducts
         $optionCodes = $this->getOptionCodes($connectorProducts);
         $optionWithLabels = $this->getOptionWithLabels($optionCodes);
 
-        return array_map(fn (ConnectorProduct $product) => $product->buildLinkedData($optionWithLabels), $connectorProducts);
+        return array_map(fn(ConnectorProduct $product) => $product->buildLinkedData($optionWithLabels), $connectorProducts);
     }
 
     /**
@@ -122,34 +121,34 @@ class SqlGetConnectorProductsWithOptions implements Query\GetConnectorProducts
         }
 
         $query = <<<SQL
-            WITH option_values AS (
-                SELECT
-                    a.code AS attribute_code,
-                    ao.code AS option_code,
-                    JSON_OBJECTAGG(aov.locale_code, aov.value) AS option_values
-                FROM pim_catalog_attribute a
-                JOIN pim_catalog_attribute_option ao ON  ao.attribute_id = a.id
-                JOIN pim_catalog_attribute_option_value aov ON aov.option_id = ao.id
-                WHERE (a.code, ao.code) IN (%s)
-                AND aov.value IS NOT NULL
-                GROUP BY attribute_code, ao.code
-            ),
-            aggregated_option_per_attribute AS (
-                SELECT 
-                    attribute_code,
-                    JSON_OBJECTAGG(option_code, option_values) as option_values
-                FROM option_values
-                GROUP BY attribute_code
-            ),
-            aggregated_attributes AS (
-                SELECT 
-                    JSON_OBJECTAGG(attribute_code, option_values) as result
-                FROM
-                    aggregated_option_per_attribute
-            )
-            SELECT * FROM aggregated_attributes
-            ;
-        SQL;
+                WITH option_values AS (
+                    SELECT
+                        a.code AS attribute_code,
+                        ao.code AS option_code,
+                        JSON_OBJECTAGG(aov.locale_code, aov.value) AS option_values
+                    FROM pim_catalog_attribute a
+                    JOIN pim_catalog_attribute_option ao ON  ao.attribute_id = a.id
+                    JOIN pim_catalog_attribute_option_value aov ON aov.option_id = ao.id
+                    WHERE (a.code, ao.code) IN (%s)
+                    AND aov.value IS NOT NULL
+                    GROUP BY attribute_code, ao.code
+                ),
+                aggregated_option_per_attribute AS (
+                    SELECT 
+                        attribute_code,
+                        JSON_OBJECTAGG(option_code, option_values) as option_values
+                    FROM option_values
+                    GROUP BY attribute_code
+                ),
+                aggregated_attributes AS (
+                    SELECT 
+                        JSON_OBJECTAGG(attribute_code, option_values) as result
+                    FROM
+                        aggregated_option_per_attribute
+                )
+                SELECT * FROM aggregated_attributes
+                ;
+            SQL;
 
         $row = $this->connection->executeQuery(
             sprintf($query, implode(',', $queryStringParams)),

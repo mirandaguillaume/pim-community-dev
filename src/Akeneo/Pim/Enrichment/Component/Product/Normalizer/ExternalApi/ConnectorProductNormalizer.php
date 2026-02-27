@@ -25,8 +25,7 @@ final readonly class ConnectorProductNormalizer
         private ValuesNormalizer $valuesNormalizer,
         private DateTimeNormalizer $dateTimeNormalizer,
         private AttributeRepositoryInterface $attributeRepository
-    ) {
-    }
+    ) {}
 
     public function normalizeConnectorProductList(ConnectorProductList $connectorProducts): array
     {
@@ -125,9 +124,9 @@ final readonly class ConnectorProductNormalizer
         foreach ($associations as $associationType => $associationsByType) {
             $result[$associationType] = [];
             foreach ($associationsByType as $entityType => $associationsByEntityType) {
-                $result[$associationType][$entityType] = $entityType === 'products' ?
-                    array_map(fn (array $associatedObject): ?string => $associatedObject['identifier'], $associationsByEntityType) :
-                    $associationsByEntityType;
+                $result[$associationType][$entityType] = $entityType === 'products'
+                    ? array_map(fn(array $associatedObject): ?string => $associatedObject['identifier'], $associationsByEntityType)
+                    : $associationsByEntityType;
             }
         }
 
@@ -155,16 +154,16 @@ final readonly class ConnectorProductNormalizer
         $result = [];
         foreach ($quantifiedAssociations as $associationType => $associationsByType) {
             foreach ($associationsByType as $entityType => $associationsByEntityType) {
-                $result[$associationType][$entityType] = $entityType === 'products' ?
-                    array_map(
-                        fn (array $associatedObject): array => array_filter(
+                $result[$associationType][$entityType] = $entityType === 'products'
+                    ? array_map(
+                        fn(array $associatedObject): array => array_filter(
                             $associatedObject,
-                            fn (string $key): bool => in_array($key, ['identifier', 'quantity']),
+                            fn(string $key): bool => in_array($key, ['identifier', 'quantity']),
                             ARRAY_FILTER_USE_KEY
                         ),
                         $associationsByEntityType
-                    ) :
-                    $result[$associationType][$entityType] = $associationsByEntityType;
+                    )
+                    : $result[$associationType][$entityType] = $associationsByEntityType;
             }
         }
 

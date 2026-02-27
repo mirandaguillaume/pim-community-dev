@@ -21,8 +21,7 @@ class LocaleController
         private readonly LocaleRepositoryInterface $localeRepository,
         private readonly NormalizerInterface $normalizer,
         private readonly CollectionFilterInterface $collectionFilter
-    ) {
-    }
+    ) {}
 
     /**
      * Get the list of all locales
@@ -30,8 +29,8 @@ class LocaleController
     public function indexAction(Request $request): JsonResponse
     {
         $filterLocales = $request->query->getBoolean('filter_locales', true);
-        $locales = $request->get('activated', false) ?
-            $this->getActivated($filterLocales) : $this->localeRepository->findAll();
+        $locales = $request->get('activated', false)
+            ? $this->getActivated($filterLocales) : $this->localeRepository->findAll();
         $normalizedLocales = $this->normalizer->normalize($locales, 'internal_api');
 
         return new JsonResponse($normalizedLocales);

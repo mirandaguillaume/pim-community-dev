@@ -13,9 +13,7 @@ use Doctrine\DBAL\Connection;
  */
 class SqlGetPurgeableVersionListQuery
 {
-    public function __construct(private readonly Connection $dbConnection)
-    {
-    }
+    public function __construct(private readonly Connection $dbConnection) {}
 
     /**
      * Returns an object PurgeableVersionList at each iteration
@@ -28,14 +26,14 @@ class SqlGetPurgeableVersionListQuery
     public function youngerThan(string $resourceName, \DateTime $date, int $listSize): iterable
     {
         $query = <<<SQL
-SELECT id, logged_at FROM pim_versioning_version 
-WHERE resource_name = :resource_name  
-  AND (
-      (logged_at = :logged_at AND id > :last_id) 
-      OR logged_at > :logged_at
-  ) 
-ORDER BY logged_at ASC, id ASC LIMIT :list_size
-SQL;
+            SELECT id, logged_at FROM pim_versioning_version 
+            WHERE resource_name = :resource_name  
+              AND (
+                  (logged_at = :logged_at AND id > :last_id) 
+                  OR logged_at > :logged_at
+              ) 
+            ORDER BY logged_at ASC, id ASC LIMIT :list_size
+            SQL;
 
         return $this->fetchVersionIds($query, $resourceName, $date, $listSize, 0);
     }
@@ -54,14 +52,14 @@ SQL;
     public function olderThan(string $resourceName, \DateTime $date, int $listSize): iterable
     {
         $query = <<<SQL
-SELECT id, logged_at FROM pim_versioning_version 
-WHERE resource_name = :resource_name  
-  AND (
-      (logged_at = :logged_at AND id < :last_id) 
-      OR logged_at < :logged_at
-  ) 
-ORDER BY logged_at DESC, id DESC LIMIT :list_size
-SQL;
+            SELECT id, logged_at FROM pim_versioning_version 
+            WHERE resource_name = :resource_name  
+              AND (
+                  (logged_at = :logged_at AND id < :last_id) 
+                  OR logged_at < :logged_at
+              ) 
+            ORDER BY logged_at DESC, id DESC LIMIT :list_size
+            SQL;
 
         return $this->fetchVersionIds($query, $resourceName, $date, $listSize, PHP_INT_MAX);
     }
@@ -91,7 +89,7 @@ SQL;
                 $loggedAt = $lastResult['logged_at'];
                 yield new PurgeableVersionList(
                     $resourceName,
-                    array_map(fn ($row) => intval($row['id']), $results)
+                    array_map(fn($row) => intval($row['id']), $results)
                 );
             }
         } while (!empty($results));

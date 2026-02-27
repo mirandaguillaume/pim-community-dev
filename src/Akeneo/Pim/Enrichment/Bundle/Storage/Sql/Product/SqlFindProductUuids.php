@@ -16,9 +16,7 @@ use Ramsey\Uuid\UuidInterface;
  */
 final readonly class SqlFindProductUuids
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     /**
      * Returns an array uuid as Uuid => identifier
@@ -37,16 +35,16 @@ final readonly class SqlFindProductUuids
 
         $result = $this->connection->fetchAllKeyValue(
             <<<SQL
-SELECT raw_data AS identifier, BIN_TO_UUID(product_uuid) AS uuid
-FROM pim_catalog_product_unique_data pcpud
-INNER JOIN pim_catalog_attribute ON pim_catalog_attribute.id = pcpud.attribute_id 
-WHERE raw_data IN (:identifiers)
-AND main_identifier = 1
-SQL,
+                SELECT raw_data AS identifier, BIN_TO_UUID(product_uuid) AS uuid
+                FROM pim_catalog_product_unique_data pcpud
+                INNER JOIN pim_catalog_attribute ON pim_catalog_attribute.id = pcpud.attribute_id 
+                WHERE raw_data IN (:identifiers)
+                AND main_identifier = 1
+                SQL,
             ['identifiers' => $identifiers],
             ['identifiers' => ArrayParameterType::STRING]
         );
 
-        return array_map(fn (string $uuid): UuidInterface => Uuid::fromString($uuid), $result);
+        return array_map(fn(string $uuid): UuidInterface => Uuid::fromString($uuid), $result);
     }
 }

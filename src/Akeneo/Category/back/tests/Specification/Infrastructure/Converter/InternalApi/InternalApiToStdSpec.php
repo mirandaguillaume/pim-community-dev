@@ -20,7 +20,7 @@ class InternalApiToStdSpec extends ObjectBehavior
         $this->beConstructedWith($checker);
     }
 
-    function it_is_initializable(): void
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(InternalApiToStd::class);
         $this->shouldImplement(ConverterInterface::class);
@@ -34,31 +34,31 @@ class InternalApiToStdSpec extends ObjectBehavior
                 'code' => 'mycode',
                 'labels' => [
                     'fr_FR' => 'Chaussettes',
-                    'en_US' => 'Socks'
-                ]
+                    'en_US' => 'Socks',
+                ],
             ],
             'attributes' => [
                 'title_87939c45-1d85-4134-9579-d594fff65030_fr_FR' => [
                     "data" => "Les chaussures dont vous avez besoin !",
                     "locale" => "fr_FR",
-                    "attribute_code" => "title_87939c45-1d85-4134-9579-d594fff65030"
+                    "attribute_code" => "title_87939c45-1d85-4134-9579-d594fff65030",
                 ],
-            ]
+            ],
         ];
         $expected = [
             'id' => 1,
             'code' => 'mycode',
             'labels' => [
                 'fr_FR' => 'Chaussettes',
-                'en_US' => 'Socks'
+                'en_US' => 'Socks',
             ],
             'values' => [
                 'title_87939c45-1d85-4134-9579-d594fff65030_fr_FR' => [
                     'data' => "Les chaussures dont vous avez besoin !",
                     'locale' => "fr_FR",
-                    'attribute_code' => "title_87939c45-1d85-4134-9579-d594fff65030"
-                ]
-            ]
+                    'attribute_code' => "title_87939c45-1d85-4134-9579-d594fff65030",
+                ],
+            ],
         ];
         $checker->check($data)->shouldBeCalled();
         $this->convert($data)->shouldReturn($expected);

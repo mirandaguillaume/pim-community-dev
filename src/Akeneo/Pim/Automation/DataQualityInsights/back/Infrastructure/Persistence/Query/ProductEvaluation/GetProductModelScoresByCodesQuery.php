@@ -18,8 +18,7 @@ final readonly class GetProductModelScoresByCodesQuery implements GetProductMode
 {
     public function __construct(
         private Connection $dbConnection
-    ) {
-    }
+    ) {}
 
     public function byProductModelCode(string $productModelCode): Read\Scores
     {
@@ -41,11 +40,11 @@ final readonly class GetProductModelScoresByCodesQuery implements GetProductMode
         }
 
         $query = <<<SQL
-SELECT pcpm.code, product_model_score.scores, product_model_score.scores_partial_criteria
-FROM pim_data_quality_insights_product_model_score AS product_model_score
-LEFT JOIN pim_catalog_product_model pcpm ON pcpm.id = product_model_score.product_model_id
-WHERE pcpm.code IN (:productModelCodes);
-SQL;
+            SELECT pcpm.code, product_model_score.scores, product_model_score.scores_partial_criteria
+            FROM pim_data_quality_insights_product_model_score AS product_model_score
+            LEFT JOIN pim_catalog_product_model pcpm ON pcpm.id = product_model_score.product_model_id
+            WHERE pcpm.code IN (:productModelCodes);
+            SQL;
 
         $stmt = $this->dbConnection->executeQuery(
             $query,

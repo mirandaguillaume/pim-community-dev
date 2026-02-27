@@ -51,14 +51,15 @@ class LabelCollectionSpec extends ObjectBehavior
 
     public function it_does_not_add_empty_labels_to_the_collection()
     {
-        $this->beConstructedThrough('fromArray',[['en_US' => 'A US label', 'fr_FR' => '']]);
+        $this->beConstructedThrough('fromArray', [['en_US' => 'A US label', 'fr_FR' => '']]);
 
         $this->getLabel('en_US')->shouldReturn('A US label');
         $this->getLabel('fr_FR')->shouldReturn(null);
         $this->normalize()->shouldReturn(['en_US' => 'A US label']);
     }
 
-    public function it_tells_if_it_has_label() {
+    public function it_tells_if_it_has_label()
+    {
         $this->hasLabel('en_US')->shouldReturn(true);
         $this->hasLabel('ru_RU')->shouldReturn(false);
     }
@@ -75,10 +76,10 @@ class LabelCollectionSpec extends ObjectBehavior
 
     public function it_filters_the_labels_by_locale_identifiers()
     {
-        $this->beConstructedThrough('fromArray',[[
+        $this->beConstructedThrough('fromArray', [[
             'en_US' => 'A US label',
             'fr_FR' => 'Un label français',
-            'de_DE' => 'Eine deutsche label'
+            'de_DE' => 'Eine deutsche label',
         ]]);
 
         $this->filterByLocaleIdentifiers([

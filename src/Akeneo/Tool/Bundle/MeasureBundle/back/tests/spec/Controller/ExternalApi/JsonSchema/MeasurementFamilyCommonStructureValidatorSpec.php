@@ -14,12 +14,12 @@ use PhpSpec\ObjectBehavior;
 
 class MeasurementFamilyCommonStructureValidatorSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(MeasurementFamilyCommonStructureValidator::class);
     }
 
-    function it_returns_all_the_errors_of_invalid_measurement_family_properties()
+    public function it_returns_all_the_errors_of_invalid_measurement_family_properties()
     {
         $measurement = [
             'values' => null,
@@ -31,7 +31,7 @@ class MeasurementFamilyCommonStructureValidatorSpec extends ObjectBehavior
         $errors->shouldHaveCount(1);
     }
 
-    function it_returns_an_empty_array_if_all_the_required_measurement_family_properties_are_valid()
+    public function it_returns_an_empty_array_if_all_the_required_measurement_family_properties_are_valid()
     {
         $measurementFamily = [
             'code' => 'custom_metric_1',

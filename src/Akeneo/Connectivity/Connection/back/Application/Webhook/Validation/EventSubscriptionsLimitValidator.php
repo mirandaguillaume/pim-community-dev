@@ -18,9 +18,7 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
  */
 class EventSubscriptionsLimitValidator extends ConstraintValidator
 {
-    public function __construct(private readonly SelectActiveWebhooksQueryInterface $selectActiveWebhooksQuery, private readonly int $activeEventSubscriptionsLimit)
-    {
-    }
+    public function __construct(private readonly SelectActiveWebhooksQueryInterface $selectActiveWebhooksQuery, private readonly int $activeEventSubscriptionsLimit) {}
 
     public function validate($eventSubscription, Constraint $constraint): void
     {
@@ -41,7 +39,7 @@ class EventSubscriptionsLimitValidator extends ConstraintValidator
         $activeEventSubscriptionsCount = \count(
             \array_filter(
                 $this->selectActiveWebhooksQuery->execute(),
-                fn (ActiveWebhook $activeEventSubscription): bool => $activeEventSubscription->connectionCode() !== $eventSubscription->code(),
+                fn(ActiveWebhook $activeEventSubscription): bool => $activeEventSubscription->connectionCode() !== $eventSubscription->code(),
             ),
         );
 

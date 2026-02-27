@@ -14,8 +14,7 @@ class EventSubscriptionFormData
         private readonly ConnectionWebhook $eventSubscription,
         private readonly int $activeEventSubscriptionsLimit,
         private readonly int $activeEventSubscriptionsCount
-    ) {
-    }
+    ) {}
 
     /**
      * @return array{

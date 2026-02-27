@@ -30,8 +30,7 @@ class InternalApiToStd implements ConverterInterface
 {
     public function __construct(
         private readonly RequirementChecker $checker,
-    ) {
-    }
+    ) {}
 
     /**
      * @param InternalApi $data

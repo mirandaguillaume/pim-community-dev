@@ -11,9 +11,7 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Connector\ArrayConverter\FlatT
  */
 class ConvertedField
 {
-    public function __construct(private string $columnName, private readonly mixed $value)
-    {
-    }
+    public function __construct(private string $columnName, private readonly mixed $value) {}
 
     public function appendTo(array $convertedField): array
     {

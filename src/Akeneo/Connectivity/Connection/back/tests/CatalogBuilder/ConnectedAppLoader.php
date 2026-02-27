@@ -36,8 +36,7 @@ class ConnectedAppLoader
         private readonly CreateConnectedAppInterface $createApp,
         private readonly UserRepositoryInterface $userRepository,
         private readonly UnitOfWorkAndRepositoriesClearer $unitOfWorkAndRepositoriesClearer
-    ) {
-    }
+    ) {}
 
     /**
      * @param string[] $categories
@@ -56,9 +55,9 @@ class ConnectedAppLoader
         ?string $partner
     ): int {
         $query = <<<SQL
-INSERT INTO akeneo_connectivity_connected_app(id, name, logo, author, partner, categories, certified, connection_code, scopes, user_group_name)
-VALUES (:id, :name, :logo, :author, :partner, :categories, :certified, :connection_code, :scopes, :user_group_name)
-SQL;
+            INSERT INTO akeneo_connectivity_connected_app(id, name, logo, author, partner, categories, certified, connection_code, scopes, user_group_name)
+            VALUES (:id, :name, :logo, :author, :partner, :categories, :certified, :connection_code, :scopes, :user_group_name)
+            SQL;
 
         return $this->dbalConnection->executeStatement(
             $query,
@@ -176,10 +175,10 @@ SQL;
     private function findConnectionUser(string $code): UserInterface
     {
         $query = <<<SQL
-        SELECT user_id
-        FROM akeneo_connectivity_connection
-        WHERE code = :code
-        SQL;
+            SELECT user_id
+            FROM akeneo_connectivity_connection
+            WHERE code = :code
+            SQL;
 
         $id = $this->dbalConnection->fetchOne($query, [
             'code' => $code,

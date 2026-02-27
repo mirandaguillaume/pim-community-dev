@@ -11,8 +11,7 @@ final readonly class UpdateCategoryEnrichedValuesSql implements UpdateCategoryEn
 {
     public function __construct(
         private Connection $connection,
-    ) {
-    }
+    ) {}
 
     /**
      * ex of value for $enrichedValuesByCode.
@@ -49,8 +48,8 @@ final readonly class UpdateCategoryEnrichedValuesSql implements UpdateCategoryEn
         );
 
         $statement = $this->connection->prepare(<<<SQL
-            $queries
-        SQL);
+                $queries
+            SQL);
 
         $queryIndex = 0;
         foreach ($enrichedValuesByCode as $code => $value) {

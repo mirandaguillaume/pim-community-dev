@@ -9,8 +9,7 @@ class V20230324153137AddIndexOnFileInfoZddMigration implements ZddMigration
 {
     public function __construct(
         private readonly Connection $connection,
-    ) {
-    }
+    ) {}
 
     public function migrate(): void
     {
@@ -19,8 +18,8 @@ class V20230324153137AddIndexOnFileInfoZddMigration implements ZddMigration
         }
 
         $sql = <<<SQL
-CREATE INDEX original_filename_hash_storage_idx ON akeneo_file_storage_file_info (original_filename, hash, storage) LOCK = NONE;
-SQL;
+            CREATE INDEX original_filename_hash_storage_idx ON akeneo_file_storage_file_info (original_filename, hash, storage) LOCK = NONE;
+            SQL;
 
         $this->connection->executeQuery($sql);
     }
@@ -42,8 +41,8 @@ SQL;
     private function indexExists(): bool
     {
         $sql = <<<SQL
-SHOW INDEX FROM akeneo_file_storage_file_info WHERE Key_name = 'original_filename_hash_storage_idx';
-SQL;
+            SHOW INDEX FROM akeneo_file_storage_file_info WHERE Key_name = 'original_filename_hash_storage_idx';
+            SQL;
 
         return 0 < $this->connection->executeQuery($sql)->rowCount();
     }

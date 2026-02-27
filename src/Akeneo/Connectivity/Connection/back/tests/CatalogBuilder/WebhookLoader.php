@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Tests\CatalogBuilder;
@@ -8,9 +9,7 @@ use Doctrine\DBAL\Types\Types;
 
 class WebhookLoader
 {
-    public function __construct(private readonly DbalConnection $dbalConnection)
-    {
-    }
+    public function __construct(private readonly DbalConnection $dbalConnection) {}
 
     public function initWebhook(string $code, bool $isUsingUuid = false): void
     {
@@ -29,10 +28,10 @@ class WebhookLoader
         }
 
         $query = <<<SQL
-        UPDATE akeneo_connectivity_connection
-        SET webhook_url = :url, webhook_enabled = :enabled, webhook_secret = :secret, webhook_is_using_uuid = :isUsingUuid
-        WHERE code = :code
-        SQL;
+            UPDATE akeneo_connectivity_connection
+            SET webhook_url = :url, webhook_enabled = :enabled, webhook_secret = :secret, webhook_is_using_uuid = :isUsingUuid
+            WHERE code = :code
+            SQL;
 
         return $this->dbalConnection->executeStatement(
             $query,

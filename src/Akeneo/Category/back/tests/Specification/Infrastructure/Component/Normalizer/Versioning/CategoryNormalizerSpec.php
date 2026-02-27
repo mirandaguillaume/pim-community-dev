@@ -11,24 +11,24 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class CategoryNormalizerSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         CategoryNormalizer $categoryNormalizerStandard,
         TranslationNormalizer $translationNormalizer
     ) {
         $this->beConstructedWith($categoryNormalizerStandard, $translationNormalizer);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(CategoryNormalizer::class);
     }
 
-    function it_is_a_normalizer()
+    public function it_is_a_normalizer()
     {
         $this->shouldImplement(NormalizerInterface::class);
     }
 
-    function it_supports_category_normalization_into_flat(
+    public function it_supports_category_normalization_into_flat(
         CategoryInterface $clothes
     ) {
         $this->supportsNormalization($clothes, 'flat')->shouldBe(false);
@@ -37,7 +37,7 @@ class CategoryNormalizerSpec extends ObjectBehavior
         $this->supportsNormalization($clothes, 'xml')->shouldBe(false);
     }
 
-    function it_normalizes_category(
+    public function it_normalizes_category(
         CategoryNormalizer $categoryNormalizerStandard,
         TranslationNormalizer $translationNormalizer,
         CategoryInterface $clothes

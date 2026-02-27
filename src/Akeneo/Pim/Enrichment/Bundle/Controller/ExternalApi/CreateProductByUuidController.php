@@ -55,8 +55,7 @@ class CreateProductByUuidController
         private readonly AttributeFilterInterface $productAttributeFilter,
         private readonly ProductRepositoryInterface $productRepository,
         private readonly AttributeRepositoryInterface $attributeRepository,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): Response
     {
@@ -125,7 +124,7 @@ class CreateProductByUuidController
                 TwoWayAssociationWithTheSameProductException::TWO_WAY_ASSOCIATIONS_ERROR_MESSAGE,
                 $exception
             );
-        } catch (InvalidArgumentException | ProductInvalidArgumentException $exception) {
+        } catch (InvalidArgumentException|ProductInvalidArgumentException $exception) {
             $this->eventDispatcher->dispatch(new TechnicalErrorEvent($exception));
             throw new AccessDeniedHttpException($exception->getMessage(), $exception);
         } catch (DomainErrorInterface $exception) {

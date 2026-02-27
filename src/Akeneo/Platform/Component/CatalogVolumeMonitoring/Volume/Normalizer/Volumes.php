@@ -22,8 +22,7 @@ class Volumes
         private readonly CountVolumeNormalizer $countVolumesNormalizer,
         private readonly AverageMaxVolumesNormalizer $averageMaxVolumesNormalizer,
         private readonly FeatureFlags $featureFlags
-    ) {
-    }
+    ) {}
 
     /**
      * Returns an array containing the volume values of the different entities.
@@ -58,7 +57,7 @@ class Volumes
     {
         $this->countQueries[] = [
             'query' => $query,
-            'feature' => $feature
+            'feature' => $feature,
         ];
     }
 
@@ -66,7 +65,7 @@ class Volumes
     {
         $this->averageMaxQueries[] = [
             'query' => $query,
-            'feature' => $feature
+            'feature' => $feature,
         ];
     }
 }

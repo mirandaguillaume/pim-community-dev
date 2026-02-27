@@ -32,7 +32,7 @@ class BusinessErrorSpec extends ObjectBehavior
         $this->normalize()->shouldReturn([
             'connection_code' => 'erp',
             'date_time' => '2020-01-01T00:00:00+00:00',
-            'content' => ['message' => 'Error 1']
+            'content' => ['message' => 'Error 1'],
         ]);
     }
 }

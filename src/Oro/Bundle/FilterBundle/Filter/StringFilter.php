@@ -53,7 +53,7 @@ class StringFilter extends AbstractFilter
         return TextFilterType::class;
     }
 
-    protected function parseData(mixed $data): array | false
+    protected function parseData(mixed $data): array|false
     {
         if (!is_array($data) || !array_key_exists('value', $data) || !array_key_exists('type', $data)) {
             return false;
@@ -71,8 +71,8 @@ class StringFilter extends AbstractFilter
 
         $data['type'] ??= null;
 
-        $formattedValue = \in_array($this->getOperator($data['type']), [Operators::IS_LIKE, Operators::IS_NOT_LIKE]) ?
-            \addcslashes((string) $data['value'], '_%') : $data['value'];
+        $formattedValue = \in_array($this->getOperator($data['type']), [Operators::IS_LIKE, Operators::IS_NOT_LIKE])
+            ? \addcslashes((string) $data['value'], '_%') : $data['value'];
 
         $data['value'] = sprintf(
             $this->getFormatByComparisonType($data['type']),

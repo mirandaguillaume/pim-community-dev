@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Component\Product\Updater\Setter;
@@ -73,7 +74,7 @@ class AssociationFieldSetter extends AbstractFieldSetter
     private function updateAssociations(EntityWithAssociationsInterface $entity, array $data): void
     {
         foreach ($data as $typeCode => $items) {
-            $typeCode = (string)$typeCode;
+            $typeCode = (string) $typeCode;
             /** @var AssociationTypeInterface $associationType */
             $associationType = $this->associationTypeRepository->findOneByIdentifier($typeCode);
             if (null === $associationType || $associationType->isQuantified()) {
@@ -295,15 +296,15 @@ class AssociationFieldSetter extends AbstractFieldSetter
         }
 
         foreach ($data as $assocTypeCode => $items) {
-            $assocTypeCode = (string)$assocTypeCode;
+            $assocTypeCode = (string) $assocTypeCode;
             $this->checkAssociationData($field, $data, $assocTypeCode, $items);
         }
     }
 
     protected function checkAssociationData(string $field, array $data, string $assocTypeCode, $items): void
     {
-        if (!is_array($items) || !is_string($assocTypeCode) ||
-            (!isset($items['products']) && !isset($items['groups']) && !isset($items['product_models']) && !isset($items['product_uuids']))
+        if (!is_array($items) || !is_string($assocTypeCode)
+            || (!isset($items['products']) && !isset($items['groups']) && !isset($items['product_models']) && !isset($items['product_uuids']))
         ) {
             throw InvalidPropertyTypeException::validArrayStructureExpected(
                 $field,

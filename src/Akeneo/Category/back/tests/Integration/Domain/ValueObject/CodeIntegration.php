@@ -1,6 +1,8 @@
 <?php
 
-namespace Akeneo\Category\back\tests\Integration\Domain\ValueObject;;
+namespace Akeneo\Category\back\tests\Integration\Domain\ValueObject;
+
+;
 
 use Akeneo\Category\back\tests\Integration\Helper\CategoryTestCase;
 use Akeneo\Category\Domain\ValueObject\Code;

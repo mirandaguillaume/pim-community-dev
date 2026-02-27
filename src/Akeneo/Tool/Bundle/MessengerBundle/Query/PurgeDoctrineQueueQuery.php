@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Tool\Bundle\MessengerBundle\Query;
@@ -13,9 +14,7 @@ use Doctrine\DBAL\Types\Types;
  */
 class PurgeDoctrineQueueQuery
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function execute(string $tableName, string $queueName, \DateTimeImmutable $olderThan): int
     {

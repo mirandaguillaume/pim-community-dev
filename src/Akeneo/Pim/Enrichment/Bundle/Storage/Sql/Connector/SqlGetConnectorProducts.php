@@ -40,8 +40,7 @@ class SqlGetConnectorProducts implements Query\GetConnectorProducts
         private readonly GetCategoryCodesByProductUuids $getCategoryCodesByProductUuids,
         private readonly ReadValueCollectionFactory $readValueCollectionFactory,
         private readonly Connection $connection
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -54,7 +53,7 @@ class SqlGetConnectorProducts implements Query\GetConnectorProducts
         ?array $localesToFilterOn
     ): ConnectorProductList {
         $result = $pqb->execute();
-        $uuids = array_map(fn (IdentifierResult $identifier) => $this->getUuidFromIdentifierResult($identifier->getId()), iterator_to_array($result));
+        $uuids = array_map(fn(IdentifierResult $identifier) => $this->getUuidFromIdentifierResult($identifier->getId()), iterator_to_array($result));
 
         $products = $this->fromProductUuids($uuids, $userId, $attributesToFilterOn, $channelToFilterOn, $localesToFilterOn);
 
@@ -268,20 +267,20 @@ class SqlGetConnectorProducts implements Query\GetConnectorProducts
     private function getProductUuidsFromProductIdentifiers(array $productIdentifiers): array
     {
         $sql = <<<SQL
-WITH main_identifier AS (
-    SELECT id
-    FROM pim_catalog_attribute
-    WHERE main_identifier = 1
-    LIMIT 1
-)
-SELECT BIN_TO_UUID(product_uuid) AS uuid
-FROM pim_catalog_product_unique_data
-WHERE raw_data IN (:identifiers)
-    AND attribute_id = (SELECT id FROM main_identifier) 
-SQL;
+            WITH main_identifier AS (
+                SELECT id
+                FROM pim_catalog_attribute
+                WHERE main_identifier = 1
+                LIMIT 1
+            )
+            SELECT BIN_TO_UUID(product_uuid) AS uuid
+            FROM pim_catalog_product_unique_data
+            WHERE raw_data IN (:identifiers)
+                AND attribute_id = (SELECT id FROM main_identifier) 
+            SQL;
 
         return array_map(
-            fn (string $uuidStr): UuidInterface => Uuid::fromString($uuidStr),
+            fn(string $uuidStr): UuidInterface => Uuid::fromString($uuidStr),
             $this->connection->fetchFirstColumn(
                 $sql,
                 ['identifiers' => $productIdentifiers],

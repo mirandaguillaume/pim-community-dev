@@ -17,9 +17,7 @@ use Twig\TwigFunction;
  */
 class FilterExtension extends AbstractExtension
 {
-    public function __construct(private readonly Manager               $datagridManager, private readonly ConfiguratorInterface $filtersConfigurator, private readonly TranslatorInterface   $translator)
-    {
-    }
+    public function __construct(private readonly Manager               $datagridManager, private readonly ConfiguratorInterface $filtersConfigurator, private readonly TranslatorInterface   $translator) {}
 
     /**
      * {@inheritdoc}

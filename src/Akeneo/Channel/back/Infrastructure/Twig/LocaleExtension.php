@@ -20,9 +20,7 @@ use Twig\TwigFunction;
  */
 class LocaleExtension extends AbstractExtension
 {
-    public function __construct(protected UserContext $userContext)
-    {
-    }
+    public function __construct(protected UserContext $userContext) {}
 
     /**
      * {@inheritdoc}
@@ -33,7 +31,7 @@ class LocaleExtension extends AbstractExtension
             new TwigFunction('locale_code', [$this, 'currentLocaleCode']),
             new TwigFunction('locale_label', [$this, 'localeLabel']),
             new TwigFunction('currency_symbol', [$this, 'currencySymbol']),
-            new TwigFunction('currency_label', [$this, 'currencyLabel'])
+            new TwigFunction('currency_label', [$this, 'currencyLabel']),
         ];
     }
 

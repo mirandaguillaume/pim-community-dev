@@ -23,9 +23,9 @@ class DbalErrorCountRepositoryIntegration extends TestCase
         $this->repositoryUpsert('erp', '2020-05-15 17:27:00', 1618, ErrorTypes::BUSINESS);
 
         $selectQuery = <<<SQL
-SELECT connection_code, error_datetime, error_type, error_count
-FROM akeneo_connectivity_connection_audit_error
-SQL;
+            SELECT connection_code, error_datetime, error_type, error_count
+            FROM akeneo_connectivity_connection_audit_error
+            SQL;
         $result = $this->dbalConnection->executeQuery($selectQuery)->fetchAllAssociative();
 
         Assert::assertCount(1, $result);
@@ -41,9 +41,9 @@ SQL;
         $this->repositoryUpsert('erp', '2020-05-15 17:42:00', 42, ErrorTypes::BUSINESS);
 
         $selectQuery = <<<SQL
-SELECT connection_code, error_datetime, error_type, error_count
-FROM akeneo_connectivity_connection_audit_error
-SQL;
+            SELECT connection_code, error_datetime, error_type, error_count
+            FROM akeneo_connectivity_connection_audit_error
+            SQL;
         $result = $this->dbalConnection->executeQuery($selectQuery)->fetchAllAssociative();
 
         Assert::assertCount(1, $result);
@@ -64,9 +64,9 @@ SQL;
         $this->repositoryUpsert('erp', '2019-12-24 03:15:00', 1618, ErrorTypes::BUSINESS);
 
         $selectQuery = <<<SQL
-SELECT connection_code, error_datetime, error_type, error_count
-FROM akeneo_connectivity_connection_audit_error
-SQL;
+            SELECT connection_code, error_datetime, error_type, error_count
+            FROM akeneo_connectivity_connection_audit_error
+            SQL;
         $result = $this->dbalConnection->executeQuery($selectQuery)->fetchAllAssociative();
 
         Assert::assertCount(4, $result);

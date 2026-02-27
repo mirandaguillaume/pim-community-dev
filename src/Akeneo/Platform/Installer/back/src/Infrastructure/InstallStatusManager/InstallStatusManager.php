@@ -21,8 +21,7 @@ class InstallStatusManager
     public function __construct(
         private readonly GetInstallDatetime $installDatetimeQuery,
         private readonly GetResetEvents $getResetEvents,
-    ) {
-    }
+    ) {}
 
     /**
      * Returns null if the PIM not installed or returns the timestamp of creation of the 'pim_user' table.

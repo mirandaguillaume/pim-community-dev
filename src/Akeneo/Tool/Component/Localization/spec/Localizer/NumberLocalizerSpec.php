@@ -11,24 +11,24 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class NumberLocalizerSpec extends ObjectBehavior
 {
-    function let(ValidatorInterface $validator, NumberFactory $numberFactory)
+    public function let(ValidatorInterface $validator, NumberFactory $numberFactory)
     {
         $this->beConstructedWith($validator, $numberFactory, ['pim_catalog_number']);
     }
 
-    function it_is_a_localizer()
+    public function it_is_a_localizer()
     {
         $this->shouldImplement(LocalizerInterface::class);
     }
 
-    function it_supports_attribute_type()
+    public function it_supports_attribute_type()
     {
         $this->supports('pim_catalog_number')->shouldReturn(true);
         $this->supports('pim_catalog_metric')->shouldReturn(false);
         $this->supports('pim_catalog_price_collection')->shouldReturn(false);
     }
 
-    function it_valids_the_format()
+    public function it_valids_the_format()
     {
         $this->validate('10.05', 'number', ['decimal_separator' => '.'])->shouldReturn(null);
         $this->validate('-10.05', 'number', ['decimal_separator' => '.'])->shouldReturn(null);
@@ -43,7 +43,7 @@ class NumberLocalizerSpec extends ObjectBehavior
         $this->validate(0, 'number', ['decimal_separator' => '.'])->shouldReturn(null);
     }
 
-    function it_returns_a_constraint_if_the_decimal_separator_is_not_valid(
+    public function it_returns_a_constraint_if_the_decimal_separator_is_not_valid(
         $validator,
         ConstraintViolationListInterface $constraints
     ) {
@@ -52,7 +52,7 @@ class NumberLocalizerSpec extends ObjectBehavior
         $this->validate('10.00', 'number', ['decimal_separator' => ','])->shouldReturn($constraints);
     }
 
-    function it_convert_comma_to_dot_separator()
+    public function it_convert_comma_to_dot_separator()
     {
         $this->delocalize('10,05', ['decimal_separator' => '.'])->shouldReturn('10.05');
         $this->delocalize('-10,05', ['decimal_separator' => '.'])->shouldReturn('-10.05');
@@ -71,7 +71,7 @@ class NumberLocalizerSpec extends ObjectBehavior
         $this->delocalize('gruik', ['decimal_separator' => ''])->shouldReturn('gruik');
     }
 
-    function it_returns_always_a_negative_symbol_for_negative_number(
+    public function it_returns_always_a_negative_symbol_for_negative_number(
         $numberFactory
     ) {
         $options = ['locale' => 'sv_SE'];
@@ -82,7 +82,7 @@ class NumberLocalizerSpec extends ObjectBehavior
         $this->localize('-10.4', $options)->shouldReturn('-10,40');
     }
 
-    function it_returns_all_decimals_for_a_number_with_very_long_decimals (
+    public function it_returns_all_decimals_for_a_number_with_very_long_decimals(
         $numberFactory
     ) {
         $options = ['locale' => 'sv_SE'];

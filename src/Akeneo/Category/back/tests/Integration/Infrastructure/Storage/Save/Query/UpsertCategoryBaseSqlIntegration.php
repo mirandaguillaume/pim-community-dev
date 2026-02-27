@@ -48,7 +48,7 @@ class UpsertCategoryBaseSqlIntegration extends CategoryTestCase
         $this->assertEquals('myCategory', $actual['code']);
         $this->assertNotNull($actual['id']);
         $this->assertNotNull($actual['root_id']);
-        $this->assertEquals((int)$actual['id'], (int)$actual['root_id']);
+        $this->assertEquals((int) $actual['id'], (int) $actual['root_id']);
         $this->assertNull($actual['parent_id']);
     }
 
@@ -73,7 +73,7 @@ class UpsertCategoryBaseSqlIntegration extends CategoryTestCase
             id: null,
             code: new Code('myCategory'),
             templateUuid: null,
-            parentId: new CategoryId((int)$parentId),
+            parentId: new CategoryId((int) $parentId),
             rootId: new CategoryId(1),
         );
 
@@ -85,8 +85,8 @@ class UpsertCategoryBaseSqlIntegration extends CategoryTestCase
 
         $this->assertEquals('myCategory', $actual['code']);
         $this->assertNotNull($actual['id']);
-        $this->assertEquals(1, (int)$actual['root_id']);
-        $this->assertEquals((int)$parentId, (int)$actual['parent_id']);
+        $this->assertEquals(1, (int) $actual['root_id']);
+        $this->assertEquals((int) $parentId, (int) $actual['parent_id']);
     }
 
     public function testInsertNewCategoryWithEnrichedAttributesInDatabase(): void
@@ -108,7 +108,7 @@ class UpsertCategoryBaseSqlIntegration extends CategoryTestCase
                     code: 'seo_meta_description',
                     channel: 'ecommerce',
                     locale: 'en_US'
-                )
+                ),
             ]),
         );
 
@@ -123,9 +123,9 @@ class UpsertCategoryBaseSqlIntegration extends CategoryTestCase
                     "type" => "text",
                     "locale" => "en_US",
                     "channel" => "ecommerce",
-                    "attribute_code" => "seo_meta_description|69e251b3-b876-48b5-9c09-92f54bfb528d"
-                ]
-            ]
+                    "attribute_code" => "seo_meta_description|69e251b3-b876-48b5-9c09-92f54bfb528d",
+                ],
+            ],
         ];
 
         $actual = $this->getCategoryByCode('myCategory');
@@ -154,7 +154,7 @@ class UpsertCategoryBaseSqlIntegration extends CategoryTestCase
                 code: 'seo_meta_description',
                 channel: 'ecommerce',
                 locale: 'en_US'
-            )
+            ),
         ]);
         $categoryToUpdate = new Category(
             id: $categoryInserted->getId(),
@@ -176,7 +176,7 @@ class UpsertCategoryBaseSqlIntegration extends CategoryTestCase
         $valueCollectionUpdated = \json_decode((string) $updatedCategory['value_collection'], true, 512, JSON_THROW_ON_ERROR);
         $valueUpdated = $valueCollectionUpdated[$expectedCompositeKey];
 
-        $this->assertSame($updatedCategory['code'], (string)$categoryInserted->getCode());
+        $this->assertSame($updatedCategory['code'], (string) $categoryInserted->getCode());
         $this->assertEquals($updatedCategory['parent_id'], $categoryInserted->getParentId()?->getValue());
         $this->assertEquals($updatedCategory['root_id'], $categoryInserted->getRootId()?->getValue());
 
@@ -209,7 +209,7 @@ class UpsertCategoryBaseSqlIntegration extends CategoryTestCase
                 code: 'seo_meta_description',
                 channel: 'ecommerce',
                 locale: 'en_US'
-            )
+            ),
         ]));
 
         $this->get(UpsertCategoryBase::class)->execute($category);
@@ -240,7 +240,7 @@ class UpsertCategoryBaseSqlIntegration extends CategoryTestCase
                 code: 'seo_meta_description',
                 channel: 'ecommerce',
                 locale: 'fr_FR'
-            )
+            ),
         ]);
         $categoryToUpdate = new Category(
             id: $categoryInserted->getId(),
@@ -280,16 +280,16 @@ class UpsertCategoryBaseSqlIntegration extends CategoryTestCase
     private function getCategoryByCode(string $categoryCode): array
     {
         $sqlQuery = <<<SQL
-            SELECT
-                category.id,
-                category.code,
-                category.parent_id,
-                category.root as root_id,
-                category.value_collection
-            FROM
-                pim_catalog_category category
-            WHERE category.code = :category_code
-        SQL;
+                SELECT
+                    category.id,
+                    category.code,
+                    category.parent_id,
+                    category.root as root_id,
+                    category.value_collection
+                FROM
+                    pim_catalog_category category
+                WHERE category.code = :category_code
+            SQL;
 
         return $this->get('database_connection')->executeQuery(
             $sqlQuery,

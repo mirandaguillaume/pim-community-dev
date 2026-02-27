@@ -14,22 +14,22 @@ use Akeneo\Tool\Component\Versioning\Model\TimestampableInterface;
 
 class TimestampableSubscriberSpec extends ObjectBehavior
 {
-    function let(EntityManagerInterface $em)
+    public function let(EntityManagerInterface $em)
     {
         $this->beConstructedWith($em);
     }
 
-    function it_is_a_doctrine_event_listener()
+    public function it_is_a_doctrine_event_listener()
     {
         $this->shouldImplement(\Doctrine\Common\EventSubscriber::class);
     }
 
-    function it_subscribes_to_pre_persist_event()
+    public function it_subscribes_to_pre_persist_event()
     {
         $this->getSubscribedEvents()->shouldReturn(['prePersist']);
     }
 
-    function it_does_not_apply_on_non_version_object(LifecycleEventArgs $args, \stdClass $object)
+    public function it_does_not_apply_on_non_version_object(LifecycleEventArgs $args, \stdClass $object)
     {
         $args->getObject()->willReturn($object);
         $args->getObjectManager()->shouldNotBeCalled();
@@ -37,7 +37,7 @@ class TimestampableSubscriberSpec extends ObjectBehavior
         $this->prePersist($args);
     }
 
-    function it_does_not_apply_on_non_timestampable_versioned_object(
+    public function it_does_not_apply_on_non_timestampable_versioned_object(
         $em,
         LifecycleEventArgs $args,
         Version $version,
@@ -56,7 +56,7 @@ class TimestampableSubscriberSpec extends ObjectBehavior
         $this->prePersist($args);
     }
 
-    function it_applies_on_timestampable_versioned_object_with_an_entity_manager(
+    public function it_applies_on_timestampable_versioned_object_with_an_entity_manager(
         $em,
         LifecycleEventArgs $args,
         ORMUnitOfWork $uow,
@@ -83,7 +83,7 @@ class TimestampableSubscriberSpec extends ObjectBehavior
         $this->prePersist($args);
     }
 
-    function it_applies_on_timestampable_versioned_object_with_a_document_manager(
+    public function it_applies_on_timestampable_versioned_object_with_a_document_manager(
         $em,
         LifecycleEventArgs $args,
         UnitOfWork $uow,

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\FeatureFlag;
@@ -11,9 +12,7 @@ use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag;
  */
 final readonly class DataQualityInsightsUcsEventFeature implements FeatureFlag
 {
-    public function __construct(private mixed $envVar)
-    {
-    }
+    public function __construct(private mixed $envVar) {}
 
     public function isEnabled(?string $feature = null): bool
     {

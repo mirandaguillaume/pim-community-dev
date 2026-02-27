@@ -33,14 +33,12 @@ class VersionNormalizer implements NormalizerInterface, CacheableSupportsMethodI
 
     private const ATTRIBUTE_HEADER_SEPARATOR = '-';
 
-    public function __construct(protected UserManager $userManager, protected TranslatorInterface $translator, protected LocaleAwareInterface $localeAware, protected PresenterInterface $datetimePresenter, protected PresenterRegistryInterface $presenterRegistry, protected AttributeRepositoryInterface $attributeRepository, protected UserContext $userContext)
-    {
-    }
+    public function __construct(protected UserManager $userManager, protected TranslatorInterface $translator, protected LocaleAwareInterface $localeAware, protected PresenterInterface $datetimePresenter, protected PresenterRegistryInterface $presenterRegistry, protected AttributeRepositoryInterface $attributeRepository, protected UserContext $userContext) {}
 
     /**
      * {@inheritdoc}
      */
-    public function normalize($version, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($version, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $context = array_merge($context, ['locale' => $this->localeAware->getLocale()]);
 

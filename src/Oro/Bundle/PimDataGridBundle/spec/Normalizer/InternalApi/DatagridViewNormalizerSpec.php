@@ -8,24 +8,24 @@ use Akeneo\UserManagement\Component\Model\UserInterface;
 
 class DatagridViewNormalizerSpec extends ObjectBehavior
 {
-    function it_is_a_normalizer()
+    public function it_is_a_normalizer()
     {
         $this->shouldImplement(\Symfony\Component\Serializer\Normalizer\NormalizerInterface::class);
     }
 
-    function it_supports_json_format(DatagridView $view)
+    public function it_supports_json_format(DatagridView $view)
     {
         $this->supportsNormalization($view, 'internal_api')->shouldReturn(true);
         $this->supportsNormalization($view, 'structured')->shouldReturn(false);
     }
 
-    function it_supports_datagrid_view(DatagridView $view)
+    public function it_supports_datagrid_view(DatagridView $view)
     {
         $this->supportsNormalization($view, 'internal_api')->shouldReturn(true);
         $this->supportsNormalization(new \stdClass(), 'internal_api')->shouldReturn(false);
     }
 
-    function it_normalizes_a_datagrid_view(DatagridView $view, UserInterface $user)
+    public function it_normalizes_a_datagrid_view(DatagridView $view, UserInterface $user)
     {
         $user->getId()->willReturn(666);
 

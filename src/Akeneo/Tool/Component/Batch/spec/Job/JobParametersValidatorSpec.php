@@ -11,12 +11,12 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class JobParametersValidatorSpec extends ObjectBehavior
 {
-    function let(ValidatorInterface $validator, ConstraintCollectionProviderRegistry $registry)
+    public function let(ValidatorInterface $validator, ConstraintCollectionProviderRegistry $registry)
     {
         $this->beConstructedWith($validator, $registry);
     }
 
-    function it_validates_a_job_parameters(
+    public function it_validates_a_job_parameters(
         $validator,
         $registry,
         ConstraintCollectionProviderInterface $provider,

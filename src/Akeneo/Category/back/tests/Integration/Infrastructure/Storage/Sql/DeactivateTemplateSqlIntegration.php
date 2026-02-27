@@ -64,17 +64,17 @@ class DeactivateTemplateSqlIntegration extends CategoryTestCase
         try {
             $this::assertFalse($this->retrieveTemplateDeactivationStatus($nonExistingTemplateUuid));
         } catch (\Exception $e) {
-            $this->fail('An unexpected exception was thrown: '.$e->getMessage());
+            $this->fail('An unexpected exception was thrown: ' . $e->getMessage());
         }
     }
 
     private function retrieveTemplateDeactivationStatus(TemplateUuid $templateUuid): bool
     {
         $query = <<<SQL
-            SELECT is_deactivated 
-            FROM pim_catalog_category_template
-            WHERE uuid = :template_uuid;
-        SQL;
+                SELECT is_deactivated 
+                FROM pim_catalog_category_template
+                WHERE uuid = :template_uuid;
+            SQL;
 
         return (bool) $this->get('database_connection')->executeQuery(
             $query,

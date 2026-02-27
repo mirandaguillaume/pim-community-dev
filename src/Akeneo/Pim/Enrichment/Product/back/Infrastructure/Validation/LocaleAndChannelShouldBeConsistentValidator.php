@@ -21,8 +21,7 @@ final class LocaleAndChannelShouldBeConsistentValidator extends ConstraintValida
     public function __construct(
         private readonly GetAttributes $getAttributes,
         private readonly ChannelExistsWithLocaleInterface $channelExistsWithLocale
-    ) {
-    }
+    ) {}
 
     /**
      * @param ValueUserIntent[] $valueUserIntents
@@ -40,7 +39,7 @@ final class LocaleAndChannelShouldBeConsistentValidator extends ConstraintValida
         Assert::allImplementsInterface($valueUserIntents, ValueUserIntent::class);
 
         $attributes = $this->getAttributes->forCodes(\array_map(
-            static fn (ValueUserIntent $valueUserIntent): string => $valueUserIntent->attributeCode(),
+            static fn(ValueUserIntent $valueUserIntent): string => $valueUserIntent->attributeCode(),
             $valueUserIntents
         ));
 
@@ -135,9 +134,9 @@ final class LocaleAndChannelShouldBeConsistentValidator extends ConstraintValida
             return;
         }
 
-        if ($attribute->isScopable() && null !== $channelCode &&
-            $this->channelExistsWithLocale->doesChannelExist($channelCode) &&
-            !$this->channelExistsWithLocale->isLocaleBoundToChannel($localeCode, $channelCode)
+        if ($attribute->isScopable() && null !== $channelCode
+            && $this->channelExistsWithLocale->doesChannelExist($channelCode)
+            && !$this->channelExistsWithLocale->isLocaleBoundToChannel($localeCode, $channelCode)
         ) {
             $this->addViolation(
                 LocaleAndChannelShouldBeConsistent::LOCALE_NOT_ACTIVATED_FOR_CHANNEL,

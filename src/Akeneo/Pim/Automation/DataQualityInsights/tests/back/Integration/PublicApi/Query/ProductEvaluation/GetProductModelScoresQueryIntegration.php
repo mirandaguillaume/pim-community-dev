@@ -56,10 +56,10 @@ final class GetProductModelScoresQueryIntegration extends DataQualityInsightsTes
         [$productModelA] = $this->loadProductModelScores();
 
         $expectedQualityScoreCollections = new QualityScoreCollection([
-                'mobile' => [
-                    'en_US' => new QualityScore('C', 76),
-                    'fr_FR' => new QualityScore('D', 67),
-                ],
+            'mobile' => [
+                'en_US' => new QualityScore('C', 76),
+                'fr_FR' => new QualityScore('D', 67),
+            ],
         ]);
 
         $qualityScoreCollections = $this->get(GetProductModelScoresQuery::class)->byProductModelCode($productModelA->getCode());
@@ -67,7 +67,8 @@ final class GetProductModelScoresQueryIntegration extends DataQualityInsightsTes
         $this->assertEqualsCanonicalizing($expectedQualityScoreCollections, $qualityScoreCollections);
     }
 
-    private function loadProductModelScores(): array {
+    private function loadProductModelScores(): array
+    {
         $channelMobile = new ChannelCode('mobile');
         $localeEn = new LocaleCode('en_US');
         $localeFr = new LocaleCode('fr_FR');
@@ -76,7 +77,7 @@ final class GetProductModelScoresQueryIntegration extends DataQualityInsightsTes
         $productModelA = $this->createProductModel('product_model_A', 'family_V_1');
         $productModelB = $this->createProductModel('product_model_B', 'family_V_1');
         $productModelC = $this->createProductModel('product_model_C', 'family_V_1');
-        $productModelD = $this->createProductModel('product_model_D','family_V_1');
+        $productModelD = $this->createProductModel('product_model_D', 'family_V_1');
 
         $this->resetProductModelsScores();
 

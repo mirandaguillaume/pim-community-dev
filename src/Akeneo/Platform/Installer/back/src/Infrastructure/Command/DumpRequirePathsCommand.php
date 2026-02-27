@@ -30,21 +30,19 @@ class DumpRequirePathsCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-    }
+    protected function configure(): void {}
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('Generating require.js main config');
-        $webRoot = realpath($this->rootDir.'/../public');
+        $webRoot = realpath($this->rootDir . '/../public');
 
         $mainConfigContent = json_encode($this->collectConfigPaths($this->rootDir), JSON_UNESCAPED_SLASHES);
-        $mainConfigContent = 'module.exports = '.$mainConfigContent;
+        $mainConfigContent = 'module.exports = ' . $mainConfigContent;
         $mainConfigContent = str_replace(',', ",\n", $mainConfigContent);
-        $mainConfigFilePath = $webRoot.DIRECTORY_SEPARATOR.self::MAIN_CONFIG_FILE_NAME;
+        $mainConfigFilePath = $webRoot . DIRECTORY_SEPARATOR . self::MAIN_CONFIG_FILE_NAME;
         if (false === file_put_contents($mainConfigFilePath, $mainConfigContent)) {
-            throw new \RuntimeException('Unable to write file '.$mainConfigFilePath);
+            throw new \RuntimeException('Unable to write file ' . $mainConfigFilePath);
         }
 
         return Command::SUCCESS;
@@ -59,7 +57,7 @@ class DumpRequirePathsCommand extends Command
     protected function collectConfigPaths(string $rootDir): array
     {
         $paths = [];
-        $rootDir = realpath($rootDir.'/../').'/';
+        $rootDir = realpath($rootDir . '/../') . '/';
 
         foreach ($this->bundles as $bundle) {
             $reflection = new \ReflectionClass($bundle);

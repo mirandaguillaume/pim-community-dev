@@ -33,20 +33,20 @@ class ProductColumnSorter extends DefaultColumnSorter implements ColumnSorterInt
      */
     public function sort(array $columns, array $context = [])
     {
-        if (isset($context['filters']['structure']['attributes']) &&
-            !empty($context['filters']['structure']['attributes'])
+        if (isset($context['filters']['structure']['attributes'])
+            && !empty($context['filters']['structure']['attributes'])
         ) {
             $rawColumns = array_merge(
                 ['uuid'],
                 [$this->identifierAttributeCode()],
                 $this->firstDefaultColumns,
-                array_map(fn ($associationType) => $associationType->getCode(), $this->associationTypeRepository->findAll()),
+                array_map(fn($associationType) => $associationType->getCode(), $this->associationTypeRepository->findAll()),
                 $context['filters']['structure']['attributes']
             );
 
             $sortedColumns = [];
             foreach ($rawColumns as $columnCode) {
-                $sortedColumns = array_merge($sortedColumns, array_filter($columns, fn ($columnCandidate) => 0 !== preg_match(sprintf('/^%s(-.*)*$/', $columnCode), (string) $columnCandidate)));
+                $sortedColumns = array_merge($sortedColumns, array_filter($columns, fn($columnCandidate) => 0 !== preg_match(sprintf('/^%s(-.*)*$/', $columnCode), (string) $columnCandidate)));
             }
 
             return array_unique($sortedColumns);

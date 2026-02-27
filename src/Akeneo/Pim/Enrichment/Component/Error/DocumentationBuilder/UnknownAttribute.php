@@ -39,7 +39,7 @@ final class UnknownAttribute implements DocumentationBuilderInterface
                     'attribute_settings' => new RouteMessageParameter(
                         'Attributes settings',
                         'pim_enrich_attribute_index'
-                    )
+                    ),
                 ],
                 Documentation::STYLE_TEXT
             ),
@@ -53,10 +53,10 @@ final class UnknownAttribute implements DocumentationBuilderInterface
                     'manage_attribute' => new HrefMessageParameter(
                         'Manage your attributes',
                         'https://help.akeneo.com/pim/serenity/articles/manage-your-attributes.html'
-                    )
+                    ),
                 ],
                 Documentation::STYLE_INFORMATION
-            )
+            ),
         ]);
     }
 }

@@ -17,9 +17,7 @@ class CountVariantProducts implements CountQuery
 {
     private const VOLUME_NAME = 'count_variant_products';
 
-    public function __construct(private readonly Client $client)
-    {
-    }
+    public function __construct(private readonly Client $client) {}
 
     public function fetch(): CountVolume
     {
@@ -45,6 +43,6 @@ class CountVariantProducts implements CountQuery
         // Count replace by search after an issue on the version 8.4.2 (ticket : https://github.com/apache/lucene/pull/11792)
         $result = $this->client->search($query);
 
-        return new CountVolume((int)$result['hits']['total']['value'], self::VOLUME_NAME);
+        return new CountVolume((int) $result['hits']['total']['value'], self::VOLUME_NAME);
     }
 }

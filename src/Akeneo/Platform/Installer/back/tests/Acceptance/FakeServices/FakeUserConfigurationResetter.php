@@ -17,7 +17,5 @@ use Akeneo\Platform\Installer\Domain\Service\UserConfigurationResetterInterface;
 
 class FakeUserConfigurationResetter implements UserConfigurationResetterInterface
 {
-    public function execute(): void
-    {
-    }
+    public function execute(): void {}
 }

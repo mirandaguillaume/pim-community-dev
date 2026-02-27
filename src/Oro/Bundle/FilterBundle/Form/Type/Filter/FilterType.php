@@ -18,9 +18,7 @@ class FilterType extends AbstractType
     final public const TYPE_NOT_EMPTY = 'not empty';
     final public const TYPE_IN_LIST = 'in';
 
-    public function __construct(protected TranslatorInterface $translator)
-    {
-    }
+    public function __construct(protected TranslatorInterface $translator) {}
 
     /**
      * {@inheritDoc}
@@ -52,8 +50,8 @@ class FilterType extends AbstractType
         }
 
         if (isset($options['field_options']['attr']['choice_list'])) {
-            $options['operator_choices'][self::TYPE_IN_LIST] =
-                $this->translator->trans('oro.filter.form.label_type_in_list');
+            $options['operator_choices'][self::TYPE_IN_LIST]
+                = $this->translator->trans('oro.filter.form.label_type_in_list');
         }
 
         $builder->add('type', $options['operator_type'], $this->createOperatorOptions($options));
@@ -114,7 +112,7 @@ class FilterType extends AbstractType
                 'operator_choices',
                 'operator_type',
                 'operator_options',
-                'show_filter'
+                'show_filter',
             ]
         );
     }

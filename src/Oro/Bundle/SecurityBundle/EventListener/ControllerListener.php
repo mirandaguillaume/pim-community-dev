@@ -11,9 +11,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class ControllerListener
 {
-    public function __construct(private readonly SecurityFacade $securityFacade, private readonly LoggerInterface $logger)
-    {
-    }
+    public function __construct(private readonly SecurityFacade $securityFacade, private readonly LoggerInterface $logger) {}
 
     /**
      * Checks if an access to a controller action is granted or not.
@@ -42,8 +40,8 @@ class ControllerListener
                 )
             );
 
-            if (!$this->securityFacade->isClassMethodGranted($controllerClass, $method) &&
-                $event->getRequestType() === HttpKernelInterface::MAIN_REQUEST
+            if (!$this->securityFacade->isClassMethodGranted($controllerClass, $method)
+                && $event->getRequestType() === HttpKernelInterface::MAIN_REQUEST
             ) {
                 throw AccessDeniedException::create($controllerClass, $method);
             }

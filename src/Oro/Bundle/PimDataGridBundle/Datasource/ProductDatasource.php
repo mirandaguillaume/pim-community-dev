@@ -105,8 +105,8 @@ class ProductDatasource extends Datasource
         $factoryConfig['default_locale'] = $this->getConfiguration('locale_code');
         $factoryConfig['default_scope'] = $this->getConfiguration('scope_code');
         $factoryConfig['limit'] = (int) $this->getConfiguration(PagerExtension::PER_PAGE_PARAM);
-        $factoryConfig['from'] = null !== $this->getConfiguration('from', false) ?
-            (int) $this->getConfiguration('from', false) : 0;
+        $factoryConfig['from'] = null !== $this->getConfiguration('from', false)
+            ? (int) $this->getConfiguration('from', false) : 0;
 
         $this->pqb = $this->factory->create($factoryConfig);
         $this->qb = $this->pqb->getQueryBuilder();

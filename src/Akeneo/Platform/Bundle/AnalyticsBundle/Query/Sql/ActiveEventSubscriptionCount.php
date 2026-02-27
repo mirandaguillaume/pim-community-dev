@@ -14,18 +14,16 @@ use Doctrine\DBAL\Connection;
  */
 class ActiveEventSubscriptionCount implements ActiveEventSubscriptionCountQuery
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function fetch(): int
     {
         $query = <<<SQL
-SELECT count(*)
-FROM akeneo_connectivity_connection
-WHERE webhook_enabled=1
-SQL;
+            SELECT count(*)
+            FROM akeneo_connectivity_connection
+            WHERE webhook_enabled=1
+            SQL;
 
-        return (int)$this->connection->executeQuery($query)->fetchOne();
+        return (int) $this->connection->executeQuery($query)->fetchOne();
     }
 }

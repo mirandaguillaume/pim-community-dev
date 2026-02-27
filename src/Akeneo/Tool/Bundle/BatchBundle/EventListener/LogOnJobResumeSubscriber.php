@@ -18,13 +18,12 @@ class LogOnJobResumeSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private readonly LoggerInterface $logger,
-    ) {
-    }
+    ) {}
 
     public static function getSubscribedEvents(): array
     {
         return [
-            EventInterface::BEFORE_STEP_EXECUTION_RESUME => 'log'
+            EventInterface::BEFORE_STEP_EXECUTION_RESUME => 'log',
         ];
     }
 

@@ -22,17 +22,15 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class DeleteMeasurementFamilyAction
 {
-    public function __construct(private readonly ValidatorInterface $validator, private readonly DeleteMeasurementFamilyHandler $deleteMeasurementFamilyHandler, private readonly SecurityFacade $securityFacade)
-    {
-    }
+    public function __construct(private readonly ValidatorInterface $validator, private readonly DeleteMeasurementFamilyHandler $deleteMeasurementFamilyHandler, private readonly SecurityFacade $securityFacade) {}
 
     public function __invoke(Request $request, string $code): Response
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');
         }
-        if (!$this->securityFacade->isGranted('akeneo_measurements_manage_settings') ||
-            !$this->securityFacade->isGranted('akeneo_measurements_measurement_family_delete')
+        if (!$this->securityFacade->isGranted('akeneo_measurements_manage_settings')
+            || !$this->securityFacade->isGranted('akeneo_measurements_measurement_family_delete')
         ) {
             throw new AccessDeniedException();
         }

@@ -22,9 +22,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class ProductGridFilterController
 {
-    public function __construct(protected Manager $datagridManager, protected TokenStorageInterface $tokenStorage, protected SearchableRepositoryInterface $attributeSearchRepository, private readonly NormalizerInterface $lightAttributeNormalizer, private readonly UserContext $userContext, private readonly TranslatorInterface $translator)
-    {
-    }
+    public function __construct(protected Manager $datagridManager, protected TokenStorageInterface $tokenStorage, protected SearchableRepositoryInterface $attributeSearchRepository, private readonly NormalizerInterface $lightAttributeNormalizer, private readonly UserContext $userContext, private readonly TranslatorInterface $translator) {}
 
     /**
      * This will list the available product grid filters.
@@ -64,7 +62,7 @@ class ProductGridFilterController
             $options
         );
 
-        $normalizedAttributes = array_map(fn ($attribute) => $this->lightAttributeNormalizer->normalize(
+        $normalizedAttributes = array_map(fn($attribute) => $this->lightAttributeNormalizer->normalize(
             $attribute,
             'internal_api',
             ['locale' => $this->userContext->getUiLocaleCode()]
@@ -96,7 +94,7 @@ class ProductGridFilterController
                 $formattedSystemFilters[] = [
                     'code' => $code,
                     'labels' => [$locale => $label],
-                    'group' => 'system'
+                    'group' => 'system',
                 ];
             }
         }

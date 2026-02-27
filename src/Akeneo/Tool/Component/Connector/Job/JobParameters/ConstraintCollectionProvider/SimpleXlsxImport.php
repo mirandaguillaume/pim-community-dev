@@ -25,8 +25,7 @@ class SimpleXlsxImport implements ConstraintCollectionProviderInterface
      */
     public function __construct(
         private readonly array $supportedJobNames,
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -48,7 +47,7 @@ class SimpleXlsxImport implements ConstraintCollectionProviderInterface
                         new All(new Type('string')),
                     ],
                     'is_user_authenticated' => new Type('bool'),
-                ]
+                ],
             ]
         );
     }

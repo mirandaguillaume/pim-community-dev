@@ -227,7 +227,7 @@ class AddAttributeControllerEndToEnd extends ControllerIntegrationTestCase
                 Attribute::fromType(
                     type: new AttributeType(AttributeType::TEXT),
                     uuid: AttributeUuid::fromUuid(Uuid::uuid4()),
-                    code: new AttributeCode('attribute_code'.$i),
+                    code: new AttributeCode('attribute_code' . $i),
                     order: AttributeOrder::fromInteger($i),
                     isRequired: AttributeIsRequired::fromBoolean(false),
                     isScopable: AttributeIsScopable::fromBoolean(true),

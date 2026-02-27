@@ -30,9 +30,7 @@ class V20230622175500OptimizeTableWithInstantColsMigration implements ZddMigrati
         'pimee_workflow_product_model_draft',
     ];
 
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function migrate(): void
     {
@@ -59,8 +57,8 @@ class V20230622175500OptimizeTableWithInstantColsMigration implements ZddMigrati
     private function optimizeTable(string $tableName)
     {
         $sql = <<<SQL
-            OPTIMIZE TABLE $tableName;
-        SQL;
+                OPTIMIZE TABLE $tableName;
+            SQL;
 
         $this->connection->executeQuery($sql);
     }

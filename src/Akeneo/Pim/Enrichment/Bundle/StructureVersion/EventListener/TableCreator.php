@@ -15,9 +15,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class TableCreator implements EventSubscriberInterface
 {
-    public function __construct(protected ManagerRegistry $doctrine)
-    {
-    }
+    public function __construct(protected ManagerRegistry $doctrine) {}
 
     /**
      * {@inheritdoc}
@@ -25,7 +23,7 @@ class TableCreator implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            InstallerEvents::POST_DB_CREATE => 'onPostDBCreate'
+            InstallerEvents::POST_DB_CREATE => 'onPostDBCreate',
         ];
     }
 
@@ -35,13 +33,13 @@ class TableCreator implements EventSubscriberInterface
     public function onPostDBCreate()
     {
         $sql = <<<'SQL'
-DROP TABLE IF EXISTS akeneo_structure_version_last_update;
-CREATE TABLE akeneo_structure_version_last_update (
-    resource_name varchar(255) NOT NULL,
-    last_update datetime NOT NULL COMMENT '(DC2Type:datetime)',
-    PRIMARY KEY(resource_name)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-SQL;
+            DROP TABLE IF EXISTS akeneo_structure_version_last_update;
+            CREATE TABLE akeneo_structure_version_last_update (
+                resource_name varchar(255) NOT NULL,
+                last_update datetime NOT NULL COMMENT '(DC2Type:datetime)',
+                PRIMARY KEY(resource_name)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+            SQL;
         $this->doctrine->getConnection()->executeStatement($sql);
     }
 }

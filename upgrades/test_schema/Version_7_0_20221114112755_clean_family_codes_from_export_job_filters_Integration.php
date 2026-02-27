@@ -100,7 +100,7 @@ final class Version_7_0_20221114112755_clean_family_codes_from_export_job_filter
             'with_media' => true,
             'with_label' => false,
             'header_with_label' => false,
-            'file_locale' => NULL,
+            'file_locale' => null,
             'filters' => [
                 'data' => [
                     [
@@ -139,7 +139,7 @@ final class Version_7_0_20221114112755_clean_family_codes_from_export_job_filter
             ],
         ];
 
-        if(!empty($filteredFamilyCodes)) {
+        if (!empty($filteredFamilyCodes)) {
             $rawParameters['filters']['data'][] = [
                 'field' => 'family',
                 'operator' => 'IN',
@@ -148,9 +148,9 @@ final class Version_7_0_20221114112755_clean_family_codes_from_export_job_filter
         }
 
         $sql = <<<SQL
-INSERT INTO akeneo_batch_job_instance (code, label, job_name, status, connector, raw_parameters, type)
-VALUES (:code, :code, :code, 0, 'Dummy Connector', :raw_parameters, 'export')
-SQL;
+            INSERT INTO akeneo_batch_job_instance (code, label, job_name, status, connector, raw_parameters, type)
+            VALUES (:code, :code, :code, 0, 'Dummy Connector', :raw_parameters, 'export')
+            SQL;
 
         $this->connection->executeStatement($sql, ['code' => $jobCode, 'raw_parameters' => serialize($rawParameters)]);
     }
@@ -171,16 +171,16 @@ SQL;
     private function fetchFamilyFilter(string $jobCode): ?array
     {
         $sql = <<<SQL
-SELECT raw_parameters
-FROM akeneo_batch_job_instance
-WHERE code = :code
-SQL;
+            SELECT raw_parameters
+            FROM akeneo_batch_job_instance
+            WHERE code = :code
+            SQL;
 
         $stmt = $this->connection->executeQuery($sql, ['code' => $jobCode]);
         $serializedRawParameters = $stmt->fetchOne();
         $rawParameters = unserialize($serializedRawParameters);
 
-        $familyFilter = array_values(array_filter($rawParameters['filters']['data'], static fn (array $filter) => 'family' === $filter['field']));
+        $familyFilter = array_values(array_filter($rawParameters['filters']['data'], static fn(array $filter) => 'family' === $filter['field']));
 
         return !empty($familyFilter) ? $familyFilter[0] : null;
     }
@@ -188,17 +188,17 @@ SQL;
     private function createDummyAttribute(): int
     {
         $createDummyAttributeGroupSql = <<<SQL
-INSERT INTO pim_catalog_attribute_group (code, sort_order, created, updated) 
-VALUES ('dummy_group', 1, NOW(), NOW()) 
-SQL;
+            INSERT INTO pim_catalog_attribute_group (code, sort_order, created, updated) 
+            VALUES ('dummy_group', 1, NOW(), NOW()) 
+            SQL;
 
         $this->connection->executeQuery($createDummyAttributeGroupSql);
         $dummyAttributeGroupId = $this->connection->lastInsertId();
 
         $createDummyAttributeSql = <<<SQL
-INSERT INTO pim_catalog_attribute (group_id, sort_order, is_required, is_unique, is_localizable, is_scopable, code, entity_type, attribute_type, backend_type, created, updated)
-VALUES (:group_id, 1, 0, 0, 0, 0, 'dummy_attribute', 'Akeneo\\Pim\\Enrichment\\Component\\Product\\Model\\Product', 'pim_catalog_text', 'text', NOW(), NOW())
-SQL;
+            INSERT INTO pim_catalog_attribute (group_id, sort_order, is_required, is_unique, is_localizable, is_scopable, code, entity_type, attribute_type, backend_type, created, updated)
+            VALUES (:group_id, 1, 0, 0, 0, 0, 'dummy_attribute', 'Akeneo\\Pim\\Enrichment\\Component\\Product\\Model\\Product', 'pim_catalog_text', 'text', NOW(), NOW())
+            SQL;
 
         $this->connection->executeQuery($createDummyAttributeSql, ['group_id' => $dummyAttributeGroupId]);
 

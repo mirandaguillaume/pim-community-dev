@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Tool\Bundle\MessengerBundle\Stamp;
@@ -12,7 +13,5 @@ use Symfony\Component\Messenger\Transport\Receiver\ReceiverInterface;
  */
 final readonly class ReceiverStamp implements StampInterface
 {
-    public function __construct(public ReceiverInterface $receiver)
-    {
-    }
+    public function __construct(public ReceiverInterface $receiver) {}
 }

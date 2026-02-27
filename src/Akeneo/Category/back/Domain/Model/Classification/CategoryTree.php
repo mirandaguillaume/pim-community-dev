@@ -19,8 +19,7 @@ class CategoryTree
         private readonly Code $code,
         private readonly ?LabelCollection $labels = null,
         private readonly ?CategoryTreeTemplate $categoryTreeTemplate = null,
-    ) {
-    }
+    ) {}
 
     /**
      * @param array{
@@ -36,8 +35,8 @@ class CategoryTree
     {
         $id = new CategoryId((int) $result['id']);
         $code = new Code($result['code']);
-        $labelCollection = $result['translations'] ?
-            LabelCollection::fromArray(
+        $labelCollection = $result['translations']
+            ? LabelCollection::fromArray(
                 json_decode($result['translations'], true, 512, JSON_THROW_ON_ERROR),
             ) : null;
 
@@ -64,7 +63,7 @@ class CategoryTree
         $label = $this->labels?->getTranslation($localeCode);
 
         if (!$label) {
-            return '['.$this->code.']';
+            return '[' . $this->code . ']';
         }
 
         return $label;

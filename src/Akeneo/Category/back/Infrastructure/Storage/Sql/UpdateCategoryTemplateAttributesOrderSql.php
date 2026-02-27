@@ -17,8 +17,7 @@ class UpdateCategoryTemplateAttributesOrderSql implements UpdateCategoryTemplate
 {
     public function __construct(
         private readonly Connection $connection,
-    ) {
-    }
+    ) {}
 
     /**
      * @throws Exception
@@ -42,8 +41,8 @@ class UpdateCategoryTemplateAttributesOrderSql implements UpdateCategoryTemplate
         );
 
         $statement = $this->connection->prepare(<<<SQL
-            $queries
-        SQL);
+                $queries
+            SQL);
 
         $queryIndex = 0;
         foreach ($attributeList->getAttributes() as $attribute) {

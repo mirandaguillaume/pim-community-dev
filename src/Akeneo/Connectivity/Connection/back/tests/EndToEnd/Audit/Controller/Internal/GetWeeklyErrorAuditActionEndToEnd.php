@@ -44,7 +44,7 @@ class GetWeeklyErrorAuditActionEndToEnd extends WebTestCase
         $expectedResult = [
             "<all>" =>  [
                 "previous_week" =>  [
-                    "2020-01-03" => 4
+                    "2020-01-03" => 4,
                 ],
                 "current_week" => [
                     "2020-01-04" => 3,
@@ -53,13 +53,13 @@ class GetWeeklyErrorAuditActionEndToEnd extends WebTestCase
                     "2020-01-07" => 6,
                     "2020-01-08" => 7,
                     "2020-01-09" => 16,
-                    "2020-01-10" => 108
+                    "2020-01-10" => 108,
                 ],
-                "current_week_total" => 209
+                "current_week_total" => 209,
             ],
             "erp_1" =>  [
                 "previous_week" =>  [
-                    "2020-01-03" => 2
+                    "2020-01-03" => 2,
                 ],
                 "current_week" =>  [
                     "2020-01-04" => 3,
@@ -68,13 +68,13 @@ class GetWeeklyErrorAuditActionEndToEnd extends WebTestCase
                     "2020-01-07" => 6,
                     "2020-01-08" => 7,
                     "2020-01-09" => 8,
-                    "2020-01-10" => 108
+                    "2020-01-10" => 108,
                 ],
-                "current_week_total" => 196
+                "current_week_total" => 196,
             ],
             "erp_2" =>  [
                 "previous_week" =>  [
-                    "2020-01-03" => 2
+                    "2020-01-03" => 2,
                 ],
                 "current_week" =>  [
                     "2020-01-04" => 0,
@@ -83,10 +83,10 @@ class GetWeeklyErrorAuditActionEndToEnd extends WebTestCase
                     "2020-01-07" => 0,
                     "2020-01-08" => 0,
                     "2020-01-09" => 8,
-                    "2020-01-10" => 0
+                    "2020-01-10" => 0,
                 ],
-                "current_week_total" => 13
-            ]
+                "current_week_total" => 13,
+            ],
         ];
 
         $user = $this->authenticateAsAdmin();
@@ -97,7 +97,7 @@ class GetWeeklyErrorAuditActionEndToEnd extends WebTestCase
             'GET',
             '/rest/connections/audit/weekly-error',
             [
-                'end_date' => '2020-01-10'
+                'end_date' => '2020-01-10',
             ],
         );
         $result = \json_decode($this->client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);

@@ -28,7 +28,7 @@ final class ValidateIdentifiersLimit
             return;
         }
 
-        $inQuery = current(array_filter($identifiersQuery, static fn ($query) => $query['operator'] === Operators::IN_LIST));
+        $inQuery = current(array_filter($identifiersQuery, static fn($query) => $query['operator'] === Operators::IN_LIST));
 
         if (!$inQuery) {
             return;
@@ -44,7 +44,7 @@ final class ValidateIdentifiersLimit
 
         if (count(array_unique($inQuery['value'])) > self::LIMIT) {
             throw new BadRequestException(
-                "The identifier filter can't contain more than ". self::LIMIT ." product identifiers."
+                "The identifier filter can't contain more than " . self::LIMIT . " product identifiers."
             );
         }
     }

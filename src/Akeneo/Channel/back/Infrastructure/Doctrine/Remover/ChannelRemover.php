@@ -21,9 +21,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class ChannelRemover implements RemoverInterface
 {
-    public function __construct(protected ObjectManager $objectManager, protected EventDispatcherInterface $eventDispatcher, protected ChannelRepositoryInterface $channelRepository, protected TranslatorInterface $translator, private readonly IsChannelUsedInProductExportJobInterface $isChannelUsedInProductExportJob, protected $entityClass)
-    {
-    }
+    public function __construct(protected ObjectManager $objectManager, protected EventDispatcherInterface $eventDispatcher, protected ChannelRepositoryInterface $channelRepository, protected TranslatorInterface $translator, private readonly IsChannelUsedInProductExportJobInterface $isChannelUsedInProductExportJob, protected $entityClass) {}
 
     /**
      * {@inheritdoc}

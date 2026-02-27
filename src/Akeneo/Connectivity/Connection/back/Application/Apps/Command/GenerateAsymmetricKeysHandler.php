@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Application\Apps\Command;
@@ -15,8 +16,7 @@ class GenerateAsymmetricKeysHandler
     public function __construct(
         private readonly AsymmetricKeysGeneratorInterface $asymmetricKeysGenerator,
         private readonly SaveAsymmetricKeysQueryInterface $saveAsymmetricKeysQuery
-    ) {
-    }
+    ) {}
 
     public function handle(GenerateAsymmetricKeysCommand $command): void
     {

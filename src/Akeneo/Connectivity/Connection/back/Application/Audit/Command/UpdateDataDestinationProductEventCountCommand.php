@@ -17,8 +17,7 @@ final readonly class UpdateDataDestinationProductEventCountCommand
         private string $connectionCode,
         private HourlyInterval $hourlyInterval,
         private int $productEventCount
-    ) {
-    }
+    ) {}
 
     public function connectionCode(): string
     {

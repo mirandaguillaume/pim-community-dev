@@ -78,7 +78,7 @@ class DbalSelectHourlyIntervalsToRefreshQueryIntegration extends TestCase
             ),
             HourlyInterval::createFromDateTime(
                 new \DateTimeImmutable('2020-01-01 12:59:59', new \DateTimeZone('UTC')),
-            )
+            ),
         ];
         $result = $this->getSelectHourlyIntervalsToRefreshQuery()->execute();
 

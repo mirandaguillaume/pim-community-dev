@@ -29,9 +29,7 @@ class UserPreferencesListener
     /** @var array */
     protected $deactivatedLocales = [];
 
-    public function __construct(private readonly CategoryRepositoryInterface $categoryRepository, private readonly ChannelRepositoryInterface $channelRepository, private readonly LocaleRepositoryInterface $localeRepository, private readonly UserRepositoryInterface $userRepository)
-    {
-    }
+    public function __construct(private readonly CategoryRepositoryInterface $categoryRepository, private readonly ChannelRepositoryInterface $channelRepository, private readonly LocaleRepositoryInterface $localeRepository, private readonly UserRepositoryInterface $userRepository) {}
 
     /**
      * On flush
@@ -132,7 +130,7 @@ class UserPreferencesListener
         $defaultScope = current(
             array_filter(
                 $channels,
-                fn ($channel) => $channel->getCode() !== $removedChannel->getCode()
+                fn($channel) => $channel->getCode() !== $removedChannel->getCode()
             )
         );
 
@@ -153,7 +151,7 @@ class UserPreferencesListener
         $defaultTree = current(
             array_filter(
                 $trees,
-                fn ($tree) => $tree->getCode() !== $removedTree->getCode()
+                fn($tree) => $tree->getCode() !== $removedTree->getCode()
             )
         );
 

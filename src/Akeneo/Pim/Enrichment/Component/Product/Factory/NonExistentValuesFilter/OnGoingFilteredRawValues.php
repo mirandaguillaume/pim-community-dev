@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Component\Product\Factory\NonExistentValuesFilter;
@@ -40,8 +41,7 @@ final readonly class OnGoingFilteredRawValues
     public function __construct(
         private array $filteredRawValuesCollectionIndexedByType,
         private array $nonFilteredRawValuesCollectionIndexedByType
-    ) {
-    }
+    ) {}
 
     public static function fromNonFilteredValuesCollectionIndexedByType(array $nonFilteredValuesCollectionIndexedByType)
     {

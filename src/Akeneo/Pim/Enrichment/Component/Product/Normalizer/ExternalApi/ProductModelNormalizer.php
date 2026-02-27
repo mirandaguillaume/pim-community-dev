@@ -101,9 +101,9 @@ class ProductModelNormalizer implements NormalizerInterface, CacheableSupportsMe
     private function formatQuantifiedAssociations(array $quantifiedAssociations): array
     {
         return array_map(static function (array $quantifiedAssociation) {
-            $quantifiedAssociation['products'] = array_map(static fn (array $productLink) => array_filter(
+            $quantifiedAssociation['products'] = array_map(static fn(array $productLink) => array_filter(
                 $productLink,
-                fn (string $key): bool => in_array($key, ['identifier', 'quantity']),
+                fn(string $key): bool => in_array($key, ['identifier', 'quantity']),
                 ARRAY_FILTER_USE_KEY
             ), $quantifiedAssociation['products']);
 

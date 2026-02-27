@@ -19,8 +19,7 @@ class ProductMassEdit implements DefaultValuesProviderInterface
      */
     public function __construct(
         private readonly array $supportedJobNames,
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

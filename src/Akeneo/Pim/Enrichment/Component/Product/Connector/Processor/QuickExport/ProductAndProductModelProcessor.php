@@ -96,9 +96,9 @@ class ProductAndProductModelProcessor extends AbstractProcessor
             $productStandard = $this->fillMissingProductModelValues->fromStandardFormat($productStandard);
         }
 
-        $locales = $parameters->has('selected_locales') ?
-            $parameters->get('selected_locales') :
-            $this->getLocaleCodes($parameters->get('scope'));
+        $locales = $parameters->has('selected_locales')
+            ? $parameters->get('selected_locales')
+            : $this->getLocaleCodes($parameters->get('scope'));
 
         $productStandard['values'] = FilterValues::create()
             ->filterByChannelCode($parameters->get('scope'))
@@ -137,7 +137,7 @@ class ProductAndProductModelProcessor extends AbstractProcessor
             if ('values' === $codeProperty) {
                 $propertiesToExport['values'] = array_filter(
                     $property,
-                    fn ($attributeCode) => in_array($attributeCode, $selectedProperties),
+                    fn($attributeCode) => in_array($attributeCode, $selectedProperties),
                     ARRAY_FILTER_USE_KEY
                 );
             } elseif (in_array($codeProperty, $selectedProperties) || 'identifier' === $codeProperty || 'uuid' === $codeProperty) {
@@ -174,13 +174,13 @@ class ProductAndProductModelProcessor extends AbstractProcessor
 
         $normalizerContext = [
             'channels'     => [$parameters->get('scope')],
-            'locales'      => $parameters->has('selected_locales') ?
-                $parameters->get('selected_locales') :
-                $this->getLocaleCodes($parameters->get('scope')),
+            'locales'      => $parameters->has('selected_locales')
+                ? $parameters->get('selected_locales')
+                : $this->getLocaleCodes($parameters->get('scope')),
             'filter_types' => [
                 'pim.transform.product_value.structured',
-                'pim.transform.product_value.structured.quick_export'
-            ]
+                'pim.transform.product_value.structured.quick_export',
+            ],
         ];
 
         return $normalizerContext;

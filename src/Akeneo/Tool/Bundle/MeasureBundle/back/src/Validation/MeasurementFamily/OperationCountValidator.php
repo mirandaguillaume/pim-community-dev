@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Tool\Bundle\MeasureBundle\Validation\MeasurementFamily;
@@ -12,9 +13,7 @@ class OperationCountValidator extends ConstraintValidator
 {
     private int $min = 1;
 
-    public function __construct(private readonly int $max)
-    {
-    }
+    public function __construct(private readonly int $max) {}
 
     /**
      * {@inheritdoc}
@@ -37,9 +36,9 @@ class OperationCountValidator extends ConstraintValidator
 
         if ($count > $this->max) {
             $this->context->buildViolation($constraint->maxMessage)
-                ->setParameter('%limit%', (string)$this->max)
+                ->setParameter('%limit%', (string) $this->max)
                 ->setInvalidValue($value)
-                ->setPlural((int)$this->max)
+                ->setPlural((int) $this->max)
                 ->addViolation();
 
             return;
@@ -47,9 +46,9 @@ class OperationCountValidator extends ConstraintValidator
 
         if ($count < $this->min) {
             $this->context->buildViolation($constraint->minMessage)
-                ->setParameter('%limit%', (string)$this->min)
+                ->setParameter('%limit%', (string) $this->min)
                 ->setInvalidValue($value)
-                ->setPlural((int)$this->min)
+                ->setPlural((int) $this->min)
                 ->addViolation();
         }
     }

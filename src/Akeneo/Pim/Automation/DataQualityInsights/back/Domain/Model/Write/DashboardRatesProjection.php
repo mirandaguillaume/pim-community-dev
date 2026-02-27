@@ -12,9 +12,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\TimePeriod;
 
 final readonly class DashboardRatesProjection
 {
-    public function __construct(private DashboardProjectionType $type, private DashboardProjectionCode $code, private ConsolidationDate $consolidationDate, private RanksDistributionCollection $ranksDistributionCollection)
-    {
-    }
+    public function __construct(private DashboardProjectionType $type, private DashboardProjectionCode $code, private ConsolidationDate $consolidationDate, private RanksDistributionCollection $ranksDistributionCollection) {}
 
     public function getType(): DashboardProjectionType
     {

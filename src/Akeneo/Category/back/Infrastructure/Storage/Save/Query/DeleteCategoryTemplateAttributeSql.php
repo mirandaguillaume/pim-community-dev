@@ -19,8 +19,7 @@ class DeleteCategoryTemplateAttributeSql implements DeleteTemplateAttribute
     public function __construct(
         private readonly Connection $connection,
         private readonly IsTemplateDeactivated $isTemplateDeactivated,
-    ) {
-    }
+    ) {}
 
     public function __invoke(TemplateUuid $templateUuid, AttributeUuid $attributeUuid): void
     {
@@ -29,10 +28,10 @@ class DeleteCategoryTemplateAttributeSql implements DeleteTemplateAttribute
         }
 
         $query = <<< SQL
-            DELETE FROM pim_catalog_category_attribute
-            WHERE category_template_uuid = :template_uuid 
-            AND uuid = :attribute_uuid;
-        SQL;
+                DELETE FROM pim_catalog_category_attribute
+                WHERE category_template_uuid = :template_uuid 
+                AND uuid = :attribute_uuid;
+            SQL;
 
         $this->connection->executeQuery(
             $query,

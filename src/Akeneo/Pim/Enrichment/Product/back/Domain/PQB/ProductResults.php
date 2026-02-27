@@ -15,9 +15,7 @@ final readonly class ProductResults
     /**
      * @param UuidInterface[] $uuids
      */
-    public function __construct(private array $uuids, private int $count)
-    {
-    }
+    public function __construct(private array $uuids, private int $count) {}
 
     /**
      * @return UuidInterface[]

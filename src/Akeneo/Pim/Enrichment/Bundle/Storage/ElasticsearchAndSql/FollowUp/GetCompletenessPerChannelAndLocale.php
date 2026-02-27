@@ -19,9 +19,7 @@ use Doctrine\DBAL\Exception;
  */
 class GetCompletenessPerChannelAndLocale implements GetCompletenessPerChannelAndLocaleInterface
 {
-    public function __construct(private readonly Connection $connection, private readonly Client $client)
-    {
-    }
+    public function __construct(private readonly Connection $connection, private readonly Client $client) {}
 
     /**
      * @inheritdoc
@@ -52,53 +50,53 @@ class GetCompletenessPerChannelAndLocale implements GetCompletenessPerChannelAnd
     private function getCategoriesCodesAndLocalesByChannel(): array
     {
         $sql = <<<SQL
-            SELECT
-                channel.code as channel_code,
-                channel_translation.labels as channel_labels,
-                JSON_ARRAY_APPEND(COALESCE(child.children_codes, '[]'), '$', root.code) as category_codes_in_channel,
-                pim_locales.json_locales as locales
-            FROM
-                pim_catalog_category AS root
-                LEFT JOIN
-                (
-                    SELECT
-                        child.root as root_id,
-                        JSON_ARRAYAGG(child.code) as children_codes
-                    FROM
-                        pim_catalog_category child
-                    WHERE
-                        child.parent_id IS NOT NULL
-                    GROUP BY
-                        child.root
-                ) AS child ON root.id = child.root_id
-                JOIN pim_catalog_channel as channel ON root.id = channel.category_id
-                LEFT JOIN
-                (
-                    SELECT
-                        channel.channel_code,
-                        JSON_OBJECTAGG(locale.code, channel_translation.label) as labels
-                    FROM
-                        (SELECT DISTINCT code as channel_code, id as channel_id FROM pim_catalog_channel) AS channel
-                    CROSS JOIN pim_catalog_locale locale
-                    LEFT JOIN pim_catalog_channel_translation channel_translation ON channel_translation.foreign_key = channel.channel_id AND channel_translation.locale = locale.code
-                    WHERE locale.is_activated = true
-                    GROUP BY channel.channel_code
-                ) AS channel_translation on channel_translation.channel_code = channel.code
-                LEFT JOIN
-                (
-                    SELECT
-                      channel.code as channel_code,
-                      channel.category_id,
-                      JSON_ARRAYAGG(locale.code) as json_locales
-                    FROM pim_catalog_channel as channel
-                    LEFT JOIN pim_catalog_channel_locale channel_locale ON channel.id = channel_locale.channel_id
-                    LEFT JOIN pim_catalog_locale locale ON channel_locale.locale_id = locale.id
-                    GROUP BY
-                        channel.code
-                ) AS pim_locales on pim_locales.channel_code = channel.code
-            WHERE
-                root.parent_id IS NULL
-SQL;
+                        SELECT
+                            channel.code as channel_code,
+                            channel_translation.labels as channel_labels,
+                            JSON_ARRAY_APPEND(COALESCE(child.children_codes, '[]'), '$', root.code) as category_codes_in_channel,
+                            pim_locales.json_locales as locales
+                        FROM
+                            pim_catalog_category AS root
+                            LEFT JOIN
+                            (
+                                SELECT
+                                    child.root as root_id,
+                                    JSON_ARRAYAGG(child.code) as children_codes
+                                FROM
+                                    pim_catalog_category child
+                                WHERE
+                                    child.parent_id IS NOT NULL
+                                GROUP BY
+                                    child.root
+                            ) AS child ON root.id = child.root_id
+                            JOIN pim_catalog_channel as channel ON root.id = channel.category_id
+                            LEFT JOIN
+                            (
+                                SELECT
+                                    channel.channel_code,
+                                    JSON_OBJECTAGG(locale.code, channel_translation.label) as labels
+                                FROM
+                                    (SELECT DISTINCT code as channel_code, id as channel_id FROM pim_catalog_channel) AS channel
+                                CROSS JOIN pim_catalog_locale locale
+                                LEFT JOIN pim_catalog_channel_translation channel_translation ON channel_translation.foreign_key = channel.channel_id AND channel_translation.locale = locale.code
+                                WHERE locale.is_activated = true
+                                GROUP BY channel.channel_code
+                            ) AS channel_translation on channel_translation.channel_code = channel.code
+                            LEFT JOIN
+                            (
+                                SELECT
+                                  channel.code as channel_code,
+                                  channel.category_id,
+                                  JSON_ARRAYAGG(locale.code) as json_locales
+                                FROM pim_catalog_channel as channel
+                                LEFT JOIN pim_catalog_channel_locale channel_locale ON channel.id = channel_locale.channel_id
+                                LEFT JOIN pim_catalog_locale locale ON channel_locale.locale_id = locale.id
+                                GROUP BY
+                                    channel.code
+                            ) AS pim_locales on pim_locales.channel_code = channel.code
+                        WHERE
+                            root.parent_id IS NULL
+            SQL;
 
         $rows = $this->connection->executeQuery($sql)->fetchAllAssociative();
 
@@ -164,14 +162,14 @@ SQL;
                                 'filter' => [
                                     [
                                         'terms' => [
-                                            'categories' => $categoriesCodeAndLocalesByChannel['category_codes_in_channel']
+                                            'categories' => $categoriesCodeAndLocalesByChannel['category_codes_in_channel'],
                                         ],
                                     ],
                                     [
-                                        'term' => ["enabled" => true]
+                                        'term' => ["enabled" => true],
                                     ],
                                     [
-                                        'term' => ['document_type' => ProductInterface::class]
+                                        'term' => ['document_type' => ProductInterface::class],
                                     ],
                                 ],
                             ],

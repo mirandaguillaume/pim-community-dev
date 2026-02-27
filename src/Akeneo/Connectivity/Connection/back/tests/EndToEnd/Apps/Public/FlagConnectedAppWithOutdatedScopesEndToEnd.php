@@ -55,7 +55,7 @@ class FlagConnectedAppWithOutdatedScopesEndToEnd extends ApiTestCase
         static::ensureKernelShutdown();
         return static::createClient(['debug' => false], [
             'CONTENT_TYPE' => 'application/json',
-            'HTTP_AUTHORIZATION' => 'Bearer '.$accessToken,
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $accessToken,
         ]);
     }
 

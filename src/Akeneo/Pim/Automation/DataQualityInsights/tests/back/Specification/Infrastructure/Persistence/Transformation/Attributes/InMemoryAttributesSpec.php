@@ -33,7 +33,7 @@ class InMemoryAttributesSpec extends ObjectBehavior
 
     public function it_ignores_unknown_attributes(): void
     {
-        $this->getIdsByCodes(['name', 'title' ,'description'])->shouldReturn(['name' => 2, 'description' => 42]);
+        $this->getIdsByCodes(['name', 'title','description'])->shouldReturn(['name' => 2, 'description' => 42]);
         $this->getCodesByIds([567, 2, 42])->shouldReturn([2 => 'name', 42 => 'description']);
     }
 }

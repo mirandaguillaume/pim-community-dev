@@ -17,8 +17,7 @@ final readonly class SqlFindAttributeOptions implements FindAttributeOptions
     public function __construct(
         private Connection $connection,
         private UserContext $userContext,
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -33,22 +32,22 @@ final readonly class SqlFindAttributeOptions implements FindAttributeOptions
         $uiLocaleCode = $this->userContext->getUiLocaleCode();
 
         $sql = <<<SQL
-            SELECT attribute_option.code AS option_code,
-                translation.value AS option_label  
-            FROM pim_catalog_attribute_option attribute_option
-                LEFT JOIN pim_catalog_attribute_option_value translation 
-                    ON attribute_option.id = translation.option_id
-                    AND translation.locale_code = :userLocaleCode
-                INNER JOIN pim_catalog_attribute ON pim_catalog_attribute.id=attribute_option.attribute_id 
-            WHERE pim_catalog_attribute.code=:attributeCode
-                AND (
-                    attribute_option.code LIKE :search
-                    OR translation.value LIKE :search
-                )
-                {includeCodesQuery}
-            GROUP BY attribute_option.code, attribute_option.sort_order, translation.value
-            ORDER BY attribute_option.sort_order, attribute_option.code
-        SQL;
+                SELECT attribute_option.code AS option_code,
+                    translation.value AS option_label  
+                FROM pim_catalog_attribute_option attribute_option
+                    LEFT JOIN pim_catalog_attribute_option_value translation 
+                        ON attribute_option.id = translation.option_id
+                        AND translation.locale_code = :userLocaleCode
+                    INNER JOIN pim_catalog_attribute ON pim_catalog_attribute.id=attribute_option.attribute_id 
+                WHERE pim_catalog_attribute.code=:attributeCode
+                    AND (
+                        attribute_option.code LIKE :search
+                        OR translation.value LIKE :search
+                    )
+                    {includeCodesQuery}
+                GROUP BY attribute_option.code, attribute_option.sort_order, translation.value
+                ORDER BY attribute_option.sort_order, attribute_option.code
+            SQL;
 
         $parameters = [
             'attributeCode' => $attributeCode,
@@ -80,7 +79,7 @@ final readonly class SqlFindAttributeOptions implements FindAttributeOptions
             $types
         );
 
-        return array_map(fn ($line) => [
+        return array_map(fn($line) => [
             'code' => $line['option_code'],
             'labels' => [$uiLocaleCode => $line['option_label'] ?? \sprintf('[%s]', $line['option_code'])],
         ], $results);

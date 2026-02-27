@@ -20,8 +20,7 @@ final readonly class GetAttributeGroupsController
     public function __construct(
         private SecurityFacadeInterface $securityFacade,
         private GetAttributeGroupsHandler $getAttributeGroupsHandler
-    ) {
-    }
+    ) {}
 
     public function __invoke(): Response
     {

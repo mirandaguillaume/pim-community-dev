@@ -15,17 +15,15 @@ use Doctrine\DBAL\Types\Types;
 
 class UpdateMaintenanceMode implements UpdateMaintenanceModeInterface
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function execute(bool $enabled): void
     {
         $query = <<<SQL
-            INSERT INTO pim_configuration (`code`,`values`)
-            VALUES (:code, :values)
-            ON DUPLICATE KEY UPDATE `values`= :values
-        SQL;
+                INSERT INTO pim_configuration (`code`,`values`)
+                VALUES (:code, :values)
+                ON DUPLICATE KEY UPDATE `values`= :values
+            SQL;
 
         $this->connection->executeStatement($query, [
             'code' => 'maintenance_mode',

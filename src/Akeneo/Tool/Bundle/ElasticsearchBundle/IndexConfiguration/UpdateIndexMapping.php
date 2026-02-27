@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Tool\Bundle\ElasticsearchBundle\IndexConfiguration;
@@ -63,9 +64,9 @@ final class UpdateIndexMapping
                     "index" => $oldIndexNameOrAlias,
                 ],
                 "dest"   => [
-                    "index" => $newIndexName
-                ]
-            ]
+                    "index" => $newIndexName,
+                ],
+            ],
         ]);
 
         return $this;
@@ -82,8 +83,8 @@ final class UpdateIndexMapping
                 'index' => [
                     'refresh_interval' => $oldIndexSettings['index']['refresh_interval'] ?? null,
                     'number_of_replicas' => $oldIndexSettings['index']['number_of_replicas'] ?? 1,
-                ]
-            ]
+                ],
+            ],
         ]);
 
         return $this;
@@ -116,15 +117,15 @@ final class UpdateIndexMapping
                         "add" => [
                             "index" => $newIndexName,
                             "alias" => $aliasName,
-                        ]
+                        ],
                     ],
                     [
                         "remove_index" => [
-                            "index" => $oldIndexName
-                        ]
+                            "index" => $oldIndexName,
+                        ],
                     ],
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 
@@ -138,11 +139,11 @@ final class UpdateIndexMapping
                     [
                         "add" => [
                             "index" => $newIndexName,
-                            "alias" => $oldIndexName
-                        ]
+                            "alias" => $oldIndexName,
+                        ],
                     ],
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 }

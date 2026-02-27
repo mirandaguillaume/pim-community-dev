@@ -21,8 +21,7 @@ final readonly class PurgeOutdatedData
 
     public function __construct(
         private DashboardScoresProjectionRepositoryInterface $dashboardScoresProjectionRepository
-    ) {
-    }
+    ) {}
 
     public function purgeAllFrom(\DateTimeImmutable $date)
     {

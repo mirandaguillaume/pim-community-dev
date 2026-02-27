@@ -15,14 +15,12 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class ProductValuesNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    public function __construct(private readonly NormalizerInterface $valueNormalizer)
-    {
-    }
+    public function __construct(private readonly NormalizerInterface $valueNormalizer) {}
 
     /**
      * {@inheritdoc}
      */
-    public function normalize($values, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($values, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $normalizedValues = [];
         foreach ($values as $value) {

@@ -15,8 +15,7 @@ final readonly class SetDateValue implements ValueUserIntent
         private ?string $channelCode,
         private ?string $localeCode,
         private \DateTimeInterface $value
-    ) {
-    }
+    ) {}
 
     public function value(): \DateTimeInterface
     {

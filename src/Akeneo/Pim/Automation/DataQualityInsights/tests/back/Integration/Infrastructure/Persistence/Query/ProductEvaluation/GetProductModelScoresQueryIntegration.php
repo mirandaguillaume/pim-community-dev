@@ -51,7 +51,7 @@ final class GetProductModelScoresQueryIntegration extends DataQualityInsightsTes
 
         $productModelIdCollection = $this->get(ProductModelIdFactory::class)->createCollection([
             $productModelIds['idA'],
-            $productModelIds['idB']
+            $productModelIds['idB'],
         ]);
         $productAxesRates = $this->get(GetProductModelScoresQuery::class)
             ->byProductModelIdCollection($productModelIdCollection);
@@ -64,7 +64,7 @@ final class GetProductModelScoresQueryIntegration extends DataQualityInsightsTes
      */
     private function assertEqualsScore(array $scores, int $productModelId)
     {
-        $searchProductId = $this->get(ProductModelIdFactory::class)->create((string)$productModelId);
+        $searchProductId = $this->get(ProductModelIdFactory::class)->create((string) $productModelId);
         $result = $this->get(GetProductModelScoresQuery::class)->byProductModelId($searchProductId);
         $expectedScores = new Read\Scores(
             $scores['product_model_A_scores']->getScores(),
@@ -111,7 +111,7 @@ final class GetProductModelScoresQueryIntegration extends DataQualityInsightsTes
 
         $productModelsScores = [
             'product_model_A_scores' => new Write\ProductScores(
-                $this->get(ProductModelIdFactory::class)->create((string)$productModelIds['idA']),
+                $this->get(ProductModelIdFactory::class)->create((string) $productModelIds['idA']),
                 new \DateTimeImmutable('2020-01-08'),
                 (new ChannelLocaleRateCollection())
                     ->addRate($channelMobile, $localeEn, new Rate(96))
@@ -121,7 +121,7 @@ final class GetProductModelScoresQueryIntegration extends DataQualityInsightsTes
                     ->addRate($channelMobile, $localeFr, new Rate(46)),
             ),
             'product_model_B_scores' => new Write\ProductScores(
-                $this->get(ProductModelIdFactory::class)->create((string)$productModelIds['idB']),
+                $this->get(ProductModelIdFactory::class)->create((string) $productModelIds['idB']),
                 new \DateTimeImmutable('2020-01-09'),
                 (new ChannelLocaleRateCollection())
                     ->addRate($channelMobile, $localeEn, new Rate(100))
@@ -131,7 +131,7 @@ final class GetProductModelScoresQueryIntegration extends DataQualityInsightsTes
                     ->addRate($channelMobile, $localeFr, new Rate(98)),
             ),
             'other_product_model_scores' => new Write\ProductScores(
-                $this->get(ProductModelIdFactory::class)->create((string)$productModelIds['idC']),
+                $this->get(ProductModelIdFactory::class)->create((string) $productModelIds['idC']),
                 new \DateTimeImmutable('2020-01-08'),
                 (new ChannelLocaleRateCollection())
                     ->addRate($channelMobile, $localeEn, new Rate(87))
@@ -139,7 +139,7 @@ final class GetProductModelScoresQueryIntegration extends DataQualityInsightsTes
                 (new ChannelLocaleRateCollection())
                     ->addRate($channelMobile, $localeEn, new Rate(78))
                     ->addRate($channelMobile, $localeFr, new Rate(46)),
-            )
+            ),
         ];
 
         $this->get(ProductModelScoreRepository::class)->saveAll(array_values($productModelsScores));

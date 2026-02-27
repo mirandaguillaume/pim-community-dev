@@ -100,7 +100,7 @@ class RefreshTokenIntegration extends ApiTestCase
             'POST',
             'api/oauth/v1/token',
             [
-                'grant_type' => 'refresh_token'
+                'grant_type' => 'refresh_token',
             ],
             [],
             [

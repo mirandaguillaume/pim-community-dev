@@ -29,8 +29,7 @@ class DeleteAppHandler
         private readonly DeleteUserGroupInterface $deleteUserGroup,
         private readonly DeleteUserRoleInterface $deleteUserRole,
         private readonly SaveRevokedAccessTokensOfDisconnectedAppQueryInterface $saveRevokedAccessTokensOfDisconnectedAppQuery
-    ) {
-    }
+    ) {}
 
     public function handle(DeleteAppCommand $command): void
     {

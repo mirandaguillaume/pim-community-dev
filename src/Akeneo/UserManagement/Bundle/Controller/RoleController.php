@@ -26,8 +26,7 @@ class RoleController extends AbstractController
         private readonly AclRoleHandler $aclRoleHandler,
         private readonly TranslatorInterface $translator,
         private readonly EditRolePermissionsRoleQuery $editRolePermissionsRoleQuery,
-    ) {
-    }
+    ) {}
 
     /**
      * @AclAncestor("pim_user_role_create")
@@ -69,7 +68,7 @@ class RoleController extends AbstractController
 
         if ($this->editRolePermissionsRoleQuery->isLastRoleWithEditRolePermissions($role)) {
             return new JsonResponse([
-                'message' => $this->translator->trans('pim_user.controller.role.message.cannot_delete_last_edit_role_permission')
+                'message' => $this->translator->trans('pim_user.controller.role.message.cannot_delete_last_edit_role_permission'),
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 

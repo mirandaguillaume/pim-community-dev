@@ -25,19 +25,19 @@ use Webmozart\Assert\Assert;
  */
 class SaveMeasurementFamilyHandlerSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         MeasurementFamilyRepositoryInterface $measurementFamilyRepository,
         EventDispatcherInterface $eventDispatcher
     ) {
         $this->beConstructedWith($measurementFamilyRepository, $eventDispatcher);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(SaveMeasurementFamilyHandler::class);
     }
 
-    function it_creates_and_saves_a_new_measurement_family(
+    public function it_creates_and_saves_a_new_measurement_family(
         MeasurementFamilyRepositoryInterface $measurementFamilyRepository,
         SaveMeasurementFamilyCommand $saveMeasurementFamilyCommand
     ) {
@@ -50,19 +50,19 @@ class SaveMeasurementFamilyHandlerSpec extends ObjectBehavior
                 'labels' => ['en_US' => 'Square millimeter', 'fr_FR' => 'Millimètre carré'],
                 'convert_from_standard' => [[
                     'operator' => 'mul',
-                    'value' => '1'
+                    'value' => '1',
                 ]],
-                'symbol' => 'mm²'
+                'symbol' => 'mm²',
             ],
             [
                 'code' => 'SQUARE_CENTIMETER',
                 'labels' => ['en_US' => 'Square centimeter', 'fr_FR' => 'Centimètre carré'],
                 'convert_from_standard' => [[
                     'operator' => 'mul',
-                    'value' => '0.0001'
+                    'value' => '0.0001',
                 ]],
-                'symbol' => 'cm²'
-            ]
+                'symbol' => 'cm²',
+            ],
         ];
 
         $expectedArea = MeasurementFamily::create(
@@ -81,7 +81,7 @@ class SaveMeasurementFamilyHandlerSpec extends ObjectBehavior
                     LabelCollection::fromArray(['en_US' => 'Square centimeter', 'fr_FR' => 'Centimètre carré']),
                     [Operation::create('mul', '0.0001')],
                     'cm²',
-                )
+                ),
             ]
         );
 

@@ -18,9 +18,7 @@ use Symfony\Component\Validator\Constraints\Type;
  */
 final readonly class RemoveNonExistingProductValues implements ConstraintCollectionProviderInterface
 {
-    public function __construct(private array $supportedJobNames)
-    {
-    }
+    public function __construct(private array $supportedJobNames) {}
 
     /**
      * {@inheritdoc}
@@ -35,7 +33,7 @@ final readonly class RemoveNonExistingProductValues implements ConstraintCollect
                     new Type('array'),
                     new All([
                         new Type('string'),
-                    ])
+                    ]),
                 ],
             ],
         ]);

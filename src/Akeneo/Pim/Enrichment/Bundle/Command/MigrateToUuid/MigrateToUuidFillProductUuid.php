@@ -21,8 +21,7 @@ class MigrateToUuidFillProductUuid implements MigrateToUuidStep
     public function __construct(
         private readonly Connection $connection,
         private readonly LoggerInterface $logger
-    ) {
-    }
+    ) {}
 
     public function getDescription(): string
     {
@@ -42,13 +41,13 @@ class MigrateToUuidFillProductUuid implements MigrateToUuidStep
     public function shouldBeExecuted(): bool
     {
         $sql = <<<SQL
-            SELECT EXISTS (
-                SELECT 1
-                FROM pim_catalog_product
-                WHERE uuid IS NULL
-                LIMIT 1
-            ) AS missing
-        SQL;
+                SELECT EXISTS (
+                    SELECT 1
+                    FROM pim_catalog_product
+                    WHERE uuid IS NULL
+                    LIMIT 1
+                ) AS missing
+            SQL;
 
         return (bool) $this->connection->fetchOne($sql);
     }
@@ -91,10 +90,10 @@ class MigrateToUuidFillProductUuid implements MigrateToUuidStep
     private function getNullUuidCount(string $uuidColumnName): int
     {
         $sql = <<<SQL
-            SELECT COUNT(*) 
-            FROM pim_catalog_product
-            WHERE {uuid_column_name} IS NULL
-        SQL;
+                SELECT COUNT(*) 
+                FROM pim_catalog_product
+                WHERE {uuid_column_name} IS NULL
+            SQL;
 
         return (int) $this->connection->fetchOne(\strtr($sql, ['{uuid_column_name}' => $uuidColumnName]));
     }
@@ -107,22 +106,22 @@ class MigrateToUuidFillProductUuid implements MigrateToUuidStep
         }
 
         $sql = <<<SQL
-        WITH
-        product_uuid AS (
-            SELECT * FROM (VALUES
-                {rows}
-            ) as t(rn, uuid)
-        ),
-        product_to_migrate AS (
-            SELECT id, row_number() over () as rn
-            FROM pim_catalog_product
-            WHERE uuid is NULL
-            LIMIT {batch_size}
-        )
-        UPDATE pim_catalog_product p, product_to_migrate, product_uuid
-        SET p.uuid = UUID_TO_BIN(product_uuid.uuid)
-        WHERE p.id = product_to_migrate.id AND product_to_migrate.rn = product_uuid.rn;
-        SQL;
+            WITH
+            product_uuid AS (
+                SELECT * FROM (VALUES
+                    {rows}
+                ) as t(rn, uuid)
+            ),
+            product_to_migrate AS (
+                SELECT id, row_number() over () as rn
+                FROM pim_catalog_product
+                WHERE uuid is NULL
+                LIMIT {batch_size}
+            )
+            UPDATE pim_catalog_product p, product_to_migrate, product_uuid
+            SET p.uuid = UUID_TO_BIN(product_uuid.uuid)
+            WHERE p.id = product_to_migrate.id AND product_to_migrate.rn = product_uuid.rn;
+            SQL;
 
         $sql = strtr($sql, [
             '{rows}' => \implode(',', $rows),

@@ -41,7 +41,7 @@ class RegisterFilterPass implements CompilerPassInterface
                     'addCollectionFilter',
                     [
                         new Reference($serviceId),
-                        $attribute['type']
+                        $attribute['type'],
                     ]
                 );
             }

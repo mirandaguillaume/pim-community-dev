@@ -22,8 +22,7 @@ final readonly class GpsTransport implements TransportInterface, SetupableTransp
         private Client $client,
         private SenderInterface $sender,
         private ?ReceiverInterface $receiver
-    ) {
-    }
+    ) {}
 
     public function setup(): void
     {

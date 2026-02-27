@@ -24,9 +24,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class SelectedAttributesConfigurator implements ConfiguratorInterface
 {
-    public function __construct(private readonly AttributeRepositoryInterface $attributeRepository, private readonly UserContext $userContext, private readonly RequestParameters $requestParams, private readonly RequestStack $requestStack)
-    {
-    }
+    public function __construct(private readonly AttributeRepositoryInterface $attributeRepository, private readonly UserContext $userContext, private readonly RequestParameters $requestParams, private readonly RequestStack $requestStack) {}
 
     /**
      * {@inheritdoc}

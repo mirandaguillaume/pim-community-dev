@@ -98,7 +98,7 @@ abstract class ApiTestCase extends WebTestCase
 
         static::ensureKernelShutdown();
         $client = static::createClient($options, $server);
-        $client->setServerParameter('HTTP_AUTHORIZATION', 'Bearer '.$accessToken);
+        $client->setServerParameter('HTTP_AUTHORIZATION', 'Bearer ' . $accessToken);
 
         $user = $this->get('pim_user.repository.user')->findOneByIdentifier($username);
         $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
@@ -213,8 +213,8 @@ abstract class ApiTestCase extends WebTestCase
     protected function getUserId(string $username): int
     {
         $query = <<<SQL
-            SELECT id FROM oro_user WHERE username = :username
-        SQL;
+                SELECT id FROM oro_user WHERE username = :username
+            SQL;
         $stmt = $this->get('database_connection')->executeQuery($query, ['username' => $username]);
         $id = $stmt->fetchOne();
         if (null === $id) {
@@ -264,7 +264,7 @@ abstract class ApiTestCase extends WebTestCase
     {
         $configuration = $this->getConfiguration();
         foreach ($configuration->getFixtureDirectories() as $fixtureDirectory) {
-            $path = $fixtureDirectory.DIRECTORY_SEPARATOR.$name;
+            $path = $fixtureDirectory . DIRECTORY_SEPARATOR . $name;
             if (is_file($path) && false !== realpath($path)) {
                 return realpath($path);
             }
@@ -418,12 +418,12 @@ abstract class ApiTestCase extends WebTestCase
     {
         $productUuid = $this->get('database_connection')->executeQuery(
             <<<SQL
-SELECT BIN_TO_UUID(product_uuid) AS uuid
-FROM pim_catalog_product_unique_data
-INNER JOIN pim_catalog_attribute ON pim_catalog_product_unique_data.attribute_id = pim_catalog_attribute.id
-WHERE raw_data = :identifier
-AND pim_catalog_attribute.main_identifier = 1
-SQL,
+                SELECT BIN_TO_UUID(product_uuid) AS uuid
+                FROM pim_catalog_product_unique_data
+                INNER JOIN pim_catalog_attribute ON pim_catalog_product_unique_data.attribute_id = pim_catalog_attribute.id
+                WHERE raw_data = :identifier
+                AND pim_catalog_attribute.main_identifier = 1
+                SQL,
             ['identifier' => $productIdentifier]
         )->fetchOne();
 

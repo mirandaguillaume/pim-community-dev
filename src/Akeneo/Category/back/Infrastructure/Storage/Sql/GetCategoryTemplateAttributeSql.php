@@ -19,9 +19,7 @@ use Doctrine\DBAL\Driver\Exception;
  */
 class GetCategoryTemplateAttributeSql implements GetAttribute
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     /**
      * @throws Exception
@@ -31,22 +29,22 @@ class GetCategoryTemplateAttributeSql implements GetAttribute
     public function byTemplateUuid(TemplateUuid $uuid): AttributeCollection
     {
         $query = <<< SQL
-            SELECT 
-                BIN_TO_UUID(uuid) as uuid,
-                code, 
-                BIN_TO_UUID(category_template_uuid) as category_template_uuid,
-                labels, 
-                attribute_type, 
-                attribute_order, 
-                is_required, 
-                is_scopable, 
-                is_localizable, 
-                additional_properties
-            FROM pim_catalog_category_attribute
-            WHERE category_template_uuid = :template_uuid
-            AND is_deactivated = 0
-            ORDER BY attribute_order;
-        SQL;
+                SELECT 
+                    BIN_TO_UUID(uuid) as uuid,
+                    code, 
+                    BIN_TO_UUID(category_template_uuid) as category_template_uuid,
+                    labels, 
+                    attribute_type, 
+                    attribute_order, 
+                    is_required, 
+                    is_scopable, 
+                    is_localizable, 
+                    additional_properties
+                FROM pim_catalog_category_attribute
+                WHERE category_template_uuid = :template_uuid
+                AND is_deactivated = 0
+                ORDER BY attribute_order;
+            SQL;
 
         $results = $this->connection->executeQuery(
             $query,
@@ -58,7 +56,7 @@ class GetCategoryTemplateAttributeSql implements GetAttribute
             ],
         )->fetchAllAssociative();
 
-        return AttributeCollection::fromArray(array_map(static fn ($results) => Attribute::fromDatabase($results), $results));
+        return AttributeCollection::fromArray(array_map(static fn($results) => Attribute::fromDatabase($results), $results));
     }
 
     /**
@@ -76,20 +74,20 @@ class GetCategoryTemplateAttributeSql implements GetAttribute
         );
 
         $sql = <<< SQL
-            SELECT BIN_TO_UUID(uuid) as uuid,
-                code, 
-                BIN_TO_UUID(category_template_uuid) as category_template_uuid,
-                labels, 
-                attribute_type, 
-                attribute_order, 
-                is_required, 
-                is_scopable, 
-                is_localizable, 
-                additional_properties
-            FROM pim_catalog_category_attribute
-            WHERE uuid IN ({$placeholders})
-            AND is_deactivated = 0;
-        SQL;
+                SELECT BIN_TO_UUID(uuid) as uuid,
+                    code, 
+                    BIN_TO_UUID(category_template_uuid) as category_template_uuid,
+                    labels, 
+                    attribute_type, 
+                    attribute_order, 
+                    is_required, 
+                    is_scopable, 
+                    is_localizable, 
+                    additional_properties
+                FROM pim_catalog_category_attribute
+                WHERE uuid IN ({$placeholders})
+                AND is_deactivated = 0;
+            SQL;
 
         $statement = $this->connection->prepare($sql);
         $placeholderIndex = 0;
@@ -101,7 +99,7 @@ class GetCategoryTemplateAttributeSql implements GetAttribute
             ->executeQuery()
             ->fetchAllAssociative();
 
-        $attributes = array_map(static fn ($attributes) => Attribute::fromDatabase($attributes), $categoryAttributes);
+        $attributes = array_map(static fn($attributes) => Attribute::fromDatabase($attributes), $categoryAttributes);
 
         return AttributeCollection::fromArray($attributes);
     }
@@ -124,21 +122,21 @@ class GetCategoryTemplateAttributeSql implements GetAttribute
     public function byCode(AttributeCode $attributeCode): Attribute
     {
         $query = <<< SQL
-            SELECT 
-                BIN_TO_UUID(uuid) as uuid,
-                code, 
-                BIN_TO_UUID(category_template_uuid) as category_template_uuid,
-                labels, 
-                attribute_type, 
-                attribute_order, 
-                is_required, 
-                is_scopable, 
-                is_localizable, 
-                additional_properties
-            FROM pim_catalog_category_attribute
-            WHERE code = :code
-            AND is_deactivated = 0;
-        SQL;
+                SELECT 
+                    BIN_TO_UUID(uuid) as uuid,
+                    code, 
+                    BIN_TO_UUID(category_template_uuid) as category_template_uuid,
+                    labels, 
+                    attribute_type, 
+                    attribute_order, 
+                    is_required, 
+                    is_scopable, 
+                    is_localizable, 
+                    additional_properties
+                FROM pim_catalog_category_attribute
+                WHERE code = :code
+                AND is_deactivated = 0;
+            SQL;
 
         $attribute = $this->connection->executeQuery(
             $query,

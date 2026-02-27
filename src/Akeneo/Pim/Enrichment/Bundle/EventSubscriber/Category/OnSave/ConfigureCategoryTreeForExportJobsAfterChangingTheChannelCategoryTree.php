@@ -28,9 +28,7 @@ final readonly class ConfigureCategoryTreeForExportJobsAfterChangingTheChannelCa
     /**
      * @param array|string[] $supportedJobNames
      */
-    public function __construct(private ObjectRepository $jobInstanceRepository, private ObjectUpdaterInterface $jobInstanceUpdater, private BulkSaverInterface $jobInstanceSaver, private array $supportedJobNames)
-    {
-    }
+    public function __construct(private ObjectRepository $jobInstanceRepository, private ObjectUpdaterInterface $jobInstanceUpdater, private BulkSaverInterface $jobInstanceSaver, private array $supportedJobNames) {}
 
     public function onChannelCategoryHasBeenUpdatedEvent(ChannelCategoryHasBeenUpdated $event): void
     {
@@ -64,7 +62,7 @@ final readonly class ConfigureCategoryTreeForExportJobsAfterChangingTheChannelCa
 
         return \array_filter(
             $jobInstances,
-            fn (JobInstance $jobInstance) => $jobInstance->getRawParameters()['filters']['structure']['scope'] === $channelCode
+            fn(JobInstance $jobInstance) => $jobInstance->getRawParameters()['filters']['structure']['scope'] === $channelCode
         );
     }
 

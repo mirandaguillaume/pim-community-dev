@@ -26,8 +26,7 @@ class UpsertCategoryBaseSql implements UpsertCategoryBase
         private readonly Connection $connection,
         private readonly GetCategoryInterface $getCategory,
         private readonly IsTemplateDeactivated $isTemplateDeactivated,
-    ) {
-    }
+    ) {}
 
     public function execute(Category $categoryModel): void
     {
@@ -52,12 +51,12 @@ class UpsertCategoryBaseSql implements UpsertCategoryBase
         }
 
         $query = <<< SQL
-            INSERT INTO pim_catalog_category
-                (parent_id, code, created, root, lvl, lft, rgt, value_collection)
-            VALUES
-                (:parent_id, :code, NOW(), :root, :lvl, :lft, :rgt, :value_collection)
-            ;
-        SQL;
+                INSERT INTO pim_catalog_category
+                    (parent_id, code, created, root, lvl, lft, rgt, value_collection)
+                VALUES
+                    (:parent_id, :code, NOW(), :root, :lvl, :lft, :rgt, :value_collection)
+                ;
+            SQL;
 
         $this->connection->executeQuery(
             $query,
@@ -88,10 +87,10 @@ class UpsertCategoryBaseSql implements UpsertCategoryBase
             $newCategoryId = $this->connection->lastInsertId();
             $this->connection->executeQuery(
                 <<< SQL
-                    UPDATE pim_catalog_category
-                    SET root=:root
-                    WHERE code=:category_code
-                SQL,
+                        UPDATE pim_catalog_category
+                        SET root=:root
+                        WHERE code=:category_code
+                    SQL,
                 [
                     'category_code' => (string) $categoryModel->getCode(),
                     'root' => $newCategoryId,
@@ -112,13 +111,13 @@ class UpsertCategoryBaseSql implements UpsertCategoryBase
         }
 
         $query = <<<SQL
-            UPDATE pim_catalog_category
-            SET
-                created = pim_catalog_category.created,
-                updated = NOW(),
-                value_collection = :value_collection
-            WHERE code = :category_code;
-        SQL;
+                UPDATE pim_catalog_category
+                SET
+                    created = pim_catalog_category.created,
+                    updated = NOW(),
+                    value_collection = :value_collection
+                WHERE code = :category_code;
+            SQL;
 
         $this->connection->executeQuery(
             $query,
@@ -143,7 +142,7 @@ class UpsertCategoryBaseSql implements UpsertCategoryBase
 
         $attributeValues = array_filter(
             $valueCollection->normalize(),
-            fn (array $attributeValue) => null !== $attributeValue['data'],
+            fn(array $attributeValue) => null !== $attributeValue['data'],
         );
 
         return $attributeValues;

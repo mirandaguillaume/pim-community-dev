@@ -18,8 +18,7 @@ final readonly class GetAppQuery implements GetAppQueryInterface
     public function __construct(
         private WebMarketplaceApiInterface $webMarketplaceApi,
         private GetCustomAppQuery $getCustomAppQuery,
-    ) {
-    }
+    ) {}
 
     public function execute(string $id): ?App
     {

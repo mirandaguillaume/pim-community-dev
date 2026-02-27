@@ -30,8 +30,7 @@ class EvaluatePendingCriteria
         private readonly SynchronousCriterionEvaluationsFilterInterface         $synchronousCriterionEvaluationsFilter,
         private readonly LoggerInterface                                        $logger,
         private readonly ProductEntityIdFactoryInterface                        $idFactory
-    ) {
-    }
+    ) {}
 
     public function evaluateAllCriteria(ProductEntityIdCollection $productIdCollection): void
     {

@@ -23,7 +23,7 @@ class CollectionNormalizer implements NormalizerInterface, SerializerAwareInterf
     /**
      * {@inheritdoc}
      */
-    public function normalize($elements, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($elements, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $normalizedElements = [];
 

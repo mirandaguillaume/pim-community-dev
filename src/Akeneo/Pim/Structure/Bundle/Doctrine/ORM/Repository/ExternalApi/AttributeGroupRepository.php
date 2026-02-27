@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Structure\Bundle\Doctrine\ORM\Repository\ExternalApi;
@@ -109,13 +110,13 @@ class AttributeGroupRepository extends EntityRepository implements ApiResourceRe
                     'value' => [
                         new Type([
                             'type' => 'array',
-                            'message' => 'In order to search on attribute group codes you must send an array of attribute group codes as value, {{ givenType }} given.'
+                            'message' => 'In order to search on attribute group codes you must send an array of attribute group codes as value, {{ givenType }} given.',
                         ]),
                         new Assert\All([
-                            new Assert\Type('string')
-                        ])
+                            new Assert\Type('string'),
+                        ]),
                     ],
-                ])
+                ]),
             ]),
             'updated' => new Assert\All([
                 new Assert\Collection([
@@ -124,7 +125,7 @@ class AttributeGroupRepository extends EntityRepository implements ApiResourceRe
                         'message' => 'Searching on the "updated" property require the ">" (greater than) operator, {{ compared_value }} given.',
                     ]),
                     'value' => new Assert\DateTime(['format' => \DateTime::ATOM]),
-                ])
+                ]),
             ]),
         ];
         $availableSearchFilters = array_keys($constraints);

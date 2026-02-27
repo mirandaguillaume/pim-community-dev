@@ -75,9 +75,9 @@ class UpdateTotalFieldsLimitCommand extends Command
                     'mapping' => [
                         'total_fields' => [
                             'limit' => $newLimit,
-                        ]
-                    ]
-                ]
+                        ],
+                    ],
+                ],
             ],
         ]);
     }
@@ -90,12 +90,12 @@ class UpdateTotalFieldsLimitCommand extends Command
 
         return [
             'client' => $nativeClient,
-            'indexName' => $client->getIndexName()
+            'indexName' => $client->getIndexName(),
         ];
     }
 
     private function getEsClients(): array
     {
-        return array_filter($this->esClientsRegistry->getClients(), fn (Client $client) => in_array($client->getIndexName(), $this->indexesToUpdate));
+        return array_filter($this->esClientsRegistry->getClients(), fn(Client $client) => in_array($client->getIndexName(), $this->indexesToUpdate));
     }
 }

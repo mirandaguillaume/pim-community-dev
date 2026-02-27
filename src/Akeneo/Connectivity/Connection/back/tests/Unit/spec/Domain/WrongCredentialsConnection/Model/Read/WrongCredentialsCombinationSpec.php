@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace spec\Akeneo\Connectivity\Connection\Domain\WrongCredentialsConnection\Model\Read;
@@ -58,7 +59,7 @@ class WrongCredentialsCombinationSpec extends ObjectBehavior
     {
         $this->normalize()->shouldReturn([
             'code' => 'magento',
-            'users' => []
+            'users' => [],
         ]);
     }
 
@@ -79,8 +80,8 @@ class WrongCredentialsCombinationSpec extends ObjectBehavior
                 [
                     'username' => 'dadada',
                     'date' => '2020-02-14T12:03:40+00:00',
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 }

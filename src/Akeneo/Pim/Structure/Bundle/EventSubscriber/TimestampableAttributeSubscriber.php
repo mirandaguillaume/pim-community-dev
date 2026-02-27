@@ -21,9 +21,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class TimestampableAttributeSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly ObjectManager $em)
-    {
-    }
+    public function __construct(private readonly ObjectManager $em) {}
 
     /**
      * Specifies the list of events to listen

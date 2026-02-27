@@ -28,7 +28,7 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 class QueueJobLauncherSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         JobRepositoryInterface $jobRepository,
         JobParametersFactory $jobParametersFactory,
         JobRegistry $jobRegistry,
@@ -41,12 +41,12 @@ class QueueJobLauncherSpec extends ObjectBehavior
         $this->beConstructedWith($jobRepository, $jobParametersFactory, $jobRegistry, $jobParametersValidator, $queue, $jobExecutionMessageFactory, $eventDispatcher, $batchLogHandler, 'test');
     }
 
-    function it_is_a_job_launcher()
+    public function it_is_a_job_launcher()
     {
         $this->shouldHaveType(QueueJobLauncher::class);
     }
 
-    function it_launches_a_job_by_pushing_it_to_the_queue(
+    public function it_launches_a_job_by_pushing_it_to_the_queue(
         $jobRegistry,
         $jobParametersFactory,
         $jobParametersValidator,
@@ -86,7 +86,7 @@ class QueueJobLauncherSpec extends ObjectBehavior
         $this->launch($jobInstance, $user, ['baz' => 'foz'])->shouldReturn($jobExecution);
     }
 
-    function it_launches_a_job_by_pushing_it_to_the_queue_with_email(
+    public function it_launches_a_job_by_pushing_it_to_the_queue_with_email(
         $jobRegistry,
         $jobParametersFactory,
         $jobParametersValidator,
@@ -128,7 +128,7 @@ class QueueJobLauncherSpec extends ObjectBehavior
         $this->launch($jobInstance, $user, ['baz' => 'foz', 'send_email' => true])->shouldReturn($jobExecution);
     }
 
-    function it_throws_an_exception_if_job_parameters_are_invalid(
+    public function it_throws_an_exception_if_job_parameters_are_invalid(
         $jobRegistry,
         $jobParametersFactory,
         $jobParametersValidator,
@@ -165,7 +165,7 @@ class QueueJobLauncherSpec extends ObjectBehavior
 
         $this
             ->shouldThrow(
-                new \RuntimeException('Job instance "job_instance_code" running the job "job_name" with parameters "[]" is invalid because of "' . PHP_EOL .'  - error"')
+                new \RuntimeException('Job instance "job_instance_code" running the job "job_name" with parameters "[]" is invalid because of "' . PHP_EOL . '  - error"')
             )
             ->during('launch', [$jobInstance, $user, []]);
     }

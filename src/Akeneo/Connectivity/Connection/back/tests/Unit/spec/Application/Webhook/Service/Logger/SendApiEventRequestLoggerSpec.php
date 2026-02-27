@@ -50,7 +50,7 @@ class SendApiEventRequestLoggerSpec extends ObjectBehavior
                 'staging.akeneo.com',
                 ['data'],
                 $this->createEvent($author, ['data'])
-            )
+            ),
         ];
 
         $webhookRequest = new WebhookRequest($webhook, $events);
@@ -81,7 +81,7 @@ class SendApiEventRequestLoggerSpec extends ObjectBehavior
                     'author' => 'julia',
                     'author_type' => 'ui',
                     'name' => 'product.created',
-                    'timestamp' => 1_577_836_800
+                    'timestamp' => 1_577_836_800,
                 ],
                 [
                     'uuid' => '8bdfe74c-da2e-4bda-a2b1-b5e2a3006ea3',
@@ -89,7 +89,7 @@ class SendApiEventRequestLoggerSpec extends ObjectBehavior
                     'author_type' => 'ui',
                     'name' => 'product.updated',
                     'timestamp' => 1_577_836_811,
-                ]
+                ],
             ],
             'max_propagation_seconds' => 26_098_208,
             'min_propagation_seconds' => 26_098_197,
@@ -130,7 +130,7 @@ class SendApiEventRequestLoggerSpec extends ObjectBehavior
                 'staging.akeneo.com',
                 ['data'],
                 $this->createEvent($author, ['data'])
-            )
+            ),
         ];
 
         $webhookRequest = new WebhookRequest($webhook, $events);
@@ -159,7 +159,7 @@ class SendApiEventRequestLoggerSpec extends ObjectBehavior
                     'author' => 'julia',
                     'author_type' => 'ui',
                     'name' => 'product.created',
-                    'timestamp' => 1_577_836_800
+                    'timestamp' => 1_577_836_800,
                 ],
                 [
                     'uuid' => '8bdfe74c-da2e-4bda-a2b1-b5e2a3006ea3',
@@ -167,7 +167,7 @@ class SendApiEventRequestLoggerSpec extends ObjectBehavior
                     'author_type' => 'ui',
                     'name' => 'product.updated',
                     'timestamp' => 1_577_836_811,
-                ]
+                ],
             ],
             'max_propagation_seconds' => 26_098_208,
             'min_propagation_seconds' => 26_098_197,
@@ -208,7 +208,7 @@ class SendApiEventRequestLoggerSpec extends ObjectBehavior
                 'staging.akeneo.com',
                 ['data'],
                 $this->createEvent($author, ['data'])
-            )
+            ),
         ];
 
         $webhookRequest = new WebhookRequest($webhook, $events);
@@ -270,7 +270,7 @@ class SendApiEventRequestLoggerSpec extends ObjectBehavior
         $timestamp = 1_577_836_800;
         $uuid = '5d30d0f6-87a6-45ad-ba6b-3a302b0d328c';
 
-        return new class($author, $data, $timestamp, $uuid) extends Event {
+        return new class ($author, $data, $timestamp, $uuid) extends Event {
             public function getName(): string
             {
                 return 'product.created';

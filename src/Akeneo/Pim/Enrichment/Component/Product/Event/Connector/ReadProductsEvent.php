@@ -11,9 +11,7 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Event\Connector;
  */
 final readonly class ReadProductsEvent
 {
-    public function __construct(private int $count, private ?string $connectionCode = null)
-    {
-    }
+    public function __construct(private int $count, private ?string $connectionCode = null) {}
 
     public function getCount(): int
     {

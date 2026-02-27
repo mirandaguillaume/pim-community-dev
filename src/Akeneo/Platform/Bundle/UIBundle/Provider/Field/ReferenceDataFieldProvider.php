@@ -16,7 +16,7 @@ class ReferenceDataFieldProvider implements FieldProviderInterface
     /** @var array */
     protected $fields = [
         'pim_reference_data_simpleselect' => 'akeneo-simple-select-reference-data-field',
-        'pim_reference_data_multiselect'  => 'akeneo-multi-select-reference-data-field'
+        'pim_reference_data_multiselect'  => 'akeneo-multi-select-reference-data-field',
     ];
 
     /**
@@ -32,7 +32,7 @@ class ReferenceDataFieldProvider implements FieldProviderInterface
      */
     public function supports($element)
     {
-        return $element instanceof AttributeInterface &&
-            in_array($element->getType(), array_keys($this->fields));
+        return $element instanceof AttributeInterface
+            && in_array($element->getType(), array_keys($this->fields));
     }
 }

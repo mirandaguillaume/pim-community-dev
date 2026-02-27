@@ -16,8 +16,7 @@ class FeatureFlagDatagridFilterListener
 {
     public function __construct(
         private readonly FeatureFlags $featureFlags
-    ) {
-    }
+    ) {}
 
     public function filterColumns(BuildBefore $event)
     {

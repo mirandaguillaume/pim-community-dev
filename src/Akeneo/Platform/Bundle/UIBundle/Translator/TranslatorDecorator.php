@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Platform\Bundle\UIBundle\Translator;
@@ -18,9 +19,7 @@ use Webmozart\Assert\Assert;
  */
 class TranslatorDecorator implements TranslatorInterface, LocaleAwareInterface, TranslatorBagInterface
 {
-    public function __construct(private readonly TranslatorInterface $symfonyTranslator)
-    {
-    }
+    public function __construct(private readonly TranslatorInterface $symfonyTranslator) {}
 
     /**
      * {@inheritdoc}

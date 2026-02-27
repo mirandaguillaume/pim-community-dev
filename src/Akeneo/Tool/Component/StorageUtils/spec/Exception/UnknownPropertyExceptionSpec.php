@@ -7,7 +7,7 @@ use PhpSpec\ObjectBehavior;
 
 class UnknownPropertyExceptionSpec extends ObjectBehavior
 {
-    function it_creates_an_unknown_property_exception()
+    public function it_creates_an_unknown_property_exception()
     {
         $previous = new \Exception();
         $exception = UnknownPropertyException::unknownProperty('property', $previous);

@@ -21,23 +21,23 @@ use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
  */
 class ValueUserIntentsShouldBeUniqueValidatorSpec extends ObjectBehavior
 {
-    function let(ExecutionContext $context)
+    public function let(ExecutionContext $context)
     {
         $this->initialize($context);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(ValueUserIntentsShouldBeUniqueValidator::class);
         $this->shouldImplement(ConstraintValidatorInterface::class);
     }
 
-    function it_throws_an_exception_with_a_wrong_constraint()
+    public function it_throws_an_exception_with_a_wrong_constraint()
     {
         $this->shouldThrow(\InvalidArgumentException::class)->duringValidate(1, new Type([]));
     }
 
-    function it_does_nothing_when_the_value_intents_are_distinct(ExecutionContext $context)
+    public function it_does_nothing_when_the_value_intents_are_distinct(ExecutionContext $context)
     {
         $context->buildViolation(Argument::cetera())->shouldNotBeCalled();
 
@@ -49,7 +49,7 @@ class ValueUserIntentsShouldBeUniqueValidatorSpec extends ObjectBehavior
         ], new ValueUserIntentsShouldBeUnique());
     }
 
-    function it_throws_an_exception_when_the_value_intents_are_not_distinct(ExecutionContext $context, ConstraintViolationBuilderInterface $violationBuilder)
+    public function it_throws_an_exception_when_the_value_intents_are_not_distinct(ExecutionContext $context, ConstraintViolationBuilderInterface $violationBuilder)
     {
         $constraint = new ValueUserIntentsShouldBeUnique();
         $context

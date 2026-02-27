@@ -7,9 +7,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Connector\FlatTranslator\PropertyVal
 
 class ProductAndProductModelFlatTranslator implements FlatTranslatorInterface
 {
-    public function __construct(private readonly HeaderRegistry $headerRegistry, private readonly PropertyValueRegistry $propertyValueRegistry, private readonly AttributeValuesFlatTranslator $attributeValuesFlatTranslator, private readonly AssociationTranslator $associationTranslator)
-    {
-    }
+    public function __construct(private readonly HeaderRegistry $headerRegistry, private readonly PropertyValueRegistry $propertyValueRegistry, private readonly AttributeValuesFlatTranslator $attributeValuesFlatTranslator, private readonly AssociationTranslator $associationTranslator) {}
 
     public function translate(array $flatItems, string $locale, string $scope, bool $translateHeaders): array
     {
@@ -52,8 +50,8 @@ class ProductAndProductModelFlatTranslator implements FlatTranslatorInterface
     private function translateHeader(string $columnCode, string $locale): string
     {
         $translator = $this->headerRegistry->getTranslator($columnCode);
-        $columnLabelized = null !== $translator ? $translator->translate($columnCode, $locale) :
-            sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $columnCode);
+        $columnLabelized = null !== $translator ? $translator->translate($columnCode, $locale)
+            : sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $columnCode);
 
         return sprintf(
             '%s%s%s',
@@ -96,7 +94,7 @@ class ProductAndProductModelFlatTranslator implements FlatTranslatorInterface
 
     private function areValuesEmpty(array $values): bool
     {
-        return 0 === count(array_filter($values, fn ($value) => '' !== $value));
+        return 0 === count(array_filter($values, fn($value) => '' !== $value));
     }
 
     /**

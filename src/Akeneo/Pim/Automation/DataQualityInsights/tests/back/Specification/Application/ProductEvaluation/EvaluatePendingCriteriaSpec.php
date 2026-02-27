@@ -51,8 +51,7 @@ class EvaluatePendingCriteriaSpec extends ObjectBehavior
         SynchronousCriterionEvaluationsFilterInterface         $synchronousCriterionEvaluationsFilter,
         LoggerInterface                                        $logger,
         ProductEntityIdFactoryInterface                        $idFactory
-    )
-    {
+    ) {
         $this->beConstructedWith($repository, $evaluationRegistry, $applicabilityRegistry, $getPendingCriteriaEvaluationsQuery, $getEvaluableProductValuesQuery, $synchronousCriterionEvaluationsFilter, $logger, $idFactory);
     }
 
@@ -89,7 +88,7 @@ class EvaluatePendingCriteriaSpec extends ObjectBehavior
                 $criterionNonRequiredAttributesCompleteness,
                 ProductUuid::fromString('df470d52-7723-4890-85a0-e79be625e2ed'),
                 CriterionEvaluationStatus::pending()
-            )
+            ),
         ];
 
         $criteriaProduct_fef37e64 = (new Write\CriterionEvaluationCollection())
@@ -100,7 +99,7 @@ class EvaluatePendingCriteriaSpec extends ObjectBehavior
 
         $getPendingCriteriaEvaluationsQuery->execute($productIdCollection)->willreturn([
             'fef37e64-a963-47a9-b087-2cc67968f0a2' => $criteriaProduct_fef37e64,
-            'df470d52-7723-4890-85a0-e79be625e2ed' => $criteriaProduct_df470d52
+            'df470d52-7723-4890-85a0-e79be625e2ed' => $criteriaProduct_df470d52,
         ]);
 
         $productValues_fef37e64 = $this->givenRandomProductValues();
@@ -144,8 +143,7 @@ class EvaluatePendingCriteriaSpec extends ObjectBehavior
         ProductEntityIdCollection                              $productIdCollection,
         ProductEntityIdInterface                               $productIdA,
         ProductEntityIdInterface                               $productIdB
-    )
-    {
+    ) {
         $productIdCollection->isEmpty()->willReturn(false);
         $productIdCollection->toArrayString()->willReturn(['42', '123']);
 
@@ -203,8 +201,7 @@ class EvaluatePendingCriteriaSpec extends ObjectBehavior
         ProductEntityIdCollection                              $productIdCollection,
         ProductEntityIdInterface                               $productIdA,
         ProductEntityIdInterface                               $productIdB
-    )
-    {
+    ) {
         $productIdCollection->isEmpty()->willReturn(false);
         $productIdCollection->toArrayString()->willReturn(['42', '123']);
 
@@ -226,14 +223,14 @@ class EvaluatePendingCriteriaSpec extends ObjectBehavior
                 $criterionNonRequiredAttributeCompleteness,
                 $productIdB->getWrappedObject(),
                 CriterionEvaluationStatus::pending()
-            )
+            ),
         ];
 
         $product42CriteriaCollection = (new Write\CriterionEvaluationCollection())->add($criteria['product_42_non_required_att_completeness']);
         $product123CriteriaCollection = (new Write\CriterionEvaluationCollection())->add($criteria['product_123_non_required_att_completeness']);
         $getPendingCriteriaEvaluationsQuery->execute($productIdCollection)->willreturn([
             42 => $product42CriteriaCollection,
-            123 => $product123CriteriaCollection
+            123 => $product123CriteriaCollection,
         ]);
 
         $product42Values = $this->givenRandomProductValues();

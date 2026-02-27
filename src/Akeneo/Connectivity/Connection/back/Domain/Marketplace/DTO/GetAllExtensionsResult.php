@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Domain\Marketplace\DTO;
@@ -46,7 +47,7 @@ final class GetAllExtensionsResult
     {
         return self::create(
             $this->total,
-            \array_map(fn (Extension $extension): \Akeneo\Connectivity\Connection\Domain\Marketplace\Model\Extension => $extension->withAnalytics($queryParameters), $this->extensions),
+            \array_map(fn(Extension $extension): \Akeneo\Connectivity\Connection\Domain\Marketplace\Model\Extension => $extension->withAnalytics($queryParameters), $this->extensions),
         );
     }
 

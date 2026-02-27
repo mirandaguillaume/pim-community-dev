@@ -14,6 +14,5 @@ final class TransferFilesToStorageCommand
     public function __construct(
         public array $filesToTransfer,
         public array $normalizedStorage,
-    ) {
-    }
+    ) {}
 }

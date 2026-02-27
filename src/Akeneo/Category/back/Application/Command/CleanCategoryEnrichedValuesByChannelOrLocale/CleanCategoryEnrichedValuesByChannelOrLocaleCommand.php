@@ -16,6 +16,5 @@ class CleanCategoryEnrichedValuesByChannelOrLocaleCommand
     public function __construct(
         public readonly string $channelCode,
         public readonly array $localeCodes,
-    ) {
-    }
+    ) {}
 }

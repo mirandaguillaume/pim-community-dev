@@ -113,7 +113,7 @@ final class FindMeasurementFamiliesIntegration extends TestCase
                     'fr_FR' => 'Degré',
                 ],
                 'convert_from_standard' => [
-                     [
+                    [
                         'operator' => 'mul',
                         'value' => '0.01745329',
                     ],

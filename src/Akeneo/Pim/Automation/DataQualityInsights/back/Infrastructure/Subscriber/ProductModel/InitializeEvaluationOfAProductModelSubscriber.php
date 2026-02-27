@@ -24,8 +24,7 @@ class InitializeEvaluationOfAProductModelSubscriber implements EventSubscriberIn
         private readonly CreateCriteriaEvaluations       $createProductModelCriteriaEvaluations,
         private readonly LoggerInterface                 $logger,
         private readonly ProductEntityIdFactoryInterface $idFactory
-    ) {
-    }
+    ) {}
 
     public static function getSubscribedEvents(): array
     {

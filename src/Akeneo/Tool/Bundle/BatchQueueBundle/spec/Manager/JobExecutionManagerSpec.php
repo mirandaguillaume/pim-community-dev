@@ -16,12 +16,12 @@ use Prophecy\Argument;
 
 class JobExecutionManagerSpec extends ObjectBehavior
 {
-    function let(Connection $connection)
+    public function let(Connection $connection)
     {
         $this->beConstructedWith($connection);
     }
 
-    function it_does_not_modify_status_when_a_job_execution_has_not_been_launched(
+    public function it_does_not_modify_status_when_a_job_execution_has_not_been_launched(
         JobExecution $jobExecution,
         BatchStatus $status,
         ExitStatus $exitStatus
@@ -37,7 +37,7 @@ class JobExecutionManagerSpec extends ObjectBehavior
         $this->resolveJobExecutionStatus($jobExecution);
     }
 
-    function it_does_not_modify_status_when_a_job_execution_is_completed(
+    public function it_does_not_modify_status_when_a_job_execution_is_completed(
         JobExecution $jobExecution,
         BatchStatus $status,
         ExitStatus $exitStatus
@@ -54,7 +54,7 @@ class JobExecutionManagerSpec extends ObjectBehavior
         $this->resolveJobExecutionStatus($jobExecution);
     }
 
-    function it_resolves_job_execution_status_when_job_execution_failed_but_has_still_a_running_status(
+    public function it_resolves_job_execution_status_when_job_execution_failed_but_has_still_a_running_status(
         JobExecution $jobExecution,
         BatchStatus $status,
         ExitStatus $exitStatus
@@ -76,7 +76,7 @@ class JobExecutionManagerSpec extends ObjectBehavior
         $this->resolveJobExecutionStatus($jobExecution);
     }
 
-    function it_resolves_job_execution_status_when_job_execution_failed_but_has_still_a_stopping_status(
+    public function it_resolves_job_execution_status_when_job_execution_failed_but_has_still_a_stopping_status(
         JobExecution $jobExecution,
         BatchStatus $status,
         ExitStatus $exitStatus
@@ -98,7 +98,7 @@ class JobExecutionManagerSpec extends ObjectBehavior
         $this->resolveJobExecutionStatus($jobExecution);
     }
 
-    function it_does_not_modify_status_when_job_execution_health_check_is_null(
+    public function it_does_not_modify_status_when_job_execution_health_check_is_null(
         JobExecution $jobExecution,
         BatchStatus $status,
         ExitStatus $exitStatus
@@ -117,7 +117,7 @@ class JobExecutionManagerSpec extends ObjectBehavior
         $this->resolveJobExecutionStatus($jobExecution);
     }
 
-    function it_gets_exit_status(
+    public function it_gets_exit_status(
         Connection $connection,
         Statement $stmt,
         Result $result
@@ -133,7 +133,7 @@ class JobExecutionManagerSpec extends ObjectBehavior
         $this->getExitStatus(1)->shouldBeLike(new ExitStatus('COMPLETED'));
     }
 
-    function it_marks_as_failed(Connection $connection, Statement $stmt)
+    public function it_marks_as_failed(Connection $connection, Statement $stmt)
     {
         $connection
             ->prepare(Argument::type('string'))
@@ -148,7 +148,7 @@ class JobExecutionManagerSpec extends ObjectBehavior
         $this->markAsFailed(1);
     }
 
-    function it_updates_healthcheck(
+    public function it_updates_healthcheck(
         Connection $connection,
         Statement $stmt
     ) {

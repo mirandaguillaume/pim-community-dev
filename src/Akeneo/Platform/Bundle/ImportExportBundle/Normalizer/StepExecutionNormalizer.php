@@ -18,16 +18,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class StepExecutionNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    public function __construct(protected TranslatorInterface $translator, protected PresenterInterface $presenter)
-    {
-    }
+    public function __construct(protected TranslatorInterface $translator, protected PresenterInterface $presenter) {}
 
-    public function normalize($stepExecution, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($stepExecution, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $normalizedWarnings = $this->normalizeWarnings($stepExecution->getWarnings(), $context);
 
         if (isset($context['limit_warnings']) && $stepExecution->getWarnings()->count() > 0) {
-            $stepExecution->addSummaryInfo('displayed', count($normalizedWarnings).'/'.$stepExecution->getWarnings()->count());
+            $stepExecution->addSummaryInfo('displayed', count($normalizedWarnings) . '/' . $stepExecution->getWarnings()->count());
         }
 
         return [
@@ -41,7 +39,7 @@ class StepExecutionNormalizer implements NormalizerInterface, CacheableSupportsM
             'warnings' => $normalizedWarnings,
             'errors' => $stepExecution->getErrors(),
             'failures' => array_map(
-                fn ($failure) => $this->translator->trans($failure['message'], $failure['messageParameters']),
+                fn($failure) => $this->translator->trans($failure['message'], $failure['messageParameters']),
                 $stepExecution->getFailureExceptions()
             ),
         ];

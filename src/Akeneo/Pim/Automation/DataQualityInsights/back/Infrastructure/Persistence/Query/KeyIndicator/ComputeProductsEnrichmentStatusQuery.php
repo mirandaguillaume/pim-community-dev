@@ -26,8 +26,7 @@ final readonly class ComputeProductsEnrichmentStatusQuery implements ComputeProd
     public function __construct(
         private GetLocalesByChannelQueryInterface                        $getLocalesByChannelQuery,
         private GetEvaluationResultsByProductsAndCriterionQueryInterface $getEvaluationResultsByProductsAndCriterionQuery,
-    ) {
-    }
+    ) {}
 
     public function getCode(): KeyIndicatorCode
     {
@@ -75,8 +74,8 @@ final readonly class ComputeProductsEnrichmentStatusQuery implements ComputeProd
         $nonRequiredAttributesEvaluation = null !== $nonRequiredAttributesEvaluationResult ? $nonRequiredAttributesEvaluationResult->getData() : [];
         $requiredAttributesEvaluationData = null !== $requiredAttributesEvaluationResult ? $requiredAttributesEvaluationResult->getData() : [];
 
-        $totalNumberOfAttributes =
-            ($nonRequiredAttributesEvaluation['total_number_of_attributes'][$channel][$locale] ?? 0)
+        $totalNumberOfAttributes
+            = ($nonRequiredAttributesEvaluation['total_number_of_attributes'][$channel][$locale] ?? 0)
             + ($requiredAttributesEvaluationData['total_number_of_attributes'][$channel][$locale] ?? 0);
 
         // It can happen when the product has not been evaluated yet, or when all the attributes are deactivated, or when a product doesn't have a family.
@@ -84,8 +83,8 @@ final readonly class ComputeProductsEnrichmentStatusQuery implements ComputeProd
             return null;
         }
 
-        $numberOfMissingAttributes =
-            ($nonRequiredAttributesEvaluation['number_of_improvable_attributes'][$channel][$locale] ?? 0)
+        $numberOfMissingAttributes
+            = ($nonRequiredAttributesEvaluation['number_of_improvable_attributes'][$channel][$locale] ?? 0)
             + ($requiredAttributesEvaluationData['number_of_improvable_attributes'][$channel][$locale] ?? 0);
 
         $enrichmentRatio = ($totalNumberOfAttributes - $numberOfMissingAttributes) / $totalNumberOfAttributes * 100;

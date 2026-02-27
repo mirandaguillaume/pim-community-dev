@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Component\Product\Factory\Value;
@@ -19,9 +20,7 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  */
 final readonly class FileValueFactory implements ValueFactory
 {
-    public function __construct(private FileInfoRepositoryInterface $fileInfoRepository)
-    {
-    }
+    public function __construct(private FileInfoRepositoryInterface $fileInfoRepository) {}
 
     public function createWithoutCheckingData(Attribute $attribute, ?string $channelCode, ?string $localeCode, $data): ValueInterface
     {
@@ -46,7 +45,7 @@ final readonly class FileValueFactory implements ValueFactory
         return MediaValue::value($attributeCode, $file);
     }
 
-    public function createByCheckingData(Attribute $attribute, ?string $channelCode, ?string $localeCode, $data) : ValueInterface
+    public function createByCheckingData(Attribute $attribute, ?string $channelCode, ?string $localeCode, $data): ValueInterface
     {
         if (!\is_string($data) && !$data instanceof FileInfoInterface) {
             throw InvalidPropertyTypeException::stringExpected(

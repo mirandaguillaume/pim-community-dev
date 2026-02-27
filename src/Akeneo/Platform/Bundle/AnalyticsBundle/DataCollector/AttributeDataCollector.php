@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Platform\Bundle\AnalyticsBundle\DataCollector;
@@ -19,9 +20,7 @@ use Akeneo\Tool\Component\Analytics\DataCollectorInterface;
  */
 class AttributeDataCollector implements DataCollectorInterface
 {
-    public function __construct(private readonly CountQuery $attributeCountQuery, private readonly CountQuery $localizableAttributeCountQuery, private readonly CountQuery $scopableAttributeCountQuery, private readonly CountQuery $localizableAndScopableAttributeCountQuery, private readonly CountQuery $useableAsGridFilterAttributeCountQuery, private readonly AverageMaxQuery $localizableAttributePerFamilyAverageMaxQuery, private readonly AverageMaxQuery $scopableAttributePerFamilyAverageMaxQuery, private readonly AverageMaxQuery $localizableAndScopableAttributePerFamilyAverageMaxQuery, private readonly AverageMaxQuery $attributePerFamilyAverageMaxQuery)
-    {
-    }
+    public function __construct(private readonly CountQuery $attributeCountQuery, private readonly CountQuery $localizableAttributeCountQuery, private readonly CountQuery $scopableAttributeCountQuery, private readonly CountQuery $localizableAndScopableAttributeCountQuery, private readonly CountQuery $useableAsGridFilterAttributeCountQuery, private readonly AverageMaxQuery $localizableAttributePerFamilyAverageMaxQuery, private readonly AverageMaxQuery $scopableAttributePerFamilyAverageMaxQuery, private readonly AverageMaxQuery $localizableAndScopableAttributePerFamilyAverageMaxQuery, private readonly AverageMaxQuery $attributePerFamilyAverageMaxQuery) {}
 
     public function collect(): array
     {

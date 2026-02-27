@@ -13,20 +13,18 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetAllFamiliesLabelByLocaleQuery implements GetAllFamiliesLabelByLocaleQueryInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function execute(string $localeCode): array
     {
         $query = <<<SQL
-SELECT 
-   family.code,
-   COALESCE(NULLIF(ft.label, ''), CONCAT('[', family.code, ']')) as label
-FROM pim_catalog_family family
-LEFT JOIN pim_catalog_family_translation ft ON family.id = ft.foreign_key AND ft.locale = :locale
-ORDER BY label
-SQL;
+            SELECT 
+               family.code,
+               COALESCE(NULLIF(ft.label, ''), CONCAT('[', family.code, ']')) as label
+            FROM pim_catalog_family family
+            LEFT JOIN pim_catalog_family_translation ft ON family.id = ft.foreign_key AND ft.locale = :locale
+            ORDER BY label
+            SQL;
 
         $families = $this->connection->executeQuery($query, ['locale' => $localeCode])->fetchAllAssociative();
 

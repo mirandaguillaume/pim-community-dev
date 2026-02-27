@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Application\Webhook\Query;
@@ -10,9 +11,7 @@ namespace Akeneo\Connectivity\Connection\Application\Webhook\Query;
  */
 class GetAConnectionWebhookQuery
 {
-    public function __construct(private readonly string $code)
-    {
-    }
+    public function __construct(private readonly string $code) {}
 
     public function code(): string
     {

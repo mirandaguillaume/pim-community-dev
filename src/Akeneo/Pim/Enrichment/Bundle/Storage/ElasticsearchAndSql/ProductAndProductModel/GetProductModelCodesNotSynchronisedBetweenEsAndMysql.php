@@ -16,30 +16,29 @@ final readonly class GetProductModelCodesNotSynchronisedBetweenEsAndMysql
     public function __construct(
         private Client $productAndProductModelClient,
         private Connection $connection,
-    ) {
-    }
+    ) {}
 
     public function byBatchesOf(int $batchSize): iterable
     {
         $formerId = 0;
         $sql = <<< SQL
-SELECT CONCAT('product_model_', id) AS _id, id, code, DATE_FORMAT(updated, '%Y-%m-%dT%TZ') AS updated
-FROM pim_catalog_product_model
-WHERE id > :formerId
-AND parent_id IS NULL
-ORDER BY id ASC
-LIMIT :limit
-SQL;
+            SELECT CONCAT('product_model_', id) AS _id, id, code, DATE_FORMAT(updated, '%Y-%m-%dT%TZ') AS updated
+            FROM pim_catalog_product_model
+            WHERE id > :formerId
+            AND parent_id IS NULL
+            ORDER BY id ASC
+            LIMIT :limit
+            SQL;
         while (true) {
             $rows = $this->connection->executeQuery(
                 $sql,
                 [
                     'formerId' => $formerId,
-                    'limit' => $batchSize
+                    'limit' => $batchSize,
                 ],
                 [
                     'formerId' => \PDO::PARAM_INT,
-                    'limit' => \PDO::PARAM_INT
+                    'limit' => \PDO::PARAM_INT,
                 ]
             )->fetchAllAssociative();
 
@@ -47,7 +46,7 @@ SQL;
                 return;
             }
 
-            $formerId = (int)end($rows)['id'];
+            $formerId = (int) end($rows)['id'];
             $existingMysqlIdentifiers = array_column($rows, '_id');
 
             $results = $this->productAndProductModelClient->search([
@@ -55,13 +54,13 @@ SQL;
                     'bool' => [
                         'must' => [
                             'ids' => [
-                                'values' => $existingMysqlIdentifiers
-                            ]
+                                'values' => $existingMysqlIdentifiers,
+                            ],
                         ],
                     ],
                 ],
                 '_source' => ['id', 'entity_updated'],
-                'size' => $batchSize
+                'size' => $batchSize,
             ]);
 
             $updatedById = [];
@@ -70,7 +69,7 @@ SQL;
             }
 
             $diff = \array_map(
-                static fn (array $row): string => $row['code'],
+                static fn(array $row): string => $row['code'],
                 \array_filter(
                     $rows,
                     function (array $row) use ($updatedById): bool {

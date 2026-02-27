@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Bundle\Controller\InternalApi;
@@ -28,8 +29,7 @@ class SequentialEditController
         protected GridFilterAdapterInterface $filterAdapter,
         protected ProductQueryBuilderFactoryInterface $pqbFactory,
         protected UserContext $userContext
-    ) {
-    }
+    ) {}
 
     /**
      * Get ids from datagrid request
@@ -50,13 +50,13 @@ class SequentialEditController
 
         while ($cursor->valid() && $cursor->key() < self::MAX_PRODUCT_COUNT) {
             $item = $cursor->current();
-            $products[] = $item instanceof ProductModelInterface ?
-                [
+            $products[] = $item instanceof ProductModelInterface
+                ? [
                     'id' => $item->getId(),
-                    'type' => 'product_model'
+                    'type' => 'product_model',
                 ] : [
                     'id' => $item->getUuid()->toString(),
-                    'type' => 'product'
+                    'type' => 'product',
                 ];
             $cursor->next();
         }
@@ -80,10 +80,10 @@ class SequentialEditController
         return [
             'locale' => $parameters['dataLocale']
                 ?: $this->userContext->getCurrentLocaleCode(),
-            'scope' => isset($parameters['dataScope']) ?
-                $parameters['dataScope']['value']
+            'scope' => isset($parameters['dataScope'])
+                ? $parameters['dataScope']['value']
                 : $this->userContext->getUserChannelCode(),
-            'sort' => $parameters['sort']
+            'sort' => $parameters['sort'],
         ];
     }
 }

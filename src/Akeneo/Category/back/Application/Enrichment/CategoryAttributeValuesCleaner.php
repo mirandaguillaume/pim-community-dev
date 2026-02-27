@@ -18,8 +18,7 @@ class CategoryAttributeValuesCleaner
 {
     public function __construct(
         private readonly UpdateCategoryEnrichedValues $updateCategoryEnrichedValues,
-    ) {
-    }
+    ) {}
 
     /**
      * @param array<string, ValueCollection> $valuesByCode

@@ -18,17 +18,17 @@ final class BuildSqlMaskFieldSpec extends ObjectBehavior
     {
         $this->beConstructedWith([]);
         $sql = <<<SQL
-JSON_ARRAYAGG(
-    CONCAT(
-        attribute.code,
-        '-',
-        IF(attribute.is_scopable, channel_locale.channel_code, '<all_channels>'),
-        '-',
-        IF(attribute.is_localizable, channel_locale.locale_code, '<all_locales>')
-    )
-)
-AS mask
-SQL;
+            JSON_ARRAYAGG(
+                CONCAT(
+                    attribute.code,
+                    '-',
+                    IF(attribute.is_scopable, channel_locale.channel_code, '<all_channels>'),
+                    '-',
+                    IF(attribute.is_localizable, channel_locale.locale_code, '<all_locales>')
+                )
+            )
+            AS mask
+            SQL;
 
         $this->__invoke()->shouldReturn($sql);
     }
@@ -37,34 +37,34 @@ SQL;
     {
         $this->beConstructedWith([
             $attributeTypeA,
-            $attributeTypeB
+            $attributeTypeB,
         ]);
         $attributeTypeA->getCase()->willReturn(
-        "WHEN attribute.attribute_type = 'typeA'
+            "WHEN attribute.attribute_type = 'typeA'
             THEN 'TypeA'"
         );
         $attributeTypeB->getCase()->willReturn(
-        "WHEN attribute.attribute_type = 'typeB'
+            "WHEN attribute.attribute_type = 'typeB'
             THEN 'TypeB'"
         );
 
         $sql = <<<SQL
-JSON_ARRAYAGG(
-    CONCAT(
-        CASE
-            WHEN attribute.attribute_type = 'typeA'
-                THEN 'TypeA'
-            WHEN attribute.attribute_type = 'typeB'
-                THEN 'TypeB'
-            ELSE attribute.code
-        END,
-        '-',
-        IF(attribute.is_scopable, channel_locale.channel_code, '<all_channels>'),
-        '-',
-        IF(attribute.is_localizable, channel_locale.locale_code, '<all_locales>')
-    )
-) AS mask
-SQL;
+            JSON_ARRAYAGG(
+                CONCAT(
+                    CASE
+                        WHEN attribute.attribute_type = 'typeA'
+                            THEN 'TypeA'
+                        WHEN attribute.attribute_type = 'typeB'
+                            THEN 'TypeB'
+                        ELSE attribute.code
+                    END,
+                    '-',
+                    IF(attribute.is_scopable, channel_locale.channel_code, '<all_channels>'),
+                    '-',
+                    IF(attribute.is_localizable, channel_locale.locale_code, '<all_locales>')
+                )
+            ) AS mask
+            SQL;
         $this->__invoke()->shouldHaveSqlQueryEqualsTo($sql);
     }
 
@@ -83,7 +83,7 @@ SQL;
                     ));
                 }
                 return true;
-            }
+            },
         ];
     }
 }

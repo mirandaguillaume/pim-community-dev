@@ -23,7 +23,7 @@ class CategoryNormalizer implements NormalizerInterface, CacheableSupportsMethod
         $this->translationNormalizer = $translationNormalizer;
     }
 
-    public function normalize($category, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($category, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         return [
             'code' => $category->getCode(),

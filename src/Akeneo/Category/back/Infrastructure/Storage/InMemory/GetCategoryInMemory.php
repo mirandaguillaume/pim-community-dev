@@ -19,8 +19,7 @@ final readonly class GetCategoryInMemory implements GetCategoryInterface
 {
     public function __construct(
         private CategoryRepositoryInterface $categoryRepository,
-    ) {
-    }
+    ) {}
 
     public function byId(int $categoryId): ?Category
     {

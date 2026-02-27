@@ -15,7 +15,6 @@ use Symfony\Component\Process\Process;
 
 class ApiFindNewAnnouncementIdsIntegration extends KernelTestCase
 {
-
     private static ?Process $process = null;
 
     public static function setUpBeforeClass(): void
@@ -55,7 +54,7 @@ class ApiFindNewAnnouncementIdsIntegration extends KernelTestCase
                 'update_1-duplicate-a-product_2020-07',
                 'update_2-option-screen-revamp_2020-07',
                 'update_3-rules-updates_2020-07',
-                'update_4-manually-execute-naming-conventions-on-assets_2020-07'
+                'update_4-manually-execute-naming-conventions-on-assets_2020-07',
             ],
             $result
         );
@@ -70,7 +69,7 @@ class ApiFindNewAnnouncementIdsIntegration extends KernelTestCase
                 $httpClient->get('/');
             } catch (ConnectException) {
                 usleep(100000);
-            } catch (ClientException | ServerException) {
+            } catch (ClientException|ServerException) {
                 return; // started
             }
 

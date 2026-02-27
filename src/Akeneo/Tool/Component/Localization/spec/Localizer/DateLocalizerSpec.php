@@ -16,7 +16,7 @@ class DateLocalizerSpec extends ObjectBehavior
 
     protected $userTimezone;
 
-    function let(ValidatorInterface $validator, DateFactory $dateFactory)
+    public function let(ValidatorInterface $validator, DateFactory $dateFactory)
     {
         $this->userTimezone = date_default_timezone_get();
         date_default_timezone_set(self::TEST_TIMEZONE);
@@ -24,23 +24,23 @@ class DateLocalizerSpec extends ObjectBehavior
         $this->beConstructedWith($validator, $dateFactory, ['pim_catalog_date']);
     }
 
-    function letGo()
+    public function letGo()
     {
         date_default_timezone_set($this->userTimezone);
     }
 
-    function it_is_a_localizer()
+    public function it_is_a_localizer()
     {
         $this->shouldImplement(LocalizerInterface::class);
     }
 
-    function it_supports_attribute_type()
+    public function it_supports_attribute_type()
     {
         $this->supports('pim_catalog_date')->shouldReturn(true);
         $this->supports('pim_catalog_number')->shouldReturn(false);
     }
 
-    function it_validates_the_format()
+    public function it_validates_the_format()
     {
         $this->validate('28/10/2015', 'date', ['date_format' => 'd/m/Y'])->shouldReturn(null);
         $this->validate('01/10/2015', 'date', ['date_format' => 'd/m/Y'])->shouldReturn(null);
@@ -53,7 +53,7 @@ class DateLocalizerSpec extends ObjectBehavior
         $this->validate(new \DateTime(), 'date', ['date_format' => 'Y-m-d'])->shouldReturn(null);
     }
 
-    function it_returns_a_constraint_if_the_format_is_not_valid(
+    public function it_returns_a_constraint_if_the_format_is_not_valid(
         $validator,
         ConstraintViolationListInterface $constraints
     ) {
@@ -62,7 +62,7 @@ class DateLocalizerSpec extends ObjectBehavior
         $this->validate('28/10/2015', 'date', ['date_format' => 'd-m-Y'])->shouldReturn($constraints);
     }
 
-    function it_returns_a_constraint_if_date_format_does_not_respect_format_locale(
+    public function it_returns_a_constraint_if_date_format_does_not_respect_format_locale(
         $validator,
         $dateFactory,
         ConstraintViolationListInterface $constraints,
@@ -78,7 +78,7 @@ class DateLocalizerSpec extends ObjectBehavior
         $this->validate('28-10-2015', 'date', ['locale' => 'fr_FR'])->shouldReturn($constraints);
     }
 
-    function it_delocalizes_with_date_format_option($dateFactory, \IntlDateFormatter $dateFormatter)
+    public function it_delocalizes_with_date_format_option($dateFactory, \IntlDateFormatter $dateFormatter)
     {
         $dateFactory->create(['date_format' => 'dd/MM/yyyy'])->willReturn($dateFormatter);
         $dateFormatter->setLenient(false)->shouldBeCalled();

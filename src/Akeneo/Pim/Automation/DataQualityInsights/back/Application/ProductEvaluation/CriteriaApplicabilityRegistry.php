@@ -34,6 +34,6 @@ class CriteriaApplicabilityRegistry
      */
     public function getCriterionCodes(): array
     {
-        return array_map(fn (string $code) => new CriterionCode($code), array_keys($this->criterionApplicabilityServices));
+        return array_map(fn(string $code) => new CriterionCode($code), array_keys($this->criterionApplicabilityServices));
     }
 }

@@ -15,17 +15,15 @@ use Doctrine\DBAL\Connection;
  */
 class ApiConnectionCount implements ApiConnectionCountQuery
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function fetch(): array
     {
         $query = <<<SQL
-SELECT flow_type, count(flow_type) AS "flow_type_count", auditable
-FROM akeneo_connectivity_connection
-GROUP BY flow_type, auditable
-SQL;
+            SELECT flow_type, count(flow_type) AS "flow_type_count", auditable
+            FROM akeneo_connectivity_connection
+            GROUP BY flow_type, auditable
+            SQL;
 
         $data = $this->connection->executeQuery($query)->fetchAllAssociative();
 
@@ -40,7 +38,7 @@ SQL;
         $normalized[FlowType::OTHER] = ['tracked' => 0, 'untracked' => 0];
 
         foreach ($data as $row) {
-            $status = (bool) $row['auditable'] ? 'tracked':'untracked';
+            $status = (bool) $row['auditable'] ? 'tracked' : 'untracked';
             $normalized[$row['flow_type']][$status] = $row['flow_type_count'];
         }
 

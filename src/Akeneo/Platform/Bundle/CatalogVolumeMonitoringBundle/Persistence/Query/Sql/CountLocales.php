@@ -17,9 +17,7 @@ class CountLocales implements CountQuery
 {
     private const VOLUME_NAME = 'count_locales';
 
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     /**
      * {@inheritdoc}
@@ -27,10 +25,10 @@ class CountLocales implements CountQuery
     public function fetch(): CountVolume
     {
         $sql = <<<SQL
-            SELECT COUNT(*) as count
-            FROM pim_catalog_locale 
-            WHERE is_activated = 1;
-SQL;
+                        SELECT COUNT(*) as count
+                        FROM pim_catalog_locale 
+                        WHERE is_activated = 1;
+            SQL;
         $result = $this->connection->executeQuery($sql)->fetchAssociative();
         $volume = new CountVolume((int) $result['count'], self::VOLUME_NAME);
 

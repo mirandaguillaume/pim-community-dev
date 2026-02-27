@@ -31,17 +31,17 @@ class ScopeListComparatorIntegration extends TestCase
     {
         $originalScopes = [
             'write_products',
-            'read_categories'
+            'read_categories',
         ];
 
         $requestedScopes = [
             ...$originalScopes,
-            'write_association_types'
+            'write_association_types',
         ];
 
         $expected = [
             'read_association_types',
-            'write_association_types'
+            'write_association_types',
         ];
 
         $newScopes = $this->scopeListComparator->diff($requestedScopes, $originalScopes);
@@ -53,7 +53,7 @@ class ScopeListComparatorIntegration extends TestCase
     {
         $originalScopes = [
             'write_products',
-            'read_categories'
+            'read_categories',
         ];
 
         $requestedScopes = [...$originalScopes];

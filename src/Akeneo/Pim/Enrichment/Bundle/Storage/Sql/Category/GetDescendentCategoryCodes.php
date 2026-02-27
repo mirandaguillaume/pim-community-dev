@@ -16,19 +16,17 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetDescendentCategoryCodes
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function __invoke(CategoryInterface $parentCategory): array
     {
         $sql = <<<SQL
-            SELECT category.code as category_code
-            FROM pim_catalog_category category 
-            WHERE category.lft > :parent_category_left
-            AND category.rgt < :parent_category_right
-            AND category.root = :parent_category_root;
-SQL;
+                        SELECT category.code as category_code
+                        FROM pim_catalog_category category 
+                        WHERE category.lft > :parent_category_left
+                        AND category.rgt < :parent_category_right
+                        AND category.root = :parent_category_root;
+            SQL;
         $rows = $this->connection->executeQuery(
             $sql,
             [

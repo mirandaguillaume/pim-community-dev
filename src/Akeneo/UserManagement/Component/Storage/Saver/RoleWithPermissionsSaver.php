@@ -22,9 +22,7 @@ use Webmozart\Assert\Assert;
  */
 final readonly class RoleWithPermissionsSaver implements BulkSaverInterface
 {
-    public function __construct(private ObjectManager $objectManager, private EventDispatcherInterface $eventDispatcher, private AclManager $aclManager)
-    {
-    }
+    public function __construct(private ObjectManager $objectManager, private EventDispatcherInterface $eventDispatcher, private AclManager $aclManager) {}
 
     public function saveAll(array $rolesWithPermissions, array $options = []): void
     {
@@ -35,13 +33,13 @@ final readonly class RoleWithPermissionsSaver implements BulkSaverInterface
 
         $options['unitary'] = false;
         $userRoles = \array_map(
-            fn (RoleWithPermissions $roleWithPermissions): RoleInterface => $roleWithPermissions->role(),
+            fn(RoleWithPermissions $roleWithPermissions): RoleInterface => $roleWithPermissions->role(),
             $rolesWithPermissions
         );
         $this->eventDispatcher->dispatch(new GenericEvent($userRoles, $options), StorageEvents::PRE_SAVE_ALL);
 
         $areObjectsNew = array_map(
-            fn (RoleInterface $role) => null === $role->getId(),
+            fn(RoleInterface $role) => null === $role->getId(),
             $userRoles
         );
 

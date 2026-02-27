@@ -11,17 +11,17 @@ use Oro\Bundle\PimDataGridBundle\Datagrid\Configuration\Product\ContextConfigura
 
 class FiltersConfiguratorSpec extends ObjectBehavior
 {
-    function let(ConfigurationRegistry $registry)
+    public function let(ConfigurationRegistry $registry)
     {
         $this->beConstructedWith($registry);
     }
 
-    function it_is_a_configurator()
+    public function it_is_a_configurator()
     {
         $this->shouldImplement(ConfiguratorInterface::class);
     }
 
-    function it_configures_datagrid_filters(DatagridConfiguration $configuration, $registry)
+    public function it_configures_datagrid_filters(DatagridConfiguration $configuration, $registry)
     {
         $attributes = [
             'sku' => [
@@ -31,7 +31,7 @@ class FiltersConfiguratorSpec extends ObjectBehavior
                 'type'                => 'pim_catalog_identifier',
                 'sortOrder'           => 1,
                 'group'               => 'General',
-                'groupOrder'          => 1
+                'groupOrder'          => 1,
             ],
             123456 => [
                 'code'                => '123456',
@@ -40,8 +40,8 @@ class FiltersConfiguratorSpec extends ObjectBehavior
                 'type'                => 'pim_catalog_text',
                 'sortOrder'           => 2,
                 'group'               => 'General',
-                'groupOrder'          => 1
-            ]
+                'groupOrder'          => 1,
+            ],
         ];
 
         $attributesConf = [ContextConfigurator::USEABLE_ATTRIBUTES_KEY => $attributes];
@@ -59,7 +59,7 @@ class FiltersConfiguratorSpec extends ObjectBehavior
                 'enabled'    => false,
                 'order'      => 1,
                 'group'      => 'General',
-                'groupOrder' => 1
+                'groupOrder' => 1,
             ],
             '123456' => [
                 0            => 'text_config',
@@ -68,18 +68,18 @@ class FiltersConfiguratorSpec extends ObjectBehavior
                 'enabled'    => false,
                 'order'      => 2,
                 'group'      => 'General',
-                'groupOrder' => 1
-            ]
+                'groupOrder' => 1,
+            ],
         ];
 
         $configuration->offsetSet(FilterConfiguration::FILTERS_KEY, [
-            'columns' => $expectedConf
+            'columns' => $expectedConf,
         ])->shouldBeCalled();
 
         $this->configure($configuration);
     }
 
-    function it_cannot_handle_misconfigured_attribute_type(DatagridConfiguration $configuration, $registry)
+    public function it_cannot_handle_misconfigured_attribute_type(DatagridConfiguration $configuration, $registry)
     {
         $attributes = [
             'sku' => [
@@ -89,7 +89,7 @@ class FiltersConfiguratorSpec extends ObjectBehavior
                 'type'                => 'pim_catalog_identifier',
                 'sortOrder'           => 2,
                 'group'               => 'Foo',
-                'groupOrder'          => 3
+                'groupOrder'          => 3,
             ],
             'name' => [
                 'code'                => 'name',
@@ -98,8 +98,8 @@ class FiltersConfiguratorSpec extends ObjectBehavior
                 'type'                => 'pim_catalog_text',
                 'sortOrder'           => 4,
                 'group'               => 'Bar',
-                'groupOrder'          => 5
-            ]
+                'groupOrder'          => 5,
+            ],
         ];
 
         $attributesConf = [ContextConfigurator::USEABLE_ATTRIBUTES_KEY => $attributes];

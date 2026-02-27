@@ -10,28 +10,28 @@ use PhpSpec\ObjectBehavior;
 
 class SkipFirstVersionPurgerAdvisorSpec extends ObjectBehavior
 {
-    function let(SqlGetFirstVersionIdsByIdsQuery $sqlGetFirstVersionIdsByIdsQuery)
+    public function let(SqlGetFirstVersionIdsByIdsQuery $sqlGetFirstVersionIdsByIdsQuery)
     {
         $this->beConstructedWith($sqlGetFirstVersionIdsByIdsQuery);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(SkipFirstVersionPurgerAdvisor::class);
     }
 
-    function it_is_a_version_purger_advisor()
+    public function it_is_a_version_purger_advisor()
     {
         $this->shouldImplement(VersionPurgerAdvisorInterface::class);
     }
 
-    function it_supports_versions_types_only()
+    public function it_supports_versions_types_only()
     {
         $versionList = new PurgeableVersionList('resource_name', [111, 666]);
         $this->supports($versionList)->shouldReturn(true);
     }
 
-    function it_advises_to_not_purge_the_first_version(
+    public function it_advises_to_not_purge_the_first_version(
         SqlGetFirstVersionIdsByIdsQuery $sqlGetFirstVersionIdsByIdsQuery
     ) {
         $versionList = new PurgeableVersionList('resource_name', [111, 222]);

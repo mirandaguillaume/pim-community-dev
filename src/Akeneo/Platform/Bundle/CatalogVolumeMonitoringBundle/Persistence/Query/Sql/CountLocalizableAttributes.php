@@ -17,9 +17,7 @@ class CountLocalizableAttributes implements CountQuery
 {
     private const VOLUME_NAME = 'count_localizable_attributes';
 
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     /**
      * {@inheritdoc}
@@ -27,10 +25,10 @@ class CountLocalizableAttributes implements CountQuery
     public function fetch(): CountVolume
     {
         $sql = <<<SQL
-            SELECT COUNT(*) as count
-            FROM pim_catalog_attribute 
-            WHERE is_localizable = 1 AND is_scopable = 0;
-SQL;
+                        SELECT COUNT(*) as count
+                        FROM pim_catalog_attribute 
+                        WHERE is_localizable = 1 AND is_scopable = 0;
+            SQL;
         $result = $this->connection->executeQuery($sql)->fetchAssociative();
         $volume = new CountVolume((int) $result['count'], self::VOLUME_NAME);
 

@@ -14,9 +14,7 @@ use Ramsey\Uuid\UuidInterface;
  */
 class InMemoryGetProductUuids implements GetProductUuids
 {
-    public function __construct(private readonly ProductRepositoryInterface $productRepository)
-    {
-    }
+    public function __construct(private readonly ProductRepositoryInterface $productRepository) {}
 
     public function fromIdentifier(string $identifier): ?UuidInterface
     {

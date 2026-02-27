@@ -151,7 +151,7 @@ abstract class AbstractDateFilter extends OroAbstractDateFilter
             return [
                 'date_start' => null,
                 'date_end'   => null,
-                'type'       => $data['type']
+                'type'       => $data['type'],
             ];
         }
 

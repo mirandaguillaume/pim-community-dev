@@ -337,13 +337,13 @@ class ProductModel implements ProductModelInterface, \Stringable
     {
         $formerCategories = $this->getCategories();
         $categoriesToAdd = $categories->filter(
-            fn (CategoryInterface $category) => !$formerCategories->contains($category)
+            fn(CategoryInterface $category) => !$formerCategories->contains($category)
         );
         foreach ($categoriesToAdd as $categoryToAdd) {
             $this->addCategory($categoryToAdd);
         }
         $categoriesToRemove = $formerCategories->filter(
-            fn (Categoryinterface $category) => !$categories->contains($category)
+            fn(Categoryinterface $category) => !$categories->contains($category)
         );
         foreach ($categoriesToRemove as $categoryToRemove) {
             $this->removeCategory($categoryToRemove);
@@ -355,7 +355,7 @@ class ProductModel implements ProductModelInterface, \Stringable
      */
     public function getCategoryCodes(): array
     {
-        $codes = $this->getCategories()->map(fn (CategoryInterface $category) => $category->getCode())->toArray();
+        $codes = $this->getCategories()->map(fn(CategoryInterface $category) => $category->getCode())->toArray();
 
         sort($codes);
 
@@ -589,9 +589,9 @@ class ProductModel implements ProductModelInterface, \Stringable
         $newAssociation->setOwner($this);
         $this->associations->add($newAssociation);
         if (
-            $newAssociation->getProducts()->count() > 0 ||
-            $newAssociation->getProductModels()->count() > 0 ||
-            $newAssociation->getGroups()->count() > 0
+            $newAssociation->getProducts()->count() > 0
+            || $newAssociation->getProductModels()->count() > 0
+            || $newAssociation->getGroups()->count() > 0
         ) {
             $this->dirty = true;
         }
@@ -606,12 +606,12 @@ class ProductModel implements ProductModelInterface, \Stringable
     {
         $similarAssociation = $this->getSimilarAssociation($association);
         if (
-            null !== $similarAssociation &&
-            true === $this->associations->removeElement($similarAssociation) &&
-            (
-                $similarAssociation->getProducts()->count() > 0 ||
-                $similarAssociation->getProductModels()->count() > 0 ||
-                $similarAssociation->getGroups()->count() > 0
+            null !== $similarAssociation
+            && true === $this->associations->removeElement($similarAssociation)
+            && (
+                $similarAssociation->getProducts()->count() > 0
+                || $similarAssociation->getProductModels()->count() > 0
+                || $similarAssociation->getGroups()->count() > 0
             )
         ) {
             $this->dirty = true;
@@ -731,7 +731,7 @@ class ProductModel implements ProductModelInterface, \Stringable
         while (null !== $parent) {
             foreach ($parent->getAssociations() as $parentAssociation) {
                 $matchingAssociation = $allAssociations->filter(
-                    static fn (AssociationInterface $clonedAsso): bool => $parentAssociation->getAssociationType()->getCode() === $clonedAsso->getAssociationType()->getCode()
+                    static fn(AssociationInterface $clonedAsso): bool => $parentAssociation->getAssociationType()->getCode() === $clonedAsso->getAssociationType()->getCode()
                 )->first();
 
                 if (!$matchingAssociation) {
@@ -776,7 +776,7 @@ class ProductModel implements ProductModelInterface, \Stringable
         $this->values = clone $this->values;
         $this->categories = clone $this->categories;
         $clonedAssociations = $this->associations->map(
-            fn (AssociationInterface $association): AssociationInterface => clone $association
+            fn(AssociationInterface $association): AssociationInterface => clone $association
         );
         $this->associations = $clonedAssociations;
         $this->quantifiedAssociationCollection = clone $this->quantifiedAssociationCollection;
@@ -797,7 +797,7 @@ class ProductModel implements ProductModelInterface, \Stringable
         }
 
         $mergedAssociation = $this->getAllAssociations()->filter(
-            static fn (AssociationInterface $asso): bool => $associationTypeCode === $asso->getAssociationType()->getCode()
+            static fn(AssociationInterface $asso): bool => $associationTypeCode === $asso->getAssociationType()->getCode()
         )->first();
 
         if (!$mergedAssociation->hasProduct($product)) {
@@ -833,7 +833,7 @@ class ProductModel implements ProductModelInterface, \Stringable
         }
 
         $mergedAssociation = $this->getAllAssociations()->filter(
-            static fn (AssociationInterface $asso): bool => $associationTypeCode === $asso->getAssociationType()->getCode()
+            static fn(AssociationInterface $asso): bool => $associationTypeCode === $asso->getAssociationType()->getCode()
         )->first();
 
         if (!$mergedAssociation->getProductModels()->contains($productModel)) {
@@ -869,7 +869,7 @@ class ProductModel implements ProductModelInterface, \Stringable
         }
 
         $mergedAssociation = $this->getAllAssociations()->filter(
-            static fn (AssociationInterface $asso): bool => $associationTypeCode === $asso->getAssociationType()->getCode()
+            static fn(AssociationInterface $asso): bool => $associationTypeCode === $asso->getAssociationType()->getCode()
         )->first();
 
         if (!$mergedAssociation->getGroups()->contains($group)) {

@@ -27,8 +27,7 @@ final readonly class FetchProductRowsFromUuids implements FetchProductRowsFromUu
         private Connection $connection,
         private WriteValueCollectionFactory $valueCollectionFactory,
         private GetProductCompletenesses $getProductCompletenesses,
-    ) {
-    }
+    ) {}
 
     /**
      * @param array<string> $uuids
@@ -45,8 +44,8 @@ final readonly class FetchProductRowsFromUuids implements FetchProductRowsFromUu
         }
 
         $uuids = array_map(
-            fn (string $uuid): UuidInterface =>
-                Uuid::fromString(preg_replace('/^product_/', '', $uuid)),
+            fn(string $uuid): UuidInterface
+                => Uuid::fromString(preg_replace('/^product_/', '', $uuid)),
             $uuids
         );
 
@@ -92,33 +91,33 @@ final readonly class FetchProductRowsFromUuids implements FetchProductRowsFromUu
     private function getProperties(array $uuids): array
     {
         $sql = <<<SQL
-            WITH main_identifier AS (
-                SELECT id
-                FROM pim_catalog_attribute
-                WHERE main_identifier = 1
-                LIMIT 1
-            )
-            SELECT 
-                BIN_TO_UUID(p.uuid) AS uuid,
-                raw_data AS identifier,
-                p.family_id,
-                p.is_enabled,
-                p.created,
-                p.updated,
-                pm.code as product_model_code
-            FROM
-                pim_catalog_product p
-                LEFT JOIN pim_catalog_product_model pm ON p.product_model_id = pm.id
-                LEFT JOIN pim_catalog_product_unique_data pcpud
-                    ON pcpud.product_uuid = p.uuid
-                    AND pcpud.attribute_id = (SELECT id FROM main_identifier)
-            WHERE 
-                uuid IN (:uuids)
-SQL;
+                        WITH main_identifier AS (
+                            SELECT id
+                            FROM pim_catalog_attribute
+                            WHERE main_identifier = 1
+                            LIMIT 1
+                        )
+                        SELECT 
+                            BIN_TO_UUID(p.uuid) AS uuid,
+                            raw_data AS identifier,
+                            p.family_id,
+                            p.is_enabled,
+                            p.created,
+                            p.updated,
+                            pm.code as product_model_code
+                        FROM
+                            pim_catalog_product p
+                            LEFT JOIN pim_catalog_product_model pm ON p.product_model_id = pm.id
+                            LEFT JOIN pim_catalog_product_unique_data pcpud
+                                ON pcpud.product_uuid = p.uuid
+                                AND pcpud.attribute_id = (SELECT id FROM main_identifier)
+                        WHERE 
+                            uuid IN (:uuids)
+            SQL;
 
         $rows = $this->connection->executeQuery(
             $sql,
-            ['uuids' => array_map(fn (UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],
+            ['uuids' => array_map(fn(UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],
             ['uuids' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
@@ -137,25 +136,25 @@ SQL;
     private function getValueCollection(array $uuids, array $attributeCodes, string $channelCode, string $localeCode): array
     {
         $sql = <<<SQL
-            SELECT 
-                BIN_TO_UUID(p.uuid) AS uuid,
-                a_label.code attribute_as_label_code,
-                a_image.code attribute_as_image_code,
-                JSON_MERGE(COALESCE(pm1.raw_values, '{}'), COALESCE(pm2.raw_values, '{}'), p.raw_values) as raw_values
-            FROM
-                pim_catalog_product p
-                LEFT JOIN pim_catalog_product_model pm1 ON pm1.id = p.product_model_id
-                LEFT JOIN pim_catalog_product_model pm2 on pm2.id = pm1.parent_id
-                LEFT JOIN pim_catalog_family f ON f.id = p.family_id
-                LEFT JOIN pim_catalog_attribute a_label ON a_label.id = f.label_attribute_id
-                LEFT JOIN pim_catalog_attribute a_image ON a_image.id = f.image_attribute_id
-            WHERE 
-                uuid IN (:uuids)
-SQL;
+                        SELECT 
+                            BIN_TO_UUID(p.uuid) AS uuid,
+                            a_label.code attribute_as_label_code,
+                            a_image.code attribute_as_image_code,
+                            JSON_MERGE(COALESCE(pm1.raw_values, '{}'), COALESCE(pm2.raw_values, '{}'), p.raw_values) as raw_values
+                        FROM
+                            pim_catalog_product p
+                            LEFT JOIN pim_catalog_product_model pm1 ON pm1.id = p.product_model_id
+                            LEFT JOIN pim_catalog_product_model pm2 on pm2.id = pm1.parent_id
+                            LEFT JOIN pim_catalog_family f ON f.id = p.family_id
+                            LEFT JOIN pim_catalog_attribute a_label ON a_label.id = f.label_attribute_id
+                            LEFT JOIN pim_catalog_attribute a_image ON a_image.id = f.image_attribute_id
+                        WHERE 
+                            uuid IN (:uuids)
+            SQL;
 
         $rows = $this->connection->executeQuery(
             $sql,
-            ['uuids' => array_map(fn (UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],
+            ['uuids' => array_map(fn(UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],
             ['uuids' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
@@ -180,7 +179,7 @@ SQL;
 
         foreach ($valueCollections as $productUuid => $valueCollection) {
             $result[$productUuid]['value_collection'] = $valueCollection->filter(
-                fn (ValueInterface $value) => ($value->getScopeCode() === $channelCode || $value->getScopeCode() === null)
+                fn(ValueInterface $value) => ($value->getScopeCode() === $channelCode || $value->getScopeCode() === null)
                     && ($value->getLocaleCode() === $localeCode || $value->getLocaleCode() === null)
             );
         }
@@ -193,32 +192,32 @@ SQL;
     {
         $result = [];
         $sql = <<<SQL
-            WITH main_identifier AS (
-                SELECT id
-                FROM pim_catalog_attribute
-                WHERE main_identifier = 1
-                LIMIT 1
-            )
-            SELECT 
-                BIN_TO_UUID(p.uuid) as uuid,
-                pcpud.raw_data as identifier,
-                a_label.code as label_code,
-                a_label.is_localizable,
-                a_label.is_scopable
-            FROM
-                pim_catalog_product p
-                LEFT JOIN pim_catalog_family f ON f.id = p.family_id
-                LEFT JOIN pim_catalog_attribute a_label ON a_label.id = f.label_attribute_id
-                LEFT JOIN pim_catalog_product_unique_data pcpud
-                    ON pcpud.product_uuid = p.uuid
-                    AND pcpud.attribute_id = (SELECT id FROM main_identifier)
-            WHERE 
-                uuid IN (:uuids)
-SQL;
+                        WITH main_identifier AS (
+                            SELECT id
+                            FROM pim_catalog_attribute
+                            WHERE main_identifier = 1
+                            LIMIT 1
+                        )
+                        SELECT 
+                            BIN_TO_UUID(p.uuid) as uuid,
+                            pcpud.raw_data as identifier,
+                            a_label.code as label_code,
+                            a_label.is_localizable,
+                            a_label.is_scopable
+                        FROM
+                            pim_catalog_product p
+                            LEFT JOIN pim_catalog_family f ON f.id = p.family_id
+                            LEFT JOIN pim_catalog_attribute a_label ON a_label.id = f.label_attribute_id
+                            LEFT JOIN pim_catalog_product_unique_data pcpud
+                                ON pcpud.product_uuid = p.uuid
+                                AND pcpud.attribute_id = (SELECT id FROM main_identifier)
+                        WHERE 
+                            uuid IN (:uuids)
+            SQL;
 
         $rows = $this->connection->executeQuery(
             $sql,
-            ['uuids' => array_map(fn (UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],
+            ['uuids' => array_map(fn(UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],
             ['uuids' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
@@ -251,20 +250,20 @@ SQL;
         }
 
         $sql = <<<SQL
-            SELECT 
-                BIN_TO_UUID(p.uuid) as uuid,
-                a_image.code as image_code
-            FROM
-                pim_catalog_product p
-                JOIN pim_catalog_family f ON f.id = p.family_id
-                JOIN pim_catalog_attribute a_image ON a_image.id = f.image_attribute_id
-            WHERE 
-                uuid IN (:uuids)
-SQL;
+                        SELECT 
+                            BIN_TO_UUID(p.uuid) as uuid,
+                            a_image.code as image_code
+                        FROM
+                            pim_catalog_product p
+                            JOIN pim_catalog_family f ON f.id = p.family_id
+                            JOIN pim_catalog_attribute a_image ON a_image.id = f.image_attribute_id
+                        WHERE 
+                            uuid IN (:uuids)
+            SQL;
 
         $rows = $this->connection->executeQuery(
             $sql,
-            ['uuids' => array_map(fn (UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],
+            ['uuids' => array_map(fn(UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],
             ['uuids' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
 
@@ -298,22 +297,22 @@ SQL;
         }
 
         $sql = <<<SQL
-            SELECT 
-                BIN_TO_UUID(p.uuid) as uuid,
-                COALESCE(ft.label, CONCAT("[", f.code, "]")) as family_label
-            FROM
-                pim_catalog_product p
-                JOIN pim_catalog_family f ON f.id = p.family_id
-                LEFT JOIN pim_catalog_family_translation ft ON ft.foreign_key = f.id AND ft.locale = :locale_code
-            WHERE 
-                uuid IN (:uuids)
-SQL;
+                        SELECT 
+                            BIN_TO_UUID(p.uuid) as uuid,
+                            COALESCE(ft.label, CONCAT("[", f.code, "]")) as family_label
+                        FROM
+                            pim_catalog_product p
+                            JOIN pim_catalog_family f ON f.id = p.family_id
+                            LEFT JOIN pim_catalog_family_translation ft ON ft.foreign_key = f.id AND ft.locale = :locale_code
+                        WHERE 
+                            uuid IN (:uuids)
+            SQL;
 
         $rows = $this->connection->executeQuery(
             $sql,
             [
-                'uuids' => array_map(fn (UuidInterface $uuid): string => $uuid->getBytes(), $uuids),
-                'locale_code' => $localeCode
+                'uuids' => array_map(fn(UuidInterface $uuid): string => $uuid->getBytes(), $uuids),
+                'locale_code' => $localeCode,
             ],
             ['uuids' => ArrayParameterType::STRING]
         )->fetchAllAssociative();
@@ -334,25 +333,25 @@ SQL;
         }
 
         $sql = <<<SQL
-            SELECT 
-                BIN_TO_UUID(p.uuid) as uuid,
-                JSON_ARRAYAGG(COALESCE(ft.label, CONCAT("[", g.code, "]"))) AS product_groups 
-            FROM
-                pim_catalog_product p
-                JOIN pim_catalog_group_product gp ON gp.product_uuid = p.uuid
-                JOIN pim_catalog_group g ON g.id = gp.group_id
-                LEFT JOIN pim_catalog_group_translation ft ON ft.foreign_key = g.id AND ft.locale = :locale_code
-            WHERE 
-                uuid IN (:uuids)
-            GROUP BY
-                uuid
-SQL;
+                        SELECT 
+                            BIN_TO_UUID(p.uuid) as uuid,
+                            JSON_ARRAYAGG(COALESCE(ft.label, CONCAT("[", g.code, "]"))) AS product_groups 
+                        FROM
+                            pim_catalog_product p
+                            JOIN pim_catalog_group_product gp ON gp.product_uuid = p.uuid
+                            JOIN pim_catalog_group g ON g.id = gp.group_id
+                            LEFT JOIN pim_catalog_group_translation ft ON ft.foreign_key = g.id AND ft.locale = :locale_code
+                        WHERE 
+                            uuid IN (:uuids)
+                        GROUP BY
+                            uuid
+            SQL;
 
         $rows = $this->connection->executeQuery(
             $sql,
             [
-                'uuids' => array_map(fn (UuidInterface $uuid): string => $uuid->getBytes(), $uuids),
-                'locale_code' => $localeCode
+                'uuids' => array_map(fn(UuidInterface $uuid): string => $uuid->getBytes(), $uuids),
+                'locale_code' => $localeCode,
             ],
             ['uuids' => ArrayParameterType::STRING]
         )->fetchAllAssociative();

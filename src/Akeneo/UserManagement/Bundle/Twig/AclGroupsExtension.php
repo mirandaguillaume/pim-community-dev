@@ -19,8 +19,7 @@ class AclGroupsExtension extends AbstractExtension
     public function __construct(
         protected array $bundles,
         private readonly FeatureFlags $featureFlags,
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -103,7 +102,7 @@ class AclGroupsExtension extends AbstractExtension
 
             $groups[$permissionGroup][] = [
                 'name'  => $groupName,
-                'order' => $groupConfig['order'] ?? -1
+                'order' => $groupConfig['order'] ?? -1,
             ];
         }
 

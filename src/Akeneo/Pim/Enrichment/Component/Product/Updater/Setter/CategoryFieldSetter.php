@@ -56,14 +56,14 @@ class CategoryFieldSetter extends AbstractFieldSetter
 
         $formerCategories = $entity->getCategories();
         $categoriesToAdd = $categories->filter(
-            fn (CategoryInterface $category) => !$formerCategories->contains($category)
+            fn(CategoryInterface $category) => !$formerCategories->contains($category)
         );
         foreach ($categoriesToAdd as $categoryToAdd) {
             $entity->addCategory($categoryToAdd);
         }
 
         $categoriesToRemove = $formerCategories->filter(
-            fn (Categoryinterface $category) => !$categories->contains($category)
+            fn(Categoryinterface $category) => !$categories->contains($category)
         );
         foreach ($categoriesToRemove as $categoryToRemove) {
             $entity->removeCategory($categoryToRemove);

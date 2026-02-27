@@ -10,9 +10,7 @@ use Doctrine\DBAL\Connection;
 
 class SqlGetCategoryTranslations implements GetCategoryTranslations
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function byCategoryCodesAndLocale(array $categoryCodes, string $locale): array
     {
@@ -21,19 +19,19 @@ class SqlGetCategoryTranslations implements GetCategoryTranslations
         }
 
         $sql = <<<SQL
-SELECT
-   c.code AS code,
-   trans.label AS label
-FROM pim_catalog_category c
-INNER JOIN pim_catalog_category_translation trans ON c.id = trans.foreign_key
-WHERE c.code IN (:categoryCodes)
-AND locale = :locale
-SQL;
+            SELECT
+               c.code AS code,
+               trans.label AS label
+            FROM pim_catalog_category c
+            INNER JOIN pim_catalog_category_translation trans ON c.id = trans.foreign_key
+            WHERE c.code IN (:categoryCodes)
+            AND locale = :locale
+            SQL;
         $rows = $this->connection->executeQuery(
             $sql,
             [
                 'categoryCodes' => $categoryCodes,
-                'locale' => $locale
+                'locale' => $locale,
             ],
             ['categoryCodes' => ArrayParameterType::STRING]
         )->fetchAllAssociative();

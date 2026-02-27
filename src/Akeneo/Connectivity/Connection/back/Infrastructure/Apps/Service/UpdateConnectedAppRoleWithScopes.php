@@ -23,8 +23,7 @@ final readonly class UpdateConnectedAppRoleWithScopes implements UpdateConnected
         private RoleRepositoryInterface $roleRepository,
         private ScopeMapperRegistryInterface $scopeMapperRegistry,
         private BulkSaverInterface $roleWithPermissionsSaver,
-    ) {
-    }
+    ) {}
 
     public function execute(string $appId, array $scopes): void
     {

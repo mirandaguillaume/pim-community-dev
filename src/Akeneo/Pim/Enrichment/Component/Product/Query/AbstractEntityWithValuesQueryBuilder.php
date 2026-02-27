@@ -48,7 +48,7 @@ class AbstractEntityWithValuesQueryBuilder implements ProductQueryBuilderInterfa
         $allowedCursorOptions = ['page_size', 'search_after', 'search_after_unique_key', 'limit', 'from'];
         $cursorOptions = array_filter(
             $this->defaultContext,
-            fn ($key) => in_array($key, $allowedCursorOptions),
+            fn($key) => in_array($key, $allowedCursorOptions),
             ARRAY_FILTER_USE_KEY
         );
 
@@ -119,7 +119,7 @@ class AbstractEntityWithValuesQueryBuilder implements ProductQueryBuilderInterfa
             'operator' => $operator,
             'value'    => $value,
             'context'  => $context,
-            'type'     => $filterType
+            'type'     => $filterType,
         ];
 
         return $this;

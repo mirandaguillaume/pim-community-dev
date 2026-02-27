@@ -14,13 +14,11 @@ abstract class AbstractExtension extends \Twig\Extension\AbstractExtension
      */
     protected $defaultFunctionOptions = [
         'is_safe'           => ['html'],
-        'needs_environment' => true
+        'needs_environment' => true,
     ];
 
     /**
      * @param string $templateName
      */
-    public function __construct(protected $templateName)
-    {
-    }
+    public function __construct(protected $templateName) {}
 }

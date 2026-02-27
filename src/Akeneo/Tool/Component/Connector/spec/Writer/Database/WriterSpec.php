@@ -12,7 +12,7 @@ use Akeneo\Category\Infrastructure\Component\Model\CategoryInterface;
 
 class WriterSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         BulkSaverInterface $bulkSaver,
         BulkObjectDetacherInterface $bulkDetacher,
         StepExecution $stepExecution
@@ -21,13 +21,13 @@ class WriterSpec extends ObjectBehavior
         $this->setStepExecution($stepExecution);
     }
 
-    function it_is_a_writer()
+    public function it_is_a_writer()
     {
         $this->shouldImplement(ItemWriterInterface::class);
         $this->shouldImplement(StepExecutionAwareInterface::class);
     }
 
-    function it_massively_insert_and_update_objects(
+    public function it_massively_insert_and_update_objects(
         $bulkSaver,
         $bulkDetacher,
         $stepExecution,

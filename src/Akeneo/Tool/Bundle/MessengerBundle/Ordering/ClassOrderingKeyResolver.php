@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Tool\Bundle\MessengerBundle\Ordering;
@@ -13,9 +14,7 @@ use Symfony\Component\Messenger\Envelope;
  */
 final readonly class ClassOrderingKeyResolver implements OrderingKeyResolverInterface
 {
-    public function __construct(private string $class, private string $orderingKey)
-    {
-    }
+    public function __construct(private string $class, private string $orderingKey) {}
 
     /**
      * {@inheritDoc}

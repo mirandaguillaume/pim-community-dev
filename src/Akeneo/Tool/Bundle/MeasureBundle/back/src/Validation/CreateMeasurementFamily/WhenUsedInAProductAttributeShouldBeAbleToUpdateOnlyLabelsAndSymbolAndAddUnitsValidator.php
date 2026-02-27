@@ -23,9 +23,7 @@ use Symfony\Component\Validator\Validation;
  */
 class WhenUsedInAProductAttributeShouldBeAbleToUpdateOnlyLabelsAndSymbolAndAddUnitsValidator extends ConstraintValidator
 {
-    public function __construct(private readonly MeasurementFamilyRepositoryInterface $measurementFamilyRepository, private readonly IsThereAtLeastOneAttributeConfiguredWithMeasurementFamily $isThereAtLeastOneAttributeConfiguredWithMeasurementFamily)
-    {
-    }
+    public function __construct(private readonly MeasurementFamilyRepositoryInterface $measurementFamilyRepository, private readonly IsThereAtLeastOneAttributeConfiguredWithMeasurementFamily $isThereAtLeastOneAttributeConfiguredWithMeasurementFamily) {}
 
     /**
      * @inheritDoc
@@ -51,7 +49,7 @@ class WhenUsedInAProductAttributeShouldBeAbleToUpdateOnlyLabelsAndSymbolAndAddUn
                 WhenUsedInAProductAttributeShouldBeAbleToUpdateOnlyLabelsAndSymbolAndAddUnits::MEASUREMENT_FAMILY_UNIT_REMOVAL_NOT_ALLOWED,
                 [
                     '%unit_code%'               => implode(',', $removedUnits),
-                    '%measurement_family_code%' => $saveMeasurementFamily->code
+                    '%measurement_family_code%' => $saveMeasurementFamily->code,
                 ]
             )
                 ->atPath('units')
@@ -67,7 +65,7 @@ class WhenUsedInAProductAttributeShouldBeAbleToUpdateOnlyLabelsAndSymbolAndAddUn
                 WhenUsedInAProductAttributeShouldBeAbleToUpdateOnlyLabelsAndSymbolAndAddUnits::MEASUREMENT_FAMILY_OPERATION_UPDATE_NOT_ALLOWED,
                 [
                     '%unit_code%'               => implode(',', $unitsBeingUpdated),
-                    '%measurement_family_code%' => $saveMeasurementFamily->code
+                    '%measurement_family_code%' => $saveMeasurementFamily->code,
                 ]
             )
                 ->addViolation();
@@ -78,10 +76,10 @@ class WhenUsedInAProductAttributeShouldBeAbleToUpdateOnlyLabelsAndSymbolAndAddUn
     {
         $normalizedMeasurementFamily = $measurementFamily->normalize();
         $actualUnitCodes = array_map(
-            static fn (array $unit) => $unit['code'],
+            static fn(array $unit) => $unit['code'],
             $normalizedMeasurementFamily['units']
         );
-        $unitCodesToUpdate = array_map(static fn (array $unit) => $unit['code'], $saveMeasurementFamily->units);
+        $unitCodesToUpdate = array_map(static fn(array $unit) => $unit['code'], $saveMeasurementFamily->units);
 
         return array_diff($actualUnitCodes, $unitCodesToUpdate);
     }
@@ -110,7 +108,7 @@ class WhenUsedInAProductAttributeShouldBeAbleToUpdateOnlyLabelsAndSymbolAndAddUn
         foreach ($saveMeasurementFamily->units as $unit) {
             $unitCode = $unit['code'];
             $serializedOperations = array_map(
-                static fn (array $unit) => json_encode($unit, JSON_THROW_ON_ERROR),
+                static fn(array $unit) => json_encode($unit, JSON_THROW_ON_ERROR),
                 $unit['convert_from_standard']
             );
             $operationsPerUnit[$unitCode] = $serializedOperations;
@@ -126,7 +124,7 @@ class WhenUsedInAProductAttributeShouldBeAbleToUpdateOnlyLabelsAndSymbolAndAddUn
         foreach ($normalizedUnits as $unit) {
             $unitCode = $unit['code'];
             $serializedOperations = array_map(
-                static fn (array $unit) => json_encode($unit, JSON_THROW_ON_ERROR),
+                static fn(array $unit) => json_encode($unit, JSON_THROW_ON_ERROR),
                 $unit['convert_from_standard']
             );
             $operationsPerUnit[$unitCode] = $serializedOperations;

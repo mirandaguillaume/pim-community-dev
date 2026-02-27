@@ -33,8 +33,7 @@ class SendBusinessEventToWebhooksHandler
         private readonly LoggerInterface $logger,
         private readonly EventSubscriptionSkippedOwnEventLoggerInterface $eventSubscriptionSkippedOwnEventLogger,
         private readonly string $pimSource
-    ) {
-    }
+    ) {}
 
     public function handle(SendBusinessEventToWebhooksCommand $command): void
     {

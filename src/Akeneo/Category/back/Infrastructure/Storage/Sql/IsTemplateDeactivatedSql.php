@@ -14,17 +14,15 @@ use Doctrine\DBAL\Connection;
  */
 class IsTemplateDeactivatedSql implements IsTemplateDeactivated
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function __invoke(TemplateUuid $templateUuid): bool
     {
         $query = <<<SQL
-            SELECT is_deactivated
-            FROM pim_catalog_category_template
-            WHERE uuid = :template_uuid;
-        SQL;
+                SELECT is_deactivated
+                FROM pim_catalog_category_template
+                WHERE uuid = :template_uuid;
+            SQL;
 
         $result = $this->connection->executeQuery($query, [
             'template_uuid' => $templateUuid->toBytes(),

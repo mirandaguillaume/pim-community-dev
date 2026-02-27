@@ -9,12 +9,12 @@ use Akeneo\UserManagement\Component\Model\UserInterface;
 
 class DefaultViewDataTransformerSpec extends ObjectBehavior
 {
-    function let(DatagridViewRepositoryInterface $datagridViewRepo)
+    public function let(DatagridViewRepositoryInterface $datagridViewRepo)
     {
         $this->beConstructedWith($datagridViewRepo);
     }
 
-    function it_transforms_the_given_user($datagridViewRepo, UserInterface $julia, DatagridView $productView)
+    public function it_transforms_the_given_user($datagridViewRepo, UserInterface $julia, DatagridView $productView)
     {
         $datagridViewRepo->getDatagridViewAliasesByUser($julia)->willReturn(['product-grid', 'category']);
 

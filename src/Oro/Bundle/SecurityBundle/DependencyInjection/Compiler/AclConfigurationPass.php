@@ -139,13 +139,13 @@ class AclConfigurationPass implements CompilerPassInterface
         }
         usort(
             $extensions,
-            fn ($a, $b) => $a['priority'] == $b['priority']
+            fn($a, $b) => $a['priority'] == $b['priority']
                 ? 0
                 : (($a['priority'] < $b['priority']) ? -1 : 1)
         );
 
         return array_map(
-            fn ($el) => $el['id'],
+            fn($el) => $el['id'],
             $extensions
         );
     }
@@ -157,7 +157,7 @@ class AclConfigurationPass implements CompilerPassInterface
 
         foreach ($container->getParameter('kernel.bundles') as $bundle) {
             $reflection = new \ReflectionClass($bundle);
-            $file = dirname($reflection->getFilename()) .'/Resources/config/acl.yml';
+            $file = dirname($reflection->getFilename()) . '/Resources/config/acl.yml';
 
             if (!is_file($file)) {
                 continue;

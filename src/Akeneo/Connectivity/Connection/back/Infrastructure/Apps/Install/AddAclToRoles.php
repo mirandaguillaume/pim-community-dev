@@ -22,8 +22,7 @@ final readonly class AddAclToRoles
     public function __construct(
         private AclManager $aclManager,
         private RoleRepository $roleRepository,
-    ) {
-    }
+    ) {}
 
     /**
      * @param array<string> $roles

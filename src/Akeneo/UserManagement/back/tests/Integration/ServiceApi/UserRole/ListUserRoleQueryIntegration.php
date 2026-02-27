@@ -28,8 +28,8 @@ class ListUserRoleQueryIntegration extends TestCase
     private function removeAllUserRoles(): void
     {
         $deleteSql = <<<SQL
-            DELETE FROM `oro_access_role`
-        SQL;
+                DELETE FROM `oro_access_role`
+            SQL;
 
         $this->get('database_connection')->executeQuery($deleteSql);
     }
@@ -37,8 +37,8 @@ class ListUserRoleQueryIntegration extends TestCase
     private function insertUserRole(string $roleCode): void
     {
         $insertSql = <<<SQL
-            INSERT INTO `oro_access_role` (`role`, `label`, `type`) VALUES (:roleCode, :roleLabel, :roleType)
-        SQL;
+                INSERT INTO `oro_access_role` (`role`, `label`, `type`) VALUES (:roleCode, :roleLabel, :roleType)
+            SQL;
 
         $this->get('database_connection')->executeQuery(
             $insertSql,

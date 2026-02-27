@@ -35,11 +35,11 @@ class ProductRepository extends EntityRepository implements
     {
         $uuidsAsBytes = $this->getEntityManager()->getConnection()->fetchFirstColumn(
             <<<SQL
-            SELECT product_uuid
-            FROM pim_catalog_product_unique_data
-            WHERE attribute_id = :attributeId
-            AND raw_data IN (:identifiers)
-            SQL,
+                SELECT product_uuid
+                FROM pim_catalog_product_unique_data
+                WHERE attribute_id = :attributeId
+                AND raw_data IN (:identifiers)
+                SQL,
             [
                 'identifiers' => $identifiers,
                 'attributeId' => $this->getMainIdentifierId(),
@@ -50,7 +50,7 @@ class ProductRepository extends EntityRepository implements
             ]
         );
 
-        $uuids = array_map(fn (string $bytes) => Uuid::fromBytes($bytes), $uuidsAsBytes);
+        $uuids = array_map(fn(string $bytes) => Uuid::fromBytes($bytes), $uuidsAsBytes);
 
         return $this->findBy(['uuid' => $uuids]);
     }

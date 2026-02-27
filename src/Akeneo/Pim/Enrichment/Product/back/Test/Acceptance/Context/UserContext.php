@@ -31,8 +31,7 @@ final class UserContext implements Context
         private readonly UserFactory $userFactory,
         private readonly ValidatorInterface $validator,
         private readonly TokenStorageInterface $tokenStorage
-    ) {
-    }
+    ) {}
 
     /**
      * @Given an authenticated user

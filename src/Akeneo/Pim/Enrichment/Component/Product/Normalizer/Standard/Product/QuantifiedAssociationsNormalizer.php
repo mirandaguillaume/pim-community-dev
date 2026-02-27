@@ -16,16 +16,14 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class QuantifiedAssociationsNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    public function __construct(private readonly QuantifiedAssociationsMerger $quantifiedAssociationsMerger)
-    {
-    }
+    public function __construct(private readonly QuantifiedAssociationsMerger $quantifiedAssociationsMerger) {}
 
     /**
      * {@inheritdoc}
      *
      * @param EntityWithQuantifiedAssociationsInterface $entity
      */
-    public function normalize($entity, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($entity, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         return $this->normalizeWithParentsAssociations($entity, $format, $context);
     }

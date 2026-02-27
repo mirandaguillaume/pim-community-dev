@@ -22,8 +22,7 @@ class SqlCategoryTemplateAttributeSaver implements CategoryTemplateAttributeSave
     public function __construct(
         private readonly Connection $connection,
         private readonly IsTemplateDeactivated $isTemplateDeactivated,
-    ) {
-    }
+    ) {}
 
     public function insert(TemplateUuid $templateUuid, AttributeCollection $attributeCollection): void
     {
@@ -41,10 +40,10 @@ class SqlCategoryTemplateAttributeSaver implements CategoryTemplateAttributeSave
         }
 
         $query = <<<SQL
-            UPDATE pim_catalog_category_attribute
-            SET attribute_type = :type, labels = :labels
-            WHERE uuid = UUID_TO_BIN(:uuid);
-        SQL;
+                UPDATE pim_catalog_category_attribute
+                SET attribute_type = :type, labels = :labels
+                WHERE uuid = UUID_TO_BIN(:uuid);
+            SQL;
 
         $this->connection->executeQuery(
             $query,
@@ -77,21 +76,21 @@ class SqlCategoryTemplateAttributeSaver implements CategoryTemplateAttributeSave
         );
         $statement = $this->connection->prepare(
             <<<SQL
-            INSERT INTO pim_catalog_category_attribute
-            (
-                uuid,
-                code,
-                category_template_uuid,
-                labels,
-                attribute_type,
-                attribute_order,
-                is_required,
-                is_scopable,
-                is_localizable,
-                additional_properties
-            )
-            VALUES {$placeholders} ;
-            SQL
+                INSERT INTO pim_catalog_category_attribute
+                (
+                    uuid,
+                    code,
+                    category_template_uuid,
+                    labels,
+                    attribute_type,
+                    attribute_order,
+                    is_required,
+                    is_scopable,
+                    is_localizable,
+                    additional_properties
+                )
+                VALUES {$placeholders} ;
+                SQL
         );
 
         $placeholderIndex = 0;

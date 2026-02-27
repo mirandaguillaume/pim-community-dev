@@ -13,8 +13,7 @@ final readonly class SwitchMainIdentifierHandler
 {
     public function __construct(
         private Connection $connection
-    ) {
-    }
+    ) {}
 
     public function __invoke(SwitchMainIdentifierCommand $command): void
     {
@@ -27,10 +26,10 @@ final readonly class SwitchMainIdentifierHandler
     private function getFormerMainIdentifierCode(): string
     {
         $sql = <<<SQL
-SELECT code
-FROM pim_catalog_attribute
-WHERE main_identifier = 1
-SQL;
+            SELECT code
+            FROM pim_catalog_attribute
+            WHERE main_identifier = 1
+            SQL;
         $result = $this->connection->fetchOne($sql);
         Assert::string($result, 'No main identifier found');
 
@@ -42,12 +41,12 @@ SQL;
         string $newMainIdentifierCode
     ): void {
         $sql = <<<SQL
-UPDATE pim_catalog_attribute
-SET
-    main_identifier = IF(main_identifier, 0, 1),
-    updated = NOW()
-WHERE code IN (:formerMainIdentifierCode, :newMainIdentifierCode)
-SQL;
+            UPDATE pim_catalog_attribute
+            SET
+                main_identifier = IF(main_identifier, 0, 1),
+                updated = NOW()
+            WHERE code IN (:formerMainIdentifierCode, :newMainIdentifierCode)
+            SQL;
 
         $this->connection->executeQuery($sql, [
             'formerMainIdentifierCode' => $formerMainIdentifierCode,

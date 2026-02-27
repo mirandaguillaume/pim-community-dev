@@ -16,7 +16,7 @@ class AdditionalProperties implements \IteratorAggregate
 
     public function __construct(array $properties = [])
     {
-        $this->properties = (fn (AdditionalProperty ...$property) => $property)(...$properties);
+        $this->properties = (fn(AdditionalProperty ...$property) => $property)(...$properties);
     }
 
     public function addAdditionalProperty(AdditionalProperty $property): AdditionalProperties

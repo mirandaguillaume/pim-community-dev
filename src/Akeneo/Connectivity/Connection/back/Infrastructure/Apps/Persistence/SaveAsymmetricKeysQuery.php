@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Infrastructure\Apps\Persistence;
@@ -20,8 +21,7 @@ final readonly class SaveAsymmetricKeysQuery implements SaveAsymmetricKeysQueryI
     public function __construct(
         private Connection $connection,
         private ClockInterface $clock,
-    ) {
-    }
+    ) {}
 
     public function execute(AsymmetricKeys $asymmetricKeys): void
     {

@@ -8,9 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class GridController
 {
-    public function __construct(private readonly ManagerInterface $manager)
-    {
-    }
+    public function __construct(private readonly ManagerInterface $manager) {}
 
     public function get(string $gridName): JsonResponse
     {

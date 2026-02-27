@@ -15,8 +15,7 @@ class CheckAttributeIsNotUsedAsLabelOnDeletionSubscriber implements EventSubscri
 {
     public function __construct(
         private readonly Connection $connection,
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -46,11 +45,11 @@ class CheckAttributeIsNotUsedAsLabelOnDeletionSubscriber implements EventSubscri
     private function attributeIsUsedAsLabel(int $attributeId): bool
     {
         $sql = <<<SQL
-SELECT EXISTS(
-    SELECT * FROM pim_catalog_family
-    WHERE label_attribute_id = :attribute_id
-)
-SQL;
+            SELECT EXISTS(
+                SELECT * FROM pim_catalog_family
+                WHERE label_attribute_id = :attribute_id
+            )
+            SQL;
 
         return (bool) $this->connection->executeQuery($sql, ['attribute_id' => $attributeId])->fetchOne();
     }

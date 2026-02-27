@@ -15,9 +15,7 @@ class PaginatorFactory implements PaginatorFactoryInterface
      * @param string $paginatorClass  class name implementation
      * @param int    $defaultPageSize the default page size
      */
-    public function __construct(protected $paginatorClass, protected $defaultPageSize)
-    {
-    }
+    public function __construct(protected $paginatorClass, protected $defaultPageSize) {}
 
     /**
      * {@inheritdoc}

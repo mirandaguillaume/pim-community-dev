@@ -43,7 +43,7 @@ class LaunchEvaluationsCommand extends Command
         }
 
         try {
-            $this->runUniqueProcessJob->run('data_quality_insights_evaluations', fn (?JobExecution $lastJobExecution) => []);
+            $this->runUniqueProcessJob->run('data_quality_insights_evaluations', fn(?JobExecution $lastJobExecution) => []);
         } catch (AnotherJobStillRunningException) {
             exit(0);
         }
@@ -54,14 +54,14 @@ class LaunchEvaluationsCommand extends Command
     private function hasStartedMigration(): bool
     {
         $sql = <<<SQL
-            SELECT EXISTS (
-                SELECT 1
-                FROM pim_one_time_task
-                WHERE code=:code
-                AND status=:status
-                LIMIT 1
-            ) AS missing
-        SQL;
+                SELECT EXISTS (
+                    SELECT 1
+                    FROM pim_one_time_task
+                    WHERE code=:code
+                    AND status=:status
+                    LIMIT 1
+                ) AS missing
+            SQL;
 
         return (bool) $this->connection->fetchOne($sql, [
             ':code' => 'pim:product:migrate-to-uuid',

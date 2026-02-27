@@ -15,9 +15,7 @@ use Doctrine\DBAL\Types\Types;
  */
 final readonly class FixturesJobHelper
 {
-    public function __construct(private Connection $dbalConnection)
-    {
-    }
+    public function __construct(private Connection $dbalConnection) {}
 
     public function createJobInstance(array $data): int
     {
@@ -43,7 +41,7 @@ final readonly class FixturesJobHelper
             ]
         );
 
-        return (int)$this->dbalConnection->lastInsertId();
+        return (int) $this->dbalConnection->lastInsertId();
     }
 
     public function createJobExecution(array $data): int
@@ -67,7 +65,7 @@ final readonly class FixturesJobHelper
             ]
         );
 
-        return (int)$this->dbalConnection->lastInsertId();
+        return (int) $this->dbalConnection->lastInsertId();
     }
 
     public function createStepExecution(array $data): int
@@ -99,6 +97,6 @@ final readonly class FixturesJobHelper
             ]
         );
 
-        return (int)$this->dbalConnection->lastInsertId();
+        return (int) $this->dbalConnection->lastInsertId();
     }
 }

@@ -13,8 +13,7 @@ final readonly class CheckWebhookReachabilityAction
 {
     public function __construct(
         private CheckWebhookReachabilityHandler $checkWebhookReachabilityHandler,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): JsonResponse
     {

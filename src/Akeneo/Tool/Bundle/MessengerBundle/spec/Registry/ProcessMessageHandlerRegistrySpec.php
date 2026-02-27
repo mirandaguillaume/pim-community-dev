@@ -12,7 +12,8 @@ use PhpSpec\ObjectBehavior;
  */
 final class ProcessMessageHandlerRegistrySpec extends ObjectBehavior
 {
-    public function it_returns_the_handler() {
+    public function it_returns_the_handler()
+    {
         $handler1 = new class {
             public function __invoke(object $message) {}
         };

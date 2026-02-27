@@ -89,7 +89,7 @@ class IdentifierFilter extends AbstractFieldFilter implements FieldFilterInterfa
             case Operators::STARTS_WITH:
                 $this->searchQueryBuilder->addFilter(
                     $this->buildIdentifierSearchFilter(
-                        QueryString::escapeValue($value).'*',
+                        QueryString::escapeValue($value) . '*',
                         $productDocumentType,
                         $productIdentifierField,
                         $productModelDocumentType,
@@ -102,7 +102,7 @@ class IdentifierFilter extends AbstractFieldFilter implements FieldFilterInterfa
             case Operators::CONTAINS:
                 $this->searchQueryBuilder->addFilter(
                     $this->buildIdentifierSearchFilter(
-                        '*'.QueryString::escapeValue($value).'*',
+                        '*' . QueryString::escapeValue($value) . '*',
                         $productDocumentType,
                         $productIdentifierField,
                         $productModelDocumentType,
@@ -114,7 +114,7 @@ class IdentifierFilter extends AbstractFieldFilter implements FieldFilterInterfa
 
             case Operators::DOES_NOT_CONTAIN:
                 $this->searchQueryBuilder->addMustNot($this->buildIdentifierSearchFilter(
-                    '*'.QueryString::escapeValue($value).'*',
+                    '*' . QueryString::escapeValue($value) . '*',
                     $productDocumentType,
                     $productIdentifierField,
                     $productModelDocumentType,

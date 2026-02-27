@@ -19,8 +19,7 @@ class ExternalApiSqlParameters
         private ?array $params = null,
         private ?array $types = null,
         private ?string $limitAndOffset = null,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<string, mixed>|null

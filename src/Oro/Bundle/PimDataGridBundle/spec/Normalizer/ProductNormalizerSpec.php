@@ -26,7 +26,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class ProductNormalizerSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         NormalizerInterface $normalizer,
         CollectionFilterInterface $filter,
         ImageNormalizer $imageNormalizer,
@@ -38,18 +38,18 @@ class ProductNormalizerSpec extends ObjectBehavior
         $this->setNormalizer($normalizer);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(ProductNormalizer::class);
         $this->shouldBeAnInstanceOf(NormalizerAwareInterface::class);
     }
 
-    function it_is_a_normalizer()
+    public function it_is_a_normalizer()
     {
         $this->shouldImplement(\Symfony\Component\Serializer\Normalizer\NormalizerInterface::class);
     }
 
-    function it_supports_datagrid_format_and_product_value(ProductInterface $product)
+    public function it_supports_datagrid_format_and_product_value(ProductInterface $product)
     {
         $this->supportsNormalization($product, 'datagrid')->shouldReturn(true);
         $this->supportsNormalization($product, 'other_format')->shouldReturn(false);
@@ -57,7 +57,7 @@ class ProductNormalizerSpec extends ObjectBehavior
         $this->supportsNormalization(new \stdClass(), 'datagrid')->shouldReturn(false);
     }
 
-    function it_normalizes_a_product_with_label(
+    public function it_normalizes_a_product_with_label(
         $normalizer,
         $filter,
         $imageNormalizer,
@@ -102,8 +102,8 @@ class ProductNormalizerSpec extends ObjectBehavior
                     'locale' => null,
                     'scope'  => null,
                     'data'   => 'my text',
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $created = new \DateTime('2017-01-01T01:03:34+01:00');
@@ -117,10 +117,12 @@ class ProductNormalizerSpec extends ObjectBehavior
 
         $getProductCompletenesses
             ->fromProductUuid(Uuid::fromString('54162e35-ff81-48f1-96d5-5febd3f00fd5'))
-            ->willReturn(new ProductCompletenessCollection(Uuid::fromString('54162e35-ff81-48f1-96d5-5febd3f00fd5'), [
-                new ProductCompleteness('ecommerce', 'en_US', 10, 1)
-            ]
-        ));
+            ->willReturn(new ProductCompletenessCollection(
+                Uuid::fromString('54162e35-ff81-48f1-96d5-5febd3f00fd5'),
+                [
+                    new ProductCompleteness('ecommerce', 'en_US', 10, 1),
+                ]
+            ));
 
         $product->getImage()->willReturn($image);
         $imageNormalizer->normalize($image, 'en_US', 'ecommerce')->willReturn([
@@ -139,8 +141,8 @@ class ProductNormalizerSpec extends ObjectBehavior
                         'locale' => null,
                         'scope'  => null,
                         'data'   => 'my text',
-                    ]
-                ]
+                    ],
+                ],
             ],
             'created'      => '2017-01-01T01:03:34+01:00',
             'updated'      => '2017-01-01T01:04:34+01:00',
@@ -161,7 +163,7 @@ class ProductNormalizerSpec extends ObjectBehavior
         $this->normalize($product, 'datagrid', $context)->shouldReturn($data);
     }
 
-    function it_normalizes_a_product_without_label(
+    public function it_normalizes_a_product_without_label(
         $normalizer,
         $filter,
         $imageNormalizer,
@@ -208,8 +210,8 @@ class ProductNormalizerSpec extends ObjectBehavior
                     'locale' => null,
                     'scope'  => null,
                     'data'   => 'my text',
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $created = new \DateTime('2017-01-01T01:03:34+01:00');
@@ -223,14 +225,16 @@ class ProductNormalizerSpec extends ObjectBehavior
 
         $getProductCompletenesses
             ->fromProductUuid(Uuid::fromString('54162e35-ff81-48f1-96d5-5febd3f00fd5'))
-            ->willReturn(new ProductCompletenessCollection(Uuid::fromString('54162e35-ff81-48f1-96d5-5febd3f00fd5'), [
-                new ProductCompleteness('ecommerce', 'en_US', 10, 1)
-            ]
-        ));
+            ->willReturn(new ProductCompletenessCollection(
+                Uuid::fromString('54162e35-ff81-48f1-96d5-5febd3f00fd5'),
+                [
+                    new ProductCompleteness('ecommerce', 'en_US', 10, 1),
+                ]
+            ));
         $product->getImage()->willReturn($image);
         $imageNormalizer->normalize($image, 'en_US', 'ecommerce')->willReturn([
             'filePath'         => '/p/i/m/4/all.png',
-            'originalFileName' => 'all.png'
+            'originalFileName' => 'all.png',
         ]);
 
         $data = [
@@ -244,8 +248,8 @@ class ProductNormalizerSpec extends ObjectBehavior
                         'locale' => null,
                         'scope'  => null,
                         'data'   => 'my text',
-                    ]
-                ]
+                    ],
+                ],
             ],
             'created'      => '2017-01-01T01:03:34+01:00',
             'updated'      => '2017-01-01T01:04:34+01:00',
@@ -266,7 +270,7 @@ class ProductNormalizerSpec extends ObjectBehavior
         $this->normalize($product, 'datagrid', $context)->shouldReturn($data);
     }
 
-    function it_normalizes_a_product_with_parent(
+    public function it_normalizes_a_product_with_parent(
         $normalizer,
         $filter,
         $imageNormalizer,
@@ -315,8 +319,8 @@ class ProductNormalizerSpec extends ObjectBehavior
                     'locale' => null,
                     'scope'  => null,
                     'data'   => 'my text',
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $created = new \DateTime('2017-01-01T01:03:34+01:00');
@@ -330,14 +334,16 @@ class ProductNormalizerSpec extends ObjectBehavior
 
         $getProductCompletenesses
             ->fromProductUuid(Uuid::fromString('54162e35-ff81-48f1-96d5-5febd3f00fd5'))
-            ->willReturn(new ProductCompletenessCollection(Uuid::fromString('54162e35-ff81-48f1-96d5-5febd3f00fd5'), [
-                new ProductCompleteness('ecommerce', 'en_US', 10, 1)
-            ]
-        ));
+            ->willReturn(new ProductCompletenessCollection(
+                Uuid::fromString('54162e35-ff81-48f1-96d5-5febd3f00fd5'),
+                [
+                    new ProductCompleteness('ecommerce', 'en_US', 10, 1),
+                ]
+            ));
         $product->getImage()->willReturn($image);
         $imageNormalizer->normalize($image, 'en_US', 'ecommerce')->willReturn([
             'filePath'         => '/p/i/m/4/all.png',
-            'originalFileName' => 'all.png'
+            'originalFileName' => 'all.png',
         ]);
 
         $data = [
@@ -351,8 +357,8 @@ class ProductNormalizerSpec extends ObjectBehavior
                         'locale' => null,
                         'scope'  => null,
                         'data'   => 'my text',
-                    ]
-                ]
+                    ],
+                ],
             ],
             'created'      => '2017-01-01T01:03:34+01:00',
             'updated'      => '2017-01-01T01:04:34+01:00',
@@ -373,7 +379,7 @@ class ProductNormalizerSpec extends ObjectBehavior
         $this->normalize($product, 'datagrid', $context)->shouldReturn($data);
     }
 
-    function it_normalizes_a_product_without_locale_and_channel_context(
+    public function it_normalizes_a_product_without_locale_and_channel_context(
         $normalizer,
         $filter,
         $imageNormalizer,
@@ -416,8 +422,8 @@ class ProductNormalizerSpec extends ObjectBehavior
                     'locale' => null,
                     'scope'  => null,
                     'data'   => 'my text',
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $created = new \DateTime('2017-01-01T01:03:34+01:00');
@@ -431,14 +437,16 @@ class ProductNormalizerSpec extends ObjectBehavior
 
         $getProductCompletenesses
             ->fromProductUuid(Uuid::fromString('54162e35-ff81-48f1-96d5-5febd3f00fd5'))
-            ->willReturn(new ProductCompletenessCollection(Uuid::fromString('54162e35-ff81-48f1-96d5-5febd3f00fd5'), [
-                new ProductCompleteness('ecommerce', 'en_US', 10, 1)
-            ]
-        ));
+            ->willReturn(new ProductCompletenessCollection(
+                Uuid::fromString('54162e35-ff81-48f1-96d5-5febd3f00fd5'),
+                [
+                    new ProductCompleteness('ecommerce', 'en_US', 10, 1),
+                ]
+            ));
         $product->getImage()->willReturn($image);
         $imageNormalizer->normalize($image, null, null)->willReturn([
             'filePath' => '/p/i/m/4/all.png',
-            'originalFileName' => 'all.png'
+            'originalFileName' => 'all.png',
         ]);
 
         $data = [

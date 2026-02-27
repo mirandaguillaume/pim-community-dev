@@ -31,8 +31,7 @@ final readonly class GetOpenAppUrlAction
         private GetAppQueryInterface $getAppQuery,
         private SaveConnectedAppOutdatedScopesFlagQueryInterface $saveConnectedAppOutdatedScopesFlagQuery,
         private AppUrlGenerator $appUrlGenerator,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, string $connectionCode): Response
     {

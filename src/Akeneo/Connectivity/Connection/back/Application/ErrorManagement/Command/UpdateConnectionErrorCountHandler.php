@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Application\ErrorManagement\Command;
@@ -12,9 +13,7 @@ use Akeneo\Connectivity\Connection\Domain\ErrorManagement\Persistence\Repository
  */
 class UpdateConnectionErrorCountHandler
 {
-    public function __construct(private readonly ErrorCountRepositoryInterface $errorCountRepository)
-    {
-    }
+    public function __construct(private readonly ErrorCountRepositoryInterface $errorCountRepository) {}
 
     public function handle(UpdateConnectionErrorCountCommand $command): void
     {

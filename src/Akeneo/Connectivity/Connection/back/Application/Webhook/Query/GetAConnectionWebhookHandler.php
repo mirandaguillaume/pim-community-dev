@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Application\Webhook\Query;
@@ -18,8 +19,7 @@ class GetAConnectionWebhookHandler
         private readonly GetAConnectionWebhookQueryInterface $getAConnectionWebhookQuery,
         private readonly int $activeEventSubscriptionsLimit,
         private readonly CountActiveEventSubscriptionsQueryInterface $countActiveEventSubscriptionsQuery
-    ) {
-    }
+    ) {}
 
     public function handle(GetAConnectionWebhookQuery $query): ?EventSubscriptionFormData
     {

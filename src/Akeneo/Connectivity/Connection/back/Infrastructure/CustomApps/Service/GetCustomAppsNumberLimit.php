@@ -10,9 +10,7 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\CustomApps\Service;
  */
 class GetCustomAppsNumberLimit
 {
-    public function __construct(private int $customAppsNumberLimit)
-    {
-    }
+    public function __construct(private int $customAppsNumberLimit) {}
 
     public function getLimit(): int
     {

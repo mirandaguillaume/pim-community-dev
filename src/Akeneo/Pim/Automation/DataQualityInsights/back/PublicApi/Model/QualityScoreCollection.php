@@ -10,9 +10,7 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\PublicApi\Model;
  */
 class QualityScoreCollection
 {
-    public function __construct(public array $qualityScores = [])
-    {
-    }
+    public function __construct(public array $qualityScores = []) {}
 
     public function getQualityScoreByChannelAndLocale(string $channel, string $locale): ?QualityScore
     {

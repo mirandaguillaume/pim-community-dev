@@ -23,8 +23,7 @@ class JobExecutionAuthenticator implements EventSubscriberInterface
         protected UserProviderInterface $jobUserProvider,
         protected UserProviderInterface $uiUserProvider,
         protected TokenStorageInterface $tokenStorage
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -32,7 +31,7 @@ class JobExecutionAuthenticator implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            EventInterface::BEFORE_JOB_EXECUTION => 'authenticate'
+            EventInterface::BEFORE_JOB_EXECUTION => 'authenticate',
         ];
     }
 

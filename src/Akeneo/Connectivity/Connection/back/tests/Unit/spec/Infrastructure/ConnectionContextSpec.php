@@ -54,7 +54,7 @@ class ConnectionContextSpec extends ObjectBehavior
         $this->getConnection()->shouldReturn($connection);
     }
 
-    public function it_returns_null_when_client_id_is_not_defined():void
+    public function it_returns_null_when_client_id_is_not_defined(): void
     {
         $this->getConnection()->shouldReturn(null);
     }

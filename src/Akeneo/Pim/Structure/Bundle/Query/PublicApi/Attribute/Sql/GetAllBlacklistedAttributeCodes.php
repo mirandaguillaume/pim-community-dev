@@ -9,16 +9,14 @@ use Doctrine\DBAL\Connection;
 
 final readonly class GetAllBlacklistedAttributeCodes implements GetAllBlacklistedAttributeCodesInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function execute(): array
     {
         $sql = <<<SQL
-SELECT attribute_code
-FROM `pim_catalog_attribute_blacklist`
-SQL;
+            SELECT attribute_code
+            FROM `pim_catalog_attribute_blacklist`
+            SQL;
 
         return $this->connection
             ->executeQuery($sql)

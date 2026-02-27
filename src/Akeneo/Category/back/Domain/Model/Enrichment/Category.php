@@ -30,8 +30,7 @@ class Category
         private ?ValueCollection $attributes = null,
         private readonly ?PermissionCollection $permissions = null,
         private readonly ?Position $position = null,
-    ) {
-    }
+    ) {}
 
     /**
      * @param array{
@@ -64,8 +63,8 @@ class Category
             parentCode: isset($category['parent_code']) ? new Code($category['parent_code']) : null,
             rootId: $category['root_id'] ? new CategoryId((int) $category['root_id']) : null,
             updated: $category['updated'] ? \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $category['updated']) : null,
-            attributes: $category['value_collection'] ?
-                ValueCollection::fromDatabase(json_decode($category['value_collection'], true, 512, JSON_THROW_ON_ERROR)) : null,
+            attributes: $category['value_collection']
+                ? ValueCollection::fromDatabase(json_decode($category['value_collection'], true, 512, JSON_THROW_ON_ERROR)) : null,
             permissions: PermissionCollection::fromArray($permissions),
             position: new Position((int) $category['lft'], (int) $category['rgt'], (int) $category['lvl']),
         );

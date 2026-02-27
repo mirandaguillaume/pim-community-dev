@@ -21,9 +21,7 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetCriteriaEvaluationsByEntityIdQuery implements GetCriteriaEvaluationsByEntityIdQueryInterface
 {
-    public function __construct(private Connection                            $db, private Clock                                 $clock, private TransformCriterionEvaluationResultIds $transformCriterionEvaluationResultIds, private string                                $tableName)
-    {
-    }
+    public function __construct(private Connection                            $db, private Clock                                 $clock, private TransformCriterionEvaluationResultIds $transformCriterionEvaluationResultIds, private string                                $tableName) {}
 
     public function execute(ProductEntityIdInterface $entityId): Read\CriterionEvaluationCollection
     {
@@ -54,16 +52,16 @@ final readonly class GetCriteriaEvaluationsByEntityIdQuery implements GetCriteri
         $criterionEvaluationTable = $this->tableName;
 
         $sql = <<<SQL
-SELECT
-       BIN_TO_UUID(product.uuid) AS entity_id,
-       evaluation.criterion_code,
-       evaluation.status,
-       evaluation.evaluated_at,
-       evaluation.result
-FROM $criterionEvaluationTable AS evaluation
-    JOIN pim_catalog_product product ON product.uuid = evaluation.product_uuid
-WHERE product.uuid = :product_uuid
-SQL;
+            SELECT
+                   BIN_TO_UUID(product.uuid) AS entity_id,
+                   evaluation.criterion_code,
+                   evaluation.status,
+                   evaluation.evaluated_at,
+                   evaluation.result
+            FROM $criterionEvaluationTable AS evaluation
+                JOIN pim_catalog_product product ON product.uuid = evaluation.product_uuid
+            WHERE product.uuid = :product_uuid
+            SQL;
 
         return $this->db->executeQuery(
             $sql,
@@ -77,15 +75,15 @@ SQL;
         $criterionEvaluationTable = $this->tableName;
 
         $sql = <<<SQL
-SELECT
-       evaluation.product_id AS entity_id,
-       evaluation.criterion_code,
-       evaluation.status,
-       evaluation.evaluated_at,
-       evaluation.result
-FROM $criterionEvaluationTable AS evaluation
-WHERE evaluation.product_id = :product_model_id
-SQL;
+            SELECT
+                   evaluation.product_id AS entity_id,
+                   evaluation.criterion_code,
+                   evaluation.status,
+                   evaluation.evaluated_at,
+                   evaluation.result
+            FROM $criterionEvaluationTable AS evaluation
+            WHERE evaluation.product_id = :product_model_id
+            SQL;
 
         return $this->db->executeQuery(
             $sql,

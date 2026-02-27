@@ -17,19 +17,17 @@ final class SqlGetChannelCodeWithLocaleCodes implements GetChannelCodeWithLocale
     /**
      * @param Connection $connection
      */
-    public function __construct(private $connection)
-    {
-    }
+    public function __construct(private $connection) {}
 
     public function findAll(): array
     {
         $sql = <<<SQL
-SELECT channel.code AS channelCode, JSON_ARRAYAGG(locale.code) AS localeCodes
-FROM pim_catalog_channel channel
-    LEFT JOIN pim_catalog_channel_locale channel_locale on channel.id = channel_locale.channel_id
-    LEFT JOIN pim_catalog_locale locale ON channel_locale.locale_id = locale.id
-GROUP BY channel.code;
-SQL;
+            SELECT channel.code AS channelCode, JSON_ARRAYAGG(locale.code) AS localeCodes
+            FROM pim_catalog_channel channel
+                LEFT JOIN pim_catalog_channel_locale channel_locale on channel.id = channel_locale.channel_id
+                LEFT JOIN pim_catalog_locale locale ON channel_locale.locale_id = locale.id
+            GROUP BY channel.code;
+            SQL;
 
         $results = $this->connection->executeQuery($sql)->fetchAllAssociative();
 

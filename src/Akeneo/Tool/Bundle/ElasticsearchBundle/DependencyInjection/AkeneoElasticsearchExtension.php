@@ -57,7 +57,7 @@ class AkeneoElasticsearchExtension extends Extension
             $container->register($configurationLoaderServiceName, Loader::class)
                 ->setArguments([
                     $index['configuration_files'],
-                    new Reference(ParameterBagInterface::class)
+                    new Reference(ParameterBagInterface::class),
                 ]);
 
             if (isset($index['activate_dual_indexation_with_service'])) {
@@ -84,7 +84,7 @@ class AkeneoElasticsearchExtension extends Extension
                         $index['id_prefix'],
                         $config['max_chunk_size'],
                         $config['max_expected_indexation_latency_in_milliseconds'],
-                        $config['max_number_of_retries']
+                        $config['max_number_of_retries'],
                     ])
                     ->setPublic(true);
             }

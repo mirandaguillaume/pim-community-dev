@@ -36,8 +36,8 @@ class GetCategoryTreesSqlIntegration extends CategoryTestCase
         $this->assertSame(self::TEMPLATE_UUID, (string) $categoryTrees[0]->getCategoryTreeTemplate()->getTemplateUuid());
         $this->assertSame([
             'en_US' => 'The template',
-            'fr_FR' => 'Le modèle'
-        ],  $categoryTrees[0]->getCategoryTreeTemplate()->getTemplateLabels()->normalize());
+            'fr_FR' => 'Le modèle',
+        ], $categoryTrees[0]->getCategoryTreeTemplate()->getTemplateLabels()->normalize());
         $this->assertSame('master', (string) $categoryTrees[1]->getCode());
     }
 
@@ -48,8 +48,8 @@ class GetCategoryTreesSqlIntegration extends CategoryTestCase
         $this->assertSame(self::TEMPLATE_UUID, (string) $categoryTrees[0]->getCategoryTreeTemplate()->getTemplateUuid());
         $this->assertSame([
             'en_US' => 'The template',
-            'fr_FR' => 'Le modèle'
-        ],  $categoryTrees[0]->getCategoryTreeTemplate()->getTemplateLabels()->normalize());
+            'fr_FR' => 'Le modèle',
+        ], $categoryTrees[0]->getCategoryTreeTemplate()->getTemplateLabels()->normalize());
     }
 
     public function testItIgnoresDeactivatedTemplate(): void
@@ -96,26 +96,27 @@ class GetCategoryTreesSqlIntegration extends CategoryTestCase
         $this->insertTemplate($templateUuid);
     }
 
-    private function insertTemplate(TemplateUuid $templateUuid): void {
+    private function insertTemplate(TemplateUuid $templateUuid): void
+    {
         $sqlInsertTemplate = <<<SQL
-            INSERT INTO pim_catalog_category_template (uuid, code, labels)
-            VALUES (:uuid, 'the_template', :labels);
-        SQL;
+                INSERT INTO pim_catalog_category_template (uuid, code, labels)
+                VALUES (:uuid, 'the_template', :labels);
+            SQL;
         $this->get('database_connection')->executeQuery($sqlInsertTemplate, [
             'uuid' => $templateUuid->toBytes(),
             'labels' => json_encode([
                 'en_US' => 'The template',
-                'fr_FR' => 'Le modèle'
-            ])
+                'fr_FR' => 'Le modèle',
+            ]),
         ]);
 
         $sqlInsertLinkTemplateToCategory = <<<SQL
-            INSERT INTO pim_catalog_category_tree_template (category_tree_id, category_template_uuid)
-            VALUES (:category_tree_id, :template_uuid);
-        SQL;
+                INSERT INTO pim_catalog_category_tree_template (category_tree_id, category_template_uuid)
+                VALUES (:category_tree_id, :template_uuid);
+            SQL;
         $this->get('database_connection')->executeQuery($sqlInsertLinkTemplateToCategory, [
             'category_tree_id' => $this->categoryParent->getId(),
-            'template_uuid' => $templateUuid->toBytes()
+            'template_uuid' => $templateUuid->toBytes(),
         ]);
     }
 

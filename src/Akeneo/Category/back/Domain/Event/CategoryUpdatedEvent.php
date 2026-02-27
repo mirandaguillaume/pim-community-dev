@@ -12,9 +12,7 @@ use Akeneo\Category\Domain\Model\Enrichment\Category;
  */
 class CategoryUpdatedEvent
 {
-    public function __construct(private readonly Category $category)
-    {
-    }
+    public function __construct(private readonly Category $category) {}
 
     public function getCategory(): Category
     {

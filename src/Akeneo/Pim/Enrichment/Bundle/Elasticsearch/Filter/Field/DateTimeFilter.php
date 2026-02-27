@@ -59,8 +59,8 @@ class DateTimeFilter extends AbstractFieldFilter implements FieldFilterInterface
             case Operators::EQUALS:
                 $clause = [
                     'term' => [
-                        $field => $this->getFormattedDate($field, $value)
-                    ]
+                        $field => $this->getFormattedDate($field, $value),
+                    ],
                 ];
 
                 $this->searchQueryBuilder->addFilter($clause);
@@ -69,8 +69,8 @@ class DateTimeFilter extends AbstractFieldFilter implements FieldFilterInterface
             case Operators::LOWER_THAN:
                 $clause = [
                     'range' => [
-                        $field => ['lt' => $this->getFormattedDate($field, $value)]
-                    ]
+                        $field => ['lt' => $this->getFormattedDate($field, $value)],
+                    ],
                 ];
 
                 $this->searchQueryBuilder->addFilter($clause);
@@ -79,8 +79,8 @@ class DateTimeFilter extends AbstractFieldFilter implements FieldFilterInterface
             case Operators::GREATER_THAN:
                 $clause = [
                     'range' => [
-                        $field => ['gt' => $this->getFormattedDate($field, $value)]
-                    ]
+                        $field => ['gt' => $this->getFormattedDate($field, $value)],
+                    ],
                 ];
 
                 $this->searchQueryBuilder->addFilter($clause);
@@ -92,9 +92,9 @@ class DateTimeFilter extends AbstractFieldFilter implements FieldFilterInterface
                     'range' => [
                         $field => [
                             'gte' => $this->getFormattedDate($field, $values[0]),
-                            'lte' => $this->getFormattedDate($field, $values[1])
-                        ]
-                    ]
+                            'lte' => $this->getFormattedDate($field, $values[1]),
+                        ],
+                    ],
                 ];
 
                 $this->searchQueryBuilder->addFilter($clause);
@@ -106,9 +106,9 @@ class DateTimeFilter extends AbstractFieldFilter implements FieldFilterInterface
                     'range' => [
                         $field => [
                             'gte' => $this->getFormattedDate($field, $values[0]),
-                            'lte' => $this->getFormattedDate($field, $values[1])
-                        ]
-                    ]
+                            'lte' => $this->getFormattedDate($field, $values[1]),
+                        ],
+                    ],
                 ];
 
                 $this->searchQueryBuilder->addMustNot($betweenClause);
@@ -126,8 +126,8 @@ class DateTimeFilter extends AbstractFieldFilter implements FieldFilterInterface
             case Operators::NOT_EQUAL:
                 $mustNotClause = [
                     'term' => [
-                        $field => $this->getFormattedDate($field, $value)
-                    ]
+                        $field => $this->getFormattedDate($field, $value),
+                    ],
                 ];
 
                 $this->searchQueryBuilder->addMustNot($mustNotClause);
@@ -184,7 +184,7 @@ class DateTimeFilter extends AbstractFieldFilter implements FieldFilterInterface
     protected function getExistsClause($field)
     {
         return [
-            'exists' => ['field' => $field]
+            'exists' => ['field' => $field],
         ];
     }
 

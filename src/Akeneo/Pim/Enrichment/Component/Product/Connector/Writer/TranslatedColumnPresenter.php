@@ -23,7 +23,7 @@ class TranslatedColumnPresenter implements ColumnPresenterInterface
 
     private function findDuplicatedTranslations(array $columns): array
     {
-        $columnTranslations = array_map(fn (string $column) => $this->extractColumnTranslation($column), $columns);
+        $columnTranslations = array_map(fn(string $column) => $this->extractColumnTranslation($column), $columns);
 
         return array_unique(array_diff_assoc($columnTranslations, array_unique($columnTranslations)));
     }
@@ -31,9 +31,9 @@ class TranslatedColumnPresenter implements ColumnPresenterInterface
     private function headerAreTranslated(array $context): bool
     {
         return
-            isset($context['with_label'], $context['header_with_label']) &&
-            $context['with_label'] &&
-            $context['header_with_label'];
+            isset($context['with_label'], $context['header_with_label'])
+            && $context['with_label']
+            && $context['header_with_label'];
     }
 
     private function removeCodeWhenTranslationIsNotDuplicated(array $columns, array $duplicatedTranslations): array

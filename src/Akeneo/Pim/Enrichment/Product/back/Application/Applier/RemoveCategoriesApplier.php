@@ -20,8 +20,7 @@ class RemoveCategoriesApplier implements UserIntentApplier
     public function __construct(
         private readonly ObjectUpdaterInterface $productUpdater,
         private readonly GetCategoryCodes $getCategoryCodes
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritDoc}

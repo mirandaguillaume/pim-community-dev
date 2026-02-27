@@ -23,8 +23,7 @@ final readonly class GetEvaluationResultsByProductModelsAndCriterionQuery implem
     public function __construct(
         private Connection $dbConnection,
         private TransformCriterionEvaluationResultIds $transformCriterionEvaluationResultIds
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -34,15 +33,15 @@ final readonly class GetEvaluationResultsByProductModelsAndCriterionQuery implem
         Assert::isInstanceOf($productModelIdCollection, ProductModelIdCollection::class);
 
         $query = <<<SQL
-SELECT product_id, result
-FROM pim_data_quality_insights_product_model_criteria_evaluation
-WHERE product_id IN (:productModelIds) AND criterion_code = :criterionCode;
-SQL;
+            SELECT product_id, result
+            FROM pim_data_quality_insights_product_model_criteria_evaluation
+            WHERE product_id IN (:productModelIds) AND criterion_code = :criterionCode;
+            SQL;
 
         $stmt = $this->dbConnection->executeQuery(
             $query,
             [
-                'productModelIds' => array_map(fn (string $productModelId) => (int) $productModelId, $productModelIdCollection->toArrayString()),
+                'productModelIds' => array_map(fn(string $productModelId) => (int) $productModelId, $productModelIdCollection->toArrayString()),
                 'criterionCode' => $criterionCode,
             ],
             [

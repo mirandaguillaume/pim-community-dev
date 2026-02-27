@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Component\Product\Factory\Value;
@@ -21,8 +22,7 @@ final readonly class MetricValueFactory implements ValueFactory
 
     public function __construct(
         private MetricFactory $metricFactory,
-    ) {
-    }
+    ) {}
 
     public function createWithoutCheckingData(Attribute $attribute, ?string $channelCode, ?string $localeCode, $data): ValueInterface
     {

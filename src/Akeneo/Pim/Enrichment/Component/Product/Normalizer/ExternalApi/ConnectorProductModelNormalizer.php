@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Component\Product\Normalizer\ExternalApi;
@@ -16,13 +17,11 @@ use Akeneo\Pim\Enrichment\Component\Product\Normalizer\Standard\DateTimeNormaliz
  */
 final readonly class ConnectorProductModelNormalizer
 {
-    public function __construct(private ValuesNormalizer $valuesNormalizer, private DateTimeNormalizer $dateTimeNormalizer)
-    {
-    }
+    public function __construct(private ValuesNormalizer $valuesNormalizer, private DateTimeNormalizer $dateTimeNormalizer) {}
 
     public function normalizeConnectorProductModelList(ConnectorProductModelList $list): array
     {
-        return array_map(fn (ConnectorProductModel $connectorProductModel): array => $this->normalizeConnectorProductModel($connectorProductModel), $list->connectorProductModels());
+        return array_map(fn(ConnectorProductModel $connectorProductModel): array => $this->normalizeConnectorProductModel($connectorProductModel), $list->connectorProductModels());
     }
 
     public function normalizeConnectorProductModel(ConnectorProductModel $connectorProductModel): array

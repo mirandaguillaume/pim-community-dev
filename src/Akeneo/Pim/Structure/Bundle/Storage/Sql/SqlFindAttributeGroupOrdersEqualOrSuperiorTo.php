@@ -17,19 +17,17 @@ use Doctrine\DBAL\Connection;
  */
 class SqlFindAttributeGroupOrdersEqualOrSuperiorTo implements FindAttributeGroupOrdersEqualOrSuperiorTo
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function execute(AttributeGroup $attributeGroup): array
     {
         $sql = <<<SQL
-        SELECT DISTINCT(ag.sort_order)
-        FROM pim_catalog_attribute_group ag
-        WHERE (ag.sort_order >= :attribute_group_order)
-        AND ag.code != :attribute_group_code
-        ORDER BY ag.sort_order ASC
-SQL;
+                    SELECT DISTINCT(ag.sort_order)
+                    FROM pim_catalog_attribute_group ag
+                    WHERE (ag.sort_order >= :attribute_group_order)
+                    AND ag.code != :attribute_group_code
+                    ORDER BY ag.sort_order ASC
+            SQL;
         $query = $this->connection->executeQuery(
             $sql,
             [

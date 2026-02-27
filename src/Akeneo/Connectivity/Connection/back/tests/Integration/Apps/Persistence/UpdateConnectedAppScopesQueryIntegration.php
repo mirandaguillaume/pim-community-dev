@@ -77,17 +77,17 @@ class UpdateConnectedAppScopesQueryIntegration extends TestCase
             'connection_code' => 'someConnectionCode',
             'scopes' => '["scope 3", "scope 1"]',
             'user_group_name' => 'app_7891011ghijkl',
-            'has_outdated_scopes' => '0'
+            'has_outdated_scopes' => '0',
         ], $row);
     }
 
     private function fetchApp(string $id): ?array
     {
         $query = <<<SQL
-SELECT id, name, logo, author, partner, categories, certified, connection_code, scopes, user_group_name, has_outdated_scopes
-FROM akeneo_connectivity_connected_app
-WHERE id = :id
-SQL;
+            SELECT id, name, logo, author, partner, categories, certified, connection_code, scopes, user_group_name, has_outdated_scopes
+            FROM akeneo_connectivity_connected_app
+            WHERE id = :id
+            SQL;
 
         $row = $this->connection->fetchAssociative($query, [
             'id' => $id,

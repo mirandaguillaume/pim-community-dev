@@ -16,12 +16,12 @@ use Symfony\Component\Validator\ConstraintViolationList;
 
 class ViolationNormalizerSpec extends ObjectBehavior
 {
-    function let(IdentifiableObjectRepositoryInterface $attributeRepository)
+    public function let(IdentifiableObjectRepositoryInterface $attributeRepository)
     {
         $this->beConstructedWith($attributeRepository);
     }
 
-    function it_normalizes_an_exception()
+    public function it_normalizes_an_exception()
     {
         $violationCode = new ConstraintViolation('Not Blank', '', [], '', 'code', '');
         $violationName = new ConstraintViolation('Too long', '', [], '', 'name', '');
@@ -38,7 +38,7 @@ class ViolationNormalizerSpec extends ObjectBehavior
         ]);
     }
 
-    function it_normalizes_an_exception_with_error_on_product_identifier_when_blank(
+    public function it_normalizes_an_exception_with_error_on_product_identifier_when_blank(
         ViolationHttpException $exception,
         ConstraintViolationList $constraintViolations,
         ConstraintViolation $violation,
@@ -89,7 +89,7 @@ class ViolationNormalizerSpec extends ObjectBehavior
         ]);
     }
 
-    function it_normalizes_an_exception_with_error_on_product_identifier_when_too_long(
+    public function it_normalizes_an_exception_with_error_on_product_identifier_when_too_long(
         ViolationHttpException $exception,
         ConstraintViolationList $constraintViolations,
         ConstraintViolation $violationProductValue,
@@ -148,7 +148,7 @@ class ViolationNormalizerSpec extends ObjectBehavior
         ]);
     }
 
-    function it_normalizes_an_exception_with_error_on_product_identifier_when_regexp(
+    public function it_normalizes_an_exception_with_error_on_product_identifier_when_regexp(
         ViolationHttpException $exception,
         ConstraintViolationList $constraintViolations,
         ConstraintViolation $violationIdentifier,
@@ -214,7 +214,7 @@ class ViolationNormalizerSpec extends ObjectBehavior
         ]);
     }
 
-    function it_normalizes_an_exception_with_error_on_attribute_localizable_and_scopable(
+    public function it_normalizes_an_exception_with_error_on_attribute_localizable_and_scopable(
         ViolationHttpException $exception,
         ConstraintViolationList $constraintViolations,
         ConstraintViolation $violation,
@@ -273,7 +273,7 @@ class ViolationNormalizerSpec extends ObjectBehavior
         ]);
     }
 
-    function it_normalizes_an_exception_using_constraint_constraint_payload_instead_of_property_path(
+    public function it_normalizes_an_exception_using_constraint_constraint_payload_instead_of_property_path(
         ViolationHttpException $exception,
         ConstraintViolationList $constraintViolations,
         ConstraintViolation $violation,

@@ -58,7 +58,7 @@ class ProductEventNormalizerSpec extends ObjectBehavior
             'author' => 'julia',
             'author_type' => 'ui',
             'product_identifier' => 'blue_sneakers',
-            'product_uuid' => $uuid->toString()
+            'product_uuid' => $uuid->toString(),
         ]);
     }
 

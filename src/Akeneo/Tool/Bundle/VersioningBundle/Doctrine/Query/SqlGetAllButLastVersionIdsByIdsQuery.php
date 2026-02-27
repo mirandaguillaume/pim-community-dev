@@ -13,9 +13,7 @@ use Doctrine\DBAL\Connection;
  */
 class SqlGetAllButLastVersionIdsByIdsQuery
 {
-    public function __construct(private readonly Connection $dbConnection)
-    {
-    }
+    public function __construct(private readonly Connection $dbConnection) {}
 
     public function execute(array $versionIds): array
     {
@@ -24,30 +22,30 @@ class SqlGetAllButLastVersionIdsByIdsQuery
         }
 
         $query = <<<SQL
-            SELECT current.id
-            FROM pim_versioning_version AS current
-            WHERE 
-                current.id IN (:version_ids)
-                AND resource_uuid is not null
-            AND EXISTS(
-                SELECT 1 FROM pim_versioning_version AS latest 
-                WHERE latest.resource_name = current.resource_name
-                    AND latest.resource_uuid = current.resource_uuid
-                    AND latest.version > current.version
-            )
-            UNION
-            SELECT current.id
-            FROM pim_versioning_version AS current
-            WHERE
-                current.id IN (:version_ids)
-                AND resource_uuid is null
-            AND EXISTS(
-                SELECT 1 FROM pim_versioning_version AS latest 
-                WHERE latest.resource_name = current.resource_name
-                    AND latest.resource_id = current.resource_id
-                    AND latest.version > current.version
-            );
-        SQL;
+                SELECT current.id
+                FROM pim_versioning_version AS current
+                WHERE 
+                    current.id IN (:version_ids)
+                    AND resource_uuid is not null
+                AND EXISTS(
+                    SELECT 1 FROM pim_versioning_version AS latest 
+                    WHERE latest.resource_name = current.resource_name
+                        AND latest.resource_uuid = current.resource_uuid
+                        AND latest.version > current.version
+                )
+                UNION
+                SELECT current.id
+                FROM pim_versioning_version AS current
+                WHERE
+                    current.id IN (:version_ids)
+                    AND resource_uuid is null
+                AND EXISTS(
+                    SELECT 1 FROM pim_versioning_version AS latest 
+                    WHERE latest.resource_name = current.resource_name
+                        AND latest.resource_id = current.resource_id
+                        AND latest.version > current.version
+                );
+            SQL;
 
         $results = $this->dbConnection->executeQuery(
             $query,

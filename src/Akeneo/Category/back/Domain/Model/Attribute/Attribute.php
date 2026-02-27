@@ -36,8 +36,7 @@ abstract class Attribute
         protected LabelCollection $labelCollection,
         protected TemplateUuid $templateUuid,
         protected AttributeAdditionalProperties $additionalProperties,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array{
@@ -140,7 +139,7 @@ abstract class Attribute
      */
     public function getIdentifier(): string
     {
-        return $this->getCode().AbstractValue::SEPARATOR.$this->getUuid();
+        return $this->getCode() . AbstractValue::SEPARATOR . $this->getUuid();
     }
 
     public function getAdditionalProperties(): AttributeAdditionalProperties
@@ -178,13 +177,13 @@ abstract class Attribute
         $isRequired = AttributeIsRequired::fromBoolean((bool) $result['is_required']);
         $isScopable = AttributeIsScopable::fromBoolean((bool) $result['is_scopable']);
         $isLocalizable = AttributeIsLocalizable::fromBoolean((bool) $result['is_localizable']);
-        $labelCollection = $result['labels'] ?
-            LabelCollection::fromArray(
+        $labelCollection = $result['labels']
+            ? LabelCollection::fromArray(
                 json_decode($result['labels'], true, 512, JSON_THROW_ON_ERROR),
             ) : null;
         $templateUuid = TemplateUuid::fromString($result['category_template_uuid']);
-        $additionalProperties = $result['additional_properties'] ?
-            AttributeAdditionalProperties::fromArray(
+        $additionalProperties = $result['additional_properties']
+            ? AttributeAdditionalProperties::fromArray(
                 json_decode($result['additional_properties'], true, 512, JSON_THROW_ON_ERROR),
             ) : null;
 

@@ -15,18 +15,16 @@ use Doctrine\DBAL\Connection;
  */
 class GetCategoryTreeTemplatesSql implements GetCategoryTreeTemplates
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function __invoke(CategoryId $categoryTreeId): array
     {
         $result = $this->connection->executeQuery(
             <<<SQL
-                SELECT BIN_TO_UUID(category_template_uuid) as category_template_uuid
-                FROM pim_catalog_category_tree_template
-                WHERE category_tree_id = :category_tree_id
-            SQL,
+                    SELECT BIN_TO_UUID(category_template_uuid) as category_template_uuid
+                    FROM pim_catalog_category_tree_template
+                    WHERE category_tree_id = :category_tree_id
+                SQL,
             [
                 'category_tree_id' => $categoryTreeId->getValue(),
             ],
@@ -36,7 +34,7 @@ class GetCategoryTreeTemplatesSql implements GetCategoryTreeTemplates
         );
 
         return array_map(
-            fn (string $uuid) => TemplateUuid::fromString($uuid),
+            fn(string $uuid) => TemplateUuid::fromString($uuid),
             $result->fetchFirstColumn(),
         );
     }

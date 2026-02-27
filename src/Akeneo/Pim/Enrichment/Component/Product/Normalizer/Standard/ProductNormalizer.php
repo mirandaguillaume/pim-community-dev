@@ -21,14 +21,12 @@ class ProductNormalizer implements NormalizerInterface, CacheableSupportsMethodI
     /**
      * ProductNormalizer constructor.
      */
-    public function __construct(private readonly NormalizerInterface $propertiesNormalizer, private readonly NormalizerInterface $associationsNormalizer, private readonly NormalizerInterface $quantifiedAssociationsNormalizer)
-    {
-    }
+    public function __construct(private readonly NormalizerInterface $propertiesNormalizer, private readonly NormalizerInterface $associationsNormalizer, private readonly NormalizerInterface $quantifiedAssociationsNormalizer) {}
 
     /**
      * {@inheritdoc}
      */
-    public function normalize($product, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($product, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $data = $this->propertiesNormalizer->normalize($product, $format, $context);
         $data[self::FIELD_ASSOCIATIONS] = $this->associationsNormalizer->normalize($product, $format, $context);

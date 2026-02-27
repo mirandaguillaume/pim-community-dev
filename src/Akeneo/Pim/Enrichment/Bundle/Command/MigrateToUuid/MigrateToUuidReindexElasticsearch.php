@@ -31,8 +31,7 @@ final class MigrateToUuidReindexElasticsearch implements MigrateToUuidStep
         private readonly Client $esClient,
         private readonly ProductIndexerInterface $productIndexer,
         private readonly SqlFindProductUuids $findProductUuids
-    ) {
-    }
+    ) {}
 
     /**
      * {@inerhitdoc}
@@ -115,8 +114,8 @@ final class MigrateToUuidReindexElasticsearch implements MigrateToUuidStep
         return $this->esClient->search([
             'query' => [
                 'regexp' => [
-                    'id' => ['value' => 'product_[0-9]+']
-                ]
+                    'id' => ['value' => 'product_[0-9]+'],
+                ],
             ],
             'fields' => ['id', 'identifier'],
             '_source' => false,
@@ -145,7 +144,7 @@ final class MigrateToUuidReindexElasticsearch implements MigrateToUuidStep
     {
         if ([] !== $productIds) {
             $this->esClient->bulkDelete(
-                \array_map(static fn (int $id): string => \sprintf('product_%d', $id), $productIds)
+                \array_map(static fn(int $id): string => \sprintf('product_%d', $id), $productIds)
             );
         }
     }

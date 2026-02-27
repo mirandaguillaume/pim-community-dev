@@ -30,9 +30,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 final readonly class ListProductsQueryHandler
 {
-    public function __construct(private IdentifiableObjectRepositoryInterface $channelRepository, private ApplyProductSearchQueryParametersToPQB $applyProductSearchQueryParametersToPQB, private ProductQueryBuilderFactoryInterface $fromSizePqbFactory, private ProductQueryBuilderFactoryInterface $searchAfterPqbFactory, private GetConnectorProducts $getConnectorProductsQuery, private GetConnectorProducts $getConnectorProductsQuerywithOptions, private EventDispatcherInterface $eventDispatcher, private GetProductsWithQualityScoresInterface $getProductsWithQualityScores, private GetProductsWithCompletenessesInterface $getProductsWithCompletenesses)
-    {
-    }
+    public function __construct(private IdentifiableObjectRepositoryInterface $channelRepository, private ApplyProductSearchQueryParametersToPQB $applyProductSearchQueryParametersToPQB, private ProductQueryBuilderFactoryInterface $fromSizePqbFactory, private ProductQueryBuilderFactoryInterface $searchAfterPqbFactory, private GetConnectorProducts $getConnectorProductsQuery, private GetConnectorProducts $getConnectorProductsQuerywithOptions, private EventDispatcherInterface $eventDispatcher, private GetProductsWithQualityScoresInterface $getProductsWithQualityScores, private GetProductsWithCompletenessesInterface $getProductsWithCompletenesses) {}
 
     public function handle(ListProductsQuery $query): ConnectorProductList
     {
@@ -50,9 +48,9 @@ final readonly class ListProductsQueryHandler
             );
         } catch (
             UnsupportedFilterException
-            | PropertyException
-            | InvalidOperatorException
-            | ObjectNotFoundException
+            |PropertyException
+            |InvalidOperatorException
+            |ObjectNotFoundException
             $e
         ) {
             throw new InvalidQueryException($e->getMessage(), $e->getCode(), $e);
@@ -60,9 +58,9 @@ final readonly class ListProductsQueryHandler
 
         $pqb->addSorter('identifier', Directions::ASCENDING);
 
-        $connectorProductsQuery = $query->withAttributeOptionsAsBoolean() ?
-            $this->getConnectorProductsQuerywithOptions :
-            $this->getConnectorProductsQuery;
+        $connectorProductsQuery = $query->withAttributeOptionsAsBoolean()
+            ? $this->getConnectorProductsQuerywithOptions
+            : $this->getConnectorProductsQuery;
 
         $queryLocales = $this->getLocales($query->channelCode, $query->localeCodes);
 
@@ -98,11 +96,11 @@ final readonly class ListProductsQueryHandler
     {
         if (PaginationTypes::OFFSET === $query->paginationType) {
             return $this->fromSizePqbFactory->create([
-                'limit' => (int)$query->limit,
-                'from' => ($query->page - 1) * $query->limit
+                'limit' => (int) $query->limit,
+                'from' => ($query->page - 1) * $query->limit,
             ]);
         }
-        $pqbOptions = ['limit' => (int)$query->limit];
+        $pqbOptions = ['limit' => (int) $query->limit];
 
         if (null !== $query->searchAfter) {
             // @TODO CPM-596: use product_<uuid> once the uuid migration will be done

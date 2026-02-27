@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Automation\DataQualityInsights\Domain\Event;
@@ -15,8 +16,7 @@ final readonly class AttributeGroupActivationHasChanged
         public string $attributeGroupCode,
         public bool $newIsActivated,
         public \DateTimeImmutable $updatedAt,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<string, mixed>

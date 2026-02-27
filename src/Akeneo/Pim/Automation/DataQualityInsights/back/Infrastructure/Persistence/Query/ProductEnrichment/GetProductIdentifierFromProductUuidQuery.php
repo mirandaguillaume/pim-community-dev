@@ -15,25 +15,23 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetProductIdentifierFromProductUuidQuery implements GetProductIdentifierFromProductUuidQueryInterface
 {
-    public function __construct(private Connection $db)
-    {
-    }
+    public function __construct(private Connection $db) {}
 
     public function execute(ProductUuid $productUuid): ProductIdentifier
     {
         $sql = <<<SQL
-WITH main_identifier AS (
-    SELECT id
-    FROM pim_catalog_attribute
-    WHERE main_identifier = 1
-    LIMIT 1
-)
-SELECT raw_data FROM pim_catalog_product p
-INNER JOIN pim_catalog_product_unique_data pcpud
-    ON pcpud.product_uuid = p.uuid
-    AND pcpud.attribute_id = (SELECT id FROM main_identifier)
-WHERE uuid=:product_uuid;
-SQL;
+            WITH main_identifier AS (
+                SELECT id
+                FROM pim_catalog_attribute
+                WHERE main_identifier = 1
+                LIMIT 1
+            )
+            SELECT raw_data FROM pim_catalog_product p
+            INNER JOIN pim_catalog_product_unique_data pcpud
+                ON pcpud.product_uuid = p.uuid
+                AND pcpud.attribute_id = (SELECT id FROM main_identifier)
+            WHERE uuid=:product_uuid;
+            SQL;
 
         $productIdentifier = $this->db->fetchOne(
             $sql,

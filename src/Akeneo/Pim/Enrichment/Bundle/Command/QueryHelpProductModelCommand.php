@@ -28,9 +28,7 @@ class QueryHelpProductModelCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
-    {
-    }
+    protected function configure() {}
 
     /**
      * {@inheritdoc}

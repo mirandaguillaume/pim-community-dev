@@ -22,17 +22,15 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class CreateMeasurementFamilyAction
 {
-    public function __construct(private readonly ValidatorInterface $validator, private readonly NormalizerInterface $violationNormalizer, private readonly CreateMeasurementFamilyHandler $createMeasurementFamilyHandler, private readonly SecurityFacade $securityFacade)
-    {
-    }
+    public function __construct(private readonly ValidatorInterface $validator, private readonly NormalizerInterface $violationNormalizer, private readonly CreateMeasurementFamilyHandler $createMeasurementFamilyHandler, private readonly SecurityFacade $securityFacade) {}
 
     public function __invoke(Request $request): Response
     {
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');
         }
-        if (!$this->securityFacade->isGranted('akeneo_measurements_manage_settings') ||
-            !$this->securityFacade->isGranted('akeneo_measurements_measurement_family_create')
+        if (!$this->securityFacade->isGranted('akeneo_measurements_manage_settings')
+            || !$this->securityFacade->isGranted('akeneo_measurements_measurement_family_create')
         ) {
             throw new AccessDeniedException();
         }

@@ -36,7 +36,7 @@ class ProductValuesNormalizer implements NormalizerInterface, SerializerAwareInt
     /**
      * {@inheritdoc}
      */
-    public function normalize($data, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($data, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $result = [];
 
@@ -48,7 +48,7 @@ class ProductValuesNormalizer implements NormalizerInterface, SerializerAwareInt
             if (null !== $presenter) {
                 $normalizedValue['data'] = $presenter->present($normalizedValue['data'], [
                     'locale' => $this->userContext->getUiLocaleCode(),
-                    'attribute' => $attributeCode
+                    'attribute' => $attributeCode,
                 ]);
             }
             $result[$attributeCode][] = $normalizedValue;

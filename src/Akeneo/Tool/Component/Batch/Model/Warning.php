@@ -4,6 +4,7 @@ namespace Akeneo\Tool\Component\Batch\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+
 /**
  * Represents a Warning raised during step execution
  *
@@ -31,9 +32,7 @@ class Warning
     #[ORM\Column(type: Types::ARRAY)]
     #[ORM\Column(name: 'reason_parameters', type: Types::ARRAY)]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    public function __construct(private StepExecution $stepExecution, private $reason, private array $reasonParameters, private array $item)
-    {
-    }
+    public function __construct(private StepExecution $stepExecution, private $reason, private array $reasonParameters, private array $item) {}
 
     /**
      * Returns the id of the warning

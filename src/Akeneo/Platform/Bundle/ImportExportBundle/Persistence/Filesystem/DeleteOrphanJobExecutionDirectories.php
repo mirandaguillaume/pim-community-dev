@@ -18,16 +18,14 @@ final class DeleteOrphanJobExecutionDirectories
     /** @var array<int, bool> */
     private array $jobExecutionIds = [];
 
-    public function __construct(private readonly FilesystemOperator $archivistFilesystem, private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly FilesystemOperator $archivistFilesystem, private readonly Connection $connection) {}
 
     public function execute(): void
     {
-        $listDirs = fn (string $path): DirectoryListing => $this->archivistFilesystem
+        $listDirs = fn(string $path): DirectoryListing => $this->archivistFilesystem
             ->listContents($path, false)
             ->filter(
-                fn (StorageAttributes $attributes): bool => $attributes->isDir()
+                fn(StorageAttributes $attributes): bool => $attributes->isDir()
             );
 
         foreach ($listDirs('.') as $level1Directory) {

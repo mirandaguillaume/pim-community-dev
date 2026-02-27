@@ -13,9 +13,7 @@ use Akeneo\Connectivity\Connection\Application\CustomApps\Command\CreateCustomAp
  */
 class CustomAppLoader
 {
-    public function __construct(private readonly CreateCustomAppCommandHandler $createCustomAppCommandHandler)
-    {
-    }
+    public function __construct(private readonly CreateCustomAppCommandHandler $createCustomAppCommandHandler) {}
 
     public function create(
         string $clientId,

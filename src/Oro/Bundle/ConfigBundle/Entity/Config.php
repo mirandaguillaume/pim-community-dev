@@ -123,7 +123,7 @@ class Config
     public function getOrCreateValue($section, $key)
     {
         $value = $this->getValues()->filter(
-            fn (ConfigValue $item) => $item->getName() == $key && $item->getSection() == $section
+            fn(ConfigValue $item) => $item->getName() == $key && $item->getSection() == $section
         );
 
         if ($value->first() === false) {

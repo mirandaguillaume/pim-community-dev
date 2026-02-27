@@ -69,7 +69,7 @@ final class TransformCriterionEvaluationResultCodesSpec extends ObjectBehavior
                     'en_US' => CriterionEvaluationResultStatus::DONE,
                     'fr_FR' => CriterionEvaluationResultStatus::IN_PROGRESS,
                 ],
-            ]
+            ],
         ];
 
         $this->transformToIds($criterionEvaluationResultCodes)->shouldBeLike($this->getExpectedResult());
@@ -89,7 +89,7 @@ final class TransformCriterionEvaluationResultCodesSpec extends ObjectBehavior
                     'en_US' => 'done',
                     'fr_FR' => 'in_progress',
                 ],
-            ]
+            ],
         ];
 
         $this->shouldThrow(CriterionEvaluationResultTransformationFailedException::class)->during('transformToIds', [$invalidEvaluationResult]);
@@ -119,7 +119,7 @@ final class TransformCriterionEvaluationResultCodesSpec extends ObjectBehavior
                     'en_US' => CriterionEvaluationResultStatus::DONE,
                     'fr_FR' => 'foo',
                 ],
-            ]
+            ],
         ];
 
         $this->shouldThrow(CriterionEvaluationResultTransformationFailedException::class)->during('transformToIds', [$invalidEvaluationResult]);
@@ -206,7 +206,7 @@ final class TransformCriterionEvaluationResultCodesSpec extends ObjectBehavior
                 'foo' => [
                     'en_US' => CriterionEvaluationResultStatus::DONE,
                 ],
-            ]
+            ],
         ];
 
         $this->transformToIds($criterionEvaluationResultCodes)->shouldBeLike($this->getExpectedResult());
@@ -260,7 +260,7 @@ final class TransformCriterionEvaluationResultCodesSpec extends ObjectBehavior
                     'fr_FR' => CriterionEvaluationResultStatus::IN_PROGRESS,
                     'fo_FO' => CriterionEvaluationResultStatus::DONE,
                 ],
-            ]
+            ],
         ];
 
         $this->transformToIds($criterionEvaluationResultCodes)->shouldBeLike($this->getExpectedResult());
@@ -305,7 +305,7 @@ final class TransformCriterionEvaluationResultCodesSpec extends ObjectBehavior
                     58 => TransformCriterionEvaluationResultCodes::STATUS_ID[CriterionEvaluationResultStatus::DONE],
                     90 => TransformCriterionEvaluationResultCodes::STATUS_ID[CriterionEvaluationResultStatus::IN_PROGRESS],
                 ],
-            ]
+            ],
         ];
     }
 }

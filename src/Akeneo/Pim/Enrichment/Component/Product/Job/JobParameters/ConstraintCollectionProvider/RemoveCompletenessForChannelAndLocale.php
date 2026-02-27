@@ -19,9 +19,7 @@ use Symfony\Component\Validator\Constraints\Type;
  */
 final readonly class RemoveCompletenessForChannelAndLocale implements ConstraintCollectionProviderInterface
 {
-    public function __construct(private array $supportedJobNames)
-    {
-    }
+    public function __construct(private array $supportedJobNames) {}
 
     public function getConstraintCollection(): Collection
     {
@@ -34,7 +32,7 @@ final readonly class RemoveCompletenessForChannelAndLocale implements Constraint
                         new Type('array'),
                         new All([
                             new NotBlank(),
-                        ])
+                        ]),
                     ],
                     'username' => new NotNull(),
                 ],

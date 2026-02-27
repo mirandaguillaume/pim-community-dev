@@ -57,7 +57,7 @@ class OptionsValue extends AbstractValue implements OptionsValueInterface, \Stri
         $optionStrings = [];
 
         foreach ($this->data as $optionCode) {
-            $optionStrings[] = '['.$optionCode.']';
+            $optionStrings[] = '[' . $optionCode . ']';
         }
 
         return implode(', ', $optionStrings);
@@ -68,16 +68,16 @@ class OptionsValue extends AbstractValue implements OptionsValueInterface, \Stri
      */
     public function isEqual(ValueInterface $value): bool
     {
-        if (!$value instanceof OptionsValueInterface ||
-            $this->getScopeCode() !== $value->getScopeCode() ||
-            $this->getLocaleCode() !== $value->getLocaleCode()) {
+        if (!$value instanceof OptionsValueInterface
+            || $this->getScopeCode() !== $value->getScopeCode()
+            || $this->getLocaleCode() !== $value->getLocaleCode()) {
             return false;
         }
 
         $comparedAttributeOptions = $value->getData();
         $thisAttributeOptions = $this->getData();
 
-        return count(array_diff($thisAttributeOptions, $comparedAttributeOptions)) === 0 &&
-            count(array_diff($comparedAttributeOptions, $thisAttributeOptions)) === 0;
+        return count(array_diff($thisAttributeOptions, $comparedAttributeOptions)) === 0
+            && count(array_diff($comparedAttributeOptions, $thisAttributeOptions)) === 0;
     }
 }

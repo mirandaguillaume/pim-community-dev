@@ -24,9 +24,7 @@ class DbalSelectPeriodEventCountPerConnectionQuery implements SelectPeriodEventC
 {
     use PeriodEventCountTrait;
 
-    public function __construct(private readonly Connection $dbalConnection)
-    {
-    }
+    public function __construct(private readonly Connection $dbalConnection) {}
 
     /**
      * @return PeriodEventCount[]
@@ -53,9 +51,9 @@ class DbalSelectPeriodEventCountPerConnectionQuery implements SelectPeriodEventC
     private function getConnectionCodes(string $eventType): array
     {
         $sql = <<<SQL
-SELECT code from akeneo_connectivity_connection
-WHERE flow_type = :flow_type AND auditable = 1
-SQL;
+            SELECT code from akeneo_connectivity_connection
+            WHERE flow_type = :flow_type AND auditable = 1
+            SQL;
 
         $resultStmt = $this->dbalConnection->executeQuery(
             $sql,
@@ -83,14 +81,14 @@ SQL;
         array $connectionCodes
     ): array {
         $sql = <<<SQL
-SELECT conn.code as connection_code, audit.event_datetime, audit.event_count
-FROM akeneo_connectivity_connection conn
-LEFT JOIN akeneo_connectivity_connection_audit_product audit ON audit.connection_code = conn.code
-    AND audit.event_datetime >= :from_datetime AND audit.event_datetime < :up_to_datetime
-    AND audit.event_type = :event_type
-WHERE connection_code IN (:connection_codes)
-ORDER BY conn.code, audit.event_datetime
-SQL;
+            SELECT conn.code as connection_code, audit.event_datetime, audit.event_count
+            FROM akeneo_connectivity_connection conn
+            LEFT JOIN akeneo_connectivity_connection_audit_product audit ON audit.connection_code = conn.code
+                AND audit.event_datetime >= :from_datetime AND audit.event_datetime < :up_to_datetime
+                AND audit.event_type = :event_type
+            WHERE connection_code IN (:connection_codes)
+            ORDER BY conn.code, audit.event_datetime
+            SQL;
 
         return $this->dbalConnection->executeQuery(
             $sql,
@@ -119,14 +117,14 @@ SQL;
         array $connectionCodes
     ): array {
         $sql = <<<SQL
-SELECT :all as connection_code, event_datetime, SUM(event_count) as event_count
-FROM akeneo_connectivity_connection_audit_product
-WHERE connection_code IN (:connection_codes)
-AND event_datetime >= :from_datetime AND event_datetime < :up_to_datetime
-AND event_type = :event_type
-GROUP BY event_datetime
-ORDER BY event_datetime
-SQL;
+            SELECT :all as connection_code, event_datetime, SUM(event_count) as event_count
+            FROM akeneo_connectivity_connection_audit_product
+            WHERE connection_code IN (:connection_codes)
+            AND event_datetime >= :from_datetime AND event_datetime < :up_to_datetime
+            AND event_type = :event_type
+            GROUP BY event_datetime
+            ORDER BY event_datetime
+            SQL;
 
         return $this->dbalConnection->executeQuery(
             $sql,

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Akeneo\Pim\Enrichment\Bundle\EventSubscriber\Family;
 
 use Akeneo\Pim\Enrichment\Component\Product\ProductAndProductModel\Query\FindAttributeCodeAsLabelForFamilyInterface;
@@ -21,8 +20,7 @@ class FamilyAttributeAsLabelChangedSubscriber implements EventSubscriberInterfac
     public function __construct(
         private readonly FindAttributeCodeAsLabelForFamilyInterface $attributeCodeAsLabelForFamily,
         private readonly Client $esClient,
-    ) {
-    }
+    ) {}
 
     public static function getSubscribedEvents(): array
     {
@@ -65,8 +63,8 @@ class FamilyAttributeAsLabelChangedSubscriber implements EventSubscriberInterfac
                         'params' => ['attributeAsLabel' => \sprintf('%s-text', $attributeCodeAsLabel)],
                     ],
                     'query' => [
-                        'term' => ['family.code' => $subject->getCode()]
-                    ]
+                        'term' => ['family.code' => $subject->getCode()],
+                    ],
                 ]);
             }
         }

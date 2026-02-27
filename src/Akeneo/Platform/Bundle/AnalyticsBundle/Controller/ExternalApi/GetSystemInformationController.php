@@ -14,8 +14,7 @@ class GetSystemInformationController
     public function __construct(
         private readonly VersionProviderInterface $versionProvider,
         private readonly GrowthVersion $growthVersion,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): JsonResponse
     {

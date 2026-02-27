@@ -15,8 +15,7 @@ final readonly class SaveResetEvent
     public function __construct(
         private Connection $connection,
         private GetResetEvents $getResetEvents,
-    ) {
-    }
+    ) {}
 
     public function withDatetime(\DateTimeImmutable $dateTime): void
     {
@@ -24,15 +23,15 @@ final readonly class SaveResetEvent
         $newResetEvents = [...$previousEvents, ['time' => $dateTime]];
 
         $normalizedEvents = array_map(
-            static fn (array $resetEvent) => ['time' => $resetEvent['time']->format('c')],
+            static fn(array $resetEvent) => ['time' => $resetEvent['time']->format('c')],
             $newResetEvents,
         );
 
         $this->connection->executeStatement(
             <<<SQL
-REPLACE INTO `pim_configuration` (`code`, `values`)
-VALUES ('reset_events', :reset_events);
-SQL,
+                REPLACE INTO `pim_configuration` (`code`, `values`)
+                VALUES ('reset_events', :reset_events);
+                SQL,
             ['reset_events' => \json_encode($normalizedEvents, JSON_THROW_ON_ERROR)],
         );
     }

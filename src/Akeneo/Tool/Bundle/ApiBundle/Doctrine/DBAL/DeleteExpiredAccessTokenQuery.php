@@ -18,9 +18,7 @@ class DeleteExpiredAccessTokenQuery
      */
     private const DEFAULT_BATCH_SIZE = 10_000;
     private const NUMBER_OF_LOOP = 5_000;
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function execute(): void
     {
@@ -28,10 +26,10 @@ class DeleteExpiredAccessTokenQuery
         $batchSize = self::DEFAULT_BATCH_SIZE;
 
         $statement = $this->connection->prepare(<<<SQL
-            DELETE FROM pim_api_access_token
-            WHERE expires_at < :now_timestamp
-            LIMIT :row_count;
-        SQL);
+                DELETE FROM pim_api_access_token
+                WHERE expires_at < :now_timestamp
+                LIMIT :row_count;
+            SQL);
 
         $statement->bindValue('row_count', $batchSize, ParameterType::INTEGER);
         $statement->bindValue('now_timestamp', $nowTimestamp, ParameterType::INTEGER);

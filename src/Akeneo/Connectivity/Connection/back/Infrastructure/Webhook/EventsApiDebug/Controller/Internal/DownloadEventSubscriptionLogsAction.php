@@ -21,8 +21,7 @@ final readonly class DownloadEventSubscriptionLogsAction
     public function __construct(
         private GetAllEventSubscriptionDebugLogsQueryInterface $getAllEventSubscriptionDebugLogsQuery,
         private SecurityFacade $securityFacade,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): Response
     {
@@ -59,7 +58,7 @@ final readonly class DownloadEventSubscriptionLogsAction
                         '%s %s %s %s%s',
                         \DateTime::createFromFormat(
                             'U',
-                            (string)$log['timestamp'],
+                            (string) $log['timestamp'],
                             new \DateTimeZone('UTC')
                         )->format('Y/m/d H:i:s'),
                         \strtoupper($log['level']),

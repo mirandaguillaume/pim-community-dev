@@ -33,8 +33,7 @@ final readonly class Row
         private ?string $parentCode,
         private WriteValueCollection $values,
         private AdditionalProperties $additionalProperties
-    ) {
-    }
+    ) {}
 
     public static function fromProduct(
         ?string $identifier,
@@ -49,7 +48,7 @@ final readonly class Row
         string $technicalId,
         ?string $parentCode,
         WriteValueCollection $values
-    ):self {
+    ): self {
         return new self(
             $identifier,
             $familyCode,
@@ -82,7 +81,7 @@ final readonly class Row
         array $childrenCompleteness,
         ?string $parentCode,
         WriteValueCollection $values
-    ):self {
+    ): self {
         return new self(
             $code,
             $familyCode,

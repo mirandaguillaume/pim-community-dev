@@ -19,24 +19,23 @@ class AttributeNormalizer implements NormalizerInterface, CacheableSupportsMetho
     public function __construct(
         protected NormalizerInterface $stdNormalizer,
         private readonly NormalizerInterface $translationNormalizer
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
      */
-    public function normalize($attribute, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($attribute, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $normalizedAttribute = $this->stdNormalizer->normalize($attribute, 'standard', $context);
 
         // Add read-only attribute group labels inside attribute
-        $normalizedAttribute['group_labels'] = ($attribute->getGroup()) ?
-            $this->translationNormalizer->normalize($attribute->getGroup(), $format, $context) :
-            null;
+        $normalizedAttribute['group_labels'] = ($attribute->getGroup())
+            ? $this->translationNormalizer->normalize($attribute->getGroup(), $format, $context)
+            : null;
 
         foreach (['labels', 'guidelines', 'group_labels'] as $field) {
             if (\array_key_exists($field, $normalizedAttribute) && [] === $normalizedAttribute[$field]) {
-                $normalizedAttribute[$field] = (object)[];
+                $normalizedAttribute[$field] = (object) [];
             }
         }
 

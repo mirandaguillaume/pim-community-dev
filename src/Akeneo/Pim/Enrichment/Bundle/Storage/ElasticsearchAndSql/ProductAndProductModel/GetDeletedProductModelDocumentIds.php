@@ -19,9 +19,7 @@ final readonly class GetDeletedProductModelDocumentIds
 {
     private const CHUNK_SIZE = 500;
 
-    public function __construct(private Client $esClient, private Connection $connection)
-    {
-    }
+    public function __construct(private Client $esClient, private Connection $connection) {}
 
     /**
      * @return iterable<string>
@@ -66,7 +64,7 @@ final readonly class GetDeletedProductModelDocumentIds
             $params = array_merge(
                 $query,
                 $searchAfter ? [
-                    'search_after' => $searchAfter
+                    'search_after' => $searchAfter,
                 ] : []
             );
             $results = $this->esClient->search($params);

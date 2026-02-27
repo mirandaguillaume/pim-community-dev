@@ -90,7 +90,7 @@ class UserFactory implements SimpleFactoryInterface
             $user->addRole($role);
         }
 
-        return array_reduce($this->defaultProperties, fn ($user, DefaultProperty $defaultProperty) => $defaultProperty->mutate($user), $user);
+        return array_reduce($this->defaultProperties, fn($user, DefaultProperty $defaultProperty) => $defaultProperty->mutate($user), $user);
     }
 
     /**

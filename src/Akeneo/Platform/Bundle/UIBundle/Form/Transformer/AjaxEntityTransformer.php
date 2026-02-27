@@ -105,7 +105,7 @@ class AjaxEntityTransformer implements DataTransformerInterface
     {
         return [
             'id'    => $this->repository->getOptionId($entity),
-            'text'  => $this->repository->getOptionLabel($entity, $this->options['locale'])
+            'text'  => $this->repository->getOptionLabel($entity, $this->options['locale']),
         ];
     }
 

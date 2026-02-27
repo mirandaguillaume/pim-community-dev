@@ -37,7 +37,7 @@ class ItemsCounterSpec extends ObjectBehavior
     public function it_counts_items_in_the_other_grids(): void
     {
         $this->count('family-grid', [
-            ['value' => [1, 2, 3, 4, 5]]
+            ['value' => [1, 2, 3, 4, 5]],
         ])->shouldReturn(5);
     }
 

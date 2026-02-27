@@ -22,9 +22,7 @@ final readonly class GpsReceiver implements ReceiverInterface
 {
     private const ACKNOWLEDGE_DEADLINE_IN_SECONDS = 600;
 
-    public function __construct(private Subscription $subscription, private SerializerInterface $serializer)
-    {
-    }
+    public function __construct(private Subscription $subscription, private SerializerInterface $serializer) {}
 
     public function get(): iterable
     {
@@ -50,7 +48,7 @@ final readonly class GpsReceiver implements ReceiverInterface
         return [
             $envelope
                 ->with(new TransportMessageIdStamp($message->id()))
-                ->with(new NativeMessageStamp($message))
+                ->with(new NativeMessageStamp($message)),
         ];
     }
 

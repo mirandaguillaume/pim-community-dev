@@ -79,7 +79,7 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
             ->getArrayResult();
 
         return array_map(
-            fn ($data) => $data['code'],
+            fn($data) => $data['code'],
             $codes
         );
     }
@@ -103,7 +103,7 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
             ->getArrayResult();
 
         return array_map(
-            fn ($data) => $data['code'],
+            fn($data) => $data['code'],
             $codes
         );
     }
@@ -251,8 +251,8 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
      */
     public function getMainIdentifier(): AttributeInterface
     {
-        return $this->findOneBy(['type' => AttributeTypes::IDENTIFIER, 'mainIdentifier' => true]) ??
-            throw new \RuntimeException('The PIM has no identifier attribute');
+        return $this->findOneBy(['type' => AttributeTypes::IDENTIFIER, 'mainIdentifier' => true])
+            ?? throw new \RuntimeException('The PIM has no identifier attribute');
     }
 
     /**

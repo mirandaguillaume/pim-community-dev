@@ -57,7 +57,7 @@ class LabelOrIdentifierFilter extends AbstractFieldFilter
             $clauses[] = [
                 'wildcard' => [
                     sprintf('label.%s.%s', $channel, $locale) => sprintf('*%s*', $this->escapeValue($value)),
-                ]
+                ],
             ];
         }
 
@@ -65,7 +65,7 @@ class LabelOrIdentifierFilter extends AbstractFieldFilter
             $clauses[] = [
                 'wildcard' => [
                     sprintf('label.%s.<all_locales>', $channel) => sprintf('*%s*', $this->escapeValue($value)),
-                ]
+                ],
             ];
         }
 
@@ -73,14 +73,14 @@ class LabelOrIdentifierFilter extends AbstractFieldFilter
             $clauses[] = [
                 'wildcard' => [
                     sprintf('label.<all_channels>.%s', $locale) => sprintf('*%s*', $this->escapeValue($value)),
-                ]
+                ],
             ];
         }
 
         $clauses[] = [
             'wildcard' => [
                 'label.<all_channels>.<all_locales>' => sprintf('*%s*', $this->escapeValue($value)),
-            ]
+            ],
         ];
 
         foreach ($this->idPrefixes as $idPrefix) {
@@ -141,8 +141,8 @@ class LabelOrIdentifierFilter extends AbstractFieldFilter
     private function productIdentifierValuesClause(string $value): array
     {
         $identifierAttributeFields = \array_map(
-            static fn (Attribute $attributeFromList): string =>
-            \sprintf(
+            static fn(Attribute $attributeFromList): string
+            => \sprintf(
                 'values.%s-%s.<all_channels>.<all_locales>',
                 $attributeFromList->code(),
                 self::IDENTIFIER_ATTRIBUTE_BACKEND_TYPE
@@ -155,15 +155,15 @@ class LabelOrIdentifierFilter extends AbstractFieldFilter
             $identifierValueClauses[] = [
                 'wildcard' => [
                     $identifierAttributeField => sprintf('*%s*', $this->escapeValue($value)),
-                ]
+                ],
             ];
         }
 
         $shouldContainIdentifierClause = [
             'bool' => [
                 'should' => $identifierValueClauses,
-                'minimum_should_match' => 1
-            ]
+                'minimum_should_match' => 1,
+            ],
         ];
 
 
@@ -178,11 +178,11 @@ class LabelOrIdentifierFilter extends AbstractFieldFilter
                     [
                         'bool' => [
                             'should' => [
-                                $shouldContainIdentifierClause
+                                $shouldContainIdentifierClause,
                             ],
                             'minimum_should_match' => 1,
                         ],
-                    ]
+                    ],
                 ],
                 'minimum_should_match' => 2,
             ],
@@ -194,7 +194,7 @@ class LabelOrIdentifierFilter extends AbstractFieldFilter
         return [
             'wildcard' => [
                 'identifier' => sprintf('*%s*', $this->escapeValue($value)),
-            ]
+            ],
         ];
     }
 }

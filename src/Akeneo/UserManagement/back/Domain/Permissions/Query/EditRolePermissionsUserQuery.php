@@ -10,8 +10,7 @@ class EditRolePermissionsUserQuery
     public function __construct(
         private readonly RoleRepositoryInterface $roleRepository,
         private readonly EditRolePermissionsRoleQuery $editRolePermissionsRoleQuery,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<UserInterface>
@@ -62,7 +61,7 @@ class EditRolePermissionsUserQuery
     private function getRoleLeftWithEditRolePermissions(array $roles): array
     {
         $editRoleRolesPermissions = $this->editRolePermissionsRoleQuery->getRolesWithMinimumEditRolePermissions();
-        $editRoleRolesNamePermissions = array_map(fn ($role) => $role->getRole(), $editRoleRolesPermissions);
-        return array_filter($roles, (fn ($role) => in_array($role, $editRoleRolesNamePermissions)));
+        $editRoleRolesNamePermissions = array_map(fn($role) => $role->getRole(), $editRoleRolesPermissions);
+        return array_filter($roles, (fn($role) => in_array($role, $editRoleRolesNamePermissions)));
     }
 }

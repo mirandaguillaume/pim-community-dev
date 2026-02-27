@@ -97,10 +97,10 @@ class ColumnsMerger
     {
         $attribute = $attributeInfos['attribute'];
         $cleanField = $attribute->getCode();
-        $cleanField .= (null === $attributeInfos['locale_code']) ?
-            '' : AttributeColumnInfoExtractor::FIELD_SEPARATOR.$attributeInfos['locale_code'];
-        $cleanField .= (null === $attributeInfos['scope_code']) ?
-            '' : AttributeColumnInfoExtractor::FIELD_SEPARATOR.$attributeInfos['scope_code'];
+        $cleanField .= (null === $attributeInfos['locale_code'])
+            ? '' : AttributeColumnInfoExtractor::FIELD_SEPARATOR . $attributeInfos['locale_code'];
+        $cleanField .= (null === $attributeInfos['scope_code'])
+            ? '' : AttributeColumnInfoExtractor::FIELD_SEPARATOR . $attributeInfos['scope_code'];
 
         return $cleanField;
     }
@@ -226,7 +226,7 @@ class ColumnsMerger
         }
 
         $values = explode(ProductAssociation::IDENTIFIER_SEPARATOR, (string) $fieldValue);
-        $isUuids = \count(\array_filter($values, fn ($value) => !Uuid::isValid($value))) === 0;
+        $isUuids = \count(\array_filter($values, fn($value) => !Uuid::isValid($value))) === 0;
 
         if ($isUuids) {
             $newQuantifiedAssociations = ['uuids' => $values];
@@ -266,7 +266,7 @@ class ColumnsMerger
                 }
 
                 if (!array_key_exists('quantities', $quantifiedAssociation[$entityType])) {
-                    throw new \LogicException(sprintf('A "%s-%s" column is missing for quantified association', $associationTypeCode, $entityType.$this->associationColumnResolver::QUANTITY_SUFFIX));
+                    throw new \LogicException(sprintf('A "%s-%s" column is missing for quantified association', $associationTypeCode, $entityType . $this->associationColumnResolver::QUANTITY_SUFFIX));
                 }
 
                 $isUuids = \array_key_exists('uuids', $quantifiedAssociation[$entityType]);
@@ -276,13 +276,13 @@ class ColumnsMerger
                     throw new \LogicException('Inconsistency detected: the count of uuids and quantities is not the same');
                 }
 
-                $resultRow[sprintf('%s%s%s', $associationTypeCode, AttributeColumnInfoExtractor::FIELD_SEPARATOR, $entityType)] =
-                array_map(
+                $resultRow[sprintf('%s%s%s', $associationTypeCode, AttributeColumnInfoExtractor::FIELD_SEPARATOR, $entityType)]
+                = array_map(
                     function ($uuid, $quantity) use ($isUuids) {
                         if ($isUuids) {
-                            return ['uuid' => $uuid, 'quantity' => (int)$quantity];
+                            return ['uuid' => $uuid, 'quantity' => (int) $quantity];
                         } else {
-                            return ['identifier' => $uuid, 'quantity' => (int)$quantity];
+                            return ['identifier' => $uuid, 'quantity' => (int) $quantity];
                         }
                     },
                     $uuidsOrIdentifiers,

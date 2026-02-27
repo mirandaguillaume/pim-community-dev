@@ -81,10 +81,10 @@ class GetCustomAppsActionEndToEnd extends ApiTestCase
     private function getUserIdByUsername(string $username): int
     {
         $sql = <<<SQL
-        SELECT id
-        FROM oro_user
-        WHERE username = :username
-        SQL;
+            SELECT id
+            FROM oro_user
+            WHERE username = :username
+            SQL;
 
         $userId = $this->connection->fetchOne($sql, ['username' => $username]);
 

@@ -26,14 +26,13 @@ class RefreshVersioning implements TaskletInterface
         private readonly VersionManager $versionManager,
         private readonly BulkObjectDetacherInterface $bulkObjectDetacher,
         private readonly EntityManagerInterface $entityManager
-    ) {
-    }
+    ) {}
 
     public function execute(): void
     {
         $batchSize = $this->stepExecution->getJobParameters()->get('batch_size');
 
-        $totalPendings = (int)$this->versionManager
+        $totalPendings = (int) $this->versionManager
             ->getVersionRepository()
             ->getPendingVersionsCount();
 

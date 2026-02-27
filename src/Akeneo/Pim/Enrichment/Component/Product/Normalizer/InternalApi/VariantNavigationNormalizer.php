@@ -21,14 +21,12 @@ class VariantNavigationNormalizer implements NormalizerInterface, CacheableSuppo
     /** @var string[] */
     private array $supportedFormat = ['internal_api'];
 
-    public function __construct(private readonly LocaleRepositoryInterface $localeRepository, private readonly NormalizerInterface $entityWithFamilyVariantNormalizer)
-    {
-    }
+    public function __construct(private readonly LocaleRepositoryInterface $localeRepository, private readonly NormalizerInterface $entityWithFamilyVariantNormalizer) {}
 
     /**
      * {@inheritdoc}
      */
-    public function normalize($entity, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($entity, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         if (!$entity instanceof ProductModelInterface && !$entity instanceof ProductInterface) {
             throw new \InvalidArgumentException(sprintf(

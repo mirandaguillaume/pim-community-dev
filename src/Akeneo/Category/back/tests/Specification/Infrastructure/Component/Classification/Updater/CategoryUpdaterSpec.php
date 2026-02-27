@@ -18,7 +18,7 @@ use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 
 class CategoryUpdaterSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         IdentifiableObjectRepositoryInterface $categoryRepository,
         IsCategoryTreeLinkedToUser $isCategoryTreeLinkedToUser,
         IsCategoryTreeLinkedToChannel $isCategoryTreeLinkedToChannel
@@ -30,17 +30,17 @@ class CategoryUpdaterSpec extends ObjectBehavior
         );
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(CategoryUpdater::class);
     }
 
-    function it_is_a_updater()
+    public function it_is_a_updater()
     {
         $this->shouldImplement(ObjectUpdaterInterface::class);
     }
 
-    function it_throws_an_exception_when_trying_to_update_anything_else_than_a_category()
+    public function it_throws_an_exception_when_trying_to_update_anything_else_than_a_category()
     {
         $this->shouldThrow(
             InvalidObjectException::objectExpected(
@@ -53,7 +53,7 @@ class CategoryUpdaterSpec extends ObjectBehavior
         );
     }
 
-    function it_updates_a_not_translatable_category(
+    public function it_updates_a_not_translatable_category(
         $categoryRepository,
         CategoryInterface $category,
         CategoryInterface $categoryMaster,
@@ -66,26 +66,26 @@ class CategoryUpdaterSpec extends ObjectBehavior
 
         $values = [
             'code'         => 'mycode',
-            'parent'       => 'master'
+            'parent'       => 'master',
         ];
 
         $this->update($category, $values, []);
     }
 
-    function it_updates_a_null_parent_category(CategoryInterface $category)
+    public function it_updates_a_null_parent_category(CategoryInterface $category)
     {
         $category->setCode('mycode')->shouldBeCalled();
         $category->setParent(null)->shouldBeCalled();
 
         $values = [
             'code'   => 'mycode',
-            'parent' => null
+            'parent' => null,
         ];
 
         $this->update($category, $values, []);
     }
 
-    function it_throws_an_exception_when_trying_to_update_a_non_existent_field(CategoryInterface $category)
+    public function it_throws_an_exception_when_trying_to_update_a_non_existent_field(CategoryInterface $category)
     {
         $values = [
             'non_existent_field' => 'field',
@@ -96,7 +96,7 @@ class CategoryUpdaterSpec extends ObjectBehavior
             ->during('update', [$category, $values, []]);
     }
 
-    function it_throws_an_exception_when_trying_to_update_an_unknown_parent_category(
+    public function it_throws_an_exception_when_trying_to_update_an_unknown_parent_category(
         $categoryRepository,
         CategoryInterface $category
     ) {
@@ -119,7 +119,7 @@ class CategoryUpdaterSpec extends ObjectBehavior
             ->during('update', [$category, $values, []]);
     }
 
-    function it_throws_an_exception_when_moving_a_root_category_still_linked_to_a_user(
+    public function it_throws_an_exception_when_moving_a_root_category_still_linked_to_a_user(
         $categoryRepository,
         $isCategoryTreeLinkedToUser,
         CategoryInterface $category,
@@ -146,7 +146,7 @@ class CategoryUpdaterSpec extends ObjectBehavior
             ->during('update', [$category, $values, []]);
     }
 
-    function it_throws_an_exception_when_moving_a_root_category_still_linked_to_a_channel(
+    public function it_throws_an_exception_when_moving_a_root_category_still_linked_to_a_channel(
         $categoryRepository,
         $isCategoryTreeLinkedToUser,
         $isCategoryTreeLinkedToChannel,
@@ -175,7 +175,7 @@ class CategoryUpdaterSpec extends ObjectBehavior
             ->during('update', [$category, $values, []]);
     }
 
-    function it_throws_an_exception_when_code_is_not_a_scalar(CategoryInterface $category)
+    public function it_throws_an_exception_when_code_is_not_a_scalar(CategoryInterface $category)
     {
         $values = [
             'code' => [],
@@ -188,7 +188,7 @@ class CategoryUpdaterSpec extends ObjectBehavior
             ->during('update', [$category, $values, []]);
     }
 
-    function it_throws_an_exception_when_parent_is_not_a_scalar(CategoryInterface $category)
+    public function it_throws_an_exception_when_parent_is_not_a_scalar(CategoryInterface $category)
     {
         $values = [
             'parent' => [],
@@ -201,7 +201,7 @@ class CategoryUpdaterSpec extends ObjectBehavior
             ->during('update', [$category, $values, []]);
     }
 
-    function it_throws_an_exception_when_labels_is_not_an_array(CategoryInterface $category)
+    public function it_throws_an_exception_when_labels_is_not_an_array(CategoryInterface $category)
     {
         $values = [
             'labels' => 'foo',
@@ -214,7 +214,7 @@ class CategoryUpdaterSpec extends ObjectBehavior
             ->during('update', [$category, $values, []]);
     }
 
-    function it_throws_an_exception_when_one_of_the_labels_in_label_property_is_not_a_scalar(CategoryInterface $category)
+    public function it_throws_an_exception_when_one_of_the_labels_in_label_property_is_not_a_scalar(CategoryInterface $category)
     {
         $values = [
             'labels' => [
@@ -235,7 +235,7 @@ class CategoryUpdaterSpec extends ObjectBehavior
             ->during('update', [$category, $values, []]);
     }
 
-    function it_throws_an_exception_when_a_property_is_unknown(CategoryInterface $category)
+    public function it_throws_an_exception_when_a_property_is_unknown(CategoryInterface $category)
     {
         $values = [
             'unknown' => 'foo',

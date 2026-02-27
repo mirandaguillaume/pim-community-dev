@@ -55,22 +55,22 @@ final class GetKeyIndicators implements GetKeyIndicatorsInterface
     {
         $formattedKeyIndicators = [];
         foreach ($this->keyIndicatorCodes as $code) {
-            $formattedKeyIndicators[(string)$code] = [
+            $formattedKeyIndicators[(string) $code] = [
                 'products' => ['totalGood' => 0, 'totalToImprove' => 0],
-                'product_models' => ['totalGood' => 0, 'totalToImprove' => 0]
+                'product_models' => ['totalGood' => 0, 'totalToImprove' => 0],
             ];
         };
 
         foreach ($productKeyIndicators as $productKeyIndicator) {
             Assert::isInstanceOf($productKeyIndicator, KeyIndicator::class);
-            $formattedKeyIndicators[(string)$productKeyIndicator->getCode()]['products'] = [
+            $formattedKeyIndicators[(string) $productKeyIndicator->getCode()]['products'] = [
                 'totalGood' => $productKeyIndicator->getTotalGood(),
                 'totalToImprove' => $productKeyIndicator->getTotalToImprove(),
             ];
         }
         foreach ($productModelKeyIndicators as $productModelKeyIndicator) {
             Assert::isInstanceOf($productModelKeyIndicator, KeyIndicator::class);
-            $formattedKeyIndicators[(string)$productModelKeyIndicator->getCode()]['product_models'] = [
+            $formattedKeyIndicators[(string) $productModelKeyIndicator->getCode()]['product_models'] = [
                 'totalGood' => $productModelKeyIndicator->getTotalGood(),
                 'totalToImprove' => $productModelKeyIndicator->getTotalToImprove(),
             ];

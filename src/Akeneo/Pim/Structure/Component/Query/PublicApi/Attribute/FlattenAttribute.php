@@ -4,9 +4,7 @@ namespace Akeneo\Pim\Structure\Component\Query\PublicApi\Attribute;
 
 class FlattenAttribute
 {
-    public function __construct(private readonly string $code, private readonly string $label, private readonly string $attributeGroupCode, private readonly string $attributeGroupLabel)
-    {
-    }
+    public function __construct(private readonly string $code, private readonly string $label, private readonly string $attributeGroupCode, private readonly string $attributeGroupLabel) {}
 
     public function getCode(): string
     {

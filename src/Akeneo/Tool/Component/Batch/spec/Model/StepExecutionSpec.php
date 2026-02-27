@@ -13,12 +13,12 @@ use PhpSpec\ObjectBehavior;
 
 class StepExecutionSpec extends ObjectBehavior
 {
-    function let(JobExecution $jobExecution)
+    public function let(JobExecution $jobExecution)
     {
         $this->beConstructedWith('myStepName', $jobExecution);
     }
 
-    function it_is_properly_instanciated()
+    public function it_is_properly_instanciated()
     {
         $this->getStatus()->shouldBeAnInstanceOf(BatchStatus::class);
         $this->getStatus()->getValue()->shouldReturn(BatchStatus::STARTING);
@@ -31,14 +31,14 @@ class StepExecutionSpec extends ObjectBehavior
         $this->getFailureExceptions()->shouldHaveCount(0);
     }
 
-    function it_is_cloneable()
+    public function it_is_cloneable()
     {
         $clone = clone $this;
         $clone->shouldBeAnInstanceOf(StepExecution::class);
         $clone->getId()->shouldReturn(null);
     }
 
-    function it_upgrades_status()
+    public function it_upgrades_status()
     {
         $this->getStatus()->shouldBeAnInstanceOf(BatchStatus::class);
         $this->getStatus()->getValue()->shouldReturn(BatchStatus::STARTING);
@@ -47,19 +47,19 @@ class StepExecutionSpec extends ObjectBehavior
         $this->getStatus()->getValue()->shouldReturn(BatchStatus::COMPLETED);
     }
 
-    function it_sets_exist_status()
+    public function it_sets_exist_status()
     {
         $this->setExitStatus(new ExitStatus(ExitStatus::NOOP, "foo"))->shouldReturn($this);
     }
 
-    function it_adds_a_failure_exception()
+    public function it_adds_a_failure_exception()
     {
         $exception = new \Exception('my msg');
         $this->addFailureException($exception)->shouldReturn($this);
         $this->getFailureExceptions()->shouldHaveCount(1);
     }
 
-    function it_adds_warning(InvalidItemInterface $invalidItem)
+    public function it_adds_warning(InvalidItemInterface $invalidItem)
     {
         $this->getWarningCount()->shouldBe(0);
 
@@ -72,7 +72,7 @@ class StepExecutionSpec extends ObjectBehavior
         $this->getWarningCount()->shouldBe(1);
     }
 
-    function it_increments_summary_info()
+    public function it_increments_summary_info()
     {
         $this->incrementSummaryInfo('counter');
         $this->getSummaryInfo('counter')->shouldReturn(1);
@@ -88,7 +88,7 @@ class StepExecutionSpec extends ObjectBehavior
         $this->getSummaryInfo('counter', 90)->shouldReturn(1);
     }
 
-    function it_is_displayable()
+    public function it_is_displayable()
     {
         $this->__toString()->shouldReturn('id=0, name=[myStepName], status=[2], exitCode=[EXECUTING], exitDescription=[]');
     }

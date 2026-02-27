@@ -17,9 +17,7 @@ use Doctrine\DBAL\Connection;
  */
 class DbalSelectHourlyIntervalsToRefreshQuery
 {
-    public function __construct(private readonly Connection $dbalConnection)
-    {
-    }
+    public function __construct(private readonly Connection $dbalConnection) {}
 
     /**
      * @return HourlyInterval[]
@@ -27,12 +25,12 @@ class DbalSelectHourlyIntervalsToRefreshQuery
     public function execute(): array
     {
         $selectSQL = <<<SQL
-SELECT DISTINCT event_datetime FROM akeneo_connectivity_connection_audit_product
-WHERE updated < DATE_ADD(event_datetime, INTERVAL 1 HOUR) ORDER BY event_datetime
-SQL;
+            SELECT DISTINCT event_datetime FROM akeneo_connectivity_connection_audit_product
+            WHERE updated < DATE_ADD(event_datetime, INTERVAL 1 HOUR) ORDER BY event_datetime
+            SQL;
         $dateTimes = $this->dbalConnection->executeQuery($selectSQL)->fetchFirstColumn();
 
-        return \array_map(fn (string $dateTime): HourlyInterval => HourlyInterval::createFromDateTime(
+        return \array_map(fn(string $dateTime): HourlyInterval => HourlyInterval::createFromDateTime(
             \DateTimeImmutable::createFromFormat(
                 $this->dbalConnection->getDatabasePlatform()->getDateTimeFormatString(),
                 $dateTime,

@@ -90,8 +90,8 @@ class UserProcessor extends Processor
 
         $itemDefaultProductGridView = $item['default_product_grid_view'] ?? null;
         if (null !== $itemDefaultProductGridView) {
-            $defaultProductGridView = $this->gridViewRepository->findPrivateDatagridViewByLabel($itemDefaultProductGridView, $user) ??
-                $this->gridViewRepository->findPublicDatagridViewByLabel($itemDefaultProductGridView);
+            $defaultProductGridView = $this->gridViewRepository->findPrivateDatagridViewByLabel($itemDefaultProductGridView, $user)
+                ?? $this->gridViewRepository->findPublicDatagridViewByLabel($itemDefaultProductGridView);
             if (null !== $defaultProductGridView) {
                 $item['default_product_grid_view'] = $defaultProductGridView->getId();
             }

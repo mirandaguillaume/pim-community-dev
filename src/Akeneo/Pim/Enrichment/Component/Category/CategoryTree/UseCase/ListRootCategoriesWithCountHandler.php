@@ -17,9 +17,7 @@ use Akeneo\UserManagement\Bundle\Context\UserContext;
  */
 class ListRootCategoriesWithCountHandler
 {
-    public function __construct(private readonly CategoryRepositoryInterface                          $categoryRepository, private readonly UserContext                                          $userContext, private readonly ListRootCategoriesWithCountIncludingSubCategories    $listAndCountIncludingSubCategories, private readonly ListRootCategoriesWithCountNotIncludingSubCategories $listAndCountNotIncludingSubCategories)
-    {
-    }
+    public function __construct(private readonly CategoryRepositoryInterface                          $categoryRepository, private readonly UserContext                                          $userContext, private readonly ListRootCategoriesWithCountIncludingSubCategories    $listAndCountIncludingSubCategories, private readonly ListRootCategoriesWithCountNotIncludingSubCategories $listAndCountNotIncludingSubCategories) {}
 
     /**
      * @return RootCategory[]
@@ -40,13 +38,13 @@ class ListRootCategoriesWithCountHandler
             return [];
         }
 
-        return $query->countIncludingSubCategories() ?
-            $this->listAndCountIncludingSubCategories->list(
+        return $query->countIncludingSubCategories()
+            ? $this->listAndCountIncludingSubCategories->list(
                 $query->translationLocaleCode(),
                 $query->userId(),
                 $rootCategoryToExpand->getId()
-            ) :
-            $this->listAndCountNotIncludingSubCategories->list(
+            )
+            : $this->listAndCountNotIncludingSubCategories->list(
                 $query->translationLocaleCode(),
                 $query->userId(),
                 $rootCategoryToExpand->getId()
@@ -74,7 +72,7 @@ class ListRootCategoriesWithCountHandler
         return $this->userContext->getAccessibleUserTree()?->getId();
     }
 
-    private function getRootCategoryToExpandFromSelectedCategory(int $subCategoryId, ?int $defaultCategoryTreeId): CategoryInterface|null
+    private function getRootCategoryToExpandFromSelectedCategory(int $subCategoryId, ?int $defaultCategoryTreeId): ?CategoryInterface
     {
         $selectedCategory = $this->categoryRepository->find($subCategoryId);
         if (null !== $selectedCategory) {

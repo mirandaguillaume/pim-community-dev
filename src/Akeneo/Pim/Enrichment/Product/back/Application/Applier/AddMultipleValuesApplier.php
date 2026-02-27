@@ -18,8 +18,7 @@ final readonly class AddMultipleValuesApplier implements UserIntentApplier
 {
     public function __construct(
         private ObjectUpdaterInterface $productUpdater,
-    ) {
-    }
+    ) {}
 
     public function apply(UserIntent $userIntent, ProductInterface $product, int $userId): void
     {
@@ -32,9 +31,9 @@ final readonly class AddMultipleValuesApplier implements UserIntentApplier
             $userIntent->channelCode()
         );
 
-        $values = null !== $formerValue ?
-            \array_unique(\array_merge($formerValue->getData(), $userIntent->optionCodes())) :
-            $userIntent->optionCodes();
+        $values = null !== $formerValue
+            ? \array_unique(\array_merge($formerValue->getData(), $userIntent->optionCodes()))
+            : $userIntent->optionCodes();
         $this->productUpdater->update($product, [
             'values' => [
                 $userIntent->attributeCode() => [

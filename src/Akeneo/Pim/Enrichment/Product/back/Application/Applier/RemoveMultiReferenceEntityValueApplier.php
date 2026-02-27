@@ -18,8 +18,7 @@ final readonly class RemoveMultiReferenceEntityValueApplier implements UserInten
 {
     public function __construct(
         private ObjectUpdaterInterface $productUpdater,
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritDoc}
@@ -39,7 +38,7 @@ final readonly class RemoveMultiReferenceEntityValueApplier implements UserInten
         }
 
         $formerRecordCodes = array_map(
-            fn ($recordCode): string => (string) $recordCode,
+            fn($recordCode): string => (string) $recordCode,
             $formerRecordCodeCollection->getData()
         );
 

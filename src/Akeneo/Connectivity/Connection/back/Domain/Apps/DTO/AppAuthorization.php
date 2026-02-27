@@ -19,9 +19,7 @@ class AppAuthorization
     private string $redirectUri;
     private ?string $state = null;
 
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
     public static function createFromRequest(
         string $clientId,

@@ -40,7 +40,7 @@ class GetAllEventSubscriptionDebugLogsQueryIntegration extends TestCase
         $timestamp = $this->clock->now()->getTimestamp() - 10;
 
         $this->generateLogs(
-            fn ($index): array => [
+            fn($index): array => [
                 'id' => Uuid::uuid4()->toString(),
                 'timestamp' => $timestamp,
                 'level' => $index % 2 !== 0 ? EventsApiDebugLogLevels::NOTICE : EventsApiDebugLogLevels::INFO,
@@ -82,7 +82,7 @@ class GetAllEventSubscriptionDebugLogsQueryIntegration extends TestCase
         $logs = \iterator_to_array($this->getEventSubscriptionLogsQuery->execute('a_connection_code'));
 
         $timestamps = \array_map(
-            fn ($log): int => $log['timestamp'],
+            fn($log): int => $log['timestamp'],
             $logs
         );
 

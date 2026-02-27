@@ -23,8 +23,8 @@ class StandardFormatToUserIntentsIntegration extends TestCase
             "id" => 1,
             "labels" => [
                 "en_US" => "sausages",
-                "fr_FR" => "saucisses"
-            ]
+                "fr_FR" => "saucisses",
+            ],
         ];
         $converter = $this->get(\Akeneo\Category\Application\Converter\StandardFormatToUserIntentsInterface::class);
         $result = $converter->convert($standardFormat);
@@ -48,13 +48,13 @@ class StandardFormatToUserIntentsIntegration extends TestCase
             $nonExistentAttributeCode => "foo",
             "labels" => [
                 "en_US" => "socks",
-                "fr_FR" => "chaussettes"
-            ]
+                "fr_FR" => "chaussettes",
+            ],
         ];
         $converter = $this->get(\Akeneo\Category\Application\Converter\StandardFormatToUserIntentsInterface::class);
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage("Cannot create userIntent from ".$nonExistentAttributeCode." fieldName");
+        $this->expectExceptionMessage("Cannot create userIntent from " . $nonExistentAttributeCode . " fieldName");
 
         $converter->convert($standardFormat);
     }

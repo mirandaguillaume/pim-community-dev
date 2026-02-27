@@ -14,19 +14,17 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetAllPendingAppsPublicIdsQuery implements GetAllPendingAppsPublicIdsQueryInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function execute(): array
     {
         $sql = <<<SQL
-SELECT marketplace_public_app_id
-FROM pim_api_client
-LEFT JOIN pim_api_access_token as access_token ON pim_api_client.id = access_token.client
-LEFT JOIN pim_api_auth_code as auth_code ON pim_api_client.id = auth_code.client_id
-WHERE access_token.token IS NULL AND auth_code.token IS NOT NULL
-SQL;
+            SELECT marketplace_public_app_id
+            FROM pim_api_client
+            LEFT JOIN pim_api_access_token as access_token ON pim_api_client.id = access_token.client
+            LEFT JOIN pim_api_auth_code as auth_code ON pim_api_client.id = auth_code.client_id
+            WHERE access_token.token IS NULL AND auth_code.token IS NOT NULL
+            SQL;
 
         return $this->connection->fetchFirstColumn($sql);
     }

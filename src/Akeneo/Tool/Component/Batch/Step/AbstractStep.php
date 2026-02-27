@@ -30,8 +30,7 @@ abstract class AbstractStep implements StepInterface
         protected string $name,
         protected EventDispatcherInterface $eventDispatcher,
         protected JobRepositoryInterface $jobRepository,
-    ) {
-    }
+    ) {}
 
     /**
      * @return JobRepositoryInterface

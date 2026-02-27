@@ -122,10 +122,10 @@ class CheckCategoryTrees extends Command
     private function getAllCategories(): CategoriesPool
     {
         $sql = <<< SQL
-SELECT id, parent_id, root, code, lvl, lft, rgt
-FROM pim_catalog_category
-ORDER BY lft
-SQL;
+            SELECT id, parent_id, root, code, lvl, lft, rgt
+            FROM pim_catalog_category
+            ORDER BY lft
+            SQL;
         $rows = $this->connection->executeQuery($sql)->fetchAllAssociative();
 
         return new CategoriesPool($rows);

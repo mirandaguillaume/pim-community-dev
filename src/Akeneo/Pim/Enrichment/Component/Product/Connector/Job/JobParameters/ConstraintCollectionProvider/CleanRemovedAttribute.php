@@ -14,9 +14,7 @@ use Symfony\Component\Validator\Constraints\Type;
 
 final readonly class CleanRemovedAttribute implements ConstraintCollectionProviderInterface
 {
-    public function __construct(private array $supportedJobNames)
-    {
-    }
+    public function __construct(private array $supportedJobNames) {}
 
     /**
      * {@inheritdoc}
@@ -28,7 +26,7 @@ final readonly class CleanRemovedAttribute implements ConstraintCollectionProvid
                 'attribute_codes' => [
                     new NotNull(),
                     new Type('array'),
-                    new All([new Type(['type' => 'string']), new NotBlank()])
+                    new All([new Type(['type' => 'string']), new NotBlank()]),
                 ],
             ],
         ]);

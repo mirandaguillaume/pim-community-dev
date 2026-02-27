@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DocumentedNormalizerSpec extends ObjectBehavior
 {
-    function it_normalizes_an_exception()
+    public function it_normalizes_an_exception()
     {
         $exception = new DocumentedHttpException(
             'http://example.net',
@@ -20,9 +20,9 @@ class DocumentedNormalizerSpec extends ObjectBehavior
             'message' => 'Property "xx" does not exist',
             '_links' => [
                 'documentation' => [
-                    'href' => 'http://example.net'
-                ]
-            ]
+                    'href' => 'http://example.net',
+                ],
+            ],
         ]);
     }
 }

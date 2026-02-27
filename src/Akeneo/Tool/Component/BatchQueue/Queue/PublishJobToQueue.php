@@ -35,8 +35,7 @@ class PublishJobToQueue implements PublishJobToQueueInterface
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly BatchLogHandler $batchLogHandler,
         private readonly CreateJobExecutionHandlerInterface $createJobExecutionHandler,
-    ) {
-    }
+    ) {}
 
     public function publish(
         string $jobInstanceCode,

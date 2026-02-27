@@ -80,9 +80,9 @@ class ProductNormalizerIntegration extends TestCase
                         'data'   => '4/d/e/b/4deb535f0979dea59cf34661e22336459a56bed3_fileA.txt',
                         '_links' => [
                             'download' => [
-                                'href' => 'http://localhost/api/rest/v1/media_files/4/d/e/b/4deb535f0979dea59cf34661e22336459a56bed3_fileA.txt/download'
-                            ]
-                        ]
+                                'href' => 'http://localhost/api/rest/v1/media_files/4/d/e/b/4deb535f0979dea59cf34661e22336459a56bed3_fileA.txt/download',
+                            ],
+                        ],
                     ],
                 ],
                 'an_image'                           => [
@@ -92,9 +92,9 @@ class ProductNormalizerIntegration extends TestCase
                         'data'   => '1/5/7/5/15757827125efa686c1c0f1e7930ca0c528f1c2c_imageA.jpg',
                         '_links' => [
                             'download' => [
-                                'href' => 'http://localhost/api/rest/v1/media_files/1/5/7/5/15757827125efa686c1c0f1e7930ca0c528f1c2c_imageA.jpg/download'
-                            ]
-                        ]
+                                'href' => 'http://localhost/api/rest/v1/media_files/1/5/7/5/15757827125efa686c1c0f1e7930ca0c528f1c2c_imageA.jpg/download',
+                            ],
+                        ],
                     ],
                 ],
                 'a_date'                             => [
@@ -138,10 +138,10 @@ class ProductNormalizerIntegration extends TestCase
                     ['locale' => null, 'scope' => null, 'data' => '-99.8732'],
                 ],
                 'a_number_integer'                   => [
-                    ['locale' => null, 'scope' => null, 'data' => 42]
+                    ['locale' => null, 'scope' => null, 'data' => 42],
                 ],
                 'a_number_integer_negative' => [
-                    ['locale' => null, 'scope' => null, 'data' => -42]
+                    ['locale' => null, 'scope' => null, 'data' => -42],
                 ],
                 'a_price'                            => [
                     [
@@ -164,7 +164,7 @@ class ProductNormalizerIntegration extends TestCase
                     ],
                 ],
                 'a_ref_data_multi_select'            => [
-                    ['locale' => null, 'scope' => null, 'data' => ['fabricA', 'fabricB']]
+                    ['locale' => null, 'scope' => null, 'data' => ['fabricA', 'fabricB']],
                 ],
                 'a_ref_data_simple_select'           => [
                     ['locale' => null, 'scope' => null, 'data' => 'colorB'],
@@ -203,9 +203,9 @@ class ProductNormalizerIntegration extends TestCase
                         'data'   => '6/2/e/3/62e376e75300d27bfec78878db4d30ff1490bc53_imageB_en_US.jpg',
                         '_links' => [
                             'download' => [
-                                'href' => 'http://localhost/api/rest/v1/media_files/6/2/e/3/62e376e75300d27bfec78878db4d30ff1490bc53_imageB_en_US.jpg/download'
-                            ]
-                        ]
+                                'href' => 'http://localhost/api/rest/v1/media_files/6/2/e/3/62e376e75300d27bfec78878db4d30ff1490bc53_imageB_en_US.jpg/download',
+                            ],
+                        ],
                     ],
                     [
                         'locale' => 'fr_FR',
@@ -213,9 +213,9 @@ class ProductNormalizerIntegration extends TestCase
                         'data'   => '0/f/5/0/0f5058de76f68446bb6b2371f19cd2234b245c00_imageB_fr_FR.jpg',
                         '_links' => [
                             'download' => [
-                                'href' => 'http://localhost/api/rest/v1/media_files/0/f/5/0/0f5058de76f68446bb6b2371f19cd2234b245c00_imageB_fr_FR.jpg/download'
-                            ]
-                        ]
+                                'href' => 'http://localhost/api/rest/v1/media_files/0/f/5/0/0f5058de76f68446bb6b2371f19cd2234b245c00_imageB_fr_FR.jpg/download',
+                            ],
+                        ],
                     ],
                 ],
                 'a_scopable_price'                   => [
@@ -243,7 +243,7 @@ class ProductNormalizerIntegration extends TestCase
                     [
                         'locale' => 'en_US',
                         'scope'  => 'tablet',
-                        'data'   => 'a text area for tablets in English'
+                        'data'   => 'a text area for tablets in English',
                     ],
                     [
                         'locale' => 'fr_FR',
@@ -257,22 +257,22 @@ class ProductNormalizerIntegration extends TestCase
             'associations'  => [
                 'PACK'   => ['groups' => [], 'product_uuids' => [
                     $this->getProductUuid('bar')->toString(),
-                    $this->getProductUuid('baz')->toString()
+                    $this->getProductUuid('baz')->toString(),
                 ], 'product_models' => []],
                 'UPSELL' => ['groups' => ['groupA'], 'product_uuids' => [], 'product_models' => []],
                 'X_SELL' => ['groups' => ['groupB'], 'product_uuids' => [
-                    $this->getProductUuid('bar')->toString()
+                    $this->getProductUuid('bar')->toString(),
                 ], 'product_models' => []],
                 'SUBSTITUTION' => ['groups' => [], 'product_uuids' => [], 'product_models' => []],
             ],
             'quantified_associations' => [
                 "PRODUCT_SET" => [
                     "products" => [
-                        ['identifier' => 'bar', "quantity" => 3]
+                        ['identifier' => 'bar', "quantity" => 3],
                     ],
                     "product_models" => [
-                        ["identifier" => 'baz', "quantity" => 2]
-                    ]
+                        ["identifier" => 'baz', "quantity" => 2],
+                    ],
                 ],
             ],
         ];
@@ -298,9 +298,9 @@ class ProductNormalizerIntegration extends TestCase
                         'data'   => '4/d/e/b/4deb535f0979dea59cf34661e22336459a56bed3_fileA.txt',
                         '_links' => [
                             'download' => [
-                                'href' => 'http://localhost/api/rest/v1/media_files/4/d/e/b/4deb535f0979dea59cf34661e22336459a56bed3_fileA.txt/download'
-                            ]
-                        ]
+                                'href' => 'http://localhost/api/rest/v1/media_files/4/d/e/b/4deb535f0979dea59cf34661e22336459a56bed3_fileA.txt/download',
+                            ],
+                        ],
                     ],
                 ],
                 'a_metric'                           => [
@@ -320,9 +320,9 @@ class ProductNormalizerIntegration extends TestCase
                         'data'   => '6/2/e/3/62e376e75300d27bfec78878db4d30ff1490bc53_imageB_en_US.jpg',
                         '_links' => [
                             'download' => [
-                                'href' => 'http://localhost/api/rest/v1/media_files/6/2/e/3/62e376e75300d27bfec78878db4d30ff1490bc53_imageB_en_US.jpg/download'
-                            ]
-                        ]
+                                'href' => 'http://localhost/api/rest/v1/media_files/6/2/e/3/62e376e75300d27bfec78878db4d30ff1490bc53_imageB_en_US.jpg/download',
+                            ],
+                        ],
                     ],
                     [
                         'locale' => 'fr_FR',
@@ -330,9 +330,9 @@ class ProductNormalizerIntegration extends TestCase
                         'data'   => '0/f/5/0/0f5058de76f68446bb6b2371f19cd2234b245c00_imageB_fr_FR.jpg',
                         '_links' => [
                             'download' => [
-                                'href' => 'http://localhost/api/rest/v1/media_files/0/f/5/0/0f5058de76f68446bb6b2371f19cd2234b245c00_imageB_fr_FR.jpg/download'
-                            ]
-                        ]
+                                'href' => 'http://localhost/api/rest/v1/media_files/0/f/5/0/0f5058de76f68446bb6b2371f19cd2234b245c00_imageB_fr_FR.jpg/download',
+                            ],
+                        ],
                     ],
                 ],
                 'a_localized_and_scopable_text_area' => [
@@ -344,7 +344,7 @@ class ProductNormalizerIntegration extends TestCase
                     [
                         'locale' => 'en_US',
                         'scope'  => 'tablet',
-                        'data'   => 'a text area for tablets in English'
+                        'data'   => 'a text area for tablets in English',
                     ],
                     [
                         'locale' => 'fr_FR',
@@ -358,28 +358,28 @@ class ProductNormalizerIntegration extends TestCase
             'associations'  => [
                 'PACK'   => ['groups' => [], 'product_uuids' => [
                     $this->getProductUuid('bar')->toString(),
-                    $this->getProductUuid('baz')->toString()
+                    $this->getProductUuid('baz')->toString(),
                 ], 'product_models' => []],
                 'UPSELL' => ['groups' => ['groupA'], 'product_uuids' => [], 'product_models' => []],
                 'X_SELL' => ['groups' => ['groupB'], 'product_uuids' => [
-                    $this->getProductUuid('bar')
+                    $this->getProductUuid('bar'),
                 ], 'product_models' => []],
                 'SUBSTITUTION' => ['groups' => [], 'product_uuids' => [], 'product_models' => []],
             ],
             'quantified_associations' => [
                 "PRODUCT_SET" => [
                     "products" => [
-                        ['identifier' => 'bar', "quantity" => 3]
+                        ['identifier' => 'bar', "quantity" => 3],
                     ],
                     "product_models" => [
-                        ["identifier" => 'baz', "quantity" => 2]
-                    ]
+                        ["identifier" => 'baz', "quantity" => 2],
+                    ],
                 ],
             ],
         ];
 
         $this->assertProduct('foo', $expected, ['attributes' => [
-            'a_file', 'a_metric', 'a_localized_and_scopable_text_area', 'a_localizable_image', 'a_yes_no'
+            'a_file', 'a_metric', 'a_localized_and_scopable_text_area', 'a_localizable_image', 'a_yes_no',
         ]]);
     }
 

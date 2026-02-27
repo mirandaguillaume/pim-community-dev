@@ -18,9 +18,7 @@ final readonly class ValidateSearchLocale
 {
     private const COMPLETENESS_PROPERTY = 'completeness';
 
-    public function __construct(private IdentifiableObjectRepositoryInterface $localeRepository)
-    {
-    }
+    public function __construct(private IdentifiableObjectRepositoryInterface $localeRepository) {}
 
     /**
      * @throws InvalidQueryException
@@ -44,8 +42,8 @@ final readonly class ValidateSearchLocale
         }
 
         if (!empty($errors)) {
-            $plural = count($errors) > 1 ?
-                'Locales "%s" do not exist or are not activated.' : 'Locale "%s" does not exist or is not activated.';
+            $plural = count($errors) > 1
+                ? 'Locales "%s" do not exist or are not activated.' : 'Locale "%s" does not exist or is not activated.';
             throw new InvalidQueryException(sprintf($plural, implode(', ', $errors)));
         }
     }

@@ -23,9 +23,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class SaveMeasurementFamilyAction
 {
-    public function __construct(private readonly ValidatorInterface $validator, private readonly SaveMeasurementFamilyHandler $saveMeasurementFamilyHandler, private readonly NormalizerInterface $violationNormalizer, private readonly SecurityFacade $securityFacade)
-    {
-    }
+    public function __construct(private readonly ValidatorInterface $validator, private readonly SaveMeasurementFamilyHandler $saveMeasurementFamilyHandler, private readonly NormalizerInterface $violationNormalizer, private readonly SecurityFacade $securityFacade) {}
 
     public function __invoke(Request $request): Response
     {
@@ -39,13 +37,13 @@ class SaveMeasurementFamilyAction
             );
         }
         if (!(
-            $this->securityFacade->isGranted('akeneo_measurements_manage_settings') &&
-                (
-                    $this->securityFacade->isGranted('akeneo_measurements_measurement_family_edit_properties') ||
-                    $this->securityFacade->isGranted('akeneo_measurements_measurement_family_delete') ||
-                    $this->securityFacade->isGranted('akeneo_measurements_measurement_unit_add') ||
-                    $this->securityFacade->isGranted('akeneo_measurements_measurement_unit_edit') ||
-                    $this->securityFacade->isGranted('akeneo_measurements_measurement_unit_delete')
+            $this->securityFacade->isGranted('akeneo_measurements_manage_settings')
+                && (
+                    $this->securityFacade->isGranted('akeneo_measurements_measurement_family_edit_properties')
+                    || $this->securityFacade->isGranted('akeneo_measurements_measurement_family_delete')
+                    || $this->securityFacade->isGranted('akeneo_measurements_measurement_unit_add')
+                    || $this->securityFacade->isGranted('akeneo_measurements_measurement_unit_edit')
+                    || $this->securityFacade->isGranted('akeneo_measurements_measurement_unit_delete')
                 )
         )
         ) {

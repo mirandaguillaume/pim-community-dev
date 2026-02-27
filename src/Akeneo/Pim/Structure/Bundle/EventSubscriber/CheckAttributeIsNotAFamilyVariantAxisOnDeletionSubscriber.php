@@ -19,8 +19,7 @@ class CheckAttributeIsNotAFamilyVariantAxisOnDeletionSubscriber implements Event
 {
     public function __construct(
         private readonly AttributeIsAFamilyVariantAxisInterface $attributeIsAFamilyVariantAxis,
-    ) {
-    }
+    ) {}
 
     public static function getSubscribedEvents(): array
     {

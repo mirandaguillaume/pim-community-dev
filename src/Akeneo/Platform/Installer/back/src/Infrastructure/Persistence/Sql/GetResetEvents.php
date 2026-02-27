@@ -14,8 +14,7 @@ final readonly class GetResetEvents
 {
     public function __construct(
         private Connection $connection,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<int, array{time: \DateTimeImmutable}>
@@ -23,8 +22,8 @@ final readonly class GetResetEvents
     public function __invoke(): array
     {
         $sql = <<< SQL
-            SELECT `values` FROM pim_configuration WHERE code = 'reset_events';
-        SQL;
+                SELECT `values` FROM pim_configuration WHERE code = 'reset_events';
+            SQL;
 
         $values = $this->connection->executeQuery($sql)->fetchOne();
 
@@ -35,7 +34,7 @@ final readonly class GetResetEvents
         $normalizedResetEvents = \json_decode((string) $values, true, 512, JSON_THROW_ON_ERROR);
 
         return array_map(
-            static fn (array $resetEvent): array => ['time' => new \DateTimeImmutable($resetEvent['time'])],
+            static fn(array $resetEvent): array => ['time' => new \DateTimeImmutable($resetEvent['time'])],
             $normalizedResetEvents,
         );
     }

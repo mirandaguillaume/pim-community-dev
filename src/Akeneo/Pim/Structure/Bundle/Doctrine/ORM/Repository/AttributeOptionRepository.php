@@ -91,12 +91,12 @@ class AttributeOptionRepository extends EntityRepository implements
         if ($autoSorting) {
             usort(
                 $results,
-                fn ($first, $second) => strcasecmp((string) $first['text'], (string) $second['text'])
+                fn($first, $second) => strcasecmp((string) $first['text'], (string) $second['text'])
             );
         }
 
         return [
-            'results' => $results
+            'results' => $results,
         ];
     }
 

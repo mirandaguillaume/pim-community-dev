@@ -14,9 +14,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 
 class RemoveValuesFromProductModels
 {
-    public function __construct(private readonly ProductModelRepositoryInterface $productModelRepository, private readonly Connection $connection, private readonly EventDispatcherInterface $eventDispatcher, private readonly UnitOfWorkAndRepositoriesClearer $clearer)
-    {
-    }
+    public function __construct(private readonly ProductModelRepositoryInterface $productModelRepository, private readonly Connection $connection, private readonly EventDispatcherInterface $eventDispatcher, private readonly UnitOfWorkAndRepositoriesClearer $clearer) {}
 
     public function forAttributeCodes(array $attributeCodes, array $productModelIdentifiers): void
     {
@@ -31,15 +29,15 @@ class RemoveValuesFromProductModels
     {
         $paths = implode(
             ',',
-            array_map(fn ($attributeCode) => $this->connection->quote(sprintf('$."%s"', $attributeCode)), $attributeCodes)
+            array_map(fn($attributeCode) => $this->connection->quote(sprintf('$."%s"', $attributeCode)), $attributeCodes)
         );
 
         $this->connection->executeQuery(
             <<<SQL
-UPDATE pim_catalog_product_model
-SET raw_values = JSON_REMOVE(raw_values, $paths)
-WHERE code IN (:identifiers)
-SQL,
+                UPDATE pim_catalog_product_model
+                SET raw_values = JSON_REMOVE(raw_values, $paths)
+                WHERE code IN (:identifiers)
+                SQL,
             [
                 'identifiers' => $productModelIdentifiers,
             ],

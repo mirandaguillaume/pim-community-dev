@@ -17,8 +17,7 @@ class BuildSqlMaskField
      */
     public function __construct(
         private readonly iterable $attributeCases,
-    ) {
-    }
+    ) {}
 
     public function __invoke(): string
     {
@@ -31,17 +30,17 @@ class BuildSqlMaskField
     private function getDefaultMask(): string
     {
         return <<<SQL
-JSON_ARRAYAGG(
-    CONCAT(
-        attribute.code,
-        '-',
-        IF(attribute.is_scopable, channel_locale.channel_code, '<all_channels>'),
-        '-',
-        IF(attribute.is_localizable, channel_locale.locale_code, '<all_locales>')
-    )
-)
-AS mask
-SQL;
+            JSON_ARRAYAGG(
+                CONCAT(
+                    attribute.code,
+                    '-',
+                    IF(attribute.is_scopable, channel_locale.channel_code, '<all_channels>'),
+                    '-',
+                    IF(attribute.is_localizable, channel_locale.locale_code, '<all_locales>')
+                )
+            )
+            AS mask
+            SQL;
     }
 
     private function formatAttributeCases(): string

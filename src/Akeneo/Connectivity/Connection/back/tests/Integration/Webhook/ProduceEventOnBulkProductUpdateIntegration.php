@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Tests\Integration\Webhook;
@@ -37,14 +38,14 @@ class ProduceEventOnBulkProductUpdateIntegration extends TestCase
 
         for ($i = 0; $i < $count; $i++) {
             $this->updateProduct(\sprintf('t-shirt-%s', $i), [
-                new SetEnabled(false)
+                new SetEnabled(false),
             ]);
         }
 
         $this->assertEventCount($count, ProductUpdated::class);
     }
 
-    private function createProduct(string $identifier) : void
+    private function createProduct(string $identifier): void
     {
         $this->get('pim_enrich.product.message_bus')->dispatch(
             UpsertProductCommand::createWithIdentifierSystemUser($identifier, [])
@@ -55,7 +56,7 @@ class ProduceEventOnBulkProductUpdateIntegration extends TestCase
     /**
      * @param UserIntent[] $userIntents
      */
-    private function updateProduct(string $identifier, array $userIntents) : void
+    private function updateProduct(string $identifier, array $userIntents): void
     {
         $this->get('pim_catalog.validator.unique_value_set')->reset();
         $this->get('pim_enrich.product.message_bus')->dispatch(

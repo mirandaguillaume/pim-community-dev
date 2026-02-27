@@ -17,9 +17,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class ResetHandler
 {
-    public function __construct(private readonly FormInterface $form, private readonly RequestStack $requestStack, private readonly UserManager $manager)
-    {
-    }
+    public function __construct(private readonly FormInterface $form, private readonly RequestStack $requestStack, private readonly UserManager $manager) {}
 
     public function process(UserInterface $user): bool
     {

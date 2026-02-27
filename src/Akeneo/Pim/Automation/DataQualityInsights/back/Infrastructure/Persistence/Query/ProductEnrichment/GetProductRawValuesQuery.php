@@ -19,25 +19,24 @@ class GetProductRawValuesQuery implements GetProductRawValuesQueryInterface
     public function __construct(
         /** * @var Connection */
         private readonly Connection $db
-    ) {
-    }
+    ) {}
 
     public function execute(ProductEntityIdInterface $productId): array
     {
         Assert::isInstanceOf($productId, ProductUuid::class);
 
         $query = <<<SQL
-SELECT
-    JSON_MERGE(
-        COALESCE(pm1.raw_values, '{}'),
-        COALESCE(pm2.raw_values, '{}'),
-        product.raw_values
-    ) AS raw_values
-FROM pim_catalog_product as product
-    LEFT JOIN pim_catalog_product_model pm1 ON product.product_model_id = pm1.id
-    LEFT JOIN pim_catalog_product_model pm2 ON pm1.parent_id = pm2.id
-WHERE product.uuid = :product_uuid;
-SQL;
+            SELECT
+                JSON_MERGE(
+                    COALESCE(pm1.raw_values, '{}'),
+                    COALESCE(pm2.raw_values, '{}'),
+                    product.raw_values
+                ) AS raw_values
+            FROM pim_catalog_product as product
+                LEFT JOIN pim_catalog_product_model pm1 ON product.product_model_id = pm1.id
+                LEFT JOIN pim_catalog_product_model pm2 ON pm1.parent_id = pm2.id
+            WHERE product.uuid = :product_uuid;
+            SQL;
 
         $statement = $this->db->executeQuery(
             $query,

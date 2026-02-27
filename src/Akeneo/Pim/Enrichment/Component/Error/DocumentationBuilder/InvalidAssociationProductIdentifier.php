@@ -35,7 +35,7 @@ final class InvalidAssociationProductIdentifier implements DocumentationBuilderI
                     'permissions_settings' => new RouteMessageParameter(
                         'your connection group permissions settings',
                         'pim_user_group_index'
-                    )
+                    ),
                 ],
                 Documentation::STYLE_TEXT
             ),
@@ -45,10 +45,10 @@ final class InvalidAssociationProductIdentifier implements DocumentationBuilderI
                     'manage_your_connections' => new HrefMessageParameter(
                         'Manage your connections',
                         'https://help.akeneo.com/pim/serenity/articles/manage-your-connections.html#configure-the-connection-user-group'
-                    )
+                    ),
                 ],
                 Documentation::STYLE_INFORMATION
-            )
+            ),
         ]);
     }
 }

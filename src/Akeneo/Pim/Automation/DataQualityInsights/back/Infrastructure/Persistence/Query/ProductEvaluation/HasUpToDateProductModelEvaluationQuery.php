@@ -22,12 +22,11 @@ final readonly class HasUpToDateProductModelEvaluationQuery implements HasUpToDa
     public function __construct(
         private Connection $dbConnection,
         private ProductModelIdFactory $factory
-    ) {
-    }
+    ) {}
 
     public function forEntityId(ProductEntityIdInterface $productId): bool
     {
-        $productModelIdCollection = $this->factory->createCollection([(string)$productId]);
+        $productModelIdCollection = $this->factory->createCollection([(string) $productId]);
         $upToDateProducts = $this->forEntityIdCollection($productModelIdCollection);
         return !is_null($upToDateProducts);
     }
@@ -39,17 +38,17 @@ final readonly class HasUpToDateProductModelEvaluationQuery implements HasUpToDa
         }
 
         $query = <<<SQL
-SELECT product_model.id
-FROM pim_catalog_product_model AS product_model
-         LEFT JOIN pim_catalog_product_model AS parent ON parent.id = product_model.parent_id
-WHERE product_model.id IN (:product_ids)
-  AND EXISTS(
-        SELECT 1 FROM pim_data_quality_insights_product_model_criteria_evaluation AS evaluation
-        WHERE evaluation.product_id = product_model.id
-          AND evaluation.evaluated_at >=
-              IF(parent.updated > product_model.updated, parent.updated, product_model.updated)
-    )
-SQL;
+            SELECT product_model.id
+            FROM pim_catalog_product_model AS product_model
+                     LEFT JOIN pim_catalog_product_model AS parent ON parent.id = product_model.parent_id
+            WHERE product_model.id IN (:product_ids)
+              AND EXISTS(
+                    SELECT 1 FROM pim_data_quality_insights_product_model_criteria_evaluation AS evaluation
+                    WHERE evaluation.product_id = product_model.id
+                      AND evaluation.evaluated_at >=
+                          IF(parent.updated > product_model.updated, parent.updated, product_model.updated)
+                )
+            SQL;
 
         $stmt = $this->dbConnection->executeQuery(
             $query,
@@ -63,7 +62,7 @@ SQL;
             return null;
         }
 
-        $ids = array_map(fn ($resultRow) => $resultRow['id'], $result);
+        $ids = array_map(fn($resultRow) => $resultRow['id'], $result);
 
         if (empty($ids)) {
             return null;

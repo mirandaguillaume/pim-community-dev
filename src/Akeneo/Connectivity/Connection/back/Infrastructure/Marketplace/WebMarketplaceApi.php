@@ -23,8 +23,7 @@ class WebMarketplaceApi implements WebMarketplaceApiInterface
         private readonly WebMarketplaceAliasesInterface $webMarketplaceAliases,
         private readonly LoggerInterface $logger,
         private readonly FeatureFlag $fakeAppsFeatureFlag
-    ) {
-    }
+    ) {}
 
     public function getExtensions(int $offset = 0, int $limit = 10): array
     {

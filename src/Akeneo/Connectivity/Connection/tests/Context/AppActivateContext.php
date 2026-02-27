@@ -34,7 +34,7 @@ class AppActivateContext extends PimContext
         /** @var Element $page */
         $page = $this->getCurrentPage();
 
-        $appTitle = $this->spin(fn () => $page->find('named', ['content', $appName]), sprintf('Cannot find the %s app', $appName));
+        $appTitle = $this->spin(fn() => $page->find('named', ['content', $appName]), sprintf('Cannot find the %s app', $appName));
 
         Assert::assertNotNull($appTitle);
     }
@@ -72,7 +72,7 @@ class AppActivateContext extends PimContext
     {
         $session = $this->getSession();
 
-        $this->spin(fn () => $url === $session->getCurrentUrl()
+        $this->spin(fn() => $url === $session->getCurrentUrl()
             || preg_match(sprintf('|^%s$|', $url), $session->getCurrentUrl()), sprintf('Current url is not %s, got %s', $url, $session->getCurrentUrl()));
     }
 
@@ -129,10 +129,10 @@ class AppActivateContext extends PimContext
 
         $connectedApp = $this->spin(function () use ($name, $connection): ?array {
             $query = <<<SQL
-SELECT *
-FROM akeneo_connectivity_connected_app
-WHERE name = :name
-SQL;
+                SELECT *
+                FROM akeneo_connectivity_connected_app
+                WHERE name = :name
+                SQL;
 
             return $connection->fetchAssociative($query, [
                 'name' => $name,
@@ -274,13 +274,13 @@ SQL;
         $connection = $this->getMainContext()->getContainer()->get('doctrine.dbal.default_connection');
 
         $query = <<<SQL
-SELECT pim_api_auth_code.token
-FROM pim_api_auth_code
-JOIN pim_api_client on pim_api_auth_code.client_id = pim_api_client.id
-JOIN akeneo_connectivity_connection on pim_api_client.id = akeneo_connectivity_connection.client_id
-JOIN akeneo_connectivity_connected_app ON akeneo_connectivity_connected_app.connection_code = akeneo_connectivity_connection.code
-WHERE akeneo_connectivity_connected_app.id = :id
-SQL;
+            SELECT pim_api_auth_code.token
+            FROM pim_api_auth_code
+            JOIN pim_api_client on pim_api_auth_code.client_id = pim_api_client.id
+            JOIN akeneo_connectivity_connection on pim_api_client.id = akeneo_connectivity_connection.client_id
+            JOIN akeneo_connectivity_connected_app ON akeneo_connectivity_connected_app.connection_code = akeneo_connectivity_connection.code
+            WHERE akeneo_connectivity_connected_app.id = :id
+            SQL;
 
         return $connection->fetchOne($query, [
             'id' => $this->connectedApp['id'],
@@ -320,13 +320,13 @@ SQL;
         $connection = $this->getMainContext()->getContainer()->get('doctrine.dbal.default_connection');
 
         $query = <<<SQL
-SELECT oro_access_role.role
-FROM oro_access_role
-JOIN oro_user_access_role ON oro_user_access_role.role_id = oro_access_role.id
-JOIN akeneo_connectivity_connection ON akeneo_connectivity_connection.user_id = oro_user_access_role.user_id
-JOIN akeneo_connectivity_connected_app ON akeneo_connectivity_connected_app.connection_code = akeneo_connectivity_connection.code
-WHERE akeneo_connectivity_connected_app.id = :id
-SQL;
+            SELECT oro_access_role.role
+            FROM oro_access_role
+            JOIN oro_user_access_role ON oro_user_access_role.role_id = oro_access_role.id
+            JOIN akeneo_connectivity_connection ON akeneo_connectivity_connection.user_id = oro_user_access_role.user_id
+            JOIN akeneo_connectivity_connected_app ON akeneo_connectivity_connected_app.connection_code = akeneo_connectivity_connection.code
+            WHERE akeneo_connectivity_connected_app.id = :id
+            SQL;
 
         return $connection->fetchAssociative($query, [
             'id' => $this->connectedApp['id'],

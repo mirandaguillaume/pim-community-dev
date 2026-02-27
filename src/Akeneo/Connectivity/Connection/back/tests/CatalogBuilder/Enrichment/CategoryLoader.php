@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Tests\CatalogBuilder\Enrichment;
@@ -21,8 +22,7 @@ class CategoryLoader
         private readonly ObjectUpdaterInterface $updater,
         private readonly ValidatorInterface $validator,
         private readonly SaverInterface $saver,
-    ) {
-    }
+    ) {}
 
     public function create(array $data = []): void
     {

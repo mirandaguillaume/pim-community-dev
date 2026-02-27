@@ -12,9 +12,7 @@ namespace Akeneo\Tool\Component\Batch\Item;
  */
 class DataInvalidItem implements InvalidItemInterface
 {
-    public function __construct(protected mixed $invalidData)
-    {
-    }
+    public function __construct(protected mixed $invalidData) {}
 
     /**
      * {@inheritdoc}

@@ -19,9 +19,7 @@ class StructureVersion implements StructureVersionProviderInterface
     /** @var array */
     protected $resourceNames = [];
 
-    public function __construct(protected ManagerRegistry $doctrine)
-    {
-    }
+    public function __construct(protected ManagerRegistry $doctrine) {}
 
     /**
      * {@inheritdoc}
@@ -29,12 +27,12 @@ class StructureVersion implements StructureVersionProviderInterface
     public function getStructureVersion()
     {
         $sql = <<<'SQL'
-SELECT last_update
-FROM akeneo_structure_version_last_update
-WHERE resource_name IN (:resource_names)
-ORDER BY last_update DESC
-LIMIT 1;
-SQL;
+            SELECT last_update
+            FROM akeneo_structure_version_last_update
+            WHERE resource_name IN (:resource_names)
+            ORDER BY last_update DESC
+            LIMIT 1;
+            SQL;
 
         $connection = $this->doctrine->getConnection();
         $stmt = $connection->executeQuery(

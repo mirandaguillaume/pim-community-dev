@@ -47,8 +47,8 @@ class BusinessEventHandlerSpec extends ObjectBehavior
         ]);
 
         $commandLine = <<<'EOS'
-            Command line: "'project_dir/bin/console' 'akeneo:connectivity:send-business-event' '[["normalized_event1"],["normalized_event2"]]'"
-        EOS;
+                Command line: "'project_dir/bin/console' 'akeneo:connectivity:send-business-event' '[["normalized_event1"],["normalized_event2"]]'"
+            EOS;
 
         $logger->debug(\trim($commandLine))->shouldBeCalled();
 

@@ -31,14 +31,12 @@ class PropertiesNormalizer implements NormalizerInterface, CacheableSupportsMeth
     final public const FIELD_CREATED = 'created';
     final public const FIELD_UPDATED = 'updated';
 
-    public function __construct(private readonly CollectionFilterInterface $filter, private readonly NormalizerInterface $normalizer)
-    {
-    }
+    public function __construct(private readonly CollectionFilterInterface $filter, private readonly NormalizerInterface $normalizer) {}
 
     /**
      * {@inheritdoc}
      */
-    public function normalize($product, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($product, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $context = array_merge(['filter_types' => ['pim.transform.product_value.structured']], $context);
         $data = [];

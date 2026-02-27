@@ -20,8 +20,7 @@ class OroToPimGridFilterAdapter implements GridFilterAdapterInterface
 
     public function __construct(
         protected MassActionDispatcher $massActionDispatcher,
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -56,7 +55,7 @@ class OroToPimGridFilterAdapter implements GridFilterAdapterInterface
         }
 
         return [
-            ['field' => 'id', 'operator' => 'IN', 'value' => $itemIds]
+            ['field' => 'id', 'operator' => 'IN', 'value' => $itemIds],
         ];
     }
 

@@ -19,14 +19,12 @@ class ValueCollectionNormalizer implements NormalizerInterface, CacheableSupport
 {
     final public const INDEXING_FORMAT_PRODUCT_AND_MODEL_INDEX = 'indexing_product_and_product_model';
 
-    public function __construct(private readonly NormalizerInterface $normalizer)
-    {
-    }
+    public function __construct(private readonly NormalizerInterface $normalizer) {}
 
     /**
      * {@inheritdoc}
      */
-    public function normalize($values, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($values, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $normalizedValues = [];
         foreach ($values as $value) {

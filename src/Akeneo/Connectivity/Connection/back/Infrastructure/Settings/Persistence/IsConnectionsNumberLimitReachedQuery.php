@@ -17,15 +17,14 @@ class IsConnectionsNumberLimitReachedQuery implements IsConnectionsNumberLimitRe
     public function __construct(
         private readonly Connection $connection,
         private readonly GetConnectionsNumberLimit $getConnectionsNumberLimit
-    ) {
-    }
+    ) {}
 
     public function execute(): bool
     {
         $sql = <<<SQL
-SELECT COUNT(*) as count
-FROM akeneo_connectivity_connection;
-SQL;
+            SELECT COUNT(*) as count
+            FROM akeneo_connectivity_connection;
+            SQL;
 
         $connectionCount = (int) $this->connection->executeQuery($sql)->fetchOne();
 

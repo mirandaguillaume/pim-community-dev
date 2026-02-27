@@ -17,8 +17,7 @@ class UpdateLastResetDateSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private readonly SaveResetEvent $saveResetEvent,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<string, string>

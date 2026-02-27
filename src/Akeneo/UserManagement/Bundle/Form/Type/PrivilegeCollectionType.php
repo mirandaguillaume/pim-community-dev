@@ -11,6 +11,4 @@ use Oro\Bundle\SecurityBundle\Form\Type\PrivilegeCollectionType as OroPrivilegeC
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class PrivilegeCollectionType extends OroPrivilegeCollectionType
-{
-}
+class PrivilegeCollectionType extends OroPrivilegeCollectionType {}

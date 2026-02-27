@@ -19,13 +19,12 @@ class GetMeasurementFamiliesAction
     public function __construct(
         private readonly MeasurementFamilyRepositoryInterface $measurementFamilyRepository,
         private readonly NormalizerInterface $normalizer,
-    ) {
-    }
+    ) {}
 
     public function __invoke(): JsonResponse
     {
         $measurementFamilies = $this->measurementFamilyRepository->all();
-        $normalizedMeasurementFamilies = array_map(fn (MeasurementFamily $measurementFamily) => $this->normalizer->normalize($measurementFamily), $measurementFamilies);
+        $normalizedMeasurementFamilies = array_map(fn(MeasurementFamily $measurementFamily) => $this->normalizer->normalize($measurementFamily), $measurementFamilies);
 
         return new JsonResponse($normalizedMeasurementFamilies);
     }

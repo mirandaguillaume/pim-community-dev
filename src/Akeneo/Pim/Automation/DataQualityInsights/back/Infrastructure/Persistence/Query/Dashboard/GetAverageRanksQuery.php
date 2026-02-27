@@ -18,9 +18,7 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetAverageRanksQuery implements GetAverageRanksQueryInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function byFamilies(ChannelCode $channelCode, LocaleCode $localeCode, array $familyCodes): array
     {
@@ -37,12 +35,12 @@ final readonly class GetAverageRanksQuery implements GetAverageRanksQueryInterfa
         $path = sprintf('\'$.average_ranks."%s"."%s"\'', $channelCode, $localeCode);
 
         $query = <<<SQL
-SELECT
-    code,
-    JSON_UNQUOTE(JSON_EXTRACT(scores, $path)) AS average_rank
-FROM pim_data_quality_insights_dashboard_scores_projection
-WHERE type = :type AND code IN (:codes)
-SQL;
+            SELECT
+                code,
+                JSON_UNQUOTE(JSON_EXTRACT(scores, $path)) AS average_rank
+            FROM pim_data_quality_insights_dashboard_scores_projection
+            WHERE type = :type AND code IN (:codes)
+            SQL;
 
         $stmt = $this->connection->executeQuery(
             $query,
@@ -52,7 +50,7 @@ SQL;
             ],
             [
                 'type' => \PDO::PARAM_STR,
-                'codes' => ArrayParameterType::STRING
+                'codes' => ArrayParameterType::STRING,
             ]
         );
 

@@ -13,20 +13,18 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetConnectedAppRoleIdentifierQuery implements GetConnectedAppRoleIdentifierQueryInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function execute(string $appId): ?string
     {
         $query = <<<SQL
-        SELECT role.role
-        FROM akeneo_connectivity_connected_app app
-        JOIN akeneo_connectivity_connection connection ON app.connection_code = connection.code
-        JOIN oro_user_access_role user_role ON connection.user_id = user_role.user_id
-        JOIN oro_access_role role ON role.id = user_role.role_id
-        WHERE app.id = :app_id;
-        SQL;
+            SELECT role.role
+            FROM akeneo_connectivity_connected_app app
+            JOIN akeneo_connectivity_connection connection ON app.connection_code = connection.code
+            JOIN oro_user_access_role user_role ON connection.user_id = user_role.user_id
+            JOIN oro_access_role role ON role.id = user_role.role_id
+            WHERE app.id = :app_id;
+            SQL;
 
         $roleIdentifier = $this->connection->fetchOne(
             $query,

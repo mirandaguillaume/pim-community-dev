@@ -40,8 +40,8 @@ class MetricNormalizer extends AbstractProductValueNormalizer implements Normali
 
         if (null !== $productMetric) {
             return [
-                'data'      => (string)$productMetric->getData(),
-                'base_data' => (string)$productMetric->getBaseData(),
+                'data'      => (string) $productMetric->getData(),
+                'base_data' => (string) $productMetric->getBaseData(),
                 'unit'      => $productMetric->getUnit(),
                 'base_unit' => $productMetric->getBaseUnit(),
             ];

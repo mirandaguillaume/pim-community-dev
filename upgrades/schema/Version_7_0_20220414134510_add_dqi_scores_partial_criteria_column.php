@@ -32,8 +32,8 @@ final class Version_7_0_20220414134510_add_dqi_scores_partial_criteria_column ex
     {
         $this->addSql(
             <<<SQL
-                ALTER TABLE $tableName ADD scores_partial_criteria JSON DEFAULT NULL;
-            SQL
+                    ALTER TABLE $tableName ADD scores_partial_criteria JSON DEFAULT NULL;
+                SQL
         );
     }
 
@@ -41,8 +41,8 @@ final class Version_7_0_20220414134510_add_dqi_scores_partial_criteria_column ex
     {
         $rows = $this->connection->fetchAllAssociative(
             <<<SQL
-                SHOW COLUMNS FROM $tableName LIKE 'scores_partial_criteria'
-            SQL,
+                    SHOW COLUMNS FROM $tableName LIKE 'scores_partial_criteria'
+                SQL,
         );
 
         return count($rows) >= 1;

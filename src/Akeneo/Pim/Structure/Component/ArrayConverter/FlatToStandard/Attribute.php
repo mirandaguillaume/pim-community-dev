@@ -66,23 +66,23 @@ class Attribute implements ArrayConverterInterface
             $guidelinesTokens = explode('-', $field);
             $guidelinesLocaleCode = $guidelinesTokens[1];
             $convertedItem['guidelines'][$guidelinesLocaleCode] = $data;
-        } elseif ('number_min' === $field ||
-            'number_max' === $field ||
-            'max_file_size'=== $field
+        } elseif ('number_min' === $field
+            || 'number_max' === $field
+            || 'max_file_size' === $field
         ) {
             $convertedItem[$field] = $this->convertFloat($data);
-        } elseif ('sort_order' === $field ||
-            'max_characters' === $field ||
-            'minimum_input_length'=== $field
+        } elseif ('sort_order' === $field
+            || 'max_characters' === $field
+            || 'minimum_input_length' === $field
         ) {
             $convertedItem[$field] = ('' === $data) ? null : (int) $data;
-        } elseif ('options' === $field ||
-            'available_locales' === $field ||
-            'allowed_extensions' === $field
+        } elseif ('options' === $field
+            || 'available_locales' === $field
+            || 'allowed_extensions' === $field
         ) {
             $convertedItem[$field] = ('' === $data) ? [] : explode(',', (string) $data);
-        } elseif ('date_min' === $field ||
-            'date_max'=== $field
+        } elseif ('date_min' === $field
+            || 'date_max' === $field
         ) {
             $convertedItem[$field] = $this->convertDate($data);
         } elseif ('table_configuration' === $field) {

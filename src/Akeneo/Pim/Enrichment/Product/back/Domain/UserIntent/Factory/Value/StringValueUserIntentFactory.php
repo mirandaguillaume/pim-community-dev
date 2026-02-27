@@ -35,7 +35,7 @@ class StringValueUserIntentFactory implements ValueUserIntentFactory
             AttributeTypes::FILE,
             AttributeTypes::IMAGE,
             AttributeTypes::REFERENCE_DATA_SIMPLE_SELECT,
-            AttributeTypes::REFERENCE_ENTITY_SIMPLE_SELECT
+            AttributeTypes::REFERENCE_ENTITY_SIMPLE_SELECT,
         ];
     }
 

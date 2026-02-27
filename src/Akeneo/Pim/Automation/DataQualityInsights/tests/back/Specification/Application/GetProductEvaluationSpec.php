@@ -58,7 +58,7 @@ class GetProductEvaluationSpec extends ObjectBehavior
 
         $getLocalesByChannelQuery->getChannelLocaleCollection()->willReturn(new ChannelLocaleCollection([
             'ecommerce' => ['en_US', 'fr_FR'],
-            'mobile' => ['en_US']
+            'mobile' => ['en_US'],
         ]));
 
         $criteriaRegistry->getEnabledCriterionCodes()->willReturn([
@@ -85,7 +85,7 @@ class GetProductEvaluationSpec extends ObjectBehavior
 
         $getLocalesByChannelQuery->getChannelLocaleCollection()->willReturn(new ChannelLocaleCollection([
             'ecommerce' => ['en_US', 'fr_FR'],
-            'mobile' => ['en_US']
+            'mobile' => ['en_US'],
         ]));
 
         $criteriaRegistry->getEnabledCriterionCodes()->willReturn([
@@ -126,7 +126,7 @@ class GetProductEvaluationSpec extends ObjectBehavior
             "ecommerce" => [
                 "en_US" => [
                     [
-                        "code" =>"consistency_spelling",
+                        "code" => "consistency_spelling",
                         "rate" => [
                             "value" => null,
                             "rank" => null,
@@ -186,9 +186,9 @@ class GetProductEvaluationSpec extends ObjectBehavior
         $completenessOfNonRequiredAttributesData = [
             "attributes_with_rates" => [
                 "ecommerce" => [
-                    "en_US" => ["title" => 0, "meta_title" => 0]
-                ]
-            ]
+                    "en_US" => ["title" => 0, "meta_title" => 0],
+                ],
+            ],
         ];
 
         $evaluateSpellingRates = (new ChannelLocaleRateCollection())
@@ -206,8 +206,8 @@ class GetProductEvaluationSpec extends ObjectBehavior
                 ],
                 "mobile" => [
                     "en_US" => [],
-                ]
-            ]
+                ],
+            ],
         ];
 
         return (new CriterionEvaluationCollection())
@@ -287,7 +287,7 @@ class GetProductEvaluationSpec extends ObjectBehavior
                         "status" => CriterionEvaluationResultStatus::DONE,
                     ],
                     [
-                        "code" =>"consistency_spelling",
+                        "code" => "consistency_spelling",
                         "rate" => [
                             "value" => 88,
                             "rank" => "B",
@@ -318,7 +318,7 @@ class GetProductEvaluationSpec extends ObjectBehavior
                         "status" => CriterionEvaluationResultStatus::IN_PROGRESS,
                     ],
                     [
-                        "code" =>"consistency_spelling",
+                        "code" => "consistency_spelling",
                         "rate" => [
                             "value" => null,
                             "rank" => null,
@@ -331,7 +331,7 @@ class GetProductEvaluationSpec extends ObjectBehavior
             "mobile" => [
                 "en_US" => [
                     [
-                        "code" =>"completeness_of_required_attributes",
+                        "code" => "completeness_of_required_attributes",
                         "rate" => [
                             "value" => 70,
                             "rank" => "C",
@@ -349,7 +349,7 @@ class GetProductEvaluationSpec extends ObjectBehavior
                         "status" => CriterionEvaluationResultStatus::IN_PROGRESS,
                     ],
                     [
-                        "code" =>"consistency_spelling",
+                        "code" => "consistency_spelling",
                         "rate" => [
                             "value" => 100,
                             "rank" => "A",
@@ -373,9 +373,9 @@ class GetProductEvaluationSpec extends ObjectBehavior
         $lowercaseWordsAttributesDataDeprecatedFormat = [
             "attributes" => [
                 "ecommerce" => [
-                    "en_US" => ["short_description", "long_description"]
-                ]
-            ]
+                    "en_US" => ["short_description", "long_description"],
+                ],
+            ],
         ];
 
         $lowercaseWordsStatus = (new CriterionEvaluationResultStatusCollection())

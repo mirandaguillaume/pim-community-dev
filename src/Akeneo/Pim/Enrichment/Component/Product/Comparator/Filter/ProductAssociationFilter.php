@@ -21,8 +21,7 @@ class ProductAssociationFilter implements FilterInterface
         private readonly NormalizerInterface $associationsNormalizer,
         private readonly NormalizerInterface $quantifiedAssociationsNormalizer,
         private readonly ComparatorRegistry $comparatorRegistry,
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -78,10 +77,10 @@ class ProductAssociationFilter implements FilterInterface
         $originalQuantifiedAssociations = $this->quantifiedAssociationsNormalizer->normalize($product, 'standard');
 
         if (
-            !$this->hasNewAssociations($newValues) &&
-            !$this->hasNewQuantifiedAssociations($newValues) &&
-            empty($originalAssociations) &&
-            empty($originalQuantifiedAssociations)
+            !$this->hasNewAssociations($newValues)
+            && !$this->hasNewQuantifiedAssociations($newValues)
+            && empty($originalAssociations)
+            && empty($originalQuantifiedAssociations)
         ) {
             return [];
         }

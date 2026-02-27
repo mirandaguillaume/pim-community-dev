@@ -17,31 +17,29 @@ use Webmozart\Assert\Assert;
  */
 class SqlGetCategoryChildrenCodesPerTree implements GetCategoryChildrenCodesPerTreeInterface
 {
-    public function __construct(private readonly Connection $connection, private readonly CategoryCodeFilterInterface $categoryCodeFilter)
-    {
-    }
+    public function __construct(private readonly Connection $connection, private readonly CategoryCodeFilterInterface $categoryCodeFilter) {}
 
     public function executeWithChildren(array $categoryCodes): array
     {
         Assert::allStringNotEmpty($categoryCodes);
 
         $query = <<<SQL
-WITH categoriesByTreeCount (id, code, childrenCodes) AS (
-    SELECT root.id as id, root.code as code, JSON_ARRAYAGG(child.code)
-    FROM pim_catalog_category parent
-             JOIN pim_catalog_category child
-                  ON child.lft >= parent.lft AND child.lft < parent.rgt AND child.root = parent.root
-             JOIN pim_catalog_category root
-                  ON root.id = child.root
-    WHERE parent.code IN (:categoryCodes)
-    GROUP BY root.id
-)
-SELECT c.code, COALESCE(categoriesByTreeCount.childrenCodes, '[]') AS children_codes
-FROM pim_catalog_category c
-    LEFT JOIN categoriesByTreeCount
-        ON categoriesByTreeCount.id = c.id
-WHERE c.parent_id IS NULL;
-SQL;
+            WITH categoriesByTreeCount (id, code, childrenCodes) AS (
+                SELECT root.id as id, root.code as code, JSON_ARRAYAGG(child.code)
+                FROM pim_catalog_category parent
+                         JOIN pim_catalog_category child
+                              ON child.lft >= parent.lft AND child.lft < parent.rgt AND child.root = parent.root
+                         JOIN pim_catalog_category root
+                              ON root.id = child.root
+                WHERE parent.code IN (:categoryCodes)
+                GROUP BY root.id
+            )
+            SELECT c.code, COALESCE(categoriesByTreeCount.childrenCodes, '[]') AS children_codes
+            FROM pim_catalog_category c
+                LEFT JOIN categoriesByTreeCount
+                    ON categoriesByTreeCount.id = c.id
+            WHERE c.parent_id IS NULL;
+            SQL;
         $stmt = $this->connection->executeQuery(
             $query,
             ['categoryCodes' => $categoryCodes],
@@ -63,22 +61,22 @@ SQL;
         Assert::allStringNotEmpty($categoryCodes);
 
         $query = <<<SQL
-WITH categoriesByTreeCount (id, childrenCodes) AS (
-    SELECT
-           root.id as id,
-           JSON_ARRAYAGG(child.code)
-    FROM pim_catalog_category child
-        JOIN pim_catalog_category root
-            ON child.root = root.id
-    WHERE child.code IN (:categoryCodes)
-    GROUP BY child.root
-)
-SELECT c.code, COALESCE(categoriesByTreeCount.childrenCodes, '[]') AS children_codes
-FROM pim_catalog_category c
-    LEFT JOIN categoriesByTreeCount
-        ON categoriesByTreeCount.id = c.id
-WHERE c.parent_id IS NULL;
-SQL;
+            WITH categoriesByTreeCount (id, childrenCodes) AS (
+                SELECT
+                       root.id as id,
+                       JSON_ARRAYAGG(child.code)
+                FROM pim_catalog_category child
+                    JOIN pim_catalog_category root
+                        ON child.root = root.id
+                WHERE child.code IN (:categoryCodes)
+                GROUP BY child.root
+            )
+            SELECT c.code, COALESCE(categoriesByTreeCount.childrenCodes, '[]') AS children_codes
+            FROM pim_catalog_category c
+                LEFT JOIN categoriesByTreeCount
+                    ON categoriesByTreeCount.id = c.id
+            WHERE c.parent_id IS NULL;
+            SQL;
         $stmt = $this->connection->executeQuery(
             $query,
             ['categoryCodes' => $categoryCodes],

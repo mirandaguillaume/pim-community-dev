@@ -13,9 +13,7 @@ use Symfony\Component\Messenger\Stamp\StampInterface;
  */
 final readonly class CorrelationIdStamp implements StampInterface
 {
-    public function __construct(private string $correlationId)
-    {
-    }
+    public function __construct(private string $correlationId) {}
 
     public static function generate(): self
     {

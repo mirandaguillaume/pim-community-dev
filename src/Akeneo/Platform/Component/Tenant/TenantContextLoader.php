@@ -33,9 +33,7 @@ use Throwable;
  */
 final readonly class TenantContextLoader
 {
-    public function __construct(private ContextStoreInterface $contextStore)
-    {
-    }
+    public function __construct(private ContextStoreInterface $contextStore) {}
 
     public function load(Dotenv $dotenv, string $appRootDir): void
     {

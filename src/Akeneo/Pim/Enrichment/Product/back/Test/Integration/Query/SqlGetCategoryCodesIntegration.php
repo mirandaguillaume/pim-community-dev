@@ -46,7 +46,7 @@ final class SqlGetCategoryCodesIntegration extends TestCase
             'family_variant' => 'familyVariantA1',
             'parent' => 'root_a1',
             'values' => [
-                'a_simple_select' => [['locale' => null, 'scope' => null, 'data' => 'optionA']]
+                'a_simple_select' => [['locale' => null, 'scope' => null, 'data' => 'optionA']],
             ],
             'categories' => ['categoryA1'],
         ]);

@@ -10,9 +10,7 @@ use Doctrine\DBAL\Connection;
 
 class SqlGetFamilyTranslations implements GetFamilyTranslations
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function byFamilyCodesAndLocale(array $familyCodes, string $locale): array
     {
@@ -21,19 +19,19 @@ class SqlGetFamilyTranslations implements GetFamilyTranslations
         }
 
         $sql = <<<SQL
-SELECT
-   f.code AS code,
-   trans.label AS label
-FROM pim_catalog_family f
-INNER JOIN pim_catalog_family_translation trans ON f.id = trans.foreign_key
-WHERE f.code IN (:familyCodes)
-AND locale = :locale
-SQL;
+            SELECT
+               f.code AS code,
+               trans.label AS label
+            FROM pim_catalog_family f
+            INNER JOIN pim_catalog_family_translation trans ON f.id = trans.foreign_key
+            WHERE f.code IN (:familyCodes)
+            AND locale = :locale
+            SQL;
         $rows = $this->connection->executeQuery(
             $sql,
             [
                 'familyCodes' => $familyCodes,
-                'locale' => $locale
+                'locale' => $locale,
             ],
             ['familyCodes' => ArrayParameterType::STRING]
         )->fetchAllAssociative();

@@ -32,9 +32,7 @@ class SystemInfoCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
-    {
-    }
+    protected function configure() {}
 
     /**
      * {@inheritdoc}
@@ -74,7 +72,7 @@ class SystemInfoCommand extends Command
             if (!empty($formattedData)) {
                 $formattedData[] = new TableSeparator();
             }
-            $formattedData[] = [$this->translator->trans('pim_analytics.info_type.'.$key), $data];
+            $formattedData[] = [$this->translator->trans('pim_analytics.info_type.' . $key), $data];
         }
 
         return $formattedData;

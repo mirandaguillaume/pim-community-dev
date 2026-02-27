@@ -86,7 +86,7 @@ class GroupNodeDefinition extends AbstractNodeDefinition implements \Countable, 
     {
         usort(
             $this->children,
-            fn (AbstractNodeDefinition $a, AbstractNodeDefinition $b) => $a->getPriority() > $b->getPriority() ? -1 : 1
+            fn(AbstractNodeDefinition $a, AbstractNodeDefinition $b) => $a->getPriority() > $b->getPriority() ? -1 : 1
         );
     }
 
@@ -101,7 +101,7 @@ class GroupNodeDefinition extends AbstractNodeDefinition implements \Countable, 
             $this->getName() => array_intersect_key(
                 $this->definition,
                 array_flip(['title', 'priority', 'description'])
-            )
+            ),
         ];
     }
 

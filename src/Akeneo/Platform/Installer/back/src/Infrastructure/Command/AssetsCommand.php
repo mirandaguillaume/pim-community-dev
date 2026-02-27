@@ -70,7 +70,7 @@ class AssetsCommand extends Command
 
         if (true === $input->getOption('clean')) {
             try {
-                $this->cleanDirectories([$webDir.'bundles', $webDir.'css', $webDir.'js']);
+                $this->cleanDirectories([$webDir . 'bundles', $webDir . 'css', $webDir . 'js']);
             } catch (\Exception $e) {
                 $output->writeln(sprintf('<error>Error during PIM installation. %s</error>', $e->getMessage()));
                 $output->writeln('');
@@ -80,7 +80,7 @@ class AssetsCommand extends Command
         }
 
         $this->commandExecutor
-            ->runCommand('fos:js-routing:dump', ['--format' => 'json', '--target' => $webDir.'js/fos_js_routes.json'])
+            ->runCommand('fos:js-routing:dump', ['--format' => 'json', '--target' => $webDir . 'js/fos_js_routes.json'])
             ->runCommand('assets:install');
 
         $this->eventDispatcher->dispatch($event, InstallerEvents::POST_SYMFONY_ASSETS_DUMP);
@@ -99,7 +99,7 @@ class AssetsCommand extends Command
 
     protected function getWebDir(): string
     {
-        return $this->rootDir.'/../public/';
+        return $this->rootDir . '/../public/';
     }
 
     /**

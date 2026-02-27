@@ -24,7 +24,7 @@ class CurrencyNormalizer implements NormalizerInterface, CacheableSupportsMethod
     /**
      * {@inheritdoc}
      */
-    public function normalize($currency, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($currency, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         return $this->stdNormalizer->normalize($currency, 'standard', $context);
     }

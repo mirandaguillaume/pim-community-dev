@@ -9,28 +9,26 @@ use Doctrine\DBAL\Connection;
 
 class SqlUpdateJobExecutionStatus
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function updateByJobExecutionId(int $jobExecutionId, BatchStatus $batchStatus): void
     {
         $sql = <<<SQL
-UPDATE akeneo_batch_job_execution
-SET `status` = :batch_status, `exit_code` = :exit_code
-WHERE `id` = :job_execution_id
-SQL;
+            UPDATE akeneo_batch_job_execution
+            SET `status` = :batch_status, `exit_code` = :exit_code
+            WHERE `id` = :job_execution_id
+            SQL;
         $this->connection->executeStatement(
             $sql,
             [
                 'batch_status'     => $batchStatus->getValue(),
                 'exit_code'        => $batchStatus->__toString(),
-                'job_execution_id' => $jobExecutionId
+                'job_execution_id' => $jobExecutionId,
             ],
             [
                 'batch_status'     => \PDO::PARAM_INT,
                 'exit_code'        => \PDO::PARAM_STR,
-                'job_execution_id' => \PDO::PARAM_INT
+                'job_execution_id' => \PDO::PARAM_INT,
             ]
         );
     }

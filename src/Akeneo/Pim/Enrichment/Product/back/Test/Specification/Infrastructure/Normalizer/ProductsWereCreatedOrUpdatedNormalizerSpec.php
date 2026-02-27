@@ -12,7 +12,7 @@ use Ramsey\Uuid\Uuid;
 
 final class ProductsWereCreatedOrUpdatedNormalizerSpec extends ObjectBehavior
 {
-    function it_supports_products_were_created_or_updated_objects_for_normalization()
+    public function it_supports_products_were_created_or_updated_objects_for_normalization()
     {
         $object = new ProductsWereCreatedOrUpdated([
             new ProductWasCreated(Uuid::uuid4(), new \DateTimeImmutable()),
@@ -22,7 +22,7 @@ final class ProductsWereCreatedOrUpdatedNormalizerSpec extends ObjectBehavior
         $this->supportsNormalization(new \stdClass())->shouldReturn(false);
     }
 
-    function it_normalizes_products_were_created_or_updated_object()
+    public function it_normalizes_products_were_created_or_updated_object()
     {
         $uuid1 = Uuid::uuid4();
         $uuid2 = Uuid::uuid4();
@@ -39,7 +39,7 @@ final class ProductsWereCreatedOrUpdatedNormalizerSpec extends ObjectBehavior
         ]);
     }
 
-    function it_supports_products_were_created_or_updated_objects_for_denormalization()
+    public function it_supports_products_were_created_or_updated_objects_for_denormalization()
     {
         $object = new ProductsWereCreatedOrUpdated([
             new ProductWasCreated(Uuid::uuid4(), new \DateTimeImmutable()),
@@ -49,7 +49,7 @@ final class ProductsWereCreatedOrUpdatedNormalizerSpec extends ObjectBehavior
         $this->supportsDenormalization(null, 'Other')->shouldReturn(false);
     }
 
-    function it_denormalizes_products_were_created_or_updated_object()
+    public function it_denormalizes_products_were_created_or_updated_object()
     {
         $uuid1 = Uuid::uuid4();
         $uuid2 = Uuid::uuid4();

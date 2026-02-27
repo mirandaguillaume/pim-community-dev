@@ -13,8 +13,7 @@ class JobFileBackuper
 
     public function __construct(
         private readonly FilesystemOperator $filesystemOperator,
-    ) {
-    }
+    ) {}
 
     public function backup(JobExecution $jobExecution, string $localFilePath): void
     {

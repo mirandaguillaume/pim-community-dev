@@ -16,9 +16,7 @@ class JobInstanceFactory
     /**
      * @param string $jobInstanceClass
      */
-    public function __construct(protected $jobInstanceClass)
-    {
-    }
+    public function __construct(protected $jobInstanceClass) {}
 
     /**
      * Create a job instance

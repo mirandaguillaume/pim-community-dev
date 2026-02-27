@@ -63,10 +63,10 @@ class Version_7_0_20230201143400_drop_product_id_columns_and_clean_versioning_re
     private function createProductRelatedVersionWithResourceUuid(): int
     {
         $sql = <<<SQL
-INSERT INTO `pim_versioning_version` (`author`, `resource_name`, `resource_id`, `resource_uuid`, `snapshot`, `changeset`, `context`, `version`, `logged_at`, `pending`)
-VALUES
-	('system', :resource_name, NULL, 'A_UUID', 'a:11:{s:6:\"family\";s:16:\"multifunctionals\";s:6:\"groups\";s:0:\"\";s:10:\"categories\";s:41:\"lexmark,multifunctionals,print_scan_sales\";s:6:\"parent\";s:0:\"\";s:14:\"color_scanning\";s:1:\"0\";s:23:\"description-en_US-print\";s:1477:\"<b>Streamlined Reliability</b>\\nA smart, reliable option for bringing duplex printing, copying, scanning and high-speed faxing into one machine, with up to 40 ppm and the ability to scan documents straight to e-mail or a flash drive.\\n\\n<b>As Easy as It Gets</b>\\nRight out of the box, you’ll power through tasks at exceptionally fast speeds—up to 40 ppm. It’s a breeze to set up, install, and start enjoying the benefit of doing all those multiple tasks on one user-friendly machine.\\n\\n<b>Smarter Printer, Smarter Business</b>\\nThe large LCD color touch screen offers amazingly simple access to a rich range of features, including duplex scanning, advanced copying and easy user authorization for enhanced security. You can even customize the touch screen to meet your workgroup’s specific needs.\\n\\n<b>Small in Size, Huge on Features</b>\\nEnjoy an intelligent, efficient combination of built-in features like duplex printing, copying and scanning plus a front Direct USB port. Gives you the ability to scan to multiple destinations, letting your workgroup breeze through intense workloads.\\n\\n<b>Save the Earth and Money</b>\\nLower your cost per page while helping conserve resources with up to 9,000*-page or 15,000*-page replacement cartridges. Add that to the automatic duplex printing and the energy savings of consolidating to one smart device, and you’re taking big steps toward an eco-conscious workplace. (*Declared yield in accordance with ISO/IEC 19752.)\";s:18:\"maximum_print_size\";s:19:\"legal_216_x_356_mm_\";s:4:\"name\";s:14:\"Lexmark X464de\";s:22:\"release_date-ecommerce\";s:25:\"2012-04-20T00:00:00+00:00\";s:3:\"sku\";s:8:\"13871461\";s:7:\"enabled\";i:1;}', 'a:9:{s:6:\"family\";a:2:{s:3:\"old\";s:0:\"\";s:3:\"new\";s:16:\"multifunctionals\";}s:10:\"categories\";a:2:{s:3:\"old\";s:0:\"\";s:3:\"new\";s:41:\"lexmark,multifunctionals,print_scan_sales\";}s:14:\"color_scanning\";a:2:{s:3:\"old\";s:0:\"\";s:3:\"new\";s:1:\"0\";}s:23:\"description-en_US-print\";a:2:{s:3:\"old\";s:0:\"\";s:3:\"new\";s:1477:\"<b>Streamlined Reliability</b>\\nA smart, reliable option for bringing duplex printing, copying, scanning and high-speed faxing into one machine, with up to 40 ppm and the ability to scan documents straight to e-mail or a flash drive.\\n\\n<b>As Easy as It Gets</b>\\nRight out of the box, you’ll power through tasks at exceptionally fast speeds—up to 40 ppm. It’s a breeze to set up, install, and start enjoying the benefit of doing all those multiple tasks on one user-friendly machine.\\n\\n<b>Smarter Printer, Smarter Business</b>\\nThe large LCD color touch screen offers amazingly simple access to a rich range of features, including duplex scanning, advanced copying and easy user authorization for enhanced security. You can even customize the touch screen to meet your workgroup’s specific needs.\\n\\n<b>Small in Size, Huge on Features</b>\\nEnjoy an intelligent, efficient combination of built-in features like duplex printing, copying and scanning plus a front Direct USB port. Gives you the ability to scan to multiple destinations, letting your workgroup breeze through intense workloads.\\n\\n<b>Save the Earth and Money</b>\\nLower your cost per page while helping conserve resources with up to 9,000*-page or 15,000*-page replacement cartridges. Add that to the automatic duplex printing and the energy savings of consolidating to one smart device, and you’re taking big steps toward an eco-conscious workplace. (*Declared yield in accordance with ISO/IEC 19752.)\";}s:18:\"maximum_print_size\";a:2:{s:3:\"old\";s:0:\"\";s:3:\"new\";s:19:\"legal_216_x_356_mm_\";}s:4:\"name\";a:2:{s:3:\"old\";s:0:\"\";s:3:\"new\";s:14:\"Lexmark X464de\";}s:22:\"release_date-ecommerce\";a:2:{s:3:\"old\";s:0:\"\";s:3:\"new\";s:25:\"2012-04-20T00:00:00+00:00\";}s:3:\"sku\";a:2:{s:3:\"old\";s:0:\"\";s:3:\"new\";s:8:\"13871461\";}s:7:\"enabled\";a:2:{s:3:\"old\";s:0:\"\";s:3:\"new\";i:1;}}', NULL, 1, '2022-07-27 16:20:49', 0);
-SQL;
+            INSERT INTO `pim_versioning_version` (`author`, `resource_name`, `resource_id`, `resource_uuid`, `snapshot`, `changeset`, `context`, `version`, `logged_at`, `pending`)
+            VALUES
+            	('system', :resource_name, NULL, 'A_UUID', 'a:11:{s:6:\"family\";s:16:\"multifunctionals\";s:6:\"groups\";s:0:\"\";s:10:\"categories\";s:41:\"lexmark,multifunctionals,print_scan_sales\";s:6:\"parent\";s:0:\"\";s:14:\"color_scanning\";s:1:\"0\";s:23:\"description-en_US-print\";s:1477:\"<b>Streamlined Reliability</b>\\nA smart, reliable option for bringing duplex printing, copying, scanning and high-speed faxing into one machine, with up to 40 ppm and the ability to scan documents straight to e-mail or a flash drive.\\n\\n<b>As Easy as It Gets</b>\\nRight out of the box, you’ll power through tasks at exceptionally fast speeds—up to 40 ppm. It’s a breeze to set up, install, and start enjoying the benefit of doing all those multiple tasks on one user-friendly machine.\\n\\n<b>Smarter Printer, Smarter Business</b>\\nThe large LCD color touch screen offers amazingly simple access to a rich range of features, including duplex scanning, advanced copying and easy user authorization for enhanced security. You can even customize the touch screen to meet your workgroup’s specific needs.\\n\\n<b>Small in Size, Huge on Features</b>\\nEnjoy an intelligent, efficient combination of built-in features like duplex printing, copying and scanning plus a front Direct USB port. Gives you the ability to scan to multiple destinations, letting your workgroup breeze through intense workloads.\\n\\n<b>Save the Earth and Money</b>\\nLower your cost per page while helping conserve resources with up to 9,000*-page or 15,000*-page replacement cartridges. Add that to the automatic duplex printing and the energy savings of consolidating to one smart device, and you’re taking big steps toward an eco-conscious workplace. (*Declared yield in accordance with ISO/IEC 19752.)\";s:18:\"maximum_print_size\";s:19:\"legal_216_x_356_mm_\";s:4:\"name\";s:14:\"Lexmark X464de\";s:22:\"release_date-ecommerce\";s:25:\"2012-04-20T00:00:00+00:00\";s:3:\"sku\";s:8:\"13871461\";s:7:\"enabled\";i:1;}', 'a:9:{s:6:\"family\";a:2:{s:3:\"old\";s:0:\"\";s:3:\"new\";s:16:\"multifunctionals\";}s:10:\"categories\";a:2:{s:3:\"old\";s:0:\"\";s:3:\"new\";s:41:\"lexmark,multifunctionals,print_scan_sales\";}s:14:\"color_scanning\";a:2:{s:3:\"old\";s:0:\"\";s:3:\"new\";s:1:\"0\";}s:23:\"description-en_US-print\";a:2:{s:3:\"old\";s:0:\"\";s:3:\"new\";s:1477:\"<b>Streamlined Reliability</b>\\nA smart, reliable option for bringing duplex printing, copying, scanning and high-speed faxing into one machine, with up to 40 ppm and the ability to scan documents straight to e-mail or a flash drive.\\n\\n<b>As Easy as It Gets</b>\\nRight out of the box, you’ll power through tasks at exceptionally fast speeds—up to 40 ppm. It’s a breeze to set up, install, and start enjoying the benefit of doing all those multiple tasks on one user-friendly machine.\\n\\n<b>Smarter Printer, Smarter Business</b>\\nThe large LCD color touch screen offers amazingly simple access to a rich range of features, including duplex scanning, advanced copying and easy user authorization for enhanced security. You can even customize the touch screen to meet your workgroup’s specific needs.\\n\\n<b>Small in Size, Huge on Features</b>\\nEnjoy an intelligent, efficient combination of built-in features like duplex printing, copying and scanning plus a front Direct USB port. Gives you the ability to scan to multiple destinations, letting your workgroup breeze through intense workloads.\\n\\n<b>Save the Earth and Money</b>\\nLower your cost per page while helping conserve resources with up to 9,000*-page or 15,000*-page replacement cartridges. Add that to the automatic duplex printing and the energy savings of consolidating to one smart device, and you’re taking big steps toward an eco-conscious workplace. (*Declared yield in accordance with ISO/IEC 19752.)\";}s:18:\"maximum_print_size\";a:2:{s:3:\"old\";s:0:\"\";s:3:\"new\";s:19:\"legal_216_x_356_mm_\";}s:4:\"name\";a:2:{s:3:\"old\";s:0:\"\";s:3:\"new\";s:14:\"Lexmark X464de\";}s:22:\"release_date-ecommerce\";a:2:{s:3:\"old\";s:0:\"\";s:3:\"new\";s:25:\"2012-04-20T00:00:00+00:00\";}s:3:\"sku\";a:2:{s:3:\"old\";s:0:\"\";s:3:\"new\";s:8:\"13871461\";}s:7:\"enabled\";a:2:{s:3:\"old\";s:0:\"\";s:3:\"new\";i:1;}}', NULL, 1, '2022-07-27 16:20:49', 0);
+            SQL;
         $this->connection->executeStatement($sql, ['resource_name' => Product::class]);
 
         return (int) $this->connection->lastInsertId();
@@ -75,10 +75,10 @@ SQL;
     private function createNonProductRelatedVersionWithResourceUuid(): int
     {
         $sql = <<<SQL
-INSERT INTO `pim_versioning_version` (`author`, `resource_name`, `resource_id`, `resource_uuid`, `snapshot`, `changeset`, `context`, `version`, `logged_at`, `pending`)
-VALUES
-	('system', 'Akeneo\\Channel\\Infrastructure\\Component\\Model\\Locale', '6', 'A_UUID', 'a:3:{s:4:\"code\";s:5:\"ar_EG\";s:15:\"view_permission\";s:0:\"\";s:15:\"edit_permission\";s:0:\"\";}', 'a:1:{s:4:\"code\";a:2:{s:3:\"old\";s:0:\"\";s:3:\"new\";s:5:\"ar_EG\";}}', NULL, 1, '2022-07-27 16:20:26', 0);
-SQL;
+            INSERT INTO `pim_versioning_version` (`author`, `resource_name`, `resource_id`, `resource_uuid`, `snapshot`, `changeset`, `context`, `version`, `logged_at`, `pending`)
+            VALUES
+            	('system', 'Akeneo\\Channel\\Infrastructure\\Component\\Model\\Locale', '6', 'A_UUID', 'a:3:{s:4:\"code\";s:5:\"ar_EG\";s:15:\"view_permission\";s:0:\"\";s:15:\"edit_permission\";s:0:\"\";}', 'a:1:{s:4:\"code\";a:2:{s:3:\"old\";s:0:\"\";s:3:\"new\";s:5:\"ar_EG\";}}', NULL, 1, '2022-07-27 16:20:26', 0);
+            SQL;
         $this->connection->executeStatement($sql);
 
         return (int) $this->connection->lastInsertId();
@@ -109,14 +109,14 @@ SQL;
     private function createDummyTriggersToBeRemoved(): void
     {
         $createDummyTriggerQuery = <<<SQL
-Create Trigger %s
-BEFORE INSERT ON pim_catalog_category_product FOR EACH ROW  
-BEGIN  
-IF NEW.product_uuid IS NULL THEN SET NEW.category_id = 1;  
-END IF;  
-END
-SQL;
-        foreach(V20220729171405DropProductIdColumnsAndCleanVersioningResourceUuidColumns::TABLES_TO_UPDATE as $tableName => $properties) {
+            Create Trigger %s
+            BEFORE INSERT ON pim_catalog_category_product FOR EACH ROW  
+            BEGIN  
+            IF NEW.product_uuid IS NULL THEN SET NEW.category_id = 1;  
+            END IF;  
+            END
+            SQL;
+        foreach (V20220729171405DropProductIdColumnsAndCleanVersioningResourceUuidColumns::TABLES_TO_UPDATE as $tableName => $properties) {
             if (!$this->connection->getSchemaManager()->tablesExist([$tableName])) {
                 continue;
             }
@@ -156,12 +156,12 @@ SQL;
     private function createDummyColumnsToBeRemoved(): void
     {
         $addColumnQuery = <<<SQL
-ALTER TABLE %s
-    ADD COLUMN %s INT,
-    ADD COLUMN dummy INT,
-    ADD CONSTRAINT UNIQUE (%s, dummy),
-    ADD CONSTRAINT FOREIGN KEY(%s) REFERENCES pim_catalog_product(id);
-SQL;
+            ALTER TABLE %s
+                ADD COLUMN %s INT,
+                ADD COLUMN dummy INT,
+                ADD CONSTRAINT UNIQUE (%s, dummy),
+                ADD CONSTRAINT FOREIGN KEY(%s) REFERENCES pim_catalog_product(id);
+            SQL;
         foreach (V20220729171405DropProductIdColumnsAndCleanVersioningResourceUuidColumns::TABLES_TO_UPDATE as $table => $properties) {
             if ($this->connection->getSchemaManager()->tablesExist($table) && null !== $properties['column']) {
                 $query = \sprintf($addColumnQuery, $table, $properties['column'], $properties['column'], $properties['column']);

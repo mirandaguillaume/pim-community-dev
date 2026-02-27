@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Pim\Upgrade\Schema;
 
@@ -25,11 +27,11 @@ final class Version_6_0_20210415130338_mark_job_execution_as_failed_when_interru
     {
         $this->addSql(
             <<<SQL
-UPDATE akeneo_batch_job_execution job_execution
-SET job_execution.status = :failedStatus, job_execution.exit_code = :failedExitCode
-WHERE job_execution.status IN (:runningStatuses)
-AND job_execution.health_check_time IS NULL;
-SQL,
+                UPDATE akeneo_batch_job_execution job_execution
+                SET job_execution.status = :failedStatus, job_execution.exit_code = :failedExitCode
+                WHERE job_execution.status IN (:runningStatuses)
+                AND job_execution.health_check_time IS NULL;
+                SQL,
             [
                 'failedStatus' => BatchStatus::FAILED,
                 'failedExitCode' => ExitStatus::FAILED,

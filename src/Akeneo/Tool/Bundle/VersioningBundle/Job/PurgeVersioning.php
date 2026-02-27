@@ -21,8 +21,7 @@ final class PurgeVersioning implements TaskletInterface
 
     public function __construct(
         private readonly VersionPurgerInterface $versionPurger,
-    ) {
-    }
+    ) {}
 
     public function setStepExecution(StepExecution $stepExecution): void
     {
@@ -32,12 +31,12 @@ final class PurgeVersioning implements TaskletInterface
     public function execute(): void
     {
         $purgeOptions = [];
-        $purgeOptions['batch_size'] = (int)$this->stepExecution->getJobParameters()->get('batch-size');
+        $purgeOptions['batch_size'] = (int) $this->stepExecution->getJobParameters()->get('batch-size');
 
-        $moreThanDays = null !== $this->stepExecution->getJobParameters()->get('more-than-days') ?
-            (int)$this->stepExecution->getJobParameters()->get('more-than-days') : null;
-        $lessThanDays = null !== $this->stepExecution->getJobParameters()->get('less-than-days') ?
-            (int)$this->stepExecution->getJobParameters()->get('less-than-days') : null;
+        $moreThanDays = null !== $this->stepExecution->getJobParameters()->get('more-than-days')
+            ? (int) $this->stepExecution->getJobParameters()->get('more-than-days') : null;
+        $lessThanDays = null !== $this->stepExecution->getJobParameters()->get('less-than-days')
+            ? (int) $this->stepExecution->getJobParameters()->get('less-than-days') : null;
 
         if (null !== $lessThanDays || null !== $moreThanDays) {
             $purgeOptions['days_number'] = $lessThanDays ?: $moreThanDays;

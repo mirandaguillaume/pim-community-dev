@@ -18,9 +18,7 @@ final class PurgeOutdatedDataTasklet implements TaskletInterface
 {
     private ?\Akeneo\Tool\Component\Batch\Model\StepExecution $stepExecution = null;
 
-    public function __construct(private readonly PurgeOutdatedData $purgeOutdatedData, private readonly LoggerInterface $logger)
-    {
-    }
+    public function __construct(private readonly PurgeOutdatedData $purgeOutdatedData, private readonly LoggerInterface $logger) {}
 
     /**
      * @inheritDoc
@@ -44,7 +42,7 @@ final class PurgeOutdatedDataTasklet implements TaskletInterface
             $this->stepExecution->addFailureException($exception);
             $this->logger->error('Purge Data-Quality-Insights outdated data failed.', [
                 'step_execution_id' => $this->stepExecution->getId(),
-                'message' => $exception->getMessage()
+                'message' => $exception->getMessage(),
             ]);
         }
     }

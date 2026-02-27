@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Automation\DataQualityInsights\Domain\Model;
@@ -43,7 +44,7 @@ final class LocaleCollection implements \IteratorAggregate, \Countable
     public function toArrayString(): array
     {
         return array_values(
-            array_map(fn (LocaleCode $localeCode) => $localeCode->__toString(), $this->localeCodes)
+            array_map(fn(LocaleCode $localeCode) => $localeCode->__toString(), $this->localeCodes)
         );
     }
 }

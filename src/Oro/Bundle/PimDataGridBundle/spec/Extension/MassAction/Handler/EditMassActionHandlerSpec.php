@@ -14,12 +14,12 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class EditMassActionHandlerSpec extends ObjectBehavior
 {
-    function let(HydratorInterface $hydrator, EventDispatcherInterface $eventDispatcher)
+    public function let(HydratorInterface $hydrator, EventDispatcherInterface $eventDispatcher)
     {
         $this->beConstructedWith($hydrator, $eventDispatcher);
     }
 
-    function it_handles_edit_mass_action(
+    public function it_handles_edit_mass_action(
         $eventDispatcher,
         $hydrator,
         DatagridInterface $datagrid,

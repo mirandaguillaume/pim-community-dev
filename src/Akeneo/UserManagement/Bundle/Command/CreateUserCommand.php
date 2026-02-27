@@ -28,13 +28,13 @@ use Symfony\Component\Console\Attribute\AsCommand;
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 #[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:user:create', description: <<<DESC
-Creates a PIM user. This command can be launched interactively or non interactively (with the "-n" option). 
-When launched non interactively you have to provide arguments to the command. For instance:
+    Creates a PIM user. This command can be launched interactively or non interactively (with the "-n" option). 
+    When launched non interactively you have to provide arguments to the command. For instance:
 
-    pim:user:create kbeck secretp@ssw0rd kbeck@example.com Kent Beck en_US --admin -n
+        pim:user:create kbeck secretp@ssw0rd kbeck@example.com Kent Beck en_US --admin -n
 
-When launched interactively, command arguments will be ignored.'
-DESC)]
+    When launched interactively, command arguments will be ignored.'
+    DESC)]
 class CreateUserCommand extends Command
 {
     /** @var string */

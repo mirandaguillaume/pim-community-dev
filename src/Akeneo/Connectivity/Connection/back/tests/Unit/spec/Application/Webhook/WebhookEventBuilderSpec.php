@@ -197,7 +197,7 @@ class WebhookEventBuilderSpec extends ObjectBehavior
                 'user' => $user,
                 'connection_code' => 'ecommerce',
                 'is_using_uuid' => true,
-            ]
+            ],
         ]);
     }
 
@@ -305,7 +305,7 @@ class WebhookEventBuilderSpec extends ObjectBehavior
 
     private function createEvent(Author $author, array $data, int $timestamp, string $uuid): EventInterface
     {
-        return new class($author, $data, $timestamp, $uuid) extends Event {
+        return new class ($author, $data, $timestamp, $uuid) extends Event {
             public function getName(): string
             {
                 return 'product.created';

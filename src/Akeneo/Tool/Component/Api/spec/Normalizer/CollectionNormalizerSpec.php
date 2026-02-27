@@ -9,25 +9,25 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class CollectionNormalizerSpec extends ObjectBehavior
 {
-    function let(SerializerInterface $serializer)
+    public function let(SerializerInterface $serializer)
     {
         $serializer->implement(\Symfony\Component\Serializer\Normalizer\NormalizerInterface::class);
         $this->setSerializer($serializer);
     }
 
-    function it_is_a_serializer_aware_normalizer()
+    public function it_is_a_serializer_aware_normalizer()
     {
         $this->shouldBeAnInstanceOf(\Symfony\Component\Serializer\Normalizer\NormalizerInterface::class);
         $this->shouldBeAnInstanceOf(\Symfony\Component\Serializer\SerializerAwareInterface::class);
     }
 
-    function it_supports_iterables()
+    public function it_supports_iterables()
     {
         $this->supportsNormalization(new ArrayCollection([]), 'external_api')->shouldReturn(true);
         $this->supportsNormalization([], 'external_api')->shouldReturn(true);
     }
 
-    function it_normalize_collection_of_families(
+    public function it_normalize_collection_of_families(
         $serializer,
         FamilyInterface $familyA,
         FamilyInterface $familyB,
@@ -119,7 +119,7 @@ class CollectionNormalizerSpec extends ObjectBehavior
                         ],
                     ],
                     'labels' => [],
-                ]
+                ],
             ]
         );
     }

@@ -19,9 +19,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class StructureVersionUpdater implements EventSubscriberInterface
 {
-    public function __construct(protected ManagerRegistry $doctrine)
-    {
-    }
+    public function __construct(protected ManagerRegistry $doctrine) {}
 
     /**
      * {@inheritdoc}
@@ -70,8 +68,8 @@ class StructureVersionUpdater implements EventSubscriberInterface
     private function replaceVersionLastUpdate($subject): void
     {
         $sql = <<<'SQL'
-REPLACE INTO akeneo_structure_version_last_update SET resource_name = :resource_name, last_update = now();
-SQL;
+            REPLACE INTO akeneo_structure_version_last_update SET resource_name = :resource_name, last_update = now();
+            SQL;
 
         $connection = $this->doctrine->getConnection();
         $connection->executeStatement($sql, [

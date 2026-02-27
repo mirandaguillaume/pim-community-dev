@@ -13,9 +13,7 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetAllConnectedAppsPublicIdsQuery implements GetAllConnectedAppsPublicIdsInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     /**
      * @return string[]
@@ -23,11 +21,11 @@ final readonly class GetAllConnectedAppsPublicIdsQuery implements GetAllConnecte
     public function execute(): array
     {
         $query = <<<SQL
-SELECT pim_api_client.marketplace_public_app_id
-FROM akeneo_connectivity_connected_app
-JOIN akeneo_connectivity_connection ON akeneo_connectivity_connected_app.connection_code = akeneo_connectivity_connection.code
-JOIN pim_api_client on akeneo_connectivity_connection.client_id = pim_api_client.id
-SQL;
+            SELECT pim_api_client.marketplace_public_app_id
+            FROM akeneo_connectivity_connected_app
+            JOIN akeneo_connectivity_connection ON akeneo_connectivity_connected_app.connection_code = akeneo_connectivity_connection.code
+            JOIN pim_api_client on akeneo_connectivity_connection.client_id = pim_api_client.id
+            SQL;
 
         return $this->connection->fetchFirstColumn($query);
     }

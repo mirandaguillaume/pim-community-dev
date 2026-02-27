@@ -20,8 +20,7 @@ class MigrateToUuidCreateIndexes implements MigrateToUuidStep
     public function __construct(
         private readonly Connection $connection,
         private readonly LoggerInterface $logger
-    ) {
-    }
+    ) {}
 
     public function getDescription(): string
     {
@@ -122,8 +121,8 @@ class MigrateToUuidCreateIndexes implements MigrateToUuidStep
         bool $lockTables
     ): void {
         $addUuidColumnAndIndexOnUuidSql = <<<SQL
-            ALTER TABLE `{table_name}` ADD {unique} INDEX `{index_name}` (`{uuid_column_name}`){algorithmInplace};
-        SQL;
+                ALTER TABLE `{table_name}` ADD {unique} INDEX `{index_name}` (`{uuid_column_name}`){algorithmInplace};
+            SQL;
 
         $addUuidColumnAndIndexOnUuidQuery = \strtr(
             $addUuidColumnAndIndexOnUuidSql,
@@ -150,9 +149,9 @@ class MigrateToUuidCreateIndexes implements MigrateToUuidStep
     ): void {
         $this->connection->executeQuery(\strtr(
             <<<SQL
-            ALTER TABLE `{tableName}`
-            ADD INDEX `{indexName}` (`{columnNames}`){algorithmInplace};
-            SQL,
+                ALTER TABLE `{tableName}`
+                ADD INDEX `{indexName}` (`{columnNames}`){algorithmInplace};
+                SQL,
             [
                 '{tableName}' => $tableName,
                 '{indexName}' => $indexName,

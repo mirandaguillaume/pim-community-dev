@@ -71,7 +71,7 @@ class GroupsFilter extends AjaxChoiceFilter
                     'options'      => [
                         'type' => 'code',
                     ],
-                ]
+                ],
             ]
         );
     }

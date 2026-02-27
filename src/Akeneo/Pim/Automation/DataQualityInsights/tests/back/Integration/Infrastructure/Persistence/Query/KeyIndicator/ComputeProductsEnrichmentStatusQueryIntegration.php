@@ -37,7 +37,7 @@ final class ComputeProductsEnrichmentStatusQueryIntegration extends DataQualityI
             'family_with_5_attributes',
             [
                 'attributes' => ['sku', 'name', 'title', 'description', 'weight'],
-                'attribute_requirements' => ['ecommerce' => ['sku', 'name', 'title'], 'mobile' => ['sku']]
+                'attribute_requirements' => ['ecommerce' => ['sku', 'name', 'title'], 'mobile' => ['sku']],
             ]
         );
 
@@ -76,7 +76,7 @@ final class ComputeProductsEnrichmentStatusQueryIntegration extends DataQualityI
             ],
             'mobile' => [
                 'en_US' => true,
-            ]
+            ],
         ]];
 
         return $expectedEnrichmentStatus;
@@ -101,7 +101,7 @@ final class ComputeProductsEnrichmentStatusQueryIntegration extends DataQualityI
             ],
             'mobile' => [
                 'en_US' => false,
-            ]
+            ],
         ]];
 
         return $expectedEnrichmentStatus;
@@ -126,7 +126,7 @@ final class ComputeProductsEnrichmentStatusQueryIntegration extends DataQualityI
             ],
             'mobile' => [
                 'en_US' => null,
-            ]
+            ],
         ]];
     }
 
@@ -138,11 +138,12 @@ final class ComputeProductsEnrichmentStatusQueryIntegration extends DataQualityI
             new SetTextValue('description', 'mobile', null, 'Sample A'),
         ]);
 
-        $this->get('database_connection')->executeQuery(<<<SQL
-UPDATE pim_data_quality_insights_product_criteria_evaluation
-SET result = null, evaluated_at = null, status = 'pending' 
-WHERE product_uuid = :productUuid;
-SQL,
+        $this->get('database_connection')->executeQuery(
+            <<<SQL
+                UPDATE pim_data_quality_insights_product_criteria_evaluation
+                SET result = null, evaluated_at = null, status = 'pending' 
+                WHERE product_uuid = :productUuid;
+                SQL,
             ['productUuid' => $product->getUuid()->getBytes()]
         );
 
@@ -153,7 +154,7 @@ SQL,
             ],
             'mobile' => [
                 'en_US' => null,
-            ]
+            ],
         ]];
     }
 }

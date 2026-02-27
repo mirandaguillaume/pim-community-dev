@@ -13,9 +13,7 @@ use Akeneo\Category\Domain\UserIntent\UserIntentFactoryRegistry;
  */
 class StandardFormatToUserIntents implements StandardFormatToUserIntentsInterface
 {
-    public function __construct(private readonly UserIntentFactoryRegistry $userIntentFactoryRegistry)
-    {
-    }
+    public function __construct(private readonly UserIntentFactoryRegistry $userIntentFactoryRegistry) {}
 
     /**
      * @param array<string, mixed> $standardFormat

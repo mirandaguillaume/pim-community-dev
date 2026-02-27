@@ -34,16 +34,14 @@ class ProductNormalizer implements NormalizerInterface, CacheableSupportsMethodI
     /** @var string[] */
     protected array $supportedFormat = ['internal_api'];
 
-    public function __construct(protected NormalizerInterface $normalizer, protected NormalizerInterface $versionNormalizer, protected VersionManager $versionManager, protected ImageNormalizer $imageNormalizer, protected LocaleRepositoryInterface $localeRepository, protected StructureVersionProviderInterface $structureVersionProvider, protected FormProviderInterface $formProvider, protected AttributeConverterInterface $localizedConverter, protected ConverterInterface $productValueConverter, protected ProductCompletenessWithMissingAttributeCodesCollectionNormalizer $completenessCollectionNormalizer, protected UserContext $userContext, protected FillMissingValuesInterface $fillMissingProductValues, protected EntityWithFamilyVariantAttributesProvider $attributesProvider, protected VariantNavigationNormalizer $navigationNormalizer, protected AscendantCategoriesInterface $ascendantCategoriesQuery, private readonly MissingAssociationAdder $missingAssociationAdder, private readonly NormalizerInterface $parentAssociationsNormalizer, protected CatalogContext $catalogContext, private readonly MissingRequiredAttributesNormalizerInterface $missingRequiredAttributesNormalizer, private readonly QuantifiedAssociationsNormalizer $quantifiedAssociationsNormalizer, private readonly MissingRequiredAttributesCalculatorInterface $missingRequiredAttributesCalculator)
-    {
-    }
+    public function __construct(protected NormalizerInterface $normalizer, protected NormalizerInterface $versionNormalizer, protected VersionManager $versionManager, protected ImageNormalizer $imageNormalizer, protected LocaleRepositoryInterface $localeRepository, protected StructureVersionProviderInterface $structureVersionProvider, protected FormProviderInterface $formProvider, protected AttributeConverterInterface $localizedConverter, protected ConverterInterface $productValueConverter, protected ProductCompletenessWithMissingAttributeCodesCollectionNormalizer $completenessCollectionNormalizer, protected UserContext $userContext, protected FillMissingValuesInterface $fillMissingProductValues, protected EntityWithFamilyVariantAttributesProvider $attributesProvider, protected VariantNavigationNormalizer $navigationNormalizer, protected AscendantCategoriesInterface $ascendantCategoriesQuery, private readonly MissingAssociationAdder $missingAssociationAdder, private readonly NormalizerInterface $parentAssociationsNormalizer, protected CatalogContext $catalogContext, private readonly MissingRequiredAttributesNormalizerInterface $missingRequiredAttributesNormalizer, private readonly QuantifiedAssociationsNormalizer $quantifiedAssociationsNormalizer, private readonly MissingRequiredAttributesCalculatorInterface $missingRequiredAttributesCalculator) {}
 
     /**
      * {@inheritdoc}
      *
      * @param ProductInterface $product
      */
-    public function normalize($product, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($product, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $this->missingAssociationAdder->addMissingAssociations($product);
         $normalizedProduct = $this->normalizer->normalize($product, 'standard', $context);
@@ -58,14 +56,14 @@ class ProductNormalizer implements NormalizerInterface, CacheableSupportsMethodI
         $oldestLog = $this->versionManager->getOldestLogEntry($product);
         $newestLog = $this->versionManager->getNewestLogEntry($product);
 
-        $created = null !== $oldestLog ?
-            $this->versionNormalizer->normalize(
+        $created = null !== $oldestLog
+            ? $this->versionNormalizer->normalize(
                 $oldestLog,
                 'internal_api',
                 ['timezone' => $this->userContext->getUserTimezone()]
             ) : null;
-        $updated = null !== $newestLog ?
-            $this->versionNormalizer->normalize(
+        $updated = null !== $newestLog
+            ? $this->versionNormalizer->normalize(
                 $newestLog,
                 'internal_api',
                 ['timezone' => $this->userContext->getUserTimezone()]
@@ -95,8 +93,8 @@ class ProductNormalizer implements NormalizerInterface, CacheableSupportsMethodI
             'parent_quantified_associations' => $this->formatQuantifiedAssociations($this->quantifiedAssociationsNormalizer->normalizeOnlyParentsAssociations($product, 'standard', $context)),
         ] + $this->getLabels($product, $scopeCode) + $this->getAssociationMeta($product);
 
-        $normalizedProduct['meta']['ascendant_category_ids'] = $product->isVariant() ?
-            $this->ascendantCategoriesQuery->getCategoryIds($product) : [];
+        $normalizedProduct['meta']['ascendant_category_ids'] = $product->isVariant()
+            ? $this->ascendantCategoriesQuery->getCategoryIds($product) : [];
 
         $normalizedProduct['meta'] += $this->getMetaForVariantProduct($product, $format, $context);
 
@@ -142,7 +140,7 @@ class ProductNormalizer implements NormalizerInterface, CacheableSupportsMethodI
         foreach ($associations as $association) {
             $associationType = $association->getAssociationType();
             $meta[$associationType->getCode()]['groupIds'] = array_map(
-                fn ($group) => $group->getId(),
+                fn($group) => $group->getId(),
                 $association->getGroups()->toArray()
             );
         }
@@ -228,9 +226,9 @@ class ProductNormalizer implements NormalizerInterface, CacheableSupportsMethodI
     private function formatQuantifiedAssociations(array $quantifiedAssociations): array
     {
         return array_map(static function (array $quantifiedAssociation) {
-            $quantifiedAssociation['products'] = array_map(static fn (array $productLink) => array_filter(
+            $quantifiedAssociation['products'] = array_map(static fn(array $productLink) => array_filter(
                 $productLink,
-                fn (string $key): bool => in_array($key, ['uuid', 'quantity']),
+                fn(string $key): bool => in_array($key, ['uuid', 'quantity']),
                 ARRAY_FILTER_USE_KEY
             ), $quantifiedAssociation['products']);
 

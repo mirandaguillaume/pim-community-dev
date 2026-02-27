@@ -17,8 +17,7 @@ class CleanCategoryTemplateAndEnrichedValuesOnTemplateDeactivatedSubscriber impl
         private readonly JobInstanceRepository $jobInstanceRepository,
         private readonly JobLauncherInterface $jobLauncher,
         private readonly TokenStorageInterface $tokenStorage,
-    ) {
-    }
+    ) {}
 
     public static function getSubscribedEvents(): array
     {

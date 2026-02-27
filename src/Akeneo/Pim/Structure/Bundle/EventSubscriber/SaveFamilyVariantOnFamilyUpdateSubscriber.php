@@ -24,8 +24,7 @@ class SaveFamilyVariantOnFamilyUpdateSubscriber implements EventSubscriberInterf
     public function __construct(
         private readonly ValidatorInterface $validator,
         private readonly BulkSaverInterface $bulkFamilyVariantSaver
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -95,7 +94,7 @@ class SaveFamilyVariantOnFamilyUpdateSubscriber implements EventSubscriberInterf
             return;
         }
 
-        $families = \array_filter($subjects, static fn ($subject): bool => $subject instanceof FamilyInterface);
+        $families = \array_filter($subjects, static fn($subject): bool => $subject instanceof FamilyInterface);
 
         if (\count($families) === 0) {
             return;

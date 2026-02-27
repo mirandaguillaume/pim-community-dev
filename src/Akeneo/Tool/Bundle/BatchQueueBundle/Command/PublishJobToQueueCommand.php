@@ -52,8 +52,8 @@ class PublishJobToQueueCommand extends Command
                 'config',
                 'c',
                 InputOption::VALUE_REQUIRED,
-                'Override job configuration (formatted as json. ie: ' .
-                'php bin/console publish-job-to-queue -c "{\"filePath\":\"/tmp/foo.csv\"}" acme_product_import)'
+                'Override job configuration (formatted as json. ie: '
+                . 'php bin/console publish-job-to-queue -c "{\"filePath\":\"/tmp/foo.csv\"}" acme_product_import)'
             )
             ->addOption(
                 'username',

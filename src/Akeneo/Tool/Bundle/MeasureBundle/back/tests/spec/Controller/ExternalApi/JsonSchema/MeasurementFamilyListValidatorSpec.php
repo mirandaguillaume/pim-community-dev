@@ -9,12 +9,12 @@ use PhpSpec\ObjectBehavior;
 
 class MeasurementFamilyListValidatorSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(MeasurementFamilyListValidator::class);
     }
 
-    function it_returns_the_errors_of_an_invalid_list_of_measurement_families()
+    public function it_returns_the_errors_of_an_invalid_list_of_measurement_families()
     {
         $measurementFamilyList = [['not a object'], 'not an array'];
 
@@ -23,7 +23,7 @@ class MeasurementFamilyListValidatorSpec extends ObjectBehavior
         $errors->shouldHaveCount(3);
     }
 
-    function it_returns_an_empty_array_if_the_list_of_measurement_families_is_valid()
+    public function it_returns_an_empty_array_if_the_list_of_measurement_families_is_valid()
     {
         $measurementFamilyList = [
             [
@@ -31,7 +31,7 @@ class MeasurementFamilyListValidatorSpec extends ObjectBehavior
             ],
             [
                 'code' => 'dyson',
-            ]
+            ],
         ];
 
         $this->validate($measurementFamilyList)->shouldBe([]);

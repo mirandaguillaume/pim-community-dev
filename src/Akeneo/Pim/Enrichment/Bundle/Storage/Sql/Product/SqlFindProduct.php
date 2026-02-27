@@ -14,9 +14,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Repository\ProductRepositoryInterfac
  */
 final readonly class SqlFindProduct implements FindProduct
 {
-    public function __construct(private ProductRepositoryInterface $productRepository)
-    {
-    }
+    public function __construct(private ProductRepositoryInterface $productRepository) {}
 
     public function withUuid(string $uuid): ?ProductInterface
     {

@@ -18,9 +18,7 @@ use Symfony\Component\Yaml\Parser;
  */
 class Loader
 {
-    public function __construct(private readonly array $configurationFiles, private readonly ParameterBagInterface $parameterBag)
-    {
-    }
+    public function __construct(private readonly array $configurationFiles, private readonly ParameterBagInterface $parameterBag) {}
 
     /**
      * Load the Elasticsearch index configuration from multiple YAML files.

@@ -7,13 +7,13 @@ use PhpSpec\ObjectBehavior;
 
 class CachedQueriesClearerSpec extends ObjectBehavior
 {
-    function it_clear_all_cached_queries(
+    public function it_clear_all_cached_queries(
         CachedQueryInterface $cachedQuery1,
         CachedQueryInterface $cachedQuery2
     ) {
         $this->beConstructedWith([
             $cachedQuery1,
-            $cachedQuery2
+            $cachedQuery2,
         ]);
 
         $cachedQuery1->clearCache()->shouldBeCalledOnce();
@@ -22,7 +22,7 @@ class CachedQueriesClearerSpec extends ObjectBehavior
         $this->clear();
     }
 
-    function it_throws_an_exception_when_query_is_not_a_cached_query(
+    public function it_throws_an_exception_when_query_is_not_a_cached_query(
         CachedQueryInterface $cachedQuery1,
         \stdClass $LRUCache
     ) {

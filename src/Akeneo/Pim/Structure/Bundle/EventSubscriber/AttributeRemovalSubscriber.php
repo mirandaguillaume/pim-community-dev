@@ -34,8 +34,7 @@ class AttributeRemovalSubscriber implements EventSubscriberInterface
         private readonly IdentifiableObjectRepositoryInterface $jobInstanceRepository,
         private readonly TokenStorageInterface $tokenStorage,
         private readonly EventDispatcherInterface $eventDispatcher
-    ) {
-    }
+    ) {}
 
     public static function getSubscribedEvents(): array
     {

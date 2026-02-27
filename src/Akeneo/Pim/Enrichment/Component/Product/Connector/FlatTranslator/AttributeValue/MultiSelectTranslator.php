@@ -16,9 +16,7 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeOption\GetExistingAt
 
 class MultiSelectTranslator implements FlatAttributeValueTranslatorInterface
 {
-    public function __construct(private readonly GetExistingAttributeOptionsWithValues $getExistingAttributeOptionsWithValues)
-    {
-    }
+    public function __construct(private readonly GetExistingAttributeOptionsWithValues $getExistingAttributeOptionsWithValues) {}
 
     public function supports(string $attributeType, string $columnName): bool
     {
@@ -66,7 +64,7 @@ class MultiSelectTranslator implements FlatAttributeValueTranslatorInterface
             }
             $optionCodes = explode(',', (string) $value);
             $currentOptionKeys = array_map(
-                static fn ($optionCode) => self::generateOptionKey($attributeCode, $optionCode),
+                static fn($optionCode) => self::generateOptionKey($attributeCode, $optionCode),
                 $optionCodes
             );
 

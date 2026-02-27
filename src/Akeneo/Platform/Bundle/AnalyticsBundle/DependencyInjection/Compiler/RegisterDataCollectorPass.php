@@ -35,7 +35,7 @@ class RegisterDataCollectorPass implements CompilerPassInterface
                     'addCollector',
                     [
                         new Reference($serviceId),
-                        $tag['type']
+                        $tag['type'],
                     ]
                 );
             }

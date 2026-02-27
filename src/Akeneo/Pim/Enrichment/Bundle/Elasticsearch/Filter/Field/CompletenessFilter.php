@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Bundle\Elasticsearch\Filter\Field;
@@ -131,8 +132,8 @@ class CompletenessFilter extends AbstractFieldFilter implements FieldFilterInter
                     $field = sprintf('completeness.%s.%s', $channel, $locale);
                     $clause = [
                         'term' => [
-                            $field => $value
-                        ]
+                            $field => $value,
+                        ],
                     ];
 
                     $shouldClauses[] = $clause;
@@ -149,9 +150,9 @@ class CompletenessFilter extends AbstractFieldFilter implements FieldFilterInter
                     $clause = [
                         'range' => [
                             $field => [
-                                'lt' => $value
-                            ]
-                        ]
+                                'lt' => $value,
+                            ],
+                        ],
                     ];
 
                     $shouldClauses[] = $clause;
@@ -167,9 +168,9 @@ class CompletenessFilter extends AbstractFieldFilter implements FieldFilterInter
                     $clause = [
                         'range' => [
                             $field => [
-                                'gt' => $value
-                            ]
-                        ]
+                                'gt' => $value,
+                            ],
+                        ],
                     ];
 
                     $shouldClauses[] = $clause;

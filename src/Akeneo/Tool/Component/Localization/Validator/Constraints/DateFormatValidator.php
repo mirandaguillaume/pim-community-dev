@@ -15,9 +15,7 @@ use Symfony\Component\Validator\ConstraintValidator;
  */
 class DateFormatValidator extends ConstraintValidator
 {
-    public function __construct(protected DateFactory $factory)
-    {
-    }
+    public function __construct(protected DateFactory $factory) {}
 
     /**
      * {@inheritdoc}
@@ -36,7 +34,7 @@ class DateFormatValidator extends ConstraintValidator
 
         if (false === $formatter->parse($date) || !$hasSameSeparators) {
             $violation = $this->context->buildViolation($constraint->message, [
-                '{{ date_format }}' => $constraint->dateFormat
+                '{{ date_format }}' => $constraint->dateFormat,
             ]);
             $violation->atPath($constraint->path);
 

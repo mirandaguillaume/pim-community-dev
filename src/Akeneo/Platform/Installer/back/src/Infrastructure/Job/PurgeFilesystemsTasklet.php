@@ -28,8 +28,7 @@ final class PurgeFilesystemsTasklet implements TaskletInterface
         private readonly FilesystemPurger $filesystemPurger,
         private readonly iterable $filesystems,
         private readonly JobStopper $jobStopper,
-    ) {
-    }
+    ) {}
 
     public function setStepExecution(StepExecution $stepExecution): void
     {

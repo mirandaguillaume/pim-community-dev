@@ -18,8 +18,7 @@ class UpdateCategoryVersionSubscriber implements EventSubscriberInterface
     public function __construct(
         private readonly VersionBuilder $versionBuilder,
         private readonly CategoryVersionBuilder $categoryVersionBuilder,
-    ) {
-    }
+    ) {}
 
     public static function getSubscribedEvents(): array
     {

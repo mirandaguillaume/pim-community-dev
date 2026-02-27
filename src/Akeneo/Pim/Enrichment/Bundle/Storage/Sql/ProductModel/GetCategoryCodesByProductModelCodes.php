@@ -16,16 +16,14 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetCategoryCodesByProductModelCodes
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     /**
      * @return array ['code1' => ['category1'], 'code2' => []]
      */
     public function fromProductModelCodes(array $productModelCodes): array
     {
-        $productModelCodes = (fn (string ...$productModelCodes) => $productModelCodes)(... $productModelCodes);
+        $productModelCodes = (fn(string ...$productModelCodes) => $productModelCodes)(... $productModelCodes);
 
         $results = [];
 
@@ -34,23 +32,23 @@ final readonly class GetCategoryCodesByProductModelCodes
         }
 
         $query = <<<SQL
-SELECT product_model_code, JSON_ARRAYAGG(category_codes) as category_codes
-FROM (
-         SELECT model.code as product_model_code, category.code as category_codes
-         FROM pim_catalog_product_model model
-            INNER JOIN pim_catalog_category_product_model category_model ON model.id = category_model.product_model_id
-            INNER JOIN pim_catalog_category category ON category_model.category_id = category.id
-         WHERE model.code IN (:productModelCodes)
-       UNION ALL
-         SELECT model.code as product_model_code, category.code as category_codes
-         FROM pim_catalog_product_model model
-           INNER JOIN pim_catalog_product_model parent ON parent.id = model.parent_id
-           INNER JOIN pim_catalog_category_product_model category_model ON parent.id = category_model.product_model_id
-           INNER JOIN pim_catalog_category category ON category_model.category_id = category.id
-         WHERE model.code IN (:productModelCodes)
-) all_results
-GROUP BY product_model_code
-SQL;
+            SELECT product_model_code, JSON_ARRAYAGG(category_codes) as category_codes
+            FROM (
+                     SELECT model.code as product_model_code, category.code as category_codes
+                     FROM pim_catalog_product_model model
+                        INNER JOIN pim_catalog_category_product_model category_model ON model.id = category_model.product_model_id
+                        INNER JOIN pim_catalog_category category ON category_model.category_id = category.id
+                     WHERE model.code IN (:productModelCodes)
+                   UNION ALL
+                     SELECT model.code as product_model_code, category.code as category_codes
+                     FROM pim_catalog_product_model model
+                       INNER JOIN pim_catalog_product_model parent ON parent.id = model.parent_id
+                       INNER JOIN pim_catalog_category_product_model category_model ON parent.id = category_model.product_model_id
+                       INNER JOIN pim_catalog_category category ON category_model.category_id = category.id
+                     WHERE model.code IN (:productModelCodes)
+            ) all_results
+            GROUP BY product_model_code
+            SQL;
 
         $queryResults = $this->connection->executeQuery(
             $query,

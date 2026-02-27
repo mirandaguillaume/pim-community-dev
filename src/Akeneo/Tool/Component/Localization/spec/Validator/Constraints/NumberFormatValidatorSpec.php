@@ -10,13 +10,13 @@ use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 
 class NumberFormatValidatorSpec extends ObjectBehavior
 {
-    function let(ExecutionContextInterface $context)
+    public function let(ExecutionContextInterface $context)
     {
         $this->beConstructedWith(['.' => 'dot (.)']);
         $this->initialize($context);
     }
 
-    function it_does_not_add_violation_null_value($context, NumberFormat $constraint)
+    public function it_does_not_add_violation_null_value($context, NumberFormat $constraint)
     {
         $context
             ->buildViolation(Argument::cetera())
@@ -25,7 +25,7 @@ class NumberFormatValidatorSpec extends ObjectBehavior
         $this->validate(null, $constraint);
     }
 
-    function it_does_not_add_violation_when_format_is_respected($context, NumberFormat $constraint)
+    public function it_does_not_add_violation_when_format_is_respected($context, NumberFormat $constraint)
     {
         $context
             ->buildViolation(Argument::cetera())
@@ -42,7 +42,7 @@ class NumberFormatValidatorSpec extends ObjectBehavior
         $this->validate(0, $constraint);
     }
 
-    function it_adds_violation_when_format_is_not_respected(
+    public function it_adds_violation_when_format_is_not_respected(
         $context,
         NumberFormat $constraint,
         ConstraintViolationBuilderInterface $violation

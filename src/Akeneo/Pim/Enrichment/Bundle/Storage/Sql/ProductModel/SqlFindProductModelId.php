@@ -13,17 +13,15 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class SqlFindProductModelId implements FindId
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
-    public function fromIdentifier(string $identifier): null|string
+    public function fromIdentifier(string $identifier): ?string
     {
         $id = $this->connection->executeQuery(
             'SELECT id FROM pim_catalog_product_model WHERE code = :code',
             ['code' => $identifier]
         )->fetchOne();
 
-        return false === $id ? null : (string)$id;
+        return false === $id ? null : (string) $id;
     }
 }

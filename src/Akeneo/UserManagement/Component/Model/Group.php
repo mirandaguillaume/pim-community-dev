@@ -122,7 +122,7 @@ class Group implements GroupInterface, \Stringable
             );
         }
 
-        return (bool)$this->getRole($roleName);
+        return (bool) $this->getRole($roleName);
     }
 
     /**

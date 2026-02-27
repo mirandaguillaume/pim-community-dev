@@ -13,14 +13,14 @@ final class Version_8_0_20230127150758_add_ondelete_cascade_on_category_template
     {
         $this->addSql(
             <<<SQL
-            ALTER TABLE pim_catalog_category_attribute
-            drop CONSTRAINT FK_ATTRIBUTE_template_uiid;
-            ALTER TABLE pim_catalog_category_attribute
-            ADD CONSTRAINT FK_ATTRIBUTE_template_uuid
-                FOREIGN KEY (`category_template_uuid`) 
-                REFERENCES `pim_catalog_category_template` (`uuid`)
-                ON DELETE CASCADE;
-            SQL
+                ALTER TABLE pim_catalog_category_attribute
+                drop CONSTRAINT FK_ATTRIBUTE_template_uiid;
+                ALTER TABLE pim_catalog_category_attribute
+                ADD CONSTRAINT FK_ATTRIBUTE_template_uuid
+                    FOREIGN KEY (`category_template_uuid`) 
+                    REFERENCES `pim_catalog_category_template` (`uuid`)
+                    ON DELETE CASCADE;
+                SQL
         );
     }
 

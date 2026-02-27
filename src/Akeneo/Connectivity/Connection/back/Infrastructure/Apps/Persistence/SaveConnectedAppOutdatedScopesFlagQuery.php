@@ -14,19 +14,17 @@ use Doctrine\DBAL\Types\Types;
  */
 class SaveConnectedAppOutdatedScopesFlagQuery implements SaveConnectedAppOutdatedScopesFlagQueryInterface
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function execute(string $connectedAppId, bool $hasOutdatedScopes): void
     {
         $query = <<<SQL
-        UPDATE akeneo_connectivity_connected_app
-        SET
-            has_outdated_scopes = :has_outdated_scopes,
-            updated = NOW()
-        WHERE id = :id
-        SQL;
+            UPDATE akeneo_connectivity_connected_app
+            SET
+                has_outdated_scopes = :has_outdated_scopes,
+                updated = NOW()
+            WHERE id = :id
+            SQL;
 
         $this->connection->executeQuery(
             $query,

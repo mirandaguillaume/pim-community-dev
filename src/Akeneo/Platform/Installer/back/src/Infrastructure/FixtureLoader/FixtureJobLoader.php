@@ -23,9 +23,7 @@ class FixtureJobLoader
     /**
      * @param ObjectRepository<JobInstance> $jobInstanceRepository
      */
-    public function __construct(private readonly JobInstancesBuilder $jobInstancesBuilder, private readonly JobInstancesConfigurator $jobInstancesConfigurator, private readonly BulkSaverInterface $jobInstanceSaver, private readonly BulkRemoverInterface $jobInstanceRemover, private readonly ObjectRepository $jobInstanceRepository)
-    {
-    }
+    public function __construct(private readonly JobInstancesBuilder $jobInstancesBuilder, private readonly JobInstancesConfigurator $jobInstancesConfigurator, private readonly BulkSaverInterface $jobInstanceSaver, private readonly BulkRemoverInterface $jobInstanceRemover, private readonly ObjectRepository $jobInstanceRepository) {}
 
     /**
      * Load the fixture jobs in database.

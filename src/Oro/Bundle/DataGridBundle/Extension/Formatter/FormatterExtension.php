@@ -15,9 +15,7 @@ class FormatterExtension extends AbstractExtension
     /** @var PropertyInterface[] */
     protected $properties = [];
 
-    public function __construct(protected TranslatorInterface $translator)
-    {
-    }
+    public function __construct(protected TranslatorInterface $translator) {}
 
     /**
      * {@inheritDoc}
@@ -54,7 +52,7 @@ class FormatterExtension extends AbstractExtension
      */
     public function visitResult(DatagridConfiguration $config, ResultsIterableObject $result)
     {
-        $rows = (array)$result->offsetGetOr('data', []);
+        $rows = (array) $result->offsetGetOr('data', []);
 
         $options = $config->offsetGetOr('options', []);
         $extraKeys = $options['extraKeys'] ?? [];

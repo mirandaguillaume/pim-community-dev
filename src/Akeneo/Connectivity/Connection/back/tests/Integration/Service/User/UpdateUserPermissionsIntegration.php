@@ -27,7 +27,7 @@ class UpdateUserPermissionsIntegration extends TestCase
         $connection = $this->createConnection('pimgento');
 
         $userId = $this->fetchConnectionUserId($connection->username());
-        $this->assertConnectionRole($userId, (int)$connection->userRoleId());
+        $this->assertConnectionRole($userId, (int) $connection->userRoleId());
         Assert::assertNull($connection->userGroupId());
 
         $newRoleId = $this->fetchNewRoleId((int) $connection->userRoleId());
@@ -42,8 +42,8 @@ class UpdateUserPermissionsIntegration extends TestCase
     private function fetchConnectionUserId(string $username): int
     {
         $sqlQuery = <<<SQL
-SELECT id FROM oro_user WHERE username = :username
-SQL;
+            SELECT id FROM oro_user WHERE username = :username
+            SQL;
 
         return (int) $this->getDatabaseConnection()->fetchOne($sqlQuery, ['username' => $username]);
     }
@@ -51,8 +51,8 @@ SQL;
     private function assertConnectionRole(int $userId, int $userRoleId): void
     {
         $sqlQuery = <<<SQL
-SELECT COUNT(1) FROM oro_user_access_role WHERE user_id = :user_id AND role_id = :role_id
-SQL;
+            SELECT COUNT(1) FROM oro_user_access_role WHERE user_id = :user_id AND role_id = :role_id
+            SQL;
         $rolesCount = $this
             ->getDatabaseConnection()
             ->fetchOne($sqlQuery, ['user_id' => $userId, 'role_id' => $userRoleId]);
@@ -62,8 +62,8 @@ SQL;
     private function assertConnectionGroup(int $userId, int $userGroupId): void
     {
         $sqlQuery = <<<SQL
-SELECT COUNT(1) FROM oro_user_access_group WHERE user_id = :user_id AND group_id = :group_id
-SQL;
+            SELECT COUNT(1) FROM oro_user_access_group WHERE user_id = :user_id AND group_id = :group_id
+            SQL;
         $groupsCount = $this
             ->getDatabaseConnection()
             ->fetchOne($sqlQuery, ['user_id' => $userId, 'group_id' => $userGroupId]);

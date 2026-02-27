@@ -17,19 +17,17 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetOrphanCategoryImageFilePathsSql implements GetOrphanCategoryImageFilePaths
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function __invoke(): iterable
     {
         $this->connection->executeStatement(
             <<<SQL
-                CREATE TEMPORARY TABLE `pim_catalog_category_file_info_tmp` (
-                    file_key VARCHAR(255) NOT NULL,
-                    UNIQUE KEY file_key (file_key)
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC
-            SQL
+                    CREATE TEMPORARY TABLE `pim_catalog_category_file_info_tmp` (
+                        file_key VARCHAR(255) NOT NULL,
+                        UNIQUE KEY file_key (file_key)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC
+                SQL
         );
 
         foreach ($this->getImageValues() as $imageValue) {
@@ -37,9 +35,9 @@ final readonly class GetOrphanCategoryImageFilePathsSql implements GetOrphanCate
 
             $this->connection->executeStatement(
                 <<<SQL
-                    INSERT IGNORE INTO `pim_catalog_category_file_info_tmp`
-                    SET file_key = :file_key
-                SQL,
+                        INSERT IGNORE INTO `pim_catalog_category_file_info_tmp`
+                        SET file_key = :file_key
+                    SQL,
                 [
                     'file_key' => $filePath,
                 ],
@@ -53,13 +51,13 @@ final readonly class GetOrphanCategoryImageFilePathsSql implements GetOrphanCate
 
         $result = $this->connection->executeQuery(
             <<<SQL
-                SELECT file_info.file_key
-                FROM `akeneo_file_storage_file_info` as file_info
-                LEFT JOIN `pim_catalog_category_file_info_tmp` as tmp
-                    ON tmp.file_key = file_info.file_key
-                WHERE file_info.storage = :category_storage
-                AND tmp.file_key IS NULL
-            SQL,
+                    SELECT file_info.file_key
+                    FROM `akeneo_file_storage_file_info` as file_info
+                    LEFT JOIN `pim_catalog_category_file_info_tmp` as tmp
+                        ON tmp.file_key = file_info.file_key
+                    WHERE file_info.storage = :category_storage
+                    AND tmp.file_key IS NULL
+                SQL,
             [
                 'category_storage' => Storage::CATEGORY_STORAGE_ALIAS,
             ],
@@ -80,12 +78,12 @@ final readonly class GetOrphanCategoryImageFilePathsSql implements GetOrphanCate
         while (true) {
             $result = $this->connection->executeQuery(
                 <<<SQL
-                    SELECT value_collection
-                    FROM pim_catalog_category
-                    WHERE value_collection IS NOT NULL
-                    ORDER BY id ASC
-                    LIMIT 1000 OFFSET :offset
-                SQL,
+                        SELECT value_collection
+                        FROM pim_catalog_category
+                        WHERE value_collection IS NOT NULL
+                        ORDER BY id ASC
+                        LIMIT 1000 OFFSET :offset
+                    SQL,
                 [
                     'offset' => $offset,
                 ],

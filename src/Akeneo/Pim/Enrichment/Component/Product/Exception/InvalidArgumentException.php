@@ -324,8 +324,8 @@ class InvalidArgumentException extends \InvalidArgumentException
         return new self(
             $className,
             sprintf(
-                'Attribute or field "%s" expects an array with a string value for the key "%s", '.
-                '"%s" given.',
+                'Attribute or field "%s" expects an array with a string value for the key "%s", '
+                . '"%s" given.',
                 $name,
                 $key,
                 $data
@@ -395,8 +395,8 @@ class InvalidArgumentException extends \InvalidArgumentException
         return new self(
             null,
             sprintf(
-                'Attribute or field "%s" expects a valid association format as ["associationTypeCode1" => '.
-                '["products" => ["sku1, "sku2"], "groups" => ["group1"]]]", "%s" given.',
+                'Attribute or field "%s" expects a valid association format as ["associationTypeCode1" => '
+                . '["products" => ["sku1, "sku2"], "groups" => ["group1"]]]", "%s" given.',
                 $name,
                 print_r($data, true)
             ),

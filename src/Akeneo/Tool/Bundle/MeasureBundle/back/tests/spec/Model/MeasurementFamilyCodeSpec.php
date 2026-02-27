@@ -11,22 +11,22 @@ class MeasurementFamilyCodeSpec extends ObjectBehavior
 {
     private const MEASUREMENT_FAMILY_CODE = 'area';
 
-    function let()
+    public function let()
     {
         $this->beConstructedThrough('fromString', [self::MEASUREMENT_FAMILY_CODE]);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(MeasurementFamilyCode::class);
     }
 
-    function it_is_normalizable()
+    public function it_is_normalizable()
     {
         $this->normalize()->shouldReturn(self::MEASUREMENT_FAMILY_CODE);
     }
 
-    function it_cannot_be_constructed_with_an_empty_string()
+    public function it_cannot_be_constructed_with_an_empty_string()
     {
         $this->shouldThrow(\InvalidArgumentException::class)
             ->during('fromString', ['']);

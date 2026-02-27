@@ -15,8 +15,7 @@ final readonly class ConnectedAppRemover
 {
     public function __construct(
         private DeleteAppHandler $deleteAppHandler,
-    ) {
-    }
+    ) {}
 
     public function remove(string $appId): void
     {

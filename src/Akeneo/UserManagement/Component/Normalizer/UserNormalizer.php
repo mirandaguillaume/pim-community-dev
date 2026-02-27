@@ -41,7 +41,7 @@ class UserNormalizer implements NormalizerInterface, CacheableSupportsMethodInte
      *
      * @var UserInterface $user
      */
-    public function normalize($user, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($user, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $result = [
             'code'                      => $user->getUserIdentifier(), # Every Form Extension requires 'code' field.
@@ -78,11 +78,11 @@ class UserNormalizer implements NormalizerInterface, CacheableSupportsMethodInte
                 'updated' => $user->getUpdatedAt() ? $user->getUpdatedAt()->getTimestamp() : null,
                 'form'    => $this->getFormName($user),
                 'image'   => [
-                    'filePath' => null === $user->getAvatar() ?
-                        null :
-                        $this->fileNormalizer->normalize($user->getAvatar())['filePath']
-                ]
-            ]
+                    'filePath' => null === $user->getAvatar()
+                        ? null
+                        : $this->fileNormalizer->normalize($user->getAvatar())['filePath'],
+                ],
+            ],
         ];
 
         $aliases = $this->datagridViewRepo->getDatagridViewAliasesByUser($user);
@@ -93,9 +93,9 @@ class UserNormalizer implements NormalizerInterface, CacheableSupportsMethodInte
                 = $defaultView === null ? null : $defaultView->getId();
         }
 
-        $normalizedProperties = array_reduce($this->properties, fn ($result, string $propertyName) => $result + [$propertyName => $user->getProperty($propertyName)], []);
+        $normalizedProperties = array_reduce($this->properties, fn($result, string $propertyName) => $result + [$propertyName => $user->getProperty($propertyName)], []);
 
-        $normalizedCompound = array_map(fn ($normalizer) => $normalizer->normalize($user, $format, $context), $this->userNormalizers);
+        $normalizedCompound = array_map(fn($normalizer) => $normalizer->normalize($user, $format, $context), $this->userNormalizers);
 
         $result['properties'] = $normalizedProperties;
 
@@ -120,7 +120,7 @@ class UserNormalizer implements NormalizerInterface, CacheableSupportsMethodInte
      */
     private function getRoleNames(UserInterface $user): array
     {
-        return $user->getRolesCollection()->map(fn (Role $role) => $role->getRole())->toArray();
+        return $user->getRolesCollection()->map(fn(Role $role) => $role->getRole())->toArray();
     }
 
     /**
@@ -147,9 +147,9 @@ class UserNormalizer implements NormalizerInterface, CacheableSupportsMethodInte
     {
         $visibleGroups = array_values(array_filter(
             $user->getGroups()->toArray(),
-            static fn (Group $group) => $group->getName() !== 'All',
+            static fn(Group $group) => $group->getName() !== 'All',
         ));
 
-        return array_map(static fn (Group $group) => $group->getId(), $visibleGroups);
+        return array_map(static fn(Group $group) => $group->getId(), $visibleGroups);
     }
 }

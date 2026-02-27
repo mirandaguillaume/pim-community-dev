@@ -22,12 +22,12 @@ use PHPUnit\Framework\Assert;
  */
 class SetRichTextApplierSpec extends ObjectBehavior
 {
-    function it_is_initializable(): void
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(SetRichTextApplier::class);
     }
 
-    function it_updates_category_value_collection(): void
+    public function it_updates_category_value_collection(): void
     {
         $givenRichTextValue = TextAreaValue::fromApplier(
             value: "<p>Meta shoes</p>",
@@ -62,7 +62,7 @@ class SetRichTextApplierSpec extends ObjectBehavior
                 code: 'seo_meta_description',
                 channel: 'ecommerce',
                 locale: 'en_US'
-            )
+            ),
         ]);
 
         $this->apply($userIntent, $category);
@@ -73,11 +73,10 @@ class SetRichTextApplierSpec extends ObjectBehavior
         );
     }
 
-    function it_throws_exception_on_wrong_user_intent_applied(
+    public function it_throws_exception_on_wrong_user_intent_applied(
         SetText $userIntent,
         Category $category
-    ): void
-    {
+    ): void {
         $this
             ->shouldThrow(\InvalidArgumentException::class)
             ->duringApply(

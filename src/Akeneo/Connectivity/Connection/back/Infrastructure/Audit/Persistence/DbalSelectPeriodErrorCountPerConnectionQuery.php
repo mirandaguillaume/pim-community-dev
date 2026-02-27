@@ -22,9 +22,7 @@ class DbalSelectPeriodErrorCountPerConnectionQuery implements SelectPeriodErrorC
 {
     use PeriodEventCountTrait;
 
-    public function __construct(private readonly Connection $dbalConnection)
-    {
-    }
+    public function __construct(private readonly Connection $dbalConnection) {}
 
     /**
      * @return PeriodEventCount[]
@@ -49,9 +47,9 @@ class DbalSelectPeriodErrorCountPerConnectionQuery implements SelectPeriodErrorC
     private function getConnectionCodes(): array
     {
         $sql = <<<SQL
-SELECT code from akeneo_connectivity_connection
-WHERE flow_type = :flow_type AND auditable = 1
-SQL;
+            SELECT code from akeneo_connectivity_connection
+            WHERE flow_type = :flow_type AND auditable = 1
+            SQL;
 
         $resultStmt = $this->dbalConnection->executeQuery(
             $sql,
@@ -78,13 +76,13 @@ SQL;
     private function getPeriodErrorCountPerConnection(DateTimePeriod $period, array $connectionCodes): array
     {
         $sql = <<<SQL
-SELECT connection_code, error_datetime as event_datetime, SUM(error_count) as event_count
-FROM akeneo_connectivity_connection_audit_error
-WHERE connection_code IN (:connection_codes)
-AND error_datetime >= :from_datetime AND error_datetime < :up_to_datetime
-GROUP BY connection_code, event_datetime
-ORDER BY connection_code ASC, error_datetime ASC
-SQL;
+            SELECT connection_code, error_datetime as event_datetime, SUM(error_count) as event_count
+            FROM akeneo_connectivity_connection_audit_error
+            WHERE connection_code IN (:connection_codes)
+            AND error_datetime >= :from_datetime AND error_datetime < :up_to_datetime
+            GROUP BY connection_code, event_datetime
+            ORDER BY connection_code ASC, error_datetime ASC
+            SQL;
 
         return $this->dbalConnection->executeQuery(
             $sql,
@@ -111,13 +109,13 @@ SQL;
     private function getPeriodErrorCountForAllConnections(DateTimePeriod $period, array $connectionCodes): array
     {
         $sql = <<<SQL
-SELECT :all as connection_code, error_datetime as event_datetime, SUM(error_count) as event_count
-FROM akeneo_connectivity_connection_audit_error
-WHERE connection_code IN (:connection_codes)
-AND error_datetime >= :from_datetime AND error_datetime < :up_to_datetime
-GROUP BY error_datetime
-ORDER BY error_datetime ASC
-SQL;
+            SELECT :all as connection_code, error_datetime as event_datetime, SUM(error_count) as event_count
+            FROM akeneo_connectivity_connection_audit_error
+            WHERE connection_code IN (:connection_codes)
+            AND error_datetime >= :from_datetime AND error_datetime < :up_to_datetime
+            GROUP BY error_datetime
+            ORDER BY error_datetime ASC
+            SQL;
 
         return $this->dbalConnection->executeQuery(
             $sql,

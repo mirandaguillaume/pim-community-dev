@@ -29,9 +29,7 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
  */
 class QueueJobLauncher implements JobLauncherInterface
 {
-    public function __construct(private readonly JobRepositoryInterface $jobRepository, private readonly JobParametersFactory $jobParametersFactory, private readonly JobRegistry $jobRegistry, private readonly JobParametersValidator $jobParametersValidator, private readonly JobExecutionQueueInterface $queue, private readonly JobExecutionMessageFactory $jobExecutionMessageFactory, private readonly EventDispatcherInterface $eventDispatcher, private readonly BatchLogHandler $batchLogHandler, private readonly string $environment)
-    {
-    }
+    public function __construct(private readonly JobRepositoryInterface $jobRepository, private readonly JobParametersFactory $jobParametersFactory, private readonly JobRegistry $jobRegistry, private readonly JobParametersValidator $jobParametersValidator, private readonly JobExecutionQueueInterface $queue, private readonly JobExecutionMessageFactory $jobExecutionMessageFactory, private readonly EventDispatcherInterface $eventDispatcher, private readonly BatchLogHandler $batchLogHandler, private readonly string $environment) {}
 
     /**
      * {@inheritdoc}

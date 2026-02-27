@@ -14,9 +14,7 @@ use Symfony\Component\Finder\Finder;
  */
 class AssetsInstaller
 {
-    public function __construct(private readonly Filesystem $filesystem, private readonly string $originDir, private readonly string $targetDir)
-    {
-    }
+    public function __construct(private readonly Filesystem $filesystem, private readonly string $originDir, private readonly string $targetDir) {}
 
     public function installAssets(bool $shouldSymlink): void
     {
@@ -79,7 +77,7 @@ class AssetsInstaller
      */
     private function hardCopy(): void
     {
-        $this->filesystem->mkdir($this->targetDir, 0777);
+        $this->filesystem->mkdir($this->targetDir, 0o777);
         // We use a custom iterator to ignore VCS files
         $this->filesystem->mirror($this->originDir, $this->targetDir, Finder::create()->ignoreDotFiles(false)->in($this->originDir));
     }

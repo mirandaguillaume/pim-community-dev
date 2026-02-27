@@ -16,9 +16,7 @@ use Ramsey\Uuid\Uuid;
  */
 final readonly class DescendantProductUuidsQuery implements DescendantProductUuidsQueryInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     /**
      * {@inheritDoc}
@@ -30,8 +28,8 @@ final readonly class DescendantProductUuidsQuery implements DescendantProductUui
         }
 
         $sql = <<<SQL
-SELECT BIN_TO_UUID(uuid) AS uuid FROM pim_catalog_product WHERE product_model_id IN (:productModelIds)
-SQL;
+            SELECT BIN_TO_UUID(uuid) AS uuid FROM pim_catalog_product WHERE product_model_id IN (:productModelIds)
+            SQL;
 
         $resultRows = $this->connection->executeQuery(
             $sql,
@@ -39,6 +37,6 @@ SQL;
             ['productModelIds' => ArrayParameterType::INTEGER]
         )->fetchAllAssociative();
 
-        return array_map(fn ($rowData) => Uuid::fromString($rowData['uuid']), $resultRows);
+        return array_map(fn($rowData) => Uuid::fromString($rowData['uuid']), $resultRows);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Specification\Akeneo\Pim\Automation\DataQualityInsights\Application\Command;
@@ -21,7 +22,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
  */
 final class UpdateAttributeGroupActivationHandlerSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         AttributeGroupActivationRepositoryInterface $attributeGroupActivationRepository,
         MessageBusInterface $messageBus,
         Clock $clock,
@@ -31,7 +32,7 @@ final class UpdateAttributeGroupActivationHandlerSpec extends ObjectBehavior
         $this->beConstructedWith($attributeGroupActivationRepository, $messageBus, $clock, $dqiUcsEventFeatureFlag);
     }
 
-    function it_saves_an_attribute_group_activation(
+    public function it_saves_an_attribute_group_activation(
         AttributeGroupActivationRepositoryInterface $attributeGroupActivationRepository,
         MessageBusInterface $messageBus,
         Clock $clock
@@ -50,7 +51,7 @@ final class UpdateAttributeGroupActivationHandlerSpec extends ObjectBehavior
         $this->__invoke($command);
     }
 
-    function it_does_not_save_an_attribute_group_activation_if_the_attribute_group_is_already_activated(
+    public function it_does_not_save_an_attribute_group_activation_if_the_attribute_group_is_already_activated(
         AttributeGroupActivationRepositoryInterface $attributeGroupActivationRepository,
         MessageBusInterface $messageBus
     ) {
@@ -65,7 +66,7 @@ final class UpdateAttributeGroupActivationHandlerSpec extends ObjectBehavior
         $this->__invoke($command);
     }
 
-    function it_saves_an_attribute_group_deactivation(
+    public function it_saves_an_attribute_group_deactivation(
         AttributeGroupActivationRepositoryInterface $attributeGroupActivationRepository,
         MessageBusInterface $messageBus,
         Clock $clock
@@ -84,7 +85,7 @@ final class UpdateAttributeGroupActivationHandlerSpec extends ObjectBehavior
         $this->__invoke($command);
     }
 
-    function it_does_not_save_an_attribute_group_deactivation_if_the_attribute_group_is_already_deactivated(
+    public function it_does_not_save_an_attribute_group_deactivation_if_the_attribute_group_is_already_deactivated(
         AttributeGroupActivationRepositoryInterface $attributeGroupActivationRepository,
         MessageBusInterface $messageBus
     ) {
@@ -99,7 +100,7 @@ final class UpdateAttributeGroupActivationHandlerSpec extends ObjectBehavior
         $this->__invoke($command);
     }
 
-    function it_does_not_save_an_attribute_group_deactivation_if_the_attribute_group_is_not_present_in_database(
+    public function it_does_not_save_an_attribute_group_deactivation_if_the_attribute_group_is_not_present_in_database(
         AttributeGroupActivationRepositoryInterface $attributeGroupActivationRepository,
         MessageBusInterface $messageBus
     ) {
@@ -114,7 +115,7 @@ final class UpdateAttributeGroupActivationHandlerSpec extends ObjectBehavior
         $this->__invoke($command);
     }
 
-    function it_does_not_dispatches_message_if_the_ucs_event_feature_is_disabled(
+    public function it_does_not_dispatches_message_if_the_ucs_event_feature_is_disabled(
         AttributeGroupActivationRepositoryInterface $attributeGroupActivationRepository,
         MessageBusInterface $messageBus,
         Clock $clock,

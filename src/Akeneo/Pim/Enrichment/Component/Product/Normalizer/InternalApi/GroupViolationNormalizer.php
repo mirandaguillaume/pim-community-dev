@@ -26,7 +26,7 @@ class GroupViolationNormalizer implements NormalizerInterface
     /**
      * {@inheritdoc}
      */
-    public function normalize($violations, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($violations, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $normalizedViolations = [];
         $accessor = PropertyAccess::createPropertyAccessor();
@@ -40,7 +40,7 @@ class GroupViolationNormalizer implements NormalizerInterface
 
                 $normalizedViolations['translations'][$translation->getLocale()] = [
                     'locale'  => $translation->getLocale(),
-                    'message' => $violation->getMessage()
+                    'message' => $violation->getMessage(),
                 ];
             } else {
                 $normalizedViolations['values'][] = $this->normalizer->normalize($violation, $format, $context);

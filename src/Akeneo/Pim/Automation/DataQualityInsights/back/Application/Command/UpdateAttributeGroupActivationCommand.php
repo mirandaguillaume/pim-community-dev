@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -13,6 +14,5 @@ final readonly class UpdateAttributeGroupActivationCommand
     public function __construct(
         public string $attributeGroupCode,
         public bool $isActivated
-    ) {
-    }
+    ) {}
 }

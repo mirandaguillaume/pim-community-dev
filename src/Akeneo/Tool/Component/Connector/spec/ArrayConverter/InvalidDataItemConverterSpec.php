@@ -7,7 +7,7 @@ use PhpSpec\ObjectBehavior;
 
 class InvalidDataItemConverterSpec extends ObjectBehavior
 {
-    function it_can_not_convert_because_of_multi_dimensional_array()
+    public function it_can_not_convert_because_of_multi_dimensional_array()
     {
         $item = [
             'string_key' => 'effeacef4848484',
@@ -20,7 +20,7 @@ class InvalidDataItemConverterSpec extends ObjectBehavior
         $this->shouldThrow(DataArrayConversionException::class)->during('convert', [$item]);
     }
 
-    function it_can_not_convert_because_of_object()
+    public function it_can_not_convert_because_of_object()
     {
         $item = [
             'string_key' => 'effeacef4848484',
@@ -30,7 +30,7 @@ class InvalidDataItemConverterSpec extends ObjectBehavior
         $this->shouldThrow(DataArrayConversionException::class)->during('convert', [$item]);
     }
 
-    function it_converts_to_a_string_array()
+    public function it_converts_to_a_string_array()
     {
         $myObject = new FakeObject();
         $myObject->property = 'objectValue';

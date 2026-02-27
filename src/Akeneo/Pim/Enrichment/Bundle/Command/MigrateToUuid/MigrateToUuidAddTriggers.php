@@ -17,9 +17,7 @@ final class MigrateToUuidAddTriggers implements MigrateToUuidStep
     use MigrateToUuidTrait;
     use StatusAwareTrait;
 
-    public function __construct(private readonly Connection $connection, private readonly LoggerInterface $logger)
-    {
-    }
+    public function __construct(private readonly Connection $connection, private readonly LoggerInterface $logger) {}
 
     public function getName(): string
     {
@@ -56,24 +54,24 @@ final class MigrateToUuidAddTriggers implements MigrateToUuidStep
     {
         $logContext = $context->logContext;
         $templateSql = <<<SQL
-        CREATE TRIGGER {trigger_name}
-        BEFORE {action} ON {table_name}
-        FOR EACH ROW BEGIN
-            IF NEW.{uuid_column_name} IS NULL THEN
-                SET NEW.{uuid_column_name} = (
-                    SELECT p.uuid
-                    FROM pim_catalog_product p
-                    WHERE p.uuid IS NOT NULL AND p.id = NEW.{id_column_name}
-                );
-            ELSEIF NEW.{id_column_name} IS NULL THEN
-                SET NEW.{id_column_name} = (
-                    SELECT p.id
-                    FROM pim_catalog_product p
-                    WHERE p.id IS NOT NULL AND p.uuid = NEW.{uuid_column_name}
-                );
-            END IF;
-        END
-        SQL;
+            CREATE TRIGGER {trigger_name}
+            BEFORE {action} ON {table_name}
+            FOR EACH ROW BEGIN
+                IF NEW.{uuid_column_name} IS NULL THEN
+                    SET NEW.{uuid_column_name} = (
+                        SELECT p.uuid
+                        FROM pim_catalog_product p
+                        WHERE p.uuid IS NOT NULL AND p.id = NEW.{id_column_name}
+                    );
+                ELSEIF NEW.{id_column_name} IS NULL THEN
+                    SET NEW.{id_column_name} = (
+                        SELECT p.id
+                        FROM pim_catalog_product p
+                        WHERE p.id IS NOT NULL AND p.uuid = NEW.{uuid_column_name}
+                    );
+                END IF;
+            END
+            SQL;
 
         foreach ($this->getTablesToMigrate() as $tableName => $columnNames) {
             $logContext->addContext('substep', $tableName);
@@ -115,7 +113,7 @@ final class MigrateToUuidAddTriggers implements MigrateToUuidStep
     {
         return \array_filter(
             self::TABLES,
-            fn (string $tableName): bool => 'pim_catalog_product' !== $tableName && $this->tableExists($tableName),
+            fn(string $tableName): bool => 'pim_catalog_product' !== $tableName && $this->tableExists($tableName),
             ARRAY_FILTER_USE_KEY
         );
     }

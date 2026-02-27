@@ -65,7 +65,7 @@ class MassEditController
         return new JsonResponse(
             [
                 'filters'    => $filters,
-                'itemsCount' => $itemsCount
+                'itemsCount' => $itemsCount,
             ]
         );
     }

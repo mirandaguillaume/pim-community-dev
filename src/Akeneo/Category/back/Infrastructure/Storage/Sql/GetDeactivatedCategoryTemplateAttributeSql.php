@@ -17,9 +17,7 @@ use Doctrine\DBAL\Driver\Exception;
  */
 class GetDeactivatedCategoryTemplateAttributeSql implements GetDeactivatedAttribute
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     /**
      * @param AttributeUuid[] $attributeUuids
@@ -36,20 +34,20 @@ class GetDeactivatedCategoryTemplateAttributeSql implements GetDeactivatedAttrib
         );
 
         $sql = <<< SQL
-            SELECT BIN_TO_UUID(uuid) as uuid,
-                code, 
-                BIN_TO_UUID(category_template_uuid) as category_template_uuid,
-                labels, 
-                attribute_type, 
-                attribute_order, 
-                is_required, 
-                is_scopable, 
-                is_localizable, 
-                additional_properties
-            FROM pim_catalog_category_attribute
-            WHERE uuid IN ({$placeholders})
-            AND is_deactivated = 1;
-        SQL;
+                SELECT BIN_TO_UUID(uuid) as uuid,
+                    code, 
+                    BIN_TO_UUID(category_template_uuid) as category_template_uuid,
+                    labels, 
+                    attribute_type, 
+                    attribute_order, 
+                    is_required, 
+                    is_scopable, 
+                    is_localizable, 
+                    additional_properties
+                FROM pim_catalog_category_attribute
+                WHERE uuid IN ({$placeholders})
+                AND is_deactivated = 1;
+            SQL;
 
         $statement = $this->connection->prepare($sql);
         $placeholderIndex = 0;
@@ -61,7 +59,7 @@ class GetDeactivatedCategoryTemplateAttributeSql implements GetDeactivatedAttrib
             ->executeQuery()
             ->fetchAllAssociative();
 
-        $attributes = array_map(static fn ($attributes) => Attribute::fromDatabase($attributes), $categoryAttributes);
+        $attributes = array_map(static fn($attributes) => Attribute::fromDatabase($attributes), $categoryAttributes);
 
         return AttributeCollection::fromArray($attributes);
     }

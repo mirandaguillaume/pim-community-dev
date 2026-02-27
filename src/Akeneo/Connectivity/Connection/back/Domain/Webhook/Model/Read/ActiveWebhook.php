@@ -17,8 +17,7 @@ class ActiveWebhook
         private readonly string $secret,
         private readonly string $url,
         private readonly bool $isUsingUuid,
-    ) {
-    }
+    ) {}
 
     public function connectionCode(): string
     {

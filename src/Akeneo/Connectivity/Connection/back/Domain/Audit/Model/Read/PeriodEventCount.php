@@ -19,8 +19,7 @@ final readonly class PeriodEventCount
         private \DateTimeImmutable $fromDateTime,
         private \DateTimeImmutable $upToDateTime,
         private array $hourlyEventCounts
-    ) {
-    }
+    ) {}
 
     public function connectionCode(): string
     {

@@ -32,9 +32,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class SaveMeasurementFamiliesAction
 {
-    public function __construct(private readonly MeasurementFamilyListValidator $measurementFamilyListValidator, private readonly MeasurementFamilyCommonStructureValidator $measurementFamilyCommonStructureValidator, private readonly MeasurementFamilyValidator $measurementFamilyStructureValidator, private readonly ValidatorInterface $validator, private readonly ViolationNormalizer $violationNormalizer, private readonly SaveMeasurementFamilyHandler $saveMeasurementFamilyHandler, private readonly CreateMeasurementFamilyHandler $createMeasurementFamilyHandler, private readonly MeasurementFamilyRepositoryInterface $measurementFamilyRepository)
-    {
-    }
+    public function __construct(private readonly MeasurementFamilyListValidator $measurementFamilyListValidator, private readonly MeasurementFamilyCommonStructureValidator $measurementFamilyCommonStructureValidator, private readonly MeasurementFamilyValidator $measurementFamilyStructureValidator, private readonly ValidatorInterface $validator, private readonly ViolationNormalizer $violationNormalizer, private readonly SaveMeasurementFamilyHandler $saveMeasurementFamilyHandler, private readonly CreateMeasurementFamilyHandler $createMeasurementFamilyHandler, private readonly MeasurementFamilyRepositoryInterface $measurementFamilyRepository) {}
 
     public function __invoke(Request $request): Response
     {
@@ -77,12 +75,12 @@ class SaveMeasurementFamiliesAction
                 $responses[] = [
                     'code' => $normalizedMeasurementFamily['code'],
                     'status_code' => Response::HTTP_UNPROCESSABLE_ENTITY,
-                    'message' => $exception->getMessage()
+                    'message' => $exception->getMessage(),
                 ];
             } catch (ViolationHttpException $exception) {
                 $response = [
                     'code' => $normalizedMeasurementFamily['code'],
-                    'status_code' => Response::HTTP_UNPROCESSABLE_ENTITY
+                    'status_code' => Response::HTTP_UNPROCESSABLE_ENTITY,
                 ];
                 $response += $this->violationNormalizer->normalize($exception);
                 $responses[] = $response;
@@ -226,7 +224,7 @@ class SaveMeasurementFamiliesAction
 
     private function saveMeasurementFamilyCommand(array $normalizedMeasurementFamily): SaveMeasurementFamilyCommand
     {
-        $saveMeasurementFamilyCommand = new SaveMeasurementFamilyCommand;
+        $saveMeasurementFamilyCommand = new SaveMeasurementFamilyCommand();
         $saveMeasurementFamilyCommand->code = $normalizedMeasurementFamily['code'];
         $saveMeasurementFamilyCommand->standardUnitCode = $normalizedMeasurementFamily['standard_unit_code'];
         $saveMeasurementFamilyCommand->labels = $normalizedMeasurementFamily['labels'] ?? [];
@@ -251,11 +249,11 @@ class SaveMeasurementFamiliesAction
      */
     private function getNormalizedUnitsFromNormalizedMeasurementFamily(array $normalizedMeasurementFamily): array
     {
-        return array_map(static fn (array $unit) => [
-          'code' => $unit['code'],
-          'convert_from_standard' => $unit['convert_from_standard'],
-          'labels' => $unit['labels'] ?? [],
-          'symbol' => $unit['symbol'] ?? '',
+        return array_map(static fn(array $unit) => [
+            'code' => $unit['code'],
+            'convert_from_standard' => $unit['convert_from_standard'],
+            'labels' => $unit['labels'] ?? [],
+            'symbol' => $unit['symbol'] ?? '',
         ], array_values($normalizedMeasurementFamily['units'] ?? []));
     }
 }

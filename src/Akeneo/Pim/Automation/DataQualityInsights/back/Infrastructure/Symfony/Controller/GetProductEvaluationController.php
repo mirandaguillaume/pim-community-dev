@@ -15,9 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class GetProductEvaluationController
 {
-    public function __construct(private readonly GetProductEvaluation $getEntityEvaluation)
-    {
-    }
+    public function __construct(private readonly GetProductEvaluation $getEntityEvaluation) {}
 
     public function __invoke(string $productUuid): Response
     {
@@ -27,7 +25,7 @@ class GetProductEvaluationController
             );
         } catch (\InvalidArgumentException $exception) {
             return new JsonResponse([
-                'message' => $exception->getMessage()
+                'message' => $exception->getMessage(),
             ], Response::HTTP_BAD_REQUEST);
         }
 

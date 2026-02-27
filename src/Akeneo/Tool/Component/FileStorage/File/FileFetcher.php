@@ -40,7 +40,7 @@ class FileFetcher implements FileFetcherInterface
         $fsTools = new Filesystem();
         $tmpDir = sys_get_temp_dir();
 
-        if (!$fsTools->exists($tmpDir . DIRECTORY_SEPARATOR. dirname($fileKey))) {
+        if (!$fsTools->exists($tmpDir . DIRECTORY_SEPARATOR . dirname($fileKey))) {
             $fsTools->mkdir($tmpDir . DIRECTORY_SEPARATOR . dirname($fileKey));
         }
 

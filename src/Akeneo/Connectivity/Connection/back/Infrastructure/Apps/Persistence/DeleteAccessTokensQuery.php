@@ -13,17 +13,15 @@ use Doctrine\DBAL\Connection;
  */
 class DeleteAccessTokensQuery implements DeleteAccessTokensQueryInterface
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function execute(string $appId): int
     {
         $query = <<<SQL
-        DELETE token 
-        FROM pim_api_access_token as token
-        JOIN pim_api_client as client ON token.client = client.id AND client.marketplace_public_app_id = :app_id
-        SQL;
+            DELETE token 
+            FROM pim_api_access_token as token
+            JOIN pim_api_client as client ON token.client = client.id AND client.marketplace_public_app_id = :app_id
+            SQL;
 
         $statement = $this->connection->executeQuery($query, [
             'app_id' => $appId,

@@ -77,8 +77,8 @@ class ProductCsvExport implements DefaultValuesProviderInterface
                 [
                     'field'    => 'categories',
                     'operator' => Operators::IN_CHILDREN_LIST,
-                    'value'    => []
-                ]
+                    'value'    => [],
+                ],
             ],
             'structure' => [
                 'scope'   => $defaultChannelCode,

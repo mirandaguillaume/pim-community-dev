@@ -27,7 +27,8 @@ class SetLabelApplierSpec extends ObjectBehavior
             code: new Code('my_category'),
             templateUuid: null,
             labels: LabelCollection::fromArray([]),
-            parentId: null);
+            parentId: null
+        );
 
         $setLabelEN = new SetLabel('en_US', 'The label');
         $setLabelFR = new SetLabel('fr_FR', 'Le label');

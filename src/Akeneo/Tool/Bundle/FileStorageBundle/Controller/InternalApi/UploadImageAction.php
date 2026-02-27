@@ -26,8 +26,7 @@ final class UploadImageAction
         protected PathGeneratorInterface $pathGenerator,
         private readonly FileStorer $fileStorer,
         private readonly array $supportedTypes = [],
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request)
     {
@@ -39,7 +38,7 @@ final class UploadImageAction
         $uploadedFile = $request->files->get('file');
         $violations = $this->validator->validate($uploadedFile, [
             new Constraints\UploadedFile([
-                'types' => $this->supportedTypes
+                'types' => $this->supportedTypes,
             ]),
         ]);
 
@@ -48,7 +47,7 @@ final class UploadImageAction
             foreach ($violations as $violation) {
                 $errors[$violation->getPropertyPath()] = [
                     'message'       => $violation->getMessage(),
-                    'invalid_value' => $violation->getInvalidValue()
+                    'invalid_value' => $violation->getInvalidValue(),
                 ];
             }
 
@@ -60,7 +59,7 @@ final class UploadImageAction
         return new JsonResponse(
             [
                 'originalFilename' => $uploadedFile->getClientOriginalName(),
-                'filePath'         => $file->getKey()
+                'filePath'         => $file->getKey(),
             ]
         );
     }

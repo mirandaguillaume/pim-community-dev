@@ -26,21 +26,19 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class SqlGetAttributeLabels implements GetAttributeLabelsInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function forAttributeCodes(array $attributeCodes): array
     {
         $sql = <<<SQL
-SELECT
-   attribute.code AS code,
-   trans.label AS label,
-   trans.locale AS locale
-FROM pim_catalog_attribute attribute
-INNER JOIN pim_catalog_attribute_translation trans ON attribute.id=trans.foreign_key
-WHERE attribute.code IN (:attributeCodes)
-SQL;
+            SELECT
+               attribute.code AS code,
+               trans.label AS label,
+               trans.locale AS locale
+            FROM pim_catalog_attribute attribute
+            INNER JOIN pim_catalog_attribute_translation trans ON attribute.id=trans.foreign_key
+            WHERE attribute.code IN (:attributeCodes)
+            SQL;
         $rows = $this->connection->executeQuery(
             $sql,
             ['attributeCodes' => $attributeCodes],

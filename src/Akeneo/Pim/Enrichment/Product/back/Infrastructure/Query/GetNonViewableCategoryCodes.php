@@ -17,8 +17,7 @@ class GetNonViewableCategoryCodes implements GetNonViewableCategoryCodesInterfac
     public function __construct(
         private readonly GetCategoryCodes $getCategoryCodes,
         private readonly GetViewableCategories $getViewableCategories
-    ) {
-    }
+    ) {}
 
     public function fromProductUuids(array $productUuids, int $userId): array
     {
@@ -32,7 +31,7 @@ class GetNonViewableCategoryCodes implements GetNonViewableCategoryCodesInterfac
         $viewableCategoryCodes = $this->getViewableCategories->forUserId($categoryCodes, $userId);
 
         return \array_map(
-            static fn (array $categoryCodes): array => \array_values(\array_diff($categoryCodes, $viewableCategoryCodes)),
+            static fn(array $categoryCodes): array => \array_values(\array_diff($categoryCodes, $viewableCategoryCodes)),
             $categoryCodesPerProductUuids
         );
     }

@@ -94,7 +94,7 @@ class ReferenceDataFilter extends AbstractAttributeFilter implements AttributeFi
                         'terms' => [
                             self::ATTRIBUTES_OF_ANCESTORS_ES_ID => [$attribute->getCode()],
                         ],
-                    ]
+                    ],
                 ];
                 $this->searchQueryBuilder->addFilter(
                     [
@@ -144,9 +144,9 @@ class ReferenceDataFilter extends AbstractAttributeFilter implements AttributeFi
     {
         $referenceDataName = $attribute->getReferenceDataName();
 
-        $isRegistredReferenceData = null !== $referenceDataName &&
-            !empty($referenceDataName) &&
-            $this->registry->has($attribute->getReferenceDataName());
+        $isRegistredReferenceData = null !== $referenceDataName
+            && !empty($referenceDataName)
+            && $this->registry->has($attribute->getReferenceDataName());
 
         return $isRegistredReferenceData;
     }
@@ -169,7 +169,7 @@ class ReferenceDataFilter extends AbstractAttributeFilter implements AttributeFi
         Assert::implementsInterface($referenceDataRepository, ReferenceDataRepositoryInterface::class);
         $existingReferenceData =  $referenceDataRepository->findCodesByIdentifiers($values);
         $referenceDataCodes = array_map(
-            fn ($referenceData) => $referenceData['code'],
+            fn($referenceData) => $referenceData['code'],
             $existingReferenceData
         );
 

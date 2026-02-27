@@ -26,7 +26,7 @@ class WysiwygFieldProvider implements FieldProviderInterface
      */
     public function supports($element)
     {
-        return $element instanceof AttributeInterface &&
-            $element->isWysiwygEnabled();
+        return $element instanceof AttributeInterface
+            && $element->isWysiwygEnabled();
     }
 }

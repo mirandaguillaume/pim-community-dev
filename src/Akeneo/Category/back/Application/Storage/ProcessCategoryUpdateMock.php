@@ -16,7 +16,5 @@ class ProcessCategoryUpdateMock
     /**
      * @param array<UserIntent> $userIntents
      */
-    public function update(Category $category, array $userIntents): void
-    {
-    }
+    public function update(Category $category, array $userIntents): void {}
 }

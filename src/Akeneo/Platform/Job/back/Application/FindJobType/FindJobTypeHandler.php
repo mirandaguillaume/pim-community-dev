@@ -13,8 +13,7 @@ final readonly class FindJobTypeHandler
 {
     public function __construct(
         private FindJobTypeInterface $findJobType,
-    ) {
-    }
+    ) {}
 
     public function find(): array
     {

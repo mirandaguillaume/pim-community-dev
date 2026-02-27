@@ -19,8 +19,7 @@ class ProductModel extends AbstractSimpleArrayConverter implements ArrayConverte
     public function __construct(
         protected ProductValueConverter $valueConverter,
         private readonly QualityScoreConverter $qualityScoreConverter
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -40,7 +39,7 @@ class ProductModel extends AbstractSimpleArrayConverter implements ArrayConverte
             case 'code':
             case 'family_variant':
             case 'parent':
-                $convertedItem[$property] = (string)$data;
+                $convertedItem[$property] = (string) $data;
                 break;
             case 'values':
                 foreach ($data as $code => $attribute) {

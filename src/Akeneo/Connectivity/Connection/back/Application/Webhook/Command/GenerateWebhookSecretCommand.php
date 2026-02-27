@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Application\Webhook\Command;
@@ -10,9 +11,7 @@ namespace Akeneo\Connectivity\Connection\Application\Webhook\Command;
  */
 class GenerateWebhookSecretCommand
 {
-    public function __construct(private readonly string $connectionCode)
-    {
-    }
+    public function __construct(private readonly string $connectionCode) {}
 
     public function connectionCode(): string
     {

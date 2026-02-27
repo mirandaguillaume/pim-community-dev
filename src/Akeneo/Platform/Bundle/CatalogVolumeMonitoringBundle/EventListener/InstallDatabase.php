@@ -17,9 +17,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class InstallDatabase implements EventSubscriberInterface
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     /**
      * {@inheritdoc}
@@ -34,13 +32,13 @@ class InstallDatabase implements EventSubscriberInterface
     public function createAggregatedVolumeTable(): void
     {
         $sql = <<<SQL
-CREATE TABLE IF NOT EXISTS pim_aggregated_volume (
-  volume_name VARCHAR(255) NOT NULL,
-  volume json NOT NULL,
-  aggregated_at DATETIME NOT NULL COMMENT '(DC2Type:datetime)',
-  PRIMARY KEY(volume_name)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB
-SQL;
+            CREATE TABLE IF NOT EXISTS pim_aggregated_volume (
+              volume_name VARCHAR(255) NOT NULL,
+              volume json NOT NULL,
+              aggregated_at DATETIME NOT NULL COMMENT '(DC2Type:datetime)',
+              PRIMARY KEY(volume_name)
+            ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB
+            SQL;
 
         $this->connection->executeStatement($sql);
     }

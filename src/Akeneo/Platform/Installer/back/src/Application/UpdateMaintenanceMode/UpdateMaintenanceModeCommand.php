@@ -13,6 +13,5 @@ final readonly class UpdateMaintenanceModeCommand
 {
     public function __construct(
         public bool $isEnabled,
-    ) {
-    }
+    ) {}
 }

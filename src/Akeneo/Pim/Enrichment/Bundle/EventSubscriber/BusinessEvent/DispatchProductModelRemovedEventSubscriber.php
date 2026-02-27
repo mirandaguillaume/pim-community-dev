@@ -24,9 +24,7 @@ final class DispatchProductModelRemovedEventSubscriber implements DispatchBuffer
     /** @var array<ProductModelRemoved> */
     private array $events = [];
 
-    public function __construct(private readonly Security $security, private readonly MessageBusInterface $messageBus, private readonly int $maxBulkSize, private readonly LoggerInterface $logger, private readonly LoggerInterface $loggerBusinessEvent)
-    {
-    }
+    public function __construct(private readonly Security $security, private readonly MessageBusInterface $messageBus, private readonly int $maxBulkSize, private readonly LoggerInterface $logger, private readonly LoggerInterface $loggerBusinessEvent) {}
 
     public static function getSubscribedEvents(): array
     {
@@ -76,13 +74,13 @@ final class DispatchProductModelRemovedEventSubscriber implements DispatchBuffer
                     [
                         'type' => 'business_event.dispatch',
                         'event_count' => count($this->events),
-                        'events' => array_map(fn ($event) => [
+                        'events' => array_map(fn($event) => [
                             'name' => $event->getName(),
                             'uuid' => $event->getUuid(),
                             'author' => $event->getAuthor()->name(),
                             'author_type' => $event->getAuthor()->type(),
                             'timestamp' => $event->getTimestamp(),
-                        ], $this->events)
+                        ], $this->events),
                     ],
                     JSON_THROW_ON_ERROR
                 )

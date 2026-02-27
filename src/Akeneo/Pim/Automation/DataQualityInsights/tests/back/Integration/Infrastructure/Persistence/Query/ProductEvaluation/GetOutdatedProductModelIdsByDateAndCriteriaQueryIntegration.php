@@ -137,10 +137,10 @@ final class GetOutdatedProductModelIdsByDateAndCriteriaQueryIntegration extends 
     private function updateProductModelCriteriaEvaluationsAt(ProductModelId $productModelId, \DateTimeImmutable $evaluatedAt, array $criteria): void
     {
         $query = <<<SQL
-UPDATE pim_data_quality_insights_product_model_criteria_evaluation
-SET evaluated_at = :evaluated_at 
-WHERE product_id = :product_model_id
-SQL;
+            UPDATE pim_data_quality_insights_product_model_criteria_evaluation
+            SET evaluated_at = :evaluated_at 
+            WHERE product_id = :product_model_id
+            SQL;
         $queryParameters = [
             'product_model_id' => $productModelId->toInt(),
             'evaluated_at' => $evaluatedAt,

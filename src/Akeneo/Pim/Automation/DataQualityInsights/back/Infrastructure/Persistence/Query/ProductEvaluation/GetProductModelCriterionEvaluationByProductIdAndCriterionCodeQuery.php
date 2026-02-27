@@ -23,19 +23,18 @@ class GetProductModelCriterionEvaluationByProductIdAndCriterionCodeQuery impleme
     public function __construct(
         private readonly Connection $dbConnection,
         private readonly hydrateCriterionEvaluationResult $hydrateCriterionEvaluationResult
-    ) {
-    }
+    ) {}
 
     public function execute(ProductEntityIdInterface $productId, CriterionCode $criterionCode): ?Read\CriterionEvaluation
     {
         $query = <<<SQL
-SELECT evaluated_at, status, result 
-FROM pim_data_quality_insights_product_model_criteria_evaluation
-WHERE product_id = :productId AND criterion_code = :criterionCode;
-SQL;
+            SELECT evaluated_at, status, result 
+            FROM pim_data_quality_insights_product_model_criteria_evaluation
+            WHERE product_id = :productId AND criterion_code = :criterionCode;
+            SQL;
         $rawEvaluation = $this->dbConnection->executeQuery(
             $query,
-            ['productId' => (string)$productId, 'criterionCode' => $criterionCode],
+            ['productId' => (string) $productId, 'criterionCode' => $criterionCode],
             ['productId' => Types::INTEGER, 'criterionCode' => Types::STRING],
         )->fetchAssociative();
 

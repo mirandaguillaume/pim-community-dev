@@ -24,8 +24,7 @@ class GetUpdatedEntityIdsQuery implements GetUpdatedEntityIdsQueryInterface
         private readonly Client                          $esClient,
         private readonly string                          $documentType,
         private readonly ProductEntityIdFactoryInterface $idFactory
-    ) {
-    }
+    ) {}
 
     /**
      * @return \Generator<int, ProductEntityIdCollection>
@@ -41,15 +40,15 @@ class GetUpdatedEntityIdsQuery implements GetUpdatedEntityIdsQueryInterface
                 'must' => [
                     [
                         'term' => [
-                            'document_type' => $this->documentType
+                            'document_type' => $this->documentType,
                         ],
                     ],
                     [
                         'range' => [
                             'updated' => [
-                                'gt' => $updatedSince->setTimezone(new \DateTimeZone('UTC'))->format('c')
+                                'gt' => $updatedSince->setTimezone(new \DateTimeZone('UTC'))->format('c'),
                             ],
-                        ]
+                        ],
                     ],
                 ],
             ],
@@ -61,7 +60,7 @@ class GetUpdatedEntityIdsQuery implements GetUpdatedEntityIdsQueryInterface
             '_source' => ['id'],
             'size' => $bulkSize,
             'sort' => ['identifier' => 'asc', 'id' => 'asc'],
-            'query' => $query
+            'query' => $query,
         ];
 
         $result = $this->esClient->search($searchQuery);

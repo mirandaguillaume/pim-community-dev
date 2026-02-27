@@ -81,11 +81,11 @@ class AssociatedProductDatasource extends ProductDatasource
         $associatedProductsIds = $this->getAssociatedProductIds($association);
         $associatedProductModelsIds = $this->getAssociatedProductModelIds($association);
 
-        $limit = (int)$this->getConfiguration(PagerExtension::PER_PAGE_PARAM, false);
+        $limit = (int) $this->getConfiguration(PagerExtension::PER_PAGE_PARAM, false);
         $locale = $this->getConfiguration('locale_code');
         $scope = $this->getConfiguration('scope_code');
-        $from = null !== $this->getConfiguration('from', false) ?
-            (int) $this->getConfiguration('from', false) : 0;
+        $from = null !== $this->getConfiguration('from', false)
+            ? (int) $this->getConfiguration('from', false) : 0;
 
         $associatedProductsIdsFromParent = [];
         $associatedProductModelsIdsFromParent = [];
@@ -160,7 +160,7 @@ class AssociatedProductDatasource extends ProductDatasource
         }
 
         foreach ($parent->getAllAssociations() as $association) {
-            if ($association->getAssociationType()->getId() === (int)$associationTypeId) {
+            if ($association->getAssociationType()->getId() === (int) $associationTypeId) {
                 return $association;
             }
         }
@@ -269,7 +269,7 @@ class AssociatedProductDatasource extends ProductDatasource
                     'id' => sprintf(
                         '%s-%s',
                         $entity instanceof ProductModelInterface ? 'product-model' : 'product',
-                        $entity instanceof ProductInterface ? $entity->getUuid()->toString(): $entity->getId()
+                        $entity instanceof ProductInterface ? $entity->getUuid()->toString() : $entity->getId()
                     ),
                     'dataLocale' => $dataLocale,
                     'is_associated' => true,
@@ -331,7 +331,7 @@ class AssociatedProductDatasource extends ProductDatasource
     private function getAssociation(ProductInterface $sourceProduct, mixed $associationTypeId): ?AssociationInterface
     {
         foreach ($sourceProduct->getAllAssociations() as $association) {
-            if ($association->getAssociationType()->getId() === (int)$associationTypeId) {
+            if ($association->getAssociationType()->getId() === (int) $associationTypeId) {
                 return $association;
             }
         }

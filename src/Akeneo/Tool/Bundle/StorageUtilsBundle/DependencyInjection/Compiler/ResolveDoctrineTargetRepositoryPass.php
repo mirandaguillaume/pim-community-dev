@@ -17,9 +17,7 @@ class ResolveDoctrineTargetRepositoryPass implements CompilerPassInterface
     /**
      * @param array $tag tag of the repositories
      */
-    public function __construct(protected $tag)
-    {
-    }
+    public function __construct(protected $tag) {}
 
     /**
      * {@inheritdoc}
@@ -40,7 +38,7 @@ class ResolveDoctrineTargetRepositoryPass implements CompilerPassInterface
                 'addResolveTargetRepository',
                 [
                     $objectClass,
-                    $repositoryClass
+                    $repositoryClass,
                 ]
             );
         }

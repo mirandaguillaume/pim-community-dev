@@ -20,7 +20,7 @@ class MetricNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
     /**
      * {@inheritdoc}
      */
-    public function normalize($metric, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($metric, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $amount = $metric->getData();
 
@@ -40,7 +40,7 @@ class MetricNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
 
         return [
             'amount' => $amount,
-            'unit'   => $metric->getUnit()
+            'unit'   => $metric->getUnit(),
         ];
     }
 

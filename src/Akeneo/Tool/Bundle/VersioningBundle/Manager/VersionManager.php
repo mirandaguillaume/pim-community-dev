@@ -118,7 +118,7 @@ class VersionManager
 
             $builtVersions = array_filter(
                 $createdVersions,
-                fn ($version) => (is_countable($version->getChangeset()) ? count($version->getChangeset()) : 0) > 0
+                fn($version) => (is_countable($version->getChangeset()) ? count($version->getChangeset()) : 0) > 0
             );
 
             if (!empty($builtVersions)) {
@@ -268,7 +268,7 @@ class VersionManager
 
         $params = [
             'resourceName' => ClassUtils::getClass($versionable),
-            'pending' => true
+            'pending' => true,
         ];
         if ($this->hasUuid($versionable)) {
             $params['resourceUuid'] = $versionable->getUuid();
@@ -295,7 +295,7 @@ class VersionManager
 
     private function hasUuid($versionable): bool
     {
-        return method_exists($versionable, 'getUuid') &&
-            $versionable::class !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct';
+        return method_exists($versionable, 'getUuid')
+            && $versionable::class !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct';
     }
 }

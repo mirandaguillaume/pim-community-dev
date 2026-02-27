@@ -139,15 +139,15 @@ class GuzzleWebhookClientSpec extends ObjectBehavior
         Assert::assertNotNull($request);
 
         $body = '{"events":[{"action":"product.created","event_id":"7abae2fe-759a-4fce-aa43-f413980671b3","event_datetime":"2020-01-01T00:00:00+00:00","author":"julia","author_type":"ui","pim_source":"staging.akeneo.com","data":["data_1"]}]}';
-        Assert::assertEquals($body, (string)$request->getBody());
+        Assert::assertEquals($body, (string) $request->getBody());
 
-        $timestamp = (int)$request->getHeader(RequestHeaders::HEADER_REQUEST_TIMESTAMP)[0];
+        $timestamp = (int) $request->getHeader(RequestHeaders::HEADER_REQUEST_TIMESTAMP)[0];
         $signature = Signature::createSignature('a_secret', $timestamp, $body);
         Assert::assertEquals($signature, $request->getHeader(RequestHeaders::HEADER_REQUEST_SIGNATURE)[0]);
 
         $userAgent = 'AkeneoPIM/v20210526040645';
         if (false !== \getenv('PFID')) {
-            $userAgent .= ' '.\getenv('PFID');
+            $userAgent .= ' ' . \getenv('PFID');
         }
 
         Assert::assertSame($userAgent, $request->getHeader(RequestHeaders::HEADER_REQUEST_USERAGENT)[0]);
@@ -181,9 +181,9 @@ class GuzzleWebhookClientSpec extends ObjectBehavior
         Assert::assertNotNull($request);
 
         $body = '{"events":[{"action":"product.created","event_id":"7abae2fe-759a-4fce-aa43-f413980671b3","event_datetime":"2020-01-01T00:00:00+00:00","author":"julia","author_type":"ui","pim_source":"staging.akeneo.com","data":["data_2"]}]}';
-        Assert::assertEquals($body, (string)$request->getBody());
+        Assert::assertEquals($body, (string) $request->getBody());
 
-        $timestamp = (int)$request->getHeader(RequestHeaders::HEADER_REQUEST_TIMESTAMP)[0];
+        $timestamp = (int) $request->getHeader(RequestHeaders::HEADER_REQUEST_TIMESTAMP)[0];
         $signature = Signature::createSignature('a_secret', $timestamp, $body);
         Assert::assertEquals($signature, $request->getHeader(RequestHeaders::HEADER_REQUEST_SIGNATURE)[0]);
 
@@ -332,9 +332,9 @@ class GuzzleWebhookClientSpec extends ObjectBehavior
         Assert::assertNotNull($request);
 
         $body = '{"events":[{"action":"product.created","event_id":"7abae2fe-759a-4fce-aa43-f413980671b3","event_datetime":"2020-01-01T00:00:00+00:00","author":"julia","author_type":"ui","pim_source":"staging.akeneo.com","data":["data_1"]}]}';
-        Assert::assertEquals($body, (string)$request->getBody());
+        Assert::assertEquals($body, (string) $request->getBody());
 
-        $timestamp = (int)$request->getHeader(RequestHeaders::HEADER_REQUEST_TIMESTAMP)[0];
+        $timestamp = (int) $request->getHeader(RequestHeaders::HEADER_REQUEST_TIMESTAMP)[0];
         $signature = Signature::createSignature('a_secret', $timestamp, $body);
         Assert::assertEquals($signature, $request->getHeader(RequestHeaders::HEADER_REQUEST_SIGNATURE)[0]);
     }
@@ -342,7 +342,7 @@ class GuzzleWebhookClientSpec extends ObjectBehavior
     private function findRequest(array $container, string $url): ?Request
     {
         foreach ($container as $transaction) {
-            if ($url === (string)$transaction['request']->getUri()) {
+            if ($url === (string) $transaction['request']->getUri()) {
                 return $transaction['request'];
             }
         }
@@ -352,7 +352,7 @@ class GuzzleWebhookClientSpec extends ObjectBehavior
 
     private function createEvent(Author $author, array $data, int $timestamp, string $uuid): EventInterface
     {
-        return new class($author, $data, $timestamp, $uuid) extends Event {
+        return new class ($author, $data, $timestamp, $uuid) extends Event {
             public function getName(): string
             {
                 return 'product.created';

@@ -25,7 +25,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ItemStepSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         EventDispatcherInterface $dispatcher,
         DoctrineJobRepository $repository,
         PausableReader $reader,
@@ -45,7 +45,7 @@ class ItemStepSpec extends ObjectBehavior
         );
     }
 
-    function it_executes_with_success(
+    public function it_executes_with_success(
         $reader,
         $processor,
         $writer,
@@ -100,7 +100,7 @@ class ItemStepSpec extends ObjectBehavior
         $this->execute($execution);
     }
 
-    function it_executes_with_an_invalid_item_during_processing(
+    public function it_executes_with_an_invalid_item_during_processing(
         $reader,
         $processor,
         $writer,
@@ -161,7 +161,7 @@ class ItemStepSpec extends ObjectBehavior
         $this->execute($execution);
     }
 
-    function it_not_not_write_item_not_processed(
+    public function it_not_not_write_item_not_processed(
         ItemReaderInterface $reader,
         ItemProcessorInterface $processor,
         ItemWriterInterface $writer,
@@ -215,7 +215,7 @@ class ItemStepSpec extends ObjectBehavior
         $this->execute($execution);
     }
 
-    function it_stop_if_asked(
+    public function it_stop_if_asked(
         ItemReaderInterface $reader,
         ItemProcessorInterface $processor,
         ItemWriterInterface $writer,
@@ -266,7 +266,7 @@ class ItemStepSpec extends ObjectBehavior
         $this->execute($execution);
     }
 
-    function it_pause_if_asked(
+    public function it_pause_if_asked(
         StatefulReaderInterface $reader,
         ItemProcessorInterface $processor,
         StatefulWriterInterface $writer,
@@ -320,7 +320,7 @@ class ItemStepSpec extends ObjectBehavior
         $this->execute($execution);
     }
 
-    function it_resumes_paused_job_with_success(
+    public function it_resumes_paused_job_with_success(
         $reader,
         $processor,
         $writer,
@@ -336,7 +336,7 @@ class ItemStepSpec extends ObjectBehavior
 
         $dispatcher->dispatch(Argument::any(), EventInterface::BEFORE_STEP_EXECUTION_RESUME)->shouldBeCalled();
         $dispatcher->dispatch(Argument::any(), EventInterface::BEFORE_STEP_EXECUTION)->shouldBeCalled();
-        $execution->setStatus(Argument::that(fn (BatchStatus $newStatus) => $execution->getStatus()->willReturn($newStatus)))->shouldBeCalled();
+        $execution->setStatus(Argument::that(fn(BatchStatus $newStatus) => $execution->getStatus()->willReturn($newStatus)))->shouldBeCalled();
         $execution->getCurrentState()->willReturn([]);
 
         // first batch
@@ -377,7 +377,7 @@ class ItemStepSpec extends ObjectBehavior
         $this->execute($execution);
     }
 
-    function it_executes_a_job_and_set_as_paused(
+    public function it_executes_a_job_and_set_as_paused(
         $reader,
         $processor,
         $writer,
@@ -393,7 +393,7 @@ class ItemStepSpec extends ObjectBehavior
         $execution->getStatus()->willReturn($pausedStatus);
         $dispatcher->dispatch(Argument::any(), EventInterface::BEFORE_STEP_EXECUTION_RESUME)->shouldBeCalled();
         $dispatcher->dispatch(Argument::any(), EventInterface::BEFORE_STEP_EXECUTION)->shouldBeCalled();
-        $execution->setStatus(Argument::that(fn (BatchStatus $newStatus) => $execution->getStatus()->willReturn($newStatus)))->shouldBeCalled();
+        $execution->setStatus(Argument::that(fn(BatchStatus $newStatus) => $execution->getStatus()->willReturn($newStatus)))->shouldBeCalled();
         $execution->getCurrentState()->willReturn([]);
 
         // first batch
@@ -419,7 +419,7 @@ class ItemStepSpec extends ObjectBehavior
         $repository->updateStepExecution($execution)->shouldBeCalledTimes(4);
         $execution->isTerminateOnly()->willReturn(false);
 
-        $execution->upgradeStatus(Argument::that(fn () => $execution->getStatus()->willReturn($pausedStatus)))->shouldBeCalled();
+        $execution->upgradeStatus(Argument::that(fn() => $execution->getStatus()->willReturn($pausedStatus)))->shouldBeCalled();
 
         $dispatcher->dispatch(Argument::any(), EventInterface::STEP_EXECUTION_SUCCEEDED)->shouldBeCalled();
         $dispatcher->dispatch(Argument::any(), EventInterface::STEP_EXECUTION_COMPLETED)->shouldBeCalled();
@@ -429,7 +429,7 @@ class ItemStepSpec extends ObjectBehavior
         $this->execute($execution);
     }
 
-    function it_flushes_step_elements_when_job_is_pausing_and_every_items_are_processed(
+    public function it_flushes_step_elements_when_job_is_pausing_and_every_items_are_processed(
         StatefulReaderInterface $reader,
         ItemProcessorInterface $processor,
         PausableWriter $writer,
@@ -477,12 +477,6 @@ class ItemStepSpec extends ObjectBehavior
     }
 }
 
-interface PausableReader extends StatefulInterface, ItemReaderInterface
-{
+interface PausableReader extends StatefulInterface, ItemReaderInterface {}
 
-}
-
-interface PausableWriter extends StatefulInterface, ItemWriterInterface, FlushableInterface
-{
-
-}
+interface PausableWriter extends StatefulInterface, ItemWriterInterface, FlushableInterface {}

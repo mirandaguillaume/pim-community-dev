@@ -125,7 +125,7 @@ class Version_6_0_20211028125410_add_type_to_connection_Integration extends Test
             ],
             [
                 'allowed_grant_types' => Types::ARRAY,
-                'redirect_uris' => Types::ARRAY
+                'redirect_uris' => Types::ARRAY,
             ]
         );
 

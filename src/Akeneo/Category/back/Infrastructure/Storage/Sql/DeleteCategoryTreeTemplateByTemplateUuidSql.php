@@ -14,18 +14,16 @@ use Doctrine\DBAL\Connection;
  */
 class DeleteCategoryTreeTemplateByTemplateUuidSql implements DeleteCategoryTreeTemplateByTemplateUuid
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function __invoke(TemplateUuid $templateUuid): void
     {
         $this->connection->transactional(function (Connection $connection) use ($templateUuid) {
             $connection->executeQuery(
                 <<<SQL
-                    DELETE FROM pim_catalog_category_tree_template
-                    WHERE category_template_uuid = :template_uuid
-                SQL,
+                        DELETE FROM pim_catalog_category_tree_template
+                        WHERE category_template_uuid = :template_uuid
+                    SQL,
                 [
                     'template_uuid' => $templateUuid->toBytes(),
                 ],
@@ -36,9 +34,9 @@ class DeleteCategoryTreeTemplateByTemplateUuidSql implements DeleteCategoryTreeT
 
             $connection->executeQuery(
                 <<<SQL
-                    DELETE FROM pim_catalog_category_attribute
-                    WHERE category_template_uuid = :template_uuid
-                SQL,
+                        DELETE FROM pim_catalog_category_attribute
+                        WHERE category_template_uuid = :template_uuid
+                    SQL,
                 [
                     'template_uuid' => $templateUuid->toBytes(),
                 ],
@@ -49,9 +47,9 @@ class DeleteCategoryTreeTemplateByTemplateUuidSql implements DeleteCategoryTreeT
 
             $connection->executeQuery(
                 <<<SQL
-                    DELETE FROM pim_catalog_category_template
-                    WHERE uuid = :template_uuid
-                SQL,
+                        DELETE FROM pim_catalog_category_template
+                        WHERE uuid = :template_uuid
+                    SQL,
                 [
                     'template_uuid' => $templateUuid->toBytes(),
                 ],

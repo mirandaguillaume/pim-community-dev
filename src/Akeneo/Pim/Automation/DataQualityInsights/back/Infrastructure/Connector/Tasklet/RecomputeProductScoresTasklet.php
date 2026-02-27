@@ -31,8 +31,7 @@ final class RecomputeProductScoresTasklet implements TaskletInterface
         private readonly JobInstanceRepository $jobInstanceRepository,
         private readonly LoggerInterface $logger,
         private readonly ProductEntityIdFactoryInterface $idFactory
-    ) {
-    }
+    ) {}
 
     public function execute(): void
     {
@@ -50,7 +49,7 @@ final class RecomputeProductScoresTasklet implements TaskletInterface
                 }
 
                 $this->consolidateProductScores->consolidate(
-                    $this->idFactory->createCollection(array_map(fn ($uuid) => (string) $uuid, $uuids))
+                    $this->idFactory->createCollection(array_map(fn($uuid) => (string) $uuid, $uuids))
                 );
                 $lastProductUuidAsBytes = end($uuids);
             } while (false === $this->isTimeboxReached($startTime));
@@ -69,10 +68,10 @@ final class RecomputeProductScoresTasklet implements TaskletInterface
     private function getNextProductUuids(string $lastProductUuid): array
     {
         $query = <<<SQL
-            SELECT BIN_TO_UUID(uuid) as uuid 
-            FROM pim_catalog_product 
-            WHERE uuid > :lastUuid ORDER BY uuid ASC LIMIT :limit
-        SQL;
+                SELECT BIN_TO_UUID(uuid) as uuid 
+                FROM pim_catalog_product 
+                WHERE uuid > :lastUuid ORDER BY uuid ASC LIMIT :limit
+            SQL;
 
         return $this->connection->executeQuery(
             $query,

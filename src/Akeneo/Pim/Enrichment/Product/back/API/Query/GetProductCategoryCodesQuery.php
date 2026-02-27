@@ -15,7 +15,5 @@ final readonly class GetProductCategoryCodesQuery
     /**
      * @param UuidInterface[] $productUuids
      */
-    public function __construct(public array $productUuids)
-    {
-    }
+    public function __construct(public array $productUuids) {}
 }

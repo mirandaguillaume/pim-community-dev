@@ -27,7 +27,7 @@ final class JobExecutionTable
     public function normalize(): array
     {
         return [
-            self::ROWS => array_map(static fn (JobExecutionRow $jobItem) => $jobItem->normalize(), $this->rows),
+            self::ROWS => array_map(static fn(JobExecutionRow $jobItem) => $jobItem->normalize(), $this->rows),
             self::MATCHES_COUNT => $this->matchesCount,
         ];
     }

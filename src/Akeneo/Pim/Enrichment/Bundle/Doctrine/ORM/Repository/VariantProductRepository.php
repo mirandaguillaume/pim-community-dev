@@ -16,9 +16,7 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class VariantProductRepository implements VariantProductRepositoryInterface
 {
-    public function __construct(private readonly EntityManagerInterface $entityManager)
-    {
-    }
+    public function __construct(private readonly EntityManagerInterface $entityManager) {}
 
     /**
      * {@inheritdoc}

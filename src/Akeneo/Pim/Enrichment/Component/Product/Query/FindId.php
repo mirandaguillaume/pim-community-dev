@@ -10,5 +10,5 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Query;
  */
 interface FindId
 {
-    public function fromIdentifier(string $identifier): null|string;
+    public function fromIdentifier(string $identifier): ?string;
 }

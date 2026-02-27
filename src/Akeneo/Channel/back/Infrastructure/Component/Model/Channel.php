@@ -195,7 +195,7 @@ class Channel implements ChannelInterface, \Stringable
     {
         $translated = ($this->getTranslation()) ? $this->getTranslation()->getLabel() : null;
 
-        return ($translated !== '' && $translated !== null) ? $translated : '['.$this->getCode().']';
+        return ($translated !== '' && $translated !== null) ? $translated : '[' . $this->getCode() . ']';
     }
 
     /**
@@ -296,7 +296,7 @@ class Channel implements ChannelInterface, \Stringable
     public function getLocaleCodes()
     {
         return $this->locales->map(
-            fn ($locale) => $locale->getCode()
+            fn($locale) => $locale->getCode()
         )->toArray();
     }
 

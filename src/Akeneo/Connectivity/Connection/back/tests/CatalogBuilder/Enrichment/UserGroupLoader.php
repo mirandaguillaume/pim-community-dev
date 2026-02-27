@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Tests\CatalogBuilder\Enrichment;
@@ -22,8 +23,7 @@ class UserGroupLoader
         private readonly ValidatorInterface $validator,
         private readonly SaverInterface $saver,
         private readonly Connection $connection,
-    ) {
-    }
+    ) {}
 
     public function create(array $data = []): void
     {

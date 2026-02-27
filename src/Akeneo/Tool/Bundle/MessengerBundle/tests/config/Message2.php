@@ -12,9 +12,7 @@ use Webmozart\Assert\Assert;
  */
 final readonly class Message2
 {
-    public function __construct(public int $number)
-    {
-    }
+    public function __construct(public int $number) {}
 
     /**
      * @return array<string, int>

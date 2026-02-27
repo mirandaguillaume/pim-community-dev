@@ -17,8 +17,7 @@ final readonly class GetUpToDateProductEvaluationQuery implements GetProductEval
         private GetCriteriaEvaluationsByEntityIdQueryInterface $getCriteriaEvaluationsByProductIdQuery,
         private GetProductScoresQueryInterface                  $getProductScoresQuery,
         private GetScoresByCriteriaStrategy                     $getScoresByCriteria,
-    ) {
-    }
+    ) {}
 
     public function execute(ProductUuid $productUuid): ProductEvaluation
     {

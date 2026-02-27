@@ -17,9 +17,7 @@ class CountChannels implements CountQuery
 {
     private const VOLUME_NAME = 'count_channels';
 
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     /**
      * {@inheritdoc}
@@ -27,9 +25,9 @@ class CountChannels implements CountQuery
     public function fetch(): CountVolume
     {
         $sql = <<<SQL
-            SELECT COUNT(*) as count
-            FROM pim_catalog_channel;
-SQL;
+                        SELECT COUNT(*) as count
+                        FROM pim_catalog_channel;
+            SQL;
         $result = $this->connection->executeQuery($sql)->fetchAssociative();
         $volume = new CountVolume((int) $result['count'], self::VOLUME_NAME);
 

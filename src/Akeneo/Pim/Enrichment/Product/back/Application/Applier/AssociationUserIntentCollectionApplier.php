@@ -42,8 +42,7 @@ final readonly class AssociationUserIntentCollectionApplier implements UserInten
         private ObjectUpdaterInterface $productUpdater,
         private GetViewableProducts $getViewableProducts,
         private GetViewableProductModels $getViewableProductModels
-    ) {
-    }
+    ) {}
 
     public function apply(UserIntent $userIntent, ProductInterface $product, int $userId): void
     {
@@ -56,14 +55,14 @@ final readonly class AssociationUserIntentCollectionApplier implements UserInten
             $entityAssociations = $this->userIntentEntityAssociations($associationUserIntent, $entityType);
 
             $values = match ($associationUserIntent::class) {
-                AssociateProducts::class, AssociateProductModels::class, AssociateGroups::class =>
-                    $this->associateEntities($formerAssociations, $entityAssociations),
-                DissociateProducts::class, DissociateProductModels::class, DissociateGroups::class =>
-                    $this->dissociateEntities($formerAssociations, $entityAssociations),
-                ReplaceAssociatedProducts::class, ReplaceAssociatedProductModels::class, ReplaceAssociatedGroups::class =>
-                    $this->replaceAssociatedEntities($formerAssociations, $entityAssociations, $entityType, $userId),
-                ReplaceAssociatedProductUuids::class =>
-                    $this->replaceAssociatedProductsByUuid($formerAssociations, $entityAssociations, $userId),
+                AssociateProducts::class, AssociateProductModels::class, AssociateGroups::class
+                    => $this->associateEntities($formerAssociations, $entityAssociations),
+                DissociateProducts::class, DissociateProductModels::class, DissociateGroups::class
+                    => $this->dissociateEntities($formerAssociations, $entityAssociations),
+                ReplaceAssociatedProducts::class, ReplaceAssociatedProductModels::class, ReplaceAssociatedGroups::class
+                    => $this->replaceAssociatedEntities($formerAssociations, $entityAssociations, $entityType, $userId),
+                ReplaceAssociatedProductUuids::class
+                    => $this->replaceAssociatedProductsByUuid($formerAssociations, $entityAssociations, $userId),
                 default => throw new \InvalidArgumentException('Unsupported association userIntent')
             };
             if (\is_null($values)) {
@@ -95,16 +94,16 @@ final readonly class AssociationUserIntentCollectionApplier implements UserInten
         $values = match ($entityType) {
             self::PRODUCTS => $product
                     ->getAssociatedProducts($associationUserIntent->associationType())
-                    ?->map(fn (ProductInterface $product): string => $product->getIdentifier())?->toArray() ?? [],
+                    ?->map(fn(ProductInterface $product): string => $product->getIdentifier())?->toArray() ?? [],
             self::PRODUCT_UUIDS => $product
                     ->getAssociatedProducts($associationUserIntent->associationType())
-                    ?->map(fn (ProductInterface $product): string => $product->getUuid()->toString())?->toArray() ?? [],
+                    ?->map(fn(ProductInterface $product): string => $product->getUuid()->toString())?->toArray() ?? [],
             self::PRODUCT_MODELS => $product
                     ->getAssociatedProductModels($associationUserIntent->associationType())
-                    ?->map(fn (ProductModelInterface $productModel): string => $productModel->getIdentifier())?->toArray() ?? [],
+                    ?->map(fn(ProductModelInterface $productModel): string => $productModel->getIdentifier())?->toArray() ?? [],
             self::GROUPS => $product
                     ->getAssociatedGroups($associationUserIntent->associationType())
-                    ?->map(fn (GroupInterface $group): string => $group->getCode())?->toArray() ?? [],
+                    ?->map(fn(GroupInterface $group): string => $group->getCode())?->toArray() ?? [],
             default => throw new \LogicException('Not implemented')
         };
 
@@ -207,10 +206,10 @@ final readonly class AssociationUserIntentCollectionApplier implements UserInten
             return null;
         }
 
-        $uuids = array_map(fn (string $uuid): UuidInterface => Uuid::fromString($uuid), $formerAssociations);
+        $uuids = array_map(fn(string $uuid): UuidInterface => Uuid::fromString($uuid), $formerAssociations);
 
         $viewableProductUuids = $this->getViewableProducts->fromProductUuids($uuids, $userId);
-        $viewableProductUuidsAsStr = \array_map(fn (UuidInterface $uuid): string => $uuid->toString(), $viewableProductUuids);
+        $viewableProductUuidsAsStr = \array_map(fn(UuidInterface $uuid): string => $uuid->toString(), $viewableProductUuids);
         $nonViewableEntities = \array_values(\array_diff($formerAssociations, $viewableProductUuidsAsStr));
 
         return \array_values(\array_unique(\array_merge($nonViewableEntities, $entityAssociations)));

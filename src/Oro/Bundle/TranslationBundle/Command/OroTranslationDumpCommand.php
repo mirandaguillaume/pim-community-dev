@@ -74,7 +74,7 @@ class OroTranslationDumpCommand extends Command
             $content = $this->controller
                 ->renderJsTranslationContent($domains, $locale, $input->getOption('debug'));
 
-            $this->filesystem->mkdir(dirname($target), 0777);
+            $this->filesystem->mkdir(dirname($target), 0o777);
 
             if (false === @file_put_contents($target, $content)) {
                 throw new \RuntimeException('Unable to write file ' . $target);

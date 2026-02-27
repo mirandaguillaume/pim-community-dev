@@ -25,8 +25,7 @@ final readonly class GetJobExecutionAction
         private Security $security,
         private SecurityFacade $securityFacade,
         private SearchJobExecutionHandler $searchJobExecutionHandler,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): Response
     {

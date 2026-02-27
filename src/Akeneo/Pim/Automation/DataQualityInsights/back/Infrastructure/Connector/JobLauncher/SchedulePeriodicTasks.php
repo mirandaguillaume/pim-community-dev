@@ -17,9 +17,7 @@ use Symfony\Component\Security\Core\User\InMemoryUser;
  */
 final readonly class SchedulePeriodicTasks
 {
-    public function __construct(private JobLauncherInterface $queueJobLauncher, private JobInstanceRepository $jobInstanceRepository)
-    {
-    }
+    public function __construct(private JobLauncherInterface $queueJobLauncher, private JobInstanceRepository $jobInstanceRepository) {}
 
     public function schedule(\DateTimeImmutable $date): void
     {

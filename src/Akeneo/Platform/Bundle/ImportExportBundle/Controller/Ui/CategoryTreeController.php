@@ -17,9 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class CategoryTreeController
 {
-    public function __construct(private readonly FindGrantedCategoryTrees $findGrantedCategoryTrees, private readonly GetCategoryChildrenCodesPerTreeInterface $getCategoryChildrenCodesPerTree)
-    {
-    }
+    public function __construct(private readonly FindGrantedCategoryTrees $findGrantedCategoryTrees, private readonly GetCategoryChildrenCodesPerTreeInterface $getCategoryChildrenCodesPerTree) {}
 
     public function __invoke(Request $request): JsonResponse
     {
@@ -60,8 +58,8 @@ class CategoryTreeController
 
     private function findCategoryCountPerTree(array $selectedCategoryCodes, bool $shouldIncludeChildren): array
     {
-        $categoriesChildrenCodes = $shouldIncludeChildren ?
-            $this->getCategoryChildrenCodesPerTree->executeWithChildren($selectedCategoryCodes)
+        $categoriesChildrenCodes = $shouldIncludeChildren
+            ? $this->getCategoryChildrenCodesPerTree->executeWithChildren($selectedCategoryCodes)
             : $this->getCategoryChildrenCodesPerTree->executeWithoutChildren($selectedCategoryCodes);
 
         return array_map('count', $categoriesChildrenCodes);

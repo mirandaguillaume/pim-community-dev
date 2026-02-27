@@ -15,9 +15,7 @@ class ReachRequestLimitLogger
 {
     final public const TYPE = 'event_api.reach_requests_limit';
 
-    public function __construct(private readonly LoggerInterface $logger)
-    {
-    }
+    public function __construct(private readonly LoggerInterface $logger) {}
 
     public function log(int $limit, \DateTimeImmutable $reachedLimitDateTime, int $delayUntilNextRequest): void
     {
@@ -28,7 +26,7 @@ class ReachRequestLimitLogger
             'retry_after_seconds' => $delayUntilNextRequest,
             'limit_reset' => $reachedLimitDateTime
                 ->add(new \DateInterval('PT' . $delayUntilNextRequest . 'S'))
-                ->format(\DateTimeInterface::ATOM)
+                ->format(\DateTimeInterface::ATOM),
         ];
 
         $this->logger->info(\json_encode($log, JSON_THROW_ON_ERROR));

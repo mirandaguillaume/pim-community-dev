@@ -31,8 +31,7 @@ class GetFromIdentifiersAction
         private readonly LinkedProductsNormalizer $linkedProductsNormalizer,
         private readonly FetchProductAndProductModelRows $fetchProductAndProductModelRows,
         private readonly ValidatorInterface $validator
-    ) {
-    }
+    ) {}
 
     public function __invoke(
         Request $request
@@ -56,7 +55,7 @@ class GetFromIdentifiersAction
 
         return new JsonResponse([
             'items' => array_merge($normalizedProducts, $normalizedProductModels),
-            'total_count' => $productRows->totalCount() + $productModelRows->totalCount()
+            'total_count' => $productRows->totalCount() + $productModelRows->totalCount(),
         ]);
     }
 
@@ -69,12 +68,12 @@ class GetFromIdentifiersAction
             [
                 'default_locale' => $localeCode,
                 'default_scope'  => $channelCode,
-                'limit' => self::MAX_RESULTS
+                'limit' => self::MAX_RESULTS,
             ]
         );
 
         $productUuids = array_map(
-            static fn (string $productUuid) => sprintf('product_%s', $productUuid),
+            static fn(string $productUuid) => sprintf('product_%s', $productUuid),
             $productUuids
         );
 
@@ -102,7 +101,7 @@ class GetFromIdentifiersAction
             [
                 'default_locale' => $localeCode,
                 'default_scope'  => $channelCode,
-                'limit' => self::MAX_RESULTS
+                'limit' => self::MAX_RESULTS,
             ]
         );
         $queryBuilder->addFilter('identifier', Operators::IN_LIST, $productModelCodes);

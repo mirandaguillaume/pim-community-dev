@@ -19,9 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final readonly class DashboardKeyIndicatorsController
 {
-    public function __construct(private GetKeyIndicatorsInterface $getKeyIndicators)
-    {
-    }
+    public function __construct(private GetKeyIndicatorsInterface $getKeyIndicators) {}
 
     public function __invoke(Request $request, string $channel, string $locale)
     {

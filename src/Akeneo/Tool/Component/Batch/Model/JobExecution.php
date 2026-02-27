@@ -487,7 +487,7 @@ class JobExecution implements \Stringable
             'message'           => $e->getMessage(),
             'messageParameters' => $e instanceof RuntimeErrorException ? $e->getMessageParameters() : [],
             'code'              => $e->getCode(),
-            'trace'             => $e->getTraceAsString()
+            'trace'             => $e->getTraceAsString(),
         ];
 
         return $this;

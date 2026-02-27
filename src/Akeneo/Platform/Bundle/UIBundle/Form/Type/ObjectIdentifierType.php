@@ -61,7 +61,7 @@ class ObjectIdentifierType extends AbstractType
             ->setDefined([
                 'repository_options',
                 'identifier',
-                'multiple'
+                'multiple',
             ])
             ->setRequired(['repository'])
             ->setDefaults([
@@ -71,6 +71,6 @@ class ObjectIdentifierType extends AbstractType
                 'identifier'         => 'id',
             ])
             ->setAllowedValues('multiple', [true, false])
-            ->setAllowedValues('repository', fn ($repository) => $repository instanceof ObjectRepository);
+            ->setAllowedValues('repository', fn($repository) => $repository instanceof ObjectRepository);
     }
 }

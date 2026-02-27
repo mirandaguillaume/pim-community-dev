@@ -27,8 +27,7 @@ final readonly class GetPendingCriteriaEvaluationsByEntityIdsQuery implements Ge
         private Connection                      $dbConnection,
         private string                          $tableName,
         private ProductEntityIdFactoryInterface $idFactory
-    ) {
-    }
+    ) {}
 
     /**
      * @inheritDoc
@@ -50,7 +49,7 @@ final readonly class GetPendingCriteriaEvaluationsByEntityIdsQuery implements Ge
         while ($resultRow = $entityCriteriaEvaluationStatement->fetchAssociative()) {
             $entityId = $this->idFactory->create($resultRow['entity_id']);
             $criteria = json_decode((string) $resultRow['criteria'], null, 512, JSON_THROW_ON_ERROR);
-            $productsCriteriaEvaluations[(string)$entityId] = $this->hydrateProductCriteriaEvaluations($entityId, $criteria);
+            $productsCriteriaEvaluations[(string) $entityId] = $this->hydrateProductCriteriaEvaluations($entityId, $criteria);
         }
 
         return $productsCriteriaEvaluations;
@@ -61,13 +60,13 @@ final readonly class GetPendingCriteriaEvaluationsByEntityIdsQuery implements Ge
         $criterionEvaluationTable = $this->tableName;
 
         $sql = <<<SQL
-SELECT BIN_TO_UUID(p.uuid) as entity_id, JSON_ARRAYAGG(criterion_code) as criteria
-FROM $criterionEvaluationTable e
-    JOIN pim_catalog_product p ON p.uuid = e.product_uuid
-WHERE status = :status
-AND p.uuid IN(:product_uuids)
-GROUP BY p.uuid
-SQL;
+            SELECT BIN_TO_UUID(p.uuid) as entity_id, JSON_ARRAYAGG(criterion_code) as criteria
+            FROM $criterionEvaluationTable e
+                JOIN pim_catalog_product p ON p.uuid = e.product_uuid
+            WHERE status = :status
+            AND p.uuid IN(:product_uuids)
+            GROUP BY p.uuid
+            SQL;
 
         return $this->dbConnection->executeQuery($sql, [
             'status' => CriterionEvaluationStatus::PENDING,
@@ -83,12 +82,12 @@ SQL;
         $criterionEvaluationTable = $this->tableName;
 
         $sql = <<<SQL
-SELECT product_id AS entity_id, JSON_ARRAYAGG(criterion_code) as criteria
-FROM $criterionEvaluationTable
-WHERE status = :status
-AND product_id IN(:product_model_ids)
-GROUP BY product_id
-SQL;
+            SELECT product_id AS entity_id, JSON_ARRAYAGG(criterion_code) as criteria
+            FROM $criterionEvaluationTable
+            WHERE status = :status
+            AND product_id IN(:product_model_ids)
+            GROUP BY product_id
+            SQL;
 
         return $this->dbConnection->executeQuery($sql, [
             'status' => CriterionEvaluationStatus::PENDING,

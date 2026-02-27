@@ -22,7 +22,7 @@ use Prophecy\Argument;
  */
 class SearchFiltersSqlSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         ExternalApiSearchFiltersValidator $searchFiltersValidator,
         GetCategoryInterface $getCategory,
     ) {
@@ -32,18 +32,17 @@ class SearchFiltersSqlSpec extends ObjectBehavior
         );
     }
 
-    function it_generates_correct_sqlWhere_for_parent_filter(
+    public function it_generates_correct_sqlWhere_for_parent_filter(
         ExternalApiSearchFiltersValidator $searchFiltersValidator,
         GetCategoryInterface $getCategory,
-    )
-    {
+    ) {
         $value = '3';
         $searchFilters = [
             'parent' => [
                 [
                     'operator' => '=',
                     'value' => $value,
-                ]
+                ],
             ],
         ];
 
@@ -76,17 +75,16 @@ class SearchFiltersSqlSpec extends ObjectBehavior
         $this->build($searchFilters)->shouldBeLike($expected);
     }
 
-    function it_generates_correct_sqlWhere_for_root_filter_set_to_true(
+    public function it_generates_correct_sqlWhere_for_root_filter_set_to_true(
         ExternalApiSearchFiltersValidator $searchFiltersValidator,
-    )
-    {
+    ) {
         $value =  true;
         $searchFilters = [
             'is_root' => [
                 [
                     'operator' => '=',
                     'value' => $value,
-                ]
+                ],
             ],
         ];
 
@@ -100,17 +98,16 @@ class SearchFiltersSqlSpec extends ObjectBehavior
         $this->build($searchFilters)->shouldBeLike($expected);
     }
 
-    function it_generates_correct_sqlWhere_for_root_filter_set_to_false(
+    public function it_generates_correct_sqlWhere_for_root_filter_set_to_false(
         ExternalApiSearchFiltersValidator $searchFiltersValidator,
-    )
-    {
+    ) {
         $value =  false;
         $searchFilters = [
             'is_root' => [
                 [
                     'operator' => '=',
                     'value' => $value,
-                ]
+                ],
             ],
         ];
 
@@ -124,11 +121,10 @@ class SearchFiltersSqlSpec extends ObjectBehavior
         $this->build($searchFilters)->shouldBeLike($expected);
     }
 
-    function it_generates_correct_sqlWhere_for_parent_and_is_root_filters(
+    public function it_generates_correct_sqlWhere_for_parent_and_is_root_filters(
         ExternalApiSearchFiltersValidator $searchFiltersValidator,
         GetCategoryInterface $getCategory,
-    )
-    {
+    ) {
         $parentValue = '3';
         $isRootValue =  true;
         $searchFilters = [
@@ -136,13 +132,13 @@ class SearchFiltersSqlSpec extends ObjectBehavior
                 [
                     'operator' => '=',
                     'value' => $parentValue,
-                ]
+                ],
             ],
             'is_root' => [
                 [
                     'operator' => '=',
                     'value' => $isRootValue,
-                ]
+                ],
             ],
         ];
 
@@ -175,17 +171,16 @@ class SearchFiltersSqlSpec extends ObjectBehavior
         $this->build($searchFilters)->shouldBeLike($expected);
     }
 
-    function it_generates_correct_sqlWhere_for_category_codes_filter(
+    public function it_generates_correct_sqlWhere_for_category_codes_filter(
         ExternalApiSearchFiltersValidator $searchFiltersValidator,
-    )
-    {
+    ) {
         $values = ['master', 'category1'];
         $searchFilters = [
             'code' => [
                 [
                     'operator' => 'IN',
                     'value' => $values,
-                ]
+                ],
             ],
         ];
 
@@ -197,7 +192,7 @@ class SearchFiltersSqlSpec extends ObjectBehavior
                 'code_0' => [
                     'master',
                     'category1',
-                ]
+                ],
             ],
             types: [
                 'code_0' => ArrayParameterType::STRING,
@@ -207,17 +202,16 @@ class SearchFiltersSqlSpec extends ObjectBehavior
         $this->build($searchFilters)->shouldBeLike($expected);
     }
 
-    function it_generates_correct_sqlWhere_for_greater_than_date_filter(
+    public function it_generates_correct_sqlWhere_for_greater_than_date_filter(
         ExternalApiSearchFiltersValidator $searchFiltersValidator,
-    )
-    {
+    ) {
         $value = '2019-06-09T12:00:00+00:00';
         $searchFilters = [
             'updated' => [
                 [
                     'operator' => '>',
                     'value' => $value,
-                ]
+                ],
             ],
         ];
 
@@ -238,17 +232,16 @@ class SearchFiltersSqlSpec extends ObjectBehavior
         $this->build($searchFilters)->shouldBeLike($expected);
     }
 
-    function it_throws_exception_on_bad_operator(
+    public function it_throws_exception_on_bad_operator(
         ExternalApiSearchFiltersValidator $searchFiltersValidator,
-    )
-    {
+    ) {
         $value = '2019-06-09T12:00:00+00:00';
         $searchFilters = [
             'updated' => [
                 [
                     'operator' => '!=',
                     'value' => $value,
-                ]
+                ],
             ],
         ];
 

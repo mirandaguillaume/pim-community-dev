@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Structure\Bundle\Query\PublicApi\Family\Cache;
@@ -34,7 +35,7 @@ final class LRUCachedGetRequiredAttributesMasks implements GetRequiredAttributes
             return [];
         }
 
-        $fetchNonFoundFamilyCodes = fn (array $notFoundFamilyCodes): array => $this->getRequiredAttributesMasks->fromFamilyCodes($notFoundFamilyCodes);
+        $fetchNonFoundFamilyCodes = fn(array $notFoundFamilyCodes): array => $this->getRequiredAttributesMasks->fromFamilyCodes($notFoundFamilyCodes);
 
         return $this->cache->getForKeys($familyCodes, $fetchNonFoundFamilyCodes);
     }

@@ -14,9 +14,8 @@ use Doctrine\DBAL\Connection;
  */
 final class Version_8_0_20230308145407_add_sort_order_for_identifier_generator_Integration extends TestCase
 {
-    private const MIGRATION_NAME = '_8_0_20230308145407_add_sort_order_for_identifier_generator';
-
     use ExecuteMigrationTrait;
+    private const MIGRATION_NAME = '_8_0_20230308145407_add_sort_order_for_identifier_generator';
 
     private Connection $connection;
 
@@ -46,16 +45,16 @@ final class Version_8_0_20230308145407_add_sort_order_for_identifier_generator_I
     {
         return $this->connection->executeQuery(
             <<<SQL
-                SHOW COLUMNS FROM pim_catalog_identifier_generator LIKE 'sort_order';
-            SQL,
+                    SHOW COLUMNS FROM pim_catalog_identifier_generator LIKE 'sort_order';
+                SQL,
         )->rowCount() >= 1;
     }
 
     private function dropSortOrderColumn(): void
     {
         $sql = <<<SQL
-            ALTER TABLE pim_catalog_identifier_generator DROP COLUMN sort_order;
-        SQL;
+                ALTER TABLE pim_catalog_identifier_generator DROP COLUMN sort_order;
+            SQL;
 
         $this->connection->executeQuery($sql);
     }

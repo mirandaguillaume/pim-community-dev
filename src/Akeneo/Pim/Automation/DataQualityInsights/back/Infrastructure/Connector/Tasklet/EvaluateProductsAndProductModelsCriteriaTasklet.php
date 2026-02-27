@@ -30,8 +30,7 @@ final class EvaluateProductsAndProductModelsCriteriaTasklet implements TaskletIn
         private readonly int $bulkSize = 100,
         private readonly int $timeBoxInSecondsAllowed = 1700, //~28 minutes
         private readonly int $noEvaluationSleep = 60,
-    ) {
-    }
+    ) {}
 
     public function execute(): void
     {
@@ -41,11 +40,11 @@ final class EvaluateProductsAndProductModelsCriteriaTasklet implements TaskletIn
         $startTime = time();
         $evaluationTime['products'] = [
             'count' => 0,
-            'time' => 0
+            'time' => 0,
         ];
         $evaluationTime['product_models'] = [
             'count' => 0,
-            'time' => 0
+            'time' => 0,
         ];
 
         do {

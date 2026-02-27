@@ -10,9 +10,7 @@ namespace Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeOption;
  */
 class AttributeOption
 {
-    public function __construct(private readonly string $code, private readonly array $labels)
-    {
-    }
+    public function __construct(private readonly string $code, private readonly array $labels) {}
 
     public function getCode(): string
     {

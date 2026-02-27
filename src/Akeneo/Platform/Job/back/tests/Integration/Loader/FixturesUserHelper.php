@@ -23,8 +23,7 @@ final readonly class FixturesUserHelper
         private RoleWithPermissionsSaver $roleWithPermissionsSaver,
         private AclManager $aclManager,
         private LocaleRepositoryInterface $localeRepository,
-    ) {
-    }
+    ) {}
 
     public function createUser(string $username, array $roleNames, string $userType = 'user'): void
     {

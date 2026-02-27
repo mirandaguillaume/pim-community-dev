@@ -181,7 +181,7 @@ class LoggerSubscriber implements EventSubscriberInterface
                 implode(
                     ', ',
                     array_map(
-                        fn ($exception) => $this->translator->trans(
+                        fn($exception) => $this->translator->trans(
                             $exception['message'],
                             $exception['messageParameters'],
                             $this->translationDomain,
@@ -253,6 +253,6 @@ class LoggerSubscriber implements EventSubscriberInterface
             return $data->format('Y-m-d');
         }
 
-        return (string)$data;
+        return (string) $data;
     }
 }

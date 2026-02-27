@@ -16,9 +16,7 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
  */
 final readonly class ValidateLocales
 {
-    public function __construct(private IdentifiableObjectRepositoryInterface $channelRepository, private IdentifiableObjectRepositoryInterface $localeRepository)
-    {
-    }
+    public function __construct(private IdentifiableObjectRepositoryInterface $channelRepository, private IdentifiableObjectRepositoryInterface $localeRepository) {}
 
     /**
      * @throws InvalidQueryException
@@ -39,8 +37,8 @@ final readonly class ValidateLocales
         }
 
         if (!empty($errors)) {
-            $plural = count($errors) > 1 ?
-                'Locales "%s" do not exist or are not activated.' : 'Locale "%s" does not exist or is not activated.';
+            $plural = count($errors) > 1
+                ? 'Locales "%s" do not exist or are not activated.' : 'Locale "%s" does not exist or is not activated.';
             throw new InvalidQueryException(sprintf($plural, implode(', ', $errors)));
         }
 

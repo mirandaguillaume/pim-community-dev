@@ -16,8 +16,7 @@ class V20230313SetEmptyCategoryLabelsToNullZddMigration implements ZddMigration
 {
     public function __construct(
         private readonly Connection $connection,
-    ) {
-    }
+    ) {}
 
     /**
      * @throws Exception
@@ -25,10 +24,10 @@ class V20230313SetEmptyCategoryLabelsToNullZddMigration implements ZddMigration
     public function migrate(): void
     {
         $this->connection->executeQuery(<<<SQL
-            UPDATE pim_catalog_category_translation
-            SET label=NULL
-            WHERE label = '';
-        SQL);
+                UPDATE pim_catalog_category_translation
+                SET label=NULL
+                WHERE label = '';
+            SQL);
     }
 
     public function migrateNotZdd(): void

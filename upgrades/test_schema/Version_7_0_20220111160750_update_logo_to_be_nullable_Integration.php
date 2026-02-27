@@ -18,9 +18,9 @@ class Version_7_0_20220111160750_update_logo_to_be_nullable_Integration extends 
     public function test_it_modify_columns_and_keep_the_data(): void
     {
         $query = <<<SQL
-        ALTER TABLE akeneo_connectivity_connected_app
-        MODIFY logo varchar(255) NOT NULL;
-SQL;
+                    ALTER TABLE akeneo_connectivity_connected_app
+                    MODIFY logo varchar(255) NOT NULL;
+            SQL;
 
         $this->getConnection()->executeQuery($query);
         $this->assertAuthorColumnIsNullable(false);

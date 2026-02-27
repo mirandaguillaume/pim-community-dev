@@ -17,8 +17,7 @@ final readonly class TransformCommonCriterionResultDataIds implements TransformR
     public function __construct(
         private TransformChannelLocaleDataIds $transformChannelLocaleDataIds,
         private AttributesInterface $attributes,
-    ) {
-    }
+    ) {}
 
     public function transformToCodes(array $resultData): array
     {
@@ -29,12 +28,12 @@ final readonly class TransformCommonCriterionResultDataIds implements TransformR
                     $dataByCodes['attributes_with_rates'] = $this->transformResultAttributeDataIdsToCodes($dataByIds);
                     break;
                 case TransformCriterionEvaluationResultCodes::DATA_TYPES_ID['total_number_of_attributes']:
-                    $dataByCodes['total_number_of_attributes'] =
-                        $this->transformChannelLocaleDataIds->transformToCodes($dataByIds, fn ($number) => $number);
+                    $dataByCodes['total_number_of_attributes']
+                        = $this->transformChannelLocaleDataIds->transformToCodes($dataByIds, fn($number) => $number);
                     break;
                 case TransformCriterionEvaluationResultCodes::DATA_TYPES_ID['number_of_improvable_attributes']:
-                    $dataByCodes['number_of_improvable_attributes'] =
-                        $this->transformChannelLocaleDataIds->transformToCodes($dataByIds, fn ($number) => $number);
+                    $dataByCodes['number_of_improvable_attributes']
+                        = $this->transformChannelLocaleDataIds->transformToCodes($dataByIds, fn($number) => $number);
                     break;
                 case TransformCriterionEvaluationResultCodes::DATA_TYPES_ID['hashed_values']:
                     $dataByCodes['hashed_values'] = $this->transformResultAttributeDataIdsToCodes($dataByIds);

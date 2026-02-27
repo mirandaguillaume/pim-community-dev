@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Tests\CatalogBuilder\Structure;
@@ -21,8 +22,7 @@ class FamilyVariantLoader
         private readonly ObjectUpdaterInterface $updater,
         private readonly ValidatorInterface $validator,
         private readonly SaverInterface $saver,
-    ) {
-    }
+    ) {}
 
     /**
      * @throws \Exception

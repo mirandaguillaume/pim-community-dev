@@ -21,8 +21,7 @@ final readonly class ProductsWereCreatedOrUpdatedHandler
     public function __construct(
         private CreateCriteriaEvaluations $createProductCriteriaEvaluations,
         private EvaluateProducts $evaluateProducts,
-    ) {
-    }
+    ) {}
 
     public function __invoke(ProductsWereCreatedOrUpdated $message): void
     {

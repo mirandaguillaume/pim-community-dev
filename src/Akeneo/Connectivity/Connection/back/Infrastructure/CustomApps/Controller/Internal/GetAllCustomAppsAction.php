@@ -22,8 +22,7 @@ final readonly class GetAllCustomAppsAction
     public function __construct(
         private AppUrlGenerator $appUrlGenerator,
         private GetAllCustomAppsQueryInterface $getAllCustomAppsQuery
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): Response
     {

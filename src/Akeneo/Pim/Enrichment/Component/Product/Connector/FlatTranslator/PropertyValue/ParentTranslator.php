@@ -9,9 +9,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Query\GetProductModelLabelsInterface
 
 class ParentTranslator implements FlatPropertyValueTranslatorInterface
 {
-    public function __construct(private readonly GetProductModelLabelsInterface $getProductModelLabels)
-    {
-    }
+    public function __construct(private readonly GetProductModelLabelsInterface $getProductModelLabels) {}
 
     public function supports(string $columnName): bool
     {
@@ -29,8 +27,8 @@ class ParentTranslator implements FlatPropertyValueTranslatorInterface
                 continue;
             }
 
-            $result[$valueIndex] = $productModelLabels[$parentCode] ??
-                sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $parentCode);
+            $result[$valueIndex] = $productModelLabels[$parentCode]
+                ?? sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $parentCode);
         }
 
         return $result;

@@ -14,18 +14,16 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetAllFamilyCodesQuery implements GetAllFamilyCodesQueryInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function execute(): array
     {
         $query = <<<SQL
-SELECT code FROM pim_catalog_family;
-SQL;
+            SELECT code FROM pim_catalog_family;
+            SQL;
 
         $statement = $this->connection->executeQuery($query);
 
-        return array_map(fn ($row) => new FamilyCode($row['code']), $statement->fetchAllAssociative());
+        return array_map(fn($row) => new FamilyCode($row['code']), $statement->fetchAllAssociative());
     }
 }

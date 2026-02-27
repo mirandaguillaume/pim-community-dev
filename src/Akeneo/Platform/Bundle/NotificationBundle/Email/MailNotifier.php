@@ -16,8 +16,7 @@ class MailNotifier implements MailNotifierInterface
     public function __construct(
         private readonly MailerInterface $mailer,
         private readonly LoggerInterface $logger,
-    ) {
-    }
+    ) {}
 
     /**
      * @param string[] $recipients

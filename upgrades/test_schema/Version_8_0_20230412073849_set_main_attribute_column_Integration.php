@@ -15,9 +15,8 @@ use PHPUnit\Framework\Assert;
  */
 final class Version_8_0_20230412073849_set_main_attribute_column_Integration extends TestCase
 {
-    private const MIGRATION_NAME = '_8_0_20230412073849_set_main_attribute_column';
-
     use ExecuteMigrationTrait;
+    private const MIGRATION_NAME = '_8_0_20230412073849_set_main_attribute_column';
 
     private Connection $connection;
 
@@ -47,17 +46,17 @@ final class Version_8_0_20230412073849_set_main_attribute_column_Integration ext
     {
         $this->connection->executeStatement(
             <<<SQL
-            UPDATE pim_catalog_attribute pca
-            INNER JOIN
-            (
-                SELECT id
-                FROM pim_catalog_attribute
-                WHERE attribute_type = 'pim_catalog_identifier'
-                ORDER BY id ASC
-                LIMIT 1
-            ) t ON pca.id = t.id
-            SET main_identifier = true
-            SQL
+                UPDATE pim_catalog_attribute pca
+                INNER JOIN
+                (
+                    SELECT id
+                    FROM pim_catalog_attribute
+                    WHERE attribute_type = 'pim_catalog_identifier'
+                    ORDER BY id ASC
+                    LIMIT 1
+                ) t ON pca.id = t.id
+                SET main_identifier = true
+                SQL
         );
 
         Assert::assertTrue($this->aMainIdentifierExists());
@@ -91,8 +90,8 @@ final class Version_8_0_20230412073849_set_main_attribute_column_Integration ext
     {
         $this->connection->executeStatement(
             <<<SQL
-            ALTER TABLE pim_catalog_attribute DROP COLUMN main_identifier
-            SQL
+                ALTER TABLE pim_catalog_attribute DROP COLUMN main_identifier
+                SQL
         );
     }
 
@@ -100,19 +99,19 @@ final class Version_8_0_20230412073849_set_main_attribute_column_Integration ext
     {
         $this->connection->executeStatement(
             <<<SQL
-            ALTER TABLE pim_catalog_attribute ADD main_identifier TINYINT(1) NOT NULL DEFAULT FALSE
-            SQL
+                ALTER TABLE pim_catalog_attribute ADD main_identifier TINYINT(1) NOT NULL DEFAULT FALSE
+                SQL
         );
     }
 
     private function aMainIdentifierExists(): bool
     {
         $sql = <<<SQL
-            SELECT EXISTS (
-                SELECT * FROM pim_catalog_attribute
-                WHERE main_identifier = true
-            ) as is_existing
-        SQL;
+                SELECT EXISTS (
+                    SELECT * FROM pim_catalog_attribute
+                    WHERE main_identifier = true
+                ) as is_existing
+            SQL;
 
         return (bool) $this->connection->executeQuery($sql)->fetchOne();
     }

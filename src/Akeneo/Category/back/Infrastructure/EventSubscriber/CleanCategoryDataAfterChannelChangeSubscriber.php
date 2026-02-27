@@ -20,8 +20,7 @@ class CleanCategoryDataAfterChannelChangeSubscriber implements EventSubscriberIn
         private readonly JobInstanceRepository $jobInstanceRepository,
         private readonly JobLauncherInterface $jobLauncher,
         private readonly TokenStorageInterface $tokenStorage,
-    ) {
-    }
+    ) {}
 
     public static function getSubscribedEvents(): array
     {
@@ -64,7 +63,7 @@ class CleanCategoryDataAfterChannelChangeSubscriber implements EventSubscriberIn
             return;
         }
 
-        $locales = array_map(static fn (Locale $locale) => $locale->getCode(), $channel->getLocales()->getValues());
+        $locales = array_map(static fn(Locale $locale) => $locale->getCode(), $channel->getLocales()->getValues());
 
         $this->jobLauncher->launch($jobInstance, $this->tokenStorage->getToken()?->getUser(), [
             'channel_code' => $channel->getCode(),

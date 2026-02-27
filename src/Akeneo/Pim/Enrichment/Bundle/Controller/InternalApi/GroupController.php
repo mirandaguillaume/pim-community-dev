@@ -49,8 +49,7 @@ class GroupController
         protected GroupFactory $groupFactory,
         protected NormalizerInterface $constraintViolationNormalizer,
         protected GroupProductsHandler $groupProductsHandler
-    ) {
-    }
+    ) {}
 
     public function searchAction(Request $request): JsonResponse
     {
@@ -86,7 +85,7 @@ class GroupController
 
         return new JsonResponse($this->normalizer->normalize([
             'products'     => array_values($this->productRepository->getProductsByGroup($group, self::MAX_PRODUCTS)),
-            'productCount' => $this->productRepository->getProductCountByGroup($group)
+            'productCount' => $this->productRepository->getProductCountByGroup($group),
         ], 'internal_api', $this->userContext->toArray()));
     }
 

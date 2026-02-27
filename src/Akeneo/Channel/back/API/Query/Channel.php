@@ -18,8 +18,7 @@ final readonly class Channel
         private LabelCollection $labels,
         private array $activeCurrencies,
         private ConversionUnitCollection $conversionUnits,
-    ) {
-    }
+    ) {}
 
     public function getCode(): string
     {

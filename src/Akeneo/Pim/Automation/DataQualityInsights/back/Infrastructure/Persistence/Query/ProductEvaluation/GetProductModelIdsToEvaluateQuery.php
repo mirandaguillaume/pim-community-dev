@@ -22,8 +22,7 @@ final readonly class GetProductModelIdsToEvaluateQuery implements GetEntityIdsTo
     public function __construct(
         private Connection $db,
         private ProductModelIdFactory $idFactory
-    ) {
-    }
+    ) {}
 
     /**
      * @return \Generator<int, ProductModelIdCollection>
@@ -33,11 +32,11 @@ final readonly class GetProductModelIdsToEvaluateQuery implements GetEntityIdsTo
         $limitSql = null === $limit ? '' : sprintf('LIMIT %d', $limit);
 
         $sql = <<<SQL
-SELECT DISTINCT product_id
-FROM pim_data_quality_insights_product_model_criteria_evaluation
-WHERE status = :status
-$limitSql
-SQL;
+            SELECT DISTINCT product_id
+            FROM pim_data_quality_insights_product_model_criteria_evaluation
+            WHERE status = :status
+            $limitSql
+            SQL;
 
         $stmt = $this->db->executeQuery($sql, ['status' => CriterionEvaluationStatus::PENDING], ['status' => \PDO::PARAM_STR]);
 

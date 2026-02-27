@@ -21,9 +21,7 @@ use Doctrine\DBAL\Connection;
 
 final readonly class SqlGetFamilyIds implements GetFamilyIds
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     /**
      * {@inheritDoc}
@@ -35,14 +33,14 @@ final readonly class SqlGetFamilyIds implements GetFamilyIds
         }
 
         $query = <<<SQL
-SELECT DISTINCT family_attribute.family_id
-FROM pim_catalog_family_attribute AS family_attribute
-    INNER JOIN pim_catalog_attribute AS attribute ON attribute.id = family_attribute.attribute_id
-    LEFT JOIN pim_catalog_attribute_group AS attribute_group ON attribute_group.id = attribute.group_id
-    LEFT JOIN pim_data_quality_insights_attribute_group_activation AS activation ON activation.attribute_group_code = attribute_group.code
-WHERE family_attribute.attribute_id IN (:attribute_ids)
-     AND (activation.activated IS NULL OR activation.activated = 1);
-SQL;
+            SELECT DISTINCT family_attribute.family_id
+            FROM pim_catalog_family_attribute AS family_attribute
+                INNER JOIN pim_catalog_attribute AS attribute ON attribute.id = family_attribute.attribute_id
+                LEFT JOIN pim_catalog_attribute_group AS attribute_group ON attribute_group.id = attribute.group_id
+                LEFT JOIN pim_data_quality_insights_attribute_group_activation AS activation ON activation.attribute_group_code = attribute_group.code
+            WHERE family_attribute.attribute_id IN (:attribute_ids)
+                 AND (activation.activated IS NULL OR activation.activated = 1);
+            SQL;
         $stmt = $this->connection->executeQuery(
             $query,
             ['attribute_ids' => $attributeIds],
@@ -57,12 +55,12 @@ SQL;
     public function fromAttributeGroupCode(AttributeGroupCode $attributeGroupCode): \Generator
     {
         $query = <<<SQL
-SELECT DISTINCT family_attribute.family_id
-FROM pim_catalog_family_attribute AS family_attribute
-    INNER JOIN pim_catalog_attribute attribute ON attribute.id = family_attribute.attribute_id
-    INNER JOIN pim_catalog_attribute_group attr_group ON attr_group.id = attribute.group_id
-WHERE attr_group.code = :attribute_group_code;
-SQL;
+            SELECT DISTINCT family_attribute.family_id
+            FROM pim_catalog_family_attribute AS family_attribute
+                INNER JOIN pim_catalog_attribute attribute ON attribute.id = family_attribute.attribute_id
+                INNER JOIN pim_catalog_attribute_group attr_group ON attr_group.id = attribute.group_id
+            WHERE attr_group.code = :attribute_group_code;
+            SQL;
         $stmt = $this->connection->executeQuery(
             $query,
             ['attribute_group_code' => $attributeGroupCode]

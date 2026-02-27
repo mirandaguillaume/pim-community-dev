@@ -53,7 +53,7 @@ class ChannelNormalizer implements NormalizerInterface, CacheableSupportsMethodI
     /**
      * {@inheritdoc}
      */
-    public function normalize($channel, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($channel, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $normalizedChannel = $this->channelNormalizer->normalize($channel, 'standard', $context);
 
@@ -72,12 +72,12 @@ class ChannelNormalizer implements NormalizerInterface, CacheableSupportsMethodI
             false
         );
 
-        $firstVersion = null !== $firstVersion ?
-            $this->versionNormalizer->normalize($firstVersion, 'internal_api') :
-            null;
-        $lastVersion = null !== $lastVersion ?
-            $this->versionNormalizer->normalize($lastVersion, 'internal_api') :
-            null;
+        $firstVersion = null !== $firstVersion
+            ? $this->versionNormalizer->normalize($firstVersion, 'internal_api')
+            : null;
+        $lastVersion = null !== $lastVersion
+            ? $this->versionNormalizer->normalize($lastVersion, 'internal_api')
+            : null;
 
         $normalizedChannel['meta'] = [
             'id'         => $channel->getId(),

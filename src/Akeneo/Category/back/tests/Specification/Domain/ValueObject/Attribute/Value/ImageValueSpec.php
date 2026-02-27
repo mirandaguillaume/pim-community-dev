@@ -15,7 +15,6 @@ use PhpSpec\ObjectBehavior;
  */
 class ImageValueSpec extends ObjectBehavior
 {
-
     public function it_creates_text_value_from_applier()
     {
         $givenImageDataValue = [
@@ -25,7 +24,7 @@ class ImageValueSpec extends ObjectBehavior
             'mime_type' => 'image/jpeg',
             'original_filename' => 'logo',
         ];
-        $this->beConstructedThrough('fromApplier',[
+        $this->beConstructedThrough('fromApplier', [
             $givenImageDataValue,
             '02274dac-e99a-4e1d-8f9b-794d4c3ba330',
             'hero_banner',
@@ -53,9 +52,9 @@ class ImageValueSpec extends ObjectBehavior
             'type' => 'image',
             'channel' => 'ecommerce',
             'locale' => 'en_US',
-            'attribute_code' => 'hero_banner|02274dac-e99a-4e1d-8f9b-794d4c3ba330'
+            'attribute_code' => 'hero_banner|02274dac-e99a-4e1d-8f9b-794d4c3ba330',
         ];
-        $this->beConstructedThrough('fromArray',[$givenArray]);
+        $this->beConstructedThrough('fromArray', [$givenArray]);
 
         $this->shouldHaveType(ImageValue::class);
         $this->shouldHaveType(AbstractValue::class);
@@ -77,7 +76,7 @@ class ImageValueSpec extends ObjectBehavior
             'type' => 'image',
             'channel' => 'ecommerce',
             'locale' => 'en_US',
-            'attribute_code' => ''
+            'attribute_code' => '',
         ];
 
         $this->beConstructedThrough('fromArray', [$givenArray]);
@@ -96,7 +95,7 @@ class ImageValueSpec extends ObjectBehavior
             'original_filename' => 'logo',
         ];
 
-        $this->beConstructedThrough('fromApplier',[
+        $this->beConstructedThrough('fromApplier', [
             $givenImageDataValue,
             '02274dac-e99a-4e1d-8f9b-794d4c3ba330',
             'hero_banner',
@@ -104,12 +103,12 @@ class ImageValueSpec extends ObjectBehavior
             'en_US',
         ]);
 
-        $key = 'hero_banner'.AbstractValue::SEPARATOR.'02274dac-e99a-4e1d-8f9b-794d4c3ba330';
+        $key = 'hero_banner' . AbstractValue::SEPARATOR . '02274dac-e99a-4e1d-8f9b-794d4c3ba330';
         $localeChannelKey = sprintf(
             '%s%s%s',
             $key,
-            AbstractValue::SEPARATOR."ecommerce",
-            AbstractValue::SEPARATOR."en_US",
+            AbstractValue::SEPARATOR . "ecommerce",
+            AbstractValue::SEPARATOR . "en_US",
         );
         $expectedValue = [
             $localeChannelKey => [
@@ -117,8 +116,8 @@ class ImageValueSpec extends ObjectBehavior
                 'type' => 'image',
                 'channel' => 'ecommerce',
                 'locale' => 'en_US',
-                'attribute_code' => $key
-            ]
+                'attribute_code' => $key,
+            ],
         ];
 
         $this->normalize()->shouldBeLike($expectedValue);
@@ -134,7 +133,7 @@ class ImageValueSpec extends ObjectBehavior
             'original_filename' => 'logo',
         ];
 
-        $this->beConstructedThrough('fromApplier',[
+        $this->beConstructedThrough('fromApplier', [
             $givenImageDataValue,
             '02274dac-e99a-4e1d-8f9b-794d4c3ba330',
             'hero_banner',
@@ -142,11 +141,11 @@ class ImageValueSpec extends ObjectBehavior
             null,
         ]);
 
-        $key = 'hero_banner'.AbstractValue::SEPARATOR.'02274dac-e99a-4e1d-8f9b-794d4c3ba330';
+        $key = 'hero_banner' . AbstractValue::SEPARATOR . '02274dac-e99a-4e1d-8f9b-794d4c3ba330';
         $localeChannelKey = sprintf(
             '%s%s',
             $key,
-            AbstractValue::SEPARATOR."ecommerce"
+            AbstractValue::SEPARATOR . "ecommerce"
         );
         $expectedValue = [
             $localeChannelKey => [
@@ -154,8 +153,8 @@ class ImageValueSpec extends ObjectBehavior
                 'type' => 'image',
                 'channel' => 'ecommerce',
                 'locale' => null,
-                'attribute_code' => $key
-            ]
+                'attribute_code' => $key,
+            ],
         ];
 
         $this->normalize()->shouldBeLike($expectedValue);
@@ -171,7 +170,7 @@ class ImageValueSpec extends ObjectBehavior
             'original_filename' => 'logo',
         ];
 
-        $this->beConstructedThrough('fromApplier',[
+        $this->beConstructedThrough('fromApplier', [
             $givenImageDataValue,
             '02274dac-e99a-4e1d-8f9b-794d4c3ba330',
             'hero_banner',
@@ -179,11 +178,11 @@ class ImageValueSpec extends ObjectBehavior
             'en_US',
         ]);
 
-        $key = 'hero_banner'.AbstractValue::SEPARATOR.'02274dac-e99a-4e1d-8f9b-794d4c3ba330';
+        $key = 'hero_banner' . AbstractValue::SEPARATOR . '02274dac-e99a-4e1d-8f9b-794d4c3ba330';
         $localeChannelKey = sprintf(
             '%s%s',
             $key,
-            AbstractValue::SEPARATOR."en_US",
+            AbstractValue::SEPARATOR . "en_US",
         );
         $expectedValue = [
             $localeChannelKey => [
@@ -191,8 +190,8 @@ class ImageValueSpec extends ObjectBehavior
                 'type' => 'image',
                 'channel' => null,
                 'locale' => 'en_US',
-                'attribute_code' => $key
-            ]
+                'attribute_code' => $key,
+            ],
         ];
 
         $this->normalize()->shouldBeLike($expectedValue);

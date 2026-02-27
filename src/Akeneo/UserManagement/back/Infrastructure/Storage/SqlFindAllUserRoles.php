@@ -17,8 +17,7 @@ class SqlFindAllUserRoles implements FindAllUserRoles
 {
     public function __construct(
         private readonly Connection $connection,
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritDoc}
@@ -29,16 +28,16 @@ class SqlFindAllUserRoles implements FindAllUserRoles
     public function __invoke(): array
     {
         $query = <<<SQL
-            SELECT
-                `id`,
-                `role`,
-                `label`,
-                `type`
-            FROM oro_access_role
-        SQL;
+                SELECT
+                    `id`,
+                    `role`,
+                    `label`,
+                    `type`
+                FROM oro_access_role
+            SQL;
 
         $results = $this->connection->executeQuery($query)->fetchAllAssociative();
 
-        return array_map(static fn (array $data) => UserRole::createFromDatabase($data), $results);
+        return array_map(static fn(array $data) => UserRole::createFromDatabase($data), $results);
     }
 }

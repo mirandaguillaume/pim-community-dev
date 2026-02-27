@@ -23,13 +23,13 @@ use PHPUnit\Framework\Assert;
  */
 class SetTextApplierSpec extends ObjectBehavior
 {
-    function it_is_initializable(): void
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(SetTextApplier::class);
         $this->shouldImplement(UserIntentApplier::class);
     }
 
-    function it_applies_set_text_user_intent(): void
+    public function it_applies_set_text_user_intent(): void
     {
         $givenTextValue = TextValue::fromApplier(
             value: 'Meta shoes',
@@ -64,7 +64,7 @@ class SetTextApplierSpec extends ObjectBehavior
                 code: 'seo_meta_description',
                 channel: 'ecommerce',
                 locale: 'en_US'
-            )
+            ),
         ]);
 
         $this->apply($userIntent, $category);
@@ -74,7 +74,7 @@ class SetTextApplierSpec extends ObjectBehavior
         );
     }
 
-    function it_throws_exception_on_wrong_user_intent_applied(
+    public function it_throws_exception_on_wrong_user_intent_applied(
         SetImage $userIntent,
         Category $category
     ): void {

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace spec\Akeneo\Connectivity\Connection\Domain\ErrorManagement\Model\Write;
@@ -133,7 +134,7 @@ class ApiErrorCollectionSpec extends ObjectBehavior
     public function getMatchers(): array
     {
         return [
-            'matchErrorTypes' => fn ($types): bool => \array_keys($types) === ErrorTypes::getAll(),
+            'matchErrorTypes' => fn($types): bool => \array_keys($types) === ErrorTypes::getAll(),
         ];
     }
 }

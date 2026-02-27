@@ -48,9 +48,9 @@ class CurrencyDisablingSubscriber implements EventSubscriberInterface
             return;
         }
 
-        if (null !== $object->getId() &&
-            !$object->isActivated() &&
-            0 < $this->channelRepository->getChannelCountUsingCurrency($object)) {
+        if (null !== $object->getId()
+            && !$object->isActivated()
+            && 0 < $this->channelRepository->getChannelCountUsingCurrency($object)) {
             throw new LinkedChannelException('You cannot disable a currency linked to a channel.');
         }
     }

@@ -60,9 +60,9 @@ class MetricValue extends AbstractValue implements MetricValueInterface, \String
      */
     public function isEqual(ValueInterface $value): bool
     {
-        if (!$value instanceof MetricValueInterface ||
-            $this->getScopeCode() !== $value->getScopeCode() ||
-            $this->getLocaleCode() !== $value->getLocaleCode()) {
+        if (!$value instanceof MetricValueInterface
+            || $this->getScopeCode() !== $value->getScopeCode()
+            || $this->getLocaleCode() !== $value->getLocaleCode()) {
             return false;
         }
 

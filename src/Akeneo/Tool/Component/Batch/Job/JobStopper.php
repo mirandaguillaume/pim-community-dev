@@ -14,8 +14,7 @@ class JobStopper implements JobStopperInterface
         private readonly JobRepositoryInterface $jobRepository,
         private readonly GetJobExecutionStatusInterface $getJobExecutionStatus,
         private readonly LoggerInterface $logger,
-    ) {
-    }
+    ) {}
 
     public function isStopping(StepExecution $stepExecution): bool
     {

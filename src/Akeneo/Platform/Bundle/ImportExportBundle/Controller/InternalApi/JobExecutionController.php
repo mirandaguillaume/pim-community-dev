@@ -22,9 +22,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class JobExecutionController
 {
-    public function __construct(protected TranslatorInterface $translator, protected StepExecutionArchivist $archivist, protected JobExecutionManager $jobExecutionManager, protected JobExecutionRepository $jobExecutionRepo, private readonly NormalizerInterface $normalizer, private readonly SecurityFacade $securityFacade, private readonly FilesystemReader $logFilesystem, private readonly array $jobSecurityMapping)
-    {
-    }
+    public function __construct(protected TranslatorInterface $translator, protected StepExecutionArchivist $archivist, protected JobExecutionManager $jobExecutionManager, protected JobExecutionRepository $jobExecutionRepo, private readonly NormalizerInterface $normalizer, private readonly SecurityFacade $securityFacade, private readonly FilesystemReader $logFilesystem, private readonly array $jobSecurityMapping) {}
 
     public function getAction($identifier): JsonResponse
     {

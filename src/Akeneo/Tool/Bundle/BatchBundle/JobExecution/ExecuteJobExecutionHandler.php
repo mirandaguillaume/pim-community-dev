@@ -26,8 +26,7 @@ class ExecuteJobExecutionHandler implements ExecuteJobExecutionHandlerInterface
         private readonly JobRepositoryInterface $jobRepository,
         private readonly JobRegistry $jobRegistry,
         private readonly FeatureFlags $featureFlags,
-    ) {
-    }
+    ) {}
 
     public function executeFromJobExecutionId(int $executionId): JobExecution
     {

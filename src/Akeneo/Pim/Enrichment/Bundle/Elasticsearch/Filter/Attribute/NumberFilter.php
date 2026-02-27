@@ -57,24 +57,24 @@ class NumberFilter extends AbstractAttributeFilter implements AttributeFilterInt
             case Operators::LOWER_THAN:
                 $clause = [
                     'range' => [
-                        $attributePath => ['lt' => $value]
-                    ]
+                        $attributePath => ['lt' => $value],
+                    ],
                 ];
                 $this->searchQueryBuilder->addFilter($clause);
                 break;
             case Operators::LOWER_OR_EQUAL_THAN:
                 $clause = [
                     'range' => [
-                        $attributePath => ['lte' => $value]
-                    ]
+                        $attributePath => ['lte' => $value],
+                    ],
                 ];
                 $this->searchQueryBuilder->addFilter($clause);
                 break;
             case Operators::EQUALS:
                 $clause = [
                     'term' => [
-                        $attributePath => $value
-                    ]
+                        $attributePath => $value,
+                    ],
                 ];
                 $this->searchQueryBuilder->addFilter($clause);
                 break;
@@ -95,24 +95,24 @@ class NumberFilter extends AbstractAttributeFilter implements AttributeFilterInt
             case Operators::GREATER_OR_EQUAL_THAN:
                 $clause = [
                     'range' => [
-                        $attributePath => ['gte' => $value]
-                    ]
+                        $attributePath => ['gte' => $value],
+                    ],
                 ];
                 $this->searchQueryBuilder->addFilter($clause);
                 break;
             case Operators::GREATER_THAN:
                 $clause = [
                     'range' => [
-                        $attributePath => ['gt' => $value]
-                    ]
+                        $attributePath => ['gt' => $value],
+                    ],
                 ];
                 $this->searchQueryBuilder->addFilter($clause);
                 break;
             case Operators::IS_EMPTY:
                 $clause = [
                     'exists' => [
-                        'field' => $attributePath
-                    ]
+                        'field' => $attributePath,
+                    ],
                 ];
                 $this->searchQueryBuilder->addMustNot($clause);
 
@@ -126,7 +126,7 @@ class NumberFilter extends AbstractAttributeFilter implements AttributeFilterInt
                         'terms' => [
                             self::ATTRIBUTES_OF_ANCESTORS_ES_ID => [$attribute->getCode()],
                         ],
-                    ]
+                    ],
                 ];
                 $this->searchQueryBuilder->addFilter(
                     [
@@ -140,8 +140,8 @@ class NumberFilter extends AbstractAttributeFilter implements AttributeFilterInt
             case Operators::IS_NOT_EMPTY:
                 $clause = [
                     'exists' => [
-                        'field' => $attributePath
-                    ]
+                        'field' => $attributePath,
+                    ],
                 ];
                 $this->searchQueryBuilder->addFilter($clause);
                 break;

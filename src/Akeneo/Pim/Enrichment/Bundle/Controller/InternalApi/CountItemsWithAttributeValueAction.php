@@ -15,8 +15,7 @@ class CountItemsWithAttributeValueAction
     public function __construct(
         private readonly CountProductsWithRemovedAttributeInterface $countProductsWithRemovedAttribute,
         private readonly CountProductModelsWithRemovedAttributeInterface $countProductModelsWithRemovedAttribute
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): Response
     {

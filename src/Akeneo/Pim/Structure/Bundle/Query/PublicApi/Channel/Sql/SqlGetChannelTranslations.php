@@ -9,18 +9,16 @@ use Doctrine\DBAL\Connection;
 
 class SqlGetChannelTranslations implements GetChannelTranslations
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function byLocale(string $locale): array
     {
         $sql = <<<SQL
-SELECT c.code, ct.label
-FROM pim_catalog_channel c 
-JOIN pim_catalog_channel_translation ct ON c.id = ct.foreign_key
-WHERE ct.locale = :locale;
-SQL;
+            SELECT c.code, ct.label
+            FROM pim_catalog_channel c 
+            JOIN pim_catalog_channel_translation ct ON c.id = ct.foreign_key
+            WHERE ct.locale = :locale;
+            SQL;
 
         $rows = $this->connection->executeQuery($sql, ['locale' => $locale])->fetchAllAssociative();
 

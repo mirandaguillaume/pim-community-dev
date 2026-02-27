@@ -13,17 +13,15 @@ use Doctrine\DBAL\Connection as DbalConnection;
  */
 class SelectAllAuditableConnectionCodeQuery
 {
-    public function __construct(private readonly DbalConnection $dbalConnection)
-    {
-    }
+    public function __construct(private readonly DbalConnection $dbalConnection) {}
 
     public function execute(): array
     {
         $selectSQL = <<<SQL
-SELECT code
-FROM akeneo_connectivity_connection
-WHERE auditable = 1
-SQL;
+            SELECT code
+            FROM akeneo_connectivity_connection
+            WHERE auditable = 1
+            SQL;
 
         return $this->dbalConnection->executeQuery($selectSQL)->fetchFirstColumn();
     }

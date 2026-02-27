@@ -36,7 +36,7 @@ class AddContextSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            EventInterface::BEFORE_JOB_EXECUTION => 'addContext'
+            EventInterface::BEFORE_JOB_EXECUTION => 'addContext',
         ];
     }
 

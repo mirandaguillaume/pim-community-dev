@@ -13,9 +13,7 @@ use Akeneo\Connectivity\Connection\Domain\Webhook\Persistence\Query\SelectEvents
  */
 class GetDelayUntilNextRequest
 {
-    public function __construct(private readonly SelectEventsApiRequestCountWithinLastHourQueryInterface $selectEventsApiRequestCountWithinLastHourQuery)
-    {
-    }
+    public function __construct(private readonly SelectEventsApiRequestCountWithinLastHourQueryInterface $selectEventsApiRequestCountWithinLastHourQuery) {}
 
     /**
      * We are fetching the count of events api request for each minutes ordered from youngest to oldest, then we are

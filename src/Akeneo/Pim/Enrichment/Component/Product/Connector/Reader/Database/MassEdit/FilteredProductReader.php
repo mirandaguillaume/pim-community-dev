@@ -40,9 +40,7 @@ class FilteredProductReader implements
 
     private array $state = [];
 
-    public function __construct(private readonly ProductQueryBuilderFactoryInterface $pqbFactory, private readonly ChannelRepositoryInterface $channelRepository, private readonly MetricConverter $metricConverter)
-    {
-    }
+    public function __construct(private readonly ProductQueryBuilderFactoryInterface $pqbFactory, private readonly ChannelRepositoryInterface $channelRepository, private readonly MetricConverter $metricConverter) {}
 
     /**
      * {@inheritdoc}
@@ -127,7 +125,7 @@ class FilteredProductReader implements
             $filters = $filters['data'];
         }
 
-        return array_filter($filters, fn ($filter) => (is_countable($filter) ? count($filter) : 0) > 0);
+        return array_filter($filters, fn($filter) => (is_countable($filter) ? count($filter) : 0) > 0);
     }
 
     /**

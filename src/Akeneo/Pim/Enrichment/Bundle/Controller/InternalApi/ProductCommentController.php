@@ -45,8 +45,7 @@ class ProductCommentController
         private readonly PresenterInterface $datetimePresenter,
         private readonly LocaleResolver $localeResolver,
         private readonly UserContext $userContext,
-    ) {
-    }
+    ) {}
 
     /**
      * List comments made on a product
@@ -111,7 +110,7 @@ class ProductCommentController
         foreach ($violations as $violation) {
             $errors[$violation->getPropertyPath()] = [
                 'message'       => $violation->getMessage(),
-                'invalid_value' => $violation->getInvalidValue()
+                'invalid_value' => $violation->getInvalidValue(),
             ];
         }
 
@@ -164,7 +163,7 @@ class ProductCommentController
         foreach ($violations as $violation) {
             $errors[$violation->getPropertyPath()] = [
                 'message'       => $violation->getMessage(),
-                'invalid_value' => $violation->getInvalidValue()
+                'invalid_value' => $violation->getInvalidValue(),
             ];
         }
 

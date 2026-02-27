@@ -48,14 +48,14 @@ final class QualityScoreMultiLocalesFilter extends AbstractFieldFilter implement
             throw InvalidPropertyException::dataExpected($field, 'a channel', self::class);
         }
 
-        $values = array_map(fn ($value) => intval($value), $values);
+        $values = array_map(fn($value) => intval($value), $values);
         $applyOnAllSelectedLocales = $operator === self::OPERATOR_IN_ALL_LOCALES;
 
         $locales = $this->getLocalesFromOptions($options);
         $terms = [];
         foreach ($locales as $locale) {
             $terms[] = [
-                'terms' => [sprintf('data_quality_insights.%s.%s.%s', ($this->getScoresProperty)(), $channel, $locale) => $values]
+                'terms' => [sprintf('data_quality_insights.%s.%s.%s', ($this->getScoresProperty)(), $channel, $locale) => $values],
             ];
         }
 

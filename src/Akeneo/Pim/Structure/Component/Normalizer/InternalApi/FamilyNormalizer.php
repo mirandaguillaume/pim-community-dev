@@ -62,7 +62,7 @@ class FamilyNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
     /**
      * {@inheritdoc}
      */
-    public function normalize($family, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($family, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $fullAttributes = array_key_exists('full_attributes', $context)
             && true === $context['full_attributes'];
@@ -70,7 +70,7 @@ class FamilyNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
         if (isset($context['expanded']) && false === $context['expanded']) {
             return [
                 'code' => $family->getCode(),
-                'labels' =>$this->translationNormalizer->normalize($family, 'standard', [])
+                'labels' => $this->translationNormalizer->normalize($family, 'standard', []),
             ];
         }
 
@@ -86,15 +86,15 @@ class FamilyNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
             $normalizedFamily['attribute_requirements'],
             $fullAttributes
         );
-        $normalizedFamily['attribute_requirements'] = [] === $normalizedRequirements ? (object) []: $normalizedRequirements;
+        $normalizedFamily['attribute_requirements'] = [] === $normalizedRequirements ? (object) [] : $normalizedRequirements;
 
         $firstVersion = $this->versionManager->getOldestLogEntry($family);
         $lastVersion = $this->versionManager->getNewestLogEntry($family);
 
-        $created = null === $firstVersion ? null :
-            $this->versionNormalizer->normalize($firstVersion, 'internal_api', $context);
-        $updated = null === $lastVersion ? null :
-            $this->versionNormalizer->normalize($lastVersion, 'internal_api', $context);
+        $created = null === $firstVersion ? null
+            : $this->versionNormalizer->normalize($firstVersion, 'internal_api', $context);
+        $updated = null === $lastVersion ? null
+            : $this->versionNormalizer->normalize($lastVersion, 'internal_api', $context);
 
         $normalizedFamily['meta'] = [
             'id'                      => $family->getId(),
@@ -112,8 +112,8 @@ class FamilyNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
      */
     public function supportsNormalization($family, $format = null): bool
     {
-        return $family instanceof FamilyInterface &&
-            in_array($format, $this->supportedFormats);
+        return $family instanceof FamilyInterface
+            && in_array($format, $this->supportedFormats);
     }
 
     public function hasCacheableSupportsMethod(): bool
@@ -141,9 +141,9 @@ class FamilyNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
 
         $normalizedAttributes = [];
         foreach ($attributes as $attribute) {
-            $normalizedAttributes[] = $fullAttributes ?
-                ['code' => $attribute->getCode()] :
-                $this->attributeNormalizer->normalize($attribute, 'internal_api', $context);
+            $normalizedAttributes[] = $fullAttributes
+                ? ['code' => $attribute->getCode()]
+                : $this->attributeNormalizer->normalize($attribute, 'internal_api', $context);
         }
 
         return $normalizedAttributes;
@@ -173,7 +173,7 @@ class FamilyNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
                 );
             }
 
-            $result[$channel] = array_map(fn ($attribute) => $attribute->getCode(), $attributes);
+            $result[$channel] = array_map(fn($attribute) => $attribute->getCode(), $attributes);
         }
 
         return $result;
@@ -204,7 +204,7 @@ class FamilyNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
      */
     private function getAttributeAxisCodesForFamilyVariant(FamilyVariantInterface $familyVariant): array
     {
-        $attributesAxisCodes = array_map(fn ($attribute) => $attribute->getCode(), $familyVariant->getAxes()->toArray());
+        $attributesAxisCodes = array_map(fn($attribute) => $attribute->getCode(), $familyVariant->getAxes()->toArray());
 
         return $attributesAxisCodes;
     }

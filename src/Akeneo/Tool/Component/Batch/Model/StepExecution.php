@@ -418,7 +418,7 @@ class StepExecution implements \Stringable
             'message'           => $e->getMessage(),
             'messageParameters' => $e instanceof RuntimeErrorException ? $e->getMessageParameters() : [],
             'code'              => $e->getCode(),
-            'trace'             => $e->getTraceAsString()
+            'trace'             => $e->getTraceAsString(),
         ];
 
         return $this;
@@ -432,7 +432,7 @@ class StepExecution implements \Stringable
         return implode(
             ' ',
             array_map(
-                fn ($e) => $e['message'],
+                fn($e) => $e['message'],
                 $this->failureExceptions
             )
         );

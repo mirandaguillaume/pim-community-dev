@@ -28,8 +28,7 @@ class WebhookEventBuilder
     public function __construct(
         private readonly iterable $eventDataBuilders,
         private readonly ApiEventBuildErrorLoggerInterface $apiEventBuildErrorLogger
-    ) {
-    }
+    ) {}
 
     /**
      * @param array<mixed> $context

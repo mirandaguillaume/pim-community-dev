@@ -53,7 +53,7 @@ class AttributeValuesResolver implements AttributeValuesResolverInterface
      *
      * @return array[]
      */
-    public function resolveEligibleValues(array $attributes, array $channels = null, array $locales = null) : array
+    public function resolveEligibleValues(array $attributes, array $channels = null, array $locales = null): array
     {
         $this->channels = $channels;
         $this->locales  = $locales;
@@ -72,7 +72,7 @@ class AttributeValuesResolver implements AttributeValuesResolverInterface
                     'attribute' => $attribute->getCode(),
                     'type'      => $attribute->getType(),
                     'locale'    => null,
-                    'scope'     => null
+                    'scope'     => null,
                 ];
             }
             $expectedValues = $this->filterExpectedValues($attribute, $requiredValues);
@@ -89,7 +89,7 @@ class AttributeValuesResolver implements AttributeValuesResolverInterface
      *
      *
      */
-    protected function filterExpectedValues(AttributeInterface $attribute, array $values) : array
+    protected function filterExpectedValues(AttributeInterface $attribute, array $values): array
     {
         if ($attribute->isLocaleSpecific()) {
             $availableLocales = $attribute->getAvailableLocaleCodes();
@@ -108,7 +108,7 @@ class AttributeValuesResolver implements AttributeValuesResolverInterface
      *
      *
      */
-    protected function getLocaleRows(AttributeInterface $attribute) : array
+    protected function getLocaleRows(AttributeInterface $attribute): array
     {
         $locales = $this->getLocales();
         $localeRows = [];
@@ -117,7 +117,7 @@ class AttributeValuesResolver implements AttributeValuesResolverInterface
                 'attribute' => $attribute->getCode(),
                 'type'      => $attribute->getType(),
                 'locale'    => $locale->getCode(),
-                'scope'     => null
+                'scope'     => null,
             ];
         }
 
@@ -129,7 +129,7 @@ class AttributeValuesResolver implements AttributeValuesResolverInterface
      *
      *
      */
-    protected function getScopeRows(AttributeInterface $attribute) : array
+    protected function getScopeRows(AttributeInterface $attribute): array
     {
         $channels = $this->getChannels();
         $scopeRows = [];
@@ -138,7 +138,7 @@ class AttributeValuesResolver implements AttributeValuesResolverInterface
                 'attribute' => $attribute->getCode(),
                 'type'      => $attribute->getType(),
                 'locale'    => null,
-                'scope'     => $channel->getCode()
+                'scope'     => $channel->getCode(),
             ];
         }
 
@@ -150,7 +150,7 @@ class AttributeValuesResolver implements AttributeValuesResolverInterface
      *
      *
      */
-    protected function getScopeToLocaleRows(AttributeInterface $attribute) : array
+    protected function getScopeToLocaleRows(AttributeInterface $attribute): array
     {
         $channels = $this->getChannels();
         $scopeToLocaleRows = [];
@@ -160,7 +160,7 @@ class AttributeValuesResolver implements AttributeValuesResolverInterface
                     'attribute' => $attribute->getCode(),
                     'type'      => $attribute->getType(),
                     'locale'    => $locale->getCode(),
-                    'scope'     => $channel->getCode()
+                    'scope'     => $channel->getCode(),
                 ];
             }
         }
@@ -171,7 +171,7 @@ class AttributeValuesResolver implements AttributeValuesResolverInterface
     /**
      * @return ChannelInterface[]
      */
-    protected function getChannels() : array
+    protected function getChannels(): array
     {
         if (null === $this->channels) {
             $this->channels = $this->channelRepository->findAll();
@@ -183,7 +183,7 @@ class AttributeValuesResolver implements AttributeValuesResolverInterface
     /**
      * @return LocaleInterface[]
      */
-    protected function getLocales() : array
+    protected function getLocales(): array
     {
         if (null === $this->locales) {
             $this->locales = $this->localeRepository->getActivatedLocales();

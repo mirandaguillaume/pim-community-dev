@@ -17,9 +17,7 @@ use Doctrine\DBAL\ParameterType;
 final class SqlUpdateIdentifierValuesQuery implements UpdateIdentifierValuesQuery
 {
     private ?bool $doesTableExist = null;
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     /**
      * {@inheritdoc}
@@ -35,10 +33,10 @@ final class SqlUpdateIdentifierValuesQuery implements UpdateIdentifierValuesQuer
         $statement = $this->connection->prepare(
             \sprintf(
                 <<<SQL
-                INSERT INTO pim_catalog_product_identifiers(product_uuid, identifiers)
-                VALUES %s
-                ON DUPLICATE KEY UPDATE identifiers = VALUES(identifiers);
-                SQL,
+                    INSERT INTO pim_catalog_product_identifiers(product_uuid, identifiers)
+                    VALUES %s
+                    ON DUPLICATE KEY UPDATE identifiers = VALUES(identifiers);
+                    SQL,
                 $parameters
             )
         );
@@ -47,13 +45,13 @@ final class SqlUpdateIdentifierValuesQuery implements UpdateIdentifierValuesQuer
         foreach ($products as $product) {
             $statement->bindValue(++$paramIndex, $product->getUuid()->getBytes(), ParameterType::BINARY);
             $identifierValues = \array_map(
-                static fn (IdentifierValueInterface $value): string => \sprintf(
+                static fn(IdentifierValueInterface $value): string => \sprintf(
                     '%s#%s',
                     $value->getAttributeCode(),
                     $value->getData()
                 ),
                 $product->getValues()->filter(
-                    static fn (ValueInterface $value): bool => $value instanceof IdentifierValueInterface
+                    static fn(ValueInterface $value): bool => $value instanceof IdentifierValueInterface
                 )->getValues()
             );
             $statement->bindValue(++$paramIndex, \json_encode($identifierValues, JSON_THROW_ON_ERROR));
@@ -68,8 +66,8 @@ final class SqlUpdateIdentifierValuesQuery implements UpdateIdentifierValuesQuer
         if (null === $this->doesTableExist) {
             $this->doesTableExist = $this->connection->executeQuery(
                 <<<SQL
-                SHOW TABLES LIKE :tableName
-                SQL,
+                    SHOW TABLES LIKE :tableName
+                    SQL,
                 ['tableName' => $tableName]
             )->rowCount() >= 1;
         }

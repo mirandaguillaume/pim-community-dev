@@ -22,9 +22,7 @@ class AttributeOptionType extends AbstractType
     /**
      * @param string $dataClass
      */
-    public function __construct(protected $dataClass)
-    {
-    }
+    public function __construct(protected $dataClass) {}
 
     /**
      * {@inheritdoc}
@@ -67,8 +65,8 @@ class AttributeOptionType extends AbstractType
                 'allow_add'    => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-                'delete_empty' =>
-                    static fn (AttributeOptionValueInterface $optionValue = null) => null === $optionValue?->getValue()
+                'delete_empty'
+                    => static fn(AttributeOptionValueInterface $optionValue = null) => null === $optionValue?->getValue(),
             ]
         );
     }
@@ -81,7 +79,7 @@ class AttributeOptionType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class'      => $this->dataClass,
-                'csrf_protection' => false
+                'csrf_protection' => false,
             ]
         );
     }

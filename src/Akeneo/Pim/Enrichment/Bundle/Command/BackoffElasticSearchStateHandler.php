@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Bundle\Command;
@@ -18,11 +19,9 @@ class BackoffElasticSearchStateHandler
     final public const MAX_RETRY_COUNTER = 10;
     final public const BACKOFF_LOGARITHMIC_INCREMENT = 2;
 
-    public function __construct(private readonly int $maxNumberRetry=self::MAX_RETRY_COUNTER, private readonly int $backoffLogarithmicIncrement=self::BACKOFF_LOGARITHMIC_INCREMENT)
-    {
-    }
+    public function __construct(private readonly int $maxNumberRetry = self::MAX_RETRY_COUNTER, private readonly int $backoffLogarithmicIncrement = self::BACKOFF_LOGARITHMIC_INCREMENT) {}
 
-    public function bulkExecute(array $codes, BulkEsHandlerInterface $codesEsHandler):int
+    public function bulkExecute(array $codes, BulkEsHandlerInterface $codesEsHandler): int
     {
         return $this->executeAttempt([$codes], $codesEsHandler, 0);
     }
@@ -39,12 +38,12 @@ class BackoffElasticSearchStateHandler
         $treated = 0;
         foreach ($batchOfCodes as $codes) {
             try {
-                $treated+=$codesEsHandler->bulkExecute($codes);
+                $treated += $codesEsHandler->bulkExecute($codes);
             } catch (BadRequest400Exception $e) {
                 if ($e->getCode() == Response::HTTP_TOO_MANY_REQUESTS  && $numberRetry < $this->maxNumberRetry) {
                     $batchSize = intdiv(is_countable($codes) ? count($codes) : 0, $this->backoffLogarithmicIncrement);
                     $smallerBatchOfCodes = array_chunk($codes, $batchSize);
-                    $treated+=$this->executeAttempt($smallerBatchOfCodes, $codesEsHandler, ++$numberRetry);
+                    $treated += $this->executeAttempt($smallerBatchOfCodes, $codesEsHandler, ++$numberRetry);
                 } else {
                     throw $e;
                 }

@@ -131,9 +131,9 @@ class AttributeController
         }
 
         if ($request->get('types', null) !== null) {
-            $options['types'] = is_array($request->get('types')) ?
-                $request->get('types') :
-                explode(',', (string) $request->get('types'));
+            $options['types'] = is_array($request->get('types'))
+                ? $request->get('types')
+                : explode(',', (string) $request->get('types'));
         }
 
         if ($request->get('attribute_groups', null) !== null) {
@@ -174,7 +174,7 @@ class AttributeController
             $options
         );
 
-        $normalizedAttributes = array_map(fn ($attribute) => $this->lightAttributeNormalizer->normalize(
+        $normalizedAttributes = array_map(fn($attribute) => $this->lightAttributeNormalizer->normalize(
             $attribute,
             'internal_api',
             ['locale' => $this->userContext->getUiLocale()->getCode()]
@@ -351,7 +351,7 @@ class AttributeController
 
         if (isset($data['number_min'])) {
             $violations = $this->numberLocalizer->validate($data['number_min'], 'number_min', [
-                'locale' => $this->userContext->getUiLocale()->getCode()
+                'locale' => $this->userContext->getUiLocale()->getCode(),
             ]);
 
             if (null !== $violations && $violations->count() > 0) {
@@ -361,7 +361,7 @@ class AttributeController
 
         if (isset($data['number_max'])) {
             $violations = $this->numberLocalizer->validate($data['number_max'], 'number_max', [
-                'locale' => $this->userContext->getUiLocale()->getCode()
+                'locale' => $this->userContext->getUiLocale()->getCode(),
             ]);
 
             if (null !== $violations && $violations->count() > 0) {
@@ -376,13 +376,13 @@ class AttributeController
     {
         if (isset($data['number_min'])) {
             $data['number_min'] = $this->numberLocalizer->delocalize($data['number_min'], [
-                'locale' => $this->userContext->getUiLocale()->getCode()
+                'locale' => $this->userContext->getUiLocale()->getCode(),
             ]);
         }
 
         if (isset($data['number_max'])) {
             $data['number_max'] = $this->numberLocalizer->delocalize($data['number_max'], [
-                'locale' => $this->userContext->getUiLocale()->getCode()
+                'locale' => $this->userContext->getUiLocale()->getCode(),
             ]);
         }
 

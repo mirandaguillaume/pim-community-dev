@@ -37,8 +37,7 @@ class RemoveCompletenessForChannelAndLocaleTasklet implements TaskletInterface
         private readonly ChannelRepositoryInterface $channelRepository,
         private readonly BulkSaverInterface $productBulkSaver,
         private readonly int $productBatchSize
-    ) {
-    }
+    ) {}
 
     public function setStepExecution(StepExecution $stepExecution)
     {
@@ -88,7 +87,7 @@ class RemoveCompletenessForChannelAndLocaleTasklet implements TaskletInterface
             ->setMessage('pim_enrich.notification.settings.remove_completeness_for_channel_and_locale.start')
             ->setContext([
                 'actionType' => 'settings',
-                'showReportButton' => false
+                'showReportButton' => false,
             ]);
         $this->notifier->notify($pushNotif, $users);
     }
@@ -101,7 +100,7 @@ class RemoveCompletenessForChannelAndLocaleTasklet implements TaskletInterface
             ->setMessage('pim_enrich.notification.settings.remove_completeness_for_channel_and_locale.done')
             ->setContext([
                 'actionType' => 'settings',
-                'showReportButton' => false
+                'showReportButton' => false,
             ]);
         $this->notifier->notify($doneNotif, $users);
     }
@@ -118,7 +117,7 @@ class RemoveCompletenessForChannelAndLocaleTasklet implements TaskletInterface
 
         $localeCodes = $jobParameters->get('locales_identifier');
         $currentLocaleCodes = $channel->getLocales()->map(
-            static fn (LocaleInterface $locale): string => $locale->getCode()
+            static fn(LocaleInterface $locale): string => $locale->getCode()
         );
         foreach ($localeCodes as $localeCode) {
             if (!$currentLocaleCodes->contains($localeCode)) {

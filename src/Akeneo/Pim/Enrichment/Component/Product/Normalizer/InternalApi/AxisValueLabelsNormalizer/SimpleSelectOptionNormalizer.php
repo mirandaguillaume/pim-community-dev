@@ -13,9 +13,7 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
  */
 class SimpleSelectOptionNormalizer implements AxisValueLabelsNormalizer
 {
-    public function __construct(private readonly IdentifiableObjectRepositoryInterface $attributeOptionRepository)
-    {
-    }
+    public function __construct(private readonly IdentifiableObjectRepositoryInterface $attributeOptionRepository) {}
 
     /**
      * @param ValueInterface $value
@@ -26,7 +24,7 @@ class SimpleSelectOptionNormalizer implements AxisValueLabelsNormalizer
     public function normalize(ValueInterface $value, string $locale): string
     {
         $optionCode = $value->getData();
-        $option = $this->attributeOptionRepository->findOneByIdentifier($value->getAttributeCode().'.'.$optionCode);
+        $option = $this->attributeOptionRepository->findOneByIdentifier($value->getAttributeCode() . '.' . $optionCode);
         $option->setLocale($locale);
         $label = $option->getTranslation()->getLabel();
 

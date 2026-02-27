@@ -12,31 +12,31 @@ class OperationSpec extends ObjectBehavior
     private const VALUE = '150';
     private const OPERATOR = 'mul';
 
-    function let()
+    public function let()
     {
         $this->beConstructedThrough('create', [self::OPERATOR, self::VALUE]);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(Operation::class);
     }
 
-    function it_should_be_normalizable()
+    public function it_should_be_normalizable()
     {
         $this->normalize()->shouldReturn(
             ['operator' => self::OPERATOR, 'value' => self::VALUE]
         );
     }
 
-    function it_cannot_be_constructed_with_an_unsupported_operator()
+    public function it_cannot_be_constructed_with_an_unsupported_operator()
     {
         $invalidOperation = 'invalid_operation';
         $this->shouldThrow(\InvalidArgumentException::class)
             ->during('create', [$invalidOperation, self::VALUE]);
     }
 
-    function it_cannot_be_constructed_with_a_non_numeric_string_value()
+    public function it_cannot_be_constructed_with_a_non_numeric_string_value()
     {
         $invalidValue = 'not a numeric_value';
         $this->shouldThrow(\InvalidArgumentException::class)
@@ -44,7 +44,7 @@ class OperationSpec extends ObjectBehavior
 
     }
 
-    function it_cannot_be_constructed_with_scientific_notation()
+    public function it_cannot_be_constructed_with_scientific_notation()
     {
         $this->shouldThrow(\InvalidArgumentException::class)
             ->during('create', [self::OPERATOR, '7E-10']);

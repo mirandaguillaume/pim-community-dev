@@ -31,8 +31,7 @@ final readonly class UpsertUserHandler implements UpsertUserHandlerInterface
         private UserFactory $userFactory,
         private SaverInterface $userSaver,
         private ValidatorInterface $validator,
-    ) {
-    }
+    ) {}
 
     public function handle(UpsertUserCommand $upsertUserCommand): void
     {

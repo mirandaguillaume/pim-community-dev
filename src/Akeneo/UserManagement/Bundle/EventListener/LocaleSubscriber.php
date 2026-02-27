@@ -25,9 +25,7 @@ use Symfony\Contracts\Translation\LocaleAwareInterface;
  */
 class LocaleSubscriber implements EventSubscriberInterface
 {
-    public function __construct(protected RequestStack $requestStack, protected LocaleAwareInterface $localeAware, protected EntityManager $em, protected FirewallMapInterface $firewall)
-    {
-    }
+    public function __construct(protected RequestStack $requestStack, protected LocaleAwareInterface $localeAware, protected EntityManager $em, protected FirewallMapInterface $firewall) {}
 
     public function onPostUpdate(GenericEvent $event)
     {
@@ -80,8 +78,8 @@ class LocaleSubscriber implements EventSubscriberInterface
             return 'en_US';
         }
 
-        return $request->hasSession() && null !== $request->getSession()->get('_locale') ?
-            $request->getSession()->get('_locale') : $this->getLocaleFromOroConfigValue();
+        return $request->hasSession() && null !== $request->getSession()->get('_locale')
+            ? $request->getSession()->get('_locale') : $this->getLocaleFromOroConfigValue();
     }
 
     protected function getLocaleFromOroConfigValue(): ?string

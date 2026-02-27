@@ -14,7 +14,7 @@ class NavigateAction extends AbstractAction
             'onClickReturnValue' => false,
             'runAction'          => true,
             'className'          => 'no-hash',
-        ]
+        ],
     ];
 
     /**

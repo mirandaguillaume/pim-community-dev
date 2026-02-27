@@ -8,17 +8,17 @@ use Akeneo\Tool\Component\Api\Hal\Link;
 
 class HalResourceSpec extends ObjectBehavior
 {
-    function let()
+    public function let()
     {
         $this->beConstructedWith([], [], []);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(HalResource::class);
     }
 
-    function it_generates_an_hal_array_with_links_and_data_and_embedded_resources(
+    public function it_generates_an_hal_array_with_links_and_data_and_embedded_resources(
         HalResource $resource,
         Link $self,
         Link $href
@@ -26,8 +26,8 @@ class HalResourceSpec extends ObjectBehavior
         $self->toArray()->willReturn(
             [
                 'self' => [
-                    'href' => 'http://akeneo.com/self'
-                ]
+                    'href' => 'http://akeneo.com/self',
+                ],
             ]
         );
 
@@ -35,7 +35,7 @@ class HalResourceSpec extends ObjectBehavior
             [
                 'next' => [
                     'href' => 'http://akeneo.com/next',
-                ]
+                ],
             ]
         );
 
@@ -79,7 +79,7 @@ class HalResourceSpec extends ObjectBehavior
         );
     }
 
-    function it_generates_an_hal_array_without_any_embedded_resources(Link $link)
+    public function it_generates_an_hal_array_without_any_embedded_resources(Link $link)
     {
         $link->toArray()->willReturn(
             [
@@ -103,7 +103,7 @@ class HalResourceSpec extends ObjectBehavior
         );
     }
 
-    function it_generates_an_array_without_link_or_embedded_resources()
+    public function it_generates_an_array_without_link_or_embedded_resources()
     {
         $this->beConstructedWith([], [], []);
 
@@ -113,7 +113,7 @@ class HalResourceSpec extends ObjectBehavior
         );
     }
 
-    function it_generates_an_hal_array_with_an_empty_list_of_embedded_resources()
+    public function it_generates_an_hal_array_with_an_empty_list_of_embedded_resources()
     {
         $this->beConstructedWith([], ['items' => []], []);
 
@@ -126,13 +126,13 @@ class HalResourceSpec extends ObjectBehavior
         );
     }
 
-    function it_generates_an_hal_array_with_links_in_embedded_resources(HalResource $resource, Link $self, Link $href)
+    public function it_generates_an_hal_array_with_links_in_embedded_resources(HalResource $resource, Link $self, Link $href)
     {
         $self->toArray()->willReturn(
             [
                 'self' => [
-                    'href' => 'http://akeneo.com/self'
-                ]
+                    'href' => 'http://akeneo.com/self',
+                ],
             ]
         );
 
@@ -152,7 +152,7 @@ class HalResourceSpec extends ObjectBehavior
                     ],
                     'download' => [
                         'href' => 'http://akeneo.com/api/resource/download',
-                    ]
+                    ],
                 ],
                 'data'   => 'item_data',
             ]
@@ -180,7 +180,7 @@ class HalResourceSpec extends ObjectBehavior
                                 ],
                                 'download' => [
                                     'href' => 'http://akeneo.com/api/resource/download',
-                                ]
+                                ],
                             ],
                             'data'   => 'item_data',
                         ],

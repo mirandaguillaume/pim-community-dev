@@ -19,8 +19,7 @@ class DeactivateAttributeSql implements DeactivateAttribute
     public function __construct(
         private readonly Connection $connection,
         private readonly IsTemplateDeactivated $isTemplateDeactivated,
-    ) {
-    }
+    ) {}
 
     public function execute(TemplateUuid $templateUuid, AttributeUuid $attributeUuid): void
     {
@@ -29,11 +28,11 @@ class DeactivateAttributeSql implements DeactivateAttribute
         }
 
         $query = <<< SQL
-            UPDATE pim_catalog_category_attribute 
-            SET is_deactivated = true
-            WHERE category_template_uuid = :template_uuid 
-            AND uuid = :attribute_uuid;
-        SQL;
+                UPDATE pim_catalog_category_attribute 
+                SET is_deactivated = true
+                WHERE category_template_uuid = :template_uuid 
+                AND uuid = :attribute_uuid;
+            SQL;
 
         $this->connection->executeQuery(
             $query,

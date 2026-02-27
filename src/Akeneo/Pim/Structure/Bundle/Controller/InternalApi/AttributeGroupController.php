@@ -58,8 +58,7 @@ class AttributeGroupController
         private readonly TokenStorageInterface $tokenStorage,
         private readonly JobLauncherInterface $jobLauncher,
         private readonly IdentifiableObjectRepositoryInterface $jobInstanceRepository,
-    ) {
-    }
+    ) {}
 
     /**
      * Search attribute group collection
@@ -374,16 +373,16 @@ class AttributeGroupController
 
         $attributeCodesBefore = $this->findAttributeCodesForAttributeGroup->execute($newAttributeGroup['code']);
 
-        if (!$this->securityFacade->isGranted('pim_enrich_attributegroup_remove_attribute') &&
-            count($attributeCodesBefore) > 0 &&
-            count(array_diff($attributeCodesBefore, $attributeCodesAfter)) > 0
+        if (!$this->securityFacade->isGranted('pim_enrich_attributegroup_remove_attribute')
+            && count($attributeCodesBefore) > 0
+            && count(array_diff($attributeCodesBefore, $attributeCodesAfter)) > 0
         ) {
             throw new AccessDeniedHttpException('You cannot remove attributes from the attribute group');
         }
 
-        if (!$this->securityFacade->isGranted('pim_enrich_attributegroup_add_attribute') &&
-            (is_countable($attributeCodesAfter) ? count($attributeCodesAfter) : 0) > 0 &&
-            count(array_diff($attributeCodesAfter, $attributeCodesBefore)) > 0
+        if (!$this->securityFacade->isGranted('pim_enrich_attributegroup_add_attribute')
+            && (is_countable($attributeCodesAfter) ? count($attributeCodesAfter) : 0) > 0
+            && count(array_diff($attributeCodesAfter, $attributeCodesBefore)) > 0
         ) {
             throw new AccessDeniedHttpException('You cannot add attributes to the attribute group');
         }

@@ -18,9 +18,7 @@ class CountUsers implements CountQuery
 {
     private const VOLUME_NAME = 'count_users';
 
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     /**
      * {@inheritdoc}
@@ -28,10 +26,10 @@ class CountUsers implements CountQuery
     public function fetch(): CountVolume
     {
         $sql = <<<SQL
-SELECT COUNT(*) as count
-FROM oro_user
-WHERE oro_user.user_type = :type
-SQL;
+            SELECT COUNT(*) as count
+            FROM oro_user
+            WHERE oro_user.user_type = :type
+            SQL;
 
         $result = $this->connection->executeQuery($sql, ['type' => User::TYPE_USER])->fetchAssociative();
         $volume = new CountVolume((int) $result['count'], self::VOLUME_NAME);

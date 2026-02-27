@@ -7,12 +7,12 @@ use Akeneo\Tool\Component\Connector\ArrayConverter\FieldSplitter;
 
 class FieldSplitterSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(FieldSplitter::class);
     }
 
-    function it_split_field_name()
+    public function it_split_field_name()
     {
         $this->splitFieldName('description-en_US-mobile')->shouldReturn(['description', 'en_US', 'mobile']);
         $this->splitFieldName('description-en_US')->shouldReturn(['description', 'en_US']);

@@ -14,9 +14,7 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
  */
 class QueryParametersChecker implements QueryParametersCheckerInterface
 {
-    public function __construct(private readonly IdentifiableObjectRepositoryInterface $localeRepository, private readonly IdentifiableObjectRepositoryInterface $attributeRepository, private readonly IdentifiableObjectRepositoryInterface $categoryRepository, private readonly array $productFields)
-    {
-    }
+    public function __construct(private readonly IdentifiableObjectRepositoryInterface $localeRepository, private readonly IdentifiableObjectRepositoryInterface $attributeRepository, private readonly IdentifiableObjectRepositoryInterface $categoryRepository, private readonly array $productFields) {}
 
     /**
      * {@inheritdoc}
@@ -33,8 +31,8 @@ class QueryParametersChecker implements QueryParametersCheckerInterface
         }
 
         if (!empty($errors)) {
-            $plural = count($errors) > 1 ?
-                'Locales "%s" do not exist or are not activated.' : 'Locale "%s" does not exist or is not activated.';
+            $plural = count($errors) > 1
+                ? 'Locales "%s" do not exist or are not activated.' : 'Locale "%s" does not exist or is not activated.';
             throw new UnprocessableEntityHttpException(sprintf($plural, implode(', ', $errors)));
         }
 

@@ -21,9 +21,7 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
  */
 class LegacyMeasureFamilyController
 {
-    public function __construct(protected ArrayConverterInterface $measureFamilyConverter, protected ParameterValidatorInterface $parameterValidator, protected PaginatorInterface $paginator, private readonly LegacyMeasurementProvider $legacyMeasurementProvider, protected array $apiConfiguration)
-    {
-    }
+    public function __construct(protected ArrayConverterInterface $measureFamilyConverter, protected ParameterValidatorInterface $parameterValidator, protected PaginatorInterface $paginator, private readonly LegacyMeasurementProvider $legacyMeasurementProvider, protected array $apiConfiguration) {}
 
     /**
      * @param string  $code
@@ -99,7 +97,7 @@ class LegacyMeasureFamilyController
 
         $measureConfig = array_slice($measuresConfig, $offset, $queryParameters['limit']);
 
-        $convertedMeasureFamilies= [];
+        $convertedMeasureFamilies = [];
         foreach ($measureConfig as $familyCode => $units) {
             $convertedMeasureFamilies[] = $this->measureFamilyConverter
                 ->convert(['family_code' => $familyCode, 'units' => $units]);

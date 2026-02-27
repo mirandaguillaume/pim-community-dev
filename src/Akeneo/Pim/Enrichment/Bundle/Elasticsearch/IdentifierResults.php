@@ -41,10 +41,10 @@ class IdentifierResults
     {
         return \array_values(
             \array_map(
-                static fn (IdentifierResult $result): string => \preg_replace('/^product_/', '', $result->getId()),
+                static fn(IdentifierResult $result): string => \preg_replace('/^product_/', '', $result->getId()),
                 \array_filter(
                     $this->identifierResults,
-                    static fn (IdentifierResult $result): bool => ProductInterface::class === $result->getType()
+                    static fn(IdentifierResult $result): bool => ProductInterface::class === $result->getType()
                 )
             )
         );

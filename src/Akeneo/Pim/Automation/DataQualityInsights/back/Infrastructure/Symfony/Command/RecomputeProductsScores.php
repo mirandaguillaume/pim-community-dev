@@ -32,9 +32,7 @@ final class RecomputeProductsScores extends Command
         parent::__construct();
     }
 
-    protected function configure()
-    {
-    }
+    protected function configure() {}
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {

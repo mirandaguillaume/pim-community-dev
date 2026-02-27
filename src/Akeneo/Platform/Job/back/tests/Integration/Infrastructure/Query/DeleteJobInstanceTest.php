@@ -26,7 +26,7 @@ class DeleteJobInstanceTest extends IntegrationTestCase
         $this->assertEqualsCanonicalizing([
             'a_job_instance_to_delete',
             'another_job_instance_to_delete',
-            'a_job_instance_to_keep'
+            'a_job_instance_to_keep',
         ], $this->findAllJobInstanceCodes());
 
         $this->deleteJobInstanceQuery->byCodes(['a_job_instance_to_delete', 'another_job_instance_to_delete']);
@@ -68,8 +68,8 @@ class DeleteJobInstanceTest extends IntegrationTestCase
     public function findAllJobInstanceCodes(): array
     {
         $sql = <<<SQL
-SELECT `code` FROM akeneo_batch_job_instance
-SQL;
+            SELECT `code` FROM akeneo_batch_job_instance
+            SQL;
 
         return $this->connection->executeQuery($sql)->fetchFirstColumn();
     }

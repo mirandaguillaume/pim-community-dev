@@ -39,7 +39,7 @@ class ProductModelRemovedEventDataBuilder implements EventDataBuilderInterface
         foreach ($bulkEvent->getEvents() as $event) {
             $data = [
                 'resource' => [
-                    'code' => $event->getCode()
+                    'code' => $event->getCode(),
                 ],
             ];
             $collection->setEventData($event, $data);

@@ -29,12 +29,12 @@ class GetProductRawValuesQueryIntegration extends TestCase
         $expectedRawValues = [
             'a_text' => [
                 '<all_channels>' => [
-                    '<all_locales>' => 'some text'
+                    '<all_locales>' => 'some text',
                 ],
             ],
             'a_yes_no' => [
                 '<all_channels>' => [
-                    '<all_locales>' => true
+                    '<all_locales>' => true,
                 ],
             ],
         ];
@@ -108,7 +108,7 @@ class GetProductRawValuesQueryIntegration extends TestCase
             'variant_A_yes',
             [
                 new ChangeParent('sub_pm_A'),
-                new SetBooleanValue('a_yes_no', null, null, true)
+                new SetBooleanValue('a_yes_no', null, null, true),
             ]
         );
 
@@ -119,7 +119,7 @@ class GetProductRawValuesQueryIntegration extends TestCase
         $expectedResult = [
             'a_text' => [
                 '<all_channels>' => [
-                    '<all_locales>' => 'some text'
+                    '<all_locales>' => 'some text',
                 ],
             ],
             'a_price' => [
@@ -127,14 +127,14 @@ class GetProductRawValuesQueryIntegration extends TestCase
                     '<all_locales>' => [
                         0 => [
                             'amount' => '50.00',
-                            'currency' => 'EUR'
-                        ]
+                            'currency' => 'EUR',
+                        ],
                     ],
                 ],
             ],
             'a_yes_no' => [
                 '<all_channels>' => [
-                    '<all_locales>' => true
+                    '<all_locales>' => true,
                 ],
             ],
             'a_number_float' => [
@@ -144,12 +144,12 @@ class GetProductRawValuesQueryIntegration extends TestCase
             ],
             'a_simple_select' => [
                 '<all_channels>' => [
-                    '<all_locales>' => 'optionA'
+                    '<all_locales>' => 'optionA',
                 ],
             ],
             'a_localized_and_scopable_text_area' => [
                 'ecommerce' => [
-                    'en_US' => 'my pink tshirt'
+                    'en_US' => 'my pink tshirt',
                 ],
             ],
         ];
@@ -157,7 +157,8 @@ class GetProductRawValuesQueryIntegration extends TestCase
         $this->assertProductHasRawValues($expectedResult, $result);
     }
 
-    private function createOrUpdateProduct(string $identifier, array $userIntents): ProductInterface {
+    private function createOrUpdateProduct(string $identifier, array $userIntents): ProductInterface
+    {
         $this->getContainer()->get('pim_catalog.validator.unique_value_set')->reset(); // Needed to update the product afterwards
 
         $this->get('pim_enrich.product.message_bus')->dispatch(UpsertProductCommand::createWithIdentifierSystemUser(
@@ -176,14 +177,14 @@ class GetProductRawValuesQueryIntegration extends TestCase
             new SetBooleanValue('a_yes_no', null, null, true),
         ]);
 
-        return $this->get(ProductUuidFactory::class)->create((string)$product->getUuid());
+        return $this->get(ProductUuidFactory::class)->create((string) $product->getUuid());
     }
 
     private function createVariantProduct(string $identifier, array $userIntents): ProductUuid
     {
         $product = $this->createOrUpdateProduct($identifier, $userIntents);
 
-        return $this->get(ProductUuidFactory::class)->create((string)$product->getUuid());
+        return $this->get(ProductUuidFactory::class)->create((string) $product->getUuid());
     }
 
     private function createProductModel(array $data): ProductModelInterface

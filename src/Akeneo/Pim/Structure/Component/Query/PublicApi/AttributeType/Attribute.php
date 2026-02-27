@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType;
@@ -23,8 +24,7 @@ final readonly class Attribute
         private ?bool $useableAsGridFilter = null,
         private array $labels = [],
         private bool $mainIdentifier = false,
-    ) {
-    }
+    ) {}
 
     public function code(): string
     {

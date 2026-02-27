@@ -6,6 +6,4 @@ namespace Akeneo\FreeTrial\Infrastructure\Symfony;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-final class AkeneoCommunityFreeTrialBundle extends Bundle
-{
-}
+final class AkeneoCommunityFreeTrialBundle extends Bundle {}

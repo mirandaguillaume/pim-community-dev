@@ -14,9 +14,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Query\ProductQueryBuilderInterface;
  */
 class ProductAndProductModelQueryBuilderWithSearchAggregatorFactory implements ProductQueryBuilderFactoryInterface
 {
-    public function __construct(private readonly string $pqbClass, private readonly ProductQueryBuilderFactoryInterface $factory, private readonly ProductAndProductModelSearchAggregator $searchAggregator)
-    {
-    }
+    public function __construct(private readonly string $pqbClass, private readonly ProductQueryBuilderFactoryInterface $factory, private readonly ProductAndProductModelSearchAggregator $searchAggregator) {}
 
     /**
      * {@inheritdoc}

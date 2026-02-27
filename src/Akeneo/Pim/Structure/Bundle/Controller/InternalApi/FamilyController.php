@@ -165,8 +165,8 @@ class FamilyController
             return new RedirectResponse('/');
         }
 
-        if (!$this->securityFacade->isGranted('pim_enrich_family_edit_properties') &&
-            !$this->securityFacade->isGranted('pim_enrich_family_edit_attributes')
+        if (!$this->securityFacade->isGranted('pim_enrich_family_edit_properties')
+            && !$this->securityFacade->isGranted('pim_enrich_family_edit_attributes')
         ) {
             throw new AccessDeniedException();
         }
@@ -212,7 +212,7 @@ class FamilyController
         $family = $this->getFamily($code);
         $allowedTypes = FamilyVariant::getAvailableAxesAttributeTypes();
 
-        $availableAxes = $family->getAttributes()->filter(fn (AttributeInterface $attribute) => in_array($attribute->getType(), $allowedTypes));
+        $availableAxes = $family->getAttributes()->filter(fn(AttributeInterface $attribute) => in_array($attribute->getType(), $allowedTypes));
 
         $normalizedAvailableAttributes = [];
         foreach ($availableAxes as $availableAxis) {
@@ -258,11 +258,11 @@ class FamilyController
         }
 
         if (!$this->securityFacade->isGranted('pim_enrich_family_edit_properties')) {
-            $data = array_filter($data, fn ($value, $key) => !in_array($key, $this->propertiesFields));
+            $data = array_filter($data, fn($value, $key) => !in_array($key, $this->propertiesFields));
         }
 
         if (!$this->securityFacade->isGranted('pim_enrich_family_edit_attributes')) {
-            $data = array_filter($data, fn ($value, $key) => !in_array($key, $this->attributeFields));
+            $data = array_filter($data, fn($value, $key) => !in_array($key, $this->attributeFields));
         }
 
         $this->updater->update($family, $data);
@@ -273,7 +273,7 @@ class FamilyController
             $errors = [];
             foreach ($violations as $violation) {
                 $errors[$violation->getPropertyPath()] = [
-                    'message' => $violation->getMessage()
+                    'message' => $violation->getMessage(),
                 ];
             }
 

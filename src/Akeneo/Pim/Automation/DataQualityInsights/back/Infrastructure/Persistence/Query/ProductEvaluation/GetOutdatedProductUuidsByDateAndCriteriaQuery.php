@@ -19,8 +19,7 @@ final readonly class GetOutdatedProductUuidsByDateAndCriteriaQuery implements Ge
 {
     public function __construct(
         private Connection $dbConnection,
-    ) {
-    }
+    ) {}
 
     /**
      * Retrieves the products that have at least one criterion from a given list that has not been evaluated since a given date
@@ -50,11 +49,11 @@ final readonly class GetOutdatedProductUuidsByDateAndCriteriaQuery implements Ge
         }
 
         $query = <<<SQL
-SELECT DISTINCT BIN_TO_UUID(pcp.uuid) AS product_uuid
-FROM pim_catalog_product AS pcp 
- LEFT JOIN pim_data_quality_insights_product_criteria_evaluation AS pdq ON pdq.product_uuid = pcp.uuid $criteriaSubQuery
-WHERE pcp.uuid IN (:product_uuids) AND (pdq.evaluated_at IS NULL OR  pdq.evaluated_at < :evaluation_date)
-SQL;
+            SELECT DISTINCT BIN_TO_UUID(pcp.uuid) AS product_uuid
+            FROM pim_catalog_product AS pcp 
+             LEFT JOIN pim_data_quality_insights_product_criteria_evaluation AS pdq ON pdq.product_uuid = pcp.uuid $criteriaSubQuery
+            WHERE pcp.uuid IN (:product_uuids) AND (pdq.evaluated_at IS NULL OR  pdq.evaluated_at < :evaluation_date)
+            SQL;
 
         $stmt = $this->dbConnection->executeQuery($query, $queryParameters, $queryTypes);
 

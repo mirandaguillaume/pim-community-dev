@@ -17,17 +17,15 @@ use Doctrine\DBAL\Result;
 
 final readonly class GetDashboardScoresQuery implements GetDashboardScoresQueryInterface
 {
-    public function __construct(private Connection $db)
-    {
-    }
+    public function __construct(private Connection $db) {}
 
     public function byCatalog(ChannelCode $channel, LocaleCode $locale, TimePeriod $timePeriod): ?Read\DashboardRates
     {
         $sql = <<<'SQL'
-SELECT scores
-FROM pim_data_quality_insights_dashboard_scores_projection
-WHERE type = :type
-SQL;
+            SELECT scores
+            FROM pim_data_quality_insights_dashboard_scores_projection
+            WHERE type = :type
+            SQL;
 
         $stmt = $this->db->executeQuery($sql, ['type' => DashboardProjectionType::CATALOG]);
 
@@ -37,11 +35,11 @@ SQL;
     public function byCategory(ChannelCode $channel, LocaleCode $locale, TimePeriod $timePeriod, CategoryCode $category): ?Read\DashboardRates
     {
         $sql = <<<'SQL'
-SELECT scores
-FROM pim_data_quality_insights_dashboard_scores_projection
-WHERE type = :type
-AND code = :code
-SQL;
+            SELECT scores
+            FROM pim_data_quality_insights_dashboard_scores_projection
+            WHERE type = :type
+            AND code = :code
+            SQL;
 
         $stmt = $this->db->executeQuery($sql, [
             'type' => DashboardProjectionType::CATEGORY,
@@ -54,11 +52,11 @@ SQL;
     public function byFamily(ChannelCode $channel, LocaleCode $locale, TimePeriod $timePeriod, FamilyCode $family): ?Read\DashboardRates
     {
         $sql = <<<'SQL'
-SELECT scores
-FROM pim_data_quality_insights_dashboard_scores_projection
-WHERE type = :type
-AND code = :code
-SQL;
+            SELECT scores
+            FROM pim_data_quality_insights_dashboard_scores_projection
+            WHERE type = :type
+            AND code = :code
+            SQL;
 
         $stmt = $this->db->executeQuery($sql, [
             'type' => DashboardProjectionType::FAMILY,

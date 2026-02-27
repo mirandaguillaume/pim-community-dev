@@ -17,9 +17,7 @@ use Doctrine\DBAL\Driver\Exception;
  */
 class GetCategoryTreeByCategoryTemplateSql implements GetCategoryTreeByCategoryTemplate
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     /**
      * @return ?Category
@@ -30,29 +28,29 @@ class GetCategoryTreeByCategoryTemplateSql implements GetCategoryTreeByCategoryT
     public function __invoke(TemplateUuid $templateUuid): ?CategoryTree
     {
         $query = <<< SQL
-            WITH translation as (
-                SELECT category.code, JSON_OBJECTAGG(translation.locale, translation.label) as translations
+                WITH translation as (
+                    SELECT category.code, JSON_OBJECTAGG(translation.locale, translation.label) as translations
+                    FROM pim_catalog_category category
+                    JOIN pim_catalog_category_translation translation ON translation.foreign_key = category.id
+                    GROUP BY code
+                )
+                SELECT
+                    category.id AS id,
+                    category.code AS code,
+                    translation.translations AS translations,
+                    BIN_TO_UUID(category_template.uuid) AS template_uuid,
+                    category_template.labels AS template_labels,
+                    category_template.code AS template_code            
                 FROM pim_catalog_category category
-                JOIN pim_catalog_category_translation translation ON translation.foreign_key = category.id
-                GROUP BY code
-            )
-            SELECT
-                category.id AS id,
-                category.code AS code,
-                translation.translations AS translations,
-                BIN_TO_UUID(category_template.uuid) AS template_uuid,
-                category_template.labels AS template_labels,
-                category_template.code AS template_code            
-            FROM pim_catalog_category category
-                LEFT JOIN pim_catalog_category_tree_template category_tree_template
-                     ON category_tree_template.category_tree_id=category.id
-                LEFT JOIN pim_catalog_category_template category_template
-                    ON category_template.uuid=category_tree_template.category_template_uuid AND (category_template.is_deactivated IS NULL OR category_template.is_deactivated = 0)
-                LEFT JOIN translation 
-                     ON category.code = translation.code
-            WHERE category_template_uuid=:template_uuid
-            AND category.parent_id IS NULL
-        SQL;
+                    LEFT JOIN pim_catalog_category_tree_template category_tree_template
+                         ON category_tree_template.category_tree_id=category.id
+                    LEFT JOIN pim_catalog_category_template category_template
+                        ON category_template.uuid=category_tree_template.category_template_uuid AND (category_template.is_deactivated IS NULL OR category_template.is_deactivated = 0)
+                    LEFT JOIN translation 
+                         ON category.code = translation.code
+                WHERE category_template_uuid=:template_uuid
+                AND category.parent_id IS NULL
+            SQL;
 
         $result = $this->connection->executeQuery(
             $query,

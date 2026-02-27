@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Component\Product\ProductModel\Filter;
@@ -31,8 +32,7 @@ class ProductAttributeFilter implements AttributeFilterInterface
         private readonly IdentifiableObjectRepositoryInterface $familyRepository,
         private readonly ProductRepositoryInterface $productRepository,
         private readonly IdentifiableObjectRepositoryInterface $attributeRepository
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -63,8 +63,8 @@ class ProductAttributeFilter implements AttributeFilterInterface
             }
         }
 
-        if (isset($standardProduct['parent']) &&
-            null !== $parentProductModel = $this->productModelRepository->findOneByIdentifier($standardProduct['parent'])
+        if (isset($standardProduct['parent'])
+            && null !== $parentProductModel = $this->productModelRepository->findOneByIdentifier($standardProduct['parent'])
         ) {
             $attributeSet = $parentProductModel
                 ->getFamilyVariant()
@@ -90,7 +90,7 @@ class ProductAttributeFilter implements AttributeFilterInterface
 
     private function keepOnlyAttributes(array $flatProduct, Collection $attributesToKeep): array
     {
-        $attributeCodesToKeep = $attributesToKeep->map(fn (AttributeInterface $attribute) => $attribute->getCode())->toArray();
+        $attributeCodesToKeep = $attributesToKeep->map(fn(AttributeInterface $attribute) => $attribute->getCode())->toArray();
 
         foreach ($flatProduct['values'] as $attributeName => $value) {
             if (!in_array($attributeName, $attributeCodesToKeep)) {

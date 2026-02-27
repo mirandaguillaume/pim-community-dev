@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Tests\CatalogBuilder;
@@ -13,9 +14,7 @@ use Ramsey\Uuid\UuidInterface;
  */
 class UserConsentLoader
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function addUserConsent(
         int $userId,

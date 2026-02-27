@@ -21,9 +21,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 final readonly class UpdateAttributeGroupActivationSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private FeatureFlag $dataQualityInsightsFeature, private AttributeGroupActivationRepositoryInterface $attributeGroupActivationRepository, private GetAttributeGroupActivationQueryInterface $getAttributeGroupActivationQuery, private LoggerInterface $logger)
-    {
-    }
+    public function __construct(private FeatureFlag $dataQualityInsightsFeature, private AttributeGroupActivationRepositoryInterface $attributeGroupActivationRepository, private GetAttributeGroupActivationQueryInterface $getAttributeGroupActivationQuery, private LoggerInterface $logger) {}
 
     public static function getSubscribedEvents(): array
     {

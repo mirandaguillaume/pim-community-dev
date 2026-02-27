@@ -67,17 +67,18 @@ class BulkUpdateProductQualityScoresIndexSpec extends ObjectBehavior
             [
                 'product_df470d52-7723-4890-85a0-e79be625e2ed',
                 'product_fef37e64-a963-47a9-b087-2cc67968f0a2',
-                'product_6d125b99-d971-41d9-a264-b020cd486aee'
-            ], [
+                'product_6d125b99-d971-41d9-a264-b020cd486aee',
+            ],
+            [
                 'product_df470d52-7723-4890-85a0-e79be625e2ed' => [
                     'script' => [
                         'source' => "ctx._source.data_quality_insights = params;",
                         'params' => [
                             'scores' => ['ecommerce' => ['en_US' => 5]],
                             'scores_partial_criteria' => ['ecommerce' => ['en_US' => 4]],
-                            'key_indicators' => $productsKeyIndicators['df470d52-7723-4890-85a0-e79be625e2ed']
+                            'key_indicators' => $productsKeyIndicators['df470d52-7723-4890-85a0-e79be625e2ed'],
                         ],
-                    ]
+                    ],
                 ],
                 'product_fef37e64-a963-47a9-b087-2cc67968f0a2' => [
                     'script' => [
@@ -85,10 +86,10 @@ class BulkUpdateProductQualityScoresIndexSpec extends ObjectBehavior
                         'params' => [
                             'scores' => ['ecommerce' => ['en_US' => 1]],
                             'scores_partial_criteria' => ['ecommerce' => ['en_US' => 3]],
-                            'key_indicators' => $productsKeyIndicators['fef37e64-a963-47a9-b087-2cc67968f0a2']
+                            'key_indicators' => $productsKeyIndicators['fef37e64-a963-47a9-b087-2cc67968f0a2'],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ]
         )
             ->shouldBeCalled();
@@ -127,9 +128,9 @@ class BulkUpdateProductQualityScoresIndexSpec extends ObjectBehavior
                         'params' => [
                             'scores' => ['ecommerce' => ['en_US' => 5]],
                             'scores_partial_criteria' => ['ecommerce' => ['en_US' => 4]],
-                            'key_indicators' => $productModelsKeyIndicators[123]
+                            'key_indicators' => $productModelsKeyIndicators[123],
                         ],
-                    ]
+                    ],
                 ],
                 'product_model_456' => [
                     'script' => [
@@ -137,10 +138,10 @@ class BulkUpdateProductQualityScoresIndexSpec extends ObjectBehavior
                         'params' => [
                             'scores' => ['ecommerce' => ['en_US' => 1]],
                             'scores_partial_criteria' => ['ecommerce' => ['en_US' => 3]],
-                            'key_indicators' => $productModelsKeyIndicators[456]
+                            'key_indicators' => $productModelsKeyIndicators[456],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ]
         )
             ->shouldBeCalled();
@@ -160,15 +161,15 @@ class BulkUpdateProductQualityScoresIndexSpec extends ObjectBehavior
         ]);
         $scores = [
             'df470d52-7723-4890-85a0-e79be625e2ed' => new Read\Scores(
-                (new ChannelLocaleRateCollection)
+                (new ChannelLocaleRateCollection())
                     ->addRate($channel, $locale, new Rate(10)),
-                (new ChannelLocaleRateCollection)
+                (new ChannelLocaleRateCollection())
                     ->addRate($channel, $locale, new Rate(65)),
             ),
             'fef37e64-a963-47a9-b087-2cc67968f0a2' => new Read\Scores(
-                (new ChannelLocaleRateCollection)
+                (new ChannelLocaleRateCollection())
                     ->addRate($channel, $locale, new Rate(96)),
-                (new ChannelLocaleRateCollection)
+                (new ChannelLocaleRateCollection())
                     ->addRate($channel, $locale, new Rate(78)),
             ),
         ];
@@ -202,7 +203,7 @@ class BulkUpdateProductQualityScoresIndexSpec extends ObjectBehavior
         return [
             'productUuidCollection' => $productUuidCollection,
             'scores' => $scores,
-            'keyIndicators' => $keyIndicators
+            'keyIndicators' => $keyIndicators,
         ];
     }
 
@@ -214,15 +215,15 @@ class BulkUpdateProductQualityScoresIndexSpec extends ObjectBehavior
         $productModelIdCollection = ProductModelIdCollection::fromStrings(['123', '456', '42']);
         $scores = [
             123 => new Read\Scores(
-                (new ChannelLocaleRateCollection)
+                (new ChannelLocaleRateCollection())
                     ->addRate($channel, $locale, new Rate(10)),
-                (new ChannelLocaleRateCollection)
+                (new ChannelLocaleRateCollection())
                     ->addRate($channel, $locale, new Rate(65)),
             ),
             456 => new Read\Scores(
-                (new ChannelLocaleRateCollection)
+                (new ChannelLocaleRateCollection())
                     ->addRate($channel, $locale, new Rate(96)),
-                (new ChannelLocaleRateCollection)
+                (new ChannelLocaleRateCollection())
                     ->addRate($channel, $locale, new Rate(78)),
             ),
         ];
@@ -256,7 +257,7 @@ class BulkUpdateProductQualityScoresIndexSpec extends ObjectBehavior
         return [
             'productModelIdCollection' => $productModelIdCollection,
             'scores' => $scores,
-            'keyIndicators' => $keyIndicators
+            'keyIndicators' => $keyIndicators,
         ];
     }
 }

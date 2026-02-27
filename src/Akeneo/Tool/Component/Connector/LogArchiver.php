@@ -18,9 +18,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class LogArchiver implements EventSubscriberInterface
 {
-    public function __construct(private readonly FilesystemWriter $filesystem)
-    {
-    }
+    public function __construct(private readonly FilesystemWriter $filesystem) {}
 
     public function archive(JobExecutionEvent $event): void
     {
@@ -39,7 +37,7 @@ class LogArchiver implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            EventInterface::BEFORE_JOB_STATUS_UPGRADE => 'archive'
+            EventInterface::BEFORE_JOB_STATUS_UPGRADE => 'archive',
         ];
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Application\Webhook\Command;
@@ -15,8 +16,7 @@ class UpdateWebhookCommand
         private readonly bool $enabled,
         private readonly ?string $url = null,
         private readonly bool $isUsingUuid = false,
-    ) {
-    }
+    ) {}
 
     public function code(): string
     {

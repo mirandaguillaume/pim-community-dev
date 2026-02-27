@@ -18,9 +18,7 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class SqlGetValuesOfSiblings implements GetValuesOfSiblings
 {
-    public function __construct(private Connection $connection, private WriteValueCollectionFactory $valueCollectionFactory)
-    {
-    }
+    public function __construct(private Connection $connection, private WriteValueCollectionFactory $valueCollectionFactory) {}
 
     public function for(EntityWithFamilyVariantInterface $entity, array $attributeCodesToFilter = []): array
     {
@@ -31,28 +29,28 @@ final readonly class SqlGetValuesOfSiblings implements GetValuesOfSiblings
         if ($entity instanceof ProductModelInterface) {
             $identifier = $entity->getCode();
             $sql = <<<SQL
-SELECT code as identifier, raw_values
-FROM pim_catalog_product_model
-WHERE parent_id = :parentId
-AND code != :identifier;
-SQL;
+                SELECT code as identifier, raw_values
+                FROM pim_catalog_product_model
+                WHERE parent_id = :parentId
+                AND code != :identifier;
+                SQL;
         } elseif ($entity instanceof ProductInterface) {
             $identifier = $entity->getUuid()->toString();
             $sql = <<<SQL
-WITH main_identifier AS (
-    SELECT id
-    FROM pim_catalog_attribute
-    WHERE main_identifier = 1
-    LIMIT 1
-)
-SELECT pim_catalog_product_unique_data.raw_data AS identifier, BIN_TO_UUID(uuid) AS uuid, raw_values
-FROM pim_catalog_product
-LEFT JOIN pim_catalog_product_unique_data 
-    ON pim_catalog_product_unique_data.product_uuid = pim_catalog_product.uuid 
-    AND pim_catalog_product_unique_data.attribute_id = (SELECT id FROM main_identifier) 
-WHERE product_model_id = :parentId
-AND uuid != UUID_TO_BIN(:identifier)
-SQL;
+                WITH main_identifier AS (
+                    SELECT id
+                    FROM pim_catalog_attribute
+                    WHERE main_identifier = 1
+                    LIMIT 1
+                )
+                SELECT pim_catalog_product_unique_data.raw_data AS identifier, BIN_TO_UUID(uuid) AS uuid, raw_values
+                FROM pim_catalog_product
+                LEFT JOIN pim_catalog_product_unique_data 
+                    ON pim_catalog_product_unique_data.product_uuid = pim_catalog_product.uuid 
+                    AND pim_catalog_product_unique_data.attribute_id = (SELECT id FROM main_identifier) 
+                WHERE product_model_id = :parentId
+                AND uuid != UUID_TO_BIN(:identifier)
+                SQL;
         } else {
             return [];
         }
@@ -70,7 +68,7 @@ SQL;
             $rawValues = json_decode((string) $row['raw_values'], true, 512, JSON_THROW_ON_ERROR) ?? [];
 
             if (!empty($attributeCodesToFilter)) {
-                $rawValues = array_filter($rawValues, fn (string $attributeCode) => in_array($attributeCode, $attributeCodesToFilter), ARRAY_FILTER_USE_KEY);
+                $rawValues = array_filter($rawValues, fn(string $attributeCode) => in_array($attributeCode, $attributeCodesToFilter), ARRAY_FILTER_USE_KEY);
             }
 
             $valuesOfSiblings[$row['identifier'] ?? $row['uuid']] = $this->valueCollectionFactory->createFromStorageFormat(

@@ -27,14 +27,12 @@ class AttributeNormalizer implements NormalizerInterface, CacheableSupportsMetho
     /** @var string[] */
     protected array $supportedFormats = ['flat'];
 
-    public function __construct(protected NormalizerInterface $standardNormalizer, protected NormalizerInterface $translationNormalizer, protected GetAttributeOptionCodes $getAttributeOptionCodes)
-    {
-    }
+    public function __construct(protected NormalizerInterface $standardNormalizer, protected NormalizerInterface $translationNormalizer, protected GetAttributeOptionCodes $getAttributeOptionCodes) {}
 
     /**
      * {@inheritdoc}
      */
-    public function normalize($attribute, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($attribute, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $standardAttribute = $this->standardNormalizer->normalize($attribute, 'standard', $context);
 

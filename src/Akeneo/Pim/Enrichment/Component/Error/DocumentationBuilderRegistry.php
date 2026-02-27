@@ -15,9 +15,7 @@ class DocumentationBuilderRegistry
     /**
      * @param DocumentationBuilderInterface[] $builders
      */
-    public function __construct(private readonly iterable $builders)
-    {
-    }
+    public function __construct(private readonly iterable $builders) {}
 
     public function getDocumentation(object $object): ?DocumentationCollection
     {

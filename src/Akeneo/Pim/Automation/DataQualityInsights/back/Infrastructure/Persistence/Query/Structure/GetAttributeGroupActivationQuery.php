@@ -15,16 +15,14 @@ use Doctrine\DBAL\Connection;
  */
 final class GetAttributeGroupActivationQuery implements GetAttributeGroupActivationQueryInterface
 {
-    public function __construct(protected Connection $dbConnection)
-    {
-    }
+    public function __construct(protected Connection $dbConnection) {}
 
     public function byCode(AttributeGroupCode $attributeGroupCode): ?AttributeGroupActivation
     {
         $query = <<<SQL
-SELECT activated FROM pim_data_quality_insights_attribute_group_activation
-WHERE attribute_group_code = :attributeGroupCode;
-SQL;
+            SELECT activated FROM pim_data_quality_insights_attribute_group_activation
+            WHERE attribute_group_code = :attributeGroupCode;
+            SQL;
 
         $result = $this->dbConnection->executeQuery($query, ['attributeGroupCode' => $attributeGroupCode])
             ->fetchOne();

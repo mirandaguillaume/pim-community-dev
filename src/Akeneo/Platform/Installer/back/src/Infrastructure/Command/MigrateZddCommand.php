@@ -35,7 +35,7 @@ final class MigrateZddCommand extends Command
         $this->zddMigrations = iterator_to_array($zddMigrations);
 
         Assert::allIsInstanceOf($this->zddMigrations, ZddMigration::class);
-        usort($this->zddMigrations, fn ($a, $b) => \strcmp(
+        usort($this->zddMigrations, fn($a, $b) => \strcmp(
             (new \ReflectionClass($a))->getShortName(),
             (new \ReflectionClass($b))->getShortName(),
         ));
@@ -43,9 +43,7 @@ final class MigrateZddCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-    }
+    protected function configure(): void {}
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -118,14 +116,14 @@ final class MigrateZddCommand extends Command
     private function isMigrated(ZddMigration $zddMigration): bool
     {
         $sql = <<<SQL
-            SELECT EXISTS (
-                SELECT 1
-                FROM pim_one_time_task
-                WHERE pim_one_time_task.code=:code
-                  AND pim_one_time_task.status=:status
-                LIMIT 1
-            ) AS missing
-        SQL;
+                SELECT EXISTS (
+                    SELECT 1
+                    FROM pim_one_time_task
+                    WHERE pim_one_time_task.code=:code
+                      AND pim_one_time_task.status=:status
+                    LIMIT 1
+                ) AS missing
+            SQL;
 
         return (bool) $this->connection->fetchOne($sql, [
             'code' => $this->getZddMigrationCode($zddMigration),
@@ -137,8 +135,8 @@ final class MigrateZddCommand extends Command
     {
         $rows = $this->connection->fetchAllAssociative(
             <<<SQL
-                SHOW TABLES LIKE :tableName
-            SQL,
+                    SHOW TABLES LIKE :tableName
+                SQL,
             ['tableName' => $tableName],
         );
 
@@ -148,10 +146,10 @@ final class MigrateZddCommand extends Command
     private function markAsMigrated(ZddMigration $zddMigration): void
     {
         $this->connection->executeQuery(<<<SQL
-            INSERT INTO `pim_one_time_task` (`code`, `status`, `start_time`, `values`) 
-            VALUES (:code, :status, NOW(), :values)
-            ON DUPLICATE KEY UPDATE status=VALUES(status), start_time=NOW();
-        SQL, [
+                INSERT INTO `pim_one_time_task` (`code`, `status`, `start_time`, `values`) 
+                VALUES (:code, :status, NOW(), :values)
+                ON DUPLICATE KEY UPDATE status=VALUES(status), start_time=NOW();
+            SQL, [
             'code' => $this->getZddMigrationCode($zddMigration),
             'status' => 'finished',
             'values' => \json_encode((object) [], JSON_THROW_ON_ERROR),

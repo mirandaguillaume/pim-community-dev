@@ -121,7 +121,7 @@ class DeleteMeasurementFamilyTest extends AcceptanceTestCase
                 MeasurementFamilyCode::fromString($measurementFamilyCode),
                 LabelCollection::fromArray([]),
                 UnitCode::fromString($standardUnitCode),
-                array_map(static fn (string $unitCode) => Unit::create(
+                array_map(static fn(string $unitCode) => Unit::create(
                     UnitCode::fromString($unitCode),
                     LabelCollection::fromArray([]),
                     [

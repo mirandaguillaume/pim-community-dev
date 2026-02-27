@@ -15,8 +15,7 @@ class AppDeletion
         private readonly string $connectionCode,
         private readonly string $userGroupName,
         private readonly string $userRole
-    ) {
-    }
+    ) {}
 
     public function getAppId(): string
     {

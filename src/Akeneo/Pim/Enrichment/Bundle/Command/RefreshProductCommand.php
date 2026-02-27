@@ -61,7 +61,7 @@ class RefreshProductCommand extends Command
 
         $productsToSave = [
             'product_models' => [],
-            'products' => []
+            'products' => [],
         ];
         foreach ($products as $product) {
             $productsToSave[$product instanceof ProductModelInterface ? 'product_models' : 'products'][] = $product;

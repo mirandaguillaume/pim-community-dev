@@ -13,16 +13,14 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class DeleteConnectedAppQuery implements DeleteConnectedAppQueryInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function execute(string $appId): void
     {
         $query = <<<SQL
-DELETE FROM akeneo_connectivity_connected_app
-WHERE id = :id
-SQL;
+            DELETE FROM akeneo_connectivity_connected_app
+            WHERE id = :id
+            SQL;
 
         $this->connection->executeQuery($query, [
             'id' => $appId,

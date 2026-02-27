@@ -19,6 +19,4 @@ use Doctrine\DBAL\Types\Types;
 #[ORM\ChangeTrackingPolicy('DEFERRED_EXPLICIT')]
 #[ORM\Index(columns: ['code'], name: 'searchcode_idx')]
 #[ORM\UniqueConstraint(name: 'searchunique_idx', columns: ['code', 'entity_type'])]
-class Attribute extends AbstractAttribute
-{
-}
+class Attribute extends AbstractAttribute {}

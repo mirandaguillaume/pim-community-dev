@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Tests\CatalogBuilder\Enrichment;
@@ -23,8 +24,7 @@ class UserRoleLoader
         private readonly ValidatorInterface $validator,
         private readonly SaverInterface $saver,
         private readonly Connection $connection,
-    ) {
-    }
+    ) {}
 
     public function create(array $data = []): RoleInterface
     {

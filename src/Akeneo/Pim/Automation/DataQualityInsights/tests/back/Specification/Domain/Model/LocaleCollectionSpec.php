@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Specification\Akeneo\Pim\Automation\DataQualityInsights\Domain\Model;
@@ -43,7 +44,7 @@ final class LocaleCollectionSpec extends ObjectBehavior
 
         $this->getIterator()->shouldBeLike(new \ArrayIterator([
             'en_GB' => $aLocaleCode,
-            'en_US' => $anotherLocaleCode
+            'en_US' => $anotherLocaleCode,
         ]));
     }
 

@@ -24,9 +24,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 class ProductModelCsvExport implements ConstraintCollectionProviderInterface
 {
-    public function __construct(private readonly ConstraintCollectionProviderInterface $simpleProvider, private readonly array $supportedJobNames)
-    {
-    }
+    public function __construct(private readonly ConstraintCollectionProviderInterface $simpleProvider, private readonly array $supportedJobNames) {}
 
     /**
      * {@inheritdoc}
@@ -64,7 +62,7 @@ class ProductModelCsvExport implements ConstraintCollectionProviderInterface
                         ->buildViolation('The locale cannot be empty.')
                         ->addViolation();
                 }
-            })
+            }),
         ];
         $constraintFields['with_media'] = new Type(
             [
@@ -88,7 +86,7 @@ class ProductModelCsvExport implements ConstraintCollectionProviderInterface
                                                 'type'   => 'array',
                                                 'groups' => ['Default', 'DataFilters'],
                                             ]
-                                        )
+                                        ),
                                     ],
                                     'allowMissingFields' => true,
                                 ]

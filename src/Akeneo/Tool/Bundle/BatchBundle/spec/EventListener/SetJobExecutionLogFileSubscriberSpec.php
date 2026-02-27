@@ -9,12 +9,12 @@ use PhpSpec\ObjectBehavior;
 
 class SetJobExecutionLogFileSubscriberSpec extends ObjectBehavior
 {
-    function let(BatchLogHandler $handler)
+    public function let(BatchLogHandler $handler)
     {
         $this->beConstructedWith($handler);
     }
 
-    function it_sets_job_execution_log_file($handler, JobExecutionEvent $event, JobExecution $execution)
+    public function it_sets_job_execution_log_file($handler, JobExecutionEvent $event, JobExecution $execution)
     {
         $handler->getFilename()->willReturn('myfilename');
         $event->getJobExecution()->willReturn($execution);

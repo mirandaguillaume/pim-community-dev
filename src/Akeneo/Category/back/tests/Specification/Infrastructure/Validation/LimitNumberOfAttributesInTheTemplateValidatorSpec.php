@@ -57,8 +57,7 @@ class LimitNumberOfAttributesInTheTemplateValidatorSpec extends ObjectBehavior
         ExecutionContext $context,
         ConstraintViolationBuilderInterface $violationBuilder,
         GetAttribute $getAttribute,
-    ): void
-    {
+    ): void {
         $templateUuid = TemplateUuid::fromString('02274dac-e99a-4e1d-8f9b-794d4c3ba330');
 
         $constraint = new LimitNumberOfAttributesInTheTemplate();

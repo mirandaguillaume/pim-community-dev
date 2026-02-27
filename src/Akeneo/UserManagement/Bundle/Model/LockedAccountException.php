@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Akeneo\UserManagement\Bundle\Model;
 
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;

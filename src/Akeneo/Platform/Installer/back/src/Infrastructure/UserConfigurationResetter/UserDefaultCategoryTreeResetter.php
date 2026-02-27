@@ -20,23 +20,21 @@ class UserDefaultCategoryTreeResetter implements UserConfigurationResetterInterf
 {
     private const DEFAULT_CATEGORY_CODE = 'master';
 
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function execute(): void
     {
         $this->connection->executeStatement(<<<SQL
-            UPDATE oro_user SET defaultTree_id = (
-                SELECT id
-                FROM pim_catalog_category 
-                WHERE code = :defaultCategoryCode
-            ) 
-            WHERE defaultTree_id NOT IN (
-                SELECT id 
-                FROM pim_catalog_category
-            )
-        SQL, [
+                UPDATE oro_user SET defaultTree_id = (
+                    SELECT id
+                    FROM pim_catalog_category 
+                    WHERE code = :defaultCategoryCode
+                ) 
+                WHERE defaultTree_id NOT IN (
+                    SELECT id 
+                    FROM pim_catalog_category
+                )
+            SQL, [
             'defaultCategoryCode' => self::DEFAULT_CATEGORY_CODE,
         ]);
     }

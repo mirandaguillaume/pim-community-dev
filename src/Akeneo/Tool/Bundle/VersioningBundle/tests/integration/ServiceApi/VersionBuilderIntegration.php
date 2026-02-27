@@ -78,12 +78,12 @@ class VersionBuilderIntegration extends TestCase
             ],
             'label-en_US' => [
                 'old' => '',
-                'new' => 'photo'
+                'new' => 'photo',
             ],
             'label-fr_FR' => [
                 'old' => '',
-                'new' => 'image'
-            ]
+                'new' => 'image',
+            ],
         ];
 
         $givenResourceName = \Akeneo\Category\Infrastructure\Component\Model\Category::class;
@@ -143,7 +143,7 @@ class VersionBuilderIntegration extends TestCase
             'updated' => [
                 'old' => '',
                 'new' => '2023-01-16T14:30:30+00:00',
-            ]
+            ],
         ];
 
         $givenResourceName = \Akeneo\Category\Infrastructure\Component\Model\Category::class;
@@ -178,16 +178,16 @@ class VersionBuilderIntegration extends TestCase
             ],
             'label-en_US' => [
                 'old' => '',
-                'new' => 'photo'
+                'new' => 'photo',
             ],
             'label-fr_FR' => [
                 'old' => '',
-                'new' => 'image'
+                'new' => 'image',
             ],
             'view_permission' => [
                 'old' => '',
-                'new' => 'All'
-            ]
+                'new' => 'All',
+            ],
         ];
         $this->assertEquals($expectedChangeset, $oldestVersion->getChangeset());
     }

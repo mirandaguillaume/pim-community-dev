@@ -34,12 +34,12 @@ use Ramsey\Uuid\Uuid;
  */
 class UpsertProductCommandSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(UpsertProductCommand::class);
     }
 
-    function it_can_be_constructed_with_value_intents()
+    public function it_can_be_constructed_with_value_intents()
     {
         $valueUserIntents = [
             new SetTextValue('name', null, null, 'foo'),
@@ -63,13 +63,13 @@ class UpsertProductCommandSpec extends ObjectBehavior
         $this->valueUserIntents()->shouldReturn($valueUserIntents);
     }
 
-    function it_cannot_be_constructed_with_bad_value_user_intent()
+    public function it_cannot_be_constructed_with_bad_value_user_intent()
     {
-        $this->beConstructedThrough('createFromCollection', [1, '', [new \stdClass]]);
+        $this->beConstructedThrough('createFromCollection', [1, '', [new \stdClass()]]);
         $this->shouldThrow(\InvalidArgumentException::class)->duringInstantiation();
     }
 
-    function it_can_be_constructed_with_field_user_intents()
+    public function it_can_be_constructed_with_field_user_intents()
     {
         $familyUserIntent = new SetFamily('accessories');
         $categoryUserIntent = new SetCategories(['master']);
@@ -86,7 +86,7 @@ class UpsertProductCommandSpec extends ObjectBehavior
         $this->valueUserIntents()->shouldReturn([]);
     }
 
-    function it_can_be_constructed_from_a_collection_of_user_intents()
+    public function it_can_be_constructed_from_a_collection_of_user_intents()
     {
         $familyUserIntent = new SetFamily('accessories');
         $categoryUserIntent = new SetCategories(['master']);
@@ -111,7 +111,7 @@ class UpsertProductCommandSpec extends ObjectBehavior
                 $categoryUserIntent,
                 $setGroupsIntent,
                 $associateQuantifiedProducts,
-            ]
+            ],
         ]);
 
         $identifier = ProductIdentifier::fromIdentifier('identifier1');
@@ -128,7 +128,7 @@ class UpsertProductCommandSpec extends ObjectBehavior
         $quantifiedAssociations->quantifiedAssociationUserIntents()->shouldBe([$associateQuantifiedProducts]);
     }
 
-    function it_cannot_be_constructed_with_multiple_set_enabled_intents()
+    public function it_cannot_be_constructed_with_multiple_set_enabled_intents()
     {
         $this->beConstructedThrough('createFromCollection', [
             1,
@@ -136,13 +136,13 @@ class UpsertProductCommandSpec extends ObjectBehavior
             [
                 new SetEnabled(true),
                 new SetEnabled(false),
-            ]
+            ],
         ]);
 
         $this->shouldThrow(\InvalidArgumentException::class)->duringInstantiation();
     }
 
-    function it_cannot_be_constructed_with_multiple_set_categories_intents()
+    public function it_cannot_be_constructed_with_multiple_set_categories_intents()
     {
         $this->beConstructedThrough('createFromCollection', [
             1,
@@ -150,13 +150,13 @@ class UpsertProductCommandSpec extends ObjectBehavior
             [
                 new SetCategories(['foo']),
                 new SetCategories(['bar']),
-            ]
+            ],
         ]);
 
         $this->shouldThrow(\InvalidArgumentException::class)->duringInstantiation();
     }
 
-    function it_cannot_be_constructed_with_multiple_groups_intents()
+    public function it_cannot_be_constructed_with_multiple_groups_intents()
     {
         $this->beConstructedThrough('createFromCollection', [
             1,
@@ -164,13 +164,13 @@ class UpsertProductCommandSpec extends ObjectBehavior
             [
                 new SetGroups(['foo']),
                 new AddToGroups(['bar']),
-            ]
+            ],
         ]);
 
         $this->shouldThrow(\InvalidArgumentException::class)->duringInstantiation();
     }
 
-    function it_can_be_constructed_with_product_uuid()
+    public function it_can_be_constructed_with_product_uuid()
     {
         $uuid = Uuid::uuid4();
         $productUuid = ProductUuid::fromUuid($uuid);
@@ -178,7 +178,7 @@ class UpsertProductCommandSpec extends ObjectBehavior
         $this->beConstructedThrough('createWithUuid', [
             1,
             $productUuid,
-            []
+            [],
         ]);
 
         $this->userId()->shouldReturn(1);
@@ -186,14 +186,14 @@ class UpsertProductCommandSpec extends ObjectBehavior
         $this->productIdentifierOrUuid()->uuid()->shouldReturn($uuid);
     }
 
-    function it_can_be_constructed_with_identifier()
+    public function it_can_be_constructed_with_identifier()
     {
         $productIdentifier = ProductIdentifier::fromIdentifier('identifier1');
 
         $this->beConstructedThrough('createWithIdentifier', [
             1,
             $productIdentifier,
-            []
+            [],
         ]);
 
         $this->userId()->shouldReturn(1);

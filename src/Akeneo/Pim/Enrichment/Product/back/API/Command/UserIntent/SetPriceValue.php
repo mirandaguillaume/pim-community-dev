@@ -15,8 +15,7 @@ final readonly class SetPriceValue implements ValueUserIntent
         private ?string $channelCode,
         private ?string $localeCode,
         private PriceValue $priceValue,
-    ) {
-    }
+    ) {}
 
     public function attributeCode(): string
     {

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Tool\Bundle\MeasureBundle\Validation\Common;
@@ -38,7 +39,7 @@ class LabelCollectionValidator extends ConstraintValidator
         $violations = $validator->validate($localeCode, [
             new NotBlank(),
             new Type(['type' => 'string']),
-            new Length(['max' => 100])
+            new Length(['max' => 100]),
         ]);
 
         if ($violations->count() > 0) {

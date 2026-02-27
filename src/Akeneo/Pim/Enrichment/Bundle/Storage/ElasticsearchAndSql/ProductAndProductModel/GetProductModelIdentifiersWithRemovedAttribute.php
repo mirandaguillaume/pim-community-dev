@@ -39,7 +39,7 @@ final readonly class GetProductModelIdentifiersWithRemovedAttribute implements G
         $rows = $this->elasticsearchClient->search($body);
 
         while (!empty($rows['hits']['hits'])) {
-            $identifiers = array_map(fn (array $product) => $product['_source']['identifier'], $rows['hits']['hits']);
+            $identifiers = array_map(fn(array $product) => $product['_source']['identifier'], $rows['hits']['hits']);
             yield $identifiers;
             $body['search_after'] = end($rows['hits']['hits'])['sort'];
             $rows = $this->elasticsearchClient->search($body);

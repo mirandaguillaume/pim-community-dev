@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Domain\ValueObject;
@@ -10,9 +11,7 @@ namespace Akeneo\Connectivity\Connection\Domain\ValueObject;
  */
 class Url implements \Stringable
 {
-    public function __construct(private readonly string $url)
-    {
-    }
+    public function __construct(private readonly string $url) {}
 
     public function __toString(): string
     {

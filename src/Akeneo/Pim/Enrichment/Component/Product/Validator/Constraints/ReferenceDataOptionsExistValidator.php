@@ -20,9 +20,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class ReferenceDataOptionsExistValidator extends ConstraintValidator
 {
-    public function __construct(private readonly GetExistingReferenceDataCodes $getExistingReferenceDataCodes, private readonly IdentifiableObjectRepositoryInterface $attributeRepository)
-    {
-    }
+    public function __construct(private readonly GetExistingReferenceDataCodes $getExistingReferenceDataCodes, private readonly IdentifiableObjectRepositoryInterface $attributeRepository) {}
 
     public function validate($values, Constraint $constraint)
     {
@@ -35,7 +33,7 @@ class ReferenceDataOptionsExistValidator extends ConstraintValidator
         }
 
         $refDataValues = $values->filter(
-            fn (ValueInterface $value): bool => $value instanceof ReferenceDataCollectionValueInterface || $value instanceof ReferenceDataValueInterface
+            fn(ValueInterface $value): bool => $value instanceof ReferenceDataCollectionValueInterface || $value instanceof ReferenceDataValueInterface
         );
 
         if ($refDataValues->isEmpty()) {
@@ -85,8 +83,8 @@ class ReferenceDataOptionsExistValidator extends ConstraintValidator
         $optionCodesIndexedByReferenceDataName = [];
         foreach ($values as $value) {
             $referenceDataName = $referenceDataNames[$value->getAttributeCode()];
-            $optionCodesIndexedByReferenceDataName[$referenceDataName][] =
-                $value instanceof ReferenceDataValueInterface ? [$value->getData()] : $value->getData();
+            $optionCodesIndexedByReferenceDataName[$referenceDataName][]
+                = $value instanceof ReferenceDataValueInterface ? [$value->getData()] : $value->getData();
         }
 
         $existingReferenceDataCodes = [];
@@ -95,7 +93,7 @@ class ReferenceDataOptionsExistValidator extends ConstraintValidator
                 ->fromReferenceDataNameAndCodes($refDataName, array_values(array_unique(array_merge_recursive(...$refDataCodes))));
         }
 
-        return array_map(fn (string $referenceDataName): array => $existingReferenceDataCodes[$referenceDataName], $referenceDataNames);
+        return array_map(fn(string $referenceDataName): array => $existingReferenceDataCodes[$referenceDataName], $referenceDataNames);
     }
 
     private function getReferenceDataNamesIndexedByAttributeCode(array $attributeCodes): array

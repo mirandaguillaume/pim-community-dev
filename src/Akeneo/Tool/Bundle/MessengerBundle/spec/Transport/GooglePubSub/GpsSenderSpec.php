@@ -35,7 +35,7 @@ class GpsSenderSpec extends ObjectBehavior
         SerializerInterface $serializer,
         OrderingKeySolver $orderingKeySolver
     ): void {
-        $envelope = new Envelope((object)['message' => 'My message!']);
+        $envelope = new Envelope((object) ['message' => 'My message!']);
 
         $serializer->encode($envelope)
             ->willReturn([
@@ -58,7 +58,7 @@ class GpsSenderSpec extends ObjectBehavior
         SerializerInterface $serializer,
         OrderingKeySolver $orderingKeySolver
     ): void {
-        $envelope = new Envelope(new \stdClass);
+        $envelope = new Envelope(new \stdClass());
 
         $serializer->encode($envelope)->willReturn([
             'body' => 'My message!',
@@ -80,7 +80,7 @@ class GpsSenderSpec extends ObjectBehavior
         SerializerInterface $serializer,
         OrderingKeySolver $orderingKeySolver,
     ): void {
-        $envelope = new Envelope(new \stdClass, [new TenantIdStamp('my_tenant_id_value')]);
+        $envelope = new Envelope(new \stdClass(), [new TenantIdStamp('my_tenant_id_value')]);
 
         $serializer->encode($envelope)->willReturn([
             'body' => 'My message!',
@@ -106,7 +106,7 @@ class GpsSenderSpec extends ObjectBehavior
         $topic,
         $serializer
     ): void {
-        $envelope = new Envelope((object)['message' => 'My message!']);
+        $envelope = new Envelope((object) ['message' => 'My message!']);
 
         $serializer->encode($envelope)
             ->willReturn([

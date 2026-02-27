@@ -17,9 +17,7 @@ class WebhookRequest
     /**
      * @param array<WebhookEvent> $apiEvents
      */
-    public function __construct(private readonly ActiveWebhook $webhook, private readonly array $apiEvents)
-    {
-    }
+    public function __construct(private readonly ActiveWebhook $webhook, private readonly array $apiEvents) {}
 
     /**
      * Returns webhook URL.
@@ -54,7 +52,7 @@ class WebhookRequest
     {
         return [
             'events' => \array_map(
-                fn (WebhookEvent $apiEvent): array => [
+                fn(WebhookEvent $apiEvent): array => [
                     'action' => $apiEvent->action(),
                     'event_id' => $apiEvent->eventId(),
                     'event_datetime' => $apiEvent->eventDateTime(),

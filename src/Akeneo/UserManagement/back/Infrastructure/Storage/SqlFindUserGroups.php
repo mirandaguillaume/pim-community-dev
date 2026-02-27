@@ -11,8 +11,7 @@ class SqlFindUserGroups implements FindUserGroups
 {
     public function __construct(
         private readonly Connection $connection,
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritDoc}
@@ -35,7 +34,7 @@ class SqlFindUserGroups implements FindUserGroups
             ]
         )->fetchAllAssociative();
 
-        return array_map(static fn ($data) => Group::createFromDatabase($data), $results);
+        return array_map(static fn($data) => Group::createFromDatabase($data), $results);
     }
 
     private function buildQuery(
@@ -58,19 +57,19 @@ class SqlFindUserGroups implements FindUserGroups
             $sqlLimitPart = sprintf('LIMIT %s', $limit);
         }
 
-        $sqlWherePart = empty($sqlWhereParts) ? '' : 'AND '.implode(' AND ', $sqlWhereParts);
+        $sqlWherePart = empty($sqlWhereParts) ? '' : 'AND ' . implode(' AND ', $sqlWhereParts);
 
         return <<<SQL
-            SELECT
-                oag.id,
-                oag.name,
-                oag.type,
-                oag.default_permissions
-            FROM oro_access_group oag
-            WHERE oag.type = 'default'
-            $sqlWherePart
-            ORDER BY oag.id
-            $sqlLimitPart
-        SQL;
+                SELECT
+                    oag.id,
+                    oag.name,
+                    oag.type,
+                    oag.default_permissions
+                FROM oro_access_group oag
+                WHERE oag.type = 'default'
+                $sqlWherePart
+                ORDER BY oag.id
+                $sqlLimitPart
+            SQL;
     }
 }

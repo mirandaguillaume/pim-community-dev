@@ -53,7 +53,7 @@ final class ProductModelCriterionEvaluationRepositoryIntegration extends DataQua
 
         $this->assertCountProductModelCriterionEvaluations(0);
 
-        $criteria = (new CriterionEvaluationCollection)
+        $criteria = (new CriterionEvaluationCollection())
             ->add(new CriterionEvaluation(
                 new CriterionCode('completeness'),
                 $productModelId,
@@ -63,7 +63,7 @@ final class ProductModelCriterionEvaluationRepositoryIntegration extends DataQua
                 new CriterionCode('completion'),
                 $productModelId,
                 CriterionEvaluationStatus::pending()
-        ));
+            ));
         $this->productModelCriterionEvaluationRepository->create($criteria);
 
         $evaluations = $this->findAllProductModelEvaluations();
@@ -91,7 +91,7 @@ final class ProductModelCriterionEvaluationRepositoryIntegration extends DataQua
 
         $existingEvaluation = $this->givenAnExistingCriterionEvaluation($criterionCode, $productModelIdWithExistingEvaluation);
 
-        $this->productModelCriterionEvaluationRepository->create((new CriterionEvaluationCollection)
+        $this->productModelCriterionEvaluationRepository->create((new CriterionEvaluationCollection())
             ->add(new CriterionEvaluation(
                 $criterionCode,
                 $productModelIdWithExistingEvaluation,
@@ -159,7 +159,7 @@ final class ProductModelCriterionEvaluationRepositoryIntegration extends DataQua
 
     private function buildCollection(): CriterionEvaluationCollection
     {
-        return (new CriterionEvaluationCollection)
+        return (new CriterionEvaluationCollection())
             ->add(new CriterionEvaluation(
                 new CriterionCode('completeness'),
                 new ProductModelId($this->createProductModel('a_product_model', 'familyVariantA1')->getId()),
@@ -216,11 +216,11 @@ final class ProductModelCriterionEvaluationRepositoryIntegration extends DataQua
     private function givenAnExistingCriterionEvaluation(CriterionCode $criterionCode, ProductModelId $productModelId): CriterionEvaluation
     {
         $evaluation = new CriterionEvaluation(
-                $criterionCode,
-                $productModelId,
-                CriterionEvaluationStatus::pending()
-            );
-        $evaluations = (new CriterionEvaluationCollection)->add($evaluation);
+            $criterionCode,
+            $productModelId,
+            CriterionEvaluationStatus::pending()
+        );
+        $evaluations = (new CriterionEvaluationCollection())->add($evaluation);
 
         $this->productModelCriterionEvaluationRepository->create($evaluations);
 
@@ -245,7 +245,7 @@ final class ProductModelCriterionEvaluationRepositoryIntegration extends DataQua
         if (null === $expectedDate) {
             $this->assertNull($date);
         } else {
-           $this->assertEquals($expectedDate->format(Clock::TIME_FORMAT), $date->format(Clock::TIME_FORMAT));
+            $this->assertEquals($expectedDate->format(Clock::TIME_FORMAT), $date->format(Clock::TIME_FORMAT));
         }
     }
 }

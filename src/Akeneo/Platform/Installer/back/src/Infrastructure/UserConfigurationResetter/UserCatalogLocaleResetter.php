@@ -20,23 +20,21 @@ class UserCatalogLocaleResetter implements UserConfigurationResetterInterface
 {
     private const DEFAULT_CATALOG_LOCALE_CODE = 'en_US';
 
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function execute(): void
     {
         $this->connection->executeStatement(<<<SQL
-            UPDATE oro_user SET catalogLocale_id = (
-                SELECT id 
-                FROM pim_catalog_locale 
-                WHERE code = :defaultCatalogLocaleCode
-            ) 
-            WHERE catalogLocale_id NOT IN (
-                SELECT id 
-                FROM pim_catalog_locale
-            )
-        SQL, [
+                UPDATE oro_user SET catalogLocale_id = (
+                    SELECT id 
+                    FROM pim_catalog_locale 
+                    WHERE code = :defaultCatalogLocaleCode
+                ) 
+                WHERE catalogLocale_id NOT IN (
+                    SELECT id 
+                    FROM pim_catalog_locale
+                )
+            SQL, [
             'defaultCatalogLocaleCode' => self::DEFAULT_CATALOG_LOCALE_CODE,
         ]);
     }

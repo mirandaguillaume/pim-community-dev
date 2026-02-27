@@ -16,11 +16,11 @@ class ChannelAuthorizationIntegration extends ApiTestCase
         $client->request('GET', '/api/rest/v1/channels');
 
         $expectedResponse = <<<JSON
-{
-    "code": 403,
-    "message": "You are not allowed to access the web API."
-}
-JSON;
+            {
+                "code": 403,
+                "message": "You are not allowed to access the web API."
+            }
+            JSON;
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
@@ -44,11 +44,11 @@ JSON;
         $client->request('GET', '/api/rest/v1/channels');
 
         $expectedResponse = <<<JSON
-{
-    "code": 403,
-    "message": "Access forbidden. You are not allowed to list channels."
-}
-JSON;
+            {
+                "code": 403,
+                "message": "Access forbidden. You are not allowed to list channels."
+            }
+            JSON;
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
@@ -72,11 +72,11 @@ JSON;
         $client->request('GET', '/api/rest/v1/channels/ecommerce');
 
         $expectedResponse = <<<JSON
-{
-    "code": 403,
-    "message": "Access forbidden. You are not allowed to list channels."
-}
-JSON;
+            {
+                "code": 403,
+                "message": "Access forbidden. You are not allowed to list channels."
+            }
+            JSON;
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
@@ -88,13 +88,13 @@ JSON;
         $client = $this->createAuthenticatedClient();
 
         $data = <<<JSON
-{
-    "code":"mobile",
-    "locales": ["fr_FR"],
-    "currencies": ["EUR"],
-    "category_tree": "master"
-}
-JSON;
+            {
+                "code":"mobile",
+                "locales": ["fr_FR"],
+                "currencies": ["EUR"],
+                "category_tree": "master"
+            }
+            JSON;
 
         $client->request('POST', '/api/rest/v1/channels', [], [], [], $data);
 
@@ -107,19 +107,19 @@ JSON;
         $client = $this->createAuthenticatedClient([], [], null, null, 'julia', 'julia');
 
         $data = <<<JSON
-{
-    "code":"ecommerce"
-}
-JSON;
+            {
+                "code":"ecommerce"
+            }
+            JSON;
 
         $client->request('POST', '/api/rest/v1/channels', [], [], [], $data);
 
         $expectedResponse = <<<JSON
-{
-    "code": 403,
-    "message": "Access forbidden. You are not allowed to create or update channels."
-}
-JSON;
+            {
+                "code": 403,
+                "message": "Access forbidden. You are not allowed to create or update channels."
+            }
+            JSON;
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
@@ -146,13 +146,13 @@ JSON;
 
         $client->request('PATCH', '/api/rest/v1/channels/ecommerce', [], [], [], $data);
 
-        $expectedResponse =
-<<<JSON
-{
-    "code": 403,
-    "message": "Access forbidden. You are not allowed to create or update channels."
-}
-JSON;
+        $expectedResponse
+= <<<JSON
+    {
+        "code": 403,
+        "message": "Access forbidden. You are not allowed to create or update channels."
+    }
+    JSON;
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
@@ -164,13 +164,13 @@ JSON;
         $client = $this->createAuthenticatedClient();
         $client->setServerParameter('CONTENT_TYPE', StreamResourceResponse::CONTENT_TYPE);
 
-        $data =
-<<<JSON
-{"code": "ecommerce","currencies": ["EUR"]}
-{"code": "ecommerce_china","currencies": ["EUR"]}
-JSON;
+        $data
+= <<<JSON
+    {"code": "ecommerce","currencies": ["EUR"]}
+    {"code": "ecommerce_china","currencies": ["EUR"]}
+    JSON;
 
-        ob_start(fn () => '');
+        ob_start(fn() => '');
         $client->request('PATCH', '/api/rest/v1/channels', [], [], [], $data);
         ob_end_flush();
 
@@ -183,21 +183,21 @@ JSON;
         $client = $this->createAuthenticatedClient([], [], null, null, 'julia', 'julia');
         $client->setServerParameter('CONTENT_TYPE', StreamResourceResponse::CONTENT_TYPE);
 
-        $data =
-<<<JSON
-{"code": "ecommerce","currencies": ["EUR"]}
-{"code": "ecommerce_china","currencies": ["EUR"]}
-JSON;
+        $data
+= <<<JSON
+    {"code": "ecommerce","currencies": ["EUR"]}
+    {"code": "ecommerce_china","currencies": ["EUR"]}
+    JSON;
 
         $client->request('PATCH', '/api/rest/v1/channels', [], [], [], $data);
 
-        $expectedResponse =
-<<<JSON
-{
-    "code": 403,
-    "message": "Access forbidden. You are not allowed to create or update channels."
-}
-JSON;
+        $expectedResponse
+= <<<JSON
+    {
+        "code": 403,
+        "message": "Access forbidden. You are not allowed to create or update channels."
+    }
+    JSON;
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);

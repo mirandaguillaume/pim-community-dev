@@ -45,8 +45,7 @@ class GetProductEvaluation
         private readonly GetLocalesByChannelQueryInterface $getLocalesByChannelQuery,
         private readonly CriteriaByFeatureRegistry $criteriaRegistry,
         private readonly CompleteEvaluationWithImprovableAttributes $completeEvaluationWithImprovableAttributes
-    ) {
-    }
+    ) {}
 
     public function get(ProductEntityIdInterface $productId): array
     {
@@ -58,8 +57,8 @@ class GetProductEvaluation
 
         foreach ($channelsLocales as $channelCode => $locales) {
             foreach ($locales as $localeCode) {
-                $formattedProductEvaluation[strval($channelCode)][strval($localeCode)] =
-                    $this->formatCriteriaEvaluations($criteriaEvaluations, $channelCode, $localeCode);
+                $formattedProductEvaluation[strval($channelCode)][strval($localeCode)]
+                    = $this->formatCriteriaEvaluations($criteriaEvaluations, $channelCode, $localeCode);
             }
         }
 

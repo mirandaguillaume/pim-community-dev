@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Structure\Bundle\Query\InternalApi\Family;
@@ -12,22 +13,20 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetFamilyIdsNotUsedByProductsQuery implements GetFamilyIdsNotUsedByProductsQueryInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function execute(): array
     {
         $query = <<<SQL
-        SELECT family.id
-        FROM pim_catalog_family family
-        WHERE NOT EXISTS(
-            SELECT product.family_id 
-            FROM pim_catalog_product product 
-            WHERE product.family_id = family.id
-        );
-        SQL;
+            SELECT family.id
+            FROM pim_catalog_family family
+            WHERE NOT EXISTS(
+                SELECT product.family_id 
+                FROM pim_catalog_product product 
+                WHERE product.family_id = family.id
+            );
+            SQL;
 
-        return array_map(fn (string $code) => intval($code), $this->connection->executeQuery($query, [])->fetchFirstColumn());
+        return array_map(fn(string $code) => intval($code), $this->connection->executeQuery($query, [])->fetchFirstColumn());
     }
 }

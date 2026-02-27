@@ -17,9 +17,7 @@ class AverageMaxProductValues implements AverageMaxQuery
 {
     private const VOLUME_NAME = 'average_max_product_values';
 
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     /**
      * {@inheritdoc}
@@ -27,11 +25,11 @@ class AverageMaxProductValues implements AverageMaxQuery
     public function fetch(): AverageMaxVolumes
     {
         $sql = <<<SQL
-            SELECT 
-              MAX(JSON_LENGTH(JSON_EXTRACT(raw_values, '$.*.*.*'))) AS max,
-              CEIL(AVG(JSON_LENGTH(JSON_EXTRACT(raw_values, '$.*.*.*')))) AS average
-            FROM pim_catalog_product;
-SQL;
+                        SELECT 
+                          MAX(JSON_LENGTH(JSON_EXTRACT(raw_values, '$.*.*.*'))) AS max,
+                          CEIL(AVG(JSON_LENGTH(JSON_EXTRACT(raw_values, '$.*.*.*')))) AS average
+                        FROM pim_catalog_product;
+            SQL;
         $result = $this->connection->executeQuery($sql)->fetchAssociative();
 
         $volume = new AverageMaxVolumes((int) $result['max'], (int) $result['average'], self::VOLUME_NAME);

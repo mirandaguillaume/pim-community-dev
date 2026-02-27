@@ -72,22 +72,20 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class DashboardScoresProjectionRepository implements DashboardScoresProjectionRepositoryInterface
 {
-    public function __construct(private Connection $db)
-    {
-    }
+    public function __construct(private Connection $db) {}
 
     public function save(DashboardRatesProjection $ratesProjection): void
     {
         $query = <<<SQL
-INSERT INTO pim_data_quality_insights_dashboard_scores_projection (type, code, scores)
-VALUES (:type, :code, :scores)
-ON DUPLICATE KEY UPDATE scores = JSON_MERGE_PATCH(scores, :scores);
-SQL;
+            INSERT INTO pim_data_quality_insights_dashboard_scores_projection (type, code, scores)
+            VALUES (:type, :code, :scores)
+            ON DUPLICATE KEY UPDATE scores = JSON_MERGE_PATCH(scores, :scores);
+            SQL;
 
         $this->db->executeQuery($query, [
             'type' => $ratesProjection->getType(),
             'code' => $ratesProjection->getCode(),
-            'scores' => json_encode($ratesProjection->getRanksDistributionsPerTimePeriod(), JSON_THROW_ON_ERROR)
+            'scores' => json_encode($ratesProjection->getRanksDistributionsPerTimePeriod(), JSON_THROW_ON_ERROR),
         ]);
 
         $this->saveAverageRanks($ratesProjection);
@@ -109,9 +107,9 @@ SQL;
         $pathsToRemove = implode(', ', $pathsToRemove);
 
         $query = <<<SQL
-UPDATE pim_data_quality_insights_dashboard_scores_projection
-SET scores = JSON_REMOVE(scores, $pathsToRemove)
-SQL;
+            UPDATE pim_data_quality_insights_dashboard_scores_projection
+            SET scores = JSON_REMOVE(scores, $pathsToRemove)
+            SQL;
 
         $this->db->executeQuery($query);
     }
@@ -119,38 +117,38 @@ SQL;
     private function saveAverageRanks(DashboardRatesProjection $ratesProjection): void
     {
         $query = <<<SQL
-UPDATE pim_data_quality_insights_dashboard_scores_projection
-SET scores = JSON_MERGE_PATCH(scores, :scores)
-WHERE type = :type AND code = :code 
-  AND (
-      NOT JSON_CONTAINS_PATH(scores, 'one', '$.average_ranks_consolidated_at')
-      OR JSON_UNQUOTE(JSON_EXTRACT(scores, '$.average_ranks_consolidated_at')) < :consolidated_at
-  );
-SQL;
+            UPDATE pim_data_quality_insights_dashboard_scores_projection
+            SET scores = JSON_MERGE_PATCH(scores, :scores)
+            WHERE type = :type AND code = :code 
+              AND (
+                  NOT JSON_CONTAINS_PATH(scores, 'one', '$.average_ranks_consolidated_at')
+                  OR JSON_UNQUOTE(JSON_EXTRACT(scores, '$.average_ranks_consolidated_at')) < :consolidated_at
+              );
+            SQL;
         $scores = [
             'average_ranks' => $ratesProjection->getAverageRanks(),
-            'average_ranks_consolidated_at' => $ratesProjection->getConsolidationDate()->format('Y-m-d H:i:s')
+            'average_ranks_consolidated_at' => $ratesProjection->getConsolidationDate()->format('Y-m-d H:i:s'),
         ];
 
         $this->db->executeQuery($query, [
             'type' => $ratesProjection->getType(),
             'code' => $ratesProjection->getCode(),
             'scores' => json_encode($scores, JSON_THROW_ON_ERROR),
-            'consolidated_at' => $ratesProjection->getConsolidationDate()->format('Y-m-d H:i:s')
+            'consolidated_at' => $ratesProjection->getConsolidationDate()->format('Y-m-d H:i:s'),
         ]);
     }
 
     public function delete(string $type, string $code): void
     {
         $query = <<<SQL
-DELETE FROM pim_data_quality_insights_dashboard_scores_projection
-WHERE type = :type
-AND code = :code
-SQL;
+            DELETE FROM pim_data_quality_insights_dashboard_scores_projection
+            WHERE type = :type
+            AND code = :code
+            SQL;
 
         $this->db->executeQuery($query, [
             'type' => $type,
-            'code' => $code
+            'code' => $code,
         ]);
     }
 }

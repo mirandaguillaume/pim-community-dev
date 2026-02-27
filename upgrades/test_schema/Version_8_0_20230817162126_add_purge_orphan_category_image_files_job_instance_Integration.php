@@ -15,9 +15,8 @@ use PHPUnit\Framework\Assert;
  */
 final class Version_8_0_20230817162126_add_purge_orphan_category_image_files_job_instance_Integration extends TestCase
 {
-    private const MIGRATION_NAME = '_8_0_20230817162126_add_purge_orphan_category_image_files_job_instance';
-
     use ExecuteMigrationTrait;
+    private const MIGRATION_NAME = '_8_0_20230817162126_add_purge_orphan_category_image_files_job_instance';
 
     private Connection $connection;
 
@@ -38,8 +37,8 @@ final class Version_8_0_20230817162126_add_purge_orphan_category_image_files_job
     {
         $this->connection->executeStatement(
             <<<SQL
-            DELETE FROM akeneo_batch_job_instance WHERE code = 'purge_orphan_category_image_files';
-            SQL
+                DELETE FROM akeneo_batch_job_instance WHERE code = 'purge_orphan_category_image_files';
+                SQL
         );
         Assert::assertFalse($this->jobInstanceExists());
         $this->reExecuteMigration(self::MIGRATION_NAME);
@@ -55,10 +54,10 @@ final class Version_8_0_20230817162126_add_purge_orphan_category_image_files_job
     {
         return (bool) $this->connection->fetchOne(
             <<<SQL
-            SELECT EXISTS(
-                SELECT * FROM akeneo_batch_job_instance WHERE code = 'purge_orphan_category_image_files'
-            );
-            SQL
+                SELECT EXISTS(
+                    SELECT * FROM akeneo_batch_job_instance WHERE code = 'purge_orphan_category_image_files'
+                );
+                SQL
         );
     }
 }

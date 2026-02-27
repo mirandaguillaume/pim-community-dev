@@ -50,10 +50,10 @@ final class Version_7_0_20221116131232_add_prefixes_identifier_generator_table_I
     private function tableExists(): bool
     {
         return $this->connection->executeQuery(
-                'SHOW TABLES LIKE :tableName',
-                [
-                    'tableName' => self::TABLE_NAME,
-                ]
-            )->rowCount() >= 1;
+            'SHOW TABLES LIKE :tableName',
+            [
+                'tableName' => self::TABLE_NAME,
+            ]
+        )->rowCount() >= 1;
     }
 }

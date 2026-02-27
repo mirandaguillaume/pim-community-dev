@@ -28,7 +28,7 @@ abstract class AbstractProductValueNormalizer implements NormalizerInterface
     /**
      * {@inheritdoc}
      */
-    public function normalize($productValue, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($productValue, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $locale = $productValue->getLocaleCode() ?? '<all_locales>';
         $channel = $productValue->getScopeCode() ?? '<all_channels>';

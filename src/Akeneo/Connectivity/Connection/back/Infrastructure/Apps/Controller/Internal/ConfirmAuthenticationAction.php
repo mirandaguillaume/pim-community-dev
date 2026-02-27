@@ -41,8 +41,7 @@ final readonly class ConfirmAuthenticationAction
         private LoggerInterface $logger,
         private ViolationListNormalizer $violationListNormalizer,
         private GetAppQueryInterface $getAppQuery,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, string $clientId): Response
     {

@@ -55,9 +55,9 @@ class GetProductModelRawValuesQueryIntegration extends TestCase
             ],
             'a_text' => [
                 '<all_channels>' => [
-                    '<all_locales>' => 'some text'
+                    '<all_locales>' => 'some text',
                 ],
-            ]
+            ],
         ];
 
         $rawValues = $this
@@ -105,9 +105,9 @@ class GetProductModelRawValuesQueryIntegration extends TestCase
             ],
             'a_text' => [
                 '<all_channels>' => [
-                    '<all_locales>' => 'some text'
+                    '<all_locales>' => 'some text',
                 ],
-            ]
+            ],
         ];
 
         $rawValues = $this
@@ -127,7 +127,7 @@ class GetProductModelRawValuesQueryIntegration extends TestCase
         $this->get('pim_catalog.updater.product_model')->update($productModel, ['values' => $values]);
         $this->get('pim_catalog.saver.product_model')->save($productModel);
 
-        return $this->get(ProductModelIdFactory::class)->create((string)$productModel->getId());
+        return $this->get(ProductModelIdFactory::class)->create((string) $productModel->getId());
     }
 
     private function givenAProductModelWithParent(string $parentCode, array $values): ProductModelId
@@ -141,7 +141,7 @@ class GetProductModelRawValuesQueryIntegration extends TestCase
         $this->get('pim_catalog.updater.product_model')->update($productModel, ['values' => $values]);
         $this->get('pim_catalog.saver.product_model')->save($productModel);
 
-        return $this->get(ProductModelIdFactory::class)->create((string)$productModel->getId());
+        return $this->get(ProductModelIdFactory::class)->create((string) $productModel->getId());
     }
 
     private function givenAProductModelParent(string $code, array $values): ProductModelId
@@ -154,7 +154,7 @@ class GetProductModelRawValuesQueryIntegration extends TestCase
         $this->get('pim_catalog.updater.product_model')->update($productModel, ['values' => $values]);
         $this->get('pim_catalog.saver.product_model')->save($productModel);
 
-        return $this->get(ProductModelIdFactory::class)->create((string)$productModel->getId());
+        return $this->get(ProductModelIdFactory::class)->create((string) $productModel->getId());
     }
 
     private function assertProductHasRawValues(array $expectedRawValues, $productRawValues): void

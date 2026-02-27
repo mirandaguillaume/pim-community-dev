@@ -53,7 +53,7 @@ final class AggregateAuditData
                 $data[$periodEventCount->connectionCode()] = [
                     'previous_week' => $previousWeekEventCounts,
                     'current_week' => $currentWeekEventCounts,
-                    'current_week_total' => \array_sum($currentWeekEventCounts)
+                    'current_week_total' => \array_sum($currentWeekEventCounts),
                 ];
 
                 return $data;

@@ -24,8 +24,7 @@ final readonly class ProductRemover implements RemoverInterface, BulkRemoverInte
     public function __construct(
         private ObjectManager $objectManager,
         private EventDispatcherInterface $eventDispatcher
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -86,7 +85,7 @@ final readonly class ProductRemover implements RemoverInterface, BulkRemoverInte
         $this->eventDispatcher->dispatch(
             new RemoveEvent(
                 $products,
-                array_map(fn (string $uuid): UuidInterface => Uuid::fromString($uuid), array_keys($removedProducts))
+                array_map(fn(string $uuid): UuidInterface => Uuid::fromString($uuid), array_keys($removedProducts))
             ),
             StorageEvents::POST_REMOVE_ALL
         );

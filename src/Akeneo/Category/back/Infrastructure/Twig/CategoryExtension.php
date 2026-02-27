@@ -211,7 +211,7 @@ class CategoryExtension extends AbstractExtension
 
         return [
             'attr' => [
-                'id' => 'node_'.$category['item']->getId(),
+                'id' => 'node_' . $category['item']->getId(),
                 'data-code' => $category['item']->getCode(),
             ],
             'data' => $label,
@@ -256,7 +256,7 @@ class CategoryExtension extends AbstractExtension
 
         $result = [
             'attr' => [
-                'id' => 'node_'.$category->getId(),
+                'id' => 'node_' . $category->getId(),
                 'data-code' => $category->getCode(),
             ],
             'data' => $label,
@@ -363,7 +363,7 @@ class CategoryExtension extends AbstractExtension
     ) {
         $label = $category->getLabel();
         if ($withCount) {
-            $label = $label.' ('.$this->countItems($category, $includeSub, $relatedEntity).')';
+            $label = $label . ' (' . $this->countItems($category, $includeSub, $relatedEntity) . ')';
         }
 
         return $label;

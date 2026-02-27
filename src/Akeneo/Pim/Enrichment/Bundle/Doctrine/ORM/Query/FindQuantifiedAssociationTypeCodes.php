@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Akeneo\Pim\Enrichment\Bundle\Doctrine\ORM\Query;
 
 use Akeneo\Pim\Enrichment\Component\Product\Query\FindQuantifiedAssociationTypeCodesInterface;
@@ -11,9 +10,7 @@ class FindQuantifiedAssociationTypeCodes implements FindQuantifiedAssociationTyp
 {
     private ?array $cachedResult = null;
 
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function execute(): array
     {
@@ -32,8 +29,8 @@ class FindQuantifiedAssociationTypeCodes implements FindQuantifiedAssociationTyp
     protected function fetch(): array
     {
         $query = <<<SQL
-        SELECT code FROM pim_catalog_association_type WHERE is_quantified = true
-SQL;
+                    SELECT code FROM pim_catalog_association_type WHERE is_quantified = true
+            SQL;
 
         return $this->connection->executeQuery($query)->fetchFirstColumn();
     }

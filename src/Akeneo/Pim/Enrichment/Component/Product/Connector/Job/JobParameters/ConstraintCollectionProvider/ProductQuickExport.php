@@ -25,8 +25,7 @@ class ProductQuickExport implements ConstraintCollectionProviderInterface
         private readonly ConstraintCollectionProviderInterface $simpleConstraint,
         private readonly array $supportedJobNames,
         private readonly string $filePathExtension
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -69,7 +68,7 @@ class ProductQuickExport implements ConstraintCollectionProviderInterface
                         ->buildViolation('The locale cannot be empty.')
                         ->addViolation();
                 }
-            })
+            }),
         ];
 
         return new Collection(['fields' => $constraintFields]);

@@ -17,9 +17,7 @@ use Oro\Bundle\PimDataGridBundle\Query\ListProductGridAvailableColumnGroups as L
  */
 class ListProductGridAvailableColumnGroups implements ListProductGridAvailableColumnGroupsQuery
 {
-    public function __construct(private readonly Connection $connection, private readonly ConfigurationProviderInterface $configurationProvider)
-    {
-    }
+    public function __construct(private readonly Connection $connection, private readonly ConfigurationProviderInterface $configurationProvider) {}
 
     /**
      * {@inheritdoc}
@@ -50,19 +48,19 @@ class ListProductGridAvailableColumnGroups implements ListProductGridAvailableCo
         $attributesToExclude = array_keys($systemColumns);
 
         $sql = <<<SQL
-SELECT DISTINCT g.code, g.sort_order, attributes.attributes_count,
-  COALESCE(trans.label, CONCAT('[', g.code, ']')) AS label
-FROM pim_catalog_attribute_group AS g
-JOIN
-(
-    SELECT att.group_id, COUNT(att.id) AS attributes_count
-    FROM pim_catalog_attribute AS att
-    WHERE att.useable_as_grid_filter = 1 AND att.code NOT IN (:attributesToExclude)
-    GROUP BY att.group_id
-) AS attributes ON g.id = attributes.group_id
-LEFT JOIN pim_catalog_attribute_group_translation AS trans ON g.id = trans.foreign_key AND trans.locale = :locale
-ORDER BY g.sort_order ASC;
-SQL;
+            SELECT DISTINCT g.code, g.sort_order, attributes.attributes_count,
+              COALESCE(trans.label, CONCAT('[', g.code, ']')) AS label
+            FROM pim_catalog_attribute_group AS g
+            JOIN
+            (
+                SELECT att.group_id, COUNT(att.id) AS attributes_count
+                FROM pim_catalog_attribute AS att
+                WHERE att.useable_as_grid_filter = 1 AND att.code NOT IN (:attributesToExclude)
+                GROUP BY att.group_id
+            ) AS attributes ON g.id = attributes.group_id
+            LEFT JOIN pim_catalog_attribute_group_translation AS trans ON g.id = trans.foreign_key AND trans.locale = :locale
+            ORDER BY g.sort_order ASC;
+            SQL;
 
         $stmt = $this->connection->executeQuery(
             $sql,

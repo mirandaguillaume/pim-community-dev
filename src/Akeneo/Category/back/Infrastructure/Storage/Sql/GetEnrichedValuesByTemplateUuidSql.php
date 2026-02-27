@@ -16,9 +16,7 @@ use Doctrine\DBAL\Driver\Exception;
  */
 class GetEnrichedValuesByTemplateUuidSql implements GetEnrichedValuesByTemplateUuid
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     /**
      * @throws Exception
@@ -29,22 +27,22 @@ class GetEnrichedValuesByTemplateUuidSql implements GetEnrichedValuesByTemplateU
     {
         $offset = 0;
         $query = <<<SQL
-        SELECT code,
-               value_collection
-        FROM 
-            pim_catalog_category        
-        WHERE root = (
-        SELECT category.id
-        FROM pim_catalog_category AS category
-            LEFT JOIN pim_catalog_category_tree_template AS tree_template
-            ON tree_template.category_tree_id = category.id
-            LEFT JOIN pim_catalog_category_template AS template
-            ON template.uuid = tree_template.category_template_uuid
-        WHERE category_template_uuid = :template_uuid
-        )
-        AND value_collection IS NOT NULL
-        LIMIT :limit OFFSET :offset;
-        SQL;
+            SELECT code,
+                   value_collection
+            FROM 
+                pim_catalog_category        
+            WHERE root = (
+            SELECT category.id
+            FROM pim_catalog_category AS category
+                LEFT JOIN pim_catalog_category_tree_template AS tree_template
+                ON tree_template.category_tree_id = category.id
+                LEFT JOIN pim_catalog_category_template AS template
+                ON template.uuid = tree_template.category_template_uuid
+            WHERE category_template_uuid = :template_uuid
+            )
+            AND value_collection IS NOT NULL
+            LIMIT :limit OFFSET :offset;
+            SQL;
 
         while (true) {
             $rows = $this->connection->executeQuery(

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace spec\Akeneo\Connectivity\Connection\Application\Webhook\Validation;
@@ -116,7 +117,7 @@ class EnabledWebhookRequiresAnUrlValidatorSpec extends ObjectBehavior
                 'validate',
                 [
                     new ConnectionWebhook('magento', false),
-                    new LocalConstraint()
+                    new LocalConstraint(),
                 ]
             );
     }
@@ -129,12 +130,10 @@ class EnabledWebhookRequiresAnUrlValidatorSpec extends ObjectBehavior
                 'validate',
                 [
                     'a_webhook',
-                    new EnabledWebhookRequiresAnUrl()
+                    new EnabledWebhookRequiresAnUrl(),
                 ]
             );
     }
 }
 
-class LocalConstraint extends Constraint
-{
-}
+class LocalConstraint extends Constraint {}

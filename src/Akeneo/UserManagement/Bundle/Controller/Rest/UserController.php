@@ -60,8 +60,7 @@ final readonly class UserController
         private PasswordCheckerInterface $passwordChecker,
         private UpdateUserCommandHandler $updateUserCommandHandler,
         private EditRolePermissionsUserQuery $editRolePermissionsUserQuery,
-    ) {
-    }
+    ) {}
 
     /**
      * @return JsonResponse
@@ -88,8 +87,8 @@ final readonly class UserController
         $currentUserIdentifier = null !== $token ? $token->getUser()->getId() : null;
 
         if (
-            $currentUserIdentifier !== $identifier &&
-            !$this->securityFacade->isGranted('pim_user_user_index')
+            $currentUserIdentifier !== $identifier
+            && !$this->securityFacade->isGranted('pim_user_user_index')
         ) {
             throw new AccessDeniedHttpException();
         }

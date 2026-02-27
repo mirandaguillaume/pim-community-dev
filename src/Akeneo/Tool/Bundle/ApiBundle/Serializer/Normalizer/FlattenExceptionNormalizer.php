@@ -22,9 +22,7 @@ final class FlattenExceptionNormalizer implements NormalizerInterface
 {
     private NormalizerInterface $normalizer;
 
-    public function __construct(private readonly FosRestNormalizer $fosRestNormalizer)
-    {
-    }
+    public function __construct(private readonly FosRestNormalizer $fosRestNormalizer) {}
 
     /**
      * The normalizer has to be injected via a setter
@@ -35,7 +33,7 @@ final class FlattenExceptionNormalizer implements NormalizerInterface
         $this->normalizer = $normalizer;
     }
 
-    public function normalize($exception, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($exception, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $contextException = $context['exception'] ?? null;
         if ($this->normalizer->supportsNormalization($contextException, $format)) {

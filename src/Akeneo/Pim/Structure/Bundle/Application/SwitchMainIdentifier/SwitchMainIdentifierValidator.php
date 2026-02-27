@@ -20,8 +20,7 @@ final class SwitchMainIdentifierValidator
         private readonly AttributeRepositoryInterface $attributeRepository,
         private readonly FeatureFlags $featureFlags,
         private readonly PublishedProductExists $publishedProductExists,
-    ) {
-    }
+    ) {}
 
     /**
      * @throws CanNotSwitchMainIndentifierWithPublishedProductException

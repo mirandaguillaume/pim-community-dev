@@ -10,9 +10,7 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\PublicApi\Model;
  */
 class QualityScore
 {
-    public function __construct(private readonly string $letter, private readonly int $rate)
-    {
-    }
+    public function __construct(private readonly string $letter, private readonly int $rate) {}
 
     public function getLetter(): string
     {

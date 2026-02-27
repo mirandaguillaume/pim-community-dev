@@ -210,7 +210,7 @@ class MediaFileController
 
         $fileInfo = $this->mediaRepository->findOneBy([
             'key'     => $filename,
-            'storage' => FileStorage::CATALOG_STORAGE_ALIAS
+            'storage' => FileStorage::CATALOG_STORAGE_ALIAS,
         ]);
 
         if (null === $fileInfo) {
@@ -221,8 +221,8 @@ class MediaFileController
         $options = [
             'headers' => [
                 'Content-Type'        => $fileInfo->getMimeType(),
-                'Content-Disposition' => sprintf('attachment; filename="%s"', $fileInfo->getOriginalFilename())
-            ]
+                'Content-Disposition' => sprintf('attachment; filename="%s"', $fileInfo->getOriginalFilename()),
+            ],
         ];
 
         try {
@@ -327,9 +327,9 @@ class MediaFileController
                 [
                     'locale' => $productInfos['locale'],
                     'scope'  => $productInfos['scope'],
-                    'data'   => $fileInfo->getKey()
-                ]
-            ]
+                    'data'   => $fileInfo->getKey(),
+                ],
+            ],
         ]];
 
         try {
@@ -366,9 +366,9 @@ class MediaFileController
                 [
                     'locale' => $productModelInfos['locale'],
                     'scope'  => $productModelInfos['scope'],
-                    'data'   => $fileInfo->getKey()
-                ]
-            ]
+                    'data'   => $fileInfo->getKey(),
+                ],
+            ],
         ]];
 
         try {
@@ -426,8 +426,8 @@ class MediaFileController
             throw new BadRequestHttpException('Invalid json message received');
         }
 
-        if (!isset($decodedContent['identifier']) || !isset($decodedContent['attribute']) ||
-            !array_key_exists('locale', $decodedContent) || !array_key_exists('scope', $decodedContent)) {
+        if (!isset($decodedContent['identifier']) || !isset($decodedContent['attribute'])
+            || !array_key_exists('locale', $decodedContent) || !array_key_exists('scope', $decodedContent)) {
             throw new UnprocessableEntityHttpException(
                 'Product property must contain "identifier", "attribute", "locale" and "scope" properties.'
             );
@@ -449,8 +449,8 @@ class MediaFileController
             throw new BadRequestHttpException('Invalid json message received');
         }
 
-        if (!isset($decodedContent['code']) || !isset($decodedContent['attribute']) ||
-            !array_key_exists('locale', $decodedContent) || !array_key_exists('scope', $decodedContent)) {
+        if (!isset($decodedContent['code']) || !isset($decodedContent['attribute'])
+            || !array_key_exists('locale', $decodedContent) || !array_key_exists('scope', $decodedContent)) {
             throw new UnprocessableEntityHttpException(
                 'Product model property must contain "code", "attribute", "locale" and "scope" properties.'
             );

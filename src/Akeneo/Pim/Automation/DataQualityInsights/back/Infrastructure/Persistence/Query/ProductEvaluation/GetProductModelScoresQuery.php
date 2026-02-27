@@ -23,15 +23,14 @@ final readonly class GetProductModelScoresQuery implements GetProductModelScores
     public function __construct(
         private Connection $dbConnection,
         private ProductEntityIdFactoryInterface $idFactory
-    ) {
-    }
+    ) {}
 
     public function byProductModelId(ProductModelId $productModelId): Read\Scores
     {
         $productModelIdCollection = $this->idFactory->createCollection([(string) $productModelId]);
         $productScores = $this->byProductModelIdCollection($productModelIdCollection);
 
-        return $productScores[(string)$productModelId] ?? new Read\Scores(
+        return $productScores[(string) $productModelId] ?? new Read\Scores(
             new ChannelLocaleRateCollection(),
             new ChannelLocaleRateCollection()
         );
@@ -44,9 +43,9 @@ final readonly class GetProductModelScoresQuery implements GetProductModelScores
         }
 
         $query = <<<SQL
-SELECT product_model_id, scores, scores_partial_criteria FROM pim_data_quality_insights_product_model_score 
-WHERE product_model_id IN (:productModelIds);
-SQL;
+            SELECT product_model_id, scores, scores_partial_criteria FROM pim_data_quality_insights_product_model_score 
+            WHERE product_model_id IN (:productModelIds);
+            SQL;
 
         $stmt = $this->dbConnection->executeQuery(
             $query,

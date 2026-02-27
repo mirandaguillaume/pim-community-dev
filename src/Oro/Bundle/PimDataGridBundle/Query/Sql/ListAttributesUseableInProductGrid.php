@@ -17,9 +17,7 @@ use Oro\Bundle\PimDataGridBundle\Query\ListAttributesUseableInProductGrid as Lis
  */
 class ListAttributesUseableInProductGrid implements ListAttributesUseableInProductGridQuery
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     /**
      * {@inheritdoc}
@@ -31,19 +29,19 @@ class ListAttributesUseableInProductGrid implements ListAttributesUseableInProdu
         $limit = ListAttributesUseableInProductGridQuery::ATTRIBUTES_PER_PAGE;
 
         $sql = <<<SQL
-SELECT DISTINCT 
-  att.code, att.attribute_type AS type, att.sort_order AS `order`, att.metric_family AS metricFamily, g.sort_order AS groupOrder,
-  COALESCE(att_trans.label, CONCAT('[', att.code, ']')) AS label,
-  COALESCE(group_trans.label, CONCAT('[', g.code, ']')) AS `group`,
-  IF (att.attribute_type = 'pim_catalog_identifier', 0, 1) AS identifier_priority
-FROM pim_catalog_attribute AS att
-INNER JOIN pim_catalog_attribute_group AS g ON att.group_id = g.id
-LEFT JOIN pim_catalog_attribute_translation AS att_trans ON att.id = att_trans.foreign_key AND att_trans.locale = :locale
-LEFT JOIN pim_catalog_attribute_group_translation AS group_trans ON g.id = group_trans.foreign_key AND group_trans.locale = :locale
-WHERE att.useable_as_grid_filter = 1 AND COALESCE(att_trans.label, att.code) LIKE :search
-ORDER BY identifier_priority, g.sort_order ASC, att.sort_order ASC
-LIMIT $limit OFFSET $offset
-SQL;
+            SELECT DISTINCT 
+              att.code, att.attribute_type AS type, att.sort_order AS `order`, att.metric_family AS metricFamily, g.sort_order AS groupOrder,
+              COALESCE(att_trans.label, CONCAT('[', att.code, ']')) AS label,
+              COALESCE(group_trans.label, CONCAT('[', g.code, ']')) AS `group`,
+              IF (att.attribute_type = 'pim_catalog_identifier', 0, 1) AS identifier_priority
+            FROM pim_catalog_attribute AS att
+            INNER JOIN pim_catalog_attribute_group AS g ON att.group_id = g.id
+            LEFT JOIN pim_catalog_attribute_translation AS att_trans ON att.id = att_trans.foreign_key AND att_trans.locale = :locale
+            LEFT JOIN pim_catalog_attribute_group_translation AS group_trans ON g.id = group_trans.foreign_key AND group_trans.locale = :locale
+            WHERE att.useable_as_grid_filter = 1 AND COALESCE(att_trans.label, att.code) LIKE :search
+            ORDER BY identifier_priority, g.sort_order ASC, att.sort_order ASC
+            LIMIT $limit OFFSET $offset
+            SQL;
 
         $stmt = $this->connection->prepare($sql);
         $stmt->bindValue('locale', $locale, Types::STRING);

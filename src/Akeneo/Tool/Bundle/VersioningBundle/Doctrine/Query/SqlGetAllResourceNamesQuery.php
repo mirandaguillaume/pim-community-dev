@@ -12,15 +12,13 @@ use Doctrine\DBAL\Connection;
  */
 class SqlGetAllResourceNamesQuery
 {
-    public function __construct(private readonly Connection $dbConnection)
-    {
-    }
+    public function __construct(private readonly Connection $dbConnection) {}
 
     public function execute(): array
     {
         $query = <<<SQL
-SELECT DISTINCT resource_name FROM pim_versioning_version;
-SQL;
+            SELECT DISTINCT resource_name FROM pim_versioning_version;
+            SQL;
 
         return $this->dbConnection->executeQuery($query)->fetchFirstColumn();
     }

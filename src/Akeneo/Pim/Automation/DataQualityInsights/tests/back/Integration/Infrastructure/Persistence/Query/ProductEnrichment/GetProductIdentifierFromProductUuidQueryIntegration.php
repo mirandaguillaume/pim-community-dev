@@ -60,6 +60,6 @@ class GetProductIdentifierFromProductUuidQueryIntegration extends TestCase
             ->build();
 
         $this->get('pim_catalog.saver.product')->save($product);
-        return $this->get(ProductUuidFactory::class)->create((string)$product->getUuid());
+        return $this->get(ProductUuidFactory::class)->create((string) $product->getUuid());
     }
 }

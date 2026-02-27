@@ -26,8 +26,7 @@ class ImageDataValue
         private readonly string $filePath,
         private readonly string $mimeType,
         private readonly string $originalFilename,
-    ) {
-    }
+    ) {}
 
     /**
      * @param array{

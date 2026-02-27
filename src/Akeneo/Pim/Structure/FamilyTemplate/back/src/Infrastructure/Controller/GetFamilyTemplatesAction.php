@@ -14,8 +14,7 @@ final readonly class GetFamilyTemplatesAction
 {
     public function __construct(
         private FetchFamilyTemplates $fetchFamilyTemplates,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): Response
     {

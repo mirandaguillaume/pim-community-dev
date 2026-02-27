@@ -39,7 +39,7 @@ class TranslationsExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('get_translations_file', $this->getTranslationsFile(...))
+            new TwigFunction('get_translations_file', $this->getTranslationsFile(...)),
         ];
     }
 

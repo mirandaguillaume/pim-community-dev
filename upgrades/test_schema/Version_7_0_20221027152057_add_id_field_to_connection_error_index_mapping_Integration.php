@@ -19,7 +19,7 @@ class Version_7_0_20221027152057_add_id_field_to_connection_error_index_mapping_
 {
     use ExecuteMigrationTrait;
 
-    const MIGRATION_LABEL = '_7_0_20221027152057_add_id_field_to_connection_error_index_mapping';
+    public const MIGRATION_LABEL = '_7_0_20221027152057_add_id_field_to_connection_error_index_mapping';
 
     private NativeClient $nativeClient;
     private Client $connectionErrorClient;

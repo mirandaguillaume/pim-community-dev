@@ -17,9 +17,7 @@ class CountCategoryTrees implements CountQuery
 {
     private const VOLUME_NAME = 'count_category_trees';
 
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     /**
      * {@inheritdoc}
@@ -27,10 +25,10 @@ class CountCategoryTrees implements CountQuery
     public function fetch(): CountVolume
     {
         $sql = <<<SQL
-            SELECT COUNT(*) as count
-            FROM pim_catalog_category
-            WHERE lvl = 0;
-SQL;
+                        SELECT COUNT(*) as count
+                        FROM pim_catalog_category
+                        WHERE lvl = 0;
+            SQL;
         $result = $this->connection->executeQuery($sql)->fetchAssociative();
         $volume = new CountVolume((int) $result['count'], self::VOLUME_NAME);
 

@@ -13,7 +13,7 @@ use PhpSpec\ObjectBehavior;
 
 class InMemoryIsLocaleEditableSpec extends ObjectBehavior
 {
-    function let()
+    public function let()
     {
         $userRepository = new InMemoryUserRepository();
 
@@ -41,13 +41,13 @@ class InMemoryIsLocaleEditableSpec extends ObjectBehavior
         $this->beConstructedWith($userRepository);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(InMemoryIsLocaleEditable::class);
         $this->shouldImplement(IsLocaleEditable::class);
     }
 
-    function it_returns_all_activated_locale_codes()
+    public function it_returns_all_activated_locale_codes()
     {
         $this->addEditableLocaleCodeForGroup('admin', 'en_US');
 

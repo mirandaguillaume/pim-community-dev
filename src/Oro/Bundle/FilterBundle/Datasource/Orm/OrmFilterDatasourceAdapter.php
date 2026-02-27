@@ -148,7 +148,7 @@ class OrmFilterDatasourceAdapter implements FilterDatasourceAdapterInterface
             return false;
         }
 
-        $expectedAlias = (string)$restriction->getLeftExpr();
+        $expectedAlias = (string) $restriction->getLeftExpr();
 
         $extraSelect = null;
         foreach ($this->qb->getDQLPart('select') as $selectPart) {

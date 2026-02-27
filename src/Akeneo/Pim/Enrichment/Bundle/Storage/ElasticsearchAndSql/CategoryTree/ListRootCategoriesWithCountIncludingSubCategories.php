@@ -15,9 +15,7 @@ use Doctrine\DBAL\Connection;
  */
 class ListRootCategoriesWithCountIncludingSubCategories implements Query\ListRootCategoriesWithCountIncludingSubCategories
 {
-    public function __construct(private readonly Connection $connection, private readonly Client $client)
-    {
-    }
+    public function __construct(private readonly Connection $connection, private readonly Client $client) {}
 
     /**
      * {@inheritdoc}
@@ -47,36 +45,36 @@ class ListRootCategoriesWithCountIncludingSubCategories implements Query\ListRoo
         $this->connection->executeStatement('SET SESSION group_concat_max_len = 1000000');
 
         $sql = <<<SQL
-            SELECT
-                root.id as root_id,
-                root.code as root_code, 
-                child.children_codes,
-                COALESCE(ct.label, CONCAT('[', root.code, ']')) as label
-            FROM 
-                pim_catalog_category AS root
-                LEFT JOIN pim_catalog_category_translation ct ON ct.foreign_key = root.id AND ct.locale = :locale
-                LEFT JOIN
-                (
-                    SELECT 
-                        child.root as root_id,
-                        GROUP_CONCAT(child.code) as children_codes
-                    FROM 
-                        pim_catalog_category child
-                    WHERE 
-                        child.parent_id IS NOT NULL
-                    GROUP BY 
-                        child.root
-                ) AS child ON root.id = child.root_id
-            WHERE 
-                root.parent_id IS NULL
-            ORDER BY 
-                label, root.code
-SQL;
+                        SELECT
+                            root.id as root_id,
+                            root.code as root_code, 
+                            child.children_codes,
+                            COALESCE(ct.label, CONCAT('[', root.code, ']')) as label
+                        FROM 
+                            pim_catalog_category AS root
+                            LEFT JOIN pim_catalog_category_translation ct ON ct.foreign_key = root.id AND ct.locale = :locale
+                            LEFT JOIN
+                            (
+                                SELECT 
+                                    child.root as root_id,
+                                    GROUP_CONCAT(child.code) as children_codes
+                                FROM 
+                                    pim_catalog_category child
+                                WHERE 
+                                    child.parent_id IS NOT NULL
+                                GROUP BY 
+                                    child.root
+                            ) AS child ON root.id = child.root_id
+                        WHERE 
+                            root.parent_id IS NULL
+                        ORDER BY 
+                            label, root.code
+            SQL;
 
         $rows = $this->connection->executeQuery(
             $sql,
             [
-                'locale' => $translationLocaleCode
+                'locale' => $translationLocaleCode,
             ]
         )->fetchAllAssociative();
 
@@ -112,10 +110,10 @@ SQL;
                     'constant_score' => [
                         'filter' => [
                             'terms' => [
-                                'categories' => $categoryCodes
-                            ]
-                        ]
-                    ]
+                                'categories' => $categoryCodes,
+                            ],
+                        ],
+                    ],
                 ],
                 'track_total_hits' => true,
             ];

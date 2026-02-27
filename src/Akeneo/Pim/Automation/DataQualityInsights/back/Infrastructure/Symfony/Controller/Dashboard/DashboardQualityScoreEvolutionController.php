@@ -15,9 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final readonly class DashboardQualityScoreEvolutionController
 {
-    public function __construct(private GetCatalogProductScoreEvolutionQueryInterface $getCatalogProductScoreEvolution)
-    {
-    }
+    public function __construct(private GetCatalogProductScoreEvolutionQueryInterface $getCatalogProductScoreEvolution) {}
 
     public function __invoke(Request $request, string $channel, string $locale)
     {

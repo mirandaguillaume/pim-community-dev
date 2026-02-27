@@ -29,9 +29,7 @@ class AddMissingJobInstanceRemoveCompletenessChannelLocale extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
-    {
-    }
+    protected function configure() {}
 
     /**
      * {@inheritdoc}
@@ -44,9 +42,9 @@ class AddMissingJobInstanceRemoveCompletenessChannelLocale extends Command
         }
 
         $sql = <<<SQL
-INSERT INTO akeneo_batch_job_instance (code, label, job_name, status, connector, raw_parameters, type)
-VALUES (:code, :label, :job_name, :status, :connector, :raw_parameters, :type);
-SQL;
+            INSERT INTO akeneo_batch_job_instance (code, label, job_name, status, connector, raw_parameters, type)
+            VALUES (:code, :label, :job_name, :status, :connector, :raw_parameters, :type);
+            SQL;
         try {
             $this->connection->executeQuery($sql, [
                 'code' => 'remove_completeness_for_channel_and_locale',

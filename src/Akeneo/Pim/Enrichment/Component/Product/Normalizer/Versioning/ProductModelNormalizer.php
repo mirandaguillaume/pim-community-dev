@@ -37,9 +37,7 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
     /** @staticvar string */
     private const ITEM_SEPARATOR = ',';
 
-    public function __construct(private readonly QuantifiedAssociationsNormalizer $quantifiedAssociationsNormalizer)
-    {
-    }
+    public function __construct(private readonly QuantifiedAssociationsNormalizer $quantifiedAssociationsNormalizer) {}
 
     /**
      * {@inheritdoc}
@@ -115,7 +113,7 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
                 'scopeCode'     => null,
                 'localeCodes'   => [],
                 'metric_format' => 'multiple_fields',
-                'filter_types'  => ['pim.transform.product_value.flat']
+                'filter_types'  => ['pim.transform.product_value.flat'],
             ],
             $context
         );

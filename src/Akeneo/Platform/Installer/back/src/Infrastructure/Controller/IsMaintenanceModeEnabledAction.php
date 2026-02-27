@@ -19,8 +19,7 @@ final readonly class IsMaintenanceModeEnabledAction
 {
     public function __construct(
         private IsMaintenanceModeEnabledHandler $isMaintenanceModeEnabledHandler,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): RedirectResponse|JsonResponse
     {

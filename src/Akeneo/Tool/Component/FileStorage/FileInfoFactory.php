@@ -14,9 +14,7 @@ use Symfony\Component\Mime\MimeTypes;
  */
 class FileInfoFactory implements FileInfoFactoryInterface
 {
-    public function __construct(protected PathGeneratorInterface $pathGenerator, protected string $fileClass)
-    {
-    }
+    public function __construct(protected PathGeneratorInterface $pathGenerator, protected string $fileClass) {}
 
     /**
      * {@inheritdoc}
@@ -38,7 +36,7 @@ class FileInfoFactory implements FileInfoFactoryInterface
         $mimeType = (new MimeTypes())->guessMimeType($rawFile->getPathname());
 
         $file = new $this->fileClass();
-        $file->setKey($pathInfo['path'].$pathInfo['file_name']);
+        $file->setKey($pathInfo['path'] . $pathInfo['file_name']);
         $file->setMimeType($mimeType);
         $file->setOriginalFilename($originalFilename);
         $file->setSize($size);

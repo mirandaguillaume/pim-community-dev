@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Specification\Akeneo\Channel\Infrastructure\Query\Cache;
 
 use Akeneo\Channel\API\Query\FindAllViewableLocalesForUser;

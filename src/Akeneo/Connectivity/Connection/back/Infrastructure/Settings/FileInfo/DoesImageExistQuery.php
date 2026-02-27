@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Infrastructure\Settings\FileInfo;
@@ -13,17 +14,15 @@ use Doctrine\DBAL\Connection as DbalConnection;
  */
 class DoesImageExistQuery implements DoesImageExistQueryInterface
 {
-    public function __construct(private readonly DbalConnection $dbalConnection)
-    {
-    }
+    public function __construct(private readonly DbalConnection $dbalConnection) {}
 
     public function execute(string $filePath): bool
     {
         $selectSQL = <<<SQL
-SELECT count(1) as count
-FROM akeneo_file_storage_file_info
-WHERE file_key = :filePath
-SQL;
+            SELECT count(1) as count
+            FROM akeneo_file_storage_file_info
+            WHERE file_key = :filePath
+            SQL;
 
         $count = $this->dbalConnection->executeQuery($selectSQL, ['filePath' => $filePath])->fetchAssociative()['count'];
 

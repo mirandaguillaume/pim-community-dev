@@ -19,9 +19,7 @@ final class ConsolidateDashboardRatesTasklet implements TaskletInterface
 {
     private ?\Akeneo\Tool\Component\Batch\Model\StepExecution $stepExecution = null;
 
-    public function __construct(private readonly ConsolidateDashboardRates $consolidateDashboardRates, private readonly LoggerInterface $logger)
-    {
-    }
+    public function __construct(private readonly ConsolidateDashboardRates $consolidateDashboardRates, private readonly LoggerInterface $logger) {}
 
     /**
      * @inheritDoc
@@ -45,7 +43,7 @@ final class ConsolidateDashboardRatesTasklet implements TaskletInterface
             $this->stepExecution->addFailureException($exception);
             $this->logger->error('Consolidate Data-Quality-Insights dashboard rates failed', [
                 'step_execution_id' => $this->stepExecution->getId(),
-                'message' => $exception->getMessage()
+                'message' => $exception->getMessage(),
             ]);
         }
     }

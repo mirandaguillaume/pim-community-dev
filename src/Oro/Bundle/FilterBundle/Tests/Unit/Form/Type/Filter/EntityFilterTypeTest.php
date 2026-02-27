@@ -22,7 +22,7 @@ class EntityFilterTypeTest extends AbstractTypeTestCase
         $types = [
             new FilterType($translator),
             new ChoiceFilterType($translator),
-            new EntityType($registry)
+            new EntityType($registry),
         ];
 
         $this->formExtensions[] = new CustomFormExtension($types);
@@ -61,8 +61,8 @@ class EntityFilterTypeTest extends AbstractTypeTestCase
                     'field_type'    => 'entity',
                     'field_options' => [],
                     'translatable'  => false,
-                ]
-            ]
+                ],
+            ],
         ];
     }
 

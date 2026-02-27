@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Application\Webhook\Command;
@@ -13,9 +14,7 @@ use Akeneo\Connectivity\Connection\Domain\Webhook\DTO\UrlReachabilityStatus;
  */
 final readonly class CheckWebhookReachabilityHandler
 {
-    public function __construct(private UrlReachabilityCheckerInterface $reachabilityChecker)
-    {
-    }
+    public function __construct(private UrlReachabilityCheckerInterface $reachabilityChecker) {}
 
     public function handle(CheckWebhookReachabilityCommand $command): UrlReachabilityStatus
     {

@@ -35,7 +35,7 @@ abstract class AbstractResolveDoctrineTargetModelPass implements CompilerPassInt
                 [
                     $interface,
                     new Parameter($parameterName),
-                    []
+                    [],
                 ]
             );
         }

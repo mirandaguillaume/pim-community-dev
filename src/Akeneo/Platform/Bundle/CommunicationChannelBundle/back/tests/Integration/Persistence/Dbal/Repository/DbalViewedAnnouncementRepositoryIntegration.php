@@ -76,10 +76,10 @@ class DbalViewedAnnouncementRepositoryIntegration extends TestCase
     private function selectUserFromDb()
     {
         $query = <<<SQL
-        SELECT id
-        FROM oro_user
-        WHERE username = 'admin'
-SQL;
+                    SELECT id
+                    FROM oro_user
+                    WHERE username = 'admin'
+            SQL;
         $statement = $this->dbalConnection->executeQuery($query);
 
         return $statement->fetchAssociative();
@@ -88,10 +88,10 @@ SQL;
     private function selectViewedAnnouncementByUserFromDb(int $userId)
     {
         $query = <<<SQL
-    SELECT user_id, announcement_id
-    FROM akeneo_communication_channel_viewed_announcements
-    WHERE user_id = :userId
-SQL;
+                SELECT user_id, announcement_id
+                FROM akeneo_communication_channel_viewed_announcements
+                WHERE user_id = :userId
+            SQL;
         $statement = $this->dbalConnection->executeQuery($query, ['userId' => $userId]);
 
         return $statement->fetchAllAssociative();

@@ -24,7 +24,7 @@ final class UploadImageIntegration extends TestCase
         $constraint = new Constraints\UploadedFile([
             'types' => [
                 'png' => ['image/png'],
-            ]
+            ],
         ]);
 
         $violations = $this->get('validator')->validate($fileToUpload, $constraint);
@@ -50,7 +50,7 @@ final class UploadImageIntegration extends TestCase
             'types' => [
                 'png' => ['image/png'],
                 'jpg' => ['image/jpg', 'image/jpeg'],
-            ]
+            ],
         ]);
 
         $violations = $this->get('validator')->validate($fileToUpload, $constraint);
@@ -72,7 +72,7 @@ final class UploadImageIntegration extends TestCase
 
     private function getSecurityFixturePath(string $fileName): string
     {
-        return __DIR__.'/fixtures/'.$fileName;
+        return __DIR__ . '/fixtures/' . $fileName;
     }
 
     protected function getConfiguration()

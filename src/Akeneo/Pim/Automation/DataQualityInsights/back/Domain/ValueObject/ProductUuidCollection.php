@@ -26,7 +26,7 @@ final class ProductUuidCollection implements ProductEntityIdCollection
     {
         Assert::allString($productUuids);
 
-        return new self(array_map(fn (string $productUuid) => ProductUuid::fromString($productUuid), $productUuids));
+        return new self(array_map(fn(string $productUuid) => ProductUuid::fromString($productUuid), $productUuids));
     }
 
     public static function fromString(string $productUuid): self
@@ -73,11 +73,11 @@ final class ProductUuidCollection implements ProductEntityIdCollection
 
     public function toArrayString(): array
     {
-        return array_map(fn (ProductEntityIdInterface $productUuid) => (string) $productUuid, $this->productUuids);
+        return array_map(fn(ProductEntityIdInterface $productUuid) => (string) $productUuid, $this->productUuids);
     }
 
     public function toArrayBytes(): array
     {
-        return array_map(fn (ProductEntityIdInterface $productUuid) => $productUuid->toBytes(), $this->productUuids);
+        return array_map(fn(ProductEntityIdInterface $productUuid) => $productUuid->toBytes(), $this->productUuids);
     }
 }

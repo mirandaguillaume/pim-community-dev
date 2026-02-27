@@ -12,9 +12,7 @@ use Doctrine\DBAL\Connection;
 
 final readonly class SqlGetAssociationTypes implements GetAssociationTypesInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     /**
      * @inheritDoc
@@ -22,20 +20,20 @@ final readonly class SqlGetAssociationTypes implements GetAssociationTypesInterf
     public function forCodes(array $associationTypeCodes): array
     {
         $query = <<<SQL
-WITH association_type_labels AS (
-    SELECT foreign_key as association_type_id, JSON_OBJECTAGG(locale, label) as labels
-    FROM pim_catalog_association_type_translation
-    GROUP BY foreign_key
-)
-SELECT
-    association_type.code,
-    association_type.is_quantified, 
-    association_type.is_two_way,
-    labels
-FROM pim_catalog_association_type association_type
-LEFT JOIN association_type_labels ON association_type_id = association_type.id
-WHERE association_type.code IN (:association_type_code)
-SQL;
+            WITH association_type_labels AS (
+                SELECT foreign_key as association_type_id, JSON_OBJECTAGG(locale, label) as labels
+                FROM pim_catalog_association_type_translation
+                GROUP BY foreign_key
+            )
+            SELECT
+                association_type.code,
+                association_type.is_quantified, 
+                association_type.is_two_way,
+                labels
+            FROM pim_catalog_association_type association_type
+            LEFT JOIN association_type_labels ON association_type_id = association_type.id
+            WHERE association_type.code IN (:association_type_code)
+            SQL;
 
         $rows = $this->connection->executeQuery(
             $query,
@@ -43,7 +41,7 @@ SQL;
                 'association_type_code' => $associationTypeCodes,
             ],
             [
-                'association_type_code' => ArrayParameterType::STRING
+                'association_type_code' => ArrayParameterType::STRING,
             ]
         )->fetchAllAssociative();
 

@@ -14,9 +14,7 @@ use Doctrine\DBAL\Connection;
 
 class DbalPurger implements DatabasePurgerInterface
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function purge(array $tablesToReset): void
     {

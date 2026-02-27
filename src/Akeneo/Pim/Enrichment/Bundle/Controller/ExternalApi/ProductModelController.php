@@ -60,9 +60,7 @@ use Webmozart\Assert\Assert;
  */
 class ProductModelController
 {
-    public function __construct(protected ProductQueryBuilderFactoryInterface $pqbFactory, protected ProductQueryBuilderFactoryInterface $pqbSearchAfterFactory, protected NormalizerInterface $normalizer, protected IdentifiableObjectRepositoryInterface $channelRepository, protected PaginatorInterface $offsetPaginator, protected PaginatorInterface $searchAfterPaginator, protected ObjectUpdaterInterface $updater, protected SimpleFactoryInterface $factory, protected SaverInterface $saver, protected UrlGeneratorInterface $router, protected ValidatorInterface $productModelValidator, protected AttributeFilterInterface $productModelAttributeFilter, protected IdentifiableObjectRepositoryInterface $productModelRepository, protected StreamResourceResponse $partialUpdateStreamResource, private readonly ListProductModelsQueryValidator $listProductModelsQueryValidator, private readonly ListProductModelsQueryHandler $listProductModelsQueryHandler, private readonly ConnectorProductModelNormalizer $connectorProductModelNormalizer, private readonly GetConnectorProductModels $getConnectorProductModels, private readonly TokenStorageInterface $tokenStorage, private readonly ApiAggregatorForProductModelPostSaveEventSubscriber $apiAggregatorForProductModelPostSave, private readonly WarmupQueryCache $warmupQueryCache, private readonly LoggerInterface $logger, protected array $apiConfiguration, private readonly SecurityFacade $security, private readonly RemoveProductModelHandler $removeProductModelHandler, private readonly ValidatorInterface $validator, private readonly GetProductModelsWithQualityScoresInterface $getProductModelsWithQualityScores)
-    {
-    }
+    public function __construct(protected ProductQueryBuilderFactoryInterface $pqbFactory, protected ProductQueryBuilderFactoryInterface $pqbSearchAfterFactory, protected NormalizerInterface $normalizer, protected IdentifiableObjectRepositoryInterface $channelRepository, protected PaginatorInterface $offsetPaginator, protected PaginatorInterface $searchAfterPaginator, protected ObjectUpdaterInterface $updater, protected SimpleFactoryInterface $factory, protected SaverInterface $saver, protected UrlGeneratorInterface $router, protected ValidatorInterface $productModelValidator, protected AttributeFilterInterface $productModelAttributeFilter, protected IdentifiableObjectRepositoryInterface $productModelRepository, protected StreamResourceResponse $partialUpdateStreamResource, private readonly ListProductModelsQueryValidator $listProductModelsQueryValidator, private readonly ListProductModelsQueryHandler $listProductModelsQueryHandler, private readonly ConnectorProductModelNormalizer $connectorProductModelNormalizer, private readonly GetConnectorProductModels $getConnectorProductModels, private readonly TokenStorageInterface $tokenStorage, private readonly ApiAggregatorForProductModelPostSaveEventSubscriber $apiAggregatorForProductModelPostSave, private readonly WarmupQueryCache $warmupQueryCache, private readonly LoggerInterface $logger, protected array $apiConfiguration, private readonly SecurityFacade $security, private readonly RemoveProductModelHandler $removeProductModelHandler, private readonly ValidatorInterface $validator, private readonly GetProductModelsWithQualityScoresInterface $getProductModelsWithQualityScores) {}
 
     /**
      * @throws NotFoundHttpException
@@ -177,7 +175,7 @@ class ProductModelController
             return new JsonResponse([
                 'code' => Response::HTTP_UNPROCESSABLE_ENTITY,
                 'messages' => \array_map(
-                    fn (ConstraintViolationInterface $violation): string => $violation->getMessage(),
+                    fn(ConstraintViolationInterface $violation): string => $violation->getMessage(),
                     \iterator_to_array($violations)
                 ),
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -421,7 +419,7 @@ class ProductModelController
         $queryParameters = [
             'with_count' => $query->withCount,
             'pagination_type' => $query->paginationType,
-            'limit' => $query->limit
+            'limit' => $query->limit,
         ];
 
         if ($query->search !== []) {

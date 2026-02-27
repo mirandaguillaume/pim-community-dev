@@ -69,15 +69,15 @@ final class CleanProductScoresCommand extends Command
     private function getNextProductUuidAsBytesScoresToClean(): array
     {
         $query = <<<SQL
-SELECT old_scores.product_uuid AS product_uuid, old_scores.evaluated_at
-FROM pim_data_quality_insights_product_score AS old_scores
-INNER JOIN pim_data_quality_insights_product_score AS younger_scores
-    ON younger_scores.product_uuid = old_scores.product_uuid
-    AND younger_scores.evaluated_at > old_scores.evaluated_at
-GROUP BY old_scores.product_uuid, old_scores.evaluated_at
-ORDER BY old_scores.product_uuid ASC, old_scores.evaluated_at ASC
-LIMIT :bulkSize;
-SQL;
+            SELECT old_scores.product_uuid AS product_uuid, old_scores.evaluated_at
+            FROM pim_data_quality_insights_product_score AS old_scores
+            INNER JOIN pim_data_quality_insights_product_score AS younger_scores
+                ON younger_scores.product_uuid = old_scores.product_uuid
+                AND younger_scores.evaluated_at > old_scores.evaluated_at
+            GROUP BY old_scores.product_uuid, old_scores.evaluated_at
+            ORDER BY old_scores.product_uuid ASC, old_scores.evaluated_at ASC
+            LIMIT :bulkSize;
+            SQL;
 
         return $this->dbConnection->executeQuery(
             $query,
@@ -94,15 +94,15 @@ SQL;
     {
         $this->dbConnection->executeQuery(
             <<<SQL
-DELETE old_scores
-FROM pim_data_quality_insights_product_score AS old_scores
-INNER JOIN pim_data_quality_insights_product_score AS younger_scores
-    ON younger_scores.product_uuid = old_scores.product_uuid
-    AND younger_scores.evaluated_at > old_scores.evaluated_at
-WHERE old_scores.product_uuid IN (:productUuidAsBytes);
-SQL,
+                DELETE old_scores
+                FROM pim_data_quality_insights_product_score AS old_scores
+                INNER JOIN pim_data_quality_insights_product_score AS younger_scores
+                    ON younger_scores.product_uuid = old_scores.product_uuid
+                    AND younger_scores.evaluated_at > old_scores.evaluated_at
+                WHERE old_scores.product_uuid IN (:productUuidAsBytes);
+                SQL,
             [
-                'productUuidAsBytes' => $productUuidsAsBytes
+                'productUuidAsBytes' => $productUuidsAsBytes,
             ],
             [
                 'productUuidAsBytes' => ArrayParameterType::STRING,

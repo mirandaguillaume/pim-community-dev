@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Component\Product\Factory;
@@ -23,9 +24,7 @@ class ValueFactory
     /**
      * @param mixed[]|\Akeneo\Pim\Enrichment\Component\Product\Factory\Value\ValueFactory[] $notIndexedValuesFactories
      */
-    public function __construct(private readonly iterable $notIndexedValuesFactories)
-    {
-    }
+    public function __construct(private readonly iterable $notIndexedValuesFactories) {}
 
     public function createWithoutCheckingData(Attribute $attribute, ?string $channelCode, ?string $localeCode, $data): ValueInterface
     {

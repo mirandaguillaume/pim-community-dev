@@ -14,9 +14,7 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class CountVariantProducts implements CountVariantProductsInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function forProductModelCodes(array $productModelCodes): int
     {
@@ -25,20 +23,20 @@ final readonly class CountVariantProducts implements CountVariantProductsInterfa
         }
 
         $sql = <<<'SQL'
-            select count(variant.id) 
-            from (
-                select product.id
-                from pim_catalog_product product
-                inner join pim_catalog_product_model product_model on product_model.id = product.product_model_id
-                where product_model.code in (:productModelCodes)
-                UNION 
-                select product.id
-                from pim_catalog_product product
-                inner join pim_catalog_product_model sub on sub.id = product.product_model_id
-                inner join pim_catalog_product_model root on root.id = sub.parent_id
-                where root.code in (:productModelCodes)
-            ) as variant
-SQL;
+                        select count(variant.id) 
+                        from (
+                            select product.id
+                            from pim_catalog_product product
+                            inner join pim_catalog_product_model product_model on product_model.id = product.product_model_id
+                            where product_model.code in (:productModelCodes)
+                            UNION 
+                            select product.id
+                            from pim_catalog_product product
+                            inner join pim_catalog_product_model sub on sub.id = product.product_model_id
+                            inner join pim_catalog_product_model root on root.id = sub.parent_id
+                            where root.code in (:productModelCodes)
+                        ) as variant
+            SQL;
 
         $stmt = $this->connection->executeQuery(
             $sql,
@@ -46,6 +44,6 @@ SQL;
             ['productModelCodes' => ArrayParameterType::STRING]
         );
 
-        return (int)$stmt->fetchOne();
+        return (int) $stmt->fetchOne();
     }
 }

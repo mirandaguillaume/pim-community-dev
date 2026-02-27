@@ -18,9 +18,7 @@ use Akeneo\Tool\Component\Elasticsearch\PublicApi\Write\MigrateIndexWithoutDownt
 
 class MigrateIndexWithoutDowntimeHandler implements MigrateIndexWithoutDowntimeHandlerInterface
 {
-    public function __construct(private readonly ClockInterface $clock, private readonly UpdateIndexMappingWithoutDowntime $updateIndexMappingWithoutDowntime, private readonly IndexMigrationRepositoryInterface $indexMigrationRepository)
-    {
-    }
+    public function __construct(private readonly ClockInterface $clock, private readonly UpdateIndexMappingWithoutDowntime $updateIndexMappingWithoutDowntime, private readonly IndexMigrationRepositoryInterface $indexMigrationRepository) {}
 
     public function handle(MigrateIndexWithoutDowntime $command)
     {

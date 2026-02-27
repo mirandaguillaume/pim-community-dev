@@ -10,9 +10,7 @@ namespace Akeneo\Pim\Enrichment\Product\API\Command\UserIntent;
  */
 final readonly class SetEnabled implements UserIntent
 {
-    public function __construct(private bool $enabled)
-    {
-    }
+    public function __construct(private bool $enabled) {}
 
     public function enabled(): bool
     {

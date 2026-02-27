@@ -33,8 +33,7 @@ class ComputeAndPersistProductCompletenesses
         private readonly Clock $clock,
         private readonly TokenStorageInterface $tokenStorage,
         private readonly LoggerInterface $logger
-    ) {
-    }
+    ) {}
 
     /**
      * @param UuidInterface[] $productUuids
@@ -83,7 +82,7 @@ class ComputeAndPersistProductCompletenesses
                     $now,
                     $previousProductCompletenessCollection,
                     $authorId
-                )
+                ),
             ];
         }
 

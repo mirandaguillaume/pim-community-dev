@@ -13,20 +13,21 @@ use Twig\Extension\AbstractExtension;
 
 class FilterExtensionSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         FiltersConfigurator $configurator,
         TranslatorInterface $translator,
         Manager $manager
-    ) {;
+    ) {
+        ;
         $this->beConstructedWith($manager, $configurator, $translator);
     }
 
-    function it_is_a_twig_extension()
+    public function it_is_a_twig_extension()
     {
         $this->shouldBeAnInstanceOf(AbstractExtension::class);
     }
 
-    function it_throws_an_exception_when_i_try_to_get_the_label_of_an_unknown_filter(
+    public function it_throws_an_exception_when_i_try_to_get_the_label_of_an_unknown_filter(
         $manager,
         $configurator,
         DatagridInterface $datagrid,
@@ -42,7 +43,7 @@ class FilterExtensionSpec extends ObjectBehavior
         $this->filterLabel('foo')->shouldReturn(null);
     }
 
-    function it_gives_the_label_of_a_filter(
+    public function it_gives_the_label_of_a_filter(
         $manager,
         $configurator,
         $translator,

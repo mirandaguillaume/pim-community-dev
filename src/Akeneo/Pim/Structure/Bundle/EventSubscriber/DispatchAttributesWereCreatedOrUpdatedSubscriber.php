@@ -37,8 +37,7 @@ final class DispatchAttributesWereCreatedOrUpdatedSubscriber implements EventSub
         private readonly LoggerInterface $logger,
         private readonly ?string $tenantId,
         private readonly string $env
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

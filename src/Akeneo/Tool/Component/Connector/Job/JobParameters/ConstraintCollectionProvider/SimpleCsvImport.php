@@ -26,8 +26,7 @@ class SimpleCsvImport implements ConstraintCollectionProviderInterface
      */
     public function __construct(
         private readonly array $supportedJobNames,
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -44,9 +43,9 @@ class SimpleCsvImport implements ConstraintCollectionProviderInterface
                             [
                                 'strict' => true,
                                 'choices' => [",", ";", "|"],
-                                'message' => 'The value must be one of , or ; or |'
+                                'message' => 'The value must be one of , or ; or |',
                             ]
-                        )
+                        ),
                     ],
                     'enclosure' => [
                         [
@@ -55,10 +54,10 @@ class SimpleCsvImport implements ConstraintCollectionProviderInterface
                                 [
                                     'strict' => true,
                                     'choices' => ['"', "'"],
-                                    'message' => 'The value must be one of " or \''
+                                    'message' => 'The value must be one of " or \'',
                                 ]
-                            )
-                        ]
+                            ),
+                        ],
                     ],
                     'withHeader'    => new Type('bool'),
                     'escape'        => new NotBlank(),
@@ -72,7 +71,7 @@ class SimpleCsvImport implements ConstraintCollectionProviderInterface
                         new All(new Type('string')),
                     ],
                     'is_user_authenticated' => new Type('bool'),
-                ]
+                ],
             ]
         );
     }

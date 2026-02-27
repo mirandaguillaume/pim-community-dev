@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Tool\Bundle\ElasticsearchBundle\IndexConfiguration;
@@ -18,8 +19,7 @@ final readonly class UpdateIndexMappingWithoutDowntime
     public function __construct(
         private ClockInterface $clock,
         private ClientMigrationInterface $migrationClient
-    ) {
-    }
+    ) {}
 
     public function execute(
         string $sourceIndexAlias,

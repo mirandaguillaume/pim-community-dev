@@ -16,8 +16,7 @@ final readonly class GetExistingProductModelCodes
 {
     public function __construct(
         private Connection $connection,
-    ) {
-    }
+    ) {}
 
     /**
      * @param string[] $productModelCodes
@@ -26,9 +25,9 @@ final readonly class GetExistingProductModelCodes
     {
         Assert::allString($productModelCodes);
         $sql = <<<SQL
-SELECT code FROM pim_catalog_product_model
-WHERE code IN (:codes);
-SQL;
+            SELECT code FROM pim_catalog_product_model
+            WHERE code IN (:codes);
+            SQL;
 
         return $this->connection->executeQuery(
             $sql,

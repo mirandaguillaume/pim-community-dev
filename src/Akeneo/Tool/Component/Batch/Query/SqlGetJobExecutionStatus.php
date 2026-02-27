@@ -9,17 +9,15 @@ use Doctrine\DBAL\Connection;
 
 class SqlGetJobExecutionStatus implements GetJobExecutionStatusInterface
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function getByJobExecutionId(int $jobExecutionId): ?BatchStatus
     {
         $sql = <<<SQL
-SELECT status
-FROM akeneo_batch_job_execution AS job_execution
-WHERE job_execution.id = :job_execution_id
-SQL;
+            SELECT status
+            FROM akeneo_batch_job_execution AS job_execution
+            WHERE job_execution.id = :job_execution_id
+            SQL;
         $result = $this->connection->executeQuery(
             $sql,
             ['job_execution_id' => $jobExecutionId],

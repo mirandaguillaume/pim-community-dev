@@ -15,9 +15,7 @@ use Akeneo\Platform\Bundle\ImportExportBundle\Domain\StorageHydratorInterface;
 
 final readonly class StorageHydrator implements StorageHydratorInterface
 {
-    public function __construct(private iterable $storageHydrators)
-    {
-    }
+    public function __construct(private iterable $storageHydrators) {}
 
     public function hydrate(array $normalizedStorage): StorageInterface|NoneStorage
     {

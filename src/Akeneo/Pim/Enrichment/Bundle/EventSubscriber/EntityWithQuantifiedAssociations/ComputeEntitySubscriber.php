@@ -22,8 +22,7 @@ final class ComputeEntitySubscriber implements EventSubscriberInterface
     public function __construct(
         protected GetUuidMappingQueryInterface $getUuidMappingQuery,
         protected GetIdMappingFromProductModelCodesQueryInterface $getIdMappingFromProductModelCodes
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

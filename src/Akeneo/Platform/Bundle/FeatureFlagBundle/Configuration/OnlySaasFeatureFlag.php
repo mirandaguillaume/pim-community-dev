@@ -18,9 +18,7 @@ final readonly class OnlySaasFeatureFlag implements FeatureFlag
         'pim_trial_instance',
     ];
 
-    public function __construct(private string $edition)
-    {
-    }
+    public function __construct(private string $edition) {}
 
     public function isEnabled(?string $feature = null): bool
     {

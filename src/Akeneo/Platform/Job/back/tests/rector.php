@@ -14,7 +14,7 @@ return static function (RectorConfig $rectorConfig): void {
         LevelSetList::UP_TO_PHP_80,
     ]);
 
-    $rectorConfig->paths([__DIR__.'/..']);
+    $rectorConfig->paths([__DIR__ . '/..']);
     $rectorConfig->importShortClasses(false);
     $rectorConfig->importNames();
     $rectorConfig->skip([JsonThrowOnErrorRector::class, SimplifyEmptyCheckOnEmptyArrayRector::class]);

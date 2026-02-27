@@ -14,8 +14,7 @@ final readonly class JobInstance
         private string $code,
         private ?string $label,
         private array $parameters = [],
-    ) {
-    }
+    ) {}
 
     public function getCode(): string
     {

@@ -25,9 +25,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 class ScriptNonceGenerator
 {
-    public function __construct(private readonly RequestStack $request, private readonly string $kernelSecret)
-    {
-    }
+    public function __construct(private readonly RequestStack $request, private readonly string $kernelSecret) {}
 
     /**
     * For XML http requests, the nonce is read from session to ensure it is the same as the original request.

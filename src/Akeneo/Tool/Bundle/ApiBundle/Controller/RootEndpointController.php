@@ -16,9 +16,7 @@ use Symfony\Component\Routing\Router;
  */
 class RootEndpointController
 {
-    public function __construct(private readonly Router $router, private readonly FeatureFlags $featureFlags)
-    {
-    }
+    public function __construct(private readonly Router $router, private readonly FeatureFlags $featureFlags) {}
 
     /**
      * @return JsonResponse
@@ -30,7 +28,7 @@ class RootEndpointController
         $apiRoutes = [
             'host'           => $request->getSchemeAndHttpHost(),
             'authentication' => [],
-            'routes'         => []
+            'routes'         => [],
         ];
 
         $routes->remove($request->attributes->get('_route'));
@@ -51,7 +49,7 @@ class RootEndpointController
 
                 $apiRoutes[$type][$key] = [
                     'route'   => $route->getPath(),
-                    'methods' => $route->getMethods()
+                    'methods' => $route->getMethods(),
                 ];
             }
         }

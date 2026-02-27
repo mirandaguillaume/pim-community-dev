@@ -15,9 +15,7 @@ use Doctrine\DBAL\Driver\Exception;
  */
 final readonly class GetDeactivatedTemplateAttributesSql implements GetDeactivatedTemplateAttributes
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     /**
      * @return array<DeactivatedTemplateAttributeIdentifier>
@@ -28,10 +26,10 @@ final readonly class GetDeactivatedTemplateAttributesSql implements GetDeactivat
     public function execute(): array
     {
         $sql = <<<SQL
-            SELECT BIN_TO_UUID(uuid) AS uuid, code
-            FROM pim_catalog_category_attribute
-            WHERE is_deactivated = 1
-        SQL;
+                SELECT BIN_TO_UUID(uuid) AS uuid, code
+                FROM pim_catalog_category_attribute
+                WHERE is_deactivated = 1
+            SQL;
         $results = $this->connection->executeQuery($sql)->fetchAllAssociative();
 
         $deactivatedTemplateAttributeList = [];

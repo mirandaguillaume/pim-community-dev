@@ -20,9 +20,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Query\ProductQueryBuilderInterface;
  */
 final readonly class FetchProductAndProductModelRowsParameters
 {
-    public function __construct(private ProductQueryBuilderInterface $productQueryBuilder, private array $attributeCodes, private string $channelCode, private string $localeCode)
-    {
-    }
+    public function __construct(private ProductQueryBuilderInterface $productQueryBuilder, private array $attributeCodes, private string $channelCode, private string $localeCode) {}
 
     public function productQueryBuilder(): ProductQueryBuilderInterface
     {

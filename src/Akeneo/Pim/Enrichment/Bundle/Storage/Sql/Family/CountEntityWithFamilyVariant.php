@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Family;
@@ -17,9 +18,7 @@ use Doctrine\DBAL\Exception;
  */
 final readonly class CountEntityWithFamilyVariant implements CountEntityWithFamilyVariantInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function belongingToFamilyVariant(FamilyVariantInterface $familyVariant): int
     {

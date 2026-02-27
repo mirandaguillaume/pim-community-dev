@@ -52,12 +52,12 @@ class AclAccessLevelSelectorType extends AbstractType
     {
         $choices = [
             AccessLevel::NONE_LEVEL,
-            AccessLevel::SYSTEM_LEVEL
+            AccessLevel::SYSTEM_LEVEL,
         ];
 
         $resolver->setDefaults(
             [
-                'choices' => array_combine($choices, $choices)
+                'choices' => array_combine($choices, $choices),
             ]
         );
     }

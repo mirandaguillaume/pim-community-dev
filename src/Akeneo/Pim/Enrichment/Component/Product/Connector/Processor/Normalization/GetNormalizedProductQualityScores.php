@@ -16,8 +16,7 @@ class GetNormalizedProductQualityScores implements GetNormalizedQualityScoresInt
     public function __construct(
         private readonly GetProductScoresQueryInterface $getProductScoresQuery,
         private readonly FeatureFlag $dataQualityInsightsFeature
-    ) {
-    }
+    ) {}
 
     public function __invoke(string|UuidInterface $productUuid, string $channel = null, array $locales = []): array
     {

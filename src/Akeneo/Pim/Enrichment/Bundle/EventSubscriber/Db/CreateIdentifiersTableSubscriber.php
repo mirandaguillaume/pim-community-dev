@@ -14,14 +14,12 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 final readonly class CreateIdentifiersTableSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public static function getSubscribedEvents(): array
     {
         return [
-            InstallerEvents::POST_DB_CREATE => 'createIdentifiersTable'
+            InstallerEvents::POST_DB_CREATE => 'createIdentifiersTable',
         ];
     }
 
@@ -29,15 +27,15 @@ final readonly class CreateIdentifiersTableSubscriber implements EventSubscriber
     {
         $this->connection->executeStatement(
             <<<SQL
-            CREATE TABLE IF NOT EXISTS pim_catalog_product_identifiers(
-                product_uuid BINARY(16) NOT NULL PRIMARY KEY,
-                identifiers JSON NOT NULL DEFAULT (JSON_ARRAY()),
-                CONSTRAINT pim_catalog_product_identifiers_pim_catalog_product_uuid_fk
-                    FOREIGN KEY (product_uuid) REFERENCES pim_catalog_product (uuid)
-                        ON DELETE CASCADE,
-                INDEX idx_identifiers ( (CAST(identifiers AS CHAR(511) ARRAY)) )
-            )
-            SQL
+                CREATE TABLE IF NOT EXISTS pim_catalog_product_identifiers(
+                    product_uuid BINARY(16) NOT NULL PRIMARY KEY,
+                    identifiers JSON NOT NULL DEFAULT (JSON_ARRAY()),
+                    CONSTRAINT pim_catalog_product_identifiers_pim_catalog_product_uuid_fk
+                        FOREIGN KEY (product_uuid) REFERENCES pim_catalog_product (uuid)
+                            ON DELETE CASCADE,
+                    INDEX idx_identifiers ( (CAST(identifiers AS CHAR(511) ARRAY)) )
+                )
+                SQL
         );
     }
 }

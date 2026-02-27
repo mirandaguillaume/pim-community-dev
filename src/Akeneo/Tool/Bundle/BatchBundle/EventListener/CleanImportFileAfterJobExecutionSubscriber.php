@@ -19,13 +19,12 @@ final readonly class CleanImportFileAfterJobExecutionSubscriber implements Event
 {
     public function __construct(
         private JobFileBackuper $jobFileBackuper
-    ) {
-    }
+    ) {}
 
     public static function getSubscribedEvents(): array
     {
         return [
-            EventInterface::AFTER_JOB_EXECUTION => 'cleanImportFile'
+            EventInterface::AFTER_JOB_EXECUTION => 'cleanImportFile',
         ];
     }
 

@@ -59,8 +59,8 @@ class MetricConverter extends AbstractValueConverter
             }
 
             if (null !== $data) {
-                $data = !$attributeFieldInfo['attribute']->isDecimalsAllowed() && preg_match('|^\d+$|', (string) $data) ?
-                    (int) $data : (string) $data;
+                $data = !$attributeFieldInfo['attribute']->isDecimalsAllowed() && preg_match('|^\d+$|', (string) $data)
+                    ? (int) $data : (string) $data;
             }
 
             $value = ['amount' => $data, 'unit' => $unit];
@@ -69,7 +69,7 @@ class MetricConverter extends AbstractValueConverter
         return [$attributeFieldInfo['attribute']->getCode() => [[
             'locale' => $attributeFieldInfo['locale_code'],
             'scope'  => $attributeFieldInfo['scope_code'],
-            'data'   => $value
+            'data'   => $value,
         ]]];
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Component\Product\Factory\NonExistentValuesFilter;
@@ -14,9 +15,7 @@ use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
  */
 final readonly class NonExistentPriceCollectionValueFilter implements NonExistentValuesFilter
 {
-    public function __construct(private FindActivatedCurrenciesInterface $findActivatedCurrencies)
-    {
-    }
+    public function __construct(private FindActivatedCurrenciesInterface $findActivatedCurrencies) {}
 
     public function filter(OnGoingFilteredRawValues $onGoingFilteredRawValues): OnGoingFilteredRawValues
     {
@@ -82,7 +81,7 @@ final readonly class NonExistentPriceCollectionValueFilter implements NonExisten
                     $filteredValues[AttributeTypes::PRICE_COLLECTION][$attributeCode][] = [
                         'identifier' => $productData['identifier'],
                         'values' => $priceCollectionValues,
-                        'properties' => $productData['properties'] ?? []
+                        'properties' => $productData['properties'] ?? [],
                     ];
                 }
             }

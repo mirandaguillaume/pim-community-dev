@@ -83,7 +83,7 @@ class PagerExtension extends AbstractExtension
 
         $state = [
             'currentPage' => $this->getOr(self::PAGE_PARAM, 1),
-            'pageSize'    => $this->getOr(self::PER_PAGE_PARAM, $defaultPerPage)
+            'pageSize'    => $this->getOr(self::PER_PAGE_PARAM, $defaultPerPage),
         ];
 
         $data->offsetAddToArray('state', $state);

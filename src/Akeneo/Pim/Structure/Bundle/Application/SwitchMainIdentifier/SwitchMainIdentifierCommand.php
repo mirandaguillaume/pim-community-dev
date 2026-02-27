@@ -10,8 +10,7 @@ final readonly class SwitchMainIdentifierCommand
 {
     public function __construct(
         private string $newMainIdentifierCode,
-    ) {
-    }
+    ) {}
 
     public static function fromIdentifierCode(string $newMainIdentifierCode)
     {

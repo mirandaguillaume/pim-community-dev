@@ -297,7 +297,7 @@ class UpdateCategoryControllerEndToEnd extends ControllerIntegrationTestCase
         try {
             ($createTemplate)($command);
         } catch (Exception|\Doctrine\DBAL\Exception $e) {
-            $this->fail('An unexpected exception was thrown: '.$e->getMessage());
+            $this->fail('An unexpected exception was thrown: ' . $e->getMessage());
         }
     }
 

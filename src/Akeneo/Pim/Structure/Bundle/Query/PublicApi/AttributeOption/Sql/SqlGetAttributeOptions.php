@@ -16,27 +16,25 @@ final readonly class SqlGetAttributeOptions implements GetAttributeOptions
 {
     private const BATCH_QUERY_SIZE = 1000;
 
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function forAttributeCode(string $attributeCode): iterable
     {
         $sql = <<<SQL
-        WITH active_locales as (select code from pim_catalog_locale where is_activated is true)
-        SELECT
-            attribute.code AS attributeCode, attribute_option.code as attributeOptionCode, attribute_option.id as attributeOptionId,
-            JSON_OBJECTAGG(active_locales.code, option_value.value) as labels
-        FROM active_locales
-                 CROSS JOIN pim_catalog_attribute attribute
-                 INNER JOIN pim_catalog_attribute_option attribute_option ON attribute.id = attribute_option.attribute_id
-                 LEFT JOIN pim_catalog_attribute_option_value option_value ON attribute_option.id = option_value.option_id
-            AND active_locales.code = option_value.locale_code
-        WHERE attribute.code = :attributeCode AND attribute_option.id > :searchAfterId
-        GROUP BY attribute.code, attribute_option.id
-        ORDER BY attribute_option.id
-        LIMIT :limit
-        SQL;
+            WITH active_locales as (select code from pim_catalog_locale where is_activated is true)
+            SELECT
+                attribute.code AS attributeCode, attribute_option.code as attributeOptionCode, attribute_option.id as attributeOptionId,
+                JSON_OBJECTAGG(active_locales.code, option_value.value) as labels
+            FROM active_locales
+                     CROSS JOIN pim_catalog_attribute attribute
+                     INNER JOIN pim_catalog_attribute_option attribute_option ON attribute.id = attribute_option.attribute_id
+                     LEFT JOIN pim_catalog_attribute_option_value option_value ON attribute_option.id = option_value.option_id
+                AND active_locales.code = option_value.locale_code
+            WHERE attribute.code = :attributeCode AND attribute_option.id > :searchAfterId
+            GROUP BY attribute.code, attribute_option.id
+            ORDER BY attribute_option.id
+            LIMIT :limit
+            SQL;
 
         $searchAfterId = 0;
         do {
@@ -52,7 +50,7 @@ final readonly class SqlGetAttributeOptions implements GetAttributeOptions
             foreach ($results as $result) {
                 yield new AttributeOption(
                     $result['attributeOptionCode'],
-                    \array_filter(\json_decode((string) $result['labels'], true, 512, JSON_THROW_ON_ERROR), fn ($label): bool => null !== $label)
+                    \array_filter(\json_decode((string) $result['labels'], true, 512, JSON_THROW_ON_ERROR), fn($label): bool => null !== $label)
                 );
                 $searchAfterId = $result['attributeOptionId'];
             }

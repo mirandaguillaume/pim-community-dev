@@ -25,8 +25,7 @@ final readonly class SqlFindUsers implements FindUsers
 {
     public function __construct(
         private Connection $connection
-    ) {
-    }
+    ) {}
 
     /**
      * @throws DriverException
@@ -56,7 +55,7 @@ final readonly class SqlFindUsers implements FindUsers
         )->fetchAllAssociative();
 
         return array_map(
-            static fn ($data) => ServiceApiUser::createFromDatabase($data),
+            static fn($data) => ServiceApiUser::createFromDatabase($data),
             $results
         );
     }
@@ -86,17 +85,17 @@ final readonly class SqlFindUsers implements FindUsers
             $sqlLimitPart = sprintf('LIMIT %s', $limit);
         }
 
-        $sqlWhereParts = empty($sqlWhereParts) ? '' : 'AND '.implode(' AND ', $sqlWhereParts);
+        $sqlWhereParts = empty($sqlWhereParts) ? '' : 'AND ' . implode(' AND ', $sqlWhereParts);
 
         $type = User::TYPE_USER;
 
         return <<<SQL
-            SELECT id, email, username, user_type, first_name, last_name, middle_name, name_suffix, image 
-            FROM oro_user as ou
-            WHERE ou.user_type='{$type}'
-            {$sqlWhereParts}
-            ORDER BY ou.id
-            {$sqlLimitPart}
-        SQL;
+                SELECT id, email, username, user_type, first_name, last_name, middle_name, name_suffix, image 
+                FROM oro_user as ou
+                WHERE ou.user_type='{$type}'
+                {$sqlWhereParts}
+                ORDER BY ou.id
+                {$sqlLimitPart}
+            SQL;
     }
 }

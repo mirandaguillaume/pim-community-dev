@@ -33,8 +33,8 @@ class ComparatorRegistry implements ComparatorRegistryInterface
 
         throw new \LogicException(
             sprintf(
-                'Cannot compare value of attribute type "%s". ' .
-                'Please check that a comparator exists for such attribute type.',
+                'Cannot compare value of attribute type "%s". '
+                . 'Please check that a comparator exists for such attribute type.',
                 $attributeType
             )
         );
@@ -61,8 +61,8 @@ class ComparatorRegistry implements ComparatorRegistryInterface
 
         throw new \LogicException(
             sprintf(
-                'Cannot compare value of field "%s". ' .
-                'Please check that a comparator exists for such field.',
+                'Cannot compare value of field "%s". '
+                . 'Please check that a comparator exists for such field.',
                 $field
             )
         );

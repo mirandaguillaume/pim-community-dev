@@ -31,9 +31,7 @@ final class ValidateProperties
         'quality_score',
     ];
 
-    public function __construct(private readonly IdentifiableObjectRepositoryInterface $attributeRepository)
-    {
-    }
+    public function __construct(private readonly IdentifiableObjectRepositoryInterface $attributeRepository) {}
 
     /**
      * @throws InvalidQueryException

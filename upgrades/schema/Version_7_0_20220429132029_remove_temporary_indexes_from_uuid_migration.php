@@ -75,11 +75,11 @@ final class Version_7_0_20220429132029_remove_temporary_indexes_from_uuid_migrat
     private function indexExists(string $tableName, string $indexName): bool
     {
         $sql = <<<SQL
-            SELECT EXISTS (
-                SELECT INDEX_NAME FROM information_schema.STATISTICS
-                WHERE INDEX_SCHEMA = :schema AND TABLE_NAME = :table_name AND INDEX_NAME = :index_name
-            ) as is_existing
-        SQL;
+                SELECT EXISTS (
+                    SELECT INDEX_NAME FROM information_schema.STATISTICS
+                    WHERE INDEX_SCHEMA = :schema AND TABLE_NAME = :table_name AND INDEX_NAME = :index_name
+                ) as is_existing
+            SQL;
 
         return (bool) $this->connection->executeQuery(
             $sql,
@@ -94,14 +94,14 @@ final class Version_7_0_20220429132029_remove_temporary_indexes_from_uuid_migrat
     private function fkExists(string $tableName, string $fkName): bool
     {
         $sql = <<<SQL
-            SELECT EXISTS (
-                SELECT TABLE_SCHEMA, CONSTRAINT_NAME, TABLE_NAME
-                FROM information_schema.TABLE_CONSTRAINTS
-                    WHERE TABLE_SCHEMA = :schema
-                        AND TABLE_NAME = :table_name
-                        AND CONSTRAINT_NAME = :fk_name
-            ) as is_existing
-        SQL;
+                SELECT EXISTS (
+                    SELECT TABLE_SCHEMA, CONSTRAINT_NAME, TABLE_NAME
+                    FROM information_schema.TABLE_CONSTRAINTS
+                        WHERE TABLE_SCHEMA = :schema
+                            AND TABLE_NAME = :table_name
+                            AND CONSTRAINT_NAME = :fk_name
+                ) as is_existing
+            SQL;
 
         return (bool) $this->connection->executeQuery(
             $sql,

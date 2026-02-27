@@ -18,8 +18,7 @@ class SecurityController
         private readonly Environment $twig,
         private readonly string $actionRoute,
         private readonly array $additionalHiddenFields
-    ) {
-    }
+    ) {}
 
     public function login(): Response
     {
@@ -45,8 +44,8 @@ class SecurityController
     public function check(): never
     {
         throw new \RuntimeException(
-            'You must configure the check path to be handled by the firewall ' .
-            'using form_login in your security firewall configuration.'
+            'You must configure the check path to be handled by the firewall '
+            . 'using form_login in your security firewall configuration.'
         );
     }
 

@@ -15,9 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class DatagridController
 {
-    public function __construct(protected MetadataParser $metadata)
-    {
-    }
+    public function __construct(protected MetadataParser $metadata) {}
 
     /**
      * Load a datagrid
@@ -28,7 +26,7 @@ class DatagridController
 
         return new JsonResponse([
             'metadata' => $this->metadata->getGridMetadata($alias, $params),
-            'data' => $this->metadata->getGridData($alias, $params)
+            'data' => $this->metadata->getGridData($alias, $params),
         ]);
     }
 }

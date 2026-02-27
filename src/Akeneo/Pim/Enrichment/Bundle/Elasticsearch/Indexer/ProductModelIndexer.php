@@ -26,9 +26,7 @@ class ProductModelIndexer implements ProductModelIndexerInterface
     private const PRODUCT_MODEL_IDENTIFIER_PREFIX = 'product_model_';
     private const BATCH_SIZE = 500;
 
-    public function __construct(private readonly Client $productAndProductModelClient, private readonly GetElasticsearchProductModelProjectionInterface $getElasticsearchProductModelProjection)
-    {
-    }
+    public function __construct(private readonly Client $productAndProductModelClient, private readonly GetElasticsearchProductModelProjectionInterface $getElasticsearchProductModelProjection) {}
 
     /**
      * Indexes a product model in the product and product model index from its code.
@@ -55,8 +53,8 @@ class ProductModelIndexer implements ProductModelIndexerInterface
 
         $chunks = array_chunk($productModelCodes, self::BATCH_SIZE);
         foreach ($chunks as $productModelCodesChunk) {
-            $elasticsearchProductModelProjections =
-                $this->getElasticsearchProductModelProjection->fromProductModelCodes($productModelCodesChunk);
+            $elasticsearchProductModelProjections
+                = $this->getElasticsearchProductModelProjection->fromProductModelCodes($productModelCodesChunk);
 
             $normalizedProductModelProjections = (
                 static function (iterable $projections): iterable {
@@ -93,7 +91,7 @@ class ProductModelIndexer implements ProductModelIndexerInterface
         }
 
         $indexIdentifiers = array_map(
-            fn ($productModelId) => self::PRODUCT_MODEL_IDENTIFIER_PREFIX . (string) $productModelId,
+            fn($productModelId) => self::PRODUCT_MODEL_IDENTIFIER_PREFIX . (string) $productModelId,
             $productModelIds
         );
 

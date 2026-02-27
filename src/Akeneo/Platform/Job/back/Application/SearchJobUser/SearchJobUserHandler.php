@@ -13,8 +13,7 @@ final readonly class SearchJobUserHandler
 {
     public function __construct(
         private SearchJobUserInterface $searchJobUser,
-    ) {
-    }
+    ) {}
 
     public function search(SearchJobUserQuery $query): array
     {

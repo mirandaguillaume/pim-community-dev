@@ -24,15 +24,14 @@ class AssociationsNormalizer implements NormalizerInterface, CacheableSupportsMe
 {
     public function __construct(
         private readonly GetAssociatedProductUuidsByProduct $getAssociatedProductUuidsByProduct
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
      *
      * @param EntityWithAssociationsInterface $associationAwareEntity
      */
-    public function normalize($associationAwareEntity, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($associationAwareEntity, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $ancestorProducts = $this->getAncestorProducts($associationAwareEntity);
         $withUuid = $context['with_association_uuids'] ?? true;

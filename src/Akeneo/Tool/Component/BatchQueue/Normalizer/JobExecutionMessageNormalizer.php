@@ -17,9 +17,7 @@ use Webmozart\Assert\Assert;
  */
 final readonly class JobExecutionMessageNormalizer implements NormalizerInterface, DenormalizerInterface
 {
-    public function __construct(private JobExecutionMessageFactory $jobExecutionMessageFactory)
-    {
-    }
+    public function __construct(private JobExecutionMessageFactory $jobExecutionMessageFactory) {}
 
     public function supportsNormalization($data, $format = null): bool
     {
@@ -37,8 +35,8 @@ final readonly class JobExecutionMessageNormalizer implements NormalizerInterfac
             'id' => $jobExecutionMessage->getId()->toString(),
             'job_execution_id' => $jobExecutionMessage->getJobExecutionId(),
             'created_time' => $jobExecutionMessage->getCreateTime()->format('c'),
-            'updated_time' => null !== $jobExecutionMessage->getUpdatedTime() ?
-                $jobExecutionMessage->getUpdatedTime()->format('c')
+            'updated_time' => null !== $jobExecutionMessage->getUpdatedTime()
+                ? $jobExecutionMessage->getUpdatedTime()->format('c')
                 : null,
             'options' => $jobExecutionMessage->getOptions(),
         ];

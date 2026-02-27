@@ -16,17 +16,15 @@ use Doctrine\DBAL\Connection;
  */
 class DbalWrongCredentialsCombinationRepository implements WrongCredentialsCombinationRepositoryInterface
 {
-    public function __construct(private readonly Connection $dbalConnection)
-    {
-    }
+    public function __construct(private readonly Connection $dbalConnection) {}
 
     public function create(WrongCredentialsCombination $wrongCredentialsCombination): void
     {
         $insertSQL = <<<SQL
-INSERT INTO akeneo_connectivity_connection_wrong_credentials_combination
-VALUES (:connection_code, :username, NOW())
-ON DUPLICATE KEY UPDATE authentication_date = NOW()
-SQL;
+            INSERT INTO akeneo_connectivity_connection_wrong_credentials_combination
+            VALUES (:connection_code, :username, NOW())
+            ON DUPLICATE KEY UPDATE authentication_date = NOW()
+            SQL;
 
         $stmt = $this->dbalConnection->prepare($insertSQL);
         $stmt->executeQuery([
@@ -38,11 +36,11 @@ SQL;
     public function findAll(\DateTimeImmutable $since): WrongCredentialsCombinations
     {
         $selectSql = <<<SQL
-SELECT connection_code, JSON_OBJECTAGG(username, authentication_date) as users
-FROM akeneo_connectivity_connection_wrong_credentials_combination
-WHERE authentication_date >= :since
-GROUP BY connection_code
-SQL;
+            SELECT connection_code, JSON_OBJECTAGG(username, authentication_date) as users
+            FROM akeneo_connectivity_connection_wrong_credentials_combination
+            WHERE authentication_date >= :since
+            GROUP BY connection_code
+            SQL;
 
         $results = $this->dbalConnection->executeQuery(
             $selectSql,

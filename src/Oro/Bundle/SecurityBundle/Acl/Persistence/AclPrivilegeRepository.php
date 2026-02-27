@@ -256,7 +256,7 @@ class AclPrivilegeRepository implements EventDispatcherAware
             $this->prepareMaskBuilders($maskBuilders, $extension);
             $context[$extensionKey] = [
                 'extension'    => $extension,
-                'maskBuilders' => $maskBuilders
+                'maskBuilders' => $maskBuilders,
             ];
             if (isset($rootKeys[$extensionKey])) {
                 $privilege = $privileges[$rootKeys[$extensionKey]];

@@ -38,8 +38,7 @@ class CreateAccessToken implements CreateAccessTokenInterface
         private readonly GetUserConsentedAuthenticationScopesQueryInterface $getUserConsentedAuthenticationScopesQuery,
         private readonly GetAccessTokenQueryInterface $getAccessTokenQuery,
         private readonly DeleteAccessTokensQueryInterface $deleteAccessTokensQuery,
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -74,7 +73,7 @@ class CreateAccessToken implements CreateAccessTokenInterface
         $accessToken = [
             'access_token' => $token,
             'token_type' => 'bearer',
-            'scope' => $scopeString
+            'scope' => $scopeString,
         ];
 
         return $this->appendOpenIdData($authCode, $appId, $accessToken);

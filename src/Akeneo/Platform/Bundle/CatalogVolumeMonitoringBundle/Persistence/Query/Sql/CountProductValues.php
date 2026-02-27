@@ -17,9 +17,7 @@ class CountProductValues implements CountQuery
 {
     private const VOLUME_NAME = 'count_product_values';
 
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     /**
      * {@inheritdoc}
@@ -27,9 +25,9 @@ class CountProductValues implements CountQuery
     public function fetch(): CountVolume
     {
         $sql = <<<SQL
-           SELECT SUM(JSON_LENGTH(JSON_EXTRACT(raw_values, '$.*.*.*'))) as sum_product_values
-           FROM pim_catalog_product
-SQL;
+                       SELECT SUM(JSON_LENGTH(JSON_EXTRACT(raw_values, '$.*.*.*'))) as sum_product_values
+                       FROM pim_catalog_product
+            SQL;
         $result = $this->connection->executeQuery($sql)->fetchAssociative();
 
         $volume = new CountVolume((int) $result['sum_product_values'], self::VOLUME_NAME);

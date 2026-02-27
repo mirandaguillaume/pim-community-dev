@@ -54,17 +54,17 @@ class RefreshCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $config = [
-            'batch_size' => (int)$input->getOption('batch-size'),
+            'batch_size' => (int) $input->getOption('batch-size'),
         ];
 
         $jobExecution = $this->jobExecutionFactory->createFromBatchCode(self::JOB_CODE, $config, null);
         $jobExecution = $this->jobExecutionRunner->executeFromJobExecutionId($jobExecution->getId());
 
         if (
-            ExitStatus::COMPLETED === $jobExecution->getExitStatus()->getExitCode() ||
-            (
-                ExitStatus::STOPPED === $jobExecution->getExitStatus()->getExitCode() &&
-                BatchStatus::STOPPED === $jobExecution->getStatus()->getValue()
+            ExitStatus::COMPLETED === $jobExecution->getExitStatus()->getExitCode()
+            || (
+                ExitStatus::STOPPED === $jobExecution->getExitStatus()->getExitCode()
+                && BatchStatus::STOPPED === $jobExecution->getStatus()->getValue()
             )
         ) {
             $output->writeln(sprintf('<info>Command %s was succesfully executed.</info>', $this->getName()));

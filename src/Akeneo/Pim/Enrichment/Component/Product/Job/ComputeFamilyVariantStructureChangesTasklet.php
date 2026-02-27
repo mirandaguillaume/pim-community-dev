@@ -40,8 +40,7 @@ class ComputeFamilyVariantStructureChangesTasklet implements TaskletInterface
         private readonly ValidatorInterface $validator,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly int $batchSize = 100
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -83,8 +82,8 @@ class ComputeFamilyVariantStructureChangesTasklet implements TaskletInterface
             'filters' => [
                 ['field' => 'entity_type', 'operator' => Operators::EQUALS, 'value' => ProductModelInterface::class],
                 ['field' => 'family_variant', 'operator' => Operators::IN_LIST, 'value' => [$familyVariant]],
-                ['field' => 'parent', 'operator' => Operators::IS_EMPTY, 'value' => null]
-            ]
+                ['field' => 'parent', 'operator' => Operators::IS_EMPTY, 'value' => null],
+            ],
         ]);
 
         $this->updateValuesOfEntities($pmqb->execute());
@@ -96,8 +95,8 @@ class ComputeFamilyVariantStructureChangesTasklet implements TaskletInterface
             'filters' => [
                 ['field' => 'entity_type', 'operator' => Operators::EQUALS, 'value' => ProductInterface::class],
                 ['field' => 'family_variant', 'operator' => Operators::IN_LIST, 'value' => [$familyVariant]],
-                ['field' => 'parent', 'operator' => Operators::IS_NOT_EMPTY, 'value' => null]
-            ]
+                ['field' => 'parent', 'operator' => Operators::IS_NOT_EMPTY, 'value' => null],
+            ],
         ]);
 
         $this->updateValuesOfEntities($pmqb->execute());
@@ -109,8 +108,8 @@ class ComputeFamilyVariantStructureChangesTasklet implements TaskletInterface
             'filters' => [
                 ['field' => 'entity_type', 'operator' => Operators::EQUALS, 'value' => ProductModelInterface::class],
                 ['field' => 'family_variant', 'operator' => Operators::IN_LIST, 'value' => [$familyVariant]],
-                ['field' => 'parent', 'operator' => Operators::IS_NOT_EMPTY, 'value' => null]
-            ]
+                ['field' => 'parent', 'operator' => Operators::IS_NOT_EMPTY, 'value' => null],
+            ],
         ]);
 
         $this->updateValuesOfEntities($pmqb->execute());

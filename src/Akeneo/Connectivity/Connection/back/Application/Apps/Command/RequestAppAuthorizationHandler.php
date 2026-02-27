@@ -22,8 +22,7 @@ class RequestAppAuthorizationHandler
         private readonly ValidatorInterface $validator,
         private readonly AppAuthorizationSessionInterface $session,
         private readonly ScopeMapperRegistry $scopeMapper,
-    ) {
-    }
+    ) {}
 
     public function handle(RequestAppAuthorizationCommand $command): void
     {

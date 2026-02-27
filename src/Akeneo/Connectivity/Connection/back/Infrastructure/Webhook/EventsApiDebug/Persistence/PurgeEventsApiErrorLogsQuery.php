@@ -14,9 +14,7 @@ use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
  */
 class PurgeEventsApiErrorLogsQuery
 {
-    public function __construct(private readonly Client $esClient)
-    {
-    }
+    public function __construct(private readonly Client $esClient) {}
 
     public function execute(\DateTimeImmutable $olderThanDatetime): void
     {
@@ -38,7 +36,7 @@ class PurgeEventsApiErrorLogsQuery
                             'terms' => [
                                 'level' => [
                                     EventsApiDebugLogLevels::ERROR,
-                                    EventsApiDebugLogLevels::WARNING
+                                    EventsApiDebugLogLevels::WARNING,
                                 ],
                             ],
                         ],

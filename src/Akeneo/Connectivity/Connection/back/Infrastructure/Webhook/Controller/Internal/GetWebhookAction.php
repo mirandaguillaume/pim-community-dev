@@ -14,8 +14,7 @@ final readonly class GetWebhookAction
 {
     public function __construct(
         private GetAConnectionWebhookHandler $getAConnectionWebhookHandler,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): JsonResponse
     {

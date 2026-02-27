@@ -19,8 +19,7 @@ class RequeuePausedJobSubscriber implements EventSubscriberInterface
     public function __construct(
         private readonly JobExecutionQueueInterface $jobExecutionQueue,
         private readonly LoggerInterface $logger,
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

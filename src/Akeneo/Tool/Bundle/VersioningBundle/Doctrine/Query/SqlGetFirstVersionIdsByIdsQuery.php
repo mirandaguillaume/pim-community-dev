@@ -13,9 +13,7 @@ use Doctrine\DBAL\Connection;
  */
 class SqlGetFirstVersionIdsByIdsQuery
 {
-    public function __construct(private readonly Connection $dbConnection)
-    {
-    }
+    public function __construct(private readonly Connection $dbConnection) {}
 
     public function execute(array $versionIds): array
     {
@@ -24,10 +22,10 @@ class SqlGetFirstVersionIdsByIdsQuery
         }
 
         $query = <<<SQL
-SELECT id 
-FROM pim_versioning_version
-WHERE id IN (:version_ids) AND version = 1; 
-SQL;
+            SELECT id 
+            FROM pim_versioning_version
+            WHERE id IN (:version_ids) AND version = 1; 
+            SQL;
 
         $results = $this->dbConnection->executeQuery(
             $query,

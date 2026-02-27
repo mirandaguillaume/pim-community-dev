@@ -20,8 +20,8 @@ final class NumberToMetricDataConverter implements ValueDataConverter
      */
     public function supportsAttributes(AttributeInterface $sourceAttribute, AttributeInterface $targetAttribute): bool
     {
-        return AttributeTypes::NUMBER === $sourceAttribute->getType() &&
-            AttributeTypes::METRIC === $targetAttribute->getType();
+        return AttributeTypes::NUMBER === $sourceAttribute->getType()
+            && AttributeTypes::METRIC === $targetAttribute->getType();
     }
 
     /**

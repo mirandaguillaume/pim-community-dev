@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class AllAttributesUseableInGridConfiguratorSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         AttributeRepositoryInterface $attributeRepository,
         UserContext $userContext,
         RequestParameters $requestParams,
@@ -20,7 +20,7 @@ class AllAttributesUseableInGridConfiguratorSpec extends ObjectBehavior
         $this->beConstructedWith($attributeRepository, $userContext, $requestParams, $requestStack);
     }
 
-    function it_is_a_datagrid_configurator()
+    public function it_is_a_datagrid_configurator()
     {
         $this->shouldImplement(ConfiguratorInterface::class);
     }

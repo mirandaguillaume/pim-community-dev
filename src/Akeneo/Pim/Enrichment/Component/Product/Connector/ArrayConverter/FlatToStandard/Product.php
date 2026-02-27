@@ -254,15 +254,15 @@ class Product implements ArrayConverterInterface
 
         $messages = [];
         if (0 < count($unknownFields)) {
-            $messages[] = count($unknownFields) > 1 ?
-                sprintf('The fields "%s" do not exist.', implode(', ', $unknownFields)) :
-                sprintf('The field "%s" does not exist.', $unknownFields[0]);
+            $messages[] = count($unknownFields) > 1
+                ? sprintf('The fields "%s" do not exist.', implode(', ', $unknownFields))
+                : sprintf('The field "%s" does not exist.', $unknownFields[0]);
         }
         foreach ($nonLocalizableOrScopableFields as $nonLocalizableOrScopableField) {
             $messages[] = sprintf(
-                'The field "%s" needs an additional locale and/or a channel information; ' .
-                    'in order to do that, please set the code as follow: ' .
-                    '\'%s-[locale_code]-[channel_code]\'.',
+                'The field "%s" needs an additional locale and/or a channel information; '
+                    . 'in order to do that, please set the code as follow: '
+                    . '\'%s-[locale_code]-[channel_code]\'.',
                 $nonLocalizableOrScopableField,
                 $nonLocalizableOrScopableField
             );
@@ -323,8 +323,8 @@ class Product implements ArrayConverterInterface
             $found = false;
             foreach ($attributes as $attribute) {
                 if (
-                    $attribute->getCode() === $attributeCode &&
-                    ($attribute->isLocalizable() || $attribute->isScopable())
+                    $attribute->getCode() === $attributeCode
+                    && ($attribute->isLocalizable() || $attribute->isScopable())
                 ) {
                     $found = true;
                 }
@@ -363,6 +363,6 @@ class Product implements ArrayConverterInterface
 
     private function filterQualityScoreFields(array $mappedItem): array
     {
-        return array_filter($mappedItem, fn ($field) => !str_starts_with((string) $field, sprintf('%s-', GetProductsWithQualityScoresInterface::FLAT_FIELD_PREFIX)), ARRAY_FILTER_USE_KEY);
+        return array_filter($mappedItem, fn($field) => !str_starts_with((string) $field, sprintf('%s-', GetProductsWithQualityScoresInterface::FLAT_FIELD_PREFIX)), ARRAY_FILTER_USE_KEY);
     }
 }

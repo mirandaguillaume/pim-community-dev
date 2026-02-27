@@ -20,8 +20,7 @@ class SqlFindFamiliesWithLabels implements FindFamiliesWithLabels
     public function __construct(
         private readonly Connection $connection,
         private readonly FindFamilyCodes $findFamilyCodes,
-    ) {
-    }
+    ) {}
 
     public function fromQuery(FamilyQuery $query): array
     {
@@ -32,12 +31,12 @@ class SqlFindFamiliesWithLabels implements FindFamiliesWithLabels
         }
 
         $sql = <<<SQL
-            SELECT DISTINCT family.code, translation.label, translation.locale
-            FROM pim_catalog_family family
-            LEFT JOIN pim_catalog_family_translation translation ON family.id = translation.foreign_key
-            WHERE family.code IN (:family_codes)
-            ORDER BY family.code
-        SQL;
+                SELECT DISTINCT family.code, translation.label, translation.locale
+                FROM pim_catalog_family family
+                LEFT JOIN pim_catalog_family_translation translation ON family.id = translation.foreign_key
+                WHERE family.code IN (:family_codes)
+                ORDER BY family.code
+            SQL;
 
         $statement = $this->connection->executeQuery(
             $sql,

@@ -11,9 +11,7 @@ namespace Akeneo\Connectivity\Connection\Domain\Settings\Model\Read;
  */
 class Client
 {
-    public function __construct(private readonly int $id, private readonly string $clientId, private readonly string $secret)
-    {
-    }
+    public function __construct(private readonly int $id, private readonly string $clientId, private readonly string $secret) {}
 
     public function id(): int
     {

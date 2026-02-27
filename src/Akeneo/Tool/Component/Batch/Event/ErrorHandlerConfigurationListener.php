@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Akeneo\Tool\Component\Batch\Event;
 
 use Monolog\ErrorHandler;
@@ -13,9 +12,7 @@ use Symfony\Component\Console\Event\ConsoleCommandEvent;
  */
 class ErrorHandlerConfigurationListener
 {
-    public function __construct(private readonly Logger $logger, private readonly string $environment)
-    {
-    }
+    public function __construct(private readonly Logger $logger, private readonly string $environment) {}
 
     public function onConsoleCommand(ConsoleCommandEvent $consoleCommandEvent)
     {

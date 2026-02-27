@@ -47,9 +47,9 @@ class CategoryProductsCounter implements CategoryItemsCounterInterface
                 [
                     'field' => 'categories',
                     'operator' => Operators::IN_LIST,
-                    'value' => $categoryCodes
-                ]
-            ]
+                    'value' => $categoryCodes,
+                ],
+            ],
         ];
 
         $pqb = $this->pqbFactory->create($options);

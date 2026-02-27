@@ -13,9 +13,7 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class HasUserConsentForAppQuery implements HasUserConsentForAppQueryInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function execute(int $userId, string $appId): bool
     {

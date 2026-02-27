@@ -35,8 +35,7 @@ final readonly class ConnectedAppFactory
         private CreateConnectedAppInterface $createApp,
         private DbalConnection $dbalConnection,
         private UserRepositoryInterface $userRepository,
-    ) {
-    }
+    ) {}
 
     public function createFakeConnectedAppWithValidToken(
         string $id,
@@ -105,10 +104,10 @@ final readonly class ConnectedAppFactory
     private function findConnectionUser(string $code): UserInterface
     {
         $query = <<<SQL
-SELECT user_id
-FROM akeneo_connectivity_connection
-WHERE code = :code
-SQL;
+            SELECT user_id
+            FROM akeneo_connectivity_connection
+            WHERE code = :code
+            SQL;
 
         $id = $this->dbalConnection->fetchOne($query, [
             'code' => $code,

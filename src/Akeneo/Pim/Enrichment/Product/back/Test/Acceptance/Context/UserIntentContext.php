@@ -52,8 +52,7 @@ final class UserIntentContext implements Context
     public function __construct(
         private readonly ExceptionContext $exceptionContext,
         private readonly MessageBusInterface $queryMessageBus
-    ) {
-    }
+    ) {}
 
     /**
      * @BeforeScenario
@@ -91,7 +90,7 @@ final class UserIntentContext implements Context
                 'bundle' => [
                     'products' => [['identifier' => 'associated_product', 'quantity' => 12]],
                     'product_models' => [['identifier' => 'associated_product_model', 'quantity' => 21]],
-                ]
+                ],
             ],
             'values' => [
                 'ean' => [['data' => '123456789', 'scope' => null, 'locale' => null]],
@@ -177,7 +176,7 @@ final class UserIntentContext implements Context
                 'bundle' => [
                     'products' => [['identifier' => 'associated_product', 'quantity' => 12]],
                     'product_models' => [['identifier' => 'associated_product_model', 'quantity' => 21]],
-                ]
+                ],
             ],
             'values' => [
                 'ean' => [['data' => '123456789', 'scope' => null, 'locale' => null]],

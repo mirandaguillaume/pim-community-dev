@@ -9,12 +9,12 @@ use Prophecy\Exception\Prediction\FailedPredictionException;
 
 class JSONFileBufferSpec extends ObjectBehavior
 {
-    function it_is_a_buffer()
+    public function it_is_a_buffer()
     {
         $this->shouldImplement(BufferInterface::class);
     }
 
-    function it_writes_and_reads_several_items_fifo_style()
+    public function it_writes_and_reads_several_items_fifo_style()
     {
         $items = ['item_1', 'item_2', 'item_3'];
         foreach ($items as $item) {
@@ -30,11 +30,12 @@ class JSONFileBufferSpec extends ObjectBehavior
             throw new FailedPredictionException(sprintf(
                 'Expected items "%s", got "%s"',
                 implode(', ', $items),
-                implode(', ', $readItems)));
+                implode(', ', $readItems)
+            ));
         }
     }
 
-    function it_supports_only_scalar_and_array_items()
+    public function it_supports_only_scalar_and_array_items()
     {
         $this->write('scalar');
         $this->write(['scalar']);
@@ -43,7 +44,7 @@ class JSONFileBufferSpec extends ObjectBehavior
         ->during('write', [new \stdClass()]);
     }
 
-    function it_switches_correctly_between_write_and_read_mode()
+    public function it_switches_correctly_between_write_and_read_mode()
     {
         $this->write('item_1');
         $this->write('item_2');
@@ -64,7 +65,8 @@ class JSONFileBufferSpec extends ObjectBehavior
             throw new FailedPredictionException(sprintf(
                 'Expected items "%s", got "%s"',
                 implode(', ', $items),
-                implode(', ', $readItems)));
+                implode(', ', $readItems)
+            ));
         }
     }
 }

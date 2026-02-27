@@ -155,7 +155,7 @@ final class CleanCompletenessEvaluationResultsCommandIntegration extends DataQua
                     1 => [39 => 42, 58 => 42],
                     2 => [39 => 42],
                 ],
-            ]
+            ],
         ];
     }
 
@@ -172,22 +172,22 @@ final class CleanCompletenessEvaluationResultsCommandIntegration extends DataQua
                     1 => [39 => $numberOfAttributes, 58 => $numberOfAttributes],
                     2 => [39 => $numberOfAttributes],
                 ],
-            ]
+            ],
         ];
     }
 
     private function updateProductCriterionResult(UuidInterface $productUuid, string $criterionCode, array $result): void
     {
         $query = <<<SQL
-UPDATE pim_data_quality_insights_product_criteria_evaluation
-SET result = :result 
-WHERE product_uuid = :productUuid AND criterion_code = :criterionCode;
-SQL;
+            UPDATE pim_data_quality_insights_product_criteria_evaluation
+            SET result = :result 
+            WHERE product_uuid = :productUuid AND criterion_code = :criterionCode;
+            SQL;
 
         $this->dbConnection->executeQuery($query, [
             'productUuid' => $productUuid->getBytes(),
             'criterionCode' => $criterionCode,
-            'result' => \json_encode($result, JSON_THROW_ON_ERROR)
+            'result' => \json_encode($result, JSON_THROW_ON_ERROR),
         ], [
             'productUuid' => \PDO::PARAM_STR,
         ]);
@@ -196,13 +196,13 @@ SQL;
     private function getProductCriterionResult(UuidInterface $productUuid, string $criterionCode): ?array
     {
         $query = <<<SQL
-SELECT result FROM pim_data_quality_insights_product_criteria_evaluation
-WHERE product_uuid = :productUuid AND criterion_code = :criterionCode;
-SQL;
+            SELECT result FROM pim_data_quality_insights_product_criteria_evaluation
+            WHERE product_uuid = :productUuid AND criterion_code = :criterionCode;
+            SQL;
 
         $result = $this->dbConnection->executeQuery($query, [
             'productUuid' => $productUuid->getBytes(),
-            'criterionCode' => $criterionCode
+            'criterionCode' => $criterionCode,
         ], [
             'productUuid' => \PDO::PARAM_STR,
         ])->fetchOne();
@@ -217,15 +217,15 @@ SQL;
         $dirtyResult = $this->buildDirtyResult([34, 6, 76]);
 
         $query = <<<SQL
-UPDATE pim_data_quality_insights_product_model_criteria_evaluation
-SET result = :result 
-WHERE product_id = :productModelId AND criterion_code = :criterionCode;
-SQL;
+            UPDATE pim_data_quality_insights_product_model_criteria_evaluation
+            SET result = :result 
+            WHERE product_id = :productModelId AND criterion_code = :criterionCode;
+            SQL;
 
         $this->dbConnection->executeQuery($query, [
             'productModelId' => $productModelId,
             'criterionCode' => EvaluateCompletenessOfNonRequiredAttributes::CRITERION_CODE,
-            'result' => \json_encode($dirtyResult, JSON_THROW_ON_ERROR)
+            'result' => \json_encode($dirtyResult, JSON_THROW_ON_ERROR),
         ]);
 
         return $productModelId;
@@ -234,13 +234,13 @@ SQL;
     private function assertDirtyProductModelHasBeenCleaned(int $productModelId): void
     {
         $query = <<<SQL
-SELECT result FROM pim_data_quality_insights_product_model_criteria_evaluation
-WHERE product_id = :productModelId AND criterion_code = :criterionCode;
-SQL;
+            SELECT result FROM pim_data_quality_insights_product_model_criteria_evaluation
+            WHERE product_id = :productModelId AND criterion_code = :criterionCode;
+            SQL;
 
         $result = $this->dbConnection->executeQuery($query, [
             'productModelId' => $productModelId,
-            'criterionCode' => EvaluateCompletenessOfNonRequiredAttributes::CRITERION_CODE
+            'criterionCode' => EvaluateCompletenessOfNonRequiredAttributes::CRITERION_CODE,
         ])->fetchOne();
 
         $this->assertEquals(\json_decode((string) $result, true, 512, JSON_THROW_ON_ERROR), $this->buildCleanResult(3), 'The completeness results should have been cleaned for the dirty product model');

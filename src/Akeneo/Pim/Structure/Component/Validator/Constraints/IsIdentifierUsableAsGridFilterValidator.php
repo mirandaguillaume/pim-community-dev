@@ -24,9 +24,9 @@ class IsIdentifierUsableAsGridFilterValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint, IsIdentifierUsableAsGridFilter::class);
         }
 
-        if ($attribute instanceof AttributeInterface &&
-            AttributeTypes::IDENTIFIER === $attribute->getType() &&
-            !$attribute->isUseableAsGridFilter()
+        if ($attribute instanceof AttributeInterface
+            && AttributeTypes::IDENTIFIER === $attribute->getType()
+            && !$attribute->isUseableAsGridFilter()
         ) {
             $this->context
                 ->buildViolation($constraint->message)

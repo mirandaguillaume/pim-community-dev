@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Subscriber\Product;
@@ -25,8 +26,7 @@ final readonly class InitializeEvaluationOfAProductSubscriber implements EventSu
         private CreateCriteriaEvaluations       $createProductsCriteriaEvaluations,
         private LoggerInterface                 $logger,
         private ProductEntityIdFactoryInterface $idFactory
-    ) {
-    }
+    ) {}
 
     public static function getSubscribedEvents(): array
     {

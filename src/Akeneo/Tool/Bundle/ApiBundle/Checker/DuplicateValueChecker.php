@@ -30,9 +30,9 @@ class DuplicateValueChecker
      */
     public function check(mixed $data): void
     {
-        if (!is_array($data) ||
-            !isset($data['values']) ||
-            !is_array($data['values'])
+        if (!is_array($data)
+            || !isset($data['values'])
+            || !is_array($data['values'])
         ) {
             return;
         }

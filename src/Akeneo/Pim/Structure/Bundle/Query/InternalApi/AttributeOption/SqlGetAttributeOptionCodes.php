@@ -15,20 +15,18 @@ final readonly class SqlGetAttributeOptionCodes implements GetAttributeOptionCod
 {
     private const BATCH_QUERY_SIZE = 1000;
 
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function forAttributeCode(string $attributeCode): \Iterator
     {
         $sql = <<<SQL
-        SELECT ao.id, ao.code
-        FROM pim_catalog_attribute_option ao
-            JOIN pim_catalog_attribute a ON a.id = ao.attribute_id
-        WHERE a.code = :attributeCode AND ao.id > :searchAfterId
-        ORDER BY ao.id
-        LIMIT :limit
-        SQL;
+            SELECT ao.id, ao.code
+            FROM pim_catalog_attribute_option ao
+                JOIN pim_catalog_attribute a ON a.id = ao.attribute_id
+            WHERE a.code = :attributeCode AND ao.id > :searchAfterId
+            ORDER BY ao.id
+            LIMIT :limit
+            SQL;
 
         $searchAfterId = 0;
         do {

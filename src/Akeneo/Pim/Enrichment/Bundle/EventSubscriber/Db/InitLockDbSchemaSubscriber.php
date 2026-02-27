@@ -16,26 +16,24 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class InitLockDbSchemaSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public static function getSubscribedEvents(): array
     {
         return [
-            InstallerEvents::POST_DB_CREATE => 'initDbSchema'
+            InstallerEvents::POST_DB_CREATE => 'initDbSchema',
         ];
     }
 
     public function initDbSchema(InstallerEvent $event): void
     {
         $sql = <<<SQL
-CREATE TABLE IF NOT EXISTS lock_keys (
-    key_id VARCHAR(64) NOT NULL PRIMARY KEY,
-    key_token VARCHAR(44) NOT NULL,
-    key_expiration INTEGER UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-SQL;
+            CREATE TABLE IF NOT EXISTS lock_keys (
+                key_id VARCHAR(64) NOT NULL PRIMARY KEY,
+                key_token VARCHAR(44) NOT NULL,
+                key_expiration INTEGER UNSIGNED NOT NULL
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+            SQL;
         $this->connection->executeStatement($sql);
     }
 }

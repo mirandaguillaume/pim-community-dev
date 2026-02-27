@@ -77,7 +77,6 @@ class AuthorizationCodeMustBeValidValidatorSpec extends ObjectBehavior
             ->shouldThrow(
                 UnexpectedTypeException::class
             )
-            ->during('validate', ['auth_code_1234', new class() extends Constraint {
-            }]);
+            ->during('validate', ['auth_code_1234', new class extends Constraint {}]);
     }
 }

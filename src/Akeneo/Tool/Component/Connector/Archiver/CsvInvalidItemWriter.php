@@ -46,7 +46,7 @@ class CsvInvalidItemWriter extends AbstractInvalidItemWriter
             'reader_options' => [
                 'fieldDelimiter' => $delimiter,
                 'fieldEnclosure' => $enclosure,
-            ]
+            ],
         ]);
         $fileIterator->rewind();
         $fileIterator->next();

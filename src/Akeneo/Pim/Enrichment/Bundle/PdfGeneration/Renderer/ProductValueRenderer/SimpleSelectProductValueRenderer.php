@@ -11,9 +11,7 @@ use Twig\Environment;
 
 class SimpleSelectProductValueRenderer implements ProductValueRenderer
 {
-    public function __construct(private readonly IdentifiableObjectRepositoryInterface $attributeOptionRepository)
-    {
-    }
+    public function __construct(private readonly IdentifiableObjectRepositoryInterface $attributeOptionRepository) {}
 
     public function render(Environment $environment, AttributeInterface $attribute, ?ValueInterface $value, string $localeCode): ?string
     {

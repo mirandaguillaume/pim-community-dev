@@ -17,14 +17,12 @@ class TranslationNormalizer implements NormalizerInterface, CacheableSupportsMet
     /**
      * @param IdentifiableObjectRepositoryInterface|null $localeRepository
      */
-    public function __construct(private readonly ?IdentifiableObjectRepositoryInterface $localeRepository = null)
-    {
-    }
+    public function __construct(private readonly ?IdentifiableObjectRepositoryInterface $localeRepository = null) {}
 
     /**
      * {@inheritdoc}
      */
-    public function normalize($object, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($object, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $context = array_merge(
             [

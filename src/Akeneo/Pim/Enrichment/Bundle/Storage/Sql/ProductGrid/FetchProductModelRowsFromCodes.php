@@ -24,8 +24,7 @@ final readonly class FetchProductModelRowsFromCodes implements FetchProductModel
         private Connection $connection,
         private WriteValueCollectionFactory $valueCollectionFactory,
         private ProductModelImagesFromCodes $productModelImagesFromCodes
-    ) {
-    }
+    ) {}
 
     /**
      * @param array  $codes
@@ -79,18 +78,18 @@ final readonly class FetchProductModelRowsFromCodes implements FetchProductModel
     private function getProperties(array $codes): array
     {
         $sql = <<<SQL
-            SELECT 
-                pm.id,
-                pm.code,
-                pm.created,
-                pm.updated,
-                parent.code as parent_code
-            FROM
-                pim_catalog_product_model pm
-                LEFT JOIN pim_catalog_product_model parent ON parent.id = pm.parent_id
-            WHERE 
-                pm.code IN (:codes)
-SQL;
+                        SELECT 
+                            pm.id,
+                            pm.code,
+                            pm.created,
+                            pm.updated,
+                            parent.code as parent_code
+                        FROM
+                            pim_catalog_product_model pm
+                            LEFT JOIN pim_catalog_product_model parent ON parent.id = pm.parent_id
+                        WHERE 
+                            pm.code IN (:codes)
+            SQL;
 
         $rows = $this->connection->executeQuery(
             $sql,
@@ -114,19 +113,19 @@ SQL;
         }
 
         $sql = <<<SQL
-            SELECT 
-                pm.code,
-                a_label.code as label_code,
-                a_label.is_localizable,
-                a_label.is_scopable
-            FROM
-                pim_catalog_product_model pm
-                JOIN pim_catalog_family_variant fv ON fv.id = pm.family_variant_id
-                JOIN pim_catalog_family f ON f.id = fv.family_id
-                JOIN pim_catalog_attribute a_label ON a_label.id = f.label_attribute_id
-            WHERE 
-                pm.code IN (:codes)
-SQL;
+                        SELECT 
+                            pm.code,
+                            a_label.code as label_code,
+                            a_label.is_localizable,
+                            a_label.is_scopable
+                        FROM
+                            pim_catalog_product_model pm
+                            JOIN pim_catalog_family_variant fv ON fv.id = pm.family_variant_id
+                            JOIN pim_catalog_family f ON f.id = fv.family_id
+                            JOIN pim_catalog_attribute a_label ON a_label.id = f.label_attribute_id
+                        WHERE 
+                            pm.code IN (:codes)
+            SQL;
 
         $rows = $this->connection->executeQuery(
             $sql,
@@ -178,22 +177,22 @@ SQL;
     private function getCompletenessesFor(array $productModelCodes): array
     {
         $sql = <<<SQL
-WITH descendant_product_uuids as ( 
-    SELECT code, product.uuid
-    FROM pim_catalog_product product
-        INNER JOIN pim_catalog_product_model product_model ON product_model.id = product.product_model_id
-    WHERE product_model.code IN (:codes)
-    UNION ALL
-    SELECT root_product_model.code, product.uuid
-    FROM pim_catalog_product product
-        INNER JOIN pim_catalog_product_model sub_product_model ON sub_product_model.id = product.product_model_id
-        INNER JOIN pim_catalog_product_model root_product_model ON root_product_model.id = sub_product_model.parent_id
-    WHERE root_product_model.code IN (:codes)
-)          
-    SELECT descendant_product_uuids.code, completeness
-    FROM pim_catalog_product_completeness completeness
-        JOIN descendant_product_uuids ON descendant_product_uuids.uuid = completeness.product_uuid
-SQL;
+            WITH descendant_product_uuids as ( 
+                SELECT code, product.uuid
+                FROM pim_catalog_product product
+                    INNER JOIN pim_catalog_product_model product_model ON product_model.id = product.product_model_id
+                WHERE product_model.code IN (:codes)
+                UNION ALL
+                SELECT root_product_model.code, product.uuid
+                FROM pim_catalog_product product
+                    INNER JOIN pim_catalog_product_model sub_product_model ON sub_product_model.id = product.product_model_id
+                    INNER JOIN pim_catalog_product_model root_product_model ON root_product_model.id = sub_product_model.parent_id
+                WHERE root_product_model.code IN (:codes)
+            )          
+                SELECT descendant_product_uuids.code, completeness
+                FROM pim_catalog_product_completeness completeness
+                    JOIN descendant_product_uuids ON descendant_product_uuids.uuid = completeness.product_uuid
+            SQL;
 
         return $this->connection->fetchAllAssociative(
             $sql,
@@ -214,17 +213,17 @@ SQL;
         }
 
         $sql = <<<SQL
-            SELECT 
-                pm.code,
-                COALESCE(ft.label, CONCAT("[", f.code, "]")) as family_label
-            FROM
-                pim_catalog_product_model pm
-                JOIN pim_catalog_family_variant fv ON fv.id = pm.family_variant_id
-                JOIN pim_catalog_family f ON f.id = fv.family_id
-                LEFT JOIN pim_catalog_family_translation ft ON ft.foreign_key = f.id AND ft.locale = :locale_code
-            WHERE 
-                pm.code IN (:codes)
-SQL;
+                        SELECT 
+                            pm.code,
+                            COALESCE(ft.label, CONCAT("[", f.code, "]")) as family_label
+                        FROM
+                            pim_catalog_product_model pm
+                            JOIN pim_catalog_family_variant fv ON fv.id = pm.family_variant_id
+                            JOIN pim_catalog_family f ON f.id = fv.family_id
+                            LEFT JOIN pim_catalog_family_translation ft ON ft.foreign_key = f.id AND ft.locale = :locale_code
+                        WHERE 
+                            pm.code IN (:codes)
+            SQL;
 
         $rows = $this->connection->executeQuery(
             $sql,
@@ -242,19 +241,19 @@ SQL;
     private function getValueCollection(array $codes, array $attributeCodes, string $channelCode, string $localeCode): array
     {
         $sql = <<<SQL
-            SELECT 
-                pm.code,
-                a_label.code attribute_as_label_code,
-                JSON_MERGE(COALESCE(parent.raw_values, '{}'), pm.raw_values) as raw_values
-            FROM
-                pim_catalog_product_model pm
-                JOIN pim_catalog_family_variant fv ON fv.id = pm.family_variant_id
-                JOIN pim_catalog_family f ON f.id = fv.family_id
-                LEFT JOIN pim_catalog_attribute a_label ON a_label.id = f.label_attribute_id
-                LEFT JOIN pim_catalog_product_model parent on parent.id = pm.parent_id
-            WHERE 
-                pm.code IN (:codes)
-SQL;
+                        SELECT 
+                            pm.code,
+                            a_label.code attribute_as_label_code,
+                            JSON_MERGE(COALESCE(parent.raw_values, '{}'), pm.raw_values) as raw_values
+                        FROM
+                            pim_catalog_product_model pm
+                            JOIN pim_catalog_family_variant fv ON fv.id = pm.family_variant_id
+                            JOIN pim_catalog_family f ON f.id = fv.family_id
+                            LEFT JOIN pim_catalog_attribute a_label ON a_label.id = f.label_attribute_id
+                            LEFT JOIN pim_catalog_product_model parent on parent.id = pm.parent_id
+                        WHERE 
+                            pm.code IN (:codes)
+            SQL;
 
         $rows = $this->connection->executeQuery(
             $sql,
@@ -283,7 +282,7 @@ SQL;
 
         foreach ($valueCollections as $productModelCode => $valueCollection) {
             $result[$productModelCode]['value_collection'] = $valueCollection->filter(
-                fn (ValueInterface $value) => ($value->getScopeCode() === $channelCode || $value->getScopeCode() === null)
+                fn(ValueInterface $value) => ($value->getScopeCode() === $channelCode || $value->getScopeCode() === null)
                     && ($value->getLocaleCode() === $localeCode || $value->getLocaleCode() === null)
             );
         }

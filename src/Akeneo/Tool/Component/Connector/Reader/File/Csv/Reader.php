@@ -173,7 +173,7 @@ class Reader implements FileReaderInterface, TrackableItemReaderInterface, Initi
                     '%totalColumnsCount%' => $countHeaders,
                     '%itemColumnsCount%'  => $countData,
                     '%filePath%'          => $filePath,
-                    '%lineno%'            => $this->fileIterator->key()
+                    '%lineno%'            => $this->fileIterator->key(),
                 ]
             );
         }

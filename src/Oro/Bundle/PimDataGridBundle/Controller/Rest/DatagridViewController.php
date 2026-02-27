@@ -33,9 +33,7 @@ use Webmozart\Assert\Assert;
  */
 class DatagridViewController
 {
-    public function __construct(protected NormalizerInterface $normalizer, protected DatagridViewRepositoryInterface $datagridViewRepo, protected TokenStorageInterface $tokenStorage, protected DatagridViewManager $datagridViewManager, protected SaverInterface $saver, protected RemoverInterface $remover, protected ValidatorInterface $validator, protected TranslatorInterface $translator, protected CollectionFilterInterface $datagridViewFilter, protected ObjectUpdaterInterface $updater, protected SimpleFactoryInterface $factory)
-    {
-    }
+    public function __construct(protected NormalizerInterface $normalizer, protected DatagridViewRepositoryInterface $datagridViewRepo, protected TokenStorageInterface $tokenStorage, protected DatagridViewManager $datagridViewManager, protected SaverInterface $saver, protected RemoverInterface $remover, protected ValidatorInterface $validator, protected TranslatorInterface $translator, protected CollectionFilterInterface $datagridViewFilter, protected ObjectUpdaterInterface $updater, protected SimpleFactoryInterface $factory) {}
 
     /**
      * Return the list of all Datagrid Views that belong to the current user for the given $alias grid.
@@ -60,11 +58,11 @@ class DatagridViewController
 
         $viewsInPage = array_slice(
             $filteredViews,
-            ($options['page']-1)*$options['limit'],
+            ($options['page'] - 1) * $options['limit'],
             $options['limit']
         );
 
-        $moreResults = (is_countable($filteredViews) ? count($filteredViews) : 0) > $options['page']*$options['limit'];
+        $moreResults = (is_countable($filteredViews) ? count($filteredViews) : 0) > $options['page'] * $options['limit'];
 
         return new JsonResponse([
             'results' => $this->normalizer->normalize($viewsInPage, 'internal_api'),

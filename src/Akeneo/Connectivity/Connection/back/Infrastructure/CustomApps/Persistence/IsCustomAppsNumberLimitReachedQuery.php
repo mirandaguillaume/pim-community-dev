@@ -17,15 +17,14 @@ class IsCustomAppsNumberLimitReachedQuery implements IsCustomAppsNumberLimitReac
     public function __construct(
         private readonly Connection $connection,
         private readonly GetCustomAppsNumberLimit $getCustomAppsNumberLimit,
-    ) {
-    }
+    ) {}
 
     public function execute(): bool
     {
         $sql = <<<SQL
-SELECT COUNT(*) as count
-FROM akeneo_connectivity_test_app;
-SQL;
+            SELECT COUNT(*) as count
+            FROM akeneo_connectivity_test_app;
+            SQL;
 
         $customAppsCount = (int) $this->connection->executeQuery($sql)->fetchOne();
 

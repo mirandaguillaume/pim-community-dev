@@ -15,16 +15,15 @@ final readonly class IsAccessTokenRevokedQuery implements IsAccessTokenRevokedQu
 {
     public function __construct(
         private Connection $connection,
-    ) {
-    }
+    ) {}
 
     public function execute(string $token): bool
     {
         $query = <<<SQL
-SELECT COUNT(*)
-FROM akeneo_connectivity_revoked_app_token
-WHERE token = :token
-SQL;
+            SELECT COUNT(*)
+            FROM akeneo_connectivity_revoked_app_token
+            WHERE token = :token
+            SQL;
 
         return (bool) $this->connection->fetchOne($query, [
             'token' => $token,

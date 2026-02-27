@@ -9,9 +9,7 @@ use Doctrine\DBAL\Exception;
 
 final readonly class GetEnrichedValuesPerCategoryCodeSql implements GetEnrichedValuesPerCategoryCode
 {
-    public function __construct(private Connection $dbalConnection)
-    {
-    }
+    public function __construct(private Connection $dbalConnection) {}
 
     /**
      * @throws Exception
@@ -22,11 +20,11 @@ final readonly class GetEnrichedValuesPerCategoryCodeSql implements GetEnrichedV
         $offset = 0;
         while (true) {
             $query = <<<SQL
-            SELECT code, value_collection
-            FROM pim_catalog_category category
-            WHERE category.value_collection IS NOT NULL
-            LIMIT :limit OFFSET :offset
-        SQL;
+                    SELECT code, value_collection
+                    FROM pim_catalog_category category
+                    WHERE category.value_collection IS NOT NULL
+                    LIMIT :limit OFFSET :offset
+                SQL;
 
             $data = $this->dbalConnection->fetchAllAssociative(
                 $query,

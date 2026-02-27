@@ -16,9 +16,7 @@ use Ramsey\Uuid\UuidInterface;
  */
 class SqlGetProductUuids implements GetProductUuids
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function fromIdentifier(string $identifier): ?UuidInterface
     {
@@ -35,19 +33,19 @@ class SqlGetProductUuids implements GetProductUuids
 
         $result = $this->connection->fetchAllAssociative(
             <<<SQL
-WITH main_identifier AS (
-    SELECT id
-    FROM pim_catalog_attribute
-    WHERE main_identifier = 1
-    LIMIT 1
-)
-SELECT BIN_TO_UUID(uuid) AS uuid, pim_catalog_product_unique_data.raw_data AS identifier
-FROM pim_catalog_product
-LEFT JOIN pim_catalog_product_unique_data
-    ON pim_catalog_product.uuid = pim_catalog_product_unique_data.product_uuid
-    AND pim_catalog_product_unique_data.attribute_id = (SELECT id FROM main_identifier)
-WHERE raw_data in (:identifiers)
-SQL,
+                WITH main_identifier AS (
+                    SELECT id
+                    FROM pim_catalog_attribute
+                    WHERE main_identifier = 1
+                    LIMIT 1
+                )
+                SELECT BIN_TO_UUID(uuid) AS uuid, pim_catalog_product_unique_data.raw_data AS identifier
+                FROM pim_catalog_product
+                LEFT JOIN pim_catalog_product_unique_data
+                    ON pim_catalog_product.uuid = pim_catalog_product_unique_data.product_uuid
+                    AND pim_catalog_product_unique_data.attribute_id = (SELECT id FROM main_identifier)
+                WHERE raw_data in (:identifiers)
+                SQL,
             ['identifiers' => $identifiers],
             ['identifiers' => ArrayParameterType::STRING]
         );
@@ -74,10 +72,10 @@ SQL,
         return \array_reduce(
             $this->connection->fetchFirstColumn(
                 'SELECT BIN_TO_UUID(uuid) FROM pim_catalog_product WHERE uuid IN (:uuids)',
-                ['uuids' => \array_map(static fn (UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],
+                ['uuids' => \array_map(static fn(UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],
                 ['uuids' => ArrayParameterType::STRING],
             ),
-            static fn (array $carry, string $uuid): array => $carry + [$uuid => Uuid::fromString($uuid)],
+            static fn(array $carry, string $uuid): array => $carry + [$uuid => Uuid::fromString($uuid)],
             []
         );
     }

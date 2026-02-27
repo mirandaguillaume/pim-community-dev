@@ -20,8 +20,7 @@ class FilesystemsPurger implements FilesystemsPurgerInterface
         private readonly JobLauncherInterface $jobLauncher,
         private readonly IdentifiableObjectRepositoryInterface $jobInstanceRepository,
         private readonly TokenStorageInterface $tokenStorage,
-    ) {
-    }
+    ) {}
 
     public function execute(): void
     {

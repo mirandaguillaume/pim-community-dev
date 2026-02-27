@@ -18,9 +18,7 @@ use Webmozart\Assert\Assert;
  */
 final class AttributeGroupShouldBeEditableValidator extends ConstraintValidator
 {
-    public function __construct(private readonly IsAttributeEditable $isAttributeEditable)
-    {
-    }
+    public function __construct(private readonly IsAttributeEditable $isAttributeEditable) {}
 
     public function validate($valueUserIntent, Constraint $constraint): void
     {

@@ -148,8 +148,8 @@ class Cursor extends AbstractCursor
             if (!$this->repository instanceof CursorableRepositoryInterface) {
                 throw new LogicException(
                     sprintf(
-                        '"%s" repository must implement ' .
-                        '"Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\ORM\Repository\CursorableRepositoryInterface"',
+                        '"%s" repository must implement '
+                        . '"Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\ORM\Repository\CursorableRepositoryInterface"',
                         $entityClass
                     )
                 );

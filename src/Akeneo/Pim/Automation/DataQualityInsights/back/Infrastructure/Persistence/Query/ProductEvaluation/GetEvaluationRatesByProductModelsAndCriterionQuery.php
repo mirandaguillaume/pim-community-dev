@@ -21,18 +21,17 @@ final readonly class GetEvaluationRatesByProductModelsAndCriterionQuery implemen
     public function __construct(
         private Connection                            $dbConnection,
         private TransformCriterionEvaluationResultIds $transformCriterionEvaluationResultIds
-    ) {
-    }
+    ) {}
 
     public function execute(ProductEntityIdCollection $productIdCollection, CriterionCode $criterionCode): array
     {
         $ratesPath = sprintf('$."%s"', TransformCriterionEvaluationResultCodes::PROPERTIES_ID['rates']);
 
         $query = <<<SQL
-SELECT product_id, JSON_EXTRACT(result, '$ratesPath') AS rates
-FROM pim_data_quality_insights_product_model_criteria_evaluation
-WHERE product_id IN (:productIds) AND criterion_code = :criterionCode;
-SQL;
+            SELECT product_id, JSON_EXTRACT(result, '$ratesPath') AS rates
+            FROM pim_data_quality_insights_product_model_criteria_evaluation
+            WHERE product_id IN (:productIds) AND criterion_code = :criterionCode;
+            SQL;
 
         $stmt = $this->dbConnection->executeQuery(
             $query,

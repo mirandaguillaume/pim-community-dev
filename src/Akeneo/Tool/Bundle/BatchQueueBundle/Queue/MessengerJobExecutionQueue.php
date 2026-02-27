@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Tool\Bundle\BatchQueueBundle\Queue;
@@ -15,9 +16,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
  */
 final readonly class MessengerJobExecutionQueue implements JobExecutionQueueInterface
 {
-    public function __construct(private MessageBusInterface $bus)
-    {
-    }
+    public function __construct(private MessageBusInterface $bus) {}
 
     public function publish(JobExecutionMessageInterface $jobExecutionMessage): void
     {

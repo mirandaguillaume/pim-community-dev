@@ -47,8 +47,7 @@ class AttributeGroupController
         private readonly SaverInterface $saver,
         private readonly StreamResourceResponse $partialUpdateStreamResource,
         private readonly array $apiConfiguration,
-    ) {
-    }
+    ) {}
 
     /**
      * @param string  $code

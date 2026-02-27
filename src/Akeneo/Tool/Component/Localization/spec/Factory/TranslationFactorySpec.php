@@ -9,17 +9,17 @@ use Akeneo\Pim\Structure\Component\Model\AttributeGroupTranslation;
 
 class TranslationFactorySpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->beConstructedWith(
-             AttributeGroupTranslation::class,
+            AttributeGroupTranslation::class,
             'Pim\Bundle\TranslationBundle\Tests\Entity\Item',
             'bar'
         );
         $this->shouldHaveType(TranslationFactory::class);
     }
 
-    function it_creates_a_translation()
+    public function it_creates_a_translation()
     {
         $this->beConstructedWith(
             AttributeGroupTranslation::class,
@@ -34,7 +34,7 @@ class TranslationFactorySpec extends ObjectBehavior
             ->shouldReturn('en_US');
     }
 
-    function it_throws_an_exception_when_an_invalid_translation_class_is_provided()
+    public function it_throws_an_exception_when_an_invalid_translation_class_is_provided()
     {
         $this->beConstructedWith(
             LocaleInterface::class,

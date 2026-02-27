@@ -22,8 +22,7 @@ final class GetWeeklyAuditAction extends AbstractAuditAction
     public function __construct(
         private readonly UserContext $userContext,
         private readonly GetPeriodEventCountPerConnectionHandler $getPeriodEventCountPerConnectionHandler,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): JsonResponse
     {
@@ -52,7 +51,7 @@ final class GetWeeklyAuditAction extends AbstractAuditAction
         foreach ($data as $connectionCode => $connectionData) {
             $retroCompatibleData[$connectionCode] = [
                 'daily' => \array_merge($connectionData['previous_week'], $connectionData['current_week']),
-                'weekly_total' => $connectionData['current_week_total']
+                'weekly_total' => $connectionData['current_week_total'],
             ];
         }
 

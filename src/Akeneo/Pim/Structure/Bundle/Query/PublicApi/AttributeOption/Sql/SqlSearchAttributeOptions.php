@@ -17,9 +17,7 @@ use Doctrine\DBAL\Connection;
  */
 class SqlSearchAttributeOptions implements SearchAttributeOptionsInterface
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function search(
         string $attributeCode,
@@ -46,29 +44,29 @@ class SqlSearchAttributeOptions implements SearchAttributeOptionsInterface
         $offset = null !== $searchParameters->getOffset() ? 'OFFSET :offset' : '';
 
         $sql = <<<SQL
-WITH filtered_option_codes AS (
-    SELECT DISTINCT option.id, option.code, option.sort_order
-    FROM pim_catalog_attribute_option `option`
-    INNER JOIN pim_catalog_attribute `attribute` ON option.attribute_id = attribute.id
-    LEFT JOIN pim_catalog_attribute_option_value `option_value` ON option.id = option_value.option_id $localeCondition
-    WHERE attribute.code = :attribute_code
-        AND (option.code LIKE :search OR option_value.value LIKE :search)
-        $includeCondition
-        $excludeCondition
-    ORDER BY $order
-    $limit
-    $offset
-)
-SELECT filtered_option_codes.code, labels
-FROM filtered_option_codes
-LEFT JOIN (
-    SELECT option_value.option_id, JSON_OBJECTAGG(option_value.locale_code, option_value.value) AS labels
-    FROM pim_catalog_attribute_option_value `option_value`
-    GROUP BY option_value.option_id
-) AS label
-ON filtered_option_codes.id = label.option_id
-ORDER BY $order
-SQL;
+            WITH filtered_option_codes AS (
+                SELECT DISTINCT option.id, option.code, option.sort_order
+                FROM pim_catalog_attribute_option `option`
+                INNER JOIN pim_catalog_attribute `attribute` ON option.attribute_id = attribute.id
+                LEFT JOIN pim_catalog_attribute_option_value `option_value` ON option.id = option_value.option_id $localeCondition
+                WHERE attribute.code = :attribute_code
+                    AND (option.code LIKE :search OR option_value.value LIKE :search)
+                    $includeCondition
+                    $excludeCondition
+                ORDER BY $order
+                $limit
+                $offset
+            )
+            SELECT filtered_option_codes.code, labels
+            FROM filtered_option_codes
+            LEFT JOIN (
+                SELECT option_value.option_id, JSON_OBJECTAGG(option_value.locale_code, option_value.value) AS labels
+                FROM pim_catalog_attribute_option_value `option_value`
+                GROUP BY option_value.option_id
+            ) AS label
+            ON filtered_option_codes.id = label.option_id
+            ORDER BY $order
+            SQL;
 
         $attributeOptions = $this->connection->executeQuery($sql, [
             'attribute_code' => $attributeCode,
@@ -89,7 +87,7 @@ SQL;
         ])->fetchAllAssociative();
 
         return array_map(
-            static fn (array $attributeOption) => new AttributeOption(
+            static fn(array $attributeOption) => new AttributeOption(
                 $attributeOption['code'],
                 null !== $attributeOption['labels'] ? json_decode((string) $attributeOption['labels'], true, 512, JSON_THROW_ON_ERROR) : [],
             ),
@@ -106,15 +104,15 @@ SQL;
         $excludeCondition = !empty($searchParameters->getExcludeCodes()) ? 'AND option.code NOT IN (:exclude_codes)' : '';
 
         $sql = <<<SQL
-SELECT COUNT(DISTINCT option.id)
-FROM pim_catalog_attribute_option `option`
-INNER JOIN pim_catalog_attribute `attribute` ON option.attribute_id = attribute.id
-LEFT JOIN pim_catalog_attribute_option_value `option_value` ON option.id = option_value.option_id $localeCondition
-WHERE attribute.code = :attribute_code
-    AND (option.code LIKE :search OR option_value.value LIKE :search)
-    $includeCondition
-    $excludeCondition
-SQL;
+            SELECT COUNT(DISTINCT option.id)
+            FROM pim_catalog_attribute_option `option`
+            INNER JOIN pim_catalog_attribute `attribute` ON option.attribute_id = attribute.id
+            LEFT JOIN pim_catalog_attribute_option_value `option_value` ON option.id = option_value.option_id $localeCondition
+            WHERE attribute.code = :attribute_code
+                AND (option.code LIKE :search OR option_value.value LIKE :search)
+                $includeCondition
+                $excludeCondition
+            SQL;
 
         $matchesCount = $this->connection->executeQuery($sql, [
             'attribute_code' => $attributeCode,

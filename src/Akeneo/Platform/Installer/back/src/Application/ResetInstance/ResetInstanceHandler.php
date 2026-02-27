@@ -38,15 +38,14 @@ final readonly class ResetInstanceHandler
         private FixtureInstallerInterface $fixtureInstaller,
         private UserConfigurationResetterInterface $userConfigurationResetter,
         private FilesystemsPurgerInterface $filesystemsPurger,
-    ) {
-    }
+    ) {}
 
     public function handle(ResetInstanceCommand $command): void
     {
         $tableNames = $this->findTables->all();
         $tablesToPurge = array_filter(
             $tableNames,
-            static fn (string $tableName): bool => !in_array($tableName, self::TABLES_TO_KEEP),
+            static fn(string $tableName): bool => !in_array($tableName, self::TABLES_TO_KEEP),
         );
 
         $this->databasePurger->purge(array_values($tablesToPurge));

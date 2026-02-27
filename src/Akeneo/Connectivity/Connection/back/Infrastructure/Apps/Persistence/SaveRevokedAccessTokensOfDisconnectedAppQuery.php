@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Infrastructure\Apps\Persistence;
@@ -14,8 +15,7 @@ final readonly class SaveRevokedAccessTokensOfDisconnectedAppQuery implements Sa
 {
     public function __construct(
         private Connection $connection,
-    ) {
-    }
+    ) {}
 
     public function execute(string $appId): void
     {

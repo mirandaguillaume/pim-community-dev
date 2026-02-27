@@ -15,6 +15,8 @@ use Psr\Log\LoggerInterface;
  */
 class MigrateToUuidCleanGhostRecords implements MigrateToUuidStep
 {
+    use MigrateToUuidTrait;
+    use StatusAwareTrait;
     private const BATCH_SIZE = 10000;
 
     /** @var string[] */
@@ -25,14 +27,10 @@ class MigrateToUuidCleanGhostRecords implements MigrateToUuidStep
         'pim_comment_comment',
     ];
 
-    use MigrateToUuidTrait;
-    use StatusAwareTrait;
-
     public function __construct(
         private readonly Connection $connection,
         private readonly LoggerInterface $logger
-    ) {
-    }
+    ) {}
 
     public function getName(): string
     {

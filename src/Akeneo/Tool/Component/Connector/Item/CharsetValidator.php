@@ -69,8 +69,8 @@ class CharsetValidator implements StepExecutionAwareInterface
 
         $errors = [];
         $lineNo = 0;
-        while ((false !== $line = fgets($handle)) &&
-            (count($errors) < $this->maxErrors)
+        while ((false !== $line = fgets($handle))
+            && (count($errors) < $this->maxErrors)
         ) {
             $lineNo++;
             if (false === iconv($this->charset, $this->charset, $line)) {
@@ -81,13 +81,13 @@ class CharsetValidator implements StepExecutionAwareInterface
         fclose($handle);
 
         if (count($errors) > 0) {
-            $message = count($errors) === $this->maxErrors ?
-                sprintf('The first %s erroneous lines are %s.', $this->maxErrors, implode(', ', $errors)) :
-                sprintf('The lines %s are erroneous.', implode(', ', $errors));
+            $message = count($errors) === $this->maxErrors
+                ? sprintf('The first %s erroneous lines are %s.', $this->maxErrors, implode(', ', $errors))
+                : sprintf('The lines %s are erroneous.', implode(', ', $errors));
 
             throw new CharsetException(
-                sprintf('The file "%s" is not correctly encoded in %s. ', $filePath, $this->charset) .
-                    $message
+                sprintf('The file "%s" is not correctly encoded in %s. ', $filePath, $this->charset)
+                    . $message
             );
         }
 

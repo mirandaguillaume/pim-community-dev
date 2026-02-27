@@ -18,9 +18,7 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
  */
 final readonly class ApplyProductSearchQueryParametersToPQB
 {
-    public function __construct(private IdentifiableObjectRepositoryInterface $channelRepository)
-    {
-    }
+    public function __construct(private IdentifiableObjectRepositoryInterface $channelRepository) {}
 
     /**
      * Set the PQB filters.
@@ -44,8 +42,8 @@ final readonly class ApplyProductSearchQueryParametersToPQB
                 $searchParameters['categories'] = [
                     [
                         'operator' => Operators::IN_CHILDREN_LIST,
-                        'value'    => [$channel->getCategory()->getCode()]
-                    ]
+                        'value'    => [$channel->getCategory()->getCode()],
+                    ],
                 ];
             }
         }

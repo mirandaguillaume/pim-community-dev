@@ -13,9 +13,7 @@ use Akeneo\UserManagement\Component\Connector\RoleWithPermissions;
  */
 final readonly class RoleWithPermissionsFactory implements SimpleFactoryInterface
 {
-    public function __construct(private SimpleFactoryInterface $roleFactory)
-    {
-    }
+    public function __construct(private SimpleFactoryInterface $roleFactory) {}
 
     public function create(): RoleWithPermissions
     {

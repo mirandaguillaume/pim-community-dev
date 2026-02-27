@@ -32,9 +32,7 @@ use Doctrine\DBAL\Exception;
  */
 final readonly class ProductModelImagesFromCodes
 {
-    public function __construct(private Connection $connection, private WriteValueCollectionFactory $valueCollectionFactory)
-    {
-    }
+    public function __construct(private Connection $connection, private WriteValueCollectionFactory $valueCollectionFactory) {}
 
     /**
      *
@@ -94,36 +92,36 @@ final readonly class ProductModelImagesFromCodes
         ];
 
         $sql = <<<SQL
-            SELECT 
-                product_model_code,
-                CASE
-                    WHEN product_model_level = 0 AND image_code_level = 1 AND number_level = 2 THEN 'image_in_sub_product_model'
-                    WHEN product_model_level = 0 AND image_code_level = 1 AND number_level = 1 THEN 'image_in_variant_product'
-                    WHEN product_model_level = 0 AND image_code_level = 2 THEN 'image_in_variant_product'
-                    WHEN product_model_level = 1 AND image_code_level = 1 THEN 'image_in_current_or_parent_product_model'
-                    WHEN product_model_level = 1 AND image_code_level = 2 THEN 'image_in_variant_product'
-                    ELSE 'image_in_current_or_parent_product_model' END 
-                AS image_level
-            FROM (
-                SELECT 
-                    pm.code as product_model_code,
-                    COUNT(all_attribute_sets.family_variant_id) as number_level,
-                    if(pm.parent_id is null, 0, 1) as product_model_level,
-                    fv_set.level as image_code_level
-                FROM
-                    pim_catalog_product_model pm
-                    JOIN pim_catalog_family_variant fv ON fv.id = pm.family_variant_id
-                    JOIN pim_catalog_family f ON f.id = fv.family_id
-                    JOIN pim_catalog_attribute a_image ON a_image.id = f.image_attribute_id
-                    JOIN pim_catalog_family_variant_has_variant_attribute_sets attr_set ON  attr_set.family_variant_id = fv.id
-                    JOIN pim_catalog_family_variant_attribute_set fv_set ON fv_set.id = variant_attribute_sets_id
-                    JOIN pim_catalog_variant_attribute_set_has_attributes attr ON attr.variant_attribute_set_id = fv_set.id AND attr.attributes_id = a_image.id
-                    JOIN pim_catalog_family_variant_has_variant_attribute_sets all_attribute_sets ON  all_attribute_sets.family_variant_id = fv.id
-                WHERE 
-                    pm.code IN (:codes)
-                GROUP BY pm.code, all_attribute_sets.family_variant_id, fv_set.level
-            ) as product_models
-SQL;
+                        SELECT 
+                            product_model_code,
+                            CASE
+                                WHEN product_model_level = 0 AND image_code_level = 1 AND number_level = 2 THEN 'image_in_sub_product_model'
+                                WHEN product_model_level = 0 AND image_code_level = 1 AND number_level = 1 THEN 'image_in_variant_product'
+                                WHEN product_model_level = 0 AND image_code_level = 2 THEN 'image_in_variant_product'
+                                WHEN product_model_level = 1 AND image_code_level = 1 THEN 'image_in_current_or_parent_product_model'
+                                WHEN product_model_level = 1 AND image_code_level = 2 THEN 'image_in_variant_product'
+                                ELSE 'image_in_current_or_parent_product_model' END 
+                            AS image_level
+                        FROM (
+                            SELECT 
+                                pm.code as product_model_code,
+                                COUNT(all_attribute_sets.family_variant_id) as number_level,
+                                if(pm.parent_id is null, 0, 1) as product_model_level,
+                                fv_set.level as image_code_level
+                            FROM
+                                pim_catalog_product_model pm
+                                JOIN pim_catalog_family_variant fv ON fv.id = pm.family_variant_id
+                                JOIN pim_catalog_family f ON f.id = fv.family_id
+                                JOIN pim_catalog_attribute a_image ON a_image.id = f.image_attribute_id
+                                JOIN pim_catalog_family_variant_has_variant_attribute_sets attr_set ON  attr_set.family_variant_id = fv.id
+                                JOIN pim_catalog_family_variant_attribute_set fv_set ON fv_set.id = variant_attribute_sets_id
+                                JOIN pim_catalog_variant_attribute_set_has_attributes attr ON attr.variant_attribute_set_id = fv_set.id AND attr.attributes_id = a_image.id
+                                JOIN pim_catalog_family_variant_has_variant_attribute_sets all_attribute_sets ON  all_attribute_sets.family_variant_id = fv.id
+                            WHERE 
+                                pm.code IN (:codes)
+                            GROUP BY pm.code, all_attribute_sets.family_variant_id, fv_set.level
+                        ) as product_models
+            SQL;
 
         $rows = $this->connection->executeQuery(
             $sql,
@@ -151,21 +149,21 @@ SQL;
         }
 
         $sql = <<<SQL
-            SELECT 
-                pm.code,
-                a_image.code as attribute_code,
-                a_image.is_localizable,
-                a_image.is_scopable,
-                JSON_MERGE(pm.raw_values, COALESCE(root_pm.raw_values, '{}')) as raw_values 
-            FROM
-                pim_catalog_product_model pm
-                LEFT JOIN pim_catalog_product_model root_pm ON root_pm.id = pm.parent_id
-                JOIN pim_catalog_family_variant fv ON fv.id = pm.family_variant_id
-                JOIN pim_catalog_family f ON f.id = fv.family_id
-                JOIN pim_catalog_attribute a_image ON a_image.id = f.image_attribute_id
-            WHERE 
-                pm.code IN (:codes)
-SQL;
+                        SELECT 
+                            pm.code,
+                            a_image.code as attribute_code,
+                            a_image.is_localizable,
+                            a_image.is_scopable,
+                            JSON_MERGE(pm.raw_values, COALESCE(root_pm.raw_values, '{}')) as raw_values 
+                        FROM
+                            pim_catalog_product_model pm
+                            LEFT JOIN pim_catalog_product_model root_pm ON root_pm.id = pm.parent_id
+                            JOIN pim_catalog_family_variant fv ON fv.id = pm.family_variant_id
+                            JOIN pim_catalog_family f ON f.id = fv.family_id
+                            JOIN pim_catalog_attribute a_image ON a_image.id = f.image_attribute_id
+                        WHERE 
+                            pm.code IN (:codes)
+            SQL;
 
         $rows = $this->connection->executeQuery(
             $sql,
@@ -221,31 +219,31 @@ SQL;
         }
 
         $sql = <<<SQL
-            SELECT 
-            /*+ SET_VAR(sort_buffer_size = 1000000) */
-                pm_root.code,
-                a_image.code as attribute_code,
-                pm_child.raw_values,
-                a_image.is_localizable,
-                a_image.is_scopable,
-                JSON_EXTRACT(
-                    pm_child.raw_values,
-                    CONCAT('$."', a_image.code, '".', IF(is_scopable = 1, '":channel_code"', '"<all_channels>"'), '.', IF(is_localizable = 1, '":locale_code"', '"<all_locales>"'))
-                ) as image_value
-            FROM
-                pim_catalog_product_model pm_root
-                JOIN pim_catalog_product_model pm_child ON pm_child.parent_id = pm_root.id
-                JOIN pim_catalog_family_variant fv ON fv.id = pm_root.family_variant_id
-                JOIN pim_catalog_family f ON f.id = fv.family_id
-                JOIN pim_catalog_attribute a_image ON a_image.id = f.image_attribute_id
-            WHERE
-                pm_root.code = :code
-            HAVING
-                image_value IS NOT NULL AND JSON_TYPE(image_value) != 'NULL'
-            ORDER BY 
-                pm_child.created ASC
-            LIMIT 1
-SQL;
+                        SELECT 
+                        /*+ SET_VAR(sort_buffer_size = 1000000) */
+                            pm_root.code,
+                            a_image.code as attribute_code,
+                            pm_child.raw_values,
+                            a_image.is_localizable,
+                            a_image.is_scopable,
+                            JSON_EXTRACT(
+                                pm_child.raw_values,
+                                CONCAT('$."', a_image.code, '".', IF(is_scopable = 1, '":channel_code"', '"<all_channels>"'), '.', IF(is_localizable = 1, '":locale_code"', '"<all_locales>"'))
+                            ) as image_value
+                        FROM
+                            pim_catalog_product_model pm_root
+                            JOIN pim_catalog_product_model pm_child ON pm_child.parent_id = pm_root.id
+                            JOIN pim_catalog_family_variant fv ON fv.id = pm_root.family_variant_id
+                            JOIN pim_catalog_family f ON f.id = fv.family_id
+                            JOIN pim_catalog_attribute a_image ON a_image.id = f.image_attribute_id
+                        WHERE
+                            pm_root.code = :code
+                        HAVING
+                            image_value IS NOT NULL AND JSON_TYPE(image_value) != 'NULL'
+                        ORDER BY 
+                            pm_child.created ASC
+                        LIMIT 1
+            SQL;
 
         $productModels = [];
         $productModelsInfo = [];
@@ -303,48 +301,48 @@ SQL;
         }
 
         $sql = <<<SQL
-            WITH product_child AS (
-                SELECT root.code AS root_code, product.family_id, product.raw_values, product.created
-                FROM pim_catalog_product_model root
-                    INNER JOIN pim_catalog_product_model sub ON sub.parent_id = root.id
-                    INNER JOIN pim_catalog_product product ON product.product_model_id = sub.id
-                WHERE root.code = :code
-                UNION ALL
-                SELECT root.code AS root_code, product.family_id, product.raw_values, product.created
-                FROM pim_catalog_product_model root
-                    INNER JOIN pim_catalog_product product ON product.product_model_id = root.id
-                WHERE root.code = :code
-            ),
-            product_child_extracted_image_code AS (
-                SELECT DISTINCT
-                    product_child.root_code AS root_code,
-                    product_child.family_id,
-                    product_child.created,
-                    a_image.code AS attribute_code,
-                    a_image.is_localizable,
-                    a_image.is_scopable,
-                    JSON_EXTRACT(product_child.raw_values, CONCAT('$."', a_image.code, '"')) AS image_values,
-                    JSON_EXTRACT(
-                        product_child.raw_values,
-                        CONCAT('$."', a_image.code, '".', IF(is_scopable = 1, '":channel_code"', '"<all_channels>"'), '.', IF(is_localizable = 1, '":locale_code"', '"<all_locales>"'))
-                    ) AS image_value
-                FROM product_child
-                    JOIN pim_catalog_family f ON f.id = product_child.family_id
-                    JOIN pim_catalog_attribute a_image ON a_image.id = f.image_attribute_id
-            )
-            SELECT root_code AS code,
-                   attribute_code,
-                   is_localizable,
-                   is_scopable,
-                   image_values,
-                   image_value
-            FROM product_child_extracted_image_code
-            HAVING
-                image_value IS NOT NULL AND JSON_TYPE(image_value) != 'NULL'
-            ORDER BY 
-                created ASC
-            LIMIT 1
-SQL;
+                        WITH product_child AS (
+                            SELECT root.code AS root_code, product.family_id, product.raw_values, product.created
+                            FROM pim_catalog_product_model root
+                                INNER JOIN pim_catalog_product_model sub ON sub.parent_id = root.id
+                                INNER JOIN pim_catalog_product product ON product.product_model_id = sub.id
+                            WHERE root.code = :code
+                            UNION ALL
+                            SELECT root.code AS root_code, product.family_id, product.raw_values, product.created
+                            FROM pim_catalog_product_model root
+                                INNER JOIN pim_catalog_product product ON product.product_model_id = root.id
+                            WHERE root.code = :code
+                        ),
+                        product_child_extracted_image_code AS (
+                            SELECT DISTINCT
+                                product_child.root_code AS root_code,
+                                product_child.family_id,
+                                product_child.created,
+                                a_image.code AS attribute_code,
+                                a_image.is_localizable,
+                                a_image.is_scopable,
+                                JSON_EXTRACT(product_child.raw_values, CONCAT('$."', a_image.code, '"')) AS image_values,
+                                JSON_EXTRACT(
+                                    product_child.raw_values,
+                                    CONCAT('$."', a_image.code, '".', IF(is_scopable = 1, '":channel_code"', '"<all_channels>"'), '.', IF(is_localizable = 1, '":locale_code"', '"<all_locales>"'))
+                                ) AS image_value
+                            FROM product_child
+                                JOIN pim_catalog_family f ON f.id = product_child.family_id
+                                JOIN pim_catalog_attribute a_image ON a_image.id = f.image_attribute_id
+                        )
+                        SELECT root_code AS code,
+                               attribute_code,
+                               is_localizable,
+                               is_scopable,
+                               image_values,
+                               image_value
+                        FROM product_child_extracted_image_code
+                        HAVING
+                            image_value IS NOT NULL AND JSON_TYPE(image_value) != 'NULL'
+                        ORDER BY 
+                            created ASC
+                        LIMIT 1
+            SQL;
 
         $productModels = [];
         $productModelsInfo = [];

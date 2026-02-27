@@ -64,7 +64,7 @@ class ProductMassActionRepository implements ProductMassActionRepositoryInterfac
     {
         $queryBuilder->addFilter('id', Operators::NOT_IN_LIST, $productIds);
 
-        $productModelIds = array_values(array_filter($productIds, fn ($id) => str_starts_with((string) $id, 'product_model_')));
+        $productModelIds = array_values(array_filter($productIds, fn($id) => str_starts_with((string) $id, 'product_model_')));
 
         if (!empty($productModelIds)) {
             $queryBuilder->addFilter('ancestor.id', Operators::NOT_IN_LIST, $productModelIds);

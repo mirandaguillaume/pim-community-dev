@@ -17,9 +17,7 @@ class AjaxReferenceDataTransformerFactory implements TransformerFactoryInterface
     /**
      * @param string            $class
      */
-    public function __construct(protected ManagerRegistry $doctrine, protected LabelRenderer $renderer, protected $class)
-    {
-    }
+    public function __construct(protected ManagerRegistry $doctrine, protected LabelRenderer $renderer, protected $class) {}
 
     /**
      * {@inheritdoc}

@@ -22,8 +22,7 @@ class AssociationTranslator
         private readonly GetProductModelLabelsInterface $getProductModelLabels,
         private readonly GetProductLabelsInterface $getProductLabels,
         private readonly GetGroupTranslations $getGroupTranslations,
-    ) {
-    }
+    ) {}
 
     public function supports(string $columnName): bool
     {
@@ -83,8 +82,8 @@ class AssociationTranslator
             $labelized = [];
 
             foreach ($codes as $code) {
-                $labelized[] = $translations[$code] ??
-                    sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $code);
+                $labelized[] = $translations[$code]
+                    ?? sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $code);
             }
 
             $result[$valueIndex] = implode(',', $labelized);

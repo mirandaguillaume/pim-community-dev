@@ -52,7 +52,7 @@ class GetProductModelIdsToEvaluateQueryIntegration extends DataQualityInsightsTe
         $productModelId2 = $this->createProductModelWithoutEvaluations('product_model_2', 'a_family_variant')->getId();
         $productModelId3 = $this->createProductModelWithoutEvaluations('product_model_3', 'a_family_variant')->getId();
 
-        $evaluations = (new CriterionEvaluationCollection)
+        $evaluations = (new CriterionEvaluationCollection())
             ->add(new CriterionEvaluation(
                 new CriterionCode('completeness'),
                 new ProductModelId($productModelId1),
@@ -89,7 +89,7 @@ class GetProductModelIdsToEvaluateQueryIntegration extends DataQualityInsightsTe
             CriterionEvaluationStatus::pending()
         );
 
-        $evaluations = (new CriterionEvaluationCollection)->add($evaluationDone);
+        $evaluations = (new CriterionEvaluationCollection())->add($evaluationDone);
         $this->productModelCriterionEvaluationRepository->create($evaluations);
 
         $evaluationDone->end(new CriterionEvaluationResult());

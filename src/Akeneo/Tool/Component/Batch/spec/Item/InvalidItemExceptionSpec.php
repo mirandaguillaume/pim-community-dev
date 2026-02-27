@@ -7,7 +7,7 @@ use PhpSpec\ObjectBehavior;
 
 class InvalidItemExceptionSpec extends ObjectBehavior
 {
-    function let(InvalidItemInterface $invalidItem)
+    public function let(InvalidItemInterface $invalidItem)
     {
         $invalidItem->getInvalidData()->willReturn(['foo' => 'fighter']);
 
@@ -17,12 +17,12 @@ class InvalidItemExceptionSpec extends ObjectBehavior
         );
     }
 
-    function it_provides_the_message()
+    public function it_provides_the_message()
     {
         $this->getMessage()->shouldReturn('Tango is down, I repeat...');
     }
 
-    function it_provides_the_invalid_item($invalidItem)
+    public function it_provides_the_invalid_item($invalidItem)
     {
         $this->getItem()->shouldReturn($invalidItem);
     }

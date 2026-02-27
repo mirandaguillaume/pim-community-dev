@@ -14,19 +14,17 @@ use Doctrine\DBAL\Types\Types;
  */
 final readonly class UpdateConnectedAppScopesQuery implements UpdateConnectedAppScopesQueryInterface
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function execute(array $scopes, string $appId): void
     {
         $updateQuery = <<<SQL
-        UPDATE akeneo_connectivity_connected_app
-        SET
-            scopes = :scopes,
-            updated = NOW()
-        WHERE id = :id
-        SQL;
+            UPDATE akeneo_connectivity_connected_app
+            SET
+                scopes = :scopes,
+                updated = NOW()
+            WHERE id = :id
+            SQL;
 
         $this->connection->executeQuery(
             $updateQuery,

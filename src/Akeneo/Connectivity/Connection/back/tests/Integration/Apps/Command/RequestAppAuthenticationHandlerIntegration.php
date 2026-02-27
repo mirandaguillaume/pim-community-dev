@@ -68,7 +68,7 @@ class RequestAppAuthenticationHandlerIntegration extends TestCase
             'SELECT * FROM akeneo_connectivity_user_consent WHERE app_id = :appId AND user_id = :userId',
             [
                 'appId' => 'e4d35502-08c9-40b4-a378-05d4cb255862',
-                'userId' => $user->getId()
+                'userId' => $user->getId(),
             ]
         );
 
@@ -100,7 +100,7 @@ class RequestAppAuthenticationHandlerIntegration extends TestCase
             'SELECT * FROM akeneo_connectivity_user_consent WHERE app_id = :appId AND user_id = :userId',
             [
                 'appId' => 'e4d35502-08c9-40b4-a378-05d4cb255862',
-                'userId' => $user->getId()
+                'userId' => $user->getId(),
             ]
         );
 

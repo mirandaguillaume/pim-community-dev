@@ -18,9 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class AjaxOptionController
 {
-    public function __construct(protected ManagerRegistry $doctrine, protected ConfigurationRegistryInterface $registry)
-    {
-    }
+    public function __construct(protected ManagerRegistry $doctrine, protected ConfigurationRegistryInterface $registry) {}
 
     /**
      * Returns a JSON response containing options
@@ -68,9 +66,9 @@ class AjaxOptionController
         }
 
         if (
-            $request->get('isCreatable') &&
-            !empty($search) &&
-            !in_array(['id' => $search, 'text' => $search], $choices['results'])
+            $request->get('isCreatable')
+            && !empty($search)
+            && !in_array(['id' => $search, 'text' => $search], $choices['results'])
         ) {
             $choices['results'][] = ['id' => $search, 'text' => $search];
         }

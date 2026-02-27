@@ -25,8 +25,7 @@ class SimpleYamlImport implements ConstraintCollectionProviderInterface
      */
     public function __construct(
         private readonly array $supportedJobNames,
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -47,7 +46,7 @@ class SimpleYamlImport implements ConstraintCollectionProviderInterface
                         new All(new Type('string')),
                     ],
                     'is_user_authenticated' => new Type('bool'),
-                ]
+                ],
             ]
         );
     }

@@ -115,10 +115,8 @@ class IndexProductModelCommand extends Command
             return self::ERROR_CODE_USAGE;
         }
 
-        $bulkESHandler = new class($this->productModelDescendantAndAncestorsIndexer) implements BulkEsHandlerInterface {
-            public function __construct(private readonly ProductModelDescendantsAndAncestorsIndexer $productModelDescendantsAndAncestorsIndexer)
-            {
-            }
+        $bulkESHandler = new class ($this->productModelDescendantAndAncestorsIndexer) implements BulkEsHandlerInterface {
+            public function __construct(private readonly ProductModelDescendantsAndAncestorsIndexer $productModelDescendantsAndAncestorsIndexer) {}
             public function bulkExecute(array $codes): int
             {
                 $this->productModelDescendantsAndAncestorsIndexer->indexFromProductModelCodes($codes);
@@ -140,7 +138,7 @@ class IndexProductModelCommand extends Command
         $progressBar->start();
         foreach ($chunkedCodes as $codes) {
             $treatedBachSize = $this->batchEsStateHandler->bulkExecute($codes, $codesEsHandler);
-            $indexedCount+=$treatedBachSize;
+            $indexedCount += $treatedBachSize;
             $progressBar->advance($treatedBachSize);
         }
         $progressBar->finish();

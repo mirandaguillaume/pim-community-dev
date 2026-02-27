@@ -56,11 +56,11 @@ class UpdateMappingIndexCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $warning = <<<TXT
-This command will move your elasticsearch indices to new indices to take into account the new mapping.
-The move is done through an aliasing strategy in order to make it as fast as possible.
-If you use snapshot/restore feature for your indices, be sure that they are compatible to be restored even with an aliasing strategy.
-Do not execute this directly in production and while the prod is alive.
-TXT;
+            This command will move your elasticsearch indices to new indices to take into account the new mapping.
+            The move is done through an aliasing strategy in order to make it as fast as possible.
+            If you use snapshot/restore feature for your indices, be sure that they are compatible to be restored even with an aliasing strategy.
+            Do not execute this directly in production and while the prod is alive.
+            TXT;
 
         $io->warning($warning);
 
@@ -71,7 +71,7 @@ TXT;
         }
 
         $clients = $this->esClients($indices);
-        $names = array_map(fn (Client $client): string => $client->getIndexName(), $clients);
+        $names = array_map(fn(Client $client): string => $client->getIndexName(), $clients);
         $io->writeln("You will migrate those indices (if it misses one you gave, it means that you didn't write it correctly) : ");
         $io->listing($names);
 
@@ -97,7 +97,7 @@ TXT;
         return [
             'client' => $nativeClient,
             'configuration' => $client->getConfigurationLoader(),
-            'name' => $client->getIndexName()
+            'name' => $client->getIndexName(),
         ];
     }
 

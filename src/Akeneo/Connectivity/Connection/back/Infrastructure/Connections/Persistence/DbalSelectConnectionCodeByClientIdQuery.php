@@ -9,17 +9,15 @@ use Doctrine\DBAL\Connection;
 
 class DbalSelectConnectionCodeByClientIdQuery implements SelectConnectionCodeByClientIdQueryInterface
 {
-    public function __construct(private readonly Connection $dbalConnection)
-    {
-    }
+    public function __construct(private readonly Connection $dbalConnection) {}
 
     public function execute(string $clientId): ?string
     {
         $sqlQuery = <<<SQL
-SELECT code
-FROM akeneo_connectivity_connection
-WHERE client_id = :client_id
-SQL;
+            SELECT code
+            FROM akeneo_connectivity_connection
+            WHERE client_id = :client_id
+            SQL;
 
         $connectionCode = $this->dbalConnection
             ->executeQuery($sqlQuery, ['client_id' => $clientId])

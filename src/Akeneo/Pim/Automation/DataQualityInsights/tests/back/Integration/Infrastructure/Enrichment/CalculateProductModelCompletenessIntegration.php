@@ -46,7 +46,7 @@ class CalculateProductModelCompletenessIntegration extends CompletenessTestCase
                         'a_required_variant_text',
                         'a_variation_axis',
                     ],
-                ]
+                ],
             ],
         ]);
 
@@ -69,7 +69,7 @@ class CalculateProductModelCompletenessIntegration extends CompletenessTestCase
 
         $this->get('pim_catalog.saver.product_model')->save($productModel);
 
-        $productModelId = $this->get(ProductModelIdFactory::class)->create((string)$productModel->getId());
+        $productModelId = $this->get(ProductModelIdFactory::class)->create((string) $productModel->getId());
 
         $completenessResult = $this->get('akeneo.pim.automation.calculate_product_model_completeness_of_required_attributes')
             ->calculate($productModelId);
@@ -90,8 +90,8 @@ class CalculateProductModelCompletenessIntegration extends CompletenessTestCase
                         'scope' => 'ecommerce',
                         'locale' => 'en_US',
                     ],
-                ]
-            ]
+                ],
+            ],
         ]);
         $this->get('pim_catalog.saver.product_model')->save($productModel);
 

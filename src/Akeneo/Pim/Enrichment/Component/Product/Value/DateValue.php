@@ -43,9 +43,9 @@ class DateValue extends AbstractValue implements DateValueInterface, \Stringable
      */
     public function isEqual(ValueInterface $value): bool
     {
-        if (!$value instanceof DateValueInterface ||
-            $this->getScopeCode() !== $value->getScopeCode() ||
-            $this->getLocaleCode() !== $value->getLocaleCode()) {
+        if (!$value instanceof DateValueInterface
+            || $this->getScopeCode() !== $value->getScopeCode()
+            || $this->getLocaleCode() !== $value->getLocaleCode()) {
             return false;
         }
 
@@ -59,7 +59,7 @@ class DateValue extends AbstractValue implements DateValueInterface, \Stringable
             return false;
         }
 
-        return $thisDate->getTimestamp() === $comparedDate->getTimestamp() &&
-            $thisDate->getTimezone()->getName() === $comparedDate->getTimezone()->getName();
+        return $thisDate->getTimestamp() === $comparedDate->getTimestamp()
+            && $thisDate->getTimezone()->getName() === $comparedDate->getTimezone()->getName();
     }
 }

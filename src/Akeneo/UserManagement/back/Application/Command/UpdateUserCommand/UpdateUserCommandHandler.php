@@ -38,8 +38,7 @@ final readonly class UpdateUserCommandHandler
         private Session $session,
         private ObjectRepository $repository,
         private TokenStorageInterface $tokenStorage,
-    ) {
-    }
+    ) {}
 
     /**
      * @throws ViolationsException
@@ -101,8 +100,8 @@ final readonly class UpdateUserCommandHandler
 
     private function isPasswordUpdating($data): bool
     {
-        return (isset($data['current_password']) && !empty($data['current_password'])) ||
-            (isset($data['new_password']) && !empty($data['new_password'])) ||
-            (isset($data['new_password_repeat']) && !empty($data['new_password_repeat']));
+        return (isset($data['current_password']) && !empty($data['current_password']))
+            || (isset($data['new_password']) && !empty($data['new_password']))
+            || (isset($data['new_password_repeat']) && !empty($data['new_password_repeat']));
     }
 }

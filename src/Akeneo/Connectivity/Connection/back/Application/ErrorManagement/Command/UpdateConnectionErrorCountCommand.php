@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Application\ErrorManagement\Command;
@@ -15,9 +16,7 @@ final readonly class UpdateConnectionErrorCountCommand
     /**
      * @param HourlyErrorCount[] $errorCounts
      */
-    public function __construct(private array $errorCounts)
-    {
-    }
+    public function __construct(private array $errorCounts) {}
 
     /**
      * @return HourlyErrorCount[]

@@ -18,9 +18,9 @@ class GetAccessTokenIntegration extends ApiTestCase
             'POST',
             'api/oauth/v1/token',
             [
-               'username'   => static::USERNAME,
-               'password'   => static::PASSWORD,
-               'grant_type' => 'password',
+                'username'   => static::USERNAME,
+                'password'   => static::PASSWORD,
+                'grant_type' => 'password',
             ],
             [],
             [
@@ -97,11 +97,11 @@ class GetAccessTokenIntegration extends ApiTestCase
         );
 
         $expectedContent = <<<JSON
-    {
-        "code": 415,
-        "message": "\"application\/xml\" in \"Content-Type\" header is not valid. Only \"application\/json\" or \"application\/x-www-form-urlencoded\" are allowed."
-    }
-JSON;
+                {
+                    "code": 415,
+                    "message": "\"application\/xml\" in \"Content-Type\" header is not valid. Only \"application\/json\" or \"application\/x-www-form-urlencoded\" are allowed."
+                }
+            JSON;
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_UNSUPPORTED_MEDIA_TYPE);
@@ -382,16 +382,16 @@ JSON;
             [],
             [],
             json_encode([
-                'large_content' => str_repeat('a', 300)
+                'large_content' => str_repeat('a', 300),
             ], JSON_THROW_ON_ERROR)
         );
 
         $expectedContent = <<<JSON
-    {
-        "code": 413,
-        "message": "Request content exceeded the maximum allowed size of 300 bytes"
-    }
-JSON;
+                {
+                    "code": 413,
+                    "message": "Request content exceeded the maximum allowed size of 300 bytes"
+                }
+            JSON;
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_REQUEST_ENTITY_TOO_LARGE);

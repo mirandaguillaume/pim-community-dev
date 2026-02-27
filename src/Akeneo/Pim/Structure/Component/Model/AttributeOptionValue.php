@@ -4,6 +4,7 @@ namespace Akeneo\Pim\Structure\Component\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+
 /**
  * Attribute option values
  *

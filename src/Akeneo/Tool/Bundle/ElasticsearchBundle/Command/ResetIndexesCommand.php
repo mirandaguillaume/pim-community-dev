@@ -109,7 +109,7 @@ class ResetIndexesCommand extends Command
             return $esClients;
         }
 
-        $filteredEsClients = array_filter($esClients, fn (Client $client) => in_array($client->getIndexName(), $selectedIndexes));
+        $filteredEsClients = array_filter($esClients, fn(Client $client) => in_array($client->getIndexName(), $selectedIndexes));
 
         return $filteredEsClients;
     }

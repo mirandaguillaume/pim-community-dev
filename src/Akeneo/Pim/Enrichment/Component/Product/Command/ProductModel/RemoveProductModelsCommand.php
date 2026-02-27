@@ -57,7 +57,7 @@ final class RemoveProductModelsCommand
     {
         Assert::allImplementsInterface($productModels, ProductModelInterface::class);
         $subCommands = \array_map(
-            static fn (ProductModelInterface $productModel): RemoveProductModelCommand => new RemoveProductModelCommand(
+            static fn(ProductModelInterface $productModel): RemoveProductModelCommand => new RemoveProductModelCommand(
                 $productModel->getCode()
             ),
             $productModels

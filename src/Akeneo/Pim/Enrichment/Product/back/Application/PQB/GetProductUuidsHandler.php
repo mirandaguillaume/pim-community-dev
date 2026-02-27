@@ -26,8 +26,7 @@ final readonly class GetProductUuidsHandler
         private ApplyProductSearchQueryParametersToPQB $applyProductSearchQueryParametersToPQB,
         private ProductUuidQueryFetcher $productUuidQueryFetcher,
         private ValidatorInterface $validator
-    ) {
-    }
+    ) {}
 
     public function __invoke(GetProductUuidsQuery $getProductUuidsQuery): ProductUuidCursorInterface
     {

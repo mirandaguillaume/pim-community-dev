@@ -54,9 +54,9 @@ class DeleteCategoryTreeTemplateByTemplateUuidSqlIntegration extends CategoryTes
 
         $result = $connection->executeQuery(
             <<<SQL
-            SELECT * FROM pim_catalog_category_tree_template
-            WHERE category_template_uuid = :template_uuid
-        SQL,
+                    SELECT * FROM pim_catalog_category_tree_template
+                    WHERE category_template_uuid = :template_uuid
+                SQL,
             [
                 'template_uuid' => $templateUuid->toBytes(),
             ],
@@ -78,9 +78,9 @@ class DeleteCategoryTreeTemplateByTemplateUuidSqlIntegration extends CategoryTes
 
         $result = $connection->executeQuery(
             <<<SQL
-            SELECT * FROM pim_catalog_category_attribute
-            WHERE category_template_uuid = :template_uuid
-        SQL,
+                    SELECT * FROM pim_catalog_category_attribute
+                    WHERE category_template_uuid = :template_uuid
+                SQL,
             [
                 'template_uuid' => $templateUuid->toBytes(),
             ],
@@ -102,9 +102,9 @@ class DeleteCategoryTreeTemplateByTemplateUuidSqlIntegration extends CategoryTes
 
         $result = $connection->executeQuery(
             <<<SQL
-            SELECT * FROM pim_catalog_category_template
-            WHERE uuid = :template_uuid
-        SQL,
+                    SELECT * FROM pim_catalog_category_template
+                    WHERE uuid = :template_uuid
+                SQL,
             [
                 'template_uuid' => $templateUuid->toBytes(),
             ],

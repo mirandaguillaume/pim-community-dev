@@ -25,8 +25,7 @@ class ChainedNonExistentValuesFilter implements ChainedNonExistentValuesFilterIn
         private readonly NonExistentChannelLocaleValuesFilter $nonExistentChannelLocaleValuesFilter,
         private readonly EmptyValuesCleaner $emptyValuesCleaner,
         private readonly TransformRawValuesCollections $transformRawValuesCollections
-    ) {
-    }
+    ) {}
 
     public function filterAll(array $rawValuesCollection): array
     {
@@ -39,7 +38,7 @@ class ChainedNonExistentValuesFilter implements ChainedNonExistentValuesFilterIn
             function (OnGoingFilteredRawValues $onGoingFilteredRawValues, NonExistentValuesFilter $obsoleteValuesFilter): OnGoingFilteredRawValues {
                 try {
                     return $obsoleteValuesFilter->filter($onGoingFilteredRawValues);
-                } catch (\TypeError | InvalidPropertyTypeException) {
+                } catch (\TypeError|InvalidPropertyTypeException) {
                     return $onGoingFilteredRawValues;
                 }
             },

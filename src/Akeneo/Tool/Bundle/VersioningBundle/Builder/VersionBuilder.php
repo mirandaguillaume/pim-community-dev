@@ -126,21 +126,21 @@ class VersionBuilder
     protected function mergeSnapshots(array $oldSnapshot, array $newSnapshot)
     {
         $localNewSnapshot = array_map(
-            fn ($newItem) => ['new' => $newItem],
+            fn($newItem) => ['new' => $newItem],
             $newSnapshot
         );
 
         $localOldSnapshot = array_map(
-            fn ($oldItem) => ['old' => $oldItem],
+            fn($oldItem) => ['old' => $oldItem],
             $oldSnapshot
         );
 
         $mergedSnapshot = array_replace_recursive($localNewSnapshot, $localOldSnapshot);
 
         return array_map(
-            fn ($mergedItem) => [
+            fn($mergedItem) => [
                 'old' => array_key_exists('old', $mergedItem) ? $mergedItem['old'] : '',
-                'new' => array_key_exists('new', $mergedItem) ? $mergedItem['new'] : ''
+                'new' => array_key_exists('new', $mergedItem) ? $mergedItem['new'] : '',
             ],
             $mergedSnapshot
         );
@@ -156,7 +156,7 @@ class VersionBuilder
     {
         return array_filter(
             $changeset,
-            fn ($item) => $this->hasValueChanged($item['old'], $item['new'])
+            fn($item) => $this->hasValueChanged($item['old'], $item['new'])
         );
     }
 
@@ -184,7 +184,7 @@ class VersionBuilder
      *
      * @return bool|null True if the date has changed, False otherwise. Null if the comparison can't be done.
      */
-    private function hasLegacyDateChanged($old, $new): bool | null
+    private function hasLegacyDateChanged($old, $new): ?bool
     {
         if (!is_string($old) || !is_string($new)) {
             return null;

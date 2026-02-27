@@ -22,9 +22,7 @@ final readonly class ElasticsearchProductModelProjection
      * @param string[] $ancestorAttributeCodes
      * @param string[] $attributesForThisLevel
      */
-    public function __construct(private int $id, private string $code, private \DateTimeImmutable $createdDate, private \DateTimeImmutable $updatedDate, private \DateTimeImmutable $entityUpdatedDate, private string $familyCode, private array $familyLabels, private string $familyVariantCode, private array $categoryCodes, private array $ancestorCategoryCodes, private ?string $parentCode, private array $values, private array $allComplete, private array $allIncomplete, private ?int $parentId, private array $labels, private array $ancestorAttributeCodes, private array $attributesForThisLevel, private array $additionalData = [])
-    {
-    }
+    public function __construct(private int $id, private string $code, private \DateTimeImmutable $createdDate, private \DateTimeImmutable $updatedDate, private \DateTimeImmutable $entityUpdatedDate, private string $familyCode, private array $familyLabels, private string $familyVariantCode, private array $categoryCodes, private array $ancestorCategoryCodes, private ?string $parentCode, private array $values, private array $allComplete, private array $allIncomplete, private ?int $parentId, private array $labels, private array $ancestorAttributeCodes, private array $attributesForThisLevel, private array $additionalData = []) {}
 
     public function addAdditionalData(array $additionalData): ElasticsearchProductModelProjection
     {

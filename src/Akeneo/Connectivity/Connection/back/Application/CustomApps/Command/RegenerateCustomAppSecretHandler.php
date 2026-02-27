@@ -16,8 +16,7 @@ class RegenerateCustomAppSecretHandler
     public function __construct(
         private readonly UpdateCustomAppSecretQueryInterface $regenerateCustomAppSecretQuery,
         private readonly RandomCodeGeneratorInterface $randomCodeGenerator,
-    ) {
-    }
+    ) {}
 
     public function handle(RegenerateCustomAppSecretCommand $command): void
     {

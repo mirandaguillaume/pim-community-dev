@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Component\FollowUp\ReadModel;
@@ -15,9 +16,7 @@ class CompletenessWidget
     /**
      * @param ChannelCompleteness[] $channelCompletenesses
      */
-    public function __construct(private readonly array $channelCompletenesses)
-    {
-    }
+    public function __construct(private readonly array $channelCompletenesses) {}
 
     public function toArray(): array
     {

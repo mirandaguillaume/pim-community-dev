@@ -18,8 +18,7 @@ final readonly class GetExistingProductUuids
 {
     public function __construct(
         private Connection $connection,
-    ) {
-    }
+    ) {}
 
     /**
      * @param string[] $identifiers
@@ -28,12 +27,12 @@ final readonly class GetExistingProductUuids
     {
         Assert::allString($identifiers);
         $sql = <<<SQL
-SELECT product_uuid AS uuid
-FROM pim_catalog_product_unique_data
-INNER JOIN pim_catalog_attribute ON pim_catalog_attribute.id = pim_catalog_product_unique_data.attribute_id
-WHERE raw_data IN (:identifiers)
-AND main_identifier = 1;
-SQL;
+            SELECT product_uuid AS uuid
+            FROM pim_catalog_product_unique_data
+            INNER JOIN pim_catalog_attribute ON pim_catalog_attribute.id = pim_catalog_product_unique_data.attribute_id
+            WHERE raw_data IN (:identifiers)
+            AND main_identifier = 1;
+            SQL;
 
         $uuids = $this->connection->executeQuery(
             $sql,
@@ -41,6 +40,6 @@ SQL;
             ['identifiers' => ArrayParameterType::STRING]
         )->fetchFirstColumn();
 
-        return array_map(static fn (string $uuid): UuidInterface => Uuid::fromBytes($uuid), $uuids);
+        return array_map(static fn(string $uuid): UuidInterface => Uuid::fromBytes($uuid), $uuids);
     }
 }

@@ -40,8 +40,7 @@ class ComputeCompletenessOfProductsFamilyTasklet implements TaskletInterface
         private readonly ProductQueryBuilderFactoryInterface $productQueryBuilderFactory,
         private readonly ComputeAndPersistProductCompletenesses $computeAndPersistProductCompletenesses,
         private readonly ProductAndAncestorsIndexer $productAndAncestorsIndexer,
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

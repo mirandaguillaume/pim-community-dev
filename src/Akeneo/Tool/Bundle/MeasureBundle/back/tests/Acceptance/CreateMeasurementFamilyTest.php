@@ -65,14 +65,14 @@ class CreateMeasurementFamilyTest extends AcceptanceTestCase
                 'code' => $kilogramUnitCode,
                 'labels' => $kilogramLabels,
                 'convert_from_standard' => [$kilogramConversion],
-                'symbol' => $kilogramSymbol
+                'symbol' => $kilogramSymbol,
             ],
             [
                 'code' => $gramUnitCode,
                 'labels' => $gramLabels,
                 'convert_from_standard' => [$gramConversion],
-                'symbol' => $gramSymbol
-            ]
+                'symbol' => $gramSymbol,
+            ],
         ];
         $this->assertMeasurementFamilyDoesNotExists($measurementFamilyCode);
 
@@ -96,7 +96,7 @@ class CreateMeasurementFamilyTest extends AcceptanceTestCase
                     LabelCollection::fromArray($gramLabels),
                     [Operation::create($gramConversion['operator'], $gramConversion['value'])],
                     $gramSymbol
-                )
+                ),
             ]
         );
         $actualMeasurementFamily = $this->measurementFamilyRepository->getByCode(
@@ -139,13 +139,13 @@ class CreateMeasurementFamilyTest extends AcceptanceTestCase
                 'code' => $standardUnitCode,
                 'labels' => [],
                 'convert_from_standard' => [['operator' => 'mul', 'value' => '1']],
-                'symbol' => 'kg'
+                'symbol' => 'kg',
             ],
             [
                 'code' => $tonUnitCode,
                 'labels' => $tonLabels,
                 'convert_from_standard' => [$tonConversionOperator],
-                'symbol' => $tonSymbol
+                'symbol' => $tonSymbol,
             ],
         ];
 
@@ -169,8 +169,8 @@ class CreateMeasurementFamilyTest extends AcceptanceTestCase
                 'code'                  => 'KILOGRAM',
                 'labels'                => ['fr_FR' => 'Kilogrammes'],
                 'convert_from_standard' => [['operator' => 'mul', 'value' => '0.1']],
-                'symbol' => 'kg'
-            ]
+                'symbol' => 'kg',
+            ],
         ];
         $violations = $this->validator->validate($saveFamilyCommand);
 
@@ -195,8 +195,8 @@ class CreateMeasurementFamilyTest extends AcceptanceTestCase
                 'code' => 'kilogram',
                 'labels' => [],
                 'convert_from_standard' => [['operator' => 'mul', 'value' => '153']],
-                'symbol' => 'Km'
-            ]
+                'symbol' => 'Km',
+            ],
         ];
 
         $violations = $this->validator->validate($saveFamilyCommand);
@@ -222,8 +222,8 @@ class CreateMeasurementFamilyTest extends AcceptanceTestCase
                 'code' => 'kilogram',
                 'labels' => [],
                 'convert_from_standard' => [['operator' => 'mul', 'value' => '1']],
-                'symbol' => 'Km'
-            ]
+                'symbol' => 'Km',
+            ],
         ];
 
         $violations = $this->validator->validate($saveFamilyCommand);
@@ -247,8 +247,8 @@ class CreateMeasurementFamilyTest extends AcceptanceTestCase
                 'code' => 'kilogram',
                 'labels' => [],
                 'convert_from_standard' => [['operator' => 'mul', 'value' => '153']],
-                'symbol' => 'Km'
-            ]
+                'symbol' => 'Km',
+            ],
         ];
 
         $violations = $this->validator->validate($saveFamilyCommand);
@@ -273,8 +273,8 @@ class CreateMeasurementFamilyTest extends AcceptanceTestCase
                 'code' => 'kilogram',
                 'labels' => [],
                 'convert_from_standard' => [['operator' => 'mul', 'value' => '153']],
-                'symbol' => 'Km'
-            ]
+                'symbol' => 'Km',
+            ],
         ];
 
         $violations = $this->validator->validate($saveFamilyCommand);
@@ -304,8 +304,8 @@ class CreateMeasurementFamilyTest extends AcceptanceTestCase
                 'code' => $invalidCode,
                 'labels' => [],
                 'convert_from_standard' => [['operator' => 'mul', 'value' => '153']],
-                'symbol' => 'Km'
-            ]
+                'symbol' => 'Km',
+            ],
         ];
 
         $violations = $this->validator->validate($saveFamilyCommand);
@@ -338,8 +338,8 @@ class CreateMeasurementFamilyTest extends AcceptanceTestCase
                 'code' => 'kilogram',
                 'labels' => $invalidLabels,
                 'convert_from_standard' => [['operator' => 'mul', 'value' => '153']],
-                'symbol' => 'Km'
-            ]
+                'symbol' => 'Km',
+            ],
         ];
 
         $violations = $this->validator->validate($saveFamilyCommand);
@@ -365,8 +365,8 @@ class CreateMeasurementFamilyTest extends AcceptanceTestCase
                 'code' => 'kilogram',
                 'labels' => [],
                 'convert_from_standard' => [['operator' => $invalidOperator, 'value' => '251']],
-                'symbol' => 'Km'
-            ]
+                'symbol' => 'Km',
+            ],
         ];
 
         $violations = $this->validator->validate($saveFamilyCommand);
@@ -392,8 +392,8 @@ class CreateMeasurementFamilyTest extends AcceptanceTestCase
                 'code' => 'kilogram',
                 'labels' => [],
                 'convert_from_standard' => [['operator' => 'mul', 'value' => $invalidConvertValue]],
-                'symbol' => 'Km'
-            ]
+                'symbol' => 'Km',
+            ],
         ];
 
         $violations = $this->validator->validate($saveFamilyCommand);
@@ -419,8 +419,8 @@ class CreateMeasurementFamilyTest extends AcceptanceTestCase
                 'code' => 'kilogram',
                 'labels' => [],
                 'convert_from_standard' => [['operator' => 'mul', 'value' => '255']],
-                'symbol' => $invalidUnitSymbol
-            ]
+                'symbol' => $invalidUnitSymbol,
+            ],
         ];
 
         $violations = $this->validator->validate($saveFamilyCommand);
@@ -447,7 +447,7 @@ class CreateMeasurementFamilyTest extends AcceptanceTestCase
                 'labels' => [],
                 'convert_from_standard' => array_fill(0, $invalidOperationCount, ['operator' => 'mul', 'value' => '1']),
                 'symbol' => 'Kg',
-            ]
+            ],
         ];
 
         $violations = $this->validator->validate($saveFamilyCommand);
@@ -469,7 +469,7 @@ class CreateMeasurementFamilyTest extends AcceptanceTestCase
         $saveFamilyCommand->code = 'WEIGHT';
         $saveFamilyCommand->labels = [];
         $saveFamilyCommand->standardUnitCode = 0 === $numberOfUnits ? '' : 'unit_0';
-        $saveFamilyCommand->units = 0 === $numberOfUnits ? [] : array_map(static fn (int $i) => [
+        $saveFamilyCommand->units = 0 === $numberOfUnits ? [] : array_map(static fn(int $i) => [
             'code' => sprintf('unit_%d', $i),
             'labels' => [],
             'convert_from_standard' => [['operator' => 'mul', 'value' => '1']],
@@ -525,7 +525,7 @@ class CreateMeasurementFamilyTest extends AcceptanceTestCase
                 'labels' => [],
                 'convert_from_standard' => [['operator' => 'mul', 'value' => '1']],
                 'symbol' => 'Kg',
-            ]
+            ],
         ];
 
         $violations = $this->validator->validate($saveFamilyCommand);
@@ -550,13 +550,13 @@ class CreateMeasurementFamilyTest extends AcceptanceTestCase
                 'code'                  => 'KILOGRAM',
                 'labels'                => ['fr_FR' => 'Kilogramme'],
                 'convert_from_standard' => [['operator' => 'mul', 'value' => '1']],
-                'symbol' => 'km'
+                'symbol' => 'km',
             ],
             [
                 'code'                  => 'KILOGRAM',
                 'labels'                => ['fr_FR' => 'New Kilogramme'],
                 'convert_from_standard' => [['operator' => 'mul', 'value' => '0.000001']],
-                'symbol' => 'km'
+                'symbol' => 'km',
             ],
         ];
         $violations = $this->validator->validate($saveFamilyCommand);
@@ -572,11 +572,11 @@ class CreateMeasurementFamilyTest extends AcceptanceTestCase
         return [
             'Should not be too long' => [
                 str_repeat('a', 101),
-                'This value is too long. It should have 100 characters or less.'
+                'This value is too long. It should have 100 characters or less.',
             ],
             'Should not blank' => [null, 'This value should not be blank.'],
             'Should not a string' => [123, 'This value should be of type string.'],
-            'Should not have unsupported character' => ['--nice-', 'This field can only contain letters, numbers, and underscores.']
+            'Should not have unsupported character' => ['--nice-', 'This field can only contain letters, numbers, and underscores.'],
         ];
     }
 
@@ -588,7 +588,7 @@ class CreateMeasurementFamilyTest extends AcceptanceTestCase
             'Locale code should be a string' => [[123 => 'my label'], 'This value should be of type string.', 'labels[123]'],
             'Locale code cannot be too long' => [[$as => 'my label'], 'This value is too long. It should have 100 characters or less.', sprintf('labels[%s]', $as)],
             'Label should be a string' => [['fr_FR' => 12], 'This value should be of type string.', 'labels[fr_FR]'],
-            'Label cannot be too long' => [['fr_FR' => $as], 'This value is too long. It should have 100 characters or less.', 'labels[fr_FR]']
+            'Label cannot be too long' => [['fr_FR' => $as], 'This value is too long. It should have 100 characters or less.', 'labels[fr_FR]'],
         ];
     }
 
@@ -600,7 +600,7 @@ class CreateMeasurementFamilyTest extends AcceptanceTestCase
             'Locale code should be a string' => [[123 => 'my label'], 'This value should be of type string.', 'units[0][labels][123]'],
             'Locale code cannot be too long' => [[$as => 'my label'], 'This value is too long. It should have 100 characters or less.', sprintf('units[0][labels][%s]', $as)],
             'Label should be a string' => [['fr_FR' => 12], 'This value should be of type string.', 'units[0][labels][fr_FR]'],
-            'Label cannot be too long' => [['fr_FR' => $as], 'This value is too long. It should have 100 characters or less.', 'units[0][labels][fr_FR]']
+            'Label cannot be too long' => [['fr_FR' => $as], 'This value is too long. It should have 100 characters or less.', 'units[0][labels][fr_FR]'],
         ];
     }
 
@@ -615,7 +615,7 @@ class CreateMeasurementFamilyTest extends AcceptanceTestCase
     public function invalidConvertValue(): array
     {
         return [
-            'The convert value is not a valid number represented as a string' => ['1.24adv', 'The operation value should be a valid number']
+            'The convert value is not a valid number represented as a string' => ['1.24adv', 'The operation value should be a valid number'],
         ];
     }
 
@@ -639,7 +639,7 @@ class CreateMeasurementFamilyTest extends AcceptanceTestCase
                 MeasurementFamilyCode::fromString($measurementFamilyCode),
                 LabelCollection::fromArray([]),
                 UnitCode::fromString($standardUnitCode),
-                array_map(static fn (string $unitCode) => Unit::create(
+                array_map(static fn(string $unitCode) => Unit::create(
                     UnitCode::fromString($unitCode),
                     LabelCollection::fromArray([]),
                     [

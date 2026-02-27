@@ -19,7 +19,7 @@ final class NumberToStringDataConverter implements ValueDataConverter
         AttributeTypes::NUMBER => [
             AttributeTypes::TEXT => true,
             AttributeTypes::TEXTAREA => true,
-        ]
+        ],
     ];
 
     /**

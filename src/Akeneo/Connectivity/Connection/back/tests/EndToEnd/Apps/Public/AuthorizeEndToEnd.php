@@ -64,7 +64,7 @@ class AuthorizeEndToEnd extends WebTestCase
             [
                 'client_id' => 'unknown_client_id',
                 'response_type' => 'code',
-                'scope' => 'read_catalog_structure'
+                'scope' => 'read_catalog_structure',
             ]
         );
         $response = $this->client->getResponse();
@@ -90,7 +90,7 @@ class AuthorizeEndToEnd extends WebTestCase
                 'client_id' => '90741597-54c5-48a1-98da-a68e7ee0a715',
                 'response_type' => 'code',
                 'state' => 'foo',
-                'scope' => 'read_catalog_structure SOME_UNKNOWN_SCOPE write_categories openid profile'
+                'scope' => 'read_catalog_structure SOME_UNKNOWN_SCOPE write_categories openid profile',
             ]
         );
         $response = $this->client->getResponse();

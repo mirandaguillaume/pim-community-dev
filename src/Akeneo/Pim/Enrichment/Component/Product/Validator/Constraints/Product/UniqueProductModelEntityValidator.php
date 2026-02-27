@@ -23,8 +23,7 @@ class UniqueProductModelEntityValidator extends ConstraintValidator
     public function __construct(
         private readonly FindId $findId,
         private readonly UniqueValuesSet $uniqueValuesSet
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

@@ -13,9 +13,7 @@ final readonly class Rows
     /**
      * @param \Akeneo\Pim\Enrichment\Component\Product\Grid\ReadModel\Row[] $rows
      */
-    public function __construct(private array $rows, private int $totalCount, private ?int $totalProductCount, private ?int $totalProductModelCount)
-    {
-    }
+    public function __construct(private array $rows, private int $totalCount, private ?int $totalProductCount, private ?int $totalProductModelCount) {}
 
     public function rows(): array
     {

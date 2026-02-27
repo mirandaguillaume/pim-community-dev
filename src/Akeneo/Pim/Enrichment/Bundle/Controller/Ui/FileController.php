@@ -39,8 +39,7 @@ class FileController
         protected DefaultImageProviderInterface $defaultImageProvider,
         protected array $filesystemAliases,
         protected array $supportedImageTypes,
-    ) {
-    }
+    ) {}
 
     public function showAction(Request $request, string $filename, ?string $filter = null): Response
     {
@@ -63,7 +62,7 @@ class FileController
 
         try {
             return $this->imagineController->filterAction($request, $filename, $filter);
-        } catch (NotFoundHttpException | LogicException | \RuntimeException) {
+        } catch (NotFoundHttpException|LogicException|\RuntimeException) {
             return $this->renderDefaultImage(FileTypes::IMAGE, $filter);
         }
     }

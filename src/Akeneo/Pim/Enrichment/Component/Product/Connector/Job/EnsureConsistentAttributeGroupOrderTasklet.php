@@ -32,9 +32,7 @@ class EnsureConsistentAttributeGroupOrderTasklet implements TaskletInterface, Tr
 {
     private ?\Akeneo\Tool\Component\Batch\Model\StepExecution $stepExecution = null;
 
-    public function __construct(private readonly IdentifiableObjectRepositoryInterface $attributeGroupRepository, private readonly ItemReaderInterface $attributeGroupReader, private readonly SaverInterface $attributeGroupSaver, private readonly FindAttributeGroupOrdersEqualOrSuperiorTo $findAttributeGroupOrdersEqualOrSuperiorTo, private readonly ValidatorInterface $validator, private readonly JobRepositoryInterface $jobRepository)
-    {
-    }
+    public function __construct(private readonly IdentifiableObjectRepositoryInterface $attributeGroupRepository, private readonly ItemReaderInterface $attributeGroupReader, private readonly SaverInterface $attributeGroupSaver, private readonly FindAttributeGroupOrdersEqualOrSuperiorTo $findAttributeGroupOrdersEqualOrSuperiorTo, private readonly ValidatorInterface $validator, private readonly JobRepositoryInterface $jobRepository) {}
 
     /**
      * {@inheritdoc}

@@ -13,15 +13,13 @@ use Doctrine\DBAL\Connection;
  */
 final readonly class GetInstallDatetime
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
     public function __invoke(): ?\DateTime
     {
         $sql = <<< SQL
-            SELECT `values` FROM pim_configuration WHERE code = 'install_data';
-        SQL;
+                SELECT `values` FROM pim_configuration WHERE code = 'install_data';
+            SQL;
 
         $values = $this->connection->executeQuery($sql)->fetchOne();
 

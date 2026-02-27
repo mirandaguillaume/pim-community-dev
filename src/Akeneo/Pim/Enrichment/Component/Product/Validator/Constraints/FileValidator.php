@@ -26,9 +26,7 @@ class FileValidator extends ConstraintValidator
         BaseFileValidator::MIB_BYTES => 'MiB',
     ];
 
-    public function __construct(private readonly array $extensionToMimeTypeMapping)
-    {
-    }
+    public function __construct(private readonly array $extensionToMimeTypeMapping) {}
 
     /**
      * {@inheritdoc}
@@ -83,8 +81,8 @@ class FileValidator extends ConstraintValidator
                 $factorizeSizes = $this->factorizeSizes($fileInfo->getSize(), $limitInBytes, $constraint->binaryFormat);
                 [$sizeAsString, $limitAsString, $suffix] = $factorizeSizes;
 
-                $attribute = $this->context->getObject() instanceof AbstractValue ?
-                    $this->context->getObject()->getAttributeCode()
+                $attribute = $this->context->getObject() instanceof AbstractValue
+                    ? $this->context->getObject()->getAttributeCode()
                     : '';
 
                 $this->context->buildViolation($constraint->maxSizeMessage)
@@ -115,24 +113,24 @@ class FileValidator extends ConstraintValidator
             $coefFactor = BaseFileValidator::KB_BYTES;
         }
 
-        $limitAsString = (string)($limit / $coef);
+        $limitAsString = (string) ($limit / $coef);
 
         // Restrict the limit to 2 decimals (without rounding! we
         // need the precise value)
         while (self::moreDecimalsThan($limitAsString, 2)) {
             $coef /= $coefFactor;
-            $limitAsString = (string)($limit / $coef);
+            $limitAsString = (string) ($limit / $coef);
         }
 
         // Convert size to the same measure, but round to 2 decimals
-        $sizeAsString = (string)round($size / $coef, 2);
+        $sizeAsString = (string) round($size / $coef, 2);
 
         // If the size and limit produce the same string output
         // (due to rounding), reduce the coefficient
         while ($sizeAsString === $limitAsString) {
             $coef /= $coefFactor;
-            $limitAsString = (string)($limit / $coef);
-            $sizeAsString = (string)round($size / $coef, 2);
+            $limitAsString = (string) ($limit / $coef);
+            $sizeAsString = (string) round($size / $coef, 2);
         }
 
         return [$sizeAsString, $limitAsString, self::$suffices[$coef]];
@@ -146,7 +144,7 @@ class FileValidator extends ConstraintValidator
      */
     protected static function moreDecimalsThan($double, $numberOfDecimals)
     {
-        return strlen((string)$double) > strlen(round($double, $numberOfDecimals));
+        return strlen((string) $double) > strlen(round($double, $numberOfDecimals));
     }
 
     private function validateMimeType(FileInfoInterface $fileInfo, File $constraint)
@@ -161,9 +159,9 @@ class FileValidator extends ConstraintValidator
 
         $mappedMimeTypes = $this->extensionToMimeTypeMapping[$this->getExtension($fileInfo)];
 
-        $mimeType = null !== $fileInfo->getUploadedFile() ?
-            $fileInfo->getUploadedFile()->getMimeType() :
-            $fileInfo->getMimeType();
+        $mimeType = null !== $fileInfo->getUploadedFile()
+            ? $fileInfo->getUploadedFile()->getMimeType()
+            : $fileInfo->getMimeType();
 
         if (null !== $mimeType && !in_array($mimeType, $mappedMimeTypes)) {
             $this->context->buildViolation(
@@ -171,7 +169,7 @@ class FileValidator extends ConstraintValidator
                 [
                     '%extension%' => $this->getExtension($fileInfo),
                     '%types%' => implode(', ', $mappedMimeTypes),
-                    '%type%' => $mimeType
+                    '%type%' => $mimeType,
                 ]
             )->addViolation();
         }
@@ -179,8 +177,8 @@ class FileValidator extends ConstraintValidator
 
     private function getExtension(FileInfoInterface $fileInfo): string
     {
-        return null !== $fileInfo->getUploadedFile() ?
-            strtolower($fileInfo->getUploadedFile()->getClientOriginalExtension()) :
-            strtolower($fileInfo->getExtension());
+        return null !== $fileInfo->getUploadedFile()
+            ? strtolower($fileInfo->getUploadedFile()->getClientOriginalExtension())
+            : strtolower($fileInfo->getExtension());
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Component\FollowUp\ReadModel;
@@ -15,9 +16,7 @@ class ChannelCompleteness
     /**
      * @param LocaleCompleteness[] $localeCompletenesses
      */
-    public function __construct(private readonly string $channelCode, private readonly int $numberOfCompleteProducts, private readonly int $numberTotalOfProducts, private readonly array $localeCompletenesses, private readonly array $channelLabels = [])
-    {
-    }
+    public function __construct(private readonly string $channelCode, private readonly int $numberOfCompleteProducts, private readonly int $numberTotalOfProducts, private readonly array $localeCompletenesses, private readonly array $channelLabels = []) {}
 
     public function channel(): string
     {
@@ -50,7 +49,7 @@ class ChannelCompleteness
             'labels' => $this->channelLabels,
             'total' => $this->numberTotalOfProducts,
             'complete' => $this->numberOfCompleteProducts,
-            'locales' => $locales
+            'locales' => $locales,
         ];
     }
 }
