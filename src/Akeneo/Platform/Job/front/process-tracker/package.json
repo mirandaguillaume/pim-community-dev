@@ -16,10 +16,12 @@
       "react-app",
       "react-app/jest"
     ],
-    "parser": "@babel/eslint-parser",
-    "parserOptions": {
-      "requireConfigFile": false
-    }
+    "overrides": [
+      {
+        "files": ["**/*.ts", "**/*.tsx"],
+        "parser": "@typescript-eslint/parser"
+      }
+    ]
   },
   "browserslist": {
     "production": [
