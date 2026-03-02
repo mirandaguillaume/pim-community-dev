@@ -11,4 +11,5 @@ src/Akeneo/Tool/Bundle/MeasureBundle/front
 src/Oro/**/**/*.js
 src/Oro/Bundle/ConfigBundle/front
 tests/front/unit/jest
+tests/front/e2e
 src/**/legacy-bridge/tests
