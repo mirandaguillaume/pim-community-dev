@@ -60,7 +60,7 @@ final class GetRanksDistributionFromProductScoresQueryIntegration extends TestCa
                     'rank_3' => 0,
                     'rank_4' => 0,
                     'rank_5' => 7,
-                ]
+                ],
             ],
         ];
 
@@ -133,7 +133,7 @@ final class GetRanksDistributionFromProductScoresQueryIntegration extends TestCa
                     'rank_3' => 0,
                     'rank_4' => 0,
                     'rank_5' => 0,
-                ]
+                ],
             ],
         ];
 
@@ -200,7 +200,7 @@ final class GetRanksDistributionFromProductScoresQueryIntegration extends TestCa
     private function givenCategory(string $categoryCode): void
     {
         $this->createCategory([
-            'code' => $categoryCode
+            'code' => $categoryCode,
         ]);
     }
 
@@ -240,7 +240,7 @@ final class GetRanksDistributionFromProductScoresQueryIntegration extends TestCa
 
     private function getRateFromRank(int $rank): Rate
     {
-        return new Rate(100 - $rank*10);
+        return new Rate(100 - $rank * 10);
     }
 
     private function getProductIndexer(): ProductIndexer

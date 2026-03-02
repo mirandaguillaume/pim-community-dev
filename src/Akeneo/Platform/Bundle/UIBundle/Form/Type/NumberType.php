@@ -72,7 +72,7 @@ class NumberType extends AbstractType
                 'decimals_allowed'           => true,
                 'invalid_message'            => $message,
                 'invalid_message_parameters' => ['{{ decimal_separator }}' => $decimalSeparator],
-                'locale_options'             => $options
+                'locale_options'             => $options,
             ]
         );
     }

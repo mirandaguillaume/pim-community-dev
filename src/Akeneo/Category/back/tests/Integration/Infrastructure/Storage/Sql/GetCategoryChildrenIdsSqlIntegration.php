@@ -28,7 +28,7 @@ class GetCategoryChildrenIdsSqlIntegration extends CategoryTestCase
 
         $this->assertSame([
             0 => $categoryPants->getId(),
-            1 => $categoryJeans->getId()
+            1 => $categoryJeans->getId(),
         ], $categoryChildrenIds);
     }
 

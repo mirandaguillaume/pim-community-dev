@@ -23,10 +23,10 @@ final readonly class SqlGetPausedJobExecutionIds implements GetPausedJobExecutio
     public function all(): array
     {
         $sql = <<<SQL
-SELECT id
-FROM akeneo_batch_job_execution
-WHERE status = :paused_status
-SQL;
+            SELECT id
+            FROM akeneo_batch_job_execution
+            WHERE status = :paused_status
+            SQL;
 
         $result = $this->connection->executeQuery(
             $sql,

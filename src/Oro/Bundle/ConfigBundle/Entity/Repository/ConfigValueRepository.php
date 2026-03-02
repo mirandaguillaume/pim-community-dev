@@ -52,7 +52,7 @@ class ConfigValueRepository extends EntityRepository
             ->setParameters([
                 'entity'  => $entityName,
                 'scope'   => $scopeId,
-                'section' => $section
+                'section' => $section,
             ])->getQuery()->getOneOrNullResult();
     }
 }

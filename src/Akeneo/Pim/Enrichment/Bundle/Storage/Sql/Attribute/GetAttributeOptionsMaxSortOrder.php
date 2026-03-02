@@ -21,12 +21,12 @@ class GetAttributeOptionsMaxSortOrder
     public function forAttributeCodes(array $attributeCodes): array
     {
         $sql = <<<SQL
-SELECT a.code AS attribute_code, MAX(o.sort_order) as sort_order
-FROM pim_catalog_attribute_option o
-INNER JOIN pim_catalog_attribute a ON a.id = o.attribute_id
-WHERE a.code IN (:attributeCodes)
-GROUP BY attribute_code;
-SQL;
+            SELECT a.code AS attribute_code, MAX(o.sort_order) as sort_order
+            FROM pim_catalog_attribute_option o
+            INNER JOIN pim_catalog_attribute a ON a.id = o.attribute_id
+            WHERE a.code IN (:attributeCodes)
+            GROUP BY attribute_code;
+            SQL;
 
         $sortOrders = [];
         $rows = $this->connection->executeQuery(

@@ -44,7 +44,7 @@ final class SqlFindLocalesIntegration extends TestCase
             $this->assertEquals(true, $result->isActivated());
         }
 
-        $enUSLocale = current(array_filter($results, fn (Locale $channel) => $channel->getCode() === 'en_US'));
+        $enUSLocale = current(array_filter($results, fn(Locale $channel) => $channel->getCode() === 'en_US'));
 
         $this->assertEquals('en_US', $enUSLocale->getCode());
         $this->assertEquals(true, $enUSLocale->isActivated());

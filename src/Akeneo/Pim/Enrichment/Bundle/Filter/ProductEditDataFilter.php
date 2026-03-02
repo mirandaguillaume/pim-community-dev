@@ -25,7 +25,7 @@ class ProductEditDataFilter implements CollectionFilterInterface
         'family'       => 'pim_enrich_product_change_family',
         'categories'   => 'pim_enrich_product_categories_view',
         'enabled'      => 'pim_enrich_product_change_state',
-        'associations' => 'pim_enrich_associations_view'
+        'associations' => 'pim_enrich_associations_view',
     ];
 
     public function __construct(

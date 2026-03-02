@@ -391,24 +391,24 @@ class ListCategoryEndToEnd extends ApiCategoryTestCase
         $client->request('GET', 'api/rest/v1/categories?limit=10&page=2');
 
         $expected = <<<JSON
-{
-    "_links": {
-        "self": {
-            "href": "http://localhost/api/rest/v1/categories?page=2&limit=10&with_count=false"
-        },
-        "first": {
-            "href": "http://localhost/api/rest/v1/categories?page=1&limit=10&with_count=false"
-        },
-        "previous": {
-            "href": "http://localhost/api/rest/v1/categories?page=1&limit=10&with_count=false"
-        }
-    },
-    "current_page": 2,
-    "_embedded": {
-        "items": []
-    }
-}
-JSON;
+            {
+                "_links": {
+                    "self": {
+                        "href": "http://localhost/api/rest/v1/categories?page=2&limit=10&with_count=false"
+                    },
+                    "first": {
+                        "href": "http://localhost/api/rest/v1/categories?page=1&limit=10&with_count=false"
+                    },
+                    "previous": {
+                        "href": "http://localhost/api/rest/v1/categories?page=1&limit=10&with_count=false"
+                    }
+                },
+                "current_page": 2,
+                "_embedded": {
+                    "items": []
+                }
+            }
+            JSON;
         $response = $client->getResponse();
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
         $this->assertJsonStringEqualsJsonString($expected, $response->getContent());
@@ -423,24 +423,24 @@ JSON;
         $client->request('GET', 'api/rest/v1/categories?limit=10&page=2');
 
         $expected = <<<JSON
-{
-    "_links": {
-        "self": {
-            "href": "http://localhost/api/rest/v1/categories?page=2&limit=10&with_count=false"
-        },
-        "first": {
-            "href": "http://localhost/api/rest/v1/categories?page=1&limit=10&with_count=false"
-        },
-        "previous": {
-            "href": "http://localhost/api/rest/v1/categories?page=1&limit=10&with_count=false"
-        }
-    },
-    "current_page": 2,
-    "_embedded": {
-        "items": []
-    }
-}
-JSON;
+            {
+                "_links": {
+                    "self": {
+                        "href": "http://localhost/api/rest/v1/categories?page=2&limit=10&with_count=false"
+                    },
+                    "first": {
+                        "href": "http://localhost/api/rest/v1/categories?page=1&limit=10&with_count=false"
+                    },
+                    "previous": {
+                        "href": "http://localhost/api/rest/v1/categories?page=1&limit=10&with_count=false"
+                    }
+                },
+                "current_page": 2,
+                "_embedded": {
+                    "items": []
+                }
+            }
+            JSON;
         $response = $client->getResponse();
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
         $this->assertJsonStringEqualsJsonString($expected, $response->getContent());

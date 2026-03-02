@@ -63,7 +63,7 @@ class AjaxChoiceFilterType extends ChoiceFilterType
                 'preload_choices'   => false,
                 'choice_url'        => null,
                 'choice_url_params' => null,
-                'field_options'     => []
+                'field_options'     => [],
             ]
         );
     }
@@ -91,8 +91,8 @@ class AjaxChoiceFilterType extends ChoiceFilterType
     {
         $operatorChoices = [strtolower(Operators::IN_LIST)];
 
-        if (isset($options['field_options']['attr']['empty_choice']) &&
-            true === $options['field_options']['attr']['empty_choice']) {
+        if (isset($options['field_options']['attr']['empty_choice'])
+            && true === $options['field_options']['attr']['empty_choice']) {
             $operatorChoices[] = strtolower(Operators::IS_EMPTY);
             $operatorChoices[] = strtolower(Operators::IS_NOT_EMPTY);
         }

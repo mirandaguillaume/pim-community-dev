@@ -37,7 +37,7 @@ class GetPeriodEventCountPerConnectionHandlerSpec extends ObjectBehavior
         );
 
         $periodEventCounts = [
-            new PeriodEventCount('erp', $period->start(), $period->end(), [])
+            new PeriodEventCount('erp', $period->start(), $period->end(), []),
         ];
         $selectPeriodEventCountsQuery->execute(EventTypes::PRODUCT_CREATED, $period)
             ->willReturn($periodEventCounts);

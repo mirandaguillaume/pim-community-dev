@@ -14,7 +14,7 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version_6_0_20211115143942_add_user_group_type_column extends AbstractMigration
 {
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         $table = $schema->getTable('oro_access_group');
         if (!$table->hasColumn('type')) {
@@ -25,7 +25,7 @@ final class Version_6_0_20211115143942_add_user_group_type_column extends Abstra
         $this->disableMigrationWarning();
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         $this->throwIrreversibleMigrationException();
     }

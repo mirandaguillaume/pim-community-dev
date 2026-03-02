@@ -33,17 +33,17 @@ class Version_7_0_20230201143500_set_product_identifier_nullable_Integration ext
     {
         $schema = $this->getConnection()->getDatabase();
         $sql = <<<SQL
-            SELECT IS_NULLABLE 
-            FROM information_schema.columns 
-            WHERE table_schema=:schema 
-              AND table_name=:tableName
-              AND column_name=:columnName;
-        SQL;
+                SELECT IS_NULLABLE 
+                FROM information_schema.columns 
+                WHERE table_schema=:schema 
+                  AND table_name=:tableName
+                  AND column_name=:columnName;
+            SQL;
 
         $result = $this->getConnection()->fetchOne($sql, [
             'schema' => $schema,
             'tableName' => $tableName,
-            'columnName' => $columnName
+            'columnName' => $columnName,
         ]);
 
         return $result === 'YES';
@@ -52,9 +52,9 @@ class Version_7_0_20230201143500_set_product_identifier_nullable_Integration ext
     private function setNotNullableColumn(): void
     {
         $this->getConnection()->executeQuery(<<<SQL
-            ALTER TABLE pim_catalog_product 
-            MODIFY COLUMN identifier varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
-        SQL);
+                ALTER TABLE pim_catalog_product 
+                MODIFY COLUMN identifier varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+            SQL);
     }
 
     private function getConnection(): Connection

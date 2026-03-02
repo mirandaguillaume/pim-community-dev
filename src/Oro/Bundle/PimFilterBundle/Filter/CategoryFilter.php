@@ -81,9 +81,9 @@ class CategoryFilter extends NumberFilter
         }
 
         return [
-            'includeSub' => isset($data['type'])                ? (bool) $data['type']               : true,
-            'treeId'     => isset($data['value']['treeId'])     ? (int) $data['value']['treeId']     : null,
-            'categoryId' => isset($data['value']['categoryId']) ? (int) $data['value']['categoryId'] : null
+            'includeSub' => isset($data['type']) ? (bool) $data['type'] : true,
+            'treeId'     => isset($data['value']['treeId']) ? (int) $data['value']['treeId'] : null,
+            'categoryId' => isset($data['value']['categoryId']) ? (int) $data['value']['categoryId'] : null,
         ];
     }
 

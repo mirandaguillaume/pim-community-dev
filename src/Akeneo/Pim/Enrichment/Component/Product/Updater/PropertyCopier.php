@@ -45,8 +45,8 @@ class PropertyCopier implements PropertyCopierInterface
         $toField,
         array $options = []
     ) {
-        if (!$fromEntityWithValues instanceof EntityWithValuesInterface ||
-            !$toEntityWithValues instanceof EntityWithValuesInterface
+        if (!$fromEntityWithValues instanceof EntityWithValuesInterface
+            || !$toEntityWithValues instanceof EntityWithValuesInterface
         ) {
             throw new InvalidObjectException(
                 ClassUtils::getClass($fromEntityWithValues),

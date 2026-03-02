@@ -14,7 +14,7 @@ class PimUrl
     {
     }
 
-    public function getPimUrl():string
+    public function getPimUrl(): string
     {
         return $this->pimUrl;
     }

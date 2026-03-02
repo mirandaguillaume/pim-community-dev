@@ -28,7 +28,7 @@ class BooleanFilter extends OroBooleanFilter
 
         if (in_array($data['value'], [
             BooleanFilterType::TYPE_YES,
-            BooleanFilterType::TYPE_NO
+            BooleanFilterType::TYPE_NO,
         ])) {
             $this->util->applyFilter(
                 $ds,

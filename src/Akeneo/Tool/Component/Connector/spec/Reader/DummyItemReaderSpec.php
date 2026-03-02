@@ -6,7 +6,7 @@ use PhpSpec\ObjectBehavior;
 
 class DummyItemReaderSpec extends ObjectBehavior
 {
-    function it_does_nothing_when_read_items()
+    public function it_does_nothing_when_read_items()
     {
         $this->read()->shouldReturn(null);
     }

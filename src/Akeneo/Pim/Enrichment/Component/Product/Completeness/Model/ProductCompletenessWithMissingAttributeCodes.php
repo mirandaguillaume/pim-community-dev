@@ -60,6 +60,6 @@ final class ProductCompletenessWithMissingAttributeCodes
             return 100;
         }
 
-        return (int)floor(100 * ($this->requiredCount - count($this->missingAttributeCodes)) / $this->requiredCount);
+        return (int) floor(100 * ($this->requiredCount - count($this->missingAttributeCodes)) / $this->requiredCount);
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Pim\Upgrade\Schema\Tests;
 
@@ -39,17 +41,17 @@ final class Version_8_0_20230131125133_create_identifier_generator_family_nomenc
 
     private function tablesExists(): bool
     {
-        return $this->tableExists('pim_catalog_identifier_generator_nomenclature_definition') &&
-            $this->tableExists('pim_catalog_identifier_generator_family_nomenclature');
+        return $this->tableExists('pim_catalog_identifier_generator_nomenclature_definition')
+            && $this->tableExists('pim_catalog_identifier_generator_family_nomenclature');
     }
 
     private function tableExists($tableName): bool
     {
         return $this->connection->executeQuery(
-                'SHOW TABLES LIKE :tableName',
-                [
-                    'tableName' => $tableName,
-                ]
-            )->rowCount() >= 1;
+            'SHOW TABLES LIKE :tableName',
+            [
+                'tableName' => $tableName,
+            ]
+        )->rowCount() >= 1;
     }
 }

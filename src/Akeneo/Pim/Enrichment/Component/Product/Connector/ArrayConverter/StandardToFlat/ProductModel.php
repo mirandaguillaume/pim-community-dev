@@ -40,7 +40,7 @@ class ProductModel extends AbstractSimpleArrayConverter implements ArrayConverte
             case 'code':
             case 'family_variant':
             case 'parent':
-                $convertedItem[$property] = (string)$data;
+                $convertedItem[$property] = (string) $data;
                 break;
             case 'values':
                 foreach ($data as $code => $attribute) {

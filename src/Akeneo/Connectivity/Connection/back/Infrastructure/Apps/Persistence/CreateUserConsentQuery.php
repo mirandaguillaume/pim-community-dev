@@ -38,7 +38,7 @@ final readonly class CreateUserConsentQuery implements CreateUserConsentQueryInt
             'appId' => Types::STRING,
             'scopes' => Types::JSON,
             'uuid' => Types::ASCII_STRING,
-            'consentDate' => Types::DATETIMETZ_IMMUTABLE
+            'consentDate' => Types::DATETIMETZ_IMMUTABLE,
         ]);
     }
 }

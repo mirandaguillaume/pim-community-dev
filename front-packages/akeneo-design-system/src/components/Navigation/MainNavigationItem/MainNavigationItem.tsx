@@ -109,7 +109,7 @@ const MainNavigationItem = React.forwardRef<HTMLAnchorElement, MainNavigationIte
       onClick?.(event);
     };
 
-    let tag: React.ReactElement<typeof Tag> | null = null;
+    let tag: React.ReactElement | null = null;
     const taglessChildren = React.Children.map(children, child => {
       if (React.isValidElement(child) && child.type === Tag) {
         if (null === tag) {

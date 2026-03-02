@@ -27,13 +27,13 @@ class CategoryQueryIntegration extends TestCase
             'code' => 'socks',
             'labels' => [
                 'fr_FR' => 'Chaussettes',
-                'en_US' => 'Socks'
-            ]
+                'en_US' => 'Socks',
+            ],
         ]);
 
         $query = <<<SQL
-UPDATE pim_catalog_category SET value_collection = :value_collection WHERE code = :code;
-SQL;
+            UPDATE pim_catalog_category SET value_collection = :value_collection WHERE code = :code;
+            SQL;
 
         $this->get('database_connection')->executeQuery($query, [
             'value_collection' => json_encode([
@@ -57,31 +57,31 @@ SQL;
                         "extension" => "jpg",
                         "file_path" => "8/8/3/d/883d041fc9f22ce42fee07d96c05b0b7ec7e66de_shoes.jpg",
                         "mime_type" => "image/jpeg",
-                        "original_filename" => "shoes.jpg"
+                        "original_filename" => "shoes.jpg",
                     ],
                     "type" => "image",
                     "channel" => null,
                     "locale" => null,
                     "attribute_code" => "photo" . AbstractValue::SEPARATOR . "8587cda6-58c8-47fa-9278-033e1d8c735c",
-                ]
+                ],
             ], JSON_THROW_ON_ERROR),
-            'code' => $this->category->getCode()
+            'code' => $this->category->getCode(),
         ]);
 
         $this->category2 = $this->createCategory([
             'code' => 'led_tv',
             'labels' => [
                 'fr_FR' => 'Tv Led',
-                'en_US' => 'Led Tv'
-            ]
+                'en_US' => 'Led Tv',
+            ],
         ]);
 
         $this->category3 = $this->createCategory([
             'code' => 'tshirt',
             'labels' => [
                 'fr_FR' => 'T-shirt',
-                'en_US' => 'T-shirt'
-            ]
+                'en_US' => 'T-shirt',
+            ],
         ]);
     }
 

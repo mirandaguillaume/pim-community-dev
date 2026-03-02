@@ -55,9 +55,9 @@ class MetricFactory
     {
         try {
             $unit = $this->getUnit($unit, $family);
-            $baseData = null !== $data ?
-                $this->measureConverter->setFamily($family)->convertBaseToStandard($unit, $data) :
-                null;
+            $baseData = null !== $data
+                ? $this->measureConverter->setFamily($family)->convertBaseToStandard($unit, $data)
+                : null;
         } catch (MeasureException) {
             return new $this->metricClass($family, $unit, $data, null, null);
         }

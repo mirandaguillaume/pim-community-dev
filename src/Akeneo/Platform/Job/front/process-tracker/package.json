@@ -15,6 +15,12 @@
     "extends": [
       "react-app",
       "react-app/jest"
+    ],
+    "overrides": [
+      {
+        "files": ["**/*.ts", "**/*.tsx"],
+        "parser": "@typescript-eslint/parser"
+      }
     ]
   },
   "browserslist": {

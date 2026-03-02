@@ -17,7 +17,7 @@ use Akeneo\UserManagement\ServiceApi\User\UpsertUserCommand;
 use Akeneo\UserManagement\ServiceApi\User\UpsertUserHandlerInterface;
 use Akeneo\UserManagement\ServiceApi\ViolationsException;
 
-class UpsertUserHandlerIntegration  extends TestCase
+class UpsertUserHandlerIntegration extends TestCase
 {
     public function testItCreateAUserIfUsernameDoesNotExist()
     {

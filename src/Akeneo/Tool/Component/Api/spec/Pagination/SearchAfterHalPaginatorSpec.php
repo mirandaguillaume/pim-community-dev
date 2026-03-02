@@ -11,29 +11,29 @@ use Symfony\Component\Routing\RouterInterface;
 
 class SearchAfterHalPaginatorSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         RouterInterface $router
     ) {
         $this->beConstructedWith($router);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(SearchAfterHalPaginator::class);
     }
 
-    function it_is_a_paginator()
+    public function it_is_a_paginator()
     {
         $this->shouldImplement(PaginatorInterface::class);
     }
 
-    function it_paginates_in_hal_format($normalizer, $router)
+    public function it_paginates_in_hal_format($normalizer, $router)
     {
         // links
         $router
             ->generate(
                 'attribute_option_list_route',
-                ['attributeCode' => 'a_multi_select', 'pagination_type' => 'search_after', 'search_after' => 'a_text', 'limit'=> 2],
+                ['attributeCode' => 'a_multi_select', 'pagination_type' => 'search_after', 'search_after' => 'a_text', 'limit' => 2],
                 UrlGeneratorInterface::ABSOLUTE_URL
             )
             ->willReturn('http://akeneo.com/api/rest/v1/attributes/a_multi_select/options?pagination_type=search_after&limit=2&search_after=a_text');
@@ -41,7 +41,7 @@ class SearchAfterHalPaginatorSpec extends ObjectBehavior
         $router
             ->generate(
                 'attribute_option_list_route',
-                ['attributeCode' => 'a_multi_select', 'pagination_type' => 'search_after', 'limit'=> 2, 'search_after' => null],
+                ['attributeCode' => 'a_multi_select', 'pagination_type' => 'search_after', 'limit' => 2, 'search_after' => null],
                 UrlGeneratorInterface::ABSOLUTE_URL
             )
             ->willReturn('http://akeneo.com/api/rest/v1/attributes/a_multi_select/options?pagination_type=search_after&limit=2');
@@ -49,7 +49,7 @@ class SearchAfterHalPaginatorSpec extends ObjectBehavior
         $router
             ->generate(
                 'attribute_option_list_route',
-                ['attributeCode' => 'a_multi_select', 'pagination_type' => 'search_after', 'search_after' => 'another_text', 'limit'=> 2],
+                ['attributeCode' => 'a_multi_select', 'pagination_type' => 'search_after', 'search_after' => 'another_text', 'limit' => 2],
                 UrlGeneratorInterface::ABSOLUTE_URL
             )
             ->willReturn('http://akeneo.com/api/rest/v1/attributes/a_multi_select/options?pagination_type=search_after&limit=2&search_after=another_text');
@@ -114,7 +114,7 @@ class SearchAfterHalPaginatorSpec extends ObjectBehavior
         $this->paginate($standardItems, $parameters, null)->shouldReturn($expectedItems);
     }
 
-    function it_paginates_in_hal_format_without_using_the_limit_as_query_parameter($router)
+    public function it_paginates_in_hal_format_without_using_the_limit_as_query_parameter($router)
     {
         // links
         $router
@@ -202,13 +202,13 @@ class SearchAfterHalPaginatorSpec extends ObjectBehavior
         $this->paginate($standardItems, $parameters, null)->shouldReturn($expectedItems);
     }
 
-    function it_paginates_without_next_link_when_last_page($normalizer, $router)
+    public function it_paginates_without_next_link_when_last_page($normalizer, $router)
     {
         // links
         $router
             ->generate(
                 'attribute_option_list_route',
-                ['attributeCode' => 'a_multi_select', 'pagination_type' => 'search_after', 'search_after' => 'a_text', 'limit'=> 2],
+                ['attributeCode' => 'a_multi_select', 'pagination_type' => 'search_after', 'search_after' => 'a_text', 'limit' => 2],
                 UrlGeneratorInterface::ABSOLUTE_URL
             )
             ->willReturn('http://akeneo.com/api/rest/v1/attributes/a_multi_select/options?pagination_type=search_after&limit=2&search_after=a_text');
@@ -216,7 +216,7 @@ class SearchAfterHalPaginatorSpec extends ObjectBehavior
         $router
             ->generate(
                 'attribute_option_list_route',
-                ['attributeCode' => 'a_multi_select', 'pagination_type' => 'search_after', 'limit'=> 2, 'search_after' => null],
+                ['attributeCode' => 'a_multi_select', 'pagination_type' => 'search_after', 'limit' => 2, 'search_after' => null],
                 UrlGeneratorInterface::ABSOLUTE_URL
             )
             ->willReturn('http://akeneo.com/api/rest/v1/attributes/a_multi_select/options?pagination_type=search_after&limit=2');
@@ -266,12 +266,12 @@ class SearchAfterHalPaginatorSpec extends ObjectBehavior
         $this->paginate($standardItems, $parameters, null)->shouldReturn($expectedItems);
     }
 
-    function it_paginates_with_one_page_when_total_items_equals_zero($normalizer, $router)
+    public function it_paginates_with_one_page_when_total_items_equals_zero($normalizer, $router)
     {
         $router
             ->generate(
                 'attribute_option_list_route',
-                ['attributeCode' => 'a_multi_select', 'pagination_type' => 'search_after', 'limit'=> 2, 'search_after' => null],
+                ['attributeCode' => 'a_multi_select', 'pagination_type' => 'search_after', 'limit' => 2, 'search_after' => null],
                 UrlGeneratorInterface::ABSOLUTE_URL
             )
             ->willReturn('http://akeneo.com/api/rest/v1/attributes/a_multi_select/options?pagination_type=search_after&limit=2');
@@ -302,17 +302,17 @@ class SearchAfterHalPaginatorSpec extends ObjectBehavior
         $this->paginate([], $parameters, null)->shouldReturn($expectedItems);
     }
 
-    function it_throws_an_exception_when_unknown_parameter_given()
+    public function it_throws_an_exception_when_unknown_parameter_given()
     {
         $this->shouldThrow(PaginationParametersException::class)->during('paginate', [[], ['foo' => 'bar'], null]);
     }
 
-    function it_throws_an_exception_when_a_parameter_is_missing()
+    public function it_throws_an_exception_when_a_parameter_is_missing()
     {
         $this->shouldThrow(PaginationParametersException::class)->during('paginate', [[], [], null]);
     }
 
-    function it_throws_an_exception_when_no_limit_has_been_defined()
+    public function it_throws_an_exception_when_no_limit_has_been_defined()
     {
         $parameters = [
             'uri_parameters'      => ['attributeCode' => 'a_multi_select'],

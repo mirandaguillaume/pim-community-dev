@@ -17,15 +17,14 @@ final readonly class UnableToSetIdentifierExceptionPresenter implements UnableTo
 {
     public function __construct(
         private TranslatorInterface $translator,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<array{'path': string|null, "message": string}>
      */
     public function present(UnableToSetIdentifierException $exception): array
     {
-        return \array_map(fn (Error $error): array => $this->presentError($error), $exception->getErrors()->toArray());
+        return \array_map(fn(Error $error): array => $this->presentError($error), $exception->getErrors()->toArray());
     }
 
     /**

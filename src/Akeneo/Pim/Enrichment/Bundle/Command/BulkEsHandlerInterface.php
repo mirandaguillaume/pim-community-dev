@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Akeneo\Pim\Enrichment\Bundle\Command;
 
 /**

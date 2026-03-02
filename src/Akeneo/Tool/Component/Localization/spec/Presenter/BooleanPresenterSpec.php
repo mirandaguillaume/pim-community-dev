@@ -7,23 +7,23 @@ use PhpSpec\ObjectBehavior;
 
 class BooleanPresenterSpec extends ObjectBehavior
 {
-    function let()
+    public function let()
     {
         $this->beConstructedWith(['enabled']);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(BooleanPresenter::class);
     }
 
-    function it_supports_enabled()
+    public function it_supports_enabled()
     {
         $this->supports('enabled')->shouldReturn(true);
         $this->supports('yolo')->shouldReturn(false);
     }
 
-    function it_presents_values()
+    public function it_presents_values()
     {
         $this->present(true)->shouldReturn('true');
         $this->present('true')->shouldReturn('true');

@@ -9,14 +9,14 @@ use Prophecy\Argument;
 
 class ExportMassActionSpec extends ObjectBehavior
 {
-    function it_is_an_export_mass_action()
+    public function it_is_an_export_mass_action()
     {
         $this->shouldImplement(
             ExportMassActionInterface::class
         );
     }
 
-    function it_requires_the_format_route_parameter()
+    public function it_requires_the_format_route_parameter()
     {
         $options = ActionConfiguration::createNamed('export', []);
 
@@ -25,10 +25,10 @@ class ExportMassActionSpec extends ObjectBehavior
         )->duringSetOptions($options);
     }
 
-    function it_requires_the_content_type_route_parameter()
+    public function it_requires_the_content_type_route_parameter()
     {
         $params = [
-            'route_parameters' => ['_format' => 'foo']
+            'route_parameters' => ['_format' => 'foo'],
         ];
         $options = ActionConfiguration::createNamed('export', $params);
 
@@ -37,7 +37,7 @@ class ExportMassActionSpec extends ObjectBehavior
         )->duringSetOptions($options);
     }
 
-    function it_defines_default_values()
+    public function it_defines_default_values()
     {
         $routeParams = ['_format' => 'foo', '_contentType' => 'bar'];
         $params = ['route_parameters' => $routeParams];
@@ -53,7 +53,7 @@ class ExportMassActionSpec extends ObjectBehavior
         $this->getOptions()->offsetGet('handler')->shouldReturn('quick_export');
     }
 
-    function it_overwrites_default_values()
+    public function it_overwrites_default_values()
     {
         $routeParams = ['_format' => 'foo', '_contentType' => 'bar'];
         $context = ['baz' => 'qux'];
@@ -61,7 +61,7 @@ class ExportMassActionSpec extends ObjectBehavior
             'route_parameters' => $routeParams,
             'context'          => $context,
             'route'            => 'my_route',
-            'handler'          => 'my_handler'
+            'handler'          => 'my_handler',
         ];
         $options = ActionConfiguration::createNamed('export', $params);
 
@@ -74,13 +74,13 @@ class ExportMassActionSpec extends ObjectBehavior
         $this->getOptions()->offsetGet('handler')->shouldReturn('my_handler');
     }
 
-    function it_gets_export_context()
+    public function it_gets_export_context()
     {
         $routeParams = ['_format' => 'foo', '_contentType' => 'bar'];
         $context = ['baz' => 'qux'];
         $params = [
             'route_parameters' => $routeParams,
-            'context'          => $context
+            'context'          => $context,
         ];
         $options = ActionConfiguration::createNamed('export', $params);
 
@@ -89,7 +89,7 @@ class ExportMassActionSpec extends ObjectBehavior
         $this->getExportContext()->shouldReturn($context);
     }
 
-    function it_doesnt_allow_overriding_frontend_type()
+    public function it_doesnt_allow_overriding_frontend_type()
     {
         $routeParams = ['_format' => 'foo', '_contentType' => 'bar'];
         $params = ['route_parameters' => $routeParams, 'frontend_type' => 'bar'];

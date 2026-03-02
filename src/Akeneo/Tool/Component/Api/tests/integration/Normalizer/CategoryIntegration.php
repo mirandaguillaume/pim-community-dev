@@ -31,8 +31,8 @@ class CategoryIntegration extends AbstractNormalizerTestCase
             'updated' => '2016-06-14T13:12:50+02:00',
             'labels' => [
                 'en_US' => 'Category A',
-                'fr_FR' => 'Catégorie A'
-            ]
+                'fr_FR' => 'Catégorie A',
+            ],
         ];
 
         $this->assert('categoryA', $expected);

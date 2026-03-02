@@ -29,10 +29,10 @@ class FileTypeGuesser implements FileTypeGuesserInterface
                 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                 'application/vnd.ms-excel',
                 'application/x-pdf',
-                'text/*'
+                'text/*',
             ],
             FileTypes::IMAGE => ['image/*'],
-            FileTypes::VIDEO => ['video/*']
+            FileTypes::VIDEO => ['video/*'],
         ];
 
         $this->typesMapping = array_merge($typesMapping, $extraTypesMapping);

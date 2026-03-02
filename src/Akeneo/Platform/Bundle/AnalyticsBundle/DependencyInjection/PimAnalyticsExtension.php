@@ -25,7 +25,7 @@ class PimAnalyticsExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
         $container->prependExtensionConfig('pim_notification', $config);
 
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('controllers.yml');
         $loader->load('commands.yml');
         $loader->load('data_collectors.yml');

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace spec\Akeneo\Tool\Component\BatchQueue\Normalizer;
@@ -16,18 +17,18 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class JobExecutionMessageNormalizerSpec extends ObjectBehavior
 {
-    function let(JobExecutionMessageFactory $jobExecutionMessageFactory)
+    public function let(JobExecutionMessageFactory $jobExecutionMessageFactory)
     {
         $this->beConstructedWith($jobExecutionMessageFactory);
     }
 
-    function it_is_a_normalizer_and_a_denormalizer()
+    public function it_is_a_normalizer_and_a_denormalizer()
     {
         $this->shouldImplement(NormalizerInterface::class);
         $this->shouldImplement(DenormalizerInterface::class);
     }
 
-    function it_supports_job_messenger_normalization_only()
+    public function it_supports_job_messenger_normalization_only()
     {
         $jobMessenger = UiJobExecutionMessage::createJobExecutionMessage(1, []);
         $this->supportsNormalization($jobMessenger, '')->shouldBe(true);
@@ -44,7 +45,7 @@ class JobExecutionMessageNormalizerSpec extends ObjectBehavior
         $this->supportsNormalization(new \StdClass(), '')->shouldBe(false);
     }
 
-    function it_normalizes_a_simple_job_messenger()
+    public function it_normalizes_a_simple_job_messenger()
     {
         $jobMessenger = UiJobExecutionMessage::createJobExecutionMessage(
             1,
@@ -60,14 +61,14 @@ class JobExecutionMessageNormalizerSpec extends ObjectBehavior
         $normalized['options']->shouldBe(['option1' => 'value1']);
     }
 
-    function it_normalizes_a_full_job_message()
+    public function it_normalizes_a_full_job_message()
     {
         $jobMessenger = ImportJobExecutionMessage::createJobExecutionMessageFromNormalized([
             'id' => '215ee791-1c40-4c60-82fb-cb017d6bcb90',
             'job_execution_id' => 2,
             'created_time' => '2020-01-01',
             'updated_time' => '2020-02-01',
-            'options' => ['option1' => 'value1']
+            'options' => ['option1' => 'value1'],
         ]);
 
         $normalized = $this->normalize($jobMessenger);
@@ -79,7 +80,7 @@ class JobExecutionMessageNormalizerSpec extends ObjectBehavior
         $normalized['options']->shouldBe(['option1' => 'value1']);
     }
 
-    function it_supports_job_messenger_denormalization_only()
+    public function it_supports_job_messenger_denormalization_only()
     {
         $this->supportsDenormalization([], UiJobExecutionMessage::class)->shouldBe(true);
         $this->supportsDenormalization([], ImportJobExecutionMessage::class)->shouldBe(true);
@@ -88,7 +89,7 @@ class JobExecutionMessageNormalizerSpec extends ObjectBehavior
         $this->supportsDenormalization([], 'Unknown')->shouldBe(false);
     }
 
-    function it_denormalizes_a_job_execution_message(JobExecutionMessageFactory $jobExecutionMessageFactory)
+    public function it_denormalizes_a_job_execution_message(JobExecutionMessageFactory $jobExecutionMessageFactory)
     {
         $message = UiJobExecutionMessage::createJobExecutionMessage(1, []);
         $normalized = ['test'];

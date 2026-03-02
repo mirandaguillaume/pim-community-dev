@@ -164,7 +164,7 @@ class ProductReader implements ItemReaderInterface, InitializableInterface, Step
 
     public function getState(): array
     {
-        return null !== $this->products ? ['position' =>  $this->products->key()]: [];
+        return null !== $this->products ? ['position' =>  $this->products->key()] : [];
     }
 
     public function setState(array $state): void

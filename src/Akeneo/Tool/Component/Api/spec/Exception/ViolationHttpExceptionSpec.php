@@ -9,7 +9,7 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 class ViolationHttpExceptionSpec extends ObjectBehavior
 {
-    function it_creates_an_object_updater_http_exception(ConstraintViolationListInterface $constraintViolation)
+    public function it_creates_an_object_updater_http_exception(ConstraintViolationListInterface $constraintViolation)
     {
         $previous = new \Exception();
 

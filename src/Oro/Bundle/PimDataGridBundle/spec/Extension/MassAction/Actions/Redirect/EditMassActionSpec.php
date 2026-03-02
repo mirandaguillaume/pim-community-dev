@@ -8,7 +8,7 @@ use Prophecy\Argument;
 
 class EditMassActionSpec extends ObjectBehavior
 {
-    function it_requires_the_route()
+    public function it_requires_the_route()
     {
         $params = [];
         $options = ActionConfiguration::createNamed('edit', $params);
@@ -18,7 +18,7 @@ class EditMassActionSpec extends ObjectBehavior
         )->duringSetOptions($options);
     }
 
-    function it_defines_default_values()
+    public function it_defines_default_values()
     {
         $params = ['route' => 'foo'];
         $options = ActionConfiguration::createNamed('edit', $params);
@@ -31,13 +31,13 @@ class EditMassActionSpec extends ObjectBehavior
         $this->getOptions()->offsetGet('handler')->shouldReturn('mass_edit');
     }
 
-    function it_overwrites_default_values()
+    public function it_overwrites_default_values()
     {
         $routeParams = ['foo' => 'bar'];
         $params = [
             'route'            => 'baz',
             'route_parameters' => $routeParams,
-            'handler'          => 'my_handler'
+            'handler'          => 'my_handler',
         ];
         $options = ActionConfiguration::createNamed('edit', $params);
 
@@ -49,7 +49,7 @@ class EditMassActionSpec extends ObjectBehavior
         $this->getOptions()->offsetGet('route_parameters')->shouldReturn($routeParams);
     }
 
-    function it_doesnt_allow_overriding_frontend_type()
+    public function it_doesnt_allow_overriding_frontend_type()
     {
         $params = ['route' => 'foo', 'frontend_type' => 'bar'];
         $options = ActionConfiguration::createNamed('edit', $params);

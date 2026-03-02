@@ -51,7 +51,7 @@ class ProductPropertiesNormalizer implements NormalizerInterface, CacheableSuppo
      *
      * @param ProductInterface $product
      */
-    public function normalize($product, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($product, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         if (!$this->normalizer instanceof NormalizerInterface) {
             throw new \LogicException('Serializer must be a normalizer');

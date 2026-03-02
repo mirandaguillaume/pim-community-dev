@@ -22,7 +22,7 @@ class StepExecutionNormalizer implements NormalizerInterface, CacheableSupportsM
     {
     }
 
-    public function normalize($stepExecution, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($stepExecution, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $normalizedWarnings = $this->normalizeWarnings($stepExecution->getWarnings(), $context);
 

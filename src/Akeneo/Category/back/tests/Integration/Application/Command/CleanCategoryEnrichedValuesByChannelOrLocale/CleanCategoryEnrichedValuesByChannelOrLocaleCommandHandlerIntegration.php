@@ -25,13 +25,13 @@ class CleanCategoryEnrichedValuesByChannelOrLocaleCommandHandlerIntegration exte
         $this->createChannel(
             'testChannelDeletion',
             [
-            'locales' => ['en_US', 'fr_FR'],
-            'currencies' => ['USD'],
-            'category_tree' => 'socks',
+                'locales' => ['en_US', 'fr_FR'],
+                'currencies' => ['USD'],
+                'category_tree' => 'socks',
             ]
         );
 
-        $this->updateCategoryWithValues((string) $categorySocks->getCode(),'testChannelDeletion');
+        $this->updateCategoryWithValues((string) $categorySocks->getCode(), 'testChannelDeletion');
 
         $command = new CleanCategoryEnrichedValuesByChannelOrLocaleCommand('testChannelDeletion', []);
         $commandHandler = $this->get(CleanCategoryEnrichedValuesByChannelOrLocaleCommandHandler::class);
@@ -40,9 +40,8 @@ class CleanCategoryEnrichedValuesByChannelOrLocaleCommandHandlerIntegration exte
         $getCategory = $this->get(GetCategoryInterface::class);
         $category = $getCategory->byCode('socks');
 
-        foreach ($category->getAttributes()->getValues() as $value)
-        {
-            $this->assertNotEquals('testChannelDeletion',(string) $value->getChannel());
+        foreach ($category->getAttributes()->getValues() as $value) {
+            $this->assertNotEquals('testChannelDeletion', (string) $value->getChannel());
         }
     }
 
@@ -62,7 +61,7 @@ class CleanCategoryEnrichedValuesByChannelOrLocaleCommandHandlerIntegration exte
             ]
         );
 
-        $this->updateCategoryWithValues((string) $categorySocks->getCode(),'testChannelDeletion');
+        $this->updateCategoryWithValues((string) $categorySocks->getCode(), 'testChannelDeletion');
 
         $command = new CleanCategoryEnrichedValuesByChannelOrLocaleCommand('testChannelDeletion', ['en_US']);
         $commandHandler = $this->get(CleanCategoryEnrichedValuesByChannelOrLocaleCommandHandler::class);

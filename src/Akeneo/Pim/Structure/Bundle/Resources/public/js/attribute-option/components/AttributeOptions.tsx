@@ -67,8 +67,8 @@ const AttributeOptions = () => {
   const saveAttributeOptionCallback = async (attributeOption: AttributeOption) => {
     try {
       await saveAttributeOption(attributeOption);
-    } catch (error) {
-      notify(NotificationLevel.ERROR, error);
+    } catch (error: unknown) {
+      notify(NotificationLevel.ERROR, String(error));
     }
   };
 
@@ -77,8 +77,8 @@ const AttributeOptions = () => {
       const attributeOption = await createAttributeOption(optionCode);
       setShowNewOptionForm(false);
       setSelectedOption(attributeOption);
-    } catch (error) {
-      notify(NotificationLevel.ERROR, error);
+    } catch (error: unknown) {
+      notify(NotificationLevel.ERROR, String(error));
     }
   };
 
@@ -88,8 +88,8 @@ const AttributeOptions = () => {
       if (attributeOptions && selectedOption && selectedOption.id === attributeOptionId) {
         setSelectedOption(attributeOptions[0]);
       }
-    } catch (error) {
-      notify(NotificationLevel.ERROR, translate(error));
+    } catch (error: unknown) {
+      notify(NotificationLevel.ERROR, translate(String(error)));
     }
   };
 

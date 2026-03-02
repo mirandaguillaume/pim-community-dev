@@ -68,9 +68,9 @@ class AjaxOptionController
         }
 
         if (
-            $request->get('isCreatable') &&
-            !empty($search) &&
-            !in_array(['id' => $search, 'text' => $search], $choices['results'])
+            $request->get('isCreatable')
+            && !empty($search)
+            && !in_array(['id' => $search, 'text' => $search], $choices['results'])
         ) {
             $choices['results'][] = ['id' => $search, 'text' => $search];
         }

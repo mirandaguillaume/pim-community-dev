@@ -81,8 +81,8 @@ class ConsolidateProductModelScoresSpec extends ObjectBehavior
         $channelMobile = new ChannelCode('mobile');
         $localeEn = new LocaleCode('en_US');
 
-        $criterionResultA = (new ChannelLocaleRateCollection)->addRate($channelMobile, $localeEn, new Rate(100));
-        $criterionResultB = (new ChannelLocaleRateCollection)->addRate($channelMobile, $localeEn, new Rate(90));
+        $criterionResultA = (new ChannelLocaleRateCollection())->addRate($channelMobile, $localeEn, new Rate(100));
+        $criterionResultB = (new ChannelLocaleRateCollection())->addRate($channelMobile, $localeEn, new Rate(90));
 
         $criterionA = new CriterionCode('criterion_A');
         $criterionB = new CriterionCode('criterion_B');

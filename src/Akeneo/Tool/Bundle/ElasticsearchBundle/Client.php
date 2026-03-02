@@ -41,10 +41,10 @@ class Client
         private readonly string $indexName,
         private readonly string $idPrefix = '',
         private readonly int $maxChunkSize = 100_000_000,
-        int $maxExpectedIndexationLatencyInMilliseconds=0,
-        private readonly int $maxNumberOfRetries=3
+        int $maxExpectedIndexationLatencyInMilliseconds = 0,
+        private readonly int $maxNumberOfRetries = 3
     ) {
-        $this->maxExpectedIndexationLatencyInMicroseconds = $maxExpectedIndexationLatencyInMilliseconds*1000;
+        $this->maxExpectedIndexationLatencyInMicroseconds = $maxExpectedIndexationLatencyInMilliseconds * 1000;
 
         $builder->setHosts($hosts);
         $this->client = $builder->build();
@@ -61,7 +61,7 @@ class Client
     {
         $params = [
             'index' => $this->indexName,
-            'id' => $this->idPrefix.$id,
+            'id' => $this->idPrefix . $id,
             'body' => $body,
         ];
 
@@ -190,7 +190,7 @@ class Client
     {
         $params = [
             'index' => $this->indexName,
-            'id' => $this->idPrefix.$id,
+            'id' => $this->idPrefix . $id,
         ];
 
         return $this->client->get($params);
@@ -244,7 +244,7 @@ class Client
     {
         $params = [
             'index' => $this->indexName,
-            'id' => $this->idPrefix.$id,
+            'id' => $this->idPrefix . $id,
         ];
 
         return $this->client->delete($params);
@@ -263,7 +263,7 @@ class Client
             $params['body'][] = [
                 'delete' => [
                     '_index' => $this->indexName,
-                    '_id' => $this->idPrefix.$identifier,
+                    '_id' => $this->idPrefix . $identifier,
                 ],
             ];
         }
@@ -279,7 +279,7 @@ class Client
             $queries['body'][] = [
                 'update' => [
                     '_index' => $this->indexName,
-                    '_id' => $this->idPrefix.$identifier,
+                    '_id' => $this->idPrefix . $identifier,
                 ],
             ];
 

@@ -108,7 +108,7 @@ class FlatFileIterator implements FileIteratorInterface
     /**
      * {@inheritdoc}
      */
-    public function key(): string|int|bool|null|float
+    public function key(): string|int|bool|float|null
     {
         return $this->rows->key();
     }

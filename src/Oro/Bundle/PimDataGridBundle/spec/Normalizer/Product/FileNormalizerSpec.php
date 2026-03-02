@@ -9,17 +9,17 @@ use Akeneo\Pim\Enrichment\Component\Product\Value\MediaValueInterface;
 
 class FileNormalizerSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(FileNormalizer::class);
     }
 
-    function it_is_a_normalizer()
+    public function it_is_a_normalizer()
     {
         $this->shouldImplement(\Symfony\Component\Serializer\Normalizer\NormalizerInterface::class);
     }
 
-    function it_supports_datagrid_format_and_product_value(MediaValueInterface $value)
+    public function it_supports_datagrid_format_and_product_value(MediaValueInterface $value)
     {
         $this->supportsNormalization($value, 'datagrid')->shouldReturn(true);
         $this->supportsNormalization($value, 'other_format')->shouldReturn(false);
@@ -27,7 +27,7 @@ class FileNormalizerSpec extends ObjectBehavior
         $this->supportsNormalization(new \stdClass(), 'datagrid')->shouldReturn(false);
     }
 
-    function it_normalizes_a_media_product_value(
+    public function it_normalizes_a_media_product_value(
         MediaValueInterface $value,
         FileInfoInterface $fileInfo
     ) {
@@ -42,8 +42,8 @@ class FileNormalizerSpec extends ObjectBehavior
             'scope'  => null,
             'data'   => [
                 'originalFilename' => 'cat.jpg',
-                'filePath'         => '1/2/3/4/zertyj_cat.jpg'
-            ]
+                'filePath'         => '1/2/3/4/zertyj_cat.jpg',
+            ],
         ];
 
         $this->normalize($value, 'datagrid')->shouldReturn($data);

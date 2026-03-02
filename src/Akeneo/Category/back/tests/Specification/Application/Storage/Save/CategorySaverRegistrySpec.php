@@ -19,7 +19,7 @@ use PhpSpec\ObjectBehavior;
  */
 class CategorySaverRegistrySpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         CategoryBaseSaver $baseSaver,
         CategoryTranslationsSaver $translationsSaver,
     ) {
@@ -31,13 +31,13 @@ class CategorySaverRegistrySpec extends ObjectBehavior
         ]);
 
         $translationsSaver->getSupportedUserIntents()->willReturn([
-            SetLabel::class
+            SetLabel::class,
         ]);
 
         $this->beConstructedWith([$baseSaver, $translationsSaver]);
     }
 
-    function it_returns_the_saver_related_to_a_user_intent(
+    public function it_returns_the_saver_related_to_a_user_intent(
         CategoryBaseSaver $baseSaver,
         CategoryTranslationsSaver $translationsSaver,
     ) {
@@ -49,7 +49,7 @@ class CategorySaverRegistrySpec extends ObjectBehavior
         $this->fromUserIntent(SetLabel::class)->shouldReturn($translationsSaver);
     }
 
-    function it_should_throw_an_exception_when_the_same_user_intent_has_more_than_one_related_saver(
+    public function it_should_throw_an_exception_when_the_same_user_intent_has_more_than_one_related_saver(
         CategoryBaseSaver $baseSaver,
         CategoryTranslationsSaver $translationsSaver,
     ) {
@@ -65,7 +65,7 @@ class CategorySaverRegistrySpec extends ObjectBehavior
         $this->shouldThrow(\LogicException::class)->duringInstantiation();
     }
 
-    function it_should_throw_an_exception_when_the_user_intent_has_no_related_saver(
+    public function it_should_throw_an_exception_when_the_user_intent_has_no_related_saver(
         CategoryTranslationsSaver $translationsSaver,
     ) {
         $translationsSaver->getSupportedUserIntents()->willReturn([SetLabel::class]);

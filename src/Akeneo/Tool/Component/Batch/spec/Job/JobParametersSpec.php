@@ -7,49 +7,49 @@ use PhpSpec\ObjectBehavior;
 
 class JobParametersSpec extends ObjectBehavior
 {
-    function it_contains_a_parameter()
+    public function it_contains_a_parameter()
     {
         $this->beConstructedWith(['filePath' => '/tmp/myfile.csv']);
         $this->has('filePath')->shouldReturn(true);
     }
 
-    function it_does_not_contain_a_parameter()
+    public function it_does_not_contain_a_parameter()
     {
         $this->beConstructedWith(['filePath' => '/tmp/myfile.csv']);
         $this->has('enclosure')->shouldReturn(false);
     }
 
-    function it_is_countable()
+    public function it_is_countable()
     {
         $this->beConstructedWith([]);
         $this->shouldImplement('\Countable');
     }
 
-    function it_is_iterable()
+    public function it_is_iterable()
     {
         $this->beConstructedWith([]);
         $this->shouldImplement('\IteratorAggregate');
     }
 
-    function it_counts_the_number_of_parameters()
+    public function it_counts_the_number_of_parameters()
     {
         $this->beConstructedWith(['filePath' => '/tmp/myfile.csv', 'enclosure' => '"']);
         $this->count()->shouldReturn(2);
     }
 
-    function it_provides_a_parameter_value()
+    public function it_provides_a_parameter_value()
     {
         $this->beConstructedWith(['filePath' => '/tmp/myfile.csv', 'enclosure' => '"']);
         $this->get('filePath')->shouldReturn('/tmp/myfile.csv');
     }
 
-    function it_provides_all_parameter_values_as_array()
+    public function it_provides_all_parameter_values_as_array()
     {
         $this->beConstructedWith(['filePath' => '/tmp/myfile.csv', 'enclosure' => '"']);
         $this->all()->shouldReturn(['filePath' => '/tmp/myfile.csv', 'enclosure' => '"']);
     }
 
-    function it_throws_undefined_job_parameter_exception_when_accessing_undefined_parameter()
+    public function it_throws_undefined_job_parameter_exception_when_accessing_undefined_parameter()
     {
         $this->beConstructedWith(['filePath' => '/tmp/myfile.csv', 'enclosure' => '"']);
         $this->shouldThrow(

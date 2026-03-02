@@ -37,12 +37,12 @@ class SearchJobExecution implements SearchJobExecutionInterface
     public function count(SearchJobExecutionQuery $query): int
     {
         $sql = <<<SQL
-    SELECT count(*)
-    FROM akeneo_batch_job_execution job_execution
-    JOIN akeneo_batch_job_instance job_instance on job_execution.job_instance_id = job_instance.id
-    WHERE job_execution.is_visible = 1
-    %s
-SQL;
+                SELECT count(*)
+                FROM akeneo_batch_job_execution job_execution
+                JOIN akeneo_batch_job_instance job_instance on job_execution.job_instance_id = job_instance.id
+                WHERE job_execution.is_visible = 1
+                %s
+            SQL;
         $whereSqlPart = $this->buildSqlWherePart($query);
 
         $sql = sprintf($sql, $whereSqlPart);
@@ -59,43 +59,43 @@ SQL;
     private function buildSqlQuery(SearchJobExecutionQuery $query): string
     {
         $sql = <<<SQL
-    WITH job_executions AS (
-        SELECT
-            job_execution.id,
-            job_execution.job_instance_id,
-            job_instance.label,
-            job_instance.type,
-            job_execution.start_time,
-            job_execution.user,
-            job_execution.is_stoppable,
-            job_execution.step_count,
-            %s AS calculated_status
-        FROM akeneo_batch_job_execution job_execution
-        JOIN akeneo_batch_job_instance job_instance ON job_execution.job_instance_id = job_instance.id
-        WHERE job_execution.is_visible = 1
-        %s
-        %s
-        LIMIT :offset, :limit
-    )
-    SELECT
-        job_execution.*,
-        COUNT(step_execution.job_execution_id) AS current_step_number,
-        JSON_ARRAYAGG(JSON_OBJECT(
-            'id', step_execution.id,
-            'start_time', step_execution.start_time,
-            'end_time', step_execution.end_time,
-            'warning_count', step_execution.warning_count,
-            'has_error', IF(IFNULL(step_execution.failure_exceptions, 'a:0:{}') <> 'a:0:{}' OR IFNULL(step_execution.errors, 'a:0:{}') <> 'a:0:{}', 1, 0),
-            'total_items', JSON_EXTRACT(step_execution.tracking_data, '$.totalItems'),
-            'processed_items', JSON_EXTRACT(step_execution.tracking_data, '$.processedItems'),
-            'status', step_execution.status,
-            'is_trackable', step_execution.is_trackable
-        )) AS steps
-    FROM job_executions job_execution
-    LEFT JOIN akeneo_batch_step_execution step_execution ON job_execution.id = step_execution.job_execution_id
-    GROUP BY job_execution.id
-    %s
-SQL;
+                WITH job_executions AS (
+                    SELECT
+                        job_execution.id,
+                        job_execution.job_instance_id,
+                        job_instance.label,
+                        job_instance.type,
+                        job_execution.start_time,
+                        job_execution.user,
+                        job_execution.is_stoppable,
+                        job_execution.step_count,
+                        %s AS calculated_status
+                    FROM akeneo_batch_job_execution job_execution
+                    JOIN akeneo_batch_job_instance job_instance ON job_execution.job_instance_id = job_instance.id
+                    WHERE job_execution.is_visible = 1
+                    %s
+                    %s
+                    LIMIT :offset, :limit
+                )
+                SELECT
+                    job_execution.*,
+                    COUNT(step_execution.job_execution_id) AS current_step_number,
+                    JSON_ARRAYAGG(JSON_OBJECT(
+                        'id', step_execution.id,
+                        'start_time', step_execution.start_time,
+                        'end_time', step_execution.end_time,
+                        'warning_count', step_execution.warning_count,
+                        'has_error', IF(IFNULL(step_execution.failure_exceptions, 'a:0:{}') <> 'a:0:{}' OR IFNULL(step_execution.errors, 'a:0:{}') <> 'a:0:{}', 1, 0),
+                        'total_items', JSON_EXTRACT(step_execution.tracking_data, '$.totalItems'),
+                        'processed_items', JSON_EXTRACT(step_execution.tracking_data, '$.processedItems'),
+                        'status', step_execution.status,
+                        'is_trackable', step_execution.is_trackable
+                    )) AS steps
+                FROM job_executions job_execution
+                LEFT JOIN akeneo_batch_step_execution step_execution ON job_execution.id = step_execution.job_execution_id
+                GROUP BY job_execution.id
+                %s
+            SQL;
 
         $whereSqlPart = $this->buildSqlWherePart($query);
         $orderBySqlPart = $this->buildSqlOrderByPart($query);

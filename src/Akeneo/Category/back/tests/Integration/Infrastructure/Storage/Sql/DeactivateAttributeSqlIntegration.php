@@ -89,7 +89,7 @@ class DeactivateAttributeSqlIntegration extends CategoryTestCase
 
         $this->categoryTemplateAttributeSaver->insert($templateUuid, AttributeCollection::fromArray([
             $attributeToDeactivate,
-            $attributeToNotDeactivate
+            $attributeToNotDeactivate,
         ]));
 
         $this::assertFalse($this->retrieveAttributeDeactivationStatus($attributeToDeactivate->getUuid()));
@@ -105,17 +105,17 @@ class DeactivateAttributeSqlIntegration extends CategoryTestCase
         try {
             $this::assertFalse($this->retrieveAttributeDeactivationStatus($nonExistingAttributeUuid));
         } catch (\Exception $e) {
-            $this->fail('An unexpected exception was thrown: '.$e->getMessage());
+            $this->fail('An unexpected exception was thrown: ' . $e->getMessage());
         }
     }
 
     private function retrieveAttributeDeactivationStatus(AttributeUuid $attributeUuid): bool
     {
         $query = <<<SQL
-            SELECT is_deactivated
-            FROM pim_catalog_category_attribute
-            WHERE uuid = :attribute_uuid;
-        SQL;
+                SELECT is_deactivated
+                FROM pim_catalog_category_attribute
+                WHERE uuid = :attribute_uuid;
+            SQL;
 
         return (bool) $this->get('database_connection')->executeQuery(
             $query,

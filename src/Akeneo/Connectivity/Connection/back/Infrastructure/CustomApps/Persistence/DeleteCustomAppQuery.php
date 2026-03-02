@@ -16,9 +16,9 @@ class DeleteCustomAppQuery implements DeleteCustomAppQueryInterface
     public function execute(string $clientId): void
     {
         $query = <<<SQL
-        DELETE FROM akeneo_connectivity_test_app
-        WHERE client_id = :client_id
-        SQL;
+            DELETE FROM akeneo_connectivity_test_app
+            WHERE client_id = :client_id
+            SQL;
 
         $this->connection->executeQuery($query, [
             'client_id' => $clientId,

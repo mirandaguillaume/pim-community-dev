@@ -14,7 +14,7 @@ class DateTimeNormalizerSpec extends ObjectBehavior
 
     protected $userTimezone;
 
-    function let(NormalizerInterface $standardNormalizer, PresenterInterface $presenter, UserContext $userContext)
+    public function let(NormalizerInterface $standardNormalizer, PresenterInterface $presenter, UserContext $userContext)
     {
         $this->userTimezone = date_default_timezone_get();
         date_default_timezone_set(self::TEST_TIMEZONE);
@@ -22,22 +22,22 @@ class DateTimeNormalizerSpec extends ObjectBehavior
         $this->beConstructedWith($standardNormalizer, $presenter, $userContext);
     }
 
-    function letGo()
+    public function letGo()
     {
         date_default_timezone_set($this->userTimezone);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(DateTimeNormalizer::class);
     }
 
-    function it_is_a_normalizer()
+    public function it_is_a_normalizer()
     {
         $this->shouldImplement(\Symfony\Component\Serializer\Normalizer\NormalizerInterface::class);
     }
 
-    function it_supports_datagrid_normalization_on_datetimes_only()
+    public function it_supports_datagrid_normalization_on_datetimes_only()
     {
         $datetime = new \DateTime('NOW');
         $this->supportsNormalization($datetime, 'datagrid')->shouldReturn(true);
@@ -45,7 +45,7 @@ class DateTimeNormalizerSpec extends ObjectBehavior
         $this->supportsNormalization(new \stdClass(), 'datagrid')->shouldReturn(false);
     }
 
-    function it_normalizes_datetimes_with_paris_timezone($standardNormalizer, $presenter, $userContext)
+    public function it_normalizes_datetimes_with_paris_timezone($standardNormalizer, $presenter, $userContext)
     {
         $datetime = new \DateTime('2015-01-01 23:50:00');
         $timezone = new \DateTimeZone('Europe/Paris');
@@ -65,7 +65,7 @@ class DateTimeNormalizerSpec extends ObjectBehavior
         $this->normalize($datetime, 'datagrid')->shouldReturn('01/01/2015');
     }
 
-    function it_normalizes_datetimes_with_new_york_timezone($standardNormalizer, $presenter, $userContext)
+    public function it_normalizes_datetimes_with_new_york_timezone($standardNormalizer, $presenter, $userContext)
     {
         $datetime = new \DateTime('2015-01-01');
         $timezone = new \DateTimeZone('America/New_York');

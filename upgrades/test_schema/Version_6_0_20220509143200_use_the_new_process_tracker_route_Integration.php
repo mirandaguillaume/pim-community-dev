@@ -36,23 +36,23 @@ class Version_6_0_20220509143200_use_the_new_process_tracker_route_Integration e
     private function addNotifications(): void
     {
         $this->getConnection()->executeStatement(<<<SQL
-            INSERT INTO pim_notification_notification (route, routeParams, message, messageParams, comment, created, type, context)
-            VALUES ('pim_importexport_import_execution_show', 'a:1:{s:2:"id";i:609;}', 'pim_import_export.notification.export.success', 'a:1:{s:7:"%label%";s:17:"Export Kategorien";}', NULL, '2019-11-29 13:38:51', 'success', 'a:1:{s:10:"actionType";s:6:"export";}');
-        SQL);
+                INSERT INTO pim_notification_notification (route, routeParams, message, messageParams, comment, created, type, context)
+                VALUES ('pim_importexport_import_execution_show', 'a:1:{s:2:"id";i:609;}', 'pim_import_export.notification.export.success', 'a:1:{s:7:"%label%";s:17:"Export Kategorien";}', NULL, '2019-11-29 13:38:51', 'success', 'a:1:{s:10:"actionType";s:6:"export";}');
+            SQL);
 
         $this->getConnection()->executeStatement(<<<SQL
-            INSERT INTO pim_notification_notification (route, routeParams, message, messageParams, comment, created, type, context)
-            VALUES ('pim_importexport_export_execution_show', 'a:1:{s:2:"id";i:607;}', 'pim_import_export.notification.import.warning', 'a:1:{s:7:"%label%";s:10:"Kategorien";}', NULL, '2019-11-29 13:18:07', 'warning', 'a:1:{s:10:"actionType";s:6:"import";}');
-        SQL);
+                INSERT INTO pim_notification_notification (route, routeParams, message, messageParams, comment, created, type, context)
+                VALUES ('pim_importexport_export_execution_show', 'a:1:{s:2:"id";i:607;}', 'pim_import_export.notification.import.warning', 'a:1:{s:7:"%label%";s:10:"Kategorien";}', NULL, '2019-11-29 13:18:07', 'warning', 'a:1:{s:10:"actionType";s:6:"import";}');
+            SQL);
     }
 
     private function notificationTableContainOldProcessTrackerRoute(): bool
     {
         $query = <<<SQL
-SELECT *
-FROM pim_notification_notification
-WHERE route IN('pim_importexport_export_execution_show', 'pim_importexport_import_execution_show')
-SQL;
+            SELECT *
+            FROM pim_notification_notification
+            WHERE route IN('pim_importexport_export_execution_show', 'pim_importexport_import_execution_show')
+            SQL;
 
         return !empty($this->getConnection()->fetchAllAssociative($query));
     }

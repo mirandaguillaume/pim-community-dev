@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Component\Product\Factory\NonExistentValuesFilter;
@@ -82,7 +83,7 @@ final readonly class NonExistentPriceCollectionValueFilter implements NonExisten
                     $filteredValues[AttributeTypes::PRICE_COLLECTION][$attributeCode][] = [
                         'identifier' => $productData['identifier'],
                         'values' => $priceCollectionValues,
-                        'properties' => $productData['properties'] ?? []
+                        'properties' => $productData['properties'] ?? [],
                     ];
                 }
             }

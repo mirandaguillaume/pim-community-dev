@@ -137,8 +137,7 @@ class FileWriterArchiverSpec extends ObjectBehavior
         JobExecution $jobExecution,
         JobInstance $jobInstance,
         Job $job,
-    ): void
-    {
+    ): void {
         $jobInstance->getJobName()->willReturn('export_job');
 
         $jobExecution->getJobInstance()->willReturn($jobInstance);
@@ -161,8 +160,7 @@ class FileWriterArchiverSpec extends ObjectBehavior
         Job $job,
         ItemStep $step1,
         ItemStep $step2,
-    ): void
-    {
+    ): void {
         $jobInstance->getJobName()->willReturn('export_job');
 
         $jobExecution->getJobInstance()->willReturn($jobInstance);
@@ -241,7 +239,7 @@ class FileWriterArchiverSpec extends ObjectBehavior
             WrittenFileInfo::fromLocalFile(
                 '/tmp/export.csv',
                 'export.csv',
-            )
+            ),
         ];
         $path = '/tmp/export.csv';
         $writer = $this->getUsableWriter($writtenFiles, $path);
@@ -335,7 +333,7 @@ class FileWriterArchiverSpec extends ObjectBehavior
                 'a/b/c/file.png',
                 'catalogStorage',
                 'files/my_media.png'
-            )
+            ),
         ];
         $writer = $this->getUsableWriter($writtenFiles);
         $step1->getWriter()->willReturn($writer);
@@ -416,12 +414,11 @@ class FileWriterArchiverSpec extends ObjectBehavior
 
     private function getUsableWriter(array $writtenFiles = [], string $path = ''): ArchivableWriterInterface
     {
-        return new class($writtenFiles, $path) implements ItemWriterInterface, ArchivableWriterInterface {
+        return new class ($writtenFiles, $path) implements ItemWriterInterface, ArchivableWriterInterface {
             public function __construct(
                 private readonly array $writtenFiles,
                 private readonly string $path,
-            ) {
-            }
+            ) {}
 
             public function getWrittenFiles(): array
             {
@@ -433,9 +430,7 @@ class FileWriterArchiverSpec extends ObjectBehavior
                 return $this->path;
             }
 
-            public function write(array $items)
-            {
-            }
+            public function write(array $items) {}
         };
     }
 }

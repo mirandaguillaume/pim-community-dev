@@ -15,24 +15,24 @@ use PhpSpec\ObjectBehavior;
 
 class LabelUserIntentFactorySpec extends ObjectBehavior
 {
-    function let()
+    public function let()
     {
         $this->beConstructedWith();
     }
 
-    function it_manage_only_expected_field_names()
+    public function it_manage_only_expected_field_names()
     {
         $this->getSupportedFieldNames()->shouldReturn(['labels']);
     }
 
-    function it_creates_a_list_of_label_user_intents_based_on_labels_list()
+    public function it_creates_a_list_of_label_user_intents_based_on_labels_list()
     {
         $this->create(
             'labels',
             1,
             [
                 'en_US' => 'sausages',
-                'fr_FR' => 'saucisses'
+                'fr_FR' => 'saucisses',
             ]
         )->shouldBeLike([
             new SetLabel('en_US', 'sausages'),
@@ -40,16 +40,18 @@ class LabelUserIntentFactorySpec extends ObjectBehavior
         ]);
     }
 
-    function it_does_create_label_user_intent_with_null()
+    public function it_does_create_label_user_intent_with_null()
     {
         $this->create(
-            'labels', 1, ['en_US' => null]
+            'labels',
+            1,
+            ['en_US' => null]
         )->shouldBeLike([
             new SetLabel('en_US', null),
         ]);
     }
 
-    function it_throws_an_exception_when_data_has_wrong_format()
+    public function it_throws_an_exception_when_data_has_wrong_format()
     {
         $this->shouldThrow(InvalidPropertyTypeException::class)
             ->during('create', ['labels', 1, null]);

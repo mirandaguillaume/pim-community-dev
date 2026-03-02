@@ -185,7 +185,7 @@ class AuthorizeActionSpec extends ObjectBehavior
             'authorization_scope' => \implode(' ', $requestedScopes),
             'authentication_scope' => '',
             'redirect_uri' => 'http://url.test',
-            'state' => 'state'
+            'state' => 'state',
         ]);
 
         $appAuthorizationSession->getAppAuthorization($clientId)->willReturn($appAuthorization);
@@ -245,7 +245,7 @@ class AuthorizeActionSpec extends ObjectBehavior
             'authorization_scope' => \implode(' ', $requestedScopes),
             'authentication_scope' => '',
             'redirect_uri' => 'http://url.test',
-            'state' => 'state'
+            'state' => 'state',
         ]);
 
         $appAuthorizationSession->getAppAuthorization($clientId)->willReturn($appAuthorization);
@@ -331,7 +331,7 @@ class AuthorizeActionSpec extends ObjectBehavior
             'authorization_scope' => \implode(' ', $requestedScopes),
             'authentication_scope' => '',
             'redirect_uri' => 'http://url.test',
-            'state' => 'state'
+            'state' => 'state',
         ]);
         $appAuthorizationSession->getAppAuthorization($clientId)->willReturn($appAuthorization);
 
@@ -404,7 +404,7 @@ class AuthorizeActionSpec extends ObjectBehavior
             'authorization_scope' => 'write_products',
             'authentication_scope' => '',
             'redirect_uri' => 'http://url.test',
-            'state' => 'state'
+            'state' => 'state',
         ]);
         $appAuthorizationSession->getAppAuthorization($clientId)->willReturn($appAuthorization);
         $getConnectedAppScopesQuery->execute($clientId)->willReturn([]);

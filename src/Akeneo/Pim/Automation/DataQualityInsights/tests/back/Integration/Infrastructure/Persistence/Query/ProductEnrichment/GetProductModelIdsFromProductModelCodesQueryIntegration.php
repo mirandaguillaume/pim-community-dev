@@ -24,8 +24,8 @@ final class GetProductModelIdsFromProductModelCodesQueryIntegration extends Data
 
         $productModelIds = $this->get(GetProductModelIdsFromProductModelCodesQuery::class)->execute(['product_model_A', 'product_model_B', 'unknown_product_model']);
         $expectedProductIds = [
-            'product_model_A' => $this->get(ProductModelIdFactory::class)->create((string)$productModelIdA),
-            'product_model_B' => $this->get(ProductModelIdFactory::class)->create((string)$productModelIdB),
+            'product_model_A' => $this->get(ProductModelIdFactory::class)->create((string) $productModelIdA),
+            'product_model_B' => $this->get(ProductModelIdFactory::class)->create((string) $productModelIdB),
         ];
 
         $this->assertEquals($expectedProductIds, $productModelIds);

@@ -58,9 +58,9 @@ class CheckInstanceCanBeResetActionTest extends ControllerIntegrationTestCase
     {
         $jobInstanceId = $this->connection->executeQuery('SELECT id FROM akeneo_batch_job_instance WHERE code = "csv_product_quick_export";')->fetchOne();
         $insertJobExecution = <<<SQL
-INSERT INTO `akeneo_batch_job_execution` (job_instance_id, pid, user, status, start_time, end_time, create_time, updated_time, health_check_time, exit_code, exit_description, failure_exceptions, log_file, raw_parameters)
-VALUES (:job_instance_id, null, 'admin', $status, null, null, '2020-10-16 09:38:16', null, null, 'UNKNOWN', '', 'a:0:{}', null, '{}');
-SQL;
+            INSERT INTO `akeneo_batch_job_execution` (job_instance_id, pid, user, status, start_time, end_time, create_time, updated_time, health_check_time, exit_code, exit_description, failure_exceptions, log_file, raw_parameters)
+            VALUES (:job_instance_id, null, 'admin', $status, null, null, '2020-10-16 09:38:16', null, null, 'UNKNOWN', '', 'a:0:{}', null, '{}');
+            SQL;
         $this->connection->executeStatement($insertJobExecution, ['job_instance_id' => $jobInstanceId]);
     }
 

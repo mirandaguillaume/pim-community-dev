@@ -48,19 +48,19 @@ class VersionedAttributeNormalizer implements NormalizerInterface, CacheableSupp
     /**
      * {@inheritdoc}
      */
-    public function normalize($attribute, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($attribute, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $normalizedAttribute = $this->normalizer->normalize($attribute, 'internal_api', $context);
 
         $firstVersion = $this->versionManager->getOldestLogEntry($attribute);
         $lastVersion = $this->versionManager->getNewestLogEntry($attribute);
 
-        $firstVersion = null !== $firstVersion ?
-            $this->versionNormalizer->normalize($firstVersion, 'internal_api', $context) :
-            null;
-        $lastVersion = null !== $lastVersion ?
-            $this->versionNormalizer->normalize($lastVersion, 'internal_api', $context) :
-            null;
+        $firstVersion = null !== $firstVersion
+            ? $this->versionNormalizer->normalize($firstVersion, 'internal_api', $context)
+            : null;
+        $lastVersion = null !== $lastVersion
+            ? $this->versionNormalizer->normalize($lastVersion, 'internal_api', $context)
+            : null;
 
         $normalizedAttribute['meta']['created'] = $firstVersion;
         $normalizedAttribute['meta']['updated'] = $lastVersion;

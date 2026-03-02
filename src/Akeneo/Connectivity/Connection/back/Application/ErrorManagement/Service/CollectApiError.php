@@ -117,8 +117,8 @@ class CollectApiError
         }
 
         if (
-            !$this->connectionContext->isCollectable() ||
-            FlowType::DATA_SOURCE !== (string) $connection->flowType()
+            !$this->connectionContext->isCollectable()
+            || FlowType::DATA_SOURCE !== (string) $connection->flowType()
         ) {
             return false;
         }

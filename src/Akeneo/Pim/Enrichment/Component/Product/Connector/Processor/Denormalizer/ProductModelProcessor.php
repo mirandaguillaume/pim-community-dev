@@ -68,8 +68,8 @@ class ProductModelProcessor extends AbstractProcessor implements ItemProcessorIn
     {
         $baseStandardProductModel = $standardProductModel;
         $parent = $standardProductModel['parent'] ?? '';
-        if ($this->importType === self::ROOT_PRODUCT_MODEL && !empty($parent) ||
-            $this->importType === self::SUB_PRODUCT_MODEL && empty($parent)
+        if ($this->importType === self::ROOT_PRODUCT_MODEL && !empty($parent)
+            || $this->importType === self::SUB_PRODUCT_MODEL && empty($parent)
         ) {
             $this->stepExecution->incrementSummaryInfo(sprintf('skipped_in_%s', $this->importType));
 

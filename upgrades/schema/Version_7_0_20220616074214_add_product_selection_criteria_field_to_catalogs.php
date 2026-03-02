@@ -19,10 +19,11 @@ final class Version_7_0_20220616074214_add_product_selection_criteria_field_to_c
             $this->disableMigrationWarning();
         }
 
-        $this->addSql(<<<SQL
-        ALTER TABLE akeneo_catalog
-        ADD product_selection_criteria JSON NOT NULL DEFAULT (JSON_ARRAY()) AFTER is_enabled;
-        SQL
+        $this->addSql(
+            <<<SQL
+                ALTER TABLE akeneo_catalog
+                ADD product_selection_criteria JSON NOT NULL DEFAULT (JSON_ARRAY()) AFTER is_enabled;
+                SQL
         );
     }
 

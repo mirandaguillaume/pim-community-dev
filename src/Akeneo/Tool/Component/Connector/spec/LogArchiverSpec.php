@@ -11,12 +11,12 @@ use Prophecy\Argument;
 
 class LogArchiverSpec extends ObjectBehavior
 {
-    function let(FilesystemWriter $filesystem)
+    public function let(FilesystemWriter $filesystem)
     {
         $this->beConstructedWith($filesystem);
     }
 
-    function it_sends_log_to_flysystem($filesystem)
+    public function it_sends_log_to_flysystem($filesystem)
     {
         $importInstance = new JobInstance(null, JobInstance::TYPE_IMPORT, 'csv_import');
         $importExecution = (new JobExecution())

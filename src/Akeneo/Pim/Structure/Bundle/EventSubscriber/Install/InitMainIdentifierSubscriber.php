@@ -32,7 +32,7 @@ final class InitMainIdentifierSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            StorageEvents::POST_SAVE => 'initMainIdentifier'
+            StorageEvents::POST_SAVE => 'initMainIdentifier',
         ];
     }
 
@@ -46,13 +46,13 @@ final class InitMainIdentifierSubscriber implements EventSubscriberInterface
 
         $this->connection->executeStatement(
             <<<SQL
-            UPDATE pim_catalog_attribute
-            SET main_identifier = 1
-            WHERE attribute_type = :identifierType
-            LIMIT 1
-            SQL,
+                UPDATE pim_catalog_attribute
+                SET main_identifier = 1
+                WHERE attribute_type = :identifierType
+                LIMIT 1
+                SQL,
             [
-                'identifierType' => AttributeTypes::IDENTIFIER
+                'identifierType' => AttributeTypes::IDENTIFIER,
             ]
         );
 
@@ -65,10 +65,10 @@ final class InitMainIdentifierSubscriber implements EventSubscriberInterface
             $this->isMainIdentifierSet = \boolval(
                 $this->connection->fetchOne(
                     <<<SQL
-                    SELECT EXISTS(
-                        SELECT * FROM pim_catalog_attribute WHERE main_identifier IS TRUE
-                    )
-                    SQL
+                        SELECT EXISTS(
+                            SELECT * FROM pim_catalog_attribute WHERE main_identifier IS TRUE
+                        )
+                        SQL
                 )
             );
         }

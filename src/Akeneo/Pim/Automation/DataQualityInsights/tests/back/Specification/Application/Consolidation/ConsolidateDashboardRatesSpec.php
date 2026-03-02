@@ -111,7 +111,7 @@ class ConsolidateDashboardRatesSpec extends ObjectBehavior
                     "rank_2" => random_int(1, 100),
                     "rank_3" => random_int(1, 100),
                     "rank_4" => random_int(1, 100),
-                    "rank_5" => random_int(1, 100)
+                    "rank_5" => random_int(1, 100),
                 ],
             ],
         ]);

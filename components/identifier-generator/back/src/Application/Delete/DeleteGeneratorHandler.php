@@ -14,8 +14,7 @@ final readonly class DeleteGeneratorHandler
 {
     public function __construct(
         private IdentifierGeneratorRepository $identifierGeneratorRepository,
-    ) {
-    }
+    ) {}
 
     public function __invoke(DeleteGeneratorCommand $command): void
     {

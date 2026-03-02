@@ -421,7 +421,7 @@ class ProductModelController
         $queryParameters = [
             'with_count' => $query->withCount,
             'pagination_type' => $query->paginationType,
-            'limit' => $query->limit
+            'limit' => $query->limit,
         ];
 
         if ($query->search !== []) {

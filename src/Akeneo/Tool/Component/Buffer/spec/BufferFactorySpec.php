@@ -10,19 +10,19 @@ class BufferFactorySpec extends ObjectBehavior
 {
     final public const JSON_BUFFER_CLASS = JSONFileBuffer::class;
 
-    function let()
+    public function let()
     {
         $this->beConstructedWith(self::JSON_BUFFER_CLASS);
     }
 
-    function it_throws_an_exception_if_configured_with_a_wrong_classname()
+    public function it_throws_an_exception_if_configured_with_a_wrong_classname()
     {
         $this
             ->shouldThrow(InvalidClassNameException::class)
             ->during('__construct', ['\\stdClass']);
     }
 
-    function it_creates_a_buffer()
+    public function it_creates_a_buffer()
     {
         $this->create()->shouldReturnAnInstanceOf(self::JSON_BUFFER_CLASS);
     }

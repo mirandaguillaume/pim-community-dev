@@ -21,7 +21,7 @@ class ReferenceDataNormalizer implements NormalizerInterface, CacheableSupportsM
     /**
      * {@inheritdoc}
      */
-    public function normalize($object, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($object, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         return [
             $this->getFieldName($context) => $object->getCode(),

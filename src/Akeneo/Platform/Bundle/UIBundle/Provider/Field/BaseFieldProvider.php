@@ -27,7 +27,7 @@ class BaseFieldProvider implements FieldProviderInterface
         AttributeTypes::OPTION_SIMPLE_SELECT => 'akeneo-simple-select-field',
         AttributeTypes::IDENTIFIER           => 'akeneo-text-field',
         AttributeTypes::TEXT                 => 'akeneo-text-field',
-        AttributeTypes::TEXTAREA             => 'akeneo-textarea-field'
+        AttributeTypes::TEXTAREA             => 'akeneo-textarea-field',
     ];
 
     /**
@@ -43,7 +43,7 @@ class BaseFieldProvider implements FieldProviderInterface
      */
     public function supports($element)
     {
-        return $element instanceof AttributeInterface &&
-            in_array($element->getType(), array_keys($this->fields));
+        return $element instanceof AttributeInterface
+            && in_array($element->getType(), array_keys($this->fields));
     }
 }

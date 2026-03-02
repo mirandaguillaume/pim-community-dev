@@ -27,7 +27,9 @@ class InMemoryUserRepositorySpec extends ObjectBehavior
 
     function it_saves_a_user()
     {
-        $this->save(new User())->shouldReturn(null);
+        $user = new User();
+        $user->setUsername('test');
+        $this->save($user)->shouldReturn(null);
     }
 
     function it_only_saves_users()

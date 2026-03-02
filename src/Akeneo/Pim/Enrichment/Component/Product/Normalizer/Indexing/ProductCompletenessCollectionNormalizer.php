@@ -21,7 +21,7 @@ class ProductCompletenessCollectionNormalizer implements NormalizerInterface, Ca
      *
      * @param ProductCompletenessCollection $completenesses
      */
-    public function normalize($completenesses, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($completenesses, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $data = [];
 
@@ -42,8 +42,8 @@ class ProductCompletenessCollectionNormalizer implements NormalizerInterface, Ca
         return
             in_array($format, [
                 ValueCollectionNormalizer::INDEXING_FORMAT_PRODUCT_AND_MODEL_INDEX,
-            ]) &&
-            $data instanceof ProductCompletenessCollection;
+            ])
+            && $data instanceof ProductCompletenessCollection;
     }
 
     public function hasCacheableSupportsMethod(): bool

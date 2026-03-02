@@ -20,8 +20,7 @@ final readonly class Category implements ConditionInterface
     private function __construct(
         private CategoryOperator $operator,
         private ?array $value = null,
-    ) {
-    }
+    ) {}
 
     /**
      * @return 'category'
@@ -63,7 +62,7 @@ final readonly class Category implements ConditionInterface
             'type' => self::type(),
             'operator' => $this->operator->value,
             'value' => $this->value,
-        ], fn (mixed $var): bool => null !== $var);
+        ], fn(mixed $var): bool => null !== $var);
     }
 
     public function operator(): CategoryOperator

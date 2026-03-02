@@ -16,8 +16,7 @@ final readonly class GenerateIdentifierCommand
     private function __construct(
         private IdentifierGenerator $identifierGenerator,
         private ProductProjection $productProjection,
-    ) {
-    }
+    ) {}
 
     public static function fromIdentifierGenerator(
         IdentifierGenerator $identifierGenerator,

@@ -28,7 +28,7 @@ class DatagridController
 
         return new JsonResponse([
             'metadata' => $this->metadata->getGridMetadata($alias, $params),
-            'data' => $this->metadata->getGridData($alias, $params)
+            'data' => $this->metadata->getGridData($alias, $params),
         ]);
     }
 }

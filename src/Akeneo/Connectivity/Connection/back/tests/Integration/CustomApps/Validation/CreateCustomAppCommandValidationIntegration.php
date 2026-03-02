@@ -65,10 +65,10 @@ class CreateCustomAppCommandValidationIntegration extends TestCase
     {
         $violations = $this->validator->validate(new CreateCustomAppCommand(
             'ClientID1234',
-            'A too long name for a custom app is more than 255 character unless it has been changed in the ' .
-            'validation but not in the test. So you should change the test if you change the validation. ' .
-            'But, whatever, did you play to Hades? It is a very good game! I need more characters to have 255. ' .
-            ' That\'s it, bye!',
+            'A too long name for a custom app is more than 255 character unless it has been changed in the '
+            . 'validation but not in the test. So you should change the test if you change the validation. '
+            . 'But, whatever, did you play to Hades? It is a very good game! I need more characters to have 255. '
+            . ' That\'s it, bye!',
             'http://activate-url.test',
             'http://callback-url.test',
             42,
@@ -137,9 +137,9 @@ class CreateCustomAppCommandValidationIntegration extends TestCase
         $violations = $this->validator->validate(new CreateCustomAppCommand(
             'ClientID1234',
             'Custom app name',
-            'http://activate-url-activate-url-activate-url-activate-url-activate-url-activate-url-activate' .
-            '-url-activate-url-activate-url-activate-url-activate-url-activate-url-activate-url-activate-url' .
-            '-activate-url-activate-url-activate-url-activate-url-activate-url-activate-url-activate-url.test',
+            'http://activate-url-activate-url-activate-url-activate-url-activate-url-activate-url-activate'
+            . '-url-activate-url-activate-url-activate-url-activate-url-activate-url-activate-url-activate-url'
+            . '-activate-url-activate-url-activate-url-activate-url-activate-url-activate-url-activate-url.test',
             'http://callback-url.test',
             42,
         ));
@@ -157,9 +157,9 @@ class CreateCustomAppCommandValidationIntegration extends TestCase
             'ClientID1234',
             'Custom app name',
             'http://activate-url.test',
-            'http://callback-url-callback-url-callback-url-callback-url-callback-url-callback-url-callback' .
-            '-url-callback-url-callback-url-callback-url-callback-url-callback-url-callback-url-callback-url' .
-            '-callback-url-callback-url-callback-url-callback-url-callback-url-callback-url-callback-url-callbac.test',
+            'http://callback-url-callback-url-callback-url-callback-url-callback-url-callback-url-callback'
+            . '-url-callback-url-callback-url-callback-url-callback-url-callback-url-callback-url-callback-url'
+            . '-callback-url-callback-url-callback-url-callback-url-callback-url-callback-url-callback-url-callbac.test',
             42,
         ));
 

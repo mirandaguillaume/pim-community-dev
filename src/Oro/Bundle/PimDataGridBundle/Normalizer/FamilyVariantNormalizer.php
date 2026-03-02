@@ -33,11 +33,11 @@ class FamilyVariantNormalizer implements NormalizerInterface, CacheableSupportsM
             'id'                => $familyVariant->getId(),
             'familyCode'        => $familyVariant->getFamily()->getCode(),
             'familyVariantCode' => $familyVariant->getCode(),
-            'label'             => isset($context['localeCode']) &&isset($labels[$context['localeCode']]) ?
-                $labels[$context['localeCode']] :
-                $familyVariant->getCode(),
+            'label'             => isset($context['localeCode']) && isset($labels[$context['localeCode']])
+                ? $labels[$context['localeCode']]
+                : $familyVariant->getCode(),
             'level_1'           => '',
-            'level_2'           => ''
+            'level_2'           => '',
         ];
 
         foreach ($familyVariant->getVariantAttributeSets() as $attributeSet) {

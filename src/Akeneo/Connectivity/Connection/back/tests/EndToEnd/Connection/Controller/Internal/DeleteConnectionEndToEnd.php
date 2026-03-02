@@ -35,7 +35,7 @@ class DeleteConnectionEndToEnd extends WebTestCase
         $result = \json_decode($this->client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $expectedResult = [
-            'message' => 'Connection with code "unknown_connection" does not exist'
+            'message' => 'Connection with code "unknown_connection" does not exist',
         ];
 
         Assert::assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());

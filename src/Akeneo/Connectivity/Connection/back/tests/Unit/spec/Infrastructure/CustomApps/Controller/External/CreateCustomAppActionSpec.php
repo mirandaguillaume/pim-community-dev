@@ -116,7 +116,7 @@ class CreateCustomAppActionSpec extends ObjectBehavior
                 new ConstraintViolationList([
                     new ConstraintViolation('Too long', '', [], '', 'name', 'it is too long'),
                     new ConstraintViolation('Not url', '', [], '', 'callbackUrl', 'it is not a url'),
-                    new ConstraintViolation('Not url', '', [], '', 'activateUrl', 'it is not a url')
+                    new ConstraintViolation('Not url', '', [], '', 'activateUrl', 'it is not a url'),
                 ])
             );
 
@@ -181,8 +181,8 @@ class CreateCustomAppActionSpec extends ObjectBehavior
             [
                 'errors' => [
                     'propertyPath' => null,
-                    'message' => 'The client secret can not be retrieved.'
-                ]
+                    'message' => 'The client secret can not be retrieved.',
+                ],
             ],
             Response::HTTP_UNPROCESSABLE_ENTITY
         ));

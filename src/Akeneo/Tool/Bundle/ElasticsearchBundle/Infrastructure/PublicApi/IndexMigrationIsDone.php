@@ -21,14 +21,14 @@ class IndexMigrationIsDone implements IndexMigrationIsDoneInterface
     public function byIndexAliasAndHash(string $indexAlias, string $hash): bool
     {
         $sql = <<<SQL
-            SELECT EXISTS (
-                SELECT 1
-                FROM pim_index_migration 
-                WHERE index_alias = :index_alias 
-                AND hash = :hash
-                AND JSON_EXTRACT(`values`, '$.status') = 'done'
-            ) as index_migration_is_done
-        SQL;
+                SELECT EXISTS (
+                    SELECT 1
+                    FROM pim_index_migration 
+                    WHERE index_alias = :index_alias 
+                    AND hash = :hash
+                    AND JSON_EXTRACT(`values`, '$.status') = 'done'
+                ) as index_migration_is_done
+            SQL;
 
         $statement = $this->connection->executeQuery($sql, [
             'index_alias' => $indexAlias,

@@ -41,9 +41,9 @@ final class GetEvaluationResultsByProductModelsAndCriterionQueryIntegration exte
         $productModelWithoutAnyEvaluation = $this->givenAProductModelWithoutAnyEvaluation();
 
         $productModelIdCollection = $this->get(ProductModelIdFactory::class)->createCollection([
-            (string)$productModelWithEvaluation,
-            (string)$productModelWithPendingEvaluation,
-            (string)$productModelWithoutAnyEvaluation
+            (string) $productModelWithEvaluation,
+            (string) $productModelWithPendingEvaluation,
+            (string) $productModelWithoutAnyEvaluation,
         ]);
 
         $results = $this->get(GetEvaluationResultsByProductModelsAndCriterionQuery::class)->execute(
@@ -52,7 +52,7 @@ final class GetEvaluationResultsByProductModelsAndCriterionQueryIntegration exte
         );
 
         $this->assertArrayHasKey($productModelWithEvaluation, $results, 'There should be an element for the evaluated product model in the results');
-        $this->assertInstanceOf(CriterionEvaluationResult::class, $results[(string)$productModelWithEvaluation], 'The result for the evaluated product model should be an instance of CriterionEvaluationResult');
+        $this->assertInstanceOf(CriterionEvaluationResult::class, $results[(string) $productModelWithEvaluation], 'The result for the evaluated product model should be an instance of CriterionEvaluationResult');
 
         $this->assertArrayHasKey($productModelWithPendingEvaluation, $results, 'There should be an element for the product model with pending evaluation in the results');
         $this->assertNull($results[$productModelWithPendingEvaluation], 'The result for the product model with pending evaluation should be null');
@@ -68,10 +68,10 @@ final class GetEvaluationResultsByProductModelsAndCriterionQueryIntegration exte
                     ['scope' => 'ecommerce', 'locale' => 'en_US', 'data' => 'Foo'],
                     ['scope' => 'ecommerce', 'locale' => 'fr_FR', 'data' => 'Bar'],
                 ],
-            ]
+            ],
         ])->getId();
 
-        $productModelIdCollection = $this->get(ProductModelIdFactory::class)->createCollection([(string)$productModelId]);
+        $productModelIdCollection = $this->get(ProductModelIdFactory::class)->createCollection([(string) $productModelId]);
         ($this->get(EvaluateProductModels::class))($productModelIdCollection);
 
         return $productModelId;

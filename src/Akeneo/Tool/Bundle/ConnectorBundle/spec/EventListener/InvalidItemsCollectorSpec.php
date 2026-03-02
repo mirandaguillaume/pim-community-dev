@@ -10,21 +10,21 @@ use PhpSpec\ObjectBehavior;
 
 class InvalidItemsCollectorSpec extends ObjectBehavior
 {
-    function it_is_an_event_subscriber()
+    public function it_is_an_event_subscriber()
     {
         $this->shouldHaveType(\Symfony\Component\EventDispatcher\EventSubscriberInterface::class);
     }
 
-    function it_returns_subscribed_events()
+    public function it_returns_subscribed_events()
     {
         $this->getSubscribedEvents()->shouldReturn(
             [
-                EventInterface::INVALID_ITEM => 'collect'
+                EventInterface::INVALID_ITEM => 'collect',
             ]
         );
     }
 
-    function it_collects_invalid_items_from_event(InvalidItemEvent $event, DataInvalidItem $invalidItem)
+    public function it_collects_invalid_items_from_event(InvalidItemEvent $event, DataInvalidItem $invalidItem)
     {
         $item = [
             'sku'        => 'sku-001',
@@ -42,7 +42,7 @@ class InvalidItemsCollectorSpec extends ObjectBehavior
         $this->getInvalidItems()->shouldReturn([$hashKey => $invalidItem]);
     }
 
-    function it_collects_several_invalid_items_from_events(
+    public function it_collects_several_invalid_items_from_events(
         InvalidItemEvent $event1,
         InvalidItemEvent $event2,
         InvalidItemEvent $event3,
@@ -88,7 +88,7 @@ class InvalidItemsCollectorSpec extends ObjectBehavior
         ]);
     }
 
-    function it_does_not_collect_duplicate_invalid_items(
+    public function it_does_not_collect_duplicate_invalid_items(
         InvalidItemEvent $event,
         FileInvalidItem $invalidItem
     ) {

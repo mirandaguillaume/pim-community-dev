@@ -13,12 +13,12 @@ class CreateCategoryEndToEnd extends ApiTestCase
     {
         $client = $this->createAuthenticatedClient();
 
-        $data =
-            <<<JSON
-    {
-        "code": "new_category_headers"
-    }
-JSON;
+        $data
+            = <<<JSON
+                    {
+                        "code": "new_category_headers"
+                    }
+                JSON;
 
         $client->request('POST', 'api/rest/v1/categories', [], [], [], $data);
 
@@ -33,12 +33,12 @@ JSON;
     {
         $client = $this->createAuthenticatedClient();
 
-        $data =
-            <<<JSON
-    {
-        "code": "new_category_incompleted"
-    }
-JSON;
+        $data
+            = <<<JSON
+                    {
+                        "code": "new_category_incompleted"
+                    }
+                JSON;
 
         $client->request('POST', 'api/rest/v1/categories', [], [], [], $data);
 
@@ -67,17 +67,17 @@ JSON;
     {
         $client = $this->createAuthenticatedClient();
 
-        $data =
-            <<<JSON
-    {
-        "code": "categoryD",
-        "parent": "master",
-        "labels": {
-            "en_US": "Category D",
-            "fr_FR": "Catégorie D"
-        }
-    }
-JSON;
+        $data
+            = <<<JSON
+                    {
+                        "code": "categoryD",
+                        "parent": "master",
+                        "labels": {
+                            "en_US": "Category D",
+                            "fr_FR": "Catégorie D"
+                        }
+                    }
+                JSON;
         $client->request('POST', 'api/rest/v1/categories', [], [], [], $data);
 
         $category = $this->get('pim_catalog.repository.category')->findOneByIdentifier('categoryD');
@@ -105,18 +105,18 @@ JSON;
     {
         $client = $this->createAuthenticatedClient();
 
-        $data =
-            <<<JSON
-    {
-        "code": "empty_label_category",
-        "parent": "master",
-        "labels": {
-            "en_US": "US label",
-            "fr_FR": null,
-            "de_DE": ""
-        }
-    }
-JSON;
+        $data
+            = <<<JSON
+                    {
+                        "code": "empty_label_category",
+                        "parent": "master",
+                        "labels": {
+                            "en_US": "US label",
+                            "fr_FR": null,
+                            "de_DE": ""
+                        }
+                    }
+                JSON;
         $client->request('POST', 'api/rest/v1/categories', [], [], [], $data);
 
         $category = $this->get('pim_catalog.repository.category')->findOneByIdentifier('empty_label_category');
@@ -177,12 +177,12 @@ JSON;
     {
         $client = $this->createAuthenticatedClient();
 
-        $data =
-            <<<JSON
-    {
-        "code": "categoryA"
-    }
-JSON;
+        $data
+            = <<<JSON
+                    {
+                        "code": "categoryA"
+                    }
+                JSON;
 
         $expectedContent = [
             'code' => 422,
@@ -206,12 +206,12 @@ JSON;
     {
         $client = $this->createAuthenticatedClient();
 
-        $data =
-            <<<JSON
-    {
-        "code": ""
-    }
-JSON;
+        $data
+            = <<<JSON
+                    {
+                        "code": ""
+                    }
+                JSON;
 
         $expectedContent = [
             'code' => 422,
@@ -235,13 +235,13 @@ JSON;
     {
         $client = $this->createAuthenticatedClient();
 
-        $data =
-            <<<JSON
-    {
-        "code": "sales",
-        "extra_property": ""
-    }
-JSON;
+        $data
+            = <<<JSON
+                    {
+                        "code": "sales",
+                        "extra_property": ""
+                    }
+                JSON;
 
         $expectedContent = [
             'code' => 422,
@@ -264,12 +264,12 @@ JSON;
     {
         $client = $this->createAuthenticatedClient();
 
-        $data =
-            <<<JSON
-    {
-        "labels": null
-    }
-JSON;
+        $data
+            = <<<JSON
+                    {
+                        "labels": null
+                    }
+                JSON;
 
         $expectedContent = [
             'code' => 422,
@@ -292,15 +292,15 @@ JSON;
     {
         $client = $this->createAuthenticatedClient();
 
-        $data =
-            <<<JSON
-    {
-        "code": "test_empty_locale",
-        "labels": {
-            "": "label"
-         }
-    }
-JSON;
+        $data
+            = <<<JSON
+                    {
+                        "code": "test_empty_locale",
+                        "labels": {
+                            "": "label"
+                         }
+                    }
+                JSON;
 
         $expectedContent = [
             'code' => 422,
@@ -324,15 +324,15 @@ JSON;
     {
         $client = $this->createAuthenticatedClient();
 
-        $data =
-            <<<JSON
-            {
-                "code": "test_unknown_locale",
-                "labels": {
-                    "zz_ZZ": "label"
-                 }
-            }
-        JSON;
+        $data
+            = <<<JSON
+                    {
+                        "code": "test_unknown_locale",
+                        "labels": {
+                            "zz_ZZ": "label"
+                         }
+                    }
+                JSON;
 
         $expectedContent = [
             'code' => 422,

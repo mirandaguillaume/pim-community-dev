@@ -46,7 +46,7 @@ class AjaxChoiceFilter extends ChoiceFilter
         $choices = array_map(
             fn (ChoiceView $choice) => [
                 'label' => $choice->label,
-                'value' => $choice->value
+                'value' => $choice->value,
             ],
             $formView->vars['choices']
         );

@@ -41,8 +41,8 @@ class AttributeTranslator implements FlatHeaderTranslatorInterface
         $attribute = $columnInformations['attribute'];
         $attributeCode = $attribute->getCode();
 
-        $columnLabelized = $this->attributeTranslations[$attributeCode] ??
-            sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $attributeCode);
+        $columnLabelized = $this->attributeTranslations[$attributeCode]
+            ?? sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $attributeCode);
 
         $extraInformation = [];
         if ($attribute->isLocalizable()) {
@@ -58,8 +58,8 @@ class AttributeTranslator implements FlatHeaderTranslatorInterface
             $channelCode = $columnInformations['scope_code'];
             $channelTranslations = $this->getChannelTranslations($locale);
 
-            $extraInformation[] = $channelTranslations[$channelCode] ??
-                sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $channelCode);
+            $extraInformation[] = $channelTranslations[$channelCode]
+                ?? sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $channelCode);
         }
 
         if (!empty($extraInformation)) {

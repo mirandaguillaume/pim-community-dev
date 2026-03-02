@@ -12,8 +12,7 @@ final readonly class ProductIdentifier
 {
     public function __construct(
         private string $identifier
-    ) {
-    }
+    ) {}
 
     /**
      * Returns the prefixes and the associated number
@@ -29,7 +28,7 @@ final readonly class ProductIdentifier
     {
         $matches = [];
         \preg_match_all('/\d/', $this->identifier, $matches, PREG_OFFSET_CAPTURE);
-        $intPositions = \array_map(fn (array $match): int => $match[1], $matches[0]);
+        $intPositions = \array_map(fn(array $match): int => $match[1], $matches[0]);
         $results = [];
         foreach ($intPositions as $intPosition) {
             $beginningNumbers = $this->getAllBeginningNumbers(\substr($this->identifier, $intPosition));

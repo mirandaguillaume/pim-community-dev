@@ -17,21 +17,21 @@ final class Version_7_0_20220822173400_add_scheduled_jobs extends AbstractMigrat
     private function addScheduledJob(string $jobCode, string $label, array $rawParameters): void
     {
         $sql = <<<SQL
-            INSERT INTO akeneo_batch_job_instance 
-                (`code`, `label`, `job_name`, `status`, `connector`, `raw_parameters`, `type`)
-            VALUES
-            (
-                :code,
-                :label,
-             
-                :code,
-                0,
-                'internal',
-                :raw_parameters,
-                'scheduled_job'
-            )
-            ON DUPLICATE KEY UPDATE code = code;
-        SQL;
+                INSERT INTO akeneo_batch_job_instance 
+                    (`code`, `label`, `job_name`, `status`, `connector`, `raw_parameters`, `type`)
+                VALUES
+                (
+                    :code,
+                    :label,
+                 
+                    :code,
+                    0,
+                    'internal',
+                    :raw_parameters,
+                    'scheduled_job'
+                )
+                ON DUPLICATE KEY UPDATE code = code;
+            SQL;
 
         $this->addSql(
             $sql,

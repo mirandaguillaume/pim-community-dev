@@ -14,30 +14,27 @@ use PhpSpec\ObjectBehavior;
 
 class UserIntentFactoryRegistrySpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         UserIntentFactory $userIntentFactory
-    )
-    {
+    ) {
         $this->beConstructedWith(
             ['field' => $userIntentFactory],
             ['ignored_field']
         );
     }
 
-    function it_creates_a_user_intent_from_standard_format(
+    public function it_creates_a_user_intent_from_standard_format(
         UserIntentFactory $userIntentFactory
-    )
-    {
+    ) {
         $userIntentFactory->getSupportedFieldNames()->willReturn(['field']);
         $userIntentFactory->create('field', 1, ['key' => 'value', 'ignored_field' => 'another_value'])->shouldBeCalled();
 
         $this->fromStandardFormatField('field', 1, ['key' => 'value', 'ignored_field' => 'another_value']);
     }
 
-    function it_throws_an_exception_when_no_factory_is_found(
+    public function it_throws_an_exception_when_no_factory_is_found(
         UserIntentFactory $userIntentFactory
-    )
-    {
+    ) {
         $userIntentFactory->getSupportedFieldNames()->willReturn(['field']);
         $userIntentFactory->create('unknown_field', 1, ['key' => 'value'])->shouldNotBeCalled();
 

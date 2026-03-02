@@ -129,7 +129,7 @@ sku: The sku attribute must not contain more than 255 characters. The submitted 
         $results = $this->getConnection()->fetchAllAssociative('SELECT reason, item FROM akeneo_batch_warning;');
 
         return \array_map(
-            fn (array $line): array => ['reason' => $line['reason'], 'item' => \unserialize($line['item'])],
+            fn(array $line): array => ['reason' => $line['reason'], 'item' => \unserialize($line['item'])],
             $results
         );
     }

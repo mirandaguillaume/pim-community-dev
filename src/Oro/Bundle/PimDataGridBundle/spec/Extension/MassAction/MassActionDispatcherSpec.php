@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class MassActionDispatcherSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         MassActionHandlerRegistry $handlerRegistry,
         ManagerInterface $manager,
         RequestParameters $requestParams,
@@ -42,7 +42,7 @@ class MassActionDispatcherSpec extends ObjectBehavior
         $manager->getDatagrid('grid')->willReturn($grid);
     }
 
-    function it_returns_mass_action(
+    public function it_returns_mass_action(
         $handlerRegistry,
         DatagridInterface $grid,
         Acceptor $acceptor,
@@ -90,7 +90,7 @@ class MassActionDispatcherSpec extends ObjectBehavior
         ])->shouldReturnAnInstanceOf('\\' . \Oro\Bundle\PimDataGridBundle\Extension\MassAction\Handler\MassActionHandlerInterface::class);
     }
 
-    function it_throws_an_exception_without_extension(
+    public function it_throws_an_exception_without_extension(
         $parametersParser,
         $datasource,
         Acceptor $acceptor,
@@ -114,14 +114,14 @@ class MassActionDispatcherSpec extends ObjectBehavior
 
         $this->shouldThrow(new \LogicException("MassAction extension is not applied to datagrid."))
             ->during('dispatch', [[
-            'inset'      => 'inset',
-            'values'     => [1],
-            'gridName'   => 'grid',
-            'actionName' => 'mass_edit_action'
-        ]]);
+                'inset'      => 'inset',
+                'values'     => [1],
+                'gridName'   => 'grid',
+                'actionName' => 'mass_edit_action',
+            ]]);
     }
 
-    function it_throws_an_exception_when_the_mass_action_does_not_exist(
+    public function it_throws_an_exception_when_the_mass_action_does_not_exist(
         $parametersParser,
         $datasource,
         DatagridInterface $grid,
@@ -144,7 +144,7 @@ class MassActionDispatcherSpec extends ObjectBehavior
             'values'     => [1],
             'gridName'   => 'grid',
             'massAction' => $massActionInterface,
-            'actionName' => $massActionName
+            'actionName' => $massActionName,
         ]);
         $datasource->getMassActionRepository()->willReturn($massActionRepository);
         $acceptor->getExtensions()->willReturn([$massActionExtension]);
@@ -152,15 +152,15 @@ class MassActionDispatcherSpec extends ObjectBehavior
 
         $this->shouldThrow(new \LogicException(sprintf('Can\'t find mass action "%s"', $massActionName)))
             ->during('dispatch', [[
-            'inset'      => 'inset',
-            'values'     => [1],
-            'gridName'   => 'grid',
-            'massAction' => $massActionInterface,
-            'actionName' => $massActionName
-        ]]);
+                'inset'      => 'inset',
+                'values'     => [1],
+                'gridName'   => 'grid',
+                'massAction' => $massActionInterface,
+                'actionName' => $massActionName,
+            ]]);
     }
 
-    function it_throws_an_exception_without_values($parametersParser)
+    public function it_throws_an_exception_without_values($parametersParser)
     {
         $massActionName = 'mass_edit_action';
         $request = new Request([
@@ -173,7 +173,7 @@ class MassActionDispatcherSpec extends ObjectBehavior
             ->during('dispatch', [['inset' => 'inset', 'values' => '', 'actionName' => $massActionName]]);
     }
 
-    function it_throws_an_exception_if_datasource_is_not_an_instance_of_productdatasource(
+    public function it_throws_an_exception_if_datasource_is_not_an_instance_of_productdatasource(
         $parametersParser,
         DatagridInterface $grid,
         Acceptor $acceptor,
@@ -196,7 +196,7 @@ class MassActionDispatcherSpec extends ObjectBehavior
             'values'     => [1],
             'gridName'   => 'grid',
             'massAction' => $massActionInterface,
-            'actionName' => $massActionName
+            'actionName' => $massActionName,
         ]);
         $datasource->getMassActionRepository()->willReturn($massActionRepository);
         $massActionExtension->getMassAction($massActionName, $grid)->willReturn($massActionInterface);
@@ -204,15 +204,15 @@ class MassActionDispatcherSpec extends ObjectBehavior
 
         $this->shouldThrow(new \LogicException('getRawFilters is only implemented for ProductDatasource and ProductAndProductModelDatasource'))
             ->during('getRawFilters', [[
-            'inset'      => 'inset',
-            'values'     => [1],
-            'gridName'   => 'grid',
-            'massAction' => $massActionInterface,
-            'actionName' => $massActionName
-        ]]);
+                'inset'      => 'inset',
+                'values'     => [1],
+                'gridName'   => 'grid',
+                'massAction' => $massActionInterface,
+                'actionName' => $massActionName,
+            ]]);
     }
 
-    function it_convert_parent_filter_when_all_rows_are_selected(
+    public function it_convert_parent_filter_when_all_rows_are_selected(
         DatagridInterface $grid,
         Acceptor $acceptor,
         MassActionExtension $massActionExtension,
@@ -259,7 +259,7 @@ class MassActionDispatcherSpec extends ObjectBehavior
             'values'     => [1],
             'gridName'   => 'grid',
             'massAction' => $massActionInterface,
-            'actionName' => $massActionName
+            'actionName' => $massActionName,
         ])->shouldReturn([
             [
                 'field' => 'ancestor.code',
@@ -270,7 +270,7 @@ class MassActionDispatcherSpec extends ObjectBehavior
         ]);
     }
 
-    function it_does_not_convert_empty_parent_filter_when_all_rows_are_selected(
+    public function it_does_not_convert_empty_parent_filter_when_all_rows_are_selected(
         DatagridInterface $grid,
         Acceptor $acceptor,
         MassActionExtension $massActionExtension,
@@ -317,7 +317,7 @@ class MassActionDispatcherSpec extends ObjectBehavior
             'values'     => [1],
             'gridName'   => 'grid',
             'massAction' => $massActionInterface,
-            'actionName' => $massActionName
+            'actionName' => $massActionName,
         ])->shouldReturn([
             [
                 'field' => 'parent',
@@ -328,7 +328,7 @@ class MassActionDispatcherSpec extends ObjectBehavior
         ]);
     }
 
-    function it_does_not_convert_parent_filter_when_using_sequential_edit(
+    public function it_does_not_convert_parent_filter_when_using_sequential_edit(
         DatagridInterface $grid,
         Acceptor $acceptor,
         MassActionExtension $massActionExtension,

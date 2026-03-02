@@ -45,7 +45,7 @@ final class GetProductUuidsHandlerIntegration extends EnrichmentProductTestCase
         );
         $this->commandMessageBus->dispatch(
             UpsertProductCommand::createWithIdentifier($this->getUserId('admin'), ProductIdentifier::fromIdentifier('test2'), [
-                new SetTextValue('a_text', null, null, 'foo')
+                new SetTextValue('a_text', null, null, 'foo'),
             ])
         );
         $this->refreshIndex();

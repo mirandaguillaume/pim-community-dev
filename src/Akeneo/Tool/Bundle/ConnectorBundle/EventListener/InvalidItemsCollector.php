@@ -25,7 +25,7 @@ class InvalidItemsCollector implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            EventInterface::INVALID_ITEM => 'collect'
+            EventInterface::INVALID_ITEM => 'collect',
         ];
     }
 

@@ -20,9 +20,9 @@ class GetConnectedAppsIdentifiersQuery implements GetConnectedAppsIdentifiersQue
     public function execute(): array
     {
         $query = <<<SQL
-SELECT id
-FROM akeneo_connectivity_connected_app
-SQL;
+            SELECT id
+            FROM akeneo_connectivity_connected_app
+            SQL;
 
         return $this->connection->fetchFirstColumn($query);
     }

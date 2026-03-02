@@ -25,8 +25,8 @@ class ReferenceDataRepository extends EntityRepository implements
     {
         if (null !== $labelProperty = $this->getReferenceDataLabelProperty()) {
             $selectDql = sprintf(
-                '%s.%s as id, ' .
-                'CASE WHEN %s.%s IS NULL OR %s.%s = \'\' THEN CONCAT(\'[\', %s.code, \']\') ELSE %s.%s END AS text',
+                '%s.%s as id, '
+                . 'CASE WHEN %s.%s IS NULL OR %s.%s = \'\' THEN CONCAT(\'[\', %s.code, \']\') ELSE %s.%s END AS text',
                 $this->getAlias(),
                 isset($options['type']) && 'code' === $options['type'] ? 'code' : 'id',
                 $this->getAlias(),

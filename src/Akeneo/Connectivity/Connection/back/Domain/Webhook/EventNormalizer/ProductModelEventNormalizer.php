@@ -32,7 +32,7 @@ final class ProductModelEventNormalizer implements EventNormalizerInterface
         $normalizer = new EventNormalizer();
 
         return $normalizer->normalize($event) + [
-            'product_model_code' => $event->getCode()
+            'product_model_code' => $event->getCode(),
         ];
     }
 }

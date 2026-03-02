@@ -25,12 +25,12 @@ final readonly class GetProductUuidsNotSynchronisedBetweenEsAndMysql
     {
         $lastUuidAsBytes = '';
         $sql = <<< SQL
-SELECT CONCAT('product_',BIN_TO_UUID(uuid)) AS _id, uuid, DATE_FORMAT(updated, '%Y-%m-%dT%TZ') AS updated
-FROM pim_catalog_product
-WHERE uuid > :lastUuid
-ORDER BY uuid ASC
-LIMIT :limit
-SQL;
+            SELECT CONCAT('product_',BIN_TO_UUID(uuid)) AS _id, uuid, DATE_FORMAT(updated, '%Y-%m-%dT%TZ') AS updated
+            FROM pim_catalog_product
+            WHERE uuid > :lastUuid
+            ORDER BY uuid ASC
+            LIMIT :limit
+            SQL;
         while (true) {
             $rows = $this->connection->executeQuery(
                 $sql,
@@ -57,13 +57,13 @@ SQL;
                     'bool' => [
                         'must' => [
                             'ids' => [
-                                'values' => $existingMysqlIdentifiers
-                            ]
+                                'values' => $existingMysqlIdentifiers,
+                            ],
                         ],
-                    ]
+                    ],
                 ],
                 '_source' => ['id', 'entity_updated'],
-                'size' => $batchSize
+                'size' => $batchSize,
             ]);
 
             $updatedById = [];

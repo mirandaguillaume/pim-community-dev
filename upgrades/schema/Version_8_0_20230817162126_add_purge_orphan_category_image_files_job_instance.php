@@ -23,10 +23,10 @@ final class Version_8_0_20230817162126_add_purge_orphan_category_image_files_job
         if (!$this->jobInstanceExists('purge_orphan_category_image_files')) {
             $this->addSql(
                 <<<SQL
-                INSERT INTO akeneo_batch_job_instance (code, label, job_name, status, connector, raw_parameters, type)
-                VALUES (:code, :label, :job_name, :status, :connector, :raw_parameters, :type)
-                ON DUPLICATE KEY UPDATE code = code;
-                SQL,
+                    INSERT INTO akeneo_batch_job_instance (code, label, job_name, status, connector, raw_parameters, type)
+                    VALUES (:code, :label, :job_name, :status, :connector, :raw_parameters, :type)
+                    ON DUPLICATE KEY UPDATE code = code;
+                    SQL,
                 [
                     'code' => 'purge_orphan_category_image_files',
                     'label' => 'Purge orphan category image files',
@@ -48,10 +48,10 @@ final class Version_8_0_20230817162126_add_purge_orphan_category_image_files_job
     private function jobInstanceExists(string $jobCode): bool
     {
         $sql = <<<SQL
-            SELECT id
-            FROM akeneo_batch_job_instance
-            WHERE code = :jobCode
-        SQL;
+                SELECT id
+                FROM akeneo_batch_job_instance
+                WHERE code = :jobCode
+            SQL;
 
         return 0 !== $this->connection->executeQuery($sql, ['jobCode' => $jobCode])->rowCount();
     }

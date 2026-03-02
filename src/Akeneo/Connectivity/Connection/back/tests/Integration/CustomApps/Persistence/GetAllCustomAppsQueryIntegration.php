@@ -101,10 +101,10 @@ class GetAllCustomAppsQueryIntegration extends TestCase
     private function findUserId(?string $username): int
     {
         $query = <<<SQL
-            SELECT id
-            FROM oro_user
-            WHERE username = :username
-SQL;
+                        SELECT id
+                        FROM oro_user
+                        WHERE username = :username
+            SQL;
 
         return (int) $this->connection->fetchOne($query, [
             'username' => $username,

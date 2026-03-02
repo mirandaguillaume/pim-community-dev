@@ -22,7 +22,7 @@ final class MessengerConfigBuilderIntegration extends KernelTestCase
      */
     protected function setUp(): void
     {
-        static::bootKernel(['debug' => (bool)($_SERVER['APP_DEBUG'] ?? false)]);
+        static::bootKernel(['debug' => (bool) ($_SERVER['APP_DEBUG'] ?? false)]);
     }
 
     public function test_it_returns_a_messenger_configuration_for_doctrine_transport(): void
@@ -161,7 +161,7 @@ final class MessengerConfigBuilderIntegration extends KernelTestCase
      * @param array<string, mixed> $config
      * @return array<string, mixed>|null
      */
-    private function getTransportConfig(array $config, string $transportName): array|null
+    private function getTransportConfig(array $config, string $transportName): ?array
     {
         return $config['transports'][$transportName] ?? null;
     }
@@ -170,7 +170,7 @@ final class MessengerConfigBuilderIntegration extends KernelTestCase
      * @param array<string, mixed> $config
      * @return string[]|null
      */
-    private function getRoutingForMessage(array $config, string $messageClass): array|null
+    private function getRoutingForMessage(array $config, string $messageClass): ?array
     {
         return $config['routing'][$messageClass] ?? null;
     }

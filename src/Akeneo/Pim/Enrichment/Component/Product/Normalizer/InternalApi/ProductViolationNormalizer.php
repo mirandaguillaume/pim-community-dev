@@ -32,7 +32,7 @@ class ProductViolationNormalizer implements NormalizerInterface, CacheableSuppor
     /**
      * {@inheritdoc}
      */
-    public function normalize($violation, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($violation, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $propertyPath = $violation->getPropertyPath();
 
@@ -55,8 +55,8 @@ class ProductViolationNormalizer implements NormalizerInterface, CacheableSuppor
             $attributeCode = $attribute[0];
 
             // TODO: TIP-722 - to revert once the identifier product value is dropped.
-            if ($attributeCode === $this->attributeRepository->getIdentifierCode() &&
-                $violation->getConstraint() instanceof UniqueValue
+            if ($attributeCode === $this->attributeRepository->getIdentifierCode()
+                && $violation->getConstraint() instanceof UniqueValue
             ) {
                 return [];
             }

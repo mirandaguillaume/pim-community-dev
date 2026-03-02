@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Oro\Bundle\SecurityBundle\Normalizer;
@@ -29,7 +30,7 @@ final class AclPrivilegeNormalizer implements NormalizerInterface, CacheableSupp
     /**
      * {@inheritdoc}
      */
-    public function normalize($privilege, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($privilege, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         Assert::isInstanceOf($privilege, AclPrivilege::class);
 

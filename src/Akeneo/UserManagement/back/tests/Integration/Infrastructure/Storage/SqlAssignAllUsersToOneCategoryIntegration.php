@@ -32,13 +32,12 @@ class SqlAssignAllUsersToOneCategoryIntegration extends TestCase
         $sut->execute($category->getId());
 
         $sql = <<<SQL
-            SELECT defaultTree_id FROM oro_user;
-        SQL;
+                SELECT defaultTree_id FROM oro_user;
+            SQL;
         $result = $this->connection->executeQuery($sql)->fetchFirstColumn();
 
         $expected = $category->getId();
-        foreach ($result as $actual)
-        {
+        foreach ($result as $actual) {
             $this->assertEquals($expected, $actual);
         }
     }

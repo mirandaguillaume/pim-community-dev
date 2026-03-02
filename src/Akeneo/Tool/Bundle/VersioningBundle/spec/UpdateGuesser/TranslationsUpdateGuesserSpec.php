@@ -13,34 +13,34 @@ use Akeneo\Tool\Component\Versioning\Model\VersionableInterface;
 
 class TranslationsUpdateGuesserSpec extends ObjectBehavior
 {
-    function let()
+    public function let()
     {
         $this->beConstructedWith(['stdClass']);
     }
 
-    function it_is_an_update_guesser()
+    public function it_is_an_update_guesser()
     {
         $this->shouldImplement(UpdateGuesserInterface::class);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(TranslationsUpdateGuesser::class);
     }
 
-    function it_supports_update_action()
+    public function it_supports_update_action()
     {
         $this->supportAction(UpdateGuesserInterface::ACTION_UPDATE_ENTITY)->shouldReturn(true);
         $this->supportAction('foo')->shouldReturn(false);
     }
 
-    function it_supports_delete_action()
+    public function it_supports_delete_action()
     {
         $this->supportAction(UpdateGuesserInterface::ACTION_DELETE)->shouldReturn(true);
         $this->supportAction('bar')->shouldReturn(false);
     }
 
-    function it_guesses_translatable_entity_updates(
+    public function it_guesses_translatable_entity_updates(
         EntityManager $em,
         UnitOfWork $uow,
         TranslatableEntity $entity,
@@ -55,7 +55,7 @@ class TranslationsUpdateGuesserSpec extends ObjectBehavior
             ->shouldReturn([$entity]);
     }
 
-    function it_returns_no_pending_updates_if_entity_state_is_removed(
+    public function it_returns_no_pending_updates_if_entity_state_is_removed(
         EntityManager $em,
         UnitOfWork $uow,
         TranslatableEntity $entity
@@ -67,7 +67,7 @@ class TranslationsUpdateGuesserSpec extends ObjectBehavior
             ->shouldReturn([]);
     }
 
-    function it_returns_no_pending_updates_if_not_given_versionable_class(
+    public function it_returns_no_pending_updates_if_not_given_versionable_class(
         EntityManager $em,
         UnitOfWork $uow,
         TranslationInterface $translation
@@ -83,6 +83,4 @@ class TranslationsUpdateGuesserSpec extends ObjectBehavior
     }
 }
 
-abstract class TranslatableEntity implements TranslatableInterface, VersionableInterface
-{
-}
+abstract class TranslatableEntity implements TranslatableInterface, VersionableInterface {}

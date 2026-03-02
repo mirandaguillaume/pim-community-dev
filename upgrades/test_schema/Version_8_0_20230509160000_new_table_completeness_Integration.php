@@ -44,10 +44,10 @@ final class Version_8_0_20230509160000_new_table_completeness_Integration extend
     private function tableExists($tableName): bool
     {
         return $this->connection->executeQuery(
-                'SHOW TABLES LIKE :tableName',
-                [
-                    'tableName' => $tableName,
-                ]
-            )->rowCount() >= 1;
+            'SHOW TABLES LIKE :tableName',
+            [
+                'tableName' => $tableName,
+            ]
+        )->rowCount() >= 1;
     }
 }

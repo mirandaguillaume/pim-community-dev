@@ -27,7 +27,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class AssociatedProductModelDatasourceSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         ObjectManager $objectManager,
         ProductQueryBuilderFactoryInterface $pqbFactory,
         NormalizerInterface $productNormalizer,
@@ -41,18 +41,18 @@ class AssociatedProductModelDatasourceSpec extends ObjectBehavior
         $this->setParameters(['dataChannel' => 'a_channel']);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(AssociatedProductModelDatasource::class);
     }
 
-    function it_is_a_datasource()
+    public function it_is_a_datasource()
     {
         $this->shouldImplement(DatasourceInterface::class);
         $this->shouldImplement(ParameterizableInterface::class);
     }
 
-    function it_throws_an_exception_when_there_is_no_current_product(
+    public function it_throws_an_exception_when_there_is_no_current_product(
         $pqbFactory,
         Datagrid $datagrid,
         ProductQueryBuilderInterface $pqb
@@ -75,7 +75,7 @@ class AssociatedProductModelDatasourceSpec extends ObjectBehavior
         )->during('getResults');
     }
 
-    function it_gets_product_models_sorted_by_association_status(
+    public function it_gets_product_models_sorted_by_association_status(
         $pqbFactory,
         $productNormalizer,
         NormalizerInterface $internalApiNormalizer,
@@ -118,7 +118,7 @@ class AssociatedProductModelDatasourceSpec extends ObjectBehavior
             'scope_code'          => 'a_channel',
             '_per_page'           => 42,
             'current_product'     => $currentProduct,
-            'association_type_id' => '1'
+            'association_type_id' => '1',
         ]);
 
         $associatedProduct1Uuid = '57700274-9b48-4857-b17d-a7da106cd150';

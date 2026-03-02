@@ -42,13 +42,13 @@ final class GetKeyIndicatorsSpec extends ObjectBehavior
         $getProductKeyIndicatorsQuery->all($channel, $locale, $goodEnrichment, $hasImage)
             ->willReturn([
                 'good_enrichment' => new KeyIndicator($goodEnrichment, 15, 60),
-                'has_image' => new KeyIndicator($hasImage, 25, 26)
+                'has_image' => new KeyIndicator($hasImage, 25, 26),
             ]);
 
         $getProductModelKeyIndicatorsQuery->all($channel, $locale, $goodEnrichment, $hasImage)
             ->willReturn([
                 'good_enrichment' => new KeyIndicator($goodEnrichment, 23, 52),
-                'has_image' => new KeyIndicator($hasImage, 24, 89)
+                'has_image' => new KeyIndicator($hasImage, 24, 89),
             ]);
 
         $this->all($channel, $locale)->shouldBeLike([
@@ -57,23 +57,23 @@ final class GetKeyIndicatorsSpec extends ObjectBehavior
                     'totalGood' => 15,
                     'totalToImprove' => 60,
                 ],
-                'product_models' =>
-                [
+                'product_models'
+                => [
                     'totalGood' => 23,
                     'totalToImprove' => 52,
-                ]
+                ],
             ],
             'has_image' => [
                 'products' => [
                     'totalGood' => 25,
                     'totalToImprove' => 26,
                 ],
-                'product_models' =>
-                [
+                'product_models'
+                => [
                     'totalGood' => 24,
                     'totalToImprove' => 89,
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 
@@ -87,12 +87,12 @@ final class GetKeyIndicatorsSpec extends ObjectBehavior
 
         $getProductKeyIndicatorsQuery->byFamily($channel, $locale, $family, $goodEnrichment, $hasImage)
             ->willReturn([
-                'good_enrichment' => new KeyIndicator($goodEnrichment, 15, 60)
+                'good_enrichment' => new KeyIndicator($goodEnrichment, 15, 60),
             ]);
 
         $getProductModelKeyIndicatorsQuery->byFamily($channel, $locale, $family, $goodEnrichment, $hasImage)
             ->willReturn([
-                'good_enrichment' => new KeyIndicator($goodEnrichment, 30, 40)
+                'good_enrichment' => new KeyIndicator($goodEnrichment, 30, 40),
             ]);
 
         $this->byFamily($channel, $locale, $family)->shouldBeLike([
@@ -101,23 +101,23 @@ final class GetKeyIndicatorsSpec extends ObjectBehavior
                     'totalGood' => 15,
                     'totalToImprove' => 60,
                 ],
-                'product_models' =>
-                [
+                'product_models'
+                => [
                     'totalGood' => 30,
                     'totalToImprove' => 40,
-                ]
+                ],
             ],
             'has_image' => [
                 'products' => [
                     'totalGood' => 0,
                     'totalToImprove' => 0,
                 ],
-                'product_models' =>
-                [
+                'product_models'
+                => [
                     'totalGood' => 0,
                     'totalToImprove' => 0,
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 
@@ -132,13 +132,13 @@ final class GetKeyIndicatorsSpec extends ObjectBehavior
         $getProductKeyIndicatorsQuery->byCategory($channel, $locale, $category, $goodEnrichment, $hasImage)
             ->willReturn([
                 'good_enrichment' => new KeyIndicator($goodEnrichment, 15, 60),
-                'has_image' => new KeyIndicator($hasImage, 0, 0)
+                'has_image' => new KeyIndicator($hasImage, 0, 0),
             ]);
 
         $getProductModelKeyIndicatorsQuery->byCategory($channel, $locale, $category, $goodEnrichment, $hasImage)
             ->willReturn([
                 'good_enrichment' => new KeyIndicator($goodEnrichment, 45, 65),
-                'has_image' => new KeyIndicator($hasImage, 0, 0)
+                'has_image' => new KeyIndicator($hasImage, 0, 0),
             ]);
 
         $this->byCategory($channel, $locale, $category)->shouldBeLike([
@@ -147,23 +147,23 @@ final class GetKeyIndicatorsSpec extends ObjectBehavior
                     'totalGood' => 15,
                     'totalToImprove' => 60,
                 ],
-                'product_models' =>
-                [
+                'product_models'
+                => [
                     'totalGood' => 45,
                     'totalToImprove' => 65,
-                ]
+                ],
             ],
             'has_image' => [
                 'products' => [
                     'totalGood' => 0,
                     'totalToImprove' => 0,
                 ],
-                'product_models' =>
-                [
+                'product_models'
+                => [
                     'totalGood' => 0,
                     'totalToImprove' => 0,
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 }

@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class CategoryRepositorySpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         EntityManager $entityManager,
         ClassMetadata $classMetadata,
         CategoryRepositoryInterface $categoryRepository,
@@ -26,7 +26,7 @@ class CategoryRepositorySpec extends ObjectBehavior
         $this->beConstructedWith($entityManager, 'category', $categoryRepository, $validator);
     }
 
-    function it_fails_on_filter_validation_with_wrong_operator_for_updated(
+    public function it_fails_on_filter_validation_with_wrong_operator_for_updated(
         EntityManager $entityManager,
         QueryBuilder $queryBuilder,
         ValidatorInterface $validator
@@ -40,11 +40,11 @@ class CategoryRepositorySpec extends ObjectBehavior
             ['updated' => [['operator' => 'BadOperator', 'value' => '2019-06-09T12:00:00+00:00']]],
             ['code' => 'ASC'],
             10,
-            0
+            0,
         ]);
     }
 
-    function it_fails_on_filter_validation_with_wrong_date_format_for_updated(
+    public function it_fails_on_filter_validation_with_wrong_date_format_for_updated(
         EntityManager $entityManager,
         QueryBuilder $queryBuilder,
         ValidatorInterface $validator,
@@ -59,7 +59,7 @@ class CategoryRepositorySpec extends ObjectBehavior
             ['updated' => [['operator' => '>', 'value' => '2019-06-09 12:00:00']]],
             ['code' => 'ASC'],
             10,
-            0
+            0,
         ]);
     }
 }

@@ -24,7 +24,7 @@ class ValueCollectionSpec extends ObjectBehavior
                 code: 'seo_meta_description',
                 channel: 'ecommerce',
                 locale: 'en_US'
-            )
+            ),
         ];
 
         $this->beConstructedThrough('fromArray', [$givenValues]);
@@ -55,7 +55,7 @@ class ValueCollectionSpec extends ObjectBehavior
                 code: 'seo_meta_description',
                 channel: 'ecommerce',
                 locale: 'en_US'
-            )
+            ),
         ];
 
         $this->beConstructedThrough('fromArray', [$givenValues]);
@@ -81,7 +81,7 @@ class ValueCollectionSpec extends ObjectBehavior
                 code: 'seo_meta_description',
                 channel: 'ecommerce',
                 locale: 'en_US'
-            )
+            ),
         ]);
 
         $setValue = TextValue::fromApplier(
@@ -104,7 +104,7 @@ class ValueCollectionSpec extends ObjectBehavior
                 code: 'description',
                 channel: 'ecommerce',
                 locale: 'en_US'
-            )
+            ),
         ];
 
         $this->beConstructedThrough('fromArray', [$givenValues]);
@@ -125,7 +125,7 @@ class ValueCollectionSpec extends ObjectBehavior
                     code: 'seo_meta_description',
                     channel: 'ecommerce',
                     locale: 'en_US'
-                )
+                ),
             ]
         );
 
@@ -177,7 +177,7 @@ class ValueCollectionSpec extends ObjectBehavior
                 code: 'description',
                 channel: 'ecommerce',
                 locale: 'en_US'
-            )
+            ),
         ]);
 
         $this->setValue(
@@ -216,14 +216,14 @@ class ValueCollectionSpec extends ObjectBehavior
                 'type' => 'text',
                 'channel' => 'ecommerce',
                 'locale' => 'en_US',
-                'attribute_code' => 'description|840fcd1a-f66b-4f0c-9bbd-596629732950'
+                'attribute_code' => 'description|840fcd1a-f66b-4f0c-9bbd-596629732950',
             ],
             'seo_meta_description|69e251b3-b876-48b5-9c09-92f54bfb528d|ecommerce|en_US' => [
                 'data' => 'Meta shoes',
                 'type' => 'text',
                 'channel' => 'ecommerce',
                 'locale' => 'en_US',
-                'attribute_code' => 'seo_meta_description|69e251b3-b876-48b5-9c09-92f54bfb528d'
+                'attribute_code' => 'seo_meta_description|69e251b3-b876-48b5-9c09-92f54bfb528d',
             ],
 
         ];
@@ -253,7 +253,7 @@ class ValueCollectionSpec extends ObjectBehavior
 
         $expectedValues = [
             $givenDescriptionValue,
-            $givenSeoDescriptionValue
+            $givenSeoDescriptionValue,
         ];
 
         $this->getValues()->shouldBeLike($expectedValues);
@@ -299,8 +299,8 @@ class ValueCollectionSpec extends ObjectBehavior
                 'type' => 'text',
                 'channel' => 'ecommerce',
                 'locale' => 'en_US',
-                'attribute_code' => 'seo_meta_description|69e251b3-b876-48b5-9c09-92f54bfb528d'
-            ]
+                'attribute_code' => 'seo_meta_description|69e251b3-b876-48b5-9c09-92f54bfb528d',
+            ],
         ];
 
         $expectedValue = TextValue::fromApplier(

@@ -85,8 +85,7 @@ class AttributeCodeShouldBeUniqueInTheTemplateValidatorSpec extends ObjectBehavi
         ExecutionContext $context,
         ConstraintViolationBuilderInterface $violationBuilder,
         GetAttribute $getAttribute,
-    ): void
-    {
+    ): void {
         /** @var TemplateUuid $templateUuid */
         $templateUuid = $this->getData()['templateUuid'];
 
@@ -160,7 +159,7 @@ class AttributeCodeShouldBeUniqueInTheTemplateValidatorSpec extends ObjectBehavi
                 labelCollection: LabelCollection::fromArray(['en_US' => 'SEO meta description']),
                 templateUuid: TemplateUuid::fromString('02274dac-e99a-4e1d-8f9b-794d4c3ba330'),
                 additionalProperties: AttributeAdditionalProperties::fromArray([]),
-            )
+            ),
         ];
     }
 }

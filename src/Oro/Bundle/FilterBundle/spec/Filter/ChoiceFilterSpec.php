@@ -15,17 +15,17 @@ use Symfony\Component\Form\FormView;
 
 class ChoiceFilterSpec extends ObjectBehavior
 {
-    function let(FormFactoryInterface $factory, FilterUtility $util)
+    public function let(FormFactoryInterface $factory, FilterUtility $util)
     {
         $this->beConstructedWith($factory, $util);
     }
 
-    function it_is_a_filter()
+    public function it_is_a_filter()
     {
         $this->shouldHaveType(FilterInterface::class);
     }
 
-    function it_gives_metadata($factory, $util, FormBuilderInterface $builder, FormInterface $form)
+    public function it_gives_metadata($factory, $util, FormBuilderInterface $builder, FormInterface $form)
     {
         $builder->get('type')->willReturn($builder);
         $builder->getOption('choices')->willReturn(['foo', 'bar']);
@@ -63,7 +63,7 @@ class ChoiceFilterSpec extends ObjectBehavior
                 ['label' => 'Name', 'value' => 'name'],
                 ['label' => 'Description', 'value' => 'description'],
                 ['label' => 'Marketing', 'value' => [
-                    ['label' => 'Price', 'value' => 'price']
+                    ['label' => 'Price', 'value' => 'price'],
                 ]],
             ],
             'enabled' => true,

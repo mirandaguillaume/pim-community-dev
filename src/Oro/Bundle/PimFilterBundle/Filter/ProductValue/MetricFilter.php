@@ -98,8 +98,8 @@ class MetricFilter extends OroNumberFilter
         if (!is_array($data)
             || !array_key_exists('value', $data)
             || (
-                !is_numeric($data['value']) &&
-                !in_array($data['type'], [FilterType::TYPE_EMPTY, FilterType::TYPE_NOT_EMPTY])
+                !is_numeric($data['value'])
+                && !in_array($data['type'], [FilterType::TYPE_EMPTY, FilterType::TYPE_NOT_EMPTY])
             )) {
             return false;
         }
@@ -107,8 +107,8 @@ class MetricFilter extends OroNumberFilter
         if (!is_array($data)
             || !array_key_exists('unit', $data)
             || (
-                !is_string($data['unit']) &&
-                !in_array($data['type'], [FilterType::TYPE_EMPTY, FilterType::TYPE_NOT_EMPTY])
+                !is_string($data['unit'])
+                && !in_array($data['type'], [FilterType::TYPE_EMPTY, FilterType::TYPE_NOT_EMPTY])
             )) {
             return false;
         }
@@ -140,7 +140,7 @@ class MetricFilter extends OroNumberFilter
             NumberFilterType::TYPE_LESS_EQUAL    => Operators::LOWER_OR_EQUAL_THAN,
             NumberFilterType::TYPE_LESS_THAN     => Operators::LOWER_THAN,
             FilterType::TYPE_EMPTY               => Operators::IS_EMPTY,
-            FilterType::TYPE_NOT_EMPTY           => Operators::IS_NOT_EMPTY
+            FilterType::TYPE_NOT_EMPTY           => Operators::IS_NOT_EMPTY,
         ];
 
         if (!isset($operatorTypes[$type])) {

@@ -255,7 +255,7 @@ class DataQualityInsightsTestCase extends TestCase
                     'axes' => [$axis->getCode()],
                     'attributes' => [],
                 ],
-            ]
+            ],
         ]);
     }
 
@@ -333,14 +333,13 @@ class DataQualityInsightsTestCase extends TestCase
         if (null !== $updatedAt) {
             $this->get('database_connection')->executeQuery(
                 <<<SQL
-UPDATE pim_data_quality_insights_attribute_group_activation
-SET updated_at = :updatedAt WHERE attribute_group_code = :attributeGroupCode
-SQL
-                ,
+                    UPDATE pim_data_quality_insights_attribute_group_activation
+                    SET updated_at = :updatedAt WHERE attribute_group_code = :attributeGroupCode
+                    SQL,
                 [
-                'updatedAt' => $updatedAt->format(Clock::TIME_FORMAT),
-                'attributeGroupCode' => $code,
-            ]
+                    'updatedAt' => $updatedAt->format(Clock::TIME_FORMAT),
+                    'attributeGroupCode' => $code,
+                ]
             );
         }
 
@@ -350,10 +349,10 @@ SQL
     protected function updateProductEvaluationsAt(UuidInterface $uuid, string $status, \DateTimeImmutable $evaluatedAt): void
     {
         $query = <<<SQL
-UPDATE pim_data_quality_insights_product_criteria_evaluation e, pim_catalog_product p
-SET e.status = :status, e.evaluated_at = :evaluatedAt
-WHERE p.uuid = :productUuid AND e.product_uuid = p.uuid;
-SQL;
+            UPDATE pim_data_quality_insights_product_criteria_evaluation e, pim_catalog_product p
+            SET e.status = :status, e.evaluated_at = :evaluatedAt
+            WHERE p.uuid = :productUuid AND e.product_uuid = p.uuid;
+            SQL;
 
         $this->get('database_connection')->executeQuery($query, [
             'status' => $status,
@@ -367,23 +366,23 @@ SQL;
     protected function simulateAttributeSpellcheckEvaluationOnProduct(UuidInterface $uuid): void
     {
         $query = <<<SQL
-INSERT INTO pim_data_quality_insights_product_criteria_evaluation (product_uuid, criterion_code, evaluated_at, status, result)
-VALUES (:uuid, 'consistency_attribute_spelling', now(), 'done', '{}') AS product_score_values
-ON DUPLICATE KEY UPDATE
-    evaluated_at = product_score_values.evaluated_at,
-    status = product_score_values.status,
-    result = product_score_values.result;
-SQL;
+            INSERT INTO pim_data_quality_insights_product_criteria_evaluation (product_uuid, criterion_code, evaluated_at, status, result)
+            VALUES (:uuid, 'consistency_attribute_spelling', now(), 'done', '{}') AS product_score_values
+            ON DUPLICATE KEY UPDATE
+                evaluated_at = product_score_values.evaluated_at,
+                status = product_score_values.status,
+                result = product_score_values.result;
+            SQL;
         $this->get('database_connection')->executeQuery($query, ['uuid' => $uuid->getBytes()]);
     }
 
     protected function updateProductModelEvaluationsAt(int $productModelId, string $status, \DateTimeImmutable $evaluatedAt): void
     {
         $query = <<<SQL
-UPDATE pim_data_quality_insights_product_model_criteria_evaluation 
-SET status = :status, evaluated_at = :evaluatedAt
-WHERE product_id = :productModelId;
-SQL;
+            UPDATE pim_data_quality_insights_product_model_criteria_evaluation 
+            SET status = :status, evaluated_at = :evaluatedAt
+            WHERE product_id = :productModelId;
+            SQL;
 
         $this->get('database_connection')->executeQuery($query, [
             'status' => $status,
@@ -395,13 +394,13 @@ SQL;
     protected function simulateAttributeEvaluationOnProductModel(int $productModelId): void
     {
         $query = <<<SQL
-INSERT INTO pim_data_quality_insights_product_model_criteria_evaluation (product_id, criterion_code, evaluated_at, status, result)
-VALUES (:id, 'consistency_attribute_spelling', now(), 'done', '{}') AS score_values
-ON DUPLICATE KEY UPDATE
-    evaluated_at = score_values.evaluated_at,
-    status = score_values.status,
-    result = score_values.result;
-SQL;
+            INSERT INTO pim_data_quality_insights_product_model_criteria_evaluation (product_id, criterion_code, evaluated_at, status, result)
+            VALUES (:id, 'consistency_attribute_spelling', now(), 'done', '{}') AS score_values
+            ON DUPLICATE KEY UPDATE
+                evaluated_at = score_values.evaluated_at,
+                status = score_values.status,
+                result = score_values.result;
+            SQL;
         $this->get('database_connection')->executeQuery($query, ['id' => $productModelId]);
     }
 
@@ -452,8 +451,8 @@ SQL;
     {
         $this->get('database_connection')->executeQuery(
             <<<SQL
-TRUNCATE TABLE pim_data_quality_insights_product_score;
-SQL
+                TRUNCATE TABLE pim_data_quality_insights_product_score;
+                SQL
         );
     }
 
@@ -461,8 +460,8 @@ SQL
     {
         $this->get('database_connection')->executeQuery(
             <<<SQL
-TRUNCATE TABLE pim_data_quality_insights_product_model_score;
-SQL
+                TRUNCATE TABLE pim_data_quality_insights_product_model_score;
+                SQL
         );
     }
 
@@ -472,10 +471,10 @@ SQL
     ): bool {
         return (bool) $this->get('database_connection')->executeQuery(
             <<<SQL
-                SELECT product_uuid
-                FROM pim_data_quality_insights_product_score
-                WHERE product_uuid = :product_uuid AND evaluated_at = :evaluated_at
-            SQL,
+                    SELECT product_uuid
+                    FROM pim_data_quality_insights_product_score
+                    WHERE product_uuid = :product_uuid AND evaluated_at = :evaluated_at
+                SQL,
             ['product_uuid' => $productUuid->toBytes(), 'evaluated_at' => $evaluatedAt->format('Y-m-d')]
         )->fetchOne();
     }
@@ -506,10 +505,10 @@ SQL
     ): bool {
         return (bool) $this->get('database_connection')->executeQuery(
             <<<SQL
-                SELECT product_model_id
-                FROM pim_data_quality_insights_product_model_score
-                WHERE product_model_id = :product_model_id AND evaluated_at = :evaluated_at
-            SQL,
+                    SELECT product_model_id
+                    FROM pim_data_quality_insights_product_model_score
+                    WHERE product_model_id = :product_model_id AND evaluated_at = :evaluated_at
+                SQL,
             ['product_model_id' => $productModelId->toInt(), 'evaluated_at' => $evaluatedAt->format('Y-m-d')]
         )->fetchOne();
     }
@@ -552,9 +551,9 @@ SQL
     {
         $errorMessage = '';
         foreach ($errors as $error) {
-            $errorMessage .= PHP_EOL.$error->getMessage();
+            $errorMessage .= PHP_EOL . $error->getMessage();
         }
 
-        return $mainMessage.$errorMessage;
+        return $mainMessage . $errorMessage;
     }
 }

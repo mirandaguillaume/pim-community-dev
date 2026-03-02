@@ -20,16 +20,16 @@ final readonly class CountTreesChildren implements CountTreesChildrenInterface
     public function execute(): array
     {
         $query = <<<SQL
-SELECT tree.code,
-   (
-       SELECT COUNT(*) 
-       FROM pim_catalog_category AS children 
-       WHERE children.root = tree.id
-       AND children.parent_id IS NOT NULL
-   ) AS count_children
-FROM pim_catalog_category AS tree
-WHERE tree.parent_id IS NULL;
-SQL;
+            SELECT tree.code,
+               (
+                   SELECT COUNT(*) 
+                   FROM pim_catalog_category AS children 
+                   WHERE children.root = tree.id
+                   AND children.parent_id IS NOT NULL
+               ) AS count_children
+            FROM pim_catalog_category AS tree
+            WHERE tree.parent_id IS NULL;
+            SQL;
         $stmt = $this->dbConnection->executeQuery($query);
 
         $treesChildren = [];

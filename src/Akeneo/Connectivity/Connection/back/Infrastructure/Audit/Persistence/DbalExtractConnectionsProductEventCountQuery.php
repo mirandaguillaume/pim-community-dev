@@ -30,19 +30,19 @@ class DbalExtractConnectionsProductEventCountQuery implements ExtractConnections
     public function extractCreatedProductsByConnection(HourlyInterval $hourlyInterval): array
     {
         $sqlQuery = <<<SQL
-SELECT conn.code, event_count
-FROM (
-    SELECT author, COUNT(id) as event_count
-    FROM pim_versioning_version USE INDEX(logged_at_idx)
-    WHERE logged_at >= :start_time AND logged_at < :end_time
-    AND resource_name = :resource_name
-    AND version = 1
-    GROUP BY author
-) AS tmp_table
-INNER JOIN oro_user u ON u.username = author AND u.user_type = :user_type
-INNER JOIN akeneo_connectivity_connection conn ON conn.user_id = u.id
-WHERE conn.auditable = 1 AND conn.flow_type = :flow_type;
-SQL;
+            SELECT conn.code, event_count
+            FROM (
+                SELECT author, COUNT(id) as event_count
+                FROM pim_versioning_version USE INDEX(logged_at_idx)
+                WHERE logged_at >= :start_time AND logged_at < :end_time
+                AND resource_name = :resource_name
+                AND version = 1
+                GROUP BY author
+            ) AS tmp_table
+            INNER JOIN oro_user u ON u.username = author AND u.user_type = :user_type
+            INNER JOIN akeneo_connectivity_connection conn ON conn.user_id = u.id
+            WHERE conn.auditable = 1 AND conn.flow_type = :flow_type;
+            SQL;
 
         $dataRows = $this->dbalConnection->executeQuery(
             $sqlQuery,
@@ -52,7 +52,7 @@ SQL;
                 'resource_name' => $this->productClass,
                 'user_type' => User::TYPE_API,
                 'flow_type' => FlowType::DATA_SOURCE,
-        ],
+            ],
             [
                 'start_time' => Types::DATETIME_IMMUTABLE,
                 'end_time' => Types::DATETIME_IMMUTABLE,
@@ -78,19 +78,19 @@ SQL;
     public function extractUpdatedProductsByConnection(HourlyInterval $hourlyInterval): array
     {
         $sqlQuery = <<<SQL
-SELECT conn.code, event_count
-FROM (
-    SELECT author, COUNT(id) as event_count
-    FROM pim_versioning_version USE INDEX(logged_at_idx)
-    WHERE logged_at >= :start_time AND logged_at < :end_time
-    AND resource_name = :resource_name
-    AND version != 1
-    GROUP BY author
-) AS tmp_table
-INNER JOIN oro_user u ON u.username = author AND u.user_type = :user_type
-INNER JOIN akeneo_connectivity_connection conn ON conn.user_id = u.id
-WHERE conn.auditable = 1 AND conn.flow_type = :flow_type
-SQL;
+            SELECT conn.code, event_count
+            FROM (
+                SELECT author, COUNT(id) as event_count
+                FROM pim_versioning_version USE INDEX(logged_at_idx)
+                WHERE logged_at >= :start_time AND logged_at < :end_time
+                AND resource_name = :resource_name
+                AND version != 1
+                GROUP BY author
+            ) AS tmp_table
+            INNER JOIN oro_user u ON u.username = author AND u.user_type = :user_type
+            INNER JOIN akeneo_connectivity_connection conn ON conn.user_id = u.id
+            WHERE conn.auditable = 1 AND conn.flow_type = :flow_type
+            SQL;
         $dataRows = $this->dbalConnection->executeQuery(
             $sqlQuery,
             [
@@ -99,7 +99,7 @@ SQL;
                 'resource_name' => $this->productClass,
                 'user_type' => User::TYPE_API,
                 'flow_type' => FlowType::DATA_SOURCE,
-        ],
+            ],
             [
                 'start_time' => Types::DATETIME_IMMUTABLE,
                 'end_time' => Types::DATETIME_IMMUTABLE,

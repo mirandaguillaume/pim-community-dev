@@ -19,7 +19,7 @@ class MetadataIterableObject extends IterableObject
     {
         return [
             self::REQUIRED_MODULES_KEY => [],
-            self::OPTIONS_KEY          => []
+            self::OPTIONS_KEY          => [],
         ];
     }
 

@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class AddVersionListenerSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         VersionManager $versionManager,
         NormalizerInterface $versioningNormalizer,
         UpdateGuesserInterface $updateGuesser,
@@ -20,7 +20,7 @@ class AddVersionListenerSpec extends ObjectBehavior
         $this->beConstructedWith($versionManager, $versioningNormalizer, $updateGuesser, $versionContext);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldImplement(AddVersionListener::class);
     }

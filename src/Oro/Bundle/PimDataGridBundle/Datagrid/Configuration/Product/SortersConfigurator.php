@@ -78,7 +78,7 @@ class SortersConfigurator implements ConfiguratorInterface
                         sprintf('%s[%s]', OrmSorterConfiguration::COLUMNS_PATH, $attributeCode),
                         [
                             PropertyInterface::DATA_NAME_KEY => $attributeCode,
-                            'sorter'                         => $attributeTypeConf['sorter']
+                            'sorter'                         => $attributeTypeConf['sorter'],
                         ]
                     );
                 }

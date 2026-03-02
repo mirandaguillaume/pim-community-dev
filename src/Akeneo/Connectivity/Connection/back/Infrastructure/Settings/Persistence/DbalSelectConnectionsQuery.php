@@ -30,20 +30,20 @@ class DbalSelectConnectionsQuery implements SelectConnectionsQueryInterface
         $parametersTypes = [];
 
         $selectSQL = <<<SQL
-SELECT code, label, flow_type, image, auditable, type
-FROM akeneo_connectivity_connection
-SQL;
+            SELECT code, label, flow_type, image, auditable, type
+            FROM akeneo_connectivity_connection
+            SQL;
         if ($types !== []) {
             $selectSQL .= <<<SQL
- WHERE type IN (:types)
-SQL;
+                 WHERE type IN (:types)
+                SQL;
             $parameters['types'] = $types;
             $parametersTypes['types'] = ArrayParameterType::STRING;
         }
 
         $selectSQL .= <<<SQL
- ORDER BY created ASC
-SQL;
+             ORDER BY created ASC
+            SQL;
 
         $dataRows = $this->dbalConnection
             ->executeQuery($selectSQL, $parameters, $parametersTypes)

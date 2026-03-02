@@ -95,10 +95,10 @@ class UpdateTemplateControllerEndToEnd extends ControllerIntegrationTestCase
             'labels' => [
                 'en_US' => 'A template',
                 'fr_FR' => <<<EOT
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sed dictum diam. Aliquam auctor
-                    sodales lectus, at congue massa semper non. Nunc a mollis nibh. Suspendisse potenti. Donec quis
-                    lobortis justo, et consectetur turpis. Sed pulvinar lectus metus.
-                EOT,
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sed dictum diam. Aliquam auctor
+                        sodales lectus, at congue massa semper non. Nunc a mollis nibh. Suspendisse potenti. Donec quis
+                        lobortis justo, et consectetur turpis. Sed pulvinar lectus metus.
+                    EOT,
             ],
         ];
 

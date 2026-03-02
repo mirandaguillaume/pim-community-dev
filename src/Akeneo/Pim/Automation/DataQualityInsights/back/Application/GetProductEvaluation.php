@@ -58,8 +58,8 @@ class GetProductEvaluation
 
         foreach ($channelsLocales as $channelCode => $locales) {
             foreach ($locales as $localeCode) {
-                $formattedProductEvaluation[strval($channelCode)][strval($localeCode)] =
-                    $this->formatCriteriaEvaluations($criteriaEvaluations, $channelCode, $localeCode);
+                $formattedProductEvaluation[strval($channelCode)][strval($localeCode)]
+                    = $this->formatCriteriaEvaluations($criteriaEvaluations, $channelCode, $localeCode);
             }
         }
 

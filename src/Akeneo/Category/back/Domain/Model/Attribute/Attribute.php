@@ -178,13 +178,13 @@ abstract class Attribute
         $isRequired = AttributeIsRequired::fromBoolean((bool) $result['is_required']);
         $isScopable = AttributeIsScopable::fromBoolean((bool) $result['is_scopable']);
         $isLocalizable = AttributeIsLocalizable::fromBoolean((bool) $result['is_localizable']);
-        $labelCollection = $result['labels'] ?
-            LabelCollection::fromArray(
+        $labelCollection = $result['labels']
+            ? LabelCollection::fromArray(
                 json_decode($result['labels'], true, 512, JSON_THROW_ON_ERROR),
             ) : null;
         $templateUuid = TemplateUuid::fromString($result['category_template_uuid']);
-        $additionalProperties = $result['additional_properties'] ?
-            AttributeAdditionalProperties::fromArray(
+        $additionalProperties = $result['additional_properties']
+            ? AttributeAdditionalProperties::fromArray(
                 json_decode($result['additional_properties'], true, 512, JSON_THROW_ON_ERROR),
             ) : null;
 

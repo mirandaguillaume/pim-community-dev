@@ -78,9 +78,9 @@ class FamilyVariantValidator extends ConstraintValidator
                 ])->atPath('variant_attribute_sets')->addViolation();
             }
 
-            if ($attribute->isUnique() &&
-                null !== $lastLevelAttributeSet &&
-                !$lastLevelAttributeSet->hasAttribute($attribute)
+            if ($attribute->isUnique()
+                && null !== $lastLevelAttributeSet
+                && !$lastLevelAttributeSet->hasAttribute($attribute)
             ) {
                 $this->context->buildViolation(FamilyVariant::UNIQUE_ATTRIBUTE_IN_LAST_LEVEL, [
                     '%attribute%' => $attribute->getCode(),
@@ -90,7 +90,7 @@ class FamilyVariantValidator extends ConstraintValidator
 
         if (count($attributeCodes) !== count(array_unique($attributeCodes))) {
             $this->context->buildViolation(FamilyVariant::ATTRIBUTES_UNIQUE, [
-                '%attributes%' => implode(',', array_diff_assoc($attributeCodes, array_unique($attributeCodes)))
+                '%attributes%' => implode(',', array_diff_assoc($attributeCodes, array_unique($attributeCodes))),
             ])->atPath('variant_attribute_sets')->addViolation();
         }
     }
@@ -126,9 +126,9 @@ class FamilyVariantValidator extends ConstraintValidator
 
             for ($level = 1; $level <= $familyVariant->getNumberOfLevel(); $level++) {
                 $variantAttributeSet = $familyVariant->getVariantAttributeSet($level);
-                if (null !== $variantAttributeSet &&
-                    !$variantAttributeSet->getAxes()->contains($axis) &&
-                    $variantAttributeSet->getAttributes()->contains($axis)
+                if (null !== $variantAttributeSet
+                    && !$variantAttributeSet->getAxes()->contains($axis)
+                    && $variantAttributeSet->getAttributes()->contains($axis)
                 ) {
                     $this->context->buildViolation(FamilyVariant::AXES_LEVEL, [
                         '%axis%' => $axis->getCode(),

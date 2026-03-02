@@ -2,8 +2,9 @@
 
 namespace Akeneo\Pim\Enrichment\Component\Product\Model;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Product association entity
  *
@@ -17,7 +18,6 @@ use Doctrine\DBAL\Types\Types;
 #[ORM\UniqueConstraint(name: 'owner_uuid_association_type_id_idx', columns: ['owner_uuid', 'association_type_id'])]
 class ProductAssociation extends AbstractAssociation implements ProductAssociationInterface
 {
-
     #[ORM\ManyToOne(targetEntity: \Akeneo\Pim\Structure\Component\Model\AssociationTypeInterface::class)]
     #[ORM\JoinColumn(name: 'association_type_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     protected $associationType;

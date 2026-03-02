@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Infrastructure\ErrorManagement\Persistence;
@@ -22,10 +23,10 @@ class DbalErrorCountRepository implements ErrorCountRepositoryInterface
     public function upsert(HourlyErrorCount $hourlyErrorCount): void
     {
         $upsertQuery = <<<SQL
-INSERT INTO akeneo_connectivity_connection_audit_error (connection_code, error_datetime, error_count, error_type)
-VALUES(:connection_code, :error_datetime, :error_count, :error_type)
-ON DUPLICATE KEY UPDATE error_count = error_count + :error_count
-SQL;
+            INSERT INTO akeneo_connectivity_connection_audit_error (connection_code, error_datetime, error_count, error_type)
+            VALUES(:connection_code, :error_datetime, :error_count, :error_type)
+            ON DUPLICATE KEY UPDATE error_count = error_count + :error_count
+            SQL;
 
         $this->dbalConnection->executeStatement(
             $upsertQuery,

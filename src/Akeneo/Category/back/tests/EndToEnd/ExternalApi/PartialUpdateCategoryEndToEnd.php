@@ -13,12 +13,12 @@ class PartialUpdateCategoryEndToEnd extends ApiTestCase
     {
         $client = $this->createAuthenticatedClient();
 
-        $data =
-<<<JSON
-    {
-        "parent": null
-    }
-JSON;
+        $data
+= <<<JSON
+        {
+            "parent": null
+        }
+    JSON;
 
         $client->request('PATCH', 'api/rest/v1/categories/categoryA1', [], [], [], $data);
 
@@ -33,13 +33,13 @@ JSON;
     {
         $client = $this->createAuthenticatedClient();
 
-        $data =
-<<<JSON
-    {
-        "code": "new_category_headers",
-        "parent": null
-    }
-JSON;
+        $data
+= <<<JSON
+        {
+            "code": "new_category_headers",
+            "parent": null
+        }
+    JSON;
 
         $client->request('PATCH', 'api/rest/v1/categories/new_category_headers', [], [], [], $data);
 
@@ -54,12 +54,12 @@ JSON;
     {
         $client = $this->createAuthenticatedClient();
 
-        $data =
-<<<JSON
-    {
-        "code": "new_category_incompleted"
-    }
-JSON;
+        $data
+= <<<JSON
+        {
+            "code": "new_category_incompleted"
+        }
+    JSON;
 
         $client->request('PATCH', 'api/rest/v1/categories/new_category_incompleted', [], [], [], $data);
 
@@ -114,17 +114,17 @@ JSON;
     {
         $client = $this->createAuthenticatedClient();
 
-        $data =
-<<<JSON
-    {
-        "code": "categoryD",
-        "parent": "master",
-        "labels": {
-            "en_US": "Category D",
-            "fr_FR": "Catégorie D"
+        $data
+= <<<JSON
+        {
+            "code": "categoryD",
+            "parent": "master",
+            "labels": {
+                "en_US": "Category D",
+                "fr_FR": "Catégorie D"
+            }
         }
-    }
-JSON;
+    JSON;
         $client->request('PATCH', 'api/rest/v1/categories/categoryD', [], [], [], $data);
 
         $category = $this->get('pim_catalog.repository.category')->findOneByIdentifier('categoryD');
@@ -153,16 +153,16 @@ JSON;
     {
         $client = $this->createAuthenticatedClient();
 
-        $data =
-<<<JSON
-    {
-        "parent": "master",
-        "labels": {
-            "en_US": "Category D",
-            "fr_FR": "Catégorie D"
+        $data
+= <<<JSON
+        {
+            "parent": "master",
+            "labels": {
+                "en_US": "Category D",
+                "fr_FR": "Catégorie D"
+            }
         }
-    }
-JSON;
+    JSON;
         $client->request('PATCH', 'api/rest/v1/categories/categoryD', [], [], [], $data);
 
         $category = $this->get('pim_catalog.repository.category')->findOneByIdentifier('categoryD');
@@ -219,15 +219,15 @@ JSON;
     {
         $client = $this->createAuthenticatedClient();
 
-        $data =
-<<<JSON
-    {
-        "code": "categoryA",
-        "labels": {
-            "en_US": "Category A updated"
+        $data
+= <<<JSON
+        {
+            "code": "categoryA",
+            "labels": {
+                "en_US": "Category A updated"
+            }
         }
-    }
-JSON;
+    JSON;
 
         $client->request('PATCH', 'api/rest/v1/categories/categoryA', [], [], [], $data);
 
@@ -256,15 +256,15 @@ JSON;
     {
         $client = $this->createAuthenticatedClient();
 
-        $data =
-<<<JSON
-    {
-        "parent": "categoryA1",
-        "labels": {
-            "en_US": "Category A2 updated"
+        $data
+= <<<JSON
+        {
+            "parent": "categoryA1",
+            "labels": {
+                "en_US": "Category A2 updated"
+            }
         }
-    }
-JSON;
+    JSON;
 
         $client->request('PATCH', 'api/rest/v1/categories/categoryA2', [], [], [], $data);
 
@@ -292,15 +292,15 @@ JSON;
     {
         $client = $this->createAuthenticatedClient();
 
-        $data =
-<<<JSON
-    {
-        "labels": {
-            "en_US": null,
-            "fr_FR":""
+        $data
+= <<<JSON
+        {
+            "labels": {
+                "en_US": null,
+                "fr_FR":""
+            }
         }
-    }
-JSON;
+    JSON;
         $client->request('PATCH', 'api/rest/v1/categories/categoryA', [], [], [], $data);
 
         $category = $this->get('pim_catalog.repository.category')->findOneByIdentifier('categoryA');
@@ -359,12 +359,12 @@ JSON;
     {
         $client = $this->createAuthenticatedClient();
 
-        $data =
-<<<JSON
-    {
-        "code": "new_code"
-    }
-JSON;
+        $data
+= <<<JSON
+        {
+            "code": "new_code"
+        }
+    JSON;
 
         $expectedContent = [
             'code' => 422,
@@ -388,12 +388,12 @@ JSON;
     {
         $client = $this->createAuthenticatedClient();
 
-        $data =
-<<<JSON
-    {
-        "extra_property": ""
-    }
-JSON;
+        $data
+= <<<JSON
+        {
+            "extra_property": ""
+        }
+    JSON;
 
         $expectedContent = [
             'code' => 422,
@@ -416,12 +416,12 @@ JSON;
     {
         $client = $this->createAuthenticatedClient();
 
-        $data =
-<<<JSON
-    {
-        "labels": null
-    }
-JSON;
+        $data
+= <<<JSON
+        {
+            "labels": null
+        }
+    JSON;
 
         $expectedContent = [
             'code' => 422,
@@ -444,12 +444,12 @@ JSON;
     {
         $client = $this->createAuthenticatedClient();
 
-        $data =
-<<<JSON
-    {
-        "code": "inconsistent_code2"
-    }
-JSON;
+        $data
+= <<<JSON
+        {
+            "code": "inconsistent_code2"
+        }
+    JSON;
 
         $expectedContent = [
             'code' => 422,

@@ -69,30 +69,30 @@ class MediaCount implements MediaCountQuery
     private function fetchESFieldPathsForAttributesOfType(string $attributeType): array
     {
         $sql = <<<SQL
-            WITH channel_locale AS (
-                SELECT
-                    channel.id AS channel_id,
-                    channel.code AS channel_code,
-                    locale.id AS locale_id,
-                    locale.code AS locale_code
-                FROM pim_catalog_channel channel
-                JOIN pim_catalog_channel_locale pccl ON channel.id = pccl.channel_id
-                JOIN pim_catalog_locale locale ON pccl.locale_id = locale.id
-            )
-            SELECT DISTINCT
-                CONCAT(
-                    'values.',
-                    attribute.code,
-                    '-media.',
-                    IF(attribute.is_scopable, channel_locale.channel_code, '<all_channels>'),
-                    '.',
-                    IF(attribute.is_localizable, channel_locale.locale_code, '<all_locales>')
-                ) AS elasticsearch_field_name
-            FROM channel_locale
-            JOIN pim_catalog_attribute attribute
-            LEFT JOIN pim_catalog_attribute_locale pcal ON attribute.id = pcal.attribute_id AND pcal.locale_id = channel_locale.locale_id
-            WHERE attribute_type = :attribute_type
-        SQL;
+                WITH channel_locale AS (
+                    SELECT
+                        channel.id AS channel_id,
+                        channel.code AS channel_code,
+                        locale.id AS locale_id,
+                        locale.code AS locale_code
+                    FROM pim_catalog_channel channel
+                    JOIN pim_catalog_channel_locale pccl ON channel.id = pccl.channel_id
+                    JOIN pim_catalog_locale locale ON pccl.locale_id = locale.id
+                )
+                SELECT DISTINCT
+                    CONCAT(
+                        'values.',
+                        attribute.code,
+                        '-media.',
+                        IF(attribute.is_scopable, channel_locale.channel_code, '<all_channels>'),
+                        '.',
+                        IF(attribute.is_localizable, channel_locale.locale_code, '<all_locales>')
+                    ) AS elasticsearch_field_name
+                FROM channel_locale
+                JOIN pim_catalog_attribute attribute
+                LEFT JOIN pim_catalog_attribute_locale pcal ON attribute.id = pcal.attribute_id AND pcal.locale_id = channel_locale.locale_id
+                WHERE attribute_type = :attribute_type
+            SQL;
 
         return $this->connection->executeQuery($sql, ['attribute_type' => $attributeType])->fetchFirstColumn();
     }
@@ -117,12 +117,12 @@ class MediaCount implements MediaCountQuery
                             ],
                             [
                                 'exists' => ['field' => $fieldPath],
-                            ]
-                        ]
+                            ],
+                        ],
                     ],
                 ],
-                'track_total_hits' => true
-            ]
+                'track_total_hits' => true,
+            ],
         ], $fieldPaths);
 
         $body = array_reduce($queries, 'array_merge', []);

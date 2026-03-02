@@ -41,7 +41,7 @@ class UserNormalizer implements NormalizerInterface, CacheableSupportsMethodInte
      *
      * @var UserInterface $user
      */
-    public function normalize($user, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($user, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $result = [
             'code'                      => $user->getUserIdentifier(), # Every Form Extension requires 'code' field.
@@ -78,11 +78,11 @@ class UserNormalizer implements NormalizerInterface, CacheableSupportsMethodInte
                 'updated' => $user->getUpdatedAt() ? $user->getUpdatedAt()->getTimestamp() : null,
                 'form'    => $this->getFormName($user),
                 'image'   => [
-                    'filePath' => null === $user->getAvatar() ?
-                        null :
-                        $this->fileNormalizer->normalize($user->getAvatar())['filePath']
-                ]
-            ]
+                    'filePath' => null === $user->getAvatar()
+                        ? null
+                        : $this->fileNormalizer->normalize($user->getAvatar())['filePath'],
+                ],
+            ],
         ];
 
         $aliases = $this->datagridViewRepo->getDatagridViewAliasesByUser($user);

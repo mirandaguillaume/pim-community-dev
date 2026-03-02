@@ -67,8 +67,8 @@ class GetAllCustomAppsActionEndToEnd extends WebTestCase
                     'connected' => false,
                     'isPending' => false,
                     'isCustomApp' => true,
-                ]
-            ]
+                ],
+            ],
         ], $result);
     }
 }

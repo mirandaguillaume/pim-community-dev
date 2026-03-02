@@ -7,7 +7,7 @@ use PhpSpec\ObjectBehavior;
 
 class FilesystemProviderSpec extends ObjectBehavior
 {
-    function let(FilesystemOperator $filesystem1, FilesystemOperator $filesystem2)
+    public function let(FilesystemOperator $filesystem1, FilesystemOperator $filesystem2)
     {
         $this->beConstructedWith(
             [
@@ -17,13 +17,13 @@ class FilesystemProviderSpec extends ObjectBehavior
         );
     }
 
-    function it_gets_the_filesystem(FilesystemOperator $filesystem1, FilesystemOperator $filesystem2)
+    public function it_gets_the_filesystem(FilesystemOperator $filesystem1, FilesystemOperator $filesystem2)
     {
         $this->getFilesystem('foo')->shouldReturn($filesystem1);
         $this->getFilesystem('bar')->shouldReturn($filesystem2);
     }
 
-    function it_throws_an_exception_when_the_filesystem_does_not_exist()
+    public function it_throws_an_exception_when_the_filesystem_does_not_exist()
     {
         $this->shouldThrow(\LogicException::class)->during('getFilesystem', ['baz']);
     }

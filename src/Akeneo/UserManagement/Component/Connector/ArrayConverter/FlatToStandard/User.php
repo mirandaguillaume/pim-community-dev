@@ -89,7 +89,7 @@ class User implements ArrayConverterInterface
                 $convertedItem[$field] = \explode(',', (string) $data);
                 break;
             case 'enabled':
-                $convertedItem[$field] = $this->convertBoolean((string)$data);
+                $convertedItem[$field] = $this->convertBoolean((string) $data);
                 break;
             case 'avatar':
                 $convertedItem['avatar'] = ['filePath' => $data];

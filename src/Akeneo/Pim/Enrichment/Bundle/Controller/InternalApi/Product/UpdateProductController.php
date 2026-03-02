@@ -86,7 +86,7 @@ final class UpdateProductController
         $data = $this->formatAssociatedProductUuids($data);
         try {
             $this->updateProduct($product, $data);
-        } catch (ViolationsException | LegacyViolationsException $e) {
+        } catch (ViolationsException|LegacyViolationsException $e) {
             $isNotOwnerException = \count(
                 \array_filter(
                     \iterator_to_array($e->violations()),
@@ -100,7 +100,7 @@ final class UpdateProductController
             $hasPermissionException = \count(
                 \array_filter(
                     \iterator_to_array($e->violations()),
-                    fn (ConstraintViolationInterface $violation): bool => \is_int($violation->getCode()) && ViolationCode::containsViolationCode((int)$violation->getCode(), ViolationCode::PERMISSION)
+                    fn (ConstraintViolationInterface $violation): bool => \is_int($violation->getCode()) && ViolationCode::containsViolationCode((int) $violation->getCode(), ViolationCode::PERMISSION)
                 )
             ) > 0;
             if ($hasPermissionException) {
@@ -138,8 +138,8 @@ final class UpdateProductController
 
         $events = $this->unableToSetIdentifiersSubscriber->getEvents();
         if (\count($events) > 0) {
-            $normalizedProduct['meta']['identifier_generator_warnings'] =
-                $this->unableToSetIdentifierExceptionPresenter->present($events[0]->getException());
+            $normalizedProduct['meta']['identifier_generator_warnings']
+                = $this->unableToSetIdentifierExceptionPresenter->present($events[0]->getException());
         }
 
         return new JsonResponse($normalizedProduct);
@@ -169,7 +169,7 @@ final class UpdateProductController
         $values = $this->productValueConverter->convert($data['values']);
 
         $values = $this->localizedConverter->convertToDefaultFormats($values, [
-            'locale' => $this->userContext->getUiLocale()->getCode()
+            'locale' => $this->userContext->getUiLocale()->getCode(),
         ]);
 
         $dataFiltered = $this->emptyValuesFilter->filter($product, ['values' => $values]);
@@ -208,7 +208,7 @@ final class UpdateProductController
         $values = $this->productValueConverter->convert($data['values']);
 
         $values = $this->localizedConverter->convertToDefaultFormats($values, [
-            'locale' => $this->userContext->getUiLocale()->getCode()
+            'locale' => $this->userContext->getUiLocale()->getCode(),
         ]);
 
         $dataFiltered = $this->emptyValuesFilter->filter($product, ['values' => $values]);

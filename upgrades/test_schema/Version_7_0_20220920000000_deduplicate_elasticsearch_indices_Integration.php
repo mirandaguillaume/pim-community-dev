@@ -69,7 +69,7 @@ final class Version_7_0_20220920000000_deduplicate_elasticsearch_indices_Integra
         $body['aliases'] = [$alias => (object) []];
 
         $params = [
-            'index' => \strtolower($alias.'_'.Uuid::uuid4()->toString()),
+            'index' => \strtolower($alias . '_' . Uuid::uuid4()->toString()),
             'body' => $body,
         ];
 

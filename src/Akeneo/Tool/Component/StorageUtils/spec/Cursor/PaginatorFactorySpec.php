@@ -13,18 +13,18 @@ class PaginatorFactorySpec extends ObjectBehavior
 {
     final public const DEFAULT_BATCH_SIZE = 100;
 
-    function let()
+    public function let()
     {
         $this->beConstructedWith(Paginator::class, self::DEFAULT_BATCH_SIZE);
     }
 
-    function it_is_a_paginator_factory()
+    public function it_is_a_paginator_factory()
     {
         $this->shouldHaveType(PaginatorFactory::class);
         $this->shouldImplement(PaginatorFactoryInterface::class);
     }
 
-    function it_creates_a_paginator(CursorInterface $cursor)
+    public function it_creates_a_paginator(CursorInterface $cursor)
     {
         $paginator = $this->createPaginator($cursor);
         $paginator->shouldBeAnInstanceOf(PaginatorInterface::class);

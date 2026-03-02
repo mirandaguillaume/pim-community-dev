@@ -16,18 +16,18 @@ final readonly class GetBlacklistedAttributeJobExecutionId implements GetBlackli
     public function forAttributeCode(string $attributeCode): ?int
     {
         $sql = <<<SQL
-SELECT cleanup_job_execution_id
-FROM `pim_catalog_attribute_blacklist`
-WHERE attribute_code = :attribute_code;
-SQL;
+            SELECT cleanup_job_execution_id
+            FROM `pim_catalog_attribute_blacklist`
+            WHERE attribute_code = :attribute_code;
+            SQL;
 
         $result = $this->connection->executeQuery(
             $sql,
             [
-                'attribute_code' => $attributeCode
+                'attribute_code' => $attributeCode,
             ],
             [
-                'attribute_code' => \PDO::PARAM_STR
+                'attribute_code' => \PDO::PARAM_STR,
             ]
         )->fetchOne();
 

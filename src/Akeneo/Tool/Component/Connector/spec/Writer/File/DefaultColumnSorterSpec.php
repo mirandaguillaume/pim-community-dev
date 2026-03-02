@@ -10,22 +10,22 @@ use Akeneo\Tool\Component\Connector\ArrayConverter\FieldSplitter;
 
 class DefaultColumnSorterSpec extends ObjectBehavior
 {
-    function let(FieldSplitter $fieldSplitter)
+    public function let(FieldSplitter $fieldSplitter)
     {
         $this->beConstructedWith($fieldSplitter, ['code', 'label']);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(DefaultColumnSorter::class);
     }
 
-    function it_is_a_sorter()
+    public function it_is_a_sorter()
     {
         $this->shouldImplement(ColumnSorterInterface::class);
     }
 
-    function it_sort_headers_columns($fieldSplitter)
+    public function it_sort_headers_columns($fieldSplitter)
     {
         $fieldSplitter->splitFieldName('code')->willReturn(['code']);
         $fieldSplitter->splitFieldName('sort_order')->willReturn(['sort_order']);
@@ -43,7 +43,7 @@ class DefaultColumnSorterSpec extends ObjectBehavior
             'code',
             'label',
             'sort_order',
-            $qualityScoreField
+            $qualityScoreField,
         ]);
     }
 }

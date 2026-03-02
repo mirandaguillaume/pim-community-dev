@@ -144,7 +144,7 @@ final class UpsertProductIntegration extends TestCase
             'identifier',
             'familyA',
             [
-                new SetNumberValue('a_number_float', null, null, '3.14')
+                new SetNumberValue('a_number_float', null, null, '3.14'),
             ]
         );
         $this->assertProductHasCorrectValueByAttributeCode('a_number_float', '3.14');
@@ -323,7 +323,7 @@ final class UpsertProductIntegration extends TestCase
             new ClearValue('a_yes_no', null, null),
             new ClearValue('an_image', null, null),
             // clear a value not related to a product
-            new ClearValue('a_number_float_very_decimal', null, null)
+            new ClearValue('a_number_float_very_decimal', null, null),
         ]);
         $this->messageBus->dispatch($command);
 
@@ -405,7 +405,7 @@ final class UpsertProductIntegration extends TestCase
             'familyA',
             [
                 new SetSimpleReferenceEntityValue('a_reference_entity_attribute', null, null, 'Akeneo'),
-                new SetMultiReferenceEntityValue('a_reference_entity_collection_attribute', null, null, ['Akeneo', 'Other'])
+                new SetMultiReferenceEntityValue('a_reference_entity_collection_attribute', null, null, ['Akeneo', 'Other']),
             ]
         );
         $this->getContainer()->get('pim_catalog.validator.unique_value_set')->reset(); // Needed to update the product
@@ -924,7 +924,7 @@ final class UpsertProductIntegration extends TestCase
         $this->loadAssetFixtures();
 
         $command = UpsertProductCommand::createWithIdentifier(userId: $this->getUserId('admin'), productIdentifier: ProductIdentifier::fromIdentifier('identifier'), userIntents: [
-            new SetAssetValue('packshot_attr', null, null, ['packshot1'])
+            new SetAssetValue('packshot_attr', null, null, ['packshot1']),
         ]);
         $this->messageBus->dispatch($command);
 
@@ -1113,7 +1113,7 @@ final class UpsertProductIntegration extends TestCase
         $this->assertProductHasCorrectValueByAttributeCode(
             'a_price',
             new PriceCollection([
-                new ProductPrice('42.00', 'EUR')
+                new ProductPrice('42.00', 'EUR'),
             ])
         );
     }
@@ -1125,7 +1125,7 @@ final class UpsertProductIntegration extends TestCase
         $this->assertProductHasCorrectValueByAttributeCode(
             'a_price',
             new PriceCollection([
-                new ProductPrice('42.00', 'EUR')
+                new ProductPrice('42.00', 'EUR'),
             ])
         );
 
@@ -1226,7 +1226,7 @@ final class UpsertProductIntegration extends TestCase
                         ['ingredient' => 'salt'],
                         ['ingredient' => 'egg', 'quantity' => 2],
                     ]
-                )
+                ),
             ]
         );
         $this->messageBus->dispatch($command);
@@ -1314,7 +1314,7 @@ final class UpsertProductIntegration extends TestCase
                     null,
                     null,
                     [['ingredient' => 'butter', 'origin' => 'Nantes', 'quantity' => 3]]
-                )
+                ),
             ]
         );
         $this->messageBus->dispatch($command);
@@ -1592,7 +1592,7 @@ final class UpsertProductIntegration extends TestCase
             productIdentifier: ProductIdentifier::fromIdentifier($identifier),
             userIntents: [
                 new SetFamily($familyCode),
-                ...$userIntents
+                ...$userIntents,
             ]
         );
         $this->get('pim_enrich.product.message_bus')->dispatch($command);
@@ -1643,7 +1643,7 @@ final class UpsertProductIntegration extends TestCase
         ]);
         $constraints = $this->get('validator')->validate($attributeOption);
         if ((is_countable($constraints) ? count($constraints) : 0) > 0) {
-            throw new \InvalidArgumentException((string)$constraints);
+            throw new \InvalidArgumentException((string) $constraints);
         }
         $this->get('pim_catalog.saver.attribute_option')->save($attributeOption);
     }

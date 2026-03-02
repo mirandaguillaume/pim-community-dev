@@ -99,7 +99,7 @@ class LegacyMeasureFamilyController
 
         $measureConfig = array_slice($measuresConfig, $offset, $queryParameters['limit']);
 
-        $convertedMeasureFamilies= [];
+        $convertedMeasureFamilies = [];
         foreach ($measureConfig as $familyCode => $units) {
             $convertedMeasureFamilies[] = $this->measureFamilyConverter
                 ->convert(['family_code' => $familyCode, 'units' => $units]);

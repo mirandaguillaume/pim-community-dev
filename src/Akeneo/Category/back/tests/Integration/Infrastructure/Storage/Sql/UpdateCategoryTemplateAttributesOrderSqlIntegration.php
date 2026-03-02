@@ -25,7 +25,7 @@ use Akeneo\Category\Domain\ValueObject\LabelCollection;
 use Akeneo\Category\Domain\ValueObject\Template\TemplateUuid;
 use Ramsey\Uuid\Uuid;
 
-class UpdateCategoryTemplateAttributesOrderSqlIntegration  extends CategoryTestCase
+class UpdateCategoryTemplateAttributesOrderSqlIntegration extends CategoryTestCase
 {
     private UpdateCategoryTemplateAttributesOrder $updateCategoryTemplateAttributesOrder;
 

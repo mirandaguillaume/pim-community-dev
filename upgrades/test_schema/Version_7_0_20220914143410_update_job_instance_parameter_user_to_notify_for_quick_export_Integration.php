@@ -27,7 +27,8 @@ final class Version_7_0_20220914143410_update_job_instance_parameter_user_to_not
         $this->jobInstanceRepository = $this->get('akeneo_batch.job.job_instance_repository');
     }
 
-    public function test_it_is_idempotent(): void {
+    public function test_it_is_idempotent(): void
+    {
         $this->createJob('a_quick_export', 'admin');
         $this->createJob('another_quick_export', null);
 
@@ -91,10 +92,10 @@ final class Version_7_0_20220914143410_update_job_instance_parameter_user_to_not
         );
 
         $sql = <<<SQL
-INSERT INTO `akeneo_batch_job_instance` (`code`, `label`, `job_name`, `status`, `connector`, `raw_parameters`, `type`)
-VALUES
-	(:job_code, :job_code, :job_code, 0, 'Akeneo CSV Connector', :raw_parameters, 'quick_export');
-SQL;
+            INSERT INTO `akeneo_batch_job_instance` (`code`, `label`, `job_name`, `status`, `connector`, `raw_parameters`, `type`)
+            VALUES
+            	(:job_code, :job_code, :job_code, 0, 'Akeneo CSV Connector', :raw_parameters, 'quick_export');
+            SQL;
 
         $this->connection->executeStatement($sql, [
             'job_code' => $jobCode,

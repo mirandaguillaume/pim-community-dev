@@ -59,28 +59,29 @@ final class Version_6_0_20210510102539_fix_micro_operations_Integration extends 
     private function getMeasurementFamilyUnits(string $measurementFamilyCode): array
     {
         $selectPressureUnitsSql = <<<SQL
-SELECT m.units
-FROM `akeneo_measurement` m
-WHERE m.code = :measurement_family_code;
-SQL;
+            SELECT m.units
+            FROM `akeneo_measurement` m
+            WHERE m.code = :measurement_family_code;
+            SQL;
 
         return json_decode($this->connection->executeQuery($selectPressureUnitsSql, [
-            'measurement_family_code' => $measurementFamilyCode
+            'measurement_family_code' => $measurementFamilyCode,
         ])->fetchOne(), true);
     }
 
     private function updateMeasurementFamilyUnits(string $measurementFamilyCode, array $units): void
     {
         $updateMeasurementFamilyUnitsSql = <<<SQL
-        UPDATE `akeneo_measurement` m
-        SET m.units = :units
-        WHERE m.code = :measurement_family_code;
-        SQL;
+            UPDATE `akeneo_measurement` m
+            SET m.units = :units
+            WHERE m.code = :measurement_family_code;
+            SQL;
 
         $this->connection->executeQuery($updateMeasurementFamilyUnitsSql, [
             'measurement_family_code' => $measurementFamilyCode,
-            'units' => json_encode($units)
-        ]);;
+            'units' => json_encode($units),
+        ]);
+        ;
     }
 
     private function assertUnitsHaveCorrectConversionValues(string $measurementFamilyCode, array $expectedUnitsConversionValues): void

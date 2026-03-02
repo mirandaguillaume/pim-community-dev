@@ -104,7 +104,7 @@ class CollectApiErrorSpec extends ObjectBehavior
     ): void {
         $violationList = new ConstraintViolationList([
             $violation1->getWrappedObject(),
-            $violation2->getWrappedObject()
+            $violation2->getWrappedObject(),
         ]);
 
         $context = (new Context())->setAttribute('product', $product);

@@ -21,10 +21,10 @@ final class Version_7_0_20220824134638_add_missing_remove_completeness_for_chann
     {
         $this->addSql(
             <<<SQL
-            INSERT INTO akeneo_batch_job_instance (code, label, job_name, status, connector, raw_parameters, type)
-            VALUES (:code, :label, :job_name, :status, :connector, :raw_parameters, :type)
-            ON DUPLICATE KEY UPDATE label = label;
-            SQL,
+                INSERT INTO akeneo_batch_job_instance (code, label, job_name, status, connector, raw_parameters, type)
+                VALUES (:code, :label, :job_name, :status, :connector, :raw_parameters, :type)
+                ON DUPLICATE KEY UPDATE label = label;
+                SQL,
             [
                 'code' => 'remove_completeness_for_channel_and_locale',
                 'label' => 'Remove completeness for channel and locale',

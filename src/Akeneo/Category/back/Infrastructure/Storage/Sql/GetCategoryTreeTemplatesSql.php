@@ -23,10 +23,10 @@ class GetCategoryTreeTemplatesSql implements GetCategoryTreeTemplates
     {
         $result = $this->connection->executeQuery(
             <<<SQL
-                SELECT BIN_TO_UUID(category_template_uuid) as category_template_uuid
-                FROM pim_catalog_category_tree_template
-                WHERE category_tree_id = :category_tree_id
-            SQL,
+                    SELECT BIN_TO_UUID(category_template_uuid) as category_template_uuid
+                    FROM pim_catalog_category_tree_template
+                    WHERE category_tree_id = :category_tree_id
+                SQL,
             [
                 'category_tree_id' => $categoryTreeId->getValue(),
             ],

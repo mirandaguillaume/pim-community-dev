@@ -76,7 +76,7 @@ class CategorySaverIntegration extends TestCase
         /** @var Category */
         $jeans = $this->createCategory([
             'code' => 'jeans',
-            'parent' => 'master'
+            'parent' => 'master',
         ]);
 
         // Set the updated property to timestamp 0.
@@ -88,7 +88,7 @@ class CategorySaverIntegration extends TestCase
         ]);
 
         $this->updateCategory($jeans, [
-            'parent' => 'clothes'
+            'parent' => 'clothes',
         ]);
 
         Assert::assertGreaterThan(
@@ -132,7 +132,7 @@ class CategorySaverIntegration extends TestCase
         ]);
 
         $this->updateCategory($pants, [
-            'parent' => 'clothes'
+            'parent' => 'clothes',
         ]);
 
         Assert::assertEquals(
@@ -201,8 +201,8 @@ class CategorySaverIntegration extends TestCase
 
         $this->updateCategory($master, [
             'labels' => [
-                'en_US' => 'Master2'
-            ]
+                'en_US' => 'Master2',
+            ],
         ]);
 
         Assert::assertGreaterThan(

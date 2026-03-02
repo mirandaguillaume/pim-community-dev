@@ -90,7 +90,7 @@ class BaseDashboard extends BaseView {
       this.render();
     });
 
-    return BaseView.prototype.configure.apply(this, arguments);
+    return BaseView.prototype.configure.apply(this, []);
   }
 
   remove() {

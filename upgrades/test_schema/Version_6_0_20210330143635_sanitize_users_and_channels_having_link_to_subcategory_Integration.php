@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Pim\Upgrade\Schema\Tests;
 
 use Akeneo\Test\Integration\TestCase;
@@ -44,64 +43,64 @@ class Version_6_0_20210330143635_sanitize_users_and_channels_having_link_to_subc
     private function findUsersHavingLinkToSubCategory(): array
     {
         return $this->get('database_connection')->executeQuery(<<<SQL
-            SELECT ou.id
-            FROM oro_user ou
-                     INNER JOIN pim_catalog_category pcc on ou.defaultTree_id = pcc.id
-            WHERE pcc.parent_id IS NOT NULL
-        SQL)->fetchAllAssociative();
+                SELECT ou.id
+                FROM oro_user ou
+                         INNER JOIN pim_catalog_category pcc on ou.defaultTree_id = pcc.id
+                WHERE pcc.parent_id IS NOT NULL
+            SQL)->fetchAllAssociative();
     }
 
     private function findChannelsHavingLinkToSubCategory(): array
     {
         return $this->get('database_connection')->executeQuery(<<<SQL
-            SELECT pc_ch.id
-            FROM pim_catalog_channel pc_ch
-                 INNER JOIN pim_catalog_category pc_cat on pc_ch.category_id = pc_cat.id
-            WHERE pc_cat.parent_id IS NOT NULL
-        SQL)->fetchAllAssociative();
+                SELECT pc_ch.id
+                FROM pim_catalog_channel pc_ch
+                     INNER JOIN pim_catalog_category pc_cat on pc_ch.category_id = pc_cat.id
+                WHERE pc_cat.parent_id IS NOT NULL
+            SQL)->fetchAllAssociative();
     }
 
     private function aSubCategory(): void
     {
         $masterCategoryId = $this->get('database_connection')->executeQuery(<<<SQL
-            SELECT id FROM pim_catalog_category pcc 
-            WHERE pcc.code = 'master'
-        SQL)->fetchOne();
+                SELECT id FROM pim_catalog_category pcc 
+                WHERE pcc.code = 'master'
+            SQL)->fetchOne();
 
         $this->get('database_connection')->executeQuery(<<<SQL
-            INSERT INTO pim_catalog_category (parent_id, code, created, root, lvl, lft, rgt) 
-            VALUES (:parentId, 'aSubCategory', NOW(), :parentId, 1, 2, 7);
-        SQL, ['parentId' => $masterCategoryId]);
+                INSERT INTO pim_catalog_category (parent_id, code, created, root, lvl, lft, rgt) 
+                VALUES (:parentId, 'aSubCategory', NOW(), :parentId, 1, 2, 7);
+            SQL, ['parentId' => $masterCategoryId]);
     }
 
     private function aUserHavingLinkToSubCategory(): void
     {
         $subCategoryId = $this->get('database_connection')->executeQuery(<<<SQL
-            SELECT id FROM pim_catalog_category pcc 
-            WHERE pcc.code = 'aSubCategory'
-        SQL)->fetchOne();
+                SELECT id FROM pim_catalog_category pcc 
+                WHERE pcc.code = 'aSubCategory'
+            SQL)->fetchOne();
 
         $localeId = $this->get('database_connection')->executeQuery(<<<SQL
-            SELECT id FROM pim_catalog_locale pcl 
-            WHERE pcl.code = 'en_US'
-        SQL)->fetchOne();
+                SELECT id FROM pim_catalog_locale pcl 
+                WHERE pcl.code = 'en_US'
+            SQL)->fetchOne();
 
         $this->get('database_connection')->executeQuery(<<<SQL
-            INSERT INTO oro_user (ui_locale_id, username, email, enabled, salt, password, login_count, createdAt, updatedAt, emailNotifications, timezone, user_type, properties, defaultTree_id) 
-            VALUES (:localeId, 'aUsername', 'a.username0@example.com',  1, 'salt', 'password', 0, NOW(), NOW(), 0, 'UTC', 'user', '[]', :rootId);
-        SQL, ['rootId' => $subCategoryId, 'localeId' => $localeId]);
+                INSERT INTO oro_user (ui_locale_id, username, email, enabled, salt, password, login_count, createdAt, updatedAt, emailNotifications, timezone, user_type, properties, defaultTree_id) 
+                VALUES (:localeId, 'aUsername', 'a.username0@example.com',  1, 'salt', 'password', 0, NOW(), NOW(), 0, 'UTC', 'user', '[]', :rootId);
+            SQL, ['rootId' => $subCategoryId, 'localeId' => $localeId]);
     }
 
     private function aChannelHavingLinkToSubCategory(): void
     {
         $subCategoryId = $this->get('database_connection')->executeQuery(<<<SQL
-            SELECT id FROM pim_catalog_category pcc 
-            WHERE pcc.code = 'aSubCategory'
-        SQL)->fetchOne();
+                SELECT id FROM pim_catalog_category pcc 
+                WHERE pcc.code = 'aSubCategory'
+            SQL)->fetchOne();
 
         $this->get('database_connection')->executeQuery(<<<SQL
-            INSERT INTO pim_catalog_channel (category_id, code, conversionUnits) 
-            VALUES (:rootId, 'aChannel', '[]');
-        SQL, ['rootId' => $subCategoryId]);
+                INSERT INTO pim_catalog_channel (category_id, code, conversionUnits) 
+                VALUES (:rootId, 'aChannel', '[]');
+            SQL, ['rootId' => $subCategoryId]);
     }
 }

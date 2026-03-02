@@ -39,7 +39,7 @@ class OptionValue extends AbstractValue implements OptionValueInterface, \String
      */
     public function __toString(): string
     {
-        return null !== $this->data ? '['.$this->data.']' : '';
+        return null !== $this->data ? '[' . $this->data . ']' : '';
     }
 
     /**
@@ -47,9 +47,9 @@ class OptionValue extends AbstractValue implements OptionValueInterface, \String
      */
     public function isEqual(ValueInterface $value): bool
     {
-        if (!$value instanceof OptionValueInterface ||
-            $this->getScopeCode() !== $value->getScopeCode() ||
-            $this->getLocaleCode() !== $value->getLocaleCode()) {
+        if (!$value instanceof OptionValueInterface
+            || $this->getScopeCode() !== $value->getScopeCode()
+            || $this->getLocaleCode() !== $value->getLocaleCode()) {
             return false;
         }
 

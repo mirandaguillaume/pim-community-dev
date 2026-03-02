@@ -11,7 +11,7 @@ use Akeneo\Pim\Structure\Component\Model\AttributeOptionValueInterface;
 
 class AttributeOptionUpdateGuesserSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         EntityManager $em,
         AttributeInterface $attribute,
         AttributeOptionInterface $option,
@@ -21,12 +21,12 @@ class AttributeOptionUpdateGuesserSpec extends ObjectBehavior
         $optionValue->getOption()->willReturn($option);
     }
 
-    function it_is_an_update_guesser()
+    public function it_is_an_update_guesser()
     {
         $this->shouldImplement(UpdateGuesserInterface::class);
     }
 
-    function it_supports_entity_updates_and_deletion()
+    public function it_supports_entity_updates_and_deletion()
     {
         $this->supportAction(UpdateGuesserInterface::ACTION_UPDATE_ENTITY)->shouldReturn(true);
         $this->supportAction(UpdateGuesserInterface::ACTION_DELETE)->shouldReturn(true);
@@ -34,13 +34,13 @@ class AttributeOptionUpdateGuesserSpec extends ObjectBehavior
         $this->supportAction('foo')->shouldReturn(false);
     }
 
-    function it_marks_attributes_as_updated_when_an_attribute_option_is_removed_or_updated($em, $attribute, $option)
+    public function it_marks_attributes_as_updated_when_an_attribute_option_is_removed_or_updated($em, $attribute, $option)
     {
         $this->guessUpdates($em, $option, UpdateGuesserInterface::ACTION_UPDATE_ENTITY)->shouldReturn([$attribute]);
         $this->guessUpdates($em, $option, UpdateGuesserInterface::ACTION_DELETE)->shouldReturn([$attribute]);
     }
 
-    function it_marks_attribute_options_as_updated_when_an_attribute_option_value_is_updated(
+    public function it_marks_attribute_options_as_updated_when_an_attribute_option_value_is_updated(
         $em,
         $option,
         $optionValue

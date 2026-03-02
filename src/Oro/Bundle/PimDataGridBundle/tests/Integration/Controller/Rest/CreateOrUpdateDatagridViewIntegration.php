@@ -110,7 +110,7 @@ class CreateOrUpdateDatagridViewIntegration extends ControllerIntegrationTestCas
         $this->assertSame('Edited view', $datagridView->getLabel());
         $this->assertSame($this->loggedUser->getUserIdentifier(), $datagridView->getOwner()->getUserIdentifier());
         $this->assertSame(DatagridView::TYPE_PUBLIC, $datagridView->getType(), 'Type cannot be changed');
-        $this->assertSame(['identifier', 'created', 'updated' , 'enabled'], $datagridView->getColumns());
+        $this->assertSame(['identifier', 'created', 'updated', 'enabled'], $datagridView->getColumns());
     }
 
     /** @test */
@@ -140,7 +140,7 @@ class CreateOrUpdateDatagridViewIntegration extends ControllerIntegrationTestCas
         $this->assertSame('Edited private view', $datagridView->getLabel());
         $this->assertSame($this->loggedUser->getUserIdentifier(), $datagridView->getOwner()->getUserIdentifier());
         $this->assertSame(DatagridView::TYPE_PRIVATE, $datagridView->getType(), 'Type cannot be changed');
-        $this->assertSame(['identifier', 'created', 'updated' , 'enabled'], $datagridView->getColumns());
+        $this->assertSame(['identifier', 'created', 'updated', 'enabled'], $datagridView->getColumns());
     }
 
     /** @test */

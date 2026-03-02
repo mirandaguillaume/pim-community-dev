@@ -15,7 +15,7 @@ use Symfony\Component\Validator\ConstraintViolationList;
 
 class ReaderSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         FileIteratorFactory $fileIteratorFactory,
         ArrayConverterInterface $converter,
         StepExecution $stepExecution,
@@ -23,7 +23,7 @@ class ReaderSpec extends ObjectBehavior
         FileIteratorInterface $fileIterator,
     ) {
         $this->beConstructedWith($fileIteratorFactory, $converter);
-        $filePath = $this->getPath() . DIRECTORY_SEPARATOR  . 'with_media.csv';
+        $filePath = $this->getPath() . DIRECTORY_SEPARATOR . 'with_media.csv';
         $jobParameters->get('enclosure')->willReturn('"');
         $jobParameters->get('delimiter')->willReturn(';');
         $jobParameters->has('storage')->willReturn(true);
@@ -39,7 +39,7 @@ class ReaderSpec extends ObjectBehavior
         $this->initialize();
     }
 
-    function it_returns_the_count_of_item_without_header(
+    public function it_returns_the_count_of_item_without_header(
         FileIteratorInterface $fileIterator,
     ) {
         $fileIterator->valid()->willReturn(true, true, true, false);
@@ -51,7 +51,7 @@ class ReaderSpec extends ObjectBehavior
         $this->totalItems()->shouldReturn(2);
     }
 
-    function it_reads_csv_file(
+    public function it_reads_csv_file(
         $converter,
         $stepExecution,
         FileIteratorInterface $fileIterator,
@@ -74,7 +74,7 @@ class ReaderSpec extends ObjectBehavior
         $this->read()->shouldReturn($data);
     }
 
-    function it_skips_an_item_in_case_of_conversion_error(
+    public function it_skips_an_item_in_case_of_conversion_error(
         $converter,
         $stepExecution,
         FileIteratorInterface $fileIterator,
@@ -103,9 +103,9 @@ class ReaderSpec extends ObjectBehavior
 
     private function getPath()
     {
-        return __DIR__ . DIRECTORY_SEPARATOR .
-            DIRECTORY_SEPARATOR  . 'features' .
-            DIRECTORY_SEPARATOR  . 'Context' .
-            DIRECTORY_SEPARATOR  . 'fixtures';
+        return __DIR__ . DIRECTORY_SEPARATOR
+            . DIRECTORY_SEPARATOR . 'features'
+            . DIRECTORY_SEPARATOR . 'Context'
+            . DIRECTORY_SEPARATOR . 'fixtures';
     }
 }

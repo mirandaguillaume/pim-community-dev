@@ -18,7 +18,7 @@ class CreateButton extends BaseView {
 
   initialize(config: any): void {
     this.config = config.config as CreateButtonConfig;
-    BaseView.prototype.initialize.apply(this, arguments);
+    BaseView.prototype.initialize.apply(this, []);
   }
 
   getQueryParam(paramName: string): any {

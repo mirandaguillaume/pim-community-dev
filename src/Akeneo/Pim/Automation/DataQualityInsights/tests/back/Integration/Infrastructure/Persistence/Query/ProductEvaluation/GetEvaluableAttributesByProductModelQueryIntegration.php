@@ -99,7 +99,7 @@ class GetEvaluableAttributesByProductModelQueryIntegration extends TestCase
 
         $this->get('pim_catalog.saver.product_model')->save($productModel);
 
-        return $this->get(ProductModelIdFactory::class)->create((string)$productModel->getId());
+        return $this->get(ProductModelIdFactory::class)->create((string) $productModel->getId());
     }
 
     private function givenARootProductModelWithTwoLevelsOfVariation(): ProductModelId
@@ -111,7 +111,7 @@ class GetEvaluableAttributesByProductModelQueryIntegration extends TestCase
 
         $this->get('pim_catalog.saver.product_model')->save($productModel);
 
-        return $this->get(ProductModelIdFactory::class)->create((string)$productModel->getId());
+        return $this->get(ProductModelIdFactory::class)->create((string) $productModel->getId());
     }
 
     private function givenASubProductModel(): ProductModelId
@@ -126,7 +126,7 @@ class GetEvaluableAttributesByProductModelQueryIntegration extends TestCase
 
         $this->get('pim_catalog.saver.product_model')->save($productModel);
 
-        return $this->get(ProductModelIdFactory::class)->create((string)$productModel->getId());
+        return $this->get(ProductModelIdFactory::class)->create((string) $productModel->getId());
     }
 
     private function addAttributesToFamilyA(array $attributesData): void
@@ -165,7 +165,7 @@ class GetEvaluableAttributesByProductModelQueryIntegration extends TestCase
 
         $family = $this->get('pim_catalog.repository.family')->findOneByIdentifier('familyA');
         $this->get('pim_catalog.updater.family')->update($family, [
-            'attributes' => array_merge($family->getAttributeCodes(), $attributeCodes)
+            'attributes' => array_merge($family->getAttributeCodes(), $attributeCodes),
         ]);
         $this->get('pim_catalog.saver.family')->save($family);
     }

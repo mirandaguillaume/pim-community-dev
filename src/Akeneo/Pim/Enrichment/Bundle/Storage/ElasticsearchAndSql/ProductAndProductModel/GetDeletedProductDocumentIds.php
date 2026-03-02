@@ -70,7 +70,7 @@ final readonly class GetDeletedProductDocumentIds
             $params = array_merge(
                 $query,
                 $searchAfter ? [
-                    'search_after' => $searchAfter
+                    'search_after' => $searchAfter,
                 ] : []
             );
             $results = $this->client->search($params);

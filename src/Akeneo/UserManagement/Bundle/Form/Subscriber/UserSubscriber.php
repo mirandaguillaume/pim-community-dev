@@ -72,7 +72,7 @@ class UserSubscriber implements EventSubscriberInterface
                     'choices'         => ['Inactive' => 0, 'Active' => 1],
                     'placeholder'     => 'Please select',
                     'empty_data'      => '',
-                    'auto_initialize' => false
+                    'auto_initialize' => false,
                 ]
             )
         );

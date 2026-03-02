@@ -34,7 +34,7 @@ final class GetQualityScoresFactorySpec extends ObjectBehavior
     ) {
         $productUuids = ProductUuidCollection::fromStrings([
             '0932dfd0-5f9a-49fb-ad31-a990339406a2',
-            '3370280b-6c76-4720-aac1-ae3f9613d555'
+            '3370280b-6c76-4720-aac1-ae3f9613d555',
         ]);
         $scores = $this->givenProductScores();
 
@@ -69,7 +69,7 @@ final class GetQualityScoresFactorySpec extends ObjectBehavior
     {
         $productUuids = ProductUuidCollection::fromStrings([
             '0932dfd0-5f9a-49fb-ad31-a990339406a2',
-            '3370280b-6c76-4720-aac1-ae3f9613d555'
+            '3370280b-6c76-4720-aac1-ae3f9613d555',
         ]);
 
         $this->shouldThrow(\InvalidArgumentException::class)->during('__invoke', [$productUuids, 'whatever']);
@@ -82,12 +82,12 @@ final class GetQualityScoresFactorySpec extends ObjectBehavior
 
         return [
             '0932dfd0-5f9a-49fb-ad31-a990339406a2' => new Read\Scores(
-                (new ChannelLocaleRateCollection)->addRate($channel, $locale, new Rate(76)),
-                (new ChannelLocaleRateCollection)->addRate($channel, $locale, new Rate(65))
+                (new ChannelLocaleRateCollection())->addRate($channel, $locale, new Rate(76)),
+                (new ChannelLocaleRateCollection())->addRate($channel, $locale, new Rate(65))
             ),
             '3370280b-6c76-4720-aac1-ae3f9613d555' => new Read\Scores(
-                (new ChannelLocaleRateCollection)->addRate($channel, $locale, new Rate(98)),
-                (new ChannelLocaleRateCollection)->addRate($channel, $locale, new Rate(84))
+                (new ChannelLocaleRateCollection())->addRate($channel, $locale, new Rate(98)),
+                (new ChannelLocaleRateCollection())->addRate($channel, $locale, new Rate(84))
             ),
         ];
     }
@@ -99,12 +99,12 @@ final class GetQualityScoresFactorySpec extends ObjectBehavior
 
         return [
             42 => new Read\Scores(
-                (new ChannelLocaleRateCollection)->addRate($channel, $locale, new Rate(76)),
-                (new ChannelLocaleRateCollection)->addRate($channel, $locale, new Rate(65))
+                (new ChannelLocaleRateCollection())->addRate($channel, $locale, new Rate(76)),
+                (new ChannelLocaleRateCollection())->addRate($channel, $locale, new Rate(65))
             ),
             56 => new Read\Scores(
-                (new ChannelLocaleRateCollection)->addRate($channel, $locale, new Rate(98)),
-                (new ChannelLocaleRateCollection)->addRate($channel, $locale, new Rate(84))
+                (new ChannelLocaleRateCollection())->addRate($channel, $locale, new Rate(98)),
+                (new ChannelLocaleRateCollection())->addRate($channel, $locale, new Rate(84))
             ),
         ];
     }

@@ -55,7 +55,7 @@ class AttributeNormalizer implements NormalizerInterface, CacheableSupportsMetho
     /**
      * {@inheritdoc}
      */
-    public function normalize($attribute, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($attribute, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         Assert::isInstanceOf($attribute, AttributeInterface::class);
         $dateMin = null === $attribute->getDateMin() ? null : $attribute->getDateMin()->format('Y-m-d');

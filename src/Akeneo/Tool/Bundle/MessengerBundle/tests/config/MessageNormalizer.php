@@ -23,7 +23,7 @@ final class MessageNormalizer implements NormalizerInterface, DenormalizerInterf
         return $type === Message1::class || $type === Message2::class;
     }
 
-    public function normalize($object, string $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($object, string $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         return $object->normalize();
     }

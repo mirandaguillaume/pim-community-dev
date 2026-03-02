@@ -15,9 +15,8 @@ use Pim\Upgrade\Schema\Tests\ExecuteMigrationTrait;
  */
 final class Version_8_0_20230515140000_add_column_current_state_on_batch_step_execution_Integration extends TestCase
 {
-    private const MIGRATION_NAME = '_8_0_20230515140000_add_column_current_state_on_batch_step_execution';
-
     use ExecuteMigrationTrait;
+    private const MIGRATION_NAME = '_8_0_20230515140000_add_column_current_state_on_batch_step_execution';
 
     private Connection $connection;
 
@@ -64,16 +63,16 @@ final class Version_8_0_20230515140000_add_column_current_state_on_batch_step_ex
     {
         return $this->connection->executeQuery(
             <<<SQL
-                SHOW COLUMNS FROM akeneo_batch_step_execution LIKE 'current_state';
-            SQL,
+                    SHOW COLUMNS FROM akeneo_batch_step_execution LIKE 'current_state';
+                SQL,
         )->rowCount() >= 1;
     }
 
     private function dropCurrentStateColumn(): void
     {
         $sql = <<<SQL
-            ALTER TABLE akeneo_batch_step_execution DROP COLUMN current_state;
-        SQL;
+                ALTER TABLE akeneo_batch_step_execution DROP COLUMN current_state;
+            SQL;
 
         $this->connection->executeStatement($sql);
     }
@@ -81,8 +80,8 @@ final class Version_8_0_20230515140000_add_column_current_state_on_batch_step_ex
     private function createCurrentStateColumn(): void
     {
         $sql = <<<SQL
-            ALTER TABLE akeneo_batch_step_execution ADD COLUMN current_state JSON NULL;
-        SQL;
+                ALTER TABLE akeneo_batch_step_execution ADD COLUMN current_state JSON NULL;
+            SQL;
 
         $this->connection->executeStatement($sql);
     }

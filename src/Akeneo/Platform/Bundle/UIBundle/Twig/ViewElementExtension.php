@@ -36,7 +36,7 @@ class ViewElementExtension extends AbstractExtension
                 'view_element_aliases',
                 [$this, 'getViewElementAliases'],
                 ['needs_context' => true, 'is_safe' => ['html']]
-            )
+            ),
         ];
     }
 
@@ -61,9 +61,9 @@ class ViewElementExtension extends AbstractExtension
                         'index'  => $i + 1,
                         'first'  => 0 === $i,
                         'last'   => $elementCount === $i + 1,
-                        'length' => $elementCount
-                    ]
-                ]
+                        'length' => $elementCount,
+                    ],
+                ],
             ] + $context;
 
             if (true === $this->debug) {

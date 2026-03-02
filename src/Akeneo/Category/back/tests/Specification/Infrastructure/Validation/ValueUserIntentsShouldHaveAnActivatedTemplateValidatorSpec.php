@@ -143,7 +143,7 @@ class ValueUserIntentsShouldHaveAnActivatedTemplateValidatorSpec extends ObjectB
                 'ecommerce',
                 'en_US',
                 'SEO keywords'
-            )
+            ),
         ];
     }
 
@@ -171,7 +171,7 @@ class ValueUserIntentsShouldHaveAnActivatedTemplateValidatorSpec extends ObjectB
                 LabelCollection::fromArray(['en_US' => 'SEO keywords']),
                 TemplateUuid::fromString('02274dac-e99a-4e1d-8f9b-794d4c3ba330'),
                 AttributeAdditionalProperties::fromArray([]),
-            )
+            ),
         ];
     }
 }

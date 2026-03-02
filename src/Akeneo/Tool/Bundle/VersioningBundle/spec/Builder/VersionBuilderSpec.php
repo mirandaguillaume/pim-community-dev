@@ -13,12 +13,12 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class VersionBuilderSpec extends ObjectBehavior
 {
-    function let(NormalizerInterface $normalizer, VersionFactory $versionFactory)
+    public function let(NormalizerInterface $normalizer, VersionFactory $versionFactory)
     {
         $this->beConstructedWith($normalizer, $versionFactory);
     }
 
-    function it_builds_versions_for_versionable_entities($normalizer, $versionFactory, ProductInterface $product, Version $version)
+    public function it_builds_versions_for_versionable_entities($normalizer, $versionFactory, ProductInterface $product, Version $version)
     {
         $uuid = Uuid::fromString('114c9108-444d-408a-ab43-195068166d2c');
         $product->getUuid()->willReturn($uuid);
@@ -30,7 +30,7 @@ class VersionBuilderSpec extends ObjectBehavior
         $this->buildVersion($product, 'foo');
     }
 
-    function it_creates_pending_version($versionFactory, ProductInterface $product, Version $pending)
+    public function it_creates_pending_version($versionFactory, ProductInterface $product, Version $pending)
     {
         $uuid = Uuid::fromString('114c9108-444d-408a-ab43-195068166d2c');
         $product->getUuid()->willReturn($uuid);
@@ -46,7 +46,7 @@ class VersionBuilderSpec extends ObjectBehavior
         $version->isPending()->shouldReturn(true);
     }
 
-    function it_builds_pending_versions(Version $pending)
+    public function it_builds_pending_versions(Version $pending)
     {
         $pending->setVersion(1)->willReturn($pending);
         $pending->setSnapshot(['foo' => 'bar'])->willReturn($pending);
@@ -57,7 +57,7 @@ class VersionBuilderSpec extends ObjectBehavior
         $this->buildPendingVersion($pending);
     }
 
-    function it_builds_pending_versions_with_attribute_with_numeric_code(Version $pending)
+    public function it_builds_pending_versions_with_attribute_with_numeric_code(Version $pending)
     {
         $pending->setVersion(1)->willReturn($pending);
         $pending->setSnapshot([12_345_678 => 'bar'])->willReturn($pending);
@@ -68,7 +68,7 @@ class VersionBuilderSpec extends ObjectBehavior
         $this->buildPendingVersion($pending);
     }
 
-    function it_compares_versions(Version $pending, Version $previousVersion)
+    public function it_compares_versions(Version $pending, Version $previousVersion)
     {
         $previousVersion->getVersion()->willReturn(1);
         $previousVersion->getSnapshot()->willReturn(['test' => 'old_data', 'description' => "old description"]);
@@ -85,7 +85,7 @@ class VersionBuilderSpec extends ObjectBehavior
     /**
      * @see https://akeneo.atlassian.net/browse/PIM-9152
      */
-    function it_builds_versions_and_handle_correctly_the_old_versioning_date_format(
+    public function it_builds_versions_and_handle_correctly_the_old_versioning_date_format(
         $normalizer,
         $versionFactory,
         ProductModelInterface $productModel,
@@ -97,7 +97,7 @@ class VersionBuilderSpec extends ObjectBehavior
             'date_with_new_format' => '2020-01-01T00:00:00+00:00',
             'date_with_old_format' => '2020-01-01T00:00:00+00:00',
             'date_with_old_format_and_timezone' => '2020-01-01T12:00:00+12:00',
-            'date_with_old_format_has_changed' => '2020-01-02T00:00:00+00:00'
+            'date_with_old_format_has_changed' => '2020-01-02T00:00:00+00:00',
         ]);
 
         $versionFactory->create(Argument::any(), 100, null, 'julia', null)->willReturn($version);
@@ -110,7 +110,7 @@ class VersionBuilderSpec extends ObjectBehavior
             'date_with_new_format' => '2020-01-01T00:00:00+00:00',
             'date_with_old_format' => '2020-01-01',
             'date_with_old_format_and_timezone' => '2020-01-01',
-            'date_with_old_format_has_changed' => '2020-01-01'
+            'date_with_old_format_has_changed' => '2020-01-01',
         ]);
 
         $version->setVersion(2)->willReturn($version);
@@ -119,12 +119,12 @@ class VersionBuilderSpec extends ObjectBehavior
             'date_with_new_format' => '2020-01-01T00:00:00+00:00',
             'date_with_old_format' => '2020-01-01T00:00:00+00:00',
             'date_with_old_format_and_timezone' => '2020-01-01T12:00:00+12:00',
-            'date_with_old_format_has_changed' => '2020-01-02T00:00:00+00:00'
+            'date_with_old_format_has_changed' => '2020-01-02T00:00:00+00:00',
         ])->willReturn($version);
 
         $version->setChangeset([
             'name' => ['old' => 'foo', 'new' => 'bar'],
-            'date_with_old_format_has_changed' => ['old' => '2020-01-01', 'new' => '2020-01-02T00:00:00+00:00']
+            'date_with_old_format_has_changed' => ['old' => '2020-01-01', 'new' => '2020-01-02T00:00:00+00:00'],
         ])->willReturn($version);
 
         $this->buildVersion($productModel, 'julia', $previousVersion, null);

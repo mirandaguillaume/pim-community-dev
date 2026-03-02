@@ -20,17 +20,17 @@ final class SqlIsCategoryTreeLinkedToChannel implements IsCategoryTreeLinkedToCh
     public function byCategoryTreeId(int $categoryTreeId): bool
     {
         $sql = <<<SQL
-        SELECT EXISTS (
-            SELECT id
-            FROM pim_catalog_channel
-            WHERE category_id = :treeId
-        )
-        SQL;
+            SELECT EXISTS (
+                SELECT id
+                FROM pim_catalog_channel
+                WHERE category_id = :treeId
+            )
+            SQL;
 
         $exists = $this->connection->executeQuery(
             $sql,
             [
-                'treeId' => $categoryTreeId
+                'treeId' => $categoryTreeId,
             ]
         )->fetchOne();
 

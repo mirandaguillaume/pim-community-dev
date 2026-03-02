@@ -39,7 +39,7 @@ final class UnknownFamily implements DocumentationBuilderInterface
                     'family_settings' => new RouteMessageParameter(
                         'Family settings',
                         'pim_enrich_family_index'
-                    )
+                    ),
                 ],
                 Documentation::STYLE_TEXT
             ),
@@ -53,10 +53,10 @@ final class UnknownFamily implements DocumentationBuilderInterface
                     'manage_your_families' => new HrefMessageParameter(
                         'Manage your families',
                         'https://help.akeneo.com/pim/serenity/articles/manage-your-families.html'
-                    )
+                    ),
                 ],
                 Documentation::STYLE_INFORMATION
-            )
+            ),
         ]);
     }
 }

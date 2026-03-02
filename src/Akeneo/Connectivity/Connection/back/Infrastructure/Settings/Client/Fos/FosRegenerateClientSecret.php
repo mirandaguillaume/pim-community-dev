@@ -47,13 +47,13 @@ class FosRegenerateClientSecret implements RegenerateClientSecretInterface
     private function deleteApiToken(ClientId $clientId): void
     {
         $deleteSqlAccessToken = <<<SQL
-DELETE FROM pim_api_access_token WHERE client = :client_id
-SQL;
+            DELETE FROM pim_api_access_token WHERE client = :client_id
+            SQL;
         $this->dbalConnection->executeStatement($deleteSqlAccessToken, ['client_id' => $clientId->id()]);
 
         $deleteSqlRefreshToken = <<<SQL
-DELETE FROM pim_api_refresh_token WHERE client = :client_id
-SQL;
+            DELETE FROM pim_api_refresh_token WHERE client = :client_id
+            SQL;
         $this->dbalConnection->executeStatement($deleteSqlRefreshToken, ['client_id' => $clientId->id()]);
     }
 }

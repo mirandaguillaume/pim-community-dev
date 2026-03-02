@@ -1,4 +1,5 @@
 <?php
+
 namespace Oro\Bundle\TranslationBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +31,7 @@ class Controller
     public function indexAction(Request $request, $_locale)
     {
         $domains = $this->options['domains'] ?? [];
-        $debug = isset($this->options['debug']) ? (bool)$this->options['debug'] : false;
+        $debug = isset($this->options['debug']) ? (bool) $this->options['debug'] : false;
 
         $content = $this->renderJsTranslationContent($domains, $_locale, $debug);
 

@@ -36,14 +36,14 @@ class SqlFindJobInstance implements FindJobInstanceInterface
         $pagination = $query->pagination;
 
         $sql = <<<SQL
-        SELECT
-            job_instance.code,
-            job_instance.label,
-            job_instance.raw_parameters
-        FROM akeneo_batch_job_instance job_instance
-        %s
-        %s
-SQL;
+                    SELECT
+                        job_instance.code,
+                        job_instance.label,
+                        job_instance.raw_parameters
+                    FROM akeneo_batch_job_instance job_instance
+                    %s
+                    %s
+            SQL;
 
         $sqlWherePart = $this->buildWherePart($jobNames, $search);
         $sqlPaginationPart = $pagination instanceof JobInstanceQueryPagination ? $this->buildPaginationPart($pagination) : '';

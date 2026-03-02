@@ -21,19 +21,19 @@ class SqlGetGroupTranslations implements GetGroupTranslations
         }
 
         $sql = <<<SQL
-SELECT
-   g.code AS code,
-   trans.label AS label
-FROM pim_catalog_group g
-INNER JOIN pim_catalog_group_translation trans ON g.id = trans.foreign_key
-WHERE g.code IN (:groupCodes)
-AND locale = :locale
-SQL;
+            SELECT
+               g.code AS code,
+               trans.label AS label
+            FROM pim_catalog_group g
+            INNER JOIN pim_catalog_group_translation trans ON g.id = trans.foreign_key
+            WHERE g.code IN (:groupCodes)
+            AND locale = :locale
+            SQL;
         $rows = $this->connection->executeQuery(
             $sql,
             [
                 'groupCodes' => $groupCodes,
-                'locale' => $locale
+                'locale' => $locale,
             ],
             ['groupCodes' => ArrayParameterType::STRING]
         )->fetchAllAssociative();

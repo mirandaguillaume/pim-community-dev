@@ -105,7 +105,7 @@ class PurgeEventsApiErrorLogsQueryIntegration extends TestCase
     private function buildDocument(\DateTime $fromDatetime, \DateInterval $interval, string $level, int $number): array
     {
         $content = [
-            'message' => 'There is something to log, you may not have the permission to see the product or it does not exist.'
+            'message' => 'There is something to log, you may not have the permission to see the product or it does not exist.',
         ];
         $documents = [];
         for ($i = 0 ; $i < $number ; $i++) {
@@ -142,9 +142,9 @@ class PurgeEventsApiErrorLogsQueryIntegration extends TestCase
             'size' => 20,
             'query' => [
                 'bool' => [
-                    'filter' => ['term' => ['level' => $level]]
-                ]
-            ]
+                    'filter' => ['term' => ['level' => $level]],
+                ],
+            ],
         ]);
     }
 }

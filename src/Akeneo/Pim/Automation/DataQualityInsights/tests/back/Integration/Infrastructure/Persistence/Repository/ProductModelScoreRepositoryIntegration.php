@@ -77,9 +77,10 @@ final class ProductModelScoreRepositoryIntegration extends DataQualityInsightsTe
 
     private function assertCountProductModelsScores(int $expectedCount): void
     {
-        $countProductModelsScores = $this->get('database_connection')->executeQuery(<<<SQL
-SELECT COUNT(*) FROM pim_data_quality_insights_product_model_score;
-SQL
+        $countProductModelsScores = $this->get('database_connection')->executeQuery(
+            <<<SQL
+                SELECT COUNT(*) FROM pim_data_quality_insights_product_model_score;
+                SQL
         )->fetchOne();
 
         $this->assertSame($expectedCount, intval($countProductModelsScores));
@@ -87,10 +88,11 @@ SQL
 
     private function assertProductModelScoreExists(ProductScores $expectedProductModelScore): void
     {
-        $productModelScore = $this->get('database_connection')->executeQuery(<<<SQL
-SELECT * FROM pim_data_quality_insights_product_model_score
-WHERE product_model_id = :productModelId AND evaluated_at = :evaluatedAt;
-SQL,
+        $productModelScore = $this->get('database_connection')->executeQuery(
+            <<<SQL
+                SELECT * FROM pim_data_quality_insights_product_model_score
+                WHERE product_model_id = :productModelId AND evaluated_at = :evaluatedAt;
+                SQL,
             [
                 'productModelId' => $expectedProductModelScore->getEntityId()->toInt(),
                 'evaluatedAt' => $expectedProductModelScore->getEvaluatedAt()->format('Y-m-d'),

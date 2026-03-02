@@ -23,8 +23,8 @@ class AverageMaxVolumesNormalizer
                     'average' => $data->getAverageVolume(),
                     'max' => $data->getMaxVolume(),
                 ],
-                'type' => self::VOLUME_TYPE
-            ]
+                'type' => self::VOLUME_TYPE,
+            ],
         ];
 
         return $data;

@@ -42,7 +42,7 @@ abstract class AbstractPager implements PagerInterface
      */
     public function getNbResults()
     {
-        return (int)$this->nbResults;
+        return (int) $this->nbResults;
     }
 
     /**

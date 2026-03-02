@@ -36,11 +36,11 @@ final readonly class GetExistingAttributeOptionCodes implements GetExistingAttri
         }
 
         $query = <<<SQL
-        SELECT pim_catalog_attribute.code as attribute_code, JSON_ARRAYAGG(pim_catalog_attribute_option.code) as option_codes
-        FROM pim_catalog_attribute_option INNER JOIN pim_catalog_attribute ON pim_catalog_attribute_option.attribute_id = pim_catalog_attribute.id
-        WHERE (pim_catalog_attribute.code, pim_catalog_attribute_option.code) IN (%s)
-        GROUP BY pim_catalog_attribute.code
-SQL;
+                    SELECT pim_catalog_attribute.code as attribute_code, JSON_ARRAYAGG(pim_catalog_attribute_option.code) as option_codes
+                    FROM pim_catalog_attribute_option INNER JOIN pim_catalog_attribute ON pim_catalog_attribute_option.attribute_id = pim_catalog_attribute.id
+                    WHERE (pim_catalog_attribute.code, pim_catalog_attribute_option.code) IN (%s)
+                    GROUP BY pim_catalog_attribute.code
+            SQL;
 
         $rawResults = $this->connection->executeQuery(
             sprintf($query, implode(',', $queryStringParams)),

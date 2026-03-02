@@ -27,31 +27,31 @@ class UnitSpec extends ObjectBehavior
                 UnitCode::fromString(self::UNIT_CODE),
                 LabelCollection::fromArray(self::UNIT_LABELS),
                 [Operation::create(self::OPERATION_OPERATOR, self::OPERATION_VALUE)],
-                self::SYMBOL
+                self::SYMBOL,
             ]
         );
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(Unit::class);
     }
 
-    function it_can_be_normalized()
+    public function it_can_be_normalized()
     {
         $this->normalize()->shouldReturn(
             [
                 'code'                  => self::UNIT_CODE,
                 'labels'                => self::UNIT_LABELS,
                 'convert_from_standard' => [
-                    ['operator' => self::OPERATION_OPERATOR, 'value' => self::OPERATION_VALUE]
+                    ['operator' => self::OPERATION_OPERATOR, 'value' => self::OPERATION_VALUE],
                 ],
                 'symbol'                => self::SYMBOL,
             ]
         );
     }
 
-    function it_cannot_created_with_something_else_than_a_list_of_operations()
+    public function it_cannot_created_with_something_else_than_a_list_of_operations()
     {
         $wrongOperation = 1234;
         $this->shouldThrow(\InvalidArgumentException::class)
@@ -61,12 +61,12 @@ class UnitSpec extends ObjectBehavior
                     UnitCode::fromString(self::UNIT_CODE),
                     LabelCollection::fromArray(self::UNIT_LABELS),
                     [$wrongOperation],
-                    self::SYMBOL
+                    self::SYMBOL,
                 ]
             );
     }
 
-    function it_should_be_created_with_at_least_one_operation()
+    public function it_should_be_created_with_at_least_one_operation()
     {
         $this->shouldThrow(\InvalidArgumentException::class)
             ->during(
@@ -75,21 +75,21 @@ class UnitSpec extends ObjectBehavior
                     UnitCode::fromString(self::UNIT_CODE),
                     LabelCollection::fromArray(self::UNIT_LABELS),
                     [],
-                    self::SYMBOL
+                    self::SYMBOL,
                 ]
             );
     }
-        function it_returns_the_label_of_the_provided_locale()
+    public function it_returns_the_label_of_the_provided_locale()
     {
         $this->getLabel(LocaleIdentifier::fromCode('fr_FR'))->shouldReturn('metre');
     }
 
-    function it_returns_the_code_between_brackets_when_there_is_no_label_for_the_locale()
+    public function it_returns_the_code_between_brackets_when_there_is_no_label_for_the_locale()
     {
         $this->getLabel(LocaleIdentifier::fromCode('UNKNOWN'))->shouldReturn('[meter]');
     }
 
-    function it_tells_if_it_is_a_standard_unit()
+    public function it_tells_if_it_is_a_standard_unit()
     {
         $this->beConstructedThrough(
             'create',
@@ -97,12 +97,12 @@ class UnitSpec extends ObjectBehavior
                 UnitCode::fromString(self::UNIT_CODE),
                 LabelCollection::fromArray(self::UNIT_LABELS),
                 [Operation::create('mul', '1')],
-                self::SYMBOL
+                self::SYMBOL,
             ]
         );
     }
 
-    function it_tells_if_it_is_not_be_a_standard_unit()
+    public function it_tells_if_it_is_not_be_a_standard_unit()
     {
         $this->canBeAStandardUnit()->shouldReturn(false);
     }

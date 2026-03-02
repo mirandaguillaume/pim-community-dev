@@ -18,7 +18,7 @@ use Symfony\Component\Validator\ConstraintViolationList;
 
 class ReaderSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         FileIteratorFactory $fileIteratorFactory,
         ArrayConverterInterface $converter,
         StepExecution $stepExecution
@@ -27,7 +27,7 @@ class ReaderSpec extends ObjectBehavior
         $this->setStepExecution($stepExecution);
     }
 
-    function it_returns_the_count_of_item_without_header(
+    public function it_returns_the_count_of_item_without_header(
         FileIteratorFactory $fileIteratorFactory,
         FileIteratorInterface $fileIterator,
         JobParameters $jobParameters,
@@ -49,7 +49,7 @@ class ReaderSpec extends ObjectBehavior
         $this->totalItems()->shouldReturn(2);
     }
 
-    function it_read_xlsx_file(
+    public function it_read_xlsx_file(
         $fileIteratorFactory,
         $converter,
         $stepExecution,
@@ -75,7 +75,7 @@ class ReaderSpec extends ObjectBehavior
         $this->read()->shouldReturn($consolidatedData);
     }
 
-    function it_skips_an_item_in_case_of_conversion_error(
+    public function it_skips_an_item_in_case_of_conversion_error(
         $fileIteratorFactory,
         $converter,
         $stepExecution,
@@ -100,7 +100,7 @@ class ReaderSpec extends ObjectBehavior
         $this->shouldThrow(InvalidItemFromViolationsException::class)->during('read');
     }
 
-    function it_skips_an_item_in_case_of_business_exception_error(
+    public function it_skips_an_item_in_case_of_business_exception_error(
         $fileIteratorFactory,
         $converter,
         $stepExecution,
@@ -123,7 +123,7 @@ class ReaderSpec extends ObjectBehavior
         $this->shouldThrow(InvalidItemException::class)->during('read');
     }
 
-    function it_fill_blank_column_in_row(
+    public function it_fill_blank_column_in_row(
         FileIteratorFactory $fileIteratorFactory,
         FileIteratorInterface $fileIterator,
         ArrayConverterInterface $converter,
@@ -143,14 +143,14 @@ class ReaderSpec extends ObjectBehavior
 
         $fileIterator->current()->willReturn([
             0 => 'SKU-001',
-            2 => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+            2 => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
         ]);
 
         $consolidatedData = [
             'sku' => 'SKU-001',
             'name' => '',
             'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-            'short_description' => ''
+            'short_description' => '',
         ];
 
         $converter->convert($consolidatedData, Argument::any())->willReturn($consolidatedData);
@@ -171,11 +171,11 @@ class ReaderSpec extends ObjectBehavior
 
     private function initFilePath(): string
     {
-        return __DIR__ . DIRECTORY_SEPARATOR .
-            DIRECTORY_SEPARATOR . 'features' .
-            DIRECTORY_SEPARATOR . 'Context' .
-            DIRECTORY_SEPARATOR . 'fixtures' .
-            DIRECTORY_SEPARATOR . 'product_with_carriage_return.xlsx';
+        return __DIR__ . DIRECTORY_SEPARATOR
+            . DIRECTORY_SEPARATOR . 'features'
+            . DIRECTORY_SEPARATOR . 'Context'
+            . DIRECTORY_SEPARATOR . 'fixtures'
+            . DIRECTORY_SEPARATOR . 'product_with_carriage_return.xlsx';
     }
 
     /**

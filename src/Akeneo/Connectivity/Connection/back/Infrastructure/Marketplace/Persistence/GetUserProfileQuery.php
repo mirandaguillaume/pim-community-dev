@@ -16,10 +16,10 @@ class GetUserProfileQuery implements GetUserProfileQueryInterface
     public function execute(string $username): ?string
     {
         $sql = <<<SQL
-SELECT profile
-FROM oro_user
-WHERE username = :username
-SQL;
+            SELECT profile
+            FROM oro_user
+            WHERE username = :username
+            SQL;
 
         return $this->connection->fetchOne($sql, ['username' => $username]);
     }

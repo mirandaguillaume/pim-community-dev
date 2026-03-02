@@ -25,7 +25,7 @@ class PimUIExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ .'/../Resources/config'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('controllers.yml');
         $loader->load('forms.yml');
         $loader->load('locale_provider.yml');
@@ -124,11 +124,11 @@ class PimUIExtension extends Extension
                         $order = $item['order'];
                     }
                     if (!isset($placeholders[$placeholderName])) {
-                        $placeholders[$placeholderName] = ['items'=> []];
+                        $placeholders[$placeholderName] = ['items' => []];
                     }
                     if (!array_key_exists($itemId, $placeholders[$placeholderName]['items'])) {
                         $placeholders[$placeholderName]['items'][$itemId] = [
-                            'order' => $order
+                            'order' => $order,
                         ];
                     } else {
                         $placeholders[$placeholderName]['items'][$itemId]['order'] = $order;

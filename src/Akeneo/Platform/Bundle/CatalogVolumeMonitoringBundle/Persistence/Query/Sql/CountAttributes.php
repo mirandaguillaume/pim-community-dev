@@ -27,9 +27,9 @@ class CountAttributes implements CountQuery
     public function fetch(): CountVolume
     {
         $sql = <<<SQL
-            SELECT COUNT(*) as count
-            FROM pim_catalog_attribute;
-SQL;
+                        SELECT COUNT(*) as count
+                        FROM pim_catalog_attribute;
+            SQL;
         $result = $this->connection->executeQuery($sql)->fetchAssociative();
         $volume = new CountVolume((int) $result['count'], self::VOLUME_NAME);
 

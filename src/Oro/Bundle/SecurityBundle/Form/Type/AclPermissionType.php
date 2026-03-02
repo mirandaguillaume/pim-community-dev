@@ -47,7 +47,7 @@ class AclPermissionType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class'        => AclPermission::class,
-                'privileges_config' => []
+                'privileges_config' => [],
             ]
         );
     }

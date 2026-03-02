@@ -58,7 +58,7 @@ fi
 
 # 4. CS-Fixer dry run on changed files
 if [ -n "$CHANGED_PHP" ]; then
-    check "Code style (php-cs-fixer)" docker-compose run --rm php php vendor/bin/php-cs-fixer fix --dry-run --diff --config=.php_cs.php
+    check "Code style (php-cs-fixer)" docker-compose run --rm php php tools/php-cs-fixer fix --dry-run --diff --config=.php_cs.php
 fi
 
 # 5. PHPStan level 2 on src/Akeneo/Pim

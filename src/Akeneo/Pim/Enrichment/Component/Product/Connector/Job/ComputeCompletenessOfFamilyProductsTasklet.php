@@ -128,7 +128,7 @@ class ComputeCompletenessOfFamilyProductsTasklet implements TaskletInterface, Tr
                     'operator' => Operators::IN_LIST,
                     'value' => $familyCodes,
                 ],
-            ]
+            ],
         ], null));
 
         $handledStamp = $envelope->last(HandledStamp::class);

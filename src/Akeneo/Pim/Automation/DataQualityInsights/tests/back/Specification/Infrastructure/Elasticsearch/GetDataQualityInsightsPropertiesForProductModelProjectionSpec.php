@@ -43,7 +43,7 @@ final class GetDataQualityInsightsPropertiesForProductModelProjectionSpec extend
             'product_model_without_rates' => $productModelId456,
         ];
         $productModelCodes = [
-            'product_model_1', 'product_model_2', 'product_model_without_rates'
+            'product_model_1', 'product_model_2', 'product_model_without_rates',
         ];
         $collection = ProductModelIdCollection::fromStrings(['42', '123', '456']);
 
@@ -57,21 +57,21 @@ final class GetDataQualityInsightsPropertiesForProductModelProjectionSpec extend
 
         $getProductModelScoresQuery->byProductModelIdCollection($collection)->willReturn([
             42 => new Read\Scores(
-                (new ChannelLocaleRateCollection)
+                (new ChannelLocaleRateCollection())
                     ->addRate($channelMobile, $localeEn, new Rate(81))
                     ->addRate($channelMobile, $localeFr, new Rate(30))
                     ->addRate($channelEcommerce, $localeEn, new Rate(73)),
-                (new ChannelLocaleRateCollection)
+                (new ChannelLocaleRateCollection())
                     ->addRate($channelMobile, $localeEn, new Rate(78))
                     ->addRate($channelMobile, $localeFr, new Rate(46))
                     ->addRate($channelEcommerce, $localeEn, new Rate(81))
             ),
             123 => new Read\Scores(
-                (new ChannelLocaleRateCollection)
+                (new ChannelLocaleRateCollection())
                     ->addRate($channelMobile, $localeEn, new Rate(66)),
-                (new ChannelLocaleRateCollection)
+                (new ChannelLocaleRateCollection())
                     ->addRate($channelMobile, $localeEn, new Rate(74)),
-            )
+            ),
         ]);
 
         $productModelsKeyIndicators = [
@@ -136,7 +136,7 @@ final class GetDataQualityInsightsPropertiesForProductModelProjectionSpec extend
                             'en_US' => 2,
                         ],
                     ],
-                    'key_indicators' => $productModelsKeyIndicators[42]
+                    'key_indicators' => $productModelsKeyIndicators[42],
                 ],
             ],
             'product_model_2' => [
@@ -151,7 +151,7 @@ final class GetDataQualityInsightsPropertiesForProductModelProjectionSpec extend
                             'en_US' => 3,
                         ],
                     ],
-                    'key_indicators' => $productModelsKeyIndicators[123]
+                    'key_indicators' => $productModelsKeyIndicators[123],
                 ],
             ],
             'product_model_without_rates' => [

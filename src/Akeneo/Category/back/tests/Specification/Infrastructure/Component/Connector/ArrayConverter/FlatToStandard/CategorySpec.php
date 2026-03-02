@@ -7,12 +7,12 @@ use PhpSpec\ObjectBehavior;
 
 class CategorySpec extends ObjectBehavior
 {
-    function let(FieldsRequirementChecker $fieldChecker)
+    public function let(FieldsRequirementChecker $fieldChecker)
     {
         $this->beConstructedWith($fieldChecker);
     }
 
-    function it_converts()
+    public function it_converts()
     {
         $fields = [
             'code'        => 'mycode',
@@ -31,7 +31,7 @@ class CategorySpec extends ObjectBehavior
         ]);
     }
 
-    function it_throws_an_exception_if_required_fields_are_not_in_array($fieldChecker)
+    public function it_throws_an_exception_if_required_fields_are_not_in_array($fieldChecker)
     {
         $item = ['not_a_code' => ''];
 
@@ -44,7 +44,7 @@ class CategorySpec extends ObjectBehavior
             ->during('convert', [$item]);
     }
 
-    function it_throws_an_exception_if_required_field_code_is_empty($fieldChecker)
+    public function it_throws_an_exception_if_required_field_code_is_empty($fieldChecker)
     {
         $item = ['parent' => 'master', 'code' => ''];
 
@@ -57,7 +57,7 @@ class CategorySpec extends ObjectBehavior
             ->during('convert', [$item]);
     }
 
-    function it_throws_an_exception_if_required_fields_are_empty($fieldChecker)
+    public function it_throws_an_exception_if_required_fields_are_empty($fieldChecker)
     {
         $item = ['code' => ''];
 

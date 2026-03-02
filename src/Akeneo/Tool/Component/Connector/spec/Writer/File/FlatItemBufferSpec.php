@@ -8,17 +8,17 @@ use Akeneo\Tool\Component\Connector\Writer\File\FlatItemBuffer;
 
 class FlatItemBufferSpec extends ObjectBehavior
 {
-    function it_is_a_buffer()
+    public function it_is_a_buffer()
     {
         $this->shouldImplement(BufferInterface::class);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(FlatItemBuffer::class);
     }
 
-    function it_writes_item_with_headers()
+    public function it_writes_item_with_headers()
     {
         $this->write([
             [
@@ -34,7 +34,7 @@ class FlatItemBufferSpec extends ObjectBehavior
         $this->getHeaders()->shouldReturn(['id', 'family']);
     }
 
-    function it_counts_written_items_to_the_buffer()
+    public function it_counts_written_items_to_the_buffer()
     {
         $this->write([
             [

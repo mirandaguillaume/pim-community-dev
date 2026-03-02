@@ -16,10 +16,11 @@ final class Version_7_0_20220111160750_update_logo_to_be_nullable extends Abstra
 {
     public function up(Schema $schema): void
     {
-        $this->addSql(<<<SQL
-        ALTER TABLE akeneo_connectivity_connected_app
-        MODIFY logo varchar(255) NULL;
-        SQL
+        $this->addSql(
+            <<<SQL
+                ALTER TABLE akeneo_connectivity_connected_app
+                MODIFY logo varchar(255) NULL;
+                SQL
         );
     }
 

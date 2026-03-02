@@ -82,7 +82,7 @@ class SendBusinessEventToWebhooksEndToEnd extends CommandTestCase
                 'data' => ['data'],
                 'timestamp' => 0,
                 'uuid' => 'e0e4c95d-9646-40d7-be2b-d9b14fc0c6ba',
-            ]
+            ],
         ];
     }
 

@@ -293,8 +293,7 @@ class FileReaderArchiverSpec extends ObjectBehavior
         JobExecution $jobExecution,
         JobInstance $jobInstance,
         Job $job,
-    ): void
-    {
+    ): void {
         $jobInstance->getJobName()->willReturn('import_job');
 
         $jobExecution->getJobInstance()->willReturn($jobInstance);
@@ -317,8 +316,7 @@ class FileReaderArchiverSpec extends ObjectBehavior
         Job $job,
         ItemStep $step1,
         ItemStep $step2,
-    ): void
-    {
+    ): void {
         $jobInstance->getJobName()->willReturn('import_job');
 
         $jobExecution->getJobInstance()->willReturn($jobInstance);

@@ -253,6 +253,6 @@ class LoggerSubscriber implements EventSubscriberInterface
             return $data->format('Y-m-d');
         }
 
-        return (string)$data;
+        return (string) $data;
     }
 }

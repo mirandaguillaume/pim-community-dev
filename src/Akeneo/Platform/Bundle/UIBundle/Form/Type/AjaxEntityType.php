@@ -130,8 +130,8 @@ class AjaxEntityType extends AbstractType
         if ($options['multiple']) {
             $view->vars['attr']['data-multiple'] = 'multiple';
         }
-        $view->vars['attr']['class'] = 'pim-ajax-entity' .
-            (isset($view->vars['attr']['class']) ? ' ' .  $view->vars['attr']['class'] : '');
+        $view->vars['attr']['class'] = 'pim-ajax-entity'
+            . (isset($view->vars['attr']['class']) ? ' ' . $view->vars['attr']['class'] : '');
 
         $view->vars['attr']['data-url'] = $options['url'];
         $view->vars['attr']['data-min-input-length'] = $options['minimum_input_length'];

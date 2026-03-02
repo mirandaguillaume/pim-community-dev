@@ -40,7 +40,7 @@ class DeleteCategoryTemplateAttributeSqlIntegration extends CategoryTestCase
         $insertedAttributes = $this->get(GetAttribute::class)->byTemplateUuid($templateModel->getUuid());
 
         $this->assertCount(13, $insertedAttributes);
-        foreach(range(0,2) as $index) {
+        foreach (range(0, 2) as $index) {
             $attributeUuid = $insertedAttributes->getAttributes()[$index]->getUuid();
             ($this->get(DeleteTemplateAttribute::class))($templateModel->getUuid(), $attributeUuid);
         }
@@ -69,7 +69,7 @@ class DeleteCategoryTemplateAttributeSqlIntegration extends CategoryTestCase
         $insertedAttributes = $this->get(GetAttribute::class)->byTemplateUuid($templateModel->getUuid());
 
         $this->assertCount(13, $insertedAttributes);
-        foreach(range(0,2) as $index) {
+        foreach (range(0, 2) as $index) {
             $attributeUuid = $insertedAttributes->getAttributes()[$index]->getUuid();
             ($this->get(DeleteTemplateAttribute::class))($templateModel->getUuid(), $attributeUuid);
         }

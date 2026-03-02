@@ -58,7 +58,7 @@ class Volumes
     {
         $this->countQueries[] = [
             'query' => $query,
-            'feature' => $feature
+            'feature' => $feature,
         ];
     }
 
@@ -66,7 +66,7 @@ class Volumes
     {
         $this->averageMaxQueries[] = [
             'query' => $query,
-            'feature' => $feature
+            'feature' => $feature,
         ];
     }
 }

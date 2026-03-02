@@ -27,16 +27,16 @@ class UserCatalogChannelResetter implements UserConfigurationResetterInterface
     public function execute(): void
     {
         $this->connection->executeStatement(<<<SQL
-            UPDATE oro_user SET catalogScope_id = (
-                SELECT id
-                FROM pim_catalog_channel 
-                WHERE code = :defaultCatalogChannelCode
-            ) 
-            WHERE catalogScope_id NOT IN (
-                SELECT id 
-                FROM pim_catalog_channel
-            )
-        SQL, [
+                UPDATE oro_user SET catalogScope_id = (
+                    SELECT id
+                    FROM pim_catalog_channel 
+                    WHERE code = :defaultCatalogChannelCode
+                ) 
+                WHERE catalogScope_id NOT IN (
+                    SELECT id 
+                    FROM pim_catalog_channel
+                )
+            SQL, [
             'defaultCatalogChannelCode' => self::DEFAULT_CATALOG_CHANNEL_CODE,
         ]);
     }

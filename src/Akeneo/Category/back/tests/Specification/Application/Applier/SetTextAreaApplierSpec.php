@@ -22,15 +22,15 @@ use PHPUnit\Framework\Assert;
  */
 class SetTextAreaApplierSpec extends ObjectBehavior
 {
-    function it_is_initializable(): void
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(SetTextAreaApplier::class);
     }
 
-    function it_updates_category_value_collection(): void
+    public function it_updates_category_value_collection(): void
     {
         $givenTextAreaValue = TextAreaValue::fromApplier(
-            value: "Meta".PHP_EOL." shoes",
+            value: "Meta" . PHP_EOL . " shoes",
             uuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
             code: 'seo_meta_description',
             channel: 'ecommerce',
@@ -52,17 +52,17 @@ class SetTextAreaApplierSpec extends ObjectBehavior
             'seo_meta_description',
             'ecommerce',
             'en_US',
-            "New Meta".PHP_EOL." shoes"
+            "New Meta" . PHP_EOL . " shoes"
         );
 
         $expectedAttributes = ValueCollection::fromArray([
             TextAreaValue::fromApplier(
-                value: "New Meta".PHP_EOL." shoes",
+                value: "New Meta" . PHP_EOL . " shoes",
                 uuid: '69e251b3-b876-48b5-9c09-92f54bfb528d',
                 code: 'seo_meta_description',
                 channel: 'ecommerce',
                 locale: 'en_US'
-            )
+            ),
         ]);
 
         $this->apply($userIntent, $category);
@@ -72,11 +72,10 @@ class SetTextAreaApplierSpec extends ObjectBehavior
         );
     }
 
-    function it_throws_exception_on_wrong_user_intent_applied(
+    public function it_throws_exception_on_wrong_user_intent_applied(
         SetText $userIntent,
         Category $category
-    ): void
-    {
+    ): void {
         $this
             ->shouldThrow(\InvalidArgumentException::class)
             ->duringApply(

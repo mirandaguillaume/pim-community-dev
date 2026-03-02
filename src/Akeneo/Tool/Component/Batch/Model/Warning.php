@@ -2,8 +2,9 @@
 
 namespace Akeneo\Tool\Component\Batch\Model;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Represents a Warning raised during step execution
  *
@@ -21,18 +22,31 @@ class Warning
     #[ORM\Column(type: Types::INTEGER)]
     private $id;
 
+    #[ORM\ManyToOne(targetEntity: \Akeneo\Tool\Component\Batch\Model\StepExecution::class, inversedBy: 'warnings')]
+    #[ORM\JoinColumn(name: 'step_execution_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    private StepExecution $stepExecution;
+
+    /** @var string */
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private $reason;
+
+    #[ORM\Column(name: 'reason_parameters', type: Types::ARRAY)]
+    private array $reasonParameters;
+
+    #[ORM\Column(type: Types::ARRAY)]
+    private array $item;
+
     /**
      * Constructor
      *
-     * @param string        $reason
+     * @param string $reason
      */
-    #[ORM\ManyToOne(targetEntity: \Akeneo\Tool\Component\Batch\Model\StepExecution::class, inversedBy: 'warnings')]
-    #[ORM\JoinColumn(name: 'step_execution_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-    #[ORM\Column(type: Types::ARRAY)]
-    #[ORM\Column(name: 'reason_parameters', type: Types::ARRAY)]
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    public function __construct(private StepExecution $stepExecution, private $reason, private array $reasonParameters, private array $item)
+    public function __construct(StepExecution $stepExecution, $reason, array $reasonParameters, array $item)
     {
+        $this->stepExecution = $stepExecution;
+        $this->reason = $reason;
+        $this->reasonParameters = $reasonParameters;
+        $this->item = $item;
     }
 
     /**

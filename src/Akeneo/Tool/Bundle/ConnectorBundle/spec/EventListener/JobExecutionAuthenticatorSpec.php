@@ -17,27 +17,27 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class JobExecutionAuthenticatorSpec extends ObjectBehavior
 {
-    function let(UserProviderInterface $jobUserProvider, UserProviderInterface $uiUserProvider, TokenStorageInterface $tokenStorage)
+    public function let(UserProviderInterface $jobUserProvider, UserProviderInterface $uiUserProvider, TokenStorageInterface $tokenStorage)
     {
         $this->beConstructedWith($jobUserProvider, $uiUserProvider, $tokenStorage);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(JobExecutionAuthenticator::class);
     }
 
-    function it_is_an_event_subscriber()
+    public function it_is_an_event_subscriber()
     {
         $this->shouldHaveType(EventSubscriberInterface::class);
     }
 
-    function it_returns_subscribed_events()
+    public function it_returns_subscribed_events()
     {
         $this->getSubscribedEvents()->shouldReturn([EventInterface::BEFORE_JOB_EXECUTION => 'authenticate']);
     }
 
-    function it_authenticates_user_with_token(
+    public function it_authenticates_user_with_token(
         UserProviderInterface $jobUserProvider,
         UserProviderInterface $uiUserProvider,
         TokenStorageInterface $tokenStorage,
@@ -65,7 +65,7 @@ class JobExecutionAuthenticatorSpec extends ObjectBehavior
         $this->authenticate($event);
     }
 
-    function it_does_not_authenticate_user_when_user_is_null(
+    public function it_does_not_authenticate_user_when_user_is_null(
         TokenStorageInterface $tokenStorage,
         JobExecutionEvent $event,
         JobExecution $jobExecution,
@@ -82,7 +82,7 @@ class JobExecutionAuthenticatorSpec extends ObjectBehavior
         $this->authenticate($event);
     }
 
-    function it_does_authenticates_user_when_no_job_parameters(
+    public function it_does_authenticates_user_when_no_job_parameters(
         TokenStorageInterface $tokenStorage,
         JobExecutionEvent $event,
         JobExecution $jobExecution,
@@ -98,7 +98,7 @@ class JobExecutionAuthenticatorSpec extends ObjectBehavior
         $this->authenticate($event);
     }
 
-    function it_does_not_authenticates_user_when_it_is_not_configured_in_job_parameters(
+    public function it_does_not_authenticates_user_when_it_is_not_configured_in_job_parameters(
         TokenStorageInterface $tokenStorage,
         JobExecutionEvent $event,
         JobExecution $jobExecution,
@@ -117,7 +117,7 @@ class JobExecutionAuthenticatorSpec extends ObjectBehavior
         $this->authenticate($event);
     }
 
-    function it_does_not_authenticates_user_when_it_is_not_activated_in_job_parameters(
+    public function it_does_not_authenticates_user_when_it_is_not_activated_in_job_parameters(
         TokenStorageInterface $tokenStorage,
         JobExecutionEvent $event,
         JobExecution $jobExecution,
@@ -137,7 +137,7 @@ class JobExecutionAuthenticatorSpec extends ObjectBehavior
         $this->authenticate($event);
     }
 
-    function it_throws_exception_if_username_is_not_found(
+    public function it_throws_exception_if_username_is_not_found(
         UserProviderInterface $jobUserProvider,
         UserProviderInterface $uiUserProvider,
         TokenStorageInterface $tokenStorage,

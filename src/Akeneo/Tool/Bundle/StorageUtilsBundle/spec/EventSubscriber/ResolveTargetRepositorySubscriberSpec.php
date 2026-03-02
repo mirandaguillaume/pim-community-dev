@@ -8,17 +8,17 @@ use PhpSpec\ObjectBehavior;
 
 class ResolveTargetRepositorySubscriberSpec extends ObjectBehavior
 {
-    function it_is_a_doctrine_subscriber()
+    public function it_is_a_doctrine_subscriber()
     {
         $this->shouldHaveType(\Doctrine\Common\EventSubscriber::class);
     }
 
-    function it_subscribes_to_the_load_class_metadata_event()
+    public function it_subscribes_to_the_load_class_metadata_event()
     {
         $this->getSubscribedEvents()->shouldReturn(['loadClassMetadata']);
     }
 
-    function it_adds_new_targeted_repository(LoadClassMetadataEventArgs $args, ClassMetadata $cm)
+    public function it_adds_new_targeted_repository(LoadClassMetadataEventArgs $args, ClassMetadata $cm)
     {
         $this->addResolveTargetRepository('foo', 'barRepository');
 

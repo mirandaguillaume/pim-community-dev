@@ -31,8 +31,8 @@ class DeleteMeasurementFamilyAction
         if (!$request->isXmlHttpRequest()) {
             return new RedirectResponse('/');
         }
-        if (!$this->securityFacade->isGranted('akeneo_measurements_manage_settings') ||
-            !$this->securityFacade->isGranted('akeneo_measurements_measurement_family_delete')
+        if (!$this->securityFacade->isGranted('akeneo_measurements_manage_settings')
+            || !$this->securityFacade->isGranted('akeneo_measurements_measurement_family_delete')
         ) {
             throw new AccessDeniedException();
         }

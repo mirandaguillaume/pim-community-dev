@@ -20,9 +20,9 @@ final readonly class DeleteConnectedAppQuery implements DeleteConnectedAppQueryI
     public function execute(string $appId): void
     {
         $query = <<<SQL
-DELETE FROM akeneo_connectivity_connected_app
-WHERE id = :id
-SQL;
+            DELETE FROM akeneo_connectivity_connected_app
+            WHERE id = :id
+            SQL;
 
         $this->connection->executeQuery($query, [
             'id' => $appId,

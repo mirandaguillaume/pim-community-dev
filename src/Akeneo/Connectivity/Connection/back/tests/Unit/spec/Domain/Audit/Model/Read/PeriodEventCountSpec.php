@@ -25,7 +25,7 @@ class PeriodEventCountSpec extends ObjectBehavior
                 new HourlyEventCount(
                     new \DateTimeImmutable('2020-01-01 00:00:00', new \DateTimeZone('UTC')),
                     1
-                )
+                ),
             ]
         );
     }
@@ -56,7 +56,7 @@ class PeriodEventCountSpec extends ObjectBehavior
             new HourlyEventCount(
                 new \DateTimeImmutable('2020-01-01 00:00:00', new \DateTimeZone('UTC')),
                 1
-            )
+            ),
         ]);
     }
 }

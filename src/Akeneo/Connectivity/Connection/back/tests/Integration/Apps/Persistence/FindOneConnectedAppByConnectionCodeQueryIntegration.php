@@ -124,11 +124,11 @@ class FindOneConnectedAppByConnectionCodeQueryIntegration extends TestCase
     private function findConnectionUsername(string $code): string
     {
         $query = <<<SQL
-SELECT oro_user.username
-FROM akeneo_connectivity_connection
-JOIN oro_user ON oro_user.id = akeneo_connectivity_connection.user_id
-WHERE code = :code
-SQL;
+            SELECT oro_user.username
+            FROM akeneo_connectivity_connection
+            JOIN oro_user ON oro_user.id = akeneo_connectivity_connection.user_id
+            WHERE code = :code
+            SQL;
 
         return $this->dbalConnection->fetchOne($query, [
             'code' => $code,

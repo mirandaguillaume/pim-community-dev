@@ -26,6 +26,22 @@
     "react/prop-types": "off",
     "comma-spacing": "off"
   },
+  "overrides": [
+    {
+      "files": ["**/*.visual.tsx"],
+      "rules": {
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-call": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off"
+      }
+    },
+    {
+      "files": ["**/*.unit.ts", "**/*.unit.tsx"],
+      "rules": {
+        "@typescript-eslint/await-thenable": "off"
+      }
+    }
+  ],
   "ignorePatterns": ["src/illustrations/**", "src/icons/**"],
   "settings": {
     "react": {

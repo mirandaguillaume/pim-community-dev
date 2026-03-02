@@ -28,7 +28,7 @@ class VariantNavigationNormalizer implements NormalizerInterface, CacheableSuppo
     /**
      * {@inheritdoc}
      */
-    public function normalize($entity, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($entity, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         if (!$entity instanceof ProductModelInterface && !$entity instanceof ProductInterface) {
             throw new \InvalidArgumentException(sprintf(

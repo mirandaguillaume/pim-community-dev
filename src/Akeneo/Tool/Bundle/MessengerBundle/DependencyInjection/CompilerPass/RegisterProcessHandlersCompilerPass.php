@@ -31,7 +31,7 @@ final class RegisterProcessHandlersCompilerPass implements CompilerPassInterface
             foreach ($queueConfig['consumers'] as $consumerConfig) {
                 $registryDefinition->addMethodCall('registerHandler', [
                     new Reference($consumerConfig['service_handler']),
-                    $consumerConfig['name']
+                    $consumerConfig['name'],
                 ]);
             }
         }

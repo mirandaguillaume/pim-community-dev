@@ -30,7 +30,9 @@ class InMemoryAssociationTypeRepositorySpec extends ObjectBehavior
 
     function it_saves_a_association_type()
     {
-        $this->save(new AssociationType())->shouldReturn(null);
+        $associationType = new AssociationType();
+        $associationType->setCode('test');
+        $this->save($associationType)->shouldReturn(null);
     }
 
     function it_only_saves_association_types()

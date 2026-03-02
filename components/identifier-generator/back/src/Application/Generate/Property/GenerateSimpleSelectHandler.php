@@ -18,8 +18,7 @@ final readonly class GenerateSimpleSelectHandler implements GeneratePropertyHand
 {
     public function __construct(
         private PropertyProcessApplier $propertyProcessApplier
-    ) {
-    }
+    ) {}
 
     public function getPropertyClass(): string
     {

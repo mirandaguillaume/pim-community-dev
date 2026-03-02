@@ -15,11 +15,11 @@ class CurrencyAuthorizationIntegration extends ApiTestCase
         $client->request('GET', '/api/rest/v1/currencies');
 
         $expectedResponse = <<<JSON
-{
-    "code": 403,
-    "message": "You are not allowed to access the web API."
-}
-JSON;
+            {
+                "code": 403,
+                "message": "You are not allowed to access the web API."
+            }
+            JSON;
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
@@ -43,11 +43,11 @@ JSON;
         $client->request('GET', '/api/rest/v1/currencies');
 
         $expectedResponse = <<<JSON
-{
-    "code": 403,
-    "message": "Access forbidden. You are not allowed to list currencies."
-}
-JSON;
+            {
+                "code": 403,
+                "message": "Access forbidden. You are not allowed to list currencies."
+            }
+            JSON;
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
@@ -71,11 +71,11 @@ JSON;
         $client->request('GET', '/api/rest/v1/currencies/eur');
 
         $expectedResponse = <<<JSON
-{
-    "code": 403,
-    "message": "Access forbidden. You are not allowed to list currencies."
-}
-JSON;
+            {
+                "code": 403,
+                "message": "Access forbidden. You are not allowed to list currencies."
+            }
+            JSON;
 
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);

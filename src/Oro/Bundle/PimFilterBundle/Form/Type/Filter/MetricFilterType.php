@@ -44,7 +44,7 @@ class MetricFilterType extends AbstractType
 
         $resolver->setDefaults(
             [
-                'data_type' => NumberFilterType::DATA_DECIMAL
+                'data_type' => NumberFilterType::DATA_DECIMAL,
             ]
         );
     }

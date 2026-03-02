@@ -7,18 +7,17 @@ namespace Akeneo\Platform\Installer\Infrastructure\Command;
 use Akeneo\Platform\Installer\Infrastructure\Exception\UcsOnlyMigrationException;
 use Doctrine\DBAL\Connection;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Webmozart\Assert\Assert;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 #[AsCommand(name: 'pim:zdd-migration:migrate', description: 'Execute ZDD Migrations')]
-
 final class MigrateZddCommand extends Command
 {
     /** @var ZddMigration[] */
@@ -118,14 +117,14 @@ final class MigrateZddCommand extends Command
     private function isMigrated(ZddMigration $zddMigration): bool
     {
         $sql = <<<SQL
-            SELECT EXISTS (
-                SELECT 1
-                FROM pim_one_time_task
-                WHERE pim_one_time_task.code=:code
-                  AND pim_one_time_task.status=:status
-                LIMIT 1
-            ) AS missing
-        SQL;
+                SELECT EXISTS (
+                    SELECT 1
+                    FROM pim_one_time_task
+                    WHERE pim_one_time_task.code=:code
+                      AND pim_one_time_task.status=:status
+                    LIMIT 1
+                ) AS missing
+            SQL;
 
         return (bool) $this->connection->fetchOne($sql, [
             'code' => $this->getZddMigrationCode($zddMigration),
@@ -137,8 +136,8 @@ final class MigrateZddCommand extends Command
     {
         $rows = $this->connection->fetchAllAssociative(
             <<<SQL
-                SHOW TABLES LIKE :tableName
-            SQL,
+                    SHOW TABLES LIKE :tableName
+                SQL,
             ['tableName' => $tableName],
         );
 
@@ -148,10 +147,10 @@ final class MigrateZddCommand extends Command
     private function markAsMigrated(ZddMigration $zddMigration): void
     {
         $this->connection->executeQuery(<<<SQL
-            INSERT INTO `pim_one_time_task` (`code`, `status`, `start_time`, `values`) 
-            VALUES (:code, :status, NOW(), :values)
-            ON DUPLICATE KEY UPDATE status=VALUES(status), start_time=NOW();
-        SQL, [
+                INSERT INTO `pim_one_time_task` (`code`, `status`, `start_time`, `values`) 
+                VALUES (:code, :status, NOW(), :values)
+                ON DUPLICATE KEY UPDATE status=VALUES(status), start_time=NOW();
+            SQL, [
             'code' => $this->getZddMigrationCode($zddMigration),
             'status' => 'finished',
             'values' => \json_encode((object) [], JSON_THROW_ON_ERROR),

@@ -37,14 +37,14 @@ final readonly class GetProductKeyIndicatorsQuery implements GetProductKeyIndica
 
     public function byFamily(ChannelCode $channelCode, LocaleCode $localeCode, FamilyCode $family, KeyIndicatorCode ...$keyIndicatorCodes): array
     {
-        $terms = [['term' => ['family.code' => (string)$family]]];
+        $terms = [['term' => ['family.code' => (string) $family]]];
 
         return $this->executeQuery($channelCode, $localeCode, $keyIndicatorCodes, $terms);
     }
 
     public function byCategory(ChannelCode $channelCode, LocaleCode $localeCode, CategoryCode $category, KeyIndicatorCode ...$keyIndicatorCodes): array
     {
-        $categoryCode = (string)$category;
+        $categoryCode = (string) $category;
         $category = $this->categoryRepository->findOneByIdentifier($categoryCode);
         $categoryChildren = $category instanceof CategoryInterface ? $this->categoryRepository->getAllChildrenCodes($category) : [];
 
@@ -63,7 +63,7 @@ final readonly class GetProductKeyIndicatorsQuery implements GetProductKeyIndica
             'bool' => [
                 'must' => array_merge([[
                     'term' => [
-                        'document_type' => $this->documentType
+                        'document_type' => $this->documentType,
                     ],
                 ]], $extraTerms),
             ],
@@ -77,7 +77,7 @@ final readonly class GetProductKeyIndicatorsQuery implements GetProductKeyIndica
 
         $aggregations = [];
         foreach ($keyIndicatorCodes as $keyIndicatorCode) {
-            $aggregations[(string)$keyIndicatorCode]['terms']['field'] = sprintf(
+            $aggregations[(string) $keyIndicatorCode]['terms']['field'] = sprintf(
                 'data_quality_insights.key_indicators.%s.%s.%s',
                 $channelCode,
                 $localeCode,
@@ -116,9 +116,9 @@ final readonly class GetProductKeyIndicatorsQuery implements GetProductKeyIndica
             $keyIndicatorValue = $bucket['key'] ?? null;
 
             if (1 === $keyIndicatorValue) {
-                $totalGood = (int)($bucket['doc_count'] ?? 0);
+                $totalGood = (int) ($bucket['doc_count'] ?? 0);
             } elseif (0 === $keyIndicatorValue) {
-                $totalToImprove = (int)($bucket['doc_count'] ?? 0);
+                $totalToImprove = (int) ($bucket['doc_count'] ?? 0);
             }
         }
 

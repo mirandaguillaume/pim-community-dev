@@ -85,8 +85,8 @@ class ReferenceDataOptionsExistValidator extends ConstraintValidator
         $optionCodesIndexedByReferenceDataName = [];
         foreach ($values as $value) {
             $referenceDataName = $referenceDataNames[$value->getAttributeCode()];
-            $optionCodesIndexedByReferenceDataName[$referenceDataName][] =
-                $value instanceof ReferenceDataValueInterface ? [$value->getData()] : $value->getData();
+            $optionCodesIndexedByReferenceDataName[$referenceDataName][]
+                = $value instanceof ReferenceDataValueInterface ? [$value->getData()] : $value->getData();
         }
 
         $existingReferenceDataCodes = [];

@@ -197,7 +197,7 @@ class WebhookEventBuilderSpec extends ObjectBehavior
                 'user' => $user,
                 'connection_code' => 'ecommerce',
                 'is_using_uuid' => true,
-            ]
+            ],
         ]);
     }
 

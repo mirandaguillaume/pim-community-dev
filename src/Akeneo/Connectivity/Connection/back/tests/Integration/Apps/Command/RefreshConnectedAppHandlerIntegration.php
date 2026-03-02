@@ -115,12 +115,12 @@ class RefreshConnectedAppHandlerIntegration extends TestCase
     private function findConnectedAppUserFirstname(string $id): string
     {
         $query = <<<SQL
-SELECT oro_user.first_name
-FROM akeneo_connectivity_connected_app
-JOIN akeneo_connectivity_connection ON akeneo_connectivity_connection.code = akeneo_connectivity_connected_app.connection_code
-JOIN oro_user ON oro_user.id = akeneo_connectivity_connection.user_id
-WHERE akeneo_connectivity_connected_app.id = :id
-SQL;
+            SELECT oro_user.first_name
+            FROM akeneo_connectivity_connected_app
+            JOIN akeneo_connectivity_connection ON akeneo_connectivity_connection.code = akeneo_connectivity_connected_app.connection_code
+            JOIN oro_user ON oro_user.id = akeneo_connectivity_connection.user_id
+            WHERE akeneo_connectivity_connected_app.id = :id
+            SQL;
 
         return $this->connection->fetchOne($query, [
             'id' => $id,

@@ -15,7 +15,7 @@ use PhpSpec\ObjectBehavior;
 
 class DualIndexationClientSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         NativeClient $nativeClient,
         ClientBuilder $clientBuilder,
         Loader $indexConfigurationLoader,
@@ -34,13 +34,13 @@ class DualIndexationClientSpec extends ObjectBehavior
         $clientBuilder->build()->willReturn($nativeClient);
     }
 
-    function it_can_be_instantiated()
+    public function it_can_be_instantiated()
     {
         $this->shouldBeAnInstanceOf(DualIndexationClient::class);
         $this->shouldBeAnInstanceOf(Client::class);
     }
 
-    function it_indexes_on_both_clients(NativeClient $nativeClient, Client $dualClient)
+    public function it_indexes_on_both_clients(NativeClient $nativeClient, Client $dualClient)
     {
         $nativeClient->index(
             [
@@ -56,7 +56,7 @@ class DualIndexationClientSpec extends ObjectBehavior
             ->shouldReturn(['errors' => false]);
     }
 
-    function it_bulk_indexes_on_both_clients(NativeClient $nativeClient, Client $dualClient)
+    public function it_bulk_indexes_on_both_clients(NativeClient $nativeClient, Client $dualClient)
     {
         $expectedResponse = [
             'took' => 1,
@@ -81,7 +81,8 @@ class DualIndexationClientSpec extends ObjectBehavior
                 ['identifier' => 'bar', 'name' => 'a name'],
             ],
             'refresh' => 'wait_for',
-        ])->shouldBeCalled()->willReturn($expectedResponse);;
+        ])->shouldBeCalled()->willReturn($expectedResponse);
+        ;
 
         $documents = [
             ['identifier' => 'foo', 'name' => 'a name'],
@@ -93,7 +94,7 @@ class DualIndexationClientSpec extends ObjectBehavior
         $this->bulkIndexes($documents, 'identifier', Refresh::waitFor())->shouldReturn($expectedResponse);
     }
 
-    function it_deletes_by_query_on_both_clients(NativeClient $nativeClient, Client $dualClient)
+    public function it_deletes_by_query_on_both_clients(NativeClient $nativeClient, Client $dualClient)
     {
         $query = ['foo' => 'bar'];
 
@@ -106,7 +107,7 @@ class DualIndexationClientSpec extends ObjectBehavior
         $this->deleteByQuery($query);
     }
 
-    function it_refreshes_both_indexes(NativeClient $nativeClient, Client $dualClient, IndicesNamespace $indices)
+    public function it_refreshes_both_indexes(NativeClient $nativeClient, Client $dualClient, IndicesNamespace $indices)
     {
         $nativeClient->indices()->willReturn($indices);
         $indices->refresh(['index' => 'an_index_name'])->willReturn(['errors' => false]);

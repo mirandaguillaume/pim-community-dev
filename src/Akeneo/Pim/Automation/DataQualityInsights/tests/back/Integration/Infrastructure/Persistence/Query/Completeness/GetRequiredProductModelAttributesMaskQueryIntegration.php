@@ -92,7 +92,7 @@ class GetRequiredProductModelAttributesMaskQueryIntegration extends Completeness
                         'a_required_deactivated_text',
                         'a_required_deactivated_variant_text',
                     ],
-                ]
+                ],
             ],
         ]);
 
@@ -119,7 +119,7 @@ class GetRequiredProductModelAttributesMaskQueryIntegration extends Completeness
             'a_price-USD-<all_channels>-<all_locales>',
             'a_localizable_non_scopable_text-<all_channels>-en_US',
             'a_non_localizable_scopable_text-ecommerce-<all_locales>',
-            'a_localizable_non_scopable_locale_specific-<all_channels>-en_US'
+            'a_localizable_non_scopable_locale_specific-<all_channels>-en_US',
         ], $ecommerceEnUsMask->mask());
 
         $this->assertEqualsCanonicalizing([
@@ -131,7 +131,7 @@ class GetRequiredProductModelAttributesMaskQueryIntegration extends Completeness
             'a_non_localizable_scopable_locale_specific-tablet-<all_locales>',
         ], $tabletEnUS->mask());
 
-        $this->assertEqualsCanonicalizing( [
+        $this->assertEqualsCanonicalizing([
             'a_price-EUR-USD-<all_channels>-<all_locales>',
             'a_localizable_non_scopable_price-EUR-USD-<all_channels>-fr_FR',
             'a_non_localizable_non_scopable_text-<all_channels>-<all_locales>',
@@ -139,7 +139,7 @@ class GetRequiredProductModelAttributesMaskQueryIntegration extends Completeness
             'a_localizable_scopable_text-tablet-fr_FR',
             'a_non_localizable_non_scopable_locale_specific-<all_channels>-<all_locales>',
             'a_non_localizable_scopable_locale_specific-tablet-<all_locales>',
-            'a_localizable_scopable_locale_specific-tablet-fr_FR'
+            'a_localizable_scopable_locale_specific-tablet-fr_FR',
         ], $tabletFrFr->mask());
 
         $unknownProductId = $this->get(ProductModelIdFactory::class)->create('42');
@@ -178,7 +178,7 @@ class GetRequiredProductModelAttributesMaskQueryIntegration extends Completeness
                         'a_variation_axis_level_1',
                         'a_variation_axis_level_2',
                     ],
-                ]
+                ],
             ],
         ]);
 

@@ -27,16 +27,16 @@ class UserUiLocaleResetter implements UserConfigurationResetterInterface
     public function execute(): void
     {
         $this->connection->executeStatement(<<<SQL
-            UPDATE oro_user SET ui_locale_id = (
-                SELECT id
-                FROM pim_catalog_locale 
-                WHERE code = :defaultUiLocaleCode
-            ) 
-            WHERE ui_locale_id NOT IN (
-                SELECT id
-                FROM pim_catalog_locale
-            )
-        SQL, [
+                UPDATE oro_user SET ui_locale_id = (
+                    SELECT id
+                    FROM pim_catalog_locale 
+                    WHERE code = :defaultUiLocaleCode
+                ) 
+                WHERE ui_locale_id NOT IN (
+                    SELECT id
+                    FROM pim_catalog_locale
+                )
+            SQL, [
             'defaultUiLocaleCode' => self::DEFAULT_UI_LOCALE_CODE,
         ]);
     }

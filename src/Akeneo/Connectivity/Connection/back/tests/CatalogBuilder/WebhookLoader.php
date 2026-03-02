@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Tests\CatalogBuilder;
@@ -29,10 +30,10 @@ class WebhookLoader
         }
 
         $query = <<<SQL
-        UPDATE akeneo_connectivity_connection
-        SET webhook_url = :url, webhook_enabled = :enabled, webhook_secret = :secret, webhook_is_using_uuid = :isUsingUuid
-        WHERE code = :code
-        SQL;
+            UPDATE akeneo_connectivity_connection
+            SET webhook_url = :url, webhook_enabled = :enabled, webhook_secret = :secret, webhook_is_using_uuid = :isUsingUuid
+            WHERE code = :code
+            SQL;
 
         return $this->dbalConnection->executeStatement(
             $query,

@@ -26,7 +26,7 @@ class SimpleSelectOptionNormalizer implements AxisValueLabelsNormalizer
     public function normalize(ValueInterface $value, string $locale): string
     {
         $optionCode = $value->getData();
-        $option = $this->attributeOptionRepository->findOneByIdentifier($value->getAttributeCode().'.'.$optionCode);
+        $option = $this->attributeOptionRepository->findOneByIdentifier($value->getAttributeCode() . '.' . $optionCode);
         $option->setLocale($locale);
         $label = $option->getTranslation()->getLabel();
 

@@ -15,32 +15,32 @@ use Symfony\Component\Yaml\Yaml;
  */
 class MeasureManagerSpec extends ObjectBehavior
 {
-    function let(LegacyMeasurementProvider $provider)
+    public function let(LegacyMeasurementProvider $provider)
     {
         $yaml = <<<YAML
-measures_config:
-    Length:
-        standard: METER
-        units:
-            CENTIMETER:
-                convert: [{'div': 0.01}]
-                format: cm
-            METER:
-                convert: [{'test': 1}]
-                format: m
-    Weight:
-        standard: GRAM
-        units:
-            MILLIGRAM:
-                convert: [{'mul': 0.001}]
-                symbol: mg
-            GRAM:
-                convert: [{'mul': 1}]
-                symbol: g
-            KILOGRAM:
-                convert: [{'mul': 1000}]
-                symbol: kg
-YAML;
+            measures_config:
+                Length:
+                    standard: METER
+                    units:
+                        CENTIMETER:
+                            convert: [{'div': 0.01}]
+                            format: cm
+                        METER:
+                            convert: [{'test': 1}]
+                            format: m
+                Weight:
+                    standard: GRAM
+                    units:
+                        MILLIGRAM:
+                            convert: [{'mul': 0.001}]
+                            symbol: mg
+                        GRAM:
+                            convert: [{'mul': 1}]
+                            symbol: g
+                        KILOGRAM:
+                            convert: [{'mul': 1000}]
+                            symbol: kg
+            YAML;
 
         $config = Yaml::parse($yaml);
 
@@ -71,7 +71,7 @@ YAML;
                 [
                     'MILLIGRAM' => 'mg',
                     'GRAM'      => 'g',
-                    'KILOGRAM'  => 'kg'
+                    'KILOGRAM'  => 'kg',
                 ]
             );
     }

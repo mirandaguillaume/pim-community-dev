@@ -42,11 +42,11 @@ class MarkProductModelsEvaluationImpactedByUpdatedAttributeGroupActivationTaskle
 
         $productModelIds = [
             ProductModelIdCollection::fromStrings(['42', '657']),
-            ProductModelIdCollection::fromStrings(['777'])
+            ProductModelIdCollection::fromStrings(['777']),
         ];
 
         $getProductModelIdsImpactedByAttributeGroupActivationQuery
-            ->updatedSince(Argument::that(fn (\DateTimeImmutable $updatedSince) => $updatedSince->format('Y-m-d H:i:s') === '2023-02-07 14:23:56'), 2)
+            ->updatedSince(Argument::that(fn(\DateTimeImmutable $updatedSince) => $updatedSince->format('Y-m-d H:i:s') === '2023-02-07 14:23:56'), 2)
             ->willReturn(new \ArrayIterator($productModelIds));
 
         $createCriteriaEvaluations->createAll($productModelIds[0])->shouldBeCalledOnce();

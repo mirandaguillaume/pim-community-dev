@@ -45,8 +45,8 @@ final readonly class GetRanksDistributionFromProductScoresQuery implements GetRa
         $query = $this->buildRankDistributionQuery();
         $query['query']['constant_score']['filter']['bool']['filter'][] = [
             'terms' => [
-                'categories' => $categoryCodes
-            ]
+                'categories' => $categoryCodes,
+            ],
         ];
         $elasticsearchResult = $this->elasticsearchClient->search($query);
         return $this->hydrateToRankDistributionCollection($elasticsearchResult);
@@ -86,8 +86,8 @@ final readonly class GetRanksDistributionFromProductScoresQuery implements GetRa
         $query = $this->buildRankDistributionQuery();
         $query['query']['constant_score']['filter']['bool']['filter'][] = [
             'term' => [
-                'family.code' => (string)$familyCode
-            ]
+                'family.code' => (string) $familyCode,
+            ],
         ];
         $elasticsearchResult = $this->elasticsearchClient->search($query);
 
@@ -107,8 +107,8 @@ final readonly class GetRanksDistributionFromProductScoresQuery implements GetRa
                 $channelLocaleKey = "$channelCode.$localeCode";
                 $elasticsearchAggs[$channelLocaleKey] = [
                     'terms' => [
-                        'field' => "data_quality_insights.$scoresProperty.$channelLocaleKey"
-                    ]
+                        'field' => "data_quality_insights.$scoresProperty.$channelLocaleKey",
+                    ],
                 ];
             }
         }
@@ -125,15 +125,15 @@ final readonly class GetRanksDistributionFromProductScoresQuery implements GetRa
                             'filter' => [
                                 [
                                     'term' => [
-                                        'document_type' => ProductInterface::class
-                                    ]
-                                ]
-                            ]
+                                        'document_type' => ProductInterface::class,
+                                    ],
+                                ],
+                            ],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ],
-            'track_total_hits' => false
+            'track_total_hits' => false,
         ];
     }
 

@@ -63,9 +63,9 @@ class DeleteCustomAppActionEndToEnd extends WebTestCase
     private function countCustomApps(): int
     {
         $query = <<<SQL
-        SELECT COUNT(*)
-        FROM akeneo_connectivity_test_app
-        SQL;
+            SELECT COUNT(*)
+            FROM akeneo_connectivity_test_app
+            SQL;
 
         return (int) $this->connection->fetchOne($query);
     }

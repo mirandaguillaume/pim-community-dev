@@ -8,18 +8,18 @@ use Prophecy\Argument;
 
 class NumberPresenterSpec extends ObjectBehavior
 {
-    function let(NumberFactory $numberFactory)
+    public function let(NumberFactory $numberFactory)
     {
         $this->beConstructedWith($numberFactory, ['pim_catalog_number']);
     }
 
-    function it_supports_numbers()
+    public function it_supports_numbers()
     {
         $this->supports('pim_catalog_number')->shouldReturn(true);
         $this->supports('foobar')->shouldReturn(false);
     }
 
-    function it_presents_english_number(
+    public function it_presents_english_number(
         $numberFactory,
         \NumberFormatter $numberFormatter
     ) {
@@ -29,7 +29,7 @@ class NumberPresenterSpec extends ObjectBehavior
         $this->present(12000.34)->shouldReturn('12,000.34');
     }
 
-    function it_presents_french_number(
+    public function it_presents_french_number(
         $numberFactory,
         \NumberFormatter $numberFormatter
     ) {
@@ -39,7 +39,7 @@ class NumberPresenterSpec extends ObjectBehavior
         $this->present(12000.34, ['locale' => 'fr_FR'])->shouldReturn('12 000,34');
     }
 
-    function it_disables_grouping_separator(
+    public function it_disables_grouping_separator(
         $numberFactory,
         \NumberFormatter $numberFormatter
     ) {
@@ -50,7 +50,7 @@ class NumberPresenterSpec extends ObjectBehavior
         $this->present(12000.34, ['disable_grouping_separator' => true])->shouldReturn('12000.34');
     }
 
-    function it_presents_a_number_with_very_long_decimal (
+    public function it_presents_a_number_with_very_long_decimal(
         $numberFactory,
         \NumberFormatter $numberFormatter
     ) {

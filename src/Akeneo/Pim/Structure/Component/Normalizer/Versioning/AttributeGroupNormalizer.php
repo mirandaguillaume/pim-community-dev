@@ -41,7 +41,7 @@ class AttributeGroupNormalizer implements NormalizerInterface, CacheableSupports
      *
      * @return array
      */
-    public function normalize($attributeGroup, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($attributeGroup, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $standardAttributeGroup = $this->standardNormalizer->normalize($attributeGroup, 'standard', $context);
         $flatAttributeGroup = $standardAttributeGroup;

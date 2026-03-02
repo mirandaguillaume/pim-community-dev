@@ -13,7 +13,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 
 class DateRangeFilterSpec extends ObjectBehavior
 {
-    function let(FormFactoryInterface $factory, ProductFilterUtility $utility)
+    public function let(FormFactoryInterface $factory, ProductFilterUtility $utility)
     {
         $this->beConstructedWith($factory, $utility);
         $this->init(
@@ -24,17 +24,17 @@ class DateRangeFilterSpec extends ObjectBehavior
         );
     }
 
-    function it_is_a_flexible_date_filter()
+    public function it_is_a_flexible_date_filter()
     {
         $this->shouldBeAnInstanceOf(AbstractDateFilter::class);
     }
 
-    function it_has_a_name()
+    public function it_has_a_name()
     {
         $this->getName()->shouldReturn('date_filter');
     }
 
-    function it_parses_two_datetime_objects(\DateTime $start, \DateTime $end)
+    public function it_parses_two_datetime_objects(\DateTime $start, \DateTime $end)
     {
         $start
             ->setTimezone(Argument::allOf(Argument::type('\DateTimeZone'), Argument::which('getName', 'UTC')))
@@ -50,15 +50,15 @@ class DateRangeFilterSpec extends ObjectBehavior
                 'start' => $start,
                 'end'   => $end,
             ],
-            'type'  => 1
+            'type'  => 1,
         ])->shouldReturn([
             'date_start' => '1987-05-14',
             'date_end'   => '2014-01-23',
-            'type'       => 1
+            'type'       => 1,
         ]);
     }
 
-    function it_parses_one_start_date(\DateTime $start)
+    public function it_parses_one_start_date(\DateTime $start)
     {
         $start
             ->setTimezone(Argument::allOf(Argument::type('\DateTimeZone'), Argument::which('getName', 'UTC')))
@@ -69,7 +69,7 @@ class DateRangeFilterSpec extends ObjectBehavior
             'value' => [
                 'start' => $start,
             ],
-            'type'  => 1
+            'type'  => 1,
         ])->shouldReturn([
             'date_start' => '1987-05-14',
             'date_end'   => null,
@@ -77,7 +77,7 @@ class DateRangeFilterSpec extends ObjectBehavior
         ]);
     }
 
-    function it_parses_one_end_date(\DateTime $end)
+    public function it_parses_one_end_date(\DateTime $end)
     {
         $end
             ->setTimezone(Argument::allOf(Argument::type('\DateTimeZone'), Argument::which('getName', 'UTC')))
@@ -88,7 +88,7 @@ class DateRangeFilterSpec extends ObjectBehavior
             'value' => [
                 'end' => $end,
             ],
-            'type'  => 1
+            'type'  => 1,
         ])->shouldReturn([
             'date_start' => null,
             'date_end'   => '2014-01-23',
@@ -96,7 +96,7 @@ class DateRangeFilterSpec extends ObjectBehavior
         ]);
     }
 
-    function it_parses_between_type_range(\DateTime $start, \DateTime $end)
+    public function it_parses_between_type_range(\DateTime $start, \DateTime $end)
     {
         $start
             ->setTimezone(Argument::allOf(Argument::type('\DateTimeZone'), Argument::which('getName', 'UTC')))
@@ -120,7 +120,7 @@ class DateRangeFilterSpec extends ObjectBehavior
         ]);
     }
 
-    function it_parses_not_between_type_range(\DateTime $start, \DateTime $end)
+    public function it_parses_not_between_type_range(\DateTime $start, \DateTime $end)
     {
         $start
             ->setTimezone(Argument::allOf(Argument::type('\DateTimeZone'), Argument::which('getName', 'UTC')))
@@ -144,7 +144,7 @@ class DateRangeFilterSpec extends ObjectBehavior
         ]);
     }
 
-    function it_parses_more_than_type_range(\DateTime $start, \DateTime $end)
+    public function it_parses_more_than_type_range(\DateTime $start, \DateTime $end)
     {
         $start
             ->setTimezone(Argument::allOf(Argument::type('\DateTimeZone'), Argument::which('getName', 'UTC')))
@@ -168,7 +168,7 @@ class DateRangeFilterSpec extends ObjectBehavior
         ]);
     }
 
-    function it_parses_less_than_type_range(\DateTime $start, \DateTime $end)
+    public function it_parses_less_than_type_range(\DateTime $start, \DateTime $end)
     {
         $start
             ->setTimezone(Argument::allOf(Argument::type('\DateTimeZone'), Argument::which('getName', 'UTC')))
@@ -192,7 +192,7 @@ class DateRangeFilterSpec extends ObjectBehavior
         ]);
     }
 
-    function it_fallbacks_on_between_type_range(\DateTime $start, \DateTime $end)
+    public function it_fallbacks_on_between_type_range(\DateTime $start, \DateTime $end)
     {
         $start
             ->setTimezone(Argument::allOf(Argument::type('\DateTimeZone'), Argument::which('getName', 'UTC')))
@@ -216,7 +216,7 @@ class DateRangeFilterSpec extends ObjectBehavior
         ]);
     }
 
-    function it_does_not_parse_something_else_than_an_array()
+    public function it_does_not_parse_something_else_than_an_array()
     {
         $this->parseData('foo')->shouldReturn(false);
         $this->parseData(0)->shouldReturn(false);
@@ -224,47 +224,47 @@ class DateRangeFilterSpec extends ObjectBehavior
         $this->parseData(new \StdClass())->shouldReturn(false);
     }
 
-    function it_does_not_parse_array_without_value_key()
+    public function it_does_not_parse_array_without_value_key()
     {
         $this->parseData([])->shouldReturn(false);
     }
 
-    function it_does_not_parse_array_without_type_key()
+    public function it_does_not_parse_array_without_type_key()
     {
         $this->parseData(['value' => ['start' => '1987-05-14']])->shouldReturn(false);
     }
 
-    function it_does_not_parse_array_without_value_key_of_type_array()
+    public function it_does_not_parse_array_without_value_key_of_type_array()
     {
         $this->parseData(['value' => true, 'type' => 1])->shouldReturn(false);
     }
 
-    function it_does_not_parse_array_without_start_and_end_values()
+    public function it_does_not_parse_array_without_start_and_end_values()
     {
         $this->parseData(['value' => [], 'type' => 1])->shouldReturn(false);
     }
 
-    function it_does_not_parse_array_with_not_datetime_type_start()
+    public function it_does_not_parse_array_with_not_datetime_type_start()
     {
         $this->parseData(['value' => ['start' => 'yesterday'], 'type' => 1])->shouldReturn(false);
     }
 
-    function it_does_not_parse_array_with_not_datetime_type_end()
+    public function it_does_not_parse_array_with_not_datetime_type_end()
     {
         $this->parseData(['value' => ['end' => 'tomorrow'], 'type' => 1])->shouldReturn(false);
     }
 
-    function it_does_not_parse_array_with_more_than_filter_and_no_start_date()
+    public function it_does_not_parse_array_with_more_than_filter_and_no_start_date()
     {
         $this->parseData(['value' => ['start' => null], 'type' => DateRangeFilterType::TYPE_MORE_THAN])->shouldReturn(false);
     }
 
-    function it_does_not_parse_array_with_less_than_filter_and_no_end_date()
+    public function it_does_not_parse_array_with_less_than_filter_and_no_end_date()
     {
         $this->parseData(['value' => ['end' => null], 'type' => DateRangeFilterType::TYPE_LESS_THAN])->shouldReturn(false);
     }
 
-    function it_applies_between_date_range_filter(
+    public function it_applies_between_date_range_filter(
         FilterDatasourceAdapterInterface $datasource,
         \DateTime $start,
         \DateTime $end,
@@ -295,7 +295,7 @@ class DateRangeFilterSpec extends ObjectBehavior
         );
     }
 
-    function it_applies_not_between_date_range_filter(
+    public function it_applies_not_between_date_range_filter(
         FilterDatasourceAdapterInterface $datasource,
         \DateTime $start,
         \DateTime $end,
@@ -331,7 +331,7 @@ class DateRangeFilterSpec extends ObjectBehavior
         );
     }
 
-    function it_applies_less_than_date_range_filter(
+    public function it_applies_less_than_date_range_filter(
         FilterDatasourceAdapterInterface $datasource,
         \DateTime $start,
         \DateTime $end,
@@ -360,7 +360,7 @@ class DateRangeFilterSpec extends ObjectBehavior
         );
     }
 
-    function it_applies_more_than_date_range_filter(
+    public function it_applies_more_than_date_range_filter(
         FilterDatasourceAdapterInterface $datasource,
         \DateTime $start,
         \DateTime $end,
@@ -389,7 +389,7 @@ class DateRangeFilterSpec extends ObjectBehavior
         );
     }
 
-    function it_provides_date_range_form($factory, Form $form)
+    public function it_provides_date_range_form($factory, Form $form)
     {
         $factory->create(DateRangeFilterType::class, [], ['csrf_protection' => false])->willReturn($form);
 

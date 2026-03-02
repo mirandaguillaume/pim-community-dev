@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class ProductAndProductModelRowNormalizerSpec extends ObjectBehavior
 {
-    function let(NormalizerInterface $normalizer, ImageNormalizer $imageNormalizer)
+    public function let(NormalizerInterface $normalizer, ImageNormalizer $imageNormalizer)
     {
         $this->beConstructedWith($imageNormalizer);
 
@@ -25,18 +25,18 @@ class ProductAndProductModelRowNormalizerSpec extends ObjectBehavior
         $this->setNormalizer($normalizer);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(ProductAndProductModelRowNormalizer::class);
         $this->shouldBeAnInstanceOf(NormalizerAwareInterface::class);
     }
 
-    function it_is_a_normalizer()
+    public function it_is_a_normalizer()
     {
         $this->shouldImplement(NormalizerInterface::class);
     }
 
-    function it_supports_datagrid_format_and_row()
+    public function it_supports_datagrid_format_and_row()
     {
         $row = Row::fromProduct(
             'identifier',
@@ -59,7 +59,7 @@ class ProductAndProductModelRowNormalizerSpec extends ObjectBehavior
         $this->supportsNormalization(new \stdClass(), 'datagrid')->shouldReturn(false);
     }
 
-    function it_normalizes_a_row(
+    public function it_normalizes_a_row(
         $normalizer,
         $imageNormalizer
     ) {
@@ -94,8 +94,8 @@ class ProductAndProductModelRowNormalizerSpec extends ObjectBehavior
                     'locale' => null,
                     'scope'  => null,
                     'data'   => 'data',
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $normalizer->normalize($row->created(), 'datagrid', $context)->willReturn('2018-05-23T15:55:50+01:00');
@@ -117,8 +117,8 @@ class ProductAndProductModelRowNormalizerSpec extends ObjectBehavior
                         'locale' => null,
                         'scope'  => null,
                         'data'   => 'data',
-                    ]
-                ]
+                    ],
+                ],
             ],
             'created'      => '2018-05-23T15:55:50+01:00',
             'updated'      => '2018-05-23T15:55:50+01:00',

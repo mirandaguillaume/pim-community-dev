@@ -52,7 +52,7 @@ class CollectProductDomainErrorEndToEnd extends ApiTestCase
 
         $this->familyLoader->create([
             'code' => 'shoes',
-            'attributes' => ['sku', 'name']
+            'attributes' => ['sku', 'name'],
         ]);
 
         $this->productLoader->create('high-top_sneakers', [
@@ -79,9 +79,9 @@ class CollectProductDomainErrorEndToEnd extends ApiTestCase
                         'locale' => null,
                         'scope' => null,
                         'data' => 'High-Top Sneakers',
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ]);
 
         $client->request('PATCH', '/api/rest/v1/products/high-top_sneakers', [], [], [], $content);
@@ -112,7 +112,7 @@ class CollectProductDomainErrorEndToEnd extends ApiTestCase
                             'title' => 'Family settings',
                         ],
                     ],
-                    'style' => 'text'
+                    'style' => 'text',
                 ],
                 [
                     'message' => 'More information about families: {what_is_a_family} {manage_your_families}.',
@@ -128,15 +128,15 @@ class CollectProductDomainErrorEndToEnd extends ApiTestCase
                             'title' => 'Manage your families',
                         ],
                     ],
-                    'style' => 'information'
-                ]
+                    'style' => 'information',
+                ],
             ],
             'product' => [
                 'uuid' => Uuid::uuid4(),
                 'identifier' => 'high-top_sneakers',
                 'label' => 'high-top_sneakers',
-                'family' => 'shoes'
-            ]
+                'family' => 'shoes',
+            ],
         ];
 
         $this->assertReponsesEquals($expectedContent, $doc['content']);
@@ -169,9 +169,9 @@ class CollectProductDomainErrorEndToEnd extends ApiTestCase
                         'locale' => null,
                         'scope' => null,
                         'data' => 'High-Top Sneakers',
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ]);
 
         $expectedContent = [
@@ -188,9 +188,9 @@ class CollectProductDomainErrorEndToEnd extends ApiTestCase
                             'routeParameters' => [],
                             'title' => 'Attributes settings',
                             'type' => 'route',
-                        ]
+                        ],
                     ],
-                    'style' => 'text'
+                    'style' => 'text',
                 ],
                 [
                     'message' => 'More information about attributes: {what_is_attribute} {manage_attribute}.',
@@ -204,17 +204,17 @@ class CollectProductDomainErrorEndToEnd extends ApiTestCase
                             'href' => 'https://help.akeneo.com/pim/serenity/articles/manage-your-attributes.html',
                             'title' => 'Manage your attributes',
                             'type' => 'href',
-                        ]
+                        ],
                     ],
-                    'style' => 'information'
-                ]
+                    'style' => 'information',
+                ],
             ],
             'product' => [
                 'uuid' => Uuid::uuid4(),
                 'identifier' => 'high-top_sneakers',
                 'label' => 'high-top_sneakers',
-                'family' => 'shoes'
-            ]
+                'family' => 'shoes',
+            ],
         ];
 
         $client->request('PATCH', '/api/rest/v1/products/high-top_sneakers', [], [], [], $content);
@@ -250,7 +250,7 @@ class CollectProductDomainErrorEndToEnd extends ApiTestCase
         $content = \json_encode([
             'identifier' => 'high-top_sneakers',
             'family' => 'shoes',
-            'categories' => ['unknown_category_code']
+            'categories' => ['unknown_category_code'],
         ]);
 
         $client->request('PATCH', '/api/rest/v1/products/high-top_sneakers', [], [], [], $content);
@@ -281,7 +281,7 @@ class CollectProductDomainErrorEndToEnd extends ApiTestCase
                             'title' => 'Categories settings',
                         ],
                     ],
-                    'style' => 'text'
+                    'style' => 'text',
                 ],
                 [
                     'message' => 'More information about catalogs and categories: {what_is_a_category} {categorize_a_product}.',
@@ -297,15 +297,15 @@ class CollectProductDomainErrorEndToEnd extends ApiTestCase
                             'title' => 'Categorize a product',
                         ],
                     ],
-                    'style' => 'information'
-                ]
+                    'style' => 'information',
+                ],
             ],
             'product' => [
                 'uuid' => Uuid::uuid4(),
                 'identifier' => 'high-top_sneakers',
                 'label' => 'high-top_sneakers',
-                'family' => 'shoes'
-            ]
+                'family' => 'shoes',
+            ],
         ];
 
         $this->assertReponsesEquals($expectedContent, $doc['content']);
@@ -340,7 +340,7 @@ class CollectProductDomainErrorEndToEnd extends ApiTestCase
             'type' => 'domain_error',
             'message' => 'The unknown_product_identifier product does not exist in your PIM or you do not have permission to access it.',
             'message_template' => 'The {product_identifier} product does not exist in your PIM or you do not have permission to access it.',
-            'message_parameters' => ['product_identifier' => 'unknown_product_identifier']
+            'message_parameters' => ['product_identifier' => 'unknown_product_identifier'],
         ];
 
         $this->assertReponsesEquals($expectedContent, $doc['content']);

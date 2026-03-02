@@ -5,12 +5,12 @@ namespace Akeneo\Tool\Bundle\BatchBundle\Command;
 use Akeneo\Platform\Job\ServiceApi\JobInstance\CreateJobInstance\CreateJobInstanceCommand as CreateJobInstanceCqrsCommand;
 use Akeneo\Platform\Job\ServiceApi\JobInstance\CreateJobInstance\CreateJobInstanceHandlerInterface;
 use Akeneo\Tool\Component\Batch\Exception\InvalidJobException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Create a JobInstance

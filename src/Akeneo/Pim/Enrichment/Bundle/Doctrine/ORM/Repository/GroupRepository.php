@@ -57,7 +57,7 @@ class GroupRepository extends EntityRepository implements GroupRepositoryInterfa
         $results = $qb->getQuery()->getArrayResult();
 
         return [
-            'results' => $results
+            'results' => $results,
         ];
     }
 
@@ -71,9 +71,9 @@ class GroupRepository extends EntityRepository implements GroupRepositoryInterfa
         $groupLabelExpr = 'COALESCE(translation.label, g.code)';
         $typeLabelExpr = 'COALESCE(typeTrans.label, type.code)';
 
-        $isCheckedExpr =
-            'CASE WHEN (g.id IN (:associatedIds) OR g.id IN (:data_in)) AND g.id NOT IN (:data_not_in) ' .
-            'THEN true ELSE false END';
+        $isCheckedExpr
+            = 'CASE WHEN (g.id IN (:associatedIds) OR g.id IN (:data_in)) AND g.id NOT IN (:data_not_in) '
+            . 'THEN true ELSE false END';
 
         $isAssociatedExpr = 'CASE WHEN g.id IN (:associatedIds) THEN true ELSE false END';
 
@@ -81,8 +81,8 @@ class GroupRepository extends EntityRepository implements GroupRepositoryInterfa
             ->addSelect(sprintf('%s AS groupLabel', $groupLabelExpr))
             ->addSelect(sprintf('%s AS typeLabel', $typeLabelExpr))
             ->addSelect('translation.label')
-            ->addSelect($isCheckedExpr.' AS is_checked')
-            ->addSelect($isAssociatedExpr.' AS is_associated');
+            ->addSelect($isCheckedExpr . ' AS is_checked')
+            ->addSelect($isAssociatedExpr . ' AS is_associated');
 
         $qb
             ->leftJoin('g.translations', 'translation', 'WITH', 'translation.locale = :dataLocale')

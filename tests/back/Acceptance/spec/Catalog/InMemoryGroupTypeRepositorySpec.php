@@ -28,7 +28,9 @@ class InMemoryGroupTypeRepositorySpec extends ObjectBehavior
 
     function it_saves_a_group_type()
     {
-        $this->save(new GroupType())->shouldReturn(null);
+        $groupType = new GroupType();
+        $groupType->setCode('test');
+        $this->save($groupType)->shouldReturn(null);
     }
 
     function it_only_saves_group_types()

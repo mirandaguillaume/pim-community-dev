@@ -168,8 +168,8 @@ final class HasUpToDateProductModelEvaluationQueryIntegration extends TestCase
     private function updateProductModelAt(ProductModelId $productModelId, \DateTimeImmutable $updatedAt)
     {
         $query = <<<SQL
-UPDATE pim_catalog_product_model SET updated = :evaluated WHERE id = :product_model_id;
-SQL;
+            UPDATE pim_catalog_product_model SET updated = :evaluated WHERE id = :product_model_id;
+            SQL;
 
         $this->db->executeQuery($query, [
             'evaluated' => $updatedAt->format('Y-m-d H:i:s'),
@@ -189,8 +189,8 @@ SQL;
     private function removeProductModelEvaluations(ProductModelId $productModelId): void
     {
         $query = <<<SQL
-DELETE FROM pim_data_quality_insights_product_model_criteria_evaluation WHERE product_id = :product_id;
-SQL;
+            DELETE FROM pim_data_quality_insights_product_model_criteria_evaluation WHERE product_id = :product_id;
+            SQL;
 
         $this->db->executeQuery($query, ['product_id' => $productModelId->toInt()]);
     }
@@ -198,8 +198,8 @@ SQL;
     private function updateProductModelEvaluationsAt(ProductModelId $productModelId, \DateTimeImmutable $evaluatedAt): void
     {
         $query = <<<SQL
-UPDATE pim_data_quality_insights_product_model_criteria_evaluation SET evaluated_at = :evaluated_at WHERE product_id = :product_id;
-SQL;
+            UPDATE pim_data_quality_insights_product_model_criteria_evaluation SET evaluated_at = :evaluated_at WHERE product_id = :product_id;
+            SQL;
 
         $this->db->executeQuery($query, [
             'evaluated_at' => $evaluatedAt->format(Clock::TIME_FORMAT),

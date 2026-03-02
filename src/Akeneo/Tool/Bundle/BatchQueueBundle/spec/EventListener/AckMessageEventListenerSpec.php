@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace spec\Akeneo\Tool\Bundle\BatchQueueBundle\EventListener;
@@ -16,18 +17,18 @@ use Symfony\Component\Messenger\Transport\Receiver\ReceiverInterface;
 
 class AckMessageEventListenerSpec extends ObjectBehavior
 {
-    function let(ContainerInterface $receiverLocator)
+    public function let(ContainerInterface $receiverLocator)
     {
         $this->beConstructedWith($receiverLocator);
     }
 
-    function it_is_an_event_subscriber()
+    public function it_is_an_event_subscriber()
     {
         $this->shouldHaveType(AckMessageEventListener::class);
         $this->shouldImplement(EventSubscriberInterface::class);
     }
 
-    function it_does_nothing_when_message_is_not_a_job_message(ContainerInterface $receiverLocator)
+    public function it_does_nothing_when_message_is_not_a_job_message(ContainerInterface $receiverLocator)
     {
         $envelope = new Envelope(new \stdClass());
         $event = new WorkerMessageReceivedEvent($envelope, 'receiver');
@@ -37,7 +38,7 @@ class AckMessageEventListenerSpec extends ObjectBehavior
         $this->ackMessage($event);
     }
 
-    function it_acks_the_message_for_a_job_message(
+    public function it_acks_the_message_for_a_job_message(
         ContainerInterface $receiverLocator,
         ReceiverInterface $receiver
     ) {
@@ -50,7 +51,7 @@ class AckMessageEventListenerSpec extends ObjectBehavior
         $this->ackMessage($event);
     }
 
-    function it_acks_the_message_for_a_scheduled_message(
+    public function it_acks_the_message_for_a_scheduled_message(
         ContainerInterface $receiverLocator,
         ReceiverInterface $receiver
     ) {

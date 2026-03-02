@@ -34,8 +34,8 @@ class JsonSerializerSpec extends ObjectBehavior
         $encodedEnvelope = [
             'body' => '{"some_property":"Some value!"}',
             'headers' => [
-                'class' => \stdClass::class
-            ]
+                'class' => \stdClass::class,
+            ],
         ];
 
         $denormalizer->supportsDenormalization(['some_property' => 'Some value!'], \stdClass::class, 'json', [])

@@ -22,7 +22,7 @@ class DateTimeRangeFilterTypeTest extends AbstractTypeTestCase
             new FilterType($translator),
             new DateRangeType(),
             new DateTimeRangeType(),
-            new DateRangeFilterType($translator)
+            new DateRangeFilterType($translator),
         ];
 
         $this->formExtensions[] = new CustomFormExtension($types);
@@ -53,8 +53,8 @@ class DateTimeRangeFilterTypeTest extends AbstractTypeTestCase
             [
                 'defaultOptions' => [
                     'field_type' => DateTimeRangeType::class,
-                ]
-            ]
+                ],
+            ],
         ];
     }
 
@@ -69,11 +69,11 @@ class DateTimeRangeFilterTypeTest extends AbstractTypeTestCase
                 'formData' => ['type' => null, 'value' => ['start' => '', 'end' => '']],
                 'viewData' => [
                     'value'          => ['type'     => null, 'value' => ['start' => '', 'end' => '']],
-                    'widget_options' => ['firstDay' => 1]
+                    'widget_options' => ['firstDay' => 1],
                 ],
                 'customOptions' => [
-                    'widget_options' => ['firstDay' => 1]
-                ]
+                    'widget_options' => ['firstDay' => 1],
+                ],
             ],
         ];
     }

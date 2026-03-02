@@ -48,14 +48,14 @@ class PublishPausedJobsToQueueSpec extends ObjectBehavior
     ): void {
         $getPausedJobExecutionIds->all()->willReturn([1, 9]);
         $jobExecutionQueue->publish(Argument::that(
-            static fn (PausedJobExecutionMessage $jobMessage) => 1 === $jobMessage->getJobExecutionId()
+            static fn(PausedJobExecutionMessage $jobMessage) => 1 === $jobMessage->getJobExecutionId()
         ))->shouldBeCalled()->willThrow(\Exception::class);
         $logger->error('An error occurred trying to publish paused job execution', [
             'job_execution_id' => 1,
             'error_message' => '',
         ])->shouldBeCalled();
         $jobExecutionQueue->publish(Argument::that(
-            static fn (PausedJobExecutionMessage $jobMessage) => 9 === $jobMessage->getJobExecutionId()
+            static fn(PausedJobExecutionMessage $jobMessage) => 9 === $jobMessage->getJobExecutionId()
         ))->shouldBeCalled();
         $logger->error('An error occurred trying to publish paused job execution', [
             'job_execution_id' => 9,

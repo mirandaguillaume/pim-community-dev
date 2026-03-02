@@ -78,7 +78,8 @@ final class Version_7_0_20230110161438_initialize_identifier_generator_acl exten
     /**
      * @return string[]
      */
-    private function getRoles(): array {
+    private function getRoles(): array
+    {
         return $this->container->get('database_connection')->fetchFirstColumn(
             'SELECT role FROM oro_access_role'
         );

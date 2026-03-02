@@ -6,7 +6,7 @@ use PhpSpec\ObjectBehavior;
 
 class CategorySpec extends ObjectBehavior
 {
-    function it_converts_from_standard_to_flat_format()
+    public function it_converts_from_standard_to_flat_format()
     {
         $expected = [
             'code'        => 'armors',

@@ -28,7 +28,7 @@ class InMemoryAssociationTypeRepository implements AssociationTypeRepositoryInte
         if (!$associationType instanceof AssociationTypeInterface) {
             throw new \InvalidArgumentException('Only group objects are supported.');
         }
-        $this->associationType->set($associationType->getCode(), $associationType);
+        $this->associationType->set($associationType->getCode() ?? spl_object_hash($associationType), $associationType);
     }
 
     /**

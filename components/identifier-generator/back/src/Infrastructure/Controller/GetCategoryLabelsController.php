@@ -21,8 +21,7 @@ class GetCategoryLabelsController
     public function __construct(
         private readonly CategoryQueryInterface $categoryQuery,
         private readonly UserContext $userContext,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): Response
     {

@@ -39,8 +39,8 @@ class DbalSelectPeriodErrorCountPerConnectionQueryIntegration extends TestCase
         $this->connectionLoader = $this->get('akeneo_connectivity.connection.fixtures.connection_loader');
         $this->auditErrorLoader = $this->get('akeneo_connectivity.connection.fixtures.audit_error_loader');
 
-        $this->selectPeriodErrorCountPerConnectionQuery =
-            $this->get(DbalSelectPeriodErrorCountPerConnectionQuery::class);
+        $this->selectPeriodErrorCountPerConnectionQuery
+            = $this->get(DbalSelectPeriodErrorCountPerConnectionQuery::class);
     }
 
     public function test_it_gets_hourly_error_count_per_connection_for_a_given_period(): void
@@ -70,11 +70,11 @@ class DbalSelectPeriodErrorCountPerConnectionQueryIntegration extends TestCase
         $expectedResult = [
             new PeriodEventCount('<all>', $period->start(), $period->end(), [
                 new Read\HourlyEventCount(new \DateTimeImmutable('2020-01-01 00:00:00', new \DateTimeZone('UTC')), 2),
-                new Read\HourlyEventCount(new \DateTimeImmutable('2020-01-02 23:00:00', new \DateTimeZone('UTC')), 51)
+                new Read\HourlyEventCount(new \DateTimeImmutable('2020-01-02 23:00:00', new \DateTimeZone('UTC')), 51),
             ]),
             new PeriodEventCount('erp_1', $period->start(), $period->end(), [
                 new Read\HourlyEventCount(new \DateTimeImmutable('2020-01-01 00:00:00', new \DateTimeZone('UTC')), 2),
-                new Read\HourlyEventCount(new \DateTimeImmutable('2020-01-02 23:00:00', new \DateTimeZone('UTC')), 3)
+                new Read\HourlyEventCount(new \DateTimeImmutable('2020-01-02 23:00:00', new \DateTimeZone('UTC')), 3),
             ]),
             new PeriodEventCount('erp_2', $period->start(), $period->end(), [
                 new Read\HourlyEventCount(new \DateTimeImmutable('2020-01-02 23:00:00', new \DateTimeZone('UTC')), 48),

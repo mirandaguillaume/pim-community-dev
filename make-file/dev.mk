@@ -51,4 +51,4 @@ cypress-interactive:
 
 .PHONY: lint-fix-back
 lint-fix-back: #Doc: run php-cs-fixer with symfony codestyle
-	${PHP_RUN} vendor/bin/php-cs-fixer fix --config=.php_cs_symfony.dist --diff --path-mode=intersection ${O}
+	${PHP_RUN} tools/php-cs-fixer fix --config=.php_cs_symfony.dist --diff --path-mode=intersection ${O}

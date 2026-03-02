@@ -49,7 +49,7 @@ class GetWeeklyAuditActionEndToEnd extends WebTestCase
                     '2020-01-07' => 0,
                     '2020-01-08' => 0,
                 ],
-                'weekly_total' => 12
+                'weekly_total' => 12,
             ],
             'sap' => [
                 'daily' => [
@@ -62,7 +62,7 @@ class GetWeeklyAuditActionEndToEnd extends WebTestCase
                     '2020-01-07' => 0,
                     '2020-01-08' => 50,
                 ],
-                'weekly_total' => 90
+                'weekly_total' => 90,
             ],
             '<all>' => [
                 'daily' => [
@@ -75,8 +75,8 @@ class GetWeeklyAuditActionEndToEnd extends WebTestCase
                     '2020-01-07' => 0,
                     '2020-01-08' => 50,
                 ],
-                'weekly_total' => 102
-            ]
+                'weekly_total' => 102,
+            ],
         ];
 
         $user = $this->authenticateAsAdmin();
@@ -88,7 +88,7 @@ class GetWeeklyAuditActionEndToEnd extends WebTestCase
             '/rest/connections/audit/weekly',
             [
                 'event_type' => 'product_created',
-                'end_date' => '2020-01-08'
+                'end_date' => '2020-01-08',
             ],
         );
         $result = \json_decode($this->client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
@@ -121,7 +121,7 @@ class GetWeeklyAuditActionEndToEnd extends WebTestCase
                     '2020-01-07' => 0,
                     '2020-01-08' => 0,
                 ],
-                'weekly_total' => 12
+                'weekly_total' => 12,
             ],
             '<all>' => [
                 'daily' => [
@@ -134,8 +134,8 @@ class GetWeeklyAuditActionEndToEnd extends WebTestCase
                     '2020-01-07' => 0,
                     '2020-01-08' => 0,
                 ],
-                'weekly_total' => 12
-            ]
+                'weekly_total' => 12,
+            ],
         ];
 
         $user = $this->authenticateAsAdmin();
@@ -147,7 +147,7 @@ class GetWeeklyAuditActionEndToEnd extends WebTestCase
             '/rest/connections/audit/weekly',
             [
                 'event_type' => 'product_read',
-                'end_date' => '2020-01-08'
+                'end_date' => '2020-01-08',
             ],
         );
         $result = \json_decode($this->client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);

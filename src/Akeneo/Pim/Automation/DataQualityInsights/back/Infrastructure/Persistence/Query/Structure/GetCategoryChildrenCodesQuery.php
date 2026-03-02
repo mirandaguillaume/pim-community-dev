@@ -23,11 +23,11 @@ final readonly class GetCategoryChildrenCodesQuery implements GetCategoryChildre
     public function execute(CategoryCode $categoryCode): array
     {
         $query = <<<SQL
-SELECT child.code
-FROM pim_catalog_category parent
-JOIN pim_catalog_category child ON child.lft >= parent.lft AND child.lft < parent.rgt AND child.root = parent.root
-WHERE parent.code = :category_code;
-SQL;
+            SELECT child.code
+            FROM pim_catalog_category parent
+            JOIN pim_catalog_category child ON child.lft >= parent.lft AND child.lft < parent.rgt AND child.root = parent.root
+            WHERE parent.code = :category_code;
+            SQL;
 
         $statement = $this->connection->executeQuery($query, ['category_code' => $categoryCode]);
         $categoryCodes = $statement->fetchFirstColumn();

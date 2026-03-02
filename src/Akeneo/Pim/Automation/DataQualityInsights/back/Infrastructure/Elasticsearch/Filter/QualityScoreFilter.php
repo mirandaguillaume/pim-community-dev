@@ -57,8 +57,8 @@ class QualityScoreFilter extends AbstractFieldFilter implements FieldFilterInter
         $this->searchQueryBuilder->addFilter(
             [
                 'terms' => [
-                    sprintf('data_quality_insights.%s.%s.%s', ($this->getScoresProperty)(), $channel, $locale) => $values
-                ]
+                    sprintf('data_quality_insights.%s.%s.%s', ($this->getScoresProperty)(), $channel, $locale) => $values,
+                ],
             ]
         );
 

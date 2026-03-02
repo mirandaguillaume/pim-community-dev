@@ -37,8 +37,8 @@ class ProductValueNormalizer implements NormalizerInterface, CacheableSupportsMe
             || $entity instanceof PriceCollectionValueInterface
             || $entity instanceof ReferenceDataCollectionValueInterface;
 
-        $data = $isCollection ?
-            $this->getCollectionValue($entity, $format, $context) : $this->getSimpleValue($entity, $format, $context);
+        $data = $isCollection
+            ? $this->getCollectionValue($entity, $format, $context) : $this->getSimpleValue($entity, $format, $context);
 
         return [
             'locale' => $entity->getLocaleCode(),
@@ -72,8 +72,8 @@ class ProductValueNormalizer implements NormalizerInterface, CacheableSupportsMe
 
         $data = [];
         foreach ($value->getData() as $item) {
-            if (AttributeTypes::OPTION_MULTI_SELECT === $attributeType ||
-                isset($attribute->properties()['reference_data_name'])) {
+            if (AttributeTypes::OPTION_MULTI_SELECT === $attributeType
+                || isset($attribute->properties()['reference_data_name'])) {
                 $data[] = $item;
             } else {
                 $data[] = $this->normalizer->normalize($item, $format, $context);
@@ -107,14 +107,14 @@ class ProductValueNormalizer implements NormalizerInterface, CacheableSupportsMe
             return $value->getData();
         }
 
-        if ($attributeType === AttributeTypes::OPTION_SIMPLE_SELECT ||
-            $attributeType === AttributeTypes::REFERENCE_DATA_SIMPLE_SELECT
+        if ($attributeType === AttributeTypes::OPTION_SIMPLE_SELECT
+            || $attributeType === AttributeTypes::REFERENCE_DATA_SIMPLE_SELECT
         ) {
             return $value->getData();
         }
 
-        if ($attributeType === AttributeTypes::FILE ||
-            $attributeType === AttributeTypes::IMAGE
+        if ($attributeType === AttributeTypes::FILE
+            || $attributeType === AttributeTypes::IMAGE
         ) {
             return $value->getData()->getKey();
         }

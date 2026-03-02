@@ -12,18 +12,18 @@ use Twig\Extension\AbstractExtension;
 
 class CategoryExtensionSpec extends ObjectBehavior
 {
-    function let(CategoryItemsCounterRegistry $registry)
+    public function let(CategoryItemsCounterRegistry $registry)
     {
         $productsLimitForRemoval = 10;
         $this->beConstructedWith($registry, $productsLimitForRemoval);
     }
 
-    function it_is_a_twig_extension()
+    public function it_is_a_twig_extension()
     {
         $this->shouldBeAnInstanceOf(AbstractExtension::class);
     }
 
-    function it_registers_category_functions()
+    public function it_registers_category_functions()
     {
         $functions = $this->getFunctions();
         $functions->shouldHaveCount(5);
@@ -34,7 +34,7 @@ class CategoryExtensionSpec extends ObjectBehavior
         $functions[4]->getName()->shouldReturn('get_products_limit_for_removal');
     }
 
-    function it_formats_a_list_of_categories_with_product_count(
+    public function it_formats_a_list_of_categories_with_product_count(
         $registry,
         CategoryItemsCounterInterface $categoryItemsCounter,
         Category $root,
@@ -57,7 +57,7 @@ class CategoryExtensionSpec extends ObjectBehavior
         $category1->isRoot()->willReturn(false);
         $category1Array = [
             'item'       => $category1,
-            '__children' => []
+            '__children' => [],
         ];
 
         $category2->getId()->willReturn(3);
@@ -67,7 +67,7 @@ class CategoryExtensionSpec extends ObjectBehavior
         $category2->isRoot()->willReturn(false);
         $category2Array = [
             'item'       => $category2,
-            '__children' => []
+            '__children' => [],
         ];
 
         $expected = [
@@ -79,21 +79,21 @@ class CategoryExtensionSpec extends ObjectBehavior
                     'attr'     => ['id' => 'node_2', 'data-code' => 'selected_category'],
                     'data'     => 'Selected category (5)',
                     'state'    => 'leaf toselect jstree-checked',
-                    'children' => []
+                    'children' => [],
                 ],
                 [
                     'attr'     => ['id' => 'node_3', 'data-code' => 'some_category'],
                     'data'     => 'Some category (5)',
                     'state'    => 'leaf',
-                    'children' => []
-                ]
-            ]
+                    'children' => [],
+                ],
+            ],
         ];
 
         $this->childrenTreeResponse([$category1Array, $category2Array], $category1, $root, true)->shouldEqualUsingJSON($expected);
     }
 
-    function it_formats_a_list_of_categories_without_product_count(
+    public function it_formats_a_list_of_categories_without_product_count(
         $registry,
         CategoryItemsCounterInterface $categoryItemsCounter,
         Category $root,
@@ -116,7 +116,7 @@ class CategoryExtensionSpec extends ObjectBehavior
         $category1->isRoot()->willReturn(false);
         $category1Array = [
             'item'       => $category1,
-            '__children' => []
+            '__children' => [],
         ];
 
         $category2->getId()->willReturn(3);
@@ -126,7 +126,7 @@ class CategoryExtensionSpec extends ObjectBehavior
         $category2->isRoot()->willReturn(false);
         $category2Array = [
             'item'       => $category2,
-            '__children' => []
+            '__children' => [],
         ];
 
         $expected = [
@@ -138,21 +138,21 @@ class CategoryExtensionSpec extends ObjectBehavior
                     'attr'     => ['id' => 'node_2', 'data-code' => 'selected_category'],
                     'data'     => 'Selected category',
                     'state'    => 'leaf toselect jstree-checked',
-                    'children' => []
+                    'children' => [],
                 ],
                 [
                     'attr'     => ['id' => 'node_3', 'data-code' => 'some_category'],
                     'data'     => 'Some category',
                     'state'    => 'leaf',
-                    'children' => []
-                ]
-            ]
+                    'children' => [],
+                ],
+            ],
         ];
 
         $this->childrenTreeResponse([$category1Array, $category2Array], $category1, $root)->shouldEqualUsingJSON($expected);
     }
 
-    function it_lists_categories_and_their_children_with_product_count(
+    public function it_lists_categories_and_their_children_with_product_count(
         $registry,
         CategoryItemsCounterInterface $categoryItemsCounter,
         Category $category0,
@@ -188,20 +188,20 @@ class CategoryExtensionSpec extends ObjectBehavior
                 [
                     'attr'  => ['id' => 'node_2', 'data-code' => 'sub_category1'],
                     'data'  => 'Sub-category 1 (5)',
-                    'state' => 'leaf'
+                    'state' => 'leaf',
                 ],
                 [
                     'attr'  => ['id' => 'node_3', 'data-code' => 'sub_category2'],
                     'data'  => 'Sub-category 2 (5)',
-                    'state' => 'leaf'
-                ]
-            ]
+                    'state' => 'leaf',
+                ],
+            ],
         ];
 
         $this->childrenResponse([$category1, $category2], $category0, true)->shouldEqualUsingJSON($expected);
     }
 
-    function it_lists_categories_and_their_children_without_product_count(
+    public function it_lists_categories_and_their_children_without_product_count(
         $registry,
         CategoryItemsCounterInterface $categoryItemsCounter,
         Category $category0,
@@ -237,20 +237,20 @@ class CategoryExtensionSpec extends ObjectBehavior
                 [
                     'attr'  => ['id' => 'node_2', 'data-code' => 'sub_category1'],
                     'data'  => 'Sub-category 1',
-                    'state' => 'leaf'
+                    'state' => 'leaf',
                 ],
                 [
                     'attr'  => ['id' => 'node_3', 'data-code' => 'sub_category2'],
                     'data'  => 'Sub-category 2',
-                    'state' => 'leaf'
-                ]
-            ]
+                    'state' => 'leaf',
+                ],
+            ],
         ];
 
         $this->childrenResponse([$category1, $category2], $category0)->shouldEqualUsingJSON($expected);
     }
 
-    function it_lists_and_format_categories(
+    public function it_lists_and_format_categories(
         $registry,
         CategoryItemsCounterInterface $categoryItemsCounter,
         Category $category0,
@@ -267,7 +267,7 @@ class CategoryExtensionSpec extends ObjectBehavior
         $category1->isRoot()->willReturn(false);
         $category1Array = [
             'item'       => $category1,
-            '__children' => []
+            '__children' => [],
         ];
 
         $category2->getId()->willReturn(3);
@@ -277,7 +277,7 @@ class CategoryExtensionSpec extends ObjectBehavior
         $category2->isRoot()->willReturn(false);
         $category2Array = [
             'item'       => $category2,
-            '__children' => []
+            '__children' => [],
         ];
 
         $category0->getId()->willReturn(1);
@@ -287,7 +287,7 @@ class CategoryExtensionSpec extends ObjectBehavior
         $category0->isRoot()->willReturn(false);
         $category0Array = [
             'item'       => $category0,
-            '__children' => [$category1Array, $category2Array]
+            '__children' => [$category1Array, $category2Array],
         ];
 
         $expected = [
@@ -301,24 +301,24 @@ class CategoryExtensionSpec extends ObjectBehavior
                         'data'                  => 'Some category 1',
                         'state'                 => 'leaf',
                         'children'              => [],
-                        'selectedChildrenCount' => 0
+                        'selectedChildrenCount' => 0,
                     ],
                     [
                         'attr'                  => ['id' => 'node_3', 'data-code' => 'some_category2'],
                         'data'                  => 'Some category 2',
                         'state'                 => 'leaf',
                         'children'              => [],
-                        'selectedChildrenCount' => 0
-                    ]
+                        'selectedChildrenCount' => 0,
+                    ],
                 ],
-                'selectedChildrenCount' => 0
-            ]
+                'selectedChildrenCount' => 0,
+            ],
         ];
 
         $this->listCategoriesResponse([$category0Array], new ArrayCollection())->shouldEqualUsingJSON($expected);
     }
 
-    function it_checks_if_a_category_exceeds_the_products_limit_for_removal(
+    public function it_checks_if_a_category_exceeds_the_products_limit_for_removal(
         $registry,
         CategoryItemsCounterInterface $categoryItemsCounter,
         Category $category
@@ -333,7 +333,7 @@ class CategoryExtensionSpec extends ObjectBehavior
         $this->exceedsProductsLimitForRemoval($category, true)->shouldReturn(false);
     }
 
-    function it_gives_the_products_limit_for_removal()
+    public function it_gives_the_products_limit_for_removal()
     {
         $this->getProductsLimitForRemoval()->shouldReturn(10);
     }
@@ -341,7 +341,7 @@ class CategoryExtensionSpec extends ObjectBehavior
     public function getMatchers(): array
     {
         return [
-            'equalUsingJSON' => fn($subject, $value) => json_encode($subject, JSON_THROW_ON_ERROR) === json_encode($value, JSON_THROW_ON_ERROR)
+            'equalUsingJSON' => fn($subject, $value) => json_encode($subject, JSON_THROW_ON_ERROR) === json_encode($value, JSON_THROW_ON_ERROR),
         ];
     }
 }

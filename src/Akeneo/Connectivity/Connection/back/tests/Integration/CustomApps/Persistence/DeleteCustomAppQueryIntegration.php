@@ -57,10 +57,10 @@ class DeleteCustomAppQueryIntegration extends TestCase
     private function customAppExists(string $clientId): bool
     {
         $sql = <<<SQL
-        SELECT 1
-        FROM akeneo_connectivity_test_app
-        WHERE client_id = :clientId
-        SQL;
+            SELECT 1
+            FROM akeneo_connectivity_test_app
+            WHERE client_id = :clientId
+            SQL;
 
         $result = $this->connection->fetchOne($sql, ['clientId' => $clientId]);
 

@@ -18,17 +18,17 @@ class IndexMigrationRepository implements IndexMigrationRepositoryInterface
     public function save(IndexMigration $indexMigration): void
     {
         $sql = <<<SQL
-            INSERT INTO pim_index_migration (`index_alias`, `hash`, `values`) 
-            VALUES (:index_alias, :hash, :values) 
-            ON DUPLICATE KEY UPDATE `values`= :values;
-        SQL;
+                INSERT INTO pim_index_migration (`index_alias`, `hash`, `values`) 
+                VALUES (:index_alias, :hash, :values) 
+                ON DUPLICATE KEY UPDATE `values`= :values;
+            SQL;
 
         $this->connection->executeStatement(
             $sql,
             [
                 'index_alias' => $indexMigration->getIndexAlias(),
                 'hash' => $indexMigration->getIndexConfigurationHash(),
-                'values' => $indexMigration->normalize()
+                'values' => $indexMigration->normalize(),
             ],
             ['values' => Types::JSON]
         );

@@ -96,7 +96,7 @@ class AttributeOptionRepository extends EntityRepository implements
         }
 
         return [
-            'results' => $results
+            'results' => $results,
         ];
     }
 

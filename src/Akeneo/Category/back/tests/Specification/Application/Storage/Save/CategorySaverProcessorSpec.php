@@ -18,30 +18,28 @@ use PhpSpec\ObjectBehavior;
  */
 class CategorySaverProcessorSpec extends ObjectBehavior
 {
-    function let(CategorySaverRegistry $categorySaverRegistry)
+    public function let(CategorySaverRegistry $categorySaverRegistry)
     {
         $this->beConstructedWith($categorySaverRegistry);
     }
 
-    function it_uses_the_correct_savers_based_on_user_intent_list(
+    public function it_uses_the_correct_savers_based_on_user_intent_list(
         CategorySaverRegistry $categorySaverRegistry,
         CategoryTranslationsSaver $categoryTranslationsSaver,
         Category $categoryModel
-    )
-    {
+    ) {
         $setLabelUserIntent = new SetLabel('en_US', 'socks');
         $categorySaverRegistry->fromUserIntent($setLabelUserIntent::class)->willReturn($categoryTranslationsSaver);
         $categoryTranslationsSaver->save($categoryModel)->shouldBeCalled();
         $this->save($categoryModel, [$setLabelUserIntent]);
     }
 
-    function it_throws_an_exception_when_the_saver_class_was_not_added_into_the_savers_list(
+    public function it_throws_an_exception_when_the_saver_class_was_not_added_into_the_savers_list(
         CategorySaverRegistry $categorySaverRegistry,
         Category $categoryModel,
         CategorySaver $unexpectedSaver,
         CategoryTranslationsSaver $categoryTranslationsSaver,
-    )
-    {
+    ) {
         $setLabelUserIntent = new SetLabel('en_US', 'socks');
         $setUnexpectedUserIntent = new SetLabel('fr_FR', 'bad label');
         $categorySaverRegistry->fromUserIntent($setLabelUserIntent::class)->willReturn($categoryTranslationsSaver);

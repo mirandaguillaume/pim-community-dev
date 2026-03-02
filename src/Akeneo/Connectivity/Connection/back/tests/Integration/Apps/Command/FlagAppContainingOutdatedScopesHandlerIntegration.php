@@ -81,12 +81,12 @@ class FlagAppContainingOutdatedScopesHandlerIntegration extends TestCase
     private function assertNotificationExistsForUsers(array $userIds): void
     {
         $query = <<<SQL
-        SELECT COUNT(*)
-        FROM pim_notification_notification
-        LEFT JOIN pim_notification_user_notification on pim_notification_notification.id = pim_notification_user_notification.notification
-        WHERE message = "pim_notification.connected_app_authorizations.message" 
-          AND user IN (:userIds)
-        SQL;
+            SELECT COUNT(*)
+            FROM pim_notification_notification
+            LEFT JOIN pim_notification_user_notification on pim_notification_notification.id = pim_notification_user_notification.notification
+            WHERE message = "pim_notification.connected_app_authorizations.message" 
+              AND user IN (:userIds)
+            SQL;
 
         $userNotificationCount = (int) $this->connection->fetchOne(
             $query,

@@ -114,7 +114,7 @@ class FamilyVariantController
         $criteria['family'] = $family->getId();
 
         $offset = $queryParameters['limit'] * ($queryParameters['page'] - 1);
-        $familyVariants = $this->familyVariantRepository->searchAfterOffset($criteria, ['code' =>'ASC'], $queryParameters['limit'], $offset);
+        $familyVariants = $this->familyVariantRepository->searchAfterOffset($criteria, ['code' => 'ASC'], $queryParameters['limit'], $offset);
 
         $parameters = [
             'query_parameters'    => $queryParameters,

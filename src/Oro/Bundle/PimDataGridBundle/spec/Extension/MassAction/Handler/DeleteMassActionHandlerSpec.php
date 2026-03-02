@@ -18,7 +18,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DeleteMassActionHandlerSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         HydratorInterface $hydrator,
         TranslatorInterface $translator,
         EventDispatcherInterface $eventDispatcher,
@@ -41,7 +41,7 @@ class DeleteMassActionHandlerSpec extends ObjectBehavior
         $options->offsetGetByPath(Argument::cetera())->willReturn('qux');
     }
 
-    function it_handles_delete_mass_action($eventDispatcher, $datasource, $massActionRepo, $datagrid, $massAction)
+    public function it_handles_delete_mass_action($eventDispatcher, $datasource, $massActionRepo, $datagrid, $massAction)
     {
         $objectIds = ['foo', 'bar', 'baz'];
         $countRemoved = count($objectIds);
@@ -54,7 +54,7 @@ class DeleteMassActionHandlerSpec extends ObjectBehavior
         $this->handle($datagrid, $massAction);
     }
 
-    function it_dispatches_events($eventDispatcher, $datasource, $massActionRepo, $datagrid, $massAction)
+    public function it_dispatches_events($eventDispatcher, $datasource, $massActionRepo, $datagrid, $massAction)
     {
         $objectIds = ['foo', 'bar', 'baz'];
         $countRemoved = count($objectIds);
@@ -74,7 +74,7 @@ class DeleteMassActionHandlerSpec extends ObjectBehavior
         $this->handle($datagrid, $massAction);
     }
 
-    function it_returns_successful_response($eventDispatcher, $datasource, $massActionRepo, $datagrid, $massAction)
+    public function it_returns_successful_response($eventDispatcher, $datasource, $massActionRepo, $datagrid, $massAction)
     {
         $objectIds = ['foo', 'bar', 'baz'];
         $countRemoved = count($objectIds);
@@ -89,7 +89,7 @@ class DeleteMassActionHandlerSpec extends ObjectBehavior
             ->shouldReturnAnInstanceOf(MassActionResponseInterface::class);
     }
 
-    function it_returns_failed_message_if_an_exception_occurs(
+    public function it_returns_failed_message_if_an_exception_occurs(
         $eventDispatcher,
         $datasource,
         $massActionRepo,

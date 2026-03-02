@@ -21,7 +21,7 @@ class Version_7_0_20221026154157_add_id_to_events_api_debug_index_mapping_Integr
 {
     use ExecuteMigrationTrait;
 
-    const MIGRATION_LABEL = '_7_0_20221026154157_add_id_to_events_api_debug_index_mapping';
+    public const MIGRATION_LABEL = '_7_0_20221026154157_add_id_to_events_api_debug_index_mapping';
 
     private NativeClient $nativeClient;
     private Client $eventsApiDebugClient;

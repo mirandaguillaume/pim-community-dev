@@ -9,22 +9,22 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ValueInterface;
 
 class ValueNormalizerSpec extends ObjectBehavior
 {
-    function let(NormalizerInterface $standardNormalizer)
+    public function let(NormalizerInterface $standardNormalizer)
     {
         $this->beConstructedWith($standardNormalizer);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(ValueNormalizer::class);
     }
 
-    function it_is_a_normalizer()
+    public function it_is_a_normalizer()
     {
         $this->shouldImplement(\Symfony\Component\Serializer\Normalizer\NormalizerInterface::class);
     }
 
-    function it_supports_datagrid_format_and_product_value(ValueInterface $value)
+    public function it_supports_datagrid_format_and_product_value(ValueInterface $value)
     {
         $this->supportsNormalization($value, 'datagrid')->shouldReturn(true);
         $this->supportsNormalization($value, 'other_format')->shouldReturn(false);
@@ -32,7 +32,7 @@ class ValueNormalizerSpec extends ObjectBehavior
         $this->supportsNormalization(new \stdClass(), 'datagrid')->shouldReturn(false);
     }
 
-    function it_normalizes_a_product_value(
+    public function it_normalizes_a_product_value(
         $standardNormalizer,
         ValueInterface $value
     ) {

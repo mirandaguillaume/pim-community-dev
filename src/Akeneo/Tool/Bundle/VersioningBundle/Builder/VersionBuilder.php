@@ -140,7 +140,7 @@ class VersionBuilder
         return array_map(
             fn ($mergedItem) => [
                 'old' => array_key_exists('old', $mergedItem) ? $mergedItem['old'] : '',
-                'new' => array_key_exists('new', $mergedItem) ? $mergedItem['new'] : ''
+                'new' => array_key_exists('new', $mergedItem) ? $mergedItem['new'] : '',
             ],
             $mergedSnapshot
         );
@@ -184,7 +184,7 @@ class VersionBuilder
      *
      * @return bool|null True if the date has changed, False otherwise. Null if the comparison can't be done.
      */
-    private function hasLegacyDateChanged($old, $new): bool | null
+    private function hasLegacyDateChanged($old, $new): ?bool
     {
         if (!is_string($old) || !is_string($new)) {
             return null;

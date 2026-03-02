@@ -134,7 +134,7 @@ class TextFilter extends AbstractAttributeFilter implements AttributeFilterInter
                         'terms' => [
                             self::ATTRIBUTES_OF_ANCESTORS_ES_ID => [$attribute->getCode()],
                         ],
-                    ]
+                    ],
                 ];
                 $this->searchQueryBuilder->addFilter(
                     [

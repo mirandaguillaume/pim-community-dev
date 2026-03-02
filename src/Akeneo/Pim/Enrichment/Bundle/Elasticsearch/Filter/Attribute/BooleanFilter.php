@@ -47,7 +47,7 @@ class BooleanFilter extends AbstractAttributeFilter implements AttributeFilterIn
         if (Operators::IS_EMPTY !== $operator && Operators::IS_NOT_EMPTY !== $operator) {
             $this->checkValue($attribute, $value);
         }
-        
+
 
         $attributePath = $this->getAttributePath($attribute, $locale, $channel);
 
@@ -55,8 +55,8 @@ class BooleanFilter extends AbstractAttributeFilter implements AttributeFilterIn
             case Operators::EQUALS:
                 $clause = [
                     'term' => [
-                        $attributePath => $value
-                    ]
+                        $attributePath => $value,
+                    ],
                 ];
                 $this->searchQueryBuilder->addFilter($clause);
                 break;
@@ -104,7 +104,7 @@ class BooleanFilter extends AbstractAttributeFilter implements AttributeFilterIn
                         'terms' => [
                             self::ATTRIBUTES_OF_ANCESTORS_ES_ID => [$attribute->getCode()],
                         ],
-                    ]
+                    ],
                 ];
 
                 $this->searchQueryBuilder->addFilter(

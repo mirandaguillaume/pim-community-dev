@@ -7,7 +7,7 @@ use PhpSpec\ObjectBehavior;
 
 class InvalidPropertyExceptionSpec extends ObjectBehavior
 {
-    function it_creates_an_empty_value_exception()
+    public function it_creates_an_empty_value_exception()
     {
         $exception = InvalidPropertyException::valueNotEmptyExpected(
             'attribute',
@@ -30,7 +30,7 @@ class InvalidPropertyExceptionSpec extends ObjectBehavior
         $this->getCode()->shouldReturn($exception->getCode());
     }
 
-    function it_creates_an_invalid_entity_code_exception()
+    public function it_creates_an_invalid_entity_code_exception()
     {
         $exception = InvalidPropertyException::validEntityCodeExpected(
             'attribute',
@@ -56,7 +56,7 @@ class InvalidPropertyExceptionSpec extends ObjectBehavior
         $this->getCode()->shouldReturn($exception->getCode());
     }
 
-    function it_creates_an_invalid_date_format_exception()
+    public function it_creates_an_invalid_date_format_exception()
     {
         $exception = InvalidPropertyException::dateExpected(
             'created_date',
@@ -81,7 +81,7 @@ class InvalidPropertyExceptionSpec extends ObjectBehavior
         $this->getCode()->shouldReturn($exception->getCode());
     }
 
-    function it_creates_an_invalid_date_exception()
+    public function it_creates_an_invalid_date_exception()
     {
         $exception = InvalidPropertyException::validDateExpected(
             'created_date',
@@ -105,7 +105,7 @@ class InvalidPropertyExceptionSpec extends ObjectBehavior
         $this->getCode()->shouldReturn($exception->getCode());
     }
 
-    function it_creates_an_invalid_group_type_exception()
+    public function it_creates_an_invalid_group_type_exception()
     {
         $exception = InvalidPropertyException::validGroupTypeExpected(
             'group',
@@ -130,7 +130,7 @@ class InvalidPropertyExceptionSpec extends ObjectBehavior
         $this->getCode()->shouldReturn($exception->getCode());
     }
 
-    function it_creates_an_invalid_group_exception()
+    public function it_creates_an_invalid_group_exception()
     {
         $exception = InvalidPropertyException::validGroupExpected(
             'group',
@@ -155,7 +155,7 @@ class InvalidPropertyExceptionSpec extends ObjectBehavior
         $this->getCode()->shouldReturn($exception->getCode());
     }
 
-    function it_creates_an_invalid_path_exception()
+    public function it_creates_an_invalid_path_exception()
     {
         $exception = InvalidPropertyException::validPathExpected(
             'path',
@@ -179,7 +179,7 @@ class InvalidPropertyExceptionSpec extends ObjectBehavior
         $this->getCode()->shouldReturn($exception->getCode());
     }
 
-    function it_creates_an_exception_from_a_previous_exception()
+    public function it_creates_an_exception_from_a_previous_exception()
     {
         $exception = InvalidPropertyException::expectedFromPreviousException(
             'attribute',
@@ -203,7 +203,7 @@ class InvalidPropertyExceptionSpec extends ObjectBehavior
         $this->getCode()->shouldReturn($exception->getCode());
     }
 
-    function it_creates_a_data_expected_exception()
+    public function it_creates_a_data_expected_exception()
     {
         $exception = InvalidPropertyException::dataExpected(
             'name',

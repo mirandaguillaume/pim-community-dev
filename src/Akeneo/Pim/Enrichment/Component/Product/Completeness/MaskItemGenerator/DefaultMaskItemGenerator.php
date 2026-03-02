@@ -21,7 +21,7 @@ class DefaultMaskItemGenerator implements MaskItemGeneratorForAttributeType
                 $attributeCode,
                 $channelCode,
                 $localeCode
-            )
+            ),
         ];
     }
 

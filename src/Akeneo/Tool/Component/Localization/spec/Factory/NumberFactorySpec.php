@@ -6,14 +6,14 @@ use PhpSpec\ObjectBehavior;
 
 class NumberFactorySpec extends ObjectBehavior
 {
-    function let()
+    public function let()
     {
         $this->beConstructedWith([
-            'zz_ZZ' => '#,##0.00-test-¤;(#,##0.00¤)'
+            'zz_ZZ' => '#,##0.00-test-¤;(#,##0.00¤)',
         ]);
     }
 
-    function it_creates_a_default_currency_formatter()
+    public function it_creates_a_default_currency_formatter()
     {
         $this
             ->create(['locale' => 'fr_FR', 'type' => \NumberFormatter::CURRENCY])
@@ -21,7 +21,7 @@ class NumberFactorySpec extends ObjectBehavior
             ->shouldReturn('12,34 €');
     }
 
-    function it_creates_a_defined_currency_formatter()
+    public function it_creates_a_defined_currency_formatter()
     {
         $this
             ->create(['locale' => 'zz_ZZ', 'type' => \NumberFormatter::CURRENCY])
@@ -33,7 +33,7 @@ class NumberFactorySpec extends ObjectBehavior
             ->shouldReturn('(12.34€)');
     }
 
-    function it_creates_without_locale()
+    public function it_creates_without_locale()
     {
         $this
             ->create(['type' => \NumberFormatter::CURRENCY])

@@ -46,8 +46,8 @@ final class ComputeProductsEnrichmentStatusQuerySpec extends ObjectBehavior
                     'fr_FR' => 5,
                 ],
                 'mobile' => [
-                    'en_US' => 2
-                ]
+                    'en_US' => 2,
+                ],
             ],
             'number_of_improvable_attributes' => [
                 'ecommerce' => [
@@ -55,8 +55,8 @@ final class ComputeProductsEnrichmentStatusQuerySpec extends ObjectBehavior
                     'fr_FR' => 1,
                 ],
                 'mobile' => [
-                    'en_US' => 0
-                ]
+                    'en_US' => 0,
+                ],
             ],
         ];
 
@@ -67,8 +67,8 @@ final class ComputeProductsEnrichmentStatusQuerySpec extends ObjectBehavior
                     'fr_FR' => 5,
                 ],
                 'mobile' => [
-                    'en_US' => 8
-                ]
+                    'en_US' => 8,
+                ],
             ],
             'number_of_improvable_attributes' => [
                 'ecommerce' => [
@@ -76,8 +76,8 @@ final class ComputeProductsEnrichmentStatusQuerySpec extends ObjectBehavior
                     'fr_FR' => 1,
                 ],
                 'mobile' => [
-                    'en_US' => 5
-                ]
+                    'en_US' => 5,
+                ],
             ],
         ];
 
@@ -89,7 +89,7 @@ final class ComputeProductsEnrichmentStatusQuerySpec extends ObjectBehavior
                 ],
                 'mobile' => [
                     'en_US' => 5,
-                ]
+                ],
             ],
             'number_of_improvable_attributes' => [
                 'ecommerce' => [
@@ -98,7 +98,7 @@ final class ComputeProductsEnrichmentStatusQuerySpec extends ObjectBehavior
                 ],
                 'mobile' => [
                     'en_US' => 2,
-                ]
+                ],
             ],
         ];
 
@@ -110,7 +110,7 @@ final class ComputeProductsEnrichmentStatusQuerySpec extends ObjectBehavior
                 ],
                 'mobile' => [
                     'en_US' => 5,
-                ]
+                ],
             ],
             'number_of_improvable_attributes' => [
                 'ecommerce' => [
@@ -119,7 +119,7 @@ final class ComputeProductsEnrichmentStatusQuerySpec extends ObjectBehavior
                 ],
                 'mobile' => [
                     'en_US' => 0,
-                ]
+                ],
             ],
         ];
 
@@ -130,8 +130,8 @@ final class ComputeProductsEnrichmentStatusQuerySpec extends ObjectBehavior
                     'fr_FR' => true,
                 ],
                 'mobile' => [
-                    'en_US' => false
-                ]
+                    'en_US' => false,
+                ],
             ],
             $uuid56 => [
                 'ecommerce' => [
@@ -139,9 +139,9 @@ final class ComputeProductsEnrichmentStatusQuerySpec extends ObjectBehavior
                     'fr_FR' => false,
                 ],
                 'mobile' => [
-                    'en_US' => true
-                ]
-            ]
+                    'en_US' => true,
+                ],
+            ],
         ];
 
         $getEvaluationResultsByProductsAndCriterionQuery->execute(
@@ -201,9 +201,9 @@ final class ComputeProductsEnrichmentStatusQuerySpec extends ObjectBehavior
                     'fr_FR' => null,
                 ],
                 'mobile' => [
-                    'en_US' => null
-                ]
-            ]
+                    'en_US' => null,
+                ],
+            ],
         ]);
     }
 
@@ -219,8 +219,8 @@ final class ComputeProductsEnrichmentStatusQuerySpec extends ObjectBehavior
                     'fr_FR' => 10,
                 ],
                 'mobile' => [
-                    'en_US' => 5
-                ]
+                    'en_US' => 5,
+                ],
             ],
             'number_of_improvable_attributes' => [
                 'ecommerce' => [
@@ -228,8 +228,8 @@ final class ComputeProductsEnrichmentStatusQuerySpec extends ObjectBehavior
                     'fr_FR' => 4,
                 ],
                 'mobile' => [
-                    'en_US' => 3
-                ]
+                    'en_US' => 3,
+                ],
             ],
         ];
 
@@ -262,8 +262,8 @@ final class ComputeProductsEnrichmentStatusQuerySpec extends ObjectBehavior
                     'fr_FR' => false,
                 ],
                 'mobile' => [
-                    'en_US' => false
-                ]
+                    'en_US' => false,
+                ],
             ],
         ]);
     }
@@ -280,8 +280,8 @@ final class ComputeProductsEnrichmentStatusQuerySpec extends ObjectBehavior
                     'fr_FR' => 10,
                 ],
                 'mobile' => [
-                    'en_US' => 5
-                ]
+                    'en_US' => 5,
+                ],
             ],
             'number_of_improvable_attributes' => [
                 'ecommerce' => [
@@ -289,8 +289,8 @@ final class ComputeProductsEnrichmentStatusQuerySpec extends ObjectBehavior
                     'fr_FR' => 4,
                 ],
                 'mobile' => [
-                    'en_US' => 3
-                ]
+                    'en_US' => 3,
+                ],
             ],
         ];
 
@@ -323,8 +323,8 @@ final class ComputeProductsEnrichmentStatusQuerySpec extends ObjectBehavior
                     'fr_FR' => false,
                 ],
                 'mobile' => [
-                    'en_US' => false
-                ]
+                    'en_US' => false,
+                ],
             ],
         ]);
     }

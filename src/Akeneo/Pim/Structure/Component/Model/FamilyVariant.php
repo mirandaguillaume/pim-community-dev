@@ -6,9 +6,9 @@ use Akeneo\Pim\Structure\Component\AttributeTypes;
 use Akeneo\Tool\Component\Localization\Model\TranslationInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Webmozart\Assert\Assert;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+use Webmozart\Assert\Assert;
 
 /**
  * A variant in a family defines the structure for the products with variants:

@@ -7,28 +7,28 @@ use PhpSpec\ObjectBehavior;
 
 class CsvEncoderSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(CsvEncoder::class);
     }
 
-    function it_is_a_encoder()
+    public function it_is_a_encoder()
     {
         $this->shouldImplement(\Symfony\Component\Serializer\Encoder\EncoderInterface::class);
     }
 
-    function it_is_csv_encoder()
+    public function it_is_csv_encoder()
     {
         $this->supportsEncoding('csv')->shouldReturn(true);
         $this->supportsEncoding('json')->shouldReturn(false);
     }
 
-    function it_encodes_data_in_csv()
+    public function it_encodes_data_in_csv()
     {
         $this->encode(
             [
                 'code' => 'foo',
-                'name' => '"bar"'
+                'name' => '"bar"',
             ],
             'csv',
             [
@@ -40,7 +40,7 @@ class CsvEncoderSpec extends ObjectBehavior
         $this->encode(
             [
                 'code' => 'foo',
-                'name' => '"bar"'
+                'name' => '"bar"',
             ],
             'csv',
             [
@@ -52,7 +52,7 @@ class CsvEncoderSpec extends ObjectBehavior
         $this->encode(
             [
                 'code' => 'foo',
-                'name' => '"bar"'
+                'name' => '"bar"',
             ],
             'csv',
             [
@@ -64,7 +64,7 @@ class CsvEncoderSpec extends ObjectBehavior
         $this->encode(
             [
                 'code' => 'foo',
-                'name' => '"bar"'
+                'name' => '"bar"',
             ],
             'csv',
             [
@@ -76,7 +76,7 @@ class CsvEncoderSpec extends ObjectBehavior
         $this->encode(
             [
                 'code' => 'foo',
-                'name' => '"bar"'
+                'name' => '"bar"',
             ],
             'csv',
             [
@@ -88,7 +88,7 @@ class CsvEncoderSpec extends ObjectBehavior
         $this->encode(
             [
                 'code' => 'foo',
-                'name' => '"bar"'
+                'name' => '"bar"',
             ],
             'csv',
             [
@@ -111,7 +111,7 @@ class CsvEncoderSpec extends ObjectBehavior
         )->shouldReturn("\n");
     }
 
-    function it_encodes_header()
+    public function it_encodes_header()
     {
         $this->encode(
             [
@@ -120,7 +120,7 @@ class CsvEncoderSpec extends ObjectBehavior
             ],
             'csv',
             [
-                'withHeader' => true
+                'withHeader' => true,
             ]
         )->shouldReturn("name;code\nfoo;bar\nbaz;buz\n");
 
@@ -131,12 +131,12 @@ class CsvEncoderSpec extends ObjectBehavior
             ],
             'csv',
             [
-                'withHeader' => false
+                'withHeader' => false,
             ]
         )->shouldReturn("foo;bar\nbaz;buz\n");
     }
 
-    function it_throws_exception_when_data_are_invalid()
+    public function it_throws_exception_when_data_are_invalid()
     {
         $this->shouldThrow('\InvalidArgumentException')->during('encode', [null, 'csv']);
         $this->shouldThrow('\InvalidArgumentException')->during('encode', [false, 'csv']);

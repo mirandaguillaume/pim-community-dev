@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Tests\Integration\Webhook;
@@ -51,7 +52,7 @@ class ProduceEventOnBulkProductModelUpdateIntegration extends TestCase
                 'values' => [
                     'a_simple_select' => [
                         ['locale' => null, 'scope' => null, 'data' => 'optionA'],
-                    ]
+                    ],
                 ],
             ]);
         }

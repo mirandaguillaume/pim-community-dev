@@ -23,11 +23,11 @@ class DbalSelectEventsApiRequestCountWithinLastHourQuery implements SelectEvents
     {
         $oneHourAgoEventDateTime = $eventDateTime->modify('-1 hour');
         $sql = <<<SQL
- SELECT updated, event_count
- FROM akeneo_connectivity_connection_events_api_request_count
- WHERE updated BETWEEN :from_datetime AND :to_datetime
- ORDER BY updated DESC
-SQL;
+             SELECT updated, event_count
+             FROM akeneo_connectivity_connection_events_api_request_count
+             WHERE updated BETWEEN :from_datetime AND :to_datetime
+             ORDER BY updated DESC
+            SQL;
 
         return $this->dbalConnection->executeQuery(
             $sql,

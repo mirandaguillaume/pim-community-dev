@@ -83,7 +83,7 @@ final class DispatchProductRemovedEventSubscriber implements DispatchBufferedPim
                             'author' => $event->getAuthor()->name(),
                             'author_type' => $event->getAuthor()->type(),
                             'timestamp' => $event->getTimestamp(),
-                        ], $this->events)
+                        ], $this->events),
                     ],
                     JSON_THROW_ON_ERROR
                 )

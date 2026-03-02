@@ -334,7 +334,7 @@ class ProductController
     {
         $values = $this->productValueConverter->convert($data['values']);
         $values = $this->localizedConverter->convertToDefaultFormats($values, [
-            'locale' => $this->userContext->getUiLocale()->getCode()
+            'locale' => $this->userContext->getUiLocale()->getCode(),
         ]);
         $dataFiltered = $this->emptyValuesFilter->filter($product, ['values' => $values]);
         if (!empty($dataFiltered)) {

@@ -49,7 +49,7 @@ class DateType extends AbstractType
                 'placeholder'                => 'oro.form.click_here_to_select',
                 'invalid_message'            => $constraint->message,
                 'invalid_message_parameters' => ['{{ date_format }}' => $dateFormat],
-                'format'                     => $dateFormat
+                'format'                     => $dateFormat,
             ]
         )->setNormalizer('placeholder', function (Options $options, $placeholder) use ($placeholderDefault) {
             if (is_string($placeholder)) {

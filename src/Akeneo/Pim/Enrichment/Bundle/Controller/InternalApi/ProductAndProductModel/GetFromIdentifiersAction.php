@@ -56,7 +56,7 @@ class GetFromIdentifiersAction
 
         return new JsonResponse([
             'items' => array_merge($normalizedProducts, $normalizedProductModels),
-            'total_count' => $productRows->totalCount() + $productModelRows->totalCount()
+            'total_count' => $productRows->totalCount() + $productModelRows->totalCount(),
         ]);
     }
 
@@ -69,7 +69,7 @@ class GetFromIdentifiersAction
             [
                 'default_locale' => $localeCode,
                 'default_scope'  => $channelCode,
-                'limit' => self::MAX_RESULTS
+                'limit' => self::MAX_RESULTS,
             ]
         );
 
@@ -102,7 +102,7 @@ class GetFromIdentifiersAction
             [
                 'default_locale' => $localeCode,
                 'default_scope'  => $channelCode,
-                'limit' => self::MAX_RESULTS
+                'limit' => self::MAX_RESULTS,
             ]
         );
         $queryBuilder->addFilter('identifier', Operators::IN_LIST, $productModelCodes);

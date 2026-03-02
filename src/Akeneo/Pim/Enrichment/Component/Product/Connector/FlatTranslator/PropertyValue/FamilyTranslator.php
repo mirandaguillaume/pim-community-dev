@@ -24,8 +24,8 @@ class FamilyTranslator implements FlatPropertyValueTranslatorInterface
 
         $familyLabelized = [];
         foreach ($values as $valueIndex => $value) {
-            $familyLabelized[$valueIndex] = $familyTranslations[$value] ??
-                sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $value);
+            $familyLabelized[$valueIndex] = $familyTranslations[$value]
+                ?? sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $value);
         }
 
         return $familyLabelized;

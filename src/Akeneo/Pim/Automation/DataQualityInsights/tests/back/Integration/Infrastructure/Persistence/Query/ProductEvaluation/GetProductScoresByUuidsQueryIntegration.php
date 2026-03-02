@@ -33,9 +33,9 @@ final class GetProductScoresByUuidsQueryIntegration extends DataQualityInsightsT
         $productD = $this->createProduct('product_D');
 
         $this->resetProductsScores();
-        $productUuidA = $this->get(ProductUuidFactory::class)->create((string)$productA->getUuid());
-        $productUuidB = $this->get(ProductUuidFactory::class)->create((string)$productB->getUuid());
-        $productUuidC = $this->get(ProductUuidFactory::class)->create((string)$productC->getUuid());
+        $productUuidA = $this->get(ProductUuidFactory::class)->create((string) $productA->getUuid());
+        $productUuidB = $this->get(ProductUuidFactory::class)->create((string) $productB->getUuid());
+        $productUuidC = $this->get(ProductUuidFactory::class)->create((string) $productC->getUuid());
 
         $productsScores = [
             'product_A_scores' => new Write\ProductScores(

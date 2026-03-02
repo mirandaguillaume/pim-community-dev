@@ -34,11 +34,11 @@ final readonly class GetEvaluationResultsByProductsAndCriterionQuery implements 
         Assert::isInstanceOf($productIdCollection, ProductUuidCollection::class);
 
         $query = <<<SQL
-SELECT BIN_TO_UUID(p.uuid) AS product_uuid, e.result
-FROM pim_data_quality_insights_product_criteria_evaluation e
-    JOIN pim_catalog_product p ON p.uuid = e.product_uuid
-WHERE p.uuid IN (:productUuids) AND e.criterion_code = :criterionCode;
-SQL;
+            SELECT BIN_TO_UUID(p.uuid) AS product_uuid, e.result
+            FROM pim_data_quality_insights_product_criteria_evaluation e
+                JOIN pim_catalog_product p ON p.uuid = e.product_uuid
+            WHERE p.uuid IN (:productUuids) AND e.criterion_code = :criterionCode;
+            SQL;
 
         $stmt = $this->dbConnection->executeQuery(
             $query,

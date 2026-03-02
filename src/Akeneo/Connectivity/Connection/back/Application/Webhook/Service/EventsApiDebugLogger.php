@@ -47,8 +47,8 @@ class EventsApiDebugLogger implements
             'message' => 'The event was not sent because it was raised by the same connection.',
             'connection_code' => $connectionCode,
             'context' => [
-                'event' => $this->normalizeEvent($event)
-            ]
+                'event' => $this->normalizeEvent($event),
+            ],
         ]);
     }
 
@@ -70,7 +70,7 @@ class EventsApiDebugLogger implements
                 'status_code' => $statusCode,
                 'headers' => $headers,
                 'events' => \array_map(fn ($webhookEvent): array => $this->normalizeEvent($webhookEvent->getPimEvent()), $events),
-            ]
+            ],
         ]);
     }
 
@@ -97,8 +97,8 @@ class EventsApiDebugLogger implements
             'message' => 'The event was not sent because the product does not exists or the connection does not have the required permissions.',
             'connection_code' => $connectionCode,
             'context' => [
-                'event' => $this->normalizeEvent($event)
-            ]
+                'event' => $this->normalizeEvent($event),
+            ],
         ]);
     }
 
@@ -122,7 +122,7 @@ class EventsApiDebugLogger implements
                 'status_code' => $statusCode,
                 'headers' => $headers,
                 'events' => \array_map(fn ($webhookEvent): array => $this->normalizeEvent($webhookEvent->getPimEvent()), $webhookEvents),
-            ]
+            ],
         ]);
     }
 

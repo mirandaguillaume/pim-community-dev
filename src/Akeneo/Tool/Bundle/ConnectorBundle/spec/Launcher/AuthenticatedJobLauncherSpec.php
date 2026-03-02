@@ -9,17 +9,17 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class AuthenticatedJobLauncherSpec extends ObjectBehavior
 {
-    function let(JobLauncherInterface $jobLauncher)
+    public function let(JobLauncherInterface $jobLauncher)
     {
         $this->beConstructedWith($jobLauncher);
     }
 
-    function it_is_a_job_launcher()
+    public function it_is_a_job_launcher()
     {
         $this->shouldHaveType(JobLauncherInterface::class);
     }
 
-    function it_should_force_authentication_in_configuration(
+    public function it_should_force_authentication_in_configuration(
         $jobLauncher,
         JobInstance $jobInstance,
         UserInterface $user

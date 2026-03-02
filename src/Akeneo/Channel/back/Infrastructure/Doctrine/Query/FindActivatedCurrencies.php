@@ -74,13 +74,13 @@ class FindActivatedCurrencies implements FindActivatedCurrenciesInterface, Cache
     private function fetchActivatedCurrenciesForAllChannels(): array
     {
         $sql = <<<SQL
-SELECT ch.code as channel_code, JSON_ARRAYAGG(cu.code) as activated_currencies
-FROM pim_catalog_channel ch
-  INNER JOIN pim_catalog_channel_currency chcu on ch.id = chcu.channel_id
-  INNER JOIN pim_catalog_currency cu on chcu.currency_id = cu.id
-WHERE cu.is_activated IS TRUE
-GROUP BY ch.code;
-SQL;
+            SELECT ch.code as channel_code, JSON_ARRAYAGG(cu.code) as activated_currencies
+            FROM pim_catalog_channel ch
+              INNER JOIN pim_catalog_channel_currency chcu on ch.id = chcu.channel_id
+              INNER JOIN pim_catalog_currency cu on chcu.currency_id = cu.id
+            WHERE cu.is_activated IS TRUE
+            GROUP BY ch.code;
+            SQL;
         $statement = $this->entityManager->getConnection()->executeQuery($sql);
 
         $results = $statement->fetchAllAssociative();

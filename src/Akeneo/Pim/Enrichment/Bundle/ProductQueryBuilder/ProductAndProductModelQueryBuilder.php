@@ -107,8 +107,8 @@ class ProductAndProductModelQueryBuilder implements ProductQueryBuilderInterface
     {
         $hasAttributeFilters = $this->hasRawFilter('type', 'attribute');
         $hasParentFilter = $this->hasRawFilter('field', 'parent');
-        $hasIdFilter = $this->hasRawFilter('field', 'id') ||
-            $this->hasRawFilter('field', 'uuid');
+        $hasIdFilter = $this->hasRawFilter('field', 'id')
+            || $this->hasRawFilter('field', 'uuid');
         $hasIdentifierFilter = $this->hasRawFilter('field', 'identifier');
         $hasEntityTypeFilter = $this->hasRawFilter('field', 'entity_type');
         $hasAncestorsIdsFilter = $this->hasRawFilter('field', 'ancestor.id');
@@ -121,17 +121,17 @@ class ProductAndProductModelQueryBuilder implements ProductQueryBuilderInterface
         $hasCategoryFilter = $this->hasFilterOnCategoryWhichImplyAggregation();
         $hasLabelOrIdentifierField = $this->hasRawFilter('field', 'label_or_identifier');
 
-        return !$hasAttributeFilters &&
-            !$hasParentFilter &&
-            !$hasIdFilter &&
-            !$hasIdentifierFilter &&
-            !$hasEntityTypeFilter &&
-            !$hasAncestorsIdsFilter &&
-            !$hasSelfAndAncestorsIdsFilter &&
-            !$hasSelfAndAncestorsLabelOrIdentifierFilter &&
-            !$hasGroupsFilter &&
-            !$hasCategoryFilter &&
-            !$hasLabelOrIdentifierField;
+        return !$hasAttributeFilters
+            && !$hasParentFilter
+            && !$hasIdFilter
+            && !$hasIdentifierFilter
+            && !$hasEntityTypeFilter
+            && !$hasAncestorsIdsFilter
+            && !$hasSelfAndAncestorsIdsFilter
+            && !$hasSelfAndAncestorsLabelOrIdentifierFilter
+            && !$hasGroupsFilter
+            && !$hasCategoryFilter
+            && !$hasLabelOrIdentifierField;
     }
 
     /**
@@ -156,9 +156,9 @@ class ProductAndProductModelQueryBuilder implements ProductQueryBuilderInterface
     {
         $hasFilter = !empty(array_filter(
             $this->getRawFilters(),
-            fn (array $filter) => 'field' === $filter['type'] &&
-                'categories' === $filter['field'] &&
-                (Operators::IN_LIST === $filter['operator'] || Operators::IN_CHILDREN_LIST === $filter['operator'])
+            fn (array $filter) => 'field' === $filter['type']
+                && 'categories' === $filter['field']
+                && (Operators::IN_LIST === $filter['operator'] || Operators::IN_CHILDREN_LIST === $filter['operator'])
         ));
 
         return $hasFilter;
@@ -186,10 +186,10 @@ class ProductAndProductModelQueryBuilder implements ProductQueryBuilderInterface
         $hasIdentifierField = $this->hasRawFilter('field', 'identifier');
 
         return
-            !$hasParentField &&
-            !$hasIdField &&
-            !$hasEntityTypeField &&
-            !$hasLabelOrIdentifierField &&
-            !$hasIdentifierField;
+            !$hasParentField
+            && !$hasIdField
+            && !$hasEntityTypeField
+            && !$hasLabelOrIdentifierField
+            && !$hasIdentifierField;
     }
 }

@@ -22,8 +22,8 @@ class GetCategoriesParametersBuilderSqlIntegration extends CategoryTestCase
             "code" => [
                 [
                     "operator" => "IN",
-                    "value" => ["sock"]
-                ]
+                    "value" => ["sock"],
+                ],
             ],
         ];
 
@@ -63,8 +63,8 @@ class GetCategoriesParametersBuilderSqlIntegration extends CategoryTestCase
             "code" => [
                 [
                     "operator" => "IN",
-                    "value" => ["sock"]
-                ]
+                    "value" => ["sock"],
+                ],
             ],
         ];
 
@@ -132,8 +132,8 @@ class GetCategoriesParametersBuilderSqlIntegration extends CategoryTestCase
             "code" => [
                 [
                     "operator" => "IN",
-                    "value" => ["sock"]
-                ]
+                    "value" => ["sock"],
+                ],
             ],
         ];
 

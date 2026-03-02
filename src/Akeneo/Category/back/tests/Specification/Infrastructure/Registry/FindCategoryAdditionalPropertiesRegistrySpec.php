@@ -9,7 +9,7 @@ use PhpSpec\ObjectBehavior;
 
 class FindCategoryAdditionalPropertiesRegistrySpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         FindCategoryAdditionalPropertiesRegistry $unsupportedFinder,
         FindCategoryAdditionalPropertiesRegistry $supportedFinder,
     ) {
@@ -21,12 +21,12 @@ class FindCategoryAdditionalPropertiesRegistrySpec extends ObjectBehavior
         );
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(FindCategoryAdditionalPropertiesRegistry::class);
     }
 
-    function it_executes_only_supported_finder_for_category(
+    public function it_executes_only_supported_finder_for_category(
         CategoryAdditionalPropertiesFinder $supportedFinder,
         CategoryAdditionalPropertiesFinder $unsupportedFinder,
         Category $category
@@ -39,7 +39,7 @@ class FindCategoryAdditionalPropertiesRegistrySpec extends ObjectBehavior
         $this->forCategory($category);
     }
 
-    function it_executes_only_supported_finder_for_categories(
+    public function it_executes_only_supported_finder_for_categories(
         CategoryAdditionalPropertiesFinder $supportedFinder,
         CategoryAdditionalPropertiesFinder $unsupportedFinder,
         Category $category

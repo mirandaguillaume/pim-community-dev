@@ -59,7 +59,7 @@ final readonly class DownloadEventSubscriptionLogsAction
                         '%s %s %s %s%s',
                         \DateTime::createFromFormat(
                             'U',
-                            (string)$log['timestamp'],
+                            (string) $log['timestamp'],
                             new \DateTimeZone('UTC')
                         )->format('Y/m/d H:i:s'),
                         \strtoupper($log['level']),

@@ -59,7 +59,7 @@ class NumberFilterType extends AbstractType
                 'field_type'        => NumberType::class,
                 'operator_choices'  => $operatorChoices,
                 'data_type'         => self::DATA_INTEGER,
-                'formatter_options' => []
+                'formatter_options' => [],
             ]
         );
     }

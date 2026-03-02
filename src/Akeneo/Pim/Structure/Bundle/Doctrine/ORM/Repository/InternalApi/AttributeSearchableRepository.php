@@ -172,11 +172,11 @@ class AttributeSearchableRepository implements SearchableRepositoryInterface
             switch ($options['code']['type']) {
                 case TextFilterType::TYPE_CONTAINS:
                     $qb->andWhere('a.code LIKE :code');
-                    $qb->setParameter('code', '%'.$options['code']['value'].'%');
+                    $qb->setParameter('code', '%' . $options['code']['value'] . '%');
                     break;
                 case TextFilterType::TYPE_NOT_CONTAINS:
                     $qb->andWhere('a.code NOT LIKE :code');
-                    $qb->setParameter('code', '%'.$options['code']['value'].'%');
+                    $qb->setParameter('code', '%' . $options['code']['value'] . '%');
                     break;
                 case TextFilterType::TYPE_EQUAL:
                     $qb->andWhere('a.code = :code');
@@ -184,7 +184,7 @@ class AttributeSearchableRepository implements SearchableRepositoryInterface
                     break;
                 case TextFilterType::TYPE_STARTS_WITH:
                     $qb->andWhere('a.code LIKE :code');
-                    $qb->setParameter('code', $options['code']['value'].'%');
+                    $qb->setParameter('code', $options['code']['value'] . '%');
                     break;
                 case TextFilterType::TYPE_EMPTY:
                     $qb->andWhere('a.code = :code');

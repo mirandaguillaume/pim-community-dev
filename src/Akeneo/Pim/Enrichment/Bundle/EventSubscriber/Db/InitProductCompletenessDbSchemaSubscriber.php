@@ -19,20 +19,20 @@ class InitProductCompletenessDbSchemaSubscriber implements EventSubscriberInterf
     public static function getSubscribedEvents(): array
     {
         return [
-            InstallerEvents::POST_DB_CREATE => 'initDbSchema'
+            InstallerEvents::POST_DB_CREATE => 'initDbSchema',
         ];
     }
 
     public function initDbSchema(InstallerEvent $event): void
     {
         $completenessTableSql = <<<SQL
-            CREATE TABLE IF NOT EXISTS pim_catalog_product_completeness(
-                `product_uuid` binary(16) NOT NULL,
-                `completeness` JSON NOT NULL DEFAULT (JSON_OBJECT()),
-                PRIMARY KEY (`product_uuid`),
-                CONSTRAINT `FK_PRODUCTUUID_COMPLETENESS` FOREIGN KEY (`product_uuid`) REFERENCES `pim_catalog_product` (`uuid`) ON DELETE CASCADE
-            ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB
-SQL;
+                        CREATE TABLE IF NOT EXISTS pim_catalog_product_completeness(
+                            `product_uuid` binary(16) NOT NULL,
+                            `completeness` JSON NOT NULL DEFAULT (JSON_OBJECT()),
+                            PRIMARY KEY (`product_uuid`),
+                            CONSTRAINT `FK_PRODUCTUUID_COMPLETENESS` FOREIGN KEY (`product_uuid`) REFERENCES `pim_catalog_product` (`uuid`) ON DELETE CASCADE
+                        ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB
+            SQL;
         $this->connection->executeStatement($completenessTableSql);
     }
 }

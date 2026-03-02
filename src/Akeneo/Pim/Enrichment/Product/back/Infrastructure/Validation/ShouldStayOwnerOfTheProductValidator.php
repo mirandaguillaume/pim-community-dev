@@ -83,8 +83,8 @@ final class ShouldStayOwnerOfTheProductValidator extends ConstraintValidator
             return;
         }
 
-        if ([] === $newCategoryCodes &&
-            [] === ($this->getNonViewableCategoryCodes->fromProductUuids([$uuid], $command->userId())[$uuid->toString()] ?? [])
+        if ([] === $newCategoryCodes
+            && [] === ($this->getNonViewableCategoryCodes->fromProductUuids([$uuid], $command->userId())[$uuid->toString()] ?? [])
         ) {
             // the product is unclassified
             return;

@@ -24,7 +24,7 @@ class ProductAnalyzer implements AnalyzerInterface
             "products"      => [
                 "count"              => 0,
                 "values_count"       => 0,
-                "values_per_product" => []
+                "values_per_product" => [],
             ],
         ];
 
@@ -93,7 +93,7 @@ class ProductAnalyzer implements AnalyzerInterface
         if (!isset($currentStats['min']['count']) || ($valuesCount < $currentStats['min']['count'])) {
             $valuesStat['min'] = [
                 'count'       => $valuesCount,
-                'line_number' => $lineNumber
+                'line_number' => $lineNumber,
             ];
         } else {
             $valuesStat['min'] = $currentStats['min'];
@@ -102,7 +102,7 @@ class ProductAnalyzer implements AnalyzerInterface
         if (!isset($currentStats['max']['count']) || ($valuesCount > $currentStats['max']['count'])) {
             $valuesStat['max'] = [
                 'count'       => $valuesCount,
-                'line_number' => $lineNumber
+                'line_number' => $lineNumber,
             ];
         } else {
             $valuesStat['max'] = $currentStats['max'];

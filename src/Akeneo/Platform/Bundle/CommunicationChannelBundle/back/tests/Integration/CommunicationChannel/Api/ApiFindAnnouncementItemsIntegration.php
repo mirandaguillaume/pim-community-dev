@@ -15,7 +15,6 @@ use Symfony\Component\Process\Process;
 
 class ApiFindAnnouncementItemsIntegration extends KernelTestCase
 {
-
     private static ?Process $process = null;
 
     public static function setUpBeforeClass(): void
@@ -96,7 +95,7 @@ class ApiFindAnnouncementItemsIntegration extends KernelTestCase
                 $httpClient->get('/');
             } catch (ConnectException) {
                 usleep(100000);
-            } catch (ClientException | ServerException) {
+            } catch (ClientException|ServerException) {
                 return; // started
             }
 

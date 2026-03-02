@@ -29,7 +29,7 @@ class Utf8mb4SupportIntegrationTest extends TestCase
         $this->schemaManager = $this->connection->createSchemaManager();
     }
 
-    public function testUtf8mb4Support() : void
+    public function testUtf8mb4Support(): void
     {
         if ($this->schemaManager->tablesExist([self::TEST_TABLE_NAME])) {
             $this->schemaManager->dropTable(self::TEST_TABLE_NAME);
@@ -44,7 +44,7 @@ class Utf8mb4SupportIntegrationTest extends TestCase
 
         $myTestTableSql = array_filter(
             $schema->toSql($this->connection->getDatabasePlatform()),
-            fn ($sql) => str_starts_with($sql, 'CREATE TABLE '.self::TEST_TABLE_NAME)
+            fn ($sql) => str_starts_with($sql, 'CREATE TABLE ' . self::TEST_TABLE_NAME)
         );
         $myTestTableSql = reset($myTestTableSql);
 
@@ -53,22 +53,22 @@ class Utf8mb4SupportIntegrationTest extends TestCase
         $insertCount = $this->connection->insert(
             self::TEST_TABLE_NAME,
             [
-                'id' =>1,
-                'name' => '𝌆'
+                'id' => 1,
+                'name' => '𝌆',
             ]
         );
 
         $this->assertEquals(1, $insertCount);
 
         $resultFromDb = $this->connection->fetchOne(
-            "SELECT name FROM ".self::TEST_TABLE_NAME." WHERE name = ?",
+            "SELECT name FROM " . self::TEST_TABLE_NAME . " WHERE name = ?",
             ["𝌆"]
         );
 
         $this->assertEquals("𝌆", $resultFromDb);
     }
 
-    public function tearDown() : void
+    public function tearDown(): void
     {
         if ($this->schemaManager->tablesExist([self::TEST_TABLE_NAME])) {
             $this->schemaManager->dropTable(self::TEST_TABLE_NAME);

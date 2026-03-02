@@ -65,8 +65,8 @@ final class ProductModelsWereCreatedOrUpdatedNormalizer implements NormalizerInt
     {
         Assert::isInstanceOf($object, ProductModelsWereCreatedOrUpdated::class);
 
-        return ['events' =>
-            \array_map(
+        return ['events'
+            => \array_map(
                 fn (ProductModelWasCreated|ProductModelWasUpdated $event) => $event instanceof ProductModelWasCreated ? [
                     'product_model_id' => $event->id,
                     'created_at' => $event->createdAt->format(\DateTimeInterface::ATOM),
@@ -75,7 +75,7 @@ final class ProductModelsWereCreatedOrUpdatedNormalizer implements NormalizerInt
                     'updated_at' => $event->updatedAt->format(\DateTimeInterface::ATOM),
                 ],
                 $object->events
-            )
+            ),
         ];
     }
 

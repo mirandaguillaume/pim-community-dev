@@ -9,7 +9,7 @@ use PhpSpec\ObjectBehavior;
 
 class NotificationSubscriberSpec extends ObjectBehavior
 {
-    function it_notifies_notifier(
+    public function it_notifies_notifier(
         Notifier $notifier1,
         Notifier $notifier2,
         JobExecutionEvent $event,

@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 
 class UniqueDatagridViewEntityValidatorSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         ExecutionContextInterface $context,
         DatagridViewRepositoryInterface $datagridViewRepository
     ) {
@@ -22,12 +22,12 @@ class UniqueDatagridViewEntityValidatorSpec extends ObjectBehavior
         $this->initialize($context);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(UniqueDatagridViewEntityValidator::class);
     }
 
-    function it_adds_violation_to_the_context_if_a_public_datagrid_view_already_exists_with_the_same_label(
+    public function it_adds_violation_to_the_context_if_a_public_datagrid_view_already_exists_with_the_same_label(
         ExecutionContextInterface $context,
         DatagridViewRepositoryInterface $datagridViewRepository,
         ConstraintViolationBuilderInterface $constraintViolationBuilder,
@@ -53,7 +53,7 @@ class UniqueDatagridViewEntityValidatorSpec extends ObjectBehavior
         $this->validate($datagridView, $constraint);
     }
 
-    function it_adds_violation_to_the_context_if_a_private_datagrid_view_already_exists_with_the_same_label_and_same_user(
+    public function it_adds_violation_to_the_context_if_a_private_datagrid_view_already_exists_with_the_same_label_and_same_user(
         ExecutionContextInterface $context,
         DatagridViewRepositoryInterface $datagridViewRepository,
         ConstraintViolationBuilderInterface $constraintViolationBuilder,
@@ -82,7 +82,7 @@ class UniqueDatagridViewEntityValidatorSpec extends ObjectBehavior
         $this->validate($datagridView, $constraint);
     }
 
-    function it_does_not_add_violation_to_the_context_if_no_public_datagrid_view_already_exists_with_the_same_label(
+    public function it_does_not_add_violation_to_the_context_if_no_public_datagrid_view_already_exists_with_the_same_label(
         DatagridViewRepositoryInterface $datagridViewRepository,
         ConstraintViolationBuilderInterface $constraintViolationBuilder,
         DatagridView $datagridView
@@ -101,7 +101,7 @@ class UniqueDatagridViewEntityValidatorSpec extends ObjectBehavior
         $this->validate($datagridView, $constraint);
     }
 
-    function it_does_not_add_violation_to_the_context_if_no_private_datagrid_view_already_exists_with_the_same_label_and_same_user(
+    public function it_does_not_add_violation_to_the_context_if_no_private_datagrid_view_already_exists_with_the_same_label_and_same_user(
         DatagridViewRepositoryInterface $datagridViewRepository,
         ConstraintViolationBuilderInterface $constraintViolationBuilder,
         DatagridView $datagridView
@@ -123,7 +123,7 @@ class UniqueDatagridViewEntityValidatorSpec extends ObjectBehavior
         $this->validate($datagridView, $constraint);
     }
 
-    function it_does_not_add_violation_to_the_context_if_i_update_a_datagrid_view(
+    public function it_does_not_add_violation_to_the_context_if_i_update_a_datagrid_view(
         DatagridViewRepositoryInterface $datagridViewRepository,
         ConstraintViolationBuilderInterface $constraintViolationBuilder,
         DatagridView $datagridView

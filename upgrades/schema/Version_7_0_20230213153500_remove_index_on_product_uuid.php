@@ -25,12 +25,12 @@ final class Version_7_0_20230213153500_remove_index_on_product_uuid extends Abst
     private function uuidIndexExist(): bool
     {
         $query = <<<SQL
-            SELECT COUNT(1) indexCount
-            FROM INFORMATION_SCHEMA.STATISTICS
-            WHERE table_schema = DATABASE()
-            AND table_name = 'pim_catalog_product'
-            AND index_name = 'product_uuid';
-SQL;
+                        SELECT COUNT(1) indexCount
+                        FROM INFORMATION_SCHEMA.STATISTICS
+                        WHERE table_schema = DATABASE()
+                        AND table_name = 'pim_catalog_product'
+                        AND index_name = 'product_uuid';
+            SQL;
 
         $result = $this->connection
             ->executeQuery($query)
@@ -47,8 +47,8 @@ SQL;
     private function removeUuidIndex()
     {
         $query = <<<SQL
-DROP INDEX product_uuid ON pim_catalog_product
-SQL;
+            DROP INDEX product_uuid ON pim_catalog_product
+            SQL;
 
         $this->addSql($query);
     }

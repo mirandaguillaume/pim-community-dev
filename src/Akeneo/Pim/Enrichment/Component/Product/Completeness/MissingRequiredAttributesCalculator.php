@@ -32,7 +32,7 @@ class MissingRequiredAttributesCalculator implements MissingRequiredAttributesCa
         EntityWithFamilyInterface $entityWithFamily
     ): ProductCompletenessWithMissingAttributeCodesCollection {
         $entityId = \method_exists($entityWithFamily, 'getUuid')
-            ?  $entityWithFamily->getUuid()->toString()
+            ? $entityWithFamily->getUuid()->toString()
             : (string) $entityWithFamily->getId();
 
         if (null === $entityWithFamily->getFamily()) {

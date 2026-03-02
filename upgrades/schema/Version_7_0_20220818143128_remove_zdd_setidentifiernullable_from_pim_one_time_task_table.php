@@ -21,10 +21,10 @@ final class Version_7_0_20220818143128_remove_zdd_setidentifiernullable_from_pim
     public function down(Schema $schema): void
     {
         $sql = <<<SQL
-INSERT INTO `pim_one_time_task` (`code`, `status`, `start_time`, `end_time`, `values`)
-VALUES
-	('zdd_SetProductIdentifierNullable', 'finished', '2022-08-17 17:19:48', NULL, '{}');
-SQL;
+            INSERT INTO `pim_one_time_task` (`code`, `status`, `start_time`, `end_time`, `values`)
+            VALUES
+            	('zdd_SetProductIdentifierNullable', 'finished', '2022-08-17 17:19:48', NULL, '{}');
+            SQL;
 
         $this->addSql($sql);
     }

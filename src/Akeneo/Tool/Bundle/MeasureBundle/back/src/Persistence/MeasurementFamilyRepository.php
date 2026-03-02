@@ -54,15 +54,15 @@ class MeasurementFamilyRepository implements MeasurementFamilyRepositoryInterfac
     public function save(MeasurementFamily $measurementFamily)
     {
         $updateSql = <<<SQL
-    INSERT INTO akeneo_measurement
-        (code, labels, standard_unit, units)
-    VALUES
-        (:code, :labels, :standard_unit, :units)
-    ON DUPLICATE KEY UPDATE
-        labels = :labels,
-        standard_unit = :standard_unit,
-        units = :units;
-SQL;
+                INSERT INTO akeneo_measurement
+                    (code, labels, standard_unit, units)
+                VALUES
+                    (:code, :labels, :standard_unit, :units)
+                ON DUPLICATE KEY UPDATE
+                    labels = :labels,
+                    standard_unit = :standard_unit,
+                    units = :units;
+            SQL;
         $normalizedMeasurementFamily = $measurementFamily->normalize();
 
         $affectedRows = $this->sqlConnection->executeStatement(
@@ -71,7 +71,7 @@ SQL;
                 'code' => $normalizedMeasurementFamily['code'],
                 'labels' => json_encode($normalizedMeasurementFamily['labels'], JSON_THROW_ON_ERROR),
                 'standard_unit' => $normalizedMeasurementFamily['standard_unit_code'],
-                'units' => json_encode($normalizedMeasurementFamily['units'], JSON_THROW_ON_ERROR)
+                'units' => json_encode($normalizedMeasurementFamily['units'], JSON_THROW_ON_ERROR),
             ]
         );
 
@@ -90,10 +90,10 @@ SQL;
     public function countAllOthers(MeasurementFamilyCode $excludedMeasurementFamilyCode): int
     {
         $countQuery = <<<SQL
-    SELECT COUNT(code)
-    FROM akeneo_measurement
-    WHERE code != :code;
-SQL;
+                SELECT COUNT(code)
+                FROM akeneo_measurement
+                WHERE code != :code;
+            SQL;
 
         $statement = $this->sqlConnection->executeQuery($countQuery, [
             'code' => $excludedMeasurementFamilyCode->normalize(),
@@ -111,9 +111,9 @@ SQL;
     public function deleteByCode(MeasurementFamilyCode $measurementFamilyCode)
     {
         $sql = <<<SQL
-    DELETE FROM akeneo_measurement
-    WHERE code = :code
-SQL;
+                DELETE FROM akeneo_measurement
+                WHERE code = :code
+            SQL;
 
         $affectedRows = $this->sqlConnection->executeStatement(
             $sql,
@@ -187,13 +187,13 @@ SQL;
     private function loadMeasurementFamiliesIndexByCodes(): array
     {
         $selectAllQuery = <<<SQL
-    SELECT
-        code,
-        labels,
-        standard_unit,
-        units
-    FROM akeneo_measurement;
-SQL;
+                SELECT
+                    code,
+                    labels,
+                    standard_unit,
+                    units
+                FROM akeneo_measurement;
+            SQL;
         $statement = $this->sqlConnection->executeQuery($selectAllQuery);
         $results = $statement->fetchAllAssociative();
 
@@ -213,14 +213,14 @@ SQL;
     private function loadMeasurementFamily(MeasurementFamilyCode $measurementFamilyCode): ?MeasurementFamily
     {
         $sql = <<<SQL
-    SELECT
-        code,
-        labels,
-        standard_unit,
-        units
-    FROM akeneo_measurement
-    WHERE `code` = :measurement_family_code;
-SQL;
+                SELECT
+                    code,
+                    labels,
+                    standard_unit,
+                    units
+                FROM akeneo_measurement
+                WHERE `code` = :measurement_family_code;
+            SQL;
 
         $statement = $this->sqlConnection->executeQuery(
             $sql,

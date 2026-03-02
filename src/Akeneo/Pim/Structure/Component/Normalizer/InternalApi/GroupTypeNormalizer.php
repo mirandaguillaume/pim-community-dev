@@ -36,7 +36,7 @@ class GroupTypeNormalizer implements NormalizerInterface, CacheableSupportsMetho
     /**
      * {@inheritdoc}
      */
-    public function normalize($object, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($object, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $result = $this->normalizer->normalize($object, 'standard', $context);
 

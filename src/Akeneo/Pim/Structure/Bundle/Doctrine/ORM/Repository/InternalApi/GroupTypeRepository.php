@@ -77,7 +77,7 @@ class GroupTypeRepository extends EntityRepository implements
             ->addSelect(sprintf("%s AS label", $labelExpr));
 
         $qb
-            ->leftJoin($rootAlias .'.translations', 'translation', 'WITH', 'translation.locale = :localeCode');
+            ->leftJoin($rootAlias . '.translations', 'translation', 'WITH', 'translation.locale = :localeCode');
 
         return $qb;
     }

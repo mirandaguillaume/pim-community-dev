@@ -14,8 +14,8 @@ trait MigrateToUuidTrait
     {
         $rows = $this->connection->fetchAllAssociative(
             <<<SQL
-                SHOW TABLES LIKE :tableName
-            SQL,
+                    SHOW TABLES LIKE :tableName
+                SQL,
             ['tableName' => $tableName]
         );
 
@@ -27,8 +27,8 @@ trait MigrateToUuidTrait
         $rows = $this->connection->fetchAllAssociative(
             \strtr(
                 <<<SQL
-                    SHOW COLUMNS FROM {table_name} LIKE :columnName
-                SQL,
+                        SHOW COLUMNS FROM {table_name} LIKE :columnName
+                    SQL,
                 ['{table_name}' => $tableName]
             ),
             ['columnName' => $columnName]
@@ -41,11 +41,11 @@ trait MigrateToUuidTrait
     {
         $schema = $this->connection->getDatabase();
         $sql = <<<SQL
-            SELECT EXISTS (
-                SELECT TRIGGER_NAME FROM INFORMATION_SCHEMA.TRIGGERS
-                WHERE TRIGGER_NAME = :triggerName AND TRIGGER_SCHEMA = :schema
-            ) AS is_existing
-        SQL;
+                SELECT EXISTS (
+                    SELECT TRIGGER_NAME FROM INFORMATION_SCHEMA.TRIGGERS
+                    WHERE TRIGGER_NAME = :triggerName AND TRIGGER_SCHEMA = :schema
+                ) AS is_existing
+            SQL;
 
         return (bool) $this->connection->fetchOne($sql, ['triggerName' => $triggerName, 'schema' => $schema]);
     }
@@ -53,13 +53,13 @@ trait MigrateToUuidTrait
     protected function constraintExists(string $tableName, string $constraintName): bool
     {
         $sql = <<<SQL
-        SELECT EXISTS (
-            SELECT 1
-            FROM information_schema.table_constraints
-            WHERE constraint_schema = :schema AND TABLE_NAME = :table_name
-                AND CONSTRAINT_NAME = :constraint_name
-        ) AS is_existing
-        SQL;
+            SELECT EXISTS (
+                SELECT 1
+                FROM information_schema.table_constraints
+                WHERE constraint_schema = :schema AND TABLE_NAME = :table_name
+                    AND CONSTRAINT_NAME = :constraint_name
+            ) AS is_existing
+            SQL;
 
         return (bool) $this->connection->executeQuery(
             $sql,
@@ -103,11 +103,11 @@ trait MigrateToUuidTrait
     protected function indexExists(string $tableName, string $indexName): bool
     {
         $sql = <<<SQL
-            SELECT EXISTS (
-                SELECT INDEX_NAME FROM information_schema.STATISTICS
-                WHERE INDEX_SCHEMA = :schema AND TABLE_NAME = :table_name AND INDEX_NAME = :index_name
-            ) as is_existing
-        SQL;
+                SELECT EXISTS (
+                    SELECT INDEX_NAME FROM information_schema.STATISTICS
+                    WHERE INDEX_SCHEMA = :schema AND TABLE_NAME = :table_name AND INDEX_NAME = :index_name
+                ) as is_existing
+            SQL;
 
         return (bool) $this->connection->executeQuery(
             $sql,
@@ -122,17 +122,17 @@ trait MigrateToUuidTrait
     protected function getPrimaryKey(string $tableName): array
     {
         $sql = <<<SQL
-            SELECT COLUMN_NAME
-            FROM INFORMATION_SCHEMA.STATISTICS
-            WHERE TABLE_SCHEMA=:schema 
-              AND TABLE_NAME=:table_name 
-              AND INDEX_NAME='PRIMARY'
-            ORDER BY SEQ_IN_INDEX;
-        SQL;
+                SELECT COLUMN_NAME
+                FROM INFORMATION_SCHEMA.STATISTICS
+                WHERE TABLE_SCHEMA=:schema 
+                  AND TABLE_NAME=:table_name 
+                  AND INDEX_NAME='PRIMARY'
+                ORDER BY SEQ_IN_INDEX;
+            SQL;
 
         return $this->connection->fetchFirstColumn($sql, [
             'schema' => $this->connection->getDatabase(),
-            'table_name' => $tableName
+            'table_name' => $tableName,
         ]);
     }
 }

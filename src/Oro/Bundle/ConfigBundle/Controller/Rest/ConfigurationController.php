@@ -61,7 +61,7 @@ class ConfigurationController
             $data[$viewKey] = [
                 'value'                  => $value,
                 'scope'                  => 'app',
-                'use_parent_scope_value' => false
+                'use_parent_scope_value' => false,
             ];
         }
 

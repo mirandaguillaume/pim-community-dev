@@ -7,9 +7,8 @@ use Doctrine\DBAL\Connection;
 
 class Version_7_0_20220818093018_fix_volume_flow_conversion_Integration extends TestCase
 {
-    private const MIGRATION_LABEL = '_7_0_20220818093018_fix_volume_flow_conversion';
-
     use ExecuteMigrationTrait;
+    private const MIGRATION_LABEL = '_7_0_20220818093018_fix_volume_flow_conversion';
 
     private Connection $connection;
 
@@ -67,7 +66,7 @@ class Version_7_0_20220818093018_fix_volume_flow_conversion_Integration extends 
         $units = \json_decode($this->connection->executeQuery($query)->fetchOne(), true);
         $unit = current(array_filter(
             $units,
-            static fn (array $unit): bool => $unit['code'] === $unitCode
+            static fn(array $unit): bool => $unit['code'] === $unitCode
         ));
 
         return $unit['convert_from_standard'][1]['operator'];

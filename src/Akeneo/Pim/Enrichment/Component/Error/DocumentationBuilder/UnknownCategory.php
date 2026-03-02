@@ -39,7 +39,7 @@ final class UnknownCategory implements DocumentationBuilderInterface
                     'categories_settings' => new RouteMessageParameter(
                         'Categories settings',
                         'pim_enrich_categorytree_index'
-                    )
+                    ),
                 ],
                 Documentation::STYLE_TEXT
             ),
@@ -53,10 +53,10 @@ final class UnknownCategory implements DocumentationBuilderInterface
                     'categorize_a_product' => new HrefMessageParameter(
                         'Categorize a product',
                         'https://help.akeneo.com/pim/serenity/articles/categorize-a-product.html'
-                    )
+                    ),
                 ],
                 Documentation::STYLE_INFORMATION
-            )
+            ),
         ]);
     }
 }

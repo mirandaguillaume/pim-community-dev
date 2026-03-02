@@ -63,10 +63,10 @@ class DbalFindViewedAnnouncementIdsIntegration extends TestCase
     private function selectUserFromDb()
     {
         $query = <<<SQL
-        SELECT id
-        FROM oro_user
-        WHERE username = 'admin'
-SQL;
+                    SELECT id
+                    FROM oro_user
+                    WHERE username = 'admin'
+            SQL;
         $statement = $this->dbalConnection->executeQuery($query);
 
         return $statement->fetchAssociative();

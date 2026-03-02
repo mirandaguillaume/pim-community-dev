@@ -36,16 +36,16 @@ final readonly class SqlGetOptionsCountAndTranslationByAttribute implements GetO
     public function search(string $localeCode, int $limit = self::MAX_PAGE_SIZE, int $offset = 0, ?string $search = null): array
     {
         $query = <<<SQL
-        SELECT a.code, t.label, COUNT(o.id) AS options_count
-        FROM pim_catalog_attribute a
-            LEFT JOIN pim_catalog_attribute_option o ON o.attribute_id = a.id
-            LEFT JOIN pim_catalog_attribute_translation t ON t.foreign_key = a.id AND t.locale = :locale
-        WHERE a.attribute_type IN (:select_attribute_types)
-        AND COALESCE(t.label, a.code) LIKE :search
-        GROUP BY a.code, t.label
-        ORDER BY COALESCE(t.label, a.code)
-        LIMIT :limit OFFSET :offset
-        SQL;
+            SELECT a.code, t.label, COUNT(o.id) AS options_count
+            FROM pim_catalog_attribute a
+                LEFT JOIN pim_catalog_attribute_option o ON o.attribute_id = a.id
+                LEFT JOIN pim_catalog_attribute_translation t ON t.foreign_key = a.id AND t.locale = :locale
+            WHERE a.attribute_type IN (:select_attribute_types)
+            AND COALESCE(t.label, a.code) LIKE :search
+            GROUP BY a.code, t.label
+            ORDER BY COALESCE(t.label, a.code)
+            LIMIT :limit OFFSET :offset
+            SQL;
 
         $rawResults = $this->connection->executeQuery(
             $query,

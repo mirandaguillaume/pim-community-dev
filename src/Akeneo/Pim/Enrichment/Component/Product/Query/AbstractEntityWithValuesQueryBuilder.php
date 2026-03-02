@@ -119,7 +119,7 @@ class AbstractEntityWithValuesQueryBuilder implements ProductQueryBuilderInterfa
             'operator' => $operator,
             'value'    => $value,
             'context'  => $context,
-            'type'     => $filterType
+            'type'     => $filterType,
         ];
 
         return $this;

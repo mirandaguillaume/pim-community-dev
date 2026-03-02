@@ -35,8 +35,7 @@ final readonly class GetAvailablePropertiesController
         private UserContext $userContext,
         private TranslatorInterface $translator,
         private SecurityFacadeInterface $securityFacade,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request): Response
     {
@@ -93,7 +92,7 @@ final readonly class GetAvailablePropertiesController
 
         return \array_filter(
             $fields,
-            fn (string $field): bool =>
+            fn(string $field): bool =>
                 \str_contains(\strtolower($field), \strtolower($search))
                 || \str_contains(
                     \strtolower(
@@ -121,7 +120,7 @@ final readonly class GetAvailablePropertiesController
         }
 
         $children = \array_map(
-            fn (string $field): array => [
+            fn(string $field): array => [
                 'id' => $field,
                 'text' => $this->translator->trans(
                     \sprintf('%s%s', static::FIELD_TRANSLATION_BASE, $field),

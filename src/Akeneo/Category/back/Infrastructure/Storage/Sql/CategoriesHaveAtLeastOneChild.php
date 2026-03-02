@@ -62,10 +62,10 @@ final readonly class CategoriesHaveAtLeastOneChild implements BaseCategoriesHave
     private function getCategoryInfos(array $categoryCodes): array
     {
         $sql = <<<SQL
-SELECT code, lft, rgt, root
-FROM pim_catalog_category
-WHERE code IN (:categoryCodes)
-SQL;
+            SELECT code, lft, rgt, root
+            FROM pim_catalog_category
+            WHERE code IN (:categoryCodes)
+            SQL;
 
         $result = [];
         foreach ($this->connection->fetchAllAssociative(

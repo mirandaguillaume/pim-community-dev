@@ -11,19 +11,19 @@ use Symfony\Component\Form\FormFactoryInterface;
 
 class ProductTypologyFilterSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         FormFactoryInterface $factory,
         ProductFilterUtility $utility
     ) {
         $this->beConstructedWith($factory, $utility);
     }
 
-    function it_is_a_product_typology_filter()
+    public function it_is_a_product_typology_filter()
     {
         $this->shouldBeAnInstanceOf(ProductTypologyFilter::class);
     }
 
-    function it_does_not_apply_filter_on_unexpected_value(
+    public function it_does_not_apply_filter_on_unexpected_value(
         ProductFilterUtility $utility,
         FilterDatasourceAdapterInterface $datasource
     ) {
@@ -32,7 +32,7 @@ class ProductTypologyFilterSpec extends ObjectBehavior
         $this->apply($datasource, ['type' => null, 'value' => 'toto']);
     }
 
-    function it_applies_filter_for_simple_product_typology(
+    public function it_applies_filter_for_simple_product_typology(
         ProductFilterUtility $utility,
         FilterDatasourceAdapterInterface $datasource
     ) {
@@ -41,7 +41,7 @@ class ProductTypologyFilterSpec extends ObjectBehavior
         $this->apply($datasource, ['type' => null, 'value' => 'simple']);
     }
 
-    function it_applies_filter_for_variant_product_typology(
+    public function it_applies_filter_for_variant_product_typology(
         ProductFilterUtility $utility,
         FilterDatasourceAdapterInterface $datasource
     ) {

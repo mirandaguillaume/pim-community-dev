@@ -34,7 +34,7 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
     /**
      * {@inheritdoc}
      */
-    public function normalize($productModel, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($productModel, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         if (!$this->normalizer instanceof NormalizerInterface) {
             throw new \LogicException('Serializer must be a normalizer');
@@ -81,7 +81,7 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
         return true;
     }
 
-    private function getFamilyLabel(ProductModelInterface $productModel, string $locale) : ?string
+    private function getFamilyLabel(ProductModelInterface $productModel, string $locale): ?string
     {
         $family = $productModel->getFamilyVariant()->getFamily();
         if (null === $family) {
@@ -93,7 +93,7 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
         return $this->getLabel($family->getCode(), $translation->getLabel());
     }
 
-    private function getLabel(string $familyCode, ?string $familyLabel) : string
+    private function getLabel(string $familyCode, ?string $familyLabel): string
     {
         return empty($familyLabel) ? sprintf('[%s]', $familyCode) : $familyLabel;
     }
@@ -102,7 +102,7 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
      * @param ValueInterface $data
      *
      */
-    private function normalizeImage(?ValueInterface $data, array $context = []) : ?array
+    private function normalizeImage(?ValueInterface $data, array $context = []): ?array
     {
         return $this->imageNormalizer->normalize($data, $context['data_locale'], $context['data_channel']);
     }
@@ -113,7 +113,7 @@ class ProductModelNormalizer implements NormalizerInterface, NormalizerAwareInte
      * @param string                   $format
      *
      */
-    private function normalizeValues(WriteValueCollection $values, $format, array $context = []) : array
+    private function normalizeValues(WriteValueCollection $values, $format, array $context = []): array
     {
         foreach ($context['filter_types'] as $filterType) {
             $values = $this->filter->filterCollection($values, $filterType, $context);

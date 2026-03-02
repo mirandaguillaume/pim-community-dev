@@ -13,12 +13,12 @@ class JobParametersFactorySpec extends ObjectBehavior
 {
     final public const INSTANCE_CLASS = JobParameters::class;
 
-    function let(DefaultValuesProviderRegistry $registry)
+    public function let(DefaultValuesProviderRegistry $registry)
     {
         $this->beConstructedWith($registry, self::INSTANCE_CLASS);
     }
 
-    function it_creates_a_job_parameters_with_default_values(
+    public function it_creates_a_job_parameters_with_default_values(
         $registry,
         DefaultValuesProviderInterface $provider,
         JobInterface $job
@@ -38,7 +38,7 @@ class JobParametersFactorySpec extends ObjectBehavior
         );
     }
 
-    function it_creates_a_job_parameters_from_raw_parameters_of_a_job_execution(JobExecution $jobExecution)
+    public function it_creates_a_job_parameters_from_raw_parameters_of_a_job_execution(JobExecution $jobExecution)
     {
         $jobExecution->getRawParameters()->willreturn(['foo' => 'baz']);
         $jobParameters = $this->createFromRawParameters($jobExecution);

@@ -63,7 +63,7 @@ class FiltersConfigurator implements ConfiguratorInterface
                 'enabled'                           => false,
                 'order'                             => $attribute['sortOrder'],
                 'group'                             => $attribute['group'],
-                'groupOrder'                        => $attribute['groupOrder']
+                'groupOrder'                        => $attribute['groupOrder'],
             ];
 
             if (AttributeTypes::METRIC === $attributeType) {
@@ -94,8 +94,8 @@ class FiltersConfigurator implements ConfiguratorInterface
             $filters,
             function ($first, $second) {
                 if ($first['groupOrder'] === null || $second['groupOrder'] === null) {
-                    return $first['groupOrder'] === $second['groupOrder'] ?
-                        0 : ($first['groupOrder'] === null ? 1 : -1);
+                    return $first['groupOrder'] === $second['groupOrder']
+                        ? 0 : ($first['groupOrder'] === null ? 1 : -1);
                 }
 
                 if ($first['groupOrder'] === $second['groupOrder']) {

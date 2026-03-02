@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Channel\Infrastructure\Storage\Orm;
@@ -59,13 +60,13 @@ final readonly class ChannelSaver implements ChannelSaverInterface
         $this->dispatchChannelEvents($data);
     }
 
-    private function formatDataOptionsAndEvents(array $channels, array $commonOptions) : array
+    private function formatDataOptionsAndEvents(array $channels, array $commonOptions): array
     {
         return array_map(
             fn (ChannelInterface $channel) => [
                 $channel,
                 array_merge($commonOptions, ['is_new' => null === $channel->getId()]),
-                $channel->popEvents()
+                $channel->popEvents(),
             ],
             $channels
         );

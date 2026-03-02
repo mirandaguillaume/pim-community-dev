@@ -24,10 +24,10 @@ class SqlGetFirstVersionIdsByIdsQuery
         }
 
         $query = <<<SQL
-SELECT id 
-FROM pim_versioning_version
-WHERE id IN (:version_ids) AND version = 1; 
-SQL;
+            SELECT id 
+            FROM pim_versioning_version
+            WHERE id IN (:version_ids) AND version = 1; 
+            SQL;
 
         $results = $this->dbConnection->executeQuery(
             $query,

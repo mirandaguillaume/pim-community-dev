@@ -31,7 +31,7 @@ class CommunicationChannel extends Backbone.View<any> {
       this.addColouredDot();
     }
 
-    return Backbone.View.prototype.render.apply(this, arguments);
+    return Backbone.View.prototype.render.apply(this, []);
   }
 
   hasNewAnnouncements() {

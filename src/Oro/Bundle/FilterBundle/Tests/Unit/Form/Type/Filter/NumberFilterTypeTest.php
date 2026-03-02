@@ -55,9 +55,9 @@ class NumberFilterTypeTest extends AbstractTypeTestCase
                         NumberFilterType::TYPE_LESS_THAN     => 'oro.filter.form.label_type_less_than',
                     ],
                     'data_type'         => NumberFilterType::DATA_INTEGER,
-                    'formatter_options' => []
-                ]
-            ]
+                    'formatter_options' => [],
+                ],
+            ],
         ];
     }
 
@@ -74,7 +74,7 @@ class NumberFilterTypeTest extends AbstractTypeTestCase
                     'value' => ['type' => NumberFilterType::TYPE_EQUAL, 'value' => '12,345.68'],
                 ],
                 'customOptions' => [
-                    'field_options' => ['grouping' => true, 'precision' => 2]
+                    'field_options' => ['grouping' => true, 'precision' => 2],
                 ],
             ],
             'formatted number' => [
@@ -84,7 +84,7 @@ class NumberFilterTypeTest extends AbstractTypeTestCase
                     'value' => ['type' => NumberFilterType::TYPE_EQUAL, 'value' => '12,345.68'],
                 ],
                 'customOptions' => [
-                    'field_options' => ['grouping' => true, 'precision' => 2]
+                    'field_options' => ['grouping' => true, 'precision' => 2],
                 ],
             ],
             'integer' => [
@@ -97,18 +97,18 @@ class NumberFilterTypeTest extends AbstractTypeTestCase
                         'grouping'         => false,
                         'orderSeparator'   => '',
                         'decimalSeparator' => '.',
-                    ]
+                    ],
                 ],
                 'customOptions' => [
                     'field_type' => 'integer',
-                    'data_type'  => NumberFilterType::DATA_INTEGER
+                    'data_type'  => NumberFilterType::DATA_INTEGER,
                 ],
             ],
             'money' => [
                 'bindData' => ['type' => NumberFilterType::TYPE_EQUAL, 'value' => '12345.67890'],
                 'formData' => [
                     'type'  => NumberFilterType::TYPE_EQUAL,
-                    'value' => 12345.6789
+                    'value' => 12345.6789,
                 ],
                 'viewData' => [
                     'value'             => ['type' => NumberFilterType::TYPE_EQUAL, 'value' => '12345.68'],
@@ -117,15 +117,15 @@ class NumberFilterTypeTest extends AbstractTypeTestCase
                         'grouping'         => true,
                         'orderSeparator'   => ' ',
                         'decimalSeparator' => '.',
-                    ]
+                    ],
                 ],
                 'customOptions' => [
                     'field_type'        => 'money',
                     'data_type'         => NumberFilterType::DATA_DECIMAL,
                     'formatter_options' => [
                         'decimals'       => 4,
-                        'orderSeparator' => ' '
-                    ]
+                        'orderSeparator' => ' ',
+                    ],
                 ],
             ],
             'invalid format' => [
@@ -135,7 +135,7 @@ class NumberFilterTypeTest extends AbstractTypeTestCase
                     'value' => ['type' => NumberFilterType::TYPE_EQUAL, 'value' => 'abcd.67890'],
                 ],
                 'customOptions' => [
-                    'field_type' => 'money'
+                    'field_type' => 'money',
                 ],
             ],
         ];

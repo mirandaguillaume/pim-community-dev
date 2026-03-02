@@ -1,10 +1,10 @@
-import {useEffect, useState} from 'react';
+import {Dispatch, SetStateAction, useEffect, useState} from 'react';
 
 import {AttributeOption} from '../model';
 
 type UseSortedAttributeOptionsState = {
   sortedAttributeOptions: AttributeOption[] | null;
-  setSortedAttributeOptions: (attributeOptions: (rows: AttributeOption[]) => AttributeOption[]) => void;
+  setSortedAttributeOptions: Dispatch<SetStateAction<AttributeOption[] | null>>;
 };
 
 export const useSortedAttributeOptions = (

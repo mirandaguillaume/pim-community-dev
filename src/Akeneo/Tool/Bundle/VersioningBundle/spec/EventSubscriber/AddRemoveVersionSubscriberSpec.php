@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class AddRemoveVersionSubscriberSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         VersionFactory $versionFactory,
         VersionRepositoryInterface $versionRepository,
         TokenStorageInterface $tokenStorage,
@@ -34,14 +34,14 @@ class AddRemoveVersionSubscriberSpec extends ObjectBehavior
         );
     }
 
-    function it_subscribes_to_post_remove_events()
+    public function it_subscribes_to_post_remove_events()
     {
         $this->getSubscribedEvents()->shouldReturn([
             StorageEvents::POST_REMOVE => 'addRemoveVersion',
         ]);
     }
 
-    function it_creates_a_version_on_versionable_object_deletion(
+    public function it_creates_a_version_on_versionable_object_deletion(
         $versionFactory,
         $versionRepository,
         $tokenStorage,
@@ -80,7 +80,7 @@ class AddRemoveVersionSubscriberSpec extends ObjectBehavior
         $this->addRemoveVersion($event);
     }
 
-    function it_does_not_create_a_version_on_not_versionable_object_deletion(
+    public function it_does_not_create_a_version_on_not_versionable_object_deletion(
         $tokenStorage,
         $authorizationChecker,
         $versionSaver,

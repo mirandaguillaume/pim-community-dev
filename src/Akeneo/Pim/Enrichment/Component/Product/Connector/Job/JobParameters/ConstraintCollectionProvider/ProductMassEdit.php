@@ -41,8 +41,8 @@ class ProductMassEdit implements ConstraintCollectionProviderInterface
                         new Type('array'),
                         new All(new Type('string')),
                     ],
-                    'is_user_authenticated' => new Type('bool')
-                ]
+                    'is_user_authenticated' => new Type('bool'),
+                ],
             ]
         );
     }

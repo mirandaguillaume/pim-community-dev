@@ -12,28 +12,28 @@ use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 
 class AttributeGroupUpdateGuesserSpec extends ObjectBehavior
 {
-    function let(EntityManager $em, UnitOfWork $uow)
+    public function let(EntityManager $em, UnitOfWork $uow)
     {
         $em->getUnitOfWork()->willReturn($uow);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(AttributeGroupUpdateGuesser::class);
     }
 
-    function it_is_an_update_guesser()
+    public function it_is_an_update_guesser()
     {
         $this->shouldImplement(UpdateGuesserInterface::class);
     }
 
-    function it_supports_update_action()
+    public function it_supports_update_action()
     {
         $this->supportAction(UpdateGuesserInterface::ACTION_UPDATE_ENTITY)->shouldReturn(true);
         $this->supportAction('foo')->shouldReturn(false);
     }
 
-    function it_returns_no_pending_updates_if_not_given_an_attribute($em)
+    public function it_returns_no_pending_updates_if_not_given_an_attribute($em)
     {
         $this->guessUpdates($em, new \stdClass(), UpdateGuesserInterface::ACTION_UPDATE_ENTITY)
             ->shouldReturn([]);

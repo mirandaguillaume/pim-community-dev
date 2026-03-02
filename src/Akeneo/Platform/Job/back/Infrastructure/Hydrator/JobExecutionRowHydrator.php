@@ -21,8 +21,8 @@ class JobExecutionRowHydrator
 
     public function hydrate(array $jobExecution): JobExecutionRow
     {
-        $startTime = null !== $jobExecution['start_time'] ?
-            \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $jobExecution['start_time'], new \DateTimeZone('UTC'))
+        $startTime = null !== $jobExecution['start_time']
+            ? \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $jobExecution['start_time'], new \DateTimeZone('UTC'))
             : null;
 
         $tracking = $this->jobExecutionTrackingHydrator->hydrate(

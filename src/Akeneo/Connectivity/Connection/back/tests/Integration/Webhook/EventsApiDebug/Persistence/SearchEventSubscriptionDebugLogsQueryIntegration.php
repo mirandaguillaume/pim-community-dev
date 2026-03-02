@@ -107,7 +107,7 @@ class SearchEventSubscriptionDebugLogsQueryIntegration extends TestCase
         $count = 0;
         $searchAfter = null;
         $filters = [
-            'levels' => [EventsApiDebugLogLevels::NOTICE]
+            'levels' => [EventsApiDebugLogLevels::NOTICE],
         ];
         do {
             $result = $this->query->execute('a_connection_code', $searchAfter, $filters);
@@ -361,7 +361,7 @@ class SearchEventSubscriptionDebugLogsQueryIntegration extends TestCase
         );
 
         $filters = [
-            'levels' => [EventsApiDebugLogLevels::NOTICE, EventsApiDebugLogLevels::INFO]
+            'levels' => [EventsApiDebugLogLevels::NOTICE, EventsApiDebugLogLevels::INFO],
         ];
 
         $result = $this->query->execute('a_connection_code', null, $filters);
@@ -427,7 +427,7 @@ class SearchEventSubscriptionDebugLogsQueryIntegration extends TestCase
         );
 
         $filters = [
-            'levels' => [EventsApiDebugLogLevels::NOTICE, EventsApiDebugLogLevels::INFO, EventsApiDebugLogLevels::WARNING, EventsApiDebugLogLevels::ERROR]
+            'levels' => [EventsApiDebugLogLevels::NOTICE, EventsApiDebugLogLevels::INFO, EventsApiDebugLogLevels::WARNING, EventsApiDebugLogLevels::ERROR],
         ];
 
         $result = $this->query->execute('a_connection_code', null, $filters);

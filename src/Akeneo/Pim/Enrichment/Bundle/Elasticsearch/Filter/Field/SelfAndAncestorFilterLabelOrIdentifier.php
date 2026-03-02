@@ -57,12 +57,12 @@ class SelfAndAncestorFilterLabelOrIdentifier extends AbstractFieldFilter
         $clauses[] = [
             'wildcard' => [
                 'ancestors.codes' => sprintf('*%s*', $this->escapeValue($value)),
-            ]
+            ],
         ];
         $clauses[] = [
             'wildcard' => [
                 'identifier' => sprintf('*%s*', $this->escapeValue($value)),
-            ]
+            ],
         ];
 
         if (null !== $channel && null !== $locale) {
@@ -72,7 +72,7 @@ class SelfAndAncestorFilterLabelOrIdentifier extends AbstractFieldFilter
                         '*%s*',
                         $this->escapeValue($value)
                     ),
-                ]
+                ],
             ];
             $clauses[] = [
                 'wildcard' => [
@@ -80,7 +80,7 @@ class SelfAndAncestorFilterLabelOrIdentifier extends AbstractFieldFilter
                         '*%s*',
                         $this->escapeValue($value)
                     ),
-                ]
+                ],
             ];
         }
 
@@ -91,7 +91,7 @@ class SelfAndAncestorFilterLabelOrIdentifier extends AbstractFieldFilter
                         '*%s*',
                         $this->escapeValue($value)
                     ),
-                ]
+                ],
             ];
             $clauses[] = [
                 'wildcard' => [
@@ -99,7 +99,7 @@ class SelfAndAncestorFilterLabelOrIdentifier extends AbstractFieldFilter
                         '*%s*',
                         $this->escapeValue($value)
                     ),
-                ]
+                ],
             ];
         }
 
@@ -110,7 +110,7 @@ class SelfAndAncestorFilterLabelOrIdentifier extends AbstractFieldFilter
                         '*%s*',
                         $this->escapeValue($value)
                     ),
-                ]
+                ],
             ];
             $clauses[] = [
                 'wildcard' => [
@@ -118,19 +118,19 @@ class SelfAndAncestorFilterLabelOrIdentifier extends AbstractFieldFilter
                         '*%s*',
                         $this->escapeValue($value)
                     ),
-                ]
+                ],
             ];
         }
 
         $clauses[] = [
             'wildcard' => [
                 'ancestors.labels.<all_channels>.<all_locales>' => sprintf('*%s*', $this->escapeValue($value)),
-            ]
+            ],
         ];
         $clauses[] = [
             'wildcard' => [
                 'label.<all_channels>.<all_locales>' => sprintf('*%s*', $this->escapeValue($value)),
-            ]
+            ],
         ];
 
         $this->searchQueryBuilder->addFilter(

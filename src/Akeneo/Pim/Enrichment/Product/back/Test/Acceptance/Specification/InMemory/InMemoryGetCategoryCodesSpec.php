@@ -14,18 +14,18 @@ use Ramsey\Uuid\Uuid;
 
 class InMemoryGetCategoryCodesSpec extends ObjectBehavior
 {
-    function let(ProductRepositoryInterface $productRepository)
+    public function let(ProductRepositoryInterface $productRepository)
     {
         $this->beConstructedWith($productRepository);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(InMemoryGetCategoryCodes::class);
         $this->shouldImplement(GetCategoryCodes::class);
     }
 
-    function it_returns_the_category_codes_by_uuid(ProductRepositoryInterface $productRepository)
+    public function it_returns_the_category_codes_by_uuid(ProductRepositoryInterface $productRepository)
     {
         $master = new Category();
         $master->setCode('master');
@@ -52,9 +52,9 @@ class InMemoryGetCategoryCodesSpec extends ObjectBehavior
         $this->fromProductUuids([])->shouldReturn([]);
         $this->fromProductUuids([$uuid1, $uuid2, $uuid3, Uuid::uuid4()])
              ->shouldReturn([
-                $uuid1->toString() => ['master', 'print'],
-                $uuid2->toString() => ['master'],
-                $uuid3->toString() => [],
-            ]);
+                 $uuid1->toString() => ['master', 'print'],
+                 $uuid2->toString() => ['master'],
+                 $uuid3->toString() => [],
+             ]);
     }
 }

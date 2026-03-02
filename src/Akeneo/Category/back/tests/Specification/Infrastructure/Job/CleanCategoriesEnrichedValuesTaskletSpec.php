@@ -15,24 +15,24 @@ use Symfony\Component\Messenger\Envelope;
 
 class CleanCategoriesEnrichedValuesTaskletSpec extends ObjectBehavior
 {
-    function let(CommandBus $commandBus): void
+    public function let(CommandBus $commandBus): void
     {
         $this->beConstructedWith($commandBus);
     }
 
-    function it_is_initializable(): void
+    public function it_is_initializable(): void
     {
         $this->shouldImplement(TaskletInterface::class);
         $this->shouldHaveType(CleanCategoriesEnrichedValuesTasklet::class);
     }
 
-    function it_dispatches_a_command_message_to_clean_category_enriched_values_by_channel_or_locale(
+    public function it_dispatches_a_command_message_to_clean_category_enriched_values_by_channel_or_locale(
         CommandBus $commandBus,
         StepExecution $stepExecution
     ): void {
         $jobParameters = new JobParameters([
             'channel_code' => 'ecommerce',
-            'locales_codes' => ['en_US', 'fr_FR']
+            'locales_codes' => ['en_US', 'fr_FR'],
         ]);
         $command = new CleanCategoryEnrichedValuesByChannelOrLocaleCommand(
             'ecommerce',

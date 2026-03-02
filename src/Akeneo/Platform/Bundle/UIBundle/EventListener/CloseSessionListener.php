@@ -32,14 +32,14 @@ class CloseSessionListener implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::REQUEST => ['closeSession', -100]
+            KernelEvents::REQUEST => ['closeSession', -100],
         ];
     }
 
     /**
      * Save and close the session.
      */
-    public function closeSession(RequestEvent $event) : void
+    public function closeSession(RequestEvent $event): void
     {
         if (!$event->getRequest()->hasSession()) {
             return;

@@ -8,13 +8,13 @@ use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\ClientRegistry;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\IndexConfiguration\UpdateIndexMapping;
 use Elasticsearch\ClientBuilder;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Update the mapping of an index without needing to reindex everything 1 by 1
@@ -56,11 +56,11 @@ class UpdateMappingIndexCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $warning = <<<TXT
-This command will move your elasticsearch indices to new indices to take into account the new mapping.
-The move is done through an aliasing strategy in order to make it as fast as possible.
-If you use snapshot/restore feature for your indices, be sure that they are compatible to be restored even with an aliasing strategy.
-Do not execute this directly in production and while the prod is alive.
-TXT;
+            This command will move your elasticsearch indices to new indices to take into account the new mapping.
+            The move is done through an aliasing strategy in order to make it as fast as possible.
+            If you use snapshot/restore feature for your indices, be sure that they are compatible to be restored even with an aliasing strategy.
+            Do not execute this directly in production and while the prod is alive.
+            TXT;
 
         $io->warning($warning);
 
@@ -97,7 +97,7 @@ TXT;
         return [
             'client' => $nativeClient,
             'configuration' => $client->getConfigurationLoader(),
-            'name' => $client->getIndexName()
+            'name' => $client->getIndexName(),
         ];
     }
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Pim\Upgrade\Schema\Tests;
 
@@ -80,10 +82,10 @@ final class Version_7_0_20220927080024_add_identifier_generator_table_Integratio
     private function tableExists(): bool
     {
         return $this->connection->executeQuery(
-                'SHOW TABLES LIKE :tableName',
-                [
-                    'tableName' => self::TABLE_NAME,
-                ]
-            )->rowCount() >= 1;
+            'SHOW TABLES LIKE :tableName',
+            [
+                'tableName' => self::TABLE_NAME,
+            ]
+        )->rowCount() >= 1;
     }
 }

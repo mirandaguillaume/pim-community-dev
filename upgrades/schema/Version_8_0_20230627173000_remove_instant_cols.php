@@ -19,7 +19,7 @@ final class Version_8_0_20230627173000_remove_instant_cols extends AbstractMigra
     public function up(Schema $schema): void
     {
         $this->disableMigrationWarning();
-        if ($this->isSaaSVersion()){
+        if ($this->isSaaSVersion()) {
             return;
         }
 

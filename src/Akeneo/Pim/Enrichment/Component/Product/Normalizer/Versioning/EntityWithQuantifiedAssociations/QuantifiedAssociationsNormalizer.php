@@ -15,7 +15,7 @@ class QuantifiedAssociationsNormalizer implements NormalizerInterface, Cacheable
      *
      * @param EntityWithQuantifiedAssociationsInterface $entityWithQuantifiedAssociations
      */
-    public function normalize($entityWithQuantifiedAssociations, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($entityWithQuantifiedAssociations, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $quantifiedAssociationsNormalized = $entityWithQuantifiedAssociations->normalizeQuantifiedAssociations();
 
@@ -50,7 +50,7 @@ class QuantifiedAssociationsNormalizer implements NormalizerInterface, Cacheable
     public function identifierProducts(array $quantifiedProductLinks): array
     {
         return array_map(function (array $quantifiedProduct) {
-            $keyIdentifier = array_key_exists('uuid', $quantifiedProduct) ? 'uuid': 'identifier';
+            $keyIdentifier = array_key_exists('uuid', $quantifiedProduct) ? 'uuid' : 'identifier';
             return $quantifiedProduct[$keyIdentifier];
         }, $quantifiedProductLinks);
     }

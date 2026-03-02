@@ -21,8 +21,7 @@ class SqlReferenceEntityNomenclatureRepository implements ReferenceEntityNomencl
     public function __construct(
         private readonly Connection $connection,
         private readonly GetAttributes $getAttributes
-    ) {
-    }
+    ) {}
 
     public function get(string $attributeCode): ?NomenclatureDefinition
     {

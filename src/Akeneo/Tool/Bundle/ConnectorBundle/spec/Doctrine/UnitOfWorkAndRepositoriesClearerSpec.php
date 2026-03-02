@@ -8,7 +8,7 @@ use PhpSpec\ObjectBehavior;
 
 class UnitOfWorkAndRepositoriesClearerSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         EntityManagerInterface $entityManager,
         CachedObjectRepositoryInterface $localeRepository,
         CachedObjectRepositoryInterface $currencyRepository
@@ -16,7 +16,7 @@ class UnitOfWorkAndRepositoriesClearerSpec extends ObjectBehavior
         $this->beConstructedWith($entityManager, [$localeRepository, $currencyRepository]);
     }
 
-    function it_clears_both_uow_and_repositories($entityManager, $localeRepository, $currencyRepository)
+    public function it_clears_both_uow_and_repositories($entityManager, $localeRepository, $currencyRepository)
     {
         $localeRepository->clear()->shouldBeCalled();
         $currencyRepository->clear()->shouldBeCalled();

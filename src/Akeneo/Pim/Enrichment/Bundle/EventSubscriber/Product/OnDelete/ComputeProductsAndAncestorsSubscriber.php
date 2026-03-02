@@ -29,7 +29,7 @@ final readonly class ComputeProductsAndAncestorsSubscriber implements EventSubsc
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedEvents() : array
+    public static function getSubscribedEvents(): array
     {
         return [
             StorageEvents::POST_REMOVE => ['deleteProduct'],

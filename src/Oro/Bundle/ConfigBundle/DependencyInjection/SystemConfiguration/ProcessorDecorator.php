@@ -40,7 +40,7 @@ class ProcessorDecorator
         $source = array_merge($this->getEmptyFinalArray(), $source);
 
         if (!empty($newData[self::ROOT])) {
-            foreach ((array)$newData[self::ROOT] as $nodeName => $node) {
+            foreach ((array) $newData[self::ROOT] as $nodeName => $node) {
                 $source[self::ROOT][$nodeName] = match ($nodeName) {
                     self::TREE_ROOT => array_merge_recursive(
                         $source[self::ROOT][$nodeName],
@@ -68,7 +68,7 @@ class ProcessorDecorator
             self::ROOT => array_fill_keys(
                 [self::GROUPS_NODE, self::FIELDS_ROOT, self::TREE_ROOT],
                 []
-            )
+            ),
         ];
 
         return $result;
@@ -81,7 +81,7 @@ class ProcessorDecorator
      */
     protected function getProcessor()
     {
-        return $this->processor ? : new Processor();
+        return $this->processor ?: new Processor();
     }
 
     /**

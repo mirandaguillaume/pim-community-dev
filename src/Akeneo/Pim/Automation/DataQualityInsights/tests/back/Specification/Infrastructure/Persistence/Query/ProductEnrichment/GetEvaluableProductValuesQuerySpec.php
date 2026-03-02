@@ -66,7 +66,7 @@ class GetEvaluableProductValuesQuerySpec extends ObjectBehavior
         $attributeTextarea2 = new Attribute(new AttributeCode('a_textarea_without_values'), AttributeType::textarea(), true);
 
         $getEvaluableAttributesByProductQuery->execute($productId)->willReturn([
-            $attributeText1, $attributeText2, $attributeTextarea1, $attributeTextarea2
+            $attributeText1, $attributeText2, $attributeTextarea1, $attributeTextarea2,
         ]);
 
         $getProductRawValuesQuery
@@ -74,10 +74,10 @@ class GetEvaluableProductValuesQuerySpec extends ObjectBehavior
             ->willReturn([
                 'a_text_not_localizable' => [
                     'ecommerce' => [
-                        '<all_locales>' => 'A text not localizable for ecommerce'
+                        '<all_locales>' => 'A text not localizable for ecommerce',
                     ],
                     'mobile' => [
-                        '<all_locales>' => 'A text not localizable for mobile'
+                        '<all_locales>' => 'A text not localizable for mobile',
                     ],
                 ],
                 'a_text_not_scopable' => [
@@ -98,25 +98,31 @@ class GetEvaluableProductValuesQuerySpec extends ObjectBehavior
                 ],
                 'whatever' => [
                     '<all_channels>' => [
-                        '<all_locales>' => 'Whatever text'
+                        '<all_locales>' => 'Whatever text',
                     ],
-                ]
+                ],
             ]);
 
         $expectedProductValues = (new ProductValuesCollection())
-            ->add(new ProductValues($attributeText1, (new ChannelLocaleDataCollection())
+            ->add(new ProductValues(
+                $attributeText1,
+                (new ChannelLocaleDataCollection())
                 ->addToChannelAndLocale($ecommerce, $enUS, 'A text en_US')
                 ->addToChannelAndLocale($ecommerce, $frFR, 'A text fr_FR')
                 ->addToChannelAndLocale($mobile, $enUS, 'A text en_US')
                 ->addToChannelAndLocale($mobile, $frFR, 'A text fr_FR')
             ))
-            ->add(new ProductValues($attributeText2, (new ChannelLocaleDataCollection())
+            ->add(new ProductValues(
+                $attributeText2,
+                (new ChannelLocaleDataCollection())
                 ->addToChannelAndLocale($ecommerce, $enUS, 'A text not localizable for ecommerce')
                 ->addToChannelAndLocale($ecommerce, $frFR, 'A text not localizable for ecommerce')
                 ->addToChannelAndLocale($mobile, $enUS, 'A text not localizable for mobile')
                 ->addToChannelAndLocale($mobile, $frFR, 'A text not localizable for mobile')
             ))
-            ->add(new ProductValues($attributeTextarea1, (new ChannelLocaleDataCollection())
+            ->add(new ProductValues(
+                $attributeTextarea1,
+                (new ChannelLocaleDataCollection())
                 ->addToChannelAndLocale($ecommerce, $enUS, 'A textarea for ecommerce en_US')
                 ->addToChannelAndLocale($ecommerce, $frFR, 'A textarea for ecommerce fr_FR')
                 ->addToChannelAndLocale($mobile, $enUS, 'A textarea for mobile en_US')

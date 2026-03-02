@@ -18,7 +18,7 @@ class UiLocaleField extends BaseSelect {
    */
   configure() {
     return $.when(
-      BaseSelect.prototype.configure.apply(this, arguments),
+      BaseSelect.prototype.configure.apply(this, []),
       FetcherRegistry.getFetcher('ui-locale')
         .fetchAll()
         .then((locales: InterfaceNormalizedLocale[]) => {

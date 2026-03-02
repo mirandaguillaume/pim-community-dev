@@ -60,7 +60,7 @@ class BulkIndexationIntegration extends TestCase
             [
                 'identifier'           => 'product_1',
                 'description-textarea' => 'My product description',
-            ]
+            ],
         ];
 
         $this->indexProductDocuments($products);

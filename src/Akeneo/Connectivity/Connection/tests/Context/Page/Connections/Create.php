@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Tests\EndToEnd\Context\Page\Connections;
@@ -27,7 +28,7 @@ class Create extends Base
             [
                 'Creation form' => [
                     'css'        => '[data-testid="create-connection"]',
-                    'decorators' => [\Akeneo\Connectivity\Connection\Tests\EndToEnd\Decorator\Settings\CreationForm::class]
+                    'decorators' => [\Akeneo\Connectivity\Connection\Tests\EndToEnd\Decorator\Settings\CreationForm::class],
                 ],
             ]
         );

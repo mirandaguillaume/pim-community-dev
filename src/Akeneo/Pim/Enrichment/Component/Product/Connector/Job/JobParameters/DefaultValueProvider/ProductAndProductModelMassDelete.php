@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Component\Product\Connector\Job\JobParameters\DefaultValueProvider;
@@ -35,7 +36,7 @@ class ProductAndProductModelMassDelete implements DefaultValuesProviderInterface
             'actions' => [],
             'realTimeVersioning' => true,
             'users_to_notify' => [],
-            'is_user_authenticated' => true
+            'is_user_authenticated' => true,
         ];
     }
 

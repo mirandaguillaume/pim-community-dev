@@ -54,8 +54,8 @@ class ScalarValue extends AbstractValue implements ValueInterface, \Stringable
             return false;
         }
 
-        return $this->getScopeCode() === $value->getScopeCode() &&
-            $this->getLocaleCode() === $value->getLocaleCode() &&
-            $value->getData() === $this->getData();
+        return $this->getScopeCode() === $value->getScopeCode()
+            && $this->getLocaleCode() === $value->getLocaleCode()
+            && $value->getData() === $this->getData();
     }
 }

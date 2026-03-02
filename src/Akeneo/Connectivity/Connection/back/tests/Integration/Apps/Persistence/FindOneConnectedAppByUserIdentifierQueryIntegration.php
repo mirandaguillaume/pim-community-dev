@@ -112,11 +112,11 @@ class FindOneConnectedAppByUserIdentifierQueryIntegration extends TestCase
     private function getConnectionUserIdentifier(string $connectionCode): string
     {
         $selectQuery = <<<SQL
-        SELECT oro_user.username
-        FROM akeneo_connectivity_connection connection
-        JOIN oro_user ON oro_user.id = connection.user_id
-        WHERE connection.code = :connection_code
-        SQL;
+            SELECT oro_user.username
+            FROM akeneo_connectivity_connection connection
+            JOIN oro_user ON oro_user.id = connection.user_id
+            WHERE connection.code = :connection_code
+            SQL;
 
         return $this->connection->executeQuery($selectQuery, ['connection_code' => $connectionCode])->fetchOne();
     }

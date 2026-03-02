@@ -18,7 +18,7 @@ class AvailableLocales extends BaseSelect {
    */
   configure() {
     return $.when(
-      BaseSelect.prototype.configure.apply(this, arguments),
+      BaseSelect.prototype.configure.apply(this, []),
       FetcherRegistry.getFetcher('locale')
         .fetchActivated()
         .then((availableLocales: InterfaceNormalizedLocale[]) => {

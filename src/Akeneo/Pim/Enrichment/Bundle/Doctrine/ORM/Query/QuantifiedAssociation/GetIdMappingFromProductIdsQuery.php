@@ -26,17 +26,17 @@ class GetIdMappingFromProductIdsQuery implements GetIdMappingFromProductIdsQuery
         }
 
         $query = <<<SQL
-WITH main_identifier AS (
-    SELECT id
-    FROM pim_catalog_attribute
-    WHERE main_identifier = 1
-    LIMIT 1
-)
-SELECT pim_catalog_product.id, raw_data AS identifier
-FROM pim_catalog_product
-LEFT JOIN pim_catalog_product_unique_data pcpud ON pcpud.product_uuid = pim_catalog_product.uuid AND pcpud.attribute_id = (SELECT id FROM main_identifier)
-WHERE pim_catalog_product.id IN (:product_ids)
-SQL;
+            WITH main_identifier AS (
+                SELECT id
+                FROM pim_catalog_attribute
+                WHERE main_identifier = 1
+                LIMIT 1
+            )
+            SELECT pim_catalog_product.id, raw_data AS identifier
+            FROM pim_catalog_product
+            LEFT JOIN pim_catalog_product_unique_data pcpud ON pcpud.product_uuid = pim_catalog_product.uuid AND pcpud.attribute_id = (SELECT id FROM main_identifier)
+            WHERE pim_catalog_product.id IN (:product_ids)
+            SQL;
 
         $mapping = array_column($this->connection->executeQuery(
             $query,

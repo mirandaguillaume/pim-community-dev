@@ -41,8 +41,8 @@ final class GetScoresByCriteriaStrategySpec extends ObjectBehavior
         $locale = new LocaleCode('en_US');
 
         return new Read\Scores(
-            (new ChannelLocaleRateCollection)->addRate($channel, $locale, new Rate(76)),
-            (new ChannelLocaleRateCollection)->addRate($channel, $locale, new Rate(65))
+            (new ChannelLocaleRateCollection())->addRate($channel, $locale, new Rate(76)),
+            (new ChannelLocaleRateCollection())->addRate($channel, $locale, new Rate(65))
         );
     }
 }

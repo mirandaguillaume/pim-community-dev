@@ -40,12 +40,12 @@ class MarketplaceUrlGeneratorSpec extends ObjectBehavior
         $this
             ->generateUrl('willy')
             ->shouldReturn(
-                'https://marketplace.akeneo.test/?' .
-                'utm_medium=pim&' .
-                'utm_content=marketplace_button&' .
-                'utm_source=http%3A%2F%2Fmy-akeneo.test&' .
-                'utm_term=manager&' .
-                'utm_campaign=connect_serenity'
+                'https://marketplace.akeneo.test/?'
+                . 'utm_medium=pim&'
+                . 'utm_content=marketplace_button&'
+                . 'utm_source=http%3A%2F%2Fmy-akeneo.test&'
+                . 'utm_term=manager&'
+                . 'utm_campaign=connect_serenity'
             );
     }
 
@@ -59,12 +59,12 @@ class MarketplaceUrlGeneratorSpec extends ObjectBehavior
         $this
             ->generateUrl('willy')
             ->shouldReturn(
-                'https://marketplace.akeneo.test/?' .
-                'utm_medium=pim&' .
-                'utm_content=marketplace_button&' .
-                'utm_source=http%3A%2F%2Fmy-akeneo.test&' .
-                'utm_term=developer&' .
-                'utm_campaign=connect_ge'
+                'https://marketplace.akeneo.test/?'
+                . 'utm_medium=pim&'
+                . 'utm_content=marketplace_button&'
+                . 'utm_source=http%3A%2F%2Fmy-akeneo.test&'
+                . 'utm_term=developer&'
+                . 'utm_campaign=connect_ge'
             );
     }
 
@@ -78,10 +78,10 @@ class MarketplaceUrlGeneratorSpec extends ObjectBehavior
         $this
             ->generateUrl('willy')
             ->shouldReturn(
-                'https://marketplace.akeneo.test/?' .
-                'utm_medium=pim&' .
-                'utm_content=marketplace_button&' .
-                'utm_source=http%3A%2F%2Fmy-akeneo.test'
+                'https://marketplace.akeneo.test/?'
+                . 'utm_medium=pim&'
+                . 'utm_content=marketplace_button&'
+                . 'utm_source=http%3A%2F%2Fmy-akeneo.test'
             );
     }
 

@@ -68,7 +68,7 @@ final class JobMessageHandlerIntegration extends TestCase
         Assert::assertEquals(ExitStatus::COMPLETED, $row['exit_code']);
         Assert::assertNotNull($row['health_check_time']);
 
-        $jobExecution = $this->get('pim_enrich.repository.job_execution')->findOneBy(['id' =>$row['id']]);
+        $jobExecution = $this->get('pim_enrich.repository.job_execution')->findOneBy(['id' => $row['id']]);
         $jobExecution = $this->get('akeneo_batch_queue.manager.job_execution_manager')->resolveJobExecutionStatus(
             $jobExecution
         );
@@ -77,7 +77,8 @@ final class JobMessageHandlerIntegration extends TestCase
         Assert::assertEquals(ExitStatus::COMPLETED, $jobExecution->getExitStatus()->getExitCode());
     }
 
-    private function createAndPublishJobExecutionMessageInQueue(JobExecution $jobExecution
+    private function createAndPublishJobExecutionMessageInQueue(
+        JobExecution $jobExecution
     ): JobExecutionMessageInterface {
         $jobExecutionMessage = DataMaintenanceJobExecutionMessage::createJobExecutionMessage($jobExecution->getId(), [
             'email' => 'ziggy@akeneo.com',
@@ -129,11 +130,11 @@ final class JobMessageHandlerIntegration extends TestCase
     private function getLastJobExecutionDatabaseRow(string $jobCode): array
     {
         $sql = <<< EOS
-            SELECT e.id, e.status, e.exit_code, e.health_check_time 
-            FROM akeneo_batch_job_execution e 
-            INNER JOIN akeneo_batch_job_instance j ON e.job_instance_id = j.id 
-            WHERE j.code = :job_code
-        EOS;
+                SELECT e.id, e.status, e.exit_code, e.health_check_time 
+                FROM akeneo_batch_job_execution e 
+                INNER JOIN akeneo_batch_job_instance j ON e.job_instance_id = j.id 
+                WHERE j.code = :job_code
+            EOS;
 
         return $this->getConnection()->executeQuery($sql, ['job_code' => $jobCode])->fetchAssociative();
     }

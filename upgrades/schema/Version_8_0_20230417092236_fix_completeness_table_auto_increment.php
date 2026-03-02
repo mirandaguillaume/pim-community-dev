@@ -34,8 +34,8 @@ final class Version_8_0_20230417092236_fix_completeness_table_auto_increment ext
         }
 
         $this->connection->executeStatement(<<<SQL
-ALTER TABLE pim_catalog_completeness MODIFY COLUMN id bigint NOT NULL AUTO_INCREMENT
-SQL);
+            ALTER TABLE pim_catalog_completeness MODIFY COLUMN id bigint NOT NULL AUTO_INCREMENT
+            SQL);
     }
 
     public function down(Schema $schema): void
@@ -46,18 +46,18 @@ SQL);
     private function isColumnAutoIncremental(string $tableName, string $columnName): bool
     {
         $sql = <<<SQL
-SELECT COUNT(*)
-FROM INFORMATION_SCHEMA.COLUMNS
-WHERE TABLE_SCHEMA = :schema
-  AND TABLE_NAME = :tableName
-  AND COLUMN_NAME = :columnName
-  AND EXTRA like '%auto_increment%'
-SQL;
+            SELECT COUNT(*)
+            FROM INFORMATION_SCHEMA.COLUMNS
+            WHERE TABLE_SCHEMA = :schema
+              AND TABLE_NAME = :tableName
+              AND COLUMN_NAME = :columnName
+              AND EXTRA like '%auto_increment%'
+            SQL;
 
         $result = $this->connection->fetchOne($sql, [
             'schema' => $this->connection->getDatabase(),
             'tableName' => $tableName,
-            'columnName' => $columnName
+            'columnName' => $columnName,
         ]);
 
         return \intval($result) > 0;
@@ -67,8 +67,8 @@ SQL;
     {
         $rows = $this->connection->fetchAllAssociative(
             <<<SQL
-                SHOW TABLES LIKE :tableName
-            SQL,
+                    SHOW TABLES LIKE :tableName
+                SQL,
             ['tableName' => $tableName]
         );
 

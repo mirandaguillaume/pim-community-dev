@@ -32,12 +32,12 @@ class IdentifierFormatGuesser implements ConstraintGuesserInterface
         return [
             new Regex([
                 'pattern' => '/^(?!\s)[^,;]+(?<!\s)$/',
-                'message' => 'regex.comma_or_semicolon_or_surrounding_space.message'
+                'message' => 'regex.comma_or_semicolon_or_surrounding_space.message',
             ]),
             new Regex([
                 'pattern' => '/^[^\r\n\f\v]+$/D',
-                'message' => 'regex.line_break.message'
-            ])
+                'message' => 'regex.line_break.message',
+            ]),
         ];
     }
 }

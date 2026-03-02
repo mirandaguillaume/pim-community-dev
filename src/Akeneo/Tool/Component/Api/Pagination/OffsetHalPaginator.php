@@ -72,7 +72,7 @@ class OffsetHalPaginator implements PaginatorInterface
             $itemUriParameters = array_merge($parameters['uri_parameters'], [$itemRouteParameter => $itemIdentifier]);
 
             $itemLinks = [
-                $this->createLink($parameters['item_route_name'], $itemUriParameters, 'self')
+                $this->createLink($parameters['item_route_name'], $itemUriParameters, 'self'),
             ];
 
             $embedded[] = new HalResource($itemLinks, [], $item);

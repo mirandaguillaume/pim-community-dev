@@ -47,8 +47,8 @@ class Version_7_0_20220907143028_add_connection_webhook_is_using_uuid_flag_Integ
 
         $this->connection->executeQuery(
             <<<SQL
-                ALTER TABLE $table DROP COLUMN $column;
-            SQL
+                    ALTER TABLE $table DROP COLUMN $column;
+                SQL
         );
 
         $this->assertFalse($this->hasColumn($table, $column));
@@ -58,8 +58,8 @@ class Version_7_0_20220907143028_add_connection_webhook_is_using_uuid_flag_Integ
     {
         $rows = $this->connection->fetchAllAssociative(
             <<<SQL
-                SHOW COLUMNS FROM $table LIKE '$column';
-            SQL,
+                    SHOW COLUMNS FROM $table LIKE '$column';
+                SQL,
         );
 
         return count($rows) >= 1;

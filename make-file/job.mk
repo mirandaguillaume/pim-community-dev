@@ -2,12 +2,12 @@
 .PHONY: job-lint-back
 job-lint-back: #Doc: launch PHPStan for job bounded context
 	$(PHP_RUN) vendor/bin/phpstan analyse --configuration src/Akeneo/Platform/Job/back/tests/phpstan.neon.dist --error-format=github
-	${PHP_RUN} vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle --config=src/Akeneo/Platform/Job/back/tests/.php_cs.php | { command -v cs2pr >/dev/null && cs2pr || cat; }
+	${PHP_RUN} tools/php-cs-fixer fix --dry-run --format=checkstyle --config=src/Akeneo/Platform/Job/back/tests/.php_cs.php | { command -v cs2pr >/dev/null && cs2pr || cat; }
 	${PHP_RUN} vendor/bin/rector process --dry-run --config src/Akeneo/Platform/Job/back/tests/rector.php
 
 .PHONY: job-lint-fix-back
 job-lint-fix-back: #Doc: launch PHPStan for job bounded context
-	${PHP_RUN} vendor/bin/php-cs-fixer fix --diff --config=src/Akeneo/Platform/Job/back/tests/.php_cs.php
+	${PHP_RUN} tools/php-cs-fixer fix --diff --config=src/Akeneo/Platform/Job/back/tests/.php_cs.php
 	${PHP_RUN} vendor/bin/rector process --config src/Akeneo/Platform/Job/back/tests/rector.php
 
 .PHONY: job-coupling-back

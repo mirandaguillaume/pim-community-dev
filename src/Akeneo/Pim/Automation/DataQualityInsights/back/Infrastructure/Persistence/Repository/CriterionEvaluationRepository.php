@@ -27,12 +27,12 @@ class CriterionEvaluationRepository
     public function createCriterionEvaluationsForProducts(Write\CriterionEvaluationCollection $criteriaEvaluations): void
     {
         $queryFormat = <<<SQL
-INSERT INTO pim_data_quality_insights_product_criteria_evaluation
-    (product_uuid, criterion_code, status)
-SELECT uuid, :%s, :%s
-FROM pim_catalog_product WHERE uuid = :%s
-ON DUPLICATE KEY UPDATE status = :%s;
-SQL;
+            INSERT INTO pim_data_quality_insights_product_criteria_evaluation
+                (product_uuid, criterion_code, status)
+            SELECT uuid, :%s, :%s
+            FROM pim_catalog_product WHERE uuid = :%s
+            ON DUPLICATE KEY UPDATE status = :%s;
+            SQL;
 
         $this->createFromSqlQueryFormat($queryFormat, $criteriaEvaluations);
     }
@@ -40,10 +40,10 @@ SQL;
     public function createCriterionEvaluationsForProductModels(Write\CriterionEvaluationCollection $criteriaEvaluations): void
     {
         $queryFormat = <<<SQL
-INSERT INTO pim_data_quality_insights_product_model_criteria_evaluation
-    (criterion_code, status, product_id) VALUES (:%s, :%s, :%s)
-ON DUPLICATE KEY UPDATE status = :%s;
-SQL;
+            INSERT INTO pim_data_quality_insights_product_model_criteria_evaluation
+                (criterion_code, status, product_id) VALUES (:%s, :%s, :%s)
+            ON DUPLICATE KEY UPDATE status = :%s;
+            SQL;
 
         $this->createFromSqlQueryFormat($queryFormat, $criteriaEvaluations);
     }
@@ -51,10 +51,10 @@ SQL;
     public function updateCriterionEvaluationsForProducts(Write\CriterionEvaluationCollection $criteriaEvaluations): void
     {
         $queryFormat = <<<SQL
-UPDATE pim_data_quality_insights_product_criteria_evaluation e, pim_catalog_product p
-SET e.evaluated_at = :%s, e.status = :%s, e.result = :%s
-WHERE p.uuid = :%s AND p.uuid = e.product_uuid AND criterion_code = :%s;
-SQL;
+            UPDATE pim_data_quality_insights_product_criteria_evaluation e, pim_catalog_product p
+            SET e.evaluated_at = :%s, e.status = :%s, e.result = :%s
+            WHERE p.uuid = :%s AND p.uuid = e.product_uuid AND criterion_code = :%s;
+            SQL;
         $this->updateFromSqlQueryFormat($queryFormat, $criteriaEvaluations);
     }
 
@@ -62,10 +62,10 @@ SQL;
     {
         // Note: the name of the column is still product_id even if we manipulate product_model ids.
         $queryFormat = <<<SQL
-UPDATE pim_data_quality_insights_product_model_criteria_evaluation
-SET evaluated_at = :%s, status = :%s, result = :%s
-WHERE product_id = :%s AND criterion_code = :%s;
-SQL;
+            UPDATE pim_data_quality_insights_product_model_criteria_evaluation
+            SET evaluated_at = :%s, status = :%s, result = :%s
+            WHERE product_id = :%s AND criterion_code = :%s;
+            SQL;
         $this->updateFromSqlQueryFormat($queryFormat, $criteriaEvaluations);
     }
 
@@ -85,7 +85,7 @@ SQL;
 
             $queries[] = sprintf($queryFormat, $criterionCode, $status, $productId, $status);
 
-            $queryParametersValues[$criterionCode] = (string)$criterionEvaluation->getCriterionCode();
+            $queryParametersValues[$criterionCode] = (string) $criterionEvaluation->getCriterionCode();
             $queryParametersValues[$status] = $criterionEvaluation->getStatus();
 
             $entityId = $criterionEvaluation->getEntityId();
@@ -112,7 +112,7 @@ SQL;
                     $this->executeWithLock($query, $queryParametersValues, $queryParametersTypes);
                     $success = true;
                 } else {
-                    usleep(random_int(100000, 500000 * 2**$retry));
+                    usleep(random_int(100000, 500000 * 2 ** $retry));
                 }
             }
         }
@@ -167,7 +167,7 @@ SQL;
 
             $queries[] = sprintf($sqlQueryFormat, $evaluatedAt, $status, $result, $productId, $criterionCode);
 
-            $queryParametersValues[$criterionCode] = (string)$criterionEvaluation->getCriterionCode();
+            $queryParametersValues[$criterionCode] = (string) $criterionEvaluation->getCriterionCode();
             $queryParametersValues[$evaluatedAt] = $this->formatDate($criterionEvaluation->getEvaluatedAt());
             $queryParametersValues[$status] = $criterionEvaluation->getStatus();
             $queryParametersValues[$result] = $this->formatCriterionEvaluationResult($criterionEvaluation->getResult());

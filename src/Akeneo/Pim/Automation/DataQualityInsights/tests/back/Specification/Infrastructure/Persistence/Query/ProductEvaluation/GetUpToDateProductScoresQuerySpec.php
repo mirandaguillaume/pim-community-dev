@@ -84,7 +84,7 @@ final class GetUpToDateProductScoresQuerySpec extends ObjectBehavior
                     ->addRate(new ChannelCode('ecommerce'), new LocaleCode('en_US'), new Rate(45)),
                 (new ChannelLocaleRateCollection())
                     ->addRate(new ChannelCode('ecommerce'), new LocaleCode('en_US'), new Rate(67)),
-            )
+            ),
         ];
 
         $hasUpToDateEvaluationQuery->forEntityIdCollection($productUuidCollection)->willReturn($upToDateProductUuidCollection);
@@ -99,7 +99,7 @@ final class GetUpToDateProductScoresQuerySpec extends ObjectBehavior
     ) {
         $products = ProductUuidCollection::fromStrings([
             'df470d52-7723-4890-85a0-e79be625e2ed',
-            'fef37e64-a963-47a9-b087-2cc67968f0a2'
+            'fef37e64-a963-47a9-b087-2cc67968f0a2',
         ]);
 
         $hasUpToDateEvaluationQuery->forEntityIdCollection($products)->willReturn(null);

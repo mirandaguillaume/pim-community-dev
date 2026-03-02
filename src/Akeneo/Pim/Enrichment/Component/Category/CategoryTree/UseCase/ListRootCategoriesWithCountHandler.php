@@ -40,13 +40,13 @@ class ListRootCategoriesWithCountHandler
             return [];
         }
 
-        return $query->countIncludingSubCategories() ?
-            $this->listAndCountIncludingSubCategories->list(
+        return $query->countIncludingSubCategories()
+            ? $this->listAndCountIncludingSubCategories->list(
                 $query->translationLocaleCode(),
                 $query->userId(),
                 $rootCategoryToExpand->getId()
-            ) :
-            $this->listAndCountNotIncludingSubCategories->list(
+            )
+            : $this->listAndCountNotIncludingSubCategories->list(
                 $query->translationLocaleCode(),
                 $query->userId(),
                 $rootCategoryToExpand->getId()
@@ -74,7 +74,7 @@ class ListRootCategoriesWithCountHandler
         return $this->userContext->getAccessibleUserTree()?->getId();
     }
 
-    private function getRootCategoryToExpandFromSelectedCategory(int $subCategoryId, ?int $defaultCategoryTreeId): CategoryInterface|null
+    private function getRootCategoryToExpandFromSelectedCategory(int $subCategoryId, ?int $defaultCategoryTreeId): ?CategoryInterface
     {
         $selectedCategory = $this->categoryRepository->find($subCategoryId);
         if (null !== $selectedCategory) {

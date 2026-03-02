@@ -43,7 +43,7 @@ class SearchableRepository extends EntityRepository implements SearchableReposit
         foreach ($qb->getQuery()->getArrayResult() as $row) {
             $results[] = [
                 'id'   => $row['code'],
-                'text' => $row['code']
+                'text' => $row['code'],
             ];
         }
 

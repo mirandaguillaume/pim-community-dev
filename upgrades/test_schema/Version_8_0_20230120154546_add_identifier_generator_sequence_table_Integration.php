@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Pim\Upgrade\Schema\Tests;
 
@@ -48,10 +50,10 @@ final class Version_8_0_20230120154546_add_identifier_generator_sequence_table_I
     private function tableExists(): bool
     {
         return $this->connection->executeQuery(
-                'SHOW TABLES LIKE :tableName',
-                [
-                    'tableName' => self::TABLE_NAME,
-                ]
-            )->rowCount() >= 1;
+            'SHOW TABLES LIKE :tableName',
+            [
+                'tableName' => self::TABLE_NAME,
+            ]
+        )->rowCount() >= 1;
     }
 }

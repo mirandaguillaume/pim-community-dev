@@ -104,8 +104,8 @@ class ComputeFamilyVariantStructureChangesSubscriber implements EventSubscriberI
             static fn (FamilyVariantInterface $familyVariant): string => $familyVariant->getCode(),
             \array_filter(
                 $familyVariants,
-                fn (FamilyVariantInterface $familyVariant): bool =>
-                    !($this->isFamilyVariantNew[$familyVariant->getCode()] ?? false)
+                fn (FamilyVariantInterface $familyVariant): bool
+                    => !($this->isFamilyVariantNew[$familyVariant->getCode()] ?? false)
                     && ($this->variantAttributeSetOfFamilyVariantIsUpdated($familyVariant))
                     && $this->noOtherJobExecutionIsPending($jobInstance->getId(), $familyVariant->getCode())
             )
@@ -127,15 +127,15 @@ class ComputeFamilyVariantStructureChangesSubscriber implements EventSubscriberI
          * The check on the create_time is a security in case we have ghost job that are never started.
          */
         $query = <<<SQL
-        SELECT id
-        FROM akeneo_batch_job_execution abje
-        WHERE job_instance_id = :instanceId
-            AND status = 2
-            AND :familyVariantCode MEMBER OF (JSON_EXTRACT(raw_parameters, '$.family_variant_codes'))
-            AND create_time > DATE_SUB(UTC_TIMESTAMP(), INTERVAL 1 DAY)
-        ORDER BY id DESC
-        LIMIT 1
-        SQL;
+            SELECT id
+            FROM akeneo_batch_job_execution abje
+            WHERE job_instance_id = :instanceId
+                AND status = 2
+                AND :familyVariantCode MEMBER OF (JSON_EXTRACT(raw_parameters, '$.family_variant_codes'))
+                AND create_time > DATE_SUB(UTC_TIMESTAMP(), INTERVAL 1 DAY)
+            ORDER BY id DESC
+            LIMIT 1
+            SQL;
         $jobId = $this->connection->executeQuery(
             $query,
             ['instanceId' => $jobInstanceId, 'familyVariantCode' => $familyVariantCode]

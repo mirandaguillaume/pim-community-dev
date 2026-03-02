@@ -74,6 +74,7 @@ jobs:
         run: cd front-packages/akeneo-design-system && yarn storybook:build && echo ::set-output name=status::success
 
       - name: Launch visual tests
+        if: false  # Puppeteer visual tests disabled (deps removed in PR #59)
         run: cd front-packages/akeneo-design-system && yarn test:visual:run && echo ::set-output name=status::success
         id: visual_test_execution
 
@@ -143,6 +144,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy to gh-pages on the external repository (in a subfolder)
+        if: false  # Deploy disabled (requires DSM_EXTERNAL_TOKEN from upstream repo)
         uses: peaceiris/actions-gh-pages@v3.7.0-6
         with:
           personal_token: ${{ secrets.DSM_EXTERNAL_TOKEN }}
@@ -152,6 +154,7 @@ jobs:
           external_repository: akeneo/akeneo-design-system
 
       - name: Comment PR to say that the staging env is available
+        if: false  # Deploy disabled (requires DSM_EXTERNAL_TOKEN from upstream repo)
         uses: thollander/actions-comment-pull-request@main
         with:
           message: |

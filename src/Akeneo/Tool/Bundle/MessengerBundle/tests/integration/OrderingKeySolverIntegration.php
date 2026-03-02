@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Tool\Bundle\MessengerBundle\tests\integration;
@@ -32,7 +33,7 @@ final class OrderingKeySolverIntegration extends KernelTestCase
 
     public function test_it_returns_null_for_an_unknown_message(): void
     {
-        self::assertNull($this->orderingKeySolver->solve(new Envelope(new \stdClass)));
+        self::assertNull($this->orderingKeySolver->solve(new Envelope(new \stdClass())));
     }
 
     /**

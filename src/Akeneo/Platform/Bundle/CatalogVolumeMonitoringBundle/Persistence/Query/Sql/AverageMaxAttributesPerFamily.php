@@ -27,15 +27,15 @@ class AverageMaxAttributesPerFamily implements AverageMaxQuery
     public function fetch(): AverageMaxVolumes
     {
         $sql = <<<SQL
-            SELECT 
-                CEIL(AVG(a.count_attributes_per_family)) average,
-                MAX(a.count_attributes_per_family) max
-            FROM (
-                SELECT count(attribute_id) count_attributes_per_family 
-                FROM pim_catalog_family_attribute a
-                GROUP BY family_id
-            ) a
-SQL;
+                        SELECT 
+                            CEIL(AVG(a.count_attributes_per_family)) average,
+                            MAX(a.count_attributes_per_family) max
+                        FROM (
+                            SELECT count(attribute_id) count_attributes_per_family 
+                            FROM pim_catalog_family_attribute a
+                            GROUP BY family_id
+                        ) a
+            SQL;
         $result = $this->connection->executeQuery($sql)->fetchAssociative();
         $volume = new AverageMaxVolumes((int) $result['max'], (int) $result['average'], self::VOLUME_NAME);
 

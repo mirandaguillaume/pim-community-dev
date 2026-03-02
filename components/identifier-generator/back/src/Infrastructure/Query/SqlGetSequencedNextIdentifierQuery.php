@@ -18,8 +18,7 @@ final readonly class SqlGetSequencedNextIdentifierQuery implements GetNextIdenti
     public function __construct(
         private GetNextIdentifierQuery $getNextIdentifierQuery,
         private Connection $connection,
-    ) {
-    }
+    ) {}
 
     public function fromPrefix(
         IdentifierGenerator $identifierGenerator,

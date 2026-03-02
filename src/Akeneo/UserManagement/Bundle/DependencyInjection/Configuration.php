@@ -53,14 +53,14 @@ class Configuration implements ConfigurationInterface
                     ->end()
                     ->defaultValue(
                         [
-                            'action'=> [
+                            'action' => [
                                 'label'         => 'pim_user.user.fields.capabilities',
                                 'view_type'     => 'list',
                                 'types'         => ['action'],
                                 'field_type'    => AclAccessLevelSelectorType::class,
                                 'default_value' => 1,
                                 'show_default'  => false,
-                            ]
+                            ],
                         ]
                     )
                 ->end()

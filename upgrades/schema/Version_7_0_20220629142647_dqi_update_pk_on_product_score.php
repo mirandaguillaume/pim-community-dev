@@ -37,7 +37,8 @@ final class Version_7_0_20220629142647_dqi_update_pk_on_product_score extends Ab
         return $isProductUuidPrimary && $isEvaluatedAtNotAPrimary;
     }
 
-    private function runCommand(string $commandName) {
+    private function runCommand(string $commandName)
+    {
         $kernel = new \Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
         $application = new Application($kernel);
         $application->setAutoExit(false);

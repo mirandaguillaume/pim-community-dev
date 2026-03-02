@@ -53,8 +53,8 @@ final class Version_7_0_20220802151250_add_automation_column_in_job_instance_Int
 
         $this->get('database_connection')->executeQuery(
             <<<SQL
-                ALTER TABLE $tableName DROP COLUMN automation;
-            SQL
+                    ALTER TABLE $tableName DROP COLUMN automation;
+                SQL
         );
     }
 
@@ -66,8 +66,8 @@ final class Version_7_0_20220802151250_add_automation_column_in_job_instance_Int
 
         $this->get('database_connection')->executeQuery(
             <<<SQL
-                ALTER TABLE $tableName DROP COLUMN scheduled;
-            SQL
+                    ALTER TABLE $tableName DROP COLUMN scheduled;
+                SQL
         );
     }
 
@@ -79,8 +79,8 @@ final class Version_7_0_20220802151250_add_automation_column_in_job_instance_Int
 
         $this->get('database_connection')->executeQuery(
             <<<SQL
-                DROP INDEX scheduled_idx ON $tableName;
-            SQL
+                    DROP INDEX scheduled_idx ON $tableName;
+                SQL
         );
     }
 
@@ -88,8 +88,8 @@ final class Version_7_0_20220802151250_add_automation_column_in_job_instance_Int
     {
         $rows = $this->get('database_connection')->fetchAllAssociative(
             <<<SQL
-                SHOW INDEX FROM $tableName WHERE Key_name='scheduled_idx';
-            SQL,
+                    SHOW INDEX FROM $tableName WHERE Key_name='scheduled_idx';
+                SQL,
         );
 
         return count($rows) >= 1;
@@ -99,8 +99,8 @@ final class Version_7_0_20220802151250_add_automation_column_in_job_instance_Int
     {
         $rows = $this->get('database_connection')->fetchAllAssociative(
             <<<SQL
-                SHOW COLUMNS FROM $tableName LIKE 'automation';
-            SQL,
+                    SHOW COLUMNS FROM $tableName LIKE 'automation';
+                SQL,
         );
 
         return count($rows) >= 1;
@@ -110,8 +110,8 @@ final class Version_7_0_20220802151250_add_automation_column_in_job_instance_Int
     {
         $rows = $this->get('database_connection')->fetchAllAssociative(
             <<<SQL
-                SHOW COLUMNS FROM $tableName LIKE 'scheduled';
-            SQL,
+                    SHOW COLUMNS FROM $tableName LIKE 'scheduled';
+                SQL,
         );
 
         return count($rows) >= 1;

@@ -10,7 +10,7 @@ class Signature
 {
     public static function createSignature(string $secret, int $timestamp, ?string $body = null): string
     {
-        $data = (string)$timestamp . '.' . $body;
+        $data = (string) $timestamp . '.' . $body;
 
         return \hash_hmac('sha256', $data, $secret);
     }

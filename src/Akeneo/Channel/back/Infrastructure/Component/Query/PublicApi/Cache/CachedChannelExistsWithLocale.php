@@ -86,8 +86,8 @@ final class CachedChannelExistsWithLocale implements ChannelExistsWithLocaleInte
         $this->initializeCache();
         Assert::isArray($this->indexedChannelsWithLocales);
 
-        return \array_key_exists(\mb_strtolower($channelCode), $this->indexedChannelsWithLocales) &&
-            \in_array(\mb_strtolower($localeCode), $this->indexedChannelsWithLocales[\mb_strtolower($channelCode)]);
+        return \array_key_exists(\mb_strtolower($channelCode), $this->indexedChannelsWithLocales)
+            && \in_array(\mb_strtolower($localeCode), $this->indexedChannelsWithLocales[\mb_strtolower($channelCode)]);
     }
 
     public function forLocaleCode(string $localeCode): string

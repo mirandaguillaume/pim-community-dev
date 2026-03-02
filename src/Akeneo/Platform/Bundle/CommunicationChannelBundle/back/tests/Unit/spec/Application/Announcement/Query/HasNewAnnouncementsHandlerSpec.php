@@ -48,15 +48,15 @@ class HasNewAnnouncementsHandlerSpec extends ObjectBehavior
         $version = '20201015';
         $locale = 'en_US';
         $query = new HasNewAnnouncementsQuery($edition, $version, $locale, $userId);
-        $this->viewedAnnouncementsRepository->dataRows =
-        [
+        $this->viewedAnnouncementsRepository->dataRows
+        = [
             [
                 'announcement_id' => 'new_announcement_viewed',
-                'user_id' => $userId
+                'user_id' => $userId,
             ],
             [
                 'announcement_id' => 'other_new_announcement_viewed',
-                'user_id' => $userId
+                'user_id' => $userId,
             ],
         ];
         $findNewAnnouncementIds->find($edition, $version, $locale)->willReturn(['new_announcement_viewed', 'other_new_announcement_viewed']);

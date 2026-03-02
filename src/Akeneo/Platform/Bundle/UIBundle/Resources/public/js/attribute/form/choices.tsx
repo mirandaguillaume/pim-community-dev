@@ -11,7 +11,7 @@ class Choices extends BaseView {
 
   initialize(config: any): void {
     this.config = config.config;
-    BaseView.prototype.initialize.apply(this, arguments);
+    BaseView.prototype.initialize.apply(this, []);
   }
 
   configure(): JQueryPromise<any> {

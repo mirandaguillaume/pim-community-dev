@@ -49,8 +49,8 @@ final readonly class UpdateCategoryEnrichedValuesSql implements UpdateCategoryEn
         );
 
         $statement = $this->connection->prepare(<<<SQL
-            $queries
-        SQL);
+                $queries
+            SQL);
 
         $queryIndex = 0;
         foreach ($enrichedValuesByCode as $code => $value) {

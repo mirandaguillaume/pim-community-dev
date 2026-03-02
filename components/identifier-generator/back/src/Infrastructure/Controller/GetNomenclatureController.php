@@ -23,8 +23,7 @@ final readonly class GetNomenclatureController
 {
     public function __construct(
         private GetNomenclatureHandler $getNomenclatureHandler,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, string $propertyCode): Response
     {

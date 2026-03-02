@@ -110,11 +110,11 @@ class ConfirmAuthenticationEndToEnd extends WebTestCase
 
     private function createConnectedApp(string $appPublicId): void
     {
-        $group = $this->createUserGroup->execute('userGroup_'.$appPublicId);
+        $group = $this->createUserGroup->execute('userGroup_' . $appPublicId);
 
         $userId = $this->createUser->execute(
-            'username_'.$appPublicId,
-            'firstname_'.$appPublicId,
+            'username_' . $appPublicId,
+            'firstname_' . $appPublicId,
             [$group->getName()],
             ['ROLE_USER'],
             $appPublicId,
@@ -134,8 +134,8 @@ class ConfirmAuthenticationEndToEnd extends WebTestCase
         );
 
         $this->createConnection->execute(
-            'connectionCode_'.$appPublicId,
-            'Connector_'.$appPublicId,
+            'connectionCode_' . $appPublicId,
+            'Connector_' . $appPublicId,
             FlowType::OTHER,
             $client->getId(),
             $userId,
@@ -146,11 +146,11 @@ class ConfirmAuthenticationEndToEnd extends WebTestCase
                 $appPublicId,
                 'App',
                 [],
-                'connectionCode_'.$appPublicId,
+                'connectionCode_' . $appPublicId,
                 'http://www.example.com/path/to/logo',
                 'author',
-                'userGroup_'.$appPublicId,
-                'username_'.$appPublicId,
+                'userGroup_' . $appPublicId,
+                'username_' . $appPublicId,
                 [],
                 false,
                 'partner'

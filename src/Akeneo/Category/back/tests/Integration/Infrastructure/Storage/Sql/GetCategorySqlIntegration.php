@@ -36,48 +36,48 @@ class GetCategorySqlIntegration extends CategoryTestCase
             'code' => 'socks',
             'labels' => [
                 'fr_FR' => 'Chaussettes',
-                'en_US' => 'Socks'
-            ]
+                'en_US' => 'Socks',
+            ],
         ]);
 
         $this->attributes = [
-                [
-                    'type' => 'image',
-                    'uuid' => '8587cda6-58c8-47fa-9278-033e1d8c735c',
-                    'code' => 'photo',
-                    'order' => 1,
-                    'is_required' => true,
-                    'is_scopable' => false,
-                    'is_localizable' => false,
-                    'labels' => ['en_US' => 'photo'],
-                    'template_uuid' => '02274dac-e99a-4e1d-8f9b-794d4c3ba330',
-                    'additional_properties' => [],
-                ],
-                [
-                    'type' => 'text',
-                    'uuid' => '57665726-8a6e-4550-9bcf-06f81c0d1e24',
-                    'code' => 'description',
-                    'order' => 1,
-                    'is_required' => true,
-                    'is_scopable' => true,
-                    'is_localizable' => true,
-                    'labels' => ['en_US' => 'description'],
-                    'template_uuid' => '02274dac-e99a-4e1d-8f9b-794d4c3ba330',
-                    'additional_properties' => [],
-                ],
-                [
-                    'type' => 'text',
-                    'uuid' => '87939c45-1d85-4134-9579-d594fff65030',
-                    'code' => 'title',
-                    'order' => 2,
-                    'is_required' => true,
-                    'is_scopable' => true,
-                    'is_localizable' => true,
-                    'labels' => ['en_US' => 'title'],
-                    'template_uuid' => '02274dac-e99a-4e1d-8f9b-794d4c3ba330',
-                    'additional_properties' => [],
-                ],
-            ];
+            [
+                'type' => 'image',
+                'uuid' => '8587cda6-58c8-47fa-9278-033e1d8c735c',
+                'code' => 'photo',
+                'order' => 1,
+                'is_required' => true,
+                'is_scopable' => false,
+                'is_localizable' => false,
+                'labels' => ['en_US' => 'photo'],
+                'template_uuid' => '02274dac-e99a-4e1d-8f9b-794d4c3ba330',
+                'additional_properties' => [],
+            ],
+            [
+                'type' => 'text',
+                'uuid' => '57665726-8a6e-4550-9bcf-06f81c0d1e24',
+                'code' => 'description',
+                'order' => 1,
+                'is_required' => true,
+                'is_scopable' => true,
+                'is_localizable' => true,
+                'labels' => ['en_US' => 'description'],
+                'template_uuid' => '02274dac-e99a-4e1d-8f9b-794d4c3ba330',
+                'additional_properties' => [],
+            ],
+            [
+                'type' => 'text',
+                'uuid' => '87939c45-1d85-4134-9579-d594fff65030',
+                'code' => 'title',
+                'order' => 2,
+                'is_required' => true,
+                'is_scopable' => true,
+                'is_localizable' => true,
+                'labels' => ['en_US' => 'title'],
+                'template_uuid' => '02274dac-e99a-4e1d-8f9b-794d4c3ba330',
+                'additional_properties' => [],
+            ],
+        ];
 
         $this->updateCategoryWithValues($this->category->getCode());
     }
@@ -134,7 +134,7 @@ class GetCategorySqlIntegration extends CategoryTestCase
     {
         $category = $this->get(GetCategoryInterface::class)->byId($this->category->getId());
         $this->assertInstanceOf(Category::class, $category);
-        $this->assertSame('socks', (string)$category->getCode());
+        $this->assertSame('socks', (string) $category->getCode());
         $this->assertSame('Chaussettes', $category->getLabels()->getTranslation('fr_FR'));
         $this->assertSame('Socks', $category->getLabels()->getTranslation('en_US'));
 
@@ -168,12 +168,12 @@ class GetCategorySqlIntegration extends CategoryTestCase
     public function testGetCategoryWithNoRelatedTranslations(): void
     {
         $ties = $this->createCategory([
-            'code' => 'ties'
+            'code' => 'ties',
         ]);
 
         $hats = $this->createCategory([
             'code' => 'hats',
-            'labels' => []
+            'labels' => [],
         ]);
 
         $tiesCategory = $this->get(GetCategoryInterface::class)->byCode($ties->getCode());
@@ -257,8 +257,7 @@ class GetCategorySqlIntegration extends CategoryTestCase
         $this->deactivateAttribute('57665726-8a6e-4550-9bcf-06f81c0d1e24');
 
         /** @var Category $filteredCategory */
-        foreach ($this->get(GetCategoryInterface::class)->byCodes(['socks', 'japanese_socks']) as $filteredCategory)
-        {
+        foreach ($this->get(GetCategoryInterface::class)->byCodes(['socks', 'japanese_socks']) as $filteredCategory) {
             $values = $filteredCategory->getAttributes()?->getValues();
             $this->assertCount(1, $values);
             $this->assertEquals('photo', $values[0]->getCode());

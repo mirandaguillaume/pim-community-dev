@@ -25,7 +25,7 @@ final readonly class CleanImportFileAfterJobExecutionSubscriber implements Event
     public static function getSubscribedEvents(): array
     {
         return [
-            EventInterface::AFTER_JOB_EXECUTION => 'cleanImportFile'
+            EventInterface::AFTER_JOB_EXECUTION => 'cleanImportFile',
         ];
     }
 

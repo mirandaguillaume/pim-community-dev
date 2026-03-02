@@ -24,7 +24,7 @@ class Version_7_0_20220425160000_ensure_locale_codes_for_labels_in_families_have
         $result = $cnx->insert('pim_catalog_family', [
             'code' => 'test family',
             'created' => (new \DateTime())->format('Y-m-d H:i:s'),
-            'updated' => (new \DateTime())->format('Y-m-d H:i:s')
+            'updated' => (new \DateTime())->format('Y-m-d H:i:s'),
         ]);
         $this->assertTrue($result === 1);
         $familyId = $cnx->lastInsertId();
@@ -32,21 +32,21 @@ class Version_7_0_20220425160000_ensure_locale_codes_for_labels_in_families_have
         $result = $cnx->insert('pim_catalog_family_translation', [
             'foreign_key' => $familyId,
             'label' => 'test family fr_FR',
-            'locale' => 'fr_FR' // correspond to some locale in pim_catalog_locale, with same case
+            'locale' => 'fr_FR', // correspond to some locale in pim_catalog_locale, with same case
         ]);
         $this->assertTrue($result === 1);
 
         $result = $cnx->insert('pim_catalog_family_translation', [
             'foreign_key' => $familyId,
             'label' => 'test family en_US',
-            'locale' => 'en_us' // correspond to some locale in pim_catalog_locale, but wrong case
+            'locale' => 'en_us', // correspond to some locale in pim_catalog_locale, but wrong case
         ]);
         $this->assertTrue($result === 1);
 
         $result = $cnx->insert('pim_catalog_family_translation', [
             'foreign_key' => $familyId,
             'label' => 'test family foo_bar',
-            'locale' => 'foo_bar' // does not correspond to some locale in pim_catalog_locale
+            'locale' => 'foo_bar', // does not correspond to some locale in pim_catalog_locale
         ]);
         $this->assertTrue($result === 1);
 

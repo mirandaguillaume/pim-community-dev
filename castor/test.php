@@ -140,6 +140,20 @@ function acceptanceBack(): void
     \installer\acceptanceBack();
 }
 
+#[AsTask(namespace: 'test', name: 'acceptance-back-contexts', description: 'Run bounded context acceptance tests (PHPUnit + in-memory behat)')]
+function acceptanceBackContexts(): void
+{
+    // Note: category acceptance tests are behat-legacy tests requiring MySQL
+    // infrastructure — they run in the behat-legacy CI job instead.
+    \import_export\acceptanceBack();
+    \job\acceptanceBack();
+    \channel\acceptanceBack();
+    \measurement\acceptanceBack();
+    \identifier_generator\acceptanceBack();
+    \installer\acceptanceBack();
+    \enrichment_product\acceptanceBack();
+}
+
 #[AsTask(namespace: 'test', name: 'acceptance-front', description: 'Run front-end acceptance tests')]
 function acceptanceFront(): void
 {

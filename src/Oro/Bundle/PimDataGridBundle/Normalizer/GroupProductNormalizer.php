@@ -16,7 +16,7 @@ class GroupProductNormalizer extends ProductNormalizer
     /**
      * {@inheritdoc}
      */
-    public function normalize($product, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($product, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $data = parent::normalize($product, $format, $context);
 

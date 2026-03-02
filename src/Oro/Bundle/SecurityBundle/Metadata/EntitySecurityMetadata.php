@@ -4,7 +4,7 @@ namespace Oro\Bundle\SecurityBundle\Metadata;
 
 use Oro\Bundle\SecurityBundle\Acl\Extension\AclClassInfo;
 
-class EntitySecurityMetadata implements AclClassInfo, \Serializable
+class EntitySecurityMetadata implements AclClassInfo
 {
     /**
      * Constructor
@@ -74,30 +74,18 @@ class EntitySecurityMetadata implements AclClassInfo, \Serializable
         return $this->permissions;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @deprecated Serializable interface is deprecated since PHP 8.1. Migrate to __serialize()/__unserialize() in a future PR.
-     */
-    public function serialize(): string
+    public function __serialize(): array
     {
-        return serialize(
-            [
-                $this->securityType,
-                $this->className,
-                $this->group,
-                $this->label,
-                $this->permissions,
-            ]
-        );
+        return [
+            $this->securityType,
+            $this->className,
+            $this->group,
+            $this->label,
+            $this->permissions,
+        ];
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @deprecated Serializable interface is deprecated since PHP 8.1. Migrate to __serialize()/__unserialize() in a future PR.
-     */
-    public function unserialize($serialized): void
+    public function __unserialize(array $data): void
     {
         [
             $this->securityType,
@@ -105,7 +93,7 @@ class EntitySecurityMetadata implements AclClassInfo, \Serializable
             $this->group,
             $this->label,
             $this->permissions
-        ] = unserialize($serialized);
+        ] = $data;
     }
 
     public function getOrder(): int

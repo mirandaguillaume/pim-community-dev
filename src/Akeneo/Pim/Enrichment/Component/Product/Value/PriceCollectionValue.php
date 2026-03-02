@@ -84,9 +84,9 @@ class PriceCollectionValue extends AbstractValue implements PriceCollectionValue
      */
     public function isEqual(ValueInterface $value): bool
     {
-        if (!$value instanceof PriceCollectionValueInterface ||
-            $value->getLocaleCode() !== $this->getLocaleCode() ||
-            $value->getScopeCode() !== $this->getScopeCode()) {
+        if (!$value instanceof PriceCollectionValueInterface
+            || $value->getLocaleCode() !== $this->getLocaleCode()
+            || $value->getScopeCode() !== $this->getScopeCode()) {
             return false;
         }
 

@@ -27,15 +27,15 @@ class AverageMaxCategoriesInOneCategory implements AverageMaxQuery
     public function fetch(): AverageMaxVolumes
     {
         $sql = <<<SQL
-          SELECT MAX(count_parent.count_parent_id) as max,
-                CEIL(AVG(count_parent.count_parent_id)) as average
-              FROM (
-                 SELECT COUNT(c.parent_id) as count_parent_id
-                  FROM pim_catalog_category c
-                 WHERE c.parent_id is not null
-                  GROUP BY c.parent_id
-             ) as count_parent;
-SQL;
+                      SELECT MAX(count_parent.count_parent_id) as max,
+                            CEIL(AVG(count_parent.count_parent_id)) as average
+                          FROM (
+                             SELECT COUNT(c.parent_id) as count_parent_id
+                              FROM pim_catalog_category c
+                             WHERE c.parent_id is not null
+                              GROUP BY c.parent_id
+                         ) as count_parent;
+            SQL;
         $result = $this->connection->executeQuery($sql)->fetchAssociative();
 
         $volume = new AverageMaxVolumes((int) $result['max'], (int) $result['average'], self::VOLUME_NAME);

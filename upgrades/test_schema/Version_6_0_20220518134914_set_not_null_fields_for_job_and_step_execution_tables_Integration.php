@@ -99,12 +99,14 @@ class Version_6_0_20220518134914_set_not_null_fields_for_job_and_step_execution_
 
     private function insertJobExecutionWithNullValues(): void
     {
-        $this->getConnection()->executeStatement("
+        $this->getConnection()->executeStatement(
+            "
             INSERT INTO akeneo_batch_job_instance (id, code, label, job_name, status, connector, raw_parameters, type)
             VALUES (1, 'compute_product_models_descendants', 'Compute product models descendants', 'compute_product_models_descendants', 0, 'internal', 'a:0:{}', 'compute_product_models_descendants')"
         );
 
-        $this->getConnection()->executeStatement("
+        $this->getConnection()->executeStatement(
+            "
             INSERT INTO akeneo_batch_job_execution (id, job_instance_id, create_time, status, raw_parameters, is_stoppable, step_count, is_visible)
             VALUES (1, 1, DATE_SUB(NOW(), INTERVAL 10 day), 1, '{}', NULL, NULL, NULL)"
         );
@@ -118,11 +120,11 @@ class Version_6_0_20220518134914_set_not_null_fields_for_job_and_step_execution_
     private function columnIsNullable(string $tableName, string $columnName): bool
     {
         $query = <<<SQL
-SELECT IS_NULLABLE FROM information_schema.`COLUMNS`
-WHERE TABLE_SCHEMA = SCHEMA()
-AND TABLE_NAME = :table_name
-AND COLUMN_NAME = :column_name;
-SQL;
+            SELECT IS_NULLABLE FROM information_schema.`COLUMNS`
+            WHERE TABLE_SCHEMA = SCHEMA()
+            AND TABLE_NAME = :table_name
+            AND COLUMN_NAME = :column_name;
+            SQL;
 
         $isNullable = $this->getConnection()->executeQuery($query, [
             'table_name' => $tableName,

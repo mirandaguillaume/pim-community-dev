@@ -46,7 +46,7 @@ class SearchVersionAfterCursor implements CursorInterface
     /**
      * {@inheritDoc}
      */
-    public function key(): string|int|bool|null|float
+    public function key(): string|int|bool|float|null
     {
         return $this->iterator->key();
     }
@@ -81,7 +81,7 @@ class SearchVersionAfterCursor implements CursorInterface
         $qb = clone $queryBuilder;
         $qb->select('COUNT(1)');
 
-        return (int)$qb->getQuery()->getSingleScalarResult();
+        return (int) $qb->getQuery()->getSingleScalarResult();
     }
 
     private function iterator(): \Generator

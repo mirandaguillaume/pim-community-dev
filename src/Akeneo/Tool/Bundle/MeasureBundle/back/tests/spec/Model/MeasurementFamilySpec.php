@@ -25,7 +25,7 @@ class MeasurementFamilySpec extends ObjectBehavior
     private const METER_LABELS = ['fr_FR' => 'Mètre', 'en_US' => 'Meter'];
     private const CENTIMETER_LABELS = ['fr_FR' => 'centimètre', 'en_US' => 'mètre'];
 
-    function let()
+    public function let()
     {
         $standardUnitCode = UnitCode::fromString(self::METER_UNIT_CODE);
         $meterUnit = Unit::create(
@@ -33,30 +33,30 @@ class MeasurementFamilySpec extends ObjectBehavior
             LabelCollection::fromArray(self::METER_LABELS),
             [Operation::create('mul', '1')],
             self::METER_SYMBOL,
-            );
+        );
         $centimeterUnit = Unit::create(
             UnitCode::fromString(self::CENTIMETER_UNIT_CODE),
             LabelCollection::fromArray(self::CENTIMETER_LABELS),
             [Operation::create('mul', '5')],
             self::CENTIMETER_SYMBOL,
-            );
+        );
         $this->beConstructedThrough(
             'create',
             [
                 MeasurementFamilyCode::fromString(self::MEASUREMENT_FAMILY_CODE),
                 LabelCollection::fromArray(self::MEASUREMENT_FAMILY_LABEL),
                 $standardUnitCode,
-                [$meterUnit, $centimeterUnit]
+                [$meterUnit, $centimeterUnit],
             ]
         );
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(MeasurementFamily::class);
     }
 
-    function it_should_be_able_to_normalize_itself()
+    public function it_should_be_able_to_normalize_itself()
     {
         $this->normalize()->shouldReturn(
             [
@@ -75,13 +75,13 @@ class MeasurementFamilySpec extends ObjectBehavior
                         'labels'                => self::CENTIMETER_LABELS,
                         'convert_from_standard' => [['operator' => 'mul', 'value' => '5']],
                         'symbol'                => self::CENTIMETER_SYMBOL,
-                    ]
-                ]
+                    ],
+                ],
             ]
         );
     }
 
-    function it_should_not_be_able_create_a_measurement_family_having_no_units()
+    public function it_should_not_be_able_create_a_measurement_family_having_no_units()
     {
         $this->shouldThrow(\InvalidArgumentException::class)
             ->during(
@@ -90,12 +90,12 @@ class MeasurementFamilySpec extends ObjectBehavior
                     MeasurementFamilyCode::fromString(self::MEASUREMENT_FAMILY_CODE),
                     LabelCollection::fromArray(self::MEASUREMENT_FAMILY_LABEL),
                     UnitCode::fromString(self::METER_UNIT_CODE),
-                    []
+                    [],
                 ]
             );
     }
 
-    function it_should_not_be_able_to_create_a_measurement_family_having_a_standard_unit_not_being_in_the_units()
+    public function it_should_not_be_able_to_create_a_measurement_family_having_a_standard_unit_not_being_in_the_units()
     {
         $unknownUnitCode = 'unknown_unit_code';
         $this->shouldThrow(\InvalidArgumentException::class)
@@ -118,12 +118,12 @@ class MeasurementFamilySpec extends ObjectBehavior
                             [Operation::create('mul', '1')],
                             self::CENTIMETER_SYMBOL
                         ),
-                    ]
+                    ],
                 ]
             );
     }
 
-    function it_should_not_be_able_to_create_if_there_are_unit_duplicates()
+    public function it_should_not_be_able_to_create_if_there_are_unit_duplicates()
     {
         $meterUnit = Unit::create(
             UnitCode::fromString(self::METER_UNIT_CODE),
@@ -138,12 +138,12 @@ class MeasurementFamilySpec extends ObjectBehavior
                     MeasurementFamilyCode::fromString(self::MEASUREMENT_FAMILY_CODE),
                     LabelCollection::fromArray(self::MEASUREMENT_FAMILY_LABEL),
                     $meterUnit->code(),
-                    [$meterUnit, $meterUnit]
+                    [$meterUnit, $meterUnit],
                 ]
             );
     }
 
-    function it_returns_the_label_of_the_provided_unit_for_the_provided_locale()
+    public function it_returns_the_label_of_the_provided_unit_for_the_provided_locale()
     {
         $this->getUnitLabel(
             UnitCode::fromString(self::CENTIMETER_UNIT_CODE),
@@ -151,19 +151,19 @@ class MeasurementFamilySpec extends ObjectBehavior
         )->shouldReturn('centimètre');
     }
 
-    function it_should_throw_when_the_provided_unit_is_not_found()
+    public function it_should_throw_when_the_provided_unit_is_not_found()
     {
         $this->shouldThrow(UnitNotFoundException::class)
             ->during(
                 'getUnitLabel',
                 [
                     UnitCode::fromString('UNKNOWN'),
-                    LocaleIdentifier::fromCode('fr_FR')
+                    LocaleIdentifier::fromCode('fr_FR'),
                 ]
             );
     }
 
-    function it_should_not_be_able_to_create_if_the_standard_unit_conversion_is_not_a_multiply_by_one()
+    public function it_should_not_be_able_to_create_if_the_standard_unit_conversion_is_not_a_multiply_by_one()
     {
         $invalidStandardUnitOperation = Operation::create('mul', '5');
         $this->shouldThrow(\Exception::class)
@@ -179,8 +179,8 @@ class MeasurementFamilySpec extends ObjectBehavior
                             LabelCollection::fromArray([]),
                             [$invalidStandardUnitOperation],
                             ''
-                        )
-                    ]
+                        ),
+                    ],
                 ]
             );
     }

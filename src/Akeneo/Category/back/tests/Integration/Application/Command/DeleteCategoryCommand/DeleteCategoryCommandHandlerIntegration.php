@@ -120,7 +120,7 @@ class DeleteCategoryCommandHandlerIntegration extends CategoryTestCase
             'uuid' => $templateUuid->getValue(),
             'code' => 'my_template',
             'labels' => null,
-            'category_id' => (string)$categoryId->getValue(),
+            'category_id' => (string) $categoryId->getValue(),
         ]);
 
         /** @var CategoryTemplateSaver */
@@ -147,9 +147,9 @@ class DeleteCategoryCommandHandlerIntegration extends CategoryTestCase
 
         $result = $connection->executeQuery(
             <<<SQL
-            SELECT * FROM pim_catalog_category_template
-            WHERE uuid = :template_uuid
-        SQL,
+                    SELECT * FROM pim_catalog_category_template
+                    WHERE uuid = :template_uuid
+                SQL,
             [
                 'template_uuid' => $templateUuid->toBytes(),
             ],

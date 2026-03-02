@@ -196,7 +196,7 @@ class ConsumeJobMessageIntegration extends TestCase
             $pgrep->run();
             $output = trim($pgrep->getOutput());
             if ('' !== $output) {
-                return (int)$output;
+                return (int) $output;
             }
 
             $count++;

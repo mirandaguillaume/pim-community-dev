@@ -83,7 +83,7 @@ class UpdateConnectedAppMonitoringSettingsActionEndToEnd extends WebTestCase
             [],
             [
                 'HTTP_X-Requested-With' => 'XMLHttpRequest',
-                'CONTENT_TYPE' => 'application/json'
+                'CONTENT_TYPE' => 'application/json',
             ],
             \json_encode($data)
         );
@@ -98,10 +98,10 @@ class UpdateConnectedAppMonitoringSettingsActionEndToEnd extends WebTestCase
     {
         $dbalConnection = $this->get('database_connection');
         $query = <<<SQL
-SELECT flow_type, auditable
-FROM akeneo_connectivity_connection
-WHERE code = :code
-SQL;
+            SELECT flow_type, auditable
+            FROM akeneo_connectivity_connection
+            WHERE code = :code
+            SQL;
 
         $result = $dbalConnection->fetchAssociative($query, ['code' => $connectionCode]);
 

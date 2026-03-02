@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\back\tests\EndToEnd\Webhook;
@@ -41,10 +42,10 @@ class ProduceProductEventEndToEnd extends ApiTestCase
             $apiConnectionEcommerce->password()
         );
 
-        $data =
-            <<<JSON
-    {"identifier": "product_create_test"}
-JSON;
+        $data
+            = <<<JSON
+                    {"identifier": "product_create_test"}
+                JSON;
 
         $apiClient->request('POST', 'api/rest/v1/products', [], [], [], $data);
 
@@ -65,10 +66,10 @@ JSON;
             $apiConnectionEcommerce->password()
         );
 
-        $data =
-            <<<JSON
-    {"identifier": "another_product_update_test"}
-JSON;
+        $data
+            = <<<JSON
+                    {"identifier": "another_product_update_test"}
+                JSON;
 
         $apiClient->request('PATCH', 'api/rest/v1/products/product_update_test', [], [], [], $data);
 

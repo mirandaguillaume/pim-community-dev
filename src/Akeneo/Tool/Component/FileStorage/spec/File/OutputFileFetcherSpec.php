@@ -15,7 +15,7 @@ class OutputFileFetcherSpec extends ObjectBehavior
 
     private ?string $directory = null;
 
-    function let()
+    public function let()
     {
         $this->directory = sys_get_temp_dir() . '/spec/';
 
@@ -23,17 +23,17 @@ class OutputFileFetcherSpec extends ObjectBehavior
         $this->filesystem->mkdir($this->directory);
     }
 
-    function letGo()
+    public function letGo()
     {
         $this->filesystem->remove($this->directory);
     }
 
-    function it_fetches_a_file(FilesystemReader $filesystem)
+    public function it_fetches_a_file(FilesystemReader $filesystem)
     {
         $virtualFilesystemPath = 'virtual/path/file.txt';
         $localFilesystemPath = [
             'filePath' => $this->directory . 'locale/path/',
-            'filename' => 'filename.txt'
+            'filename' => 'filename.txt',
         ];
 
         $filesystem->fileExists($virtualFilesystemPath)->willReturn(true);
@@ -48,11 +48,11 @@ class OutputFileFetcherSpec extends ObjectBehavior
         }
     }
 
-    function it_fetches_a_file_with_the_same_filename(FilesystemReader $filesystem)
+    public function it_fetches_a_file_with_the_same_filename(FilesystemReader $filesystem)
     {
         $virtualFilesystemPath = 'virtual/path/file.txt';
         $localFilesystemPath = [
-            'filePath' => $this->directory . 'locale/path/'
+            'filePath' => $this->directory . 'locale/path/',
         ];
 
         $filesystem->fileExists($virtualFilesystemPath)->willReturn(true);
@@ -65,7 +65,7 @@ class OutputFileFetcherSpec extends ObjectBehavior
         }
     }
 
-    function it_throws_an_exception_if_options_directory_or_filename_are_not_filled(FilesystemReader $filesystem)
+    public function it_throws_an_exception_if_options_directory_or_filename_are_not_filled(FilesystemReader $filesystem)
     {
         $this->shouldThrow(
             new \LogicException('Options "filePath" has to be filled')
@@ -74,28 +74,28 @@ class OutputFileFetcherSpec extends ObjectBehavior
         $this->shouldThrow(
             new \LogicException('Options "filePath" has to be filled')
         )->during('fetch', [$filesystem, 'path/to/file.txt', [
-            'filePath' => ''
+            'filePath' => '',
         ]]);
 
         $this->shouldThrow(
             new \LogicException('Options "filePath" has to be filled')
         )->during('fetch', [$filesystem, 'path/to/file.txt', [
-            'filePath' => null
+            'filePath' => null,
         ]]);
     }
 
-    function it_throws_an_exception_when_the_file_is_not_on_the_filesystem(FilesystemReader $filesystem)
+    public function it_throws_an_exception_when_the_file_is_not_on_the_filesystem(FilesystemReader $filesystem)
     {
         $filesystem->fileExists('path/to/file.txt')->willReturn(false);
 
         $this->shouldThrow(
             new \LogicException('The file "path/to/file.txt" is not present on the filesystem.')
         )->during('fetch', [$filesystem, 'path/to/file.txt', [
-            'filePath' => 'locale/path/filename.txt'
+            'filePath' => 'locale/path/filename.txt',
         ]]);
     }
 
-    function it_throws_an_exception_when_the_file_can_not_be_read_on_the_filesystem(FilesystemReader $filesystem)
+    public function it_throws_an_exception_when_the_file_can_not_be_read_on_the_filesystem(FilesystemReader $filesystem)
     {
         $filesystem->fileExists('path/to/file.txt')->willReturn(true);
         $filesystem->readStream('path/to/file.txt')->willThrow(
@@ -105,7 +105,7 @@ class OutputFileFetcherSpec extends ObjectBehavior
         $this->shouldThrow(
             new FileTransferException('Unable to fetch the file "path/to/file.txt" from the filesystem.')
         )->during('fetch', [$filesystem, 'path/to/file.txt', [
-            'filePath' => 'locale/path/filename.txt'
+            'filePath' => 'locale/path/filename.txt',
         ]]);
     }
 }

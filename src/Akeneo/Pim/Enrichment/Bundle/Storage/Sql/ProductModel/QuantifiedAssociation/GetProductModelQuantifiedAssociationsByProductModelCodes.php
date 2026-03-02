@@ -43,14 +43,14 @@ final readonly class GetProductModelQuantifiedAssociationsByProductModelCodes
     private function fetchQuantifiedAssociations(array $productModelCodes): array
     {
         $query = <<<SQL
-SELECT
-    product_model.code,
-    JSON_MERGE_PRESERVE(COALESCE(parent_product_model.quantified_associations, '{}'), COALESCE(product_model.quantified_associations, '{}')) AS all_quantified_associations
-FROM pim_catalog_product_model as product_model
-LEFT JOIN pim_catalog_product_model parent_product_model ON parent_product_model.id = product_model.parent_id
-WHERE product_model.code IN (:productModelCodes)
-;
-SQL;
+            SELECT
+                product_model.code,
+                JSON_MERGE_PRESERVE(COALESCE(parent_product_model.quantified_associations, '{}'), COALESCE(product_model.quantified_associations, '{}')) AS all_quantified_associations
+            FROM pim_catalog_product_model as product_model
+            LEFT JOIN pim_catalog_product_model parent_product_model ON parent_product_model.id = product_model.parent_id
+            WHERE product_model.code IN (:productModelCodes)
+            ;
+            SQL;
 
         $rows = $this->connection->executeQuery(
             $query,
@@ -109,7 +109,7 @@ SQL;
                 }
                 $uniqueQuantifiedAssociations[$code] = [
                     'identifier' => $code,
-                    'quantity'   => (int) $associationWithProductModelId['quantity']
+                    'quantity'   => (int) $associationWithProductModelId['quantity'],
                 ];
             }
             if (!empty($uniqueQuantifiedAssociations)) {

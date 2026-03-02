@@ -16,10 +16,11 @@ final class Version_7_0_20220111161207_update_author_to_be_nullable extends Abst
 {
     public function up(Schema $schema): void
     {
-        $this->addSql(<<<SQL
-        ALTER TABLE akeneo_connectivity_connected_app
-        MODIFY author varchar(255) NULL;
-        SQL
+        $this->addSql(
+            <<<SQL
+                ALTER TABLE akeneo_connectivity_connected_app
+                MODIFY author varchar(255) NULL;
+                SQL
         );
     }
 

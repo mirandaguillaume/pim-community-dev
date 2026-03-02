@@ -52,21 +52,21 @@ final class GetDataQualityInsightsPropertiesForProductProjectionSpec extends Obj
 
         $getProductScoresQuery->byProductUuidCollection($productUuidCollection)->willReturn([
             $uuid42->toString() => new Read\Scores(
-                (new ChannelLocaleRateCollection)
+                (new ChannelLocaleRateCollection())
                     ->addRate($channelMobile, $localeEn, new Rate(81))
                     ->addRate($channelMobile, $localeFr, new Rate(30))
                     ->addRate($channelEcommerce, $localeEn, new Rate(73)),
-                (new ChannelLocaleRateCollection)
+                (new ChannelLocaleRateCollection())
                     ->addRate($channelMobile, $localeEn, new Rate(78))
                     ->addRate($channelMobile, $localeFr, new Rate(46))
                     ->addRate($channelEcommerce, $localeEn, new Rate(81))
             ),
             $uuid123->toString() => new Read\Scores(
-                (new ChannelLocaleRateCollection)
+                (new ChannelLocaleRateCollection())
                     ->addRate($channelMobile, $localeEn, new Rate(66)),
-                (new ChannelLocaleRateCollection)
+                (new ChannelLocaleRateCollection())
                     ->addRate($channelMobile, $localeEn, new Rate(74)),
-            )
+            ),
         ]);
 
         $productsKeyIndicators = [
@@ -131,7 +131,7 @@ final class GetDataQualityInsightsPropertiesForProductProjectionSpec extends Obj
                             'en_US' => 2,
                         ],
                     ],
-                    'key_indicators' => $productsKeyIndicators['df470d52-7723-4890-85a0-e79be625e2ed']
+                    'key_indicators' => $productsKeyIndicators['df470d52-7723-4890-85a0-e79be625e2ed'],
                 ],
             ],
             $uuid123->toString() => [
@@ -146,7 +146,7 @@ final class GetDataQualityInsightsPropertiesForProductProjectionSpec extends Obj
                             'en_US' => 3,
                         ],
                     ],
-                    'key_indicators' => $productsKeyIndicators['fef37e64-a963-47a9-b087-2cc67968f0a2']
+                    'key_indicators' => $productsKeyIndicators['fef37e64-a963-47a9-b087-2cc67968f0a2'],
                 ],
             ],
             $uuid456->toString() => [

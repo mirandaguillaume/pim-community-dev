@@ -24,7 +24,7 @@ class AttributeOptionNormalizer implements NormalizerInterface, CacheableSupport
     /**
      * {@inheritdoc}
      */
-    public function normalize($option, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($option, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $normalizedOption = $this->stdNormalizer->normalize($option, 'standard', $context);
 

@@ -42,11 +42,11 @@ class CollectProductValidationErrorEndToEnd extends ApiTestCase
     {
         $this->attributeLoader->create([
             'code' => 'color',
-            'type' => 'pim_catalog_simpleselect'
+            'type' => 'pim_catalog_simpleselect',
         ]);
         $this->familyLoader->create([
             'code' => 'shoes',
-            'attributes' => ['sku', 'color']
+            'attributes' => ['sku', 'color'],
         ]);
 
         $connection = $this->createConnection('erp', 'ERP', FlowType::DATA_SOURCE, true);
@@ -68,9 +68,9 @@ class CollectProductValidationErrorEndToEnd extends ApiTestCase
                         'locale' => null,
                         'scope' => null,
                         'data' => 'unknown_color',
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ]);
 
         $client->request('PATCH', '/api/rest/v1/products/high-top_sneakers', [], [], [], $content);
@@ -107,10 +107,10 @@ class CollectProductValidationErrorEndToEnd extends ApiTestCase
                         'manage_attributes_options' => [
                             'type' => 'href',
                             'href' => 'https://help.akeneo.com/pim/serenity/articles/manage-your-attributes.html#manage-simple-and-multi-selects-attribute-options',
-                            'title' => 'Manage select attributes options'
-                        ]
+                            'title' => 'Manage select attributes options',
+                        ],
                     ],
-                    'style' => 'information'
+                    'style' => 'information',
                 ],
                 [
                     'message' => 'Please check the {attribute_options_settings}.',
@@ -119,20 +119,20 @@ class CollectProductValidationErrorEndToEnd extends ApiTestCase
                             'type' => 'route',
                             'route' => 'pim_enrich_attribute_edit',
                             'routeParameters' => [
-                                'code' => 'color'
+                                'code' => 'color',
                             ],
-                            'title' => 'Options settings of the color attribute'
-                        ]
+                            'title' => 'Options settings of the color attribute',
+                        ],
                     ],
-                    'style' => 'text'
-                ]
+                    'style' => 'text',
+                ],
             ],
             'product' => [
                 'uuid' => Uuid::uuid4(),
                 'identifier' => 'high-top_sneakers',
                 'label' => 'high-top_sneakers',
                 'family' => 'shoes',
-            ]
+            ],
         ];
 
         $this->assertReponsesEquals($expectedContent, $doc['content']);

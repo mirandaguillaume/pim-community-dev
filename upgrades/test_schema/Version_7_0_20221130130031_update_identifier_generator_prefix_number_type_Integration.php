@@ -36,19 +36,19 @@ final class Version_7_0_20221130130031_update_identifier_generator_prefix_number
     private function rollback(): void
     {
         $this->connection->executeQuery(<<<SQL
-ALTER TABLE pim_catalog_identifier_generator_prefixes 
-    MODIFY `number` INT NOT NULL;
-SQL);
+            ALTER TABLE pim_catalog_identifier_generator_prefixes 
+                MODIFY `number` INT NOT NULL;
+            SQL);
     }
 
     private function getColumnType(): string
     {
         $sql = <<<SQL
-SELECT COLUMN_TYPE from information_schema.COLUMNS 
-WHERE TABLE_SCHEMA='%s' 
-  AND TABLE_NAME='pim_catalog_identifier_generator_prefixes'
-  AND COLUMN_NAME='number';
-SQL;
+            SELECT COLUMN_TYPE from information_schema.COLUMNS 
+            WHERE TABLE_SCHEMA='%s' 
+              AND TABLE_NAME='pim_catalog_identifier_generator_prefixes'
+              AND COLUMN_NAME='number';
+            SQL;
 
         return $this->connection->fetchOne(\sprintf($sql, $this->connection->getDatabase()));
     }

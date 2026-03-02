@@ -16,8 +16,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class Version_6_0_20210222120000_create_events_api_debug_index extends AbstractMigration
-implements ContainerAwareInterface
+final class Version_6_0_20210222120000_create_events_api_debug_index extends AbstractMigration implements ContainerAwareInterface
 {
     /** @var ContainerInterface */
     private $container;

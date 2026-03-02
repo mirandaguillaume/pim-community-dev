@@ -29,13 +29,13 @@ class InitDeletedAttributeSchemaSubscriber implements EventSubscriberInterface
     public function createBlacklistTable(): void
     {
         $createTableSql = <<<SQL
-CREATE TABLE IF NOT EXISTS pim_catalog_attribute_blacklist (
-    `attribute_code` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL PRIMARY KEY,
-    `cleanup_job_execution_id` INTEGER DEFAULT NULL,
-    UNIQUE KEY `searchunique_idx` (`attribute_code`),
-    CONSTRAINT `FK_BDE7D0925812C06B` FOREIGN KEY (`cleanup_job_execution_id`) REFERENCES `akeneo_batch_job_execution` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-SQL;
+            CREATE TABLE IF NOT EXISTS pim_catalog_attribute_blacklist (
+                `attribute_code` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL PRIMARY KEY,
+                `cleanup_job_execution_id` INTEGER DEFAULT NULL,
+                UNIQUE KEY `searchunique_idx` (`attribute_code`),
+                CONSTRAINT `FK_BDE7D0925812C06B` FOREIGN KEY (`cleanup_job_execution_id`) REFERENCES `akeneo_batch_job_execution` (`id`) ON DELETE CASCADE
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+            SQL;
 
         $this->connection->executeStatement($createTableSql);
     }

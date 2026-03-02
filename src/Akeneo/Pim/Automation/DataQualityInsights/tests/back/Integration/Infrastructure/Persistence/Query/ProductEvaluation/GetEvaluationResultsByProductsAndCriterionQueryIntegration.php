@@ -57,7 +57,7 @@ final class GetEvaluationResultsByProductsAndCriterionQueryIntegration extends D
             new SetTextValue('name', 'ecommerce', 'fr_FR', 'Bar'),
         ])->getUuid();
 
-        $productIdCollection = $this->get(ProductUuidFactory::class)->createCollection([(string)$productUuid]);
+        $productIdCollection = $this->get(ProductUuidFactory::class)->createCollection([(string) $productUuid]);
         ($this->get(EvaluateProducts::class))($productIdCollection);
 
         return $productUuid;

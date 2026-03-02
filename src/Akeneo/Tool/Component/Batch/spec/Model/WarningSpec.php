@@ -7,7 +7,7 @@ use PhpSpec\ObjectBehavior;
 
 class WarningSpec extends ObjectBehavior
 {
-    function let(StepExecution $stepExecution)
+    public function let(StepExecution $stepExecution)
     {
         $this->beConstructedWith(
             $stepExecution,
@@ -17,22 +17,22 @@ class WarningSpec extends ObjectBehavior
         );
     }
 
-    function it_provides_a_step_execution($stepExecution)
+    public function it_provides_a_step_execution($stepExecution)
     {
         $this->getStepExecution()->shouldReturn($stepExecution);
     }
 
-    function it_provides_array_format()
+    public function it_provides_array_format()
     {
         $this->toArray()->shouldReturn(
             [
                 'reason' => 'my reason',
                 'reasonParameters' => [
-                    'myparam' => 'mavalue'
+                    'myparam' => 'mavalue',
                 ],
                 'item' => [
-                    'myitem' => 'myvalue'
-                ]
+                    'myitem' => 'myvalue',
+                ],
             ]
         );
     }

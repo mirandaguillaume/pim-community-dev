@@ -61,10 +61,10 @@ class DeleteUserGroupIntegration extends TestCase
     private function fetchUserGroups(): array
     {
         $query = <<<SQL
-SELECT name
-FROM oro_access_group
-ORDER BY name
-SQL;
+            SELECT name
+            FROM oro_access_group
+            ORDER BY name
+            SQL;
 
         return $this->connection->fetchFirstColumn($query);
     }

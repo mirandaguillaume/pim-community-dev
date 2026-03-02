@@ -48,9 +48,9 @@ class ListProductModelsQueryHandler
             );
         } catch (
             UnsupportedFilterException
-            | PropertyException
-            | InvalidOperatorException
-            | ObjectNotFoundException
+            |PropertyException
+            |InvalidOperatorException
+            |ObjectNotFoundException
             $e
         ) {
             throw new InvalidQueryException($e->getMessage(), $e->getCode(), $e);
@@ -84,7 +84,7 @@ class ListProductModelsQueryHandler
         if (PaginationTypes::OFFSET === $query->paginationType) {
             return $this->fromSizePqbFactory->create([
                 'limit' => (int) $query->limit,
-                'from' => ($query->page - 1) * $query->limit
+                'from' => ($query->page - 1) * $query->limit,
             ]);
         }
 

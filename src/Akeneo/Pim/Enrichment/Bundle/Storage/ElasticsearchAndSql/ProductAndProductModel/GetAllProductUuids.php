@@ -23,12 +23,12 @@ final readonly class GetAllProductUuids
     {
         $lastUuidAsBytes = '';
         $sql = <<<SQL
-SELECT uuid
-FROM pim_catalog_product
-WHERE uuid > :lastUuid
-ORDER BY uuid ASC
-LIMIT :limit
-SQL;
+            SELECT uuid
+            FROM pim_catalog_product
+            WHERE uuid > :lastUuid
+            ORDER BY uuid ASC
+            LIMIT :limit
+            SQL;
         while (true) {
             $rows = $this->connection->fetchFirstColumn(
                 $sql,

@@ -29,9 +29,9 @@ final readonly class AttributeCodeBlacklister
         $placeholder = implode(',', $placeholder);
 
         $blacklistAttributeCodeSql = <<<SQL
-INSERT INTO `pim_catalog_attribute_blacklist` (`attribute_code`)
-VALUES $placeholder;
-SQL;
+            INSERT INTO `pim_catalog_attribute_blacklist` (`attribute_code`)
+            VALUES $placeholder;
+            SQL;
 
         $this->connection->executeStatement(
             $blacklistAttributeCodeSql,
@@ -46,20 +46,20 @@ SQL;
         }
 
         $registerJobSql = <<<SQL
-UPDATE `pim_catalog_attribute_blacklist`
-SET `cleanup_job_execution_id` = :job_execution_id
-WHERE `attribute_code` IN (:attribute_codes);
-SQL;
+            UPDATE `pim_catalog_attribute_blacklist`
+            SET `cleanup_job_execution_id` = :job_execution_id
+            WHERE `attribute_code` IN (:attribute_codes);
+            SQL;
 
         $this->connection->executeStatement(
             $registerJobSql,
             [
                 'attribute_codes' => $attributeCodes,
-                'job_execution_id' => $jobExecutionId
+                'job_execution_id' => $jobExecutionId,
             ],
             [
                 'attribute_codes' => ArrayParameterType::STRING,
-                'job_execution_id' => \PDO::PARAM_INT
+                'job_execution_id' => \PDO::PARAM_INT,
             ]
         );
     }
@@ -71,9 +71,9 @@ SQL;
         }
 
         $whiteListSql = <<<SQL
-DELETE FROM `pim_catalog_attribute_blacklist`
-WHERE `attribute_code` IN (:attribute_codes);
-SQL;
+            DELETE FROM `pim_catalog_attribute_blacklist`
+            WHERE `attribute_code` IN (:attribute_codes);
+            SQL;
 
         $this->connection->executeStatement(
             $whiteListSql,

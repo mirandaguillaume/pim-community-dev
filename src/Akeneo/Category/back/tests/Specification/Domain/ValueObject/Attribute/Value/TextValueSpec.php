@@ -37,7 +37,7 @@ class TextValueSpec extends ObjectBehavior
             'type' => 'text',
             'channel' => 'ecommerce',
             'locale' => 'en_US',
-            'attribute_code' => 'seo_meta_description|69e251b3-b876-48b5-9c09-92f54bfb528d'
+            'attribute_code' => 'seo_meta_description|69e251b3-b876-48b5-9c09-92f54bfb528d',
         ];
         $this->beConstructedThrough('fromArray', [$givenArray]);
 
@@ -53,7 +53,7 @@ class TextValueSpec extends ObjectBehavior
             'type' => 'text',
             'channel' => 'ecommerce',
             'locale' => 'en_US',
-            'attribute_code' => ''
+            'attribute_code' => '',
         ];
 
         $this->beConstructedThrough('fromArray', [$givenArray]);
@@ -85,8 +85,8 @@ class TextValueSpec extends ObjectBehavior
                 'type' => 'text',
                 'channel' => 'ecommerce',
                 'locale' => 'en_US',
-                'attribute_code' => $key
-            ]
+                'attribute_code' => $key,
+            ],
         ];
 
         $this->normalize()->shouldBeLike($expectedValue);
@@ -116,8 +116,8 @@ class TextValueSpec extends ObjectBehavior
                 'type' => 'text',
                 'channel' => 'ecommerce',
                 'locale' => null,
-                'attribute_code' => $key
-            ]
+                'attribute_code' => $key,
+            ],
         ];
 
         $this->normalize()->shouldBeLike($expectedValue);
@@ -146,8 +146,8 @@ class TextValueSpec extends ObjectBehavior
                 'type' => 'text',
                 'channel' => null,
                 'locale' => 'en_US',
-                'attribute_code' => $key
-            ]
+                'attribute_code' => $key,
+            ],
         ];
 
         $this->normalize()->shouldBeLike($expectedValue);
@@ -175,8 +175,8 @@ class TextValueSpec extends ObjectBehavior
                 'type' => 'text',
                 'channel' => null,
                 'locale' => 'en_US',
-                'attribute_code' => $key
-            ]
+                'attribute_code' => $key,
+            ],
         ];
 
         $this->normalize()->shouldBeLike($expectedValue);

@@ -7,7 +7,7 @@ use PhpSpec\ObjectBehavior;
 
 class InvalidPropertyTypeExceptionSpec extends ObjectBehavior
 {
-    function it_creates_a_not_scalar_exception()
+    public function it_creates_a_not_scalar_exception()
     {
         $exception = InvalidPropertyTypeException::scalarExpected(
             'attribute',
@@ -31,7 +31,7 @@ class InvalidPropertyTypeExceptionSpec extends ObjectBehavior
         $this->getCode()->shouldReturn($exception->getCode());
     }
 
-    function it_creates_a_not_boolean_exception()
+    public function it_creates_a_not_boolean_exception()
     {
         $exception = InvalidPropertyTypeException::booleanExpected(
             'attribute',
@@ -55,7 +55,7 @@ class InvalidPropertyTypeExceptionSpec extends ObjectBehavior
         $this->getCode()->shouldReturn($exception->getCode());
     }
 
-    function it_creates_a_not_float_exception()
+    public function it_creates_a_not_float_exception()
     {
         $exception = InvalidPropertyTypeException::floatExpected(
             'attribute',
@@ -79,7 +79,7 @@ class InvalidPropertyTypeExceptionSpec extends ObjectBehavior
         $this->getCode()->shouldReturn($exception->getCode());
     }
 
-    function it_creates_a_not_integer_exception()
+    public function it_creates_a_not_integer_exception()
     {
         $exception = InvalidPropertyTypeException::integerExpected(
             'attribute',
@@ -103,7 +103,7 @@ class InvalidPropertyTypeExceptionSpec extends ObjectBehavior
         $this->getCode()->shouldReturn($exception->getCode());
     }
 
-    function it_creates_a_not_numeric_exception()
+    public function it_creates_a_not_numeric_exception()
     {
         $exception = InvalidPropertyTypeException::numericExpected(
             'attribute',
@@ -127,7 +127,7 @@ class InvalidPropertyTypeExceptionSpec extends ObjectBehavior
         $this->getCode()->shouldReturn($exception->getCode());
     }
 
-    function it_creates_a_not_string_exception()
+    public function it_creates_a_not_string_exception()
     {
         $exception = InvalidPropertyTypeException::stringExpected(
             'attribute',
@@ -151,7 +151,7 @@ class InvalidPropertyTypeExceptionSpec extends ObjectBehavior
         $this->getCode()->shouldReturn($exception->getCode());
     }
 
-    function it_creates_a_not_array_exception()
+    public function it_creates_a_not_array_exception()
     {
         $exception = InvalidPropertyTypeException::arrayExpected(
             'attribute',
@@ -175,7 +175,7 @@ class InvalidPropertyTypeExceptionSpec extends ObjectBehavior
         $this->getCode()->shouldReturn($exception->getCode());
     }
 
-    function it_creates_a_not_bad_array_structure_exception()
+    public function it_creates_a_not_bad_array_structure_exception()
     {
         $exception = InvalidPropertyTypeException::validArrayStructureExpected(
             'attribute',
@@ -200,7 +200,7 @@ class InvalidPropertyTypeExceptionSpec extends ObjectBehavior
         $this->getCode()->shouldReturn($exception->getCode());
     }
 
-    function it_creates_a_not_array_of_arrays_structure_exception()
+    public function it_creates_a_not_array_of_arrays_structure_exception()
     {
         $exception = InvalidPropertyTypeException::arrayOfArraysExpected(
             'attribute',
@@ -224,7 +224,7 @@ class InvalidPropertyTypeExceptionSpec extends ObjectBehavior
         $this->getCode()->shouldReturn($exception->getCode());
     }
 
-    function it_creates_a_not_array_of_objects_structure_exception()
+    public function it_creates_a_not_array_of_objects_structure_exception()
     {
         $exception = InvalidPropertyTypeException::arrayOfObjectsExpected(
             'attribute',
@@ -248,7 +248,7 @@ class InvalidPropertyTypeExceptionSpec extends ObjectBehavior
         $this->getCode()->shouldReturn($exception->getCode());
     }
 
-    function it_creates_a_not_key_not_found_exception()
+    public function it_creates_a_not_key_not_found_exception()
     {
         $exception = InvalidPropertyTypeException::arrayKeyExpected(
             'attribute',

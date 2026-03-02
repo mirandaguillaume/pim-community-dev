@@ -23,23 +23,23 @@ final readonly class GetProductModelCodesNotSynchronisedBetweenEsAndMysql
     {
         $formerId = 0;
         $sql = <<< SQL
-SELECT CONCAT('product_model_', id) AS _id, id, code, DATE_FORMAT(updated, '%Y-%m-%dT%TZ') AS updated
-FROM pim_catalog_product_model
-WHERE id > :formerId
-AND parent_id IS NULL
-ORDER BY id ASC
-LIMIT :limit
-SQL;
+            SELECT CONCAT('product_model_', id) AS _id, id, code, DATE_FORMAT(updated, '%Y-%m-%dT%TZ') AS updated
+            FROM pim_catalog_product_model
+            WHERE id > :formerId
+            AND parent_id IS NULL
+            ORDER BY id ASC
+            LIMIT :limit
+            SQL;
         while (true) {
             $rows = $this->connection->executeQuery(
                 $sql,
                 [
                     'formerId' => $formerId,
-                    'limit' => $batchSize
+                    'limit' => $batchSize,
                 ],
                 [
                     'formerId' => \PDO::PARAM_INT,
-                    'limit' => \PDO::PARAM_INT
+                    'limit' => \PDO::PARAM_INT,
                 ]
             )->fetchAllAssociative();
 
@@ -47,7 +47,7 @@ SQL;
                 return;
             }
 
-            $formerId = (int)end($rows)['id'];
+            $formerId = (int) end($rows)['id'];
             $existingMysqlIdentifiers = array_column($rows, '_id');
 
             $results = $this->productAndProductModelClient->search([
@@ -55,13 +55,13 @@ SQL;
                     'bool' => [
                         'must' => [
                             'ids' => [
-                                'values' => $existingMysqlIdentifiers
-                            ]
+                                'values' => $existingMysqlIdentifiers,
+                            ],
                         ],
                     ],
                 ],
                 '_source' => ['id', 'entity_updated'],
-                'size' => $batchSize
+                'size' => $batchSize,
             ]);
 
             $updatedById = [];

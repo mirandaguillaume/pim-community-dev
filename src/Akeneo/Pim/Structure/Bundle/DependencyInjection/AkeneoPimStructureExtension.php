@@ -26,7 +26,7 @@ class AkeneoPimStructureExtension extends Extension
 
         $container->setParameter('pim_reference_data.configurations', $configs['reference_data']);
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('array_converters.yml');
         $loader->load('attribute_types.yml');
         $loader->load('commands.yml');

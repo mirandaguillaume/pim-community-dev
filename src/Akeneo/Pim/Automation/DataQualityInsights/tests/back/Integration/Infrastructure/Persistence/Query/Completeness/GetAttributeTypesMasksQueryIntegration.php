@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Akeneo\Test\Pim\Automation\DataQualityInsights\Integration\Infrastructure\Persistence\Query\Completeness;
 
 use Akeneo\Pim\Structure\Component\AttributeTypes;
@@ -13,11 +12,11 @@ class GetAttributeTypesMasksQueryIntegration extends CompletenessTestCase
 
         // Note that ecommerce already exists by default (with only the activated locale en_US)
         $this->givenCurrencyForChannel([
-            ['code' => 'ecommerce', 'currencies' => ['USD']]
+            ['code' => 'ecommerce', 'currencies' => ['USD']],
         ]);
 
         $this->givenChannels([
-            ['code' => 'tablet', 'locales' => ['en_US', 'fr_FR'], 'labels' => ['en_US' => 'Tablet', 'fr_FR' => 'Tablette'], 'currencies' => ['USD', 'EUR']]
+            ['code' => 'tablet', 'locales' => ['en_US', 'fr_FR'], 'labels' => ['en_US' => 'Tablet', 'fr_FR' => 'Tablette'], 'currencies' => ['USD', 'EUR']],
         ]);
 
         $this->givenADeactivatedAttributeGroup('erp');
@@ -58,7 +57,7 @@ class GetAttributeTypesMasksQueryIntegration extends CompletenessTestCase
                         'a_text',
                         'a_second_image',
                     ],
-                ]
+                ],
             ],
         ]);
     }
@@ -88,7 +87,7 @@ class GetAttributeTypesMasksQueryIntegration extends CompletenessTestCase
             'an_us_image-<all_channels>-<all_locales>',
         ], $tabletEnUS->mask());
 
-        $this->assertEqualsCanonicalizing( [
+        $this->assertEqualsCanonicalizing([
             'an_image-<all_channels>-<all_locales>',
             'a_second_image-tablet-<all_locales>',
             'a_third_image-<all_channels>-fr_FR',

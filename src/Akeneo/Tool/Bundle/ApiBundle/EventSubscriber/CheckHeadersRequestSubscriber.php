@@ -44,7 +44,7 @@ class CheckHeadersRequestSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::REQUEST => 'onKernelRequest'
+            KernelEvents::REQUEST => 'onKernelRequest',
         ];
     }
 
@@ -58,8 +58,8 @@ class CheckHeadersRequestSubscriber implements EventSubscriberInterface
     {
         $request = $event->getRequest();
 
-        if (!$request->attributes->has(FOSRestBundle::ZONE_ATTRIBUTE) ||
-            $event->getRequestType() !== HttpKernelInterface::MAIN_REQUEST
+        if (!$request->attributes->has(FOSRestBundle::ZONE_ATTRIBUTE)
+            || $event->getRequestType() !== HttpKernelInterface::MAIN_REQUEST
         ) {
             return;
         }

@@ -41,7 +41,7 @@ class MetricNormalizer extends AbstractValueDataNormalizer implements CacheableS
      *
      * @param MetricInterface $object
      */
-    public function normalize($object, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($object, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $context = $this->resolveContext($context);
         $decimalsAllowed = !array_key_exists('decimals_allowed', $context) || true === $context['decimals_allowed'];
@@ -109,8 +109,8 @@ class MetricNormalizer extends AbstractValueDataNormalizer implements CacheableS
         if (!in_array($context['metric_format'], [self::MULTIPLE_FIELDS_FORMAT, self::SINGLE_FIELD_FORMAT])) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    'Value "%s" of "metric_format" context value is not allowed ' .
-                    '(allowed values: "%s, %s"',
+                    'Value "%s" of "metric_format" context value is not allowed '
+                    . '(allowed values: "%s, %s"',
                     $context['metric_format'],
                     self::SINGLE_FIELD_FORMAT,
                     self::MULTIPLE_FIELDS_FORMAT

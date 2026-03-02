@@ -67,9 +67,9 @@ class AttributeGroupActivationRepositoryIntegration extends TestCase
     private function doesAttributeGroupActivationExist(AttributeGroupActivation $attributeGroupActivation): bool
     {
         $query = <<<SQL
-SELECT 1 FROM pim_data_quality_insights_attribute_group_activation
-WHERE attribute_group_code = :attributeGroupCode AND activated = :activated;
-SQL;
+            SELECT 1 FROM pim_data_quality_insights_attribute_group_activation
+            WHERE attribute_group_code = :attributeGroupCode AND activated = :activated;
+            SQL;
 
         return (bool) $this->get('database_connection')->executeQuery(
             $query,

@@ -30,7 +30,7 @@ class CachedFindChannelsSpec extends ObjectBehavior
                     ['USD'],
                     ConversionUnitCollection::fromArray([
                         'an_measurement_attribute' => 'GRAM',
-                        'another_measurement_attribute' => 'POUND'
+                        'another_measurement_attribute' => 'POUND',
                     ]),
                 ),
                 new Channel(
@@ -42,7 +42,7 @@ class CachedFindChannelsSpec extends ObjectBehavior
                     ['EUR'],
                     ConversionUnitCollection::fromArray([
                         'an_measurement_attribute' => 'GRAM',
-                        'another_measurement_attribute' => 'POUND'
+                        'another_measurement_attribute' => 'POUND',
                     ]),
                 ),
             ])

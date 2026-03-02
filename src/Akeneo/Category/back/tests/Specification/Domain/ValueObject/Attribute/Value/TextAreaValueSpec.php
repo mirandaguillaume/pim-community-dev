@@ -37,7 +37,7 @@ class TextAreaValueSpec extends ObjectBehavior
             'type' => 'textarea',
             'channel' => 'ecommerce',
             'locale' => 'en_US',
-            'attribute_code' => ''
+            'attribute_code' => '',
         ];
         $this->beConstructedThrough('fromArray', [$givenArray]);
 
@@ -53,7 +53,7 @@ class TextAreaValueSpec extends ObjectBehavior
             'type' => 'textarea',
             'channel' => 'ecommerce',
             'locale' => 'en_US',
-            'attribute_code' => ''
+            'attribute_code' => '',
         ];
 
         $this->beConstructedThrough('fromArray', [$givenArray]);
@@ -85,8 +85,8 @@ class TextAreaValueSpec extends ObjectBehavior
                 'type' => 'textarea',
                 'channel' => 'ecommerce',
                 'locale' => 'en_US',
-                'attribute_code' => $key
-            ]
+                'attribute_code' => $key,
+            ],
         ];
 
         $this->normalize()->shouldBeLike($expectedValue);
@@ -116,8 +116,8 @@ class TextAreaValueSpec extends ObjectBehavior
                 'type' => 'textarea',
                 'channel' => 'ecommerce',
                 'locale' => null,
-                'attribute_code' => $key
-            ]
+                'attribute_code' => $key,
+            ],
         ];
 
         $this->normalize()->shouldBeLike($expectedValue);
@@ -146,8 +146,8 @@ class TextAreaValueSpec extends ObjectBehavior
                 'type' => 'textarea',
                 'channel' => null,
                 'locale' => 'en_US',
-                'attribute_code' => $key
-            ]
+                'attribute_code' => $key,
+            ],
         ];
 
         $this->normalize()->shouldBeLike($expectedValue);
@@ -175,8 +175,8 @@ class TextAreaValueSpec extends ObjectBehavior
                 'type' => 'textarea',
                 'channel' => null,
                 'locale' => 'en_US',
-                'attribute_code' => $key
-            ]
+                'attribute_code' => $key,
+            ],
         ];
 
         $this->normalize()->shouldBeLike($expectedValue);

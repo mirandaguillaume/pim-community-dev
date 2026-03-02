@@ -21,12 +21,12 @@ class AttributeOptionNormalizer implements NormalizerInterface, CacheableSupport
     /**
      * {@inheritdoc}
      */
-    public function normalize($attributeOption, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($attributeOption, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         return [
             'code'       => $attributeOption->getCode(),
-            'attribute'  => null === $attributeOption->getAttribute() ?
-                null : $attributeOption->getAttribute()->getCode(),
+            'attribute'  => null === $attributeOption->getAttribute()
+                ? null : $attributeOption->getAttribute()->getCode(),
             'sort_order' => (int) $attributeOption->getSortOrder(),
             'labels'     => $this->normalizeLabels($attributeOption, $context),
         ];

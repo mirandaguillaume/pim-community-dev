@@ -2,9 +2,9 @@
 
 namespace Akeneo\Platform\Bundle\NotificationBundle\Entity;
 
-use Symfony\Component\Security\Core\User\UserInterface;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * UserNotification entity

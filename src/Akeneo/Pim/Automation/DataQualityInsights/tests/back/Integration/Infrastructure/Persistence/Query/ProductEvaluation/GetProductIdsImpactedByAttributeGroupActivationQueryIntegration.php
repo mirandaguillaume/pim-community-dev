@@ -72,7 +72,7 @@ final class GetProductIdsImpactedByAttributeGroupActivationQueryIntegration exte
             \iterator_to_array($this->get(GetProductIdsImpactedByAttributeGroupActivationQuery::class)->forAttributeGroup(new AttributeGroupCode('recently_activated'), 2)),
             \iterator_to_array($this->get(GetProductIdsImpactedByAttributeGroupActivationQuery::class)->forAttributeGroup(new AttributeGroupCode('recently_deactivated'), 2)),
         );
-        $productUuids = array_map(fn (ProductUuidCollection $collection) => $collection->toArray(), $productUuids);
+        $productUuids = array_map(fn(ProductUuidCollection $collection) => $collection->toArray(), $productUuids);
 
         $this->assertEqualsCanonicalizing($impactedProductUuids, array_merge_recursive(...$productUuids));
     }

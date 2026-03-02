@@ -43,7 +43,7 @@ class QueryCountCalculator
         [$sqlParameters, $parameterTypes] = $this->processParameterMappings($query, $parameterMappings);
 
         $statement = $query->getEntityManager()->getConnection()->executeQuery(
-            'SELECT COUNT(*) FROM (' . $query->getSQL() .') AS e',
+            'SELECT COUNT(*) FROM (' . $query->getSQL() . ') AS e',
             $sqlParameters,
             $parameterTypes
         );

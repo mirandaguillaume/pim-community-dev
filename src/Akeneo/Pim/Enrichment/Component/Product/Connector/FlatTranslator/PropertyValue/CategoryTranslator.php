@@ -34,8 +34,8 @@ class CategoryTranslator implements FlatPropertyValueTranslatorInterface
             $categoriesLabelized = [];
 
             foreach ($categoryCodes as $categoryCode) {
-                $categoriesLabelized[] = $categoryTranslations[$categoryCode] ??
-                    sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $categoryCode);
+                $categoriesLabelized[] = $categoryTranslations[$categoryCode]
+                    ?? sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $categoryCode);
             }
 
             $result[$valueIndex] = implode(',', $categoriesLabelized);

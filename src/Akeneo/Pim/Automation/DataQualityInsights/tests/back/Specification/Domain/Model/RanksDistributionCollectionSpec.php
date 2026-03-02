@@ -19,8 +19,8 @@ final class RanksDistributionCollectionSpec extends ObjectBehavior
             "mobile" => null,
             "ecommerce" => [
                 "en_US" => [
-                  "rank_1" => 33,
-                ]
+                    "rank_1" => 33,
+                ],
             ],
         ]);
 
@@ -54,7 +54,7 @@ final class RanksDistributionCollectionSpec extends ObjectBehavior
                 ],
                 "fr_FR" => [
                     "rank_3" => 33,
-                ]
+                ],
             ],
         ]);
 

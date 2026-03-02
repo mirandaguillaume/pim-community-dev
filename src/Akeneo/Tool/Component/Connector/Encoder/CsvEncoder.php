@@ -89,8 +89,8 @@ class CsvEncoder implements EncoderInterface
 
         if (!$this->firstExecution && $context['heterogeneous']) {
             throw new \RuntimeException(
-                'The csv encode method should not be called more than once when handling heterogeneous data. '.
-                'Otherwise, it won\'t be able to compute the csv columns correctly.'
+                'The csv encode method should not be called more than once when handling heterogeneous data. '
+                . 'Otherwise, it won\'t be able to compute the csv columns correctly.'
             );
         }
         $this->firstExecution = false;

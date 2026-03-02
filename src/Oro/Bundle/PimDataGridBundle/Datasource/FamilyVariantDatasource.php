@@ -38,7 +38,7 @@ class FamilyVariantDatasource extends RepositoryDatasource
             $this->normalizer->normalize(
                 $familyVariant,
                 'datagrid',
-                ['localeCode' => $this->getParameters()[':localeCode'] ?? ''
+                ['localeCode' => $this->getParameters()[':localeCode'] ?? '',
                 ]
             )
         ), $familyVariants);

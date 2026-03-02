@@ -182,11 +182,11 @@ class UpdateAuditDataCommandEndToEnd extends CommandTestCase
     private function getAuditCount(string $connectionCode, string $eventType): int
     {
         $sqlQuery = <<<SQL
-            SELECT event_count
-            FROM akeneo_connectivity_connection_audit_product
-            WHERE connection_code = :connection_code
-            AND event_type = :event_type
-        SQL;
+                SELECT event_count
+                FROM akeneo_connectivity_connection_audit_product
+                WHERE connection_code = :connection_code
+                AND event_type = :event_type
+            SQL;
 
         $sqlParams = [
             'connection_code' => $connectionCode,
@@ -206,10 +206,10 @@ class UpdateAuditDataCommandEndToEnd extends CommandTestCase
         }
 
         $sqlQuery = <<<SQL
-UPDATE pim_versioning_version
-SET author = :author, logged_at = :logged_at
-WHERE resource_name = :resource_name
-SQL;
+            UPDATE pim_versioning_version
+            SET author = :author, logged_at = :logged_at
+            WHERE resource_name = :resource_name
+            SQL;
         $parameters = [
             'author' => $author,
             'resource_name' => $this->productClass,
@@ -218,8 +218,8 @@ SQL;
 
         if (null !== $product) {
             $sqlQuery .= <<<SQL
- AND resource_uuid = :product_uuid
-SQL;
+                 AND resource_uuid = :product_uuid
+                SQL;
             $parameters['product_uuid'] = $product->getUuid()->getBytes();
         }
 
@@ -250,7 +250,7 @@ SQL;
     /**
      * @param UserIntent[] $userIntents
      */
-    private function createOrUpdateProduct(string $identifier, array $userIntents = []) : ProductInterface
+    private function createOrUpdateProduct(string $identifier, array $userIntents = []): ProductInterface
     {
         $this->get('pim_enrich.product.message_bus')->dispatch(
             UpsertProductCommand::createWithIdentifierSystemUser($identifier, $userIntents)

@@ -19,8 +19,7 @@ class EvaluateProductsAndProductModelsCriteriaTaskletSpec extends ObjectBehavior
         GetEntityIdsToEvaluateQueryInterface $getProductModelsIdsToEvaluateQuery,
         EvaluateProducts                     $evaluateProducts,
         EvaluateProductModels                $evaluateProductModels,
-    ): void
-    {
+    ): void {
         $this->beConstructedWith($getProductUuidsToEvaluateQuery, $getProductModelsIdsToEvaluateQuery, $evaluateProducts, $evaluateProductModels, 1000, 2, 0, 0);
     }
 
@@ -29,17 +28,16 @@ class EvaluateProductsAndProductModelsCriteriaTaskletSpec extends ObjectBehavior
         GetEntityIdsToEvaluateQueryInterface $getProductModelsIdsToEvaluateQuery,
         EvaluateProducts                     $evaluateProducts,
         EvaluateProductModels                $evaluateProductModels
-    ): void
-    {
+    ): void {
         $stepExecution = new StepExecution('name', new JobExecution());
         $this->setStepExecution($stepExecution);
 
 
         $productUuids = [ProductUuidCollection::fromStrings([
             '6d125b99-d971-41d9-a264-b020cd486aee',
-            'fef37e64-a963-47a9-b087-2cc67968f0a2'
+            'fef37e64-a963-47a9-b087-2cc67968f0a2',
         ]), ProductUuidCollection::fromStrings([
-            'df470d52-7723-4890-85a0-e79be625e2ed'
+            'df470d52-7723-4890-85a0-e79be625e2ed',
         ])];
         $getProductUuidsToEvaluateQuery->execute(1000, 2)->willReturn(new \ArrayIterator($productUuids));
         $evaluateProducts->__invoke($productUuids[0])->shouldBeCalled();

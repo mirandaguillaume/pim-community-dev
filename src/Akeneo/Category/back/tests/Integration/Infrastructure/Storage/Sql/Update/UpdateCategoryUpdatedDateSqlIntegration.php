@@ -15,7 +15,6 @@ use Akeneo\Category\Domain\Query\UpdateCategoryUpdatedDate;
  */
 class UpdateCategoryUpdatedDateSqlIntegration extends CategoryTestCase
 {
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -35,7 +34,7 @@ class UpdateCategoryUpdatedDateSqlIntegration extends CategoryTestCase
         /** @var Category $updatedCategory */
         $updatedCategory = $this->get(GetCategoryInterface::class)->byCode('master');
 
-        $this->assertEquals((string)$updatedCategory->getCode(), (string)$previousCategory->getCode());
+        $this->assertEquals((string) $updatedCategory->getCode(), (string) $previousCategory->getCode());
         $this->assertGreaterThan(
             $previousCategory->getUpdated()->format('Y-m-d H:i:s'),
             $updatedCategory->getUpdated()->format('Y-m-d H:i:s')
@@ -52,7 +51,7 @@ class UpdateCategoryUpdatedDateSqlIntegration extends CategoryTestCase
         /** @var Category $notUpdatedCategory */
         $notUpdatedCategory = $this->get(GetCategoryInterface::class)->byCode('master');
 
-        $this->assertEquals((string)$notUpdatedCategory->getCode(), (string)$previousCategory->getCode());
+        $this->assertEquals((string) $notUpdatedCategory->getCode(), (string) $previousCategory->getCode());
         $this->assertEquals(
             $previousCategory->getUpdated()->format('Y-m-d H:i:s'),
             $notUpdatedCategory->getUpdated()->format('Y-m-d H:i:s')

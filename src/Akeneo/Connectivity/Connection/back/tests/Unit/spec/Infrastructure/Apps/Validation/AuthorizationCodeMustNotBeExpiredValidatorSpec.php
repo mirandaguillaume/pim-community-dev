@@ -43,8 +43,7 @@ class AuthorizationCodeMustNotBeExpiredValidatorSpec extends ObjectBehavior
             ->shouldThrow(
                 UnexpectedTypeException::class
             )
-            ->during('validate', ['auth_code_1234', new class() extends Constraint {
-            }]);
+            ->during('validate', ['auth_code_1234', new class extends Constraint {}]);
     }
 
     public function it_validates_only_string_value(): void

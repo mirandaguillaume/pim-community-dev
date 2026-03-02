@@ -35,8 +35,8 @@ class UserGroupController
             'name' => $group->getName(),
             'meta' => [
                 'id'      => $group->getId(),
-                'default' => 'All' === $group->getName()
-            ]
+                'default' => 'All' === $group->getName(),
+            ],
         ], $this->groupRepository->findBy(['type' => Group::TYPE_DEFAULT]));
 
         return new JsonResponse($userGroups);

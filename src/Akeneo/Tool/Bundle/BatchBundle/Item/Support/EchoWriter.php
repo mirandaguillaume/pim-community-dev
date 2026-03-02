@@ -20,7 +20,7 @@ class EchoWriter implements ItemWriterInterface
     public function write(array $items)
     {
         foreach ($items as $item) {
-            echo $item."\n";
+            echo $item . "\n";
         }
     }
 }

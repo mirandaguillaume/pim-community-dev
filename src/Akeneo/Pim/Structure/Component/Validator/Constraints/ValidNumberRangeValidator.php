@@ -39,7 +39,7 @@ class ValidNumberRangeValidator extends ConstraintValidator
 
         if ($max && PHP_INT_MAX < $max) {
             $this->context->buildViolation(ValidNumberRange::PHP_INT_MAX_REACHED, [
-                '%php_int_max%' => PHP_INT_MAX
+                '%php_int_max%' => PHP_INT_MAX,
             ])->atPath('numberMax')->addViolation();
         } elseif ($max && !$this->isNumberValid($entity, $max)) {
             $this->context->buildViolation($constraint->invalidNumberMessage)

@@ -45,7 +45,7 @@ class UnknownCurrency implements DocumentationBuilderInterface
                     'currency_settings' => new RouteMessageParameter(
                         'Currency settings',
                         'pim_enrich_currency_index'
-                    )
+                    ),
                 ],
                 Documentation::STYLE_TEXT
             ),

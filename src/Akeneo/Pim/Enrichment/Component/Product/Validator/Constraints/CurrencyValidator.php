@@ -39,8 +39,8 @@ class CurrencyValidator extends ConstraintValidator
 
         if ($object instanceof ProductPriceInterface) {
             if (!in_array($object->getCurrency(), $this->getCurrencyCodes())) {
-                $attributeCode = $this->context->getObject() instanceof AbstractValue ?
-                    $this->context->getObject()->getAttributeCode()
+                $attributeCode = $this->context->getObject() instanceof AbstractValue
+                    ? $this->context->getObject()->getAttributeCode()
                     : '';
 
                 $this->context->buildViolation($constraint->message, [

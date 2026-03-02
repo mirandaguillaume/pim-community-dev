@@ -9,12 +9,12 @@ use PhpSpec\ObjectBehavior;
 
 class JsonSchemaErrorsFormatterSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(JsonSchemaErrorsFormatter::class);
     }
 
-    function it_maps_only_mandatory_properties()
+    public function it_maps_only_mandatory_properties()
     {
         $errors = [
             [
@@ -32,7 +32,7 @@ class JsonSchemaErrorsFormatterSpec extends ObjectBehavior
         $formattedErrors[0]->shouldNotHaveKey('additionalProperty');
     }
 
-    function it_maps_properties_with_default_values()
+    public function it_maps_properties_with_default_values()
     {
         $errors = [
             [
@@ -40,7 +40,7 @@ class JsonSchemaErrorsFormatterSpec extends ObjectBehavior
             ],
             [
                 'message' => 'wrong type',
-            ]
+            ],
         ];
 
         $formattedErrors = $this::format($errors);
@@ -52,12 +52,12 @@ class JsonSchemaErrorsFormatterSpec extends ObjectBehavior
         $formattedErrors[1]->shouldHaveKeyWithValue('message', 'wrong type');
     }
 
-    function it_converts_opis_property_paths()
+    public function it_converts_opis_property_paths()
     {
         $errors = [
             [
                 'property' => '/property1/property2/1/property3',
-            ]
+            ],
         ];
 
         $formattedErrors = $this::format($errors);

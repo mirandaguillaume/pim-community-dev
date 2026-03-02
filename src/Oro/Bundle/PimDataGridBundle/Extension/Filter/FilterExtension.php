@@ -174,7 +174,7 @@ class FilterExtension extends AbstractExtension
                     sprintf('[%s][%s][label]', FormatterConfiguration::COLUMNS_KEY, $column)
                 );
             }
-            $filters[] = $this->getFilterObject((string)$column, $filter);
+            $filters[] = $this->getFilterObject((string) $column, $filter);
         }
 
         // TODO: Try to make filter without views, to remove this kind of stuff
@@ -199,12 +199,12 @@ class FilterExtension extends AbstractExtension
         $gridConfigs = [
             'product-grid' => [
                 'type'      => 'product_category',
-                'data_name' => 'category'
+                'data_name' => 'category',
             ],
             'association-product-picker-grid' => [
                 'type'      => 'product_category',
-                'data_name' => 'category'
-            ]
+                'data_name' => 'category',
+            ],
         ];
 
         return $gridConfigs[$gridName] ?? null;

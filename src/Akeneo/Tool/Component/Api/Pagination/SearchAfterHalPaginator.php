@@ -76,7 +76,7 @@ class SearchAfterHalPaginator implements PaginatorInterface
             $itemUriParameters = array_merge($parameters['uri_parameters'], [$itemRouteParameter => $itemIdentifier]);
 
             $itemLinks = [
-                $this->createLink($parameters['item_route_name'], $itemUriParameters, null, 'self')
+                $this->createLink($parameters['item_route_name'], $itemUriParameters, null, 'self'),
             ];
 
             $embedded[] = new HalResource($itemLinks, [], $item);

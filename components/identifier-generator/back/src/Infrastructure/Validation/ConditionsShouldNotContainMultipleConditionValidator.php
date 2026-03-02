@@ -22,7 +22,7 @@ final class ConditionsShouldNotContainMultipleConditionValidator extends Constra
         }
 
         foreach ($constraint->types as $type) {
-            if (\count(\array_filter($conditions, fn (mixed $condition): bool => \is_array($condition) && \array_key_exists('type', $condition) && $condition['type'] === $type)) > 1) {
+            if (\count(\array_filter($conditions, fn(mixed $condition): bool => \is_array($condition) && \array_key_exists('type', $condition) && $condition['type'] === $type)) > 1) {
                 $this->context
                     ->buildViolation($constraint->message, [
                         '{{limit}}' => 1,

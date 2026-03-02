@@ -192,9 +192,9 @@ class SearchEventSubscriptionDebugLogsQuery implements SearchEventSubscriptionDe
             $constraints[] = [
                 'query_string' => [
                     'fields' => ['message', 'context_flattened'],
-                    'query'=> $this->formatTextSearch(\strtolower($filters['text'])),
+                    'query' => $this->formatTextSearch(\strtolower($filters['text'])),
                     'fuzziness' => 0,
-                    'default_operator' => 'AND'
+                    'default_operator' => 'AND',
                 ],
             ];
         }

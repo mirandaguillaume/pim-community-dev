@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Tool\Bundle\ElasticsearchBundle\tests\integration;
@@ -32,7 +33,7 @@ class UpdateIndexMappingWithoutDowntimeIntegration extends TestCase
         $indexConfigurationLoader = $this->get('akeneo_elasticsearch.client.product_and_product_model.index_configuration.files');
         $productAndProductModelIndexAlias = $this->getParameter('product_and_product_model_index_name');
 
-        $aliasesBeforeMigration = array_map(fn (array $index) => $index['alias'], $this->client->cat()->aliases());
+        $aliasesBeforeMigration = array_map(fn(array $index) => $index['alias'], $this->client->cat()->aliases());
         $indexNameBeforeMigration = $this->getIndexNameFromAlias($productAndProductModelIndexAlias);
 
         /** @var ProductQueryBuilderFactory $pqb */
@@ -47,14 +48,14 @@ class UpdateIndexMappingWithoutDowntimeIntegration extends TestCase
             'temporary_index',
             'migrated_index_name' . uniqid(),
             $indexConfigurationLoader->load(),
-            static fn (\DateTimeImmutable $referenceDatetime) => [
+            static fn(\DateTimeImmutable $referenceDatetime) => [
                 'range' => [
-                    'entity_updated' => ['gt' => $referenceDatetime->format('c')]
+                    'entity_updated' => ['gt' => $referenceDatetime->format('c')],
                 ],
             ],
         );
 
-        $aliasesAfterMigration = array_map(fn (array $index) => $index['alias'], $this->client->cat()->aliases());
+        $aliasesAfterMigration = array_map(fn(array $index) => $index['alias'], $this->client->cat()->aliases());
         $indexNameAfterMigration = $this->getIndexNameFromAlias($productAndProductModelIndexAlias);
 
         Assert::assertEqualsCanonicalizing($aliasesBeforeMigration, $aliasesAfterMigration);
@@ -77,9 +78,9 @@ class UpdateIndexMappingWithoutDowntimeIntegration extends TestCase
             'temporary_index_alias',
             'migrated_index_name' . uniqid(),
             $indexConfigurationLoader->load(),
-            static fn (\DateTimeImmutable $referenceDatetime) => [
+            static fn(\DateTimeImmutable $referenceDatetime) => [
                 'range' => [
-                    'entity_updated' => ['gt' => $referenceDatetime->format('c')]
+                    'entity_updated' => ['gt' => $referenceDatetime->format('c')],
                 ],
             ],
         );
@@ -91,9 +92,9 @@ class UpdateIndexMappingWithoutDowntimeIntegration extends TestCase
             'temporary_index_alias',
             'migrated_index_name' . uniqid(),
             $indexConfigurationLoader->load(),
-            static fn (\DateTimeImmutable $referenceDatetime) => [
+            static fn(\DateTimeImmutable $referenceDatetime) => [
                 'range' => [
-                    'entity_updated' => ['gt' => $referenceDatetime->format('c')]
+                    'entity_updated' => ['gt' => $referenceDatetime->format('c')],
                 ],
             ],
         );

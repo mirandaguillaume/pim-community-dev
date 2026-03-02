@@ -22,7 +22,7 @@ final class ProductKeyIndicatorsByFeatureRegistrySpec extends ObjectBehavior
         $keyIndicatorA->getCode()->willReturn(new KeyIndicatorCode('ki_A'));
         $keyIndicatorB->getCode()->willReturn(new KeyIndicatorCode('ki_B'));
         $allCriteriaOnlyKeyIndicatorB->getCode()->willReturn(new KeyIndicatorCode('all_criteria_only_ki'));
-        
+
         $this->register($keyIndicatorA, null);
         $this->register($keyIndicatorB, 'whatever_feature');
         $this->register($allCriteriaOnlyKeyIndicatorB, 'data_quality_insights_all_criteria');

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Tests\Integration\Audit\Persistence;
@@ -58,8 +59,8 @@ class DbalPurgeAuditProductQueryIntegration extends TestCase
         Assert::assertEquals($purged, 1);
 
         $query = <<<SQL
-SELECT connection_code FROM akeneo_connectivity_connection_audit_product;
-SQL;
+            SELECT connection_code FROM akeneo_connectivity_connection_audit_product;
+            SQL;
         $connectionCode = $this->connection->executeQuery($query)->fetchOne();
         Assert::assertEquals('now', $connectionCode);
     }

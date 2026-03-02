@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace spec\Akeneo\Connectivity\Connection\Infrastructure\Marketplace;
@@ -73,7 +74,7 @@ class WebMarketplaceApiSpec extends ObjectBehavior
                         'E-commerce',
                     ],
                     'certified' => false,
-                ]
+                ],
             ],
         ];
 
@@ -256,13 +257,13 @@ class WebMarketplaceApiSpec extends ObjectBehavior
                     "activate_url" => "http://172.17.0.1:8090",
                     "callback_url" => "http://172.17.0.1:8090/callback",
                     "categories" => [
-                        "Advertising"
+                        "Advertising",
                     ],
                     "logo" => "https://marketplace.akeneo.com/sites/default/files/styles/extension_logo_large/public/extension-logos/akeneo-ico-app-demoapp_0.jpeg?itok=U7JH_xFa",
                     "description" => "Apps are the best way to connect the third-party technology that you need to your Akeneo platform. The Akeneo Demo App will allow you to test out the connection experience. You can connect your PIM with the Demo App to see just how easy it is!",
                     "certified" => false,
-                    "url" => "https://marketplace.akeneo.com/extension/akeneo-demo-app"
-                ]
+                    "url" => "https://marketplace.akeneo.com/extension/akeneo-demo-app",
+                ],
             ],
         ], $extensions);
     }

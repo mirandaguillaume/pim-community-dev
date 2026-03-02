@@ -28,7 +28,7 @@ class AuditLoader
         \DateTimeInterface $updated = null
     ): void {
         $this->bulkInsertEventCountsQuery->execute([
-            $hourlyEventCount
+            $hourlyEventCount,
         ]);
 
         if (null !== $updated) {
@@ -50,7 +50,7 @@ class AuditLoader
         $this->dbalConnection->update(
             'akeneo_connectivity_connection_audit_product',
             [
-                'updated' => $updated
+                'updated' => $updated,
             ],
             [
                 'connection_code' => $connectionCode,

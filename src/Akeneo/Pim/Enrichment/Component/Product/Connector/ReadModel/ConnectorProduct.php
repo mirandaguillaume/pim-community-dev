@@ -252,8 +252,8 @@ final readonly class ConnectorProduct
                     $value->getLocaleCode(),
                     [
                         'attribute' => $value->getAttributeCode(),
-                        'code' => (string)$optionCodeWithRightCase,
-                        'labels' => $optionLabels[$value->getAttributeCode()][$optionCodeWithRightCase] ?? []
+                        'code' => (string) $optionCodeWithRightCase,
+                        'labels' => $optionLabels[$value->getAttributeCode()][$optionCodeWithRightCase] ?? [],
                     ],
                 );
             } elseif ($value instanceof OptionsValue) {
@@ -264,7 +264,7 @@ final readonly class ConnectorProduct
 
                     $linkedData[$optionCode] = [
                         'attribute' => $value->getAttributeCode(),
-                        'code' => (string)$optionCodeWithRightCase,
+                        'code' => (string) $optionCodeWithRightCase,
                         'labels' => $optionLabels[$value->getAttributeCode()][$optionCodeWithRightCase] ?? [],
                     ];
                 }

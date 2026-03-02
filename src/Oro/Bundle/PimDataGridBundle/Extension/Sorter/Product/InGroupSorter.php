@@ -35,7 +35,7 @@ class InGroupSorter implements SorterInterface
             throw new \LogicException('The current product group must be configured');
         }
 
-        $field = 'in_group_'.$groupId;
+        $field = 'in_group_' . $groupId;
         $datasource->getProductQueryBuilder()->addSorter($field, $direction);
     }
 }

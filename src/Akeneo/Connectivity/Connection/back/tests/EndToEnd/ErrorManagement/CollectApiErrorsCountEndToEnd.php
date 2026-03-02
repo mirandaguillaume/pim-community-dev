@@ -69,7 +69,7 @@ class CollectApiErrorsCountEndToEnd extends ApiTestCase
         ]);
         $this->familyLoader->create([
             'code' => 'planeswalker',
-            'attributes' => ['sku', 'name']
+            'attributes' => ['sku', 'name'],
         ]);
 
         $connection = $this->createConnection('erp', 'ERP', FlowType::DATA_SOURCE, true);
@@ -84,18 +84,18 @@ class CollectApiErrorsCountEndToEnd extends ApiTestCase
         );
 
         $content = <<<JSON
-{
-    "identifier": "teferi_time_raveler",
-    "family": "planeswalker",
-    "values": {
-        "description": [{
-            "locale": null,
-            "scope": null,
-            "data": "Each opponent can only cast spells any time they could cast a sorcery."
-        }]
-    }
-}
-JSON;
+            {
+                "identifier": "teferi_time_raveler",
+                "family": "planeswalker",
+                "values": {
+                    "description": [{
+                        "locale": null,
+                        "scope": null,
+                        "data": "Each opponent can only cast spells any time they could cast a sorcery."
+                    }]
+                }
+            }
+            JSON;
 
         $client->request('POST', '/api/rest/v1/products', [], [], [], $content);
         Assert::assertSame(Response::HTTP_UNPROCESSABLE_ENTITY, $client->getResponse()->getStatusCode());
@@ -108,7 +108,7 @@ JSON;
         $this->attributeLoader->create([
             'code' => 'name',
             'type' => 'pim_catalog_text',
-            'max_characters' => 5
+            'max_characters' => 5,
         ]);
         $this->attributeLoader->create([
             'code' => 'length',
@@ -120,7 +120,7 @@ JSON;
         ]);
         $this->familyLoader->create([
             'code' => 'screen',
-            'attributes' => ['sku', 'length', 'name']
+            'attributes' => ['sku', 'length', 'name'],
         ]);
 
         $connection = $this->createConnection('erp', 'ERP', FlowType::DATA_SOURCE, true);
@@ -134,26 +134,26 @@ JSON;
         );
 
         $content = <<<JSON
-{
-    "identifier": "big_screen",
-    "family": "screen",
-    "values": {
-        "name": [{
-            "locale": null,
-            "scope": null,
-            "data": "This name is too long."
-        }],
-        "length": [{
-            "locale": null,
-            "scope": null,
-            "data": {
-                "amount": 2,
-                "unit": "invalid_unit"
+            {
+                "identifier": "big_screen",
+                "family": "screen",
+                "values": {
+                    "name": [{
+                        "locale": null,
+                        "scope": null,
+                        "data": "This name is too long."
+                    }],
+                    "length": [{
+                        "locale": null,
+                        "scope": null,
+                        "data": {
+                            "amount": 2,
+                            "unit": "invalid_unit"
+                        }
+                    }]
+                }
             }
-        }]
-    }
-}
-JSON;
+            JSON;
 
         $client->request('PATCH', '/api/rest/v1/products/big_screen', [], [], [], $content);
         Assert::assertSame(Response::HTTP_UNPROCESSABLE_ENTITY, $client->getResponse()->getStatusCode());
@@ -169,11 +169,11 @@ JSON;
         ]);
         $this->familyLoader->create([
             'code' => 'shoes',
-            'attributes' => ['sku', 'name']
+            'attributes' => ['sku', 'name'],
         ]);
         $this->productLoader->create('high-top_sneakers', [
             new SetFamily('shoes'),
-            new SetTextValue('name', null, null, 'High-Top Sneakers')
+            new SetTextValue('name', null, null, 'High-Top Sneakers'),
         ]);
 
         $connection = $this->createConnection('erp', 'ERP', FlowType::DATA_SOURCE, true);
@@ -196,8 +196,8 @@ JSON;
                     'locale' => null,
                     'scope' => null,
                     'data' => 'High-Top Sneakers with white cotton laces.',
-                ]]
-            ]
+                ]],
+            ],
         ]);
         $content .= PHP_EOL;
         // Success
@@ -207,9 +207,9 @@ JSON;
                 'name' => [[
                     'locale' => null,
                     'scope' => null,
-                    'data' => 'Vintage Sneakers'
-                ]]
-            ]
+                    'data' => 'Vintage Sneakers',
+                ]],
+            ],
         ]);
         $streamedContent = '';
         \ob_start(function ($buffer) use (&$streamedContent): string {
@@ -234,10 +234,10 @@ JSON;
     private function errorCountMustBe(string $connectionCode, int $count, string $errorType): void
     {
         $selectQuery = <<<SQL
-SELECT count(connection_code) AS count
-FROM akeneo_connectivity_connection_audit_error
-WHERE connection_code = :code AND error_count = :count AND error_type = :type
-SQL;
+            SELECT count(connection_code) AS count
+            FROM akeneo_connectivity_connection_audit_error
+            WHERE connection_code = :code AND error_count = :count AND error_type = :type
+            SQL;
 
         $result = $this->dbalConnection->executeQuery(
             $selectQuery,

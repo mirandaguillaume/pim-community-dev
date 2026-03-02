@@ -12,23 +12,23 @@ use Prophecy\Argument;
 
 class OptionNormalizerSpec extends ObjectBehavior
 {
-    function let(IdentifiableObjectRepositoryInterface $attributeOptionRepository)
+    public function let(IdentifiableObjectRepositoryInterface $attributeOptionRepository)
     {
         $this->beConstructedWith($attributeOptionRepository);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(OptionNormalizer::class);
     }
 
-    function it_is_a_normalizer()
+    public function it_is_a_normalizer()
     {
         $this->shouldImplement(\Symfony\Component\Serializer\Normalizer\NormalizerInterface::class);
     }
 
 
-    function it_supports_datagrid_format_and_product_value(OptionValueInterface $value)
+    public function it_supports_datagrid_format_and_product_value(OptionValueInterface $value)
     {
         $this->supportsNormalization($value, 'datagrid')->shouldReturn(true);
         $this->supportsNormalization($value, 'other_format')->shouldReturn(false);
@@ -36,7 +36,7 @@ class OptionNormalizerSpec extends ObjectBehavior
         $this->supportsNormalization(new \stdClass(), 'datagrid')->shouldReturn(false);
     }
 
-    function it_normalizes_a_simple_select_product_value_with_label(
+    public function it_normalizes_a_simple_select_product_value_with_label(
         OptionValueInterface $value,
         AttributeOptionInterface $purpleOption,
         AttributeOptionValueInterface $purpleOptionValue,
@@ -63,7 +63,7 @@ class OptionNormalizerSpec extends ObjectBehavior
         $this->normalize($value, 'datagrid', ['data_locale' => 'fr_FR'])->shouldReturn($data);
     }
 
-    function it_normalizes_an_simple_select_product_value_without_label(
+    public function it_normalizes_an_simple_select_product_value_without_label(
         OptionValueInterface $value,
         AttributeOptionInterface $purpleOption,
         AttributeOptionValueInterface $purpleOptionValue,
@@ -91,7 +91,7 @@ class OptionNormalizerSpec extends ObjectBehavior
         $this->normalize($value, 'datagrid', ['data_locale' => 'fr_FR'])->shouldReturn($data);
     }
 
-    function it_normalizes_a_simple_select_product_value_without_data(
+    public function it_normalizes_a_simple_select_product_value_without_data(
         OptionValueInterface $value,
         AttributeOptionInterface $purpleOption
     ) {

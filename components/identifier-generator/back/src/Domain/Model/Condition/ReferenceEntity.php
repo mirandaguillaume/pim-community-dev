@@ -29,8 +29,7 @@ final readonly class ReferenceEntity implements ConditionInterface
         private string $attributeCode,
         private ?string $scope = null,
         private ?string $locale = null,
-    ) {
-    }
+    ) {}
 
     /**
      * @return 'reference_entity'
@@ -75,7 +74,7 @@ final readonly class ReferenceEntity implements ConditionInterface
             'operator' => $this->operator,
             'scope' => $this->scope,
             'locale' => $this->locale,
-        ], fn (mixed $var): bool => null !== $var);
+        ], fn(mixed $var): bool => null !== $var);
     }
 
     public function attributeCode(): string

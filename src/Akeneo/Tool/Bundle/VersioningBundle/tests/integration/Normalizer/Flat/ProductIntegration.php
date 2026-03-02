@@ -81,7 +81,7 @@ class ProductIntegration extends TestCase
             'an_image' => '1/5/7/5/15757827125efa686c1c0f1e7930ca0c528f1c2c_imageA.jpg',
             'sku' => 'foo',
             '123' => 'a text for an attribute with numerical code',
-            'enabled' => 1
+            'enabled' => 1,
         ];
 
         $expected = $this->sanitizeMediaAttributeData($expected, $mediaAttributes);

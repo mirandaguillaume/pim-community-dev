@@ -48,10 +48,10 @@ class GetUserProfileQueryIntegration extends TestCase
         $localeId = $this->dbalConnection->fetchOne('SELECT id FROM pim_catalog_locale LIMIT 1');
 
         $sqlInsert = <<<SQL
-            INSERT INTO oro_user
-            (username, email, ui_locale_id, salt, password, createdAt, updatedAt, timezone, properties, profile) VALUES
-            (:username, :email, :localeId, 'my_salt', 'my_password', '2019-09-09', '2019-09-09', 'UTC', '{}', :profile)
-SQL;
+                        INSERT INTO oro_user
+                        (username, email, ui_locale_id, salt, password, createdAt, updatedAt, timezone, properties, profile) VALUES
+                        (:username, :email, :localeId, 'my_salt', 'my_password', '2019-09-09', '2019-09-09', 'UTC', '{}', :profile)
+            SQL;
 
         $this->dbalConnection->executeQuery(
             $sqlInsert,

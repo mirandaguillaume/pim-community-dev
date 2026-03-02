@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Tests\Integration\Webhook\Persistence;
@@ -57,10 +58,10 @@ class DbalUpdateEventsApiRequestCountQueryIntegration extends TestCase
     private function getEventApiRequestCounts(): array
     {
         $sql = <<<SQL
-SELECT event_minute, event_count, updated
-FROM akeneo_connectivity_connection_events_api_request_count
-ORDER BY event_minute
-SQL;
+            SELECT event_minute, event_count, updated
+            FROM akeneo_connectivity_connection_events_api_request_count
+            ORDER BY event_minute
+            SQL;
 
         return $this->getDbalConnection()->fetchAllAssociative($sql);
     }

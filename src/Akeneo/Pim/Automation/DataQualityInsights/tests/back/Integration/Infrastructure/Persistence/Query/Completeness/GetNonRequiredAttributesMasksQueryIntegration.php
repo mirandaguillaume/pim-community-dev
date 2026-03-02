@@ -62,7 +62,7 @@ class GetNonRequiredAttributesMasksQueryIntegration extends CompletenessTestCase
                     'a_localizable_non_scopable_locale_specific_us',
                     'a_non_localizable_scopable_locale_specific_fr_us',
                     'a_localizable_scopable_locale_specific_fr',
-                    'a_required_locale_specific_fr'
+                    'a_required_locale_specific_fr',
                 ],
                 'attribute_requirements' => [
                     'ecommerce' => [
@@ -77,7 +77,7 @@ class GetNonRequiredAttributesMasksQueryIntegration extends CompletenessTestCase
                         'a_required_deactivated_text',
                         'a_required_locale_specific_fr',
                     ],
-                ]
+                ],
             ],
             [
                 'code' => 'familyB',
@@ -93,7 +93,7 @@ class GetNonRequiredAttributesMasksQueryIntegration extends CompletenessTestCase
                         'a_required_text',
                         'a_required_deactivated_text',
                     ],
-                ]
+                ],
             ],
             [
                 'code' => 'familyC',
@@ -102,8 +102,8 @@ class GetNonRequiredAttributesMasksQueryIntegration extends CompletenessTestCase
                     'ecommerce' => [
                         'sku',
                     ],
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 
@@ -150,7 +150,7 @@ class GetNonRequiredAttributesMasksQueryIntegration extends CompletenessTestCase
             'a_localizable_scopable_text-tablet-fr_FR',
             'a_non_localizable_non_scopable_locale_specific_fr-<all_channels>-<all_locales>',
             'a_non_localizable_scopable_locale_specific_fr_us-tablet-<all_locales>',
-            'a_localizable_scopable_locale_specific_fr-tablet-fr_FR'
+            'a_localizable_scopable_locale_specific_fr-tablet-fr_FR',
         ], $tabletFrFr->mask());
 
         $result = $this->getNonRequiredAttributeMasksQuery()->fromFamilyCodes(['familyB']);

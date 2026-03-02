@@ -75,13 +75,13 @@ class UpdateConnectionEndToEnd extends WebTestCase
             "errors" => [
                 [
                     "name" => "label",
-                    "reason" => "akeneo_connectivity.connection.connection.constraint.label.required"
+                    "reason" => "akeneo_connectivity.connection.connection.constraint.label.required",
                 ],
                 [
                     "name" => "flowType",
-                    "reason" => "akeneo_connectivity.connection.connection.constraint.flow_type.invalid"
-                ]
-            ]
+                    "reason" => "akeneo_connectivity.connection.connection.constraint.flow_type.invalid",
+                ],
+            ],
         ];
 
         Assert::assertEquals(Response::HTTP_UNPROCESSABLE_ENTITY, $this->client->getResponse()->getStatusCode());

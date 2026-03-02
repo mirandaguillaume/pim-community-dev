@@ -20,17 +20,17 @@ class SqlIsCategoryTreeLinkedToUser implements IsCategoryTreeLinkedToUser
     public function byCategoryTreeId(int $categoryTreeId): bool
     {
         $sql = <<<SQL
-        SELECT EXISTS (
-            SELECT id
-            FROM oro_user
-            WHERE defaultTree_id = :treeId
-        )
-        SQL;
+            SELECT EXISTS (
+                SELECT id
+                FROM oro_user
+                WHERE defaultTree_id = :treeId
+            )
+            SQL;
 
         $exists = $this->connection->executeQuery(
             $sql,
             [
-                'treeId' => $categoryTreeId
+                'treeId' => $categoryTreeId,
             ]
         )->fetchOne();
 

@@ -139,7 +139,7 @@ class ProductQueryBuilderFactory implements ProductQueryBuilderFactoryInterface
             'search_after',
             'search_after_unique_key',
             'limit',
-            'from'
+            'from',
         ]);
         $resolver->setDefaults([
             'repository_method'     => 'createQueryBuilder',

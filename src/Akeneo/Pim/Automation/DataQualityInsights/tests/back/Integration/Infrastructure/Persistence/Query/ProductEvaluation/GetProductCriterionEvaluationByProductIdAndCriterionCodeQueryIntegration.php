@@ -32,8 +32,8 @@ final class GetProductCriterionEvaluationByProductIdAndCriterionCodeQueryIntegra
 
     public function test_it_retrieves_a_product_evaluation(): void
     {
-        $productUuid = (new ProductUuidFactory)->create($this->createProductWithoutEvaluations('ziggy')->getUuid()->toString());
-        $anotherProductUuid = (new ProductUuidFactory)->create($this->createProductWithoutEvaluations('yggiz')->getUuid()->toString());
+        $productUuid = (new ProductUuidFactory())->create($this->createProductWithoutEvaluations('ziggy')->getUuid()->toString());
+        $anotherProductUuid = (new ProductUuidFactory())->create($this->createProductWithoutEvaluations('yggiz')->getUuid()->toString());
 
         $criterionEvaluationRepository = $this->get('akeneo.pim.automation.data_quality_insights.repository.product_criterion_evaluation');
 

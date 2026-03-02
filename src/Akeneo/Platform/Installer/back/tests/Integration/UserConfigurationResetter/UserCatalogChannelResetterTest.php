@@ -56,11 +56,11 @@ class UserCatalogChannelResetterTest extends TestCase
     private function assertUserCatalogChannel(string $expectedCatalogChannel): void
     {
         $sql = <<<SQL
-            SELECT pim_catalog_channel.code 
-            FROM oro_user
-            JOIN pim_catalog_channel ON oro_user.catalogScope_id = pim_catalog_channel.id
-            WHERE username = 'admin'
-        SQL;
+                SELECT pim_catalog_channel.code 
+                FROM oro_user
+                JOIN pim_catalog_channel ON oro_user.catalogScope_id = pim_catalog_channel.id
+                WHERE username = 'admin'
+            SQL;
 
         $actualCatalogChannel = $this->getConnection()->executeQuery($sql)->fetchOne();
 
@@ -70,13 +70,13 @@ class UserCatalogChannelResetterTest extends TestCase
     private function changeUserCatalogChannel(string $channelCode)
     {
         $sql = <<<SQL
-            UPDATE oro_user
-            SET catalogScope_id = (
-                SELECT id 
-                FROM pim_catalog_channel
-                WHERE code = :channelCode
-            )
-        SQL;
+                UPDATE oro_user
+                SET catalogScope_id = (
+                    SELECT id 
+                    FROM pim_catalog_channel
+                    WHERE code = :channelCode
+                )
+            SQL;
 
         $this->getConnection()->executeStatement($sql, ['channelCode' => $channelCode]);
     }

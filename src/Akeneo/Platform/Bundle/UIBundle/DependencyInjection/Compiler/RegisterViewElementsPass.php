@@ -69,7 +69,7 @@ class RegisterViewElementsPass implements CompilerPassInterface
             [
                 $this->factory->createReference($serviceId),
                 $tag['type'],
-                $position
+                $position,
             ]
         );
     }

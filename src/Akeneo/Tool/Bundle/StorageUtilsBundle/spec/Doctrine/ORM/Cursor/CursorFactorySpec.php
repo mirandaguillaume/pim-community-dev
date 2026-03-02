@@ -16,7 +16,7 @@ class CursorFactorySpec extends ObjectBehavior
 {
     final public const DEFAULT_BATCH_SIZE = 100;
 
-    function let(EntityManager $entityManager)
+    public function let(EntityManager $entityManager)
     {
         $this->beConstructedWith(
             Cursor::class,
@@ -25,13 +25,13 @@ class CursorFactorySpec extends ObjectBehavior
         );
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(CursorFactory::class);
         $this->shouldImplement(CursorFactoryInterface::class);
     }
 
-    function it_creates_a_cursor($entityManager, QueryBuilder $queryBuilder, QueryWithCache $query, From $from)
+    public function it_creates_a_cursor($entityManager, QueryBuilder $queryBuilder, QueryWithCache $query, From $from)
     {
         $queryBuilder->getRootAliases()->willReturn(['a']);
         $queryBuilder->getDQLPart('from')->willReturn([$from]);
@@ -51,5 +51,5 @@ class CursorFactorySpec extends ObjectBehavior
 
 abstract class QueryWithCache extends AbstractQuery
 {
-    public abstract function useQueryCache($bool);
+    abstract public function useQueryCache($bool);
 }

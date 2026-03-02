@@ -1027,4 +1027,3 @@ class AttributeIntegration extends AbstractNormalizerTestCase
         return $this->get('pim_external_api_serializer');
     }
 }
-

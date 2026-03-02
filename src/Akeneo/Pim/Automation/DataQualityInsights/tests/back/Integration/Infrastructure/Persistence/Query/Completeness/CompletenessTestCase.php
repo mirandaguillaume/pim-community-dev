@@ -85,7 +85,7 @@ abstract class CompletenessTestCase extends DataQualityInsightsTestCase
             $this->get('pim_catalog.updater.channel')->update(
                 $channel,
                 [
-                    'currencies' => $channelData['currencies']
+                    'currencies' => $channelData['currencies'],
                 ]
             );
 
@@ -108,7 +108,7 @@ abstract class CompletenessTestCase extends DataQualityInsightsTestCase
                     'code' => $channelData['code'],
                     'locales' => $channelData['locales'],
                     'currencies' => $channelData['currencies'],
-                    'category_tree' => 'master'
+                    'category_tree' => 'master',
                 ]
             );
 
@@ -129,7 +129,7 @@ abstract class CompletenessTestCase extends DataQualityInsightsTestCase
             ->build();
 
         $this->get('pim_catalog.saver.product_model')->save($productModel);
-        return $this->get(ProductModelIdFactory::class)->create((string)$productModel->getId());
+        return $this->get(ProductModelIdFactory::class)->create((string) $productModel->getId());
     }
 
     protected function givenASubProductModel(string $productModelCode, string $familyVariant, string $parentCode): ProductModelId
@@ -142,7 +142,7 @@ abstract class CompletenessTestCase extends DataQualityInsightsTestCase
 
         $this->get('pim_catalog.saver.product_model')->save($productModel);
 
-        return $this->get(ProductModelIdFactory::class)->create((string)$productModel->getId());
+        return $this->get(ProductModelIdFactory::class)->create((string) $productModel->getId());
     }
 
     protected function givenADeactivatedAttributeGroup(string $code): void

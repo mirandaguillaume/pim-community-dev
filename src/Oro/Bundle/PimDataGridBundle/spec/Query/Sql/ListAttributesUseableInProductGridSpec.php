@@ -9,12 +9,12 @@ use PhpSpec\ObjectBehavior;
 
 class ListAttributesUseableInProductGridSpec extends ObjectBehavior
 {
-    function let(Connection $connection)
+    public function let(Connection $connection)
     {
         $this->beConstructedWith($connection);
     }
 
-    function it_is_a_list_attributes_useable_in_product_grid_query()
+    public function it_is_a_list_attributes_useable_in_product_grid_query()
     {
         $this->shouldImplement(ListAttributesUseableInProductGrid::class);
     }

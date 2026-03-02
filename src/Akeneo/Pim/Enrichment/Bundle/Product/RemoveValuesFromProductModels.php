@@ -36,10 +36,10 @@ class RemoveValuesFromProductModels
 
         $this->connection->executeQuery(
             <<<SQL
-UPDATE pim_catalog_product_model
-SET raw_values = JSON_REMOVE(raw_values, $paths)
-WHERE code IN (:identifiers)
-SQL,
+                UPDATE pim_catalog_product_model
+                SET raw_values = JSON_REMOVE(raw_values, $paths)
+                WHERE code IN (:identifiers)
+                SQL,
             [
                 'identifiers' => $productModelIdentifiers,
             ],

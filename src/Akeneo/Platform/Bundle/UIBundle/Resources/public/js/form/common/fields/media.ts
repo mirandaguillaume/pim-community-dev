@@ -34,7 +34,7 @@ class MediaField extends BaseField {
    * {@inheritdoc}
    */
   getTemplateContext() {
-    return BaseField.prototype.getTemplateContext.apply(this, arguments).then((templateContext: any) => {
+    return BaseField.prototype.getTemplateContext.apply(this, []).then((templateContext: any) => {
       templateContext.mediaUrlGenerator = MediaUrlGenerator;
 
       return templateContext;

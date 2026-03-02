@@ -43,7 +43,7 @@ class ListAnnouncementsActionIntegration extends WebTestCase
             'GET',
             '/rest/announcements',
             [
-                'search_after' => $searchAfter
+                'search_after' => $searchAfter,
             ]
         );
         $content = json_decode($this->client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
@@ -77,7 +77,7 @@ class ListAnnouncementsActionIntegration extends WebTestCase
         if (null === $searchAfter) {
             $firstAnnouncement = $expectedAnnouncementItems[$index];
         } else {
-            $firstAnnouncement = $expectedAnnouncementItems[$index+1];
+            $firstAnnouncement = $expectedAnnouncementItems[$index + 1];
         }
 
         Assert::assertEquals($firstAnnouncement['id'], $announcementItems[0]['id']);

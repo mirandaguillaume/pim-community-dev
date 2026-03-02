@@ -36,7 +36,7 @@ class ReferenceDataCollectionValue extends AbstractValue implements
     /**
      * {@inheritdoc}
      */
-    public function getReferenceDataCodes() : array
+    public function getReferenceDataCodes(): array
     {
         return $this->data;
     }
@@ -49,7 +49,7 @@ class ReferenceDataCollectionValue extends AbstractValue implements
         $refCodeStrings = [];
 
         foreach ($this->data as $refCode) {
-            $refCodeStrings[] = '['.$refCode.']';
+            $refCodeStrings[] = '[' . $refCode . ']';
         }
         return implode(', ', $refCodeStrings);
     }
@@ -59,16 +59,16 @@ class ReferenceDataCollectionValue extends AbstractValue implements
      */
     public function isEqual(ValueInterface $value): bool
     {
-        if (!$value instanceof ReferenceDataCollectionValueInterface ||
-            $this->getScopeCode() !== $value->getScopeCode() ||
-            $this->getLocaleCode() !== $value->getLocaleCode()) {
+        if (!$value instanceof ReferenceDataCollectionValueInterface
+            || $this->getScopeCode() !== $value->getScopeCode()
+            || $this->getLocaleCode() !== $value->getLocaleCode()) {
             return false;
         }
 
         $comparedRefDataCollection = $value->getData();
         $thisRefDataCollection = $this->getData();
 
-        return count(array_diff($thisRefDataCollection, $comparedRefDataCollection)) === 0 &&
-            count(array_diff($comparedRefDataCollection, $thisRefDataCollection)) === 0;
+        return count(array_diff($thisRefDataCollection, $comparedRefDataCollection)) === 0
+            && count(array_diff($comparedRefDataCollection, $thisRefDataCollection)) === 0;
     }
 }

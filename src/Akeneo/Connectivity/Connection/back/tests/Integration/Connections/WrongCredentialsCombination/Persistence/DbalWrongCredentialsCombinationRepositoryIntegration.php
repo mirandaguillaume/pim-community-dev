@@ -42,12 +42,12 @@ class DbalWrongCredentialsCombinationRepositoryIntegration extends TestCase
         $this->repository->create(new WrongCredentialsCombination('erp', 'admin'));
 
         $expected = [
-            ['connection_code' => 'erp', 'username' => 'admin']
+            ['connection_code' => 'erp', 'username' => 'admin'],
         ];
 
         $sql = <<<SQL
-        SELECT connection_code, username FROM akeneo_connectivity_connection_wrong_credentials_combination;
-        SQL;
+            SELECT connection_code, username FROM akeneo_connectivity_connection_wrong_credentials_combination;
+            SQL;
         $result = $this->dbalConnection->executeQuery($sql)->fetchAllAssociative();
 
         Assert::assertSame($expected, $result);
@@ -67,8 +67,8 @@ class DbalWrongCredentialsCombinationRepositoryIntegration extends TestCase
         ];
 
         $sql = <<<SQL
-        SELECT connection_code, username FROM akeneo_connectivity_connection_wrong_credentials_combination;
-        SQL;
+            SELECT connection_code, username FROM akeneo_connectivity_connection_wrong_credentials_combination;
+            SQL;
         $result = $this->dbalConnection->executeQuery($sql)->fetchAllAssociative();
 
         Assert::assertSame($expected, $result);
@@ -77,8 +77,8 @@ class DbalWrongCredentialsCombinationRepositoryIntegration extends TestCase
     public function test_it_keeps_only_the_last_wrong_credentials_combination(): void
     {
         $sql = <<<SQL
-        SELECT authentication_date FROM akeneo_connectivity_connection_wrong_credentials_combination;
-        SQL;
+            SELECT authentication_date FROM akeneo_connectivity_connection_wrong_credentials_combination;
+            SQL;
 
         $this->repository->create(new WrongCredentialsCombination('erp', 'admin'));
         $previous = $this->dbalConnection->executeQuery($sql)->fetchAllAssociative();
@@ -94,12 +94,12 @@ class DbalWrongCredentialsCombinationRepositoryIntegration extends TestCase
     public function test_it_finds_all_the_wrong_credentials_conbination(): void
     {
         $sql = <<<SQL
-        INSERT INTO akeneo_connectivity_connection_wrong_credentials_combination (connection_code, username, authentication_date) VALUES
-        ('ecommerce', 'julia', '2019-12-31 00:00:00'),
-        ('ecommerce', 'admin', '2020-01-01 00:00:00'),
-        ('erp', 'admin', '2020-01-01 00:00:00'),
-        ('erp', 'julia', '2020-01-02 00:00:00');
-        SQL;
+            INSERT INTO akeneo_connectivity_connection_wrong_credentials_combination (connection_code, username, authentication_date) VALUES
+            ('ecommerce', 'julia', '2019-12-31 00:00:00'),
+            ('ecommerce', 'admin', '2020-01-01 00:00:00'),
+            ('erp', 'admin', '2020-01-01 00:00:00'),
+            ('erp', 'julia', '2020-01-02 00:00:00');
+            SQL;
         $this->dbalConnection->executeQuery($sql);
 
         $expected = new WrongCredentialsCombinations([
@@ -107,15 +107,15 @@ class DbalWrongCredentialsCombinationRepositoryIntegration extends TestCase
                 'connection_code' => 'ecommerce',
                 'users' => [
                     'admin' => '2020-01-01T00:00:00+00:00',
-                ]
+                ],
             ],
             [
                 'connection_code' => 'erp',
                 'users' => [
                     'admin' => '2020-01-01T00:00:00+00:00',
-                    'julia' => '2020-01-02T00:00:00+00:00'
-                ]
-            ]
+                    'julia' => '2020-01-02T00:00:00+00:00',
+                ],
+            ],
         ]);
 
         $result = $this->repository->findAll(new \DateTimeImmutable('2020-01-01T00:00:00+00:00'));

@@ -25,7 +25,7 @@ class TimestampableSubscriber implements EventSubscriber
     {
         return [
             'prePersist',
-            'preUpdate'
+            'preUpdate',
         ];
     }
 

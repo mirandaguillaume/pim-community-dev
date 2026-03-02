@@ -11,12 +11,12 @@ use Prophecy\Argument;
 
 class JobExecutionManagerSpec extends ObjectBehavior
 {
-    function let(EntityManager $entityManager)
+    public function let(EntityManager $entityManager)
     {
         $this->beConstructedWith($entityManager);
     }
 
-    function it_checks_a_job_execution_is_running(
+    public function it_checks_a_job_execution_is_running(
         JobExecution $jobExecution,
         BatchStatus $status,
         ExitStatus $exitStatus
@@ -29,7 +29,7 @@ class JobExecutionManagerSpec extends ObjectBehavior
         $this->checkRunningStatus($jobExecution)->shouldReturn(true);
     }
 
-    function it_checks_a_job_execution_is_not_running(
+    public function it_checks_a_job_execution_is_not_running(
         JobExecution $jobExecution,
         BatchStatus $status,
         ExitStatus $exitStatus
@@ -42,7 +42,7 @@ class JobExecutionManagerSpec extends ObjectBehavior
         $this->checkRunningStatus($jobExecution)->shouldReturn(true);
     }
 
-    function it_marks_a_job_execution_as_failed($entityManager, JobExecution $jobExecution)
+    public function it_marks_a_job_execution_as_failed($entityManager, JobExecution $jobExecution)
     {
         $jobExecution->setStatus(Argument::any())->shouldBeCalled();
         $jobExecution->setExitStatus(Argument::any())->shouldBeCalled();

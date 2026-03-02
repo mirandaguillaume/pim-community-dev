@@ -70,9 +70,9 @@ class DownloadEventSubscriptionLogsEndToEnd extends WebTestCase
         \ob_end_clean();
 
         $expectedContent = <<<EOF
-2021/03/02 03:30:09 WARNING Foo bar {"foo":"bar"}
-2021/03/02 03:30:10 WARNING Foo bar 2 {"foo":"bar2"}\n
-EOF;
+            2021/03/02 03:30:09 WARNING Foo bar {"foo":"bar"}
+            2021/03/02 03:30:10 WARNING Foo bar 2 {"foo":"bar2"}\n
+            EOF;
         Assert::assertEquals(Response::HTTP_OK, $response->getStatusCode());
         Assert::assertInstanceOf(StreamedResponse::class, $response);
         Assert::assertEquals($expectedContent, $content);

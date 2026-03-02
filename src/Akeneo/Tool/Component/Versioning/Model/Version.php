@@ -2,9 +2,9 @@
 
 namespace Akeneo\Tool\Component\Versioning\Model;
 
-use Ramsey\Uuid\UuidInterface;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * Resource version entity

@@ -108,13 +108,13 @@ abstract class AbstractCursor implements CursorInterface
 
         foreach ($identifierResults->all() as $identifierResult) {
             foreach ($hydratedItems as $hydratedItem) {
-                if ($hydratedItem instanceof ProductInterface &&
-                    $identifierResult->getId() === \sprintf('product_%s', $hydratedItem->getUuid()->toString())
+                if ($hydratedItem instanceof ProductInterface
+                    && $identifierResult->getId() === \sprintf('product_%s', $hydratedItem->getUuid()->toString())
                 ) {
                     $orderedItems[] = $hydratedItem;
                     break;
-                } elseif ($hydratedItem instanceof ProductModelInterface &&
-                    $identifierResult->isProductModelIdentifierEquals($hydratedItem->getCode())
+                } elseif ($hydratedItem instanceof ProductModelInterface
+                    && $identifierResult->isProductModelIdentifierEquals($hydratedItem->getCode())
                 ) {
                     $orderedItems[] = $hydratedItem;
                     break;

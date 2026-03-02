@@ -28,7 +28,7 @@ class AddViewedAnnouncementsActionIntegration extends WebTestCase
             'POST',
             '/rest/viewed_announcements/add',
             [
-                'viewed_announcement_ids' => $viewedAnnouncementIds
+                'viewed_announcement_ids' => $viewedAnnouncementIds,
             ]
         );
 
@@ -60,7 +60,7 @@ class AddViewedAnnouncementsActionIntegration extends WebTestCase
         foreach ($viewedAnnouncementIds as $announcementId) {
             $viewedAnnouncements[] = [
                 'announcement_id' => $announcementId,
-                'user_id' => $this->user->getId()
+                'user_id' => $this->user->getId(),
             ];
         }
 

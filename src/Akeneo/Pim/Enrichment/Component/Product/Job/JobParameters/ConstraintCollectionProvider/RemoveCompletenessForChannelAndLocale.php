@@ -34,7 +34,7 @@ final readonly class RemoveCompletenessForChannelAndLocale implements Constraint
                         new Type('array'),
                         new All([
                             new NotBlank(),
-                        ])
+                        ]),
                     ],
                     'username' => new NotNull(),
                 ],

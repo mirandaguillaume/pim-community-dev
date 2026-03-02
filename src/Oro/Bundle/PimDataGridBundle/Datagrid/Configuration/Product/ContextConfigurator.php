@@ -298,11 +298,11 @@ class ContextConfigurator implements ConfiguratorInterface
             ToolbarExtension::PAGER_DEFAULT_PER_PAGE_OPTION_PATH,
             25
         );
-        $itemsPerPage = isset($pager[PagerExtension::PER_PAGE_PARAM]) ? (int)$pager[PagerExtension::PER_PAGE_PARAM] : $defaultPerPage;
+        $itemsPerPage = isset($pager[PagerExtension::PER_PAGE_PARAM]) ? (int) $pager[PagerExtension::PER_PAGE_PARAM] : $defaultPerPage;
 
         $this->configuration->offsetSetByPath($this->getSourcePath(PagerExtension::PER_PAGE_PARAM), $itemsPerPage);
 
-        $currentPage = isset($pager[PagerExtension::PAGE_PARAM]) ? (int)$pager[PagerExtension::PAGE_PARAM] : 1;
+        $currentPage = isset($pager[PagerExtension::PAGE_PARAM]) ? (int) $pager[PagerExtension::PAGE_PARAM] : 1;
         $from = ($currentPage - 1) * $itemsPerPage;
         $this->configuration->offsetSetByPath($this->getSourcePath('from'), $from);
     }

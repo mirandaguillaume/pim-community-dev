@@ -16,7 +16,7 @@ use Psr\Log\LoggerInterface;
 
 class JobStopperSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         JobRepositoryInterface $jobRepository,
         GetJobExecutionStatusInterface $getJobExecutionStatus,
         LoggerInterface $logger
@@ -28,7 +28,7 @@ class JobStopperSpec extends ObjectBehavior
         );
     }
 
-    function it_tells_if_a_job_is_stopping(
+    public function it_tells_if_a_job_is_stopping(
         $getJobExecutionStatus,
         StepExecution $stepExecution,
         JobExecution $jobExecution,
@@ -42,7 +42,7 @@ class JobStopperSpec extends ObjectBehavior
         $this->isStopping($stepExecution)->shouldReturn(true);
     }
 
-    function it_tells_if_a_job_is_not_stopping(
+    public function it_tells_if_a_job_is_not_stopping(
         $getJobExecutionStatus,
         StepExecution $stepExecution,
         JobExecution $jobExecution,
@@ -56,7 +56,7 @@ class JobStopperSpec extends ObjectBehavior
         $this->isStopping($stepExecution)->shouldReturn(false);
     }
 
-    function it_stops_a_job(StepExecution $stepExecution)
+    public function it_stops_a_job(StepExecution $stepExecution)
     {
         $stepExecution->setExitStatus(new ExitStatus(ExitStatus::STOPPED))->shouldBeCalled();
         $stepExecution->setStatus(new BatchStatus(BatchStatus::STOPPED))->shouldBeCalled();
@@ -64,7 +64,7 @@ class JobStopperSpec extends ObjectBehavior
         $this->stop($stepExecution);
     }
 
-    function it_tells_if_a_job_is_pausing(
+    public function it_tells_if_a_job_is_pausing(
         $getJobExecutionStatus,
         StepExecution $stepExecution,
         JobExecution $jobExecution,
@@ -78,7 +78,7 @@ class JobStopperSpec extends ObjectBehavior
         $this->isPausing($stepExecution)->shouldReturn(true);
     }
 
-    function it_pauses_a_job(
+    public function it_pauses_a_job(
         JobExecution $jobExecution,
         StepExecution $stepExecution,
         JobInstance $jobInstance,

@@ -2,11 +2,8 @@
 
 namespace Oro\Bundle\SecurityBundle\Metadata;
 
-use Doctrine\Common\Cache\CacheProvider;
-
 class ActionMetadataProvider
 {
-    final public const CACHE_NAMESPACE = 'AclAction';
     final public const CACHE_KEY = 'data';
 
     /**
@@ -15,31 +12,16 @@ class ActionMetadataProvider
     protected $annotationProvider;
 
     /**
-     * @var CacheProvider
-     */
-    protected $cache;
-
-    /**
      * @var array
      *         key = action name
      *         value = ActionMetadata
      */
     protected $localCache;
 
-    /**
-     * Constructor
-     *
-     * @param CacheProvider|null    $cache
-     */
     public function __construct(
-        AclAnnotationProvider $annotationProvider,
-        CacheProvider $cache = null
+        AclAnnotationProvider $annotationProvider
     ) {
         $this->annotationProvider = $annotationProvider;
-        $this->cache = $cache;
-        if ($this->cache !== null && $this->cache->getNamespace() === '') {
-            $this->cache->setNamespace(self::CACHE_NAMESPACE);
-        }
     }
 
     /**
@@ -80,9 +62,6 @@ class ActionMetadataProvider
      */
     public function clearCache()
     {
-        if ($this->cache) {
-            $this->cache->delete(self::CACHE_KEY);
-        }
         $this->localCache = null;
     }
 
@@ -92,26 +71,16 @@ class ActionMetadataProvider
     protected function ensureMetadataLoaded()
     {
         if ($this->localCache === null) {
-            $data = null;
-            if ($this->cache) {
-                $data = $this->cache->fetch(self::CACHE_KEY);
-            }
-            if (!$data) {
-                $data = [];
-                foreach ($this->annotationProvider->getAnnotations('action') as $annotation) {
-                    $data[$annotation->getId()] = new ActionMetadata(
-                        $annotation->getId(),
-                        $annotation->getGroup(),
-                        $annotation->getLabel(),
-                        $annotation->isEnabledAtCreation(),
-                        $annotation->getOrder(),
-                        $annotation->isVisible(),
-                    );
-                }
-
-                if ($this->cache) {
-                    $this->cache->save(self::CACHE_KEY, $data);
-                }
+            $data = [];
+            foreach ($this->annotationProvider->getAnnotations('action') as $annotation) {
+                $data[$annotation->getId()] = new ActionMetadata(
+                    $annotation->getId(),
+                    $annotation->getGroup(),
+                    $annotation->getLabel(),
+                    $annotation->isEnabledAtCreation(),
+                    $annotation->getOrder(),
+                    $annotation->isVisible(),
+                );
             }
 
             $this->localCache = $data;

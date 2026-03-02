@@ -41,43 +41,43 @@ class GetCategoryTreesSql implements GetCategoryTreesInterface
         $sqlTypes = $condition['types'] ?? [];
 
         $sqlQuery = <<<SQL
-            WITH category_tree_translation as (
-                SELECT category.code, JSON_OBJECTAGG(translation.locale, translation.label) as translations
-                FROM pim_catalog_category category
-                JOIN pim_catalog_category_translation translation ON translation.foreign_key = category.id
+                WITH category_tree_translation as (
+                    SELECT category.code, JSON_OBJECTAGG(translation.locale, translation.label) as translations
+                    FROM pim_catalog_category category
+                    JOIN pim_catalog_category_translation translation ON translation.foreign_key = category.id
+                    WHERE category.parent_id IS NULL 
+                    AND category.root = category.id
+                    $sqlAnd
+                    GROUP BY category.code
+                ),
+                category_tree_template as (
+                SELECT
+                    category.id as category_id, template.uuid, template.code, template.labels        
+                FROM 
+                    pim_catalog_category category
+                    JOIN pim_catalog_category_tree_template ctt ON ctt.category_tree_id = category.id
+                    JOIN pim_catalog_category_template template ON template.uuid = ctt.category_template_uuid AND (template.is_deactivated IS NULL OR template.is_deactivated = 0)
+                    WHERE category.parent_id IS NULL 
+                    AND category.root = category.id
+                    $sqlAnd
+                    GROUP BY category.id, template.uuid
+                )
+                SELECT
+                    category.id,
+                    category.code,
+                    category_tree_translation.translations,
+                    BIN_TO_UUID(category_tree_template.uuid) as template_uuid,
+                    category_tree_template.code as template_code,
+                    category_tree_template.labels as template_labels
+                FROM 
+                    pim_catalog_category category
+                    LEFT JOIN category_tree_translation ON category_tree_translation.code = category.code
+                    LEFT JOIN category_tree_template ON category_tree_template.category_id = category.id
                 WHERE category.parent_id IS NULL 
                 AND category.root = category.id
                 $sqlAnd
-                GROUP BY category.code
-            ),
-            category_tree_template as (
-            SELECT
-                category.id as category_id, template.uuid, template.code, template.labels        
-            FROM 
-                pim_catalog_category category
-                JOIN pim_catalog_category_tree_template ctt ON ctt.category_tree_id = category.id
-                JOIN pim_catalog_category_template template ON template.uuid = ctt.category_template_uuid AND (template.is_deactivated IS NULL OR template.is_deactivated = 0)
-                WHERE category.parent_id IS NULL 
-                AND category.root = category.id
-                $sqlAnd
-                GROUP BY category.id, template.uuid
-            )
-            SELECT
-                category.id,
-                category.code,
-                category_tree_translation.translations,
-                BIN_TO_UUID(category_tree_template.uuid) as template_uuid,
-                category_tree_template.code as template_code,
-                category_tree_template.labels as template_labels
-            FROM 
-                pim_catalog_category category
-                LEFT JOIN category_tree_translation ON category_tree_translation.code = category.code
-                LEFT JOIN category_tree_template ON category_tree_template.category_id = category.id
-            WHERE category.parent_id IS NULL 
-            AND category.root = category.id
-            $sqlAnd
-            ORDER BY category.created DESC
-        SQL;
+                ORDER BY category.created DESC
+            SQL;
 
         $results = $this->connection->executeQuery(
             $sqlQuery,

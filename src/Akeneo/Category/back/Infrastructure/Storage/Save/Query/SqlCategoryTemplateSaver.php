@@ -27,12 +27,12 @@ class SqlCategoryTemplateSaver implements CategoryTemplateSaver
     public function insert(Template $templateModel): void
     {
         $query = <<< SQL
-            INSERT INTO pim_catalog_category_template
-                (uuid, code, labels)
-            VALUES
-                (UUID_TO_BIN(:uuid), :code, :labels)
-            ;
-        SQL;
+                INSERT INTO pim_catalog_category_template
+                    (uuid, code, labels)
+                VALUES
+                    (UUID_TO_BIN(:uuid), :code, :labels)
+                ;
+            SQL;
 
         $this->connection->executeQuery(
             $query,
@@ -52,12 +52,12 @@ class SqlCategoryTemplateSaver implements CategoryTemplateSaver
     public function update(Template $templateModel): void
     {
         $query = <<< SQL
-            UPDATE pim_catalog_category_template
-            SET
-                labels = :labels
-            WHERE uuid = UUID_TO_BIN(:uuid)
-            ;
-        SQL;
+                UPDATE pim_catalog_category_template
+                SET
+                    labels = :labels
+                WHERE uuid = UUID_TO_BIN(:uuid)
+                ;
+            SQL;
 
         $this->connection->executeQuery(
             $query,

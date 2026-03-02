@@ -68,7 +68,7 @@ class Client
         private readonly array $subscriptionOptions = []
     ) {
         $pubSubClient = $pubSubClientFactory->createPubSubClient([
-            'projectId' => $projectId
+            'projectId' => $projectId,
         ]);
 
         $this->topic = $pubSubClient->topic($topicName);

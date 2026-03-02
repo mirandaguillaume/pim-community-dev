@@ -21,8 +21,7 @@ class CategorySpec extends ObjectBehavior
 
     public function it_gets_a_translation_even_if_the_locale_case_is_wrong(
         CategoryTranslation $translationEn,
-    )
-    {
+    ) {
         $translationEn->getLocale()->willReturn('EN_US');
         $this->addTranslation($translationEn);
 

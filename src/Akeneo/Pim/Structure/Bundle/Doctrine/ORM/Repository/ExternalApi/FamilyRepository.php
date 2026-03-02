@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Structure\Bundle\Doctrine\ORM\Repository\ExternalApi;
@@ -108,9 +109,9 @@ class FamilyRepository extends EntityRepository implements ApiResourceRepository
                             throw new \InvalidArgumentException('Invalid operator for search query.');
                         }
 
-                        $familyIds = $criterion['value'] ?
-                            $this->getFamilyIdsUsedByProductsQuery->execute() :
-                            $this->getFamilyIdsNotUsedByProductsQuery->execute();
+                        $familyIds = $criterion['value']
+                            ? $this->getFamilyIdsUsedByProductsQuery->execute()
+                            : $this->getFamilyIdsNotUsedByProductsQuery->execute();
 
                         $qb->andWhere($qb->expr()->in('r.id', ':family_ids'));
                         $qb->setParameter('family_ids', $familyIds);
@@ -141,13 +142,13 @@ class FamilyRepository extends EntityRepository implements ApiResourceRepository
                     'value' => [
                         new Type([
                             'type' => 'array',
-                            'message' => 'In order to search on family codes you must send an array of family codes as value, {{ givenType }} given.'
+                            'message' => 'In order to search on family codes you must send an array of family codes as value, {{ givenType }} given.',
                         ]),
                         new Assert\All([
-                            new Assert\Type('string')
-                        ])
+                            new Assert\Type('string'),
+                        ]),
                     ],
-                ])
+                ]),
             ]),
             'updated' => new Assert\All([
                 new Assert\Collection([
@@ -156,7 +157,7 @@ class FamilyRepository extends EntityRepository implements ApiResourceRepository
                         'message' => 'Searching on the "updated" property require the ">" (greater than) operator, {{ value }} given.',
                     ]),
                     'value' => new Assert\DateTime(['format' => \DateTime::ATOM]),
-                ])
+                ]),
             ]),
             'has_products' => new Assert\All([
                 new Assert\Collection([

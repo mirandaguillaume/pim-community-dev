@@ -37,7 +37,7 @@ use Ramsey\Uuid\UuidInterface;
  */
 class AssociationUserIntentCollectionApplierSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         ObjectUpdaterInterface $productUpdater,
         GetViewableProducts $getViewableProducts,
         GetViewableProductModels $getViewableProductModels
@@ -45,18 +45,18 @@ class AssociationUserIntentCollectionApplierSpec extends ObjectBehavior
         $this->beConstructedWith($productUpdater, $getViewableProducts, $getViewableProductModels);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(AssociationUserIntentCollectionApplier::class);
         $this->shouldImplement(UserIntentApplier::class);
     }
 
-    function it_supports_association_user_intent_collection()
+    public function it_supports_association_user_intent_collection()
     {
         $this->getSupportedUserIntents()->shouldReturn([AssociationUserIntentCollection::class]);
     }
 
-    function it_applies_associate_products(
+    public function it_applies_associate_products(
         ObjectUpdaterInterface $productUpdater,
         ProductInterface $product,
     ) {
@@ -73,13 +73,13 @@ class AssociationUserIntentCollectionApplierSpec extends ObjectBehavior
         $productUpdater->update($product, ['associations' => [
             'X_SELL' => [
                 'products' => ['baz', 'foo', 'bar'],
-            ]
+            ],
         ]])->shouldBeCalledOnce();
 
         $this->apply($collection, $product, 42);
     }
 
-    function it_applies_multiple_associate_products(
+    public function it_applies_multiple_associate_products(
         ObjectUpdaterInterface $productUpdater,
         ProductInterface $product,
     ) {
@@ -109,7 +109,7 @@ class AssociationUserIntentCollectionApplierSpec extends ObjectBehavior
         $this->apply($collection, $product, 42);
     }
 
-    function it_applies_multiple_same_associate_products(
+    public function it_applies_multiple_same_associate_products(
         ObjectUpdaterInterface $productUpdater,
         ProductInterface $product,
     ) {
@@ -126,14 +126,14 @@ class AssociationUserIntentCollectionApplierSpec extends ObjectBehavior
 
         $productUpdater->update($product, ['associations' => [
             'X_SELL' => [
-                'products' => ['baz', 'foo', 'bar', 'toto']
+                'products' => ['baz', 'foo', 'bar', 'toto'],
             ],
         ]])->shouldBeCalledOnce();
 
         $this->apply($collection, $product, 42);
     }
 
-    function it_does_nothing_if_products_are_already_associated(
+    public function it_does_nothing_if_products_are_already_associated(
         ObjectUpdaterInterface $productUpdater,
         ProductInterface $product,
     ) {
@@ -152,7 +152,7 @@ class AssociationUserIntentCollectionApplierSpec extends ObjectBehavior
         $this->apply($collection, $product, 42);
     }
 
-    function it_applies_dissociate_products(
+    public function it_applies_dissociate_products(
         ObjectUpdaterInterface $productUpdater,
         ProductInterface $product,
     ) {
@@ -174,13 +174,13 @@ class AssociationUserIntentCollectionApplierSpec extends ObjectBehavior
         $productUpdater->update($product, ['associations' => [
             'X_SELL' => [
                 'products' => ['qux'],
-            ]
+            ],
         ]])->shouldBeCalledOnce();
 
         $this->apply($collection, $product, 42);
     }
 
-    function it_does_nothing_if_product_to_dissociate_is_not_associated(
+    public function it_does_nothing_if_product_to_dissociate_is_not_associated(
         ObjectUpdaterInterface $productUpdater,
         ProductInterface $product
     ) {
@@ -198,7 +198,7 @@ class AssociationUserIntentCollectionApplierSpec extends ObjectBehavior
         $this->apply($collection, $product, 42);
     }
 
-    function it_associates_and_dissociates_products(
+    public function it_associates_and_dissociates_products(
         ObjectUpdaterInterface $productUpdater,
         ProductInterface $product
     ) {
@@ -210,19 +210,19 @@ class AssociationUserIntentCollectionApplierSpec extends ObjectBehavior
         );
         $collection = new AssociationUserIntentCollection([
             new AssociateProducts('X_SELL', ['qux']),
-            new DissociateProducts('X_SELL', ['baz'])
+            new DissociateProducts('X_SELL', ['baz']),
         ]);
 
         $productUpdater->update($product, ['associations' => [
             'X_SELL' => [
                 'products' => ['qux'],
-            ]
+            ],
         ]])->shouldBeCalledOnce();
 
         $this->apply($collection, $product, 42);
     }
 
-    function it_replaces_associated_products(
+    public function it_replaces_associated_products(
         ObjectUpdaterInterface $productUpdater,
         GetViewableProducts $getViewableProducts,
         ProductInterface $product,
@@ -246,7 +246,7 @@ class AssociationUserIntentCollectionApplierSpec extends ObjectBehavior
         $productUpdater->update($product, ['associations' => [
             'X_SELL' => [
                 'products' => ['non_viewable_product', 'quux', 'quuz', 'corge'],
-            ]
+            ],
         ]])->shouldBeCalledOnce();
 
         $getViewableProducts->fromProductIdentifiers(['baz', 'non_viewable_product'], 42)
@@ -256,7 +256,7 @@ class AssociationUserIntentCollectionApplierSpec extends ObjectBehavior
         $this->apply($collection, $product, 42);
     }
 
-    function it_replaces_associated_products_with_uuids(
+    public function it_replaces_associated_products_with_uuids(
         ObjectUpdaterInterface $productUpdater,
         GetViewableProducts $getViewableProducts,
         ProductInterface $product,
@@ -279,12 +279,12 @@ class AssociationUserIntentCollectionApplierSpec extends ObjectBehavior
         $productUpdater->update($product, ['associations' => [
             'X_SELL' => [
                 'product_uuids' => [$nonViewableProduct->getUuid()->toString(), $newAssociatedProductUuid1, $newAssociatedProductUuid2, $newAssociatedProductUuid3],
-            ]
+            ],
         ]])->shouldBeCalledOnce();
 
         $uuids = [$viewableProduct->getUuid()->toString(), $nonViewableProduct->getUuid()->toString()];
         \sort($uuids);
-        $uuids = array_map(fn (string $uuid): UuidInterface => Uuid::fromString($uuid), $uuids);
+        $uuids = array_map(fn(string $uuid): UuidInterface => Uuid::fromString($uuid), $uuids);
 
         $getViewableProducts->fromProductUuids($uuids, 42)
             ->willReturn([$viewableProduct->getUuid()]);
@@ -292,7 +292,7 @@ class AssociationUserIntentCollectionApplierSpec extends ObjectBehavior
         $this->apply($collection, $product, 42);
     }
 
-    function it_does_nothing_if_products_to_associate_are_the_same_as_existing_associated_products(
+    public function it_does_nothing_if_products_to_associate_are_the_same_as_existing_associated_products(
         ObjectUpdaterInterface $productUpdater,
         ProductInterface $product,
     ) {
@@ -315,7 +315,7 @@ class AssociationUserIntentCollectionApplierSpec extends ObjectBehavior
         $this->apply($collection, $product, 42);
     }
 
-    function it_applies_associate_product_models(
+    public function it_applies_associate_product_models(
         ObjectUpdaterInterface $productUpdater,
         ProductInterface $product,
     ) {
@@ -332,13 +332,13 @@ class AssociationUserIntentCollectionApplierSpec extends ObjectBehavior
         $productUpdater->update($product, ['associations' => [
             'X_SELL' => [
                 'product_models' => ['foo', 'bar', 'baz'],
-            ]
+            ],
         ]])->shouldBeCalledOnce();
 
         $this->apply($collection, $product, 42);
     }
 
-    function it_does_nothing_if_product_models_are_already_associated(
+    public function it_does_nothing_if_product_models_are_already_associated(
         ObjectUpdaterInterface $productUpdater,
         ProductInterface $product,
     ) {
@@ -357,7 +357,7 @@ class AssociationUserIntentCollectionApplierSpec extends ObjectBehavior
         $this->apply($collection, $product, 42);
     }
 
-    function it_applies_dissociate_product_models(
+    public function it_applies_dissociate_product_models(
         ObjectUpdaterInterface $productUpdater,
         ProductInterface $product,
     ) {
@@ -377,13 +377,13 @@ class AssociationUserIntentCollectionApplierSpec extends ObjectBehavior
         $productUpdater->update($product, ['associations' => [
             'X_SELL' => [
                 'product_models' => ['bar'],
-            ]
+            ],
         ]])->shouldBeCalledOnce();
 
         $this->apply($collection, $product, 42);
     }
 
-    function it_does_nothing_if_product_model_to_dissociate_is_not_associated(
+    public function it_does_nothing_if_product_model_to_dissociate_is_not_associated(
         ObjectUpdaterInterface $productUpdater,
         ProductInterface $product
     ) {
@@ -401,7 +401,7 @@ class AssociationUserIntentCollectionApplierSpec extends ObjectBehavior
         $this->apply($collection, $product, 42);
     }
 
-    function it_replaces_associated_product_models(
+    public function it_replaces_associated_product_models(
         ObjectUpdaterInterface $productUpdater,
         GetViewableProductModels $getViewableProductModels,
         ProductInterface $product,
@@ -425,13 +425,13 @@ class AssociationUserIntentCollectionApplierSpec extends ObjectBehavior
         $productUpdater->update($product, ['associations' => [
             'X_SELL' => [
                 'product_models' => ['non_viewable_product_model', 'quux', 'quuz', 'corge'],
-            ]
+            ],
         ]])->shouldBeCalledOnce();
 
         $this->apply($collection, $product, 42);
     }
 
-    function it_does_nothing_if_product_models_to_associate_are_the_same_as_existing_associated_product_models(
+    public function it_does_nothing_if_product_models_to_associate_are_the_same_as_existing_associated_product_models(
         ObjectUpdaterInterface $productUpdater,
         GetViewableProductModels $getViewableProductModels,
         ProductInterface $product,
@@ -454,7 +454,7 @@ class AssociationUserIntentCollectionApplierSpec extends ObjectBehavior
         $this->apply($collection, $product, 42);
     }
 
-    function it_applies_associate_groups(
+    public function it_applies_associate_groups(
         ObjectUpdaterInterface $productUpdater,
         ProductInterface $product,
         GroupInterface $group,
@@ -465,19 +465,19 @@ class AssociationUserIntentCollectionApplierSpec extends ObjectBehavior
             new ArrayCollection([$group->getWrappedObject()])
         );
         $collection = new AssociationUserIntentCollection([
-            new AssociateGroups('X_SELL', ['group2', 'group3'])
+            new AssociateGroups('X_SELL', ['group2', 'group3']),
         ]);
 
         $productUpdater->update($product, ['associations' => [
             'X_SELL' => [
                 'groups' => ['group1', 'group2', 'group3'],
-            ]
+            ],
         ]])->shouldBeCalledOnce();
 
         $this->apply($collection, $product, 42);
     }
 
-    function it_does_nothing_if_groups_are_already_associated(
+    public function it_does_nothing_if_groups_are_already_associated(
         ObjectUpdaterInterface $productUpdater,
         ProductInterface $product
     ) {

@@ -17,40 +17,40 @@ class BaseFilterProvider implements FilterProviderInterface
     /** @var array */
     protected $filters = [
         AttributeTypes::BOOLEAN => [
-            'product-export-builder' => 'akeneo-attribute-boolean-filter'
+            'product-export-builder' => 'akeneo-attribute-boolean-filter',
         ],
         AttributeTypes::TEXT => [
-            'product-export-builder' => 'akeneo-attribute-string-filter'
+            'product-export-builder' => 'akeneo-attribute-string-filter',
         ],
         AttributeTypes::NUMBER => [
-            'product-export-builder' => 'akeneo-attribute-number-filter'
+            'product-export-builder' => 'akeneo-attribute-number-filter',
         ],
         AttributeTypes::TEXTAREA => [
-            'product-export-builder' => 'akeneo-attribute-string-filter'
+            'product-export-builder' => 'akeneo-attribute-string-filter',
         ],
         AttributeTypes::IDENTIFIER => [
-            'product-export-builder' => 'akeneo-attribute-identifier-filter'
+            'product-export-builder' => 'akeneo-attribute-identifier-filter',
         ],
         AttributeTypes::METRIC => [
-            'product-export-builder' => 'akeneo-attribute-metric-filter'
+            'product-export-builder' => 'akeneo-attribute-metric-filter',
         ],
         AttributeTypes::PRICE_COLLECTION => [
-            'product-export-builder' => 'akeneo-attribute-price-collection-filter'
+            'product-export-builder' => 'akeneo-attribute-price-collection-filter',
         ],
         AttributeTypes::IMAGE => [
-            'product-export-builder' => 'akeneo-attribute-media-filter'
+            'product-export-builder' => 'akeneo-attribute-media-filter',
         ],
         AttributeTypes::FILE => [
-            'product-export-builder' => 'akeneo-attribute-media-filter'
+            'product-export-builder' => 'akeneo-attribute-media-filter',
         ],
         AttributeTypes::OPTION_SIMPLE_SELECT => [
-            'product-export-builder' => 'akeneo-attribute-select-filter'
+            'product-export-builder' => 'akeneo-attribute-select-filter',
         ],
         AttributeTypes::OPTION_MULTI_SELECT => [
-            'product-export-builder' => 'akeneo-attribute-select-filter'
+            'product-export-builder' => 'akeneo-attribute-select-filter',
         ],
         AttributeTypes::DATE => [
-            'product-export-builder' => 'akeneo-attribute-date-filter'
+            'product-export-builder' => 'akeneo-attribute-date-filter',
         ],
     ];
 
@@ -67,7 +67,7 @@ class BaseFilterProvider implements FilterProviderInterface
      */
     public function supports($element)
     {
-        return $element instanceof AttributeInterface &&
-            in_array($element->getType(), array_keys($this->filters));
+        return $element instanceof AttributeInterface
+            && in_array($element->getType(), array_keys($this->filters));
     }
 }

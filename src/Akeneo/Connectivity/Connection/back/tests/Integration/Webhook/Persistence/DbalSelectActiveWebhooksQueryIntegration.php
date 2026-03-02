@@ -94,8 +94,8 @@ class DbalSelectActiveWebhooksQueryIntegration extends TestCase
     private function getUserGroupId(string $name): string
     {
         $sql = <<<SQL
-    SELECT * FROM oro_access_group WHERE name = :name
-SQL;
+                SELECT * FROM oro_access_group WHERE name = :name
+            SQL;
 
         return $this->dbalConnection->executeQuery(
             $sql,

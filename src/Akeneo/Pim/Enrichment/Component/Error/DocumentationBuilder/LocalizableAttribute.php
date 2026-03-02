@@ -20,7 +20,7 @@ class LocalizableAttribute implements DocumentationBuilderInterface
 {
     final public const SUPPORTED_CONSTRAINTS_CODES = [
         LocalizableValues::NON_ACTIVE_LOCALE,
-        LocalizableValues::INVALID_LOCALE_FOR_CHANNEL
+        LocalizableValues::INVALID_LOCALE_FOR_CHANNEL,
     ];
 
     public function support($object): bool
@@ -58,7 +58,7 @@ class LocalizableAttribute implements DocumentationBuilderInterface
                         sprintf('%s attributes settings', $attributeCode),
                         'pim_enrich_attribute_edit',
                         ['code' => $attributeCode]
-                    )
+                    ),
                 ],
                 Documentation::STYLE_TEXT
             ),
@@ -72,10 +72,10 @@ class LocalizableAttribute implements DocumentationBuilderInterface
                     'add_locale' => new HrefMessageParameter(
                         'How to add a new locale?',
                         'https://help.akeneo.com/pim/serenity/articles/manage-your-locales.html#how-to-add-a-new-locale'
-                    )
+                    ),
                 ],
                 Documentation::STYLE_INFORMATION
-            )
+            ),
         ]);
     }
 

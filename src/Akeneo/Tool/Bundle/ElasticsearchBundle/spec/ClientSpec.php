@@ -17,12 +17,12 @@ use Prophecy\Argument;
 
 class ClientSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(Client::class);
     }
 
-    function let(NativeClient $client, ClientBuilder $clientBuilder, Loader $indexConfigurationLoader)
+    public function let(NativeClient $client, ClientBuilder $clientBuilder, Loader $indexConfigurationLoader)
     {
         $this->beConstructedWith($clientBuilder, $indexConfigurationLoader, ['localhost:9200'], 'an_index_name');
         $clientBuilder->setHosts(Argument::any())->willReturn($clientBuilder);
@@ -94,12 +94,12 @@ class ClientSpec extends ObjectBehavior
         $this->search(['a key' => 'a value']);
     }
 
-    function it_counts_documents($client)
+    public function it_counts_documents($client)
     {
         $client->count(
             [
                 'index' => 'an_index_name',
-                'body' => ['query' => 'some_query']
+                'body' => ['query' => 'some_query'],
             ]
         )->shouldBeCalled()->willReturn(['count' => 42]);
 
@@ -243,8 +243,8 @@ class ClientSpec extends ObjectBehavior
         $indices->existsAlias(['name' => 'an_index_name'])->willReturn(true);
         $expectedAlias = [
             'an_index_name_foo_20190514' => [
-                'an_index_name' => ['index_data']
-            ]
+                'an_index_name' => ['index_data'],
+            ],
         ];
         $indices->getAlias(['name' => 'an_index_name'])->willReturn($expectedAlias);
         $indices->delete(['index' => 'an_index_name_foo_20190514'])->shouldBeCalled();
@@ -252,7 +252,7 @@ class ClientSpec extends ObjectBehavior
         $this->deleteIndex();
     }
 
-    function it_checks_if_an_index_exists($client, IndicesNamespace $indices)
+    public function it_checks_if_an_index_exists($client, IndicesNamespace $indices)
     {
         $client->indices()->willReturn($indices);
         $indices->exists(['index' => 'an_index_name'])->willReturn(true);
@@ -260,7 +260,7 @@ class ClientSpec extends ObjectBehavior
         $this->hasIndex()->shouldReturn(true);
     }
 
-    function it_checks_if_an_alias_exists($client, IndicesNamespace $indices)
+    public function it_checks_if_an_alias_exists($client, IndicesNamespace $indices)
     {
         $client->indices()->willReturn($indices);
         $indices->existsAlias(['name' => 'an_index_name'])->willReturn(true);
@@ -268,7 +268,7 @@ class ClientSpec extends ObjectBehavior
         $this->hasIndexForAlias()->shouldReturn(true);
     }
 
-    function it_refreshes_an_index($client, IndicesNamespace $indices)
+    public function it_refreshes_an_index($client, IndicesNamespace $indices)
     {
         $client->indices()->willReturn($indices);
         $indices->refresh(['index' => 'an_index_name'])->shouldBeCalled();
@@ -276,7 +276,7 @@ class ClientSpec extends ObjectBehavior
         $this->refreshIndex();
     }
 
-    function it_indexes_with_bulk_several_documents($client)
+    public function it_indexes_with_bulk_several_documents($client)
     {
         $expectedResponse = [
             'took' => 1,
@@ -303,7 +303,8 @@ class ClientSpec extends ObjectBehavior
                 ],
                 'refresh' => 'wait_for',
             ]
-        )->shouldBeCalledOnce()->willReturn($expectedResponse);;
+        )->shouldBeCalledOnce()->willReturn($expectedResponse);
+        ;
 
         $documents = [
             ['identifier' => 'foo', 'name' => 'a name'],
@@ -313,7 +314,7 @@ class ClientSpec extends ObjectBehavior
         $this->bulkIndexes($documents, 'identifier', Refresh::waitFor())->shouldReturn($expectedResponse);
     }
 
-    function it_split_bulk_index_when_size_is_more_than_max_batch_size(
+    public function it_split_bulk_index_when_size_is_more_than_max_batch_size(
         NativeClient $client,
         ClientBuilder $clientBuilder,
         Loader $indexConfigurationLoader
@@ -389,7 +390,7 @@ class ClientSpec extends ObjectBehavior
         ]);
     }
 
-    function it_retries_bulk_index_request_when_an_error_occurred(NativeClient $client)
+    public function it_retries_bulk_index_request_when_an_error_occurred(NativeClient $client)
     {
         $isFirstCall = true;
         $client->bulk([
@@ -420,7 +421,7 @@ class ClientSpec extends ObjectBehavior
         ]);
     }
 
-    function it_retries_bulk_index_request_by_splitting_body_when_an_error_occurred(NativeClient $client)
+    public function it_retries_bulk_index_request_by_splitting_body_when_an_error_occurred(NativeClient $client)
     {
         $client->bulk([
             'body' => [
@@ -519,7 +520,7 @@ class ClientSpec extends ObjectBehavior
         );
     }
 
-    function it_throws_an_exception_if_identifier_key_is_missing($client)
+    public function it_throws_an_exception_if_identifier_key_is_missing($client)
     {
         $client->bulk(Argument::any())->shouldNotBeCalled();
 

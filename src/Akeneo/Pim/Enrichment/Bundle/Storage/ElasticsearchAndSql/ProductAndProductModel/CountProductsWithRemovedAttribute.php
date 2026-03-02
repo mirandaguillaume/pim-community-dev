@@ -44,7 +44,7 @@ final readonly class CountProductsWithRemovedAttribute implements CountProductsW
 
         $result = $this->elasticsearchClient->count($body);
 
-        return (int)$result['count'];
+        return (int) $result['count'];
     }
 
     public function getQueryBuilder(): SearchQueryBuilder

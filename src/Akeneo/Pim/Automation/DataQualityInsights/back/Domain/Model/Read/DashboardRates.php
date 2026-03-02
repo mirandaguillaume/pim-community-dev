@@ -80,9 +80,9 @@ final class DashboardRates
 
     private function ensureRatesContainEnoughWeeks(array $result): array
     {
-        $weeklyTimePeriodDateFormat = (new ConsolidationDate(new \DateTimeImmutable()))->isLastDayOfWeek() ?
-            new \DateTimeImmutable() :
-            new \DateTimeImmutable('next sunday');
+        $weeklyTimePeriodDateFormat = (new ConsolidationDate(new \DateTimeImmutable()))->isLastDayOfWeek()
+            ? new \DateTimeImmutable()
+            : new \DateTimeImmutable('next sunday');
 
         $lastWeeks = [];
         for ($i = self::NUMBER_OF_WEEKS_TO_RETURN; $i >= 1; $i--) {
@@ -95,15 +95,15 @@ final class DashboardRates
 
     private function ensureRatesContainEnoughMonths(array $result): array
     {
-        $monthlyTimePeriodDateFormat = (new ConsolidationDate(new \DateTimeImmutable()))->isLastDayOfMonth() ?
-            new \DateTimeImmutable() :
-            (new \DateTimeImmutable())->setTimestamp(strtotime(date('Y-m-t')));
+        $monthlyTimePeriodDateFormat = (new ConsolidationDate(new \DateTimeImmutable()))->isLastDayOfMonth()
+            ? new \DateTimeImmutable()
+            : (new \DateTimeImmutable())->setTimestamp(strtotime(date('Y-m-t')));
 
         $lastMonths = [];
         for ($i = self::NUMBER_OF_MONTHS_TO_RETURN; $i >= 1; $i--) {
             //the modifier "-x MONTH" does not handle properly the correct number of days in a month (it's just a shortcut for -30 DAY),
             // so I had to use another modifier to navigate through months
-            $newDate = $monthlyTimePeriodDateFormat->modify('last day of '.$i.' month ago');
+            $newDate = $monthlyTimePeriodDateFormat->modify('last day of ' . $i . ' month ago');
             $lastMonths[$newDate->format('Y-m-d')] = [];
         }
 

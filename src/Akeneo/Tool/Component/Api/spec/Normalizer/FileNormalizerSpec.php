@@ -12,17 +12,17 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class FileNormalizerSpec extends ObjectBehavior
 {
-    function let(NormalizerInterface $stdNormalizer, RouterInterface $router)
+    public function let(NormalizerInterface $stdNormalizer, RouterInterface $router)
     {
         $this->beConstructedWith($stdNormalizer, $router);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(FileNormalizer::class);
     }
 
-    function it_supports_a_file(FileInfoInterface $fileInfo)
+    public function it_supports_a_file(FileInfoInterface $fileInfo)
     {
         $this->supportsNormalization(new \stdClass(), 'whatever')->shouldReturn(false);
         $this->supportsNormalization(new \stdClass(), 'external_api')->shouldReturn(false);
@@ -30,7 +30,7 @@ class FileNormalizerSpec extends ObjectBehavior
         $this->supportsNormalization($fileInfo, 'external_api')->shouldReturn(true);
     }
 
-    function it_normalizes_a_file($stdNormalizer, $router, FileInfoInterface $fileInfo)
+    public function it_normalizes_a_file($stdNormalizer, $router, FileInfoInterface $fileInfo)
     {
         $data = [
             'code'              => 'f/2/e/6/f2e6674e076ad6fafa12012e8fd026acdc70f814_fileA.txt',
@@ -40,9 +40,9 @@ class FileNormalizerSpec extends ObjectBehavior
             'extension'         => 'txt',
             '_links'            => [
                 'download' => [
-                    'href' => 'http://localhost/api/rest/v1/media_files/f/2/e/6/f2e6674e076ad6fafa12012e8fd026acdc70f814_fileA.txt/download'
-                ]
-            ]
+                    'href' => 'http://localhost/api/rest/v1/media_files/f/2/e/6/f2e6674e076ad6fafa12012e8fd026acdc70f814_fileA.txt/download',
+                ],
+            ],
         ];
 
         $router->generate(

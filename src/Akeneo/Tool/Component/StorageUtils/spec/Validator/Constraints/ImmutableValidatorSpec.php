@@ -15,18 +15,18 @@ use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 
 class ImmutableValidatorSpec extends ObjectBehavior
 {
-    function let(EntityManager $entityManager, ExecutionContextInterface $context)
+    public function let(EntityManager $entityManager, ExecutionContextInterface $context)
     {
         $this->beConstructedWith($entityManager);
         $this->initialize($context);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(ImmutableValidator::class);
     }
 
-    function it_adds_violation_when_an_immutable_property_has_been_modified(
+    public function it_adds_violation_when_an_immutable_property_has_been_modified(
         $context,
         $entityManager,
         UnitOfWork $unitOfWork,
@@ -49,7 +49,7 @@ class ImmutableValidatorSpec extends ObjectBehavior
         $this->validate($family, $constraint);
     }
 
-    function it_adds_violation_when_an_immutable_reference_data_name_has_been_modified(
+    public function it_adds_violation_when_an_immutable_reference_data_name_has_been_modified(
         $context,
         $entityManager,
         UnitOfWork $unitOfWork,
@@ -74,7 +74,7 @@ class ImmutableValidatorSpec extends ObjectBehavior
         $this->validate($attribute, $constraint);
     }
 
-    function it_does_not_add_violation_when_a_immutable_property_has_not_been_modified(
+    public function it_does_not_add_violation_when_a_immutable_property_has_not_been_modified(
         $context,
         $entityManager,
         UnitOfWork $unitOfWork,

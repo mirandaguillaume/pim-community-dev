@@ -85,7 +85,7 @@ class View
         return [
             'name'    => $this->getName(),
             'filters' => $this->getFiltersData(),
-            'sorters' => $this->getSortersData()
+            'sorters' => $this->getSortersData(),
         ];
     }
 }

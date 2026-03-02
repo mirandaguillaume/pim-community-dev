@@ -9,9 +9,9 @@ trait OneTimeTaskCommandTrait
     private function startTask(string $taskCode): void
     {
         $query = <<<SQL
-INSERT IGNORE INTO pim_one_time_task (code, status, start_time) 
-VALUES (:code, 'started', NOW());
-SQL;
+            INSERT IGNORE INTO pim_one_time_task (code, status, start_time) 
+            VALUES (:code, 'started', NOW());
+            SQL;
 
         $this->dbConnection->executeQuery($query, ['code' => $taskCode]);
     }
@@ -19,10 +19,10 @@ SQL;
     private function finishTask(string $taskCode): void
     {
         $query = <<<SQL
-UPDATE pim_one_time_task 
-SET status = 'done', end_time = NOW()
-WHERE code = :code;
-SQL;
+            UPDATE pim_one_time_task 
+            SET status = 'done', end_time = NOW()
+            WHERE code = :code;
+            SQL;
 
         $this->dbConnection->executeQuery($query, ['code' => $taskCode]);
     }
@@ -30,17 +30,17 @@ SQL;
     private function deleteTask(string $taskCode): void
     {
         $query = <<<SQL
-DELETE FROM pim_one_time_task WHERE code = :code;
-SQL;
+            DELETE FROM pim_one_time_task WHERE code = :code;
+            SQL;
         $this->dbConnection->executeQuery($query, ['code' => $taskCode]);
     }
 
     private function taskCanBeStarted(string $taskCode): bool
     {
         $query = <<<SQL
-SELECT 1 FROM pim_one_time_task WHERE code = :code;
-SQL;
+            SELECT 1 FROM pim_one_time_task WHERE code = :code;
+            SQL;
 
-        return !(bool)$this->dbConnection->executeQuery($query, ['code' => $taskCode])->fetchOne();
+        return !(bool) $this->dbConnection->executeQuery($query, ['code' => $taskCode])->fetchOne();
     }
 }

@@ -43,7 +43,7 @@ class ViolationNormalizer implements NormalizerInterface, CacheableSupportsMetho
         $data = [
             'code'    => $exception->getStatusCode(),
             'message' => $exception->getMessage(),
-            'errors'  => $errors
+            'errors'  => $errors,
         ];
 
         return $data;
@@ -107,15 +107,15 @@ class ViolationNormalizer implements NormalizerInterface, CacheableSupportsMetho
     {
         $error = [
             'property' => $this->getErrorField($violation),
-            'message'  => $violation->getMessage()
+            'message'  => $violation->getMessage(),
         ];
 
         $propertyPath = $violation->getPropertyPath();
         $violationMessage = $violation->getMessageTemplate();
 
         if (
-            $violation->getRoot() instanceof EntityWithValuesInterface &&
-            1 === preg_match(
+            $violation->getRoot() instanceof EntityWithValuesInterface
+            && 1 === preg_match(
                 '|^values\[(?P<attribute>[a-z0-9-_\<\>]+)|i',
                 $violation->getPropertyPath(),
                 $matches
@@ -155,7 +155,7 @@ class ViolationNormalizer implements NormalizerInterface, CacheableSupportsMetho
     {
         $constraint = $violation->getConstraint();
 
-        $shouldNormalizePropertyPath = (bool)($constraint->payload['normalize_property_path'] ?? true);
+        $shouldNormalizePropertyPath = (bool) ($constraint->payload['normalize_property_path'] ?? true);
         if (!$shouldNormalizePropertyPath) {
             return $violation->getPropertyPath();
         }
@@ -205,7 +205,7 @@ class ViolationNormalizer implements NormalizerInterface, CacheableSupportsMetho
         if (AttributeTypes::IDENTIFIER === $attributeType) {
             return [
                 'property'  => 'identifier',
-                'message'   => $violation->getMessage()
+                'message'   => $violation->getMessage(),
             ];
         }
 
@@ -214,13 +214,13 @@ class ViolationNormalizer implements NormalizerInterface, CacheableSupportsMetho
             'message'   => $violation->getMessage(),
             'attribute' => $productValue->getAttributeCode(),
             'locale'    => $productValue->getLocaleCode(),
-            'scope'     => $productValue->getScopeCode()
+            'scope'     => $productValue->getScopeCode(),
         ];
 
         if (
-            AttributeTypes::PRICE_COLLECTION === $attributeType &&
-            $violation->getInvalidValue() instanceof ProductPriceInterface &&
-            null !== $violation->getInvalidValue()->getCurrency()
+            AttributeTypes::PRICE_COLLECTION === $attributeType
+            && $violation->getInvalidValue() instanceof ProductPriceInterface
+            && null !== $violation->getInvalidValue()->getCurrency()
         ) {
             $error['currency'] = $violation->getInvalidValue()->getCurrency();
         }

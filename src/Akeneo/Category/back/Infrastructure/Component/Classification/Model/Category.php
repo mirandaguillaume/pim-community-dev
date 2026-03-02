@@ -4,8 +4,8 @@ namespace Akeneo\Category\Infrastructure\Component\Classification\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
@@ -15,6 +15,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[Gedmo\Tree(type: 'nested')]
 #[ORM\MappedSuperclass]
 class Category implements CategoryInterface
 {

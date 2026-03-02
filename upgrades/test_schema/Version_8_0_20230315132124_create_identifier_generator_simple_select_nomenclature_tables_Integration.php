@@ -44,10 +44,10 @@ final class Version_8_0_20230315132124_create_identifier_generator_simple_select
     private function tableExists($tableName): bool
     {
         return $this->connection->executeQuery(
-                'SHOW TABLES LIKE :tableName',
-                [
-                    'tableName' => $tableName,
-                ]
-            )->rowCount() >= 1;
+            'SHOW TABLES LIKE :tableName',
+            [
+                'tableName' => $tableName,
+            ]
+        )->rowCount() >= 1;
     }
 }

@@ -11,22 +11,22 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class CategoryNormalizerSpec extends ObjectBehavior
 {
-    function let(TranslationNormalizer $translationNormalizer, DateTimeNormalizer $dateTimeNormalizer)
+    public function let(TranslationNormalizer $translationNormalizer, DateTimeNormalizer $dateTimeNormalizer)
     {
         $this->beConstructedWith($translationNormalizer, $dateTimeNormalizer);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(CategoryNormalizer::class);
     }
 
-    function it_is_a_normalizer()
+    public function it_is_a_normalizer()
     {
         $this->shouldImplement(NormalizerInterface::class);
     }
 
-    function it_supports_standard_normalization(CategoryInterface $category)
+    public function it_supports_standard_normalization(CategoryInterface $category)
     {
         $this->supportsNormalization($category, 'standard')->shouldReturn(true);
         $this->supportsNormalization(new \stdClass(), 'standard')->shouldReturn(false);
@@ -34,7 +34,7 @@ class CategoryNormalizerSpec extends ObjectBehavior
         $this->supportsNormalization($category, 'json')->shouldReturn(false);
     }
 
-    function it_normalizes_category(
+    public function it_normalizes_category(
         $translationNormalizer,
         CategoryInterface $category,
         DateTimeNormalizer $dateTimeNormalizer
@@ -60,7 +60,7 @@ class CategoryNormalizerSpec extends ObjectBehavior
         );
     }
 
-    function it_normalizes_category_with_parent(
+    public function it_normalizes_category_with_parent(
         $translationNormalizer,
         CategoryInterface $category,
         CategoryInterface $parent,

@@ -42,9 +42,9 @@ final readonly class DeleteCategoryImageFileSql implements DeleteCategoryImageFi
     {
         $this->connection->executeStatement(
             <<<SQL
-                DELETE FROM `akeneo_file_storage_file_info`
-                WHERE file_key = :file_key
-            SQL,
+                    DELETE FROM `akeneo_file_storage_file_info`
+                    WHERE file_key = :file_key
+                SQL,
             [
                 'file_key' => $filePath,
             ],

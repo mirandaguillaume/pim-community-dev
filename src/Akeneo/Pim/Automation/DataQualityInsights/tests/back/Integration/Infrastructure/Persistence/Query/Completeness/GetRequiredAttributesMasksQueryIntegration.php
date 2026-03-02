@@ -65,7 +65,7 @@ final class GetRequiredAttributesMasksQueryIntegration extends CompletenessTestC
                         'a_localizable_scopable_locale_specific',
                         'a_required_deactivated_text',
                     ],
-                ]
+                ],
             ],
             [
                 'code' => 'familyB',
@@ -74,7 +74,7 @@ final class GetRequiredAttributesMasksQueryIntegration extends CompletenessTestC
             [
                 'code' => 'familyC',
                 'attribute_codes' => ['sku'],
-            ]
+            ],
         ]);
 
         $result = $this->get(GetRequiredAttributesMasksQuery::class)->fromFamilyCodes(['1234']);
@@ -90,7 +90,7 @@ final class GetRequiredAttributesMasksQueryIntegration extends CompletenessTestC
             'a_price-USD-<all_channels>-<all_locales>',
             'a_localizable_non_scopable_text-<all_channels>-en_US',
             'a_non_localizable_scopable_text-ecommerce-<all_locales>',
-            'a_localizable_non_scopable_locale_specific-<all_channels>-en_US'
+            'a_localizable_non_scopable_locale_specific-<all_channels>-en_US',
         ], $ecommerceEnUsMask->mask());
 
         $this->assertEqualsCanonicalizing([
@@ -103,7 +103,7 @@ final class GetRequiredAttributesMasksQueryIntegration extends CompletenessTestC
             'a_non_localizable_scopable_locale_specific-tablet-<all_locales>',
         ], $tabletEnUS->mask());
 
-        $this->assertEqualsCanonicalizing( [
+        $this->assertEqualsCanonicalizing([
             'sku-<all_channels>-<all_locales>',
             'a_price-EUR-USD-<all_channels>-<all_locales>',
             'a_localizable_non_scopable_price-EUR-USD-<all_channels>-fr_FR',
@@ -112,7 +112,7 @@ final class GetRequiredAttributesMasksQueryIntegration extends CompletenessTestC
             'a_localizable_scopable_text-tablet-fr_FR',
             'a_non_localizable_non_scopable_locale_specific-<all_channels>-<all_locales>',
             'a_non_localizable_scopable_locale_specific-tablet-<all_locales>',
-            'a_localizable_scopable_locale_specific-tablet-fr_FR'
+            'a_localizable_scopable_locale_specific-tablet-fr_FR',
         ], $tabletFrFr->mask());
     }
 }

@@ -3,8 +3,8 @@
 namespace Oro\Bundle\PimDataGridBundle\Entity;
 
 use Akeneo\UserManagement\Component\Model\UserInterface;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Datagrid view entity

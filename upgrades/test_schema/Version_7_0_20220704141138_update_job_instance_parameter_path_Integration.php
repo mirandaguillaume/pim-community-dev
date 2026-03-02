@@ -83,13 +83,13 @@ final class Version_7_0_20220704141138_update_job_instance_parameter_path_Integr
         $this->connection->executeStatement("DELETE FROM akeneo_batch_job_instance WHERE code = 'xlsx_product_import'");
 
         $sql = <<<SQL
-INSERT INTO `akeneo_batch_job_instance` (`code`, `label`, `job_name`, `status`, `connector`, `raw_parameters`, `type`)
-VALUES
-	('xlsx_product_import', 'Demo XLSX product import', 'xlsx_product_import', 0, 'Akeneo XLSX Connector', :raw_parameters, 'import');
-SQL;
+            INSERT INTO `akeneo_batch_job_instance` (`code`, `label`, `job_name`, `status`, `connector`, `raw_parameters`, `type`)
+            VALUES
+            	('xlsx_product_import', 'Demo XLSX product import', 'xlsx_product_import', 0, 'Akeneo XLSX Connector', :raw_parameters, 'import');
+            SQL;
 
         $this->connection->executeStatement($sql, [
-            'raw_parameters' => serialize($rawParameters)
+            'raw_parameters' => serialize($rawParameters),
         ]);
     }
 
@@ -108,10 +108,10 @@ SQL;
             'with_label' => false,
             'header_with_label' => false,
             'file_locale' => null,
-            'filters' =>
-                [
-                    'data' =>
-                        [
+            'filters'
+                => [
+                    'data'
+                        => [
                             [
                                 'field' => 'enabled',
                                 'operator' => '=',
@@ -120,8 +120,8 @@ SQL;
                             [
                                 'field' => 'categories',
                                 'operator' => 'IN CHILDREN',
-                                'value' =>
-                                    [
+                                'value'
+                                    => [
                                         'master',
                                     ],
                             ],
@@ -129,10 +129,10 @@ SQL;
                                 'field' => 'completeness',
                                 'operator' => '>=',
                                 'value' => 100,
-                                'context' =>
-                                    [
-                                        'locales' =>
-                                            [
+                                'context'
+                                    => [
+                                        'locales'
+                                            => [
                                                 'fr_FR',
                                                 'en_US',
                                                 'de_DE',
@@ -140,11 +140,11 @@ SQL;
                                     ],
                             ],
                         ],
-                    'structure' =>
-                        [
+                    'structure'
+                        => [
                             'scope' => 'ecommerce',
-                            'locales' =>
-                                [
+                            'locales'
+                                => [
                                     'fr_FR',
                                     'en_US',
                                     'de_DE',
@@ -156,13 +156,13 @@ SQL;
         $this->connection->executeStatement("DELETE FROM akeneo_batch_job_instance WHERE code = 'csv_product_export'");
 
         $sql = <<<SQL
-INSERT INTO `akeneo_batch_job_instance` (`code`, `label`, `job_name`, `status`, `connector`, `raw_parameters`, `type`)
-VALUES
-	('csv_product_export', 'Demo CSV product export', 'csv_product_export', 0, 'Akeneo CSV Connector', :raw_parameters, 'export');
-SQL;
+            INSERT INTO `akeneo_batch_job_instance` (`code`, `label`, `job_name`, `status`, `connector`, `raw_parameters`, `type`)
+            VALUES
+            	('csv_product_export', 'Demo CSV product export', 'csv_product_export', 0, 'Akeneo CSV Connector', :raw_parameters, 'export');
+            SQL;
 
         $this->connection->executeStatement($sql, [
-            'raw_parameters' => serialize($rawParameters)
+            'raw_parameters' => serialize($rawParameters),
         ]);
     }
 
@@ -174,11 +174,13 @@ SQL;
         $jobInstance = $this->jobInstanceRepository->findOneByCode($jobCode);
         $rawParameters = $jobInstance->getRawParameters();
 
-        if (!isset($rawParameters['storage'])) return false;
+        if (!isset($rawParameters['storage'])) {
+            return false;
+        }
 
         $expectedStorage = [
             'file_path' => $storageFilePath,
-            'type' => $this->isSaaSVersion() ? NoneStorage::TYPE : LocalStorage::TYPE
+            'type' => $this->isSaaSVersion() ? NoneStorage::TYPE : LocalStorage::TYPE,
         ];
 
         return $rawParameters['storage'] == $expectedStorage;

@@ -70,8 +70,8 @@ class AddRemoveVersionSubscriber implements EventSubscriberInterface
             return;
         }
 
-        if (null !== ($token = $this->tokenStorage->getToken()) &&
-            $this->authorizationChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')
+        if (null !== ($token = $this->tokenStorage->getToken())
+            && $this->authorizationChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')
         ) {
             $author = $token->getUser()->getUserIdentifier();
         }
@@ -93,7 +93,7 @@ class AddRemoveVersionSubscriber implements EventSubscriberInterface
         );
 
         $version->setVersion(null !== $previousVersion ? $previousVersion->getVersion() + 1 : 1)
-            ->setSnapshot(null !== $previousVersion ? $previousVersion->getSnapshot(): [])
+            ->setSnapshot(null !== $previousVersion ? $previousVersion->getSnapshot() : [])
             ->setChangeset([]);
 
         $options = $event->getArguments();

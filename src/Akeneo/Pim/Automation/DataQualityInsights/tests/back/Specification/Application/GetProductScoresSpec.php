@@ -36,7 +36,7 @@ final class GetProductScoresSpec extends ObjectBehavior
 
         $getLocalesByChannelQuery->getChannelLocaleCollection()->willReturn(new ChannelLocaleCollection([
             'ecommerce' => ['en_US', 'fr_FR'],
-            'mobile' => ['en_US']
+            'mobile' => ['en_US'],
         ]));
 
         $scores = new Read\Scores(
@@ -59,9 +59,9 @@ final class GetProductScoresSpec extends ObjectBehavior
                     'fr_FR' => null,
                 ],
                 'mobile' => [
-                    'en_US' => (new Rate(80))->toLetter()
+                    'en_US' => (new Rate(80))->toLetter(),
                 ],
-            ]
+            ],
         ]);
     }
 }

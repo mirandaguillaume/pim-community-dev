@@ -14,39 +14,38 @@ use PhpSpec\ObjectBehavior;
 
 class ChangeParentApplierSpec extends ObjectBehavior
 {
-    function let(ObjectUpdaterInterface $updater)
+    public function let(ObjectUpdaterInterface $updater)
     {
         $this->beConstructedWith($updater);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(ChangeParentApplier::class);
         $this->shouldImplement(UserIntentApplier::class);
     }
 
-    function it_applies_set_parent_user_intent(ObjectUpdaterInterface $updater): void
+    public function it_applies_set_parent_user_intent(ObjectUpdaterInterface $updater): void
     {
         $product = new Product();
         $setParent = new ChangeParent('product_model_code');
-        $updater->update($product,['parent' => 'product_model_code'])->shouldBeCalledOnce();
+        $updater->update($product, ['parent' => 'product_model_code'])->shouldBeCalledOnce();
 
         $this->apply($setParent, $product, 1);
     }
 
-    function it_throws_an_exception_when_user_intent_is_not_supported(): void
+    public function it_throws_an_exception_when_user_intent_is_not_supported(): void
     {
         $product = new Product();
         $setEnabledUserIntent = new SetEnabled(true);
         $this->shouldThrow(\InvalidArgumentException::class)->during('apply', [$setEnabledUserIntent, $product, 1]);
     }
 
-    function it_does_not_update_if_parent_is_already_set_on_the_product(
+    public function it_does_not_update_if_parent_is_already_set_on_the_product(
         ObjectUpdaterInterface $updater,
         ProductInterface $product,
         ProductModelInterface $productModel
-    ): void
-    {
+    ): void {
         $setParent = new ChangeParent('product_model_code');
         $product->getParent()->willReturn($productModel);
         $productModel->getCode()->willReturn('product_model_code');

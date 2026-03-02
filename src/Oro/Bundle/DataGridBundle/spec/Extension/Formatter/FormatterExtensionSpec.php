@@ -16,17 +16,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class FormatterExtensionSpec extends ObjectBehavior
 {
-    function let(TranslatorInterface $translator)
+    public function let(TranslatorInterface $translator)
     {
         $this->beConstructedWith($translator);
     }
 
-    function it_is_a_formatter_extension()
+    public function it_is_a_formatter_extension()
     {
         $this->shouldBeAnInstanceOf(FormatterExtension::class);
     }
 
-    function it_allows_a_column_configuration_with_an_integer(
+    public function it_allows_a_column_configuration_with_an_integer(
         DatagridConfiguration $config,
         ResultsIterableObject $result,
         PropertyInterface $property1,
@@ -48,10 +48,10 @@ class FormatterExtensionSpec extends ObjectBehavior
         $result->offsetGetOr('data', [])->willReturn($rows);
         $config->offsetGetOr('options', [])->willReturn([]);
         $config->offsetGetOr(Configuration::COLUMNS_KEY, [])->willReturn([
-            1234 => ['type' => 'property1']
+            1234 => ['type' => 'property1'],
         ]);
         $config->offsetGetOr(Configuration::PROPERTIES_KEY, [])->willReturn([
-            'identifier' => ['type' => 'property2']
+            'identifier' => ['type' => 'property2'],
         ]);
 
         $config1234 = PropertyConfiguration::createNamed(1234, ['type' => 'property1']);
@@ -70,13 +70,13 @@ class FormatterExtensionSpec extends ObjectBehavior
             ], '1' => [
                 1234 => 'property1 record1',
                 'identifier' => 'property2 record1',
-            ]
+            ],
         ])->shouldBeCalled();
 
         $this->visitResult($config, $result);
     }
 
-    function it_allows_total_records_and_extra_keys(
+    public function it_allows_total_records_and_extra_keys(
         DatagridConfiguration $config,
         ResultsIterableObject $result,
         PropertyInterface $property1,
@@ -107,10 +107,10 @@ class FormatterExtensionSpec extends ObjectBehavior
         $result->offsetSet('meta', [])->shouldBeCalled();
 
         $config->offsetGetOr(Configuration::COLUMNS_KEY, [])->willReturn([
-            1234 => ['type' => 'property1']
+            1234 => ['type' => 'property1'],
         ]);
         $config->offsetGetOr(Configuration::PROPERTIES_KEY, [])->willReturn([
-            'identifier' => ['type' => 'property2']
+            'identifier' => ['type' => 'property2'],
         ]);
 
         $config1234 = PropertyConfiguration::createNamed(1234, ['type' => 'property1']);

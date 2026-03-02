@@ -12,8 +12,7 @@ final readonly class GetGeneratorQuery
 {
     private function __construct(
         private string $identifierGeneratorCode
-    ) {
-    }
+    ) {}
 
     public static function fromCode(string $identifierGeneratorCode): self
     {

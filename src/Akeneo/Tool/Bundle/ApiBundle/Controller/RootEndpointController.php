@@ -30,7 +30,7 @@ class RootEndpointController
         $apiRoutes = [
             'host'           => $request->getSchemeAndHttpHost(),
             'authentication' => [],
-            'routes'         => []
+            'routes'         => [],
         ];
 
         $routes->remove($request->attributes->get('_route'));
@@ -51,7 +51,7 @@ class RootEndpointController
 
                 $apiRoutes[$type][$key] = [
                     'route'   => $route->getPath(),
-                    'methods' => $route->getMethods()
+                    'methods' => $route->getMethods(),
                 ];
             }
         }

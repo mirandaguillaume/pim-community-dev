@@ -62,7 +62,7 @@ class ClientSpec extends ObjectBehavior
                 'topic_name' => self::TOPIC_NAME,
                 'subscription_name' => self::SUBSCRIPTION_NAME,
                 'auto_setup' => false,
-            ]
+            ],
         ]);
         $pubSubClientFactory->createPubSubClient(['projectId' => self::PROJECT_ID])
             ->willReturn($pubSubClient);

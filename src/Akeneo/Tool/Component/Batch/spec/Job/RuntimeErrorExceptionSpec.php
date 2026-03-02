@@ -6,12 +6,12 @@ use PhpSpec\ObjectBehavior;
 
 class RuntimeErrorExceptionSpec extends ObjectBehavior
 {
-    function let()
+    public function let()
     {
         $this->beConstructedWith('my message %myparam%', ['%myparam%' => 'param']);
     }
 
-    function it_provides_message_parameters()
+    public function it_provides_message_parameters()
     {
         $this->getMessageParameters()->shouldReturn(['%myparam%' => 'param']);
     }

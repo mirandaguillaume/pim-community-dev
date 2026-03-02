@@ -74,7 +74,8 @@ class GetEnrichedValuesByTemplateUuidSqlIntegration extends CategoryTestCase
         Assert::assertCount(4, $sockCategoryEnrichedValues);
     }
 
-    public function testItRetrievesRelatedCategoriesByTemplateUuidWithoutCategoryNotEnriched(): void{
+    public function testItRetrievesRelatedCategoriesByTemplateUuidWithoutCategoryNotEnriched(): void
+    {
         /** @var Category $socksCategory */
         $socksCategory = $this->get(GetCategoryInterface::class)->byCode('socks');
         $this->createOrUpdateCategory(
@@ -87,7 +88,7 @@ class GetEnrichedValuesByTemplateUuidSqlIntegration extends CategoryTestCase
         foreach ($this->get(GetEnrichedValuesByTemplateUuid::class)->byBatchesOf(
             TemplateUuid::fromString('6344aa2a-2be9-4093-b644-259ca7aee50c'),
             5
-        ) as $valuesByCategoryCode){
+        ) as $valuesByCategoryCode) {
             $fetchedCategories[] = $valuesByCategoryCode;
         }
 

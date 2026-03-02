@@ -6,7 +6,7 @@ use PhpSpec\ObjectBehavior;
 
 class DummyItemWriterSpec extends ObjectBehavior
 {
-    function it_does_nothing_when_writes_items()
+    public function it_does_nothing_when_writes_items()
     {
         $this->write(['foo', 'barr'])->shouldReturn(null);
     }

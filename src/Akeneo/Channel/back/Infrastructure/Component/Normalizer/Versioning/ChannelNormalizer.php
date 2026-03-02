@@ -42,7 +42,7 @@ class ChannelNormalizer implements NormalizerInterface, CacheableSupportsMethodI
      *
      * @return array
      */
-    public function normalize($channel, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($channel, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $standardChannel = $this->standardNormalizer->normalize($channel, 'standard', $context);
 

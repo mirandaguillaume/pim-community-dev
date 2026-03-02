@@ -11,24 +11,24 @@ use Akeneo\Pim\Enrichment\Component\Product\Repository\GroupRepositoryInterface;
 
 class DatasourceSpec extends ObjectBehavior
 {
-    function let(ObjectManager $manager, HydratorInterface $hydrator)
+    public function let(ObjectManager $manager, HydratorInterface $hydrator)
     {
         $this->beConstructedWith($manager, $hydrator);
     }
 
-    function it_is_a_datasource()
+    public function it_is_a_datasource()
     {
         $this->shouldImplement(DatasourceInterface::class);
     }
 
-    function it_processes_a_datasource_with_repository_configuration(
+    public function it_processes_a_datasource_with_repository_configuration(
         $manager,
         DatagridInterface $grid,
         GroupRepositoryInterface $repository
     ) {
         $config = [
             'repository_method' => 'createAssociationDatagridQueryBuilder',
-            'entity'            => 'Group'
+            'entity'            => 'Group',
         ];
         $manager->getRepository('Group')->willReturn($repository);
         $repository->createAssociationDatagridQueryBuilder([])->shouldBeCalled();
@@ -36,7 +36,7 @@ class DatasourceSpec extends ObjectBehavior
         $this->process($grid, $config);
     }
 
-    function it_processes_a_datasource_with_repository_configuration_and_parameters(
+    public function it_processes_a_datasource_with_repository_configuration_and_parameters(
         $manager,
         DatagridInterface $grid,
         GroupRepositoryInterface $repository
@@ -44,7 +44,7 @@ class DatasourceSpec extends ObjectBehavior
         $config = [
             'repository_method'     => 'createAssociationDatagridQueryBuilder',
             'repository_parameters' => ['locale' => 'fr_FR'],
-            'entity'                => 'Group'
+            'entity'                => 'Group',
         ];
         $manager->getRepository('Group')->willReturn($repository);
         $repository->createAssociationDatagridQueryBuilder(['locale' => 'fr_FR'])->shouldBeCalled();
@@ -52,7 +52,7 @@ class DatasourceSpec extends ObjectBehavior
         $this->process($grid, $config);
     }
 
-    function it_throws_exception_when_process_with_missing_configuration(DatagridInterface $grid)
+    public function it_throws_exception_when_process_with_missing_configuration(DatagridInterface $grid)
     {
         $config = [
             'repository_method' => 'createAssociationDatagridQueryBuilder',

@@ -62,8 +62,8 @@ class DateFilter extends AbstractAttributeFilter implements AttributeFilterInter
             case Operators::EQUALS:
                 $clause = [
                     'term' => [
-                        $attributePath => $this->getFormattedDate($attributeCode, $value)
-                    ]
+                        $attributePath => $this->getFormattedDate($attributeCode, $value),
+                    ],
                 ];
 
                 $this->searchQueryBuilder->addFilter($clause);
@@ -74,8 +74,8 @@ class DateFilter extends AbstractAttributeFilter implements AttributeFilterInter
                     'range' => [
                         $attributePath => [
                             'lt' => $this->getFormattedDate($attributeCode, $value),
-                        ]
-                    ]
+                        ],
+                    ],
                 ];
 
                 $this->searchQueryBuilder->addFilter($clause);
@@ -86,8 +86,8 @@ class DateFilter extends AbstractAttributeFilter implements AttributeFilterInter
                     'range' => [
                         $attributePath => [
                             'gt' => $this->getFormattedDate($attributeCode, $value),
-                        ]
-                    ]
+                        ],
+                    ],
                 ];
 
                 $this->searchQueryBuilder->addFilter($clause);
@@ -100,8 +100,8 @@ class DateFilter extends AbstractAttributeFilter implements AttributeFilterInter
                         $attributePath => [
                             'gte' => $this->getFormattedDate($attributeCode, $values[0]),
                             'lte' => $this->getFormattedDate($attributeCode, $values[1]),
-                        ]
-                    ]
+                        ],
+                    ],
                 ];
 
                 $this->searchQueryBuilder->addFilter($clause);
@@ -114,12 +114,12 @@ class DateFilter extends AbstractAttributeFilter implements AttributeFilterInter
                         $attributePath => [
                             'gte' => $this->getFormattedDate($attributeCode, $values[0]),
                             'lte' => $this->getFormattedDate($attributeCode, $values[1]),
-                        ]
-                    ]
+                        ],
+                    ],
                 ];
 
                 $existsClause = [
-                    'exists' => ['field' => $attributePath]
+                    'exists' => ['field' => $attributePath],
                 ];
 
                 $this->searchQueryBuilder->addMustNot($betweenClause);
@@ -128,7 +128,7 @@ class DateFilter extends AbstractAttributeFilter implements AttributeFilterInter
                 break;
             case Operators::IS_EMPTY:
                 $existsClause = [
-                    'exists' => ['field' => $attributePath]
+                    'exists' => ['field' => $attributePath],
                 ];
                 $this->searchQueryBuilder->addMustNot($existsClause);
 
@@ -142,7 +142,7 @@ class DateFilter extends AbstractAttributeFilter implements AttributeFilterInter
                         'terms' => [
                             self::ATTRIBUTES_OF_ANCESTORS_ES_ID => [$attribute->getCode()],
                         ],
-                    ]
+                    ],
                 ];
                 $this->searchQueryBuilder->addFilter(
                     [
@@ -156,7 +156,7 @@ class DateFilter extends AbstractAttributeFilter implements AttributeFilterInter
 
             case Operators::IS_NOT_EMPTY:
                 $existsClause = [
-                    'exists' => ['field' => $attributePath]
+                    'exists' => ['field' => $attributePath],
                 ];
 
                 $this->searchQueryBuilder->addFilter($existsClause);
@@ -165,12 +165,12 @@ class DateFilter extends AbstractAttributeFilter implements AttributeFilterInter
             case Operators::NOT_EQUAL:
                 $mustNotClause = [
                     'term' => [
-                        $attributePath => $this->getFormattedDate($attributeCode, $value)
-                    ]
+                        $attributePath => $this->getFormattedDate($attributeCode, $value),
+                    ],
                 ];
 
                 $existsClause = [
-                    'exists' => ['field' => $attributePath]
+                    'exists' => ['field' => $attributePath],
                 ];
 
                 $this->searchQueryBuilder->addMustNot($mustNotClause);

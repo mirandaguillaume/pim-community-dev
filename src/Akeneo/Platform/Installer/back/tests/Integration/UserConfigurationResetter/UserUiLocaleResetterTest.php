@@ -56,11 +56,11 @@ class UserUiLocaleResetterTest extends TestCase
     private function assertUserUiLocale(string $expectedCatalogLocale): void
     {
         $sql = <<<SQL
-            SELECT pim_catalog_locale.code 
-            FROM oro_user
-            JOIN pim_catalog_locale ON oro_user.ui_locale_id = pim_catalog_locale.id
-            WHERE username = 'admin'
-        SQL;
+                SELECT pim_catalog_locale.code 
+                FROM oro_user
+                JOIN pim_catalog_locale ON oro_user.ui_locale_id = pim_catalog_locale.id
+                WHERE username = 'admin'
+            SQL;
 
         $actualCatalogLocale = $this->getConnection()->executeQuery($sql)->fetchOne();
 
@@ -70,13 +70,13 @@ class UserUiLocaleResetterTest extends TestCase
     private function changeUiLocale(string $localeCode)
     {
         $sql = <<<SQL
-            UPDATE oro_user
-            SET ui_locale_id = (
-                SELECT id 
-                FROM pim_catalog_locale
-                WHERE code = :localeCode
-            )
-        SQL;
+                UPDATE oro_user
+                SET ui_locale_id = (
+                    SELECT id 
+                    FROM pim_catalog_locale
+                    WHERE code = :localeCode
+                )
+            SQL;
 
         $this->getConnection()->executeStatement($sql, ['localeCode' => $localeCode]);
     }

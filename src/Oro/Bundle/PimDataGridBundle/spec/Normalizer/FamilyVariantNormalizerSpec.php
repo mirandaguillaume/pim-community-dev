@@ -11,22 +11,22 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class FamilyVariantNormalizerSpec extends ObjectBehavior
 {
-    function let(NormalizerInterface $translationNormalizer)
+    public function let(NormalizerInterface $translationNormalizer)
     {
         $this->beConstructedWith($translationNormalizer);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(FamilyVariantNormalizer::class);
     }
 
-    function it_is_a_normalizer()
+    public function it_is_a_normalizer()
     {
         $this->shouldImplement(NormalizerInterface::class);
     }
 
-    function it_supports_datagrid_format_and_family_variant(FamilyVariantInterface $familyVariant)
+    public function it_supports_datagrid_format_and_family_variant(FamilyVariantInterface $familyVariant)
     {
         $this->supportsNormalization($familyVariant, 'datagrid')->shouldReturn(true);
         $this->supportsNormalization($familyVariant, 'other_format')->shouldReturn(false);
@@ -34,13 +34,13 @@ class FamilyVariantNormalizerSpec extends ObjectBehavior
         $this->supportsNormalization(new \stdClass(), 'datagrid')->shouldReturn(false);
     }
 
-    function it_normalizes_a_family_variant(
+    public function it_normalizes_a_family_variant(
         FamilyVariantInterface $familyVariant,
         FamilyInterface $shoe,
         $translationNormalizer
     ) {
         $translationNormalizer->normalize($familyVariant, 'standard', [])->willReturn([
-            'en_US' => 'Size'
+            'en_US' => 'Size',
         ]);
 
         $familyVariant->getId()->willReturn(12);

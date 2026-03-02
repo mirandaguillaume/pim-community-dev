@@ -32,7 +32,7 @@ class ProductNormalizer implements NormalizerInterface, CacheableSupportsMethodI
     /**
      * {@inheritdoc}
      */
-    public function normalize($product, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($product, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $data = $this->propertiesNormalizer->normalize($product, $format, $context);
 
@@ -48,8 +48,8 @@ class ProductNormalizer implements NormalizerInterface, CacheableSupportsMethodI
      */
     public function supportsNormalization($data, $format = null): bool
     {
-        return ValueCollectionNormalizer::INDEXING_FORMAT_PRODUCT_AND_MODEL_INDEX === $format &&
-            $data instanceof ProductInterface;
+        return ValueCollectionNormalizer::INDEXING_FORMAT_PRODUCT_AND_MODEL_INDEX === $format
+            && $data instanceof ProductInterface;
     }
 
     public function hasCacheableSupportsMethod(): bool

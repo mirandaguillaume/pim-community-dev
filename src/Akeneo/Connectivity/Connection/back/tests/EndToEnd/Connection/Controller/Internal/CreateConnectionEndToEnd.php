@@ -79,17 +79,17 @@ class CreateConnectionEndToEnd extends WebTestCase
             "errors" => [
                 [
                     "name" => "code",
-                    "reason" => "akeneo_connectivity.connection.connection.constraint.code.invalid"
+                    "reason" => "akeneo_connectivity.connection.connection.constraint.code.invalid",
                 ],
                 [
                     "name" => "label",
-                    "reason" => "akeneo_connectivity.connection.connection.constraint.label.required"
+                    "reason" => "akeneo_connectivity.connection.connection.constraint.label.required",
                 ],
                 [
                     "name" => "flowType",
-                    "reason" => "akeneo_connectivity.connection.connection.constraint.flow_type.invalid"
-                ]
-            ]
+                    "reason" => "akeneo_connectivity.connection.connection.constraint.flow_type.invalid",
+                ],
+            ],
         ];
 
         Assert::assertEquals(Response::HTTP_UNPROCESSABLE_ENTITY, $this->client->getResponse()->getStatusCode());

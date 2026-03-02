@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class ContextConfiguratorSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         ProductRepositoryInterface $repository,
         RequestParameters $requestParams,
         UserContext $userContext,
@@ -32,7 +32,7 @@ class ContextConfiguratorSpec extends ObjectBehavior
         );
     }
 
-    function it_is_a_configurator()
+    public function it_is_a_configurator()
     {
         $this->shouldImplement(ConfiguratorInterface::class);
     }

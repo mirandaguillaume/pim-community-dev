@@ -71,24 +71,24 @@ final class V20230512143522FillNewCompletenessTableZddMigration implements ZddMi
     private function insertCompleteness(array $uuids): int
     {
         $sql = <<<SQL
-INSERT INTO pim_catalog_product_completeness(product_uuid, completeness)
-WITH channels AS (SELECT id, code FROM pim_catalog_channel),
-     locales AS (SELECT id, code FROM pim_catalog_locale),
-     completeness_by_locale AS (
-         SELECT product_uuid, channel_id, JSON_OBJECTAGG(locales.code, JSON_OBJECT('required', required_count, 'missing', missing_count)) AS completeness
-         FROM pim_catalog_completeness
-            INNER JOIN locales ON locales.id = pim_catalog_completeness.locale_id
-         WHERE product_uuid IN (:uuids)
-         GROUP BY product_uuid, channel_id
-     )
-SELECT c.product_uuid, JSON_OBJECTAGG(channels.code, completeness)
-FROM pim_catalog_completeness c
-         INNER JOIN channels ON c.channel_id = channels.id
-         INNER JOIN locales ON c.locale_id = locales.id
-         INNER JOIN completeness_by_locale ON c.product_uuid = completeness_by_locale.product_uuid AND c.channel_id = completeness_by_locale.channel_id
-GROUP BY c.product_uuid
-ON DUPLICATE KEY UPDATE completeness = VALUES(completeness);
-SQL;
+            INSERT INTO pim_catalog_product_completeness(product_uuid, completeness)
+            WITH channels AS (SELECT id, code FROM pim_catalog_channel),
+                 locales AS (SELECT id, code FROM pim_catalog_locale),
+                 completeness_by_locale AS (
+                     SELECT product_uuid, channel_id, JSON_OBJECTAGG(locales.code, JSON_OBJECT('required', required_count, 'missing', missing_count)) AS completeness
+                     FROM pim_catalog_completeness
+                        INNER JOIN locales ON locales.id = pim_catalog_completeness.locale_id
+                     WHERE product_uuid IN (:uuids)
+                     GROUP BY product_uuid, channel_id
+                 )
+            SELECT c.product_uuid, JSON_OBJECTAGG(channels.code, completeness)
+            FROM pim_catalog_completeness c
+                     INNER JOIN channels ON c.channel_id = channels.id
+                     INNER JOIN locales ON c.locale_id = locales.id
+                     INNER JOIN completeness_by_locale ON c.product_uuid = completeness_by_locale.product_uuid AND c.channel_id = completeness_by_locale.channel_id
+            GROUP BY c.product_uuid
+            ON DUPLICATE KEY UPDATE completeness = VALUES(completeness);
+            SQL;
         return \intval($this->connection->executeStatement(
             $sql,
             ['uuids' => \array_map(static fn (UuidInterface $uuid): string => $uuid->getBytes(), $uuids)],

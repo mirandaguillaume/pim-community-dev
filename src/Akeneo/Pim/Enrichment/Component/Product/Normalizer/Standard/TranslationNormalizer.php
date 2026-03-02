@@ -24,7 +24,7 @@ class TranslationNormalizer implements NormalizerInterface, CacheableSupportsMet
     /**
      * {@inheritdoc}
      */
-    public function normalize($object, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($object, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $context = array_merge(
             [

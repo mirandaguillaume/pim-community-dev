@@ -86,7 +86,7 @@ class JobInstanceRemover implements RemoverInterface, BulkRemoverInterface
         } catch (\Exception $e) {
             $this->logger->warning('Error occurred trying to remove running user.', [
                 'error_message' => $e->getMessage(),
-                'error_trace' => $e->getTraceAsString()
+                'error_trace' => $e->getTraceAsString(),
             ]);
         }
     }

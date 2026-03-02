@@ -16,7 +16,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class ProductValuesNormalizerSpec extends ObjectBehavior
 {
-    function let(SerializerInterface $serializer, PresenterRegistryInterface $presenterRegistry, UserContext $userContext)
+    public function let(SerializerInterface $serializer, PresenterRegistryInterface $presenterRegistry, UserContext $userContext)
     {
         $this->beConstructedWith($presenterRegistry, $userContext);
         $serializer->implement(\Symfony\Component\Serializer\Normalizer\NormalizerInterface::class);
@@ -24,18 +24,18 @@ class ProductValuesNormalizerSpec extends ObjectBehavior
         $this->setSerializer($serializer);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(ProductValuesNormalizer::class);
     }
 
-    function it_is_a_normalizer()
+    public function it_is_a_normalizer()
     {
         $this->shouldImplement(\Symfony\Component\Serializer\Normalizer\NormalizerInterface::class);
         $this->shouldBeAnInstanceOf(\Symfony\Component\Serializer\SerializerAwareInterface::class);
     }
 
-    function it_supports_datagrid_format_and_collection_values()
+    public function it_supports_datagrid_format_and_collection_values()
     {
         $attribute = new Attribute();
         $attribute->setCode('attribute');
@@ -58,7 +58,7 @@ class ProductValuesNormalizerSpec extends ObjectBehavior
         $this->supportsNormalization(new \stdClass(), 'other_format')->shouldReturn(false);
     }
 
-    function it_normalizes_collection_of_product_values(
+    public function it_normalizes_collection_of_product_values(
         $serializer,
         $presenterRegistry,
         $userContext,
@@ -84,7 +84,7 @@ class ProductValuesNormalizerSpec extends ObjectBehavior
 
         $prices = [
             ['amount' => '12.50', 'currency' => 'USD'],
-            ['amount' => '15.00', 'currency' => 'EUR']
+            ['amount' => '15.00', 'currency' => 'EUR'],
         ];
 
         $serializer
@@ -103,11 +103,11 @@ class ProductValuesNormalizerSpec extends ObjectBehavior
             ->shouldReturn(
                 [
                     'text' => [
-                        ['locale' => null, 'scope' => null, 'data' => 'foo']
+                        ['locale' => null, 'scope' => null, 'data' => 'foo'],
                     ],
                     'price' => [
-                        ['locale' => 'en_US', 'scope' => 'ecommerce', 'data' => '$15.00, $12.50']
-                    ]
+                        ['locale' => 'en_US', 'scope' => 'ecommerce', 'data' => '$15.00, $12.50'],
+                    ],
                 ]
             );
     }

@@ -14,7 +14,7 @@ use Twig\Environment;
 
 class MailNotifierSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         LoggerInterface $logger,
         TokenStorageInterface $tokenStorage,
         Environment $twig,

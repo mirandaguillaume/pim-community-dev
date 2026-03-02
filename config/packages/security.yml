@@ -23,11 +23,11 @@ security:
 
         login:
             pattern:                        ^/user/(login|reset-request|send-email)$
-            provider:                       chain_provider
+            security:                       false
 
         reset_password:
             pattern:                        ^/user/reset/*
-            provider:                       chain_provider
+            security:                       false
 
         oauth_token:
             pattern:                        ^/api/oauth/v1/token

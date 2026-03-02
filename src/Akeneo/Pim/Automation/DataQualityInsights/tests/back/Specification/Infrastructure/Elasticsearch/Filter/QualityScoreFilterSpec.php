@@ -30,7 +30,7 @@ final class QualityScoreFilterSpec extends ObjectBehavior
         $queryBuilder->addFilter(
             [
                 'terms' => [
-                    'data_quality_insights.scores.ecommerce.en_US' => [1, 2]
+                    'data_quality_insights.scores.ecommerce.en_US' => [1, 2],
                 ],
             ]
         )->shouldBeCalled();
@@ -43,7 +43,7 @@ final class QualityScoreFilterSpec extends ObjectBehavior
         $queryBuilder->addFilter(
             [
                 'terms' => [
-                    'data_quality_insights.scores.ecommerce.en_US' => [1, 3]
+                    'data_quality_insights.scores.ecommerce.en_US' => [1, 3],
                 ],
             ]
         )->shouldBeCalled();
@@ -59,7 +59,7 @@ final class QualityScoreFilterSpec extends ObjectBehavior
             2,
             'en_US',
             'ecommerce',
-            []
+            [],
         ]);
     }
 
@@ -71,7 +71,7 @@ final class QualityScoreFilterSpec extends ObjectBehavior
             ['A', 'B'],
             null,
             'ecommerce',
-            []
+            [],
         ]);
     }
 
@@ -83,7 +83,7 @@ final class QualityScoreFilterSpec extends ObjectBehavior
             ['A', 'B'],
             'en_US',
             null,
-            []
+            [],
         ]);
     }
 
@@ -95,7 +95,7 @@ final class QualityScoreFilterSpec extends ObjectBehavior
             ['A', 'Z', 'B'],
             'en_US',
             'ecommerce',
-            []
+            [],
         ]);
     }
 }

@@ -59,7 +59,7 @@ class PimApp extends BaseView {
       Backbone.history.start();
     }
 
-    return BaseView.prototype.render.apply(this, arguments);
+    return BaseView.prototype.render.apply(this, []);
   }
 
   public onClickToCollapsePanel(): void {

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Bundle\Controller\InternalApi;
@@ -344,7 +345,7 @@ class ProductModelController
         $values = $this->productValueConverter->convert($data['values']);
 
         $values = $this->localizedConverter->convertToDefaultFormats($values, [
-            'locale' => $this->userContext->getUiLocale()->getCode()
+            'locale' => $this->userContext->getUiLocale()->getCode(),
         ]);
 
         $dataFiltered = $this->emptyValuesFilter->filter($productModel, ['values' => $values]);

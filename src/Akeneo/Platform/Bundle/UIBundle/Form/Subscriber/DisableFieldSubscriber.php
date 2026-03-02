@@ -32,7 +32,7 @@ class DisableFieldSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            FormEvents::POST_SET_DATA => 'postSetData'
+            FormEvents::POST_SET_DATA => 'postSetData',
         ];
     }
 

@@ -25,8 +25,7 @@ final class FamilyShouldBeValidValidator extends ConstraintValidator
 {
     public function __construct(
         private readonly ValidatorInterface $validator,
-    ) {
-    }
+    ) {}
 
     public function validate($condition, Constraint $constraint): void
     {

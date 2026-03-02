@@ -176,8 +176,8 @@ class IdentifierFilter extends AbstractAttributeFilter implements AttributeFilte
 
                 $this->searchQueryBuilder->addFilter([
                     'exists' => [
-                        'field' => $attributePath
-                    ]
+                        'field' => $attributePath,
+                    ],
                 ]);
 
                 break;
@@ -185,8 +185,8 @@ class IdentifierFilter extends AbstractAttributeFilter implements AttributeFilte
             case Operators::IS_EMPTY:
                 $clause = [
                     'exists' => [
-                        'field' => $attributePath
-                    ]
+                        'field' => $attributePath,
+                    ],
                 ];
                 $this->searchQueryBuilder->addMustNot($clause);
 
@@ -200,7 +200,7 @@ class IdentifierFilter extends AbstractAttributeFilter implements AttributeFilte
                         'terms' => [
                             self::ATTRIBUTES_OF_ANCESTORS_ES_ID => [$attribute->getCode()],
                         ],
-                    ]
+                    ],
                 ];
                 $this->searchQueryBuilder->addFilter(
                     [

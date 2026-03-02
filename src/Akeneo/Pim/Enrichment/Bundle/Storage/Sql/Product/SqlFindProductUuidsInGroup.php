@@ -24,10 +24,10 @@ final readonly class SqlFindProductUuidsInGroup implements FindProductUuidsInGro
     {
         return $this->connection->fetchFirstColumn(
             <<<SQL
-            SELECT BIN_TO_UUID(product_uuid) AS uuid
-            FROM pim_catalog_group_product
-            WHERE group_id = :groupId
-            SQL,
+                SELECT BIN_TO_UUID(product_uuid) AS uuid
+                FROM pim_catalog_group_product
+                WHERE group_id = :groupId
+                SQL,
             ['groupId' => $groupId]
         );
     }

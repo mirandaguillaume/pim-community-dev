@@ -69,7 +69,7 @@ class EntityIdentifierType extends AbstractType
                 'property'         => null,
                 'queryBuilder'     => null,
                 'multiple'         => true,
-                'values_delimiter' => ','
+                'values_delimiter' => ',',
             ]
         )
         ->setAllowedValues('multiple', [true, false])

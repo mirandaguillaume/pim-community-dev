@@ -11,8 +11,7 @@ class CategoriesHaveAtLeastOneChild implements BaseCategoriesHaveAtLeastOneChild
 {
     public function __construct(
         private readonly OriginalCategoriesHaveAtLeastOneChild $categoriesHaveAtLeastOneChild,
-    ) {
-    }
+    ) {}
 
     public function among(array $parentCategoryCodes, array $childrenCategoryCodes): bool
     {

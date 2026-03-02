@@ -55,7 +55,7 @@ final class QualityScoreMultiLocalesFilter extends AbstractFieldFilter implement
         $terms = [];
         foreach ($locales as $locale) {
             $terms[] = [
-                'terms' => [sprintf('data_quality_insights.%s.%s.%s', ($this->getScoresProperty)(), $channel, $locale) => $values]
+                'terms' => [sprintf('data_quality_insights.%s.%s.%s', ($this->getScoresProperty)(), $channel, $locale) => $values],
             ];
         }
 

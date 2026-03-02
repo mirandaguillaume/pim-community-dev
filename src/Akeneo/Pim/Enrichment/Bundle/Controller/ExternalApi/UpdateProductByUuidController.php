@@ -145,7 +145,7 @@ class UpdateProductByUuidController
                 TwoWayAssociationWithTheSameProductException::TWO_WAY_ASSOCIATIONS_ERROR_MESSAGE,
                 $exception
             );
-        } catch (InvalidArgumentException | ProductInvalidArgumentException $exception) {
+        } catch (InvalidArgumentException|ProductInvalidArgumentException $exception) {
             $this->eventDispatcher->dispatch(new TechnicalErrorEvent($exception));
             throw new AccessDeniedHttpException($exception->getMessage(), $exception);
         } catch (DomainErrorInterface $exception) {
@@ -270,7 +270,7 @@ class UpdateProductByUuidController
      */
     protected function needUpdateFromVariantToSimple(ProductInterface $product, array $data): bool
     {
-        return null !== $product->getCreated() && $product->isVariant() &&
-            array_key_exists('parent', $data) && null === $data['parent'];
+        return null !== $product->getCreated() && $product->isVariant()
+            && array_key_exists('parent', $data) && null === $data['parent'];
     }
 }

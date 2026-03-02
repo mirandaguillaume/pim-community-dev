@@ -48,9 +48,9 @@ class ChoiceFilterTypeTest extends AbstractTypeTestCase
                         ChoiceFilterType::TYPE_CONTAINS     => 'oro.filter.form.label_type_contains',
                         ChoiceFilterType::TYPE_NOT_CONTAINS => 'oro.filter.form.label_type_not_contains',
                     ],
-                    'populate_default' => true
-                ]
-            ]
+                    'populate_default' => true,
+                ],
+            ],
         ];
     }
 
@@ -65,7 +65,7 @@ class ChoiceFilterTypeTest extends AbstractTypeTestCase
                 'formData' => ['type' => null, 'value' => null],
                 'viewData' => [
                     'value' => ['type' => null, 'value' => null],
-                ]
+                ],
             ],
             'predefined value choice' => [
                 'bindData' => ['value' => 1],
@@ -75,9 +75,9 @@ class ChoiceFilterTypeTest extends AbstractTypeTestCase
                 ],
                 'customOptions' => [
                     'field_options' => [
-                        'choices' => [1 => 'One', 2 => 'Two']
+                        'choices' => [1 => 'One', 2 => 'Two'],
                     ],
-                ]
+                ],
             ],
             'invalid value choice' => [
                 'bindData' => ['value' => 3],
@@ -87,9 +87,9 @@ class ChoiceFilterTypeTest extends AbstractTypeTestCase
                 ],
                 'customOptions' => [
                     'field_options' => [
-                        'choices' => [1 => 'One']
+                        'choices' => [1 => 'One'],
                     ],
-                ]
+                ],
             ],
             'multiple choices' => [
                 'bindData' => ['value' => [1, 2]],
@@ -100,9 +100,9 @@ class ChoiceFilterTypeTest extends AbstractTypeTestCase
                 'customOptions' => [
                     'field_options' => [
                         'multiple' => true,
-                        'choices'  => [1 => 'One', 2 => 'Two', 3 => 'Three']
+                        'choices'  => [1 => 'One', 2 => 'Two', 3 => 'Three'],
                     ],
-                ]
+                ],
             ],
             'invalid multiple choices' => [
                 'bindData' => ['value' => [3, 4]],
@@ -113,9 +113,9 @@ class ChoiceFilterTypeTest extends AbstractTypeTestCase
                 'customOptions' => [
                     'field_options' => [
                         'multiple' => true,
-                        'choices'  => [1 => 'One', 2 => 'Two', 3 => 'Three']
+                        'choices'  => [1 => 'One', 2 => 'Two', 3 => 'Three'],
                     ],
-                ]
+                ],
             ],
         ];
     }

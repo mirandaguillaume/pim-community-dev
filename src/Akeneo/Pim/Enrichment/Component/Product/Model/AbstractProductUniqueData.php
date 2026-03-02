@@ -3,8 +3,8 @@
 namespace Akeneo\Pim\Enrichment\Component\Product\Model;
 
 use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @author    Damien Carcel (damien.carcel@akeneo.com)
@@ -94,7 +94,7 @@ abstract class AbstractProductUniqueData implements ProductUniqueDataInterface
      */
     public function isEqual(ProductUniqueDataInterface $uniqueValue): bool
     {
-        return $this->getAttribute() === $uniqueValue->getAttribute() &&
-            $this->getRawData() === $uniqueValue->getRawData();
+        return $this->getAttribute() === $uniqueValue->getAttribute()
+            && $this->getRawData() === $uniqueValue->getRawData();
     }
 }

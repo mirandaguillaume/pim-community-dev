@@ -12,7 +12,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 
 class CategoryFilterSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         FormFactoryInterface $factory,
         ProductFilterUtility $utility,
         CategoryRepositoryInterface $categoryRepo
@@ -20,17 +20,17 @@ class CategoryFilterSpec extends ObjectBehavior
         $this->beConstructedWith($factory, $utility, $categoryRepo);
     }
 
-    function it_is_an_oro_number_filter()
+    public function it_is_an_oro_number_filter()
     {
         $this->shouldBeAnInstanceOf(NumberFilter::class);
     }
 
-    function it_applies_a_filter_on_all_products(FilterDatasourceAdapterInterface $datasource)
+    public function it_applies_a_filter_on_all_products(FilterDatasourceAdapterInterface $datasource)
     {
         $this->apply($datasource, ['value' => ['categoryId' => -2]])->shouldReturn(true);
     }
 
-    function it_applies_a_filter_by_unclassified_products(
+    public function it_applies_a_filter_by_unclassified_products(
         $utility,
         $categoryRepo,
         FilterDatasourceAdapterInterface $datasource,
@@ -43,7 +43,7 @@ class CategoryFilterSpec extends ObjectBehavior
         $this->apply($datasource, ['value' => ['categoryId' => -1, 'treeId' => 1]]);
     }
 
-    function it_applies_a_filter_by_in_category(
+    public function it_applies_a_filter_by_in_category(
         $utility,
         $categoryRepo,
         FilterDatasourceAdapterInterface $datasource,
@@ -56,7 +56,7 @@ class CategoryFilterSpec extends ObjectBehavior
         $this->apply($datasource, ['value' => ['categoryId' => 42], 'type' => false]);
     }
 
-    function it_applies_a_filter_by_in_category_with_children(
+    public function it_applies_a_filter_by_in_category_with_children(
         $utility,
         $categoryRepo,
         FilterDatasourceAdapterInterface $datasource,

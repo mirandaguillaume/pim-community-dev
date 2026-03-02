@@ -54,13 +54,13 @@ class RegenerateUserPassword implements RegenerateUserPasswordInterface
     private function deleteApiToken(UserId $userId): void
     {
         $deleteSqlAccessToken = <<<SQL
-DELETE FROM pim_api_access_token WHERE user = :user_id
-SQL;
+            DELETE FROM pim_api_access_token WHERE user = :user_id
+            SQL;
         $this->dbalConnection->executeStatement($deleteSqlAccessToken, ['user_id' => $userId->id()]);
 
         $deleteSqlRefreshToken = <<<SQL
-DELETE FROM pim_api_refresh_token WHERE user = :user_id
-SQL;
+            DELETE FROM pim_api_refresh_token WHERE user = :user_id
+            SQL;
         $this->dbalConnection->executeStatement($deleteSqlRefreshToken, ['user_id' => $userId->id()]);
     }
 }

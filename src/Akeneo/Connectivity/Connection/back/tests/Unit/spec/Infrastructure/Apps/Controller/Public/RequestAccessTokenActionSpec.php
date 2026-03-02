@@ -67,7 +67,7 @@ class RequestAccessTokenActionSpec extends ObjectBehavior
         $validator->validate(Argument::type(AccessTokenRequest::class))->willReturn($constraintViolationList);
 
         $this->__invoke($request)->shouldBeLike(new JsonResponse([
-            'error' => 'invalid_grant'
+            'error' => 'invalid_grant',
         ], Response::HTTP_BAD_REQUEST));
     }
 

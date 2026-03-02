@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace spec\Akeneo\Tool\Bundle\MessengerBundle\Ordering;
@@ -10,17 +11,17 @@ use Symfony\Component\Messenger\Envelope;
 
 class OrderingKeySolverSpec extends ObjectBehavior
 {
-    function let(OrderingKeyResolverInterface $candidate1, OrderingKeyResolverInterface $candidate2)
+    public function let(OrderingKeyResolverInterface $candidate1, OrderingKeyResolverInterface $candidate2)
     {
         $this->beConstructedWith([$candidate1, $candidate2]);
     }
 
-    function it_can_be_instantiable()
+    public function it_can_be_instantiable()
     {
         $this->shouldBeAnInstanceOf(OrderingKeySolver::class);
     }
 
-    function it_returns_null_when_no_candidates_support_the_envelope(
+    public function it_returns_null_when_no_candidates_support_the_envelope(
         OrderingKeyResolverInterface $candidate1,
         OrderingKeyResolverInterface $candidate2
     ) {
@@ -32,7 +33,7 @@ class OrderingKeySolverSpec extends ObjectBehavior
         $this->solve($envelope)->shouldBeNull();
     }
 
-    function it_returns_the_key_when_a_candidate_supports_the_envelope(
+    public function it_returns_the_key_when_a_candidate_supports_the_envelope(
         OrderingKeyResolverInterface $candidate1,
         OrderingKeyResolverInterface $candidate2
     ) {

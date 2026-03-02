@@ -10,12 +10,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LoggerSubscriberSpec extends ObjectBehavior
 {
-    function let(LoggerInterface $logger, TranslatorInterface $translator)
+    public function let(LoggerInterface $logger, TranslatorInterface $translator)
     {
         $this->beConstructedWith($logger, $translator);
     }
 
-    function it_logs_job_execution_created($logger, JobExecutionEvent $event, JobExecution $jobExecution)
+    public function it_logs_job_execution_created($logger, JobExecutionEvent $event, JobExecution $jobExecution)
     {
         $event->getJobExecution()->willReturn($jobExecution);
         $jobExecution->__toString()->willReturn('job exec');
@@ -23,7 +23,7 @@ class LoggerSubscriberSpec extends ObjectBehavior
         $this->jobExecutionCreated($event);
     }
 
-    function it_logs_before_job_execution($logger, JobExecutionEvent $event, JobExecution $jobExecution)
+    public function it_logs_before_job_execution($logger, JobExecutionEvent $event, JobExecution $jobExecution)
     {
         $event->getJobExecution()->willReturn($jobExecution);
         $jobExecution->__toString()->willReturn('job exec');

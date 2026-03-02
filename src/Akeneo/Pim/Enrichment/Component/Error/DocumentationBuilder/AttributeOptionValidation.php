@@ -59,7 +59,7 @@ final class AttributeOptionValidation implements DocumentationBuilderInterface
                     'manage_attributes_options' => new HrefMessageParameter(
                         'Manage select attributes options',
                         'https://help.akeneo.com/pim/serenity/articles/manage-your-attributes.html#manage-simple-and-multi-selects-attribute-options'
-                    )
+                    ),
                 ],
                 Documentation::STYLE_INFORMATION
             ),
@@ -70,10 +70,10 @@ final class AttributeOptionValidation implements DocumentationBuilderInterface
                         sprintf('Options settings of the %s attribute', $parameters['%attribute_code%']),
                         'pim_enrich_attribute_edit',
                         ['code' => $parameters['%attribute_code%']]
-                    )
+                    ),
                 ],
                 Documentation::STYLE_TEXT
-            )
+            ),
         ]);
     }
 }

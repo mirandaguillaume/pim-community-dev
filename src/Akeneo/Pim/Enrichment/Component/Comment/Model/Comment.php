@@ -4,9 +4,9 @@ namespace Akeneo\Pim\Enrichment\Component\Comment\Model;
 
 use Akeneo\UserManagement\Component\Model\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Ramsey\Uuid\UuidInterface;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * Comment model
@@ -66,6 +66,13 @@ class Comment implements CommentInterface
     #[ORM\OneToMany(targetEntity: \Akeneo\Pim\Enrichment\Component\Comment\Model\CommentInterface::class, mappedBy: 'parent')]
     #[ORM\OrderBy(['createdAt' => 'ASC'])]
     protected $children;
+
+    public function __construct()
+    {
+        $this->children = new ArrayCollection();
+        $this->createdAt = new \DateTime('now', new \DateTimeZone('UTC'));
+        $this->repliedAt = new \DateTime('now', new \DateTimeZone('UTC'));
+    }
 
     /**
      * {@inheritdoc}

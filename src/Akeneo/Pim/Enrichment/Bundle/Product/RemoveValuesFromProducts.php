@@ -56,10 +56,10 @@ class RemoveValuesFromProducts
 
         $this->resilientDeadlockConnection->executeQuery(
             <<<SQL
-    UPDATE pim_catalog_product
-    SET raw_values = JSON_REMOVE(raw_values, $paths)
-    WHERE uuid IN (:uuids)
-    SQL,
+                UPDATE pim_catalog_product
+                SET raw_values = JSON_REMOVE(raw_values, $paths)
+                WHERE uuid IN (:uuids)
+                SQL,
             [
                 'uuids' => $uuidsAsBytes,
             ],

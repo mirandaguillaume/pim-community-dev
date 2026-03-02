@@ -276,7 +276,7 @@ class QuantifiedAssociationCollection
                         $result[$associationType][self::PRODUCTS_QUANTIFIED_LINKS_KEY][] = [
                             'id' => $uuidMappedProductIdentifiers->getIdFromIdentifier($normalizedQuantifiedLink['identifier']),
                             'uuid' => $uuid->toString(),
-                            'quantity' => $normalizedQuantifiedLink['quantity']
+                            'quantity' => $normalizedQuantifiedLink['quantity'],
                         ];
                     }
                 }
@@ -287,7 +287,7 @@ class QuantifiedAssociationCollection
                 $normalizedQuantifiedLink = $quantifiedLink->normalize();
                 $result[$associationType][self::PRODUCT_MODELS_QUANTIFIED_LINKS_KEY][] = [
                     'id' => $mappedProductModelIdentifiers->getId($normalizedQuantifiedLink['identifier']),
-                    'quantity' => $normalizedQuantifiedLink['quantity']
+                    'quantity' => $normalizedQuantifiedLink['quantity'],
                 ];
             }
         }
@@ -348,8 +348,8 @@ class QuantifiedAssociationCollection
             $filteredQuantifiedAssociations[$associationTypeCode]['product_models'] = $quantifiedAssociation['product_models'];
             $filteredQuantifiedAssociations[$associationTypeCode]['products'] = array_filter(
                 $quantifiedAssociation['products'],
-                fn (QuantifiedLink $quantifiedLink) => null === $quantifiedLink->uuid() ||
-                    in_array($quantifiedLink->uuid()->toString(), $productUuidsToKeepAsStr)
+                fn (QuantifiedLink $quantifiedLink) => null === $quantifiedLink->uuid()
+                    || in_array($quantifiedLink->uuid()->toString(), $productUuidsToKeepAsStr)
             );
         }
 

@@ -40,7 +40,7 @@ class EventDataCollection
         return $this;
     }
 
-    public function getEventData(EventInterface $event): null|\Throwable|array
+    public function getEventData(EventInterface $event): \Throwable|array|null
     {
         $uuid = $event->getUuid();
 

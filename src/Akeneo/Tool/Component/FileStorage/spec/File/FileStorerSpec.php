@@ -16,7 +16,7 @@ use Prophecy\Exception\Prediction\FailedPredictionException;
 
 class FileStorerSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         FilesystemProvider $filesystemProvider,
         SaverInterface $saver,
         FileInfoFactoryInterface $factory,
@@ -31,7 +31,7 @@ class FileStorerSpec extends ObjectBehavior
         $this->beConstructedWith($filesystemProvider, $saver, $factory);
     }
 
-    function it_stores_a_raw_file(
+    public function it_stores_a_raw_file(
         SaverInterface $saver,
         FileInfoInterface $fileInfo,
         FilesystemOperator $filesystem,
@@ -54,7 +54,7 @@ class FileStorerSpec extends ObjectBehavior
         unlink($localPathname);
     }
 
-    function it_stores_a_raw_file_and_deletes_it_locally(
+    public function it_stores_a_raw_file_and_deletes_it_locally(
         SaverInterface $saver,
         FileInfoInterface $fileInfo,
         FilesystemOperator $filesystem,
@@ -75,7 +75,7 @@ class FileStorerSpec extends ObjectBehavior
         }
     }
 
-    function it_throws_an_exception_if_the_file_can_not_be_writen_on_the_filesystem(
+    public function it_throws_an_exception_if_the_file_can_not_be_writen_on_the_filesystem(
         SaverInterface $saver,
         FilesystemOperator $filesystem,
         \SplFileInfo $rawFile
@@ -96,7 +96,7 @@ class FileStorerSpec extends ObjectBehavior
         )->during('store', [$rawFile, 'destination']);
     }
 
-    function it_throws_an_exception_if_the_file_already_exists_on_the_filesystem(
+    public function it_throws_an_exception_if_the_file_already_exists_on_the_filesystem(
         SaverInterface $saver,
         FilesystemOperator $filesystem,
         \SplFileInfo $rawFile
@@ -114,7 +114,7 @@ class FileStorerSpec extends ObjectBehavior
         )->during('store', [$rawFile, 'destination']);
     }
 
-    function it_throws_an_exception_if_the_input_file_is_invalid()
+    public function it_throws_an_exception_if_the_input_file_is_invalid()
     {
         $rawFile = new \SplFileInfo('/that/does/not/exist.jpg');
 

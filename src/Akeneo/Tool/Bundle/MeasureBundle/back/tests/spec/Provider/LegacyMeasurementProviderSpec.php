@@ -15,7 +15,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class LegacyMeasurementProviderSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         MeasurementFamilyRepositoryInterface $measurementFamilyRepository,
         LegacyMeasurementAdapter $legacyMeasurementAdapter
     ) {
@@ -38,13 +38,13 @@ class LegacyMeasurementProviderSpec extends ObjectBehavior
                         Operation::create('mul', '1'),
                     ],
                     'mm²',
-                    ),
+                ),
                 Unit::create(
                     UnitCode::fromString('SQUARE_CENTIMETER'),
                     LabelCollection::fromArray(['en_US' => 'Square centimeter', 'fr_FR' => 'Centimètre carré']),
                     [Operation::create('mul', '0.0001'),Operation::create('add', '4'),],
                     'cm²',
-                    )
+                ),
             ]
         );
 

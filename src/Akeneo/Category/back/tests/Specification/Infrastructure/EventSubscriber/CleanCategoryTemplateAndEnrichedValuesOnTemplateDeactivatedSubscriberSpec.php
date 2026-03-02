@@ -16,12 +16,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class CleanCategoryTemplateAndEnrichedValuesOnTemplateDeactivatedSubscriberSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         JobInstanceRepository $jobInstanceRepository,
         JobLauncherInterface $jobLauncher,
         TokenStorageInterface $tokenStorage,
-    )
-    {
+    ) {
         $this->beConstructedWith(
             $jobInstanceRepository,
             $jobLauncher,
@@ -29,13 +28,13 @@ class CleanCategoryTemplateAndEnrichedValuesOnTemplateDeactivatedSubscriberSpec 
         );
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldImplement(EventSubscriberInterface::class);
         $this->shouldHaveType(CleanCategoryTemplateAndEnrichedValuesOnTemplateDeactivatedSubscriber::class);
     }
 
-    function it_puts_in_queue_the_job_cleaning_category_after_template_deactivation(
+    public function it_puts_in_queue_the_job_cleaning_category_after_template_deactivation(
         TemplateDeactivatedEvent $event,
         TemplateUuid $templateUuid,
         JobInstanceRepository $jobInstanceRepository,
@@ -44,8 +43,7 @@ class CleanCategoryTemplateAndEnrichedValuesOnTemplateDeactivatedSubscriberSpec 
         TokenStorageInterface $tokenStorage,
         TokenInterface $token,
         UserInterface $user,
-    )
-    {
+    ) {
         $event->getTemplateUuid()->willReturn($templateUuid);
         $templateUuid->getValue()->willReturn('63b7b051-48bb-4084-a427-20ee32933a8c');
         $jobInstanceRepository->findOneByIdentifier('clean_category_template_and_enriched_values')->willReturn($cleanCategoriesJobInstance);
@@ -57,7 +55,6 @@ class CleanCategoryTemplateAndEnrichedValuesOnTemplateDeactivatedSubscriberSpec 
             [
                 'template_uuid' => '63b7b051-48bb-4084-a427-20ee32933a8c',
             ]
-
         )->shouldBeCalled();
 
         $this->cleanCategoryDataForTemplate($event);

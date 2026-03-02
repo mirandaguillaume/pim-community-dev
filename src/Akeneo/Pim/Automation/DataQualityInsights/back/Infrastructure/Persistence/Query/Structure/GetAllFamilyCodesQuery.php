@@ -21,8 +21,8 @@ final readonly class GetAllFamilyCodesQuery implements GetAllFamilyCodesQueryInt
     public function execute(): array
     {
         $query = <<<SQL
-SELECT code FROM pim_catalog_family;
-SQL;
+            SELECT code FROM pim_catalog_family;
+            SQL;
 
         $statement = $this->connection->executeQuery($query);
 

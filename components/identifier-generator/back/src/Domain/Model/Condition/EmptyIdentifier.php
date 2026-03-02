@@ -12,8 +12,7 @@ final readonly class EmptyIdentifier implements ConditionInterface
 {
     public function __construct(
         private string $identifierCode
-    ) {
-    }
+    ) {}
 
     public function normalize(): array
     {

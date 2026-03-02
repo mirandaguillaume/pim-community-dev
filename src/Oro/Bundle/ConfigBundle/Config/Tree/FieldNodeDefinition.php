@@ -105,7 +105,7 @@ class FieldNodeDefinition extends AbstractNodeDefinition
     protected function newConstraint($name, $options)
     {
         if (str_contains((string) $name, '\\') && class_exists($name)) {
-            $className = (string)$name;
+            $className = (string) $name;
         } else {
             $className = 'Symfony\\Component\\Validator\\Constraints\\' . $name;
         }

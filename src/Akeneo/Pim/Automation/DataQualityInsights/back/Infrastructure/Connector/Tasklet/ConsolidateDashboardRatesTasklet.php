@@ -45,7 +45,7 @@ final class ConsolidateDashboardRatesTasklet implements TaskletInterface
             $this->stepExecution->addFailureException($exception);
             $this->logger->error('Consolidate Data-Quality-Insights dashboard rates failed', [
                 'step_execution_id' => $this->stepExecution->getId(),
-                'message' => $exception->getMessage()
+                'message' => $exception->getMessage(),
             ]);
         }
     }

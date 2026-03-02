@@ -55,7 +55,7 @@ class SynchronousJobLauncher implements JobLauncherInterface
         } catch (\Throwable $e) {
             $this->logger->error('Job execution failed, an error occurred', [
                 'error_message' => $e->getMessage(),
-                'error_trace' => $e->getTraceAsString()
+                'error_trace' => $e->getTraceAsString(),
             ]);
         } finally {
             $exitStatus = $this->executionManager->getExitStatus($jobExecutionId);
@@ -79,7 +79,7 @@ class SynchronousJobLauncher implements JobLauncherInterface
             $console,
             'akeneo:batch:job',
             $jobInstance->getCode(),
-            $jobExecution->getId()
+            $jobExecution->getId(),
         ]);
 
         $process->setTimeout(null);

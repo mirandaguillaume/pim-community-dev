@@ -165,7 +165,7 @@ class JobIntegration extends TestCase
 
     private function createStep(string $name, ?int $executionStatus): StepInterface
     {
-        return new class($name, $executionStatus) implements StepInterface {
+        return new class ($name, $executionStatus) implements StepInterface {
             public function __construct(
                 private readonly string $name,
                 private readonly ?int $executionStatus,

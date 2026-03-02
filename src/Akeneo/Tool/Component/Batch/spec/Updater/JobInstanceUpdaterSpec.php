@@ -67,7 +67,7 @@ class JobInstanceUpdaterSpec extends ObjectBehavior
             'label' => 'Currencies data fixtures',
             'type' => 'type',
             'configuration' => [
-                'storage' => ['type' => 'local', 'file_path' => 'currencies.csv']
+                'storage' => ['type' => 'local', 'file_path' => 'currencies.csv'],
             ],
             'code' => 'fixtures_currency_csv',
         ]);
@@ -76,8 +76,7 @@ class JobInstanceUpdaterSpec extends ObjectBehavior
     public function it_updates_automation_setup_date_when_cron_expression_is_updated(
         JobInstance $jobInstance,
         ClockInterface $clock,
-    ): void
-    {
+    ): void {
         $currentAutomation = [
             'cron_expression' => '0 */8 * * *',
         ];
@@ -97,15 +96,14 @@ class JobInstanceUpdaterSpec extends ObjectBehavior
         $this->update($jobInstance, [
             'automation' => [
                 'cron_expression' => '0 */4 * * *',
-            ]
+            ],
         ]);
     }
 
     public function it_does_not_update_automation_setup_date_when_cron_expression_is_not_updated(
         JobInstance $jobInstance,
         ClockInterface $clock,
-    ): void
-    {
+    ): void {
         $currentAutomation = [
             'cron_expression' => '0 */4 * * *',
             'setup_date' => '2022-12-27T07:00:00+00:00',
@@ -127,14 +125,13 @@ class JobInstanceUpdaterSpec extends ObjectBehavior
         $this->update($jobInstance, [
             'automation' => [
                 'cron_expression' => '0 */4 * * *',
-            ]
+            ],
         ]);
     }
 
     public function it_does_nothing_when_automation_is_null(
         JobInstance $jobInstance,
-    ): void
-    {
+    ): void {
         $currentAutomation = null;
 
         $jobInstance->isScheduled()->willReturn(false);
@@ -156,7 +153,7 @@ class JobInstanceUpdaterSpec extends ObjectBehavior
         )->during('update', [new \stdClass(), []]);
     }
 
-    function it_upserts_an_user_when_job_is_scheduled(
+    public function it_upserts_an_user_when_job_is_scheduled(
         JobInstance $jobInstance,
         UpsertRunningUser $upsertRunningUser,
     ) {
@@ -180,7 +177,7 @@ class JobInstanceUpdaterSpec extends ObjectBehavior
         ]);
     }
 
-    function it_does_not_upsert_an_user_when_job_is_not_scheduled(
+    public function it_does_not_upsert_an_user_when_job_is_not_scheduled(
         JobInstance $jobInstance,
         UpsertRunningUser $upsertRunningUser,
         ClockInterface $clock

@@ -9,13 +9,13 @@ use PhpSpec\ObjectBehavior;
 
 class LogKeySpec extends ObjectBehavior
 {
-    function it_fails_when_log_file_is_empty()
+    public function it_fails_when_log_file_is_empty()
     {
         $this->beConstructedWith(new JobExecution());
         $this->shouldThrow(InvalidArgumentException::class)->duringInstantiation();
     }
 
-    function it_is_a_key_built_from_a_job_execution()
+    public function it_is_a_key_built_from_a_job_execution()
     {
         $importInstance = new JobInstance(null, JobInstance::TYPE_IMPORT, 'csv_import');
         $importExecution = (new JobExecution())

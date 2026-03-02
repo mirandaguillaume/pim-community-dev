@@ -36,7 +36,7 @@ class InMemoryUserRepository implements IdentifiableObjectRepositoryInterface, S
             $user->setId(rand(0, 1000000));
         }
 
-        $this->users->set($user->getUserIdentifier(), $user);
+        $this->users->set($user->getUserIdentifier() ?? spl_object_hash($user), $user);
     }
 
     /**

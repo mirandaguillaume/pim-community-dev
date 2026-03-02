@@ -55,13 +55,13 @@ class ListProductGridAvailableColumnGroupsIntegration extends TestCase
             [
                 'code'  => 'attributeGroupA',
                 'count' => 1,
-                'label' => 'Attribute group A'
+                'label' => 'Attribute group A',
             ],
             [
                 'code'  => 'attributeGroupB',
                 'count' => 2,
-                'label' => 'Attribute group B'
-            ]
+                'label' => 'Attribute group B',
+            ],
         ];
 
         $this->assertSame($expectedColumnGroups, $availableColumnGroups);

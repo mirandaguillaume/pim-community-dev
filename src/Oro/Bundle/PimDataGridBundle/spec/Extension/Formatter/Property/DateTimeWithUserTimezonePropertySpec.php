@@ -13,7 +13,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DateTimeWithUserTimezonePropertySpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         TranslatorInterface $translator,
         PresenterInterface $presenter,
         UserContext $userContext
@@ -28,7 +28,7 @@ class DateTimeWithUserTimezonePropertySpec extends ObjectBehavior
         ]));
     }
 
-    function it_formats_a_datetime_with_user_timezone(
+    public function it_formats_a_datetime_with_user_timezone(
         $userContext,
         $presenter
     ) {
@@ -40,7 +40,7 @@ class DateTimeWithUserTimezonePropertySpec extends ObjectBehavior
             $datetime,
             [
                 'locale'   => 'en_GB',
-                'timezone' => 'Pacific/Kiritimati'
+                'timezone' => 'Pacific/Kiritimati',
             ]
         )->shouldBeCalled();
 

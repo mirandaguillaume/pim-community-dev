@@ -43,7 +43,7 @@ final readonly class FixturesJobHelper
             ]
         );
 
-        return (int)$this->dbalConnection->lastInsertId();
+        return (int) $this->dbalConnection->lastInsertId();
     }
 
     public function createJobExecution(array $data): int
@@ -67,7 +67,7 @@ final readonly class FixturesJobHelper
             ]
         );
 
-        return (int)$this->dbalConnection->lastInsertId();
+        return (int) $this->dbalConnection->lastInsertId();
     }
 
     public function createStepExecution(array $data): int
@@ -99,6 +99,6 @@ final readonly class FixturesJobHelper
             ]
         );
 
-        return (int)$this->dbalConnection->lastInsertId();
+        return (int) $this->dbalConnection->lastInsertId();
     }
 }

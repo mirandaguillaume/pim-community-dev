@@ -65,7 +65,7 @@ class InvalidItemFromViolationsException extends BaseInvalidItemException
     private function formatInvalidValue($invalidValue): ?string
     {
         if (is_scalar($invalidValue)) {
-            return (string)$invalidValue;
+            return (string) $invalidValue;
         }
         if ($invalidValue instanceof ProductPriceInterface) {
             return sprintf('%s %s', $invalidValue->getData(), $invalidValue->getCurrency());

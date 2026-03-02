@@ -26,7 +26,7 @@ final class CheckSymfonyCommandsDefaultNameIntegration extends KernelTestCase
         // The parameter 'console.command.ids' contains the commands with deprecated registration (i.e. without defined static $defaultName)
         $commandsWithoutDefaultName = \array_filter(
             $container->getParameter('console.command.ids'),
-            fn (string $commandId) => \str_starts_with($commandId, 'Akeneo')
+            fn(string $commandId) => \str_starts_with($commandId, 'Akeneo')
         );
 
         Assert::assertEmpty(

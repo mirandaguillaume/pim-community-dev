@@ -24,15 +24,15 @@ class GetCustomAppsQuery implements GetCustomAppsQueryInterface
     public function execute(int $userId): array
     {
         $query = <<<SQL
-        SELECT 
-            app.client_id,
-            app.name,
-            app.activate_url,
-            app.callback_url
-        FROM akeneo_connectivity_test_app AS app
-        WHERE app.user_id = :user_id
-        ORDER BY app.client_id
-        SQL;
+            SELECT 
+                app.client_id,
+                app.name,
+                app.activate_url,
+                app.callback_url
+            FROM akeneo_connectivity_test_app AS app
+            WHERE app.user_id = :user_id
+            ORDER BY app.client_id
+            SQL;
 
         return $this->connection->fetchAllAssociative(
             $query,

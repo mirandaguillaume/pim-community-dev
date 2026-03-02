@@ -26,18 +26,19 @@ final class Version_8_0_20230412073849_set_main_attribute_column extends Abstrac
         );
 
         if (!$this->hasMainIdentifier()) {
-            $this->addSql(<<<SQL
-UPDATE pim_catalog_attribute pca
-INNER JOIN
-(
-    SELECT id
-    FROM pim_catalog_attribute
-    WHERE attribute_type = 'pim_catalog_identifier'
-    ORDER BY id ASC
-    LIMIT 1
-) t ON pca.id = t.id
-SET main_identifier = true
-SQL
+            $this->addSql(
+                <<<SQL
+                    UPDATE pim_catalog_attribute pca
+                    INNER JOIN
+                    (
+                        SELECT id
+                        FROM pim_catalog_attribute
+                        WHERE attribute_type = 'pim_catalog_identifier'
+                        ORDER BY id ASC
+                        LIMIT 1
+                    ) t ON pca.id = t.id
+                    SET main_identifier = true
+                    SQL
             );
         } else {
             $this->disableMigrationWarning();
@@ -52,11 +53,11 @@ SQL
     private function hasMainIdentifier(): bool
     {
         $sql = <<<SQL
-            SELECT EXISTS (
-                SELECT * FROM pim_catalog_attribute
-                WHERE main_identifier = true
-            ) as is_existing
-        SQL;
+                SELECT EXISTS (
+                    SELECT * FROM pim_catalog_attribute
+                    WHERE main_identifier = true
+                ) as is_existing
+            SQL;
 
         return (bool) $this->connection->executeQuery($sql)->fetchOne();
     }

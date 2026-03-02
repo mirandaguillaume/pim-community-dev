@@ -63,7 +63,7 @@ class FileController
 
         try {
             return $this->imagineController->filterAction($request, $filename, $filter);
-        } catch (NotFoundHttpException | LogicException | \RuntimeException) {
+        } catch (NotFoundHttpException|LogicException|\RuntimeException) {
             return $this->renderDefaultImage(FileTypes::IMAGE, $filter);
         }
     }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Specification\Akeneo\Category\Infrastructure\Cli\CheckCategoryTrees;
@@ -13,7 +14,8 @@ class CategorySpec extends ObjectBehavior
         $this->beConstructedWith($this->getMasterCategory());
     }
 
-    public function it_reorders_the_category_tree() {
+    public function it_reorders_the_category_tree()
+    {
         $this->addChild($this->getDisorderedCategories()['child1']);
         $this->addChild($this->getDisorderedCategories()['child2']);
         $this->addChild($this->getDisorderedCategories()['child3']);

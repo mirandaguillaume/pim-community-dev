@@ -62,11 +62,11 @@ final readonly class GetProductModelIdsImpactedByAttributeGroupActivationQuery i
         $familyVariantIds = $this->retrieveFamilyVariantsWithAttributeGroupActivationUpdatedSince($updatedSince);
 
         $query = <<<SQL
-SELECT DISTINCT product_model.id
-FROM pim_catalog_product_model AS product_model
-WHERE product_model.family_variant_id IN (:familyVariants)
-    AND product_model.parent_id IS NULL
-SQL;
+            SELECT DISTINCT product_model.id
+            FROM pim_catalog_product_model AS product_model
+            WHERE product_model.family_variant_id IN (:familyVariants)
+                AND product_model.parent_id IS NULL
+            SQL;
 
         return $this->dbConnection->executeQuery(
             $query,
@@ -78,22 +78,22 @@ SQL;
     private function retrieveFamilyVariantsWithAttributeGroupActivationUpdatedSince(\DateTimeImmutable $updatedSince): array
     {
         $query = <<<SQL
-SELECT DISTINCT family_variant.id
-FROM pim_data_quality_insights_attribute_group_activation AS activation
-    INNER JOIN pim_catalog_attribute_group AS attribute_group ON attribute_group.code = activation.attribute_group_code
-    INNER JOIN pim_catalog_attribute AS attribute ON attribute.group_id = attribute_group.id
-    INNER JOIN pim_catalog_family_attribute AS family_attribute ON family_attribute.attribute_id = attribute.id
-    INNER JOIN pim_catalog_family AS family ON family.id = family_attribute.family_id
-    INNER JOIN pim_catalog_family_variant AS family_variant ON family_variant.family_id = family.id
-WHERE activation.updated_at > :updatedSince
-    AND NOT EXISTS(
-        SELECT 1 FROM pim_catalog_variant_attribute_set_has_attributes AS attribute_set_attributes
-            INNER JOIN pim_catalog_family_variant_attribute_set AS attribute_set ON attribute_set.id = attribute_set_attributes.variant_attribute_set_id
-            INNER JOIN pim_catalog_family_variant_has_variant_attribute_sets AS family_attribute_set ON family_attribute_set.variant_attribute_sets_id = attribute_set.id
-        WHERE attribute_set_attributes.attributes_id = attribute.id
-            AND family_attribute_set.family_variant_id = family_variant.id
-    );
-SQL;
+            SELECT DISTINCT family_variant.id
+            FROM pim_data_quality_insights_attribute_group_activation AS activation
+                INNER JOIN pim_catalog_attribute_group AS attribute_group ON attribute_group.code = activation.attribute_group_code
+                INNER JOIN pim_catalog_attribute AS attribute ON attribute.group_id = attribute_group.id
+                INNER JOIN pim_catalog_family_attribute AS family_attribute ON family_attribute.attribute_id = attribute.id
+                INNER JOIN pim_catalog_family AS family ON family.id = family_attribute.family_id
+                INNER JOIN pim_catalog_family_variant AS family_variant ON family_variant.family_id = family.id
+            WHERE activation.updated_at > :updatedSince
+                AND NOT EXISTS(
+                    SELECT 1 FROM pim_catalog_variant_attribute_set_has_attributes AS attribute_set_attributes
+                        INNER JOIN pim_catalog_family_variant_attribute_set AS attribute_set ON attribute_set.id = attribute_set_attributes.variant_attribute_set_id
+                        INNER JOIN pim_catalog_family_variant_has_variant_attribute_sets AS family_attribute_set ON family_attribute_set.variant_attribute_sets_id = attribute_set.id
+                    WHERE attribute_set_attributes.attributes_id = attribute.id
+                        AND family_attribute_set.family_variant_id = family_variant.id
+                );
+            SQL;
 
         $stmt = $this->dbConnection->executeQuery($query, ['updatedSince' => $updatedSince->format(Clock::TIME_FORMAT)]);
 
@@ -105,11 +105,11 @@ SQL;
         $familyVariantIds = $this->retrieveLevelTwoFamilyVariantsWithAttributeGroupActivationUpdatedSince($updatedSince);
 
         $query = <<<SQL
-SELECT DISTINCT product_model.id
-FROM pim_catalog_product_model AS product_model
-WHERE product_model.family_variant_id IN (:familyVariants)
-    AND product_model.parent_id IS NOT NULL
-SQL;
+            SELECT DISTINCT product_model.id
+            FROM pim_catalog_product_model AS product_model
+            WHERE product_model.family_variant_id IN (:familyVariants)
+                AND product_model.parent_id IS NOT NULL
+            SQL;
 
         return $this->dbConnection->executeQuery(
             $query,
@@ -121,24 +121,24 @@ SQL;
     private function retrieveLevelTwoFamilyVariantsWithAttributeGroupActivationUpdatedSince(\DateTimeImmutable $updatedSince): array
     {
         $query = <<<SQL
-SELECT DISTINCT family_variant.id
-FROM pim_data_quality_insights_attribute_group_activation AS activation
-    INNER JOIN pim_catalog_attribute_group AS attribute_group ON attribute_group.code = activation.attribute_group_code
-    INNER JOIN pim_catalog_attribute AS attribute ON attribute.group_id = attribute_group.id
-    INNER JOIN pim_catalog_family_attribute AS family_attribute ON family_attribute.attribute_id = attribute.id
-    INNER JOIN pim_catalog_family AS family ON family.id = family_attribute.family_id
-    INNER JOIN pim_catalog_family_variant AS family_variant ON family_variant.family_id = family.id
-    INNER JOIN pim_catalog_family_variant_has_variant_attribute_sets AS family_attribute_set ON family_attribute_set.family_variant_id = family_variant.id
-    INNER JOIN pim_catalog_family_variant_attribute_set AS attribute_set_level_2
-        ON attribute_set_level_2.id = family_attribute_set.variant_attribute_sets_id
-        AND attribute_set_level_2.level = 2
-WHERE activation.updated_at > :updatedSince
-    AND NOT EXISTS(
-        SELECT 1 FROM pim_catalog_variant_attribute_set_has_attributes AS attribute_set_attributes_level_2
-        WHERE attribute_set_attributes_level_2.variant_attribute_set_id = attribute_set_level_2.id
-        AND attribute_set_attributes_level_2.attributes_id = attribute.id
-    );
-SQL;
+            SELECT DISTINCT family_variant.id
+            FROM pim_data_quality_insights_attribute_group_activation AS activation
+                INNER JOIN pim_catalog_attribute_group AS attribute_group ON attribute_group.code = activation.attribute_group_code
+                INNER JOIN pim_catalog_attribute AS attribute ON attribute.group_id = attribute_group.id
+                INNER JOIN pim_catalog_family_attribute AS family_attribute ON family_attribute.attribute_id = attribute.id
+                INNER JOIN pim_catalog_family AS family ON family.id = family_attribute.family_id
+                INNER JOIN pim_catalog_family_variant AS family_variant ON family_variant.family_id = family.id
+                INNER JOIN pim_catalog_family_variant_has_variant_attribute_sets AS family_attribute_set ON family_attribute_set.family_variant_id = family_variant.id
+                INNER JOIN pim_catalog_family_variant_attribute_set AS attribute_set_level_2
+                    ON attribute_set_level_2.id = family_attribute_set.variant_attribute_sets_id
+                    AND attribute_set_level_2.level = 2
+            WHERE activation.updated_at > :updatedSince
+                AND NOT EXISTS(
+                    SELECT 1 FROM pim_catalog_variant_attribute_set_has_attributes AS attribute_set_attributes_level_2
+                    WHERE attribute_set_attributes_level_2.variant_attribute_set_id = attribute_set_level_2.id
+                    AND attribute_set_attributes_level_2.attributes_id = attribute.id
+                );
+            SQL;
 
         $stmt = $this->dbConnection->executeQuery($query, ['updatedSince' => $updatedSince->format(Clock::TIME_FORMAT)]);
 
@@ -179,32 +179,32 @@ SQL;
         AttributeGroupCode $attributeGroupCode
     ): Result {
         $query = <<<SQL
-SELECT DISTINCT family_variant.id
-FROM pim_catalog_attribute_group AS attribute_group
-    INNER JOIN pim_catalog_attribute AS attribute ON attribute.group_id = attribute_group.id
-    INNER JOIN pim_catalog_family_attribute AS family_attribute ON family_attribute.attribute_id = attribute.id
-    INNER JOIN pim_catalog_family AS family ON family.id = family_attribute.family_id
-    INNER JOIN pim_catalog_family_variant AS family_variant ON family_variant.family_id = family.id
-WHERE attribute_group.code = :attribute_group_code
-    AND NOT EXISTS(
-        SELECT 1 FROM pim_catalog_variant_attribute_set_has_attributes AS attribute_set_attributes
-            INNER JOIN pim_catalog_family_variant_attribute_set AS attribute_set ON attribute_set.id = attribute_set_attributes.variant_attribute_set_id
-            INNER JOIN pim_catalog_family_variant_has_variant_attribute_sets AS family_attribute_set ON family_attribute_set.variant_attribute_sets_id = attribute_set.id
-        WHERE attribute_set_attributes.attributes_id = attribute.id
-            AND family_attribute_set.family_variant_id = family_variant.id
-    );
-SQL;
+            SELECT DISTINCT family_variant.id
+            FROM pim_catalog_attribute_group AS attribute_group
+                INNER JOIN pim_catalog_attribute AS attribute ON attribute.group_id = attribute_group.id
+                INNER JOIN pim_catalog_family_attribute AS family_attribute ON family_attribute.attribute_id = attribute.id
+                INNER JOIN pim_catalog_family AS family ON family.id = family_attribute.family_id
+                INNER JOIN pim_catalog_family_variant AS family_variant ON family_variant.family_id = family.id
+            WHERE attribute_group.code = :attribute_group_code
+                AND NOT EXISTS(
+                    SELECT 1 FROM pim_catalog_variant_attribute_set_has_attributes AS attribute_set_attributes
+                        INNER JOIN pim_catalog_family_variant_attribute_set AS attribute_set ON attribute_set.id = attribute_set_attributes.variant_attribute_set_id
+                        INNER JOIN pim_catalog_family_variant_has_variant_attribute_sets AS family_attribute_set ON family_attribute_set.variant_attribute_sets_id = attribute_set.id
+                    WHERE attribute_set_attributes.attributes_id = attribute.id
+                        AND family_attribute_set.family_variant_id = family_variant.id
+                );
+            SQL;
 
         $familyVariantIds = $this->dbConnection
             ->executeQuery($query, ['attribute_group_code' => (string) $attributeGroupCode])
             ->fetchFirstColumn();
 
         $query = <<<SQL
-SELECT DISTINCT product_model.id
-FROM pim_catalog_product_model AS product_model
-WHERE product_model.family_variant_id IN (:familyVariants)
-    AND product_model.parent_id IS NULL
-SQL;
+            SELECT DISTINCT product_model.id
+            FROM pim_catalog_product_model AS product_model
+            WHERE product_model.family_variant_id IN (:familyVariants)
+                AND product_model.parent_id IS NULL
+            SQL;
 
         return $this->dbConnection->executeQuery(
             $query,
@@ -217,34 +217,34 @@ SQL;
         AttributeGroupCode $attributeGroupCode
     ): Result {
         $query = <<<SQL
-SELECT DISTINCT family_variant.id
-FROM pim_catalog_attribute_group AS attribute_group
-    INNER JOIN pim_catalog_attribute AS attribute ON attribute.group_id = attribute_group.id
-    INNER JOIN pim_catalog_family_attribute AS family_attribute ON family_attribute.attribute_id = attribute.id
-    INNER JOIN pim_catalog_family AS family ON family.id = family_attribute.family_id
-    INNER JOIN pim_catalog_family_variant AS family_variant ON family_variant.family_id = family.id
-    INNER JOIN pim_catalog_family_variant_has_variant_attribute_sets AS family_attribute_set ON family_attribute_set.family_variant_id = family_variant.id
-    INNER JOIN pim_catalog_family_variant_attribute_set AS attribute_set_level_2
-        ON attribute_set_level_2.id = family_attribute_set.variant_attribute_sets_id
-        AND attribute_set_level_2.level = 2
-WHERE attribute_group.code = :attribute_group_code
-    AND NOT EXISTS(
-        SELECT 1 FROM pim_catalog_variant_attribute_set_has_attributes AS attribute_set_attributes_level_2
-        WHERE attribute_set_attributes_level_2.variant_attribute_set_id = attribute_set_level_2.id
-        AND attribute_set_attributes_level_2.attributes_id = attribute.id
-    );
-SQL;
+            SELECT DISTINCT family_variant.id
+            FROM pim_catalog_attribute_group AS attribute_group
+                INNER JOIN pim_catalog_attribute AS attribute ON attribute.group_id = attribute_group.id
+                INNER JOIN pim_catalog_family_attribute AS family_attribute ON family_attribute.attribute_id = attribute.id
+                INNER JOIN pim_catalog_family AS family ON family.id = family_attribute.family_id
+                INNER JOIN pim_catalog_family_variant AS family_variant ON family_variant.family_id = family.id
+                INNER JOIN pim_catalog_family_variant_has_variant_attribute_sets AS family_attribute_set ON family_attribute_set.family_variant_id = family_variant.id
+                INNER JOIN pim_catalog_family_variant_attribute_set AS attribute_set_level_2
+                    ON attribute_set_level_2.id = family_attribute_set.variant_attribute_sets_id
+                    AND attribute_set_level_2.level = 2
+            WHERE attribute_group.code = :attribute_group_code
+                AND NOT EXISTS(
+                    SELECT 1 FROM pim_catalog_variant_attribute_set_has_attributes AS attribute_set_attributes_level_2
+                    WHERE attribute_set_attributes_level_2.variant_attribute_set_id = attribute_set_level_2.id
+                    AND attribute_set_attributes_level_2.attributes_id = attribute.id
+                );
+            SQL;
 
         $familyVariantIds = $this->dbConnection
             ->executeQuery($query, ['attribute_group_code' => (string) $attributeGroupCode])
             ->fetchFirstColumn();
 
         $query = <<<SQL
-SELECT DISTINCT product_model.id
-FROM pim_catalog_product_model AS product_model
-WHERE product_model.family_variant_id IN (:familyVariants)
-    AND product_model.parent_id IS NOT NULL
-SQL;
+            SELECT DISTINCT product_model.id
+            FROM pim_catalog_product_model AS product_model
+            WHERE product_model.family_variant_id IN (:familyVariants)
+                AND product_model.parent_id IS NOT NULL
+            SQL;
 
         return $this->dbConnection->executeQuery(
             $query,

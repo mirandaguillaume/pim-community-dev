@@ -35,7 +35,7 @@ class ReferenceDataValue extends AbstractValue implements ReferenceDataValueInte
      */
     public function __toString(): string
     {
-        return null !== $this->data ? '['.$this->data.']' : '';
+        return null !== $this->data ? '[' . $this->data . ']' : '';
     }
 
     /**
@@ -43,9 +43,9 @@ class ReferenceDataValue extends AbstractValue implements ReferenceDataValueInte
      */
     public function isEqual(ValueInterface $value): bool
     {
-        if (!$value instanceof ReferenceDataValueInterface ||
-            $this->getScopeCode() !== $value->getScopeCode() ||
-            $this->getLocaleCode() !== $value->getLocaleCode()) {
+        if (!$value instanceof ReferenceDataValueInterface
+            || $this->getScopeCode() !== $value->getScopeCode()
+            || $this->getLocaleCode() !== $value->getLocaleCode()) {
             return false;
         }
 

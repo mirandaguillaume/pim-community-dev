@@ -8,12 +8,12 @@ use Akeneo\Pim\Enrichment\Bundle\Command\IndexProductCommand;
 use Akeneo\Pim\Enrichment\Bundle\Command\IndexProductModelCommand;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\ClientRegistry;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Resets the indexes registered in the PIM.

@@ -64,11 +64,11 @@ class UpsertCategoryTranslationsSql implements UpsertCategoryTranslations
     private function buildUpsertQuery(int $loopIndex): string
     {
         return <<<SQL
-            INSERT INTO pim_catalog_category_translation (foreign_key, label, locale)
-            VALUES (:category_id, :label$loopIndex, :locale$loopIndex)
-            ON DUPLICATE KEY UPDATE label = :label$loopIndex;
-        
-SQL;
+                        INSERT INTO pim_catalog_category_translation (foreign_key, label, locale)
+                        VALUES (:category_id, :label$loopIndex, :locale$loopIndex)
+                        ON DUPLICATE KEY UPDATE label = :label$loopIndex;
+                    
+            SQL;
     }
 
     private function isIdenticalLabel(Category $category, string $localeCode, ?string $label): bool

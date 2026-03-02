@@ -20,12 +20,12 @@ class GetChannelActiveLocaleCodes
     public function execute(string $channelCode): array
     {
         $sql = <<<SQL
-SELECT DISTINCT locale.code
-FROM pim_catalog_channel AS channel
-  INNER JOIN pim_catalog_channel_locale AS channel_locale ON (channel.id = channel_locale.channel_id)
-  INNER JOIN pim_catalog_locale AS locale ON (channel_locale.locale_id = locale.id)
-WHERE channel.code = :channel_code
-SQL;
+            SELECT DISTINCT locale.code
+            FROM pim_catalog_channel AS channel
+              INNER JOIN pim_catalog_channel_locale AS channel_locale ON (channel.id = channel_locale.channel_id)
+              INNER JOIN pim_catalog_locale AS locale ON (channel_locale.locale_id = locale.id)
+            WHERE channel.code = :channel_code
+            SQL;
         $statement = $this->connection->executeQuery(
             $sql,
             ['channel_code' => $channelCode],

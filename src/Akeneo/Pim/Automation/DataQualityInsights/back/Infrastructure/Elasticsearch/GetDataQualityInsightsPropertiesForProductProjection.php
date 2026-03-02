@@ -45,7 +45,7 @@ final readonly class GetDataQualityInsightsPropertiesForProductProjection implem
                 'data_quality_insights' => [
                     'scores' => isset($productScores[$index]) ? $productScores[$index]->allCriteria()->toArrayIntRank() : [],
                     'scores_partial_criteria' => isset($productScores[$index]) ? $productScores[$index]->partialCriteria()->toArrayIntRank() : [],
-                    'key_indicators' => $productKeyIndicators[$index] ?? []
+                    'key_indicators' => $productKeyIndicators[$index] ?? [],
                 ],
             ];
         }

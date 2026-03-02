@@ -47,15 +47,15 @@ final class ComputeScoresSpec extends ObjectBehavior
         $localeEn = new LocaleCode('en_US');
         $localeFr = new LocaleCode('fr_FR');
 
-        $criterionResultA = (new ChannelLocaleRateCollection)
+        $criterionResultA = (new ChannelLocaleRateCollection())
                 ->addRate($channelMobile, $localeEn, new Rate(100))
                 ->addRate($channelMobile, $localeFr, new Rate(90))
                 ->addRate($channelPrint, $localeEn, new Rate(60));
-        $criterionResultB = (new ChannelLocaleRateCollection)
+        $criterionResultB = (new ChannelLocaleRateCollection())
                 ->addRate($channelMobile, $localeEn, new Rate(90))
                 ->addRate($channelMobile, $localeFr, new Rate(80))
                 ->addRate($channelPrint, $localeEn, new Rate(100));
-        $criterionResultC = (new ChannelLocaleRateCollection)
+        $criterionResultC = (new ChannelLocaleRateCollection())
                 ->addRate($channelMobile, $localeEn, new Rate(81))
                 ->addRate($channelPrint, $localeEn, new Rate(70));
 
@@ -92,7 +92,7 @@ final class ComputeScoresSpec extends ObjectBehavior
         $criteriaEvaluationRegistry->getCriterionCoefficient($criterionC)->willReturn(1);
 
         $this->fromCriteriaEvaluations($criteriaEvaluations)->shouldBeLike(
-            (new ChannelLocaleRateCollection)
+            (new ChannelLocaleRateCollection())
                 ->addRate($channelMobile, $localeEn, new Rate(93))
                 ->addRate($channelMobile, $localeFr, new Rate(87))
                 ->addRate($channelPrint, $localeEn, new Rate(72))

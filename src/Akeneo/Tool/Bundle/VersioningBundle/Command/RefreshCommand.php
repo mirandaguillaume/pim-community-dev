@@ -6,11 +6,11 @@ use Akeneo\Tool\Bundle\BatchBundle\JobExecution\CreateJobExecutionHandlerInterfa
 use Akeneo\Tool\Bundle\BatchBundle\JobExecution\ExecuteJobExecutionHandlerInterface;
 use Akeneo\Tool\Component\Batch\Job\BatchStatus;
 use Akeneo\Tool\Component\Batch\Job\ExitStatus;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Refresh versioning data by launching the corresponding batch job
@@ -54,17 +54,17 @@ class RefreshCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $config = [
-            'batch_size' => (int)$input->getOption('batch-size'),
+            'batch_size' => (int) $input->getOption('batch-size'),
         ];
 
         $jobExecution = $this->jobExecutionFactory->createFromBatchCode(self::JOB_CODE, $config, null);
         $jobExecution = $this->jobExecutionRunner->executeFromJobExecutionId($jobExecution->getId());
 
         if (
-            ExitStatus::COMPLETED === $jobExecution->getExitStatus()->getExitCode() ||
-            (
-                ExitStatus::STOPPED === $jobExecution->getExitStatus()->getExitCode() &&
-                BatchStatus::STOPPED === $jobExecution->getStatus()->getValue()
+            ExitStatus::COMPLETED === $jobExecution->getExitStatus()->getExitCode()
+            || (
+                ExitStatus::STOPPED === $jobExecution->getExitStatus()->getExitCode()
+                && BatchStatus::STOPPED === $jobExecution->getStatus()->getValue()
             )
         ) {
             $output->writeln(sprintf('<info>Command %s was succesfully executed.</info>', $this->getName()));

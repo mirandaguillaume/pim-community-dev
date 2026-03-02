@@ -22,8 +22,7 @@ class BaseCreateOrUpdateIdentifierGenerator
         protected readonly ViolationsContext $violationsContext,
         protected readonly CreateGeneratorHandler $createGeneratorHandler,
         protected readonly UpdateGeneratorHandler $updateGeneratorHandler,
-    ) {
-    }
+    ) {}
 
     protected function tryToCreateGenerator(
         ?string $code = null,

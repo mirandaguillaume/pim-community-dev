@@ -64,9 +64,9 @@ final class UpdateUserCommandHandlerIntegration extends TestCase
 
         $data = [
             'email' => 'user@test.fr',
-            'catalog_default_locale'=> "en_US",
+            'catalog_default_locale' => "en_US",
             'user_default_locale' => "fr_FR",
-            'roles'=> ["ROLE_USER", "ROLE_CATALOG_MANAGER"],
+            'roles' => ["ROLE_USER", "ROLE_CATALOG_MANAGER"],
         ];
         $actualUser = $this->updateUserCommandHandler->handle(new UpdateUserCommand($user->getId(), $data));
 

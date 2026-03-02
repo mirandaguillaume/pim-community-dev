@@ -19,8 +19,8 @@ class SqlGetAllResourceNamesQuery
     public function execute(): array
     {
         $query = <<<SQL
-SELECT DISTINCT resource_name FROM pim_versioning_version;
-SQL;
+            SELECT DISTINCT resource_name FROM pim_versioning_version;
+            SQL;
 
         return $this->dbConnection->executeQuery($query)->fetchFirstColumn();
     }

@@ -53,9 +53,9 @@ final readonly class ListProductsByUuidQueryHandler
             );
         } catch (
             UnsupportedFilterException
-            | PropertyException
-            | InvalidOperatorException
-            | ObjectNotFoundException
+            |PropertyException
+            |InvalidOperatorException
+            |ObjectNotFoundException
             $e
         ) {
             throw new InvalidQueryException($e->getMessage(), $e->getCode(), $e);
@@ -63,9 +63,9 @@ final readonly class ListProductsByUuidQueryHandler
 
         $pqb->addSorter('id', Directions::ASCENDING);
 
-        $connectorProductsQuery = $query->withAttributeOptionsAsBoolean() ?
-            $this->getConnectorProductsQuerywithOptions :
-            $this->getConnectorProductsQuery;
+        $connectorProductsQuery = $query->withAttributeOptionsAsBoolean()
+            ? $this->getConnectorProductsQuerywithOptions
+            : $this->getConnectorProductsQuery;
 
         $queryLocales = $this->getLocales($query->channelCode, $query->localeCodes);
 
@@ -101,11 +101,11 @@ final readonly class ListProductsByUuidQueryHandler
     {
         if (PaginationTypes::OFFSET === $query->paginationType) {
             return $this->fromSizePqbFactory->create([
-                'limit' => (int)$query->limit,
-                'from' => ($query->page - 1) * $query->limit
+                'limit' => (int) $query->limit,
+                'from' => ($query->page - 1) * $query->limit,
             ]);
         }
-        $pqbOptions = ['limit' => (int)$query->limit];
+        $pqbOptions = ['limit' => (int) $query->limit];
 
         if (null !== $query->searchAfter) {
             $searchAfter = Uuid::isValid($query->searchAfter) ? Uuid::fromString($query->searchAfter)->toString() : $query->searchAfter;

@@ -135,10 +135,10 @@ class DbalExtractConnectionsProductEventCountQueryIntegration extends TestCase
         }
 
         $sqlQuery = <<<SQL
-UPDATE pim_versioning_version
-SET author = :author, logged_at = :logged_at
-WHERE resource_name = :resource_name
-SQL;
+            UPDATE pim_versioning_version
+            SET author = :author, logged_at = :logged_at
+            WHERE resource_name = :resource_name
+            SQL;
         $parameters = [
             'author' => $author,
             'resource_name' => $this->productClass,
@@ -147,8 +147,8 @@ SQL;
 
         if (null !== $product) {
             $sqlQuery .= <<<SQL
- AND resource_uuid = :product_uuid
-SQL;
+                 AND resource_uuid = :product_uuid
+                SQL;
             $parameters['product_uuid'] = $product->getUuid()->getBytes();
         }
 
@@ -169,7 +169,7 @@ SQL;
     /**
      * @param UserIntent[] $userIntents
      */
-    private function createOrUpdateProduct(string $identifier, array $userIntents = []) : ProductInterface
+    private function createOrUpdateProduct(string $identifier, array $userIntents = []): ProductInterface
     {
         $this->get('pim_catalog.validator.unique_value_set')->reset();
 

@@ -7,6 +7,7 @@ use Akeneo\Tool\Bundle\BatchBundle\JobExecution\ExecuteJobExecutionHandlerInterf
 use InvalidArgumentException;
 use Monolog\Handler\StreamHandler;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,7 +15,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Purge version of entities
@@ -139,8 +139,8 @@ class PurgeCommand extends Command
         $this->logger->pushHandler(new StreamHandler('php://stdout'));
 
         $isForced = $input->getOption('force');
-        $moreThanDays = null !== $input->getOption('more-than-days') ? (int)$input->getOption('more-than-days') : null;
-        $lessThanDays = null !== $input->getOption('less-than-days') ? (int)$input->getOption('less-than-days') : null;
+        $moreThanDays = null !== $input->getOption('more-than-days') ? (int) $input->getOption('more-than-days') : null;
+        $lessThanDays = null !== $input->getOption('less-than-days') ? (int) $input->getOption('less-than-days') : null;
 
         if (null === $moreThanDays && null === $lessThanDays) {
             $moreThanDays = $this->versioningRetentionInDays;
@@ -180,7 +180,7 @@ class PurgeCommand extends Command
 
         $batchConfig = [
             'entity' => $resourceName,
-            'batch-size' => (int)$input->getOption('batch-size'),
+            'batch-size' => (int) $input->getOption('batch-size'),
             'more-than-days' => $moreThanDays,
             'less-than-days' => $lessThanDays,
         ];

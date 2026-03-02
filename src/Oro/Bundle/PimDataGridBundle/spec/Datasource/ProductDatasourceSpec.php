@@ -21,7 +21,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class ProductDatasourceSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         ObjectManager $objectManager,
         ProductQueryBuilderFactoryInterface $pqbFactory,
         NormalizerInterface $productNormalizer,
@@ -32,18 +32,18 @@ class ProductDatasourceSpec extends ObjectBehavior
         $this->setParameters(['dataLocale' => 'fr_FR']);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(ProductDatasource::class);
     }
 
-    function it_is_a_datasource()
+    public function it_is_a_datasource()
     {
         $this->shouldImplement(DatasourceInterface::class);
         $this->shouldImplement(ParameterizableInterface::class);
     }
 
-    function it_gets_products(
+    public function it_gets_products(
         $pqbFactory,
         $productNormalizer,
         $subscriber,
@@ -58,28 +58,28 @@ class ProductDatasourceSpec extends ObjectBehavior
             'attributes_configuration' => [
                 'attribute_1' => [
                     'id' => 1,
-                    'code' => 'attribute_1'
+                    'code' => 'attribute_1',
                 ],
                 'attribute_2' => [
                     'id' => 2,
-                    'code' => 'attribute_2'
+                    'code' => 'attribute_2',
                 ],
                 'attribute_3' => [
                     'id' => 3,
-                    'code' => 'attribute_3'
+                    'code' => 'attribute_3',
                 ],
                 'sku' => [
                     'id' => 4,
                     'code' => 'sku',
                     'mainIdentifier' => true,
-                ]
+                ],
             ],
             'locale_code' => 'fr_FR',
             'scope_code' => 'ecommerce',
 
             'association_type_id' => 2,
             'current_group_id' => 3,
-            PagerExtension::PER_PAGE_PARAM => 15
+            PagerExtension::PER_PAGE_PARAM => 15,
         ];
 
         $pqbFactory->create([
@@ -107,7 +107,7 @@ class ProductDatasourceSpec extends ObjectBehavior
             'channels'      => ['ecommerce'],
             'data_locale'   => 'fr_FR',
             'association_type_id' => 2,
-            'current_group_id' => 3
+            'current_group_id' => 3,
         ])->willReturn([
             'identifier'       => 'product_1',
             'family'           => null,

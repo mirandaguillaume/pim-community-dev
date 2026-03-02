@@ -50,7 +50,7 @@ final readonly class GpsReceiver implements ReceiverInterface
         return [
             $envelope
                 ->with(new TransportMessageIdStamp($message->id()))
-                ->with(new NativeMessageStamp($message))
+                ->with(new NativeMessageStamp($message)),
         ];
     }
 

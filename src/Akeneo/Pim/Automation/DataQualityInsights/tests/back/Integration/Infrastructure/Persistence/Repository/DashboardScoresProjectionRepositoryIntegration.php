@@ -74,7 +74,7 @@ final class DashboardScoresProjectionRepositoryIntegration extends TestCase
     public function test_it_does_not_save_outdated_average_ranks()
     {
         $youngestRanksDistributionCollection = new RanksDistributionCollection([
-            "ecommerce" => ["en_US" => ["rank_4" => 50]]
+            "ecommerce" => ["en_US" => ["rank_4" => 50]],
         ]);
         $youngestAverageRanks = [
             "ecommerce" => ["en_US" => "rank_4"],
@@ -137,14 +137,14 @@ final class DashboardScoresProjectionRepositoryIntegration extends TestCase
                     "rank_2" => 28,
                     "rank_3" => 10,
                     "rank_4" => 50,
-                    "rank_5" => 10
+                    "rank_5" => 10,
                 ],
                 "fr_FR" => [
                     "rank_1" => 30,
                     "rank_2" => 10,
                     "rank_3" => 20,
                     "rank_4" => 20,
-                    "rank_5" => 20
+                    "rank_5" => 20,
                 ],
             ],
         ]);
@@ -160,10 +160,10 @@ final class DashboardScoresProjectionRepositoryIntegration extends TestCase
         $path = sprintf('\'$."%s"."%s"\'', $timePeriod, $date->format());
 
         $query = <<<SQL
-SELECT COUNT(*) AS nb_rates
-FROM pim_data_quality_insights_dashboard_scores_projection
-WHERE JSON_CONTAINS_PATH(scores, 'one', $path)
-SQL;
+            SELECT COUNT(*) AS nb_rates
+            FROM pim_data_quality_insights_dashboard_scores_projection
+            WHERE JSON_CONTAINS_PATH(scores, 'one', $path)
+            SQL;
 
         $count = intval($this->db->executeQuery($query)->fetchOne());
 
@@ -173,14 +173,14 @@ SQL;
     private function assertCatalogAverageRanksEquals(array $expectedAverageRanks): void
     {
         $query = <<<SQL
-SELECT JSON_EXTRACT(scores, '$.average_ranks') as average_ranks
-FROM pim_data_quality_insights_dashboard_scores_projection
-WHERE type = :type AND code = :code
-SQL;
+            SELECT JSON_EXTRACT(scores, '$.average_ranks') as average_ranks
+            FROM pim_data_quality_insights_dashboard_scores_projection
+            WHERE type = :type AND code = :code
+            SQL;
 
         $stmt = $this->db->executeQuery($query, [
             'type' => DashboardProjectionType::CATALOG,
-            'code' => DashboardProjectionCode::CATALOG
+            'code' => DashboardProjectionCode::CATALOG,
         ]);
 
         $averageRanks = json_decode((string) $stmt->fetchOne(), true, 512, JSON_THROW_ON_ERROR);

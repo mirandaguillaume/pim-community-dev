@@ -18,10 +18,10 @@ final readonly class IsAttributeCodeBlacklisted implements IsAttributeCodeBlackl
     public function execute(string $attributeCode): bool
     {
         $sql = <<<SQL
-        SELECT EXISTS(
-            SELECT 1 FROM pim_catalog_attribute_blacklist WHERE attribute_code = :attribute_code
-        ) as is_blacklisted
-SQL;
+                    SELECT EXISTS(
+                        SELECT 1 FROM pim_catalog_attribute_blacklist WHERE attribute_code = :attribute_code
+                    ) as is_blacklisted
+            SQL;
 
         $statement = $this->connection->executeQuery($sql, ['attribute_code' => $attributeCode]);
         $platform = $this->connection->getDatabasePlatform();

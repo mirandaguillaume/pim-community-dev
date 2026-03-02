@@ -24,7 +24,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ProductAndProductModelDatasourceSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         ObjectManager $objectManager,
         ProductQueryBuilderFactoryInterface $pqbFactory,
         NormalizerInterface $rowNormalizer,
@@ -36,18 +36,18 @@ class ProductAndProductModelDatasourceSpec extends ObjectBehavior
         $this->setParameters(['dataLocale' => 'fr_FR', 'scopeCode' => 'ecommerce']);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(ProductAndProductModelDatasource::class);
     }
 
-    function it_is_a_datasource()
+    public function it_is_a_datasource()
     {
         $this->shouldImplement(DatasourceInterface::class);
         $this->shouldImplement(ParameterizableInterface::class);
     }
 
-    function it_fetches_product_and_product_model_rows(
+    public function it_fetches_product_and_product_model_rows(
         $pqbFactory,
         $rowNormalizer,
         $query,
@@ -65,20 +65,20 @@ class ProductAndProductModelDatasourceSpec extends ObjectBehavior
             'attributes_configuration' => [
                 'attribute_1' => [
                     'id' => 1,
-                    'code' => 'attribute_1'
+                    'code' => 'attribute_1',
                 ],
                 'attribute_2' => [
                     'id' => 2,
-                    'code' => 'attribute_2'
+                    'code' => 'attribute_2',
                 ],
                 'attribute_3' => [
                     'id' => 3,
-                    'code' => 'attribute_3'
+                    'code' => 'attribute_3',
                 ],
             ],
             'locale_code' => 'fr_FR',
             'scope_code' => 'ecommerce',
-            PagerExtension::PER_PAGE_PARAM => 15
+            PagerExtension::PER_PAGE_PARAM => 15,
         ];
 
         $pqbFactory->create([
@@ -93,7 +93,7 @@ class ProductAndProductModelDatasourceSpec extends ObjectBehavior
 
         $pqb->getQueryBuilder()->shouldBeCalledTimes(1);
 
-         $row = Row::fromProduct(
+        $row = Row::fromProduct(
             'identifier',
             'family label',
             ['group_1', 'group_2'],
@@ -103,7 +103,7 @@ class ProductAndProductModelDatasourceSpec extends ObjectBehavior
             'label',
             null,
             90,
-             '54162e35-ff81-48f1-96d5-5febd3f00fd5',
+            '54162e35-ff81-48f1-96d5-5febd3f00fd5',
             'parent_code',
             new WriteValueCollection()
         );
@@ -152,7 +152,7 @@ class ProductAndProductModelDatasourceSpec extends ObjectBehavior
         $results['data']->shouldBeAnArrayOfInstanceOf(ResultRecord::class);
     }
 
-    function it_does_not_fetch_rows_when_query_parameters_are_invalid(
+    public function it_does_not_fetch_rows_when_query_parameters_are_invalid(
         $validator,
         $pqbFactory,
         ConstraintViolation $constraint,
@@ -164,20 +164,20 @@ class ProductAndProductModelDatasourceSpec extends ObjectBehavior
             'attributes_configuration' => [
                 'attribute_1' => [
                     'id' => 1,
-                    'code' => 'attribute_1'
+                    'code' => 'attribute_1',
                 ],
                 'attribute_2' => [
                     'id' => 2,
-                    'code' => 'attribute_2'
+                    'code' => 'attribute_2',
                 ],
                 'attribute_3' => [
                     'id' => 3,
-                    'code' => 'attribute_3'
+                    'code' => 'attribute_3',
                 ],
             ],
             'locale_code' => 'fr_FR',
             'scope_code' => 'ecommerce',
-            PagerExtension::PER_PAGE_PARAM => 15
+            PagerExtension::PER_PAGE_PARAM => 15,
         ];
         $pqbFactory->create([
             'repository_parameters' => [],

@@ -30,7 +30,7 @@ class ByChannelAndLocalesFilterSpec extends ObjectBehavior
                     'c91e6a4e-733b-4d77-aefc-129edbf03233',
                     'mobile',
                     'en_US'
-                )
+                ),
             ]
         );
     }
@@ -68,7 +68,8 @@ class ByChannelAndLocalesFilterSpec extends ObjectBehavior
 
     private function getEnrichedValues(): array
     {
-        return json_decode('{
+        return json_decode(
+            '{
                 "long_description|c91e6a4e-733b-4d77-aefc-129edbf03233|ecommerce|fr_FR": {
                     "data": "<p>Ma description enrichie pour le ecommerce</p>\n",
                     "type": "textarea",

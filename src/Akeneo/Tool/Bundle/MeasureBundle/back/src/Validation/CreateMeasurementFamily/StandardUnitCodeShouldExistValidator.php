@@ -58,7 +58,7 @@ class StandardUnitCodeShouldExistValidator extends ConstraintValidator
                             ['%standard_unit_code%' => $standardUnitCode, '%measurement_family_code%' => $measurementFamilyCode]
                         )->addViolation();
                     }
-                )
+                ),
             ]
         );
 

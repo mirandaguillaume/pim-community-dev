@@ -24,7 +24,7 @@ class CategoryNormalizer implements NormalizerInterface, CacheableSupportsMethod
         $this->categoryNormalizer = $categoryNormalizer;
     }
 
-    public function normalize($category, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($category, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $standardCategory = $this->categoryNormalizer->normalize($category, 'standard', $context);
 

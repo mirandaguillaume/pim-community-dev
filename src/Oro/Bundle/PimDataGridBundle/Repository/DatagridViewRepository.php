@@ -23,10 +23,10 @@ class DatagridViewRepository extends EntityRepository implements DatagridViewRep
     public function getDatagridViewAliasesByUser(UserInterface $user): array
     {
         $sql = <<<SQL
-SELECT DISTINCT datagrid_alias
-FROM pim_datagrid_view
-WHERE type = :public_type OR (type = :private_type AND owner_id = :owner_id)
-SQL;
+            SELECT DISTINCT datagrid_alias
+            FROM pim_datagrid_view
+            WHERE type = :public_type OR (type = :private_type AND owner_id = :owner_id)
+            SQL;
 
         $statement = $this->getConnection()->executeQuery(
             $sql,
@@ -50,7 +50,7 @@ SQL;
         array         $options = []
     ): array {
         $options += ['limit' => 20, 'page' => 1];
-        $offset = (int)$options['limit'] * ((int)$options['page'] - 1);
+        $offset = (int) $options['limit'] * ((int) $options['page'] - 1);
 
         $identifiers = null;
         if (isset($options['identifiers'])) {
@@ -59,7 +59,7 @@ SQL;
 
         $qb = $this->buildQueryForListingViews($user, $alias, $term);
 
-        $qb->setMaxResults((int)$options['limit'])
+        $qb->setMaxResults((int) $options['limit'])
             ->setFirstResult($offset);
 
         if (null !== $identifiers) {

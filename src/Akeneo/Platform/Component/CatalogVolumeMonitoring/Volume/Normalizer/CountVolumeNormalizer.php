@@ -19,8 +19,8 @@ class CountVolumeNormalizer
         $data = [
             $data->getVolumeName() => [
                 'value' => $data->getVolume(),
-                'type' => self::VOLUME_TYPE
-            ]
+                'type' => self::VOLUME_TYPE,
+            ],
         ];
 
         return $data;

@@ -25,14 +25,14 @@ class OptionsNormalizer implements NormalizerInterface, CacheableSupportsMethodI
     /**
      * {@inheritdoc}
      */
-    public function normalize($optionsValue, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($optionsValue, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         $locale = $context['data_locale'] ?? null;
         $attributeCode = $optionsValue->getAttributeCode();
 
         $labels = [];
         foreach ($optionsValue->getData() as $optionCode) {
-            $option = $this->attributeOptionRepository->findOneByIdentifier($attributeCode.'.'.$optionCode);
+            $option = $this->attributeOptionRepository->findOneByIdentifier($attributeCode . '.' . $optionCode);
 
             $translation = $option->getTranslation($locale);
             $labels[] = $translation->getValue() ?? sprintf('[%s]', $option->getCode());
@@ -43,7 +43,7 @@ class OptionsNormalizer implements NormalizerInterface, CacheableSupportsMethodI
         return [
             'locale' => $optionsValue->getLocaleCode(),
             'scope'  => $optionsValue->getScopeCode(),
-            'data'   => implode(', ', $labels)
+            'data'   => implode(', ', $labels),
         ];
     }
 

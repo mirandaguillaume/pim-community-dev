@@ -20,11 +20,11 @@ class FindAttributeCodeAsLabelForFamily implements FindAttributeCodeAsLabelForFa
     public function execute(string $code): ?string
     {
         $sql = <<<SQL
-        SELECT a.code
-        FROM pim_catalog_family f
-          INNER JOIN pim_catalog_attribute a ON f.label_attribute_id = a.id
-        WHERE (f.code = :code)
-SQL;
+                    SELECT a.code
+                    FROM pim_catalog_family f
+                      INNER JOIN pim_catalog_attribute a ON f.label_attribute_id = a.id
+                    WHERE (f.code = :code)
+            SQL;
         $result = $this->connection->executeQuery($sql, ['code' => $code])->fetchOne();
 
         if (!is_string($result)) {

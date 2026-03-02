@@ -55,7 +55,7 @@ class PurgeOutdatedDataSpec extends ObjectBehavior
     {
         return array_map(fn(DashboardPurgeDate $purgeDate) => [
             'period' => strval($purgeDate->getPeriod()),
-            'date' => $purgeDate->getDate()->format('Y-m-d')
+            'date' => $purgeDate->getDate()->format('Y-m-d'),
         ], iterator_to_array($purgeDates));
     }
 }

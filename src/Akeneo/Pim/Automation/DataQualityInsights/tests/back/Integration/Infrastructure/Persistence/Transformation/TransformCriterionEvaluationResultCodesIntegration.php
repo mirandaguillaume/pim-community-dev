@@ -81,7 +81,7 @@ final class TransformCriterionEvaluationResultCodesIntegration extends DataQuali
                     'en_US' => CriterionEvaluationResultStatus::ERROR,
                     'de_DE' => CriterionEvaluationResultStatus::NOT_APPLICABLE,
                 ],
-            ]
+            ],
         ];
 
         $expectedEvaluationResult = [
@@ -141,7 +141,7 @@ final class TransformCriterionEvaluationResultCodesIntegration extends DataQuali
                     $enUsId => TransformCriterionEvaluationResultCodes::STATUS_ID[CriterionEvaluationResultStatus::ERROR],
                     $deDeId => TransformCriterionEvaluationResultCodes::STATUS_ID[CriterionEvaluationResultStatus::NOT_APPLICABLE],
                 ],
-            ]
+            ],
         ];
 
         $convertedEvaluationResult = $this->get(TransformCriterionEvaluationResultCodes::class)->transformToIds($evaluationResult);

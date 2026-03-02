@@ -11,17 +11,17 @@ use Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface;
 
 class ValueSorterSpec extends ObjectBehavior
 {
-    function let(AttributeRepositoryInterface $attributeRepository)
+    public function let(AttributeRepositoryInterface $attributeRepository)
     {
         $this->beConstructedWith($attributeRepository);
     }
 
-    function it_is_a_sorter()
+    public function it_is_a_sorter()
     {
         $this->shouldImplement(SorterInterface::class);
     }
 
-    function it_applies_a_sort_on_product_sku(
+    public function it_applies_a_sort_on_product_sku(
         $attributeRepository,
         ProductDatasource $datasource,
         ProductQueryBuilderInterface $pqb,

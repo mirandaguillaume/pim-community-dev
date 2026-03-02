@@ -78,8 +78,8 @@ class RestoreAdminRolePermissionsIntegration extends TestCase
     private function removeAdminRole(): void
     {
         $deleteSql = <<<SQL
-            DELETE FROM `oro_access_role` WHERE role ='ROLE_ADMINISTRATOR'
-        SQL;
+                DELETE FROM `oro_access_role` WHERE role ='ROLE_ADMINISTRATOR'
+            SQL;
 
         $this->get('database_connection')->executeQuery($deleteSql);
     }

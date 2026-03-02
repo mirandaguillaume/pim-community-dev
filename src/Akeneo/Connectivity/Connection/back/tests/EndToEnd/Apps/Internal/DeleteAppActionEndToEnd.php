@@ -45,9 +45,9 @@ class DeleteAppActionEndToEnd extends WebTestCase
     private function countConnectedApps(): int
     {
         $query = <<<SQL
-SELECT COUNT(*)
-FROM akeneo_connectivity_connected_app
-SQL;
+            SELECT COUNT(*)
+            FROM akeneo_connectivity_connected_app
+            SQL;
 
         return (int) $this->connection->fetchOne($query);
     }

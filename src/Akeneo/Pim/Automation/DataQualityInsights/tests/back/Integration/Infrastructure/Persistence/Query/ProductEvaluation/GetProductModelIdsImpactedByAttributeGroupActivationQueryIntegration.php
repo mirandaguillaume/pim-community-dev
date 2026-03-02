@@ -51,7 +51,7 @@ final class GetProductModelIdsImpactedByAttributeGroupActivationQueryIntegration
         $productModelIds = iterator_to_array($this->get(GetProductModelIdsImpactedByAttributeGroupActivationQuery::class)
             ->updatedSince($this->updatedSince, 2));
 
-        $productModelIds = array_map(fn (ProductModelIdCollection $collection) => $collection->toArray(), $productModelIds);
+        $productModelIds = array_map(fn(ProductModelIdCollection $collection) => $collection->toArray(), $productModelIds);
 
         $this->assertCount(3, $productModelIds);
         $this->assertEqualsCanonicalizing($expectedProductModelIds, array_merge_recursive(...$productModelIds));
@@ -82,7 +82,7 @@ final class GetProductModelIdsImpactedByAttributeGroupActivationQueryIntegration
             \iterator_to_array($this->get(GetProductModelIdsImpactedByAttributeGroupActivationQuery::class)->forAttributeGroup(new AttributeGroupCode('recently_activated'), 2)),
             \iterator_to_array($this->get(GetProductModelIdsImpactedByAttributeGroupActivationQuery::class)->forAttributeGroup(new AttributeGroupCode('recently_deactivated'), 2)),
         );
-        $productModelIds = array_map(fn (ProductModelIdCollection $collection) => $collection->toArray(), $productModelIds);
+        $productModelIds = array_map(fn(ProductModelIdCollection $collection) => $collection->toArray(), $productModelIds);
 
         $this->assertEqualsCanonicalizing($expectedProductModelIds, array_merge_recursive(...$productModelIds));
     }

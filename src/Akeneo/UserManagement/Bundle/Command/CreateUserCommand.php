@@ -12,13 +12,13 @@ use Akeneo\UserManagement\Component\Model\User;
 use Akeneo\UserManagement\Component\Model\UserInterface;
 use Akeneo\UserManagement\Component\Repository\GroupRepositoryInterface;
 use Akeneo\UserManagement\Component\Repository\RoleRepositoryInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Interactive command to create a PIM user.
@@ -28,13 +28,13 @@ use Symfony\Component\Console\Attribute\AsCommand;
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
 #[\Symfony\Component\Console\Attribute\AsCommand(name: 'pim:user:create', description: <<<DESC
-Creates a PIM user. This command can be launched interactively or non interactively (with the "-n" option). 
-When launched non interactively you have to provide arguments to the command. For instance:
+    Creates a PIM user. This command can be launched interactively or non interactively (with the "-n" option). 
+    When launched non interactively you have to provide arguments to the command. For instance:
 
-    pim:user:create kbeck secretp@ssw0rd kbeck@example.com Kent Beck en_US --admin -n
+        pim:user:create kbeck secretp@ssw0rd kbeck@example.com Kent Beck en_US --admin -n
 
-When launched interactively, command arguments will be ignored.'
-DESC)]
+    When launched interactively, command arguments will be ignored.'
+    DESC)]
 class CreateUserCommand extends Command
 {
     /** @var string */

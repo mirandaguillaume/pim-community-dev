@@ -18,8 +18,7 @@ final class UniqueIdentifierGeneratorCodeValidator extends ConstraintValidator
 {
     public function __construct(
         private readonly IdentifierGeneratorRepository $repository
-    ) {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

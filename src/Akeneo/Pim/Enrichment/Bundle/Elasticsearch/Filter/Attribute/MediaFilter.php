@@ -135,7 +135,7 @@ class MediaFilter extends AbstractAttributeFilter implements AttributeFilterInte
                         'terms' => [
                             self::ATTRIBUTES_OF_ANCESTORS_ES_ID => [$attribute->getCode()],
                         ],
-                    ]
+                    ],
                 ];
                 $this->searchQueryBuilder->addFilter(
                     [

@@ -37,7 +37,7 @@ class FamilyNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
     /**
      * {@inheritdoc}
      */
-    public function normalize($object, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($object, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         if (null === $this->activatedLocaleCodes) {
             $this->activatedLocaleCodes = $this->localeRepository->getActivatedLocaleCodes();

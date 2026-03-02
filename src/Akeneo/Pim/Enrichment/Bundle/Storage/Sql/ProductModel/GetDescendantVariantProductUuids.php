@@ -36,22 +36,22 @@ class GetDescendantVariantProductUuids
         }
 
         $sql = <<<SQL
-WITH
-filter_product_model AS (
-    SELECT id, parent_id, code FROM pim_catalog_product_model WHERE code IN (:codes)
-)
-SELECT
-    BIN_TO_UUID(product.uuid) AS uuid
-FROM filter_product_model
-    INNER JOIN pim_catalog_product product ON filter_product_model.id = product.product_model_id
-UNION DISTINCT
-SELECT
-    BIN_TO_UUID(product.uuid) AS uuid
-FROM filter_product_model
-    INNER JOIN pim_catalog_product_model product_model ON filter_product_model.id = product_model.parent_id
-        AND product_model.parent_id IS NOT NULL
-    INNER JOIN pim_catalog_product product             ON product_model.id = product.product_model_id
-SQL;
+            WITH
+            filter_product_model AS (
+                SELECT id, parent_id, code FROM pim_catalog_product_model WHERE code IN (:codes)
+            )
+            SELECT
+                BIN_TO_UUID(product.uuid) AS uuid
+            FROM filter_product_model
+                INNER JOIN pim_catalog_product product ON filter_product_model.id = product.product_model_id
+            UNION DISTINCT
+            SELECT
+                BIN_TO_UUID(product.uuid) AS uuid
+            FROM filter_product_model
+                INNER JOIN pim_catalog_product_model product_model ON filter_product_model.id = product_model.parent_id
+                    AND product_model.parent_id IS NOT NULL
+                INNER JOIN pim_catalog_product product             ON product_model.id = product.product_model_id
+            SQL;
 
         $result = $this->connection->executeQuery(
             $sql,

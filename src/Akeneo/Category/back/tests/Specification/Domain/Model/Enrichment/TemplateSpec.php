@@ -81,12 +81,12 @@ class TemplateSpec extends ObjectBehavior
                     LabelCollection::fromArray(['fr_FR' => 'attribute_image_libelle']),
                     $templateUuid,
                     AttributeAdditionalProperties::fromArray([])
-                )
+                ),
             ])
         );
     }
 
-    function it_normalizes_template(): void
+    public function it_normalizes_template(): void
     {
         $expectedTemplateUuid = '02274dac-e99a-4e1d-8f9b-794d4c3ba330';
         $expectedNormalizedTemplate = [
@@ -105,7 +105,7 @@ class TemplateSpec extends ObjectBehavior
                     'is_localizable' => true,
                     'labels' => ['fr_FR' => 'attribute_text_libelle'],
                     'template_uuid' => $expectedTemplateUuid,
-                    'additional_properties' => []
+                    'additional_properties' => [],
                 ],
                 [
                     'uuid' => '69e251b3-b876-48b5-9c09-92f54bfb528d',
@@ -117,7 +117,7 @@ class TemplateSpec extends ObjectBehavior
                     'is_localizable' => true,
                     'labels' => ['fr_FR' => 'attribute_textarea_libelle'],
                     'template_uuid' => $expectedTemplateUuid,
-                    'additional_properties' => []
+                    'additional_properties' => [],
                 ],
                 [
                     'uuid' => '840fcd1a-f66b-4f0c-9bbd-596629732950',
@@ -129,7 +129,7 @@ class TemplateSpec extends ObjectBehavior
                     'is_localizable' => true,
                     'labels' => ['fr_FR' => 'attribute_richtext_libelle'],
                     'template_uuid' => $expectedTemplateUuid,
-                    'additional_properties' => []
+                    'additional_properties' => [],
                 ],
                 [
                     'uuid' => '8dda490c-0fd1-4485-bdc5-342929783d9a',
@@ -141,14 +141,14 @@ class TemplateSpec extends ObjectBehavior
                     'is_localizable' => true,
                     'labels' => ['fr_FR' => 'attribute_image_libelle'],
                     'template_uuid' => $expectedTemplateUuid,
-                    'additional_properties' => []
-                ]
-            ]
+                    'additional_properties' => [],
+                ],
+            ],
         ];
         $this->normalize()->shouldReturn($expectedNormalizedTemplate);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(Template::class);
     }

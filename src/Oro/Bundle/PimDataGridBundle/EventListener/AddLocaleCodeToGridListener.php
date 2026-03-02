@@ -41,9 +41,9 @@ class AddLocaleCodeToGridListener
 
         if ($localeParameter
             && (
-                $datasource instanceof Datasource ||
-                $datasource instanceof RepositoryDatasource ||
-                $datasource instanceof FamilyDatasource
+                $datasource instanceof Datasource
+                || $datasource instanceof RepositoryDatasource
+                || $datasource instanceof FamilyDatasource
             )
         ) {
             $queryBuilder = $datasource->getQueryBuilder();

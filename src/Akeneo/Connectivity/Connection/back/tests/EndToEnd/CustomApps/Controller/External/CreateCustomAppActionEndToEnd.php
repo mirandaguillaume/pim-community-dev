@@ -74,13 +74,13 @@ class CreateCustomAppActionEndToEnd extends ApiTestCase
     private function assertCustomAppExists(string $clientId, string $name, string $activateUrl, string $callbackUrl): void
     {
         $sql = <<<SQL
-        SELECT 1
-        FROM akeneo_connectivity_test_app
-        WHERE client_id = :client_id 
-          AND name = :name
-          AND activate_url = :activate_url
-          AND callback_url = :callback_url
-        SQL;
+            SELECT 1
+            FROM akeneo_connectivity_test_app
+            WHERE client_id = :client_id 
+              AND name = :name
+              AND activate_url = :activate_url
+              AND callback_url = :callback_url
+            SQL;
 
         $result = $this->connection->fetchOne($sql, [
             'client_id' => $clientId,

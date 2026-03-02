@@ -21,8 +21,7 @@ final readonly class Conditions
      */
     private function __construct(
         private array $conditions,
-    ) {
-    }
+    ) {}
 
     /**
      * @param ConditionInterface[] $conditions
@@ -61,7 +60,7 @@ final readonly class Conditions
      */
     public function normalize(): array
     {
-        return \array_map(static fn (ConditionInterface $condition) => $condition->normalize(), $this->conditions);
+        return \array_map(static fn(ConditionInterface $condition) => $condition->normalize(), $this->conditions);
     }
 
     /**

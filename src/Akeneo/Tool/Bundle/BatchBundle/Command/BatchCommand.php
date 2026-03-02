@@ -15,6 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,7 +24,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Batch command
@@ -35,7 +35,6 @@ use Symfony\Component\Console\Attribute\AsCommand;
 #[AsCommand(name: 'akeneo:batch:job', description: '[Internal] Please use "akeneo:batch:publish-job-to-queue" to launch a registered job instance')]
 class BatchCommand extends Command
 {
-
     final public const EXIT_SUCCESS_CODE = 0;
     final public const EXIT_ERROR_CODE = 1;
     final public const EXIT_WARNING_CODE = 2;
@@ -63,8 +62,8 @@ class BatchCommand extends Command
                 'config',
                 'c',
                 InputOption::VALUE_REQUIRED,
-                'Override job configuration (formatted as json. ie: ' .
-                'php bin/console akeneo:batch:job -c "{\"filePath\":\"/tmp/foo.csv\"}" acme_product_import)'
+                'Override job configuration (formatted as json. ie: '
+                . 'php bin/console akeneo:batch:job -c "{\"filePath\":\"/tmp/foo.csv\"}" acme_product_import)'
             )
             ->addOption(
                 'username',
@@ -138,16 +137,16 @@ class BatchCommand extends Command
             $jobExecution = $this->jobExecutionFactory->createFromBatchCode($code, $config, $username);
             $executionId = $jobExecution->getId();
         }
-        $jobExecution = $this->jobExecutionRunner->executeFromJobExecutionId((int)$executionId);
+        $jobExecution = $this->jobExecutionRunner->executeFromJobExecutionId((int) $executionId);
 
         $verbose = $input->getOption('verbose');
         $jobInstance = $jobExecution->getJobInstance();
 
         if (
-            ExitStatus::COMPLETED === $jobExecution->getExitStatus()->getExitCode() ||
-            (
-                ExitStatus::STOPPED === $jobExecution->getExitStatus()->getExitCode() &&
-                BatchStatus::STOPPED === $jobExecution->getStatus()->getValue()
+            ExitStatus::COMPLETED === $jobExecution->getExitStatus()->getExitCode()
+            || (
+                ExitStatus::STOPPED === $jobExecution->getExitStatus()->getExitCode()
+                && BatchStatus::STOPPED === $jobExecution->getStatus()->getValue()
             )
         ) {
             $nbWarnings = 0;

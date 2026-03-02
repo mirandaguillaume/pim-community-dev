@@ -88,7 +88,7 @@ class UpdateIndexMappingWithoutDowntimeSpec extends ObjectBehavior
                     ],
                 ],
             ],
-            'aliases' => [self::TEMPORARY_INDEX_ALIAS => new \stdClass()]
+            'aliases' => [self::TEMPORARY_INDEX_ALIAS => new \stdClass()],
         ])->shouldBeCalledOnce();
 
         $firstDatetime = new \DateTimeImmutable('@0');
@@ -102,7 +102,7 @@ class UpdateIndexMappingWithoutDowntimeSpec extends ObjectBehavior
             [
                 'range' => [
                     'updated_at' => ['gt' => $firstDatetime->getTimestamp()],
-                ]
+                ],
             ],
         )->shouldBeCalledOnce()->willReturn(10);
 
@@ -146,9 +146,9 @@ class UpdateIndexMappingWithoutDowntimeSpec extends ObjectBehavior
             self::TEMPORARY_INDEX_ALIAS,
             self::MIGRATED_INDEX_NAME,
             $indexConfiguration,
-            fn (\DateTimeImmutable $referenceDatetime) => [
+            fn(\DateTimeImmutable $referenceDatetime) => [
                 'range' => [
-                    'updated_at' => ['gt' => $referenceDatetime->getTimestamp()]
+                    'updated_at' => ['gt' => $referenceDatetime->getTimestamp()],
                 ],
             ]
         );
@@ -190,7 +190,7 @@ class UpdateIndexMappingWithoutDowntimeSpec extends ObjectBehavior
                     ],
                 ],
             ],
-            'aliases' => [self::TEMPORARY_INDEX_ALIAS => new \stdClass()]
+            'aliases' => [self::TEMPORARY_INDEX_ALIAS => new \stdClass()],
         ])->shouldBeCalledOnce();
 
         $firstDatetime = new \DateTimeImmutable('@0');
@@ -204,7 +204,7 @@ class UpdateIndexMappingWithoutDowntimeSpec extends ObjectBehavior
             [
                 'range' => [
                     'updated_at' => ['gt' => $firstDatetime->getTimestamp()],
-                ]
+                ],
             ],
         )->shouldBeCalledOnce()->willReturn(10);
 
@@ -249,9 +249,9 @@ class UpdateIndexMappingWithoutDowntimeSpec extends ObjectBehavior
             self::TEMPORARY_INDEX_ALIAS,
             self::MIGRATED_INDEX_NAME,
             $indexConfiguration,
-            fn (\DateTimeImmutable $referenceDatetime) => [
+            fn(\DateTimeImmutable $referenceDatetime) => [
                 'range' => [
-                    'updated_at' => ['gt' => $referenceDatetime->getTimestamp()]
+                    'updated_at' => ['gt' => $referenceDatetime->getTimestamp()],
                 ],
             ]
         );
@@ -287,7 +287,7 @@ class UpdateIndexMappingWithoutDowntimeSpec extends ObjectBehavior
                     ],
                 ],
             ],
-            'aliases' => [self::TEMPORARY_INDEX_ALIAS => new \stdClass()]
+            'aliases' => [self::TEMPORARY_INDEX_ALIAS => new \stdClass()],
         ])->shouldBeCalledOnce();
 
         $firstDatetime = new \DateTimeImmutable('@0');
@@ -326,7 +326,7 @@ class UpdateIndexMappingWithoutDowntimeSpec extends ObjectBehavior
             self::TEMPORARY_INDEX_ALIAS,
             [
                 'range' => [
-                    'updated_at' => ['gt' => $datetimeAfterSecondIndexation->modify('- 1second')->getTimestamp()]
+                    'updated_at' => ['gt' => $datetimeAfterSecondIndexation->modify('- 1second')->getTimestamp()],
                 ],
             ]
         )->shouldBeCalledOnce()->willReturn(0);
@@ -349,7 +349,7 @@ class UpdateIndexMappingWithoutDowntimeSpec extends ObjectBehavior
             self::INDEX_ALIAS_TO_MIGRATE,
             [
                 'range' => [
-                    'updated_at' => ['gt' => $datetimeAfterSwitch->modify('- 1second')->getTimestamp()]
+                    'updated_at' => ['gt' => $datetimeAfterSwitch->modify('- 1second')->getTimestamp()],
                 ],
             ]
         )->shouldBeCalledOnce()->willReturn(0);
@@ -361,9 +361,9 @@ class UpdateIndexMappingWithoutDowntimeSpec extends ObjectBehavior
             self::TEMPORARY_INDEX_ALIAS,
             self::MIGRATED_INDEX_NAME,
             $indexConfiguration,
-            fn (\DateTimeImmutable $referenceDatetime) => [
+            fn(\DateTimeImmutable $referenceDatetime) => [
                 'range' => [
-                    'updated_at' => ['gt' => $referenceDatetime->getTimestamp()]
+                    'updated_at' => ['gt' => $referenceDatetime->getTimestamp()],
                 ],
             ]
         );
@@ -416,7 +416,7 @@ class UpdateIndexMappingWithoutDowntimeSpec extends ObjectBehavior
             self::TEMPORARY_INDEX_ALIAS,
             [
                 'range' => [
-                    'updated_at' => ['gt' => $firstDatetime->getTimestamp()]
+                    'updated_at' => ['gt' => $firstDatetime->getTimestamp()],
                 ],
             ],
         )->shouldBeCalledOnce()->willReturn(10);
@@ -426,7 +426,7 @@ class UpdateIndexMappingWithoutDowntimeSpec extends ObjectBehavior
             self::TEMPORARY_INDEX_ALIAS,
             [
                 'range' => [
-                    'updated_at' => ['gt' => $datetimeAfterFirstIndexation->modify('- 1second')->getTimestamp()]
+                    'updated_at' => ['gt' => $datetimeAfterFirstIndexation->modify('- 1second')->getTimestamp()],
                 ],
             ],
         )->shouldBeCalledOnce()->willReturn(0);
@@ -449,7 +449,7 @@ class UpdateIndexMappingWithoutDowntimeSpec extends ObjectBehavior
             self::INDEX_ALIAS_TO_MIGRATE,
             [
                 'range' => [
-                    'updated_at' => ['gt' => $datetimeAfterSwitch->modify('- 1second')->getTimestamp()]
+                    'updated_at' => ['gt' => $datetimeAfterSwitch->modify('- 1second')->getTimestamp()],
                 ],
             ],
         )->shouldBeCalledOnce()->willReturn(1);
@@ -461,9 +461,9 @@ class UpdateIndexMappingWithoutDowntimeSpec extends ObjectBehavior
             self::TEMPORARY_INDEX_ALIAS,
             self::MIGRATED_INDEX_NAME,
             $indexConfiguration,
-            fn (\DateTimeImmutable $referenceDatetime) => [
+            fn(\DateTimeImmutable $referenceDatetime) => [
                 'range' => [
-                    'updated_at' => ['gt' => $referenceDatetime->getTimestamp()]
+                    'updated_at' => ['gt' => $referenceDatetime->getTimestamp()],
                 ],
             ]
         );
@@ -553,11 +553,11 @@ class UpdateIndexMappingWithoutDowntimeSpec extends ObjectBehavior
                 self::TEMPORARY_INDEX_ALIAS,
                 self::MIGRATED_INDEX_NAME,
                 $indexConfiguration,
-                fn (\DateTimeImmutable $referenceDatetime) => [
+                fn(\DateTimeImmutable $referenceDatetime) => [
                     'range' => [
-                        'updated_at' => ['gt' => $referenceDatetime->getTimestamp()]
-                    ]
-                ]
+                        'updated_at' => ['gt' => $referenceDatetime->getTimestamp()],
+                    ],
+                ],
             ]);
     }
 }

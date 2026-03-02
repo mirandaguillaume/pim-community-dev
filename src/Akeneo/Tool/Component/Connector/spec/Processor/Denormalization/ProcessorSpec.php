@@ -25,24 +25,23 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class ProcessorSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         IdentifiableObjectRepositoryInterface $repository,
         SimpleFactory $factory,
         ObjectUpdaterInterface $updater,
         ValidatorInterface $validator,
         ObjectDetacherInterface $objectDetacher
-
     ) {
         $this->beConstructedWith($repository, $factory, $updater, $validator, $objectDetacher);
     }
 
-    function it_is_a_processor()
+    public function it_is_a_processor()
     {
         $this->shouldImplement(ItemProcessorInterface::class);
         $this->shouldImplement(StepExecutionAwareInterface::class);
     }
 
-    function it_updates_an_existing_channel(
+    public function it_updates_an_existing_channel(
         $repository,
         $updater,
         $validator,
@@ -68,7 +67,7 @@ class ProcessorSpec extends ObjectBehavior
             ->shouldReturn($channel);
     }
 
-    function it_skips_a_channel_when_update_fails(
+    public function it_skips_a_channel_when_update_fails(
         $repository,
         $updater,
         $validator,
@@ -105,7 +104,7 @@ class ProcessorSpec extends ObjectBehavior
             );
     }
 
-    function it_skips_a_channel_when_object_is_invalid(
+    public function it_skips_a_channel_when_object_is_invalid(
         $repository,
         $updater,
         $validator,
@@ -137,7 +136,7 @@ class ProcessorSpec extends ObjectBehavior
             );
     }
 
-    function it_does_not_create_the_same_channel_twice_in_the_same_batch(
+    public function it_does_not_create_the_same_channel_twice_in_the_same_batch(
         $repository,
         $updater,
         $validator,
@@ -157,7 +156,7 @@ class ProcessorSpec extends ObjectBehavior
         $executionContext
             ->put('processed_items_batch', ['mycode' => $channel])
             ->shouldBeCalled()
-            ->will(function() use ($executionContext, $channel) {
+            ->will(function () use ($executionContext, $channel) {
                 $executionContext->get('processed_items_batch')->willReturn(['mycode' => $channel]);
             });
 
@@ -199,7 +198,7 @@ class ProcessorSpec extends ObjectBehavior
             'locales'    => ['en_US', 'fr_FR'],
             'currencies' => ['EUR', 'USD'],
             'tree'       => 'master_catalog',
-            'color'      => 'orange'
+            'color'      => 'orange',
         ];
     }
 }

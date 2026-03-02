@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Infrastructure\Audit\Persistence;
@@ -20,9 +21,9 @@ class PurgeAuditErrorQuery
     public function execute(\DateTimeImmutable $before): int
     {
         $deleteQuery = <<<SQL
-DELETE FROM akeneo_connectivity_connection_audit_error
-WHERE error_datetime < :before
-SQL;
+            DELETE FROM akeneo_connectivity_connection_audit_error
+            WHERE error_datetime < :before
+            SQL;
         return $this->connection->executeStatement(
             $deleteQuery,
             ['before' => $before],

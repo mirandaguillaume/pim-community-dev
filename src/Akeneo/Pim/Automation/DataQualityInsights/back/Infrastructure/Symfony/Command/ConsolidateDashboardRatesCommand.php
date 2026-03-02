@@ -6,11 +6,11 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Symfony\Comma
 
 use Akeneo\Pim\Automation\DataQualityInsights\Application\Consolidation\ConsolidateDashboardRates;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ConsolidationDate;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)

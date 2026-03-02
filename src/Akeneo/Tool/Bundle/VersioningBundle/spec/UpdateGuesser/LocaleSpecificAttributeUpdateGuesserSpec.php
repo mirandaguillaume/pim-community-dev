@@ -13,23 +13,23 @@ use PhpSpec\ObjectBehavior;
 
 class LocaleSpecificAttributeUpdateGuesserSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(LocaleSpecificAttributeUpdateGuesser::class);
     }
 
-    function it_is_an_update_guesser()
+    public function it_is_an_update_guesser()
     {
         $this->shouldImplement(UpdateGuesserInterface::class);
     }
 
-    function it_supports_update_action()
+    public function it_supports_update_action()
     {
         $this->supportAction(UpdateGuesserInterface::ACTION_UPDATE_COLLECTION)->shouldReturn(true);
         $this->supportAction('foo')->shouldReturn(false);
     }
 
-    function it_guesses_attribute_locale_updates()
+    public function it_guesses_attribute_locale_updates()
     {
         $attribute = new Attribute();
         $em = new MyEntityManager();
@@ -41,12 +41,11 @@ class LocaleSpecificAttributeUpdateGuesserSpec extends ObjectBehavior
     }
 }
 
-class MyEntityManager extends EntityManager {
+class MyEntityManager extends EntityManager
+{
     /**
      * PersistentCollection can not be a Collaborator, but is final. This current way to test is not ideal, but
      * creating a new EntityManager() requires a lot of mandatory parameters.
      */
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 }

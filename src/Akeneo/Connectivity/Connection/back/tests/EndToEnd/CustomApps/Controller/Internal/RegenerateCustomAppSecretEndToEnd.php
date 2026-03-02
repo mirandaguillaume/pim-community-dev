@@ -100,10 +100,10 @@ class RegenerateCustomAppSecretEndToEnd extends WebTestCase
     private function getCustomAppSecret(string $clientId): string
     {
         $sql = <<<SQL
-        SELECT client_secret
-        FROM akeneo_connectivity_test_app
-        WHERE client_id = :clientId
-        SQL;
+            SELECT client_secret
+            FROM akeneo_connectivity_test_app
+            WHERE client_id = :clientId
+            SQL;
 
         return $this->connection->fetchOne($sql, ['clientId' => $clientId]);
     }

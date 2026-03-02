@@ -39,7 +39,7 @@ class ChainedNonExistentValuesFilter implements ChainedNonExistentValuesFilterIn
             function (OnGoingFilteredRawValues $onGoingFilteredRawValues, NonExistentValuesFilter $obsoleteValuesFilter): OnGoingFilteredRawValues {
                 try {
                     return $obsoleteValuesFilter->filter($onGoingFilteredRawValues);
-                } catch (\TypeError | InvalidPropertyTypeException) {
+                } catch (\TypeError|InvalidPropertyTypeException) {
                     return $onGoingFilteredRawValues;
                 }
             },

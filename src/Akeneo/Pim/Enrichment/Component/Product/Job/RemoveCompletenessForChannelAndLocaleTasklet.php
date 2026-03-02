@@ -88,7 +88,7 @@ class RemoveCompletenessForChannelAndLocaleTasklet implements TaskletInterface
             ->setMessage('pim_enrich.notification.settings.remove_completeness_for_channel_and_locale.start')
             ->setContext([
                 'actionType' => 'settings',
-                'showReportButton' => false
+                'showReportButton' => false,
             ]);
         $this->notifier->notify($pushNotif, $users);
     }
@@ -101,7 +101,7 @@ class RemoveCompletenessForChannelAndLocaleTasklet implements TaskletInterface
             ->setMessage('pim_enrich.notification.settings.remove_completeness_for_channel_and_locale.done')
             ->setContext([
                 'actionType' => 'settings',
-                'showReportButton' => false
+                'showReportButton' => false,
             ]);
         $this->notifier->notify($doneNotif, $users);
     }

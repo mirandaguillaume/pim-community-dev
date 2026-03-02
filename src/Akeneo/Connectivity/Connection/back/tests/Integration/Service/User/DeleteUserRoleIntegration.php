@@ -63,10 +63,10 @@ class DeleteUserRoleIntegration extends TestCase
     private function fetchUserRoles(): array
     {
         $query = <<<SQL
-SELECT role
-FROM oro_access_role
-ORDER BY role
-SQL;
+            SELECT role
+            FROM oro_access_role
+            ORDER BY role
+            SQL;
 
         return $this->connection->fetchFirstColumn($query);
     }

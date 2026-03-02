@@ -51,7 +51,7 @@ class DatagridViewRepositoryIntegration extends TestCase
         Assert::assertInstanceOf(DatagridView::class, $result[0]);
         Assert::assertSame(
             [$view1Id, $view2Id, $view3Id, $view4Id, $view6Id],
-            array_map(fn ($view) => $view->getId(), $result)
+            array_map(fn($view) => $view->getId(), $result)
         );
     }
 
@@ -63,11 +63,11 @@ class DatagridViewRepositoryIntegration extends TestCase
         $user = $this->userRepository->findOneBy(['username' => 'admin']);
 
         $result = $this->datagridViewRepository->findDatagridViewBySearch($user, 'product-grid', '', [
-            'identifiers' => [$view1Id, $view2Id]
+            'identifiers' => [$view1Id, $view2Id],
         ]);
         Assert::assertSame(
             [$view1Id, $view2Id],
-            array_map(fn ($view) => $view->getId(), $result)
+            array_map(fn($view) => $view->getId(), $result)
         );
     }
 

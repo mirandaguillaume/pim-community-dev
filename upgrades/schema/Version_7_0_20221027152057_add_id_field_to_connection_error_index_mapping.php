@@ -19,7 +19,7 @@ final class Version_7_0_20221027152057_add_id_field_to_connection_error_index_ma
 {
     private ContainerInterface $container;
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         $this->disableMigrationWarning();
         $indexHosts = $this->container->getParameter('index_hosts');
@@ -122,7 +122,7 @@ final class Version_7_0_20221027152057_add_id_field_to_connection_error_index_ma
         return Yaml::parseFile($path);
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         $this->throwIrreversibleMigrationException();
     }

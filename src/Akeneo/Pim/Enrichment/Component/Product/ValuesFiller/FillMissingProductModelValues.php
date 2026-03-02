@@ -162,8 +162,8 @@ final class FillMissingProductModelValues implements FillMissingValuesInterface
             foreach ($valuesIndexedByChannel as $channelCode => $valuesIndexedByLocale) {
                 foreach ($valuesIndexedByLocale as $localeCode => $data) {
                     $valuesInStandardFormat[$attributeCode][] = [
-                        'scope' => '<all_channels>' === $channelCode ? null : (string)$channelCode,
-                        'locale' => '<all_locales>' === $localeCode ? null : (string)$localeCode,
+                        'scope' => '<all_channels>' === $channelCode ? null : (string) $channelCode,
+                        'locale' => '<all_locales>' === $localeCode ? null : (string) $localeCode,
                         'data' => $data,
                     ];
                 }
@@ -276,12 +276,12 @@ final class FillMissingProductModelValues implements FillMissingValuesInterface
                     $standardFormatData = [];
 
                     foreach ($valuesByCurrency as $currencyCode => $amount) {
-                        $standardFormatData[] = ['currency' => (string)$currencyCode, 'amount' => $amount];
+                        $standardFormatData[] = ['currency' => (string) $currencyCode, 'amount' => $amount];
                     }
 
                     $valuesInStandardFormat[$attributeCode][] = [
-                        'scope' => '<all_channels>' === $channelCode ? null : (string)$channelCode,
-                        'locale' => '<all_locales>' === $localeCode ? null : (string)$localeCode,
+                        'scope' => '<all_channels>' === $channelCode ? null : (string) $channelCode,
+                        'locale' => '<all_locales>' === $localeCode ? null : (string) $localeCode,
                         'data' => $standardFormatData,
                     ];
                 }

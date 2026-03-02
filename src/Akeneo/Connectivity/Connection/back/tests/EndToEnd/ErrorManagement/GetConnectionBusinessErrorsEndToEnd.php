@@ -24,7 +24,7 @@ class GetConnectionBusinessErrorsEndToEnd extends WebTestCase
     {
         $errors = [
             new BusinessError('{"message":"Error 1"}', new \DateTimeImmutable('2020-01-01T00:00:00+00:00')),
-            new BusinessError('{"message":"Error 2"}', new \DateTimeImmutable('2020-01-07T00:00:00+00:00'))
+            new BusinessError('{"message":"Error 2"}', new \DateTimeImmutable('2020-01-07T00:00:00+00:00')),
         ];
         $this->insertBusinessErrors(new ConnectionCode('erp'), $errors);
 
@@ -32,12 +32,12 @@ class GetConnectionBusinessErrorsEndToEnd extends WebTestCase
             [
                 'connection_code' => 'erp',
                 'date_time' => '2020-01-07T00:00:00+00:00',
-                'content' => ['message' => 'Error 2']
+                'content' => ['message' => 'Error 2'],
             ],
             [
                 'connection_code' => 'erp',
                 'date_time' => '2020-01-01T00:00:00+00:00',
-                'content' => ['message' => 'Error 1']
+                'content' => ['message' => 'Error 1'],
             ],
         ];
 

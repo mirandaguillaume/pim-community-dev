@@ -41,8 +41,8 @@ abstract class SqlIntegrationTestCase extends KernelTestCase
     protected function resetDB(): void
     {
         $sql = <<<SQL
-DROP TABLE akeneo_measurement;
-SQL;
+            DROP TABLE akeneo_measurement;
+            SQL;
         $this->connection->executeQuery($sql);
     }
 

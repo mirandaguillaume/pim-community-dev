@@ -31,9 +31,9 @@ class TranslatedColumnPresenter implements ColumnPresenterInterface
     private function headerAreTranslated(array $context): bool
     {
         return
-            isset($context['with_label'], $context['header_with_label']) &&
-            $context['with_label'] &&
-            $context['header_with_label'];
+            isset($context['with_label'], $context['header_with_label'])
+            && $context['with_label']
+            && $context['header_with_label'];
     }
 
     private function removeCodeWhenTranslationIsNotDuplicated(array $columns, array $duplicatedTranslations): array

@@ -39,17 +39,17 @@ final readonly class InitializeJobs
     private function createJobInstance(string $jobName): void
     {
         $query = <<<SQL
-INSERT INTO `akeneo_batch_job_instance` (`code`, `label`, `job_name`, `status`, `connector`, `raw_parameters`, `type`)
-VALUES (
-    :job_name,
-    :job_name,
-    :job_name,
-    0,
-    'Data Quality Insights Connector',
-    'a:0:{}',
-    'data_quality_insights'
-);
-SQL;
+            INSERT INTO `akeneo_batch_job_instance` (`code`, `label`, `job_name`, `status`, `connector`, `raw_parameters`, `type`)
+            VALUES (
+                :job_name,
+                :job_name,
+                :job_name,
+                0,
+                'Data Quality Insights Connector',
+                'a:0:{}',
+                'data_quality_insights'
+            );
+            SQL;
         $this->db->executeStatement(
             $query,
             [

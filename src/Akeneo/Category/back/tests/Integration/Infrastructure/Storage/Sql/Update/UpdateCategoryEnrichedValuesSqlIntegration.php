@@ -19,24 +19,24 @@ class UpdateCategoryEnrichedValuesSqlIntegration extends CategoryTestCase
             'code' => 'socks',
             'labels' => [
                 'fr_FR' => 'Chaussettes',
-                'en_US' => 'Socks'
-            ]
+                'en_US' => 'Socks',
+            ],
         ]);
 
         $categoryShoes = $this->createCategory([
             'code' => 'shoes',
             'labels' => [
                 'fr_FR' => 'Chaussures',
-                'en_US' => 'Shoes'
-            ]
+                'en_US' => 'Shoes',
+            ],
         ]);
 
         $this->createCategory([
             'code' => 'pants',
             'labels' => [
                 'fr_FR' => 'Pantalons',
-                'en_US' => 'Pants'
-            ]
+                'en_US' => 'Pants',
+            ],
         ]);
 
         $this->updateCategoryWithValues($categorySocks->getCode());
@@ -54,11 +54,11 @@ class UpdateCategoryEnrichedValuesSqlIntegration extends CategoryTestCase
         $socksValueCollection->setValue(
             TextValue::fromArray(
                 [
-            'data' => 'Socks you need',
-            'type' => 'text',
-            'channel' => 'print',
-            'locale' => 'en_US',
-            'attribute_code' => 'title'.AbstractValue::SEPARATOR.'87939c45-1d85-4134-9579-d594fff65030',
+                    'data' => 'Socks you need',
+                    'type' => 'text',
+                    'channel' => 'print',
+                    'locale' => 'en_US',
+                    'attribute_code' => 'title' . AbstractValue::SEPARATOR . '87939c45-1d85-4134-9579-d594fff65030',
                 ]
             )
         );
@@ -71,7 +71,7 @@ class UpdateCategoryEnrichedValuesSqlIntegration extends CategoryTestCase
                     'type' => 'text',
                     'channel' => 'mobile',
                     'locale' => 'en_US',
-                    'attribute_code' => 'title'.AbstractValue::SEPARATOR.'87939c45-1d85-4134-9579-d594fff65030',
+                    'attribute_code' => 'title' . AbstractValue::SEPARATOR . '87939c45-1d85-4134-9579-d594fff65030',
                 ]
             )
         );
@@ -94,10 +94,10 @@ class UpdateCategoryEnrichedValuesSqlIntegration extends CategoryTestCase
             'en_US'
         );
         $this->assertInstanceOf(TextValue::class, $updatedSocksPrintTitleValue);
-            $this->assertEquals(
-                'Socks you need',
-                $updatedSocksPrintTitleValue->getValue()
-            );
+        $this->assertEquals(
+            'Socks you need',
+            $updatedSocksPrintTitleValue->getValue()
+        );
         $updatedSocksEcommerceTitleValue = $updatedSocksValueCollection->getValue(
             'title',
             '87939c45-1d85-4134-9579-d594fff65030',
@@ -107,7 +107,7 @@ class UpdateCategoryEnrichedValuesSqlIntegration extends CategoryTestCase
         $this->assertInstanceOf(TextValue::class, $updatedSocksEcommerceTitleValue);
         $this->assertEquals(
             'All the shoes you need!',
-                $updatedSocksEcommerceTitleValue->getValue()
+            $updatedSocksEcommerceTitleValue->getValue()
         );
 
         // TODO check les valeurs telles que channel, locale ? et/ou code ?

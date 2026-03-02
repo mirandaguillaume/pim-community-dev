@@ -26,7 +26,7 @@ final class SqlFindUnitIntegration extends TestCase
             [
                 'value' => '0.000000001',
                 'operator' => 'mul',
-            ]
+            ],
         ];
 
         $this->assertEqualsCanonicalizing(

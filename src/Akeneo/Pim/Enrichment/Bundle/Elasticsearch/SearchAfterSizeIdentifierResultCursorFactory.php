@@ -56,13 +56,13 @@ class SearchAfterSizeIdentifierResultCursorFactory implements CursorFactoryInter
             [
                 'search_after',
                 'search_after_unique_key',
-                'limit'
+                'limit',
             ]
         );
         $resolver->setDefaults(
             [
                 'search_after' => [],
-                'search_after_unique_key' => null
+                'search_after_unique_key' => null,
             ]
         );
         $resolver->setAllowedTypes('search_after', 'array');

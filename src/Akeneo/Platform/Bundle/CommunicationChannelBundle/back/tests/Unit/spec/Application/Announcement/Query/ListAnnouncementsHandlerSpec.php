@@ -82,7 +82,7 @@ class ListAnnouncementsHandlerSpec extends ObjectBehavior
                 $startDate,
                 $endDate,
                 ['updates', 'new']
-            )
+            ),
         ]);
     }
 
@@ -110,7 +110,7 @@ class ListAnnouncementsHandlerSpec extends ObjectBehavior
                 $startDate,
                 $endDate,
                 ['updates']
-            )
+            ),
         ];
     }
 }

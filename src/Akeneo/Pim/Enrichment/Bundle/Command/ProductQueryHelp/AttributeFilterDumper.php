@@ -96,7 +96,7 @@ class AttributeFilterDumper implements DumperInterface
                     $isScopable,
                     $attributeType,
                     $operators,
-                    $class
+                    $class,
                 ];
             }
 
@@ -115,7 +115,7 @@ class AttributeFilterDumper implements DumperInterface
                         $isScopable,
                         $attributeType,
                         $operators,
-                        $class
+                        $class,
                     ];
                 }
             }
@@ -130,8 +130,8 @@ class AttributeFilterDumper implements DumperInterface
                 $isScopable,
                 $attributeType,
                 '',
-                'Not supported'
-            ]
+                'Not supported',
+            ],
         ];
     }
 }

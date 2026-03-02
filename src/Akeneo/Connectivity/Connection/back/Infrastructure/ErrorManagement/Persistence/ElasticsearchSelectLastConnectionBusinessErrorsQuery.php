@@ -40,7 +40,7 @@ class ElasticsearchSelectLastConnectionBusinessErrorsQuery implements SelectLast
                                             'gte' => $from->format(\DateTimeInterface::ATOM),
                                             'lte' => $to->format(\DateTimeInterface::ATOM),
                                         ],
-                                    ]
+                                    ],
                                 ],
                             ],
                         ],

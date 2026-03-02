@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Component\Product\Validator\Constraints;
@@ -38,8 +39,8 @@ class NotEmptyFamilyValidator extends ConstraintValidator
 
         if (null === $product->getFamily()) {
             $this->context->buildViolation($constraint->message, [
-                   '%sku%' => $product->getIdentifier()
-                ])
+                '%sku%' => $product->getIdentifier(),
+            ])
                 ->atPath($constraint->propertyPath)
                 ->setCode(NotEmptyFamily::NOT_EMPTY_FAMILY)
                 ->addViolation();

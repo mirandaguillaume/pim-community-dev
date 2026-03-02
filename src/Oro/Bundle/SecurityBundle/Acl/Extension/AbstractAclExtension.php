@@ -101,7 +101,7 @@ abstract class AbstractAclExtension implements AclExtensionInterface
     {
         $objectDescription = is_object($object) && !($object instanceof ObjectIdentityInterface)
             ? $object::class
-            : (string)$object;
+            : (string) $object;
         $msg = sprintf(
             'Invalid ACL mask "%s" for %s.',
             $this->getMaskPattern($mask),

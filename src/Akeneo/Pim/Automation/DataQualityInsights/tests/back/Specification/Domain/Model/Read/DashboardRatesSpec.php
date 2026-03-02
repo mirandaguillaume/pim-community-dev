@@ -33,7 +33,7 @@ final class DashboardRatesSpec extends ObjectBehavior
                             "rank_3" => 20,
                             "rank_4" => 20,
                             "rank_5" => 20,
-                        ]
+                        ],
                     ],
                     "mobile" => [
                         "en_US" => [
@@ -49,7 +49,7 @@ final class DashboardRatesSpec extends ObjectBehavior
                             "rank_3" => 20,
                             "rank_4" => 20,
                             "rank_5" => 20,
-                        ]
+                        ],
                     ],
                 ],
                 $twoDaysAgo => [
@@ -67,7 +67,7 @@ final class DashboardRatesSpec extends ObjectBehavior
                             "rank_3" => 20,
                             "rank_4" => 20,
                             "rank_5" => 20,
-                        ]
+                        ],
                     ],
                     "mobile" => [
                         "en_US" => [
@@ -83,10 +83,10 @@ final class DashboardRatesSpec extends ObjectBehavior
                             "rank_3" => 20,
                             "rank_4" => 20,
                             "rank_5" => 20,
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
-            ]
+            ],
         ];
 
         $this->beConstructedWith($rates, new ChannelCode('ecommerce'), new LocaleCode('en_US'), new TimePeriod('daily'));

@@ -45,8 +45,8 @@ final class ClientMigration implements ClientMigrationInterface
                 ],
                 "dest" => [
                     "index" => $targetIndexAlias,
-                ]
-            ]
+                ],
+            ],
         ]);
 
         return $reindexResponse["total"];
@@ -72,8 +72,8 @@ final class ClientMigration implements ClientMigrationInterface
         $this->assertResponseIsAcknowledged($indicesClient->putSettings([
             'index' => $indexName,
             'body' => [
-                'index' => $indexSettings
-            ]
+                'index' => $indexSettings,
+            ],
         ]));
     }
 
@@ -99,16 +99,16 @@ final class ClientMigration implements ClientMigrationInterface
                             'add' => [
                                 'alias' => $newIndexAlias,
                                 'index' => $oldIndexName,
-                            ]
+                            ],
                         ],
                         [
                             'remove' => [
                                 'alias' => $newIndexAlias,
                                 'index' => $newIndexName,
-                            ]
+                            ],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ])
         );
     }
@@ -126,7 +126,7 @@ final class ClientMigration implements ClientMigrationInterface
                             ],
                         ],
                     ],
-                ]
+                ],
             ])
         );
     }
@@ -149,8 +149,8 @@ final class ClientMigration implements ClientMigrationInterface
                                 'index' => $indexName,
                             ],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ])
         );
     }
@@ -162,7 +162,7 @@ final class ClientMigration implements ClientMigrationInterface
         $this->assertResponseIsAcknowledged(
             $indicesClient->create([
                 'index' => $indexName,
-                'body' => $body
+                'body' => $body,
             ])
         );
     }

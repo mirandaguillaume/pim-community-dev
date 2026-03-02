@@ -15,9 +15,8 @@ use PHPUnit\Framework\Assert;
  */
 final class Version_7_0_20220824134638_add_missing_remove_completeness_for_channel_and_locale_job_instance_Integration extends TestCase
 {
-    private const MIGRATION_NAME = '_7_0_20220824134638_add_missing_remove_completeness_for_channel_and_locale_job_instance';
-
     use ExecuteMigrationTrait;
+    private const MIGRATION_NAME = '_7_0_20220824134638_add_missing_remove_completeness_for_channel_and_locale_job_instance';
 
     private Connection $connection;
 
@@ -39,8 +38,8 @@ final class Version_7_0_20220824134638_add_missing_remove_completeness_for_chann
     {
         $this->connection->executeStatement(
             <<<SQL
-            DELETE FROM akeneo_batch_job_instance WHERE code = 'remove_completeness_for_channel_and_locale';
-            SQL
+                DELETE FROM akeneo_batch_job_instance WHERE code = 'remove_completeness_for_channel_and_locale';
+                SQL
         );
         Assert::assertFalse($this->jobInstanceExists());
         $this->reExecuteMigration(self::MIGRATION_NAME);
@@ -56,10 +55,10 @@ final class Version_7_0_20220824134638_add_missing_remove_completeness_for_chann
     {
         return (bool) $this->connection->fetchOne(
             <<<SQL
-            SELECT EXISTS(
-                SELECT * FROM akeneo_batch_job_instance WHERE code = 'remove_completeness_for_channel_and_locale'
-            );
-            SQL
+                SELECT EXISTS(
+                    SELECT * FROM akeneo_batch_job_instance WHERE code = 'remove_completeness_for_channel_and_locale'
+                );
+                SQL
         );
     }
 }

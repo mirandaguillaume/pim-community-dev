@@ -15,9 +15,8 @@ use PHPUnit\Framework\Assert;
  */
 final class Version_8_0_20230412073848_add_main_attribute_column_Integration extends TestCase
 {
-    private const MIGRATION_NAME = '_8_0_20230412073848_add_main_attribute_column';
-
     use ExecuteMigrationTrait;
+    private const MIGRATION_NAME = '_8_0_20230412073848_add_main_attribute_column';
 
     private Connection $connection;
 
@@ -36,11 +35,11 @@ final class Version_8_0_20230412073848_add_main_attribute_column_Integration ext
 
     public function test_it_adds_the_column(): void
     {
-        if($this->mainIdentifierColumnExists()) {
+        if ($this->mainIdentifierColumnExists()) {
             $this->connection->executeStatement(
                 <<<SQL
-            ALTER TABLE pim_catalog_attribute DROP COLUMN main_identifier
-            SQL
+                    ALTER TABLE pim_catalog_attribute DROP COLUMN main_identifier
+                    SQL
             );
         }
 

@@ -58,19 +58,19 @@ class SqlFindUserGroups implements FindUserGroups
             $sqlLimitPart = sprintf('LIMIT %s', $limit);
         }
 
-        $sqlWherePart = empty($sqlWhereParts) ? '' : 'AND '.implode(' AND ', $sqlWhereParts);
+        $sqlWherePart = empty($sqlWhereParts) ? '' : 'AND ' . implode(' AND ', $sqlWhereParts);
 
         return <<<SQL
-            SELECT
-                oag.id,
-                oag.name,
-                oag.type,
-                oag.default_permissions
-            FROM oro_access_group oag
-            WHERE oag.type = 'default'
-            $sqlWherePart
-            ORDER BY oag.id
-            $sqlLimitPart
-        SQL;
+                SELECT
+                    oag.id,
+                    oag.name,
+                    oag.type,
+                    oag.default_permissions
+                FROM oro_access_group oag
+                WHERE oag.type = 'default'
+                $sqlWherePart
+                ORDER BY oag.id
+                $sqlLimitPart
+            SQL;
     }
 }

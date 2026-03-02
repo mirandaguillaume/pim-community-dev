@@ -27,9 +27,9 @@ class SqlDeleteVersionsByIdsQuery
         }
 
         $sql = <<<SQL
-DELETE FROM pim_versioning_version
-    WHERE id IN (:version_ids);
-SQL;
+            DELETE FROM pim_versioning_version
+                WHERE id IN (:version_ids);
+            SQL;
         $this->dbConnection->executeQuery(
             $sql,
             ['version_ids' => $versionIds],

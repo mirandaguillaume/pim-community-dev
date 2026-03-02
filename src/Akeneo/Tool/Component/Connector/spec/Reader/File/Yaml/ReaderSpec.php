@@ -15,24 +15,24 @@ use Symfony\Component\Validator\ConstraintViolationList;
 
 class ReaderSpec extends ObjectBehavior
 {
-    function let(ArrayConverterInterface $converter)
+    public function let(ArrayConverterInterface $converter)
     {
         $this->beConstructedWith($converter, 'products');
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('\\' . \Akeneo\Tool\Component\Connector\Reader\File\Yaml\Reader::class);
     }
 
-    function it_is_an_item_reader_step_execution_and_uploaded_file_aware()
+    public function it_is_an_item_reader_step_execution_and_uploaded_file_aware()
     {
         $this->shouldImplement('\\' . \Akeneo\Tool\Component\Batch\Item\ItemReaderInterface::class);
         $this->shouldImplement('\\' . \Akeneo\Tool\Component\Batch\Step\StepExecutionAwareInterface::class);
         $this->shouldImplement('\\' . \Akeneo\Tool\Component\Batch\Item\TrackableItemReaderInterface::class);
     }
 
-    function it_return_empty_count_on_invalid_file(
+    public function it_return_empty_count_on_invalid_file(
         ArrayConverterInterface $converter,
         StepExecution $stepExecution,
         JobParameters $jobParameters
@@ -48,7 +48,7 @@ class ReaderSpec extends ObjectBehavior
         $this->totalItems()->shouldReturn(0);
     }
 
-    function it_return_an_error_if_file_does_not_contain_the_root_level(
+    public function it_return_an_error_if_file_does_not_contain_the_root_level(
         ArrayConverterInterface $converter,
         StepExecution $stepExecution,
         JobParameters $jobParameters
@@ -64,7 +64,7 @@ class ReaderSpec extends ObjectBehavior
         $this->shouldThrow(InvalidYamlFileException::class)->during('read');
     }
 
-    function it_return_an_error_if_file_does_not_exist(
+    public function it_return_an_error_if_file_does_not_exist(
         ArrayConverterInterface $converter,
         StepExecution $stepExecution,
         JobParameters $jobParameters
@@ -78,7 +78,7 @@ class ReaderSpec extends ObjectBehavior
         $this->shouldThrow(FileNotFoundException::class)->during('read');
     }
 
-    function it_return_item_count(
+    public function it_return_item_count(
         StepExecution $stepExecution,
         JobParameters $jobParameters
     ) {
@@ -92,7 +92,7 @@ class ReaderSpec extends ObjectBehavior
         $this->totalItems()->shouldReturn(3);
     }
 
-    function it_initializes_the_summary_info_if_the_yaml_file_is_not_correctly_formatted(
+    public function it_initializes_the_summary_info_if_the_yaml_file_is_not_correctly_formatted(
         ArrayConverterInterface $converter,
         StepExecution $stepExecution,
         JobParameters $jobParameters
@@ -108,7 +108,7 @@ class ReaderSpec extends ObjectBehavior
         $this->read()->shouldReturn(null);
     }
 
-    function it_reads_entities_from_a_yml_file_one_by_one_incrementing_summary_info_for_each_one(
+    public function it_reads_entities_from_a_yml_file_one_by_one_incrementing_summary_info_for_each_one(
         ArrayConverterInterface $converter,
         StepExecution $stepExecution,
         JobParameters $jobParameters
@@ -125,26 +125,26 @@ class ReaderSpec extends ObjectBehavior
         $converter->convert(['sku' => 'mug_akeneo'])->willReturn(['sku' => 'mug_akeneo']);
         $converter->convert([
             'sku'   => 't_shirt_akeneo_purple',
-            'color' => 'purple'
+            'color' => 'purple',
         ])->willReturn([
             'sku'   => 't_shirt_akeneo_purple',
-            'color' => 'purple'
+            'color' => 'purple',
         ]);
         $converter->convert(['sku' => 'mouse_akeneo'])->willReturn(['sku' => 'mouse_akeneo']);
 
         $this->read()->shouldReturn([
-            'sku' => 'mug_akeneo'
+            'sku' => 'mug_akeneo',
         ]);
         $this->read()->shouldReturn([
             'sku'   => 't_shirt_akeneo_purple',
-            'color' => 'purple'
+            'color' => 'purple',
         ]);
         $this->read()->shouldReturn([
-            'sku' => 'mouse_akeneo'
+            'sku' => 'mouse_akeneo',
         ]);
     }
 
-    function it_skips_an_item_in_case_of_conversion_error(
+    public function it_skips_an_item_in_case_of_conversion_error(
         ArrayConverterInterface $converter,
         StepExecution $stepExecution,
         JobParameters $jobParameters
@@ -171,7 +171,7 @@ class ReaderSpec extends ObjectBehavior
         $this->shouldThrow(InvalidItemFromViolationsException::class)->during('read');
     }
 
-    function it_reads_entities_from_a_yml_file_one_by_one(
+    public function it_reads_entities_from_a_yml_file_one_by_one(
         ArrayConverterInterface $converter,
         StepExecution $stepExecution,
         JobParameters $jobParameters
@@ -188,26 +188,26 @@ class ReaderSpec extends ObjectBehavior
         $converter->convert(['sku' => 'mug_akeneo'])->willReturn(['sku' => 'mug_akeneo']);
         $converter->convert([
             'sku'   => 't_shirt_akeneo_purple',
-            'color' => 'purple'
+            'color' => 'purple',
         ])->willReturn([
             'sku'   => 't_shirt_akeneo_purple',
-            'color' => 'purple'
+            'color' => 'purple',
         ]);
         $converter->convert(['sku' => 'mouse_akeneo'])->willReturn(['sku' => 'mouse_akeneo']);
 
         $this->read()->shouldReturn([
-            'sku' => 'mug_akeneo'
+            'sku' => 'mug_akeneo',
         ]);
         $this->read()->shouldReturn([
             'sku'   => 't_shirt_akeneo_purple',
-            'color' => 'purple'
+            'color' => 'purple',
         ]);
         $this->read()->shouldReturn([
-            'sku' => 'mouse_akeneo'
+            'sku' => 'mouse_akeneo',
         ]);
     }
 
-    function it_reads_several_entities_from_a_yml_file_incrementing_summary_info(
+    public function it_reads_several_entities_from_a_yml_file_incrementing_summary_info(
         ArrayConverterInterface $converter,
         StepExecution $stepExecution,
         JobParameters $jobParameters
@@ -223,15 +223,15 @@ class ReaderSpec extends ObjectBehavior
 
         $result = [
             'mug_akeneo' => [
-                'sku' => 'mug_akeneo'
+                'sku' => 'mug_akeneo',
             ],
             't_shirt_akeneo_purple' => [
                 'sku'   => 't_shirt_akeneo_purple',
-                'color' => 'purple'
+                'color' => 'purple',
             ],
             'mouse_akeneo' => [
-                'sku' => 'mouse_akeneo'
-            ]
+                'sku' => 'mouse_akeneo',
+            ],
         ];
 
         $converter->convert($result)->willReturn($result);
@@ -239,7 +239,7 @@ class ReaderSpec extends ObjectBehavior
         $this->read()->shouldReturn($result);
     }
 
-    function it_reads_several_entities_without_code_from_a_yml_file(
+    public function it_reads_several_entities_without_code_from_a_yml_file(
         ArrayConverterInterface $converter,
         StepExecution $stepExecution,
         JobParameters $jobParameters
@@ -256,24 +256,24 @@ class ReaderSpec extends ObjectBehavior
         $result = [
             'mug_akeneo_blue' => [
                 'color' => 'blue',
-                'sku'   => 'mug_akeneo_blue'
+                'sku'   => 'mug_akeneo_blue',
             ],
             't_shirt_akeneo_s_purple' => [
                 'color' => 'purple',
                 'size'  => 'S',
-                'sku'   => 't_shirt_akeneo_s_purple'
+                'sku'   => 't_shirt_akeneo_s_purple',
             ],
             'mug_akeneo_purple' => [
                 'color' => 'purple',
-                'sku'   => 'mug_akeneo_purple'
-            ]
+                'sku'   => 'mug_akeneo_purple',
+            ],
         ];
 
         $converter->convert($result)->willReturn($result);
         $this->read()->shouldReturn($result);
     }
 
-    function it_initializes_the_class(
+    public function it_initializes_the_class(
         ArrayConverterInterface $converter,
         StepExecution $stepExecution,
         JobParameters $jobParameters
@@ -290,28 +290,28 @@ class ReaderSpec extends ObjectBehavior
         $converter->convert(['sku' => 'mug_akeneo'])->willReturn(['sku' => 'mug_akeneo']);
         $converter->convert([
             'sku'   => 't_shirt_akeneo_purple',
-            'color' => 'purple'
+            'color' => 'purple',
         ])->willReturn([
             'sku'   => 't_shirt_akeneo_purple',
-            'color' => 'purple'
+            'color' => 'purple',
         ]);
         $converter->convert(['sku' => 'mouse_akeneo'])->willReturn(['sku' => 'mouse_akeneo']);
 
         $this->read()->shouldReturn([
-            'sku' => 'mug_akeneo'
+            'sku' => 'mug_akeneo',
         ]);
 
         $this->initialize();
 
         $this->read()->shouldReturn([
-            'sku' => 'mug_akeneo'
+            'sku' => 'mug_akeneo',
         ]);
         $this->read()->shouldReturn([
             'sku'   => 't_shirt_akeneo_purple',
-            'color' => 'purple'
+            'color' => 'purple',
         ]);
         $this->read()->shouldReturn([
-            'sku' => 'mouse_akeneo'
+            'sku' => 'mouse_akeneo',
         ]);
     }
 }

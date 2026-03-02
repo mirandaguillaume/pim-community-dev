@@ -28,8 +28,7 @@ final readonly class DatabaseContext implements Context
 {
     public function __construct(
         private IdentifierGeneratorRepository $generatorRepository,
-    ) {
-    }
+    ) {}
 
     /**
      * @Given the ':generatorCode' identifier generator
@@ -129,7 +128,7 @@ final readonly class DatabaseContext implements Context
     {
         $generators = $this->generatorRepository->getAll();
         $orderedCodes = \array_map(
-            static fn (IdentifierGenerator $generator): string => $generator->code()->asString(),
+            static fn(IdentifierGenerator $generator): string => $generator->code()->asString(),
             $generators
         );
 

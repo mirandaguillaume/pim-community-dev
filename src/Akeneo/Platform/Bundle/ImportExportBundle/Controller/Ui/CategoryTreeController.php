@@ -60,8 +60,8 @@ class CategoryTreeController
 
     private function findCategoryCountPerTree(array $selectedCategoryCodes, bool $shouldIncludeChildren): array
     {
-        $categoriesChildrenCodes = $shouldIncludeChildren ?
-            $this->getCategoryChildrenCodesPerTree->executeWithChildren($selectedCategoryCodes)
+        $categoriesChildrenCodes = $shouldIncludeChildren
+            ? $this->getCategoryChildrenCodesPerTree->executeWithChildren($selectedCategoryCodes)
             : $this->getCategoryChildrenCodesPerTree->executeWithoutChildren($selectedCategoryCodes);
 
         return array_map('count', $categoriesChildrenCodes);

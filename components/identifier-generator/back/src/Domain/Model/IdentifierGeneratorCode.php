@@ -15,8 +15,7 @@ final readonly class IdentifierGeneratorCode
 {
     private function __construct(
         private string $code,
-    ) {
-    }
+    ) {}
 
     public static function fromString(string $code): self
     {

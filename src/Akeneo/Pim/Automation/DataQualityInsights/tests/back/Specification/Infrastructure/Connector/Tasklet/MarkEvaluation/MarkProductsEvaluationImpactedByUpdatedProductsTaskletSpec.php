@@ -42,11 +42,11 @@ class MarkProductsEvaluationImpactedByUpdatedProductsTaskletSpec extends ObjectB
 
         $productUuids = [
             ProductUuidCollection::fromStrings(['6d125b99-d971-41d9-a264-b020cd486aee', 'fef37e64-a963-47a9-b087-2cc67968f0a2']),
-            ProductUuidCollection::fromStrings(['df470d52-7723-4890-85a0-e79be625e2ed'])
+            ProductUuidCollection::fromStrings(['df470d52-7723-4890-85a0-e79be625e2ed']),
         ];
 
         $getUpdatedProductIdsQuery
-            ->since(Argument::that(fn (\DateTimeImmutable $updatedSince) => $updatedSince->format('Y-m-d H:i:s') === '2023-02-07 14:23:56'), 2)
+            ->since(Argument::that(fn(\DateTimeImmutable $updatedSince) => $updatedSince->format('Y-m-d H:i:s') === '2023-02-07 14:23:56'), 2)
             ->willReturn(new \ArrayIterator($productUuids));
 
         $createCriteriaEvaluations->createAll($productUuids[0])->shouldBeCalledOnce();

@@ -119,10 +119,10 @@ class AclExtensionSelector
     {
         $objInfo = is_object($val) && !($val instanceof ObjectIdentityInterface)
             ? $val::class
-            : (string)$val;
+            : (string) $val;
 
         return new InvalidDomainObjectException(
-            sprintf('An ACL extension was not found for: %s. Type: %s. Id: %s', $objInfo, $type, (string)$id)
+            sprintf('An ACL extension was not found for: %s. Type: %s. Id: %s', $objInfo, $type, (string) $id)
         );
     }
 }

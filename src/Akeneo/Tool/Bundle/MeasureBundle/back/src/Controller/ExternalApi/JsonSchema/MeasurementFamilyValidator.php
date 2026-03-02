@@ -72,18 +72,18 @@ class MeasurementFamilyValidator
                                         'type'       => 'object',
                                         'properties' => [
                                             'operator' => ['type' => 'string'],
-                                            'value'    => ['type' => 'string']
+                                            'value'    => ['type' => 'string'],
                                         ],
                                         'required'   => ['operator', 'value'],
-                                    ]
+                                    ],
                                 ],
-                                'symbol'                => ['type' => 'string']
+                                'symbol'                => ['type' => 'string'],
                             ],
                             'required' => ['code', 'convert_from_standard'],
                             'additionalProperties' => false,
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ],
             'required'             => ['code', 'units', 'standard_unit_code'],
             'additionalProperties' => false,

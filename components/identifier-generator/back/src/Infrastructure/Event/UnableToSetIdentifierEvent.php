@@ -12,9 +12,7 @@ use Akeneo\Pim\Automation\IdentifierGenerator\Application\Exception\UnableToSetI
  */
 final readonly class UnableToSetIdentifierEvent
 {
-    public function __construct(private UnableToSetIdentifierException $exception)
-    {
-    }
+    public function __construct(private UnableToSetIdentifierException $exception) {}
 
     public function getException(): UnableToSetIdentifierException
     {

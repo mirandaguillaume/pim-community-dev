@@ -48,12 +48,12 @@ class CategorySpec extends ObjectBehavior
         );
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(Category::class);
     }
 
-    function it_is_constructed_from_database_data()
+    public function it_is_constructed_from_database_data()
     {
         $category = $this::fromDatabase([
             'id' => 1,
@@ -89,7 +89,7 @@ class CategorySpec extends ObjectBehavior
         ]);
     }
 
-    function it_is_constructed_from_category_with_permissions()
+    public function it_is_constructed_from_category_with_permissions()
     {
         $category = $this::fromDatabase([
             'id' => 1,
@@ -132,7 +132,8 @@ class CategorySpec extends ObjectBehavior
         ]);
     }
 
-    function it_is_set_with_null_label() {
+    public function it_is_set_with_null_label()
+    {
         $this::setLabel('en_US', null);
         $this::getLabels()->getTranslation('en_US')->shouldReturn(null);
     }

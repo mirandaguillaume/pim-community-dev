@@ -42,7 +42,7 @@ class LegacyMeasurementAdapterSpec extends ObjectBehavior
                     LabelCollection::fromArray(['en_US' => 'Square centimeter', 'fr_FR' => 'Centimètre carré']),
                     [Operation::create('mul', '0.0001'), Operation::create('add', '4')],
                     'cm²',
-                )
+                ),
             ]
         );
 
@@ -63,8 +63,8 @@ class LegacyMeasurementAdapterSpec extends ObjectBehavior
                         ],
                         'symbol' => 'cm²',
                     ],
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 }

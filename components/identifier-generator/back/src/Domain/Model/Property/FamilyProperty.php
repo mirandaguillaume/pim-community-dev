@@ -21,8 +21,7 @@ final readonly class FamilyProperty implements PropertyInterface
 
     private function __construct(
         private Process $process,
-    ) {
-    }
+    ) {}
 
     public static function type(): string
     {

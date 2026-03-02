@@ -15,9 +15,8 @@ use PHPUnit\Framework\Assert;
  */
 final class Version_8_0_20230110131126_update_target_column_for_identifier_generators_Integration extends TestCase
 {
-    private const MIGRATION_NAME = '_8_0_20230110131126_update_target_column_for_identifier_generators';
-
     use ExecuteMigrationTrait;
+    private const MIGRATION_NAME = '_8_0_20230110131126_update_target_column_for_identifier_generators';
 
     private Connection $connection;
 
@@ -30,19 +29,19 @@ final class Version_8_0_20230110131126_update_target_column_for_identifier_gener
     public function test_it_executes_the_migration(): void
     {
         $this->connection->executeQuery(<<<SQL
-ALTER TABLE pim_catalog_identifier_generator DROP FOREIGN KEY `pim_catalog_identifier_generator_ibfk_1`;
-ALTER TABLE pim_catalog_identifier_generator ADD COLUMN target VARCHAR(255) NOT NULL AFTER target_id;
-ALTER TABLE pim_catalog_identifier_generator DROP COLUMN target_id;
+            ALTER TABLE pim_catalog_identifier_generator DROP FOREIGN KEY `pim_catalog_identifier_generator_ibfk_1`;
+            ALTER TABLE pim_catalog_identifier_generator ADD COLUMN target VARCHAR(255) NOT NULL AFTER target_id;
+            ALTER TABLE pim_catalog_identifier_generator DROP COLUMN target_id;
 
-ALTER TABLE pim_catalog_identifier_generator ADD COLUMN delimiter VARCHAR(100) AFTER options;
-ALTER TABLE pim_catalog_identifier_generator DROP COLUMN options;
-SQL);
+            ALTER TABLE pim_catalog_identifier_generator ADD COLUMN delimiter VARCHAR(100) AFTER options;
+            ALTER TABLE pim_catalog_identifier_generator DROP COLUMN options;
+            SQL);
         $this->connection->executeQuery(<<<SQL
-INSERT INTO pim_catalog_identifier_generator (uuid, code, target, delimiter, labels, conditions, structure)
-VALUES (UUID_TO_BIN('22e35c7a-f1b4-4b81-a890-16b8e68346a1'), 'mygenerator1', 'sku', '-', '{}', '[]', '[]'),
-       (UUID_TO_BIN('d4d21fcd-37cf-4c8a-937d-a7dee0e61ec1'), 'mygenerator2', 'sku', '=', '{}', '[]', '[]'),
-       (UUID_TO_BIN('1113c7f8-70cc-45d3-b911-54caac0e12e5'), 'mygenerator3', 'sku', null, '{}', '[]', '[]');
-SQL);
+            INSERT INTO pim_catalog_identifier_generator (uuid, code, target, delimiter, labels, conditions, structure)
+            VALUES (UUID_TO_BIN('22e35c7a-f1b4-4b81-a890-16b8e68346a1'), 'mygenerator1', 'sku', '-', '{}', '[]', '[]'),
+                   (UUID_TO_BIN('d4d21fcd-37cf-4c8a-937d-a7dee0e61ec1'), 'mygenerator2', 'sku', '=', '{}', '[]', '[]'),
+                   (UUID_TO_BIN('1113c7f8-70cc-45d3-b911-54caac0e12e5'), 'mygenerator3', 'sku', null, '{}', '[]', '[]');
+            SQL);
 
         Assert::assertFalse($this->columnExists('pim_catalog_identifier_generator', 'target_id'));
         Assert::assertFalse($this->columnExists('pim_catalog_identifier_generator', 'options'));
@@ -63,8 +62,8 @@ SQL);
         $rows = $this->connection->fetchAllAssociative(
             \strtr(
                 <<<SQL
-                    SHOW COLUMNS FROM {table_name} LIKE :columnName
-                SQL,
+                        SHOW COLUMNS FROM {table_name} LIKE :columnName
+                    SQL,
                 ['{table_name}' => $tableName]
             ),
             ['columnName' => $columnName]
@@ -81,8 +80,8 @@ SQL);
     private function getTargetId(): int
     {
         return \intval($this->connection->fetchOne(<<<SQL
-SELECT target_id FROM pim_catalog_identifier_generator LIMIT 1;
-SQL));
+            SELECT target_id FROM pim_catalog_identifier_generator LIMIT 1;
+            SQL));
     }
 
     /**
@@ -90,10 +89,11 @@ SQL));
      */
     private function getOptions(): array
     {
-        return array_map(fn (string $options) => \json_decode($options, true),
+        return array_map(
+            fn(string $options) => \json_decode($options, true),
             $this->connection->fetchFirstColumn(<<<SQL
-                SELECT options FROM pim_catalog_identifier_generator;
-            SQL)
+                    SELECT options FROM pim_catalog_identifier_generator;
+                SQL)
         );
     }
 }

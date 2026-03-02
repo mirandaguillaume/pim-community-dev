@@ -11,18 +11,18 @@ class PaginatorSpec extends ObjectBehavior
 {
     final public const PAGE_SIZE = 10;
 
-    function let(CursorInterface $cursor)
+    public function let(CursorInterface $cursor)
     {
         $this->beConstructedWith($cursor, self::PAGE_SIZE);
     }
 
-    function it_is_a_paginator()
+    public function it_is_a_paginator()
     {
         $this->shouldHaveType(Paginator::class);
         $this->shouldImplement(PaginatorInterface::class);
     }
 
-    function it_iterate_by_page_over_cursor(CursorInterface $cursor)
+    public function it_iterate_by_page_over_cursor(CursorInterface $cursor)
     {
         $page1 = [
             new Entity(1),
@@ -34,7 +34,7 @@ class PaginatorSpec extends ObjectBehavior
             new Entity(7),
             new Entity(8),
             new Entity(9),
-            new Entity(10)
+            new Entity(10),
         ];
         $page2 = [new Entity(11), new Entity(12), new Entity(13)];
         $data = [...$page1, ...$page2];
@@ -84,7 +84,7 @@ class PaginatorSpec extends ObjectBehavior
         $this->key()->shouldReturn(0);
     }
 
-    function it_is_countable(CursorInterface $cursor)
+    public function it_is_countable(CursorInterface $cursor)
     {
         $this->shouldImplement('\Countable');
 
@@ -97,7 +97,5 @@ class PaginatorSpec extends ObjectBehavior
 
 class Entity
 {
-    public function __construct(protected $id)
-    {
-    }
+    public function __construct(protected $id) {}
 }

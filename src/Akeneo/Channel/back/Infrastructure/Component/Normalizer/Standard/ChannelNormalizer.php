@@ -24,7 +24,7 @@ class ChannelNormalizer implements NormalizerInterface, CacheableSupportsMethodI
     /**
      * {@inheritdoc}
      */
-    public function normalize($channel, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($channel, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         return [
             'code'             => $channel->getCode(),
@@ -32,7 +32,7 @@ class ChannelNormalizer implements NormalizerInterface, CacheableSupportsMethodI
             'locales'          => $channel->getLocaleCodes(),
             'category_tree'    => $channel->getCategory()->getCode(),
             'conversion_units' => $channel->getConversionUnits(),
-            'labels'           => $this->translationNormalizer->normalize($channel, $format, $context)
+            'labels'           => $this->translationNormalizer->normalize($channel, $format, $context),
         ];
     }
 

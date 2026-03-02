@@ -34,11 +34,11 @@ final readonly class GetEvaluationRatesByProductsAndCriterionQuery implements Ge
         $ratesPath = sprintf('$."%s"', TransformCriterionEvaluationResultCodes::PROPERTIES_ID['rates']);
 
         $query = <<<SQL
-SELECT BIN_TO_UUID(p.uuid) AS product_uuid, JSON_EXTRACT(e.result, '$ratesPath') AS rates
-FROM pim_catalog_product p
-    JOIN pim_data_quality_insights_product_criteria_evaluation e ON e.product_uuid = p.uuid
-WHERE p.uuid IN (:productUuids) AND e.criterion_code = :criterionCode;
-SQL;
+            SELECT BIN_TO_UUID(p.uuid) AS product_uuid, JSON_EXTRACT(e.result, '$ratesPath') AS rates
+            FROM pim_catalog_product p
+                JOIN pim_data_quality_insights_product_criteria_evaluation e ON e.product_uuid = p.uuid
+            WHERE p.uuid IN (:productUuids) AND e.criterion_code = :criterionCode;
+            SQL;
 
         $stmt = $this->dbConnection->executeQuery(
             $query,

@@ -5,8 +5,8 @@ namespace Akeneo\Tool\Component\Batch\Model;
 use Akeneo\Tool\Component\Batch\Job\Job;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Batch domain object representing a uniquely identifiable configured job.
@@ -74,6 +74,18 @@ class JobInstance
     #[ORM\Column(name: 'is_visible', type: Types::BOOLEAN, options: ['default' => true])]
     protected bool $isVisible = true;
 
+    /** @var string|null */
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    protected $connector;
+
+    /** @var string|null */
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    protected $type;
+
+    /** @var string|null */
+    #[ORM\Column(name: 'job_name', type: Types::STRING, length: 50)]
+    protected $jobName;
+
     /**
      * Constructor.
      *
@@ -81,11 +93,11 @@ class JobInstance
      * @param string $type
      * @param string $jobName
      */
-    #[ORM\Column(type: Types::STRING, length: 255)]
-    #[ORM\Column(type: Types::STRING, length: 255)]
-    #[ORM\Column(name: 'job_name', type: Types::STRING, length: 50)]
-    public function __construct(protected $connector = null, protected $type = null, protected $jobName = null)
+    public function __construct($connector = null, $type = null, $jobName = null)
     {
+        $this->connector = $connector;
+        $this->type = $type;
+        $this->jobName = $jobName;
         $this->jobExecutions = new ArrayCollection();
     }
 

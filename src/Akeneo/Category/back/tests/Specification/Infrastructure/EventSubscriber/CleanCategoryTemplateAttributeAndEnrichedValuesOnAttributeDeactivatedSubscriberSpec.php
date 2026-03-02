@@ -17,12 +17,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class CleanCategoryTemplateAttributeAndEnrichedValuesOnAttributeDeactivatedSubscriberSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         JobInstanceRepository $jobInstanceRepository,
         JobLauncherInterface $jobLauncher,
         TokenStorageInterface $tokenStorage,
-    )
-    {
+    ) {
         $this->beConstructedWith(
             $jobInstanceRepository,
             $jobLauncher,
@@ -30,13 +29,13 @@ class CleanCategoryTemplateAttributeAndEnrichedValuesOnAttributeDeactivatedSubsc
         );
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldImplement(EventSubscriberInterface::class);
         $this->shouldHaveType(CleanCategoryTemplateAttributeAndEnrichedValuesOnAttributeDeactivatedSubscriber::class);
     }
 
-    function it_puts_in_queue_the_job_cleaning_category_after_attribute_deactivation(
+    public function it_puts_in_queue_the_job_cleaning_category_after_attribute_deactivation(
         AttributeDeactivatedEvent $event,
         TemplateUuid $templateUuid,
         AttributeUuid $attributeUuid,
@@ -46,8 +45,7 @@ class CleanCategoryTemplateAttributeAndEnrichedValuesOnAttributeDeactivatedSubsc
         TokenStorageInterface $tokenStorage,
         TokenInterface $token,
         UserInterface $user,
-    )
-    {
+    ) {
         $event->getTemplateUuid()->willReturn($templateUuid);
         $event->getAttributeUuid()->willReturn($attributeUuid);
 
@@ -65,7 +63,6 @@ class CleanCategoryTemplateAttributeAndEnrichedValuesOnAttributeDeactivatedSubsc
                 'template_uuid' => $templateUuidValue,
                 'attribute_uuid' => $attributeUuidValue,
             ]
-
         )->shouldBeCalled();
 
         $this->cleanCategoryDataForAttribute($event);

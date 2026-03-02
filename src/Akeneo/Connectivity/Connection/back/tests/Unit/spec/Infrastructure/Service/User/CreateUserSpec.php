@@ -65,9 +65,9 @@ class CreateUserSpec extends ObjectBehavior
         $this
             ->shouldThrow(
                 new \LogicException(
-                    'The user creation failed :' . PHP_EOL .
-                    'path: wrong' . PHP_EOL .
-                    'path2: wrong2'
+                    'The user creation failed :' . PHP_EOL
+                    . 'path: wrong' . PHP_EOL
+                    . 'path2: wrong2'
                 )
             )
             ->during('execute', ['foo', 'bar', 'baz']);

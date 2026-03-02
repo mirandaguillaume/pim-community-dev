@@ -14,34 +14,34 @@ use PhpSpec\ObjectBehavior;
  */
 class SetLabelSpec extends ObjectBehavior
 {
-    function let()
+    public function let()
     {
         $this->beConstructedWith('en_US', 'The label');
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(SetLabel::class);
         $this->shouldImplement(UserIntent::class);
     }
 
-    function it_returns_the_locale_code()
+    public function it_returns_the_locale_code()
     {
         $this->localeCode()->shouldReturn('en_US');
     }
 
-    function it_returns_the_label_value()
+    public function it_returns_the_label_value()
     {
         $this->label()->shouldReturn('The label');
     }
 
-    function it_can_set_label_null()
+    public function it_can_set_label_null()
     {
         $this->beConstructedWith('en_US', null);
         $this->label()->shouldReturn(null);
     }
 
-    function it_set_label_to_null_when_empty()
+    public function it_set_label_to_null_when_empty()
     {
         $this->beConstructedWith('en_US', '');
         $this->label()->shouldReturn(null);

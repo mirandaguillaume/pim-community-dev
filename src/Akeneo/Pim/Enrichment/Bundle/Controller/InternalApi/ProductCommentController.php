@@ -111,7 +111,7 @@ class ProductCommentController
         foreach ($violations as $violation) {
             $errors[$violation->getPropertyPath()] = [
                 'message'       => $violation->getMessage(),
-                'invalid_value' => $violation->getInvalidValue()
+                'invalid_value' => $violation->getInvalidValue(),
             ];
         }
 
@@ -164,7 +164,7 @@ class ProductCommentController
         foreach ($violations as $violation) {
             $errors[$violation->getPropertyPath()] = [
                 'message'       => $violation->getMessage(),
-                'invalid_value' => $violation->getInvalidValue()
+                'invalid_value' => $violation->getInvalidValue(),
             ];
         }
 

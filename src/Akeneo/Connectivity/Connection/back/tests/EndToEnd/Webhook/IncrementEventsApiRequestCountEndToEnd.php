@@ -104,16 +104,16 @@ class IncrementEventsApiRequestCountEndToEnd extends ApiTestCase
             new SetFamily('family'),
             new SetEnabled(true),
             new SetCategories(['category']),
-            new SetTextValue('another_text_attribute', null, null, 'text attribute')
+            new SetTextValue('another_text_attribute', null, null, 'text attribute'),
         ]);
     }
 
     private function getEventsApiRequestCount(): array
     {
         $sql = <<<SQL
-        SELECT event_minute, event_count, updated
-        FROM akeneo_connectivity_connection_events_api_request_count
-        SQL;
+            SELECT event_minute, event_count, updated
+            FROM akeneo_connectivity_connection_events_api_request_count
+            SQL;
 
         return $this->dbalConnection->executeQuery($sql)->fetchAllAssociative();
     }

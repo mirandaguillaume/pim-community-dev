@@ -37,7 +37,7 @@ final class RegisterNormalizersCompilerPass implements CompilerPassInterface
 
         $serializerDefinition->setArguments([
             $normalizers,
-            [new Definition(JsonEncoder::class, [])]
+            [new Definition(JsonEncoder::class, [])],
         ]);
     }
 }

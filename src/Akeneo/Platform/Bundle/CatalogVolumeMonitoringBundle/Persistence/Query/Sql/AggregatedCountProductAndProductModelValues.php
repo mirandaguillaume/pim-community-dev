@@ -26,9 +26,9 @@ class AggregatedCountProductAndProductModelValues implements CountQuery
     public function fetch(): CountVolume
     {
         $sql = <<<SQL
-SELECT SUM(JSON_EXTRACT(volume, '$.value')) AS value
-FROM pim_aggregated_volume WHERE volume_name IN ('count_product_values', 'count_product_model_values')
-SQL;
+            SELECT SUM(JSON_EXTRACT(volume, '$.value')) AS value
+            FROM pim_aggregated_volume WHERE volume_name IN ('count_product_values', 'count_product_model_values')
+            SQL;
 
         $sqlResult = $this->connection->executeQuery($sql)->fetchAssociative();
         $volumeValue = isset($sqlResult['value']) ? (int) $sqlResult['value'] : 0;

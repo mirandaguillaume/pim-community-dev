@@ -55,14 +55,14 @@ class JobExecutionRepository extends EntityRepository implements DatagridReposit
     public function isOtherJobExecutionRunning(JobExecution $jobExecution): bool
     {
         $sql = <<< SQL
-        SELECT EXISTS(
-            SELECT 1 FROM akeneo_batch_job_execution
-            WHERE job_instance_id = :job_instance_id 
-              AND STATUS IN (2, 3, 4) 
-              AND id <> :job_execution_id
-              AND health_check_time > :health_check_time_limit
-        )
-        SQL;
+            SELECT EXISTS(
+                SELECT 1 FROM akeneo_batch_job_execution
+                WHERE job_instance_id = :job_instance_id 
+                  AND STATUS IN (2, 3, 4) 
+                  AND id <> :job_execution_id
+                  AND health_check_time > :health_check_time_limit
+            )
+            SQL;
 
         $healthCheckLimit = new \DateTime('now', new \DateTimeZone('UTC'));
         $healthCheckLimit->modify(sprintf('-%d seconds', self::HEALTH_CHECK_INTERVAL));

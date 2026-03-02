@@ -21,10 +21,10 @@ class EmailDomains implements EmailDomainsQuery
     public function fetch(): string
     {
         $query = <<<SQL
-            SELECT DISTINCT(SUBSTRING_INDEX(email, '@', -1)) AS email_domain
-                FROM oro_user
-                ORDER by email_domain
-SQL;
+                        SELECT DISTINCT(SUBSTRING_INDEX(email, '@', -1)) AS email_domain
+                            FROM oro_user
+                            ORDER by email_domain
+            SQL;
 
         $domains = $this->connection->executeQuery($query)->fetchFirstColumn();
 

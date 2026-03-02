@@ -22,10 +22,10 @@ class FindJobType implements FindJobTypeInterface
     public function visible(): array
     {
         $sql = <<<SQL
-SELECT DISTINCT type FROM akeneo_batch_job_execution job_execution
-INNER JOIN akeneo_batch_job_instance job_instance ON job_instance.id = job_execution.job_instance_id
-WHERE job_execution.is_visible = 1;
-SQL;
+            SELECT DISTINCT type FROM akeneo_batch_job_execution job_execution
+            INNER JOIN akeneo_batch_job_instance job_instance ON job_instance.id = job_execution.job_instance_id
+            WHERE job_execution.is_visible = 1;
+            SQL;
 
         return $this->connection->executeQuery($sql)->fetchFirstColumn();
     }

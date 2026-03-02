@@ -199,9 +199,9 @@ class ProductController
     {
         $this->denyAccessUnlessAclIsGranted('pim_api_product_list');
 
-        $connectorProductsQuery = 'true' === $request->query->get('with_attribute_options', "false") ?
-            $this->getConnectorProductsWithOptions :
-            $this->getConnectorProducts;
+        $connectorProductsQuery = 'true' === $request->query->get('with_attribute_options', "false")
+            ? $this->getConnectorProductsWithOptions
+            : $this->getConnectorProducts;
 
         try {
             $user = $this->tokenStorage->getToken()->getUser();
@@ -647,8 +647,8 @@ class ProductController
      */
     protected function needUpdateFromProductToVariant(ProductInterface $product, array $data, bool $isCreation): bool
     {
-        return !$isCreation && !$product->isVariant() &&
-            isset($data['parent']) && '' !== $data['parent'];
+        return !$isCreation && !$product->isVariant()
+            && isset($data['parent']) && '' !== $data['parent'];
     }
 
     /**
@@ -661,8 +661,8 @@ class ProductController
      */
     protected function needUpdateFromVariantToSimple(ProductInterface $product, array $data): bool
     {
-        return null !== $product->getCreated() && $product->isVariant() &&
-            array_key_exists('parent', $data) && null === $data['parent'];
+        return null !== $product->getCreated() && $product->isVariant()
+            && array_key_exists('parent', $data) && null === $data['parent'];
     }
 
     private function normalizeProductsList(ConnectorProductList $connectorProductList, ListProductsQuery $query): array

@@ -79,7 +79,7 @@ class FormatController
                 ],
                 'timezone'       => $this->userContext->getUserTimezone(),
                 'language'       => $locale,
-                '12_hour_format' => str_contains($timeFormatter->getPattern(), 'a')
+                '12_hour_format' => str_contains($timeFormatter->getPattern(), 'a'),
             ]
         );
     }

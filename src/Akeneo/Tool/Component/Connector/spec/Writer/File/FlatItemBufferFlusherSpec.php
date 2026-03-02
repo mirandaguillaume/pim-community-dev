@@ -19,12 +19,12 @@ class FlatItemBufferFlusherSpec extends ObjectBehavior
 
     private ?string $directory = null;
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(FlatItemBufferFlusher::class);
     }
 
-    function let(
+    public function let(
         ColumnSorterInterface $columnSorter,
         StepExecution $stepExecution,
         ColumnPresenterInterface $columnPresenter
@@ -39,19 +39,19 @@ class FlatItemBufferFlusherSpec extends ObjectBehavior
         $this->setStepExecution($stepExecution);
     }
 
-    function letGo()
+    public function letGo()
     {
         $this->filesystem->remove($this->directory);
     }
 
-    function it_should_not_create_file_if_buffer_is_empty(FlatItemBuffer $buffer)
+    public function it_should_not_create_file_if_buffer_is_empty(FlatItemBuffer $buffer)
     {
         $buffer->count()->willReturn(0);
 
         $this->flush($buffer, ['type' => 'csv'], $this->directory . 'output')->shouldReturn([]);
     }
 
-    function it_flushes_a_buffer_without_a_max_number_of_lines($columnSorter, FlatItemBuffer $buffer, StepExecution $stepExecution, JobParameters $parameters)
+    public function it_flushes_a_buffer_without_a_max_number_of_lines($columnSorter, FlatItemBuffer $buffer, StepExecution $stepExecution, JobParameters $parameters)
     {
         $columnSorter->sort(Argument::any(), [])->willReturn(['colA', 'colB']);
 
@@ -77,7 +77,7 @@ class FlatItemBufferFlusherSpec extends ObjectBehavior
         }
     }
 
-    function it_flushes_a_buffer_into_multiple_files_without_extension($columnSorter, FlatItemBuffer $buffer, $filesystem, StepExecution $stepExecution, JobParameters $parameters)
+    public function it_flushes_a_buffer_into_multiple_files_without_extension($columnSorter, FlatItemBuffer $buffer, $filesystem, StepExecution $stepExecution, JobParameters $parameters)
     {
         $columnSorter->sort(Argument::any(), [])->willReturn(['colA', 'colB']);
 
@@ -91,7 +91,7 @@ class FlatItemBufferFlusherSpec extends ObjectBehavior
         $buffer->next();
         $buffer->current()->willReturn([
             'colA' => 'fooA',
-            'colB' => 'fooB'
+            'colB' => 'fooB',
         ]);
         $buffer->key()->willReturn(0);
 
@@ -112,7 +112,7 @@ class FlatItemBufferFlusherSpec extends ObjectBehavior
         }
     }
 
-    function it_flushes_a_buffer_into_multiple_files_with_extension($columnSorter, FlatItemBuffer $buffer, StepExecution $stepExecution, JobParameters $parameters)
+    public function it_flushes_a_buffer_into_multiple_files_with_extension($columnSorter, FlatItemBuffer $buffer, StepExecution $stepExecution, JobParameters $parameters)
     {
         $columnSorter->sort(Argument::any(), [])->willReturn(['colA', 'colB']);
 
@@ -126,7 +126,7 @@ class FlatItemBufferFlusherSpec extends ObjectBehavior
         $buffer->next();
         $buffer->current()->willReturn([
             'colA' => 'fooA',
-            'colB' => 'fooB'
+            'colB' => 'fooB',
         ]);
         $buffer->key()->willReturn(0);
 
@@ -147,7 +147,7 @@ class FlatItemBufferFlusherSpec extends ObjectBehavior
         }
     }
 
-    function it_throws_an_exception_if_type_is_not_defined($columnSorter, FlatItemBuffer $buffer, StepExecution $stepExecution, JobParameters $parameters)
+    public function it_throws_an_exception_if_type_is_not_defined($columnSorter, FlatItemBuffer $buffer, StepExecution $stepExecution, JobParameters $parameters)
     {
         $columnSorter->sort(Argument::any(), [])->willReturn(['colA', 'colB']);
         $buffer->count()->willReturn(1);
@@ -161,7 +161,7 @@ class FlatItemBufferFlusherSpec extends ObjectBehavior
             ->during('flush', [$buffer, [], Argument::any()]);
     }
 
-    function it_throws_an_exception_if_type_is_not_recognized($columnSorter, FlatItemBuffer $buffer, StepExecution $stepExecution, JobParameters $parameters)
+    public function it_throws_an_exception_if_type_is_not_recognized($columnSorter, FlatItemBuffer $buffer, StepExecution $stepExecution, JobParameters $parameters)
     {
         $columnSorter->sort(Argument::any(), [])->willReturn(['colA', 'colB']);
         $buffer->count()->willReturn(1);

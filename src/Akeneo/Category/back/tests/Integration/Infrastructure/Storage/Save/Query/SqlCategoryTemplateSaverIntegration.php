@@ -46,8 +46,8 @@ class SqlCategoryTemplateSaverIntegration extends CategoryTestCase
         $insertedAttributes = $this->get(GetAttribute::class)->byTemplateUuid($templateModel->getUuid());
         $insertedTemplate->setAttributeCollection($insertedAttributes);
 
-        $this->assertEquals($templateModel->getCode(),$insertedTemplate->getCode());
-        $this->assertEquals($templateModel->getLabelCollection(),$insertedTemplate->getLabelCollection());
+        $this->assertEquals($templateModel->getCode(), $insertedTemplate->getCode());
+        $this->assertEquals($templateModel->getLabelCollection(), $insertedTemplate->getLabelCollection());
     }
 
     public function testUpdatesCategoryTemplate(): void

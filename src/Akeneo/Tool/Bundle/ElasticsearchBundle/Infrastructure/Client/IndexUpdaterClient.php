@@ -49,16 +49,16 @@ final class IndexUpdaterClient
                             'add' => [
                                 'alias' => $destinationAliasName,
                                 'index' => $sourceIndexName,
-                            ]
+                            ],
                         ],
                         [
                             'remove' => [
                                 'alias' => $destinationAliasName,
                                 'index' => $destinationIndexName,
-                            ]
+                            ],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ])
         );
     }
@@ -75,8 +75,8 @@ final class IndexUpdaterClient
                 "dest" => [
                     "index" => $destinationAliasName,
                     "version_type" => "external_gt",
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $this->logger->notice('Indexation result', ['response' => json_encode($reindexResponse, JSON_THROW_ON_ERROR)]);
@@ -92,8 +92,8 @@ final class IndexUpdaterClient
                 "dest" => [
                     "index" => $destinationAliasName,
                     "version_type" => "external_gt",
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $this->logger->notice('Indexation result', ['response' => json_encode($reindexResponse, JSON_THROW_ON_ERROR)]);
@@ -112,8 +112,8 @@ final class IndexUpdaterClient
                 "dest" => [
                     "index" => $destinationAliasName,
                     "version_type" => "external_gt",
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $this->logger->notice('Indexation result', ['response' => json_encode($reindexResponse, JSON_THROW_ON_ERROR)]);
@@ -174,7 +174,7 @@ final class IndexUpdaterClient
                             ],
                         ],
                     ],
-                ]
+                ],
             ])
         );
     }
@@ -189,7 +189,7 @@ final class IndexUpdaterClient
                 'body' => [
                     'refresh_interval' => $sourceIndexSettings['refresh_interval'] ?? null,
                     'number_of_replicas' => $sourceIndexSettings['number_of_replicas'] ?? 1,
-                ]
+                ],
             ])
         );
 
@@ -231,8 +231,8 @@ final class IndexUpdaterClient
                                 'index' => $destinationIndexName,
                             ],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ])
         );
     }

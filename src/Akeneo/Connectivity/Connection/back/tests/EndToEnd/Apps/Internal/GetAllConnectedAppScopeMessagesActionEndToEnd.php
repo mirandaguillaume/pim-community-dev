@@ -62,7 +62,7 @@ class GetAllConnectedAppScopeMessagesActionEndToEnd extends WebTestCase
                 'icon' => 'association_types',
                 'type' => 'edit',
                 'entities' => 'association_types',
-            ]
+            ],
         ];
 
         $this->client->request(

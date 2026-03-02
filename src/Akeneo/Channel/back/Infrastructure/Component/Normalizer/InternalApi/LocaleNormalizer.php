@@ -30,7 +30,7 @@ class LocaleNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
     /**
      * {@inheritdoc}
      */
-    public function normalize($locale, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($locale, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         return [
             'id'     => $locale->getId(),

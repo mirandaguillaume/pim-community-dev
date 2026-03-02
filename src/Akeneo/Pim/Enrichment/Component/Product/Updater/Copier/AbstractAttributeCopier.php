@@ -88,7 +88,7 @@ abstract class AbstractAttributeCopier implements AttributeCopierInterface
                 'from_locale' => null,
                 'from_scope'  => null,
                 'to_locale'   => null,
-                'to_scope'    => null
+                'to_scope'    => null,
             ]
         );
     }

@@ -46,7 +46,7 @@ class DatagridViewManager
         return $this->repository->findBy(
             [
                 'datagridAlias' => $alias,
-                'type'          => DatagridView::TYPE_PUBLIC
+                'type'          => DatagridView::TYPE_PUBLIC,
             ]
         );
     }
@@ -63,9 +63,9 @@ class DatagridViewManager
     {
         $choices = [];
 
-        $path = (true === $displayedColumns) ?
-            sprintf('[%s]', FormatterConfiguration::COLUMNS_KEY) :
-            sprintf(ContextConfigurator::SOURCE_PATH, ContextConfigurator::AVAILABLE_COLUMNS_KEY);
+        $path = (true === $displayedColumns)
+            ? sprintf('[%s]', FormatterConfiguration::COLUMNS_KEY)
+            : sprintf(ContextConfigurator::SOURCE_PATH, ContextConfigurator::AVAILABLE_COLUMNS_KEY);
 
         $columnsConfig = $this
             ->datagridManager

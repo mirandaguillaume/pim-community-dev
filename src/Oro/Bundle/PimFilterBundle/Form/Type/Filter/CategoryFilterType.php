@@ -47,7 +47,7 @@ class CategoryFilterType extends NumberFilterType
     {
         $choices = [
             self::EXCLUDE_SUB => 0,
-            self::INCLUDE_SUB => 1
+            self::INCLUDE_SUB => 1,
         ];
 
         $resolver->setDefaults(
@@ -56,7 +56,7 @@ class CategoryFilterType extends NumberFilterType
                 'operator_choices'  => $choices,
                 'placeholder'       => self::EXCLUDE_SUB,
                 'data_type'         => self::DATA_INTEGER,
-                'formatter_options' => []
+                'formatter_options' => [],
             ]
         );
     }

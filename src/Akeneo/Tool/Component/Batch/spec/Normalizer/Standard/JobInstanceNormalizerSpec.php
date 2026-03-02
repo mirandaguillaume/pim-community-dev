@@ -9,17 +9,17 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class JobInstanceNormalizerSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(JobInstanceNormalizer::class);
     }
 
-    function it_is_a_normalizer()
+    public function it_is_a_normalizer()
     {
         $this->shouldImplement(NormalizerInterface::class);
     }
 
-    function it_supports_job_instance_normalization_into_json_and_xml(JobInstance $jobinstance)
+    public function it_supports_job_instance_normalization_into_json_and_xml(JobInstance $jobinstance)
     {
         $this->supportsNormalization($jobinstance, 'csv')->shouldBe(false);
         $this->supportsNormalization($jobinstance, 'json')->shouldBe(false);
@@ -27,7 +27,7 @@ class JobInstanceNormalizerSpec extends ObjectBehavior
         $this->supportsNormalization($jobinstance, 'standard')->shouldBe(true);
     }
 
-    function it_normalizes_job_instance(JobInstance $jobinstance)
+    public function it_normalizes_job_instance(JobInstance $jobinstance)
     {
         $jobinstance->getCode()->willReturn('product_export');
         $jobinstance->getLabel()->willReturn('Product export');
@@ -36,7 +36,7 @@ class JobInstanceNormalizerSpec extends ObjectBehavior
         $jobinstance->getJobName()->willReturn('csv_product_export');
         $jobinstance->getRawParameters()->willReturn(
             [
-                'delimiter' => ';'
+                'delimiter' => ';',
             ]
         );
         $jobinstance->isScheduled()->willReturn(false);
@@ -51,7 +51,7 @@ class JobInstanceNormalizerSpec extends ObjectBehavior
                 'type'          => 'EXPORT',
                 'configuration' => ['delimiter' => ';'],
                 'automation'    => null,
-                'scheduled'     => false
+                'scheduled'     => false,
             ]
         );
     }

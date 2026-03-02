@@ -36,18 +36,18 @@ final readonly class SqlGetExistingAttributeOptionsWithValues implements GetExis
         }
 
         $query = <<<SQL
-WITH active_locales as (select code from pim_catalog_locale where is_activated is true)
-SELECT
-    CONCAT(attribute.code, '.', attribute_option.code) as option_key,
-    JSON_OBJECTAGG(active_locales.code, option_value.value) as labels
-FROM active_locales
-    CROSS JOIN pim_catalog_attribute attribute
-    INNER JOIN pim_catalog_attribute_option attribute_option ON attribute.id = attribute_option.attribute_id
-    LEFT JOIN pim_catalog_attribute_option_value option_value ON attribute_option.id = option_value.option_id
-                                                              AND active_locales.code = option_value.locale_code
-WHERE (attribute.code, attribute_option.code) IN (%s)
-GROUP BY attribute.code, attribute_option.code
-SQL;
+            WITH active_locales as (select code from pim_catalog_locale where is_activated is true)
+            SELECT
+                CONCAT(attribute.code, '.', attribute_option.code) as option_key,
+                JSON_OBJECTAGG(active_locales.code, option_value.value) as labels
+            FROM active_locales
+                CROSS JOIN pim_catalog_attribute attribute
+                INNER JOIN pim_catalog_attribute_option attribute_option ON attribute.id = attribute_option.attribute_id
+                LEFT JOIN pim_catalog_attribute_option_value option_value ON attribute_option.id = option_value.option_id
+                                                                          AND active_locales.code = option_value.locale_code
+            WHERE (attribute.code, attribute_option.code) IN (%s)
+            GROUP BY attribute.code, attribute_option.code
+            SQL;
 
         $rawResults = $this->connection->executeQuery(
             sprintf($query, implode(',', $queryStringParams)),

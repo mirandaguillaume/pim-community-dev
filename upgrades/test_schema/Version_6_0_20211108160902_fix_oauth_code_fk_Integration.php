@@ -56,12 +56,12 @@ class Version_6_0_20211108160902_fix_oauth_code_fk_Integration extends TestCase
         $database = $this->connection->getDatabase();
 
         $query = <<<SQL
-SELECT DELETE_RULE
-FROM information_schema.REFERENTIAL_CONSTRAINTS
-WHERE CONSTRAINT_NAME=:foreign_key
-AND TABLE_NAME=:table
-AND CONSTRAINT_SCHEMA=:database
-SQL;
+            SELECT DELETE_RULE
+            FROM information_schema.REFERENTIAL_CONSTRAINTS
+            WHERE CONSTRAINT_NAME=:foreign_key
+            AND TABLE_NAME=:table
+            AND CONSTRAINT_SCHEMA=:database
+            SQL;
 
         $deleteRule = $this->connection->fetchOne($query, [
             'foreign_key' => $foreignKey,

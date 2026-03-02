@@ -34,7 +34,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class UpsertCategoryCommandHandlerSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         ValidatorInterface $validator,
         GetCategoryInterface $getCategory,
         UserIntentApplierRegistry $applierRegistry,
@@ -52,12 +52,12 @@ class UpsertCategoryCommandHandlerSpec extends ObjectBehavior
         );
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(UpsertCategoryCommandHandler::class);
     }
 
-    function it_creates_and_saves_a_category(
+    public function it_creates_and_saves_a_category(
         GetCategoryInterface $getCategory,
         ValidatorInterface $validator,
         CategorySaverProcessor $saver,
@@ -79,7 +79,7 @@ class UpsertCategoryCommandHandlerSpec extends ObjectBehavior
         $this->shouldThrow(new Exception("Command to create a category is in progress."))->during('__invoke', [$command]);
     }
 
-    function it_throws_an_exception_when_command_is_not_valid(
+    public function it_throws_an_exception_when_command_is_not_valid(
         ValidatorInterface $validator,
         GetCategoryInterface $getCategory,
         UserIntentApplierRegistry $applierRegistry,
@@ -102,7 +102,7 @@ class UpsertCategoryCommandHandlerSpec extends ObjectBehavior
         $this->shouldThrow(new ViolationsException($violations))->during('__invoke', [$command]);
     }
 
-    function it_throws_an_exception_when_updater_throws_an_exception(
+    public function it_throws_an_exception_when_updater_throws_an_exception(
         GetCategoryInterface $getCategory,
         UserIntentApplierRegistry $applierRegistry,
         UserIntentApplier $userIntentApplier,

@@ -31,11 +31,11 @@ final class GetProductModelScoresByCodesQueryIntegration extends DataQualityInsi
         $productModelA = $this->createProductModel('product_model_A', 'family_V_1');
         $productModelB = $this->createProductModel('product_model_B', 'family_V_1');
         $productModelC = $this->createProductModel('product_model_C', 'family_V_1');
-        $productModelD = $this->createProductModel('product_model_D','family_V_1');
+        $productModelD = $this->createProductModel('product_model_D', 'family_V_1');
 
-        $productModelIdA = $this->get(ProductModelIdFactory::class)->create((string)$productModelA->getId());
-        $productModelIdB = $this->get(ProductModelIdFactory::class)->create((string)$productModelB->getId());
-        $productModelIdC = $this->get(ProductModelIdFactory::class)->create((string)$productModelC->getId());
+        $productModelIdA = $this->get(ProductModelIdFactory::class)->create((string) $productModelA->getId());
+        $productModelIdB = $this->get(ProductModelIdFactory::class)->create((string) $productModelB->getId());
+        $productModelIdC = $this->get(ProductModelIdFactory::class)->create((string) $productModelC->getId());
 
         $this->resetProductModelsScores();
 

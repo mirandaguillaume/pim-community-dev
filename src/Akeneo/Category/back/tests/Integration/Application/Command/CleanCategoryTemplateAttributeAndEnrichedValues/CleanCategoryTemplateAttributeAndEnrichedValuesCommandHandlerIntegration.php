@@ -116,22 +116,22 @@ class CleanCategoryTemplateAttributeAndEnrichedValuesCommandHandlerIntegration e
     public function getDeactivatedAttributeByTemplateUuid(TemplateUuid $uuid): AttributeCollection
     {
         $query = <<< SQL
-            SELECT 
-                BIN_TO_UUID(uuid) as uuid,
-                code, 
-                BIN_TO_UUID(category_template_uuid) as category_template_uuid,
-                labels, 
-                attribute_type, 
-                attribute_order, 
-                is_required, 
-                is_scopable, 
-                is_localizable, 
-                additional_properties
-            FROM pim_catalog_category_attribute
-            WHERE category_template_uuid = :template_uuid
-            AND is_deactivated = 1
-            ORDER BY attribute_order;
-        SQL;
+                SELECT 
+                    BIN_TO_UUID(uuid) as uuid,
+                    code, 
+                    BIN_TO_UUID(category_template_uuid) as category_template_uuid,
+                    labels, 
+                    attribute_type, 
+                    attribute_order, 
+                    is_required, 
+                    is_scopable, 
+                    is_localizable, 
+                    additional_properties
+                FROM pim_catalog_category_attribute
+                WHERE category_template_uuid = :template_uuid
+                AND is_deactivated = 1
+                ORDER BY attribute_order;
+            SQL;
 
         $results = $this->connection->executeQuery(
             $query,

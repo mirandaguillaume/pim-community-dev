@@ -32,10 +32,10 @@ abstract class AbstractItemCategoryRepository implements
         $config = $this->getMappingConfig($item);
 
         $sql = sprintf(
-            'SELECT DISTINCT(category.id) ' .
-            'FROM %s category ' .
-            'INNER JOIN %s category_item ON category_item.category_id = category.id ' .
-            'AND category_item.%s = :itemId ',
+            'SELECT DISTINCT(category.id) '
+            . 'FROM %s category '
+            . 'INNER JOIN %s category_item ON category_item.category_id = category.id '
+            . 'AND category_item.%s = :itemId ',
             $config['categoryTable'],
             $config['categoryAssocTable'],
             $config['relation']
@@ -60,12 +60,12 @@ abstract class AbstractItemCategoryRepository implements
         $config = $this->getMappingConfig($item);
 
         $sql = sprintf(
-            'SELECT COUNT(DISTINCT category_item.category_id) AS item_count, tree.id AS tree_id ' .
-            'FROM %s tree ' .
-            'JOIN %s category ON category.root = tree.id ' .
-            'LEFT JOIN %s category_item ON category_item.category_id = category.id ' .
-            'AND category_item.%s= :itemId ' .
-            'GROUP BY tree.id',
+            'SELECT COUNT(DISTINCT category_item.category_id) AS item_count, tree.id AS tree_id '
+            . 'FROM %s tree '
+            . 'JOIN %s category ON category.root = tree.id '
+            . 'LEFT JOIN %s category_item ON category_item.category_id = category.id '
+            . 'AND category_item.%s= :itemId '
+            . 'GROUP BY tree.id',
             $config['categoryTable'],
             $config['categoryTable'],
             $config['categoryAssocTable'],
@@ -136,7 +136,7 @@ abstract class AbstractItemCategoryRepository implements
             $rootEntity = current($qb->getRootEntities());
             $qbIn = $qb->getEntityManager()->createQueryBuilder();
             $qbIn
-                ->select($rootAliasIn.'.id')
+                ->select($rootAliasIn . '.id')
                 ->from($rootEntity, $rootAliasIn, $rootAliasIn . '.id')
                 ->innerJoin($rootAliasIn . '.categories', $alias)
                 ->where($qbIn->expr()->in($alias . '.id', ':' . $filterCatIds));
@@ -216,6 +216,6 @@ abstract class AbstractItemCategoryRepository implements
             }
         }
 
-        $qb->leftJoin($qb->getRootAliases()[0].'.categories', CategoryFilterableRepositoryInterface::JOIN_ALIAS);
+        $qb->leftJoin($qb->getRootAliases()[0] . '.categories', CategoryFilterableRepositoryInterface::JOIN_ALIAS);
     }
 }

@@ -4,6 +4,7 @@ namespace Akeneo\Platform\Installer\Infrastructure\Command;
 
 use Akeneo\Platform\Installer\Infrastructure\Event\InstallerEvents;
 use Akeneo\Tool\Component\Console\CommandExecutor;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -11,7 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Assets dump command.
@@ -21,7 +21,6 @@ use Symfony\Component\Console\Attribute\AsCommand;
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 #[AsCommand(name: 'pim:installer:assets', description: 'Install assets for Akeneo PIM')]
-
 class AssetsCommand extends Command
 {
     protected CommandExecutor $commandExecutor;

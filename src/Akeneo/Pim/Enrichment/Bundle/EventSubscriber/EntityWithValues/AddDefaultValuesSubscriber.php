@@ -70,9 +70,9 @@ class AddDefaultValuesSubscriber implements EventSubscriberInterface
         $attributes = new ArrayCollection();
         if (null !== $entity->getFamilyVariant()) {
             $level = $entity->getVariationLevel();
-            $attributes = 0 === $level ?
-                $entity->getFamilyVariant()->getCommonAttributes() :
-                $entity->getFamilyVariant()->getVariantAttributeSet($level)->getAttributes();
+            $attributes = 0 === $level
+                ? $entity->getFamilyVariant()->getCommonAttributes()
+                : $entity->getFamilyVariant()->getVariantAttributeSet($level)->getAttributes();
         } elseif (null !== $entity->getFamily()) {
             $attributes = $entity->getFamily()->getAttributes();
         }

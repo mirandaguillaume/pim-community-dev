@@ -39,12 +39,12 @@ class TableWithOldInstantColsCannotHaveNewColumnUntilUcsMigrationTest extends Te
     private function getColumns(string $tableName): array
     {
         $sql = <<<SQL
-            SELECT COLUMN_NAME
-            FROM INFORMATION_SCHEMA.COLUMNS
-            WHERE TABLE_SCHEMA = DATABASE() 
-            AND TABLE_NAME = :tableName
-            ORDER BY ORDINAL_POSITION;
-        SQL;
+                SELECT COLUMN_NAME
+                FROM INFORMATION_SCHEMA.COLUMNS
+                WHERE TABLE_SCHEMA = DATABASE() 
+                AND TABLE_NAME = :tableName
+                ORDER BY ORDINAL_POSITION;
+            SQL;
 
         return $this->getConnection()->executeQuery($sql, [
             'tableName' => $tableName,

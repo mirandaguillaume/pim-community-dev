@@ -33,8 +33,8 @@ class JobExecutionManager
      */
     public function resolveJobExecutionStatus(JobExecution $jobExecution): JobExecution
     {
-        if (BatchStatus::STARTING === $jobExecution->getStatus()->getValue() ||
-            (!$jobExecution->getExitStatus()->isRunning() && !$jobExecution->isStopping())) {
+        if (BatchStatus::STARTING === $jobExecution->getStatus()->getValue()
+            || (!$jobExecution->getExitStatus()->isRunning() && !$jobExecution->isStopping())) {
             return $jobExecution;
         }
 
@@ -75,15 +75,15 @@ class JobExecutionManager
     public function markAsFailed(int $jobExecutionId): void
     {
         $sql = <<<SQL
-        UPDATE 
-            akeneo_batch_job_execution je
-        SET 
-            je.status = :status,
-            je.exit_code = :exit_code,
-            je.updated_time = :updated_time
-        WHERE
-            je.id = :id;
-        SQL;
+            UPDATE 
+                akeneo_batch_job_execution je
+            SET 
+                je.status = :status,
+                je.exit_code = :exit_code,
+                je.updated_time = :updated_time
+            WHERE
+                je.id = :id;
+            SQL;
 
         $stmt = $this->connection->prepare($sql);
         $stmt->bindValue('id', $jobExecutionId);
@@ -99,14 +99,14 @@ class JobExecutionManager
     public function updateHealthCheck(int $jobExecutionId): void
     {
         $sql = <<<SQL
-        UPDATE 
-            akeneo_batch_job_execution je
-        SET 
-            je.health_check_time = :health_check_time,
-            je.updated_time = :updated_time
-        WHERE
-            je.id = :id;
-        SQL;
+            UPDATE 
+                akeneo_batch_job_execution je
+            SET 
+                je.health_check_time = :health_check_time,
+                je.updated_time = :updated_time
+            WHERE
+                je.id = :id;
+            SQL;
 
         $stmt = $this->connection->prepare($sql);
         $stmt->bindValue('id', $jobExecutionId);
@@ -118,11 +118,11 @@ class JobExecutionManager
     public function jobCodeFromJobExecutionId(int $jobExecutionId): string
     {
         $sql = <<< SQL
-            SELECT job_instance.code 
-            FROM akeneo_batch_job_execution job_execution
-            INNER JOIN akeneo_batch_job_instance job_instance ON job_instance.id = job_execution.job_instance_id
-            WHERE job_execution.id = :jobExecutionId;
-        SQL;
+                SELECT job_instance.code 
+                FROM akeneo_batch_job_execution job_execution
+                INNER JOIN akeneo_batch_job_instance job_instance ON job_instance.id = job_execution.job_instance_id
+                WHERE job_execution.id = :jobExecutionId;
+            SQL;
 
 
         $stmt = $this->connection->prepare($sql);

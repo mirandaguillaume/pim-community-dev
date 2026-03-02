@@ -32,7 +32,7 @@ final class DashboardRatesProjectionSpec extends ObjectBehavior
         $this->getRanksDistributionsPerTimePeriod()->shouldBeLike([
             TimePeriod::DAILY => [
                 $consolidationDate->format() => $ranksDistributionCollection->toArray(),
-            ]
+            ],
         ]);
     }
 
@@ -54,7 +54,7 @@ final class DashboardRatesProjectionSpec extends ObjectBehavior
             ],
             TimePeriod::WEEKLY => [
                 $consolidationDate->format() => $ranksDistributionCollection->toArray(),
-            ]
+            ],
         ]);
     }
 
@@ -76,7 +76,7 @@ final class DashboardRatesProjectionSpec extends ObjectBehavior
             ],
             TimePeriod::MONTHLY => [
                 $consolidationDate->format() => $ranksDistributionCollection->toArray(),
-            ]
+            ],
         ]);
     }
 
@@ -101,7 +101,7 @@ final class DashboardRatesProjectionSpec extends ObjectBehavior
             ],
             TimePeriod::YEARLY => [
                 $consolidationDate->format() => $ranksDistributionCollection->toArray(),
-            ]
+            ],
         ]);
     }
 
@@ -114,7 +114,7 @@ final class DashboardRatesProjectionSpec extends ObjectBehavior
                     "rank_2" => random_int(1, 100),
                     "rank_3" => random_int(1, 100),
                     "rank_4" => random_int(1, 100),
-                    "rank_5" => random_int(1, 100)
+                    "rank_5" => random_int(1, 100),
                 ],
             ],
         ]);

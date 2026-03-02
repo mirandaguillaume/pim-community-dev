@@ -35,7 +35,7 @@ class GetProductUuidsToEvaluateQueryIntegration extends DataQualityInsightsTestC
         $expectedProductUuids = $this->givenThreeProductsToEvaluate();
 
         $productUuids = iterator_to_array($this->productQuery->execute(4, 2));
-        $productUuids = array_map(fn (ProductUuidCollection $collection) => $collection->toArrayString(), $productUuids);
+        $productUuids = array_map(fn(ProductUuidCollection $collection) => $collection->toArrayString(), $productUuids);
 
         $this->assertCount(2, $productUuids);
         $this->assertCount(2, $productUuids[0]);
@@ -48,7 +48,7 @@ class GetProductUuidsToEvaluateQueryIntegration extends DataQualityInsightsTestC
         $productUuid2 = $this->createProductWithoutEvaluations('product_2')->getUuid();
         $productUuid3 = $this->createProductWithoutEvaluations('product_3')->getUuid();
 
-        $evaluations = (new Write\CriterionEvaluationCollection)
+        $evaluations = (new Write\CriterionEvaluationCollection())
             ->add(new Write\CriterionEvaluation(
                 new CriterionCode('completeness'),
                 ProductUuid::fromUuid($productUuid1),
@@ -85,7 +85,7 @@ class GetProductUuidsToEvaluateQueryIntegration extends DataQualityInsightsTestC
             CriterionEvaluationStatus::pending()
         );
 
-        $evaluations = (new Write\CriterionEvaluationCollection)->add($evaluationDone);
+        $evaluations = (new Write\CriterionEvaluationCollection())->add($evaluationDone);
         $this->productCriterionEvaluationRepository->create($evaluations);
 
         $evaluationDone->end(new Write\CriterionEvaluationResult());

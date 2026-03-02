@@ -16,8 +16,7 @@ use Webmozart\Assert\Assert;
 final class FamilyPropertyShouldBeValidValidator extends ConstraintValidator
 {
     public function __construct(
-    ) {
-    }
+    ) {}
 
     public function validate($property, Constraint $constraint): void
     {

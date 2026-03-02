@@ -589,9 +589,9 @@ class ProductModel implements ProductModelInterface, \Stringable
         $newAssociation->setOwner($this);
         $this->associations->add($newAssociation);
         if (
-            $newAssociation->getProducts()->count() > 0 ||
-            $newAssociation->getProductModels()->count() > 0 ||
-            $newAssociation->getGroups()->count() > 0
+            $newAssociation->getProducts()->count() > 0
+            || $newAssociation->getProductModels()->count() > 0
+            || $newAssociation->getGroups()->count() > 0
         ) {
             $this->dirty = true;
         }
@@ -606,12 +606,12 @@ class ProductModel implements ProductModelInterface, \Stringable
     {
         $similarAssociation = $this->getSimilarAssociation($association);
         if (
-            null !== $similarAssociation &&
-            true === $this->associations->removeElement($similarAssociation) &&
-            (
-                $similarAssociation->getProducts()->count() > 0 ||
-                $similarAssociation->getProductModels()->count() > 0 ||
-                $similarAssociation->getGroups()->count() > 0
+            null !== $similarAssociation
+            && true === $this->associations->removeElement($similarAssociation)
+            && (
+                $similarAssociation->getProducts()->count() > 0
+                || $similarAssociation->getProductModels()->count() > 0
+                || $similarAssociation->getGroups()->count() > 0
             )
         ) {
             $this->dirty = true;

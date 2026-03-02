@@ -39,8 +39,8 @@ final readonly class GetProductIdsImpactedByAttributeGroupActivationQuery implem
         }
 
         $query = <<<SQL
-SELECT BIN_TO_UUID(product.uuid) FROM pim_catalog_product AS product WHERE product.family_id IN (:families)
-SQL;
+            SELECT BIN_TO_UUID(product.uuid) FROM pim_catalog_product AS product WHERE product.family_id IN (:families)
+            SQL;
 
         $stmt = $this->dbConnection->executeQuery(
             $query,
@@ -66,13 +66,13 @@ SQL;
     private function retrieveFamiliesWithAttributeGroupActivationUpdatedSince(\DateTimeImmutable $updatedSince): array
     {
         $query = <<<SQL
-SELECT DISTINCT family_attribute.family_id
-FROM pim_data_quality_insights_attribute_group_activation AS attribute_group_activation
-    INNER JOIN pim_catalog_attribute_group AS attribute_group ON attribute_group.code = attribute_group_activation.attribute_group_code
-    INNER JOIN pim_catalog_attribute AS attribute ON attribute.group_id = attribute_group.id
-    INNER JOIN pim_catalog_family_attribute AS family_attribute ON family_attribute.attribute_id = attribute.id
-WHERE attribute_group_activation.updated_at > :updatedSince
-SQL;
+            SELECT DISTINCT family_attribute.family_id
+            FROM pim_data_quality_insights_attribute_group_activation AS attribute_group_activation
+                INNER JOIN pim_catalog_attribute_group AS attribute_group ON attribute_group.code = attribute_group_activation.attribute_group_code
+                INNER JOIN pim_catalog_attribute AS attribute ON attribute.group_id = attribute_group.id
+                INNER JOIN pim_catalog_family_attribute AS family_attribute ON family_attribute.attribute_id = attribute.id
+            WHERE attribute_group_activation.updated_at > :updatedSince
+            SQL;
 
         $stmt = $this->dbConnection->executeQuery($query, ['updatedSince' => $updatedSince->format(Clock::TIME_FORMAT)]);
 

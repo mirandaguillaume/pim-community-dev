@@ -30,8 +30,8 @@ final readonly class DescendantProductUuidsQuery implements DescendantProductUui
         }
 
         $sql = <<<SQL
-SELECT BIN_TO_UUID(uuid) AS uuid FROM pim_catalog_product WHERE product_model_id IN (:productModelIds)
-SQL;
+            SELECT BIN_TO_UUID(uuid) AS uuid FROM pim_catalog_product WHERE product_model_id IN (:productModelIds)
+            SQL;
 
         $resultRows = $this->connection->executeQuery(
             $sql,

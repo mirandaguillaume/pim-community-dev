@@ -48,8 +48,8 @@ class AssociationTranslator implements FlatHeaderTranslatorInterface
             sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $entityType)
         );
 
-        $associationTypeLabelized = $this->associationTranslations[$associationType] ??
-            sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $associationType);
+        $associationTypeLabelized = $this->associationTranslations[$associationType]
+            ?? sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $associationType);
 
         $translation = sprintf('%s %s', $associationTypeLabelized, $entityTypeLabelized);
 

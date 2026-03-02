@@ -74,7 +74,7 @@ final class ProductUuidCollectionSpec extends ObjectBehavior
 
         $this->toArray()->shouldBeLike([
             ProductUuid::fromString(('df470d52-7723-4890-85a0-e79be625e2ed')),
-            ProductUuid::fromString(('6d125b99-d971-41d9-a264-b020cd486aee'))
+            ProductUuid::fromString(('6d125b99-d971-41d9-a264-b020cd486aee')),
         ]);
     }
 
@@ -84,7 +84,7 @@ final class ProductUuidCollectionSpec extends ObjectBehavior
             ProductUuid::fromString(('df470d52-7723-4890-85a0-e79be625e2ed')),
             ProductUuid::fromString(('fef37e64-a963-47a9-b087-2cc67968f0a2')),
             ProductUuid::fromString(('6d125b99-d971-41d9-a264-b020cd486aee')),
-            ProductUuid::fromString(('b492b9f5-9a8f-495a-8cd7-912c69c31902'))
+            ProductUuid::fromString(('b492b9f5-9a8f-495a-8cd7-912c69c31902')),
         ];
         $this->beConstructedThrough('fromProductUuids', [$uuids]);
 
@@ -98,17 +98,17 @@ final class ProductUuidCollectionSpec extends ObjectBehavior
             ProductUuid::fromString(('df470d52-7723-4890-85a0-e79be625e2ed')),
             ProductUuid::fromString(('fef37e64-a963-47a9-b087-2cc67968f0a2')),
             ProductUuid::fromString(('6d125b99-d971-41d9-a264-b020cd486aee')),
-            ProductUuid::fromString(('b492b9f5-9a8f-495a-8cd7-912c69c31902'))
+            ProductUuid::fromString(('b492b9f5-9a8f-495a-8cd7-912c69c31902')),
         ];
         $uuidsExpected = [
             'df470d52-7723-4890-85a0-e79be625e2ed',
             'fef37e64-a963-47a9-b087-2cc67968f0a2',
             '6d125b99-d971-41d9-a264-b020cd486aee',
-            'b492b9f5-9a8f-495a-8cd7-912c69c31902'
+            'b492b9f5-9a8f-495a-8cd7-912c69c31902',
         ];
-        $this->beConstructedThrough('fromProductUuids', [$uuids]);-
+        $this->beConstructedThrough('fromProductUuids', [$uuids]);
 
-        $this->toArrayString()->shouldBeArray();
+        -$this->toArrayString()->shouldBeArray();
         $this->toArrayString()->shouldBeLike($uuidsExpected);
     }
 

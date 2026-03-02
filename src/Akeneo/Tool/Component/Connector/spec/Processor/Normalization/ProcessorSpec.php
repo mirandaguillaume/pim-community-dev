@@ -10,17 +10,17 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class ProcessorSpec extends ObjectBehavior
 {
-    function let(NormalizerInterface $normalizer, ObjectDetacherInterface $objectDetacher)
+    public function let(NormalizerInterface $normalizer, ObjectDetacherInterface $objectDetacher)
     {
         $this->beConstructedWith($normalizer, $objectDetacher);
     }
 
-    function it_is_a_processor()
+    public function it_is_a_processor()
     {
         $this->shouldImplement(ItemProcessorInterface::class);
     }
 
-    function it_processes_items($objectDetacher, NormalizerInterface $normalizer, GroupInterface $group)
+    public function it_processes_items($objectDetacher, NormalizerInterface $normalizer, GroupInterface $group)
     {
         $normalizer
             ->normalize($group)
@@ -28,13 +28,13 @@ class ProcessorSpec extends ObjectBehavior
             ->willReturn([
                 'code'   => 'promotion',
                 'type'   => 'RELATED',
-                'labels' => ['en_US' => 'Promotion', 'de_DE' => 'Förderung']
+                'labels' => ['en_US' => 'Promotion', 'de_DE' => 'Förderung'],
             ]);
 
         $this->process($group)->shouldReturn([
             'code'   => 'promotion',
             'type'   => 'RELATED',
-            'labels' => ['en_US' => 'Promotion', 'de_DE' => 'Förderung']
+            'labels' => ['en_US' => 'Promotion', 'de_DE' => 'Förderung'],
         ]);
 
         $objectDetacher->detach($group)->shouldBeCalled();

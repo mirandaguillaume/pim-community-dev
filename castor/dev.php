@@ -61,5 +61,5 @@ function lintFixBack(
     #[AsArgument(description: 'File or directory path')]
     string $options = '',
 ): void {
-    \phpRun('vendor/bin/php-cs-fixer fix --config=.php_cs_symfony.dist --diff --path-mode=intersection ' . $options);
+    \phpRun('tools/php-cs-fixer fix --config=.php_cs_symfony.dist --diff --path-mode=intersection ' . $options);
 }

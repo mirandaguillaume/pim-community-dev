@@ -15,8 +15,8 @@ class FamilyVariant extends Constraint
 
     final public const HAS_FAMILY_ATTRIBUTE = 'pim_catalog.constraint.family_variant_has_family_attribute';
 
-    final public const UNIQUE_ATTRIBUTE_IN_LAST_LEVEL =
-        'pim_catalog.constraint.family_variant_unique_attributes_in_last_level';
+    final public const UNIQUE_ATTRIBUTE_IN_LAST_LEVEL
+        = 'pim_catalog.constraint.family_variant_unique_attributes_in_last_level';
 
     final public const ATTRIBUTES_UNIQUE = 'pim_catalog.constraint.family_variant_attributes_unique';
 

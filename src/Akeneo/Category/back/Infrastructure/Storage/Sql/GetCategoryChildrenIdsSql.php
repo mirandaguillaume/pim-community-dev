@@ -27,19 +27,19 @@ final readonly class GetCategoryChildrenIdsSql implements GetCategoryChildrenIds
     public function __invoke(int $categoryId): array
     {
         $sqlQuery = <<<SQL
-            WITH RECURSIVE child_categories as (
-                SELECT id, code, parent_id
-                FROM pim_catalog_category AS children
-                WHERE children.id = :category_id
-                UNION
-                SELECT pim_catalog_category.id, pim_catalog_category.code, pim_catalog_category.parent_id
-                FROM pim_catalog_category
-                INNER JOIN child_categories parent ON parent.id = pim_catalog_category.parent_id
-            )
-            SELECT id
-            FROM child_categories
-            WHERE id != :category_id;
-        SQL;
+                WITH RECURSIVE child_categories as (
+                    SELECT id, code, parent_id
+                    FROM pim_catalog_category AS children
+                    WHERE children.id = :category_id
+                    UNION
+                    SELECT pim_catalog_category.id, pim_catalog_category.code, pim_catalog_category.parent_id
+                    FROM pim_catalog_category
+                    INNER JOIN child_categories parent ON parent.id = pim_catalog_category.parent_id
+                )
+                SELECT id
+                FROM child_categories
+                WHERE id != :category_id;
+            SQL;
 
         $results = $this->connection->executeQuery(
             $sqlQuery,

@@ -52,8 +52,8 @@ class ProductAndProductModelFlatTranslator implements FlatTranslatorInterface
     private function translateHeader(string $columnCode, string $locale): string
     {
         $translator = $this->headerRegistry->getTranslator($columnCode);
-        $columnLabelized = null !== $translator ? $translator->translate($columnCode, $locale) :
-            sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $columnCode);
+        $columnLabelized = null !== $translator ? $translator->translate($columnCode, $locale)
+            : sprintf(FlatTranslatorInterface::FALLBACK_PATTERN, $columnCode);
 
         return sprintf(
             '%s%s%s',

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Pim\Enrichment\Component\Product\Updater\Adder;
@@ -214,15 +215,15 @@ class AssociationFieldAdder extends AbstractFieldAdder
         }
 
         foreach ($data as $assocTypeCode => $items) {
-            $assocTypeCode = (string)$assocTypeCode;
+            $assocTypeCode = (string) $assocTypeCode;
             $this->checkAssociationData($field, $data, $assocTypeCode, $items);
         }
     }
 
     protected function checkAssociationData(string $field, array $data, string $assocTypeCode, $items): void
     {
-        if (!is_array($items) || !is_string($assocTypeCode) ||
-            (!isset($items['products']) && !isset($items['groups']) && !isset($items['product_models']))) {
+        if (!is_array($items) || !is_string($assocTypeCode)
+            || (!isset($items['products']) && !isset($items['groups']) && !isset($items['product_models']))) {
             throw InvalidPropertyTypeException::validArrayStructureExpected(
                 $field,
                 sprintf('association format is not valid for the association type "%s".', $assocTypeCode),

@@ -24,15 +24,13 @@ class AddScoresToProductAndProductModelRowsSpec extends ObjectBehavior
     public function let(
         GetQualityScoresFactory         $getQualityScoresFactory,
         ProductEntityIdFactoryInterface $idFactory
-    )
-    {
+    ) {
         $this->beConstructedWith($getQualityScoresFactory, $idFactory);
     }
 
     public function it_returns_no_rows_when_given_no_rows(
         ProductQueryBuilderInterface $productQueryBuilder
-    )
-    {
+    ) {
         $queryParameters = new FetchProductAndProductModelRowsParameters(
             $productQueryBuilder->getWrappedObject(),
             [],
@@ -48,8 +46,7 @@ class AddScoresToProductAndProductModelRowsSpec extends ObjectBehavior
         GetQualityScoresFactory $getQualityScoresFactory,
         ProductEntityIdFactoryInterface $idFactory,
         ProductEntityIdCollection $productIdCollection
-    )
-    {
+    ) {
         $queryParameters = new FetchProductAndProductModelRowsParameters(
             $productQueryBuilder->getWrappedObject(),
             [],
@@ -73,7 +70,7 @@ class AddScoresToProductAndProductModelRowsSpec extends ObjectBehavior
         $scores = [
             (new ChannelLocaleRateCollection())
                 ->addRate(new ChannelCode('ecommerce'), new LocaleCode('en_US'), new Rate(96))
-                ->addRate(new ChannelCode('ecommerce'), new LocaleCode('fr_FR'), new Rate(36))
+                ->addRate(new ChannelCode('ecommerce'), new LocaleCode('fr_FR'), new Rate(36)),
         ];
 
         $getQualityScoresFactory->__invoke(Argument::any(), 'product')->willReturn($scores);
@@ -83,11 +80,10 @@ class AddScoresToProductAndProductModelRowsSpec extends ObjectBehavior
 
     public function it_returns_product_model_row_with_additional_property_DQI_score(
         ProductQueryBuilderInterface $productQueryBuilder,
-                                     $getQualityScoresFactory,
-                                     $idFactory,
+        $getQualityScoresFactory,
+        $idFactory,
         ProductEntityIdCollection    $productIdCollection
-    )
-    {
+    ) {
         $queryParameters = new FetchProductAndProductModelRowsParameters(
             $productQueryBuilder->getWrappedObject(),
             [],
@@ -109,7 +105,7 @@ class AddScoresToProductAndProductModelRowsSpec extends ObjectBehavior
         $scores = [
             (new ChannelLocaleRateCollection())
                 ->addRate(new ChannelCode('ecommerce'), new LocaleCode('en_US'), new Rate(96))
-                ->addRate(new ChannelCode('ecommerce'), new LocaleCode('fr_FR'), new Rate(36))
+                ->addRate(new ChannelCode('ecommerce'), new LocaleCode('fr_FR'), new Rate(36)),
         ];
 
         $getQualityScoresFactory->__invoke(Argument::any(), 'product_model')->willReturn($scores);
@@ -163,7 +159,7 @@ class AddScoresToProductAndProductModelRowsSpec extends ObjectBehavior
                     }
                 }
                 return true;
-            }
+            },
         ];
     }
 }

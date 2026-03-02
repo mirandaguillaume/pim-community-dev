@@ -33,16 +33,16 @@ final class QualityScoreMultiLocalesFilterSpec extends ObjectBehavior
                     'should' => [
                         [
                             'terms' => [
-                               'data_quality_insights.scores.ecommerce.en_US' => [1, 2]
+                                'data_quality_insights.scores.ecommerce.en_US' => [1, 2],
                             ],
                         ],
                         [
                             'terms' => [
-                               'data_quality_insights.scores.ecommerce.fr_FR' => [1, 2]
+                                'data_quality_insights.scores.ecommerce.fr_FR' => [1, 2],
                             ],
-                        ]
-                    ]
-                ]
+                        ],
+                    ],
+                ],
 
             ]
         )->shouldBeCalled();
@@ -54,7 +54,7 @@ final class QualityScoreMultiLocalesFilterSpec extends ObjectBehavior
             null,
             'ecommerce',
             [
-                'locales' => ['en_US', 'fr_FR']
+                'locales' => ['en_US', 'fr_FR'],
             ]
         );
     }
@@ -67,16 +67,16 @@ final class QualityScoreMultiLocalesFilterSpec extends ObjectBehavior
                     'must' => [
                         [
                             'terms' => [
-                               'data_quality_insights.scores.ecommerce.en_US' => [1, 2]
+                                'data_quality_insights.scores.ecommerce.en_US' => [1, 2],
                             ],
                         ],
                         [
                             'terms' => [
-                               'data_quality_insights.scores.ecommerce.fr_FR' => [1, 2]
+                                'data_quality_insights.scores.ecommerce.fr_FR' => [1, 2],
                             ],
-                        ]
-                    ]
-                ]
+                        ],
+                    ],
+                ],
 
             ]
         )->shouldBeCalled();
@@ -99,7 +99,7 @@ final class QualityScoreMultiLocalesFilterSpec extends ObjectBehavior
             2,
             null,
             'ecommerce',
-            ['locales' => ['en_US', 'fr_FR']]
+            ['locales' => ['en_US', 'fr_FR']],
         ]);
     }
 
@@ -111,7 +111,7 @@ final class QualityScoreMultiLocalesFilterSpec extends ObjectBehavior
             [1, 3],
             null,
             null,
-            ['locales' => ['en_US', 'fr_FR']]
+            ['locales' => ['en_US', 'fr_FR']],
         ]);
     }
 
@@ -123,7 +123,7 @@ final class QualityScoreMultiLocalesFilterSpec extends ObjectBehavior
             [1, 2],
             null,
             'ecommerce',
-            ['locales' => []]
+            ['locales' => []],
         ]);
 
         $this->shouldThrow(InvalidPropertyTypeException::class)->during('addFieldFilter', [
@@ -132,7 +132,7 @@ final class QualityScoreMultiLocalesFilterSpec extends ObjectBehavior
             [1, 2],
             null,
             'ecommerce',
-            ['locales' => 'en_US']
+            ['locales' => 'en_US'],
         ]);
 
         $this->shouldThrow(InvalidPropertyTypeException::class)->during('addFieldFilter', [
@@ -141,7 +141,7 @@ final class QualityScoreMultiLocalesFilterSpec extends ObjectBehavior
             [1, 2],
             null,
             'ecommerce',
-            []
+            [],
         ]);
     }
 }

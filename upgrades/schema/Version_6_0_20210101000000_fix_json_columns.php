@@ -28,14 +28,15 @@ final class Version_6_0_20210101000000_fix_json_columns extends AbstractMigratio
 
     private function getLegacyJsonColumns(): array
     {
-        return $this->connection->fetchAllAssociative(<<<SQL
-            SELECT TABLE_NAME, COLUMN_NAME, COLUMN_TYPE, IS_NULLABLE, COLUMN_DEFAULT
-            FROM information_schema.COLUMNS
-            WHERE COLUMN_COMMENT = '(DC2Type:json_array)'
-            AND TABLE_SCHEMA = :schema
-            SQL,
+        return $this->connection->fetchAllAssociative(
+            <<<SQL
+                SELECT TABLE_NAME, COLUMN_NAME, COLUMN_TYPE, IS_NULLABLE, COLUMN_DEFAULT
+                FROM information_schema.COLUMNS
+                WHERE COLUMN_COMMENT = '(DC2Type:json_array)'
+                AND TABLE_SCHEMA = :schema
+                SQL,
             [
-                'schema' => $this->connection->getDatabase()
+                'schema' => $this->connection->getDatabase(),
             ]
         );
     }

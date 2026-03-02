@@ -16,11 +16,11 @@ class ReferenceDataFilterProvider implements FilterProviderInterface
     /** @var array */
     protected $filters = [
         'pim_reference_data_simpleselect' => [
-            'product-export-builder' => 'akeneo-attribute-select-reference-data-filter'
+            'product-export-builder' => 'akeneo-attribute-select-reference-data-filter',
         ],
         'pim_reference_data_multiselect' => [
-            'product-export-builder' => 'akeneo-attribute-select-reference-data-filter'
-        ]
+            'product-export-builder' => 'akeneo-attribute-select-reference-data-filter',
+        ],
     ];
 
     /**
@@ -36,7 +36,7 @@ class ReferenceDataFilterProvider implements FilterProviderInterface
      */
     public function supports($element)
     {
-        return $element instanceof AttributeInterface &&
-            in_array($element->getType(), array_keys($this->filters));
+        return $element instanceof AttributeInterface
+            && in_array($element->getType(), array_keys($this->filters));
     }
 }

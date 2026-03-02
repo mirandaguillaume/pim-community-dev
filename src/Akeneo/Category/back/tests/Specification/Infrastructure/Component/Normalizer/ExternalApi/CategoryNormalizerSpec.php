@@ -10,17 +10,17 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class CategoryNormalizerSpec extends ObjectBehavior
 {
-    function let(NormalizerInterface $stdNormalizer, PositionResolverInterface $positionResolver)
+    public function let(NormalizerInterface $stdNormalizer, PositionResolverInterface $positionResolver)
     {
         $this->beConstructedWith($stdNormalizer, $positionResolver);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(CategoryNormalizer::class);
     }
 
-    function it_supports_a_category(CategoryInterface $category)
+    public function it_supports_a_category(CategoryInterface $category)
     {
         $this->supportsNormalization(new \stdClass(), 'whatever')->shouldReturn(false);
         $this->supportsNormalization(new \stdClass(), 'external_api')->shouldReturn(false);
@@ -28,7 +28,7 @@ class CategoryNormalizerSpec extends ObjectBehavior
         $this->supportsNormalization($category, 'external_api')->shouldReturn(true);
     }
 
-    function it_normalizes_a_category($stdNormalizer, CategoryInterface $category)
+    public function it_normalizes_a_category($stdNormalizer, CategoryInterface $category)
     {
         $data = ['code' => 'my_category', 'labels' => []];
 
@@ -39,7 +39,7 @@ class CategoryNormalizerSpec extends ObjectBehavior
         $normalizedCategory->shouldHaveLabels();
     }
 
-    function it_normalizes_a_category_with_position(
+    public function it_normalizes_a_category_with_position(
         $stdNormalizer,
         CategoryInterface $category,
         PositionResolverInterface $positionResolver

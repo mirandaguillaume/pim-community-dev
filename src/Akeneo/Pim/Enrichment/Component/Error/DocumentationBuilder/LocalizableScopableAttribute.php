@@ -23,10 +23,10 @@ final class LocalizableScopableAttribute implements DocumentationBuilderInterfac
 {
     public function support($object): bool
     {
-        return $object instanceof LocalizableAndNotScopableAttributeException ||
-            $object instanceof LocalizableAndScopableAttributeException ||
-            $object instanceof NotLocalizableAndScopableAttributeException ||
-            $object instanceof NotLocalizableAndNotScopableAttributeException;
+        return $object instanceof LocalizableAndNotScopableAttributeException
+            || $object instanceof LocalizableAndScopableAttributeException
+            || $object instanceof NotLocalizableAndScopableAttributeException
+            || $object instanceof NotLocalizableAndNotScopableAttributeException;
     }
 
     public function buildDocumentation($object): DocumentationCollection
@@ -43,7 +43,7 @@ final class LocalizableScopableAttribute implements DocumentationBuilderInterfac
                         sprintf('%s attributes settings', $object->getAttributeCode()),
                         'pim_enrich_attribute_edit',
                         ['code' => $object->getAttributeCode()]
-                    )
+                    ),
                 ],
                 Documentation::STYLE_TEXT
             ),
@@ -53,10 +53,10 @@ final class LocalizableScopableAttribute implements DocumentationBuilderInterfac
                     'manage_attribute' => new HrefMessageParameter(
                         'Manage your attributes',
                         'https://help.akeneo.com/pim/serenity/articles/manage-your-attributes.html'
-                    )
+                    ),
                 ],
                 Documentation::STYLE_INFORMATION
-            )
+            ),
         ]);
     }
 }

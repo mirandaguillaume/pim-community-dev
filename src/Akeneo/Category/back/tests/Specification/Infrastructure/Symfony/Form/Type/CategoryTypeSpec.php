@@ -16,7 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CategoryTypeSpec extends ObjectBehavior
 {
-    function let(FormBuilderInterface $builder)
+    public function let(FormBuilderInterface $builder)
     {
         $builder->add(Argument::cetera())->willReturn($builder);
         $builder->addEventSubscriber(Argument::any())->willReturn($builder);
@@ -27,22 +27,22 @@ class CategoryTypeSpec extends ObjectBehavior
         );
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(CategoryType::class);
     }
 
-    function it_is_a_form_type()
+    public function it_is_a_form_type()
     {
         $this->shouldHaveType(AbstractType::class);
     }
 
-    function it_has_a_block_prefix()
+    public function it_has_a_block_prefix()
     {
         $this->getBlockPrefix()->shouldReturn('pim_category');
     }
 
-    function it_builds_the_category_form($builder)
+    public function it_builds_the_category_form($builder)
     {
         $builder->add('code')->shouldBeCalled();
         $builder->add(
@@ -54,7 +54,7 @@ class CategoryTypeSpec extends ObjectBehavior
         $this->buildForm($builder, []);
     }
 
-    function it_adds_a_disable_field_subscriber($builder)
+    public function it_adds_a_disable_field_subscriber($builder)
     {
         $builder->addEventSubscriber(new DisableFieldSubscriber('code'))
             ->shouldBeCalled();
@@ -62,18 +62,18 @@ class CategoryTypeSpec extends ObjectBehavior
         $this->buildForm($builder, []);
     }
 
-    function it_sets_default_options(OptionsResolver $resolver)
+    public function it_sets_default_options(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
             [
-                'data_class'  => Category::class
+                'data_class'  => Category::class,
             ]
         )->shouldBeCalled();
 
         $this->configureOptions($resolver);
     }
 
-    function it_adds_registered_event_subscribers($builder, EventSubscriberInterface $subscriber)
+    public function it_adds_registered_event_subscribers($builder, EventSubscriberInterface $subscriber)
     {
         $this->addEventSubscriber($subscriber);
         $builder->addEventSubscriber($subscriber)

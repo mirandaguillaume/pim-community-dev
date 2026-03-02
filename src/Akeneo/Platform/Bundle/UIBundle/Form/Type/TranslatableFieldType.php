@@ -82,7 +82,7 @@ class TranslatableFieldType extends AbstractType
                 'field'             => false,
                 'locales'           => $this->userContext->getUserLocaleCodes(),
                 'required_locale'   => [],
-                'widget'            => TextType::class
+                'widget'            => TextType::class,
             ]
         );
     }

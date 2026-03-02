@@ -123,10 +123,10 @@ final class GetOutdatedProductUuidsByDateAndCriteriaQueryIntegration extends Dat
     private function updateProductCriteriaEvaluationsAt(ProductUuid $productUuid, \DateTimeImmutable $evaluatedAt, array $criteria): void
     {
         $query = <<<SQL
-UPDATE pim_data_quality_insights_product_criteria_evaluation
-SET evaluated_at = :evaluated_at 
-WHERE product_uuid = :product_uuid
-SQL;
+            UPDATE pim_data_quality_insights_product_criteria_evaluation
+            SET evaluated_at = :evaluated_at 
+            WHERE product_uuid = :product_uuid
+            SQL;
         $queryParameters = [
             'product_uuid' => $productUuid->toBytes(),
             'evaluated_at' => $evaluatedAt,

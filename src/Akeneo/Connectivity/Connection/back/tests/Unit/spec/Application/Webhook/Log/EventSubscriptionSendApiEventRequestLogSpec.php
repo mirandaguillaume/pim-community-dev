@@ -39,7 +39,7 @@ class EventSubscriptionSendApiEventRequestLogSpec extends ObjectBehavior
                 'staging.akeneo.com',
                 ['data'],
                 $this->createEvent($author, ['data'])
-            )
+            ),
         ];
 
         $webhookRequest = new WebhookRequest($webhook, $events);
@@ -88,7 +88,7 @@ class EventSubscriptionSendApiEventRequestLogSpec extends ObjectBehavior
                 'staging.akeneo.com',
                 ['data'],
                 $this->createEvent($author, ['data'])
-            )
+            ),
         ];
 
         $webhookRequest = new WebhookRequest($webhook, $events);

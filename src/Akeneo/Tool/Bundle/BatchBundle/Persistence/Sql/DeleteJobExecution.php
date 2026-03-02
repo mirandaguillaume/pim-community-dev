@@ -82,20 +82,20 @@ final readonly class DeleteJobExecution
     public function deleteOlderThanTime(\DateTime $createdTimeLimit, array $jobInstanceCodes, ?BatchStatus $status): int
     {
         $query = <<<SQL
-            DELETE FROM akeneo_batch_job_execution WHERE id IN (
-                SELECT id FROM (
-                    SELECT id 
-                    FROM akeneo_batch_job_execution
-                    WHERE akeneo_batch_job_execution.create_time < :create_time AND akeneo_batch_job_execution.id NOT IN (
-                        SELECT MAX(last_job_execution.id) 
-                        FROM akeneo_batch_job_execution last_job_execution 
-                        WHERE last_job_execution.status = :status 
-                        GROUP BY last_job_execution.job_instance_id
-                    )
-                    %s
-                ) as job_execution_to_remove
-            )
-        SQL;
+                DELETE FROM akeneo_batch_job_execution WHERE id IN (
+                    SELECT id FROM (
+                        SELECT id 
+                        FROM akeneo_batch_job_execution
+                        WHERE akeneo_batch_job_execution.create_time < :create_time AND akeneo_batch_job_execution.id NOT IN (
+                            SELECT MAX(last_job_execution.id) 
+                            FROM akeneo_batch_job_execution last_job_execution 
+                            WHERE last_job_execution.status = :status 
+                            GROUP BY last_job_execution.job_instance_id
+                        )
+                        %s
+                    ) as job_execution_to_remove
+                )
+            SQL;
 
         $conditions = [];
         if (!empty($jobInstanceCodes)) {
@@ -122,7 +122,7 @@ final readonly class DeleteJobExecution
             ],
             [
                 'create_time' => Types::DATETIME_MUTABLE,
-                'job_instance_codes' => ArrayParameterType::STRING
+                'job_instance_codes' => ArrayParameterType::STRING,
             ]
         );
     }

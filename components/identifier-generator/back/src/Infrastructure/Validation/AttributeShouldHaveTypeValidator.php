@@ -15,9 +15,7 @@ use Webmozart\Assert\Assert;
  */
 final class AttributeShouldHaveTypeValidator extends ConstraintValidator
 {
-    public function __construct(private readonly GetAttributes $getAttributes)
-    {
-    }
+    public function __construct(private readonly GetAttributes $getAttributes) {}
 
     public function validate($target, Constraint $constraint): void
     {

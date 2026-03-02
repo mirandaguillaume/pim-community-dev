@@ -74,7 +74,7 @@ GROUP BY family.code, channel_code, locale_code
 
         $masks = [];
         foreach ($masksPerFamily as $familyCode => $masksPerChannelAndLocale) {
-            $masks[$familyCode] = new RequiredAttributesMask((string)$familyCode, $masksPerChannelAndLocale);
+            $masks[$familyCode] = new RequiredAttributesMask((string) $familyCode, $masksPerChannelAndLocale);
         }
 
         return $masks;

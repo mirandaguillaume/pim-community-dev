@@ -15,9 +15,8 @@ use Pim\Upgrade\Schema\Tests\ExecuteMigrationTrait;
  */
 final class Version_8_0_20230323180900_add_column_is_deactivated_on_template_attribute_Integration extends TestCase
 {
-    private const MIGRATION_NAME = '_8_0_20230323180900_add_column_is_deactivated_on_template_attribute';
-
     use ExecuteMigrationTrait;
+    private const MIGRATION_NAME = '_8_0_20230323180900_add_column_is_deactivated_on_template_attribute';
 
     private Connection $connection;
 
@@ -48,16 +47,16 @@ final class Version_8_0_20230323180900_add_column_is_deactivated_on_template_att
     {
         return $this->connection->executeQuery(
             <<<SQL
-                SHOW COLUMNS FROM pim_catalog_category_attribute LIKE 'is_deactivated';
-            SQL,
+                    SHOW COLUMNS FROM pim_catalog_category_attribute LIKE 'is_deactivated';
+                SQL,
         )->rowCount() >= 1;
     }
 
     private function dropIsDeactivatedColumn(): void
     {
         $sql = <<<SQL
-            ALTER TABLE pim_catalog_category_attribute DROP COLUMN is_deactivated;
-        SQL;
+                ALTER TABLE pim_catalog_category_attribute DROP COLUMN is_deactivated;
+            SQL;
 
         $this->connection->executeQuery($sql);
     }

@@ -24,7 +24,8 @@ class ExternalMeasurementFamilyNormalizerSpec extends ObjectBehavior
         $this->shouldHaveType(ExternalMeasurementFamilyNormalizer::class);
     }
 
-    public function it_normalizes_a_measurement_family_and_replaces_empty_arrays_by_empty_objects() {
+    public function it_normalizes_a_measurement_family_and_replaces_empty_arrays_by_empty_objects()
+    {
         $aMeasurementFamily = MeasurementFamily::create(
             MeasurementFamilyCode::fromString('Area'),
             LabelCollection::fromArray([]),
@@ -41,7 +42,7 @@ class ExternalMeasurementFamilyNormalizerSpec extends ObjectBehavior
                     LabelCollection::fromArray(['en_US' => 'Square centimeter', 'fr_FR' => 'Centimètre carré']),
                     [Operation::create('mul', '0.0001')],
                     'cm²',
-                )
+                ),
             ]
         );
 
@@ -56,26 +57,26 @@ class ExternalMeasurementFamilyNormalizerSpec extends ObjectBehavior
                     'convert_from_standard' => [
                         [
                             'operator' => 'mul',
-                            'value' => '1'
-                        ]
+                            'value' => '1',
+                        ],
                     ],
-                    'symbol' => 'mm²'
+                    'symbol' => 'mm²',
                 ],
                 'SQUARE_CENTIMETER' => [
                     'code' => 'SQUARE_CENTIMETER',
                     'labels' => [
                         'en_US' => 'Square centimeter',
-                        'fr_FR' => 'Centimètre carré'
+                        'fr_FR' => 'Centimètre carré',
                     ],
                     'convert_from_standard' => [
                         [
                             'operator' => 'mul',
-                            'value' => '0.0001'
-                        ]
+                            'value' => '0.0001',
+                        ],
                     ],
-                    'symbol' => 'cm²'
-                ]
-            ]
+                    'symbol' => 'cm²',
+                ],
+            ],
         ]);
     }
 }

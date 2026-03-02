@@ -30,8 +30,8 @@ class ListChildrenCategoriesWithCountNotIncludingSubCategories implements Query\
         int $categoryIdToExpand,
         ?int $categoryIdSelectedAsFilter
     ): array {
-        $categoryIdsInPath = null !== $categoryIdSelectedAsFilter ?
-            $this->fetchCategoriesBetween($categoryIdToExpand, $categoryIdSelectedAsFilter) : [$categoryIdToExpand];
+        $categoryIdsInPath = null !== $categoryIdSelectedAsFilter
+            ? $this->fetchCategoriesBetween($categoryIdToExpand, $categoryIdSelectedAsFilter) : [$categoryIdToExpand];
 
         return $this->getRecursivelyCategories($categoryIdsInPath, $translationLocaleCode, $categoryIdSelectedAsFilter);
     }
@@ -67,7 +67,7 @@ class ListChildrenCategoriesWithCountNotIncludingSubCategories implements Query\
         array $categoryIdsInPath,
         string $translationLocaleCode,
         ?int $categoryIdToFilterWith
-    ) : array {
+    ): array {
         $parentCategoryId = array_shift($categoryIdsInPath);
         $subchildCategoryId = $categoryIdsInPath[0] ?? null;
 
@@ -77,10 +77,10 @@ class ListChildrenCategoriesWithCountNotIncludingSubCategories implements Query\
 
         $categories = [];
         foreach ($categoriesWithCount as $category) {
-            $childrenCategoriesToExpand = null !== $subchildCategoryId && $subchildCategoryId === (int) $category['child_id'] ?
-                $this->getRecursivelyCategories($categoryIdsInPath, $translationLocaleCode, $categoryIdToFilterWith): [];
+            $childrenCategoriesToExpand = null !== $subchildCategoryId && $subchildCategoryId === (int) $category['child_id']
+                ? $this->getRecursivelyCategories($categoryIdsInPath, $translationLocaleCode, $categoryIdToFilterWith) : [];
 
-            $isUsedAsFilter = null !== $categoryIdToFilterWith ? (int) $category['child_id'] === $categoryIdToFilterWith: false;
+            $isUsedAsFilter = null !== $categoryIdToFilterWith ? (int) $category['child_id'] === $categoryIdToFilterWith : false;
 
             $categories[] = new ChildCategory(
                 (int) $category['child_id'],
@@ -116,28 +116,28 @@ class ListChildrenCategoriesWithCountNotIncludingSubCategories implements Query\
         string $translationLocaleCode
     ): array {
         $sql = <<<SQL
-            SELECT 
-                child.id as child_id,
-                child.code as child_code,
-                CASE 
-                    WHEN child.lft + 1 = child.rgt THEN 1
-                    ELSE 0
-                END AS is_leaf,
-                COALESCE(ct.label, CONCAT('[', child.code, ']')) as label
-            FROM 
-                pim_catalog_category child
-                LEFT JOIN pim_catalog_category_translation ct ON ct.foreign_key = child.id AND ct.locale = :locale
-            WHERE 
-                child.parent_id = :parent_category_id
-            ORDER BY
-                child.lft;
-SQL;
+                        SELECT 
+                            child.id as child_id,
+                            child.code as child_code,
+                            CASE 
+                                WHEN child.lft + 1 = child.rgt THEN 1
+                                ELSE 0
+                            END AS is_leaf,
+                            COALESCE(ct.label, CONCAT('[', child.code, ']')) as label
+                        FROM 
+                            pim_catalog_category child
+                            LEFT JOIN pim_catalog_category_translation ct ON ct.foreign_key = child.id AND ct.locale = :locale
+                        WHERE 
+                            child.parent_id = :parent_category_id
+                        ORDER BY
+                            child.lft;
+            SQL;
 
         $rows = $this->connection->executeQuery(
             $sql,
             [
                 'parent_category_id' => $parentCategoryId,
-                'locale' => $translationLocaleCode
+                'locale' => $translationLocaleCode,
             ]
         )->fetchAllAssociative();
 
@@ -189,15 +189,15 @@ SQL;
                             'bool' => [
                                 'filter' => [
                                     ['terms' => [
-                                        'categories' => [$category['child_code']]
+                                        'categories' => [$category['child_code']],
                                     ]],
                                     ['term' => [
-                                        'document_type' => ProductInterface::class
-                                    ]]
-                                ]
-                            ]
-                        ]
-                    ]
+                                        'document_type' => ProductInterface::class,
+                                    ]],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 'track_total_hits' => true,
             ];
@@ -240,18 +240,18 @@ SQL;
     private function fetchCategoriesBetween(int $fromCategoryId, int $toCategoryId): array
     {
         $sql = <<<SQL
-            SELECT 
-                category_path.id
-            FROM 
-                pim_catalog_category parent
-                JOIN pim_catalog_category category_path ON category_path.lft BETWEEN parent.lft AND parent.rgt AND parent.root = category_path.root
-                JOIN pim_catalog_category subchild ON category_path.lft < subchild.lft AND category_path.rgt > subchild.lft AND parent.root = subchild.root
-            WHERE 
-                parent.id = :category_to_expand 
-                AND subchild.id = :category_to_filter_with
-            ORDER BY 
-                category_path.lft
-SQL;
+                        SELECT 
+                            category_path.id
+                        FROM 
+                            pim_catalog_category parent
+                            JOIN pim_catalog_category category_path ON category_path.lft BETWEEN parent.lft AND parent.rgt AND parent.root = category_path.root
+                            JOIN pim_catalog_category subchild ON category_path.lft < subchild.lft AND category_path.rgt > subchild.lft AND parent.root = subchild.root
+                        WHERE 
+                            parent.id = :category_to_expand 
+                            AND subchild.id = :category_to_filter_with
+                        ORDER BY 
+                            category_path.lft
+            SQL;
 
         $rows = $this->connection->executeQuery(
             $sql,

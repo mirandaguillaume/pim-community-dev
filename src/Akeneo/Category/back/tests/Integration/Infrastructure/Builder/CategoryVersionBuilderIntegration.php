@@ -57,7 +57,7 @@ class CategoryVersionBuilderIntegration extends CategoryTestCase
                 'parent' => 'master',
                 'updated' => $updated->format('c'),
                 'label-en_US' => 'test category',
-                'label-fr_FR' => 'catégorie de test'
+                'label-fr_FR' => 'catégorie de test',
             ]
         );
 
@@ -89,7 +89,7 @@ class CategoryVersionBuilderIntegration extends CategoryTestCase
                 'parent' => null,
                 'updated' => $updated->format('c'),
                 'label-en_US' => 'test category',
-                'label-fr_FR' => 'catégorie de test'
+                'label-fr_FR' => 'catégorie de test',
             ]
         );
 
@@ -110,9 +110,9 @@ class CategoryVersionBuilderIntegration extends CategoryTestCase
             labels: LabelCollection::fromArray(['en_US' => 'test category', 'fr_FR' => 'catégorie de test']),
             updated: $updated,
             permissions: PermissionCollection::fromArray([
-                'view'=> [['id' => 1, 'label' => 'Manager'], ['id' => 1, 'label' => 'Redactor']],
-                'edit'=> [['id' => 1, 'label' => 'All']],
-                'own'=> [['id' => 1, 'label' => 'All']],
+                'view' => [['id' => 1, 'label' => 'Manager'], ['id' => 1, 'label' => 'Redactor']],
+                'edit' => [['id' => 1, 'label' => 'All']],
+                'own' => [['id' => 1, 'label' => 'All']],
             ]),
         );
 

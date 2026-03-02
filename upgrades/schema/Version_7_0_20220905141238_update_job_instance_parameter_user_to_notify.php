@@ -42,19 +42,19 @@ final class Version_7_0_20220905141238_update_job_instance_parameter_user_to_not
     {
         $connection = $this->container->get('database_connection');
         $sql = <<<SQL
-SELECT id, raw_parameters
-FROM akeneo_batch_job_instance
-WHERE connector IN (
-    'Akeneo CSV Connector', 
-    'Akeneo XLSX Connector', 
-    'Akeneo Rule Engine Connector', 
-    'Akeneo Tailored Export', 
-    'Akeneo Tailored Import', 
-    'Akeneo Onboarder CSV Connector', 
-    'Akeneo Onboarder XLSX Connector'
-)
-AND type IN ('import', 'export')
-SQL;
+            SELECT id, raw_parameters
+            FROM akeneo_batch_job_instance
+            WHERE connector IN (
+                'Akeneo CSV Connector', 
+                'Akeneo XLSX Connector', 
+                'Akeneo Rule Engine Connector', 
+                'Akeneo Tailored Export', 
+                'Akeneo Tailored Import', 
+                'Akeneo Onboarder CSV Connector', 
+                'Akeneo Onboarder XLSX Connector'
+            )
+            AND type IN ('import', 'export')
+            SQL;
 
         $stmt = $connection->executeQuery($sql);
         $jobInstances = $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -76,10 +76,10 @@ SQL;
     private function updateJobInstance(string $jobInstanceId, string $serializedRawParameters)
     {
         $sql = <<<SQL
-UPDATE akeneo_batch_job_instance
-SET raw_parameters = :raw_parameters
-WHERE id = :job_instance_id
-SQL;
+            UPDATE akeneo_batch_job_instance
+            SET raw_parameters = :raw_parameters
+            WHERE id = :job_instance_id
+            SQL;
 
         $this->addSql($sql, ['job_instance_id' => $jobInstanceId, 'raw_parameters' => $serializedRawParameters]);
     }

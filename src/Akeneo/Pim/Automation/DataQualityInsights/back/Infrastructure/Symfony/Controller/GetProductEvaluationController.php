@@ -27,7 +27,7 @@ class GetProductEvaluationController
             );
         } catch (\InvalidArgumentException $exception) {
             return new JsonResponse([
-                'message' => $exception->getMessage()
+                'message' => $exception->getMessage(),
             ], Response::HTTP_BAD_REQUEST);
         }
 

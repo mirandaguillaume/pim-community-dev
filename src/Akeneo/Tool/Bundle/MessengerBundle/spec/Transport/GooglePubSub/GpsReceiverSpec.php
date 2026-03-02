@@ -44,7 +44,7 @@ class GpsReceiverSpec extends ObjectBehavior
                 ],
             ]
         );
-        $envelope = new Envelope((object)['message' => 'My message!'], [new TenantIdStamp('my_tenant_id_value')]);
+        $envelope = new Envelope((object) ['message' => 'My message!'], [new TenantIdStamp('my_tenant_id_value')]);
 
         $subscription->pull([
             'maxMessages' => 1,
@@ -79,7 +79,7 @@ class GpsReceiverSpec extends ObjectBehavior
             ]
         );
 
-        $envelope = new Envelope((object)['message' => 'My message!'], [new NativeMessageStamp($gpsMessage)]);
+        $envelope = new Envelope((object) ['message' => 'My message!'], [new NativeMessageStamp($gpsMessage)]);
 
         $subscription->acknowledge($gpsMessage)
             ->shouldBeCalled();
@@ -90,7 +90,7 @@ class GpsReceiverSpec extends ObjectBehavior
     public function it_modifies_ack_deadline(Subscription $subscription): void
     {
         $gpsMessage = new Message(['data' => 'My message!']);
-        $envelope = new Envelope((object)['message' => 'My message!'], [new NativeMessageStamp($gpsMessage)]);
+        $envelope = new Envelope((object) ['message' => 'My message!'], [new NativeMessageStamp($gpsMessage)]);
 
         $subscription->modifyAckDeadline($gpsMessage, 600)->shouldBeCalled();
 
@@ -105,7 +105,7 @@ class GpsReceiverSpec extends ObjectBehavior
             ]
         );
 
-        $envelope = new Envelope((object)['message' => 'My message!'], [new NativeMessageStamp($gpsMessage)]);
+        $envelope = new Envelope((object) ['message' => 'My message!'], [new NativeMessageStamp($gpsMessage)]);
 
         $subscription->acknowledge($gpsMessage)
             ->shouldBeCalled();
@@ -135,7 +135,7 @@ class GpsReceiverSpec extends ObjectBehavior
             ]
         );
 
-        $envelope = new Envelope((object)['message' => 'My message!'], [new NativeMessageStamp($gpsMessage)]);
+        $envelope = new Envelope((object) ['message' => 'My message!'], [new NativeMessageStamp($gpsMessage)]);
 
         $subscription->acknowledge($gpsMessage)
             ->willThrow(GoogleException::class);
@@ -153,7 +153,7 @@ class GpsReceiverSpec extends ObjectBehavior
             ]
         );
 
-        $envelope = new Envelope((object)['message' => 'My message!'], [new NativeMessageStamp($gpsMessage)]);
+        $envelope = new Envelope((object) ['message' => 'My message!'], [new NativeMessageStamp($gpsMessage)]);
 
         $subscription->acknowledge($gpsMessage)
             ->willThrow(GoogleException::class);

@@ -12,7 +12,7 @@ use PhpSpec\ObjectBehavior;
 
 class FieldsRequirementCheckerSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(FieldsRequirementChecker::class);
         $this->shouldImplement(RequirementChecker::class);
@@ -23,8 +23,8 @@ class FieldsRequirementCheckerSpec extends ObjectBehavior
         $data = [
             'code' => 'socks',
             'labels' => [
-                'en_US' => 'socks'
-            ]
+                'en_US' => 'socks',
+            ],
         ];
 
         $this
@@ -36,7 +36,7 @@ class FieldsRequirementCheckerSpec extends ObjectBehavior
     {
         $data = [
             'code' => 'socks',
-            'labels' => null
+            'labels' => null,
         ];
 
         $this
@@ -48,8 +48,8 @@ class FieldsRequirementCheckerSpec extends ObjectBehavior
     {
         $data = [
             'labels' => [
-                'en_US' => 'socks'
-            ]
+                'en_US' => 'socks',
+            ],
         ];
 
         $this
@@ -61,7 +61,7 @@ class FieldsRequirementCheckerSpec extends ObjectBehavior
     {
         $data = [
             'code' => 'socks',
-            'labels' => null
+            'labels' => null,
         ];
 
         $this
@@ -73,7 +73,7 @@ class FieldsRequirementCheckerSpec extends ObjectBehavior
     {
         $data = [
             'code' => '',
-            'labels' => null
+            'labels' => null,
         ];
 
         $this
@@ -85,7 +85,7 @@ class FieldsRequirementCheckerSpec extends ObjectBehavior
     {
         $data = [
             'code' => null,
-            'labels' => null
+            'labels' => null,
         ];
 
         $this
@@ -98,7 +98,7 @@ class FieldsRequirementCheckerSpec extends ObjectBehavior
         $data = [
             'code' => 'socks',
             'labels' => null,
-            'parent' => 'hat'
+            'parent' => 'hat',
         ];
 
         $this

@@ -10,12 +10,12 @@ use PhpSpec\ObjectBehavior;
 
 class LoadJobParametersListenerSpec extends ObjectBehavior
 {
-    function let(JobParametersFactory $jobParametersFactory)
+    public function let(JobParametersFactory $jobParametersFactory)
     {
         $this->beConstructedWith($jobParametersFactory);
     }
 
-    function it_sets_job_parameters_into_job_execution(
+    public function it_sets_job_parameters_into_job_execution(
         $jobParametersFactory,
         JobExecution $jobExecution,
         LifecycleEventArgs $event,

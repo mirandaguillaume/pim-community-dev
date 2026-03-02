@@ -34,7 +34,7 @@ class RedirectToEditConnectedAppActionEndToEnd extends WebTestCase
         $this->connectedAppLoader = $this->get('akeneo_connectivity.connection.fixtures.connected_app_loader');
     }
 
-    public function test_it_is_redirected_to_the_connected_app_edit_page():void
+    public function test_it_is_redirected_to_the_connected_app_edit_page(): void
     {
         $this->featureFlags->enable('marketplace_activate');
         $this->addAclToRole('ROLE_ADMINISTRATOR', 'akeneo_connectivity_connection_manage_apps');
@@ -49,7 +49,7 @@ class RedirectToEditConnectedAppActionEndToEnd extends WebTestCase
 
         $this->client->request(
             'GET',
-            '/connect/apps/v1/connected_app/'. $appId,
+            '/connect/apps/v1/connected_app/' . $appId,
         );
         $response = $this->client->getResponse();
 

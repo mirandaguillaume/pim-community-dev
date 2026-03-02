@@ -44,8 +44,8 @@ class GetProductsWithCompletenesses implements GetProductsWithCompletenessesInte
         return new ConnectorProductList(
             $connectorProductList->totalNumberOfProducts(),
             array_map(
-                fn (ConnectorProduct $product) =>
-                    $product->buildWithCompletenesses($productCompletenesses[$product->uuid()->toString()]),
+                fn (ConnectorProduct $product)
+                    => $product->buildWithCompletenesses($productCompletenesses[$product->uuid()->toString()]),
                 $connectorProductList->connectorProducts()
             )
         );

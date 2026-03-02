@@ -35,8 +35,8 @@ class NotLocalizableAndNotScopableAttributeException extends InvalidAttributeExc
     ): self {
         return new self(
             new TemplatedErrorMessage(
-                'The {attribute_code} attribute requires neither a channel ({channel_code} was detected)' .
-                ' nor a locale ({locale_code} was detected).',
+                'The {attribute_code} attribute requires neither a channel ({channel_code} was detected)'
+                . ' nor a locale ({locale_code} was detected).',
                 [
                     'attribute_code' => $attributeCode,
                     'channel_code' => $channelCode ?? 'nothing',

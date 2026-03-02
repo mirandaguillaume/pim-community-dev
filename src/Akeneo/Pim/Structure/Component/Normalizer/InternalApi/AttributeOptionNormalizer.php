@@ -44,18 +44,18 @@ class AttributeOptionNormalizer implements NormalizerInterface, NormalizerAwareI
     /**
      * {@inheritdoc}
      */
-    public function normalize($object, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($object, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
-        $optionsValues = $context['onlyActivatedLocales'] ?
-            $this->ensureEmptyOptionValues($object->getOptionValues()) :
-            $object->getOptionValues();
+        $optionsValues = $context['onlyActivatedLocales']
+            ? $this->ensureEmptyOptionValues($object->getOptionValues())
+            : $object->getOptionValues();
 
         $normalizedValues = $this->normalizer->normalize($optionsValues, $format, $context);
 
         return [
             'id'           => $object->getId(),
             'code'         => $object->getCode(),
-            'optionValues' => $normalizedValues
+            'optionValues' => $normalizedValues,
         ];
     }
 

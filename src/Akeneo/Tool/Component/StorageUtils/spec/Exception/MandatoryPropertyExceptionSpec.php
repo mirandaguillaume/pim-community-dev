@@ -8,7 +8,7 @@ use PhpSpec\ObjectBehavior;
 
 class MandatoryPropertyExceptionSpec extends ObjectBehavior
 {
-    function it_creates_a_mandatory_property_exception()
+    public function it_creates_a_mandatory_property_exception()
     {
         $exception = MandatoryPropertyException::mandatoryProperty(
             'property',

@@ -30,8 +30,7 @@ class V20221205153905FillIdentifierPrefixesZddMigration implements ZddMigration
         private readonly UpdateIdentifierPrefixesQuery $updateIdentifierPrefixesQuery,
         private readonly WriteValueCollectionFactory $writeValueCollectionFactory,
         private readonly LoggerInterface $logger,
-    ) {
-    }
+    ) {}
 
     public function migrate(): void
     {
@@ -94,7 +93,7 @@ SQL;
 
                         return \array_filter(
                             $values,
-                            fn (string $key): bool => \in_array($key, $identifierAttributeCodes),
+                            fn(string $key): bool => \in_array($key, $identifierAttributeCodes),
                             ARRAY_FILTER_USE_KEY
                         );
                     },

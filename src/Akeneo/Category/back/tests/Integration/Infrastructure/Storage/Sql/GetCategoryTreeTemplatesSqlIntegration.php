@@ -63,7 +63,7 @@ class GetCategoryTreeTemplatesSqlIntegration extends CategoryTestCase
             'uuid' => $templateUuid->getValue(),
             'code' => 'my_template',
             'labels' => null,
-            'category_id' => (string)$categoryId->getValue(),
+            'category_id' => (string) $categoryId->getValue(),
         ]);
 
         /** @var CategoryTemplateSaver */

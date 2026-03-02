@@ -22,11 +22,11 @@ class ConstraintViolationNormalizer implements NormalizerInterface, CacheableSup
     /**
      * {@inheritdoc}
      */
-    public function normalize($violation, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
+    public function normalize($violation, $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         Assert::isInstanceOf($violation, ConstraintViolation::class);
         $path = $this->getStandardPath($violation);
-        $translate = (bool)($context['translate'] ?? true);
+        $translate = (bool) ($context['translate'] ?? true);
 
         $message = $this->getInternalApiMessage($violation);
 
@@ -80,7 +80,7 @@ class ConstraintViolationNormalizer implements NormalizerInterface, CacheableSup
     {
         $constraint = $violation->getConstraint();
 
-        $shouldNormalizePropertyPath = (bool)($constraint->payload['normalize_property_path'] ?? true);
+        $shouldNormalizePropertyPath = (bool) ($constraint->payload['normalize_property_path'] ?? true);
         if (!$shouldNormalizePropertyPath) {
             return $violation->getPropertyPath();
         }

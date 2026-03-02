@@ -30,9 +30,9 @@ final readonly class SaveResetEvent
 
         $this->connection->executeStatement(
             <<<SQL
-REPLACE INTO `pim_configuration` (`code`, `values`)
-VALUES ('reset_events', :reset_events);
-SQL,
+                REPLACE INTO `pim_configuration` (`code`, `values`)
+                VALUES ('reset_events', :reset_events);
+                SQL,
             ['reset_events' => \json_encode($normalizedEvents, JSON_THROW_ON_ERROR)],
         );
     }

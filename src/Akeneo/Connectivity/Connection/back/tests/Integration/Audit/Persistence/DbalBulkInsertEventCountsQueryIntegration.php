@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Tests\Integration\Audit\Persistence;
@@ -36,10 +37,10 @@ class DbalBulkInsertEventCountsQueryIntegration extends TestCase
         $this->getBulkInsertEventCountsQuery()->execute([$event1, $event2]);
 
         $sql = <<<SQL
-SELECT connection_code, event_datetime, event_count, event_type, updated
-FROM akeneo_connectivity_connection_audit_product
-ORDER BY event_type, event_datetime
-SQL;
+            SELECT connection_code, event_datetime, event_count, event_type, updated
+            FROM akeneo_connectivity_connection_audit_product
+            ORDER BY event_type, event_datetime
+            SQL;
         $eventCounts = $this->getDbalConnection()->fetchAllAssociative($sql);
 
         Assert::assertCount(2, $eventCounts);
@@ -70,10 +71,10 @@ SQL;
         $this->getBulkInsertEventCountsQuery()->execute([$event2]);
 
         $sql = <<<SQL
-SELECT connection_code, event_datetime, event_count, event_type, updated
-FROM akeneo_connectivity_connection_audit_product
-ORDER BY event_type, event_datetime
-SQL;
+            SELECT connection_code, event_datetime, event_count, event_type, updated
+            FROM akeneo_connectivity_connection_audit_product
+            ORDER BY event_type, event_datetime
+            SQL;
         $eventCounts = $this->getDbalConnection()->fetchAllAssociative($sql);
 
         Assert::assertCount(1, $eventCounts);

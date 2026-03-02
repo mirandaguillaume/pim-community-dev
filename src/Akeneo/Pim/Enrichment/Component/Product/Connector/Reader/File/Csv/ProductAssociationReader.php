@@ -26,13 +26,13 @@ class ProductAssociationReader extends Reader implements FileReaderInterface
             'mapping'           => [
                 $jobParameters->get('familyColumn')     => 'family',
                 $jobParameters->get('categoriesColumn') => 'categories',
-                $jobParameters->get('groupsColumn')     => 'groups'
+                $jobParameters->get('groupsColumn')     => 'groups',
             ],
             'with_associations' => true,
 
             // for the delocalization
             'decimal_separator' => $jobParameters->get('decimalSeparator'),
-            'date_format'       => $jobParameters->get('dateFormat')
+            'date_format'       => $jobParameters->get('dateFormat'),
         ];
     }
 }

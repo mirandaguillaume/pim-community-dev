@@ -22,11 +22,11 @@ class ValidateApiRequestQueryParametersSubscriberIntegration extends ApiTestCase
         $response = $client->getResponse();
         $this->assertResponseStatusCodeSame(Response::HTTP_BAD_REQUEST);
         $expected = <<<JSON
-            {
-                "code": 400,
-                "message": "Bracket syntax is not supported in query parameters."
-            }
-        JSON;
+                {
+                    "code": 400,
+                    "message": "Bracket syntax is not supported in query parameters."
+                }
+            JSON;
 
         $this->assertJsonStringEqualsJsonString($expected, $response->getContent());
     }
