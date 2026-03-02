@@ -946,6 +946,84 @@ jobs:
       - name: Warmup Symfony cache
         run: docker-compose run --rm php php bin/console cache:warmup --env=behat
 
+      - name: Behat HTTP health check (diagnostics)
+        run: |
+          echo "=== 1. Front assets on disk ==="
+          for f in public/dist/vendor.min.js public/dist/main.min.js public/js/extensions.json public/css/pim.css public/js/fos_js_routes.json; do
+            if [ -f "$f" ]; then echo "  OK: $f ($(wc -c < "$f") bytes)"; else echo "  MISSING: $f"; fi
+          done
+
+          echo ""
+          echo "=== 2. Wait for httpd to serve login page ==="
+          for i in $(seq 1 24); do
+            if curl -sS http://localhost:${DOCKER_PORT_HTTP:-8080}/user/login 2>/dev/null | grep -q '_username'; then
+              echo "  Login page ready after $((i * 5))s"
+              break
+            fi
+            if [ "$i" -eq 24 ]; then
+              echo "  ERROR: Login page not ready after 120s. Last response:"
+              curl -sS http://localhost:${DOCKER_PORT_HTTP:-8080}/user/login 2>&1 | head -50
+              exit 1
+            fi
+            sleep 5
+          done
+
+          echo ""
+          echo "=== 3. HTTP responses from host (Apache static + Symfony) ==="
+          echo "--- GET /js/extensions.json ---"
+          curl -sI http://localhost:${DOCKER_PORT_HTTP:-8080}/js/extensions.json | head -5
+          EXT_SIZE=$(curl -s http://localhost:${DOCKER_PORT_HTTP:-8080}/js/extensions.json | wc -c)
+          echo "  Response body size: ${EXT_SIZE} bytes"
+          echo "  First 200 chars:"
+          curl -s http://localhost:${DOCKER_PORT_HTTP:-8080}/js/extensions.json | head -c 200
+          echo ""
+          echo "--- GET /dist/main.min.js ---"
+          curl -sI http://localhost:${DOCKER_PORT_HTTP:-8080}/dist/main.min.js | head -3
+          echo "--- GET /dist/vendor.min.js ---"
+          curl -sI http://localhost:${DOCKER_PORT_HTTP:-8080}/dist/vendor.min.js | head -3
+
+          echo ""
+          echo "=== 4. Same checks from Selenium container (browser perspective) ==="
+          docker-compose exec -T selenium curl -sI http://httpd/js/extensions.json 2>&1 | head -5 || echo "  FAIL: Selenium cannot reach httpd"
+          docker-compose exec -T selenium curl -s http://httpd/js/extensions.json 2>&1 | wc -c | xargs -I{} echo "  extensions.json from selenium: {} bytes"
+          docker-compose exec -T selenium curl -sI http://httpd/dist/main.min.js 2>&1 | head -3 || echo "  FAIL: Selenium cannot reach main.min.js"
+          docker-compose exec -T selenium curl -sI http://httpd/user/login 2>&1 | head -3 || echo "  FAIL: Selenium cannot reach login page"
+
+          echo ""
+          echo "=== 5. Login + REST endpoints ==="
+          COOKIE_JAR=$(mktemp)
+          LOGIN_CODE=$(curl -s -c "$COOKIE_JAR" -X POST http://localhost:${DOCKER_PORT_HTTP:-8080}/user/login_check \
+            -d '_username=admin' -d '_password=admin' -L -o /dev/null -w "%{http_code}")
+          echo "  Login status: ${LOGIN_CODE}"
+          echo "  GET /rest/security/ :"
+          curl -s -b "$COOKIE_JAR" http://localhost:${DOCKER_PORT_HTTP:-8080}/rest/security/ | head -c 300
+          echo ""
+          echo "  GET /configuration/feature-flags :"
+          curl -s -b "$COOKIE_JAR" http://localhost:${DOCKER_PORT_HTTP:-8080}/configuration/feature-flags | head -c 300
+          echo ""
+          rm -f "$COOKIE_JAR"
+
+          echo ""
+          echo "=== 6. Validate extensions.json structure ==="
+          curl -s http://localhost:${DOCKER_PORT_HTTP:-8080}/js/extensions.json | python3 -c "
+          import json, sys
+          try:
+              data = json.load(sys.stdin)
+              exts = data.get('extensions', [])
+              fields = data.get('attribute_fields', {})
+              print(f'  Valid JSON: extensions={len(exts)}, attribute_fields={len(fields)}')
+              # Check first extension has required keys
+              if exts:
+                  keys = set(exts[0].keys())
+                  required = {'module', 'parent', 'code', 'targetZone'}
+                  missing = required - keys
+                  if missing: print(f'  WARNING: First extension missing keys: {missing}')
+                  else: print(f'  First extension keys OK: {sorted(keys)}')
+          except Exception as e:
+              print(f'  INVALID JSON: {e}')
+              sys.exit(1)
+          " || echo "  extensions.json validation failed"
+
       - name: Restore Behat timing data
         uses: actions/cache/restore@v4
         with:
@@ -954,11 +1032,167 @@ jobs:
           restore-keys: |
             test-timings-behat-refs/heads/master-
 
+      - name: Browser bootstrap smoke test (shard 1 only)
+        if: matrix.shard == 1
+        run: |
+          echo "=== Smoke test: Load PIM in Selenium, capture JS console ==="
+          # Create session with console logging enabled
+          SESSION_RESP=$(curl -s -X POST http://localhost:4444/wd/hub/session \
+            -H 'Content-Type: application/json' \
+            -d '{"desiredCapabilities":{"browserName":"chrome","goog:loggingPrefs":{"browser":"ALL","performance":"ALL"},"goog:chromeOptions":{"args":["--no-sandbox","--disable-dev-shm-usage"]}}}' 2>/dev/null)
+          SID=$(echo "$SESSION_RESP" | python3 -c "import json,sys; print(json.load(sys.stdin).get('value',{}).get('sessionId',''))" 2>/dev/null)
+          if [ -z "$SID" ]; then
+            echo "WARNING: Could not create Selenium session for smoke test"
+            exit 0
+          fi
+          echo "  Session: $SID"
+
+          # Step 1: Load login page
+          echo "--- Loading login page ---"
+          curl -s -X POST "http://localhost:4444/wd/hub/session/$SID/url" \
+            -H 'Content-Type: application/json' \
+            -d '{"url":"http://httpd/user/login"}' 2>/dev/null > /dev/null
+          sleep 5
+          PAGE_TITLE=$(curl -s "http://localhost:4444/wd/hub/session/$SID/title" 2>/dev/null | python3 -c "import json,sys; print(json.load(sys.stdin).get('value',''))" 2>/dev/null)
+          echo "  Page title: ${PAGE_TITLE}"
+
+          # Step 2: Login
+          echo "--- Logging in as admin ---"
+          curl -s -X POST "http://localhost:4444/wd/hub/session/$SID/execute" \
+            -H 'Content-Type: application/json' \
+            -d '{"script":"document.querySelector(\"input[name=_username]\").value=\"admin\"; document.querySelector(\"input[name=_password]\").value=\"admin\"; document.querySelector(\"form\").submit();","args":[]}' 2>/dev/null > /dev/null
+          sleep 15
+
+          # Step 3: Check page state after login
+          echo "--- Page state after login (15s wait) ---"
+          PAGE_TITLE=$(curl -s "http://localhost:4444/wd/hub/session/$SID/title" 2>/dev/null | python3 -c "import json,sys; print(json.load(sys.stdin).get('value',''))" 2>/dev/null)
+          echo "  Page title: ${PAGE_TITLE}"
+          echo "  Current URL:"
+          curl -s "http://localhost:4444/wd/hub/session/$SID/url" 2>/dev/null | python3 -c "import json,sys; print('  ' + json.load(sys.stdin).get('value',''))" 2>/dev/null
+          echo "  Page source (first 500 chars):"
+          curl -s "http://localhost:4444/wd/hub/session/$SID/source" 2>/dev/null | \
+            python3 -c "import json,sys; print(json.load(sys.stdin).get('value','')[:500])" 2>/dev/null
+
+          # Step 4: Capture console logs — THE SMOKING GUN
+          echo ""
+          echo "=== BROWSER CONSOLE LOGS ==="
+          curl -s -X POST "http://localhost:4444/wd/hub/session/$SID/log" \
+            -H 'Content-Type: application/json' -d '{"type":"browser"}' 2>/dev/null | \
+            python3 -c "
+          import json, sys
+          try:
+              data = json.load(sys.stdin)
+              entries = data.get('value', [])
+              print(f'  Total entries: {len(entries)}')
+              for entry in entries:
+                  level = entry.get('level', '?')
+                  msg = entry.get('message', '')[:800]
+                  print(f'  [{level}] {msg}')
+              if not entries:
+                  print('  (no console entries)')
+          except Exception as e:
+              print(f'  Parse error: {e}')
+          " 2>/dev/null
+
+          # Step 5: Check network — did extensions.json load?
+          echo ""
+          echo "=== JS check: Did the 3 bootstrap requests complete? ==="
+          curl -s -X POST "http://localhost:4444/wd/hub/session/$SID/execute" \
+            -H 'Content-Type: application/json' \
+            -d '{"script":"var result = {}; try { result.loading = document.querySelector(\".AknDefault-progressContainer\") ? \"visible\" : \"hidden\"; } catch(e) { result.loading = \"error: \" + e.message; } try { result.app = document.querySelector(\".app\") ? document.querySelector(\".app\").innerHTML.substring(0,200) : \"no .app\"; } catch(e) { result.app = \"error: \" + e.message; } return JSON.stringify(result);","args":[]}' 2>/dev/null | \
+            python3 -c "
+          import json, sys
+          try:
+              data = json.load(sys.stdin)
+              val = data.get('value', '')
+              print(f'  App state: {val}')
+          except Exception as e:
+              print(f'  Parse error: {e}')
+          " 2>/dev/null
+
+          # Cleanup
+          curl -s -X DELETE "http://localhost:4444/wd/hub/session/$SID" 2>/dev/null > /dev/null
+          echo "  Smoke test complete."
+
       - name: Run Behat legacy tests (shard ${{ matrix.shard }}/10)
         run: |
           export BEHAT_SPLIT="${{ matrix.shard }}/10"
           export BEHAT_TIMING_FILE=".test-timings/behat.json"
           SUITE=${TESTSUITE} castor test:end-to-end-legacy
+
+      - name: Capture browser console logs (diagnostics)
+        if: failure()
+        run: |
+          echo "=== Browser console log capture ==="
+          # Get active Selenium session(s) and dump browser logs
+          SESSIONS=$(curl -s http://localhost:4444/wd/hub/sessions 2>/dev/null | python3 -c "
+          import json, sys
+          try:
+              data = json.load(sys.stdin)
+              for s in data.get('value', []):
+                  print(s.get('id', ''))
+          except: pass
+          " 2>/dev/null)
+          if [ -n "$SESSIONS" ]; then
+            for SID in $SESSIONS; do
+              echo "Session: $SID"
+              echo "--- Browser logs ---"
+              curl -s -X POST http://localhost:4444/wd/hub/session/$SID/log -d '{"type":"browser"}' 2>/dev/null | \
+                python3 -c "
+          import json, sys
+          try:
+              data = json.load(sys.stdin)
+              for entry in data.get('value', [])[-50:]:
+                  level = entry.get('level', '?')
+                  msg = entry.get('message', '')[:500]
+                  print(f'  [{level}] {msg}')
+          except Exception as e:
+              print(f'  Parse error: {e}')
+          " 2>/dev/null || echo "  Could not fetch browser logs"
+            done
+          else
+            echo "  No active Selenium sessions (browser closed already)"
+          fi
+
+          echo ""
+          echo "=== Quick page load test via Selenium ==="
+          # Create a new session, navigate, capture console
+          SESSION_RESP=$(curl -s -X POST http://localhost:4444/wd/hub/session \
+            -H 'Content-Type: application/json' \
+            -d '{"desiredCapabilities":{"browserName":"chrome","goog:loggingPrefs":{"browser":"ALL"}}}' 2>/dev/null)
+          SID=$(echo "$SESSION_RESP" | python3 -c "import json,sys; print(json.load(sys.stdin).get('value',{}).get('sessionId',''))" 2>/dev/null)
+          if [ -n "$SID" ]; then
+            echo "  Created debug session: $SID"
+            # Navigate to login page
+            curl -s -X POST "http://localhost:4444/wd/hub/session/$SID/url" \
+              -H 'Content-Type: application/json' \
+              -d '{"url":"http://httpd/user/login"}' 2>/dev/null > /dev/null
+            sleep 10
+            echo "--- Page source snippet ---"
+            curl -s "http://localhost:4444/wd/hub/session/$SID/source" 2>/dev/null | \
+              python3 -c "import json,sys; print(json.load(sys.stdin).get('value','')[:1000])" 2>/dev/null
+            echo ""
+            echo "--- Browser console (after login page) ---"
+            curl -s -X POST "http://localhost:4444/wd/hub/session/$SID/log" \
+              -H 'Content-Type: application/json' -d '{"type":"browser"}' 2>/dev/null | \
+              python3 -c "
+          import json, sys
+          try:
+              data = json.load(sys.stdin)
+              for entry in data.get('value', []):
+                  level = entry.get('level', '?')
+                  msg = entry.get('message', '')[:500]
+                  print(f'  [{level}] {msg}')
+              if not data.get('value'):
+                  print('  (no console entries)')
+          except Exception as e:
+              print(f'  Parse error: {e}')
+          " 2>/dev/null
+            # Cleanup
+            curl -s -X DELETE "http://localhost:4444/wd/hub/session/$SID" 2>/dev/null > /dev/null
+          else
+            echo "  Could not create debug session"
+          fi
 
       - name: Archive behat artifacts
         if: always()
