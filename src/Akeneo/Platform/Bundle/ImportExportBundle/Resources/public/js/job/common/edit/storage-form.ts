@@ -32,7 +32,7 @@ class StorageFormController extends BaseView {
       }
     });
 
-    return BaseView.prototype.configure.apply(this, arguments);
+    return BaseView.prototype.configure.apply(this, []);
   }
 
   setValidationErrors(validationErrors: ValidationError[]) {

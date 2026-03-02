@@ -28,7 +28,7 @@ class DefaultProductGridView extends BaseSelect {
    * {@inheritdoc}
    */
   configure() {
-    return $.when(BaseSelect.prototype.configure.apply(this, arguments)).then(() => {
+    return $.when(BaseSelect.prototype.configure.apply(this, [])).then(() => {
       this.setChoiceUrl(Routing.generate(this.config.choiceUrl, {alias: this.config.datagridAlias}));
       this.allowClear = true;
     });

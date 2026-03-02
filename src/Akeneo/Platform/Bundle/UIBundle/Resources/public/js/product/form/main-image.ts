@@ -8,7 +8,7 @@ class MainImage extends BaseMainImage {
     this.listenTo(this.getRoot(), 'pim_enrich:form:scope_switcher:change', this.render.bind(this));
     this.listenTo(this.getRoot(), 'pim_enrich:form:entity:update_state', this.render.bind(this));
 
-    return BaseMainImage.prototype.configure.apply(this, arguments);
+    return BaseMainImage.prototype.configure.apply(this, []);
   }
 
   render() {

@@ -37,7 +37,7 @@ class ChannelSwitcher extends BaseForm {
     });
 
     return $.when(
-      BaseForm.prototype.configure.apply(this, arguments),
+      BaseForm.prototype.configure.apply(this, []),
       this.fetchChannels().then((channels: Channel[]) => {
         this.channels = channels;
         const currentChannelCode = UserContext.get('catalogScope');

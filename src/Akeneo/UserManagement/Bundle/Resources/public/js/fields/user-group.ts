@@ -20,7 +20,7 @@ class UserGroupField extends BaseSelect {
    */
   configure() {
     return $.when(
-      BaseSelect.prototype.configure.apply(this, arguments),
+      BaseSelect.prototype.configure.apply(this, []),
       FetcherRegistry.getFetcher('user-group')
         .fetchAll()
         .then((userGroups: InterfaceNormalizedUserGroup[]) => {

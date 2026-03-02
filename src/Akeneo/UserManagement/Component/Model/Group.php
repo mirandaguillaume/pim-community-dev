@@ -37,13 +37,15 @@ class Group implements GroupInterface, \Stringable
     #[ORM\Column(type: Types::STRING, length: 30, options: ['default' => 'default'])]
     protected string $type = self::TYPE_DEFAULT;
 
+    #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
+    protected string $name = '';
+
     /**
      * @param string $name [optional] Group name
      */
-    public function __construct(
-        #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
-        protected $name = '',
-    ) {
+    public function __construct(string $name = '')
+    {
+        $this->name = $name;
         $this->roles = new ArrayCollection();
     }
 

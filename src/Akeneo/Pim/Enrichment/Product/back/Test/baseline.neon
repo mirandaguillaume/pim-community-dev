@@ -115,25 +115,25 @@ parameters:
 			path: ../Application/Applier/AssociationUserIntentCollectionApplier.php
 
 		-
-			message: '#^Parameter \#1 \$func of method Doctrine\\Common\\Collections\\ReadableCollection\<\(int\|string\),mixed\>\:\:map\(\) expects Closure\(mixed\)\: non\-empty\-string, Closure\(Akeneo\\Pim\\Enrichment\\Component\\Product\\Model\\ProductInterface\)\: non\-empty\-string given\.$#'
+			message: '#^Parameter \#1 \$func of method Doctrine\\Common\\Collections\\Collection\<\(int\|string\),mixed\>\:\:map\(\) expects Closure\(mixed\)\: non\-empty\-string, Closure\(Akeneo\\Pim\\Enrichment\\Component\\Product\\Model\\ProductInterface\)\: non\-empty\-string given\.$#'
 			identifier: argument.type
 			count: 1
 			path: ../Application/Applier/AssociationUserIntentCollectionApplier.php
 
 		-
-			message: '#^Parameter \#1 \$func of method Doctrine\\Common\\Collections\\ReadableCollection\<\(int\|string\),mixed\>\:\:map\(\) expects Closure\(mixed\)\: string, Closure\(Akeneo\\Pim\\Enrichment\\Component\\Product\\Model\\GroupInterface\)\: string given\.$#'
+			message: '#^Parameter \#1 \$func of method Doctrine\\Common\\Collections\\Collection\<\(int\|string\),mixed\>\:\:map\(\) expects Closure\(mixed\)\: string, Closure\(Akeneo\\Pim\\Enrichment\\Component\\Product\\Model\\GroupInterface\)\: string given\.$#'
 			identifier: argument.type
 			count: 1
 			path: ../Application/Applier/AssociationUserIntentCollectionApplier.php
 
 		-
-			message: '#^Parameter \#1 \$func of method Doctrine\\Common\\Collections\\ReadableCollection\<\(int\|string\),mixed\>\:\:map\(\) expects Closure\(mixed\)\: string, Closure\(Akeneo\\Pim\\Enrichment\\Component\\Product\\Model\\ProductInterface\)\: string given\.$#'
+			message: '#^Parameter \#1 \$func of method Doctrine\\Common\\Collections\\Collection\<\(int\|string\),mixed\>\:\:map\(\) expects Closure\(mixed\)\: string, Closure\(Akeneo\\Pim\\Enrichment\\Component\\Product\\Model\\ProductInterface\)\: string given\.$#'
 			identifier: argument.type
 			count: 1
 			path: ../Application/Applier/AssociationUserIntentCollectionApplier.php
 
 		-
-			message: '#^Parameter \#1 \$func of method Doctrine\\Common\\Collections\\ReadableCollection\<\(int\|string\),mixed\>\:\:map\(\) expects Closure\(mixed\)\: string, Closure\(Akeneo\\Pim\\Enrichment\\Component\\Product\\Model\\ProductModelInterface\)\: string given\.$#'
+			message: '#^Parameter \#1 \$func of method Doctrine\\Common\\Collections\\Collection\<\(int\|string\),mixed\>\:\:map\(\) expects Closure\(mixed\)\: string, Closure\(Akeneo\\Pim\\Enrichment\\Component\\Product\\Model\\ProductModelInterface\)\: string given\.$#'
 			identifier: argument.type
 			count: 1
 			path: ../Application/Applier/AssociationUserIntentCollectionApplier.php

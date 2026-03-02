@@ -145,7 +145,7 @@ const Item = React.forwardRef<HTMLDivElement, ItemProps>(
       if (isValidElement(child) && child.type === Image) {
         if (size === 'default') size = 'big';
 
-        return React.cloneElement(child, {
+        return React.cloneElement(child as React.ReactElement, {
           width: 34,
           height: 34,
         });
@@ -156,7 +156,7 @@ const Item = React.forwardRef<HTMLDivElement, ItemProps>(
         return (
           <>
             <ItemLabel>
-              {React.cloneElement(child, {
+              {React.cloneElement(child as React.ReactElement, {
                 ref: actionableRef,
                 decorated: false,
                 disabled,
@@ -170,7 +170,7 @@ const Item = React.forwardRef<HTMLDivElement, ItemProps>(
 
       // Same for Checkboxes
       if (isValidElement(child) && child.type === Checkbox) {
-        return React.cloneElement(child, {
+        return React.cloneElement(child as React.ReactElement, {
           ref: actionableRef,
           readOnly: disabled,
           tabIndex: -1,

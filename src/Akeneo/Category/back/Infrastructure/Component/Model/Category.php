@@ -69,6 +69,7 @@ class Category extends BaseCategory implements CategoryInterface, \Stringable
         $this->productModels = new ArrayCollection();
         $this->translations = new ArrayCollection();
         $this->channels = new ArrayCollection();
+        $this->created = new \DateTime('now', new \DateTimeZone('UTC'));
         $this->updated = new \DateTime('now', new \DateTimeZone('UTC'));
     }
 
@@ -182,7 +183,7 @@ class Category extends BaseCategory implements CategoryInterface, \Stringable
     {
         $translated = ($this->getTranslation()) ? $this->getTranslation()->getLabel() : null;
 
-        return ($translated !== '' && $translated !== null) ? $translated : '['.$this->getCode().']';
+        return ($translated !== '' && $translated !== null) ? $translated : '[' . $this->getCode() . ']';
     }
 
     /**

@@ -1,0 +1,21 @@
+name: 'Install Castor'
+description: 'Download and cache the Castor PHP task runner'
+
+inputs:
+  version:
+    description: 'Castor version to install (tag name without v prefix, or "latest")'
+    required: false
+    default: 'latest'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install Castor
+      shell: bash
+      run: |
+        mkdir -p "$HOME/.local/bin"
+        echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+        # Use the static binary (no PHP required), not the .phar
+        curl -fsSL https://github.com/jolicode/castor/releases/${{ inputs.version }}/download/castor.linux-amd64 \
+          -o "$HOME/.local/bin/castor"
+        chmod +x "$HOME/.local/bin/castor"

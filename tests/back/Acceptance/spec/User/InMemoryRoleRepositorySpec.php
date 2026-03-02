@@ -27,7 +27,7 @@ class InMemoryRoleRepositorySpec extends ObjectBehavior
 
     function it_saves_a_role()
     {
-        $this->save(new Role())->shouldReturn(null);
+        $this->save(new Role('ROLE_TEST'))->shouldReturn(null);
     }
 
     function it_only_saves_roles()

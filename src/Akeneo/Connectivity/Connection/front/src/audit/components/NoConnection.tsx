@@ -16,11 +16,11 @@ export const NoConnection = ({small, flowType = 'default'}: Props) => {
         <EmptyState.EmptyState>
             <EmptyState.Illustration illustration='graph' width={small ? 80 : 200} />
 
-            <EmptyState.Heading fontSize={small && 'default'}>
+            <EmptyState.Heading fontSize={small ? 'default' : undefined}>
                 <Translate id={`akeneo_connectivity.connection.dashboard.no_connection.title.${flowType}`} />
             </EmptyState.Heading>
 
-            <EmptyState.Caption fontSize={small && 'default'}>
+            <EmptyState.Caption fontSize={small ? 'default' : undefined}>
                 <SecurityGuard
                     acl='akeneo_connectivity_connection_manage_settings'
                     fallback={

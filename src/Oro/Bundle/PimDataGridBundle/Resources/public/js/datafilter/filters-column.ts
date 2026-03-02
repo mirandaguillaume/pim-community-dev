@@ -22,18 +22,18 @@ interface GridFilter {
 
 class FiltersColumn extends BaseView {
   public defaultFilters: GridFilter[] = [];
-  public filterList: JQuery<Element>;
+  public filterList!: JQuery<Element>;
   public gridCollection: any;
-  public ignoredFilters: string[];
+  public ignoredFilters!: string[];
   public loadedFilters: GridFilter[] = [];
-  public loading: boolean;
+  public loading!: boolean;
   public opened = false;
   public page: number = 1;
   public timer: any;
   public searchSelector: string;
   private searchedFilters?: GridFilter[];
 
-  readonly config: FiltersConfig;
+  readonly config!: FiltersConfig;
   readonly filterColumnTemplate = _.template(filterColumnTemplate);
   readonly filterGroupTemplate = _.template(filterGroupTemplate);
 
@@ -266,7 +266,7 @@ class FiltersColumn extends BaseView {
     this.listenTo(mediator, 'datagrid_collection_set_after', this.loadFilterList);
     this.listenTo(mediator, 'filters-selector:disable-filter', this.disableFilter);
 
-    return BaseView.prototype.configure.apply(this, arguments);
+    return BaseView.prototype.configure.apply(this, []);
   }
 
   /**
@@ -295,7 +295,7 @@ class FiltersColumn extends BaseView {
   shutdown(): void {
     $(this.filterList).off().remove();
 
-    BaseView.prototype.shutdown.apply(this, arguments);
+    BaseView.prototype.shutdown.apply(this, []);
   }
 
   showLoading(): void {

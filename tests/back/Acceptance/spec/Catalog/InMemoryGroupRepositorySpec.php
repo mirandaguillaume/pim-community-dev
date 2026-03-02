@@ -27,7 +27,9 @@ class InMemoryGroupRepositorySpec extends ObjectBehavior
 
     function it_saves_a_group()
     {
-        $this->save(new Group())->shouldReturn(null);
+        $group = new Group();
+        $group->setCode('test');
+        $this->save($group)->shouldReturn(null);
     }
 
     function it_only_saves_groups()

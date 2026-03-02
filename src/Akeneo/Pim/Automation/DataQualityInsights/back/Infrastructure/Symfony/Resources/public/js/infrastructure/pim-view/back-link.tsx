@@ -19,7 +19,7 @@ class BackLink extends BaseView {
       });
     }
 
-    return BaseView.prototype.configure.apply(this, arguments);
+    return BaseView.prototype.configure.apply(this, []);
   }
 
   render(): BaseView {

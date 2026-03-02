@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\SecurityBundle\Metadata;
 
-use Doctrine\Common\Cache\CacheProvider;
 use Oro\Bundle\SecurityBundle\Annotation\Acl as AclAnnotation;
 use Oro\Bundle\SecurityBundle\Annotation\Loader\AclAnnotationLoaderInterface;
 
@@ -17,24 +16,12 @@ class AclAnnotationProvider
     protected $loaders = [];
 
     /**
-     * @var CacheProvider
-     */
-    protected $cache;
-
-    /**
      * @var AclAnnotationStorage
      */
     protected $storage = null;
 
-    /**
-     * Constructor
-     */
-    public function __construct(CacheProvider $cache = null)
+    public function __construct()
     {
-        $this->cache = $cache;
-        if ($this->cache !== null && $this->cache->getNamespace() === '') {
-            $this->cache->setNamespace(self::CACHE_NAMESPACE);
-        }
     }
 
     /**
@@ -137,9 +124,6 @@ class AclAnnotationProvider
      */
     public function clearCache()
     {
-        if ($this->cache) {
-            $this->cache->delete(self::CACHE_KEY);
-        }
         $this->storage = null;
     }
 
@@ -160,19 +144,9 @@ class AclAnnotationProvider
     protected function ensureAnnotationsLoaded()
     {
         if ($this->storage === null) {
-            $data = null;
-            if ($this->cache) {
-                $data = $this->cache->fetch(self::CACHE_KEY);
-            }
-            if (!$data) {
-                $data = new AclAnnotationStorage();
-                foreach ($this->loaders as $loader) {
-                    $loader->load($data);
-                }
-
-                if ($this->cache) {
-                    $this->cache->save(self::CACHE_KEY, $data);
-                }
+            $data = new AclAnnotationStorage();
+            foreach ($this->loaders as $loader) {
+                $loader->load($data);
             }
 
             $this->storage = $data;

@@ -15,7 +15,7 @@ class AttributeHeaderCell extends HeaderCell {
 
     this.attributeCode = options.column.get('extraOptions').attributeCode;
 
-    HeaderCell.prototype.initialize.apply(this, arguments);
+    HeaderCell.prototype.initialize.apply(this, []);
   }
 
   render() {
