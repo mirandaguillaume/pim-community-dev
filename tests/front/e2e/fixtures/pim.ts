@@ -14,7 +14,7 @@ export async function login(page: Page, username: string, password: string) {
 }
 
 export async function goToProductsGrid(page: Page) {
-  await page.getByRole('menuitem', {name: 'Activity'}).first().waitFor();
+  await page.getByRole('link', {name: 'Activity'}).first().waitFor();
 
   // Start listening BEFORE clicking to avoid race conditions
   const gridViewPromise = page.waitForResponse(resp => resp.url().includes('/datagrid_view/rest/product-grid/default'));
@@ -43,8 +43,8 @@ export async function selectFirstProduct(page: Page) {
 }
 
 export async function saveProduct(page: Page) {
-  const savePromise = page.waitForResponse(resp =>
-    /\/enrich\/product\/rest\//.test(resp.url()) && resp.request().method() === 'POST'
+  const savePromise = page.waitForResponse(
+    resp => /\/enrich\/product\/rest\//.test(resp.url()) && resp.request().method() === 'POST'
   );
   await page.getByText('Save').first().click();
   await savePromise;
