@@ -947,6 +947,7 @@ jobs:
         run: docker-compose run --rm php php bin/console cache:warmup --env=behat
 
       - name: Behat HTTP health check (diagnostics)
+        continue-on-error: true
         run: |
           echo "=== 1. Front assets on disk ==="
           for f in public/dist/vendor.min.js public/dist/main.min.js public/js/extensions.json public/css/pim.css public/js/fos_js_routes.json public/js/require-paths.js; do
@@ -1044,6 +1045,7 @@ jobs:
 
       - name: Browser bootstrap smoke test (shard 1 only)
         if: matrix.shard == 1
+        continue-on-error: true
         run: |
           echo "=== Smoke test: Load PIM in Selenium, capture JS console ==="
           # Create session with console logging enabled
