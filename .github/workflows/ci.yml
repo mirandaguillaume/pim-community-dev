@@ -949,9 +949,12 @@ jobs:
       - name: Behat HTTP health check (diagnostics)
         run: |
           echo "=== 1. Front assets on disk ==="
-          for f in public/dist/vendor.min.js public/dist/main.min.js public/js/extensions.json public/css/pim.css public/js/fos_js_routes.json; do
+          for f in public/dist/vendor.min.js public/dist/main.min.js public/js/extensions.json public/css/pim.css public/js/fos_js_routes.json public/js/require-paths.js; do
             if [ -f "$f" ]; then echo "  OK: $f ($(wc -c < "$f") bytes)"; else echo "  MISSING: $f"; fi
           done
+
+          echo "  Translation files:"
+          ls -la public/js/translation/ 2>/dev/null || echo "  MISSING: public/js/translation/ directory"
 
           echo ""
           echo "=== 2. Wait for httpd to serve login page ==="
@@ -1000,6 +1003,13 @@ jobs:
           echo ""
           echo "  GET /configuration/feature-flags :"
           curl -s -b "$COOKIE_JAR" http://localhost:${DOCKER_PORT_HTTP:-8080}/configuration/feature-flags | head -c 300
+          echo ""
+          echo "--- Phase 2 bootstrap endpoints (from pim-app configure()) ---"
+          echo "  GET /rest/user/ :"
+          curl -s -b "$COOKIE_JAR" -w "\n  HTTP %{http_code}" http://localhost:${DOCKER_PORT_HTTP:-8080}/rest/user/ | head -c 300
+          echo ""
+          echo "  GET /system/rest :"
+          curl -s -b "$COOKIE_JAR" -w "\n  HTTP %{http_code}" http://localhost:${DOCKER_PORT_HTTP:-8080}/system/rest | head -c 300
           echo ""
           rm -f "$COOKIE_JAR"
 
