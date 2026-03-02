@@ -528,6 +528,7 @@ jobs:
       - uses: ./.github/actions/setup-pim-job
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          phive-tools: 'true'
 
       - name: Restore PHPStan cache
         uses: actions/cache@v4
