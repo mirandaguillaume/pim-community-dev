@@ -90,7 +90,7 @@ runs:
       shell: bash
       run: |
         wget -qO phive.phar https://phar.io/releases/phive.phar
-        php phive.phar install --force-accept-unsigned
+        php phive.phar install --trust-gpg-keys E82B2FB314E9906E
         rm -f phive.phar
 
     - name: Restore composer dependencies
