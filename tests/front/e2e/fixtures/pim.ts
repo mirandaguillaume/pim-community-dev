@@ -14,12 +14,12 @@ export async function login(page: Page, username: string, password: string) {
 }
 
 export async function goToProductsGrid(page: Page) {
-  await page.getByRole('link', {name: 'Activity'}).first().waitFor();
+  await page.getByRole('menuitem', {name: 'Activity'}).first().waitFor();
 
   // Start listening BEFORE clicking to avoid race conditions
   const gridViewPromise = page.waitForResponse(resp => resp.url().includes('/datagrid_view/rest/product-grid/default'));
   const gridDataPromise = page.waitForResponse(resp => resp.url().includes('/datagrid/product-grid'));
-  await page.getByText('Products').first().click();
+  await page.getByRole('menuitem', {name: 'Products'}).click();
   await Promise.all([gridViewPromise, gridDataPromise]);
 
   // Switch to ungrouped (products only) view if the selector is rendered
