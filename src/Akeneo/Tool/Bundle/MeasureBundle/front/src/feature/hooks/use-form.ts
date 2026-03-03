@@ -3,7 +3,7 @@ import {useCallback, useState} from 'react';
 type SetValue = (path: string, value: any) => void;
 type ClearValues = () => void;
 
-const useForm = <T>(defaultValues: T): [T, SetValue, ClearValues] => {
+const useForm = <T extends object>(defaultValues: T): [T, SetValue, ClearValues] => {
   const [state, setState] = useState<T>(defaultValues);
 
   const setValue = useCallback(

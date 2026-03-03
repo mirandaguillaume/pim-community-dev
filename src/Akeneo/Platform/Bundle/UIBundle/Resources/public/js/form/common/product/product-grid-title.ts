@@ -14,7 +14,7 @@ class ProductGridTitle extends BaseGridTitle {
     this.totalProducts = collection.state.totalProducts;
     this.totalProductModels = collection.state.totalProductModels;
 
-    return BaseGridTitle.prototype.setupCount.apply(this, []);
+    return BaseGridTitle.prototype.setupCount.call(this, collection);
   }
 
   private inLoadingStatus(): boolean {

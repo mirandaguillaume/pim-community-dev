@@ -24,41 +24,42 @@ export async function goToProductsGrid(page: Page) {
   await gridDataPromise;
 
   // Wait for the grid rows to actually render
-  await page.locator('tr.AknGrid-bodyRow').first().waitFor({timeout: 30_000});
+  await page.locator('tr.AknGrid-bodyRow:has(td)').first().waitFor({timeout: 30_000});
 
-  // Switch to ungrouped (products only) view if the selector is rendered
-  const groupedVariant = page.locator('.search-zone [data-type="grouped-variant"]');
-  if (await groupedVariant.isVisible({timeout: 15_000}).catch(() => false)) {
+  // Switch to "Product" only view if the variant selector is rendered
+  const variantDropdown = page.locator('.AknTitleContainer-variantSelector [data-toggle="dropdown"]');
+  if (await variantDropdown.isVisible({timeout: 5_000}).catch(() => false)) {
+    await variantDropdown.click();
     const filterPromise = page.waitForResponse(resp => resp.url().includes('/datagrid/product-grid'));
-    await groupedVariant.click();
-    await page.locator('.search-zone [data-value="product"]').click();
+    await page.locator('.display-grouped-item[data-value="product"]').click();
     await filterPromise;
-    await expect(page.locator('.AknLoadingMask')).toBeHidden({timeout: 30_000});
-    await expect(page.locator('.AknTitleContainer-title div')).not.toContainText('product models');
+    await page.locator('tr.AknGrid-bodyRow:has(td)').first().waitFor({timeout: 30_000});
   }
 }
 
 export async function selectFirstProduct(page: Page) {
-  // Listen for both responses before clicking to avoid race conditions
-  const productPromise = page.waitForResponse(resp => /\/enrich\/product\/rest\//.test(resp.url()));
-  const configPromise = page.waitForResponse(resp => /\/configuration\/rest\//.test(resp.url()));
-  await page.locator('tr.AknGrid-bodyRow').first().click();
-  await Promise.all([productPromise, configPromise]);
+  // Listen for the product or product-model REST call before clicking to avoid race conditions
+  const productPromise = page.waitForResponse(
+    resp => /\/enrich\/product(-model)?\/rest\//.test(resp.url()) && resp.status() === 200
+  );
+  await page.locator('tr.AknGrid-bodyRow:has(td)').first().click();
+  await productPromise;
 }
 
 export async function saveProduct(page: Page) {
   const savePromise = page.waitForResponse(
-    resp => /\/enrich\/product\/rest\//.test(resp.url()) && resp.request().method() === 'POST'
+    resp => /\/enrich\/product(-model)?\/rest\//.test(resp.url()) && resp.request().method() === 'POST'
   );
   await page.getByText('Save').first().click();
   await savePromise;
 }
 
 export async function reloadProduct(page: Page) {
-  const productPromise = page.waitForResponse(resp => /\/enrich\/product\/rest\//.test(resp.url()));
-  const configPromise = page.waitForResponse(resp => /\/configuration\/rest\//.test(resp.url()));
+  const productPromise = page.waitForResponse(
+    resp => /\/enrich\/product(-model)?\/rest\//.test(resp.url()) && resp.status() === 200
+  );
   await page.reload();
-  await Promise.all([productPromise, configPromise]);
+  await productPromise;
 }
 
 export function firstTextField(page: Page) {
