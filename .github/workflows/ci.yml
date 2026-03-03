@@ -1051,7 +1051,7 @@ jobs:
           # Create session with console logging enabled
           SESSION_RESP=$(curl -s -X POST http://localhost:4444/wd/hub/session \
             -H 'Content-Type: application/json' \
-            -d '{"desiredCapabilities":{"browserName":"chrome","goog:loggingPrefs":{"browser":"ALL","performance":"ALL"},"goog:chromeOptions":{"args":["--no-sandbox","--disable-dev-shm-usage"]}}}' 2>/dev/null)
+            -d '{"capabilities":{"alwaysMatch":{"browserName":"chrome","goog:loggingPrefs":{"browser":"ALL","performance":"ALL"},"goog:chromeOptions":{"args":["--no-sandbox","--disable-dev-shm-usage"]}}}}' 2>/dev/null)
           SID=$(echo "$SESSION_RESP" | python3 -c "import json,sys; print(json.load(sys.stdin).get('value',{}).get('sessionId',''))" 2>/dev/null)
           if [ -z "$SID" ]; then
             echo "WARNING: Could not create Selenium session for smoke test"
@@ -1070,7 +1070,7 @@ jobs:
 
           # Step 2: Login
           echo "--- Logging in as admin ---"
-          curl -s -X POST "http://localhost:4444/wd/hub/session/$SID/execute" \
+          curl -s -X POST "http://localhost:4444/wd/hub/session/$SID/execute/sync" \
             -H 'Content-Type: application/json' \
             -d '{"script":"document.querySelector(\"input[name=_username]\").value=\"admin\"; document.querySelector(\"input[name=_password]\").value=\"admin\"; document.querySelector(\"form\").submit();","args":[]}' 2>/dev/null > /dev/null
           sleep 15
@@ -1109,7 +1109,7 @@ jobs:
           # Step 5: Check network — did extensions.json load?
           echo ""
           echo "=== JS check: Did the 3 bootstrap requests complete? ==="
-          curl -s -X POST "http://localhost:4444/wd/hub/session/$SID/execute" \
+          curl -s -X POST "http://localhost:4444/wd/hub/session/$SID/execute/sync" \
             -H 'Content-Type: application/json' \
             -d '{"script":"var result = {}; try { result.loading = document.querySelector(\".AknDefault-progressContainer\") ? \"visible\" : \"hidden\"; } catch(e) { result.loading = \"error: \" + e.message; } try { result.app = document.querySelector(\".app\") ? document.querySelector(\".app\").innerHTML.substring(0,200) : \"no .app\"; } catch(e) { result.app = \"error: \" + e.message; } return JSON.stringify(result);","args":[]}' 2>/dev/null | \
             python3 -c "
@@ -1171,7 +1171,7 @@ jobs:
           # Create a new session, navigate, capture console
           SESSION_RESP=$(curl -s -X POST http://localhost:4444/wd/hub/session \
             -H 'Content-Type: application/json' \
-            -d '{"desiredCapabilities":{"browserName":"chrome","goog:loggingPrefs":{"browser":"ALL"}}}' 2>/dev/null)
+            -d '{"capabilities":{"alwaysMatch":{"browserName":"chrome","goog:loggingPrefs":{"browser":"ALL"}}}}' 2>/dev/null)
           SID=$(echo "$SESSION_RESP" | python3 -c "import json,sys; print(json.load(sys.stdin).get('value',{}).get('sessionId',''))" 2>/dev/null)
           if [ -n "$SID" ]; then
             echo "  Created debug session: $SID"
