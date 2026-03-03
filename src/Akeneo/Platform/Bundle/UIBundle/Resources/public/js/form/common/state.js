@@ -80,7 +80,7 @@ define([
             message: this.message,
           })
         )
-        .css('opacity', this.hasModelChanged() ? 1 : 0);
+        .css('display', this.hasModelChanged() ? '' : 'none');
 
       return this;
     },

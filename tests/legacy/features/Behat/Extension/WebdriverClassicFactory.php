@@ -60,7 +60,7 @@ class WebdriverClassicFactory implements DriverFactory
             );
         }
 
-        return new Definition('Mink\WebdriverClassicDriver\WebdriverClassicDriver', [
+        return new Definition('Pim\Behat\Extension\AkeneoWebdriverClassicDriver', [
             $config['browser_name'],
             $config['capabilities'],
             $config['wd_host'],
