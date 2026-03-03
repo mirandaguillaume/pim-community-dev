@@ -65,3 +65,48 @@ export async function reloadProduct(page: Page) {
 export function firstTextField(page: Page) {
   return page.locator('.edit-form .akeneo-text-field input:not([disabled]).AknTextField').first();
 }
+
+export async function waitForLoadingMasks(page: Page) {
+  await expect(page.locator('.hash-loading-mask .loading-mask')).toBeHidden({timeout: 30_000});
+  await expect(page.locator('.AknDefault-progressContainer')).toBeHidden({timeout: 30_000});
+}
+
+export async function goToFamilyPage(page: Page, familyCode: string) {
+  await page.goto(`/#/configuration/family/${familyCode}/edit`);
+  await waitForLoadingMasks(page);
+  // Wait for the family form to fully render
+  await page.locator('.AknVerticalNavtab .tab').first().waitFor({timeout: 30_000});
+}
+
+export async function createProductViaApi(page: Page, sku: string, family: string) {
+  // Use the internal REST endpoint (session-authenticated) to create a product
+  const response = await page.request.post('/enrich/product/rest/', {
+    data: {identifier: sku, family},
+    headers: {'Content-Type': 'application/json'},
+  });
+  return response;
+}
+
+export async function deleteProductViaApi(page: Page, productId: string) {
+  await page.request.delete(`/enrich/product/rest/${productId}`);
+}
+
+export async function goToProductBySearch(page: Page, sku: string) {
+  await goToProductsGrid(page);
+
+  // Type the SKU into the search field to filter
+  const searchInput = page.locator('.search-zone input[type="search"], .AknFilterBox-search input');
+  if (await searchInput.isVisible({timeout: 5_000}).catch(() => false)) {
+    await searchInput.fill(sku);
+    await searchInput.press('Enter');
+    await page.waitForResponse(resp => resp.url().includes('/datagrid/product-grid'));
+    await page.locator('tr.AknGrid-bodyRow:has(td)').first().waitFor({timeout: 30_000});
+  }
+
+  // Click on the product row
+  const productPromise = page.waitForResponse(
+    resp => /\/enrich\/product(-model)?\/rest\//.test(resp.url()) && resp.status() === 200
+  );
+  await page.locator('tr.AknGrid-bodyRow:has(td)').first().click();
+  await productPromise;
+}
