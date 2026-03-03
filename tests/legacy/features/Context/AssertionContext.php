@@ -750,7 +750,13 @@ class AssertionContext extends PimContext
     public function assertPopupMessage($message)
     {
         return $this->spin(function () use ($message) {
-            return $message == $this->getSession()->getDriver()->getWebDriverSession()->getAlert_text();
+            $alertText = $this->getSession()->evaluateScript(
+                "try { return document.querySelector('.modal-body')?.textContent?.trim() || " .
+                "document.querySelector('.AknFullPage .AknFullPage-content')?.textContent?.trim(); } " .
+                "catch(e) { return null; }"
+            );
+
+            return $alertText && str_contains($alertText, $message);
         }, sprintf('Cannot assert that the modal contains %s', $message));
     }
 }

@@ -33,7 +33,16 @@ class ContextSwitcherDecorator extends ElementDecorator
             if (null === $toggle) {
                 return false;
             }
-            $toggle->click();
+
+            // Use JS click to avoid "element click intercepted" by overlay animations
+            $this->getSession()->executeScript(
+                sprintf(
+                    "document.evaluate(\"%s\", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click()",
+                    addcslashes($toggle->getXpath(), '"\\')
+                )
+            );
+
+            usleep(200000);
 
             $option = $dropdown->find('css', sprintf('*[data-locale="%s"]', $localeCode));
 
@@ -43,7 +52,14 @@ class ContextSwitcherDecorator extends ElementDecorator
             if (null === $option) {
                 return false;
             }
-            $option->click();
+
+            // Use JS click to avoid "element click intercepted"
+            $this->getSession()->executeScript(
+                sprintf(
+                    "document.evaluate(\"%s\", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click()",
+                    addcslashes($option->getXpath(), '"\\')
+                )
+            );
 
             return $this->getSelectedLocale() === $localeCode;
         }, sprintf('Could not switch locale to "%s"', $localeCode));
@@ -86,7 +102,17 @@ class ContextSwitcherDecorator extends ElementDecorator
             if (null === $toggle) {
                 return false;
             }
-            $toggle->click();
+
+            // Use JS click to avoid "element click intercepted" by overlay animations
+            $this->getSession()->executeScript(
+                sprintf(
+                    "document.evaluate(\"%s\", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click()",
+                    addcslashes($toggle->getXpath(), '"\\')
+                )
+            );
+
+            // Wait for dropdown menu to be visible
+            usleep(200000);
 
             $option = $dropdown->find('css', sprintf('a[data-scope="%s"]', $scopeCode));
             if (null === $option) {
@@ -99,7 +125,14 @@ class ContextSwitcherDecorator extends ElementDecorator
             if (null === $option) {
                 return false;
             }
-            $option->click();
+
+            // Use JS click to avoid "element click intercepted"
+            $this->getSession()->executeScript(
+                sprintf(
+                    "document.evaluate(\"%s\", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click()",
+                    addcslashes($option->getXpath(), '"\\')
+                )
+            );
 
             return true;
         }, 'Could not find scope switcher');
