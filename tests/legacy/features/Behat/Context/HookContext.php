@@ -4,7 +4,7 @@ namespace Pim\Behat\Context;
 
 use Behat\Behat\Hook\Scope\AfterScenarioScope;
 use Behat\Behat\Hook\Scope\AfterStepScope;
-use Behat\Mink\Driver\Selenium2Driver;
+use Mink\WebdriverClassicDriver\WebdriverClassicDriver;
 use Behat\Testwork\Tester\Result\TestResult;
 use Context\FeatureContext;
 use Doctrine\Persistence\ManagerRegistry;
@@ -81,7 +81,7 @@ class HookContext extends PimContext
         if ($event->getTestResult()->getResultCode() === TestResult::FAILED) {
             $driver = $this->getSession()->getDriver();
 
-            if ($driver instanceof Selenium2Driver) {
+            if ($driver instanceof WebdriverClassicDriver) {
                 $dir = !empty($_ENV['BEHAT_SCREENSHOT_PATH'] ?? '') ? $_ENV['BEHAT_SCREENSHOT_PATH'] : '/tmp/behat/screenshots';
 
                 $lineNum = $event->getStep()->getLine();
@@ -119,7 +119,7 @@ class HookContext extends PimContext
      */
     public function listenToErrors(): void
     {
-        if ($this->getSession()->getDriver() instanceof Selenium2Driver) {
+        if ($this->getSession()->getDriver() instanceof WebdriverClassicDriver) {
             if (!$this->getSession()->isStarted()) {
                 $this->getSession()->start();
             }
@@ -141,7 +141,7 @@ class HookContext extends PimContext
      */
     public function collectErrors(): void
     {
-        if ($this->getSession()->getDriver() instanceof Selenium2Driver) {
+        if ($this->getSession()->getDriver() instanceof WebdriverClassicDriver) {
             $script = "return typeof $ != 'undefined' ? $('body').attr('JSerr') || false : false;";
 
             // This check won't work with steps provoking an alert to open, in this case skip it.
@@ -191,7 +191,7 @@ class HookContext extends PimContext
      */
     public function resetCurrentPage(AfterScenarioScope $event): void
     {
-        if ($this->getSession()->getDriver() instanceof Selenium2Driver) {
+        if ($this->getSession()->getDriver() instanceof WebdriverClassicDriver) {
             try {
                 $script = 'sessionStorage.clear(); localStorage.clear(); typeof $ !== "undefined" && $(window).off("beforeunload");';
                 $this->getMainContext()->executeScript($script);

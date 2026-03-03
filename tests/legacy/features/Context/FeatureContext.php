@@ -3,7 +3,7 @@
 namespace Context;
 
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
-use Behat\Mink\Driver\Selenium2Driver;
+use Mink\WebdriverClassicDriver\WebdriverClassicDriver;
 use Behat\Mink\Exception\ExpectationException;
 use Behat\MinkExtension\Context\MinkContext;
 use Behat\Testwork\Counter\Exception\TimerException;
@@ -146,7 +146,7 @@ class FeatureContext extends MinkContext
      */
     public function wait(?string $condition = null)
     {
-        if (!($this->getSession()->getDriver() instanceof Selenium2Driver)) {
+        if (!($this->getSession()->getDriver() instanceof WebdriverClassicDriver)) {
             return;
         }
 
@@ -326,7 +326,7 @@ class FeatureContext extends MinkContext
 
     public function executeScript(string $script): bool
     {
-        if ($this->getSession()->getDriver() instanceof Selenium2Driver) {
+        if ($this->getSession()->getDriver() instanceof WebdriverClassicDriver) {
             $this->getSession()->executeScript($script);
 
             return true;

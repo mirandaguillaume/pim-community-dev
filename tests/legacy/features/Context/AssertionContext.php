@@ -4,7 +4,7 @@ namespace Context;
 
 use Behat\ChainedStepsExtension\Step\Then;
 use Behat\Gherkin\Node\TableNode;
-use Behat\Mink\Driver\Selenium2Driver;
+use Mink\WebdriverClassicDriver\WebdriverClassicDriver;
 use Behat\Mink\Exception\ElementNotFoundException;
 use Behat\Mink\Exception\ExpectationException;
 use Context\Spin\SpinCapableTrait;
@@ -86,7 +86,7 @@ class AssertionContext extends PimContext
      */
     public function iShouldSeeValidationError($error)
     {
-        if ($this->getSession()->getDriver() instanceof Selenium2Driver) {
+        if ($this->getSession()->getDriver() instanceof WebdriverClassicDriver) {
             $protectedError = addslashes($error);
             $script = 'return $(\'.validation-tooltip[data-original-title="%s"]\').length > 0';
             $found  = $this->getSession()->evaluateScript(sprintf($script, $protectedError));
@@ -123,7 +123,7 @@ class AssertionContext extends PimContext
      */
     public function iShouldNotSeeValidationError($error)
     {
-        if ($this->getSession()->getDriver() instanceof Selenium2Driver) {
+        if ($this->getSession()->getDriver() instanceof WebdriverClassicDriver) {
             $script = 'return $(\'.error-message:contains("%s")\').length > 0';
             $found  = $this->getSession()->evaluateScript(sprintf($script, $error));
             Assert::assertFalse($found, sprintf('Expecting to not see validation error, "%s" found', $error));
