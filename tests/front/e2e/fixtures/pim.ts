@@ -71,24 +71,40 @@ export async function waitForLoadingMasks(page: Page) {
   await expect(page.locator('.AknDefault-progressContainer')).toBeHidden({timeout: 30_000});
 }
 
-export async function goToFamilyPage(page: Page, familyCode: string) {
-  // Akeneo PIM is a SPA with hash-based routing via Backbone.
-  // Navigate to the root page, then set the hash to trigger the router.
-  const baseUrl = page
-    .url()
-    .split('#')[0]
-    .replace(/\/user\/login.*/, '/');
-  await page.goto(baseUrl);
-  await waitForLoadingMasks(page);
+export async function goToFamilyPage(page: Page, familyCode?: string) {
+  // Navigate through the UI like a real user: Settings → Families card → click Edit
+  await page.getByRole('menuitem', {name: 'Activity'}).first().waitFor();
+  await page.getByRole('menuitem', {name: 'Settings'}).click();
 
-  // Listen for the family REST call before changing hash
-  const familyPromise = page.waitForResponse(
-    resp => resp.url().includes('/configuration/rest/family/') && resp.status() === 200
+  // The Settings page shows a card-based menu. "Families" is a clickable card, not a menuitem.
+  // The grid loads via /datagrid/family-grid, not /configuration/rest/family.
+  const gridDataPromise = page.waitForResponse(
+    resp => resp.url().includes('/datagrid/family-grid') && resp.status() === 200
   );
-  await page.evaluate(code => {
-    window.location.hash = `/configuration/family/${code}/edit`;
-  }, familyCode);
-  await familyPromise;
+  await page.getByText('Families').first().click();
+  await gridDataPromise;
+
+  // Wait for grid rows to render — the grid uses standard table rows
+  const firstRow = page
+    .getByRole('row')
+    .filter({has: page.getByRole('cell')})
+    .first();
+  await firstRow.waitFor({timeout: 30_000});
+
+  // Click a family row to navigate to its edit page.
+  // Grid rows have an "Edit" link whose href = #/configuration/family/{code}/edit.
+  // Clicking the row label cell or the Edit link triggers Backbone hash navigation.
+  if (familyCode) {
+    await page
+      .getByRole('row')
+      .filter({hasText: new RegExp(familyCode, 'i')})
+      .first()
+      .getByRole('link', {name: 'Edit'})
+      .click();
+  } else {
+    await firstRow.getByRole('link', {name: 'Edit'}).click();
+  }
+
   await waitForLoadingMasks(page);
 
   // Wait for the family form to fully render (horizontal tabs: Properties, Attributes, etc.)
