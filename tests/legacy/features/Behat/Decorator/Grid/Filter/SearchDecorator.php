@@ -62,13 +62,24 @@ class SearchDecorator extends ElementDecorator
     }
 
     /**
-     * Search a value in the search filter
-     * It dispatch a fake keydown event to run the search.
+     * Search a value in the search filter.
+     *
+     * The search input is rendered with readonly="true" to work around a Chrome
+     * autocomplete bug (see search-filter.js). The readonly is removed on focusin
+     * and restored on focusout. W3C WebDriver refuses to clear() a readonly input,
+     * so we must give focus first (which triggers disableReadonly), then set the value.
      *
      * @param string $value
      */
     public function search($value)
     {
+        $this->getSession()->executeScript(
+            sprintf(
+                'var input = document.querySelector(\'.search-filter input[name="value"]\');' .
+                'if (input) { input.removeAttribute("readonly"); input.focus(); }',
+                $value
+            )
+        );
         $this->setValue($value);
     }
 }
