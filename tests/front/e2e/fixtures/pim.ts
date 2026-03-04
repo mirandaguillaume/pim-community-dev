@@ -124,6 +124,88 @@ export async function deleteProductViaApi(page: Page, productId: string) {
   await page.request.delete(`/enrich/product/rest/${productId}`);
 }
 
+/**
+ * Navigate to the export job grid, then open a specific export job's edit page.
+ * If no jobCode is provided, opens the first available export job.
+ */
+export async function goToExportJobEdit(page: Page, jobCode?: string) {
+  await page.getByRole('menuitem', {name: 'Activity'}).first().waitFor();
+
+  // Navigate: Imports/Exports → Export profiles
+  await page.getByRole('menuitem', {name: /export/i}).click();
+  await waitForLoadingMasks(page);
+
+  // Wait for the grid to load (admin grids use standard <table> rows)
+  const exportRows = page.getByRole('row').filter({has: page.getByRole('cell')});
+  await exportRows.first().waitFor({timeout: 30_000});
+
+  // Click Edit on the target row
+  if (jobCode) {
+    await exportRows.filter({hasText: jobCode}).first().getByRole('link', {name: /edit/i}).click();
+  } else {
+    await exportRows.first().getByRole('link', {name: /edit/i}).click();
+  }
+
+  await waitForLoadingMasks(page);
+  // Wait for the form tabs to render
+  await page.locator('.AknHorizontalNavtab-item, .tab-pane, [data-toggle="tab"]').first().waitFor({timeout: 30_000});
+}
+
+/**
+ * Navigate to the import job show page.
+ */
+export async function goToImportJobPage(page: Page, jobCode: string) {
+  await page.getByRole('menuitem', {name: 'Activity'}).first().waitFor();
+
+  // Navigate: Imports/Exports → Import profiles
+  await page.getByRole('menuitem', {name: /import/i}).click();
+  await waitForLoadingMasks(page);
+
+  // Wait for the grid to load (admin grids use standard <table> rows)
+  const importRows = page.getByRole('row').filter({has: page.getByRole('cell')});
+  await importRows.first().waitFor({timeout: 30_000});
+
+  // Click on the target import job row
+  await importRows.filter({hasText: jobCode}).first().getByRole('cell').first().click();
+
+  await waitForLoadingMasks(page);
+}
+
+/**
+ * Wait for a job execution to complete by polling the job status indicator.
+ */
+export async function waitForJobCompletion(page: Page, timeout = 120_000) {
+  await expect(page.locator('[data-testid="job-status"]')).toContainText(/completed|failed/i, {timeout});
+}
+
+/**
+ * Navigate to the user group grid, then open a group for editing.
+ */
+export async function goToUserGroupEdit(page: Page, groupName?: string) {
+  await page.getByRole('menuitem', {name: 'Activity'}).first().waitFor();
+  await page.getByRole('menuitem', {name: /system/i}).click();
+
+  // Click "User Groups" in the system menu
+  const gridPromise = page.waitForResponse(
+    resp => resp.url().includes('/datagrid/pim-user-group-grid') && resp.status() === 200
+  );
+  await page.getByText('User Groups').first().click();
+  await gridPromise;
+
+  // Wait for grid rows (admin grids use standard <table> rows)
+  const groupRows = page.getByRole('row').filter({has: page.getByRole('cell')});
+  await groupRows.first().waitFor({timeout: 30_000});
+
+  // Click Update on the target row (user group grid uses "Update" links, not "Edit")
+  if (groupName) {
+    await groupRows.filter({hasText: groupName}).first().getByRole('link', {name: 'Update'}).click();
+  } else {
+    await groupRows.first().getByRole('link', {name: 'Update'}).click();
+  }
+
+  await waitForLoadingMasks(page);
+}
+
 export async function goToProductBySearch(page: Page, sku: string) {
   await goToProductsGrid(page);
 
