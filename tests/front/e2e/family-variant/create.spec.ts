@@ -13,9 +13,9 @@ const FAMILY_CODE = 'accessories';
 const MODAL = '.modal.add-family-variant-modal';
 
 async function openVariantCreationModal(page: ReturnType<typeof test['info']> extends never ? never : any) {
-  // Navigate to the Variants tab
+  // Navigate to the Variants tab (horizontal tabs in family edit form)
   await page
-    .locator('.AknVerticalNavtab .tab')
+    .locator('.AknHorizontalNavtab-item')
     .filter({hasText: /variant/i})
     .click();
   await waitForLoadingMasks(page);

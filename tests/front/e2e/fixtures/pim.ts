@@ -91,8 +91,8 @@ export async function goToFamilyPage(page: Page, familyCode: string) {
   await familyPromise;
   await waitForLoadingMasks(page);
 
-  // Wait for the family form to fully render (tabs in left nav)
-  await page.locator('.AknVerticalNavtab .tab').first().waitFor({timeout: 30_000});
+  // Wait for the family form to fully render (horizontal tabs: Properties, Attributes, etc.)
+  await page.locator('.AknHorizontalNavtab-item').first().waitFor({timeout: 30_000});
 }
 
 export async function createProductViaApi(page: Page, sku: string, family: string) {
