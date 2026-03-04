@@ -72,9 +72,26 @@ export async function waitForLoadingMasks(page: Page) {
 }
 
 export async function goToFamilyPage(page: Page, familyCode: string) {
-  await page.goto(`/#/configuration/family/${familyCode}/edit`);
+  // Akeneo PIM is a SPA with hash-based routing via Backbone.
+  // Navigate to the root page, then set the hash to trigger the router.
+  const baseUrl = page
+    .url()
+    .split('#')[0]
+    .replace(/\/user\/login.*/, '/');
+  await page.goto(baseUrl);
   await waitForLoadingMasks(page);
-  // Wait for the family form to fully render
+
+  // Listen for the family REST call before changing hash
+  const familyPromise = page.waitForResponse(
+    resp => resp.url().includes('/configuration/rest/family/') && resp.status() === 200
+  );
+  await page.evaluate(code => {
+    window.location.hash = `/configuration/family/${code}/edit`;
+  }, familyCode);
+  await familyPromise;
+  await waitForLoadingMasks(page);
+
+  // Wait for the family form to fully render (tabs in left nav)
   await page.locator('.AknVerticalNavtab .tab').first().waitFor({timeout: 30_000});
 }
 
