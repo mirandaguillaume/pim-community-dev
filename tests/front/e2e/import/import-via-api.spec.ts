@@ -3,9 +3,9 @@ import {
   login,
   launchImportViaApi,
   waitForJobExecutionViaApi,
-  waitForLoadingMasks,
   resolveJobCode,
   goToProductBySearch,
+  goToJobExecution,
   getFirstFamilyCode,
 } from '../fixtures/pim';
 
@@ -80,9 +80,7 @@ test.describe('Product import - full E2E with data verification', () => {
     expect(importStep.summary.created).toBeGreaterThanOrEqual(2);
 
     // Navigate to the job tracker page and verify stats in the UI
-    await page.goto(`/#/job/show/${jobId}`);
-    await waitForLoadingMasks(page);
-    await expect(page.getByText(/execution details/i)).toBeVisible({timeout: 15_000});
+    await goToJobExecution(page, jobId);
     await expect(page.getByText(/completed/i).first()).toBeVisible({timeout: 15_000});
 
     // Navigate to the first imported product and verify name in the PEF
@@ -116,9 +114,7 @@ test.describe('Product import - full E2E with data verification', () => {
     expect(jobResult.status).toBe('COMPLETED');
 
     // Navigate to job tracker and verify error messages are shown in the UI
-    await page.goto(`/#/job/show/${jobId}`);
-    await waitForLoadingMasks(page);
-    await expect(page.getByText(/execution details/i)).toBeVisible({timeout: 15_000});
+    await goToJobExecution(page, jobId);
 
     // The job tracker should show skip/warning count for the invalid family
     const hasWarning = await page
@@ -158,9 +154,7 @@ test.describe('Product import - full E2E with data verification', () => {
     const jobId = await launchImportViaApi(page, productImportCode, csv, 'test-products.csv');
     expect(jobId).toBeTruthy();
 
-    await page.goto(`/#/job/show/${jobId}`);
-    await waitForLoadingMasks(page);
-    await expect(page.getByText(/execution details/i)).toBeVisible({timeout: 15_000});
+    await goToJobExecution(page, jobId);
     await expect(page.getByText(/starting|in progress|completed|failed/i).first()).toBeVisible({timeout: 15_000});
   });
 
@@ -168,9 +162,7 @@ test.describe('Product import - full E2E with data verification', () => {
     const csv = `sku\npw-display-${Date.now()}`;
     const jobId = await launchImportViaApi(page, productImportCode, csv, 'display-test.csv');
 
-    await page.goto(`/#/job/show/${jobId}`);
-    await waitForLoadingMasks(page);
-    await expect(page.getByText(/execution details/i)).toBeVisible({timeout: 15_000});
+    await goToJobExecution(page, jobId);
     await expect(page.getByText('Product import', {exact: true})).toBeVisible({timeout: 15_000});
   });
 
@@ -192,8 +184,6 @@ test.describe('Product import - full E2E with data verification', () => {
     const jobId = await launchImportViaApi(page, familyVariantCode, csv, 'family-variants.csv');
     expect(jobId).toBeTruthy();
 
-    await page.goto(`/#/job/show/${jobId}`);
-    await waitForLoadingMasks(page);
-    await expect(page.getByText(/execution details/i)).toBeVisible({timeout: 15_000});
+    await goToJobExecution(page, jobId);
   });
 });

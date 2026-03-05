@@ -9,6 +9,7 @@ Feature: Create variants of family through CSV import
     And I am logged in as "Peter"
     And I am on the imports page
 
+  @skip-behat-migrated-to-playwright
   Scenario: I successfully create and use a family variant import in CSV
     Given I create a new import
     When I fill in the following information in the popin:

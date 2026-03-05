@@ -225,8 +225,8 @@ export async function launchImportViaApi(
   const mimeType = fileName.endsWith('.csv')
     ? 'text/csv'
     : fileName.endsWith('.xlsx')
-    ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    : 'application/octet-stream';
+      ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      : 'application/octet-stream';
 
   const response = await page.request.post(`/job-instance/rest/import/${jobCode}/launch`, {
     headers: XHR_HEADER,
@@ -315,10 +315,32 @@ export async function goToProductBySearch(page: Page, sku: string) {
     await page.locator('tr.AknGrid-bodyRow:has(td)').first().waitFor({timeout: 30_000});
   }
 
-  // Click on the product row
+  // Click on the row that contains our SKU (not just the first row)
+  const targetRow = page.locator('tr.AknGrid-bodyRow').filter({hasText: sku});
   const productPromise = page.waitForResponse(
     resp => /\/enrich\/product(-model)?\/rest\//.test(resp.url()) && resp.status() === 200
   );
-  await page.locator('tr.AknGrid-bodyRow:has(td)').first().click();
+  if (await targetRow.isVisible({timeout: 5_000}).catch(() => false)) {
+    await targetRow.first().click();
+  } else {
+    // Fallback: click first row if SKU-specific row not found (e.g., SKU not displayed as text)
+    await page.locator('tr.AknGrid-bodyRow:has(td)').first().click();
+  }
   await productPromise;
+}
+
+/**
+ * Navigate to a job execution page using hash routing.
+ * Uses JavaScript hash manipulation instead of page.goto() to avoid
+ * a full SPA re-bootstrap that is unreliable in CI.
+ */
+export async function goToJobExecution(page: Page, jobId: string) {
+  await page.evaluate(id => {
+    window.location.hash = `#/job/show/${id}`;
+  }, jobId);
+
+  // Wait for the SPA hash router to process the route change and render content.
+  // 30s timeout accommodates slow CI machines.
+  await expect(page.getByText(/execution details/i)).toBeVisible({timeout: 30_000});
+  await waitForLoadingMasks(page);
 }

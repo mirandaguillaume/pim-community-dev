@@ -10,7 +10,10 @@ set -eo pipefail
 TEST_SUITE=$1
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-ALL_SCENARIOS=$(docker-compose run --rm -T php vendor/bin/behat --list-scenarios -p legacy -s $TEST_SUITE)
+# Exclude scenarios migrated to Playwright (tagged @skip-behat-migrated-to-playwright)
+TAG_FILTER="--tags ~@skip-behat-migrated-to-playwright"
+
+ALL_SCENARIOS=$(docker-compose run --rm -T php vendor/bin/behat --list-scenarios -p legacy -s $TEST_SUITE $TAG_FILTER)
 
 if [[ -n "$BEHAT_SPLIT" ]]; then
     SHARD_NUM="${BEHAT_SPLIT%%/*}"

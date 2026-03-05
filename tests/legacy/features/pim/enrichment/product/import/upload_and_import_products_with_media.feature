@@ -8,6 +8,7 @@ Feature: Upload and import products with media
     Given a "footwear" catalog configuration
     And I am logged in as "Julia"
 
+  @skip-behat-migrated-to-playwright
   Scenario: Successfully upload and import an archive
     Given I am on the "csv_footwear_product_import" import job page
     When I upload and import the file "caterpillar_import.zip"
@@ -42,6 +43,7 @@ Feature: Upload and import products with media
     But I should not see the text "Import and launch now"
 
   # @info https://akeneo.atlassian.net/browse/PIM-6491
+  @skip-behat-migrated-to-playwright
   Scenario: Fail to launch an import through file upload when the file extension is invalid
     Given the following CSV file to import:
       """

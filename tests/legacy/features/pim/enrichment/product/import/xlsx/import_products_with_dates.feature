@@ -12,6 +12,7 @@ Feature: Import XLSX products with dates
     And I am logged in as "Julia"
 
   # @info If Excel opens a file containing dates that match its locale config it will be transformed into a timestamp
+  @skip-behat-migrated-to-playwright
   Scenario: Successfully import an XLSX file of products with dates as timestamps
     Given I am on the "xlsx_footwear_product_import" import job page
     When I upload and import the file "products_with_timestamp_dates.xlsx"
@@ -20,6 +21,7 @@ Feature: Import XLSX products with dates
     And attribute destocking_date of "rangers001" should be "2016-06-24"
     And attribute destocking_date of "rangers002" should be "2016-07-01"
 
+  @skip-behat-migrated-to-playwright
   Scenario: Successfully import an XLSX file of products with dates as strings
     Given I am on the "xlsx_footwear_product_import" import job page
     When I upload and import the file "products_with_string_dates.xlsx"
@@ -28,6 +30,7 @@ Feature: Import XLSX products with dates
     And attribute destocking_date of "rangers001" should be "2016-06-24"
     And attribute destocking_date of "rangers002" should be "2016-07-01"
 
+  @skip-behat-migrated-to-playwright
   Scenario: Skip products with invalid string dates during an XLSX import
     Given I am on the "xlsx_footwear_product_import" import job page
     When I upload and import the file "products_with_invalid_string_dates.xlsx"

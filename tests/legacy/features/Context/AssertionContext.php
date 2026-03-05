@@ -399,7 +399,9 @@ class AssertionContext extends PimContext
             $matchingChange = $this->spin(function () use ($changes, $expectedProperty) {
                 foreach ($changes as $change) {
                     $propertyCell = $change[0];
-                    if ($propertyCell->getText() === $expectedProperty) {
+                    // Normalize whitespace: HTML may render extra spaces between label and locale
+                    $normalizedText = preg_replace('/\s+/', ' ', trim($propertyCell->getText()));
+                    if ($normalizedText === $expectedProperty) {
                         return $change;
                     }
                 }
@@ -409,7 +411,7 @@ class AssertionContext extends PimContext
                 'Can not find change of the property "%s", found %s',
                 $expectedProperty,
                 join(', ', array_map(function ($change) {
-                    return sprintf('"%s"', $change[0]->getText());
+                    return sprintf('"%s"', preg_replace('/\s+/', ' ', trim($change[0]->getText())));
                 }, $changes))
             ));
 
