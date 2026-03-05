@@ -225,8 +225,8 @@ export async function launchImportViaApi(
   const mimeType = fileName.endsWith('.csv')
     ? 'text/csv'
     : fileName.endsWith('.xlsx')
-      ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-      : 'application/octet-stream';
+    ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    : 'application/octet-stream';
 
   const response = await page.request.post(`/job-instance/rest/import/${jobCode}/launch`, {
     headers: XHR_HEADER,
@@ -254,7 +254,13 @@ export async function waitForJobExecutionViaApi(page: Page, jobExecutionId: stri
       headers: XHR_HEADER,
     });
     data = await resp.json();
-    if (!data.isRunning) return data;
+    if (!data.isRunning) {
+      // Normalize status to uppercase for consistent comparison across Akeneo versions.
+      // The REST API returns title-case labels ("Completed", "Failed") but tests
+      // use uppercase constants ("COMPLETED", "FAILED").
+      if (data.status) data.status = data.status.toUpperCase();
+      return data;
+    }
     await page.waitForTimeout(2_000);
   }
   throw new Error(`Job execution ${jobExecutionId} still running after ${timeout}ms`);
