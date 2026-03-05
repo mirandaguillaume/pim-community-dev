@@ -321,17 +321,13 @@ export async function goToProductBySearch(page: Page, sku: string) {
     await page.locator('tr.AknGrid-bodyRow:has(td)').first().waitFor({timeout: 30_000});
   }
 
-  // Click on the row that contains our SKU (not just the first row)
+  // Click on the row that contains our SKU — no fallback to avoid clicking the wrong product
   const targetRow = page.locator('tr.AknGrid-bodyRow').filter({hasText: sku});
+  await targetRow.first().waitFor({state: 'visible', timeout: 15_000});
   const productPromise = page.waitForResponse(
     resp => /\/enrich\/product(-model)?\/rest\//.test(resp.url()) && resp.status() === 200
   );
-  if (await targetRow.isVisible({timeout: 5_000}).catch(() => false)) {
-    await targetRow.first().click();
-  } else {
-    // Fallback: click first row if SKU-specific row not found (e.g., SKU not displayed as text)
-    await page.locator('tr.AknGrid-bodyRow:has(td)').first().click();
-  }
+  await targetRow.first().click();
   await productPromise;
 }
 
@@ -349,4 +345,16 @@ export async function goToJobExecution(page: Page, jobId: string) {
   // 30s timeout accommodates slow CI machines.
   await expect(page.getByText(/execution details/i)).toBeVisible({timeout: 30_000});
   await waitForLoadingMasks(page);
+
+  // Wait for the actual job execution content to load (step details are fetched asynchronously).
+  // The page shows step names like "Product import" or status labels once loaded.
+  await page
+    .locator('.AknJobExecution, [data-tab], .job-execution-summary, .AknTitleContainer')
+    .first()
+    .waitFor({timeout: 30_000})
+    .catch(() => {});
+  // Also wait for any status text (completed, failed, starting, etc.) in the content area
+  await expect(page.getByText(/completed|failed|starting|in progress|product import/i).first()).toBeVisible({
+    timeout: 30_000,
+  });
 }
