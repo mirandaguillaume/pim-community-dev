@@ -1304,7 +1304,14 @@ jobs:
           echo "=== HTTP asset check ==="
           curl -sI http://localhost:${DOCKER_PORT_HTTP:-8080}/dist/vendor.min.js 2>&1 | head -3
           curl -sI http://localhost:${DOCKER_PORT_HTTP:-8080}/js/extensions.json 2>&1 | head -3
+          # Start Symfony Messenger consumer so import/export jobs actually execute
+          docker-compose run -d --name pim-job-consumer php \
+            php bin/console messenger:consume import_export_job ui_job data_maintenance_job \
+            --env=prod --time-limit=300 --quiet
+          echo "Job consumer started (time-limit=300s)"
           PIM_URL=http://localhost:${DOCKER_PORT_HTTP:-8080} castor test:end-to-end-front
+          # Clean up consumer
+          docker stop pim-job-consumer 2>/dev/null || true
 
       - name: Upload Playwright report
         if: failure()
