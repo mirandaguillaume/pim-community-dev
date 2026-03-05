@@ -26,16 +26,20 @@ test.describe('Product edit - attribute group visibility', () => {
     }
     await selectFirstProduct(page);
 
-    // Wait for the PEF attribute group dropdown to render
-    // The dropdown trigger shows "Attribute group: <current>" text
-    const groupDropdown = page.locator('[class*="cursor"]').filter({hasText: /Attribute group:/i});
-    await groupDropdown.first().waitFor({timeout: 15_000});
+    // Wait for the PEF attribute group dropdown to render.
+    // The dropdown trigger displays "Attribute group: All" (or another group name).
+    // We locate it by its visible text content — NOT by CSS class.
+    const groupDropdown = page.getByText(/Attribute group:\s/i).first();
+    await groupDropdown.waitFor({timeout: 15_000});
 
-    // Click the dropdown to see available groups
-    await groupDropdown.first().click();
+    // Click the dropdown to open it — the list items appear inside a sibling/parent container
+    await groupDropdown.click();
 
-    // Check that multiple groups are listed
-    const groupItems = groupDropdown.first().getByRole('listitem');
+    // The dropdown list items are in the DOM near the trigger.
+    // From the accessibility tree: the trigger's parent contains a <list> with <listitem> children.
+    // We locate all listitem elements within the closest ancestor that contains both trigger and list.
+    const dropdownContainer = page.locator(':has(> :text("Attribute group:"))').first();
+    const groupItems = dropdownContainer.getByRole('listitem');
     const groupCount = await groupItems.count();
 
     if (groupCount < 3) {
@@ -44,31 +48,29 @@ test.describe('Product edit - attribute group visibility', () => {
       return;
     }
 
-    // Select a specific group (second real group, skipping "Attribute group" header and "All")
+    // Select a specific group (second real group, skipping "Attribute group" label and "All")
     const specificGroup = groupItems.nth(2);
+    const specificGroupName = await specificGroup.textContent();
     await specificGroup.click();
     await waitForLoadingMasks(page);
 
-    // Verify some field content is visible for this specific group
-    const hasFields = await page
-      .locator('.field-container, .akeneo-text-field, .AknFieldContainer, [class*="field"]')
-      .first()
-      .isVisible({timeout: 10_000})
-      .catch(() => false);
+    // Verify that a group banner with that name appears (confirming filter worked)
+    if (specificGroupName) {
+      await expect(page.locator('banner', {hasText: specificGroupName}).first()).toBeVisible({timeout: 10_000});
+    }
 
     // Now switch back to "All" to show all groups
-    await groupDropdown.first().click();
-    // Click the "All" listitem
-    const allItem = groupDropdown.first().getByRole('listitem').filter({hasText: /^All$/});
+    await groupDropdown.click();
+    // Wait for the dropdown to re-open then click "All"
+    const allItem = dropdownContainer.getByRole('listitem').filter({hasText: /^All$/});
     await allItem.click();
     await waitForLoadingMasks(page);
 
-    // Verify attribute fields are visible after switching to "All"
-    const hasContent = await page
-      .locator('.field-container, .akeneo-text-field, .AknFieldContainer, [class*="field"]')
-      .first()
-      .isVisible({timeout: 10_000})
-      .catch(() => false);
-    expect(hasContent).toBeTruthy();
+    // After switching to "All", multiple group banners should be visible
+    // (Marketing, ERP, Technical, Media — at least 2 distinct sections)
+    const banners = page.locator('[role="banner"]').filter({hasText: /Marketing|ERP|Technical|Media/i});
+    await expect(banners.first()).toBeVisible({timeout: 10_000});
+    const bannerCount = await banners.count();
+    expect(bannerCount).toBeGreaterThanOrEqual(2);
   });
 });
