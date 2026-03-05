@@ -45,6 +45,7 @@
     "lint:check": "prettier --config .prettierrc.json --parser typescript --check \"./src/**/*.{ts,tsx}\""
   },
   "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
     "extends": [
       "react-app",
       "react-app/jest"

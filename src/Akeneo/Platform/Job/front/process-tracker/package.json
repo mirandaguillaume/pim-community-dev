@@ -12,15 +12,10 @@
     "web-vitals": "^0.2.4"
   },
   "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
     "extends": [
       "react-app",
       "react-app/jest"
-    ],
-    "overrides": [
-      {
-        "files": ["**/*.ts", "**/*.tsx"],
-        "parser": "@typescript-eslint/parser"
-      }
     ]
   },
   "browserslist": {
