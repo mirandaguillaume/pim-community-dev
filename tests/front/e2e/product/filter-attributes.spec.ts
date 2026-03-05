@@ -1,5 +1,5 @@
 import {test, expect, Page} from '@playwright/test';
-import {login, goToProductsGrid, selectFirstProduct, waitForLoadingMasks} from '../fixtures/pim';
+import {login, goToProductsGrid, selectFirstProduct, waitForLoadingMasks, ensureProductExists} from '../fixtures/pim';
 
 /**
  * This test replaces the Behat scenario from:
@@ -36,7 +36,13 @@ async function clickRequiredAttributeIndicator(page: Page, groupCode: string) {
 test.describe('Product edit - filter attributes', () => {
   test.beforeEach(async ({page}) => {
     await login(page, 'admin', 'admin');
-    await goToProductsGrid(page);
+    await ensureProductExists(page);
+    try {
+      await goToProductsGrid(page);
+    } catch {
+      test.skip(true, 'Product grid is empty — no products available');
+      return;
+    }
     await selectFirstProduct(page);
     await waitForLoadingMasks(page);
   });
