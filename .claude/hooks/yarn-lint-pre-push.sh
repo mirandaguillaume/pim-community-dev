@@ -12,7 +12,9 @@ echo "$COMMAND" | grep -qE 'git\s+push' || exit 0
 
 BASE="origin/master"
 
-CHANGED_FRONT=$(git diff --name-only "$BASE"...HEAD -- '*.js' '*.jsx' '*.ts' '*.tsx' 2>/dev/null || true)
+# Only lint .js/.jsx files with the root eslintrc (which uses @babel/eslint-parser).
+# TypeScript files (.ts/.tsx) are linted by workspace-specific configs via `yarn lint`.
+CHANGED_FRONT=$(git diff --name-only "$BASE"...HEAD -- '*.js' '*.jsx' 2>/dev/null || true)
 [ -z "$CHANGED_FRONT" ] && exit 0
 
 FILE_COUNT=$(echo "$CHANGED_FRONT" | wc -l)
