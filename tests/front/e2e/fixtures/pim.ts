@@ -111,11 +111,13 @@ export async function goToFamilyPage(page: Page, familyCode?: string) {
   await page.locator('.AknHorizontalNavtab-item').first().waitFor({timeout: 30_000});
 }
 
-export async function createProductViaApi(page: Page, sku: string, family: string) {
+export async function createProductViaApi(page: Page, sku: string, family?: string) {
   // Use the internal REST endpoint (session-authenticated) to create a product
+  const data: Record<string, string> = {identifier: sku};
+  if (family) data.family = family;
   const response = await page.request.post('/enrich/product/rest/', {
-    data: {identifier: sku, family},
-    headers: {'Content-Type': 'application/json'},
+    data,
+    headers: {'Content-Type': 'application/json', ...XHR_HEADER},
   });
   return response;
 }
@@ -204,6 +206,101 @@ export async function goToUserGroupEdit(page: Page, groupName?: string) {
   }
 
   await waitForLoadingMasks(page);
+}
+
+const XHR_HEADER = {'X-Requested-With': 'XMLHttpRequest'};
+
+/**
+ * Launch an import job by uploading a file via the internal REST API.
+ * Bypasses the UI upload widget (which is broken in Selenium W3C).
+ * Returns the job execution ID.
+ */
+export async function launchImportViaApi(
+  page: Page,
+  jobCode: string,
+  fileContent: string | Buffer,
+  fileName: string
+): Promise<string> {
+  const buffer = typeof fileContent === 'string' ? Buffer.from(fileContent) : fileContent;
+  const mimeType = fileName.endsWith('.csv')
+    ? 'text/csv'
+    : fileName.endsWith('.xlsx')
+    ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    : 'application/octet-stream';
+
+  const response = await page.request.post(`/job-instance/rest/import/${jobCode}/launch`, {
+    headers: XHR_HEADER,
+    multipart: {
+      file: {name: fileName, mimeType, buffer},
+    },
+  });
+
+  expect(response.ok(), `Launch import ${jobCode} failed: ${response.status()}`).toBeTruthy();
+  const body = await response.json();
+  const match = body.redirectUrl?.match(/\/job\/show\/(\d+)/);
+  expect(match, `No job execution ID in response: ${JSON.stringify(body)}`).toBeTruthy();
+  return match![1];
+}
+
+/**
+ * Poll a job execution via the internal REST API until it finishes.
+ * Returns the full job execution data including step summaries.
+ */
+export async function waitForJobExecutionViaApi(page: Page, jobExecutionId: string, timeout = 120_000): Promise<any> {
+  let data: any;
+  const start = Date.now();
+  while (Date.now() - start < timeout) {
+    const resp = await page.request.get(`/job-execution/rest/${jobExecutionId}`, {
+      headers: XHR_HEADER,
+    });
+    data = await resp.json();
+    if (!data.isRunning) return data;
+    await page.waitForTimeout(2_000);
+  }
+  throw new Error(`Job execution ${jobExecutionId} still running after ${timeout}ms`);
+}
+
+/**
+ * Try multiple candidate job codes and return the first one that exists in the catalog.
+ * Handles catalog-dependent naming (e.g., footwear catalog prefixes codes with "footwear_").
+ */
+export async function resolveJobCode(page: Page, type: 'import' | 'export', ...candidates: string[]): Promise<string> {
+  for (const code of candidates) {
+    const resp = await page.request.get(`/job-instance/rest/${type}/${code}`, {
+      headers: XHR_HEADER,
+    });
+    if (resp.ok()) return code;
+  }
+  throw new Error(`No ${type} job found among candidates: ${candidates.join(', ')}`);
+}
+
+/**
+ * Discover the first available family code from the catalog.
+ */
+export async function getFirstFamilyCode(page: Page): Promise<string | null> {
+  const resp = await page.request.get('/configuration/rest/family', {
+    headers: XHR_HEADER,
+  });
+  if (!resp.ok()) return null;
+  const families = await resp.json();
+  if (Array.isArray(families) && families.length > 0) {
+    return families[0].code;
+  }
+  return null;
+}
+
+/**
+ * Ensure at least one product exists in the catalog by creating one via the internal REST API.
+ * Returns the SKU of the created product, or null if creation was skipped (product already exists).
+ */
+export async function ensureProductExists(page: Page): Promise<string | null> {
+  const family = await getFirstFamilyCode(page);
+  if (!family) return null;
+
+  const sku = `pw-test-${Date.now()}`;
+  const resp = await createProductViaApi(page, sku, family);
+  if (resp.ok()) return sku;
+  return null;
 }
 
 export async function goToProductBySearch(page: Page, sku: string) {
