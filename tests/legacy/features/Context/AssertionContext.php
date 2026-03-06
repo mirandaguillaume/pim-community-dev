@@ -4,9 +4,9 @@ namespace Context;
 
 use Behat\ChainedStepsExtension\Step\Then;
 use Behat\Gherkin\Node\TableNode;
-use Mink\WebdriverClassicDriver\WebdriverClassicDriver;
 use Behat\Mink\Exception\ElementNotFoundException;
 use Behat\Mink\Exception\ExpectationException;
+use Mink\WebdriverClassicDriver\WebdriverClassicDriver;
 use Context\Spin\SpinCapableTrait;
 use PHPUnit\Framework\Assert;
 use Pim\Behat\Context\PimContext;
