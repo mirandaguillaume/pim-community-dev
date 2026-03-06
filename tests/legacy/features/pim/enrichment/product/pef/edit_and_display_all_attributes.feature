@@ -20,6 +20,7 @@ Feature: Edit and see all attributes
     And I press the "Save" button
     Then I should not see the text "There are unsaved changes."
 
+  @skip-behat-migrated-to-playwright
   Scenario: Successfully edit the product and check that all attributes are visible
     Then I should not see the text "Media"
     Then I should not see the text "Colors"

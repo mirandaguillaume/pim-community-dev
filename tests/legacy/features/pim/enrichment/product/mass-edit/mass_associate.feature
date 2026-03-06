@@ -44,6 +44,7 @@ Feature: Associate many products at once
       | 2       | X_SELL-products |        | 1111111292,1111111304 | now  |
     And 3 events of type "product.updated" should have been raised
 
+  @skip-behat-migrated-to-playwright
   Scenario: Mass associate products to product models
     When I sort by "ID" value ascending
     Given I select rows Bag, Belt and Hat

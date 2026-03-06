@@ -41,6 +41,7 @@ Feature: Import media with products
       | frontView  | fanatic-freewave-76.gif |
       | userManual | fanatic-freewave-76.txt |
 
+  @skip-behat-migrated-to-playwright
   Scenario: Successfully upload and import an archive
     Given I am on the "xlsx_footwear_product_import" import job page
     When I upload and import the file "caterpillar_import_xlsx.zip"
