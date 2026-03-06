@@ -36,7 +36,7 @@ const mockedFullList = (generatorsCount?: number): IdentifierGenerator[] => {
 
 describe('ListPage', () => {
   it('should display an informative message when there are no generators yet', () => {
-    jest.mocked(useGetIdentifierGenerators).mockReturnValue({
+    (useGetIdentifierGenerators as jest.Mock).mockReturnValue({
       data: [],
       isLoading: false,
       refetch: jest.fn(),
@@ -51,7 +51,7 @@ describe('ListPage', () => {
   });
 
   it('should display the generators list', async () => {
-    jest.mocked(useGetIdentifierGenerators).mockReturnValue({
+    (useGetIdentifierGenerators as jest.Mock).mockReturnValue({
       data: mockedList,
       isLoading: false,
       refetch: jest.fn(),
@@ -67,7 +67,7 @@ describe('ListPage', () => {
   });
 
   it('should redirect to edit page on list item click', () => {
-    jest.mocked(useGetIdentifierGenerators).mockReturnValue({
+    (useGetIdentifierGenerators as jest.Mock).mockReturnValue({
       data: mockedList,
       isLoading: false,
       refetch: jest.fn(),
@@ -89,7 +89,7 @@ describe('ListPage', () => {
   });
 
   it('should delete a generator', () => {
-    jest.mocked(useGetIdentifierGenerators).mockReturnValue({
+    (useGetIdentifierGenerators as jest.Mock).mockReturnValue({
       data: mockedList,
       isLoading: false,
       refetch: jest.fn(),
@@ -104,7 +104,7 @@ describe('ListPage', () => {
   });
 
   it('should cancel deletion of a generator', () => {
-    jest.mocked(useGetIdentifierGenerators).mockReturnValue({
+    (useGetIdentifierGenerators as jest.Mock).mockReturnValue({
       data: mockedList,
       isLoading: false,
       refetch: jest.fn(),
@@ -120,7 +120,7 @@ describe('ListPage', () => {
 
   it('should not display the create button, or the deletion buttons if ACL is not enabled', async () => {
     mockACLs(true, false);
-    jest.mocked(useGetIdentifierGenerators).mockReturnValue({
+    (useGetIdentifierGenerators as jest.Mock).mockReturnValue({
       data: mockedList,
       isLoading: false,
       refetch: jest.fn(),
@@ -141,7 +141,7 @@ describe('ListPage', () => {
 
   it('should display a specific message for users without manage acl if list is empty', () => {
     mockACLs(true, false);
-    jest.mocked(useGetIdentifierGenerators).mockReturnValue({
+    (useGetIdentifierGenerators as jest.Mock).mockReturnValue({
       data: [],
       isLoading: false,
       refetch: jest.fn(),
@@ -157,7 +157,7 @@ describe('ListPage', () => {
   });
 
   it('should display placeholder if the limit is reached', async () => {
-    jest.mocked(useGetIdentifierGenerators).mockReturnValue({
+    (useGetIdentifierGenerators as jest.Mock).mockReturnValue({
       data: mockedFullList(),
       isLoading: false,
       refetch: jest.fn(),
@@ -179,7 +179,7 @@ describe('ListPage', () => {
   });
 
   it('should search on code or label', async () => {
-    jest.mocked(useGetIdentifierGenerators).mockReturnValue({
+    (useGetIdentifierGenerators as jest.Mock).mockReturnValue({
       data: mockedList,
       isLoading: false,
       refetch: jest.fn(),
@@ -205,7 +205,7 @@ describe('ListPage', () => {
 
   it('cannot reorder if the generators list is filtered', async () => {
     mockACLs(true, true);
-    jest.mocked(useGetIdentifierGenerators).mockReturnValue({
+    (useGetIdentifierGenerators as jest.Mock).mockReturnValue({
       data: mockedFullList(),
       isLoading: false,
       refetch: jest.fn(),
@@ -219,7 +219,7 @@ describe('ListPage', () => {
 
   it('cannot reorder if manage right is not granted', () => {
     mockACLs(true, false);
-    jest.mocked(useGetIdentifierGenerators).mockReturnValue({
+    (useGetIdentifierGenerators as jest.Mock).mockReturnValue({
       data: mockedFullList(),
       isLoading: false,
       refetch: jest.fn(),
@@ -231,7 +231,7 @@ describe('ListPage', () => {
 
   it('should reorder identifier generators', () => {
     mockACLs(true, true);
-    jest.mocked(useGetIdentifierGenerators).mockReturnValue({
+    (useGetIdentifierGenerators as jest.Mock).mockReturnValue({
       data: mockedFullList(5),
       isLoading: false,
       refetch: jest.fn(),

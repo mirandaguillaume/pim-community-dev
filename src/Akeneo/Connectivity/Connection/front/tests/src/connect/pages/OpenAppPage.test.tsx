@@ -19,6 +19,7 @@ beforeEach(() => {
   fetchMock.resetMocks();
   jest.clearAllMocks();
 
+  // eslint-disable-next-line space-unary-ops
   delete (global.window as any).location;
   global.window = Object.create(window);
   global.window.location = {
