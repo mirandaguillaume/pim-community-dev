@@ -35,7 +35,6 @@ coverage/*
 .phpunit.result.cache
 playwright-report/
 test-results/
-.nvmrc
 .yarnrc
 .yarn/
 
