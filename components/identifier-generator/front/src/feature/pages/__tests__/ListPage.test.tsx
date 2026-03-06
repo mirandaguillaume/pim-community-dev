@@ -3,7 +3,6 @@ import {fireEvent, mockACLs, mockResponse, render, screen, waitFor} from '../../
 import {ListPage} from '../ListPage';
 import {IdentifierGenerator, PROPERTY_NAMES, TEXT_TRANSFORMATION} from '../../models';
 import {useGetIdentifierGenerators} from '../../hooks';
-import {mocked} from 'ts-jest/utils';
 import {Router} from 'react-router';
 import {createMemoryHistory} from 'history';
 
@@ -37,7 +36,7 @@ const mockedFullList = (generatorsCount?: number): IdentifierGenerator[] => {
 
 describe('ListPage', () => {
   it('should display an informative message when there are no generators yet', () => {
-    mocked(useGetIdentifierGenerators).mockReturnValue({
+    jest.mocked(useGetIdentifierGenerators).mockReturnValue({
       data: [],
       isLoading: false,
       refetch: jest.fn(),
@@ -52,7 +51,7 @@ describe('ListPage', () => {
   });
 
   it('should display the generators list', async () => {
-    mocked(useGetIdentifierGenerators).mockReturnValue({
+    jest.mocked(useGetIdentifierGenerators).mockReturnValue({
       data: mockedList,
       isLoading: false,
       refetch: jest.fn(),
@@ -68,7 +67,7 @@ describe('ListPage', () => {
   });
 
   it('should redirect to edit page on list item click', () => {
-    mocked(useGetIdentifierGenerators).mockReturnValue({
+    jest.mocked(useGetIdentifierGenerators).mockReturnValue({
       data: mockedList,
       isLoading: false,
       refetch: jest.fn(),
@@ -90,7 +89,7 @@ describe('ListPage', () => {
   });
 
   it('should delete a generator', () => {
-    mocked(useGetIdentifierGenerators).mockReturnValue({
+    jest.mocked(useGetIdentifierGenerators).mockReturnValue({
       data: mockedList,
       isLoading: false,
       refetch: jest.fn(),
@@ -105,7 +104,7 @@ describe('ListPage', () => {
   });
 
   it('should cancel deletion of a generator', () => {
-    mocked(useGetIdentifierGenerators).mockReturnValue({
+    jest.mocked(useGetIdentifierGenerators).mockReturnValue({
       data: mockedList,
       isLoading: false,
       refetch: jest.fn(),
@@ -121,7 +120,7 @@ describe('ListPage', () => {
 
   it('should not display the create button, or the deletion buttons if ACL is not enabled', async () => {
     mockACLs(true, false);
-    mocked(useGetIdentifierGenerators).mockReturnValue({
+    jest.mocked(useGetIdentifierGenerators).mockReturnValue({
       data: mockedList,
       isLoading: false,
       refetch: jest.fn(),
@@ -142,7 +141,7 @@ describe('ListPage', () => {
 
   it('should display a specific message for users without manage acl if list is empty', () => {
     mockACLs(true, false);
-    mocked(useGetIdentifierGenerators).mockReturnValue({
+    jest.mocked(useGetIdentifierGenerators).mockReturnValue({
       data: [],
       isLoading: false,
       refetch: jest.fn(),
@@ -158,7 +157,7 @@ describe('ListPage', () => {
   });
 
   it('should display placeholder if the limit is reached', async () => {
-    mocked(useGetIdentifierGenerators).mockReturnValue({
+    jest.mocked(useGetIdentifierGenerators).mockReturnValue({
       data: mockedFullList(),
       isLoading: false,
       refetch: jest.fn(),
@@ -180,7 +179,7 @@ describe('ListPage', () => {
   });
 
   it('should search on code or label', async () => {
-    mocked(useGetIdentifierGenerators).mockReturnValue({
+    jest.mocked(useGetIdentifierGenerators).mockReturnValue({
       data: mockedList,
       isLoading: false,
       refetch: jest.fn(),
@@ -206,7 +205,7 @@ describe('ListPage', () => {
 
   it('cannot reorder if the generators list is filtered', async () => {
     mockACLs(true, true);
-    mocked(useGetIdentifierGenerators).mockReturnValue({
+    jest.mocked(useGetIdentifierGenerators).mockReturnValue({
       data: mockedFullList(),
       isLoading: false,
       refetch: jest.fn(),
@@ -220,7 +219,7 @@ describe('ListPage', () => {
 
   it('cannot reorder if manage right is not granted', () => {
     mockACLs(true, false);
-    mocked(useGetIdentifierGenerators).mockReturnValue({
+    jest.mocked(useGetIdentifierGenerators).mockReturnValue({
       data: mockedFullList(),
       isLoading: false,
       refetch: jest.fn(),
@@ -232,7 +231,7 @@ describe('ListPage', () => {
 
   it('should reorder identifier generators', () => {
     mockACLs(true, true);
-    mocked(useGetIdentifierGenerators).mockReturnValue({
+    jest.mocked(useGetIdentifierGenerators).mockReturnValue({
       data: mockedFullList(5),
       isLoading: false,
       refetch: jest.fn(),

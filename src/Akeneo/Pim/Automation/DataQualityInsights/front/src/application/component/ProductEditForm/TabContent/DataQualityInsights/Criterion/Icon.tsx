@@ -19,7 +19,7 @@ const Icon: FC<Props> = ({children}) => {
           return child;
         }
 
-        return React.cloneElement(child, {
+        return React.cloneElement(child as React.ReactElement<any>, {
           width: 20,
           height: 20,
         });
