@@ -37,7 +37,8 @@ Feature: Edit product and filter attributes
     And I should not see the text "Weather conditions"
     But I should see the text "Side view"
 
-  @critical
+  @critical @skip
+  # Migrated to Playwright: tests/front/e2e/product/filter-attributes.spec.ts
   Scenario: Edit the product and show only group missing required attributes by clicking on attribute group header
     And I visit the "Product information" group
     And I click on the "info" required attribute indicator

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Hook: PreToolUse on Bash (git commit)
-# Runs ESLint on staged JS/TS files before committing.
+# Runs ESLint on staged JS files before committing.
+# Only .js/.jsx — TypeScript files are linted by workspace-specific configs via `yarn lint`.
 
 set -euo pipefail
 
@@ -10,7 +11,7 @@ COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null) || e
 [ -z "$COMMAND" ] && exit 0
 echo "$COMMAND" | grep -qE 'git\s+commit' || exit 0
 
-STAGED_FRONT=$(git diff --cached --name-only --diff-filter=ACMR -- '*.js' '*.jsx' '*.ts' '*.tsx' 2>/dev/null || true)
+STAGED_FRONT=$(git diff --cached --name-only --diff-filter=ACMR -- '*.js' '*.jsx' 2>/dev/null || true)
 [ -z "$STAGED_FRONT" ] && exit 0
 
 command -v npx >/dev/null 2>&1 || exit 0

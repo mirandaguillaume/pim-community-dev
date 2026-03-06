@@ -11,60 +11,25 @@
           },
           {
             "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/warn-large-diff.sh",
-            "statusMessage": "Checking commit size..."
-          },
-          {
-            "type": "command",
             "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/composer-platform-check.sh",
             "statusMessage": "Checking PHP platform compatibility..."
           },
           {
             "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/cs-fixer-staged.sh",
-            "statusMessage": "Checking code style on staged files...",
-            "timeout": 120
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/block-protection-bypass.sh",
+            "statusMessage": "Checking branch protection safety..."
           },
           {
             "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/phpstan-staged.sh",
-            "statusMessage": "Running PHPStan on staged files...",
-            "timeout": 120
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/pre-commit-checks.sh",
+            "statusMessage": "Running pre-commit checks (PHP/JS only if relevant)...",
+            "timeout": 300
           },
           {
             "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/phpspec-staged.sh",
-            "statusMessage": "Running PHPSpec for staged files...",
-            "timeout": 120
-          },
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/eslint-staged.sh",
-            "statusMessage": "Running ESLint on staged files...",
-            "timeout": 60
-          },
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/jest-staged.sh",
-            "statusMessage": "Running Jest for staged files...",
-            "timeout": 120
-          },
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/no-debug-statements.sh",
-            "statusMessage": "Checking for debug statements..."
-          },
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/coupling-pre-push.sh",
-            "statusMessage": "Checking architecture coupling...",
-            "timeout": 180
-          },
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/yarn-lint-pre-push.sh",
-            "statusMessage": "Running ESLint on changed front files...",
-            "timeout": 60
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/pre-push-checks.sh",
+            "statusMessage": "Running pre-push checks (coupling/lint/Playwright only if relevant)...",
+            "timeout": 300
           }
         ]
       },
@@ -97,6 +62,12 @@
             "type": "command",
             "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/prettier-on-edit.sh",
             "statusMessage": "Prettier auto-format..."
+          },
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/phpspec-on-edit.sh",
+            "statusMessage": "Running related PHPSpec...",
+            "timeout": 45
           }
         ]
       }

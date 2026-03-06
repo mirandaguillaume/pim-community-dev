@@ -10,6 +10,7 @@ Feature: Validate identifier attribute of a product
     And a "bar" product
     And I am logged in as "Mary"
 
+  @skip-behat-migrated-to-playwright
   Scenario: Validate the max characters constraint of identifier attribute
     Given I am on the "sku" attribute page
     And I change the "Max characters" to "10"

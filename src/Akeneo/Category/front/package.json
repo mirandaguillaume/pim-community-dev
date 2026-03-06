@@ -37,6 +37,7 @@
     "test:unit:watch": "react-scripts --openssl-legacy-provider test --maxWorkers=3"
   },
   "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
     "extends": [
       "react-app",
       "react-app/jest"

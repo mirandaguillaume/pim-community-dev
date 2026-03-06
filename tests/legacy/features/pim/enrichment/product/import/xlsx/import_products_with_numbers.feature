@@ -12,6 +12,7 @@ Feature: Import XLSX products with numbers
     And I am logged in as "Julia"
 
   # @info If Excel opens a file containing numeric strings that match its locale config it will be transformed into real numbers
+  @skip-behat-migrated-to-playwright
   Scenario: Successfully import an XLSX file of products with real integers
     Given I am on the "xlsx_footwear_product_import_fr" import job page
     When I upload and import the file "products_with_integers.xlsx"
@@ -20,6 +21,7 @@ Feature: Import XLSX products with numbers
     And attribute number_in_stock of "rangers001" should be "27"
     And attribute number_in_stock of "rangers002" should be "84"
 
+  @skip-behat-migrated-to-playwright
   Scenario: Successfully import an XLSX file of products with real floats with a job expecting comma as decimal separator
     Given I am on the "xlsx_footwear_product_import_fr" import job page
     When I upload and import the file "products_with_floats.xlsx"
@@ -28,6 +30,7 @@ Feature: Import XLSX products with numbers
     And attribute rate_sale of "rangers001" should be "0.87"
     And attribute rate_sale of "rangers002" should be "1.49"
 
+  @skip-behat-migrated-to-playwright
   Scenario: Successfully import an XLSX file of products with numeric strings and valid separators
     Given I am on the "xlsx_footwear_product_import_fr" import job page
     When I upload and import the file "products_with_numeric_strings.xlsx"
@@ -36,6 +39,7 @@ Feature: Import XLSX products with numbers
     And attribute rate_sale of "rangers001" should be "0.87"
     And attribute rate_sale of "rangers002" should be "1.49"
 
+  @skip-behat-migrated-to-playwright
   Scenario: Skip products with numeric strings and invalid separators during an XLSX import
     Given I am on the "xlsx_footwear_product_import_fr" import job page
     When I upload and import the file "products_with_invalid_numeric_strings.xlsx"

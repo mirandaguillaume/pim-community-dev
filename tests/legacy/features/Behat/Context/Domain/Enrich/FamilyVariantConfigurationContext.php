@@ -149,14 +149,31 @@ class FamilyVariantConfigurationContext extends PimContext
      */
     protected function dragElementTo($element, $dropZone)
     {
-        $session = $this->getSession()->getDriver()->getWebDriverSession();
+        $fromXpath = addcslashes($element->getXpath(), "'\\");
+        $toXpath = addcslashes($dropZone->getXpath(), "'\\");
 
-        $from = $session->element('xpath', $element->getXpath());
-        $to = $session->element('xpath', $dropZone->getXpath());
+        $js = <<<JS
+(function() {
+    var from = document.evaluate('{$fromXpath}', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+    var to = document.evaluate('{$toXpath}', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+    if (!from || !to) return;
 
-        $session->moveto(['element' => $from->getID()]);
-        $session->buttondown('');
-        $session->moveto(['element' => $to->getID()]);
-        $session->buttonup('');
+    var fromRect = from.getBoundingClientRect();
+    var toRect = to.getBoundingClientRect();
+    var fromX = fromRect.left + fromRect.width / 2;
+    var fromY = fromRect.top + fromRect.height / 2;
+    var toX = toRect.left + toRect.width / 2;
+    var toY = toRect.top + toRect.height / 2;
+
+    var opts = {bubbles: true, cancelable: true, view: window};
+
+    from.dispatchEvent(new MouseEvent('mousedown', Object.assign({}, opts, {clientX: fromX, clientY: fromY})));
+    from.dispatchEvent(new MouseEvent('mousemove', Object.assign({}, opts, {clientX: fromX, clientY: fromY})));
+    to.dispatchEvent(new MouseEvent('mousemove', Object.assign({}, opts, {clientX: toX, clientY: toY})));
+    to.dispatchEvent(new MouseEvent('mouseup', Object.assign({}, opts, {clientX: toX, clientY: toY})));
+})();
+JS;
+
+        $this->getSession()->executeScript($js);
     }
 }

@@ -86,29 +86,27 @@ legacy:
                 - src/Akeneo/Connectivity/Connection/tests/features/
     extensions:
         Behat\ChainedStepsExtension: ~
+        Pim\Behat\Extension\WebdriverClassicExtension: ~
         Behat\MinkExtension:
             default_session: symfony
             browser_name: 'chrome'
             base_url: 'http://httpd/'
             files_path: 'tests/legacy/features/Context/fixtures/'
-            javascript_session: selenium2
+            javascript_session: webdriver_classic
             sessions:
                 symfony:
                     symfony: ~
-                selenium2:
-                    selenium2:
+                webdriver_classic:
+                    webdriver_classic:
                         wd_host: 'http://selenium:4444/wd/hub'
+                        browser_name: 'chrome'
                         capabilities:
-                            browser: "chrome"
-                            browserName: "chrome"
-                            chrome:
-                                switches:
+                            goog:chromeOptions:
+                                args:
                                     - "--window-size=1280,1024"
                                     - "--start-maximized"
                                     - "--no-sandbox"
                                     - "--headless"
-                                prefs:
-                                    foo: "Just because prefs must be a dictionnary"
         FriendsOfBehat\SymfonyExtension:
             bootstrap: config/bootstrap.php
             kernel:

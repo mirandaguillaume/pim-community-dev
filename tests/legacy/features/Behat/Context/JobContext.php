@@ -93,11 +93,11 @@ class JobContext extends PimContext
     public function theJobExecutionStatusShouldBe(string $jobStatus)
     {
         $page = $this->getCurrentPage();
-        $field = $this->spin(function () use ($page) {
-            return $page->find('css', '[data-testid="job-status"]');
-        }, 'Job execution badge was not found.');
+        $this->spin(function () use ($page, $jobStatus) {
+            $field = $page->find('css', '[data-testid="job-status"]');
 
-        Assert::assertEquals($jobStatus, $field->getText());
+            return $field !== null && $field->getText() === $jobStatus;
+        }, sprintf('Job execution status did not become "%s".', $jobStatus));
     }
 
     /**

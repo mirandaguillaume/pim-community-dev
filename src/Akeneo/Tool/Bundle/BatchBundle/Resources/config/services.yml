@@ -103,7 +103,7 @@ services:
         arguments:
             - '@akeneo_batch.job_parameters_factory'
         tags:
-            - { name: doctrine.orm.entity_listener, lazy: true }
+            - { name: doctrine.orm.entity_listener, entity: 'Akeneo\Tool\Component\Batch\Model\JobExecution', event: postLoad, lazy: true }
 
     Akeneo\Tool\Bundle\BatchBundle\EventListener\PauseJobOnSigtermSubscriber:
         arguments:

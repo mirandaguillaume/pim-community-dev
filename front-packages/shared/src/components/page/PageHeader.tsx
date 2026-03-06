@@ -88,7 +88,7 @@ const buildHeaderElements = (children: ReactNode | undefined, showPlaceholder?: 
         headerElements.breadcrumb = child;
         break;
       case Title:
-        headerElements.title = React.cloneElement(child, {
+        headerElements.title = React.cloneElement(child as React.ReactElement<{showPlaceholder?: boolean}>, {
           showPlaceholder,
         });
         break;

@@ -4,7 +4,7 @@ namespace Context;
 
 use Behat\ChainedStepsExtension\Step\Then;
 use Behat\Gherkin\Node\TableNode;
-use Behat\Mink\Driver\Selenium2Driver;
+use Mink\WebdriverClassicDriver\WebdriverClassicDriver;
 use Behat\Mink\Exception\ElementNotFoundException;
 use Behat\Mink\Exception\ExpectationException;
 use Context\Spin\SpinCapableTrait;
@@ -86,7 +86,7 @@ class AssertionContext extends PimContext
      */
     public function iShouldSeeValidationError($error)
     {
-        if ($this->getSession()->getDriver() instanceof Selenium2Driver) {
+        if ($this->getSession()->getDriver() instanceof WebdriverClassicDriver) {
             $protectedError = addslashes($error);
             $script = 'return $(\'.validation-tooltip[data-original-title="%s"]\').length > 0';
             $found  = $this->getSession()->evaluateScript(sprintf($script, $protectedError));
@@ -123,7 +123,7 @@ class AssertionContext extends PimContext
      */
     public function iShouldNotSeeValidationError($error)
     {
-        if ($this->getSession()->getDriver() instanceof Selenium2Driver) {
+        if ($this->getSession()->getDriver() instanceof WebdriverClassicDriver) {
             $script = 'return $(\'.error-message:contains("%s")\').length > 0';
             $found  = $this->getSession()->evaluateScript(sprintf($script, $error));
             Assert::assertFalse($found, sprintf('Expecting to not see validation error, "%s" found', $error));
@@ -399,7 +399,9 @@ class AssertionContext extends PimContext
             $matchingChange = $this->spin(function () use ($changes, $expectedProperty) {
                 foreach ($changes as $change) {
                     $propertyCell = $change[0];
-                    if ($propertyCell->getText() === $expectedProperty) {
+                    // Normalize whitespace: HTML may render extra spaces between label and locale
+                    $normalizedText = preg_replace('/\s+/', ' ', trim($propertyCell->getText()));
+                    if ($normalizedText === $expectedProperty) {
                         return $change;
                     }
                 }
@@ -409,7 +411,7 @@ class AssertionContext extends PimContext
                 'Can not find change of the property "%s", found %s',
                 $expectedProperty,
                 join(', ', array_map(function ($change) {
-                    return sprintf('"%s"', $change[0]->getText());
+                    return sprintf('"%s"', preg_replace('/\s+/', ' ', trim($change[0]->getText())));
                 }, $changes))
             ));
 
@@ -750,7 +752,13 @@ class AssertionContext extends PimContext
     public function assertPopupMessage($message)
     {
         return $this->spin(function () use ($message) {
-            return $message == $this->getSession()->getDriver()->getWebDriverSession()->getAlert_text();
+            $alertText = $this->getSession()->evaluateScript(
+                "try { return document.querySelector('.modal-body')?.textContent?.trim() || " .
+                "document.querySelector('.AknFullPage .AknFullPage-content')?.textContent?.trim(); } " .
+                "catch(e) { return null; }"
+            );
+
+            return $alertText && str_contains($alertText, $message);
         }, sprintf('Cannot assert that the modal contains %s', $message));
     }
 }

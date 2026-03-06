@@ -8,6 +8,7 @@ Feature: Edit an export
     Given a "footwear" catalog configuration
     And I am logged in as "Peter"
 
+  @skip-behat-migrated-to-playwright
   Scenario: Successfully update export job configuration
     Given I am on the "csv_footwear_product_export" export job edit page
     When I visit the "Global settings" tab
