@@ -74,7 +74,8 @@ class ExternalApiCategory
     {
         self::assertArrayFromDatabase($category);
 
-        $updatedDate = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $category['updated'])->format('c');
+        $updatedDate = (\DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $category['updated'])
+            ?: \DateTimeImmutable::createFromFormat('Y-m-d H:i:s.u', $category['updated']))->format('c');
         $translations = $category['translations'] ? json_decode($category['translations'], true, 512, JSON_THROW_ON_ERROR) : [];
 
         $valueCollection = $category['value_collection'] ? json_decode($category['value_collection'], true, 512, JSON_THROW_ON_ERROR) : null;

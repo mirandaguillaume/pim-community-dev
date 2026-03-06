@@ -32,12 +32,11 @@ class DbalSelectHourlyIntervalsToRefreshQuery
             SQL;
         $dateTimes = $this->dbalConnection->executeQuery($selectSQL)->fetchFirstColumn();
 
+        $format = $this->dbalConnection->getDatabasePlatform()->getDateTimeFormatString();
+
         return \array_map(fn (string $dateTime): HourlyInterval => HourlyInterval::createFromDateTime(
-            \DateTimeImmutable::createFromFormat(
-                $this->dbalConnection->getDatabasePlatform()->getDateTimeFormatString(),
-                $dateTime,
-                new \DateTimeZone('UTC')
-            )
+            \DateTimeImmutable::createFromFormat($format, $dateTime, new \DateTimeZone('UTC'))
+                ?: \DateTimeImmutable::createFromFormat('Y-m-d H:i:s.u', $dateTime, new \DateTimeZone('UTC'))
         ), $dateTimes);
     }
 }
