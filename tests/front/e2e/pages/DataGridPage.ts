@@ -40,8 +40,15 @@ export class DataGridPage {
    * Mirrors the Behat pattern of waiting for loading mask + grid visibility.
    */
   async waitForGridLoaded(): Promise<void> {
-    // Wait for loading mask to disappear (from Grid.php isLoadingMaskVisible)
-    await expect(this.loadingMask).toBeHidden({timeout: 30_000});
+    // Wait for loading mask(s) to disappear (from Grid.php isLoadingMaskVisible).
+    // Multiple .grid-container elements can coexist on the page, so we wait for
+    // every loading mask to be hidden individually rather than using a single
+    // locator assertion (which would fail with "strict mode violation" when
+    // the locator resolves to more than one element).
+    const maskCount = await this.loadingMask.count();
+    for (let i = 0; i < maskCount; i++) {
+      await expect(this.loadingMask.nth(i)).toBeHidden({timeout: 30_000});
+    }
     // Wait for the grid table to be visible
     await expect(this.grid).toBeVisible({timeout: 30_000});
   }
@@ -160,9 +167,14 @@ export class DataGridPage {
    *
    * From Grid.php getToolbarCount():
    *   '.AknGridToolbar-label:contains("record")'
+   *
+   * The label may not be rendered immediately after the grid table appears,
+   * so we wait for it to contain the "record" text before reading the value.
    */
   async getToolbarCount(): Promise<number> {
     const label = this.toolbar.locator('.AknGridToolbar-label');
+    // Wait for the label to contain "record" text (singular or plural)
+    await expect(label).toContainText(/records?/, {timeout: 30_000});
     const text = await label.textContent();
     const match = text?.match(/(\d[\d ]*)\s*records?/);
     return match ? parseInt(match[1].replace(/\s/g, ''), 10) : 0;
@@ -173,8 +185,13 @@ export class DataGridPage {
    *
    * From Base/Index.php:
    *   'Creation link' => ['css' => '.AknTitleContainer .AknButton--apply']
+   *
+   * The title container may still be rendering after the grid table appears,
+   * so we wait for the button to be visible before clicking.
    */
   async clickCreationLink(): Promise<void> {
-    await this.page.locator('.AknTitleContainer .AknButton--apply').click();
+    const btn = this.page.locator('.AknTitleContainer .AknButton--apply');
+    await expect(btn).toBeVisible({timeout: 30_000});
+    await btn.click();
   }
 }

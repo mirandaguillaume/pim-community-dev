@@ -67,6 +67,19 @@ class UTCDateTimeImmutableTypeSpec extends ObjectBehavior
             ->during('convertToPHPValue', [$value, $platform]);
     }
 
+    public function it_converts_a_utc_date_string_with_microseconds_to_a_timezoned_immutable_date_time(AbstractPlatform $platform): void
+    {
+        // MySQL 8.4 returns datetime values with fractional seconds
+        $value = '2021-01-01 00:00:00.000000';
+        $platform->getDateTimeFormatString()
+            ->willReturn('Y-m-d H:i:s');
+
+        $expected = \DateTimeImmutable::createFromFormat(\DateTimeInterface::ATOM, '2020-12-31T16:00:00-08:00');
+
+        $this->convertToPHPValue($value, $platform)
+            ->shouldBeLike($expected);
+    }
+
     public function it_doesnt_convert_null_values(AbstractPlatform $platform): void
     {
         $this->convertToDatabaseValue(null, $platform)

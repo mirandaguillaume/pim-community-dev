@@ -108,7 +108,13 @@ test.describe('@critical Category tree', () => {
     // From create_a_category.feature:
     //   "I should see the text '[shoe]'"
     //   "I should see the text 'successfully created'"
-    await expect(page.getByText(`[${uniqueCode}]`).or(page.getByText(uniqueCode))).toBeVisible({timeout: 15_000});
+    // Verify the tree code appears on the page. Use .first() because the code
+    // text can appear in multiple places (page title, tree list, flash message)
+    // which causes Playwright strict-mode violations when the locator resolves
+    // to more than one element.
+    await expect(page.getByText(`[${uniqueCode}]`).or(page.getByText(uniqueCode)).first()).toBeVisible({
+      timeout: 15_000,
+    });
     await expect(page.getByText('successfully created')).toBeVisible({timeout: 10_000});
   });
 
