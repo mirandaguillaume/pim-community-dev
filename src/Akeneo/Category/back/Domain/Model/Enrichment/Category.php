@@ -63,7 +63,10 @@ class Category
             parentId: $category['parent_id'] ? new CategoryId((int) $category['parent_id']) : null,
             parentCode: isset($category['parent_code']) ? new Code($category['parent_code']) : null,
             rootId: $category['root_id'] ? new CategoryId((int) $category['root_id']) : null,
-            updated: $category['updated'] ? \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $category['updated']) : null,
+            updated: $category['updated']
+                ? (\DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $category['updated'])
+                    ?: \DateTimeImmutable::createFromFormat('Y-m-d H:i:s.u', $category['updated']))
+                : null,
             attributes: $category['value_collection']
                 ? ValueCollection::fromDatabase(json_decode($category['value_collection'], true, 512, JSON_THROW_ON_ERROR)) : null,
             permissions: PermissionCollection::fromArray($permissions),
