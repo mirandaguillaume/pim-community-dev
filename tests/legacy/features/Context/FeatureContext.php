@@ -3,8 +3,8 @@
 namespace Context;
 
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
-use Mink\WebdriverClassicDriver\WebdriverClassicDriver;
 use Behat\Mink\Exception\ExpectationException;
+use Mink\WebdriverClassicDriver\WebdriverClassicDriver;
 use Behat\MinkExtension\Context\MinkContext;
 use Behat\Testwork\Counter\Exception\TimerException;
 use Context\Spin\SpinCapableTrait;
