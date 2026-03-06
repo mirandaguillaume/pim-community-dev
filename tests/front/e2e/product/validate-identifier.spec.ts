@@ -1,5 +1,5 @@
 import {test, expect} from '@playwright/test';
-import {login, waitForLoadingMasks} from '../fixtures/pim';
+import {login, waitForLoadingMasks, createProductViaApi, getFirstFamilyCode} from '../fixtures/pim';
 
 /**
  * Replaces Behat: validate_identifier_attribute.feature:13,22
@@ -7,38 +7,50 @@ import {login, waitForLoadingMasks} from '../fixtures/pim';
  * Tests that identifier attribute validation constraints (max chars) are
  * enforced when saving a product. Uses the Settings > Attributes page to
  * configure the constraint, then verifies the error on product save.
- *
- * Requires: "default" catalog with SKU attribute and at least one product.
  */
 
 async function navigateToSkuAttribute(page: import('@playwright/test').Page) {
-  await page.getByRole('menuitem', {name: 'Settings'}).click();
+  // Navigate directly to the SKU attribute edit page via hash routing.
+  // This avoids all grid navigation race conditions (menu clicks, search filters,
+  // cached grid state) by going straight to the attribute edit form.
+  await page.evaluate(() => {
+    window.location.hash = '#/configuration/attribute/sku/edit';
+  });
+
+  // Wait for the attribute form to load — the Properties tab must be visible
+  await expect(page.getByText('Properties').first()).toBeVisible({timeout: 30_000});
   await waitForLoadingMasks(page);
+}
 
-  await page.getByRole('menuitem', {name: 'Attributes'}).click();
+/** Create a product via the internal API and return its UUID */
+async function createProduct(page: import('@playwright/test').Page): Promise<string> {
+  const family = await getFirstFamilyCode(page);
+  // Keep SKU short (≤10 chars) to avoid conflicts with max_characters constraints on the sku attribute
+  const sku = `pw${Date.now().toString(36).slice(-6)}`;
+  const resp = await createProductViaApi(page, sku, family ?? undefined);
 
-  await page.waitForResponse(resp => resp.url().includes('/datagrid/attribute-grid') && resp.status() === 200);
-
-  const gridRows = page.getByRole('row').filter({has: page.getByRole('cell')});
-  await gridRows.first().waitFor({timeout: 30_000});
-
-  // Search for SKU — the grid may span multiple pages
-  const searchInput = page.getByRole('textbox', {name: /search by code or label/i});
-  await searchInput.fill('sku');
-  await searchInput.press('Enter');
-  await page.waitForResponse(resp => resp.url().includes('/datagrid/attribute-grid') && resp.status() === 200);
-  await gridRows.first().waitFor({timeout: 15_000});
-
-  // Click the Edit link on the SKU row
-  const skuRow = gridRows.filter({hasText: /sku/i}).first();
-  await skuRow.waitFor({state: 'visible', timeout: 10_000});
-
-  const editLink = skuRow.getByRole('link', {name: /edit/i});
-  if (await editLink.isVisible({timeout: 3_000}).catch(() => false)) {
-    await editLink.click();
-  } else {
-    await skuRow.click();
+  if (!resp.ok()) {
+    throw new Error(`Failed to create product via API: ${resp.status()} ${await resp.text()}`);
   }
+
+  const body = await resp.json();
+  const uuid = body?.meta?.id ?? body?.uuid ?? body?.identifier;
+
+  if (!uuid) {
+    throw new Error(`Product created but no UUID returned: ${JSON.stringify(body).slice(0, 500)}`);
+  }
+
+  return uuid;
+}
+
+/** Navigate to a product's PEF by UUID using full page navigation */
+async function navigateToProduct(page: import('@playwright/test').Page, uuid: string) {
+  // The Akeneo PEF route is /enrich/product/{uuid} (not /enrich/product/uuid/{uuid})
+  const productResponsePromise = page.waitForResponse(
+    r => /\/enrich\/product(-model)?\/rest\//.test(r.url()) && r.status() === 200
+  );
+  await page.goto(`/#/enrich/product/${uuid}`);
+  await productResponsePromise;
   await waitForLoadingMasks(page);
 }
 
@@ -57,38 +69,36 @@ test.describe('Identifier attribute validation', () => {
   });
 
   test('Max characters validation shows error on product save', async ({page}) => {
+    // First, clear any leftover max_characters constraint from previous failed runs
     await navigateToSkuAttribute(page);
+    const preCleanField = page.getByRole('textbox', {name: /max characters/i});
+    await expect(preCleanField).toBeVisible({timeout: 10_000});
+    const currentVal = await preCleanField.inputValue();
+    if (currentVal !== '') {
+      await preCleanField.clear();
+      await page.getByText('Save').first().click();
+      await waitForLoadingMasks(page);
+      await expect(page.getByText(/unsaved changes/i)).toBeHidden({timeout: 15_000});
+    }
 
-    // Set max characters to 10
+    // Create a product via API (before setting constraint, to avoid SKU length rejection)
+    const productUuid = await createProduct(page);
+
+    // Set max characters to 10 on the SKU attribute
+    await navigateToSkuAttribute(page);
     const maxCharsField = page.getByRole('textbox', {name: /max characters/i});
     await expect(maxCharsField).toBeVisible({timeout: 10_000});
     await maxCharsField.clear();
     await maxCharsField.fill('10');
-
-    // Save the attribute
-    const savePromise = page.waitForResponse(
-      resp => resp.url().includes('/configuration/rest/attribute/') && resp.request().method() === 'POST'
-    );
     await page.getByText('Save').first().click();
-    await savePromise;
     await waitForLoadingMasks(page);
+    await expect(page.getByText(/unsaved changes/i)).toBeHidden({timeout: 15_000});
 
-    await expect(page.getByText(/unsaved changes/i)).toBeHidden({timeout: 10_000});
+    // Navigate to the product and enter a SKU longer than 10 characters
+    await navigateToProduct(page, productUuid);
 
-    // Navigate to a product and open the first one
-    await page.getByRole('menuitem', {name: 'Products'}).click();
-    await page.waitForResponse(
-      resp => resp.url().includes('/datagrid/product-grid') && !resp.url().includes('/datagrid_view/')
-    );
-    await page.locator('tr.AknGrid-bodyRow:has(td)').first().waitFor({timeout: 30_000});
-    await page.locator('tr.AknGrid-bodyRow:has(td)').first().click();
-    await page.waitForResponse(resp => /\/enrich\/product(-model)?\/rest\//.test(resp.url()) && resp.status() === 200);
-
-    // Enter a SKU longer than 10 characters
     const skuField = page.getByRole('textbox', {name: /sku/i}).first();
     await expect(skuField).toBeVisible({timeout: 15_000});
-    const originalSku = await skuField.inputValue();
-
     await skuField.clear();
     await skuField.fill('sku-00000000000');
 
@@ -97,10 +107,6 @@ test.describe('Identifier attribute validation', () => {
     await expect(page.getByText(/must not contain more than 10 characters|too long/i).first()).toBeVisible({
       timeout: 15_000,
     });
-
-    // Restore original SKU
-    await skuField.clear();
-    await skuField.fill(originalSku);
 
     // Reset the max characters constraint to not break other tests
     await navigateToSkuAttribute(page);

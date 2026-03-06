@@ -115,7 +115,7 @@ export async function createProductViaApi(page: Page, sku: string, family?: stri
   // Use the internal REST endpoint (session-authenticated) to create a product
   const data: Record<string, string> = {identifier: sku};
   if (family) data.family = family;
-  const response = await page.request.post('/enrich/product/rest/', {
+  const response = await page.request.post('/enrich/product/rest', {
     data,
     headers: {'Content-Type': 'application/json', ...XHR_HEADER},
   });
