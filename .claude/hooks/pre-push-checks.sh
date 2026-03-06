@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Hook: PreToolUse on Bash (git push)
 # Consolidated pre-push checks — runs only the checks relevant to changed file types.
-# Replaces: coupling-pre-push, yarn-lint-pre-push, playwright-pre-push
+# Playwright section BLOCKS the push if any test fails (starts PIM if needed).
 
 set -euo pipefail
 
@@ -11,8 +11,17 @@ COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null) || e
 [ -z "$COMMAND" ] && exit 0
 echo "$COMMAND" | grep -qE 'git\s+push' || exit 0
 
-BASE="origin/master"
 WARNINGS=""
+BLOCK=""
+
+# Compare against remote tracking branch if it exists (unpushed commits only),
+# otherwise fall back to origin/master (entire branch diff).
+REMOTE_BRANCH=$(git rev-parse --abbrev-ref --symbolic-full-name "@{upstream}" 2>/dev/null || true)
+if [ -n "$REMOTE_BRANCH" ]; then
+    BASE="$REMOTE_BRANCH"
+else
+    BASE="origin/master"
+fi
 
 # ── Detect changed file types ──
 CHANGED_PHP=$(git diff --name-only "$BASE"...HEAD -- '*.php' 2>/dev/null || true)
@@ -46,22 +55,54 @@ if [ -n "$CHANGED_JS" ] && command -v npx >/dev/null 2>&1; then
     fi
 fi
 
-# ── 3. Playwright (only if spec.ts or fixture files changed) ──
+# ── 3. Playwright (BLOCKING — only runs specs directly modified in the branch) ──
+# When only fixtures changed (no spec files), warn but don't block — the full
+# suite runs in CI. Running all specs locally for a fixture change is too slow
+# and unrelated failures would block the push.
 if [ -z "$CHANGED_SPECS" ] && [ -n "$CHANGED_FIXTURES" ]; then
-    CHANGED_SPECS=$(find tests/front/e2e -name '*.spec.ts' 2>/dev/null || true)
+    WARNINGS="$WARNINGS\n- PLAYWRIGHT: fixture files changed but no specs modified — full suite will run in CI"
 fi
 if [ -n "$CHANGED_SPECS" ] && command -v npx >/dev/null 2>&1; then
-    SPEC_COUNT=$(echo "$CHANGED_SPECS" | wc -l)
-    RESULT=$(npx playwright test --reporter=line $CHANGED_SPECS 2>&1 || true)
-    PASSED=$(echo "$RESULT" | grep -oP '\d+ passed' | head -1 || echo "0 passed")
-    FAILED=$(echo "$RESULT" | grep -oP '\d+ failed' | head -1 || true)
-    SKIPPED=$(echo "$RESULT" | grep -oP '\d+ skipped' | head -1 || true)
-    if [ -n "$FAILED" ]; then
-        WARNINGS="$WARNINGS\n- PLAYWRIGHT: $FAILED ($PASSED, $SKIPPED) — $SPEC_COUNT spec(s) tested"
+    # Ensure PIM is running — start it if not
+    PIM_WAS_DOWN=""
+    if ! curl -sf -o /dev/null --max-time 5 http://localhost:8080/user/login 2>/dev/null; then
+        PIM_WAS_DOWN="1"
+        docker compose up -d 2>/dev/null
+        # Wait for PIM to be ready (login page responds)
+        TRIES=0
+        MAX_TRIES=60
+        while [ $TRIES -lt $MAX_TRIES ]; do
+            if curl -sf -o /dev/null --max-time 3 http://localhost:8080/user/login 2>/dev/null; then
+                break
+            fi
+            sleep 5
+            TRIES=$((TRIES + 1))
+        done
+        if [ $TRIES -eq $MAX_TRIES ]; then
+            WARNINGS="$WARNINGS\n- PLAYWRIGHT: PIM failed to start after ${MAX_TRIES}x5s — skipped"
+            # Don't block if PIM can't start — just warn
+            CHANGED_SPECS=""
+        fi
+    fi
+
+    if [ -n "$CHANGED_SPECS" ]; then
+        SPEC_COUNT=$(echo "$CHANGED_SPECS" | wc -l)
+        RESULT=$(npx playwright test --reporter=line $CHANGED_SPECS 2>&1 || true)
+        PASSED=$(echo "$RESULT" | grep -oP '\d+ passed' | head -1 || echo "0 passed")
+        FAILED=$(echo "$RESULT" | grep -oP '\d+ failed' | head -1 || true)
+        SKIPPED=$(echo "$RESULT" | grep -oP '\d+ skipped' | head -1 || true)
+        if [ -n "$FAILED" ]; then
+            BLOCK="PLAYWRIGHT: $FAILED ($PASSED, ${SKIPPED:-0 skipped}) — $SPEC_COUNT spec(s) tested. Fix the failing tests before pushing."
+        fi
     fi
 fi
 
 # ── Output ──
+if [ -n "$BLOCK" ]; then
+    echo "{\"decision\":\"block\",\"reason\":\"$BLOCK\"}"
+    exit 0
+fi
+
 if [ -n "$WARNINGS" ]; then
     echo "{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"additionalContext\":\"PRE-PUSH CHECKS:$WARNINGS\"}}"
 fi
