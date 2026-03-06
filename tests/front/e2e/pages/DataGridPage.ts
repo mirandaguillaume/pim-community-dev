@@ -168,6 +168,9 @@ export class DataGridPage {
    *
    * From Grid.php getToolbarCount():
    *   '.AknGridToolbar-label:contains("record")'
+   *
+   * The label may not be rendered immediately after the grid table appears,
+   * so we wait for it to contain the "record" text before reading the value.
    */
   async getToolbarCount(): Promise<number> {
     // The "N records" label is rendered by pagination.js as a <label> inside
@@ -187,6 +190,9 @@ export class DataGridPage {
    *
    * From Base/Index.php:
    *   'Creation link' => ['css' => '.AknTitleContainer .AknButton--apply']
+   *
+   * The title container may still be rendering after the grid table appears,
+   * so we wait for the button to be visible before clicking.
    */
   async clickCreationLink(): Promise<void> {
     // Try the legacy selector first, fall back to the "Create" button text
