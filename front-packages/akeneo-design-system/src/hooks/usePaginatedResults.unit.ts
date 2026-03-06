@@ -9,7 +9,7 @@ const fetcher = jest.fn(
     })
 );
 
-jest.useFakeTimers();
+jest.useFakeTimers({doNotFake: ['nextTick']});
 
 const flushPromises = () => new Promise(resolve => process.nextTick(resolve));
 
