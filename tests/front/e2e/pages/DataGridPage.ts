@@ -40,8 +40,15 @@ export class DataGridPage {
    * Mirrors the Behat pattern of waiting for loading mask + grid visibility.
    */
   async waitForGridLoaded(): Promise<void> {
-    // Wait for loading mask to disappear (from Grid.php isLoadingMaskVisible)
-    await expect(this.loadingMask).toBeHidden({timeout: 30_000});
+    // Wait for loading mask(s) to disappear (from Grid.php isLoadingMaskVisible).
+    // Multiple .grid-container elements can coexist on the page, so we wait for
+    // every loading mask to be hidden individually rather than using a single
+    // locator assertion (which would fail with "strict mode violation" when
+    // the locator resolves to more than one element).
+    const maskCount = await this.loadingMask.count();
+    for (let i = 0; i < maskCount; i++) {
+      await expect(this.loadingMask.nth(i)).toBeHidden({timeout: 30_000});
+    }
     // Wait for the grid table to be visible
     await expect(this.grid).toBeVisible({timeout: 30_000});
   }

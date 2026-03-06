@@ -4,12 +4,12 @@ namespace Context;
 
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Mink\Exception\ExpectationException;
-use Mink\WebdriverClassicDriver\WebdriverClassicDriver;
 use Behat\MinkExtension\Context\MinkContext;
 use Behat\Testwork\Counter\Exception\TimerException;
 use Context\Spin\SpinCapableTrait;
 use Context\Spin\TimeoutException;
 use Doctrine\Persistence\ObjectManager;
+use Mink\WebdriverClassicDriver\WebdriverClassicDriver;
 use Pim\Behat\Context\AttributeValidationContext;
 use Pim\Behat\Context\Domain\Collect\ImportProfilesContext;
 use Pim\Behat\Context\Domain\Enrich\AttributeTabContext;
