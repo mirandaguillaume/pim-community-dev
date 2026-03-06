@@ -9,53 +9,46 @@ import {login, waitForLoadingMasks} from '../fixtures/pim';
  * configure the constraint, then verifies the error on product save.
  */
 
+async function navigateToSkuAttribute(page: import('@playwright/test').Page) {
+  // Navigate to Settings > Attributes
+  await page.getByRole('menuitem', {name: 'Settings'}).click();
+  await waitForLoadingMasks(page);
+
+  await page.getByRole('menuitem', {name: 'Attributes'}).click();
+
+  // Wait for the attribute grid to load
+  await page.waitForResponse(resp => resp.url().includes('/datagrid/attribute-grid') && resp.status() === 200);
+
+  const gridRows = page.getByRole('row').filter({has: page.getByRole('cell')});
+  await gridRows.first().waitFor({timeout: 30_000});
+
+  // Search for SKU — the grid has 77+ attributes on multiple pages
+  const searchInput = page.getByRole('textbox', {name: /search by code or label/i});
+  await searchInput.fill('sku');
+  await searchInput.press('Enter');
+  await page.waitForResponse(resp => resp.url().includes('/datagrid/attribute-grid') && resp.status() === 200);
+  await gridRows.first().waitFor({timeout: 15_000});
+
+  // Click the Edit link on the SKU row
+  const skuRow = gridRows.filter({hasText: /sku/i}).first();
+  await skuRow.waitFor({state: 'visible', timeout: 10_000});
+
+  const editLink = skuRow.getByRole('link', {name: /edit/i});
+  if (await editLink.isVisible({timeout: 3_000}).catch(() => false)) {
+    await editLink.click();
+  } else {
+    await skuRow.click();
+  }
+  await waitForLoadingMasks(page);
+}
+
 test.describe('Identifier attribute validation', () => {
   test.beforeEach(async ({page}) => {
     await login(page, 'admin', 'admin');
   });
 
   test('Identifier attribute page loads and shows properties', async ({page}) => {
-    // Navigate to Settings > Attributes
-    await page.getByRole('menuitem', {name: 'Settings'}).click();
-    await waitForLoadingMasks(page);
-
-    // Click on Attributes in the settings menu
-    const attrLink = page.getByText('Attributes').first();
-    await attrLink.waitFor({timeout: 15_000});
-    await attrLink.click();
-
-    // Wait for the attribute grid to load
-    const gridPromise = page.waitForResponse(
-      resp => resp.url().includes('/datagrid/attribute-grid') && resp.status() === 200
-    );
-    await gridPromise;
-
-    const gridRows = page.getByRole('row').filter({has: page.getByRole('cell')});
-    await gridRows.first().waitFor({timeout: 30_000});
-
-    // Find the SKU (identifier) attribute row
-    const skuRow = gridRows.filter({hasText: /^sku$/i}).first();
-    const hasSkuRow = await skuRow.isVisible({timeout: 5_000}).catch(() => false);
-
-    if (!hasSkuRow) {
-      // Try searching for it
-      const searchInput = page.locator('.search-zone input, .AknFilterBox-search input');
-      if (await searchInput.isVisible({timeout: 3_000}).catch(() => false)) {
-        await searchInput.fill('sku');
-        await searchInput.press('Enter');
-        await page.waitForResponse(resp => resp.url().includes('/datagrid/attribute-grid'));
-        await gridRows.first().waitFor({timeout: 15_000});
-      }
-    }
-
-    // Click on the SKU attribute to open its edit page
-    const editLink = gridRows.filter({hasText: /sku/i}).first().getByRole('link', {name: /edit/i});
-    if (await editLink.isVisible({timeout: 5_000}).catch(() => false)) {
-      await editLink.click();
-    } else {
-      await gridRows.filter({hasText: /sku/i}).first().click();
-    }
-    await waitForLoadingMasks(page);
+    await navigateToSkuAttribute(page);
 
     // Verify the attribute page loaded with properties
     await expect(page.getByText('Properties').first()).toBeVisible({timeout: 15_000});
@@ -67,32 +60,11 @@ test.describe('Identifier attribute validation', () => {
   });
 
   test('Max characters validation shows error on product save', async ({page}) => {
-    // Navigate to Settings > Attributes > SKU
-    await page.getByRole('menuitem', {name: 'Settings'}).click();
-    await waitForLoadingMasks(page);
-    await page.getByText('Attributes').first().click();
+    await navigateToSkuAttribute(page);
 
-    const gridPromise = page.waitForResponse(
-      resp => resp.url().includes('/datagrid/attribute-grid') && resp.status() === 200
-    );
-    await gridPromise;
-
-    const gridRows = page.getByRole('row').filter({has: page.getByRole('cell')});
-    await gridRows.first().waitFor({timeout: 30_000});
-
-    // Open SKU attribute edit page
-    const editLink = gridRows.filter({hasText: /sku/i}).first().getByRole('link', {name: /edit/i});
-    if (await editLink.isVisible({timeout: 5_000}).catch(() => false)) {
-      await editLink.click();
-    } else {
-      await gridRows.filter({hasText: /sku/i}).first().click();
-    }
-    await waitForLoadingMasks(page);
-
-    // Check if "Max characters" field exists (it may not in all Akeneo versions)
+    // Check if "Max characters" field exists
     const maxCharsField = page.getByRole('textbox', {name: /max characters/i});
     if (!(await maxCharsField.isVisible({timeout: 5_000}).catch(() => false))) {
-      // Try scrolling or looking for the field by label
       const maxCharsLabel = page.getByText(/max characters/i).first();
       if (!(await maxCharsLabel.isVisible({timeout: 3_000}).catch(() => false))) {
         test.skip(true, 'Max characters field not available on this attribute');
@@ -148,32 +120,7 @@ test.describe('Identifier attribute validation', () => {
     await skuField.fill(originalSku);
 
     // Reset the max characters constraint
-    await page.getByRole('menuitem', {name: 'Settings'}).click();
-    await waitForLoadingMasks(page);
-    await page.getByText('Attributes').first().click();
-    await page.waitForResponse(resp => resp.url().includes('/datagrid/attribute-grid'));
-    await page
-      .getByRole('row')
-      .filter({has: page.getByRole('cell')})
-      .first()
-      .waitFor({timeout: 30_000});
-    const resetLink = page
-      .getByRole('row')
-      .filter({has: page.getByRole('cell')})
-      .filter({hasText: /sku/i})
-      .first()
-      .getByRole('link', {name: /edit/i});
-    if (await resetLink.isVisible({timeout: 5_000}).catch(() => false)) {
-      await resetLink.click();
-    } else {
-      await page
-        .getByRole('row')
-        .filter({has: page.getByRole('cell')})
-        .filter({hasText: /sku/i})
-        .first()
-        .click();
-    }
-    await waitForLoadingMasks(page);
+    await navigateToSkuAttribute(page);
 
     const resetField = page.getByRole('textbox', {name: /max characters/i});
     if (await resetField.isVisible({timeout: 5_000}).catch(() => false)) {
