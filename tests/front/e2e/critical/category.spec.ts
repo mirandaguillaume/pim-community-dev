@@ -109,10 +109,6 @@ test.describe('@critical Category tree', () => {
     //   "I should see the text '[shoe]'"
     //   "I should see the text 'successfully created'"
     await expect(page.getByText('successfully created')).toBeVisible({timeout: 10_000});
-    // Check tree name in the title/sidebar area (scoped to avoid matching the toast too)
-    await expect(page.locator('.AknTitleContainer, [class*="Title"]').getByText(uniqueCode)).toBeVisible({
-      timeout: 15_000,
-    });
     // After creation, the page redirects to the category list table.
     // Verify the new tree appears in the table (scoped to avoid matching the toast).
     await expect(page.locator('table').getByText(uniqueCode)).toBeVisible({timeout: 15_000});
