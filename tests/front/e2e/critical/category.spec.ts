@@ -108,14 +108,11 @@ test.describe('@critical Category tree', () => {
     // From create_a_category.feature:
     //   "I should see the text '[shoe]'"
     //   "I should see the text 'successfully created'"
-    // Verify the tree code appears on the page. Use .first() because the code
-    // text can appear in multiple places (page title, tree list, flash message)
-    // which causes Playwright strict-mode violations when the locator resolves
-    // to more than one element.
-    await expect(page.getByText(`[${uniqueCode}]`).or(page.getByText(uniqueCode)).first()).toBeVisible({
+    await expect(page.getByText('successfully created')).toBeVisible({timeout: 10_000});
+    // Check tree name in the title/sidebar area (scoped to avoid matching the toast too)
+    await expect(page.locator('.AknTitleContainer, [class*="Title"]').getByText(uniqueCode)).toBeVisible({
       timeout: 15_000,
     });
-    await expect(page.getByText('successfully created')).toBeVisible({timeout: 10_000});
     // After creation, the page redirects to the category list table.
     // Verify the new tree appears in the table (scoped to avoid matching the toast).
     await expect(page.locator('table').getByText(uniqueCode)).toBeVisible({timeout: 15_000});
