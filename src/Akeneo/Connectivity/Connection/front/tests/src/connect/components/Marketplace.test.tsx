@@ -365,7 +365,7 @@ test('The search input filters custom apps, apps and extensions', async () => {
 
     const searchInput = screen.getByPlaceholderText(
         'akeneo_connectivity.connection.connect.marketplace.search.placeholder'
-    ) as HTMLInputElement;
+    );
 
     await act(async () => {
         await userEvent.type(searchInput, 'second', {delay: 0.00001});

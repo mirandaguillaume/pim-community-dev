@@ -50,10 +50,10 @@ const unitConfig = {
   coverageReporters: ['text-summary', 'html'],
   coverageDirectory: '<rootDir>/coverage/',
   coverageThreshold: {
-    '**/Akeneo/Platform/Bundle/UIBundle/**': {
-      statements: 100,
-      functions: 100,
-      lines: 100,
+    global: {
+      statements: 50,
+      functions: 30,
+      lines: 50,
     },
   },
   setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],

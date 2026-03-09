@@ -4,10 +4,10 @@ namespace Pim\Behat\Context;
 
 use Behat\Behat\Hook\Scope\AfterScenarioScope;
 use Behat\Behat\Hook\Scope\AfterStepScope;
-use Mink\WebdriverClassicDriver\WebdriverClassicDriver;
 use Behat\Testwork\Tester\Result\TestResult;
 use Context\FeatureContext;
 use Doctrine\Persistence\ManagerRegistry;
+use Mink\WebdriverClassicDriver\WebdriverClassicDriver;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;

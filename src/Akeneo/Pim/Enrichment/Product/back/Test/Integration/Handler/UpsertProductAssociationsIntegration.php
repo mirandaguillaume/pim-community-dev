@@ -296,7 +296,7 @@ class UpsertProductAssociationsIntegration extends EnrichmentProductTestCase
         Assert::assertEqualsCanonicalizing(
             ['my_product'],
             $myProductModel->getAssociatedProducts('TWO_WAY')
-                ?->map(fn(ProductInterface $product): string => $product->getIdentifier())
+                ?->map(fn (ProductInterface $product): string => $product->getIdentifier())
                 ?->toArray() ?? []
         );
         Assert::assertEqualsCanonicalizing(['group1'], $this->getAssociatedGroupIdentifiers($myProduct, 'TWO_WAY'));
@@ -323,7 +323,7 @@ class UpsertProductAssociationsIntegration extends EnrichmentProductTestCase
     private function getAssociatedGroupIdentifiers(ProductInterface $product, string $associationType = 'X_SELL'): array
     {
         return $product->getAssociatedGroups($associationType)
-                ?->map(fn(GroupInterface $group): string => (string) $group->getCode())
+                ?->map(fn (GroupInterface $group): string => (string) $group->getCode())
                 ?->toArray() ?? [];
     }
 }

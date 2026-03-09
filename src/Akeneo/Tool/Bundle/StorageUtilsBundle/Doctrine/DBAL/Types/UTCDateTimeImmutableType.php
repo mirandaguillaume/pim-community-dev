@@ -40,6 +40,15 @@ class UTCDateTimeImmutableType extends DateTimeImmutableType
         );
 
         if (!$converted) {
+            // MySQL 8.4 returns datetime values with fractional seconds (e.g. "2024-01-01 00:00:00.000000")
+            $converted = \DateTimeImmutable::createFromFormat(
+                'Y-m-d H:i:s.u',
+                $value,
+                self::getUtc()
+            );
+        }
+
+        if (!$converted) {
             throw ConversionException::conversionFailedFormat(
                 $value,
                 'datetime_immutable',

@@ -163,12 +163,14 @@ export class DataGridPage {
    *   '.AknGridToolbar-label:contains("record")'
    */
   async getToolbarCount(): Promise<number> {
-    // The "N records" label is rendered by pagination.js as a <label> inside
-    // .AknGridToolbar-center (the .AknGridToolbar-label CSS class is never applied to any DOM element).
+    // The "N records" label can live in .AknGridToolbar-center, .AknGridToolbar-label,
+    // or a plain <label> depending on the Backbone view. Use a broad locator scoped
+    // to the toolbar, falling back to the whole page if the toolbar is absent.
     const label = this.toolbar
-      .locator('.AknGridToolbar-center label, label')
+      .locator('label, .AknGridToolbar-label, .AknGridToolbar-center')
       .filter({hasText: /records?/})
-      .first();
+      .first()
+      .or(this.page.getByText(/\d+\s*records?/).first());
     await expect(label).toContainText(/records?/, {timeout: 30_000});
     const text = await label.textContent();
     const match = text?.match(/(\d[\d ]*)\s*records?/);

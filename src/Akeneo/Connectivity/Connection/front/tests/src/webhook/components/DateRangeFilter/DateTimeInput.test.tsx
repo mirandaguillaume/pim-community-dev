@@ -28,10 +28,10 @@ test('it selects the datetime and returns the timestamp', () => {
 
     renderDateTimeInput({onChange, defaultTime: '00:00'}, {timeZone: 'UTC'});
 
-    const dateInput = screen.getByLabelText('Date') as HTMLInputElement;
+    const dateInput = screen.getByLabelText<HTMLInputElement>('Date');
     expect(dateInput.value).toBe('');
 
-    const timeInput = screen.getByLabelText('Time') as HTMLInputElement;
+    const timeInput = screen.getByLabelText<HTMLInputElement>('Time');
     expect(timeInput.value).toBe('');
 
     fireEvent.change(dateInput, {target: {value: '1970-01-01'}});
@@ -49,11 +49,11 @@ test('it returns the timestamp when the date is selected (using the default time
 
     renderDateTimeInput({onChange, defaultTime: '00:00'}, {timeZone: 'UTC'});
 
-    const dateInput = screen.getByLabelText('Date') as HTMLInputElement;
+    const dateInput = screen.getByLabelText<HTMLInputElement>('Date');
     fireEvent.change(dateInput, {target: {value: '1970-01-01'}});
     expect(dateInput.value).toBe('1970-01-01');
 
-    const timeInput = screen.getByLabelText('Time') as HTMLInputElement;
+    const timeInput = screen.getByLabelText<HTMLInputElement>('Time');
     expect(timeInput.value).toBe('00:00');
 
     expect(onChange).toHaveBeenCalledTimes(1);
@@ -64,11 +64,11 @@ test('it doesnt return the timestamp when only the time is selected', () => {
 
     renderDateTimeInput({onChange, defaultTime: '00:00'}, {timeZone: 'UTC'});
 
-    const timeInput = screen.getByLabelText('Time') as HTMLInputElement;
+    const timeInput = screen.getByLabelText<HTMLInputElement>('Time');
     fireEvent.change(timeInput, {target: {value: '12:00'}});
     expect(timeInput.value).toBe('12:00');
 
-    const dateInput = screen.getByLabelText('Date') as HTMLInputElement;
+    const dateInput = screen.getByLabelText<HTMLInputElement>('Date');
     expect(dateInput.value).toBe('');
 
     expect(onChange).toHaveBeenCalledTimes(0);
@@ -84,8 +84,8 @@ test('for a user in the timezone "UTC", it displays the zoned datetime', () => {
     const timestamp = 12 * 60 * 60; // 1970-01-01 at 12:00
     renderDateTimeInput({value: timestamp, onChange, defaultTime: '00:00'}, {timeZone: 'UTC'});
 
-    const dateInput = screen.getByLabelText('Date') as HTMLInputElement;
-    const timeInput = screen.getByLabelText('Time') as HTMLInputElement;
+    const dateInput = screen.getByLabelText<HTMLInputElement>('Date');
+    const timeInput = screen.getByLabelText<HTMLInputElement>('Time');
 
     expect(dateInput.value).toBe('1970-01-01');
     expect(timeInput.value).toBe('12:00');
@@ -97,8 +97,8 @@ test('for a user in the timezone "Europe/Paris", it displays the zoned datetime'
     const timestamp = 12 * 60 * 60; // 1970-01-01 at 12:00
     renderDateTimeInput({value: timestamp, onChange, defaultTime: '00:00'}, {timeZone: 'Europe/Paris'});
 
-    const dateInput = screen.getByLabelText('Date') as HTMLInputElement;
-    const timeInput = screen.getByLabelText('Time') as HTMLInputElement;
+    const dateInput = screen.getByLabelText<HTMLInputElement>('Date');
+    const timeInput = screen.getByLabelText<HTMLInputElement>('Time');
 
     expect(dateInput.value).toBe('1970-01-01');
     expect(timeInput.value).toBe('13:00'); // 12:00 UTC+1 (Daily Saving Time is off in January)
@@ -110,8 +110,8 @@ test('for a user in the timezone "Asia/Tokyo", it displays the zoned datetime', 
     const timestamp = 20 * 60 * 60; // 1970-01-01 at 20:00
     renderDateTimeInput({value: timestamp, onChange, defaultTime: '00:00'}, {timeZone: 'Asia/Tokyo'});
 
-    const dateInput = screen.getByLabelText('Date') as HTMLInputElement;
-    const timeInput = screen.getByLabelText('Time') as HTMLInputElement;
+    const dateInput = screen.getByLabelText<HTMLInputElement>('Date');
+    const timeInput = screen.getByLabelText<HTMLInputElement>('Time');
 
     // UTC+9 make the datetime shift to January 2 at 05:00
     expect(dateInput.value).toBe('1970-01-02');
@@ -123,11 +123,11 @@ test('for a user in the timezone "Asia/Tokyo", it selects the zoned datetime and
 
     renderDateTimeInput({onChange, defaultTime: '00:00'}, {timeZone: 'Asia/Tokyo'});
 
-    const dateInput = screen.getByLabelText('Date') as HTMLInputElement;
+    const dateInput = screen.getByLabelText<HTMLInputElement>('Date');
     fireEvent.change(dateInput, {target: {value: '1970-01-02'}});
     expect(dateInput.value).toBe('1970-01-02');
 
-    const timeInput = screen.getByLabelText('Time') as HTMLInputElement;
+    const timeInput = screen.getByLabelText<HTMLInputElement>('Time');
     fireEvent.change(timeInput, {target: {value: '05:00'}});
     expect(timeInput.value).toBe('05:00');
 

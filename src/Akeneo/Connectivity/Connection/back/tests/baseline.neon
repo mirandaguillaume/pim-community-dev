@@ -2358,8 +2358,8 @@ parameters:
 			path: ../Infrastructure/Webhook/Service/GetDelayUntilNextRequest.php
 
 		-
-			message: '#^Parameter \#2 \$datetime of static method DateTimeImmutable\:\:createFromFormat\(\) expects string, mixed given\.$#'
-			identifier: argument.type
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
 			count: 1
 			path: ../Infrastructure/Webhook/Service/GetDelayUntilNextRequest.php
 

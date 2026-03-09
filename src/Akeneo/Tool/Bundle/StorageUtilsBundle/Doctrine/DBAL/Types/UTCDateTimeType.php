@@ -47,6 +47,15 @@ class UTCDateTimeType extends DateTimeType
         );
 
         if (!$val) {
+            // MySQL 8.4 returns datetime values with fractional seconds (e.g. "2024-01-01 00:00:00.000000")
+            $val = \DateTime::createFromFormat(
+                'Y-m-d H:i:s.u',
+                $value,
+                self::$utc ?: (self::$utc = new \DateTimeZone('UTC'))
+            );
+        }
+
+        if (!$val) {
             throw ConversionException::conversionFailed($value, 'datetime');
         }
 

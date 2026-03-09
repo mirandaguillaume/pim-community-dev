@@ -207,18 +207,12 @@ parameters:
 		-
 			message: '#^Cannot cast mixed to string\.$#'
 			identifier: cast.string
-			count: 1
+			count: 2
 			path: ../Infrastructure/Hydrator/JobExecutionRowHydrator.php
 
 		-
 			message: '#^Method Akeneo\\Platform\\Job\\Infrastructure\\Hydrator\\JobExecutionRowHydrator\:\:hydrate\(\) has parameter \$jobExecution with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: ../Infrastructure/Hydrator/JobExecutionRowHydrator.php
-
-		-
-			message: '#^Parameter \#2 \$datetime of static method DateTimeImmutable\:\:createFromFormat\(\) expects string, mixed given\.$#'
-			identifier: argument.type
 			count: 1
 			path: ../Infrastructure/Hydrator/JobExecutionRowHydrator.php
 
