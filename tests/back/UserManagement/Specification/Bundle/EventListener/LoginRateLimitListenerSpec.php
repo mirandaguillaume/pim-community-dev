@@ -10,7 +10,6 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
-use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 use Symfony\Component\Security\Http\Event\CheckPassportEvent;
 use Symfony\Component\Security\Http\Event\LoginFailureEvent;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
@@ -114,7 +113,7 @@ class LoginRateLimitListenerSpec extends ObjectBehavior
     }
 
     public function it_consider_login_has_failed_when_passport_is_not_a_symfony_passport_instance(
-        PassportInterface $passport,
+        Passport $passport,
         UserBadge $badge,
         UserInterface $user,
         LoginFailureEvent $event,

@@ -33,7 +33,6 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
-use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 use Symfony\Component\Security\Http\HttpUtils;
 use Symfony\Component\Security\Http\ParameterBagUtils;
 
@@ -94,16 +93,6 @@ class FormLoginAuthenticator extends AbstractLoginFormAuthenticator
         }
 
         return $passport;
-    }
-
-    /**
-     * @deprecated since Symfony 5.4, use {@link createToken()} instead
-     */
-    public function createAuthenticatedToken(PassportInterface $passport, string $firewallName): TokenInterface
-    {
-        trigger_deprecation('symfony/security-http', '5.4', 'Method "%s()" is deprecated, use "%s::createToken()" instead.', __METHOD__, self::class);
-
-        return $this->createToken($passport, $firewallName);
     }
 
     public function createToken(Passport $passport, string $firewallName): TokenInterface
