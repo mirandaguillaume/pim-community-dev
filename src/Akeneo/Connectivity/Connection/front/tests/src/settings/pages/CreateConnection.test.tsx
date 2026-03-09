@@ -26,16 +26,16 @@ describe('testing CreateConnection page', () => {
             </Router>
         );
 
-        const labelInput = screen.getByLabelText(
+        const labelInput = screen.getByLabelText<HTMLInputElement>(
             /^akeneo_connectivity\.connection\.connection\.label/
-        ) as HTMLInputElement;
+        );
         const codeInput = screen.getByLabelText(
             /^akeneo_connectivity\.connection\.connection\.code/
-        ) as HTMLInputElement;
+        );
         const flowTypeSelect = screen.getByLabelText(
             /^akeneo_connectivity\.connection\.connection\.flow_type/
-        ) as HTMLSelectElement;
-        const saveButton = screen.getByText('pim_common.save') as HTMLButtonElement;
+        );
+        const saveButton = screen.getByText('pim_common.save');
 
         await act(async () => {
             userEvent.clear(labelInput);
