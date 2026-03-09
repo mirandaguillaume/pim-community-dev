@@ -4,7 +4,7 @@ import {fireEvent, screen, act} from '@testing-library/react';
 import {dependencies} from '@akeneo-pim-community/legacy-bridge';
 import {DeleteModal} from 'pimui/js/attribute/form/delete/DeleteModal';
 import {renderWithProviders} from '@akeneo-pim-community/legacy-bridge/tests/front/unit/utils';
-jest.mock('../../../../../../Resources/public/js/attribute/form/hooks/useMainIdentifierCode', () => ({
+jest.mock('pimui/js/attribute/form/hooks/useMainIdentifierCode', () => ({
   useMainIdentifierCode: () => 'sku',
 }));
 
