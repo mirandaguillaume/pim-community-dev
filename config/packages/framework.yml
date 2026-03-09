@@ -2,12 +2,10 @@ framework:
     translator:
         fallback: en_US
     secret: '%env(APP_SECRET)%'
-    router:
-        strict_requirements: '%env(APP_DEBUG)%'
     form: true
     csrf_protection: true
     validation:
-        enable_annotations: true
+        enable_attributes: true
         enabled: true
     default_locale: '%env(APP_DEFAULT_LOCALE)%'
     session:
