@@ -283,7 +283,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
      */
     public function getUserIdentifier(): string
     {
-        return $this->username;
+        return $this->username ?? '';
     }
 
     /**

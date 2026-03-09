@@ -4,6 +4,7 @@ namespace Specification\Akeneo\Pim\Structure\Bundle\Form\Type;
 
 use PhpSpec\ObjectBehavior;
 use Akeneo\Pim\Structure\Component\Model\AttributeOptionValue;
+use Prophecy\Argument;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,17 +29,21 @@ class AttributeOptionValueTypeSpec extends ObjectBehavior
 
     function it_builds_form(FormBuilderInterface $builder)
     {
-        $builder->add('id', HiddenType::class)->shouldBeCalled();
+        $builder->add(Argument::cetera())->willReturn($builder);
 
-        $builder->add('locale', HiddenType::class)->shouldBeCalled();
+        $builder->add('id', HiddenType::class)->shouldBeCalled()->willReturn($builder);
 
-        $builder->add('value', null, ['required' => false])->shouldBeCalled();
+        $builder->add('locale', HiddenType::class)->shouldBeCalled()->willReturn($builder);
+
+        $builder->add('value', null, ['required' => false])->shouldBeCalled()->willReturn($builder);
 
         $this->buildForm($builder, []);
     }
 
     function it_sets_default_option(OptionsResolver $resolver)
     {
+        $resolver->setDefaults(Argument::any())->willReturn($resolver);
+
         $this->configureOptions($resolver);
 
         $resolver->setDefaults(

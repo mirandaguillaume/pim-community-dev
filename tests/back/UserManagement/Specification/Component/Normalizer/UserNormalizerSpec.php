@@ -49,6 +49,7 @@ class UserNormalizerSpec extends ObjectBehavior
     function it_is_user_normalizer($datagridViewRepo, $normalizerOne, $normalizerTwo)
     {
         $user = new User();
+        $user->setUsername('testuser');
         $user->setCatalogLocale(new Locale());
         $user->setUiLocale(new Locale());
         $user->setCatalogScope(new Channel());
@@ -58,9 +59,9 @@ class UserNormalizerSpec extends ObjectBehavior
         $datagridViewRepo->getDatagridViewAliasesByUser($user)->willReturn([]);
 
         $result = [
-            'code'                      => null,
+            'code'                      => 'testuser',
             'enabled'                   => true,
-            'username'                  => null,
+            'username'                  => 'testuser',
             'email'                     => null,
             'name_prefix'               => null,
             'first_name'                => null,
@@ -116,6 +117,7 @@ class UserNormalizerSpec extends ObjectBehavior
         $normalizerTwo
     ) {
         $user = new User();
+        $user->setUsername('testuser');
         $user->setCatalogLocale(new Locale());
         $user->setUiLocale(new Locale());
         $user->setCatalogScope(new Channel());
@@ -144,6 +146,7 @@ class UserNormalizerSpec extends ObjectBehavior
         UserInterface $currentUser
     ) {
         $user = new User();
+        $user->setUsername('testuser');
         $user->setId(42);
         $user->setCatalogLocale(new Locale());
         $user->setUiLocale(new Locale());

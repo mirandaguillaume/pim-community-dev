@@ -20,6 +20,7 @@ class DisableFieldSubscriberSpec extends ObjectBehavior
         $event->getForm()->willReturn($form);
         $form->get(Argument::any())->willReturn($form);
         $form->getConfig()->willReturn($config);
+        $form->add(Argument::cetera())->willReturn($form);
     }
 
     function it_is_initializable()
@@ -43,7 +44,7 @@ class DisableFieldSubscriberSpec extends ObjectBehavior
         $form->add('name', null, [
             'disabled'  => true,
             'attr' => ['read_only' => true]
-        ])->shouldBeCalled();
+        ])->shouldBeCalled()->willReturn($form);
         $this->postSetData($event);
     }
 

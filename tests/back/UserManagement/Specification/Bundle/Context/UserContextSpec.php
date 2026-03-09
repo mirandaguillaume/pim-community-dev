@@ -229,7 +229,7 @@ class UserContextSpec extends ObjectBehavior
     }
 }
 
-class User
+class User implements \Symfony\Component\Security\Core\User\UserInterface
 {
     function getCatalogLocale()
     {
@@ -241,5 +241,19 @@ class User
 
     function getDefaultTree()
     {
+    }
+
+    function getRoles(): array
+    {
+        return [];
+    }
+
+    function eraseCredentials(): void
+    {
+    }
+
+    function getUserIdentifier(): string
+    {
+        return 'test_user';
     }
 }

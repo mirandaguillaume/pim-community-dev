@@ -10,7 +10,9 @@ use Akeneo\Pim\Automation\IdentifierGenerator\Infrastructure\Validation\SimpleSe
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Context\ExecutionContext;
+use Symfony\Component\Validator\Validator\ContextualValidatorInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -22,13 +24,15 @@ class SimpleSelectPropertyShouldBeValidValidatorSpec extends ObjectBehavior
     public function let(
         ValidatorInterface $globalValidator,
         ExecutionContext $context,
-        ValidatorInterface $validator
+        ContextualValidatorInterface $contextualValidator
     ): void
     {
         $this->beConstructedWith($globalValidator);
         $this->initialize($context);
 
-        $globalValidator->inContext($context)->willReturn($validator);
+        $globalValidator->inContext($context)->willReturn($contextualValidator);
+        $contextualValidator->validate(Argument::cetera())->willReturn($contextualValidator);
+        $contextualValidator->getViolations()->willReturn(new ConstraintViolationList());
     }
 
     public function it_is_initializable(): void
@@ -87,14 +91,14 @@ class SimpleSelectPropertyShouldBeValidValidatorSpec extends ObjectBehavior
         $this->validate(['type' => 'simple_select', 'process' => ['type' => Process::PROCESS_TYPE_NO]], new SimpleSelectPropertyShouldBeValid());
     }
 
-    public function it_should_validate_a_property_with_the_correct_parameters(ExecutionContext $context, ValidatorInterface $validator): void
+    public function it_should_validate_a_property_with_the_correct_parameters(ExecutionContext $context, ContextualValidatorInterface $contextualValidator): void
     {
         $process = ['type' => Process::PROCESS_TYPE_NO];
         $structure = ['type' => 'simple_select', 'attributeCode' => 'color', 'process' => $process];
 
         $context->buildViolation((string)Argument::any())->shouldNotBeCalled();
 
-        $validator->validate($structure, Argument::any())->shouldBeCalledOnce();
+        $contextualValidator->validate($structure, Argument::any())->willReturn($contextualValidator)->shouldBeCalledOnce();
 
         $this->validate($structure, new SimpleSelectPropertyShouldBeValid());
     }

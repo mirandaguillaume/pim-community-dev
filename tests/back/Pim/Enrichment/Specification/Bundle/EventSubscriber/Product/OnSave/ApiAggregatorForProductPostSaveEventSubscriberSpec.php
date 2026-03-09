@@ -47,7 +47,7 @@ class ApiAggregatorForProductPostSaveEventSubscriberSpec extends ObjectBehavior
         $product = new Product();
         $event->getSubject()->willReturn($product);
         $event->getArguments()->willReturn(['unitary' => true]);
-        $event->setArgument('unitary', false)->shouldBeCalled();
+        $event->setArgument('unitary', false)->shouldBeCalled()->willReturn($event);
         $event->stopPropagation()->shouldNotBeCalled();
         $this->batchEvents($event);
         $this->getEventProducts()->shouldHaveCount(1);

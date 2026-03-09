@@ -5,7 +5,6 @@ namespace Specification\Akeneo\Pim\Structure\Component\Validator\Constraints;
 use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 use Akeneo\Pim\Structure\Component\Validator\Constraints\AttributePropertyType;
 use Akeneo\Pim\Structure\Component\Validator\Constraints\AttributePropertyTypeValidator;
-use Akeneo\Tool\Bundle\BatchBundle\Item\Validator\ValidatorInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\Validator\Constraints\IsNull;
@@ -14,6 +13,7 @@ use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 
 class AttributePropertyTypeValidatorSpec extends ObjectBehavior

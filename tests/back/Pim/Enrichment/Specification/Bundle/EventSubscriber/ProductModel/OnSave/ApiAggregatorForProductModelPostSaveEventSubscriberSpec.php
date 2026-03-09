@@ -48,7 +48,7 @@ class ApiAggregatorForProductModelPostSaveEventSubscriberSpec extends ObjectBeha
         $productModel->setCode('pm1');
         $event->getSubject()->willReturn($productModel);
         $event->getArguments()->willReturn(['unitary' => true]);
-        $event->setArgument('unitary', false)->shouldBeCalled();
+        $event->setArgument('unitary', false)->shouldBeCalled()->willReturn($event);
         $event->stopPropagation()->shouldNotBeCalled();
         $this->batchEvents($event);
         $this->getEventProductModels()->shouldHaveCount(1);

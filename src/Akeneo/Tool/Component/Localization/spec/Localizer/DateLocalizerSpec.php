@@ -7,6 +7,7 @@ use Akeneo\Tool\Component\Localization\Localizer\LocalizerInterface;
 use Akeneo\Tool\Component\Localization\Validator\Constraints\DateFormat;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -21,6 +22,7 @@ class DateLocalizerSpec extends ObjectBehavior
         $this->userTimezone = date_default_timezone_get();
         date_default_timezone_set(self::TEST_TIMEZONE);
 
+        $validator->validate(Argument::cetera())->willReturn(new ConstraintViolationList());
         $this->beConstructedWith($validator, $dateFactory, ['pim_catalog_date']);
     }
 
@@ -57,6 +59,7 @@ class DateLocalizerSpec extends ObjectBehavior
         $validator,
         ConstraintViolationListInterface $constraints
     ) {
+        $constraints->count()->willReturn(1);
         $validator->validate('28/10/2015', Argument::any())->willReturn($constraints);
 
         $this->validate('28/10/2015', 'date', ['date_format' => 'd-m-Y'])->shouldReturn($constraints);
@@ -71,6 +74,7 @@ class DateLocalizerSpec extends ObjectBehavior
         $dateConstraint = new DateFormat();
         $dateConstraint->dateFormat = 'dd/MM/yyyy';
         $dateConstraint->path = 'date';
+        $constraints->count()->willReturn(1);
         $validator->validate('28-10-2015', $dateConstraint)->willReturn($constraints);
 
         $dateFactory->create(['locale' => 'fr_FR'])->willReturn($dateFormatter);

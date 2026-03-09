@@ -53,7 +53,9 @@ class DateLocalizer implements LocalizerInterface
         $constraint->dateFormat = $options['date_format'];
         $constraint->path = $attributeCode;
 
-        return $this->validator->validate($date, $constraint);
+        $violations = $this->validator->validate($date, $constraint);
+
+        return 0 === $violations->count() ? null : $violations;
     }
 
     /**

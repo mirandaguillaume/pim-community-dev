@@ -120,6 +120,7 @@ class LoginRateLimitListenerSpec extends ObjectBehavior
     ): void {
         $this->initUser($user,self::ALLOWED_FAILED_ATTEMPTS - 1, $this->getAuthenticationFailureResetDateFromNow(self::ACCOUNT_LOCK_DURATION - 1));
         $event->getPassport()->willReturn($passport);
+        $passport->hasBadge(UserBadge::class)->willReturn(false);
 
         $this->onFailureLogin($event)->shouldReturn(null);
     }

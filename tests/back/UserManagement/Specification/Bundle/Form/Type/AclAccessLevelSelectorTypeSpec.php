@@ -30,7 +30,8 @@ class AclAccessLevelSelectorTypeSpec extends ObjectBehavior
                     'choices' => [0 => 0, 5 => 5]
                 ]
             )
-            ->shouldBeCalled();
+            ->shouldBeCalled()
+            ->willReturn($resolver);
         $this->configureOptions($resolver);
     }
 
@@ -41,7 +42,8 @@ class AclAccessLevelSelectorTypeSpec extends ObjectBehavior
                 Argument::type(AccessLevelToBooleanTransformer::class),
                 true
             )
-            ->shouldBeCalled();
+            ->shouldBeCalled()
+            ->willReturn($builder);
         $this->buildForm($builder, []);
     }
 }

@@ -14,6 +14,7 @@ class PriceLocalizerSpec extends ObjectBehavior
 {
     function let(ValidatorInterface $validator, NumberFactory $numberFactory)
     {
+        $validator->validate(Argument::cetera())->willReturn(new ConstraintViolationList());
         $this->beConstructedWith($validator, $numberFactory, ['pim_catalog_price_collection']);
     }
 
@@ -53,7 +54,7 @@ class PriceLocalizerSpec extends ObjectBehavior
         $constraintEUR = new ConstraintViolation('Error on number validator', '', [], '', '', '');
         $constraints = new ConstraintViolationList([$constraintEUR, $constraintUSD]);
         $validator->validate('10,00', Argument::any())->willReturn($constraints);
-        $validator->validate('10,05', Argument::any())->willReturn(null);
+        $validator->validate('10,05', Argument::any())->willReturn(new ConstraintViolationList());
 
         $prices = [['amount' => '10,00', 'currency' => 'EUR'], ['amount' => '10,05', 'currency' => 'USD']];
 

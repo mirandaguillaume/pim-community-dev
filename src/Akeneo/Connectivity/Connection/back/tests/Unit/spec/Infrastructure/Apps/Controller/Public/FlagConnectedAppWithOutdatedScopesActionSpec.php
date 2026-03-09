@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 
 class FlagConnectedAppWithOutdatedScopesActionSpec extends ObjectBehavior
 {
@@ -58,9 +59,10 @@ class FlagConnectedAppWithOutdatedScopesActionSpec extends ObjectBehavior
     public function it_throws_logic_exception_when_user_returned_do_not_implement_user_interface(
         TokenStorageInterface $tokenStorage,
         TokenInterface $token,
+        SymfonyUserInterface $nonAkeneoUser,
         Request $request,
     ): void {
-        $token->getUser()->willReturn('not a user interface entity');
+        $token->getUser()->willReturn($nonAkeneoUser);
         $tokenStorage->getToken()->willReturn($token);
 
         $this

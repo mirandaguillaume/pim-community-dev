@@ -50,6 +50,7 @@ class NotifierSpec extends ObjectBehavior
         UserNotificationInterface $userNotification,
         UserInterface $user
     ) {
+        $user->getUserIdentifier()->willReturn('testuser');
         $userProvider->loadUserByIdentifier()->shouldNotBeCalled();
         $userNotifFactory->createUserNotification($notification, $user)->willReturn($userNotification);
 
@@ -70,6 +71,8 @@ class NotifierSpec extends ObjectBehavior
         UserInterface $user,
         UserInterface $userAuthor
     ) {
+        $user->getUserIdentifier()->willReturn('testuser');
+        $userAuthor->getUserIdentifier()->willReturn('author');
         $userProvider->loadUserByIdentifier('author')->willReturn($userAuthor);
         $userNotifFactory->createUserNotification($notification, $userAuthor)->willReturn($userNotificationAuthor);
 

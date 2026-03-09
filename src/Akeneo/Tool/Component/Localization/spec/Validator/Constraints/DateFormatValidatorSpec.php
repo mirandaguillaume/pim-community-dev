@@ -70,6 +70,9 @@ class DateFormatValidatorSpec extends ObjectBehavior
             ->shouldBeCalled()
             ->willReturn($violation);
 
+        $violation->atPath(Argument::any())->willReturn($violation);
+        $violation->addViolation()->willReturn(null);
+
         $this->validate($date, $constraint);
     }
 
@@ -88,6 +91,9 @@ class DateFormatValidatorSpec extends ObjectBehavior
             ->shouldBeCalled()
             ->willReturn($violation);
 
+        $violation->atPath(Argument::any())->willReturn($violation);
+        $violation->addViolation()->willReturn(null);
+
         $this->validate($date, $constraint);
     }
 
@@ -105,6 +111,9 @@ class DateFormatValidatorSpec extends ObjectBehavior
             ->buildViolation($constraint->message, ['{{ date_format }}' => $format])
             ->shouldBeCalled()
             ->willReturn($violation);
+
+        $violation->atPath(Argument::any())->willReturn($violation);
+        $violation->addViolation()->willReturn(null);
 
         $this->validate($date, $constraint);
     }

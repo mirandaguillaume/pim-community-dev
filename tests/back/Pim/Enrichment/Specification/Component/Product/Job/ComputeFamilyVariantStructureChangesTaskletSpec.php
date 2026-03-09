@@ -184,6 +184,8 @@ class ComputeFamilyVariantStructureChangesTaskletSpec extends ObjectBehavior
         ConstraintViolationInterface $productModelViolation,
     ) {
         $familyVariant->getNumberOfLevel()->willReturn(1);
+        $productViolation->getMessage()->willReturn('product violation');
+        $productModelViolation->getMessage()->willReturn('product model violation');
 
         $this->cursorWillYield($variantProducts, [$variantProduct1, $variantProduct2, $variantProduct3]);
         $keepOnlyValuesForVariation->updateEntitiesWithFamilyVariant([$variantProduct1])->shouldBeCalled();

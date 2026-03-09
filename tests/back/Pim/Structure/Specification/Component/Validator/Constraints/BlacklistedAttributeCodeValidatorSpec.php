@@ -46,14 +46,21 @@ class BlacklistedAttributeCodeValidatorSpec extends ObjectBehavior
     function it_add_violation_if_attribute_is_blacklisted(
         ExecutionContextInterface $context,
         IsAttributeCodeBlacklistedInterface $isAttributeCodeBlacklisted,
+        GetBlacklistedAttributeJobExecutionIdInterface $getBlacklistedAttributeJobExecutionId,
+        Translator $translator,
+        RouterInterface $router,
         BlacklistedAttributeCode $constraint,
         ConstraintViolationBuilderInterface $violation
     ) {
         $isAttributeCodeBlacklisted->execute('my_attribute_code')->willReturn(true);
+        $getBlacklistedAttributeJobExecutionId->forAttributeCode('my_attribute_code')->willReturn(42);
+        $router->generate('akeneo_job_process_tracker_details', ['id' => 42])->willReturn('/job/42');
+        $translator->trans(Argument::cetera())->willReturn('translated message');
         $context
             ->buildViolation('pim_catalog.constraint.blacklisted_attribute_code')
             ->shouldBeCalled()
             ->willReturn($violation);
+        $violation->addViolation()->shouldBeCalled();
 
         $this->validate('my_attribute_code', $constraint);
     }

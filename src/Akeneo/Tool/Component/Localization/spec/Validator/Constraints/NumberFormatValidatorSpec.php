@@ -59,6 +59,9 @@ class NumberFormatValidatorSpec extends ObjectBehavior
             ->shouldBeCalled()
             ->willReturn($violation);
 
+        $violation->atPath(Argument::any())->willReturn($violation);
+        $violation->addViolation()->willReturn(null);
+
         $this->validate('12,45', $constraint);
     }
 }

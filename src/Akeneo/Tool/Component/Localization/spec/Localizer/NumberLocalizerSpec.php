@@ -6,6 +6,7 @@ use Akeneo\Tool\Component\Localization\Factory\NumberFactory;
 use Akeneo\Tool\Component\Localization\Localizer\LocalizerInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -13,6 +14,7 @@ class NumberLocalizerSpec extends ObjectBehavior
 {
     public function let(ValidatorInterface $validator, NumberFactory $numberFactory)
     {
+        $validator->validate(Argument::cetera())->willReturn(new ConstraintViolationList());
         $this->beConstructedWith($validator, $numberFactory, ['pim_catalog_number']);
     }
 
@@ -47,6 +49,7 @@ class NumberLocalizerSpec extends ObjectBehavior
         $validator,
         ConstraintViolationListInterface $constraints
     ) {
+        $constraints->count()->willReturn(1);
         $validator->validate('10.00', Argument::any())->willReturn($constraints);
 
         $this->validate('10.00', 'number', ['decimal_separator' => ','])->shouldReturn($constraints);
