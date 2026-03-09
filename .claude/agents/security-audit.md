@@ -1,7 +1,7 @@
 ---
 name: security-audit
 description: Security audit agent for Akeneo PIM. Use for dedicated security review of code changes, PRs, or bounded contexts. Can run automated vulnerability scans and check CVE databases.
-tools: Read, Grep, Glob, Bash, WebSearch, WebFetch, mcp__context7__resolve-library-id, mcp__context7__query-docs
+tools: Read, Grep, Glob, Bash, WebSearch, WebFetch, mcp__context7__resolve-library-id, mcp__context7__query-docs, mcp__serena__find_symbol, mcp__serena__find_referencing_symbols, mcp__serena__search_for_pattern, mcp__serena__get_symbols_overview
 skills:
   - security-checklist
 model: inherit
@@ -57,6 +57,7 @@ Use Grep to scan for these vulnerability patterns:
 - `createQueryBuilder` / `createNativeQuery` / `executeQuery` with string concatenation
 - Pattern: `"SELECT ... WHERE " . $variable`
 - Fix: Prepared statements, parameter binding
+- **Use `mcp__serena__find_referencing_symbols`** to trace user input → query builders (data flow analysis)
 
 ##### XSS (A03:2021)
 - `|raw` in Twig templates

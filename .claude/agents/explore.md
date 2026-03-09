@@ -1,7 +1,7 @@
 ---
 name: explore
 description: Deep codebase exploration using grepai semantic search and call graph tracing. Use this agent for understanding code architecture, finding implementations by intent, analyzing function relationships, and exploring unfamiliar code areas.
-tools: Read, Grep, Glob, Bash
+tools: Read, Grep, Glob, Bash, mcp__grepai__grepai_search, mcp__grepai__grepai_trace_callers, mcp__grepai__grepai_trace_callees, mcp__grepai__grepai_trace_graph, mcp__serena__find_symbol, mcp__serena__get_symbols_overview, mcp__serena__find_referencing_symbols, mcp__serena__search_for_pattern
 model: inherit
 ---
 
