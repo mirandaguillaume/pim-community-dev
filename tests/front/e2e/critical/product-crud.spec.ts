@@ -114,13 +114,11 @@ test.describe('@critical Product CRUD', () => {
     const grid = new DataGridPage(page);
     await grid.waitForGridLoaded();
 
-    // Grid should have at least one row
+    // Grid should have at least one row.
+    // Note: the products grid uses pagination-input (page buttons only, no "N records"
+    // label), so getToolbarCount() is not available here — use row count instead.
     const rowCount = await grid.getRowCount();
     expect(rowCount).toBeGreaterThan(0);
-
-    // Toolbar should display record count (from Grid.php: .AknGridToolbar-label)
-    const toolbarCount = await grid.getToolbarCount();
-    expect(toolbarCount).toBeGreaterThan(0);
   });
 
   /**
