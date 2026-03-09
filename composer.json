@@ -206,7 +206,10 @@
             "composer/package-versions-deprecated": true
         },
         "audit": {
-            "block-insecure": true
+            "block-insecure": true,
+            "ignore": {
+                "PKSA-y2cr-5h3j-g3ys": "Low severity, transitive dep from google/cloud-pubsub. Awaiting google/auth jwt v7 support."
+            }
         },
         "platform": {
             "php": "8.2.30"

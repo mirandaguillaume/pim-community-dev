@@ -281,7 +281,7 @@ class User implements UserInterface, EquatableInterface, \Stringable
     /**
      * {@inheritDoc}
      */
-    public function getUserIdentifier()
+    public function getUserIdentifier(): string
     {
         return $this->username;
     }

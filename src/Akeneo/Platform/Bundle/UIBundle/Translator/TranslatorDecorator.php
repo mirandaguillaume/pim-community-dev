@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Platform\Bundle\UIBundle\Translator;
 
+use Symfony\Component\Translation\MessageCatalogueInterface;
 use Symfony\Component\Translation\TranslatorBagInterface;
 use Symfony\Contracts\Translation\LocaleAwareInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -26,7 +27,7 @@ class TranslatorDecorator implements TranslatorInterface, LocaleAwareInterface, 
     /**
      * {@inheritdoc}
      */
-    public function trans(?string $id, array $parameters = [], string $domain = null, string $locale = null)
+    public function trans(string $id, array $parameters = [], ?string $domain = null, ?string $locale = null): string
     {
         return $this->symfonyTranslator->trans($id, $parameters, $domain, $locale);
     }
@@ -59,7 +60,7 @@ class TranslatorDecorator implements TranslatorInterface, LocaleAwareInterface, 
     /**
      * {@inheritdoc}
      */
-    public function getLocale()
+    public function getLocale(): string
     {
         Assert::implementsInterface($this->symfonyTranslator, LocaleAwareInterface::class);
 
@@ -85,10 +86,20 @@ class TranslatorDecorator implements TranslatorInterface, LocaleAwareInterface, 
     /**
      * {@inheritdoc}
      */
-    public function getCatalogue($locale = null)
+    public function getCatalogue(?string $locale = null): MessageCatalogueInterface
     {
         Assert::implementsInterface($this->symfonyTranslator, TranslatorBagInterface::class);
 
         return $this->symfonyTranslator->getCatalogue($locale);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCatalogues(): array
+    {
+        Assert::implementsInterface($this->symfonyTranslator, TranslatorBagInterface::class);
+
+        return $this->symfonyTranslator->getCatalogues();
     }
 }
