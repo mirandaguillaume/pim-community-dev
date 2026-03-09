@@ -108,8 +108,11 @@ test.describe('@critical Category tree', () => {
     // From create_a_category.feature:
     //   "I should see the text '[shoe]'"
     //   "I should see the text 'successfully created'"
-    await expect(page.getByText(`[${uniqueCode}]`).or(page.getByText(uniqueCode))).toBeVisible({timeout: 15_000});
     await expect(page.getByText('successfully created')).toBeVisible({timeout: 10_000});
+    // Check tree name in the title/sidebar area (scoped to avoid matching the toast too)
+    await expect(page.locator('.AknTitleContainer, [class*="Title"]').getByText(uniqueCode)).toBeVisible({
+      timeout: 15_000,
+    });
   });
 
   /**

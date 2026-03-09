@@ -4,7 +4,9 @@ import {fireEvent, screen, getByText, act} from '@testing-library/react';
 import {DeleteAction} from 'pimui/js/attribute/form/delete/DeleteAction';
 import {renderWithProviders} from '@akeneo-pim-community/legacy-bridge/tests/front/unit/utils';
 import {dependencies} from '@akeneo-pim-community/legacy-bridge';
-jest.mock('../../../../../../Resources/public/js/attribute/form/hooks/useMainIdentifierCode');
+jest.mock('../../../../../../Resources/public/js/attribute/form/hooks/useMainIdentifierCode', () => ({
+  useMainIdentifierCode: () => 'sku',
+}));
 
 declare global {
   namespace NodeJS {
