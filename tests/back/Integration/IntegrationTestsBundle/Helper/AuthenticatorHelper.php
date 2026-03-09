@@ -11,7 +11,6 @@ use Akeneo\UserManagement\Component\Repository\GroupRepositoryInterface;
 use Akeneo\UserManagement\Component\Repository\RoleRepositoryInterface;
 use Akeneo\UserManagement\Component\Repository\UserRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -59,6 +58,15 @@ final class AuthenticatorHelper
             $user = $this->createUser($username);
         }
 
+        if (null !== $client) {
+            // SF 6.4: KernelBrowser::loginUser() properly handles untracked token storage,
+            // session.factory, and cookie — ContextListener no longer clears the token.
+            $client->loginUser($user, 'main');
+
+            return;
+        }
+
+        // Non-browser path (integration tests): set token directly on token storage
         $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
         $this->tokenStorage->setToken($token);
 
@@ -72,11 +80,6 @@ final class AuthenticatorHelper
         $session = $this->requestStack->getSession();
         $session->set('_security_main', serialize($token));
         $session->save();
-
-        if (null !== $client) {
-            $cookie = new Cookie($session->getName(), $session->getId());
-            $client->getCookieJar()->set($cookie);
-        }
     }
 
     /**

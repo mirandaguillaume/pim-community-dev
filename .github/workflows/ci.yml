@@ -1297,6 +1297,10 @@ jobs:
             if [ "$i" -eq 24 ]; then
               echo "ERROR: Login page not ready after 120s. Response:"
               curl -sS http://localhost:${DOCKER_PORT_HTTP:-8080}/user/login 2>&1 | head -50
+              echo "=== Symfony prod.log (last 50 lines) ==="
+              docker-compose exec -T httpd cat /srv/pim/var/logs/prod.log 2>/dev/null | tail -50 || true
+              echo "=== httpd container logs ==="
+              docker-compose logs --tail=50 httpd 2>&1 || true
               exit 1
             fi
             sleep 5

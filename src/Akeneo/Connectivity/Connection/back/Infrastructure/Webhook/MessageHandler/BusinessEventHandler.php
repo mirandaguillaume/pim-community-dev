@@ -4,28 +4,20 @@ declare(strict_types=1);
 
 namespace Akeneo\Connectivity\Connection\Infrastructure\Webhook\MessageHandler;
 
-use Akeneo\Connectivity\Connection\Infrastructure\Webhook\Command\SendBusinessEventToWebhooks;
 use Akeneo\Platform\Component\EventQueue\BulkEventInterface;
 use Akeneo\Platform\Component\EventQueue\BulkEventNormalizer;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Process\Process;
 
-#[\Symfony\Component\Messenger\Attribute\AsMessageHandler]
-class BusinessEventHandler implements MessageSubscriberInterface
+#[AsMessageHandler(fromTransport: 'webhook')]
+class BusinessEventHandler
 {
     public function __construct(
         private readonly string $projectDir,
         private readonly LoggerInterface $logger,
         private readonly BulkEventNormalizer $normalizer
     ) {
-    }
-
-    public static function getHandledMessages(): \Iterator
-    {
-        yield BulkEventInterface::class => [
-            'from_transport' => 'webhook',
-        ];
     }
 
     public function __invoke(BulkEventInterface $event): void
