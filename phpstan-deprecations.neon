@@ -30,7 +30,6 @@ parameters:
         # Doctrine FileCache deprecation
         - '#Access to property .* of deprecated class Doctrine\\Common\\Cache\\FileCache#'
         # Guard symfony migration (RAB-1149)
-        - '#Call to deprecated method setAuthenticated\(\) of class Symfony\\Component\\Security\\Core\\Authentication\\Token\\AbstractToken#'
         - '#Call to method __construct\(\) of deprecated class Symfony\\Component\\Security\\Core\\Authentication\\Provider\\DaoAuthenticationProvider#'
         - '#Call to method checkAuthentication\(\) of deprecated class Symfony\\Component\\Security\\Core\\Authentication\\Provider\\DaoAuthenticationProvider#'
         - '#Class Akeneo\\UserManagement\\Bundle\\Provider\\CustomDaoAuthenticationProvider extends deprecated class#'
