@@ -49,13 +49,7 @@ parameters:
 			path: schema/Version_6_0_20210211141311_add_attribute_guidelines.php
 
 		-
-			message: '#^Method Pim\\Upgrade\\Schema\\Version_6_0_20210222120000_create_events_api_debug_index\:\:setContainer\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: schema/Version_6_0_20210222120000_create_events_api_debug_index.php
-
-		-
-			message: '#^Parameter \#1 \$builder of class Akeneo\\Tool\\Bundle\\ElasticsearchBundle\\Client constructor expects Elasticsearch\\ClientBuilder, object\|null given\.$#'
+			message: '#^Parameter \#1 \$builder of class Akeneo\\Tool\\Bundle\\ElasticsearchBundle\\Client constructor expects Elasticsearch\\ClientBuilder, object given\.$#'
 			identifier: argument.type
 			count: 1
 			path: schema/Version_6_0_20210222120000_create_events_api_debug_index.php
@@ -79,14 +73,8 @@ parameters:
 			path: schema/Version_6_0_20210222120000_create_events_api_debug_index.php
 
 		-
-			message: '#^Method Pim\\Upgrade\\Schema\\Version_6_0_20210331105730_remove_datagrid_view_unique_label_constraint\:\:dbalConnection\(\) should return Doctrine\\DBAL\\Connection but returns object\|null\.$#'
+			message: '#^Method Pim\\Upgrade\\Schema\\Version_6_0_20210331105730_remove_datagrid_view_unique_label_constraint\:\:dbalConnection\(\) should return Doctrine\\DBAL\\Connection but returns object\.$#'
 			identifier: return.type
-			count: 1
-			path: schema/Version_6_0_20210331105730_remove_datagrid_view_unique_label_constraint.php
-
-		-
-			message: '#^Method Pim\\Upgrade\\Schema\\Version_6_0_20210331105730_remove_datagrid_view_unique_label_constraint\:\:setContainer\(\) has no return type specified\.$#'
-			identifier: missingType.return
 			count: 1
 			path: schema/Version_6_0_20210331105730_remove_datagrid_view_unique_label_constraint.php
 
@@ -259,12 +247,6 @@ parameters:
 			path: schema/Version_6_0_20211214000000_add_openid_keys_into_pim_configuration.php
 
 		-
-			message: '#^Method Pim\\Upgrade\\Schema\\Version_6_0_20211214000000_add_openid_keys_into_pim_configuration\:\:setContainer\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: schema/Version_6_0_20211214000000_add_openid_keys_into_pim_configuration.php
-
-		-
 			message: '#^Parameter \#1 \$cert of method phpseclib3\\File\\X509\:\:saveX509\(\) expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
@@ -409,6 +391,12 @@ parameters:
 			path: schema/Version_7_0_20220629142647_dqi_update_pk_on_product_score.php
 
 		-
+			message: '#^Call to an undefined method object\:\:executeQuery\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: schema/Version_7_0_20220704141138_update_job_instance_parameter_path.php
+
+		-
 			message: '#^Cannot access offset ''file_path'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
@@ -429,12 +417,6 @@ parameters:
 		-
 			message: '#^Cannot access offset ''type'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: schema/Version_7_0_20220704141138_update_job_instance_parameter_path.php
-
-		-
-			message: '#^Cannot call method executeQuery\(\) on object\|null\.$#'
-			identifier: method.nonObject
 			count: 1
 			path: schema/Version_7_0_20220704141138_update_job_instance_parameter_path.php
 
@@ -499,6 +481,12 @@ parameters:
 			path: schema/Version_7_0_20220704141138_update_job_instance_parameter_path.php
 
 		-
+			message: '#^Call to an undefined method object\:\:executeQuery\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: schema/Version_7_0_20220722090828_remove_old_file_path_on_product_and_product_model_quick_export_job.php
+
+		-
 			message: '#^Cannot access offset ''id'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
@@ -507,12 +495,6 @@ parameters:
 		-
 			message: '#^Cannot access offset ''raw_parameters'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: schema/Version_7_0_20220722090828_remove_old_file_path_on_product_and_product_model_quick_export_job.php
-
-		-
-			message: '#^Cannot call method executeQuery\(\) on object\|null\.$#'
-			identifier: method.nonObject
 			count: 1
 			path: schema/Version_7_0_20220722090828_remove_old_file_path_on_product_and_product_model_quick_export_job.php
 
@@ -583,14 +565,8 @@ parameters:
 			path: schema/Version_7_0_20220726143600_add_scheduled_jobs.php
 
 		-
-			message: '#^Method Pim\\Upgrade\\Schema\\Version_7_0_20220726143600_add_scheduled_jobs\:\:dbalConnection\(\) should return Doctrine\\DBAL\\Connection but returns object\|null\.$#'
+			message: '#^Method Pim\\Upgrade\\Schema\\Version_7_0_20220726143600_add_scheduled_jobs\:\:dbalConnection\(\) should return Doctrine\\DBAL\\Connection but returns object\.$#'
 			identifier: return.type
-			count: 1
-			path: schema/Version_7_0_20220726143600_add_scheduled_jobs.php
-
-		-
-			message: '#^Method Pim\\Upgrade\\Schema\\Version_7_0_20220726143600_add_scheduled_jobs\:\:setContainer\(\) has no return type specified\.$#'
-			identifier: missingType.return
 			count: 1
 			path: schema/Version_7_0_20220726143600_add_scheduled_jobs.php
 
@@ -601,8 +577,8 @@ parameters:
 			path: schema/Version_7_0_20220726143600_add_scheduled_jobs.php
 
 		-
-			message: '#^Cannot call method executeQuery\(\) on object\|null\.$#'
-			identifier: method.nonObject
+			message: '#^Call to an undefined method object\:\:executeQuery\(\)\.$#'
+			identifier: method.notFound
 			count: 2
 			path: schema/Version_7_0_20220802151250_add_automation_column_in_job_instance.php
 
@@ -721,6 +697,12 @@ parameters:
 			path: schema/Version_7_0_20220823094700_add_scheduled_jobs.php
 
 		-
+			message: '#^Call to an undefined method object\:\:executeQuery\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: schema/Version_7_0_20220905141238_update_job_instance_parameter_user_to_notify.php
+
+		-
 			message: '#^Cannot access offset ''id'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
@@ -729,12 +711,6 @@ parameters:
 		-
 			message: '#^Cannot access offset ''raw_parameters'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: schema/Version_7_0_20220905141238_update_job_instance_parameter_user_to_notify.php
-
-		-
-			message: '#^Cannot call method executeQuery\(\) on object\|null\.$#'
-			identifier: method.nonObject
 			count: 1
 			path: schema/Version_7_0_20220905141238_update_job_instance_parameter_user_to_notify.php
 
@@ -811,6 +787,12 @@ parameters:
 			path: schema/Version_7_0_20220905141238_update_job_instance_parameter_user_to_notify.php
 
 		-
+			message: '#^Call to an undefined method object\:\:executeQuery\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: schema/Version_7_0_20220914143410_update_job_instance_parameter_user_to_notify_for_quick_export.php
+
+		-
 			message: '#^Cannot access offset ''id'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
@@ -819,12 +801,6 @@ parameters:
 		-
 			message: '#^Cannot access offset ''raw_parameters'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: schema/Version_7_0_20220914143410_update_job_instance_parameter_user_to_notify_for_quick_export.php
-
-		-
-			message: '#^Cannot call method executeQuery\(\) on object\|null\.$#'
-			identifier: method.nonObject
 			count: 1
 			path: schema/Version_7_0_20220914143410_update_job_instance_parameter_user_to_notify_for_quick_export.php
 
@@ -907,8 +883,14 @@ parameters:
 			path: schema/Version_7_0_20220919145300_add_scheduled_jobs.php
 
 		-
-			message: '#^Cannot call method build\(\) on object\|null\.$#'
-			identifier: method.nonObject
+			message: '#^Call to an undefined method object\:\:build\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: schema/Version_7_0_20220920000000_deduplicate_elasticsearch_indices.php
+
+		-
+			message: '#^Call to an undefined method object\:\:setHosts\(\)\.$#'
+			identifier: method.notFound
 			count: 1
 			path: schema/Version_7_0_20220920000000_deduplicate_elasticsearch_indices.php
 
@@ -922,12 +904,6 @@ parameters:
 			message: '#^Cannot call method getParameter\(\) on Symfony\\Component\\DependencyInjection\\ContainerInterface\|null\.$#'
 			identifier: method.nonObject
 			count: 3
-			path: schema/Version_7_0_20220920000000_deduplicate_elasticsearch_indices.php
-
-		-
-			message: '#^Cannot call method setHosts\(\) on object\|null\.$#'
-			identifier: method.nonObject
-			count: 1
 			path: schema/Version_7_0_20220920000000_deduplicate_elasticsearch_indices.php
 
 		-
@@ -949,6 +925,12 @@ parameters:
 			path: schema/Version_7_0_20220920000000_deduplicate_elasticsearch_indices.php
 
 		-
+			message: '#^Call to an undefined method object\:\:executeQuery\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: schema/Version_7_0_20220921104755_update_job_instance_parameter_user_to_notify_for_jobs.php
+
+		-
 			message: '#^Cannot access offset ''id'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
@@ -957,12 +939,6 @@ parameters:
 		-
 			message: '#^Cannot access offset ''raw_parameters'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: schema/Version_7_0_20220921104755_update_job_instance_parameter_user_to_notify_for_jobs.php
-
-		-
-			message: '#^Cannot call method executeQuery\(\) on object\|null\.$#'
-			identifier: method.nonObject
 			count: 1
 			path: schema/Version_7_0_20220921104755_update_job_instance_parameter_user_to_notify_for_jobs.php
 
@@ -1075,6 +1051,18 @@ parameters:
 			path: schema/Version_7_0_20221026090000_add_scheduled_job_update_audit_data.php
 
 		-
+			message: '#^Call to an undefined method object\:\:build\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: schema/Version_7_0_20221026154157_add_id_to_events_api_debug_index_mapping.php
+
+		-
+			message: '#^Call to an undefined method object\:\:setHosts\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: schema/Version_7_0_20221026154157_add_id_to_events_api_debug_index_mapping.php
+
+		-
 			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 1
@@ -1101,18 +1089,6 @@ parameters:
 		-
 			message: '#^Cannot access offset ''type'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: schema/Version_7_0_20221026154157_add_id_to_events_api_debug_index_mapping.php
-
-		-
-			message: '#^Cannot call method build\(\) on object\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: schema/Version_7_0_20221026154157_add_id_to_events_api_debug_index_mapping.php
-
-		-
-			message: '#^Cannot call method setHosts\(\) on object\|null\.$#'
-			identifier: method.nonObject
 			count: 1
 			path: schema/Version_7_0_20221026154157_add_id_to_events_api_debug_index_mapping.php
 
@@ -1129,12 +1105,6 @@ parameters:
 			path: schema/Version_7_0_20221026154157_add_id_to_events_api_debug_index_mapping.php
 
 		-
-			message: '#^Method Pim\\Upgrade\\Schema\\Version_7_0_20221026154157_add_id_to_events_api_debug_index_mapping\:\:setContainer\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: schema/Version_7_0_20221026154157_add_id_to_events_api_debug_index_mapping.php
-
-		-
 			message: '#^Parameter \#2 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, array\|bool\|float\|int\|string\|UnitEnum\|null given\.$#'
 			identifier: argument.type
 			count: 1
@@ -1145,6 +1115,18 @@ parameters:
 			identifier: encapsedStringPart.nonString
 			count: 1
 			path: schema/Version_7_0_20221026154157_add_id_to_events_api_debug_index_mapping.php
+
+		-
+			message: '#^Call to an undefined method object\:\:build\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: schema/Version_7_0_20221027152057_add_id_field_to_connection_error_index_mapping.php
+
+		-
+			message: '#^Call to an undefined method object\:\:setHosts\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: schema/Version_7_0_20221027152057_add_id_field_to_connection_error_index_mapping.php
 
 		-
 			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
@@ -1177,18 +1159,6 @@ parameters:
 			path: schema/Version_7_0_20221027152057_add_id_field_to_connection_error_index_mapping.php
 
 		-
-			message: '#^Cannot call method build\(\) on object\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: schema/Version_7_0_20221027152057_add_id_field_to_connection_error_index_mapping.php
-
-		-
-			message: '#^Cannot call method setHosts\(\) on object\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: schema/Version_7_0_20221027152057_add_id_field_to_connection_error_index_mapping.php
-
-		-
 			message: '#^Method Pim\\Upgrade\\Schema\\Version_7_0_20221027152057_add_id_field_to_connection_error_index_mapping\:\:getMappingConfiguration\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -1197,12 +1167,6 @@ parameters:
 		-
 			message: '#^Method Pim\\Upgrade\\Schema\\Version_7_0_20221027152057_add_id_field_to_connection_error_index_mapping\:\:getMappingConfiguration\(\) should return array but returns mixed\.$#'
 			identifier: return.type
-			count: 1
-			path: schema/Version_7_0_20221027152057_add_id_field_to_connection_error_index_mapping.php
-
-		-
-			message: '#^Method Pim\\Upgrade\\Schema\\Version_7_0_20221027152057_add_id_field_to_connection_error_index_mapping\:\:setContainer\(\) has no return type specified\.$#'
-			identifier: missingType.return
 			count: 1
 			path: schema/Version_7_0_20221027152057_add_id_field_to_connection_error_index_mapping.php
 
@@ -1327,7 +1291,7 @@ parameters:
 			path: schema/Version_7_0_20221114112755_clean_family_codes_from_export_job_filters.php
 
 		-
-			message: '#^Method Pim\\Upgrade\\Schema\\Version_7_0_20221114112755_clean_family_codes_from_export_job_filters\:\:getConnection\(\) should return Doctrine\\DBAL\\Connection but returns object\|null\.$#'
+			message: '#^Method Pim\\Upgrade\\Schema\\Version_7_0_20221114112755_clean_family_codes_from_export_job_filters\:\:getConnection\(\) should return Doctrine\\DBAL\\Connection but returns object\.$#'
 			identifier: return.type
 			count: 1
 			path: schema/Version_7_0_20221114112755_clean_family_codes_from_export_job_filters.php
@@ -1471,7 +1435,7 @@ parameters:
 			path: schema/Version_7_0_20221121160755_clean_family_codes_from_export_job_filters.php
 
 		-
-			message: '#^Method Pim\\Upgrade\\Schema\\Version_7_0_20221121160755_clean_family_codes_from_export_job_filters\:\:getConnection\(\) should return Doctrine\\DBAL\\Connection but returns object\|null\.$#'
+			message: '#^Method Pim\\Upgrade\\Schema\\Version_7_0_20221121160755_clean_family_codes_from_export_job_filters\:\:getConnection\(\) should return Doctrine\\DBAL\\Connection but returns object\.$#'
 			identifier: return.type
 			count: 1
 			path: schema/Version_7_0_20221121160755_clean_family_codes_from_export_job_filters.php
@@ -1549,6 +1513,36 @@ parameters:
 			path: schema/Version_7_0_20221212160000_add_database_install_time.php
 
 		-
+			message: '#^Call to an undefined method object\:\:clearCache\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: schema/Version_7_0_20230110161438_initialize_identifier_generator_acl.php
+
+		-
+			message: '#^Call to an undefined method object\:\:fetchFirstColumn\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: schema/Version_7_0_20230110161438_initialize_identifier_generator_acl.php
+
+		-
+			message: '#^Call to an undefined method object\:\:findOneByIdentifier\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: schema/Version_7_0_20230110161438_initialize_identifier_generator_acl.php
+
+		-
+			message: '#^Call to an undefined method object\:\:flush\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: schema/Version_7_0_20230110161438_initialize_identifier_generator_acl.php
+
+		-
+			message: '#^Call to an undefined method object\:\:saveAll\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: schema/Version_7_0_20230110161438_initialize_identifier_generator_acl.php
+
+		-
 			message: '#^Cannot access offset ''action\:pim_identifier_generator_manage'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 3
@@ -1573,37 +1567,7 @@ parameters:
 			path: schema/Version_7_0_20230110161438_initialize_identifier_generator_acl.php
 
 		-
-			message: '#^Cannot call method clearCache\(\) on object\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: schema/Version_7_0_20230110161438_initialize_identifier_generator_acl.php
-
-		-
-			message: '#^Cannot call method fetchFirstColumn\(\) on object\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: schema/Version_7_0_20230110161438_initialize_identifier_generator_acl.php
-
-		-
-			message: '#^Cannot call method findOneByIdentifier\(\) on object\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: schema/Version_7_0_20230110161438_initialize_identifier_generator_acl.php
-
-		-
-			message: '#^Cannot call method flush\(\) on object\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: schema/Version_7_0_20230110161438_initialize_identifier_generator_acl.php
-
-		-
 			message: '#^Cannot call method permissions\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: schema/Version_7_0_20230110161438_initialize_identifier_generator_acl.php
-
-		-
-			message: '#^Cannot call method saveAll\(\) on object\|null\.$#'
 			identifier: method.nonObject
 			count: 1
 			path: schema/Version_7_0_20230110161438_initialize_identifier_generator_acl.php
@@ -1621,12 +1585,6 @@ parameters:
 			path: schema/Version_7_0_20230110161438_initialize_identifier_generator_acl.php
 
 		-
-			message: '#^Method Pim\\Upgrade\\Schema\\Version_7_0_20230110161438_initialize_identifier_generator_acl\:\:setContainer\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: schema/Version_7_0_20230110161438_initialize_identifier_generator_acl.php
-
-		-
 			message: '#^Property Pim\\Upgrade\\Schema\\Version_7_0_20230110161438_initialize_identifier_generator_acl\:\:\$container \(Symfony\\Component\\DependencyInjection\\ContainerInterface\) does not accept Symfony\\Component\\DependencyInjection\\ContainerInterface\|null\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -1639,14 +1597,8 @@ parameters:
 			path: schema/Version_7_0_20230201143400_drop_product_id_columns_and_clean_versioning_resource_uuid_columns.php
 
 		-
-			message: '#^Method Pim\\Upgrade\\Schema\\Version_7_0_20230201143400_drop_product_id_columns_and_clean_versioning_resource_uuid_columns\:\:getMigration\(\) should return Akeneo\\Pim\\Enrichment\\Bundle\\Command\\ZddMigrations\\V20220729171405DropProductIdColumnsAndCleanVersioningResourceUuidColumns but returns object\|null\.$#'
+			message: '#^Method Pim\\Upgrade\\Schema\\Version_7_0_20230201143400_drop_product_id_columns_and_clean_versioning_resource_uuid_columns\:\:getMigration\(\) should return Akeneo\\Pim\\Enrichment\\Bundle\\Command\\ZddMigrations\\V20220729171405DropProductIdColumnsAndCleanVersioningResourceUuidColumns but returns object\.$#'
 			identifier: return.type
-			count: 1
-			path: schema/Version_7_0_20230201143400_drop_product_id_columns_and_clean_versioning_resource_uuid_columns.php
-
-		-
-			message: '#^Method Pim\\Upgrade\\Schema\\Version_7_0_20230201143400_drop_product_id_columns_and_clean_versioning_resource_uuid_columns\:\:setContainer\(\) has no return type specified\.$#'
-			identifier: missingType.return
 			count: 1
 			path: schema/Version_7_0_20230201143400_drop_product_id_columns_and_clean_versioning_resource_uuid_columns.php
 
@@ -1657,14 +1609,8 @@ parameters:
 			path: schema/Version_7_0_20230201143500_set_product_identifier_nullable.php
 
 		-
-			message: '#^Method Pim\\Upgrade\\Schema\\Version_7_0_20230201143500_set_product_identifier_nullable\:\:getMigration\(\) should return Akeneo\\Pim\\Enrichment\\Bundle\\Command\\ZddMigrations\\V20220516171405SetProductIdentifierNullableZddMigration but returns object\|null\.$#'
+			message: '#^Method Pim\\Upgrade\\Schema\\Version_7_0_20230201143500_set_product_identifier_nullable\:\:getMigration\(\) should return Akeneo\\Pim\\Enrichment\\Bundle\\Command\\ZddMigrations\\V20220516171405SetProductIdentifierNullableZddMigration but returns object\.$#'
 			identifier: return.type
-			count: 1
-			path: schema/Version_7_0_20230201143500_set_product_identifier_nullable.php
-
-		-
-			message: '#^Method Pim\\Upgrade\\Schema\\Version_7_0_20230201143500_set_product_identifier_nullable\:\:setContainer\(\) has no return type specified\.$#'
-			identifier: missingType.return
 			count: 1
 			path: schema/Version_7_0_20230201143500_set_product_identifier_nullable.php
 
@@ -1687,43 +1633,43 @@ parameters:
 			path: schema/Version_8_0_20230124095459_add_scheduled_job_delete_expired_tokens.php
 
 		-
+			message: '#^Call to an undefined method object\:\:clearCache\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: schema/Version_8_0_20230308113214_disable_attribute_groups_mass_delete_acl.php
+
+		-
+			message: '#^Call to an undefined method object\:\:fetchFirstColumn\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: schema/Version_8_0_20230308113214_disable_attribute_groups_mass_delete_acl.php
+
+		-
+			message: '#^Call to an undefined method object\:\:findOneByIdentifier\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: schema/Version_8_0_20230308113214_disable_attribute_groups_mass_delete_acl.php
+
+		-
+			message: '#^Call to an undefined method object\:\:flush\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: schema/Version_8_0_20230308113214_disable_attribute_groups_mass_delete_acl.php
+
+		-
+			message: '#^Call to an undefined method object\:\:saveAll\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: schema/Version_8_0_20230308113214_disable_attribute_groups_mass_delete_acl.php
+
+		-
 			message: '#^Cannot access offset ''action\:pim_enrich_attributegroup_mass_delete'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: schema/Version_8_0_20230308113214_disable_attribute_groups_mass_delete_acl.php
 
 		-
-			message: '#^Cannot call method clearCache\(\) on object\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: schema/Version_8_0_20230308113214_disable_attribute_groups_mass_delete_acl.php
-
-		-
-			message: '#^Cannot call method fetchFirstColumn\(\) on object\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: schema/Version_8_0_20230308113214_disable_attribute_groups_mass_delete_acl.php
-
-		-
-			message: '#^Cannot call method findOneByIdentifier\(\) on object\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: schema/Version_8_0_20230308113214_disable_attribute_groups_mass_delete_acl.php
-
-		-
-			message: '#^Cannot call method flush\(\) on object\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: schema/Version_8_0_20230308113214_disable_attribute_groups_mass_delete_acl.php
-
-		-
 			message: '#^Cannot call method permissions\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: schema/Version_8_0_20230308113214_disable_attribute_groups_mass_delete_acl.php
-
-		-
-			message: '#^Cannot call method saveAll\(\) on object\|null\.$#'
 			identifier: method.nonObject
 			count: 1
 			path: schema/Version_8_0_20230308113214_disable_attribute_groups_mass_delete_acl.php
@@ -1741,16 +1687,40 @@ parameters:
 			path: schema/Version_8_0_20230308113214_disable_attribute_groups_mass_delete_acl.php
 
 		-
-			message: '#^Method Pim\\Upgrade\\Schema\\Version_8_0_20230308113214_disable_attribute_groups_mass_delete_acl\:\:setContainer\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: schema/Version_8_0_20230308113214_disable_attribute_groups_mass_delete_acl.php
-
-		-
 			message: '#^Property Pim\\Upgrade\\Schema\\Version_8_0_20230308113214_disable_attribute_groups_mass_delete_acl\:\:\$container \(Symfony\\Component\\DependencyInjection\\ContainerInterface\) does not accept Symfony\\Component\\DependencyInjection\\ContainerInterface\|null\.$#'
 			identifier: assign.propertyType
 			count: 1
 			path: schema/Version_8_0_20230308113214_disable_attribute_groups_mass_delete_acl.php
+
+		-
+			message: '#^Call to an undefined method object\:\:clearCache\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: schema/Version_8_0_20230308152730_disable_attributes_mass_delete_acl.php
+
+		-
+			message: '#^Call to an undefined method object\:\:fetchFirstColumn\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: schema/Version_8_0_20230308152730_disable_attributes_mass_delete_acl.php
+
+		-
+			message: '#^Call to an undefined method object\:\:findOneByIdentifier\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: schema/Version_8_0_20230308152730_disable_attributes_mass_delete_acl.php
+
+		-
+			message: '#^Call to an undefined method object\:\:flush\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: schema/Version_8_0_20230308152730_disable_attributes_mass_delete_acl.php
+
+		-
+			message: '#^Call to an undefined method object\:\:saveAll\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: schema/Version_8_0_20230308152730_disable_attributes_mass_delete_acl.php
 
 		-
 			message: '#^Cannot access offset ''action\:pim_enrich_attribute_mass_delete'' on mixed\.$#'
@@ -1759,37 +1729,7 @@ parameters:
 			path: schema/Version_8_0_20230308152730_disable_attributes_mass_delete_acl.php
 
 		-
-			message: '#^Cannot call method clearCache\(\) on object\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: schema/Version_8_0_20230308152730_disable_attributes_mass_delete_acl.php
-
-		-
-			message: '#^Cannot call method fetchFirstColumn\(\) on object\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: schema/Version_8_0_20230308152730_disable_attributes_mass_delete_acl.php
-
-		-
-			message: '#^Cannot call method findOneByIdentifier\(\) on object\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: schema/Version_8_0_20230308152730_disable_attributes_mass_delete_acl.php
-
-		-
-			message: '#^Cannot call method flush\(\) on object\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: schema/Version_8_0_20230308152730_disable_attributes_mass_delete_acl.php
-
-		-
 			message: '#^Cannot call method permissions\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: schema/Version_8_0_20230308152730_disable_attributes_mass_delete_acl.php
-
-		-
-			message: '#^Cannot call method saveAll\(\) on object\|null\.$#'
 			identifier: method.nonObject
 			count: 1
 			path: schema/Version_8_0_20230308152730_disable_attributes_mass_delete_acl.php
@@ -1803,12 +1743,6 @@ parameters:
 		-
 			message: '#^Method Pim\\Upgrade\\Schema\\Version_8_0_20230308152730_disable_attributes_mass_delete_acl\:\:getRoles\(\) should return array\<string\> but returns mixed\.$#'
 			identifier: return.type
-			count: 1
-			path: schema/Version_8_0_20230308152730_disable_attributes_mass_delete_acl.php
-
-		-
-			message: '#^Method Pim\\Upgrade\\Schema\\Version_8_0_20230308152730_disable_attributes_mass_delete_acl\:\:setContainer\(\) has no return type specified\.$#'
-			identifier: missingType.return
 			count: 1
 			path: schema/Version_8_0_20230308152730_disable_attributes_mass_delete_acl.php
 
@@ -1831,14 +1765,8 @@ parameters:
 			path: schema/Version_8_0_20230627173000_remove_instant_cols.php
 
 		-
-			message: '#^Method Pim\\Upgrade\\Schema\\Version_8_0_20230627173000_remove_instant_cols\:\:getMigration\(\) should return Akeneo\\Tool\\Component\\StorageUtils\\Migration\\V20230622175500OptimizeTableWithInstantColsMigration but returns object\|null\.$#'
+			message: '#^Method Pim\\Upgrade\\Schema\\Version_8_0_20230627173000_remove_instant_cols\:\:getMigration\(\) should return Akeneo\\Tool\\Component\\StorageUtils\\Migration\\V20230622175500OptimizeTableWithInstantColsMigration but returns object\.$#'
 			identifier: return.type
-			count: 1
-			path: schema/Version_8_0_20230627173000_remove_instant_cols.php
-
-		-
-			message: '#^Method Pim\\Upgrade\\Schema\\Version_8_0_20230627173000_remove_instant_cols\:\:setContainer\(\) has no return type specified\.$#'
-			identifier: missingType.return
 			count: 1
 			path: schema/Version_8_0_20230627173000_remove_instant_cols.php
 
@@ -1849,7 +1777,7 @@ parameters:
 			path: schema/Version_8_0_20230628104642_fill_new_completeness_table.php
 
 		-
-			message: '#^Method Pim\\Upgrade\\Schema\\Version_8_0_20230628104642_fill_new_completeness_table\:\:getMigration\(\) should return Akeneo\\Pim\\Enrichment\\Bundle\\Command\\ZddMigrations\\V20230512143522FillNewCompletenessTableZddMigration but returns object\|null\.$#'
+			message: '#^Method Pim\\Upgrade\\Schema\\Version_8_0_20230628104642_fill_new_completeness_table\:\:getMigration\(\) should return Akeneo\\Pim\\Enrichment\\Bundle\\Command\\ZddMigrations\\V20230512143522FillNewCompletenessTableZddMigration but returns object\.$#'
 			identifier: return.type
 			count: 1
 			path: schema/Version_8_0_20230628104642_fill_new_completeness_table.php
