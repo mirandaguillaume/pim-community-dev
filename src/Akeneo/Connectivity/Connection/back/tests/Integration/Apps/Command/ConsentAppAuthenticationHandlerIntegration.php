@@ -67,6 +67,7 @@ class ConsentAppAuthenticationHandlerIntegration extends TestCase
 
         // SF 6.4: AppAuthorizationSession calls requestStack->getSession() which requires a request
         $requestStack = $this->get('request_stack');
+        \assert($requestStack instanceof \Symfony\Component\HttpFoundation\RequestStack);
         if (null === $requestStack->getCurrentRequest()) {
             $request = new \Symfony\Component\HttpFoundation\Request();
             $request->setSession(new \Symfony\Component\HttpFoundation\Session\Session(

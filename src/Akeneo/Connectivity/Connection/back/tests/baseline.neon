@@ -19389,19 +19389,7 @@ parameters:
 			path: ../tests/Unit/spec/Infrastructure/Webhook/GenerateSecretSpec.php
 
 		-
-			message: '#^Call to an undefined method spec\\Akeneo\\Connectivity\\Connection\\Infrastructure\\Webhook\\MessageHandler\\BusinessEventHandlerSpec\:\:getHandledMessages\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: ../tests/Unit/spec/Infrastructure/Webhook/MessageHandler/BusinessEventHandlerSpec.php
-
-		-
 			message: '#^Cannot call method shouldBeCalled\(\) on null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: ../tests/Unit/spec/Infrastructure/Webhook/MessageHandler/BusinessEventHandlerSpec.php
-
-		-
-			message: '#^Cannot call method shouldYield\(\) on mixed\.$#'
 			identifier: method.nonObject
 			count: 1
 			path: ../tests/Unit/spec/Infrastructure/Webhook/MessageHandler/BusinessEventHandlerSpec.php
