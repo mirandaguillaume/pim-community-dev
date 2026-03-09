@@ -64,6 +64,16 @@ class ConsentAppAuthenticationHandlerIntegration extends TestCase
         $this->createUserGroup = $this->get(CreateUserGroup::class);
         $this->createUser = $this->get(CreateUser::class);
         $this->getUserConsentedAuthenticationScopesQuery = $this->get(GetUserConsentedAuthenticationScopesQuery::class);
+
+        // SF 6.4: AppAuthorizationSession calls requestStack->getSession() which requires a request
+        $requestStack = $this->get('request_stack');
+        if (null === $requestStack->getCurrentRequest()) {
+            $request = new \Symfony\Component\HttpFoundation\Request();
+            $request->setSession(new \Symfony\Component\HttpFoundation\Session\Session(
+                new \Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage()
+            ));
+            $requestStack->push($request);
+        }
     }
 
     public function test_it_creates_the_user_consent(): void
