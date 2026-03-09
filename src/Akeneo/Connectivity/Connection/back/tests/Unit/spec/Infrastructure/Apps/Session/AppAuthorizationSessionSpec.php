@@ -7,13 +7,14 @@ namespace spec\Akeneo\Connectivity\Connection\Infrastructure\Apps\Session;
 use Akeneo\Connectivity\Connection\Domain\Apps\DTO\AppAuthorization;
 use Akeneo\Connectivity\Connection\Infrastructure\Apps\Session\AppAuthorizationSession;
 use PhpSpec\ObjectBehavior;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class AppAuthorizationSessionSpec extends ObjectBehavior
 {
-    public function let(SessionInterface $session): void
+    public function let(RequestStack $requestStack): void
     {
-        $this->beConstructedWith($session);
+        $this->beConstructedWith($requestStack);
     }
 
     public function it_is_an_app_authorization_session(): void
@@ -21,8 +22,10 @@ class AppAuthorizationSessionSpec extends ObjectBehavior
         $this->shouldHaveType(AppAuthorizationSession::class);
     }
 
-    public function it_adds_in_the_session_the_app(SessionInterface $session): void
+    public function it_adds_in_the_session_the_app(RequestStack $requestStack, SessionInterface $session): void
     {
+        $requestStack->getSession()->willReturn($session);
+
         $appAuthorization = AppAuthorization::createFromNormalized([
             'client_id' => '90741597-54c5-48a1-98da-a68e7ee0a715',
             'authorization_scope' => 'write_catalog_structure delete_products read_association_types',
@@ -33,13 +36,15 @@ class AppAuthorizationSessionSpec extends ObjectBehavior
         $session->set(
             '_app_auth_90741597-54c5-48a1-98da-a68e7ee0a715',
             \json_encode($appAuthorization->normalize(), JSON_THROW_ON_ERROR)
-        );
+        )->shouldBeCalled();
 
         $this->initialize($appAuthorization);
     }
 
-    public function it_retrieves_an_app_from_the_session_given_an_app_client_id(SessionInterface $session): void
+    public function it_retrieves_an_app_from_the_session_given_an_app_client_id(RequestStack $requestStack, SessionInterface $session): void
     {
+        $requestStack->getSession()->willReturn($session);
+
         $appAuthorization = AppAuthorization::createFromNormalized([
             'client_id' => '90741597-54c5-48a1-98da-a68e7ee0a715',
             'authorization_scope' => 'write_catalog_structure delete_products read_association_types',
@@ -58,8 +63,10 @@ class AppAuthorizationSessionSpec extends ObjectBehavior
         $this->getAppAuthorization($appAuthorization->clientId)->shouldBeLike($appAuthorization);
     }
 
-    public function it_returns_null_if_no_app_has_been_initialized_before(SessionInterface $session): void
+    public function it_returns_null_if_no_app_has_been_initialized_before(RequestStack $requestStack, SessionInterface $session): void
     {
+        $requestStack->getSession()->willReturn($session);
+
         $session->get('_app_auth_90741597-54c5-48a1-98da-a68e7ee0a715')->willReturn(null);
 
         $this->getAppAuthorization('90741597-54c5-48a1-98da-a68e7ee0a715')->shouldReturn(null);
