@@ -6,7 +6,7 @@ import {ProductType} from '../../../../Resources/public/js/product/form/quantifi
 import {queryByDisplayValue} from '@testing-library/dom';
 import {renderDOMWithProviders} from '@akeneo-pim-community/legacy-bridge/tests/front/unit/utils';
 
-jest.mock('pimui/js/product/form/quantified-associations/hooks/useProducts', () => ({
+jest.mock('../../../../Resources/public/js/product/form/quantified-associations/hooks/useProducts', () => ({
   useProducts: (identifiers: {products: string[]; product_models: string[]}) => {
     if (0 === identifiers.products.length) return [];
     if ('null' === identifiers.products[0]) return null;
