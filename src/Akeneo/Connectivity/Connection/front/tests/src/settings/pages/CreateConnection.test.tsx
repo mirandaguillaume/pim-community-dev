@@ -29,12 +29,8 @@ describe('testing CreateConnection page', () => {
         const labelInput = screen.getByLabelText<HTMLInputElement>(
             /^akeneo_connectivity\.connection\.connection\.label/
         );
-        const codeInput = screen.getByLabelText(
-            /^akeneo_connectivity\.connection\.connection\.code/
-        );
-        const flowTypeSelect = screen.getByLabelText(
-            /^akeneo_connectivity\.connection\.connection\.flow_type/
-        );
+        const codeInput = screen.getByLabelText(/^akeneo_connectivity\.connection\.connection\.code/);
+        const flowTypeSelect = screen.getByLabelText(/^akeneo_connectivity\.connection\.connection\.flow_type/);
         const saveButton = screen.getByText('pim_common.save');
 
         await act(async () => {
