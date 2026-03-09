@@ -9,7 +9,10 @@ use Akeneo\Connectivity\Connection\Infrastructure\Apps\Session\AppAuthorizationS
 use Akeneo\Test\Integration\Configuration;
 use Akeneo\Test\Integration\TestCase;
 use PHPUnit\Framework\Assert;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 
 class AppAuthorizationSessionIntegration extends TestCase
 {
@@ -81,7 +84,13 @@ class AppAuthorizationSessionIntegration extends TestCase
     {
         parent::setUp();
 
+        // Push a request with a session so that RequestStack::getSession() works (SF 6.4)
+        $session = new Session(new MockArraySessionStorage());
+        $request = new Request();
+        $request->setSession($session);
+        $this->get('request_stack')->push($request);
+
         $this->appAuthorizationSession = $this->get(AppAuthorizationSession::class);
-        $this->session = $this->get('session');
+        $this->session = $session;
     }
 }

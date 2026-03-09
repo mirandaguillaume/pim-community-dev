@@ -436,7 +436,7 @@ abstract class AbstractProduct implements ProductInterface, \Stringable
             $this->addCategory($categoryToAdd);
         }
         $categoriesToRemove = $formerCategories->filter(
-            fn (Categoryinterface $category) => !$categories->contains($category)
+            fn (CategoryInterface $category) => !$categories->contains($category)
         );
         foreach ($categoriesToRemove as $categoryToRemove) {
             $this->removeCategory($categoryToRemove);

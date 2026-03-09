@@ -27,6 +27,9 @@ use Akeneo\UserManagement\Component\Model\Group;
 use Akeneo\UserManagement\Component\Model\User;
 use Doctrine\Common\Collections\Collection;
 use PHPUnit\Framework\Assert;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
@@ -66,6 +69,11 @@ class CreateConnectedAppWithAuthorizationHandlerIntegration extends TestCase
         $this->connectionRepository = $this->get(DbalConnectionRepository::class);
         $this->roleWithPermissionsRepository = $this->get('pim_user.repository.role_with_permissions');
         $this->scopeMapperRegistry = $this->get(ScopeMapperRegistry::class);
+
+        // Push a request with a session so that RequestStack::getSession() works (SF 6.4)
+        $request = new Request();
+        $request->setSession(new Session(new MockArraySessionStorage()));
+        $this->get('request_stack')->push($request);
 
         $this->loadAppsFixtures();
 

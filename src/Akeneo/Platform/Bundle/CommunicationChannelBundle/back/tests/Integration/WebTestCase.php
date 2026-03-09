@@ -52,6 +52,12 @@ abstract class WebTestCase extends TestCase
 
     private function getSession(): SessionInterface
     {
-        return $this->client->getContainer()->get('session');
+        $container = $this->client->getContainer();
+
+        if ($container->has('session.factory')) {
+            return $container->get('session.factory')->createSession();
+        }
+
+        return $container->get('session');
     }
 }

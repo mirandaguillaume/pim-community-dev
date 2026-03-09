@@ -18,6 +18,7 @@ use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
+use Symfony\Component\Security\Core\User\InMemoryUser;
 
 /**
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
@@ -148,7 +149,7 @@ class Version_6_0_20210908142400_add_product_web_api_acl_Integration extends Tes
     {
         /** @var AccessDecisionManagerInterface $decisionManager */
         $decisionManager = $this->get('security.access.decision_manager');
-        $token = new UsernamePasswordToken('username', 'main', [$role]);
+        $token = new UsernamePasswordToken(new InMemoryUser('username', null, [$role]), 'main', [$role]);
 
         foreach ($acls as $acl => $expectedValue) {
             assert(is_bool($expectedValue));

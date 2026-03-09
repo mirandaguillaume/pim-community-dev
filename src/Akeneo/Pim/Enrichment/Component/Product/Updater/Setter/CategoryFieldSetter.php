@@ -63,7 +63,7 @@ class CategoryFieldSetter extends AbstractFieldSetter
         }
 
         $categoriesToRemove = $formerCategories->filter(
-            fn (Categoryinterface $category) => !$categories->contains($category)
+            fn (CategoryInterface $category) => !$categories->contains($category)
         );
         foreach ($categoriesToRemove as $categoryToRemove) {
             $entity->removeCategory($categoryToRemove);

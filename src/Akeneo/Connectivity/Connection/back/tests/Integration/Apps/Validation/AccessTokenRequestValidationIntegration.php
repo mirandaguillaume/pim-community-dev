@@ -15,7 +15,10 @@ use Akeneo\Connectivity\Connection\Tests\Integration\Mock\FakeWebMarketplaceApi;
 use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlags;
 use Akeneo\Test\Integration\Configuration;
 use PHPUnit\Framework\Assert;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -144,6 +147,11 @@ class AccessTokenRequestValidationIntegration extends WebTestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        // Push a request with a session so that RequestStack::getSession() works (SF 6.4)
+        $request = new Request();
+        $request->setSession(new Session(new MockArraySessionStorage()));
+        $this->get('request_stack')->push($request);
 
         $this->validator = $this->get('validator');
 
