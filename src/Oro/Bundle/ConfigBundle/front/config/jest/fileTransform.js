@@ -16,6 +16,7 @@ module.exports = {
         pascalCase: true,
       });
       const componentName = `Svg${pascalCaseFilename}`;
+
       return {
         code: `const React = require('react');
       module.exports = {

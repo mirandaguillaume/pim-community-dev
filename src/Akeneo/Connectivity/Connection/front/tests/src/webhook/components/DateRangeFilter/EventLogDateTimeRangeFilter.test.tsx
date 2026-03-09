@@ -3,7 +3,7 @@ import '@testing-library/jest-dom/extend-expect';
 import {act, screen, render} from '@testing-library/react';
 import {EventLogDateTimeRangeFilter} from '@src/webhook/components/DateRangeFilter/EventLogDateTimeRangeFilter';
 import {fireEvent} from '@testing-library/dom';
-import {UserContext} from '@src/shared/user';
+import {UserInterface, UserContext} from '@src/shared/user';
 import {ThemeProvider} from 'styled-components';
 import {theme} from '@src/common/styled-with-theme';
 
@@ -20,10 +20,15 @@ const renderEventLogDateTimeRangeFilter = (
     {timeZone}: {timeZone: string}
 ) => {
     const user = {
-        get: jest.fn().mockReturnValue(timeZone),
+        get: jest.fn((key: string) => {
+            if (key === 'uiLocale') return 'en_US';
+            if (key === 'timezone') return timeZone;
+
+            return '';
+        }),
         set: jest.fn(),
         refresh: jest.fn(),
-    };
+    } as unknown as UserInterface;
 
     const wrapper: React.FC = ({children}) => (
         <UserContext.Provider value={user}>
