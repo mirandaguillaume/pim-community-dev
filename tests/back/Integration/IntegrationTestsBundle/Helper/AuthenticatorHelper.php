@@ -12,7 +12,7 @@ use Akeneo\UserManagement\Component\Repository\RoleRepositoryInterface;
 use Akeneo\UserManagement\Component\Repository\UserRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\BrowserKit\Cookie;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
@@ -29,7 +29,7 @@ final class AuthenticatorHelper
     private GroupRepositoryInterface $groupRepository;
     private RoleRepositoryInterface $roleRepository;
     private TokenStorageInterface $tokenStorage;
-    private SessionInterface $session;
+    private RequestStack $requestStack;
 
     public function __construct(
         UserRepositoryInterface $userRepository,
@@ -38,7 +38,7 @@ final class AuthenticatorHelper
         GroupRepositoryInterface $groupRepository,
         RoleRepositoryInterface $roleRepository,
         TokenStorageInterface $tokenStorage,
-        SessionInterface $session
+        RequestStack $requestStack
     ) {
         $this->userRepository = $userRepository;
         $this->userFactory = $userFactory;
@@ -46,7 +46,7 @@ final class AuthenticatorHelper
         $this->groupRepository = $groupRepository;
         $this->roleRepository = $roleRepository;
         $this->tokenStorage = $tokenStorage;
-        $this->session = $session;
+        $this->requestStack = $requestStack;
     }
 
     public function logIn(string $username, ?KernelBrowser $client = null): void
@@ -59,11 +59,12 @@ final class AuthenticatorHelper
         $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
         $this->tokenStorage->setToken($token);
 
-        $this->session->set('_security_main', serialize($token));
-        $this->session->save();
+        $session = $this->requestStack->getSession();
+        $session->set('_security_main', serialize($token));
+        $session->save();
 
         if (null !== $client) {
-            $cookie = new Cookie($this->session->getName(), $this->session->getId());
+            $cookie = new Cookie($session->getName(), $session->getId());
             $client->getCookieJar()->set($cookie);
         }
     }

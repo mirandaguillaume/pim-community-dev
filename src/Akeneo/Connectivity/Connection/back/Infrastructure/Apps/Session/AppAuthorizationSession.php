@@ -6,7 +6,7 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\Apps\Session;
 
 use Akeneo\Connectivity\Connection\Application\Apps\AppAuthorizationSessionInterface;
 use Akeneo\Connectivity\Connection\Domain\Apps\DTO\AppAuthorization;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
@@ -16,7 +16,7 @@ class AppAuthorizationSession implements AppAuthorizationSessionInterface
 {
     private const SESSION_PREFIX = '_app_auth_';
 
-    public function __construct(private readonly SessionInterface $session)
+    public function __construct(private readonly RequestStack $requestStack)
     {
     }
 
@@ -28,7 +28,7 @@ class AppAuthorizationSession implements AppAuthorizationSessionInterface
     {
         $key = $this->getSessionKey($authorization->clientId);
 
-        $this->session->set($key, \json_encode($authorization->normalize(), JSON_THROW_ON_ERROR));
+        $this->requestStack->getSession()->set($key, \json_encode($authorization->normalize(), JSON_THROW_ON_ERROR));
     }
 
     /**
@@ -41,7 +41,7 @@ class AppAuthorizationSession implements AppAuthorizationSessionInterface
     {
         $key = $this->getSessionKey($clientId);
 
-        $sessionAppAuthorization = $this->session->get($key);
+        $sessionAppAuthorization = $this->requestStack->getSession()->get($key);
         if (null === $sessionAppAuthorization) {
             return null;
         }
