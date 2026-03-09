@@ -940,7 +940,10 @@ class SecurityContext extends PimContext
         $client->followRedirects();
         $this->client = $client;
 
-        $session = $this->getService('session');
+        $container = $this->getMainContext()->getContainer()->get('test.service_container');
+        $session = $container->has('session.factory')
+            ? $container->get('session.factory')->createSession()
+            : $container->get('session');
 
         $user = $this
             ->getService('pim_user.repository.user')

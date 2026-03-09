@@ -12,7 +12,10 @@ use Akeneo\UserManagement\Component\Repository\RoleRepositoryInterface;
 use Akeneo\UserManagement\Component\Repository\UserRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\BrowserKit\Cookie;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
@@ -58,6 +61,13 @@ final class AuthenticatorHelper
 
         $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
         $this->tokenStorage->setToken($token);
+
+        // SF 6.4: RequestStack::getSession() throws SessionNotFoundException if no request exists
+        if (null === $this->requestStack->getCurrentRequest()) {
+            $request = new Request();
+            $request->setSession(new Session(new MockArraySessionStorage()));
+            $this->requestStack->push($request);
+        }
 
         $session = $this->requestStack->getSession();
         $session->set('_security_main', serialize($token));
