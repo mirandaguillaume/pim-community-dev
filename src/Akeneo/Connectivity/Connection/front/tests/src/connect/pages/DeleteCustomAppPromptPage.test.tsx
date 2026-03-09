@@ -26,7 +26,7 @@ beforeEach(() => {
     jest.clearAllMocks();
 });
 
-test('it displays the delete custom app prompt page and successfully deletes a custom app', async done => {
+test('it displays the delete custom app prompt page and successfully deletes a custom app', async () => {
     mockFetchResponses({
         'akeneo_connectivity_connection_custom_apps_rest_delete?customAppId=appId': {
             json: {},
@@ -63,11 +63,9 @@ test('it displays the delete custom app prompt page and successfully deletes a c
         NotificationLevel.SUCCESS,
         'akeneo_connectivity.connection.connect.custom_apps.delete_modal.flash.success'
     );
-
-    done();
 });
 
-test('it gracefully fails to delete a custom app', async done => {
+test('it gracefully fails to delete a custom app', async () => {
     mockFetchResponses({
         'akeneo_connectivity_connection_custom_apps_rest_delete?customAppId=appId': {
             json: {},
@@ -104,8 +102,6 @@ test('it gracefully fails to delete a custom app', async done => {
         NotificationLevel.ERROR,
         'akeneo_connectivity.connection.connect.custom_apps.delete_modal.flash.error'
     );
-
-    done();
 });
 
 test('it redirects to the App Store when prompt page is closed', () => {

@@ -30,7 +30,8 @@ export class DataGridPage {
     this.gridBody = page.locator('table.grid tbody');
     // Loading mask selector from Grid.php isLoadingMaskVisible():
     //   $this->getElement('Grid container')->find('css', '.loading-mask')
-    this.loadingMask = page.locator('.grid-container .loading-mask');
+    // Use .first() because two loading-mask elements exist (legacy + AknLoadingMask).
+    this.loadingMask = page.locator('.grid-container .loading-mask').first();
     // Toolbar selector from Grid.php: '.AknGridToolbar'
     this.toolbar = page.locator('.AknGridToolbar');
   }
@@ -162,7 +163,13 @@ export class DataGridPage {
    *   '.AknGridToolbar-label:contains("record")'
    */
   async getToolbarCount(): Promise<number> {
-    const label = this.toolbar.locator('.AknGridToolbar-label');
+    // The "N records" label is rendered by pagination.js as a <label> inside
+    // .AknGridToolbar-center (the .AknGridToolbar-label CSS class is never applied to any DOM element).
+    const label = this.toolbar
+      .locator('.AknGridToolbar-center label, label')
+      .filter({hasText: /records?/})
+      .first();
+    await expect(label).toContainText(/records?/, {timeout: 30_000});
     const text = await label.textContent();
     const match = text?.match(/(\d[\d ]*)\s*records?/);
     return match ? parseInt(match[1].replace(/\s/g, ''), 10) : 0;
@@ -175,6 +182,13 @@ export class DataGridPage {
    *   'Creation link' => ['css' => '.AknTitleContainer .AknButton--apply']
    */
   async clickCreationLink(): Promise<void> {
-    await this.page.locator('.AknTitleContainer .AknButton--apply').click();
+    // Try the legacy selector first, fall back to the "Create" button text
+    // for React-rendered pages (families, group types) where .AknButton--apply may not exist.
+    const legacyButton = this.page.locator('.AknTitleContainer .AknButton--apply');
+    const createButton = this.page
+      .getByRole('link', {name: /create/i})
+      .or(this.page.getByRole('button', {name: /create/i}));
+    const button = legacyButton.or(createButton).first();
+    await button.click();
   }
 }

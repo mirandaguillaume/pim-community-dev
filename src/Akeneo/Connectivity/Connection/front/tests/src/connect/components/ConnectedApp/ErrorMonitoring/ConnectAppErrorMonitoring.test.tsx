@@ -53,7 +53,7 @@ const connectedApp = {
     has_outdated_scopes: false,
 };
 
-test('It renders the app errors', async done => {
+test('It renders the app errors', async () => {
     (useFetchConnectedAppMonitoringSettings as jest.Mock).mockImplementation(
         () => () =>
             Promise.resolve({
@@ -74,10 +74,9 @@ test('It renders the app errors', async done => {
             {}
         )
     );
-    done();
 });
 
-test('It renders the good illustration if the app is not data source', async done => {
+test('It renders the good illustration if the app is not data source', async () => {
     (useFetchConnectedAppMonitoringSettings as jest.Mock).mockImplementation(
         () => () =>
             Promise.resolve({
@@ -88,10 +87,9 @@ test('It renders the good illustration if the app is not data source', async don
     renderWithProviders(<ConnectedAppErrorMonitoring connectedApp={connectedApp} />);
 
     await waitFor(() => expect(NotDataSourceConnectedApp).toHaveBeenCalled());
-    done();
 });
 
-test('It renders the good illustration if the app is not auditable', async done => {
+test('It renders the good illustration if the app is not auditable', async () => {
     (useFetchConnectedAppMonitoringSettings as jest.Mock).mockImplementation(
         () => () =>
             Promise.resolve({
@@ -102,13 +100,11 @@ test('It renders the good illustration if the app is not auditable', async done 
     renderWithProviders(<ConnectedAppErrorMonitoring connectedApp={connectedApp} />);
 
     await waitFor(() => expect(NotAuditableConnectedApp).toHaveBeenCalled());
-    done();
 });
 
-test('It renders the good illustration if something went wrong when fetching monitoring setting', async done => {
+test('It renders the good illustration if something went wrong when fetching monitoring setting', async () => {
     (useFetchConnectedAppMonitoringSettings as jest.Mock).mockImplementation(() => () => Promise.reject());
     renderWithProviders(<ConnectedAppErrorMonitoring connectedApp={connectedApp} />);
 
     await waitFor(() => expect(ErrorMonitoringError).toHaveBeenCalled());
-    done();
 });

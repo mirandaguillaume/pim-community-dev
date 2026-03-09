@@ -37,7 +37,7 @@ const DataGrid = <T extends {}>({
         <Table>
           {Children.map(children, child => {
             if (isValidElement(child) && child.type === HeaderRow) {
-              return React.cloneElement(child, {
+              return React.cloneElement(child as React.ReactElement<any>, {
                 isDraggable: isReorderAllowed,
               });
             }

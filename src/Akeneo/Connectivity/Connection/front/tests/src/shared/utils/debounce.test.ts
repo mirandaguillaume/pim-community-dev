@@ -1,7 +1,7 @@
 import debounce from '@src/shared/utils/debounce';
 
 beforeEach(() => {
-    jest.useFakeTimers('modern');
+    jest.useFakeTimers();
 });
 afterAll(() => {
     jest.useRealTimers();

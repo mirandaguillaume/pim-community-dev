@@ -13,10 +13,10 @@ jobs:
       - name: Checkout the current branch
         uses: actions/checkout@v4
 
-      - name: Install node 20 for the rest of the workflow
+      - name: Install node 22 for the rest of the workflow
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Install node modules
         run: cd front-packages/akeneo-design-system && yarn install

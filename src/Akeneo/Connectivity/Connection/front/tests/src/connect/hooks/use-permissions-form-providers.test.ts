@@ -23,7 +23,7 @@ jest.mock('@src/shared/notify', () => ({
     useNotify: jest.fn(() => notify),
 }));
 
-test('It fetches providers and saved permissions', async done => {
+test('It fetches providers and saved permissions', async () => {
     const providers = [
         {
             key: 'providerKey1',
@@ -73,11 +73,9 @@ test('It fetches providers and saved permissions', async done => {
         },
         expect.any(Function),
     ]);
-
-    done();
 });
 
-test('It notifies an error when loading saved permissions fails', async done => {
+test('It notifies an error when loading saved permissions fails', async () => {
     const providers = [
         {
             key: 'providerKey1',
@@ -124,6 +122,4 @@ test('It notifies an error when loading saved permissions fails', async done => 
                 'akeneo_connectivity.connection.connect.connected_apps.edit.flash.load_permissions_error.title?entity=Provider1',
         }
     );
-
-    done();
 });

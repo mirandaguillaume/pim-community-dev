@@ -108,8 +108,10 @@ test.describe('@critical Category tree', () => {
     // From create_a_category.feature:
     //   "I should see the text '[shoe]'"
     //   "I should see the text 'successfully created'"
-    await expect(page.getByText(`[${uniqueCode}]`).or(page.getByText(uniqueCode))).toBeVisible({timeout: 15_000});
     await expect(page.getByText('successfully created')).toBeVisible({timeout: 10_000});
+    // After creation, the page redirects to the category list table.
+    // Verify the new tree appears in the table (scoped to avoid matching the toast).
+    await expect(page.locator('table').getByText(uniqueCode)).toBeVisible({timeout: 15_000});
   });
 
   /**

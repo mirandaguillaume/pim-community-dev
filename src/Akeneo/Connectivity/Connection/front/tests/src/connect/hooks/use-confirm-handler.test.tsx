@@ -23,11 +23,12 @@ const notify = jest.fn();
 beforeEach(() => {
     jest.clearAllMocks();
 
-    delete global.window.location;
+    // eslint-disable-next-line space-unary-ops
+    delete (global.window as any).location;
     global.window = Object.create(window);
     global.window.location = {
         assign: jest.fn(),
-    };
+    } as unknown as Location;
 });
 
 test('it notifies when there is an error during the API request', async () => {

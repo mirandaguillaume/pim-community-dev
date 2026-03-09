@@ -12,7 +12,7 @@ setLogger({
     error: () => null, // explicit error generation triggers react query to log the error
 });
 
-test('it regenerates the custom app and returns a new secret', async done => {
+test('it regenerates the custom app and returns a new secret', async () => {
     mockFetchResponses({
         'akeneo_connectivity_connection_custom_apps_rest_regenerate_secret?customAppId=appId': {
             json: 'newCustomAppSecret',
@@ -47,11 +47,9 @@ test('it regenerates the custom app and returns a new secret', async done => {
     );
 
     expect(onSuccess).toBeCalledWith('newCustomAppSecret', expect.anything(), undefined);
-
-    done();
 });
 
-test('it returns an error', async done => {
+test('it returns an error', async () => {
     mockFetchResponses({
         'akeneo_connectivity_connection_custom_apps_rest_regenerate_secret?customAppId=appId': {
             json: {},
@@ -88,6 +86,4 @@ test('it returns an error', async done => {
             method: 'POST',
         })
     );
-
-    done();
 });

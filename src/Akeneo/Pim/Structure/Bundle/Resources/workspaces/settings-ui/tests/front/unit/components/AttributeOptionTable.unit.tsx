@@ -323,18 +323,16 @@ describe('Attribute options table', () => {
     fireEvent.change(searchInput, {target: {value: 'Blue'}});
 
     await act(async () => {
-      setTimeout(() => {
-        const optionItems = getAllByTestId(container, 'attribute-option-item');
-        const attributeOptionsLabel = getAllByTestId(container, 'attribute-option-item-label');
-        const attributeOptionsCode = getAllByTestId(container, 'attribute-option-item-code');
-
-        expect(optionItems.length).toBe(1);
-        expect(attributeOptionsLabel[0].textContent).toBe('Blue');
-        expect(attributeOptionsCode[0].textContent).toBe('blue');
-      }, 300);
-
       jest.runAllTimers();
     });
+
+    const optionItems = getAllByTestId(container, 'attribute-option-item');
+    const attributeOptionsLabel = getAllByTestId(container, 'attribute-option-item-label');
+    const attributeOptionsCode = getAllByTestId(container, 'attribute-option-item-code');
+
+    expect(optionItems.length).toBe(1);
+    expect(attributeOptionsLabel[0].textContent).toBe('Blue');
+    expect(attributeOptionsCode[0].textContent).toBe('blue');
   });
 
   test('it does not find any item in the list after a search', async () => {
@@ -346,16 +344,14 @@ describe('Attribute options table', () => {
     fireEvent.change(searchInput, {target: {value: 'Z'}});
 
     await act(async () => {
-      setTimeout(() => {
-        const noResultElement = getByText(
-          container,
-          'pim_enrich.entity.attribute_option.module.edit.search.no_result.title'
-        );
-        expect(noResultElement).toBeInTheDocument();
-      }, 300);
-
       jest.runAllTimers();
     });
+
+    const noResultElement = getByText(
+      container,
+      'pim_enrich.entity.attribute_option.module.edit.search.no_result.title'
+    );
+    expect(noResultElement).toBeInTheDocument();
   });
 });
 

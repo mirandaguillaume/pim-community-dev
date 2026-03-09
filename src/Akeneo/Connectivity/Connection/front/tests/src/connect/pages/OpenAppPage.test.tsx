@@ -19,11 +19,12 @@ beforeEach(() => {
     fetchMock.resetMocks();
     jest.clearAllMocks();
 
-    delete global.window.location;
+    // eslint-disable-next-line space-unary-ops
+    delete (global.window as any).location;
     global.window = Object.create(window);
     global.window.location = {
         replace: jest.fn(),
-    };
+    } as unknown as Location;
 });
 
 jest.mock('react-router-dom', () => ({
@@ -31,7 +32,7 @@ jest.mock('react-router-dom', () => ({
     useParams: jest.fn().mockReturnValue({connectionCode: 'some_connection_code'}),
 }));
 
-test('Page that redirects to the open app url', async done => {
+test('Page that redirects to the open app url', async () => {
     mockFetchResponses({
         'akeneo_connectivity_connection_apps_rest_get_open_app_url?connectionCode=some_connection_code': {
             json: {
@@ -43,11 +44,9 @@ test('Page that redirects to the open app url', async done => {
     renderWithProviders(<OpenAppPage />);
 
     await waitFor(() => expect(window.location.replace).toHaveBeenCalledWith('http://app.example.com/open/app/url'));
-
-    done();
 });
 
-test('Page notifies user of an issue on error during url fetch', async done => {
+test('Page notifies user of an issue on error during url fetch', async () => {
     mockFetchResponses({
         'akeneo_connectivity_connection_apps_rest_get_open_app_url?connectionCode=some_connection_code': {
             reject: true,
@@ -69,6 +68,4 @@ test('Page notifies user of an issue on error during url fetch', async done => {
             'akeneo_connectivity.connection.connect.connected_apps.open.flash.error'
         )
     );
-
-    done();
 });

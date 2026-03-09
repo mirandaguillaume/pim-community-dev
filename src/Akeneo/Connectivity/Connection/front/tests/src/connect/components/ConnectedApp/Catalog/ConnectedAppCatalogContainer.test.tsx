@@ -5,7 +5,6 @@ import {renderWithProviders} from '../../../../../test-utils';
 import {ConnectedAppCatalogContainer} from '@src/connect/components/ConnectedApp/Catalog/ConnectedAppCatalogContainer';
 import userEvent from '@testing-library/user-event';
 import {useCatalogForm} from '@akeneo-pim-community/catalogs';
-import {mocked} from 'ts-jest/utils';
 import {NotificationLevel, NotifyContext} from '@src/shared/notify';
 
 beforeEach(() => {
@@ -101,7 +100,7 @@ test('The save button click triggers save that results in a server error', async
 });
 
 function renderCatalogContainerAndSave(saveMock: jest.Mock, notifyMock: jest.Mock) {
-    mocked(useCatalogForm).mockImplementation(() => [
+    jest.mocked(useCatalogForm).mockImplementation(() => [
         {
             values: {},
             dispatch: jest.fn(),

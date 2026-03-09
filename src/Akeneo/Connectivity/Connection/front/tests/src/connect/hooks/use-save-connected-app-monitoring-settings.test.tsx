@@ -8,7 +8,7 @@ beforeEach(() => {
     fetchMock.resetMocks();
 });
 
-test('it saves the connected app monitoring settings', async done => {
+test('it saves the connected app monitoring settings', async () => {
     const {result} = renderHook(() => useSaveConnectedAppMonitoringSettings('connectionCodeA'));
 
     const data = {flowType: FlowType.OTHER, auditable: false};
@@ -22,10 +22,9 @@ test('it saves the connected app monitoring settings', async done => {
             body: JSON.stringify(data),
         }
     );
-    done();
 });
 
-test('it rejects when the connected app could not be saved', async done => {
+test('it rejects when the connected app could not be saved', async () => {
     mockFetchResponses({
         'akeneo_connectivity_connection_apps_rest_get_connected_app_monitoring_settings?connectionCode=connectionCodeA':
             {
@@ -38,5 +37,4 @@ test('it rejects when the connected app could not be saved', async done => {
     await expect(result.current({flowType: FlowType.OTHER, auditable: false})).rejects.toEqual(
         '422 Unprocessable Entity'
     );
-    done();
 });

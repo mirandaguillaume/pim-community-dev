@@ -7,17 +7,16 @@ beforeEach(() => {
     fetchMock.resetMocks();
 });
 
-test('it deletes the connected app', async done => {
+test('it deletes the connected app', async () => {
     const {result} = renderHook(() => useDeleteApp('connectionCodeA'));
     await result.current();
     expect(fetchMock).toBeCalledWith('akeneo_connectivity_connection_apps_rest_delete?connectionCode=connectionCodeA', {
         method: 'DELETE',
         headers: [['X-Requested-With', 'XMLHttpRequest']],
     });
-    done();
 });
 
-test('it rejects when the connected app could not be deleted', async done => {
+test('it rejects when the connected app could not be deleted', async () => {
     mockFetchResponses({
         'akeneo_connectivity_connection_apps_rest_delete?connectionCode=connectionCodeA': {
             status: 500,
@@ -27,5 +26,4 @@ test('it rejects when the connected app could not be deleted', async done => {
 
     const {result} = renderHook(() => useDeleteApp('connectionCodeA'));
     await expect(result.current()).rejects.toEqual('500 Internal Server Error');
-    done();
 });

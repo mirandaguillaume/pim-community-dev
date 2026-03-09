@@ -12,7 +12,7 @@ setLogger({
     error: () => null, // explicit error generation triggers react query to log the error
 });
 
-test('it creates the custom app and returns credentials', async done => {
+test('it creates the custom app and returns credentials', async () => {
     mockFetchResponses({
         akeneo_connectivity_connection_custom_apps_rest_create: {
             json: {
@@ -76,11 +76,9 @@ test('it creates the custom app and returns credentials', async done => {
         expect.anything(),
         undefined
     );
-
-    done();
 });
 
-test('it returns errors when fields are not valid', async done => {
+test('it returns errors when fields are not valid', async () => {
     mockFetchResponses({
         akeneo_connectivity_connection_custom_apps_rest_create: {
             json: {
@@ -143,5 +141,4 @@ test('it returns errors when fields are not valid', async done => {
         },
         method: 'POST',
     });
-    done();
 });

@@ -99,11 +99,12 @@ beforeEach(() => {
     historyMock.reset();
     jest.clearAllMocks();
 
-    delete global.window.location;
+    // eslint-disable-next-line space-unary-ops
+    delete (global.window as any).location;
     global.window = Object.create(window);
     global.window.location = {
         assign: jest.fn(),
-    };
+    } as unknown as Location;
 });
 
 test('The wizard renders without error', async () => {
@@ -204,7 +205,7 @@ test('The wizard redirect to the marketplace when closed', async () => {
     expect(historyMock.history.location.pathname).toBe('/connect/app-store');
 });
 
-test('The wizard display a notification and redirects on success', async done => {
+test('The wizard display a notification and redirects on success', async () => {
     (useFeatureFlags as jest.Mock).mockImplementation(() => ({
         isEnabled: (feature: string) =>
             ({
@@ -260,8 +261,6 @@ test('The wizard display a notification and redirects on success', async done =>
         'akeneo_connectivity.connection.connect.apps.wizard.flash.success'
     );
     expect(global.window.location.assign).toHaveBeenCalledWith('http://foo.example.com/oauth2/callback');
-
-    done();
 });
 
 test('The wizard display the authentication step', async () => {

@@ -11,7 +11,7 @@ setLogger({
     error: () => null, // explicit error generation triggers react query to log the error
 });
 
-test('it successfully deletes the custom app', async done => {
+test('it successfully deletes the custom app', async () => {
     mockFetchResponses({
         'akeneo_connectivity_connection_custom_apps_rest_delete?customAppId=appId': {
             json: {},
@@ -42,11 +42,9 @@ test('it successfully deletes the custom app', async done => {
 
     expect(onSuccess).toHaveBeenCalled();
     expect(onError).not.toHaveBeenCalled();
-
-    done();
 });
 
-test('it fails with an error', async done => {
+test('it fails with an error', async () => {
     mockFetchResponses({
         'akeneo_connectivity_connection_custom_apps_rest_delete?customAppId=appId': {
             json: {},
@@ -77,6 +75,4 @@ test('it fails with an error', async done => {
 
     expect(onSuccess).not.toHaveBeenCalled();
     expect(onError).toHaveBeenCalledWith('500 Internal Server Error');
-
-    done();
 });

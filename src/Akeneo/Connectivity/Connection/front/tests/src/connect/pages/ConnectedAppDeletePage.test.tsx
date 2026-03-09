@@ -39,7 +39,7 @@ test('The delete app page renders and I can cancel', () => {
     expect(historyMock.history.location.pathname).toBe('/akeneo_connectivity_connection_connect_connected_apps_edit');
 });
 
-test('The delete app page renders and I can delete the app', async done => {
+test('The delete app page renders and I can delete the app', async () => {
     renderWithProviders(
         <NotifyContext.Provider value={notify}>
             <ConnectedAppDeletePage />
@@ -63,10 +63,9 @@ test('The delete app page renders and I can delete the app', async done => {
     await waitFor(() =>
         expect(historyMock.history.location.pathname).toBe('/akeneo_connectivity_connection_connect_connected_apps')
     );
-    done();
 });
 
-test('The delete app page renders and a notification is shown when the deletion fails', async done => {
+test('The delete app page renders and a notification is shown when the deletion fails', async () => {
     (useDeleteApp as jest.Mock).mockImplementation(() => () => Promise.reject());
 
     renderWithProviders(
@@ -89,5 +88,4 @@ test('The delete app page renders and a notification is shown when the deletion 
             'akeneo_connectivity.connection.connect.connected_apps.delete.flash.error'
         )
     );
-    done();
 });
