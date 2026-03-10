@@ -371,6 +371,8 @@ services:
             - { related_entity: product, form_type: 'Akeneo\Category\Infrastructure\Symfony\Form\Type\CategoryType', acl: pim_enrich_product, route: pim_enrich }
         tags:
             - { name: container.service_subscriber }
+        calls:
+            - [ 'setContainer', [ '@Psr\Container\ContainerInterface' ] ]
 
     pim_enrich.controller.file:
         public: true
@@ -396,6 +398,8 @@ services:
             - '@@AkeneoPimEnrichment/ProductModel/listCategories.json.twig'
         tags:
             - { name: container.service_subscriber }
+        calls:
+            - [ 'setContainer', [ '@Psr\Container\ContainerInterface' ] ]
 
     pim_enrich.controller.product:
         public: true
@@ -411,6 +415,8 @@ services:
             - '@@AkeneoPimEnrichment/Product/listCategories.json.twig'
         tags:
             - { name: container.service_subscriber }
+        calls:
+            - [ 'setContainer', [ '@Psr\Container\ContainerInterface' ] ]
 
     pim_api.controller.media_file:
         public: true

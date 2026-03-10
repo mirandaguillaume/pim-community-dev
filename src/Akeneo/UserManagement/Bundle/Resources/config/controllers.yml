@@ -57,6 +57,8 @@ services:
             - '@event_dispatcher'
         tags:
             - { name: container.service_subscriber }
+        calls:
+            - [ 'setContainer', [ '@Psr\Container\ContainerInterface' ] ]
 
     pim_user.controller.reset:
         public: true
@@ -70,6 +72,8 @@ services:
             - '@Akeneo\UserManagement\Bundle\Notification\MailResetNotifier'
         tags:
             - { name: container.service_subscriber }
+        calls:
+            - [ 'setContainer', [ '@Psr\Container\ContainerInterface' ] ]
 
     pim_user.controller.role:
         public: true
@@ -83,6 +87,8 @@ services:
             - '@Akeneo\UserManagement\Domain\Permissions\Query\EditRolePermissionsRoleQuery'
         tags:
             - { name: container.service_subscriber }
+        calls:
+            - [ 'setContainer', [ '@Psr\Container\ContainerInterface' ] ]
 
     pim_user.controller.security:
         public: true
