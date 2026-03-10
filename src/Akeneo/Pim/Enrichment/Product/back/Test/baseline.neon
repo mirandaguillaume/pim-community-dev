@@ -1213,10 +1213,28 @@ parameters:
 			path: ../Infrastructure/Validation/AttributeGroupShouldBeEditable.php
 
 		-
+			message: '#^Method Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\Validation\\AttributeGroupShouldBeEditableValidator\:\:validate\(\) has parameter \$valueUserIntent with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../Infrastructure/Validation/AttributeGroupShouldBeEditableValidator.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\Validation\\CategoriesShouldBeViewableValidator\:\:validate\(\) has parameter \$categoryUserIntent with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../Infrastructure/Validation/CategoriesShouldBeViewableValidator.php
+
+		-
 			message: '#^Method Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\Validation\\IsUserOwnerOfTheProduct\:\:getTargets\(\) never returns array\<string\> so it can be removed from the return type\.$#'
 			identifier: return.unusedType
 			count: 1
 			path: ../Infrastructure/Validation/IsUserOwnerOfTheProduct.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\Validation\\IsUserOwnerOfTheProductValidator\:\:validate\(\) has parameter \$command with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../Infrastructure/Validation/IsUserOwnerOfTheProductValidator.php
 
 		-
 			message: '#^Anonymous function should return string but returns mixed\.$#'
@@ -1255,10 +1273,22 @@ parameters:
 			path: ../Infrastructure/Validation/LocaleAndChannelShouldBeConsistentValidator.php
 
 		-
+			message: '#^Method Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\Validation\\LocaleShouldBeEditableByUserValidator\:\:validate\(\) has parameter \$valueUserIntent with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../Infrastructure/Validation/LocaleShouldBeEditableByUserValidator.php
+
+		-
 			message: '#^Method Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\Validation\\PQB\\SearchFilters\:\:getTargets\(\) never returns array\<string\> so it can be removed from the return type\.$#'
 			identifier: return.unusedType
 			count: 1
 			path: ../Infrastructure/Validation/PQB/SearchFilters.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\Validation\\PQB\\SearchFiltersValidator\:\:validate\(\) has parameter \$searchFilters with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../Infrastructure/Validation/PQB/SearchFiltersValidator.php
 
 		-
 			message: '#^Method Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\Validation\\ShouldStayOwnerOfTheProduct\:\:getTargets\(\) never returns array\<string\> so it can be removed from the return type\.$#'
@@ -1273,13 +1303,31 @@ parameters:
 			path: ../Infrastructure/Validation/ShouldStayOwnerOfTheProductValidator.php
 
 		-
+			message: '#^Method Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\Validation\\ShouldStayOwnerOfTheProductValidator\:\:validate\(\) has parameter \$categoryUserIntent with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../Infrastructure/Validation/ShouldStayOwnerOfTheProductValidator.php
+
+		-
 			message: '#^Parameter \#1 \$value of static method Webmozart\\Assert\\Assert\:\:implementsInterface\(\) expects Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\CategoryUserIntent\|class\-string\<Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\CategoryUserIntent\>, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: ../Infrastructure/Validation/ShouldStayOwnerOfTheProductValidator.php
 
 		-
+			message: '#^Method Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\Validation\\UserIntentsShouldBeUniqueValidator\:\:validate\(\) has parameter \$valueUserIntents with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../Infrastructure/Validation/UserIntentsShouldBeUniqueValidator.php
+
+		-
 			message: '#^Parameter \#1 \$value of static method Webmozart\\Assert\\Assert\:\:allImplementsInterface\(\) expects iterable\<Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\ValueUserIntent\|class\-string\<Akeneo\\Pim\\Enrichment\\Product\\API\\Command\\UserIntent\\ValueUserIntent\>\>, array\<mixed, mixed\> given\.$#'
 			identifier: argument.type
 			count: 1
 			path: ../Infrastructure/Validation/UserIntentsShouldBeUniqueValidator.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Enrichment\\Product\\Infrastructure\\Validation\\UserShouldExistValidator\:\:validate\(\) has parameter \$userId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../Infrastructure/Validation/UserShouldExistValidator.php
