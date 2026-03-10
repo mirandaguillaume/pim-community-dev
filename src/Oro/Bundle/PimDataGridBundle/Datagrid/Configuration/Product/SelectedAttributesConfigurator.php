@@ -46,7 +46,9 @@ class SelectedAttributesConfigurator implements ConfiguratorInterface
     private function addAttributesConfig(DatagridConfiguration $configuration): void
     {
         $currentRequest = $this->requestStack->getCurrentRequest();
-        $requestFilters = $currentRequest ? ($currentRequest->query->all()['filters'] ?? []) : [];
+        $requestFilters = $currentRequest
+            ? (array_merge($currentRequest->request->all(), $currentRequest->query->all())['filters'] ?? [])
+            : [];
         $filterValues = array_replace($this->requestParams->get('_filter', []), $requestFilters);
         unset($filterValues['scope']);
         unset($filterValues['category']);

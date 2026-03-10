@@ -35,7 +35,8 @@ class ProductGridFilterController
      */
     public function listAction(Request $request): JsonResponse
     {
-        $options = $request->query->all()['options'] ?? ['limit' => SearchableRepositoryInterface::FETCH_LIMIT, 'locale' => null, 'page' => 1];
+        $allParams = array_merge($request->request->all(), $request->query->all());
+        $options = $allParams['options'] ?? ['limit' => SearchableRepositoryInterface::FETCH_LIMIT, 'locale' => null, 'page' => 1];
 
         $options['locale'] = $options['catalogLocale'] ?? null;
         $options['page'] ??= 1;

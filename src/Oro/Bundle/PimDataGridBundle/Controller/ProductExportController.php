@@ -80,7 +80,8 @@ class ProductExportController
 
         if ($withGridContext) {
             $gridName = $request->get('gridName') ?? 'product_grid';
-            $gridParams = $request->query->all()[$gridName] ?? [];
+            $allParams = array_merge($request->request->all(), $request->query->all());
+            $gridParams = $allParams[$gridName] ?? [];
             if (isset($gridParams['_parameters'])) {
                 $columns = explode(',', (string) ($gridParams['_parameters']['view']['columns'] ?? ''));
             } else {

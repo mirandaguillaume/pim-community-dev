@@ -116,7 +116,10 @@ class AttributeController
      */
     public function indexAction(Request $request)
     {
-        $queryAll = $request->query->all();
+        // Merge POST body + query params (query takes precedence), because this
+        // endpoint accepts both GET and POST — the frontend switches to POST when
+        // the query string would exceed URI length limits.
+        $queryAll = array_merge($request->request->all(), $request->query->all());
         $options = $queryAll['options'] ?? [];
         $options['locale'] ??= null;
         $options['limit'] ??= SearchableRepositoryInterface::FETCH_LIMIT;
