@@ -49,7 +49,7 @@ class DatagridViewController
 
         $user = $this->tokenStorage->getToken()->getUser();
 
-        $options = $request->query->get('options', []);
+        $options = $request->query->all('options');
         $options = array_merge(['limit' => 20, 'page' => 1], $options);
 
         $term = $request->query->get('search', '');

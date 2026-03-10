@@ -107,11 +107,11 @@ class FamilyController
      */
     public function indexAction(Request $request)
     {
-        $options = $request->query->get('options', ['limit' => 20, 'expanded' => 1]);
+        $options = $request->query->all('options') ?: ['limit' => 20, 'expanded' => 1];
         $expanded = !isset($options['expanded']) || $options['expanded'] === 1;
 
         if ($request->query->has('identifiers')) {
-            $options = $request->query->get('options');
+            $options = $request->query->all('options');
             $options['identifiers'] = explode(',', $request->query->get('identifiers'));
         }
 
@@ -343,7 +343,7 @@ class FamilyController
     public function getWithVariantsAction(Request $request): JsonResponse
     {
         $search = $request->query->get('search');
-        $options = $request->query->get('options');
+        $options = $request->query->all('options');
 
         $families = $this->familyRepository->getWithVariants($search, $options, self::FAMILY_VARIANTS_LIMIT);
 

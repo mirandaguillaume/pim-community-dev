@@ -7,12 +7,12 @@ namespace Akeneo\Platform\Job\Infrastructure\Controller;
 use Akeneo\Platform\Job\Application\SearchJobExecution\SearchJobExecutionHandler;
 use Akeneo\Platform\Job\Application\SearchJobExecution\SearchJobExecutionQuery;
 use Oro\Bundle\SecurityBundle\SecurityFacade;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * @author Pierre Jolly <pierre.jolly@akeneo.com>

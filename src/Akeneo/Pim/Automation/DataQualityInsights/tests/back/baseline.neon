@@ -3901,12 +3901,6 @@ parameters:
 			path: ../../back/Infrastructure/Structure/EditableAttributeFilter.php
 
 		-
-			message: '#^Method Akeneo\\Pim\\Automation\\DataQualityInsights\\Infrastructure\\Symfony\\AkeneoDataQualityInsightsBundle\:\:build\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: ../../back/Infrastructure/Symfony/AkeneoDataQualityInsightsBundle.php
-
-		-
 			message: '#^Parameter \#2 \$datetime of static method DateTimeImmutable\:\:createFromFormat\(\) expects string, mixed given\.$#'
 			identifier: argument.type
 			count: 1
@@ -4327,32 +4321,14 @@ parameters:
 			path: ../../back/Infrastructure/Symfony/Controller/UpdateAttributeGroupActivationController.php
 
 		-
-			message: '#^Method Akeneo\\Pim\\Automation\\DataQualityInsights\\Infrastructure\\Symfony\\DependencyInjection\\AkeneoDataQualityInsightsExtension\:\:load\(\) has parameter \$configs with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: ../../back/Infrastructure/Symfony/DependencyInjection/AkeneoDataQualityInsightsExtension.php
-
-		-
 			message: '#^Cannot access offset ''feature'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 2
 			path: ../../back/Infrastructure/Symfony/DependencyInjection/Compiler/CriteriaByFeatureRegistryPass.php
 
 		-
-			message: '#^Method Akeneo\\Pim\\Automation\\DataQualityInsights\\Infrastructure\\Symfony\\DependencyInjection\\Compiler\\CriteriaByFeatureRegistryPass\:\:process\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: ../../back/Infrastructure/Symfony/DependencyInjection/Compiler/CriteriaByFeatureRegistryPass.php
-
-		-
 			message: '#^Cannot access offset ''feature'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: ../../back/Infrastructure/Symfony/DependencyInjection/Compiler/ProductKeyIndicatorsByFeatureRegistryPass.php
-
-		-
-			message: '#^Method Akeneo\\Pim\\Automation\\DataQualityInsights\\Infrastructure\\Symfony\\DependencyInjection\\Compiler\\ProductKeyIndicatorsByFeatureRegistryPass\:\:process\(\) has no return type specified\.$#'
-			identifier: missingType.return
 			count: 1
 			path: ../../back/Infrastructure/Symfony/DependencyInjection/Compiler/ProductKeyIndicatorsByFeatureRegistryPass.php
 
