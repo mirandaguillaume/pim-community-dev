@@ -124,6 +124,8 @@ services:
             - '@feature_flags'
         tags:
             - { name: monolog.logger, channel: job_queue }
+            - { name: messenger.message_handler, method: handleJobExecution }
+            - { name: messenger.message_handler, method: handleScheduledJob }
 
     akeneo_batch_queue.ordering_key.resolver.job_message:
         class: Akeneo\Tool\Bundle\MessengerBundle\Ordering\ClassOrderingKeyResolver
