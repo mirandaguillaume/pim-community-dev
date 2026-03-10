@@ -44,19 +44,19 @@ class AjaxOptionController
         if ($repository instanceof ReferenceDataRepositoryInterface) {
             $choices['results'] = $repository->findBySearch(
                 $search,
-                $request->get('options', [])
+                $request->query->all()['options'] ?? []
             );
         } elseif ($repository instanceof SearchableRepositoryInterface) {
             $choices['results'] = $repository->findBySearch(
                 $search,
-                $request->get('options', [])
+                $request->query->all()['options'] ?? []
             );
         } elseif (method_exists($repository, 'getOptions')) {
             $choices = $repository->getOptions(
                 $request->get('dataLocale'),
                 $request->get('collectionId'),
                 $search,
-                $request->get('options', [])
+                $request->query->all()['options'] ?? []
             );
         } else {
             throw new \LogicException(

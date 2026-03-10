@@ -41,7 +41,7 @@ class ResetController extends AbstractController
             return $this->render('@PimUser/Reset/sendEmail.html.twig');
         }
 
-        if ($user->isPasswordRequestNonExpired($this->container->getParameter('pim_user.reset.ttl'))) {
+        if ($user->isPasswordRequestNonExpired($this->getParameter('pim_user.reset.ttl'))) {
             $this->addFlash(
                 'warn',
                 'The password for this user has already been requested within the last 24 hours.'
@@ -75,7 +75,7 @@ class ResetController extends AbstractController
             );
         }
 
-        if (!$user->isPasswordRequestNonExpired($this->container->getParameter('pim_user.reset.ttl'))) {
+        if (!$user->isPasswordRequestNonExpired($this->getParameter('pim_user.reset.ttl'))) {
             $this->addFlash(
                 'warn',
                 'The password for this user has already been requested within the last 24 hours.'

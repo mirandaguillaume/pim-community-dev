@@ -318,7 +318,7 @@ class AttributeGroupController
 
     protected function parseOptions(Request $request): array
     {
-        $options = $request->get('options', []);
+        $options = $request->query->all()['options'] ?? [];
 
         if (!isset($options['limit'])) {
             $options['limit'] = SearchableRepositoryInterface::FETCH_LIMIT;

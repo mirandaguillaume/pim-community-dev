@@ -54,27 +54,29 @@ final readonly class GetJobExecutionAction
     {
         $searchJobExecutionQuery = new SearchJobExecutionQuery();
 
-        $searchJobExecutionQuery->page = (int) $request->get('page', 1);
-        $searchJobExecutionQuery->size = (int) $request->get('size', 25);
+        $queryAll = $request->query->all();
 
-        $sort = $request->get('sort');
+        $searchJobExecutionQuery->page = (int) ($queryAll['page'] ?? 1);
+        $searchJobExecutionQuery->size = (int) ($queryAll['size'] ?? 25);
+
+        $sort = $queryAll['sort'] ?? [];
         $searchJobExecutionQuery->sortColumn = $sort['column'] ?? 'started_at';
         $searchJobExecutionQuery->sortDirection = $sort['direction'] ?? 'DESC';
 
         $searchJobExecutionQuery->user = $this->getUserFilter($request);
 
-        $searchJobExecutionQuery->automation = null !== $request->get('automation') ? (bool) $request->get('automation') : null;
-        $searchJobExecutionQuery->type = $request->get('type', []);
-        $searchJobExecutionQuery->status = $request->get('status', []);
-        $searchJobExecutionQuery->search = $request->get('search', '');
-        $searchJobExecutionQuery->code = $request->get('code', []);
+        $searchJobExecutionQuery->automation = isset($queryAll['automation']) ? (bool) $queryAll['automation'] : null;
+        $searchJobExecutionQuery->type = $queryAll['type'] ?? [];
+        $searchJobExecutionQuery->status = $queryAll['status'] ?? [];
+        $searchJobExecutionQuery->search = $queryAll['search'] ?? '';
+        $searchJobExecutionQuery->code = $queryAll['code'] ?? [];
 
         return $searchJobExecutionQuery;
     }
 
     private function getUserFilter(Request $request): array
     {
-        $user = $request->get('user', []);
+        $user = $request->query->all()['user'] ?? [];
         if (!$this->securityFacade->isGranted('pim_enrich_job_tracker_view_all_jobs')) {
             $user = [$this->security->getUser()->getUserIdentifier()];
         }

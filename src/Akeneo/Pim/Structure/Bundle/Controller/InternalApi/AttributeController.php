@@ -116,14 +116,15 @@ class AttributeController
      */
     public function indexAction(Request $request)
     {
-        $options = $request->get('options', []);
+        $queryAll = $request->query->all();
+        $options = $queryAll['options'] ?? [];
         $options['locale'] ??= null;
         $options['limit'] ??= SearchableRepositoryInterface::FETCH_LIMIT;
         $options['identifiers'] ??= [];
 
         // If 'identifiers=' is used, any 'options[identifiers][]=' passed will be overwritten.
-        if ($request->get('identifiers', null) !== null) {
-            $options['identifiers'] = array_unique(explode(',', (string) $request->get('identifiers')));
+        if (isset($queryAll['identifiers'])) {
+            $options['identifiers'] = array_unique(explode(',', (string) $queryAll['identifiers']));
         }
 
         if ((is_countable($options['identifiers']) ? count($options['identifiers']) : 0) > 0) {

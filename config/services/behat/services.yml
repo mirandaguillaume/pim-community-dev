@@ -118,7 +118,7 @@ services:
 
     Context\FeatureContext:
         -   base_url: 'http://httpd-behat/'
-            timeout: 30000
+            timeout: 40000
             window_width: 1280
             window_height: 1024
         - '@kernel'

@@ -39,7 +39,7 @@ final readonly class DashboardWidgetFamiliesController
 
     private function getFamilyCodesFromRequest(Request $request): array
     {
-        $requestFamilies = $request->get('families', []);
+        $requestFamilies = $request->query->all()['families'] ?? [];
 
         if (!is_array($requestFamilies)) {
             throw new \InvalidArgumentException('The list of families must be an array');
