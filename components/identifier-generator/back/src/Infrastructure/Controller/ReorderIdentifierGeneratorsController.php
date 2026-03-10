@@ -35,7 +35,7 @@ final readonly class ReorderIdentifierGeneratorsController
             throw new AccessDeniedException();
         }
 
-        $orderedCodes = $request->get('codes', []);
+        $orderedCodes = $request->query->all()['codes'] ?? $request->request->all()['codes'] ?? [];
         Assert::isArray($orderedCodes);
         Assert::allStringNotEmpty($orderedCodes);
         ($this->handler)(ReorderGeneratorsCommand::fromCodes($orderedCodes));

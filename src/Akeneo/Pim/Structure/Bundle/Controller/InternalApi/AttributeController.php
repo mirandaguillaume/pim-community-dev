@@ -131,38 +131,38 @@ class AttributeController
             $options['limit'] = is_countable($options['identifiers']) ? count($options['identifiers']) : 0;
         }
 
-        if ($request->get('types', null) !== null) {
-            $options['types'] = is_array($request->get('types'))
-                ? $request->get('types')
-                : explode(',', (string) $request->get('types'));
+        if (isset($queryAll['types'])) {
+            $options['types'] = is_array($queryAll['types'])
+                ? $queryAll['types']
+                : explode(',', (string) $queryAll['types']);
         }
 
-        if ($request->get('attribute_groups', null) !== null) {
-            $options['attribute_groups'] = array_unique(explode(',', (string) $request->get('attribute_groups')));
+        if (isset($queryAll['attribute_groups'])) {
+            $options['attribute_groups'] = array_unique(explode(',', (string) $queryAll['attribute_groups']));
         }
 
-        if ($request->get('localizable', null) !== null) {
-            $options['localizable'] = $request->get('localizable') === 'true';
+        if (isset($queryAll['localizable'])) {
+            $options['localizable'] = $queryAll['localizable'] === 'true';
         }
 
-        if ($request->get('scopable', null) !== null) {
-            $options['scopable'] = $request->get('scopable') === 'true';
+        if (isset($queryAll['scopable'])) {
+            $options['scopable'] = $queryAll['scopable'] === 'true';
         }
 
-        if ($request->get('is_locale_specific', null) !== null) {
-            $options['is_locale_specific'] = $request->get('is_locale_specific') === 'true';
+        if (isset($queryAll['is_locale_specific'])) {
+            $options['is_locale_specific'] = $queryAll['is_locale_specific'] === 'true';
         }
 
-        if ($request->get('useable_as_grid_filter', null) !== null) {
-            $options['useable_as_grid_filter'] = $request->get('useable_as_grid_filter') === 'true';
+        if (isset($queryAll['useable_as_grid_filter'])) {
+            $options['useable_as_grid_filter'] = $queryAll['useable_as_grid_filter'] === 'true';
         }
 
-        if ($request->get('families', null) !== null) {
-            $options['families'] = $request->get('families');
+        if (isset($queryAll['families'])) {
+            $options['families'] = $queryAll['families'];
         }
 
-        if ($request->get('rights', null) !== null) {
-            $options['rights'] = (bool) $request->get('rights');
+        if (isset($queryAll['rights'])) {
+            $options['rights'] = (bool) $queryAll['rights'];
         }
 
         $token = $this->tokenStorage->getToken();

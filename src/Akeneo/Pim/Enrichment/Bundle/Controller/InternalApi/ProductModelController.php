@@ -224,7 +224,7 @@ class ProductModelController
     public function searchLastLevelProductModelByCode(Request $request): JsonResponse
     {
         $search = $request->query->get('search');
-        $options = $request->query->get('options');
+        $options = $request->query->all()['options'] ?? [];
         $familyVariantCode = $options['family_variant'];
         $page = intval($options['page']) - 1;
         $familyVariant = $this->getFamilyVariant($familyVariantCode);
@@ -250,7 +250,7 @@ class ProductModelController
     public function listFamilyVariantProductModels(Request $request)
     {
         $search = trim($request->query->get('search'));
-        $options = $request->query->get('options');
+        $options = $request->query->all()['options'] ?? [];
         $familyVariant = $this->getFamilyVariant($options['family_variant']);
 
         $productModels = $this->productModelRepository->findProductModelsForFamilyVariant(

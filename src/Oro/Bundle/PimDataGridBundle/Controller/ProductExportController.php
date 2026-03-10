@@ -80,8 +80,9 @@ class ProductExportController
 
         if ($withGridContext) {
             $gridName = $request->get('gridName') ?? 'product_grid';
-            if (isset($request->get($gridName)['_parameters'])) {
-                $columns = explode(',', (string) $request->get($gridName)['_parameters']['view']['columns']);
+            $gridParams = $request->query->all()[$gridName] ?? [];
+            if (isset($gridParams['_parameters'])) {
+                $columns = explode(',', (string) ($gridParams['_parameters']['view']['columns'] ?? ''));
             } else {
                 $columns = array_keys($this->datagridManager->getConfigurationForGrid($gridName)['columns']);
             }
