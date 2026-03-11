@@ -21,7 +21,7 @@ class ErrorHandlerConfigurationListener
         if ('prod' === $this->environment) {
             $handler = new ErrorHandler($this->logger);
             $handler->registerErrorHandler([], false);
-            $handler->registerExceptionHandler(['Throwable' => Logger::CRITICAL], false);
+            $handler->registerExceptionHandler(['Throwable' => 'critical'], false);
             $handler->registerFatalHandler();
 
             $consoleCommandEvent->getCommand()->getApplication()->setCatchExceptions(false);

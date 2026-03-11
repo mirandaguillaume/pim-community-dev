@@ -3,8 +3,8 @@
 namespace Akeneo\Tool\Bundle\BatchBundle\Monolog\Handler;
 
 use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
-use Monolog\Utils;
+use Monolog\Level;
+use Monolog\LogRecord;
 
 /**
  * Write the log into a separate log file
@@ -21,15 +21,8 @@ class BatchLogHandler extends StreamHandler
     /** @var string */
     protected $logDir;
 
-    /**
-     * @param int             $level          The minimum logging level at which this handler will be triggered
-     * @param Boolean         $bubble         Whether the messages that are handled can bubble up the stack or not
-     * @param int|null        $filePermission Optional file permissions (default (0644) are only for owner read/write)
-     * @param Boolean         $useLocking     Try to lock log file before doing any writes
-     * @param string          $logDir         Batch log directory
-     */
     public function __construct(
-        int $level,
+        int|string|Level $level,
         bool $bubble,
         ?int $filePermission,
         bool $useLocking,
@@ -80,7 +73,7 @@ class BatchLogHandler extends StreamHandler
     /**
      * {@inheritdoc}
      */
-    public function write(array $record): void
+    public function write(LogRecord $record): void
     {
         if (null === $this->url) {
             $this->url = $this->getRealPath($this->generateLogFilename());
@@ -100,6 +93,6 @@ class BatchLogHandler extends StreamHandler
      */
     private function generateLogFilename()
     {
-        return sprintf('batch_%s.log', sha1(uniqid(random_int(0, mt_getrandmax()), true)));
+        return sprintf('batch_%s.log', sha1(uniqid((string) random_int(0, mt_getrandmax()), true)));
     }
 }

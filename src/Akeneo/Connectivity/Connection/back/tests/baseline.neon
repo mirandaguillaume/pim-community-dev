@@ -15390,12 +15390,6 @@ parameters:
 			path: ../tests/Unit/spec/Infrastructure/Apps/Controller/Internal/ConfirmAuthorizationActionSpec.php
 
 		-
-			message: '#^Parameter \#1 \$message of method Psr\\Log\\LoggerInterface\:\:warning\(\) expects string, Prophecy\\Argument\\Token\\AnyValueToken given\.$#'
-			identifier: argument.type
-			count: 2
-			path: ../tests/Unit/spec/Infrastructure/Apps/Controller/Internal/ConfirmAuthorizationActionSpec.php
-
-		-
 			message: '#^Result of method Akeneo\\Connectivity\\Connection\\Application\\Apps\\Command\\ConsentAppAuthenticationHandler\:\:handle\(\) \(void\) is used\.$#'
 			identifier: method.void
 			count: 2

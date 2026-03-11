@@ -11,14 +11,14 @@ namespace Akeneo\Tool\Bundle\ElasticsearchBundle\Infrastructure\Client;
 
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
-use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 use Webmozart\Assert\Assert;
 
 final class IndexUpdaterClient
 {
     private readonly Client $client;
 
-    public function __construct(private readonly Logger $logger, ClientBuilder $clientBuilder, array $hosts)
+    public function __construct(private readonly LoggerInterface $logger, ClientBuilder $clientBuilder, array $hosts)
     {
         $this->client = $clientBuilder->setHosts($hosts)->build();
     }

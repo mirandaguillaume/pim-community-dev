@@ -55,7 +55,8 @@
             "Akeneo\\Test\\UserManagement\\": "src/Akeneo/UserManagement/back/tests",
             "Akeneo\\Test\\Pim\\Automation\\IdentifierGenerator\\": "components/identifier-generator/back/tests",
             "Akeneo\\Platform\\Installer\\Test\\": "src/Akeneo/Platform/Installer/back/tests",
-            "Akeneo\\Tool\\Bundle\\MeasureBundle\\tests\\": "src/Akeneo/Tool/Bundle/MeasureBundle/back/tests"
+            "Akeneo\\Tool\\Bundle\\MeasureBundle\\tests\\": "src/Akeneo/Tool/Bundle/MeasureBundle/back/tests",
+            "Psr\\Log\\Test\\": "tests/back/Polyfill/PsrLog/Test/"
         }
     },
     "require": {
@@ -91,7 +92,7 @@
         "doctrine/orm": "^2.13",
         "doctrine/persistence": "^3.2",
         "dompdf/dompdf": "^3.0",
-        "elasticsearch/elasticsearch": "7.11.0",
+        "elasticsearch/elasticsearch": "^7.17",
         "friendsofsymfony/jsrouting-bundle": "^3.2.1",
         "friendsofsymfony/rest-bundle": "^3.4.0",
         "gedmo/doctrine-extensions": "^3.2.0",
@@ -103,7 +104,7 @@
         "league/flysystem": "^3.11.0",
         "liip/imagine-bundle": "^2.10.0",
         "maennchen/zipstream-php": "^3.0",
-        "monolog/monolog": "^2.8.0",
+        "monolog/monolog": "^3.0",
         "oneup/flysystem-bundle": "^4.5.0",
         "openspout/openspout": "^4.9.0",
         "opis/json-schema": "^2.3",
