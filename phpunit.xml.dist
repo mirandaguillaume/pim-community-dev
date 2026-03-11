@@ -5,6 +5,7 @@
     colors="true"
     processIsolation="false"
     stopOnFailure="false"
+    failOnRisky="false"
     bootstrap="config/bootstrap.php"
     cacheDirectory=".phpunit.cache">
 
