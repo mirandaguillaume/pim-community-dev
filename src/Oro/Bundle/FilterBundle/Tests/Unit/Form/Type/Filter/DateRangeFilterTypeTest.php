@@ -43,7 +43,7 @@ class DateRangeFilterTypeTest extends AbstractTypeTestCase
     /**
      * {@inheritDoc}
      */
-    public function configureOptionsDataProvider()
+    public static function configureOptionsDataProvider()
     {
         return [
             [
@@ -70,7 +70,7 @@ class DateRangeFilterTypeTest extends AbstractTypeTestCase
     /**
      * {@inheritDoc}
      */
-    public function bindDataProvider()
+    public static function bindDataProvider()
     {
         return [
             'empty' => [

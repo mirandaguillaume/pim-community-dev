@@ -145,7 +145,7 @@ class CreateConnectedAppWithAuthorizationHandlerIntegration extends TestCase
         ));
     }
 
-    public function throwExceptionDataProvider(): array
+    public static function throwExceptionDataProvider(): array
     {
         return [
             'not blank' => [

@@ -45,7 +45,7 @@ final class OrderingKeySolverIntegration extends KernelTestCase
         self::assertSame('job_key', $this->orderingKeySolver->solve(new Envelope($jobExecutionMessage)));
     }
 
-    public function jobMessagesProvider(): array
+    public static function jobMessagesProvider(): array
     {
         return [
             [UiJobExecutionMessage::createJobExecutionMessage(1, [])],

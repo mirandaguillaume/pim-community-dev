@@ -91,7 +91,7 @@ final class SqlGetCategoryChildrenCodesPerTreeIntegration extends TestCase
         $this->getQuery(new AllowAllCategoryCode())->executeWithChildren([$invalidCategoryCode]);
     }
 
-    public function invalidCategoryCodes(): array
+    public static function invalidCategoryCodes(): array
     {
         return [
             'Category code cannot be empty' => [''],
@@ -111,7 +111,7 @@ final class SqlGetCategoryChildrenCodesPerTreeIntegration extends TestCase
         self::assertEqualsCanonicalizing($expected, $actual);
     }
 
-    public function categoryCodesToSelectWithoutChildren(): array
+    public static function categoryCodesToSelectWithoutChildren(): array
     {
         return [
             'Select No categories' => [[], ['master' => [], 'season' => []]],
@@ -137,7 +137,7 @@ final class SqlGetCategoryChildrenCodesPerTreeIntegration extends TestCase
         self::assertEqualsCanonicalizing($expectedResults, $actual);
     }
 
-    public function categoryCodesToSelectWithChildren(): array
+    public static function categoryCodesToSelectWithChildren(): array
     {
         return [
             'Select No categories' => [[], ['master' => [], 'season' => []]],

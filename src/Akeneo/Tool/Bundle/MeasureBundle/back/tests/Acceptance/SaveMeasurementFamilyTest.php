@@ -637,7 +637,7 @@ class SaveMeasurementFamilyTest extends AcceptanceTestCase
         self::assertEquals('units', $violation->getPropertyPath());
     }
 
-    public function invalidCodes(): array
+    public static function invalidCodes(): array
     {
         return [
             'Should not be too long' => [
@@ -650,7 +650,7 @@ class SaveMeasurementFamilyTest extends AcceptanceTestCase
         ];
     }
 
-    public function invalidLabels(): array
+    public static function invalidLabels(): array
     {
         $as = str_repeat('a', 101);
 
@@ -662,7 +662,7 @@ class SaveMeasurementFamilyTest extends AcceptanceTestCase
         ];
     }
 
-    public function invalidUnitLabels(): array
+    public static function invalidUnitLabels(): array
     {
         $as = str_repeat('a', 101);
 
@@ -674,7 +674,7 @@ class SaveMeasurementFamilyTest extends AcceptanceTestCase
         ];
     }
 
-    public function invalidOperator(): array
+    public static function invalidOperator(): array
     {
         return [
             'Operator cannot be blank' => [null, 'This value should not be blank.'],
@@ -682,14 +682,14 @@ class SaveMeasurementFamilyTest extends AcceptanceTestCase
         ];
     }
 
-    public function invalidConvertValue(): array
+    public static function invalidConvertValue(): array
     {
         return [
             'The convert value is not a valid number represented as a string' => ['1.24adv', 'The operation value should be a valid number'],
         ];
     }
 
-    public function invalidUnitSymbol()
+    public static function invalidUnitSymbol()
     {
         return [
             'Should not be too long' => [str_repeat('a', 256), 'This value is too long. It should have 255 characters or less.'],
@@ -721,7 +721,7 @@ class SaveMeasurementFamilyTest extends AcceptanceTestCase
         );
     }
 
-    public function invalidOperationCount()
+    public static function invalidOperationCount()
     {
         return [
             'Should have at least one operation' => [0, 'A minimum of one conversion operation per unit is required.'],
@@ -729,7 +729,7 @@ class SaveMeasurementFamilyTest extends AcceptanceTestCase
         ];
     }
 
-    public function invalidUnitCount()
+    public static function invalidUnitCount()
     {
         return [
             'Should have at least one operation' => [0, 'There should be at least 1 unit in the measurement family.'],
@@ -737,7 +737,7 @@ class SaveMeasurementFamilyTest extends AcceptanceTestCase
         ];
     }
 
-    public function invalidConvertionOperations()
+    public static function invalidConvertionOperations()
     {
         return [
             'Cannot update an existing operation' => [[['operator' => 'mul', 'value' => '50']]],

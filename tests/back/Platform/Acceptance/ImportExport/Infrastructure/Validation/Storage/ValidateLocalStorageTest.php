@@ -30,7 +30,7 @@ class ValidateLocalStorageTest extends AbstractValidationTest
         $this->assertHasValidationError($expectedErrorMessage, $expectedErrorPath, $violations);
     }
 
-    public function validLocalStorage(): array
+    public static function validLocalStorage(): array
     {
         return [
             'valid local storage' => [
@@ -48,7 +48,7 @@ class ValidateLocalStorageTest extends AbstractValidationTest
         ];
     }
 
-    public function invalidLocalStorage(): array
+    public static function invalidLocalStorage(): array
     {
         return [
             'invalid storage type' => [

@@ -30,7 +30,7 @@ class ValidateManualStorageTest extends AbstractValidationTest
         $this->assertHasValidationError($expectedErrorMessage, $expectedErrorPath, $violations);
     }
 
-    public function validManualStorage(): array
+    public static function validManualStorage(): array
     {
         return [
             'valid manual storage' => [
@@ -42,7 +42,7 @@ class ValidateManualStorageTest extends AbstractValidationTest
         ];
     }
 
-    public function invalidManualStorage(): array
+    public static function invalidManualStorage(): array
     {
         return [
             'invalid storage type' => [

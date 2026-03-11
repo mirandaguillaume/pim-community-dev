@@ -86,7 +86,7 @@ class AjaxEntityTransformerTest extends TestCase
             : $createObject($id);
     }
 
-    public function getReverseTransformData()
+    public static function getReverseTransformData()
     {
         return [
             'single'         => ['1', '_1_', false],
@@ -105,7 +105,7 @@ class AjaxEntityTransformerTest extends TestCase
         $this->assertEquals($expected, $transformer->reverseTransform($data));
     }
 
-    public function getTransformData()
+    public static function getTransformData()
     {
         return [
             'single'        => [1, 1, false],
@@ -124,7 +124,7 @@ class AjaxEntityTransformerTest extends TestCase
         $this->assertEquals($expected, $transformer->transform($data));
     }
 
-    public function getGetOptionsData()
+    public static function getGetOptionsData()
     {
         return [
             'single'        => [1, ['id' => 1, 'text' => '_1_'], false],

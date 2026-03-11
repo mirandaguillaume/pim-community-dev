@@ -55,7 +55,7 @@ class UpdateConnectedAppScopesWithAuthorizationHandlerIntegration extends TestCa
         $this->accessDecisionManager = $this->get('security.access.decision_manager');
     }
 
-    public function throwExceptionDataProvider(): array
+    public static function throwExceptionDataProvider(): array
     {
         return [
             'not blank' => [
@@ -73,7 +73,7 @@ class UpdateConnectedAppScopesWithAuthorizationHandlerIntegration extends TestCa
         ];
     }
 
-    public function scopesDataProvider(): array
+    public static function scopesDataProvider(): array
     {
         return [
             'more scopes' => [

@@ -30,7 +30,7 @@ class ValidateStorageTest extends AbstractValidationTest
         $this->assertHasValidationError($expectedErrorMessage, $expectedErrorPath, $violations);
     }
 
-    public function validStorage(): array
+    public static function validStorage(): array
     {
         return [
             'valid none storage' => [
@@ -47,7 +47,7 @@ class ValidateStorageTest extends AbstractValidationTest
         ];
     }
 
-    public function invalidStorage(): array
+    public static function invalidStorage(): array
     {
         return [
             'invalid storage type' => [

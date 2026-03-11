@@ -38,13 +38,13 @@ class PurgeOrphanCategoryImageFilesCommandHandlerTest extends TestCase
                 IteratorStatus::done(['a_category/file1.jpg', 'a_category/file2.jpg']),
             ]));
 
+        $deletedPaths = [];
         $deleteCategoryImageFile = $this->createMock(DeleteCategoryImageFile::class);
         $deleteCategoryImageFile
             ->method('__invoke')
-            ->withConsecutive(
-                ['a_category/file1.jpg'],
-                ['a_category/file2.jpg'],
-            );
+            ->willReturnCallback(function (string $path) use (&$deletedPaths): void {
+                $deletedPaths[] = $path;
+            });
 
         $handler = new PurgeOrphanCategoryImageFilesCommandHandler(
             $fileSystemProvider,
@@ -63,5 +63,6 @@ class PurgeOrphanCategoryImageFilesCommandHandlerTest extends TestCase
             IteratorStatus::inProgress(),
             IteratorStatus::done(),
         ], $results);
+        $this->assertSame(['a_category/file1.jpg', 'a_category/file2.jpg'], $deletedPaths);
     }
 }

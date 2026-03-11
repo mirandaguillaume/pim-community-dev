@@ -24,7 +24,7 @@ class ReadValueCollectionFactoryIntegration extends TestCase
         $this->assertTrue(in_array($attributeCode, $readValueCollection->getAttributeCodes()));
     }
 
-    public function validAttributeValue(): array
+    public static function validAttributeValue(): array
     {
         return [
             ['a_text', 'some_text'],
@@ -46,7 +46,7 @@ class ReadValueCollectionFactoryIntegration extends TestCase
         $this->assertFalse(in_array($attributeCode, $readValueCollection->getAttributeCodes()));
     }
 
-    public function invalidAttributeValue(): array
+    public static function invalidAttributeValue(): array
     {
         return [
             ['a_price', 'some_text'],

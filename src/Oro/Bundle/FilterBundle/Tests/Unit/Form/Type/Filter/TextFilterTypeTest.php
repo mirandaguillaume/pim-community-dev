@@ -36,7 +36,7 @@ class TextFilterTypeTest extends AbstractTypeTestCase
     /**
      * {@inheritDoc}
      */
-    public function configureOptionsDataProvider()
+    public static function configureOptionsDataProvider()
     {
         return [
             [
@@ -57,7 +57,7 @@ class TextFilterTypeTest extends AbstractTypeTestCase
     /**
      * {@inheritDoc}
      */
-    public function bindDataProvider()
+    public static function bindDataProvider()
     {
         return [
             'simple text' => [

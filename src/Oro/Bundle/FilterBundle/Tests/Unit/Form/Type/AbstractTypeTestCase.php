@@ -102,7 +102,7 @@ abstract class AbstractTypeTestCase extends FormIntegrationTestCase
      *
      * @return array
      */
-    abstract public function configureOptionsDataProvider();
+    abstract public static function configureOptionsDataProvider();
 
     /**
      * @dataProvider bindDataProvider
@@ -133,7 +133,7 @@ abstract class AbstractTypeTestCase extends FormIntegrationTestCase
      *
      * @return array
      */
-    abstract public function bindDataProvider();
+    abstract public static function bindDataProvider();
 
     /**
      * @return FormTypeInterface
