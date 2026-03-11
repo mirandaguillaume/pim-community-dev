@@ -108,12 +108,19 @@ class Version_7_0_20230201143400_drop_product_id_columns_and_clean_versioning_re
 
     private function createDummyTriggersToBeRemoved(): void
     {
+        try {
+            $this->connection->executeStatement('SET GLOBAL log_bin_trust_function_creators = 1');
+        } catch (\Exception) {
+            $this->markTestSkipped('Cannot set log_bin_trust_function_creators — SUPER privilege required for trigger tests');
+        }
+
         $createDummyTriggerQuery = <<<SQL
+            DROP TRIGGER IF EXISTS %s;
             Create Trigger %s
-            BEFORE INSERT ON pim_catalog_category_product FOR EACH ROW  
-            BEGIN  
-            IF NEW.product_uuid IS NULL THEN SET NEW.category_id = 1;  
-            END IF;  
+            BEFORE INSERT ON pim_catalog_category_product FOR EACH ROW
+            BEGIN
+            IF NEW.product_uuid IS NULL THEN SET NEW.category_id = 1;
+            END IF;
             END
             SQL;
         foreach (V20220729171405DropProductIdColumnsAndCleanVersioningResourceUuidColumns::TABLES_TO_UPDATE as $tableName => $properties) {
@@ -121,7 +128,7 @@ class Version_7_0_20230201143400_drop_product_id_columns_and_clean_versioning_re
                 continue;
             }
             foreach ($properties['triggers'] as $triggerName) {
-                $query = \sprintf($createDummyTriggerQuery, $triggerName);
+                $query = \sprintf($createDummyTriggerQuery, $triggerName, $triggerName);
                 $this->connection->executeStatement($query);
             }
         }
