@@ -242,6 +242,10 @@ class AccessTokenRequestValidationIntegration extends WebTestCase
             'http://anyurl.test'
         ));
 
+        // Handler writes to session in memory but doesn't save().
+        // Must persist before the HTTP client creates a new kernel that reloads from storage.
+        $this->sharedSession->save();
+
         $this->client->request(
             'POST',
             \sprintf('/rest/apps/confirm-authorization/%s', $appId),
