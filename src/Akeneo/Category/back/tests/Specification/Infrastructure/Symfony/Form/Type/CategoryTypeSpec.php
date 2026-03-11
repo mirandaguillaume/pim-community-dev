@@ -44,12 +44,12 @@ class CategoryTypeSpec extends ObjectBehavior
 
     public function it_builds_the_category_form($builder)
     {
-        $builder->add('code')->shouldBeCalled();
+        $builder->add('code')->shouldBeCalled()->willReturn($builder);
         $builder->add(
             'label',
             TranslatableFieldType::class,
             Argument::type('array')
-        )->shouldBeCalled();
+        )->shouldBeCalled()->willReturn($builder);
 
         $this->buildForm($builder, []);
     }
@@ -57,7 +57,7 @@ class CategoryTypeSpec extends ObjectBehavior
     public function it_adds_a_disable_field_subscriber($builder)
     {
         $builder->addEventSubscriber(new DisableFieldSubscriber('code'))
-            ->shouldBeCalled();
+            ->shouldBeCalled()->willReturn($builder);
 
         $this->buildForm($builder, []);
     }
@@ -68,7 +68,7 @@ class CategoryTypeSpec extends ObjectBehavior
             [
                 'data_class'  => Category::class,
             ]
-        )->shouldBeCalled();
+        )->shouldBeCalled()->willReturn($resolver);
 
         $this->configureOptions($resolver);
     }
@@ -77,7 +77,7 @@ class CategoryTypeSpec extends ObjectBehavior
     {
         $this->addEventSubscriber($subscriber);
         $builder->addEventSubscriber($subscriber)
-            ->shouldBeCalled();
+            ->shouldBeCalled()->willReturn($builder);
 
         $this->buildForm($builder, []);
     }

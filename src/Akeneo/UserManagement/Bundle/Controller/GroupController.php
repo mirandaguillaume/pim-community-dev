@@ -100,7 +100,7 @@ class GroupController extends AbstractController
         }
 
         return $this->render('@PimUser/Group/update.html.twig', [
-            'form' => $this->form->createView(),
+            'form' => $this->form,
         ]);
     }
 

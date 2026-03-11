@@ -40,8 +40,7 @@ identifier-generator-acceptance-back:
 
 .PHONY: identifier-generator-coupling-back
 identifier-generator-coupling-back:
-	$(PHP_RUN) vendor/bin/php-coupling-detector detect \
-		--config-file=$(IDENTIFIER_GENERATOR_PATH)/back/tests/.php_cd.php
+	$(PHP_RUN) vendor/bin/php-coupling-detector detect --config-file=$(IDENTIFIER_GENERATOR_PATH)/back/tests/.php_cd.php $(IDENTIFIER_GENERATOR_PATH)/back/src
 
 .PHONY: identifier-generator-phpunit-back
 identifier-generator-phpunit-back:

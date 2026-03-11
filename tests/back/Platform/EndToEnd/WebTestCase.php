@@ -52,7 +52,7 @@ abstract class WebTestCase extends TestCase
         $firewallName = 'main';
         $firewallContext = 'main';
 
-        $token = new UsernamePasswordToken($user, null, $firewallName, $user->getRoles());
+        $token = new UsernamePasswordToken($user, $firewallName, $user->getRoles());
         $session = $this->getSession();
         $session->set('_security_' . $firewallContext, serialize($token));
         $session->save();
@@ -63,6 +63,12 @@ abstract class WebTestCase extends TestCase
 
     private function getSession(): SessionInterface
     {
-        return $this->client->getContainer()->get('session');
+        $container = $this->client->getContainer();
+
+        if ($container->has('session.factory')) {
+            return $container->get('session.factory')->createSession();
+        }
+
+        return $container->get('session');
     }
 }

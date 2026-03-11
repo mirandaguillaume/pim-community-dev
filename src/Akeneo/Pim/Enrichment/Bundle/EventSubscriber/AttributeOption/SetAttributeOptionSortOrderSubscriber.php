@@ -81,7 +81,7 @@ class SetAttributeOptionSortOrderSubscriber implements EventSubscriberInterface
      */
     private function setSortOrders(array $options): void
     {
-        $options = array_filter($options, fn (AttributeoptionInterface $option) => null === $option->getSortOrder());
+        $options = array_filter($options, fn (AttributeOptionInterface $option) => null === $option->getSortOrder());
 
         if (0 === \count($options)) {
             return;

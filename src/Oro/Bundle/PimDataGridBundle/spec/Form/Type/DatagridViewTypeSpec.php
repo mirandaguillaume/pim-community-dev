@@ -31,14 +31,21 @@ class DatagridViewTypeSpec extends ObjectBehavior
     {
         $builder->add('label', TextType::class, ['required' => true])->willReturn($builder);
         $builder->add('order', HiddenType::class)->willReturn($builder);
-        $builder->add('filters', HiddenType::class)->shouldBeCalled();
+        $builder->add('filters', HiddenType::class)->willReturn($builder)->shouldBeCalled();
 
         $this->buildForm($builder, []);
     }
 
     public function it_does_not_map_the_fields_to_the_entity_by_default(OptionsResolver $resolver)
     {
+        $resolver->setDefaults(
+            [
+                'data_class' => DatagridView::class,
+            ]
+        )->willReturn($resolver);
+
         $this->configureOptions($resolver);
+
         $resolver->setDefaults(
             [
                 'data_class' => DatagridView::class,

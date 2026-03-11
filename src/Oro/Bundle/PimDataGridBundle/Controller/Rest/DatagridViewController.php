@@ -49,7 +49,7 @@ class DatagridViewController
 
         $user = $this->tokenStorage->getToken()->getUser();
 
-        $options = $request->query->get('options', []);
+        $options = $request->query->all('options');
         $options = array_merge(['limit' => 20, 'page' => 1], $options);
 
         $term = $request->query->get('search', '');
@@ -116,7 +116,7 @@ class DatagridViewController
             return new RedirectResponse('/');
         }
 
-        $view = $request->request->get('view', null);
+        $view = $request->request->all()['view'] ?? null;
 
         if (null === $view) {
             throw new BadRequestHttpException('Parameter "view" needed in the request.');

@@ -46,6 +46,7 @@ class GetAllConnectedAppScopeMessagesActionSpec extends ObjectBehavior
         Request $request,
     ): void {
         $featureFlag->isEnabled()->willReturn(true);
+        $request->isXmlHttpRequest()->willReturn(false);
 
         $this->__invoke($request, 'foo')
             ->shouldBeLike(new RedirectResponse('/'));

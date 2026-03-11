@@ -67,7 +67,7 @@ function acceptanceBack(
 #[AsTask(namespace: 'identifier-generator', name: 'coupling-back', description: 'Run coupling detector for identifier generator')]
 function couplingBack(): void
 {
-    \phpRun('vendor/bin/php-coupling-detector detect --config-file=' . PATH . '/back/tests/.php_cd.php');
+    \couplingDetector(PATH . '/back/tests/.php_cd.php', PATH . '/back/src');
 }
 
 #[AsTask(namespace: 'identifier-generator', name: 'phpunit-back', description: 'Run PHPUnit tests for identifier generator')]

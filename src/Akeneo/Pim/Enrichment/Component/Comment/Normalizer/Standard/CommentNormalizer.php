@@ -68,7 +68,7 @@ class CommentNormalizer implements NormalizerInterface, NormalizerAwareInterface
         return $comments;
     }
 
-    private function normalizeAuthor(Commentinterface $comment): array
+    private function normalizeAuthor(CommentInterface $comment): array
     {
         if (null === $comment->getAuthor()) {
             return [

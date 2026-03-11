@@ -49,12 +49,14 @@ return static function (RectorConfig $rectorConfig): void {
         DoctrineSetList::DOCTRINE_ORM_213,
     ]);
 
-    // Symfony 5.4 → 6.2 deprecation fixes (preparing for 6.4 upgrade)
+    // Symfony 5.4 → 6.4 deprecation fixes
     $rectorConfig->sets([
         SymfonySetList::SYMFONY_54,   // Annotations, listener factories
         SymfonySetList::SYMFONY_60,   // getUsername → getUserIdentifier, loadUserByUsername → loadUserByIdentifier
         SymfonySetList::SYMFONY_61,   // $defaultName → #[AsCommand]
         SymfonySetList::SYMFONY_62,   // Security\Core\Security → SecurityBundle\Security
+        SymfonySetList::SYMFONY_63,   // #[Param]/#[Env] attributes, SignalableCommand return type
+        SymfonySetList::SYMFONY_64,   // UriSigner namespace, routing, form, error handler
     ]);
 
     // Don't auto-import names to avoid cosmetic changes across the codebase

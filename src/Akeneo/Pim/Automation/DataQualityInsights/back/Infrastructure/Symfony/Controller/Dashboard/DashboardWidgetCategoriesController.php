@@ -39,7 +39,7 @@ final readonly class DashboardWidgetCategoriesController
 
     private function getCategoryCodesFromRequest(Request $request): array
     {
-        $requestCategories = $request->get('categories', []);
+        $requestCategories = $request->query->all()['categories'] ?? [];
 
         if (!is_array($requestCategories)) {
             throw new \InvalidArgumentException('The list of categories must be an array');

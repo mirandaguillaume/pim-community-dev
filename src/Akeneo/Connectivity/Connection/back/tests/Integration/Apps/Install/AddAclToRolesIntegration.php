@@ -10,6 +10,7 @@ use Akeneo\Test\Integration\TestCase;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
+use Symfony\Component\Security\Core\User\InMemoryUser;
 
 class AddAclToRolesIntegration extends TestCase
 {
@@ -32,7 +33,7 @@ class AddAclToRolesIntegration extends TestCase
     public function test_it_adds_acl_to_roles(): void
     {
         $user = $this->createAdminUser();
-        $token = new UsernamePasswordToken($user->getUserIdentifier(), 'main', $user->getRoles());
+        $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
 
         $isAllowed = $this->accessDecisionManager->decide($token, ['EXECUTE'], new ObjectIdentity('action', 'akeneo_connectivity_connection_manage_apps'));
         $this->assertFalse($isAllowed);

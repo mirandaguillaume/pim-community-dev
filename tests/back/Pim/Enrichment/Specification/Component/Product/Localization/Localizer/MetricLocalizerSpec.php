@@ -6,6 +6,7 @@ use Akeneo\Tool\Component\Localization\Factory\NumberFactory;
 use Akeneo\Tool\Component\Localization\Localizer\LocalizerInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -13,6 +14,7 @@ class MetricLocalizerSpec extends ObjectBehavior
 {
     function let(ValidatorInterface $validator, NumberFactory $numberFactory)
     {
+        $validator->validate(Argument::cetera())->willReturn(new ConstraintViolationList());
         $this->beConstructedWith($validator, $numberFactory, ['pim_catalog_metric']);
     }
 
@@ -58,6 +60,7 @@ class MetricLocalizerSpec extends ObjectBehavior
         $validator,
         ConstraintViolationListInterface $constraints
     ) {
+        $constraints->count()->willReturn(1);
         $validator->validate(Argument::any(), Argument::any())->willReturn($constraints);
 
         $this->validate(['amount' => '10.00', 'unit' => 'GRAM'], 'metric', ['decimal_separator' => ','])

@@ -11,8 +11,10 @@ use Akeneo\UserManagement\Component\Repository\GroupRepositoryInterface;
 use Akeneo\UserManagement\Component\Repository\RoleRepositoryInterface;
 use Akeneo\UserManagement\Component\Repository\UserRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Component\BrowserKit\Cookie;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
@@ -29,7 +31,7 @@ final class AuthenticatorHelper
     private GroupRepositoryInterface $groupRepository;
     private RoleRepositoryInterface $roleRepository;
     private TokenStorageInterface $tokenStorage;
-    private SessionInterface $session;
+    private RequestStack $requestStack;
 
     public function __construct(
         UserRepositoryInterface $userRepository,
@@ -38,7 +40,7 @@ final class AuthenticatorHelper
         GroupRepositoryInterface $groupRepository,
         RoleRepositoryInterface $roleRepository,
         TokenStorageInterface $tokenStorage,
-        SessionInterface $session
+        RequestStack $requestStack
     ) {
         $this->userRepository = $userRepository;
         $this->userFactory = $userFactory;
@@ -46,7 +48,7 @@ final class AuthenticatorHelper
         $this->groupRepository = $groupRepository;
         $this->roleRepository = $roleRepository;
         $this->tokenStorage = $tokenStorage;
-        $this->session = $session;
+        $this->requestStack = $requestStack;
     }
 
     public function logIn(string $username, ?KernelBrowser $client = null): void
@@ -56,16 +58,28 @@ final class AuthenticatorHelper
             $user = $this->createUser($username);
         }
 
+        if (null !== $client) {
+            // SF 6.4: KernelBrowser::loginUser() properly handles untracked token storage,
+            // session.factory, and cookie — ContextListener no longer clears the token.
+            $client->loginUser($user, 'main');
+
+            return;
+        }
+
+        // Non-browser path (integration tests): set token directly on token storage
         $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
         $this->tokenStorage->setToken($token);
 
-        $this->session->set('_security_main', serialize($token));
-        $this->session->save();
-
-        if (null !== $client) {
-            $cookie = new Cookie($this->session->getName(), $this->session->getId());
-            $client->getCookieJar()->set($cookie);
+        // SF 6.4: RequestStack::getSession() throws SessionNotFoundException if no request exists
+        if (null === $this->requestStack->getCurrentRequest()) {
+            $request = new Request();
+            $request->setSession(new Session(new MockArraySessionStorage()));
+            $this->requestStack->push($request);
         }
+
+        $session = $this->requestStack->getSession();
+        $session->set('_security_main', serialize($token));
+        $session->save();
     }
 
     /**

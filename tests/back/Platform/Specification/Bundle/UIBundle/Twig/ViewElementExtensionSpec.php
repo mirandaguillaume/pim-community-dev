@@ -186,8 +186,19 @@ class ViewElementExtensionSpec extends ObjectBehavior
 
     function getMatchers(): array
     {
+        $matchCallable = function ($callable, $object, string $method): bool {
+            if ($callable instanceof \Closure) {
+                $ref = new \ReflectionFunction($callable);
+
+                return $ref->getClosureThis() === $object
+                    && ($ref->getName() === $method || str_ends_with($ref->getName(), '::' . $method));
+            }
+
+            return $callable === [$object, $method];
+        };
+
         return [
-            'haveTwigMethod' => function ($subject, $name, $method, $needsContext, $safe) {
+            'haveTwigMethod' => function ($subject, $name, $method, $needsContext, $safe) use ($matchCallable) {
                 $function = array_filter(
                     $subject,
                     function ($function) use ($name, $needsContext, $safe) {
@@ -204,7 +215,7 @@ class ViewElementExtensionSpec extends ObjectBehavior
 
                 $function = array_shift($function);
 
-                return $function->getCallable() === [$this->getWrappedObject(), $method];
+                return $matchCallable($function->getCallable(), $this->getWrappedObject(), $method);
             }
         ];
     }

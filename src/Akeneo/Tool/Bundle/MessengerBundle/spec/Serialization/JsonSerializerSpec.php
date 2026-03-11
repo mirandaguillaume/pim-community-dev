@@ -8,6 +8,7 @@ use Akeneo\Tool\Bundle\MessengerBundle\Serialization\JsonSerializer;
 use Akeneo\Tool\Component\Messenger\Stamp\CustomHeaderStamp;
 use Akeneo\Tool\Bundle\MessengerBundle\Stamp\TenantIdStamp;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Stamp\RedeliveryStamp;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -21,6 +22,8 @@ class JsonSerializerSpec extends ObjectBehavior
 {
     public function let(NormalizerInterface $normalizer, DenormalizerInterface $denormalizer): void
     {
+        $normalizer->getSupportedTypes(Argument::any())->willReturn(['*' => false]);
+        $denormalizer->getSupportedTypes(Argument::any())->willReturn(['*' => false]);
         $this->beConstructedWith([$normalizer, $denormalizer]);
     }
 

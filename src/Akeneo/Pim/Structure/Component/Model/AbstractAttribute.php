@@ -8,6 +8,7 @@ use Akeneo\Tool\Component\Localization\Model\TranslationInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\GroupSequence;
 
 /**
  * Abstract product attribute
@@ -492,7 +493,7 @@ abstract class AbstractAttribute implements AttributeInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function getGroupSequence()
+    public function getGroupSequence(): GroupSequence|array
     {
         $groups = ['Attribute', $this->getType()];
 

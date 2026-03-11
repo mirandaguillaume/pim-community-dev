@@ -49,6 +49,7 @@ $rules = [
             'Doctrine\DBAL\ArrayParameterType',
             'Oro\Bundle\SecurityBundle\SecurityFacade',
             'Symfony\Component',
+            'Symfony\Bundle\SecurityBundle\Security',
         ],
     )->in('Akeneo\Platform\Job\Infrastructure'),
 ];

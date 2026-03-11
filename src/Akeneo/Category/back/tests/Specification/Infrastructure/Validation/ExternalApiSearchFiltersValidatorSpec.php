@@ -116,6 +116,7 @@ class ExternalApiSearchFiltersValidatorSpec extends ObjectBehavior
             ],
         ];
 
+        $violation->getMessage()->willReturn('error message');
         $violations = [
             $violation->getWrappedObject(),
         ];

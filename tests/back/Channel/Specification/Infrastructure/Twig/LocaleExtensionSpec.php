@@ -76,9 +76,19 @@ class LocaleExtensionSpec extends ObjectBehavior
     function getMatchers(): array
     {
         $filterArgs = new Node();
+        $matchCallable = function ($callable, $object, string $method): bool {
+            if ($callable instanceof \Closure) {
+                $ref = new \ReflectionFunction($callable);
+
+                return $ref->getClosureThis() === $object
+                    && ($ref->getName() === $method || str_ends_with($ref->getName(), '::' . $method));
+            }
+
+            return $callable === [$object, $method];
+        };
 
         return [
-            'haveTwigMethod' => function ($subject, $name, $method) {
+            'haveTwigMethod' => function ($subject, $name, $method) use ($matchCallable) {
                 $function = array_filter(
                     $subject,
                     function ($function) use ($name) {
@@ -93,9 +103,9 @@ class LocaleExtensionSpec extends ObjectBehavior
 
                 $function = array_shift($function);
 
-                return $function->getCallable() === [$this->getWrappedObject(), $method];
+                return $matchCallable($function->getCallable(), $this->getWrappedObject(), $method);
             },
-            'haveTwigFilter' => function ($subject, $name, $method, $isSafe, $needsEnvironment) use ($filterArgs) {
+            'haveTwigFilter' => function ($subject, $name, $method, $isSafe, $needsEnvironment) use ($filterArgs, $matchCallable) {
                 $filter = array_filter(
                     $subject,
                     function ($filter) use ($name) {
@@ -110,7 +120,7 @@ class LocaleExtensionSpec extends ObjectBehavior
 
                 $filter = array_shift($filter);
 
-                return $filter->getCallable() === [$this->getWrappedObject(), $method]
+                return $matchCallable($filter->getCallable(), $this->getWrappedObject(), $method)
                     && $filter->needsEnvironment() === $needsEnvironment
                     && $filter->getSafe($filterArgs) === $isSafe;
             },

@@ -4,6 +4,7 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Validator\Mapping;
 
 use Symfony\Component\Validator\Exception\NoSuchMetadataException;
 use Symfony\Component\Validator\Mapping\Factory\MetadataFactoryInterface;
+use Symfony\Component\Validator\Mapping\MetadataInterface;
 
 /**
  * Akeneo\Pim\Enrichment\Component\Product\Validator\Mapping
@@ -28,7 +29,7 @@ class DelegatingClassMetadataFactory implements MetadataFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function getMetadataFor($value)
+    public function getMetadataFor(mixed $value): MetadataInterface
     {
         foreach ($this->factories as $factory) {
             if ($factory->hasMetadataFor($value)) {
@@ -42,7 +43,7 @@ class DelegatingClassMetadataFactory implements MetadataFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function hasMetadataFor($value)
+    public function hasMetadataFor(mixed $value): bool
     {
         foreach ($this->factories as $factory) {
             if ($factory->hasMetadataFor($value)) {

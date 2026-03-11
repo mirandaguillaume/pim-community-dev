@@ -55,7 +55,7 @@ class GroupTypeController
     protected $constraintViolationNormalizer;
 
     /**
-     * @param groupTypeFactory             $groupTypeFactory
+     * @param GroupTypeFactory             $groupTypeFactory
      */
     public function __construct(
         GroupTypeRepositoryInterface $groupTypeRepo,
@@ -65,7 +65,7 @@ class GroupTypeController
         SaverInterface $saver,
         ValidatorInterface $validator,
         UserContext $userContext,
-        groupTypeFactory $groupTypeFactory,
+        GroupTypeFactory $groupTypeFactory,
         NormalizerInterface $constraintViolationNormalizer
     ) {
         $this->groupTypeRepo = $groupTypeRepo;

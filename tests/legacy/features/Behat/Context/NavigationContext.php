@@ -117,7 +117,10 @@ class NavigationContext extends PimContext implements PageObjectAware
         $this->getMainContext()->getSubcontext('fixtures')->setUsername($username);
         $this->getSession()->visit($this->locatePath('/user/logout'));
 
-        $session = $this->getService('session');
+        $container = $this->getMainContext()->getContainer()->get('test.service_container');
+        $session = $container->has('session.factory')
+            ? $container->get('session.factory')->createSession()
+            : $container->get('session');
 
         $user = $this
             ->getService('pim_user.repository.user')

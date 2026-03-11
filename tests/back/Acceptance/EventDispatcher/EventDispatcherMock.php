@@ -46,7 +46,7 @@ final class EventDispatcherMock implements Context, EventDispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function dispatch(object $event, string $eventName = null): object
+    public function dispatch(object $event, ?string $eventName = null): object
     {
         $this->eventDispatcher->dispatch($event, $eventName);
         $eventName = $eventName ?? \get_class($event);
@@ -58,7 +58,7 @@ final class EventDispatcherMock implements Context, EventDispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function addListener($eventName, $listener, $priority = 0)
+    public function addListener(string $eventName, callable|array $listener, int $priority = 0): void
     {
         $this->eventDispatcher->addListener($eventName, $listener, $priority);
     }
@@ -66,7 +66,7 @@ final class EventDispatcherMock implements Context, EventDispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function addSubscriber(EventSubscriberInterface $subscriber)
+    public function addSubscriber(EventSubscriberInterface $subscriber): void
     {
         $this->eventDispatcher->addSubscriber($subscriber);
     }
@@ -74,7 +74,7 @@ final class EventDispatcherMock implements Context, EventDispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function removeListener($eventName, $listener)
+    public function removeListener(string $eventName, callable|array $listener): void
     {
         $this->eventDispatcher->removeListener($eventName, $listener);
     }
@@ -82,7 +82,7 @@ final class EventDispatcherMock implements Context, EventDispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function removeSubscriber(EventSubscriberInterface $subscriber)
+    public function removeSubscriber(EventSubscriberInterface $subscriber): void
     {
         $this->eventDispatcher->removeSubscriber($subscriber);
     }
@@ -90,7 +90,7 @@ final class EventDispatcherMock implements Context, EventDispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function getListeners($eventName = null)
+    public function getListeners(?string $eventName = null): array
     {
         return $this->eventDispatcher->getListeners($eventName);
     }
@@ -98,7 +98,7 @@ final class EventDispatcherMock implements Context, EventDispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function getListenerPriority($eventName, $listener)
+    public function getListenerPriority(string $eventName, callable $listener): ?int
     {
         return $this->eventDispatcher->getListenerPriority($eventName, $listener);
     }
@@ -106,7 +106,7 @@ final class EventDispatcherMock implements Context, EventDispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function hasListeners($eventName = null)
+    public function hasListeners(?string $eventName = null): bool
     {
         return $this->eventDispatcher->hasListeners($eventName);
     }

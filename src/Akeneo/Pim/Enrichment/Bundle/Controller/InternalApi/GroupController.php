@@ -191,7 +191,7 @@ class GroupController
 
     private function parseOptions(Request $request): array
     {
-        $options = $request->get('options', []);
+        $options = $request->query->all()['options'] ?? [];
         $options['type'] = 'code';
 
         if (!isset($options['limit'])) {

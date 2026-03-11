@@ -6,7 +6,6 @@ use Akeneo\UserManagement\Component\Model\UserInterface;
 use Akeneo\UserManagement\Component\Repository\UserRepositoryInterface;
 use PhpSpec\ObjectBehavior;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\InMemoryUser;
 
@@ -28,7 +27,7 @@ class UserProviderSpec extends ObjectBehavior
     function it_throws_an_exception_if_username_does_not_exist(UserRepositoryInterface $userRepository)
     {
         $userRepository->findOneByIdentifier('jean-pacôme')->willReturn(null);
-        $this->shouldThrow(UsernameNotFoundException::class)
+        $this->shouldThrow(UserNotFoundException::class)
             ->during('loadUserByIdentifier', ['jean-pacôme']);
     }
 

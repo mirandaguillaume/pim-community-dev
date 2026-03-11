@@ -14,9 +14,13 @@ use Akeneo\Connectivity\Connection\Tests\CatalogBuilder\ConnectedAppLoader;
 use Akeneo\Test\Integration\Configuration;
 use Akeneo\Test\Integration\TestCase;
 use PHPUnit\Framework\Assert;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
+use Symfony\Component\Security\Core\User\InMemoryUser;
 
 /**
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)
@@ -38,6 +42,11 @@ class UpdateConnectedAppScopesWithAuthorizationHandlerIntegration extends TestCa
     protected function setUp(): void
     {
         parent::setUp();
+
+        // Push a request with a session so that RequestStack::getSession() works (SF 6.4)
+        $request = new Request();
+        $request->setSession(new Session(new MockArraySessionStorage()));
+        $this->get('request_stack')->push($request);
 
         $this->handler = $this->get(UpdateConnectedAppScopesWithAuthorizationHandler::class);
         $this->appAuthorizationHandler = $this->get(RequestAppAuthorizationHandler::class);
@@ -188,7 +197,7 @@ class UpdateConnectedAppScopesWithAuthorizationHandlerIntegration extends TestCa
 
     private function assertRoleIsUpdatedWithAcls(string $role, array $acls): void
     {
-        $token = new UsernamePasswordToken('username', 'main', [$role]);
+        $token = new UsernamePasswordToken(new InMemoryUser('username', null, [$role]), 'main', [$role]);
 
         foreach ($acls as $acl => $expectedValue) {
             \assert(\is_bool($expectedValue));

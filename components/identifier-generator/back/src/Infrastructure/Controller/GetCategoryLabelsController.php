@@ -29,7 +29,7 @@ class GetCategoryLabelsController
             return new RedirectResponse('/');
         }
 
-        $categoryCodes = $request->get('categoryCodes', []);
+        $categoryCodes = $request->query->all()['categoryCodes'] ?? [];
         Assert::isArray($categoryCodes);
         $userLocale = $this->userContext->getCurrentLocaleCode();
 

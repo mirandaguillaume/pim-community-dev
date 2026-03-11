@@ -99,6 +99,7 @@ class ConfirmAuthorizationActionSpec extends ObjectBehavior
         Request $request,
     ): void {
         $marketplaceActivateFeatureFlag->isEnabled()->willReturn(true);
+        $request->isXmlHttpRequest()->willReturn(false);
 
         $this->__invoke($request, 'foo')
             ->shouldBeLike(new RedirectResponse('/'));

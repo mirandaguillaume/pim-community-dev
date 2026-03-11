@@ -9,7 +9,9 @@ use Akeneo\Pim\Automation\IdentifierGenerator\Infrastructure\Validation\FamilySh
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Context\ExecutionContext;
+use Symfony\Component\Validator\Validator\ContextualValidatorInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -21,13 +23,15 @@ class FamilyShouldBeValidValidatorSpec extends ObjectBehavior
     public function let(
         ValidatorInterface $globalValidator,
         ExecutionContext $context,
-        ValidatorInterface $validator
+        ContextualValidatorInterface $contextualValidator
     ): void
     {
         $this->beConstructedWith($globalValidator);
         $this->initialize($context);
 
-        $globalValidator->inContext($context)->willReturn($validator);
+        $globalValidator->inContext($context)->willReturn($contextualValidator);
+        $contextualValidator->validate(Argument::cetera())->willReturn($contextualValidator);
+        $contextualValidator->getViolations()->willReturn(new ConstraintViolationList());
     }
 
     public function it_is_initializable(): void
@@ -42,47 +46,47 @@ class FamilyShouldBeValidValidatorSpec extends ObjectBehavior
     }
 
     public function it_should_not_validate_if_condition_is_not_an_array(
-        ValidatorInterface $validator,
+        ContextualValidatorInterface $contextualValidator,
     ): void {
         $condition = 'foo';
-        $validator->validate(Argument::any())->shouldNotBeCalled();
+        $contextualValidator->validate(Argument::cetera())->shouldNotBeCalled();
         $this->validate($condition, new FamilyShouldBeValid());
     }
 
     public function it_should_not_validate_other_conditions(
-        ValidatorInterface $validator,
+        ContextualValidatorInterface $contextualValidator,
     ): void {
         $condition = ['type' => 'foo'];
 
-        $validator->validate(Argument::any())->shouldNotBeCalled();
+        $contextualValidator->validate(Argument::cetera())->shouldNotBeCalled();
         $this->validate($condition, new FamilyShouldBeValid());
     }
 
     public function it_should_only_validate_condition_keys(
-        ValidatorInterface $validator,
+        ContextualValidatorInterface $contextualValidator,
     ): void {
         $condition = ['type' => 'family', 'foo' => 'bar'];
 
-        $validator->validate($condition, Argument::any())->shouldBeCalledTimes(1);
+        $contextualValidator->validate($condition, Argument::any())->willReturn($contextualValidator)->shouldBeCalledTimes(1);
         $this->validate($condition, new FamilyShouldBeValid());
     }
 
     public function it_should_validate_condition_keys_without_value(
-        ValidatorInterface $validator,
+        ContextualValidatorInterface $contextualValidator,
     ): void {
         $condition = ['type' => 'family', 'operator' => 'EMPTY'];
 
-        $validator->validate($condition, Argument::any())->shouldBeCalledTimes(2);
+        $contextualValidator->validate($condition, Argument::any())->willReturn($contextualValidator)->shouldBeCalledTimes(2);
         $this->validate($condition, new FamilyShouldBeValid());
     }
 
     public function it_should_validate_condition_keys_with_value_and_families(
-        ValidatorInterface $validator,
+        ContextualValidatorInterface $contextualValidator,
         ExecutionContext $context,
     ): void {
         $condition = ['type' => 'family', 'operator' => 'IN', 'value' => ['shirts']];
 
-        $validator->validate($condition, Argument::any())->shouldBeCalledTimes(2);
+        $contextualValidator->validate($condition, Argument::any())->willReturn($contextualValidator)->shouldBeCalledTimes(2);
         $context->buildViolation(Argument::any())->shouldNotBeCalled();
 
         $this->validate($condition, new FamilyShouldBeValid());

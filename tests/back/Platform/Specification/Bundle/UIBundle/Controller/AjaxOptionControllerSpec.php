@@ -34,7 +34,8 @@ class AjaxOptionControllerSpec extends ObjectBehavior
 
         $request->get('dataLocale')->willReturn('fr_FR');
         $request->get('collectionId')->willReturn(42);
-        $request->get('options', [])->willReturn([]);
+        $request->query = $query;
+        $query->all()->willReturn(['options' => []]);
 
         $repository->getOptions('fr_FR', 42, 'hello', [])->shouldBeCalled();
         $request->get('isCreatable')->willReturn(false);
@@ -58,7 +59,8 @@ class AjaxOptionControllerSpec extends ObjectBehavior
         $configuration->getClass()->willReturn('Foo\RefData');
 
         $doctrine->getRepository('Foo\RefData')->willReturn($repository);
-        $request->get('options', [])->willReturn([]);
+        $request->query = $query;
+        $query->all()->willReturn(['options' => []]);
         $repository->findBySearch('hello', [])->shouldBeCalled();
         $request->get('isCreatable')->willReturn(false);
 
@@ -77,7 +79,8 @@ class AjaxOptionControllerSpec extends ObjectBehavior
 
         $doctrine->getRepository('Foo\Bar')->willReturn($repository);
 
-        $request->get('options', [])->willReturn([]);
+        $request->query = $query;
+        $query->all()->willReturn(['options' => []]);
 
         $repository->findBySearch('hello', [])->shouldBeCalled();
         $request->get('isCreatable')->willReturn(false);
@@ -99,7 +102,8 @@ class AjaxOptionControllerSpec extends ObjectBehavior
 
         $request->get('dataLocale')->willReturn('fr_FR');
         $request->get('collectionId')->willReturn(42);
-        $request->get('options', [])->willReturn([]);
+        $request->query = $query;
+        $query->all()->willReturn(['options' => []]);
 
         $repository->getOptions('fr_FR', 42, 'hello', [])->shouldBeCalled();
         $request->get('isCreatable')->willReturn(false);

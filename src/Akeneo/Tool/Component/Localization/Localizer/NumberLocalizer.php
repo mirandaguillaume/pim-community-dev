@@ -109,7 +109,9 @@ class NumberLocalizer implements LocalizerInterface
         $constraint->decimalSeparator = $options['decimal_separator'];
         $constraint->path = $attributeCode;
 
-        return $this->validator->validate($number, $constraint);
+        $violations = $this->validator->validate($number, $constraint);
+
+        return 0 === $violations->count() ? null : $violations;
     }
 
     /**

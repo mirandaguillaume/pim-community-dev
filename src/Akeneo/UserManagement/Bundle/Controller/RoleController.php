@@ -104,7 +104,7 @@ class RoleController extends AbstractController
 
         return $this->render('@PimUser/Role/update.html.twig', [
             'form' => $this->aclRoleHandler->createView(),
-            'privilegesConfig' => $this->container->getParameter('pim_user.privileges'),
+            'privilegesConfig' => $this->getParameter('pim_user.privileges'),
         ]);
     }
 }

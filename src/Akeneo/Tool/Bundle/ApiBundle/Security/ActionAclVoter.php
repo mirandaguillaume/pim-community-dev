@@ -48,7 +48,7 @@ class ActionAclVoter extends Voter implements VoterInterface
     /**
      * {@inheritdoc}
      */
-    public function supports($attribute, $subject)
+    protected function supports(string $attribute, mixed $subject): bool
     {
         return $this->oidType === $attribute;
     }
@@ -56,14 +56,16 @@ class ActionAclVoter extends Voter implements VoterInterface
     /**
      * {@inheritdoc}
      */
-    public function vote(TokenInterface $token, $object, array $attributes): int
+    public function vote(TokenInterface $token, mixed $subject, array $attributes): int
     {
         foreach ($attributes as $attribute) {
-            if (!$this->supports($attribute, $object)) {
+            if (!$this->supports($attribute, $subject)) {
                 continue;
             }
 
-            return $this->voteOnAttribute($attribute, $object, $token);
+            return $this->voteOnAttribute($attribute, $subject, $token)
+                ? self::ACCESS_GRANTED
+                : self::ACCESS_DENIED;
         }
 
         return self::ACCESS_ABSTAIN;
@@ -72,10 +74,10 @@ class ActionAclVoter extends Voter implements VoterInterface
     /**
      * {@inheritdoc}
      */
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $oid = new ObjectIdentity(static::OID_IDENTIFIER, $attribute);
 
-        return $this->baseAclVoter->vote($token, $oid, ['EXECUTE']);
+        return VoterInterface::ACCESS_GRANTED === $this->baseAclVoter->vote($token, $oid, ['EXECUTE']);
     }
 }

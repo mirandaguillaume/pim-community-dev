@@ -24,7 +24,7 @@ class DatagridController
      */
     public function loadAction(Request $request, string $alias): JsonResponse
     {
-        $params = $request->get('params', []);
+        $params = $request->query->all()['params'] ?? [];
 
         return new JsonResponse([
             'metadata' => $this->metadata->getGridMetadata($alias, $params),

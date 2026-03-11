@@ -1,6 +1,138 @@
 parameters:
 	ignoreErrors:
 		-
+			message: '#^Parameter \$includeCodes of method Akeneo\\Pim\\Structure\\Bundle\\Query\\InternalApi\\AttributeOption\\FindAttributeOptions\:\:search\(\) expects array\<string\>\|null, array\<mixed\>\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../src/Infrastructure/Controller/GetAttributeOptionsController.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\AttributeShouldExistValidator\:\:validate\(\) has parameter \$target with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../src/Infrastructure/Validation/AttributeShouldExistValidator.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\AttributeShouldHaveTypeValidator\:\:validate\(\) has parameter \$target with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../src/Infrastructure/Validation/AttributeShouldHaveTypeValidator.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\AutoNumberShouldBeValidValidator\:\:validate\(\) has parameter \$property with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../src/Infrastructure/Validation/AutoNumberShouldBeValidValidator.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\CategoryCodesShouldExistValidator\:\:validate\(\) has parameter \$categoryCodes with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../src/Infrastructure/Validation/CategoryCodesShouldExistValidator.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\CategoryShouldBeValidValidator\:\:validate\(\) has parameter \$condition with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../src/Infrastructure/Validation/CategoryShouldBeValidValidator.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\ConditionsShouldNotContainMultipleConditionValidator\:\:validate\(\) has parameter \$conditions with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../src/Infrastructure/Validation/ConditionsShouldNotContainMultipleConditionValidator.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\EnabledShouldBeValidValidator\:\:validate\(\) has parameter \$condition with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../src/Infrastructure/Validation/EnabledShouldBeValidValidator.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\FamilyCodesShouldExistValidator\:\:validate\(\) has parameter \$familyCodes with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../src/Infrastructure/Validation/FamilyCodesShouldExistValidator.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\FamilyPropertyShouldBeValidValidator\:\:validate\(\) has parameter \$property with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../src/Infrastructure/Validation/FamilyPropertyShouldBeValidValidator.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\FamilyShouldBeValidValidator\:\:validate\(\) has parameter \$condition with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../src/Infrastructure/Validation/FamilyShouldBeValidValidator.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\FreeTextShouldBeValidValidator\:\:validate\(\) has parameter \$property with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../src/Infrastructure/Validation/FreeTextShouldBeValidValidator.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\IdentifierGeneratorCreationLimitValidator\:\:validate\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../src/Infrastructure/Validation/IdentifierGeneratorCreationLimitValidator.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\IdentifierGeneratorShouldExistValidator\:\:validate\(\) has parameter \$updateGeneratorCommand with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../src/Infrastructure/Validation/IdentifierGeneratorShouldExistValidator.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\PropertyProcessShouldBeValidValidator\:\:validate\(\) has parameter \$process with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../src/Infrastructure/Validation/PropertyProcessShouldBeValidValidator.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\ReferenceEntityPropertyShouldBeValidValidator\:\:validate\(\) has parameter \$property with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../src/Infrastructure/Validation/ReferenceEntityPropertyShouldBeValidValidator.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\ScopeAndLocaleShouldBeValidValidator\:\:validate\(\) has parameter \$condition with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../src/Infrastructure/Validation/ScopeAndLocaleShouldBeValidValidator.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\SelectOptionShouldExistValidator\:\:validate\(\) has parameter \$selectCondition with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../src/Infrastructure/Validation/SelectOptionShouldExistValidator.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\SimpleOrMultiSelectShouldBeValidValidator\:\:validate\(\) has parameter \$condition with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../src/Infrastructure/Validation/SimpleOrMultiSelectShouldBeValidValidator.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\SimpleSelectPropertyShouldBeValidValidator\:\:validate\(\) has parameter \$property with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../src/Infrastructure/Validation/SimpleSelectPropertyShouldBeValidValidator.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\StructureShouldNotContainMultipleAutoNumberValidator\:\:validate\(\) has parameter \$structure with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../src/Infrastructure/Validation/StructureShouldNotContainMultipleAutoNumberValidator.php
+
+		-
+			message: '#^Method Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\UniqueIdentifierGeneratorCodeValidator\:\:validate\(\) has parameter \$value with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: ../src/Infrastructure/Validation/UniqueIdentifierGeneratorCodeValidator.php
+
+		-
 			message: '#^Method Akeneo\\Test\\Pim\\Automation\\IdentifierGenerator\\Acceptance\\Context\\BaseCreateOrUpdateIdentifierGenerator\:\:getValidCondition\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -1111,7 +1243,7 @@ parameters:
 			path: EndToEnd/Infrastructure/EndToEndTestCase.php
 
 		-
-			message: '#^Method Akeneo\\Test\\Pim\\Automation\\IdentifierGenerator\\EndToEnd\\Infrastructure\\EndToEndTestCase\:\:getFamilyRepository\(\) should return Akeneo\\Pim\\Structure\\Component\\Repository\\FamilyRepositoryInterface but returns object\|null\.$#'
+			message: '#^Method Akeneo\\Test\\Pim\\Automation\\IdentifierGenerator\\EndToEnd\\Infrastructure\\EndToEndTestCase\:\:getFamilyRepository\(\) should return Akeneo\\Pim\\Structure\\Component\\Repository\\FamilyRepositoryInterface but returns object\.$#'
 			identifier: return.type
 			count: 1
 			path: EndToEnd/Infrastructure/EndToEndTestCase.php
@@ -1537,6 +1669,12 @@ parameters:
 			path: Integration/Repository/SqlSimpleSelectNomenclatureRepositoryIntegration.php
 
 		-
+			message: '#^Call to an undefined method object\:\:reset\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Integration/ZddMigrations/V20221205153905FillIdentifierPrefixesZddMigrationIntegration.php
+
+		-
 			message: '#^Cannot call method clear\(\) on mixed\.$#'
 			identifier: method.nonObject
 			count: 1
@@ -1550,12 +1688,6 @@ parameters:
 
 		-
 			message: '#^Cannot call method logIn\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: Integration/ZddMigrations/V20221205153905FillIdentifierPrefixesZddMigrationIntegration.php
-
-		-
-			message: '#^Cannot call method reset\(\) on object\|null\.$#'
 			identifier: method.nonObject
 			count: 1
 			path: Integration/ZddMigrations/V20221205153905FillIdentifierPrefixesZddMigrationIntegration.php
@@ -4033,7 +4165,7 @@ parameters:
 			path: Specification/Infrastructure/Validation/CategoryCodesShouldExistValidatorSpec.php
 
 		-
-			message: '#^Cannot call method shouldBeCalled\(\) on mixed\.$#'
+			message: '#^Cannot call method shouldBeCalled\(\) on null\.$#'
 			identifier: method.nonObject
 			count: 1
 			path: Specification/Infrastructure/Validation/CategoryCodesShouldExistValidatorSpec.php
@@ -4057,6 +4189,12 @@ parameters:
 			path: Specification/Infrastructure/Validation/CategoryCodesShouldExistValidatorSpec.php
 
 		-
+			message: '#^Result of method Symfony\\Component\\Validator\\Violation\\ConstraintViolationBuilderInterface\:\:addViolation\(\) \(void\) is used\.$#'
+			identifier: method.void
+			count: 1
+			path: Specification/Infrastructure/Validation/CategoryCodesShouldExistValidatorSpec.php
+
+		-
 			message: '#^Call to an undefined method Specification\\Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\CategoryShouldBeValidValidatorSpec\:\:initialize\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -4069,13 +4207,13 @@ parameters:
 			path: Specification/Infrastructure/Validation/CategoryShouldBeValidValidatorSpec.php
 
 		-
-			message: '#^Call to an undefined method Symfony\\Component\\Validator\\ConstraintViolationListInterface\:\:shouldBeCalledTimes\(\)\.$#'
+			message: '#^Call to an undefined method Symfony\\Component\\Validator\\ConstraintViolationListInterface\:\:willReturn\(\)\.$#'
 			identifier: method.notFound
-			count: 3
+			count: 1
 			path: Specification/Infrastructure/Validation/CategoryShouldBeValidValidatorSpec.php
 
 		-
-			message: '#^Call to an undefined method Symfony\\Component\\Validator\\ConstraintViolationListInterface\:\:shouldNotBeCalled\(\)\.$#'
+			message: '#^Call to an undefined method Symfony\\Component\\Validator\\Validator\\ContextualValidatorInterface\:\:shouldNotBeCalled\(\)\.$#'
 			identifier: method.notFound
 			count: 2
 			path: Specification/Infrastructure/Validation/CategoryShouldBeValidValidatorSpec.php
@@ -4083,7 +4221,7 @@ parameters:
 		-
 			message: '#^Call to an undefined method Symfony\\Component\\Validator\\Validator\\ContextualValidatorInterface\:\:willReturn\(\)\.$#'
 			identifier: method.notFound
-			count: 1
+			count: 5
 			path: Specification/Infrastructure/Validation/CategoryShouldBeValidValidatorSpec.php
 
 		-
@@ -4093,13 +4231,19 @@ parameters:
 			path: Specification/Infrastructure/Validation/CategoryShouldBeValidValidatorSpec.php
 
 		-
+			message: '#^Cannot call method shouldBeCalledTimes\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 3
+			path: Specification/Infrastructure/Validation/CategoryShouldBeValidValidatorSpec.php
+
+		-
 			message: '#^Class Specification\\Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\CategoryShouldBeValidValidatorSpec extends generic class PhpSpec\\ObjectBehavior but does not specify its types\: TKey, TValue$#'
 			identifier: missingType.generics
 			count: 1
 			path: Specification/Infrastructure/Validation/CategoryShouldBeValidValidatorSpec.php
 
 		-
-			message: '#^Parameter \#2 \$constraints of method Symfony\\Component\\Validator\\Validator\\ValidatorInterface\:\:validate\(\) expects array\<Symfony\\Component\\Validator\\Constraint\>\|Symfony\\Component\\Validator\\Constraint\|null, Prophecy\\Argument\\Token\\AnyValueToken given\.$#'
+			message: '#^Parameter \#2 \$constraints of method Symfony\\Component\\Validator\\Validator\\ContextualValidatorInterface\:\:validate\(\) expects array\<Symfony\\Component\\Validator\\Constraint\>\|Symfony\\Component\\Validator\\Constraint\|null, Prophecy\\Argument\\Token\\AnyValueToken given\.$#'
 			identifier: argument.type
 			count: 3
 			path: Specification/Infrastructure/Validation/CategoryShouldBeValidValidatorSpec.php
@@ -4159,7 +4303,7 @@ parameters:
 			path: Specification/Infrastructure/Validation/EnabledShouldBeValidValidatorSpec.php
 
 		-
-			message: '#^Cannot call method shouldBeCalled\(\) on mixed\.$#'
+			message: '#^Cannot call method shouldBeCalled\(\) on null\.$#'
 			identifier: method.nonObject
 			count: 1
 			path: Specification/Infrastructure/Validation/EnabledShouldBeValidValidatorSpec.php
@@ -4173,6 +4317,12 @@ parameters:
 		-
 			message: '#^Class Specification\\Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\EnabledShouldBeValidValidatorSpec extends generic class PhpSpec\\ObjectBehavior but does not specify its types\: TKey, TValue$#'
 			identifier: missingType.generics
+			count: 1
+			path: Specification/Infrastructure/Validation/EnabledShouldBeValidValidatorSpec.php
+
+		-
+			message: '#^Result of method Symfony\\Component\\Validator\\Violation\\ConstraintViolationBuilderInterface\:\:addViolation\(\) \(void\) is used\.$#'
+			identifier: method.void
 			count: 1
 			path: Specification/Infrastructure/Validation/EnabledShouldBeValidValidatorSpec.php
 
@@ -4201,7 +4351,7 @@ parameters:
 			path: Specification/Infrastructure/Validation/FamilyCodesShouldExistValidatorSpec.php
 
 		-
-			message: '#^Cannot call method shouldBeCalled\(\) on mixed\.$#'
+			message: '#^Cannot call method shouldBeCalled\(\) on null\.$#'
 			identifier: method.nonObject
 			count: 1
 			path: Specification/Infrastructure/Validation/FamilyCodesShouldExistValidatorSpec.php
@@ -4225,14 +4375,14 @@ parameters:
 			path: Specification/Infrastructure/Validation/FamilyCodesShouldExistValidatorSpec.php
 
 		-
-			message: '#^Parameter \#1 \$message of method Symfony\\Component\\Validator\\Context\\ExecutionContext\:\:buildViolation\(\) expects string, Prophecy\\Argument\\Token\\AnyValueToken given\.$#'
+			message: '#^Parameter \#1 \$query of method Akeneo\\Pim\\Structure\\Family\\ServiceAPI\\Query\\FindFamilyCodes\:\:fromQuery\(\) expects Akeneo\\Pim\\Structure\\Family\\ServiceAPI\\Query\\FamilyQuery, Prophecy\\Argument\\Token\\AnyValueToken given\.$#'
 			identifier: argument.type
-			count: 4
+			count: 1
 			path: Specification/Infrastructure/Validation/FamilyCodesShouldExistValidatorSpec.php
 
 		-
-			message: '#^Parameter \#1 \$query of method Akeneo\\Pim\\Structure\\Family\\ServiceAPI\\Query\\FindFamilyCodes\:\:fromQuery\(\) expects Akeneo\\Pim\\Structure\\Family\\ServiceAPI\\Query\\FamilyQuery, Prophecy\\Argument\\Token\\AnyValueToken given\.$#'
-			identifier: argument.type
+			message: '#^Result of method Symfony\\Component\\Validator\\Violation\\ConstraintViolationBuilderInterface\:\:addViolation\(\) \(void\) is used\.$#'
+			identifier: method.void
 			count: 1
 			path: Specification/Infrastructure/Validation/FamilyCodesShouldExistValidatorSpec.php
 
@@ -4279,13 +4429,13 @@ parameters:
 			path: Specification/Infrastructure/Validation/FamilyShouldBeValidValidatorSpec.php
 
 		-
-			message: '#^Call to an undefined method Symfony\\Component\\Validator\\ConstraintViolationListInterface\:\:shouldBeCalledTimes\(\)\.$#'
+			message: '#^Call to an undefined method Symfony\\Component\\Validator\\ConstraintViolationListInterface\:\:willReturn\(\)\.$#'
 			identifier: method.notFound
-			count: 3
+			count: 1
 			path: Specification/Infrastructure/Validation/FamilyShouldBeValidValidatorSpec.php
 
 		-
-			message: '#^Call to an undefined method Symfony\\Component\\Validator\\ConstraintViolationListInterface\:\:shouldNotBeCalled\(\)\.$#'
+			message: '#^Call to an undefined method Symfony\\Component\\Validator\\Validator\\ContextualValidatorInterface\:\:shouldNotBeCalled\(\)\.$#'
 			identifier: method.notFound
 			count: 2
 			path: Specification/Infrastructure/Validation/FamilyShouldBeValidValidatorSpec.php
@@ -4293,7 +4443,7 @@ parameters:
 		-
 			message: '#^Call to an undefined method Symfony\\Component\\Validator\\Validator\\ContextualValidatorInterface\:\:willReturn\(\)\.$#'
 			identifier: method.notFound
-			count: 1
+			count: 5
 			path: Specification/Infrastructure/Validation/FamilyShouldBeValidValidatorSpec.php
 
 		-
@@ -4303,19 +4453,19 @@ parameters:
 			path: Specification/Infrastructure/Validation/FamilyShouldBeValidValidatorSpec.php
 
 		-
+			message: '#^Cannot call method shouldBeCalledTimes\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 3
+			path: Specification/Infrastructure/Validation/FamilyShouldBeValidValidatorSpec.php
+
+		-
 			message: '#^Class Specification\\Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\FamilyShouldBeValidValidatorSpec extends generic class PhpSpec\\ObjectBehavior but does not specify its types\: TKey, TValue$#'
 			identifier: missingType.generics
 			count: 1
 			path: Specification/Infrastructure/Validation/FamilyShouldBeValidValidatorSpec.php
 
 		-
-			message: '#^Parameter \#1 \$message of method Symfony\\Component\\Validator\\Context\\ExecutionContext\:\:buildViolation\(\) expects string, Prophecy\\Argument\\Token\\AnyValueToken given\.$#'
-			identifier: argument.type
-			count: 1
-			path: Specification/Infrastructure/Validation/FamilyShouldBeValidValidatorSpec.php
-
-		-
-			message: '#^Parameter \#2 \$constraints of method Symfony\\Component\\Validator\\Validator\\ValidatorInterface\:\:validate\(\) expects array\<Symfony\\Component\\Validator\\Constraint\>\|Symfony\\Component\\Validator\\Constraint\|null, Prophecy\\Argument\\Token\\AnyValueToken given\.$#'
+			message: '#^Parameter \#2 \$constraints of method Symfony\\Component\\Validator\\Validator\\ContextualValidatorInterface\:\:validate\(\) expects array\<Symfony\\Component\\Validator\\Constraint\>\|Symfony\\Component\\Validator\\Constraint\|null, Prophecy\\Argument\\Token\\AnyValueToken given\.$#'
 			identifier: argument.type
 			count: 3
 			path: Specification/Infrastructure/Validation/FamilyShouldBeValidValidatorSpec.php
@@ -4459,13 +4609,13 @@ parameters:
 			path: Specification/Infrastructure/Validation/PropertyProcessShouldBeValidValidatorSpec.php
 
 		-
-			message: '#^Call to an undefined method Symfony\\Component\\Validator\\ConstraintViolationListInterface\:\:shouldBeCalledOnce\(\)\.$#'
+			message: '#^Call to an undefined method Symfony\\Component\\Validator\\ConstraintViolationListInterface\:\:willReturn\(\)\.$#'
 			identifier: method.notFound
-			count: 2
+			count: 1
 			path: Specification/Infrastructure/Validation/PropertyProcessShouldBeValidValidatorSpec.php
 
 		-
-			message: '#^Call to an undefined method Symfony\\Component\\Validator\\ConstraintViolationListInterface\:\:shouldNotBeCalled\(\)\.$#'
+			message: '#^Call to an undefined method Symfony\\Component\\Validator\\Validator\\ContextualValidatorInterface\:\:shouldNotBeCalled\(\)\.$#'
 			identifier: method.notFound
 			count: 2
 			path: Specification/Infrastructure/Validation/PropertyProcessShouldBeValidValidatorSpec.php
@@ -4473,7 +4623,7 @@ parameters:
 		-
 			message: '#^Call to an undefined method Symfony\\Component\\Validator\\Validator\\ContextualValidatorInterface\:\:willReturn\(\)\.$#'
 			identifier: method.notFound
-			count: 1
+			count: 4
 			path: Specification/Infrastructure/Validation/PropertyProcessShouldBeValidValidatorSpec.php
 
 		-
@@ -4483,13 +4633,19 @@ parameters:
 			path: Specification/Infrastructure/Validation/PropertyProcessShouldBeValidValidatorSpec.php
 
 		-
+			message: '#^Cannot call method shouldBeCalledOnce\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: Specification/Infrastructure/Validation/PropertyProcessShouldBeValidValidatorSpec.php
+
+		-
 			message: '#^Class Specification\\Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\PropertyProcessShouldBeValidValidatorSpec extends generic class PhpSpec\\ObjectBehavior but does not specify its types\: TKey, TValue$#'
 			identifier: missingType.generics
 			count: 1
 			path: Specification/Infrastructure/Validation/PropertyProcessShouldBeValidValidatorSpec.php
 
 		-
-			message: '#^Parameter \#2 \$constraints of method Symfony\\Component\\Validator\\Validator\\ValidatorInterface\:\:validate\(\) expects array\<Symfony\\Component\\Validator\\Constraint\>\|Symfony\\Component\\Validator\\Constraint\|null, Prophecy\\Argument\\Token\\TypeToken given\.$#'
+			message: '#^Parameter \#2 \$constraints of method Symfony\\Component\\Validator\\Validator\\ContextualValidatorInterface\:\:validate\(\) expects array\<Symfony\\Component\\Validator\\Constraint\>\|Symfony\\Component\\Validator\\Constraint\|null, Prophecy\\Argument\\Token\\TypeToken given\.$#'
 			identifier: argument.type
 			count: 4
 			path: Specification/Infrastructure/Validation/PropertyProcessShouldBeValidValidatorSpec.php
@@ -4525,7 +4681,7 @@ parameters:
 			path: Specification/Infrastructure/Validation/ScopeAndLocaleShouldBeValidValidatorSpec.php
 
 		-
-			message: '#^Cannot call method shouldBeCalled\(\) on mixed\.$#'
+			message: '#^Cannot call method shouldBeCalled\(\) on null\.$#'
 			identifier: method.nonObject
 			count: 7
 			path: Specification/Infrastructure/Validation/ScopeAndLocaleShouldBeValidValidatorSpec.php
@@ -4549,9 +4705,9 @@ parameters:
 			path: Specification/Infrastructure/Validation/ScopeAndLocaleShouldBeValidValidatorSpec.php
 
 		-
-			message: '#^Parameter \#1 \$message of method Symfony\\Component\\Validator\\Context\\ExecutionContext\:\:buildViolation\(\) expects string, Prophecy\\Argument\\Token\\AnyValueToken given\.$#'
-			identifier: argument.type
-			count: 2
+			message: '#^Result of method Symfony\\Component\\Validator\\Violation\\ConstraintViolationBuilderInterface\:\:addViolation\(\) \(void\) is used\.$#'
+			identifier: method.void
+			count: 7
 			path: Specification/Infrastructure/Validation/ScopeAndLocaleShouldBeValidValidatorSpec.php
 
 		-
@@ -4585,7 +4741,7 @@ parameters:
 			path: Specification/Infrastructure/Validation/SelectOptionShouldExistValidatorSpec.php
 
 		-
-			message: '#^Cannot call method shouldBeCalled\(\) on mixed\.$#'
+			message: '#^Cannot call method shouldBeCalled\(\) on null\.$#'
 			identifier: method.nonObject
 			count: 1
 			path: Specification/Infrastructure/Validation/SelectOptionShouldExistValidatorSpec.php
@@ -4609,8 +4765,8 @@ parameters:
 			path: Specification/Infrastructure/Validation/SelectOptionShouldExistValidatorSpec.php
 
 		-
-			message: '#^Parameter \#1 \$message of method Symfony\\Component\\Validator\\Context\\ExecutionContext\:\:buildViolation\(\) expects string, Prophecy\\Argument\\Token\\AnyValueToken given\.$#'
-			identifier: argument.type
+			message: '#^Result of method Symfony\\Component\\Validator\\Violation\\ConstraintViolationBuilderInterface\:\:addViolation\(\) \(void\) is used\.$#'
+			identifier: method.void
 			count: 1
 			path: Specification/Infrastructure/Validation/SelectOptionShouldExistValidatorSpec.php
 
@@ -4627,13 +4783,13 @@ parameters:
 			path: Specification/Infrastructure/Validation/SimpleOrMultiSelectShouldBeValidValidatorSpec.php
 
 		-
-			message: '#^Call to an undefined method Symfony\\Component\\Validator\\ConstraintViolationListInterface\:\:shouldBeCalledTimes\(\)\.$#'
+			message: '#^Call to an undefined method Symfony\\Component\\Validator\\ConstraintViolationListInterface\:\:willReturn\(\)\.$#'
 			identifier: method.notFound
-			count: 4
+			count: 1
 			path: Specification/Infrastructure/Validation/SimpleOrMultiSelectShouldBeValidValidatorSpec.php
 
 		-
-			message: '#^Call to an undefined method Symfony\\Component\\Validator\\ConstraintViolationListInterface\:\:shouldNotBeCalled\(\)\.$#'
+			message: '#^Call to an undefined method Symfony\\Component\\Validator\\Validator\\ContextualValidatorInterface\:\:shouldNotBeCalled\(\)\.$#'
 			identifier: method.notFound
 			count: 2
 			path: Specification/Infrastructure/Validation/SimpleOrMultiSelectShouldBeValidValidatorSpec.php
@@ -4641,7 +4797,7 @@ parameters:
 		-
 			message: '#^Call to an undefined method Symfony\\Component\\Validator\\Validator\\ContextualValidatorInterface\:\:willReturn\(\)\.$#'
 			identifier: method.notFound
-			count: 1
+			count: 6
 			path: Specification/Infrastructure/Validation/SimpleOrMultiSelectShouldBeValidValidatorSpec.php
 
 		-
@@ -4651,19 +4807,19 @@ parameters:
 			path: Specification/Infrastructure/Validation/SimpleOrMultiSelectShouldBeValidValidatorSpec.php
 
 		-
+			message: '#^Cannot call method shouldBeCalledTimes\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 4
+			path: Specification/Infrastructure/Validation/SimpleOrMultiSelectShouldBeValidValidatorSpec.php
+
+		-
 			message: '#^Class Specification\\Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\SimpleOrMultiSelectShouldBeValidValidatorSpec extends generic class PhpSpec\\ObjectBehavior but does not specify its types\: TKey, TValue$#'
 			identifier: missingType.generics
 			count: 1
 			path: Specification/Infrastructure/Validation/SimpleOrMultiSelectShouldBeValidValidatorSpec.php
 
 		-
-			message: '#^Parameter \#1 \$message of method Symfony\\Component\\Validator\\Context\\ExecutionContext\:\:buildViolation\(\) expects string, Prophecy\\Argument\\Token\\AnyValueToken given\.$#'
-			identifier: argument.type
-			count: 2
-			path: Specification/Infrastructure/Validation/SimpleOrMultiSelectShouldBeValidValidatorSpec.php
-
-		-
-			message: '#^Parameter \#2 \$constraints of method Symfony\\Component\\Validator\\Validator\\ValidatorInterface\:\:validate\(\) expects array\<Symfony\\Component\\Validator\\Constraint\>\|Symfony\\Component\\Validator\\Constraint\|null, Prophecy\\Argument\\Token\\AnyValueToken given\.$#'
+			message: '#^Parameter \#2 \$constraints of method Symfony\\Component\\Validator\\Validator\\ContextualValidatorInterface\:\:validate\(\) expects array\<Symfony\\Component\\Validator\\Constraint\>\|Symfony\\Component\\Validator\\Constraint\|null, Prophecy\\Argument\\Token\\AnyValueToken given\.$#'
 			identifier: argument.type
 			count: 4
 			path: Specification/Infrastructure/Validation/SimpleOrMultiSelectShouldBeValidValidatorSpec.php
@@ -4681,7 +4837,7 @@ parameters:
 			path: Specification/Infrastructure/Validation/SimpleSelectPropertyShouldBeValidValidatorSpec.php
 
 		-
-			message: '#^Call to an undefined method Symfony\\Component\\Validator\\ConstraintViolationListInterface\:\:shouldBeCalledOnce\(\)\.$#'
+			message: '#^Call to an undefined method Symfony\\Component\\Validator\\ConstraintViolationListInterface\:\:willReturn\(\)\.$#'
 			identifier: method.notFound
 			count: 1
 			path: Specification/Infrastructure/Validation/SimpleSelectPropertyShouldBeValidValidatorSpec.php
@@ -4689,7 +4845,7 @@ parameters:
 		-
 			message: '#^Call to an undefined method Symfony\\Component\\Validator\\Validator\\ContextualValidatorInterface\:\:willReturn\(\)\.$#'
 			identifier: method.notFound
-			count: 1
+			count: 3
 			path: Specification/Infrastructure/Validation/SimpleSelectPropertyShouldBeValidValidatorSpec.php
 
 		-
@@ -4705,13 +4861,19 @@ parameters:
 			path: Specification/Infrastructure/Validation/SimpleSelectPropertyShouldBeValidValidatorSpec.php
 
 		-
+			message: '#^Cannot call method shouldBeCalledOnce\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: Specification/Infrastructure/Validation/SimpleSelectPropertyShouldBeValidValidatorSpec.php
+
+		-
 			message: '#^Class Specification\\Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\SimpleSelectPropertyShouldBeValidValidatorSpec extends generic class PhpSpec\\ObjectBehavior but does not specify its types\: TKey, TValue$#'
 			identifier: missingType.generics
 			count: 1
 			path: Specification/Infrastructure/Validation/SimpleSelectPropertyShouldBeValidValidatorSpec.php
 
 		-
-			message: '#^Parameter \#2 \$constraints of method Symfony\\Component\\Validator\\Validator\\ValidatorInterface\:\:validate\(\) expects array\<Symfony\\Component\\Validator\\Constraint\>\|Symfony\\Component\\Validator\\Constraint\|null, Prophecy\\Argument\\Token\\AnyValueToken given\.$#'
+			message: '#^Parameter \#2 \$constraints of method Symfony\\Component\\Validator\\Validator\\ContextualValidatorInterface\:\:validate\(\) expects array\<Symfony\\Component\\Validator\\Constraint\>\|Symfony\\Component\\Validator\\Constraint\|null, Prophecy\\Argument\\Token\\AnyValueToken given\.$#'
 			identifier: argument.type
 			count: 1
 			path: Specification/Infrastructure/Validation/SimpleSelectPropertyShouldBeValidValidatorSpec.php
@@ -4783,7 +4945,7 @@ parameters:
 			path: Specification/Infrastructure/Validation/UniqueIdentifierGeneratorCodeValidatorSpec.php
 
 		-
-			message: '#^Cannot call method shouldBeCalled\(\) on mixed\.$#'
+			message: '#^Cannot call method shouldBeCalled\(\) on null\.$#'
 			identifier: method.nonObject
 			count: 1
 			path: Specification/Infrastructure/Validation/UniqueIdentifierGeneratorCodeValidatorSpec.php
@@ -4803,5 +4965,11 @@ parameters:
 		-
 			message: '#^Class Specification\\Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Validation\\UniqueIdentifierGeneratorCodeValidatorSpec extends generic class PhpSpec\\ObjectBehavior but does not specify its types\: TKey, TValue$#'
 			identifier: missingType.generics
+			count: 1
+			path: Specification/Infrastructure/Validation/UniqueIdentifierGeneratorCodeValidatorSpec.php
+
+		-
+			message: '#^Result of method Symfony\\Component\\Validator\\Violation\\ConstraintViolationBuilderInterface\:\:addViolation\(\) \(void\) is used\.$#'
+			identifier: method.void
 			count: 1
 			path: Specification/Infrastructure/Validation/UniqueIdentifierGeneratorCodeValidatorSpec.php

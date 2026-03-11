@@ -51,7 +51,7 @@ final readonly class GetAvailableConditionsController
         $page = $request->query->getInt('page', 1);
         $offset = ($page - 1) * $limit;
 
-        $fields = $request->get('systemFields', []);
+        $fields = $request->query->all()['systemFields'] ?? [];
         Assert::isArray($fields);
         Assert::allStringNotEmpty($fields);
 

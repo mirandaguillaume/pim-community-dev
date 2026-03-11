@@ -21,7 +21,7 @@ use Doctrine\Persistence\ObjectRepository;
 use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -35,7 +35,7 @@ final readonly class UpdateUserCommandHandler
         private SaverInterface $saver,
         private PasswordCheckerInterface $passwordChecker,
         private EventDispatcherInterface $eventDispatcher,
-        private Session $session,
+        private RequestStack $requestStack,
         private ObjectRepository $repository,
         private TokenStorageInterface $tokenStorage,
     ) {
@@ -93,7 +93,7 @@ final readonly class UpdateUserCommandHandler
             UserEvent::POST_UPDATE
         );
 
-        $this->session->remove('dataLocale');
+        $this->requestStack->getSession()->remove('dataLocale');
 
 
         return $user;

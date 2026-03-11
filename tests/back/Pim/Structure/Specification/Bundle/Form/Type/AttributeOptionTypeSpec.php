@@ -32,7 +32,9 @@ class AttributeOptionTypeSpec extends ObjectBehavior
 
     function it_builds_form(FormBuilderInterface $builder)
     {
-        $builder->add('id', HiddenType::class)->shouldBeCalled();
+        $builder->add(Argument::cetera())->willReturn($builder);
+
+        $builder->add('id', HiddenType::class)->shouldBeCalled()->willReturn($builder);
 
         $builder->add(
             'optionValues',
@@ -45,15 +47,17 @@ class AttributeOptionTypeSpec extends ObjectBehavior
                     ($arg['by_reference'] ?? null) === false &&
                     \is_callable($arg['delete_empty'] ?? null)
             )
-        )->shouldBeCalled();
+        )->shouldBeCalled()->willReturn($builder);
 
-        $builder->add('code', TextType::class, ['required' => true])->shouldBeCalled();
+        $builder->add('code', TextType::class, ['required' => true])->shouldBeCalled()->willReturn($builder);
 
         $this->buildForm($builder, []);
     }
 
     function it_sets_default_option(OptionsResolver $resolver)
     {
+        $resolver->setDefaults(Argument::any())->willReturn($resolver);
+
         $this->configureOptions($resolver);
 
         $resolver->setDefaults(

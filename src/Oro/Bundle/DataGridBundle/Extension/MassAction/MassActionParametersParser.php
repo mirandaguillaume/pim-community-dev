@@ -19,7 +19,7 @@ class MassActionParametersParser
             $values = $values !== '' ? explode(',', (string) $values) : [];
         }
 
-        $filters = $request->get('filters', null);
+        $filters = $request->query->all()['filters'] ?? $request->request->all()['filters'] ?? null;
         if (is_string($filters)) {
             try {
                 $filters = json_decode($filters, true, 512, JSON_THROW_ON_ERROR);
@@ -35,7 +35,7 @@ class MassActionParametersParser
         $gridName = $request->get('gridName');
         $dataLocale = $request->get('dataLocale');
         $dataScope = $filters['scope'] ?? null;
-        $gridParams = $request->get($gridName);
+        $gridParams = $request->query->all()[$gridName] ?? $request->request->all()[$gridName] ?? [];
         $sort = $gridParams['_sort_by'] ?? null;
 
         return [
