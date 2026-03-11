@@ -7,10 +7,24 @@ namespace AkeneoTest\UserManagement\Integration\Bundle;
 use Akeneo\Test\Integration\Configuration;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class UserPasswordIntegration extends ControllerIntegrationTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Symfony 6.4 throws SessionNotFoundException when RequestStack has no request
+        // with a session. Push a request with a mock session so SessionTokenStorage
+        // (used by CsrfTokenManager) can access the session without error.
+        $request = new Request();
+        $request->setSession(new Session(new MockArraySessionStorage()));
+        $this->get('request_stack')->push($request);
+    }
+
     public function test_it_can_not_create_a_user_with_password_less_than_8_characters(): void
     {
         $params = [
