@@ -1133,6 +1133,22 @@ jobs:
           export BEHAT_TIMING_FILE=".test-timings/behat.json"
           SUITE=${TESTSUITE} castor test:end-to-end-legacy
 
+      - name: Collect Behat timings
+        if: always()
+        run: |
+          .github/scripts/collect-timings.sh \
+            "var/tests/behat/batch_results/**/*.xml" \
+            ".test-timings/behat-shard-${{ matrix.shard }}.json" \
+            ".test-timings/behat.json"
+
+      - name: Upload Behat timing data
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: behat-timings-${{ matrix.shard }}
+          path: .test-timings/behat-shard-${{ matrix.shard }}.json
+          retention-days: 1
+
       - name: Capture browser console logs (diagnostics)
         if: failure()
         run: |
@@ -1370,6 +1386,35 @@ jobs:
         with:
           path: .test-timings/phpunit.json
           key: test-timings-phpunit-${{ github.ref }}-${{ github.run_number }}
+
+      - name: Download all Behat timing artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: behat-timings-*
+          path: timing-shards/behat
+          merge-multiple: true
+
+      - name: Merge and save Behat timings
+        run: |
+          mkdir -p .test-timings
+          python3 -c "
+          import json, glob, os
+          merged = {}
+          for f in glob.glob('timing-shards/behat/*.json'):
+              with open(f) as fh:
+                  data = json.load(fh)
+                  merged.update(data)
+          os.makedirs('.test-timings', exist_ok=True)
+          with open('.test-timings/behat.json', 'w') as fh:
+              json.dump(merged, fh, indent=2, sort_keys=True)
+          print(f'Merged {len(merged)} Behat timing entries')
+          "
+
+      - name: Save Behat timing cache
+        uses: actions/cache/save@v4
+        with:
+          path: .test-timings/behat.json
+          key: test-timings-behat-${{ github.ref }}-${{ github.run_number }}
 
   # ===========================================================================
   # CI SUCCESS: Final gate job
