@@ -44,7 +44,11 @@ abstract class InternalApiTestCase extends TestCase
 
     private function getSession(): SessionInterface
     {
-        return self::getContainer()->get('session');
+        $container = self::getContainer();
+
+        return $container->has('session.factory')
+            ? $container->get('session.factory')->createSession()
+            : $container->get('session');
     }
 
     protected function getAdminUser(): UserInterface

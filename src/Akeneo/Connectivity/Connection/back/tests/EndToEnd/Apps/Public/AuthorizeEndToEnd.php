@@ -40,7 +40,10 @@ class AuthorizeEndToEnd extends WebTestCase
         $this->webMarketplaceApi = $this->get(WebMarketplaceApi::class);
         $this->featureFlags = $this->get('feature_flags');
         $this->clientProvider = $this->get(ClientProvider::class);
-        $this->session = $this->get('session');
+        $container = $this->client->getContainer();
+        $this->session = $container->has('session.factory')
+            ? $container->get('session.factory')->createSession()
+            : $container->get('session');
         $this->appAuthorizationHandler = $this->get(RequestAppAuthorizationHandler::class);
         $this->createConnectedAppWithAuthorizationHandler = $this->get(CreateConnectedAppWithAuthorizationHandler::class);
         $this->loadAppsFixtures();
