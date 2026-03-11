@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
     backupGlobals="false"
-    backupStaticAttributes="false"
     colors="true"
-    convertErrorsToExceptions="true"
-    convertNoticesToExceptions="true"
-    convertWarningsToExceptions="true"
     processIsolation="false"
     stopOnFailure="false"
-    beStrictAboutTestsThatDoNotTestAnything="false"
-    bootstrap="config/bootstrap.php">
+    failOnRisky="false"
+    bootstrap="config/bootstrap.php"
+    cacheDirectory=".phpunit.cache">
 
     <php>
         <ini name="date.timezone" value="Europe/Paris"/>
@@ -77,10 +75,6 @@
         <testsuite name="End_to_End">
             <directory suffix="EndToEnd.php">tests/back</directory>
             <directory suffix="EndToEnd.php">src</directory>
-        </testsuite>
-
-        <testsuite name="OroSecurityBundle">
-            <file>src/Oro/Bundle/SecurityBundle/Tests/Unit/Acl/Dbal/MutableAclProviderTest.php</file>
         </testsuite>
 
         <testsuite name="Enrichment_Product">

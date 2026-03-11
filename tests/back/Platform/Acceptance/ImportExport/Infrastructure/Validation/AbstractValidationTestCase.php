@@ -13,7 +13,7 @@ use AkeneoTest\Platform\Acceptance\ImportExport\AcceptanceTestCase;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-abstract class AbstractValidationTest extends AcceptanceTestCase
+abstract class AbstractValidationTestCase extends AcceptanceTestCase
 {
     protected function assertHasValidationError(
         string $errorMessageExpected,

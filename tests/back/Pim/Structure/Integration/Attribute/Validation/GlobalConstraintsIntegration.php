@@ -262,7 +262,7 @@ class GlobalConstraintsIntegration extends AbstractAttributeTestCase
         $this->assertSame('code', $violations->get(0)->getPropertyPath());
     }
 
-    public function reservedCodesProvider()
+    public static function reservedCodesProvider()
     {
         return [
             ['id'], ['associations'], ['associationTypes'], ['category'], ['categoryId'], ['categories'],

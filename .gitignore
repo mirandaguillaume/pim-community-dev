@@ -24,6 +24,7 @@ composer.phar
 /phpspec.yml
 uploads_test/
 .phpspec/*.tpl
+.phpunit.cache
 /node_modules
 npm-debug.log
 docker-compose.override.yml

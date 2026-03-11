@@ -58,7 +58,7 @@ final class UploadImageIntegration extends TestCase
         $this->assertTrue((is_countable($violations) ? count($violations) : 0) > 0);
     }
 
-    private function unsupportedFilesProvider(): array
+    public static function unsupportedFilesProvider(): array
     {
         return [
             ['example.html'],

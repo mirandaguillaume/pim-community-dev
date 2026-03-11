@@ -46,11 +46,13 @@ class GetUserProfileQueryIntegration extends TestCase
     protected function createUser(string $username, ?string $profile = null)
     {
         $localeId = $this->dbalConnection->fetchOne('SELECT id FROM pim_catalog_locale LIMIT 1');
+        $channelId = $this->dbalConnection->fetchOne('SELECT id FROM pim_catalog_channel LIMIT 1');
+        $treeId = $this->dbalConnection->fetchOne('SELECT id FROM pim_catalog_category WHERE parent_id IS NULL LIMIT 1');
 
         $sqlInsert = <<<SQL
                         INSERT INTO oro_user
-                        (username, email, ui_locale_id, salt, password, createdAt, updatedAt, timezone, properties, profile) VALUES
-                        (:username, :email, :localeId, 'my_salt', 'my_password', '2019-09-09', '2019-09-09', 'UTC', '{}', :profile)
+                        (username, email, ui_locale_id, catalogLocale_id, catalogScope_id, defaultTree_id, salt, password, createdAt, updatedAt, timezone, properties, profile) VALUES
+                        (:username, :email, :localeId, :localeId, :channelId, :treeId, 'my_salt', 'my_password', '2019-09-09', '2019-09-09', 'UTC', '{}', :profile)
             SQL;
 
         $this->dbalConnection->executeQuery(
@@ -59,6 +61,8 @@ class GetUserProfileQueryIntegration extends TestCase
                 'username' => $username,
                 'email' => $username . '@test.com',
                 'localeId' => $localeId,
+                'channelId' => $channelId,
+                'treeId' => $treeId,
                 'profile' => $profile,
             ]
         );

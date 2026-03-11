@@ -85,10 +85,14 @@ class Version_6_0_20210330143635_sanitize_users_and_channels_having_link_to_subc
                 WHERE pcl.code = 'en_US'
             SQL)->fetchOne();
 
+        $channelId = $this->get('database_connection')->executeQuery(<<<SQL
+                SELECT id FROM pim_catalog_channel LIMIT 1
+            SQL)->fetchOne();
+
         $this->get('database_connection')->executeQuery(<<<SQL
-                INSERT INTO oro_user (ui_locale_id, username, email, enabled, salt, password, login_count, createdAt, updatedAt, emailNotifications, timezone, user_type, properties, defaultTree_id) 
-                VALUES (:localeId, 'aUsername', 'a.username0@example.com',  1, 'salt', 'password', 0, NOW(), NOW(), 0, 'UTC', 'user', '[]', :rootId);
-            SQL, ['rootId' => $subCategoryId, 'localeId' => $localeId]);
+                INSERT INTO oro_user (ui_locale_id, catalogLocale_id, catalogScope_id, username, email, enabled, salt, password, login_count, createdAt, updatedAt, emailNotifications, timezone, user_type, properties, defaultTree_id)
+                VALUES (:localeId, :localeId, :channelId, 'aUsername', 'a.username0@example.com',  1, 'salt', 'password', 0, NOW(), NOW(), 0, 'UTC', 'user', '[]', :rootId);
+            SQL, ['rootId' => $subCategoryId, 'localeId' => $localeId, 'channelId' => $channelId]);
     }
 
     private function aChannelHavingLinkToSubCategory(): void

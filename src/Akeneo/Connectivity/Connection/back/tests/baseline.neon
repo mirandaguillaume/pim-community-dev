@@ -3192,12 +3192,6 @@ parameters:
 			path: ../tests/EndToEnd/Apps/Public/AuthorizeEndToEnd.php
 
 		-
-			message: '#^Property Akeneo\\Connectivity\\Connection\\Tests\\EndToEnd\\Apps\\Public\\AuthorizeEndToEnd\:\:\$session \(Symfony\\Component\\HttpFoundation\\Session\\SessionInterface\) does not accept mixed\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: ../tests/EndToEnd/Apps/Public/AuthorizeEndToEnd.php
-
-		-
 			message: '#^Property Akeneo\\Connectivity\\Connection\\Tests\\EndToEnd\\Apps\\Public\\AuthorizeEndToEnd\:\:\$webMarketplaceApi \(Akeneo\\Connectivity\\Connection\\Tests\\Integration\\Mock\\FakeWebMarketplaceApi\) does not accept mixed\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -4608,12 +4602,6 @@ parameters:
 			path: ../tests/EndToEnd/Settings/Controller/Internal/IsConnectionsNumberLimitReachedActionEndToEnd.php
 
 		-
-			message: '#^Call to an undefined method object\:\:createSession\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: ../tests/EndToEnd/WebTestCase.php
-
-		-
 			message: '#^Cannot call method handle\(\) on mixed\.$#'
 			identifier: method.nonObject
 			count: 1
@@ -4621,18 +4609,6 @@ parameters:
 
 		-
 			message: '#^Method Akeneo\\Connectivity\\Connection\\back\\tests\\EndToEnd\\WebTestCase\:\:createConnection\(\) should return Akeneo\\Connectivity\\Connection\\Domain\\Settings\\Model\\Read\\ConnectionWithCredentials but returns mixed\.$#'
-			identifier: return.type
-			count: 1
-			path: ../tests/EndToEnd/WebTestCase.php
-
-		-
-			message: '#^Method Akeneo\\Connectivity\\Connection\\back\\tests\\EndToEnd\\WebTestCase\:\:getSession\(\) should return Symfony\\Component\\HttpFoundation\\Session\\SessionInterface but returns mixed\.$#'
-			identifier: return.type
-			count: 1
-			path: ../tests/EndToEnd/WebTestCase.php
-
-		-
-			message: '#^Method Akeneo\\Connectivity\\Connection\\back\\tests\\EndToEnd\\WebTestCase\:\:getSession\(\) should return Symfony\\Component\\HttpFoundation\\Session\\SessionInterface but returns object\.$#'
 			identifier: return.type
 			count: 1
 			path: ../tests/EndToEnd/WebTestCase.php

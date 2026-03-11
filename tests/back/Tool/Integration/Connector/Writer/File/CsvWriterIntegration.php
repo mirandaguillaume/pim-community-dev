@@ -22,7 +22,7 @@ class CsvWriterIntegration extends TestCase
         $this->removeOutputDirectory();
     }
 
-    public function provideFlushExamples(): iterable
+    public static function provideFlushExamples(): iterable
     {
         yield 'Into a file' => [
             'items' => [

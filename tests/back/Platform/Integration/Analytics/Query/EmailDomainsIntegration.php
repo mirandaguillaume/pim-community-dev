@@ -37,11 +37,13 @@ class EmailDomainsIntegration extends TestCase
         $conn = $this->get('database_connection');
 
         $localeId = $conn->fetchOne('SELECT id FROM pim_catalog_locale LIMIT 1');
+        $channelId = $conn->fetchOne('SELECT id FROM pim_catalog_channel LIMIT 1');
+        $treeId = $conn->fetchOne('SELECT id FROM pim_catalog_category WHERE parent_id IS NULL LIMIT 1');
 
         $sqlInsert = <<<SQL
             INSERT INTO oro_user
-            (username, email, ui_locale_id, salt, password, createdAt, updatedAt, timezone, properties) VALUES
-            (:username, :email, :localeId, 'my_salt', 'my_password', '2019-09-09', '2019-09-09', 'UTC', '{}')
+            (username, email, ui_locale_id, catalogLocale_id, catalogScope_id, defaultTree_id, salt, password, createdAt, updatedAt, timezone, properties) VALUES
+            (:username, :email, :localeId, :localeId, :channelId, :treeId, 'my_salt', 'my_password', '2019-09-09', '2019-09-09', 'UTC', '{}')
 SQL;
 
         $conn->executeQuery(
@@ -50,6 +52,8 @@ SQL;
                 "username" => $username,
                 "email" => $email,
                 "localeId" => $localeId,
+                "channelId" => $channelId,
+                "treeId" => $treeId,
             ]
         );
     }

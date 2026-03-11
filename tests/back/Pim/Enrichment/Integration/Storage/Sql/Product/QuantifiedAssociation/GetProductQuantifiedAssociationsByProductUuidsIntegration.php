@@ -6,10 +6,10 @@ namespace AkeneoTest\Pim\Enrichment\Integration\Storage\Sql\Product\Association;
 
 use Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Product\QuantifiedAssociation\GetProductQuantifiedAssociationsByProductUuids;
 use AkeneoTest\Pim\Enrichment\EndToEnd\Product\EntityWithQuantifiedAssociations\QuantifiedAssociationsTestCaseTrait;
-use AkeneoTest\Pim\Enrichment\Integration\Storage\Sql\AbstractQuantifiedAssociationIntegration;
+use AkeneoTest\Pim\Enrichment\Integration\Storage\Sql\AbstractQuantifiedAssociationIntegrationTestCase;
 use Doctrine\DBAL\Connection;
 
-class GetProductQuantifiedAssociationsByProductUuidsIntegration extends AbstractQuantifiedAssociationIntegration
+class GetProductQuantifiedAssociationsByProductUuidsIntegration extends AbstractQuantifiedAssociationIntegrationTestCase
 {
     use QuantifiedAssociationsTestCaseTrait;
 

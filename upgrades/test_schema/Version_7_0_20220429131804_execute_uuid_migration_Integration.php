@@ -60,6 +60,12 @@ final class Version_7_0_20220429131804_execute_uuid_migration_Integration extend
     {
         parent::setUp();
         $this->connection = $this->get('database_connection');
+
+        try {
+            $this->connection->executeStatement('SET GLOBAL log_bin_trust_function_creators = 1');
+        } catch (\Exception) {
+            $this->markTestSkipped('Cannot set log_bin_trust_function_creators — SUPER privilege required for UUID migration trigger tests');
+        }
     }
 
     /**

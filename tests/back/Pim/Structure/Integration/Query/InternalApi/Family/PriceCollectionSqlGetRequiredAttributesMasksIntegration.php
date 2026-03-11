@@ -16,7 +16,7 @@ namespace AkeneoTest\Pim\Structure\Integration\Query\InternalApi\Family;
 use Akeneo\Pim\Structure\Bundle\Query\InternalApi\Family\PriceCollectionSqlGetRequiredAttributesMasks;
 use PHPUnit\Framework\Assert;
 
-final class PriceCollectionSqlGetRequiredAttributesMasksIntegration extends AbstractGetRequiredAttributesMasksIntegration
+final class PriceCollectionSqlGetRequiredAttributesMasksIntegration extends AbstractGetRequiredAttributesMasksIntegrationTestCase
 {
     private PriceCollectionSqlGetRequiredAttributesMasks $priceCollectionSqlGetRequiredAttributesMasks;
 

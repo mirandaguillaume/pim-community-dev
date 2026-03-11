@@ -3,9 +3,9 @@
 namespace AkeneoTest\Platform\Acceptance\ImportExport\Infrastructure\Validation\Storage;
 
 use Akeneo\Platform\Bundle\ImportExportBundle\Infrastructure\Validation\Storage\Local\LocalStorage;
-use AkeneoTest\Platform\Acceptance\ImportExport\Infrastructure\Validation\AbstractValidationTest;
+use AkeneoTest\Platform\Acceptance\ImportExport\Infrastructure\Validation\AbstractValidationTestCase;
 
-class ValidateLocalStorageTest extends AbstractValidationTest
+class ValidateLocalStorageTest extends AbstractValidationTestCase
 {
     /**
      * @dataProvider validLocalStorage
@@ -30,7 +30,7 @@ class ValidateLocalStorageTest extends AbstractValidationTest
         $this->assertHasValidationError($expectedErrorMessage, $expectedErrorPath, $violations);
     }
 
-    public function validLocalStorage(): array
+    public static function validLocalStorage(): array
     {
         return [
             'valid local storage' => [
@@ -48,7 +48,7 @@ class ValidateLocalStorageTest extends AbstractValidationTest
         ];
     }
 
-    public function invalidLocalStorage(): array
+    public static function invalidLocalStorage(): array
     {
         return [
             'invalid storage type' => [

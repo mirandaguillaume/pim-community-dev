@@ -6,7 +6,7 @@ namespace AkeneoTest\Platform\Acceptance\ImportExport\Infrastructure\Validation;
 
 use Akeneo\Platform\Bundle\ImportExportBundle\Infrastructure\Validation\FilePath;
 
-class ValidateFilePathTest extends AbstractValidationTest
+class ValidateFilePathTest extends AbstractValidationTestCase
 {
     /**
      * @dataProvider validFilePath
@@ -31,7 +31,7 @@ class ValidateFilePathTest extends AbstractValidationTest
         $this->assertHasValidationError($expectedErrorMessage, $expectedErrorPath, $violations);
     }
 
-    public function validFilePath(): array
+    public static function validFilePath(): array
     {
         return [
             'valid file path' => [
@@ -41,7 +41,7 @@ class ValidateFilePathTest extends AbstractValidationTest
         ];
     }
 
-    public function invalidFilePath(): array
+    public static function invalidFilePath(): array
     {
         return [
             'file path with bad extension' => [

@@ -6,11 +6,11 @@ namespace AkeneoTest\Pim\Enrichment\Integration\Storage\Sql\Product\Association;
 
 use Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Product\QuantifiedAssociation\GetProductModelQuantifiedAssociationsByProductUuids;
 use AkeneoTest\Pim\Enrichment\EndToEnd\Product\EntityWithQuantifiedAssociations\QuantifiedAssociationsTestCaseTrait;
-use AkeneoTest\Pim\Enrichment\Integration\Storage\Sql\AbstractQuantifiedAssociationIntegration;
+use AkeneoTest\Pim\Enrichment\Integration\Storage\Sql\AbstractQuantifiedAssociationIntegrationTestCase;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
-class GetProductModelQuantifiedAssociationsByProductUuidsIntegration extends AbstractQuantifiedAssociationIntegration
+class GetProductModelQuantifiedAssociationsByProductUuidsIntegration extends AbstractQuantifiedAssociationIntegrationTestCase
 {
     use QuantifiedAssociationsTestCaseTrait;
 

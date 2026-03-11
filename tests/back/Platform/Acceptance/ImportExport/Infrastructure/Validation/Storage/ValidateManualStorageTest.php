@@ -3,9 +3,9 @@
 namespace AkeneoTest\Platform\Acceptance\ImportExport\Infrastructure\Validation\Storage;
 
 use Akeneo\Platform\Bundle\ImportExportBundle\Infrastructure\Validation\Storage\ManualUpload\ManualUploadStorage;
-use AkeneoTest\Platform\Acceptance\ImportExport\Infrastructure\Validation\AbstractValidationTest;
+use AkeneoTest\Platform\Acceptance\ImportExport\Infrastructure\Validation\AbstractValidationTestCase;
 
-class ValidateManualStorageTest extends AbstractValidationTest
+class ValidateManualStorageTest extends AbstractValidationTestCase
 {
     /**
      * @dataProvider validManualStorage
@@ -30,7 +30,7 @@ class ValidateManualStorageTest extends AbstractValidationTest
         $this->assertHasValidationError($expectedErrorMessage, $expectedErrorPath, $violations);
     }
 
-    public function validManualStorage(): array
+    public static function validManualStorage(): array
     {
         return [
             'valid manual storage' => [
@@ -42,7 +42,7 @@ class ValidateManualStorageTest extends AbstractValidationTest
         ];
     }
 
-    public function invalidManualStorage(): array
+    public static function invalidManualStorage(): array
     {
         return [
             'invalid storage type' => [

@@ -17,7 +17,7 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\GetRequiredAttributesM
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\NonExistingFamiliesException;
 use Webmozart\Assert\Assert;
 
-final class GetRequiredAttributesMasksAggregatorIntegration extends AbstractGetRequiredAttributesMasksIntegration
+final class GetRequiredAttributesMasksAggregatorIntegration extends AbstractGetRequiredAttributesMasksIntegrationTestCase
 {
     private GetRequiredAttributesMasks $getRequiredAttributesMasks;
 

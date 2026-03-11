@@ -114,13 +114,21 @@ SQL;
 
     private function createDummyTriggersToBeRemoved(): void
     {
+        try {
+            $this->connection->executeStatement('SET GLOBAL log_bin_trust_function_creators = 1');
+        } catch (\Exception) {
+            // MySQL 8.4+ with binary logging requires SUPER privilege to create triggers.
+            // CI users typically lack SUPER, so skip trigger creation if we cannot set this variable.
+            $this->markTestSkipped('Cannot set log_bin_trust_function_creators — SUPER privilege required for trigger tests');
+        }
+
         $createDummyTriggerQuery = <<<SQL
         DROP TRIGGER IF EXISTS %s;
         CREATE TRIGGER %s
-        BEFORE INSERT ON pim_catalog_category_product FOR EACH ROW  
-        BEGIN  
-            IF NEW.product_uuid IS NULL THEN SET NEW.category_id = 1;  
-            END IF;  
+        BEFORE INSERT ON pim_catalog_category_product FOR EACH ROW
+        BEGIN
+            IF NEW.product_uuid IS NULL THEN SET NEW.category_id = 1;
+            END IF;
         END
         SQL;
         foreach($this->migrationToTest::TABLES_TO_UPDATE as $tableName => $properties) {

@@ -15,7 +15,7 @@ use AkeneoTest\Pim\Enrichment\Integration\Fixture\EntityBuilder;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Webmozart\Assert\Assert;
 
-abstract class AbstractQuantifiedAssociationIntegration extends TestCase
+abstract class AbstractQuantifiedAssociationIntegrationTestCase extends TestCase
 {
     protected function givenBooleanAttributes(array $codes): void
     {

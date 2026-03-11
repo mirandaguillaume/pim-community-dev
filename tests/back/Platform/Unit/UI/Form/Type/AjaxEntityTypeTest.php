@@ -105,7 +105,7 @@ class AjaxEntityTypeTest extends TestCase
         $this->type->buildForm($builder, $this->options);
     }
 
-    public function getSetDefaultOptionsData()
+    public static function getSetDefaultOptionsData()
     {
         return [
             'defaults'      => [[]],

@@ -17,7 +17,7 @@ use Akeneo\Pim\Structure\Component\AttributeTypes;
 use Akeneo\Test\Integration\TestCase;
 use Webmozart\Assert\Assert;
 
-abstract class AbstractGetRequiredAttributesMasksIntegration extends TestCase
+abstract class AbstractGetRequiredAttributesMasksIntegrationTestCase extends TestCase
 {
     protected function getConfiguration()
     {

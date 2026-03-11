@@ -91,7 +91,11 @@ abstract class ControllerIntegrationTestCase extends WebTestCase
 
     protected function logIn(string $username): void
     {
-        $session = $this->get('session');
+        $container = $this->client->getContainer();
+        $session = $container->has('session.factory')
+            ? $container->get('session.factory')->createSession()
+            : $container->get('session');
+
         $user = $this->get('pim_user.repository.user')->findOneByIdentifier($username);
         if (null === $user) {
             $user = $this->createUser($username);
