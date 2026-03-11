@@ -14,11 +14,13 @@ use Akeneo\Connectivity\Connection\Infrastructure\Marketplace\WebMarketplaceApi;
 use Akeneo\Connectivity\Connection\Tests\Integration\Mock\FakeWebMarketplaceApi;
 use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlags;
 use Akeneo\Test\Integration\Configuration;
+use Akeneo\UserManagement\Component\Model\UserInterface;
 use PHPUnit\Framework\Assert;
+use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -30,6 +32,7 @@ class AccessTokenRequestValidationIntegration extends WebTestCase
     private ClientProvider $clientProvider;
     private RequestAppAuthorizationHandler $appAuthorizationHandler;
     private string $clientId;
+    private SessionInterface $sharedSession;
 
     public function test_it_validates_the_access_token_request(): void
     {
@@ -148,10 +151,21 @@ class AccessTokenRequestValidationIntegration extends WebTestCase
     {
         parent::setUp();
 
-        // Push a request with a session so that RequestStack::getSession() works (SF 6.4)
+        // Use a persistent session shared between the request stack and the client.
+        // MockArraySessionStorage doesn't persist, so data stored by handler calls
+        // is lost when the client makes HTTP requests (PHPUnit 10 kernel isolation).
+        $container = $this->client->getContainer();
+        $this->sharedSession = $container->has('session.factory')
+            ? $container->get('session.factory')->createSession()
+            : $container->get('session');
+
         $request = new Request();
-        $request->setSession(new Session(new MockArraySessionStorage()));
+        $request->setSession($this->sharedSession);
         $this->get('request_stack')->push($request);
+
+        $this->sharedSession->save();
+        $cookie = new Cookie($this->sharedSession->getName(), $this->sharedSession->getId());
+        $this->client->getCookieJar()->set($cookie);
 
         $this->validator = $this->get('validator');
 
@@ -167,6 +181,21 @@ class AccessTokenRequestValidationIntegration extends WebTestCase
     protected function getConfiguration(): Configuration
     {
         return $this->catalog->useMinimalCatalog();
+    }
+
+    /**
+     * Override to reuse the shared session instead of creating a new one.
+     * This ensures handler calls and client HTTP requests share the same session.
+     */
+    protected function authenticateAsAdmin(): UserInterface
+    {
+        $user = $this->createAdminUser();
+
+        $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
+        $this->sharedSession->set('_security_main', \serialize($token));
+        $this->sharedSession->save();
+
+        return $user;
     }
 
     private function createApp(): void
