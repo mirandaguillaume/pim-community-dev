@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # Hook: PreToolUse on Bash (git commit)
 # Consolidated pre-commit checks — runs only the checks relevant to staged file types.
-# Replaces: warn-large-diff, no-debug-statements, cs-fixer-staged, phpstan-staged,
-#           phpspec-staged, eslint-staged, jest-staged
+# Uses Docker commands matching castor's helpers (castor/helpers.php) for CI parity.
+# PHP: docker-compose run --rm php php ... (= castor's phpRun)
+# JS:  docker-compose run -u node --rm ... node yarn ... (= castor's yarnRun)
 
 set -euo pipefail
 
@@ -11,6 +12,9 @@ COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null) || e
 
 [ -z "$COMMAND" ] && exit 0
 echo "$COMMAND" | grep -qE 'git\s+commit' || exit 0
+
+# Docker yarn command matching castor's yarnRun() helper (castor/helpers.php)
+YARN_RUN="docker-compose run --rm -T -u node -e YARN_REGISTRY -e PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 -e PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome node yarn"
 
 WARNINGS=""
 
@@ -33,21 +37,21 @@ fi
 
 # ── Detect staged file types ──
 STAGED_PHP=$(git diff --cached --name-only --diff-filter=ACMR -- '*.php' 2>/dev/null || true)
-STAGED_JS=$(git diff --cached --name-only --diff-filter=ACMR -- '*.js' '*.jsx' 2>/dev/null || true)
+STAGED_JS=$(git diff --cached --name-only --diff-filter=ACMR -- '*.js' '*.jsx' '*.ts' '*.tsx' 2>/dev/null || true)
 STAGED_FRONT=$(git diff --cached --name-only --diff-filter=ACMR -- '*.ts' '*.tsx' '*.js' '*.jsx' 2>/dev/null \
     | grep -v '\.test\.' | grep -v '\.spec\.' | grep -v '__tests__/' | grep -v '__mocks__/' || true)
 
-# ── 3. PHP checks (only if PHP files staged) ──
+# ── 3. PHP checks (Docker, matching castor's phpRun) ──
 if [ -n "$STAGED_PHP" ]; then
-    # CS-Fixer (exclude Spec.php and Integration.php)
+    # CS-Fixer (exclude Spec.php and Integration.php) — uses .php_cs.php like castor
     CS_FILES=$(echo "$STAGED_PHP" | grep -v 'Spec\.php$' | grep -v 'Integration\.php$' || true)
     if [ -n "$CS_FILES" ]; then
         CS_RESULT=$(docker-compose run --rm -T php php tools/php-cs-fixer fix \
-            --dry-run --config=.php-cs-fixer.dist.php --path-mode=intersection \
+            --dry-run --config=.php_cs.php --path-mode=intersection \
             $CS_FILES 2>&1 || true)
         if echo "$CS_RESULT" | grep -qE 'that can be fixed'; then
             CS_COUNT=$(echo "$CS_RESULT" | grep -oE '[0-9]+\)' | wc -l)
-            WARNINGS="$WARNINGS\n- CS-FIXER: $CS_COUNT file(s) need formatting. Run: make fix-cs-back"
+            WARNINGS="$WARNINGS\n- CS-FIXER: $CS_COUNT file(s) need formatting. Run: castor back:fix-cs-back"
         fi
     fi
 
@@ -88,26 +92,26 @@ if [ -n "$STAGED_PHP" ]; then
         done
         if [ -n "$SPECS" ]; then
             SPEC_RESULT=$(docker-compose run --rm -T php php vendor/bin/phpspec run $SPECS --no-interaction 2>&1 || true)
-            if echo "$SPEC_RESULT" | grep -qE 'failed|broken'; then
-                SPEC_FAILURES=$(echo "$SPEC_RESULT" | grep -cE 'failed|broken' || echo "?")
+            if echo "$SPEC_RESULT" | grep -qE 'examples? \(.*failed|examples? \(.*broken'; then
+                SPEC_FAILURES=$(echo "$SPEC_RESULT" | grep -oE '[0-9]+ (failed|broken)' | head -1 || echo "?")
                 WARNINGS="$WARNINGS\n- PHPSPEC: $SPEC_FAILURES spec(s) failed"
             fi
         fi
     fi
 fi
 
-# ── 4. JS checks (only if JS/JSX files staged) ──
-if [ -n "$STAGED_JS" ] && command -v npx >/dev/null 2>&1; then
-    ESLINT_RESULT=$(npx eslint --no-error-on-unmatched-pattern $STAGED_JS 2>&1 || true)
+# ── 4. ESLint via Docker (matching castor's yarnRun) ──
+if [ -n "$STAGED_JS" ]; then
+    ESLINT_RESULT=$($YARN_RUN eslint --no-error-on-unmatched-pattern $STAGED_JS 2>&1 || true)
     if echo "$ESLINT_RESULT" | grep -qE '[0-9]+ error'; then
         ESLINT_SUMMARY=$(echo "$ESLINT_RESULT" | grep -oE '[0-9]+ error' | tail -1)
-        WARNINGS="$WARNINGS\n- ESLINT: $ESLINT_SUMMARY in staged JS files. Run: yarn lint-fix"
+        WARNINGS="$WARNINGS\n- ESLINT: $ESLINT_SUMMARY in staged JS/TS files. Run: yarn lint-fix"
     fi
 fi
 
-# ── 5. Jest (only if front-end source files staged) ──
-if [ -n "$STAGED_FRONT" ] && command -v npx >/dev/null 2>&1; then
-    JEST_RESULT=$(npx jest --findRelatedTests --passWithNoTests $STAGED_FRONT 2>&1 || true)
+# ── 5. Jest via Docker (matching castor's yarnRun) ──
+if [ -n "$STAGED_FRONT" ]; then
+    JEST_RESULT=$($YARN_RUN jest --config tests/front/unit/jest/unit.jest.js --findRelatedTests --passWithNoTests $STAGED_FRONT 2>&1 || true)
     if echo "$JEST_RESULT" | grep -qE 'Tests:.*failed'; then
         JEST_SUMMARY=$(echo "$JEST_RESULT" | grep -E 'Tests:' | head -1)
         WARNINGS="$WARNINGS\n- JEST: $JEST_SUMMARY"

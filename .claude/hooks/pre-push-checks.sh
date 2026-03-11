@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Hook: PreToolUse on Bash (git push)
-# Consolidated pre-push checks — runs only the checks relevant to changed file types.
-# Replaces: coupling-pre-push, yarn-lint-pre-push, playwright-pre-push
+# Runs the same front-end checks as CI before pushing.
+# Detects which workspaces have changed files and runs only relevant checks.
+# Falls back to castor for PHP checks when available.
 
 set -euo pipefail
 
@@ -13,57 +14,100 @@ echo "$COMMAND" | grep -qE 'git\s+push' || exit 0
 
 BASE="origin/master"
 WARNINGS=""
+BLOCKED=""
 
-# ── Detect changed file types ──
+# ── Detect changed file types since base branch ──
 CHANGED_PHP=$(git diff --name-only "$BASE"...HEAD -- '*.php' 2>/dev/null || true)
-CHANGED_JS=$(git diff --name-only "$BASE"...HEAD -- '*.js' '*.jsx' 2>/dev/null || true)
-CHANGED_SPECS=$(git diff --name-only "$BASE"...HEAD -- '*.spec.ts' 2>/dev/null || true)
-CHANGED_FIXTURES=$(git diff --name-only "$BASE"...HEAD -- 'tests/front/e2e/fixtures/*.ts' 2>/dev/null || true)
+CHANGED_JS=$(git diff --name-only "$BASE"...HEAD -- '*.js' '*.jsx' '*.ts' '*.tsx' 2>/dev/null || true)
 
-# ── 1. Coupling check (only if PHP files changed) ──
-if [ -n "$CHANGED_PHP" ]; then
-    for ctx in "Pim/Structure" "Pim/Enrichment" "Channel" "Connectivity/Connection" "Platform/Job" "Platform/Installer"; do
-        if echo "$CHANGED_PHP" | grep -q "src/Akeneo/$ctx/"; then
-            CD_CONFIG=$(find "src/Akeneo/$ctx" -name ".php_cd.php" -maxdepth 3 2>/dev/null | head -1 || true)
-            if [ -n "$CD_CONFIG" ]; then
-                RESULT=$(docker-compose run --rm -T php php vendor/bin/php-coupling-detector detect --config-file="$CD_CONFIG" 2>&1 || true)
-                if echo "$RESULT" | grep -qiE 'violation|error'; then
-                    CTX_NAME=$(dirname "$CD_CONFIG" | sed 's|src/Akeneo/||')
-                    WARNINGS="$WARNINGS\n- COUPLING ($CTX_NAME): violations detected"
-                fi
-            fi
+# ── 1. Front-end checks (direct yarn, no castor dependency) ──
+if [ -n "$CHANGED_JS" ]; then
+
+    # ── 1a. Root ESLint + Prettier (mirrors CI front-lint: yarn lint) ──
+    LINT_RESULT=$(yarn lint 2>&1 || true)
+    if echo "$LINT_RESULT" | grep -qE '✖ [0-9]+ problem|error.*Command failed'; then
+        LINT_SUMMARY=$(echo "$LINT_RESULT" | grep -oE '✖ [0-9]+ problem[^)]*' | tail -1 || echo "lint errors")
+        BLOCKED="$BLOCKED\n- FRONT-LINT: $LINT_SUMMARY"
+    fi
+
+    # ── 1b. Connectivity Connection Jest (mirrors CI front-unit shard 1) ──
+    CONN_CHANGED=$(echo "$CHANGED_JS" | grep -i 'Connectivity/Connection' || true)
+    if [ -n "$CONN_CHANGED" ]; then
+        CONN_RESULT=$(yarn workspace @akeneo-pim-community/connectivity-connection jest --ci 2>&1 || true)
+        if echo "$CONN_RESULT" | grep -qE 'Test Suites:.*failed'; then
+            CONN_SUMMARY=$(echo "$CONN_RESULT" | grep 'Test Suites:' | tail -1)
+            BLOCKED="$BLOCKED\n- CONNECTIVITY JEST: $CONN_SUMMARY"
         fi
-    done
-fi
+    fi
 
-# ── 2. ESLint (only if JS/JSX files changed) ──
-if [ -n "$CHANGED_JS" ] && command -v npx >/dev/null 2>&1; then
-    FILE_COUNT=$(echo "$CHANGED_JS" | wc -l)
-    RESULT=$(npx eslint $CHANGED_JS --no-error-on-unmatched-pattern 2>&1 || true)
-    if echo "$RESULT" | grep -qE '[0-9]+ error'; then
-        ERROR_SUMMARY=$(echo "$RESULT" | grep -oE '[0-9]+ error' | tail -1)
-        WARNINGS="$WARNINGS\n- ESLINT: $ERROR_SUMMARY in $FILE_COUNT front-end files. Run: yarn lint-fix"
+    # ── 1c. MeasureBundle Jest (mirrors CI front-unit shard 2) ──
+    MEASURE_CHANGED=$(echo "$CHANGED_JS" | grep -i 'MeasureBundle' || true)
+    if [ -n "$MEASURE_CHANGED" ]; then
+        MEASURE_RESULT=$(yarn workspace @akeneo-pim-community/measurement test:unit:run --no-coverage 2>&1 || true)
+        if echo "$MEASURE_RESULT" | grep -qE 'Test Suites:.*failed'; then
+            MEASURE_SUMMARY=$(echo "$MEASURE_RESULT" | grep 'Test Suites:' | tail -1)
+            BLOCKED="$BLOCKED\n- MEASURE JEST: $MEASURE_SUMMARY"
+        fi
+    fi
+
+    # ── 1d. Root Jest (mirrors CI front-unit: yarn unit) ──
+    ROOT_CHANGED=$(echo "$CHANGED_JS" | grep -vE 'Connectivity/Connection|MeasureBundle|e2e/' || true)
+    if [ -n "$ROOT_CHANGED" ]; then
+        ROOT_RESULT=$(yarn jest --config tests/front/unit/jest/unit.jest.js --passWithNoTests --ci 2>&1 || true)
+        if echo "$ROOT_RESULT" | grep -qE 'Test Suites:.*failed'; then
+            ROOT_SUMMARY=$(echo "$ROOT_RESULT" | grep 'Test Suites:' | tail -1)
+            BLOCKED="$BLOCKED\n- ROOT JEST: $ROOT_SUMMARY"
+        fi
     fi
 fi
 
-# ── 3. Playwright (only if spec.ts or fixture files changed) ──
-if [ -z "$CHANGED_SPECS" ] && [ -n "$CHANGED_FIXTURES" ]; then
-    CHANGED_SPECS=$(find tests/front/e2e -name '*.spec.ts' 2>/dev/null || true)
-fi
-if [ -n "$CHANGED_SPECS" ] && command -v npx >/dev/null 2>&1; then
-    SPEC_COUNT=$(echo "$CHANGED_SPECS" | wc -l)
-    RESULT=$(npx playwright test --reporter=line $CHANGED_SPECS 2>&1 || true)
-    PASSED=$(echo "$RESULT" | grep -oP '\d+ passed' | head -1 || echo "0 passed")
-    FAILED=$(echo "$RESULT" | grep -oP '\d+ failed' | head -1 || true)
-    SKIPPED=$(echo "$RESULT" | grep -oP '\d+ skipped' | head -1 || true)
-    if [ -n "$FAILED" ]; then
-        WARNINGS="$WARNINGS\n- PLAYWRIGHT: $FAILED ($PASSED, $SKIPPED) — $SPEC_COUNT spec(s) tested"
+# ── 2. PHP checks (castor if available, else skip with warning) ──
+if [ -n "$CHANGED_PHP" ]; then
+    CASTOR=""
+    if command -v castor >/dev/null 2>&1; then
+        CASTOR="castor"
+    elif [ -x "$HOME/.local/bin/castor" ]; then
+        CASTOR="$HOME/.local/bin/castor"
+    else
+        # Auto-install castor
+        mkdir -p "$HOME/.local/bin"
+        if curl -fsSL "https://github.com/jolicode/castor/releases/latest/download/castor.linux-amd64.phar" \
+             -o "$HOME/.local/bin/castor" 2>/dev/null; then
+            chmod +x "$HOME/.local/bin/castor"
+            CASTOR="$HOME/.local/bin/castor"
+        fi
+    fi
+
+    if [ -n "$CASTOR" ]; then
+        # Coupling
+        RESULT=$($CASTOR test:coupling-back 2>&1 || true)
+        if echo "$RESULT" | grep -qiE 'violation|error|failed|exception'; then
+            BLOCKED="$BLOCKED\n- COUPLING: castor test:coupling-back found issues"
+        fi
+        # Lint-back
+        RESULT=$($CASTOR test:lint-back 2>&1 || true)
+        if echo "$RESULT" | grep -qiE '\[ERROR\]|Found [0-9]+ error|that can be fixed|failed'; then
+            BLOCKED="$BLOCKED\n- LINT-BACK: castor test:lint-back found issues"
+        fi
+        # Unit-back
+        RESULT=$($CASTOR test:unit-back 2>&1 || true)
+        if echo "$RESULT" | grep -qiE 'failed|broken'; then
+            BLOCKED="$BLOCKED\n- UNIT-BACK: castor test:unit-back found failures"
+        fi
+    else
+        WARNINGS="$WARNINGS\n- PHP checks skipped (castor install failed)"
     fi
 fi
 
 # ── Output ──
+if [ -n "$BLOCKED" ]; then
+    echo "BLOCKED"
+    echo "Pre-push checks failed:$BLOCKED"
+    exit 1
+fi
+
 if [ -n "$WARNINGS" ]; then
-    echo "{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"additionalContext\":\"PRE-PUSH CHECKS:$WARNINGS\"}}"
+    echo "{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"additionalContext\":\"PRE-PUSH:$WARNINGS\"}}"
 fi
 
 exit 0

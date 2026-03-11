@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Hook: PostToolUse on Edit|Write|Serena edit tools
 # Auto-formats JS/TS files with Prettier after edit.
+# Uses Docker yarn matching castor's yarnRun helper for CI parity.
 set -euo pipefail
 
 INPUT=$(cat)
@@ -17,9 +18,16 @@ fi
 [ -z "$FILE" ] && exit 0
 [ -f "$FILE" ] || exit 0
 
+# Convert absolute host path to relative (Docker mounts ./ at /srv/pim with working_dir=/srv/pim)
+REL_FILE="${FILE#${CLAUDE_PROJECT_DIR}/}"
+
 case "$FILE" in
     *.ts|*.tsx|*.js|*.jsx)
-        npx prettier --config "${CLAUDE_PROJECT_DIR}/.prettierrc.json" --write "$FILE" 2>/dev/null || true
+        docker-compose run --rm -T -u node \
+            -e YARN_REGISTRY \
+            -e PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 \
+            -e PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome \
+            node yarn prettier --write "$REL_FILE" 2>/dev/null || true
         ;;
 esac
 exit 0
