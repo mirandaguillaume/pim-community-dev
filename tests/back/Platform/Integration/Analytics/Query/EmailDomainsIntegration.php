@@ -40,8 +40,8 @@ class EmailDomainsIntegration extends TestCase
 
         $sqlInsert = <<<SQL
             INSERT INTO oro_user
-            (username, email, ui_locale_id, salt, password, createdAt, updatedAt, timezone, properties) VALUES
-            (:username, :email, :localeId, 'my_salt', 'my_password', '2019-09-09', '2019-09-09', 'UTC', '{}')
+            (username, email, ui_locale_id, catalogLocale_id, salt, password, createdAt, updatedAt, timezone, properties) VALUES
+            (:username, :email, :localeId, :localeId, 'my_salt', 'my_password', '2019-09-09', '2019-09-09', 'UTC', '{}')
 SQL;
 
         $conn->executeQuery(

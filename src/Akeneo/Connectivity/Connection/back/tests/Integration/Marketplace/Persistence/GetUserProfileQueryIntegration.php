@@ -49,8 +49,8 @@ class GetUserProfileQueryIntegration extends TestCase
 
         $sqlInsert = <<<SQL
                         INSERT INTO oro_user
-                        (username, email, ui_locale_id, salt, password, createdAt, updatedAt, timezone, properties, profile) VALUES
-                        (:username, :email, :localeId, 'my_salt', 'my_password', '2019-09-09', '2019-09-09', 'UTC', '{}', :profile)
+                        (username, email, ui_locale_id, catalogLocale_id, salt, password, createdAt, updatedAt, timezone, properties, profile) VALUES
+                        (:username, :email, :localeId, :localeId, 'my_salt', 'my_password', '2019-09-09', '2019-09-09', 'UTC', '{}', :profile)
             SQL;
 
         $this->dbalConnection->executeQuery(

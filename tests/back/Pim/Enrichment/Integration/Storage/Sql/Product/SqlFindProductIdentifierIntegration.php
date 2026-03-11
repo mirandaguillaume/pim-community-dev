@@ -67,8 +67,8 @@ class SqlFindProductIdentifierIntegration extends TestCase
 
         $sqlInsert = <<<SQL
             INSERT INTO oro_user
-            (username, email, ui_locale_id, salt, password, createdAt, updatedAt, timezone, properties, profile) VALUES
-            ('user1', 'user1@test.com', :localeId, 'my_salt', 'my_password', '2019-09-09', '2019-09-09', 'UTC', '{}', NULL)
+            (username, email, ui_locale_id, catalogLocale_id, salt, password, createdAt, updatedAt, timezone, properties, profile) VALUES
+            ('user1', 'user1@test.com', :localeId, :localeId, 'my_salt', 'my_password', '2019-09-09', '2019-09-09', 'UTC', '{}', NULL)
 SQL;
 
         $dbalConnection->executeQuery($sqlInsert, ['localeId' => $localeId]);
