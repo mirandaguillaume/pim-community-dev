@@ -3,9 +3,9 @@
 namespace AkeneoTest\Platform\Acceptance\ImportExport\Infrastructure\Validation\Storage;
 
 use Akeneo\Platform\Bundle\ImportExportBundle\Infrastructure\Validation\Storage\Local\LocalStorage;
-use AkeneoTest\Platform\Acceptance\ImportExport\Infrastructure\Validation\AbstractValidationTest;
+use AkeneoTest\Platform\Acceptance\ImportExport\Infrastructure\Validation\AbstractValidationTestCase;
 
-class ValidateLocalStorageTest extends AbstractValidationTest
+class ValidateLocalStorageTest extends AbstractValidationTestCase
 {
     /**
      * @dataProvider validLocalStorage

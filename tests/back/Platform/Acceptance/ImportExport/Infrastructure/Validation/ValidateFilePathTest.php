@@ -6,7 +6,7 @@ namespace AkeneoTest\Platform\Acceptance\ImportExport\Infrastructure\Validation;
 
 use Akeneo\Platform\Bundle\ImportExportBundle\Infrastructure\Validation\FilePath;
 
-class ValidateFilePathTest extends AbstractValidationTest
+class ValidateFilePathTest extends AbstractValidationTestCase
 {
     /**
      * @dataProvider validFilePath

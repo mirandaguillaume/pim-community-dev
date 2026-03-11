@@ -3,9 +3,9 @@
 namespace AkeneoTest\Platform\Acceptance\ImportExport\Infrastructure\Validation\Storage;
 
 use Akeneo\Platform\Bundle\ImportExportBundle\Infrastructure\Validation\Storage\None\NoneStorage;
-use AkeneoTest\Platform\Acceptance\ImportExport\Infrastructure\Validation\AbstractValidationTest;
+use AkeneoTest\Platform\Acceptance\ImportExport\Infrastructure\Validation\AbstractValidationTestCase;
 
-class ValidateNoneStorageTest extends AbstractValidationTest
+class ValidateNoneStorageTest extends AbstractValidationTestCase
 {
     /**
      * @dataProvider validNoneStorage

@@ -7,7 +7,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Message\ProductModelUpdated;
 use Akeneo\Pim\Enrichment\Component\Product\Message\ProductUpdated;
 use Akeneo\Pim\Enrichment\Component\Product\Query\Filter\Operators;
 
-class MassEditCategoriesOfEntitiesEndToEnd extends AbstractMassEditEndToEnd
+class MassEditCategoriesOfEntitiesEndToEnd extends AbstractMassEditEndToEndTestCase
 {
     public function test_adding_a_category_to_entities_produces_event(): void
     {

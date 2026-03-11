@@ -21,6 +21,8 @@ class TransferFilesToNoneStorageTest extends AcceptanceTestCase
      */
     public function it_does_nothing_when_storage_is_none()
     {
+        $this->expectNotToPerformAssertions();
+
         $storage = ['type' => 'none'];
         $filesToTransfer = [
             new FileToTransfer('file_key1', 'localFilesystem', 'filename1.csv', false),

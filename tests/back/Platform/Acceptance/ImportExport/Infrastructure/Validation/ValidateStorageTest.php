@@ -4,7 +4,7 @@ namespace AkeneoTest\Platform\Acceptance\ImportExport\Infrastructure\Validation;
 
 use Akeneo\Platform\Bundle\ImportExportBundle\Infrastructure\Validation\Storage;
 
-class ValidateStorageTest extends AbstractValidationTest
+class ValidateStorageTest extends AbstractValidationTestCase
 {
     /**
      * @dataProvider validStorage

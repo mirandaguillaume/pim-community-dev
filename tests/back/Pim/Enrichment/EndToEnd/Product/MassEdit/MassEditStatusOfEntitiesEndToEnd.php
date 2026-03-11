@@ -7,7 +7,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Message\ProductModelUpdated;
 use Akeneo\Pim\Enrichment\Component\Product\Message\ProductUpdated;
 use Akeneo\Pim\Enrichment\Component\Product\Query\Filter\Operators;
 
-class MassEditStatusOfEntitiesEndToEnd extends AbstractMassEditEndToEnd
+class MassEditStatusOfEntitiesEndToEnd extends AbstractMassEditEndToEndTestCase
 {
     public function test_switching_status_to_entities_produces_event(): void
     {
