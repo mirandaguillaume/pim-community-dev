@@ -89,8 +89,14 @@ class Version_7_0_20220405000000_remove_group_all_from_apps_Integration extends 
     private function insertUser(string $username): int
     {
         $query = <<<SQL
-            INSERT INTO oro_user (ui_locale_id, catalogLocale_id, username, email, salt, password, createdAt, updatedAt, timezone, properties)
-            VALUES ((SELECT id FROM pim_catalog_locale WHERE code = 'en_US'), (SELECT id FROM pim_catalog_locale WHERE code = 'en_US'), :username, :username, '', '', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'UTC', '{}')
+            INSERT INTO oro_user (ui_locale_id, catalogLocale_id, catalogScope_id, defaultTree_id, username, email, salt, password, createdAt, updatedAt, timezone, properties)
+            VALUES (
+                (SELECT id FROM pim_catalog_locale WHERE code = 'en_US'),
+                (SELECT id FROM pim_catalog_locale WHERE code = 'en_US'),
+                (SELECT id FROM pim_catalog_channel LIMIT 1),
+                (SELECT id FROM pim_catalog_category WHERE parent_id IS NULL LIMIT 1),
+                :username, :username, '', '', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'UTC', '{}'
+            )
             SQL;
 
         $this->connection->executeQuery($query, [

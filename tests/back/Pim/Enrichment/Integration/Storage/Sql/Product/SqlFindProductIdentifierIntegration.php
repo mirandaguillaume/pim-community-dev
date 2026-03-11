@@ -64,14 +64,16 @@ class SqlFindProductIdentifierIntegration extends TestCase
         parent::setUp();
         $dbalConnection = $this->get('database_connection');
         $localeId = $dbalConnection->fetchOne('SELECT id FROM pim_catalog_locale LIMIT 1');
+        $channelId = $dbalConnection->fetchOne('SELECT id FROM pim_catalog_channel LIMIT 1');
+        $treeId = $dbalConnection->fetchOne('SELECT id FROM pim_catalog_category WHERE parent_id IS NULL LIMIT 1');
 
         $sqlInsert = <<<SQL
             INSERT INTO oro_user
-            (username, email, ui_locale_id, catalogLocale_id, salt, password, createdAt, updatedAt, timezone, properties, profile) VALUES
-            ('user1', 'user1@test.com', :localeId, :localeId, 'my_salt', 'my_password', '2019-09-09', '2019-09-09', 'UTC', '{}', NULL)
+            (username, email, ui_locale_id, catalogLocale_id, catalogScope_id, defaultTree_id, salt, password, createdAt, updatedAt, timezone, properties, profile) VALUES
+            ('user1', 'user1@test.com', :localeId, :localeId, :channelId, :treeId, 'my_salt', 'my_password', '2019-09-09', '2019-09-09', 'UTC', '{}', NULL)
 SQL;
 
-        $dbalConnection->executeQuery($sqlInsert, ['localeId' => $localeId]);
+        $dbalConnection->executeQuery($sqlInsert, ['localeId' => $localeId, 'channelId' => $channelId, 'treeId' => $treeId]);
         $userId = $this->createAdminUser()->getId();
 
         $this->get('akeneo_integration_tests.helper.authenticator')->logIn('admin');
