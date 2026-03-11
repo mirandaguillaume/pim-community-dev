@@ -155,14 +155,21 @@ class AccessTokenRequestValidationIntegration extends WebTestCase
         // MockArraySessionStorage doesn't persist, so data stored by handler calls
         // is lost when the client makes HTTP requests (PHPUnit 10 kernel isolation).
         $container = $this->client->getContainer();
-        $this->sharedSession = $container->has('session.factory')
-            ? $container->get('session.factory')->createSession()
-            : $container->get('session');
+        if ($container->has('session.factory')) {
+            /** @var \Symfony\Component\HttpFoundation\Session\SessionFactoryInterface $sessionFactory */
+            $sessionFactory = $container->get('session.factory');
+            $this->sharedSession = $sessionFactory->createSession();
+        } else {
+            /** @var SessionInterface $session */
+            $session = $container->get('session');
+            $this->sharedSession = $session;
+        }
 
         $request = new Request();
         $request->setSession($this->sharedSession);
         $this->get('request_stack')->push($request);
 
+        $this->sharedSession->start();
         $this->sharedSession->save();
         $cookie = new Cookie($this->sharedSession->getName(), $this->sharedSession->getId());
         $this->client->getCookieJar()->set($cookie);

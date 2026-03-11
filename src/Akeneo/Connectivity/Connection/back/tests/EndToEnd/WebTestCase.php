@@ -70,10 +70,16 @@ abstract class WebTestCase extends TestCase
         $container = $this->client->getContainer();
 
         if ($container->has('session.factory')) {
-            return $container->get('session.factory')->createSession();
+            /** @var \Symfony\Component\HttpFoundation\Session\SessionFactoryInterface $sessionFactory */
+            $sessionFactory = $container->get('session.factory');
+
+            return $sessionFactory->createSession();
         }
 
-        return $container->get('session');
+        /** @var SessionInterface $session */
+        $session = $container->get('session');
+
+        return $session;
     }
 
     protected function addAclToRole(string $roleCode, string $acl): void
