@@ -116,7 +116,7 @@ class DatagridViewController
             return new RedirectResponse('/');
         }
 
-        $view = $request->request->get('view', null);
+        $view = $request->request->all()['view'] ?? null;
 
         if (null === $view) {
             throw new BadRequestHttpException('Parameter "view" needed in the request.');
