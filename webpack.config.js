@@ -185,7 +185,7 @@ const webpackConfig = {
         test: /\.(svg|gif)$/,
         type: 'asset/resource',
         generator: {
-          filename: 'assets/[name][ext]',
+          filename: 'assets/[name].[contenthash:8][ext]',
         },
       },
 
