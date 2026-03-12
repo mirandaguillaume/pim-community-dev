@@ -65,6 +65,30 @@ test('it renders url provided', async () => {
     expect(screen.queryByText('testUrl', {exact: false})).toBeInTheDocument();
 });
 
+test('it sanitizes javascript: URLs', async () => {
+    const {container} = renderWithProviders(
+        <ConsentCheckbox isChecked={true} onChange={() => null} appUrl={"javascript:alert('xss')"} displayCheckbox={true} />
+    );
+
+    await waitFor(() => screen.queryByRole('checkbox'));
+
+    const link = container.querySelector('a');
+    expect(link).not.toBeNull();
+    expect(link!.getAttribute('href')).toBe('#');
+});
+
+test('it allows valid https URLs', async () => {
+    const {container} = renderWithProviders(
+        <ConsentCheckbox isChecked={true} onChange={() => null} appUrl={'https://marketplace.akeneo.com/app'} displayCheckbox={true} />
+    );
+
+    await waitFor(() => screen.queryByRole('checkbox'));
+
+    const link = container.querySelector('a');
+    expect(link).not.toBeNull();
+    expect(link!.getAttribute('href')).toBe('https://marketplace.akeneo.com/app');
+});
+
 test('it renders correctly when the checkbox must be hidden', async () => {
     renderWithProviders(
         <ConsentCheckbox isChecked={false} onChange={() => null} appUrl={null} displayCheckbox={false} />

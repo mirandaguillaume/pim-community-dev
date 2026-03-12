@@ -1,4 +1,7 @@
 security:
+    password_hashers:
+        Symfony\Component\Security\Core\User\InMemoryUser: plaintext
+
     firewalls:
         main:
             entry_point:    form_login
