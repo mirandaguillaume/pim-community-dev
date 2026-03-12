@@ -37,7 +37,7 @@ services:
       - './docker/akeneo.conf:/usr/local/apache2/conf/vhost.conf:ro'
     working_dir: '/srv/pim'
     ports:
-      - '${DOCKER_PORT_HTTP:-8080}:80'
+      - '127.0.0.1:${DOCKER_PORT_HTTP:-8080}:80'
     networks:
       - 'pim'
 
@@ -63,13 +63,13 @@ services:
       - './:/srv/pim:ro'
       - '/dev/shm:/dev/shm'
     ports:
-      - '${DOCKER_PORT_SELENIUM:-7900}:7900'
+      - '127.0.0.1:${DOCKER_PORT_SELENIUM:-7900}:7900'
     networks:
       - 'pim'
 
   mysql:
     image: 'mysql:8.4'
-    command: '--mysql-native-password=ON'
+    # MySQL 8.4 default: caching_sha2_password (mysqlnd in PHP 8.2+ supports it)
     environment:
       MYSQL_ROOT_PASSWORD: 'root'
       MYSQL_USER: '${APP_DATABASE_USER}'
@@ -78,7 +78,7 @@ services:
     volumes:
       - './docker/initdb.d:/docker-entrypoint-initdb.d:ro'
     ports:
-      - '${DOCKER_PORT_MYSQL:-33006}:3306'
+      - '127.0.0.1:${DOCKER_PORT_MYSQL:-33006}:3306'
     networks:
       - 'pim'
 
@@ -90,7 +90,7 @@ services:
       xpack.security.enabled: 'false'
       indices.id_field_data.enabled: 'true'
     ports:
-      - '${DOCKER_PORT_ELASTICSEARCH:-9210}:9200'
+      - '127.0.0.1:${DOCKER_PORT_ELASTICSEARCH:-9210}:9200'
     networks:
       - 'pim'
 
@@ -101,8 +101,8 @@ services:
       MINIO_ROOT_USER: 'AKENEO_OBJECT_STORAGE_ACCESS_KEY'
       MINIO_ROOT_PASSWORD: 'AKENEO_OBJECT_STORAGE_SECRET_KEY'
     ports:
-      - '${DOCKER_PORT_OBJECT_STORAGE:-9090}:9000'
-      - '${DOCKER_PORT_OBJECT_STORAGE_CONSOLE:-9091}:9091'
+      - '127.0.0.1:${DOCKER_PORT_OBJECT_STORAGE:-9090}:9000'
+      - '127.0.0.1:${DOCKER_PORT_OBJECT_STORAGE_CONSOLE:-9091}:9091'
     networks:
       - 'pim'
 
@@ -126,7 +126,7 @@ services:
     volumes:
       - './docker/buckets:/data'
     ports:
-      - '${DOCKER_PORT_GCS_EMULATOR:-4443}:4443'
+      - '127.0.0.1:${DOCKER_PORT_GCS_EMULATOR:-4443}:4443'
     networks:
       - 'pim'
     profiles:
