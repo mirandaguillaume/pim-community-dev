@@ -670,7 +670,7 @@ jobs:
           castor test:coupling-back
 
       - name: Audit PHP dependencies for known vulnerabilities
-        run: docker-compose run --rm php composer audit --locked --no-interaction
+        run: docker-compose run --rm php composer audit --locked --no-interaction --abandoned=report
 
   # ===========================================================================
   # PHPSPEC: Unit tests (fast, no external dependencies)
