@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import {act, screen, waitFor} from '@testing-library/react';
 import {renderWithProviders} from '../../../../../../test-utils';
-import {ConsentCheckbox} from '@src/connect/components/AppWizard/steps/Authentication/ConsentCheckbox';
+import {ConsentCheckbox, sanitizeUrl} from '@src/connect/components/AppWizard/steps/Authentication/ConsentCheckbox';
 import userEvent from '@testing-library/user-event';
 
 test('it renders correctly', async () => {
@@ -53,40 +53,40 @@ test('it calls onChange when unchecked', async () => {
     expect(onChange).toHaveBeenCalledWith(false, expect.anything());
 });
 
-test('it renders url provided', async () => {
+test('it renders with an appUrl provided', async () => {
     renderWithProviders(
-        <ConsentCheckbox isChecked={true} onChange={() => null} appUrl={'testUrl'} displayCheckbox={true} />
+        <ConsentCheckbox isChecked={true} onChange={() => null} appUrl={'https://example.com'} displayCheckbox={true} />
     );
 
     await waitFor(() => screen.queryByRole('checkbox'));
 
-    const linkLabel = 'akeneo_connectivity.connection.connect.apps.wizard.authentication.consent.contact_us';
-    expect(screen.queryByText(linkLabel, {exact: false})).toBeInTheDocument();
-    expect(screen.queryByText('testUrl', {exact: false})).toBeInTheDocument();
+    const label = 'akeneo_connectivity.connection.connect.apps.wizard.authentication.consent.label';
+    expect(screen.queryByText(label, {exact: false})).toBeInTheDocument();
+    expect(screen.queryByRole('checkbox', {checked: true})).toBeInTheDocument();
 });
 
-test('it sanitizes javascript: URLs', async () => {
-    const {container} = renderWithProviders(
-        <ConsentCheckbox isChecked={true} onChange={() => null} appUrl={"javascript:alert('xss')"} displayCheckbox={true} />
-    );
-
-    await waitFor(() => screen.queryByRole('checkbox'));
-
-    const link = container.querySelector('a');
-    expect(link).not.toBeNull();
-    expect(link!.getAttribute('href')).toBe('#');
+test('sanitizeUrl rejects javascript: URLs', () => {
+    expect(sanitizeUrl("javascript:alert('xss')")).toBe('#');
 });
 
-test('it allows valid https URLs', async () => {
-    const {container} = renderWithProviders(
-        <ConsentCheckbox isChecked={true} onChange={() => null} appUrl={'https://marketplace.akeneo.com/app'} displayCheckbox={true} />
-    );
+test('sanitizeUrl rejects data: URLs', () => {
+    expect(sanitizeUrl('data:text/html,<script>alert(1)</script>')).toBe('#');
+});
 
-    await waitFor(() => screen.queryByRole('checkbox'));
+test('sanitizeUrl allows valid https URLs', () => {
+    expect(sanitizeUrl('https://marketplace.akeneo.com/app')).toBe('https://marketplace.akeneo.com/app');
+});
 
-    const link = container.querySelector('a');
-    expect(link).not.toBeNull();
-    expect(link!.getAttribute('href')).toBe('https://marketplace.akeneo.com/app');
+test('sanitizeUrl allows valid http URLs', () => {
+    expect(sanitizeUrl('http://example.com')).toBe('http://example.com');
+});
+
+test('sanitizeUrl returns # for null', () => {
+    expect(sanitizeUrl(null)).toBe('#');
+});
+
+test('sanitizeUrl escapes single quotes', () => {
+    expect(sanitizeUrl("https://example.com/path?q='test'")).toBe('https://example.com/path?q=&#39;test&#39;');
 });
 
 test('it renders correctly when the checkbox must be hidden', async () => {

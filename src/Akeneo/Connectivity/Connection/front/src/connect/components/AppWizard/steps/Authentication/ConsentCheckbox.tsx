@@ -27,7 +27,7 @@ const CheckboxSubText = styled.p`
     width: 340px;
 `;
 
-const sanitizeUrl = (url: string | null): string => {
+export const sanitizeUrl = (url: string | null): string => {
     if (!url) {
         return '#';
     }
