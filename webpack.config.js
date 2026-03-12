@@ -20,7 +20,14 @@ const styledComponentsTransformer = createStyledComponentsTransformer();
 
 createModuleRegistry(Object.keys(aliases), rootDir);
 
-console.log('Starting webpack from', rootDir, 'in', isProd ? 'prod' : 'dev', 'mode', isStrict ? 'with typechecking' : '');
+console.log(
+  'Starting webpack from',
+  rootDir,
+  'in',
+  isProd ? 'prod' : 'dev',
+  'mode',
+  isStrict ? 'with typechecking' : ''
+);
 
 const webpackConfig = {
   stats: {
@@ -36,26 +43,28 @@ const webpackConfig = {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendor',
           filename: 'vendor.min.js',
-          chunks: 'all'
+          chunks: 'all',
         },
         main: {
-          filename: 'main.min.js'
-        }
-      }
-    },
-    moduleIds: 'deterministic',
-    minimizer: [new TerserPlugin({
-      parallel: true,
-      terserOptions: {
-        ecma: 6,
-        mangle: true,
-        output: {
-          comments: false,
+          filename: 'main.min.js',
         },
       },
-    })]
+    },
+    moduleIds: 'deterministic',
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+        terserOptions: {
+          ecma: 6,
+          mangle: true,
+          output: {
+            comments: false,
+          },
+        },
+      }),
+    ],
   },
-  mode: (isProd ? 'production' : 'development'),
+  mode: isProd ? 'production' : 'development',
   target: 'web',
   entry: ['core-js/stable', 'regenerator-runtime/runtime', path.resolve(rootDir, './public/bundles/pimui/js/index.js')],
   output: {
@@ -69,10 +78,10 @@ const webpackConfig = {
     symlinks: false,
     alias: _.mapKeys(aliases, (path, key) => `${key}$`),
     fallback: {
-      'path': require.resolve('path-browserify'),
+      path: require.resolve('path-browserify'),
     },
     modules: [path.resolve('./public/bundles'), path.resolve('./node_modules')],
-    extensions: ['.js', '.json', '.ts', '.tsx']
+    extensions: ['.js', '.json', '.ts', '.tsx'],
   },
   module: {
     rules: [
@@ -91,17 +100,11 @@ const webpackConfig = {
         ],
       },
 
-      // Load html without needing to prefix the requires with 'text!'
+      // Load html as raw string (webpack 5 asset module replaces raw-loader)
       {
         test: /\.html$/,
         exclude: /node_modules|spec/,
-        use: [
-          'thread-loader',
-          {
-            loader: 'raw-loader',
-            options: {},
-          },
-        ],
+        type: 'asset/source',
       },
       // Expose the Backbone variable to window
       {
@@ -111,7 +114,7 @@ const webpackConfig = {
             loader: 'expose-loader',
             options: {
               exposes: ['Backbone'],
-            }
+            },
           },
         ],
       },
@@ -122,7 +125,7 @@ const webpackConfig = {
             loader: 'imports-loader',
             options: {
               wrapper: 'window',
-            }
+            },
           },
         ],
       },
@@ -174,15 +177,15 @@ const webpackConfig = {
               presets: ['@babel/preset-env'],
               cacheDirectory: 'public/cache',
             },
-          }
+          },
         ],
       },
 
       {
         test: /\.(svg|gif)$/,
-        loader: 'file-loader',
-        options: {
-          outputPath: 'assets'
+        type: 'asset/resource',
+        generator: {
+          filename: 'assets/[name][ext]',
         },
       },
 
@@ -196,7 +199,7 @@ const webpackConfig = {
               transpileOnly: !isStrict,
               configFile: path.resolve(rootDir, 'tsconfig.json'),
               context: path.resolve(rootDir),
-              getCustomTransformers: () => ({ before: [styledComponentsTransformer] })
+              getCustomTransformers: () => ({before: [styledComponentsTransformer]}),
             },
           },
           {
@@ -217,7 +220,7 @@ const webpackConfig = {
           path.resolve(rootDir, 'src'),
           /node_modules\/@testing-library/,
           /node_modules\/immutable/,
-          /node_modules\/react-test-renderer/
+          /node_modules\/react-test-renderer/,
         ],
       },
 
@@ -249,7 +252,7 @@ const webpackConfig = {
         path.resolve(rootDir, './tests'),
         path.resolve(rootDir, './var'),
         path.resolve(rootDir, './vendor'),
-      ]
+      ],
     }),
 
     new webpack.DefinePlugin({
@@ -257,11 +260,15 @@ const webpackConfig = {
       'process.env.EDITION': JSON.stringify(process.env.EDITION),
     }),
 
-    ...(isAnalyze ? [new BundleAnalyzerPlugin({
-      analyzerMode: 'static',
-      reportFilename: path.resolve(rootDir, 'var/bundle-report.html'),
-      openAnalyzer: false,
-    })] : []),
+    ...(isAnalyze
+      ? [
+          new BundleAnalyzerPlugin({
+            analyzerMode: 'static',
+            reportFilename: path.resolve(rootDir, 'var/bundle-report.html'),
+            openAnalyzer: false,
+          }),
+        ]
+      : []),
   ],
 };
 
