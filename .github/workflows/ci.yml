@@ -375,59 +375,92 @@ jobs:
   front-build:
     runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
     needs: [prepare, detect-changes]
-    if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    if: needs.detect-changes.outputs.frontend == 'true' || needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 
+      - name: Restore front build from cache
+        id: front-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: front-build-cached
+          key: front-build-${{ hashFiles('front-packages/**', 'frontend/**', 'yarn.lock', 'package.json', 'webpack*.js', 'babel.config.*', 'src/**/*.ts', 'src/**/*.tsx', 'src/**/*.js', 'src/**/*.jsx', 'src/**/*.less') }}
+
+      - name: Upload cached front build artifacts
+        if: steps.front-cache.outputs.cache-hit == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: front-build
+          path: front-build-cached
+          retention-days: 1
+
       - uses: ./.github/actions/setup-pim-job
+        if: steps.front-cache.outputs.cache-hit != 'true'
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           yarn-cache: 'true'
 
       - name: Install JS dependencies
+        if: steps.front-cache.outputs.cache-hit != 'true'
         run: |
           HOST_UID=$(id -u)
           HOST_GID=$(id -g)
           docker-compose run --rm --user "${HOST_UID}:${HOST_GID}" node sh -c "rm -f node_modules/.yarn-integrity && yarn install --frozen-lockfile --no-progress"
 
       - name: Download pre-generated front assets
+        if: steps.front-cache.outputs.cache-hit != 'true'
         uses: actions/download-artifact@v4
         with:
           name: front-assets-pre
           path: front-assets-pre
 
       - name: Restore pre-generated front assets
+        if: steps.front-cache.outputs.cache-hit != 'true'
         run: |
           cp -a front-assets-pre/. public/
           sudo chmod -R a+rwX public/
 
       - name: Download front packages build
+        if: steps.front-cache.outputs.cache-hit != 'true'
         uses: actions/download-artifact@v4
         with:
           name: front-packages-lib
           path: .
 
       - uses: ./.github/actions/install-castor
+        if: steps.front-cache.outputs.cache-hit != 'true'
 
       - name: Build CSS (LESS compilation)
+        if: steps.front-cache.outputs.cache-hit != 'true'
         run: castor front:css
 
       - name: Build frontend (webpack)
+        if: steps.front-cache.outputs.cache-hit != 'true'
         run: castor front:javascript-dev-strict
 
+      - name: Collect front build output
+        if: steps.front-cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p front-build-cached/public/js front-build-cached/var/build
+          cp -a public/css front-build-cached/public/
+          cp -a public/dist front-build-cached/public/
+          cp -a public/js/extensions.json public/js/fos_js_routes.json public/js/require-paths.js front-build-cached/public/js/
+          cp -a var/build/module-registry.js front-build-cached/var/build/
+
+      - name: Save front build to cache
+        if: steps.front-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: front-build-cached
+          key: front-build-${{ hashFiles('front-packages/**', 'frontend/**', 'yarn.lock', 'package.json', 'webpack*.js', 'babel.config.*', 'src/**/*.ts', 'src/**/*.tsx', 'src/**/*.js', 'src/**/*.jsx', 'src/**/*.less') }}
+
       - name: Upload front build artifacts
-        if: success()
+        if: steps.front-cache.outputs.cache-hit != 'true'
         uses: actions/upload-artifact@v4
         with:
           name: front-build
-          path: |
-            public/css
-            public/dist
-            public/js/extensions.json
-            public/js/fos_js_routes.json
-            public/js/require-paths.js
-            var/build/module-registry.js
+          path: front-build-cached
           retention-days: 1
 
   # ===========================================================================
