@@ -198,6 +198,10 @@ const webpackConfig = {
             options: {
               transpileOnly: !isStrict,
               allowTsInNodeModules: true,
+              // Webpack aliases (741 pim/* entries from requirejs.yml) are invisible to
+              // TypeScript's module resolution. ts-loader v5 treated TS2307 as non-fatal;
+              // v9 makes them hard errors. Suppress since webpack handles resolution.
+              ignoreDiagnostics: [2307],
               configFile: path.resolve(rootDir, 'tsconfig.json'),
               context: path.resolve(rootDir),
               getCustomTransformers: () => ({before: [styledComponentsTransformer]}),
