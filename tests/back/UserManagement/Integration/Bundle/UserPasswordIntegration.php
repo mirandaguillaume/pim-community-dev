@@ -163,14 +163,12 @@ JSON;
     {
         $this->createUser('Short_User', '2short');
 
-        // Make a GET request first to establish a session via the KernelBrowser.
-        // This ensures the CSRF token is stored in the same session that the
-        // login POST will use (carried over via cookies by the browser).
-        $this->client->request('GET', $this->router->generate('pim_user_security_login'));
-        $csrfToken = $this->client->getContainer()
-            ->get('security.csrf.token_manager')
-            ->getToken('authenticate')
-            ->getValue();
+        // Load the login page and extract the CSRF token from the rendered HTML,
+        // the same way a real browser would. This avoids accessing SessionTokenStorage
+        // directly (which throws SessionNotFoundException in Symfony 6.4 when no
+        // request is active on the RequestStack).
+        $crawler = $this->client->request('GET', $this->router->generate('pim_user_security_login'));
+        $csrfToken = $crawler->filter('input[name="_csrf_token"]')->attr('value');
 
         $response = $this->callRoute(
             'pim_user_security_check',
