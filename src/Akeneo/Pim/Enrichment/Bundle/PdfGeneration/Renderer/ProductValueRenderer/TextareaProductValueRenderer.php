@@ -16,7 +16,10 @@ class TextareaProductValueRenderer implements ProductValueRenderer
         }
 
         if ($attribute->isWysiwygEnabled()) {
-            return $value->getData();
+            return strip_tags(
+                (string) $value->getData(),
+                '<p><br><b><i><u><strong><em><ul><ol><li><h1><h2><h3><h4><table><tr><td><th><thead><tbody>'
+            );
         }
 
         /** @phpstan-ignore-next-line */

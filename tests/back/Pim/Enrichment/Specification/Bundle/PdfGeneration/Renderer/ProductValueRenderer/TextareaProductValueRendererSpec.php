@@ -17,7 +17,7 @@ class TextareaProductValueRendererSpec extends ObjectBehavior
         $this->supportsAttributeType(AttributeTypes::BOOLEAN)->shouldReturn(false);
     }
 
-    function it_does_not_escape_value(ValueInterface $value, LoaderInterface $loader)
+    function it_strips_unsafe_tags_from_wysiwyg_value(ValueInterface $value, LoaderInterface $loader)
     {
         $environment = new Environment($loader->getWrappedObject());
         $attribute = new Attribute();
@@ -26,9 +26,23 @@ class TextareaProductValueRendererSpec extends ObjectBehavior
         $value
             ->getData()
             ->shouldBeCalled()
-            ->willReturn('<div>a text</div>');
+            ->willReturn('<p>a text</p>');
 
-        $this->render($environment, $attribute, $value, 'en_US')->shouldReturn('<div>a text</div>');
+        $this->render($environment, $attribute, $value, 'en_US')->shouldReturn('<p>a text</p>');
+    }
+
+    function it_removes_script_tags_from_wysiwyg_value(ValueInterface $value, LoaderInterface $loader)
+    {
+        $environment = new Environment($loader->getWrappedObject());
+        $attribute = new Attribute();
+        $attribute->setWysiwygEnabled(true);
+
+        $value
+            ->getData()
+            ->shouldBeCalled()
+            ->willReturn('<p>text</p><script>alert("xss")</script>');
+
+        $this->render($environment, $attribute, $value, 'en_US')->shouldReturn('<p>text</p>alert("xss")');
     }
 
     function it_escapes_value(ValueInterface $value, LoaderInterface $loader)

@@ -12,7 +12,10 @@ security:
             id: pim_user.provider.user_api
 
     password_hashers:
-        Akeneo\UserManagement\Component\Model\User: sha512
+        Akeneo\UserManagement\Component\Model\User:
+            algorithm: auto
+            migrate_from:
+                - sha512
         Symfony\Component\Security\Core\User\InMemoryUser: plaintext
 
     firewalls:

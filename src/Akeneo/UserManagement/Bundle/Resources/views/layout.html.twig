@@ -40,7 +40,7 @@
                                             {% for message in messages %}
                                                 <div class="Helper {{ type ? ' Helper--'~type : '' }}">
                                                     <span class="Icon"></span>
-                                                    <span class="Text">{{ message|trans|raw }}</span>
+                                                    <span class="Text">{{ message|trans }}</span>
                                                 </div>
                                             {% endfor %}
                                         {% endfor %}
