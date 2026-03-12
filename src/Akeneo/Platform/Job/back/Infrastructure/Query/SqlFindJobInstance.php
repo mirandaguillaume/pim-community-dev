@@ -99,7 +99,7 @@ class SqlFindJobInstance implements FindJobInstanceInterface
             static fn (array $jobInstance) => new JobInstance(
                 $jobInstance['code'],
                 $jobInstance['label'],
-                unserialize($jobInstance['raw_parameters']),
+                unserialize($jobInstance['raw_parameters'], ['allowed_classes' => false]),
             ),
             $results,
         );

@@ -70,7 +70,7 @@ final readonly class SqlGetAttributes implements GetAttributes
         $attributes = [];
 
         foreach ($rawResults as $rawAttribute) {
-            $properties = unserialize($rawAttribute['properties']);
+            $properties = unserialize($rawAttribute['properties'], ['allowed_classes' => false]);
 
             $translations = $rawAttribute['translations'] !== null ? json_decode((string) $rawAttribute['translations'], true, 512, JSON_THROW_ON_ERROR) : [];
 

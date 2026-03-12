@@ -54,7 +54,7 @@ final readonly class SqlFindChannels implements FindChannels
                 array_values(json_decode((string) $result['localeCodes'], true, 512, JSON_THROW_ON_ERROR)),
                 LabelCollection::fromArray(json_decode((string) $result['labels'], true, 512, JSON_THROW_ON_ERROR)),
                 array_values(json_decode((string) $result['activatedCurrencies'], true, 512, JSON_THROW_ON_ERROR)),
-                ConversionUnitCollection::fromArray(unserialize($result['conversionUnits'])),
+                ConversionUnitCollection::fromArray(unserialize($result['conversionUnits'], ['allowed_classes' => false])),
             );
         }
 

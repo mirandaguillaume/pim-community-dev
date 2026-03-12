@@ -40,7 +40,7 @@ class AkeneoContentSecurityPolicyProviderSpec extends ObjectBehavior
                 ],
             'frame-src' =>
                 [
-                    '*',
+                    "'self'",
                 ],
             'font-src' =>
                 [
@@ -56,6 +56,10 @@ class AkeneoContentSecurityPolicyProviderSpec extends ObjectBehavior
                 [
                     "'self'",
                     "'unsafe-inline'",
+                ],
+            'frame-ancestors' =>
+                [
+                    "'self'",
                 ],
         ]);
     }
