@@ -16,7 +16,6 @@ security:
             algorithm: auto
             migrate_from:
                 - sha512
-        Symfony\Component\Security\Core\User\InMemoryUser: plaintext
 
     firewalls:
         dev:

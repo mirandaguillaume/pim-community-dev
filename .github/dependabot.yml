@@ -7,7 +7,7 @@ updates:
       interval: "daily"
     allow:
       - dependency-type: "production"
-    open-pull-requests-limit: 0
+    open-pull-requests-limit: 5
 
   - package-ecosystem: "npm"
     directory: "/front-packages/akeneo-design-system"
@@ -15,7 +15,7 @@ updates:
       interval: "daily"
     allow:
       - dependency-type: "production"
-    open-pull-requests-limit: 0
+    open-pull-requests-limit: 5
 
   - package-ecosystem: "npm"
     directory: "/front-packages/shared"
@@ -23,7 +23,7 @@ updates:
       interval: "daily"
     allow:
       - dependency-type: "production"
-    open-pull-requests-limit: 0
+    open-pull-requests-limit: 5
 
   - package-ecosystem: "composer"
     directory: "/"

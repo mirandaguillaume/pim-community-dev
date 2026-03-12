@@ -27,6 +27,17 @@ const CheckboxSubText = styled.p`
     width: 340px;
 `;
 
+export const sanitizeUrl = (url: string | null): string => {
+    if (!url) {
+        return '#';
+    }
+    const trimmed = url.trim().toLowerCase();
+    if (!trimmed.startsWith('https://') && !trimmed.startsWith('http://')) {
+        return '#';
+    }
+    return url.replace(/'/g, '&#39;');
+};
+
 type Props = {
     isChecked: boolean;
     onChange: (newValue: boolean) => void;
@@ -38,9 +49,9 @@ export const ConsentCheckbox: FC<Props> = ({isChecked, onChange, appUrl, display
     const translate = useTranslate();
 
     const label = translate('akeneo_connectivity.connection.connect.apps.wizard.authentication.consent.label', {
-        app_marketplace_page: `<a href='${
-            appUrl ?? '#'
-        }' target='_blank' class="AknConnectivityConnection-link">${translate(
+        app_marketplace_page: `<a href='${sanitizeUrl(
+            appUrl
+        )}' target='_blank' class="AknConnectivityConnection-link">${translate(
             'akeneo_connectivity.connection.connect.apps.wizard.authentication.consent.app_marketplace_page'
         )}</a>`,
     });
