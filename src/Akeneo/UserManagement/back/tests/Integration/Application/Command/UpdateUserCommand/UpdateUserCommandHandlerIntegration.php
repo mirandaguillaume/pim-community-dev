@@ -21,6 +21,9 @@ use Akeneo\UserManagement\Application\Command\UpdateUserCommand\UpdateUserComman
 use Akeneo\UserManagement\Application\Exception\UserNotFoundException;
 use Akeneo\UserManagement\ServiceApi\ViolationsException;
 use PHPUnit\Framework\Assert;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 final class UpdateUserCommandHandlerIntegration extends TestCase
@@ -31,6 +34,14 @@ final class UpdateUserCommandHandlerIntegration extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        // Symfony 6.4 throws SessionNotFoundException when RequestStack has no request
+        // with a session. Push a request with a mock session so the handler can call
+        // $requestStack->getSession() without error.
+        $request = new Request();
+        $request->setSession(new Session(new MockArraySessionStorage()));
+        $this->get('request_stack')->push($request);
+
         $this->userPasswordHasher = $this->get(UserPasswordHasherInterface::class);
         $this->updateUserCommandHandler = $this->get(UpdateUserCommandHandler::class);
         $this->userLoader = $this->get(UserLoader::class);

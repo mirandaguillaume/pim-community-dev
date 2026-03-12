@@ -83,6 +83,8 @@ jobs:
       frontend: ${{ steps.filter.outputs.frontend }}
       ci: ${{ steps.filter.outputs.ci }}
     steps:
+      - name: Fix workspace permissions (Docker root-owned files)
+        run: sudo chown -R $(id -u):$(id -g) . 2>/dev/null || true
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
         id: filter

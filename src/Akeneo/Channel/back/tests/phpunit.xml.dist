@@ -7,7 +7,7 @@
     stopOnFailure="false"
     failOnRisky="false"
     bootstrap="../../../../../config/bootstrap.php"
-    cacheDirectory="../../../../../.phpunit.cache">
+    cacheDirectory="/tmp/.phpunit.cache">
     <php>
         <ini name="date.timezone" value="Europe/Paris"/>
         <ini name="intl.default_locale" value="en"/>

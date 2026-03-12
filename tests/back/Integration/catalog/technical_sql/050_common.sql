@@ -21,7 +21,7 @@
 --
 
 /*!40000 ALTER TABLE `acme_reference_data_color` DISABLE KEYS */;
-INSERT INTO `acme_reference_data_color` VALUES (7,'colorA',1,'colorA','#colora',31,95,52,28,72,0,45,35),(8,'colorB',1,'colorB','#colorb',49,54,16,46,29,79,12,95),(9,'colorc',1,'colorc','#colorc',10,45,20,88,8,59,19,32);
+INSERT INTO `acme_reference_data_color` (`id`, `code`, `sortOrder`, `name`, `hex`, `red`, `green`, `blue`, `hue`, `hslSaturation`, `light`, `hsvSaturation`, `value`) VALUES (7,'colorA',1,'colorA','#colora',31,95,52,28,72,0,45,35),(8,'colorB',1,'colorB','#colorb',49,54,16,46,29,79,12,95),(9,'colorc',1,'colorc','#colorc',10,45,20,88,8,59,19,32);
 /*!40000 ALTER TABLE `acme_reference_data_color` ENABLE KEYS */;
 
 --
@@ -29,7 +29,7 @@ INSERT INTO `acme_reference_data_color` VALUES (7,'colorA',1,'colorA','#colora',
 --
 
 /*!40000 ALTER TABLE `acme_reference_data_fabric` DISABLE KEYS */;
-INSERT INTO `acme_reference_data_fabric` VALUES (5,'fabricA',1,'fabricA',NULL),(6,'fabricB',1,'fabricB',NULL);
+INSERT INTO `acme_reference_data_fabric` (`id`, `code`, `sortOrder`, `name`, `alternativeName`) VALUES (5,'fabricA',1,'fabricA',NULL),(6,'fabricB',1,'fabricB',NULL);
 /*!40000 ALTER TABLE `acme_reference_data_fabric` ENABLE KEYS */;
 
 --

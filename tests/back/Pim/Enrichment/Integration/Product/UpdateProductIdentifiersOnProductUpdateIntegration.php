@@ -26,8 +26,9 @@ class UpdateProductIdentifiersOnProductUpdateIntegration extends TestCase
     /**
      * @TODO CPM-1102: Re-enable
      */
-    public function it_sets_and_updates_the_product_identifiers_table_on_product_create_and_update(): void
+    public function test_it_sets_and_updates_the_product_identifiers_table_on_product_create_and_update(): void
     {
+        $this->markTestSkipped('CPM-1102: Re-enable once multiple identifier attributes are supported');
         $productUuid = Uuid::uuid4();
         $this->upsertProduct($productUuid, [
             new SetIdentifierValue('sku', 'toto')

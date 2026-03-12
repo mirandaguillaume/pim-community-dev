@@ -6,7 +6,7 @@
     processIsolation="false"
     stopOnFailure="false"
     bootstrap="../../../../../../config/bootstrap.php"
-    cacheDirectory="../../../../../../.phpunit.cache"
+    cacheDirectory="/tmp/.phpunit.cache"
     failOnRisky="false"
     failOnWarning="false">
 
