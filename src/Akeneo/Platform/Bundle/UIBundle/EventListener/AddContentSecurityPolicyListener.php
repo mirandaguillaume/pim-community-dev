@@ -35,5 +35,6 @@ class AddContentSecurityPolicyListener implements EventSubscriberInterface
         $response->headers->set('Content-Security-Policy', $policy);
         $response->headers->set('X-Content-Security-Policy', $policy);
         $response->headers->set('X-WebKit-CSP', $policy);
+        $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
     }
 }

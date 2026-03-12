@@ -138,7 +138,7 @@ class SqlSearchAttributeOptions implements SearchAttributeOptionsInterface
         $attributeProperties = unserialize($this->connection->executeQuery(
             'SELECT properties from pim_catalog_attribute attribute WHERE attribute.code = :attribute_code',
             ['attribute_code' => $attributeCode],
-        )->fetchOne());
+        )->fetchOne(), ['allowed_classes' => false]);
 
         return $attributeProperties['auto_option_sorting'] ?? false;
     }
