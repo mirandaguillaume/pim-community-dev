@@ -20,10 +20,11 @@ final readonly class AkeneoContentSecurityPolicyProvider implements ContentSecur
             'default-src' => ["'self'", "'unsafe-inline'"],
             'script-src' => ["'self'", "'unsafe-eval'", sprintf("'nonce-%s'", $generatedNonce)],
             'img-src' => ["'self'", "data:"],
-            'frame-src' => ["*"],
+            'frame-src' => ["'self'"],
             'font-src' => ["'self'", "data:"],
             'connect-src' => ["'self'", "updates.akeneo.com"],
             'style-src' => ["'self'", "'unsafe-inline'"],
+            'frame-ancestors' => ["'self'"],
         ];
     }
 }
