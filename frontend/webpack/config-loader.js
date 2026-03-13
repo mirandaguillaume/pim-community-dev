@@ -1,5 +1,4 @@
 /* eslint-env es6 */
-const utils = require('loader-utils');
 const path = require('path');
 const hasModule = content => content.indexOf('__moduleConfig') >= 0;
 const {chain} = require('lodash');
@@ -14,7 +13,7 @@ function formatModuleName(name) {
  * This method replaces the "@my/module/to/load" by require('my/module/to/load') in the configuration
  */
 function replaceRequire(config) {
-  return config.replace(/\"\@[^"]*\"/gm, function(match) {
+  return config.replace(/\"\@[^"]*\"/gm, function (match) {
     return "require('" + match.substr(2, match.length - 3) + "')";
   });
 }
@@ -24,8 +23,8 @@ function replaceRequire(config) {
  * @param  {String} content The content of the required module
  * @return {String}         Returns a string with the original content and the injected config
  */
-module.exports = function(content) {
-  const options = utils.getOptions(this);
+module.exports = function (content) {
+  const options = this.getOptions();
 
   this.cacheable();
   if (!hasModule(content)) return content;
