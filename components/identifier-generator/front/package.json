@@ -22,7 +22,9 @@
     "@types/react-dom": "^17.0.2",
     "@types/react-router-dom": "^5.1.7",
     "@types/styled-components": "^5.1.1",
-    "prettier": "^2.1.1"
+    "@vitejs/plugin-react": "^4.3.4",
+    "prettier": "^2.1.1",
+    "vite": "^6.0.0"
   },
   "dependencies": {
     "@akeneo-pim-community/shared": "link:../../../front-packages/shared",
@@ -35,10 +37,9 @@
     "web-vitals": "^0.2.4",
     "react-query": "^3.39.1"
   },
-  "proxy": "http://httpd",
   "scripts": {
-    "app:start": "yarn translation:build && yarn route:build && yarn packages:build && react-scripts --openssl-legacy-provider start",
-    "app:start:ee": "yarn translation:build:ee && yarn route:build:ee && yarn packages:build && react-scripts --openssl-legacy-provider start",
+    "app:start": "yarn translation:build && yarn route:build && yarn packages:build && vite",
+    "app:start:ee": "yarn translation:build:ee && yarn route:build:ee && yarn packages:build && vite",
     "test:unit:run": "jest --config jest.config.js --forceExit --maxWorkers=3 --coverage --coverageDirectory=coverage",
     "test:unit:watch": "jest --config jest.config.js --maxWorkers=3 --watch",
     "lib:build": "tsc -p ./tsconfig.build.json",
