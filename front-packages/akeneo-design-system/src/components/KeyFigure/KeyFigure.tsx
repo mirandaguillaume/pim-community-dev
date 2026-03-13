@@ -30,7 +30,7 @@ const Figure = ({label, children}: FigureProps) => {
 };
 
 type KeyFigureProps = {
-  icon: ReactElement<IconProps>;
+  icon: ReactElement;
   title: string;
   children?: ReactNode;
 };

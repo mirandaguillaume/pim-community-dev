@@ -13,7 +13,6 @@ import styled from 'styled-components';
 import {useAutoFocus, useCombinedRefs} from '../../../hooks';
 import {usePagination} from '../../../hooks/usePagination';
 import {Placeholder} from '../../Placeholder/Placeholder';
-import {IllustrationProps} from '../../../illustrations/IllustrationProps';
 import {getFontSize} from '../../../theme';
 
 const ItemCollectionContainer = styled.div`
@@ -45,7 +44,7 @@ type ItemCollectionProps = Override<
     /**
      * The illustration displayed when no result was found.
      */
-    noResultIllustration?: ReactElement<IllustrationProps>;
+    noResultIllustration?: ReactElement;
 
     /**
      * The text displayed when no result was found.

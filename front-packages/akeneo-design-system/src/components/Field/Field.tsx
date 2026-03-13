@@ -30,13 +30,7 @@ const HelperContainer = styled.div`
   max-width: 460px;
 `;
 
-type FieldChild =
-  | ReactElement<InputProps<unknown>>
-  | ReactElement<HelperProps>
-  | FieldChild[]
-  | false
-  | null
-  | undefined;
+type FieldChild = ReactElement | FieldChild[] | false | null | undefined;
 
 type FieldProps = {
   /**

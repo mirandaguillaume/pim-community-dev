@@ -22,7 +22,7 @@ const Separator = styled.span`
   margin: 0 0.5rem;
 `;
 
-type BreadcrumbChild = ReactElement<LinkProps> | null | boolean | undefined | BreadcrumbChild[];
+type BreadcrumbChild = ReactElement | null | boolean | undefined | BreadcrumbChild[];
 
 type BreadcrumbProps = {
   /**

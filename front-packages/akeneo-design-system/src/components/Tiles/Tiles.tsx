@@ -1,6 +1,5 @@
 import React, {Children, FC, isValidElement, KeyboardEvent, ReactNode, Ref, useCallback} from 'react';
 import styled, {css} from 'styled-components';
-import {IconProps} from '../../icons';
 import {AkeneoThemedProps, getColor} from '../../theme';
 import {Key, Override} from '../../';
 import {Tooltip} from '../../components';
@@ -140,7 +139,7 @@ type TileProps = Override<
   React.HTMLAttributes<HTMLDivElement>,
   (
     | {
-        icon: React.ReactElement<IconProps>;
+        icon: React.ReactElement;
         size?: 'big' | 'small';
         inline?: false;
       }
