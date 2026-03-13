@@ -48,7 +48,7 @@
   },
   "ignorePatterns": [
     "src/index.tsx",
-    "src/react-app-env.d.ts",
+    "src/env.d.ts",
     "src/setupTests.tsx"
   ]
 }
