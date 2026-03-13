@@ -133,7 +133,7 @@ const AnimateMessageBar = ({children}: {children: ReactElement}) => {
     // We need to detach the unmounting to avoid rendering the component in another render
     setTimeout(() => setUnmounting(true), 0);
     setTimeout(() => {
-      children.props.onClose();
+      (children.props as {onClose: () => void}).onClose();
     }, ANIMATION_DURATION);
   };
 
