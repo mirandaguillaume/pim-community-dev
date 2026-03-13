@@ -14,7 +14,7 @@ const useCategoryLabels: (categoryCodes: CategoryCode[]) => CategoryLabels = cat
     }).then(response => {
       response.json().then(json => {
         setCategoryLabels(
-          categoryCodes.reduce((categoryCodes, categoryCode) => {
+          categoryCodes.reduce<CategoryLabels>((categoryCodes, categoryCode) => {
             categoryCodes[categoryCode] = json[categoryCode] ?? null;
 
             return categoryCodes;

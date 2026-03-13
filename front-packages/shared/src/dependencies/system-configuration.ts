@@ -1,6 +1,6 @@
 import {SystemConfiguration} from '../DependenciesProvider.type';
 
-const systemConfigurationData = {};
+const systemConfigurationData: Record<string, string | number | boolean | null> = {};
 
 const systemConfiguration: SystemConfiguration = {
   initialize: async () => {

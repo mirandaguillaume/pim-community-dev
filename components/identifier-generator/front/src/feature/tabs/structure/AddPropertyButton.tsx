@@ -85,7 +85,7 @@ const AddPropertyButton: React.FC<AddPropertyButtonProps> = ({onAddProperty, str
   React.useEffect(focusCallback, [isOpen, focusCallback]);
 
   const flatItems = useMemo(() => {
-    const visibilityConditions = {
+    const visibilityConditions: Record<string, boolean> = {
       [PROPERTY_NAMES.AUTO_NUMBER]: showAutoNumber,
     };
     const tab: FlatItemsGroup[] = [];
