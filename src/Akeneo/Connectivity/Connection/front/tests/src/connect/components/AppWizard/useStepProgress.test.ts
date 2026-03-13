@@ -1,5 +1,5 @@
 import {useStepProgress} from '@src/connect/components/AppWizard/useStepProgress';
-import {act, renderHook} from '@testing-library/react-hooks';
+import {act, renderHook} from '@testing-library/react';
 
 test('it goes forward on all the steps', () => {
     const steps = ['step 1', 'step 2', 'step 3'];

@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook} from '@testing-library/react';
 import {useFetchMarketplaceUrl} from '@src/connect/hooks/use-fetch-marketplace-url';
 import {mockFetchResponses} from '../../../test-utils';
 

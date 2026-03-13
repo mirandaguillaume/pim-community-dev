@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook} from '@testing-library/react';
 import {useId} from './useId';
 
 test('It returns an Uuid with a prefix if provided', async () => {

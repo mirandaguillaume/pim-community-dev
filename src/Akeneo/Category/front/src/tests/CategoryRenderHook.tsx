@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import {QueryClient, QueryClientProvider} from 'react-query';
 import {ThemeProvider} from 'styled-components';
 import {pimTheme} from 'akeneo-design-system';
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook} from '@testing-library/react';
 import {mockedDependencies, DependenciesContext} from '@akeneo-pim-community/shared';
 import {MemoryRouter as Router} from 'react-router';
 

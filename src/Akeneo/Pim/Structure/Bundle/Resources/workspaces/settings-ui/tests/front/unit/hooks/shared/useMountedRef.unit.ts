@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook} from '@testing-library/react';
 import {useMountedRef} from '@akeneo-pim-community/settings-ui/src/hooks';
 
 describe('useMountedRef', () => {

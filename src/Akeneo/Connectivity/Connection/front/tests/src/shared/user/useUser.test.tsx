@@ -1,5 +1,5 @@
 import {UserContext, useUser} from '@src/shared/user';
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook} from '@testing-library/react';
 import React, {FC} from 'react';
 
 test('it returns the user locale and time zone', () => {

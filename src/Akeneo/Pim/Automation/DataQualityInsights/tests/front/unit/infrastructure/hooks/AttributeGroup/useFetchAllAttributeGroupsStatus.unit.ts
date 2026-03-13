@@ -1,5 +1,5 @@
 import {fetchAllAttributeGroupsDqiStatus} from '@akeneo-pim-community/data-quality-insights/src/infrastructure/fetcher/AttributeGroup/attributeGroupDqiStatusFetcher';
-import {renderHook, act} from '@testing-library/react-hooks';
+import {renderHook, act} from '@testing-library/react';
 import {useFetchAllAttributeGroupsStatus} from '@akeneo-pim-community/data-quality-insights/src/infrastructure/hooks';
 
 jest.mock(

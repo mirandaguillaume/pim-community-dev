@@ -1,7 +1,7 @@
 import {createWrapper} from '../../tests/hooks/config/createWrapper';
 import {mockResponse} from '../../tests/test-utils';
 import {useGetConditionItems} from '../useGetConditionItems';
-import {act, renderHook} from '@testing-library/react-hooks';
+import {act, renderHook} from '@testing-library/react';
 import {ATTRIBUTE_TYPE, CONDITION_NAMES, Conditions, Operator} from '../../models';
 
 describe('useGetConditionItems', () => {

@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook} from '@testing-library/react';
 import {useIdentifierAttributes} from '../';
 import {createWrapper} from '../../tests/hooks/config/createWrapper';
 import {FlattenAttribute} from '../../models/';

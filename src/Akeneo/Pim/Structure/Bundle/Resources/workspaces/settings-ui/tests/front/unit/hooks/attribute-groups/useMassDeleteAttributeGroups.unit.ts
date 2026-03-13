@@ -1,5 +1,5 @@
 import {AttributeGroup, useMassDeleteAttributeGroups} from '@akeneo-pim-community/settings-ui';
-import {act} from '@testing-library/react-hooks';
+import {act} from '@testing-library/react';
 import {renderHookWithProviders} from '@akeneo-pim-community/legacy-bridge/tests/front/unit/utils';
 import fetchMock from 'jest-fetch-mock';
 

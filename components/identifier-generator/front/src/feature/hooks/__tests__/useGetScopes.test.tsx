@@ -1,6 +1,6 @@
 import {mockResponse} from '../../tests/test-utils';
 import mockedScopes from '../../tests/fixtures/scopes';
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook} from '@testing-library/react';
 import {useGetScopes} from '../useGetScopes';
 import {createWrapper} from '../../tests/hooks/config/createWrapper';
 

@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook} from '@testing-library/react';
 import {createWrapper} from '../../tests/hooks/config/createWrapper';
 import {ServerError} from '../../errors';
 import {useGetReferenceEntitiesRecord} from '../useGetReferenceEntitiesRecord';

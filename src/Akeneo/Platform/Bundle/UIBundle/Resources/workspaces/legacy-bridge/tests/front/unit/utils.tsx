@@ -2,8 +2,7 @@ import React, {FC} from 'react';
 import ReactDOM from 'react-dom';
 import {ThemeProvider} from 'styled-components';
 import '@testing-library/jest-dom/extend-expect';
-import {render} from '@testing-library/react';
-import {renderHook} from '@testing-library/react-hooks';
+import {render, renderHook} from '@testing-library/react';
 import {DependenciesProvider} from '../../../src/DependenciesProvider';
 import {pimTheme} from 'akeneo-design-system';
 

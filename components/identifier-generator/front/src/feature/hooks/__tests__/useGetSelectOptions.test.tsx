@@ -1,4 +1,4 @@
-import {act, renderHook} from '@testing-library/react-hooks';
+import {act, renderHook} from '@testing-library/react';
 import {usePaginatedOptions} from '../useGetSelectOptions';
 import {mockResponse} from '../../tests/test-utils';
 import {createWrapper} from '../../tests/hooks/config/createWrapper';

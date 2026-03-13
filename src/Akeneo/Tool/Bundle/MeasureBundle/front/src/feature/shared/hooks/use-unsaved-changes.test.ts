@@ -1,5 +1,5 @@
 import {useUnsavedChanges} from './use-unsaved-changes';
-import {renderHook, act} from '@testing-library/react-hooks';
+import {renderHook, act} from '@testing-library/react';
 
 test('It can define if the model has been changed', async () => {
   let entity = 'nice';

@@ -1,4 +1,4 @@
-import {renderHook, act} from '@testing-library/react-hooks';
+import {renderHook, act} from '@testing-library/react';
 import {useFetchQualityScore} from '@akeneo-pim-community/data-quality-insights/src/infrastructure/hooks';
 
 import {QualityScoreModel} from '@akeneo-pim-community/data-quality-insights/src/domain';

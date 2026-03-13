@@ -1,5 +1,5 @@
 import {useFetchAppWizardData} from '@src/connect/hooks/use-fetch-app-wizard-data';
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook} from '@testing-library/react';
 import fetchMock from 'jest-fetch-mock';
 import {mockFetchResponses} from '../../../test-utils';
 

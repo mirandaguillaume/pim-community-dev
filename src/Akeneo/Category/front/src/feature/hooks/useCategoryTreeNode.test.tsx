@@ -1,5 +1,5 @@
 import {FC} from 'react';
-import {renderHook, act} from '@testing-library/react-hooks';
+import {renderHook, act} from '@testing-library/react';
 import {ThemeProvider} from 'styled-components';
 import {pimTheme} from 'akeneo-design-system';
 import {BackendCategoryTree, CategoryTreeModel} from '../models';

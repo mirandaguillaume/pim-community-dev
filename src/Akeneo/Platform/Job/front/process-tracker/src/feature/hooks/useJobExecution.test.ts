@@ -1,6 +1,7 @@
 import {useJobExecution} from './useJobExecution';
 import {act} from 'react-test-renderer';
 import {renderHookWithProviders} from '@akeneo-pim-community/shared';
+import {act} from '@testing-library/react';
 
 declare global {
   namespace NodeJS {
@@ -71,10 +72,10 @@ test('It returns the fetched job execution', async () => {
     json: async () => successResponse,
   }));
 
-  const {result, waitForNextUpdate} = renderHookWithProviders(() => useJobExecution('1'));
+  const {result} = renderHookWithProviders(() => useJobExecution('1'));
   await act(async () => {
     jest.advanceTimersByTime(1000);
-    await waitForNextUpdate();
+    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
   });
 
   const [jobExecution, error, reloadJobExecution] = result.current;
@@ -91,10 +92,10 @@ test('It returns error when fetch return an error', async () => {
     status: 404,
   }));
 
-  const {result, waitForNextUpdate} = renderHookWithProviders(() => useJobExecution('1'));
+  const {result} = renderHookWithProviders(() => useJobExecution('1'));
   await act(async () => {
     jest.advanceTimersByTime(1000);
-    await waitForNextUpdate();
+    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
   });
 
   const [jobExecution, error, reloadJobExecution] = result.current;
@@ -113,10 +114,10 @@ test('It returns callback to reload job execution information', async () => {
     json: async () => successResponse,
   }));
 
-  const {result, waitForNextUpdate} = renderHookWithProviders(() => useJobExecution('1'));
+  const {result} = renderHookWithProviders(() => useJobExecution('1'));
   await act(async () => {
     jest.advanceTimersByTime(1000);
-    await waitForNextUpdate();
+    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
   });
 
   const [jobExecution, error, reloadJobExecution] = result.current;
@@ -182,10 +183,10 @@ test('It does not fetch a job execution while the previous fetch is not finished
       )
   );
 
-  const {result, waitForNextUpdate} = renderHookWithProviders(() => useJobExecution('1'));
+  const {result} = renderHookWithProviders(() => useJobExecution('1'));
   await act(async () => {
     jest.advanceTimersByTime(1000);
-    await waitForNextUpdate();
+    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
   });
 
   const [jobExecution, error, reloadJobExecution] = result.current;

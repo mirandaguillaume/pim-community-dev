@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook} from '@testing-library/react';
 import {fireEvent} from '@testing-library/dom';
 import useScrollPosition from '@src/shared/scroll/hooks/useScrollPosition';
 import {ScrollPosition} from '@src/shared/scroll/utils/getScrollPosition';

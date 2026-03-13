@@ -1,4 +1,4 @@
-import {renderHook, act} from '@testing-library/react-hooks';
+import {renderHook, act} from '@testing-library/react';
 import {useTabBar} from './useTabBar';
 
 test('It handle tab bar state', () => {

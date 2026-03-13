@@ -1,7 +1,7 @@
 import {createWrapper} from '../../tests/hooks/config/createWrapper';
 import {mockResponse} from '../../tests/test-utils';
 import {useCategoryTrees} from '../useCategoryTrees';
-import {act, renderHook} from '@testing-library/react-hooks';
+import {act, renderHook} from '@testing-library/react';
 import {CategoryTreeRoot} from '@akeneo-pim-community/shared';
 
 describe('useCategoryTrees', () => {

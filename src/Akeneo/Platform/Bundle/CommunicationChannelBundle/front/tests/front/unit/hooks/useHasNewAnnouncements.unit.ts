@@ -5,6 +5,7 @@ import {
   fetchMockResponseOnce,
 } from '@akeneo-pim-community/legacy-bridge/tests/front/unit/utils';
 import {dependencies} from '@akeneo-pim-community/legacy-bridge';
+import {act} from '@testing-library/react';
 
 afterEach(() => {
   fetchMock.resetMocks();
@@ -15,12 +16,12 @@ test('it checks if it has new announcements and trigger an event to display colo
   const hasNewAnnouncementsResponse = {status: true};
   fetchMockResponseOnce('/rest/new_announcements', JSON.stringify(hasNewAnnouncementsResponse));
 
-  const {result, waitForNextUpdate} = renderHookWithProviders(useHasNewAnnouncements);
+  const {result} = renderHookWithProviders(useHasNewAnnouncements);
 
   const handleHasNewAnnouncements = result.current;
   handleHasNewAnnouncements();
 
-  await waitForNextUpdate();
+  await act(async () => { await new Promise(r => setTimeout(r, 0)); });
 
   expect(fetchMock).toHaveBeenCalledWith('/rest/new_announcements');
   expect(sessionStorage.getItem('communication_channel_has_new_announcements')).toBe('true');

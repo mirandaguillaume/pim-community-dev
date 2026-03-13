@@ -1,7 +1,6 @@
-import {renderHook} from '@testing-library/react-hooks';
+import {act, renderHook} from '@testing-library/react';
 import {useSaveGenerator} from '../useSaveGenerator';
 import {createWrapper} from '../../tests/hooks/config/createWrapper';
-import {act} from '@testing-library/react';
 import {mockResponse} from '../../tests/test-utils';
 import {AbbreviationType, IdentifierGenerator, PROPERTY_NAMES, TEXT_TRANSFORMATION} from '../../models';
 

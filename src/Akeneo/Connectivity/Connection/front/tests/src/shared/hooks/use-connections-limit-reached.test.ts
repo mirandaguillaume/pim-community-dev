@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook, act} from '@testing-library/react';
 import {mockFetchResponses} from '../../../test-utils';
 import {useConnectionsLimitReached} from '@src/shared/hooks/use-connections-limit-reached';
 
@@ -9,11 +9,11 @@ test('it returns true when max connections limit is true ', async () => {
         },
     });
 
-    const {result, waitForNextUpdate} = renderHook(() => useConnectionsLimitReached());
+    const {result} = renderHook(() => useConnectionsLimitReached());
 
     expect(result.current).toStrictEqual(false);
 
-    await waitForNextUpdate();
+    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
 
     expect(result.current).toStrictEqual(true);
 });
@@ -25,7 +25,7 @@ test('it returns false when max connections limit is false ', async () => {
         },
     });
 
-    const {result, waitForNextUpdate} = renderHook(() => useConnectionsLimitReached());
+    const {result} = renderHook(() => useConnectionsLimitReached());
 
     expect(result.current).toStrictEqual(false);
 
@@ -42,11 +42,11 @@ test('it returns true on fetch error', async () => {
         },
     });
 
-    const {result, waitForNextUpdate} = renderHook(() => useConnectionsLimitReached());
+    const {result} = renderHook(() => useConnectionsLimitReached());
 
     expect(result.current).toStrictEqual(false);
 
-    await waitForNextUpdate();
+    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
 
     expect(result.current).toStrictEqual(true);
 });

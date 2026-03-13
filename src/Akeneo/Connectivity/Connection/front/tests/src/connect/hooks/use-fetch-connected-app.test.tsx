@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook} from '@testing-library/react';
 import {mockFetchResponses} from '../../../test-utils';
 import {useFetchConnectedApp} from '@src/connect/hooks/use-fetch-connected-app';
 

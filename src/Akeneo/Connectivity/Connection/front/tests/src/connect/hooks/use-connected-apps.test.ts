@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook, act} from '@testing-library/react';
 import {mockFetchResponses} from '../../../test-utils';
 import {useConnectedApps} from '@src/connect/hooks/use-connected-apps';
 import {useFeatureFlags} from '@src/shared/feature-flags/use-feature-flags';
@@ -42,8 +42,8 @@ test('it notifies if it cannot retrieve connected apps', async () => {
     }));
     (useNotify as jest.Mock).mockImplementation(() => notify);
 
-    const {result, waitForNextUpdate} = renderHook(() => useConnectedApps());
-    await waitForNextUpdate();
+    const {result} = renderHook(() => useConnectedApps());
+    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
     expect(result.current).toEqual(false);
     expect(notify).toBeCalledWith(
         NotificationLevel.ERROR,
@@ -67,9 +67,9 @@ test('it does not fetch the marketplace apps if there is no connected apps', asy
         },
     });
 
-    const {result, waitForNextUpdate} = renderHook(() => useConnectedApps());
+    const {result} = renderHook(() => useConnectedApps());
     expect(result.current).toEqual(null);
-    await waitForNextUpdate();
+    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
     expect(result.current).toEqual([]);
 });
 
@@ -108,9 +108,9 @@ test('it does not fail if it cannot retrieve marketplace apps', async () => {
         },
     });
 
-    const {result, waitForNextUpdate} = renderHook(() => useConnectedApps());
+    const {result} = renderHook(() => useConnectedApps());
     expect(result.current).toEqual(null);
-    await waitForNextUpdate();
+    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
     expect(result.current).toEqual([connectedApp]);
 });
 
@@ -177,9 +177,9 @@ test('it fetches connected apps', async () => {
         },
     });
 
-    const {result, waitForNextUpdate} = renderHook(() => useConnectedApps());
+    const {result} = renderHook(() => useConnectedApps());
     expect(result.current).toEqual(null);
-    await waitForNextUpdate();
+    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
     expect(result.current).toEqual([expectedApp]);
 });
 
@@ -246,9 +246,9 @@ test('it fetches connected custom apps', async () => {
         },
     });
 
-    const {result, waitForNextUpdate} = renderHook(() => useConnectedApps());
+    const {result} = renderHook(() => useConnectedApps());
     expect(result.current).toEqual(null);
-    await waitForNextUpdate();
+    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
     expect(result.current).toEqual([expectedApp]);
 });
 
@@ -301,9 +301,9 @@ test('it returns connected apps and warns when not listed on the appstore', asyn
         },
     });
 
-    const {result, waitForNextUpdate} = renderHook(() => useConnectedApps());
+    const {result} = renderHook(() => useConnectedApps());
     expect(result.current).toEqual(null);
-    await waitForNextUpdate();
+    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
     expect(result.current).toEqual([expectedApp]);
 });
 
@@ -407,9 +407,9 @@ test('it triggers a connected app update if there is inconsistency between it an
     const triggerConnectedAppRefresh = jest.fn();
     (useTriggerConnectedAppRefresh as jest.Mock).mockImplementation(() => triggerConnectedAppRefresh);
 
-    const {result, waitForNextUpdate} = renderHook(() => useConnectedApps());
+    const {result} = renderHook(() => useConnectedApps());
     expect(result.current).toEqual(null);
-    await waitForNextUpdate();
+    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
     expect(triggerConnectedAppRefresh).toHaveBeenCalledWith('connectionCodeA');
     expect(triggerConnectedAppRefresh).not.toHaveBeenCalledWith('connectionCodeB');
     expect(triggerConnectedAppRefresh).not.toHaveBeenCalledWith('connectionCodeC');

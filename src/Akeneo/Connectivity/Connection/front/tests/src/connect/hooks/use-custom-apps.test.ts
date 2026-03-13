@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook, act} from '@testing-library/react';
 import {mockFetchResponses} from '../../../test-utils';
 import {useCustomApps} from '@src/connect/hooks/use-custom-apps';
 import fetchMock from 'jest-fetch-mock';
@@ -48,14 +48,14 @@ test('it returns loading status and customApps values', async () => {
         },
     });
 
-    const {result, waitForNextUpdate} = renderHook(() => useCustomApps());
+    const {result} = renderHook(() => useCustomApps());
 
     expect(result.current).toStrictEqual({
         isLoading: true,
         customApps: emptyCustomApps,
     });
 
-    await waitForNextUpdate();
+    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
 
     expect(result.current).toStrictEqual({
         isLoading: false,
@@ -78,14 +78,14 @@ test('it returns loading status and empty values on fetch error ', async () => {
         },
     });
 
-    const {result, waitForNextUpdate} = renderHook(() => useCustomApps());
+    const {result} = renderHook(() => useCustomApps());
 
     expect(result.current).toStrictEqual({
         isLoading: true,
         customApps: emptyCustomApps,
     });
 
-    await waitForNextUpdate();
+    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
 
     expect(result.current).toStrictEqual({
         isLoading: false,
@@ -101,14 +101,14 @@ test('it returns loading status and empty values with feature flag disabled', as
             }[feature] ?? false),
     }));
 
-    const {result, waitForNextUpdate} = renderHook(() => useCustomApps());
+    const {result} = renderHook(() => useCustomApps());
 
     expect(result.current).toStrictEqual({
         isLoading: true,
         customApps: emptyCustomApps,
     });
 
-    await waitForNextUpdate();
+    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
 
     expect(result.current).toStrictEqual({
         isLoading: false,

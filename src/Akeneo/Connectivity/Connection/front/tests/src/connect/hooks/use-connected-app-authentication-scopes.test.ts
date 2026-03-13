@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook, act} from '@testing-library/react';
 import {mockFetchResponses} from '../../../test-utils';
 import fetchMock from 'jest-fetch-mock';
 import {useAuthenticationScopes} from '@src/connect/hooks/use-connected-app-authentication-scopes';
@@ -16,14 +16,14 @@ test('it returns loading status and authenticationScopes values', async () => {
             },
     });
 
-    const {result, waitForNextUpdate} = renderHook(() => useAuthenticationScopes('some_connection_code'));
+    const {result} = renderHook(() => useAuthenticationScopes('some_connection_code'));
 
     expect(result.current).toStrictEqual({
         isLoading: true,
         authenticationScopes: [],
     });
 
-    await waitForNextUpdate();
+    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
 
     expect(result.current).toStrictEqual({
         isLoading: false,
@@ -40,14 +40,14 @@ test('it returns loading status and empty values on fetch error', async () => {
             },
     });
 
-    const {result, waitForNextUpdate} = renderHook(() => useAuthenticationScopes('some_connection_code'));
+    const {result} = renderHook(() => useAuthenticationScopes('some_connection_code'));
 
     expect(result.current).toStrictEqual({
         isLoading: true,
         authenticationScopes: [],
     });
 
-    await waitForNextUpdate();
+    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
 
     expect(result.current).toStrictEqual({
         isLoading: false,

@@ -3,7 +3,7 @@ import useConnectionSelect from '@src/audit/hooks/useConnectionSelect';
 import {State} from '@src/audit/reducers/dashboard-reducer';
 import {AuditEventType} from '@src/model/audit-event-type.enum';
 import {FlowType} from '@src/model/flow-type.enum';
-import {act, renderHook} from '@testing-library/react-hooks';
+import {act, renderHook} from '@testing-library/react';
 import React, {PropsWithChildren} from 'react';
 
 const initialState: State = {

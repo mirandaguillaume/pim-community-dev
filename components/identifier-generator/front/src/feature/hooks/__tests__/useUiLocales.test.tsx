@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook} from '@testing-library/react';
 import {createWrapper} from '../../tests/hooks/config/createWrapper';
 import {act} from 'react-dom/test-utils';
 import {UiLocale} from '../../models';

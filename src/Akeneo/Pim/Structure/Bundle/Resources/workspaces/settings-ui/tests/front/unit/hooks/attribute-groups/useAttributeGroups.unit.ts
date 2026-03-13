@@ -4,6 +4,7 @@ import {saveAttributeGroupsOrder} from '@akeneo-pim-community/settings-ui/src/in
 import {anAttributeGroup} from '../../../utils/provideAttributeGroupHelper';
 import {act} from 'react-test-renderer';
 import fetchMock from 'jest-fetch-mock';
+import {act} from '@testing-library/react';
 
 jest.mock('@akeneo-pim-community/settings-ui/src/infrastructure/savers/attributeGroupsSaver');
 
@@ -12,8 +13,8 @@ test('it initializes the state for AttributeGroups datagrid', async () => {
     status: 200,
   });
 
-  const {result, waitForNextUpdate} = renderHookWithProviders(useAttributeGroups);
-  await waitForNextUpdate();
+  const {result} = renderHookWithProviders(useAttributeGroups);
+  await act(async () => { await new Promise(r => setTimeout(r, 0)); });
 
   const [attributeGroups, reorderAttributeGroups, isPending] = result.current;
   expect(attributeGroups).toEqual([]);
@@ -31,8 +32,8 @@ test('it loads the attribute groups list without the DQI feature', async () => {
     status: 200,
   });
 
-  const {result, waitForNextUpdate} = renderHookWithProviders(useAttributeGroups);
-  await waitForNextUpdate();
+  const {result} = renderHookWithProviders(useAttributeGroups);
+  await act(async () => { await new Promise(r => setTimeout(r, 0)); });
 
   const [attributeGroups] = result.current;
   expect(attributeGroups).toEqual([groupB, groupC, groupA]);
@@ -48,8 +49,8 @@ test('it loads the attribute groups list with the DQI feature', async () => {
     status: 200,
   });
 
-  const {result, waitForNextUpdate} = renderHookWithProviders(useAttributeGroups);
-  await waitForNextUpdate();
+  const {result} = renderHookWithProviders(useAttributeGroups);
+  await act(async () => { await new Promise(r => setTimeout(r, 0)); });
 
   const [attributeGroups] = result.current;
 
@@ -66,8 +67,8 @@ test('it refreshes the order of the attribute groups list', async () => {
     status: 200,
   });
 
-  const {result, waitForNextUpdate} = renderHookWithProviders(useAttributeGroups);
-  await waitForNextUpdate();
+  const {result} = renderHookWithProviders(useAttributeGroups);
+  await act(async () => { await new Promise(r => setTimeout(r, 0)); });
 
   const [, reorderAttributeGroups] = result.current;
   await act(async () => {
