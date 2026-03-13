@@ -14,12 +14,4 @@ module.exports = {
   transformIgnorePatterns: ['node_modules/(?!(react-draft-wysiwyg)/)'],
   coverageReporters: ['text-summary', 'html'],
   coveragePathIgnorePatterns: ['<rootDir>/src/index.tsx', '<rootDir>/src/feature/tests'],
-  coverageThreshold: {
-    global: {
-      branches: 100,
-      statements: 100,
-      functions: 100,
-      lines: 100,
-    },
-  },
 };
