@@ -39,8 +39,8 @@
   "scripts": {
     "app:start": "yarn translation:build && yarn route:build && yarn packages:build && react-scripts --openssl-legacy-provider start",
     "app:start:ee": "yarn translation:build:ee && yarn route:build:ee && yarn packages:build && react-scripts --openssl-legacy-provider start",
-    "test:unit:run": "react-scripts --openssl-legacy-provider test --watchAll=false --coverage --coverageDirectory=coverage --maxWorkers=3 --forceExit",
-    "test:unit:watch": "react-scripts --openssl-legacy-provider test --maxWorkers=3",
+    "test:unit:run": "jest --config jest.config.js --forceExit --maxWorkers=3 --coverage --coverageDirectory=coverage",
+    "test:unit:watch": "jest --config jest.config.js --maxWorkers=3 --watch",
     "lib:build": "tsc -p ./tsconfig.build.json",
     "translation:build": "cp ../../../public/js/translation/en_US.js ./src/translations.json",
     "translation:build:ee": "cp ../../../../../../public/js/translation/en_US.js ./src/translations.json",
@@ -69,26 +69,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "jest": {
-    "coverageReporters": [
-      "text-summary",
-      "html"
-    ],
-    "coveragePathIgnorePatterns": [
-      "<rootDir>/src/index.tsx",
-      "<rootDir>/src/feature/tests"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "statements": 100,
-        "functions": 100,
-        "lines": 100
-      }
-    },
-    "transform": {
-      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
-    }
   }
 }
