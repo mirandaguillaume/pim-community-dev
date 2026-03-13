@@ -17,6 +17,7 @@ const mockConfigPayload = {
   pim_analytics___version_update: mockScopedValue(true),
   pim_ui___loading_message_enabled: mockScopedValue(false),
   pim_ui___loading_messages: mockScopedValue('FOO'),
+  pim_ui___sandbox_banner: mockScopedValue(false),
 };
 
 const mockConfigFetchResult = {
@@ -59,7 +60,7 @@ describe('configForm', () => {
     );
     expect(within(breadcrumbElt).getByText('pim_menu.item.configuration')).toHaveAttribute('aria-current', 'page');
 
-    expect(screen.queryByRole('button', {name: 'Save'})).not.toBeNull();
+    expect(screen.queryByRole('button', {name: 'pim_common.save'})).not.toBeNull();
     //expect(screen.queryByText('pim_menu.item.configuration')).not.toBeNull();
     expect(screen.queryByText('oro_config.form.config.group.loading_message.title')).not.toBeNull();
     expect(screen.queryByText('oro_config.form.config.group.loading_message.helper')).not.toBeNull();
@@ -94,7 +95,7 @@ describe('configForm', () => {
     renderWithProviders(<ConfigForm />);
 
     fireEvent.click(within(await screen.findByTestId('loading_message__enabler')).getByTitle('pim_common.yes'));
-    fireEvent.click(screen.getByRole('button', {name: 'Save'}));
+    fireEvent.click(screen.getByRole('button', {name: 'pim_common.save'}));
 
     const expectedConfig = {
       ...mockConfigPayload,
