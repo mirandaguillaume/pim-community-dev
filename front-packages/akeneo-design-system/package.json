@@ -22,8 +22,8 @@
   "author": "akeneo",
   "license": "OSL-3.0",
   "peerDependencies": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "styled-components": "^5.1.11"
   },
   "dependencies": {
@@ -40,16 +40,15 @@
     "@storybook/cli": "^6.3.12",
     "@storybook/react": "^6.3.12",
     "@testing-library/jest-dom": "^5.11.3",
-    "@testing-library/react": "^10.4.8",
-    "@testing-library/react-hooks": "^3.4.2",
+    "@testing-library/react": "^14.3.0",
     "@testing-library/user-event": "^12.1.9",
     "@types/draft-js": "^0.10.25",
     "@types/draftjs-to-html": "^0.8.0",
     "@types/html-to-draftjs": "^1.4.0",
     "@types/jest": "^29.5.0",
     "@types/jest-image-snapshot": "^3.1.0",
-    "@types/react": "17.0.34",
-    "@types/react-dom": "^17.0.2",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
     "@types/react-draft-wysiwyg": "^1.12.13",
     "@types/styled-components": "5.1.15",
     "@types/testing-library__jest-dom": "^5.9.2",
@@ -65,8 +64,8 @@
     "jest-image-snapshot": "^4.1.0",
     "jest-styled-components": "^7.0.3",
     "prettier": "^2.1.1",
-    "react-is": "^16.13.1",
-    "react-test-renderer": "^16.13.1",
+    "react-is": "^18.3.1",
+    "react-test-renderer": "^18.3.1",
     "rimraf": "^3.0.2",
     "themeprovider-storybook": "^1.7.2",
     "ts-jest": "^29.1.0",
@@ -75,6 +74,6 @@
     "yargs": "^16.0.3"
   },
   "resolutions": {
-    "@types/react": "17.0.34"
+    "@types/react": "^18.3.0"
   }
 }
