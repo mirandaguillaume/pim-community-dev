@@ -158,9 +158,9 @@ jobs:
       - name: Pull PHP image from GHCR
         run: |
           HASH=$(sha256sum Dockerfile | cut -c1-12)
-          IMAGE="ghcr.io/${{ github.repository }}/php:df-${HASH}-8.2"
+          IMAGE="ghcr.io/${{ github.repository }}/php:df-${HASH}-8.3"
           docker pull "$IMAGE"
-          docker tag "$IMAGE" akeneo/pim-php-dev:8.2
+          docker tag "$IMAGE" akeneo/pim-php-dev:8.3
 
       - name: Set up Node.js
         uses: actions/setup-node@v4

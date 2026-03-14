@@ -2,7 +2,7 @@
 
 ## Context
 
-Akeneo PIM Community Edition. PHP 8.2 / Symfony / React 17. Docker mandatory for PHP (`enforce-docker-php.sh` hook).
+Akeneo PIM Community Edition. PHP 8.3 / Symfony / React 17. Docker mandatory for PHP (`enforce-docker-php.sh` hook).
 
 Two architecture patterns coexist: modern hexagonal (`back/Application|Domain|Infrastructure`) and legacy (`Component/Bundle`).
 
