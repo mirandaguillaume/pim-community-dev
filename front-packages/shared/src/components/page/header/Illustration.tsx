@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, ReactNode} from 'react';
 import styled from 'styled-components';
 import {Image} from 'akeneo-design-system';
 
@@ -7,6 +7,7 @@ const Container = styled.div`
 `;
 
 type IllustrationProps = {
+  children?: ReactNode;
   src?: string;
   title?: string;
 };

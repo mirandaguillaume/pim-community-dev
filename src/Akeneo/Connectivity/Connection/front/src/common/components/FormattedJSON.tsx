@@ -1,4 +1,4 @@
-import React, {FC, useMemo} from 'react';
+import React, {FC, useMemo, ReactNode} from 'react';
 import {createGlobalStyle} from 'styled-components';
 import {theme, Theme} from '../styled-with-theme';
 
@@ -41,7 +41,7 @@ function syntaxHighlight(json: string) {
     };
 }
 
-const FormattedJSON: FC = ({children}) => {
+const FormattedJSON: FC<{children?: unknown}> = ({children}) => {
     const html = useMemo(() => syntaxHighlight(JSON.stringify(children, undefined, 4)), [children]);
 
     return (

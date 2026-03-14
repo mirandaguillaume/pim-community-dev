@@ -379,7 +379,7 @@ test('It throws when passing non string children', () => {
         emptyResultLabel="Empty result"
       >
         <MultiSelectInput.Option value="en_US">
-          {/* @ts-expect-error only accepts string */}
+          {/* @ts-expect-error only accepts string as children */}
           <span />
         </MultiSelectInput.Option>
       </MultiSelectInput>

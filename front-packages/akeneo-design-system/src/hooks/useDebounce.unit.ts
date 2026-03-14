@@ -3,15 +3,16 @@ import {useDebounce} from './useDebounce';
 
 describe('useDebounce', () => {
   beforeEach(() => {
-    jest.useFakeTimers('modern');
+    jest.useFakeTimers();
   });
   afterAll(() => {
     jest.useRealTimers();
   });
 
   it('use the debounced value after 100ms', () => {
-    const {result, rerender} = renderHook<{value: string; delay: number}, string>(({value, delay}) =>
-      useDebounce(value, delay)
+    const {result, rerender} = renderHook<string, {value: string; delay: number}>(
+      ({value, delay}) => useDebounce(value, delay),
+      {initialProps: {value: '', delay: 0}}
     );
 
     const delay = 100;

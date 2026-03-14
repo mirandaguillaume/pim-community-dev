@@ -1,4 +1,4 @@
-import React, {createContext, FC, useContext} from 'react';
+import React, {createContext, FC, ReactNode, useContext} from 'react';
 import {KeyIndicatorsTips} from '../../domain';
 
 export type KeyIndicatorsContextState = {
@@ -13,7 +13,7 @@ export const useKeyIndicatorsContext = (): KeyIndicatorsContextState => {
   return useContext(KeyIndicatorsContext);
 };
 
-type ProviderProps = KeyIndicatorsContextState;
+type ProviderProps = KeyIndicatorsContextState & {children?: ReactNode};
 
 export const KeyIndicatorsProvider: FC<ProviderProps> = ({children, ...tips}) => {
   return <KeyIndicatorsContext.Provider value={tips}>{children}</KeyIndicatorsContext.Provider>;

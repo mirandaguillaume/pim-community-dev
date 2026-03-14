@@ -1,9 +1,11 @@
-import React, {ComponentType, ReactElement} from 'react';
+import React, {ComponentType, ReactElement, ReactNode} from 'react';
 import {render, RenderOptions, RenderResult} from '@testing-library/react';
 import {ThemeProvider} from 'styled-components';
 import {pimTheme} from '../theme/pim';
 
-const wrapper: ComponentType = ({children}) => <ThemeProvider theme={pimTheme}>{children}</ThemeProvider>;
+const wrapper: ComponentType<{children?: ReactNode}> = ({children}) => (
+  <ThemeProvider theme={pimTheme}>{children}</ThemeProvider>
+);
 const customRender = (ui: ReactElement, options?: Omit<RenderOptions, 'queries'>): RenderResult =>
   render(ui, {wrapper, ...options});
 

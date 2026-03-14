@@ -1,4 +1,4 @@
-import React, {Children, FC, FunctionComponent, ReactElement} from 'react';
+import React, {Children, FC, FunctionComponent, ReactElement, ReactNode} from 'react';
 import {get as _get} from 'lodash';
 import AxisEvaluation from './DataQualityInsights/AxisEvaluation';
 import {
@@ -18,6 +18,7 @@ import {convertEvaluationToLegacyFormat} from '../../../helper';
 export const CONTAINER_ELEMENT_ID = 'data-quality-insights-product-tab-content';
 
 export interface DataQualityInsightsTabContentProps {
+  children?: ReactNode;
   productEvaluationFetcher: ProductEvaluationFetcher;
   product: Product;
 }

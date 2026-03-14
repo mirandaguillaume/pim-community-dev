@@ -34,7 +34,7 @@ const SystemInfo = () => {
         renderSystemInfoValue(subInfoValue, subInfoKey)
       ) : (
         <div key={`${infoKey}`}>
-          {translate('pim_analytics.info_type.' + infoKey)}: {subInfoValue}
+          {translate('pim_analytics.info_type.' + infoKey)}: {String(subInfoValue)}
         </div>
       );
     });

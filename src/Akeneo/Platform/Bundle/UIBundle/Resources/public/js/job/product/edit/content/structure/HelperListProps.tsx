@@ -22,8 +22,12 @@ const Container = styled.div`
 const HelperList: React.FC<HelperListProps> = ({elements}) => {
   return (
     <Container>
-      {elements.map(item => {
-        return <Helper>{item}</Helper>;
+      {elements.map((item, index) => {
+        return (
+          <Helper key={index}>
+            {item.text} <a href={item.link.href}>{item.link.text}</a>
+          </Helper>
+        );
       })}
     </Container>
   );

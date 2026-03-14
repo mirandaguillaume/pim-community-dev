@@ -1,6 +1,6 @@
-import React, {CSSProperties, FC} from 'react';
+import React, {CSSProperties, FC, ReactNode} from 'react';
 
-const Table: FC = ({children, ...props}) => {
+const Table: FC<{children?: ReactNode}> = ({children, ...props}) => {
   return (
     <table className="AknGrid AknGrid--unclickable" {...props}>
       <tbody className="AknGrid-body">{children}</tbody>
@@ -9,6 +9,7 @@ const Table: FC = ({children, ...props}) => {
 };
 
 type RowProps = {
+  children?: ReactNode;
   isHeader?: boolean;
 };
 
@@ -23,6 +24,7 @@ const Row: FC<RowProps> = ({children, isHeader = false, ...props}) => {
 };
 
 type HeaderCellProps = {
+  children?: ReactNode;
   align?: 'left' | 'center' | 'right';
   width?: number | string;
 };
@@ -41,6 +43,7 @@ const HeaderCell: FC<HeaderCellProps> = ({children, align = 'left', width, ...pr
 };
 
 type CellProps = {
+  children?: ReactNode;
   align?: 'left' | 'center' | 'right';
   action?: boolean;
   highlight?: boolean;

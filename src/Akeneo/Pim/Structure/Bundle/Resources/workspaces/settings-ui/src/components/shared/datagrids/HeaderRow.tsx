@@ -1,8 +1,9 @@
-import React, {FC} from 'react';
+import React, {FC, ReactNode} from 'react';
 import {TableHead, TableHeadCell, TableHeadRow} from '../layouts/tables';
 import {useDataGridState} from '../../../hooks/shared';
 
 type Props = {
+  children?: ReactNode;
   isDraggable?: boolean;
 };
 

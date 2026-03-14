@@ -37,6 +37,7 @@ const RichTextEditor = ({value, readOnly = false, onChange, ...rest}: RichTextEd
   };
 
   return (
+    // @ts-expect-error react-draft-wysiwyg ships its own @types/react which conflicts with React 18 types
     <Editor
       toolbarHidden={readOnly}
       readOnly={readOnly}

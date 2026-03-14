@@ -50,6 +50,7 @@ const QualityScoreEvolutionChart: FC<Props> = ({rawDataset}) => {
 
   return (
     <div ref={chartContainerRef}>
+      {/* @ts-expect-error Victory types incompatible with React 18 */}
       <VictoryChart
         height={INITIAL_CHART_HEIGHT}
         width={INITIAL_CHART_WIDTH}

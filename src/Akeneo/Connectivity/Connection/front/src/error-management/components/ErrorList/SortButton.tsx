@@ -1,10 +1,11 @@
-import React, {FC} from 'react';
+import React, {FC, ReactNode} from 'react';
 import {CaretDownIcon, CaretUpIcon} from '../../../common/icons';
 import styled from '../../../common/styled-with-theme';
 
 type Order = 'asc' | 'desc';
 
 type Props = {
+  children?: ReactNode;
     order: Order;
     onSort: (order: Order) => void;
 };

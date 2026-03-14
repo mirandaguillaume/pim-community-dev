@@ -1,4 +1,4 @@
-import React, {Children, FC, ReactElement} from 'react';
+import React, {Children, FC, ReactElement, ReactNode} from 'react';
 import {Evaluation} from '../../../../../domain';
 import {AxisError, AxisGradingInProgress, AxisHeader} from './Axis';
 import {
@@ -10,6 +10,7 @@ import {Criterion} from './Criterion';
 import {evaluationPlaceholder} from '../../../../helper';
 
 interface AxisEvaluationProps {
+  children?: ReactNode;
   evaluation?: Evaluation;
   axis: string;
 }

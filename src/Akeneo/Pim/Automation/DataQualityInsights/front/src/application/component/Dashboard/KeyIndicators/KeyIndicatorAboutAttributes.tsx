@@ -1,5 +1,5 @@
 import {useTranslate, useUserContext} from '@akeneo-pim-community/shared';
-import React, {FC, useCallback} from 'react';
+import React, {FC, useCallback, ReactNode} from 'react';
 import {
   KeyIndicatorExtraData,
   Counts,
@@ -19,6 +19,7 @@ import {AttributeMessageBuilder} from './AttributeMessageBuilder';
 import {Text, TextWithLink} from './styled';
 
 type Props = {
+  children?: ReactNode;
   type: KeyIndicatorAttributes;
   counts: Counts;
   title: string;

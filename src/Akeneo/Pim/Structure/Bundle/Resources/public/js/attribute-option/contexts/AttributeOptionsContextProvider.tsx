@@ -1,4 +1,4 @@
-import React, {createContext, FC, useCallback, useEffect, useState} from 'react';
+import React, {createContext, FC, useCallback, useEffect, useState, ReactNode} from 'react';
 import {AttributeOption, SpellcheckEvaluation} from '../model';
 import {
   useCreateAttributeOption,
@@ -37,6 +37,7 @@ const AttributeOptionsContext = createContext<AttributeOptionsState>({
 });
 
 type Props = {
+  children?: ReactNode;
   attributeOptionsQualityFetcher?: undefined | (() => Promise<SpellcheckEvaluation> | null);
 };
 

@@ -22,7 +22,7 @@ const renderDOMWithProviders = (ui: ReactElement, container: HTMLElement) => {
   domRoot.render(<DefaultProviders>{ui}</DefaultProviders>);
 };
 
-const renderHookWithProviders: <R = any>(hook: () => R) => RenderHookResult<R> = <R,>(hook: () => R) =>
-  renderHook<R>(hook, {wrapper: DefaultProviders});
+const renderHookWithProviders: <R = any>(hook: () => R) => RenderHookResult<R, unknown> = <R,>(hook: () => R) =>
+  renderHook<R, unknown>(hook, {wrapper: DefaultProviders});
 
 export {renderWithProviders, renderDOMWithProviders, renderHookWithProviders, DefaultProviders};

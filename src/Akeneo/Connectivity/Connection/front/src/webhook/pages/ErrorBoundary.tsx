@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, {Component, ReactNode} from 'react';
 import {PageContent, RuntimeError} from '../../common/components';
 import {NotFoundError, UnauthorizedError} from '../../shared/fetch';
 
-class ErrorBoundary extends Component<unknown, {error?: Error}> {
+class ErrorBoundary extends Component<{children?: ReactNode}, {error?: Error}> {
     constructor(props: unknown) {
         super(props);
         this.state = {};

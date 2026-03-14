@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, ReactNode} from 'react';
 import {PageContent, PageHeader, RuntimeError} from '../../common/components';
 import {Translate} from '../../shared/translate';
 import {Breadcrumb} from 'akeneo-design-system';
@@ -20,7 +20,7 @@ const SettingsBreadcrumb = () => {
     );
 };
 
-export class SettingsErrorBoundary extends Component<unknown, {hasError: boolean}> {
+export class SettingsErrorBoundary extends Component<{children?: ReactNode}, {hasError: boolean}> {
     constructor(props: unknown) {
         super(props);
         this.state = {hasError: false};

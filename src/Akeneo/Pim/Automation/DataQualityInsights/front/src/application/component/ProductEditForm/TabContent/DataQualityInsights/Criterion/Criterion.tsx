@@ -30,6 +30,7 @@ import {Title} from './Title';
 import {Icon} from './Icon';
 
 interface CriterionProps {
+  children?: ReactNode;
   code: string;
   criterionEvaluation?: CriterionEvaluationResult;
   axis?: string;
