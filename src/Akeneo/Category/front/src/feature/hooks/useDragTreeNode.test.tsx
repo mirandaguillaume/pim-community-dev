@@ -1,8 +1,7 @@
 import {FC} from 'react';
 import {ThemeProvider} from 'styled-components';
 import {pimTheme} from 'akeneo-design-system';
-import {renderHook} from '@testing-library/react';
-import {act} from 'react-test-renderer';
+import {renderHook, act} from '@testing-library/react';
 import {OrderableTreeProvider} from '../components';
 import {TreeNode} from '../models';
 import {useDragTreeNode} from './useDragTreeNode';

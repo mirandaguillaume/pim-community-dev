@@ -4,7 +4,7 @@ import {useFilteredLocales} from '@akeneo-pim-community/settings-ui/src/hooks/lo
 import {aListOfLocales, aLocale} from '../../../utils/provideLocaleHelper';
 import {Locale} from '../../../../../src/models';
 
-import {act} from 'react-test-renderer';
+import {act} from '@testing-library/react';
 
 describe('useFilteredLocales', () => {
   const renderUseFilteredLocales = (locales: Locale[]) => {

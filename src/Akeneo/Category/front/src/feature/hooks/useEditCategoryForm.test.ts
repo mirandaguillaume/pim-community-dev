@@ -1,5 +1,5 @@
 import {set} from 'lodash/fp';
-import {act} from 'react-test-renderer';
+import {act} from '@testing-library/react';
 import {useCategory, CategoryResponse} from './useCategory';
 import {useEditCategoryForm} from './useEditCategoryForm';
 import {saveEditCategoryForm} from '../infrastructure';

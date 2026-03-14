@@ -1,7 +1,6 @@
 import {UserContext} from '@src/shared/user';
 import {render} from '@testing-library/react';
 import React, {FC} from 'react';
-import {create} from 'react-test-renderer';
 import {ThemeProvider} from 'styled-components';
 import {theme} from '@src/common/styled-with-theme';
 import fetchMock from 'jest-fetch-mock';
@@ -75,7 +74,7 @@ const DefaultProviders: FC = ({children}) => {
 };
 
 export const createWithProviders = (nextElement: React.ReactElement) =>
-    create(<DefaultProviders>{nextElement}</DefaultProviders>);
+    render(<DefaultProviders>{nextElement}</DefaultProviders>);
 
 export const renderWithProviders = (ui: React.ReactElement) => render(ui, {wrapper: DefaultProviders});
 

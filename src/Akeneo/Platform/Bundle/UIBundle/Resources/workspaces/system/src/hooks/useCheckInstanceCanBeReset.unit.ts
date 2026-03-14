@@ -1,7 +1,7 @@
 import {renderHookWithProviders} from '@akeneo-pim-community/legacy-bridge/tests/front/unit/utils';
 import fetchMock from 'jest-fetch-mock';
 import {useCheckInstanceCanBeReset} from './useCheckInstanceCanBeReset';
-import {act} from 'react-test-renderer';
+import {act} from '@testing-library/react';
 
 const flushPromises = () => new Promise(setImmediate);
 

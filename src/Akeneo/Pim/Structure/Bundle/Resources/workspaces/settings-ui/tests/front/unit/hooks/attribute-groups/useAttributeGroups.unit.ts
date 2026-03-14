@@ -2,7 +2,6 @@ import {renderHookWithProviders} from '@akeneo-pim-community/legacy-bridge/tests
 import {useAttributeGroups} from '@akeneo-pim-community/settings-ui/src/hooks/attribute-groups';
 import {saveAttributeGroupsOrder} from '@akeneo-pim-community/settings-ui/src/infrastructure/savers';
 import {anAttributeGroup} from '../../../utils/provideAttributeGroupHelper';
-import {act} from 'react-test-renderer';
 import fetchMock from 'jest-fetch-mock';
 import {act} from '@testing-library/react';
 
@@ -14,7 +13,9 @@ test('it initializes the state for AttributeGroups datagrid', async () => {
   });
 
   const {result} = renderHookWithProviders(useAttributeGroups);
-  await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+  await act(async () => {
+    await new Promise(r => setTimeout(r, 0));
+  });
 
   const [attributeGroups, reorderAttributeGroups, isPending] = result.current;
   expect(attributeGroups).toEqual([]);
@@ -33,7 +34,9 @@ test('it loads the attribute groups list without the DQI feature', async () => {
   });
 
   const {result} = renderHookWithProviders(useAttributeGroups);
-  await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+  await act(async () => {
+    await new Promise(r => setTimeout(r, 0));
+  });
 
   const [attributeGroups] = result.current;
   expect(attributeGroups).toEqual([groupB, groupC, groupA]);
@@ -50,7 +53,9 @@ test('it loads the attribute groups list with the DQI feature', async () => {
   });
 
   const {result} = renderHookWithProviders(useAttributeGroups);
-  await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+  await act(async () => {
+    await new Promise(r => setTimeout(r, 0));
+  });
 
   const [attributeGroups] = result.current;
 
@@ -68,7 +73,9 @@ test('it refreshes the order of the attribute groups list', async () => {
   });
 
   const {result} = renderHookWithProviders(useAttributeGroups);
-  await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+  await act(async () => {
+    await new Promise(r => setTimeout(r, 0));
+  });
 
   const [, reorderAttributeGroups] = result.current;
   await act(async () => {

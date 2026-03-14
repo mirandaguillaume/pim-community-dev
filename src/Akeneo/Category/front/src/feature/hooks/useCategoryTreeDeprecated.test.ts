@@ -1,6 +1,6 @@
 import {renderHookWithProviders} from '@akeneo-pim-community/shared';
 import {CategoryTreeModel} from '../models';
-import {act} from 'react-test-renderer';
+import {act} from '@testing-library/react';
 import {aBackendCategoryTree, aCategoryTree} from '../../tests/provideCategoryHelper';
 import {useCategoryTreeDeprecated} from './useCategoryTreeDeprecated';
 
