@@ -3,9 +3,7 @@ import {renderHookWithProviders} from '../tests/utils';
 import {useMediator} from './useMediator';
 
 test('it throws when the provider is not found', () => {
-  const {result} = renderHook(() => useMediator());
-
-  expect(() => result.current).toThrowError('[DependenciesContext]: Mediator has not been properly initiated');
+  expect(() => renderHook(() => useMediator())).toThrow('[DependenciesContext]: Mediator has not been properly initiated');
 });
 
 test('it returns the Mediator', () => {

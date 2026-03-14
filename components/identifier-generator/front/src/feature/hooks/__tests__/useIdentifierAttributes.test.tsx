@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react';
+import {renderHook, waitFor} from '@testing-library/react';
 import {useIdentifierAttributes} from '../';
 import {createWrapper} from '../../tests/hooks/config/createWrapper';
 import {FlattenAttribute} from '../../models/';
@@ -10,7 +10,7 @@ describe('useIdentifierAttributes', () => {
       json: [{code: 'sku', label: 'Sku'}],
     });
 
-    const {result, waitFor} = renderHook<
+    const {result} = renderHook<
       null,
       {
         data?: FlattenAttribute[] | undefined;

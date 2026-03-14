@@ -1,5 +1,5 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {screen, render} from '@testing-library/react';
 import {DateTimeInput} from '@src/webhook/components/DateRangeFilter/DateTimeInput';
 import {fireEvent} from '@testing-library/dom';

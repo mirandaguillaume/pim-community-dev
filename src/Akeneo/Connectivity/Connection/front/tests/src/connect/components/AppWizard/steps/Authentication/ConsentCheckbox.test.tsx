@@ -1,5 +1,5 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {act, screen, waitFor} from '@testing-library/react';
 import {renderWithProviders} from '../../../../../../test-utils';
 import {ConsentCheckbox, sanitizeUrl} from '@src/connect/components/AppWizard/steps/Authentication/ConsentCheckbox';

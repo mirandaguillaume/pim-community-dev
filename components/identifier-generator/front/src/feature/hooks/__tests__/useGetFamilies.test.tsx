@@ -1,4 +1,4 @@
-import {renderHook, act} from '@testing-library/react';
+import {renderHook, act, waitFor} from '@testing-library/react';
 import {createWrapper} from '../../tests/hooks/config/createWrapper';
 import {mockResponse} from '../../tests/test-utils';
 import {useGetFamilies, usePaginatedFamilies} from '../useGetFamilies';
@@ -8,7 +8,7 @@ describe('usePaginatedFamilies', () => {
     const page1 = [...Array(20)].map((_, i) => ({code: `Family${i}`, labels: {}}));
 
     const expectCall = mockResponse('akeneo_identifier_generator_get_families', 'GET', {ok: true, json: page1});
-    const {result, waitFor} = renderHook(() => usePaginatedFamilies(), {wrapper: createWrapper()});
+    const {result} = renderHook(() => usePaginatedFamilies(), {wrapper: createWrapper()});
     await waitFor(() => !!result.current.families);
     expectCall();
     expect(result.current.families).toBeDefined();
@@ -29,7 +29,7 @@ describe('usePaginatedFamilies', () => {
     const page1 = [...Array(20)].map((_, i) => ({code: `Family${i}`, labels: {}}));
 
     const expectCall = mockResponse('akeneo_identifier_generator_get_families', 'GET', {ok: true, json: page1});
-    const {result, waitFor} = renderHook(() => usePaginatedFamilies(), {wrapper: createWrapper()});
+    const {result} = renderHook(() => usePaginatedFamilies(), {wrapper: createWrapper()});
     await waitFor(() => !!result.current.families);
     expectCall();
     expect(result.current.families).toBeDefined();
@@ -50,7 +50,7 @@ describe('usePaginatedFamilies', () => {
   });
 
   test('it returns nothing on initialization', async () => {
-    const {result, waitFor} = renderHook(() => useGetFamilies({page: 1, search: '', codes: []}), {
+    const {result} = renderHook(() => useGetFamilies({page: 1, search: '', codes: []}), {
       wrapper: createWrapper(),
     });
     await waitFor(() => !!result.current.data);

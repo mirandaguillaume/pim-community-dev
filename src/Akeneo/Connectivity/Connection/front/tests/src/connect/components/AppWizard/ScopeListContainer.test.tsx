@@ -1,5 +1,5 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {screen} from '@testing-library/react';
 import fetchMock from 'jest-fetch-mock';
 import {renderWithProviders, historyMock} from '../../../../test-utils';

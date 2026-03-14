@@ -1,5 +1,5 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {screen} from '@testing-library/react';
 import ExpandableTableRow from '@src/common/components/ExpandableTableRow';
 import {renderWithProviders} from '../../../test-utils';

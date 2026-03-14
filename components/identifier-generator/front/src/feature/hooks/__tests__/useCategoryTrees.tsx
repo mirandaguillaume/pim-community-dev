@@ -1,7 +1,7 @@
 import {createWrapper} from '../../tests/hooks/config/createWrapper';
 import {mockResponse} from '../../tests/test-utils';
 import {useCategoryTrees} from '../useCategoryTrees';
-import {act, renderHook} from '@testing-library/react';
+import {act, renderHook, waitFor} from '@testing-library/react';
 import {CategoryTreeRoot} from '@akeneo-pim-community/shared';
 
 describe('useCategoryTrees', () => {
@@ -25,7 +25,7 @@ describe('useCategoryTrees', () => {
 
     let hookResult = undefined;
     await act(async () => {
-      const {result, waitFor} = renderHook(() => useCategoryTrees(onChange), {wrapper: createWrapper()});
+      const {result} = renderHook(() => useCategoryTrees(onChange), {wrapper: createWrapper()});
       await waitFor(() => result.current?.length > 0);
       hookResult = result;
     });

@@ -1,5 +1,5 @@
 import {DashboardProvider} from '@src/audit/dashboard-context';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {act} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';

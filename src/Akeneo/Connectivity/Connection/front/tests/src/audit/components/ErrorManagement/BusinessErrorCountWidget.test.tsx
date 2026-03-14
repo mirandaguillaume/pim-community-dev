@@ -1,5 +1,5 @@
 import {DashboardProvider} from '@src/audit/dashboard-context';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import React from 'react';
 import {renderWithProviders} from '../../../../test-utils';
 import {State} from '@src/audit/reducers/dashboard-reducer';

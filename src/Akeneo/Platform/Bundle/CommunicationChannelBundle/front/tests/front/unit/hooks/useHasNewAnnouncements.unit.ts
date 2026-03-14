@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {useHasNewAnnouncements} from '@akeneo-pim-community/communication-channel/src/hooks/useHasNewAnnouncements';
 import {
   renderHookWithProviders,

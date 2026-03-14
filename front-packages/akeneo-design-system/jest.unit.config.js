@@ -7,7 +7,7 @@ module.exports = {
     '\\.(jpg|ico|jpeg|png|gif|svg|css)$': '<rootDir>/__mocks__/fileMock.js',
   },
   roots: ['<rootDir>'],
-  setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
+  setupFilesAfterEnv: ['@testing-library/jest-dom'],
   testMatch: ['**/?(*.)+(unit).ts?(x)'],
   testPathIgnorePatterns: ['/node_modules/', '/generator/', 'src/illustrations/', 'src/icons/', '/static/'],
   transform: {

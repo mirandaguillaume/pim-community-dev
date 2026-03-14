@@ -1,7 +1,7 @@
 import React from 'react';
 import {ProgressBar} from './ProgressBar';
 import {render} from '../../storybook/test-util';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {screen} from '@testing-library/react';
 
 test('it renders a progress bar', () => {

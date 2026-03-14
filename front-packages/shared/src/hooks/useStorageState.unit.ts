@@ -1,6 +1,6 @@
 'use strict';
 
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {useStorageState} from './useStorageState';
 import {renderHook} from '@testing-library/react';
 

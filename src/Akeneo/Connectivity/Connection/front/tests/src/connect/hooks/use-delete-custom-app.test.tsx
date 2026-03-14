@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import fetchMock from 'jest-fetch-mock';
 import {mockFetchResponses, ReactQueryWrapper as wrapper} from '../../../test-utils';
 import {setLogger} from 'react-query';

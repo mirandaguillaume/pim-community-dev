@@ -1,6 +1,6 @@
 import React from 'react';
 import {screen} from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {renderWithProviders} from '../../../../../test-utils';
 import {AuthenticationScopesList} from '@src/connect/components/ConnectedApp/Settings/AuthenticationScopesList';
 

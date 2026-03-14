@@ -1,4 +1,4 @@
-import {act, renderHook} from '@testing-library/react';
+import {act, renderHook, waitFor} from '@testing-library/react';
 import {useSaveGenerator} from '../useSaveGenerator';
 import {createWrapper} from '../../tests/hooks/config/createWrapper';
 import {mockResponse} from '../../tests/test-utils';
@@ -29,7 +29,7 @@ describe('useSaveGenerator', () => {
       json: () => Promise.resolve(generator),
     });
 
-    const {result, waitFor} = renderHook(() => useSaveGenerator(), {wrapper: createWrapper()});
+    const {result} = renderHook(() => useSaveGenerator(), {wrapper: createWrapper()});
     await waitFor(() => {
       return !!result?.current?.save;
     });
@@ -53,7 +53,7 @@ describe('useSaveGenerator', () => {
         },
       ],
     });
-    const {result, waitFor} = renderHook(() => useSaveGenerator(), {wrapper: createWrapper()});
+    const {result} = renderHook(() => useSaveGenerator(), {wrapper: createWrapper()});
     await waitFor(() => {
       return !!result?.current?.save;
     });

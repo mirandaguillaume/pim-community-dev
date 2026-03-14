@@ -1,6 +1,6 @@
 import React from 'react';
 import {createRoot, Root} from 'react-dom/client';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {
   act,
   fireEvent,

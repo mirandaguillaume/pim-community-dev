@@ -1,6 +1,6 @@
 import React from 'react';
 
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {fireEvent, waitFor} from '@testing-library/react';
 
 import fetchCategoryTrees from '@akeneo-pim-community/data-quality-insights/src/infrastructure/fetcher/Dashboard/fetchCategoryTrees';

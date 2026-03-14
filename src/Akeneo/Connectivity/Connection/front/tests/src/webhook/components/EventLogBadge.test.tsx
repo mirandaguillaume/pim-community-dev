@@ -1,5 +1,5 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {EventLogBadge} from '@src/webhook/components/EventLogBadge';
 import {screen} from '@testing-library/react';
 import {EventSubscriptionLogLevel} from '@src/webhook/model/EventSubscriptionLogLevel';

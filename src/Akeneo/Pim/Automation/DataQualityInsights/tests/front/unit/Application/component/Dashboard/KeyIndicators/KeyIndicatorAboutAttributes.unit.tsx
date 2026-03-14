@@ -1,5 +1,5 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {KeyIndicatorAboutAttributes} from '@akeneo-pim-community/data-quality-insights/src/application/component/Dashboard';
 import {KeyIndicatorsProvider} from '@akeneo-pim-community/data-quality-insights/src/application/context/KeyIndicatorsContext';
 import {renderDashboardWithProvider} from '../../../../../utils/render/renderDashboardWithProvider';

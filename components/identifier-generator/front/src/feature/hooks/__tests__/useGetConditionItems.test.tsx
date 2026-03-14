@@ -1,7 +1,7 @@
 import {createWrapper} from '../../tests/hooks/config/createWrapper';
 import {mockResponse} from '../../tests/test-utils';
 import {useGetConditionItems} from '../useGetConditionItems';
-import {act, renderHook} from '@testing-library/react';
+import {act, renderHook, waitFor} from '@testing-library/react';
 import {ATTRIBUTE_TYPE, CONDITION_NAMES, Conditions, Operator} from '../../models';
 
 describe('useGetConditionItems', () => {
@@ -64,7 +64,7 @@ describe('useGetConditionItems', () => {
     let hookResult = undefined;
     let hookWaitFor = undefined;
     await act(async () => {
-      const {result, waitFor} = renderHook(() => useGetConditionItems(true, conditions, 3), {wrapper: createWrapper()});
+      const {result} = renderHook(() => useGetConditionItems(true, conditions, 3), {wrapper: createWrapper()});
       await waitFor(() => result.current?.conditionItems?.length > 0);
       hookResult = result;
       hookWaitFor = waitFor;
@@ -108,7 +108,7 @@ describe('useGetConditionItems', () => {
     let hookResult = undefined;
     let hookWaitFor = undefined;
     await act(async () => {
-      const {result, waitFor} = renderHook(() => useGetConditionItems(true, conditions, 3), {wrapper: createWrapper()});
+      const {result} = renderHook(() => useGetConditionItems(true, conditions, 3), {wrapper: createWrapper()});
       await waitFor(() => result.current?.conditionItems?.length > 0);
       hookResult = result;
       hookWaitFor = waitFor;
@@ -145,7 +145,7 @@ describe('useGetConditionItems', () => {
     let hookResult = undefined;
     const conditions: Conditions = [{type: CONDITION_NAMES.FAMILY, operator: Operator.EMPTY}];
     await act(async () => {
-      const {result, waitFor} = renderHook(() => useGetConditionItems(true, conditions, 3), {wrapper: createWrapper()});
+      const {result} = renderHook(() => useGetConditionItems(true, conditions, 3), {wrapper: createWrapper()});
       hookResult = result;
       await waitFor(() => result.current?.conditionItems?.length > 0);
     });

@@ -1,4 +1,4 @@
-import {act, renderHook} from '@testing-library/react';
+import {act, renderHook, waitFor} from '@testing-library/react';
 import {usePaginatedOptions} from '../useGetSelectOptions';
 import {mockResponse} from '../../tests/test-utils';
 import {createWrapper} from '../../tests/hooks/config/createWrapper';
@@ -14,7 +14,7 @@ describe('useGetSelectOptions', () => {
     let hookResult = undefined;
     let hookWaitFor = undefined;
     await act(async () => {
-      const {result, waitFor} = renderHook(() => usePaginatedOptions('brand'), {wrapper: createWrapper()});
+      const {result} = renderHook(() => usePaginatedOptions('brand'), {wrapper: createWrapper()});
       await waitFor(() => result.current?.options?.length > 0);
       hookResult = result;
       hookWaitFor = waitFor;
@@ -48,7 +48,7 @@ describe('useGetSelectOptions', () => {
     let hookResult = undefined;
     let hookWaitFor = undefined;
     await act(async () => {
-      const {result, waitFor} = renderHook(() => usePaginatedOptions('brand'), {wrapper: createWrapper()});
+      const {result} = renderHook(() => usePaginatedOptions('brand'), {wrapper: createWrapper()});
       await waitFor(() => !result.current.isLoading);
       hookResult = result;
       hookWaitFor = waitFor;

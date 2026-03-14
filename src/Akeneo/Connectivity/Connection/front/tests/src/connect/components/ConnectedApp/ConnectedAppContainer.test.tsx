@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {act, screen, waitFor} from '@testing-library/react';
 import {mockFetchResponses, MockFetchResponses, renderWithProviders} from '../../../../test-utils';
 import {ConnectedAppContainer} from '@src/connect/components/ConnectedApp/ConnectedAppContainer';

@@ -1,5 +1,5 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {ConnectedAppErrorMonitoring} from '@src/connect/components/ConnectedApp/ErrorMonitoring/ConnectedAppErrorMonitoring';
 import {renderWithProviders} from '../../../../../test-utils';
 import {useFetchConnectedAppMonitoringSettings} from '@src/connect/hooks/use-fetch-connected-app-monitoring-settings';

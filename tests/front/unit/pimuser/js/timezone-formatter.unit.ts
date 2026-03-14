@@ -1,7 +1,7 @@
 import {formatTimezoneOffsetFromUTC} from 'pimuser/js/tools/timezone-formatter';
 
 test('it returns the offset of the timezone', () => {
-  jest.useFakeTimers('modern');
+  jest.useFakeTimers();
   jest.setSystemTime(Date.UTC(2021, 10, 9, 12, 0, 0));
 
   expect(formatTimezoneOffsetFromUTC('Europe/Paris')).toEqual('+01:00');
@@ -15,7 +15,7 @@ test('it returns the offset of the timezone', () => {
 });
 
 test('it take into account Daylight Saving Time of the timezone', () => {
-  jest.useFakeTimers('modern');
+  jest.useFakeTimers();
   jest.setSystemTime(Date.UTC(2021, 9, 31, 0, 0, 0));
   expect(formatTimezoneOffsetFromUTC('Europe/Paris')).toEqual('+02:00');
 

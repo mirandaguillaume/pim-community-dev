@@ -1,7 +1,7 @@
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {usePimVersion} from '@akeneo-pim-community/communication-channel/src/hooks/usePimVersion';
-import {
 import {act} from '@testing-library/react';
+import {
   renderHookWithProviders,
   fetchMockResponseOnce,
 } from '@akeneo-pim-community/legacy-bridge/tests/front/unit/utils';
@@ -22,7 +22,9 @@ test('It gets the PimVersion from the pim analytics data', async () => {
 
   expect(result.current.data).toEqual(null);
 
-  await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+  await act(async () => {
+    await new Promise(r => setTimeout(r, 0));
+  });
 
   expect(result.current.data).toEqual(expectedPimVersion);
   expect(result.current.hasError).toEqual(false);
@@ -36,7 +38,9 @@ test('It can validate the pim analytics data', async () => {
 
   const {result} = renderHookWithProviders(usePimVersion);
 
-  await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+  await act(async () => {
+    await new Promise(r => setTimeout(r, 0));
+  });
 
   expect(result.current.data).toEqual(null);
   expect(result.current.hasError).toEqual(true);

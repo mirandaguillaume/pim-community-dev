@@ -1,4 +1,4 @@
-import {renderHook, act} from '@testing-library/react';
+import {renderHook, act, waitFor} from '@testing-library/react';
 import {useFetchQualityScore} from '@akeneo-pim-community/data-quality-insights/src/infrastructure/hooks';
 
 import {QualityScoreModel} from '@akeneo-pim-community/data-quality-insights/src/domain';
@@ -64,7 +64,7 @@ describe('useFetchQualityScore', () => {
       test.each([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])(
         'must give back scores when fetcher is called and only the call #%i to backend brings scores',
         async (n: number) => {
-          const {result, waitFor} = renderUseFetchQualityScore();
+          const {result} = renderUseFetchQualityScore();
 
           for (let i = 1; i < n; i++) {
             fetchQualityScoreMock.mockImplementationOnce(async () => {
@@ -91,7 +91,7 @@ describe('useFetchQualityScore', () => {
 
     describe('when the none of the 10 calls to backend bring scores', () => {
       test('must end up in "attempts exhausted" state', async () => {
-        const {result, waitFor} = renderUseFetchQualityScore();
+        const {result} = renderUseFetchQualityScore();
 
         for (let i = 1; i < 11; i++) {
           fetchQualityScoreMock.mockImplementationOnce(async () => {
@@ -114,7 +114,7 @@ describe('useFetchQualityScore', () => {
       test.each([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])(
         'must end-up with "failed" status after call #%i',
         async (n: number) => {
-          const {result, waitFor} = renderUseFetchQualityScore();
+          const {result} = renderUseFetchQualityScore();
 
           for (let i = 1; i < n; i++) {
             fetchQualityScoreMock.mockImplementationOnce(async () => {

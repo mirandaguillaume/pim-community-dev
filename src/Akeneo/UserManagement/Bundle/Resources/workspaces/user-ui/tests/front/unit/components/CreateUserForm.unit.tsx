@@ -1,6 +1,6 @@
 import React from 'react';
 import 'jest-fetch-mock';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {render, screen, act, fireEvent} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {pimTheme} from 'akeneo-design-system';

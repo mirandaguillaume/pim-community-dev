@@ -1,6 +1,6 @@
 import {AuthenticationModal} from '@src/connect/components/AppWizard/AuthenticationModal';
 import {NotificationLevel, NotifyContext} from '@src/shared/notify';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {act, render, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {pimTheme} from 'akeneo-design-system';

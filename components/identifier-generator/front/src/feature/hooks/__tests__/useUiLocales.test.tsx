@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react';
+import {renderHook, waitFor} from '@testing-library/react';
 import {createWrapper} from '../../tests/hooks/config/createWrapper';
 import {act} from 'react-dom/test-utils';
 import {UiLocale} from '../../models';
@@ -33,7 +33,7 @@ describe('useUiLocales', () => {
   test('it retrieves ui locales list', async () => {
     mockResponse('pim_localization_locale_index', 'GET', {ok: true, json: uiLocales});
 
-    const {result, waitFor} = renderHook<
+    const {result} = renderHook<
       null,
       {
         isSuccess: boolean;

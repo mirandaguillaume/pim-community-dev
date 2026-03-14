@@ -1,5 +1,5 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {historyMock, renderWithProviders} from '../../../test-utils';
 import {screen, waitFor} from '@testing-library/react';
 import {MarketplacePage} from '@src/connect/pages/MarketplacePage';

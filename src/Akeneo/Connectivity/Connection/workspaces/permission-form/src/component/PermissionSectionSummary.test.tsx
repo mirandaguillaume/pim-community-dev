@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {render, screen} from '@testing-library/react';
 import {ThemeProvider} from 'styled-components';
 import {pimTheme} from 'akeneo-design-system';

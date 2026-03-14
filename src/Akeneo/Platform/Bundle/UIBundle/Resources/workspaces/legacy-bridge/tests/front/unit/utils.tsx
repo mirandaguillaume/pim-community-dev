@@ -1,12 +1,12 @@
-import React, {FC} from 'react';
+import React, {FC, ReactNode} from 'react';
 import {createRoot, Root} from 'react-dom/client';
 import {ThemeProvider} from 'styled-components';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {render, renderHook} from '@testing-library/react';
 import {DependenciesProvider} from '../../../src/DependenciesProvider';
 import {pimTheme} from 'akeneo-design-system';
 
-const DefaultProviders: FC = ({children}) => (
+const DefaultProviders: FC<{children?: ReactNode}> = ({children}) => (
   <DependenciesProvider>
     <ThemeProvider theme={pimTheme}>{children}</ThemeProvider>
   </DependenciesProvider>
@@ -15,9 +15,14 @@ const DefaultProviders: FC = ({children}) => (
 const renderWithProviders = (ui: React.ReactElement) => render(ui, {wrapper: DefaultProviders});
 
 let domRoot: Root | null = null;
+let domRootContainer: HTMLElement | null = null;
 const renderDOMWithProviders = (ui: React.ReactElement, container: HTMLElement) => {
-  if (!domRoot) {
+  if (!domRoot || domRootContainer !== container) {
+    if (domRoot) {
+      domRoot.unmount();
+    }
     domRoot = createRoot(container);
+    domRootContainer = container;
   }
   domRoot.render(<DefaultProviders>{ui}</DefaultProviders>);
 };

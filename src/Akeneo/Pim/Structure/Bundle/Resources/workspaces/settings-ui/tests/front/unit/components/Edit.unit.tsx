@@ -1,6 +1,6 @@
 import React from 'react';
 import {createRoot, Root} from 'react-dom/client';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {act, fireEvent, getByRole, queryAllByTestId} from '@testing-library/react';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import Edit from 'akeneopimstructure/js/attribute-option/components/Edit';

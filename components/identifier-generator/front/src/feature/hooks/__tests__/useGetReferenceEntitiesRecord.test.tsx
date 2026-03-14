@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react';
+import {renderHook, waitFor} from '@testing-library/react';
 import {createWrapper} from '../../tests/hooks/config/createWrapper';
 import {ServerError} from '../../errors';
 import {useGetReferenceEntitiesRecord} from '../useGetReferenceEntitiesRecord';
@@ -28,7 +28,7 @@ describe('useGetReferenceEntitiesRecord', () => {
     });
     jest.spyOn(global, 'fetch').mockImplementation(fetchImplementation);
 
-    const {result, waitFor} = renderHook(
+    const {result} = renderHook(
       () => useGetReferenceEntitiesRecord({attributeCode: 'attribute', enabled: true}),
       {
         wrapper: createWrapper(),

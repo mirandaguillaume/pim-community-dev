@@ -30,7 +30,7 @@ test('it calls the onClose handler when clicking on the close button', () => {
   userEvent.click(screen.getAllByTitle('pim_common.close')[1]);
 
   act(() => {
-    jest.runAllTimers();
+    jest.runOnlyPendingTimers();
   });
 
   expect(handleNotificationClose).toHaveBeenCalledTimes(2);
@@ -43,9 +43,14 @@ test('it calls the onClose handler automatically after the appropriate duration'
 
   renderWithProviders(<Notifications notifications={notifications} onNotificationClosed={handleNotificationClose} />);
 
-  act(() => {
-    jest.runAllTimers();
-  });
+  // MessageBar uses setInterval(1s) counting down from duration (5s info, 8s error)
+  // then AnimateMessageBar adds 1s animation delay before calling onClose.
+  // Advance time in 1s steps to let React process each interval tick.
+  for (let i = 0; i < 10; i++) {
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
+  }
 
   expect(handleNotificationClose).toHaveBeenCalledTimes(2);
   expect(handleNotificationClose).toHaveBeenCalledWith('message1');

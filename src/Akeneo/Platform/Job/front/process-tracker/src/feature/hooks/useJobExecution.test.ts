@@ -65,7 +65,7 @@ const successResponse = {
 };
 
 test('It returns the fetched job execution', async () => {
-  jest.useFakeTimers('modern');
+  jest.useFakeTimers();
   global.fetch = jest.fn().mockImplementation(async () => ({
     ok: true,
     json: async () => successResponse,
@@ -86,7 +86,7 @@ test('It returns the fetched job execution', async () => {
 });
 
 test('It returns error when fetch return an error', async () => {
-  jest.useFakeTimers('modern');
+  jest.useFakeTimers();
   global.fetch = jest.fn().mockImplementation(async () => ({
     ok: false,
     statusText: 'Not found',
@@ -111,7 +111,7 @@ test('It returns error when fetch return an error', async () => {
 });
 
 test('It returns callback to reload job execution information', async () => {
-  jest.useFakeTimers('modern');
+  jest.useFakeTimers();
   global.fetch = jest.fn().mockImplementation(async () => ({
     ok: true,
     json: async () => successResponse,
@@ -173,7 +173,7 @@ test('It returns callback to reload job execution information', async () => {
 });
 
 test('It does not fetch a job execution while the previous fetch is not finished', async () => {
-  jest.useFakeTimers('modern');
+  jest.useFakeTimers();
   global.fetch = jest.fn().mockImplementation(
     async () =>
       new Promise(resolve =>
