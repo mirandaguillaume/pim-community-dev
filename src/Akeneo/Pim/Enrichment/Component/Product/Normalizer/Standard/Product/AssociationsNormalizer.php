@@ -9,7 +9,6 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\EntityWithFamilyVariantInterfa
 use Akeneo\Pim\Enrichment\Component\Product\Model\EntityWithValuesInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Webmozart\Assert\Assert;
 
@@ -20,7 +19,7 @@ use Webmozart\Assert\Assert;
  * @copyright 2016 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class AssociationsNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+class AssociationsNormalizer implements NormalizerInterface
 {
     public function __construct(
         private readonly GetAssociatedProductUuidsByProduct $getAssociatedProductUuidsByProduct
@@ -48,11 +47,6 @@ class AssociationsNormalizer implements NormalizerInterface, CacheableSupportsMe
     {
         return $data instanceof EntityWithAssociationsInterface && 'standard' === $format
             && $data::class !== 'Akeneo\Pim\WorkOrganization\Workflow\Component\Model\PublishedProduct';
-    }
-
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
     }
 
     /**

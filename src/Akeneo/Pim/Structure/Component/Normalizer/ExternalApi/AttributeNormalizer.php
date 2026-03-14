@@ -6,7 +6,6 @@ namespace Akeneo\Pim\Structure\Component\Normalizer\ExternalApi;
 
 use Akeneo\Pim\Structure\Component\AttributeTypes;
 use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
@@ -14,7 +13,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class AttributeNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+class AttributeNormalizer implements NormalizerInterface
 {
     public function __construct(
         protected NormalizerInterface $stdNormalizer,
@@ -53,10 +52,5 @@ class AttributeNormalizer implements NormalizerInterface, CacheableSupportsMetho
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof AttributeInterface && 'external_api' === $format;
-    }
-
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
     }
 }

@@ -3,7 +3,6 @@
 namespace Akeneo\Pim\Structure\Component\Normalizer\ExternalApi;
 
 use Akeneo\Pim\Structure\Component\Model\AssociationTypeInterface;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
@@ -11,7 +10,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-class AssociationTypeNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+class AssociationTypeNormalizer implements NormalizerInterface
 {
     /** @var NormalizerInterface */
     protected $stdNormalizer;
@@ -41,10 +40,5 @@ class AssociationTypeNormalizer implements NormalizerInterface, CacheableSupport
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof AssociationTypeInterface && 'external_api' === $format;
-    }
-
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
     }
 }

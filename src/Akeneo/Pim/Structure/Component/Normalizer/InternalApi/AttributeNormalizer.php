@@ -7,7 +7,6 @@ use Akeneo\Platform\Bundle\UIBundle\Provider\EmptyValue\EmptyValueProviderInterf
 use Akeneo\Platform\Bundle\UIBundle\Provider\Field\FieldProviderInterface;
 use Akeneo\Platform\Bundle\UIBundle\Provider\Filter\FilterProviderInterface;
 use Akeneo\Tool\Component\Localization\Localizer\LocalizerInterface;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Webmozart\Assert\Assert;
 
@@ -18,7 +17,7 @@ use Webmozart\Assert\Assert;
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class AttributeNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+class AttributeNormalizer implements NormalizerInterface
 {
     /** @var array $supportedFormats */
     protected $supportedFormats = ['internal_api'];
@@ -97,10 +96,5 @@ class AttributeNormalizer implements NormalizerInterface, CacheableSupportsMetho
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof AttributeInterface && in_array($format, $this->supportedFormats);
-    }
-
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
     }
 }

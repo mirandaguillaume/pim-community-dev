@@ -135,7 +135,6 @@ $rules = [
             'Symfony\Component\Security',
             'Symfony\Component\Serializer\Normalizer\NormalizerInterface',
             'Symfony\Component\Serializer\Normalizer\DenormalizerInterface',
-            'Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface',
             'Symfony\Component\Validator\Constraints',
             'Symfony\Component\Form\FormFactoryInterface',
             'Symfony\Component\Messenger\MessageBusInterface',

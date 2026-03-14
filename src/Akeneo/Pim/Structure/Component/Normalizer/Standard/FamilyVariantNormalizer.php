@@ -6,7 +6,6 @@ use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 use Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface;
 use Akeneo\Pim\Structure\Component\Model\VariantAttributeSetInterface;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
@@ -14,7 +13,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-class FamilyVariantNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+class FamilyVariantNormalizer implements NormalizerInterface
 {
     public function __construct(private readonly NormalizerInterface $translationNormalizer)
     {
@@ -39,11 +38,6 @@ class FamilyVariantNormalizer implements NormalizerInterface, CacheableSupportsM
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof FamilyVariantInterface && 'standard' === $format;
-    }
-
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
     }
 
     /**

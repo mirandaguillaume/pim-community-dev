@@ -11,7 +11,6 @@ use Akeneo\Tool\Component\Versioning\Model\Version;
 use Akeneo\UserManagement\Bundle\Context\UserContext;
 use Akeneo\UserManagement\Bundle\Manager\UserManager;
 use Akeneo\UserManagement\Component\Model\UserInterface;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Contracts\Translation\LocaleAwareInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -24,7 +23,7 @@ use Webmozart\Assert\Assert;
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class VersionNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+class VersionNormalizer implements NormalizerInterface
 {
     /** @var string[] */
     protected array $supportedFormats = ['internal_api'];
@@ -70,11 +69,6 @@ class VersionNormalizer implements NormalizerInterface, CacheableSupportsMethodI
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof Version && in_array($format, $this->supportedFormats);
-    }
-
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
     }
 
     /**

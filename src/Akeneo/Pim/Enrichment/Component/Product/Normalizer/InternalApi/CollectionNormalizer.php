@@ -2,7 +2,6 @@
 
 namespace Akeneo\Pim\Enrichment\Component\Product\Normalizer\InternalApi;
 
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerAwareInterface;
@@ -15,7 +14,7 @@ use Symfony\Component\Serializer\SerializerInterface;
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class CollectionNormalizer implements NormalizerInterface, SerializerAwareInterface, CacheableSupportsMethodInterface
+class CollectionNormalizer implements NormalizerInterface, SerializerAwareInterface
 {
     /** @var Serializer $serializer */
     protected $serializer;
@@ -43,11 +42,6 @@ class CollectionNormalizer implements NormalizerInterface, SerializerAwareInterf
     public function supportsNormalization($data, $format = null): bool
     {
         return (is_iterable($data)) && in_array($format, $this->supportedFormat);
-    }
-
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
     }
 
     /**

@@ -3,7 +3,6 @@
 namespace Akeneo\Pim\Enrichment\Component\Product\Normalizer\Indexing\Value;
 
 use Akeneo\Pim\Enrichment\Component\Product\Model\WriteValueCollection;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
@@ -15,7 +14,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class ValueCollectionNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+class ValueCollectionNormalizer implements NormalizerInterface
 {
     final public const INDEXING_FORMAT_PRODUCT_AND_MODEL_INDEX = 'indexing_product_and_product_model';
 
@@ -46,10 +45,5 @@ class ValueCollectionNormalizer implements NormalizerInterface, CacheableSupport
         return $data instanceof WriteValueCollection && (
             $format === self::INDEXING_FORMAT_PRODUCT_AND_MODEL_INDEX
         );
-    }
-
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
     }
 }

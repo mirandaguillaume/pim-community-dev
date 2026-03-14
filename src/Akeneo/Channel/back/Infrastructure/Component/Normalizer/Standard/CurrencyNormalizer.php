@@ -3,7 +3,6 @@
 namespace Akeneo\Channel\Infrastructure\Component\Normalizer\Standard;
 
 use Akeneo\Channel\Infrastructure\Component\Model\CurrencyInterface;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
@@ -11,7 +10,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  * @copyright 2016 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class CurrencyNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+class CurrencyNormalizer implements NormalizerInterface
 {
     /**
      * {@inheritdoc}
@@ -30,10 +29,5 @@ class CurrencyNormalizer implements NormalizerInterface, CacheableSupportsMethod
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof CurrencyInterface && 'standard' === $format;
-    }
-
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
     }
 }

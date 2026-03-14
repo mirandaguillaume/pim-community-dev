@@ -2,7 +2,6 @@
 
 namespace Akeneo\UserManagement\Component\Normalizer;
 
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
@@ -15,7 +14,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  * @copyright 2016 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class DateTimeNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+class DateTimeNormalizer implements NormalizerInterface
 {
     /**
      * {@inheritdoc}
@@ -35,10 +34,5 @@ class DateTimeNormalizer implements NormalizerInterface, CacheableSupportsMethod
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof \DateTime && 'standard' === $format;
-    }
-
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
     }
 }
