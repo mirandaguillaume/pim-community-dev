@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {createRoot} from 'react-dom/client';
 import {ThemeProvider} from 'styled-components';
 import {pimTheme} from 'akeneo-design-system';
 import {
@@ -13,7 +13,7 @@ import {IdentifierGeneratorContextProvider} from './feature/context';
 
 DangerousMicrofrontendAutomaticAuthenticator.enable('admin', 'admin');
 
-ReactDOM.render(
+createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ThemeProvider theme={pimTheme}>
       <MicroFrontendDependenciesProvider routes={routes as Routes}>
@@ -22,6 +22,5 @@ ReactDOM.render(
         </IdentifierGeneratorContextProvider>
       </MicroFrontendDependenciesProvider>
     </ThemeProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );

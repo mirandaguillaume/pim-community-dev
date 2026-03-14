@@ -1,14 +1,19 @@
 import React, {ReactElement, ReactNode} from 'react';
-import ReactDOM from 'react-dom';
+import {createRoot, Root} from 'react-dom/client';
 import {ThemeProvider} from 'styled-components';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import {IdentifiableFlashMessage, Notifications} from '@akeneo-pim-community/shared';
 import {FlashMessage, IconProps, MessageBarLevel, pimTheme, uuid} from 'akeneo-design-system';
 
 let notifications: IdentifiableFlashMessage[] = [];
+let messengerRoot: Root | null = null;
 
-const render = () =>
-  ReactDOM.render(
+const render = () => {
+  const container = document.getElementById('flash-messages');
+  if (!messengerRoot && container) {
+    messengerRoot = createRoot(container);
+  }
+  messengerRoot?.render(
     <ThemeProvider theme={pimTheme}>
       <DependenciesProvider>
         <Notifications
@@ -19,9 +24,9 @@ const render = () =>
           }}
         />
       </DependenciesProvider>
-    </ThemeProvider>,
-    document.getElementById('flash-messages')
+    </ThemeProvider>
   );
+};
 
 const isValidLevel = (level: string): level is MessageBarLevel =>
   ['info', 'error', 'warning', 'success', undefined].includes(level);

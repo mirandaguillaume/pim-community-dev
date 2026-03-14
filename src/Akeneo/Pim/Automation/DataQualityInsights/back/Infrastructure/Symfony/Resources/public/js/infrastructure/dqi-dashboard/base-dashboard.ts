@@ -5,7 +5,6 @@ import {
   DATA_QUALITY_INSIGHTS_DASHBOARD_FILTER_CATEGORY,
   DATA_QUALITY_INSIGHTS_DASHBOARD_FILTER_FAMILY,
 } from '@akeneo-pim-community/data-quality-insights/src';
-import ReactDOM from 'react-dom';
 import {TimePeriod} from '@akeneo-pim-community/data-quality-insights';
 
 interface SectionConfig {
@@ -94,7 +93,7 @@ class BaseDashboard extends BaseView {
   }
 
   remove() {
-    ReactDOM.unmountComponentAtNode(this.el);
+    this.unmountReact();
 
     return super.remove();
   }

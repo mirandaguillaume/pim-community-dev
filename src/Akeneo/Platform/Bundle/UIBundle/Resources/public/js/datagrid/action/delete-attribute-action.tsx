@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {createRoot} from 'react-dom/client';
 import {DeleteModal} from 'pimui/js/attribute/form/delete/DeleteModal';
 import {ThemeProvider} from 'styled-components';
 import {pimTheme} from 'akeneo-design-system';
@@ -12,9 +12,10 @@ class DeleteAttributeAction extends DeleteAction {
   execute() {
     const container = document.createElement('div');
     document.body.appendChild(container);
+    const root = createRoot(container);
 
     const handleClose = () => {
-      ReactDOM.unmountComponentAtNode(container);
+      root.unmount();
       document.body.removeChild(container);
     };
 
@@ -24,13 +25,12 @@ class DeleteAttributeAction extends DeleteAction {
       handleClose();
     };
 
-    ReactDOM.render(
+    root.render(
       <DependenciesProvider>
         <ThemeProvider theme={pimTheme}>
           <DeleteModal onCancel={handleClose} onSuccess={handleSuccess} attributeCode={this.model.attributes.code} />
         </ThemeProvider>
-      </DependenciesProvider>,
-      container
+      </DependenciesProvider>
     );
   }
 }

@@ -1,4 +1,4 @@
-import ReactDOM from 'react-dom';
+import {createRoot, Root} from 'react-dom/client';
 import {screen} from '@testing-library/react';
 import '@testing-library/jest-dom';
 
@@ -17,6 +17,7 @@ const getFormData = jest.fn().mockImplementation(() => ({
 
 abstract class BaseViewMock {
   el: HTMLElement;
+  private reactRoot: Root | null = null;
 
   constructor(container: HTMLElement) {
     this.el = container;
@@ -25,7 +26,10 @@ abstract class BaseViewMock {
   abstract reactElementToMount(): JSX.Element;
 
   render() {
-    ReactDOM.render(this.reactElementToMount(), this.el);
+    if (!this.reactRoot) {
+      this.reactRoot = createRoot(this.el);
+    }
+    this.reactRoot.render(this.reactElementToMount());
   }
 
   getRoot() {

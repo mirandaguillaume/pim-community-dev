@@ -1,6 +1,5 @@
 import {Locale, LocaleSelector} from '@akeneo-pim-community/shared';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import BaseView = require('pimui/js/view/base');
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import {ThemeProvider} from 'styled-components';
@@ -36,7 +35,7 @@ class LocaleSwitcher extends BaseView {
         userContext.set('catalogLocale', currentLocale.code);
       }
 
-      ReactDOM.render(
+      this.renderReactElement(
         <DependenciesProvider>
           <ThemeProvider theme={pimTheme}>
             <LocaleSelector

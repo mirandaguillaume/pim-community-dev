@@ -1,4 +1,4 @@
-import ReactDOM from 'react-dom';
+import {createRoot, Root} from 'react-dom/client';
 import React from 'react';
 import {QualityScore} from '@akeneo-pim-community/data-quality-insights/src/application/component/QualityScore';
 import {ThemeProvider} from 'styled-components';
@@ -10,6 +10,8 @@ import {QualityScoreValue} from '@akeneo-pim-community/data-quality-insights/src
 const StringCell = require('oro/datagrid/string-cell');
 
 class QualityScoreBadgeCell extends StringCell {
+  private reactRoot: Root | null = null;
+
   render() {
     const score: QualityScoreValue | 'N/A' | null = this.formatter.fromRaw(this.model.get(this.column.get('name')));
 
@@ -17,7 +19,10 @@ class QualityScoreBadgeCell extends StringCell {
       return null === score || 'N/A' == score;
     }
 
-    ReactDOM.render(
+    if (!this.reactRoot) {
+      this.reactRoot = createRoot(this.el);
+    }
+    this.reactRoot.render(
       <DependenciesProvider>
         <ThemeProvider theme={pimTheme}>
           {isPending(score) ? (
@@ -26,8 +31,7 @@ class QualityScoreBadgeCell extends StringCell {
             <QualityScore score={score} stacked={this.model.attributes.document_type === 'product_model'} />
           )}
         </ThemeProvider>
-      </DependenciesProvider>,
-      this.el
+      </DependenciesProvider>
     );
     return this;
   }

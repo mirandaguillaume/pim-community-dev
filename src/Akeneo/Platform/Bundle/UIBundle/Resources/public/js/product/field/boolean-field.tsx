@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {createRoot} from 'react-dom/client';
 import {BooleanInput, pimTheme} from 'akeneo-design-system';
 import {ThemeProvider} from 'styled-components';
 
@@ -17,8 +17,9 @@ const translate = require('oro/translator');
 class BooleanField extends (Field as {new (config: any): any}) {
   renderInput(templateContext: any) {
     const container = document.createElement('div');
+    const root = createRoot(container);
 
-    ReactDOM.render(
+    root.render(
       <ThemeProvider theme={pimTheme}>
         <BooleanInput
           clearable={true}
@@ -32,8 +33,7 @@ class BooleanField extends (Field as {new (config: any): any}) {
           noLabel={translate('pim_common.no')}
           readOnly={templateContext.editMode === 'view'}
         />
-      </ThemeProvider>,
-      container
+      </ThemeProvider>
     );
 
     return container;

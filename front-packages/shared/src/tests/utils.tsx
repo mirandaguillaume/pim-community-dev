@@ -1,5 +1,5 @@
 import React, {FC, ReactElement, ReactNode} from 'react';
-import ReactDOM from 'react-dom';
+import {createRoot, Root} from 'react-dom/client';
 import {ThemeProvider} from 'styled-components';
 import {render, renderHook, RenderHookResult} from '@testing-library/react';
 import {pimTheme} from 'akeneo-design-system';
@@ -14,8 +14,13 @@ const DefaultProviders: FC<{children?: ReactNode}> = ({children}) => (
 
 const renderWithProviders = (ui: ReactElement) => render(ui, {wrapper: DefaultProviders});
 
-const renderDOMWithProviders = (ui: ReactElement, container: HTMLElement) =>
-  ReactDOM.render(<DefaultProviders>{ui}</DefaultProviders>, container);
+let domRoot: Root | null = null;
+const renderDOMWithProviders = (ui: ReactElement, container: HTMLElement) => {
+  if (!domRoot) {
+    domRoot = createRoot(container);
+  }
+  domRoot.render(<DefaultProviders>{ui}</DefaultProviders>);
+};
 
 const renderHookWithProviders: <R = any>(hook: () => R) => RenderHookResult<R> = <R,>(hook: () => R) =>
   renderHook<R>(hook, {wrapper: DefaultProviders});

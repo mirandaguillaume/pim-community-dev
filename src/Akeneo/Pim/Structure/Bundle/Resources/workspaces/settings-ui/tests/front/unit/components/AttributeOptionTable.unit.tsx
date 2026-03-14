@@ -1,5 +1,5 @@
 import React from 'react';
-import * as ReactDOM from 'react-dom';
+import {createRoot, Root} from 'react-dom/client';
 import '@testing-library/jest-dom/extend-expect';
 import {
   act,
@@ -27,14 +27,18 @@ import baseFetcher from 'akeneopimstructure/js/attribute-option/fetchers/baseFet
 jest.mock('akeneopimstructure/js/attribute-option/fetchers/baseFetcher');
 
 let container: HTMLElement;
+let root: Root | null = null;
 
 beforeEach(() => {
   jest.clearAllMocks();
   container = document.createElement('div');
   document.body.appendChild(container);
+  root = createRoot(container);
 });
 
 afterEach(() => {
+  root?.unmount();
+  root = null;
   document.body.removeChild(container);
 });
 
@@ -367,7 +371,7 @@ async function renderComponent(
   baseFetcher.mockResolvedValueOnce(options);
 
   await act(async () => {
-    ReactDOM.render(
+    root!.render(
       <DependenciesProvider>
         <ThemeProvider theme={pimTheme}>
           <AttributeContextProvider attributeId={8} autoSortOptions={autoSortOptions}>
@@ -386,8 +390,7 @@ async function renderComponent(
             </LocalesContextProvider>
           </AttributeContextProvider>
         </ThemeProvider>
-      </DependenciesProvider>,
-      container
+      </DependenciesProvider>
     );
   });
 }

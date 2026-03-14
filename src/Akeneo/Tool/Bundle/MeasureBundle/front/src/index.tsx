@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {createRoot} from 'react-dom/client';
 import {ThemeProvider} from 'styled-components';
 import {pimTheme} from 'akeneo-design-system';
 import {MicroFrontendDependenciesProvider, Routes} from '@akeneo-pim-community/shared';
@@ -11,7 +11,7 @@ const unsavedChanges = {
   setHasUnsavedChanges: (hasChanges: boolean) => (unsavedChanges.hasUnsavedChanges = hasChanges),
 };
 
-ReactDOM.render(
+createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ThemeProvider theme={pimTheme}>
       <MicroFrontendDependenciesProvider routes={routes as Routes}>
@@ -22,6 +22,5 @@ ReactDOM.render(
         </ConfigContext.Provider>
       </MicroFrontendDependenciesProvider>
     </ThemeProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );

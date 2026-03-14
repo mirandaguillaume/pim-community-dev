@@ -1,4 +1,3 @@
-import ReactDOM from 'react-dom';
 import React from 'react';
 import {Dashboard, DashboardHelper} from '@akeneo-pim-community/data-quality-insights/src/index';
 
@@ -10,7 +9,7 @@ class SectionView extends BaseDashboard {
     const catalogLocale: string = UserContext.get('catalogLocale');
     const catalogChannel: string = UserContext.get('catalogScope');
 
-    ReactDOM.render(
+    this.renderReactElement(
       <div>
         <DashboardHelper />
         <Dashboard

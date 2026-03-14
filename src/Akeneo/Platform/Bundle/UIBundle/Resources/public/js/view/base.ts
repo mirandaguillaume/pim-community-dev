@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {createRoot, Root} from 'react-dom/client';
 import {ThemeProvider} from 'styled-components';
 import {pimTheme} from 'akeneo-design-system';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
@@ -21,6 +21,7 @@ class BaseView extends Backbone.View<any> implements View {
   private parent: View | null = null;
   private extensions: {[code: string]: View};
   private reactRef: Element | null = null;
+  private reactRoot: Root | null = null;
 
   readonly preUpdateEventName: string = 'pim_enrich:form:entity:pre_update';
   readonly postUpdateEventName: string = 'pim_enrich:form:entity:post_update';
@@ -249,6 +250,19 @@ class BaseView extends Backbone.View<any> implements View {
   }
 
   /**
+   * Render a React element (JSX) into a container using createRoot.
+   * Unlike renderReact(), this does NOT wrap with ThemeProvider/DependenciesProvider.
+   */
+  renderReactElement(element: React.ReactElement, container: Element = this.el) {
+    if (this.reactRef !== container) {
+      this.unmountReact();
+      this.reactRef = container;
+      this.reactRoot = createRoot(container);
+    }
+    this.reactRoot!.render(element);
+  }
+
+  /**
    * Render a React component with the given props wrapped with PIM theme & legacy providers inside the given container
    */
   renderReact<T>(
@@ -256,14 +270,17 @@ class BaseView extends Backbone.View<any> implements View {
     props: T,
     container: Element
   ) {
-    this.reactRef = container;
-    ReactDOM.render(
+    if (this.reactRef !== container) {
+      this.unmountReact();
+      this.reactRef = container;
+      this.reactRoot = createRoot(container);
+    }
+    this.reactRoot!.render(
       React.createElement(
         ThemeProvider,
         {theme: pimTheme},
         React.createElement(DependenciesProvider, null, React.createElement(componentType, props))
-      ),
-      this.reactRef
+      )
     );
   }
 
@@ -271,8 +288,9 @@ class BaseView extends Backbone.View<any> implements View {
    * Unmount the React ref if present
    */
   unmountReact() {
-    if (null !== this.reactRef) {
-      ReactDOM.unmountComponentAtNode(this.reactRef);
+    if (null !== this.reactRoot) {
+      this.reactRoot.unmount();
+      this.reactRoot = null;
       this.reactRef = null;
     }
   }

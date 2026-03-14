@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import {
   Channel,
@@ -145,7 +144,7 @@ class Selector extends BaseView {
       this.categoryCodes = categoryCodes;
     };
 
-    ReactDOM.render(
+    this.renderReactElement(
       <DependenciesProvider>
         <ThemeProvider theme={pimTheme}>
           <CategorySelectorWithAllProducts

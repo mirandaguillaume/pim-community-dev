@@ -1,4 +1,4 @@
-import ReactDOM from 'react-dom';
+import {createRoot, Root} from 'react-dom/client';
 import React, {FC, useRef} from 'react';
 import {fireEvent, act, getByTestId} from '@testing-library/react';
 import {useInfiniteScroll} from '../../../../src/hooks/useInfiniteScroll';
@@ -21,11 +21,15 @@ const MockComponent: FC = ({fetch}) => {
 };
 
 let container: HTMLElement;
+let root: Root | null = null;
 beforeEach(() => {
   container = document.createElement('div');
   document.body.appendChild(container);
+  root = createRoot(container);
 });
 afterEach(() => {
+  root?.unmount();
+  root = null;
   document.body.removeChild(container);
   container = null;
 });
@@ -41,7 +45,7 @@ it('it can fetch the first items', async () => {
   const fetch = jest.fn(search => Promise.resolve<any[]>([]));
   fetch.mockResolvedValueOnce(items);
 
-  await act(async () => ReactDOM.render(<MockComponent fetch={fetch} />, container as HTMLElement));
+  await act(async () => root!.render(<MockComponent fetch={fetch} />));
 
   expect(container.querySelectorAll('ul li').length).toEqual(2);
 });
@@ -66,7 +70,7 @@ it('it can fetch the next items', async () => {
   const fetch = jest.fn(search => Promise.resolve<any[]>([]));
   fetch.mockResolvedValueOnce(items).mockResolvedValueOnce(nextItems);
 
-  await act(async () => ReactDOM.render(<MockComponent fetch={fetch} />, container as HTMLElement));
+  await act(async () => root!.render(<MockComponent fetch={fetch} />));
 
   await act(async () => {
     fireEvent.scroll(getByTestId(container, 'test-component'), {target: {scrollY: 100}});
@@ -97,7 +101,7 @@ it('it fetches items until there is no items in most recent response', async () 
     .mockResolvedValueOnce(secondPageItems)
     .mockResolvedValueOnce(thirPageItems);
 
-  await act(async () => ReactDOM.render(<MockComponent fetch={fetch} />, container as HTMLElement));
+  await act(async () => root!.render(<MockComponent fetch={fetch} />));
 
   await act(async () => {
     fireEvent.scroll(getByTestId(container, 'test-component'), {target: {scrollY: 100}});
@@ -118,7 +122,7 @@ it('it can handle error during the fetch', async () => {
   const fetch = search => {
     throw new Error('Async error');
   };
-  await act(async () => ReactDOM.render(<MockComponent fetch={fetch} />, container as HTMLElement));
+  await act(async () => root!.render(<MockComponent fetch={fetch} />));
 
   expect(container.innerHTML).toStrictEqual('error');
 });

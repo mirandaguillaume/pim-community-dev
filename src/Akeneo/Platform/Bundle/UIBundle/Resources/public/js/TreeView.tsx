@@ -1,4 +1,4 @@
-import ReactDOM from 'react-dom';
+import {createRoot, Root} from 'react-dom/client';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import {ThemeProvider} from 'styled-components';
 import {CategoryTrees, CategoryResponse, parseResponse} from '@akeneo-pim-community/shared';
@@ -19,6 +19,7 @@ class TreeView {
   private onChange: (treeLabel: string, categoryLabel?: string) => void;
   private listTreeRoute: string;
   private childrenRoute: string;
+  private reactRoot: Root | null = null;
 
   constructor(
     domElement: HTMLElement,
@@ -133,7 +134,10 @@ class TreeView {
       this.onChange(treeLabel, categoryLabel);
     };
 
-    ReactDOM.render(
+    if (!this.reactRoot) {
+      this.reactRoot = createRoot(this.domElement);
+    }
+    this.reactRoot.render(
       <DependenciesProvider>
         <ThemeProvider theme={pimTheme}>
           <CategoryTrees
@@ -148,13 +152,13 @@ class TreeView {
             onIncludeSubCategoriesChange={handleIncludeSubCategoriesChange}
           />
         </ThemeProvider>
-      </DependenciesProvider>,
-      this.domElement
+      </DependenciesProvider>
     );
   };
 
   public refresh = () => {
-    ReactDOM.unmountComponentAtNode(this.domElement);
+    this.reactRoot?.unmount();
+    this.reactRoot = null;
     this.initTreeView();
   };
 

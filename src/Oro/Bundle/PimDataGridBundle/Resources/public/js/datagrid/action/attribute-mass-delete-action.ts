@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {createRoot, Root} from 'react-dom/client';
 import {ThemeProvider} from 'styled-components';
 import {pimTheme} from 'akeneo-design-system';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
@@ -30,6 +30,7 @@ const DELETE_ATTRIBUTES_JOB = 'delete_attributes';
 
 class AttributeMassDeleteAction extends MassAction {
   public readonly identifierFieldName: string = 'code';
+  private reactRoot: Root | null = null;
 
   public async execute(): Promise<void> {
     const data = await this.getMassActionData();
@@ -46,7 +47,8 @@ class AttributeMassDeleteAction extends MassAction {
   }
 
   private closeModal(): void {
-    ReactDOM.unmountComponentAtNode(this.el);
+    this.reactRoot?.unmount();
+    this.reactRoot = null;
   }
 
   private renderModal(data: MassActionData, canConfirmDelete: boolean): void {
@@ -71,13 +73,15 @@ class AttributeMassDeleteAction extends MassAction {
       canConfirmDelete,
     };
 
-    ReactDOM.render(
+    if (!this.reactRoot) {
+      this.reactRoot = createRoot(this.el);
+    }
+    this.reactRoot.render(
       React.createElement(
         ThemeProvider,
         {theme: pimTheme},
         React.createElement(DependenciesProvider, null, React.createElement(DoubleCheckDeleteModal, modalProps))
-      ),
-      this.el
+      )
     );
   }
 

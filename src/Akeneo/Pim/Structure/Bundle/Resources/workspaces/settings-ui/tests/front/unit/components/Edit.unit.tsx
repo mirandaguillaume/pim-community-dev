@@ -1,5 +1,5 @@
 import React from 'react';
-import * as ReactDOM from 'react-dom';
+import {createRoot, Root} from 'react-dom/client';
 import '@testing-library/jest-dom/extend-expect';
 import {act, fireEvent, getByRole, queryAllByTestId} from '@testing-library/react';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
@@ -18,13 +18,17 @@ declare global {
 }
 
 let container: HTMLElement;
+let root: Root | null = null;
 
 beforeEach(() => {
   container = document.createElement('div');
   document.body.appendChild(container);
+  root = createRoot(container);
 });
 
 afterEach(() => {
+  root?.unmount();
+  root = null;
   document.body.removeChild(container);
   global.fetch && global.fetch.mockClear();
   delete global.fetch;
@@ -54,7 +58,7 @@ describe('Edit an attribute option', () => {
     const saveCallback = jest.fn();
 
     await act(async () => {
-      ReactDOM.render(
+      root!.render(
         <DependenciesProvider>
           <ThemeProvider theme={pimTheme}>
             <AttributeContextProvider attributeId={8} autoSortOptions={true}>
@@ -63,8 +67,7 @@ describe('Edit an attribute option', () => {
               </LocalesContextProvider>
             </AttributeContextProvider>
           </ThemeProvider>
-        </DependenciesProvider>,
-        container
+        </DependenciesProvider>
       );
     });
 

@@ -1,6 +1,5 @@
 import BaseView = require('pimui/js/view/base');
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {AttributeGuidelinesApp} from '@akeneo-pim-community/settings-ui';
 
 const propertyAccessor = require('pim/common/property');
@@ -17,7 +16,7 @@ class Guidelines extends BaseView {
       this.setData(data);
     };
 
-    ReactDOM.render(
+    this.renderReactElement(
       <AttributeGuidelinesApp defaultValue={this.getFormData().guidelines || {}} onChange={onChange} />,
       this.el
     );
@@ -25,7 +24,7 @@ class Guidelines extends BaseView {
   }
 
   remove() {
-    ReactDOM.unmountComponentAtNode(this.el);
+    this.unmountReact();
 
     return super.remove();
   }
