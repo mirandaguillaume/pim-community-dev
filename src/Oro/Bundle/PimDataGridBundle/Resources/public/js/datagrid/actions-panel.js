@@ -82,12 +82,15 @@ define([
         });
       }
 
-      if (groupedLaunchers.length) {
-        this.renderGroupedLaunchers(groupedLaunchers);
-      }
-
+      // Attach to DOM BEFORE rendering React components.
+      // React 18 delegates events to the createRoot container (not document).
+      // Event listeners set up on detached containers may not dispatch correctly.
       if (this.appendToGrid) {
         this.gridElement.prepend(this.$el);
+      }
+
+      if (groupedLaunchers.length) {
+        this.renderGroupedLaunchers(groupedLaunchers);
       }
 
       return this;

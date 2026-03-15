@@ -30,7 +30,16 @@ abstract class ReactController extends BaseController {
   }
 
   renderRoute() {
-    this.$el.append(mountReactElementRef(this.reactElementToMount(), this.getContainerRef()));
+    const container = this.getContainerRef();
+
+    // Attach the container to the DOM BEFORE creating the React 18 root.
+    // React 18 delegates events to the createRoot container (not document like React 17).
+    // Event listeners set up on a detached container may not dispatch correctly.
+    if (container !== this.$el.get(0)) {
+      this.$el.append(container);
+    }
+
+    mountReactElementRef(this.reactElementToMount(), container);
 
     return Deferred().resolve();
   }
