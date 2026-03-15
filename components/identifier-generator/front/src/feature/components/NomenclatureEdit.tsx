@@ -84,7 +84,7 @@ const NomenclatureEdit: FC<NomenclatureEditProps> = ({selectedProperty, itemsPer
   const handleChangeOperator = useCallback(
     (operator: Operator) => {
       if (nomenclature) {
-        setNomenclature({...nomenclature, operator});
+        setNomenclature({...nomenclature, operator: operator as Nomenclature['operator']});
       }
     },
     [nomenclature]
