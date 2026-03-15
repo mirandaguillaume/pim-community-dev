@@ -106,34 +106,28 @@ describe('testing EditConnection page', () => {
             'akeneo_connectivity.connection.connection.flow_type'
         ) as HTMLSelectElement;
         const auditableCheckbox = getByLabelText('akeneo_connectivity.connection.connection.auditable');
-        const userRoleSelect = getByLabelText(
-            'akeneo_connectivity.connection.connection.user_role_id'
-        ) as HTMLSelectElement;
-        const userGroupSelect = getByLabelText(
-            'akeneo_connectivity.connection.connection.user_group_id'
-        ) as HTMLSelectElement;
+        const userRoleSelect = await screen.findByLabelText('akeneo_connectivity.connection.connection.user_role_id');
+        const userGroupSelect = await screen.findByLabelText('akeneo_connectivity.connection.connection.user_group_id');
         const saveButton = getByText('pim_common.save') as HTMLButtonElement;
 
-        await act(async () => {
-            userEvent.clear(labelInput);
-            await waitFor(() => expect(labelInput.value).toBe(''));
-            userEvent.type(labelInput, 'Magento');
+        userEvent.clear(labelInput);
+        await waitFor(() => expect(labelInput.value).toBe(''));
+        userEvent.type(labelInput, 'Magento');
 
-            userEvent.click(flowTypeSelect);
-            userEvent.click(await screen.findByText('akeneo_connectivity.connection.flow_type.data_destination'));
+        userEvent.click(flowTypeSelect);
+        userEvent.click(await screen.findByText('akeneo_connectivity.connection.flow_type.data_destination'));
 
-            userEvent.click(auditableCheckbox);
+        userEvent.click(auditableCheckbox);
 
-            userEvent.click(userRoleSelect);
-            userEvent.click(await screen.findByText('API Role'));
+        userEvent.click(userRoleSelect);
+        userEvent.click(await screen.findByText('API Role'));
 
-            userEvent.click(userGroupSelect);
-            userEvent.click(await screen.findByText('API Group'));
+        userEvent.click(userGroupSelect);
+        userEvent.click(await screen.findByText('API Group'));
 
-            userEvent.click(saveButton);
-        });
+        userEvent.click(saveButton);
 
-        expect(fetchMock).toBeCalledTimes(5);
+        await waitFor(() => expect(fetchMock).toBeCalledTimes(5));
         expect(fetchMock.mock.calls[4][0]).toEqual('akeneo_connectivity_connection_rest_update?code=ecommerce');
         expect(fetchMock.mock.calls[4][1]).toMatchObject({
             method: 'POST',

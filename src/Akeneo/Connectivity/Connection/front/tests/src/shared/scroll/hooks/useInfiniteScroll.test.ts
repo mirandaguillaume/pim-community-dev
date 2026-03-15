@@ -58,10 +58,11 @@ test('The second page is fetched, with the first response as parameter', async (
 
     // Since we are in jest, the scroll is not computed correctly.
     // Meaning is, since the scroll height is stuck at 0, it will try anyway.
+    // The useScrollPosition hook debounces by 100ms, so we must wait longer than that.
     fireEvent.scroll(document.body, {target: {scrollY: 100}});
 
     await act(async () => {
-        await new Promise(r => setTimeout(r, 0));
+        await new Promise(r => setTimeout(r, 150));
     });
     expect(loadNextPage).toHaveBeenCalledTimes(2);
 
