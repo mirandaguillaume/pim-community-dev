@@ -42,7 +42,9 @@ test('it returns loading status then forbidden error when fetching connected app
         payload: null,
     });
 
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current).toStrictEqual({
         loading: false,
@@ -68,7 +70,9 @@ test('it returns loading status then not found error when fetching connected app
         payload: null,
     });
 
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current).toStrictEqual({
         loading: false,
@@ -110,7 +114,9 @@ test('it returns loading status then a connected app', async () => {
         payload: null,
     });
 
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current).toStrictEqual({
         loading: false,

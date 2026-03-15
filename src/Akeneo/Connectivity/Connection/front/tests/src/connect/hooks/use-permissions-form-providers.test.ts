@@ -50,7 +50,9 @@ test('It fetches providers and saved permissions', async () => {
 
     expect(result.current).toEqual([null, {}, expect.any(Function)]);
 
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current).toEqual([
         [
@@ -95,7 +97,9 @@ test('It notifies an error when loading saved permissions fails', async () => {
 
     expect(result.current).toEqual([null, {}, expect.any(Function)]);
 
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current).toEqual([
         [

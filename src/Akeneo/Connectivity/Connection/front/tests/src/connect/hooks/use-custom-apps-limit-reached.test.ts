@@ -19,7 +19,9 @@ test('it returns true when max connections limit is true', async () => {
         error: null,
     });
 
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current).toMatchObject({
         isLoading: false,
@@ -45,7 +47,9 @@ test('it returns false when max connections limit is false', async () => {
         error: null,
     });
 
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current).toMatchObject({
         isLoading: false,

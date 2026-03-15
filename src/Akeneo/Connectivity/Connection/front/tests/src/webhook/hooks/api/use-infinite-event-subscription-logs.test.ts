@@ -60,7 +60,9 @@ test('The first logs are fetched on mount', async () => {
         isInitialized: false,
     });
 
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current).toEqual({
         logs: [

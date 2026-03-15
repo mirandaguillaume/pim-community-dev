@@ -20,7 +20,9 @@ test('The first page is fetched on mount', async () => {
     });
     const {unmount} = renderHook(() => useInfiniteScroll(loadNextPage, ref));
 
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
     expect(loadNextPage).toHaveBeenCalledTimes(1);
 
     unmount();
@@ -49,14 +51,18 @@ test('The second page is fetched, with the first response as parameter', async (
 
     const {unmount} = renderHook(() => useInfiniteScroll(loadNextPage, ref));
 
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
     expect(loadNextPage).toHaveBeenCalledTimes(1);
 
     // Since we are in jest, the scroll is not computed correctly.
     // Meaning is, since the scroll height is stuck at 0, it will try anyway.
     fireEvent.scroll(document.body, {target: {scrollY: 100}});
 
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
     expect(loadNextPage).toHaveBeenCalledTimes(2);
 
     unmount();
@@ -76,7 +82,9 @@ test('Reset the scroll should fetch the first page', async () => {
     expect(loadNextPage).toHaveBeenCalledTimes(1);
     expect(result.current.isLoading).toBeTruthy();
 
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current.isLoading).toBeFalsy();
 
@@ -106,7 +114,9 @@ test('The hook does not render more times than necessary', async () => {
     });
 
     expect(renderCount).toBe(1);
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
     expect(renderCount).toBe(2);
 
     unmount();

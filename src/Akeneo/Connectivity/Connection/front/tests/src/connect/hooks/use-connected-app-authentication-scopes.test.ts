@@ -23,7 +23,9 @@ test('it returns loading status and authenticationScopes values', async () => {
         authenticationScopes: [],
     });
 
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current).toStrictEqual({
         isLoading: false,
@@ -47,7 +49,9 @@ test('it returns loading status and empty values on fetch error', async () => {
         authenticationScopes: [],
     });
 
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current).toStrictEqual({
         isLoading: false,

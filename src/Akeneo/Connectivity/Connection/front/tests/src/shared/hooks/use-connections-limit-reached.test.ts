@@ -13,7 +13,9 @@ test('it returns true when max connections limit is true ', async () => {
 
     expect(result.current).toStrictEqual(false);
 
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current).toStrictEqual(true);
 });
@@ -46,7 +48,9 @@ test('it returns true on fetch error', async () => {
 
     expect(result.current).toStrictEqual(false);
 
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current).toStrictEqual(true);
 });

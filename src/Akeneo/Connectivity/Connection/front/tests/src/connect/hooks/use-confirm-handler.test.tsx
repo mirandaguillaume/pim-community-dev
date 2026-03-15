@@ -52,7 +52,9 @@ test('it notifies when there is an error during the API request', async () => {
 
     expect(result.current.processing).toBe(true);
 
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current.processing).toBe(false);
 
@@ -84,7 +86,9 @@ test('it notifies when there is a specific error during the API request', async 
 
     expect(result.current.processing).toBe(true);
 
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current.processing).toBe(false);
 

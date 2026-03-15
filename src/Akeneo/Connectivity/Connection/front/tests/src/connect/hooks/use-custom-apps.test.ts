@@ -55,7 +55,9 @@ test('it returns loading status and customApps values', async () => {
         customApps: emptyCustomApps,
     });
 
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current).toStrictEqual({
         isLoading: false,
@@ -85,7 +87,9 @@ test('it returns loading status and empty values on fetch error ', async () => {
         customApps: emptyCustomApps,
     });
 
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current).toStrictEqual({
         isLoading: false,
@@ -108,7 +112,9 @@ test('it returns loading status and empty values with feature flag disabled', as
         customApps: emptyCustomApps,
     });
 
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current).toStrictEqual({
         isLoading: false,

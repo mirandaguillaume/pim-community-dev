@@ -20,7 +20,9 @@ test('it returns loading status and fetched data', async () => {
         data: undefined,
     });
 
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current).toStrictEqual({
         isLoading: false,
@@ -47,7 +49,9 @@ test('it returns loading status and fetched data is undefined on fetch error', a
         data: undefined,
     });
 
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current).toStrictEqual({
         isLoading: false,
