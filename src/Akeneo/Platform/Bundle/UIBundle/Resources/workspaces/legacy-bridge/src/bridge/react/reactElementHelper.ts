@@ -1,37 +1,27 @@
-import {createRoot, Root} from 'react-dom/client';
-import {flushSync} from 'react-dom';
+import ReactDOM from 'react-dom';
 
-const roots = new WeakMap<Element, Root>();
+// Use the legacy ReactDOM.render() API even under React 18.
+//
+// ReactController subclasses (CategoriesSettings, identifier-generator,
+// process-tracker, measurements) are Backbone controllers that manage their
+// own DOM lifecycle.  React 18's createRoot() attaches event-delegation
+// listeners to the container element instead of `document`.  In this
+// Backbone→React bridge context, native browser events dispatched by
+// Selenium/ChromeDriver don't always bubble to the container in time,
+// causing onClick handlers on <tr> and similar elements to silently fail.
+//
+// The legacy API delegates events to `document` (same as React 17),
+// which is the correct behaviour for these bridge components where
+// Backbone controls the DOM hierarchy.
 
 const mountReactElementRef = (component: JSX.Element, container: Element) => {
-  let root = roots.get(container);
-
-  // Always tear down and recreate the React 18 root.
-  // React 18 attaches event-delegation listeners to the createRoot container
-  // instead of document (React 17 behaviour). Recreating the root guarantees
-  // a clean event-delegation setup on every renderRoute() call.
-  if (root) {
-    root.unmount();
-    roots.delete(container);
-    root = undefined;
-  }
-
-  root = createRoot(container);
-  roots.set(container, root);
-
-  flushSync(() => {
-    root.render(component);
-  });
+  ReactDOM.render(component, container);
 
   return container;
 };
 
 const unmountReactElementRef = (container: Element) => {
-  const root = roots.get(container);
-  if (root) {
-    root.unmount();
-    roots.delete(container);
-  }
+  ReactDOM.unmountComponentAtNode(container);
 };
 
 export {mountReactElementRef, unmountReactElementRef};
