@@ -29,7 +29,7 @@ const CreateOrEditGeneratorPage: React.FC<CreateOrEditGeneratorProps> = ({
   const translate = useTranslate();
   const history = useHistory();
   const [generator, setGenerator] = useState<IdentifierGenerator>(initialGenerator);
-  const changeTab = useCallback((tabName: string) => () => setCurrentTab(tabName), [setCurrentTab]);
+  const changeTab = useCallback((tabName: GeneratorTab) => () => setCurrentTab(tabName), [setCurrentTab]);
   const onSave = useCallback(() => mainButtonCallback(generator), [generator, mainButtonCallback]);
   const identifierGeneratorContext = useIdentifierGeneratorContext();
   const identifierGeneratorAclContext = useIdentifierGeneratorAclContext();
