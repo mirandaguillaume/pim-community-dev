@@ -69,18 +69,20 @@ if [ -n "$CHANGED_PHP" ]; then
 
     # ── phpspec: full PHPSpec suite (mirrors `castor test:unit-back`, no MySQL) ──
     if command -v docker-compose >/dev/null 2>&1; then
-        PHPSPEC_RESULT=$(docker-compose run --rm -T php php vendor/bin/phpspec run 2>&1 || true)
-        if echo "$PHPSPEC_RESULT" | grep -qiE 'broken|failed|\d+ examples.*\d+ failed'; then
-            FAIL_SUMMARY=$(echo "$PHPSPEC_RESULT" | grep -E '^\d+ examples' | tail -1 || echo "failures found")
+        PHPSPEC_EXIT=0
+        PHPSPEC_RESULT=$(docker-compose run --rm -T php php vendor/bin/phpspec run 2>&1) || PHPSPEC_EXIT=$?
+        if [ "$PHPSPEC_EXIT" -ne 0 ]; then
+            FAIL_SUMMARY=$(echo "$PHPSPEC_RESULT" | grep -E '^[0-9]+ examples' | tail -1 || echo "exit code $PHPSPEC_EXIT")
             ERRORS="$ERRORS\n- PHPSPEC: $FAIL_SUMMARY"
         fi
     fi
 
     # ── phpunit-unit: unit + acceptance tests via meta-suite (no MySQL) ──
     if command -v docker-compose >/dev/null 2>&1; then
-        PHPUNIT_UNIT_RESULT=$(APP_ENV=test_fake docker-compose run --rm -T php php vendor/bin/phpunit -c . --testsuite PHPUnit_Unit_Test --no-coverage 2>&1 || true)
-        if echo "$PHPUNIT_UNIT_RESULT" | grep -qiE 'FAILURES|ERRORS'; then
-            FAIL_SUMMARY=$(echo "$PHPUNIT_UNIT_RESULT" | grep -E '^(FAILURES|Tests:)' | tail -1 || echo "failures found")
+        PHPUNIT_EXIT=0
+        PHPUNIT_UNIT_RESULT=$(APP_ENV=test_fake docker-compose run --rm -T php php vendor/bin/phpunit -c . --testsuite PHPUnit_Unit_Test --no-coverage 2>&1) || PHPUNIT_EXIT=$?
+        if [ "$PHPUNIT_EXIT" -ne 0 ]; then
+            FAIL_SUMMARY=$(echo "$PHPUNIT_UNIT_RESULT" | grep -E '^(FAILURES|Tests:|OK)' | tail -1 || echo "exit code $PHPUNIT_EXIT")
             ERRORS="$ERRORS\n- PHPUNIT-UNIT: $FAIL_SUMMARY"
         fi
     fi
