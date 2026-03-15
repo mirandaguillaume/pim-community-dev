@@ -18,8 +18,8 @@ const usePimVersion = () => {
 
   const isVersionOutdated = useCallback(
     (lastPatch: string) => {
-      const regexCurrentVersion = /\s(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)\s/;
-      const regexLastVersion = /v(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)/;
+      const regexCurrentVersion = /\s(\d+)\.(\d+)\.(\d+)\s/;
+      const regexLastVersion = /v(\d+)\.(\d+)\.(\d+)/;
       const matchCurrentVersion = version.match(regexCurrentVersion);
       const matchLastVersion = lastPatch.match(regexLastVersion);
 

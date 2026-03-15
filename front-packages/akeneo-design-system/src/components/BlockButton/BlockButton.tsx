@@ -20,7 +20,7 @@ type BlockButtonProps = Override<
     /**
      * Icon displayed on the right of the button.
      */
-    icon: ReactElement<IconProps>;
+    icon: ReactElement;
 
     /**
      * Used when the user cannot proceed or until an input is collected.

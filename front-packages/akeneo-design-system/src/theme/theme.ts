@@ -9,6 +9,7 @@ type FontSize = {
 };
 
 type Color = {
+  [key: string]: string;
   blue10: string;
   blue100: string;
   blue120: string;
@@ -66,6 +67,7 @@ type Color = {
 };
 
 type ColorAlternative = {
+  [key: string]: string;
   blue10: string;
   blue100: string;
   blue120: string;

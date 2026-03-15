@@ -1,7 +1,7 @@
 import React, {ReactNode, ReactElement, useEffect, useState, useCallback, useRef} from 'react';
 import styled, {keyframes} from 'styled-components';
 import {AkeneoThemedProps, getColor, getFontSize} from '../../theme';
-import {CheckIcon, CloseIcon, DangerIcon, IconProps, InfoIcon} from '../../icons';
+import {CheckIcon, CloseIcon, DangerIcon, InfoIcon} from '../../icons';
 import {useAutoFocus} from '../../hooks';
 
 type MessageBarLevel = 'info' | 'success' | 'warning' | 'error';
@@ -122,7 +122,7 @@ const AnimateContainer = styled.div<{unmounting: boolean}>`
   max-height: 150px;
 `;
 
-const AnimateMessageBar = ({children}: {children: ReactElement<MessageBarProps>}) => {
+const AnimateMessageBar = ({children}: {children: ReactElement}) => {
   if (children.type !== MessageBar) {
     throw new Error('Only MessageBar element can be passed to AnimateMessageBar');
   }
@@ -133,7 +133,7 @@ const AnimateMessageBar = ({children}: {children: ReactElement<MessageBarProps>}
     // We need to detach the unmounting to avoid rendering the component in another render
     setTimeout(() => setUnmounting(true), 0);
     setTimeout(() => {
-      children.props.onClose();
+      (children.props as {onClose: () => void}).onClose();
     }, ANIMATION_DURATION);
   };
 
@@ -221,7 +221,7 @@ type FlashMessage = {
   /**
    * Icon to display.
    */
-  icon?: ReactElement<IconProps>;
+  icon?: ReactElement;
 
   /**
    * Content of the MessageBar.

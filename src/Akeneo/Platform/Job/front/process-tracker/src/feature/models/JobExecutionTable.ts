@@ -32,7 +32,7 @@ const STOPPABLE_STATUS: JobStatus[] = ['STARTING', 'IN_PROGRESS'];
 const jobCanBeStopped = (jobExecutionRow: JobExecutionRow): boolean =>
   jobExecutionRow.is_stoppable && STOPPABLE_STATUS.includes(jobExecutionRow.status);
 
-const JOB_TYPES_WITH_ACL = {
+const JOB_TYPES_WITH_ACL: Record<string, string> = {
   import: 'pim_importexport_import_execution_show',
   export: 'pim_importexport_export_execution_show',
 };

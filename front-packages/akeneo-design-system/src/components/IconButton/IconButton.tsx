@@ -1,6 +1,5 @@
 import React, {Ref, ReactElement} from 'react';
 import styled, {css} from 'styled-components';
-import {IconProps} from '../../icons';
 import {Button, ButtonProps, ButtonSize} from '../../components/Button/Button';
 import {Override} from '../../shared';
 
@@ -39,7 +38,7 @@ type IconButtonProps = Override<
     /**
      * The Icon to display.
      */
-    icon: ReactElement<IconProps>;
+    icon: ReactElement;
 
     /**
      * The title of the button.

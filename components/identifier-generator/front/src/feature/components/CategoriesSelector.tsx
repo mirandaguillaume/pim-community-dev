@@ -17,7 +17,7 @@ const CategoriesSelector: FC<CategoriesSelectorProps> = ({categoryCodes, onChang
   const categoryLabels = useCategoryLabels(categoryCodes);
 
   const filledCategoryLabels = useMemo(() => {
-    return categoryCodes.reduce((categoryCodes, categoryCode) => {
+    return categoryCodes.reduce<Record<string, string>>((categoryCodes, categoryCode) => {
       if (categoryLabels[categoryCode] !== null) {
         categoryCodes[categoryCode] = categoryLabels[categoryCode];
       }

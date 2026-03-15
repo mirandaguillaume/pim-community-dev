@@ -2,7 +2,6 @@ import React, {cloneElement, FC, HTMLAttributes, ReactElement} from 'react';
 import styled from 'styled-components';
 import {AkeneoThemedProps, getColor, getFontSize} from '../../theme';
 import {Override} from '../../shared';
-import {IllustrationProps} from '../../illustrations/IllustrationProps';
 
 type PlaceholderSize = 'default' | 'large';
 
@@ -25,7 +24,7 @@ type PlaceholderProps = Override<
   HTMLAttributes<HTMLDivElement>,
   {
     title: string;
-    illustration: ReactElement<IllustrationProps>;
+    illustration: ReactElement;
     size?: PlaceholderSize;
   }
 >;

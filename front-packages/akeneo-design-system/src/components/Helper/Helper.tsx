@@ -1,6 +1,6 @@
 import React, {ReactElement, ReactNode, Ref} from 'react';
 import styled, {css} from 'styled-components';
-import {CheckRoundIcon, DangerIcon, IconProps, InfoRoundIcon} from '../../icons';
+import {CheckRoundIcon, DangerIcon, InfoRoundIcon} from '../../icons';
 import {AkeneoThemedProps, getColor} from '../../theme';
 
 const getBackgroundColor = (level: Level) => {
@@ -148,7 +148,7 @@ type HelperProps = {
   /**
    * Icon to display. If not provided, the Helper will display the corresponding level Icon.
    */
-  icon?: ReactElement<IconProps>;
+  icon?: ReactElement;
 
   /**
    * The content of the component.

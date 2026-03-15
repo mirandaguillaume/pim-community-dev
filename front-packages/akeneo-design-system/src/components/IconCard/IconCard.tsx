@@ -88,7 +88,7 @@ type IconCardProps = Override<
     /**
      * Define the icon showed at left of the component.
      */
-    icon: ReactElement<IconProps>;
+    icon: ReactElement;
 
     /**
      * The title to display

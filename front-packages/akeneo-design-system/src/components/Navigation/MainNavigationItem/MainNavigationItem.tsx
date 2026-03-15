@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import {IconProps} from '../../../icons';
 import {Override} from '../../../shared';
 import {AkeneoThemedProps, getColor, getFontSize} from '../../../theme';
 import {Tag} from '../../Tags/Tags';
@@ -73,7 +72,7 @@ type MainNavigationItemProps = Override<
     /**
      * The Icon to display
      */
-    icon: React.ReactElement<IconProps>;
+    icon: React.ReactElement;
 
     /**
      * Children are a string label

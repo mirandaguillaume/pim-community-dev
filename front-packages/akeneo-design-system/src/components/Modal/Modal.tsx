@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import {AkeneoThemedProps, CommonStyle, getColor, getFontSize} from '../../theme';
 import {IconButton} from '../IconButton/IconButton';
 import {CloseIcon} from '../../icons';
-import {IllustrationProps} from '../../illustrations/IllustrationProps';
 import {useShortcut} from '../../hooks';
 import {Key, Override} from '../../shared';
 import {ModalContext, useInModal} from './ModalContext';
@@ -96,7 +95,7 @@ type ModalProps = Override<
     /**
      * Illustration to display.
      */
-    illustration?: ReactElement<IllustrationProps>;
+    illustration?: ReactElement;
 
     /**
      * Title of the close button.

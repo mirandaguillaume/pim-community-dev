@@ -6,6 +6,7 @@ type Row = {
   quantity: number;
   is_allergenic: boolean | null;
   origin: 'french' | 'english' | 'german' | null;
+  length: {unit: string; amount: string};
 };
 
 type RowCode = 'nutritionScore' | 'part' | 'quantity' | 'is_allergenic' | 'origin' | 'length';

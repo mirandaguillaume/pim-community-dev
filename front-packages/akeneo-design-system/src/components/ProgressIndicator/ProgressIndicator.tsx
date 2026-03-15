@@ -142,7 +142,7 @@ type ProgressIndicatorProps = Override<
  * Progress indicator display progress through a sequence of logical and numbered steps.
  */
 const ProgressIndicator = ({children, ...rest}: ProgressIndicatorProps) => {
-  const currentStepIndex = Children.toArray(children).reduce((result, child, index) => {
+  const currentStepIndex = Children.toArray(children).reduce<number>((result, child, index) => {
     return isValidElement<StepProps>(child) && child.type === Step && child.props.current === true ? index : result;
   }, 0);
 
