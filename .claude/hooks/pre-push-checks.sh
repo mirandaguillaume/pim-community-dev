@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Hook: PreToolUse on Bash (git push)
-# Consolidated pre-push checks — runs only the checks relevant to changed file types.
+# Consolidated pre-push checks — blocks push if any check fails.
 # Replaces: coupling-pre-push, yarn-lint-pre-push, playwright-pre-push
 
 set -euo pipefail
@@ -12,11 +12,12 @@ COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null) || e
 echo "$COMMAND" | grep -qE 'git\s+push' || exit 0
 
 BASE="origin/master"
-WARNINGS=""
+ERRORS=""
 
 # ── Detect changed file types ──
 CHANGED_PHP=$(git diff --name-only "$BASE"...HEAD -- '*.php' 2>/dev/null || true)
 CHANGED_JS=$(git diff --name-only "$BASE"...HEAD -- '*.js' '*.jsx' 2>/dev/null || true)
+CHANGED_TS=$(git diff --name-only "$BASE"...HEAD -- '*.ts' '*.tsx' 2>/dev/null || true)
 CHANGED_SPECS=$(git diff --name-only "$BASE"...HEAD -- '*.spec.ts' 2>/dev/null || true)
 CHANGED_FIXTURES=$(git diff --name-only "$BASE"...HEAD -- 'tests/front/e2e/fixtures/*.ts' 2>/dev/null || true)
 
@@ -29,7 +30,7 @@ if [ -n "$CHANGED_PHP" ]; then
                 RESULT=$(docker-compose run --rm -T php php vendor/bin/php-coupling-detector detect --config-file="$CD_CONFIG" 2>&1 || true)
                 if echo "$RESULT" | grep -qiE 'violation|error'; then
                     CTX_NAME=$(dirname "$CD_CONFIG" | sed 's|src/Akeneo/||')
-                    WARNINGS="$WARNINGS\n- COUPLING ($CTX_NAME): violations detected"
+                    ERRORS="$ERRORS\n- COUPLING ($CTX_NAME): violations detected"
                 fi
             fi
         fi
@@ -42,25 +43,21 @@ if [ -n "$CHANGED_JS" ] && command -v npx >/dev/null 2>&1; then
     RESULT=$(npx eslint $CHANGED_JS --no-error-on-unmatched-pattern 2>&1 || true)
     if echo "$RESULT" | grep -qE '[0-9]+ error'; then
         ERROR_SUMMARY=$(echo "$RESULT" | grep -oE '[0-9]+ error' | tail -1)
-        WARNINGS="$WARNINGS\n- ESLINT: $ERROR_SUMMARY in $FILE_COUNT front-end files. Run: yarn lint-fix"
+        ERRORS="$ERRORS\n- ESLINT: $ERROR_SUMMARY in $FILE_COUNT front-end files. Run: yarn lint-fix"
     fi
 fi
 
 # ── 3. PHPUnit (only if PHP test/config files changed) ──
 if [ -n "$CHANGED_PHP" ]; then
-    # Find PHPUnit integration/end-to-end tests related to changed source files
     PHPUNIT_TESTS=""
     for src in $CHANGED_PHP; do
         BASENAME=$(basename "$src" .php)
-        # Skip spec/test files themselves
         echo "$src" | grep -qE 'Spec\.php$|Test\.php$|Integration\.php$|EndToEnd\.php$' && continue
-        # Look for related PHPUnit tests
         for suffix in "Test" "Integration" "EndToEnd"; do
             FOUND=$(find . -path "*/tests/*" -name "${BASENAME}${suffix}.php" 2>/dev/null | head -1 || true)
             [ -n "$FOUND" ] && PHPUNIT_TESTS="$PHPUNIT_TESTS $FOUND"
         done
     done
-    # Also include directly changed test files
     CHANGED_TESTS=$(echo "$CHANGED_PHP" | grep -E '(Test|Integration|EndToEnd)\.php$' || true)
     [ -n "$CHANGED_TESTS" ] && PHPUNIT_TESTS="$PHPUNIT_TESTS $CHANGED_TESTS"
 
@@ -70,32 +67,31 @@ if [ -n "$CHANGED_PHP" ]; then
         RESULT=$(APP_ENV=test docker-compose run --rm -T php php vendor/bin/phpunit -c . $UNIQUE_TESTS --no-coverage 2>&1 || true)
         if echo "$RESULT" | grep -qE 'ERRORS!|FAILURES!'; then
             FAIL_SUMMARY=$(echo "$RESULT" | grep -E 'Tests:|Errors:|Failures:' | tail -1 || echo "failures found")
-            WARNINGS="$WARNINGS\n- PHPUNIT: $FAIL_SUMMARY ($TEST_COUNT test file(s))"
+            ERRORS="$ERRORS\n- PHPUNIT: $FAIL_SUMMARY ($TEST_COUNT test file(s))"
         fi
     fi
 fi
 
 # ── 4. Frontend lint + unit tests (only if TS/TSX files changed) ──
-CHANGED_TS=$(git diff --name-only "$BASE"...HEAD -- '*.ts' '*.tsx' 2>/dev/null || true)
 if [ -n "$CHANGED_TS" ] && command -v yarn >/dev/null 2>&1; then
     # 4a. yarn lint (Prettier + ESLint)
     LINT_RESULT=$(yarn lint 2>&1 || true)
     if echo "$LINT_RESULT" | grep -qE 'error|Code style issues found'; then
-        WARNINGS="$WARNINGS\n- YARN LINT: Prettier or ESLint errors found. Run: yarn lint-fix"
+        ERRORS="$ERRORS\n- YARN LINT: Prettier or ESLint errors found. Run: yarn lint-fix"
     fi
 
     # 4b. Main unit suite (yarn unit)
     RESULT=$(yarn unit --no-coverage 2>&1 || true)
     if echo "$RESULT" | grep -qE 'FAIL |Tests:.*failed'; then
         FAIL_SUMMARY=$(echo "$RESULT" | grep -E 'Tests:' | tail -1 || echo "failures found")
-        WARNINGS="$WARNINGS\n- YARN UNIT: $FAIL_SUMMARY"
+        ERRORS="$ERRORS\n- YARN UNIT: $FAIL_SUMMARY"
     fi
 
     # 4c. DSM unit tests (separate jest config)
     DSM_RESULT=$(cd front-packages/akeneo-design-system && npx jest --config jest.unit.config.js --no-coverage 2>&1 || true)
     if echo "$DSM_RESULT" | grep -qE 'FAIL |Tests:.*failed'; then
         FAIL_SUMMARY=$(echo "$DSM_RESULT" | grep -E 'Tests:' | tail -1 || echo "failures found")
-        WARNINGS="$WARNINGS\n- DSM UNIT: $FAIL_SUMMARY"
+        ERRORS="$ERRORS\n- DSM UNIT: $FAIL_SUMMARY"
     fi
 fi
 
@@ -110,13 +106,14 @@ if [ -n "$CHANGED_SPECS" ] && command -v npx >/dev/null 2>&1; then
     FAILED=$(echo "$RESULT" | grep -oP '\d+ failed' | head -1 || true)
     SKIPPED=$(echo "$RESULT" | grep -oP '\d+ skipped' | head -1 || true)
     if [ -n "$FAILED" ]; then
-        WARNINGS="$WARNINGS\n- PLAYWRIGHT: $FAILED ($PASSED, $SKIPPED) — $SPEC_COUNT spec(s) tested"
+        ERRORS="$ERRORS\n- PLAYWRIGHT: $FAILED ($PASSED, $SKIPPED) — $SPEC_COUNT spec(s) tested"
     fi
 fi
 
 # ── Output ──
-if [ -n "$WARNINGS" ]; then
-    echo "{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"additionalContext\":\"PRE-PUSH CHECKS:$WARNINGS\"}}"
+if [ -n "$ERRORS" ]; then
+    echo "PRE-PUSH BLOCKED:$ERRORS" >&2
+    exit 2
 fi
 
 exit 0
