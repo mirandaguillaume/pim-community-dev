@@ -68,6 +68,35 @@ if [ -n "$CHANGED_FRONT" ] && command -v yarn >/dev/null 2>&1; then
         ERRORS="$ERRORS\n- CONNECTIVITY-PRETTIER: files need formatting. Run: cd $CONN_FRONT && yarn prettier --write"
     fi
 
+    CONN_TSC_EXIT=0
+    CONN_TSC_RESULT=$(cd "$CONN_FRONT" && npx tsc --noEmit --strict 2>&1) || CONN_TSC_EXIT=$?
+    if [ "$CONN_TSC_EXIT" -ne 0 ]; then
+        TSC_ERRS=$(echo "$CONN_TSC_RESULT" | grep -c 'error TS' || echo "errors")
+        ERRORS="$ERRORS\n- CONNECTIVITY-TSC: $TSC_ERRS TypeScript errors. Run: cd $CONN_FRONT && npx tsc --noEmit --strict"
+    fi
+
+    # ── permission-form lint: ESLint + Prettier + tsc (mirrors PERM_CWD in castor) ──
+    PERM_FRONT="src/Akeneo/Connectivity/Connection/workspaces/permission-form"
+    PERM_ESLINT_EXIT=0
+    PERM_ESLINT_RESULT=$(cd "$PERM_FRONT" && npx eslint --config .eslintrc.json 'src/**/*.{ts,tsx}' 2>&1) || PERM_ESLINT_EXIT=$?
+    if [ "$PERM_ESLINT_EXIT" -ne 0 ]; then
+        ERR_COUNT=$(echo "$PERM_ESLINT_RESULT" | grep -oP '\d+ error' | head -1 || echo "errors")
+        ERRORS="$ERRORS\n- PERM-FORM-LINT: ESLint $ERR_COUNT. Run: cd $PERM_FRONT && yarn eslint"
+    fi
+
+    PERM_PRETTIER_EXIT=0
+    PERM_PRETTIER_RESULT=$(cd "$PERM_FRONT" && npx prettier --config .prettierrc.json 'src/**/*.{ts,tsx}' --check 2>&1) || PERM_PRETTIER_EXIT=$?
+    if [ "$PERM_PRETTIER_EXIT" -ne 0 ]; then
+        ERRORS="$ERRORS\n- PERM-FORM-PRETTIER: files need formatting. Run: cd $PERM_FRONT && yarn prettier --write"
+    fi
+
+    PERM_TSC_EXIT=0
+    PERM_TSC_RESULT=$(cd "$PERM_FRONT" && npx tsc --noEmit --strict 2>&1) || PERM_TSC_EXIT=$?
+    if [ "$PERM_TSC_EXIT" -ne 0 ]; then
+        TSC_ERRS=$(echo "$PERM_TSC_RESULT" | grep -c 'error TS' || echo "errors")
+        ERRORS="$ERRORS\n- PERM-FORM-TSC: $TSC_ERRS TypeScript errors. Run: cd $PERM_FRONT && npx tsc --noEmit --strict"
+    fi
+
     # ── front-unit shard 1+2: main Jest suite (mirrors `yarn unit`) ──
     UNIT_RESULT=$(yarn unit 2>&1 || true)
     if echo "$UNIT_RESULT" | grep -qE 'FAIL |Tests:.*failed'; then
