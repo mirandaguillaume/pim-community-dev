@@ -7,7 +7,10 @@ import {FlashMessage, IconProps, MessageBarLevel, pimTheme, uuid} from 'akeneo-d
 
 let notifications: IdentifiableFlashMessage[] = [];
 
-const render = () =>
+const render = () => {
+  const container = document.getElementById('flash-messages');
+  if (!container) return;
+
   ReactDOM.render(
     <ThemeProvider theme={pimTheme}>
       <DependenciesProvider>
@@ -20,8 +23,9 @@ const render = () =>
         />
       </DependenciesProvider>
     </ThemeProvider>,
-    document.getElementById('flash-messages')
+    container
   );
+};
 
 const isValidLevel = (level: string): level is MessageBarLevel =>
   ['info', 'error', 'warning', 'success', undefined].includes(level);

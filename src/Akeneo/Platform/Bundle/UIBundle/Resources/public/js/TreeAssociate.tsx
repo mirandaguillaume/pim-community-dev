@@ -16,6 +16,7 @@ class TreeAssociate {
   private container: HTMLDivElement;
   private readOnly: boolean;
   private lockedCategoryIds: number[];
+  private renderedTrees: Set<number> = new Set();
 
   constructor(
     routes: {
@@ -153,6 +154,7 @@ class TreeAssociate {
       }
     };
 
+    this.renderedTrees.add(treeId);
     ReactDOM.render(
       <DependenciesProvider>
         <ThemeProvider theme={pimTheme}>

@@ -3,7 +3,7 @@ import React from 'react';
 import {useSecurity} from '@akeneo-pim-community/shared';
 import {IdentifierGeneratorAclContext, IdentifierGeneratorAclContextType} from './IdentifierGeneratorAclContext';
 
-const IdentifierGeneratorAclContextProvider: React.FC = ({children}) => {
+const IdentifierGeneratorAclContextProvider: React.FC<{children?: React.ReactNode}> = ({children}) => {
   const security = useSecurity();
   const isManageIdentifierGeneratorAclGranted = security.isGranted('pim_identifier_generator_manage');
 

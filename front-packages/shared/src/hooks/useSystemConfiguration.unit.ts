@@ -1,11 +1,9 @@
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook} from '@testing-library/react';
 import {renderHookWithProviders} from '../tests/utils';
 import {useSystemConfiguration} from './useSystemConfiguration';
 
 test('it throws when the provider is not found', () => {
-  const {result} = renderHook(() => useSystemConfiguration());
-
-  expect(() => result.current).toThrowError(
+  expect(() => renderHook(() => useSystemConfiguration())).toThrow(
     '[DependenciesContext]: SystemConfiguration has not been properly initiated'
   );
 });

@@ -26,6 +26,7 @@ const ExpandableRow = styled(Table.Row)<{isExpanded: boolean}>`
 `;
 
 type Props = {
+    children?: ReactNode;
     contentToExpand: ReactNode;
 };
 

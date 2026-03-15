@@ -1,6 +1,6 @@
 import React from 'react';
 
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {fireEvent} from '@testing-library/react';
 
 import {RecommendationWithAttributesList} from '@akeneo-pim-community/data-quality-insights//src/application/component/ProductEditForm/TabContent/DataQualityInsights/';

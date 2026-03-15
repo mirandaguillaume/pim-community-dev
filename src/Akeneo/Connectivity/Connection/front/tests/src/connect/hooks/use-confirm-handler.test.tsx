@@ -1,9 +1,8 @@
-import {renderHook, act} from '@testing-library/react-hooks';
+import {act, renderHook, waitFor} from '@testing-library/react';
 import {useNotify} from '@src/shared/notify';
 import {NotificationLevel} from '@src/shared/notify';
 import {useConfirmHandler} from '@src/connect/hooks/use-confirm-handler';
 import {useConfirmAuthorization} from '@src/connect/hooks/use-confirm-authorization';
-import {waitFor} from '@testing-library/react';
 
 /*eslint-disable */
 declare global {
@@ -43,7 +42,7 @@ test('it notifies when there is an error during the API request', async () => {
     (useNotify as jest.Mock).mockImplementation(() => notify);
     (useConfirmAuthorization as jest.Mock).mockImplementation(() => confirmAuthorization);
 
-    const {result, waitForNextUpdate} = renderHook(() => useConfirmHandler('client id', [], []));
+    const {result} = renderHook(() => useConfirmHandler('client id', [], []));
     expect(typeof result.current.confirm).toBe('function');
     expect(result.current.processing).toBe(false);
 
@@ -53,7 +52,9 @@ test('it notifies when there is an error during the API request', async () => {
 
     expect(result.current.processing).toBe(true);
 
-    await waitForNextUpdate();
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current.processing).toBe(false);
 
@@ -75,7 +76,7 @@ test('it notifies when there is a specific error during the API request', async 
     (useNotify as jest.Mock).mockImplementation(() => notify);
     (useConfirmAuthorization as jest.Mock).mockImplementation(() => confirmAuthorization);
 
-    const {result, waitForNextUpdate} = renderHook(() => useConfirmHandler('client id', [], []));
+    const {result} = renderHook(() => useConfirmHandler('client id', [], []));
     expect(typeof result.current.confirm).toBe('function');
     expect(result.current.processing).toBe(false);
 
@@ -85,7 +86,9 @@ test('it notifies when there is a specific error during the API request', async 
 
     expect(result.current.processing).toBe(true);
 
-    await waitForNextUpdate();
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current.processing).toBe(false);
 
@@ -128,9 +131,7 @@ test('it redirects when the confirmation succeeded', async () => {
         loadPermissions: jest.fn(),
     };
 
-    const {result, waitForNextUpdate} = renderHook(() =>
-        useConfirmHandler('client id', [provider1, provider2], {provider_1: 'foo'})
-    );
+    const {result} = renderHook(() => useConfirmHandler('client id', [provider1, provider2], {provider_1: 'foo'}));
     expect(typeof result.current.confirm).toBe('function');
     expect(result.current.processing).toBe(false);
 

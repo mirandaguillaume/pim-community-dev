@@ -1,4 +1,4 @@
-import React, {createContext, FC} from 'react';
+import React, {createContext, FC, ReactNode} from 'react';
 
 type SetCanLeavePage = (canLeavePage: boolean) => void;
 type SetLeavePageMessage = (message: string) => void;
@@ -14,6 +14,7 @@ const CanLeavePageContext = createContext<CanLeavePageContextContent>({
 });
 
 type Props = {
+  children?: ReactNode;
   setCanLeavePage: SetCanLeavePage;
   setLeavePageMessage: SetLeavePageMessage;
 };

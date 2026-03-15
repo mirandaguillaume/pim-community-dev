@@ -68,15 +68,20 @@ test('it stops the counter if we over the element', () => {
 
   fireEvent.mouseOver(screen.getByText('MessageBar Info'));
 
+  // Advance past the full countdown duration — onClose should NOT fire because mouse is over
   act(() => {
-    jest.runAllTimers();
+    jest.advanceTimersByTime(10000);
   });
 
   expect(onClose).not.toHaveBeenCalled();
   fireEvent.mouseOut(screen.getByText('MessageBar Info'));
 
+  // After mouseOut, the countdown resumes from remaining=4 (5 - initial decrement).
+  // Need 6 interval ticks (6000ms) to go 4→3→2→1→0→-1→onClose.
+  // IMPORTANT: Must advance exactly the right amount — in React 18, extra ticks
+  // are batched and each one finding remaining<0 calls onClose again.
   act(() => {
-    jest.runAllTimers();
+    jest.advanceTimersByTime(6000);
   });
   expect(onClose).toHaveBeenCalledTimes(1);
 });
@@ -96,8 +101,10 @@ test('it calls the onClose handler automatically after the appropriate duration'
     </MessageBar>
   );
 
+  // info level: duration=5, initial useEffect decrements to 4,
+  // then 5 more interval ticks (5s) to reach -1 and trigger onClose
   act(() => {
-    jest.runAllTimers();
+    jest.advanceTimersByTime(6000);
   });
 
   expect(onClose).toHaveBeenCalledTimes(1);
@@ -123,7 +130,7 @@ test('It can animate a MessageBar', () => {
   fireEvent.click(screen.getByRole('button'));
 
   act(() => {
-    jest.runAllTimers();
+    jest.advanceTimersByTime(1000);
   });
   expect(onClose).toHaveBeenCalled();
 });

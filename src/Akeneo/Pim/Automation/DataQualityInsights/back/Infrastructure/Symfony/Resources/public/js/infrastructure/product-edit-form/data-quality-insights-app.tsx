@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {
   CATALOG_CONTEXT_CHANNEL_CHANGED,
   CATALOG_CONTEXT_LOCALE_CHANGED,
@@ -191,13 +190,13 @@ class DataQualityInsightsApp extends BaseView {
       product,
     };
 
-    ReactDOM.render(<FormApp {...formAppProps} />, this.el);
+    this.renderReactElement(<FormApp {...formAppProps} />, this.el);
 
     return this;
   }
 
   remove() {
-    ReactDOM.unmountComponentAtNode(this.el);
+    this.unmountReact();
 
     productEditFormStore.dispatch(unsetProductAction());
 

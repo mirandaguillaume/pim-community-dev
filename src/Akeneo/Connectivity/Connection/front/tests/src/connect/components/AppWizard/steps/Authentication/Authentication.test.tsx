@@ -1,5 +1,5 @@
 import {Authentication} from '@src/connect/components/AppWizard/steps/Authentication/Authentication';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {screen, waitFor} from '@testing-library/react';
 import React from 'react';
 import {historyMock, renderWithProviders} from '../../../../../../test-utils';

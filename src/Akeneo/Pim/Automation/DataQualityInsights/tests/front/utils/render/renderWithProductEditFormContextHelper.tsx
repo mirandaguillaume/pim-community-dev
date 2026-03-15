@@ -4,7 +4,7 @@ import {pimTheme} from 'akeneo-design-system';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import {Provider} from 'react-redux';
 import {render} from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {createStoreWithInitialState} from '@akeneo-pim-community/data-quality-insights/src/infrastructure/store/productEditFormStore';
 
 const renderWithProductEditFormContextHelper = (ui: ReactElement, appState = {}) => {

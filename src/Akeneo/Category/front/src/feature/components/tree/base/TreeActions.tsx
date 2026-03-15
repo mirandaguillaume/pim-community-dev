@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, ReactNode} from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -13,7 +13,7 @@ const Container = styled.div`
   }
 `;
 
-const TreeActions: FC = ({children}) => {
+const TreeActions: FC<{children?: ReactNode}> = ({children}) => {
   return <Container>{children}</Container>;
 };
 

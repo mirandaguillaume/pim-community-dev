@@ -1,5 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks';
-import {act} from '@testing-library/react';
+import {act, renderHook} from '@testing-library/react';
 import {useAutoFocus} from './useAutoFocus';
 
 const button = document.createElement('button');

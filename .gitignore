@@ -65,3 +65,4 @@ seed/
 # PHIVE tools (installed as PHARs)
 /tools/*
 !/tools/.gitkeep
+.claude/worktrees/

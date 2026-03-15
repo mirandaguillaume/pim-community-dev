@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook, waitFor} from '@testing-library/react';
 import {useGetPropertyItems} from '../useGetPropertyItems';
 import {createWrapper} from '../../tests/hooks/config/createWrapper';
 import {mockResponse} from '../../tests/test-utils';
@@ -61,11 +61,13 @@ describe('useGetPropertyItems', () => {
       json: firstPage,
     });
 
-    const {result, waitFor} = renderHook(() => useGetPropertyItems('', true), {
+    const {result} = renderHook(() => useGetPropertyItems('', true), {
       wrapper: createWrapper(),
     });
 
-    await waitFor(() => !!result.current.data);
+    await waitFor(() => {
+      expect(result.current.data).toBeDefined();
+    });
     expect(result.current.data).toEqual(firstPage);
     expectFirstCall();
 
@@ -86,13 +88,13 @@ describe('useGetPropertyItems', () => {
     mockResponse('akeneo_identifier_generator_get_properties', 'GET', {
       ok: false,
     });
-    const {result, waitFor} = renderHook(() => useGetPropertyItems('', true), {
+    const {result} = renderHook(() => useGetPropertyItems('', true), {
       wrapper: createWrapper(),
     });
 
-    await waitFor(() => !!result.current.error);
-
-    expect(result.current.error).toBeDefined();
+    await waitFor(() => {
+      expect(result.current.error).not.toBeNull();
+    });
     expect(result.current.error).toBeInstanceOf(ServerError);
   });
 });

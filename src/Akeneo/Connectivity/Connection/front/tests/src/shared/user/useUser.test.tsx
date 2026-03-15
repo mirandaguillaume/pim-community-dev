@@ -1,6 +1,6 @@
 import {UserContext, useUser} from '@src/shared/user';
-import {renderHook} from '@testing-library/react-hooks';
-import React, {FC} from 'react';
+import {renderHook} from '@testing-library/react';
+import React, {FC, PropsWithChildren} from 'react';
 
 test('it returns the user locale and time zone', () => {
     const user = {
@@ -11,7 +11,9 @@ test('it returns the user locale and time zone', () => {
     user.get.mockReturnValueOnce('fr_FR');
     user.get.mockReturnValueOnce('Europe/Paris');
 
-    const wrapper: FC = ({children}) => <UserContext.Provider value={user}>{children}</UserContext.Provider>;
+    const wrapper: FC<PropsWithChildren> = ({children}) => (
+        <UserContext.Provider value={user}>{children}</UserContext.Provider>
+    );
 
     const {result} = renderHook(() => useUser(), {wrapper});
 

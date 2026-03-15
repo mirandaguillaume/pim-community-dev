@@ -1,5 +1,5 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import fetchMock from 'jest-fetch-mock';
 import {renderWithProviders, historyMock} from '../../../../test-utils';
 import {ConnectedAppPermissions} from '@src/connect/components/ConnectedApp/ConnectedAppPermissions';

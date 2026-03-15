@@ -56,6 +56,7 @@ export const WeeklyChart = ({data, theme, chartOptions}: Props) => {
 
     // The rendering order is based on the elements order. Axes must be first to be draw in background.
     return (
+        // @ts-expect-error Victory types incompatible with React 18
         <VictoryChart {...chartOptions} padding={0} domain={domain} theme={themes[theme]}>
             <VictoryAxis padding={0} offsetY={25} tickValues={xDaysValues} style={daysAxeTheme} />
             <VictoryAxis dependentAxis tickValues={yGridAxes} style={yAxeTheme} />

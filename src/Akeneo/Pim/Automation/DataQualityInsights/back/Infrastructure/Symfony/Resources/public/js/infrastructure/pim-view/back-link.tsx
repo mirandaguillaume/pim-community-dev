@@ -1,5 +1,4 @@
 import BaseView = require('pimui/js/view/base');
-import ReactDOM from 'react-dom';
 import React from 'react';
 import {BACK_LINK_SESSION_STORAGE_KEY, BackLinkButton} from '@akeneo-pim-community/data-quality-insights';
 import {pimTheme} from 'akeneo-design-system';
@@ -30,7 +29,7 @@ class BackLink extends BaseView {
 
     const backLinkParams = JSON.parse(backLink);
 
-    ReactDOM.render(
+    this.renderReactElement(
       <ThemeProvider theme={pimTheme}>
         <BackLinkButton
           label={backLinkParams.label}
@@ -44,7 +43,7 @@ class BackLink extends BaseView {
   }
 
   remove() {
-    ReactDOM.unmountComponentAtNode(this.el);
+    this.unmountReact();
     return super.remove();
   }
 }

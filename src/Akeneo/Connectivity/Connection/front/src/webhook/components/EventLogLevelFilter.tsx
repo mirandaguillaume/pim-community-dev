@@ -20,7 +20,7 @@ export const EventLogLevelFilter: FC<{
         translate('akeneo_connectivity.connection.webhook.event_logs.level.' + level);
     const [isOpen, open, close] = useToggleState(false);
     const handleChange = useCallback(
-        (level, checked) => {
+        (level: EventSubscriptionLogLevel, checked: boolean) => {
             if (checked) {
                 onChange([...levels, level].sort((a, b) => LEVELS.indexOf(a) - LEVELS.indexOf(b)));
             } else {

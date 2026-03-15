@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, ReactNode} from 'react';
 import {Link} from 'akeneo-design-system';
 
 const translate = require('oro/translator');
@@ -8,6 +8,7 @@ type RecommendationType = 'error' | 'success' | 'in_progress' | 'not_applicable'
 type FollowRecommendationHandler = () => void;
 
 type Props = {
+  children?: ReactNode;
   type: RecommendationType;
   follow?: FollowRecommendationHandler;
 };

@@ -1,4 +1,4 @@
-import React, {createContext, FC, useCallback} from 'react';
+import React, {createContext, FC, ReactNode, useCallback} from 'react';
 import {useStorageState} from '@akeneo-pim-community/shared';
 
 type Configuration = {
@@ -66,7 +66,7 @@ const DEFAULT_CONFIGURATION: Configuration = {
 
 const ConfigurationContext = createContext<ConfigurationState | undefined>(undefined);
 
-const ConfigurationProvider: FC = ({children}) => {
+const ConfigurationProvider: FC<{children?: ReactNode}> = ({children}) => {
   const [configuration, setConfiguration] = useStorageState(DEFAULT_CONFIGURATION, CONFIGURATION_STORAGE_KEY);
 
   const setDefaultCommunitySettings = useCallback(() => {

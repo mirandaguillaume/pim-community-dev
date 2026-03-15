@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, ReactNode} from 'react';
 import {SkeletonPlaceholder} from 'akeneo-design-system';
 import styled from 'styled-components';
 
@@ -19,6 +19,7 @@ const Container = styled.div<{noTextTransform: boolean}>`
 `;
 
 type TitleProps = {
+  children?: ReactNode;
   showPlaceholder?: boolean;
   noTextTransform?: boolean;
 };

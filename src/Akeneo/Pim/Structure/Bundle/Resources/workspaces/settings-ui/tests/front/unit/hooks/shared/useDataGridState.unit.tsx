@@ -1,5 +1,5 @@
 import React from 'react';
-import {act, renderHook} from '@testing-library/react-hooks';
+import {act, renderHook} from '@testing-library/react';
 import {useDataGridState, useInitialDataGridState} from '@akeneo-pim-community/settings-ui/src/hooks/shared';
 import {
   AfterMoveRowHandler,

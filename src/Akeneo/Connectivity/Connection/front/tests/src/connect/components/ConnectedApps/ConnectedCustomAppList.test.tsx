@@ -1,6 +1,6 @@
 import React from 'react';
 import {screen} from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {ConnectedAppCard} from '@src/connect/components/ConnectedApps/ConnectedAppCard';
 import {renderWithProviders} from '../../../../test-utils';
 import {ConnectedCustomAppList} from '@src/connect/components/ConnectedApps/ConnectedCustomAppList';

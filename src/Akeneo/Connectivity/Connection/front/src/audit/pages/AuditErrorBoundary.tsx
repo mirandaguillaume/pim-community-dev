@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, ReactNode} from 'react';
 import {PageContent, PageHeader, RuntimeError} from '../../common/components';
 import {useRoute} from '../../shared/router';
 import {Translate} from '../../shared/translate';
@@ -20,8 +20,8 @@ const AuditBreadcrumb = () => {
     );
 };
 
-export class AuditErrorBoundary extends Component<unknown, {hasError: boolean}> {
-    constructor(props: unknown) {
+export class AuditErrorBoundary extends Component<{children?: ReactNode}, {hasError: boolean}> {
+    constructor(props: {children?: ReactNode}) {
         super(props);
         this.state = {hasError: false};
     }

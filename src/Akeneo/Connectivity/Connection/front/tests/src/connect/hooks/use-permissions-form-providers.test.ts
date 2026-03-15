@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook, act} from '@testing-library/react';
 import {usePermissionFormRegistry} from '@src/shared/permission-form-registry';
 import usePermissionsFormProviders from '@src/connect/hooks/use-permissions-form-providers';
 import {NotificationLevel} from '@src/shared/notify';
@@ -46,11 +46,13 @@ test('It fetches providers and saved permissions', async () => {
         all: () => Promise.resolve(providers),
     }));
 
-    const {result, waitForNextUpdate} = renderHook(() => usePermissionsFormProviders('redactor'));
+    const {result} = renderHook(() => usePermissionsFormProviders('redactor'));
 
     expect(result.current).toEqual([null, {}, expect.any(Function)]);
 
-    await waitForNextUpdate();
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current).toEqual([
         [
@@ -91,11 +93,13 @@ test('It notifies an error when loading saved permissions fails', async () => {
         all: () => Promise.resolve(providers),
     }));
 
-    const {result, waitForNextUpdate} = renderHook(() => usePermissionsFormProviders('redactor'));
+    const {result} = renderHook(() => usePermissionsFormProviders('redactor'));
 
     expect(result.current).toEqual([null, {}, expect.any(Function)]);
 
-    await waitForNextUpdate();
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current).toEqual([
         [

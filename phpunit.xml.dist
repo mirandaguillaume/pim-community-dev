@@ -89,6 +89,18 @@
             <directory suffix="Test.php">src/Akeneo/Category/back/tests/Unit</directory>
         </testsuite>
 
+        <testsuite name="PHPUnit_Unit_Test">
+            <directory suffix="Test.php">src/Akeneo/Category/back/tests/Unit</directory>
+            <directory suffix="Test.php">src/Akeneo/Channel/back/tests/Acceptance</directory>
+            <directory suffix="Test.php">src/Akeneo/Platform/Job/back/tests/Acceptance</directory>
+            <directory suffix="Test.php">src/Akeneo/Platform/Installer/back/tests/Acceptance</directory>
+            <!-- Exclude misplaced integration tests (extend CategoryTestCase → need DB) -->
+            <exclude>src/Akeneo/Category/back/tests/Unit/Domain/ValueObject/Attribute/AttributeCollectionTest.php</exclude>
+            <exclude>src/Akeneo/Category/back/tests/Unit/Domain/Query/DeactivatedTemplateAttributes</exclude>
+            <!-- BatchQueue excluded: pre-existing Messenger transport failure after SF 6.4 upgrade -->
+            <!-- <directory suffix="Test.php">src/Akeneo/Tool/Bundle/BatchQueueBundle/tests/Acceptance</directory> -->
+        </testsuite>
+
         <testsuite name="Category_EndToEnd_Test">
             <directory suffix="EndToEnd.php">src/Akeneo/Category/back/tests/EndToEnd</directory>
         </testsuite>

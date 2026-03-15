@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook, act} from '@testing-library/react';
 import {useDisplayScrollTopButton} from '@src/shared/scroll/hooks/useDisplayScrollTopButton';
 import {fireEvent} from '@testing-library/dom';
 import {ScrollPosition} from '@src/shared/scroll/utils/getScrollPosition';
@@ -26,13 +26,15 @@ test('Display scroll top button after scrolling', async () => {
         current: document.getElementById('content'),
     };
 
-    const {result, waitForNextUpdate, unmount} = renderHook(() => useDisplayScrollTopButton(ref));
+    const {result, unmount} = renderHook(() => useDisplayScrollTopButton(ref));
 
     expect(result.current).toBe(false);
 
     fireEvent.scroll(window, {target: {scrollY: 500}});
 
-    await waitForNextUpdate();
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current).toBe(true);
 

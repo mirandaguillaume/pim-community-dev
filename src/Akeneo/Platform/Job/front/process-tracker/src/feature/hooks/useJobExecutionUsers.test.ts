@@ -1,6 +1,6 @@
 import {useJobExecutionUsers} from './useJobExecutionUsers';
 import {renderHookWithProviders} from '@akeneo-pim-community/shared';
-import {act} from '@testing-library/react-hooks';
+import {act} from '@testing-library/react';
 
 const expectedFetchedJobExecutionUsers: string[] = ['peter', 'mary'];
 
@@ -11,9 +11,11 @@ beforeEach(() => {
 });
 
 test('It fetches job execution users', async () => {
-  const {result, waitForNextUpdate} = renderHookWithProviders(() => useJobExecutionUsers());
+  const {result} = renderHookWithProviders(() => useJobExecutionUsers());
   await act(async () => {
-    await waitForNextUpdate();
+    await act(async () => {
+      await new Promise(r => setTimeout(r, 0));
+    });
   });
 
   expect(result.current).toEqual(expectedFetchedJobExecutionUsers);

@@ -1,4 +1,4 @@
-import React, {Children, FC} from 'react';
+import React, {Children, FC, ReactNode} from 'react';
 import {AppIllustration, getColor, getFontSize, Helper, SectionTitle} from 'akeneo-design-system';
 import styled from 'styled-components';
 
@@ -20,6 +20,7 @@ const EmptyMessage = styled.p`
 `;
 
 type Props = {
+    children?: ReactNode;
     title: string;
     information: string;
     warningMessage?: string | null | undefined;

@@ -1,5 +1,4 @@
 import BaseView = require('pimui/js/view/base');
-import ReactDOM from 'react-dom';
 import React from 'react';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import {pimTheme} from 'akeneo-design-system';
@@ -51,7 +50,7 @@ class CreateButton extends BaseView {
   }
 
   render(): any {
-    ReactDOM.render(
+    this.renderReactElement(
       <DependenciesProvider>
         <ThemeProvider theme={pimTheme}>
           <CreateAttributeButtonApp
@@ -70,7 +69,7 @@ class CreateButton extends BaseView {
   }
 
   remove(): any {
-    ReactDOM.unmountComponentAtNode(this.el);
+    this.unmountReact();
 
     return super.remove();
   }

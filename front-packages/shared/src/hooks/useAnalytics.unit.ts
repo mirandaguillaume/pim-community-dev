@@ -1,11 +1,11 @@
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook} from '@testing-library/react';
 import {renderHookWithProviders} from '../tests/utils';
 import {useAnalytics} from './useAnalytics';
 
 test('it throws when the provider is not found', () => {
-  const {result} = renderHook(() => useAnalytics());
-
-  expect(() => result.current).toThrowError('[DependenciesContext]: Analytics has not been properly initiated');
+  expect(() => renderHook(() => useAnalytics())).toThrow(
+    '[DependenciesContext]: Analytics has not been properly initiated'
+  );
 });
 
 test('it returns Analytics', () => {

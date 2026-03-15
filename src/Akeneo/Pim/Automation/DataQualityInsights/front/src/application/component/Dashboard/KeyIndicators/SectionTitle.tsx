@@ -1,8 +1,9 @@
-import React, {FC} from 'react';
+import React, {FC, ReactNode} from 'react';
 import styled from 'styled-components';
 import {useTranslate} from '@akeneo-pim-community/shared';
 
 type Props = {
+  children?: ReactNode;
   title: string;
 };
 

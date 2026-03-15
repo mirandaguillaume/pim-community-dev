@@ -1,6 +1,6 @@
 import {useJobExecutionTypes} from './useJobExecutionTypes';
 import {renderHookWithProviders} from '@akeneo-pim-community/shared';
-import {act} from '@testing-library/react-hooks';
+import {act} from '@testing-library/react';
 
 const expectedFetchedJobExecutionTypes: string[] = ['import', 'export', 'mass_edit'];
 
@@ -11,9 +11,11 @@ beforeEach(() => {
 });
 
 test('It fetches job execution types', async () => {
-  const {result, waitForNextUpdate} = renderHookWithProviders(() => useJobExecutionTypes());
+  const {result} = renderHookWithProviders(() => useJobExecutionTypes());
   await act(async () => {
-    await waitForNextUpdate();
+    await act(async () => {
+      await new Promise(r => setTimeout(r, 0));
+    });
   });
 
   expect(result.current).toEqual(expectedFetchedJobExecutionTypes);

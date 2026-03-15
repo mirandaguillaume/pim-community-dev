@@ -4,7 +4,7 @@ import {useFetchKeyIndicators} from '@akeneo-pim-community/data-quality-insights
 import {keyIndicatorsTips} from '@akeneo-pim-community/data-quality-insights/src/application/helper/Dashboard/KeyIndicatorsTips';
 import {KeyIndicatorsProvider} from '@akeneo-pim-community/data-quality-insights/src/application/context/KeyIndicatorsContext';
 import {renderDashboardWithProvider} from '../../../../../utils/render/renderDashboardWithProvider';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {keyIndicatorDescriptorsCE} from '@akeneo-pim-community/data-quality-insights/src/application/component/Dashboard/keyIndicatorDescriptorsCE';
 
 jest.mock('@akeneo-pim-community/data-quality-insights/src/infrastructure/hooks');

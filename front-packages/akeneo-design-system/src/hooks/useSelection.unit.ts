@@ -1,4 +1,4 @@
-import {renderHook, act} from '@testing-library/react-hooks';
+import {renderHook, act} from '@testing-library/react';
 import {useSelection} from './useSelection';
 
 test('It can generate a basic selection', () => {

@@ -1,6 +1,6 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
-import {renderHook, act} from '@testing-library/react-hooks';
+import '@testing-library/jest-dom';
+import {renderHook, act} from '@testing-library/react';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import {useProducts} from '../../../../Resources/public/js/product/form/quantified-associations/hooks/useProducts';
 
@@ -37,9 +37,11 @@ test('It returns the fetched product list', async () => {
       }),
   }));
 
-  const {result, waitForNextUpdate} = renderHook(() => useProducts({products: ['bag'], product_models: []}), {wrapper});
+  const {result} = renderHook(() => useProducts({products: ['bag'], product_models: []}), {wrapper});
 
-  await waitForNextUpdate();
+  await act(async () => {
+    await new Promise(r => setTimeout(r, 0));
+  });
 
   expect(result.current).toEqual([
     {
@@ -107,11 +109,13 @@ test('It does not fetch products if already fetched', async () => {
 
   const identifiers = {products: ['bag'], product_models: []};
 
-  const {result, waitForNextUpdate, rerender} = renderHook(() => useProducts(identifiers), {
+  const {result, rerender} = renderHook(() => useProducts(identifiers), {
     wrapper,
   });
 
-  await waitForNextUpdate();
+  await act(async () => {
+    await new Promise(r => setTimeout(r, 0));
+  });
 
   expect(result.current).toEqual([
     {
@@ -132,7 +136,9 @@ test('It does not fetch products if already fetched', async () => {
     rerender();
   });
 
-  await waitForNextUpdate();
+  await act(async () => {
+    await new Promise(r => setTimeout(r, 0));
+  });
 
   expect(result.current).toEqual([
     {

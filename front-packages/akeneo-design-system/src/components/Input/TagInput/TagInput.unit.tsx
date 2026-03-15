@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {TagInput} from './TagInput';
-import {render, screen} from '../../../storybook/test-util';
+import {act, render, screen} from '../../../storybook/test-util';
 import userEvent from '@testing-library/user-event';
 
 test('it renders a tag input with default tags', () => {
@@ -137,10 +137,14 @@ test('it creates a tag if the input loses focus', () => {
   expect(result.container.textContent).toBe(expectedTags([]));
   userEvent.type(screen.getByRole('textbox'), 'gucci');
   expect(result.container.textContent).toBe(expectedTags([]));
-  screen.getByRole('textbox').blur();
+  act(() => {
+    screen.getByRole('textbox').blur();
+  });
   expect(result.container.textContent).toBe(expectedTags(['gucci']));
   userEvent.type(screen.getByRole('textbox'), 'dior');
-  screen.getByRole('textbox').blur();
+  act(() => {
+    screen.getByRole('textbox').blur();
+  });
   expect(result.container.textContent).toBe(expectedTags(['gucci', 'dior']));
 });
 

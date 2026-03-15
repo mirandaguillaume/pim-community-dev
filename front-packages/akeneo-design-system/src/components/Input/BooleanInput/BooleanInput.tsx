@@ -179,11 +179,11 @@ const BooleanInput = React.forwardRef<HTMLDivElement, BooleanInputProps>(
     forwardedRef: Ref<HTMLDivElement>
   ) => {
     const handleChange = useCallback(
-      value => {
+      (value: boolean | null) => {
         if (!onChange) {
           return;
         }
-        onChange(value);
+        (onChange as (value: boolean | null) => void)(value);
       },
       [onChange, readOnly]
     );

@@ -1,4 +1,4 @@
-import {act, renderHook} from '@testing-library/react-hooks';
+import {act, renderHook} from '@testing-library/react';
 import {fireEvent} from '../storybook/test-util';
 import {useWindowResize} from './useWindowResize';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {act, screen} from '@testing-library/react';
 import {EventSubscriptionLogLevel} from '@src/webhook/model/EventSubscriptionLogLevel';
 import {renderWithProviders} from '../../../test-utils';

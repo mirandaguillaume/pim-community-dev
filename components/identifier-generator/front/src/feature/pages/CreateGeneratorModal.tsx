@@ -46,7 +46,7 @@ const CreateGeneratorModal: React.FC<CreateGeneratorModalProps> = ({onClose, onS
     [isCodeDirty]
   );
 
-  const onCodeChange = useCallback(value => {
+  const onCodeChange = useCallback((value: string) => {
     setIsCodeDirty('' !== value.trim());
     setCode(value);
   }, []);

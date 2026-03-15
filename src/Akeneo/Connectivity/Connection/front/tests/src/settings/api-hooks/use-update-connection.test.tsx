@@ -2,7 +2,7 @@ import {FlowType} from '@src/model/flow-type.enum';
 import {useUpdateConnection} from '@src/settings/api-hooks/use-update-connection';
 import {err, ok} from '@src/shared/fetch-result/result';
 import {NotificationLevel, NotifyContext} from '@src/shared/notify';
-import {act, renderHook} from '@testing-library/react-hooks';
+import {act, renderHook} from '@testing-library/react';
 import React, {PropsWithChildren} from 'react';
 
 const notify = jest.fn();

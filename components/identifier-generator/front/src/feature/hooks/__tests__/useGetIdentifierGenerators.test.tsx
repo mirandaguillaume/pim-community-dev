@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook, waitFor} from '@testing-library/react';
 import {useGetIdentifierGenerators} from '../useGetIdentifierGenerators';
 import {createWrapper} from '../../tests/hooks/config/createWrapper';
 import {ServerError} from '../../errors';
@@ -20,22 +20,23 @@ describe('useGetIdentifierGenerators', () => {
   test('it retrieves generators list', async () => {
     mockResponse('akeneo_identifier_generator_rest_list', 'GET', {ok: true, json: list});
 
-    const {result, waitFor} = renderHook(() => useGetIdentifierGenerators(), {wrapper: createWrapper()});
+    const {result} = renderHook(() => useGetIdentifierGenerators(), {wrapper: createWrapper()});
 
-    await waitFor(() => !!result.current.data);
+    await waitFor(() => {
+      expect(result.current.data).not.toBeUndefined();
+    });
 
-    expect(result.current.data).toBeDefined();
     expect(result.current.data).toEqual(list);
   });
 
   test('it fails and retrieves no data', async () => {
     mockResponse('akeneo_identifier_generator_rest_list', 'GET', {ok: false, json: {}});
 
-    const {result, waitFor} = renderHook(() => useGetIdentifierGenerators(), {wrapper: createWrapper()});
+    const {result} = renderHook(() => useGetIdentifierGenerators(), {wrapper: createWrapper()});
 
-    await waitFor(() => !!result.current.error);
-
-    expect(result.current.error).toBeDefined();
+    await waitFor(() => {
+      expect(result.current.error).not.toBeNull();
+    });
     expect(result.current.error).toBeInstanceOf(ServerError);
   });
 });

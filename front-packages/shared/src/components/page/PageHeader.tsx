@@ -1,17 +1,6 @@
 import React, {Children, cloneElement, FC, isValidElement, ReactElement, ReactNode} from 'react';
 import styled from 'styled-components';
-import {
-  Actions,
-  Breadcrumb,
-  Illustration,
-  IllustrationProps,
-  State,
-  Title,
-  TitleProps,
-  UserActions,
-  Content,
-  AutoSaveStatus,
-} from './header';
+import {Actions, Breadcrumb, Illustration, State, Title, UserActions, Content, AutoSaveStatus} from './header';
 import {SandboxHelper} from './SandboxHelper';
 import {useFeatureFlags, useSystemConfiguration} from '../../hooks';
 
@@ -49,6 +38,7 @@ const ActionsContainer = styled.div`
 `;
 
 type PageHeaderProps = {
+  children?: ReactNode;
   showPlaceholder?: boolean;
 };
 
@@ -120,14 +110,14 @@ const buildHeaderElements = (children: ReactNode | undefined, showPlaceholder?: 
 };
 
 interface PageHeaderInterface extends FC<PageHeaderProps> {
-  Actions: FC;
-  Breadcrumb: FC;
-  Illustration: FC<IllustrationProps>;
-  UserActions: FC;
-  Title: FC<TitleProps>;
-  State: FC;
-  Content: FC;
-  AutoSaveStatus: FC;
+  Actions: typeof Actions;
+  Breadcrumb: typeof Breadcrumb;
+  Illustration: typeof Illustration;
+  UserActions: typeof UserActions;
+  Title: typeof Title;
+  State: typeof State;
+  Content: typeof Content;
+  AutoSaveStatus: typeof AutoSaveStatus;
 }
 
 const PageHeader: PageHeaderInterface = ({children, showPlaceholder}) => {

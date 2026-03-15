@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook} from '@testing-library/react';
 import {DependenciesContext} from '../DependenciesContext';
 import {renderHookWithProviders} from '../tests/utils';
 import {useDateFormatter} from './useDateFormatter';

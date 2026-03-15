@@ -1,5 +1,5 @@
 import {useStepProgress} from '@src/connect/components/AppWizard/useStepProgress';
-import {act, renderHook} from '@testing-library/react-hooks';
+import {act, renderHook} from '@testing-library/react';
 
 test('it goes forward on all the steps', () => {
     const steps = ['step 1', 'step 2', 'step 3'];
@@ -87,8 +87,12 @@ test('it stops at the first step when previous() is called', () => {
 });
 
 test('it throws if there is no step provided', () => {
-    const steps: string[] = [];
-    const {result} = renderHook(() => useStepProgress(steps));
+    // Suppress React error boundary console.error noise
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
-    expect(result.error.message).toBe('At least one step is required');
+    expect(() => {
+        renderHook(() => useStepProgress([]));
+    }).toThrow('At least one step is required');
+
+    consoleSpy.mockRestore();
 });

@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook, act} from '@testing-library/react';
 import useInfiniteEventSubscriptionLogs from '@src/webhook/hooks/api/use-infinite-event-subscription-logs';
 import {EventSubscriptionLogLevel} from '@src/webhook/model/EventSubscriptionLogLevel';
 import {mockFetchResponses} from '../../../../test-utils';
@@ -46,9 +46,7 @@ test('The first logs are fetched on mount', async () => {
         text: '',
     };
 
-    const {waitForNextUpdate, result, unmount} = renderHook(() =>
-        useInfiniteEventSubscriptionLogs('alkemics', filters, ref)
-    );
+    const {result, unmount} = renderHook(() => useInfiniteEventSubscriptionLogs('alkemics', filters, ref));
 
     expect(result.current).toEqual({
         logs: [],
@@ -60,7 +58,9 @@ test('The first logs are fetched on mount', async () => {
         isInitialized: false,
     });
 
-    await waitForNextUpdate();
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current).toEqual({
         logs: [

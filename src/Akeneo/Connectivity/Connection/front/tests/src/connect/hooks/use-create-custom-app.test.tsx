@@ -1,7 +1,7 @@
 import React from 'react';
 import {useCreateCustomApp} from '@src/connect/hooks/use-create-custom-app';
 import {fireEvent, screen, waitFor} from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import fetchMock from 'jest-fetch-mock';
 import {mockFetchResponses, renderWithProviders} from '../../../test-utils';
 import {setLogger} from 'react-query';

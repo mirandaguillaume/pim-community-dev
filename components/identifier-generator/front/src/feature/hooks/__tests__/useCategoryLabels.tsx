@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook, waitFor} from '@testing-library/react';
 import {createWrapper} from '../../tests/hooks/config/createWrapper';
 import {mockResponse} from '../../tests/test-utils';
 import {useCategoryLabels} from '../useCategoryLabels';
@@ -11,7 +11,7 @@ describe('useCategoryLabels', () => {
       categoryCode2: 'Category code 2',
     };
     const expectCall = mockResponse('akeneo_identifier_generator_get_category_labels', 'GET', {ok: true, json: labels});
-    const {result, waitFor} = renderHook(() => useCategoryLabels(categoryCodes), {wrapper: createWrapper()});
+    const {result} = renderHook(() => useCategoryLabels(categoryCodes), {wrapper: createWrapper()});
     await waitFor(() => Object.keys(result.current).length > 0);
 
     expectCall();

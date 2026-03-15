@@ -1,4 +1,4 @@
-import {act} from 'react-test-renderer';
+import {act} from '@testing-library/react';
 import {useFetch} from './useFetch';
 import {renderHookWithProviders} from '../tests';
 

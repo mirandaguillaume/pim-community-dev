@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook, act} from '@testing-library/react';
 import {useFetchData} from '@src/shared/hooks/use-fetch-data';
 import {mockFetchResponses} from '../../../test-utils';
 
@@ -9,7 +9,7 @@ test('it returns loading status and fetched data', async () => {
         },
     });
 
-    const {result, waitForNextUpdate} = renderHook(() =>
+    const {result} = renderHook(() =>
         useFetchData<{some: string}>('some_route', {
             someParam: 'someParamValue',
         })
@@ -20,7 +20,9 @@ test('it returns loading status and fetched data', async () => {
         data: undefined,
     });
 
-    await waitForNextUpdate();
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current).toStrictEqual({
         isLoading: false,
@@ -36,7 +38,7 @@ test('it returns loading status and fetched data is undefined on fetch error', a
         },
     });
 
-    const {result, waitForNextUpdate} = renderHook(() =>
+    const {result} = renderHook(() =>
         useFetchData<{some: string}>('some_route', {
             someParam: 'someParamValue',
         })
@@ -47,7 +49,9 @@ test('it returns loading status and fetched data is undefined on fetch error', a
         data: undefined,
     });
 
-    await waitForNextUpdate();
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current).toStrictEqual({
         isLoading: false,

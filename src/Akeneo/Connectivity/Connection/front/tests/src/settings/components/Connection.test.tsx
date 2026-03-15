@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import {createMemoryHistory} from 'history';
 import * as React from 'react';
 import {Router} from 'react-router';
-import {act} from 'react-test-renderer';
+import {act} from '@testing-library/react';
 import {renderWithProviders} from '../../../test-utils';
 
 describe('Connection', () => {

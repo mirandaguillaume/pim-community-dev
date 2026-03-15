@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, ReactNode} from 'react';
 import {useTranslate} from '@akeneo-pim-community/shared';
 import {ProgressBar} from 'akeneo-design-system';
 import {IntegerPercent} from '../../../../domain';
@@ -6,6 +6,7 @@ import {getProgressBarLevel} from '../../../helper/Dashboard/KeyIndicator';
 import {Container, Content, Icon} from './styled';
 
 interface Props {
+  children?: ReactNode;
   percentOK: IntegerPercent;
   titleI18nKey: string;
   icon: React.ReactNode;

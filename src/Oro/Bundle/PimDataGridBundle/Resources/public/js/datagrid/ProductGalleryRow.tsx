@@ -10,7 +10,6 @@ const MediaUrlGenerator = require('pim/media-url-generator');
 const Router = require('pim/router');
 
 class ProductGalleryRow extends BaseRow {
-  reactRef: Element | null;
   selected: boolean;
 
   constructor(options?: ViewOptions) {
@@ -21,7 +20,6 @@ class ProductGalleryRow extends BaseRow {
     });
 
     this.selected = false;
-    this.reactRef = null;
   }
 
   initialize(options: object) {
@@ -92,19 +90,14 @@ class ProductGalleryRow extends BaseRow {
   }
 
   renderReactElement(component: React.ReactElement, container: Element) {
-    this.reactRef = container;
-
     ReactDOM.render(
       React.createElement(ThemeProvider, {theme: pimTheme}, React.createElement(DependenciesProvider, null, component)),
-      this.reactRef
+      container
     );
   }
 
   unmountReact() {
-    if (null !== this.reactRef) {
-      ReactDOM.unmountComponentAtNode(this.reactRef);
-      this.reactRef = null;
-    }
+    ReactDOM.unmountComponentAtNode(this.el);
   }
 
   updateSelection(isSelected: boolean) {

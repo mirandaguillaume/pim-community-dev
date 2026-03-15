@@ -1,6 +1,5 @@
 import React, {FC, useContext, useEffect} from 'react';
-import {renderHook} from '@testing-library/react-hooks';
-import {act} from 'react-test-renderer';
+import {renderHook, act} from '@testing-library/react';
 import {DraggedNode, TreeNode} from '../models';
 import {OrderableTreeContext, OrderableTreeProvider} from '../components';
 import {ReorderOnDropHandler, useDropTreeNode} from './useDropTreeNode';

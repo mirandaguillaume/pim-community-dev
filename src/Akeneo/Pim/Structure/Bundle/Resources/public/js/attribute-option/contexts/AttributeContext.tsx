@@ -1,4 +1,4 @@
-import React, {createContext, FC, useContext} from 'react';
+import React, {createContext, FC, useContext, ReactNode} from 'react';
 import useAttributeContextState from '../hooks/useAttributeContextState';
 
 export type AttributeContextState = {
@@ -19,6 +19,7 @@ export const useAttributeContext = () => {
 };
 
 type AttributeContextProviderProps = {
+  children?: ReactNode;
   attributeId: number;
   autoSortOptions: boolean;
 };

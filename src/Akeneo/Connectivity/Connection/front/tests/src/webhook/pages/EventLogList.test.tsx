@@ -3,7 +3,7 @@ import {createMemoryHistory} from 'history';
 import React from 'react';
 import {Router} from 'react-router-dom';
 import {MockFetchResponses, mockFetchResponses, renderWithProviders} from '../../../test-utils';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import fetchMock from 'jest-fetch-mock';
 import {screen, within} from '@testing-library/react';
 import {EventSubscriptionLogLevel} from '@src/webhook/model/EventSubscriptionLogLevel';

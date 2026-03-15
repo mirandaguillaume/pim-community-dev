@@ -1,4 +1,4 @@
-import React, {createContext, FC, useContext} from 'react';
+import React, {createContext, FC, useContext, ReactNode} from 'react';
 
 import {AttributeOption} from '../model';
 import {EditingOptionContextState, useEditingOptionContextState} from '../hooks/useEditingOptionContextState';
@@ -15,6 +15,7 @@ export const useEditingOptionContext = (): EditingOptionContextState => {
 };
 
 type EditingOptionContextProviderProps = {
+  children?: ReactNode;
   option: AttributeOption;
 };
 

@@ -249,7 +249,26 @@ class BaseView extends Backbone.View<any> implements View {
   }
 
   /**
-   * Render a React component with the given props wrapped with PIM theme & legacy providers inside the given container
+   * Render a React element (JSX) into a container.
+   * Unlike renderReact(), this does NOT wrap with ThemeProvider/DependenciesProvider.
+   *
+   * Uses the legacy ReactDOM.render() API — see renderReact() for rationale.
+   */
+  renderReactElement(element: React.ReactElement, container: Element = this.el) {
+    this.reactRef = container;
+    ReactDOM.render(element, container);
+  }
+
+  /**
+   * Render a React component with the given props wrapped with PIM theme & legacy providers inside the given container.
+   *
+   * Uses the legacy ReactDOM.render() API.  In this Backbone→React bridge,
+   * createRoot() attaches event-delegation listeners to the container element
+   * rather than `document`.  Native events dispatched by Selenium/ChromeDriver
+   * can fail to bubble to deeply-nested containers, silently breaking onClick
+   * handlers.  The legacy API delegates events to `document` (React 17
+   * behaviour), which is correct for bridge components where Backbone manages
+   * the DOM hierarchy.
    */
   renderReact<T>(
     componentType: string | React.FunctionComponent | React.ComponentClass | React.ElementType,
@@ -263,7 +282,7 @@ class BaseView extends Backbone.View<any> implements View {
         {theme: pimTheme},
         React.createElement(DependenciesProvider, null, React.createElement(componentType, props))
       ),
-      this.reactRef
+      container
     );
   }
 

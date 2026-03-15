@@ -1,10 +1,11 @@
-import React, {FC} from 'react';
+import React, {FC, ReactNode} from 'react';
 import {useTranslate} from '@akeneo-pim-community/shared';
 import {ProgressBar} from 'akeneo-design-system';
 
 import {Container, Content, Icon, Text} from './styled';
 
 interface Props {
+  children?: ReactNode;
   type: string;
   title: string;
 }

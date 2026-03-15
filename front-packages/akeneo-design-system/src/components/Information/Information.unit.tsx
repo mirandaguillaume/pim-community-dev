@@ -14,7 +14,7 @@ describe('A helper', () => {
     );
 
     const {getByText} = render(
-      <Information title={helperTitle} illustration={UsersIllustration}>
+      <Information title={helperTitle} illustration={<UsersIllustration />}>
         {helperMessage}
       </Information>
     );
@@ -28,7 +28,7 @@ describe('Information supports forwardRef', () => {
   const ref = {current: null};
 
   render(
-    <Information illustration={UsersIllustration} title="Some information" ref={ref}>
+    <Information illustration={<UsersIllustration />} title="Some information" ref={ref}>
       Some Information
     </Information>
   );
@@ -37,7 +37,7 @@ describe('Information supports forwardRef', () => {
 
 describe('Information supports ...rest props', () => {
   const {container} = render(
-    <Information illustration={UsersIllustration} title="Some information" data-my-attribute="my_value">
+    <Information illustration={<UsersIllustration />} title="Some information" data-my-attribute="my_value">
       Some Information
     </Information>
   );

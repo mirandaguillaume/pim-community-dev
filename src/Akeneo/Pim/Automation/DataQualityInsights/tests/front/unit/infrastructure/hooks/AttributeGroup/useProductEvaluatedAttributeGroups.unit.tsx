@@ -1,5 +1,5 @@
 import React, {PropsWithChildren} from 'react';
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook, act} from '@testing-library/react';
 import {Provider} from 'react-redux';
 import {createStoreWithInitialState} from '@akeneo-pim-community/data-quality-insights/src/infrastructure/store/productEditFormStore';
 import {
@@ -32,8 +32,10 @@ describe('AttributeGroupsHelper', () => {
       technical: {code: 'technical', labels: {en_US: 'Technical'}},
     });
 
-    const {result, waitForNextUpdate} = await renderUseProductEvaluatedAttributeGroups(getInitialState());
-    await waitForNextUpdate();
+    const {result} = await renderUseProductEvaluatedAttributeGroups(getInitialState());
+    await act(async () => {
+      await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(fetchAllAttributeGroupsDqiStatus).toHaveBeenCalledTimes(1);
     expect(fetchAttributeGroupsByCode).toHaveBeenNthCalledWith(1, ['erp', 'technical']);
@@ -47,8 +49,10 @@ describe('AttributeGroupsHelper', () => {
   test('Product with 3 attribute groups, all activated', async () => {
     fetchAllAttributeGroupsDqiStatus.mockResolvedValueOnce({erp: true, technical: true, marketing: true});
 
-    const {result, waitForNextUpdate} = await renderUseProductEvaluatedAttributeGroups(getInitialState());
-    await waitForNextUpdate();
+    const {result} = await renderUseProductEvaluatedAttributeGroups(getInitialState());
+    await act(async () => {
+      await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(fetchAllAttributeGroupsDqiStatus).toHaveBeenCalledTimes(1);
     expect(fetchAttributeGroupsByCode).not.toHaveBeenCalled();
@@ -59,8 +63,10 @@ describe('AttributeGroupsHelper', () => {
   test('Product with 3 attribute groups, all disabled', async () => {
     fetchAllAttributeGroupsDqiStatus.mockResolvedValueOnce({erp: false, technical: false, marketing: false});
 
-    const {result, waitForNextUpdate} = await renderUseProductEvaluatedAttributeGroups(getInitialState());
-    await waitForNextUpdate();
+    const {result} = await renderUseProductEvaluatedAttributeGroups(getInitialState());
+    await act(async () => {
+      await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(fetchAllAttributeGroupsDqiStatus).toHaveBeenCalledTimes(1);
     expect(fetchAttributeGroupsByCode).not.toHaveBeenCalled();

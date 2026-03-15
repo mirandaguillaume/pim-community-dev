@@ -1,5 +1,5 @@
 import {useBooleanState, useIsMounted} from '.';
-import {DependencyList, useEffect, useState} from 'react';
+import {DependencyList, useEffect, useRef, useState} from 'react';
 
 const usePaginatedResults = <Type>(
   fetcher: (page: number) => Promise<Type[]>,
@@ -8,7 +8,13 @@ const usePaginatedResults = <Type>(
 ) => {
   const [results, setResults] = useState<Type[] | null>(null);
   const [page, setPage] = useState<number>(0);
-  const [isFetching, startFetching, stopFetching] = useBooleanState();
+  // In React 18, state updates are batched — using state for isFetching caused infinite
+  // re-fetch loops because stopFetching() and setResults() were batched into one render.
+  // A ref is synchronously updated and prevents re-entrant fetching.
+  const isFetchingRef = useRef(false);
+  // A counter that triggers the fetch effect when dependencies change, replacing the old
+  // pattern of depending on `results` (which caused re-fetch loops whenever results changed).
+  const [fetchTrigger, setFetchTrigger] = useState(0);
   const [isLastPage, onLastPage, notOnLastPage] = useBooleanState();
   const isMounted = useIsMounted();
 
@@ -17,12 +23,12 @@ const usePaginatedResults = <Type>(
 
     setPage(0);
     notOnLastPage();
-    // We need this to re-trigger the fetching of results in case of search on first load
-    setResults([...results]);
+    isFetchingRef.current = false;
+    setFetchTrigger(t => t + 1);
   }, dependencies);
 
   useEffect(() => {
-    if (isFetching || isLastPage || !shouldFetch) return;
+    if (isFetchingRef.current || isLastPage || !shouldFetch) return;
 
     const fetchResults = async () => {
       const newResults = await fetcher(page);
@@ -36,12 +42,12 @@ const usePaginatedResults = <Type>(
 
         return [...currentResults, ...newResults];
       });
-      stopFetching();
+      isFetchingRef.current = false;
     };
 
-    startFetching();
+    isFetchingRef.current = true;
     void fetchResults();
-  }, [page, results, shouldFetch]);
+  }, [page, fetchTrigger, shouldFetch]);
 
   useEffect(() => {
     if (shouldFetch) return;
@@ -52,7 +58,7 @@ const usePaginatedResults = <Type>(
   }, [shouldFetch]);
 
   const fetchNextPage = () => {
-    if (isFetching || isLastPage) return;
+    if (isFetchingRef.current || isLastPage) return;
 
     setPage(page => page + 1);
   };

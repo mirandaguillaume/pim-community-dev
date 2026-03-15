@@ -1,4 +1,4 @@
-import React, {createContext, FC, useContext} from 'react';
+import React, {createContext, FC, useContext, ReactNode} from 'react';
 import {AttributeGroupsStatusCollection, useFetchAllAttributeGroupsStatus} from '../../infrastructure/hooks';
 
 type AttributeGroupsStatusContextState = {
@@ -17,7 +17,7 @@ const useAttributeGroupsStatusContext = () => {
   return useContext(AttributeGroupsStatusContext);
 };
 
-const AttributeGroupsStatusProvider: FC = ({children}) => {
+const AttributeGroupsStatusProvider: FC<{children?: ReactNode}> = ({children}) => {
   const {load, status} = useFetchAllAttributeGroupsStatus();
 
   return (

@@ -2,7 +2,8 @@ import React, {Children, FC, isValidElement, ReactNode} from 'react';
 import styled from 'styled-components';
 
 type Props = {
-  type: ReactNode;
+  children?: ReactNode;
+  type: React.ElementType;
 };
 
 const Container = styled.span`

@@ -1,5 +1,6 @@
 import {renderHookWithProviders} from '@akeneo-pim-community/shared';
 import {useGetPublicKey} from './useGetPublicKey';
+import {act} from '@testing-library/react';
 
 test('it returns a public key', async () => {
   global.fetch = jest.fn().mockImplementation(async () => ({
@@ -7,9 +8,11 @@ test('it returns a public key', async () => {
     json: async () => '-----BEGIN CERTIFICATE-----publickey-----END CERTIFICATE-----',
   }));
 
-  const {result, waitForNextUpdate} = renderHookWithProviders(() => useGetPublicKey());
+  const {result} = renderHookWithProviders(() => useGetPublicKey());
 
-  await waitForNextUpdate();
+  await act(async () => {
+    await new Promise(r => setTimeout(r, 0));
+  });
 
   const expectedPublicKey = '-----BEGIN CERTIFICATE-----publickey-----END CERTIFICATE-----';
   expect(result.current).toEqual(expectedPublicKey);

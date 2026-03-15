@@ -30,6 +30,7 @@ const DELETE_ATTRIBUTES_JOB = 'delete_attributes';
 
 class AttributeMassDeleteAction extends MassAction {
   public readonly identifierFieldName: string = 'code';
+  private modalRendered = false;
 
   public async execute(): Promise<void> {
     const data = await this.getMassActionData();
@@ -46,7 +47,10 @@ class AttributeMassDeleteAction extends MassAction {
   }
 
   private closeModal(): void {
-    ReactDOM.unmountComponentAtNode(this.el);
+    if (this.modalRendered) {
+      ReactDOM.unmountComponentAtNode(this.el);
+      this.modalRendered = false;
+    }
   }
 
   private renderModal(data: MassActionData, canConfirmDelete: boolean): void {
@@ -71,6 +75,7 @@ class AttributeMassDeleteAction extends MassAction {
       canConfirmDelete,
     };
 
+    this.modalRendered = true;
     ReactDOM.render(
       React.createElement(
         ThemeProvider,

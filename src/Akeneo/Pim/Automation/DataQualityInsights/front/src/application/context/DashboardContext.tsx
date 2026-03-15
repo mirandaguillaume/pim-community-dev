@@ -1,4 +1,4 @@
-import React, {createContext, FC, useContext} from 'react';
+import React, {createContext, FC, useContext, ReactNode} from 'react';
 import {useInitDashboardContextState} from '../../infrastructure/hooks/useInitDashboardContextState';
 
 export type DashboardCategoryFilter = {
@@ -24,6 +24,7 @@ export const useDashboardContext = () => {
 };
 
 type Props = {
+  children?: ReactNode;
   familyCode: string | null;
   category: DashboardCategoryFilter | null;
 };

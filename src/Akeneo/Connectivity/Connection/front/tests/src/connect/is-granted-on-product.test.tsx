@@ -1,5 +1,5 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import isGrantedOnProduct from '@src/connect/is-granted-on-product';
 
 const connectedApp = {

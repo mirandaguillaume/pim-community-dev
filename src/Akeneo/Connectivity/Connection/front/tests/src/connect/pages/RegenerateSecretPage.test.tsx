@@ -1,5 +1,5 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import fetchMock from 'jest-fetch-mock';
 import {historyMock, mockFetchResponses, renderWithProviders} from '../../../test-utils';
 import {RegenerateSecretPage} from '@src/connect/pages/RegenerateSecretPage';

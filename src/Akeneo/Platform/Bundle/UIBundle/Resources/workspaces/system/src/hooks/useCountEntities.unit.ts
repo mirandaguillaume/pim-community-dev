@@ -1,6 +1,7 @@
 import {renderHookWithProviders} from '@akeneo-pim-community/legacy-bridge/tests/front/unit/utils';
 import fetchMock from 'jest-fetch-mock';
 import {useCountEntities} from './useCountEntities';
+import {act} from '@testing-library/react';
 
 test('it return the entities count', async () => {
   fetchMock.mockResponseOnce(
@@ -15,8 +16,10 @@ test('it return the entities count', async () => {
     }
   );
 
-  const {result, waitForNextUpdate} = renderHookWithProviders(useCountEntities);
-  await waitForNextUpdate();
+  const {result} = renderHookWithProviders(useCountEntities);
+  await act(async () => {
+    await new Promise(r => setTimeout(r, 0));
+  });
 
   expect(result.current).toEqual({
     count_categories: 168,

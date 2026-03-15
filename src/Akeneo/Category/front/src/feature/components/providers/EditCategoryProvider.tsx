@@ -1,4 +1,4 @@
-import React, {createContext, FC, useEffect} from 'react';
+import React, {createContext, FC, ReactNode, useEffect} from 'react';
 import {fromPairs} from 'lodash/fp';
 import {Channel, Locale, useFetch, useRoute} from '@akeneo-pim-community/shared';
 
@@ -24,7 +24,7 @@ const EditCategoryContext = createContext<EditCategoryContextContent>({
   localesFetchFailed: false,
 });
 
-const EditCategoryProvider: FC = ({children}) => {
+const EditCategoryProvider: FC<{children?: ReactNode}> = ({children}) => {
   const channelsUrl = useRoute('pim_enrich_channel_rest_index');
   let [channelsArray, fetchChannels, statusFetchChannels] = useFetch<Channel[]>(channelsUrl);
 

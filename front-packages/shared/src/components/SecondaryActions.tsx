@@ -1,8 +1,8 @@
-import React, {cloneElement, FC, isValidElement} from 'react';
+import React, {cloneElement, FC, isValidElement, ReactNode} from 'react';
 import {Dropdown, IconButton, MoreIcon, useBooleanState} from 'akeneo-design-system';
 import {useTranslate} from '../hooks';
 
-const SecondaryActions: FC & {Item: typeof Dropdown.Item} = ({children}) => {
+const SecondaryActions: FC<{children?: ReactNode}> & {Item: typeof Dropdown.Item} = ({children}) => {
   const translate = useTranslate();
   const [isOpen, open, close] = useBooleanState();
 

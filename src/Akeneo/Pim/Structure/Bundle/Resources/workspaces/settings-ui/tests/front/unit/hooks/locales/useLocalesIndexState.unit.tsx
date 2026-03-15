@@ -17,10 +17,11 @@ describe('useLocalesIndexState', () => {
 
   test('it throws an error if it used outside Locales datagrid context', () => {
     jest.spyOn(React, 'useContext').mockImplementation(() => undefined);
+    jest.spyOn(console, 'error').mockImplementation(() => {});
 
-    const {result} = renderUseLocalesIndexState();
-
-    expect(result.error).not.toBeNull();
+    expect(() => renderUseLocalesIndexState()).toThrow(
+      "[Context]: You are trying to use 'LocalesIndex' context outside Provider"
+    );
   });
 
   test('it returns context', () => {

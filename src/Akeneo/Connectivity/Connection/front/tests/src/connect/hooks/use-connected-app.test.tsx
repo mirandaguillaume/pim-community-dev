@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook, act} from '@testing-library/react';
 import {useFeatureFlags} from '@src/shared/feature-flags';
 import {useConnectedApp} from '@src/connect/hooks/use-connected-app';
 import {useFetchConnectedApp} from '@src/connect/hooks/use-fetch-connected-app';
@@ -16,7 +16,7 @@ test('it returns forbidden error with marketplace activate feature flag disabled
         isEnabled: () => false,
     }));
 
-    const {result, waitForNextUpdate} = renderHook(() => useConnectedApp('someConnectionCode'));
+    const {result} = renderHook(() => useConnectedApp('someConnectionCode'));
 
     expect(result.current).toStrictEqual({
         loading: false,
@@ -34,7 +34,7 @@ test('it returns loading status then forbidden error when fetching connected app
         useCallback(async () => Promise.reject('403 Forbidden'), [])
     );
 
-    const {result, waitForNextUpdate} = renderHook(() => useConnectedApp('someConnectionCode'));
+    const {result} = renderHook(() => useConnectedApp('someConnectionCode'));
 
     expect(result.current).toStrictEqual({
         loading: true,
@@ -42,7 +42,9 @@ test('it returns loading status then forbidden error when fetching connected app
         payload: null,
     });
 
-    await waitForNextUpdate();
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current).toStrictEqual({
         loading: false,
@@ -60,7 +62,7 @@ test('it returns loading status then not found error when fetching connected app
         useCallback(async () => Promise.reject('404 Not Found'), [])
     );
 
-    const {result, waitForNextUpdate} = renderHook(() => useConnectedApp('someConnectionCode'));
+    const {result} = renderHook(() => useConnectedApp('someConnectionCode'));
 
     expect(result.current).toStrictEqual({
         loading: true,
@@ -68,7 +70,9 @@ test('it returns loading status then not found error when fetching connected app
         payload: null,
     });
 
-    await waitForNextUpdate();
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current).toStrictEqual({
         loading: false,
@@ -102,7 +106,7 @@ test('it returns loading status then a connected app', async () => {
         useCallback(async () => Promise.resolve(connectedApp), [])
     );
 
-    const {result, waitForNextUpdate} = renderHook(() => useConnectedApp('someConnectionCode'));
+    const {result} = renderHook(() => useConnectedApp('someConnectionCode'));
 
     expect(result.current).toStrictEqual({
         loading: true,
@@ -110,7 +114,9 @@ test('it returns loading status then a connected app', async () => {
         payload: null,
     });
 
-    await waitForNextUpdate();
+    await act(async () => {
+        await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(result.current).toStrictEqual({
         loading: false,

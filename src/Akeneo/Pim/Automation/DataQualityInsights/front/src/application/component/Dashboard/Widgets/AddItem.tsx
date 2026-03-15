@@ -1,7 +1,8 @@
-import React, {FC} from 'react';
+import React, {FC, ReactNode} from 'react';
 import {Button} from 'akeneo-design-system';
 
 type Props = {
+  children?: ReactNode;
   add: () => void;
 };
 

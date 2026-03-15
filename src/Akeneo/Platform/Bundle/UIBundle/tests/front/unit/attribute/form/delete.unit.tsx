@@ -1,5 +1,5 @@
-import ReactDOM from 'react-dom';
-import {screen} from '@testing-library/react';
+import {createRoot, Root} from 'react-dom/client';
+import {act, screen} from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 let container: HTMLElement;
@@ -17,6 +17,7 @@ const getFormData = jest.fn().mockImplementation(() => ({
 
 abstract class BaseViewMock {
   el: HTMLElement;
+  private reactRoot: Root | null = null;
 
   constructor(container: HTMLElement) {
     this.el = container;
@@ -25,7 +26,10 @@ abstract class BaseViewMock {
   abstract reactElementToMount(): JSX.Element;
 
   render() {
-    ReactDOM.render(this.reactElementToMount(), this.el);
+    if (!this.reactRoot) {
+      this.reactRoot = createRoot(this.el);
+    }
+    this.reactRoot.render(this.reactElementToMount());
   }
 
   getRoot() {
@@ -41,7 +45,9 @@ const Delete = require('pimui/js/attribute/form/delete');
 
 test('it render a delete action button', () => {
   const component = new Delete(container);
-  component.render();
+  act(() => {
+    component.render();
+  });
 
   expect(screen.getByText('pim_common.delete')).toBeInTheDocument();
 });

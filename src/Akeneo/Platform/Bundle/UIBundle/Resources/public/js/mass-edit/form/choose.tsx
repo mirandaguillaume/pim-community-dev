@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import BaseView from '../../view/base';
 import {ThemeProvider} from 'styled-components';
@@ -32,7 +31,7 @@ class Choose extends BaseView {
     const currentOperationCode = (this.getParent() as MassEditForm).getCurrentOperation();
     const update = this.updateOperation.bind(this);
 
-    ReactDOM.render(
+    this.renderReactElement(
       <DependenciesProvider>
         <ThemeProvider theme={pimTheme}>
           <ChooseApp operations={operations} selectedOperationCode={currentOperationCode} onChange={update} />
@@ -45,7 +44,7 @@ class Choose extends BaseView {
   }
 
   public remove() {
-    ReactDOM.unmountComponentAtNode(this.el);
+    this.unmountReact();
 
     return super.remove();
   }

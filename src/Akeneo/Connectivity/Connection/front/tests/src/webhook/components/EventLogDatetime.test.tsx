@@ -1,5 +1,5 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {render, screen} from '@testing-library/react';
 import EventLogDatetime from '@src/webhook/components/EventLogDatetime';
 import {UserInterface, UserContext} from '@src/shared/user';

@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook} from '@testing-library/react';
 import {fireEvent} from '../storybook/test-util';
 import {useShortcut} from './useShortcut';
 import {Key} from '../shared';

@@ -1,5 +1,5 @@
 import {Deferred} from 'jquery';
-import {mountReactElementRef, unmoundReactElementRef} from './react-element-helper';
+import {getOrCreateContainer, mountReactElementRef, unmoundReactElementRef} from './react-element-helper';
 
 const BaseController = require('pim/controller/base');
 const mediator = require('oro/mediator');
@@ -24,7 +24,13 @@ abstract class ReactController extends BaseController {
   }
 
   renderRoute(_route: any) {
-    this.$el.append(mountReactElementRef(this.reactElementToMount()));
+    // Attach the container to the DOM BEFORE creating the React 18 root.
+    // React 18 delegates events to the createRoot container (not document).
+    // Event listeners set up on a detached container may not dispatch correctly.
+    const container = getOrCreateContainer();
+    this.$el.append(container);
+
+    mountReactElementRef(this.reactElementToMount());
 
     return Deferred().resolve();
   }

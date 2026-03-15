@@ -1,6 +1,6 @@
 import {AuthenticationModal} from '@src/connect/components/AppWizard/AuthenticationModal';
 import {NotificationLevel, NotifyContext} from '@src/shared/notify';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {act, render, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {pimTheme} from 'akeneo-design-system';
@@ -58,9 +58,7 @@ test('it renders correctly', async () => {
 
     renderWithProviders(<AuthenticationModal clientId='0dfce574-2238-4b13-b8cc-8d257ce7645b' />);
 
-    await waitFor(() => screen.queryByText('authentication-component'));
-
-    expect(screen.queryByText('authentication-component')).toBeInTheDocument();
+    expect(await screen.findByText('authentication-component')).toBeInTheDocument();
     expect(Authentication).toBeCalledWith(
         expect.objectContaining({
             appName: 'Extension 1',
@@ -102,7 +100,7 @@ test('it consents to the authentication scopes & redirect the user', async () =>
         </ThemeProvider>
     );
 
-    await waitFor(() => screen.queryByText('authentication-component'));
+    await screen.findByText('authentication-component');
 
     act(() => {
         userEvent.click(screen.getByText('authentication-component'));
@@ -142,7 +140,7 @@ test('it cancels the authentication', async () => {
 
     renderWithProviders(<AuthenticationModal clientId='0dfce574-2238-4b13-b8cc-8d257ce7645b' />);
 
-    await waitFor(() => screen.queryByText('authentication-component'));
+    await screen.findByText('authentication-component');
 
     act(() => {
         userEvent.click(screen.getByText('akeneo_connectivity.connection.connect.apps.wizard.action.cancel'));
@@ -178,9 +176,7 @@ test('it prevents redirection without user consent', async () => {
         </NotifyContext.Provider>
     );
 
-    await waitFor(() => screen.queryByText('authentication-component'));
-
-    expect(screen.queryByText('authentication-component')).toBeInTheDocument();
+    expect(await screen.findByText('authentication-component')).toBeInTheDocument();
 
     act(() => {
         userEvent.click(screen.getByText('akeneo_connectivity.connection.connect.apps.wizard.action.confirm'));
@@ -231,9 +227,7 @@ test('it allows redirection when checkbox consent is not displayed', async () =>
         </NotifyContext.Provider>
     );
 
-    await waitFor(() => screen.queryByText('authentication-component'));
-
-    expect(screen.queryByText('authentication-component')).toBeInTheDocument();
+    expect(await screen.findByText('authentication-component')).toBeInTheDocument();
 
     act(() => {
         userEvent.click(screen.getByText('akeneo_connectivity.connection.connect.apps.wizard.action.confirm'));

@@ -1,4 +1,4 @@
-import React, {createContext, FC} from 'react';
+import React, {createContext, FC, ReactNode} from 'react';
 import {ActivatedLocalesState, useActivatedLocales} from '../../hooks';
 
 type LocalesIndexState = ActivatedLocalesState;
@@ -9,7 +9,7 @@ const LocalesIndexContext = createContext<LocalesIndexState>({
   load: async () => {},
 });
 
-const LocalesIndexProvider: FC = ({children}) => {
+const LocalesIndexProvider: FC<{children?: ReactNode}> = ({children}) => {
   const state = useActivatedLocales();
   return <LocalesIndexContext.Provider value={state}>{children}</LocalesIndexContext.Provider>;
 };

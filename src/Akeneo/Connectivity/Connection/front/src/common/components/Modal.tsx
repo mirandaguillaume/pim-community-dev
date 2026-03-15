@@ -1,6 +1,7 @@
 import React, {FC, ReactNode, useEffect} from 'react';
 
 interface Props {
+    children?: ReactNode;
     subTitle: ReactNode;
     title: ReactNode;
     description: ReactNode;

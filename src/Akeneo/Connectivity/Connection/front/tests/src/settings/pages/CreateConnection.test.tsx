@@ -1,6 +1,6 @@
 import {ConnectionsProvider} from '@src/settings/connections-context';
 import {CreateConnection} from '@src/settings/pages/CreateConnection';
-import {act, screen, waitFor} from '@testing-library/react';
+import {screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {createMemoryHistory} from 'history';
 import React from 'react';
@@ -33,17 +33,15 @@ describe('testing CreateConnection page', () => {
         const flowTypeSelect = screen.getByLabelText(/^akeneo_connectivity\.connection\.connection\.flow_type/);
         const saveButton = screen.getByText('pim_common.save');
 
-        await act(async () => {
-            userEvent.clear(labelInput);
-            await waitFor(() => expect(labelInput.value).toBe(''));
-            userEvent.type(labelInput, 'Magento');
+        userEvent.clear(labelInput);
+        await waitFor(() => expect(labelInput.value).toBe(''));
+        userEvent.type(labelInput, 'Magento');
 
-            userEvent.click(flowTypeSelect);
-            userEvent.click(await screen.findByText(/akeneo_connectivity\.connection\.flow_type\.data_destination/));
-            userEvent.click(saveButton);
-        });
+        userEvent.click(flowTypeSelect);
+        userEvent.click(await screen.findByText(/akeneo_connectivity\.connection\.flow_type\.data_destination/));
+        userEvent.click(saveButton);
 
-        expect(fetchMock).toBeCalled();
+        await waitFor(() => expect(fetchMock).toBeCalled());
         expect(fetchMock.mock.calls[0][0]).toEqual('akeneo_connectivity_connection_rest_create');
         expect(fetchMock.mock.calls[0][1]).toMatchObject({
             method: 'POST',

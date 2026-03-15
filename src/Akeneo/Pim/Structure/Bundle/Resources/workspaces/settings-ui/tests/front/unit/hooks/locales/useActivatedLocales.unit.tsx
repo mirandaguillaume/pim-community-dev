@@ -2,7 +2,7 @@ import {renderHookWithProviders} from '@akeneo-pim-community/legacy-bridge/tests
 import {useActivatedLocales} from '../../../../../src/hooks/locales';
 import {aListOfLocales} from '../../../utils/provideLocaleHelper';
 import {fetchActivatedLocales} from '../../../../../src/infrastructure/fetchers';
-import {act} from 'react-test-renderer';
+import {act} from '@testing-library/react';
 
 jest.mock('@akeneo-pim-community/settings-ui/src/infrastructure/fetchers/localesFetcher');
 

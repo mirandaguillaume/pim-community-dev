@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook, waitFor} from '@testing-library/react';
 import {createWrapper} from '../../tests/hooks/config/createWrapper';
 import {ServerError} from '../../errors';
 import {useGetReferenceEntitiesRecord} from '../useGetReferenceEntitiesRecord';
@@ -28,16 +28,13 @@ describe('useGetReferenceEntitiesRecord', () => {
     });
     jest.spyOn(global, 'fetch').mockImplementation(fetchImplementation);
 
-    const {result, waitFor} = renderHook(
-      () => useGetReferenceEntitiesRecord({attributeCode: 'attribute', enabled: true}),
-      {
-        wrapper: createWrapper(),
-      }
-    );
+    const {result} = renderHook(() => useGetReferenceEntitiesRecord({attributeCode: 'attribute', enabled: true}), {
+      wrapper: createWrapper(),
+    });
 
-    await waitFor(() => !!result.current.error);
-
-    expect(result.current.error).toBeDefined();
+    await waitFor(() => {
+      expect(result.current.error).not.toBeNull();
+    });
     expect(result.current.error).toBeInstanceOf(ServerError);
   });
 });

@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook, waitFor} from '@testing-library/react';
 import {createWrapper} from '../../tests/hooks/config/createWrapper';
 import {mockResponse} from '../../tests/test-utils';
 import {useCategoryTree} from '../useCategoryTree';
@@ -25,7 +25,7 @@ const childrenResponse: CategoryResponse[] = [
 
 describe('useCategoryTree', () => {
   test('it calls init', async () => {
-    const {result, waitFor} = renderHook(() => useCategoryTree(categoryTree), {wrapper: createWrapper()});
+    const {result} = renderHook(() => useCategoryTree(categoryTree), {wrapper: createWrapper()});
     await waitFor(() => !!result.current);
 
     const expectCall = mockResponse('pim_enrich_categorytree_children', 'GET', {ok: true, json: childrenResponse});
@@ -52,7 +52,7 @@ describe('useCategoryTree', () => {
   });
 
   test('it calls children', async () => {
-    const {result, waitFor} = renderHook(() => useCategoryTree(categoryTree), {wrapper: createWrapper()});
+    const {result} = renderHook(() => useCategoryTree(categoryTree), {wrapper: createWrapper()});
     await waitFor(() => !!result.current);
 
     const expectCall = mockResponse('pim_enrich_categorytree_children', 'GET', {ok: true, json: childrenResponse});

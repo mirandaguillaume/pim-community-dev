@@ -1,4 +1,4 @@
-import {renderHook, act} from '@testing-library/react-hooks';
+import {renderHook, act} from '@testing-library/react';
 import {usePlaceholderPosition} from './usePlaceholderPosition';
 
 test('it return the placeholder position related to the drop position', () => {

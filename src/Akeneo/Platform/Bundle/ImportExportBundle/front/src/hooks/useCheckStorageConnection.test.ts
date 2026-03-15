@@ -1,4 +1,4 @@
-import {act} from '@testing-library/react-hooks';
+import {act} from '@testing-library/react';
 import {renderHookWithProviders} from '@akeneo-pim-community/shared';
 import {useCheckStorageConnection} from './useCheckStorageConnection';
 import {SftpStorage} from '../models';

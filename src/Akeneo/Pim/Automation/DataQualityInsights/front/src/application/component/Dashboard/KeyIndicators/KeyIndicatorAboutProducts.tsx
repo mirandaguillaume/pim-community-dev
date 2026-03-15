@@ -1,4 +1,4 @@
-import React, {FC, useCallback} from 'react';
+import React, {FC, useCallback, ReactNode} from 'react';
 import {useTranslate, useUserContext} from '@akeneo-pim-community/shared';
 import {computeTipMessage} from '../../../helper/Dashboard/KeyIndicator';
 import {
@@ -24,6 +24,7 @@ import {KeyIndicatorBase} from './KeyIndicatorBase';
 const defaultCounts = makeCounts();
 
 type Props = {
+  children?: ReactNode;
   type: KeyIndicatorProducts;
   counts: CountsByProductType;
   title: string;

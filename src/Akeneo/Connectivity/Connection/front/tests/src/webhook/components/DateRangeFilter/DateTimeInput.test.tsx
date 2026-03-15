@@ -1,5 +1,5 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import {screen, render} from '@testing-library/react';
 import {DateTimeInput} from '@src/webhook/components/DateRangeFilter/DateTimeInput';
 import {fireEvent} from '@testing-library/dom';
@@ -14,7 +14,7 @@ const renderDateTimeInput = (props: React.ComponentProps<typeof DateTimeInput>, 
         refresh: jest.fn(),
     };
 
-    const wrapper: React.FC = ({children}) => (
+    const wrapper: React.FC<React.PropsWithChildren> = ({children}) => (
         <UserContext.Provider value={user}>
             <ThemeProvider theme={theme}>{children}</ThemeProvider>
         </UserContext.Provider>

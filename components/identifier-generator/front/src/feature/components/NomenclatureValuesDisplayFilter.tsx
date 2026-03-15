@@ -15,7 +15,7 @@ const NomenclatureValuesDisplayFilter: React.FC<Props> = ({filter, onChange}) =>
   const [isOpen, open, close] = useBooleanState();
 
   const getLabel = useCallback(
-    codeFilter => translate(`pim_identifier_generator.nomenclature.filters.${codeFilter}`),
+    (codeFilter: string) => translate(`pim_identifier_generator.nomenclature.filters.${codeFilter}`),
     [translate]
   );
 

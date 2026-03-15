@@ -1,5 +1,4 @@
-import {act} from 'react-test-renderer';
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook, act} from '@testing-library/react';
 import {useDragElementIndex} from './useDragElementIndex';
 
 test('It manages dragging', () => {

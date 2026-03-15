@@ -1,4 +1,4 @@
-import React, {createContext, FC, useCallback, useState} from 'react';
+import React, {createContext, FC, ReactNode, useCallback, useState} from 'react';
 import {DraggedNode, DropTarget, HoveredNode} from '../../models';
 
 type OrderableTreeState = {
@@ -16,6 +16,7 @@ const OrderableTreeContext = createContext<OrderableTreeState>({
 });
 
 type Props = {
+  children?: ReactNode;
   isActive: boolean;
 };
 

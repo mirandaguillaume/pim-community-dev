@@ -19,6 +19,7 @@ class TreeView {
   private onChange: (treeLabel: string, categoryLabel?: string) => void;
   private listTreeRoute: string;
   private childrenRoute: string;
+  private rendered = false;
 
   constructor(
     domElement: HTMLElement,
@@ -133,6 +134,7 @@ class TreeView {
       this.onChange(treeLabel, categoryLabel);
     };
 
+    this.rendered = true;
     ReactDOM.render(
       <DependenciesProvider>
         <ThemeProvider theme={pimTheme}>
@@ -154,7 +156,10 @@ class TreeView {
   };
 
   public refresh = () => {
-    ReactDOM.unmountComponentAtNode(this.domElement);
+    if (this.rendered) {
+      ReactDOM.unmountComponentAtNode(this.domElement);
+      this.rendered = false;
+    }
     this.initTreeView();
   };
 

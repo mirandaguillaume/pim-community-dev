@@ -81,8 +81,8 @@ export const MultiSelectInputWithDynamicOptions = ({
 
     /* istanbul ignore next */
     const handleInitSelection = useCallback(
-        (element, callback) => {
-            const val = element.val().trim();
+        (element: JQuery, callback: (data: Select2Option[]) => void) => {
+            const val = String(element.val() ?? '').trim();
 
             if (val.length === 0) {
                 callback([]);

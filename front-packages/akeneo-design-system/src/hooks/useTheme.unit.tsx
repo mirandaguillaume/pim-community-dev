@@ -1,6 +1,6 @@
 import React, {ReactNode} from 'react';
 import {ThemeProvider} from 'styled-components';
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook} from '@testing-library/react';
 import {useTheme} from './useTheme';
 import {pimTheme} from '../theme/pim';
 

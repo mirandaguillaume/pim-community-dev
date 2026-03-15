@@ -46,6 +46,7 @@ const ScoreDistributionChart: FC<Props> = ({dataset, dateFormatCallback, periods
 
   return (
     <div ref={chartContainerRef}>
+      {/* @ts-expect-error Victory types incompatible with React 18 */}
       <VictoryChart
         height={INITIAL_CHART_HEIGHT}
         width={INITIAL_CHART_WIDTH}
@@ -95,6 +96,7 @@ const ScoreDistributionChart: FC<Props> = ({dataset, dateFormatCallback, periods
             },
           }}
         />
+        {/* @ts-expect-error Victory types incompatible with React 18 */}
         <VictoryStack colorScale={colorScale}>
           {Object.values(dataset).map((data: any, i: number) => {
             return (
