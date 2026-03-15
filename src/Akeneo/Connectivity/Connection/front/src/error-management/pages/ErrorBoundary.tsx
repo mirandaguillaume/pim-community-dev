@@ -3,7 +3,7 @@ import {PageContent, RuntimeError} from '../../common/components';
 import {NotFoundError, UnauthorizedError} from '../../shared/fetch';
 
 class ErrorBoundary extends Component<{children?: ReactNode}, {error?: Error}> {
-    constructor(props: unknown) {
+    constructor(props: {children?: ReactNode}) {
         super(props);
         this.state = {};
     }

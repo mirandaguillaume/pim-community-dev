@@ -20,7 +20,7 @@ const EmptyMessage = styled.p`
 `;
 
 type Props = {
-  children?: ReactNode;
+    children?: ReactNode;
     title: string;
     information: string;
     warningMessage?: string | null | undefined;

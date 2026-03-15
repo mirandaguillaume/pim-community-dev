@@ -5,7 +5,7 @@ import styled from '../../../common/styled-with-theme';
 type Order = 'asc' | 'desc';
 
 type Props = {
-  children?: ReactNode;
+    children?: ReactNode;
     order: Order;
     onSort: (order: Order) => void;
 };

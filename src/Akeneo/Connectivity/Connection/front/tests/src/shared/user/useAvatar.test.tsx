@@ -1,6 +1,6 @@
 import {useAvatar, UserContext} from '@src/shared/user';
 import {renderHook} from '@testing-library/react';
-import React, {FC} from 'react';
+import React, {FC, PropsWithChildren} from 'react';
 
 test('it returns the user avatar data', () => {
     const user = {
@@ -18,7 +18,9 @@ test('it returns the user avatar data', () => {
         refresh: jest.fn(),
     };
 
-    const wrapper: FC = ({children}) => <UserContext.Provider value={user}>{children}</UserContext.Provider>;
+    const wrapper: FC<PropsWithChildren> = ({children}) => (
+        <UserContext.Provider value={user}>{children}</UserContext.Provider>
+    );
     const {result} = renderHook(() => useAvatar(), {wrapper});
 
     const expectedData = {
@@ -45,7 +47,9 @@ test('it fallbacks to the default image if the user has no avatar', () => {
         refresh: jest.fn(),
     };
 
-    const wrapper: FC = ({children}) => <UserContext.Provider value={user}>{children}</UserContext.Provider>;
+    const wrapper: FC<PropsWithChildren> = ({children}) => (
+        <UserContext.Provider value={user}>{children}</UserContext.Provider>
+    );
     const {result} = renderHook(() => useAvatar(), {wrapper});
 
     const expectedData = {

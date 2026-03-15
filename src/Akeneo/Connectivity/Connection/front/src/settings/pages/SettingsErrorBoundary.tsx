@@ -21,7 +21,7 @@ const SettingsBreadcrumb = () => {
 };
 
 export class SettingsErrorBoundary extends Component<{children?: ReactNode}, {hasError: boolean}> {
-    constructor(props: unknown) {
+    constructor(props: {children?: ReactNode}) {
         super(props);
         this.state = {hasError: false};
     }

@@ -14,7 +14,7 @@ const renderDateTimeInput = (props: React.ComponentProps<typeof DateTimeInput>, 
         refresh: jest.fn(),
     };
 
-    const wrapper: React.FC = ({children}) => (
+    const wrapper: React.FC<React.PropsWithChildren> = ({children}) => (
         <UserContext.Provider value={user}>
             <ThemeProvider theme={theme}>{children}</ThemeProvider>
         </UserContext.Provider>

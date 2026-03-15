@@ -53,13 +53,19 @@ if [ -n "$CHANGED_FRONT" ] && command -v yarn >/dev/null 2>&1; then
         ERRORS="$ERRORS\n- DSM-LINT: Prettier or ESLint errors in DSM. Run: cd front-packages/akeneo-design-system && yarn lint:fix"
     fi
 
-    # ── connectivity lint: ESLint (mirrors `castor connectivity-connection:lint-front` / package.json "eslint" script) ──
+    # ── connectivity lint: ESLint + Prettier (mirrors `castor connectivity-connection:lint-front`) ──
     CONN_FRONT="src/Akeneo/Connectivity/Connection/front"
     CONN_LINT_EXIT=0
     CONN_LINT_RESULT=$(cd "$CONN_FRONT" && npx eslint --config .eslintrc.json --quiet '{src,tests}/**/*.{ts,tsx}' 2>&1) || CONN_LINT_EXIT=$?
     if [ "$CONN_LINT_EXIT" -ne 0 ]; then
         ERR_COUNT=$(echo "$CONN_LINT_RESULT" | grep -oP '\d+ error' | head -1 || echo "errors")
         ERRORS="$ERRORS\n- CONNECTIVITY-LINT: ESLint $ERR_COUNT. Run: cd $CONN_FRONT && yarn eslint"
+    fi
+
+    CONN_PRETTIER_EXIT=0
+    CONN_PRETTIER_RESULT=$(cd "$CONN_FRONT" && npx prettier --config .prettierrc.json '{src,tests}/**/*.{ts,tsx}' --check 2>&1) || CONN_PRETTIER_EXIT=$?
+    if [ "$CONN_PRETTIER_EXIT" -ne 0 ]; then
+        ERRORS="$ERRORS\n- CONNECTIVITY-PRETTIER: files need formatting. Run: cd $CONN_FRONT && yarn prettier --write"
     fi
 
     # ── front-unit shard 1+2: main Jest suite (mirrors `yarn unit`) ──

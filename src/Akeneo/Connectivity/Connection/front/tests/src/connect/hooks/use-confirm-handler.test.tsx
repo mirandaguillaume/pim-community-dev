@@ -131,9 +131,7 @@ test('it redirects when the confirmation succeeded', async () => {
         loadPermissions: jest.fn(),
     };
 
-    const {result} = renderHook(() =>
-        useConfirmHandler('client id', [provider1, provider2], {provider_1: 'foo'})
-    );
+    const {result} = renderHook(() => useConfirmHandler('client id', [provider1, provider2], {provider_1: 'foo'}));
     expect(typeof result.current.confirm).toBe('function');
     expect(result.current.processing).toBe(false);
 

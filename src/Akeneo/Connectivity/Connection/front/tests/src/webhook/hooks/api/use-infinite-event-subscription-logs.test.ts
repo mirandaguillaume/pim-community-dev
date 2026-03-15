@@ -46,9 +46,7 @@ test('The first logs are fetched on mount', async () => {
         text: '',
     };
 
-    const {result, unmount} = renderHook(() =>
-        useInfiniteEventSubscriptionLogs('alkemics', filters, ref)
-    );
+    const {result, unmount} = renderHook(() => useInfiniteEventSubscriptionLogs('alkemics', filters, ref));
 
     expect(result.current).toEqual({
         logs: [],

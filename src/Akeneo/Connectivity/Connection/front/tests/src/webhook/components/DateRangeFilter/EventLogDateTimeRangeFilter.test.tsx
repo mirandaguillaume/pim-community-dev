@@ -30,7 +30,7 @@ const renderEventLogDateTimeRangeFilter = (
         refresh: jest.fn(),
     } as unknown as UserInterface;
 
-    const wrapper: React.FC = ({children}) => (
+    const wrapper: React.FC<React.PropsWithChildren> = ({children}) => (
         <UserContext.Provider value={user}>
             <ThemeProvider theme={theme}>{children}</ThemeProvider>
         </UserContext.Provider>
