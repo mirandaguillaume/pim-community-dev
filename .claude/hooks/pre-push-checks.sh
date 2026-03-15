@@ -47,6 +47,12 @@ if [ -n "$CHANGED_FRONT" ] && command -v yarn >/dev/null 2>&1; then
         ERRORS="$ERRORS\n- FRONT-LINT: Prettier or ESLint errors. Run: yarn lint-fix"
     fi
 
+    # ── DSM lint: Prettier + ESLint with DSM-specific config ──
+    DSM_LINT_RESULT=$(cd front-packages/akeneo-design-system && yarn lint:check 2>&1 || true)
+    if echo "$DSM_LINT_RESULT" | grep -qE '[0-9]+ error|Code style issues found'; then
+        ERRORS="$ERRORS\n- DSM-LINT: Prettier or ESLint errors in DSM. Run: cd front-packages/akeneo-design-system && yarn lint:fix"
+    fi
+
     # ── front-unit shard 1+2: main Jest suite (mirrors `yarn unit`) ──
     UNIT_RESULT=$(yarn unit 2>&1 || true)
     if echo "$UNIT_RESULT" | grep -qE 'FAIL |Tests:.*failed'; then
@@ -59,6 +65,13 @@ if [ -n "$CHANGED_FRONT" ] && command -v yarn >/dev/null 2>&1; then
     if echo "$DSM_RESULT" | grep -qE 'FAIL |Tests:.*failed'; then
         FAIL_SUMMARY=$(echo "$DSM_RESULT" | grep -E 'Tests:' | tail -1 || echo "failures found")
         ERRORS="$ERRORS\n- DSM-UNIT: $FAIL_SUMMARY"
+    fi
+
+    # ── front-unit: connectivity jest (separate workspace, mirrors `castor connectivity-connection:unit-front`) ──
+    CONN_RESULT=$(cd src/Akeneo/Connectivity/Connection/front && npx jest --ci --no-coverage 2>&1 || true)
+    if echo "$CONN_RESULT" | grep -qE 'FAIL |Tests:.*failed'; then
+        FAIL_SUMMARY=$(echo "$CONN_RESULT" | grep -E 'Tests:' | tail -1 || echo "failures found")
+        ERRORS="$ERRORS\n- CONNECTIVITY-UNIT: $FAIL_SUMMARY"
     fi
 fi
 
