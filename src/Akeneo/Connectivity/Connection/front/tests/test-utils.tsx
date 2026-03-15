@@ -1,6 +1,6 @@
 import {UserContext} from '@src/shared/user';
 import {render} from '@testing-library/react';
-import React, {FC} from 'react';
+import React, {FC, PropsWithChildren} from 'react';
 import {ThemeProvider} from 'styled-components';
 import {theme} from '@src/common/styled-with-theme';
 import fetchMock from 'jest-fetch-mock';
@@ -16,7 +16,7 @@ export const historyMock = {
     },
 };
 
-const UserProvider: FC = ({children}) => {
+const UserProvider: FC<PropsWithChildren> = ({children}) => {
     const data: {[key: string]: unknown} = {
         uiLocale: 'en_US',
         timezone: 'UTC',
@@ -35,7 +35,7 @@ const UserProvider: FC = ({children}) => {
     return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
 };
 
-export const ReactQueryWrapper: FC = ({children}) => {
+export const ReactQueryWrapper: FC<PropsWithChildren> = ({children}) => {
     const queryClient = new QueryClient({
         defaultOptions: {
             queries: {
@@ -49,7 +49,7 @@ export const ReactQueryWrapper: FC = ({children}) => {
 
     return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 };
-const DefaultProviders: FC = ({children}) => {
+const DefaultProviders: FC<PropsWithChildren> = ({children}) => {
     return (
         <ReactQueryWrapper>
             <DependenciesContext.Provider
