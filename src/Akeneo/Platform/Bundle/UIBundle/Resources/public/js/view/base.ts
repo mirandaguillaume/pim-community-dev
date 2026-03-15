@@ -255,11 +255,7 @@ class BaseView extends Backbone.View<any> implements View {
    * Unlike renderReact(), this does NOT wrap with ThemeProvider/DependenciesProvider.
    */
   renderReactElement(element: React.ReactElement, container: Element = this.el) {
-    if (this.reactRef !== container) {
-      this.unmountReact();
-      this.reactRef = container;
-      this.reactRoot = createRoot(container);
-    }
+    this.ensureReactRoot(container);
     flushSync(() => {
       this.reactRoot!.render(element);
     });
@@ -273,11 +269,7 @@ class BaseView extends Backbone.View<any> implements View {
     props: T,
     container: Element
   ) {
-    if (this.reactRef !== container) {
-      this.unmountReact();
-      this.reactRef = container;
-      this.reactRoot = createRoot(container);
-    }
+    this.ensureReactRoot(container);
     flushSync(() => {
       this.reactRoot!.render(
         React.createElement(
@@ -287,6 +279,30 @@ class BaseView extends Backbone.View<any> implements View {
         )
       );
     });
+  }
+
+  /**
+   * Ensure a React 18 root exists for the given container.
+   *
+   * React 18 delegates synthetic events to the createRoot container instead
+   * of the document (React 17 behaviour). If the root was created while the
+   * container was detached from the DOM, event listeners are attached to the
+   * element but click events never bubble to it because the element is not
+   * part of the document tree at listener-setup time. Re-creating the root
+   * after the container is reconnected fixes event dispatch.
+   */
+  private ensureReactRoot(container: Element) {
+    const needsNewContainer = this.reactRef !== container;
+    const wasDetached = this.reactRef === container && this.reactRoot !== null && !container.isConnected;
+
+    // If the container was swapped or was detached and is now reconnected,
+    // tear down the old root so a fresh one picks up event listeners while
+    // the element is in the document tree.
+    if (needsNewContainer || wasDetached) {
+      this.unmountReact();
+      this.reactRef = container;
+      this.reactRoot = createRoot(container);
+    }
   }
 
   /**

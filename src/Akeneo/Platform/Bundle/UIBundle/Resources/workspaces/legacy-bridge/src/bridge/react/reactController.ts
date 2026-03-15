@@ -34,7 +34,9 @@ abstract class ReactController extends BaseController {
 
     // Attach the container to the DOM BEFORE creating the React 18 root.
     // React 18 delegates events to the createRoot container (not document like React 17).
-    // Event listeners set up on a detached container may not dispatch correctly.
+    // If the root was created on a detached container, React attaches event
+    // listeners to it but they never fire because click events cannot bubble
+    // to a node that is not part of the document tree.
     if (container !== this.$el.get(0)) {
       this.$el.append(container);
     }
@@ -46,6 +48,17 @@ abstract class ReactController extends BaseController {
 
   remove() {
     mediator.off('route_start', this.handleRouteChange, this);
+
+    // Detach the static container from $el BEFORE $el.remove() runs.
+    // jQuery .remove() calls cleanData on all descendants. While it does not
+    // strip native addEventListener listeners, detaching $el takes the React
+    // root out of the DOM tree. If the root is kept alive (route guard matched),
+    // it must be moved to a temporary parent so the next renderRoute() can
+    // re-attach it while still connected to the document.
+    const container = this.getContainerRef();
+    if (container !== this.$el.get(0) && container.parentNode) {
+      container.parentNode.removeChild(container);
+    }
 
     this.$el.remove();
 

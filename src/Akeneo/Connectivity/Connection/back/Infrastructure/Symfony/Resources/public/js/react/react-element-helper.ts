@@ -4,14 +4,26 @@ import {flushSync} from 'react-dom';
 let container: Element | null = null;
 let root: Root | null = null;
 
+export const getOrCreateContainer = (): Element => {
+  if (null === container) {
+    container = document.createElement('div');
+  }
+
+  return container;
+};
+
 export const mountReactElementRef = (component: JSX.Element) => {
   if (null === container) {
     container = document.createElement('div');
-    root = createRoot(container);
-    flushSync(() => {
-      root!.render(component);
-    });
   }
+
+  if (null === root) {
+    root = createRoot(container);
+  }
+
+  flushSync(() => {
+    root!.render(component);
+  });
 
   return container;
 };
