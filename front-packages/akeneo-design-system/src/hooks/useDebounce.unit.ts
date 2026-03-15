@@ -10,51 +10,43 @@ describe('useDebounce', () => {
   });
 
   it('use the debounced value after 100ms', () => {
-    const {result, rerender} = renderHook<string, {value: string; delay: number}>(
-      ({value, delay}) => useDebounce(value, delay),
-      {initialProps: {value: '', delay: 0}}
+    const {result, rerender} = renderHook(
+      ({value, delay}: {value: string; delay: number}) => useDebounce(value, delay),
+      {initialProps: {value: '', delay: 100}}
     );
 
+    expect(result.current).toBe('');
+
     const delay = 100;
-    void act(() => {
-      rerender({value: 't', delay});
-      jest.advanceTimersByTime(10);
-    });
-    expect(result.current).toBe('t');
 
-    void act(() => {
-      rerender({value: 'ty', delay});
-      jest.advanceTimersByTime(10);
-    });
-    expect(result.current).toBe('t');
+    // Simulate rapid typing: each keystroke restarts the debounce timer,
+    // so the debounced value stays at the initial value until typing stops.
+    rerender({value: 't', delay});
+    act(() => jest.advanceTimersByTime(10));
+    expect(result.current).toBe('');
 
-    void act(() => {
-      rerender({value: 'typ', delay});
-      jest.advanceTimersByTime(10);
-    });
-    expect(result.current).toBe('t');
+    rerender({value: 'ty', delay});
+    act(() => jest.advanceTimersByTime(10));
+    expect(result.current).toBe('');
 
-    void act(() => {
-      rerender({value: 'typi', delay});
-      jest.advanceTimersByTime(10);
-    });
-    expect(result.current).toBe('t');
+    rerender({value: 'typ', delay});
+    act(() => jest.advanceTimersByTime(10));
+    expect(result.current).toBe('');
 
-    void act(() => {
-      rerender({value: 'typin', delay});
-      jest.advanceTimersByTime(10);
-    });
-    expect(result.current).toBe('t');
+    rerender({value: 'typi', delay});
+    act(() => jest.advanceTimersByTime(10));
+    expect(result.current).toBe('');
 
-    void act(() => {
-      rerender({value: 'typing', delay});
-      jest.advanceTimersByTime(10);
-    });
-    expect(result.current).toBe('t');
+    rerender({value: 'typin', delay});
+    act(() => jest.advanceTimersByTime(10));
+    expect(result.current).toBe('');
 
-    void act(() => {
-      jest.advanceTimersByTime(100);
-    });
+    rerender({value: 'typing', delay});
+    act(() => jest.advanceTimersByTime(10));
+    expect(result.current).toBe('');
+
+    // After 100ms with no new input, the debounced value updates
+    act(() => jest.advanceTimersByTime(100));
     expect(result.current).toBe('typing');
   });
 });

@@ -75,7 +75,31 @@ if [ -n "$CHANGED_PHP" ]; then
     fi
 fi
 
-# ── 4. Playwright (only if spec.ts or fixture files changed) ──
+# ── 4. Frontend lint + unit tests (only if TS/TSX files changed) ──
+CHANGED_TS=$(git diff --name-only "$BASE"...HEAD -- '*.ts' '*.tsx' 2>/dev/null || true)
+if [ -n "$CHANGED_TS" ] && command -v yarn >/dev/null 2>&1; then
+    # 4a. yarn lint (Prettier + ESLint)
+    LINT_RESULT=$(yarn lint 2>&1 || true)
+    if echo "$LINT_RESULT" | grep -qE 'error|Code style issues found'; then
+        WARNINGS="$WARNINGS\n- YARN LINT: Prettier or ESLint errors found. Run: yarn lint-fix"
+    fi
+
+    # 4b. Main unit suite (yarn unit)
+    RESULT=$(yarn unit --no-coverage 2>&1 || true)
+    if echo "$RESULT" | grep -qE 'FAIL |Tests:.*failed'; then
+        FAIL_SUMMARY=$(echo "$RESULT" | grep -E 'Tests:' | tail -1 || echo "failures found")
+        WARNINGS="$WARNINGS\n- YARN UNIT: $FAIL_SUMMARY"
+    fi
+
+    # 4c. DSM unit tests (separate jest config)
+    DSM_RESULT=$(cd front-packages/akeneo-design-system && npx jest --config jest.unit.config.js --no-coverage 2>&1 || true)
+    if echo "$DSM_RESULT" | grep -qE 'FAIL |Tests:.*failed'; then
+        FAIL_SUMMARY=$(echo "$DSM_RESULT" | grep -E 'Tests:' | tail -1 || echo "failures found")
+        WARNINGS="$WARNINGS\n- DSM UNIT: $FAIL_SUMMARY"
+    fi
+fi
+
+# ── 5. Playwright (only if spec.ts or fixture files changed) ──
 if [ -z "$CHANGED_SPECS" ] && [ -n "$CHANGED_FIXTURES" ]; then
     CHANGED_SPECS=$(find tests/front/e2e -name '*.spec.ts' 2>/dev/null || true)
 fi
