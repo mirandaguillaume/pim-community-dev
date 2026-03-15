@@ -121,6 +121,17 @@ function unitBack(): void
     }
 }
 
+#[AsTask(namespace: 'test', name: 'phpunit-unit', description: 'Run PHPUnit unit + acceptance tests (no MySQL)')]
+function phpunitUnit(): void
+{
+    \ensureDir('var/tests/phpunit');
+
+    // PHPUnit_Unit_Test: groups Category Unit + 4 acceptance suites, excludes
+    // misplaced integration tests. Uses test_fake env so acceptance tests
+    // that boot kernel without explicit env get in-memory fakes.
+    \appEnvRun('test_fake', 'vendor/bin/phpunit -c . --testsuite PHPUnit_Unit_Test --log-junit var/tests/phpunit/phpunit_unit.xml');
+}
+
 #[AsTask(namespace: 'test', name: 'unit-front', description: 'Run all front-end unit tests')]
 function unitFront(): void
 {

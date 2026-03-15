@@ -719,6 +719,45 @@ jobs:
           fail-on-error: false
 
   # ===========================================================================
+  # PHPUNIT-UNIT: Unit + lightweight acceptance tests (no MySQL)
+  # ===========================================================================
+  phpunit-unit:
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    needs: [prepare, detect-changes]
+    if: needs.detect-changes.outputs.backend == 'true' || needs.detect-changes.outputs.ci == 'true'
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-pim-job
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pull-base-images: 'false'
+
+      - uses: ./.github/actions/install-castor
+
+      - name: Run PHPUnit unit tests (no MySQL)
+        run: castor test:phpunit-unit
+
+      - name: Upload PHPUnit Unit results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phpunit-unit-results
+          path: var/tests/phpunit/phpunit_*unit*.xml
+          retention-days: 3
+
+      - name: Publish PHPUnit Unit results
+        if: always()
+        uses: dorny/test-reporter@v1
+        continue-on-error: true
+        with:
+          name: PHPUnit Unit Results
+          path: var/tests/phpunit/phpunit_*unit*.xml
+          reporter: java-junit
+          fail-on-error: false
+
+  # ===========================================================================
   # ACCEPTANCE-BACK: Main Behat acceptance tests
   # ===========================================================================
   acceptance-back:
@@ -1423,6 +1462,7 @@ jobs:
       - deprecation-back
       - code-style-back
       - phpspec
+      - phpunit-unit
       - acceptance-back
       - deptrac
       - db-seed
@@ -1450,6 +1490,7 @@ jobs:
           echo "  deprecation-back: ${{ needs.deprecation-back.result }}"
           echo "  code-style-back: ${{ needs.code-style-back.result }}"
           echo "  phpspec: ${{ needs.phpspec.result }}"
+          echo "  phpunit-unit: ${{ needs.phpunit-unit.result }}"
           echo "  acceptance-back: ${{ needs.acceptance-back.result }}"
           echo "  deptrac: ${{ needs.deptrac.result }}"
           echo "  db-seed: ${{ needs.db-seed.result }}"
@@ -1473,6 +1514,7 @@ jobs:
             "${{ needs.deprecation-back.result }}"
             "${{ needs.code-style-back.result }}"
             "${{ needs.phpspec.result }}"
+            "${{ needs.phpunit-unit.result }}"
             "${{ needs.acceptance-back.result }}"
             "${{ needs.deptrac.result }}"
             "${{ needs.db-seed.result }}"
