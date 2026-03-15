@@ -54,7 +54,7 @@ test('It does not fetch if there is already a fetch running', async () => {
   });
 
   // Now resolve the first fetch
-  await act(async () => {
+  await act(() => {
     resolveFirstFetch!(['nice_item_0']);
   });
 
@@ -63,7 +63,7 @@ test('It does not fetch if there is already a fetch running', async () => {
   });
 });
 
-test('It does not update results if unmounted', async () => {
+test('It does not update results if unmounted', () => {
   const {result, unmount} = renderHook(() => usePaginatedResults<string>(fetcher, []));
 
   unmount();
