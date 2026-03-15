@@ -1,4 +1,4 @@
-import React, {createContext, FC} from 'react';
+import React, {createContext, FC, ReactNode} from 'react';
 
 type EditCategoryState = {
   setCanLeavePage: (canLeavePage: boolean) => void;
@@ -9,6 +9,7 @@ const EditCategoryContext = createContext<EditCategoryState>({
 });
 
 type Props = {
+  children?: ReactNode;
   setCanLeavePage: (canLeavePage: boolean) => void;
 };
 

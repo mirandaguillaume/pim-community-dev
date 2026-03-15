@@ -1,4 +1,4 @@
-import React, {createContext, FC, useEffect, useState} from 'react';
+import React, {createContext, FC, ReactNode, useEffect, useState} from 'react';
 import {CategoryTreeModel, TreeNode} from '../../models';
 import {buildNodesFromCategoryTree} from '../../helpers';
 
@@ -13,6 +13,7 @@ const CategoryTreeContext = createContext<CategoryTreeState>({
 });
 
 type Props = {
+  children?: ReactNode;
   root: CategoryTreeModel;
 };
 

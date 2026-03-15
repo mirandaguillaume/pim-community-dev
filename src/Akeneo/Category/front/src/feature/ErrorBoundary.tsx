@@ -1,8 +1,8 @@
-import {Component} from 'react';
+import {Component, ReactNode} from 'react';
 import {ErrorPage} from './pages/ErrorPage';
 
-export class ErrorBoundary extends Component<unknown, {error?: Error}> {
-  constructor(props: unknown) {
+export class ErrorBoundary extends Component<{children?: ReactNode}, {error?: Error}> {
+  constructor(props: {children?: ReactNode}) {
     super(props);
     this.state = {};
   }
