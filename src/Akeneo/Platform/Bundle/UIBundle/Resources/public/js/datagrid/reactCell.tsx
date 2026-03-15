@@ -1,5 +1,6 @@
 import React from 'react';
 import {createRoot, Root} from 'react-dom/client';
+import {flushSync} from 'react-dom';
 import {ThemeProvider} from 'styled-components';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import {pimTheme} from 'akeneo-design-system';
@@ -41,13 +42,15 @@ class ReactCell extends StringCell {
     if (!this.reactRoot) {
       this.reactRoot = createRoot(this.el);
     }
-    this.reactRoot.render(
-      <ThemeProvider theme={pimTheme}>
-        <DependenciesProvider>
-          <Component {...props} />
-        </DependenciesProvider>
-      </ThemeProvider>
-    );
+    flushSync(() => {
+      this.reactRoot!.render(
+        <ThemeProvider theme={pimTheme}>
+          <DependenciesProvider>
+            <Component {...props} />
+          </DependenciesProvider>
+        </ThemeProvider>
+      );
+    });
 
     return this;
   }

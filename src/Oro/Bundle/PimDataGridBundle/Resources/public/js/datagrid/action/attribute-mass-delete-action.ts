@@ -1,5 +1,6 @@
 import React from 'react';
 import {createRoot, Root} from 'react-dom/client';
+import {flushSync} from 'react-dom';
 import {ThemeProvider} from 'styled-components';
 import {pimTheme} from 'akeneo-design-system';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
@@ -76,13 +77,15 @@ class AttributeMassDeleteAction extends MassAction {
     if (!this.reactRoot) {
       this.reactRoot = createRoot(this.el);
     }
-    this.reactRoot.render(
-      React.createElement(
-        ThemeProvider,
-        {theme: pimTheme},
-        React.createElement(DependenciesProvider, null, React.createElement(DoubleCheckDeleteModal, modalProps))
-      )
-    );
+    flushSync(() => {
+      this.reactRoot!.render(
+        React.createElement(
+          ThemeProvider,
+          {theme: pimTheme},
+          React.createElement(DependenciesProvider, null, React.createElement(DoubleCheckDeleteModal, modalProps))
+        )
+      );
+    });
   }
 
   private async launchJob(data: MassActionData): Promise<void> {

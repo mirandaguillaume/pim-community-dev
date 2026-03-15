@@ -1,4 +1,5 @@
 import {createRoot, Root} from 'react-dom/client';
+import {flushSync} from 'react-dom';
 import React from 'react';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import {ThemeProvider} from 'styled-components';
@@ -159,13 +160,15 @@ class TreeAssociate {
       root = createRoot(tree);
       this.reactRoots.set(treeId, root);
     }
-    root.render(
-      <DependenciesProvider>
-        <ThemeProvider theme={pimTheme}>
-          <CategoryTree onChange={handleChange} childrenCallback={childrenCallback} init={init} />
-        </ThemeProvider>
-      </DependenciesProvider>
-    );
+    flushSync(() => {
+      root.render(
+        <DependenciesProvider>
+          <ThemeProvider theme={pimTheme}>
+            <CategoryTree onChange={handleChange} childrenCallback={childrenCallback} init={init} />
+          </ThemeProvider>
+        </DependenciesProvider>
+      );
+    });
   };
 
   private getChildrenUrl = (id: number) => {

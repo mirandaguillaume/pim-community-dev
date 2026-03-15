@@ -1,4 +1,5 @@
 import {createRoot, Root} from 'react-dom/client';
+import {flushSync} from 'react-dom';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import {ThemeProvider} from 'styled-components';
 import {CategoryTrees, CategoryResponse, parseResponse} from '@akeneo-pim-community/shared';
@@ -137,23 +138,25 @@ class TreeView {
     if (!this.reactRoot) {
       this.reactRoot = createRoot(this.domElement);
     }
-    this.reactRoot.render(
-      <DependenciesProvider>
-        <ThemeProvider theme={pimTheme}>
-          <CategoryTrees
-            childrenCallback={childrenCallback}
-            init={init}
-            initTree={initTree}
-            initCallback={initCallback}
-            initialIncludeSubCategories={this.state.includeSub}
-            initialSelectedNodeId={this.state.selectedNode}
-            onCategoryClick={handleCategoryClick}
-            onTreeChange={handleTreeChange}
-            onIncludeSubCategoriesChange={handleIncludeSubCategoriesChange}
-          />
-        </ThemeProvider>
-      </DependenciesProvider>
-    );
+    flushSync(() => {
+      this.reactRoot!.render(
+        <DependenciesProvider>
+          <ThemeProvider theme={pimTheme}>
+            <CategoryTrees
+              childrenCallback={childrenCallback}
+              init={init}
+              initTree={initTree}
+              initCallback={initCallback}
+              initialIncludeSubCategories={this.state.includeSub}
+              initialSelectedNodeId={this.state.selectedNode}
+              onCategoryClick={handleCategoryClick}
+              onTreeChange={handleTreeChange}
+              onIncludeSubCategoriesChange={handleIncludeSubCategoriesChange}
+            />
+          </ThemeProvider>
+        </DependenciesProvider>
+      );
+    });
   };
 
   public refresh = () => {

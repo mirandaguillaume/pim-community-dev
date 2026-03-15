@@ -1,4 +1,5 @@
 import {createRoot, Root} from 'react-dom/client';
+import {flushSync} from 'react-dom';
 import React from 'react';
 import {QualityScore} from '@akeneo-pim-community/data-quality-insights/src/application/component/QualityScore';
 import {ThemeProvider} from 'styled-components';
@@ -22,17 +23,19 @@ class QualityScoreBadgeCell extends StringCell {
     if (!this.reactRoot) {
       this.reactRoot = createRoot(this.el);
     }
-    this.reactRoot.render(
-      <DependenciesProvider>
-        <ThemeProvider theme={pimTheme}>
-          {isPending(score) ? (
-            <QualityScorePending />
-          ) : (
-            <QualityScore score={score} stacked={this.model.attributes.document_type === 'product_model'} />
-          )}
-        </ThemeProvider>
-      </DependenciesProvider>
-    );
+    flushSync(() => {
+      this.reactRoot!.render(
+        <DependenciesProvider>
+          <ThemeProvider theme={pimTheme}>
+            {isPending(score) ? (
+              <QualityScorePending />
+            ) : (
+              <QualityScore score={score} stacked={this.model.attributes.document_type === 'product_model'} />
+            )}
+          </ThemeProvider>
+        </DependenciesProvider>
+      );
+    });
     return this;
   }
 }

@@ -1,5 +1,6 @@
 import React, {ReactElement, ReactNode} from 'react';
 import {createRoot, Root} from 'react-dom/client';
+import {flushSync} from 'react-dom';
 import {ThemeProvider} from 'styled-components';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import {IdentifiableFlashMessage, Notifications} from '@akeneo-pim-community/shared';
@@ -13,19 +14,21 @@ const render = () => {
   if (!messengerRoot && container) {
     messengerRoot = createRoot(container);
   }
-  messengerRoot?.render(
-    <ThemeProvider theme={pimTheme}>
-      <DependenciesProvider>
-        <Notifications
-          notifications={notifications}
-          onNotificationClosed={(identifier: string) => {
-            notifications = notifications.filter(notification => notification.identifier !== identifier);
-            render();
-          }}
-        />
-      </DependenciesProvider>
-    </ThemeProvider>
-  );
+  flushSync(() => {
+    messengerRoot?.render(
+      <ThemeProvider theme={pimTheme}>
+        <DependenciesProvider>
+          <Notifications
+            notifications={notifications}
+            onNotificationClosed={(identifier: string) => {
+              notifications = notifications.filter(notification => notification.identifier !== identifier);
+              render();
+            }}
+          />
+        </DependenciesProvider>
+      </ThemeProvider>
+    );
+  });
 };
 
 const isValidLevel = (level: string): level is MessageBarLevel =>

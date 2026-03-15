@@ -1,5 +1,6 @@
 import React from 'react';
 import {createRoot, Root} from 'react-dom/client';
+import {flushSync} from 'react-dom';
 import {ThemeProvider} from 'styled-components';
 import {pimTheme} from 'akeneo-design-system';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
@@ -259,7 +260,9 @@ class BaseView extends Backbone.View<any> implements View {
       this.reactRef = container;
       this.reactRoot = createRoot(container);
     }
-    this.reactRoot!.render(element);
+    flushSync(() => {
+      this.reactRoot!.render(element);
+    });
   }
 
   /**
@@ -275,13 +278,15 @@ class BaseView extends Backbone.View<any> implements View {
       this.reactRef = container;
       this.reactRoot = createRoot(container);
     }
-    this.reactRoot!.render(
-      React.createElement(
-        ThemeProvider,
-        {theme: pimTheme},
-        React.createElement(DependenciesProvider, null, React.createElement(componentType, props))
-      )
-    );
+    flushSync(() => {
+      this.reactRoot!.render(
+        React.createElement(
+          ThemeProvider,
+          {theme: pimTheme},
+          React.createElement(DependenciesProvider, null, React.createElement(componentType, props))
+        )
+      );
+    });
   }
 
   /**

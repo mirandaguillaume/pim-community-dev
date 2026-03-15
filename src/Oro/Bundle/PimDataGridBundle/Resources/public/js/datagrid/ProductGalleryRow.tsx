@@ -1,5 +1,6 @@
 import React from 'react';
 import {createRoot, Root} from 'react-dom/client';
+import {flushSync} from 'react-dom';
 import {ThemeProvider} from 'styled-components';
 import {Badge, Card, pimTheme} from 'akeneo-design-system';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
@@ -95,9 +96,15 @@ class ProductGalleryRow extends BaseRow {
     if (!this.reactRoot) {
       this.reactRoot = createRoot(container);
     }
-    this.reactRoot.render(
-      React.createElement(ThemeProvider, {theme: pimTheme}, React.createElement(DependenciesProvider, null, component))
-    );
+    flushSync(() => {
+      this.reactRoot!.render(
+        React.createElement(
+          ThemeProvider,
+          {theme: pimTheme},
+          React.createElement(DependenciesProvider, null, component)
+        )
+      );
+    });
   }
 
   unmountReact() {

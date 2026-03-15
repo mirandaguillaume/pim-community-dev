@@ -1,4 +1,5 @@
 import {createRoot, Root} from 'react-dom/client';
+import {flushSync} from 'react-dom';
 
 const roots = new WeakMap<Element, Root>();
 
@@ -8,7 +9,9 @@ const mountReactElementRef = (component: JSX.Element, container: Element) => {
     root = createRoot(container);
     roots.set(container, root);
   }
-  root.render(component);
+  flushSync(() => {
+    root.render(component);
+  });
 
   return container;
 };
