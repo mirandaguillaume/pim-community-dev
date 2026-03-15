@@ -1,8 +1,6 @@
-import {createRoot, Root} from 'react-dom/client';
-import {flushSync} from 'react-dom';
+import ReactDOM from 'react-dom';
 
 let container: Element | null = null;
-let root: Root | null = null;
 
 export const getOrCreateContainer = (): Element => {
   if (null === container) {
@@ -17,21 +15,14 @@ export const mountReactElementRef = (component: JSX.Element) => {
     container = document.createElement('div');
   }
 
-  if (null === root) {
-    root = createRoot(container);
-  }
-
-  flushSync(() => {
-    root!.render(component);
-  });
+  ReactDOM.render(component, container);
 
   return container;
 };
 
 export const unmoundReactElementRef = () => {
-  if (null !== root) {
-    root.unmount();
-    root = null;
+  if (null !== container) {
+    ReactDOM.unmountComponentAtNode(container);
     container = null;
   }
 };

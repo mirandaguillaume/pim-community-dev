@@ -1,34 +1,30 @@
 import React, {ReactElement, ReactNode} from 'react';
-import {createRoot, Root} from 'react-dom/client';
-import {flushSync} from 'react-dom';
+import ReactDOM from 'react-dom';
 import {ThemeProvider} from 'styled-components';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import {IdentifiableFlashMessage, Notifications} from '@akeneo-pim-community/shared';
 import {FlashMessage, IconProps, MessageBarLevel, pimTheme, uuid} from 'akeneo-design-system';
 
 let notifications: IdentifiableFlashMessage[] = [];
-let messengerRoot: Root | null = null;
 
 const render = () => {
   const container = document.getElementById('flash-messages');
-  if (!messengerRoot && container) {
-    messengerRoot = createRoot(container);
-  }
-  flushSync(() => {
-    messengerRoot?.render(
-      <ThemeProvider theme={pimTheme}>
-        <DependenciesProvider>
-          <Notifications
-            notifications={notifications}
-            onNotificationClosed={(identifier: string) => {
-              notifications = notifications.filter(notification => notification.identifier !== identifier);
-              render();
-            }}
-          />
-        </DependenciesProvider>
-      </ThemeProvider>
-    );
-  });
+  if (!container) return;
+
+  ReactDOM.render(
+    <ThemeProvider theme={pimTheme}>
+      <DependenciesProvider>
+        <Notifications
+          notifications={notifications}
+          onNotificationClosed={(identifier: string) => {
+            notifications = notifications.filter(notification => notification.identifier !== identifier);
+            render();
+          }}
+        />
+      </DependenciesProvider>
+    </ThemeProvider>,
+    container
+  );
 };
 
 const isValidLevel = (level: string): level is MessageBarLevel =>

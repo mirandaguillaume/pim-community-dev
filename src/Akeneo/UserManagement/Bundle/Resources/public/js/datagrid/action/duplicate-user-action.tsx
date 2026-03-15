@@ -1,6 +1,5 @@
 import React from 'react';
-import {createRoot} from 'react-dom/client';
-import {flushSync} from 'react-dom';
+import ReactDOM from 'react-dom';
 import {DuplicateUserApp} from '@akeneo-pim-community/user-ui';
 
 const Routing = require('pim/router');
@@ -13,10 +12,9 @@ class DuplicateUserAction extends AbstractAction {
   execute() {
     const container = document.createElement('div');
     document.body.appendChild(container);
-    const root = createRoot(container);
 
     const closeApp = () => {
-      root.unmount();
+      ReactDOM.unmountComponentAtNode(container);
       document.body.removeChild(container);
     };
     const onDuplicateSuccess = (duplicatedUserId: number) => {
@@ -24,16 +22,15 @@ class DuplicateUserAction extends AbstractAction {
       Routing.redirect(Routing.generate('pim_user_edit', {identifier: duplicatedUserId}));
     };
 
-    flushSync(() => {
-      root.render(
-        <DuplicateUserApp
-          userId={this.model.get('id')}
-          userCode={this.model.get('username')}
-          onCancel={closeApp}
-          onDuplicateSuccess={onDuplicateSuccess}
-        />
-      );
-    });
+    ReactDOM.render(
+      <DuplicateUserApp
+        userId={this.model.get('id')}
+        userCode={this.model.get('username')}
+        onCancel={closeApp}
+        onDuplicateSuccess={onDuplicateSuccess}
+      />,
+      container
+    );
   }
 }
 

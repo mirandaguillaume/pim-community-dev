@@ -1,6 +1,5 @@
 import React from 'react';
-import {createRoot, Root} from 'react-dom/client';
-import {flushSync} from 'react-dom';
+import ReactDOM from 'react-dom';
 import {ThemeProvider} from 'styled-components';
 import {Badge, Card, pimTheme} from 'akeneo-design-system';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
@@ -11,7 +10,6 @@ const MediaUrlGenerator = require('pim/media-url-generator');
 const Router = require('pim/router');
 
 class ProductGalleryRow extends BaseRow {
-  private reactRoot: Root | null;
   selected: boolean;
 
   constructor(options?: ViewOptions) {
@@ -22,7 +20,6 @@ class ProductGalleryRow extends BaseRow {
     });
 
     this.selected = false;
-    this.reactRoot = null;
   }
 
   initialize(options: object) {
@@ -93,25 +90,14 @@ class ProductGalleryRow extends BaseRow {
   }
 
   renderReactElement(component: React.ReactElement, container: Element) {
-    if (!this.reactRoot) {
-      this.reactRoot = createRoot(container);
-    }
-    flushSync(() => {
-      this.reactRoot!.render(
-        React.createElement(
-          ThemeProvider,
-          {theme: pimTheme},
-          React.createElement(DependenciesProvider, null, component)
-        )
-      );
-    });
+    ReactDOM.render(
+      React.createElement(ThemeProvider, {theme: pimTheme}, React.createElement(DependenciesProvider, null, component)),
+      container
+    );
   }
 
   unmountReact() {
-    if (null !== this.reactRoot) {
-      this.reactRoot.unmount();
-      this.reactRoot = null;
-    }
+    ReactDOM.unmountComponentAtNode(this.el);
   }
 
   updateSelection(isSelected: boolean) {

@@ -1,6 +1,5 @@
 import React from 'react';
-import {createRoot} from 'react-dom/client';
-import {flushSync} from 'react-dom';
+import ReactDOM from 'react-dom';
 import {BooleanInput, pimTheme} from 'akeneo-design-system';
 import {ThemeProvider} from 'styled-components';
 
@@ -18,26 +17,24 @@ const translate = require('oro/translator');
 class BooleanField extends (Field as {new (config: any): any}) {
   renderInput(templateContext: any) {
     const container = document.createElement('div');
-    const root = createRoot(container);
 
-    flushSync(() => {
-      root.render(
-        <ThemeProvider theme={pimTheme}>
-          <BooleanInput
-            clearable={true}
-            value={templateContext.value.data}
-            onChange={(value: boolean | null) => {
-              this.setCurrentValue(value);
-              this.render();
-            }}
-            clearLabel={translate('pim_common.clear_value')}
-            yesLabel={translate('pim_common.yes')}
-            noLabel={translate('pim_common.no')}
-            readOnly={templateContext.editMode === 'view'}
-          />
-        </ThemeProvider>
-      );
-    });
+    ReactDOM.render(
+      <ThemeProvider theme={pimTheme}>
+        <BooleanInput
+          clearable={true}
+          value={templateContext.value.data}
+          onChange={(value: boolean | null) => {
+            this.setCurrentValue(value);
+            this.render();
+          }}
+          clearLabel={translate('pim_common.clear_value')}
+          yesLabel={translate('pim_common.yes')}
+          noLabel={translate('pim_common.no')}
+          readOnly={templateContext.editMode === 'view'}
+        />
+      </ThemeProvider>,
+      container
+    );
 
     return container;
   }

@@ -1,6 +1,5 @@
 import React from 'react';
-import {createRoot, Root} from 'react-dom/client';
-import {flushSync} from 'react-dom';
+import ReactDOM from 'react-dom';
 import {ThemeProvider} from 'styled-components';
 import {pimTheme} from 'akeneo-design-system';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
@@ -31,7 +30,7 @@ const DELETE_ATTRIBUTES_JOB = 'delete_attributes';
 
 class AttributeMassDeleteAction extends MassAction {
   public readonly identifierFieldName: string = 'code';
-  private reactRoot: Root | null = null;
+  private modalRendered = false;
 
   public async execute(): Promise<void> {
     const data = await this.getMassActionData();
@@ -48,8 +47,10 @@ class AttributeMassDeleteAction extends MassAction {
   }
 
   private closeModal(): void {
-    this.reactRoot?.unmount();
-    this.reactRoot = null;
+    if (this.modalRendered) {
+      ReactDOM.unmountComponentAtNode(this.el);
+      this.modalRendered = false;
+    }
   }
 
   private renderModal(data: MassActionData, canConfirmDelete: boolean): void {
@@ -74,18 +75,15 @@ class AttributeMassDeleteAction extends MassAction {
       canConfirmDelete,
     };
 
-    if (!this.reactRoot) {
-      this.reactRoot = createRoot(this.el);
-    }
-    flushSync(() => {
-      this.reactRoot!.render(
-        React.createElement(
-          ThemeProvider,
-          {theme: pimTheme},
-          React.createElement(DependenciesProvider, null, React.createElement(DoubleCheckDeleteModal, modalProps))
-        )
-      );
-    });
+    this.modalRendered = true;
+    ReactDOM.render(
+      React.createElement(
+        ThemeProvider,
+        {theme: pimTheme},
+        React.createElement(DependenciesProvider, null, React.createElement(DoubleCheckDeleteModal, modalProps))
+      ),
+      this.el
+    );
   }
 
   private async launchJob(data: MassActionData): Promise<void> {

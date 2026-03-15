@@ -1,5 +1,4 @@
-import {createRoot, Root} from 'react-dom/client';
-import {flushSync} from 'react-dom';
+import ReactDOM from 'react-dom';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import {ThemeProvider} from 'styled-components';
 import {CategoryTrees, CategoryResponse, parseResponse} from '@akeneo-pim-community/shared';
@@ -20,7 +19,7 @@ class TreeView {
   private onChange: (treeLabel: string, categoryLabel?: string) => void;
   private listTreeRoute: string;
   private childrenRoute: string;
-  private reactRoot: Root | null = null;
+  private rendered = false;
 
   constructor(
     domElement: HTMLElement,
@@ -135,33 +134,32 @@ class TreeView {
       this.onChange(treeLabel, categoryLabel);
     };
 
-    if (!this.reactRoot) {
-      this.reactRoot = createRoot(this.domElement);
-    }
-    flushSync(() => {
-      this.reactRoot!.render(
-        <DependenciesProvider>
-          <ThemeProvider theme={pimTheme}>
-            <CategoryTrees
-              childrenCallback={childrenCallback}
-              init={init}
-              initTree={initTree}
-              initCallback={initCallback}
-              initialIncludeSubCategories={this.state.includeSub}
-              initialSelectedNodeId={this.state.selectedNode}
-              onCategoryClick={handleCategoryClick}
-              onTreeChange={handleTreeChange}
-              onIncludeSubCategoriesChange={handleIncludeSubCategoriesChange}
-            />
-          </ThemeProvider>
-        </DependenciesProvider>
-      );
-    });
+    this.rendered = true;
+    ReactDOM.render(
+      <DependenciesProvider>
+        <ThemeProvider theme={pimTheme}>
+          <CategoryTrees
+            childrenCallback={childrenCallback}
+            init={init}
+            initTree={initTree}
+            initCallback={initCallback}
+            initialIncludeSubCategories={this.state.includeSub}
+            initialSelectedNodeId={this.state.selectedNode}
+            onCategoryClick={handleCategoryClick}
+            onTreeChange={handleTreeChange}
+            onIncludeSubCategoriesChange={handleIncludeSubCategoriesChange}
+          />
+        </ThemeProvider>
+      </DependenciesProvider>,
+      this.domElement
+    );
   };
 
   public refresh = () => {
-    this.reactRoot?.unmount();
-    this.reactRoot = null;
+    if (this.rendered) {
+      ReactDOM.unmountComponentAtNode(this.domElement);
+      this.rendered = false;
+    }
     this.initTreeView();
   };
 

@@ -1,6 +1,5 @@
 import React from 'react';
-import {createRoot, Root} from 'react-dom/client';
-import {flushSync} from 'react-dom';
+import ReactDOM from 'react-dom';
 import {ThemeProvider} from 'styled-components';
 import {pimTheme} from 'akeneo-design-system';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
@@ -22,7 +21,6 @@ class BaseView extends Backbone.View<any> implements View {
   private parent: View | null = null;
   private extensions: {[code: string]: View};
   private reactRef: Element | null = null;
-  private reactRoot: Root | null = null;
 
   readonly preUpdateEventName: string = 'pim_enrich:form:entity:pre_update';
   readonly postUpdateEventName: string = 'pim_enrich:form:entity:post_update';
@@ -251,67 +249,49 @@ class BaseView extends Backbone.View<any> implements View {
   }
 
   /**
-   * Render a React element (JSX) into a container using createRoot.
+   * Render a React element (JSX) into a container.
    * Unlike renderReact(), this does NOT wrap with ThemeProvider/DependenciesProvider.
+   *
+   * Uses the legacy ReactDOM.render() API — see renderReact() for rationale.
    */
   renderReactElement(element: React.ReactElement, container: Element = this.el) {
-    this.ensureReactRoot(container);
-    flushSync(() => {
-      this.reactRoot!.render(element);
-    });
+    this.reactRef = container;
+    ReactDOM.render(element, container);
   }
 
   /**
-   * Render a React component with the given props wrapped with PIM theme & legacy providers inside the given container
+   * Render a React component with the given props wrapped with PIM theme & legacy providers inside the given container.
+   *
+   * Uses the legacy ReactDOM.render() API.  In this Backbone→React bridge,
+   * createRoot() attaches event-delegation listeners to the container element
+   * rather than `document`.  Native events dispatched by Selenium/ChromeDriver
+   * can fail to bubble to deeply-nested containers, silently breaking onClick
+   * handlers.  The legacy API delegates events to `document` (React 17
+   * behaviour), which is correct for bridge components where Backbone manages
+   * the DOM hierarchy.
    */
   renderReact<T>(
     componentType: string | React.FunctionComponent | React.ComponentClass | React.ElementType,
     props: T,
     container: Element
   ) {
-    this.ensureReactRoot(container);
-    flushSync(() => {
-      this.reactRoot!.render(
-        React.createElement(
-          ThemeProvider,
-          {theme: pimTheme},
-          React.createElement(DependenciesProvider, null, React.createElement(componentType, props))
-        )
-      );
-    });
-  }
-
-  /**
-   * Ensure a React 18 root exists for the given container.
-   *
-   * React 18 delegates synthetic events to the createRoot container instead
-   * of the document (React 17 behaviour). If the root was created while the
-   * container was detached from the DOM, event listeners are attached to the
-   * element but click events never bubble to it because the element is not
-   * part of the document tree at listener-setup time. Re-creating the root
-   * after the container is reconnected fixes event dispatch.
-   */
-  private ensureReactRoot(container: Element) {
-    const needsNewContainer = this.reactRef !== container;
-    const wasDetached = this.reactRef === container && this.reactRoot !== null && !container.isConnected;
-
-    // If the container was swapped or was detached and is now reconnected,
-    // tear down the old root so a fresh one picks up event listeners while
-    // the element is in the document tree.
-    if (needsNewContainer || wasDetached) {
-      this.unmountReact();
-      this.reactRef = container;
-      this.reactRoot = createRoot(container);
-    }
+    this.reactRef = container;
+    ReactDOM.render(
+      React.createElement(
+        ThemeProvider,
+        {theme: pimTheme},
+        React.createElement(DependenciesProvider, null, React.createElement(componentType, props))
+      ),
+      container
+    );
   }
 
   /**
    * Unmount the React ref if present
    */
   unmountReact() {
-    if (null !== this.reactRoot) {
-      this.reactRoot.unmount();
-      this.reactRoot = null;
+    if (null !== this.reactRef) {
+      ReactDOM.unmountComponentAtNode(this.reactRef);
       this.reactRef = null;
     }
   }

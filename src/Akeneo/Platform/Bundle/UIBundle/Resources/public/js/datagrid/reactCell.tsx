@@ -1,6 +1,5 @@
 import React from 'react';
-import {createRoot, Root} from 'react-dom/client';
-import {flushSync} from 'react-dom';
+import ReactDOM from 'react-dom';
 import {ThemeProvider} from 'styled-components';
 import {DependenciesProvider} from '@akeneo-pim-community/legacy-bridge';
 import {pimTheme} from 'akeneo-design-system';
@@ -21,8 +20,6 @@ const convertToType = (type: string, value: string) => {
 type PropTypes = {[key: string]: string | number | boolean | (() => void)};
 
 class ReactCell extends StringCell {
-  private reactRoot: Root | null = null;
-
   render() {
     const {props: optionsProps, component} = this.options.column.attributes.extraOptions;
     const Component = requireContext(component).default;
@@ -39,18 +36,14 @@ class ReactCell extends StringCell {
 
     props.refreshCollection = () => this.model.collection.fetch();
 
-    if (!this.reactRoot) {
-      this.reactRoot = createRoot(this.el);
-    }
-    flushSync(() => {
-      this.reactRoot!.render(
-        <ThemeProvider theme={pimTheme}>
-          <DependenciesProvider>
-            <Component {...props} />
-          </DependenciesProvider>
-        </ThemeProvider>
-      );
-    });
+    ReactDOM.render(
+      <ThemeProvider theme={pimTheme}>
+        <DependenciesProvider>
+          <Component {...props} />
+        </DependenciesProvider>
+      </ThemeProvider>,
+      this.el
+    );
 
     return this;
   }

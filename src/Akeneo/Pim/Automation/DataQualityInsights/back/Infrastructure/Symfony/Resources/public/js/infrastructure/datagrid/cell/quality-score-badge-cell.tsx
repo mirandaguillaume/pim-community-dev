@@ -1,5 +1,4 @@
-import {createRoot, Root} from 'react-dom/client';
-import {flushSync} from 'react-dom';
+import ReactDOM from 'react-dom';
 import React from 'react';
 import {QualityScore} from '@akeneo-pim-community/data-quality-insights/src/application/component/QualityScore';
 import {ThemeProvider} from 'styled-components';
@@ -11,8 +10,6 @@ import {QualityScoreValue} from '@akeneo-pim-community/data-quality-insights/src
 const StringCell = require('oro/datagrid/string-cell');
 
 class QualityScoreBadgeCell extends StringCell {
-  private reactRoot: Root | null = null;
-
   render() {
     const score: QualityScoreValue | 'N/A' | null = this.formatter.fromRaw(this.model.get(this.column.get('name')));
 
@@ -20,22 +17,18 @@ class QualityScoreBadgeCell extends StringCell {
       return null === score || 'N/A' == score;
     }
 
-    if (!this.reactRoot) {
-      this.reactRoot = createRoot(this.el);
-    }
-    flushSync(() => {
-      this.reactRoot!.render(
-        <DependenciesProvider>
-          <ThemeProvider theme={pimTheme}>
-            {isPending(score) ? (
-              <QualityScorePending />
-            ) : (
-              <QualityScore score={score} stacked={this.model.attributes.document_type === 'product_model'} />
-            )}
-          </ThemeProvider>
-        </DependenciesProvider>
-      );
-    });
+    ReactDOM.render(
+      <DependenciesProvider>
+        <ThemeProvider theme={pimTheme}>
+          {isPending(score) ? (
+            <QualityScorePending />
+          ) : (
+            <QualityScore score={score} stacked={this.model.attributes.document_type === 'product_model'} />
+          )}
+        </ThemeProvider>
+      </DependenciesProvider>,
+      this.el
+    );
     return this;
   }
 }
