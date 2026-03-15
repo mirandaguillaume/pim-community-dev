@@ -2,7 +2,7 @@ import React from 'react';
 
 import {IdentifierGeneratorContext, IdentifierGeneratorContextType} from './IdentifierGeneratorContext';
 
-const IdentifierGeneratorContextProvider: React.FC = ({children}) => {
+const IdentifierGeneratorContextProvider: React.FC<{children?: React.ReactNode}> = ({children}) => {
   const [hasUnsavedChanges, setHasUnsavedChanges] = React.useState<boolean>(false);
 
   const value: IdentifierGeneratorContextType = {

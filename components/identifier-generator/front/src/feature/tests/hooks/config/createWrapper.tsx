@@ -1,7 +1,7 @@
 import {QueryClient, QueryClientProvider} from 'react-query';
-import React, {ComponentType} from 'react';
+import React from 'react';
 
-const createWrapper: () => ComponentType<null> | undefined = () => {
+const createWrapper = () => {
   // creates a new QueryClient for each test
   const queryClient = new QueryClient({
     defaultOptions: {

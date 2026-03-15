@@ -75,14 +75,14 @@ const NomenclatureEdit: FC<NomenclatureEditProps> = ({selectedProperty, itemsPer
   }, [fetchedNomenclature]);
 
   const handleValueToSaveChange = useCallback(
-    (familyCode, value) => {
+    (familyCode: string, value: string) => {
       setValuesToSave({...valuesToSave, [familyCode]: value});
     },
     [valuesToSave]
   );
 
   const handleChangeOperator = useCallback(
-    operator => {
+    (operator: string) => {
       if (nomenclature) {
         setNomenclature({...nomenclature, operator});
       }
@@ -100,7 +100,7 @@ const NomenclatureEdit: FC<NomenclatureEditProps> = ({selectedProperty, itemsPer
   );
 
   const handleGenerateIfEmptyChange = useCallback(
-    generate_if_empty => {
+    (generate_if_empty: boolean) => {
       if (nomenclature) {
         setNomenclature({...nomenclature, generate_if_empty});
       }
@@ -109,7 +109,7 @@ const NomenclatureEdit: FC<NomenclatureEditProps> = ({selectedProperty, itemsPer
   );
 
   const handleSearchChange = useCallback(
-    search => {
+    (search: string) => {
       setSearch(search);
     },
     [setSearch]
