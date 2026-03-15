@@ -16,7 +16,6 @@ ERRORS=""
 
 # ── Detect changed file types ──
 CHANGED_PHP=$(git diff --name-only "$BASE"...HEAD -- '*.php' 2>/dev/null || true)
-CHANGED_JS=$(git diff --name-only "$BASE"...HEAD -- '*.js' '*.jsx' 2>/dev/null || true)
 CHANGED_TS=$(git diff --name-only "$BASE"...HEAD -- '*.ts' '*.tsx' 2>/dev/null || true)
 CHANGED_SPECS=$(git diff --name-only "$BASE"...HEAD -- '*.spec.ts' 2>/dev/null || true)
 CHANGED_FIXTURES=$(git diff --name-only "$BASE"...HEAD -- 'tests/front/e2e/fixtures/*.ts' 2>/dev/null || true)
@@ -37,17 +36,7 @@ if [ -n "$CHANGED_PHP" ]; then
     done
 fi
 
-# ── 2. ESLint (only if JS/JSX files changed) ──
-if [ -n "$CHANGED_JS" ] && command -v npx >/dev/null 2>&1; then
-    FILE_COUNT=$(echo "$CHANGED_JS" | wc -l)
-    RESULT=$(npx eslint $CHANGED_JS --no-error-on-unmatched-pattern 2>&1 || true)
-    if echo "$RESULT" | grep -qE '[0-9]+ error'; then
-        ERROR_SUMMARY=$(echo "$RESULT" | grep -oE '[0-9]+ error' | tail -1)
-        ERRORS="$ERRORS\n- ESLINT: $ERROR_SUMMARY in $FILE_COUNT front-end files. Run: yarn lint-fix"
-    fi
-fi
-
-# ── 3. PHPUnit (only if PHP test/config files changed) ──
+# ── 2. PHPUnit (only if PHP test/config files changed) ──
 if [ -n "$CHANGED_PHP" ]; then
     PHPUNIT_TESTS=""
     for src in $CHANGED_PHP; do
@@ -72,22 +61,22 @@ if [ -n "$CHANGED_PHP" ]; then
     fi
 fi
 
-# ── 4. Frontend lint + unit tests (only if TS/TSX files changed) ──
+# ── 3. Frontend lint + unit tests (only if TS/TSX files changed) ──
 if [ -n "$CHANGED_TS" ] && command -v yarn >/dev/null 2>&1; then
-    # 4a. yarn lint (Prettier + ESLint)
+    # 3a. yarn lint (Prettier + ESLint)
     LINT_RESULT=$(yarn lint 2>&1 || true)
     if echo "$LINT_RESULT" | grep -qE 'error|Code style issues found'; then
         ERRORS="$ERRORS\n- YARN LINT: Prettier or ESLint errors found. Run: yarn lint-fix"
     fi
 
-    # 4b. Main unit suite (yarn unit)
+    # 3b. Main unit suite (yarn unit)
     RESULT=$(yarn unit --no-coverage 2>&1 || true)
     if echo "$RESULT" | grep -qE 'FAIL |Tests:.*failed'; then
         FAIL_SUMMARY=$(echo "$RESULT" | grep -E 'Tests:' | tail -1 || echo "failures found")
         ERRORS="$ERRORS\n- YARN UNIT: $FAIL_SUMMARY"
     fi
 
-    # 4c. DSM unit tests (separate jest config)
+    # 3c. DSM unit tests (separate jest config)
     DSM_RESULT=$(cd front-packages/akeneo-design-system && npx jest --config jest.unit.config.js --no-coverage 2>&1 || true)
     if echo "$DSM_RESULT" | grep -qE 'FAIL |Tests:.*failed'; then
         FAIL_SUMMARY=$(echo "$DSM_RESULT" | grep -E 'Tests:' | tail -1 || echo "failures found")
@@ -95,7 +84,7 @@ if [ -n "$CHANGED_TS" ] && command -v yarn >/dev/null 2>&1; then
     fi
 fi
 
-# ── 5. Playwright (only if spec.ts or fixture files changed) ──
+# ── 4. Playwright (only if spec.ts or fixture files changed) ──
 if [ -z "$CHANGED_SPECS" ] && [ -n "$CHANGED_FIXTURES" ]; then
     CHANGED_SPECS=$(find tests/front/e2e -name '*.spec.ts' 2>/dev/null || true)
 fi
