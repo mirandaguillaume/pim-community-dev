@@ -84,78 +84,90 @@ const useCategoryTreeNode = (id: number) => {
         return;
       }
 
-      const movedNode = findOneByIdentifier(nodes, identifier);
-      if (!movedNode) {
-        console.error(`Failed to move node ${identifier} : Node not found`);
-        return;
-      }
-
-      const targetParentNode = findOneByIdentifier(
+      // Compute previousCategoryId from current nodes before the functional update
+      const targetParentNodeForApi = findOneByIdentifier(
         nodes,
         target.position === 'in' ? target.identifier : target.parentId
       );
-      if (!targetParentNode) {
-        console.error(`Failed to move node ${identifier} : Target parent node ${target.parentId} not found`);
-        return;
-      }
+      const previousCategoryId = targetParentNodeForApi
+        ? determineAfterWhichCategoryIdentifierToMove(target, targetParentNodeForApi.childrenIds)
+        : null;
 
-      if (!movedNode.parentId) {
-        console.error(`Failed to move node ${identifier} : Can not move root node`);
-        return;
-      }
-      const originalParentNode = findOneByIdentifier(nodes, movedNode.parentId);
-      if (!originalParentNode) {
-        console.error(`Failed to move node ${identifier} : Moved parent Node ${movedNode.parentId} not found`);
-        return;
-      }
+      // Use functional updater to correctly merge with any pending state updates
+      // (e.g. children loaded by useFetch in the same React 18 batch)
+      setNodes(currentNodes => {
+        const movedNode = findOneByIdentifier(currentNodes, identifier);
+        if (!movedNode) {
+          console.error(`Failed to move node ${identifier} : Node not found`);
+          return currentNodes;
+        }
 
-      let newNodesList = nodes;
+        const targetParentNode = findOneByIdentifier(
+          currentNodes,
+          target.position === 'in' ? target.identifier : target.parentId
+        );
+        if (!targetParentNode) {
+          console.error(`Failed to move node ${identifier} : Target parent node ${target.parentId} not found`);
+          return currentNodes;
+        }
 
-      // update the children of parent
-      // We ensure that the moved node is not in the list
-      const parentChildrenIds = targetParentNode.childrenIds.filter(id => id !== movedNode.identifier);
+        if (!movedNode.parentId) {
+          console.error(`Failed to move node ${identifier} : Can not move root node`);
+          return currentNodes;
+        }
+        const originalParentNode = findOneByIdentifier(currentNodes, movedNode.parentId);
+        if (!originalParentNode) {
+          console.error(`Failed to move node ${identifier} : Moved parent Node ${movedNode.parentId} not found`);
+          return currentNodes;
+        }
 
-      // console.log(targetParentNode.children, parentChildrenIds);
-      const movedIndex = parentChildrenIds.findIndex(id => id === target.identifier);
+        let newNodesList = currentNodes;
 
-      parentChildrenIds.splice(
-        target.position === 'in' ? 0 : target.position === 'after' ? movedIndex + 1 : movedIndex,
-        0,
-        movedNode.identifier
-      );
+        // update the children of parent
+        // We ensure that the moved node is not in the list
+        const parentChildrenIds = targetParentNode.childrenIds.filter(id => id !== movedNode.identifier);
 
-      newNodesList = update(newNodesList, {
-        ...targetParentNode,
-        childrenIds: parentChildrenIds,
-        type: targetParentNode.type === 'leaf' ? 'node' : targetParentNode.type,
-        childrenStatus: 'loaded',
-      });
+        const movedIndex = parentChildrenIds.findIndex(id => id === target.identifier);
 
-      // update parent id for the original node
-      newNodesList = update(newNodesList, {
-        ...movedNode,
-        parentId: targetParentNode.identifier,
-      });
+        parentChildrenIds.splice(
+          target.position === 'in' ? 0 : target.position === 'after' ? movedIndex + 1 : movedIndex,
+          0,
+          movedNode.identifier
+        );
 
-      // remove the original id from the original parent's children
-      // update the original parent
-      if (originalParentNode.identifier !== targetParentNode.identifier) {
-        const updateOriginalParentChildren = originalParentNode.childrenIds.filter(id => id !== movedNode.identifier);
         newNodesList = update(newNodesList, {
-          ...originalParentNode,
-          childrenIds: updateOriginalParentChildren,
-          type:
-            originalParentNode.type !== 'root' ? (updateOriginalParentChildren.length > 0 ? 'node' : 'leaf') : 'root',
+          ...targetParentNode,
+          childrenIds: parentChildrenIds,
+          type: targetParentNode.type === 'leaf' ? 'node' : targetParentNode.type,
+          childrenStatus: 'loaded',
         });
-      }
 
-      setNodes(newNodesList);
+        // update parent id for the original node
+        newNodesList = update(newNodesList, {
+          ...movedNode,
+          parentId: targetParentNode.identifier,
+        });
+
+        // remove the original id from the original parent's children
+        // update the original parent
+        if (originalParentNode.identifier !== targetParentNode.identifier) {
+          const updateOriginalParentChildren = originalParentNode.childrenIds.filter(id => id !== movedNode.identifier);
+          newNodesList = update(newNodesList, {
+            ...originalParentNode,
+            childrenIds: updateOriginalParentChildren,
+            type:
+              originalParentNode.type !== 'root' ? (updateOriginalParentChildren.length > 0 ? 'node' : 'leaf') : 'root',
+          });
+        }
+
+        return newNodesList;
+      });
 
       // Call to backend to persist the movement
       const persistSuccess = await moveCategory(router, {
         identifier,
         parentId: target.position === 'in' ? target.identifier : target.parentId,
-        previousCategoryId: determineAfterWhichCategoryIdentifierToMove(target, targetParentNode.childrenIds),
+        previousCategoryId,
       });
 
       if (!persistSuccess) {

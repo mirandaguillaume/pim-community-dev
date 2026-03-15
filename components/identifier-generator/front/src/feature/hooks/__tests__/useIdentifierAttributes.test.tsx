@@ -20,9 +20,9 @@ describe('useIdentifierAttributes', () => {
       wrapper: createWrapper(),
     });
 
-    await waitFor(() => !!result.current.data);
-
-    expect(result.current.data).toBeDefined();
+    await waitFor(() => {
+      expect(result.current.data).toBeDefined();
+    });
     expect(result.current.data).toEqual([{code: 'sku', label: 'Sku'}]);
 
     expectCall();

@@ -1,6 +1,5 @@
 import {renderHook, waitFor} from '@testing-library/react';
 import {createWrapper} from '../../tests/hooks/config/createWrapper';
-import {act} from 'react-dom/test-utils';
 import {UiLocale} from '../../models';
 import {useUiLocales} from '../useUiLocales';
 import {mockResponse} from '../../tests/test-utils';
@@ -44,11 +43,11 @@ describe('useUiLocales', () => {
       wrapper: createWrapper(),
     });
 
-    await waitFor(() => result.current.isSuccess);
-
-    act(() => {
-      expect(result.current.data).toBeDefined();
-      expect(result.current.data).toEqual(uiLocales);
+    await waitFor(() => {
+      expect(result.current.isSuccess).toBe(true);
     });
+
+    expect(result.current.data).toBeDefined();
+    expect(result.current.data).toEqual(uiLocales);
   });
 });

@@ -3,7 +3,9 @@ import {renderHookWithProviders} from '../tests/utils';
 import {useSecurity} from './useSecurity';
 
 test('it throws when the provider is not found', () => {
-  expect(() => renderHook(() => useSecurity())).toThrow('[DependenciesContext]: Security has not been properly initiated');
+  expect(() => renderHook(() => useSecurity())).toThrow(
+    '[DependenciesContext]: Security has not been properly initiated'
+  );
 });
 
 test('it returns the Security', () => {

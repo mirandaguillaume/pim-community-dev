@@ -22,9 +22,10 @@ describe('useGetIdentifierGenerators', () => {
 
     const {result} = renderHook(() => useGetIdentifierGenerators(), {wrapper: createWrapper()});
 
-    await waitFor(() => !!result.current.data);
+    await waitFor(() => {
+      expect(result.current.data).not.toBeUndefined();
+    });
 
-    expect(result.current.data).toBeDefined();
     expect(result.current.data).toEqual(list);
   });
 
@@ -33,9 +34,9 @@ describe('useGetIdentifierGenerators', () => {
 
     const {result} = renderHook(() => useGetIdentifierGenerators(), {wrapper: createWrapper()});
 
-    await waitFor(() => !!result.current.error);
-
-    expect(result.current.error).toBeDefined();
+    await waitFor(() => {
+      expect(result.current.error).not.toBeNull();
+    });
     expect(result.current.error).toBeInstanceOf(ServerError);
   });
 });

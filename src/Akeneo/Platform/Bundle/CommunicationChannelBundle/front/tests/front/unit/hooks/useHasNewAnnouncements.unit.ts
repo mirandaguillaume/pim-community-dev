@@ -21,7 +21,9 @@ test('it checks if it has new announcements and trigger an event to display colo
   const handleHasNewAnnouncements = result.current;
   handleHasNewAnnouncements();
 
-  await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+  await act(async () => {
+    await new Promise(r => setTimeout(r, 0));
+  });
 
   expect(fetchMock).toHaveBeenCalledWith('/rest/new_announcements');
   expect(sessionStorage.getItem('communication_channel_has_new_announcements')).toBe('true');

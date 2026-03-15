@@ -1,5 +1,5 @@
 import {createRoot, Root} from 'react-dom/client';
-import {screen} from '@testing-library/react';
+import {act, screen} from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 let container: HTMLElement;
@@ -45,7 +45,9 @@ const Delete = require('pimui/js/attribute/form/delete');
 
 test('it render a delete action button', () => {
   const component = new Delete(container);
-  component.render();
+  act(() => {
+    component.render();
+  });
 
   expect(screen.getByText('pim_common.delete')).toBeInTheDocument();
 });

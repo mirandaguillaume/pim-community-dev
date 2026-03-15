@@ -28,16 +28,13 @@ describe('useGetReferenceEntitiesRecord', () => {
     });
     jest.spyOn(global, 'fetch').mockImplementation(fetchImplementation);
 
-    const {result} = renderHook(
-      () => useGetReferenceEntitiesRecord({attributeCode: 'attribute', enabled: true}),
-      {
-        wrapper: createWrapper(),
-      }
-    );
+    const {result} = renderHook(() => useGetReferenceEntitiesRecord({attributeCode: 'attribute', enabled: true}), {
+      wrapper: createWrapper(),
+    });
 
-    await waitFor(() => !!result.current.error);
-
-    expect(result.current.error).toBeDefined();
+    await waitFor(() => {
+      expect(result.current.error).not.toBeNull();
+    });
     expect(result.current.error).toBeInstanceOf(ServerError);
   });
 });

@@ -13,7 +13,9 @@ beforeEach(() => {
 test('It fetches job execution users', async () => {
   const {result} = renderHookWithProviders(() => useJobExecutionUsers());
   await act(async () => {
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await act(async () => {
+      await new Promise(r => setTimeout(r, 0));
+    });
   });
 
   expect(result.current).toEqual(expectedFetchedJobExecutionUsers);

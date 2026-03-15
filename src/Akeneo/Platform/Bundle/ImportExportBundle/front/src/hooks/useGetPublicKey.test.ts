@@ -10,7 +10,9 @@ test('it returns a public key', async () => {
 
   const {result} = renderHookWithProviders(() => useGetPublicKey());
 
-  await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+  await act(async () => {
+    await new Promise(r => setTimeout(r, 0));
+  });
 
   const expectedPublicKey = '-----BEGIN CERTIFICATE-----publickey-----END CERTIFICATE-----';
   expect(result.current).toEqual(expectedPublicKey);

@@ -17,7 +17,9 @@ test('it return the entities count', async () => {
   );
 
   const {result} = renderHookWithProviders(useCountEntities);
-  await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+  await act(async () => {
+    await new Promise(r => setTimeout(r, 0));
+  });
 
   expect(result.current).toEqual({
     count_categories: 168,

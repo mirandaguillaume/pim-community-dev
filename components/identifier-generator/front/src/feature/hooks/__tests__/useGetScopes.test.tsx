@@ -10,7 +10,9 @@ describe('useGetScopes', () => {
 
     const {result} = renderHook(() => useGetScopes(), {wrapper: createWrapper()});
 
-    await waitFor(() => !!result.current.data);
+    await waitFor(() => {
+      expect(result.current.data).toBeDefined();
+    });
 
     expect(result.current.data).toEqual(mockedScopes);
   });

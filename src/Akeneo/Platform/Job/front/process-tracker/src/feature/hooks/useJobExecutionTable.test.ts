@@ -1,7 +1,7 @@
 import {useJobExecutionTable} from './useJobExecutionTable';
 import {renderHookWithProviders} from '@akeneo-pim-community/shared';
 import {JobExecutionTable, getDefaultJobExecutionFilter} from '../models';
-import {act} from '@testing-library/react';
+import {act, waitFor} from '@testing-library/react';
 
 const expectedFetchedJobExecutionTable: JobExecutionTable = {
   rows: [],
@@ -20,29 +20,31 @@ beforeEach(() => {
   }));
 });
 
+afterEach(() => {
+  jest.useRealTimers();
+});
+
 test('It fetches job execution table', async () => {
   const defaultFilter = getDefaultJobExecutionFilter();
   const {result} = renderHookWithProviders(() => useJobExecutionTable(defaultFilter));
-  await act(async () => {
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
-  });
 
-  expect(result.current[0]).toEqual(expectedFetchedJobExecutionTable);
+  await waitFor(() => {
+    expect(result.current[0]).toEqual(expectedFetchedJobExecutionTable);
+  });
 });
 
 test('It can refresh job execution table', async () => {
   const defaultFilter = getDefaultJobExecutionFilter();
   const {result} = renderHookWithProviders(() => useJobExecutionTable(defaultFilter));
 
-  await act(async () => {
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+  await waitFor(() => {
+    expect(result.current[0]).toEqual(expectedFetchedJobExecutionTable);
   });
 
   expect(global.fetch).toBeCalledTimes(1);
-  const [jobExecutionTable, refreshJobExecutionTable] = result.current;
 
-  expect(jobExecutionTable).toEqual(expectedFetchedJobExecutionTable);
   await act(async () => {
+    const [, refreshJobExecutionTable] = result.current;
     await refreshJobExecutionTable();
   });
 
@@ -56,24 +58,16 @@ test('It returns job execution table only if hook is mounted', async () => {
   unmount();
 
   const [jobExecutionTable] = result.current;
-
   expect(jobExecutionTable).toEqual(null);
 });
 
 test('It does not fetch a job execution table while the previous fetch is not finished', async () => {
-  jest.useFakeTimers();
+  let resolveFirst: (value: any) => void;
   global.fetch = jest.fn().mockImplementation(
-    async () =>
-      new Promise(resolve =>
-        setTimeout(
-          () =>
-            resolve({
-              ok: true,
-              json: async () => expectedFetchedJobExecutionTable,
-            }),
-          1500
-        )
-      )
+    () =>
+      new Promise(resolve => {
+        resolveFirst = resolve;
+      })
   );
 
   const filter = getDefaultJobExecutionFilter();
@@ -81,14 +75,20 @@ test('It does not fetch a job execution table while the previous fetch is not fi
 
   expect(global.fetch).toHaveBeenCalledTimes(1);
 
-  const [jobExecutionTable, refreshJobExecutionTable] = result.current;
+  const [jobExecutionTable] = result.current;
   expect(jobExecutionTable).toBeNull();
-  expect(refreshJobExecutionTable).not.toBeNull();
 
+  // Trying to refresh while fetch is pending should not trigger another fetch
   await act(async () => {
+    const [, refreshJobExecutionTable] = result.current;
     await refreshJobExecutionTable();
   });
   expect(global.fetch).toHaveBeenCalledTimes(1);
+
+  // Resolve pending fetch
+  await act(async () => {
+    resolveFirst!({json: async () => expectedFetchedJobExecutionTable});
+  });
 });
 
 test('It automatically refreshes the job execution table', async () => {
@@ -97,16 +97,21 @@ test('It automatically refreshes the job execution table', async () => {
   const filter = getDefaultJobExecutionFilter();
   const {result} = renderHookWithProviders(() => useJobExecutionTable(filter));
 
+  // Initial fetch resolves immediately (mocked)
   await act(async () => {
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await Promise.resolve();
   });
 
   expect(global.fetch).toHaveBeenCalledTimes(1);
   expect(result.current[0]).toBe(expectedFetchedJobExecutionTable);
 
+  // Advance past the auto-refresh interval (5000ms)
   await act(async () => {
     jest.advanceTimersByTime(5000);
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+  });
+
+  await act(async () => {
+    await Promise.resolve();
   });
 
   expect(global.fetch).toHaveBeenCalledTimes(2);
@@ -120,7 +125,7 @@ test('It does not automatically refresh the job execution table when told', asyn
   const {result} = renderHookWithProviders(() => useJobExecutionTable(filter, false));
 
   await act(async () => {
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await Promise.resolve();
   });
 
   expect(global.fetch).toHaveBeenCalledTimes(1);
@@ -142,12 +147,14 @@ test('It does not refresh the job execution table when document is not visible',
   const {result} = renderHookWithProviders(() => useJobExecutionTable(filter));
 
   await act(async () => {
-    jest.advanceTimersByTime(1500);
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await Promise.resolve();
   });
 
   expect(global.fetch).toHaveBeenCalledTimes(1);
-  expect(result.current[0]).toBe(expectedFetchedJobExecutionTable);
+
+  await waitFor(() => {
+    expect(result.current[0]).toBe(expectedFetchedJobExecutionTable);
+  });
 
   await act(async () => {
     jest.advanceTimersByTime(5000);

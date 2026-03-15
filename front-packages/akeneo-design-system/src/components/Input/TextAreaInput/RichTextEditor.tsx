@@ -37,7 +37,8 @@ const RichTextEditor = ({value, readOnly = false, onChange, ...rest}: RichTextEd
   };
 
   return (
-    // @ts-ignore — react-draft-wysiwyg bundles its own @types/react (17) which may conflict with React 18 types
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore — react-draft-wysiwyg bundles @types/react 17 which conflicts with React 18 types
     <Editor
       toolbarHidden={readOnly}
       readOnly={readOnly}

@@ -1,4 +1,4 @@
-import {FC} from 'react';
+import {FC, ReactNode} from 'react';
 import {renderHook, act} from '@testing-library/react';
 import {ThemeProvider} from 'styled-components';
 import {pimTheme} from 'akeneo-design-system';
@@ -11,7 +11,7 @@ import {DependenciesContext, mockedDependencies} from '@akeneo-pim-community/sha
 
 jest.mock('../infrastructure');
 
-const DefaultProviders: FC<{root: CategoryTreeModel}> = ({children, root}) => (
+const DefaultProviders: FC<{root: CategoryTreeModel; children?: ReactNode}> = ({children, root}) => (
   <DependenciesContext.Provider value={mockedDependencies}>
     <ThemeProvider theme={pimTheme}>
       <CategoryTreeProvider root={root}>{children}</CategoryTreeProvider>

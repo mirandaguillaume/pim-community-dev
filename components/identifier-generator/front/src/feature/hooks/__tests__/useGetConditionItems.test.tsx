@@ -61,27 +61,26 @@ describe('useGetConditionItems', () => {
     });
 
     const conditions: Conditions = [];
-    let hookResult = undefined;
-    let hookWaitFor = undefined;
-    await act(async () => {
-      const {result} = renderHook(() => useGetConditionItems(true, conditions, 3), {wrapper: createWrapper()});
-      await waitFor(() => result.current?.conditionItems?.length > 0);
-      hookResult = result;
-      hookWaitFor = waitFor;
+    const {result} = renderHook(() => useGetConditionItems(true, conditions, 3), {wrapper: createWrapper()});
+
+    await waitFor(() => {
+      expect(result.current?.conditionItems?.length).toBeGreaterThan(0);
     });
     expectCallPage1();
-    expect(hookResult.current.conditionItems).toEqual(resultsPage1);
+    expect(result.current.conditionItems).toEqual(resultsPage1);
 
     const expectCallPage2 = mockResponse('akeneo_identifier_generator_get_conditions', 'GET', {
       ok: true,
       json: resultsPage2,
     });
     act(() => {
-      hookResult.current.handleNextPage();
+      result.current.handleNextPage();
     });
-    await hookWaitFor(() => hookResult.current?.conditionItems?.length > 2);
+    await waitFor(() => {
+      expect(result.current?.conditionItems?.length).toBeGreaterThan(2);
+    });
     expectCallPage2();
-    expect(hookResult.current.conditionItems).toEqual(mergedResults);
+    expect(result.current.conditionItems).toEqual(mergedResults);
   });
 
   test('it resets items on search', async () => {
@@ -105,30 +104,29 @@ describe('useGetConditionItems', () => {
     });
 
     const conditions: Conditions = [];
-    let hookResult = undefined;
-    let hookWaitFor = undefined;
-    await act(async () => {
-      const {result} = renderHook(() => useGetConditionItems(true, conditions, 3), {wrapper: createWrapper()});
-      await waitFor(() => result.current?.conditionItems?.length > 0);
-      hookResult = result;
-      hookWaitFor = waitFor;
+    const {result} = renderHook(() => useGetConditionItems(true, conditions, 3), {wrapper: createWrapper()});
+
+    await waitFor(() => {
+      expect(result.current?.conditionItems?.length).toBeGreaterThan(0);
     });
     expectCallPage1();
-    expect(hookResult.current.conditionItems).toEqual(resultsPage1);
+    expect(result.current.conditionItems).toEqual(resultsPage1);
 
     const expectCallPage2 = mockResponse('akeneo_identifier_generator_get_conditions', 'GET', {
       ok: true,
       json: resultsWithSearch,
     });
     act(() => {
-      hookResult.current.setSearchValue('fam');
+      result.current.setSearchValue('fam');
     });
     act(() => {
-      hookResult.current.setSearchValue('family');
+      result.current.setSearchValue('family');
     });
-    await hookWaitFor(() => hookResult.current?.conditionItems?.length === 1);
+    await waitFor(() => {
+      expect(result.current?.conditionItems).toHaveLength(1);
+    });
     expectCallPage2();
-    expect(hookResult.current.conditionItems).toEqual(resultsWithSearch);
+    expect(result.current.conditionItems).toEqual(resultsWithSearch);
   });
 
   test('it filters system items', async () => {
@@ -142,15 +140,14 @@ describe('useGetConditionItems', () => {
       json: resultsPage1,
     });
 
-    let hookResult = undefined;
     const conditions: Conditions = [{type: CONDITION_NAMES.FAMILY, operator: Operator.EMPTY}];
-    await act(async () => {
-      const {result} = renderHook(() => useGetConditionItems(true, conditions, 3), {wrapper: createWrapper()});
-      hookResult = result;
-      await waitFor(() => result.current?.conditionItems?.length > 0);
+    const {result} = renderHook(() => useGetConditionItems(true, conditions, 3), {wrapper: createWrapper()});
+
+    await waitFor(() => {
+      expect(result.current?.conditionItems?.length).toBeGreaterThan(0);
     });
 
     expectCallPage1();
-    expect(hookResult.current.conditionItems).toEqual(resultsPage1);
+    expect(result.current.conditionItems).toEqual(resultsPage1);
   });
 });

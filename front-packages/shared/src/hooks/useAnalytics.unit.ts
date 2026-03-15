@@ -3,7 +3,9 @@ import {renderHookWithProviders} from '../tests/utils';
 import {useAnalytics} from './useAnalytics';
 
 test('it throws when the provider is not found', () => {
-  expect(() => renderHook(() => useAnalytics())).toThrow('[DependenciesContext]: Analytics has not been properly initiated');
+  expect(() => renderHook(() => useAnalytics())).toThrow(
+    '[DependenciesContext]: Analytics has not been properly initiated'
+  );
 });
 
 test('it returns Analytics', () => {

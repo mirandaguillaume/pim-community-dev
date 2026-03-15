@@ -33,7 +33,9 @@ describe('AttributeGroupsHelper', () => {
     });
 
     const {result} = await renderUseProductEvaluatedAttributeGroups(getInitialState());
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await act(async () => {
+      await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(fetchAllAttributeGroupsDqiStatus).toHaveBeenCalledTimes(1);
     expect(fetchAttributeGroupsByCode).toHaveBeenNthCalledWith(1, ['erp', 'technical']);
@@ -48,7 +50,9 @@ describe('AttributeGroupsHelper', () => {
     fetchAllAttributeGroupsDqiStatus.mockResolvedValueOnce({erp: true, technical: true, marketing: true});
 
     const {result} = await renderUseProductEvaluatedAttributeGroups(getInitialState());
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await act(async () => {
+      await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(fetchAllAttributeGroupsDqiStatus).toHaveBeenCalledTimes(1);
     expect(fetchAttributeGroupsByCode).not.toHaveBeenCalled();
@@ -60,7 +64,9 @@ describe('AttributeGroupsHelper', () => {
     fetchAllAttributeGroupsDqiStatus.mockResolvedValueOnce({erp: false, technical: false, marketing: false});
 
     const {result} = await renderUseProductEvaluatedAttributeGroups(getInitialState());
-    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    await act(async () => {
+      await new Promise(r => setTimeout(r, 0));
+    });
 
     expect(fetchAllAttributeGroupsDqiStatus).toHaveBeenCalledTimes(1);
     expect(fetchAttributeGroupsByCode).not.toHaveBeenCalled();

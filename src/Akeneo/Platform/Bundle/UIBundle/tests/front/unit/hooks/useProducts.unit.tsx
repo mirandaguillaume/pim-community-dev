@@ -39,7 +39,9 @@ test('It returns the fetched product list', async () => {
 
   const {result} = renderHook(() => useProducts({products: ['bag'], product_models: []}), {wrapper});
 
-  await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+  await act(async () => {
+    await new Promise(r => setTimeout(r, 0));
+  });
 
   expect(result.current).toEqual([
     {
@@ -111,7 +113,9 @@ test('It does not fetch products if already fetched', async () => {
     wrapper,
   });
 
-  await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+  await act(async () => {
+    await new Promise(r => setTimeout(r, 0));
+  });
 
   expect(result.current).toEqual([
     {
@@ -132,7 +136,9 @@ test('It does not fetch products if already fetched', async () => {
     rerender();
   });
 
-  await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+  await act(async () => {
+    await new Promise(r => setTimeout(r, 0));
+  });
 
   expect(result.current).toEqual([
     {
