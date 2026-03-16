@@ -37,7 +37,7 @@ class VariantProductRepository implements VariantProductRepositoryInterface
             $qb->andWhere('vp.uuid != :uuid')->setParameter('uuid', $uuid);
         }
 
-        return $qb->getQuery()->execute();
+        return $qb->getQuery()->getResult();
     }
 
     /**
@@ -75,7 +75,7 @@ class VariantProductRepository implements VariantProductRepositoryInterface
             ->where('vp.identifier = :identifier')
             ->setParameter('identifier', $identifier);
 
-        $results = $qb->getQuery()->execute();
+        $results = $qb->getQuery()->getResult();
 
         if (empty($results)) {
             return null;

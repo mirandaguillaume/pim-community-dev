@@ -3,7 +3,7 @@
 namespace Specification\Akeneo\Pim\Structure\Bundle\Doctrine\ORM;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use PhpSpec\ObjectBehavior;
 use Akeneo\Pim\Structure\Component\Model\ReferenceDataConfigurationInterface;
 use Prophecy\Argument;
@@ -15,7 +15,7 @@ class ReferenceDataUniqueCodeCheckerSpec extends ObjectBehavior
         $this->beConstructedWith($em);
     }
 
-    function it_checks_a_valid_reference_data($em, ReferenceDataConfigurationInterface $configuration, ClassMetadataInfo $metadata)
+    function it_checks_a_valid_reference_data($em, ReferenceDataConfigurationInterface $configuration, ClassMetadata $metadata)
     {
         $em->getClassMetadata(Argument::any())->willReturn($metadata);
         $metadata->getFieldMapping('code')->willReturn([
@@ -32,7 +32,7 @@ class ReferenceDataUniqueCodeCheckerSpec extends ObjectBehavior
         $this->getFailure()->shouldReturn(null);
     }
 
-    function it_checks_an_invalid_reference_data($em, ReferenceDataConfigurationInterface $configuration, ClassMetadataInfo $metadata)
+    function it_checks_an_invalid_reference_data($em, ReferenceDataConfigurationInterface $configuration, ClassMetadata $metadata)
     {
         $em->getClassMetadata(Argument::any())->willReturn($metadata);
         $metadata->getFieldMapping('code')->willReturn([

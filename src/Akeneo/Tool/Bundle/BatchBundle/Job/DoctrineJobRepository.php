@@ -129,7 +129,7 @@ class DoctrineJobRepository implements JobRepositoryInterface
     public function updateJobExecution(JobExecution $jobExecution): void
     {
         $this->jobManager->persist($jobExecution);
-        $this->jobManager->flush($jobExecution);
+        $this->jobManager->flush();
     }
 
     /**
@@ -138,7 +138,7 @@ class DoctrineJobRepository implements JobRepositoryInterface
     public function updateStepExecution(StepExecution $stepExecution): void
     {
         $this->jobManager->persist($stepExecution);
-        $this->jobManager->flush($stepExecution);
+        $this->jobManager->flush();
     }
 
     /**

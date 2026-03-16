@@ -20,7 +20,7 @@ class EditRolePermissionsUserQuery
     {
         $minimumPermissionsRoles = $this->editRolePermissionsRoleQuery->getRolesWithMinimumEditRolePermissions();
         $uiUserEnabledByRoles = $this->roleRepository->getUiUserEnabledByRoles($minimumPermissionsRoles);
-        return $uiUserEnabledByRoles->getQuery()->execute();
+        return $uiUserEnabledByRoles->getQuery()->getResult();
     }
 
     /**

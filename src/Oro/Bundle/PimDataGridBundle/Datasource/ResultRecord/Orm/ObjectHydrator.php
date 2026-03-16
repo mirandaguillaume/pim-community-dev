@@ -18,6 +18,6 @@ class ObjectHydrator implements HydratorInterface
      */
     public function hydrate($qb, array $options = [])
     {
-        return $qb->getQuery()->execute();
+        return $qb->getQuery()->getResult();
     }
 }

@@ -7,7 +7,6 @@ use Akeneo\Category\Infrastructure\Component\Classification\Repository\CategoryR
 use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\QueryBuilder;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 
@@ -114,7 +113,7 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
         $categoryQb->resetDQLPart('from');
         $categoryQb->from($rootEntity, $rootAlias, $rootAlias.'.id');
 
-        return array_keys($categoryQb->getQuery()->execute([], AbstractQuery::HYDRATE_ARRAY));
+        return array_keys($categoryQb->getQuery()->getArrayResult());
     }
 
     public function getAllChildrenCodes(CategoryInterface $parent, $includeNode = false)
@@ -126,7 +125,7 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
         $categoryQb->resetDQLPart('from');
         $categoryQb->from($rootEntity, $rootAlias, $rootAlias.'.id');
 
-        $categories = $categoryQb->getQuery()->execute(null, AbstractQuery::HYDRATE_SCALAR);
+        $categories = $categoryQb->getQuery()->getScalarResult();
         $codes = [];
         foreach ($categories as $category) {
             $codes[] = $category['code'];
@@ -151,7 +150,7 @@ class CategoryRepository extends NestedTreeRepository implements IdentifiableObj
 
         $qb->setParameter('categoriesCodes', $categoriesCodes);
 
-        $categories = $qb->getQuery()->execute(null, AbstractQuery::HYDRATE_SCALAR);
+        $categories = $qb->getQuery()->getScalarResult();
         $ids = [];
         foreach ($categories as $category) {
             $ids[] = (int) $category['id'];

@@ -29,7 +29,7 @@ class ProductModelRepository extends EntityRepository implements ProductModelRep
             ->where('pm.code IN (:codes)')
             ->setParameter('codes', $identifiers);
 
-        return $qb->getQuery()->execute();
+        return $qb->getQuery()->getResult();
     }
 
     /**
@@ -63,7 +63,7 @@ class ProductModelRepository extends EntityRepository implements ProductModelRep
                 ->setParameter('id', $id);
         }
 
-        return $qb->getQuery()->execute();
+        return $qb->getQuery()->getResult();
     }
 
     /**
@@ -90,7 +90,7 @@ class ProductModelRepository extends EntityRepository implements ProductModelRep
             ->where('pm.parent = :parent')
             ->setParameter('parent', $productModel);
 
-        return $qb->getQuery()->execute();
+        return $qb->getQuery()->getResult();
     }
 
     /**
@@ -130,7 +130,7 @@ class ProductModelRepository extends EntityRepository implements ProductModelRep
             ->orWhere('pm.parent = :parent')
             ->setParameter('parent', $productModel);
 
-        return $qb->getQuery()->execute();
+        return $qb->getQuery()->getResult();
     }
 
     /**
@@ -154,7 +154,7 @@ class ProductModelRepository extends EntityRepository implements ProductModelRep
             ->where('p.parent = :parent')
             ->setParameter('parent', $productModel);
 
-        return $qb->getQuery()->execute();
+        return $qb->getQuery()->getResult();
     }
 
     /**
@@ -173,7 +173,7 @@ class ProductModelRepository extends EntityRepository implements ProductModelRep
                 ->setParameter(':productModelId', $productModel->getId());
         }
 
-        return $qb->getQuery()->execute();
+        return $qb->getQuery()->getResult();
     }
 
     /**
@@ -188,7 +188,7 @@ class ProductModelRepository extends EntityRepository implements ProductModelRep
             ->setParameter('familyVariant', $familyVariant->getId())
         ;
 
-        return $qb->getQuery()->execute();
+        return $qb->getQuery()->getResult();
     }
 
     /**
@@ -203,7 +203,7 @@ class ProductModelRepository extends EntityRepository implements ProductModelRep
             ->setParameter('familyVariant', $familyVariant->getId())
         ;
 
-        return $qb->getQuery()->execute();
+        return $qb->getQuery()->getResult();
     }
 
     public function findProductModelsForFamilyVariant(
@@ -226,7 +226,7 @@ class ProductModelRepository extends EntityRepository implements ProductModelRep
                ->setParameter(1, '%' . $search . '%');
         }
 
-        return $qb->getQuery()->execute();
+        return $qb->getQuery()->getResult();
     }
 
     /**
@@ -251,6 +251,6 @@ class ProductModelRepository extends EntityRepository implements ProductModelRep
             ? $qb->andWhere('pm.parent IS NULL')->andWhere('pm.familyVariant = :familyVariant')
             : $qb->innerJoin('pm.parent', 'ppm')->andWhere('ppm.familyVariant = :familyVariant');
 
-        return $qb->getQuery()->execute();
+        return $qb->getQuery()->getResult();
     }
 }

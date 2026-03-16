@@ -43,7 +43,7 @@ class OrmDatasource implements DatasourceInterface
      */
     public function getResults()
     {
-        $results = $this->qb->getQuery()->execute();
+        $results = $this->qb->getQuery()->getResult();
         $rows = [];
         foreach ($results as $result) {
             $rows[] = new ResultRecord($result);

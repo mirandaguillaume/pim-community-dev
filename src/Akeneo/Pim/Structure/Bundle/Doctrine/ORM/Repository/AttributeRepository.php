@@ -8,7 +8,6 @@ use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 use Akeneo\Pim\Structure\Component\Model\FamilyInterface;
 use Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface;
 use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface;
-use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
@@ -178,7 +177,7 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
         if (!empty($ids)) {
             $qb->andWhere('att.id IN (:ids)')->setParameter('ids', $ids);
         }
-        $results = $qb->getQuery()->execute([], AbstractQuery::HYDRATE_ARRAY);
+        $results = $qb->getQuery()->getArrayResult();
 
         if ($withLabel) {
             $labelExpr = 'COALESCE(NULLIF(trans.label, \'\'), CONCAT(CONCAT(\'[\', att.code), \']\'))';
@@ -196,7 +195,7 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
             if (!empty($ids)) {
                 $qb->andWhere('att.id IN (:ids)')->setParameter('ids', $ids);
             }
-            $attributes = $qb->getQuery()->execute([], AbstractQuery::HYDRATE_ARRAY);
+            $attributes = $qb->getQuery()->getArrayResult();
             foreach ($attributes as $data) {
                 $results[$data['code']]['label'] = $data['label'];
                 $results[$data['code']]['group'] = $data['groupLabel'];
@@ -233,7 +232,7 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
         $qb->andWhere('att.useableAsGridFilter = :useableInGrid');
         $qb->setParameter('useableInGrid', 1);
 
-        $result = $qb->getQuery()->execute([], AbstractQuery::HYDRATE_ARRAY);
+        $result = $qb->getQuery()->getArrayResult();
 
         return array_keys($result);
     }

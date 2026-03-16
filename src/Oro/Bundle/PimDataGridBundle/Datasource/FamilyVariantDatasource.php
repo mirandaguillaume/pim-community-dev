@@ -32,7 +32,7 @@ class FamilyVariantDatasource extends RepositoryDatasource
      */
     public function getResults(): array
     {
-        $familyVariants = $this->qb->getQuery()->execute();
+        $familyVariants = $this->qb->getQuery()->getResult();
 
         return array_map(fn ($familyVariant) => new ResultRecord(
             $this->normalizer->normalize(
