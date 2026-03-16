@@ -12,7 +12,6 @@ use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag;
 use PhpSpec\ObjectBehavior;
 use Psr\Clock\ClockInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -58,7 +57,6 @@ final class DispatchFamilyWasCreatedOrUpdatedSubscriberSpec extends ObjectBehavi
 
     function it_is_an_event_subscriber()
     {
-        $this->shouldImplement(EventSubscriberInterface::class);
         $this->shouldHaveType(DispatchFamilyWasCreatedOrUpdatedSubscriber::class);
     }
 

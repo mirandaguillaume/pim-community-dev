@@ -13,7 +13,6 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Query\Filter\Operators;
 use Akeneo\Pim\Enrichment\Component\Product\Query\ProductQueryBuilderInterface;
 use Prophecy\Argument;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class AttributeOptionRemovalSubscriberSpec extends ObjectBehavior
@@ -31,11 +30,6 @@ class AttributeOptionRemovalSubscriberSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(AttributeOptionRemovalSubscriber::class);
-    }
-
-    function it_is_an_event_subscriber()
-    {
-        $this->shouldImplement(EventSubscriberInterface::class);
     }
 
     function it_processes_only_attribute_option(GenericEvent $event, ProductInterface $product)

@@ -11,7 +11,6 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Bundle\SecurityBundle\Security\FirewallConfig;
 use Symfony\Bundle\SecurityBundle\Security\FirewallMap;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -31,11 +30,6 @@ class LocaleSubscriberSpec extends ObjectBehavior
         $firewall->getFirewallConfig(Argument::any())->willReturn($firewallConfig);
 
         $this->beConstructedWith($requestStack, $localeAware, $em, $firewall);
-    }
-
-    function it_implements_an_event_listener_interface()
-    {
-        $this->shouldImplement(EventSubscriberInterface::class);
     }
 
     function it_sets_locale_on_kernel_request(

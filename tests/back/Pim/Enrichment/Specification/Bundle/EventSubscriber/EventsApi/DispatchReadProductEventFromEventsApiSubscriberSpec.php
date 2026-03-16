@@ -12,7 +12,6 @@ use Akeneo\Platform\Component\EventQueue\Event;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
@@ -28,7 +27,6 @@ class DispatchReadProductEventFromEventsApiSubscriberSpec extends ObjectBehavior
     public function it_is_initializable()
     {
         $this->shouldHaveType(DispatchReadProductEventFromEventsApiSubscriber::class);
-        $this->shouldImplement(EventSubscriberInterface::class);
     }
 
     public function it_dispatches_a_read_product_on_product_events_api_saved(

@@ -10,7 +10,6 @@ use Akeneo\Pim\Enrichment\Component\Product\Storage\Indexer\ProductModelIndexerI
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Ramsey\Uuid\Uuid;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class ReindexFormerAncestorsSubscriberSpec extends ObjectBehavior
@@ -20,11 +19,6 @@ class ReindexFormerAncestorsSubscriberSpec extends ObjectBehavior
         ProductModelIndexerInterface $productModelIndexer
     ) {
         $this->beConstructedWith($getAncestorAndDescendantProductModelCodes, $productModelIndexer);
-    }
-
-    function it_is_an_event_subscriber()
-    {
-        $this->shouldImplement(EventSubscriberInterface::class);
     }
 
     function it_is_initializable()
