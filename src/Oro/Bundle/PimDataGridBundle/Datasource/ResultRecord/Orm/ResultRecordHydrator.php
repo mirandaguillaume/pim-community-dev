@@ -20,7 +20,7 @@ class ResultRecordHydrator implements HydratorInterface
     public function hydrate($qb, array $options = [])
     {
         $records = [];
-        foreach ($qb->getQuery()->execute() as $record) {
+        foreach ($qb->getQuery()->getResult() as $record) {
             $records[] = new ResultRecord($record);
         }
 

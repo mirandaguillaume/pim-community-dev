@@ -67,7 +67,7 @@ class DatagridViewRepository extends EntityRepository implements DatagridViewRep
             $qb->setParameter('ids', $identifiers);
         }
 
-        return $qb->getQuery()->execute();
+        return $qb->getQuery()->getResult();
     }
 
     public function findAllDatagridViewsBySearch(
@@ -76,7 +76,7 @@ class DatagridViewRepository extends EntityRepository implements DatagridViewRep
         string        $term = ''
     ): array {
         $qb = $this->buildQueryForListingViews($user, $alias, $term);
-        return $qb->getQuery()->execute();
+        return $qb->getQuery()->getResult();
     }
 
     private function buildQueryForListingViews(UserInterface $user, string $alias, string $term): QueryBuilder

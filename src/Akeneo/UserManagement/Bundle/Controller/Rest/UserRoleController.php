@@ -41,7 +41,7 @@ class UserRoleController
     public function indexAction()
     {
         $queryBuilder = $this->roleRepository->getAllButAnonymousQB();
-        $roles = $queryBuilder->getQuery()->execute();
+        $roles = $queryBuilder->getQuery()->getResult();
 
         return new JsonResponse($this->normalizer->normalize(
             $roles,

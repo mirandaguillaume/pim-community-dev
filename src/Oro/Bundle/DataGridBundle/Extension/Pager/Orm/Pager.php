@@ -61,7 +61,7 @@ class Pager extends AbstractPager implements PagerInterface
      */
     public function getResults($hydrationMode = Query::HYDRATE_OBJECT)
     {
-        return $this->getQueryBuilder()->getQuery()->execute([], $hydrationMode);
+        return $this->getQueryBuilder()->getQuery()->getResult($hydrationMode);
     }
 
     /**

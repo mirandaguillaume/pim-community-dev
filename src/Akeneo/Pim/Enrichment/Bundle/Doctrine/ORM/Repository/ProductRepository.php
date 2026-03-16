@@ -136,7 +136,7 @@ class ProductRepository extends EntityRepository implements
             ->setParameter('group', $group)
             ->getQuery()
             ->setMaxResults($maxResults)
-            ->execute();
+            ->getResult();
 
         return $products;
     }
@@ -203,7 +203,7 @@ class ProductRepository extends EntityRepository implements
                 ->setParameter(':productUuid', $product->getUuid());
         }
 
-        return $qb->getQuery()->execute();
+        return $qb->getQuery()->getResult();
     }
 
     private function getMainIdentifierId(): int

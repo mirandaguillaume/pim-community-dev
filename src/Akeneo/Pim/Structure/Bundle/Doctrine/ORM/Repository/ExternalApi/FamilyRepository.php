@@ -63,7 +63,7 @@ class FamilyRepository extends EntityRepository implements ApiResourceRepository
         }
         $qb->setMaxResults($limit);
 
-        return $qb->getQuery()->execute();
+        return $qb->getQuery()->getResult();
     }
 
 

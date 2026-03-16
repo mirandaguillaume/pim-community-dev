@@ -76,6 +76,6 @@ class EntitiesToIdsTransformer extends EntityToIdTransformer
                 ->setParameter('ids', $ids);
         }
 
-        return $qb->getQuery()->execute();
+        return $qb->getQuery()->getResult();
     }
 }

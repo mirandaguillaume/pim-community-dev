@@ -4,7 +4,6 @@ namespace Akeneo\Pim\Structure\Bundle\Doctrine\ORM\Repository;
 
 use Akeneo\Pim\Structure\Component\Model\AttributeGroupInterface;
 use Akeneo\Pim\Structure\Component\Repository\AttributeGroupRepositoryInterface;
-use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
@@ -22,7 +21,7 @@ class AttributeGroupRepository extends EntityRepository implements AttributeGrou
      */
     public function getIdToLabelOrderedBySortOrder()
     {
-        $groups = $this->buildAllOrderedBySortOrder()->getQuery()->execute();
+        $groups = $this->buildAllOrderedBySortOrder()->getQuery()->getResult();
         $orderedGroups = [];
         foreach ($groups as $group) {
             $orderedGroups[$group->getId()] = $group->getLabel();
@@ -47,7 +46,7 @@ class AttributeGroupRepository extends EntityRepository implements AttributeGrou
         return (int) $this->createQueryBuilder('ag')
             ->select('MAX(ag.sortOrder)')
             ->getQuery()
-            ->execute([], AbstractQuery::HYDRATE_SINGLE_SCALAR);
+            ->getSingleScalarResult();
     }
 
     /**
