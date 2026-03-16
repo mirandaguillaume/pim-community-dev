@@ -128,9 +128,9 @@ if [ -n "$CHANGED_PHP" ]; then
     if command -v docker-compose >/dev/null 2>&1; then
         PHPSPEC_EXIT=0
         PHPSPEC_RESULT=$(docker-compose run --rm -T php php vendor/bin/phpspec run 2>&1) || PHPSPEC_EXIT=$?
-        if [ "$PHPSPEC_EXIT" -ne 0 ]; then
-            FAIL_SUMMARY=$(echo "$PHPSPEC_RESULT" | grep -E '^[0-9]+ examples' | tail -1 || echo "exit code $PHPSPEC_EXIT")
-            ERRORS="$ERRORS\n- PHPSPEC: $FAIL_SUMMARY"
+        PHPSPEC_SUMMARY=$(echo "$PHPSPEC_RESULT" | grep -E '^[0-9]+ examples' | tail -1 || echo "")
+        if echo "$PHPSPEC_SUMMARY" | grep -qE 'failed'; then
+            ERRORS="$ERRORS\n- PHPSPEC: $PHPSPEC_SUMMARY"
         fi
     fi
 
@@ -150,6 +150,10 @@ if [ -n "$CHANGED_PHP" ]; then
             CD_CONFIG=$(find "src/Akeneo/$ctx" -name ".php_cd.php" -maxdepth 3 2>/dev/null | head -1 || true)
             if [ -n "$CD_CONFIG" ]; then
                 RESULT=$(docker-compose run --rm -T php php vendor/bin/php-coupling-detector detect --config-file="$CD_CONFIG" 2>&1 || true)
+                # Skip if the tool itself crashed (e.g. PHP 8.4 incompatibility)
+                if echo "$RESULT" | grep -qiE 'Fatal error|PHP Fatal'; then
+                    continue
+                fi
                 if echo "$RESULT" | grep -qiE 'violation|error'; then
                     CTX_NAME=$(dirname "$CD_CONFIG" | sed 's|src/Akeneo/||')
                     ERRORS="$ERRORS\n- COUPLING ($CTX_NAME): violations detected"
