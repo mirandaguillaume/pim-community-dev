@@ -82,7 +82,7 @@ class ProductModelRepositorySpec extends ObjectBehavior
         $qb->setParameter('codes', ['foo', 'bar'])->willReturn($qb);
 
         $qb->getQuery()->willReturn($query);
-        $query->execute()->willReturn([$fooModel, $barModel]);
+        $query->getResult()->willReturn([$fooModel, $barModel]);
 
         $this->getItemsFromIdentifiers(['foo', 'bar'])->shouldReturn([$fooModel, $barModel]);
     }
