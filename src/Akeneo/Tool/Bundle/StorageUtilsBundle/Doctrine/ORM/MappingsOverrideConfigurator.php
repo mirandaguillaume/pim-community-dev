@@ -5,7 +5,6 @@ namespace Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\ORM;
 use Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\MappingsOverrideConfiguratorInterface;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\Mapping\ClassMetadata as OrmClassMetadata;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\Persistence\Mapping\ClassMetadata;
 
 /**
@@ -28,9 +27,9 @@ class MappingsOverrideConfigurator implements MappingsOverrideConfiguratorInterf
      */
     public function configure(ClassMetadata $metadata, array $mappingOverrides, $configuration)
     {
-        if (!$metadata instanceof ClassMetadataInfo) {
+        if (!$metadata instanceof OrmClassMetadata) {
             throw new \InvalidArgumentException(
-                'This configurator only handles "Doctrine\ORM\Mapping\ClassMetadataInfo".'
+                'This configurator only handles "Doctrine\ORM\Mapping\OrmClassMetadata".'
             );
         }
         if (!$configuration instanceof Configuration) {
@@ -56,7 +55,7 @@ class MappingsOverrideConfigurator implements MappingsOverrideConfiguratorInterf
     /**
      * Set the association mappings of a metadata.
      */
-    protected function setAssociationMappings(ClassMetadataInfo $metadata, Configuration $configuration)
+    protected function setAssociationMappings(OrmClassMetadata $metadata, Configuration $configuration)
     {
         $supportedClasses = $configuration->getMetadataDriverImpl()->getAllClassNames();
 
@@ -81,7 +80,7 @@ class MappingsOverrideConfigurator implements MappingsOverrideConfiguratorInterf
     /**
      * Unset the association mappings of a metadata.
      */
-    protected function unsetAssociationMappings(ClassMetadataInfo $metadata)
+    protected function unsetAssociationMappings(OrmClassMetadata $metadata)
     {
         foreach ($metadata->getAssociationMappings() as $key => $value) {
             if ($this->hasRelation($value['type'])) {
@@ -100,10 +99,10 @@ class MappingsOverrideConfigurator implements MappingsOverrideConfiguratorInterf
         return in_array(
             $type,
             [
-                ClassMetadataInfo::MANY_TO_MANY,
-                ClassMetadataInfo::MANY_TO_ONE,
-                ClassMetadataInfo::ONE_TO_MANY,
-                ClassMetadataInfo::ONE_TO_ONE,
+                OrmClassMetadata::MANY_TO_MANY,
+                OrmClassMetadata::MANY_TO_ONE,
+                OrmClassMetadata::ONE_TO_MANY,
+                OrmClassMetadata::ONE_TO_ONE,
             ],
             true
         );

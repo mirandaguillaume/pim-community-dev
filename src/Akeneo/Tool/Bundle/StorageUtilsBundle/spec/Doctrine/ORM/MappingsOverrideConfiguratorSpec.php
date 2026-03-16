@@ -4,7 +4,7 @@ namespace spec\Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\ORM;
 
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -20,7 +20,7 @@ class MappingsOverrideConfiguratorSpec extends ObjectBehavior
 
     public function it_configures_the_mappings_of_an_original_model_that_is_override($configuration)
     {
-        $metadataInfo = new ClassMetadataInfo('Foo\Bar\OriginalQux');
+        $metadataInfo = new ClassMetadata('Foo\Bar\OriginalQux');
         $metadataInfo->mapManyToMany(['fieldName' => 'relation1', 'targetEntity' => 'Foo']);
         $metadataInfo->mapManyToOne(['fieldName' => 'relation2', 'targetEntity' => 'Foo']);
         $metadataInfo->mapOneToMany(['fieldName' => 'relation3', 'targetEntity' => 'Foo', 'mappedBy' => 'baz']);
@@ -36,7 +36,7 @@ class MappingsOverrideConfiguratorSpec extends ObjectBehavior
 
     public function it_configures_the_mappings_of_a_model_that_overrides_an_original_model(
         $configuration,
-        ClassMetadataInfo $metadataInfo,
+        ClassMetadata $metadataInfo,
         MappingDriver $mappingDriver
     ) {
         $originalQux1 = __NAMESPACE__ . '\OriginalQux1';

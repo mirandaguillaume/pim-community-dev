@@ -3,7 +3,7 @@
 namespace Akeneo\Pim\Structure\Bundle\Doctrine\ORM;
 
 use Akeneo\Pim\Structure\Bundle\ReferenceData\RequirementChecker\AbstractReferenceDataUniqueCodeChecker;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Webmozart\Assert\Assert;
 
 /**
@@ -21,7 +21,7 @@ class ReferenceDataUniqueCodeChecker extends AbstractReferenceDataUniqueCodeChec
     protected function getCodeFieldMapping($referenceDataClass)
     {
         $metadata = $this->om->getClassMetadata($referenceDataClass);
-        Assert::isInstanceOf($metadata, ClassMetadataInfo::class);
+        Assert::isInstanceOf($metadata, ClassMetadata::class);
 
         return $metadata->getFieldMapping('code');
     }
