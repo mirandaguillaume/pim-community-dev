@@ -82,13 +82,13 @@ class RefreshVersioning implements TaskletInterface
 
         if ($version->getChangeset()) {
             $this->entityManager->persist($version);
-            $this->entityManager->flush($version);
+            $this->entityManager->flush();
 
             return $version;
         }
 
         $this->entityManager->remove($version);
-        $this->entityManager->flush($version);
+        $this->entityManager->flush();
 
         return null;
     }
