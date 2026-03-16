@@ -3,6 +3,11 @@
 # Auto-formats JS/TS files with Prettier after edit.
 set -euo pipefail
 
+# ── Anti-parallel guard: skip if another prettier-on-edit is running ──
+LOCKFILE="/tmp/prettier-on-edit.lock"
+exec 9>"$LOCKFILE"
+flock -n 9 || exit 0
+
 INPUT=$(cat)
 
 # Extract file path: native tools use file_path, Serena uses relative_path
