@@ -16,7 +16,7 @@ import {useGetIdentifierGenerators, useIdentifierAttributes, useStructureTabs} f
 import {FlattenAttribute, GeneratorTab, IdentifierGenerator, LabelCollection, Target} from '../models';
 import {Styled} from './styles';
 import {Header, ListSkeleton} from '../components';
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {DeleteGeneratorModal} from './';
 import {useQueryClient} from 'react-query';
 
@@ -40,7 +40,7 @@ const ListTable: React.FC<ListTableProps> = ({
 }) => {
   const translate = useTranslate();
   const router = useRouter();
-  const history = useHistory();
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const locale = useUserContext().get('catalogLocale');
   const isGeneratorListEmpty = useMemo(() => generators.length === 0, [generators]);
@@ -58,7 +58,7 @@ const ListTable: React.FC<ListTableProps> = ({
     }).then(() => queryClient.invalidateQueries('getGeneratorList'));
   };
 
-  const goToEditPage = (code: string) => () => history.push(`/${code}`);
+  const goToEditPage = (code: string) => () => navigate(`/${code}`);
   const getCurrentLabel = useCallback(
     (labels: LabelCollection, code: string) => labels[locale] || `[${code}]`,
     [locale]

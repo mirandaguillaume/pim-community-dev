@@ -1,5 +1,5 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react';
-import {useHistory, useParams, Prompt} from 'react-router-dom';
+import {useNavigate, useParams, useBlocker} from 'react-router-dom';
 import styled from 'styled-components';
 import {Helper, Button, Breadcrumb, useBooleanState, Pill} from 'akeneo-design-system';
 import {
@@ -89,7 +89,7 @@ const Errors = ({errors}: {errors: ValidationError[]}) => {
 const Edit = () => {
   const translate = useTranslate();
   const notify = useNotify();
-  const history = useHistory();
+  const navigate = useNavigate();
   const locale = useUserContext().get('uiLocale');
   const {isGranted} = useSecurity();
   const config = useContext(ConfigContext);
@@ -115,6 +115,18 @@ const Edit = () => {
   useEffect(() => {
     setHasUnsavedChanges(isModified);
   }, [isModified, setHasUnsavedChanges]);
+
+  // Block in-app navigation when there are unsaved changes (replaces <Prompt>)
+  const blocker = useBlocker(isModified);
+  useEffect(() => {
+    if (blocker.state === 'blocked') {
+      if (window.confirm(translate('pim_ui.flash.unsaved_changes'))) {
+        blocker.proceed();
+      } else {
+        blocker.reset();
+      }
+    }
+  }, [blocker, translate]);
 
   // If the measurement family code changes, we select the standard unit code by default
   useEffect(() => {
@@ -160,7 +172,7 @@ const Edit = () => {
       switch (response) {
         case MeasurementFamilyRemoverResult.Success:
           notify(NotificationLevel.SUCCESS, translate('measurements.family.delete.flash.success'));
-          history.push('/');
+          navigate('/');
           break;
         case MeasurementFamilyRemoverResult.NotFound:
         case MeasurementFamilyRemoverResult.Unprocessable:
@@ -170,7 +182,7 @@ const Edit = () => {
       console.error(error);
       notify(NotificationLevel.ERROR, translate('measurements.family.delete.flash.error'));
     }
-  }, [measurementFamilyCode, removeMeasurementFamily, history, notify, translate]);
+  }, [measurementFamilyCode, removeMeasurementFamily, navigate, notify, translate]);
 
   const handleNewUnit = useCallback(
     (unit: Unit) => {
@@ -207,7 +219,6 @@ const Edit = () => {
 
   return (
     <>
-      <Prompt when={isModified} message={() => translate('pim_ui.flash.unsaved_changes')} />
       {isAddUnitModalOpen && (
         <CreateUnit measurementFamily={measurementFamily} onClose={closeAddUnitModal} onNewUnit={handleNewUnit} />
       )}
@@ -226,9 +237,7 @@ const Edit = () => {
             <Breadcrumb.Step onClick={() => router.redirect(settingsHref)}>
               {translate('pim_menu.tab.settings')}
             </Breadcrumb.Step>
-            <Breadcrumb.Step href={history.createHref({pathname: '/'})}>
-              {translate('pim_menu.item.measurements')}
-            </Breadcrumb.Step>
+            <Breadcrumb.Step href={'#/'}>{translate('pim_menu.item.measurements')}</Breadcrumb.Step>
             <Breadcrumb.Step>{measurementFamilyLabel}</Breadcrumb.Step>
           </Breadcrumb>
         </PageHeader.Breadcrumb>

@@ -10,7 +10,7 @@ import {useFeatureFlags, useSessionStorageState} from '@akeneo-pim-community/sha
 import {ConnectedAppPermissions} from './ConnectedAppPermissions';
 import {NotificationLevel, useNotify} from '../../../shared/notify';
 import usePermissionsFormProviders from '../../hooks/use-permissions-form-providers';
-import {useHistory} from 'react-router';
+import {useNavigate} from 'react-router-dom';
 import {useSaveConnectedAppMonitoringSettings} from '../../hooks/use-save-connected-app-monitoring-settings';
 import {useFetchConnectedAppMonitoringSettings} from '../../hooks/use-fetch-connected-app-monitoring-settings';
 import {MonitoringSettings} from '../../../model/Apps/monitoring-settings';
@@ -35,7 +35,7 @@ const catalogsTabName = '#connected-app-tab-catalogs';
 const errorMonitoringTabName = '#connected-app-tab-error-monitoring';
 
 export const ConnectedAppContainer: FC<Props> = ({connectedApp}) => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const translate = useTranslate();
     const generateUrl = useRouter();
     const notify = useNotify();
@@ -177,7 +177,7 @@ export const ConnectedAppContainer: FC<Props> = ({connectedApp}) => {
             catalogId: catalogId,
         });
 
-        history.push(catalogEditUrl);
+        navigate(catalogEditUrl);
     };
 
     const isAtLeastGrantedToViewProducts = isGrantedOnProduct(connectedApp, 'view');
@@ -194,7 +194,7 @@ export const ConnectedAppContainer: FC<Props> = ({connectedApp}) => {
                     <SecondaryActionsDropdownButton key={0}>
                         <DropdownLink
                             onClick={() => {
-                                history.push(`/connect/connected-apps/${connectedApp.connection_code}/delete`);
+                                navigate(`/connect/connected-apps/${connectedApp.connection_code}/delete`);
                             }}
                         >
                             <Translate id='pim_common.delete' />

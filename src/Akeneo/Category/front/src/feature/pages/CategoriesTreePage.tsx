@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState} from 'react';
-import {useParams} from 'react-router';
+import {useParams} from 'react-router-dom';
 import {Breadcrumb, SectionTitle, SkeletonPlaceholder, useBooleanState} from 'akeneo-design-system';
 import {
   FullScreenError,

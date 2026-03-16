@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {MeasurementIllustration, Link, Button, Breadcrumb, useBooleanState} from 'akeneo-design-system';
 import {
   NoDataSection,
@@ -43,7 +43,7 @@ const List = () => {
   const translate = useTranslate();
   const {isGranted} = useSecurity();
   const locale = useUserContext().get('uiLocale');
-  const history = useHistory();
+  const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState('');
   const [sortColumn, getSortDirection, toggleSortDirection] = useSorting('label');
   const [measurementFamilies] = useMeasurementFamilies();
@@ -54,10 +54,10 @@ const List = () => {
     (createdMeasurementFamilyCode?: MeasurementFamilyCode) => {
       closeCreateModal();
       if (undefined !== createdMeasurementFamilyCode) {
-        history.push(`/${createdMeasurementFamilyCode}`);
+        navigate(`/${createdMeasurementFamilyCode}`);
       }
     },
-    [closeCreateModal, history]
+    [closeCreateModal, navigate]
   );
 
   const filteredMeasurementFamilies =

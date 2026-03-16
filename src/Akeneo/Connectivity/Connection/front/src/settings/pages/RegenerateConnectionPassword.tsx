@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {useHistory, useParams} from 'react-router';
+import {useNavigate, useParams} from 'react-router-dom';
 import {GreyButton, ImportantButton, Modal} from '../../common';
 import styled from '../../common/styled-with-theme';
 import {fetchResult} from '../../shared/fetch-result';
@@ -15,7 +15,7 @@ type ResultData = {
 };
 
 export const RegenerateConnectionPassword = () => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const notify = useNotify();
     const translate = useContext(TranslateContext);
 
@@ -25,7 +25,7 @@ export const RegenerateConnectionPassword = () => {
     const dispatch = useConnectionsDispatch();
 
     const handleRedirect = () => {
-        history.push(`/connect/connection-settings/${code}/edit`);
+        navigate(`/connect/connection-settings/${code}/edit`);
     };
 
     const handleClick = async () => {

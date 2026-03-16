@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {useHistory, useParams} from 'react-router';
+import {useNavigate, useParams} from 'react-router-dom';
 import {GreyButton, ImportantButton, Modal} from '../../common';
 import styled from '../../common/styled-with-theme';
 import {fetchResult} from '../../shared/fetch-result';
@@ -9,7 +9,7 @@ import {useRoute} from '../../shared/router';
 import {Translate, TranslateContext} from '../../shared/translate';
 
 export const RegenerateWebhookSecret = () => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const notify = useNotify();
     const translate = useContext(TranslateContext);
 
@@ -17,7 +17,7 @@ export const RegenerateWebhookSecret = () => {
     const url = useRoute('akeneo_connectivity_connection_webhook_rest_regenerate_secret', {code});
 
     const handleRedirect = () => {
-        history.push(`/connect/connection-settings/${code}/event-subscription`);
+        navigate(`/connect/connection-settings/${code}/event-subscription`);
     };
 
     const handleClick = async () => {

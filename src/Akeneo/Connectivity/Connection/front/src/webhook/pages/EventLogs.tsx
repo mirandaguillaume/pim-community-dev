@@ -1,6 +1,6 @@
 import {Breadcrumb} from 'akeneo-design-system';
 import React, {FC, useEffect} from 'react';
-import {useHistory, useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import {Loading, PageContent, PageHeader} from '../../common';
 import {Translate} from '../../shared/translate';
 import {UserButtons} from '../../shared/user';
@@ -56,7 +56,6 @@ export const EventLogs: FC = () => {
 };
 
 const EventLogsBreadcrumb: FC = () => {
-    const history = useHistory();
     const generateUrl = useRouter();
 
     return (
@@ -64,7 +63,7 @@ const EventLogsBreadcrumb: FC = () => {
             <Breadcrumb.Step href={`#${generateUrl('akeneo_connectivity_connection_audit_index')}`}>
                 <Translate id='pim_menu.tab.connect' />
             </Breadcrumb.Step>
-            <Breadcrumb.Step href={history.createHref({pathname: '/connect/connection-settings'})}>
+            <Breadcrumb.Step href={'#/connect/connection-settings'}>
                 <Translate id='pim_menu.item.connect_connection_settings' />
             </Breadcrumb.Step>
             <Breadcrumb.Step>

@@ -8,7 +8,7 @@ import {useRouter} from '../../shared/router/use-router';
 import {UserContext} from '../../shared/user';
 import {UserProfileSelector} from '../components/UserProfileSelector';
 import {useSaveUserProfile} from '../hooks/use-save-user';
-import {useHistory} from 'react-router';
+import {useNavigate} from 'react-router-dom';
 
 const PageContent = styled.div`
     text-align: center;
@@ -34,13 +34,13 @@ export const SelectUserProfilePage: FC = () => {
     const [userProfile, setUserProfile] = useState<string | null | undefined>(undefined);
     const generateUrl = useRouter();
     const dashboardHref = `#${generateUrl('akeneo_connectivity_connection_audit_index')}`;
-    const history = useHistory();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const profile = user.get<string | null>('profile');
 
         if (null !== profile) {
-            history.push('/connect/app-store');
+            navigate('/connect/app-store');
         }
         setUserProfile(profile);
     }, [user]);
@@ -59,7 +59,7 @@ export const SelectUserProfilePage: FC = () => {
         }
         saveUser({profile: userProfile}).then(() => {
             user.refresh().then(() => {
-                history.push('/connect/app-store');
+                navigate('/connect/app-store');
             });
         });
     };

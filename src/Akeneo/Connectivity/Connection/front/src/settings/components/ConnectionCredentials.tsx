@@ -1,5 +1,5 @@
 import React, {FC, useContext} from 'react';
-import {useHistory} from 'react-router';
+import {useNavigate} from 'react-router-dom';
 import {HelperLink, SmallHelper} from '../../common';
 import {ConnectionCredentials as ConnectionCredentialsModel} from '../../model/connection-credentials';
 import {TranslateContext, Translate} from '../../shared/translate';
@@ -19,7 +19,7 @@ type Props = {
 
 export const ConnectionCredentials: FC<Props> = ({code, label, credentials: credentials, wrongCombination}: Props) => {
     const translate = useContext(TranslateContext);
-    const history = useHistory();
+    const navigate = useNavigate();
 
     return (
         <>
@@ -58,7 +58,7 @@ export const ConnectionCredentials: FC<Props> = ({code, label, credentials: cred
                     label={translate('akeneo_connectivity.connection.connection.secret')}
                     actions={
                         <RegenerateButton
-                            onClick={() => history.push(`/connect/connection-settings/${code}/regenerate-secret`)}
+                            onClick={() => navigate(`/connect/connection-settings/${code}/regenerate-secret`)}
                         />
                     }
                 >
@@ -101,7 +101,7 @@ export const ConnectionCredentials: FC<Props> = ({code, label, credentials: cred
                         }
                         actions={
                             <RegenerateButton
-                                onClick={() => history.push(`/connect/connection-settings/${code}/regenerate-password`)}
+                                onClick={() => navigate(`/connect/connection-settings/${code}/regenerate-password`)}
                             />
                         }
                     >

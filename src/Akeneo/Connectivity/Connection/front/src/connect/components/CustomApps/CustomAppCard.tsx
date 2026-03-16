@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {CustomApp} from '../../../model/app';
 import {getColor, getFontSize, DeleteIcon, IconButton} from 'akeneo-design-system';
 import {useTranslate} from '../../../shared/translate';
-import {useHistory} from 'react-router';
+import {useNavigate} from 'react-router-dom';
 import {useRouter} from '../../../shared/router/use-router';
 import {useSecurity} from '../../../shared/security';
 
@@ -74,13 +74,13 @@ export const CustomAppCard: FC<Props> = ({customApp, additionalActions}) => {
     const security = useSecurity();
     const translate = useTranslate();
     const generateUrl = useRouter();
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const author =
         customApp.author ?? translate('akeneo_connectivity.connection.connect.marketplace.custom_apps.removed_user');
 
     const onDelete = () => {
-        history.push(
+        navigate(
             generateUrl('akeneo_connectivity_connection_connect_custom_apps_delete', {
                 customAppId: customApp.id,
             })

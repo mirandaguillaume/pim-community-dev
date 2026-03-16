@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {IdentifierGenerator} from '../models';
 import {CreateOrEditGeneratorPage} from './CreateOrEditGeneratorPage';
 import {NotificationLevel, useNotify, useTranslate} from '@akeneo-pim-community/shared';
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {useCreateIdentifierGenerator} from '../hooks';
 import {useIdentifierGeneratorContext} from '../context';
 import {useQueryClient} from 'react-query';
@@ -15,7 +15,7 @@ type CreateGeneratorProps = {
 const CreateGeneratorPage: React.FC<CreateGeneratorProps> = ({initialGenerator}) => {
   const notify = useNotify();
   const translate = useTranslate();
-  const history = useHistory();
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [validationErrors, setValidationErrors] = useState<Violation[]>([]);
   const {mutate, error, isLoading} = useCreateIdentifierGenerator();
@@ -51,11 +51,11 @@ const CreateGeneratorPage: React.FC<CreateGeneratorProps> = ({initialGenerator})
           queryClient.invalidateQueries('getGeneratorList');
           notify(NotificationLevel.SUCCESS, translate('pim_identifier_generator.flash.create.success', {code}));
           identifierGeneratorContext.unsavedChanges.setHasUnsavedChanges(false);
-          history.push(`/${code}`);
+          navigate(`/${code}`);
         },
       });
     },
-    [history, identifierGeneratorContext.unsavedChanges, mutate, notify, queryClient, translate]
+    [navigate, identifierGeneratorContext.unsavedChanges, mutate, notify, queryClient, translate]
   );
 
   return (

@@ -9,7 +9,7 @@ import {
 } from '@akeneo-pim-community/shared';
 import {Breadcrumb, Pill, SkeletonPlaceholder, TabBar, useBooleanState, useTabBar} from 'akeneo-design-system';
 import {FC} from 'react';
-import {useParams} from 'react-router';
+import {useParams} from 'react-router-dom';
 import styled from 'styled-components';
 import {useTemplateForm} from '../components/providers/TemplateFormProvider';
 import {DeactivateTemplateModal} from '../components/templates/DeactivateTemplateModal';

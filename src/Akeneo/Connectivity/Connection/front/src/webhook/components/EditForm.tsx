@@ -1,7 +1,7 @@
 import {Helper, Link} from 'akeneo-design-system';
 import React, {FC, useContext, useState, SyntheticEvent} from 'react';
 import {useFormContext} from 'react-hook-form';
-import {useHistory} from 'react-router';
+import {useNavigate} from 'react-router-dom';
 import styled from 'styled-components';
 import {FormGroup, FormInput, ToggleButton} from '../../common/components';
 import {CopiableCredential} from '../../settings/components/credentials/CopiableCredential';
@@ -23,7 +23,7 @@ type Props = {
 
 export const EditForm: FC<Props> = ({webhook, activeEventSubscriptionsLimit}: Props) => {
     const translate = useContext(TranslateContext);
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const {register, getValues, errors, setError, clearError} = useFormContext();
 
@@ -135,7 +135,7 @@ export const EditForm: FC<Props> = ({webhook, activeEventSubscriptionsLimit}: Pr
                     actions={
                         <RegenerateButton
                             onClick={() =>
-                                history.push(
+                                navigate(
                                     `/connect/connection-settings/${connectCode}/event-subscription/regenerate-secret`
                                 )
                             }

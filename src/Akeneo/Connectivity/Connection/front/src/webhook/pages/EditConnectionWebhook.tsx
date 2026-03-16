@@ -1,6 +1,6 @@
 import React, {FC, useEffect} from 'react';
 import {FormContext, useForm, useFormContext} from 'react-hook-form';
-import {useHistory, useParams} from 'react-router';
+import {useParams} from 'react-router-dom';
 import styled from 'styled-components';
 import defaultImageUrl from '../../common/assets/illustrations/NewAPI.svg';
 import {ApplyButton, PageContent, PageHeader} from '../../common/components';
@@ -27,7 +27,6 @@ export type FormInput = {
 };
 
 export const EditConnectionWebhook: FC = () => {
-    const history = useHistory();
     const generateMediaUrl = useMediaUrlGenerator();
     const formMethods = useForm<FormInput>();
     const generateUrl = useRouter();
@@ -56,7 +55,7 @@ export const EditConnectionWebhook: FC = () => {
             <Breadcrumb.Step href={`#${generateUrl('akeneo_connectivity_connection_audit_index')}`}>
                 <Translate id='pim_menu.tab.connect' />
             </Breadcrumb.Step>
-            <Breadcrumb.Step href={history.createHref({pathname: '/connect/connection-settings'})}>
+            <Breadcrumb.Step href={'#/connect/connection-settings'}>
                 <Translate id='pim_menu.item.connect_connection_settings' />
             </Breadcrumb.Step>
             <Breadcrumb.Step>

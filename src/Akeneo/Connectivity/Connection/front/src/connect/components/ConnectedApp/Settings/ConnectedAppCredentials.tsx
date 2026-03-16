@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import {CopiableCredential} from '../../../../settings/components/credentials/CopiableCredential';
 import {Credential} from '../../../../settings/components/credentials/Credential';
 import {useFetchCustomAppSecret} from '../../../hooks/use-fetch-custom-app-secret';
-import {useHistory} from 'react-router';
+import {useNavigate} from 'react-router-dom';
 import {useRouter} from '../../../../shared/router/use-router';
 import {useSecurity} from '../../../../shared/security';
 
@@ -21,7 +21,7 @@ type Props = {
 
 export const ConnectedAppCredentials: FC<Props> = ({connectedApp}) => {
     const translate = useTranslate();
-    const history = useHistory();
+    const navigate = useNavigate();
     const generateUrl = useRouter();
     const security = useSecurity();
 
@@ -63,7 +63,7 @@ export const ConnectedAppCredentials: FC<Props> = ({connectedApp}) => {
                                 ghost
                                 level='secondary'
                                 size='small'
-                                onClick={() => history.push(regenerateSecretUrl)}
+                                onClick={() => navigate(regenerateSecretUrl)}
                             >
                                 {translate(
                                     'akeneo_connectivity.connection.connect.connected_apps.edit.settings.credentials.regenerate_button'
