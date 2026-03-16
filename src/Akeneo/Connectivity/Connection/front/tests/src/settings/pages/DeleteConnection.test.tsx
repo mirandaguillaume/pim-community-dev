@@ -8,44 +8,44 @@ import {DeleteConnection} from '@src/settings/pages/DeleteConnection';
 import {renderWithProvidersNoRouter, LocationDisplay} from '../../../test-utils';
 
 describe('testing DeleteConnection page', () => {
-  beforeEach(() => {
-    fetchMock.resetMocks();
-  });
-
-  it('deletes a connection', async () => {
-    fetchMock.mockResponseOnce('', {status: 204});
-
-    const {getByText} = renderWithProvidersNoRouter(
-      <MemoryRouter initialEntries={['/connect/connection-settings/franklin/delete']}>
-        <Routes>
-          <Route
-            path="/connect/connection-settings/:code/delete"
-            element={
-              <ConnectionsProvider>
-                <DeleteConnection />
-              </ConnectionsProvider>
-            }
-          />
-        </Routes>
-        <LocationDisplay />
-      </MemoryRouter>
-    );
-
-    const deleteButton = getByText('pim_common.delete');
-
-    await act(async () => {
-      userEvent.click(deleteButton);
-
-      return Promise.resolve();
+    beforeEach(() => {
+        fetchMock.resetMocks();
     });
 
-    expect(fetchMock).toBeCalled();
-    expect(fetchMock.mock.calls[0][0]).toEqual('akeneo_connectivity_connection_rest_delete?code=franklin');
-    expect(fetchMock.mock.calls[0][1]).toMatchObject({
-      method: 'DELETE',
-    });
+    it('deletes a connection', async () => {
+        fetchMock.mockResponseOnce('', {status: 204});
 
-    const locationEl = document.querySelector('[data-testid="location"]');
-    expect(locationEl).toHaveTextContent('/connect/connection-settings');
-  });
+        const {getByText} = renderWithProvidersNoRouter(
+            <MemoryRouter initialEntries={['/connect/connection-settings/franklin/delete']}>
+                <Routes>
+                    <Route
+                        path='/connect/connection-settings/:code/delete'
+                        element={
+                            <ConnectionsProvider>
+                                <DeleteConnection />
+                            </ConnectionsProvider>
+                        }
+                    />
+                </Routes>
+                <LocationDisplay />
+            </MemoryRouter>
+        );
+
+        const deleteButton = getByText('pim_common.delete');
+
+        await act(async () => {
+            userEvent.click(deleteButton);
+
+            return Promise.resolve();
+        });
+
+        expect(fetchMock).toBeCalled();
+        expect(fetchMock.mock.calls[0][0]).toEqual('akeneo_connectivity_connection_rest_delete?code=franklin');
+        expect(fetchMock.mock.calls[0][1]).toMatchObject({
+            method: 'DELETE',
+        });
+
+        const locationEl = document.querySelector('[data-testid="location"]');
+        expect(locationEl).toHaveTextContent('/connect/connection-settings');
+    });
 });

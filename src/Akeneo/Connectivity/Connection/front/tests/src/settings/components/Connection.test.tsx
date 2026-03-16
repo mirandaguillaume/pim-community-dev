@@ -7,26 +7,26 @@ import {act} from '@testing-library/react';
 import {renderWithProvidersNoRouter, LocationDisplay} from '../../../test-utils';
 
 describe('Connection', () => {
-  it('should redirect to the edit connection page when clicked', async () => {
-    const {getByText} = renderWithProvidersNoRouter(
-      <MemoryRouter>
-        <Connection
-          code={'google-shopping'}
-          label={'Google Shopping'}
-          image={'a/b/c/path.jpg'}
-          hasWrongCombination={false}
-        />
-        <LocationDisplay />
-      </MemoryRouter>
-    );
+    it('should redirect to the edit connection page when clicked', async () => {
+        const {getByText} = renderWithProvidersNoRouter(
+            <MemoryRouter>
+                <Connection
+                    code={'google-shopping'}
+                    label={'Google Shopping'}
+                    image={'a/b/c/path.jpg'}
+                    hasWrongCombination={false}
+                />
+                <LocationDisplay />
+            </MemoryRouter>
+        );
 
-    await act(async () => {
-      userEvent.click(getByText('Google Shopping'));
+        await act(async () => {
+            userEvent.click(getByText('Google Shopping'));
 
-      return Promise.resolve();
+            return Promise.resolve();
+        });
+
+        const locationEl = document.querySelector('[data-testid="location"]');
+        expect(locationEl).toHaveTextContent('/connect/connection-settings/google-shopping/edit');
     });
-
-    const locationEl = document.querySelector('[data-testid="location"]');
-    expect(locationEl).toHaveTextContent('/connect/connection-settings/google-shopping/edit');
-  });
 });
