@@ -50,7 +50,7 @@ enum Tabs {
 }
 
 const CategoryEditPage: FC = () => {
-  const {categoryId} = useParams<Params>();
+  const {categoryId} = useParams() as Params;
   const translate = useTranslate();
   const router = useRouter();
   const userContext = useUserContext();

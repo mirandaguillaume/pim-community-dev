@@ -55,7 +55,7 @@ const TemplatePage: FC = () => {
 
   const tabInError = useTabInError();
 
-  const {treeId, templateId} = useParams<Params>();
+  const {treeId, templateId} = useParams() as Params;
   const {data: tree} = useCategoryTree(treeId);
   const {data: template} = useTemplateByTemplateUuid(templateId);
 

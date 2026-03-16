@@ -32,7 +32,7 @@ type lastSelectedCategory = {
 };
 
 const CategoriesTreePage: FC = () => {
-  let {treeId} = useParams<Params>();
+  let {treeId} = useParams() as Params;
   const router = useRouter();
   const translate = useTranslate();
   const {isGranted} = useSecurity();
