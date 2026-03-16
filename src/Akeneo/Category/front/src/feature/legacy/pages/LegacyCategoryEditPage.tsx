@@ -1,5 +1,5 @@
 import React, {FC, useCallback, useEffect, useState} from 'react';
-import {useParams} from 'react-router';
+import {useParams} from 'react-router-dom';
 import {
   Breadcrumb,
   Button,
@@ -41,7 +41,7 @@ const historyTabName = '#pim_enrich-category-tab-history';
 const permissionTabName = '#pim_enrich-category-tab-permission';
 
 const LegacyCategoryEditPage: FC = () => {
-  const {categoryId} = useParams<Params>();
+  const {categoryId} = useParams() as Params;
   const translate = useTranslate();
   const router = useRouter();
   const userContext = useUserContext();

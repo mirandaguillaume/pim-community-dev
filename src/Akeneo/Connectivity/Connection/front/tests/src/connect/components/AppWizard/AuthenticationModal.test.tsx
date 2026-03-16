@@ -5,8 +5,14 @@ import {act, render, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {pimTheme} from 'akeneo-design-system';
 import React from 'react';
+import {MemoryRouter} from 'react-router-dom';
 import {ThemeProvider} from 'styled-components';
-import {historyMock, mockFetchResponses, renderWithProviders} from '../../../../test-utils';
+import {
+    LocationDisplay,
+    mockFetchResponses,
+    renderWithProviders,
+    renderWithProvidersNoRouter,
+} from '../../../../test-utils';
 import {Authentication} from '@src/connect/components/AppWizard/steps/Authentication/Authentication';
 
 const notify = jest.fn();
@@ -30,7 +36,6 @@ declare global {
 
 beforeEach(() => {
     fetchMock.resetMocks();
-    historyMock.reset();
     jest.clearAllMocks();
 
     // eslint-disable-next-line space-unary-ops
@@ -93,11 +98,13 @@ test('it consents to the authentication scopes & redirect the user', async () =>
     });
 
     render(
-        <ThemeProvider theme={pimTheme}>
-            <NotifyContext.Provider value={notify}>
-                <AuthenticationModal clientId='0dfce574-2238-4b13-b8cc-8d257ce7645b' />
-            </NotifyContext.Provider>
-        </ThemeProvider>
+        <MemoryRouter>
+            <ThemeProvider theme={pimTheme}>
+                <NotifyContext.Provider value={notify}>
+                    <AuthenticationModal clientId='0dfce574-2238-4b13-b8cc-8d257ce7645b' />
+                </NotifyContext.Provider>
+            </ThemeProvider>
+        </MemoryRouter>
     );
 
     await screen.findByText('authentication-component');
@@ -123,8 +130,6 @@ test('it consents to the authentication scopes & redirect the user', async () =>
 });
 
 test('it cancels the authentication', async () => {
-    historyMock.history.push('/');
-
     mockFetchResponses({
         'akeneo_connectivity_connection_apps_rest_get_wizard_data?clientId=0dfce574-2238-4b13-b8cc-8d257ce7645b': {
             json: {
@@ -138,7 +143,12 @@ test('it cancels the authentication', async () => {
         },
     });
 
-    renderWithProviders(<AuthenticationModal clientId='0dfce574-2238-4b13-b8cc-8d257ce7645b' />);
+    renderWithProviders(
+        <>
+            <AuthenticationModal clientId='0dfce574-2238-4b13-b8cc-8d257ce7645b' />
+            <LocationDisplay />
+        </>
+    );
 
     await screen.findByText('authentication-component');
 
@@ -146,7 +156,7 @@ test('it cancels the authentication', async () => {
         userEvent.click(screen.getByText('akeneo_connectivity.connection.connect.apps.wizard.action.cancel'));
     });
 
-    expect(historyMock.history.location.pathname).toBe('/connect/connected-apps');
+    expect(screen.getByTestId('location')).toHaveTextContent('/connect/connected-apps');
 });
 
 test('it prevents redirection without user consent', async () => {

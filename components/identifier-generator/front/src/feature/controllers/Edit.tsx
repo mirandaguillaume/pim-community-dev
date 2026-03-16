@@ -9,7 +9,7 @@ import {useTranslate} from '@akeneo-pim-community/shared';
 
 const Edit: React.FC = () => {
   const translate = useTranslate();
-  const {identifierGeneratorCode} = useParams<{identifierGeneratorCode: string}>();
+  const {identifierGeneratorCode} = useParams() as {identifierGeneratorCode: string};
   const {data: identifierGenerator, error} = useGetIdentifierGenerator(identifierGeneratorCode);
 
   if (error) {

@@ -1,5 +1,5 @@
 import React, {FC, memo} from 'react';
-import {useHistory, useParams} from 'react-router';
+import {useParams} from 'react-router-dom';
 import {Loading, PageContent, PageHeader} from '../../common';
 import {FlowType} from '../../model/flow-type.enum';
 import {Translate} from '../../shared/translate';
@@ -12,8 +12,7 @@ import {UserButtons} from '../../shared/user';
 import {useRouter} from '../../shared/router/use-router';
 
 const ConnectionMonitoring: FC = memo(() => {
-    const history = useHistory();
-    const {connectionCode} = useParams<{connectionCode: string}>();
+    const {connectionCode} = useParams() as {connectionCode: string};
     const generateUrl = useRouter();
 
     const {loading, connection} = useConnection(connectionCode);
@@ -26,7 +25,7 @@ const ConnectionMonitoring: FC = memo(() => {
             <Breadcrumb.Step href={`#${generateUrl('akeneo_connectivity_connection_audit_index')}`}>
                 <Translate id='pim_menu.tab.connect' />
             </Breadcrumb.Step>
-            <Breadcrumb.Step href={history.createHref({pathname: '/connect/connection-settings'})}>
+            <Breadcrumb.Step href={'#/connect/connection-settings'}>
                 <Translate id='pim_menu.item.connect_connection_settings' />
             </Breadcrumb.Step>
             <Breadcrumb.Step>

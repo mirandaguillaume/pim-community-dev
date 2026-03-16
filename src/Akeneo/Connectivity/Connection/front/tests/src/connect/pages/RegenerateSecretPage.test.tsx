@@ -1,16 +1,19 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import fetchMock from 'jest-fetch-mock';
-import {historyMock, mockFetchResponses, renderWithProviders} from '../../../test-utils';
+import {
+    LocationDisplay,
+    mockFetchResponses,
+    renderWithProviders,
+    renderWithProvidersNoRouter,
+} from '../../../test-utils';
 import {RegenerateSecretPage} from '@src/connect/pages/RegenerateSecretPage';
-import {MemoryRouter, Route, Router} from 'react-router-dom';
+import {MemoryRouter, Route, Routes} from 'react-router-dom';
 import {act, screen} from '@testing-library/react';
-import {createMemoryHistory} from 'history';
 import userEvent from '@testing-library/user-event';
 
 beforeEach(() => {
     fetchMock.resetMocks();
-    historyMock.reset();
     jest.clearAllMocks();
 });
 
@@ -44,11 +47,14 @@ test('The regenerate secret modal return null if no connectedApp found or still 
 });
 
 test('The regenerate secret modal renders the regenerate step by default', async () => {
-    renderWithProviders(
-        <MemoryRouter initialEntries={['connect/connected-apps/custom_app/regenerate-secret']}>
-            <Route path='connect/connected-apps/:connectionCode/regenerate-secret'>
-                <RegenerateSecretPage />
-            </Route>
+    renderWithProvidersNoRouter(
+        <MemoryRouter initialEntries={['/connect/connected-apps/custom_app/regenerate-secret']}>
+            <Routes>
+                <Route
+                    path='connect/connected-apps/:connectionCode/regenerate-secret'
+                    element={<RegenerateSecretPage />}
+                />
+            </Routes>
         </MemoryRouter>
     );
 
@@ -65,34 +71,38 @@ test('The regenerate secret modal renders the regenerate step by default', async
 });
 
 test('The regenerate secret modal redirect to the connected app page when closed', async () => {
-    const history = createMemoryHistory({initialEntries: ['connect/connected-apps/custom_app']});
-    renderWithProviders(
-        <Router history={history}>
-            <MemoryRouter initialEntries={['connect/connected-apps/custom_app/regenerate-secret']}>
-                <Route path='connect/connected-apps/:connectionCode/regenerate-secret'>
-                    <RegenerateSecretPage />
-                </Route>
-            </MemoryRouter>
-        </Router>
+    renderWithProvidersNoRouter(
+        <MemoryRouter initialEntries={['/connect/connected-apps/custom_app/regenerate-secret']}>
+            <Routes>
+                <Route
+                    path='connect/connected-apps/:connectionCode/regenerate-secret'
+                    element={<RegenerateSecretPage />}
+                />
+            </Routes>
+            <LocationDisplay />
+        </MemoryRouter>
     );
 
     expect(screen.queryByTitle('pim_common.close')).toBeInTheDocument();
 
     await act(async () => userEvent.click(await screen.findByTitle('pim_common.close')));
 
-    expect(history.location.pathname).toBe('connect/connected-apps/custom_app');
+    expect(screen.getByTestId('location')).toHaveTextContent(
+        'akeneo_connectivity_connection_connect_connected_apps_edit'
+    );
 });
 
 test('The regenerate secret modal redirect to the connected app page when the cancel button is clicked', async () => {
-    const history = createMemoryHistory({initialEntries: ['connect/connected-apps/custom_app']});
-    renderWithProviders(
-        <Router history={history}>
-            <MemoryRouter initialEntries={['connect/connected-apps/custom_app/regenerate-secret']}>
-                <Route path='connect/connected-apps/:connectionCode/regenerate-secret'>
-                    <RegenerateSecretPage />
-                </Route>
-            </MemoryRouter>
-        </Router>
+    renderWithProvidersNoRouter(
+        <MemoryRouter initialEntries={['/connect/connected-apps/custom_app/regenerate-secret']}>
+            <Routes>
+                <Route
+                    path='connect/connected-apps/:connectionCode/regenerate-secret'
+                    element={<RegenerateSecretPage />}
+                />
+            </Routes>
+            <LocationDisplay />
+        </MemoryRouter>
     );
 
     expect(
@@ -109,7 +119,9 @@ test('The regenerate secret modal redirect to the connected app page when the ca
         )
     );
 
-    expect(history.location.pathname).toBe('connect/connected-apps/custom_app');
+    expect(screen.getByTestId('location')).toHaveTextContent(
+        'akeneo_connectivity_connection_connect_connected_apps_edit'
+    );
 });
 
 test('The regenerate secret modal regenerate a new secret when the regenerate button is clicked then redirect to the connect app page when the done button is clicked', async () => {
@@ -120,15 +132,16 @@ test('The regenerate secret modal regenerate a new secret when the regenerate bu
             },
     });
 
-    const history = createMemoryHistory({initialEntries: ['connect/connected-apps/custom_app']});
-    renderWithProviders(
-        <Router history={history}>
-            <MemoryRouter initialEntries={['connect/connected-apps/custom_app/regenerate-secret']}>
-                <Route path='connect/connected-apps/:connectionCode/regenerate-secret'>
-                    <RegenerateSecretPage />
-                </Route>
-            </MemoryRouter>
-        </Router>
+    renderWithProvidersNoRouter(
+        <MemoryRouter initialEntries={['/connect/connected-apps/custom_app/regenerate-secret']}>
+            <Routes>
+                <Route
+                    path='connect/connected-apps/:connectionCode/regenerate-secret'
+                    element={<RegenerateSecretPage />}
+                />
+            </Routes>
+            <LocationDisplay />
+        </MemoryRouter>
     );
 
     expect(
@@ -172,5 +185,7 @@ test('The regenerate secret modal regenerate a new secret when the regenerate bu
         )
     );
 
-    expect(history.location.pathname).toBe('connect/connected-apps/custom_app');
+    expect(screen.getByTestId('location')).toHaveTextContent(
+        'akeneo_connectivity_connection_connect_connected_apps_edit'
+    );
 });

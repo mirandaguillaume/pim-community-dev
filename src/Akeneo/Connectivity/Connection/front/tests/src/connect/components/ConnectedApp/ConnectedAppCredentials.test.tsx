@@ -2,16 +2,19 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import {act, screen} from '@testing-library/react';
 import fetchMock from 'jest-fetch-mock';
-import {historyMock, mockFetchResponses, renderWithProviders} from '../../../../test-utils';
+import {
+    LocationDisplay,
+    mockFetchResponses,
+    renderWithProviders,
+    renderWithProvidersNoRouter,
+} from '../../../../test-utils';
 import {ConnectedAppCredentials} from '@src/connect/components/ConnectedApp/Settings/ConnectedAppCredentials';
 import userEvent from '@testing-library/user-event';
-import {createMemoryHistory} from 'history';
-import {Router} from 'react-router-dom';
+import {MemoryRouter} from 'react-router-dom';
 import {SecurityContext} from '@src/shared/security';
 
 beforeEach(() => {
     fetchMock.resetMocks();
-    historyMock.reset();
     jest.clearAllMocks();
 });
 
@@ -119,13 +122,13 @@ test('The regenerate button redirect to regenerate secret modal', () => {
         has_outdated_scopes: false,
     };
 
-    const history = createMemoryHistory();
-    renderWithProviders(
-        <Router history={history}>
+    renderWithProvidersNoRouter(
+        <MemoryRouter>
             <SecurityContext.Provider value={{isGranted}}>
                 <ConnectedAppCredentials connectedApp={connectedApp} />
             </SecurityContext.Provider>
-        </Router>
+            <LocationDisplay />
+        </MemoryRouter>
     );
 
     expect(
@@ -146,5 +149,6 @@ test('The regenerate button redirect to regenerate secret modal', () => {
         );
     });
 
-    expect(history.location.pathname).toBe('/akeneo_connectivity_connection_connect_connected_apps_regenerate_secret');
+    const locationEl = document.querySelector('[data-testid="location"]');
+    expect(locationEl).toHaveTextContent('/akeneo_connectivity_connection_connect_connected_apps_regenerate_secret');
 });

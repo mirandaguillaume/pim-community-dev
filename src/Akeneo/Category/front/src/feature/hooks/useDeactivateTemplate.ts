@@ -1,10 +1,10 @@
 import {NotificationLevel, useNotify, useRoute, useTranslate} from '@akeneo-pim-community/shared';
 import {apiFetch} from '../tools/apiFetch';
 import {useMutation} from 'react-query';
-import {useHistory} from 'react-router';
+import {useNavigate} from 'react-router-dom';
 
 export const useDeactivateTemplate = (template: {id: string; label: string}) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const notify = useNotify();
   const translate = useTranslate();
 
@@ -20,7 +20,7 @@ export const useDeactivateTemplate = (template: {id: string; label: string}) => 
         translate('akeneo.category.template.deactivate.notification_success.message', {template: template.label})
       );
     } finally {
-      history.push('/');
+      navigate('/');
     }
   };
 };

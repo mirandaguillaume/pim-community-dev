@@ -2,7 +2,7 @@ import {Authentication} from '@src/connect/components/AppWizard/steps/Authentica
 import '@testing-library/jest-dom';
 import {screen, waitFor} from '@testing-library/react';
 import React from 'react';
-import {historyMock, renderWithProviders} from '../../../../../../test-utils';
+import {renderWithProviders} from '../../../../../../test-utils';
 import {ConsentList} from '@src/connect/components/AppWizard/steps/Authentication/ConsentList';
 import fetchMock from 'jest-fetch-mock';
 
@@ -18,7 +18,6 @@ jest.mock('@src/connect/components/AppWizard/steps/Authentication/ConsentCheckbo
 
 beforeEach(() => {
     fetchMock.resetMocks();
-    historyMock.reset();
     jest.clearAllMocks();
 });
 

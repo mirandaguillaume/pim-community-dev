@@ -1,5 +1,5 @@
 import React from 'react';
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {MeasurementFamily, getMeasurementFamilyLabel, getStandardUnitLabel} from '../../model/measurement-family';
 import {useUserContext} from '@akeneo-pim-community/shared';
 import {Table} from 'akeneo-design-system';
@@ -10,11 +10,11 @@ type MeasurementFamilyRowProps = {
 
 const MeasurementFamilyRow = ({measurementFamily}: MeasurementFamilyRowProps) => {
   const locale = useUserContext().get('uiLocale');
-  const history = useHistory();
+  const navigate = useNavigate();
   const measurementFamilyLabel = getMeasurementFamilyLabel(measurementFamily, locale);
 
   return (
-    <Table.Row onClick={() => history.push(`/${measurementFamily.code}`)}>
+    <Table.Row onClick={() => navigate(`/${measurementFamily.code}`)}>
       <Table.Cell rowTitle={true}>{measurementFamilyLabel}</Table.Cell>
       <Table.Cell>{measurementFamily.code}</Table.Cell>
       <Table.Cell>{getStandardUnitLabel(measurementFamily, locale)}</Table.Cell>

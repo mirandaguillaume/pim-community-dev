@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import {screen, waitFor} from '@testing-library/react';
 import fetchMock from 'jest-fetch-mock';
-import {renderWithProviders, historyMock} from '../../../test-utils';
+import {renderWithProviders, LocationDisplay} from '../../../test-utils';
 import {ConnectedAppDeletePage} from '@src/connect/pages/ConnectedAppDeletePage';
 import {useDeleteApp} from '@src/connect/hooks/use-delete-app';
 import userEvent from '@testing-library/user-event';
@@ -22,12 +22,16 @@ jest.mock('react-router-dom', () => ({
 
 beforeEach(() => {
     fetchMock.resetMocks();
-    historyMock.reset();
     jest.clearAllMocks();
 });
 
 test('The delete app page renders and I can cancel', () => {
-    renderWithProviders(<ConnectedAppDeletePage />);
+    renderWithProviders(
+        <>
+            <ConnectedAppDeletePage />
+            <LocationDisplay />
+        </>
+    );
 
     expect(screen.getByText('akeneo_connectivity.connection.connect.connected_apps.delete.title')).toBeInTheDocument();
     expect(
@@ -36,13 +40,16 @@ test('The delete app page renders and I can cancel', () => {
 
     userEvent.click(screen.getByText('pim_common.cancel'));
 
-    expect(historyMock.history.location.pathname).toBe('/akeneo_connectivity_connection_connect_connected_apps_edit');
+    expect(screen.getByTestId('location')).toHaveTextContent(
+        '/akeneo_connectivity_connection_connect_connected_apps_edit'
+    );
 });
 
 test('The delete app page renders and I can delete the app', async () => {
     renderWithProviders(
         <NotifyContext.Provider value={notify}>
             <ConnectedAppDeletePage />
+            <LocationDisplay />
         </NotifyContext.Provider>
     );
 
@@ -61,7 +68,9 @@ test('The delete app page renders and I can delete the app', async () => {
         )
     );
     await waitFor(() =>
-        expect(historyMock.history.location.pathname).toBe('/akeneo_connectivity_connection_connect_connected_apps')
+        expect(screen.getByTestId('location')).toHaveTextContent(
+            '/akeneo_connectivity_connection_connect_connected_apps'
+        )
     );
 });
 

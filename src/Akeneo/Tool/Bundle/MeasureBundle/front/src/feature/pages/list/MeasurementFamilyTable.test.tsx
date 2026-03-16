@@ -1,8 +1,7 @@
 import React from 'react';
-import {Router} from 'react-router';
+import {MemoryRouter, useLocation} from 'react-router-dom';
 import {screen, fireEvent} from '@testing-library/react';
 import {MeasurementFamilyTable} from './MeasurementFamilyTable';
-import {createMemoryHistory} from 'history';
 import {renderWithProviders} from '@akeneo-pim-community/shared';
 
 const measurementFamilies = [
@@ -40,17 +39,20 @@ const measurementFamilies = [
   },
 ];
 
-test('It displays an empty table', () => {
-  const history = createMemoryHistory();
+const LocationDisplay = () => {
+  const location = useLocation();
+  return <div data-testid="location">{location.pathname}</div>;
+};
 
+test('It displays an empty table', () => {
   renderWithProviders(
-    <Router history={history}>
+    <MemoryRouter>
       <MeasurementFamilyTable
         measurementFamilies={[]}
         toggleSortDirection={() => 'descending'}
         getSortDirection={() => 'descending'}
       />
-    </Router>
+    </MemoryRouter>
   );
 
   expect(screen.getByText('pim_common.label')).toBeInTheDocument();
@@ -58,16 +60,14 @@ test('It displays an empty table', () => {
 });
 
 test('It displays some measurement families', () => {
-  const history = createMemoryHistory();
-
   renderWithProviders(
-    <Router history={history}>
+    <MemoryRouter>
       <MeasurementFamilyTable
         measurementFamilies={measurementFamilies}
         toggleSortDirection={() => 'descending'}
         getSortDirection={() => 'descending'}
       />
-    </Router>
+    </MemoryRouter>
   );
 
   expect(screen.getAllByRole('row')).toHaveLength(3); // 1 header row + 2 rows
@@ -76,7 +76,6 @@ test('It displays some measurement families', () => {
 });
 
 test('It toggles the sort direction on the columns', () => {
-  const history = createMemoryHistory();
   let sortDirections = {
     label: 'ascending',
     code: 'ascending',
@@ -85,13 +84,13 @@ test('It toggles the sort direction on the columns', () => {
   };
 
   renderWithProviders(
-    <Router history={history}>
+    <MemoryRouter>
       <MeasurementFamilyTable
         measurementFamilies={measurementFamilies}
         toggleSortDirection={(columnCode: string) => (sortDirections[columnCode] = 'descending')}
         getSortDirection={(columnCode: string) => sortDirections[columnCode]}
       />
-    </Router>
+    </MemoryRouter>
   );
 
   fireEvent.click(screen.getByText('pim_common.label'));
@@ -103,19 +102,18 @@ test('It toggles the sort direction on the columns', () => {
 });
 
 test('It changes the history when clicking on a row', () => {
-  const history = createMemoryHistory();
-
   renderWithProviders(
-    <Router history={history}>
+    <MemoryRouter>
       <MeasurementFamilyTable
         measurementFamilies={measurementFamilies}
         toggleSortDirection={() => 'descending'}
         getSortDirection={() => 'descending'}
       />
-    </Router>
+      <LocationDisplay />
+    </MemoryRouter>
   );
 
   fireEvent.click(screen.getByText('Area'));
 
-  expect(history.location.pathname).toEqual('/AREA');
+  expect(screen.getByTestId('location')).toHaveTextContent('/AREA');
 });

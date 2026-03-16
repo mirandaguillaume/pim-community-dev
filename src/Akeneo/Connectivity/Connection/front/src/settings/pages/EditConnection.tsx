@@ -1,6 +1,6 @@
 import {Formik, FormikHelpers, useFormikContext} from 'formik';
 import React, {useEffect} from 'react';
-import {useHistory, useParams} from 'react-router';
+import {useNavigate, useParams} from 'react-router-dom';
 import styled from 'styled-components';
 import {ApplyButton, DropdownLink, PageContent, PageHeader, SecondaryActionsDropdownButton} from '../../common';
 import defaultImageUrl from '../../common/assets/illustrations/NewAPI.svg';
@@ -54,7 +54,7 @@ const validate = ({label}: FormValues): FormErrors => {
 };
 
 export const EditConnection = () => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const connections = useConnectionsState();
     const dispatch = useConnectionsDispatch();
 
@@ -70,7 +70,7 @@ export const EditConnection = () => {
         });
     }, [route, dispatchCombinations]);
 
-    const {code} = useParams<{code: string}>();
+    const {code} = useParams() as {code: string};
     const connection = connections[code];
 
     const fetchConnection = useFetchConnection(code);
@@ -78,7 +78,7 @@ export const EditConnection = () => {
         let cancelled = false;
         fetchConnection().then(result => {
             if (isErr(result)) {
-                history.push('/connect/connection-settings');
+                navigate('/connect/connection-settings');
                 return;
             }
 
@@ -87,7 +87,7 @@ export const EditConnection = () => {
         return () => {
             cancelled = true;
         };
-    }, [fetchConnection, dispatch, history]);
+    }, [fetchConnection, dispatch, navigate]);
 
     const updateConnection = useUpdateConnection(code);
     const handleSubmit = async (
@@ -161,7 +161,7 @@ export const EditConnection = () => {
 };
 
 const HeaderContent = ({connection}: {connection: Connection}) => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const formik = useFormikContext<FormValues>();
     const generateMediaUrl = useMediaUrlGenerator();
     const generateUrl = useRouter();
@@ -173,7 +173,7 @@ const HeaderContent = ({connection}: {connection: Connection}) => {
                     <Breadcrumb.Step href={`#${generateUrl('akeneo_connectivity_connection_audit_index')}`}>
                         <Translate id='pim_menu.tab.connect' />
                     </Breadcrumb.Step>
-                    <Breadcrumb.Step href={history.createHref({pathname: '/connect/connection-settings'})}>
+                    <Breadcrumb.Step href={'#/connect/connection-settings'}>
                         <Translate id='pim_menu.item.connect_connection_settings' />
                     </Breadcrumb.Step>
                     <Breadcrumb.Step>{connection.label}</Breadcrumb.Step>
@@ -181,9 +181,7 @@ const HeaderContent = ({connection}: {connection: Connection}) => {
             }
             buttons={[
                 <SecondaryActionsDropdownButton key={0}>
-                    <DropdownLink
-                        onClick={() => history.push(`/connect/connection-settings/${connection.code}/delete`)}
-                    >
+                    <DropdownLink onClick={() => navigate(`/connect/connection-settings/${connection.code}/delete`)}>
                         <Translate id='pim_common.delete' />
                     </DropdownLink>
                 </SecondaryActionsDropdownButton>,

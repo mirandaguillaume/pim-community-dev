@@ -2,12 +2,11 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import {screen, waitFor} from '@testing-library/react';
 import fetchMock from 'jest-fetch-mock';
-import {renderWithProviders, historyMock, MockFetchResponses, mockFetchResponses} from '../../../../test-utils';
+import {renderWithProviders, MockFetchResponses, mockFetchResponses} from '../../../../test-utils';
 import {NoConnectedApps} from '@src/connect/components/ConnectedApps/NoConnectedApps';
 
 beforeEach(() => {
     fetchMock.resetMocks();
-    historyMock.reset();
 });
 
 test('No connected apps section renders', async () => {

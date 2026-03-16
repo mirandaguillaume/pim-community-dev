@@ -4,7 +4,7 @@ import {useTranslate} from '../../shared/translate';
 import {PageContent, PageHeader} from '../../common';
 import {UserButtons, UserContext} from '../../shared/user';
 import {useRouter} from '../../shared/router/use-router';
-import {useHistory} from 'react-router';
+import {useNavigate} from 'react-router-dom';
 import {useFetchExtensions} from '../hooks/use-fetch-extensions';
 import {Extensions} from '../../model/extension';
 import {Apps} from '../../model/app';
@@ -19,7 +19,7 @@ import {CreateCustomAppButton} from '../components/CustomApps/CreateCustomAppBut
 export const MarketplacePage: FC = () => {
     const translate = useTranslate();
     const user = useContext(UserContext);
-    const history = useHistory();
+    const navigate = useNavigate();
     const featureFlag = useFeatureFlags();
     const generateUrl = useRouter();
     const fetchExtensions = useFetchExtensions();
@@ -33,7 +33,7 @@ export const MarketplacePage: FC = () => {
     useEffect(() => {
         const profile = user.get<string | null>('profile');
         if (null === profile) {
-            history.push('/connect/app-store/profile');
+            navigate('/connect/app-store/profile');
         } else {
             setUserProfile(profile);
         }

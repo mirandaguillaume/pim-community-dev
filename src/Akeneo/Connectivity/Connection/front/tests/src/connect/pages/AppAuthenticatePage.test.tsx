@@ -1,14 +1,13 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import fetchMock from 'jest-fetch-mock';
-import {historyMock, renderWithProviders} from '../../../test-utils';
+import {renderWithProviders} from '../../../test-utils';
 import {screen, waitFor} from '@testing-library/react';
 import {AppAuthenticatePage} from '@src/connect/pages/AppAuthenticatePage';
 import {AuthenticationModal} from '@src/connect/components/AppWizard/AuthenticationModal';
 
 beforeEach(() => {
     fetchMock.resetMocks();
-    historyMock.reset();
 });
 
 jest.mock('@src/connect/components/AppWizard/AuthenticationModal', () => ({

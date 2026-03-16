@@ -1,11 +1,10 @@
 import React, {FC} from 'react';
-import {useLocation} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {AuthorizeClientError} from '../components/AuthorizeClientError';
 import {AppWizard} from '../components/AppWizard/AppWizard';
-import {useHistory} from 'react-router';
 
 export const AppAuthorizePage: FC = () => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const location = useLocation();
     const query = new URLSearchParams(location.search);
     const error = query.get('error');
@@ -16,7 +15,7 @@ export const AppAuthorizePage: FC = () => {
     }
 
     if (null === clientId) {
-        history.push('/connect/app-store');
+        navigate('/connect/app-store');
         return null;
     }
 

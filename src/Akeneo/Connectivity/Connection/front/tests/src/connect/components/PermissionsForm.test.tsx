@@ -1,13 +1,12 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import fetchMock from 'jest-fetch-mock';
-import {historyMock, renderWithProviders} from '../../../test-utils';
+import {renderWithProviders} from '../../../test-utils';
 import {waitFor} from '@testing-library/react';
 import {PermissionsForm} from '@src/connect/components/PermissionsForm';
 
 beforeEach(() => {
     fetchMock.resetMocks();
-    historyMock.reset();
 });
 
 test('The permissions form renders', async () => {

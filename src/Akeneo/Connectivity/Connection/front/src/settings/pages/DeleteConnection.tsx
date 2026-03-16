@@ -1,5 +1,5 @@
 import React from 'react';
-import {useHistory, useParams} from 'react-router';
+import {useNavigate, useParams} from 'react-router-dom';
 import {GreyButton, ImportantButton, Modal} from '../../common';
 import styled from '../../common/styled-with-theme';
 import {isOk} from '../../shared/fetch-result/result';
@@ -9,9 +9,9 @@ import {useDeleteConnection} from '../api-hooks/use-delete-connection';
 import {useConnectionsDispatch} from '../connections-context';
 
 export const DeleteConnection = () => {
-    const history = useHistory();
+    const navigate = useNavigate();
 
-    const {code} = useParams<{code: string}>();
+    const {code} = useParams() as {code: string};
     const deleteConnection = useDeleteConnection(code);
     const dispatch = useConnectionsDispatch();
 
@@ -21,11 +21,11 @@ export const DeleteConnection = () => {
         if (isOk(result)) {
             dispatch(connectionDeleted(code));
 
-            history.push('/connect/connection-settings');
+            navigate('/connect/connection-settings');
         }
     };
 
-    const handleCancel = () => history.push(`/connect/connection-settings/${code}/edit`);
+    const handleCancel = () => navigate(`/connect/connection-settings/${code}/edit`);
 
     const description = (
         <>

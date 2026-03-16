@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import {act, screen, waitFor} from '@testing-library/react';
 import fetchMock from 'jest-fetch-mock';
-import {mockFetchResponses, MockFetchResponses, renderWithProviders, historyMock} from '../../../../test-utils';
+import {mockFetchResponses, MockFetchResponses, renderWithProviders, LocationDisplay} from '../../../../test-utils';
 import {AppWizard} from '@src/connect/components/AppWizard/AppWizard';
 import userEvent from '@testing-library/user-event';
 import {NotificationLevel, NotifyContext} from '@src/shared/notify';
@@ -96,7 +96,6 @@ const setPermissionsAndConfirmWizard = async () => {
 
 beforeEach(() => {
     fetchMock.resetMocks();
-    historyMock.reset();
     jest.clearAllMocks();
 
     // eslint-disable-next-line space-unary-ops
@@ -194,7 +193,12 @@ test('The wizard redirect to the marketplace when closed', async () => {
         ...fetchAppWizardDataResponses,
     });
 
-    renderWithProviders(<AppWizard clientId='8d8a7dc1-0827-4cc9-9ae5-577c6419230b' />);
+    renderWithProviders(
+        <>
+            <AppWizard clientId='8d8a7dc1-0827-4cc9-9ae5-577c6419230b' />
+            <LocationDisplay />
+        </>
+    );
     await waitFor(() => screen.getByAltText('MyApp'));
     expect(screen.getByAltText('MyApp')).toBeInTheDocument();
 
@@ -202,7 +206,7 @@ test('The wizard redirect to the marketplace when closed', async () => {
         userEvent.click(screen.getByTitle('akeneo_connectivity.connection.connect.apps.wizard.action.cancel'));
     });
 
-    expect(historyMock.history.location.pathname).toBe('/connect/app-store');
+    expect(screen.getByTestId('location')).toHaveTextContent('/connect/app-store');
 });
 
 test('The wizard display a notification and redirects on success', async () => {

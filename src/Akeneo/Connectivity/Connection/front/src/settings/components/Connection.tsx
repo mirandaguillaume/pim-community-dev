@@ -1,5 +1,5 @@
 import React from 'react';
-import {useHistory} from 'react-router';
+import {useNavigate} from 'react-router-dom';
 import {Figure, FigureCaption, FigureImage} from '../../common';
 import imgUrl from '../../common/assets/illustrations/NewAPI.svg';
 import {useMediaUrlGenerator} from '../use-media-url-generator';
@@ -12,11 +12,11 @@ interface Props {
 }
 
 export const Connection = ({code, label, hasWrongCombination, image}: Props) => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const generateMediaUrl = useMediaUrlGenerator();
 
     return (
-        <Figure onClick={() => history.push(`/connect/connection-settings/${code}/edit`)}>
+        <Figure onClick={() => navigate(`/connect/connection-settings/${code}/edit`)}>
             <FigureImage
                 className='AknImage-display'
                 src={null === image ? imgUrl : generateMediaUrl(image, 'thumbnail')}

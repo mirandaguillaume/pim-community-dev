@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import {screen, waitFor} from '@testing-library/react';
 import fetchMock from 'jest-fetch-mock';
-import {renderWithProviders, historyMock} from '../../../../test-utils';
+import {renderWithProviders} from '../../../../test-utils';
 import {ConnectedAppCard} from '@src/connect/components/ConnectedApps/ConnectedAppCard';
 import {SecurityContext} from '@src/shared/security';
 import {AppIllustration} from 'akeneo-design-system';
@@ -10,7 +10,6 @@ import {ConnectedApp} from '@src/model/Apps/connected-app';
 
 beforeEach(() => {
     fetchMock.resetMocks();
-    historyMock.reset();
 });
 
 jest.mock('akeneo-design-system', () => ({

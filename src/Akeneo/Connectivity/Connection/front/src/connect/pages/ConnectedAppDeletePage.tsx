@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {useHistory, useParams} from 'react-router';
+import {useNavigate, useParams} from 'react-router-dom';
 import {Modal, AppIllustration, Button, getColor, getFontSize} from 'akeneo-design-system';
 import styled from '../../common/styled-with-theme';
 import {useTranslate} from '../../shared/translate';
@@ -32,12 +32,12 @@ const Helper = styled.div`
 `;
 
 export const ConnectedAppDeletePage = () => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const generateUrl = useRouter();
     const translate = useTranslate();
     const notify = useNotify();
 
-    const {connectionCode} = useParams<{connectionCode: string}>();
+    const {connectionCode} = useParams() as {connectionCode: string};
     const deleteApp = useDeleteApp(connectionCode);
 
     const handleClick = useCallback(async () => {
@@ -47,22 +47,22 @@ export const ConnectedAppDeletePage = () => {
                 NotificationLevel.SUCCESS,
                 translate('akeneo_connectivity.connection.connect.connected_apps.delete.flash.success')
             );
-            history.push(generateUrl('akeneo_connectivity_connection_connect_connected_apps'));
+            navigate(generateUrl('akeneo_connectivity_connection_connect_connected_apps'));
         } catch (e) {
             notify(
                 NotificationLevel.ERROR,
                 translate('akeneo_connectivity.connection.connect.connected_apps.delete.flash.error')
             );
         }
-    }, [deleteApp, notify, translate, history, generateUrl]);
+    }, [deleteApp, notify, translate, navigate, generateUrl]);
 
     const handleCancel = useCallback(() => {
-        history.push(
+        navigate(
             generateUrl('akeneo_connectivity_connection_connect_connected_apps_edit', {
                 connectionCode: connectionCode,
             })
         );
-    }, [history, generateUrl, connectionCode]);
+    }, [navigate, generateUrl, connectionCode]);
 
     return (
         <Modal onClose={handleCancel} illustration={<AppIllustration />} closeTitle={translate('pim_common.cancel')}>

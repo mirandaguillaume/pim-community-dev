@@ -1,13 +1,17 @@
 import React from 'react';
-import {mockResponse, render, screen} from '../../tests/test-utils';
+import {mockResponse, render, renderWithoutRouter, screen} from '../../tests/test-utils';
 import {CreateGeneratorPage} from '../';
-import {Router} from 'react-router-dom';
+import {MemoryRouter, useLocation} from 'react-router-dom';
 import {act, fireEvent, waitFor} from '@testing-library/react';
-import {createMemoryHistory} from 'history';
 import initialGenerator from '../../tests/fixtures/initialGenerator';
 import {QueryClient, QueryClientProvider} from 'react-query';
 
 jest.mock('../CreateOrEditGeneratorPage');
+
+const LocationDisplay = () => {
+  const location = useLocation();
+  return <div data-testid="location">{location.pathname}</div>;
+};
 
 describe('CreateGeneratorPage', () => {
   it('should create a generator', async () => {
@@ -17,14 +21,14 @@ describe('CreateGeneratorPage', () => {
       json: {...initialGenerator},
     });
 
-    const history = createMemoryHistory();
     const queryClient = new QueryClient();
     const mockedQueryClient = jest.spyOn(queryClient, 'invalidateQueries');
-    render(
+    renderWithoutRouter(
       <QueryClientProvider client={queryClient}>
-        <Router history={history}>
+        <MemoryRouter>
           <CreateGeneratorPage initialGenerator={initialGenerator} />
-        </Router>
+          <LocationDisplay />
+        </MemoryRouter>
       </QueryClientProvider>
     );
     expect(screen.getByText('CreateOrEditGeneratorPage')).toBeInTheDocument();
@@ -33,9 +37,10 @@ describe('CreateGeneratorPage', () => {
       fireEvent.click(screen.getByText('Main button'));
     });
 
-    await waitFor(() => history.length > 1);
+    await waitFor(() => {
+      expect(screen.getByTestId('location')).toHaveTextContent('/initialCode');
+    });
     expectCall();
-    expect(history.location.pathname).toBe('/initialCode');
     expect(mockedQueryClient).toBeCalledWith('getIdentifierGenerator');
   });
 

@@ -4,10 +4,9 @@ import {WrongCredentialsCombinationsProvider} from '@src/settings/wrong-credenti
 import {UserContext} from '@src/shared/user';
 import {act, fireEvent, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {createMemoryHistory} from 'history';
 import React, {PropsWithChildren} from 'react';
-import {Route, Router} from 'react-router-dom';
-import {renderWithProviders} from '../../../test-utils';
+import {MemoryRouter, Route, Routes} from 'react-router-dom';
+import {renderWithProvidersNoRouter} from '../../../test-utils';
 
 const UserContextProvider = ({children}: PropsWithChildren<{}>) => {
     const userContext = {
@@ -74,20 +73,23 @@ describe('testing EditConnection page', () => {
     it('updates a connection', async () => {
         fetchMock.mockResponseOnce(JSON.stringify({}));
 
-        const history = createMemoryHistory({initialEntries: ['/connections/ecommerce/edit']});
-
-        const {getByText, getByLabelText, findByText} = renderWithProviders(
-            <Router history={history}>
-                <Route path='/connections/:code/edit'>
-                    <UserContextProvider>
-                        <WrongCredentialsCombinationsProvider>
-                            <ConnectionsProvider>
-                                <EditConnection />
-                            </ConnectionsProvider>
-                        </WrongCredentialsCombinationsProvider>
-                    </UserContextProvider>
-                </Route>
-            </Router>
+        const {getByText, getByLabelText, findByText} = renderWithProvidersNoRouter(
+            <MemoryRouter initialEntries={['/connections/ecommerce/edit']}>
+                <Routes>
+                    <Route
+                        path='/connections/:code/edit'
+                        element={
+                            <UserContextProvider>
+                                <WrongCredentialsCombinationsProvider>
+                                    <ConnectionsProvider>
+                                        <EditConnection />
+                                    </ConnectionsProvider>
+                                </WrongCredentialsCombinationsProvider>
+                            </UserContextProvider>
+                        }
+                    />
+                </Routes>
+            </MemoryRouter>
         );
 
         expect(fetchMock).toBeCalledTimes(2);
@@ -144,19 +146,23 @@ describe('testing EditConnection page', () => {
     });
 
     it('displays form errors', async () => {
-        const history = createMemoryHistory({initialEntries: ['/connections/ecommerce/edit']});
-        const {getByLabelText, findByText} = renderWithProviders(
-            <Router history={history}>
-                <Route path='/connections/:code/edit'>
-                    <UserContextProvider>
-                        <WrongCredentialsCombinationsProvider>
-                            <ConnectionsProvider>
-                                <EditConnection />
-                            </ConnectionsProvider>
-                        </WrongCredentialsCombinationsProvider>
-                    </UserContextProvider>
-                </Route>
-            </Router>
+        const {getByLabelText, findByText} = renderWithProvidersNoRouter(
+            <MemoryRouter initialEntries={['/connections/ecommerce/edit']}>
+                <Routes>
+                    <Route
+                        path='/connections/:code/edit'
+                        element={
+                            <UserContextProvider>
+                                <WrongCredentialsCombinationsProvider>
+                                    <ConnectionsProvider>
+                                        <EditConnection />
+                                    </ConnectionsProvider>
+                                </WrongCredentialsCombinationsProvider>
+                            </UserContextProvider>
+                        }
+                    />
+                </Routes>
+            </MemoryRouter>
         );
 
         await findByText('akeneo_connectivity.connection.secondary_actions.title');

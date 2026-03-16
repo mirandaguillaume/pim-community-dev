@@ -1,8 +1,7 @@
 import {Index} from '@src/error-management/pages/Index';
-import {createMemoryHistory} from 'history';
 import React from 'react';
-import {Router} from 'react-router-dom';
-import {fetchMockResponseOnce, renderWithProviders} from '../../../test-utils';
+import {MemoryRouter} from 'react-router-dom';
+import {fetchMockResponseOnce, renderWithProvidersNoRouter} from '../../../test-utils';
 
 test('renders the connection monitoring page', async () => {
     fetchMockResponseOnce(
@@ -34,12 +33,10 @@ test('renders the connection monitoring page', async () => {
     fetchMockResponseOnce('pim_enrich_locale_rest_index', JSON.stringify([]));
     fetchMockResponseOnce('pim_enrich_family_rest_index', JSON.stringify({}));
 
-    const history = createMemoryHistory({initialEntries: ['/connect/connection-settings/erp/monitoring']});
-
-    const {findByText} = renderWithProviders(
-        <Router history={history}>
+    const {findByText} = renderWithProvidersNoRouter(
+        <MemoryRouter initialEntries={['/connect/connection-settings/erp/monitoring']}>
             <Index />
-        </Router>
+        </MemoryRouter>
     );
 
     await findByText('ERP');
@@ -68,12 +65,10 @@ test('renders the connection monitoring page with no error', async () => {
         JSON.stringify([])
     );
 
-    const history = createMemoryHistory({initialEntries: ['/connect/connection-settings/erp/monitoring']});
-
-    const {findByText} = renderWithProviders(
-        <Router history={history}>
+    const {findByText} = renderWithProvidersNoRouter(
+        <MemoryRouter initialEntries={['/connect/connection-settings/erp/monitoring']}>
             <Index />
-        </Router>
+        </MemoryRouter>
     );
 
     await findByText('ERP');

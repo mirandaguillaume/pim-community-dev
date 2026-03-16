@@ -1,8 +1,7 @@
 import React from 'react';
-import {fireEvent, mockACLs, render, screen} from '../../tests/test-utils';
+import {fireEvent, mockACLs, render, renderWithoutRouter, screen} from '../../tests/test-utils';
 import {CreateOrEditGeneratorPage} from '../';
-import {createMemoryHistory} from 'history';
-import {Router} from 'react-router';
+import {MemoryRouter, useLocation} from 'react-router-dom';
 import {IdentifierGeneratorContext} from '../../context';
 import initialGenerator from '../../tests/fixtures/initialGenerator';
 import {IdentifierGenerator, PROPERTY_NAMES} from '../../models';
@@ -11,6 +10,11 @@ jest.mock('../DeleteGeneratorModal');
 jest.mock('../../tabs/GeneralPropertiesTab');
 jest.mock('../../tabs/SelectionTab');
 jest.mock('../../tabs/StructureTab');
+
+const LocationDisplay = () => {
+  const location = useLocation();
+  return <div data-testid="location">{location.pathname}</div>;
+};
 
 describe('CreateOrEditGeneratorPage', () => {
   it('should switch tabs', () => {
@@ -54,9 +58,8 @@ describe('CreateOrEditGeneratorPage', () => {
   });
 
   it('should delete a generator', () => {
-    const history = createMemoryHistory();
-    render(
-      <Router history={history}>
+    renderWithoutRouter(
+      <MemoryRouter>
         <CreateOrEditGeneratorPage
           isMainButtonDisabled={false}
           initialGenerator={initialGenerator}
@@ -64,7 +67,8 @@ describe('CreateOrEditGeneratorPage', () => {
           mainButtonCallback={jest.fn()}
           isNew={false}
         />
-      </Router>
+        <LocationDisplay />
+      </MemoryRouter>
     );
 
     expect(screen.queryByText('pim_identifier_generator.deletion.operations')).toBeNull();
@@ -74,7 +78,7 @@ describe('CreateOrEditGeneratorPage', () => {
     fireEvent.click(screen.getByText('pim_common.delete'));
     expect(screen.getByText('DeleteGeneratorModalMock')).toBeInTheDocument();
     fireEvent.click(screen.getByText('Delete generator'));
-    expect(history.location.pathname).toBe('/');
+    expect(screen.getByTestId('location')).toHaveTextContent('/');
   });
 
   it('should update a generator on structure change', () => {

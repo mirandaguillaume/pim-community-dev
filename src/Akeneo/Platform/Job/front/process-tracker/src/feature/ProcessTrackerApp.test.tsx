@@ -2,7 +2,6 @@ import React from 'react';
 import {renderWithProviders} from '@akeneo-pim-community/shared';
 import {ProcessTrackerApp} from './ProcessTrackerApp';
 import {screen} from '@testing-library/react';
-import {createHashHistory} from 'history';
 
 jest.mock('./pages/JobExecutionList', () => ({
   JobExecutionList: () => <>JobExecutionList</>,
@@ -13,8 +12,7 @@ jest.mock('./pages/JobExecutionDetail', () => ({
 }));
 
 test('it renders job execution list', () => {
-  const history = createHashHistory();
-  history.push('/job');
+  window.location.hash = '#/job';
 
   renderWithProviders(<ProcessTrackerApp />);
 
@@ -22,8 +20,7 @@ test('it renders job execution list', () => {
 });
 
 test('it renders job execution detail', () => {
-  const history = createHashHistory();
-  history.push('/job/show/9999');
+  window.location.hash = '#/job/show/9999';
 
   renderWithProviders(<ProcessTrackerApp />);
 

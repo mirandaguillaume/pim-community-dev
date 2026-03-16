@@ -1,18 +1,13 @@
 import {Index} from '@src/webhook/pages/Index';
-import {createMemoryHistory} from 'history';
 import React from 'react';
-import {Router} from 'react-router-dom';
-import {MockFetchResponses, mockFetchResponses, renderWithProviders} from '../../../test-utils';
+import {MemoryRouter} from 'react-router-dom';
+import {MockFetchResponses, mockFetchResponses, renderWithProvidersNoRouter} from '../../../test-utils';
 import '@testing-library/jest-dom';
 import fetchMock from 'jest-fetch-mock';
 import {screen, within} from '@testing-library/react';
 import {EventSubscriptionLogLevel} from '@src/webhook/model/EventSubscriptionLogLevel';
 
 describe('testing events logs page', () => {
-    const history = createMemoryHistory({
-        initialEntries: ['/connect/connection-settings/alkemics/event-logs'],
-    });
-
     const fetchConnectionResponses: MockFetchResponses = {
         'akeneo_connectivity_connection_rest_get?code=alkemics': {
             json: {
@@ -73,10 +68,10 @@ describe('testing events logs page', () => {
             ...fetchEventSubscriptionLogsResponses,
         });
 
-        renderWithProviders(
-            <Router history={history}>
+        renderWithProvidersNoRouter(
+            <MemoryRouter initialEntries={['/connect/connection-settings/alkemics/event-logs']}>
                 <Index />
-            </Router>
+            </MemoryRouter>
         );
 
         expect(await screen.findByText('Alkemics')).toBeInTheDocument();
@@ -101,10 +96,10 @@ describe('testing events logs page', () => {
             },
         });
 
-        renderWithProviders(
-            <Router history={history}>
+        renderWithProvidersNoRouter(
+            <MemoryRouter initialEntries={['/connect/connection-settings/alkemics/event-logs']}>
                 <Index />
-            </Router>
+            </MemoryRouter>
         );
 
         expect(
@@ -127,10 +122,10 @@ describe('testing events logs page', () => {
                 },
         });
 
-        renderWithProviders(
-            <Router history={history}>
+        renderWithProvidersNoRouter(
+            <MemoryRouter initialEntries={['/connect/connection-settings/alkemics/event-logs']}>
                 <Index />
-            </Router>
+            </MemoryRouter>
         );
 
         // Due to how useFetchEventSubscription is used, we must wait for the page to be hydrated with the data.

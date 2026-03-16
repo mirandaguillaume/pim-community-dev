@@ -6,7 +6,7 @@ import {Conditions, Delimiter, GeneratorTab, IdentifierGenerator, IdentifierGene
 import {Violation} from '../validators';
 import {Header} from '../components';
 import {DeleteGeneratorModal} from './DeleteGeneratorModal';
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {useIdentifierGeneratorAclContext, useIdentifierGeneratorContext} from '../context';
 import {useStructureTabs} from '../hooks';
 
@@ -27,7 +27,7 @@ const CreateOrEditGeneratorPage: React.FC<CreateOrEditGeneratorProps> = ({
 }) => {
   const {currentTab, setCurrentTab} = useStructureTabs();
   const translate = useTranslate();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [generator, setGenerator] = useState<IdentifierGenerator>(initialGenerator);
   const changeTab = useCallback((tabName: GeneratorTab) => () => setCurrentTab(tabName), [setCurrentTab]);
   const onSave = useCallback(() => mainButtonCallback(generator), [generator, mainButtonCallback]);
@@ -55,7 +55,7 @@ const CreateOrEditGeneratorPage: React.FC<CreateOrEditGeneratorProps> = ({
 
   const redirectToList = (): void => {
     closeModal();
-    history.push('/');
+    navigate('/');
   };
 
   const handleDeleteModal = (): void => {

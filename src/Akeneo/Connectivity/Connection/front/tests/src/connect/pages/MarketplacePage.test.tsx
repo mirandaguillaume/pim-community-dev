@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import {historyMock, renderWithProviders} from '../../../test-utils';
+import {LocationDisplay, renderWithProviders} from '../../../test-utils';
 import {screen, waitFor} from '@testing-library/react';
 import {MarketplacePage} from '@src/connect/pages/MarketplacePage';
 import {Marketplace} from '@src/connect/components/Marketplace';
@@ -76,11 +76,14 @@ test('It redirects when the "Create an app" button is clicked', async () => {
     renderWithProviders(
         <SecurityContext.Provider value={{isGranted}}>
             <MarketplacePage />
+            <LocationDisplay />
         </SecurityContext.Provider>
     );
 
     await waitFor(() => expect(Marketplace).toHaveBeenCalled());
     userEvent.click(screen.getByText('akeneo_connectivity.connection.connect.custom_apps.create_button'));
 
-    expect(historyMock.history.location.pathname).toBe('/akeneo_connectivity_connection_connect_custom_apps_create');
+    expect(screen.getByTestId('location')).toHaveTextContent(
+        '/akeneo_connectivity_connection_connect_custom_apps_create'
+    );
 });

@@ -1,5 +1,5 @@
 import React, {FC, useCallback} from 'react';
-import {useHistory, useParams} from 'react-router';
+import {useNavigate, useParams} from 'react-router-dom';
 import {AppIllustration, Button, getColor, getFontSize, Modal} from 'akeneo-design-system';
 import styled from '../../common/styled-with-theme';
 import {useTranslate} from '../../shared/translate';
@@ -32,15 +32,15 @@ const Helper = styled.div`
 `;
 
 export const DeleteCustomAppPromptPage: FC = () => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const appStoreUrl = useRoute('akeneo_connectivity_connection_connect_marketplace');
     const translate = useTranslate();
     const notify = useNotify();
 
-    const {customAppId} = useParams<{customAppId: string}>();
+    const {customAppId} = useParams() as {customAppId: string};
     const deleteCustomApp = useDeleteCustomApp(customAppId);
 
-    const redirectToAppStore = useCallback(() => history.push(appStoreUrl), [history, appStoreUrl]);
+    const redirectToAppStore = useCallback(() => navigate(appStoreUrl), [navigate, appStoreUrl]);
 
     const handleClick = useCallback(() => {
         deleteCustomApp()

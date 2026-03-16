@@ -1,6 +1,6 @@
-import {FC, StrictMode} from 'react';
+import {FC, StrictMode, useMemo} from 'react';
 import {QueryClient, QueryClientProvider} from 'react-query';
-import {Route, HashRouter as Router, Switch} from 'react-router-dom';
+import {createHashRouter, createRoutesFromElements, Route, RouterProvider} from 'react-router-dom';
 import {ErrorBoundary} from './ErrorBoundary';
 import {CanLeavePageProvider, EditCategoryProvider} from './components';
 import {SaveStatusProvider} from './components/providers/SaveStatusProvider';
@@ -11,47 +11,58 @@ import {BadRequestError} from './tools/apiFetch';
 
 const useErrorBoundary = (error: unknown) => false === error instanceof BadRequestError;
 
+const router = createHashRouter(
+  createRoutesFromElements(
+    <>
+      <Route path="/:treeId/tree" element={<CategoriesTreePage />} />
+      <Route
+        path="/:categoryId/edit"
+        element={
+          <EditCategoryProvider>
+            <CategoryEditPage />
+          </EditCategoryProvider>
+        }
+      />
+      <Route
+        path="/:treeId/template/:templateId"
+        element={
+          <SaveStatusProvider>
+            <UnsavedChangesGuard />
+            <TemplateFormProvider>
+              <TemplatePage />
+            </TemplateFormProvider>
+          </SaveStatusProvider>
+        }
+      />
+      <Route path="/" element={<CategoriesIndex />} />
+    </>
+  ),
+  {basename: '/enrich/product-category-tree'}
+);
+
 type Props = {
   setCanLeavePage: (canLeavePage: boolean) => void;
   setLeavePageMessage: (leavePageMessage: string) => void;
 };
 
 const CategoriesApp: FC<Props> = ({setCanLeavePage, setLeavePageMessage}) => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {useErrorBoundary},
-      mutations: {useErrorBoundary},
-    },
-  });
+  const queryClient = useMemo(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {useErrorBoundary},
+          mutations: {useErrorBoundary},
+        },
+      }),
+    []
+  );
 
   return (
     <StrictMode>
       <ErrorBoundary>
         <QueryClientProvider client={queryClient}>
           <CanLeavePageProvider setCanLeavePage={setCanLeavePage} setLeavePageMessage={setLeavePageMessage}>
-            <Router basename="/enrich/product-category-tree">
-              <Switch>
-                <Route path="/:treeId/tree">
-                  <CategoriesTreePage />
-                </Route>
-                <Route path="/:categoryId/edit">
-                  <EditCategoryProvider>
-                    <CategoryEditPage />
-                  </EditCategoryProvider>
-                </Route>
-                <Route path="/:treeId/template/:templateId">
-                  <SaveStatusProvider>
-                    <UnsavedChangesGuard />
-                    <TemplateFormProvider>
-                      <TemplatePage />
-                    </TemplateFormProvider>
-                  </SaveStatusProvider>
-                </Route>
-                <Route path="/">
-                  <CategoriesIndex />
-                </Route>
-              </Switch>
-            </Router>
+            <RouterProvider router={router} />
           </CanLeavePageProvider>
         </QueryClientProvider>
       </ErrorBoundary>

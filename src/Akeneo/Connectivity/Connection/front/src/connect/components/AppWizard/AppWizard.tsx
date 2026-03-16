@@ -1,5 +1,5 @@
 import React, {FC, useCallback, useEffect, useState} from 'react';
-import {useHistory} from 'react-router';
+import {useNavigate} from 'react-router-dom';
 import {AppWizardData} from '../../../model/Apps/wizard-data';
 import {PermissionsByProviderKey} from '../../../model/Apps/permissions-by-provider-key';
 import {PermissionFormProvider, usePermissionFormRegistry} from '../../../shared/permission-form-registry';
@@ -20,7 +20,7 @@ interface Props {
 
 export const AppWizard: FC<Props> = ({clientId}) => {
     const featureFlags = useFeatureFlags();
-    const history = useHistory();
+    const navigate = useNavigate();
     const [wizardData, setWizardData] = useState<AppWizardData | null>(null);
     const fetchWizardData = useFetchAppWizardData(clientId);
     const [steps, setSteps] = useState<Step[]>([]);
@@ -77,8 +77,8 @@ export const AppWizard: FC<Props> = ({clientId}) => {
     }, [fetchWizardData]);
 
     const redirectToMarketplace = useCallback(() => {
-        history.push('/connect/app-store');
-    }, [history]);
+        navigate('/connect/app-store');
+    }, [navigate]);
 
     const handleSetProviderPermissions = useCallback(
         (providerKey: string, providerPermissions: object) => {

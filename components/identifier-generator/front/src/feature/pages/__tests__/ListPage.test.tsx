@@ -1,16 +1,20 @@
 import React from 'react';
-import {fireEvent, mockACLs, mockResponse, render, screen, waitFor} from '../../tests/test-utils';
+import {fireEvent, mockACLs, mockResponse, render, renderWithoutRouter, screen, waitFor} from '../../tests/test-utils';
 import {ListPage} from '../ListPage';
 import {IdentifierGenerator, PROPERTY_NAMES, TEXT_TRANSFORMATION} from '../../models';
 import {useGetIdentifierGenerators} from '../../hooks';
-import {Router} from 'react-router';
-import {createMemoryHistory} from 'history';
+import {MemoryRouter, useLocation} from 'react-router-dom';
 
 jest.mock('../DeleteGeneratorModal');
 jest.mock('../../hooks/useIdentifierAttributes');
 jest.mock('../../hooks/useGetIdentifierGenerators', () => ({
   useGetIdentifierGenerators: jest.fn(),
 }));
+
+const LocationDisplay = () => {
+  const location = useLocation();
+  return <div data-testid="location">{location.pathname}</div>;
+};
 
 const mockedList: IdentifierGenerator[] = [
   {
@@ -74,18 +78,18 @@ describe('ListPage', () => {
       error: null,
     });
 
-    const history = createMemoryHistory();
-    render(
-      <Router history={history}>
+    renderWithoutRouter(
+      <MemoryRouter>
         <ListPage onCreate={jest.fn()} />
-      </Router>
+        <LocationDisplay />
+      </MemoryRouter>
     );
 
     const rows = screen.getAllByRole('row');
     expect(rows.length).toBe(2);
 
     fireEvent.click(rows[1]);
-    expect(history.location.pathname).toEqual('/test');
+    expect(screen.getByTestId('location')).toHaveTextContent('/test');
   });
 
   it('should delete a generator', () => {

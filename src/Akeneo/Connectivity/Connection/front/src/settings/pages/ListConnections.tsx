@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {useHistory} from 'react-router';
+import {useNavigate} from 'react-router-dom';
 import {ApplyButton, Helper, HelperLink, HelperTitle, PageContent, PageHeader} from '../../common';
 import {Connection} from '../../model/connection';
 import {FlowType} from '../../model/flow-type.enum';
@@ -25,7 +25,7 @@ import {useConnectionsLimitReached} from '../../shared/hooks/use-connections-lim
 type ResultConnections = Array<Connection>;
 
 export const ListConnections = () => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const translate = useTranslate();
 
     const connections = useConnectionsState();
@@ -63,7 +63,7 @@ export const ListConnections = () => {
         });
     }, [listWrongCombinationRoute, dispatchCombinations]);
 
-    const handleCreate = () => history.push('/connect/connection-settings/create');
+    const handleCreate = () => navigate('/connect/connection-settings/create');
     const generateUrl = useRouter();
 
     const breadcrumb = (

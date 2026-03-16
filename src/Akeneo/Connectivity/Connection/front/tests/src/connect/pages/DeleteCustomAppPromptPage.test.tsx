@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import {act, screen, waitFor} from '@testing-library/react';
 import fetchMock from 'jest-fetch-mock';
-import {historyMock, mockFetchResponses, renderWithProviders} from '../../../test-utils';
+import {LocationDisplay, mockFetchResponses, renderWithProviders} from '../../../test-utils';
 import userEvent from '@testing-library/user-event';
 import {setLogger} from 'react-query';
 import {DeleteCustomAppPromptPage} from '@src/connect/pages/DeleteCustomAppPromptPage';
@@ -14,14 +14,13 @@ setLogger({
     error: () => null, // explicit error generation triggers react query to log the error
 });
 
-jest.mock('react-router', () => ({
-    ...jest.requireActual('react-router'),
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
     useParams: jest.fn().mockReturnValue({customAppId: 'appId'}),
 }));
 
 beforeEach(() => {
     fetchMock.resetMocks();
-    historyMock.reset();
     jest.clearAllMocks();
 });
 
@@ -38,6 +37,7 @@ test('it displays the delete custom app prompt page and successfully deletes a c
     renderWithProviders(
         <NotifyContext.Provider value={notify}>
             <DeleteCustomAppPromptPage />
+            <LocationDisplay />
         </NotifyContext.Provider>
     );
 
@@ -48,7 +48,7 @@ test('it displays the delete custom app prompt page and successfully deletes a c
     });
 
     await waitFor(() =>
-        expect(historyMock.history.location.pathname).toBe('/akeneo_connectivity_connection_connect_marketplace')
+        expect(screen.getByTestId('location')).toHaveTextContent('/akeneo_connectivity_connection_connect_marketplace')
     );
 
     expect(fetchMock).toHaveBeenCalledWith(
@@ -77,6 +77,7 @@ test('it gracefully fails to delete a custom app', async () => {
     renderWithProviders(
         <NotifyContext.Provider value={notify}>
             <DeleteCustomAppPromptPage />
+            <LocationDisplay />
         </NotifyContext.Provider>
     );
 
@@ -87,7 +88,7 @@ test('it gracefully fails to delete a custom app', async () => {
     });
 
     await waitFor(() =>
-        expect(historyMock.history.location.pathname).toBe('/akeneo_connectivity_connection_connect_marketplace')
+        expect(screen.getByTestId('location')).toHaveTextContent('/akeneo_connectivity_connection_connect_marketplace')
     );
 
     expect(fetchMock).toHaveBeenCalledWith(
@@ -104,23 +105,33 @@ test('it gracefully fails to delete a custom app', async () => {
 });
 
 test('it redirects to the App Store when prompt page is closed', () => {
-    renderWithProviders(<DeleteCustomAppPromptPage />);
+    renderWithProviders(
+        <>
+            <DeleteCustomAppPromptPage />
+            <LocationDisplay />
+        </>
+    );
 
     act(() => {
         userEvent.click(screen.getByTitle('pim_common.cancel'));
     });
 
-    expect(historyMock.history.location.pathname).toBe('/akeneo_connectivity_connection_connect_marketplace');
+    expect(screen.getByTestId('location')).toHaveTextContent('/akeneo_connectivity_connection_connect_marketplace');
 });
 
 test('it redirects to the App Store when user cancels deletion', () => {
-    renderWithProviders(<DeleteCustomAppPromptPage />);
+    renderWithProviders(
+        <>
+            <DeleteCustomAppPromptPage />
+            <LocationDisplay />
+        </>
+    );
 
     act(() => {
         userEvent.click(screen.getByText('pim_common.cancel'));
     });
 
-    expect(historyMock.history.location.pathname).toBe('/akeneo_connectivity_connection_connect_marketplace');
+    expect(screen.getByTestId('location')).toHaveTextContent('/akeneo_connectivity_connection_connect_marketplace');
 });
 
 const assertItDisplaysPromptPage = () => {

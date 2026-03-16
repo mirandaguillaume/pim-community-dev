@@ -1,23 +1,23 @@
 import {Connection} from '@src/settings/components/Connection';
+import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-import {createMemoryHistory} from 'history';
 import * as React from 'react';
-import {Router} from 'react-router';
+import {MemoryRouter} from 'react-router-dom';
 import {act} from '@testing-library/react';
-import {renderWithProviders} from '../../../test-utils';
+import {renderWithProvidersNoRouter, LocationDisplay} from '../../../test-utils';
 
 describe('Connection', () => {
     it('should redirect to the edit connection page when clicked', async () => {
-        const history = createMemoryHistory();
-        const {getByText} = renderWithProviders(
-            <Router history={history}>
+        const {getByText} = renderWithProvidersNoRouter(
+            <MemoryRouter>
                 <Connection
                     code={'google-shopping'}
                     label={'Google Shopping'}
                     image={'a/b/c/path.jpg'}
                     hasWrongCombination={false}
                 />
-            </Router>
+                <LocationDisplay />
+            </MemoryRouter>
         );
 
         await act(async () => {
@@ -26,6 +26,7 @@ describe('Connection', () => {
             return Promise.resolve();
         });
 
-        expect(history.location.pathname).toBe('/connect/connection-settings/google-shopping/edit');
+        const locationEl = document.querySelector('[data-testid="location"]');
+        expect(locationEl).toHaveTextContent('/connect/connection-settings/google-shopping/edit');
     });
 });

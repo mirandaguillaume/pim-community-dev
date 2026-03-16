@@ -1,10 +1,10 @@
+import '@testing-library/jest-dom';
 import {act} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {createMemoryHistory} from 'history';
 import React from 'react';
-import {Route, Router} from 'react-router-dom';
+import {MemoryRouter, Route, Routes} from 'react-router-dom';
 import {RegenerateConnectionSecret} from '@src/settings/pages/RegenerateConnectionSecret';
-import {renderWithProviders} from '../../../test-utils';
+import {renderWithProvidersNoRouter, LocationDisplay} from '../../../test-utils';
 
 describe('testing RegenerateConnectionSecret page', () => {
     beforeEach(() => {
@@ -14,13 +14,13 @@ describe('testing RegenerateConnectionSecret page', () => {
     it('regenerates a connection secret', async () => {
         fetchMock.mockResponseOnce('{}');
 
-        const history = createMemoryHistory({initialEntries: ['/connections/franklin/regenerate-secret']});
-        const {getByText} = renderWithProviders(
-            <Router history={history}>
-                <Route path='/connections/:code/regenerate-secret'>
-                    <RegenerateConnectionSecret />
-                </Route>
-            </Router>
+        const {getByText} = renderWithProvidersNoRouter(
+            <MemoryRouter initialEntries={['/connections/franklin/regenerate-secret']}>
+                <Routes>
+                    <Route path='/connections/:code/regenerate-secret' element={<RegenerateConnectionSecret />} />
+                </Routes>
+                <LocationDisplay />
+            </MemoryRouter>
         );
 
         const regenerateButton = getByText('akeneo_connectivity.connection.regenerate_secret.action.regenerate');
@@ -39,6 +39,7 @@ describe('testing RegenerateConnectionSecret page', () => {
             method: 'POST',
         });
 
-        expect(history.location.pathname).toBe('/connect/connection-settings/franklin/edit');
+        const locationEl = document.querySelector('[data-testid="location"]');
+        expect(locationEl).toHaveTextContent('/connect/connection-settings/franklin/edit');
     });
 });

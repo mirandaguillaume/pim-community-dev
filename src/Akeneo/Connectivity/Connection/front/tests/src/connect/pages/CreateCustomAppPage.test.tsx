@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import {act, screen, waitFor} from '@testing-library/react';
 import fetchMock from 'jest-fetch-mock';
-import {historyMock, mockFetchResponses, renderWithProviders} from '../../../test-utils';
+import {LocationDisplay, mockFetchResponses, renderWithProviders} from '../../../test-utils';
 import {CreateCustomAppPage} from '@src/connect/pages/CreateCustomAppPage';
 import userEvent from '@testing-library/user-event';
 import {setLogger} from 'react-query';
@@ -15,7 +15,6 @@ setLogger({
 
 beforeEach(() => {
     fetchMock.resetMocks();
-    historyMock.reset();
     jest.clearAllMocks();
 });
 
@@ -30,7 +29,12 @@ test('it renders the form without credentials and display them when form is subm
         },
     });
 
-    renderWithProviders(<CreateCustomAppPage />);
+    renderWithProviders(
+        <>
+            <CreateCustomAppPage />
+            <LocationDisplay />
+        </>
+    );
 
     expect(
         screen.queryByText('akeneo_connectivity.connection.connect.custom_apps.create_modal.subtitle')
@@ -59,7 +63,7 @@ test('it renders the form without credentials and display them when form is subm
 
     userEvent.click(screen.getByTitle('pim_common.cancel'));
 
-    expect(historyMock.history.location.pathname).toBe('/akeneo_connectivity_connection_connect_marketplace');
+    expect(screen.getByTestId('location')).toHaveTextContent('/akeneo_connectivity_connection_connect_marketplace');
 });
 
 test('it displays form errors when invalid data is submitted', async () => {
@@ -107,7 +111,12 @@ test('it displays form errors when invalid data is submitted', async () => {
 });
 
 test('it redirects to the App store when modal is closed', () => {
-    renderWithProviders(<CreateCustomAppPage />);
+    renderWithProviders(
+        <>
+            <CreateCustomAppPage />
+            <LocationDisplay />
+        </>
+    );
 
     expect(
         screen.queryByText('akeneo_connectivity.connection.connect.custom_apps.create_modal.subtitle')
@@ -115,7 +124,7 @@ test('it redirects to the App store when modal is closed', () => {
 
     userEvent.click(screen.getByTitle('pim_common.cancel'));
 
-    expect(historyMock.history.location.pathname).toBe('/akeneo_connectivity_connection_connect_marketplace');
+    expect(screen.getByTestId('location')).toHaveTextContent('/akeneo_connectivity_connection_connect_marketplace');
 });
 
 const assertItDisplaysTheForm = () => {

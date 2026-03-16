@@ -1,5 +1,5 @@
 import React, {StrictMode} from 'react';
-import {HashRouter as Router, Route, Switch} from 'react-router-dom';
+import {createHashRouter, createRoutesFromElements, Route, RouterProvider} from 'react-router-dom';
 import {AkeneoThemeProvider} from './akeneo-theme-provider';
 import {withDependencies} from './dependencies-provider';
 import {ConnectedAppsListPage} from '../connect/pages/ConnectedAppsListPage';
@@ -19,32 +19,30 @@ const client = new QueryClient({
     },
 });
 
+const router = createHashRouter(
+    createRoutesFromElements(
+        <>
+            <Route
+                path='/connect/connected-apps/:connectionCode/regenerate-secret'
+                element={<RegenerateSecretPage />}
+            />
+            <Route
+                path='/connect/connected-apps/:connectionCode/catalogs/:catalogId'
+                element={<ConnectedAppCatalogPage />}
+            />
+            <Route path='/connect/connected-apps/:connectionCode/open' element={<OpenAppPage />} />
+            <Route path='/connect/connected-apps/:connectionCode/delete' element={<ConnectedAppDeletePage />} />
+            <Route path='/connect/connected-apps/:connectionCode' element={<ConnectedAppPage />} />
+            <Route path='/connect/connected-apps' element={<ConnectedAppsListPage />} />
+        </>
+    )
+);
+
 export const ConnectedApps = withDependencies(() => (
     <StrictMode>
         <QueryClientProvider client={client}>
             <AkeneoThemeProvider>
-                <Router>
-                    <Switch>
-                        <Route path='/connect/connected-apps/:connectionCode/regenerate-secret'>
-                            <RegenerateSecretPage />
-                        </Route>
-                        <Route path='/connect/connected-apps/:connectionCode/catalogs/:catalogId'>
-                            <ConnectedAppCatalogPage />
-                        </Route>
-                        <Route path='/connect/connected-apps/:connectionCode/open'>
-                            <OpenAppPage />
-                        </Route>
-                        <Route path='/connect/connected-apps/:connectionCode/delete'>
-                            <ConnectedAppDeletePage />
-                        </Route>
-                        <Route path='/connect/connected-apps/:connectionCode'>
-                            <ConnectedAppPage />
-                        </Route>
-                        <Route path='/connect/connected-apps'>
-                            <ConnectedAppsListPage />
-                        </Route>
-                    </Switch>
-                </Router>
+                <RouterProvider router={router} />
             </AkeneoThemeProvider>
         </QueryClientProvider>
     </StrictMode>

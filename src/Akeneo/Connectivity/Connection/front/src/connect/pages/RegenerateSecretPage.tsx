@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import {Modal, SettingsIllustration} from 'akeneo-design-system';
-import {useHistory, useParams} from 'react-router';
+import {useNavigate, useParams} from 'react-router-dom';
 import {useTranslate} from '../../shared/translate';
 import {NotificationLevel, useNotify} from '../../shared/notify';
 import {useRouter} from '../../shared/router/use-router';
@@ -13,10 +13,10 @@ type Step = 'confirm' | 'new_credentials';
 
 export const RegenerateSecretPage = () => {
     const translate = useTranslate();
-    const history = useHistory();
+    const navigate = useNavigate();
     const notify = useNotify();
     const generateUrl = useRouter();
-    const {connectionCode} = useParams<{connectionCode: string}>();
+    const {connectionCode} = useParams() as {connectionCode: string};
     const [step, setStep] = useState<Step>('confirm');
     const [secret, setSecret] = useState<string | null>(null);
 
@@ -25,7 +25,7 @@ export const RegenerateSecretPage = () => {
     const mutationRegenerateSecret = useRegenerateCustomAppSecret();
 
     const handleRedirect = () => {
-        history.push(
+        navigate(
             `${generateUrl('akeneo_connectivity_connection_connect_connected_apps_edit', {
                 connectionCode: connectionCode,
             })}`

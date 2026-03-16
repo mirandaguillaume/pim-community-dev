@@ -1,5 +1,5 @@
 import React, {FC, useCallback, useState} from 'react';
-import {useHistory} from 'react-router';
+import {useNavigate} from 'react-router-dom';
 import {AppIllustration, getColor, getFontSize, Modal} from 'akeneo-design-system';
 import styled from '../../common/styled-with-theme';
 import {useTranslate} from '../../shared/translate';
@@ -17,14 +17,14 @@ const Subtitle = styled.h3`
 `;
 
 export const CreateCustomAppPage: FC = () => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const generateUrl = useRouter();
     const translate = useTranslate();
     const [credentials, setCredentials] = useState<CustomAppCredentials | null>(null);
 
     const handleCloseModal = useCallback(() => {
-        history.push(generateUrl('akeneo_connectivity_connection_connect_marketplace'));
-    }, [history, generateUrl]);
+        navigate(generateUrl('akeneo_connectivity_connection_connect_marketplace'));
+    }, [navigate, generateUrl]);
 
     return (
         <Modal

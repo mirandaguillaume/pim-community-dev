@@ -1,7 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import fetchMock from 'jest-fetch-mock';
-import {historyMock, renderWithProviders} from '../../../test-utils';
+import {renderWithProviders} from '../../../test-utils';
 import {screen, waitFor} from '@testing-library/react';
 import {AppAuthorizePage} from '@src/connect/pages/AppAuthorizePage';
 import {FeatureFlagsContext} from '@src/shared/feature-flags';
@@ -9,7 +9,6 @@ import {useLocation} from 'react-router-dom';
 
 beforeEach(() => {
     fetchMock.resetMocks();
-    historyMock.reset();
 });
 
 jest.mock('@src/connect/components/AppWizard/AppWizard', () => ({

@@ -4,7 +4,7 @@ import React from 'react';
 import {MemoryRouter} from 'react-router-dom';
 import {ConnectionsProvider} from '@src/settings/connections-context';
 import {ListConnections} from '@src/settings/pages/ListConnections';
-import {renderWithProviders} from '../../../test-utils';
+import {renderWithProvidersNoRouter} from '../../../test-utils';
 import {WrongCredentialsCombinationsProvider} from '@src/settings/wrong-credentials-combinations-context';
 
 jest.mock('@src/shared/hooks/use-connections-limit-reached', () => ({
@@ -50,7 +50,7 @@ describe('testing ListConnections page', () => {
             })
         );
 
-        const {getByText} = renderWithProviders(
+        const {getByText} = renderWithProvidersNoRouter(
             <MemoryRouter>
                 <WrongCredentialsCombinationsProvider>
                     <ConnectionsProvider>

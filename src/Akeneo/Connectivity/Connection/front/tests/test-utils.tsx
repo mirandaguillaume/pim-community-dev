@@ -4,16 +4,13 @@ import React, {FC, PropsWithChildren} from 'react';
 import {ThemeProvider} from 'styled-components';
 import {theme} from '@src/common/styled-with-theme';
 import fetchMock from 'jest-fetch-mock';
-import {Router} from 'react-router-dom';
-import {createMemoryHistory} from 'history';
+import {MemoryRouter, useLocation} from 'react-router-dom';
 import {DependenciesContext} from '@akeneo-pim-community/shared';
 import {QueryClientProvider, QueryClient} from 'react-query';
 
-export const historyMock = {
-    history: createMemoryHistory(),
-    reset: () => {
-        historyMock.history = createMemoryHistory();
-    },
+export const LocationDisplay = () => {
+    const location = useLocation();
+    return <div data-testid='location'>{location.pathname}</div>;
 };
 
 const UserProvider: FC<PropsWithChildren> = ({children}) => {
@@ -49,7 +46,7 @@ export const ReactQueryWrapper: FC<PropsWithChildren> = ({children}) => {
 
     return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 };
-const DefaultProviders: FC<PropsWithChildren> = ({children}) => {
+export const ProvidersWithoutRouter: FC<PropsWithChildren> = ({children}) => {
     return (
         <ReactQueryWrapper>
             <DependenciesContext.Provider
@@ -64,12 +61,18 @@ const DefaultProviders: FC<PropsWithChildren> = ({children}) => {
                 }}
             >
                 <ThemeProvider theme={theme}>
-                    <UserProvider>
-                        <Router history={historyMock.history}>{children}</Router>
-                    </UserProvider>
+                    <UserProvider>{children}</UserProvider>
                 </ThemeProvider>
             </DependenciesContext.Provider>
         </ReactQueryWrapper>
+    );
+};
+
+const DefaultProviders: FC<PropsWithChildren> = ({children}) => {
+    return (
+        <ProvidersWithoutRouter>
+            <MemoryRouter>{children}</MemoryRouter>
+        </ProvidersWithoutRouter>
     );
 };
 
@@ -77,6 +80,8 @@ export const createWithProviders = (nextElement: React.ReactElement) =>
     render(<DefaultProviders>{nextElement}</DefaultProviders>);
 
 export const renderWithProviders = (ui: React.ReactElement) => render(ui, {wrapper: DefaultProviders});
+
+export const renderWithProvidersNoRouter = (ui: React.ReactElement) => render(ui, {wrapper: ProvidersWithoutRouter});
 
 export const fetchMockResponseOnce = (requestUrl: string, responseBody: string) =>
     fetchMock.mockResponseOnce(request =>

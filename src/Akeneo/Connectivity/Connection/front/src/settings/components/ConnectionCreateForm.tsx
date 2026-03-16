@@ -1,6 +1,6 @@
 import {Helper} from 'akeneo-design-system';
 import React, {ChangeEvent, Dispatch, RefObject, useEffect, useReducer, useRef} from 'react';
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {ApplyButton, Form, FormGroup, FormInput} from '../../common';
 import {FlowType} from '../../model/flow-type.enum';
 import {isErr} from '../../shared/fetch-result/result';
@@ -80,7 +80,7 @@ const useFormValidation = (
 };
 
 export const ConnectionCreateForm = () => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const translate = useTranslate();
     const notify = useNotify();
     const connectionsDispatch = useConnectionsDispatch();
@@ -129,7 +129,7 @@ export const ConnectionCreateForm = () => {
 
         connectionsDispatch(connectionFetched(result.value));
 
-        history.push(`/connect/connection-settings/${state.controls.code.value}/edit`);
+        navigate(`/connect/connection-settings/${state.controls.code.value}/edit`);
     };
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {

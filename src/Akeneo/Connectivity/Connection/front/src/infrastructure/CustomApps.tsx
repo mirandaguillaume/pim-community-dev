@@ -1,5 +1,5 @@
 import React, {StrictMode} from 'react';
-import {HashRouter as Router, Route, Switch} from 'react-router-dom';
+import {createHashRouter, createRoutesFromElements, Route, RouterProvider} from 'react-router-dom';
 import {QueryClientProvider, QueryClient} from 'react-query';
 import {AkeneoThemeProvider} from './akeneo-theme-provider';
 import {withDependencies} from './dependencies-provider';
@@ -15,20 +15,20 @@ const client = new QueryClient({
     },
 });
 
+const router = createHashRouter(
+    createRoutesFromElements(
+        <>
+            <Route path='/connect/custom-apps/create' element={<CreateCustomAppPage />} />
+            <Route path='/connect/custom-apps/:customAppId/delete' element={<DeleteCustomAppPromptPage />} />
+        </>
+    )
+);
+
 export const CustomApps = withDependencies(() => (
     <StrictMode>
         <QueryClientProvider client={client}>
             <AkeneoThemeProvider>
-                <Router>
-                    <Switch>
-                        <Route path='/connect/custom-apps/create'>
-                            <CreateCustomAppPage />
-                        </Route>
-                        <Route path='/connect/custom-apps/:customAppId/delete'>
-                            <DeleteCustomAppPromptPage />
-                        </Route>
-                    </Switch>
-                </Router>
+                <RouterProvider router={router} />
             </AkeneoThemeProvider>
         </QueryClientProvider>
     </StrictMode>

@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState} from 'react';
-import {useHistory} from 'react-router';
+import {useNavigate} from 'react-router-dom';
 import {NotificationLevel, useNotify} from '../../../shared/notify';
 import {useTranslate} from '../../../shared/translate';
 import {useConfirmAuthentication} from '../../hooks/use-confirm-authentication';
@@ -15,7 +15,7 @@ type Props = {
 export const AuthenticationModal: FC<Props> = ({clientId}) => {
     const translate = useTranslate();
     const notify = useNotify();
-    const history = useHistory();
+    const navigate = useNavigate();
     const [wizardData, setWizardData] = useState<AppWizardData | null>(null);
     const fetchWizardData = useFetchAppWizardData(clientId);
     const [scopesConsentGiven, setScopesConsent] = useState<boolean>(false);
@@ -37,7 +37,7 @@ export const AuthenticationModal: FC<Props> = ({clientId}) => {
         }
     };
 
-    const handleClose = () => history.push('/connect/connected-apps');
+    const handleClose = () => navigate('/connect/connected-apps');
 
     useEffect(() => {
         fetchWizardData().then(setWizardData);

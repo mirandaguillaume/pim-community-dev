@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import {screen, waitFor} from '@testing-library/react';
 import fetchMock from 'jest-fetch-mock';
-import {renderWithProviders, historyMock, MockFetchResponses, mockFetchResponses} from '../../../../test-utils';
+import {renderWithProviders, MockFetchResponses, mockFetchResponses} from '../../../../test-utils';
 import {ScopeList} from '@src/connect/components/ScopeList';
 import {ConnectedAppAuthorizations} from '@src/connect/components/ConnectedApp/ConnectedAppAuthorizations';
 
@@ -22,7 +22,6 @@ jest.mock('@src/connect/components/ScopeList', () => ({
 
 beforeEach(() => {
     fetchMock.resetMocks();
-    historyMock.reset();
     jest.clearAllMocks();
 });
 

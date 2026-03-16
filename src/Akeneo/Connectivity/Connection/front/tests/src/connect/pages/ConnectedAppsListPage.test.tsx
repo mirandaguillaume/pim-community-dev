@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import {screen, waitFor} from '@testing-library/react';
 import fetchMock from 'jest-fetch-mock';
-import {historyMock, MockFetchResponses, mockFetchResponses, renderWithProviders} from '../../../test-utils';
+import {MockFetchResponses, mockFetchResponses, renderWithProviders} from '../../../test-utils';
 import {ConnectedAppsListPage} from '@src/connect/pages/ConnectedAppsListPage';
 import {NotificationLevel, NotifyContext} from '@src/shared/notify';
 import {useFeatureFlags} from '@src/shared/feature-flags';
@@ -22,7 +22,6 @@ const notify = jest.fn();
 
 beforeEach(() => {
     fetchMock.resetMocks();
-    historyMock.reset();
     notify.mockClear();
 });
 

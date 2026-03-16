@@ -1,25 +1,29 @@
-import React from 'react';
-import {HashRouter as Router, Route, Switch} from 'react-router-dom';
+import React, {useMemo} from 'react';
+import {createHashRouter, createRoutesFromElements, Route, RouterProvider, useParams} from 'react-router-dom';
 import {JobExecutionList} from './pages/JobExecutionList';
 import {JobExecutionDetail} from './pages/JobExecutionDetail';
 
-const ProcessTrackerApp = () => (
-  <Router basename="/job">
-    <Switch>
-      <Route
-        path="/show/:jobExecutionId"
-        render={props => (
-          <JobExecutionDetail
-            key={props.match.params.jobExecutionId}
-            jobExecutionId={props.match.params.jobExecutionId}
-          />
-        )}
-      />
-      <Route path="/">
-        <JobExecutionList />
-      </Route>
-    </Switch>
-  </Router>
-);
+const JobExecutionDetailWrapper = () => {
+  const {jobExecutionId} = useParams();
+  return <JobExecutionDetail key={jobExecutionId} jobExecutionId={jobExecutionId!} />;
+};
+
+const ProcessTrackerApp = () => {
+  const router = useMemo(
+    () =>
+      createHashRouter(
+        createRoutesFromElements(
+          <>
+            <Route path="/show/:jobExecutionId" element={<JobExecutionDetailWrapper />} />
+            <Route path="/" element={<JobExecutionList />} />
+          </>
+        ),
+        {basename: '/job'}
+      ),
+    []
+  );
+
+  return <RouterProvider router={router} />;
+};
 
 export {ProcessTrackerApp};

@@ -1,11 +1,11 @@
 import {ConnectionsProvider} from '@src/settings/connections-context';
 import {CreateConnection} from '@src/settings/pages/CreateConnection';
+import '@testing-library/jest-dom';
 import {screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {createMemoryHistory} from 'history';
 import React from 'react';
-import {Route, Router} from 'react-router-dom';
-import {renderWithProviders} from '../../../test-utils';
+import {MemoryRouter, Route, Routes} from 'react-router-dom';
+import {renderWithProvidersNoRouter, LocationDisplay} from '../../../test-utils';
 
 describe('testing CreateConnection page', () => {
     beforeEach(() => {
@@ -15,15 +15,20 @@ describe('testing CreateConnection page', () => {
     it('creates a connection', async () => {
         fetchMock.mockResponseOnce('{}', {status: 201});
 
-        const history = createMemoryHistory({initialEntries: ['/connections/create']});
-        renderWithProviders(
-            <Router history={history}>
-                <Route path='/connections/create'>
-                    <ConnectionsProvider>
-                        <CreateConnection />
-                    </ConnectionsProvider>
-                </Route>
-            </Router>
+        renderWithProvidersNoRouter(
+            <MemoryRouter initialEntries={['/connections/create']}>
+                <Routes>
+                    <Route
+                        path='/connections/create'
+                        element={
+                            <ConnectionsProvider>
+                                <CreateConnection />
+                            </ConnectionsProvider>
+                        }
+                    />
+                </Routes>
+                <LocationDisplay />
+            </MemoryRouter>
         );
 
         const labelInput = screen.getByLabelText<HTMLInputElement>(
@@ -52,6 +57,9 @@ describe('testing CreateConnection page', () => {
             }),
         });
 
-        expect(history.location.pathname).toBe('/connect/connection-settings/magento/edit');
+        await waitFor(() => {
+            const locationEl = document.querySelector('[data-testid="location"]');
+            expect(locationEl).toHaveTextContent('/connect/connection-settings/magento/edit');
+        });
     });
 });

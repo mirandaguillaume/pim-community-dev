@@ -1,5 +1,5 @@
 import React, {useMemo} from 'react';
-import {HashRouter as Router, Route, Switch} from 'react-router-dom';
+import {createHashRouter, createRoutesFromElements, Route, RouterProvider} from 'react-router-dom';
 import {Edit, List} from './controllers';
 import {QueryClient, QueryClientProvider} from 'react-query';
 import styled from 'styled-components';
@@ -29,20 +29,25 @@ const IdentifierGeneratorApp: React.FC = () => {
     [isGranted]
   );
 
+  const router = useMemo(
+    () =>
+      createHashRouter(
+        createRoutesFromElements(
+          <>
+            <Route path="/:identifierGeneratorCode" element={<Edit />} />
+            <Route path="/" element={<List />} />
+          </>
+        ),
+        {basename: '/configuration/identifier-generator'}
+      ),
+    []
+  );
+
   return hasViewPermission ? (
     <ContainerApp>
       <QueryClientProvider client={queryClient}>
         <IdentifierGeneratorAclContextProvider>
-          <Router basename="/configuration/identifier-generator">
-            <Switch>
-              <Route path="/:identifierGeneratorCode">
-                <Edit />
-              </Route>
-              <Route path="/">
-                <List />
-              </Route>
-            </Switch>
-          </Router>
+          <RouterProvider router={router} />
         </IdentifierGeneratorAclContextProvider>
       </QueryClientProvider>
     </ContainerApp>

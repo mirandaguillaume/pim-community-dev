@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import {screen, waitFor} from '@testing-library/react';
 import fetchMock from 'jest-fetch-mock';
-import {renderWithProviders, historyMock} from '../../../test-utils';
+import {renderWithProviders} from '../../../test-utils';
 import {ConnectedAppCatalogContainer} from '@src/connect/components/ConnectedApp/Catalog/ConnectedAppCatalogContainer';
 import {useConnectedApp} from '@src/connect/hooks/use-connected-app';
 import {useCatalog} from '@akeneo-pim-community/catalogs';
@@ -10,7 +10,6 @@ import {ConnectedAppCatalogPage} from '@src/connect/pages/ConnectedAppCatalogPag
 
 beforeEach(() => {
     fetchMock.resetMocks();
-    historyMock.reset();
     jest.clearAllMocks();
 });
 

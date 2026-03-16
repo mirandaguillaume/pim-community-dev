@@ -2,13 +2,12 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import {screen} from '@testing-library/react';
 import fetchMock from 'jest-fetch-mock';
-import {renderWithProviders, historyMock} from '../../../../test-utils';
+import {renderWithProviders} from '../../../../test-utils';
 import {ScopeListContainer} from '@src/connect/components/AppWizard/ScopeListContainer';
 import {ScopeList} from '@src/connect/components/ScopeList';
 
 beforeEach(() => {
     fetchMock.resetMocks();
-    historyMock.reset();
     jest.clearAllMocks();
 });
 

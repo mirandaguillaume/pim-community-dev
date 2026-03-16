@@ -2,12 +2,11 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import {screen, waitFor} from '@testing-library/react';
 import fetchMock from 'jest-fetch-mock';
-import {renderWithProviders, historyMock} from '../../../../test-utils';
+import {renderWithProviders} from '../../../../test-utils';
 import ConnectedAppsContainerHelper from '@src/connect/components/ConnectedApps/ConnectedAppsContainerHelper';
 
 beforeEach(() => {
     fetchMock.resetMocks();
-    historyMock.reset();
 });
 
 test('The connected apps list helper renders', async () => {
