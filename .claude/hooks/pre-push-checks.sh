@@ -22,19 +22,41 @@ COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null) || e
 [ -z "$COMMAND" ] && exit 0
 echo "$COMMAND" | grep -qE 'git\s+push' || exit 0
 
+# ── Resolve worktree: if pushing a branch checked out in a worktree, cd there ──
+# Extract branch name from: git push origin <branch> or git push -u origin <branch>
+PUSH_BRANCH=$(echo "$COMMAND" | grep -oP 'git\s+push\s+(?:-u\s+)?\S+\s+\K\S+' || true)
+if [ -n "$PUSH_BRANCH" ]; then
+    # Find worktree for this branch
+    WT_PATH=$(git worktree list --porcelain 2>/dev/null | awk -v b="$PUSH_BRANCH" '
+        /^worktree / { wt=$2 }
+        /^branch / { if ($2 == "refs/heads/" b) print wt }
+    ')
+    if [ -n "$WT_PATH" ] && [ -d "$WT_PATH" ] && [ "$WT_PATH" != "$(pwd)" ]; then
+        cd "$WT_PATH"
+    fi
+fi
+
 BASE="origin/master"
 ERRORS=""
+DIFF_REF="HEAD"
+
+# If we're in a worktree without a real vendor dir, Docker tests can't run.
+# Skip them (CI will catch any issues) but still run non-Docker checks.
+SKIP_DOCKER=false
+if [ -L "vendor" ] || [ ! -d "vendor/bin" ]; then
+    SKIP_DOCKER=true
+fi
 
 # ── Detect changed file types (mirrors detect-changes job) ──
-CHANGED_PHP=$(git diff --name-only "$BASE"...HEAD -- '*.php' 2>/dev/null || true)
-CHANGED_FRONT=$(git diff --name-only "$BASE"...HEAD -- \
+CHANGED_PHP=$(git diff --name-only "$BASE"..."$DIFF_REF" -- '*.php' 2>/dev/null || true)
+CHANGED_FRONT=$(git diff --name-only "$BASE"..."$DIFF_REF" -- \
     'front-packages/**' 'frontend/**' 'yarn.lock' 'package.json' \
     'webpack*.js' 'babel.config.*' 'jest.config.*' '.eslintrc*' 'tsconfig*.json' \
     'src/**/*.ts' 'src/**/*.tsx' 'src/**/*.js' 'src/**/*.jsx' \
     'components/**/*.ts' 'components/**/*.tsx' \
     2>/dev/null || true)
-CHANGED_SPECS=$(git diff --name-only "$BASE"...HEAD -- '*.spec.ts' 2>/dev/null || true)
-CHANGED_FIXTURES=$(git diff --name-only "$BASE"...HEAD -- 'tests/front/e2e/fixtures/*.ts' 2>/dev/null || true)
+CHANGED_SPECS=$(git diff --name-only "$BASE"..."$DIFF_REF" -- '*.spec.ts' 2>/dev/null || true)
+CHANGED_FIXTURES=$(git diff --name-only "$BASE"..."$DIFF_REF" -- 'tests/front/e2e/fixtures/*.ts' 2>/dev/null || true)
 
 # ══════════════════════════════════════════════════════════════════════════════
 # FRONTEND CHECKS (mirrors: front-lint + front-unit)
@@ -125,17 +147,17 @@ fi
 if [ -n "$CHANGED_PHP" ]; then
 
     # ── phpspec: full PHPSpec suite (mirrors `castor test:unit-back`, no MySQL) ──
-    if command -v docker-compose >/dev/null 2>&1; then
+    if [ "$SKIP_DOCKER" = true ]; then
+        echo "SKIP: PHPSpec/PHPUnit (worktree without vendor — CI will validate)" >&2
+    elif command -v docker-compose >/dev/null 2>&1; then
         PHPSPEC_EXIT=0
         PHPSPEC_RESULT=$(docker-compose run --rm -T php php vendor/bin/phpspec run 2>&1) || PHPSPEC_EXIT=$?
         if [ "$PHPSPEC_EXIT" -ne 0 ]; then
             FAIL_SUMMARY=$(echo "$PHPSPEC_RESULT" | grep -E '^[0-9]+ examples' | tail -1 || echo "exit code $PHPSPEC_EXIT")
             ERRORS="$ERRORS\n- PHPSPEC: $FAIL_SUMMARY"
         fi
-    fi
 
-    # ── phpunit-unit: unit + acceptance tests via meta-suite (no MySQL) ──
-    if command -v docker-compose >/dev/null 2>&1; then
+        # ── phpunit-unit: unit + acceptance tests via meta-suite (no MySQL) ──
         PHPUNIT_EXIT=0
         PHPUNIT_UNIT_RESULT=$(APP_ENV=test_fake docker-compose run --rm -T php php vendor/bin/phpunit -c . --testsuite PHPUnit_Unit_Test --no-coverage 2>&1) || PHPUNIT_EXIT=$?
         if [ "$PHPUNIT_EXIT" -ne 0 ]; then
@@ -145,18 +167,20 @@ if [ -n "$CHANGED_PHP" ]; then
     fi
 
     # ── coupling: architecture coupling checks per bounded context ──
-    for ctx in "Pim/Structure" "Pim/Enrichment" "Channel" "Connectivity/Connection" "Platform/Job" "Platform/Installer"; do
-        if echo "$CHANGED_PHP" | grep -q "src/Akeneo/$ctx/"; then
-            CD_CONFIG=$(find "src/Akeneo/$ctx" -name ".php_cd.php" -maxdepth 3 2>/dev/null | head -1 || true)
-            if [ -n "$CD_CONFIG" ]; then
-                RESULT=$(docker-compose run --rm -T php php vendor/bin/php-coupling-detector detect --config-file="$CD_CONFIG" 2>&1 || true)
-                if echo "$RESULT" | grep -qiE 'violation|error'; then
-                    CTX_NAME=$(dirname "$CD_CONFIG" | sed 's|src/Akeneo/||')
-                    ERRORS="$ERRORS\n- COUPLING ($CTX_NAME): violations detected"
+    if [ "$SKIP_DOCKER" != true ]; then
+        for ctx in "Pim/Structure" "Pim/Enrichment" "Channel" "Connectivity/Connection" "Platform/Job" "Platform/Installer"; do
+            if echo "$CHANGED_PHP" | grep -q "src/Akeneo/$ctx/"; then
+                CD_CONFIG=$(find "src/Akeneo/$ctx" -name ".php_cd.php" -maxdepth 3 2>/dev/null | head -1 || true)
+                if [ -n "$CD_CONFIG" ]; then
+                    RESULT=$(docker-compose run --rm -T php php vendor/bin/php-coupling-detector detect --config-file="$CD_CONFIG" 2>&1 || true)
+                    if echo "$RESULT" | grep -qiE 'violation|error'; then
+                        CTX_NAME=$(dirname "$CD_CONFIG" | sed 's|src/Akeneo/||')
+                        ERRORS="$ERRORS\n- COUPLING ($CTX_NAME): violations detected"
+                    fi
                 fi
             fi
-        fi
-    done
+        done
+    fi
 fi
 
 # ══════════════════════════════════════════════════════════════════════════════
