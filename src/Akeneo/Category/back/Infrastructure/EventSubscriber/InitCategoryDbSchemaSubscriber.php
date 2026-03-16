@@ -7,19 +7,13 @@ namespace Akeneo\Category\Infrastructure\EventSubscriber;
 use Akeneo\Platform\Installer\Infrastructure\Event\InstallerEvent;
 use Akeneo\Platform\Installer\Infrastructure\Event\InstallerEvents;
 use Doctrine\DBAL\Connection;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-class InitCategoryDbSchemaSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: InstallerEvents::POST_DB_CREATE, method: 'initDbSchema')]
+class InitCategoryDbSchemaSubscriber
 {
     public function __construct(private readonly Connection $dbalConnection)
     {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            InstallerEvents::POST_DB_CREATE => 'initDbSchema',
-        ];
     }
 
     public function initDbSchema(InstallerEvent $event): void

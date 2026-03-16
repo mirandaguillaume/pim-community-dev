@@ -14,11 +14,14 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Messenger\Exception\TransportException;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * @copyright 202O Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+#[AsEventListener(event: StorageEvents::POST_REMOVE, method: 'createAndDispatchPimEvents')]
+#[AsEventListener(event: StorageEvents::POST_REMOVE_ALL, method: 'dispatchBufferedPimEvents')]
 final class DispatchProductRemovedEventSubscriber implements DispatchBufferedPimEventSubscriberInterface
 {
     /** @var array<ProductRemoved> */
@@ -26,14 +29,6 @@ final class DispatchProductRemovedEventSubscriber implements DispatchBufferedPim
 
     public function __construct(private readonly Security $security, private readonly MessageBusInterface $messageBus, private readonly int $maxBulkSize, private readonly LoggerInterface $logger, private readonly LoggerInterface $loggerBusinessEvent)
     {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::POST_REMOVE => 'createAndDispatchPimEvents',
-            StorageEvents::POST_REMOVE_ALL => 'dispatchBufferedPimEvents',
-        ];
     }
 
     public function createAndDispatchPimEvents(GenericEvent $postSaveEvent): void

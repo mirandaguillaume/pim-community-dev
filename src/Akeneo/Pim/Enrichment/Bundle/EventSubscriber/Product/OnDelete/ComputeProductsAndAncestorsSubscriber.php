@@ -9,7 +9,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
 use Akeneo\Tool\Component\StorageUtils\Event\RemoveEvent;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Removes products from the search engine. Also, reindexes the ancestor product models, as the deletion of products
@@ -18,23 +18,14 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final readonly class ComputeProductsAndAncestorsSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::POST_REMOVE, method: 'deleteProduct')]
+#[AsEventListener(event: StorageEvents::POST_REMOVE_ALL, method: 'deleteProducts')]
+final readonly class ComputeProductsAndAncestorsSubscriber
 {
     public function __construct(
         private ProductAndAncestorsIndexer $productAndAncestorsIndexer,
         private Client $esClient
     ) {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::POST_REMOVE => ['deleteProduct'],
-            StorageEvents::POST_REMOVE_ALL => ['deleteProducts'],
-        ];
     }
 
     public function deleteProduct(RemoveEvent $event): void

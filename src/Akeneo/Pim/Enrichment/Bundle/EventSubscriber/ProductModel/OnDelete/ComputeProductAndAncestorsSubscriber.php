@@ -10,7 +10,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
 use Akeneo\Tool\Component\StorageUtils\Event\RemoveEvent;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * On product models delete:
@@ -21,20 +21,14 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final readonly class ComputeProductAndAncestorsSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::POST_REMOVE, method: 'onProductModelRemove')]
+#[AsEventListener(event: StorageEvents::POST_REMOVE_ALL, method: 'onProductModelRemoveAll')]
+final readonly class ComputeProductAndAncestorsSubscriber
 {
     public function __construct(
         private ProductModelDescendantsAndAncestorsIndexer $productModelDescendantsAndAncestorsIndexer,
         private Client $esClient
     ) {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::POST_REMOVE => 'onProductModelRemove',
-            StorageEvents::POST_REMOVE_ALL => 'onProductModelRemoveAll',
-        ];
     }
 
     public function onProductModelRemove(RemoveEvent $event): void

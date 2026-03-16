@@ -6,12 +6,12 @@ use Akeneo\Tool\Bundle\ApiBundle\Negotiator\ContentTypeNegotiator;
 use FOS\RestBundle\FOSRestBundle;
 use FOS\RestBundle\Negotiation\FormatNegotiator;
 use FOS\RestBundle\Util\StopFormatListenerException;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException;
 use Symfony\Component\HttpKernel\Exception\UnsupportedMediaTypeHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Check headers for the API:
@@ -22,7 +22,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class CheckHeadersRequestSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: KernelEvents::REQUEST, method: 'onKernelRequest')]
+class CheckHeadersRequestSubscriber
 {
     /** @var FormatNegotiator */
     protected $formatNegotiator;
@@ -36,16 +37,6 @@ class CheckHeadersRequestSubscriber implements EventSubscriberInterface
     ) {
         $this->formatNegotiator = $formatNegotiator;
         $this->contentTypeNegotiator = $contentTypeNegotiator;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            KernelEvents::REQUEST => 'onKernelRequest',
-        ];
     }
 
     /**

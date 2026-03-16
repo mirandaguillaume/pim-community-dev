@@ -23,15 +23,13 @@ services:
         arguments:
             - '@security.authorization_checker'
             - '@security.token_storage'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 
     pim_versioning.event_subscriber.addcontext:
         class: '%pim_versioning.event_subscriber.addcontext.class%'
         arguments:
             - '@pim_versioning.context.version'
-        tags:
-            - { name: kernel.event_subscriber}
+        autoconfigure: true
 
     pim_versioning.event_subscriber.add_remove_version:
         class: '%pim_versioning.event_subscriber.add_remove_version.class%'
@@ -41,13 +39,11 @@ services:
             - '@security.token_storage'
             - '@security.authorization_checker'
             - '@pim_versioning.saver.version'
-        tags:
-            - { name: kernel.event_subscriber, priority: 0 }
+        autoconfigure: true
 
     pim_versioning.event_subscriber.purge_progress_bar_advancer:
         class: '%pim_versioning.event_subscriber.purge_progress_bar_advancer.class%'
-        tags:
-            - { name: kernel.event_subscriber, priority: 0 }
+        autoconfigure: true
 
     pim_versioning.event_subscriber.timestampable:
         class: '%pim_versioning.event_subscriber.timestampable.class%'
@@ -60,6 +56,5 @@ services:
         arguments:
             - '@Akeneo\Tool\Bundle\BatchBundle\JobExecution\ExecuteJobExecutionHandlerInterface'
             - '@Akeneo\Tool\Bundle\BatchBundle\JobExecution\CreateJobExecutionHandlerInterface'
-        tags:
-            - { name: 'kernel.event_subscriber' }
+        autoconfigure: true
 

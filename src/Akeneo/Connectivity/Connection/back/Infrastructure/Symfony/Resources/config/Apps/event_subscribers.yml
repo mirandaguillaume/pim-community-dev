@@ -2,9 +2,7 @@ services:
     Akeneo\Connectivity\Connection\Infrastructure\Apps\EventSubscriber\AccessDeniedForRevokedAppTokenEventSubscriber:
         arguments:
             - '@Akeneo\Connectivity\Connection\Infrastructure\Apps\Persistence\IsAccessTokenRevokedQuery'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 
     Akeneo\Connectivity\Connection\Infrastructure\Apps\EventSubscriber\GroupAllIsRemovedFromUsersUsedByAppsOnUpdateEventSubscriber:
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true

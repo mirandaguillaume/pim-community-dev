@@ -8,27 +8,21 @@ use Akeneo\Connectivity\Connection\Domain\Webhook\Event\EventsApiRequestFailedEv
 use Akeneo\Connectivity\Connection\Domain\Webhook\Event\EventsApiRequestSucceededEvent;
 use Akeneo\Connectivity\Connection\Domain\Webhook\Event\MessageProcessedEvent;
 use Akeneo\Connectivity\Connection\Domain\Webhook\Persistence\Query\UpdateEventsApiRequestCountQueryInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class EventsApiRequestsLimitIncrementSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: EventsApiRequestSucceededEvent::class, method: 'incrementRequestCount')]
+#[AsEventListener(event: EventsApiRequestFailedEvent::class, method: 'incrementRequestCount')]
+#[AsEventListener(event: MessageProcessedEvent::class, method: 'saveRequestCount')]
+final class EventsApiRequestsLimitIncrementSubscriber
 {
     private int $count = 0;
 
     public function __construct(private readonly UpdateEventsApiRequestCountQueryInterface $updateEventsApiRequestCountQuery)
     {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            EventsApiRequestSucceededEvent::class => 'incrementRequestCount',
-            EventsApiRequestFailedEvent::class => 'incrementRequestCount',
-            MessageProcessedEvent::class => 'saveRequestCount',
-        ];
     }
 
     public function incrementRequestCount(): int

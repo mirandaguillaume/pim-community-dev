@@ -6,23 +6,17 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Subscriber\Pr
 
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\Event\ProductModelsEvaluated;
 use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Elasticsearch\BulkUpdateProductQualityScoresInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final readonly class BulkUpdateProductModelQualityScoresIndexSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: ProductModelsEvaluated::class, method: 'bulkUpdateProductModelQualityScoresIndex')]
+final readonly class BulkUpdateProductModelQualityScoresIndexSubscriber
 {
     public function __construct(private BulkUpdateProductQualityScoresInterface $bulkUpdateProductQualityScores)
     {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            ProductModelsEvaluated::class => 'bulkUpdateProductModelQualityScoresIndex',
-        ];
     }
 
     public function bulkUpdateProductModelQualityScoresIndex(ProductModelsEvaluated $event): void

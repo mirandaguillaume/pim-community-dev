@@ -11,15 +11,19 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface;
 use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /*
  * @copyright 2023 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class ProductModelWasCreatedOrUpdatedSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::PRE_SAVE, method: 'recordCreatedProductModel')]
+#[AsEventListener(event: StorageEvents::PRE_SAVE_ALL, method: 'recordCreatedProductModels')]
+#[AsEventListener(event: StorageEvents::POST_SAVE, method: 'dispatchProductModelWasUpdatedMessage')]
+#[AsEventListener(event: StorageEvents::POST_SAVE_ALL, method: 'dispatchProductModelsWereUpdatedMessage')]
+class ProductModelWasCreatedOrUpdatedSubscriber
 {
     /**
      * @var array<string, bool>
@@ -34,16 +38,6 @@ class ProductModelWasCreatedOrUpdatedSubscriber implements EventSubscriberInterf
         private readonly FeatureFlag $featureFlag,
         private readonly int $batchSize = 100,
     ) {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::PRE_SAVE => 'recordCreatedProductModel',
-            StorageEvents::PRE_SAVE_ALL => 'recordCreatedProductModels',
-            StorageEvents::POST_SAVE => 'dispatchProductModelWasUpdatedMessage',
-            StorageEvents::POST_SAVE_ALL => 'dispatchProductModelsWereUpdatedMessage',
-        ];
     }
 
     public function recordCreatedProductModel(GenericEvent $event): void

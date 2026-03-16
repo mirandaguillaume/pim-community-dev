@@ -4,9 +4,9 @@ namespace Akeneo\Tool\Bundle\VersioningBundle\EventSubscriber;
 
 use Akeneo\Tool\Bundle\VersioningBundle\Event\BuildVersionEvent;
 use Akeneo\Tool\Bundle\VersioningBundle\Event\BuildVersionEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Add current user
@@ -15,7 +15,8 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class AddUserSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: BuildVersionEvents::PRE_BUILD, method: 'preBuild')]
+class AddUserSubscriber
 {
     /** @var TokenStorageInterface */
     protected $tokenStorage;
@@ -29,16 +30,6 @@ class AddUserSubscriber implements EventSubscriberInterface
     ) {
         $this->tokenStorage = $tokenStorage;
         $this->authorizationChecker = $authorizationChecker;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            BuildVersionEvents::PRE_BUILD => 'preBuild',
-        ];
     }
 
     /**

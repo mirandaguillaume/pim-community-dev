@@ -7,19 +7,16 @@ services:
         arguments:
             - '@fos_rest.format_negotiator'
             - '@pim_api.negotiator.content_type_negotiator'
-        tags:
-            - { name: kernel.event_subscriber, event: kernel.request, method: onKernelRequest }
+        autoconfigure: true
 
     Akeneo\Tool\Bundle\ApiBundle\EventSubscriber\ApiRequestLogSubscriber:
         arguments:
             - '@Akeneo\Tool\Bundle\ApiBundle\Security\Firewall'
             - '@security.token_storage'
             - '@monolog.logger.api_requests'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 
     Akeneo\Tool\Bundle\ApiBundle\EventSubscriber\ValidateApiRequestQueryParametersSubscriber:
         arguments:
             - '@Akeneo\Tool\Bundle\ApiBundle\Security\Firewall'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true

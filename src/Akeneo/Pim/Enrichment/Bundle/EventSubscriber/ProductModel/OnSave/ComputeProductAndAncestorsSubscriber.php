@@ -9,8 +9,8 @@ use Akeneo\Pim\Enrichment\Bundle\Product\ComputeAndPersistProductCompletenesses;
 use Akeneo\Pim\Enrichment\Bundle\Storage\Sql\ProductModel\GetDescendantVariantProductUuids;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Orchestrator for below jobs on update:
@@ -22,21 +22,15 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final readonly class ComputeProductAndAncestorsSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::POST_SAVE, method: 'onProductModelSave')]
+#[AsEventListener(event: StorageEvents::POST_SAVE_ALL, method: 'onProductModelSaveAll')]
+final readonly class ComputeProductAndAncestorsSubscriber
 {
     public function __construct(
         private ComputeAndPersistProductCompletenesses $computeAndPersistProductCompletenesses,
         private ProductModelDescendantsAndAncestorsIndexer $productModelDescendantsAndAncestorsIndexer,
         private GetDescendantVariantProductUuids $getDescendantVariantProductUuids
     ) {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::POST_SAVE => 'onProductModelSave',
-            StorageEvents::POST_SAVE_ALL => 'onProductModelSaveAll',
-        ];
     }
 
     public function onProductModelSave(GenericEvent $event): void

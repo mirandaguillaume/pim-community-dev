@@ -6,8 +6,8 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\EntityWithQuantifiedAssociatio
 use Akeneo\Pim\Enrichment\Component\Product\Query\QuantifiedAssociation\GetIdMappingFromProductModelCodesQueryInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Query\QuantifiedAssociation\GetUuidMappingQueryInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Computes the raw quantified association from the QuantifiedAssociation VO,
@@ -17,20 +17,13 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ComputeEntitySubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::PRE_SAVE, method: 'computeRawQuantifiedAssociations')]
+final class ComputeEntitySubscriber
 {
     public function __construct(
         protected GetUuidMappingQueryInterface $getUuidMappingQuery,
         protected GetIdMappingFromProductModelCodesQueryInterface $getIdMappingFromProductModelCodes
     ) {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [StorageEvents::PRE_SAVE => 'computeRawQuantifiedAssociations'];
     }
 
     /**

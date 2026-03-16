@@ -12,14 +12,15 @@ use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Doctrine\DBAL\Connection;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\UuidInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final readonly class InitializeEvaluationOfAProductSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::POST_SAVE, method: 'onPostSave', priority: 10)]
+final readonly class InitializeEvaluationOfAProductSubscriber
 {
     public function __construct(
         private FeatureFlag                     $dataQualityInsightsFeature,
@@ -27,14 +28,6 @@ final readonly class InitializeEvaluationOfAProductSubscriber implements EventSu
         private LoggerInterface                 $logger,
         private ProductEntityIdFactoryInterface $idFactory
     ) {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            // Priority greater than zero to ensure that the evaluation is done prior to the re-indexation of the product in ES
-            StorageEvents::POST_SAVE => ['onPostSave', 10],
-        ];
     }
 
     public function onPostSave(GenericEvent $event): void

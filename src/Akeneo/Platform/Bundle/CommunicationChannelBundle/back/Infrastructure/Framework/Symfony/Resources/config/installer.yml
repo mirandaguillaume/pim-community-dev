@@ -3,5 +3,4 @@ services:
         class: Akeneo\Platform\CommunicationChannel\Infrastructure\Framework\Symfony\Installer\InstallerSubscriber
         arguments:
             - '@database_connection'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true

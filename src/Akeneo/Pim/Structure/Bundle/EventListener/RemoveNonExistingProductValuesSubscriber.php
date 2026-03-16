@@ -10,26 +10,20 @@ use Akeneo\Tool\Bundle\BatchBundle\Launcher\JobLauncherInterface;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
 use Akeneo\Tool\Component\Batch\Query\CreateJobInstanceInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * @author    Nicolas Marniesse <nicolas.marniesse@akeneo.com>
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class RemoveNonExistingProductValuesSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::POST_REMOVE, method: 'launchRemoveNonExistingProductValuesJob')]
+final class RemoveNonExistingProductValuesSubscriber
 {
     public function __construct(private readonly TokenStorageInterface $tokenStorage, private readonly JobInstanceRepository $jobInstanceRepository, private readonly JobLauncherInterface $jobLauncher, private readonly string $jobName, public CreateJobInstanceInterface $createJobInstance)
     {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::POST_REMOVE => 'launchRemoveNonExistingProductValuesJob',
-        ];
     }
 
     public function launchRemoveNonExistingProductValuesJob(GenericEvent $event): void

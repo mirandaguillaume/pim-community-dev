@@ -4,7 +4,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\StructureVersion\EventListener;
 
 use Akeneo\Platform\Installer\Infrastructure\Event\InstallerEvents;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Listener on the install command to create the structure version table
@@ -13,20 +13,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class TableCreator implements EventSubscriberInterface
+#[AsEventListener(event: InstallerEvents::POST_DB_CREATE, method: 'onPostDBCreate')]
+class TableCreator
 {
     public function __construct(protected ManagerRegistry $doctrine)
     {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            InstallerEvents::POST_DB_CREATE => 'onPostDBCreate',
-        ];
     }
 
     /**

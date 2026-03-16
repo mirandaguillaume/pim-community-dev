@@ -10,7 +10,7 @@ use Akeneo\Tool\Component\Batch\Event\JobExecutionEvent;
 use Akeneo\Tool\Component\Batch\Job\ExitStatus;
 use Akeneo\Tool\Component\Batch\Job\JobParameters;
 use Akeneo\Tool\Component\Batch\Model\JobExecution;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Job execution notifier
@@ -19,22 +19,13 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * @copyright 2014 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class JobExecutionNotifier implements EventSubscriberInterface
+#[AsEventListener(event: EventInterface::AFTER_JOB_EXECUTION, method: 'afterJobExecution')]
+class JobExecutionNotifier
 {
     public function __construct(
         private readonly NotificationFactoryRegistry $factoryRegistry,
         private readonly NotifierInterface $notifier,
     ) {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            EventInterface::AFTER_JOB_EXECUTION => 'afterJobExecution',
-        ];
     }
 
     public function afterJobExecution(JobExecutionEvent $event): void

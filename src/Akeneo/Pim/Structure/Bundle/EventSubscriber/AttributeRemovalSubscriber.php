@@ -11,16 +11,17 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * This subscriber listens on attribute removals, blacklists the removed attribute code
  * and launches the cleaning removed attribute values job when the batch size is reached
  */
-class AttributeRemovalSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::POST_REMOVE, method: 'blacklistAttributeCodeAndLaunchJob')]
+class AttributeRemovalSubscriber
 {
     private const JOB_NAME = 'clean_removed_attribute_job';
     private const BATCH_SIZE = 1000;
@@ -35,13 +36,6 @@ class AttributeRemovalSubscriber implements EventSubscriberInterface
         private readonly TokenStorageInterface $tokenStorage,
         private readonly EventDispatcherInterface $eventDispatcher
     ) {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::POST_REMOVE => 'blacklistAttributeCodeAndLaunchJob',
-        ];
     }
 
     public function blacklistAttributeCodeAndLaunchJob(GenericEvent $event): void

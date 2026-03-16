@@ -6,7 +6,7 @@ use Akeneo\Tool\Bundle\VersioningBundle\Manager\VersionContext;
 use Akeneo\Tool\Component\Batch\Event\EventInterface;
 use Akeneo\Tool\Component\Batch\Event\JobExecutionEvent;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Add context in version data
@@ -15,7 +15,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class AddContextSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: EventInterface::BEFORE_JOB_EXECUTION, method: 'addContext')]
+class AddContextSubscriber
 {
     /**
      * @var VersionContext
@@ -28,16 +29,6 @@ class AddContextSubscriber implements EventSubscriberInterface
     public function __construct(VersionContext $versionContext)
     {
         $this->versionContext = $versionContext;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            EventInterface::BEFORE_JOB_EXECUTION => 'addContext',
-        ];
     }
 
     /**

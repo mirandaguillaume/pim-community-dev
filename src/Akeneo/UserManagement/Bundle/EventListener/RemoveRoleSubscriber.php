@@ -7,13 +7,14 @@ use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Akeneo\UserManagement\Component\Exception\ForbiddenToRemoveRoleException;
 use Akeneo\UserManagement\Component\Model\RoleInterface;
 use Akeneo\UserManagement\Component\Storage\Query\GetUserCountInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class RemoveRoleSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::PRE_REMOVE, method: 'checkRoleIsRemovable')]
+class RemoveRoleSubscriber
 {
     public function __construct(private readonly GetUserCountInterface $getUserCount)
     {
@@ -33,12 +34,5 @@ class RemoveRoleSubscriber implements EventSubscriberInterface
         if (0 < $this->getUserCount->forUsersHavingOnlyRole($role->getRole())) {
             throw new ForbiddenToRemoveRoleException('You can not delete this role because it is used by either users or connections.');
         }
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::PRE_REMOVE => [['checkRoleIsRemovable']],
-        ];
     }
 }

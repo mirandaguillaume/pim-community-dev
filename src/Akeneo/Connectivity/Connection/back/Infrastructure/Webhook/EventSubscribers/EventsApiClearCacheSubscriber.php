@@ -6,7 +6,7 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\Webhook\EventSubscribers
 
 use Akeneo\Connectivity\Connection\Application\Webhook\Service\CacheClearerInterface;
 use Akeneo\Connectivity\Connection\Domain\Webhook\Event\MessageProcessedEvent;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Clear all caches (LRU, ...) when a Message has been fully processed.
@@ -15,17 +15,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final readonly class EventsApiClearCacheSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: MessageProcessedEvent::class, method: 'clearCache')]
+final readonly class EventsApiClearCacheSubscriber
 {
     public function __construct(private CacheClearerInterface $cacheClearer)
     {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            MessageProcessedEvent::class => 'clearCache',
-        ];
     }
 
     public function clearCache(): void

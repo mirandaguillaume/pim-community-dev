@@ -9,25 +9,19 @@ use Akeneo\Tool\Component\Batch\Model\JobInstance;
 use Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Doctrine\Persistence\ObjectRepository;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * @author    Julian Prud'Homme <julian.prudhomme@akeneo.com>
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class RemoveAttributeFiltersInJobInstancesOnAttributeDeletion implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::POST_REMOVE, method: 'removeDeletedAttributeFromJobInstancesFilters')]
+class RemoveAttributeFiltersInJobInstancesOnAttributeDeletion
 {
     public function __construct(private readonly ObjectRepository $jobInstanceRepository, private readonly BulkSaverInterface $bulkSaver)
     {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::POST_REMOVE => 'removeDeletedAttributeFromJobInstancesFilters',
-        ];
     }
 
     public function removeDeletedAttributeFromJobInstancesFilters(GenericEvent $event): void

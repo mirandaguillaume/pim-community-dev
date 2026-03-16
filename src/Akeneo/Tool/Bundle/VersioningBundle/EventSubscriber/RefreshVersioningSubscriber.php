@@ -7,13 +7,14 @@ namespace Akeneo\Tool\Bundle\VersioningBundle\EventSubscriber;
 use Akeneo\Platform\Installer\Infrastructure\Event\InstallerEvents;
 use Akeneo\Tool\Bundle\BatchBundle\JobExecution\CreateJobExecutionHandlerInterface;
 use Akeneo\Tool\Bundle\BatchBundle\JobExecution\ExecuteJobExecutionHandlerInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-class RefreshVersioningSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: InstallerEvents::POST_LOAD_FIXTURES, method: 'refreshVersioning', priority: 200)]
+class RefreshVersioningSubscriber
 {
     private const JOB_CODE = 'versioning_refresh';
 
@@ -21,15 +22,6 @@ class RefreshVersioningSubscriber implements EventSubscriberInterface
         private readonly ExecuteJobExecutionHandlerInterface $jobExecutionRunner,
         private readonly CreateJobExecutionHandlerInterface $jobExecutionFactory,
     ) {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            InstallerEvents::POST_LOAD_FIXTURES => [
-                ['refreshVersioning', 200],
-            ],
-        ];
     }
 
     public function refreshVersioning(): void

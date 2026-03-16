@@ -7,14 +7,15 @@ namespace Akeneo\Pim\Structure\Bundle\EventSubscriber;
 use Akeneo\Pim\Structure\Component\Model\AttributeOptionInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ApiAggregatorForAttributeOptionPostSaveEventSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::POST_SAVE, method: 'aggregateEvent', priority: 10000)]
+final class ApiAggregatorForAttributeOptionPostSaveEventSubscriber
 {
     private bool $isActivated;
 
@@ -24,14 +25,6 @@ final class ApiAggregatorForAttributeOptionPostSaveEventSubscriber implements Ev
     {
         $this->isActivated = false;
         $this->eventsAttributesOptions = [];
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            // Priority must be high in order to catch events before any other subscribers.
-            StorageEvents::POST_SAVE => ['aggregateEvent', 10000],
-        ];
     }
 
     public function activate(): void

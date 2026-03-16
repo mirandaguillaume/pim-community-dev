@@ -4,15 +4,13 @@ services:
         class: 'Akeneo\Pim\Enrichment\Bundle\StructureVersion\EventListener\TableCreator'
         arguments:
             - '@doctrine'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 
     pim_structure_version.event_listener.structure_version_updater:
         class: 'Akeneo\Pim\Enrichment\Bundle\StructureVersion\EventListener\StructureVersionUpdater'
         arguments:
             - '@doctrine'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 
     pim_structure_version.provider.structure_version.product:
         class: '%pim_enrich.provider.structure_version.class%'

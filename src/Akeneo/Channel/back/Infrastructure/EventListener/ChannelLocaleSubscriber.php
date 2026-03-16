@@ -10,9 +10,9 @@ use Akeneo\Tool\Bundle\BatchBundle\Launcher\JobLauncherInterface;
 use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface;
 use Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Storage event subscriber that updates channel locales
@@ -21,7 +21,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class ChannelLocaleSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::PRE_SAVE, method: 'storeUpdatedLocales')]
+#[AsEventListener(event: StorageEvents::POST_SAVE, method: 'saveLocales')]
+class ChannelLocaleSubscriber
 {
     public function __construct(
         private readonly LocaleRepositoryInterface $repository,
@@ -33,17 +35,6 @@ class ChannelLocaleSubscriber implements EventSubscriberInterface
         private array $updatedLocales = [],
         private array $localesRemovedFromChannel = [],
     ) {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::PRE_SAVE => 'storeUpdatedLocales',
-            StorageEvents::POST_SAVE => 'saveLocales',
-        ];
     }
 
     public function storeUpdatedLocales(GenericEvent $event): void

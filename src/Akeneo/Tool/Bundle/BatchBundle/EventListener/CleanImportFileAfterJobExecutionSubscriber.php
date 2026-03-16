@@ -13,20 +13,14 @@ use Akeneo\Tool\Component\Batch\Event\EventInterface;
 use Akeneo\Tool\Component\Batch\Event\JobExecutionEvent;
 use Akeneo\Tool\Component\Batch\Job\BatchStatus;
 use Akeneo\Tool\Component\Connector\Job\JobFileBackuper;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-final readonly class CleanImportFileAfterJobExecutionSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: EventInterface::AFTER_JOB_EXECUTION, method: 'cleanImportFile')]
+final readonly class CleanImportFileAfterJobExecutionSubscriber
 {
     public function __construct(
         private JobFileBackuper $jobFileBackuper
     ) {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            EventInterface::AFTER_JOB_EXECUTION => 'cleanImportFile',
-        ];
     }
 
     public function cleanImportFile(JobExecutionEvent $event): void

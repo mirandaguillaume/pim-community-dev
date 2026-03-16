@@ -10,9 +10,9 @@ use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryIn
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Doctrine\DBAL\Connection;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * When a family variant is saved, we need to update all product models and variant products that belong
@@ -26,7 +26,10 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-class ComputeFamilyVariantStructureChangesSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::PRE_SAVE, method: 'recordIsNewFamilyVariant')]
+#[AsEventListener(event: StorageEvents::POST_SAVE, method: 'computeVariantStructureChanges')]
+#[AsEventListener(event: StorageEvents::POST_SAVE_ALL, method: 'bulkComputeVariantStructureChanges')]
+class ComputeFamilyVariantStructureChangesSubscriber
 {
     final public const DISABLE_JOB_LAUNCHING = 'DISABLE_COMPUTE_FAMILY_VARIANT_STRUCTURE_CHANGES_LAUNCHING';
 
@@ -41,18 +44,6 @@ class ComputeFamilyVariantStructureChangesSubscriber implements EventSubscriberI
         private readonly LoggerInterface $logger,
         private readonly string $jobName
     ) {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::PRE_SAVE => 'recordIsNewFamilyVariant',
-            StorageEvents::POST_SAVE => 'computeVariantStructureChanges',
-            StorageEvents::POST_SAVE_ALL => 'bulkComputeVariantStructureChanges',
-        ];
     }
 
     public function recordIsNewFamilyVariant(GenericEvent $event): void

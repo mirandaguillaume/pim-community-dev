@@ -7,8 +7,8 @@ namespace Akeneo\Platform\Installer\Infrastructure\Event\Subscriber;
 use Akeneo\Platform\Installer\Infrastructure\Command\ZddMigration;
 use Akeneo\Platform\Installer\Infrastructure\Event\InstallerEvents;
 use Doctrine\DBAL\Connection;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Webmozart\Assert\Assert;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * When installing a fresh new database, this subscriber will automatically mark ZDD Migrations as "migrated".
@@ -18,7 +18,8 @@ use Webmozart\Assert\Assert;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-class MarkZddMigrationsAsMigratedSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: InstallerEvents::POST_DB_CREATE, method: 'markMigrations')]
+class MarkZddMigrationsAsMigratedSubscriber
 {
     /** @var ZddMigration[] */
     private readonly array $zddMigrations;
@@ -33,15 +34,6 @@ class MarkZddMigrationsAsMigratedSubscriber implements EventSubscriberInterface
         Assert::allIsInstanceOf($zddMigrations, ZddMigration::class);
         $zddMigrations = $zddMigrations instanceof \Traversable ? \iterator_to_array($zddMigrations) : $zddMigrations;
         $this->zddMigrations = $zddMigrations;
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            InstallerEvents::POST_DB_CREATE => [
-                ['markMigrations', 0],
-            ],
-        ];
     }
 
     public function markMigrations(): void

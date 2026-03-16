@@ -7,8 +7,8 @@ use Akeneo\Tool\Component\Batch\Event\InvalidItemEvent;
 use Akeneo\Tool\Component\Batch\Event\JobExecutionEvent;
 use Akeneo\Tool\Component\Batch\Event\StepExecutionEvent;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Subscriber to log job execution result
@@ -17,7 +17,19 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/MIT MIT
  */
-class LoggerSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: EventInterface::JOB_EXECUTION_CREATED, method: 'jobExecutionCreated')]
+#[AsEventListener(event: EventInterface::BEFORE_JOB_EXECUTION, method: 'beforeJobExecution')]
+#[AsEventListener(event: EventInterface::JOB_EXECUTION_STOPPED, method: 'jobExecutionStopped')]
+#[AsEventListener(event: EventInterface::JOB_EXECUTION_INTERRUPTED, method: 'jobExecutionInterrupted')]
+#[AsEventListener(event: EventInterface::JOB_EXECUTION_FATAL_ERROR, method: 'jobExecutionFatalError')]
+#[AsEventListener(event: EventInterface::BEFORE_JOB_STATUS_UPGRADE, method: 'beforeJobStatusUpgrade')]
+#[AsEventListener(event: EventInterface::BEFORE_STEP_EXECUTION, method: 'beforeStepExecution')]
+#[AsEventListener(event: EventInterface::STEP_EXECUTION_SUCCEEDED, method: 'stepExecutionSucceeded')]
+#[AsEventListener(event: EventInterface::STEP_EXECUTION_INTERRUPTED, method: 'stepExecutionInterrupted')]
+#[AsEventListener(event: EventInterface::STEP_EXECUTION_ERRORED, method: 'stepExecutionErrored')]
+#[AsEventListener(event: EventInterface::STEP_EXECUTION_COMPLETED, method: 'stepExecutionCompleted')]
+#[AsEventListener(event: EventInterface::INVALID_ITEM, method: 'invalidItem')]
+class LoggerSubscriber
 {
     /** @var LoggerInterface */
     protected $logger;
@@ -35,14 +47,6 @@ class LoggerSubscriber implements EventSubscriberInterface
     {
         $this->logger = $logger;
         $this->translator = $translator;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [EventInterface::JOB_EXECUTION_CREATED => 'jobExecutionCreated', EventInterface::BEFORE_JOB_EXECUTION => 'beforeJobExecution', EventInterface::JOB_EXECUTION_STOPPED => 'jobExecutionStopped', EventInterface::JOB_EXECUTION_INTERRUPTED => 'jobExecutionInterrupted', EventInterface::JOB_EXECUTION_FATAL_ERROR => 'jobExecutionFatalError', EventInterface::BEFORE_JOB_STATUS_UPGRADE => 'beforeJobStatusUpgrade', EventInterface::BEFORE_STEP_EXECUTION => 'beforeStepExecution', EventInterface::STEP_EXECUTION_SUCCEEDED => 'stepExecutionSucceeded', EventInterface::STEP_EXECUTION_INTERRUPTED => 'stepExecutionInterrupted', EventInterface::STEP_EXECUTION_ERRORED => 'stepExecutionErrored', EventInterface::STEP_EXECUTION_COMPLETED => 'stepExecutionCompleted', EventInterface::INVALID_ITEM => 'invalidItem'];
     }
 
     /**

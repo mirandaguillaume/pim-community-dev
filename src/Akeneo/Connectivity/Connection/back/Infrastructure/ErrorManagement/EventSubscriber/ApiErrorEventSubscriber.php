@@ -9,31 +9,22 @@ use Akeneo\Pim\Enrichment\Bundle\Event\ProductValidationErrorEvent;
 use Akeneo\Pim\Enrichment\Bundle\Event\TechnicalErrorEvent;
 use Akeneo\Pim\Enrichment\Component\Product\Event\ProductDomainErrorEvent;
 use FOS\RestBundle\Context\Context;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final readonly class ApiErrorEventSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: ProductDomainErrorEvent::class, method: 'collectProductDomainError')]
+#[AsEventListener(event: ProductValidationErrorEvent::class, method: 'collectProductValidationError')]
+#[AsEventListener(event: TechnicalErrorEvent::class, method: 'collectTechnicalError')]
+#[AsEventListener(event: KernelEvents::TERMINATE, method: 'flushApiErrors')]
+final readonly class ApiErrorEventSubscriber
 {
     public function __construct(private CollectApiError $collectApiError)
     {
-    }
-
-    /**
-     * @return string[]
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            ProductDomainErrorEvent::class => 'collectProductDomainError',
-            ProductValidationErrorEvent::class => 'collectProductValidationError',
-            TechnicalErrorEvent::class => 'collectTechnicalError',
-            KernelEvents::TERMINATE => 'flushApiErrors',
-        ];
     }
 
     public function collectProductDomainError(ProductDomainErrorEvent $event): void

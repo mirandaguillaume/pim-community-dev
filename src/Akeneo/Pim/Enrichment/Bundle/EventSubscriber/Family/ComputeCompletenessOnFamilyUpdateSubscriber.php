@@ -12,9 +12,9 @@ use Akeneo\Tool\Bundle\BatchBundle\Launcher\JobLauncherInterface;
 use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Doctrine\DBAL\Exception;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Runs a job whenever a family is updated.
@@ -23,7 +23,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ComputeCompletenessOnFamilyUpdateSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::PRE_SAVE, method: 'checkIfUpdateNeedsToRunBackgroundJob')]
+#[AsEventListener(event: StorageEvents::POST_SAVE, method: 'computeCompletenessOfProductsFamily')]
+final class ComputeCompletenessOnFamilyUpdateSubscriber
 {
     private bool $areAttributeRequirementsUpdatedForFamilies;
 
@@ -39,17 +41,6 @@ final class ComputeCompletenessOnFamilyUpdateSubscriber implements EventSubscrib
     ) {
         $this->areAttributeRequirementsUpdatedForFamilies = false;
         $this->isAttributeListUpdated = false;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::PRE_SAVE  => 'checkIfUpdateNeedsToRunBackgroundJob',
-            StorageEvents::POST_SAVE => 'computeCompletenessOfProductsFamily',
-        ];
     }
 
     /**

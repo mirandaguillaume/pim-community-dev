@@ -11,16 +11,20 @@ use Akeneo\Pim\Enrichment\Product\API\Event\ProductWasUpdated;
 use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Webmozart\Assert\Assert;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class ProductWasCreatedOrUpdatedSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::PRE_SAVE, method: 'recordCreatedProduct')]
+#[AsEventListener(event: StorageEvents::PRE_SAVE_ALL, method: 'recordCreatedProducts')]
+#[AsEventListener(event: StorageEvents::POST_SAVE, method: 'dispatchProductWasUpdatedMessage')]
+#[AsEventListener(event: StorageEvents::POST_SAVE_ALL, method: 'dispatchProductWereUpdatedMessage')]
+final class ProductWasCreatedOrUpdatedSubscriber
 {
     /** @var array<string, bool>  */
     private array $createdProductsByUuid = [];
@@ -37,16 +41,6 @@ final class ProductWasCreatedOrUpdatedSubscriber implements EventSubscriberInter
         private readonly int $batchSize = 100
     ) {
         Assert::greaterThanEq($this->batchSize, 1);
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::PRE_SAVE => 'recordCreatedProduct',
-            StorageEvents::PRE_SAVE_ALL => 'recordCreatedProducts',
-            StorageEvents::POST_SAVE => 'dispatchProductWasUpdatedMessage',
-            StorageEvents::POST_SAVE_ALL => 'dispatchProductWereUpdatedMessage',
-        ];
     }
 
     public function recordCreatedProduct(GenericEvent $event): void

@@ -249,5 +249,4 @@ services:
     Oro\Bundle\SecurityBundle\EventSubscriber\FeatureFlagAclPrivilegesEventSubscriber:
         arguments:
             - '@oro_security.acl.acl_feature_flags'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true

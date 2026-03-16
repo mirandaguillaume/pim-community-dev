@@ -7,8 +7,8 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Listener on the post save event to update the last update date on the structure version table
@@ -17,21 +17,12 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class StructureVersionUpdater implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::POST_SAVE, method: 'onPostSave')]
+#[AsEventListener(event: StorageEvents::POST_SAVE_ALL, method: 'onPostSaveAll')]
+class StructureVersionUpdater
 {
     public function __construct(protected ManagerRegistry $doctrine)
     {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::POST_SAVE => 'onPostSave',
-            StorageEvents::POST_SAVE_ALL => 'onPostSaveAll',
-        ];
     }
 
 

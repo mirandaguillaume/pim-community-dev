@@ -13,33 +13,24 @@ use Akeneo\Platform\Installer\Application\IsMaintenanceModeEnabled\IsMaintenance
 use Akeneo\Platform\Installer\Application\UpdateMaintenanceMode\UpdateMaintenanceModeCommand;
 use Akeneo\Platform\Installer\Application\UpdateMaintenanceMode\UpdateMaintenanceModeHandler;
 use Akeneo\Platform\Installer\Infrastructure\Event\InstallerEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-class MaintenanceModeSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: KernelEvents::REQUEST, method: 'redirectToMaintenanceLandingPage')]
+#[AsEventListener(event: InstallerEvents::PRE_RESET_INSTANCE, method: 'enableMaintenanceMode')]
+#[AsEventListener(event: InstallerEvents::POST_RESET_INSTANCE, method: 'disableMaintenanceMode')]
+class MaintenanceModeSubscriber
 {
     public function __construct(
         private readonly RouterInterface $router,
         private readonly IsMaintenanceModeEnabledHandler $isMaintenanceModeEnabledHandler,
         private readonly UpdateMaintenanceModeHandler $updateMaintenanceModeHandler,
     ) {
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            KernelEvents::REQUEST => 'redirectToMaintenanceLandingPage',
-            InstallerEvents::PRE_RESET_INSTANCE => 'enableMaintenanceMode',
-            InstallerEvents::POST_RESET_INSTANCE => 'disableMaintenanceMode',
-        ];
     }
 
     private const EXCLUDED_ROUTES = [

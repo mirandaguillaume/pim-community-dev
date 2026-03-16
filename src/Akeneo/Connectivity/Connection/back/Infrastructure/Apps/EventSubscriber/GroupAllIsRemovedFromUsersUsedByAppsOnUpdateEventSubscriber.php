@@ -7,19 +7,16 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\Apps\EventSubscriber;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Akeneo\UserManagement\Component\Model\Group;
 use Akeneo\UserManagement\Component\Model\UserInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class GroupAllIsRemovedFromUsersUsedByAppsOnUpdateEventSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::PRE_SAVE, method: 'removeGroupAllFromUsersUsedByApps')]
+class GroupAllIsRemovedFromUsersUsedByAppsOnUpdateEventSubscriber
 {
-    public static function getSubscribedEvents(): array
-    {
-        return [StorageEvents::PRE_SAVE => 'removeGroupAllFromUsersUsedByApps'];
-    }
 
     public function removeGroupAllFromUsersUsedByApps(GenericEvent $event): void
     {

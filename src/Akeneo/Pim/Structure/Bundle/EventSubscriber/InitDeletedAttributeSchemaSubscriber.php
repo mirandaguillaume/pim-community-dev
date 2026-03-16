@@ -6,24 +6,18 @@ namespace Akeneo\Pim\Structure\Bundle\EventSubscriber;
 
 use Akeneo\Platform\Installer\Infrastructure\Event\InstallerEvents;
 use Doctrine\DBAL\Connection;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * The table used to store blacklisted attributes to avoid recreation before the cleanup job is finished.
  *
  * We need to manually create the table.
  */
-class InitDeletedAttributeSchemaSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: InstallerEvents::POST_DB_CREATE, method: 'createBlacklistTable')]
+class InitDeletedAttributeSchemaSubscriber
 {
     public function __construct(private readonly Connection $connection)
     {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            InstallerEvents::POST_DB_CREATE => 'createBlacklistTable',
-        ];
     }
 
     public function createBlacklistTable(): void

@@ -10,14 +10,15 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface;
 use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class InitializeEvaluationOfAProductModelSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::POST_SAVE, method: 'onPostSave')]
+class InitializeEvaluationOfAProductModelSubscriber
 {
     public function __construct(
         private readonly FeatureFlag                     $dataQualityInsightsFeature,
@@ -25,13 +26,6 @@ class InitializeEvaluationOfAProductModelSubscriber implements EventSubscriberIn
         private readonly LoggerInterface                 $logger,
         private readonly ProductEntityIdFactoryInterface $idFactory
     ) {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::POST_SAVE => 'onPostSave',
-        ];
     }
 
     public function onPostSave(GenericEvent $event): void

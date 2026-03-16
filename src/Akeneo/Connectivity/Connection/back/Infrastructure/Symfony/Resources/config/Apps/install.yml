@@ -3,8 +3,7 @@ services:
         arguments:
             - '@database_connection'
             - '@Akeneo\Connectivity\Connection\Infrastructure\Apps\Install\AddAclToRoles'
-        tags:
-            - {name: kernel.event_subscriber}
+        autoconfigure: true
 
     Akeneo\Connectivity\Connection\Infrastructure\Apps\Install\AddAclToRoles:
         arguments:

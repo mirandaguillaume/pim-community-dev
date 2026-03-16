@@ -6,26 +6,18 @@ namespace Akeneo\Platform\Installer\Infrastructure\Event\Subscriber;
 
 use Akeneo\Platform\Installer\Infrastructure\Event\InstallerEvents;
 use Doctrine\DBAL\Connection;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-class CreateNotMappedTablesSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: InstallerEvents::POST_DB_CREATE, method: 'createNotMappedTables', priority: 200)]
+class CreateNotMappedTablesSubscriber
 {
     public function __construct(
         private readonly Connection $connection,
     ) {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            InstallerEvents::POST_DB_CREATE => [
-                ['createNotMappedTables', 200],
-            ],
-        ];
     }
 
     public function createNotMappedTables(): void

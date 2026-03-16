@@ -3,8 +3,7 @@ services:
         class: Akeneo\Platform\Job\Infrastructure\Installer\JobInstaller
         arguments:
             - '@doctrine.dbal.default_connection'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 
     Akeneo\Platform\Job\Infrastructure\Clock\ClockInterface:
         class: Akeneo\Platform\Job\Infrastructure\Clock\SystemClock

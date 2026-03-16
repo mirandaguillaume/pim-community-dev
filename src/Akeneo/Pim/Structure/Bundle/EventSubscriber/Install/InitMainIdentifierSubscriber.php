@@ -8,8 +8,8 @@ use Akeneo\Pim\Structure\Component\AttributeTypes;
 use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Doctrine\DBAL\Connection;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Sets the first inserted identifier attribute as main identifier
@@ -17,23 +17,14 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class InitMainIdentifierSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::POST_SAVE, method: 'initMainIdentifier')]
+final class InitMainIdentifierSubscriber
 {
     private ?bool $isMainIdentifierSet = null;
 
     public function __construct(
         private readonly Connection $connection
     ) {
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::POST_SAVE => 'initMainIdentifier',
-        ];
     }
 
     public function initMainIdentifier(GenericEvent $event): void

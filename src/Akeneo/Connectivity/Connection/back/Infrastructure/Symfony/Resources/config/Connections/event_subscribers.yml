@@ -3,11 +3,9 @@ services:
         arguments:
             - '@Akeneo\Connectivity\Connection\Infrastructure\ConnectionContext'
             - '@Akeneo\Connectivity\Connection\Infrastructure\Connections\WrongCredentialsCombination\Persistence\DbalWrongCredentialsCombinationRepository'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 
     Akeneo\Connectivity\Connection\Infrastructure\Connections\WrongCredentialsCombination\EventSubscriber\ConnectionContextEventSubscriber:
         arguments:
             - '@Akeneo\Connectivity\Connection\Infrastructure\ConnectionContext'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true

@@ -5,8 +5,8 @@ namespace Akeneo\UserManagement\Bundle\EventListener;
 use Akeneo\UserManagement\Component\Model\GroupInterface;
 use Akeneo\UserManagement\Component\Model\User;
 use Akeneo\UserManagement\Component\UserEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Aims to perform operations on user groups during creation, edition or deletion.
@@ -15,18 +15,10 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class GroupSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: UserEvents::PRE_DELETE_GROUP, method: 'preDeleteGroup')]
+#[AsEventListener(event: UserEvents::PRE_UPDATE_GROUP, method: 'preUpdateGroup')]
+class GroupSubscriber
 {
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            UserEvents::PRE_DELETE_GROUP => 'preDeleteGroup',
-            UserEvents::PRE_UPDATE_GROUP => 'preUpdateGroup',
-        ];
-    }
 
     /**
      * Pre delete a user group

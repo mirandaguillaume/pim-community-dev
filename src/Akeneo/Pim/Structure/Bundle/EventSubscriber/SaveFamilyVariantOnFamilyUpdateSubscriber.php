@@ -7,10 +7,10 @@ namespace Akeneo\Pim\Structure\Bundle\EventSubscriber;
 use Akeneo\Pim\Structure\Component\Model\FamilyInterface;
 use Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Webmozart\Assert\Assert;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Validates and saves the family variants belonging to a family whenever it is updated.
@@ -19,23 +19,14 @@ use Webmozart\Assert\Assert;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class SaveFamilyVariantOnFamilyUpdateSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::POST_SAVE, method: 'onUnitarySave')]
+#[AsEventListener(event: StorageEvents::POST_SAVE_ALL, method: 'onBulkSave')]
+class SaveFamilyVariantOnFamilyUpdateSubscriber
 {
     public function __construct(
         private readonly ValidatorInterface $validator,
         private readonly BulkSaverInterface $bulkFamilyVariantSaver
     ) {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::POST_SAVE => 'onUnitarySave',
-            StorageEvents::POST_SAVE_ALL => 'onBulkSave',
-        ];
     }
 
     /**

@@ -3,9 +3,9 @@
 namespace Akeneo\Platform\Bundle\UIBundle\EventListener;
 
 use Akeneo\Platform\Bundle\UIBundle\Provider\ContentSecurityPolicy\ContentSecurityPolicyProvider;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Inject CSP headers in response object
@@ -14,17 +14,11 @@ use Symfony\Component\HttpKernel\KernelEvents;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class AddContentSecurityPolicyListener implements EventSubscriberInterface
+#[AsEventListener(event: KernelEvents::RESPONSE, method: 'addCspHeaders')]
+class AddContentSecurityPolicyListener
 {
     public function __construct(private readonly ContentSecurityPolicyProvider $contentSecurityPolicyProvider)
     {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            KernelEvents::RESPONSE => 'addCspHeaders',
-        ];
     }
 
     public function addCspHeaders(ResponseEvent $event): void

@@ -9,21 +9,16 @@ use Akeneo\Tool\Component\Batch\Model\JobInstance;
 use Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface;
 use Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface;
 use Doctrine\Persistence\ObjectRepository;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * @author Paul Chasle <paul.chasle@akeneo.com>
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final readonly class ConfigureCategoryTreeForExportJobsAfterChangingTheChannelCategoryTree implements EventSubscriberInterface
+#[AsEventListener(event: ChannelCategoryHasBeenUpdated::class, method: 'onChannelCategoryHasBeenUpdatedEvent')]
+final readonly class ConfigureCategoryTreeForExportJobsAfterChangingTheChannelCategoryTree
 {
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            ChannelCategoryHasBeenUpdated::class => 'onChannelCategoryHasBeenUpdatedEvent',
-        ];
-    }
 
     /**
      * @param array|string[] $supportedJobNames

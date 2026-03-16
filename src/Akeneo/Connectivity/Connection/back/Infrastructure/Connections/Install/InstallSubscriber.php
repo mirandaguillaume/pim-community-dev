@@ -8,13 +8,15 @@ use Akeneo\Connectivity\Connection\Infrastructure\Connections\WrongCredentialsCo
 use Akeneo\Platform\Installer\Infrastructure\Event\InstallerEvent;
 use Akeneo\Platform\Installer\Infrastructure\Event\InstallerEvents;
 use Doctrine\DBAL\Connection as DbalConnection;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-class InstallSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: InstallerEvents::POST_DB_CREATE, method: 'updateSchema', priority: 10)]
+#[AsEventListener(event: InstallerEvents::POST_LOAD_FIXTURES, method: 'loadFixtures', priority: -10)]
+class InstallSubscriber
 {
     final public const ICECAT_DEMO_DEV = 'icecat_demo_dev';
 
@@ -22,14 +24,6 @@ class InstallSubscriber implements EventSubscriberInterface
         private readonly DbalConnection $dbalConnection,
         private readonly FixturesLoader $fixturesLoader,
     ) {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            InstallerEvents::POST_DB_CREATE => ['updateSchema', 10],
-            InstallerEvents::POST_LOAD_FIXTURES => ['loadFixtures', -10],
-        ];
     }
 
     public function updateSchema(): void

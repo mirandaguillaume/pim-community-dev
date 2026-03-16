@@ -8,8 +8,8 @@ use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 use Akeneo\Pim\Structure\Component\Model\FamilyInterface;
 use Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Whenever an attribute is removed from a family, we need to ensure this attribute is removed from every family
@@ -19,17 +19,9 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class RemoveAttributesFromFamilyVariantsOnFamilyUpdateSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::PRE_SAVE, method: 'removeDeletedAttributesFromFamilyVariants')]
+class RemoveAttributesFromFamilyVariantsOnFamilyUpdateSubscriber
 {
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::PRE_SAVE => 'removeDeletedAttributesFromFamilyVariants',
-        ];
-    }
 
     /**
      * Removes the removed attributes from family from the family variants belonging to this family.

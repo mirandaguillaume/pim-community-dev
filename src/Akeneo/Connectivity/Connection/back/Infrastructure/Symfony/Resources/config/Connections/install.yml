@@ -3,8 +3,7 @@ services:
         arguments:
             - '@database_connection'
             - '@Akeneo\Connectivity\Connection\Infrastructure\Connections\Install\FixturesLoader'
-        tags:
-            - {name: kernel.event_subscriber}
+        autoconfigure: true
 
     Akeneo\Connectivity\Connection\Infrastructure\Connections\Install\FixturesLoader:
         arguments:
