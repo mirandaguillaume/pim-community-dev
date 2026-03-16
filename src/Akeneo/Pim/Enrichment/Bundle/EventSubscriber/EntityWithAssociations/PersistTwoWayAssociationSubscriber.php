@@ -10,8 +10,8 @@ use Akeneo\Pim\Enrichment\Component\Product\Storage\Indexer\ProductIndexerInterf
 use Akeneo\Pim\Enrichment\Component\Product\Storage\Indexer\ProductModelIndexerInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 #[AsEventListener(event: StorageEvents::PRE_SAVE, method: 'handlePreSave')]
 #[AsEventListener(event: StorageEvents::POST_SAVE, method: 'indexAssociatedEntities')]

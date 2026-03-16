@@ -13,13 +13,13 @@ use Akeneo\Platform\Installer\Application\IsMaintenanceModeEnabled\IsMaintenance
 use Akeneo\Platform\Installer\Application\UpdateMaintenanceMode\UpdateMaintenanceModeCommand;
 use Akeneo\Platform\Installer\Application\UpdateMaintenanceMode\UpdateMaintenanceModeHandler;
 use Akeneo\Platform\Installer\Infrastructure\Event\InstallerEvents;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 #[AsEventListener(event: KernelEvents::REQUEST, method: 'redirectToMaintenanceLandingPage')]
 #[AsEventListener(event: InstallerEvents::PRE_RESET_INSTANCE, method: 'enableMaintenanceMode')]

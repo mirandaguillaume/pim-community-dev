@@ -3,10 +3,10 @@
 namespace Akeneo\Platform\Bundle\FeatureFlagBundle\Internal;
 
 use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlags;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Filter routes from feature flags that are disabled.

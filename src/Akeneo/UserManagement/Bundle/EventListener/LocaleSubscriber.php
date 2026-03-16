@@ -5,6 +5,7 @@ namespace Akeneo\UserManagement\Bundle\EventListener;
 use Akeneo\UserManagement\Component\Event\UserEvent;
 use Akeneo\UserManagement\Component\Model\UserInterface;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -14,7 +15,6 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Http\FirewallMapInterface;
 use Symfony\Component\Security\Http\SecurityEvents;
 use Symfony\Contracts\Translation\LocaleAwareInterface;
-use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Locale Subscriber

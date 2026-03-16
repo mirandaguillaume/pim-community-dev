@@ -8,8 +8,8 @@ use Akeneo\Category\Domain\Event\TemplateDeactivatedEvent;
 use Akeneo\Tool\Bundle\BatchBundle\Job\JobInstanceRepository;
 use Akeneo\Tool\Bundle\BatchBundle\Launcher\JobLauncherInterface;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 #[AsEventListener(event: TemplateDeactivatedEvent::class, method: 'cleanCategoryDataForTemplate')]
 class CleanCategoryTemplateAndEnrichedValuesOnTemplateDeactivatedSubscriber

@@ -11,7 +11,6 @@ use Akeneo\Tool\Component\Batch\Model\JobExecution;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
 use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface;
 use Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface;
-use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -47,12 +46,6 @@ class ChannelLocaleSubscriberSpec extends ObjectBehavior
     public function it_is_initializable(): void
     {
         $this->shouldHaveType(ChannelLocaleSubscriber::class);
-    }
-
-    public function it_subscribes_to_save_events(): void
-    {
-        $this->getSubscribedEvents()->shouldHaveKey(StorageEvents::PRE_SAVE);
-        $this->getSubscribedEvents()->shouldHaveKey(StorageEvents::POST_SAVE);
     }
 
     public function it_only_handles_channels(BulkSaverInterface $saver): void

@@ -4,10 +4,10 @@ namespace Akeneo\Pim\Enrichment\Bundle\EventSubscriber\Category\OnDelete;
 
 use Akeneo\Category\Infrastructure\Component\Model\CategoryInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Check if the category is used by a channel when try to remove it

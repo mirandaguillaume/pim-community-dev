@@ -7,8 +7,8 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\Apps\EventSubscriber;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Akeneo\UserManagement\Component\Model\Group;
 use Akeneo\UserManagement\Component\Model\UserInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)

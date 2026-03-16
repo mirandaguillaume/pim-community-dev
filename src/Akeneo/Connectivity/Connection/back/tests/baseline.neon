@@ -17072,11 +17072,6 @@ parameters:
 			count: 3
 			path: ../tests/Unit/spec/Infrastructure/Audit/EventSubscriber/ReadProductsEventSubscriberSpec.php
 
-		-
-			message: '#^Call to an undefined method spec\\Akeneo\\Connectivity\\Connection\\Infrastructure\\Audit\\EventSubscriber\\ReadProductsEventSubscriberSpec\:\:getSubscribedEvents\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: ../tests/Unit/spec/Infrastructure/Audit/EventSubscriber/ReadProductsEventSubscriberSpec.php
 
 		-
 			message: '#^Call to an undefined method spec\\Akeneo\\Connectivity\\Connection\\Infrastructure\\Audit\\EventSubscriber\\ReadProductsEventSubscriberSpec\:\:saveReadProducts\(\)\.$#'
@@ -17282,11 +17277,6 @@ parameters:
 			count: 3
 			path: ../tests/Unit/spec/Infrastructure/Connections/WrongCredentialsCombination/EventSubscriber/ApiAuthenticationEventSubscriberSpec.php
 
-		-
-			message: '#^Call to an undefined method spec\\Akeneo\\Connectivity\\Connection\\Infrastructure\\Connections\\WrongCredentialsCombination\\EventSubscriber\\ApiAuthenticationEventSubscriberSpec\:\:getSubscribedEvents\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: ../tests/Unit/spec/Infrastructure/Connections/WrongCredentialsCombination/EventSubscriber/ApiAuthenticationEventSubscriberSpec.php
 
 		-
 			message: '#^Cannot call method areCredentialsValidCombination\(\) on mixed\.$#'
@@ -17372,11 +17362,6 @@ parameters:
 			count: 1
 			path: ../tests/Unit/spec/Infrastructure/Connections/WrongCredentialsCombination/EventSubscriber/ApiAuthenticationEventSubscriberSpec.php
 
-		-
-			message: '#^Call to an undefined method spec\\Akeneo\\Connectivity\\Connection\\Infrastructure\\Connections\\WrongCredentialsCombination\\EventSubscriber\\ConnectionContextEventSubscriberSpec\:\:getSubscribedEvents\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: ../tests/Unit/spec/Infrastructure/Connections/WrongCredentialsCombination/EventSubscriber/ConnectionContextEventSubscriberSpec.php
 
 		-
 			message: '#^Call to an undefined method spec\\Akeneo\\Connectivity\\Connection\\Infrastructure\\Connections\\WrongCredentialsCombination\\EventSubscriber\\ConnectionContextEventSubscriberSpec\:\:initializeConnectionContext\(\)\.$#'
@@ -17813,11 +17798,6 @@ parameters:
 			count: 1
 			path: ../tests/Unit/spec/Infrastructure/ErrorManagement/EventSubscriber/ApiErrorEventSubscriberSpec.php
 
-		-
-			message: '#^Call to an undefined method spec\\Akeneo\\Connectivity\\Connection\\Infrastructure\\ErrorManagement\\EventSubscriber\\ApiErrorEventSubscriberSpec\:\:getSubscribedEvents\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: ../tests/Unit/spec/Infrastructure/ErrorManagement/EventSubscriber/ApiErrorEventSubscriberSpec.php
 
 		-
 			message: '#^Cannot call method collectFromProductDomainError\(\) on mixed\.$#'
@@ -19196,11 +19176,6 @@ parameters:
 			count: 1
 			path: ../tests/Unit/spec/Infrastructure/Webhook/EventSubscribers/EventsApiClearCacheSubscriberSpec.php
 
-		-
-			message: '#^Call to an undefined method spec\\Akeneo\\Connectivity\\Connection\\Infrastructure\\Webhook\\EventSubscribers\\EventsApiClearCacheSubscriberSpec\:\:getSubscribedEvents\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: ../tests/Unit/spec/Infrastructure/Webhook/EventSubscribers/EventsApiClearCacheSubscriberSpec.php
 
 		-
 			message: '#^Cannot call method clear\(\) on mixed\.$#'
@@ -19238,11 +19213,6 @@ parameters:
 			count: 1
 			path: ../tests/Unit/spec/Infrastructure/Webhook/EventSubscribers/EventsApiLoggingSubscriberSpec.php
 
-		-
-			message: '#^Call to an undefined method spec\\Akeneo\\Connectivity\\Connection\\Infrastructure\\Webhook\\EventSubscribers\\EventsApiLoggingSubscriberSpec\:\:getSubscribedEvents\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: ../tests/Unit/spec/Infrastructure/Webhook/EventSubscribers/EventsApiLoggingSubscriberSpec.php
 
 		-
 			message: '#^Cannot call method flush\(\) on mixed\.$#'
@@ -19274,11 +19244,6 @@ parameters:
 			count: 1
 			path: ../tests/Unit/spec/Infrastructure/Webhook/EventSubscribers/EventsApiLoggingSubscriberSpec.php
 
-		-
-			message: '#^Call to an undefined method spec\\Akeneo\\Connectivity\\Connection\\Infrastructure\\Webhook\\EventSubscribers\\EventsApiRequestsLimitIncrementSubscriberSpec\:\:getSubscribedEvents\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: ../tests/Unit/spec/Infrastructure/Webhook/EventSubscribers/EventsApiRequestsLimitIncrementSubscriberSpec.php
 
 		-
 			message: '#^Call to an undefined method spec\\Akeneo\\Connectivity\\Connection\\Infrastructure\\Webhook\\EventSubscribers\\EventsApiRequestsLimitIncrementSubscriberSpec\:\:incrementRequestCount\(\)\.$#'

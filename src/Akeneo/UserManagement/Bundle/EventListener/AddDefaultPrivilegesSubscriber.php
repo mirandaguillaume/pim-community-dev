@@ -11,9 +11,9 @@ use Akeneo\UserManagement\Component\Model\RoleInterface;
 use Akeneo\UserManagement\Component\Model\User;
 use Doctrine\Persistence\ObjectRepository;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
-use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)

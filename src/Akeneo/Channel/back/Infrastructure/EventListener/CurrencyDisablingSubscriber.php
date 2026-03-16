@@ -6,8 +6,8 @@ use Akeneo\Channel\Infrastructure\Component\Exception\LinkedChannelException;
 use Akeneo\Channel\Infrastructure\Component\Model\CurrencyInterface;
 use Akeneo\Channel\Infrastructure\Component\Repository\ChannelRepositoryInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Prevent from disabling currencies linked to channels

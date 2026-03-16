@@ -6,8 +6,8 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\Apps\Install;
 
 use Akeneo\Platform\Installer\Infrastructure\Event\InstallerEvents;
 use Doctrine\DBAL\Connection as DbalConnection;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>

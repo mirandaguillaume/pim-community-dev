@@ -6,8 +6,8 @@ namespace Akeneo\Tool\Bundle\BatchQueueBundle\EventListener;
 
 use Akeneo\Tool\Bundle\MessengerBundle\Stamp\ReceiverStamp;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\Messenger\Event\WorkerMessageReceivedEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+use Symfony\Component\Messenger\Event\WorkerMessageReceivedEvent;
 
 /**
  * Using Google Pub/Sub we should ack the message within the next 10 seconds after pulling it (it can be configured

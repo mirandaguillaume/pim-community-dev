@@ -2,9 +2,9 @@
 
 namespace Akeneo\Platform\Bundle\UIBundle\EventListener;
 
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Aims to close the session after that all listeners have been executed before calling the controller.

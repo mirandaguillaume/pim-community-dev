@@ -6,9 +6,9 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\Apps\EventSubscriber;
 
 use Akeneo\Connectivity\Connection\Domain\Apps\Persistence\IsAccessTokenRevokedQueryInterface;
 use Akeneo\Tool\Component\Api\Event\ApiAuthenticationFailedEvent;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)

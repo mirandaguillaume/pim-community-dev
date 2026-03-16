@@ -4,11 +4,11 @@ namespace Akeneo\Platform\Bundle\UIBundle\EventListener;
 
 use Akeneo\Pim\Enrichment\Bundle\Context\CatalogContext;
 use Akeneo\UserManagement\Bundle\Context\UserContext;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * User context listener

@@ -6,11 +6,11 @@ namespace Akeneo\Tool\Bundle\ApiBundle\EventSubscriber;
 
 use Akeneo\Tool\Bundle\ApiBundle\Security\Firewall;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 #[AsEventListener(event: KernelEvents::REQUEST, method: 'onKernelRequest')]
 class ApiRequestLogSubscriber

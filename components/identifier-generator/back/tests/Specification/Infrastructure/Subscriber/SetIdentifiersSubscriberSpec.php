@@ -25,13 +25,10 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\WriteValueCollection;
 use Akeneo\Pim\Enrichment\Component\Product\Value\IdentifierValue;
 use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 use Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface;
-use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use PhpSpec\ObjectBehavior;
-use PHPUnit\Framework\Assert;
 use Prophecy\Argument;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\ConstraintViolation;
@@ -67,17 +64,9 @@ class SetIdentifiersSubscriberSpec extends ObjectBehavior
         );
     }
 
-    public function it_should_be_an_event_subscriber(): void
+    public function it_should_be_a_set_identifiers_subscriber(): void
     {
         $this->beAnInstanceOf(SetIdentifiersSubscriber::class);
-        $this->beAnInstanceOf(EventSubscriberInterface::class);
-    }
-
-    public function it_should_listen_to_pre_save_events(): void
-    {
-        Assert::assertSame(\array_keys($this->getSubscribedEvents()->getWrappedObject()), [
-            StorageEvents::PRE_SAVE,
-        ]);
     }
 
     public function it_should_generate_an_identifier(

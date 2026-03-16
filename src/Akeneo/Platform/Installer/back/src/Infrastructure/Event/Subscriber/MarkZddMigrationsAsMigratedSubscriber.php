@@ -7,8 +7,8 @@ namespace Akeneo\Platform\Installer\Infrastructure\Event\Subscriber;
 use Akeneo\Platform\Installer\Infrastructure\Command\ZddMigration;
 use Akeneo\Platform\Installer\Infrastructure\Event\InstallerEvents;
 use Doctrine\DBAL\Connection;
-use Webmozart\Assert\Assert;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+use Webmozart\Assert\Assert;
 
 /**
  * When installing a fresh new database, this subscriber will automatically mark ZDD Migrations as "migrated".

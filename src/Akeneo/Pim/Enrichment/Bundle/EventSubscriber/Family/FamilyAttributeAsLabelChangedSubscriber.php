@@ -6,8 +6,8 @@ use Akeneo\Pim\Enrichment\Component\Product\ProductAndProductModel\Query\FindAtt
 use Akeneo\Pim\Structure\Component\Model\FamilyInterface;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)

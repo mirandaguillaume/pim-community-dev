@@ -6,9 +6,9 @@ namespace Akeneo\Pim\Enrichment\Bundle\EventSubscriber\ProductModel\OnSave;
 
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * When activated, the goal of this subscriber is to catch every POST_SAVE events for product models,

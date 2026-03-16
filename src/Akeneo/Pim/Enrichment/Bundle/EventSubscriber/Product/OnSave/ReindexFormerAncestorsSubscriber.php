@@ -9,8 +9,8 @@ use Akeneo\Pim\Enrichment\Component\Product\EntityWithFamily\Event\ParentHasBeen
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Storage\Indexer\ProductModelIndexerInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * This subscriber reindexes the former ancestor product models of a variant product converted to a simple product

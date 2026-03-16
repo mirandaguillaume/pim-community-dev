@@ -7,10 +7,10 @@ namespace Akeneo\Pim\Structure\Bundle\EventSubscriber;
 use Akeneo\Pim\Structure\Component\Model\FamilyInterface;
 use Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Webmozart\Assert\Assert;
-use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Validates and saves the family variants belonging to a family whenever it is updated.
