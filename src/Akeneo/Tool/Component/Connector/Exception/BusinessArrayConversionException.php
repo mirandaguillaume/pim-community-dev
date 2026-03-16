@@ -10,7 +10,7 @@ namespace Akeneo\Tool\Component\Connector\Exception;
  */
 class BusinessArrayConversionException extends ArrayConversionException
 {
-    public function __construct($message, private readonly string $messageKey, private readonly array  $messageParameters, \Throwable $previous = null, $code = 0)
+    public function __construct($message, private readonly string $messageKey, private readonly array  $messageParameters, ?\Throwable $previous = null, $code = 0)
     {
         parent::__construct($message, $code, $previous);
     }

@@ -131,7 +131,7 @@ class FilteredProductModelReader implements
      * @param ChannelInterface|null $channel
      *
      */
-    private function getProductModelsCursor(array $filters, ChannelInterface $channel = null): CursorInterface
+    private function getProductModelsCursor(array $filters, ?ChannelInterface $channel = null): CursorInterface
     {
         $filters[] = [
             'field' => 'entity_type',

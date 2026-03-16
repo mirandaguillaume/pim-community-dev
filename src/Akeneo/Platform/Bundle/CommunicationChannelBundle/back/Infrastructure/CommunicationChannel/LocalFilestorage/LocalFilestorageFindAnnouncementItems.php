@@ -49,7 +49,7 @@ final readonly class LocalFilestorageFindAnnouncementItems implements FindAnnoun
         );
     }
 
-    private function paginateItems(array $content, int $limit, string $searchAfter = null): array
+    private function paginateItems(array $content, int $limit, ?string $searchAfter = null): array
     {
         $paginatedItems = $content['data'];
         if (null === $searchAfter) {

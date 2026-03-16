@@ -39,7 +39,7 @@ interface EntityWithFamilyVariantInterface extends EntityWithFamilyInterface
      */
     public function getParent(): ?ProductModelInterface;
 
-    public function setParent(ProductModelInterface $parent = null): void;
+    public function setParent(?ProductModelInterface $parent = null): void;
 
     /**
      * @return WriteValueCollection

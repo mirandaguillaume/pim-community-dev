@@ -13,22 +13,22 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 final class MessageNormalizer implements NormalizerInterface, DenormalizerInterface
 {
-    public function denormalize($data, string $type, string $format = null, array $context = [])
+    public function denormalize($data, string $type, ?string $format = null, array $context = [])
     {
         return $type === Message1::class ? Message1::denormalize($data) : Message2::denormalize($data);
     }
 
-    public function supportsDenormalization($data, string $type, string $format = null): bool
+    public function supportsDenormalization($data, string $type, ?string $format = null): bool
     {
         return $type === Message1::class || $type === Message2::class;
     }
 
-    public function normalize($object, string $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
+    public function normalize($object, ?string $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         return $object->normalize();
     }
 
-    public function supportsNormalization($data, string $format = null): bool
+    public function supportsNormalization($data, ?string $format = null): bool
     {
         $messageClass = $data::class;
 

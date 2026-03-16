@@ -130,7 +130,7 @@ class ProductModelNormalizer implements NormalizerInterface
      * @param string|null           $scopeCode
      *
      */
-    private function getLabels(ProductModelInterface $productModel, string $scopeCode = null): array
+    private function getLabels(ProductModelInterface $productModel, ?string $scopeCode = null): array
     {
         $labels = [];
 
