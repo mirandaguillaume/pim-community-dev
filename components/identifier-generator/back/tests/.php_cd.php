@@ -71,7 +71,6 @@ $rules = [
             'Symfony\Component\HttpKernel\Exception\BadRequestHttpException',
             'Symfony\Component\HttpKernel\Exception\NotFoundHttpException',
             'Symfony\Component\EventDispatcher\Attribute\AsEventListener',
-            'Symfony\Component\EventDispatcher\EventSubscriberInterface',
             'Symfony\Component\EventDispatcher\EventDispatcherInterface',
             'Symfony\Component\HttpFoundation',
             'Symfony\Component\Security\Core\Exception\AccessDeniedException',
