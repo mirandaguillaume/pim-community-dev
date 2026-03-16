@@ -17,7 +17,7 @@ class EntityFilterTypeTest extends AbstractTypeTestCase
     {
         $translator = $this->createMockTranslator();
 
-        $registry = $this->getMockForAbstractClass('Doctrine\Persistence\ManagerRegistry', [], '', false);
+        $registry = $this->createMock(\Doctrine\Persistence\ManagerRegistry::class);
 
         $types = [
             new FilterType($translator),
