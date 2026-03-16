@@ -31,7 +31,7 @@ export const EditConnectionWebhook: FC = () => {
     const formMethods = useForm<FormInput>();
     const generateUrl = useRouter();
 
-    const {connectionCode} = useParams<{connectionCode: string}>();
+    const {connectionCode} = useParams() as {connectionCode: string};
     const {connection} = useFetchConnection(connectionCode);
     const {eventSubscription, eventSubscriptionsLimit, fetchEventSubscription} =
         useFetchEventSubscription(connectionCode);

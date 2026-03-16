@@ -16,7 +16,7 @@ export const RegenerateSecretPage = () => {
     const navigate = useNavigate();
     const notify = useNotify();
     const generateUrl = useRouter();
-    const {connectionCode} = useParams<{connectionCode: string}>();
+    const {connectionCode} = useParams() as {connectionCode: string};
     const [step, setStep] = useState<Step>('confirm');
     const [secret, setSecret] = useState<string | null>(null);
 

@@ -13,7 +13,7 @@ export const RegenerateWebhookSecret = () => {
     const notify = useNotify();
     const translate = useContext(TranslateContext);
 
-    const {connectionCode: code} = useParams<{connectionCode: string}>();
+    const {connectionCode: code} = useParams() as {connectionCode: string};
     const url = useRoute('akeneo_connectivity_connection_webhook_rest_regenerate_secret', {code});
 
     const handleRedirect = () => {

@@ -11,7 +11,7 @@ import {useConnectionsDispatch} from '../connections-context';
 export const DeleteConnection = () => {
     const navigate = useNavigate();
 
-    const {code} = useParams<{code: string}>();
+    const {code} = useParams() as {code: string};
     const deleteConnection = useDeleteConnection(code);
     const dispatch = useConnectionsDispatch();
 

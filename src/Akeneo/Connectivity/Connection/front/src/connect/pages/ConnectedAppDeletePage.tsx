@@ -37,7 +37,7 @@ export const ConnectedAppDeletePage = () => {
     const translate = useTranslate();
     const notify = useNotify();
 
-    const {connectionCode} = useParams<{connectionCode: string}>();
+    const {connectionCode} = useParams() as {connectionCode: string};
     const deleteApp = useDeleteApp(connectionCode);
 
     const handleClick = useCallback(async () => {

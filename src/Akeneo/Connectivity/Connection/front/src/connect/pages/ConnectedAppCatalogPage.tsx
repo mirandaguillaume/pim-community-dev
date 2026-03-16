@@ -9,7 +9,7 @@ import {useCatalog} from '@akeneo-pim-community/catalogs';
 
 export const ConnectedAppCatalogPage: FC = () => {
     const translate = useTranslate();
-    const {connectionCode, catalogId} = useParams<{connectionCode: string; catalogId: string}>();
+    const {connectionCode, catalogId} = useParams() as {connectionCode: string; catalogId: string};
 
     const {
         loading: connectedAppLoading,

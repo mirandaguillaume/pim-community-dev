@@ -12,7 +12,7 @@ import {DownloadLogsButton} from '../components/DownloadLogsButton';
 import {useRouter} from '../../shared/router/use-router';
 
 export const EventLogs: FC = () => {
-    const {connectionCode} = useParams<{connectionCode: string}>();
+    const {connectionCode} = useParams() as {connectionCode: string};
     const {connection} = useFetchConnection(connectionCode);
     const {eventSubscription, fetchEventSubscription} = useFetchEventSubscription(connectionCode);
 

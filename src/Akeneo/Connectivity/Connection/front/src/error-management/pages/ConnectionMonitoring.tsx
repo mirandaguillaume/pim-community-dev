@@ -12,7 +12,7 @@ import {UserButtons} from '../../shared/user';
 import {useRouter} from '../../shared/router/use-router';
 
 const ConnectionMonitoring: FC = memo(() => {
-    const {connectionCode} = useParams<{connectionCode: string}>();
+    const {connectionCode} = useParams() as {connectionCode: string};
     const generateUrl = useRouter();
 
     const {loading, connection} = useConnection(connectionCode);

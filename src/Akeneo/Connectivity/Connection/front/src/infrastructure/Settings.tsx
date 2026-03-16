@@ -4,12 +4,12 @@ import {Index} from '../settings/pages/Index';
 import {AkeneoThemeProvider} from './akeneo-theme-provider';
 import {withDependencies} from './dependencies-provider';
 
-const router = createHashRouter(createRoutesFromElements(<Route path="/*" element={<Index />} />));
+const router = createHashRouter(createRoutesFromElements(<Route path='/*' element={<Index />} />));
 
 export const Settings = withDependencies(() => (
-  <StrictMode>
-    <AkeneoThemeProvider>
-      <RouterProvider router={router} />
-    </AkeneoThemeProvider>
-  </StrictMode>
+    <StrictMode>
+        <AkeneoThemeProvider>
+            <RouterProvider router={router} />
+        </AkeneoThemeProvider>
+    </StrictMode>
 ));

@@ -11,82 +11,90 @@ import {NotificationLevel, NotifyContext} from '@src/shared/notify';
 const notify = jest.fn();
 
 jest.mock('@src/connect/hooks/use-delete-app', () => ({
-  ...jest.requireActual('@src/connect/hooks/use-delete-app'),
-  useDeleteApp: jest.fn().mockImplementation(() => () => Promise.resolve()),
+    ...jest.requireActual('@src/connect/hooks/use-delete-app'),
+    useDeleteApp: jest.fn().mockImplementation(() => () => Promise.resolve()),
 }));
 
 jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useParams: jest.fn().mockReturnValue({connectionCode: 'some_connection_code'}),
+    ...jest.requireActual('react-router-dom'),
+    useParams: jest.fn().mockReturnValue({connectionCode: 'some_connection_code'}),
 }));
 
 beforeEach(() => {
-  fetchMock.resetMocks();
-  jest.clearAllMocks();
+    fetchMock.resetMocks();
+    jest.clearAllMocks();
 });
 
 test('The delete app page renders and I can cancel', () => {
-  renderWithProviders(
-    <>
-      <ConnectedAppDeletePage />
-      <LocationDisplay />
-    </>
-  );
+    renderWithProviders(
+        <>
+            <ConnectedAppDeletePage />
+            <LocationDisplay />
+        </>
+    );
 
-  expect(screen.getByText('akeneo_connectivity.connection.connect.connected_apps.delete.title')).toBeInTheDocument();
-  expect(screen.getByText('akeneo_connectivity.connection.connect.connected_apps.delete.subtitle')).toBeInTheDocument();
+    expect(screen.getByText('akeneo_connectivity.connection.connect.connected_apps.delete.title')).toBeInTheDocument();
+    expect(
+        screen.getByText('akeneo_connectivity.connection.connect.connected_apps.delete.subtitle')
+    ).toBeInTheDocument();
 
-  userEvent.click(screen.getByText('pim_common.cancel'));
+    userEvent.click(screen.getByText('pim_common.cancel'));
 
-  expect(screen.getByTestId('location')).toHaveTextContent(
-    '/akeneo_connectivity_connection_connect_connected_apps_edit'
-  );
+    expect(screen.getByTestId('location')).toHaveTextContent(
+        '/akeneo_connectivity_connection_connect_connected_apps_edit'
+    );
 });
 
 test('The delete app page renders and I can delete the app', async () => {
-  renderWithProviders(
-    <NotifyContext.Provider value={notify}>
-      <ConnectedAppDeletePage />
-      <LocationDisplay />
-    </NotifyContext.Provider>
-  );
+    renderWithProviders(
+        <NotifyContext.Provider value={notify}>
+            <ConnectedAppDeletePage />
+            <LocationDisplay />
+        </NotifyContext.Provider>
+    );
 
-  expect(screen.getByText('akeneo_connectivity.connection.connect.connected_apps.delete.title')).toBeInTheDocument();
-  expect(screen.getByText('akeneo_connectivity.connection.connect.connected_apps.delete.subtitle')).toBeInTheDocument();
+    expect(screen.getByText('akeneo_connectivity.connection.connect.connected_apps.delete.title')).toBeInTheDocument();
+    expect(
+        screen.getByText('akeneo_connectivity.connection.connect.connected_apps.delete.subtitle')
+    ).toBeInTheDocument();
 
-  userEvent.click(screen.getByText('pim_common.delete'));
+    userEvent.click(screen.getByText('pim_common.delete'));
 
-  await waitFor(() => expect(useDeleteApp).toHaveBeenCalled());
-  await waitFor(() =>
-    expect(notify).toHaveBeenCalledWith(
-      NotificationLevel.SUCCESS,
-      'akeneo_connectivity.connection.connect.connected_apps.delete.flash.success'
-    )
-  );
-  await waitFor(() =>
-    expect(screen.getByTestId('location')).toHaveTextContent('/akeneo_connectivity_connection_connect_connected_apps')
-  );
+    await waitFor(() => expect(useDeleteApp).toHaveBeenCalled());
+    await waitFor(() =>
+        expect(notify).toHaveBeenCalledWith(
+            NotificationLevel.SUCCESS,
+            'akeneo_connectivity.connection.connect.connected_apps.delete.flash.success'
+        )
+    );
+    await waitFor(() =>
+        expect(screen.getByTestId('location')).toHaveTextContent(
+            '/akeneo_connectivity_connection_connect_connected_apps'
+        )
+    );
 });
 
 test('The delete app page renders and a notification is shown when the deletion fails', async () => {
-  (useDeleteApp as jest.Mock).mockImplementation(() => () => Promise.reject());
+    (useDeleteApp as jest.Mock).mockImplementation(() => () => Promise.reject());
 
-  renderWithProviders(
-    <NotifyContext.Provider value={notify}>
-      <ConnectedAppDeletePage />
-    </NotifyContext.Provider>
-  );
+    renderWithProviders(
+        <NotifyContext.Provider value={notify}>
+            <ConnectedAppDeletePage />
+        </NotifyContext.Provider>
+    );
 
-  expect(screen.getByText('akeneo_connectivity.connection.connect.connected_apps.delete.title')).toBeInTheDocument();
-  expect(screen.getByText('akeneo_connectivity.connection.connect.connected_apps.delete.subtitle')).toBeInTheDocument();
+    expect(screen.getByText('akeneo_connectivity.connection.connect.connected_apps.delete.title')).toBeInTheDocument();
+    expect(
+        screen.getByText('akeneo_connectivity.connection.connect.connected_apps.delete.subtitle')
+    ).toBeInTheDocument();
 
-  userEvent.click(screen.getByText('pim_common.delete'));
+    userEvent.click(screen.getByText('pim_common.delete'));
 
-  await waitFor(() => expect(useDeleteApp).toHaveBeenCalled());
-  await waitFor(() =>
-    expect(notify).toHaveBeenCalledWith(
-      NotificationLevel.ERROR,
-      'akeneo_connectivity.connection.connect.connected_apps.delete.flash.error'
-    )
-  );
+    await waitFor(() => expect(useDeleteApp).toHaveBeenCalled());
+    await waitFor(() =>
+        expect(notify).toHaveBeenCalledWith(
+            NotificationLevel.ERROR,
+            'akeneo_connectivity.connection.connect.connected_apps.delete.flash.error'
+        )
+    );
 });

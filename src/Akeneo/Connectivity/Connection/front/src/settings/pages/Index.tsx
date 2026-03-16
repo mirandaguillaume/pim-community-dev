@@ -16,8 +16,14 @@ export const Index = () => (
             <ConnectionsProvider>
                 <Routes>
                     <Route path='/connect/connection-settings/:code/edit' element={<EditConnection />} />
-                    <Route path='/connect/connection-settings/:code/regenerate-secret' element={<RegenerateConnectionSecret />} />
-                    <Route path='/connect/connection-settings/:code/regenerate-password' element={<RegenerateConnectionPassword />} />
+                    <Route
+                        path='/connect/connection-settings/:code/regenerate-secret'
+                        element={<RegenerateConnectionSecret />}
+                    />
+                    <Route
+                        path='/connect/connection-settings/:code/regenerate-password'
+                        element={<RegenerateConnectionPassword />}
+                    />
                     <Route path='/connect/connection-settings/:code/delete' element={<DeleteConnection />} />
                     <Route path='/connect/connection-settings/create' element={<CreateConnection />} />
                     <Route path='/connect/connection-settings' element={<ListConnections />} />

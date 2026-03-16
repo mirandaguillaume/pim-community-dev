@@ -37,7 +37,7 @@ export const DeleteCustomAppPromptPage: FC = () => {
     const translate = useTranslate();
     const notify = useNotify();
 
-    const {customAppId} = useParams<{customAppId: string}>();
+    const {customAppId} = useParams() as {customAppId: string};
     const deleteCustomApp = useDeleteCustomApp(customAppId);
 
     const redirectToAppStore = useCallback(() => navigate(appStoreUrl), [navigate, appStoreUrl]);

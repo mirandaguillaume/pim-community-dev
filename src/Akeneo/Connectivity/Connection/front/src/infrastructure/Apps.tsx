@@ -7,19 +7,19 @@ import {AkeneoThemeProvider} from './akeneo-theme-provider';
 import {withDependencies} from './dependencies-provider';
 
 const router = createHashRouter(
-  createRoutesFromElements(
-    <>
-      <Route path="/connect/apps/activate" element={<AppActivatePage />} />
-      <Route path="/connect/apps/authorize" element={<AppAuthorizePage />} />
-      <Route path="/connect/apps/authenticate" element={<AppAuthenticatePage />} />
-    </>
-  )
+    createRoutesFromElements(
+        <>
+            <Route path='/connect/apps/activate' element={<AppActivatePage />} />
+            <Route path='/connect/apps/authorize' element={<AppAuthorizePage />} />
+            <Route path='/connect/apps/authenticate' element={<AppAuthenticatePage />} />
+        </>
+    )
 );
 
 export const Apps = withDependencies(() => (
-  <StrictMode>
-    <AkeneoThemeProvider>
-      <RouterProvider router={router} />
-    </AkeneoThemeProvider>
-  </StrictMode>
+    <StrictMode>
+        <AkeneoThemeProvider>
+            <RouterProvider router={router} />
+        </AkeneoThemeProvider>
+    </StrictMode>
 ));

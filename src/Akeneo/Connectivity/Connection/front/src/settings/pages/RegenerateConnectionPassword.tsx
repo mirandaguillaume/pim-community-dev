@@ -19,7 +19,7 @@ export const RegenerateConnectionPassword = () => {
     const notify = useNotify();
     const translate = useContext(TranslateContext);
 
-    const {code} = useParams<{code: string}>();
+    const {code} = useParams() as {code: string};
     const url = useRoute('akeneo_connectivity_connection_rest_regenerate_password', {code});
 
     const dispatch = useConnectionsDispatch();

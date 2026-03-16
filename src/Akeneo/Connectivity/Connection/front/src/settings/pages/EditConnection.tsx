@@ -70,7 +70,7 @@ export const EditConnection = () => {
         });
     }, [route, dispatchCombinations]);
 
-    const {code} = useParams<{code: string}>();
+    const {code} = useParams() as {code: string};
     const connection = connections[code];
 
     const fetchConnection = useFetchConnection(code);
@@ -181,9 +181,7 @@ const HeaderContent = ({connection}: {connection: Connection}) => {
             }
             buttons={[
                 <SecondaryActionsDropdownButton key={0}>
-                    <DropdownLink
-                        onClick={() => navigate(`/connect/connection-settings/${connection.code}/delete`)}
-                    >
+                    <DropdownLink onClick={() => navigate(`/connect/connection-settings/${connection.code}/delete`)}>
                         <Translate id='pim_common.delete' />
                     </DropdownLink>
                 </SecondaryActionsDropdownButton>,

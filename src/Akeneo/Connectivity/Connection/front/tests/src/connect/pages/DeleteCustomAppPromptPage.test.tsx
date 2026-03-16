@@ -9,144 +9,144 @@ import {DeleteCustomAppPromptPage} from '@src/connect/pages/DeleteCustomAppPromp
 import {NotificationLevel, NotifyContext} from '@src/shared/notify';
 
 setLogger({
-  log: () => null,
-  warn: () => null,
-  error: () => null, // explicit error generation triggers react query to log the error
+    log: () => null,
+    warn: () => null,
+    error: () => null, // explicit error generation triggers react query to log the error
 });
 
 jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useParams: jest.fn().mockReturnValue({customAppId: 'appId'}),
+    ...jest.requireActual('react-router-dom'),
+    useParams: jest.fn().mockReturnValue({customAppId: 'appId'}),
 }));
 
 beforeEach(() => {
-  fetchMock.resetMocks();
-  jest.clearAllMocks();
+    fetchMock.resetMocks();
+    jest.clearAllMocks();
 });
 
 test('it displays the delete custom app prompt page and successfully deletes a custom app', async () => {
-  mockFetchResponses({
-    'akeneo_connectivity_connection_custom_apps_rest_delete?customAppId=appId': {
-      json: {},
-      status: 200,
-    },
-  });
+    mockFetchResponses({
+        'akeneo_connectivity_connection_custom_apps_rest_delete?customAppId=appId': {
+            json: {},
+            status: 200,
+        },
+    });
 
-  const notify = jest.fn();
+    const notify = jest.fn();
 
-  renderWithProviders(
-    <NotifyContext.Provider value={notify}>
-      <DeleteCustomAppPromptPage />
-      <LocationDisplay />
-    </NotifyContext.Provider>
-  );
+    renderWithProviders(
+        <NotifyContext.Provider value={notify}>
+            <DeleteCustomAppPromptPage />
+            <LocationDisplay />
+        </NotifyContext.Provider>
+    );
 
-  assertItDisplaysPromptPage();
+    assertItDisplaysPromptPage();
 
-  act(() => {
-    userEvent.click(screen.getByText('pim_common.delete'));
-  });
+    act(() => {
+        userEvent.click(screen.getByText('pim_common.delete'));
+    });
 
-  await waitFor(() =>
-    expect(screen.getByTestId('location')).toHaveTextContent('/akeneo_connectivity_connection_connect_marketplace')
-  );
+    await waitFor(() =>
+        expect(screen.getByTestId('location')).toHaveTextContent('/akeneo_connectivity_connection_connect_marketplace')
+    );
 
-  expect(fetchMock).toHaveBeenCalledWith(
-    'akeneo_connectivity_connection_custom_apps_rest_delete?customAppId=appId',
-    expect.objectContaining({
-      method: 'DELETE',
-    })
-  );
+    expect(fetchMock).toHaveBeenCalledWith(
+        'akeneo_connectivity_connection_custom_apps_rest_delete?customAppId=appId',
+        expect.objectContaining({
+            method: 'DELETE',
+        })
+    );
 
-  expect(notify).toHaveBeenCalledWith(
-    NotificationLevel.SUCCESS,
-    'akeneo_connectivity.connection.connect.custom_apps.delete_modal.flash.success'
-  );
+    expect(notify).toHaveBeenCalledWith(
+        NotificationLevel.SUCCESS,
+        'akeneo_connectivity.connection.connect.custom_apps.delete_modal.flash.success'
+    );
 });
 
 test('it gracefully fails to delete a custom app', async () => {
-  mockFetchResponses({
-    'akeneo_connectivity_connection_custom_apps_rest_delete?customAppId=appId': {
-      json: {},
-      status: 500,
-    },
-  });
+    mockFetchResponses({
+        'akeneo_connectivity_connection_custom_apps_rest_delete?customAppId=appId': {
+            json: {},
+            status: 500,
+        },
+    });
 
-  const notify = jest.fn();
+    const notify = jest.fn();
 
-  renderWithProviders(
-    <NotifyContext.Provider value={notify}>
-      <DeleteCustomAppPromptPage />
-      <LocationDisplay />
-    </NotifyContext.Provider>
-  );
+    renderWithProviders(
+        <NotifyContext.Provider value={notify}>
+            <DeleteCustomAppPromptPage />
+            <LocationDisplay />
+        </NotifyContext.Provider>
+    );
 
-  assertItDisplaysPromptPage();
+    assertItDisplaysPromptPage();
 
-  act(() => {
-    userEvent.click(screen.getByText('pim_common.delete'));
-  });
+    act(() => {
+        userEvent.click(screen.getByText('pim_common.delete'));
+    });
 
-  await waitFor(() =>
-    expect(screen.getByTestId('location')).toHaveTextContent('/akeneo_connectivity_connection_connect_marketplace')
-  );
+    await waitFor(() =>
+        expect(screen.getByTestId('location')).toHaveTextContent('/akeneo_connectivity_connection_connect_marketplace')
+    );
 
-  expect(fetchMock).toHaveBeenCalledWith(
-    'akeneo_connectivity_connection_custom_apps_rest_delete?customAppId=appId',
-    expect.objectContaining({
-      method: 'DELETE',
-    })
-  );
+    expect(fetchMock).toHaveBeenCalledWith(
+        'akeneo_connectivity_connection_custom_apps_rest_delete?customAppId=appId',
+        expect.objectContaining({
+            method: 'DELETE',
+        })
+    );
 
-  expect(notify).toHaveBeenCalledWith(
-    NotificationLevel.ERROR,
-    'akeneo_connectivity.connection.connect.custom_apps.delete_modal.flash.error'
-  );
+    expect(notify).toHaveBeenCalledWith(
+        NotificationLevel.ERROR,
+        'akeneo_connectivity.connection.connect.custom_apps.delete_modal.flash.error'
+    );
 });
 
 test('it redirects to the App Store when prompt page is closed', () => {
-  renderWithProviders(
-    <>
-      <DeleteCustomAppPromptPage />
-      <LocationDisplay />
-    </>
-  );
+    renderWithProviders(
+        <>
+            <DeleteCustomAppPromptPage />
+            <LocationDisplay />
+        </>
+    );
 
-  act(() => {
-    userEvent.click(screen.getByTitle('pim_common.cancel'));
-  });
+    act(() => {
+        userEvent.click(screen.getByTitle('pim_common.cancel'));
+    });
 
-  expect(screen.getByTestId('location')).toHaveTextContent('/akeneo_connectivity_connection_connect_marketplace');
+    expect(screen.getByTestId('location')).toHaveTextContent('/akeneo_connectivity_connection_connect_marketplace');
 });
 
 test('it redirects to the App Store when user cancels deletion', () => {
-  renderWithProviders(
-    <>
-      <DeleteCustomAppPromptPage />
-      <LocationDisplay />
-    </>
-  );
+    renderWithProviders(
+        <>
+            <DeleteCustomAppPromptPage />
+            <LocationDisplay />
+        </>
+    );
 
-  act(() => {
-    userEvent.click(screen.getByText('pim_common.cancel'));
-  });
+    act(() => {
+        userEvent.click(screen.getByText('pim_common.cancel'));
+    });
 
-  expect(screen.getByTestId('location')).toHaveTextContent('/akeneo_connectivity_connection_connect_marketplace');
+    expect(screen.getByTestId('location')).toHaveTextContent('/akeneo_connectivity_connection_connect_marketplace');
 });
 
 const assertItDisplaysPromptPage = () => {
-  expect(
-    screen.queryByText('akeneo_connectivity.connection.connect.custom_apps.delete_modal.subtitle')
-  ).toBeInTheDocument();
-  expect(
-    screen.queryByText('akeneo_connectivity.connection.connect.custom_apps.delete_modal.title')
-  ).toBeInTheDocument();
-  expect(
-    screen.queryByText('akeneo_connectivity.connection.connect.custom_apps.delete_modal.description')
-  ).toBeInTheDocument();
-  expect(
-    screen.queryByText('akeneo_connectivity.connection.connect.custom_apps.delete_modal.warning')
-  ).toBeInTheDocument();
-  expect(screen.getByText('pim_common.cancel')).toBeInTheDocument();
-  expect(screen.getByText('pim_common.delete')).toBeInTheDocument();
+    expect(
+        screen.queryByText('akeneo_connectivity.connection.connect.custom_apps.delete_modal.subtitle')
+    ).toBeInTheDocument();
+    expect(
+        screen.queryByText('akeneo_connectivity.connection.connect.custom_apps.delete_modal.title')
+    ).toBeInTheDocument();
+    expect(
+        screen.queryByText('akeneo_connectivity.connection.connect.custom_apps.delete_modal.description')
+    ).toBeInTheDocument();
+    expect(
+        screen.queryByText('akeneo_connectivity.connection.connect.custom_apps.delete_modal.warning')
+    ).toBeInTheDocument();
+    expect(screen.getByText('pim_common.cancel')).toBeInTheDocument();
+    expect(screen.getByText('pim_common.delete')).toBeInTheDocument();
 };

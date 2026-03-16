@@ -13,7 +13,7 @@ export const RegenerateConnectionSecret = () => {
     const notify = useNotify();
     const translate = useContext(TranslateContext);
 
-    const {code} = useParams<{code: string}>();
+    const {code} = useParams() as {code: string};
     const url = useRoute('akeneo_connectivity_connection_rest_regenerate_secret', {code});
 
     const handleRedirect = () => {

@@ -59,12 +59,7 @@ export const ConnectedAppCredentials: FC<Props> = ({connectedApp}) => {
                     )}
                     actions={
                         showRegenerateButton && (
-                            <Button
-                                ghost
-                                level='secondary'
-                                size='small'
-                                onClick={() => navigate(regenerateSecretUrl)}
-                            >
+                            <Button ghost level='secondary' size='small' onClick={() => navigate(regenerateSecretUrl)}>
                                 {translate(
                                     'akeneo_connectivity.connection.connect.connected_apps.edit.settings.credentials.regenerate_button'
                                 )}

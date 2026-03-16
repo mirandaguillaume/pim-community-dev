@@ -19,7 +19,7 @@ export const OpenAppPage: FC = () => {
     const translate = useTranslate();
     const notify = useNotify();
 
-    const {connectionCode} = useParams<{connectionCode: string}>();
+    const {connectionCode} = useParams() as {connectionCode: string};
 
     const {isLoading, data} = useFetchData<{url: string}>('akeneo_connectivity_connection_apps_rest_get_open_app_url', {
         connectionCode,

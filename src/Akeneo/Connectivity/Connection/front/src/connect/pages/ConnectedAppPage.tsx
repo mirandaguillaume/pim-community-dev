@@ -9,7 +9,7 @@ import {HttpError} from '../../model/http-error.enum';
 
 export const ConnectedAppPage: FC = () => {
     const translate = useTranslate();
-    const {connectionCode} = useParams<{connectionCode: string}>();
+    const {connectionCode} = useParams() as {connectionCode: string};
 
     const {loading, error, payload: connectedApp} = useConnectedApp(connectionCode);
 
