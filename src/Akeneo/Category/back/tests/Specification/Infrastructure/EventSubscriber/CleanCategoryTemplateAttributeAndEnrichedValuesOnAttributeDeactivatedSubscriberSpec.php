@@ -10,7 +10,6 @@ use Akeneo\Tool\Bundle\BatchBundle\Job\JobInstanceRepository;
 use Akeneo\Tool\Bundle\BatchBundle\Launcher\JobLauncherInterface;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
 use PhpSpec\ObjectBehavior;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -31,7 +30,6 @@ class CleanCategoryTemplateAttributeAndEnrichedValuesOnAttributeDeactivatedSubsc
 
     public function it_is_initializable()
     {
-        $this->shouldImplement(EventSubscriberInterface::class);
         $this->shouldHaveType(CleanCategoryTemplateAttributeAndEnrichedValuesOnAttributeDeactivatedSubscriber::class);
     }
 

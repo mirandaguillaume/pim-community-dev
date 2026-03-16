@@ -2,7 +2,6 @@
 
 namespace spec\Akeneo\Tool\Bundle\VersioningBundle\EventSubscriber;
 
-use Akeneo\Tool\Component\Batch\Event\EventInterface;
 use Akeneo\Tool\Component\Batch\Event\JobExecutionEvent;
 use Akeneo\Tool\Component\Batch\Model\JobExecution;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
@@ -22,16 +21,6 @@ class AddContextSubscriberSpec extends ObjectBehavior
 
         $event->getJobExecution()->willReturn($jobExecution);
         $jobExecution->getJobInstance()->willReturn($jobInstance);
-    }
-
-    public function it_is_an_event_listener()
-    {
-        $this->shouldImplement(\Symfony\Component\EventDispatcher\EventSubscriberInterface::class);
-    }
-
-    public function it_subscribes_to_the_before_job_execution_event()
-    {
-        $this->getSubscribedEvents()->shouldReturn([EventInterface::BEFORE_JOB_EXECUTION => 'addContext']);
     }
 
     public function it_injects_versioning_context_into_the_version_manager($event, $jobInstance, $versionContext)

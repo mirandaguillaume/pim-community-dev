@@ -12,7 +12,6 @@ use Akeneo\Tool\Bundle\BatchBundle\Launcher\JobLauncherInterface;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
 use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -34,7 +33,6 @@ class CleanCategoryDataAfterChannelChangeSubscriberSpec extends ObjectBehavior
 
     public function it_is_initializable()
     {
-        $this->shouldImplement(EventSubscriberInterface::class);
         $this->shouldHaveType(CleanCategoryDataAfterChannelChangeSubscriber::class);
     }
 

@@ -21,11 +21,6 @@ class ConnectionContextEventSubscriberSpec extends ObjectBehavior
         $this->beConstructedWith($connectionContext);
     }
 
-    public function it_provides_subscribed_events(): void
-    {
-        $this->getSubscribedEvents()->shouldReturn([ApiAuthenticationEvent::class => ['initializeConnectionContext', 1000]]);
-    }
-
     public function it_initializes_connection_context($connectionContext): void
     {
         $event = new ApiAuthenticationEvent('magento_0123', '42');

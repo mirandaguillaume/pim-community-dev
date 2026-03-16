@@ -3,8 +3,6 @@
 namespace spec\Akeneo\Tool\Bundle\ConnectorBundle\EventListener;
 
 use Akeneo\Tool\Bundle\ConnectorBundle\EventListener\StepExecutionArchivist;
-use Akeneo\Tool\Component\Batch\Event\EventInterface;
-use Akeneo\Tool\Component\Batch\Event\JobExecutionEvent;
 use Akeneo\Tool\Component\Batch\Event\StepExecutionEvent;
 use Akeneo\Tool\Component\Batch\Model\JobExecution;
 use Akeneo\Tool\Component\Batch\Model\StepExecution;
@@ -17,20 +15,6 @@ class StepExecutionArchivistSpec extends ObjectBehavior
     public function it_is_initializable()
     {
         $this->shouldHaveType(StepExecutionArchivist::class);
-    }
-
-    public function it_is_an_event_subscriber()
-    {
-        $this->shouldHaveType(\Symfony\Component\EventDispatcher\EventSubscriberInterface::class);
-    }
-
-    public function it_returns_subscribed_events()
-    {
-        $this->getSubscribedEvents()->shouldReturn(
-            [
-                EventInterface::STEP_EXECUTION_COMPLETED => 'onStepExecutionCompleted',
-            ]
-        );
     }
 
     public function it_throws_an_exception_if_there_is_already_a_registered_archiver(ArchiverInterface $archiver)

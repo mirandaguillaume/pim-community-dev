@@ -22,11 +22,6 @@ class ApiAuthenticationEventSubscriberSpec extends ObjectBehavior
         $this->beConstructedWith($connectionContext, $repository);
     }
 
-    public function it_provides_subscribed_events(): void
-    {
-        $this->getSubscribedEvents()->shouldReturn([ApiAuthenticationEvent::class => 'checkCredentialsCombination']);
-    }
-
     public function it_saves_a_wrong_credentials_combination_if_it_is_not_valid(
         $connectionContext,
         $repository

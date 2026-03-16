@@ -16,7 +16,6 @@ use Akeneo\Connectivity\Connection\Infrastructure\ConnectionContext;
 use Akeneo\Pim\Enrichment\Component\Product\Event\Connector\ReadProductsEvent;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * @author Pierre Jolly <pierre.jolly@akeneo.com>
@@ -40,12 +39,6 @@ class ReadProductsEventSubscriberSpec extends ObjectBehavior
     public function it_is_initializable(): void
     {
         $this->shouldBeAnInstanceOf(ReadProductsEventSubscriber::class);
-        $this->shouldImplement(EventSubscriberInterface::class);
-    }
-
-    public function it_provides_subscribed_events(): void
-    {
-        $this->getSubscribedEvents()->shouldReturn([ReadProductsEvent::class => 'saveReadProducts',]);
     }
 
     public function it_saves_read_products_events_without_connection_code_from_the_rest_api(

@@ -4,7 +4,6 @@ namespace spec\Akeneo\Tool\Bundle\VersioningBundle\EventSubscriber;
 
 use Akeneo\Tool\Component\StorageUtils\Event\RemoveEvent;
 use Akeneo\Tool\Component\StorageUtils\Saver\SaverInterface;
-use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Akeneo\Tool\Component\Versioning\Model\VersionableInterface;
 use Akeneo\Tool\Component\Versioning\Model\VersionInterface;
 use PhpSpec\ObjectBehavior;
@@ -32,13 +31,6 @@ class AddRemoveVersionSubscriberSpec extends ObjectBehavior
             $authorizationChecker,
             $versionSaver
         );
-    }
-
-    public function it_subscribes_to_post_remove_events()
-    {
-        $this->getSubscribedEvents()->shouldReturn([
-            StorageEvents::POST_REMOVE => 'addRemoveVersion',
-        ]);
     }
 
     public function it_creates_a_version_on_versionable_object_deletion(

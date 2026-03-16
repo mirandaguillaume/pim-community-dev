@@ -2,7 +2,6 @@
 
 namespace spec\Akeneo\Tool\Bundle\ConnectorBundle\EventListener;
 
-use Akeneo\Tool\Component\Batch\Event\EventInterface;
 use Akeneo\Tool\Component\Batch\Event\InvalidItemEvent;
 use Akeneo\Tool\Component\Batch\Item\DataInvalidItem;
 use Akeneo\Tool\Component\Batch\Item\FileInvalidItem;
@@ -10,20 +9,6 @@ use PhpSpec\ObjectBehavior;
 
 class InvalidItemsCollectorSpec extends ObjectBehavior
 {
-    public function it_is_an_event_subscriber()
-    {
-        $this->shouldHaveType(\Symfony\Component\EventDispatcher\EventSubscriberInterface::class);
-    }
-
-    public function it_returns_subscribed_events()
-    {
-        $this->getSubscribedEvents()->shouldReturn(
-            [
-                EventInterface::INVALID_ITEM => 'collect',
-            ]
-        );
-    }
-
     public function it_collects_invalid_items_from_event(InvalidItemEvent $event, DataInvalidItem $invalidItem)
     {
         $item = [
