@@ -9,7 +9,7 @@ use Akeneo\Pim\Enrichment\Bundle\Product\ComputeAndPersistProductCompletenesses;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Ramsey\Uuid\UuidInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -21,20 +21,14 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final readonly class ComputeProductsAndAncestorsSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::POST_SAVE, method: 'handleSingleProduct')]
+#[AsEventListener(event: StorageEvents::POST_SAVE_ALL, method: 'handleMultipleProducts')]
+final readonly class ComputeProductsAndAncestorsSubscriber
 {
     public function __construct(
         private ComputeAndPersistProductCompletenesses $computeAndPersistProductCompletenesses,
         private ProductAndAncestorsIndexer $productAndAncestorsIndexer
     ) {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::POST_SAVE => 'handleSingleProduct',
-            StorageEvents::POST_SAVE_ALL => 'handleMultipleProducts',
-        ];
     }
 
     public function handleSingleProduct(GenericEvent $event): void

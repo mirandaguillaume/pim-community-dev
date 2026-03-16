@@ -14,16 +14,11 @@ use Akeneo\Pim\Structure\Component\Exception\AttributeGroupWithAttributeCannotBe
 use Akeneo\Pim\Structure\Component\Model\AttributeGroupInterface;
 use Akeneo\Tool\Component\StorageUtils\Event\RemoveEvent;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-class CheckAttributeGroupWithAttributeCannotBeRemovedSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::PRE_REMOVE, method: 'preRemove')]
+class CheckAttributeGroupWithAttributeCannotBeRemovedSubscriber
 {
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::PRE_REMOVE => 'preRemove',
-        ];
-    }
 
     public function preRemove(RemoveEvent $event): void
     {

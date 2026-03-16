@@ -10,7 +10,6 @@ use Akeneo\Tool\Component\BatchQueue\Queue\UiJobExecutionMessage;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Event\WorkerMessageReceivedEvent;
 use Symfony\Component\Messenger\Transport\Receiver\ReceiverInterface;
@@ -25,7 +24,6 @@ class AckMessageEventListenerSpec extends ObjectBehavior
     public function it_is_an_event_subscriber()
     {
         $this->shouldHaveType(AckMessageEventListener::class);
-        $this->shouldImplement(EventSubscriberInterface::class);
     }
 
     public function it_does_nothing_when_message_is_not_a_job_message(ContainerInterface $receiverLocator)

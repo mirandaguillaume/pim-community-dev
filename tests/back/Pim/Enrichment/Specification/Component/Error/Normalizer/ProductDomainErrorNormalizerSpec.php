@@ -15,8 +15,6 @@ use Akeneo\Pim\Structure\Component\Model\FamilyInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Ramsey\Uuid\Uuid;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
-
 /**
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
@@ -33,12 +31,6 @@ class ProductDomainErrorNormalizerSpec extends ObjectBehavior
     public function it_is_initializable(): void
     {
         $this->shouldBeAnInstanceOf(ProductDomainErrorNormalizer::class);
-    }
-
-    public function it_is_cacheable(): void
-    {
-        $this->shouldImplement(CacheableSupportsMethodInterface::class);
-        $this->hasCacheableSupportsMethod()->shouldReturn(true);
     }
 
     public function it_supports_a_domain_error(DomainErrorInterface $error): void

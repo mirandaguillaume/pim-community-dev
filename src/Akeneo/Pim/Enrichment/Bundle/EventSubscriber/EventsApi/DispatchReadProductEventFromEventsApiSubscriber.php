@@ -7,22 +7,18 @@ use Akeneo\Pim\Enrichment\Component\Product\Event\Connector\ReadProductsEvent;
 use Akeneo\Pim\Enrichment\Component\Product\Message\ProductCreated;
 use Akeneo\Pim\Enrichment\Component\Product\Message\ProductRemoved;
 use Akeneo\Pim\Enrichment\Component\Product\Message\ProductUpdated;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-class DispatchReadProductEventFromEventsApiSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: EventsApiRequestSucceededEvent::class, method: 'dispatchReadProductOnProductEventsApiSaved')]
+class DispatchReadProductEventFromEventsApiSubscriber
 {
     public function __construct(private readonly EventDispatcherInterface $eventDispatcher)
     {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [EventsApiRequestSucceededEvent::class => 'dispatchReadProductOnProductEventsApiSaved'];
     }
 
     public function dispatchReadProductOnProductEventsApiSaved(

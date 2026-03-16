@@ -12,7 +12,7 @@ use Akeneo\Connectivity\Connection\Domain\Settings\Model\Write\Connection;
 use Akeneo\Connectivity\Connection\Domain\Settings\Persistence\Repository\ConnectionRepositoryInterface;
 use Akeneo\Connectivity\Connection\Domain\ValueObject\HourlyInterval;
 use Akeneo\Pim\Enrichment\Component\Product\Event\Connector\ReadProductsEvent;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Collect ReadProduct events triggered by the API.
@@ -25,18 +25,14 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final readonly class ReadProductsEventSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: ReadProductsEvent::class, method: 'saveReadProducts')]
+final readonly class ReadProductsEventSubscriber
 {
     public function __construct(
         private ConnectionContextInterface $connectionContext,
         private UpdateDataDestinationProductEventCountHandler $updateDataDestinationProductEventCountHandler,
         private ConnectionRepositoryInterface $connectionRepository,
     ) {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [ReadProductsEvent::class => 'saveReadProducts'];
     }
 
     /**

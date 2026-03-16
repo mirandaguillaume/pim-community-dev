@@ -6,7 +6,7 @@ namespace Akeneo\Tool\Bundle\BatchQueueBundle\EventListener;
 
 use Akeneo\Tool\Bundle\MessengerBundle\Stamp\ReceiverStamp;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Messenger\Event\WorkerMessageReceivedEvent;
 
 /**
@@ -18,17 +18,11 @@ use Symfony\Component\Messenger\Event\WorkerMessageReceivedEvent;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final readonly class AddReceiverStampEventListener implements EventSubscriberInterface
+#[AsEventListener(event: WorkerMessageReceivedEvent::class, method: 'addReceiverStamp')]
+final readonly class AddReceiverStampEventListener
 {
     public function __construct(private ContainerInterface $receiverLocator)
     {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            WorkerMessageReceivedEvent::class => 'addReceiverStamp',
-        ];
     }
 
     public function addReceiverStamp(WorkerMessageReceivedEvent $event): void

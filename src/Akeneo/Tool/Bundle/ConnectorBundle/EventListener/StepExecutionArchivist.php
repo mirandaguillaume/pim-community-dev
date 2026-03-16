@@ -6,7 +6,7 @@ use Akeneo\Tool\Component\Batch\Event\EventInterface;
 use Akeneo\Tool\Component\Batch\Event\StepExecutionEvent;
 use Akeneo\Tool\Component\Batch\Model\JobExecution;
 use Akeneo\Tool\Component\Connector\Archiver\ArchiverInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Step execution archivist
@@ -15,20 +15,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class StepExecutionArchivist implements EventSubscriberInterface
+#[AsEventListener(event: EventInterface::STEP_EXECUTION_COMPLETED, method: 'onStepExecutionCompleted')]
+class StepExecutionArchivist
 {
     /** @var ArchiverInterface[] */
     protected array $archivers = [];
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            EventInterface::STEP_EXECUTION_COMPLETED => 'onStepExecutionCompleted',
-        ];
-    }
 
     /**
      * Register an archiver

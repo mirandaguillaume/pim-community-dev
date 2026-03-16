@@ -3,7 +3,7 @@
 namespace Akeneo\Platform\Bundle\FeatureFlagBundle\Internal;
 
 use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlags;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -17,7 +17,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class FilterRoutesSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: KernelEvents::CONTROLLER, method: 'filterRoutesFromDisabledFeatureFlags')]
+class FilterRoutesSubscriber
 {
     final public const FEATURE_KEY = '_feature';
 
@@ -38,15 +39,5 @@ class FilterRoutesSubscriber implements EventSubscriberInterface
             // Let's keep it simple at the moment.
             throw new NotFoundHttpException(sprintf('Feature "%s" is not enabled.', $feature));
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            KernelEvents::CONTROLLER => 'filterRoutesFromDisabledFeatureFlags',
-        ];
     }
 }

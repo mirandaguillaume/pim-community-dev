@@ -6,7 +6,7 @@ use Akeneo\Channel\Infrastructure\Component\Exception\LinkedChannelException;
 use Akeneo\Channel\Infrastructure\Component\Model\CurrencyInterface;
 use Akeneo\Channel\Infrastructure\Component\Repository\ChannelRepositoryInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -16,7 +16,8 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class CurrencyDisablingSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::PRE_SAVE, method: 'checkChannelLink')]
+class CurrencyDisablingSubscriber
 {
     /** @var ChannelRepositoryInterface */
     protected $channelRepository;
@@ -24,14 +25,6 @@ class CurrencyDisablingSubscriber implements EventSubscriberInterface
     public function __construct(ChannelRepositoryInterface $channelRepository)
     {
         $this->channelRepository = $channelRepository;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [StorageEvents::PRE_SAVE => 'checkChannelLink'];
     }
 
     /**

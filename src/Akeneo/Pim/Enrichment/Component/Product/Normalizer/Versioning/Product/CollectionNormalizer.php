@@ -4,7 +4,6 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Normalizer\Versioning\Product;
 
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -18,7 +17,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  *
  * @see       Pim\Bundle\TransformBundle\Normalizer\Flat\ProductNormalizer
  */
-class CollectionNormalizer implements NormalizerInterface, NormalizerAwareInterface, CacheableSupportsMethodInterface
+class CollectionNormalizer implements NormalizerInterface, NormalizerAwareInterface
 {
     use NormalizerAwareTrait;
 
@@ -31,11 +30,6 @@ class CollectionNormalizer implements NormalizerInterface, NormalizerAwareInterf
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof Collection && in_array($format, $this->supportedFormats);
-    }
-
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
     }
 
     /**

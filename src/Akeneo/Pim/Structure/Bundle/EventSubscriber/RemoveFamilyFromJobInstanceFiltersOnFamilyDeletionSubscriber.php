@@ -10,7 +10,7 @@ use Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -18,7 +18,8 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class RemoveFamilyFromJobInstanceFiltersOnFamilyDeletionSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::POST_REMOVE, method: 'removeDeletedFamilyFromExportJobInstancesFilters')]
+class RemoveFamilyFromJobInstanceFiltersOnFamilyDeletionSubscriber
 {
     /** @var ObjectRepository */
     private readonly ObjectRepository $jobInstanceRepository;
@@ -26,15 +27,6 @@ class RemoveFamilyFromJobInstanceFiltersOnFamilyDeletionSubscriber implements Ev
     public function __construct(EntityManagerInterface $em, private readonly BulkSaverInterface $bulkSaver)
     {
         $this->jobInstanceRepository = $em->getRepository(JobInstance::class);
-    }
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::POST_REMOVE => 'removeDeletedFamilyFromExportJobInstancesFilters',
-        ];
     }
 
     public function removeDeletedFamilyFromExportJobInstancesFilters(GenericEvent $event): void

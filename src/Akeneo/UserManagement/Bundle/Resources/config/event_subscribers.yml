@@ -20,15 +20,13 @@ services:
 
     pim_user.event_subscriber.group:
         class: '%pim_user.event_subscriber.group.class%'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 
     pim_user.event_subscriber.remove_role:
         class: '%pim_user.event_subscriber.remove_role.class%'
         arguments:
             - '@pim_user.query.get_user_count'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 
     pim_locale.locale_subscriber:
         class: '%pim_locale.locale_subscriber.class%'
@@ -37,8 +35,7 @@ services:
             - '@translator'
             - '@doctrine.orm.entity_manager'
             - '@security.firewall.map'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 
     Akeneo\UserManagement\Infrastructure\Cli\Registry\AuthenticatedAsAdminCommandRegistry: ~
 
@@ -61,13 +58,11 @@ services:
         arguments:
             - '@pim_user.repository.role'
             - '@oro_security.acl.manager'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 
     Akeneo\UserManagement\Bundle\EventListener\LoginRateLimitListener:
         arguments:
             - '@pim_user.manager'
             - '%pim_user.account_lock.duration%'
             - '%pim_user.account_lock.max_consecutive_failures%'
-        tags:
-           - { name: 'kernel.event_subscriber', dispatcher: 'security.event_dispatcher.main' }
+        autoconfigure: true

@@ -3,7 +3,6 @@
 namespace Akeneo\Channel\Infrastructure\Component\Normalizer\Versioning;
 
 use Akeneo\Channel\Infrastructure\Component\Model\LocaleInterface;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
@@ -13,7 +12,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class LocaleNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+class LocaleNormalizer implements NormalizerInterface
 {
     /** @var string[] */
     protected $supportedFormats = ['flat'];
@@ -50,10 +49,5 @@ class LocaleNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof LocaleInterface && in_array($format, $this->supportedFormats);
-    }
-
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
     }
 }

@@ -16,8 +16,7 @@ services:
         class: Akeneo\Tool\Bundle\ElasticsearchBundle\Infrastructure\Install\InstallSubscriber
         arguments:
             - '@database_connection'
-        tags:
-            - {name: kernel.event_subscriber}
+        autoconfigure: true
 
     Akeneo\Tool\Bundle\ElasticsearchBundle\Command\ResetIndexesCommand:
         arguments:

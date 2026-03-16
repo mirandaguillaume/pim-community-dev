@@ -2,7 +2,6 @@
 
 namespace Specification\Akeneo\Pim\Structure\Bundle\EventSubscriber;
 
-use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
 use Akeneo\Pim\Structure\Bundle\EventSubscriber\AddUniqueAttributesToVariantProductAttributeSetSubscriber;
@@ -11,7 +10,6 @@ use Akeneo\Category\Infrastructure\Component\Model\CategoryInterface;
 use Akeneo\Pim\Structure\Component\Model\FamilyInterface;
 use Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface;
 use Prophecy\Argument;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class AddUniqueAttributesToVariantProductAttributeSetSubscriberSpec extends ObjectBehavior
@@ -24,18 +22,6 @@ class AddUniqueAttributesToVariantProductAttributeSetSubscriberSpec extends Obje
     function it_is_initializable()
     {
         $this->shouldHaveType(AddUniqueAttributesToVariantProductAttributeSetSubscriber::class);
-    }
-
-    function it_is_an_event_subscriber()
-    {
-        $this->shouldImplement(EventSubscriberInterface::class);
-    }
-
-    function it_listen_to_storage_pre_save_event()
-    {
-        $this->getSubscribedEvents()->shouldReturn([
-            StorageEvents::PRE_SAVE => 'addUniqueAttributes',
-        ]);
     }
 
     function it_does_not_add_unique_attributes_from_unsupported_entity(

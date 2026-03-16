@@ -12,22 +12,13 @@ namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Install\Event
 use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Install\InitializeJobs;
 use Akeneo\Platform\Installer\Infrastructure\Event\InstallerEvent;
 use Akeneo\Platform\Installer\Infrastructure\Event\InstallerEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-class InitDataQualityInsightsJobsSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: InstallerEvents::PRE_LOAD_FIXTURES, method: 'initJobs')]
+class InitDataQualityInsightsJobsSubscriber
 {
     public function __construct(private readonly InitializeJobs $initializeJobs)
     {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            InstallerEvents::PRE_LOAD_FIXTURES => 'initJobs',
-        ];
     }
 
     public function initJobs(InstallerEvent $event): void

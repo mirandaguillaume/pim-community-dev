@@ -8,7 +8,7 @@ use Akeneo\Category\Infrastructure\Component\Classification\Model\CategoryInterf
 use Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Category\GetDescendentCategoryCodes;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -25,24 +25,15 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class UpdateIndexesOnCategoryDeletion implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::PRE_REMOVE, method: 'storeCategoryCodesToRemove')]
+#[AsEventListener(event: StorageEvents::POST_REMOVE, method: 'updateIndexes')]
+final class UpdateIndexesOnCategoryDeletion
 {
     /** @var string[] */
     private array $categoryCodesToRemove = [];
 
     public function __construct(private readonly GetDescendentCategoryCodes $getDescendentCategoryCodes, private readonly Client $productAndProductModelClient)
     {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::PRE_REMOVE  => 'storeCategoryCodesToRemove',
-            StorageEvents::POST_REMOVE => 'updateIndexes',
-        ];
     }
 
     public function storeCategoryCodesToRemove(GenericEvent $event)

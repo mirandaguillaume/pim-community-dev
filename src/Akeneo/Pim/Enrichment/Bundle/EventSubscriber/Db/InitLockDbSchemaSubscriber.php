@@ -7,24 +7,18 @@ namespace Akeneo\Pim\Enrichment\Bundle\EventSubscriber\Db;
 use Akeneo\Platform\Installer\Infrastructure\Event\InstallerEvent;
 use Akeneo\Platform\Installer\Infrastructure\Event\InstallerEvents;
 use Doctrine\DBAL\Connection;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * The table used by the PDOStore of Symfony/Lock is not attached to Doctrine.
  *
  * We need to manually create the table.
  */
-class InitLockDbSchemaSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: InstallerEvents::POST_DB_CREATE, method: 'initDbSchema')]
+class InitLockDbSchemaSubscriber
 {
     public function __construct(private readonly Connection $connection)
     {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            InstallerEvents::POST_DB_CREATE => 'initDbSchema',
-        ];
     }
 
     public function initDbSchema(InstallerEvent $event): void

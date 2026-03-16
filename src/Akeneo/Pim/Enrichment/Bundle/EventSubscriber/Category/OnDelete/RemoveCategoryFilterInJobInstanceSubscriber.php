@@ -9,7 +9,7 @@ use Akeneo\Tool\Component\Batch\Model\JobInstance;
 use Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Doctrine\ORM\EntityRepository;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -17,7 +17,11 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class RemoveCategoryFilterInJobInstanceSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::PRE_REMOVE, method: 'computeAndHoldCategoryTreeCodes')]
+#[AsEventListener(event: StorageEvents::PRE_REMOVE_ALL, method: 'computeAndHoldCategoryTreeCodes')]
+#[AsEventListener(event: StorageEvents::POST_REMOVE, method: 'removeCategoryFilter')]
+#[AsEventListener(event: StorageEvents::POST_REMOVE_ALL, method: 'removeCategoryFilters')]
+class RemoveCategoryFilterInJobInstanceSubscriber
 {
     protected const DEFAULT_CATEGORY_FILTER_VALUE    = ['master'];
     protected const DEFAULT_CATEGORY_FILTER_OPERATOR = 'IN CHILDREN';
@@ -38,16 +42,6 @@ class RemoveCategoryFilterInJobInstanceSubscriber implements EventSubscriberInte
     {
         $this->repository = $repository;
         $this->bulkSaver = $bulkSaver;
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::PRE_REMOVE      => 'computeAndHoldCategoryTreeCodes',
-            StorageEvents::PRE_REMOVE_ALL  => 'computeAndHoldCategoryTreeCodes',
-            StorageEvents::POST_REMOVE     => 'removeCategoryFilter',
-            StorageEvents::POST_REMOVE_ALL => 'removeCategoryFilters',
-        ];
     }
 
     /**

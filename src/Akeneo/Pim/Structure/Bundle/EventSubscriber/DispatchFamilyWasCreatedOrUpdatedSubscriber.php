@@ -11,7 +11,7 @@ use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Psr\Clock\ClockInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -19,7 +19,11 @@ use Symfony\Component\Messenger\MessageBusInterface;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class DispatchFamilyWasCreatedOrUpdatedSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::PRE_SAVE, method: 'beforeSave')]
+#[AsEventListener(event: StorageEvents::PRE_SAVE_ALL, method: 'beforeBulkSave')]
+#[AsEventListener(event: StorageEvents::POST_SAVE, method: 'onUnitarySave')]
+#[AsEventListener(event: StorageEvents::POST_SAVE_ALL, method: 'onBulkSave')]
+final class DispatchFamilyWasCreatedOrUpdatedSubscriber
 {
     /** @var array<string, bool> */
     private array $createdFamiliesByCode = [];
@@ -33,19 +37,6 @@ final class DispatchFamilyWasCreatedOrUpdatedSubscriber implements EventSubscrib
         private readonly ?string $tenantId,
         private readonly string $env
     ) {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::PRE_SAVE => 'beforeSave',
-            StorageEvents::PRE_SAVE_ALL => 'beforeBulkSave',
-            StorageEvents::POST_SAVE => 'onUnitarySave',
-            StorageEvents::POST_SAVE_ALL => 'onBulkSave',
-        ];
     }
 
     public function beforeSave(GenericEvent $event): void

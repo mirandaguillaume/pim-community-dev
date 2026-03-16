@@ -7,7 +7,6 @@ use Akeneo\Pim\Structure\Component\Repository\ExternalApi\AttributeRepositoryInt
 use Akeneo\Tool\Component\Api\Hal\Link;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
@@ -15,7 +14,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class ProductNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+class ProductNormalizer implements NormalizerInterface
 {
     /** @var NormalizerInterface */
     protected $productNormalizer;
@@ -83,11 +82,6 @@ class ProductNormalizer implements NormalizerInterface, CacheableSupportsMethodI
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof ProductInterface && 'external_api' === $format;
-    }
-
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
     }
 
     /**

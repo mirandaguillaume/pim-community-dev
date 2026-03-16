@@ -6,19 +6,13 @@ namespace Akeneo\Tool\Bundle\ElasticsearchBundle\Infrastructure\Install;
 
 use Akeneo\Platform\Installer\Infrastructure\Event\InstallerEvents;
 use Doctrine\DBAL\Connection as DbalConnection;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-class InstallSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: InstallerEvents::POST_DB_CREATE, method: 'createIndexMigrationTable')]
+class InstallSubscriber
 {
     public function __construct(private readonly DbalConnection $dbalConnection)
     {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            InstallerEvents::POST_DB_CREATE => 'createIndexMigrationTable',
-        ];
     }
 
     public function createIndexMigrationTable(): void

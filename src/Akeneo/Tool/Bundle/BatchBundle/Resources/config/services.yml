@@ -89,14 +89,13 @@ services:
         arguments:
             - '@logger'
             - '@translator'
+        autoconfigure: true
         tags:
-            - { name: kernel.event_subscriber }
             - { name: monolog.logger, channel: batch }
 
     akeneo_batch.notification_subscriber:
         class: '%akeneo_batch.notification_subscriber.class%'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 
     akeneo_batch.load_job_parameters_listener:
         class: '%akeneo_batch.load_job_parameters_listener.class%'
@@ -112,32 +111,27 @@ services:
             - '@akeneo_batch.query.update_job_execution_status'
             - '@akeneo_batch.job.job_registry'
             - '%akeneo_batch.jobs_allowed_to_pause%'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 
     Akeneo\Tool\Bundle\BatchBundle\EventListener\LogOnJobResumeSubscriber:
         arguments:
             - '@logger'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 
     Akeneo\Tool\Bundle\BatchBundle\EventListener\BackupImportFileOnPauseSubscriber:
         arguments:
             - '@pim_connector.job.file_backuper'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 
     Akeneo\Tool\Bundle\BatchBundle\EventListener\RecoverImportFileOnResumeSubscriber:
         arguments:
             - '@pim_connector.job.file_backuper'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 
     Akeneo\Tool\Bundle\BatchBundle\EventListener\CleanImportFileAfterJobExecutionSubscriber:
         arguments:
             - '@pim_connector.job.file_backuper'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 
     akeneo_batch.mail_notifier:
         class: '%akeneo_batch.mail_notifier.class%'
@@ -160,8 +154,7 @@ services:
         class: '%akeneo_batch.set_job_execution_log_file_subscriber.class%'
         arguments:
             - '@akeneo_batch.logger.batch_log_handler'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 
     akeneo_batch.manager.job_execution:
         class: '%akeneo_batch.manager.job_execution.class%'
@@ -226,8 +219,7 @@ services:
         arguments:
             - '@akeneo_batch_queue.queue.job_execution_queue'
             - '@logger'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 
     Akeneo\Tool\Bundle\BatchBundle\JobExecution\ExecuteJobExecutionHandlerInterface:
         class: Akeneo\Tool\Bundle\BatchBundle\JobExecution\ExecuteJobExecutionHandler

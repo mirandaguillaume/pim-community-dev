@@ -74,16 +74,14 @@ services:
             - '@akeneo_batch_queue.launcher.queue_job_launcher'
             - '@akeneo_batch.job.job_instance_repository'
             - '%pim_catalog.remove_completeness_for_channel_and_locale.job_name%'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 
     pim_enrich.event_subscriber.storage.remove_locales_from_channel:
         class: 'Akeneo\Channel\Infrastructure\EventListener\RemoveLocalesFromChannelSubscriber'
         arguments:
             - '@pim_catalog.saver.locale'
             - []
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 
 
     ### Channel
@@ -205,8 +203,7 @@ services:
         class: 'Akeneo\Channel\Infrastructure\EventListener\CurrencyDisablingSubscriber'
         arguments:
             - '@pim_catalog.repository.channel'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 
     pim_catalog.factory.currency:
         class: '%akeneo_storage_utils.factory.simple.class%'
@@ -249,5 +246,4 @@ services:
         class: 'Akeneo\Channel\Infrastructure\EventListener\ClearCacheSubscriber'
         arguments:
             - '@pim_channel.query.cache.channel_exists_with_locale'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true

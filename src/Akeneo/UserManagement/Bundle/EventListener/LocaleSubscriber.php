@@ -5,7 +5,7 @@ namespace Akeneo\UserManagement\Bundle\EventListener;
 use Akeneo\UserManagement\Component\Event\UserEvent;
 use Akeneo\UserManagement\Component\Model\UserInterface;
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -23,7 +23,10 @@ use Symfony\Contracts\Translation\LocaleAwareInterface;
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class LocaleSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: UserEvent::POST_UPDATE, method: 'onPostUpdate')]
+#[AsEventListener(event: KernelEvents::REQUEST, method: 'onKernelRequest', priority: 17)]
+#[AsEventListener(event: SecurityEvents::INTERACTIVE_LOGIN, method: 'onSecurityInteractiveLogin')]
+class LocaleSubscriber
 {
     public function __construct(protected RequestStack $requestStack, protected LocaleAwareInterface $localeAware, protected EntityManager $em, protected FirewallMapInterface $firewall)
     {
@@ -60,18 +63,6 @@ class LocaleSubscriber implements EventSubscriberInterface
 
         $event->getRequest()->getSession()->remove('dataLocale');
         $event->getRequest()->getSession()->set('_locale', $user->getUiLocale()->getCode());
-    }
-
-    /**
-     * @return array
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            UserEvent::POST_UPDATE => [['onPostUpdate']],
-            KernelEvents::REQUEST  => [['onKernelRequest', 17]],
-            SecurityEvents::INTERACTIVE_LOGIN  => [['onSecurityInteractiveLogin']],
-        ];
     }
 
     protected function getLocale(Request $request): ?string

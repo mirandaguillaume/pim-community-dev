@@ -3,7 +3,6 @@
 namespace Akeneo\Pim\Enrichment\Component\Product\Normalizer\Standard;
 
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
@@ -13,7 +12,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  * @copyright 2016 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class ProductNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+class ProductNormalizer implements NormalizerInterface
 {
     final public const FIELD_ASSOCIATIONS = 'associations';
     final public const FIELD_QUANTIFIED_ASSOCIATIONS = 'quantified_associations';
@@ -43,10 +42,5 @@ class ProductNormalizer implements NormalizerInterface, CacheableSupportsMethodI
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof ProductInterface && 'standard' === $format;
-    }
-
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
     }
 }

@@ -7,7 +7,7 @@ namespace Akeneo\UserManagement\Bundle\EventListener;
 use Akeneo\UserManagement\Bundle\Manager\UserManager;
 use Akeneo\UserManagement\Bundle\Model\LockedAccountException;
 use Akeneo\UserManagement\Component\Model\UserInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Event\CheckPassportEvent;
@@ -18,22 +18,16 @@ use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final readonly class LoginRateLimitListener implements EventSubscriberInterface
+#[AsEventListener(event: CheckPassportEvent::class, method: 'checkPassport', priority: 2080, dispatcher: 'security.event_dispatcher.main')]
+#[AsEventListener(event: LoginSuccessEvent::class, method: 'onSuccessfulLogin', dispatcher: 'security.event_dispatcher.main')]
+#[AsEventListener(event: LoginFailureEvent::class, method: 'onFailureLogin', dispatcher: 'security.event_dispatcher.main')]
+final readonly class LoginRateLimitListener
 {
     public function __construct(
         private UserManager $userManager,
         private int $accountLockDuration,
         private int $accountMaxConsecutiveFailure,
     ) {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            CheckPassportEvent::class => ['checkPassport', 2080],
-            LoginSuccessEvent::class => 'onSuccessfulLogin',
-            LoginFailureEvent::class => 'onFailureLogin',
-        ];
     }
 
     public function checkPassport(CheckPassportEvent $event): void

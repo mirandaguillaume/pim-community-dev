@@ -8,7 +8,6 @@ use Akeneo\UserManagement\Component\Model\UserInterface;
 use Oro\Bundle\PimDataGridBundle\Repository\DatagridViewRepositoryInterface;
 use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
@@ -19,7 +18,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class UserNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+class UserNormalizer implements NormalizerInterface
 {
     private readonly array $properties;
     protected array $supportedFormats = ['internal_api'];
@@ -108,11 +107,6 @@ class UserNormalizer implements NormalizerInterface, CacheableSupportsMethodInte
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof UserInterface && in_array($format, $this->supportedFormats);
-    }
-
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
     }
 
     /**

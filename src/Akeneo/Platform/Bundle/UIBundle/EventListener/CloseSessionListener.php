@@ -2,7 +2,7 @@
 
 namespace Akeneo\Platform\Bundle\UIBundle\EventListener;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -24,17 +24,9 @@ use Symfony\Component\HttpKernel\KernelEvents;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class CloseSessionListener implements EventSubscriberInterface
+#[AsEventListener(event: KernelEvents::REQUEST, method: 'closeSession', priority: -100)]
+class CloseSessionListener
 {
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            KernelEvents::REQUEST => ['closeSession', -100],
-        ];
-    }
 
     /**
      * Save and close the session.

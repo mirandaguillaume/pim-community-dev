@@ -6,33 +6,17 @@ use Akeneo\Pim\Automation\IdentifierGenerator\Application\Exception\UnableToSetI
 use Akeneo\Pim\Automation\IdentifierGenerator\Application\Validation\Error;
 use Akeneo\Pim\Automation\IdentifierGenerator\Application\Validation\ErrorList;
 use Akeneo\Pim\Automation\IdentifierGenerator\Infrastructure\Event\UnableToSetIdentifierEvent;
-use Akeneo\Tool\Component\Batch\Event\EventInterface;
 use Akeneo\Tool\Component\Batch\Event\StepExecutionEvent;
 use Akeneo\Tool\Component\Batch\Job\JobRepositoryInterface;
 use Akeneo\Tool\Component\Batch\Model\StepExecution;
 use Akeneo\Tool\Component\Batch\Model\Warning;
 use PhpSpec\ObjectBehavior;
-use PHPUnit\Framework\Assert;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class UnableToSetIdentifiersSubscriberSpec extends ObjectBehavior
 {
     function let(JobRepositoryInterface $jobRepository)
     {
         $this->beConstructedWith($jobRepository);
-    }
-
-    function it_is_an_event_subscriber(): void
-    {
-        $this->shouldHaveType(EventSubscriberInterface::class);
-    }
-
-    public function it_should_listen_to_events(): void
-    {
-        Assert::assertSame(\array_keys($this->getSubscribedEvents()->getWrappedObject()), [
-            UnableToSetIdentifierEvent::class,
-            EventInterface::ITEM_STEP_AFTER_BATCH,
-        ]);
     }
 
     public function it_should_write_warnings(

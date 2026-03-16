@@ -12,20 +12,14 @@ namespace Akeneo\Tool\Bundle\BatchBundle\EventListener;
 use Akeneo\Tool\Component\Batch\Event\EventInterface;
 use Akeneo\Tool\Component\Batch\Event\StepExecutionEvent;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-class LogOnJobResumeSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: EventInterface::BEFORE_STEP_EXECUTION_RESUME, method: 'log')]
+class LogOnJobResumeSubscriber
 {
     public function __construct(
         private readonly LoggerInterface $logger,
     ) {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            EventInterface::BEFORE_STEP_EXECUTION_RESUME => 'log',
-        ];
     }
 
     public function log(StepExecutionEvent $event): void

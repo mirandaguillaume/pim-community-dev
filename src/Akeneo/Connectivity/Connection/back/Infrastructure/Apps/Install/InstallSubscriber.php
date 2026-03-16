@@ -6,7 +6,7 @@ namespace Akeneo\Connectivity\Connection\Infrastructure\Apps\Install;
 
 use Akeneo\Platform\Installer\Infrastructure\Event\InstallerEvents;
 use Doctrine\DBAL\Connection as DbalConnection;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -14,20 +14,14 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class InstallSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: InstallerEvents::POST_DB_CREATE, method: 'updateSchema', priority: -10)]
+#[AsEventListener(event: InstallerEvents::POST_LOAD_FIXTURES, method: 'loadFixtures', priority: -20)]
+class InstallSubscriber
 {
     public function __construct(
         private readonly DbalConnection $dbalConnection,
         private readonly AddAclToRoles $addAclToRoles,
     ) {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            InstallerEvents::POST_DB_CREATE => ['updateSchema', -10],
-            InstallerEvents::POST_LOAD_FIXTURES => ['loadFixtures', -20],
-        ];
     }
 
     public function updateSchema(): void

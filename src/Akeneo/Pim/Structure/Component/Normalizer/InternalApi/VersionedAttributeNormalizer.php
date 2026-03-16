@@ -5,7 +5,6 @@ namespace Akeneo\Pim\Structure\Component\Normalizer\InternalApi;
 use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 use Akeneo\Platform\Bundle\UIBundle\Provider\StructureVersion\StructureVersionProviderInterface;
 use Akeneo\Tool\Bundle\VersioningBundle\Manager\VersionManager;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
@@ -16,7 +15,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class VersionedAttributeNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+class VersionedAttributeNormalizer implements NormalizerInterface
 {
     /** @var array $supportedFormats */
     protected $supportedFormats = ['internal_api'];
@@ -76,10 +75,5 @@ class VersionedAttributeNormalizer implements NormalizerInterface, CacheableSupp
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof AttributeInterface && in_array($format, $this->supportedFormats);
-    }
-
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
     }
 }

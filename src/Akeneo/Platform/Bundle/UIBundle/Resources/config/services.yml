@@ -38,8 +38,7 @@ services:
 
     pim_enrich.event_listener.close_session:
         class: 'Akeneo\Platform\Bundle\UIBundle\EventListener\CloseSessionListener'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 
     stof_doctrine_extensions.event_listener.locale:
         class: 'Akeneo\Platform\Bundle\UIBundle\EventListener\UserContextListener'
@@ -48,8 +47,7 @@ services:
             - '@pim_enrich.event_listener.add_locale'
             - '@pim_catalog.context.catalog'
             - '@pim_user.context.user'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 
     security.authenticator.form_login:
         abstract: true
@@ -71,8 +69,7 @@ services:
         class: Akeneo\Platform\Bundle\UIBundle\EventListener\AddContentSecurityPolicyListener
         arguments:
             - '@Akeneo\Platform\Bundle\UIBundle\Provider\ContentSecurityPolicy\ContentSecurityPolicyProvider'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 
     pim_enrich.normalizer.constraint_violation_list:
         class: 'Akeneo\Platform\Bundle\UIBundle\Normalizer\ConstraintViolationListNormalizer'

@@ -4,7 +4,6 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Normalizer\Indexing;
 
 use Akeneo\Pim\Enrichment\Component\Product\Completeness\Model\ProductCompletenessCollection;
 use Akeneo\Pim\Enrichment\Component\Product\Normalizer\Indexing\Value\ValueCollectionNormalizer;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
@@ -14,7 +13,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class ProductCompletenessCollectionNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+class ProductCompletenessCollectionNormalizer implements NormalizerInterface
 {
     /**
      * {@inheritdoc}
@@ -44,10 +43,5 @@ class ProductCompletenessCollectionNormalizer implements NormalizerInterface, Ca
                 ValueCollectionNormalizer::INDEXING_FORMAT_PRODUCT_AND_MODEL_INDEX,
             ])
             && $data instanceof ProductCompletenessCollection;
-    }
-
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
     }
 }

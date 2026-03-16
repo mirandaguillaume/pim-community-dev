@@ -8,6 +8,5 @@ services:
             - '@pim_user.provider.job_user'
             - '@pim_user.provider.user'
             - '@security.token_storage'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 

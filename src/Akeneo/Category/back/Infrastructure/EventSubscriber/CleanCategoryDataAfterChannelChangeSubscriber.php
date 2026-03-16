@@ -10,25 +10,19 @@ use Akeneo\Tool\Bundle\BatchBundle\Job\JobInstanceRepository;
 use Akeneo\Tool\Bundle\BatchBundle\Launcher\JobLauncherInterface;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class CleanCategoryDataAfterChannelChangeSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::POST_SAVE, method: 'cleanCategoryDataForChannelLocale')]
+#[AsEventListener(event: StorageEvents::POST_REMOVE, method: 'cleanCategoryDataForChannel')]
+class CleanCategoryDataAfterChannelChangeSubscriber
 {
     public function __construct(
         private readonly JobInstanceRepository $jobInstanceRepository,
         private readonly JobLauncherInterface $jobLauncher,
         private readonly TokenStorageInterface $tokenStorage,
     ) {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::POST_SAVE => 'cleanCategoryDataForChannelLocale',
-            StorageEvents::POST_REMOVE => 'cleanCategoryDataForChannel',
-        ];
     }
 
     public function cleanCategoryDataForChannel(GenericEvent $event): void

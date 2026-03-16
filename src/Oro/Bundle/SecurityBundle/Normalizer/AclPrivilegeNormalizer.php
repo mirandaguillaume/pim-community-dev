@@ -6,7 +6,6 @@ namespace Oro\Bundle\SecurityBundle\Normalizer;
 
 use Oro\Bundle\SecurityBundle\Model\AclPermission;
 use Oro\Bundle\SecurityBundle\Model\AclPrivilege;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Webmozart\Assert\Assert;
 
@@ -15,7 +14,7 @@ use Webmozart\Assert\Assert;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final class AclPrivilegeNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+final class AclPrivilegeNormalizer implements NormalizerInterface
 {
     private array $supportedFormats = ['array', 'standard'];
 
@@ -49,13 +48,5 @@ final class AclPrivilegeNormalizer implements NormalizerInterface, CacheableSupp
             'type' => $privilege->getExtensionKey(),
             'permissions' => $permissionsForPrivilege,
         ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
     }
 }

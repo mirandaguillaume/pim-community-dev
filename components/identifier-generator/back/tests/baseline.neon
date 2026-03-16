@@ -3828,11 +3828,6 @@ parameters:
 			count: 1
 			path: Specification/Infrastructure/Subscriber/SetIdentifiersSubscriberSpec.php
 
-		-
-			message: '#^Call to an undefined method Specification\\Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Subscriber\\SetIdentifiersSubscriberSpec\:\:getSubscribedEvents\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: Specification/Infrastructure/Subscriber/SetIdentifiersSubscriberSpec.php
 
 		-
 			message: '#^Call to an undefined method Specification\\Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Subscriber\\SetIdentifiersSubscriberSpec\:\:setIdentifier\(\)\.$#'
@@ -3960,11 +3955,6 @@ parameters:
 			count: 1
 			path: Specification/Infrastructure/Subscriber/UnableToSetIdentifiersSubscriberSpec.php
 
-		-
-			message: '#^Call to an undefined method Specification\\Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Subscriber\\UnableToSetIdentifiersSubscriberSpec\:\:getSubscribedEvents\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: Specification/Infrastructure/Subscriber/UnableToSetIdentifiersSubscriberSpec.php
 
 		-
 			message: '#^Call to an undefined method Specification\\Akeneo\\Pim\\Automation\\IdentifierGenerator\\Infrastructure\\Subscriber\\UnableToSetIdentifiersSubscriberSpec\:\:storeEvent\(\)\.$#'

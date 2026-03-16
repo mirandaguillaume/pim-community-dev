@@ -8,7 +8,7 @@ use Akeneo\Tool\Component\BatchQueue\Queue\JobExecutionMessageInterface;
 use Akeneo\Tool\Component\BatchQueue\Queue\ScheduledJobMessageInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Messenger\Event\WorkerMessageReceivedEvent;
 
 /**
@@ -20,17 +20,11 @@ use Symfony\Component\Messenger\Event\WorkerMessageReceivedEvent;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-final readonly class AckMessageEventListener implements EventSubscriberInterface
+#[AsEventListener(event: WorkerMessageReceivedEvent::class, method: 'ackMessage')]
+final readonly class AckMessageEventListener
 {
     public function __construct(private ContainerInterface $receiverLocator)
     {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            WorkerMessageReceivedEvent::class => 'ackMessage',
-        ];
     }
 
     public function ackMessage(WorkerMessageReceivedEvent $event): void

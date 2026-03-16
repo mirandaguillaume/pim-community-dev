@@ -6,27 +6,18 @@ namespace Akeneo\Tool\Bundle\MeasureBundle\Installer;
 
 use Akeneo\Platform\Installer\Infrastructure\Event\InstallerEvents;
 use Doctrine\DBAL\Connection;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * @author    Samir Boulil <samir.boulil@akeneo.com>
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class MeasurementInstaller implements EventSubscriberInterface
+#[AsEventListener(event: InstallerEvents::POST_DB_CREATE, method: 'createMeasurementTableAndStandardMeasurementFamilies')]
+class MeasurementInstaller
 {
     public function __construct(private readonly Connection $connection)
     {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            InstallerEvents::POST_DB_CREATE => ['createMeasurementTableAndStandardMeasurementFamilies'],
-        ];
     }
 
     public function createMeasurementTableAndStandardMeasurementFamilies(): void

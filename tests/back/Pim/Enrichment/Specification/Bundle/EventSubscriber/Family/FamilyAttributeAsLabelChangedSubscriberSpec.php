@@ -7,7 +7,6 @@ use Akeneo\Pim\Enrichment\Component\Product\ProductAndProductModel\Query\FindAtt
 use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 use Akeneo\Pim\Structure\Component\Model\FamilyInterface;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
-use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use PhpParser\Node\Arg;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -24,14 +23,6 @@ class FamilyAttributeAsLabelChangedSubscriberSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(FamilyAttributeAsLabelChangedSubscriber::class);
-    }
-
-    function it_subscribes_to_events()
-    {
-        $this->getSubscribedEvents()->shouldReturn([
-            StorageEvents::PRE_SAVE => 'storeFamilyCodeIfNeeded',
-            StorageEvents::POST_SAVE => 'triggerFamilyRelatedProductsReindexation',
-        ]);
     }
 
     function it_detects_that_the_attribute_code_as_label_of_the_family_changed_on_pre_save_and_run_es_request(
@@ -145,7 +136,6 @@ class FamilyAttributeAsLabelChangedSubscriberSpec extends ObjectBehavior
                 ]
             ]
         )->shouldBeCalledOnce();
-
 
         $this->storeFamilyCodeIfNeeded(new GenericEvent($family1->getWrappedObject()));
         $this->storeFamilyCodeIfNeeded(new GenericEvent($family2->getWrappedObject()));

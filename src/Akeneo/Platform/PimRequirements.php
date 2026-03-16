@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Akeneo\Platform;
 
 use PDO;
-use Symfony\Component\Intl\Intl;
 use Symfony\Requirements\Requirement;
 
 /**
@@ -55,7 +54,7 @@ class PimRequirements
         $phpVersion  = phpversion();
         $gdVersion   = defined('GD_VERSION') ? GD_VERSION : null;
         $curlVersion = function_exists('curl_version') ? curl_version() : null;
-        $icuVersion  = Intl::getIcuVersion();
+        $icuVersion  = INTL_ICU_VERSION;
 
         $requirements = [];
 

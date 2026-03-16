@@ -4,7 +4,7 @@ namespace Akeneo\Platform\Bundle\UIBundle\EventListener;
 
 use Akeneo\Pim\Enrichment\Bundle\Context\CatalogContext;
 use Akeneo\UserManagement\Bundle\Context\UserContext;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -19,7 +19,8 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class UserContextListener implements EventSubscriberInterface
+#[AsEventListener(event: KernelEvents::REQUEST, method: 'onKernelRequest')]
+class UserContextListener
 {
     /**
      * @var TokenStorageInterface
@@ -54,16 +55,6 @@ class UserContextListener implements EventSubscriberInterface
         $this->listener = $listener;
         $this->catalogContext = $catalogContext;
         $this->userContext = $userContext;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            KernelEvents::REQUEST => 'onKernelRequest',
-        ];
     }
 
     public function onKernelRequest(RequestEvent $event)

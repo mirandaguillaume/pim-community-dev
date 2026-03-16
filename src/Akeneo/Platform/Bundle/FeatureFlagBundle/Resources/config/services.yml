@@ -19,8 +19,7 @@ services:
         class: 'Akeneo\Platform\Bundle\FeatureFlagBundle\Internal\FilterRoutesSubscriber'
         arguments:
             - '@feature_flags'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 
     akeneo.feature_flag.service.registry:
         public: false

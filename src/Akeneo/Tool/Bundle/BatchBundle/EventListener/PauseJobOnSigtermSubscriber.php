@@ -22,9 +22,10 @@ use Akeneo\Tool\Component\Batch\Model\JobExecution;
 use Akeneo\Tool\Component\Batch\Query\SqlUpdateJobExecutionStatus;
 use Akeneo\Tool\Component\Batch\Step\StepInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-class PauseJobOnSigtermSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: EventInterface::BEFORE_JOB_EXECUTION, method: 'onBeforeJobExecution')]
+class PauseJobOnSigtermSubscriber
 {
     /**
      * @param array<string> $jobsAllowedToPause
@@ -36,13 +37,6 @@ class PauseJobOnSigtermSubscriber implements EventSubscriberInterface
         private readonly JobRegistry $jobRegistry,
         private readonly array $jobsAllowedToPause,
     ) {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            EventInterface::BEFORE_JOB_EXECUTION => 'onBeforeJobExecution',
-        ];
     }
 
     public function onBeforeJobExecution(JobExecutionEvent $event): void

@@ -9,7 +9,7 @@ use Akeneo\Pim\Structure\Component\Model\AttributeOptionInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -19,20 +19,12 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class TimestampableAttributeSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::PRE_SAVE, method: 'setAttributeUpdatedDate')]
+#[AsEventListener(event: StorageEvents::PRE_REMOVE, method: 'setAttributeUpdatedDate')]
+class TimestampableAttributeSubscriber
 {
     public function __construct(private readonly ObjectManager $em)
     {
-    }
-
-    /**
-     * Specifies the list of events to listen
-     *
-     * @return string[]
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [StorageEvents::PRE_SAVE => 'setAttributeUpdatedDate', StorageEvents::PRE_REMOVE => 'setAttributeUpdatedDate'];
     }
 
     public function setAttributeUpdatedDate(GenericEvent $event): void

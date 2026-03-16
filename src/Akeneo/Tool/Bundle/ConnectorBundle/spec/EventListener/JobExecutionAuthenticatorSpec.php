@@ -3,13 +3,11 @@
 namespace spec\Akeneo\Tool\Bundle\ConnectorBundle\EventListener;
 
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
-use Akeneo\Tool\Component\Batch\Event\EventInterface;
 use Akeneo\Tool\Component\Batch\Event\JobExecutionEvent;
 use Akeneo\Tool\Component\Batch\Job\JobParameters;
 use Akeneo\Tool\Component\Batch\Model\JobExecution;
 use PhpSpec\ObjectBehavior;
 use Akeneo\Tool\Bundle\ConnectorBundle\EventListener\JobExecutionAuthenticator;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -25,16 +23,6 @@ class JobExecutionAuthenticatorSpec extends ObjectBehavior
     public function it_is_initializable()
     {
         $this->shouldHaveType(JobExecutionAuthenticator::class);
-    }
-
-    public function it_is_an_event_subscriber()
-    {
-        $this->shouldHaveType(EventSubscriberInterface::class);
-    }
-
-    public function it_returns_subscribed_events()
-    {
-        $this->getSubscribedEvents()->shouldReturn([EventInterface::BEFORE_JOB_EXECUTION => 'authenticate']);
     }
 
     public function it_authenticates_user_with_token(

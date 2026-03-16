@@ -9,7 +9,6 @@ use Akeneo\Tool\Bundle\BatchBundle\Launcher\JobLauncherInterface;
 use Akeneo\Tool\Bundle\BatchBundle\Launcher\SimpleJobLauncher;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
 use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface;
-use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Akeneo\UserManagement\Component\Model\UserInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Result;
@@ -20,7 +19,6 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-
 
 class ComputeFamilyVariantStructureChangesSubscriberSpec extends ObjectBehavior
 {
@@ -39,15 +37,6 @@ class ComputeFamilyVariantStructureChangesSubscriberSpec extends ObjectBehavior
             $logger,
             'compute_family_variant_structure_changes'
         );
-    }
-
-    function it_subscribes_to_events()
-    {
-        $this->getSubscribedEvents()->shouldReturn([
-            StorageEvents::PRE_SAVE => 'recordIsNewFamilyVariant',
-            StorageEvents::POST_SAVE => 'computeVariantStructureChanges',
-            StorageEvents::POST_SAVE_ALL => 'bulkComputeVariantStructureChanges',
-        ]);
     }
 
     function it_computes_variant_structure_changes(

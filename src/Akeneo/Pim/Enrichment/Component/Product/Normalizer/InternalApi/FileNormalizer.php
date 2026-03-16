@@ -3,7 +3,6 @@
 namespace Akeneo\Pim\Enrichment\Component\Product\Normalizer\InternalApi;
 
 use Akeneo\Tool\Component\FileStorage\Model\FileInfoInterface;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
@@ -13,7 +12,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class FileNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+class FileNormalizer implements NormalizerInterface
 {
     /** @var string[] */
     protected $supportedFormats = ['internal_api'];
@@ -35,10 +34,5 @@ class FileNormalizer implements NormalizerInterface, CacheableSupportsMethodInte
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof FileInfoInterface && in_array($format, $this->supportedFormats);
-    }
-
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
     }
 }

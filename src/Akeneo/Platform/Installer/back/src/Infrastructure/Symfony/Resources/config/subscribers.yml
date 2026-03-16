@@ -4,24 +4,20 @@ services:
       - '@router'
       - '@Akeneo\Platform\Installer\Application\IsMaintenanceModeEnabled\IsMaintenanceModeEnabledHandler'
       - '@Akeneo\Platform\Installer\Application\UpdateMaintenanceMode\UpdateMaintenanceModeHandler'
-    tags:
-      - { name: 'kernel.event_subscriber' }
+    autoconfigure: true
 
   Akeneo\Platform\Installer\Infrastructure\Event\Subscriber\CreateNotMappedTablesSubscriber:
     arguments:
       - '@database_connection'
-    tags:
-      - { name: 'kernel.event_subscriber' }
+    autoconfigure: true
 
   Akeneo\Platform\Installer\Infrastructure\Event\Subscriber\MarkZddMigrationsAsMigratedSubscriber:
     arguments:
       - '@database_connection'
       - !tagged_iterator { tag: 'akeneo.pim.zdd_migration' }
-    tags:
-      - { name: kernel.event_subscriber }
+    autoconfigure: true
 
   Akeneo\Platform\Installer\Infrastructure\Event\Subscriber\UpdateLastResetDateSubscriber:
     arguments:
       - '@Akeneo\Platform\Installer\Infrastructure\Persistence\Sql\SaveResetEvent'
-    tags:
-      - { name: 'kernel.event_subscriber' }
+    autoconfigure: true

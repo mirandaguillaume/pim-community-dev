@@ -11,7 +11,6 @@ use Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface;
 use Akeneo\Tool\Component\StorageUtils\Updater\ObjectUpdaterInterface;
 use Doctrine\Persistence\ObjectRepository;
 use PhpSpec\ObjectBehavior;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * @author Paul Chasle <paul.chasle@akeneo.com>
@@ -35,18 +34,6 @@ class ConfigureCategoryTreeForExportJobsAfterChangingTheChannelCategoryTreeSpec 
             $jobInstanceUpdater,
             $jobInstanceSaver,
             self::supportedJobNames
-        );
-    }
-
-    function it_is_an_event_subscriber()
-    {
-        $this->shouldImplement(EventSubscriberInterface::class);
-    }
-
-    function it_subscribes_to_channel_category_has_been_updated_event()
-    {
-        $this->getSubscribedEvents()->shouldReturn(
-            [ChannelCategoryHasBeenUpdated::class => 'onChannelCategoryHasBeenUpdatedEvent']
         );
     }
 

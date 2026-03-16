@@ -8,7 +8,7 @@ use Akeneo\Channel\Infrastructure\Component\Model\ChannelInterface;
 use Akeneo\Channel\Infrastructure\Component\Query\PublicApi\ChannelExistsWithLocaleInterface;
 use Akeneo\Tool\Component\StorageUtils\Cache\CachedQueryInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -18,21 +18,12 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class ClearCacheSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::POST_SAVE, method: 'clearCache')]
+#[AsEventListener(event: StorageEvents::POST_SAVE_ALL, method: 'clearCache')]
+class ClearCacheSubscriber
 {
     public function __construct(private readonly CachedQueryInterface $cachedChannelExistsWithLocale)
     {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::POST_SAVE => 'clearCache',
-            StorageEvents::POST_SAVE_ALL => 'clearCache',
-        ];
     }
 
     /**

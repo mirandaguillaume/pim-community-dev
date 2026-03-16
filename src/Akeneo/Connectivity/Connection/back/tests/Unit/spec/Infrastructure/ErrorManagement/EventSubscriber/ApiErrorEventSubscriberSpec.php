@@ -13,8 +13,6 @@ use Akeneo\Pim\Enrichment\Component\Product\Exception\UnknownAttributeException;
 use Akeneo\Pim\Enrichment\Component\Product\Model\Product;
 use FOS\RestBundle\Context\Context;
 use PhpSpec\ObjectBehavior;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Validator\ConstraintViolationList;
 
 class ApiErrorEventSubscriberSpec extends ObjectBehavior
@@ -24,20 +22,9 @@ class ApiErrorEventSubscriberSpec extends ObjectBehavior
         $this->beConstructedWith($collectApiError);
     }
 
-    public function it_provides_subscribed_events(): void
-    {
-        $this->getSubscribedEvents()->shouldReturn([
-            ProductDomainErrorEvent::class => 'collectProductDomainError',
-            ProductValidationErrorEvent::class => 'collectProductValidationError',
-            TechnicalErrorEvent::class => 'collectTechnicalError',
-            KernelEvents::TERMINATE => 'flushApiErrors',
-        ]);
-    }
-
     public function it_is_an_event_subscriber(): void
     {
         $this->shouldHaveType(ApiErrorEventSubscriber::class);
-        $this->shouldImplement(EventSubscriberInterface::class);
     }
 
     public function it_collects_a_product_domain_error($collectApiError): void

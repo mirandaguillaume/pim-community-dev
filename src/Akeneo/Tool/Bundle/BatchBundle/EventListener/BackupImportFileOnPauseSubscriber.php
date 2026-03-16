@@ -13,20 +13,14 @@ use Akeneo\Tool\Component\Batch\Event\EventInterface;
 use Akeneo\Tool\Component\Batch\Event\StepExecutionEvent;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
 use Akeneo\Tool\Component\Connector\Job\JobFileBackuper;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-final readonly class BackupImportFileOnPauseSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: EventInterface::BEFORE_STEP_EXECUTION_PAUSED, method: 'backupImportFile')]
+final readonly class BackupImportFileOnPauseSubscriber
 {
     public function __construct(
         private JobFileBackuper $jobFileBackuper,
     ) {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            EventInterface::BEFORE_STEP_EXECUTION_PAUSED => 'backupImportFile',
-        ];
     }
 
     public function backupImportFile(StepExecutionEvent $event): void

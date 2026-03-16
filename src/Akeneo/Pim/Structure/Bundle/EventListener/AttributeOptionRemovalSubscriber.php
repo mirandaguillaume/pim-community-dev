@@ -8,7 +8,7 @@ use Akeneo\Pim\Enrichment\Bundle\Elasticsearch\ProductAndProductModelQueryBuilde
 use Akeneo\Pim\Structure\Component\FamilyVariant\Query\FamilyVariantsByAttributeAxesInterface;
 use Akeneo\Pim\Structure\Component\Model\AttributeOptionInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -18,7 +18,8 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class AttributeOptionRemovalSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::PRE_REMOVE, method: 'disallowRemovalIfOptionIsUsedAsAttributeAxes')]
+class AttributeOptionRemovalSubscriber
 {
     /** @var FamilyVariantsByAttributeAxesInterface */
     protected $familyVariantsByAttributeAxes;
@@ -32,16 +33,6 @@ class AttributeOptionRemovalSubscriber implements EventSubscriberInterface
     ) {
         $this->familyVariantsByAttributeAxes = $familyVariantsByAttributeAxes;
         $this->pqbFactory = $pqbFactory;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::PRE_REMOVE => 'disallowRemovalIfOptionIsUsedAsAttributeAxes',
-        ];
     }
 
     public function disallowRemovalIfOptionIsUsedAsAttributeAxes(GenericEvent $event): void

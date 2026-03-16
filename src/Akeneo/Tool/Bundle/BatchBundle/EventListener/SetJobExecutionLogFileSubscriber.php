@@ -5,7 +5,7 @@ namespace Akeneo\Tool\Bundle\BatchBundle\EventListener;
 use Akeneo\Tool\Bundle\BatchBundle\Monolog\Handler\BatchLogHandler;
 use Akeneo\Tool\Component\Batch\Event\EventInterface;
 use Akeneo\Tool\Component\Batch\Event\JobExecutionEvent;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Set the job execution log file into the job execution instance
@@ -14,7 +14,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/MIT MIT
  */
-class SetJobExecutionLogFileSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: EventInterface::BEFORE_JOB_EXECUTION, method: 'setJobExecutionLogFile')]
+class SetJobExecutionLogFileSubscriber
 {
     /**
      * @var BatchLogHandler $logger
@@ -24,16 +25,6 @@ class SetJobExecutionLogFileSubscriber implements EventSubscriberInterface
     public function __construct(BatchLogHandler $logger)
     {
         $this->logger = $logger;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            EventInterface::BEFORE_JOB_EXECUTION => 'setJobExecutionLogFile',
-        ];
     }
 
     /**

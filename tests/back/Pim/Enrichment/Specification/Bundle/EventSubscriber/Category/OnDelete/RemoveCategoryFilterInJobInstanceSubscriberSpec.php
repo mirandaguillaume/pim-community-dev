@@ -8,11 +8,9 @@ use Akeneo\Category\Infrastructure\Component\Model\Category;
 use Akeneo\Pim\Enrichment\Bundle\EventSubscriber\Category\OnDelete\RemoveCategoryFilterInJobInstanceSubscriber;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
 use Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface;
-use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Doctrine\ORM\EntityRepository;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -30,22 +28,6 @@ class RemoveCategoryFilterInJobInstanceSubscriberSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(RemoveCategoryFilterInJobInstanceSubscriber::class);
-    }
-
-   function it_implements_event_subscriber_interface()
-    {
-        $this->shouldImplement(EventSubscriberInterface::class);
-    }
-
-
-    function it_subscribes_to_storage_events()
-    {
-        $this->getSubscribedEvents()->shouldReturn([
-            StorageEvents::PRE_REMOVE      => 'computeAndHoldCategoryTreeCodes',
-            StorageEvents::PRE_REMOVE_ALL  => 'computeAndHoldCategoryTreeCodes',
-            StorageEvents::POST_REMOVE     => 'removeCategoryFilter',
-            StorageEvents::POST_REMOVE_ALL => 'removeCategoryFilters',
-        ]);
     }
 
     function it_removes_category_in_job_filter(

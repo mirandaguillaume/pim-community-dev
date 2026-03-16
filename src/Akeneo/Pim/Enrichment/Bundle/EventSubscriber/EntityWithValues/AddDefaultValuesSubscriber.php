@@ -13,7 +13,7 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\Attribute;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\GetAttributes;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -22,19 +22,13 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  *
  * Adds default values (defined at attribute level) for products and product models
  */
-class AddDefaultValuesSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::PRE_SAVE, method: 'addDefaultValues', priority: 100)]
+class AddDefaultValuesSubscriber
 {
     private ?array $cachedChannelsAndLocales = null;
 
     public function __construct(private readonly GetAttributes $getAttributes, private readonly ValueFactory $valueFactory, private readonly GetChannelCodeWithLocaleCodesInterface $getChannelWithLocales)
     {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::PRE_SAVE => ['addDefaultValues', 100],
-        ];
     }
 
     public function addDefaultValues(GenericEvent $event)

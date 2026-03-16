@@ -12,25 +12,19 @@ use Akeneo\Pim\Structure\Component\Model\AttributeGroupInterface;
 use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final readonly class UpdateAttributeGroupActivationSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::POST_SAVE, method: 'createAttributeGroupActivation')]
+#[AsEventListener(event: StorageEvents::POST_REMOVE, method: 'removeAttributeGroupActivation')]
+final readonly class UpdateAttributeGroupActivationSubscriber
 {
     public function __construct(private FeatureFlag $dataQualityInsightsFeature, private AttributeGroupActivationRepositoryInterface $attributeGroupActivationRepository, private GetAttributeGroupActivationQueryInterface $getAttributeGroupActivationQuery, private LoggerInterface $logger)
     {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::POST_SAVE => ['createAttributeGroupActivation'],
-            StorageEvents::POST_REMOVE => ['removeAttributeGroupActivation'],
-        ];
     }
 
     public function createAttributeGroupActivation(GenericEvent $event): void

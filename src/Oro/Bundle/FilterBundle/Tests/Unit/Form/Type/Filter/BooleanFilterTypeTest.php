@@ -12,10 +12,7 @@ class BooleanFilterTypeTest extends AbstractTypeTestCase
 {
     private \Oro\Bundle\FilterBundle\Form\Type\Filter\BooleanFilterType $type;
 
-    /**
-     * @var array
-     */
-    protected $booleanChoices = [
+    private const BOOLEAN_CHOICES = [
         'oro.filter.form.label_type_yes' => BooleanFilterType::TYPE_YES,
         'oro.filter.form.label_type_no' => BooleanFilterType::TYPE_NO,
     ];
@@ -56,7 +53,7 @@ class BooleanFilterTypeTest extends AbstractTypeTestCase
         return [
             [
                 'defaultOptions' => [
-                    'field_options' => ['choices' => $this->booleanChoices],
+                    'field_options' => ['choices' => self::BOOLEAN_CHOICES],
                 ],
             ],
         ];
@@ -83,7 +80,7 @@ class BooleanFilterTypeTest extends AbstractTypeTestCase
                 ],
                 'customOptions' => [
                     'field_options' => [
-                        'choices' => $this->booleanChoices,
+                        'choices' => self::BOOLEAN_CHOICES,
                     ],
                 ],
             ],
@@ -95,7 +92,7 @@ class BooleanFilterTypeTest extends AbstractTypeTestCase
                 ],
                 'customOptions' => [
                     'field_options' => [
-                        'choices' => $this->booleanChoices,
+                        'choices' => self::BOOLEAN_CHOICES,
                     ],
                 ],
             ],

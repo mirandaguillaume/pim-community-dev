@@ -19,7 +19,6 @@ use Akeneo\Pim\Enrichment\Component\Product\ProductModel\Query\VariantProductRat
 use Akeneo\Pim\Structure\Component\AttributeTypes;
 use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
@@ -34,7 +33,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-class EntityWithFamilyVariantNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+class EntityWithFamilyVariantNormalizer implements NormalizerInterface
 {
     /** @var string[] */
     private array $supportedFormat = ['internal_api'];
@@ -104,11 +103,6 @@ class EntityWithFamilyVariantNormalizer implements NormalizerInterface, Cacheabl
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof EntityWithFamilyVariantInterface && in_array($format, $this->supportedFormat);
-    }
-
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
     }
 
     /**

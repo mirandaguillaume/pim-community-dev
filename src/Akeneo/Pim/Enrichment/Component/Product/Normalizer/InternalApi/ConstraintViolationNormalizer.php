@@ -4,7 +4,6 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Normalizer\InternalApi;
 
 use Doctrine\Inflector\Inflector;
 use Doctrine\Inflector\NoopWordInflector;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Validator\ConstraintViolation;
 use Webmozart\Assert\Assert;
@@ -14,7 +13,7 @@ use Webmozart\Assert\Assert;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-class ConstraintViolationNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+class ConstraintViolationNormalizer implements NormalizerInterface
 {
     /** @var string[] */
     protected $supportedFormats = ['internal_api'];
@@ -61,11 +60,6 @@ class ConstraintViolationNormalizer implements NormalizerInterface, CacheableSup
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof ConstraintViolation && in_array($format, $this->supportedFormats);
-    }
-
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
     }
 
     /**

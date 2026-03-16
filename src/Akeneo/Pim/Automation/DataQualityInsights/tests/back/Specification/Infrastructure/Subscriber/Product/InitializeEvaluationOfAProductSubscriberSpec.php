@@ -9,12 +9,10 @@ use Akeneo\Pim\Automation\DataQualityInsights\Application\ProductEvaluation\Crea
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductUuidCollection;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface;
 use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlag;
-use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class InitializeEvaluationOfAProductSubscriberSpec extends ObjectBehavior
@@ -31,16 +29,6 @@ class InitializeEvaluationOfAProductSubscriberSpec extends ObjectBehavior
             $logger,
             $idFactory
         );
-    }
-
-    public function it_is_an_event_subscriber(): void
-    {
-        $this->shouldImplement(EventSubscriberInterface::class);
-    }
-
-    public function it_subscribes_to_several_events(): void
-    {
-        $this::getSubscribedEvents()->shouldHaveKey(StorageEvents::POST_SAVE);
     }
 
     public function it_does_nothing_when_the_entity_is_not_a_product($dataQualityInsightsFeature, $createProductsCriteriaEvaluations)

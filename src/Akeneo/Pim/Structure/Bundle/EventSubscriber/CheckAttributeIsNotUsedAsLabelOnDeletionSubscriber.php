@@ -9,23 +9,14 @@ use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 use Akeneo\Tool\Component\StorageUtils\Event\RemoveEvent;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Doctrine\DBAL\Connection;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-class CheckAttributeIsNotUsedAsLabelOnDeletionSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::PRE_REMOVE, method: 'preRemove')]
+class CheckAttributeIsNotUsedAsLabelOnDeletionSubscriber
 {
     public function __construct(
         private readonly Connection $connection,
     ) {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::PRE_REMOVE => 'preRemove',
-        ];
     }
 
     /**

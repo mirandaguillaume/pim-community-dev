@@ -4,7 +4,6 @@ namespace Akeneo\Tool\Component\Api\Normalizer\Exception;
 
 use Akeneo\Tool\Component\Api\Exception\DocumentedHttpException;
 use Akeneo\Tool\Component\Api\Hal\Link;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
@@ -14,7 +13,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/MIT MIT
  */
-class DocumentedNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+class DocumentedNormalizer implements NormalizerInterface
 {
     /**
      * {@inheritdoc}
@@ -38,10 +37,5 @@ class DocumentedNormalizer implements NormalizerInterface, CacheableSupportsMeth
     public function supportsNormalization($exception, $format = null): bool
     {
         return $exception instanceof DocumentedHttpException;
-    }
-
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
     }
 }

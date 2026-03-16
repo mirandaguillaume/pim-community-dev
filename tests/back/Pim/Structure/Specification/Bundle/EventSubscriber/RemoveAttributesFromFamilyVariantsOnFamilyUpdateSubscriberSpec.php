@@ -2,7 +2,6 @@
 
 namespace Specification\Akeneo\Pim\Structure\Bundle\EventSubscriber;
 
-use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Doctrine\Common\Collections\Collection;
 use PhpSpec\ObjectBehavior;
 use Akeneo\Pim\Structure\Bundle\EventSubscriber\RemoveAttributesFromFamilyVariantsOnFamilyUpdateSubscriber;
@@ -11,7 +10,6 @@ use Akeneo\Pim\Structure\Component\Model\FamilyInterface;
 use Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface;
 use Akeneo\Pim\Structure\Component\Model\VariantAttributeSetInterface;
 use Prophecy\Argument;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class RemoveAttributesFromFamilyVariantsOnFamilyUpdateSubscriberSpec extends ObjectBehavior
@@ -19,18 +17,6 @@ class RemoveAttributesFromFamilyVariantsOnFamilyUpdateSubscriberSpec extends Obj
     function it_is_initializable()
     {
         $this->shouldHaveType(RemoveAttributesFromFamilyVariantsOnFamilyUpdateSubscriber::class);
-    }
-
-    function it_is_an_event_subscriber()
-    {
-        $this->shouldImplement(EventSubscriberInterface::class);
-    }
-
-    function it_subscribes_to_events()
-    {
-        $this->getSubscribedEvents()->shouldReturn([
-            StorageEvents::PRE_SAVE => 'removeDeletedAttributesFromFamilyVariants',
-        ]);
     }
 
     function it_does_not_process_non_family_objects(GenericEvent $event, \StdClass $notFamilyObject)

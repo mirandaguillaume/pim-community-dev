@@ -6,11 +6,9 @@ namespace Specification\Akeneo\Pim\Enrichment\Bundle\EventSubscriber\Product\OnS
 
 use Akeneo\Pim\Enrichment\Bundle\EventSubscriber\Product\OnSave\ApiAggregatorForProductPostSaveEventSubscriber;
 use Akeneo\Pim\Enrichment\Component\Product\Model\Product;
-use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -28,16 +26,6 @@ class ApiAggregatorForProductPostSaveEventSubscriberSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(ApiAggregatorForProductPostSaveEventSubscriber::class);
-    }
-
-    function it_is_a_batch_event_subscriber()
-    {
-        $this->shouldImplement(EventSubscriberInterface::class);
-    }
-
-    function it_subscribes_to_post_save_events()
-    {
-        $this->getSubscribedEvents()->shouldHaveKey(StorageEvents::POST_SAVE);
     }
 
     function it_batch_the_events(GenericEvent $event)

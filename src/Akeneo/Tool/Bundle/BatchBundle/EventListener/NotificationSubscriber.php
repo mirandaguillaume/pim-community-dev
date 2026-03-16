@@ -5,7 +5,7 @@ namespace Akeneo\Tool\Bundle\BatchBundle\EventListener;
 use Akeneo\Tool\Bundle\BatchBundle\Notification\Notifier;
 use Akeneo\Tool\Component\Batch\Event\EventInterface;
 use Akeneo\Tool\Component\Batch\Event\JobExecutionEvent;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Job execution notifier
@@ -14,19 +14,10 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * @copyright 2013 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/MIT MIT
  */
-class NotificationSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: EventInterface::AFTER_JOB_EXECUTION, method: 'afterJobExecution')]
+class NotificationSubscriber
 {
     private array $notifiers = [];
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            EventInterface::AFTER_JOB_EXECUTION => 'afterJobExecution',
-        ];
-    }
 
     public function registerNotifier(Notifier $notifier): void
     {

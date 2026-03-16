@@ -7,5 +7,4 @@ services:
         arguments:
             - '@pim_notification.registry.factory.notification'
             - '@pim_notification.notifier'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true

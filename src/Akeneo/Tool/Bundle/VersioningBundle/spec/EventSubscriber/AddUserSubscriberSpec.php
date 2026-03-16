@@ -4,7 +4,6 @@ namespace spec\Akeneo\Tool\Bundle\VersioningBundle\EventSubscriber;
 
 use PhpSpec\ObjectBehavior;
 use Akeneo\Tool\Bundle\VersioningBundle\Event\BuildVersionEvent;
-use Akeneo\Tool\Bundle\VersioningBundle\Event\BuildVersionEvents;
 use Akeneo\UserManagement\Component\Model\User;
 use Prophecy\Argument;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -21,16 +20,6 @@ class AddUserSubscriberSpec extends ObjectBehavior
         $this->beConstructedWith($authorizationChecker, $tokenStorage);
 
         $authorizationChecker->isGranted(Argument::any())->willReturn(true);
-    }
-
-    public function it_is_an_event_listener()
-    {
-        $this->shouldImplement(\Symfony\Component\EventDispatcher\EventSubscriberInterface::class);
-    }
-
-    public function it_subscribes_to_the_kernel_request_event()
-    {
-        $this->getSubscribedEvents()->shouldReturn([BuildVersionEvents::PRE_BUILD => 'preBuild']);
     }
 
     public function it_injects_current_username_into_the_version_manager(

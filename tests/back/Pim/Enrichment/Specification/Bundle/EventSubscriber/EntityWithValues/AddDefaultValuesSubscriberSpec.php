@@ -15,11 +15,9 @@ use Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface;
 use Akeneo\Pim\Structure\Component\Model\VariantAttributeSetInterface;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\Attribute;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeType\GetAttributes;
-use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class AddDefaultValuesSubscriberSpec extends ObjectBehavior
@@ -44,19 +42,9 @@ class AddDefaultValuesSubscriberSpec extends ObjectBehavior
         $this->beConstructedWith($getAttributes, $valueFactory, $getChannelWithLocales);
     }
 
-    function it_is_an_event_subscriber()
-    {
-        $this->shouldImplement(EventSubscriberInterface::class);
-    }
-
     function it_is_initializable()
     {
         $this->shouldHaveType(AddDefaultValuesSubscriber::class);
-    }
-
-    function it_subscribes_to_pre_save_events()
-    {
-        $this::getSubscribedEvents()->shouldHaveKey(StorageEvents::PRE_SAVE);
     }
 
     function it_does_nothing_if_the_entity_is_not_an_entity_with_family_variant(ValueFactory $valueFactory)

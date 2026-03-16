@@ -11,7 +11,6 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ProductModel;
 use Akeneo\Platform\Component\EventQueue\Author;
 use Akeneo\Platform\Component\EventQueue\BulkEventInterface;
 use Akeneo\Platform\Component\EventQueue\EventInterface;
-use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Akeneo\UserManagement\Component\Model\User;
 use Akeneo\UserManagement\Component\Model\UserInterface;
 use PhpSpec\ObjectBehavior;
@@ -37,16 +36,6 @@ class DispatchProductModelRemovedEventSubscriberSpec extends ObjectBehavior
     {
         $this->shouldHaveType(DispatchProductModelRemovedEventSubscriber::class);
         $this->shouldImplement(DispatchBufferedPimEventSubscriberInterface::class);
-    }
-
-    function it_returns_subscribed_events(): void
-    {
-        $this->getSubscribedEvents()->shouldReturn(
-            [
-                StorageEvents::POST_REMOVE => 'createAndDispatchPimEvents',
-                StorageEvents::POST_REMOVE_ALL => 'dispatchBufferedPimEvents',
-            ]
-        );
     }
 
     function it_dispatches_a_single_product_model_removed_event(

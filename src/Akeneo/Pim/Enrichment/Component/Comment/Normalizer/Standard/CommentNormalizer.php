@@ -3,7 +3,6 @@
 namespace Akeneo\Pim\Enrichment\Component\Comment\Normalizer\Standard;
 
 use Akeneo\Pim\Enrichment\Component\Comment\Model\CommentInterface;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -15,7 +14,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  * @copyright 2016 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class CommentNormalizer implements NormalizerInterface, NormalizerAwareInterface, CacheableSupportsMethodInterface
+class CommentNormalizer implements NormalizerInterface, NormalizerAwareInterface
 {
     use NormalizerAwareTrait;
 
@@ -45,11 +44,6 @@ class CommentNormalizer implements NormalizerInterface, NormalizerAwareInterface
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof CommentInterface && $format === 'standard';
-    }
-
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
     }
 
     /**

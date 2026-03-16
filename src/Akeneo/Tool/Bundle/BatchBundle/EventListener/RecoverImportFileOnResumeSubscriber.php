@@ -14,19 +14,14 @@ use Akeneo\Tool\Component\Batch\Event\StepExecutionEvent;
 use Akeneo\Tool\Component\Batch\Job\JobInterface;
 use Akeneo\Tool\Component\Connector\Job\JobFileBackuper;
 use Akeneo\Tool\Component\Connector\Job\JobFileLocation;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-final readonly class RecoverImportFileOnResumeSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: EventInterface::BEFORE_STEP_EXECUTION_RESUME, method: 'recoverImportFile')]
+final readonly class RecoverImportFileOnResumeSubscriber
 {
     public function __construct(
         private JobFileBackuper $jobFileBackuper,
     ) {
-    }
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            EventInterface::BEFORE_STEP_EXECUTION_RESUME => 'recoverImportFile',
-        ];
     }
 
     public function recoverImportFile(StepExecutionEvent $event): void

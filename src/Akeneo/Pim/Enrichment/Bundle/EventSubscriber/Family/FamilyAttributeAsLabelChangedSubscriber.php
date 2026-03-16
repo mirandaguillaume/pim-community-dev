@@ -6,14 +6,16 @@ use Akeneo\Pim\Enrichment\Component\Product\ProductAndProductModel\Query\FindAtt
 use Akeneo\Pim\Structure\Component\Model\FamilyInterface;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class FamilyAttributeAsLabelChangedSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::PRE_SAVE, method: 'storeFamilyCodeIfNeeded')]
+#[AsEventListener(event: StorageEvents::POST_SAVE, method: 'triggerFamilyRelatedProductsReindexation')]
+class FamilyAttributeAsLabelChangedSubscriber
 {
     private array $impactedFamilyCodes = [];
 
@@ -21,14 +23,6 @@ class FamilyAttributeAsLabelChangedSubscriber implements EventSubscriberInterfac
         private readonly FindAttributeCodeAsLabelForFamilyInterface $attributeCodeAsLabelForFamily,
         private readonly Client $esClient,
     ) {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::PRE_SAVE => 'storeFamilyCodeIfNeeded',
-            StorageEvents::POST_SAVE => 'triggerFamilyRelatedProductsReindexation',
-        ];
     }
 
     public function storeFamilyCodeIfNeeded(GenericEvent $event): void

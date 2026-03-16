@@ -6,7 +6,7 @@ namespace Akeneo\Platform\Bundle\CatalogVolumeMonitoringBundle\EventListener;
 
 use Akeneo\Platform\Installer\Infrastructure\Event\InstallerEvents;
 use Doctrine\DBAL\Connection;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Listen to the database installation event to create the tables needed for the catalog volume monitoring.
@@ -15,20 +15,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * @copyright 2018 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class InstallDatabase implements EventSubscriberInterface
+#[AsEventListener(event: InstallerEvents::POST_DB_CREATE, method: 'createAggregatedVolumeTable')]
+class InstallDatabase
 {
     public function __construct(private readonly Connection $connection)
     {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            InstallerEvents::POST_DB_CREATE => 'createAggregatedVolumeTable',
-        ];
     }
 
     public function createAggregatedVolumeTable(): void

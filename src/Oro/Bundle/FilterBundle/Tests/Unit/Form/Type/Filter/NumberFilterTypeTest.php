@@ -11,10 +11,7 @@ class NumberFilterTypeTest extends AbstractTypeTestCase
 {
     private \Oro\Bundle\FilterBundle\Form\Type\Filter\NumberFilterType $type;
 
-    /**
-     * @var string
-     */
-    protected $defaultLocale = 'en';
+    protected ?string $defaultLocale = 'en';
 
     protected function setUp(): void
     {

@@ -9,7 +9,7 @@ use Akeneo\Pim\Enrichment\Component\Product\EntityWithFamily\Event\ParentHasBeen
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Storage\Indexer\ProductModelIndexerInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -18,21 +18,15 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class ReindexFormerAncestorsSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: ParentHasBeenRemovedFromVariantProduct::class, method: 'store')]
+#[AsEventListener(event: StorageEvents::POST_SAVE, method: 'reIndex')]
+#[AsEventListener(event: StorageEvents::POST_SAVE_ALL, method: 'reIndexAll')]
+class ReindexFormerAncestorsSubscriber
 {
     private array $formerParentCodes = [];
 
     public function __construct(private readonly GetAncestorAndDescendantProductModelCodes $getAncestorProductModelCodes, private readonly ProductModelIndexerInterface $productModelIndexer)
     {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            ParentHasBeenRemovedFromVariantProduct::class => 'store',
-            StorageEvents::POST_SAVE => 'reIndex',
-            StorageEvents::POST_SAVE_ALL => 'reIndexAll',
-        ];
     }
 
     public function store(ParentHasBeenRemovedFromVariantProduct $event): void

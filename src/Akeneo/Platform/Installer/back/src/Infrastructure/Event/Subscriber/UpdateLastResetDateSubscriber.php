@@ -11,23 +11,14 @@ namespace Akeneo\Platform\Installer\Infrastructure\Event\Subscriber;
 
 use Akeneo\Platform\Installer\Infrastructure\Event\InstallerEvents;
 use Akeneo\Platform\Installer\Infrastructure\Persistence\Sql\SaveResetEvent;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-class UpdateLastResetDateSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: InstallerEvents::POST_RESET_INSTANCE, method: 'onInstanceReset')]
+class UpdateLastResetDateSubscriber
 {
     public function __construct(
         private readonly SaveResetEvent $saveResetEvent,
     ) {
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            InstallerEvents::POST_RESET_INSTANCE => 'onInstanceReset',
-        ];
     }
 
     public function onInstanceReset(): void

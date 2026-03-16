@@ -4,7 +4,6 @@ namespace Akeneo\Pim\Enrichment\Component\Product\Normalizer\InternalApi;
 
 use Akeneo\Pim\Enrichment\Component\Product\Model\GroupInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Query\FindProductUuidsInGroup;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
@@ -14,7 +13,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class GroupNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+class GroupNormalizer implements NormalizerInterface
 {
     protected array $supportedFormats = ['internal_api'];
 
@@ -46,10 +45,5 @@ class GroupNormalizer implements NormalizerInterface, CacheableSupportsMethodInt
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof GroupInterface && in_array($format, $this->supportedFormats);
-    }
-
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
     }
 }

@@ -11,8 +11,7 @@ services:
         class: Akeneo\Platform\Bundle\CatalogVolumeMonitoringBundle\EventListener\InstallDatabase
         arguments:
             - '@database_connection'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 
     Akeneo\Platform\Bundle\CatalogVolumeMonitoringBundle\Command\AggregateVolumesCommand:
         arguments:

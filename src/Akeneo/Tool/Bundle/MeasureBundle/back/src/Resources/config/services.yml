@@ -30,8 +30,7 @@ services:
         class: Akeneo\Tool\Bundle\MeasureBundle\Installer\MeasurementInstaller
         arguments:
             - '@doctrine.dbal.default_connection'
-        tags:
-            - { name: kernel.event_subscriber }
+        autoconfigure: true
 
     akeneo_measure.persistence.measurement_family_repository:
         class: Akeneo\Tool\Bundle\MeasureBundle\Persistence\MeasurementFamilyRepository

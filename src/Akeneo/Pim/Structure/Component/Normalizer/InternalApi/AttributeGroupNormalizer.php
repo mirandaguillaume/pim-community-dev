@@ -4,7 +4,6 @@ namespace Akeneo\Pim\Structure\Component\Normalizer\InternalApi;
 
 use Akeneo\Pim\Structure\Component\Model\AttributeGroupInterface;
 use Doctrine\Persistence\ObjectRepository;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
@@ -12,7 +11,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class AttributeGroupNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+class AttributeGroupNormalizer implements NormalizerInterface
 {
     /** @var array $supportedFormats */
     protected $supportedFormats = ['internal_api'];
@@ -57,10 +56,5 @@ class AttributeGroupNormalizer implements NormalizerInterface, CacheableSupports
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof AttributeGroupInterface && in_array($format, $this->supportedFormats);
-    }
-
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
     }
 }

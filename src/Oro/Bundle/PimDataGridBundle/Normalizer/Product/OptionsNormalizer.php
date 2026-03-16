@@ -4,7 +4,6 @@ namespace Oro\Bundle\PimDataGridBundle\Normalizer\Product;
 
 use Akeneo\Pim\Enrichment\Component\Product\Value\OptionsValueInterface;
 use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
@@ -12,7 +11,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class OptionsNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+class OptionsNormalizer implements NormalizerInterface
 {
     /** @var IdentifiableObjectRepositoryInterface */
     protected $attributeOptionRepository;
@@ -54,10 +53,5 @@ class OptionsNormalizer implements NormalizerInterface, CacheableSupportsMethodI
     public function supportsNormalization($data, $format = null): bool
     {
         return 'datagrid' === $format && $data instanceof OptionsValueInterface;
-    }
-
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
     }
 }

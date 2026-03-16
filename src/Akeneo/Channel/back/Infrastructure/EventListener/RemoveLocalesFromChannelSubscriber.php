@@ -7,30 +7,21 @@ namespace Akeneo\Channel\Infrastructure\EventListener;
 use Akeneo\Channel\Infrastructure\Component\Model\ChannelInterface;
 use Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class RemoveLocalesFromChannelSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::PRE_REMOVE, method: 'removeLocalesFromChannel')]
+#[AsEventListener(event: StorageEvents::POST_REMOVE, method: 'saveLocales')]
+final class RemoveLocalesFromChannelSubscriber
 {
     public function __construct(
         private readonly BulkSaverInterface $localeSaver,
         private array $localesToSave = []
     ) {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            StorageEvents::PRE_REMOVE => 'removeLocalesFromChannel',
-            StorageEvents::POST_REMOVE => 'saveLocales',
-        ];
     }
 
     public function removeLocalesFromChannel(GenericEvent $event): void

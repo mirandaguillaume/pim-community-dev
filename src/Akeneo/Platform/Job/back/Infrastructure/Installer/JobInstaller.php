@@ -6,20 +6,14 @@ namespace Akeneo\Platform\Job\Infrastructure\Installer;
 
 use Akeneo\Platform\Installer\Infrastructure\Event\InstallerEvents;
 use Doctrine\DBAL\Connection;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-class JobInstaller implements EventSubscriberInterface
+#[AsEventListener(event: InstallerEvents::POST_DB_CREATE, method: 'createJobExecutionIndexes')]
+class JobInstaller
 {
     public function __construct(
         private readonly Connection $connection,
     ) {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            InstallerEvents::POST_DB_CREATE => ['createJobExecutionIndexes'],
-        ];
     }
 
     public function createJobExecutionIndexes(): void

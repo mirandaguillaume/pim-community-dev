@@ -11,7 +11,7 @@ use Akeneo\UserManagement\Component\Model\RoleInterface;
 use Akeneo\UserManagement\Component\Model\User;
 use Doctrine\Persistence\ObjectRepository;
 use Oro\Bundle\SecurityBundle\Acl\Persistence\AclManager;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 
@@ -21,20 +21,14 @@ use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
  *
  * Adds default privileges to a newly created role
  */
-class AddDefaultPrivilegesSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: InstallerEvents::POST_LOAD_FIXTURE, method: 'loadDefaultPrivilegesForAllRoles')]
+#[AsEventListener(event: StorageEvents::POST_SAVE, method: 'loadDefaultPrivilegesAfterSave')]
+class AddDefaultPrivilegesSubscriber
 {
     private const FIXTURE_ROLE_JOB_NAME = 'fixtures_user_role_csv';
 
     public function __construct(private readonly ObjectRepository $roleRepository, private readonly AclManager $aclManager)
     {
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            InstallerEvents::POST_LOAD_FIXTURE => 'loadDefaultPrivilegesForAllRoles',
-            StorageEvents::POST_SAVE => 'loadDefaultPrivilegesAfterSave',
-        ];
     }
 
     public function loadDefaultPrivilegesForAllRoles(InstallerEvent $event): void

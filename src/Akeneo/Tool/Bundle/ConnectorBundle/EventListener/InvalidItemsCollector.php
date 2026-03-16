@@ -5,7 +5,7 @@ namespace Akeneo\Tool\Bundle\ConnectorBundle\EventListener;
 use Akeneo\Tool\Component\Batch\Event\EventInterface;
 use Akeneo\Tool\Component\Batch\Event\InvalidItemEvent;
 use Akeneo\Tool\Component\Batch\Item\FileInvalidItem;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**
  * Collect invalid items
@@ -14,20 +14,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class InvalidItemsCollector implements EventSubscriberInterface
+#[AsEventListener(event: EventInterface::INVALID_ITEM, method: 'collect')]
+class InvalidItemsCollector
 {
     /** @var array */
     protected $invalidItems;
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            EventInterface::INVALID_ITEM => 'collect',
-        ];
-    }
 
     /**
      * Collect unique invalid items

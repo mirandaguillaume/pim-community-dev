@@ -12,7 +12,6 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\ProductModel;
 use Akeneo\Platform\Component\EventQueue\Author;
 use Akeneo\Platform\Component\EventQueue\BulkEventInterface;
 use Akeneo\Platform\Component\EventQueue\EventInterface;
-use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Akeneo\UserManagement\Component\Model\User;
 use PhpSpec\ObjectBehavior;
 use PHPUnit\Framework\Assert;
@@ -35,16 +34,6 @@ class DispatchProductModelCreatedAndUpdatedEventSubscriberSpec extends ObjectBeh
     {
         $this->shouldHaveType(DispatchProductModelCreatedAndUpdatedEventSubscriber::class);
         $this->shouldImplement(DispatchBufferedPimEventSubscriberInterface::class);
-    }
-
-    function it_returns_subscribed_tech_events(): void
-    {
-        $this->getSubscribedEvents()->shouldReturn(
-            [
-                StorageEvents::POST_SAVE => ['createAndDispatchPimEvents', -10],
-                StorageEvents::POST_SAVE_ALL => ['dispatchBufferedPimEvents', -10],
-            ]
-        );
     }
 
     function it_dispatches_a_single_product_model_created_event($security)

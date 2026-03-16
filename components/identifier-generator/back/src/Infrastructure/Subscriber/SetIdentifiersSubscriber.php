@@ -22,8 +22,8 @@ use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface;
 use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintViolation;
@@ -39,7 +39,8 @@ use Webmozart\Assert\Assert;
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
  * @license   https://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-final class SetIdentifiersSubscriber implements EventSubscriberInterface
+#[AsEventListener(event: StorageEvents::PRE_SAVE, method: 'setIdentifier', priority: 90)]
+final class SetIdentifiersSubscriber
 {
     /** @var IdentifierGenerator[]|null */
     private ?array $identifierGenerators = null;
@@ -54,19 +55,6 @@ final class SetIdentifiersSubscriber implements EventSubscriberInterface
         private readonly LoggerInterface $logger,
         private readonly IdentifiableObjectRepositoryInterface $attributeRepository,
     ) {}
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            /**
-             * This event has to be executed
-             * - after AddDefaultValuesSubscriber (it adds default values from parent and may set values for the
-             *   computation of the match or the generation)
-             * - before ComputeEntityRawValuesSubscriber (it generates the raw_values)
-             */
-            StorageEvents::PRE_SAVE => ['setIdentifier', 90],
-        ];
-    }
 
     public function setIdentifier(GenericEvent $event): void
     {

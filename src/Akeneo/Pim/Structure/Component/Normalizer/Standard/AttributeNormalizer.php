@@ -4,7 +4,6 @@ namespace Akeneo\Pim\Structure\Component\Normalizer\Standard;
 
 use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 use Akeneo\Platform\Bundle\FeatureFlagBundle\FeatureFlags;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
@@ -14,7 +13,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  * @copyright 2016 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class AttributeNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+class AttributeNormalizer implements NormalizerInterface
 {
     public function __construct(
         private readonly NormalizerInterface $translationNormalizer,
@@ -82,11 +81,6 @@ class AttributeNormalizer implements NormalizerInterface, CacheableSupportsMetho
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof AttributeInterface && 'standard' === $format;
-    }
-
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
     }
 
     private function isReadOnlyFeatureAvailableAndEnabled(): bool
