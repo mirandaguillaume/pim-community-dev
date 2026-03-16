@@ -28,7 +28,7 @@ inputs:
   php-version:
     description: 'PHP version to use'
     required: false
-    default: '8.3'
+    default: '8.4'
   pull-base-images:
     description: 'Whether to pull base Docker images (mysql, selenium, node). Set to false for PHP-only jobs.'
     required: false
