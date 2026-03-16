@@ -29,7 +29,12 @@ class NumberFactory
     {
         $options = $this->resolve($options);
 
-        $formatter = new \NumberFormatter($options['locale'], $options['type']);
+        try {
+            $formatter = new \NumberFormatter($options['locale'], $options['type']);
+        } catch (\ValueError) {
+            // PHP 8.4+ throws ValueError for invalid locales; fall back to 'en'
+            $formatter = new \NumberFormatter('en', $options['type']);
+        }
 
         if (null !== $options['number_format']) {
             $formatter->setPattern($options['number_format']);

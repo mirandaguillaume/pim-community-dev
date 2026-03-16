@@ -1,6 +1,6 @@
 FROM httpd:2.4-bullseye AS base
 
-ARG PHP_VERSION=8.3
+ARG PHP_VERSION=8.4
 
 ENV PHP_CONF_DATE_TIMEZONE=UTC \
     PHP_CONF_MAX_EXECUTION_TIME=60 \
@@ -60,7 +60,7 @@ CMD ["/usr/bin/supervisord", "-c", "docker/supervisord.conf"]
 
 FROM base as dev
 
-ARG PHP_VERSION=8.3
+ARG PHP_VERSION=8.4
 
 ENV PHP_CONF_OPCACHE_VALIDATE_TIMESTAMP=1
 ENV COMPOSER_MEMORY_LIMIT=4G
@@ -98,7 +98,7 @@ VOLUME /srv/pim
 
 FROM dev as ci
 
-ARG PHP_VERSION=8.3
+ARG PHP_VERSION=8.4
 
 # Disable xdebug and blackfire for CI performance (~20% faster)
 RUN rm -f /etc/php/${PHP_VERSION}/cli/conf.d/99-akeneo-xdebug.ini \
