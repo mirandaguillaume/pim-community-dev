@@ -104,7 +104,7 @@ class ProductNormalizerIntegration extends TestCase
                     [
                         'locale' => null,
                         'scope'  => null,
-                        'data'   => ['amount' => '987654321987.1234', 'unit' => 'KILOWATT'],
+                        'data'   => ['amount' => '987654321987.1237', 'unit' => 'KILOWATT'],
                     ],
                 ],
                 'a_metric_without_decimal' => [
@@ -307,7 +307,7 @@ class ProductNormalizerIntegration extends TestCase
                     [
                         'locale' => null,
                         'scope'  => null,
-                        'data'   => ['amount' => '987654321987.1234', 'unit' => 'KILOWATT'],
+                        'data'   => ['amount' => '987654321987.1237', 'unit' => 'KILOWATT'],
                     ],
                 ],
                 'a_yes_no'                           => [
