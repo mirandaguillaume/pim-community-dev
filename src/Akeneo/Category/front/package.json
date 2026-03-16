@@ -10,8 +10,7 @@
   "dependencies": {
     "@akeneo-pim-community/shared": "link:../../../../front-packages/shared",
     "akeneo-design-system": "link:../../../../front-packages/akeneo-design-system",
-    "react-router": "^5.2.0",
-    "react-router-dom": "^5.2.0"
+    "react-router-dom": "^6.28"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.4",
