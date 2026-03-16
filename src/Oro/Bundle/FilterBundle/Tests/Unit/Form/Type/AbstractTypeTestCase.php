@@ -2,27 +2,15 @@
 
 namespace Oro\Bundle\FilterBundle\Tests\Unit\Form\Type;
 
-use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class AbstractTypeTestCase extends FormIntegrationTestCase
 {
-    /**
-     * @var FormFactory
-     */
-    protected $factory;
+    protected ?string $defaultLocale = null;
 
-    /**
-     * @var string
-     */
-    protected $defaultLocale = null;
-
-    /**
-     * @var string
-     */
-    protected $defaultTimezone = null;
+    protected ?string $defaultTimezone = null;
 
     private ?string $oldLocale = null;
 
@@ -57,26 +45,20 @@ abstract class AbstractTypeTestCase extends FormIntegrationTestCase
         }
     }
 
-    /**
-     * @return TranslatorInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function createMockTranslator()
+    protected function createMockTranslator(): TranslatorInterface
     {
-        $translator = $this->getMockForAbstractClass(TranslatorInterface::class);
+        $translator = $this->createMock(TranslatorInterface::class);
         $translator->expects($this->any())
             ->method('trans')
             ->with($this->anything(), [])
-            ->will($this->returnArgument(0));
+            ->willReturnArgument(0);
 
         return $translator;
     }
 
-    /**
-     * @return OptionsResolverInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function createMockOptionsResolver()
+    protected function createMockOptionsResolver(): \PHPUnit\Framework\MockObject\MockObject
     {
-        return $this->getMockForAbstractClass('Symfony\Component\OptionsResolver\OptionsResolverInterface');
+        return $this->createMock(\Symfony\Component\OptionsResolver\OptionsResolver::class);
     }
 
     /**
@@ -87,11 +69,11 @@ abstract class AbstractTypeTestCase extends FormIntegrationTestCase
         $resolver = $this->createMockOptionsResolver();
 
         if ($defaultOptions) {
-            $resolver->expects($this->once())->method('setDefaults')->with($defaultOptions)->will($this->returnSelf());
+            $resolver->expects($this->once())->method('setDefaults')->with($defaultOptions)->willReturnSelf();
         }
 
         if ($requiredOptions) {
-            $resolver->expects($this->once())->method('setRequired')->with($requiredOptions)->will($this->returnSelf());
+            $resolver->expects($this->once())->method('setRequired')->with($requiredOptions)->willReturnSelf();
         }
 
         $this->getTestFormType()->configureOptions($resolver);

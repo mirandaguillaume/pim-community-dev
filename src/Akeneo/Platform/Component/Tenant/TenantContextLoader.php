@@ -85,7 +85,7 @@ final readonly class TenantContextLoader
             'prod' => 'php://stderr',
             default => sprintf('%s/var/logs/bootstrap.log', $appRootDir),
         };
-        $handler = new StreamHandler($stream, $_ENV['LOGGING_LEVEL'] ?? Logger::DEBUG);
+        $handler = new StreamHandler($stream, $_ENV['LOGGING_LEVEL'] ?? \Monolog\Level::Debug);
         $jsonFormatter = new JsonFormatter();
         $jsonFormatter->includeStacktraces();
         $handler->setFormatter($jsonFormatter);

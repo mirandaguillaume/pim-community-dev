@@ -2,12 +2,14 @@
 
 namespace Akeneo\Tool\Bundle\ApiBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\HttpFoundation\RequestMatcher;
+use Symfony\Component\HttpFoundation\ChainRequestMatcher;
+use Symfony\Component\HttpFoundation\RequestMatcher\HostRequestMatcher;
+use Symfony\Component\HttpFoundation\RequestMatcher\MethodRequestMatcher;
+use Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher;
 
 /**
  * Compiler pass to add rules to the content type negotiator.
@@ -47,20 +49,24 @@ class ContentTypeNegotiatorPass implements CompilerPassInterface
             ->addMethodCall('add', [$matcher, $rule]);
     }
 
-    /**
-     * @param string           $path
-     * @param string           $host
-     *
-     * @return Reference
-     */
-    private function createRequestMatcher(ContainerBuilder $container, $path = null, $host = null, array $methods = null)
+    private function createRequestMatcher(ContainerBuilder $container, ?string $path = null, ?string $host = null, ?array $methods = null): Reference
     {
         $arguments = [$path, $host, $methods];
         $serialized = serialize($arguments);
         $id = 'pim_api.content_type_negotiator.request_matcher.' . md5($serialized) . sha1($serialized);
 
         if (!$container->hasDefinition($id)) {
-            $container->setDefinition($id, new Definition(RequestMatcher::class, $arguments));
+            $matchers = [];
+            if (null !== $path) {
+                $matchers[] = new Definition(PathRequestMatcher::class, [$path]);
+            }
+            if (null !== $host) {
+                $matchers[] = new Definition(HostRequestMatcher::class, [$host]);
+            }
+            if (null !== $methods) {
+                $matchers[] = new Definition(MethodRequestMatcher::class, [$methods]);
+            }
+            $container->setDefinition($id, new Definition(ChainRequestMatcher::class, [$matchers]));
         }
 
         return new Reference($id);
