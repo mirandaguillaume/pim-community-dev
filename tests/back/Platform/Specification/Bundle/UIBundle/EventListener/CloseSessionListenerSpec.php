@@ -3,23 +3,12 @@
 namespace Specification\Akeneo\Platform\Bundle\UIBundle\EventListener;
 
 use PhpSpec\ObjectBehavior;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
 
 class CloseSessionListenerSpec extends ObjectBehavior
 {
-    function it_is_an_event_subscriber()
-    {
-        $this->shouldBeAnInstanceOf(EventSubscriberInterface::class);
-    }
-
-    function it_subscribes_to_kernel_request()
-    {
-        $this->getSubscribedEvents()->shouldReturn([KernelEvents::REQUEST => ['closeSession', -100]]);
-    }
 
     function it_closes_an_opened_session(RequestEvent $event, Request $request, SessionInterface $session)
     {

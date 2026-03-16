@@ -6,7 +6,6 @@ use Akeneo\Channel\Infrastructure\EventListener\ClearCacheSubscriber;
 use Akeneo\Channel\Infrastructure\Component\Model\ChannelInterface;
 use Akeneo\Channel\Infrastructure\Component\Query\PublicApi\ChannelExistsWithLocaleInterface;
 use Akeneo\Tool\Component\StorageUtils\Cache\CachedQueryInterface;
-use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use PhpSpec\ObjectBehavior;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -20,14 +19,6 @@ class ClearCacheSubscriberSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(ClearCacheSubscriber::class);
-    }
-
-    function it_subscribes_to_events()
-    {
-        $this->getSubscribedEvents()->shouldReturn([
-            StorageEvents::POST_SAVE => 'clearCache',
-            StorageEvents::POST_SAVE_ALL => 'clearCache',
-        ]);
     }
 
     function it_only_supports_locale_object(

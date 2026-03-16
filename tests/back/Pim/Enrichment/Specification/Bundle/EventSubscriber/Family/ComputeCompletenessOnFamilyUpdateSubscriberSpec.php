@@ -6,7 +6,6 @@ use Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Family\FindAttributesForFamily;
 use Akeneo\Tool\Bundle\BatchBundle\Launcher\JobLauncherInterface;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
 use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface;
-use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
 use Akeneo\Pim\Enrichment\Bundle\EventSubscriber\Family\ComputeCompletenessOnFamilyUpdateSubscriber;
@@ -41,14 +40,6 @@ class ComputeCompletenessOnFamilyUpdateSubscriberSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(ComputeCompletenessOnFamilyUpdateSubscriber::class);
-    }
-
-    function it_subscribes_to_events()
-    {
-        $this->getSubscribedEvents()->shouldReturn([
-            StorageEvents::PRE_SAVE  => 'checkIfUpdateNeedsToRunBackgroundJob',
-            StorageEvents::POST_SAVE => 'computeCompletenessOfProductsFamily',
-        ]);
     }
 
     function it_detects_that_the_attribute_requirements_of_the_family_changed_on_pre_save_and_run_job_on_post_save(

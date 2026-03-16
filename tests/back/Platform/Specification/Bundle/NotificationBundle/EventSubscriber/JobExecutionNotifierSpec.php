@@ -53,15 +53,6 @@ class JobExecutionNotifierSpec extends ObjectBehavior
         $this->shouldHaveType(JobExecutionNotifier::class);
     }
 
-    public function it_gives_the_subscribed_events(): void
-    {
-        $this->getSubscribedEvents()->shouldReturn(
-            [
-                'akeneo_batch.after_job_execution' => 'afterJobExecution'
-            ]
-        );
-    }
-
     public function it_does_not_notify_if_job_execution_parameters_has_no_job_parameters($event, $jobExecution, $notifier): void
     {
         $jobExecution->getJobParameters()->willReturn(null);

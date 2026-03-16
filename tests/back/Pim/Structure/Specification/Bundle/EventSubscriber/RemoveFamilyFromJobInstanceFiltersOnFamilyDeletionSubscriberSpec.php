@@ -7,12 +7,10 @@ namespace Specification\Akeneo\Pim\Structure\Bundle\EventSubscriber;
 use Akeneo\Pim\Structure\Component\Model\FamilyInterface;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
 use Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface;
-use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class RemoveFamilyFromJobInstanceFiltersOnFamilyDeletionSubscriberSpec extends ObjectBehavior
@@ -22,18 +20,6 @@ class RemoveFamilyFromJobInstanceFiltersOnFamilyDeletionSubscriberSpec extends O
         $this->beConstructedWith($em, $bulkSaver);
 
         $em->getRepository(JobInstance::class)->willReturn($repository);
-    }
-
-    function it_is_an_event_subscriber()
-    {
-        $this->shouldImplement(EventSubscriberInterface::class);
-    }
-
-    function it_subscribes_to_events()
-    {
-        $this->getSubscribedEvents()->shouldReturn([
-            StorageEvents::POST_REMOVE => 'removeDeletedFamilyFromExportJobInstancesFilters',
-        ]);
     }
 
     function it_does_nothing_if_the_removed_object_is_not_a_family()

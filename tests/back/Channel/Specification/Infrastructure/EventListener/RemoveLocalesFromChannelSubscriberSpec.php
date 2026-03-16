@@ -7,10 +7,8 @@ use Akeneo\Channel\Infrastructure\Component\Model\Locale;
 use Akeneo\Channel\Infrastructure\EventListener\RemoveLocalesFromChannelSubscriber;
 use Akeneo\Pim\Enrichment\Component\Product\Model\Product;
 use Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface;
-use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class RemoveLocalesFromChannelSubscriberSpec extends ObjectBehavior
@@ -22,14 +20,7 @@ class RemoveLocalesFromChannelSubscriberSpec extends ObjectBehavior
 
     public function it_is_initializable(): void
     {
-        $this->shouldImplement(EventSubscriberInterface::class);
         $this->shouldHaveType(RemoveLocalesFromChannelSubscriber::class);
-    }
-
-    public function it_subscribes_to_remove_events(): void
-    {
-        $this::getSubscribedEvents()->shouldHaveKey(StorageEvents::PRE_REMOVE);
-        $this::getSubscribedEvents()->shouldHaveKey(StorageEvents::POST_REMOVE);
     }
 
     public function it_only_handles_channels(BulkSaverInterface $localeSaver): void

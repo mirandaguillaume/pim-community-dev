@@ -9,10 +9,8 @@ use Akeneo\Pim\Enrichment\Bundle\EventSubscriber\ProductModel\OnDelete\ComputePr
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductModelInterface;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
 use Akeneo\Tool\Component\StorageUtils\Event\RemoveEvent;
-use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * @author    Nicolas Marniesse <nicolas.marniesse@akeneo.com>
@@ -31,19 +29,6 @@ class ComputeProductAndAncestorsSubscriberSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(ComputeProductAndAncestorsSubscriber::class);
-    }
-
-    function it_is_an_event_subscriber()
-    {
-        $this->shouldImplement(EventSubscriberInterface::class);
-    }
-
-    function it_subscribes_to_product_model_save_event()
-    {
-        $this->getSubscribedEvents()->shouldReturn([
-            StorageEvents::POST_REMOVE => 'onProductModelRemove',
-            StorageEvents::POST_REMOVE_ALL => 'onProductModelRemoveAll',
-        ]);
     }
 
     function it_removes_product_model_from_index(

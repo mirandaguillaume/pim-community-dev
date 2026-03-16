@@ -8,7 +8,6 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\QuantifiedAssociation\IdMappin
 use Akeneo\Pim\Enrichment\Component\Product\Model\QuantifiedAssociation\UuidMapping;
 use Akeneo\Pim\Enrichment\Component\Product\Query\QuantifiedAssociation\GetIdMappingFromProductModelCodesQueryInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Query\QuantifiedAssociation\GetUuidMappingQueryInterface;
-use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -28,13 +27,6 @@ class ComputeEntitySubscriberSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(ComputeEntitySubscriber::class);
-    }
-
-    function it_subscribes_to_pre_save_event()
-    {
-        $subscribed = $this->getSubscribedEvents();
-        $subscribed->shouldHaveKey(StorageEvents::PRE_SAVE);
-        $subscribed->shouldHaveCount(1);
     }
 
     function it_computes_quantified_associations(

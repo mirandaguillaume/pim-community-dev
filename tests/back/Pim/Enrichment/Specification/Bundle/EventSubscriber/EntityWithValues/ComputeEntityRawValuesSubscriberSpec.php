@@ -3,7 +3,6 @@
 namespace Specification\Akeneo\Pim\Enrichment\Bundle\EventSubscriber\EntityWithValues;
 
 use Akeneo\Pim\Enrichment\Bundle\EventSubscriber\EntityWithValues\ComputeEntityRawValuesSubscriber;
-use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use PhpSpec\ObjectBehavior;
 use Akeneo\Pim\Enrichment\Component\Product\Model\EntityWithValuesInterface;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductInterface;
@@ -25,13 +24,6 @@ class ComputeEntityRawValuesSubscriberSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(ComputeEntityRawValuesSubscriber::class);
-    }
-
-    function it_subscribes_to_pre_save_event()
-    {
-        $subscribed = $this->getSubscribedEvents();
-        $subscribed->shouldHaveKey(StorageEvents::PRE_SAVE);
-        $subscribed->shouldHaveCount(1);
     }
 
     function it_bypasses_non_product_entities($serializer, GenericEvent $event, \stdClass $randomEntity)

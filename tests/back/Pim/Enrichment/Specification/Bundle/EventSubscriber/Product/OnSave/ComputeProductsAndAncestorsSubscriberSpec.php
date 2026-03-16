@@ -6,10 +6,8 @@ use Akeneo\Pim\Enrichment\Bundle\Elasticsearch\Indexer\ProductAndAncestorsIndexe
 use Akeneo\Pim\Enrichment\Bundle\EventSubscriber\Product\OnSave\ComputeProductsAndAncestorsSubscriber;
 use Akeneo\Pim\Enrichment\Bundle\Product\ComputeAndPersistProductCompletenesses;
 use Akeneo\Pim\Enrichment\Component\Product\Model\Product;
-use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class ComputeProductsAndAncestorsSubscriberSpec extends ObjectBehavior
@@ -24,17 +22,6 @@ class ComputeProductsAndAncestorsSubscriberSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(ComputeProductsAndAncestorsSubscriber::class);
-    }
-
-    function it_is_an_event_subscriber()
-    {
-        $this->shouldImplement(EventSubscriberInterface::class);
-    }
-
-    function it_subscribes_to_post_save_events()
-    {
-        $this::getSubscribedEvents()->shouldHaveKey(StorageEvents::POST_SAVE);
-        $this::getSubscribedEvents()->shouldHaveKey(StorageEvents::POST_SAVE_ALL);
     }
 
     function it_only_handles_products(

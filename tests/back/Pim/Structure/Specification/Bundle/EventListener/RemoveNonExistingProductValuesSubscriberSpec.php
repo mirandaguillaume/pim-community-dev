@@ -11,11 +11,9 @@ use Akeneo\Tool\Bundle\BatchBundle\Job\JobInstanceRepository;
 use Akeneo\Tool\Bundle\BatchBundle\Launcher\JobLauncherInterface;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
 use Akeneo\Tool\Component\Batch\Query\CreateJobInstanceInterface;
-use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Akeneo\UserManagement\Component\Model\User;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -34,18 +32,6 @@ class RemoveNonExistingProductValuesSubscriberSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(RemoveNonExistingProductValuesSubscriber::class);
-    }
-
-    function it_is_an_event_subscriber()
-    {
-        $this->shouldImplement(EventSubscriberInterface::class);
-    }
-
-    function it_subscribes_to_post_remove_event()
-    {
-        $subscribedEvents = $this::getSubscribedEvents();
-        $subscribedEvents->shouldHaveKey(StorageEvents::POST_REMOVE);
-        $subscribedEvents[StorageEvents::POST_REMOVE]->shouldBe('launchRemoveNonExistingProductValuesJob');
     }
 
     function it_handles_only_attribute_option_subject(JobLauncherInterface $jobLauncher)

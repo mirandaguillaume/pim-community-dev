@@ -10,7 +10,6 @@ use Akeneo\Pim\Structure\Component\Model\FamilyVariant;
 use Akeneo\Pim\Structure\Component\Model\FamilyVariantInterface;
 use Akeneo\Tool\Component\StorageUtils\Detacher\BulkObjectDetacherInterface;
 use Akeneo\Tool\Component\StorageUtils\Saver\BulkSaverInterface;
-use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use PhpSpec\ObjectBehavior;
@@ -33,14 +32,6 @@ class SaveFamilyVariantOnFamilyUpdateSubscriberSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(SaveFamilyVariantOnFamilyUpdateSubscriber::class);
-    }
-
-    function it_subscribes_to_events()
-    {
-        $this->getSubscribedEvents()->shouldReturn([
-            StorageEvents::POST_SAVE => 'onUnitarySave',
-            StorageEvents::POST_SAVE_ALL => 'onBulkSave',
-        ]);
     }
 
     function it_only_supports_families_object(

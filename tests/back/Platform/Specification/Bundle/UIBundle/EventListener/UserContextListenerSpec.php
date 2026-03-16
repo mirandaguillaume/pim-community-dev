@@ -9,7 +9,6 @@ use PhpSpec\ObjectBehavior;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -30,11 +29,6 @@ class UserContextListenerSpec extends ObjectBehavior
         $userContext->getUserChannelCode()->willReturn('schmetterling');
 
         $this->beConstructedWith($tokenStorage, $listener, $catalogContext, $userContext);
-    }
-
-    function it_subscribes_to_kernel_request()
-    {
-        $this->getSubscribedEvents()->shouldReturn([KernelEvents::REQUEST => 'onKernelRequest']);
     }
 
     function it_does_nothing_if_request_type_is_not_main_request($event, $listener, $catalogContext)

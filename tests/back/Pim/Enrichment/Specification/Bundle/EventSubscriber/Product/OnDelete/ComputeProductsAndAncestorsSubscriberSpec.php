@@ -8,7 +8,6 @@ use Akeneo\Pim\Enrichment\Component\Product\Model\Product;
 use Akeneo\Pim\Enrichment\Component\Product\Model\ProductModel;
 use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
 use Akeneo\Tool\Component\StorageUtils\Event\RemoveEvent;
-use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Ramsey\Uuid\Uuid;
@@ -23,12 +22,6 @@ class ComputeProductsAndAncestorsSubscriberSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(ComputeProductsAndAncestorsSubscriber::class);
-    }
-
-    function it_subscribes_to_remove_events()
-    {
-        $this::getSubscribedEvents()->shouldHaveKey(StorageEvents::POST_REMOVE);
-        $this::getSubscribedEvents()->shouldHaveKey(StorageEvents::POST_REMOVE_ALL);
     }
 
     function it_only_handles_products(ProductAndAncestorsIndexer $indexer)

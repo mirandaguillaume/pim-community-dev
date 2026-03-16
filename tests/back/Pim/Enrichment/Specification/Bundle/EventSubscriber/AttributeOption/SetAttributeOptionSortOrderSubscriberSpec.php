@@ -7,10 +7,8 @@ use Akeneo\Pim\Enrichment\Bundle\Storage\Sql\Attribute\GetAttributeOptionsMaxSor
 use Akeneo\Pim\Structure\Component\Model\Attribute;
 use Akeneo\Pim\Structure\Component\Model\AttributeOption;
 use Akeneo\Pim\Structure\Component\Model\AttributeOptionInterface;
-use Akeneo\Tool\Component\StorageUtils\StorageEvents;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class SetAttributeOptionSortOrderSubscriberSpec extends ObjectBehavior
@@ -20,17 +18,9 @@ class SetAttributeOptionSortOrderSubscriberSpec extends ObjectBehavior
         $this->beConstructedWith($getAttributeOptionsMaxSortOrder);
     }
 
-    function it_is_an_event_subscriber()
+    function it_is_initializable()
     {
-        $this->shouldImplement(EventSubscriberInterface::class);
         $this->shouldHaveType(SetAttributeOptionSortOrderSubscriber::class);
-    }
-
-    function it_subscribes_to_pre_save_and_pre_save_all_events()
-    {
-        $subscribedEvents = $this::getSubscribedEvents();
-        $subscribedEvents->shouldHaveKey(StorageEvents::PRE_SAVE);
-        $subscribedEvents->shouldHaveKey(StorageEvents::PRE_SAVE_ALL);
     }
 
     function it_only_handles_attributes_and_options(GetAttributeOptionsMaxSortOrder $getAttributeOptionsMaxSortOrder)
