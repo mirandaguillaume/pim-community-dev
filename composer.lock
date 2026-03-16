@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7183e315fc4a2f8b974a45f526e99eff",
+    "content-hash": "08795a9de4cd71dd80e560ea9a10906d",
     "packages": [
         {
             "name": "ass/xmlsecurity",
@@ -18831,7 +18831,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "8.2.*",
+        "php": "8.3.*",
         "ext-apcu": "*",
         "ext-bcmath": "*",
         "ext-curl": ">=7.0",
@@ -18849,7 +18849,7 @@
     },
     "platform-dev": {},
     "platform-overrides": {
-        "php": "8.2.30"
+        "php": "8.3.0"
     },
     "plugin-api-version": "2.9.0"
 }

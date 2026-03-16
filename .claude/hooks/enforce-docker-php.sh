@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Hook: PreToolUse on Bash
-# Reminds to use Docker for PHP/composer commands. The host has PHP 8.1, project needs 8.2+.
+# Reminds to use Docker for PHP/composer commands. The host has PHP 8.1, project needs 8.3+.
 
 set -euo pipefail
 
@@ -17,13 +17,13 @@ echo "$COMMAND" | grep -qE '^\s*(make|APP_ENV=\S+\s+make|PIM_CONTEXT=\S+\s+make)
 
 # Block direct PHP execution that should use Docker
 if echo "$COMMAND" | grep -qE '^\s*(php |vendor/bin/phpstan|vendor/bin/phpspec|vendor/bin/phpunit|tools/php-cs-fixer)\b'; then
-    echo '{"hookSpecificOutput":{"hookEventName":"PreToolUse","additionalContext":"REMINDER: Use docker-compose run --rm php php <command> instead of running PHP directly. Host has PHP 8.1, project needs 8.2+."}}'
+    echo '{"hookSpecificOutput":{"hookEventName":"PreToolUse","additionalContext":"REMINDER: Use docker-compose run --rm php php <command> instead of running PHP directly. Host has PHP 8.1, project needs 8.3+."}}'
     exit 0
 fi
 
 # Block ALL direct composer commands — must go through Docker
 if echo "$COMMAND" | grep -qE '^\s*composer\b'; then
-    echo '{"hookSpecificOutput":{"hookEventName":"PreToolUse","additionalContext":"REMINDER: Use docker-compose run --rm php composer <command> instead of running composer directly. Host has PHP 8.1, project needs 8.2+."}}'
+    echo '{"hookSpecificOutput":{"hookEventName":"PreToolUse","additionalContext":"REMINDER: Use docker-compose run --rm php composer <command> instead of running composer directly. Host has PHP 8.1, project needs 8.3+."}}'
     exit 0
 fi
 
