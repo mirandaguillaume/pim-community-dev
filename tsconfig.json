@@ -7,7 +7,7 @@
     "allowJs": true,
     "moduleResolution": "node",
     "baseUrl": "./public/bundles",
-    "jsx": "react",
+    "jsx": "react-jsx",
     "skipLibCheck": true,
     "strict": false,
     "forceConsistentCasingInFileNames": true,
