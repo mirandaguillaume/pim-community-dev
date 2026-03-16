@@ -2,56 +2,59 @@ import {ConnectionsProvider} from '@src/settings/connections-context';
 import {CreateConnection} from '@src/settings/pages/CreateConnection';
 import {screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {createMemoryHistory} from 'history';
 import React from 'react';
-import {Route, Router} from 'react-router-dom';
-import {renderWithProviders} from '../../../test-utils';
+import {MemoryRouter, Route, Routes} from 'react-router-dom';
+import {renderWithProviders, LocationDisplay} from '../../../test-utils';
 
 describe('testing CreateConnection page', () => {
-    beforeEach(() => {
-        fetchMock.resetMocks();
+  beforeEach(() => {
+    fetchMock.resetMocks();
+  });
+
+  it('creates a connection', async () => {
+    fetchMock.mockResponseOnce('{}', {status: 201});
+
+    renderWithProviders(
+      <MemoryRouter initialEntries={['/connections/create']}>
+        <Routes>
+          <Route
+            path="/connections/create"
+            element={
+              <ConnectionsProvider>
+                <CreateConnection />
+              </ConnectionsProvider>
+            }
+          />
+        </Routes>
+        <LocationDisplay />
+      </MemoryRouter>
+    );
+
+    const labelInput = screen.getByLabelText<HTMLInputElement>(/^akeneo_connectivity\.connection\.connection\.label/);
+    const codeInput = screen.getByLabelText(/^akeneo_connectivity\.connection\.connection\.code/);
+    const flowTypeSelect = screen.getByLabelText(/^akeneo_connectivity\.connection\.connection\.flow_type/);
+    const saveButton = screen.getByText('pim_common.save');
+
+    userEvent.clear(labelInput);
+    await waitFor(() => expect(labelInput.value).toBe(''));
+    userEvent.type(labelInput, 'Magento');
+
+    userEvent.click(flowTypeSelect);
+    userEvent.click(await screen.findByText(/akeneo_connectivity\.connection\.flow_type\.data_destination/));
+    userEvent.click(saveButton);
+
+    await waitFor(() => expect(fetchMock).toBeCalled());
+    expect(fetchMock.mock.calls[0][0]).toEqual('akeneo_connectivity_connection_rest_create');
+    expect(fetchMock.mock.calls[0][1]).toMatchObject({
+      method: 'POST',
+      body: JSON.stringify({
+        code: 'magento',
+        label: 'Magento',
+        flow_type: 'data_destination',
+      }),
     });
 
-    it('creates a connection', async () => {
-        fetchMock.mockResponseOnce('{}', {status: 201});
-
-        const history = createMemoryHistory({initialEntries: ['/connections/create']});
-        renderWithProviders(
-            <Router history={history}>
-                <Route path='/connections/create'>
-                    <ConnectionsProvider>
-                        <CreateConnection />
-                    </ConnectionsProvider>
-                </Route>
-            </Router>
-        );
-
-        const labelInput = screen.getByLabelText<HTMLInputElement>(
-            /^akeneo_connectivity\.connection\.connection\.label/
-        );
-        const codeInput = screen.getByLabelText(/^akeneo_connectivity\.connection\.connection\.code/);
-        const flowTypeSelect = screen.getByLabelText(/^akeneo_connectivity\.connection\.connection\.flow_type/);
-        const saveButton = screen.getByText('pim_common.save');
-
-        userEvent.clear(labelInput);
-        await waitFor(() => expect(labelInput.value).toBe(''));
-        userEvent.type(labelInput, 'Magento');
-
-        userEvent.click(flowTypeSelect);
-        userEvent.click(await screen.findByText(/akeneo_connectivity\.connection\.flow_type\.data_destination/));
-        userEvent.click(saveButton);
-
-        await waitFor(() => expect(fetchMock).toBeCalled());
-        expect(fetchMock.mock.calls[0][0]).toEqual('akeneo_connectivity_connection_rest_create');
-        expect(fetchMock.mock.calls[0][1]).toMatchObject({
-            method: 'POST',
-            body: JSON.stringify({
-                code: 'magento',
-                label: 'Magento',
-                flow_type: 'data_destination',
-            }),
-        });
-
-        expect(history.location.pathname).toBe('/connect/connection-settings/magento/edit');
-    });
+    const locationEl = document.querySelector('[data-testid="location"]');
+    expect(locationEl).toHaveTextContent('/connect/connection-settings/magento/edit');
+  });
 });

@@ -4,112 +4,109 @@ import React, {FC, PropsWithChildren} from 'react';
 import {ThemeProvider} from 'styled-components';
 import {theme} from '@src/common/styled-with-theme';
 import fetchMock from 'jest-fetch-mock';
-import {Router} from 'react-router-dom';
-import {createMemoryHistory} from 'history';
+import {MemoryRouter, useLocation} from 'react-router-dom';
 import {DependenciesContext} from '@akeneo-pim-community/shared';
 import {QueryClientProvider, QueryClient} from 'react-query';
 
-export const historyMock = {
-    history: createMemoryHistory(),
-    reset: () => {
-        historyMock.history = createMemoryHistory();
-    },
+export const LocationDisplay = () => {
+  const location = useLocation();
+  return <div data-testid="location">{location.pathname}</div>;
 };
 
 const UserProvider: FC<PropsWithChildren> = ({children}) => {
-    const data: {[key: string]: unknown} = {
-        uiLocale: 'en_US',
-        timezone: 'UTC',
-        avatar: {filePath: 'avatar.png'},
-        first_name: 'John',
-        last_name: 'Doe',
-    };
-    const user = {
-        get: function <T>(key: string) {
-            return data[key] as T;
-        },
-        set: () => undefined,
-        refresh: () => Promise.resolve(),
-    };
+  const data: {[key: string]: unknown} = {
+    uiLocale: 'en_US',
+    timezone: 'UTC',
+    avatar: {filePath: 'avatar.png'},
+    first_name: 'John',
+    last_name: 'Doe',
+  };
+  const user = {
+    get: function <T>(key: string) {
+      return data[key] as T;
+    },
+    set: () => undefined,
+    refresh: () => Promise.resolve(),
+  };
 
-    return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
+  return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
 };
 
 export const ReactQueryWrapper: FC<PropsWithChildren> = ({children}) => {
-    const queryClient = new QueryClient({
-        defaultOptions: {
-            queries: {
-                // by default, react query uses a back-off delay gradually applied to each retry attempt.
-                // Overriding the delay to 10ms allows us to test its failing behavior without slowing down
-                // the tests.
-                retryDelay: 10,
-            },
-        },
-    });
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        // by default, react query uses a back-off delay gradually applied to each retry attempt.
+        // Overriding the delay to 10ms allows us to test its failing behavior without slowing down
+        // the tests.
+        retryDelay: 10,
+      },
+    },
+  });
 
-    return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 };
 const DefaultProviders: FC<PropsWithChildren> = ({children}) => {
-    return (
-        <ReactQueryWrapper>
-            <DependenciesContext.Provider
-                value={{
-                    translate: (id: string) => id,
-                    featureFlags: {isEnabled: (_feature: string) => true},
-                    systemConfiguration: {
-                        get: (key: string) => key,
-                        initialize: () => Promise.resolve(),
-                        refresh: () => Promise.resolve(),
-                    },
-                }}
-            >
-                <ThemeProvider theme={theme}>
-                    <UserProvider>
-                        <Router history={historyMock.history}>{children}</Router>
-                    </UserProvider>
-                </ThemeProvider>
-            </DependenciesContext.Provider>
-        </ReactQueryWrapper>
-    );
+  return (
+    <ReactQueryWrapper>
+      <DependenciesContext.Provider
+        value={{
+          translate: (id: string) => id,
+          featureFlags: {isEnabled: (_feature: string) => true},
+          systemConfiguration: {
+            get: (key: string) => key,
+            initialize: () => Promise.resolve(),
+            refresh: () => Promise.resolve(),
+          },
+        }}
+      >
+        <ThemeProvider theme={theme}>
+          <UserProvider>
+            <MemoryRouter>{children}</MemoryRouter>
+          </UserProvider>
+        </ThemeProvider>
+      </DependenciesContext.Provider>
+    </ReactQueryWrapper>
+  );
 };
 
 export const createWithProviders = (nextElement: React.ReactElement) =>
-    render(<DefaultProviders>{nextElement}</DefaultProviders>);
+  render(<DefaultProviders>{nextElement}</DefaultProviders>);
 
 export const renderWithProviders = (ui: React.ReactElement) => render(ui, {wrapper: DefaultProviders});
 
 export const fetchMockResponseOnce = (requestUrl: string, responseBody: string) =>
-    fetchMock.mockResponseOnce(request =>
-        request.url === requestUrl ? Promise.resolve(responseBody) : Promise.reject()
-    );
+  fetchMock.mockResponseOnce(request =>
+    request.url === requestUrl ? Promise.resolve(responseBody) : Promise.reject()
+  );
 
 export type MockFetchResponses = {
-    [url: string]: {
-        reject?: boolean;
-        status?: number;
-        statusText?: string;
-        headers?: string[][] | {[key: string]: string};
-        json: object | string | boolean;
-    };
+  [url: string]: {
+    reject?: boolean;
+    status?: number;
+    statusText?: string;
+    headers?: string[][] | {[key: string]: string};
+    json: object | string | boolean;
+  };
 };
 
 export const mockFetchResponses = (responses: MockFetchResponses) => {
-    fetchMock.doMock(request => {
-        const response = responses[request.url];
+  fetchMock.doMock(request => {
+    const response = responses[request.url];
 
-        if (undefined === response) {
-            throw Error('Fetch was called with a non mocked url: ' + request.url);
-        }
+    if (undefined === response) {
+      throw Error('Fetch was called with a non mocked url: ' + request.url);
+    }
 
-        const {reject, json, ...params} = response;
+    const {reject, json, ...params} = response;
 
-        if (true === reject) {
-            return Promise.reject();
-        }
+    if (true === reject) {
+      return Promise.reject();
+    }
 
-        return Promise.resolve({
-            ...params,
-            body: JSON.stringify(json),
-        });
+    return Promise.resolve({
+      ...params,
+      body: JSON.stringify(json),
     });
+  });
 };

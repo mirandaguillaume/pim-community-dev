@@ -1,13 +1,12 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import fetchMock from 'jest-fetch-mock';
-import {historyMock, renderWithProviders} from '../../../test-utils';
+import {renderWithProviders} from '../../../test-utils';
 import {screen} from '@testing-library/react';
 import {ScopeList} from '@src/connect/components/ScopeList';
 
 beforeEach(() => {
     fetchMock.resetMocks();
-    historyMock.reset();
 });
 
 test('The scope list renders with scopes', () => {

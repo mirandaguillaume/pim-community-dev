@@ -1,7 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import fetchMock from 'jest-fetch-mock';
-import {renderWithProviders, historyMock} from '../../../../test-utils';
+import {renderWithProviders} from '../../../../test-utils';
 import {ConnectedAppPermissions} from '@src/connect/components/ConnectedApp/ConnectedAppPermissions';
 import {PermissionsForm} from '@src/connect/components/PermissionsForm';
 
@@ -12,7 +12,6 @@ jest.mock('@src/connect/components/PermissionsForm', () => ({
 
 beforeEach(() => {
     fetchMock.resetMocks();
-    historyMock.reset();
     jest.clearAllMocks();
 });
 

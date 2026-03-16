@@ -1,7 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import fetchMock from 'jest-fetch-mock';
-import {historyMock, mockFetchResponses, renderWithProviders} from '../../../test-utils';
+import {mockFetchResponses, renderWithProviders} from '../../../test-utils';
 import {act, screen} from '@testing-library/react';
 import {Marketplace} from '@src/connect/components/Marketplace';
 import {MarketplaceHelper} from '@src/connect/components/MarketplaceHelper';
@@ -11,7 +11,6 @@ import userEvent from '@testing-library/user-event';
 
 beforeEach(() => {
     fetchMock.resetMocks();
-    historyMock.reset();
 });
 
 jest.mock('@src/shared/feature-flags/use-feature-flags');

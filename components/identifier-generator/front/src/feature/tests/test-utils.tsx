@@ -4,11 +4,13 @@ import {pimTheme} from 'akeneo-design-system';
 import {DefaultProviders, useSecurity} from '@akeneo-pim-community/shared';
 import {ThemeProvider} from 'styled-components';
 import {render, RenderOptions, RenderResult} from '@testing-library/react';
+import {MemoryRouter} from 'react-router-dom';
 import {IdentifierGeneratorAclContextProvider, IdentifierGeneratorContextProvider} from '../context';
 
 // By default, the tests should behave as if all identifier generator ACLs are granted
 
-const AllTheProviders: FC<{children: React.ReactNode}> = ({children}) => {
+// Providers without Router -- use when the test provides its own Router
+const CoreProviders: FC<{children: React.ReactNode}> = ({children}) => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -31,11 +33,24 @@ const AllTheProviders: FC<{children: React.ReactNode}> = ({children}) => {
   );
 };
 
+// Providers with MemoryRouter -- default wrapper for most tests
+const AllTheProviders: FC<{children: React.ReactNode}> = ({children}) => (
+  <MemoryRouter>
+    <CoreProviders>{children}</CoreProviders>
+  </MemoryRouter>
+);
+
 const customRender = (
   ui: React.ReactElement,
   options?: Omit<RenderOptions, 'wrapper'>
   // @ts-ignore
 ): RenderResult => render(ui, {wrapper: AllTheProviders, ...options});
+
+const renderWithoutRouter = (
+  ui: React.ReactElement,
+  options?: Omit<RenderOptions, 'wrapper'>
+  // @ts-ignore
+): RenderResult => render(ui, {wrapper: CoreProviders, ...options});
 
 const mockResponse: (
   url: string,
@@ -88,4 +103,4 @@ const mockACLs: (view: boolean, manage: boolean) => void = (view: boolean, manag
 };
 
 export * from '@testing-library/react';
-export {customRender as render, mockResponse, mockACLs};
+export {customRender as render, renderWithoutRouter, mockResponse, mockACLs};

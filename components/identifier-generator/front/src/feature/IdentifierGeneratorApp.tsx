@@ -21,22 +21,26 @@ const ContainerApp = styled.div`
   color: ${getColor('grey', 120)};
 `;
 
-const router = createHashRouter(
-  createRoutesFromElements(
-    <>
-      <Route path="/:identifierGeneratorCode" element={<Edit />} />
-      <Route path="/" element={<List />} />
-    </>
-  ),
-  {basename: '/configuration/identifier-generator'}
-);
-
 const IdentifierGeneratorApp: React.FC = () => {
   const {isGranted} = useSecurity();
   const translate = useTranslate();
   const hasViewPermission = useMemo(
     () => isGranted('pim_identifier_generator_view') || isGranted('pim_identifier_generator_manage'),
     [isGranted]
+  );
+
+  const router = useMemo(
+    () =>
+      createHashRouter(
+        createRoutesFromElements(
+          <>
+            <Route path="/:identifierGeneratorCode" element={<Edit />} />
+            <Route path="/" element={<List />} />
+          </>
+        ),
+        {basename: '/configuration/identifier-generator'}
+      ),
+    []
   );
 
   return hasViewPermission ? (

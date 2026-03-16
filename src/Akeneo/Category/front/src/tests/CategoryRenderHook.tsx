@@ -4,7 +4,7 @@ import {ThemeProvider} from 'styled-components';
 import {pimTheme} from 'akeneo-design-system';
 import {renderHook} from '@testing-library/react';
 import {mockedDependencies, DependenciesContext} from '@akeneo-pim-community/shared';
-import {MemoryRouter as Router} from 'react-router';
+import {MemoryRouter as Router} from 'react-router-dom';
 
 const categoryReactQueryProviders: FC = ({children}) => {
   const queryClient = new QueryClient({

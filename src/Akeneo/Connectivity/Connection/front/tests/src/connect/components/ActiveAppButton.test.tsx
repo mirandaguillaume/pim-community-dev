@@ -2,12 +2,11 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import {screen} from '@testing-library/react';
 import fetchMock from 'jest-fetch-mock';
-import {historyMock, renderWithProviders} from '../../../test-utils';
+import {renderWithProviders} from '../../../test-utils';
 import {ActivateAppButton} from '@src/connect/components/ActivateAppButton';
 
 beforeEach(() => {
     fetchMock.resetMocks();
-    historyMock.reset();
 });
 
 test('button renders for connected app', () => {
