@@ -14,7 +14,7 @@ final class Version_7_0_20220726143600_add_scheduled_jobs extends AbstractMigrat
 {
     private ContainerInterface $container;
 
-    public function setContainer(ContainerInterface $container = null)
+    public function setContainer(?ContainerInterface $container = null)
     {
         $this->container = $container;
     }

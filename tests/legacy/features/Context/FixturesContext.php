@@ -2184,7 +2184,7 @@ class FixturesContext extends BaseFixturesContext
      *
      * @return ValueInterface
      */
-    private function getProductModelValue(string $identifier, string $attribute, string $locale = null, string $scope = null)
+    private function getProductModelValue(string $identifier, string $attribute, ?string $locale = null, ?string $scope = null)
     {
         if (null === $productModel = $this->getProductModel($identifier)) {
             throw new \InvalidArgumentException(sprintf('Could not find product model with code "%s"', $identifier));

@@ -70,7 +70,7 @@ final class Version_7_0_20230110161438_initialize_identifier_generator_acl exten
     /**
      * {@inheritdoc}
      */
-    public function setContainer(ContainerInterface $container = null)
+    public function setContainer(?ContainerInterface $container = null)
     {
         $this->container = $container;
     }

@@ -141,7 +141,7 @@ class VersioningControllerIntegration extends WebTestCase
         array $routeArguments = [],
         string $method = 'GET',
         array $parameters = [],
-        string $content = null,
+        ?string $content = null,
     ): void {
         $headers = [
             'HTTP_X-Requested-With' => 'XMLHttpRequest',

@@ -90,7 +90,7 @@ class InMemoryProductRepository implements
      * We implement this method for onboarder v1 because we need it for an event subscriber
      * and there is some integration tests that are using inmemory implem
      */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
     {
         return $this->products->filter(fn (ProductInterface $product) => $product->getIdentifier() === $criteria['identifier'])->toArray();
     }

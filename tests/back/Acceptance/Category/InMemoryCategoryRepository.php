@@ -54,7 +54,7 @@ final class InMemoryCategoryRepository implements
     /**
      * {@inheritdoc}
      */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
     {
         $categories = [];
         foreach ($this->categories as $category) {

@@ -127,7 +127,7 @@ final class Version_7_0_20221027152057_add_id_field_to_connection_error_index_ma
         $this->throwIrreversibleMigrationException();
     }
 
-    public function setContainer(ContainerInterface $container = null)
+    public function setContainer(?ContainerInterface $container = null)
     {
         Assert::notNull($container);
         $this->container = $container;

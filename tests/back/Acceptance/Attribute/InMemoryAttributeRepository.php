@@ -79,7 +79,7 @@ class InMemoryAttributeRepository implements AttributeRepositoryInterface, Saver
     /**
      * {@inheritdoc}
      */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
     {
         $attributes = [];
         foreach ($this->attributes as $attribute) {

@@ -14,7 +14,7 @@ final class Version_6_0_20220518134914_set_not_null_fields_for_job_and_step_exec
 {
     private ?ContainerInterface $container;
 
-    public function setContainer(ContainerInterface $container = null): void
+    public function setContainer(?ContainerInterface $container = null): void
     {
         $this->container = $container;
     }

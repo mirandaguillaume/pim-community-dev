@@ -48,7 +48,7 @@ abstract class AbstractCompletenessTestCase extends TestCase
         bool $localisable = false,
         bool $scopable = false,
         array $localesSpecific = [],
-        AttributeGroup $group = null
+        ?AttributeGroup $group = null
     ): AttributeInterface {
         if (null === $group) {
             $group = $this->get('pim_api.repository.attribute_group')->findOneByIdentifier('other');

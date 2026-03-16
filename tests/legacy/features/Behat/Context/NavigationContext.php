@@ -628,7 +628,7 @@ class NavigationContext extends PimContext implements PageObjectAware
      *
      * @deprecated This method is deprecated and should be removed avoid its use
      */
-    protected function wait(string $condition = null)
+    protected function wait(?string $condition = null)
     {
         $this->getMainContext()->wait($condition);
     }

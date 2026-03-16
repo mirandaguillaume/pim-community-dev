@@ -55,7 +55,7 @@ final class InMemoryCurrencyRepository implements
     /**
      * {@inheritdoc}
      */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
     {
         $currencies = [];
         foreach ($this->currencies as $currency) {

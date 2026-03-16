@@ -117,7 +117,7 @@ class DeleteJobExecutionIntegration extends TestCase
         $application->run($input, $output);
     }
 
-    private function assertJobExecutionCount(int $expectedCount, array $jobInstanceCodes = null): void
+    private function assertJobExecutionCount(int $expectedCount, ?array $jobInstanceCodes = null): void
     {
         $query = 'SELECT COUNT(*) FROM akeneo_batch_job_execution';
 

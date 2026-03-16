@@ -47,7 +47,7 @@ class InMemoryFamilyRepository implements IdentifiableObjectRepositoryInterface,
         throw new NotImplementedException(__METHOD__);
     }
 
-    public function getFullFamilies(FamilyInterface $family = null, ChannelInterface $channel = null)
+    public function getFullFamilies(?FamilyInterface $family = null, ?ChannelInterface $channel = null)
     {
         throw new NotImplementedException(__METHOD__);
     }
@@ -72,7 +72,7 @@ class InMemoryFamilyRepository implements IdentifiableObjectRepositoryInterface,
         return $this->families->toArray();
     }
 
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
     {
         throw new NotImplementedException(__METHOD__);
     }
@@ -87,7 +87,7 @@ class InMemoryFamilyRepository implements IdentifiableObjectRepositoryInterface,
         throw new NotImplementedException(__METHOD__);
     }
 
-    public function getWithVariants(string $search = null, array $options = [], int $limit = null): array
+    public function getWithVariants(?string $search = null, array $options = [], ?int $limit = null): array
     {
         throw new NotImplementedException(__METHOD__);
     }

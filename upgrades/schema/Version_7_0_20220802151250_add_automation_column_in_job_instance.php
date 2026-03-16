@@ -22,7 +22,7 @@ final class Version_7_0_20220802151250_add_automation_column_in_job_instance ext
 {
     private ?ContainerInterface $container;
 
-    public function setContainer(ContainerInterface $container = null): void
+    public function setContainer(?ContainerInterface $container = null): void
     {
         $this->container = $container;
     }

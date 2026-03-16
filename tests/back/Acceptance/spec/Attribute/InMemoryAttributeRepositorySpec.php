@@ -196,7 +196,7 @@ class InMemoryAttributeRepositorySpec extends ObjectBehavior
         $this->getAttributeCodesByType(AttributeTypes::DATE)->shouldReturn([]);
     }
 
-    private function createAttribute(string $code, string $type = null, string $backendType = null): AttributeInterface
+    private function createAttribute(string $code, ?string $type = null, ?string $backendType = null): AttributeInterface
     {
         $attribute = new Attribute();
         $attribute->setCode($code);

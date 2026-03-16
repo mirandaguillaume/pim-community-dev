@@ -24,7 +24,7 @@ final class Version_7_0_20230201143400_drop_product_id_columns_and_clean_version
         $this->throwIrreversibleMigrationException();
     }
 
-    public function setContainer(ContainerInterface $container = null)
+    public function setContainer(?ContainerInterface $container = null)
     {
         $this->container = $container;
     }

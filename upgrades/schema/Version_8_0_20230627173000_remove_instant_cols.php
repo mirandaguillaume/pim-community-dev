@@ -31,7 +31,7 @@ final class Version_8_0_20230627173000_remove_instant_cols extends AbstractMigra
         $this->throwIrreversibleMigrationException();
     }
 
-    public function setContainer(ContainerInterface $container = null)
+    public function setContainer(?ContainerInterface $container = null)
     {
         $this->container = $container;
     }

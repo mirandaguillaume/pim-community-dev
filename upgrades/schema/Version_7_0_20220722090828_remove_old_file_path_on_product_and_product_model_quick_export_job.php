@@ -13,7 +13,7 @@ final class Version_7_0_20220722090828_remove_old_file_path_on_product_and_produ
 {
     private ?ContainerInterface $container;
 
-    public function setContainer(ContainerInterface $container = null): void
+    public function setContainer(?ContainerInterface $container = null): void
     {
         $this->container = $container;
     }

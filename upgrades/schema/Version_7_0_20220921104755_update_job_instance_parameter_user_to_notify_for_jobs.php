@@ -14,7 +14,7 @@ final class Version_7_0_20220921104755_update_job_instance_parameter_user_to_not
 {
     private ?ContainerInterface $container;
 
-    public function setContainer(ContainerInterface $container = null): void
+    public function setContainer(?ContainerInterface $container = null): void
     {
         $this->container = $container;
     }

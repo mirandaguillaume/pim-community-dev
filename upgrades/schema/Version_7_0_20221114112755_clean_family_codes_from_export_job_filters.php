@@ -15,7 +15,7 @@ final class Version_7_0_20221114112755_clean_family_codes_from_export_job_filter
 {
     private ?ContainerInterface $container;
 
-    public function setContainer(ContainerInterface $container = null): void
+    public function setContainer(?ContainerInterface $container = null): void
     {
         $this->container = $container;
     }

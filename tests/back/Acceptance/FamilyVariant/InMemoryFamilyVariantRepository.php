@@ -50,7 +50,7 @@ class InMemoryFamilyVariantRepository implements SaverInterface, IdentifiableObj
         return array_values($this->familyVariants->toArray());
     }
 
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
     {
         throw new NotImplementedException(__METHOD__);
     }

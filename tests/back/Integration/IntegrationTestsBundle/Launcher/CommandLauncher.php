@@ -36,7 +36,7 @@ class CommandLauncher
      *
      * @return int
      */
-    public function execute(string $commandName, string $username = null, array $config = []) : int
+    public function execute(string $commandName, ?string $username = null, array $config = []) : int
     {
         $application = new Application($this->kernel);
         $application->setAutoExit(false);

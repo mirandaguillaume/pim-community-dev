@@ -86,7 +86,7 @@ class InMemoryUserRepository implements IdentifiableObjectRepositoryInterface, S
     /**
      * {@inheritdoc}
      */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
     {
         $users = [];
         foreach ($this->users as $user) {

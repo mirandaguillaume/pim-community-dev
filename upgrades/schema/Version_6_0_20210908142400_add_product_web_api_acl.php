@@ -300,7 +300,7 @@ final class Version_6_0_20210908142400_add_product_web_api_acl extends AbstractM
     /**
      * {@inheritdoc}
      */
-    public function setContainer(ContainerInterface $container = null): void
+    public function setContainer(?ContainerInterface $container = null): void
     {
         $this->container = $container;
     }
