@@ -47,7 +47,7 @@ class EntityWithValuesStorageIntegration extends TestCase
                     '<all_locales>' => [
                         'amount'    => '987654321987.1237',
                         'unit'      => 'KILOWATT',
-                        'base_data' => '987654321987123.700000000000',
+                        'base_data' => '987654321987123.400000000000',
                         'base_unit' => 'WATT',
                         'family'    => 'Power',
                     ]

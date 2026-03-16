@@ -53,7 +53,7 @@ class ProductIntegration extends TestCase
             'a_localized_and_scopable_text_area-en_US-ecommerce' => 'a text area for ecommerce in English',
             'a_localized_and_scopable_text_area-en_US-tablet' => 'a text area for tablets in English',
             'a_localized_and_scopable_text_area-fr_FR-tablet' => 'une zone de texte pour les tablettes en français',
-            'a_metric' => 987654321987.1237,
+            'a_metric' => 987654321987.1234,
             'a_metric-unit' => 'KILOWATT',
             'a_metric_negative' => -20.5,
             'a_metric_negative-unit' => 'CELSIUS',
