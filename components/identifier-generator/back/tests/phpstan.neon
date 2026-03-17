@@ -45,5 +45,5 @@ parameters:
         - '#Method .+ should return array\{.+\} but returns array<mixed, mixed>#'
         # PHP 8.4: GMP/SimpleXMLElement added to built-in function signatures
         -
-            message: '#Parameter \#\d+ \$\w+ of function (strval|intval|array_unique|implode|array_diff) expects#'
+            message: '#Parameter \#\d+ \$\w+ of function (strval|intval|array_unique|implode|array_diff|array_intersect) expects#'
             reportUnmatched: false
