@@ -29,7 +29,6 @@ class PersistedConnectionEntityManagerSpec extends ObjectBehavior
         $entityManager->getConnection()->willReturn($connection);
         $connection->executeQuery('SELECT 1')->willThrow(new \Exception('Connection lost'));
         $connection->close()->shouldBeCalled();
-        $connection->connect()->shouldBeCalled();
 
         $this->getConnection()->shouldReturn($connection);
     }
@@ -41,7 +40,7 @@ class PersistedConnectionEntityManagerSpec extends ObjectBehavior
     ) {
         $entityManager->getConnection()->willReturn($connection);
         $connection->executeQuery('SELECT 1')->willReturn($result);
-        $entityManager->flush(null)->shouldBeCalled();
+        $entityManager->flush()->shouldBeCalled();
 
         $this->flush();
     }

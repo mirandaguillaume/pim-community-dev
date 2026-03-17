@@ -4,6 +4,7 @@ namespace Specification\Akeneo\Pim\Structure\Bundle\Doctrine\ORM;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\FieldMapping;
 use PhpSpec\ObjectBehavior;
 use Akeneo\Pim\Structure\Component\Model\ReferenceDataConfigurationInterface;
 use Prophecy\Argument;
@@ -17,14 +18,16 @@ class ReferenceDataUniqueCodeCheckerSpec extends ObjectBehavior
 
     function it_checks_a_valid_reference_data($em, ReferenceDataConfigurationInterface $configuration, ClassMetadata $metadata)
     {
-        $em->getClassMetadata(Argument::any())->willReturn($metadata);
-        $metadata->getFieldMapping('code')->willReturn([
+        $validMapping = FieldMapping::fromMappingArray([
             'fieldName'  => "code",
             'type'       => "string",
+            'columnName' => "code",
             'length'     => 255,
             'unique'     => true,
-            'columnName' => "code"
         ]);
+
+        $em->getClassMetadata(Argument::any())->willReturn($metadata);
+        $metadata->getFieldMapping('code')->willReturn($validMapping);
 
         $configuration->getClass()->willReturn('\StdClass');
 
@@ -34,14 +37,16 @@ class ReferenceDataUniqueCodeCheckerSpec extends ObjectBehavior
 
     function it_checks_an_invalid_reference_data($em, ReferenceDataConfigurationInterface $configuration, ClassMetadata $metadata)
     {
-        $em->getClassMetadata(Argument::any())->willReturn($metadata);
-        $metadata->getFieldMapping('code')->willReturn([
+        $invalidMapping = FieldMapping::fromMappingArray([
             'fieldName'  => "code",
             'type'       => "string",
+            'columnName' => "code",
             'length'     => 255,
             'unique'     => false,
-            'columnName' => "code"
         ]);
+
+        $em->getClassMetadata(Argument::any())->willReturn($metadata);
+        $metadata->getFieldMapping('code')->willReturn($invalidMapping);
 
         $configuration->getClass()->willReturn('\StdClass');
 

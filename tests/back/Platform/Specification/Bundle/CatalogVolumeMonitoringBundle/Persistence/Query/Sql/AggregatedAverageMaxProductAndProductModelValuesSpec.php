@@ -47,7 +47,7 @@ class AggregatedAverageMaxProductAndProductModelValuesSpec extends ObjectBehavio
         Result $statement
     ) {
         $connection->executeQuery(Argument::type('string'))->willReturn($statement);
-        $statement->fetchAssociative()->willReturn(null);
+        $statement->fetchAssociative()->willReturn(false);
 
         $this->fetch()->shouldBeLike(new AverageMaxVolumes(0, 0, 'average_max_product_and_product_model_values'));
     }

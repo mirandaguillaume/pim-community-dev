@@ -3,5 +3,11 @@ includes:
 
 parameters:
     level: max
+    reportUnmatchedIgnoredErrors: false
     paths:
         - %rootDir%/../../../src/Akeneo/Platform/Bundle/ImportExportBundle
+    ignoreErrors:
+        # PHP 8.4: stricter built-in function signatures
+        -
+            message: '#Parameter \#\d+ \$\w+ of function (implode|array_diff|array_unique|array_intersect) expects#'
+            reportUnmatched: false

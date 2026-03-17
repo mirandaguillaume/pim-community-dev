@@ -5,7 +5,7 @@ namespace Specification\Akeneo\Pim\Structure\Bundle\Doctrine\ORM\Repository\Inte
 use Akeneo\Pim\Structure\Bundle\Doctrine\ORM\Repository\InternalApi\GroupTypeRepository;
 use Akeneo\Platform\Bundle\UIBundle\Provider\TranslatedLabelsProviderInterface;
 use Akeneo\UserManagement\Bundle\Context\UserContext;
-use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
@@ -38,7 +38,7 @@ class GroupTypeRepositorySpec extends ObjectBehavior
         $this->shouldHaveType('Doctrine\ORM\EntityRepository');
     }
 
-    function it_finds_group_types_to_build_select($em, QueryBuilder $queryBuilder, AbstractQuery $query)
+    function it_finds_group_types_to_build_select($em, QueryBuilder $queryBuilder, Query $query)
     {
         $em->createQueryBuilder()->willReturn($queryBuilder);
         $queryBuilder->select('g')->willReturn($queryBuilder);

@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\DateTimeImmutableType;
+use Doctrine\DBAL\Types\Exception\InvalidFormat;
+use Doctrine\DBAL\Types\Exception\InvalidType;
 
 /**
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
@@ -18,7 +19,7 @@ class UTCDateTimeImmutableType extends DateTimeImmutableType
 
     private static ?\DateTimeZone $utc = null;
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
+    public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
     {
         if ($value instanceof \DateTimeImmutable) {
             $value = $value->setTimeZone(self::getUtc());
@@ -27,7 +28,7 @@ class UTCDateTimeImmutableType extends DateTimeImmutableType
         return parent::convertToDatabaseValue($value, $platform);
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?\DateTimeImmutable
+    public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?\DateTimeImmutable
     {
         if (null === $value || $value instanceof \DateTimeImmutable) {
             return $value;
@@ -49,7 +50,7 @@ class UTCDateTimeImmutableType extends DateTimeImmutableType
         }
 
         if (!$converted) {
-            throw ConversionException::conversionFailedFormat(
+            throw InvalidFormat::new(
                 $value,
                 'datetime_immutable',
                 $platform->getDateTimeFormatString()

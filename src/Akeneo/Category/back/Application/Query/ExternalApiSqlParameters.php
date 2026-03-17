@@ -12,7 +12,7 @@ class ExternalApiSqlParameters
 {
     /**
      * @param array<string, mixed>|null $params
-     * @param array<string, int>|null $types
+     * @param array<string, int|\Doctrine\DBAL\ParameterType|\Doctrine\DBAL\ArrayParameterType>|null $types
      */
     public function __construct(
         private readonly ?string $sqlWhere = null,
@@ -41,7 +41,7 @@ class ExternalApiSqlParameters
     }
 
     /**
-     * @return array<string, int>|null
+     * @return array<string, int|\Doctrine\DBAL\ParameterType|\Doctrine\DBAL\ArrayParameterType>|null
      */
     public function getTypes(): ?array
     {
@@ -59,7 +59,7 @@ class ExternalApiSqlParameters
     }
 
     /**
-     * @param array<string, int>|null $types
+     * @param array<string, int|\Doctrine\DBAL\ParameterType|\Doctrine\DBAL\ArrayParameterType>|null $types
      */
     public function setTypes(?array $types): ExternalApiSqlParameters
     {

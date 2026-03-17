@@ -5,9 +5,9 @@ namespace Specification\Akeneo\Pim\Structure\Bundle\Doctrine\ORM\Repository;
 use Akeneo\Pim\Structure\Component\Repository\FamilyRepositoryInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Statement;
-use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -32,7 +32,7 @@ class FamilyRepositorySpec extends ObjectBehavior
         $this->shouldImplement(FamilyRepositoryInterface::class);
     }
 
-    function it_checks_if_family_has_attribute($em, QueryBuilder $queryBuilder, AbstractQuery $query)
+    function it_checks_if_family_has_attribute($em, QueryBuilder $queryBuilder, Query $query)
     {
         $em->createQueryBuilder()->willReturn($queryBuilder);
         $queryBuilder->select('f')->willReturn($queryBuilder);
@@ -42,10 +42,8 @@ class FamilyRepositorySpec extends ObjectBehavior
         $queryBuilder->where('f.id = :id')->willReturn($queryBuilder);
         $queryBuilder->andWhere('a.code = :code')->willReturn($queryBuilder);
         $queryBuilder->setMaxResults(1)->willReturn($queryBuilder);
-        $queryBuilder->setParameters([
-            'id' => 10,
-            'code' => 'attribute_code',
-        ])->willReturn($queryBuilder);
+        $queryBuilder->setParameter('id', 10)->willReturn($queryBuilder);
+        $queryBuilder->setParameter('code', 'attribute_code')->willReturn($queryBuilder);
         $queryBuilder->getQuery()->willReturn($query);
         $query->getArrayResult()->willReturn(['id' => 12]);
         $this->hasAttribute(10, 'attribute_code')->shouldReturn(true);

@@ -8,6 +8,7 @@ use Akeneo\Tool\Bundle\VersioningBundle\UpdateGuesser\UpdateGuesserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\OneToManyAssociationMapping;
 use Doctrine\ORM\PersistentCollection;
 use PhpSpec\ObjectBehavior;
 
@@ -34,7 +35,13 @@ class LocaleSpecificAttributeUpdateGuesserSpec extends ObjectBehavior
         $attribute = new Attribute();
         $em = new MyEntityManager();
         $collection = new PersistentCollection($em, new ClassMetadata('Pim\Bundle\CatalogBundle\Entity\Attribute'), new ArrayCollection());
-        $collection->setOwner($attribute, ['fieldName' => 'availableLocales', 'inversedBy' => 'foo']);
+        $mapping = OneToManyAssociationMapping::fromMappingArray([
+            'fieldName' => 'availableLocales',
+            'targetEntity' => 'Foo',
+            'sourceEntity' => 'Bar',
+            'mappedBy' => 'foo',
+        ]);
+        $collection->setOwner($attribute, $mapping);
 
         $this->guessUpdates($em, $collection, UpdateGuesserInterface::ACTION_UPDATE_COLLECTION)
             ->shouldReturn([$attribute]);

@@ -55,7 +55,7 @@ class AggregatedAverageMaxOptionsPerAttributeSpec extends ObjectBehavior
 
         $statement->bindValue(Argument::cetera())->shouldBeCalled();
         $statement->executeQuery()->shouldBeCalled()->willReturn($result);
-        $result->fetchAssociative()->willReturn(null);
+        $result->fetchAssociative()->willReturn(false);
 
         $this->fetch()->shouldBeLike(new AverageMaxVolumes(0, 0, 'average_max_options_per_attribute'));
     }

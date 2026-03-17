@@ -37,7 +37,7 @@ class AddLocaleCodeToGridListenerSpec extends ObjectBehavior
         $datasource->getQueryBuilder()->willReturn($queryBuilder);
         $requestParams->get('dataLocale', null)->willReturn('fr_FR');
 
-        $queryBuilder->setParameter('dataLocale', 'fr_FR');
+        $queryBuilder->setParameter('dataLocale', 'fr_FR')->willReturn($queryBuilder);
 
         $this->onBuildAfter($event);
     }

@@ -5,7 +5,7 @@ namespace Specification\Akeneo\Pim\Enrichment\Bundle\Doctrine\ORM\Repository;
 use Akeneo\Tool\Component\StorageUtils\Repository\CursorableRepositoryInterface;
 use Akeneo\Tool\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface;
 use Doctrine\Persistence\ObjectRepository;
-use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Persisters\Entity\EntityPersister;
@@ -70,7 +70,7 @@ class ProductModelRepositorySpec extends ObjectBehavior
         ProductModelInterface $fooModel,
         ProductModelInterface $barModel,
         QueryBuilder $qb,
-        AbstractQuery $query
+        Query $query
     ) {
         $fooModel->getCode()->willReturn('foo');
         $barModel->getCode()->willReturn('bar');

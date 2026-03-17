@@ -5,9 +5,9 @@ namespace Specification\Akeneo\Channel\Infrastructure\Doctrine\Repository;
 use Akeneo\Channel\Infrastructure\Component\Repository\ChannelRepositoryInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Statement;
-use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -32,7 +32,7 @@ class ChannelRepositorySpec extends ObjectBehavior
         $this->shouldImplement(ChannelRepositoryInterface::class);
     }
 
-    function it_count_all_channels($em, QueryBuilder $queryBuilder, AbstractQuery $query)
+    function it_count_all_channels($em, QueryBuilder $queryBuilder, Query $query)
     {
         $em->createQueryBuilder()->willReturn($queryBuilder);
         $queryBuilder->select('c')->willReturn($queryBuilder);
@@ -40,7 +40,7 @@ class ChannelRepositorySpec extends ObjectBehavior
         $queryBuilder->select('COUNT(c.id)')->willReturn($queryBuilder);
 
         $queryBuilder->getQuery()->willReturn($query);
-        $query->getSingleScalarResult()->shouldBeCalled();
+        $query->getSingleScalarResult()->shouldBeCalled()->willReturn(0);
 
         $this->countAll();
     }

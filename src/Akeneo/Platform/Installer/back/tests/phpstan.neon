@@ -13,3 +13,7 @@ parameters:
     -
       message: '#Parameter \#\d+ \$\w+ of function (strval|intval|array_unique|implode|array_diff|array_intersect) expects#'
       reportUnmatched: false
+    # Doctrine DBAL 4: AbstractAsset is now generic
+    -
+      message: '#has parameter .+ with generic class Doctrine\\DBAL\\Schema\\AbstractAsset but does not specify its types#'
+      reportUnmatched: false

@@ -50,7 +50,7 @@ class PersistedConnectionEntityManager extends EntityManagerDecorator
             $connection->executeQuery('SELECT 1');
         } catch (\Exception) {
             $connection->close();
-            $connection->connect();
+            // DBAL 4: connection is lazy, next query will auto-reconnect
         }
     }
 }

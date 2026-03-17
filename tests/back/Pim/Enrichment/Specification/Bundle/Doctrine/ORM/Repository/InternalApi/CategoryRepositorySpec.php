@@ -18,11 +18,11 @@ class CategoryRepositorySpec extends ObjectBehavior
     function let(
         UserContext $userContext,
         EntityManager $em,
-        ClassMetadata $classMetadata,
         EventManager $eventManager,
         TreeListener $treeListener,
         Nested $strategy
     ) {
+        $classMetadata = new ClassMetadata('category');
         $em->getClassMetadata('category')->willReturn($classMetadata);
 
         $userContext->getCurrentLocaleCode()->willReturn('en_US');

@@ -38,3 +38,14 @@ services:
             - '@security.acl.dbal.schema'
         tags:
             - { name: doctrine.event_listener, event: postGenerateSchema }
+
+    # Override InitAclCommand: the vendor command type-hints the final
+    # Symfony\Component\Security\Acl\Dbal\Schema, which is incompatible with our
+    # patched AclSchema. This replaces it with a DBAL 4-compatible version.
+    Symfony\Bundle\AclBundle\Command\InitAclCommand:
+        class: Akeneo\Tool\Bundle\StorageUtilsBundle\Command\InitAclCommand
+        arguments:
+            - '@security.acl.dbal.connection'
+            - '@security.acl.dbal.schema'
+        tags:
+            - { name: console.command, command: 'acl:init' }

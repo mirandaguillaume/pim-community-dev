@@ -5,9 +5,9 @@ namespace Specification\Akeneo\Pim\Structure\Bundle\Doctrine\ORM\Repository;
 use Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Statement;
-use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use PhpSpec\ObjectBehavior;
@@ -37,16 +37,20 @@ class AttributeRepositorySpec extends ObjectBehavior
     function it_finds_the_axis_attribute(
         $em,
         QueryBuilder $queryBuilder,
-        Expr $in,
-        Expr $notScopable,
-        Expr $notLocalizable,
-        AbstractQuery $query
+        Expr $exprObj,
+        Expr\Func $inExpr,
+        Expr\Comparison $notScopable,
+        Expr\Comparison $notLocalizable,
+        Query $query
     ) {
-        $queryBuilder->expr()->willreturn($in, $notScopable, $notLocalizable);
-        $in->in('a.type', [AttributeTypes::OPTION_SIMPLE_SELECT, AttributeTypes::REFERENCE_DATA_SIMPLE_SELECT])
-            ->willReturn($in);
-        $notScopable->neq('a.scopable', 1)->willReturn($notScopable);
-        $notLocalizable->neq('a.localizable', 1)->willReturn($notLocalizable);
+        $queryBuilder->expr()->willReturn($exprObj);
+        $exprObj->in('a.type', [AttributeTypes::OPTION_SIMPLE_SELECT, AttributeTypes::REFERENCE_DATA_SIMPLE_SELECT])
+            ->willReturn($inExpr);
+        $inExpr->__toString()->willReturn('a.type IN (...)');
+        $exprObj->neq('a.scopable', 1)->willReturn($notScopable);
+        $notScopable->__toString()->willReturn('a.scopable <> 1');
+        $exprObj->neq('a.localizable', 1)->willReturn($notLocalizable);
+        $notLocalizable->__toString()->willReturn('a.localizable <> 1');
 
 
         $em->createQueryBuilder()->willReturn($queryBuilder);
@@ -56,7 +60,7 @@ class AttributeRepositorySpec extends ObjectBehavior
         $queryBuilder->addSelect('a.code')->willReturn($queryBuilder);
         $queryBuilder->from('attribute', 'a', null)->willReturn($queryBuilder);
         $queryBuilder->leftJoin('a.translations', 't')->willReturn($queryBuilder);
-        $queryBuilder->andWhere($in)->willReturn($queryBuilder);
+        $queryBuilder->andWhere($inExpr)->willReturn($queryBuilder);
         $queryBuilder->andWhere($notScopable)->willReturn($queryBuilder);
         $queryBuilder->andWhere($notLocalizable)->willReturn($queryBuilder);
         $queryBuilder->andWhere('t.locale = :locale')->willReturn($queryBuilder);

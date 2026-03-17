@@ -41,7 +41,7 @@ class AggregatedCountProductAndProductModelValuesSpec extends ObjectBehavior
     function it_fetches_a_count_volume_with_an_empty_value_if_no_aggregated_volume_has_been_found(Connection $connection, Result $statement)
     {
         $connection->executeQuery(Argument::type('string'))->willReturn($statement);
-        $statement->fetchAssociative()->willReturn(null);
+        $statement->fetchAssociative()->willReturn(false);
 
         $this->fetch()->shouldBeLike(new CountVolume(0, 'count_product_and_product_model_values'));
     }
