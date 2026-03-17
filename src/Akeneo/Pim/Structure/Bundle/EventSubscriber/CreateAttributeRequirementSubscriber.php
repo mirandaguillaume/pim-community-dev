@@ -7,7 +7,8 @@ use Akeneo\Pim\Structure\Component\Factory\AttributeRequirementFactory;
 use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
 use Akeneo\Pim\Structure\Component\Model\FamilyInterface;
 use Akeneo\Pim\Structure\Component\Repository\AttributeRepositoryInterface;
-use Doctrine\Common\EventSubscriber;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
+use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Webmozart\Assert\Assert;
 
@@ -19,7 +20,8 @@ use Webmozart\Assert\Assert;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class CreateAttributeRequirementSubscriber implements EventSubscriber
+#[AsDoctrineListener(event: Events::prePersist)]
+class CreateAttributeRequirementSubscriber
 {
     /** @var AttributeRequirementFactory */
     protected $requirementFactory;
@@ -30,14 +32,6 @@ class CreateAttributeRequirementSubscriber implements EventSubscriber
     public function __construct(AttributeRequirementFactory $requirementFactory)
     {
         $this->requirementFactory = $requirementFactory;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getSubscribedEvents()
-    {
-        return ['prePersist'];
     }
 
     /**

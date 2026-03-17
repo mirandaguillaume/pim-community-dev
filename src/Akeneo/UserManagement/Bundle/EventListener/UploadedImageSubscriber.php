@@ -3,10 +3,16 @@
 namespace Akeneo\UserManagement\Bundle\EventListener;
 
 use Akeneo\UserManagement\Component\EntityUploadedImageInterface;
-use Doctrine\Common\EventSubscriber;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
+use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
-class UploadedImageSubscriber implements EventSubscriber
+#[AsDoctrineListener(event: Events::preUpdate)]
+#[AsDoctrineListener(event: Events::prePersist)]
+#[AsDoctrineListener(event: Events::postPersist)]
+#[AsDoctrineListener(event: Events::postUpdate)]
+#[AsDoctrineListener(event: Events::postRemove)]
+class UploadedImageSubscriber
 {
     /**
      * @var string
@@ -25,20 +31,6 @@ class UploadedImageSubscriber implements EventSubscriber
         if (!$this->webRoot) {
             throw new \InvalidArgumentException('Invalid kernel root');
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getSubscribedEvents()
-    {
-        return [
-            'preUpdate',
-            'prePersist',
-            'postPersist',
-            'postUpdate',
-            'postRemove',
-        ];
     }
 
     /**

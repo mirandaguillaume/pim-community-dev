@@ -28,16 +28,6 @@ class CreateAttributeRequirementSubscriberSpec extends ObjectBehavior
         $eventArgs->getObjectManager()->willReturn($entityManager);
     }
 
-    public function it_is_an_event_subscriber()
-    {
-        $this->shouldImplement('Doctrine\Common\EventSubscriber');
-    }
-
-    public function it_subscribes_to_prePersist()
-    {
-        $this->getSubscribedEvents()->shouldReturn(['prePersist']);
-    }
-
     public function it_ignores_non_ChannelInterface_entity(
         LifecycleEventArgs $eventArgs,
         EntityManagerInterface $entityManager
