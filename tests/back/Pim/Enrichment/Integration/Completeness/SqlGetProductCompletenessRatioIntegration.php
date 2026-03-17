@@ -70,7 +70,7 @@ class SqlGetProductCompletenessRatioIntegration extends TestCase
     public function it_returns_null_if_the_completeness_is_not_calculated_yet()
     {
         $product = $this->createProduct();
-        $this->get('database_connection')->executeUpdate(
+        $this->get('database_connection')->executeStatement(
             'DELETE FROM pim_catalog_product_completeness WHERE product_uuid = :productUuid',
             [
                 'productUuid' => $product->getUuid()->getBytes(),

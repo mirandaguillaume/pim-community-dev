@@ -315,7 +315,7 @@ class GetProductQuantifiedAssociationsByProductModelCodesIntegration extends Abs
         WHERE code = 'root_product_model'
 SQL;
 
-        $connection->executeUpdate($query);
+        $connection->executeStatement($query);
 
         $actual = $this->getQuery()->fromProductModelCodes(['variant_product_1']);
         $this->assertSame([], $actual);

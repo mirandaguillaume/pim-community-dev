@@ -132,17 +132,14 @@ class CheckCategoryTrees extends Command
 
     private function doUpdate(Category $root): void
     {
-        if (!$this->connection->beginTransaction()) {
-            throw new \Exception('Could not start update transaction');
-        }
+        $this->connection->beginTransaction();
 
         try {
             $root->doUpdate($this->connection);
-            if (!$this->connection->commit()) {
-                throw new \Exception('Could not commit update transaction');
-            }
-        } catch (\Throwable) {
+            $this->connection->commit();
+        } catch (\Throwable $e) {
             $this->connection->rollBack();
+            throw $e;
         }
     }
 }

@@ -69,7 +69,7 @@ class VersionSpec extends ObjectBehavior
 
     public function it_has_a_changeset()
     {
-        $this->getChangeset()->shouldBe(null);
+        $this->getChangeset()->shouldBe([]);
         $this->setChangeset(['field' => 'foo']);
         $this->getChangeset()->shouldBe(['field' => 'foo']);
     }

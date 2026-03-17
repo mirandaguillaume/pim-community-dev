@@ -92,6 +92,7 @@ class Version implements VersionInterface
         $this->context = $context;
         $this->loggedAt = new \DateTime('now', new \DateTimeZone('UTC'));
         $this->pending = true;
+        $this->changeset = [];
     }
 
     /**

@@ -29,7 +29,7 @@ final class IsAttributeCodeBlacklistedIntegration extends TestCase
 
         /** @var Connection $connection */
         $connection = $this->get('database_connection');
-        $connection->executeUpdate($blacklistAttributeCode);
+        $connection->executeStatement($blacklistAttributeCode);
 
         $result = $query->execute('description');
 
