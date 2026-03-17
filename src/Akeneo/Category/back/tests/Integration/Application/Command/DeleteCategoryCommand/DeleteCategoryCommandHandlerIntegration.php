@@ -15,7 +15,7 @@ use Akeneo\Category\Domain\Query\GetCategoryInterface;
 use Akeneo\Category\Domain\ValueObject\CategoryId;
 use Akeneo\Category\Domain\ValueObject\Template\TemplateUuid;
 use Doctrine\DBAL\Connection;
-use PDO;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
@@ -154,7 +154,7 @@ class DeleteCategoryCommandHandlerIntegration extends CategoryTestCase
                 'template_uuid' => $templateUuid->toBytes(),
             ],
             [
-                'template_uuid' => PDO::PARAM_STR,
+                'template_uuid' => ParameterType::STRING,
             ],
         );
 
