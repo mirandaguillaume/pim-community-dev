@@ -92,12 +92,8 @@ class AttributeRepository extends EntityRepository implements IdentifiableObject
             ->createQueryBuilder('a')
             ->select('a.code')
             ->andWhere('a.type IN (:file_type, :image_type)')
-            ->setParameters(
-                [
-                    ':file_type' => AttributeTypes::FILE,
-                    ':image_type' => AttributeTypes::IMAGE,
-                ]
-            )
+            ->setParameter('file_type', AttributeTypes::FILE)
+            ->setParameter('image_type', AttributeTypes::IMAGE)
             ->getQuery()
             ->getArrayResult();
 

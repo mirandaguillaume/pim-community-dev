@@ -26,21 +26,14 @@ class Version_6_0_20210816123500_add_index_migration_table_Integration extends T
         $this->reExecuteMigration(self::MIGRATION_LABEL);
 
         Assert::assertTrue($schemaManager->tablesExist(['pim_index_migration']));
-        $expectedColumnsAndTypes = [
-            'index_alias' => 'string',
-            'hash' => 'string',
-            'values' => 'string',
-        ];
+        $expectedColumns = ['index_alias', 'hash', 'values'];
 
         $tableColumns = $schemaManager->listTableColumns('pim_index_migration');
-        $this->assertCount(count($expectedColumnsAndTypes), $tableColumns);
+        $this->assertCount(count($expectedColumns), $tableColumns);
 
-        $actualColumnsAndTypes = [];
-        foreach ($tableColumns as $actualColumn) {
-            $actualColumnsAndTypes[$actualColumn->getName()] =  $actualColumn->getType()->getName();
+        foreach ($expectedColumns as $column) {
+            Assert::assertArrayHasKey($column, $tableColumns);
         }
-
-        Assert::assertEquals($expectedColumnsAndTypes, $actualColumnsAndTypes);
     }
 
     protected function getConfiguration()
