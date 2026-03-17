@@ -5,3 +5,8 @@ parameters:
     reportUnmatchedIgnoredErrors: false
     paths:
         - %rootDir%/../../../src/Akeneo/Pim
+    ignoreErrors:
+        # PHP 8.4: GMP/SimpleXMLElement added to built-in function signatures
+        -
+            message: '#Parameter \#\d+ \$\w+ of function (strval|intval|array_unique|implode|array_diff) expects#'
+            reportUnmatched: false
