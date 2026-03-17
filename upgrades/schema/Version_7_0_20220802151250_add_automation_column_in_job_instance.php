@@ -55,7 +55,7 @@ final class Version_7_0_20220802151250_add_automation_column_in_job_instance ext
                 SHOW INDEX FROM akeneo_batch_job_instance WHERE Key_name=:indexName;
             SQL;
         $connection = $this->container->get('database_connection');
-        $result = $connection->executeQuery($sql, ['indexName' => $indexName])->fetch();
+        $result = $connection->executeQuery($sql, ['indexName' => $indexName])->fetchAssociative();
         return !empty($result);
     }
 
@@ -65,7 +65,7 @@ final class Version_7_0_20220802151250_add_automation_column_in_job_instance ext
                 SHOW COLUMNS FROM akeneo_batch_job_instance LIKE :columnName;
             SQL;
         $connection = $this->container->get('database_connection');
-        $result = $connection->executeQuery($sql, ['columnName' => $columnName])->fetch();
+        $result = $connection->executeQuery($sql, ['columnName' => $columnName])->fetchAssociative();
         return !empty($result);
     }
 

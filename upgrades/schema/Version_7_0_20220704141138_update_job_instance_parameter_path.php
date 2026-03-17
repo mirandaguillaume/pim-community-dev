@@ -56,7 +56,7 @@ final class Version_7_0_20220704141138_update_job_instance_parameter_path extend
 
         $stmt = $connection->executeQuery($sql);
 
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $stmt->fetchAllAssociative();
     }
 
     private function migrateRawParameters(array $rawParameters): array
