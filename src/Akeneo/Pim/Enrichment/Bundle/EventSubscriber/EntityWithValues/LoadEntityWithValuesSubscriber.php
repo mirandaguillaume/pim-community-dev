@@ -5,7 +5,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\EventSubscriber\EntityWithValues;
 use Akeneo\Pim\Enrichment\Component\Product\Factory\WriteValueCollectionFactory;
 use Akeneo\Pim\Enrichment\Component\Product\Model\EntityWithValuesInterface;
 use Akeneo\Tool\Component\StorageUtils\Model\StateUpdatedAware;
-use Doctrine\Common\EventSubscriber;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
@@ -16,25 +16,12 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
  * @author    Julien Janvier <j.janvier@gmail.com>
  * @copyright 2017 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- *
- * TODO: we could use an Entity Listener instead (need to upgrade bundle to 1.3)
- * TODO: cf. http://symfony.com/doc/current/bundles/DoctrineBundle/entity-listeners.html
- * TODO: cf. http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/events.html#entity-listeners
  */
-final readonly class LoadEntityWithValuesSubscriber implements EventSubscriber
+#[AsDoctrineListener(event: Events::postLoad, priority: 50)]
+final readonly class LoadEntityWithValuesSubscriber
 {
     public function __construct(private WriteValueCollectionFactory $valueCollectionFactory)
     {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getSubscribedEvents()
-    {
-        return [
-            Events::postLoad,
-        ];
     }
 
     /**

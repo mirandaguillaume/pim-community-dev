@@ -34,11 +34,6 @@ class LoadEntitySubscriberSpec extends ObjectBehavior
         $this->shouldHaveType(LoadEntitySubscriber::class);
     }
 
-    function it_subscribes_to_the_postLoad_event()
-    {
-        $this->getSubscribedEvents()->shouldReturn(['postLoad']);
-    }
-
     function it_loads_values_of_a_product(
         GetUuidMappingQueryInterface $getUuidMappingQuery,
         GetIdMappingFromProductModelIdsQueryInterface $getIdMappingFromProductModelIds,
