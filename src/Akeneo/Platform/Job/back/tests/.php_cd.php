@@ -47,6 +47,7 @@ $rules = [
             'League\Flysystem\FilesystemOperator',
             'Doctrine\DBAL\Connection',
             'Doctrine\DBAL\ArrayParameterType',
+            'Doctrine\DBAL\ParameterType',
             'Oro\Bundle\SecurityBundle\SecurityFacade',
             'Symfony\Component',
             'Symfony\Bundle\SecurityBundle\Security',
