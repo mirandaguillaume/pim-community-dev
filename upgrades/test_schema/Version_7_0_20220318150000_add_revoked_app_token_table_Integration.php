@@ -20,7 +20,7 @@ class Version_7_0_20220318150000_add_revoked_app_token_table_Integration extends
 
         $this->reExecuteMigration(self::MIGRATION_LABEL);
 
-        $schemaManager = $this->get('database_connection')->getSchemaManager();
+        $schemaManager = $this->get('database_connection')->createSchemaManager();
         $this->assertTrue($schemaManager->tablesExist('akeneo_connectivity_revoked_app_token'));
     }
 

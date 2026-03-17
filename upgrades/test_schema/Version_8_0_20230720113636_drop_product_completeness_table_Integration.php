@@ -93,10 +93,7 @@ final class Version_8_0_20230720113636_drop_product_completeness_table_Integrati
     private function dropTable(): void
     {
         $this->connection->executeStatement(
-            <<<SQL
-                    DROP TABLE IF EXISTS :tableName
-                SQL,
-            ['tableName' => self::TABLE_NAME]
+            sprintf('DROP TABLE IF EXISTS `%s`', self::TABLE_NAME)
         );
     }
 }

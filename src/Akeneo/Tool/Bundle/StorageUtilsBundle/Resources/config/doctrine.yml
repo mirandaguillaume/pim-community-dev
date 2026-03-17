@@ -29,9 +29,7 @@ services:
         tags:
             - { name: doctrine.event_listener, event: loadClassMetadata, priority: 100 }
 
-    Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\Migrations\NoopSchemaDiffProvider:
-        arguments:
-            - '@database_connection'
+    Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\Migrations\NoopSchemaDiffProvider: ~
 
     Akeneo\Tool\Component\StorageUtils\Migration\V20230622175500OptimizeTableWithInstantColsMigration:
         arguments:

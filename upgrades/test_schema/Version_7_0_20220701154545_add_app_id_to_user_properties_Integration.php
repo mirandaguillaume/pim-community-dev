@@ -143,13 +143,9 @@ class Version_7_0_20220701154545_add_app_id_to_user_properties_Integration exten
                 'label' => $label,
                 'random_id' => $label,
                 'secret' => $label,
-                'allowed_grant_types' => [],
-                'redirect_uris' => [],
+                'allowed_grant_types' => serialize([]),
+                'redirect_uris' => serialize([]),
             ],
-            [
-                'allowed_grant_types' => Types::ARRAY,
-                'redirect_uris' => Types::ARRAY,
-            ]
         );
 
         return $this->connection->lastInsertId();

@@ -20,7 +20,7 @@ class Version_7_0_20220214101647_add_dqi_product_model_score_table_Integration e
 
         $this->reExecuteMigration(self::MIGRATION_LABEL);
 
-        $schemaManager = $this->get('database_connection')->getSchemaManager();
+        $schemaManager = $this->get('database_connection')->createSchemaManager();
         $this->assertTrue($schemaManager->tablesExist('pim_data_quality_insights_product_model_score'));
     }
 
