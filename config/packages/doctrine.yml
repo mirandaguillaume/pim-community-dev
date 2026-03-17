@@ -37,20 +37,6 @@ doctrine:
                 prefix: Gedmo\Tree\Entity
                 dir: '%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Tree/Entity'
 
-services:
-    doctrine.result_cache_provider:
-        class: Doctrine\Common\Cache\Psr6\DoctrineProvider
-        factory: ['Doctrine\Common\Cache\Psr6\DoctrineProvider', 'wrap']
-        public: false
-        arguments:
-            - '@doctrine.result_cache_pool'
-    doctrine.system_cache_provider:
-        class: Doctrine\Common\Cache\Psr6\DoctrineProvider
-        factory: ['Doctrine\Common\Cache\Psr6\DoctrineProvider', 'wrap']
-        public: false
-        arguments:
-            - '@doctrine.system_cache_pool'
-
 framework:
     cache:
         pools:
