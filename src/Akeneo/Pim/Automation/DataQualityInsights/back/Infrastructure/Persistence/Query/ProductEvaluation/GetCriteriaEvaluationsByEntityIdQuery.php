@@ -14,6 +14,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductModelId;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductUuid;
 use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Transformation\TransformCriterionEvaluationResultIds;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
@@ -68,7 +69,7 @@ final readonly class GetCriteriaEvaluationsByEntityIdQuery implements GetCriteri
         return $this->db->executeQuery(
             $sql,
             ['product_uuid' => $entityId->toBytes()],
-            ['product_uuid' => \PDO::PARAM_STR]
+            ['product_uuid' => ParameterType::STRING]
         )->fetchAllAssociative();
     }
 
@@ -90,7 +91,7 @@ final readonly class GetCriteriaEvaluationsByEntityIdQuery implements GetCriteri
         return $this->db->executeQuery(
             $sql,
             ['product_model_id' => $entityId->toInt()],
-            ['product_model_id' => \PDO::PARAM_INT]
+            ['product_model_id' => ParameterType::INTEGER]
         )->fetchAllAssociative();
     }
 

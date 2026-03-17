@@ -8,6 +8,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\Query\ProductEnrichment\Get
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityIdInterface;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductModelId;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Webmozart\Assert\Assert;
 
 /**
@@ -43,7 +44,7 @@ class GetProductModelRawValuesQuery implements GetProductRawValuesQueryInterface
                 'product_model_id' => (int) (string) $productModelId,
             ],
             [
-                'product_model_id' => \PDO::PARAM_INT,
+                'product_model_id' => ParameterType::INTEGER,
             ]
         );
 

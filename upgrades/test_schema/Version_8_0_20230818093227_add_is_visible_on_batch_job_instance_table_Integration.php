@@ -7,6 +7,8 @@ namespace Pim\Upgrade\Schema\Tests;
 use Akeneo\Test\Integration\Configuration;
 use Akeneo\Test\Integration\TestCase;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\ArrayParameterType;
 use PHPUnit\Framework\Assert;
 
 final class Version_8_0_20230818093227_add_is_visible_on_batch_job_instance_table_Integration extends TestCase
@@ -106,7 +108,7 @@ final class Version_8_0_20230818093227_add_is_visible_on_batch_job_instance_tabl
         $result = $this->connection->executeQuery(
             sprintf('SELECT id, %s FROM %s WHERE id IN (:ids)', self::IS_VISIBLE_COLUMN, self::TABLE_NAME),
             ['ids' => $jobInstanceIds],
-            ['ids' => Connection::PARAM_STR_ARRAY],
+            ['ids' => ArrayParameterType::STRING],
         )->fetchAllAssociative();
 
         return array_column($result, self::IS_VISIBLE_COLUMN, 'id');

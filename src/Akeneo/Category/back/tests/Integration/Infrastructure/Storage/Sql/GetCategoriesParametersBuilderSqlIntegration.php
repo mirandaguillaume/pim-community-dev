@@ -9,6 +9,7 @@ use Akeneo\Category\Application\Query\GetCategoriesParametersBuilder;
 use Akeneo\Category\back\tests\Integration\Helper\CategoryTestCase;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2022 Akeneo SAS (http://www.akeneo.com)
@@ -46,10 +47,10 @@ class GetCategoriesParametersBuilderSqlIntegration extends CategoryTestCase
             ],
             types: [
                 'code_0' => ArrayParameterType::STRING,
-                'limit' => \PDO::PARAM_INT,
-                'offset' => \PDO::PARAM_INT,
-                'with_position' => \PDO::PARAM_BOOL,
-                'with_enriched_attributes' => \PDO::PARAM_BOOL,
+                'limit' => ParameterType::INTEGER,
+                'offset' => ParameterType::INTEGER,
+                'with_position' => ParameterType::BOOLEAN,
+                'with_enriched_attributes' => ParameterType::BOOLEAN,
             ],
             limitAndOffset: 'LIMIT :limit OFFSET :offset',
         );
@@ -86,9 +87,9 @@ class GetCategoriesParametersBuilderSqlIntegration extends CategoryTestCase
             ],
             types: [
                 'code_0' => ArrayParameterType::STRING,
-                'limit' => \PDO::PARAM_INT,
-                'with_position' => \PDO::PARAM_BOOL,
-                'with_enriched_attributes' => \PDO::PARAM_BOOL,
+                'limit' => ParameterType::INTEGER,
+                'with_position' => ParameterType::BOOLEAN,
+                'with_enriched_attributes' => ParameterType::BOOLEAN,
             ],
             limitAndOffset: 'LIMIT :limit',
         );
@@ -115,10 +116,10 @@ class GetCategoriesParametersBuilderSqlIntegration extends CategoryTestCase
                 'with_enriched_attributes' => true,
             ],
             types: [
-                'limit' => \PDO::PARAM_INT,
-                'offset' => \PDO::PARAM_INT,
-                'with_position' => \PDO::PARAM_BOOL,
-                'with_enriched_attributes' => \PDO::PARAM_BOOL,
+                'limit' => ParameterType::INTEGER,
+                'offset' => ParameterType::INTEGER,
+                'with_position' => ParameterType::BOOLEAN,
+                'with_enriched_attributes' => ParameterType::BOOLEAN,
             ],
             limitAndOffset: 'LIMIT :limit OFFSET :offset',
         );
@@ -156,10 +157,10 @@ class GetCategoriesParametersBuilderSqlIntegration extends CategoryTestCase
             ],
             types: [
                 'code_0' => ArrayParameterType::STRING,
-                'limit' => \PDO::PARAM_INT,
-                'offset' => \PDO::PARAM_INT,
-                'with_position' => \PDO::PARAM_BOOL,
-                'with_enriched_attributes' => \PDO::PARAM_BOOL,
+                'limit' => ParameterType::INTEGER,
+                'offset' => ParameterType::INTEGER,
+                'with_position' => ParameterType::BOOLEAN,
+                'with_enriched_attributes' => ParameterType::BOOLEAN,
             ],
             limitAndOffset: 'LIMIT :limit OFFSET :offset',
         );
@@ -188,10 +189,10 @@ class GetCategoriesParametersBuilderSqlIntegration extends CategoryTestCase
                 'with_enriched_attributes' => false,
             ],
             types: [
-                'limit' => \PDO::PARAM_INT,
-                'offset' => \PDO::PARAM_INT,
-                'with_position' => \PDO::PARAM_BOOL,
-                'with_enriched_attributes' => \PDO::PARAM_BOOL,
+                'limit' => ParameterType::INTEGER,
+                'offset' => ParameterType::INTEGER,
+                'with_position' => ParameterType::BOOLEAN,
+                'with_enriched_attributes' => ParameterType::BOOLEAN,
             ],
             limitAndOffset: 'LIMIT :limit OFFSET :offset',
         );

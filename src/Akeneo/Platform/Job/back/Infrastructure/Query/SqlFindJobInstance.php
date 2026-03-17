@@ -10,6 +10,7 @@ use Akeneo\Platform\Job\ServiceApi\JobInstance\JobInstanceQuery;
 use Akeneo\Platform\Job\ServiceApi\JobInstance\JobInstanceQueryPagination;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
@@ -114,13 +115,13 @@ class SqlFindJobInstance implements FindJobInstanceInterface
 
         $queryTypes = [
             'job_names' => ArrayParameterType::STRING,
-            'search' => \PDO::PARAM_STR,
+            'search' => ParameterType::STRING,
         ];
 
         if ($query->pagination instanceof JobInstanceQueryPagination) {
             $queryParameters = [...$queryParameters, 'offset' => ($query->pagination->page - 1) * $query->pagination->limit, 'limit' => $query->pagination->limit];
 
-            $queryTypes = [...$queryTypes, 'offset' => \PDO::PARAM_INT, 'limit' => \PDO::PARAM_INT];
+            $queryTypes = [...$queryTypes, 'offset' => ParameterType::INTEGER, 'limit' => ParameterType::INTEGER];
         }
 
         return [

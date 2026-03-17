@@ -11,6 +11,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\LocaleCode;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\Rank;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
@@ -51,7 +52,7 @@ final readonly class GetAverageRanksQuery implements GetAverageRanksQueryInterfa
                 'codes' => array_map('strval', $entityCodes),
             ],
             [
-                'type' => \PDO::PARAM_STR,
+                'type' => ParameterType::STRING,
                 'codes' => ArrayParameterType::STRING,
             ]
         );

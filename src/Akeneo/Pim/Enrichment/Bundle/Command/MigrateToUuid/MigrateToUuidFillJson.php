@@ -6,6 +6,7 @@ use Akeneo\Pim\Enrichment\Bundle\Command\MigrateToUuid\Utils\LogContext;
 use Akeneo\Pim\Enrichment\Bundle\Command\MigrateToUuid\Utils\StatusAwareTrait;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -156,8 +157,8 @@ class MigrateToUuidFillJson implements MigrateToUuidStep
             'previousProductId' => $previousProductId,
             'limit' => self::BATCH_SIZE,
         ], [
-            'previousProductId' => \PDO::PARAM_INT,
-            'limit' => \PDO::PARAM_INT,
+            'previousProductId' => ParameterType::INTEGER,
+            'limit' => ParameterType::INTEGER,
         ]);
 
         $result = [];

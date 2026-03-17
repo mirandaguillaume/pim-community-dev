@@ -9,6 +9,7 @@ use Akeneo\Category\Domain\ValueObject\Template\TemplateUuid;
 use Akeneo\Category\Domain\ValueObject\ValueCollection;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Exception;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
@@ -55,9 +56,9 @@ class GetEnrichedValuesByTemplateUuidSql implements GetEnrichedValuesByTemplateU
                     'offset' => $offset,
                 ],
                 [
-                    'template_uuid' => \PDO::PARAM_STR,
-                    'limit' => \PDO::PARAM_INT,
-                    'offset' => \PDO::PARAM_INT,
+                    'template_uuid' => ParameterType::STRING,
+                    'limit' => ParameterType::INTEGER,
+                    'offset' => ParameterType::INTEGER,
                 ],
             )->fetchAllAssociative();
 

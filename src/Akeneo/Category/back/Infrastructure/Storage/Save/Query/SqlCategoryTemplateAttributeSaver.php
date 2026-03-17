@@ -12,6 +12,7 @@ use Akeneo\Category\Domain\ValueObject\Template\TemplateUuid;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
@@ -54,9 +55,9 @@ class SqlCategoryTemplateAttributeSaver implements CategoryTemplateAttributeSave
                 'uuid' => $attribute->getUuid()->getValue(),
             ],
             [
-                'type' => \PDO::PARAM_STR,
+                'type' => ParameterType::STRING,
                 'labels' => Types::JSON,
-                'uuid' => \PDO::PARAM_STR,
+                'uuid' => ParameterType::STRING,
             ],
         );
     }
@@ -96,15 +97,15 @@ class SqlCategoryTemplateAttributeSaver implements CategoryTemplateAttributeSave
 
         $placeholderIndex = 0;
         foreach ($attributes as $attribute) {
-            $statement->bindValue(++$placeholderIndex, (string) $attribute->getUuid(), \PDO::PARAM_STR);
-            $statement->bindValue(++$placeholderIndex, (string) $attribute->getCode(), \PDO::PARAM_STR);
-            $statement->bindValue(++$placeholderIndex, (string) $attribute->getTemplateUuid(), \PDO::PARAM_STR);
+            $statement->bindValue(++$placeholderIndex, (string) $attribute->getUuid(), ParameterType::STRING);
+            $statement->bindValue(++$placeholderIndex, (string) $attribute->getCode(), ParameterType::STRING);
+            $statement->bindValue(++$placeholderIndex, (string) $attribute->getTemplateUuid(), ParameterType::STRING);
             $statement->bindValue(++$placeholderIndex, $attribute->getLabelCollection()->normalize(), Types::JSON);
-            $statement->bindValue(++$placeholderIndex, (string) $attribute->getType(), \PDO::PARAM_STR);
-            $statement->bindValue(++$placeholderIndex, $attribute->getOrder()->intValue(), \PDO::PARAM_INT);
-            $statement->bindValue(++$placeholderIndex, $attribute->isRequired()->getValue(), \PDO::PARAM_BOOL);
-            $statement->bindValue(++$placeholderIndex, $attribute->isScopable()->getValue(), \PDO::PARAM_BOOL);
-            $statement->bindValue(++$placeholderIndex, $attribute->isLocalizable()->getValue(), \PDO::PARAM_BOOL);
+            $statement->bindValue(++$placeholderIndex, (string) $attribute->getType(), ParameterType::STRING);
+            $statement->bindValue(++$placeholderIndex, $attribute->getOrder()->intValue(), ParameterType::INTEGER);
+            $statement->bindValue(++$placeholderIndex, $attribute->isRequired()->getValue(), ParameterType::BOOLEAN);
+            $statement->bindValue(++$placeholderIndex, $attribute->isScopable()->getValue(), ParameterType::BOOLEAN);
+            $statement->bindValue(++$placeholderIndex, $attribute->isLocalizable()->getValue(), ParameterType::BOOLEAN);
             $statement->bindValue(++$placeholderIndex, $attribute->getAdditionalProperties()->normalize(), Types::JSON);
         }
 

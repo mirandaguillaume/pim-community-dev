@@ -6,6 +6,7 @@ namespace Akeneo\Tool\Component\Batch\Query;
 
 use Akeneo\Tool\Component\Batch\Job\BatchStatus;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 class SqlUpdateJobExecutionStatus
 {
@@ -28,9 +29,9 @@ class SqlUpdateJobExecutionStatus
                 'job_execution_id' => $jobExecutionId,
             ],
             [
-                'batch_status'     => \PDO::PARAM_INT,
-                'exit_code'        => \PDO::PARAM_STR,
-                'job_execution_id' => \PDO::PARAM_INT,
+                'batch_status'     => ParameterType::INTEGER,
+                'exit_code'        => ParameterType::STRING,
+                'job_execution_id' => ParameterType::INTEGER,
             ]
         );
     }

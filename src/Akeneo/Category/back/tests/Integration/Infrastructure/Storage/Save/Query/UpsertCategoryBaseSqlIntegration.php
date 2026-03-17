@@ -22,6 +22,7 @@ use Akeneo\Category\Domain\ValueObject\Code;
 use Akeneo\Category\Domain\ValueObject\Template\TemplateUuid;
 use Akeneo\Category\Domain\ValueObject\ValueCollection;
 use Akeneo\Category\Infrastructure\Storage\Save\Query\UpsertCategoryBaseSql;
+use Doctrine\DBAL\ParameterType;
 
 class UpsertCategoryBaseSqlIntegration extends CategoryTestCase
 {
@@ -294,7 +295,7 @@ class UpsertCategoryBaseSqlIntegration extends CategoryTestCase
         return $this->get('database_connection')->executeQuery(
             $sqlQuery,
             ['category_code' => $categoryCode],
-            ['category_code' => \PDO::PARAM_STR]
+            ['category_code' => ParameterType::STRING]
         )->fetchAssociative();
     }
 }

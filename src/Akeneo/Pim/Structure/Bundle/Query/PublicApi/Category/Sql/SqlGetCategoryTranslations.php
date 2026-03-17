@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Structure\Bundle\Query\PublicApi\Category\Sql;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Category\GetCategoryTranslations;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 class SqlGetCategoryTranslations implements GetCategoryTranslations
 {

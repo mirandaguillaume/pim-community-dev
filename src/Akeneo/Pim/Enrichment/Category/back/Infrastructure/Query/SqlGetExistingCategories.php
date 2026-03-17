@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Enrichment\Category\Infrastructure\Query;
 use Akeneo\Pim\Enrichment\Category\API\Query\GetViewableCategories;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Webmozart\Assert\Assert;
 
 /**

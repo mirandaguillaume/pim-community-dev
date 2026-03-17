@@ -6,6 +6,7 @@ namespace Akeneo\Tool\Bundle\VersioningBundle\Doctrine\Query;
 
 use Akeneo\Tool\Bundle\VersioningBundle\Purger\PurgeableVersionList;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2019 Akeneo SAS (http://www.akeneo.com)
@@ -76,13 +77,13 @@ class SqlGetPurgeableVersionListQuery
         $loggedAt = $date->format('Y-m-d');
 
         $statement = $this->dbConnection->prepare($query);
-        $statement->bindValue('resource_name', $resourceName, \PDO::PARAM_STR);
-        $statement->bindValue('list_size', $listSize, \PDO::PARAM_INT);
+        $statement->bindValue('resource_name', $resourceName, ParameterType::STRING);
+        $statement->bindValue('list_size', $listSize, ParameterType::INTEGER);
         $lastId = $startingId;
 
         do {
-            $statement->bindValue('logged_at', $loggedAt, \PDO::PARAM_STR);
-            $statement->bindValue('last_id', $lastId, \PDO::PARAM_INT);
+            $statement->bindValue('logged_at', $loggedAt, ParameterType::STRING);
+            $statement->bindValue('last_id', $lastId, ParameterType::INTEGER);
             $results = $statement->executeQuery()->fetchAllAssociative();
 
             if (!empty($results)) {

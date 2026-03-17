@@ -7,6 +7,7 @@ namespace Akeneo\Category\Infrastructure\Storage\Sql;
 use Akeneo\Category\Application\Query\CheckTemplate;
 use Akeneo\Category\Domain\ValueObject\Template\TemplateCode;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
@@ -29,7 +30,7 @@ class CheckTemplateSql implements CheckTemplate
         $result = $this->connection->executeQuery(
             $query,
             ['template_code' => (string) $templateCode],
-            ['template_code' => \PDO::PARAM_STR],
+            ['template_code' => ParameterType::STRING],
         )->fetchOne();
 
         return (bool) $result;

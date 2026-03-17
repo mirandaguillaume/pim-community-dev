@@ -12,6 +12,7 @@ use Akeneo\Category\Domain\Query\GetDeactivatedTemplateAttributes\GetDeactivated
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
@@ -31,7 +32,7 @@ class GetCategorySql implements GetCategoryInterface
         $condition = [];
         $condition['sqlWhere'] = 'category.id = :category_id';
         $condition['params'] = ['category_id' => $categoryId];
-        $condition['types'] = ['category_id' => \PDO::PARAM_INT];
+        $condition['types'] = ['category_id' => ParameterType::INTEGER];
 
         return $this->executeOne($condition);
     }
@@ -41,7 +42,7 @@ class GetCategorySql implements GetCategoryInterface
         $condition = [];
         $condition['sqlWhere'] = 'category.code = :category_code';
         $condition['params'] = ['category_code' => $categoryCode];
-        $condition['types'] = ['category_code' => \PDO::PARAM_STR];
+        $condition['types'] = ['category_code' => ParameterType::STRING];
 
         return $this->executeOne($condition);
     }

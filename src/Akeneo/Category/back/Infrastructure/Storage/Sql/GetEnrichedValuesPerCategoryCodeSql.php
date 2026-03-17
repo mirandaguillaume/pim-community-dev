@@ -6,6 +6,7 @@ use Akeneo\Category\Application\Query\GetEnrichedValuesPerCategoryCode;
 use Akeneo\Category\Domain\ValueObject\ValueCollection;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\ParameterType;
 
 final readonly class GetEnrichedValuesPerCategoryCodeSql implements GetEnrichedValuesPerCategoryCode
 {
@@ -35,8 +36,8 @@ final readonly class GetEnrichedValuesPerCategoryCodeSql implements GetEnrichedV
                     'offset' => $offset,
                 ],
                 [
-                    'limit' => \PDO::PARAM_INT,
-                    'offset' => \PDO::PARAM_INT,
+                    'limit' => ParameterType::INTEGER,
+                    'offset' => ParameterType::INTEGER,
                 ],
             );
             if (empty($data)) {

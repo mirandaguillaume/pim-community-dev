@@ -13,6 +13,7 @@ use Akeneo\Connectivity\Connection\Infrastructure\Audit\Persistence\Traits\Perio
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)

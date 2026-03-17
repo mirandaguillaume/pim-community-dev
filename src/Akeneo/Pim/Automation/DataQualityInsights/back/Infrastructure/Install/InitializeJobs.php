@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Install;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\Persistence\ObjectRepository;
 
 /**
@@ -56,7 +57,7 @@ final readonly class InitializeJobs
                 'job_name' => $jobName,
             ],
             [
-                'job_name' => \PDO::PARAM_STR,
+                'job_name' => ParameterType::STRING,
             ]
         );
     }

@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Enrichment\Product\Infrastructure\Query;
 use Akeneo\Pim\Enrichment\Product\Domain\Query\GetCategoryCodes;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Ramsey\Uuid\UuidInterface;
 use Webmozart\Assert\Assert;
 

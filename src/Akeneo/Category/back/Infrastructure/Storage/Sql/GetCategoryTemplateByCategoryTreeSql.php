@@ -9,6 +9,7 @@ use Akeneo\Category\Domain\Model\Enrichment\Template;
 use Akeneo\Category\Domain\ValueObject\CategoryId;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Exception;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
@@ -43,7 +44,7 @@ class GetCategoryTemplateByCategoryTreeSql implements GetCategoryTemplateByCateg
         $result = $this->connection->executeQuery(
             $query,
             ['category_id' => $categoryTreeId->getValue()],
-            ['category_id' => \PDO::PARAM_INT],
+            ['category_id' => ParameterType::INTEGER],
         )->fetchAssociative();
 
         if (!$result) {

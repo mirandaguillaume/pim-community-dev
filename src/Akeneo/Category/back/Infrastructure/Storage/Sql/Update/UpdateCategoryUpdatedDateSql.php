@@ -6,6 +6,7 @@ namespace Akeneo\Category\Infrastructure\Storage\Sql\Update;
 
 use Akeneo\Category\Domain\Query\UpdateCategoryUpdatedDate;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2023 Akeneo SAS (http://www.akeneo.com)
@@ -28,7 +29,7 @@ class UpdateCategoryUpdatedDateSql implements UpdateCategoryUpdatedDate
         $this->connection->executeQuery(
             $sql,
             ['code' => $categoryCode],
-            ['code' => \PDO::PARAM_STR],
+            ['code' => ParameterType::STRING],
         );
     }
 }

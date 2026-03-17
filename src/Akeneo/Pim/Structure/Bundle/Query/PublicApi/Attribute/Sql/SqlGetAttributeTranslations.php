@@ -5,6 +5,7 @@ namespace Akeneo\Pim\Structure\Bundle\Query\PublicApi\Attribute\Sql;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Attribute\GetAttributeTranslations;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 class SqlGetAttributeTranslations implements GetAttributeTranslations
 {

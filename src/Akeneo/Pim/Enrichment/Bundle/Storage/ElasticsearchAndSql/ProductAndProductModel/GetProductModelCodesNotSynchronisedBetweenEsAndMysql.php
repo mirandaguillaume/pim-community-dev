@@ -6,6 +6,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\Storage\ElasticsearchAndSql\ProductAndPro
 
 use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
@@ -38,8 +39,8 @@ final readonly class GetProductModelCodesNotSynchronisedBetweenEsAndMysql
                     'limit' => $batchSize,
                 ],
                 [
-                    'formerId' => \PDO::PARAM_INT,
-                    'limit' => \PDO::PARAM_INT,
+                    'formerId' => ParameterType::INTEGER,
+                    'limit' => ParameterType::INTEGER,
                 ]
             )->fetchAllAssociative();
 

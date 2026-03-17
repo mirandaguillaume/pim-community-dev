@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Structure\Bundle\Query\PublicApi\Attribute\Sql;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Attribute\GetGroupedAttributes;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @author    Nicolas Marniesse <nicolas.marniesse@akeneo.com>
@@ -85,10 +86,10 @@ final readonly class SqlGetGroupedAttributes implements GetGroupedAttributes
             ],
             [
                 'attributeTypes' => ArrayParameterType::STRING,
-                'limit' => \PDO::PARAM_INT,
-                'offset' => \PDO::PARAM_INT,
-                'localeCode' => \PDO::PARAM_STR,
-                'search' => \PDO::PARAM_STR,
+                'limit' => ParameterType::INTEGER,
+                'offset' => ParameterType::INTEGER,
+                'localeCode' => ParameterType::STRING,
+                'search' => ParameterType::STRING,
             ]
         )->fetchAllAssociative();
     }

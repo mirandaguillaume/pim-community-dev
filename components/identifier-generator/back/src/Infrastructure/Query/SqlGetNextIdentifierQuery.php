@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Automation\IdentifierGenerator\Infrastructure\Query;
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Model\IdentifierGenerator;
 use Akeneo\Pim\Automation\IdentifierGenerator\Domain\Query\GetNextIdentifierQuery;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Webmozart\Assert\Assert;
 
 /**
@@ -37,8 +38,8 @@ SQL;
                 'prefix' => $prefix,
             ],
             [
-                'code' => \PDO::PARAM_STR,
-                'prefix' => \PDO::PARAM_STR,
+                'code' => ParameterType::STRING,
+                'prefix' => ParameterType::STRING,
             ]
         )->fetchOne();
 

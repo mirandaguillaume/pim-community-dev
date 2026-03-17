@@ -6,6 +6,7 @@ namespace Akeneo\Pim\Enrichment\Bundle\Storage\ElasticsearchAndSql\ProductAndPro
 
 use Akeneo\Tool\Bundle\ElasticsearchBundle\Client;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
@@ -39,8 +40,8 @@ final readonly class GetProductUuidsNotSynchronisedBetweenEsAndMysql
                     'limit' => $batchSize,
                 ],
                 [
-                    'lastUuid' => \PDO::PARAM_STR,
-                    'limit' => \PDO::PARAM_INT,
+                    'lastUuid' => ParameterType::STRING,
+                    'limit' => ParameterType::INTEGER,
                 ]
             )->fetchAllAssociative();
 

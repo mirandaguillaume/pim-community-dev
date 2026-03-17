@@ -8,6 +8,7 @@ use Akeneo\Category\back\tests\EndToEnd\Helper\ControllerIntegrationTestCase;
 use Akeneo\Test\Integration\Configuration;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Doctrine\DBAL\ParameterType;
 
 class GetActivatedLocalesControllerEndToEnd extends ControllerIntegrationTestCase
 {
@@ -52,7 +53,7 @@ class GetActivatedLocalesControllerEndToEnd extends ControllerIntegrationTestCas
         $this->get('database_connection')->executeQuery(
             $sql,
             ['code' => $code, 'isActivated' => $isActivated],
-            ['code' => \PDO::PARAM_STR, 'isActivated' => \PDO::PARAM_BOOL],
+            ['code' => ParameterType::STRING, 'isActivated' => ParameterType::BOOLEAN],
         );
     }
 }

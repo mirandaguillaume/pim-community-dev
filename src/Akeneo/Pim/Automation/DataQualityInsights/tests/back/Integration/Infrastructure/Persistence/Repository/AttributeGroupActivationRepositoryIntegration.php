@@ -9,6 +9,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\AttributeGroupC
 use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Repository\AttributeGroupActivationRepository;
 use Akeneo\Test\Integration\Configuration;
 use Akeneo\Test\Integration\TestCase;
+use Doctrine\DBAL\ParameterType;
 
 class AttributeGroupActivationRepositoryIntegration extends TestCase
 {
@@ -78,8 +79,8 @@ class AttributeGroupActivationRepositoryIntegration extends TestCase
                 'activated' => $attributeGroupActivation->isActivated(),
             ],
             [
-                'attributeGroupCode' => \PDO::PARAM_STR,
-                'activated' => \PDO::PARAM_BOOL,
+                'attributeGroupCode' => ParameterType::STRING,
+                'activated' => ParameterType::BOOLEAN,
             ]
         )->fetchOne();
     }

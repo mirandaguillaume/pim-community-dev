@@ -9,6 +9,7 @@ use Akeneo\Pim\Structure\Family\ServiceAPI\Query\FamilyQueryPagination;
 use Akeneo\Pim\Structure\Family\ServiceAPI\Query\FindFamilyCodes;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
@@ -52,12 +53,12 @@ class SqlFindFamilyCodes implements FindFamilyCodes
                 'offset' => $this->getOffset($query->pagination),
             ],
             [
-                'search' => \PDO::PARAM_STR,
-                'locale_code' => \PDO::PARAM_STR,
+                'search' => ParameterType::STRING,
+                'locale_code' => ParameterType::STRING,
                 'include_codes' => ArrayParameterType::STRING,
                 'exclude_codes' => ArrayParameterType::STRING,
-                'limit' => \PDO::PARAM_INT,
-                'offset' => \PDO::PARAM_INT,
+                'limit' => ParameterType::INTEGER,
+                'offset' => ParameterType::INTEGER,
             ]
         );
 

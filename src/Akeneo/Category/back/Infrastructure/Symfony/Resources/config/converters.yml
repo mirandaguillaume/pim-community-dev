@@ -18,5 +18,3 @@ services:
   Akeneo\Category\Application\Converter\Checker\FieldsRequirementChecker: ~
 
   Akeneo\Category\Application\Converter\Checker\AttributeApiRequirementChecker: ~
-
-  Akeneo\Category\Application\Converter\Checker\ValueCollectionRequirementChecker: ~

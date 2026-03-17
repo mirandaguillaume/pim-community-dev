@@ -8,6 +8,7 @@ use Akeneo\Pim\Structure\Family\ServiceAPI\Query\CountFamilyCodes;
 use Akeneo\Pim\Structure\Family\ServiceAPI\Query\FamilyQuery;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
@@ -44,8 +45,8 @@ class SqlCountFamilyCodes implements CountFamilyCodes
         ];
 
         $types = [
-            'search' => \PDO::PARAM_STR,
-            'locale_code' => \PDO::PARAM_STR,
+            'search' => ParameterType::STRING,
+            'locale_code' => ParameterType::STRING,
             'include_codes' => ArrayParameterType::STRING,
             'exclude_codes' => ArrayParameterType::STRING,
         ];

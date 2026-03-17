@@ -8,6 +8,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\Query\ProductEnrichment\Get
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductEntityIdInterface;
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductUuid;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Webmozart\Assert\Assert;
 
 /**
@@ -45,7 +46,7 @@ class GetProductRawValuesQuery implements GetProductRawValuesQueryInterface
                 'product_uuid' => $productId->toBytes(),
             ],
             [
-                'product_uuid' => \PDO::PARAM_STR,
+                'product_uuid' => ParameterType::STRING,
             ]
         );
 

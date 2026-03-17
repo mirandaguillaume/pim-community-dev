@@ -10,6 +10,7 @@ use Akeneo\Category\Domain\ValueObject\Attribute\AttributeCollection;
 use Akeneo\Category\Domain\ValueObject\Attribute\AttributeUuid;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Exception;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
@@ -54,7 +55,7 @@ class GetDeactivatedCategoryTemplateAttributeSql implements GetDeactivatedAttrib
         $statement = $this->connection->prepare($sql);
         $placeholderIndex = 0;
         foreach ($attributeUuids as $uuid) {
-            $statement->bindValue(++$placeholderIndex, (string) $uuid, \PDO::PARAM_STR);
+            $statement->bindValue(++$placeholderIndex, (string) $uuid, ParameterType::STRING);
         }
 
         $categoryAttributes = $statement

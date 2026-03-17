@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Channel\Infrastructure\Doctrine\Query;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @author JM Leroux <jean-marie.leroux@akeneo.com>
@@ -29,7 +30,7 @@ class GetChannelActiveLocaleCodes
         $statement = $this->connection->executeQuery(
             $sql,
             ['channel_code' => $channelCode],
-            ['channel_code' => \PDO::PARAM_STR]
+            ['channel_code' => ParameterType::STRING]
         );
 
         return array_map(fn ($value) => $value['code'], $statement->fetchAllAssociative());

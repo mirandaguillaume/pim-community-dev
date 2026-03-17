@@ -11,6 +11,7 @@ use Akeneo\Platform\Job\Domain\Model\Status;
 use Akeneo\Platform\Job\Infrastructure\Hydrator\JobExecutionRowHydrator;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @author Grégoire Houssard <gregoire.houssard@akeneo.com>
@@ -188,8 +189,8 @@ class SearchJobExecution implements SearchJobExecutionInterface
                 'limit' => $size,
             ]),
             array_merge($queryParamsTypes, [
-                'offset' => \PDO::PARAM_INT,
-                'limit' => \PDO::PARAM_INT,
+                'offset' => ParameterType::INTEGER,
+                'limit' => ParameterType::INTEGER,
             ]),
         )->fetchAllAssociative();
 

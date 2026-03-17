@@ -8,6 +8,7 @@ use Akeneo\Category\Api\GetCategoryChildrenCodesPerTreeInterface;
 use Akeneo\Pim\Enrichment\Bundle\Filter\CategoryCodeFilterInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Webmozart\Assert\Assert;
 
 /**

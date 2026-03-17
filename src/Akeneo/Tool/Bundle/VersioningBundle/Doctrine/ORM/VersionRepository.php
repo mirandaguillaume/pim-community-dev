@@ -8,6 +8,7 @@ use Akeneo\Tool\Component\StorageUtils\Cursor\CursorFactoryInterface;
 use Akeneo\Tool\Component\Versioning\Model\Version;
 use Akeneo\UserManagement\Component\Model\UserInterface;
 use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
@@ -144,7 +145,7 @@ class VersionRepository extends EntityRepository implements VersionRepositoryInt
 
         if (isset($options['resource_name'])) {
             $qb->andWhere('resource_name = :resource_name')
-               ->setParameter(':resource_name', $options['resource_name'], \PDO::PARAM_STR);
+               ->setParameter(':resource_name', $options['resource_name'], ParameterType::STRING);
         }
 
         if (isset($options['date_operator']) && isset($options['limit_date'])) {
@@ -153,7 +154,7 @@ class VersionRepository extends EntityRepository implements VersionRepositoryInt
             } else {
                 $qb->andWhere('logged_at > :logged_at');
             }
-            $qb->setParameter(':logged_at', $options['limit_date']->format('Y-m-d'), \PDO::PARAM_STR);
+            $qb->setParameter(':logged_at', $options['limit_date']->format('Y-m-d'), ParameterType::STRING);
         }
 
         $cursorOptions = [];

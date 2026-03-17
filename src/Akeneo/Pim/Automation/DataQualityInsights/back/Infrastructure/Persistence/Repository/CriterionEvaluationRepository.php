@@ -11,6 +11,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\ProductUuid;
 use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Transformation\TransformCriterionEvaluationResultCodes;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception\DeadlockException;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
@@ -91,10 +92,10 @@ class CriterionEvaluationRepository
             $entityId = $criterionEvaluation->getEntityId();
             if ($entityId instanceof ProductUuid) {
                 $queryParametersValues[$productId] = $entityId->toBytes();
-                $queryParametersTypes[$productId] = \PDO::PARAM_STR;
+                $queryParametersTypes[$productId] = ParameterType::STRING;
             } else {
                 $queryParametersValues[$productId] = $entityId->toInt();
-                $queryParametersTypes[$productId] = \PDO::PARAM_INT;
+                $queryParametersTypes[$productId] = ParameterType::INTEGER;
             }
         }
 
@@ -175,10 +176,10 @@ class CriterionEvaluationRepository
             $entityId = $criterionEvaluation->getEntityId();
             if ($entityId instanceof ProductUuid) {
                 $queryParametersValues[$productId] = $entityId->toBytes();
-                $queryParametersTypes[$productId] = \PDO::PARAM_STR;
+                $queryParametersTypes[$productId] = ParameterType::STRING;
             } elseif ($entityId instanceof ProductModelId) {
                 $queryParametersValues[$productId] = $entityId->toInt();
-                $queryParametersTypes[$productId] = \PDO::PARAM_INT;
+                $queryParametersTypes[$productId] = ParameterType::INTEGER;
             }
         }
 

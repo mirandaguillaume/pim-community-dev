@@ -8,6 +8,7 @@ use Akeneo\Category\Domain\Query\GetCategoryTreeTemplates;
 use Akeneo\Category\Domain\ValueObject\CategoryId;
 use Akeneo\Category\Domain\ValueObject\Template\TemplateUuid;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
@@ -31,7 +32,7 @@ class GetCategoryTreeTemplatesSql implements GetCategoryTreeTemplates
                 'category_tree_id' => $categoryTreeId->getValue(),
             ],
             [
-                'category_tree_id' => \PDO::PARAM_INT,
+                'category_tree_id' => ParameterType::INTEGER,
             ],
         );
 

@@ -10,6 +10,7 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeOption\SearchAttribu
 use Akeneo\Pim\Structure\Component\Query\PublicApi\AttributeOption\SearchAttributeOptionsResult;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2021 Akeneo SAS (https://www.akeneo.com)
@@ -79,13 +80,13 @@ class SqlSearchAttributeOptions implements SearchAttributeOptionsInterface
             'limit' => $searchParameters->getLimit(),
             'offset' => $searchParameters->getOffset(),
         ], [
-            'attribute_code' => \PDO::PARAM_STR,
-            'search' => \PDO::PARAM_STR,
-            'locale_code' => \PDO::PARAM_STR,
+            'attribute_code' => ParameterType::STRING,
+            'search' => ParameterType::STRING,
+            'locale_code' => ParameterType::STRING,
             'include_codes' => ArrayParameterType::STRING,
             'exclude_codes' => ArrayParameterType::STRING,
-            'limit' => \PDO::PARAM_INT,
-            'offset' => \PDO::PARAM_INT,
+            'limit' => ParameterType::INTEGER,
+            'offset' => ParameterType::INTEGER,
         ])->fetchAllAssociative();
 
         return array_map(
@@ -123,9 +124,9 @@ class SqlSearchAttributeOptions implements SearchAttributeOptionsInterface
             'include_codes' => $searchParameters->getIncludeCodes(),
             'exclude_codes' => $searchParameters->getExcludeCodes(),
         ], [
-            'attribute_code' => \PDO::PARAM_STR,
-            'search' => \PDO::PARAM_STR,
-            'locale_code' => \PDO::PARAM_STR,
+            'attribute_code' => ParameterType::STRING,
+            'search' => ParameterType::STRING,
+            'locale_code' => ParameterType::STRING,
             'include_codes' => ArrayParameterType::STRING,
             'exclude_codes' => ArrayParameterType::STRING,
         ])->fetchOne();

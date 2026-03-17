@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Structure\Bundle\Query\PublicApi\Family\Sql;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\GetFamilyTranslations;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 class SqlGetFamilyTranslations implements GetFamilyTranslations
 {

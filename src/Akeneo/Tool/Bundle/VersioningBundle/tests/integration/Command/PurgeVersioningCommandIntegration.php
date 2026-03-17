@@ -12,6 +12,7 @@ use Akeneo\Tool\Component\Batch\Job\BatchStatus;
 use Akeneo\Tool\Component\Batch\Model\JobExecution;
 use Akeneo\Tool\Component\Versioning\Model\Version;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use PHPUnit\Framework\Assert;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -222,8 +223,8 @@ class PurgeVersioningCommandIntegration extends TestCase
                 'version_id' => $version->getId(),
             ],
             [
-                'logged_at' => \PDO::PARAM_STR,
-                'version_id' => \PDO::PARAM_INT,
+                'logged_at' => ParameterType::STRING,
+                'version_id' => ParameterType::INTEGER,
             ]
         );
 

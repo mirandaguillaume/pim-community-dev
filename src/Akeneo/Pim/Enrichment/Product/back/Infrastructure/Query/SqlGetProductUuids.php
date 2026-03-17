@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Enrichment\Product\Infrastructure\Query;
 use Akeneo\Pim\Enrichment\Product\API\Query\GetProductUuids;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 

@@ -8,6 +8,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Query\GetExistingReferenceDataCodes 
 use Akeneo\Pim\Enrichment\Component\Product\Repository\ReferenceDataRepositoryResolverInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManager;
 
 /**

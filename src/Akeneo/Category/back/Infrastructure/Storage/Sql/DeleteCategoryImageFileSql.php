@@ -10,6 +10,7 @@ use Akeneo\Category\Infrastructure\FileSystem\PreviewGenerator\PreviewGeneratorI
 use Akeneo\Category\Infrastructure\FileSystem\PreviewGenerator\PreviewGeneratorRegistry;
 use Akeneo\Tool\Component\FileStorage\FilesystemProvider;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
@@ -49,7 +50,7 @@ final readonly class DeleteCategoryImageFileSql implements DeleteCategoryImageFi
                 'file_key' => $filePath,
             ],
             [
-                'file_key' => \PDO::PARAM_STR,
+                'file_key' => ParameterType::STRING,
             ],
         );
     }

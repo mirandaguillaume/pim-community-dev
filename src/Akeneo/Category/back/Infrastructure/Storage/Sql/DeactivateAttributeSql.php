@@ -9,6 +9,7 @@ use Akeneo\Category\Domain\Query\DeactivateAttribute;
 use Akeneo\Category\Domain\ValueObject\Attribute\AttributeUuid;
 use Akeneo\Category\Domain\ValueObject\Template\TemplateUuid;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
@@ -42,8 +43,8 @@ class DeactivateAttributeSql implements DeactivateAttribute
                 'attribute_uuid' => $attributeUuid->toBytes(),
             ],
             [
-                'template_uuid' => \PDO::PARAM_STR,
-                'attribute_uuid' => \PDO::PARAM_STR,
+                'template_uuid' => ParameterType::STRING,
+                'attribute_uuid' => ParameterType::STRING,
             ],
         );
     }

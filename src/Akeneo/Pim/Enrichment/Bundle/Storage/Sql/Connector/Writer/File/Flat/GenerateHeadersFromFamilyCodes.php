@@ -8,6 +8,7 @@ use Akeneo\Pim\Enrichment\Component\Product\Connector\Writer\File\FlatFileHeader
 use Akeneo\Pim\Enrichment\Component\Product\Connector\Writer\File\GenerateFlatHeadersFromFamilyCodesInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @author    Benoit Jacquemont <benoit@akeneo.com>

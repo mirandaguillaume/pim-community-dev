@@ -11,6 +11,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Infrastructure\Persistence\Query\B
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\RequiredAttributesMask;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\RequiredAttributesMaskForChannelAndLocale;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2020 Akeneo SAS (http://www.akeneo.com)
@@ -70,7 +71,7 @@ GROUP BY family.code, channel_code, locale_code;
         $rows = $this->dbConnection->executeQuery(
             $sql,
             ['productModelId' => $productModelId->toInt()],
-            ['productModelId' => \PDO::PARAM_INT]
+            ['productModelId' => ParameterType::INTEGER]
         )->fetchAllAssociative();
 
         if (empty($rows)) {

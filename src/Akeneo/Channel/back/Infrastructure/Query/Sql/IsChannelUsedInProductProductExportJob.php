@@ -7,6 +7,7 @@ namespace Akeneo\Channel\Infrastructure\Query\Sql;
 use Akeneo\Channel\Infrastructure\Component\Query\IsChannelUsedInProductExportJobInterface;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)

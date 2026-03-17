@@ -11,6 +11,7 @@ use Akeneo\Category\Application\Query\GetCategoryTemplateByCategoryTree;
 use Akeneo\Category\back\tests\Integration\Helper\CategoryTestCase;
 use Akeneo\Category\Domain\ValueObject\Code;
 use Akeneo\Category\Domain\ValueObject\Template\TemplateUuid;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2023 Akeneo SAS (https://www.akeneo.com)
@@ -79,7 +80,7 @@ class DeactivateTemplateSqlIntegration extends CategoryTestCase
         return (bool) $this->get('database_connection')->executeQuery(
             $query,
             ['template_uuid' => $templateUuid->toBytes()],
-            ['template_uuid' => \PDO::PARAM_STR],
+            ['template_uuid' => ParameterType::STRING],
         )->fetchOne();
 
     }

@@ -9,6 +9,7 @@ use Akeneo\Tool\Component\Batch\Job\ExitStatus;
 use Akeneo\Tool\Component\Batch\Query\MarkJobExecutionAsFailedWhenInterrupted;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 final readonly class SqlMarkJobExecutionAsFailedWhenInterrupted implements MarkJobExecutionAsFailedWhenInterrupted
 {

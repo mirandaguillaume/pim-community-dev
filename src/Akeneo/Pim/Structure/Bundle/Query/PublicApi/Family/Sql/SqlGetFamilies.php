@@ -8,6 +8,7 @@ use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\Family;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Family\GetFamilies;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 class SqlGetFamilies implements GetFamilies
 {

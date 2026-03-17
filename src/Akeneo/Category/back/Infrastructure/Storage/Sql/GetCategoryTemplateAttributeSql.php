@@ -12,6 +12,7 @@ use Akeneo\Category\Domain\ValueObject\Attribute\AttributeUuid;
 use Akeneo\Category\Domain\ValueObject\Template\TemplateUuid;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Exception;
+use Doctrine\DBAL\ParameterType;
 
 /**
  * @copyright 2022 Akeneo SAS (https://www.akeneo.com)
@@ -54,7 +55,7 @@ class GetCategoryTemplateAttributeSql implements GetAttribute
                 'template_uuid' => $uuid->toBytes(),
             ],
             [
-                'template_uuid' => \PDO::PARAM_STR,
+                'template_uuid' => ParameterType::STRING,
             ],
         )->fetchAllAssociative();
 
@@ -94,7 +95,7 @@ class GetCategoryTemplateAttributeSql implements GetAttribute
         $statement = $this->connection->prepare($sql);
         $placeholderIndex = 0;
         foreach ($attributeUuids as $uuid) {
-            $statement->bindValue(++$placeholderIndex, (string) $uuid, \PDO::PARAM_STR);
+            $statement->bindValue(++$placeholderIndex, (string) $uuid, ParameterType::STRING);
         }
 
         $categoryAttributes = $statement
@@ -143,7 +144,7 @@ class GetCategoryTemplateAttributeSql implements GetAttribute
         $attribute = $this->connection->executeQuery(
             $query,
             ['code' => (string) $attributeCode],
-            ['code' => \PDO::PARAM_STR],
+            ['code' => ParameterType::STRING],
         )->fetchAssociative();
 
         return Attribute::fromDatabase($attribute);

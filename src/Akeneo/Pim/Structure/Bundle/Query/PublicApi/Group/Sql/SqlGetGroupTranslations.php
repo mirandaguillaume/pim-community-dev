@@ -7,6 +7,7 @@ namespace Akeneo\Pim\Structure\Bundle\Query\PublicApi\Group\Sql;
 use Akeneo\Pim\Structure\Component\Query\PublicApi\Group\GetGroupTranslations;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 class SqlGetGroupTranslations implements GetGroupTranslations
 {

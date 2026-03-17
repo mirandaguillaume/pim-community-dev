@@ -18,6 +18,7 @@ use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\AttributeGroupC
 use Akeneo\Pim\Automation\DataQualityInsights\Domain\ValueObject\FamilyId;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 
 final readonly class SqlGetFamilyIds implements GetFamilyIds
 {

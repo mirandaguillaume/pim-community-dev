@@ -12,6 +12,7 @@ use Akeneo\Test\Pim\Automation\DataQualityInsights\Integration\DataQualityInsigh
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
@@ -189,7 +190,7 @@ final class CleanCompletenessEvaluationResultsCommandIntegration extends DataQua
             'criterionCode' => $criterionCode,
             'result' => \json_encode($result, JSON_THROW_ON_ERROR),
         ], [
-            'productUuid' => \PDO::PARAM_STR,
+            'productUuid' => ParameterType::STRING,
         ]);
     }
 
@@ -204,7 +205,7 @@ final class CleanCompletenessEvaluationResultsCommandIntegration extends DataQua
             'productUuid' => $productUuid->getBytes(),
             'criterionCode' => $criterionCode,
         ], [
-            'productUuid' => \PDO::PARAM_STR,
+            'productUuid' => ParameterType::STRING,
         ])->fetchOne();
 
         return $result ? \json_decode((string) $result, true, 512, JSON_THROW_ON_ERROR) : null;
