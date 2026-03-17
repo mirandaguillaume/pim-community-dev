@@ -14,24 +14,24 @@ use Webmozart\Assert\Assert;
  */
 final class LaunchProductAndProductModelEvaluationsMessageNormalizer implements NormalizerInterface, DenormalizerInterface
 {
-    public function denormalize($data, string $type, string $format = null, array $context = [])
+    public function denormalize($data, string $type, ?string $format = null, array $context = [])
     {
         return LaunchProductAndProductModelEvaluationsMessage::denormalize($data);
     }
 
-    public function supportsDenormalization($data, string $type, string $format = null): bool
+    public function supportsDenormalization($data, string $type, ?string $format = null): bool
     {
         return $type === LaunchProductAndProductModelEvaluationsMessage::class;
     }
 
-    public function normalize($object, string $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
+    public function normalize($object, ?string $format = null, array $context = []): array|bool|string|int|float|\ArrayObject|null
     {
         Assert::isInstanceOf($object, LaunchProductAndProductModelEvaluationsMessage::class);
 
         return $object->normalize();
     }
 
-    public function supportsNormalization($data, string $format = null): bool
+    public function supportsNormalization($data, ?string $format = null): bool
     {
         return $data instanceof LaunchProductAndProductModelEvaluationsMessage;
     }

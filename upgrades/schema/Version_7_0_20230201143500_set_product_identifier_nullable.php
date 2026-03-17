@@ -24,7 +24,7 @@ final class Version_7_0_20230201143500_set_product_identifier_nullable extends A
         $this->throwIrreversibleMigrationException();
     }
 
-    public function setContainer(ContainerInterface $container = null)
+    public function setContainer(?ContainerInterface $container = null)
     {
         $this->container = $container;
     }

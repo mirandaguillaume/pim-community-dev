@@ -45,7 +45,7 @@ class EntityWithValuesStorageIntegration extends TestCase
             'a_metric' => [
                 '<all_channels>' => [
                     '<all_locales>' => [
-                        'amount'    => '987654321987.1234',
+                        'amount'    => '987654321987.1237',
                         'unit'      => 'KILOWATT',
                         'base_data' => '987654321987123.400000000000',
                         'base_unit' => 'WATT',

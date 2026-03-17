@@ -2,7 +2,6 @@
 
 namespace Akeneo\Pim\Enrichment\Component\Product\Normalizer\Versioning\Product;
 
-
 /**
  * Normalize a DateTime
  *

@@ -80,7 +80,7 @@ class InMemoryAttributeOptionRepository implements AttributeOptionRepositoryInte
     /**
      * {@inheritdoc}
      */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array
     {
         if ($orderBy !== null || $limit !== null || $offset !== null) {
             throw new \InvalidArgumentException(

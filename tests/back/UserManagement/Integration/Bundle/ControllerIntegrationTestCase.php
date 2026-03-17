@@ -64,7 +64,7 @@ abstract class ControllerIntegrationTestCase extends WebTestCase
         string $method = 'GET',
         array $headers = [],
         array $parameters = [],
-        string $content = null
+        ?string $content = null
     ): Response {
         $url = $this->router->generate($route, $routeArguments);
         $this->client->request($method, $url, $parameters, [], $headers, $content);
@@ -77,7 +77,7 @@ abstract class ControllerIntegrationTestCase extends WebTestCase
         array $routeArguments = [],
         string $method = 'GET',
         array $parameters = [],
-        string $content = null
+        ?string $content = null
     ): Response {
         $headers = [
             'HTTP_X-Requested-With' => 'XMLHttpRequest',

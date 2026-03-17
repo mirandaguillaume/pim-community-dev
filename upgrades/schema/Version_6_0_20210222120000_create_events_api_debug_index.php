@@ -21,7 +21,7 @@ final class Version_6_0_20210222120000_create_events_api_debug_index extends Abs
     /** @var ContainerInterface */
     private $container;
 
-    public function setContainer(ContainerInterface $container = null)
+    public function setContainer(?ContainerInterface $container = null)
     {
         $this->container = $container;
     }

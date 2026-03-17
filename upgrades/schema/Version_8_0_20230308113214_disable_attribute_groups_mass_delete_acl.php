@@ -50,7 +50,7 @@ final class Version_8_0_20230308113214_disable_attribute_groups_mass_delete_acl 
     /**
      * {@inheritdoc}
      */
-    public function setContainer(ContainerInterface $container = null)
+    public function setContainer(?ContainerInterface $container = null)
     {
         $this->container = $container;
     }

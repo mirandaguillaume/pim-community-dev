@@ -127,7 +127,7 @@ final class Version_7_0_20221026154157_add_id_to_events_api_debug_index_mapping 
         $this->throwIrreversibleMigrationException();
     }
 
-    public function setContainer(ContainerInterface $container = null)
+    public function setContainer(?ContainerInterface $container = null)
     {
         Assert::notNull($container);
         $this->container = $container;

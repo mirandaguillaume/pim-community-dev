@@ -24,7 +24,7 @@ class Creation extends Form
      *
      * @throws TimeoutException
      */
-    public function fillField($locator, $value, Element $modal = null)
+    public function fillField($locator, $value, ?Element $modal = null)
     {
         $selectContainers = $this->spin(function () use ($modal) {
             if (null === $modal) {

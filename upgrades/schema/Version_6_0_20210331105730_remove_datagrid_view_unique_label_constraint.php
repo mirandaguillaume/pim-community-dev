@@ -18,7 +18,7 @@ final class Version_6_0_20210331105730_remove_datagrid_view_unique_label_constra
 {
     private ContainerInterface $container;
 
-    public function setContainer(ContainerInterface $container = null)
+    public function setContainer(?ContainerInterface $container = null)
     {
         $this->container = $container;
     }

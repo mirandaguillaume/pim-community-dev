@@ -213,7 +213,7 @@ class FileInfo implements FileInfoInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setUploadedFile(UploadedFile $uploadedFile = null)
+    public function setUploadedFile(?UploadedFile $uploadedFile = null)
     {
         $this->uploadedFile = $uploadedFile;
 

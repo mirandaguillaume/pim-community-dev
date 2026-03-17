@@ -22,7 +22,7 @@ class Version_6_0_20211214000000_add_openid_keys_into_pim_configuration extends 
 {
     private ContainerInterface $container;
 
-    public function setContainer(ContainerInterface $container = null)
+    public function setContainer(?ContainerInterface $container = null)
     {
         $this->container = $container;
     }

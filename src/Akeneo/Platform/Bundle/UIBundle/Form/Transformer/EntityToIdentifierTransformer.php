@@ -33,7 +33,7 @@ class EntityToIdentifierTransformer implements DataTransformerInterface
     public function __construct(
         ObjectRepository $repository,
         protected $multiple,
-        PropertyAccessorInterface $propertyAccessor = null,
+        ?PropertyAccessorInterface $propertyAccessor = null,
         protected $delimiter = ',',
         protected $identifierProperty = 'id'
     ) {

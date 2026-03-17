@@ -26,7 +26,7 @@ class FlatItemBufferFlusher implements StepExecutionAwareInterface
     /** @var ColumnSorterInterface */
     protected $columnSorter;
 
-    public function __construct(private readonly ColumnPresenterInterface $columnPresenter, ColumnSorterInterface $columnSorter = null)
+    public function __construct(private readonly ColumnPresenterInterface $columnPresenter, ?ColumnSorterInterface $columnSorter = null)
     {
         $this->columnSorter = $columnSorter;
     }

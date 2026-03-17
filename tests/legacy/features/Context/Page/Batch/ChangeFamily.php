@@ -18,7 +18,7 @@ class ChangeFamily extends Wizard
     /**
      * {@inheritdoc}
      */
-    public function fillField($locator, $value, Element $modal = null)
+    public function fillField($locator, $value, ?Element $modal = null)
     {
         // Simply do not select a family
         if ('Family' === $locator && 'None' === $value) {

@@ -3,6 +3,7 @@ includes:
 
 parameters:
   level: max
+  reportUnmatchedIgnoredErrors: false
   paths:
     - %rootDir%/../../../src/Akeneo/Channel
   excludePaths:
@@ -10,6 +11,10 @@ parameters:
     - %rootDir%/../../../src/Akeneo/Channel/back/tests/Acceptance/Specification
     - %rootDir%/../../../src/Akeneo/Channel/back/Infrastructure
   ignoreErrors:
+    # PHP 8.4: GMP/SimpleXMLElement added to built-in function signatures
+    -
+      message: '#Parameter \#\d+ \$\w+ of function (strval|intval|array_unique|implode|array_diff|array_intersect) expects#'
+      reportUnmatched: false
     # PHPStan 2.x: redundant type checks
     -
       message: '#Call to static method Webmozart\\Assert\\Assert::\w+\(\).*will always evaluate to (true|false)#'

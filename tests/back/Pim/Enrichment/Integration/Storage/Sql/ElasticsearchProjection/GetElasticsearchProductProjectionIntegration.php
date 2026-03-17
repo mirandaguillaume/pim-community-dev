@@ -377,9 +377,9 @@ class GetElasticsearchProductProjectionIntegration extends TestCase
                 'a_metric-metric' => [
                     '<all_channels>' => [
                         '<all_locales>' => [
-                            'base_data' => '987654321987123.400000000000',
+                            'base_data' => '987654321987123.700000000000',
                             'base_unit' => 'WATT',
-                            'data' => '987654321987.1234',
+                            'data' => '987654321987.1237',
                             'unit' => 'KILOWATT',
                         ],
                     ],

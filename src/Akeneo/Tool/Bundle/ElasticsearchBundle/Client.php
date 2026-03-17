@@ -57,7 +57,7 @@ class Client
      * @throws IndexationException
      * @return array see {@link https://www.elastic.co/guide/en/elasticsearch/client/php-api/current/_quickstart.html#_index_a_document}
      */
-    public function index($id, array $body, Refresh $refresh = null)
+    public function index($id, array $body, ?Refresh $refresh = null)
     {
         $params = [
             'index' => $this->indexName,
@@ -90,7 +90,7 @@ class Client
      * @throws IndexationException
      * @return array see {@link https://www.elastic.co/guide/en/elasticsearch/client/php-api/current/_indexing_documents.html#_bulk_indexing}
      */
-    public function bulkIndexes($documents, ?string $keyAsId = null, Refresh $refresh = null)
+    public function bulkIndexes($documents, ?string $keyAsId = null, ?Refresh $refresh = null)
     {
         $params = [];
         $paramsComputedSize = 0;

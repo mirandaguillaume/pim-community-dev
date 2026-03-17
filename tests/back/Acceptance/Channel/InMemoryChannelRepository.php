@@ -49,7 +49,7 @@ final class InMemoryChannelRepository implements ChannelRepositoryInterface, Sav
     /**
      * {@inheritdoc}
      */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
     {
         $channels = [];
         foreach ($this->channels as $channel) {

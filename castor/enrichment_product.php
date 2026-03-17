@@ -33,17 +33,16 @@ function unitBack(
 #[AsTask(namespace: 'enrichment-product', name: 'lint-back', description: 'Run cs-fixer for enrichment product')]
 function lintBack(): void
 {
-    \phpRun(
-        'tools/php-cs-fixer fix --dry-run --format=checkstyle --config=.php_cs.php'
-        . ' src/Akeneo/Pim/Enrichment/Product/back/API'
-        . ' src/Akeneo/Pim/Enrichment/Product/back/Application'
-        . ' src/Akeneo/Pim/Enrichment/Product/back/Domain'
-        . ' src/Akeneo/Pim/Enrichment/Product/back/Infrastructure'
-        . ' src/Akeneo/Pim/Enrichment/Product/back/Test/Acceptance/Context'
-        . ' src/Akeneo/Pim/Enrichment/Product/back/Test/Acceptance/InMemory'
-        . ' src/Akeneo/Pim/Enrichment/Product/back/Test/Helper'
-        . ' src/Akeneo/Pim/Enrichment/Product/back/Test/Integration'
-        . ' | { command -v cs2pr >/dev/null && cs2pr || cat; }'
+    \csFixer(
+        '.php_cs.php',
+        path: 'src/Akeneo/Pim/Enrichment/Product/back/API'
+            . ' src/Akeneo/Pim/Enrichment/Product/back/Application'
+            . ' src/Akeneo/Pim/Enrichment/Product/back/Domain'
+            . ' src/Akeneo/Pim/Enrichment/Product/back/Infrastructure'
+            . ' src/Akeneo/Pim/Enrichment/Product/back/Test/Acceptance/Context'
+            . ' src/Akeneo/Pim/Enrichment/Product/back/Test/Acceptance/InMemory'
+            . ' src/Akeneo/Pim/Enrichment/Product/back/Test/Helper'
+            . ' src/Akeneo/Pim/Enrichment/Product/back/Test/Integration',
     );
 }
 

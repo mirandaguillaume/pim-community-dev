@@ -19,8 +19,8 @@ class JSONFileBuffer implements BufferInterface
     /** @var string */
     protected $filePath;
 
-    /** @var \SplFileObject */
-    protected $file;
+    /** @var \SplFileObject|null */
+    protected ?\SplFileObject $file = null;
 
     /**
      * Create file at buffer instantiation
@@ -38,7 +38,7 @@ class JSONFileBuffer implements BufferInterface
      */
     public function __destruct()
     {
-        unset($this->file);
+        $this->file = null;
         if (is_file($this->filePath)) {
             unlink($this->filePath);
         }

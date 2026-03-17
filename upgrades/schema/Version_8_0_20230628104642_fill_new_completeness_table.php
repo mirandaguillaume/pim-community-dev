@@ -65,7 +65,7 @@ final class Version_8_0_20230628104642_fill_new_completeness_table extends Abstr
     /**
      * {@inheritdoc}
      */
-    public function setContainer(ContainerInterface $container = null): void
+    public function setContainer(?ContainerInterface $container = null): void
     {
         $this->container = $container;
     }

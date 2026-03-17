@@ -83,8 +83,8 @@ final class RemoveNonExistingProductValuesIntegration extends TestCase
     private function getDataValueForProduct(
         string $productIdentifier,
         string $attributeCode,
-        string $localeCode = null,
-        string $scopeCode = null
+        ?string $localeCode = null,
+        ?string $scopeCode = null
     ) {
         $product = $this->get('pim_catalog.repository.product')->findOneByIdentifier($productIdentifier);
         $value = $product->getValue($attributeCode, $localeCode, $scopeCode);
@@ -98,8 +98,8 @@ final class RemoveNonExistingProductValuesIntegration extends TestCase
     private function getDataValueForProductModel(
         string $productModelIdentifier,
         string $attributeCode,
-        string $localeCode = null,
-        string $scopeCode = null
+        ?string $localeCode = null,
+        ?string $scopeCode = null
     ) {
         $productModel = $this->get('pim_catalog.repository.product_model')->findOneByIdentifier(
             $productModelIdentifier

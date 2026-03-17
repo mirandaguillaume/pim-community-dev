@@ -11,3 +11,7 @@ parameters:
   ignoreErrors:
     # PHPStan 2.x — @immutable/readonly property assigned in tests
     - '#@readonly property .+ is assigned outside of its declaring class#'
+    # PHP 8.4: GMP/SimpleXMLElement added to built-in function signatures
+    -
+      message: '#Parameter \#\d+ \$\w+ of function (strval|intval|array_unique|implode|array_diff|array_intersect) expects#'
+      reportUnmatched: false

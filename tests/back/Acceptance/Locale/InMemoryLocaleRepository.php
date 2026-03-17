@@ -48,7 +48,7 @@ final class InMemoryLocaleRepository implements LocaleRepositoryInterface, Saver
     /**
      * {@inheritdoc}
      */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
     {
         $locales = [];
         foreach ($this->locales as $locale) {

@@ -3,10 +3,16 @@ includes:
 
 parameters:
     level: max
+    reportUnmatchedIgnoredErrors: false
     paths:
         - %rootDir%/../../../src/Akeneo/Connectivity/Connection/back
     excludePaths:
         - %rootDir%/../../../src/Akeneo/Connectivity/Connection/back/tests/PhpStan
+    ignoreErrors:
+        # PHP 8.4: stricter built-in function signatures (only triggered on CI)
+        -
+            message: '#Parameter \#\d+ \$\w+ of function (implode|array_diff|array_unique|array_intersect) expects#'
+            reportUnmatched: false
 
 rules:
     - Akeneo\Connectivity\Connection\Tests\PhpStan\Rule\CoverQueryByIntegrationTestRule

@@ -4,8 +4,22 @@ includes:
 
 parameters:
     level: max
+    reportUnmatchedIgnoredErrors: false
     paths:
         - %rootDir%/../../../src/Akeneo/Pim/Enrichment/Product/back
     excludePaths:
         analyse:
             - %rootDir%/../../../src/Akeneo/Pim/Enrichment/Product/back/Test
+    ignoreErrors:
+        # PHP 8.4: GMP/SimpleXMLElement added to built-in function signatures
+        -
+            message: '#Parameter \#\d+ \$\w+ of function (strval|intval|array_unique|implode|array_diff|array_intersect) expects#'
+            reportUnmatched: false
+        # PHP 8.4 + GMP ext: array_filter type narrowing changes cause optional-key mismatch
+        -
+            message: '#Parameter \#1 \$formerAssociations of method .+QuantifiedAssociationUserIntentCollectionApplier::.+\(\) expects#'
+            reportUnmatched: false
+        # PHP 8.4 + GMP ext: array type inference changes (array vs array<mixed>)
+        -
+            message: '#Property .+ElasticsearchProductUuidQueryFetcher::\$esQuery .+ does not accept array#'
+            reportUnmatched: false

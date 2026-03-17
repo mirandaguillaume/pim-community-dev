@@ -18,7 +18,7 @@ abstract class ApiError implements ApiErrorInterface
     private readonly string $content;
     private readonly \DateTimeImmutable $dateTime;
 
-    public function __construct(string $content, \DateTimeImmutable $dateTime = null)
+    public function __construct(string $content, ?\DateTimeImmutable $dateTime = null)
     {
         try {
             $decoded = \json_decode($content, true, 512, JSON_THROW_ON_ERROR);

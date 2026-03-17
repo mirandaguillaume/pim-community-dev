@@ -499,7 +499,7 @@ class AclPrivilegeRepository implements EventDispatcherAware
         OID $oid,
         \SplObjectStorage $acls,
         AclExtensionInterface $extension,
-        AclInterface $rootAcl = null
+        ?AclInterface $rootAcl = null
     ) {
         $allowedPermissions = $extension->getAllowedPermissions($oid);
         $acl = $this->findAclByOid($acls, $oid);
@@ -530,7 +530,7 @@ class AclPrivilegeRepository implements EventDispatcherAware
         array $permissions,
         AclExtensionInterface $extension,
         AclInterface $rootAcl,
-        AclInterface $acl = null
+        ?AclInterface $acl = null
     ) {
         if ($acl !== null) {
             // check object ACEs

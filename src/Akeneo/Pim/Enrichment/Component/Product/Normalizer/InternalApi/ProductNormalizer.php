@@ -114,7 +114,7 @@ class ProductNormalizer implements NormalizerInterface
      * @param string|null      $scopeCode
      * @return array
      */
-    protected function getLabels(ProductInterface $product, string $scopeCode = null)
+    protected function getLabels(ProductInterface $product, ?string $scopeCode = null)
     {
         $labels = [];
 

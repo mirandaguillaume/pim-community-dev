@@ -24,7 +24,7 @@ class InvalidAttributeValueTypeException extends InvalidPropertyTypeException im
         string $className,
         private readonly TemplatedErrorMessage $templatedErrorMessage,
         int $code = 0,
-        \Exception $previous = null
+        ?\Exception $previous = null
     ) {
         parent::__construct(
             $attributeCode,

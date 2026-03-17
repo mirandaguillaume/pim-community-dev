@@ -26,7 +26,7 @@ class AddUserSubscriber
 
     public function __construct(
         AuthorizationCheckerInterface $authorizationChecker,
-        TokenStorageInterface $tokenStorage = null
+        ?TokenStorageInterface $tokenStorage = null
     ) {
         $this->tokenStorage = $tokenStorage;
         $this->authorizationChecker = $authorizationChecker;

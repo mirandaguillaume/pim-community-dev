@@ -49,7 +49,7 @@ final class Version_7_0_20220920000000_deduplicate_elasticsearch_indices extends
         }
     }
 
-    public function setContainer(ContainerInterface $container = null): void
+    public function setContainer(?ContainerInterface $container = null): void
     {
         $this->container = $container;
     }

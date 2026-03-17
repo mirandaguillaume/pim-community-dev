@@ -233,7 +233,7 @@ class Edit extends ProductEditForm
     /**
      * {@inheritdoc}
      */
-    protected function extractLabelElement($field, ElementInterface $element = null)
+    protected function extractLabelElement($field, ?ElementInterface $element = null)
     {
         $subLabelContent = null;
         $labelContent    = $field;

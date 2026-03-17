@@ -79,7 +79,8 @@ function csFixer(string $config, bool $dryRun = true, string $path = ''): void
         $cmd .= ' | { command -v cs2pr >/dev/null && cs2pr || cat; }';
     }
 
-    phpRun($cmd);
+    // php-cs-fixer 3.x does not officially support PHP 8.4; skip the env check
+    run('docker-compose run --rm -e PHP_CS_FIXER_IGNORE_ENV=1 php php ' . $cmd);
 }
 
 function phpstan(string $config, string $errorFormat = 'github'): void

@@ -68,7 +68,7 @@ class AttributeOptionType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
                 'delete_empty'
-                    => static fn (AttributeOptionValueInterface $optionValue = null) => null === $optionValue?->getValue(),
+                    => static fn (?AttributeOptionValueInterface $optionValue = null) => null === $optionValue?->getValue(),
             ]
         );
     }

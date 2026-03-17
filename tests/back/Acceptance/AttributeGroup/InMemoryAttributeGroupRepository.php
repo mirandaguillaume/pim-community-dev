@@ -101,7 +101,7 @@ class InMemoryAttributeGroupRepository implements AttributeGroupRepositoryInterf
     /**
      * {@inheritdoc}
      */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
     {
         $attributeGroups = [];
         foreach ($this->attributeGroups as $attributeGroup) {

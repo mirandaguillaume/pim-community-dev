@@ -601,7 +601,7 @@ class JobExecution implements \Stringable
      * @param string    $format
      * @return string Date formatted
      */
-    public static function formatDate(\DateTime $date = null, $format = \DateTime::ATOM)
+    public static function formatDate(?\DateTime $date = null, $format = \DateTime::ATOM)
     {
         $formattedDate = '';
 

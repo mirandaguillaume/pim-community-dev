@@ -406,7 +406,7 @@ class ProductModel implements ProductModelInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function setParent(ProductModelInterface $parent = null): void
+    public function setParent(?ProductModelInterface $parent = null): void
     {
         $formerParentCode = $this->parent ? $this->parent->getCode() : null;
         $newParentCode = $parent ? $parent->getCode() : null;
@@ -517,7 +517,7 @@ class ProductModel implements ProductModelInterface, \Stringable
     /**
      * {@inheritdoc}
      */
-    public function getLabel(string $localeCode = null, string $scopeCode = null): string
+    public function getLabel(?string $localeCode = null, ?string $scopeCode = null): string
     {
         $code = (string) $this->getCode();
         $familyVariant = $this->familyVariant;

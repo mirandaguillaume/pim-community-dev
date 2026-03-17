@@ -404,7 +404,7 @@ class Form extends Base
      * @param string  $value
      * @param Element $element
      */
-    public function fillField($field, $value, Element $element = null)
+    public function fillField($field, $value, ?Element $element = null)
     {
         $label     = $this->extractLabelElement($field, $element);
         $fieldType = $this->getFieldType($label);
@@ -650,7 +650,7 @@ class Form extends Base
      *
      * @return \Behat\Mink\Element\NodeElement
      */
-    protected function extractLabelElement($field, ElementInterface $element = null)
+    protected function extractLabelElement($field, ?ElementInterface $element = null)
     {
         $subLabelContent = null;
         $channel         = null;

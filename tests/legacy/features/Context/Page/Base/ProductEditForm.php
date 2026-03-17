@@ -74,7 +74,7 @@ class ProductEditForm extends Form
      * @param string  $value
      * @param Element $element
      */
-    public function fillField($label, $value, Element $element = null)
+    public function fillField($label, $value, ?Element $element = null)
     {
         $isLabel = false;
 

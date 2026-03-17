@@ -85,7 +85,7 @@ class InMemoryGroupRepository implements GroupRepositoryInterface, SaverInterfac
     /**
      * {@inheritdoc}
      */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
     {
         $groups = [];
         foreach ($this->groups as $group) {

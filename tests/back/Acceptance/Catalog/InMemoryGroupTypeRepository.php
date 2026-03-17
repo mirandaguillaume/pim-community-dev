@@ -77,7 +77,7 @@ class InMemoryGroupTypeRepository implements SaverInterface, GroupTypeRepository
     /**
      * {@inheritdoc}
      */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
     {
         $groupTypes = [];
         foreach ($this->groupTypes as $groupType) {

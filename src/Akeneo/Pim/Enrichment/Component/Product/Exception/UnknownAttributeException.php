@@ -19,7 +19,7 @@ final class UnknownAttributeException extends PropertyException implements
 {
     private readonly \Akeneo\Pim\Enrichment\Component\Error\TemplatedErrorMessage\TemplatedErrorMessage $templatedErrorMessage;
 
-    public function __construct(string $attributeCode, \Exception $previous = null)
+    public function __construct(string $attributeCode, ?\Exception $previous = null)
     {
         $this->templatedErrorMessage = new TemplatedErrorMessage(
             'The {attribute_code} attribute does not exist in your PIM.',
