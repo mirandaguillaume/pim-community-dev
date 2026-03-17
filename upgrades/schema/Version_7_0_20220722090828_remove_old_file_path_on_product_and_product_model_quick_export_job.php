@@ -37,6 +37,7 @@ final class Version_7_0_20220722090828_remove_old_file_path_on_product_and_produ
 
     private function getJobInstances(): array
     {
+        /** @var \Doctrine\DBAL\Connection $connection */
         $connection = $this->container->get('database_connection');
         $sql = <<<SQL
             SELECT id, raw_parameters

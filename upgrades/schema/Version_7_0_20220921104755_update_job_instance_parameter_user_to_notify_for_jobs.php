@@ -40,6 +40,7 @@ final class Version_7_0_20220921104755_update_job_instance_parameter_user_to_not
 
     private function getJobInstancesToMigrate(): array
     {
+        /** @var \Doctrine\DBAL\Connection $connection */
         $connection = $this->container->get('database_connection');
         $sql = <<<SQL
             SELECT id, raw_parameters

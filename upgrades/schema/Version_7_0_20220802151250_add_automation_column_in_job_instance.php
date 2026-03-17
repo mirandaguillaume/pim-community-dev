@@ -54,6 +54,7 @@ final class Version_7_0_20220802151250_add_automation_column_in_job_instance ext
         $sql = <<<SQL
                 SHOW INDEX FROM akeneo_batch_job_instance WHERE Key_name=:indexName;
             SQL;
+        /** @var \Doctrine\DBAL\Connection $connection */
         $connection = $this->container->get('database_connection');
         $result = $connection->executeQuery($sql, ['indexName' => $indexName])->fetchAssociative();
         return !empty($result);
@@ -64,6 +65,7 @@ final class Version_7_0_20220802151250_add_automation_column_in_job_instance ext
         $sql = <<<SQL
                 SHOW COLUMNS FROM akeneo_batch_job_instance LIKE :columnName;
             SQL;
+        /** @var \Doctrine\DBAL\Connection $connection */
         $connection = $this->container->get('database_connection');
         $result = $connection->executeQuery($sql, ['columnName' => $columnName])->fetchAssociative();
         return !empty($result);
