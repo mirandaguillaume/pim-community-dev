@@ -10,8 +10,6 @@ namespace identifier_generator;
 use Castor\Attribute\AsArgument;
 use Castor\Attribute\AsTask;
 
-use function Castor\run;
-
 const PATH = 'components/identifier-generator';
 
 #[AsTask(namespace: 'identifier-generator', name: 'front-check', description: 'Lint + test front-end for identifier generator')]
@@ -50,7 +48,7 @@ function fixLintBack(): void
 #[AsTask(namespace: 'identifier-generator', name: 'lint-back', description: 'Run cs-fixer + PHPStan for identifier generator')]
 function lintBack(): void
 {
-    \phpRun('tools/php-cs-fixer fix --config=' . PATH . '/back/tests/.php_cs.php --allow-risky=yes --dry-run --format=checkstyle | { command -v cs2pr >/dev/null && cs2pr || cat; }');
+    \csFixer(PATH . '/back/tests/.php_cs.php');
     \phpstanLevel(PATH . '/back/tests/phpstan.neon', 'github', 'max', PATH . '/back/src/Infrastructure');
     \phpstanLevel(PATH . '/back/tests/phpstan.neon', 'github', 'max', PATH . '/back/src/Domain ' . PATH . '/back/src/Application');
     \phpstanLevel(PATH . '/back/tests/phpstan.neon', 'github', '0', PATH . '/back/tests');
