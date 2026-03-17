@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Pim\Upgrade\Schema\Tests;
 
 use Akeneo\Test\Integration\TestCase;
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use PHPUnit\Framework\Assert;
 
 /**
@@ -27,7 +25,7 @@ class Version_6_0_20210816123500_add_index_migration_table_Integration extends T
         $connection->executeQuery('DROP TABLE IF EXISTS pim_index_migration');
         $this->reExecuteMigration(self::MIGRATION_LABEL);
 
-        Assert::assertTrue($schemaManager->tablesExist('pim_index_migration'));
+        Assert::assertTrue($schemaManager->tablesExist(['pim_index_migration']));
         $expectedColumnsAndTypes = [
             'index_alias' => 'string',
             'hash' => 'string',

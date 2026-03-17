@@ -16,6 +16,7 @@ doctrine:
                         collation: utf8mb4_unicode_ci
                         row_format: DYNAMIC
                 server_version: '8.4'
+                schema_filter: '~^(?!pim_catalog_product_identifiers$)~'
                 mapping_types:
                     json: string
                 options:
