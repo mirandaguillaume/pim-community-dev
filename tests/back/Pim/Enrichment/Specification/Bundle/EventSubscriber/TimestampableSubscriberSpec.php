@@ -10,16 +10,6 @@ use Prophecy\Argument;
 
 class TimestampableSubscriberSpec extends ObjectBehavior
 {
-    function it_is_a_doctrine_event_listener()
-    {
-        $this->shouldImplement('Doctrine\Common\EventSubscriber');
-    }
-
-    function it_subscribes_to_pre_persist_and_pre_update_events()
-    {
-        $this->getSubscribedEvents()->shouldReturn(['prePersist', 'preUpdate']);
-    }
-
     function it_does_not_apply_during_pre_persist_on_non_timestampable_object(LifecycleEventArgs $args, NonTimestampableInterface $object)
     {
         $args->getObject()->willReturn($object);

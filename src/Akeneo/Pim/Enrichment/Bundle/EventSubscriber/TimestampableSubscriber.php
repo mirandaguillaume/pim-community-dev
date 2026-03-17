@@ -4,7 +4,8 @@ namespace Akeneo\Pim\Enrichment\Bundle\EventSubscriber;
 
 use Akeneo\Tool\Component\Versioning\Model\TimestampableInterface;
 use Akeneo\Tool\Component\Versioning\Model\VersionableInterface;
-use Doctrine\Common\EventSubscriber;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
+use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
 /**
@@ -14,21 +15,10 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class TimestampableSubscriber implements EventSubscriber
+#[AsDoctrineListener(event: Events::prePersist)]
+#[AsDoctrineListener(event: Events::preUpdate)]
+class TimestampableSubscriber
 {
-    /**
-     * Specifies the list of events to listen
-     *
-     * @return array
-     */
-    public function getSubscribedEvents()
-    {
-        return [
-            'prePersist',
-            'preUpdate',
-        ];
-    }
-
     /**
      * Before insert
      */

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Akeneo\Pim\Enrichment\Bundle\EventSubscriber\Category\OnSave;
 
 use Akeneo\Category\Infrastructure\Component\Model\CategoryTranslation;
-use Doctrine\Common\EventSubscriber;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
@@ -13,17 +13,11 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
  * @copyright 2021 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class SetUpdatedPropertyOnTranslationUpdateSubscriber implements EventSubscriber
+#[AsDoctrineListener(event: Events::preUpdate)]
+#[AsDoctrineListener(event: Events::prePersist)]
+#[AsDoctrineListener(event: Events::preRemove)]
+class SetUpdatedPropertyOnTranslationUpdateSubscriber
 {
-    public function getSubscribedEvents(): array
-    {
-        return [
-            Events::preUpdate,
-            Events::prePersist,
-            Events::preRemove,
-        ];
-    }
-
     public function preUpdate(LifecycleEventArgs $args): void
     {
         $this->updateCategoryUpdatedDate($args);

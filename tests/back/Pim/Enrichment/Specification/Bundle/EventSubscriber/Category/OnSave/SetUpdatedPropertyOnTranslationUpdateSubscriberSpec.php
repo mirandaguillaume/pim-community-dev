@@ -6,8 +6,6 @@ namespace Specification\Akeneo\Pim\Enrichment\Bundle\EventSubscriber\Category\On
 
 use Akeneo\Category\Infrastructure\Component\Model\CategoryInterface;
 use Akeneo\Category\Infrastructure\Component\Model\CategoryTranslation;
-use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\Persistence\ObjectManager;
 use PhpSpec\ObjectBehavior;
@@ -19,21 +17,6 @@ use Prophecy\Argument;
  */
 class SetUpdatedPropertyOnTranslationUpdateSubscriberSpec extends ObjectBehavior
 {
-    public function it_is_a_doctrine_event_subscriber()
-    {
-        $this->shouldImplement(EventSubscriber::class);
-    }
-
-    public function it_subscribes_to_pre_update_event()
-    {
-        $this->getSubscribedEvents()
-            ->shouldReturn([
-                Events::preUpdate,
-                Events::prePersist,
-                Events::preRemove,
-            ]);
-    }
-
     public function it_only_handles_category_translation(ObjectManager $objectManager): void
     {
         $this->preUpdate(new LifecycleEventArgs(new \stdClass(), $objectManager->getWrappedObject()));

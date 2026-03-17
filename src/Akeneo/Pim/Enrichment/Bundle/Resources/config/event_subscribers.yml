@@ -14,7 +14,8 @@ services:
     pim_catalog.event_subscriber.timestampable:
         class: '%pim_catalog.event_subscriber.timestampable.class%'
         tags:
-            - { name: doctrine.event_subscriber }
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
 
     pim_catalog.event_subscriber.category.check_channels:
         class: 'Akeneo\Pim\Enrichment\Bundle\EventSubscriber\Category\OnDelete\CheckChannelsOnDeletionSubscriber'
@@ -111,7 +112,9 @@ services:
     pim_catalog.event_subscriber.category.save.set_updated_property_on_translation_update_subscriber:
         class: Akeneo\Pim\Enrichment\Bundle\EventSubscriber\Category\OnSave\SetUpdatedPropertyOnTranslationUpdateSubscriber
         tags:
-            - { name: doctrine.event_subscriber }
+            - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preRemove }
 
     pim_catalog.event_subscriber.init_product_completeness_db_schema:
         class: 'Akeneo\Pim\Enrichment\Bundle\EventSubscriber\Db\InitProductCompletenessDbSchemaSubscriber'
