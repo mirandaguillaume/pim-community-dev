@@ -1,6 +1,13 @@
 parameters:
 	ignoreErrors:
 		-
+			message: '#^Parameter \#1 \$array of function array_unique expects an array of values castable to string, list given\.$#'
+			identifier: argument.type
+			count: 1
+			path: ../Domain/Model/Enrichment/Category.php
+			reportUnmatched: false
+
+		-
 			message: '#^Parameter \#2 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
 			identifier: argument.type
 			count: 1
