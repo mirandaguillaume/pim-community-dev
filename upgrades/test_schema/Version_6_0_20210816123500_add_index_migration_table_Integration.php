@@ -31,8 +31,9 @@ class Version_6_0_20210816123500_add_index_migration_table_Integration extends T
         $tableColumns = $schemaManager->listTableColumns('pim_index_migration');
         $this->assertCount(count($expectedColumns), $tableColumns);
 
+        $actualColumnNames = array_map(fn ($col) => $col->getName(), $tableColumns);
         foreach ($expectedColumns as $column) {
-            Assert::assertArrayHasKey($column, $tableColumns);
+            Assert::assertContains($column, $actualColumnNames);
         }
     }
 

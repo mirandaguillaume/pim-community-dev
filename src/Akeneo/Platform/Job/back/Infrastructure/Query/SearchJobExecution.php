@@ -157,7 +157,7 @@ class SearchJobExecution implements SearchJobExecutionInterface
             default => throw new \InvalidArgumentException(sprintf('Unknown sort column "%s"', $query->sortColumn)),
         };
 
-        return sprintf('ORDER BY %s', $orderByColumn);
+        return sprintf('ORDER BY %s, job_execution.id DESC', $orderByColumn);
     }
 
     /**
