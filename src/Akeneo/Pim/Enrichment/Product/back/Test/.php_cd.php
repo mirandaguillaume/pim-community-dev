@@ -97,6 +97,7 @@ $rules = [
         'Symfony\Component\Config\FileLocator',
         'Doctrine\DBAL\Connection',
         'Doctrine\DBAL\ArrayParameterType',
+        'Doctrine\DBAL\ParameterType',
         'Symfony\Component\EventDispatcher',
         'Symfony\Component\Messenger\MessageBusInterface',
         'Symfony\Component\Serializer\Normalizer\DenormalizerInterface',
