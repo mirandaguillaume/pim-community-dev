@@ -6,6 +6,11 @@ parameters:
     reportUnmatchedIgnoredErrors: false
     paths:
         - schema
+    ignoreErrors:
+        # PHP 8.4: GMP/SimpleXMLElement added to built-in function signatures
+        -
+            message: '#Parameter \#\d+ \$\w+ of function (strval|intval|array_unique|implode|array_diff|array_intersect) expects#'
+            reportUnmatched: false
 
 rules:
     - Pim\Upgrade\MigrationCoveredByIntegrationTestRule
