@@ -57,3 +57,5 @@ doctrine_migrations:
             version_column_name: 'version'
             version_column_length: 190
             executed_at_column_name: 'executed_at'
+    services:
+        Doctrine\Migrations\Provider\SchemaDiffProvider: Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\Migrations\NoopSchemaDiffProvider

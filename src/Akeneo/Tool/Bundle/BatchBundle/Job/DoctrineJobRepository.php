@@ -14,7 +14,7 @@ use Akeneo\Tool\Component\Batch\Model\JobExecution;
 use Akeneo\Tool\Component\Batch\Model\JobInstance;
 use Akeneo\Tool\Component\Batch\Model\StepExecution;
 use Akeneo\Tool\Component\Batch\Model\Warning;
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\PersistentCollection;
@@ -54,13 +54,12 @@ class DoctrineJobRepository implements JobRepositoryInterface
             unset($currentConnParams['pdo']);
         }
 
-        $jobConn = new Connection(
+        $jobConn = DriverManager::getConnection(
             $currentConnParams,
-            $currentConn->getDriver(),
             $currentConn->getConfiguration()
         );
 
-        $jobManager = EntityManager::create(
+        $jobManager = new EntityManager(
             $jobConn,
             $entityManager->getConfiguration()
         );
