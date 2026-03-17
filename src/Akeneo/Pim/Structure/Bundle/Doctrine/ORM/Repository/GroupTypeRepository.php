@@ -35,9 +35,9 @@ class GroupTypeRepository extends EntityRepository implements GroupTypeRepositor
      */
     public function findTypeIds()
     {
-        $query = $this->_em->createQueryBuilder()
+        $query = $this->getEntityManager()->createQueryBuilder()
             ->select('g.id')
-            ->from($this->_entityName, 'g', 'g.id')
+            ->from($this->getEntityName(), 'g', 'g.id')
             ->leftJoin('g.translations', 't')
             ->getQuery();
 

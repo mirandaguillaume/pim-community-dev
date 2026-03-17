@@ -22,6 +22,7 @@ doctrine:
                     # active PDO::ATTR_STRINGIFY_FETCHES witch is false by default in php-8.1
                     17: true
         types:
+            array: Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\DBAL\Types\PhpSerializedArrayType
             datetime: Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\DBAL\Types\UTCDateTimeType
             datetime_immutable: Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\DBAL\Types\UTCDateTimeImmutableType
             uuid_binary: Ramsey\Uuid\Doctrine\UuidBinaryType

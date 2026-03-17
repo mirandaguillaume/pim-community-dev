@@ -46,7 +46,7 @@ class DatagridView
     protected $datagridAlias;
 
     /** @var array */
-    #[ORM\Column(type: Types::ARRAY)]
+    #[ORM\Column(type: 'array')]
     protected $columns = [];
 
     /** @var string */

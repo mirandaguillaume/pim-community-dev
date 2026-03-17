@@ -72,7 +72,7 @@ class GroupRepository extends EntityRepository implements GroupRepositoryInterfa
      */
     public function getUserQueryBuilder(GroupInterface $group)
     {
-        return $this->_em->createQueryBuilder()
+        return $this->getEntityManager()->createQueryBuilder()
             ->select('u')
             ->from(UserInterface::class, 'u')
             ->join('u.groups', 'groups')

@@ -19,3 +19,22 @@ services:
     _defaults:
         autowire: false      # Automatically injects dependencies in your services.
         autoconfigure: false # Automatically registers your services as commands, event subscribers, etc.
+
+    # Override ACL schema + listener for DBAL 4 compatibility (symfony/security-acl is abandoned)
+    security.acl.dbal.schema:
+        class: Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\DBAL\AclSchema
+        public: true
+        arguments:
+            - class_table_name: '%security.acl.dbal.class_table_name%'
+              entry_table_name: '%security.acl.dbal.entry_table_name%'
+              oid_table_name: '%security.acl.dbal.oid_table_name%'
+              oid_ancestors_table_name: '%security.acl.dbal.oid_ancestors_table_name%'
+              sid_table_name: '%security.acl.dbal.sid_table_name%'
+            - '@doctrine.dbal.default_connection'
+
+    security.acl.dbal.schema_listener:
+        class: Akeneo\Tool\Bundle\StorageUtilsBundle\Doctrine\DBAL\AclSchemaListener
+        arguments:
+            - '@security.acl.dbal.schema'
+        tags:
+            - { name: doctrine.event_listener, event: postGenerateSchema }

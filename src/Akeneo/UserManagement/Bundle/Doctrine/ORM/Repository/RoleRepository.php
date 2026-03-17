@@ -56,7 +56,7 @@ class RoleRepository extends EntityRepository implements RoleRepositoryInterface
      */
     public function getUserQueryBuilder(RoleInterface $role): QueryBuilder
     {
-        return $this->_em->createQueryBuilder()
+        return $this->getEntityManager()->createQueryBuilder()
             ->select('u')
             ->from(UserInterface::class, 'u')
             ->join('u.roles', 'role')
@@ -69,7 +69,7 @@ class RoleRepository extends EntityRepository implements RoleRepositoryInterface
      */
     public function getUiUserEnabledByRoles(array $roles): QueryBuilder
     {
-        return $this->_em->createQueryBuilder()
+        return $this->getEntityManager()->createQueryBuilder()
             ->select('u')
             ->from(UserInterface::class, 'u')
             ->join('u.roles', 'role')

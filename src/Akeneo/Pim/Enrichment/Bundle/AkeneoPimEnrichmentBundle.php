@@ -72,7 +72,9 @@ class AkeneoPimEnrichmentBundle extends Bundle
                 array_keys($mappings),
                 array_values($mappings),
                 ['doctrine.orm.entity_manager'],
-                false
+                false,
+                [],
+                true
             )
         );
     }

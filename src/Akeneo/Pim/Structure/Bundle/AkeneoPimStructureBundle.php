@@ -36,7 +36,9 @@ class AkeneoPimStructureBundle extends Bundle
                 array_keys($productMappings),
                 array_values($productMappings),
                 ['doctrine.orm.entity_manager'],
-                false
+                false,
+                [],
+                true
             )
         );
     }

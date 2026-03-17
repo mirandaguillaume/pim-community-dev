@@ -58,7 +58,7 @@ class JobInstance
     protected $status = self::STATUS_READY;
 
     /** @var array */
-    #[ORM\Column(name: 'raw_parameters', type: Types::ARRAY)]
+    #[ORM\Column(name: 'raw_parameters', type: 'array')]
     protected $rawParameters = [];
 
     #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]

@@ -77,7 +77,7 @@ interface VersionRepositoryInterface
      * @param int|null   $offset
      * @return array
      */
-    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null);
+    public function findBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array;
 
     /**
      * @deprecated Will be removed in 4.0

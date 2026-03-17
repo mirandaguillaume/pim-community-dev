@@ -37,7 +37,9 @@ class AkeneoVersioningBundle extends Bundle
                 array_keys($versionMappings),
                 array_values($versionMappings),
                 ['doctrine.orm.entity_manager'],
-                false
+                false,
+                [],
+                true
             )
         );
     }

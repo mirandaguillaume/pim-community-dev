@@ -67,7 +67,7 @@ class AttributeRepository extends EntityRepository implements AttributeRepositor
     /**
      * {@inheritdoc}
      */
-    public function count(array $searchFilters = [])
+    public function count(array $searchFilters = []): int
     {
         try {
             $qb = $this->createQueryBuilder('r');

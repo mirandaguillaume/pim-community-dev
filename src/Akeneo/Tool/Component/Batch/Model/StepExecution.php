@@ -77,16 +77,16 @@ class StepExecution implements \Stringable
     #[ORM\Column(name: 'terminate_only', type: Types::BOOLEAN, nullable: true)]
     private bool $terminateOnly = false;
 
-    #[ORM\Column(name: 'failure_exceptions', type: Types::ARRAY, nullable: true)]
+    #[ORM\Column(name: 'failure_exceptions', type: 'array', nullable: true)]
     private ?array $failureExceptions = null;
 
-    #[ORM\Column(type: Types::ARRAY)]
+    #[ORM\Column(type: 'array')]
     private array $errors = [];
 
     #[ORM\OneToMany(targetEntity: \Akeneo\Tool\Component\Batch\Model\Warning::class, mappedBy: 'stepExecution', cascade: ['persist'], orphanRemoval: true)]
     private \Doctrine\Common\Collections\Collection $warnings;
 
-    #[ORM\Column(type: Types::ARRAY)]
+    #[ORM\Column(type: 'array')]
     private array $summary = [];
 
     #[ORM\Column(name: 'tracking_data', type: Types::JSON, nullable: true)]

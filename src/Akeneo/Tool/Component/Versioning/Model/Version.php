@@ -33,13 +33,13 @@ class Version implements VersionInterface
     /**
      * @var array
      */
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    #[ORM\Column(type: 'array', nullable: true)]
     protected $snapshot;
 
     /**
      * @var array
      */
-    #[ORM\Column(type: Types::ARRAY)]
+    #[ORM\Column(type: 'array')]
     protected $changeset;
 
     /**

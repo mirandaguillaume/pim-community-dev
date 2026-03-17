@@ -77,7 +77,7 @@ class JobExecution implements \Stringable
     #[ORM\Column(name: 'exit_description', type: Types::TEXT, nullable: true)]
     private ?string $exitDescription = null;
 
-    #[ORM\Column(name: 'failure_exceptions', type: Types::ARRAY, nullable: true)]
+    #[ORM\Column(name: 'failure_exceptions', type: 'array', nullable: true)]
     private ?array $failureExceptions = null;
 
     /** @var string */

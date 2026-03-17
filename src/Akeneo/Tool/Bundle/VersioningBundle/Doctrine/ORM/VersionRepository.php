@@ -104,7 +104,7 @@ class VersionRepository extends EntityRepository implements VersionRepositoryInt
         $qb = $this->getEntityManager()->createQueryBuilder()
             ->select('v.id, v.changeset as changeset, v.loggedAt as loggedAt, v.version as version')
             ->addSelect('v.resourceId as resourceId')
-            ->from($this->_entityName, 'v', 'v.id');
+            ->from($this->getEntityName(), 'v', 'v.id');
 
         $qb
             ->addSelect(sprintf('%s as author', $authorExpr))
@@ -138,7 +138,7 @@ class VersionRepository extends EntityRepository implements VersionRepositoryInt
      */
     public function findPotentiallyPurgeableBy(array $options = [])
     {
-        $connection = $this->_em->getConnection();
+        $connection = $this->getEntityManager()->getConnection();
         $qb = $connection->createQueryBuilder();
         $qb->select('id', 'resource_id', 'resource_name', 'version')->from('pim_versioning_version');
 

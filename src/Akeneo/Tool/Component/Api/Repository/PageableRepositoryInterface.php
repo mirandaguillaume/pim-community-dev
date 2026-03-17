@@ -27,5 +27,5 @@ interface PageableRepositoryInterface
      *
      * @return int
      */
-    public function count(array $criteria = []);
+    public function count(array $criteria = []): int;
 }

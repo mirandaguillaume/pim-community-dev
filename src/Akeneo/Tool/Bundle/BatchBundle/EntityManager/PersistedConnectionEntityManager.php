@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Tool\Bundle\BatchBundle\EntityManager;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\Decorator\EntityManagerDecorator;
 
 /**
@@ -21,7 +22,7 @@ class PersistedConnectionEntityManager extends EntityManagerDecorator
     /**
      * {@inheritdoc}
      */
-    public function getConnection()
+    public function getConnection(): Connection
     {
         $this->checkConnection();
 
@@ -31,11 +32,11 @@ class PersistedConnectionEntityManager extends EntityManagerDecorator
     /**
      * {@inheritdoc}
      */
-    public function flush($entity = null)
+    public function flush(): void
     {
         $this->checkConnection();
 
-        return $this->wrapped->flush($entity);
+        $this->wrapped->flush();
     }
 
     /**
